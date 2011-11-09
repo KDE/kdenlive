@@ -1125,7 +1125,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 
 void ProjectList::slotGotProxy(const QString &proxyPath)
 {
-    if (proxyPath.isEmpty() || !m_refreshed || m_abortAllProxies) return;
+    if (proxyPath.isEmpty() || m_abortAllProxies) return;
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item;
 
@@ -1281,7 +1281,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                     if (replace) resetThumbsProducer(clip);
                     m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                 }
-                else {
+                else if (clip->isPlaceHolder()) {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
                     if (item->data(0, Qt::DecorationRole).isNull()) {
                         item->setData(0, Qt::DecorationRole, missingPixmap);
@@ -1829,7 +1829,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             if (item->parent()) {
                 if (item->parent()->type() == PROJECTFOLDERTYPE)
                     static_cast <FolderProjectItem *>(item->parent())->switchIcon();
-            } else if (KdenliveSettings::checkfirstprojectclip() &&  m_listView->topLevelItemCount() == 1) {
+            } else if (KdenliveSettings::checkfirstprojectclip() &&  m_listView->topLevelItemCount() == 1 && m_refreshed && m_allClipsProcessed) {
                 // this is the first clip loaded in project, check if we want to adjust project settings to the clip
                 updatedProfile = adjustProjectProfileToItem(item);
             }
