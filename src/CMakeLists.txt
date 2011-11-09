@@ -1,5 +1,5 @@
 find_package(OpenGL REQUIRED)
-find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtOpenGL QtScript)
+find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtGui QtOpenGL QtScript)
 if(APPLE)
   find_package(SDL REQUIRED)
 endif(APPLE)
@@ -290,7 +290,7 @@ include_directories(
 
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
 # to the components requested in find_package().
-include(UseQt4)
+include(${QT_USE_FILE})
 
 if(${KDE_VERSION} VERSION_LESS 4.3.80)
   set(KDE4_KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
