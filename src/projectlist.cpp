@@ -1755,11 +1755,14 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
             monitorItemEditing(false);
             it->setData(0, Qt::DecorationRole, pix);
             monitorItemEditing(true);
-                
-            if (!isSubItem)
-                m_doc->cachePixmap(item->getClipHash(), pix);
-            else
-                m_doc->cachePixmap(item->getClipHash() + '#' + QString::number(frame), pix);
+            
+            QString clipId = item->getClipHash();
+            if (!clipId.isEmpty()) {
+                if (!isSubItem)
+                    m_doc->cachePixmap(clipId, pix);
+                else
+                    m_doc->cachePixmap(clipId + '#' + QString::number(frame), pix);
+            }
         }
         if (update)
             emit projectModified();
@@ -1951,7 +1954,8 @@ void ProjectList::setThumbnail(const QString &clipId, const QPixmap &pix)
         item->setData(0, Qt::DecorationRole, pix);
         monitorItemEditing(true);
         //update();
-        m_doc->cachePixmap(item->getClipHash(), pix);
+        QString clipId = item->getClipHash();
+        if (!clipId.isEmpty()) m_doc->cachePixmap(clipId, pix);
     }
 }
 
@@ -2150,7 +2154,8 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
         }
         QPixmap p = clip->referencedClip()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
         sub->setData(0, Qt::DecorationRole, p);
-        m_doc->cachePixmap(clip->getClipHash() + '#' + QString::number(in), p);
+        QString clipId = clip->getClipHash();
+        if (!clipId.isEmpty()) m_doc->cachePixmap(clipId + '#' + QString::number(in), p);
         monitorItemEditing(true);
     }
     emit projectModified();
