@@ -112,8 +112,9 @@ const char *query_v4ldevice(src_t *src, char **pixelformatdescription)
 
             while (ioctl(s->fd, VIDIOC_ENUM_FMT, &fmt) != -1)
             {
-                snprintf( value, sizeof(value), ">%c%c%c%c", fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24 );
-                strcat(*pixelformatdescription, (char *) value);
+                if (strlen(*pixelformatdescription) > 2000) break;
+                if (snprintf( value, sizeof(value), ">%c%c%c%c", fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24 ) > 0)
+                    strcat(*pixelformatdescription, (char *) value);
                 fprintf(stderr, "detected format: %s: %c%c%c%c\n", fmt.description, fmt.pixelformat >> 0,  fmt.pixelformat >> 8,
                       fmt.pixelformat >> 16, fmt.pixelformat >> 24);
 
@@ -127,12 +128,14 @@ const char *query_v4ldevice(src_t *src, char **pixelformatdescription)
                     rates.pixel_format = fmt.pixelformat;
                     rates.width = image_size.width;
                     rates.height = image_size.height;
-                    snprintf( value, sizeof(value), ":%dx%d=", image_size.width, image_size.height );
-                    strcat(*pixelformatdescription, (char *) value);
+                    if (strlen(*pixelformatdescription) > 2000) break;
+                    if (snprintf( value, sizeof(value), ":%dx%d=", image_size.width, image_size.height ) > 0)
+                        strcat(*pixelformatdescription, (char *) value);
                     fprintf(stderr, "Size: %dx%d: ", image_size.width, image_size.height);
                     while (ioctl(s->fd, VIDIOC_ENUM_FRAMEINTERVALS, &rates) != -1) {
-                        snprintf( value, sizeof(value), "%d/%d,", rates.un.discrete.denominator, rates.un.discrete.numerator );
-                        strcat(*pixelformatdescription, (char *) value);
+                        if (strlen(*pixelformatdescription) > 2000) break;
+                        if (snprintf( value, sizeof(value), "%d/%d,", rates.un.discrete.denominator, rates.un.discrete.numerator ) > 0)
+                            strcat(*pixelformatdescription, (char *) value);
                         fprintf(stderr, "%d/%d, ", rates.un.discrete.numerator, rates.un.discrete.denominator);
                         rates.index ++;
                     }
