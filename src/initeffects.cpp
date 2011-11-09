@@ -647,7 +647,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 
                 paramList.append(quickParameterFill(ret, "keyed", "keyed", "fixed", "1", "1", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Geometry"), "geometry", "geometry",  "0/0:100%x100%:100%", "0/0:100%x100%:100%", "0/0:100%x100%:100%", "", "", "", "", "", "true"));
-
+                paramList.append(quickParameterFill(ret, i18n("Distort"), "distort", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, i18n("Rotate X"), "rotate_x", "addedgeometry", "0", "-1800", "1800", QString(), QString(), "10"));
                 paramList.append(quickParameterFill(ret, i18n("Rotate Y"), "rotate_y", "addedgeometry", "0", "-1800", "1800", QString(), QString(), "10"));
                 paramList.append(quickParameterFill(ret, i18n("Rotate Z"), "rotate_z", "addedgeometry", "0", "-1800", "1800", QString(), QString(), "10"));

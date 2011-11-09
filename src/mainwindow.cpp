@@ -625,7 +625,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     
     // Populate encoding profiles
     KConfig conf("encodingprofiles.rc", KConfig::FullConfig, "appdata");
-    if (KdenliveSettings::proxyparams().isEmpty()) {
+    if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {
         KConfigGroup group(&conf, "proxy");
         QMap< QString, QString > values = group.entryMap();
         QMapIterator<QString, QString> i(values);
@@ -636,7 +636,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
             KdenliveSettings::setProxyextension(data.section(';', 1, 1));
         }
     }
-    if (KdenliveSettings::v4l_parameters().isEmpty()) {
+    if (KdenliveSettings::v4l_parameters().isEmpty() || KdenliveSettings::v4l_extension().isEmpty()) {
         KConfigGroup group(&conf, "video4linux");
         QMap< QString, QString > values = group.entryMap();
         QMapIterator<QString, QString> i(values);
@@ -647,7 +647,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
             KdenliveSettings::setV4l_extension(data.section(';', 1, 1));
         }
     }
-    if (KdenliveSettings::decklink_parameters().isEmpty()) {
+    if (KdenliveSettings::decklink_parameters().isEmpty() || KdenliveSettings::decklink_extension().isEmpty()) {
         KConfigGroup group(&conf, "decklink");
         QMap< QString, QString > values = group.entryMap();
         QMapIterator<QString, QString> i(values);
