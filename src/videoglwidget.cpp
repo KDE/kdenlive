@@ -1,7 +1,9 @@
 
 #include <QtGui>
 #include <QtOpenGL>
+#ifndef __APPLE__
 #include <GL/glu.h>
+#endif
 #include "videoglwidget.h"
 
 #ifndef GL_TEXTURE_RECTANGLE_EXT
