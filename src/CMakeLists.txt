@@ -1,5 +1,5 @@
 find_package(OpenGL REQUIRED)
-find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtGui QtOpenGL QtScript)
+find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtGui QtOpenGL QtScript QtSvg QtXml)
 if(APPLE)
   find_package(SDL REQUIRED)
 endif(APPLE)

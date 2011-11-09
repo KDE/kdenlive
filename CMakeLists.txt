@@ -39,17 +39,10 @@ include(CheckIncludeFiles)
 check_include_files(malloc.h HAVE_MALLOC_H)
 check_include_files(pthread.h HAVE_PTHREAD_H)
 
-find_package(MSGFMT REQUIRED)
-find_program(EXTRACTRC_EXECUTABLE extractrc)
-find_program(MSGFMT_EXECUTABLE msgfmt)
-find_program(MSGMERGE_EXECUTABLE msgmerge)
-find_program(XGETTEXT_EXECUTABLE xgettext)
-
 # Search KDE and dependent packages.
 find_package(KDE4 ${KDE_MIN_VERSION} REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
-include(FindGettext)
 macro_log_feature(KDE4_FOUND
   "KDELibs"
   "KDE core libraries"
@@ -62,7 +55,7 @@ macro_log_feature(KDE4_FOUND
 find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtCore QtDBus)
 
 # Search MLT package.
-find_package(LIBMLT REQUIRED)
+find_package(LIBMLT ${LIBMLT_MIN_VERSION} REQUIRED)
 if(LIBMLT_VERSION VERSION_LESS ${LIBMLT_MIN_VERSION})
   set(LIBMLT_FOUND FALSE)
 endif(LIBMLT_VERSION VERSION_LESS ${LIBMLT_MIN_VERSION})
@@ -75,14 +68,14 @@ macro_log_feature(LIBMLT_FOUND
 )
 
 add_subdirectory(data)
-add_subdirectory(doc)
+macro_optional_add_subdirectory(doc)
 add_subdirectory(effects)
 add_subdirectory(export)
 add_subdirectory(icons)
 add_subdirectory(lumas)
 add_subdirectory(man)
 add_subdirectory(plugins)
-add_subdirectory(po)
+macro_optional_add_subdirectory(po)
 add_subdirectory(renderer)
 add_subdirectory(src)
 add_subdirectory(thumbnailer)
