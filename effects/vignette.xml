@@ -3,7 +3,7 @@
 	<name>Vignette Effect</name>
 	<description>Adjustable Vignette</description>
 	<author>Marco Gittler</author>
-	<parameter type="simplekeyframe" name="smooth" default="800" min="0" max="1000" factor="1000">
+	<parameter type="simplekeyframe" name="smooth" default="800" min="0" max="10000" factor="1000">
 		<name>smooth</name>
 	</parameter>
 	<parameter type="simplekeyframe" name="radius" default="500" min="0" max="1000" factor="1000" intimeline="1">
@@ -17,5 +17,8 @@
 	</parameter>
 	<parameter type="simplekeyframe" name="opacity" default="0" min="0" max="1000" factor="1000">
 		<name>opacity</name>
+	</parameter>
+	<parameter type="bool" name="mode" default="0">
+		<name>use cos instead of linear</name>
 	</parameter>
 </effect>
