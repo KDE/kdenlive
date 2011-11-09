@@ -3,7 +3,7 @@
 #
 
 include(FindPkgConfig)
-pkg_check_modules(MLT REQUIRED mlt++)
+pkg_check_modules(MLT mlt++)
 add_definitions(-DMLT_PREFIX=\\\"\"${MLT_PREFIX}\"\\\")
 
 find_path(LIBMLT_INCLUDE_DIR
