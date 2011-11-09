@@ -40,11 +40,11 @@
 #include "renderwidget.h"
 #include "renderer.h"
 #include "audiosignal.h"
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
 #include "jogshuttle.h"
 #include "jogaction.h"
 #include "jogshuttleconfig.h"
-#endif /* NO_JOGSHUTTLE */
+#endif
 #include "clipproperties.h"
 #include "wizard.h"
 #include "commands/editclipcommand.h"
@@ -137,10 +137,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_activeTimeline(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
     m_jogProcess(NULL),
     m_jogShuttle(NULL),
-#endif /* NO_JOGSHUTTLE */
+#endif
     m_findActivated(false),
     m_stopmotion(NULL)
 {   
@@ -219,7 +219,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(addProjectClipList(KUrl::List)), this, SLOT(slotAddProjectClipList(KUrl::List)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
-#endif
+#endif /* ! Q_WS_MAC */
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
     m_notesDock = new QDockWidget(i18n("Project Notes"), this);
@@ -598,9 +598,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         m_projectList->slotAddClip(urls);
     }
 
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
     activateShuttleDevice();
-#endif /* NO_JOGSHUTTLE */
+#endif
     m_projectListDock->raise();
 
     actionCollection()->addAssociatedWidget(m_clipMonitor->container());
@@ -812,7 +812,7 @@ void MainWindow::slotReloadEffects()
     m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
 }
 
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
 void MainWindow::activateShuttleDevice()
 {
     delete m_jogShuttle;
@@ -830,7 +830,7 @@ void MainWindow::activateShuttleDevice()
     connect(m_jogShuttle, SIGNAL(forward(double)), m_monitorManager, SLOT(slotForward(double)));
     connect(m_jogShuttle, SIGNAL(action(const QString&)), this, SLOT(slotDoAction(const QString&)));
 }
-#endif /* NO_JOGSHUTTLE */
+#endif /* USE_JOGSHUTTLE */
 
 void MainWindow::slotDoAction(const QString& action_name)
 {
@@ -2243,7 +2243,7 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         m_activeDocument->setProjectFolder(w->selectedFolder());
-#ifndef   Q_WS_MAC
+#ifndef Q_WS_MAC
         m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
 #endif
         if (m_renderWidget) m_renderWidget->setDocumentPath(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
@@ -2587,7 +2587,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_activeDocument = doc;
     m_activeTimeline->updateProjectFps();
     m_activeDocument->checkProjectClips();
-#ifndef   Q_WS_MAC
+#ifndef Q_WS_MAC
     m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
 #endif
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
@@ -2654,7 +2654,7 @@ void MainWindow::slotPreferences(int page, int option)
 void MainWindow::slotUpdateCaptureFolder()
 {
 
-#ifndef   Q_WS_MAC
+#ifndef Q_WS_MAC
     if (m_activeDocument) m_recMonitor->slotUpdateCaptureFolder(m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash));
     else m_recMonitor->slotUpdateCaptureFolder(KdenliveSettings::defaultprojectfolder());
 #endif
@@ -2677,9 +2677,9 @@ void MainWindow::updateConfiguration()
 
     // Update list of transcoding profiles
     loadTranscoders();
-#ifndef NO_JOGSHUTTLE
+#ifdef USE_JOGSHUTTLE
     activateShuttleDevice();
-#endif /* NO_JOGSHUTTLE */
+#endif
 
 }
 

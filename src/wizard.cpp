@@ -20,7 +20,7 @@
 #include "wizard.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
-#if !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
+#ifdef USE_V4L
 #include "v4l/v4lcapture.h"
 #endif
 #include "kdenlive-config.h"
@@ -158,7 +158,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
 void Wizard::slotDetectWebcam()
 {
-#if !defined(Q_WS_MAC) && !defined(Q_OS_FREEBSD) && !defined(Q_OS_KFREEBSD)
+#ifdef USE_V4L
     m_capture.v4l_devices->blockSignals(true);
     m_capture.v4l_devices->clear();
 
@@ -189,7 +189,7 @@ void Wizard::slotDetectWebcam()
         if (!found) m_capture.v4l_devices->setCurrentIndex(0);
     } else m_capture.v4l_status->setText(i18n("No device found, plug your webcam and refresh."));
     m_capture.v4l_devices->blockSignals(false);
-#endif
+#endif /* USE_V4L */
 }
 
 void Wizard::slotUpdateCaptureParameters()

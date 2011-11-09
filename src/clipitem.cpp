@@ -27,7 +27,7 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "profilesdialog.h"
-#ifdef QJSON
+#ifdef USE_QJSON
 #include "rotoscoping/rotowidget.h"
 #endif
 
@@ -1844,7 +1844,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
                 updateNormalKeyframes(param);
-#ifdef QJSON
+#ifdef USE_QJSON
             } else if (type == "roto-spline") {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
