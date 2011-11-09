@@ -1,5 +1,4 @@
 project(kdenlive)
-set(catalogname kdenlive)
 
 # An odd patch version number means development version, while an even one means
 # stable release. An additional number can be used for bugfix-only releases.
