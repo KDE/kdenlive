@@ -68,16 +68,22 @@ DvdWizardVob::DvdWizardVob(const QString &profile, QWidget *parent) :
     m_view.vobs_list->header()->setResizeMode(1, QHeaderView::Custom);
     m_view.vobs_list->header()->setResizeMode(2, QHeaderView::Custom);
 
+#if KDE_IS_VERSION(4,2,0)
     m_capacityBar = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(m_capacityBar);
     m_view.size_box->setLayout(layout);
+#else
+    m_view.size_box->setHidden(true);
+#endif
     slotCheckVobList();
 }
 
 DvdWizardVob::~DvdWizardVob()
 {
+#if KDE_IS_VERSION(4,2,0)
     delete m_capacityBar;
+#endif
 }
 
 
@@ -294,6 +300,7 @@ void DvdWizardVob::slotCheckVobList()
     if (hasItem && m_view.vobs_list->indexOfTopLevelItem(item) == max - 1) m_view.button_down->setEnabled(false);
     else m_view.button_down->setEnabled(hasItem);
 
+#if KDE_IS_VERSION(4,2,0)
     qint64 totalSize = 0;
     for (int i = 0; i < max; i++) {
         item = m_view.vobs_list->topLevelItem(i);
@@ -303,6 +310,7 @@ void DvdWizardVob::slotCheckVobList()
     qint64 maxSize = (qint64) 47000 * 100000;
     m_capacityBar->setValue(100 * totalSize / maxSize);
     m_capacityBar->setText(KIO::convertSize(totalSize));
+#endif
 }
 
 void DvdWizardVob::slotItemUp()

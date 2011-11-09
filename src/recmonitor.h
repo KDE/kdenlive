@@ -41,7 +41,9 @@
 #include <kdeversion.h>
 #include <KComboBox>
 
+#if KDE_IS_VERSION(4,2,0)
 #include <kcapacitybar.h>
+#endif
 
 class MonitorManager;
 class MltDeviceCapture;
@@ -74,8 +76,10 @@ private:
     KComboBox m_logger;
     QString m_capturePath;
 
+#if KDE_IS_VERSION(4,2,0)
     KCapacityBar *m_freeSpace;
     QTimer m_spaceTimer;
+#endif
 
     KUrl m_captureFile;
     KIcon m_playIcon;

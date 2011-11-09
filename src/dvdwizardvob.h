@@ -24,7 +24,11 @@
 #include "ui_dvdwizardvob_ui.h"
 
 #include <kdeversion.h>
+
+#if KDE_IS_VERSION(4,2,0)
 #include <kcapacitybar.h>
+#endif
+
 #include <KUrl>
 
 #include <QWizardPage>
@@ -53,7 +57,10 @@ public:
 private:
     Ui::DvdWizardVob_UI m_view;
     QString m_errorMessage;
+
+#if KDE_IS_VERSION(4,2,0)
     KCapacityBar *m_capacityBar;
+#endif
 
 public slots:
     void slotAddVobFile(KUrl url = KUrl(), const QString &chapters = QString());

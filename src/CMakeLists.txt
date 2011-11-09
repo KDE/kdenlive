@@ -292,10 +292,16 @@ include_directories(
 # to the components requested in find_package().
 include(UseQt4)
 
+if(${KDE_VERSION} VERSION_LESS 4.3.80)
+  set(KDE4_KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
+else(${KDE_VERSION} VERSION_LESS 4.3.80)
+  set(KDE4_KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF3_LIBS})
+endif(${KDE_VERSION} VERSION_LESS 4.3.80)
+
 target_link_libraries(kdenlive
   ${KDE4_KDEUI_LIBS}
   ${KDE4_KIO_LIBS}
-  ${KDE4_KNEWSTUFF3_LIBS}
+  ${KDE4_KNEWSTUFF_LIBS}
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
   ${KDE4_KROSSUI_LIBS}
   ${QT_LIBRARIES}
