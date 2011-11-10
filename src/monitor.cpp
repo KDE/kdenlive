@@ -183,6 +183,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 
     if (name != "clip") {
+        connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
     } else {
