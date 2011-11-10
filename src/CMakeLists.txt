@@ -1,5 +1,10 @@
+set(QT_USE_QTDBUS 1)
+set(QT_USE_QTOPENGL 1)
+set(QT_USE_QTSCRIPT 1)
+set(QT_USE_QTSVG 1)
+set(QT_USE_QTXML 1)
+
 find_package(OpenGL REQUIRED)
-find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtGui QtOpenGL QtScript QtSvg QtXml)
 if(APPLE)
   find_package(SDL REQUIRED)
 endif(APPLE)

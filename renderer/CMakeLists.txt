@@ -1,4 +1,5 @@
-# Check src/CMakeLists.txt for detailed comments on the contents of this file.
+set(QT_DONT_USE_QTGUI 1)
+set(QT_USE_QTDBUS 1)
 
 set(kdenlive_render_SRCS
   kdenlive_render.cpp

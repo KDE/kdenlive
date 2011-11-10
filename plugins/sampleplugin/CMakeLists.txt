@@ -1,27 +1,28 @@
+set(sampleplugin_SRCS sampleplugin.cpp)
 
-include_directories (
-    ${CMAKE_SOURCE_DIR} 
-    ${CMAKE_BINARY_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${KDE4_INCLUDES}
+kde4_add_ui_files(sampleplugin_UIS countdown_ui.ui)
+
+kde4_add_plugin(kdenlive_sampleplugin WITH_PREFIX
+  ${sampleplugin_SRCS}
+  ${sampleplugin_UIS}
 )
 
-add_definitions( ${KDE4_DEFINITIONS} )
+add_definitions(${KDE4_DEFINITIONS})
 
-#add_definitions (${QT_DEFINITIONS})
-ADD_DEFINITIONS(-DQT_PLUGIN)
-#ADD_DEFINITIONS(-DQT_NO_DEBUG)
-ADD_DEFINITIONS(-DQT_SHARED)
+include_directories(${KDE4_INCLUDES})
 
-kde4_add_ui_files(plugin_UI countdown_ui.ui)
+include(${QT_USE_FILE})
 
-SET(sampleplugindir_SRCS
-        sampleplugin.cpp)
+#add_definitions(${QT_DEFINITIONS})
+#add_definitions(-DQT_NO_DEBUG)
+add_definitions(-DQT_PLUGIN)
+add_definitions(-DQT_SHARED)
 
-KDE4_ADD_PLUGIN(kdenlive_sampleplugin WITH_PREFIX ${sampleplugindir_SRCS} ${plugin_UI})
-#ADD_LIBRARY(kdenlive_sampleplugin SHARED ${sampleplugindir_SRCS})
+target_link_libraries(kdenlive_sampleplugin
+  ${KDE4_KDECORE_LIBS}
+  ${KDE4_KDEUI_LIBS}
+  ${KDE4_KIO_LIBS}
+  ${QT_LIBRARIES}
+)
 
-TARGET_LINK_LIBRARIES(kdenlive_sampleplugin ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${KDE4_KDEUI_LIBS} ${KDE4_KDECORE_LIBS} ${KDE4_KIO_LIBS})
-
-INSTALL(TARGETS kdenlive_sampleplugin DESTINATION ${PLUGIN_INSTALL_DIR})
-
+install(TARGETS kdenlive_sampleplugin DESTINATION ${PLUGIN_INSTALL_DIR})
