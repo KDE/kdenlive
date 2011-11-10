@@ -23,6 +23,7 @@
 #include <QByteArray>
 #include <QList>
 #include <QColor>
+#include <QTimer>
 class QLabel;
 
 #include  <QWidget>
@@ -39,10 +40,11 @@ public:
     bool monitoringEnabled() const;
 
 private:
-    double valueToPixel(double in,bool db);
+    double valueToPixel(double in);
+	QTimer m_timer;
     QLabel* label;
     QByteArray channels,peeks,peekage;
-    QList<QColor> col;
+	QList<int> dbscale;
     QAction *m_aMonitoringEnabled;
 
 protected:
@@ -53,6 +55,7 @@ public slots:
     void slotReceiveAudio(const QVector<int16_t>&,int,int,int);
 private slots:
      void slotSwitchAudioMonitoring(bool isOn);
+	void slotNoAudioTimeout();
 
 signals:
     void updateAudioMonitoring();
