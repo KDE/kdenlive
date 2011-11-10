@@ -1,6 +1,4 @@
-set(QT_DONT_USE_QTGUI 0)
-
-SET(sampleplugin_SRCS sampleplugin.cpp)
+set(sampleplugin_SRCS sampleplugin.cpp)
 
 kde4_add_ui_files(sampleplugin_UIS countdown_ui.ui)
 
