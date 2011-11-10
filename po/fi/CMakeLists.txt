@@ -1,4 +1,0 @@
-
-GETTEXT_PROCESS_PO_FILES(fi ALL INSTALL_DESTINATION share/locale/ 
-kdenlive.po)
-
