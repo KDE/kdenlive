@@ -10,7 +10,7 @@
 
 #include <QMenu>
 #include <QTime>
-#include "histogramgenerator.h"
+#include "colorcorrection/histogramgenerator.h"
 #include "histogram.h"
 #include "renderer.h"
 

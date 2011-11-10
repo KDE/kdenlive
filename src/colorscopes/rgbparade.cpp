@@ -14,7 +14,7 @@
 #include <QTime>
 #include "renderer.h"
 #include "rgbparade.h"
-#include "rgbparadegenerator.h"
+#include "colorcorrection/rgbparadegenerator.h"
 
 RGBParade::RGBParade(MonitorManager *manager, QWidget *parent) :
         AbstractGfxScopeWidget(manager, true, parent)

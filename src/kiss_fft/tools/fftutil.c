@@ -18,7 +18,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include <string.h>
 #include <unistd.h>
 
-#include "kiss_fft.h"
+#include "../kiss_fft.h"
 #include "kiss_fftndr.h"
 
 static

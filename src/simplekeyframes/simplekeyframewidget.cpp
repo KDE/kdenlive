@@ -16,7 +16,7 @@
  *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
  ***************************************************************************/
 
-#include "simplekeyframes/simplekeyframewidget.h"
+#include "simplekeyframewidget.h"
 #include "simpletimelinewidget.h"
 #include "timecodedisplay.h"
 

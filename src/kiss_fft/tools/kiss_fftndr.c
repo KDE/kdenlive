@@ -13,7 +13,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 
 #include "kiss_fftndr.h"
-#include "_kiss_fft_guts.h"
+#include "../_kiss_fft_guts.h"
 #define MAX(x,y) ( ( (x)<(y) )?(y):(x) )
 
 struct kiss_fftndr_state

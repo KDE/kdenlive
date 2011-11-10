@@ -140,9 +140,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     generateItems(others, otherUrls);
     generateItems(proxies, proxyUrls);
     
-#if QT_VERSION >= 0x040500
     allFonts.removeDuplicates();
-#endif
 
     //TODO: fonts
 

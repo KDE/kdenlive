@@ -298,9 +298,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             usedSize += clip->fileSize();
         }
     }
-#if QT_VERSION >= 0x040500
     allFonts.removeDuplicates();
-#endif
     // Hide unused categories
     for (int i = 0; i < files_list->topLevelItemCount(); i++) {
         if (files_list->topLevelItem(i)->childCount() == 0) {
