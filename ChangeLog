@@ -1,4 +1,3 @@
-
 0.8.2
     * Load zone thumbnails from disk if available.
     * Optimise document loading.
@@ -19,7 +18,7 @@
     * Remove the "avformat-novalidate" trick for faster loading, caused crash. (http://kdenlive.org/mantis/view.php?id=2205)
     * Allow to assign a shortcut to usage of proxies in project.
     * Use separate thread for generation of timeline thumbnails when zoom is at frame level to keep UI responsive.
-    * Allow to use JScript in render profile parameter values. Values that need evalutation need to be indicated by '%'. 
+    * Allow to use JScript in render profile parameter values. Values that need evalutation need to be indicated by '%'.
     * Check for missing proxies on document opening.
     * Check document for invalid (overlapping) transitions.
     * Check for duration mismatch in clip producers when opening a document (can cause corruption).

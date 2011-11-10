@@ -1,6 +1,5 @@
-Kdenlive Installation Instrucions
+Kdenlive installation instrucions
 =================================
-
 
 To compile and install, go in the source directory and type:
 
@@ -21,6 +20,3 @@ Note that you should also install MLT to do anything useful with Kdenlive. See
 the README file for details.
 
 Have Fun!
-
-
-
