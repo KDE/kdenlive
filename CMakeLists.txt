@@ -50,8 +50,8 @@ macro_log_feature(KDE4_FOUND
   ${KDE_MIN_VERSION}
 )
 
-# Find Qt core modules.
-find_package(Qt4 ${QT_MIN_VERSION} REQUIRED QtCore QtDBus)
+# Find Qt core modules (QtCore and QtGui).
+find_package(Qt4 ${QT_MIN_VERSION} REQUIRED)
 
 # Search MLT package.
 find_package(LIBMLT ${LIBMLT_MIN_VERSION} REQUIRED)
