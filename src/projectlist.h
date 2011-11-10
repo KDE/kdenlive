@@ -338,7 +338,7 @@ private:
     void setProxyStatus(const QString proxyPath, PROXYSTATUS status, int progress = 0);
     void setProxyStatus(ProjectItem *item, PROXYSTATUS status, int progress = 0);
     /** @brief Process ffmpeg output to find out process progress. */
-    void processLogInfo(const QString &path, int *duration, const QString &log);
+    void processLogInfo(QList <ProjectItem *>items, int *duration, const QString &log);
     void monitorItemEditing(bool enable);
     /** @brief Set thumbnail for a project's clip. */
     void setThumbnail(const QString &clipId, const QPixmap &pix);

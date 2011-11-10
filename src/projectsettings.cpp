@@ -104,7 +104,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
         if (!k.key().isEmpty()) {
             QString params = k.value().section(';', 0, 0);
             QString extension = k.value().section(';', 1, 1);
-            if (params == proxyparameters && extension == proxyextension) {
+            if (ix == -1 && ((params == proxyparameters && extension == proxyextension) || (proxyparameters.isEmpty() || proxyextension.isEmpty()))) {
                 // this is the current profile
                 ix = proxy_profile->count();
             }

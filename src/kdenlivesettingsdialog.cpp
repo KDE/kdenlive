@@ -618,17 +618,17 @@ void KdenliveSettingsDialog::updateSettings()
 
     // Check encoding profiles
     QString data = m_configCapture.kcfg_v4l_profile->itemData(m_configCapture.kcfg_v4l_profile->currentIndex()).toString();
-    if (!data.isEmpty() && data.section(";", 0, 0) != KdenliveSettings::v4l_parameters()) {
+    if (!data.isEmpty() && (data.section(";", 0, 0) != KdenliveSettings::v4l_parameters() || data.section(";", 1, 1) != KdenliveSettings::v4l_extension())) {
         KdenliveSettings::setV4l_parameters(data.section(";", 0, 0));
         KdenliveSettings::setV4l_extension(data.section(";", 1, 1));
     }
     data = m_configCapture.kcfg_decklink_profile->itemData(m_configCapture.kcfg_decklink_profile->currentIndex()).toString();
-    if (!data.isEmpty() && data.section(";", 0, 0) != KdenliveSettings::decklink_parameters()) {
+    if (!data.isEmpty() && (data.section(";", 0, 0) != KdenliveSettings::decklink_parameters() || data.section(";", 1, 1) != KdenliveSettings::decklink_extension())) {
         KdenliveSettings::setDecklink_parameters(data.section(";", 0, 0));
         KdenliveSettings::setDecklink_extension(data.section(";", 1, 1));
     }
     data = m_configProject.kcfg_proxy_profile->itemData(m_configProject.kcfg_proxy_profile->currentIndex()).toString();
-    if (!data.isEmpty() && data.section(";", 0, 0) != KdenliveSettings::proxyparams()) {
+    if (!data.isEmpty() && (data.section(";", 0, 0) != KdenliveSettings::proxyparams() || data.section(";", 1, 1) != KdenliveSettings::proxyextension())) {
         KdenliveSettings::setProxyparams(data.section(";", 0, 0));
         KdenliveSettings::setProxyextension(data.section(";", 1, 1));
     }

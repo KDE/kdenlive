@@ -219,7 +219,9 @@ void Wizard::slotUpdateCaptureParameters()
             itemSize = sizes.at(j).section("=", 0, 0);
             itemRates = sizes.at(j).section("=", 1, 1).split(",", QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); k++) {
-                m_capture.v4l_formats->addItem("[" + format + "] " + itemSize + " (" + itemRates.at(k) + ")", QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
+                QString formatDescription = "[" + format + "] " + itemSize + " (" + itemRates.at(k) + ")";
+                if (m_capture.v4l_formats->findText(formatDescription) == -1)
+                    m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
             }
         }
     }

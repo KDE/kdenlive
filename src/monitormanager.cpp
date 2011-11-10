@@ -187,16 +187,8 @@ void MonitorManager::slotResetProfiles()
     if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
     blockSignals(true);
     QString active = m_activeMonitor ? m_activeMonitor->name() : QString();
-    if (!m_clipMonitor->render->hasProfile(KdenliveSettings::current_profile())) {
-        activateMonitor("clip");
-        m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
-        m_clipMonitor->updateTimecodeFormat();
-    }
-    if (!m_projectMonitor->render->hasProfile(KdenliveSettings::current_profile())) {
-        activateMonitor("project");
-        m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
-        m_projectMonitor->updateTimecodeFormat();
-    }
+    m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
+    m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
     if (!active.isEmpty()) activateMonitor(active);
     blockSignals(false);
     if (m_activeMonitor) m_activeMonitor->parentWidget()->raise();

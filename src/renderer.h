@@ -286,7 +286,7 @@ Q_OBJECT public:
     /** @brief Returns a pointer to the main producer. */
     Mlt::Producer *getProducer();
     /** @brief Returns the number of clips to process (When requesting clip info). */
-    int processingItems() const;
+    int processingItems();
     /** @brief Force processing of clip with selected id. */
     void forceProcessing(const QString &id);
     /** @brief Are we currently processing clip with selected id. */

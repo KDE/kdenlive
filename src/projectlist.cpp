@@ -1125,7 +1125,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 
 void ProjectList::slotGotProxy(const QString &proxyPath)
 {
-    if (proxyPath.isEmpty() || !m_refreshed || m_abortAllProxies) return;
+    if (proxyPath.isEmpty() || m_abortAllProxies) return;
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item;
 
@@ -1172,6 +1172,7 @@ void ProjectList::slotResetProjectList()
     m_proxyThreads.clearFutures();
     m_thumbnailQueue.clear();
     m_listView->clear();
+    m_listView->setEnabled(true);
     emit clipSelected(NULL);
     m_refreshed = false;
     m_allClipsProcessed = false;
@@ -1280,7 +1281,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                     if (replace) resetThumbsProducer(clip);
                     m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                 }
-                else {
+                else if (clip->isPlaceHolder()) {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
                     if (item->data(0, Qt::DecorationRole).isNull()) {
                         item->setData(0, Qt::DecorationRole, missingPixmap);
@@ -1665,11 +1666,11 @@ void ProjectList::slotCheckForEmptyQueue()
 {
     if (m_render->processingItems() == 0 && m_thumbnailQueue.isEmpty()) {
         if (!m_refreshed && m_allClipsProcessed) {
+            m_refreshed = true;
             m_listView->setEnabled(true);
             slotClipSelected();
             QTimer::singleShot(500, this, SIGNAL(loadingIsOver()));
             emit displayMessage(QString(), -1);
-            m_refreshed = true;
         }
         updateButtons();
     } else if (!m_refreshed) {
@@ -1754,11 +1755,14 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
             monitorItemEditing(false);
             it->setData(0, Qt::DecorationRole, pix);
             monitorItemEditing(true);
-                
-            if (!isSubItem)
-                m_doc->cachePixmap(item->getClipHash(), pix);
-            else
-                m_doc->cachePixmap(item->getClipHash() + '#' + QString::number(frame), pix);
+            
+            QString clipId = item->getClipHash();
+            if (!clipId.isEmpty()) {
+                if (!isSubItem)
+                    m_doc->cachePixmap(clipId, pix);
+                else
+                    m_doc->cachePixmap(clipId + '#' + QString::number(frame), pix);
+            }
         }
         if (update)
             emit projectModified();
@@ -1828,7 +1832,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             if (item->parent()) {
                 if (item->parent()->type() == PROJECTFOLDERTYPE)
                     static_cast <FolderProjectItem *>(item->parent())->switchIcon();
-            } else if (KdenliveSettings::checkfirstprojectclip() &&  m_listView->topLevelItemCount() == 1) {
+            } else if (KdenliveSettings::checkfirstprojectclip() &&  m_listView->topLevelItemCount() == 1 && m_refreshed && m_allClipsProcessed) {
                 // this is the first clip loaded in project, check if we want to adjust project settings to the clip
                 updatedProfile = adjustProjectProfileToItem(item);
             }
@@ -1837,17 +1841,16 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             }
         } else {
             int max = m_doc->clipManager()->clipsCount();
-            emit displayMessage(i18n("Loading clips"), (int)(100 *(max - queue) / max));
+            if (max > 0) emit displayMessage(i18n("Loading clips"), (int)(100 *(max - queue) / max));
         }
         if (m_allClipsProcessed) emit processNextThumbnail();
-    }
-    if (replace && item) {
-        toReload = clipId;
     }
     if (!item) {
         // no item for producer, delete it
         delete producer;
+        return;
     }
+    if (replace) toReload = clipId;
     if (!toReload.isEmpty())
         emit clipNeedsReload(toReload);
 }
@@ -1951,7 +1954,8 @@ void ProjectList::setThumbnail(const QString &clipId, const QPixmap &pix)
         item->setData(0, Qt::DecorationRole, pix);
         monitorItemEditing(true);
         //update();
-        m_doc->cachePixmap(item->getClipHash(), pix);
+        QString clipId = item->getClipHash();
+        if (!clipId.isEmpty()) m_doc->cachePixmap(clipId, pix);
     }
 }
 
@@ -2150,7 +2154,8 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
         }
         QPixmap p = clip->referencedClip()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
         sub->setData(0, Qt::DecorationRole, p);
-        m_doc->cachePixmap(clip->getClipHash() + '#' + QString::number(in), p);
+        QString clipId = clip->getClipHash();
+        if (!clipId.isEmpty()) m_doc->cachePixmap(clipId + '#' + QString::number(in), p);
         monitorItemEditing(true);
     }
     emit projectModified();
@@ -2338,6 +2343,19 @@ void ProjectList::slotGenerateProxy()
     QFile::remove(info.dest);
     
     setProxyStatus(info.dest, CREATINGPROXY);
+    
+    // Get the list of clips that will need to get progress info
+    QTreeWidgetItemIterator it(m_listView);
+    QList <ProjectItem *> processingItems;
+    while (*it && !m_abortAllProxies) {
+        if ((*it)->type() == PROJECTCLIPTYPE) {
+            ProjectItem *item = static_cast <ProjectItem *>(*it);
+            if (item->referencedClip()->getProperty("proxy") == info.dest) {
+                processingItems.append(item);
+            }
+        }
+        ++it;
+    }
 
     // Special case: playlist clips (.mlt or .kdenlive project files)
     if (info.type == PLAYLIST) {
@@ -2382,7 +2400,7 @@ void ProjectList::slotGenerateProxy()
             }
             else {
                 QString log = QString(myProcess.readAll());
-                processLogInfo(info.dest, &duration, log);
+                processLogInfo(processingItems, &duration, log);
             }
             myProcess.waitForFinished(500);
         }
@@ -2465,13 +2483,13 @@ void ProjectList::slotGenerateProxy()
     // Make sure we don't block when proxy file already exists
     parameters << "-y";
     parameters << info.dest;
-    kDebug()<<"// STARTING PROXY GEN: "<<parameters;
     QProcess myProcess;
     myProcess.setProcessChannelMode(QProcess::MergedChannels);
     myProcess.start("ffmpeg", parameters);
     myProcess.waitForStarted();
     int result = -1;
     int duration = 0;
+   
     while (myProcess.state() != QProcess::NotRunning) {
         // building proxy file
         if (m_abortProxy.contains(info.dest) || m_abortAllProxies) {
@@ -2486,11 +2504,13 @@ void ProjectList::slotGenerateProxy()
         }
         else {
             QString log = QString(myProcess.readAll());
-            processLogInfo(info.dest, &duration, log);
+            processLogInfo(processingItems, &duration, log);
         }
         myProcess.waitForFinished(500);
     }
     myProcess.waitForFinished();
+    m_abortProxy.removeAll(info.dest);
+    m_processingProxy.removeAll(info.dest);
     if (result == -1) result = myProcess.exitStatus();
     if (result == 0) {
         // proxy successfully created
@@ -2502,12 +2522,10 @@ void ProjectList::slotGenerateProxy()
         QFile::remove(info.dest);
         setProxyStatus(info.dest, PROXYCRASHED);
     }
-    m_abortProxy.removeAll(info.dest);
-    m_processingProxy.removeAll(info.dest);
 }
 
 
-void ProjectList::processLogInfo(const QString &path, int *duration, const QString &log)
+void ProjectList::processLogInfo(QList <ProjectItem *>items, int *duration, const QString &log)
 {
     int progress;
     if (*duration == 0) {
@@ -2524,7 +2542,8 @@ void ProjectList::processLogInfo(const QString &path, int *duration, const QStri
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
         }
         else progress = (int) time.toDouble();
-        setProxyStatus(path, CREATINGPROXY, (int) (100.0 * progress / (*duration)));
+        for (int i = 0; i < items.count(); i++)
+            setProxyStatus(items.at(i), CREATINGPROXY, (int) (100.0 * progress / (*duration)));
     }
 }
 

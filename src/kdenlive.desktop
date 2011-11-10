@@ -2,17 +2,7 @@
 [Desktop Entry]
 Name=Kdenlive
 GenericName=Video Editor
-GenericName[de]=Video-Editor
-GenericName[it]=Editor Video
-GenericName[ru]=Видеоредактор
-GenericName[uk]=Редактор відео
-GenericName[es]=Editor de video
 Comment=Nonlinear video editor for KDE
-Comment[de]=Nicht-linearer Video-Editor für KDE
-Comment[it]=Editor video non lineare per KDE
-Comment[ru]=Редактор нелинейного видеомонтажа для KDE
-Comment[uk]=Нелінійний редактор відео для KDE
-Comment[es]=Editor no lineal de video para KDE
 Type=Application
 Exec=kdenlive %i -caption "%c" %u
 Icon=kdenlive

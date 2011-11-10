@@ -180,9 +180,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
+    connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 
     if (name != "clip") {
-        connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
     } else {
@@ -731,7 +731,6 @@ void Monitor::adjustRulerSize(int length)
 
 void Monitor::stop()
 {
-    disconnect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     if (render) render->stop();
 }
 
@@ -739,7 +738,6 @@ void Monitor::start()
 {
     if (!isVisible()) return;
     if (render) render->start();
-    connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 }
 
 void Monitor::refreshMonitor(bool visible)
@@ -877,7 +875,10 @@ void Monitor::resetProfile(const QString &profile)
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == NULL) return;
-    render->resetProfile(profile);
+    if (!render->hasProfile(profile)) {
+        activateMonitor();
+        render->resetProfile(profile);
+    }
     if (m_effectWidget)
         m_effectWidget->resetProfile(render);
 }
@@ -1001,8 +1002,8 @@ void Monitor::slotEffectScene(bool show)
         emit requestFrameForAnalysis(show);
         if (show) {
             m_effectWidget->getScene()->slotZoomFit();
-            render->doRefresh();
         }
+        render->doRefresh();
     }
 }
 

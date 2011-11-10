@@ -46,7 +46,7 @@ private slots:
     void slotDeleteSelected();
     QString getProperty(QDomElement effect, const QString &name);
     void setProperty(QDomElement effect, const QString &name, const QString value);
-    QString searchLuma(const QString &file) const;
+    QString searchLuma(const QDir &dir, const QString &file) const;
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
     void checkMissingImagesAndFonts(QStringList images, QStringList fonts, const QString &id, const QString &baseClip);
     void slotCheckButtons();

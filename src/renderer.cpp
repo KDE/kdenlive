@@ -605,10 +605,15 @@ void Render::forceProcessing(const QString &id)
     m_infoMutex.unlock();
 }
 
-int Render::processingItems() const
+int Render::processingItems()
 {
+    m_infoMutex.lock();
     int count = m_requestList.count();
-    if (m_infoThread.isRunning()) count++;
+    if (!m_processingClipId.isEmpty()) {
+        // one clip is currently processed
+        count++;
+    }
+    m_infoMutex.unlock();
     return count;
 }
 
@@ -670,13 +675,13 @@ void Render::processFileProperties()
 
         if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
             kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
+            m_processingClipId.clear();
             if (proxyProducer) {
                 // Proxy file is corrupted
                 emit removeInvalidProxy(info.clipId, false);
             }
             else emit removeInvalidClip(info.clipId, info.replaceProducer);
             delete producer;
-            m_processingClipId.clear();
             continue;
         }
 
@@ -685,9 +690,9 @@ void Render::processFileProperties()
             producer->set("out", info.xml.attribute("proxy_out").toInt());
             if (producer->get_out() != info.xml.attribute("proxy_out").toInt()) {
                 // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
+                m_processingClipId.clear();
                 emit removeInvalidProxy(info.clipId, true);
                 delete producer;
-                m_processingClipId.clear();
                 continue;
             }
         }
@@ -781,8 +786,8 @@ void Render::processFileProperties()
                     emit replyGetImage(info.clipId, img);
                 }
             }
-            emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer);
             m_processingClipId.clear();
+            emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer);
             continue;
         }
 
@@ -888,7 +893,7 @@ void Render::processFileProperties()
                     }
                 } while (variance == -1);
                 delete frame;
-                if (frameNumber > -1) filePropertyMap["thumbnail"] = frameNumber;
+                if (frameNumber > -1) filePropertyMap["thumbnail"] = QString::number(frameNumber);
                 emit replyGetImage(info.clipId, img);
             } else if (frame->get_int("test_audio") == 0) {
                 emit replyGetImage(info.clipId, "audio-x-generic", fullWidth, info.imageHeight);
@@ -962,6 +967,7 @@ void Render::processFileProperties()
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
+        m_processingClipId.clear();
         emit replyGetFileProperties(info.clipId, producer, filePropertyMap, metadataPropertyMap, info.replaceProducer);
     }
     m_processingClipId.clear();
@@ -1024,30 +1030,33 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     m_mltConsumer->purge();
     consumerPosition = m_mltConsumer->position();
 
-    if (m_mltProducer) {
-        m_mltProducer->set_speed(0);
-        currentId = m_mltProducer->get("id");
-        delete m_mltProducer;
-        m_mltProducer = NULL;
-        emit stopped();
-    }
 
     blockSignals(true);
-    if (producer && producer->is_valid()) {
-        m_mltProducer = producer;
-    } else m_mltProducer = m_blackClip->cut(0, 1);
+    if (!producer || !producer->is_valid()) {
+        if (producer) delete producer;
+        producer = m_blackClip->cut(0, 1);
+    }
 
-    if (!m_mltProducer || !m_mltProducer->is_valid()) {
+    if (!producer || !producer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
         return -1;
     }
-    if (position == -1 && m_mltProducer->get("id") == currentId) position = consumerPosition;
-    if (position != -1) m_mltProducer->seek(position);
+    if (m_mltProducer) currentId = m_mltProducer->get("id");
+    emit stopped();
+    if (position == -1 && producer->get("id") == currentId) position = consumerPosition;
+    if (position != -1) producer->seek(position);
     int volume = KdenliveSettings::volume();
-    m_mltProducer->set("meta.volume", (double)volume / 100);
-    m_fps = m_mltProducer->get_fps();
+    producer->set("meta.volume", (double)volume / 100);
+    m_fps = producer->get_fps();
     blockSignals(false);
-    m_mltConsumer->connect(*m_mltProducer);
+    m_mltConsumer->connect(*producer);
+
+    if (m_mltProducer) {
+        m_mltProducer->set_speed(0);
+        delete m_mltProducer;
+        m_mltProducer = NULL;
+    }
+    m_mltProducer = producer;
     m_mltProducer->set_speed(0);
     emit durationChanged(m_mltProducer->get_playtime());
     if (m_mltConsumer->start() == -1) {
