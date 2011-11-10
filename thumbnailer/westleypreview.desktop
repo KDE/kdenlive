@@ -1,6 +1,12 @@
 [Desktop Entry]
 Type=Service
 Name=MLT Playlist
+Name[cs]=Seznam skladeb MLT
+Name[de]=MLT-Wiedergabeliste
+Name[pt]=Lista de Reprodução MLT
+Name[sv]=MLT-spellista
+Name[uk]=Список відтворення MLT
+Name[x-test]=xxMLT Playlistxx
 X-KDE-ServiceTypes=ThumbCreator
 CacheThumbnail=true
 IgnoreMaximumSize=true

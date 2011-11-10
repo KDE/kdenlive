@@ -1,8 +1,27 @@
 # KDE Config File
 [Desktop Entry]
 Name=Kdenlive
+Name[cs]=Kdenlive
+Name[de]=Kdenlive
+Name[nds]=Kdenlive
+Name[nl]=Kdenlive
+Name[pt]=Kdenlive
+Name[sv]=Kdenlive
+Name[uk]=Kdenlive
+Name[x-test]=xxKdenlivexx
 GenericName=Video Editor
+GenericName[cs]=Editor videí
+GenericName[de]=Video-Editor
+GenericName[pt]=Editor de Vídeo
+GenericName[sv]=Videoeditor
+GenericName[uk]=Відеоредактор
+GenericName[x-test]=xxVideo Editorxx
 Comment=Nonlinear video editor for KDE
+Comment[de]=Nichtlinearer Video-Editor für KDE
+Comment[pt]=Editor de vídeo não-linear para o KDE
+Comment[sv]=Icke-linjär videoeditor för KDE
+Comment[uk]=Нелінійний редактор відео для KDE
+Comment[x-test]=xxNonlinear video editor for KDExx
 Type=Application
 Exec=kdenlive %i -caption "%c" %u
 Icon=kdenlive
