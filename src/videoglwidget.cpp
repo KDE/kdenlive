@@ -1,7 +1,7 @@
 
 #include <QtGui>
 #include <QtOpenGL>
-#ifdef __APPLE__
+#ifdef Q_WS_MAC
 #include <OpenGL/glu.h>
 #else
 #include <GL/glu.h>

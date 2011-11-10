@@ -120,10 +120,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     m_page4 = addPage(p4, i18n("Capture"), "media-record");
     m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
-#ifndef USE_V4L
+#ifdef Q_WS_MAC
     m_configCapture.tabWidget->setEnabled(false);
     m_configCapture.kcfg_defaultcapture->setEnabled(false);
-    m_configCapture.label->setText(i18n("Capture is not yet available on this platform."));
+    m_configCapture.label->setText(i18n("Capture is not yet available on Mac OS X."));
 #endif
 
     QWidget *p5 = new QWidget;
