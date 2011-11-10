@@ -1,7 +1,7 @@
 #ifndef KISS_FFT_H
 #define KISS_FFT_H
 
-#include "kdenlive-config.h"
+#include "config-kdenlive.h"
 
 #include <stdlib.h>
 #include <stdio.h>

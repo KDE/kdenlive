@@ -82,4 +82,4 @@ add_subdirectory(titles)
 
 macro_display_feature_log()
 
-configure_file(kdenlive-config.h.cmake kdenlive-config.h @ONLY)
+configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)

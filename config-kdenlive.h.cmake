@@ -7,4 +7,3 @@
 #cmakedefine HAVE_PTHREAD_H 1
 
 #endif
-

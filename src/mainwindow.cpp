@@ -52,7 +52,7 @@
 #include "markerdialog.h"
 #include "clipitem.h"
 #include "interfaces.h"
-#include "kdenlive-config.h"
+#include "config-kdenlive.h"
 #include "cliptranscode.h"
 #include "ui_templateclip_ui.h"
 #include "colorscopes/vectorscope.h"

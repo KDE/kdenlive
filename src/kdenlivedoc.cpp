@@ -28,7 +28,7 @@
 #include "mainwindow.h"
 #include "documentchecker.h"
 #include "documentvalidator.h"
-#include "kdenlive-config.h"
+#include "config-kdenlive.h"
 #include "initeffects.h"
 
 #include <KDebug>
