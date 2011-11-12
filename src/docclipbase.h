@@ -206,6 +206,7 @@ Q_OBJECT public:
     void setPlaceHolder(bool place);
     QPixmap extractImage(int frame, int width, int height);
     void clearThumbProducer();
+    void reloadThumbProducer();
     void cleanupProducers();
     bool isClean() const;
 

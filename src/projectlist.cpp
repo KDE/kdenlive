@@ -1227,7 +1227,7 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
     else requestClipThumbnail(parentItem->clipId() + '#' + QString::number(pos));
 }
 
-void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
+void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips)
 {
     if (!m_allClipsProcessed) m_listView->setEnabled(false);
     m_listView->setSortingEnabled(false);
@@ -1270,6 +1270,13 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
             item = static_cast <ProjectItem *>(*it);
             clip = item->referencedClip();
             if (item->referencedClip()->getProducer() == NULL) {
+                bool replace = false;
+                if (brokenClips.contains(item->clipId())) {
+                    // if this is a proxy clip, disable proxy
+                    item->setProxyStatus(NOPROXY);
+                    clip->setProperty("proxy", "-");
+                    replace = true;
+                }
                 if (clip->isPlaceHolder() == false && !item->isProxyRunning()) {
                     QDomElement xml = clip->toXML();
                     if (fpsChanged) {
@@ -1277,7 +1284,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged)
                         xml.removeAttribute("file_hash");
                         xml.removeAttribute("proxy_out");
                     }
-                    bool replace = xml.attribute("replace") == "1";
+                    if (!replace) replace = xml.attribute("replace") == "1";
                     if (replace) resetThumbsProducer(clip);
                     m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                 }
@@ -1469,6 +1476,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
+        kDebug()<<"// Proxy for clip "<<id<<" is invalid, delete";
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
         if (durationError) {
             kDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
@@ -1481,6 +1489,14 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
         //Security check: make sure the invalid proxy file is in the proxy folder
         if (proxyFolder.isParentOf(KUrl(path))) {
             QFile::remove(path);
+        }
+        if (item->referencedClip()->getProducer() == NULL) {
+            // Clip has no valid producer, request it
+            slotProxyCurrentItem(false, item);
+        }
+        else {
+            // refresh thumbs producer
+            item->referencedClip()->reloadThumbProducer();
         }
     }
     m_processingClips.removeAll(id);
@@ -1633,7 +1649,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     connect(m_doc->clipManager(), SIGNAL(modifiedClip(const QString &)), this, SLOT(slotModifiedClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(availableClip(const QString &)), this, SLOT(slotAvailableClip(const QString &)));
-    connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool, bool)), this, SLOT(updateAllClips(bool, bool)));
+    connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool, bool, QStringList)), this, SLOT(updateAllClips(bool, bool, QStringList)));
 }
 
 QList <DocClipBase*> ProjectList::documentClipList() const
@@ -2618,9 +2634,11 @@ void ProjectList::updateProxyConfig()
     else delete command;
 }
 
-void ProjectList::slotProxyCurrentItem(bool doProxy)
+void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
 {
-    QList<QTreeWidgetItem *> list = m_listView->selectedItems();
+    QList<QTreeWidgetItem *> list;
+    if (itemToProxy == NULL) list = m_listView->selectedItems();
+    else list << itemToProxy;
     QTreeWidgetItem *listItem;
     QUndoCommand *command = new QUndoCommand();
     if (doProxy) command->setText(i18np("Add proxy clip", "Add proxy clips", list.count()));
@@ -2649,7 +2667,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
             ProjectItem *item = static_cast <ProjectItem*>(listItem);
             CLIPTYPE t = item->clipType();
             if ((t == VIDEO || t == AV || t == UNKNOWN || t == IMAGE || t == PLAYLIST) && item->referencedClip()) {
-                if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy())) continue;
+                if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && item->referencedClip()->getProducer() != NULL)) continue;
                 DocClipBase *clip = item->referencedClip();
                 if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
                     kDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
@@ -2666,6 +2684,10 @@ void ProjectList::slotProxyCurrentItem(bool doProxy)
                     newProps.insert("proxy", path);
                     // We need to insert empty proxy so that undo will work
                     oldProps.insert("proxy", QString());
+                }
+                else if (item->referencedClip()->getProducer() == NULL) {
+                    // Force clip reload
+                    newProps.insert("resource", item->referencedClip()->getProperty("resource"));
                 }
                 new EditClipCommand(this, item->clipId(), oldProps, newProps, true, command);
             }

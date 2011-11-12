@@ -161,7 +161,7 @@ signals:
     void modifiedClip(const QString &);
     void missingClip(const QString &);
     void availableClip(const QString &);
-    void checkAllClips(bool displayRatioChanged, bool fpsChanged);
+    void checkAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
 };
 
 #endif
