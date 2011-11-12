@@ -115,7 +115,7 @@
     </caption>
   </mediaobject>
 </screenshot></para>
-<para>Let’s save the work via <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice>. This saves our project, &ie; where we placed the clips on the timeline, which effects we applied, and so on. It can <emphasis>not</emphasis> be played.<footnote><para>To be correct, it <emphasis>can</emphasis> be played using <screen>melt yourproject.kdenlive</screen>, but this is not the way you would want to present your final video since it is (most likely) too slow. Additionally, it only works if melt is installed.</para></footnote> The process of creating the final video is called <emphasis>Rendering</emphasis>.</para>
+<para>Let’s save the work via <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice>. This saves our project, &ie; where we placed the clips on the timeline, which effects we applied, and so on. It can <emphasis>not</emphasis> be played.<footnote><para>To be correct, it <emphasis>can</emphasis> be played using <varname>melt yourproject.kdenlive</varname>, but this is not the way you would want to present your final video since it is (most likely) too slow. Additionally, it only works if melt is installed.</para></footnote> The process of creating the final video is called <emphasis>Rendering</emphasis>.</para>
 </chapter>
 <chapter id="timeline"><title>Timeline</title> 
 <para>Now comes the actual editing. Project clips are combined to the final result on the timeline.  They get there by drag and drop: Drag some Napoli (assuming you are using the files provided above, as in the rest of this quick start tutorial; If not, please make sure your screen is waterproof, and perhaps tomatoproof), and drop it onto the first track in the timeline.</para>
@@ -199,7 +199,7 @@
     </caption>
   </mediaobject>
 </screenshot></para>
-<para>Now that the clips overlap, the transition can be added. This is done either by right-clicking on the upper clip and chosing <guilabel>Add Transition</guilabel> or, easier, by clicking the lower right corner of the Spoon clip. The latter by default adds a dissolve transition, which is in this case the best idea anyway since the Spoon is not required for playing anyway.</para>
+<para>Now that the clips overlap, the transition can be added. This is done either by right-clicking on the upper clip and choosing <guilabel>Add Transition</guilabel> or, easier, by clicking the lower right corner of the Spoon clip. The latter by default adds a dissolve transition, which is in this case the best idea anyway since the Spoon is not required for playing anyway.</para>
 <para>The dissolve transitions fades the first clip into the second one.</para>
 <para>
 <screenshot>
