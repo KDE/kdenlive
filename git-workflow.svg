@@ -11,11 +11,11 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1400"
-   height="600"
+   height="800"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="kdenlive-git-workflow.svg"
+   sodipodi:docname="git-workflow.svg"
    inkscape:export-filename="/tmp/kdenlive-git-workflow.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -49,6 +49,20 @@
          transform="scale(-0.6,-0.6)"
          inkscape:connector-curvature="0" />
     </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-9"
+       style="overflow:visible">
+      <path
+         id="path3935-3"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -58,8 +72,8 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
-     inkscape:cx="829.75639"
-     inkscape:cy="303.8936"
+     inkscape:cx="774.51484"
+     inkscape:cy="378.04332"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -68,7 +82,7 @@
      inkscape:window-x="-3"
      inkscape:window-y="-3"
      inkscape:window-maximized="1"
-     inkscape:snap-bbox="false"
+     inkscape:snap-bbox="true"
      inkscape:bbox-nodes="false"
      inkscape:snap-global="false"
      fit-margin-top="0"
@@ -76,7 +90,8 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      showguides="false"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     inkscape:bbox-paths="true">
     <sodipodi:guide
        orientation="1,0"
        position="350.72496,666.09459"
@@ -90,17 +105,13 @@
        position="779,274"
        id="guide5239" />
     <sodipodi:guide
-       orientation="0,1"
-       position="412.95036,455"
-       id="guide5241" />
-    <sodipodi:guide
-       orientation="0,1"
-       position="412.95036,177"
-       id="guide5243" />
-    <sodipodi:guide
        orientation="1,0"
        position="1004,542"
        id="guide5245" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="940.45202,657.60931"
+       id="guide3244" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -118,21 +129,21 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(325.2691,53.926332)">
+     transform="translate(325.2691,253.92633)">
     <rect
        style="color:#000000;fill:#6c87d6;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect2985"
        width="162"
        height="72"
-       x="-77"
+       x="-789.76361"
        y="-244.63782" />
     <g
        id="g3850"
-       transform="translate(20.681252,140.71149)">
+       transform="translate(20.681252,9.4129353)">
       <use
          height="1052.3622"
          width="744.09448"
-         transform="translate(-66.29855,470.75735)"
+         transform="translate(646.46509,470.75735)"
          id="use3816"
          xlink:href="#g3811"
          y="0"
@@ -151,13 +162,13 @@
     </g>
     <g
        id="g3791"
-       transform="translate(-181.31874,44.585786)">
+       transform="translate(-181.31874,-86.712769)">
       <use
          x="0"
          y="0"
          xlink:href="#rect2985"
          id="use2995"
-         transform="translate(346,292)"
+         transform="translate(1058.7636,292)"
          width="744.09448"
          height="1052.3622" />
       <text
@@ -174,11 +185,11 @@
     </g>
     <g
        id="g3845"
-       transform="translate(15.730902,128.71151)">
+       transform="translate(15.730902,-2.5870447)">
       <use
          height="1052.3622"
          width="744.09448"
-         transform="translate(304.70144,482.75736)"
+         transform="translate(1017.4651,482.75736)"
          id="use3843"
          xlink:href="#g3811"
          y="0"
@@ -197,11 +208,11 @@
     </g>
     <g
        id="g3781"
-       transform="translate(416.7309,-166.28849)">
+       transform="translate(416.7309,-297.58704)">
       <use
          height="1052.3622"
          width="744.09448"
-         transform="translate(114,502)"
+         transform="translate(826.76364,502)"
          id="use3001"
          xlink:href="#rect2985"
          y="0"
@@ -220,7 +231,7 @@
     </g>
     <g
        id="g3811"
-       transform="translate(-78.384776,-65.171573)">
+       transform="translate(-791.14841,-65.171573)">
       <rect
          style="color:#000000;fill:#ebeef8;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          id="rect3805"
@@ -247,225 +258,303 @@
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:end;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:end;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        x="25.45586"
-       y="91.0737"
+       y="-40.224854"
        id="text3874"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3876"
          x="25.45586"
-         y="91.0737">Keep stable</tspan></text>
+         y="-40.224854">Keep stable</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        x="678.7309"
-       y="91.0737"
+       y="-40.224854"
        id="text3878"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3880"
          x="678.7309"
-         y="91.0737">Testing branch</tspan></text>
+         y="-40.224854">Testing branch</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        x="678.7309"
-       y="369.0737"
+       y="237.77515"
        id="text3882"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3884"
          x="678.7309"
-         y="369.0737">Experimental features</tspan></text>
+         y="237.77515">Experimental features</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="25.45586"
-       y="369.0737"
+       y="237.77515"
        id="text3886"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3888"
          x="25.45586"
-         y="369.0737">Bugfix branches</tspan></text>
+         y="237.77515">Bugfix branches</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
-       d="m 160.13708,196.3782 0,141.42136"
+       d="m 160.13708,65.079645 0,141.421365"
        id="path3909"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="69.348198"
-       y="256.41983"
+       x="87.681259"
+       y="118.6328"
        id="text4541"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4543"
-         x="74.441948"
-         y="256.41983">Branch tagged release </tspan><tspan
+         x="92.775009"
+         y="118.6328">Branch a tagged release </tspan><tspan
          sodipodi:role="line"
-         x="69.348198"
-         y="276.41983"
+         x="87.681259"
+         y="138.6328"
          id="tspan5179">for working on urgent fixes</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
-       d="m 539.28845,349.11326 0,-154.14928"
+       d="m 539.28845,217.81471 0,-154.149285"
        id="path4545"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
-       x="573.33008"
-       y="262.04724"
+       x="615.18292"
+       y="118.6328"
        id="text4731"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4733"
-         x="573.33008"
-         y="262.04724">New features </tspan><tspan
+         x="615.18292"
+         y="118.6328">New features and bugfixes </tspan><tspan
          sodipodi:role="line"
-         x="573.33008"
-         y="282.04724"
+         x="615.18292"
+         y="138.6328"
          id="tspan5229">ready for testing</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 428.12193,128.69696 z"
+       d="M 428.12193,-2.6015947 z"
        id="path4773"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
-       d="m 426.70772,116.67614 -154.14928,0"
+       d="m 426.70772,-14.622415 -154.14928,0"
        id="path4775"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="289.52899"
-       y="103.24112"
+       y="-28.057436"
        id="text4961"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4963"
          x="289.52899"
-         y="103.24112">Stable features</tspan></text>
+         y="-28.057436">Stable features</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="25.45586"
-       y="125.63111"
+       y="-5.6674438"
        id="text4965"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4967"
+         x="30.54961"
+         y="-5.6674438">Trivial bugfixes and features </tspan><tspan
+         sodipodi:role="line"
          x="25.45586"
-         y="125.63111">Bugfixes are done here</tspan></text>
+         y="14.332556"
+         id="tspan3242">are done here</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="314.27774"
-       y="161.93098"
+       y="30.632429"
        id="text5155"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5157"
          x="314.27774"
-         y="161.93098">Bugfixes </tspan></text>
+         y="30.632429">Updates</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="678.7309"
-       y="397.35172"
+       y="266.05316"
        id="text5159"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5161"
          x="678.7309"
-         y="397.35172">Can be local or public</tspan></text>
+         y="266.05316">Can be local or public</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="678.7309"
-       y="121.98122"
+       y="-9.317338"
        id="text5163"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          x="678.7309"
-         y="121.98122"
+         y="-9.317338"
          id="tspan5167">Branch that is more or less stable</tspan><tspan
          sodipodi:role="line"
          x="678.7309"
-         y="141.98122"
+         y="10.682662"
          id="tspan5259">with the newest features</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:36px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#484848;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="-280.72137"
-       y="15.036505"
+       y="-116.26205"
        id="text5171"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5173"
          x="-280.72137"
-         y="15.036505">Kdenlive’s git workflow</tspan></text>
+         y="-116.26205">Kdenlive’s git workflow</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="-37.2691"
+       x="-750.03271"
        y="-269.9263"
        id="text5175"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5177"
-         x="-37.2691"
+         x="-750.03271"
          y="-269.9263">Originals of the clones in the drawing</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="25.45586"
-       y="401.97403"
+       y="270.67548"
        id="text5181"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5183"
          x="25.45586"
-         y="401.97403">Tag releases when bugs fixed</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;color:#000000;fill:#d69f6c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
-       x="25.45586"
-       y="428.1456"
-       id="text5185"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan5187"
-         x="25.45586"
-         y="428.1456">Or do we work on the Master directly?</tspan></text>
+         y="270.67548">Urgent bugfixes are done here</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="25.45586"
-       y="147.85648"
+       y="41.56461"
        id="text5231"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5233"
          x="25.45586"
-         y="147.85648">Releases are tagged</tspan></text>
+         y="41.56461">Releases are tagged</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path5247"
-       d="m 271.73042,137.18224 154.14928,0"
+       d="m 271.73042,5.8836853 154.14928,0"
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)" />
     <text
        sodipodi:linespacing="125%"
        id="text5249"
-       y="425.98123"
+       y="294.68268"
        x="678.7309"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        xml:space="preserve"><tspan
          id="tspan5253"
-         y="425.98123"
+         y="294.68268"
          x="678.7309"
-         sodipodi:role="line">Development goes on here only</tspan></text>
+         sodipodi:role="line">Normal development goes on here only</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="678.7309"
+       y="324.26544"
+       id="text3179"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3181"
+         x="678.7309"
+         y="324.26544">For new features and non-trivial bugfixes</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3183"
+       y="298.95975"
+       x="25.45586"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       xml:space="preserve"><tspan
+         y="298.95975"
+         x="25.45586"
+         id="tspan3185"
+         sodipodi:role="line">(No need to create a new branch</tspan><tspan
+         y="318.95975"
+         x="25.45586"
+         sodipodi:role="line"
+         id="tspan3187">if no urgent bugfixes)</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path3189"
+       d="m 189.83556,207.32903 0,-141.421365"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3191"
+       y="118.6328"
+       x="207.04877"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       xml:space="preserve"><tspan
+         id="tspan3195"
+         y="118.6328"
+         x="207.04877"
+         sodipodi:role="line">Bugfixes</tspan></text>
+    <path
+       style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow2Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 274.35745,59.807513 425.6783,211.12836"
+       id="path3201"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="215.48257"
+       y="-171.13846"
+       id="text3226"
+       sodipodi:linespacing="125%"
+       transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)"><tspan
+         sodipodi:role="line"
+         id="tspan3228"
+         x="215.48257"
+         y="-171.13846">Changes affecting development</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3230"
+       y="404.93527"
+       x="26.639454"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       xml:space="preserve"><tspan
+         y="404.93527"
+         x="26.639454"
+         id="tspan3232"
+         sodipodi:role="line">Notes</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="87.681259"
+       y="405.27512"
+       id="text3234"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3236"
+         x="87.681259"
+         y="405.27512">When a new feature is implemented, its branch is first merged to Next. When the feature is regarded as stable,</tspan><tspan
+         sodipodi:role="line"
+         x="87.681259"
+         y="425.27512"
+         id="tspan3238">the feature branch is merged directly into Master.</tspan></text>
   </g>
 </svg>
