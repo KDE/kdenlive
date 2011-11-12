@@ -413,6 +413,12 @@ void DocClipBase::clearThumbProducer()
     if (m_thumbProd) m_thumbProd->clearProducer();
 }
 
+void DocClipBase::reloadThumbProducer()
+{
+    if (m_thumbProd && !m_thumbProd->hasProducer())
+        m_thumbProd->setProducer(getProducer());
+}
+
 void DocClipBase::deleteProducers()
 {
     if (m_thumbProd) m_thumbProd->clearProducer();
@@ -699,6 +705,7 @@ Mlt::Producer *DocClipBase::getProducer(int track)
 Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
 {
     Mlt::Producer *result = NULL;
+    QString invalidClip = source->get("markup");
     QString url = QString::fromUtf8(source->get("resource"));
     if (KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
         result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());

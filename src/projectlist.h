@@ -241,7 +241,7 @@ public:
 
 public slots:
     void setDocument(KdenliveDoc *doc);
-    void updateAllClips(bool displayRatioChanged, bool fpsChanged);
+    void updateAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
     void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
     void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace);
@@ -380,7 +380,7 @@ private slots:
     void slotGotProxy(const QString &proxyPath);
     void slotGotProxy(ProjectItem *item);
     /** @brief Enable / disable proxy for current clip. */
-    void slotProxyCurrentItem(bool doProxy);
+    void slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy = NULL);
     /** @brief Put clip in the proxy waiting list. */
     void slotCreateProxy(const QString id);
     /** @brief Stop creation of this clip's proxy. */

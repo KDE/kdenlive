@@ -325,15 +325,24 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
         }
     }
     QString id;
+    Mlt::Producer *prod;
+    QStringList brokenClips;
     for (int i = 0; i < prods.count(); i++) {
-        id = prods.at(i)->get("id");
+        prod = prods.at(i);
+        id = prod->get("id");
         if (id.contains('_')) id = id.section('_', 0, 0);
         DocClipBase *clip = getClipById(id);
-        if (clip) {
-            clip->setProducer(prods.at(i), false, true);
+        QString markup = prod->get("markup");
+        if (prod->is_blank() || !prod->is_valid() || !markup.isEmpty()) {
+            // The clip is broken (missing proxy or source clip)
+            kDebug()<<"// WARNING, CLIP "<<id<<" Cannot be loaded";
+            brokenClips << id;
+        }
+        else if (clip) {
+            clip->setProducer(prod, false, true);
         }
     }
-    emit checkAllClips(displayRatioChanged, fpsChanged);
+    emit checkAllClips(displayRatioChanged, fpsChanged, brokenClips);
 }
 
 void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId)
