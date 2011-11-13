@@ -2,6 +2,7 @@
 [Desktop Entry]
 Name=Kdenlive
 Name[cs]=Kdenlive
+Name[da]=Kdenlive
 Name[de]=Kdenlive
 Name[nds]=Kdenlive
 Name[nl]=Kdenlive
@@ -11,6 +12,7 @@ Name[uk]=Kdenlive
 Name[x-test]=xxKdenlivexx
 GenericName=Video Editor
 GenericName[cs]=Editor videí
+GenericName[da]=Videoredigering
 GenericName[de]=Video-Editor
 GenericName[nl]=Video-bewerker
 GenericName[pt]=Editor de Vídeo
@@ -18,6 +20,7 @@ GenericName[sv]=Videoeditor
 GenericName[uk]=Відеоредактор
 GenericName[x-test]=xxVideo Editorxx
 Comment=Nonlinear video editor for KDE
+Comment[da]=Ikke-lineær videoredigering til KDE
 Comment[de]=Nichtlinearer Video-Editor für KDE
 Comment[nl]=Niet-lineaire video-bewerker voor KDE
 Comment[pt]=Editor de vídeo não-linear para o KDE
