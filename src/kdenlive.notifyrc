@@ -2,6 +2,7 @@
 IconName=kdenlive
 Comment=Kdenlive
 Comment[cs]=Kdenlive
+Comment[da]=Kdenlive
 Comment[de]=Kdenlive
 Comment[nds]=Kdenlive
 Comment[nl]=Kdenlive
@@ -13,6 +14,7 @@ Comment[x-test]=xxKdenlivexx
 [Event/RenderFinished]
 Name=Rendering finished
 Name[cs]=Renderování bylo dokončeno
+Name[da]=Rendering gennemført
 Name[nl]=Weergave uitwerken beëindigd
 Name[pt]=A geração terminou
 Name[sv]=Framställning klar
@@ -20,6 +22,7 @@ Name[uk]=Обробку завершено
 Name[x-test]=xxRendering finishedxx
 Comment=Rendering is over
 Comment[cs]=Renderování je hotové
+Comment[da]=Renderingen er slut
 Comment[nl]=Weergave uitwerken is gereed
 Comment[pt]=A geração terminou
 Comment[sv]=Framställning är gjord
@@ -30,6 +33,7 @@ Action=Popup
 [Event/RenderStarted]
 Name=Rendering started
 Name[cs]=Renderování začalo
+Name[da]=Rendering påbegyndt
 Name[nl]=Weergave uitwerken begonnen
 Name[pt]=A geração foi iniciada
 Name[sv]=Framställning startad
@@ -37,6 +41,7 @@ Name[uk]=Обробку розпочато
 Name[x-test]=xxRendering startedxx
 Comment=Rendering was started
 Comment[cs]=Renderování bylo začato
+Comment[da]=Renderingen blev startet
 Comment[nl]=Weergave uitwerken is begonnen
 Comment[pt]=A geração foi iniciada
 Comment[sv]=Framställning har startats
@@ -46,12 +51,14 @@ Action=Popup
 
 [Event/FrameCaptured]
 Name=Frame captured
+Name[da]=Billed indfanget
 Name[nl]=Frame opgenomen
 Name[pt]=Imagem capturada
 Name[sv]=Ram lagrad
 Name[uk]=Захоплено кадр
 Name[x-test]=xxFrame capturedxx
 Comment=A frame was captured to disk
+Comment[da]=Et billed blev indfanget til disken
 Comment[nl]=Een frame is op schijf opgenomen
 Comment[pt]=Foi capturada uma imagem para o disco
 Comment[sv]=En ram har lagrats på disk
@@ -62,6 +69,7 @@ Action=Sound
 
 [Event/ReadyToCapture]
 Name=Ready to capture
+Name[da]=Klar til at indfange
 Name[nl]=Gereed om op te nemen
 Name[pt]=Pronto para capturar
 Name[sv]=Klar att lagra
@@ -73,6 +81,7 @@ Action=Sound
 [Event/ErrorMessage]
 Name=Error
 Name[cs]=Chyba
+Name[da]=Fejl
 Name[de]=Fehler
 Name[nds]=Fehler
 Name[nl]=Fout
@@ -81,6 +90,7 @@ Name[sv]=Fel
 Name[uk]=Помилка
 Name[x-test]=xxErrorxx
 Comment=An error occurred in Kdenlive
+Comment[da]=En fejl opstod i Kdenlive
 Comment[nl]=Er is een fout opgetreden in Kdenlive
 Comment[pt]=Ocorreu um erro no Kdenlive
 Comment[sv]=Ett fel uppstod i Kdenlive

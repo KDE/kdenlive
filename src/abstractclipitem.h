@@ -37,9 +37,7 @@ class QGraphicsSceneMouseEvent;
 class AbstractClipItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
-#if QT_VERSION >= 0x040600
     Q_PROPERTY(QRectF rect READ rect WRITE setRect)
-#endif
 
 public:
     AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps);
@@ -125,10 +123,6 @@ protected:
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
 
-private:
-#if QT_VERSION >= 0x040600
-    QPropertyAnimation *m_closeAnimation;
-#endif
 };
 
 #endif
