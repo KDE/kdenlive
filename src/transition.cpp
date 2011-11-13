@@ -51,8 +51,8 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, QD
     else {
         QPropertyAnimation *startAnimation = new QPropertyAnimation(this, "rect");
         startAnimation->setDuration(200);
-        QRectF r(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight() / 2);
-        QRectF r2(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)itemHeight());
+        const QRectF r(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight() / 2);
+        const QRectF r2(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal)itemHeight());
         startAnimation->setStartValue(r);
         startAnimation->setEndValue(r2);
         startAnimation->setEasingCurve(QEasingCurve::OutQuad);
