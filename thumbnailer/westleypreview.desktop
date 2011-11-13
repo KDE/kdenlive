@@ -2,6 +2,7 @@
 Type=Service
 Name=MLT Playlist
 Name[cs]=Seznam skladeb MLT
+Name[da]=MLT-spilleliste
 Name[de]=MLT-Wiedergabeliste
 Name[nl]=MLT-afspeellijst
 Name[pt]=Lista de Reprodução MLT
