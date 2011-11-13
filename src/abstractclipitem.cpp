@@ -24,6 +24,7 @@
 
 #include <KDebug>
 #include <KLocale>
+#include <KGlobalSettings>
 
 #include <QPainter>
 #include <QToolTip>
@@ -38,9 +39,6 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
         m_keyframeFactor(1),
         m_keyframeOffset(0),
         m_fps(fps)
-#if QT_VERSION >= 0x040600
-        , m_closeAnimation(NULL)
-#endif
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 #if QT_VERSION >= 0x040600
@@ -51,29 +49,31 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
 
 AbstractClipItem::~AbstractClipItem()
 {
-#if QT_VERSION >= 0x040600
-    if (m_closeAnimation) delete m_closeAnimation;
-#endif
 }
 
 void AbstractClipItem::closeAnimation()
 {
 #if QT_VERSION >= 0x040600
-    if (m_closeAnimation) return;
+    if (!isEnabled()) return;
     setEnabled(false);
-    m_closeAnimation = new QPropertyAnimation(this, "rect");
-    connect(m_closeAnimation, SIGNAL(finished()), this, SLOT(deleteLater()));
-    m_closeAnimation->setDuration(200);
+    if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+        // animation disabled
+        deleteLater();
+        return;
+    }
+    QPropertyAnimation *closeAnimation = new QPropertyAnimation(this, "rect");
+    connect(closeAnimation, SIGNAL(finished()), this, SLOT(deleteLater()));
+    closeAnimation->setDuration(200);
     QRectF r = rect();
     QRectF r2 = r;
     r2.setLeft(r.left() + r.width() / 2);
     r2.setTop(r.top() + r.height() / 2);
     r2.setWidth(1);
     r2.setHeight(1);
-    m_closeAnimation->setStartValue(r);
-    m_closeAnimation->setEndValue(r2);
-    m_closeAnimation->setEasingCurve(QEasingCurve::InQuad);
-    m_closeAnimation->start();
+    closeAnimation->setStartValue(r);
+    closeAnimation->setEndValue(r2);
+    closeAnimation->setEasingCurve(QEasingCurve::InQuad);
+    closeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 #endif
 }
 

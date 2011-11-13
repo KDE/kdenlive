@@ -82,7 +82,7 @@ public:
     int defaultZValue() const;
     /** @brief When a transition is resized, check if keyframes are out of the transition and fix if necessary. */
     bool updateKeyframes();
-
+    void animate();
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
@@ -108,10 +108,6 @@ private:
 
     /** @brief Returns the transition type for a given name. */
     TRANSITIONTYPE getTransitionForName(const QString & type);
-
-#if QT_VERSION >= 0x040600
-    QPropertyAnimation *m_startAnimation;
-#endif
 };
 
 #endif

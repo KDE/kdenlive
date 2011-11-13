@@ -125,10 +125,6 @@ protected:
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
 
-private:
-#if QT_VERSION >= 0x040600
-    QPropertyAnimation *m_closeAnimation;
-#endif
 };
 
 #endif
