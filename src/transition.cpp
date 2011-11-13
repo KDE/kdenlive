@@ -29,8 +29,9 @@
 #include <QDomElement>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#if QT_VERSION >= 0x040600
 #include <QPropertyAnimation>
-
+#endif
 
 Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) :
         AbstractClipItem(info, QRectF(), fps),
