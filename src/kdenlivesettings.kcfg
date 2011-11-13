@@ -248,6 +248,11 @@
       <default>1</default>
     </entry>
 
+    <entry name="proxythreads" type="Int">
+      <label>Proxy creation processing thread count.</label>
+      <default>2</default>
+    </entry>
+
     <entry name="encodethreads" type="Int">
       <label>FFmpeg encoding thread count.</label>
       <default>1</default>
