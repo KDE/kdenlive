@@ -55,9 +55,9 @@ ProjectListView::ProjectListView(QWidget *parent) :
 
     setStyleSheet(style);
 
-    setColumnCount(3);
+    setColumnCount(4);
     QStringList headers;
-    headers << i18n("Clip") << i18n("Description") << i18n("Rating");
+    headers << i18n("Clip") << i18n("Description") << i18n("Rating") << i18n("Date");
     setHeaderLabels(headers);
     setIndentation(12);
     
@@ -75,6 +75,7 @@ ProjectListView::ProjectListView(QWidget *parent) :
     installEventFilter(this);
     if (!KdenliveSettings::showdescriptioncolumn()) hideColumn(1);
     if (!KdenliveSettings::showratingcolumn()) hideColumn(2);
+    if (!KdenliveSettings::showdatecolumn()) hideColumn(3);
 }
 
 ProjectListView::~ProjectListView()
@@ -112,6 +113,9 @@ void ProjectListView::configureColumns(const QPoint& pos)
             break;
         case 2:
             KdenliveSettings::setShowratingcolumn(show);
+            break;
+        case 3:
+            KdenliveSettings::setShowdatecolumn(show);
             break;
         default:
             break;

@@ -1103,6 +1103,13 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         item->setText(2, QString::number(f.rating()));
     }
 #endif
+
+    // Add info to date column
+    QFileInfo fileInfo(url.path());
+    if (fileInfo.exists()) {
+    	item->setText(3, fileInfo.lastModified().toString(QString("yyyy/MM/dd hh:mm:ss")));
+    }
+
     // Add cut zones
     QList <CutZoneInfo> cuts = clip->cutZones();
     if (!cuts.isEmpty()) {

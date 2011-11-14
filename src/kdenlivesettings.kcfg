@@ -591,6 +591,11 @@
       <label>Show ratings in project tree view.</label>
       <default>false</default>
     </entry>
+    
+    <entry name="showdatecolumn" type="Bool">
+      <label>Show dates in project tree view.</label>
+      <default>false</default>
+    </entry>
 
     <entry name="frametimecode" type="Bool">
       <label>Show timecodes as frame number instead of hh:mm:ss:ff.</label>
