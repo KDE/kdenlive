@@ -25,7 +25,16 @@ if(NOT RELEASE_BUILD)
         ${CMAKE_CURRENT_SOURCE_DIR}
         ARGS "describe --tags"
         OUTPUT_VARIABLE KDENLIVE_GIT_REVISION
+        RETURN_VALUE TAG_RESULT
       )
+      # git describe --tags failed, for example it fails if repo was checked with depth=1
+      if(NOT ${TAG_RESULT} EQUAL 0)
+        exec_program(${GIT_EXECUTABLE}
+          ${CMAKE_CURRENT_SOURCE_DIR}
+          ARGS "describe --always"
+          OUTPUT_VARIABLE KDENLIVE_GIT_REVISION
+        )
+      endif(NOT ${TAG_RESULT} EQUAL 0)
       message("Current Kdenlive Git revision is ${KDENLIVE_GIT_REVISION}")
       set(VERSION "\"${KDENLIVE_VERSION} (rev. ${KDENLIVE_GIT_REVISION})\"")
     else(GIT_FOUND)
