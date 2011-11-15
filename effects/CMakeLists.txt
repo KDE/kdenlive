@@ -62,6 +62,7 @@ frei0r_flippo.xml
 frei0r_glow.xml
 frei0r_hqdn3d.xml
 frei0r_hueshift0r.xml
+frei0r_iirblur.xml
 frei0r_lenscorrection.xml
 frei0r_letterb0xed.xml
 frei0r_levels.xml
