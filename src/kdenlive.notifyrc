@@ -12,6 +12,7 @@ Comment[sv]=Kdenlive
 Comment[uk]=Kdenlive
 Comment[x-test]=xxKdenlivexx
 Comment[zh_CN]=Kdenlive
+Comment[zh_TW]=Kdenlive
 
 [Event/RenderFinished]
 Name=Rendering finished
@@ -24,6 +25,7 @@ Name[sv]=Framställning klar
 Name[uk]=Обробку завершено
 Name[x-test]=xxRendering finishedxx
 Name[zh_CN]=渲染结束
+Name[zh_TW]=已完成導出
 Comment=Rendering is over
 Comment[cs]=Renderování je hotové
 Comment[da]=Renderingen er slut
@@ -34,6 +36,7 @@ Comment[sv]=Framställning är gjord
 Comment[uk]=Виконання обробки завершено
 Comment[x-test]=xxRendering is overxx
 Comment[zh_CN]=渲染结束
+Comment[zh_TW]=導出已結束
 Action=Popup
 
 [Event/RenderStarted]
@@ -47,6 +50,7 @@ Name[sv]=Framställning startad
 Name[uk]=Обробку розпочато
 Name[x-test]=xxRendering startedxx
 Name[zh_CN]=渲染开始
+Name[zh_TW]=導出已開始
 Comment=Rendering was started
 Comment[cs]=Renderování bylo začato
 Comment[da]=Renderingen blev startet
@@ -57,6 +61,7 @@ Comment[sv]=Framställning har startats
 Comment[uk]=Було розпочато обробку
 Comment[x-test]=xxRendering was startedxx
 Comment[zh_CN]=渲染开始
+Comment[zh_TW]=導出已開始
 Action=Popup
 
 [Event/FrameCaptured]
@@ -69,6 +74,7 @@ Name[sv]=Ram lagrad
 Name[uk]=Захоплено кадр
 Name[x-test]=xxFrame capturedxx
 Name[zh_CN]=已抓取帧
+Name[zh_TW]=影格已擷取
 Comment=A frame was captured to disk
 Comment[da]=Et billed blev indfanget til disken
 Comment[nl]=Een frame is op schijf opgenomen
@@ -78,6 +84,7 @@ Comment[sv]=En ram har lagrats på disk
 Comment[uk]=Було захоплено кадр, програма зберегла його на диску
 Comment[x-test]=xxA frame was captured to diskxx
 Comment[zh_CN]=一帧图像已被抓取到磁盘
+Comment[zh_TW]=已擷取一個影格到磁碟中
 Sound=KDE-Sys-App-Message.ogg
 Action=Sound
 
@@ -91,6 +98,7 @@ Name[sv]=Klar att lagra
 Name[uk]=Приготовано до захоплення
 Name[x-test]=xxReady to capturexx
 Name[zh_CN]=准备抓取
+Name[zh_TW]=準備擷取
 Sound=KDE-Sys-App-Positive.ogg
 Action=Sound
 
@@ -107,6 +115,7 @@ Name[sv]=Fel
 Name[uk]=Помилка
 Name[x-test]=xxErrorxx
 Name[zh_CN]=错误
+Name[zh_TW]=錯誤
 Comment=An error occurred in Kdenlive
 Comment[da]=En fejl opstod i Kdenlive
 Comment[de]=Es ist ein Fehler in Kdenlive aufgetreten
@@ -117,5 +126,6 @@ Comment[sv]=Ett fel uppstod i Kdenlive
 Comment[uk]=У коді Kdenlive сталася помилка
 Comment[x-test]=xxAn error occurred in Kdenlivexx
 Comment[zh_CN]=Kdenlive 发生了一个错误
+Comment[zh_TW]=Kdenlive 中發生錯誤
 Sound=KDE-Sys-Warning.ogg
 Action=Sound
