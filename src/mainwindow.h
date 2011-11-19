@@ -294,6 +294,7 @@ private:
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void loadTranscoders();
+    void loadStabilize();
     QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config);
 
     /** @brief Checks that the Kdenlive mime type is correctly installed.
@@ -476,6 +477,7 @@ private slots:
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
     void slotTranscode(KUrl::List urls = KUrl::List());
+    void slotStabilize(KUrl::List urls = KUrl::List());
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();
