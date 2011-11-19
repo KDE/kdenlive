@@ -181,8 +181,8 @@ private slots:
 
 private:
     Ui::RenderWidget_UI m_view;
-    MltVideoProfile m_profile;
     QString m_projectFolder;
+    MltVideoProfile m_profile;
     RenderViewDelegate *m_scriptsDelegate;
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
