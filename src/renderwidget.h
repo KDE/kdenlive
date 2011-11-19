@@ -114,7 +114,7 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit RenderWidget(const QString &projectfolder, bool enableProxy, QWidget * parent = 0);
+    explicit RenderWidget(const QString &projectfolder, bool enableProxy, MltVideoProfile profile, QWidget * parent = 0);
     virtual ~RenderWidget();
     void setGuides(QDomElement guidesxml, double duration);
     void focusFirstVisibleItem();
@@ -181,8 +181,8 @@ private slots:
 
 private:
     Ui::RenderWidget_UI m_view;
-    MltVideoProfile m_profile;
     QString m_projectFolder;
+    MltVideoProfile m_profile;
     RenderViewDelegate *m_scriptsDelegate;
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;

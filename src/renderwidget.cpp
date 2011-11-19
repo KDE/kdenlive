@@ -66,9 +66,10 @@ const int RUNNINGJOB = 1;
 const int FINISHEDJOB = 2;
 
 
-RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidget * parent) :
+RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, MltVideoProfile profile, QWidget * parent) :
         QDialog(parent),
         m_projectFolder(projectfolder),
+        m_profile(profile),
         m_blockProcessing(false)
 {
     m_view.setupUi(this);
@@ -1057,7 +1058,6 @@ int RenderWidget::waitingJobsCount() const
 
 void RenderWidget::setProfile(MltVideoProfile profile)
 {
-    m_profile = profile;
     m_view.scanning_list->setCurrentIndex(0);
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
     if (!m_view.rescale_keep->isChecked()) {
@@ -1065,7 +1065,10 @@ void RenderWidget::setProfile(MltVideoProfile profile)
         m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight());
         m_view.rescale_height->blockSignals(false);
     }
-    refreshView();
+    if (m_profile != profile) {
+        m_profile = profile;
+        refreshView();
+    }
 }
 
 void RenderWidget::refreshCategory()
@@ -1244,10 +1247,14 @@ void RenderWidget::refreshView()
     m_view.size_list->setVisible(m_view.size_list->count() > 1 || m_view.format_list->count() <= 1);
     m_view.size_list->blockSignals(false);
     m_view.format_list->blockSignals(false);
-    if (m_view.size_list->count() > 0)
+    if (m_view.size_list->count() > 0) {
         refreshParams();
-    else
+    }
+    else {
+        // No matching profile
+        errorMessage(i18n("No matching profile"));
         m_view.advanced_params->clear();
+    }
 }
 
 KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension)
@@ -1278,6 +1285,7 @@ void RenderWidget::refreshParams()
     // Format not available (e.g. codec not installed); Disable start button
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item || item->isHidden()) {
+        if (!item) errorMessage(i18n("No matching profile"));
         m_view.advanced_params->clear();
         m_view.buttonRender->setEnabled(false);
         m_view.buttonGenerateScript->setEnabled(false);

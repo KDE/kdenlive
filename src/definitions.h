@@ -97,6 +97,22 @@ struct MltVideoProfile {
     int display_aspect_num;
     int display_aspect_den;
     int colorspace;
+    bool operator==(const MltVideoProfile& point) const
+    {
+        if (!description.isEmpty() && point.description  == description) return true;
+        return      point.frame_rate_num == frame_rate_num &&
+                    point.frame_rate_den  == frame_rate_den  &&
+                    point.width == width &&
+                    point.height == height &&
+                    point.progressive == progressive &&
+                    point.sample_aspect_num == sample_aspect_num &&
+                    point.sample_aspect_den == sample_aspect_den &&
+                    point.display_aspect_den == display_aspect_den &&
+                    point.colorspace == colorspace;
+    }
+    bool operator!=(const MltVideoProfile &other) const {
+        return !(*this == other);
+    }
 };
 
 

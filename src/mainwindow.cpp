@@ -2355,7 +2355,9 @@ void MainWindow::slotRenderProject()
 {
     if (!m_renderWidget) {
         QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) : KdenliveSettings::defaultprojectfolder();
-        m_renderWidget = new RenderWidget(projectfolder, m_projectList->useProxy(), this);
+        MltVideoProfile profile;
+        if (m_activeDocument) profile = m_activeDocument->mltProfile();
+        m_renderWidget = new RenderWidget(projectfolder, m_projectList->useProxy(), profile, this);
         connect(m_renderWidget, SIGNAL(shutdown()), this, SLOT(slotShutdown()));
         connect(m_renderWidget, SIGNAL(selectedRenderProfile(QMap <QString, QString>)), this, SLOT(slotSetDocumentRenderProfile(QMap <QString, QString>)));
         connect(m_renderWidget, SIGNAL(prepareRenderingData(bool, bool, const QString&)), this, SLOT(slotPrepareRendering(bool, bool, const QString&)));
