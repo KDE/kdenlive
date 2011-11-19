@@ -475,15 +475,19 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     loadPlugins();
     loadTranscoders();
+    loadStabilize();
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, NULL, m_loopClip);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
 
     QMenu *clipInTimeline = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
     clipInTimeline->setIcon(KIcon("go-jump"));
-    m_projectList->setupGeneratorMenu(static_cast<QMenu*>(factory()->container("generators", this)),
-                                      static_cast<QMenu*>(factory()->container("transcoders", this)),
-                                      clipInTimeline);
+	QHash<QString,QMenu*> menus;
+	menus.insert("addMenu",static_cast<QMenu*>(factory()->container("generators", this)));
+	menus.insert("transcodeMenu",static_cast<QMenu*>(factory()->container("transcoders", this)));
+	menus.insert("stabilizeMenu",static_cast<QMenu*>(factory()->container("stabilize", this)));
+	menus.insert("inTimelineMenu",clipInTimeline);
+    m_projectList->setupGeneratorMenu(menus);
 
     // build themes menus
     QMenu *themesMenu = static_cast<QMenu*>(factory()->container("themes_menu", this));
@@ -2681,6 +2685,7 @@ void MainWindow::updateConfiguration()
 
     // Update list of transcoding profiles
     loadTranscoders();
+	loadStabilize();
 #ifdef USE_JOGSHUTTLE
     activateShuttleDevice();
 #endif
@@ -3775,6 +3780,25 @@ void MainWindow::slotMaximizeCurrent(bool)
     kDebug() << "CURRENT WIDGET: " << par->objectName();
 }
 
+void MainWindow::loadStabilize()
+{
+	QMenu* stabMenu= static_cast<QMenu*>(factory()->container("stabilize", this));
+	stabMenu->clear();
+	Mlt::Profile profile;
+	if (Mlt::Factory::filter(profile,(char*)"videostab")){
+		QAction *action=stabMenu->addAction("Videostab (vstab)");
+		action->setData("videostab");
+		connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
+	}
+	if (Mlt::Factory::filter(profile,(char*)"videostab2")){
+		QAction *action=stabMenu->addAction("Videostab (transcode)");
+		action->setData("videostab2");
+		connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
+	}
+
+
+}
+
 void MainWindow::loadTranscoders()
 {
     QMenu *transMenu = static_cast<QMenu*>(factory()->container("transcoders", this));
@@ -3793,6 +3817,18 @@ void MainWindow::loadTranscoders()
         if (data.count() > 1)
             a->setToolTip(data.at(1));
         connect(a, SIGNAL(triggered()), this, SLOT(slotTranscode()));
+    }
+}
+
+void MainWindow::slotStabilize(KUrl::List urls)
+{
+	QString condition;
+	if (urls.isEmpty()) {
+        QAction *action = qobject_cast<QAction *>(sender());
+		if (action){
+			QString filtername=action->data().toString();
+			urls = m_projectList->getConditionalUrls(condition);
+		}
     }
 }
 

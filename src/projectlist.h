@@ -22,6 +22,7 @@
 #define PROJECTLIST_H
 
 #include <QDomNodeList>
+#include <QHash>
 #include <QToolBar>
 #include <QToolButton>
 #include <QTreeWidget>
@@ -203,7 +204,7 @@ public:
     void setHeaderInfo(const QByteArray &state);
     void updateProjectFormat(Timecode t);
     void setupMenu(QMenu *addMenu, QAction *defaultAction);
-    void setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu, QMenu *inTimelineMenu);
+    void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     QString currentClipUrl() const;
     KUrl::List getConditionalUrls(const QString &condition) const;
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
@@ -290,6 +291,7 @@ private:
     QAction *m_openAction;
     QAction *m_reloadAction;
     QMenu *m_transcodeAction;
+    QMenu *m_stabilizeAction;
     KdenliveDoc *m_doc;
     ItemDelegate *m_listViewDelegate;
     /** @brief False if we have not yet finished opening the document. */
@@ -326,6 +328,8 @@ private:
 
     /** @brief Enables and disables transcode actions based on the selected clip's type. */
     void adjustTranscodeActions(ProjectItem *clip) const;
+    /** @brief Enables and disables stabilize actions based on the selected clip's type. */
+    void adjustStabilizeActions(ProjectItem *clip) const;
     /** @brief Enables and disables proxy action based on the selected clip. */
     void adjustProxyActions(ProjectItem *clip) const;
 
