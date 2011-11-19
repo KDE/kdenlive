@@ -25,6 +25,8 @@
       <Action name="add_text_clip" />
       <Action name="add_text_template_clip" />
       <Action name="add_folder" /> 
+      <Menu name="stabilize" ><text>Stabilize</text>
+      </Menu>
       <Menu name="transcoders" ><text>Transcode</text>
       </Menu>
       <Menu name="generators" ><text>Generators</text>

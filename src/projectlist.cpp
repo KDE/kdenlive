@@ -112,6 +112,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_commandStack(NULL),
     m_openAction(NULL),
     m_reloadAction(NULL),
+    m_stabilizeAction(NULL),
     m_transcodeAction(NULL),
     m_doc(NULL),
     m_refreshed(false),
@@ -229,25 +230,42 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
     m_menu->addActions(addMenu->actions());
 }
 
-void ProjectList::setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu, QMenu *inTimelineMenu)
+void ProjectList::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
 {
-    if (!addMenu)
+    if (!menus.contains("addMenu") && ! menus.value("addMenu") )
         return;
     QMenu *menu = m_addButton->menu();
-    menu->addMenu(addMenu);
-    m_addButton->setMenu(menu);
+	if (menus.contains("addMenu") && menus.value("addMenu")){ 
+		QMenu* addMenu=menus.value("addMenu");
+		menu->addMenu(addMenu);
+		m_addButton->setMenu(menu);
 
-    m_menu->addMenu(addMenu);
-    if (addMenu->isEmpty())
-        addMenu->setEnabled(false);
-    m_menu->addMenu(transcodeMenu);
-    if (transcodeMenu->isEmpty())
-        transcodeMenu->setEnabled(false);
-    m_transcodeAction = transcodeMenu;
+		m_menu->addMenu(addMenu);
+		if (addMenu->isEmpty())
+			addMenu->setEnabled(false);
+	}
+	if (menus.contains("transcodeMenu") && menus.value("transcodeMenu") ){
+		QMenu* transcodeMenu=menus.value("transcodeMenu");
+		m_menu->addMenu(transcodeMenu);
+		if (transcodeMenu->isEmpty())
+			transcodeMenu->setEnabled(false);
+		m_transcodeAction = transcodeMenu;
+	}
+	if (menus.contains("stabilizeMenu") && menus.value("stabilizeMenu") ){
+		QMenu* stabilizeMenu=menus.value("stabilizeMenu");
+		m_menu->addMenu(stabilizeMenu);
+		if (stabilizeMenu->isEmpty())
+			stabilizeMenu->setEnabled(false);
+		m_stabilizeAction=stabilizeMenu;
+
+	}
     m_menu->addAction(m_reloadAction);
     m_menu->addAction(m_proxyAction);
-    m_menu->addMenu(inTimelineMenu);
-    inTimelineMenu->setEnabled(false);
+	if (menus.contains("inTimelineMenu") && menus.value("inTimelineMenu")){
+		QMenu* inTimelineMenu=menus.value("inTimelineMenu");
+		m_menu->addMenu(inTimelineMenu);
+		inTimelineMenu->setEnabled(false);
+	}
     m_menu->addAction(m_editButton->defaultAction());
     m_menu->addAction(m_openAction);
     m_menu->addAction(m_deleteButton->defaultAction());
@@ -636,6 +654,7 @@ void ProjectList::slotClipSelected()
             m_openAction->setEnabled(false);
             m_reloadAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
+            m_stabilizeAction->setEnabled(false);
         } else {
             if (item->type() == PROJECTSUBCLIPTYPE) {
                 // this is a sub item, use base clip
@@ -645,6 +664,7 @@ void ProjectList::slotClipSelected()
                 SubProjectItem *sub = static_cast <SubProjectItem*>(item);
                 emit clipSelected(clip->referencedClip(), sub->zone());
                 m_transcodeAction->setEnabled(false);
+                m_stabilizeAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 adjustProxyActions(clip);
                 return;
@@ -656,6 +676,7 @@ void ProjectList::slotClipSelected()
             m_deleteButton->defaultAction()->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
+            m_stabilizeAction->setEnabled(true);
             if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
                 m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
                 m_openAction->setEnabled(true);
@@ -667,6 +688,7 @@ void ProjectList::slotClipSelected()
             }
             // Display relevant transcoding actions only
             adjustTranscodeActions(clip);
+            adjustStabilizeActions(clip);
             // Display uses in timeline
             emit findInTimeline(clip->clipId());
         }
@@ -677,6 +699,7 @@ void ProjectList::slotClipSelected()
         m_openAction->setEnabled(false);
         m_reloadAction->setEnabled(false);
         m_transcodeAction->setEnabled(false);
+        m_stabilizeAction->setEnabled(false);
     }
     adjustProxyActions(clip);
 }
@@ -691,6 +714,17 @@ void ProjectList::adjustProxyActions(ProjectItem *clip) const
     m_proxyAction->blockSignals(true);
     m_proxyAction->setChecked(clip->hasProxy());
     m_proxyAction->blockSignals(false);
+}
+
+void ProjectList::adjustStabilizeActions(ProjectItem *clip) const
+{
+
+    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW) {
+        m_stabilizeAction->setEnabled(false);
+        return;
+    }
+	m_stabilizeAction->setEnabled(true);
+
 }
 
 void ProjectList::adjustTranscodeActions(ProjectItem *clip) const
@@ -840,21 +874,25 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
     m_deleteButton->defaultAction()->setEnabled(enable);
     m_reloadAction->setEnabled(enable);
     m_transcodeAction->setEnabled(enable);
+    m_stabilizeAction->setEnabled(enable);
     if (enable) {
         ProjectItem *clip = NULL;
         if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item->parent());
             m_transcodeAction->setEnabled(false);
+            m_stabilizeAction->setEnabled(false);
             adjustProxyActions(clip);
         } else if (m_listView->currentItem()->type() == PROJECTCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item);
             // Display relevant transcoding actions only
             adjustTranscodeActions(clip);
+            adjustStabilizeActions(clip);
             adjustProxyActions(clip);
             // Display uses in timeline
             emit findInTimeline(clip->clipId());
         } else {
             m_transcodeAction->setEnabled(false);
+            m_stabilizeAction->setEnabled(false);
         }
         if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
@@ -932,6 +970,7 @@ void ProjectList::updateButtons() const
             m_openAction->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
+            m_stabilizeAction->setEnabled(true);
             return;
         }
         else if (item && item->type() == PROJECTFOLDERTYPE && item->childCount() > 0) {
@@ -942,6 +981,7 @@ void ProjectList::updateButtons() const
     m_openAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
     m_transcodeAction->setEnabled(false);
+    m_stabilizeAction->setEnabled(false);
     m_proxyAction->setEnabled(false);
 }
 
@@ -2053,6 +2093,7 @@ void ProjectList::slotSelectClip(const QString &ix)
         m_deleteButton->defaultAction()->setEnabled(true);
         m_reloadAction->setEnabled(true);
         m_transcodeAction->setEnabled(true);
+        m_stabilizeAction->setEnabled(true);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);
