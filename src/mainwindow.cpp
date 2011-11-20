@@ -54,6 +54,7 @@
 #include "interfaces.h"
 #include "config-kdenlive.h"
 #include "cliptranscode.h"
+#include "clipstabilize.h"
 #include "ui_templateclip_ui.h"
 #include "colorscopes/vectorscope.h"
 #include "colorscopes/waveform.h"
@@ -3822,14 +3823,23 @@ void MainWindow::loadTranscoders()
 
 void MainWindow::slotStabilize(KUrl::List urls)
 {
-	QString condition;
+	QString condition,filtername;
+
 	if (urls.isEmpty()) {
         QAction *action = qobject_cast<QAction *>(sender());
 		if (action){
-			QString filtername=action->data().toString();
+			filtername=action->data().toString();
 			urls = m_projectList->getConditionalUrls(condition);
 		}
     }
+    if (urls.isEmpty()) {
+        m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
+        return;
+    }
+	ClipStabilize *d=new ClipStabilize(urls,filtername);
+	connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
+	d->show();
+
 }
 
 void MainWindow::slotTranscode(KUrl::List urls)
