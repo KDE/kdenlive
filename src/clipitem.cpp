@@ -573,7 +573,7 @@ void ClipItem::slotFetchThumbs()
         frames.append((int)(m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1);
     }
 
-    m_clip->slotExtractImage(frames);
+    if (!frames.isEmpty()) m_clip->slotExtractImage(frames);
 }
 
 void ClipItem::slotGetStartThumb()

@@ -335,7 +335,6 @@ private:
     /** @brief Set the Proxy status on a clip. 
      * @param item The clip item to set status
      * @param status The proxy status (see definitions.h) */
-    void setProxyStatus(const QString proxyPath, PROXYSTATUS status, int progress = 0);
     void setProxyStatus(ProjectItem *item, PROXYSTATUS status, int progress = 0);
     /** @brief Process ffmpeg output to find out process progress. */
     void processLogInfo(QList <ProjectItem *>items, int *duration, const QString &log);
