@@ -36,6 +36,7 @@
 #include "customtrackview.h"
 #include "effectslistview.h"
 #include "effectstackview.h"
+#include "effectstack/effectstackview2.h"
 #include "transitionsettings.h"
 #include "renderwidget.h"
 #include "renderer.h"
@@ -253,7 +254,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
     m_effectStackDock->setObjectName("effect_stack");
-    m_effectStack = new EffectStackView(m_projectMonitor);
+    m_effectStack = new EffectStackView2(m_projectMonitor);
     m_effectStackDock->setWidget(m_effectStack);
     addDockWidget(Qt::TopDockWidgetArea, m_effectStackDock);
 

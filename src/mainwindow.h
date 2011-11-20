@@ -54,6 +54,7 @@ class MonitorManager;
 class ProjectList;
 class EffectsListView;
 class EffectStackView;
+class EffectStackView2;
 class TransitionSettings;
 class Monitor;
 class RecMonitor;
@@ -154,7 +155,7 @@ private:
     NotesWidget *m_notesWidget;
 
     QDockWidget *m_effectStackDock;
-    EffectStackView *m_effectStack;
+    EffectStackView2 *m_effectStack;
 
     QDockWidget *m_transitionConfigDock;
     TransitionSettings *m_transitionConfig;

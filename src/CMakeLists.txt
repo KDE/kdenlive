@@ -79,6 +79,7 @@ add_subdirectory(colorcorrection)
 add_subdirectory(colorscopes)
 add_subdirectory(commands)
 add_subdirectory(databackup)
+add_subdirectory(effectstack)
 add_subdirectory(kiss_fft)
 add_subdirectory(mimetypes)
 add_subdirectory(onmonitoritems)
@@ -195,6 +196,7 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/clipdurationdialog_ui.ui
   widgets/clipproperties_ui.ui
   widgets/cliptranscode_ui.ui
+  widgets/collapsiblewidget_ui.ui
   widgets/colorclip_ui.ui
   widgets/colorplaneexport_ui.ui
   widgets/configcapture_ui.ui
@@ -211,6 +213,7 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/dvdwizardvob_ui.ui
   widgets/effectlist_ui.ui
   widgets/effectstack_ui.ui
+  widgets/effectstack2_ui.ui
   widgets/geometryval_ui.ui
   widgets/geometrywidget_ui.ui
   widgets/histogram_ui.ui
