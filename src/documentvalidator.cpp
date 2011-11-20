@@ -66,6 +66,16 @@ bool DocumentValidator::validate(const double currentVersion)
         // WARNING: what should be done in case the locale does not exist on the system?
         setlocale(LC_NUMERIC, mlt.attribute("LC_NUMERIC").toUtf8().constData());
         documentLocale = QLocale(mlt.attribute("LC_NUMERIC"));
+        
+        // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
+        // With some locales since C++ and Qt use a different database for locales
+        char *separator = localeconv()->decimal_point;
+        if (separator != documentLocale.decimalPoint()) {
+            kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
+            // HACK: There is a locale conflict, so set locale to at least have correct decimal point
+            if (strncmp(separator, ".", 1) == 0) documentLocale = QLocale::c();
+            else if (strncmp(separator, ",", 1) == 0) documentLocale = QLocale("fr_FR.UTF-8");
+        }
     }
     
     documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
