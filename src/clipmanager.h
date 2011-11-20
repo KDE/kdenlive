@@ -162,6 +162,7 @@ signals:
     void missingClip(const QString &);
     void availableClip(const QString &);
     void checkAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
+    void displayMessage(const QString &, int);
 };
 
 #endif

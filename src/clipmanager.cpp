@@ -140,19 +140,26 @@ void ClipManager::stopThumbs(const QString &id)
 void ClipManager::slotGetThumbs()
 {
     QMap<QString, int>::iterator i = m_requestedThumbs.begin();
+    int max;
+    int done = 0;
     while (i != m_requestedThumbs.end() && !m_abortThumb) {
         QString producerId = i.key();
         m_thumbsMutex.lock();
         QList<int> values = m_requestedThumbs.values(producerId);
-        i = m_requestedThumbs.erase(i);
+        m_requestedThumbs.remove(producerId);
+        i = m_requestedThumbs.begin();
         m_thumbsMutex.unlock();
         qSort(values);
         DocClipBase *clip = getClipById(producerId);
         if (!clip) continue;
+        max = m_requestedThumbs.size() + values.count();
         while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
             clip->thumbProducer()->getThumb(values.takeFirst());
+            done++;
+            if (max > 3) emit displayMessage(i18n("Loading thumbnails"), 100 * done / max);
         }
     }
+    emit displayMessage(QString(), -1);
 }
 
 void ClipManager::checkAudioThumbs()
