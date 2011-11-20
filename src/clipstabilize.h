@@ -26,8 +26,13 @@
 #include "ui_clipstabilize_ui.h"
 
 #include <KUrl>
-#include <mlt++/Mlt.h>
 #include <QProcess>
+class QTimer;
+namespace Mlt{
+	class Profile;
+	class Playlist;
+	class Consumer;
+};
 
 class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
 {
@@ -41,15 +46,18 @@ public:
 private slots:
     void slotShowStabilizeInfo();
     void slotStartStabilize();
-    void slotStabilizeFinished(int exitCode, QProcess::ExitStatus exitStatus);
-    void slotUpdateParams(int ix = -1);
+    void slotStabilizeFinished(bool success);
+	void slotRunStabilize();
+	void slotAbortStabilize();
 
 private:
-    QProcess m_stabilizeProcess;
 	QString filtername;
-	Mlt::Profile profile;
+	Mlt::Profile *m_profile;
+	Mlt::Consumer *m_consumer;
+	Mlt::Playlist *m_playlist;
     KUrl::List m_urls;
     int m_duration;
+	QTimer *m_timer;
 
 signals:
     void addClip(KUrl url);
