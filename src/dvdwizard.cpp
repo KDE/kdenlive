@@ -254,8 +254,8 @@ void DvdWizard::generateDvd()
             renderbg.start(KdenliveSettings::rendererpath(), args);
             if (renderbg.waitForFinished()) {
                 if (renderbg.exitStatus() == QProcess::CrashExit) {
-                    //TODO: inform user via the m_isoMessage widget after string freeze
                     kDebug() << "/// RENDERING MENU vob crashed";
+                    errorMessage(i18n("Rendering menu crashed"));
                     QByteArray result = renderbg.readAllStandardError();
                     vobitem->setIcon(KIcon("dialog-close"));
                     m_status.error_log->append(result);
@@ -266,11 +266,7 @@ void DvdWizard::generateDvd()
                 }
             } else {
                 kDebug() << "/// RENDERING MENU vob timed out";
-#if KDE_IS_VERSION(4,7,0)
-                m_isoMessage->setText(i18n("Rendering job timed out"));
-                m_isoMessage->setMessageType(KMessageWidget::Error);
-                m_isoMessage->animatedShow();
-#endif
+                errorMessage(i18n("Rendering job timed out"));
                 vobitem->setIcon(KIcon("dialog-close"));
                 m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Rendering job timed out"));
                 m_status.error_log->scrollToAnchor("result");
@@ -375,11 +371,7 @@ void DvdWizard::generateDvd()
             }
         } else {
             kDebug() << "/// RENDERING SPUMUX MENU timed out";
-#if KDE_IS_VERSION(4,7,0)
-            m_isoMessage->setText(i18n("Rendering job timed out"));
-            m_isoMessage->setMessageType(KMessageWidget::Error);
-            m_isoMessage->animatedShow();
-#endif
+            errorMessage(i18n("Rendering job timed out"));
             spuitem->setIcon(KIcon("dialog-close"));
             m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Menu job timed out"));
             m_status.error_log->scrollToAnchor("result");
@@ -546,18 +538,27 @@ void DvdWizard::slotShowRenderInfo()
     m_status.error_box->setHidden(false);
 }
 
+void DvdWizard::errorMessage(const QString &text) {
+#if KDE_IS_VERSION(4,7,0)
+    m_isoMessage->setText(text);
+    m_isoMessage->setMessageType(KMessageWidget::Error);
+    m_isoMessage->animatedShow();
+#endif
+}
+
+void DvdWizard::infoMessage(const QString &text) {
+#if KDE_IS_VERSION(4,7,0)
+    m_isoMessage->setText(text);
+    m_isoMessage->setMessageType(KMessageWidget::Positive);
+    m_isoMessage->animatedShow();
+#endif
+}
+
 void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
 {
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     if (status == QProcess::CrashExit || exitCode != 0) {
-#if KDE_IS_VERSION(4,7,0)
-        //TODO: Clean up message string after string freeze
-        QString message = i18n("DVDAuthor process crashed.</strong><br />");
-        message.remove(QRegExp("<[^>]*>"));
-        m_isoMessage->setText(message);
-        m_isoMessage->setMessageType(KMessageWidget::Error);
-        m_isoMessage->animatedShow();
-#endif
+        errorMessage(i18n("DVDAuthor process crashed"));
         QString result(m_dvdauthor->readAllStandardError());
         result.append("<a name=\"result\" /><br /><strong>");
         result.append(i18n("DVDAuthor process crashed.</strong><br />"));
@@ -585,11 +586,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
 
     // Check if DVD structure has the necessary infos
     if (!QFile::exists(m_status.tmp_folder->url().path() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
-#if KDE_IS_VERSION(4,7,0)
-        m_isoMessage->setText(i18n("DVD structure broken"));
-        m_isoMessage->setMessageType(KMessageWidget::Error);
-        m_isoMessage->animatedShow();
-#endif
+        errorMessage(i18n("DVD structure broken"));
         m_status.error_log->append(m_creationLog + "<a name=\"result\" /><br /><strong>" + i18n("DVD structure broken"));
         m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
@@ -639,11 +636,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     button(QWizard::FinishButton)->setEnabled(true);
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit || exitCode != 0) {
-#if KDE_IS_VERSION(4,7,0)
-        m_isoMessage->setText(i18n("ISO creation process crashed."));
-        m_isoMessage->setMessageType(KMessageWidget::Error);
-        m_isoMessage->animatedShow();
-#endif
+        errorMessage(i18n("ISO creation process crashed."));
         QString result(m_mkiso->readAllStandardError());
         result.append("<a name=\"result\" /><br /><strong>");
         result.append(i18n("ISO creation process crashed."));
@@ -676,11 +669,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
         if (iso.exists()) {
             KIO::NetAccess::del(m_status.iso_image->url(), this);
         }
-#if KDE_IS_VERSION(4,7,0)
-        m_isoMessage->setText(i18n("DVD ISO is broken"));
-        m_isoMessage->setMessageType(KMessageWidget::Error);
-        m_isoMessage->animatedShow();
-#endif
+        errorMessage(i18n("DVD ISO is broken"));
         m_status.error_log->append(m_creationLog + "<br /><a name=\"result\" /><strong>" + i18n("DVD ISO is broken") + "</strong>");
         m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
@@ -696,11 +685,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     kDebug() << "ISO IMAGE " << m_status.iso_image->url().path() << " Successfully created";
     cleanup();
     kDebug() << m_creationLog;
-#if KDE_IS_VERSION(4,7,0)
-        m_isoMessage->setText(i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()));
-        m_isoMessage->setMessageType(KMessageWidget::Positive);
-        m_isoMessage->animatedShow();
-#endif    
+    infoMessage(i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()));
 
     m_status.error_log->append("<a name=\"result\" /><strong>" + i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()) + "</strong>");
     m_status.error_log->scrollToAnchor("result");

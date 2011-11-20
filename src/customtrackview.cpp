@@ -1641,8 +1641,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
     if (pos < GenTime()) {
         // Add track effect
         if (effect.attribute("id") == "speed") {
-            // TODO: uncomment after 0.8.2 release
-            // emit displayMessage(i18n("Cannot add speed effect to track"));
+            emit displayMessage(i18n("Cannot add speed effect to track"), ErrorMessage);
             return;
         }
         clearSelection();
@@ -3884,34 +3883,6 @@ void CustomTrackView::deleteSelectedClips()
     m_commandStack->push(deleteSelected);
 }
 
-void CustomTrackView::changeClipSpeed()
-{
-  // TODO: remove after string freeze
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    if (itemList.count() == 0) {
-        emit displayMessage(i18n("Select clip to change speed"), ErrorMessage);
-        return;
-    }
-    QUndoCommand *changeSelected = new QUndoCommand();
-    changeSelected->setText("Edit clip speed");
-    int count = 0;
-    int percent = -1;
-    bool ok;
-    for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            if (percent == -1) percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), item->speed() * 100, 1, 10000, 1, &ok);
-            if (!ok) break;
-            double speed = (double) percent / 100.0;
-            if (item->speed() != speed && (item->clipType() == VIDEO || item->clipType() == AV)) {
-                count++;
-                //new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), changeSelected);
-            }
-        }
-    }
-    if (count > 0) m_commandStack->push(changeSelected);
-    else delete changeSelected;
-}
 
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
 {

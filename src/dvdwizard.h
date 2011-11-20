@@ -61,6 +61,8 @@ private:
     QString m_creationLog;
     void cleanup();
     QMenu *m_burnMenu;
+    void errorMessage(const QString &text);
+    void infoMessage(const QString &text);
 
 private slots:
     void slotPageChanged(int page);

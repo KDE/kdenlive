@@ -105,7 +105,6 @@ public:
     QList<ItemInfo> findId(const QString &clipId);
     void clipStart();
     void clipEnd();
-    void changeClipSpeed();
     void doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
     /** @brief Sets the document as modified. */
     void setDocumentModified();

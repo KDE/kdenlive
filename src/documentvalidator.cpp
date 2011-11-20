@@ -78,10 +78,6 @@ bool DocumentValidator::validate(const double currentVersion)
         initEffects::parseEffectFiles();
     }
 
-    // TODO: remove after string freeze
-    if (0)
-        KMessageBox::sorry(kapp->activeWindow(), i18n("The document you are opening uses a different locale (%1) than your system. You can only open and render it, no editing is supported unless you change your system's locale.", mlt.attribute("LC_NUMERIC")), i18n("Read only project"));
-
     // Upgrade the document to the latest version
     if (!upgrade(documentLocale.toDouble(kdenliveDoc.attribute("version")), currentVersion))
         return false;
