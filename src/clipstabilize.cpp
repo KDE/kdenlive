@@ -26,11 +26,13 @@
 #include "kdenlivesettings.h"
 #include <KGlobalSettings>
 #include <KMessageBox>
+#include <QtConcurrentRun>
+#include <QTimer>
 #include <KFileDialog>
 
 
 ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, QWidget * parent) :
-        QDialog(parent), m_urls(urls), m_duration(0)
+        QDialog(parent), m_urls(urls), m_duration(0),m_profile(NULL),m_consumer(NULL),m_playlist(NULL)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -38,12 +40,12 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, QWidget * p
     log_text->setHidden(true);
     setWindowTitle(i18n("Stabilize Clip"));
     auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
-	profile=Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
+	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
 	filtername=params;
 
     if (m_urls.count() == 1) {
         QString fileName = m_urls.at(0).path(); //.section('.', 0, -1);
-        QString newFile = params.section(' ', -1).replace("%1", fileName);
+        QString newFile = fileName.append(".mlt");
         KUrl dest(newFile);
         source_url->setUrl(m_urls.at(0));
         dest_url->setMode(KFile::File);
@@ -64,31 +66,34 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, QWidget * p
     if (!params.isEmpty()) {
         label_profile->setHidden(true);
         profile_list->setHidden(true);
-        ffmpeg_params->setPlainText(params.simplified());
+        //ffmpeg_params->setPlainText(params.simplified());
         /*if (!description.isEmpty()) {
             transcode_info->setText(description);
         } else transcode_info->setHidden(true);*/
     } 
 
     connect(button_start, SIGNAL(clicked()), this, SLOT(slotStartStabilize()));
+	connect(buttonBox,SIGNAL(rejected()), this, SLOT(slotAbortStabilize()));
 
-    m_stabilizeProcess.setProcessChannelMode(QProcess::MergedChannels);
-    connect(&m_stabilizeProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowStabilizeInfo()));
-    connect(&m_stabilizeProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotStabilizeFinished(int, QProcess::ExitStatus)));
+	m_timer=new QTimer(this);
+	connect(m_timer, SIGNAL(timeout()), this, SLOT(slotShowStabilizeInfo()));
 
     adjustSize();
 }
 
 ClipStabilize::~ClipStabilize()
 {
-    if (m_stabilizeProcess.state() != QProcess::NotRunning) {
+    /*if (m_stabilizeProcess.state() != QProcess::NotRunning) {
         m_stabilizeProcess.close();
-    }
+    }*/
+	if (m_profile) free (m_profile);
+	if (m_consumer) free (m_consumer);
+	if (m_playlist) free (m_playlist);
 }
 
 void ClipStabilize::slotStartStabilize()
 {
-    if (m_stabilizeProcess.state() != QProcess::NotRunning) {
+    if (m_consumer && !m_consumer->is_stopped()) {
         return;
     }
     m_duration = 0;
@@ -97,118 +102,95 @@ void ClipStabilize::slotStartStabilize()
     QString params = ffmpeg_params->toPlainText().simplified();
     if (urls_list->count() > 0) {
         source_url->setUrl(m_urls.takeFirst());
-        destination = dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName();
+        destination = dest_url->url().path();
         QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
         if (matching.count() > 0) {
             matching.at(0)->setFlags(Qt::ItemIsSelectable);
             urls_list->setCurrentItem(matching.at(0));
         }
     } else {
-        destination = dest_url->url().path().section('.', 0, -2);
+        destination = dest_url->url().path();
     }
-    QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
     QString s_url = source_url->url().path();
 
-    parameters << "-i" << s_url;
-    if (QFile::exists(destination + extension)) {
-        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) return;
-        parameters << "-y";
+    if (QFile::exists(destination)) {
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination )) == KMessageBox::No) return;
     }
-    foreach(QString s, params.split(' '))
-    parameters << s.replace("%1", destination);
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
 
-    //kDebug() << "/// FFMPEG ARGS: " << parameters;
+	if (m_profile){
+		qDebug() << m_profile->description();
+		m_playlist= new Mlt::Playlist;
+		Mlt::Filter filter(*m_profile,filtername.toUtf8().data());
+		Mlt::Producer p(*m_profile,s_url.toUtf8().data());
+		m_playlist->append(p);
+		m_playlist->attach(filter);
+		//m_producer->set("out",20);
+		m_consumer= new Mlt::Consumer(*m_profile,"xml",destination.toUtf8().data());
+		m_consumer->set("all","1");
+		m_consumer->set("real_time","-2");
+		m_consumer->connect(*m_playlist);
+		QtConcurrent::run(this, &ClipStabilize::slotRunStabilize);
+		button_start->setEnabled(false);
+	}
 
-	Mlt::Producer producer(profile,s_url.toUtf8().data());
-	Mlt::Filter filter(profile,filtername.toUtf8().data());
-	producer.attach(filter);
-	Mlt::Consumer xmlout(profile,"xml");
-	xmlout.connect(producer);
-	xmlout.run();
-    //m_stabilizeProcess.start("ffmpeg", parameters);
-    button_start->setEnabled(false);
+}
 
+void ClipStabilize::slotRunStabilize()
+{
+	if (m_consumer)
+	{
+		m_timer->start(500);
+		m_consumer->run();
+	}
+}
+
+void ClipStabilize::slotAbortStabilize()
+{
+	if (m_consumer)
+	{
+		m_timer->stop();
+		m_consumer->stop();
+		slotStabilizeFinished(false);
+	}
 }
 
 void ClipStabilize::slotShowStabilizeInfo()
 {
-    QString log = QString(m_stabilizeProcess.readAll());
-    int progress;
-    if (m_duration == 0) {
-        if (log.contains("Duration:")) {
-            QString data = log.section("Duration:", 1, 1).section(',', 0, 0).simplified();
-            QStringList numbers = data.split(':');
-            m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
-            log_text->setHidden(true);
-            job_progress->setHidden(false);
-        }
-        else {
-            log_text->setHidden(false);
-            job_progress->setHidden(true);
-        }
-    }
-    else if (log.contains("time=")) {
-        QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
-        if (time.contains(':')) {
-            QStringList numbers = time.split(':');
-            progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
-        }
-        else progress = (int) time.toDouble();
-        kDebug()<<"// PROGRESS: "<<progress<<", "<<m_duration;
-        job_progress->setValue((int) (100.0 * progress / m_duration));
-    }
-    //kDebug() << "//LOG: " << log;
-    log_text->setPlainText(log);
+	if (m_playlist){
+        job_progress->setValue((int) (100.0 * m_consumer->position()/m_playlist->get_out() ));
+		if (m_consumer->position()==m_playlist->get_out()){
+			m_timer->stop();
+			slotStabilizeFinished(true);
+		}
+	}
 }
 
-void ClipStabilize::slotStabilizeFinished(int exitCode, QProcess::ExitStatus exitStatus)
+void ClipStabilize::slotStabilizeFinished(bool success)
 {
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Close"));
     button_start->setEnabled(true);
     m_duration = 0;
 
-    if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
-        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding finished."));
+    if (success) {
+        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Stabilize finished."));
         if (auto_add->isChecked()) {
             KUrl url;
             if (urls_list->count() > 0) {
-                QString params = ffmpeg_params->toPlainText().simplified();
-                QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
-                url = KUrl(dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName() + extension);
+                url = KUrl(dest_url->url());
             } else url = dest_url->url();
             emit addClip(url);
         }
         if (urls_list->count() > 0 && m_urls.count() > 0) {
-            m_stabilizeProcess.close();
             slotStartStabilize();
             return;
         } else if (auto_close->isChecked()) accept();
     } else {
-        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding FAILED!"));
-    }
-
-    m_stabilizeProcess.close();
-}
-
-void ClipStabilize::slotUpdateParams(int ix)
-{
-    QString fileName = source_url->url().path();
-    if (ix != -1) {
-        QString params = profile_list->itemData(ix).toString();
-        ffmpeg_params->setPlainText(params.simplified());
-        QString desc = profile_list->itemData(ix, Qt::UserRole + 1).toString();
-        if (!desc.isEmpty()) {
-            transcode_info->setText(desc);
-            transcode_info->setHidden(false);
-        } else transcode_info->setHidden(true);
-    }
-    if (urls_list->count() == 0) {
-        QString newFile = ffmpeg_params->toPlainText().simplified().section(' ', -1).replace("%1", fileName);
-        dest_url->setUrl(KUrl(newFile));
+        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Stabilizing FAILED!"));
     }
 
 }
+
 
 #include "clipstabilize.moc"
 
