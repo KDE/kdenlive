@@ -430,8 +430,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_filesize->setHidden(true);
         m_view.label_size->setHidden(true);
     }
-    m_view.clip_duration->setInputMask("");
-    m_view.clip_duration->setValidator(tc.validator());
+    m_view.clip_duration->setInputMask(tc.mask());
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration()));
     if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
     else {

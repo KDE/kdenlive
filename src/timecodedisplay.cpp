@@ -54,7 +54,6 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
 
     connect(lineEdit(), SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
-    connect(lineEdit(), SIGNAL(cursorPositionChanged(int, int)), this, SLOT(slotCursorPositionChanged(int, int)));
 }
 
 // virtual protected
@@ -84,8 +83,10 @@ void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
         QIntValidator *valid = new QIntValidator(lineEdit());
         valid->setBottom(0);
         lineEdit()->setValidator(valid);
+        lineEdit()->setInputMask(QString());
     } else {
-        lineEdit()->setValidator(m_timecode.validator());
+        lineEdit()->setValidator(0);
+        lineEdit()->setInputMask(m_timecode.mask());
     }
     setValue(val);
 }
@@ -188,28 +189,6 @@ void TimecodeDisplay::setValue(GenTime value)
     setValue(m_timecode.getTimecode(value));
 }
 
-void TimecodeDisplay::slotCursorPositionChanged(int oldPos, int newPos)
-{
-    if (!lineEdit()->hasFocus()) return;
-    lineEdit()->blockSignals(true);
-    QString text = lineEdit()->text();
-
-    if (newPos < text.size() && !text.at(newPos).isDigit()) {
-        // char at newPos is a separator (':' or ';')
-
-        // make it possible move the cursor backwards at separators
-        if (newPos == oldPos - 1)
-            lineEdit()->setSelection(newPos, -1);
-        else
-            lineEdit()->setSelection(newPos + 2, -1);
-    } else if (newPos < text.size()) {
-        lineEdit()->setSelection(newPos + 1, -1);
-    } else {
-        lineEdit()->setSelection(newPos, -1);
-    }
-
-    lineEdit()->blockSignals(false);
-}
 
 void TimecodeDisplay::slotEditingFinished()
 {
