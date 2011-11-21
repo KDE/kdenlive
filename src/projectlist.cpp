@@ -1516,7 +1516,6 @@ void ProjectList::slotAddColorClip()
 
     TimecodeDisplay *t = new TimecodeDisplay(m_timecode);
     t->setValue(KdenliveSettings::color_duration());
-    t->setTimeCodeFormat(false);
     dia_ui.clip_durationBox->addWidget(t);
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
 

@@ -99,11 +99,6 @@ public slots:
 private slots:
     void slotEditingFinished();
 
-    /** @brief Updates the selection when the cursor position changed.
-     * The digit after the cursor will be selected.
-     * This makes it easier to edit the timecode. */
-    void slotCursorPositionChanged(int oldPos, int newPos);
-
 signals:
     /**
      * Emitted every time the value changes (by calling setValue() or

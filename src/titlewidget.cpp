@@ -148,8 +148,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     splitter->setStretchFactor(0, 20);
 
     //If project is drop frame, set the input mask as such.
-    title_duration->setInputMask("");
-    title_duration->setValidator(m_tc.validator());
+    title_duration->setInputMask(m_tc.mask());
     title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
 
     connect(backgroundColor, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
