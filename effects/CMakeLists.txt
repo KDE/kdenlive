@@ -10,6 +10,7 @@ chroma_hold.xml
 chroma.xml
 crop.xml
 dust.xml
+dynamictext.xml
 freeze.xml
 gamma.xml
 grain.xml
