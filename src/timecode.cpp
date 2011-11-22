@@ -142,13 +142,18 @@ int Timecode::getDisplayFrameCount(const QString &duration, bool frameDisplay) c
 
 int Timecode::getFrameCount(const QString &duration) const
 {
+    if (duration.isEmpty()) {
+        return 0;
+    }
+
     int hours, minutes, seconds, frames;
     int offset = 0;
     if (duration.at(0) == '-') {
         offset = 1;
         hours = duration.mid(1, 2).toInt();
+    } else {
+        hours = duration.left(2).toInt();
     }
-    else hours = duration.left(2).toInt();
     minutes = duration.mid(3 + offset, 2).toInt();
     seconds = duration.mid(6 + offset, 2).toInt();
     frames = duration.right(2).toInt();
