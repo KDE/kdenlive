@@ -51,6 +51,8 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     setAccelerated(true);
 
+    setValue(m_minimum);
+
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
 
     connect(lineEdit(), SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
