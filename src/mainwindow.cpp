@@ -3836,7 +3836,9 @@ void MainWindow::slotStabilize(KUrl::List urls)
         m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
         return;
     }
-	ClipStabilize *d=new ClipStabilize(urls,filtername);
+	Mlt::Profile profile;
+	Mlt::Filter filter(profile,filtername.toUtf8().data());
+	ClipStabilize *d=new ClipStabilize(urls,filtername,&filter);
 	connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
 	d->show();
 

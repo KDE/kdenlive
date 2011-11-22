@@ -42,7 +42,7 @@
     </widget>
    </item>
    <item row="6" column="0" colspan="3">
-    <widget class="QTextEdit" name="ffmpeg_params">
+    <widget class="QWidget" name="optionsbox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
        <horstretch>0</horstretch>

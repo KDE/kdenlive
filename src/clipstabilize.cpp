@@ -28,11 +28,12 @@
 #include <KMessageBox>
 #include <QtConcurrentRun>
 #include <QTimer>
+#include <QSlider>
 #include <KFileDialog>
 
 
-ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, QWidget * parent) :
-        QDialog(parent), m_urls(urls), m_duration(0),m_profile(NULL),m_consumer(NULL),m_playlist(NULL)
+ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter* filter,QWidget * parent) :
+        QDialog(parent), m_urls(urls), m_duration(0),m_profile(NULL),m_consumer(NULL),m_playlist(NULL),m_filter(filter),vbox(NULL)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -72,11 +73,52 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, QWidget * p
         } else transcode_info->setHidden(true);*/
     } 
 
+	if (filtername=="videostab"){
+		QStringList ls;
+		ls << "shutterangle,type,int,value,0,min,0,max,100,factor,1";
+		fillParamaters(ls);
+	}else if (filtername=="videostab2"){
+		QStringList ls;
+		ls << "accuracy,type,int,value,4,min,1,max,10,factor,1";
+		ls << "stepsize,type,int,value,6,min,0,max,100,factor,1";
+		ls << "algo,type,int,value,0,min,0,max,1,factor,1";
+		ls << "mincontrast,type,int,value,30,min,0,max,100,factor,100";
+		ls << "show,type,int,value,0,min,0,max,2,factor,1";
+		ls << "smoothing,type,int,value,10,min,0,max,100,factor,1";
+		ls << "maxshift,type,int,value,-1,min,-1,max,1000,factor,1";
+		ls << "maxangle,type,int,value,-1,min,-1,max,1000,factor,1";
+		ls << "crop,type,int,value,0,min,0,max,1,factor,1";
+		ls << "invert,type,int,value,0,min,0,max,1,factor,1";
+		ls << "realtive,type,int,value,1,min,0,max,1,factor,1";
+		ls << "zoom,type,int,value,0,min,-500,max,500,factor,1";
+		ls << "optzoom,type,int,value,1,min,0,max,1,factor,1";
+		ls << "sharpen,type,int,value,8,min,0,max,100,factor,10";
+		fillParamaters(ls);
+
+	}
     connect(button_start, SIGNAL(clicked()), this, SLOT(slotStartStabilize()));
 	connect(buttonBox,SIGNAL(rejected()), this, SLOT(slotAbortStabilize()));
 
 	m_timer=new QTimer(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(slotShowStabilizeInfo()));
+
+	vbox=new QVBoxLayout(optionsbox);
+	QHashIterator<QString,QHash<QString,QString> > hi(m_ui_params);
+	while(hi.hasNext()){
+		hi.next();
+		qDebug() << hi.key() << hi.value();
+		QHash<QString,QString> val=hi.value();
+		QLabel *l=new QLabel(hi.key(),this);
+		QSlider* s=new QSlider(Qt::Horizontal,this);
+		qDebug() << val["max"].toInt() << val["min"].toInt() << val["value"].toInt();
+		s->setMaximum(val["max"].toInt());
+		s->setMinimum(val["min"].toInt());
+		s->setValue(val["value"].toInt());
+		s->setObjectName(hi.key());
+		connect(s,SIGNAL(sliderMoved(int)),this,SLOT(slotUpdateParams()));
+		vbox->addWidget(l);
+		vbox->addWidget(s);
+	}
 
     adjustSize();
 }
@@ -99,7 +141,7 @@ void ClipStabilize::slotStartStabilize()
     m_duration = 0;
     QStringList parameters;
     QString destination;
-    QString params = ffmpeg_params->toPlainText().simplified();
+    //QString params = ffmpeg_params->toPlainText().simplified();
     if (urls_list->count() > 0) {
         source_url->setUrl(m_urls.takeFirst());
         destination = dest_url->url().path();
@@ -122,6 +164,11 @@ void ClipStabilize::slotStartStabilize()
 		qDebug() << m_profile->description();
 		m_playlist= new Mlt::Playlist;
 		Mlt::Filter filter(*m_profile,filtername.toUtf8().data());
+		QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
+		while (it.hasNext()){
+			it.next();
+			filter.set(it.key().toAscii().data(),it.value()["value"].toAscii().data());
+		}
 		Mlt::Producer p(*m_profile,s_url.toUtf8().data());
 		m_playlist->append(p);
 		m_playlist->attach(filter);
@@ -188,6 +235,41 @@ void ClipStabilize::slotStabilizeFinished(bool success)
     } else {
         log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Stabilizing FAILED!"));
     }
+
+}
+
+void ClipStabilize::slotUpdateParams()
+{
+	for (int i=0;i<vbox->count();i++){
+		QWidget* w=vbox->itemAt(i)->widget();
+		QString name=w->objectName();
+		if (name !="" && m_ui_params.contains(name)){
+			if (m_ui_params[name]["type"]=="int"){
+				QSlider *s=(QSlider*)w;
+				m_ui_params[name]["value"]=QString::number((double)(s->value()/m_ui_params[name]["factor"].toInt()));
+				qDebug() << name << m_ui_params[name]["value"];
+			}
+		}
+	}
+}
+
+void ClipStabilize::fillParamaters(QStringList lst)
+{
+
+	m_ui_params.clear();
+	while (!lst.isEmpty()){
+		QString vallist=lst.takeFirst();
+		QStringList cont=vallist.split(",");
+		QString name=cont.takeFirst();
+		while (!cont.isEmpty()){
+			QString valname=cont.takeFirst();
+			QString val;
+			if (!cont.isEmpty()){
+				val=cont.takeFirst();
+			}
+			m_ui_params[name][valname]=val;
+		}
+	}
 
 }
 
