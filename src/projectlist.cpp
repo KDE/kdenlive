@@ -1091,7 +1091,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     else if (item->hasProxy() && !item->isProxyRunning()) {
         slotCreateProxy(clip->getId());
     }
-    clip->askForAudioThumbs();
     
     KUrl url = clip->fileURL();
 #ifdef NEPOMUK
@@ -1804,7 +1803,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         item->setProperties(properties, metadata);
         clip->setProducer(producer, replace);
-        clip->askForAudioThumbs();
+        clip->getAudioThumbs();
 
         // Proxy stuff
         QString size = properties.value("frame_size");

@@ -59,7 +59,6 @@ Q_OBJECT public:
     KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent = 0, const char *name = 0);
     ~KThumb();
     void setProducer(Mlt::Producer *producer);
-    void askForAudioThumbs(const QString &id);
     bool hasProducer() const;
     void clearProducer();
     void updateThumbUrl(const QString &hash);
@@ -79,9 +78,7 @@ public slots:
 //    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
     /* void getImage(KUrl url, int frame, int width, int height);
      void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
-    void stopAudioThumbs();
-    void removeAudioThumb();
-    void getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth);
+    void slotCreateAudioThumbs();
     static QPixmap getImage(KUrl url, int frame, int width, int height);
     static QImage getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height);
     static QImage getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height);
@@ -91,15 +88,12 @@ public slots:
     static uint imageVariance(QImage image);
 
 private slots:
-    void slotAudioThumbOver();
-    void slotCreateAudioThumbs();
 #if KDE_IS_VERSION(4,5,0)
     /** @brief Fetch all requested frames. */ 
     void slotGetIntraThumbs();
 #endif
 
 private:
-    QFuture<void> m_audioThumbProducer;
     KUrl m_url;
     QString m_thumbFile;
     double m_dar;
@@ -109,13 +103,6 @@ private:
     QString m_id;
     /** @brief Controls the intra frames thumbnails process (cached thumbnails). */
     QFuture<void> m_intra;
-    QFile m_audioThumbFile;
-    bool m_stopAudioThumbs;
-    double m_frame;
-    double m_frameLength;
-    int m_frequency;
-    int m_channels;
-    int m_arrayWidth;
     /** @brief List of frame numbers from which we want to extract thumbnails. */
     QList <int> m_intraFramesQueue;
     QMutex m_mutex;
