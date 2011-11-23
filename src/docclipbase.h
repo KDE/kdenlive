@@ -176,7 +176,6 @@ Q_OBJECT public:
 
     /** Free cache data */
     void slotClearAudioCache();
-    void askForAudioThumbs();
     QString getClipHash() const;
     void refreshThumbUrl();
     const char *producerProperty(const char *name) const;
@@ -209,6 +208,7 @@ Q_OBJECT public:
     void reloadThumbProducer();
     void cleanupProducers();
     bool isClean() const;
+    bool getAudioThumbs();
 
 private:   // Private attributes
 
@@ -228,7 +228,6 @@ private:   // Private attributes
     QPixmap m_thumbnail;
     GenTime m_duration;
 
-    QTimer *m_audioTimer;
     KThumb *m_thumbProd;
     bool m_audioThumbCreated;
 
@@ -251,7 +250,6 @@ private:   // Private attributes
     QMutex m_replaceMutex;
 
     /** Create connections for audio thumbnails */
-    void slotCreateAudioTimer();
     void slotRefreshProducer();
     void setProducerProperty(const char *name, int data);
     void setProducerProperty(const char *name, double data);
@@ -264,7 +262,6 @@ private:   // Private attributes
    
 public slots:
     void updateAudioThumbnail(const audioByteArray& data);
-    bool slotGetAudioThumbs();
     QList < CommentedTime > commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime & currTime);
     GenTime findPreviousSnapMarker(const GenTime & currTime);

@@ -42,15 +42,13 @@
 
 KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/) :
     QObject(parent),
-    m_audioThumbProducer(),
     m_url(url),
     m_thumbFile(),
     m_dar(1),
     m_ratio(1),
     m_producer(NULL),
     m_clipManager(clipManager),
-    m_id(id),
-    m_stopAudioThumbs(false)
+    m_id(id)
 {
     m_thumbFile = clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
@@ -59,11 +57,6 @@ KThumb::~KThumb()
 {
     if (m_producer) m_clipManager->stopThumbs(m_id);
     m_intraFramesQueue.clear();
-    if (m_audioThumbProducer.isRunning()) {
-        m_stopAudioThumbs = true;
-        m_audioThumbProducer.waitForFinished();
-        slotAudioThumbOver();
-    }
     m_intra.waitForFinished();
 }
 
@@ -339,151 +332,10 @@ void KThumb::getThumbs(KUrl url, int startframe, int endframe, int width, int he
     emit thumbReady(endframe, image);
 }
 */
-void KThumb::stopAudioThumbs()
-{
-    if (m_audioThumbProducer.isRunning()) {
-        m_stopAudioThumbs = true;
-        m_audioThumbProducer.waitForFinished();
-        slotAudioThumbOver();
-    }
-}
-
-void KThumb::removeAudioThumb()
-{
-    if (m_thumbFile.isEmpty()) return;
-    stopAudioThumbs();
-    QFile f(m_thumbFile);
-    f.remove();
-}
-
-void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth)
-{
-    if (channel == 0) {
-        slotAudioThumbOver();
-        return;
-    }
-    if (m_audioThumbProducer.isRunning()) {
-        return;
-    }
-
-    audioByteArray storeIn;
-    //FIXME: Hardcoded!!!
-    m_frequency = 48000;
-    m_channels = channel;
-
-    QFile f(m_thumbFile);
-    if (f.open(QIODevice::ReadOnly)) {
-        const QByteArray channelarray = f.readAll();
-        f.close();
-        if (channelarray.size() != arrayWidth*(frame + frameLength)*m_channels) {
-            kDebug() << "--- BROKEN THUMB FOR: " << m_url.fileName() << " ---------------------- " << endl;
-            f.remove();
-            slotAudioThumbOver();
-            return;
-        }
-
-        kDebug() << "reading audio thumbs from file";
-
-        int h1 = arrayWidth * m_channels;
-        int h2 = (int) frame * h1;
-        int h3;
-        for (int z = (int) frame; z < (int)(frame + frameLength); z++) {
-            h3 = 0;
-            for (int c = 0; c < m_channels; c++) {
-                QByteArray m_array(arrayWidth, '\x00');
-                for (int i = 0; i < arrayWidth; i++) {
-                    m_array[i] = channelarray.at(h2 + h3 + i);
-                }
-                h3 += arrayWidth;
-                storeIn[z][c] = m_array;
-            }
-            h2 += h1;
-        }
-        emit audioThumbReady(storeIn);
-        slotAudioThumbOver();
-    } else {
-        if (m_audioThumbProducer.isRunning()) return;
-        m_audioThumbFile.setFileName(m_thumbFile);
-        m_frame = frame;
-        m_frameLength = frameLength;
-        m_arrayWidth = arrayWidth;
-        m_audioThumbProducer = QtConcurrent::run(this, &KThumb::slotCreateAudioThumbs);
-        /*m_audioThumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
-        m_audioThumbProducer.start(QThread::LowestPriority);*/
-        // kDebug() << "STARTING GENERATE THMB FOR: " <<m_id<<", URL: "<< m_url << " ................................";
-    }
-}
 
 void KThumb::slotCreateAudioThumbs()
 {
-    Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().constData());
-    Mlt::Producer producer(prof, m_url.path().toUtf8().constData());
-    if (!producer.is_valid()) {
-        kDebug() << "++++++++  INVALID CLIP: " << m_url.path();
-        return;
-    }
-    if (!m_audioThumbFile.open(QIODevice::WriteOnly)) {
-        kDebug() << "++++++++  ERROR WRITING TO FILE: " << m_audioThumbFile.fileName();
-        kDebug() << "++++++++  DISABLING AUDIO THUMBS";
-        KdenliveSettings::setAudiothumbnails(false);
-        return;
-    }
-
-    if (KdenliveSettings::normaliseaudiothumbs()) {
-        Mlt::Filter m_convert(prof, "volume");
-        m_convert.set("gain", "normalise");
-        producer.attach(m_convert);
-    }
-
-    int last_val = 0;
-    int val = 0;
-    mlt_audio_format m_audioFormat = mlt_audio_pcm;
-    double framesPerSecond = mlt_producer_get_fps(producer.get_producer());
-    Mlt::Frame *mlt_frame;
-    
-    for (int z = (int) m_frame; z < (int)(m_frame + m_frameLength) && producer.is_valid(); z++) {
-        if (m_stopAudioThumbs) break;
-        val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
-        if (last_val != val && val > 1) {
-            m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), val);
-            last_val = val;
-        }
-        producer.seek(z);
-        mlt_frame = producer.get_frame();
-        if (mlt_frame && mlt_frame->is_valid()) {
-            int m_samples = mlt_sample_calculator(framesPerSecond, m_frequency, mlt_frame_get_position(mlt_frame->get_frame()));
-            qint16* m_pcm = static_cast<qint16*>(mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples));
-            for (int c = 0; c < m_channels; c++) {
-                QByteArray m_array;
-                m_array.resize(m_arrayWidth);
-                for (int i = 0; i < m_array.size(); i++) {
-                    m_array[i] = ((*(m_pcm + c + i * m_samples / m_array.size())) >> 9) + 127 / 2 ;
-                }
-                m_audioThumbFile.write(m_array);
-
-            }
-        } else {
-            m_audioThumbFile.write(QByteArray(m_arrayWidth, '\x00'));
-        }
-        delete mlt_frame;
-    }
-    m_audioThumbFile.close();
-    if (m_stopAudioThumbs) {
-        m_audioThumbFile.remove();
-    } else {
-        slotAudioThumbOver();
-    }
-}
-
-void KThumb::slotAudioThumbOver()
-{
-    m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), -1);
-    m_clipManager->endAudioThumbsGeneration(m_id);
-}
-
-void KThumb::askForAudioThumbs(const QString &id)
-{
-    m_clipManager->askForAudioThumb(id);
+    m_clipManager->askForAudioThumb(m_id);
 }
 
 #if KDE_IS_VERSION(4,5,0)

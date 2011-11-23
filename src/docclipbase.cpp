@@ -48,7 +48,6 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_videoOnlyProducer(NULL),
         m_snapMarkers(QList < CommentedTime >()),
         m_duration(),
-        m_audioTimer(NULL),
         m_thumbProd(NULL),
         m_audioThumbCreated(false),
         m_id(id),
@@ -88,16 +87,12 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
 
     m_thumbProd = new KThumb(clipManager, url, m_id, m_properties.value("file_hash"));
-    if (m_clipType == AV || m_clipType == AUDIO || m_clipType == PLAYLIST) slotCreateAudioTimer();
+    if (m_clipType & (AV | AUDIO | PLAYLIST)) getAudioThumbs();
 }
 
 DocClipBase::~DocClipBase()
 {
     delete m_thumbProd;
-    if (m_audioTimer) {
-        m_audioTimer->stop();
-        delete m_audioTimer;
-    }
     qDeleteAll(m_toDeleteProducers);
     m_toDeleteProducers.clear();
     qDeleteAll(m_baseTrackProducers);
@@ -120,22 +115,9 @@ QPoint DocClipBase::zone() const
     return zone;
 }
 
-void DocClipBase::slotCreateAudioTimer()
-{
-    connect(m_thumbProd, SIGNAL(audioThumbReady(const audioByteArray&)), this , SLOT(updateAudioThumbnail(const audioByteArray&)));
-    m_audioTimer = new QTimer(this);
-    connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
-}
-
-void DocClipBase::askForAudioThumbs()
-{
-    if (m_thumbProd && m_audioTimer) m_thumbProd->askForAudioThumbs(getId());
-}
 
 void DocClipBase::slotClearAudioCache()
 {
-    if (m_thumbProd) m_thumbProd->stopAudioThumbs();
-    if (m_audioTimer != NULL) m_audioTimer->stop();
     m_audioFrameCache.clear();
     m_audioThumbCreated = false;
 }
@@ -173,10 +155,7 @@ const CLIPTYPE & DocClipBase::clipType() const
 void DocClipBase::setClipType(CLIPTYPE type)
 {
     m_clipType = type;
-
     m_properties.insert("type", QString::number((int) type));
-    if (m_thumbProd && m_audioTimer == NULL && (m_clipType == AV || m_clipType == AUDIO || m_clipType == PLAYLIST))
-        slotCreateAudioTimer();
 }
 
 KUrl DocClipBase::fileURL() const
@@ -1107,20 +1086,13 @@ QMap <QString, QString> DocClipBase::properties() const
     return m_properties;
 }
 
-bool DocClipBase::slotGetAudioThumbs()
+bool DocClipBase::getAudioThumbs()
 {
-    if (m_thumbProd == NULL || isPlaceHolder()) return false;
-    if (!KdenliveSettings::audiothumbnails() || m_audioTimer == NULL) {
-        if (m_audioTimer != NULL) m_audioTimer->stop();
-        return false;
-    }
+    if (m_thumbProd == NULL || isPlaceHolder() || !KdenliveSettings::audiothumbnails()) return false;
     if (m_audioThumbCreated) {
-        m_audioTimer->stop();
         return false;
     }
-    m_audioTimer->start(1500);
-    double lengthInFrames = duration().frames(KdenliveSettings::project_fps());
-    m_thumbProd->getAudioThumbs(2, 0, lengthInFrames /*must be number of frames*/, 20);
+    QTimer::singleShot(800, m_thumbProd, SLOT(slotCreateAudioThumbs()));
     return true;
 }
 
