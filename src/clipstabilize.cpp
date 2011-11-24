@@ -81,7 +81,7 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
 		QStringList ls;
 		ls << "accuracy,type,int,value,4,min,1,max,10,factor,1";
 		ls << "stepsize,type,int,value,6,min,0,max,100,factor,1";
-		ls << "algo,type,int,value,0,min,0,max,1,factor,1";
+		ls << "algo,type,int,value,1,min,0,max,1,factor,1";
 		ls << "mincontrast,type,int,value,30,min,0,max,100,factor,100";
 		ls << "show,type,int,value,0,min,0,max,2,factor,1";
 		ls << "smoothing,type,int,value,10,min,0,max,100,factor,1";
@@ -106,18 +106,22 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
 	QHashIterator<QString,QHash<QString,QString> > hi(m_ui_params);
 	while(hi.hasNext()){
 		hi.next();
-		qDebug() << hi.key() << hi.value();
 		QHash<QString,QString> val=hi.value();
 		QLabel *l=new QLabel(hi.key(),this);
 		QSlider* s=new QSlider(Qt::Horizontal,this);
-		qDebug() << val["max"].toInt() << val["min"].toInt() << val["value"].toInt();
+		if (val["factor"].toInt()>1){
+			s->setTickInterval(val["factor"].toInt()/10);
+		}
+		s->setTickPosition(QSlider::TicksBelow);
 		s->setMaximum(val["max"].toInt());
 		s->setMinimum(val["min"].toInt());
 		s->setValue(val["value"].toInt());
 		s->setObjectName(hi.key());
 		connect(s,SIGNAL(sliderMoved(int)),this,SLOT(slotUpdateParams()));
-		vbox->addWidget(l);
-		vbox->addWidget(s);
+		QHBoxLayout *hbox=new QHBoxLayout();
+		hbox->addWidget(s);
+		hbox->addWidget(l);
+		vbox->addLayout(hbox);
 	}
 
     adjustSize();
@@ -128,6 +132,12 @@ ClipStabilize::~ClipStabilize()
     /*if (m_stabilizeProcess.state() != QProcess::NotRunning) {
         m_stabilizeProcess.close();
     }*/
+	if (m_stabilizeRun.isRunning()){
+		if (m_consumer){
+			m_consumer->stop();
+		}
+		m_stabilizeRun.waitForFinished();
+	}
 	if (m_profile) free (m_profile);
 	if (m_consumer) free (m_consumer);
 	if (m_playlist) free (m_playlist);
@@ -144,7 +154,7 @@ void ClipStabilize::slotStartStabilize()
     //QString params = ffmpeg_params->toPlainText().simplified();
     if (urls_list->count() > 0) {
         source_url->setUrl(m_urls.takeFirst());
-        destination = dest_url->url().path();
+        destination = dest_url->url().path(KUrl::AddTrailingSlash)+ source_url->url().fileName()+".mlt";
         QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
         if (matching.count() > 0) {
             matching.at(0)->setFlags(Qt::ItemIsSelectable);
@@ -156,29 +166,35 @@ void ClipStabilize::slotStartStabilize()
     QString s_url = source_url->url().path();
 
     if (QFile::exists(destination)) {
-        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination )) == KMessageBox::No) return;
+			if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination )) == KMessageBox::No) return;
     }
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
 
 	if (m_profile){
-		qDebug() << m_profile->description();
 		m_playlist= new Mlt::Playlist;
 		Mlt::Filter filter(*m_profile,filtername.toUtf8().data());
 		QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
 		while (it.hasNext()){
 			it.next();
-			filter.set(it.key().toAscii().data(),it.value()["value"].toAscii().data());
+			filter.set(
+					it.key().toAscii().data(),
+					QString::number(
+						(double)(it.value()["value"].toDouble()/it.value()["factor"].toDouble())
+					).toAscii().data()
+			);
 		}
 		Mlt::Producer p(*m_profile,s_url.toUtf8().data());
-		m_playlist->append(p);
-		m_playlist->attach(filter);
-		//m_producer->set("out",20);
-		m_consumer= new Mlt::Consumer(*m_profile,"xml",destination.toUtf8().data());
-		m_consumer->set("all","1");
-		m_consumer->set("real_time","-2");
-		m_consumer->connect(*m_playlist);
-		QtConcurrent::run(this, &ClipStabilize::slotRunStabilize);
-		button_start->setEnabled(false);
+		if (p.is_valid()) {
+			m_playlist->append(p);
+			m_playlist->attach(filter);
+			m_consumer= new Mlt::Consumer(*m_profile,"xml",destination.toUtf8().data());
+			m_consumer->set("all","1");
+			m_consumer->set("real_time","-2");
+			m_consumer->connect(*m_playlist);
+			m_stabilizeRun = QtConcurrent::run(this, &ClipStabilize::slotRunStabilize);
+			m_timer->start(500);
+			button_start->setEnabled(false);
+		}
 	}
 
 }
@@ -187,7 +203,6 @@ void ClipStabilize::slotRunStabilize()
 {
 	if (m_consumer)
 	{
-		m_timer->start(500);
 		m_consumer->run();
 	}
 }
@@ -218,13 +233,19 @@ void ClipStabilize::slotStabilizeFinished(bool success)
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Close"));
     button_start->setEnabled(true);
     m_duration = 0;
+    if (m_stabilizeRun.isRunning()){
+        if (m_consumer){
+            m_consumer->stop();
+        }
+        m_stabilizeRun.waitForFinished();
+    }
 
     if (success) {
         log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Stabilize finished."));
         if (auto_add->isChecked()) {
             KUrl url;
             if (urls_list->count() > 0) {
-                url = KUrl(dest_url->url());
+				url = KUrl(dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName()+".mlt");
             } else url = dest_url->url();
             emit addClip(url);
         }
@@ -235,19 +256,27 @@ void ClipStabilize::slotStabilizeFinished(bool success)
     } else {
         log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Stabilizing FAILED!"));
     }
+	if (m_playlist){
+		free(m_playlist);
+		m_playlist=NULL;
+	}
+	if (m_consumer){
+		free(m_consumer);
+		m_consumer=NULL;
+	}
 
 }
 
 void ClipStabilize::slotUpdateParams()
 {
 	for (int i=0;i<vbox->count();i++){
-		QWidget* w=vbox->itemAt(i)->widget();
+		QLayout *bo=vbox->itemAt(i)->layout();
+		QWidget* w=bo->itemAt(1)->widget();
 		QString name=w->objectName();
 		if (name !="" && m_ui_params.contains(name)){
 			if (m_ui_params[name]["type"]=="int"){
 				QSlider *s=(QSlider*)w;
-				m_ui_params[name]["value"]=QString::number((double)(s->value()/m_ui_params[name]["factor"].toInt()));
-				qDebug() << name << m_ui_params[name]["value"];
+				m_ui_params[name]["value"]=QString::number((double)(s->value()));
 			}
 		}
 	}

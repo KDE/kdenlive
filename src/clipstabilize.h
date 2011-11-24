@@ -27,6 +27,8 @@
 
 #include <KUrl>
 #include <QProcess>
+#include <QFuture>
+
 class QTimer;
 namespace Mlt{
 	class Profile;
@@ -53,6 +55,7 @@ private slots:
 	void slotUpdateParams();
 
 private:
+	QFuture<void> m_stabilizeRun;
 	QString filtername;
 	Mlt::Profile *m_profile;
 	Mlt::Consumer *m_consumer;
