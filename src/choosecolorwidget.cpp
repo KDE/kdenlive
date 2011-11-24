@@ -26,6 +26,7 @@
 
 #include <KColorButton>
 #include <KLocalizedString>
+#include <kdeversion.h>
 
 static QColor stringToColor(QString strColor)
 {
@@ -87,13 +88,20 @@ ChooseColorWidget::ChooseColorWidget(QString text, QString color, QWidget *paren
     layout->setSpacing(0);
 
     QLabel *label = new QLabel(text, this);
-    m_button = new KColorButton(stringToColor(color), this);
-    m_button->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-    ColorPickerWidget *picker = new ColorPickerWidget(this);
+
+    QWidget *rightSide = new QWidget(this);
+    QHBoxLayout *rightSideLayout = new QHBoxLayout(rightSide);
+    rightSideLayout->setContentsMargins(0, 0, 0, 0);
+    rightSideLayout->setSpacing(0);
+
+    m_button = new KColorButton(stringToColor(color), rightSide);
+//     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    ColorPickerWidget *picker = new ColorPickerWidget(rightSide);
 
     layout->addWidget(label);
-    layout->addWidget(m_button);
-    layout->addWidget(picker, 0, Qt::AlignRight);
+    layout->addWidget(rightSide);
+    rightSideLayout->addWidget(m_button);
+    rightSideLayout->addWidget(picker, 0, Qt::AlignRight);
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
     connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
@@ -102,12 +110,18 @@ ChooseColorWidget::ChooseColorWidget(QString text, QString color, QWidget *paren
 
 QString ChooseColorWidget::getColor()
 {
-    return colorToString(m_button->color(), m_button->isAlphaChannelEnabled());
+    bool alphaChannel = false;
+#if KDE_IS_VERSION(4,5,0)
+    alphaChannel = m_button->isAlphaChannelEnabled();
+#endif
+    return colorToString(m_button->color(), alphaChannel);
 }
 
 void ChooseColorWidget::setAlphaChannelEnabled(bool enabled)
 {
+#if KDE_IS_VERSION(4,5,0)
     m_button->setAlphaChannelEnabled(enabled);
+#endif
 }
 
 void ChooseColorWidget::setColor(QColor color)
