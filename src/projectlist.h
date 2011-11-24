@@ -135,8 +135,7 @@ public:
                 QBrush brush;
                 QColor color;
                 if (proxy > 0) {
-                    proxyText = QString::number(proxy) + "% ";
-                    proxyText.append(i18n("Generating proxy ..."));
+                    proxyText = i18n("Proxy %1\%", proxy);
                     brush = option.palette.highlight();
                     color = option.palette.color(QPalette::HighlightedText);
                     

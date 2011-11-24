@@ -280,7 +280,7 @@ void ClipManager::slotGetAudioThumbs()
         for (int z = (int) frame; z < (int)(frame + lengthInFrames) && producer.is_valid() &&  !m_abortAudioThumb; z++) {
             val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
             if (last_val != val && val > 1) {
-                setThumbsProgress(i18n("Creating thumbnail for %1", url.fileName()), val);
+                setThumbsProgress(i18n("Creating audio thumbnail for %1", url.fileName()), val);
                 last_val = val;
             }
             producer.seek(z);
@@ -303,8 +303,7 @@ void ClipManager::slotGetAudioThumbs()
             delete mlt_frame;
         }
         f.close();
-        //TODO: post 8.2.1, change text to AUDIO thumbnails
-        setThumbsProgress(i18n("Creating thumbnail for %1", url.fileName()), -1);
+        setThumbsProgress(i18n("Creating audio thumbnail for %1", url.fileName()), -1);
         if (m_abortAudioThumb) {
             f.remove();
         } else {
