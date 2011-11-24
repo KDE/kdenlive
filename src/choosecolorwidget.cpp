@@ -26,6 +26,7 @@
 
 #include <KColorButton>
 #include <KLocalizedString>
+#include <kdeversion.h>
 
 static QColor stringToColor(QString strColor)
 {
@@ -102,12 +103,18 @@ ChooseColorWidget::ChooseColorWidget(QString text, QString color, QWidget *paren
 
 QString ChooseColorWidget::getColor()
 {
-    return colorToString(m_button->color(), m_button->isAlphaChannelEnabled());
+    bool alphaChannel = false;
+#if KDE_IS_VERSION(4,5,0)
+    alphaChannel = m_button->isAlphaChannelEnabled();
+#endif
+    return colorToString(m_button->color(), alphaChannel);
 }
 
 void ChooseColorWidget::setAlphaChannelEnabled(bool enabled)
 {
+#if KDE_IS_VERSION(4,5,0)
     m_button->setAlphaChannelEnabled(enabled);
+#endif
 }
 
 void ChooseColorWidget::setColor(QColor color)
