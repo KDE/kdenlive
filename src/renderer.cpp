@@ -4186,6 +4186,11 @@ Mlt::Producer* Render::getProducer()
     return m_mltProducer;
 }
 
+const QString Render::activeClipId()
+{
+    if (m_mltProducer) return m_mltProducer->get("id");
+    return QString();
+}
 
 #include "renderer.moc"
 
