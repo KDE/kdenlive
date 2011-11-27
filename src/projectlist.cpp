@@ -2765,7 +2765,6 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
                 continue;
             }
                 
-            resetThumbsProducer(clip);
             oldProps = clip->properties();
             if (doProxy) {
                 newProps.clear();

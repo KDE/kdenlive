@@ -141,15 +141,15 @@ void ClipManager::stopThumbs(const QString &id)
 
 void ClipManager::slotGetThumbs()
 {
-    QMap<QString, int>::iterator i = m_requestedThumbs.begin();
+    QMap<QString, int>::const_iterator i;
     int max;
     int done = 0;
-    while (i != m_requestedThumbs.end() && !m_abortThumb) {
-        QString producerId = i.key();
+    while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {
         m_thumbsMutex.lock();
+        i = m_requestedThumbs.constBegin();
+        QString producerId = i.key();
         QList<int> values = m_requestedThumbs.values(producerId);
         m_requestedThumbs.remove(producerId);
-        i = m_requestedThumbs.begin();
         m_thumbsMutex.unlock();
         qSort(values);
         DocClipBase *clip = getClipById(producerId);
