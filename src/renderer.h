@@ -302,6 +302,7 @@ Q_OBJECT public:
     Mlt::Tractor *lockService();
     /** @brief Unlock the MLT service */
     void unlockService(Mlt::Tractor *tractor);
+    const QString activeClipId();
 
 private:
 
