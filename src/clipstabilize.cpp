@@ -33,7 +33,6 @@
 #include <QSlider>
 #include <KFileDialog>
 
-
 ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter* filter,QWidget * parent) :
         QDialog(parent), m_urls(urls), m_duration(0),m_profile(NULL),m_consumer(NULL),m_playlist(NULL),m_filter(filter),vbox(NULL)
 {
@@ -94,24 +93,25 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
 
 	if (filtername=="videostab"){
 		QStringList ls;
-		ls << "shutterangle,type,int,value,0,min,0,max,100";
+		ls << "shutterangle,type,int,value,0,min,0,max,100,tooltip,Angle that Images could be maximum rotated";
 		fillParameters(ls);
 	}else if (filtername=="videostab2"){
 		QStringList ls;
-		ls << "accuracy,type,int,value,4,min,1,max,10";
-		ls << "stepsize,type,int,value,6,min,0,max,100";
-		ls << "algo,type,int,value,1,min,0,max,1";
-		ls << "mincontrast,type,int,value,0.3,min,0,max,1,factor,1,decimals,2";
-		ls << "show,type,int,value,0,min,0,max,2";
-		ls << "smoothing,type,int,value,10,min,0,max,100";
-		ls << "maxshift,type,int,value,-1,min,-1,max,1000";
-		ls << "maxangle,type,int,value,-1,min,-1,max,1000";
-		ls << "crop,type,int,value,0,min,0,max,1";
-		ls << "invert,type,int,value,0,min,0,max,1";
-		ls << "realtive,type,int,value,1,min,0,max,1";
-		ls << "zoom,type,int,value,0,min,-500,max,500";
-		ls << "optzoom,type,int,value,1,min,0,max,1";
-		ls << "sharpen,type,int,value,0.8,min,0,max,1,decimals,1";
+		ls << "accuracy,type,int,value,4,min,1,max,10,tooltip,Accuracy of Shakiness detection";
+		ls << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video";
+		ls << "stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around";
+		ls << "algo,type,bool,value,1,min,0,max,1,tooltip,0 = Bruteforce 1 = small measurement fields";
+		ls << "mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded";
+		ls << "show,type,int,value,0,min,0,max,2,tooltip,0 = draw nothing. 1 or 2 show fields and transforms";
+		ls << "smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering";
+		ls << "maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift";
+		ls << "maxangle,type,int,value,-1,min,-1,max,1000,tooltip,max anglen to rotate (in rad)";
+		ls << "crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background";
+		ls << "invert,type,bool,value,0,min,0,max,1,tooltip,invert transform";
+		ls << "realtive,type,bool,value,1,min,0,max,1,tooltip,0 = absolute transform  1= relative";
+		ls << "zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform";
+		ls << "optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)";
+		ls << "sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image";
 		fillParameters(ls);
 
 	}
@@ -126,14 +126,24 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
 	while(hi.hasNext()){
 		hi.next();
 		QHash<QString,QString> val=hi.value();
-		DoubleParameterWidget *dbl=new DoubleParameterWidget(hi.key(), val["value"].toDouble(),
-				val["min"].toDouble(),val["max"].toDouble(),val["value"].toDouble(),
-				"comment",0/*id*/,""/*suffix*/,val["decimals"]!=""?val["decimals"].toInt():0,this);
-		dbl->setObjectName(hi.key());
-		connect(dbl,SIGNAL(valueChanged(double)),this,SLOT(slotUpdateParams()));
-		vbox->addWidget(dbl);
+		if (val["type"]=="int" || val["type"]=="double"){
+			DoubleParameterWidget *dbl=new DoubleParameterWidget(hi.key(), val["value"].toDouble(),
+					val["min"].toDouble(),val["max"].toDouble(),val["value"].toDouble(),
+					"",0/*id*/,""/*suffix*/,val["decimals"]!=""?val["decimals"].toInt():0,this);
+			dbl->setObjectName(hi.key());
+			dbl->setToolTip(val["tooltip"]);
+			connect(dbl,SIGNAL(valueChanged(double)),this,SLOT(slotUpdateParams()));
+			vbox->addWidget(dbl);
+		}else if (val["type"]=="bool"){
+			QCheckBox *ch=new QCheckBox(hi.key(),this);
+			ch->setCheckState(val["value"] == "0" ? Qt::Unchecked : Qt::Checked);
+			ch->setObjectName(hi.key());
+			connect(ch, SIGNAL(stateChanged(int)) , this,SLOT(slotUpdateParams()));
+			ch->setToolTip(val["tooltip"]);
+			vbox->addWidget(ch);
+		
+		}
 	}
-
     adjustSize();
 }
 
@@ -283,6 +293,9 @@ void ClipStabilize::slotUpdateParams()
 			if (m_ui_params[name]["type"]=="int" || m_ui_params[name]["type"]=="double"){
 				DoubleParameterWidget *dbl=(DoubleParameterWidget*)w;
 				m_ui_params[name]["value"]=QString::number((double)(dbl->getValue()));
+			}else if (m_ui_params[name]["type"]=="bool"){
+				QCheckBox *ch=(QCheckBox*)w;
+				m_ui_params[name]["value"]= ch->checkState() == Qt::Checked ? "1" : "0" ;
 			}
 		}
 	}
