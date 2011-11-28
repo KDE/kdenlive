@@ -20,12 +20,14 @@
 
 
 #include "clipstabilize.h"
+#include "doubleparameterwidget.h"
 
 #include <KDebug>
 #include <mlt++/Mlt.h>
 #include "kdenlivesettings.h"
 #include <KGlobalSettings>
 #include <KMessageBox>
+#include <KColorScheme>
 #include <QtConcurrentRun>
 #include <QTimer>
 #include <QSlider>
@@ -43,6 +45,23 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
     auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
 	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
 	filtername=params;
+
+
+	QPalette p = palette();
+	KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+	QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
+	QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
+	QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
+	QColor light_bg = scheme.shade(KColorScheme::LightShade);
+
+	QString stylesheet(QString("QProgressBar:horizontal {border: 1px solid %1;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center}\
+				QProgressBar:horizontal#dragOnly {background: %1} QProgressBar:horizontal:hover#dragOnly {background: %3} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;}\
+				QProgressBar::chunk:horizontal {background: %1;} QProgressBar::chunk:horizontal:hover {background: %3;}\
+				QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
+				QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}\
+				QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} ")
+			.arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()));
+	setStyleSheet(stylesheet);
 
     if (m_urls.count() == 1) {
         QString fileName = m_urls.at(0).path(); //.section('.', 0, -1);
@@ -75,25 +94,25 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
 
 	if (filtername=="videostab"){
 		QStringList ls;
-		ls << "shutterangle,type,int,value,0,min,0,max,100,factor,1";
-		fillParamaters(ls);
+		ls << "shutterangle,type,int,value,0,min,0,max,100";
+		fillParameters(ls);
 	}else if (filtername=="videostab2"){
 		QStringList ls;
-		ls << "accuracy,type,int,value,4,min,1,max,10,factor,1";
-		ls << "stepsize,type,int,value,6,min,0,max,100,factor,1";
-		ls << "algo,type,int,value,1,min,0,max,1,factor,1";
-		ls << "mincontrast,type,int,value,30,min,0,max,100,factor,100";
-		ls << "show,type,int,value,0,min,0,max,2,factor,1";
-		ls << "smoothing,type,int,value,10,min,0,max,100,factor,1";
-		ls << "maxshift,type,int,value,-1,min,-1,max,1000,factor,1";
-		ls << "maxangle,type,int,value,-1,min,-1,max,1000,factor,1";
-		ls << "crop,type,int,value,0,min,0,max,1,factor,1";
-		ls << "invert,type,int,value,0,min,0,max,1,factor,1";
-		ls << "realtive,type,int,value,1,min,0,max,1,factor,1";
-		ls << "zoom,type,int,value,0,min,-500,max,500,factor,1";
-		ls << "optzoom,type,int,value,1,min,0,max,1,factor,1";
-		ls << "sharpen,type,int,value,8,min,0,max,100,factor,10";
-		fillParamaters(ls);
+		ls << "accuracy,type,int,value,4,min,1,max,10";
+		ls << "stepsize,type,int,value,6,min,0,max,100";
+		ls << "algo,type,int,value,1,min,0,max,1";
+		ls << "mincontrast,type,int,value,0.3,min,0,max,1,factor,1,decimals,2";
+		ls << "show,type,int,value,0,min,0,max,2";
+		ls << "smoothing,type,int,value,10,min,0,max,100";
+		ls << "maxshift,type,int,value,-1,min,-1,max,1000";
+		ls << "maxangle,type,int,value,-1,min,-1,max,1000";
+		ls << "crop,type,int,value,0,min,0,max,1";
+		ls << "invert,type,int,value,0,min,0,max,1";
+		ls << "realtive,type,int,value,1,min,0,max,1";
+		ls << "zoom,type,int,value,0,min,-500,max,500";
+		ls << "optzoom,type,int,value,1,min,0,max,1";
+		ls << "sharpen,type,int,value,0.8,min,0,max,1,decimals,1";
+		fillParameters(ls);
 
 	}
     connect(button_start, SIGNAL(clicked()), this, SLOT(slotStartStabilize()));
@@ -107,21 +126,12 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
 	while(hi.hasNext()){
 		hi.next();
 		QHash<QString,QString> val=hi.value();
-		QLabel *l=new QLabel(hi.key(),this);
-		QSlider* s=new QSlider(Qt::Horizontal,this);
-		if (val["factor"].toInt()>1){
-			s->setTickInterval(val["factor"].toInt()/10);
-		}
-		s->setTickPosition(QSlider::TicksBelow);
-		s->setMaximum(val["max"].toInt());
-		s->setMinimum(val["min"].toInt());
-		s->setValue(val["value"].toInt());
-		s->setObjectName(hi.key());
-		connect(s,SIGNAL(sliderMoved(int)),this,SLOT(slotUpdateParams()));
-		QHBoxLayout *hbox=new QHBoxLayout();
-		hbox->addWidget(s);
-		hbox->addWidget(l);
-		vbox->addLayout(hbox);
+		DoubleParameterWidget *dbl=new DoubleParameterWidget(hi.key(), val["value"].toDouble(),
+				val["min"].toDouble(),val["max"].toDouble(),val["value"].toDouble(),
+				"comment",0/*id*/,""/*suffix*/,val["decimals"]!=""?val["decimals"].toInt():0,this);
+		dbl->setObjectName(hi.key());
+		connect(dbl,SIGNAL(valueChanged(double)),this,SLOT(slotUpdateParams()));
+		vbox->addWidget(dbl);
 	}
 
     adjustSize();
@@ -178,10 +188,7 @@ void ClipStabilize::slotStartStabilize()
 			it.next();
 			filter.set(
 					it.key().toAscii().data(),
-					QString::number(
-						(double)(it.value()["value"].toDouble()/it.value()["factor"].toDouble())
-					).toAscii().data()
-			);
+					QString::number(it.value()["value"].toDouble()).toAscii().data());
 		}
 		Mlt::Producer p(*m_profile,s_url.toUtf8().data());
 		if (p.is_valid()) {
@@ -270,19 +277,18 @@ void ClipStabilize::slotStabilizeFinished(bool success)
 void ClipStabilize::slotUpdateParams()
 {
 	for (int i=0;i<vbox->count();i++){
-		QLayout *bo=vbox->itemAt(i)->layout();
-		QWidget* w=bo->itemAt(1)->widget();
+		QWidget* w=vbox->itemAt(i)->widget();
 		QString name=w->objectName();
 		if (name !="" && m_ui_params.contains(name)){
-			if (m_ui_params[name]["type"]=="int"){
-				QSlider *s=(QSlider*)w;
-				m_ui_params[name]["value"]=QString::number((double)(s->value()));
+			if (m_ui_params[name]["type"]=="int" || m_ui_params[name]["type"]=="double"){
+				DoubleParameterWidget *dbl=(DoubleParameterWidget*)w;
+				m_ui_params[name]["value"]=QString::number((double)(dbl->getValue()));
 			}
 		}
 	}
 }
 
-void ClipStabilize::fillParamaters(QStringList lst)
+void ClipStabilize::fillParameters(QStringList lst)
 {
 
 	m_ui_params.clear();

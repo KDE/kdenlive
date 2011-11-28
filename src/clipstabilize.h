@@ -66,7 +66,7 @@ private:
 	QTimer *m_timer;
 	QHash<QString,QHash<QString,QString> > m_ui_params;
 	QVBoxLayout *vbox;
-	void fillParamaters(QStringList);
+	void fillParameters(QStringList);
 
 signals:
     void addClip(KUrl url);
