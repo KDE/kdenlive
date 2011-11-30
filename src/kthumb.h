@@ -63,7 +63,7 @@ Q_OBJECT public:
     void clearProducer();
     void updateThumbUrl(const QString &hash);
     void extractImage(QList <int> frames);
-    QPixmap extractImage(int frame, int width, int height);
+    QImage extractImage(int frame, int width, int height);
 #if KDE_IS_VERSION(4,5,0)
     /** @brief Request thumbnails for the frame range. */
     void queryIntraThumbs(QList <int> missingFrames);
