@@ -251,17 +251,6 @@ void DocClipBase::setAudioThumbCreated(bool isDone)
     m_audioThumbCreated = isDone;
 }
 
-
-void DocClipBase::setThumbnail(const QPixmap & pixmap)
-{
-    m_thumbnail = pixmap;
-}
-
-const QPixmap & DocClipBase::thumbnail() const
-{
-    return m_thumbnail;
-}
-
 void DocClipBase::updateAudioThumbnail(const audioByteArray& data)
 {
     //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
@@ -1193,12 +1182,11 @@ void DocClipBase::slotExtractImage(QList <int> frames)
     m_thumbProd->extractImage(frames);
 }
 
-QPixmap DocClipBase::extractImage(int frame, int width, int height)
+QImage DocClipBase::extractImage(int frame, int width, int height)
 {
-    if (m_thumbProd == NULL) return QPixmap(width, height);
+    if (m_thumbProd == NULL) return QImage();
     QMutexLocker locker(&m_producerMutex);
-    QPixmap p = m_thumbProd->extractImage(frame, width, height);
-    return p;
+    return m_thumbProd->extractImage(frame, width, height);
 }
 
 

@@ -1377,9 +1377,9 @@ QPoint KdenliveDoc::getTracksCount() const
     return QPoint(video, audio);
 }
 
-void KdenliveDoc::cachePixmap(const QString &fileId, const QPixmap &pix) const
+void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
 {
-    pix.save(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + fileId + ".png");
+    img.save(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + fileId + ".png");
 }
 
 bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)

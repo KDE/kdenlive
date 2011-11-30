@@ -122,15 +122,14 @@ void KThumb::getThumb(int frame)
     emit thumbReady(frame, img);
 }
 
-QPixmap KThumb::extractImage(int frame, int width, int height)
+QImage KThumb::extractImage(int frame, int width, int height)
 {
     if (m_producer == NULL) {
-        QPixmap p(width, height);
-        p.fill(Qt::black);
-        return p;
+        QImage img(width, height, QImage::Format_ARGB32_Premultiplied);
+        img.fill(Qt::black);
+        return img;
     }
-    QImage img = getProducerFrame(frame, (int) (height * m_ratio + 0.5), width, height);
-    return QPixmap::fromImage(img);
+    return getProducerFrame(frame, (int) (height * m_ratio + 0.5), width, height);
 }
 
 //static

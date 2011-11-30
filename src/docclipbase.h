@@ -161,14 +161,8 @@ Q_OBJECT public:
      * it uses it as part of it's own composition. */
     bool referencesClip(DocClipBase * clip) const;
 
-    /** Sets the thumbnail to be used by this clip */
-    void setThumbnail(const QPixmap & pixmap);
-
     /** Returns the thumbnail producer used by this clip */
     KThumb *thumbProducer();
-
-    /** Returns the thumbnail used by this clip */
-    const QPixmap & thumbnail() const;
 
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
@@ -203,7 +197,7 @@ Q_OBJECT public:
     bool hasAudioCodec(const QString &codec) const;
     bool checkHash() const;
     void setPlaceHolder(bool place);
-    QPixmap extractImage(int frame, int width, int height);
+    QImage extractImage(int frame, int width, int height);
     void clearThumbProducer();
     void reloadThumbProducer();
     void cleanupProducers();
@@ -223,9 +217,6 @@ private:   // Private attributes
 
     /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
-
-    /** A thumbnail for this clip */
-    QPixmap m_thumbnail;
     GenTime m_duration;
 
     KThumb *m_thumbProd;

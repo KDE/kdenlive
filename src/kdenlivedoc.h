@@ -140,8 +140,7 @@ Q_OBJECT public:
      * The returned duration might differ from the actual track duration!
      * It is the one stored in the track's TrackInfo. */
     int trackDuration(int ix);
-
-    void cachePixmap(const QString &fileId, const QPixmap &pix) const;
+    void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(KUrl url);
     void setZone(int start, int end);
     QPoint zone() const;

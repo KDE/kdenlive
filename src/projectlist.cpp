@@ -1801,28 +1801,30 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
             return;
         }
         QPixmap pix;
+        QImage img;
         int height = m_listView->iconSize().height();
         int swidth = (int)(height  * m_render->frameRenderWidth() / m_render->renderHeight()+ 0.5);
         int dwidth = (int)(height  * m_render->dar() + 0.5);
         if (clip->clipType() == AUDIO)
             pix = KIcon("audio-x-generic").pixmap(QSize(dwidth, height));
         else if (clip->clipType() == IMAGE)
-            pix = QPixmap::fromImage(KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height));
+            img = KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height);
         else {
-            pix = item->referencedClip()->extractImage(frame, dwidth, height);
+            img = item->referencedClip()->extractImage(frame, dwidth, height);
         }
 
-        if (!pix.isNull()) {
+        if (!pix.isNull() || !img.isNull()) {
             monitorItemEditing(false);
+            if (!img.isNull()) pix = QPixmap::fromImage(img);
             it->setData(0, Qt::DecorationRole, pix);
             monitorItemEditing(true);
             
-            QString clipId = item->getClipHash();
-            if (!clipId.isEmpty()) {
+            QString hash = item->getClipHash();
+            if (!hash.isEmpty() && !img.isNull()) {
                 if (!isSubItem)
-                    m_doc->cachePixmap(clipId, pix);
+                    m_doc->cacheImage(hash, img);
                 else
-                    m_doc->cachePixmap(clipId + '#' + QString::number(frame), pix);
+                    m_doc->cacheImage(hash + '#' + QString::number(frame), img);
             }
         }
         if (update)
@@ -1998,26 +2000,26 @@ bool ProjectList::generateImageProxy() const
 
 void ProjectList::slotReplyGetImage(const QString &clipId, const QImage &img)
 {
-    QPixmap pix = QPixmap::fromImage(img);
-    setThumbnail(clipId, pix);
+    ProjectItem *item = getItemById(clipId);
+    if (item && !img.isNull()) {
+        QPixmap pix = QPixmap::fromImage(img);
+        monitorItemEditing(false);
+        item->setData(0, Qt::DecorationRole, pix);
+        monitorItemEditing(true);
+        QString hash = item->getClipHash();
+        if (!hash.isEmpty()) m_doc->cacheImage(hash, img);
+    }
 }
 
 void ProjectList::slotReplyGetImage(const QString &clipId, const QString &name, int width, int height)
 {
-    QPixmap pix =  KIcon(name).pixmap(QSize(width, height));
-    setThumbnail(clipId, pix);
-}
-
-void ProjectList::setThumbnail(const QString &clipId, const QPixmap &pix)
-{
+    // For clips that have a generic icon (like audio clips...)
     ProjectItem *item = getItemById(clipId);
+    QPixmap pix =  KIcon(name).pixmap(QSize(width, height));
     if (item && !pix.isNull()) {
         monitorItemEditing(false);
         item->setData(0, Qt::DecorationRole, pix);
         monitorItemEditing(true);
-        //update();
-        QString clipId = item->getClipHash();
-        if (!clipId.isEmpty()) m_doc->cachePixmap(clipId, pix);
     }
 }
 
@@ -2215,10 +2217,10 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
             m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
-        QPixmap p = clip->referencedClip()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
-        sub->setData(0, Qt::DecorationRole, p);
-        QString clipId = clip->getClipHash();
-        if (!clipId.isEmpty()) m_doc->cachePixmap(clipId + '#' + QString::number(in), p);
+        QImage img = clip->referencedClip()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
+        sub->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
+        QString hash = clip->getClipHash();
+        if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(in), img);
         monitorItemEditing(true);
     }
     emit projectModified();

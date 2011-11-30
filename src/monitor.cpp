@@ -503,9 +503,9 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         data.append(list.join(";").toUtf8());
         mimeData->setData("kdenlive/clip", data);
         drag->setMimeData(mimeData);
-        QPixmap pix = m_currentClip->thumbnail();
+        /*QPixmap pix = m_currentClip->thumbnail();
         drag->setPixmap(pix);
-        drag->setHotSpot(QPoint(0, 50));
+        drag->setHotSpot(QPoint(0, 50));*/
         drag->start(Qt::MoveAction);
 
         //Qt::DropAction dropAction;
