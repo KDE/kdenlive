@@ -134,7 +134,7 @@ void ClipManager::stopThumbs(const QString &id)
     m_requestedThumbs.remove(id);
     m_thumbsMutex.unlock();
     m_abortThumb = false;
-    if (!m_thumbsThread.isRunning()) {
+    if (!m_thumbsThread.isRunning() && !m_requestedThumbs.isEmpty()) {
         m_thumbsThread = QtConcurrent::run(this, &ClipManager::slotGetThumbs);
     }
 }

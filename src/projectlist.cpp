@@ -2834,6 +2834,10 @@ void ProjectList::setProxyStatus(ProjectItem *item, PROXYSTATUS status, int prog
             QDomElement xml = clip->toXML();
             m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), true);
         }
+        else {
+            // Disable proxy for this clip
+            clip->setProperty("proxy", "-");
+        }
     }
     monitorItemEditing(true);
 }
