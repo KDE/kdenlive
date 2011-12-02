@@ -201,7 +201,7 @@ private slots:
 
 public slots:
     void slotOpenFile(const QString &);
-    void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), int position = -1);
+    void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
     void refreshMonitor(bool visible);
     void refreshMonitor();

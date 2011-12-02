@@ -818,7 +818,7 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
    render->setProducer(prod, render->seekFramePosition());
 }
 
-void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, int position)
+void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpdate, int position)
 {
     if (render == NULL) return;
     if (clip == NULL && m_currentClip != NULL) {
@@ -829,7 +829,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, int position)
         return;
     }
     
-    if (clip != m_currentClip) {
+    if (clip != m_currentClip || forceUpdate) {
         m_currentClip = clip;
         if (m_currentClip) activateMonitor();
         updateMarkers(clip);

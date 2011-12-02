@@ -386,7 +386,7 @@ private slots:
     void slotGenerateProxy();
 
 signals:
-    void clipSelected(DocClipBase *, QPoint zone = QPoint());
+    void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
