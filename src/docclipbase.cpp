@@ -87,7 +87,6 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
 
     m_thumbProd = new KThumb(clipManager, url, m_id, m_properties.value("file_hash"));
-    if (m_clipType & (AV | AUDIO | PLAYLIST)) getAudioThumbs();
 }
 
 DocClipBase::~DocClipBase()
@@ -115,6 +114,12 @@ QPoint DocClipBase::zone() const
     return zone;
 }
 
+
+bool DocClipBase::hasAudioThumb() const
+{
+    if (m_clipType == AUDIO || m_clipType == AV || m_clipType == PLAYLIST) return true;
+    return false;
+}
 
 void DocClipBase::slotClearAudioCache()
 {
@@ -465,6 +470,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
                 m_thumbProd->setProducer(producer);
         }
         else m_thumbProd->setProducer(producer);
+        getAudioThumbs();
     }
     bool updated = false;
     if (id.contains('_')) {
