@@ -467,7 +467,7 @@ signals:
     void trackHeightChanged();
     void tracksChanged();
     void displayMessage(const QString &, MessageType);
-    void showClipFrame(DocClipBase *, QPoint, const int);
+    void showClipFrame(DocClipBase *, QPoint, bool, const int);
     void doTrackLock(int, bool);
     void updateClipMarkers(DocClipBase *);
     void updateTrackHeaders();
