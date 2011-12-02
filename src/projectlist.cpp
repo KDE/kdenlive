@@ -1853,7 +1853,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         item->setProperties(properties, metadata);
         clip->setProducer(producer, replace);
-        clip->getAudioThumbs();
 
         // Proxy stuff
         QString size = properties.value("frame_size");

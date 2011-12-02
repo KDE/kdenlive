@@ -181,17 +181,19 @@ void ClipManager::checkAudioThumbs()
     m_thumbsMutex.lock();
     for (int i = 0; i < m_clipList.count(); i++) {
         DocClipBase *clip = m_clipList.at(i);
-        if (clip->clipType() & (AUDIO | AV | PLAYLIST) && !clip->audioThumbCreated())
+        if (clip->hasAudioThumb() && !clip->audioThumbCreated())
             m_audioThumbsQueue.append(m_clipList.at(i)->getId());
     }
     m_thumbsMutex.unlock();
-    if (!m_audioThumbsThread.isRunning()) m_audioThumbsThread = QtConcurrent::run(this, &ClipManager::slotGetAudioThumbs);
+    if (!m_audioThumbsThread.isRunning() && !m_audioThumbsQueue.isEmpty()) {
+        m_audioThumbsThread = QtConcurrent::run(this, &ClipManager::slotGetAudioThumbs);
+    }
 }
 
 void ClipManager::askForAudioThumb(const QString &id)
 {
     DocClipBase *clip = getClipById(id);
-    if (clip && KdenliveSettings::audiothumbnails() && (clip->clipType() & (AUDIO | AV | PLAYLIST))) {
+    if (clip && KdenliveSettings::audiothumbnails() && (clip->hasAudioThumb())) {
         m_thumbsMutex.lock();
         if (!m_audioThumbsQueue.contains(id)) m_audioThumbsQueue.append(id);
         m_thumbsMutex.unlock();
