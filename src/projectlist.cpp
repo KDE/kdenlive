@@ -762,7 +762,6 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     if (item) {
         slotUpdateClipProperties(item, properties);
         if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource")) {
-            kDebug()<<"/// ARGH FORCE RELOAD";
             slotReloadClip(id);
         } else if (properties.contains("colour") ||
                    properties.contains("xmldata") ||
