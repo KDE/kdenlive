@@ -1081,6 +1081,17 @@ QMap <QString, QString> DocClipBase::properties() const
     return m_properties;
 }
 
+QMap <QString, QString> DocClipBase::currentProperties(QMap <QString, QString> props)
+{
+    QMap <QString, QString> currentProps;
+    QMap<QString, QString>::const_iterator i = props.constBegin();
+    while (i != props.constEnd()) {
+        currentProps.insert(i.key(), m_properties.value(i.key()));
+        ++i;
+    }
+    return currentProps;
+}
+
 bool DocClipBase::getAudioThumbs()
 {
     if (m_thumbProd == NULL || isPlaceHolder() || !KdenliveSettings::audiothumbnails()) return false;
