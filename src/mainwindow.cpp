@@ -228,7 +228,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
     connect(m_projectList, SIGNAL(clipNeedsReload(const QString&)),this, SLOT(slotUpdateClip(const QString &)));
     connect(m_projectList, SIGNAL(updateProfile(const QString &)), this, SLOT(slotUpdateProjectProfile(const QString &)));
-    connect(m_projectList, SIGNAL(refreshClip(const QString &, bool)), m_monitorManager, SLOT(slotRefreshCurrentMonitor()));
+    connect(m_projectList, SIGNAL(refreshClip(const QString &, bool)), m_monitorManager, SLOT(slotRefreshCurrentMonitor(const QString &)));
     connect(m_projectList, SIGNAL(findInTimeline(const QString&)), this, SLOT(slotClipInTimeline(const QString&)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));
 
@@ -3204,7 +3204,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
                 else newprops.insert("templatetext", description);
                 //newprops.insert("xmldata", m_projectList->generateTemplateXml(newtemplate, description).toString());
                 if (!newprops.isEmpty()) {
-                    EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
+                    EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newprops), newprops, true);
                     m_activeDocument->commandStack()->push(command);
                 }
             }
@@ -3234,7 +3234,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
                     dia_ui->saveTitle(path);
                 } else newprops.insert("resource", QString());
             }
-            EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
+            EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newprops), newprops, true);
             m_activeDocument->commandStack()->push(command);
             //m_activeTimeline->projectView()->slotUpdateClip(clip->getId());
             m_activeDocument->setModified(true);
@@ -3282,9 +3282,9 @@ void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QSt
         for (int i = 0; i < cliplist.count(); i++) {
             DocClipBase *clip = cliplist.at(i);
             if (clip->clipType() == IMAGE)
-                new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newImageProps, true, command);
+                new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newImageProps), newImageProps, true, command);
             else 
-                new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newProps, true, command);
+                new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newProps), newProps, true, command);
         }
         m_activeDocument->commandStack()->push(command);
         for (int i = 0; i < cliplist.count(); i++)

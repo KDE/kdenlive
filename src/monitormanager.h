@@ -69,7 +69,7 @@ public slots:
     void slotUpdateAudioMonitoring();
 
 private slots:
-    void slotRefreshCurrentMonitor();
+    void slotRefreshCurrentMonitor(const QString &id);
 
 private:
     Monitor *m_clipMonitor;

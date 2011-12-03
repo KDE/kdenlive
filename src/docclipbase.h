@@ -266,7 +266,10 @@ public slots:
     uint getClipThumbFrame() const;
     void setProperties(QMap <QString, QString> properties);
     void setMetadata(QMap <QString, QString> properties);
+    /** Returns all current properties for this clip */
     QMap <QString, QString> properties() const;
+    /** Return the current values for a set of properties */
+    QMap <QString, QString> currentProperties(QMap <QString, QString> props);
     QMap <QString, QString> metadata() const;
     void slotExtractImage(QList <int> frames);
 

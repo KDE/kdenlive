@@ -762,6 +762,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     if (item) {
         slotUpdateClipProperties(item, properties);
         if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource")) {
+            kDebug()<<"/// ARGH FORCE RELOAD";
             slotReloadClip(id);
         } else if (properties.contains("colour") ||
                    properties.contains("xmldata") ||
@@ -770,7 +771,6 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
                    properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip(id, true);
-            emit clipSelected(item->referencedClip(), item->referencedClip()->zone(), true);
         } else if (properties.contains("full_luma") || properties.contains("force_colorspace") || properties.contains("loop")) {
             emit refreshClip(id, false);
         }
@@ -2683,7 +2683,7 @@ void ProjectList::updateProxyConfig()
                 newProps.insert("replace", "1");
                 // insert required duration for proxy
                 newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
-                new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
+                new EditClipCommand(this, item->clipId(), item->referencedClip()->currentProperties(newProps), newProps, true, command);
             }
         }
         else if (t == IMAGE && item->referencedClip() != NULL) {
@@ -2806,7 +2806,7 @@ void ProjectList::slotDeleteProxy(const QString proxyPath)
             if (item->referencedClip()->getProperty("proxy") == proxyPath) {
                 QMap <QString, QString> props;
                 props.insert("proxy", QString());
-                new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), props, true, proxyCommand);
+                new EditClipCommand(this, item->clipId(), item->referencedClip()->currentProperties(props), props, true, proxyCommand);
             
             }
         }

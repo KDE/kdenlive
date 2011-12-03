@@ -1045,6 +1045,13 @@ AbstractRender *Monitor::abstractRender()
     return render;
 }
 
+void Monitor::reloadProducer(const QString &id)
+{
+    if (!m_currentClip) return;
+    if (m_currentClip->getId() == id)
+        slotSetClipProducer(m_currentClip, m_currentClip->zone(), true);
+}
+
 MonitorRefresh::MonitorRefresh(QWidget* parent) :
     QWidget(parent)
     , m_renderer(NULL)
