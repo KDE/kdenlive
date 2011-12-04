@@ -120,6 +120,7 @@ public:
     void updateMarkers(DocClipBase *source);
     MonitorEditWidget *getEffectEdit();
     QWidget *container();
+    void reloadProducer(const QString &id);
     QFrame *m_volumePopup;
 
 protected:
