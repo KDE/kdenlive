@@ -149,6 +149,8 @@ private:   // Private attributes
     QMap <QString, int> m_requestedThumbs;
     QMutex m_thumbsMutex;
     QFuture<void> m_thumbsThread;
+    /** @brief The id of currently processed clip for thumbs creation. */
+    QString m_processingThumbId;
     /** @brief If true, abort processing of clip thumbs before removing a clip. */
     bool m_abortThumb;
     /** @brief We are about to delete the clip producer, stop processing thumbs. */

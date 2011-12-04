@@ -127,8 +127,7 @@ void ClipManager::requestThumbs(const QString id, QList <int> frames)
 
 void ClipManager::stopThumbs(const QString &id)
 {
-    if (m_closing || (m_requestedThumbs.isEmpty() && m_audioThumbsQueue.isEmpty() && m_processingAudioThumbId != id)) return;
-    
+    if (m_closing || (m_requestedThumbs.isEmpty() && m_processingThumbId != id && m_audioThumbsQueue.isEmpty() && m_processingAudioThumbId != id)) return;
     // Abort video thumbs for this clip
     m_abortThumb = true;
     m_thumbsThread.waitForFinished();
@@ -162,12 +161,12 @@ void ClipManager::slotGetThumbs()
     while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {
         m_thumbsMutex.lock();
         i = m_requestedThumbs.constBegin();
-        QString producerId = i.key();
-        QList<int> values = m_requestedThumbs.values(producerId);
-        m_requestedThumbs.remove(producerId);
+        m_processingThumbId = i.key();
+        QList<int> values = m_requestedThumbs.values(m_processingThumbId);
+        m_requestedThumbs.remove(m_processingThumbId);
         m_thumbsMutex.unlock();
         qSort(values);
-        DocClipBase *clip = getClipById(producerId);
+        DocClipBase *clip = getClipById(m_processingThumbId);
         if (!clip) continue;
         max = m_requestedThumbs.size() + values.count();
         while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
@@ -176,6 +175,7 @@ void ClipManager::slotGetThumbs()
             if (max > 3) emit displayMessage(i18n("Loading thumbnails"), 100 * done / max);
         }
     }
+    m_processingThumbId.clear();
     emit displayMessage(QString(), -1);
 }
 

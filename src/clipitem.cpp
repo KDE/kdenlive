@@ -124,6 +124,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
 ClipItem::~ClipItem()
 {
     blockSignals(true);
+    m_endThumbTimer.stop();
+    m_startThumbTimer.stop();
     if (scene()) scene()->removeItem(this);
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
         //disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
@@ -574,6 +576,13 @@ void ClipItem::slotFetchThumbs()
     }
 
     if (!frames.isEmpty()) m_clip->slotExtractImage(frames);
+}
+
+void ClipItem::stopThumbs()
+{
+    // Clip is about to be deleted, make sure we don't request thumbnails
+    disconnect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
+    disconnect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 }
 
 void ClipItem::slotGetStartThumb()

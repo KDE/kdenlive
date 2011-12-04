@@ -3777,10 +3777,10 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
         kDebug()<<"CANNOT REMOVE: "<<info.startPos.frames(m_document->fps())<<", TK: "<<info.track;
         //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
-        exit(1);
         return;
     }
     m_waitingThumbs.removeAll(item);
+    item->stopThumbs();
     if (item->isSelected()) emit clipItemSelected(NULL);
     item->baseClip()->removeReference();
     m_document->updateClip(item->baseClip()->getId());
@@ -4133,9 +4133,10 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
         emit forceClipProcessing(clipId);
         qApp->processEvents();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             if (baseclip->getProducer() == NULL) {
-                m_producerNotReady.wait(&m_mutex, 500 + 500 * i);
+                qApp->processEvents();
+                m_producerNotReady.wait(&m_mutex, 200);
             } else break;
         }
         if (baseclip->getProducer() == NULL) {
