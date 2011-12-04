@@ -240,6 +240,9 @@ private:   // Private attributes
     /** Try to make sure we don't delete a producer while using it */
     QMutex m_producerMutex;
     QMutex m_replaceMutex;
+    
+    /** @brief This timer will trigger creation of audio thumbnails. */
+    QTimer m_audioTimer;
 
     /** Create connections for audio thumbnails */
     void slotRefreshProducer();

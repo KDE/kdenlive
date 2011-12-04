@@ -127,15 +127,30 @@ void ClipManager::requestThumbs(const QString id, QList <int> frames)
 
 void ClipManager::stopThumbs(const QString &id)
 {
-    if (m_requestedThumbs.isEmpty() || m_closing) return;
+    if (m_closing || (m_requestedThumbs.isEmpty() && m_audioThumbsQueue.isEmpty() && m_processingAudioThumbId != id)) return;
+    
+    // Abort video thumbs for this clip
     m_abortThumb = true;
     m_thumbsThread.waitForFinished();
     m_thumbsMutex.lock();
     m_requestedThumbs.remove(id);
+    m_audioThumbsQueue.removeAll(id);
     m_thumbsMutex.unlock();
     m_abortThumb = false;
+
+    // Abort audio thumbs for this clip
+    if (m_processingAudioThumbId == id) {
+        m_abortAudioThumb = true;
+        m_audioThumbsThread.waitForFinished();
+        m_abortAudioThumb = false;
+    }
+    
     if (!m_thumbsThread.isRunning() && !m_requestedThumbs.isEmpty()) {
         m_thumbsThread = QtConcurrent::run(this, &ClipManager::slotGetThumbs);
+    }
+    
+    if (!m_audioThumbsThread.isRunning() && !m_audioThumbsQueue.isEmpty()) {
+        m_audioThumbsThread = QtConcurrent::run(this, &ClipManager::slotGetAudioThumbs);
     }
 }
 
@@ -207,9 +222,9 @@ void ClipManager::slotGetAudioThumbs()
     mlt_audio_format audioFormat = mlt_audio_pcm;
     while (!m_abortAudioThumb && !m_audioThumbsQueue.isEmpty()) {
         m_thumbsMutex.lock();
-        QString clipId = m_audioThumbsQueue.takeFirst();
+        m_processingAudioThumbId = m_audioThumbsQueue.takeFirst();
         m_thumbsMutex.unlock();
-        DocClipBase *clip = getClipById(clipId);
+        DocClipBase *clip = getClipById(m_processingAudioThumbId);
         if (!clip || clip->audioThumbCreated()) continue;
         KUrl url = clip->fileURL();
         QString hash = clip->getClipHash();
@@ -313,6 +328,7 @@ void ClipManager::slotGetAudioThumbs()
             clip->updateAudioThumbnail(storeIn);
         }
     }
+    m_processingAudioThumbId.clear();
 }
 
 void ClipManager::setThumbsProgress(const QString &message, int progress)

@@ -32,6 +32,13 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage = new KMessageWidget;
+    QGridLayout *s =  static_cast <QGridLayout*> (layout());
+    s->addWidget(m_infoMessage, 10, 0, 1, -1);
+    m_infoMessage->setCloseButtonVisible(false);
+    m_infoMessage->hide();
+#endif
     log_text->setHidden(true);
     setWindowTitle(i18n("Transcode Clip"));
     auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
@@ -94,6 +101,9 @@ ClipTranscode::~ClipTranscode()
     if (m_transcodeProcess.state() != QProcess::NotRunning) {
         m_transcodeProcess.close();
     }
+#if KDE_IS_VERSION(4,7,0)
+    delete m_infoMessage;
+#endif
 }
 
 void ClipTranscode::slotStartTransCode()
@@ -102,10 +112,15 @@ void ClipTranscode::slotStartTransCode()
         return;
     }
     m_duration = 0;
+    m_destination.clear();
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage->animatedHide();
+#endif
     QStringList parameters;
     QString destination;
     QString params = ffmpeg_params->toPlainText().simplified();
-    if (urls_list->count() > 0) {
+    if (m_urls.count() > 0 && urls_list->count() > 0) {
+        // We are processing multiple clips
         source_url->setUrl(m_urls.takeFirst());
         destination = dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName();
         QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
@@ -118,19 +133,19 @@ void ClipTranscode::slotStartTransCode()
     }
     QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
     QString s_url = source_url->url().path();
-
     parameters << "-i" << s_url;
     if (QFile::exists(destination + extension)) {
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) return;
         parameters << "-y";
     }
     foreach(QString s, params.split(' '))
-    parameters << s.replace("%1", destination);
+        parameters << s.replace("%1", destination);
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
 
-    //kDebug() << "/// FFMPEG ARGS: " << parameters;
-
+    m_destination = destination + extension;
     m_transcodeProcess.start("ffmpeg", parameters);
+    source_url->setEnabled(false);
+    dest_url->setEnabled(false);
     button_start->setEnabled(false);
 
 }
@@ -138,11 +153,11 @@ void ClipTranscode::slotStartTransCode()
 void ClipTranscode::slotShowTranscodeInfo()
 {
     QString log = QString(m_transcodeProcess.readAll());
-    int progress;
     if (m_duration == 0) {
         if (log.contains("Duration:")) {
             QString data = log.section("Duration:", 1, 1).section(',', 0, 0).simplified();
             QStringList numbers = data.split(':');
+            if (numbers.size() < 3) return;
             m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
             log_text->setHidden(true);
             job_progress->setHidden(false);
@@ -153,16 +168,16 @@ void ClipTranscode::slotShowTranscodeInfo()
         }
     }
     else if (log.contains("time=")) {
+        int progress;
         QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
         if (time.contains(':')) {
             QStringList numbers = time.split(':');
+            if (numbers.size() < 3) return;
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
         }
         else progress = (int) time.toDouble();
-        kDebug()<<"// PROGRESS: "<<progress<<", "<<m_duration;
         job_progress->setValue((int) (100.0 * progress / m_duration));
     }
-    //kDebug() << "//LOG: " << log;
     log_text->setPlainText(log);
 }
 
@@ -170,8 +185,14 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
 {
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Close"));
     button_start->setEnabled(true);
+    source_url->setEnabled(true);
+    dest_url->setEnabled(true);
     m_duration = 0;
 
+    if (QFileInfo(m_destination).size() <= 0) {
+        // Destination file does not exist, transcoding failed
+        exitCode = 1;
+    }
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
         log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding finished."));
         if (auto_add->isChecked()) {
@@ -188,11 +209,33 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
             slotStartTransCode();
             return;
         } else if (auto_close->isChecked()) accept();
+        else {
+#if KDE_IS_VERSION(4,7,0)
+            m_infoMessage->setMessageType(KMessageWidget::Positive);
+            m_infoMessage->setText(i18n("Transcoding finished."));
+            m_infoMessage->animatedShow();
+#else
+            log_text->setVisible(true);
+#endif
+        }
     } else {
+#if KDE_IS_VERSION(4,7,0)
+        m_infoMessage->setMessageType(KMessageWidget::Warning);
+        m_infoMessage->setText(i18n("Transcoding FAILED!"));
+        m_infoMessage->animatedShow();
+#else
         log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding FAILED!"));
+#endif
+        log_text->setVisible(true);
     }
-
     m_transcodeProcess.close();
+    
+    //Refill url list in case user wants to transcode to another format
+    if (urls_list->count() > 0) {
+        m_urls.clear();
+        for (int i = 0; i < urls_list->count(); i++)
+            m_urls << urls_list->item(i)->text();
+    }
 }
 
 void ClipTranscode::slotUpdateParams(int ix)

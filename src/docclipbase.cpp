@@ -87,10 +87,17 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
 
     m_thumbProd = new KThumb(clipManager, url, m_id, m_properties.value("file_hash"));
+    
+    // Setup timer to trigger audio thumbs creation
+    m_audioTimer.setSingleShot(true);
+    m_audioTimer.setInterval(800);
+    connect(&m_audioTimer, SIGNAL(timeout()), m_thumbProd, SLOT(slotCreateAudioThumbs()));
+    
 }
 
 DocClipBase::~DocClipBase()
 {
+    m_audioTimer.stop();
     delete m_thumbProd;
     qDeleteAll(m_toDeleteProducers);
     m_toDeleteProducers.clear();
@@ -1098,7 +1105,7 @@ bool DocClipBase::getAudioThumbs()
     if (m_audioThumbCreated) {
         return false;
     }
-    QTimer::singleShot(800, m_thumbProd, SLOT(slotCreateAudioThumbs()));
+    m_audioTimer.start();
     return true;
 }
 
