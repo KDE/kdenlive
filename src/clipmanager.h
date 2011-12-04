@@ -156,6 +156,8 @@ private:   // Private attributes
     QFuture<void> m_audioThumbsThread;
     /** @brief If true, abort processing of audio thumbs. */
     bool m_abortAudioThumb;
+    /** @brief The id of currently processed clip for audio thumbs creation. */
+    QString m_processingAudioThumbId;
 
 signals:
     void reloadClip(const QString &);

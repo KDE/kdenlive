@@ -248,6 +248,9 @@ RenderWidget::~RenderWidget()
     m_view.scripts_list->clear();
     delete m_jobsDelegate;
     delete m_scriptsDelegate;
+#if KDE_IS_VERSION(4,7,0)
+    delete m_infoMessage;
+#endif
 }
 
 void RenderWidget::slotEditItem(QListWidgetItem *item)
