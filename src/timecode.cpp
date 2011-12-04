@@ -145,7 +145,6 @@ int Timecode::getFrameCount(const QString &duration) const
     if (duration.isEmpty()) {
         return 0;
     }
-
     int hours, minutes, seconds, frames;
     int offset = 0;
     if (duration.at(0) == '-') {
@@ -166,7 +165,7 @@ int Timecode::getFrameCount(const QString &duration) const
         int frameNumber = ((m_displayedFramesPerSecond * 3600 * hours) + (m_displayedFramesPerSecond * 60 * minutes) + (m_displayedFramesPerSecond * seconds) + frames) - (m_dropFrames * (totalMinutes - floor(totalMinutes / 10)));
         return frameNumber;
     }
-    return (int)(hours * 3600.0 + minutes * 60.0 + seconds * m_realFps + frames);
+    return (int)((hours * 3600.0 + minutes * 60.0 + seconds) * m_realFps + frames);
 }
 
 QString Timecode::getDisplayTimecode(const GenTime & time, bool frameDisplay) const

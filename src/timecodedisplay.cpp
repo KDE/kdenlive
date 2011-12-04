@@ -62,16 +62,15 @@ TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
 QAbstractSpinBox::StepEnabled TimecodeDisplay::stepEnabled () const
 {
     QAbstractSpinBox::StepEnabled result = QAbstractSpinBox::StepNone;
-    if (getValue() > m_minimum) result |= QAbstractSpinBox::StepDownEnabled;
-    if (m_maximum == -1 || getValue() < m_maximum) result |= QAbstractSpinBox::StepUpEnabled;
+    if (m_value > m_minimum) result |= QAbstractSpinBox::StepDownEnabled;
+    if (m_maximum == -1 || m_value < m_maximum) result |= QAbstractSpinBox::StepUpEnabled;
     return result;
 }
 
 // virtual
 void TimecodeDisplay::stepBy(int steps)
 {
-    int val = getValue();
-    val += steps;
+    int val = m_value + steps;
     setValue(val);
     emit editingFinished();
 }
@@ -79,8 +78,8 @@ void TimecodeDisplay::stepBy(int steps)
 void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
 {
     if (!init && m_frametimecode == frametimecode) return;
-    int val = getValue();
     m_frametimecode = frametimecode;
+    lineEdit()->clear();
     if (m_frametimecode) {
         QIntValidator *valid = new QIntValidator(lineEdit());
         valid->setBottom(0);
@@ -90,7 +89,7 @@ void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
         lineEdit()->setValidator(0);
         lineEdit()->setInputMask(m_timecode.mask());
     }
-    setValue(val);
+    setValue(m_value);
 }
 
 void TimecodeDisplay::slotUpdateTimeCodeFormat()
@@ -106,8 +105,10 @@ void TimecodeDisplay::updateTimeCode(Timecode t)
 
 void TimecodeDisplay::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_Return)
-        slotEditingFinished();
+    if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
+        e->setAccepted(true);
+        clearFocus();
+    }
     else
         QAbstractSpinBox::keyPressEvent(e);
 }
@@ -142,13 +143,12 @@ int TimecodeDisplay::minimum() const
 
 int TimecodeDisplay::getValue() const
 {
-    if (m_frametimecode) return lineEdit()->text().toInt();
-    else return m_timecode.getFrameCount(lineEdit()->text());
+    return m_value;
 }
 
 GenTime TimecodeDisplay::gentime() const
 {
-    return GenTime(getValue(), m_timecode.fps());
+    return GenTime(m_value, m_timecode.fps());
 }
 
 Timecode TimecodeDisplay::timecode() const
@@ -173,10 +173,8 @@ void TimecodeDisplay::setValue(int value)
         value = m_minimum;
     if (m_maximum > m_minimum && value > m_maximum)
         value = m_maximum;
-
-    if (value == getValue() && !lineEdit()->text().isEmpty()) return;
-    //downarrow->setEnabled(value > m_minimum);
-    //uparrow->setEnabled(m_maximum < m_minimum || value < m_maximum);
+    if (value == m_value && !lineEdit()->text().isEmpty()) return;
+    m_value = value;
 
     if (m_frametimecode)
         lineEdit()->setText(QString::number(value));
@@ -188,14 +186,15 @@ void TimecodeDisplay::setValue(int value)
 
 void TimecodeDisplay::setValue(GenTime value)
 {
-    setValue(m_timecode.getTimecode(value));
+    setValue((int) value.frames(m_timecode.fps()));
 }
 
 
 void TimecodeDisplay::slotEditingFinished()
 {
-    clearFocus();
     lineEdit()->deselect();
+    if (m_frametimecode) setValue(lineEdit()->text().toInt());
+    else setValue(lineEdit()->text());
     emit editingFinished();
 }
 

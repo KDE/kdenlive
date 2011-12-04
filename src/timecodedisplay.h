@@ -83,6 +83,7 @@ private:
     bool m_frametimecode;
     int m_minimum;
     int m_maximum;
+    int m_value;
 
 public slots:
     /** @brief Sets the value.
