@@ -99,6 +99,7 @@ DocClipBase::~DocClipBase()
 {
     m_audioTimer.stop();
     delete m_thumbProd;
+    m_thumbProd = NULL;
     qDeleteAll(m_toDeleteProducers);
     m_toDeleteProducers.clear();
     qDeleteAll(m_baseTrackProducers);

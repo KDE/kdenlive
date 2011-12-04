@@ -590,6 +590,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
 
 void Render::forceProcessing(const QString &id)
 {
+    if (m_processingClipId == id) return;
     m_infoMutex.lock();
     for (int i = 0; i < m_requestList.count(); i++) {
         requestClipInfo info = m_requestList.at(i);

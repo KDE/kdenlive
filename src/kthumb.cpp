@@ -40,7 +40,7 @@
 #include <QtConcurrentRun>
 #include <QVarLengthArray>
 
-KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/) :
+KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent) :
     QObject(parent),
     m_url(url),
     m_thumbFile(),
@@ -56,6 +56,7 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
 KThumb::~KThumb()
 {
     if (m_producer) m_clipManager->stopThumbs(m_id);
+    m_producer = NULL;
     m_intraFramesQueue.clear();
     m_intra.waitForFinished();
 }
