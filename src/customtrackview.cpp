@@ -4259,7 +4259,7 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track)
 
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
 {
-    const QPointF p(pos, (track + 1) * m_tracksHeight);
+    const QPointF p(pos, track * m_tracksHeight + Transition::itemOffset() + 1);
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
@@ -4280,7 +4280,7 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track)
 Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track)
 {
     int framepos = (int)(pos.frames(m_document->fps()));
-    const QPointF p(framepos - 1, (track + 1) * m_tracksHeight);
+    const QPointF p(framepos - 1, track * m_tracksHeight + Transition::itemOffset() + 1);
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
@@ -4296,7 +4296,7 @@ Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track)
 
 Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
 {
-    const QPointF p(pos.frames(m_document->fps()), (track + 1) * m_tracksHeight);
+    const QPointF p(pos.frames(m_document->fps()), track * m_tracksHeight + Transition::itemOffset() + 1);
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {

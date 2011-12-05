@@ -298,11 +298,13 @@ OPERATIONTYPE Transition::operationMode(QPointF pos)
     return MOVE;
 }
 
+//static
 int Transition::itemHeight()
 {
     return (int) (KdenliveSettings::trackheight() / 3 * 2 - 1);
 }
 
+//static
 int Transition::itemOffset()
 {
     return (int) (KdenliveSettings::trackheight() / 3 * 2);
