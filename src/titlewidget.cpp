@@ -78,6 +78,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     setFont(KGlobalSettings::toolBarFont());
     frame_properties->setEnabled(false);
     frame_properties->setFixedHeight(frame_toolbar->height());
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
 
 #if KDE_IS_VERSION(4,5,0)
     rectBColor->setAlphaChannelEnabled(true);
@@ -262,6 +264,15 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     font_weight_box->setCurrentIndex(1);
     font_weight_box->blockSignals(false);
 
+    buttonFitZoom->setIconSize(iconSize);
+    buttonRealSize->setIconSize(iconSize);
+    buttonItalic->setIconSize(iconSize);
+    buttonUnder->setIconSize(iconSize);
+    buttonAlignCenter->setIconSize(iconSize);
+    buttonAlignLeft->setIconSize(iconSize);
+    buttonAlignRight->setIconSize(iconSize);
+    buttonAlignNone->setIconSize(iconSize);
+    
     buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
     buttonRealSize->setIcon(KIcon("zoom-original"));
     buttonItalic->setIcon(KIcon("format-text-italic"));
@@ -338,6 +349,10 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     buttonUnselectAll->setDefaultAction(m_unselectAll);
     buttonUnselectAll->setEnabled(false);
 
+    zDown->setIconSize(iconSize);
+    zTop->setIconSize(iconSize);
+    zBottom->setIconSize(iconSize);
+    
     zDown->setIcon(KIcon("kdenlive-zindex-down"));
     zTop->setIcon(KIcon("kdenlive-zindex-top"));
     zBottom->setIcon(KIcon("kdenlive-zindex-bottom"));
@@ -360,6 +375,13 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     buttonSelectImages->setToolTip(getTooltipWithShortcut(i18n("Select image items in current selection"), m_selectImages));
     buttonUnselectAll->setToolTip(getTooltipWithShortcut(i18n("Unselect all"), m_unselectAll));
 
+    itemhcenter->setIconSize(iconSize);
+    itemvcenter->setIconSize(iconSize);
+    itemtop->setIconSize(iconSize);
+    itembottom->setIconSize(iconSize);
+    itemright->setIconSize(iconSize);
+    itemleft->setIconSize(iconSize);
+    
     itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
     itemvcenter->setIcon(KIcon("kdenlive-align-vert"));
@@ -378,8 +400,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     frame_toolbar->setLayout(layout);
     layout->setContentsMargins(0, 0, 0, 0);
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
-    int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
-    m_toolbar->setIconSize(QSize(s, s));
+    m_toolbar->setIconSize(iconSize);
 
     m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), QString());
     m_buttonCursor->setCheckable(true);
