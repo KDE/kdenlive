@@ -103,7 +103,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
-    m_view.rescale_box->setEnabled(false);
+    setRescaleEnabled(false);
     m_view.guides_box->setVisible(false);
     m_view.open_dvd->setVisible(false);
     m_view.create_chapter->setVisible(false);
@@ -182,7 +182,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     connect(m_view.buttonClose, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.buttonClose2, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.buttonClose3, SIGNAL(clicked()), this, SLOT(hide()));
-    connect(m_view.rescale, SIGNAL(toggled(bool)), m_view.rescale_box, SLOT(setEnabled(bool)));
+    connect(m_view.rescale, SIGNAL(toggled(bool)), this, SLOT(setRescaleEnabled(bool)));
     connect(m_view.destination_list, SIGNAL(activated(int)), this, SLOT(refreshCategory()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
     connect(m_view.out_file, SIGNAL(urlSelected(const KUrl &)), this, SLOT(slotUpdateButtons(const KUrl &)));
@@ -1303,10 +1303,10 @@ void RenderWidget::refreshParams()
     if (params.contains(" s=") || params.startsWith("s=") || destination == "audioonly") {
         // profile has a fixed size, do not allow resize
         m_view.rescale->setEnabled(false);
-        m_view.rescale_box->setEnabled(false);
+        setRescaleEnabled(false);
     } else {
         m_view.rescale->setEnabled(true);
-        m_view.rescale_box->setEnabled(m_view.rescale->isChecked());
+        setRescaleEnabled(m_view.rescale->isChecked());
     }
     KUrl url = filenameWithExtension(m_view.out_file->url(), extension);
     m_view.out_file->setUrl(url);
@@ -2134,4 +2134,11 @@ void RenderWidget::updateProxyConfig(bool enable)
 bool RenderWidget::proxyRendering()
 {
     return m_view.proxy_render->isChecked();
+}
+
+void RenderWidget::setRescaleEnabled(bool enable)
+{
+    for (int i = 0; i < m_view.rescale_box->layout()->count(); i++) {
+        if (m_view.rescale_box->itemAt(i)->widget()) m_view.rescale_box->itemAt(i)->widget()->setEnabled(enable);
+    }   
 }

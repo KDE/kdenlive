@@ -178,6 +178,8 @@ private slots:
     void slotSwitchAspectRatio();
     /** @brief Update export audio label depending on current settings. */
     void slotUpdateAudioLabel(int ix);
+    /** @brief Enable / disable the rescale options. */
+    void setRescaleEnabled(bool enable);
 
 private:
     Ui::RenderWidget_UI m_view;
