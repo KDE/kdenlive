@@ -521,6 +521,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
         templateBox->addItem(t.icon, t.name, t.file);
     }
     lastDocumentHash = QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
+    adjustSize();
 }
 
 TitleWidget::~TitleWidget()
@@ -549,6 +550,12 @@ TitleWidget::~TitleWidget()
     delete m_endViewport;
     delete m_scene;
     delete m_signalMapper;
+}
+
+QSize TitleWidget::sizeHint() const
+{
+    // Make sure the widget has minimum size on opening
+    return QSize(200, 200);
 }
 
 //static
