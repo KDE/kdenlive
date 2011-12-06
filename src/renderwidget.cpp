@@ -73,7 +73,16 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, MltVi
         m_blockProcessing(false)
 {
     m_view.setupUi(this);
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
+    
     setWindowTitle(i18n("Rendering"));
+    m_view.buttonDelete->setIconSize(iconSize);
+    m_view.buttonEdit->setIconSize(iconSize);
+    m_view.buttonSave->setIconSize(iconSize);
+    m_view.buttonInfo->setIconSize(iconSize);
+    m_view.buttonFavorite->setIconSize(iconSize);
+    
     m_view.buttonDelete->setIcon(KIcon("trash-empty"));
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
     m_view.buttonDelete->setEnabled(false);

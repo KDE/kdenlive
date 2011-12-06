@@ -130,22 +130,25 @@ ProjectList::ProjectList(QWidget *parent) :
     frame->setFrameStyle(QFrame::NoFrame);
     QHBoxLayout *box = new QHBoxLayout;
     KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine;
-
     box->addWidget(searchView);
-    //int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
-    //m_toolbar->setIconSize(QSize(s, s));
+
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
 
     m_addButton = new QToolButton;
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_addButton->setAutoRaise(true);
+    m_addButton->setIconSize(iconSize);
     box->addWidget(m_addButton);
 
     m_editButton = new QToolButton;
     m_editButton->setAutoRaise(true);
+    m_editButton->setIconSize(iconSize);
     box->addWidget(m_editButton);
 
     m_deleteButton = new QToolButton;
     m_deleteButton->setAutoRaise(true);
+    m_deleteButton->setIconSize(iconSize);
     box->addWidget(m_deleteButton);
     frame->setLayout(box);
     layout->addWidget(frame);
