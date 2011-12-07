@@ -1,4 +1,5 @@
 0.8.2.1
+    * Fix title text oultine transparency not working
     * Make titler window fit on smaller resolutions (1024x768)
     * Fix corruption when undoing and redoing a transition add + move
     * Fix possible crash in thumbnails

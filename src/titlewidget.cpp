@@ -92,11 +92,6 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     delete textOutlineAlpha;
     
 #else
-    rectBColor->setAlphaChannelEnabled(false);
-    rectFColor->setAlphaChannelEnabled(false);
-    fontColorButton->setAlphaChannelEnabled(false);
-    textOutlineColor->setAlphaChannelEnabled(false);
-
     rectBAlpha->setMinimum(0);
     rectBAlpha->setMaximum(255);
     rectBAlpha->setDecimals(0);
@@ -1973,23 +1968,23 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("font_alpha", textAlpha->value());
     titleConfig.writeEntry("font_outline_alpha", textOutlineAlpha->value());
 #endif
+   
     titleConfig.writeEntry("font_outline", textOutline->value());
     titleConfig.writeEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());
     titleConfig.writeEntry("font_underlined", buttonUnder->isChecked());
 
-    titleConfig.writeEntry("rect_foreground_color", rectFColor->color());
-#if KDE_IS_VERSION(4,5,0)
-    titleConfig.writeEntry("rect_foreground_alpha", rectFColor->color().alpha());
-#else
-    titleConfig.writeEntry("rect_foreground_alpha", rectFAlpha->value());
-#endif
     titleConfig.writeEntry("rect_background_color", rectBColor->color());
+    titleConfig.writeEntry("rect_foreground_color", rectFColor->color());
+
 #if KDE_IS_VERSION(4,5,0)
     titleConfig.writeEntry("rect_background_alpha", rectBColor->color().alpha());
+    titleConfig.writeEntry("rect_foreground_alpha", rectFColor->color().alpha());
 #else
     titleConfig.writeEntry("rect_background_alpha", rectBAlpha->value());
+    titleConfig.writeEntry("rect_foreground_alpha", rectFAlpha->value());
 #endif
+
     titleConfig.writeEntry("rect_line_width", rectLineWidth->value());
 
     titleConfig.writeEntry("background_color", backgroundColor->color());
@@ -2009,12 +2004,17 @@ void TitleWidget::readChoices()
     font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
     font_size->setValue(titleConfig.readEntry("font_pixel_size", font_size->value()));
     m_scene->slotUpdateFontSize(font_size->value());
-    fontColorButton->setColor(titleConfig.readEntry("font_color", fontColorButton->color()));
-#if not KDE_IS_VERSION(4,5,0)    
+    QColor fontColor = QColor(titleConfig.readEntry("font_color", fontColorButton->color()));
+    QColor outlineColor = QColor(titleConfig.readEntry("font_outline_color", textOutlineColor->color()));
+#if KDE_IS_VERSION(4,5,0)
+    fontColor.setAlpha(titleConfig.readEntry("font_alpha", fontColor.alpha()));
+    outlineColor.setAlpha(titleConfig.readEntry("font_outline_alpha", outlineColor.alpha()));
+#else
     textAlpha->setValue(titleConfig.readEntry("font_alpha", textAlpha->value()));
     textOutlineAlpha->setValue(titleConfig.readEntry("font_outline_alpha", textOutlineAlpha->value()));
 #endif
-    textOutlineColor->setColor(titleConfig.readEntry("font_outline_color", textOutlineColor->color()));
+    fontColorButton->setColor(fontColor);
+    textOutlineColor->setColor(outlineColor);
     textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value()));
 
     int weight;
@@ -2025,20 +2025,18 @@ void TitleWidget::readChoices()
     buttonUnder->setChecked(titleConfig.readEntry("font_underlined", buttonUnder->isChecked()));
 
     QColor fgColor = QColor(titleConfig.readEntry("rect_foreground_color", rectFColor->color()));
+    QColor bgColor = QColor(titleConfig.readEntry("rect_background_color", rectBColor->color()));
+
 #if KDE_IS_VERSION(4,5,0)
-    fgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", rectFColor->color().alpha()));
+    fgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", fgColor.alpha()));
+    bgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", bgColor.alpha()));
 #else
     rectFAlpha->setValue(titleConfig.readEntry("rect_foreground_alpha", rectFAlpha->value()));
-#endif
-    rectFColor->setColor(fgColor);
-    
-    QColor bgColor = QColor(titleConfig.readEntry("rect_background_color", rectBColor->color()));
-#if KDE_IS_VERSION(4,5,0)
-    bgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", rectBColor->color().alpha()));
-#else
     rectBAlpha->setValue(titleConfig.readEntry("rect_background_alpha", rectBAlpha->value()));
 #endif
+    rectFColor->setColor(fgColor);
     rectBColor->setColor(bgColor);
+
     rectLineWidth->setValue(titleConfig.readEntry("rect_line_width", rectLineWidth->value()));
 
     backgroundColor->setColor(titleConfig.readEntry("background_color", backgroundColor->color()));
@@ -2625,7 +2623,8 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             }
             if (!i->data(102).isNull()) {
                 textOutlineColor->blockSignals(true);
-                color = QColor(i->data(102).toString());
+                QVariant variant = i->data(102);
+                color = variant.value<QColor>();
 #if not KDE_IS_VERSION(4,5,0)
                 textOutlineAlpha->blockSignals(true);
                 textOutlineAlpha->setValue(color.alpha());
