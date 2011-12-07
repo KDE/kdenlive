@@ -171,7 +171,11 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 QColor fontcolor = cursor.charFormat().foreground().color();
                 content.setAttribute("font-color", colorToString(fontcolor));
                 if (!t->data(101).isNull()) content.setAttribute("font-outline", t->data(101).toDouble());
-                if (!t->data(102).isNull()) content.setAttribute("font-outline-color", colorToString(QColor(t->data(102).toString())));
+                if (!t->data(102).isNull()) {
+                    QVariant variant = t->data(102);
+                    QColor outlineColor = variant.value<QColor>();
+                    content.setAttribute("font-outline-color", colorToString(outlineColor));
+                }
             }
             if (!t->data(100).isNull()) {
                 QStringList effectParams = t->data(100).toStringList();
