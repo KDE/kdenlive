@@ -26,9 +26,61 @@
 
 #include <KColorButton>
 #include <KLocalizedString>
+#include <kdeversion.h>
 
+static QColor stringToColor(QString strColor)
+{
+    bool ok = false;
+    QColor color("black");
+    int intval = 0;
 
-ChooseColorWidget::ChooseColorWidget(QString text, QColor color, QWidget *parent) :
+    if (strColor.startsWith("0x")) {
+        // Format must be 0xRRGGBBAA
+        intval = strColor.toUInt(&ok, 16);
+        color.setRgb( ( intval >> 24 ) & 0xff,   // r
+                      ( intval >> 16 ) & 0xff,   // g
+                      ( intval >>  8 ) & 0xff,   // b
+                      ( intval )       & 0xff ); // a
+    } else if (strColor.startsWith("#") && strColor.length() == 9) {
+        // Format must be #AARRGGBB
+        strColor = strColor.replace('#', "0x");
+        intval = strColor.toUInt(&ok, 16);
+        color.setRgb( ( intval >> 16 ) & 0xff,   // r
+                      ( intval >>  8 ) & 0xff,   // g
+                      ( intval       ) & 0xff,   // b
+                      ( intval >> 24 ) & 0xff ); // a
+    } else if (strColor.startsWith("#") && strColor.length() == 7) {
+        // Format must be #RRGGBB
+        strColor = strColor.replace('#', "0x");
+        intval = strColor.toUInt(&ok, 16);
+        color.setRgb( ( intval >> 16 ) & 0xff,   // r
+                      ( intval >>  8 ) & 0xff,   // g
+                      ( intval       ) & 0xff,   // b
+                      0xff );                    // a
+    }
+
+    return color;
+}
+
+static QString colorToString(QColor color, bool alpha)
+{
+    QString colorStr;
+    QTextStream stream(&colorStr);
+    stream << "#";
+    stream.setIntegerBase(16);
+    stream.setFieldWidth(2);
+    stream.setFieldAlignment(QTextStream::AlignRight);
+    stream.setPadChar('0');
+    if(alpha)
+    {
+        stream << color.alpha();
+    }
+    stream <<  color.red() << color.green() << color.blue();
+
+    return colorStr;
+}
+
+ChooseColorWidget::ChooseColorWidget(QString text, QString color, QWidget *parent) :
         QWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -36,22 +88,40 @@ ChooseColorWidget::ChooseColorWidget(QString text, QColor color, QWidget *parent
     layout->setSpacing(0);
 
     QLabel *label = new QLabel(text, this);
-    m_button = new KColorButton(color, this);
-    m_button->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-    ColorPickerWidget *picker = new ColorPickerWidget(this);
+
+    QWidget *rightSide = new QWidget(this);
+    QHBoxLayout *rightSideLayout = new QHBoxLayout(rightSide);
+    rightSideLayout->setContentsMargins(0, 0, 0, 0);
+    rightSideLayout->setSpacing(0);
+
+    m_button = new KColorButton(stringToColor(color), rightSide);
+//     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    ColorPickerWidget *picker = new ColorPickerWidget(rightSide);
 
     layout->addWidget(label);
-    layout->addWidget(m_button);
-    layout->addWidget(picker, 0, Qt::AlignRight);
+    layout->addWidget(rightSide);
+    rightSideLayout->addWidget(m_button);
+    rightSideLayout->addWidget(picker, 0, Qt::AlignRight);
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
     connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified()));
 }
 
-QColor ChooseColorWidget::getColor()
+QString ChooseColorWidget::getColor()
 {
-    return m_button->color();
+    bool alphaChannel = false;
+#if KDE_IS_VERSION(4,5,0)
+    alphaChannel = m_button->isAlphaChannelEnabled();
+#endif
+    return colorToString(m_button->color(), alphaChannel);
+}
+
+void ChooseColorWidget::setAlphaChannelEnabled(bool enabled)
+{
+#if KDE_IS_VERSION(4,5,0)
+    m_button->setAlphaChannelEnabled(enabled);
+#endif
 }
 
 void ChooseColorWidget::setColor(QColor color)

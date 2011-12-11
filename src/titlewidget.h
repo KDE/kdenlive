@@ -105,6 +105,7 @@ public:
 
 protected:
     virtual void resizeEvent(QResizeEvent * event);
+    virtual QSize sizeHint() const;
 
 private:
 

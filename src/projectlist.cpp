@@ -130,22 +130,25 @@ ProjectList::ProjectList(QWidget *parent) :
     frame->setFrameStyle(QFrame::NoFrame);
     QHBoxLayout *box = new QHBoxLayout;
     KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine;
-
     box->addWidget(searchView);
-    //int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
-    //m_toolbar->setIconSize(QSize(s, s));
+
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
 
     m_addButton = new QToolButton;
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_addButton->setAutoRaise(true);
+    m_addButton->setIconSize(iconSize);
     box->addWidget(m_addButton);
 
     m_editButton = new QToolButton;
     m_editButton->setAutoRaise(true);
+    m_editButton->setIconSize(iconSize);
     box->addWidget(m_editButton);
 
     m_deleteButton = new QToolButton;
     m_deleteButton->setAutoRaise(true);
+    m_deleteButton->setIconSize(iconSize);
     box->addWidget(m_deleteButton);
     frame->setLayout(box);
     layout->addWidget(frame);
@@ -1131,7 +1134,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     else if (item->hasProxy() && !item->isProxyRunning()) {
         slotCreateProxy(clip->getId());
     }
-    clip->askForAudioThumbs();
     
     KUrl url = clip->fileURL();
 #ifdef NEPOMUK
@@ -1563,7 +1565,6 @@ void ProjectList::slotAddColorClip()
 
     TimecodeDisplay *t = new TimecodeDisplay(m_timecode);
     t->setValue(KdenliveSettings::color_duration());
-    t->setTimeCodeFormat(false);
     dia_ui.clip_durationBox->addWidget(t);
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
 
@@ -1803,28 +1804,30 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
             return;
         }
         QPixmap pix;
+        QImage img;
         int height = m_listView->iconSize().height();
         int swidth = (int)(height  * m_render->frameRenderWidth() / m_render->renderHeight()+ 0.5);
         int dwidth = (int)(height  * m_render->dar() + 0.5);
         if (clip->clipType() == AUDIO)
             pix = KIcon("audio-x-generic").pixmap(QSize(dwidth, height));
         else if (clip->clipType() == IMAGE)
-            pix = QPixmap::fromImage(KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height));
+            img = KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height);
         else {
-            pix = item->referencedClip()->extractImage(frame, dwidth, height);
+            img = item->referencedClip()->extractImage(frame, dwidth, height);
         }
 
-        if (!pix.isNull()) {
+        if (!pix.isNull() || !img.isNull()) {
             monitorItemEditing(false);
+            if (!img.isNull()) pix = QPixmap::fromImage(img);
             it->setData(0, Qt::DecorationRole, pix);
             monitorItemEditing(true);
             
-            QString clipId = item->getClipHash();
-            if (!clipId.isEmpty()) {
+            QString hash = item->getClipHash();
+            if (!hash.isEmpty() && !img.isNull()) {
                 if (!isSubItem)
-                    m_doc->cachePixmap(clipId, pix);
+                    m_doc->cacheImage(hash, img);
                 else
-                    m_doc->cachePixmap(clipId + '#' + QString::number(frame), pix);
+                    m_doc->cacheImage(hash + '#' + QString::number(frame), img);
             }
         }
         if (update)
@@ -1852,7 +1855,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         item->setProperties(properties, metadata);
         clip->setProducer(producer, replace);
-        clip->askForAudioThumbs();
 
         // Proxy stuff
         QString size = properties.value("frame_size");
@@ -1890,7 +1892,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (queue == 0) {
         monitorItemEditing(true);
         if (item && m_thumbnailQueue.isEmpty()) {
-            m_listView->setCurrentItem(item);
+            if (!item->hasProxy() || m_render->activeClipId() == item->clipId())
+                m_listView->setCurrentItem(item);
             bool updatedProfile = false;
             if (item->parent()) {
                 if (item->parent()->type() == PROJECTFOLDERTYPE)
@@ -1999,26 +2002,26 @@ bool ProjectList::generateImageProxy() const
 
 void ProjectList::slotReplyGetImage(const QString &clipId, const QImage &img)
 {
-    QPixmap pix = QPixmap::fromImage(img);
-    setThumbnail(clipId, pix);
+    ProjectItem *item = getItemById(clipId);
+    if (item && !img.isNull()) {
+        QPixmap pix = QPixmap::fromImage(img);
+        monitorItemEditing(false);
+        item->setData(0, Qt::DecorationRole, pix);
+        monitorItemEditing(true);
+        QString hash = item->getClipHash();
+        if (!hash.isEmpty()) m_doc->cacheImage(hash, img);
+    }
 }
 
 void ProjectList::slotReplyGetImage(const QString &clipId, const QString &name, int width, int height)
 {
-    QPixmap pix =  KIcon(name).pixmap(QSize(width, height));
-    setThumbnail(clipId, pix);
-}
-
-void ProjectList::setThumbnail(const QString &clipId, const QPixmap &pix)
-{
+    // For clips that have a generic icon (like audio clips...)
     ProjectItem *item = getItemById(clipId);
+    QPixmap pix =  KIcon(name).pixmap(QSize(width, height));
     if (item && !pix.isNull()) {
         monitorItemEditing(false);
         item->setData(0, Qt::DecorationRole, pix);
         monitorItemEditing(true);
-        //update();
-        QString clipId = item->getClipHash();
-        if (!clipId.isEmpty()) m_doc->cachePixmap(clipId, pix);
     }
 }
 
@@ -2216,10 +2219,10 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
             m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
-        QPixmap p = clip->referencedClip()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
-        sub->setData(0, Qt::DecorationRole, p);
-        QString clipId = clip->getClipHash();
-        if (!clipId.isEmpty()) m_doc->cachePixmap(clipId + '#' + QString::number(in), p);
+        QImage img = clip->referencedClip()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
+        sub->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
+        QString hash = clip->getClipHash();
+        if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(in), img);
         monitorItemEditing(true);
     }
     emit projectModified();
@@ -2387,11 +2390,13 @@ void ProjectList::slotAbortProxy(const QString id, const QString path)
 {
     QTreeWidgetItemIterator it(m_listView);
     ProjectItem *item = getItemById(id);
-    setProxyStatus(item, NOPROXY);
-    slotGotProxy(item);
     if (!path.isEmpty() && m_processingProxy.contains(path)) {
         m_abortProxy << path;
         setProxyStatus(item, NOPROXY);
+    }
+    else {
+        setProxyStatus(item, NOPROXY);
+        slotGotProxy(item);
     }
 }
 
@@ -2403,7 +2408,7 @@ void ProjectList::slotGenerateProxy()
         if (m_abortProxy.contains(info.dest)) {
             m_abortProxy.removeAll(info.dest);
             continue;
-        }        
+        }
         // Get the list of clips that will need to get progress info
         QTreeWidgetItemIterator it(m_listView);
         QList <ProjectItem *> processingItems;
@@ -2583,7 +2588,6 @@ void ProjectList::slotGenerateProxy()
                 }
                 else continue;
                 result = -2;
-            
             }
             else {
                 QString log = QString(myProcess.readAll());
@@ -2599,7 +2603,7 @@ void ProjectList::slotGenerateProxy()
         }
         
         // FFmpeg process terminated normally, but make sure proxy clip exists
-        if (QFileInfo(info.dest).size() == 0) {
+        if (result != -2 && QFileInfo(info.dest).size() == 0) {
             result = QProcess::CrashExit;
         }
 
@@ -2680,7 +2684,7 @@ void ProjectList::updateProxyConfig()
                 newProps.insert("replace", "1");
                 // insert required duration for proxy
                 newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
-                new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
+                new EditClipCommand(this, item->clipId(), item->referencedClip()->currentProperties(newProps), newProps, true, command);
             }
         }
         else if (t == IMAGE && item->referencedClip() != NULL) {
@@ -2717,10 +2721,35 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
     QList<QTreeWidgetItem *> list;
     if (itemToProxy == NULL) list = m_listView->selectedItems();
     else list << itemToProxy;
+
+    // expand list (folders, subclips) to get real clips
     QTreeWidgetItem *listItem;
+    QList<ProjectItem *> clipList;
+    for (int i = 0; i < list.count(); i++) {
+        listItem = list.at(i);
+        if (listItem->type() == PROJECTFOLDERTYPE) {
+            for (int j = 0; j < listItem->childCount(); j++) {
+                QTreeWidgetItem *sub = listItem->child(j);
+                if (sub->type() == PROJECTCLIPTYPE) {
+                    ProjectItem *item = static_cast <ProjectItem*>(sub);
+                    if (!clipList.contains(item)) clipList.append(item);
+                }
+            }
+        }
+        else if (listItem->type() == PROJECTSUBCLIPTYPE) {
+            QTreeWidgetItem *sub = listItem->parent();
+            ProjectItem *item = static_cast <ProjectItem*>(sub);
+            if (!clipList.contains(item)) clipList.append(item);
+        }
+        else if (listItem->type() == PROJECTCLIPTYPE) {
+            ProjectItem *item = static_cast <ProjectItem*>(listItem);
+            if (!clipList.contains(item)) clipList.append(item);
+        }
+    }
+    
     QUndoCommand *command = new QUndoCommand();
-    if (doProxy) command->setText(i18np("Add proxy clip", "Add proxy clips", list.count()));
-    else command->setText(i18np("Remove proxy clip", "Remove proxy clips", list.count()));
+    if (doProxy) command->setText(i18np("Add proxy clip", "Add proxy clips", clipList.count()));
+    else command->setText(i18np("Remove proxy clip", "Remove proxy clips", clipList.count()));
     
     // Make sure the proxy folder exists
     QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
@@ -2729,46 +2758,33 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
     QMap <QString, QString> newProps;
     QMap <QString, QString> oldProps;
     if (!doProxy) newProps.insert("proxy", "-");
-    for (int i = 0; i < list.count(); i++) {
-        listItem = list.at(i);
-        if (listItem->type() == PROJECTFOLDERTYPE) {
-            for (int j = 0; j < listItem->childCount(); j++) {
-                QTreeWidgetItem *sub = listItem->child(j);
-                if (!list.contains(sub)) list.append(sub);
+    for (int i = 0; i < clipList.count(); i++) {
+        ProjectItem *item = clipList.at(i);
+        CLIPTYPE t = item->clipType();
+        if ((t == VIDEO || t == AV || t == UNKNOWN || t == IMAGE || t == PLAYLIST) && item->referencedClip()) {
+            if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && item->referencedClip()->getProducer() != NULL)) continue;
+            DocClipBase *clip = item->referencedClip();
+            if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
+                kDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
+                continue;
             }
-        }
-        else if (listItem->type() == PROJECTSUBCLIPTYPE) {
-            QTreeWidgetItem *sub = listItem->parent();
-            if (!list.contains(sub)) list.append(sub);
-        }
-        else if (listItem->type() == PROJECTCLIPTYPE) {
-            ProjectItem *item = static_cast <ProjectItem*>(listItem);
-            CLIPTYPE t = item->clipType();
-            if ((t == VIDEO || t == AV || t == UNKNOWN || t == IMAGE || t == PLAYLIST) && item->referencedClip()) {
-                if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && item->referencedClip()->getProducer() != NULL)) continue;
-                DocClipBase *clip = item->referencedClip();
-                if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
-                    kDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
-                    continue;
-                }
                 
-                resetThumbsProducer(clip);
-                oldProps = clip->properties();
-                if (doProxy) {
-                    newProps.clear();
-                    QString path = proxydir + clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
-                    // insert required duration for proxy
-                    newProps.insert("proxy_out", clip->producerProperty("out"));
-                    newProps.insert("proxy", path);
-                    // We need to insert empty proxy so that undo will work
-                    oldProps.insert("proxy", QString());
-                }
-                else if (item->referencedClip()->getProducer() == NULL) {
-                    // Force clip reload
-                    newProps.insert("resource", item->referencedClip()->getProperty("resource"));
-                }
-                new EditClipCommand(this, item->clipId(), oldProps, newProps, true, command);
+            oldProps = clip->properties();
+            if (doProxy) {
+                newProps.clear();
+                QString path = proxydir + clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
+                // insert required duration for proxy
+                newProps.insert("proxy_out", clip->producerProperty("out"));
+                newProps.insert("proxy", path);
+                // We need to insert empty proxy so that undo will work
+                oldProps.insert("proxy", QString());
             }
+            else if (item->referencedClip()->getProducer() == NULL) {
+                // Force clip reload
+                kDebug()<<"// CLIP HAD NULL PROD------------";
+                newProps.insert("resource", item->referencedClip()->getProperty("resource"));
+            }
+            new EditClipCommand(this, item->clipId(), oldProps, newProps, true, command);
         }
     }
     if (command->childCount() > 0) {
@@ -2791,7 +2807,7 @@ void ProjectList::slotDeleteProxy(const QString proxyPath)
             if (item->referencedClip()->getProperty("proxy") == proxyPath) {
                 QMap <QString, QString> props;
                 props.insert("proxy", QString());
-                new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), props, true, proxyCommand);
+                new EditClipCommand(this, item->clipId(), item->referencedClip()->currentProperties(props), props, true, proxyCommand);
             
             }
         }
@@ -2819,6 +2835,10 @@ void ProjectList::setProxyStatus(ProjectItem *item, PROXYSTATUS status, int prog
             clip->setProperty("proxy", "-");
             QDomElement xml = clip->toXML();
             m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), true);
+        }
+        else {
+            // Disable proxy for this clip
+            clip->setProperty("proxy", "-");
         }
     }
     monitorItemEditing(true);

@@ -25,6 +25,10 @@
 #include "ui_cliptranscode_ui.h"
 
 #include <KUrl>
+#include <kdeversion.h>
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#endif
 
 #include <QProcess>
 
@@ -47,7 +51,13 @@ private:
     QProcess m_transcodeProcess;
     KUrl::List m_urls;
     int m_duration;
+    /** @brief The path for destination transcoded file. */
+    QString m_destination;
 
+#if KDE_IS_VERSION(4,7,0)
+    KMessageWidget *m_infoMessage;
+#endif
+    
 signals:
     void addClip(KUrl url);
 };

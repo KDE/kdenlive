@@ -28,6 +28,7 @@
 #include <QTimer>
 #include <KDebug>
 
+
 MonitorManager::MonitorManager(QWidget *parent) :
         QObject(parent),
         m_clipMonitor(NULL),
@@ -195,8 +196,10 @@ void MonitorManager::slotResetProfiles()
     emit checkColorScopes();
 }
 
-void MonitorManager::slotRefreshCurrentMonitor()
+void MonitorManager::slotRefreshCurrentMonitor(const QString &id)
 {
+    // Clip producer was modified, check if clip is currently displayed in clip monitor
+    m_clipMonitor->reloadProducer(id);
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->refreshMonitor();
     else m_projectMonitor->refreshMonitor();
 }

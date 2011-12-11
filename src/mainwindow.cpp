@@ -114,6 +114,7 @@
 #include <QBitmap>
 
 #include <stdlib.h>
+#include <locale.h>
 
 // Uncomment for deeper debugging
 //#define DEBUG_MAINW
@@ -157,6 +158,15 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     // Init locale
     QLocale systemLocale = QLocale();
+    setlocale(LC_NUMERIC, NULL);
+    char *separator = localeconv()->decimal_point;
+    if (separator != systemLocale.decimalPoint()) {
+        kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
+        // HACK: There is a locale conflict, so set locale to at least have correct decimal point
+        if (strncmp(separator, ".", 1) == 0) systemLocale = QLocale::c();
+        else if (strncmp(separator, ",", 1) == 0) systemLocale = QLocale("fr_FR.UTF-8");
+    }
+    
     systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     QLocale::setDefault(systemLocale);
 
@@ -212,14 +222,14 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_clipMonitorDock->setWidget(m_clipMonitor);
     
     // Connect the project list
-    connect(m_projectList, SIGNAL(clipSelected(DocClipBase *, QPoint)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint)));
+    connect(m_projectList, SIGNAL(clipSelected(DocClipBase *, QPoint, bool)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, bool)));
     connect(m_projectList, SIGNAL(raiseClipMonitor()), m_clipMonitor, SLOT(activateMonitor()));
     connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
     connect(m_projectList, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
     connect(m_projectList, SIGNAL(clipNeedsReload(const QString&)),this, SLOT(slotUpdateClip(const QString &)));
     connect(m_projectList, SIGNAL(updateProfile(const QString &)), this, SLOT(slotUpdateProjectProfile(const QString &)));
-    connect(m_projectList, SIGNAL(refreshClip(const QString &, bool)), m_monitorManager, SLOT(slotRefreshCurrentMonitor()));
+    connect(m_projectList, SIGNAL(refreshClip(const QString &, bool)), m_monitorManager, SLOT(slotRefreshCurrentMonitor(const QString &)));
     connect(m_projectList, SIGNAL(findInTimeline(const QString&)), this, SLOT(slotClipInTimeline(const QString&)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));
 
@@ -2473,7 +2483,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
             disconnect(m_activeTimeline->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, const int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, const int)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, bool, const int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, bool, const int)));
             disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
             disconnect(m_activeTimeline, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
@@ -2549,7 +2559,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
     connect(trackView->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
 
-    connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, const int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, const int)));
+    connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, bool, const int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, bool, const int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(ClipItem*)));
@@ -3195,7 +3205,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
                 else newprops.insert("templatetext", description);
                 //newprops.insert("xmldata", m_projectList->generateTemplateXml(newtemplate, description).toString());
                 if (!newprops.isEmpty()) {
-                    EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
+                    EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newprops), newprops, true);
                     m_activeDocument->commandStack()->push(command);
                 }
             }
@@ -3210,7 +3220,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         if (dia_ui->exec() == QDialog::Accepted) {
             QMap <QString, QString> newprops;
             newprops.insert("xmldata", dia_ui->xml().toString());
-            if (dia_ui->outPoint() != clip->duration().frames(m_activeDocument->fps()) - 1) {
+            if (dia_ui->outPoint() != clip->duration().frames(m_activeDocument->fps())) {
                 // duration changed, we need to update duration
                 newprops.insert("out", QString::number(dia_ui->outPoint()));
                 int currentLength = QString(clip->producerProperty("length")).toInt();
@@ -3225,7 +3235,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
                     dia_ui->saveTitle(path);
                 } else newprops.insert("resource", QString());
             }
-            EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
+            EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newprops), newprops, true);
             m_activeDocument->commandStack()->push(command);
             //m_activeTimeline->projectView()->slotUpdateClip(clip->getId());
             m_activeDocument->setModified(true);
@@ -3273,9 +3283,9 @@ void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QSt
         for (int i = 0; i < cliplist.count(); i++) {
             DocClipBase *clip = cliplist.at(i);
             if (clip->clipType() == IMAGE)
-                new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newImageProps, true, command);
+                new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newImageProps), newImageProps, true, command);
             else 
-                new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newProps, true, command);
+                new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newProps), newProps, true, command);
         }
         m_activeDocument->commandStack()->push(command);
         for (int i = 0; i < cliplist.count(); i++)

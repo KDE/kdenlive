@@ -503,9 +503,9 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         data.append(list.join(";").toUtf8());
         mimeData->setData("kdenlive/clip", data);
         drag->setMimeData(mimeData);
-        QPixmap pix = m_currentClip->thumbnail();
+        /*QPixmap pix = m_currentClip->thumbnail();
         drag->setPixmap(pix);
-        drag->setHotSpot(QPoint(0, 50));
+        drag->setHotSpot(QPoint(0, 50));*/
         drag->start(Qt::MoveAction);
 
         //Qt::DropAction dropAction;
@@ -816,7 +816,7 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
    render->setProducer(prod, render->seekFramePosition());
 }
 
-void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, int position)
+void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpdate, int position)
 {
     if (render == NULL) return;
     if (clip == NULL && m_currentClip != NULL) {
@@ -827,7 +827,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, int position)
         return;
     }
     
-    if (clip != m_currentClip) {
+    if (clip != m_currentClip || forceUpdate) {
         m_currentClip = clip;
         if (m_currentClip) activateMonitor();
         updateMarkers(clip);
@@ -1043,6 +1043,13 @@ void Monitor::slotShowVolume()
 AbstractRender *Monitor::abstractRender()
 {
     return render;
+}
+
+void Monitor::reloadProducer(const QString &id)
+{
+    if (!m_currentClip) return;
+    if (m_currentClip->getId() == id)
+        slotSetClipProducer(m_currentClip, m_currentClip->zone(), true);
 }
 
 MonitorRefresh::MonitorRefresh(QWidget* parent) :

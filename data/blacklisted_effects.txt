@@ -98,7 +98,6 @@ resize
 resample
 mono
 
-dynamictext
 
 # Effects need extra GUI to create the resulting melt.xml with the corrected content
 videostab

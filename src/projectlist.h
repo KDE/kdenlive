@@ -135,8 +135,7 @@ public:
                 QBrush brush;
                 QColor color;
                 if (proxy > 0) {
-                    proxyText = QString::number(proxy) + "% ";
-                    proxyText.append(i18n("Generating proxy ..."));
+                    proxyText = i18n("Proxy %1\%", proxy);
                     brush = option.palette.highlight();
                     color = option.palette.color(QPalette::HighlightedText);
                     
@@ -343,8 +342,6 @@ private:
     /** @brief Process ffmpeg output to find out process progress. */
     void processLogInfo(QList <ProjectItem *>items, int *duration, const QString &log);
     void monitorItemEditing(bool enable);
-    /** @brief Set thumbnail for a project's clip. */
-    void setThumbnail(const QString &clipId, const QPixmap &pix);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);
     void getCachedThumbnail(SubProjectItem *item);
@@ -392,7 +389,7 @@ private slots:
     void slotGenerateProxy();
 
 signals:
-    void clipSelected(DocClipBase *, QPoint zone = QPoint());
+    void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);

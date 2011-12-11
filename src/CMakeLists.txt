@@ -253,6 +253,8 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/wizardextra_ui.ui
   widgets/wizardmltcheck_ui.ui
   widgets/wizardstandard_ui.ui
+  widgets/keywordval_ui.ui
+  widgets/fontval_ui.ui
 )
 
 if(OPENGL_FOUND)

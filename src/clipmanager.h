@@ -98,8 +98,6 @@ Q_OBJECT public:
     int getFreeClipId();
     int getFreeFolderId();
     int lastClipId() const;
-    void startAudioThumbsGeneration();
-    void endAudioThumbsGeneration(const QString &requestedId);
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
     void clearUnusedProducers();
@@ -129,6 +127,7 @@ private slots:
     /** Check the list of externally modified clips, and process them if they were not modified in the last 1500 milliseconds */
     void slotProcessModifiedClips();
     void slotGetThumbs();
+    void slotGetAudioThumbs();
 
 private:   // Private attributes
     /** the list of clips in the document */
@@ -141,7 +140,6 @@ private:   // Private attributes
     KdenliveDoc *m_doc;
     int m_clipIdCounter;
     int m_folderIdCounter;
-    QString m_generatingAudioId;
     KDirWatch m_fileWatcher;
     /** Timer used to reload clips when they have been externally modified */
     QTimer m_modifiedTimer;
@@ -151,10 +149,17 @@ private:   // Private attributes
     QMap <QString, int> m_requestedThumbs;
     QMutex m_thumbsMutex;
     QFuture<void> m_thumbsThread;
+    /** @brief The id of currently processed clip for thumbs creation. */
+    QString m_processingThumbId;
     /** @brief If true, abort processing of clip thumbs before removing a clip. */
     bool m_abortThumb;
     /** @brief We are about to delete the clip producer, stop processing thumbs. */
     bool m_closing;
+    QFuture<void> m_audioThumbsThread;
+    /** @brief If true, abort processing of audio thumbs. */
+    bool m_abortAudioThumb;
+    /** @brief The id of currently processed clip for audio thumbs creation. */
+    QString m_processingAudioThumbId;
 
 signals:
     void reloadClip(const QString &);

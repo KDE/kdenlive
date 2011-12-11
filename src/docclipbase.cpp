@@ -48,7 +48,6 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_videoOnlyProducer(NULL),
         m_snapMarkers(QList < CommentedTime >()),
         m_duration(),
-        m_audioTimer(NULL),
         m_thumbProd(NULL),
         m_audioThumbCreated(false),
         m_id(id),
@@ -88,16 +87,19 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
 
     m_thumbProd = new KThumb(clipManager, url, m_id, m_properties.value("file_hash"));
-    if (m_clipType == AV || m_clipType == AUDIO || m_clipType == PLAYLIST) slotCreateAudioTimer();
+    
+    // Setup timer to trigger audio thumbs creation
+    m_audioTimer.setSingleShot(true);
+    m_audioTimer.setInterval(800);
+    connect(&m_audioTimer, SIGNAL(timeout()), m_thumbProd, SLOT(slotCreateAudioThumbs()));
+    
 }
 
 DocClipBase::~DocClipBase()
 {
+    m_audioTimer.stop();
     delete m_thumbProd;
-    if (m_audioTimer) {
-        m_audioTimer->stop();
-        delete m_audioTimer;
-    }
+    m_thumbProd = NULL;
     qDeleteAll(m_toDeleteProducers);
     m_toDeleteProducers.clear();
     qDeleteAll(m_baseTrackProducers);
@@ -120,22 +122,15 @@ QPoint DocClipBase::zone() const
     return zone;
 }
 
-void DocClipBase::slotCreateAudioTimer()
-{
-    connect(m_thumbProd, SIGNAL(audioThumbReady(const audioByteArray&)), this , SLOT(updateAudioThumbnail(const audioByteArray&)));
-    m_audioTimer = new QTimer(this);
-    connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
-}
 
-void DocClipBase::askForAudioThumbs()
+bool DocClipBase::hasAudioThumb() const
 {
-    if (m_thumbProd && m_audioTimer) m_thumbProd->askForAudioThumbs(getId());
+    if (m_clipType == AUDIO || m_clipType == AV || m_clipType == PLAYLIST) return true;
+    return false;
 }
 
 void DocClipBase::slotClearAudioCache()
 {
-    if (m_thumbProd) m_thumbProd->stopAudioThumbs();
-    if (m_audioTimer != NULL) m_audioTimer->stop();
     m_audioFrameCache.clear();
     m_audioThumbCreated = false;
 }
@@ -173,10 +168,7 @@ const CLIPTYPE & DocClipBase::clipType() const
 void DocClipBase::setClipType(CLIPTYPE type)
 {
     m_clipType = type;
-
     m_properties.insert("type", QString::number((int) type));
-    if (m_thumbProd && m_audioTimer == NULL && (m_clipType == AV || m_clipType == AUDIO || m_clipType == PLAYLIST))
-        slotCreateAudioTimer();
 }
 
 KUrl DocClipBase::fileURL() const
@@ -270,17 +262,6 @@ QDomElement DocClipBase::toXML() const
 void DocClipBase::setAudioThumbCreated(bool isDone)
 {
     m_audioThumbCreated = isDone;
-}
-
-
-void DocClipBase::setThumbnail(const QPixmap & pixmap)
-{
-    m_thumbnail = pixmap;
-}
-
-const QPixmap & DocClipBase::thumbnail() const
-{
-    return m_thumbnail;
 }
 
 void DocClipBase::updateAudioThumbnail(const audioByteArray& data)
@@ -497,6 +478,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
                 m_thumbProd->setProducer(producer);
         }
         else m_thumbProd->setProducer(producer);
+        getAudioThumbs();
     }
     bool updated = false;
     if (id.contains('_')) {
@@ -1107,20 +1089,24 @@ QMap <QString, QString> DocClipBase::properties() const
     return m_properties;
 }
 
-bool DocClipBase::slotGetAudioThumbs()
+QMap <QString, QString> DocClipBase::currentProperties(QMap <QString, QString> props)
 {
-    if (m_thumbProd == NULL || isPlaceHolder()) return false;
-    if (!KdenliveSettings::audiothumbnails() || m_audioTimer == NULL) {
-        if (m_audioTimer != NULL) m_audioTimer->stop();
-        return false;
+    QMap <QString, QString> currentProps;
+    QMap<QString, QString>::const_iterator i = props.constBegin();
+    while (i != props.constEnd()) {
+        currentProps.insert(i.key(), m_properties.value(i.key()));
+        ++i;
     }
+    return currentProps;
+}
+
+bool DocClipBase::getAudioThumbs()
+{
+    if (m_thumbProd == NULL || isPlaceHolder() || !KdenliveSettings::audiothumbnails()) return false;
     if (m_audioThumbCreated) {
-        m_audioTimer->stop();
         return false;
     }
-    m_audioTimer->start(1500);
-    double lengthInFrames = duration().frames(KdenliveSettings::project_fps());
-    m_thumbProd->getAudioThumbs(2, 0, lengthInFrames /*must be number of frames*/, 20);
+    m_audioTimer.start();
     return true;
 }
 
@@ -1221,12 +1207,11 @@ void DocClipBase::slotExtractImage(QList <int> frames)
     m_thumbProd->extractImage(frames);
 }
 
-QPixmap DocClipBase::extractImage(int frame, int width, int height)
+QImage DocClipBase::extractImage(int frame, int width, int height)
 {
-    if (m_thumbProd == NULL) return QPixmap(width, height);
+    if (m_thumbProd == NULL) return QImage();
     QMutexLocker locker(&m_producerMutex);
-    QPixmap p = m_thumbProd->extractImage(frame, width, height);
-    return p;
+    return m_thumbProd->extractImage(frame, width, height);
 }
 
 

@@ -602,7 +602,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             // razor tool over a clip, display current frame in monitor
             if (false && !m_blockRefresh && item->type() == AVWIDGET) {
                 //TODO: solve crash when showing frame when moving razor over clip
-                emit showClipFrame(((ClipItem *) item)->baseClip(), QPoint(), mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
+                emit showClipFrame(((ClipItem *) item)->baseClip(), QPoint(), false, mappedXPos - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
             }
             event->accept();
             return;
@@ -3776,10 +3776,10 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
         kDebug()<<"CANNOT REMOVE: "<<info.startPos.frames(m_document->fps())<<", TK: "<<info.track;
         //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
-        exit(1);
         return;
     }
     m_waitingThumbs.removeAll(item);
+    item->stopThumbs();
     if (item->isSelected()) emit clipItemSelected(NULL);
     item->baseClip()->removeReference();
     m_document->updateClip(item->baseClip()->getId());
@@ -4104,9 +4104,10 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
         emit forceClipProcessing(clipId);
         qApp->processEvents();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             if (baseclip->getProducer() == NULL) {
-                m_producerNotReady.wait(&m_mutex, 500 + 500 * i);
+                qApp->processEvents();
+                m_producerNotReady.wait(&m_mutex, 200);
             } else break;
         }
         if (baseclip->getProducer() == NULL) {
@@ -4229,7 +4230,7 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track)
 
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
 {
-    const QPointF p(pos, (track + 1) * m_tracksHeight);
+    const QPointF p(pos, track * m_tracksHeight + Transition::itemOffset() + 1);
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
@@ -4250,7 +4251,7 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track)
 Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track)
 {
     int framepos = (int)(pos.frames(m_document->fps()));
-    const QPointF p(framepos - 1, (track + 1) * m_tracksHeight);
+    const QPointF p(framepos - 1, track * m_tracksHeight + Transition::itemOffset() + 1);
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
@@ -4266,7 +4267,7 @@ Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track)
 
 Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
 {
-    const QPointF p(pos.frames(m_document->fps()), (track + 1) * m_tracksHeight);
+    const QPointF p(pos.frames(m_document->fps()), track * m_tracksHeight + Transition::itemOffset() + 1);
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {

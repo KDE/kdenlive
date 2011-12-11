@@ -68,10 +68,8 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     m_view.animation->addItem(i18n("Zoom"), "Zoom");
     m_view.animation->addItem(i18n("Zoom, low-pass"), "Zoom, low-pass");
 
-    m_view.clip_duration->setInputMask("");
-    m_view.clip_duration->setValidator(m_timecode.validator());
-    m_view.luma_duration->setInputMask("");
-    m_view.luma_duration->setValidator(m_timecode.validator());
+    m_view.clip_duration->setInputMask(m_timecode.mask());
+    m_view.luma_duration->setInputMask(m_timecode.mask());
     m_view.luma_duration->setText(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))));
     m_view.folder_url->setUrl(QDir::homePath());
 
@@ -419,15 +417,15 @@ void SlideshowClip::slotUpdateDurationFormat(int ix)
     bool framesFormat = ix == 1;
     if (framesFormat) {
         // switching to frames count, update widget
+        m_view.clip_duration->setInputMask("");
         m_view.clip_duration_frames->setValue(m_timecode.getFrameCount(m_view.clip_duration->text()));
+        m_view.luma_duration->setInputMask("");
         m_view.luma_duration_frames->setValue(m_timecode.getFrameCount(m_view.luma_duration->text()));
     } else {
         // switching to timecode format
-        m_view.clip_duration->setInputMask("");
-        m_view.clip_duration->setValidator(m_timecode.validator());
+        m_view.clip_duration->setInputMask(m_timecode.mask());
         m_view.clip_duration->setText(m_timecode.getTimecodeFromFrames(m_view.clip_duration_frames->value()));
-        m_view.luma_duration->setInputMask("");
-        m_view.luma_duration->setValidator(m_timecode.validator());
+        m_view.luma_duration->setInputMask(m_timecode.mask());
         m_view.luma_duration->setText(m_timecode.getTimecodeFromFrames(m_view.luma_duration_frames->value()));
     }
     m_view.clip_duration_frames->setHidden(!framesFormat);

@@ -83,6 +83,7 @@ private:
     bool m_frametimecode;
     int m_minimum;
     int m_maximum;
+    int m_value;
 
 public slots:
     /** @brief Sets the value.
@@ -98,11 +99,6 @@ public slots:
 
 private slots:
     void slotEditingFinished();
-
-    /** @brief Updates the selection when the cursor position changed.
-     * The digit after the cursor will be selected.
-     * This makes it easier to edit the timecode. */
-    void slotCursorPositionChanged(int oldPos, int newPos);
 
 signals:
     /**
