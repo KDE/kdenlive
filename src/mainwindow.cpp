@@ -3794,17 +3794,19 @@ void MainWindow::slotMaximizeCurrent(bool)
 void MainWindow::loadStabilize()
 {
 	QMenu* stabMenu= static_cast<QMenu*>(factory()->container("stabilize", this));
-	stabMenu->clear();
-	Mlt::Profile profile;
-	if (Mlt::Factory::filter(profile,(char*)"videostab")){
-		QAction *action=stabMenu->addAction("Videostab (vstab)");
-		action->setData("videostab");
-		connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
-	}
-	if (Mlt::Factory::filter(profile,(char*)"videostab2")){
-		QAction *action=stabMenu->addAction("Videostab (transcode)");
-		action->setData("videostab2");
-		connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
+	if (stabMenu){
+		stabMenu->clear();
+		Mlt::Profile profile;
+		if (Mlt::Factory::filter(profile,(char*)"videostab")){
+			QAction *action=stabMenu->addAction("Videostab (vstab)");
+			action->setData("videostab");
+			connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
+		}
+		if (Mlt::Factory::filter(profile,(char*)"videostab2")){
+			QAction *action=stabMenu->addAction("Videostab (transcode)");
+			action->setData("videostab2");
+			connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
+		}
 	}
 
 
