@@ -109,6 +109,21 @@ public:
 };
 
 
+class RenderJobItem: public QTreeWidgetItem
+{
+public:
+    explicit RenderJobItem(QTreeWidget * parent, const QStringList & strings, int type = QTreeWidgetItem::Type);
+    void setStatus(int status);
+    int status() const;
+    void setMetadata(const QString &data);
+    const QString metadata() const;
+    void render();
+
+private:
+    int m_status;
+    QString m_data;    
+};
+
 class RenderWidget : public QDialog
 {
     Q_OBJECT
@@ -198,8 +213,9 @@ private:
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
     KUrl filenameWithExtension(KUrl url, QString extension);
+    /** @brief Check if a job needs to be started. */
     void checkRenderStatus();
-    void startRendering(QTreeWidgetItem *item);
+    void startRendering(RenderJobItem *item);
     void saveProfile(QDomElement newprofile);
     QList <QListWidgetItem *> m_renderItems;
     QList <QListWidgetItem *> m_renderCategory;
