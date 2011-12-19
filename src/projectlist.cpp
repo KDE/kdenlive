@@ -119,6 +119,7 @@ void SmallInfoLabel::slotSetJobCount(int jobCount)
         setToolTip(i18np("%1 pending job", "%1 pending jobs", jobCount));
         
         if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+            setFixedWidth(sizeHint().width());
             show();
             return;
         }
@@ -140,6 +141,7 @@ void SmallInfoLabel::slotSetJobCount(int jobCount)
     }
     else {
         if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
+            setFixedWidth(0);
             hide();
             return;
         }
