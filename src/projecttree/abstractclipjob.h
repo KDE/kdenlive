@@ -41,9 +41,11 @@ public:
     QString description;
     const QString clipId() const;
     virtual const QString destination() const;
-    virtual QProcess *startJob(bool *ok);
+    virtual QProcess *startJob(bool */*ok*/);
     virtual stringMap cancelProperties();
-
+    virtual int processLogInfo();
+    QProcess *m_jobProcess;
+    
 signals:
     void jobProgress(int progress);
 

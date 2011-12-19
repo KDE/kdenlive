@@ -2561,7 +2561,6 @@ void ProjectList::slotGenerateProxy()
         ProjectItem *item = getItemById(job->clipId());
         processingItems.append(item);
         
-        //TODO: rename m_abortAllJobs to m_abortAllJobs
         /*while (*it && !m_abortAllJobs) {
             if ((*it)->type() == PROJECTCLIPTYPE) {
                 ProjectItem *item = static_cast <ProjectItem *>(*it);
@@ -2590,7 +2589,6 @@ void ProjectList::slotGenerateProxy()
         QProcess *jobProcess = job->startJob(&success);
             
         int result = -1;
-        int duration = 0;
         if (jobProcess == NULL) {
             // job is finished
             for (int i = 0; i < processingItems.count(); i++)
@@ -2623,9 +2621,8 @@ void ProjectList::slotGenerateProxy()
                 result = -2;
             }
             else {
-                QString log = QString(jobProcess->readAll());
-                //TODO: should be handeled by job
-                processLogInfo(processingItems, &duration, log);
+                int progress = job->processLogInfo();
+                if (progress > -1) processLogInfo(processingItems, progress);
             }
             jobProcess->waitForFinished(500);
         }
@@ -2663,26 +2660,10 @@ void ProjectList::slotGenerateProxy()
 }
 
 
-void ProjectList::processLogInfo(QList <ProjectItem *>items, int *duration, const QString &log)
+void ProjectList::processLogInfo(QList <ProjectItem *>items, int progress)
 {
-    int progress;
-    if (*duration == 0) {
-        if (log.contains("Duration:")) {
-            QString data = log.section("Duration:", 1, 1).section(',', 0, 0).simplified();
-            QStringList numbers = data.split(':');
-            *duration = (int) (numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
-        }
-    }
-    else if (log.contains("time=")) {
-        QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
-        if (time.contains(':')) {
-            QStringList numbers = time.split(':');
-            progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
-        }
-        else progress = (int) time.toDouble();
-        for (int i = 0; i < items.count(); i++)
-            setProxyStatus(items.at(i), CREATINGJOB, (int) (100.0 * progress / (*duration)));
-    }
+    for (int i = 0; i < items.count(); i++)
+        setProxyStatus(items.at(i), CREATINGJOB, progress);
 }
 
 void ProjectList::updateProxyConfig()

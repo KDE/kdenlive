@@ -37,6 +37,7 @@ public:
     const QString destination() const;
     QProcess *startJob(bool *ok);
     stringMap cancelProperties();
+    int processLogInfo();
     
 private:
     QString m_dest;
@@ -45,7 +46,8 @@ private:
     QString m_proxyParams;
     int m_renderWidth;
     int m_renderHeight;
-
+    int m_jobDuration;
+    bool m_isFfmpegJob;
 };
 
 #endif

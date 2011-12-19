@@ -30,7 +30,8 @@ AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id
         QObject(),
         clipType(cType),
         jobType(type),
-        m_clipId(id)
+        m_clipId(id),
+        m_jobProcess(NULL)
 {
 }
 
@@ -43,7 +44,7 @@ const QString AbstractClipJob::clipId() const
     return m_clipId;
 }
 
-QProcess *AbstractClipJob::startJob(bool *ok)
+QProcess *AbstractClipJob::startJob(bool */*ok*/)
 {
     return NULL;
 }
@@ -58,3 +59,7 @@ stringMap AbstractClipJob::cancelProperties()
     return QMap <QString, QString>();
 }
 
+int AbstractClipJob::processLogInfo()
+{
+    return -1;
+}

@@ -170,6 +170,7 @@ public:
                     }
                 }
                 else if (proxy == JOBCRASHED) {
+                    proxyText = i18n("Proxy crashed");
                     QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
                     painter->setPen(Qt::NoPen);
                     painter->setBrush(option.palette.highlight());
@@ -356,7 +357,7 @@ private:
      * @param status The proxy status (see definitions.h) */
     void setProxyStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress = 0);
     /** @brief Process ffmpeg output to find out process progress. */
-    void processLogInfo(QList <ProjectItem *>items, int *duration, const QString &log);
+    void processLogInfo(QList <ProjectItem *>items, int progress);
     void monitorItemEditing(bool enable);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);

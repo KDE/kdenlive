@@ -25,7 +25,9 @@
 #include <KDebug>
 #include <KLocale>
 
-ProxyJob::ProxyJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(type, cType, id, parameters)
+ProxyJob::ProxyJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(type, cType, id, parameters),
+    m_jobDuration(0),
+    m_isFfmpegJob(true)
 {
     description = i18n("proxy");
     m_dest = parameters.at(0);
@@ -39,8 +41,10 @@ ProxyJob::ProxyJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList 
 QProcess *ProxyJob::startJob(bool *ok)
 {
     // Special case: playlist clips (.mlt or .kdenlive project files)
+    m_jobDuration = 0;
     if (clipType == PLAYLIST) {
         // change FFmpeg params to MLT format
+        m_isFfmpegJob = false;
         QStringList mltParameters;
                 mltParameters << m_src;
                 mltParameters << "-consumer" << "avformat:" + m_dest;
@@ -60,14 +64,18 @@ QProcess *ProxyJob::startJob(bool *ok)
             //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
             double display_ratio = KdenliveDoc::getDisplayRatio(m_src);
             mltParameters << "aspect=" + QString::number(display_ratio);
+            
+            // Ask for progress reporting
+            mltParameters << "progress=1";
 
-	    QProcess *myProcess = new QProcess;
-            myProcess->setProcessChannelMode(QProcess::MergedChannels);
-            myProcess->start(KdenliveSettings::rendererpath(), mltParameters);
-            myProcess->waitForStarted();
-	    return myProcess;
+	    m_jobProcess = new QProcess;
+            m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+            m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
+            m_jobProcess->waitForStarted();
+	    return m_jobProcess;
     }
     else if (clipType == IMAGE) {
+        m_isFfmpegJob = false;
         // Image proxy
         QImage i(m_src);
         if (i.isNull()) {
@@ -118,6 +126,7 @@ QProcess *ProxyJob::startJob(bool *ok)
 	return NULL;
     }
     else {
+        m_isFfmpegJob = true;
 	QStringList parameters;
         parameters << "-i" << m_src;
         QString params = m_proxyParams;
@@ -127,12 +136,46 @@ QProcess *ProxyJob::startJob(bool *ok)
         // Make sure we don't block when proxy file already exists
         parameters << "-y";
         parameters << m_dest;
-        QProcess *myProcess = new QProcess;
-        myProcess->setProcessChannelMode(QProcess::MergedChannels);
-        myProcess->start("ffmpeg", parameters);
-        myProcess->waitForStarted();
-	return myProcess;
+        m_jobProcess = new QProcess;
+        m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        m_jobProcess->start("ffmpeg", parameters);
+        m_jobProcess->waitForStarted();
+	return m_jobProcess;
     }
+}
+
+int ProxyJob::processLogInfo()
+{
+    if (!m_jobProcess) return -1;
+    QString log = m_jobProcess->readAll();
+    int progress;
+    if (m_isFfmpegJob) {
+        // Parse FFmpeg output
+        if (m_jobDuration == 0) {
+            if (log.contains("Duration:")) {
+                QString data = log.section("Duration:", 1, 1).section(',', 0, 0).simplified();
+                QStringList numbers = data.split(':');
+                m_jobDuration = (int) (numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+            }
+        }
+        else if (log.contains("time=")) {
+            QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
+            if (time.contains(':')) {
+                QStringList numbers = time.split(':');
+                progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+            }
+            else progress = (int) time.toDouble();
+            return (int) (100.0 * progress / m_jobDuration);
+        }
+    }
+    else {
+        // Parse MLT output
+        if (log.contains("percentage:")) {
+            progress = log.section(':', -1).simplified().toInt();
+            return progress;
+        }
+    }
+    return -1;
 }
 
 ProxyJob::~ProxyJob()
