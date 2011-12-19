@@ -34,6 +34,8 @@
 #include <QFuture>
 #include <QFutureSynchronizer>
 #include <QListWidget>
+#include <QTimeLine>
+#include <QPushButton>
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
@@ -56,23 +58,34 @@ namespace Mlt
 class Producer;
 };
 
-struct PROXYINFO {
-    QString dest;
-    QString src;
-    CLIPTYPE type;
-    int exif;
-};
-
 class ProjectItem;
 class ProjectListView;
 class Render;
 class KdenliveDoc;
 class DocClipBase;
+class AbstractClipJob;
 
 const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;
 const int UsageRole = NameRole + 2;
 
+class SmallInfoLabel: public QPushButton
+{
+    Q_OBJECT
+public:
+    SmallInfoLabel(QWidget *parent = 0);
+
+private:
+    QTimeLine* m_timeLine;
+
+public slots:
+    void slotSetJobCount(int jobCount);
+
+private slots:
+    void slotTimeLineChanged(qreal value);
+    void slotTimeLineFinished();
+};
+    
 class InvalidDialog: public KDialog
 {
     Q_OBJECT
@@ -130,10 +143,10 @@ public:
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
             
             int proxy = index.data(Qt::UserRole + 5).toInt();
-            if (proxy != 0 && proxy != PROXYDONE) {
+            if (proxy != 0 && proxy != JOBDONE) {
                 QString proxyText;
                 QColor color;
-                if (proxy != PROXYCRASHED) {
+                if (proxy != JOBCRASHED) {
                     // Draw proxy progress bar
                     color = option.palette.alternateBase().color();
                     painter->setPen(Qt::NoPen);
@@ -147,7 +160,7 @@ public:
                         progress.setWidth((pixmap.width() - 4) * proxy / 100);
                         painter->drawRect(progress);
                     }
-                    else if (proxy == PROXYWAITING) {
+                    else if (proxy == JOBWAITING) {
                         // Draw kind of a pause icon
                         progress.adjust(1, 1, 0, -1);
                         progress.setWidth(2);
@@ -156,7 +169,7 @@ public:
                         painter->drawRect(progress);
                     }
                 }
-                else if (proxy == PROXYCRASHED) {
+                else if (proxy == JOBCRASHED) {
                     QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
                     painter->setPen(Qt::NoPen);
                     painter->setBrush(option.palette.highlight());
@@ -309,10 +322,14 @@ private:
     /** @brief Holds a list of proxy urls that are currently being created. */
     QStringList m_processingProxy;
     QMutex m_mutex;
-    bool m_abortAllProxies;
-    QList <PROXYINFO> m_proxyList;
+    bool m_abortAllJobs;
+    /** @brief We are cleaning up the project list, so stop processing signals. */
+    bool m_closing;
+    QList <AbstractClipJob *> m_jobList;
     QFutureSynchronizer<void> m_proxyThreads;
     InvalidDialog *m_invalidClipDialog;
+    QMenu *m_jobsMenu;
+    SmallInfoLabel *m_infoLabel;
     
     void requestClipThumbnail(const QString id);
 
@@ -337,7 +354,7 @@ private:
     /** @brief Set the Proxy status on a clip. 
      * @param item The clip item to set status
      * @param status The proxy status (see definitions.h) */
-    void setProxyStatus(ProjectItem *item, PROXYSTATUS status, int progress = 0);
+    void setProxyStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress = 0);
     /** @brief Process ffmpeg output to find out process progress. */
     void processLogInfo(QList <ProjectItem *>items, int *duration, const QString &log);
     void monitorItemEditing(bool enable);
@@ -386,6 +403,10 @@ private slots:
     void slotAbortProxy(const QString id, const QString path);
     /** @brief Start creation of proxy clip. */
     void slotGenerateProxy();
+    /** @brief Discard running and pending clip jobs. */
+    void slotCancelJobs();
+    /** @brief Discard a running clip jobs. */
+    void slotCancelRunningJob(const QString id, stringMap);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
@@ -409,6 +430,9 @@ signals:
     void processNextThumbnail();
     /** @brief Activate the clip monitor. */
     void raiseClipMonitor();
+    /** @brief Set number of running jobs. */
+    void jobCount(int);
+    void cancelRunningJob(const QString, stringMap);
 };
 
 #endif

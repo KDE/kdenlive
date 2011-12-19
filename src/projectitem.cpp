@@ -168,10 +168,10 @@ void ProjectItem::slotSetToolTip()
     QString tip;
     if (m_clip->isPlaceHolder()) tip.append(i18n("Missing") + " | ");
     int s = data(0, ProxyRole).toInt();
-    if (s == CREATINGPROXY || s > 0) {
+    if (s == CREATINGJOB || s > 0) {
         tip.append(i18n("Building proxy clip") + " | ");
     }
-    else if (s == PROXYWAITING) {
+    else if (s == JOBWAITING) {
         tip.append(i18n("Waiting - proxy clip") + " | ");
     }
     else if (hasProxy()) {
@@ -263,7 +263,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setProxyStatus(PROXYSTATUS status, int progress)
+void ProjectItem::setProxyStatus(CLIPJOBSTATUS status, int progress)
 {
     if (progress > 0) setData(0, ProxyRole, progress);
     else {
@@ -275,19 +275,19 @@ void ProjectItem::setProxyStatus(PROXYSTATUS status, int progress)
 bool ProjectItem::hasProxy() const
 {
     if (m_clip == NULL) return false;
-    if (m_clip->getProperty("proxy").isEmpty() || m_clip->getProperty("proxy") == "-" || data(0, ProxyRole).toInt() == PROXYCRASHED) return false;
+    if (m_clip->getProperty("proxy").isEmpty() || m_clip->getProperty("proxy") == "-" || data(0, ProxyRole).toInt() == JOBCRASHED) return false;
     return true;
 }
 
 bool ProjectItem::isProxyReady() const
 {
-     return (data(0, ProxyRole).toInt() == PROXYDONE);
+     return (data(0, ProxyRole).toInt() == JOBDONE);
 }
 
 bool ProjectItem::isProxyRunning() const
 {
     int s = data(0, ProxyRole).toInt();
-    if (s == PROXYWAITING || s == CREATINGPROXY || s > 0) return true;
+    if (s == JOBWAITING || s == CREATINGJOB || s > 0) return true;
     return false;
 }
 
