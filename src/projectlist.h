@@ -51,6 +51,7 @@
 #include "kdenlivesettings.h"
 #include "folderprojectitem.h"
 #include "subprojectitem.h"
+#include "projecttree/abstractclipjob.h"
 #include <kdialog.h>
 
 namespace Mlt
@@ -170,7 +171,7 @@ public:
                     }
                 }
                 else if (proxy == JOBCRASHED) {
-                    proxyText = i18n("Proxy crashed");
+                    proxyText = index.data(Qt::UserRole + 7).toString();
                     QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
                     painter->setPen(Qt::NoPen);
                     painter->setBrush(option.palette.highlight());
@@ -269,6 +270,7 @@ public slots:
 
     /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
+    void slotAddClip(const QString url, const QString &groupName, const QString &groupId);
     void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
 
     /** @brief Adds, edits or deletes a folder item.
@@ -288,6 +290,8 @@ public slots:
     void slotForceProcessing(const QString &id);
     /** @brief Remove all instances of a proxy and delete the file. */
     void slotDeleteProxy(const QString proxyPath);
+    /** @brief Start a hard cut clip job. */
+    void slotCutClipJob(const QString &id, QPoint zone);
 
 private:
     ProjectListView *m_listView;
@@ -354,16 +358,22 @@ private:
 
     /** @brief Set the Proxy status on a clip. 
      * @param item The clip item to set status
-     * @param status The proxy status (see definitions.h) */
-    void setProxyStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress = 0);
+     * @param status The job status (see definitions.h) */
+    void setJobStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress = 0, JOBTYPE jobType = NOJOBTYPE);
     /** @brief Process ffmpeg output to find out process progress. */
-    void processLogInfo(QList <ProjectItem *>items, int progress);
+    void processLogInfo(QList <ProjectItem *>items, int progress, JOBTYPE jobType);
     void monitorItemEditing(bool enable);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);
     void getCachedThumbnail(SubProjectItem *item);
     /** @brief The clip is about to be reloaded, cancel thumbnail requests. */
     void resetThumbsProducer(DocClipBase *clip);
+    /** @brief Check if it is necessary to start a job thread. */
+    void startJobProcess();
+    /** @brief Check if a clip has a running or pending proxy process. */
+    bool hasPendingProxy(ProjectItem *item);
+    /** @brief Delete pending jobs for a clip. */
+    void deleteJobsForClip(const QString &clipId);
 
 private slots:
     void slotClipSelected();
@@ -402,8 +412,8 @@ private slots:
     void slotCreateProxy(const QString id);
     /** @brief Stop creation of this clip's proxy. */
     void slotAbortProxy(const QString id, const QString path);
-    /** @brief Start creation of proxy clip. */
-    void slotGenerateProxy();
+    /** @brief Start creation of clip jobs. */
+    void slotProcessJobs();
     /** @brief Discard running and pending clip jobs. */
     void slotCancelJobs();
     /** @brief Discard a running clip jobs. */
@@ -434,6 +444,7 @@ signals:
     /** @brief Set number of running jobs. */
     void jobCount(int);
     void cancelRunningJob(const QString, stringMap);
+    void addClip(const QString, const QString &, const QString &);
 };
 
 #endif

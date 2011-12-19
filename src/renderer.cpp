@@ -915,6 +915,9 @@ void Render::processFileProperties()
             int video_max = 0;
             int default_audio = producer->get_int("audio_index");
             int audio_max = 0;
+            
+            int scan = producer->get_int("meta.media.progressive");
+            filePropertyMap["progressive"] = QString::number(scan);
 
             // Find maximum stream index values
             for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ix++) {

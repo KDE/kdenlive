@@ -232,6 +232,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_projectList, SIGNAL(refreshClip(const QString &, bool)), m_monitorManager, SLOT(slotRefreshCurrentMonitor(const QString &)));
     connect(m_projectList, SIGNAL(findInTimeline(const QString&)), this, SLOT(slotClipInTimeline(const QString&)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));
+    connect(m_clipMonitor, SIGNAL(extractZone(const QString &, QPoint)), m_projectList, SLOT(slotCutClipJob(const QString &, QPoint)));
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
@@ -4476,6 +4477,7 @@ void MainWindow::slotElapsedTime()
 {
     kDebug()<<"-----------------------------------------\n"<<"Time elapsed: "<<m_timer.elapsed()<<"\n-------------------------";
 }
+
 
 #include "mainwindow.moc"
 

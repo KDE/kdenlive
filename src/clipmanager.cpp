@@ -463,9 +463,8 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
 void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId)
 {
     QUndoCommand *addClips = new QUndoCommand();
-
     foreach(const KUrl & file, urls) {
-        if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
+        if (QFile::exists(file.path())) {//KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
             if (!getClipByResource(file.path()).empty()) {
                 if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;
@@ -529,6 +528,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
             }
             new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true, addClips);
         }
+        else kDebug()<<"// CANNOT READ FILE: "<<file;
     }
     if (addClips->childCount() > 0) {
         addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));

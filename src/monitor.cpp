@@ -274,6 +274,8 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     if (m_name == "clip") {
         m_contextMenu->addMenu(m_markerMenu);
         m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
+        QAction *extractZone = m_configMenu->addAction(KIcon("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
+        m_contextMenu->addAction(extractZone);
     }
     QAction *extractFrame = m_configMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
@@ -564,6 +566,12 @@ void Monitor::slotSetThumbFrame()
     }
     m_currentClip->setClipThumbFrame((uint) render->seekFramePosition());
     emit refreshClipThumbnail(m_currentClip->getId(), true);
+}
+
+void Monitor::slotExtractCurrentZone()
+{
+    if (m_currentClip == NULL) return;
+    emit extractZone(m_currentClip->getId(), m_ruler->zone());
 }
 
 void Monitor::slotExtractCurrentFrame()

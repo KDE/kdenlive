@@ -210,7 +210,7 @@ const QString Timecode::getTimecodeFromFrames(int frames) const
 
 
 //static
-QString Timecode::getStringTimecode(int frames, const double &fps)
+QString Timecode::getStringTimecode(int frames, const double &fps, bool showFrames)
 {
     // Returns the timecode in an hh:mm:ss format
 
@@ -221,6 +221,7 @@ QString Timecode::getStringTimecode(int frames, const double &fps)
     }
 
     int seconds = (int)(frames / fps);
+    int frms = frames % (int) (fps + 0.5);
     int minutes = seconds / 60;
     seconds = seconds % 60;
     int hours = minutes / 60;
@@ -233,6 +234,10 @@ QString Timecode::getStringTimecode(int frames, const double &fps)
     text.append(QString::number(minutes).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(seconds).rightJustified(2, '0', false));
+    if (showFrames) {
+        text.append('.');
+        text.append(QString::number(frms).rightJustified(2, '0', false));
+    }
     return text;
 }
 

@@ -25,7 +25,7 @@
 #include <KDebug>
 #include <KLocale>
 
-ProxyJob::ProxyJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(type, cType, id, parameters),
+ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(PROXYJOB, cType, id, parameters),
     m_jobDuration(0),
     m_isFfmpegJob(true)
 {
@@ -130,8 +130,8 @@ QProcess *ProxyJob::startJob(bool *ok)
 	QStringList parameters;
         parameters << "-i" << m_src;
         QString params = m_proxyParams;
-        foreach(QString s, params.split(' '))
-        parameters << s;
+        foreach(const QString &s, params.split(' '))
+            parameters << s;
 
         // Make sure we don't block when proxy file already exists
         parameters << "-y";

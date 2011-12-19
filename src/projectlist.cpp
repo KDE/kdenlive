@@ -21,6 +21,7 @@
 #include "projectitem.h"
 #include "commands/addfoldercommand.h"
 #include "projecttree/proxyclipjob.h"
+#include "projecttree/cutclipjob.h"
 #include "kdenlivesettings.h"
 #include "slideshowclip.h"
 #include "ui_colorclip_ui.h"
@@ -40,6 +41,7 @@
 #include "commands/addclipcutcommand.h"
 
 #include "ui_templateclip_ui.h"
+#include "ui_cutjobdialog_ui.h"
 
 #include <KDebug>
 #include <KAction>
@@ -52,6 +54,7 @@
 #include <KApplication>
 #include <KStandardDirs>
 #include <KColorScheme>
+#include <KUrlRequester>
 
 #ifdef NEPOMUK
 #include <nepomuk/global.h>
@@ -268,6 +271,7 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(m_listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
     connect(m_listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
     connect(m_listView, SIGNAL(addClip(const QList <QUrl>, const QString &, const QString &)), this, SLOT(slotAddClip(const QList <QUrl>, const QString &, const QString &)));
+    connect(this, SIGNAL(addClip(const QString, const QString &, const QString &)), this, SLOT(slotAddClip(const QString, const QString &, const QString &)));
     connect(m_listView, SIGNAL(addClipCut(const QString &, int, int)), this, SLOT(slotAddClipCut(const QString &, int, int)));
     connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
     connect(m_listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
@@ -627,7 +631,7 @@ void ProjectList::slotReloadClip(const QString &id)
             continue;
         }
         item = static_cast <ProjectItem *>(selected.at(i));
-        if (item && !item->isProxyRunning()) {
+        if (item && !hasPendingProxy(item)) {
             DocClipBase *clip = item->referencedClip();
             if (!clip || !clip->isClean() || m_render->isProcessing(item->clipId())) {
                 kDebug()<<"//// TRYING TO RELOAD: "<<item->clipId()<<", but it is busy";
@@ -893,7 +897,7 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
     clip->setProperties(properties);
     if (properties.contains("proxy")) {
         if (properties.value("proxy") == "-" || properties.value("proxy").isEmpty())
-            clip->setProxyStatus(NOJOB);
+            clip->setJobStatus(NOJOB);
     }
     if (properties.contains("name")) {
         monitorItemEditing(false);
@@ -1114,6 +1118,7 @@ void ProjectList::slotDeleteClip(const QString &clipId)
         kDebug() << "/// Cannot find clip to delete";
         return;
     }
+    deleteJobsForClip(clipId);
     if (item->isProxyRunning()) m_abortProxy.append(item->referencedClip()->getProperty("proxy"));
     m_listView->blockSignals(true);
     QTreeWidgetItem *newSelectedItem = m_listView->itemAbove(item);
@@ -1241,7 +1246,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
     }
     // WARNING: code below triggers unnecessary reload of all proxy clips on document loading... is it useful in some cases?
-    /*else if (item->hasProxy() && !item->isProxyRunning()) {
+    /*else if (item->hasProxy() && !item->isJobRunning()) {
         slotCreateProxy(clip->getId());
     }*/
     
@@ -1439,11 +1444,11 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                 bool replace = false;
                 if (brokenClips.contains(item->clipId())) {
                     // if this is a proxy clip, disable proxy
-                    item->setProxyStatus(NOJOB);
+                    item->setJobStatus(NOJOB);
                     clip->setProperty("proxy", "-");
                     replace = true;
                 }
-                if (clip->isPlaceHolder() == false && !item->isProxyRunning()) {
+                if (clip->isPlaceHolder() == false && !hasPendingProxy(item)) {
                     QDomElement xml = clip->toXML();
                     if (fpsChanged) {
                         xml.removeAttribute("out");
@@ -1522,6 +1527,14 @@ QString ProjectList::getExtensions()
         }
     }
     return allExtensions.simplified();
+}
+
+void ProjectList::slotAddClip(const QString url, const QString &groupName, const QString &groupId)
+{
+    kDebug()<<"// Adding clip: "<<url;
+    QList <QUrl> list;
+    list.append(url);
+    slotAddClip(list, groupName, groupId);
 }
 
 void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &groupName, const QString &groupId)
@@ -1651,7 +1664,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
             kDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
             emit displayMessage(i18n("Proxy clip unusable (duration is different from original)."), -2);
         }
-        item->setProxyStatus(JOBCRASHED);
+        item->setJobStatus(JOBCRASHED);
         QString path = item->referencedClip()->getProperty("proxy");
         KUrl proxyFolder(m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/");
 
@@ -1983,9 +1996,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
 
         // Proxy stuff
         QString size = properties.value("frame_size");
-        if (!useProxy() && clip->getProperty("proxy").isEmpty()) setProxyStatus(item, NOJOB);
-        if (useProxy() && generateProxy() && clip->getProperty("proxy") == "-") setProxyStatus(item, NOJOB);
-        else if (useProxy() && !item->hasProxy() && !item->isProxyRunning()) {
+        if (!useProxy() && clip->getProperty("proxy").isEmpty()) setJobStatus(item, NOJOB);
+        if (useProxy() && generateProxy() && clip->getProperty("proxy") == "-") setJobStatus(item, NOJOB);
+        else if (useProxy() && !item->hasProxy() && !hasPendingProxy(item)) {
             // proxy video and image clips
             int maxSize;
             CLIPTYPE t = item->clipType();
@@ -2474,13 +2487,13 @@ QMap <QString, QString> ProjectList::getProxies()
 void ProjectList::slotCreateProxy(const QString id)
 {
     ProjectItem *item = getItemById(id);
-    if (!item || item->isProxyRunning() || item->referencedClip()->isPlaceHolder()) return;
+    if (!item || hasPendingProxy(item) || item->referencedClip()->isPlaceHolder()) return;
     QString path = item->referencedClip()->getProperty("proxy");
     if (path.isEmpty()) {
-        setProxyStatus(item, JOBCRASHED);
+        setJobStatus(item, JOBCRASHED);
         return;
     }
-    setProxyStatus(item, JOBWAITING);
+
     if (m_abortProxy.contains(path)) m_abortProxy.removeAll(path);
     if (m_processingProxy.contains(path)) {
         // Proxy is already being generated
@@ -2488,19 +2501,70 @@ void ProjectList::slotCreateProxy(const QString id)
     }
     if (QFileInfo(path).size() > 0) {
         // Proxy already created
-        setProxyStatus(item, JOBDONE);
+        setJobStatus(item, JOBDONE);
         slotGotProxy(path);
         return;
     }
+    if (!item->isJobRunning()) setJobStatus(item, JOBWAITING);
     m_processingProxy.append(path);
 
-    /*PROXYINFO info;
-    info.dest = path;
-    info.src = item->clipUrl().path();
-    info.type = item->clipType();
-    info.exif = QString(item->referencedClip()->producerProperty("_exif_orientation")).toInt();*/
-    ProxyJob *job = new ProxyJob(PROXYJOB, item->clipType(), item->clipId(), QStringList() << path << item->clipUrl().path() << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
+    ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << item->clipUrl().path() << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
     m_jobList.append(job);
+    
+    startJobProcess();
+}
+
+void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
+{
+    ProjectItem *item = getItemById(id);
+    if (!item|| item->referencedClip()->isPlaceHolder()) return;
+    QString dest = item->clipUrl().path();
+    QString ext = dest.section('.', -1);
+    dest = dest.section('.', 0, -2) + "_" + QString::number(zone.x()) + "." + ext;
+    
+    double clipFps = item->referencedClip()->getProperty("fps").toDouble();
+    if (clipFps == 0) clipFps = m_fps;
+    // if clip and project have different frame rate, adjust in and out
+    int in = zone.x();
+    int out = zone.y();
+    in = GenTime(in, m_timecode.fps()).frames(clipFps);
+    out = GenTime(out, m_timecode.fps()).frames(clipFps);
+    int max = GenTime(item->clipMaxDuration(), m_timecode.fps()).frames(clipFps);
+    int duration = out - in;
+    QString timeIn = Timecode::getStringTimecode(in, clipFps, true);
+    QString timeOut = Timecode::getStringTimecode(duration, clipFps, true);
+    
+    QDialog *d = new QDialog(this);
+    Ui::CutJobDialog_UI ui;
+    ui.setupUi(d);
+    ui.file_url->fileDialog()->setOperationMode(KFileDialog::Saving);
+    ui.file_url->setUrl(KUrl(dest));
+    ui.info_label->setText(i18n("Extracting %1 out of %2", timeOut, Timecode::getStringTimecode(max, clipFps, true)));
+    if (d->exec() != QDialog::Accepted) return;
+    dest = ui.file_url->url().path();
+    QString extraParams = ui.extra_params->toPlainText().simplified();
+    delete d;
+    
+    if (QFileInfo(dest).size() > 0) {
+        // Clip already created
+        setJobStatus(item, JOBDONE);
+        emit addClip(dest, QString(), QString());
+        return;
+    }
+    if (!item->isJobRunning()) setJobStatus(item, JOBWAITING);
+    m_processingProxy.append(dest);
+    QStringList jobParams;
+    jobParams << dest << item->clipUrl().path() << timeIn << timeOut << QString::number(duration);
+    if (!extraParams.isEmpty()) jobParams << extraParams;
+    CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
+    m_jobList.append(job);
+    
+    startJobProcess();
+}
+
+
+void ProjectList::startJobProcess()
+{
     int ct = 0;
     if (!m_proxyThreads.futures().isEmpty()) {
         // Remove inactive threads
@@ -2514,7 +2578,7 @@ void ProjectList::slotCreateProxy(const QString id)
     }
     emit jobCount(ct + m_jobList.count());
     
-    if (m_proxyThreads.futures().isEmpty() || m_proxyThreads.futures().count() < KdenliveSettings::proxythreads()) m_proxyThreads.addFuture(QtConcurrent::run(this, &ProjectList::slotGenerateProxy));
+    if (m_proxyThreads.futures().isEmpty() || m_proxyThreads.futures().count() < KdenliveSettings::proxythreads()) m_proxyThreads.addFuture(QtConcurrent::run(this, &ProjectList::slotProcessJobs));
 }
 
 void ProjectList::slotAbortProxy(const QString id, const QString path)
@@ -2531,7 +2595,7 @@ void ProjectList::slotAbortProxy(const QString id, const QString path)
     }
 }
 
-void ProjectList::slotGenerateProxy()
+void ProjectList::slotProcessJobs()
 {
     while (!m_jobList.isEmpty() && !m_abortAllJobs) {
         emit projectModified();
@@ -2577,7 +2641,7 @@ void ProjectList::slotGenerateProxy()
         QFile file(job->destination());
         if (!file.open(QIODevice::WriteOnly)) {
             for (int i = 0; i < processingItems.count(); i++)
-                setProxyStatus(processingItems.at(i), JOBCRASHED);
+                setJobStatus(processingItems.at(i), JOBCRASHED);
             m_processingProxy.removeAll(job->destination());
             delete job;
             continue;
@@ -2586,7 +2650,8 @@ void ProjectList::slotGenerateProxy()
         QFile::remove(job->destination());
     
         for (int i = 0; i < processingItems.count(); i++)
-            setProxyStatus(processingItems.at(i), CREATINGJOB, 0); //, job->description);
+            setJobStatus(processingItems.at(i), CREATINGJOB, 0, job->jobType);
+
         bool success;
         QProcess *jobProcess = job->startJob(&success);
             
@@ -2594,9 +2659,11 @@ void ProjectList::slotGenerateProxy()
         if (jobProcess == NULL) {
             // job is finished
             for (int i = 0; i < processingItems.count(); i++)
-                setProxyStatus(processingItems.at(i), success ? JOBDONE : JOBCRASHED);
+                setJobStatus(processingItems.at(i), success ? JOBDONE : JOBCRASHED);
             if (success) {
-                slotGotProxy(job->destination());
+                if (job->jobType == PROXYJOB) slotGotProxy(job->destination());
+                //TODO: set folder for transcoded clips
+                else if (job->jobType == CUTJOB) emit addClip(job->destination(), QString(), QString());
             }
             else {
                 QFile::remove(job->destination());
@@ -2617,14 +2684,14 @@ void ProjectList::slotGenerateProxy()
                 if (!m_closing) {
                     emit cancelRunningJob(job->clipId(), job->cancelProperties());
                     /*for (int i = 0; i < processingItems.count(); i++)
-                        setProxyStatus(processingItems.at(i), NOJOB);*/
+                        setJobStatus(processingItems.at(i), NOJOB);*/
                 }
                 else continue;
                 result = -2;
             }
             else {
                 int progress = job->processLogInfo();
-                if (progress > -1) processLogInfo(processingItems, progress);
+                if (progress > -1) processLogInfo(processingItems, progress, job->jobType);
             }
             jobProcess->waitForFinished(500);
         }
@@ -2639,14 +2706,16 @@ void ProjectList::slotGenerateProxy()
         if (result == QProcess::NormalExit) {
             // proxy successfully created
             for (int i = 0; i < processingItems.count(); i++)
-                setProxyStatus(processingItems.at(i), JOBDONE);
-            slotGotProxy(job->destination());
+                setJobStatus(processingItems.at(i), JOBDONE);
+            if (job->jobType == PROXYJOB) slotGotProxy(job->destination());
+            //TODO: set folder for transcoded clips
+            else if (job->jobType == CUTJOB) emit addClip(job->destination(), QString(), QString());
         }
         else if (result == QProcess::CrashExit) {
             // Proxy process crashed
             QFile::remove(job->destination());
             for (int i = 0; i < processingItems.count(); i++)
-                setProxyStatus(processingItems.at(i), JOBCRASHED);
+                setJobStatus(processingItems.at(i), JOBCRASHED);
         }
         delete job;
         continue;
@@ -2662,10 +2731,10 @@ void ProjectList::slotGenerateProxy()
 }
 
 
-void ProjectList::processLogInfo(QList <ProjectItem *>items, int progress)
+void ProjectList::processLogInfo(QList <ProjectItem *>items, int progress, JOBTYPE jobType)
 {
     for (int i = 0; i < items.count(); i++)
-        setProxyStatus(items.at(i), CREATINGJOB, progress);
+        setJobStatus(items.at(i), CREATINGJOB, progress, jobType);
 }
 
 void ProjectList::updateProxyConfig()
@@ -2687,7 +2756,7 @@ void ProjectList::updateProxyConfig()
         }
         CLIPTYPE t = item->clipType();
         if ((t == VIDEO || t == AV || t == UNKNOWN) && item->referencedClip() != NULL) {
-            if  (generateProxy() && useProxy() && !item->isProxyRunning()) {
+            if  (generateProxy() && useProxy() && !hasPendingProxy(item)) {
                 DocClipBase *clip = item->referencedClip();
                 if (clip->getProperty("frame_size").section('x', 0, 0).toInt() > m_doc->getDocumentProperty("proxyminsize").toInt()) {
                     if (clip->getProperty("proxy").isEmpty()) {
@@ -2846,11 +2915,11 @@ void ProjectList::slotDeleteProxy(const QString proxyPath)
     QFile::remove(proxyPath);
 }
 
-void ProjectList::setProxyStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress)
+void ProjectList::setJobStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress, JOBTYPE jobType)
 {
     if (item == NULL || m_abortAllJobs) return;
     monitorItemEditing(false);
-    item->setProxyStatus(status, progress);
+    item->setJobStatus(status, progress, jobType);
     if (status == JOBCRASHED) {
         DocClipBase *clip = item->referencedClip();
         if (!clip) {
@@ -2948,5 +3017,31 @@ void ProjectList::slotCancelRunningJob(const QString id, stringMap newProps)
     EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true);
     m_commandStack->push(command);    
 }
+
+bool ProjectList::hasPendingProxy(ProjectItem *item)
+{
+    if (!item || !item->referencedClip() || m_abortAllJobs) return false;
+    for (int i = 0; i < m_jobList.count(); i++) {
+        if (m_abortAllJobs) break;
+        if (m_jobList.at(i)->clipId() == item->clipId() && m_jobList.at(i)->jobType == PROXYJOB) return true;
+    }
+    if (item->isProxyRunning()) return true;
+    return false;
+}
+
+void ProjectList::deleteJobsForClip(const QString &clipId)
+{
+    QList <AbstractClipJob *> jobsToDelete;
+    for (int i = 0; i < m_jobList.count(); i++) {
+        if (m_abortAllJobs) break;
+        if (m_jobList.at(i)->clipId() == clipId) {
+            AbstractClipJob *job = m_jobList.takeAt(i);
+            delete job;
+            i--;
+        }
+    }
+}
+
+
 
 #include "projectlist.moc"

@@ -401,6 +401,13 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame rate") << props.value("fps"));
             if (!m_view.clip_framerate->isEnabled()) m_view.clip_framerate->setValue(props.value("fps").toDouble());
         }
+
+        if (props.contains("progressive")) {
+            int scanning = props.value("progressive").toInt();
+            QString txt = scanning == 1 ? i18n("Progressive") : i18n("Interlaced");
+            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Scanning") << txt);
+        }
+        
         if (props.contains("aspect_ratio"))
             new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel aspect ratio") << props.value("aspect_ratio"));
 
@@ -409,6 +416,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 
         if (props.contains("colorspace"))
             new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
+        
 
         int width = 180.0 * KdenliveSettings::project_display_ratio();
         if (width % 2 == 1) width++;

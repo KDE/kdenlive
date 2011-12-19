@@ -30,7 +30,9 @@
 #include <QFile>
 
 const int DurationRole = Qt::UserRole + 1;
-const int ProxyRole = Qt::UserRole + 5;
+const int JobProgressRole = Qt::UserRole + 5;
+const int JobTypeRole = Qt::UserRole + 6;
+const int JobCrasMessage = Qt::UserRole + 7;
 const int itemHeight = 38;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
@@ -167,7 +169,7 @@ void ProjectItem::slotSetToolTip()
 {
     QString tip;
     if (m_clip->isPlaceHolder()) tip.append(i18n("Missing") + " | ");
-    int s = data(0, ProxyRole).toInt();
+    int s = data(0, JobProgressRole).toInt();
     if (s == CREATINGJOB || s > 0) {
         tip.append(i18n("Building proxy clip") + " | ");
     }
@@ -263,11 +265,16 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setProxyStatus(CLIPJOBSTATUS status, int progress)
+void ProjectItem::setJobStatus(CLIPJOBSTATUS status, int progress, JOBTYPE jobType)
 {
-    if (progress > 0) setData(0, ProxyRole, progress);
+    if (status == JOBCRASHED) {
+        if (jobType == PROXYJOB) setData(0, JobCrasMessage, i18n("Proxy crashed"));
+        else if (jobType == CUTJOB) setData(0, JobCrasMessage, i18n("Transcoding crashed"));
+    }
+    setData(0, JobTypeRole, jobType);
+    if (progress > 0) setData(0, JobProgressRole, progress);
     else {
-        setData(0, ProxyRole, status);
+        setData(0, JobProgressRole, status);
         slotSetToolTip();
     }
 }
@@ -275,19 +282,26 @@ void ProjectItem::setProxyStatus(CLIPJOBSTATUS status, int progress)
 bool ProjectItem::hasProxy() const
 {
     if (m_clip == NULL) return false;
-    if (m_clip->getProperty("proxy").isEmpty() || m_clip->getProperty("proxy") == "-" || data(0, ProxyRole).toInt() == JOBCRASHED) return false;
+    if (m_clip->getProperty("proxy").isEmpty() || m_clip->getProperty("proxy") == "-" || data(0, JobProgressRole).toInt() == JOBCRASHED) return false;
     return true;
 }
 
 bool ProjectItem::isProxyReady() const
 {
-     return (data(0, ProxyRole).toInt() == JOBDONE);
+     return (data(0, JobProgressRole).toInt() == JOBDONE);
+}
+
+bool ProjectItem::isJobRunning() const
+{
+    int s = data(0, JobProgressRole).toInt();
+    if (s == JOBWAITING || s == CREATINGJOB || s > 0) return true;
+    return false;
 }
 
 bool ProjectItem::isProxyRunning() const
 {
-    int s = data(0, ProxyRole).toInt();
-    if (s == JOBWAITING || s == CREATINGJOB || s > 0) return true;
+    int s = data(0, JobProgressRole).toInt();
+    if ((s == CREATINGJOB || s > 0) && data(0, JobTypeRole).toInt() == (int) PROXYJOB) return true;
     return false;
 }
 

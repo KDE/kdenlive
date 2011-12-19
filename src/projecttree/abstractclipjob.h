@@ -26,7 +26,7 @@
 
 #include "definitions.h"
 
-enum JOBTYPE { PROXYJOB = 1, CUTJOB = 2};
+enum JOBTYPE { NOJOBTYPE = 0, PROXYJOB = 1, CUTJOB = 2};
 
 class AbstractClipJob : public QObject
 {

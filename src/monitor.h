@@ -199,6 +199,7 @@ private slots:
     void slotSetVolume(int volume);
     void slotShowVolume();
     void slotEditMarker();
+    void slotExtractCurrentZone();
 
 public slots:
     void slotOpenFile(const QString &);
@@ -252,6 +253,8 @@ signals:
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);
+    /** @brief Request a zone extraction (ffmpeg transcoding). */
+    void extractZone(const QString &id, QPoint zone);
 };
 
 #endif

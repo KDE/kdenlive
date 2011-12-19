@@ -18,8 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef PROXYCLIPJOB
-#define PROXYCLIPJOB
+#ifndef CUTCLIPJOB
+#define CUTCLIPJOB
 
 #include <QObject>
 #include <QProcess>
@@ -27,13 +27,13 @@
 #include "abstractclipjob.h"
 
 
-class ProxyJob : public AbstractClipJob
+class CutClipJob : public AbstractClipJob
 {
     Q_OBJECT
 
 public:
-    ProxyJob(CLIPTYPE cType, const QString &id, QStringList parameters);
-    virtual ~ ProxyJob();
+    CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters);
+    virtual ~ CutClipJob();
     const QString destination() const;
     QProcess *startJob(bool *ok);
     stringMap cancelProperties();
@@ -42,12 +42,10 @@ public:
 private:
     QString m_dest;
     QString m_src;
-    int m_exif;
-    QString m_proxyParams;
-    int m_renderWidth;
-    int m_renderHeight;
+    QString m_start;
+    QString m_end;
+    QString m_cutExtraParams;
     int m_jobDuration;
-    bool m_isFfmpegJob;
 };
 
 #endif

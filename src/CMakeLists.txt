@@ -256,6 +256,7 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/wizardstandard_ui.ui
   widgets/keywordval_ui.ui
   widgets/fontval_ui.ui
+  widgets/cutjobdialog_ui.ui
 )
 
 if(OPENGL_FOUND)

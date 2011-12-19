@@ -30,6 +30,8 @@
 
 #include "gentime.h"
 #include "definitions.h"
+#include "projecttree/abstractclipjob.h"
+
 
 class DocClipBase;
 
@@ -63,12 +65,14 @@ public:
     QString getClipHash() const;
     static int itemDefaultHeight();
     void slotSetToolTip();
-    /** \brief Set the status of proxy clip creation. 0 = no proxy, 1 = creating proxy, 2 = proxy created. */
-    void setProxyStatus(CLIPJOBSTATUS status, int progress = 0);
+    /** \brief Set the status of the clip job. */
+    void setJobStatus(CLIPJOBSTATUS status, int progress = 0, JOBTYPE jobType = NOJOBTYPE);
     /** \brief Returns the proxy status for this clip (true means there is a proxy clip). */
     bool hasProxy() const;
     /** \brief Returns true if the proxy for this clip is ready. */
     bool isProxyReady() const;
+    /** \brief Returns true if there is a job currently running for this clip. */
+    bool isJobRunning() const;
     /** \brief Returns true if we are currently creating the proxy for this clip. */
     bool isProxyRunning() const;
 

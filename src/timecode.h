@@ -50,7 +50,7 @@ public:
     int getDisplayFrameCount(const QString &duration, bool frameDisplay) const;
     int getFrameCount(const QString &duration) const;
     static QString getEasyTimecode(const GenTime & time, const double &fps);
-    static QString getStringTimecode(int frames, const double &fps);
+    static QString getStringTimecode(int frames, const double &fps, bool showFrames = false);
     const QString getDisplayTimecodeFromFrames(int frames, bool frameDisplay) const;
     const QString getTimecodeFromFrames(int frames) const;
     double fps() const;
