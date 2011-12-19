@@ -133,7 +133,7 @@ public:
             if (proxy != 0 && proxy != PROXYDONE) {
                 QString proxyText;
                 QColor color;
-                if (proxy > 0) {
+                if (proxy != PROXYCRASHED) {
                     // Draw proxy progress bar
                     color = option.palette.alternateBase().color();
                     painter->setPen(Qt::NoPen);
@@ -142,22 +142,21 @@ public:
                     QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 5, pixmap.width() - 2, 4);
                     painter->drawRect(progress);
                     painter->setBrush(option.palette.text());
-                    progress.adjust(1, 1, 0, -1);
-                    progress.setWidth((pixmap.width() - 4) * proxy / 100);
-                    painter->drawRect(progress);
-                }
-                else {
-                    switch (proxy)  {
-                        case CREATINGPROXY:
-                            proxyText = i18n("Generating proxy ...");
-                            break;
-                        case PROXYWAITING:
-                            proxyText = i18n("Waiting proxy ...");
-                            break;
-                        case PROXYCRASHED:
-                        default:
-                            proxyText = i18n("Proxy crashed");
+                    if (proxy > 0) {
+                        progress.adjust(1, 1, 0, -1);
+                        progress.setWidth((pixmap.width() - 4) * proxy / 100);
+                        painter->drawRect(progress);
                     }
+                    else if (proxy == PROXYWAITING) {
+                        // Draw kind of a pause icon
+                        progress.adjust(1, 1, 0, -1);
+                        progress.setWidth(2);
+                        painter->drawRect(progress);
+                        progress.moveLeft(progress.right() + 2);
+                        painter->drawRect(progress);
+                    }
+                }
+                else if (proxy == PROXYCRASHED) {
                     QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
                     painter->setPen(Qt::NoPen);
                     painter->setBrush(option.palette.highlight());

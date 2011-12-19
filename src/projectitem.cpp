@@ -167,8 +167,12 @@ void ProjectItem::slotSetToolTip()
 {
     QString tip;
     if (m_clip->isPlaceHolder()) tip.append(i18n("Missing") + " | ");
-    if (isProxyRunning()) {
+    int s = data(0, ProxyRole).toInt();
+    if (s == CREATINGPROXY || s > 0) {
         tip.append(i18n("Building proxy clip") + " | ");
+    }
+    else if (s == PROXYWAITING) {
+        tip.append(i18n("Waiting - proxy clip") + " | ");
     }
     else if (hasProxy()) {
         tip.append(i18n("Proxy clip") + " | ");
