@@ -91,7 +91,7 @@ class ItemDelegate: public QStyledItemDelegate
 public:
     ItemDelegate(QAbstractItemView* parent = 0): QStyledItemDelegate(parent) {
     }
-
+    
     /*void drawFocus(QPainter *, const QStyleOptionViewItem &, const QRect &) const {
     }*/
 
@@ -108,7 +108,8 @@ public:
             }
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
-            painter->drawPixmap(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2, pixmap);
+            QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
+            painter->drawPixmap(pixmapPoint, pixmap);
             int decoWidth = pixmap.width() + 2 * textMargin;
 
             QFont font = painter->font();
@@ -118,7 +119,7 @@ public:
             r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, index.data().toString());
             font.setBold(false);
             painter->setFont(font);
             QString subText = index.data(DurationRole).toString();
@@ -129,21 +130,21 @@ public:
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
             
             int proxy = index.data(Qt::UserRole + 5).toInt();
-            if (proxy != 0) {
-                QRectF txtBounding;
+            if (proxy != 0 && proxy != PROXYDONE) {
                 QString proxyText;
-                QBrush brush;
                 QColor color;
                 if (proxy > 0) {
-                    proxyText = i18n("Proxy %1\%", proxy);
-                    brush = option.palette.highlight();
-                    color = option.palette.color(QPalette::HighlightedText);
-                    
-                }
-                else if (proxy == PROXYDONE) {
-                    proxyText = i18n("Proxy");
-                    brush = option.palette.mid();
-                    color = option.palette.color(QPalette::WindowText);
+                    // Draw proxy progress bar
+                    color = option.palette.alternateBase().color();
+                    painter->setPen(Qt::NoPen);
+                    color.setAlpha(180);
+                    painter->setBrush(QBrush(color));
+                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 5, pixmap.width() - 2, 4);
+                    painter->drawRect(progress);
+                    painter->setBrush(option.palette.text());
+                    progress.adjust(1, 1, 0, -1);
+                    progress.setWidth((pixmap.width() - 4) * proxy / 100);
+                    painter->drawRect(progress);
                 }
                 else {
                     switch (proxy)  {
@@ -157,16 +158,13 @@ public:
                         default:
                             proxyText = i18n("Proxy crashed");
                     }
-                    brush = option.palette.highlight();
-                    color = option.palette.color(QPalette::HighlightedText);
+                    QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
+                    painter->setPen(Qt::NoPen);
+                    painter->setBrush(option.palette.highlight());
+                    painter->drawRoundedRect(txtBounding, 2, 2);
+                    painter->setPen(option.palette.highlightedText().color());
+                    painter->drawText(txtBounding, Qt::AlignHCenter | Qt::AlignVCenter , proxyText);
                 }
-               
-                txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
-                painter->setPen(Qt::NoPen);
-                painter->setBrush(brush);
-                painter->drawRoundedRect(txtBounding, 2, 2);
-                painter->setPen(option.palette.highlightedText().color());
-                painter->drawText(txtBounding, Qt::AlignHCenter | Qt::AlignVCenter , proxyText);
             }
             
             painter->restore();
@@ -238,6 +236,8 @@ public:
     QStringList expandedFolders() const;
     /** @brief Deselect all clips in project tree. */
     void clearSelection();
+    /** @brief Print required overlays over clip thumb (proxy, stabilized,...). */
+    void processThumbOverlays(ProjectItem *item, QPixmap &pix);
 
 public slots:
     void setDocument(KdenliveDoc *doc);

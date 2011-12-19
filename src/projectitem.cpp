@@ -165,8 +165,15 @@ DocClipBase *ProjectItem::referencedClip()
 
 void ProjectItem::slotSetToolTip()
 {
-    QString tip = "<b>";
+    QString tip;
     if (m_clip->isPlaceHolder()) tip.append(i18n("Missing") + " | ");
+    if (isProxyRunning()) {
+        tip.append(i18n("Building proxy clip") + " | ");
+    }
+    else if (hasProxy()) {
+        tip.append(i18n("Proxy clip") + " | ");
+    }
+    tip.append("<b>");
     switch (m_clipType) {
     case AUDIO:
         tip.append(i18n("Audio clip") + "</b><br />" + clipUrl().path());
@@ -200,7 +207,6 @@ void ProjectItem::slotSetToolTip()
         tip.append(i18n("Unknown clip"));
         break;
     }
-
     setToolTip(0, tip);
 }
 
@@ -256,7 +262,10 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 void ProjectItem::setProxyStatus(PROXYSTATUS status, int progress)
 {
     if (progress > 0) setData(0, ProxyRole, progress);
-    else setData(0, ProxyRole, status);
+    else {
+        setData(0, ProxyRole, status);
+        slotSetToolTip();
+    }
 }
 
 bool ProjectItem::hasProxy() const

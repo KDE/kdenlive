@@ -1115,8 +1115,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         item = new ProjectItem(m_listView, clip);
     }
     if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
-    QString proxy = clip->getProperty("proxy");
-    if (!proxy.isEmpty() && proxy != "-") slotCreateProxy(clip->getId());
     connect(clip, SIGNAL(createProxy(const QString &)), this, SLOT(slotCreateProxy(const QString &)));
     connect(clip, SIGNAL(abortProxy(const QString &, const QString &)), this, SLOT(slotAbortProxy(const QString, const QString)));
     if (getProperties) {
@@ -1131,9 +1129,10 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         resetThumbsProducer(clip);
         m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
     }
-    else if (item->hasProxy() && !item->isProxyRunning()) {
+    // WARNING: code below triggers unnecessary reload of all proxy clips on document loading... is it useful in some cases?
+    /*else if (item->hasProxy() && !item->isProxyRunning()) {
         slotCreateProxy(clip->getId());
-    }
+    }*/
     
     KUrl url = clip->fileURL();
 #ifdef NEPOMUK
@@ -1249,7 +1248,10 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
             KIO::NetAccess::del(KUrl(cachedPixmap), this);
             requestClipThumbnail(item->clipId());
         }
-        else item->setData(0, Qt::DecorationRole, pix);
+        else {
+            processThumbOverlays(item, pix);
+            item->setData(0, Qt::DecorationRole, pix);
+        }
     }
     else {
         requestClipThumbnail(item->clipId());
@@ -1334,7 +1336,9 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                         xml.removeAttribute("proxy_out");
                     }
                     if (!replace) replace = xml.attribute("replace") == "1";
-                    if (replace) resetThumbsProducer(clip);
+                    if (replace) {
+                        resetThumbsProducer(clip);
+                    }
                     m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                 }
                 else if (clip->isPlaceHolder()) {
@@ -1351,8 +1355,9 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                     }
                 }
             } else {              
-                if (displayRatioChanged)
+                if (displayRatioChanged) {
                     requestClipThumbnail(clip->getId());
+                }
                 else if (item->data(0, Qt::DecorationRole).isNull()) {
                     getCachedThumbnail(item);
                 }
@@ -1818,7 +1823,10 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
 
         if (!pix.isNull() || !img.isNull()) {
             monitorItemEditing(false);
-            if (!img.isNull()) pix = QPixmap::fromImage(img);
+            if (!img.isNull()) {
+                pix = QPixmap::fromImage(img);
+                processThumbOverlays(item, pix);
+            }
             it->setData(0, Qt::DecorationRole, pix);
             monitorItemEditing(true);
             
@@ -2005,6 +2013,7 @@ void ProjectList::slotReplyGetImage(const QString &clipId, const QImage &img)
     ProjectItem *item = getItemById(clipId);
     if (item && !img.isNull()) {
         QPixmap pix = QPixmap::fromImage(img);
+        processThumbOverlays(item, pix);
         monitorItemEditing(false);
         item->setData(0, Qt::DecorationRole, pix);
         monitorItemEditing(true);
@@ -2867,6 +2876,22 @@ QStringList ProjectList::expandedFolders() const
         ++it;
     }
     return result;
+}
+
+void ProjectList::processThumbOverlays(ProjectItem *item, QPixmap &pix)
+{
+    if (item->hasProxy()) {
+        QPainter p(&pix);
+        QColor c = QPalette().base().color();
+        c.setAlpha(160);
+        QBrush br(c);
+        p.setBrush(br);
+        p.setPen(Qt::NoPen);
+        QRect r(1, 1, 10, 10);
+        p.drawRect(r);
+        p.setPen(QPalette().text().color());
+        p.drawText(r, Qt::AlignCenter, i18nc("The first letter of Proxy, used as abbreviation", "P"));
+    }
 }
 
 #include "projectlist.moc"

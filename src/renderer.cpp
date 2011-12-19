@@ -783,9 +783,9 @@ void Render::processFileProperties()
                 Mlt::Frame *frame = producer->get_frame();
                 if (frame && frame->is_valid()) {
                     QImage img = KThumb::getFrame(frame, imageWidth, fullWidth, info.imageHeight);
-                    delete frame;
                     emit replyGetImage(info.clipId, img);
                 }
+                if (frame) delete frame;
             }
             m_processingClipId.clear();
             emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer);
