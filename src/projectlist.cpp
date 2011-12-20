@@ -2537,9 +2537,9 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
 {
     ProjectItem *item = getItemById(id);
     if (!item|| item->referencedClip()->isPlaceHolder()) return;
-    QString dest = item->clipUrl().path();
-    QString ext = dest.section('.', -1);
-    dest = dest.section('.', 0, -2) + "_" + QString::number(zone.x()) + "." + ext;
+    QString source = item->clipUrl().path();
+    QString ext = source.section('.', -1);
+    QString dest = source.section('.', 0, -2) + "_" + QString::number(zone.x()) + "." + ext;
     
     double clipFps = item->referencedClip()->getProperty("fps").toDouble();
     if (clipFps == 0) clipFps = m_fps;
@@ -2559,19 +2559,36 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
     ui.file_url->fileDialog()->setOperationMode(KFileDialog::Saving);
     ui.file_url->setUrl(KUrl(dest));
-    ui.info_label->setText(i18n("Extracting %1 out of %2", timeOut, Timecode::getStringTimecode(max, clipFps, true)));
-    if (d->exec() != QDialog::Accepted) return;
+    QString mess = i18n("Extracting %1 out of %2", timeOut, Timecode::getStringTimecode(max, clipFps, true));
+    ui.info_label->setText(mess);
+    if (d->exec() != QDialog::Accepted) {
+        delete d;
+        return;
+    }
     dest = ui.file_url->url().path();
+    bool acceptPath = dest != source;
+    if (acceptPath && QFileInfo(dest).size() > 0) {
+        // destination file olready exists, overwrite?
+        acceptPath = false;
+    }
+    while (!acceptPath) {
+        // Do not allow to save over original clip
+        if (dest == source) ui.info_label->setText("<b>" + i18n("You cannot overwrite original clip.") + "</b><br>" + mess);
+        else if (KMessageBox::questionYesNo(this, i18n("Overwrite file %1", dest)) == KMessageBox::Yes) break;
+        if (d->exec() != QDialog::Accepted) {
+            delete d;
+            return;
+        }
+        dest = ui.file_url->url().path();
+        acceptPath = dest != source;
+        if (acceptPath && QFileInfo(dest).size() > 0) {
+            acceptPath = false;
+        }
+    }
     QString extraParams = ui.extra_params->toPlainText().simplified();
     KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
     delete d;
-    
-    if (QFileInfo(dest).size() > 0) {
-        // Clip already created
-        setJobStatus(item, JOBDONE);
-        if (KdenliveSettings::add_clip_cut()) emit addClip(dest, QString(), QString());
-        return;
-    }
+
     if (!item->isJobRunning()) setJobStatus(item, JOBWAITING);
     m_processingProxy.append(dest);
     QStringList jobParams;
