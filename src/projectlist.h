@@ -40,6 +40,11 @@
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
 #include <KIcon>
+#include <kdeversion.h>
+
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#endif
 
 #ifdef NEPOMUK
 #include <nepomuk/kratingpainter.h>
@@ -335,6 +340,13 @@ private:
     InvalidDialog *m_invalidClipDialog;
     QMenu *m_jobsMenu;
     SmallInfoLabel *m_infoLabel;
+#if KDE_IS_VERSION(4,7,0)
+    KMessageWidget *m_infoMessage;
+    /** @brief A string containing the last error log for a clip job. */
+    QString m_errorLog;
+    /** @brief The action that will trigger the log dialog. */
+    QAction *m_logAction;
+#endif
     
     void requestClipThumbnail(const QString id);
 
@@ -360,8 +372,6 @@ private:
      * @param item The clip item to set status
      * @param status The job status (see definitions.h) */
     void setJobStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress = 0, JOBTYPE jobType = NOJOBTYPE);
-    /** @brief Process ffmpeg output to find out process progress. */
-    void processLogInfo(QList <ProjectItem *>items, int progress, JOBTYPE jobType);
     void monitorItemEditing(bool enable);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);
@@ -418,6 +428,12 @@ private slots:
     void slotCancelJobs();
     /** @brief Discard a running clip jobs. */
     void slotCancelRunningJob(const QString id, stringMap);
+    /** @brief Update a clip's job status. */
+    void slotProcessLog(ProjectItem *item, int progress, int);
+    /** @brief A clip fob crashed, inform user. */
+    void slotJobCrashed(ProjectItem *item, const QString &label, const QString &actionName = QString(), const QString details = QString());
+    /** @brief Display error log for last failed job. */
+    void slotShowJobLog();
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
@@ -444,7 +460,9 @@ signals:
     /** @brief Set number of running jobs. */
     void jobCount(int);
     void cancelRunningJob(const QString, stringMap);
+    void processLog(ProjectItem *, int , int);
     void addClip(const QString, const QString &, const QString &);
+    void jobCrashed(ProjectItem *item, const QString &label, const QString &actionName = QString(), const QString details = QString());
 };
 
 #endif

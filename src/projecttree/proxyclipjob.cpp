@@ -140,6 +140,8 @@ QProcess *ProxyJob::startJob(bool *ok)
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         m_jobProcess->start("ffmpeg", parameters);
         m_jobProcess->waitForStarted();
+        QString log = m_jobProcess->readAll();
+        if (!log.isEmpty()) m_errorMessage.append(log + '\n');
 	return m_jobProcess;
     }
 }
@@ -148,6 +150,7 @@ int ProxyJob::processLogInfo()
 {
     if (!m_jobProcess) return -1;
     QString log = m_jobProcess->readAll();
+    if (!log.isEmpty()) m_errorMessage.append(log + '\n');
     int progress;
     if (m_isFfmpegJob) {
         // Parse FFmpeg output

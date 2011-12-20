@@ -54,6 +54,7 @@
 #include <KApplication>
 #include <KStandardDirs>
 #include <KColorScheme>
+#include <KActionCollection>
 #include <KUrlRequester>
 
 #ifdef NEPOMUK
@@ -236,7 +237,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_jobsMenu->addAction(cancelJobs);
     m_infoLabel->setMenu(m_jobsMenu);
     box->addWidget(m_infoLabel);
-    
+       
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
 
@@ -260,6 +261,18 @@ ProjectList::ProjectList(QWidget *parent) :
 
     m_listView = new ProjectListView;
     layout->addWidget(m_listView);
+    
+#if KDE_IS_VERSION(4,7,0)    
+    m_infoMessage = new KMessageWidget;
+    layout->addWidget(m_infoMessage);
+    m_infoMessage->setCloseButtonVisible(true);
+    //m_infoMessage->setWordWrap(true);
+    m_infoMessage->hide();
+    m_logAction = new QAction(i18n("Show Log"), this);
+    m_logAction->setCheckable(false);
+    connect(m_logAction, SIGNAL(triggered()), this, SLOT(slotShowJobLog()));
+#endif
+
     setLayout(layout);
     searchView->setTreeWidget(m_listView);
 
@@ -277,6 +290,9 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(m_listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
     
     connect(this, SIGNAL(cancelRunningJob(const QString, stringMap )), this, SLOT(slotCancelRunningJob(const QString, stringMap)));
+    connect(this, SIGNAL(processLog(ProjectItem *, int , int)), this, SLOT(slotProcessLog(ProjectItem *, int , int)));
+    
+    connect(this, SIGNAL(jobCrashed(ProjectItem *, const QString &, const QString &, const QString)), this, SLOT(slotJobCrashed(ProjectItem *, const QString &, const QString &, const QString)));
 
     m_listViewDelegate = new ItemDelegate(m_listView);
     m_listView->setItemDelegate(m_listViewDelegate);
@@ -302,6 +318,9 @@ ProjectList::~ProjectList()
     m_listView->blockSignals(true);
     m_listView->clear();
     delete m_listViewDelegate;
+#if KDE_IS_VERSION(4,7,0)
+    delete m_infoMessage;
+#endif
 }
 
 void ProjectList::focusTree() const
@@ -1664,7 +1683,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
             kDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
             emit displayMessage(i18n("Proxy clip unusable (duration is different from original)."), -2);
         }
-        item->setJobStatus(JOBCRASHED);
+        slotJobCrashed(item, i18n("Failed to create proxy for %1. check parameters", item->text(0)), "project_settings");
         QString path = item->referencedClip()->getProperty("proxy");
         KUrl proxyFolder(m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/");
 
@@ -2490,7 +2509,7 @@ void ProjectList::slotCreateProxy(const QString id)
     if (!item || hasPendingProxy(item) || item->referencedClip()->isPlaceHolder()) return;
     QString path = item->referencedClip()->getProperty("proxy");
     if (path.isEmpty()) {
-        setJobStatus(item, JOBCRASHED);
+        jobCrashed(item, i18n("Failed to create proxy, empty path."));
         return;
     }
 
@@ -2530,7 +2549,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     in = GenTime(in, m_timecode.fps()).frames(clipFps);
     out = GenTime(out, m_timecode.fps()).frames(clipFps);
     int max = GenTime(item->clipMaxDuration(), m_timecode.fps()).frames(clipFps);
-    int duration = out - in;
+    int duration = out - in + 1;
     QString timeIn = Timecode::getStringTimecode(in, clipFps, true);
     QString timeOut = Timecode::getStringTimecode(duration, clipFps, true);
     
@@ -2622,10 +2641,11 @@ void ProjectList::slotProcessJobs()
         }
         
         // Get the list of clips that will need to get progress info
-        QTreeWidgetItemIterator it(m_listView);
-        QList <ProjectItem *> processingItems;
-        ProjectItem *item = getItemById(job->clipId());
-        processingItems.append(item);
+        ProjectItem *processingItem = getItemById(job->clipId());
+        if (processingItem == NULL) {
+            delete job;
+            continue;
+        }
         
         /*while (*it && !m_abortAllJobs) {
             if ((*it)->type() == PROJECTCLIPTYPE) {
@@ -2637,11 +2657,10 @@ void ProjectList::slotProcessJobs()
             ++it;
         }*/
 
-        // Make sure proxy path is writable
+        // Make sure destination path is writable
         QFile file(job->destination());
         if (!file.open(QIODevice::WriteOnly)) {
-            for (int i = 0; i < processingItems.count(); i++)
-                setJobStatus(processingItems.at(i), JOBCRASHED);
+            emit jobCrashed(processingItem, i18n("Cannot write to path: %1", job->destination()));
             m_processingProxy.removeAll(job->destination());
             delete job;
             continue;
@@ -2649,8 +2668,7 @@ void ProjectList::slotProcessJobs()
         file.close();
         QFile::remove(job->destination());
     
-        for (int i = 0; i < processingItems.count(); i++)
-            setJobStatus(processingItems.at(i), CREATINGJOB, 0, job->jobType);
+        setJobStatus(processingItem, CREATINGJOB, 0, job->jobType);
 
         bool success;
         QProcess *jobProcess = job->startJob(&success);
@@ -2658,15 +2676,15 @@ void ProjectList::slotProcessJobs()
         int result = -1;
         if (jobProcess == NULL) {
             // job is finished
-            for (int i = 0; i < processingItems.count(); i++)
-                setJobStatus(processingItems.at(i), success ? JOBDONE : JOBCRASHED);
             if (success) {
+                setJobStatus(processingItem, JOBDONE);
                 if (job->jobType == PROXYJOB) slotGotProxy(job->destination());
                 //TODO: set folder for transcoded clips
                 else if (job->jobType == CUTJOB) emit addClip(job->destination(), QString(), QString());
             }
             else {
                 QFile::remove(job->destination());
+                emit jobCrashed(processingItem, job->errorMessage());
             }
             m_abortProxy.removeAll(job->destination());
             m_processingProxy.removeAll(job->destination());
@@ -2691,7 +2709,7 @@ void ProjectList::slotProcessJobs()
             }
             else {
                 int progress = job->processLogInfo();
-                if (progress > -1) processLogInfo(processingItems, progress, job->jobType);
+                if (progress > -1) emit processLog(processingItem, progress, job->jobType); 
             }
             jobProcess->waitForFinished(500);
         }
@@ -2700,13 +2718,14 @@ void ProjectList::slotProcessJobs()
         if (result == -1) result = jobProcess->exitStatus();
         
         if (result != -2 && QFileInfo(job->destination()).size() == 0) {
-            result = QProcess::CrashExit;
+            job->processLogInfo();
+            emit jobCrashed(processingItem, i18n("Failed to create file"), QString(), job->errorMessage());
+            result = -2;
         }
         
         if (result == QProcess::NormalExit) {
             // proxy successfully created
-            for (int i = 0; i < processingItems.count(); i++)
-                setJobStatus(processingItems.at(i), JOBDONE);
+            setJobStatus(processingItem, JOBDONE);
             if (job->jobType == PROXYJOB) slotGotProxy(job->destination());
             //TODO: set folder for transcoded clips
             else if (job->jobType == CUTJOB) emit addClip(job->destination(), QString(), QString());
@@ -2714,8 +2733,7 @@ void ProjectList::slotProcessJobs()
         else if (result == QProcess::CrashExit) {
             // Proxy process crashed
             QFile::remove(job->destination());
-            for (int i = 0; i < processingItems.count(); i++)
-                setJobStatus(processingItems.at(i), JOBCRASHED);
+            emit jobCrashed(processingItem, i18n("Job crashed"), QString(), job->errorMessage());
         }
         delete job;
         continue;
@@ -2730,12 +2748,6 @@ void ProjectList::slotProcessJobs()
     emit jobCount(ct + m_jobList.count());
 }
 
-
-void ProjectList::processLogInfo(QList <ProjectItem *>items, int progress, JOBTYPE jobType)
-{
-    for (int i = 0; i < items.count(); i++)
-        setJobStatus(items.at(i), CREATINGJOB, progress, jobType);
-}
 
 void ProjectList::updateProxyConfig()
 {
@@ -2806,6 +2818,11 @@ void ProjectList::updateProxyConfig()
     }
     if (command->childCount() > 0) m_doc->commandStack()->push(command);
     else delete command;
+}
+
+void ProjectList::slotProcessLog(ProjectItem *item, int progress, int type)
+{
+    setJobStatus(item, CREATINGJOB, progress, (JOBTYPE) type);
 }
 
 void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
@@ -3042,6 +3059,49 @@ void ProjectList::deleteJobsForClip(const QString &clipId)
     }
 }
 
+void ProjectList::slotJobCrashed(ProjectItem *item, const QString &label, const QString &actionName, const QString details)
+{
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage->animatedHide();
+    item->setJobStatus(NOJOB);
+    m_errorLog.clear();
+    m_infoMessage->setText(label);
+    m_infoMessage->setWordWrap(label.length() > 35);
+    m_infoMessage->setMessageType(KMessageWidget::Warning);
+    QList<QAction *> actions = m_infoMessage->actions();
+    for (int i = 0; i < actions.count(); i++) {
+        m_infoMessage->removeAction(actions.at(i));
+    }
+    
+    if (!actionName.isEmpty()) {
+        QAction *action;
+        QList< KActionCollection * > collections = KActionCollection::allCollections();
+        for (int i = 0; i < collections.count(); i++) {
+            KActionCollection *coll = collections.at(i);
+            action = coll->action(actionName);
+            if (action) break;
+        }
+        if (action) m_infoMessage->addAction(action);
+    }
+    if (!details.isEmpty()) {
+        m_errorLog = details;
+        m_infoMessage->addAction(m_logAction);
+    }
+    m_infoMessage->animatedShow();
+#else 
+    item->setJobStatus(JOBCRASHED);
+#endif
+}
 
+void ProjectList::slotShowJobLog()
+{
+    KDialog d(this);
+    d.setButtons(KDialog::Close);
+    QTextEdit t(&d);
+    t.setPlainText(m_errorLog);
+    t.setReadOnly(true);
+    d.setMainWidget(&t);
+    d.exec();
+}
 
 #include "projectlist.moc"

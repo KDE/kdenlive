@@ -221,10 +221,10 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
     } else {
 #if KDE_IS_VERSION(4,7,0)
         m_infoMessage->setMessageType(KMessageWidget::Warning);
-        m_infoMessage->setText(i18n("Transcoding FAILED!"));
+        m_infoMessage->setText(i18n("Transcoding failed!"));
         m_infoMessage->animatedShow();
 #else
-        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding FAILED!"));
+        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding failed!"));
 #endif
         log_text->setVisible(true);
     }

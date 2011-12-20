@@ -44,6 +44,11 @@ const QString AbstractClipJob::clipId() const
     return m_clipId;
 }
 
+const QString AbstractClipJob::errorMessage() const
+{
+    return m_errorMessage;
+}
+
 QProcess *AbstractClipJob::startJob(bool */*ok*/)
 {
     return NULL;

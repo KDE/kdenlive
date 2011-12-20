@@ -57,8 +57,11 @@ QProcess *CutClipJob::startJob(bool *ok)
         kDebug()<<"// STARTING CIUT JOS: "<<parameters;
         m_jobProcess->start("ffmpeg", parameters);
         m_jobProcess->waitForStarted();
+        QString log = m_jobProcess->readAll();
+        if (!log.isEmpty()) m_errorMessage.append(log + '\n');
 	return m_jobProcess;
     }
+    else m_errorMessage = i18n("Cannot process this clip type.");
     *ok = false;
     return NULL;
 }
@@ -67,7 +70,7 @@ int CutClipJob::processLogInfo()
 {
     if (!m_jobProcess || m_jobDuration == 0) return -1;
     QString log = m_jobProcess->readAll();
-    kDebug()<<log;
+    if (!log.isEmpty()) m_errorMessage.append(log + '\n');
     int progress;
     // Parse FFmpeg output
     if (log.contains("frame=")) {

@@ -40,11 +40,18 @@ public:
     QString m_clipId;
     QString description;
     const QString clipId() const;
+    const QString errorMessage() const;
     virtual const QString destination() const;
     virtual QProcess *startJob(bool */*ok*/);
     virtual stringMap cancelProperties();
     virtual int processLogInfo();
+    
+protected:
+    QString m_errorMessage;
     QProcess *m_jobProcess;
+    
+private:
+    
     
 signals:
     void jobProgress(int progress);
