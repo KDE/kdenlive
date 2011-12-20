@@ -33,7 +33,8 @@ CutClipJob::CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters
     m_start = parameters.at(2);
     m_end = parameters.at(3);
     m_jobDuration = parameters.at(4).toInt();
-    if (parameters.count() == 6) m_cutExtraParams = parameters.at(5).simplified();
+    addClipToProject = parameters.at(5).toInt();
+    if (parameters.count() == 7) m_cutExtraParams = parameters.at(6).simplified();
 }
 
 QProcess *CutClipJob::startJob(bool *ok)

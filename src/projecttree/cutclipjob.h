@@ -38,6 +38,7 @@ public:
     QProcess *startJob(bool *ok);
     stringMap cancelProperties();
     int processLogInfo();
+    bool addClipToProject;
     
 private:
     QString m_dest;
@@ -45,7 +46,7 @@ private:
     QString m_start;
     QString m_end;
     QString m_cutExtraParams;
-    int m_jobDuration;
+    int m_jobDuration;   
 };
 
 #endif

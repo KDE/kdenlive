@@ -2556,24 +2556,26 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     QDialog *d = new QDialog(this);
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
+    ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
     ui.file_url->fileDialog()->setOperationMode(KFileDialog::Saving);
     ui.file_url->setUrl(KUrl(dest));
     ui.info_label->setText(i18n("Extracting %1 out of %2", timeOut, Timecode::getStringTimecode(max, clipFps, true)));
     if (d->exec() != QDialog::Accepted) return;
     dest = ui.file_url->url().path();
     QString extraParams = ui.extra_params->toPlainText().simplified();
+    KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
     delete d;
     
     if (QFileInfo(dest).size() > 0) {
         // Clip already created
         setJobStatus(item, JOBDONE);
-        emit addClip(dest, QString(), QString());
+        if (KdenliveSettings::add_clip_cut()) emit addClip(dest, QString(), QString());
         return;
     }
     if (!item->isJobRunning()) setJobStatus(item, JOBWAITING);
     m_processingProxy.append(dest);
     QStringList jobParams;
-    jobParams << dest << item->clipUrl().path() << timeIn << timeOut << QString::number(duration);
+    jobParams << dest << item->clipUrl().path() << timeIn << timeOut << QString::number(duration) << QString::number(KdenliveSettings::add_clip_cut());
     if (!extraParams.isEmpty()) jobParams << extraParams;
     CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
     m_jobList.append(job);
@@ -2728,7 +2730,10 @@ void ProjectList::slotProcessJobs()
             setJobStatus(processingItem, JOBDONE);
             if (job->jobType == PROXYJOB) slotGotProxy(job->destination());
             //TODO: set folder for transcoded clips
-            else if (job->jobType == CUTJOB) emit addClip(job->destination(), QString(), QString());
+            else if (job->jobType == CUTJOB) {
+                CutClipJob *cutJob = static_cast<CutClipJob *>(job);
+                if (cutJob->addClipToProject) emit addClip(job->destination(), QString(), QString());
+            }
         }
         else if (result == QProcess::CrashExit) {
             // Proxy process crashed

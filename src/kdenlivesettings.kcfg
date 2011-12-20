@@ -780,6 +780,11 @@
       <label>Should we display video frames while capturing.</label>
       <default>0</default>
     </entry>
+    
+    <entry name="add_clip_cut" type="Bool">
+      <label>Add cutted clips to project after transcoding.</label>
+      <default>true</default>
+    </entry>
 
   </group>
 
