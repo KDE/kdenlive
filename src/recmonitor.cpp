@@ -473,8 +473,10 @@ void RecMonitor::slotStartPreview(bool play)
         m_manager->activateMonitor("record");
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
-        producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
-        if (!m_captureDevice->slotStartPreview(producer)) {
+        producer = getV4lXmlPlaylist(profile);
+        
+        //producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
+        if (!m_captureDevice->slotStartPreview(producer, true)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
             m_videoBox->setHidden(true);
@@ -563,15 +565,12 @@ void RecMonitor::slotRecord()
             profile = ProfilesDialog::getVideoProfile(path);
             m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
-            playlist = QString("<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
+            playlist = getV4lXmlPlaylist(profile);
 
             v4lparameters = KdenliveSettings::v4l_parameters();
 
             // Add alsa audio capture
-            if (KdenliveSettings::v4l_captureaudio()) {
-                playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">alsa:%5</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()));
-            }
-            else {
+            if (!KdenliveSettings::v4l_captureaudio()) {
                 // if we do not want audio, make sure that we don't have audio encoding parameters
                 // this is required otherwise the MLT avformat consumer will not close properly
                 if (v4lparameters.contains("acodec")) {
@@ -598,19 +597,6 @@ void RecMonitor::slotRecord()
                     v4lparameters = QString(v4lparameters.section("acodec", 0, 0) + "an=1 " + endParam).simplified();
                 }
             }
-            
-
-            playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"99999\">");
-
-            playlist.append("<track producer=\"playlist0\"/>");            
-
-            // Audio mix
-            if (KdenliveSettings::v4l_captureaudio()) {
-                playlist.append("<track producer=\"playlist1\"/>");
-                playlist.append("<transition id=\"transition0\" in=\"0\" out=\"0\"><property name=\"a_track\">0</property><property name=\"b_track\">1</property><property name=\"mlt_type\">transition</property><property name=\"mlt_service\">mix</property></transition>");
-            }
-
-            playlist.append("</tractor></mlt>");
 
             if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, recording_preview->currentIndex())) {
                 m_videoBox->setHidden(false);
@@ -712,6 +698,23 @@ void RecMonitor::slotRecord()
         //captureProcess->kill();
         QTimer::singleShot(1000, this, SLOT(slotRecord()));
     }
+}
+
+const QString RecMonitor::getV4lXmlPlaylist(MltVideoProfile profile) {
+    
+    QString playlist = QString("<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
+    playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"99999\">");
+    playlist.append("<track producer=\"playlist0\"/>");
+    
+    if (KdenliveSettings::v4l_captureaudio()) {
+        playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">alsa:%5</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()));
+
+        playlist.append("<track producer=\"playlist1\"/>");
+        playlist.append("<transition id=\"transition0\" in=\"0\" out=\"0\"><property name=\"a_track\">0</property><property name=\"b_track\">1</property><property name=\"mlt_type\">transition</property><property name=\"mlt_service\">mix</property></transition>");
+    }
+    
+    playlist.append("</tractor></mlt>");
+    return playlist;
 }
 
 /*

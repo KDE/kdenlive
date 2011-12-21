@@ -95,7 +95,7 @@ signals:
     void frameUpdated(QImage);
 
     /** @brief This signal contains the audio of the current frame. */
-    void audioSamplesSignal(QVector<int16_t>, int, int, int);
+    void audioSamplesSignal(const QVector<int16_t>&, const int&, const int&, const int&);
 };
 
 class AbstractMonitor : public QWidget

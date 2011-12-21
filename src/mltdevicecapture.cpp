@@ -71,11 +71,11 @@ static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, ml
     }
 
     //TODO: connect record monitor to audio scopes
-    /*
+    
     if (self->analyseAudio) {
         self->showAudio(frame);
     }
-    */
+    
 }
 
 
@@ -272,7 +272,6 @@ void MltDeviceCapture::showAudio(Mlt::Frame& frame)
     // So the vector is of size samples*channels.
     QVector<int16_t> sampleVector(samples*num_channels);
     memcpy(sampleVector.data(), data, samples*num_channels*sizeof(int16_t));
-
     if (samples > 0) {
         emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
     }

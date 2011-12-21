@@ -136,9 +136,6 @@ signals:
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
-    
-    /** @brief This signal contains the audio of the current frame. */
-    void audioSamplesSignal(const QVector<int16_t>&, int freq, int num_channels, int num_samples);
 
     void frameSaved(const QString &);
     

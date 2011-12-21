@@ -400,6 +400,10 @@ void KdenliveSettingsDialog::initDevices()
             file.close();
         }
     }
+    
+    // Add pulseaudio capture option
+    m_configCapture.kcfg_v4l_alsadevice->addItem(i18n("PulseAudio"), "pulse");
+    
     if (!KdenliveSettings::audiodevicename().isEmpty()) {
         // Select correct alsa device
         int ix = m_configSdl.kcfg_audio_device->findData(KdenliveSettings::audiodevicename());

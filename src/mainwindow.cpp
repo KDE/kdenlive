@@ -247,6 +247,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(addProjectClipList(KUrl::List)), this, SLOT(slotAddProjectClipList(KUrl::List)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
+    
 #endif /* ! Q_WS_MAC */
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
@@ -4377,7 +4378,6 @@ void MainWindow::slotDoUpdateAudioScopeFrameRequest()
 void MainWindow::slotUpdateColorScopes()
 {
     bool request = false;
-    kDebug()<<"// UPDATE SCOPES";
     for (int i = 0; i < m_gfxScopesList.count(); i++) {
         // Check if we need the renderer to send a new frame for update
         if (!m_gfxScopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->autoRefreshEnabled())) request = true;
@@ -4385,6 +4385,9 @@ void MainWindow::slotUpdateColorScopes()
     }
     if (request && m_monitorManager->activeRenderer()) {
         m_monitorManager->activeRenderer()->sendFrameUpdate();
+    }
+    if (m_audiosignal->isVisible() && m_recMonitor->abstractRender()) {
+        connect(m_recMonitor->abstractRender(), SIGNAL(audioSamplesSignal(const QVector<int16_t>&, const int&, const int&, const int&)), m_audiosignal, SLOT(slotReceiveAudio(const QVector<int16_t>&, const int&, const int&, const int&)));
     }
 }
 

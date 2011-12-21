@@ -27,6 +27,7 @@
 #define RECMONITOR_H
 
 #include "abstractmonitor.h"
+#include "definitions.h"
 #include "ui_recmonitor_ui.h"
 
 #include <QToolBar>
@@ -104,6 +105,8 @@ private:
     void manageCapturedFiles();
     /** @brief Build MLT producer for device, using path as profile. */
     void buildMltDevice(const QString &path);
+    /** @brief Create string containing an XML playlist for v4l capture. */
+    const QString getV4lXmlPlaylist(MltVideoProfile profile);
 
 private slots:
     void slotStartPreview(bool play = true);

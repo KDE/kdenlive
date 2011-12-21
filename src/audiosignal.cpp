@@ -57,7 +57,8 @@ bool AudioSignal::monitoringEnabled() const
     return m_aMonitoringEnabled->isChecked();
 }
 
-void AudioSignal::slotReceiveAudio(const QVector<int16_t>& data, int, int num_channels, int samples){
+void AudioSignal::slotReceiveAudio(const QVector<int16_t>& data, int, int num_channels, int samples)
+{
 
     int num_samples = samples > 200 ? 200 : samples;
 
