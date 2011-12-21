@@ -112,7 +112,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     }
     connect(m_configCapture.kcfg_detectedv4ldevices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lDevice()));
     connect(m_configCapture.kcfg_v4l_format, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lCaptureProfile()));
-    connect(m_configCapture.kcfg_v4l_captureaudio, SIGNAL(toggled(bool)), m_configCapture.kcfg_v4l_alsadevice, SLOT(setEnabled(bool)));
     connect(m_configCapture.config_v4l, SIGNAL(clicked()), this, SLOT(slotEditVideo4LinuxProfile()));
 
     slotUpdatev4lDevice();
@@ -393,8 +392,8 @@ void KdenliveSettingsDialog::initDevices()
                 }
                 if (line.contains("capture")) {
                     deviceId = line.section(':', 0, 0);
-                    m_configCapture.kcfg_rmd_alsa_device->addItem(line.section(':', 1, 1), "plughw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
-                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(':', 1, 1), "hw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
+                    m_configCapture.kcfg_rmd_alsa_device->addItem(line.section(':', 1, 1).simplified(), "plughw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
+                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(':', 1, 1).simplified(), "hw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
                 }
             }
             file.close();
@@ -440,9 +439,9 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
         if (!data.startsWith(" ") && data.count(':') > 1) {
             QString card = data.section(':', 0, 0).section(' ', -1);
             QString device = data.section(':', 1, 1).section(' ', -1);
-            m_configSdl.kcfg_audio_device->addItem(data.section(':', -1), "plughw:" + card + ',' + device);
-            m_configCapture.kcfg_rmd_alsa_device->addItem(data.section(':', -1), "plughw:" + card + ',' + device);
-            m_configCapture.kcfg_v4l_alsadevice->addItem(data.section(':', -1), "hw:" + card + ',' + device);
+            m_configSdl.kcfg_audio_device->addItem(data.section(':', -1).simplified(), "plughw:" + card + ',' + device);
+            m_configCapture.kcfg_rmd_alsa_device->addItem(data.section(':', -1).simplified(), "plughw:" + card + ',' + device);
+            m_configCapture.kcfg_v4l_alsadevice->addItem(data.section(':', -1).simplified(), "hw:" + card + ',' + device);
         }
     }
 }

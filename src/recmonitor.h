@@ -37,6 +37,7 @@
 
 #include <KIcon>
 #include <KAction>
+#include <KSelectAction>
 #include <KRestrictedLine>
 #include <KDateTime>
 #include <kdeversion.h>
@@ -99,6 +100,9 @@ private:
     MonitorManager *m_manager;
     MltDeviceCapture *m_captureDevice;
     VideoPreviewContainer *m_videoBox;
+    QAction *m_addCapturedClip;
+    KSelectAction *m_previewSettings;
+    
     bool m_analyse;
     void checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString &txt);
