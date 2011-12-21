@@ -702,18 +702,19 @@ void RecMonitor::slotRecord()
 
 const QString RecMonitor::getV4lXmlPlaylist(MltVideoProfile profile) {
     
-    QString playlist = QString("<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
-    playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"99999\">");
-    playlist.append("<track producer=\"playlist0\"/>");
+    QString playlist = QString("<mlt title=\"capture\" LC_NUMERIC=\"C\"><profile description=\"v4l\" width=\"%1\" height=\"%2\" progressive=\"%3\" sample_aspect_num=\"%4\" sample_aspect_den=\"%5\" display_aspect_num=\"%6\" display_aspect_den=\"%7\" frame_rate_num=\"%8\" frame_rate_den=\"%9\" colorspace=\"%10\"/>").arg(profile.width).arg(profile.height).arg(profile.progressive).arg(profile.sample_aspect_num).arg(profile.sample_aspect_den).arg(profile.display_aspect_num).arg(profile.display_aspect_den).arg(profile.frame_rate_num).arg(profile.frame_rate_den).arg(profile.colorspace);
+    
+    playlist.append(QString("<producer id=\"producer0\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"eof\">loop</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den));
+    
     
     if (KdenliveSettings::v4l_captureaudio()) {
-        playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">alsa:%5</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()));
-
-        playlist.append("<track producer=\"playlist1\"/>");
-        playlist.append("<transition id=\"transition0\" in=\"0\" out=\"0\"><property name=\"a_track\">0</property><property name=\"b_track\">1</property><property name=\"mlt_type\">transition</property><property name=\"mlt_service\">mix</property></transition>");
+        playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"eof\">loop</property><property name=\"resource\">alsa:%5</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()));
     }
-    
+    playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"999999\">");
+    playlist.append("<track producer=\"playlist0\"/>");
+    if (KdenliveSettings::v4l_captureaudio()) playlist.append("<track producer=\"playlist1\"/>");
     playlist.append("</tractor></mlt>");
+
     return playlist;
 }
 
