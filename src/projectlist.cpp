@@ -3117,6 +3117,7 @@ void ProjectList::slotJobCrashed(ProjectItem *item, const QString &label, const 
 
 void ProjectList::slotShowJobLog()
 {
+#if KDE_IS_VERSION(4,7,0)
     KDialog d(this);
     d.setButtons(KDialog::Close);
     QTextEdit t(&d);
@@ -3124,6 +3125,7 @@ void ProjectList::slotShowJobLog()
     t.setReadOnly(true);
     d.setMainWidget(&t);
     d.exec();
+#endif
 }
 
 #include "projectlist.moc"
