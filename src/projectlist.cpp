@@ -2524,11 +2524,11 @@ void ProjectList::slotCreateProxy(const QString id)
         slotGotProxy(path);
         return;
     }
-    if (!item->isJobRunning()) setJobStatus(item, JOBWAITING);
     m_processingProxy.append(path);
 
     ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << item->clipUrl().path() << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
     m_jobList.append(job);
+    if (!item->isJobRunning()) setJobStatus(item, JOBWAITING, 0, job->jobType, job->statusMessage(JOBWAITING));
     
     startJobProcess();
 }
@@ -2589,13 +2589,13 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
     delete d;
 
-    if (!item->isJobRunning()) setJobStatus(item, JOBWAITING);
     m_processingProxy.append(dest);
     QStringList jobParams;
     jobParams << dest << item->clipUrl().path() << timeIn << timeOut << QString::number(duration) << QString::number(KdenliveSettings::add_clip_cut());
     if (!extraParams.isEmpty()) jobParams << extraParams;
     CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
     m_jobList.append(job);
+    if (!item->isJobRunning()) setJobStatus(item, JOBWAITING, 0, job->jobType, job->statusMessage(JOBWAITING));
     
     startJobProcess();
 }
@@ -2687,7 +2687,7 @@ void ProjectList::slotProcessJobs()
         file.close();
         QFile::remove(job->destination());
     
-        setJobStatus(processingItem, CREATINGJOB, 0, job->jobType);
+        setJobStatus(processingItem, CREATINGJOB, 0, job->jobType, job->statusMessage(CREATINGJOB));
 
         bool success;
         QProcess *jobProcess = job->startJob(&success);
@@ -2728,7 +2728,7 @@ void ProjectList::slotProcessJobs()
             }
             else {
                 int progress = job->processLogInfo();
-                if (progress > -1) emit processLog(processingItem, progress, job->jobType); 
+                if (progress > 0) emit processLog(processingItem, progress, job->jobType); 
             }
             jobProcess->waitForFinished(500);
         }
@@ -2954,11 +2954,11 @@ void ProjectList::slotDeleteProxy(const QString proxyPath)
     QFile::remove(proxyPath);
 }
 
-void ProjectList::setJobStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress, JOBTYPE jobType)
+void ProjectList::setJobStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress, JOBTYPE jobType, const QString &statusMessage)
 {
     if (item == NULL || m_abortAllJobs) return;
     monitorItemEditing(false);
-    item->setJobStatus(status, progress, jobType);
+    item->setJobStatus(status, progress, jobType, statusMessage);
     if (status == JOBCRASHED) {
         DocClipBase *clip = item->referencedClip();
         if (!clip) {

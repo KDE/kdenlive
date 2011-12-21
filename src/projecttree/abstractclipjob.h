@@ -45,6 +45,7 @@ public:
     virtual QProcess *startJob(bool */*ok*/);
     virtual stringMap cancelProperties();
     virtual int processLogInfo();
+    virtual const QString statusMessage(CLIPJOBSTATUS status);
     
 protected:
     QString m_errorMessage;

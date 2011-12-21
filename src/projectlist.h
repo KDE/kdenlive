@@ -177,12 +177,14 @@ public:
                 }
                 else if (proxy == JOBCRASHED) {
                     proxyText = index.data(Qt::UserRole + 7).toString();
-                    QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
-                    painter->setPen(Qt::NoPen);
-                    painter->setBrush(option.palette.highlight());
-                    painter->drawRoundedRect(txtBounding, 2, 2);
-                    painter->setPen(option.palette.highlightedText().color());
-                    painter->drawText(txtBounding, Qt::AlignHCenter | Qt::AlignVCenter , proxyText);
+                    if (!proxyText.isEmpty()) {
+                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
+                        painter->setPen(Qt::NoPen);
+                        painter->setBrush(option.palette.highlight());
+                        painter->drawRoundedRect(txtBounding, 2, 2);
+                        painter->setPen(option.palette.highlightedText().color());
+                        painter->drawText(txtBounding, Qt::AlignHCenter | Qt::AlignVCenter , proxyText);
+                    }
                 }
             }
             
@@ -370,8 +372,11 @@ private:
 
     /** @brief Set the Proxy status on a clip. 
      * @param item The clip item to set status
-     * @param status The job status (see definitions.h) */
-    void setJobStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress = 0, JOBTYPE jobType = NOJOBTYPE);
+     * @param status The job status (see definitions.h)
+     * @param progress The job progress (in percents)
+     * @param jobType The job type 
+     * @param statusMessage The job info message */
+    void setJobStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress = 0, JOBTYPE jobType = NOJOBTYPE, const QString &statusMessage = QString());
     void monitorItemEditing(bool enable);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);

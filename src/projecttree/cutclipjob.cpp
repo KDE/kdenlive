@@ -107,4 +107,19 @@ stringMap CutClipJob::cancelProperties()
     return props;
 }
 
+const QString CutClipJob::statusMessage(CLIPJOBSTATUS status)
+{
+    QString statusInfo;
+    switch (status) {
+        case CREATINGJOB:
+            statusInfo = i18n("Extracting clip cut");
+            break;
+        case JOBWAITING:
+            statusInfo = i18n("Waiting - clip cut");
+            break;
+        default:
+            break;
+    }
+    return statusInfo;
+}
 

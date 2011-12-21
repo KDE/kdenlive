@@ -197,4 +197,19 @@ stringMap ProxyJob::cancelProperties()
     return props;
 }
 
+const QString ProxyJob::statusMessage(CLIPJOBSTATUS status)
+{
+    QString statusInfo;
+    switch (status) {
+        case CREATINGJOB:
+            statusInfo = i18n("Creating proxy");
+            break;
+        case JOBWAITING:
+            statusInfo = i18n("Waiting - proxy");
+            break;
+        default:
+            break;
+    }
+    return statusInfo;
+}
 

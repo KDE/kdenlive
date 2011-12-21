@@ -39,6 +39,7 @@ public:
     stringMap cancelProperties();
     int processLogInfo();
     bool addClipToProject;
+    const QString statusMessage(CLIPJOBSTATUS status);
     
 private:
     QString m_dest;

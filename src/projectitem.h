@@ -66,7 +66,7 @@ public:
     static int itemDefaultHeight();
     void slotSetToolTip();
     /** \brief Set the status of the clip job. */
-    void setJobStatus(CLIPJOBSTATUS status, int progress = 0, JOBTYPE jobType = NOJOBTYPE);
+    void setJobStatus(CLIPJOBSTATUS status, int progress = 0, JOBTYPE jobType = NOJOBTYPE, const QString &statusMessage = QString());
     /** \brief Returns the proxy status for this clip (true means there is a proxy clip). */
     bool hasProxy() const;
     /** \brief Returns true if the proxy for this clip is ready. */

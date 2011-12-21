@@ -32,7 +32,7 @@
 const int DurationRole = Qt::UserRole + 1;
 const int JobProgressRole = Qt::UserRole + 5;
 const int JobTypeRole = Qt::UserRole + 6;
-const int JobCrasMessage = Qt::UserRole + 7;
+const int JobStatusMessage = Qt::UserRole + 7;
 const int itemHeight = 38;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
@@ -169,14 +169,11 @@ void ProjectItem::slotSetToolTip()
 {
     QString tip;
     if (m_clip->isPlaceHolder()) tip.append(i18n("Missing") + " | ");
-    int s = data(0, JobProgressRole).toInt();
-    if (s == CREATINGJOB || s > 0) {
-        tip.append(i18n("Building proxy clip") + " | ");
+    QString jobInfo = data(0, JobStatusMessage).toString();
+    if (!jobInfo.isEmpty()) {
+        tip.append(jobInfo + " | ");
     }
-    else if (s == JOBWAITING) {
-        tip.append(i18n("Waiting - proxy clip") + " | ");
-    }
-    else if (hasProxy()) {
+    if (hasProxy() && data(0, JobTypeRole).toInt() != PROXYJOB) {
         tip.append(i18n("Proxy clip") + " | ");
     }
     tip.append("<b>");
@@ -265,16 +262,13 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setJobStatus(CLIPJOBSTATUS status, int progress, JOBTYPE jobType)
+void ProjectItem::setJobStatus(CLIPJOBSTATUS status, int progress, JOBTYPE jobType, const QString &statusMessage)
 {
-    if (status == JOBCRASHED) {
-        if (jobType == PROXYJOB) setData(0, JobCrasMessage, i18n("Proxy crashed"));
-        else if (jobType == CUTJOB) setData(0, JobCrasMessage, i18n("Transcoding crashed"));
-    }
     setData(0, JobTypeRole, jobType);
     if (progress > 0) setData(0, JobProgressRole, progress);
     else {
         setData(0, JobProgressRole, status);
+        setData(0, JobStatusMessage, statusMessage);
         slotSetToolTip();
     }
 }

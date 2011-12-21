@@ -68,3 +68,10 @@ int AbstractClipJob::processLogInfo()
 {
     return -1;
 }
+
+const QString AbstractClipJob::statusMessage(CLIPJOBSTATUS status)
+{
+    return QString();
+}
+
+
