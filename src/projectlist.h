@@ -329,8 +329,6 @@ private:
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
     QStringList m_processingClips;
-    /** @brief Holds a list of proxy urls that should be aborted. */
-    QStringList m_abortProxy;
     /** @brief Holds a list of proxy urls that are currently being created. */
     QStringList m_processingProxy;
     QMutex m_mutex;
@@ -338,7 +336,7 @@ private:
     /** @brief We are cleaning up the project list, so stop processing signals. */
     bool m_closing;
     QList <AbstractClipJob *> m_jobList;
-    QFutureSynchronizer<void> m_proxyThreads;
+    QFutureSynchronizer<void> m_jobThreads;
     InvalidDialog *m_invalidClipDialog;
     QMenu *m_jobsMenu;
     SmallInfoLabel *m_infoLabel;
@@ -389,6 +387,8 @@ private:
     bool hasPendingProxy(ProjectItem *item);
     /** @brief Delete pending jobs for a clip. */
     void deleteJobsForClip(const QString &clipId);
+    /** @brief Discard specific job type for a clip. */
+    void discardJobs(const QString &id, JOBTYPE type);
 
 private slots:
     void slotClipSelected();
@@ -435,7 +435,8 @@ private slots:
     void slotCancelRunningJob(const QString id, stringMap);
     /** @brief Update a clip's job status. */
     void slotProcessLog(ProjectItem *item, int progress, int);
-    /** @brief A clip fob crashed, inform user. */
+    /** @brief A clip job crashed, inform user. */
+    void slotJobCrashed(const QString &id, const QString &label, const QString &actionName, const QString details);
     void slotJobCrashed(ProjectItem *item, const QString &label, const QString &actionName = QString(), const QString details = QString());
     /** @brief Display error log for last failed job. */
     void slotShowJobLog();
@@ -467,7 +468,7 @@ signals:
     void cancelRunningJob(const QString, stringMap);
     void processLog(ProjectItem *, int , int);
     void addClip(const QString, const QString &, const QString &);
-    void jobCrashed(ProjectItem *item, const QString &label, const QString &actionName = QString(), const QString details = QString());
+    void jobCrashed(const QString, const QString &label, const QString &actionName = QString(), const QString details = QString());
 };
 
 #endif

@@ -27,6 +27,7 @@
 
 CutClipJob::CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(CUTJOB, cType, id, parameters)
 {
+    jobStatus = JOBWAITING;
     description = i18n("clip cut");
     m_dest = parameters.at(0);
     m_src = parameters.at(1);
@@ -69,7 +70,7 @@ QProcess *CutClipJob::startJob(bool *ok)
 
 int CutClipJob::processLogInfo()
 {
-    if (!m_jobProcess || m_jobDuration == 0) return -1;
+    if (!m_jobProcess || m_jobDuration == 0 || jobStatus == JOBABORTED) return JOBABORTED;
     QString log = m_jobProcess->readAll();
     if (!log.isEmpty()) m_errorMessage.append(log + '\n');
     int progress;
@@ -107,11 +108,11 @@ stringMap CutClipJob::cancelProperties()
     return props;
 }
 
-const QString CutClipJob::statusMessage(CLIPJOBSTATUS status)
+const QString CutClipJob::statusMessage()
 {
     QString statusInfo;
-    switch (status) {
-        case CREATINGJOB:
+    switch (jobStatus) {
+        case JOBWORKING:
             statusInfo = i18n("Extracting clip cut");
             break;
         case JOBWAITING:

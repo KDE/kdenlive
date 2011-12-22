@@ -29,6 +29,7 @@ ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, QStringList parameters) : 
     m_jobDuration(0),
     m_isFfmpegJob(true)
 {
+    jobStatus = JOBWAITING;
     description = i18n("proxy");
     m_dest = parameters.at(0);
     m_src = parameters.at(1);
@@ -148,7 +149,7 @@ QProcess *ProxyJob::startJob(bool *ok)
 
 int ProxyJob::processLogInfo()
 {
-    if (!m_jobProcess) return -1;
+    if (!m_jobProcess || jobStatus == JOBABORTED) return JOBABORTED;
     QString log = m_jobProcess->readAll();
     if (!log.isEmpty()) m_errorMessage.append(log + '\n');
     int progress;
@@ -197,11 +198,11 @@ stringMap ProxyJob::cancelProperties()
     return props;
 }
 
-const QString ProxyJob::statusMessage(CLIPJOBSTATUS status)
+const QString ProxyJob::statusMessage()
 {
     QString statusInfo;
-    switch (status) {
-        case CREATINGJOB:
+    switch (jobStatus) {
+        case JOBWORKING:
             statusInfo = i18n("Creating proxy");
             break;
         case JOBWAITING:

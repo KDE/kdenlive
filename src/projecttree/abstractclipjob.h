@@ -33,19 +33,20 @@ class AbstractClipJob : public QObject
     Q_OBJECT
 
 public:
-    AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList parameters);
-    virtual ~ AbstractClipJob();
+    AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList parameters);    virtual ~ AbstractClipJob();
     CLIPTYPE clipType;
+    CLIPJOBSTATUS jobStatus;
     JOBTYPE jobType;
     QString m_clipId;
     QString description;
     const QString clipId() const;
     const QString errorMessage() const;
+    void setStatus(CLIPJOBSTATUS status);
     virtual const QString destination() const;
     virtual QProcess *startJob(bool */*ok*/);
     virtual stringMap cancelProperties();
     virtual int processLogInfo();
-    virtual const QString statusMessage(CLIPJOBSTATUS status);
+    virtual const QString statusMessage();
     
 protected:
     QString m_errorMessage;

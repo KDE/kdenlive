@@ -38,7 +38,7 @@ public:
     QProcess *startJob(bool *ok);
     stringMap cancelProperties();
     int processLogInfo();
-    const QString statusMessage(CLIPJOBSTATUS status);
+    const QString statusMessage();
     
 private:
     QString m_dest;

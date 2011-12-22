@@ -262,15 +262,25 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setJobStatus(CLIPJOBSTATUS status, int progress, JOBTYPE jobType, const QString &statusMessage)
+void ProjectItem::setJobStatus(CLIPJOBSTATUS status, int progress, JOBTYPE jobType)
 {
     setData(0, JobTypeRole, jobType);
     if (progress > 0) setData(0, JobProgressRole, progress);
     else {
         setData(0, JobProgressRole, status);
-        setData(0, JobStatusMessage, statusMessage);
-        slotSetToolTip();
     }
+}
+
+void ProjectItem::setJobInfo(const QString &statusMessage)
+{
+    setData(0, JobStatusMessage, statusMessage);
+    slotSetToolTip();
+}
+
+void ProjectItem::setConditionalJobStatus(CLIPJOBSTATUS status, JOBTYPE requestedJobType)
+{
+    if (data(0, JobTypeRole).toInt() == requestedJobType)
+        setData(0, JobProgressRole, status);
 }
 
 bool ProjectItem::hasProxy() const
@@ -288,14 +298,14 @@ bool ProjectItem::isProxyReady() const
 bool ProjectItem::isJobRunning() const
 {
     int s = data(0, JobProgressRole).toInt();
-    if (s == JOBWAITING || s == CREATINGJOB || s > 0) return true;
+    if (s == JOBWAITING || s == JOBWORKING || s > 0) return true;
     return false;
 }
 
 bool ProjectItem::isProxyRunning() const
 {
     int s = data(0, JobProgressRole).toInt();
-    if ((s == CREATINGJOB || s > 0) && data(0, JobTypeRole).toInt() == (int) PROXYJOB) return true;
+    if ((s == JOBWORKING || s > 0) && data(0, JobTypeRole).toInt() == (int) PROXYJOB) return true;
     return false;
 }
 

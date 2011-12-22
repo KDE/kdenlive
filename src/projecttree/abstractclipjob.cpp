@@ -30,6 +30,7 @@ AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id
         QObject(),
         clipType(cType),
         jobType(type),
+        jobStatus(NOJOB),
         m_clipId(id),
         m_jobProcess(NULL)
 {
@@ -37,6 +38,11 @@ AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id
 
 AbstractClipJob::~AbstractClipJob()
 {
+}
+
+void AbstractClipJob::setStatus(CLIPJOBSTATUS status)
+{
+    jobStatus = status;
 }
 
 const QString AbstractClipJob::clipId() const
@@ -69,7 +75,7 @@ int AbstractClipJob::processLogInfo()
     return -1;
 }
 
-const QString AbstractClipJob::statusMessage(CLIPJOBSTATUS status)
+const QString AbstractClipJob::statusMessage()
 {
     return QString();
 }
