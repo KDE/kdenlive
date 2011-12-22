@@ -434,7 +434,7 @@ private slots:
     /** @brief Discard a running clip jobs. */
     void slotCancelRunningJob(const QString id, stringMap);
     /** @brief Update a clip's job status. */
-    void slotProcessLog(const QString, int progress, int);
+    void slotProcessLog(const QString, int progress, int, const QString = QString());
     /** @brief A clip job crashed, inform user. */
     void slotUpdateJobStatus(const QString &id, int type, int status, const QString &label, const QString &actionName, const QString details);
     void slotUpdateJobStatus(ProjectItem *item, int type, int status, const QString &label, const QString &actionName = QString(), const QString details = QString());
@@ -468,7 +468,7 @@ signals:
     /** @brief Set number of running jobs. */
     void jobCount(int);
     void cancelRunningJob(const QString, stringMap);
-    void processLog(const QString, int , int);
+    void processLog(const QString, int , int, const QString = QString());
     void addClip(const QString, const QString &, const QString &);
     void updateJobStatus(const QString, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString details = QString());
     void checkJobProcess();

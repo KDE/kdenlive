@@ -262,19 +262,15 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progress)
+void ProjectItem::setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progress, const QString &statusMessage)
 {
     setData(0, JobTypeRole, jobType);
     if (progress > 0) setData(0, JobProgressRole, progress);
     else {
         setData(0, JobProgressRole, status);
+        setData(0, JobStatusMessage, statusMessage);
+        slotSetToolTip();
     }
-}
-
-void ProjectItem::setJobInfo(const QString &statusMessage)
-{
-    setData(0, JobStatusMessage, statusMessage);
-    slotSetToolTip();
 }
 
 void ProjectItem::setConditionalJobStatus(CLIPJOBSTATUS status, JOBTYPE requestedJobType)

@@ -290,7 +290,7 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(m_listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
     
     connect(this, SIGNAL(cancelRunningJob(const QString, stringMap )), this, SLOT(slotCancelRunningJob(const QString, stringMap)));
-    connect(this, SIGNAL(processLog(const QString, int , int)), this, SLOT(slotProcessLog(const QString, int , int)));
+    connect(this, SIGNAL(processLog(const QString, int , int, const QString)), this, SLOT(slotProcessLog(const QString, int , int, const QString)));
     
     connect(this, SIGNAL(updateJobStatus(const QString &, int, int, const QString &, const QString &, const QString)), this, SLOT(slotUpdateJobStatus(const QString &, int, int, const QString &, const QString &, const QString)));
     
@@ -2547,7 +2547,7 @@ void ProjectList::slotCreateProxy(const QString id)
 
     ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << item->clipUrl().path() << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
     m_jobList.append(job);
-    setJobStatus(item, job->jobType, JOBWAITING);
+    setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
     slotCheckJobProcess();
 }
 
@@ -2613,7 +2613,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     if (!extraParams.isEmpty()) jobParams << extraParams;
     CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
     m_jobList.append(job);
-    setJobStatus(item, job->jobType, JOBWAITING);
+    setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
 
     slotCheckJobProcess();
 }
@@ -2686,12 +2686,14 @@ void ProjectList::slotProcessJobs()
         }
         QString destination = job->destination();
        
-        // Get the list of clips that will need to get progress info
+        // Check if the clip is still here
         ProjectItem *processingItem = getItemById(job->clipId());
         if (processingItem == NULL) {
             job->setStatus(JOBDONE);
             continue;
         }
+        // Set clip status to started
+        emit processLog(job->clipId(), 0, job->jobType, job->statusMessage()); 
 
         // Make sure destination path is writable
         QFile file(destination);
@@ -2851,10 +2853,10 @@ void ProjectList::updateProxyConfig()
     else delete command;
 }
 
-void ProjectList::slotProcessLog(const QString id, int progress, int type)
+void ProjectList::slotProcessLog(const QString id, int progress, int type, const QString message)
 {
     ProjectItem *item = getItemById(id);
-    setJobStatus(item, (JOBTYPE) type, JOBWORKING, progress);
+    setJobStatus(item, (JOBTYPE) type, JOBWORKING, progress, message);
 }
 
 void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
@@ -2968,7 +2970,7 @@ void ProjectList::setJobStatus(ProjectItem *item, JOBTYPE jobType, CLIPJOBSTATUS
 {
     if (item == NULL || (m_abortAllJobs && m_closing)) return;
     monitorItemEditing(false);
-    item->setJobStatus(jobType, status, progress);
+    item->setJobStatus(jobType, status, progress, statusMessage);
     if (status == JOBCRASHED) {
         DocClipBase *clip = item->referencedClip();
         if (!clip) {
