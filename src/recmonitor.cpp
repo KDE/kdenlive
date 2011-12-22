@@ -578,6 +578,7 @@ void RecMonitor::slotRecord()
         QString playlist;
         QString v4lparameters;
         MltVideoProfile profile;
+        bool showPreview;
         QString capturename = KdenliveSettings::dvgrabfilename();
         if (capturename.isEmpty()) capturename = "capture";
 
@@ -622,8 +623,11 @@ void RecMonitor::slotRecord()
                     v4lparameters = QString(v4lparameters.section("acodec", 0, 0) + "an=1 " + endParam).simplified();
                 }
             }
+            
+            showPreview = m_previewSettings->currentItem();
+            if (!rec_video->isChecked()) showPreview = 2;
 
-            if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, m_previewSettings->currentItem())) {
+            if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, showPreview)) {
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
                 m_recAction->setEnabled(false);

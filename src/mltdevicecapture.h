@@ -34,15 +34,10 @@
 namespace Mlt
 {
 class Consumer;
-class Playlist;
-class Tractor;
-class Transition;
 class Frame;
-class Field;
+class Event;
 class Producer;
-class Filter;
 class Profile;
-class Service;
 };
 
 class MltDeviceCapture: public AbstractRender
@@ -105,6 +100,7 @@ private:
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
+    Mlt::Event *m_showFrameEvent;
     QString m_activeProfile;
     int m_droppedFrames;
     /** @brief When true, images will be displayed on monitor while capturing. */

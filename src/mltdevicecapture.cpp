@@ -88,6 +88,7 @@ MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surfa
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
     m_mltProfile(NULL),
+    m_showFrameEvent(NULL),
     m_droppedFrames(0),
     m_livePreview(KdenliveSettings::recording_preview()),
     m_captureDisplayWidget(surface),
@@ -133,11 +134,11 @@ void MltDeviceCapture::buildConsumer(const QString &profileName)
         m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
         m_mltConsumer->set("preview_off", 1);
         m_mltConsumer->set("preview_format", mlt_image_rgb24);
-        m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
+        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
     } else {
         m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
         m_mltConsumer->set("window_id", m_winid);
-        m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) rec_consumer_frame_preview);
+        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) rec_consumer_frame_preview);
     }
     //m_mltConsumer->set("resize", 1);
     //m_mltConsumer->set("terminate_on_pause", 1);
@@ -166,6 +167,9 @@ void MltDeviceCapture::stop()
     bool isPlaylist = false;
     disconnect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
     m_captureDisplayWidget->stop();
+    
+    if (m_showFrameEvent) delete m_showFrameEvent;
+    m_showFrameEvent = NULL;
     
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 0);
@@ -417,8 +421,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         return false;
     }
     
-    // FIXME: the event object returned by the listen gets leaked...
-    if (m_livePreview < 2) m_mltConsumer->listen("consumer-frame-render", this, (mlt_listener) rec_consumer_frame_show);
+    if (m_livePreview < 2) m_showFrameEvent = m_mltConsumer->listen("consumer-frame-render", this, (mlt_listener) rec_consumer_frame_show);
     tmp = qstrdup(playlist.toUtf8().constData());
     if (xmlPlaylist) {
         // create an xml producer
@@ -437,6 +440,8 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     
     m_mltConsumer->connect(*m_mltProducer);
     if (m_mltConsumer->start() == -1) {
+        if (m_showFrameEvent) delete m_showFrameEvent;
+        m_showFrameEvent = NULL;
         delete m_mltConsumer;
         m_mltConsumer = NULL;
         return 0;
