@@ -331,7 +331,7 @@ private:
     QStringList m_processingClips;
     /** @brief Holds a list of proxy urls that are currently being created. */
     QStringList m_processingProxy;
-    QMutex m_mutex;
+    QMutex m_jobMutex;
     bool m_abortAllJobs;
     /** @brief We are cleaning up the project list, so stop processing signals. */
     bool m_closing;
@@ -370,11 +370,11 @@ private:
 
     /** @brief Set the Proxy status on a clip. 
      * @param item The clip item to set status
+     * @param jobType The job type 
      * @param status The job status (see definitions.h)
      * @param progress The job progress (in percents)
-     * @param jobType The job type 
      * @param statusMessage The job info message */
-    void setJobStatus(ProjectItem *item, CLIPJOBSTATUS status, int progress = 0, JOBTYPE jobType = NOJOBTYPE, const QString &statusMessage = QString());
+    void setJobStatus(ProjectItem *item, JOBTYPE jobType, CLIPJOBSTATUS status, int progress = 0, const QString &statusMessage = QString());
     void monitorItemEditing(bool enable);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);
@@ -382,7 +382,7 @@ private:
     /** @brief The clip is about to be reloaded, cancel thumbnail requests. */
     void resetThumbsProducer(DocClipBase *clip);
     /** @brief Check if it is necessary to start a job thread. */
-    void startJobProcess();
+    void slotCheckJobProcess();
     /** @brief Check if a clip has a running or pending proxy process. */
     bool hasPendingProxy(ProjectItem *item);
     /** @brief Delete pending jobs for a clip. */
@@ -434,12 +434,14 @@ private slots:
     /** @brief Discard a running clip jobs. */
     void slotCancelRunningJob(const QString id, stringMap);
     /** @brief Update a clip's job status. */
-    void slotProcessLog(ProjectItem *item, int progress, int);
+    void slotProcessLog(const QString, int progress, int);
     /** @brief A clip job crashed, inform user. */
-    void slotJobCrashed(const QString &id, const QString &label, const QString &actionName, const QString details);
-    void slotJobCrashed(ProjectItem *item, const QString &label, const QString &actionName = QString(), const QString details = QString());
+    void slotUpdateJobStatus(const QString &id, int type, int status, const QString &label, const QString &actionName, const QString details);
+    void slotUpdateJobStatus(ProjectItem *item, int type, int status, const QString &label, const QString &actionName = QString(), const QString details = QString());
     /** @brief Display error log for last failed job. */
     void slotShowJobLog();
+    /** @brief A proxy clip is ready. */
+    void slotGotProxyForId(const QString);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
@@ -466,9 +468,11 @@ signals:
     /** @brief Set number of running jobs. */
     void jobCount(int);
     void cancelRunningJob(const QString, stringMap);
-    void processLog(ProjectItem *, int , int);
+    void processLog(const QString, int , int);
     void addClip(const QString, const QString &, const QString &);
-    void jobCrashed(const QString, const QString &label, const QString &actionName = QString(), const QString details = QString());
+    void updateJobStatus(const QString, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString details = QString());
+    void checkJobProcess();
+    void gotProxy(const QString);
 };
 
 #endif

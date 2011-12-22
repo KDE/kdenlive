@@ -584,14 +584,15 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
     m_requestList.removeAll(info);
     m_requestList.append(info);
     m_infoMutex.unlock();
-    if (!m_infoThread.isRunning())
+    if (!m_infoThread.isRunning()) {
         m_infoThread = QtConcurrent::run(this, &Render::processFileProperties);
+    }
 }
 
 void Render::forceProcessing(const QString &id)
 {
     if (m_processingClipId == id) return;
-    m_infoMutex.lock();
+    QMutexLocker lock(&m_infoMutex);
     for (int i = 0; i < m_requestList.count(); i++) {
         requestClipInfo info = m_requestList.at(i);
         if (info.clipId == id) {
@@ -603,33 +604,29 @@ void Render::forceProcessing(const QString &id)
             }
         }
     }
-    m_infoMutex.unlock();
 }
 
 int Render::processingItems()
 {
-    m_infoMutex.lock();
+    QMutexLocker lock(&m_infoMutex);
     int count = m_requestList.count();
     if (!m_processingClipId.isEmpty()) {
         // one clip is currently processed
         count++;
     }
-    m_infoMutex.unlock();
     return count;
 }
 
 bool Render::isProcessing(const QString &id)
 {
     if (m_processingClipId == id) return true;
-    m_infoMutex.lock();
+    QMutexLocker lock(&m_infoMutex);
     for (int i = 0; i < m_requestList.count(); i++) {
         requestClipInfo info = m_requestList.at(i);
         if (info.clipId == id) {
-            m_infoMutex.unlock();
             return true;
         }
     }
-    m_infoMutex.unlock();
     return false;
 }
 
@@ -640,8 +637,9 @@ void Render::processFileProperties()
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
-        m_infoMutex.unlock();
         m_processingClipId = info.clipId;
+        m_infoMutex.unlock();
+        
         QString path;
         bool proxyProducer;
         if (info.xml.hasAttribute("proxy") && info.xml.attribute("proxy") != "-") {

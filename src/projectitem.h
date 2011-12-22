@@ -66,7 +66,7 @@ public:
     static int itemDefaultHeight();
     void slotSetToolTip();
     /** \brief Set the status of the clip job. */
-    void setJobStatus(CLIPJOBSTATUS status, int progress = 0, JOBTYPE jobType = NOJOBTYPE);
+    void setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progress = 0);
     /** \brief Set the info string for this clip job. */
     void setJobInfo(const QString &statusMessage);
     /** \brief Set the status of a clip job if it is of the specified job type. */

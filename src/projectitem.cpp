@@ -262,7 +262,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setJobStatus(CLIPJOBSTATUS status, int progress, JOBTYPE jobType)
+void ProjectItem::setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progress)
 {
     setData(0, JobTypeRole, jobType);
     if (progress > 0) setData(0, JobProgressRole, progress);
@@ -279,8 +279,9 @@ void ProjectItem::setJobInfo(const QString &statusMessage)
 
 void ProjectItem::setConditionalJobStatus(CLIPJOBSTATUS status, JOBTYPE requestedJobType)
 {
-    if (data(0, JobTypeRole).toInt() == requestedJobType)
+    if (data(0, JobTypeRole).toInt() == requestedJobType) {
         setData(0, JobProgressRole, status);
+    }
 }
 
 bool ProjectItem::hasProxy() const
