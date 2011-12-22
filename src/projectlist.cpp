@@ -2110,6 +2110,8 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
     QString size = item->referencedClip()->getProperty("frame_size");
     int width = size.section('x', 0, 0).toInt();
     int height = size.section('x', -1).toInt();
+    // Fix some avchd clips tht report a wrong size (1920x1088)
+    if (height == 1088) height = 1080;
     double fps = item->referencedClip()->getProperty("fps").toDouble();
     double par = item->referencedClip()->getProperty("aspect_ratio").toDouble();
     if (item->clipType() == IMAGE || item->clipType() == AV || item->clipType() == VIDEO) {
