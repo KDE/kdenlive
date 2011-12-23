@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>405</width>
-    <height>595</height>
+    <height>479</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_8">
@@ -358,12 +358,6 @@
        </item>
        <item row="20" column="0" colspan="8">
         <widget class="QPlainTextEdit" name="v4l_parameters">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>

@@ -33,6 +33,7 @@
 #include <kde_file.h>
 #include <KIO/NetAccess>
 #include <kdeversion.h>
+#include <KMessageBox>
 
 #include <QDir>
 #include <QTimer>
@@ -187,7 +188,18 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_page7 = addPage(p7, i18n("Transcode"), "edit-copy");
     connect(m_configTranscode.button_add, SIGNAL(clicked()), this, SLOT(slotAddTranscode()));
     connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
-    connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotDialogModified()));
+    connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QListWidgetItem *)), this, SLOT(slotDialogModified()));
+    connect(m_configTranscode.profiles_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotSetTranscodeProfile()));
+    
+    connect(m_configTranscode.profile_name, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_description, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_extension, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_parameters, SIGNAL(textChanged()), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_audioonly, SIGNAL(stateChanged(int)), this, SLOT(slotEnableTranscodeUpdate()));
+    
+    connect(m_configTranscode.button_update, SIGNAL(pressed()), this, SLOT(slotUpdateTranscodingProfile()));
+    
+    m_configTranscode.profile_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     connect(m_configCapture.kcfg_rmd_capture_audio, SIGNAL(clicked(bool)), m_configCapture.audio_group, SLOT(setVisible(bool)));
 
@@ -748,14 +760,20 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     m_configTranscode.profiles_list->blockSignals(true);
+    m_configTranscode.profiles_list->clear();
     QMap< QString, QString > profiles = transConfig.entryMap();
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
         i.next();
-        QTreeWidgetItem *item = new QTreeWidgetItem(m_configTranscode.profiles_list, QStringList() << i.key() << i.value());
-        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+        QListWidgetItem *item = new QListWidgetItem(i.key());
+        QString data = i.value();
+        if (data.contains(';')) item->setToolTip(data.section(';', 1, 1));
+        item->setData(Qt::UserRole, data);
+        m_configTranscode.profiles_list->addItem(item);
+        //item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     }
     m_configTranscode.profiles_list->blockSignals(false);
+    m_configTranscode.profiles_list->setCurrentRow(0);
 }
 
 void KdenliveSettingsDialog::saveTranscodeProfiles()
@@ -765,29 +783,88 @@ void KdenliveSettingsDialog::saveTranscodeProfiles()
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     transConfig.deleteGroup();
-    int max = m_configTranscode.profiles_list->topLevelItemCount();
+    int max = m_configTranscode.profiles_list->count();
     for (int i = 0; i < max; i++) {
-        QTreeWidgetItem *item = m_configTranscode.profiles_list->topLevelItem(i);
-        transConfig.writeEntry(item->text(0), item->text(1));
+        QListWidgetItem *item = m_configTranscode.profiles_list->item(i);
+        transConfig.writeEntry(item->text(), item->data(Qt::UserRole).toString());
     }
     config->sync();
 }
 
 void KdenliveSettingsDialog::slotAddTranscode()
 {
-    QTreeWidgetItem *item = new QTreeWidgetItem(m_configTranscode.profiles_list, QStringList() << i18n("Name") << i18n("Parameters"));
-    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    if (!m_configTranscode.profiles_list->findItems(m_configTranscode.profile_name->text(), Qt::MatchExactly).isEmpty()) {
+        KMessageBox::sorry(this, i18n("A profile with that name already exists"));
+        return;
+    }
+    QListWidgetItem *item = new QListWidgetItem(m_configTranscode.profile_name->text());
+    QString data = m_configTranscode.profile_parameters->toPlainText();
+    data.append(" %1." + m_configTranscode.profile_extension->text());
+    data.append(";");
+    if (!m_configTranscode.profile_description->text().isEmpty()) 
+        data.append(m_configTranscode.profile_description->text());
+    if (m_configTranscode.profile_audioonly->isChecked()) data.append(";audio");
+    item->setData(Qt::UserRole, data);
+    m_configTranscode.profiles_list->addItem(item);
     m_configTranscode.profiles_list->setCurrentItem(item);
-    m_configTranscode.profiles_list->editItem(item);
+    slotDialogModified();
+}
+
+void KdenliveSettingsDialog::slotUpdateTranscodingProfile()
+{
+    QListWidgetItem *item = m_configTranscode.profiles_list->currentItem();
+    if (!item) return;
+    m_configTranscode.button_update->setEnabled(false);
+    item->setText(m_configTranscode.profile_name->text());
+    QString data = m_configTranscode.profile_parameters->toPlainText();
+    data.append(" %1." + m_configTranscode.profile_extension->text());
+    data.append(";");
+    if (!m_configTranscode.profile_description->text().isEmpty())
+        data.append(m_configTranscode.profile_description->text());
+    if (m_configTranscode.profile_audioonly->isChecked()) data.append(";audio");
+    item->setData(Qt::UserRole, data);
     slotDialogModified();
 }
 
 void KdenliveSettingsDialog::slotDeleteTranscode()
 {
-    QTreeWidgetItem *item = m_configTranscode.profiles_list->currentItem();
+    QListWidgetItem *item = m_configTranscode.profiles_list->currentItem();
     if (item == NULL) return;
     delete item;
     slotDialogModified();
+}
+
+void KdenliveSettingsDialog::slotEnableTranscodeUpdate()
+{
+    if (!m_configTranscode.profile_box->isEnabled()) return;
+    bool allow = true;
+    if (m_configTranscode.profile_name->text().isEmpty() || m_configTranscode.profile_extension->text().isEmpty()) allow = false;
+    m_configTranscode.button_update->setEnabled(allow);
+}
+
+void KdenliveSettingsDialog::slotSetTranscodeProfile()
+{
+    m_configTranscode.profile_box->setEnabled(false);
+    m_configTranscode.button_update->setEnabled(false);
+    m_configTranscode.profile_name->clear();
+    m_configTranscode.profile_description->clear();
+    m_configTranscode.profile_extension->clear();
+    m_configTranscode.profile_parameters->clear();
+    m_configTranscode.profile_audioonly->setChecked(false);
+    QListWidgetItem *item = m_configTranscode.profiles_list->currentItem();
+    if (!item) {
+        return;
+    }
+    m_configTranscode.profile_name->setText(item->text());
+    QString data = item->data(Qt::UserRole).toString();
+    if (data.contains(';')) {
+        m_configTranscode.profile_description->setText(data.section(';', 1, 1));
+        if (data.section(';', 2, 2) == "audio") m_configTranscode.profile_audioonly->setChecked(true);
+        data = data.section(';', 0, 0).simplified();
+    }
+    m_configTranscode.profile_extension->setText(data.section('.', -1));
+    m_configTranscode.profile_parameters->setPlainText(data.section(' ', 0, -2));
+    m_configTranscode.profile_box->setEnabled(true);
 }
 
 void KdenliveSettingsDialog::slotShuttleModified()
@@ -1017,6 +1094,7 @@ void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
     }
     delete w;
 }
+
 
 #include "kdenlivesettingsdialog.moc"
 

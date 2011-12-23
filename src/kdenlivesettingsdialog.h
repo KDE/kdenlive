@@ -65,6 +65,12 @@ private slots:
     void slotCheckAlsaDriver();
     void slotAddTranscode();
     void slotDeleteTranscode();
+    /** @brief Update current transcoding profile. */
+    void slotUpdateTranscodingProfile();
+    /** @brief Enable / disable the update profile button. */
+    void slotEnableTranscodeUpdate();
+    /** @brief Update display of current transcoding profile parameters. */
+    void slotSetTranscodeProfile();
     void slotShuttleModified();
     void slotDialogModified();
     void slotEnableCaptureFolder();
