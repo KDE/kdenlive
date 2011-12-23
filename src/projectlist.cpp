@@ -203,8 +203,9 @@ ProjectList::ProjectList(QWidget *parent) :
     m_commandStack(NULL),
     m_openAction(NULL),
     m_reloadAction(NULL),
-    m_stabilizeAction(NULL),
+    m_extractAudioAction(NULL),
     m_transcodeAction(NULL),
+    m_stabilizeAction(NULL),
     m_doc(NULL),
     m_refreshed(false),
     m_allClipsProcessed(false),
@@ -377,18 +378,21 @@ void ProjectList::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
 		QMenu* addMenu=menus.value("addMenu");
 		menu->addMenu(addMenu);
 		m_addButton->setMenu(menu);
-
-		m_menu->addMenu(addMenu);
 		if (addMenu->isEmpty())
 			addMenu->setEnabled(false);
 	}
-	if (menus.contains("transcodeMenu") && menus.value("transcodeMenu") ){
-		QMenu* transcodeMenu=menus.value("transcodeMenu");
-		m_menu->addMenu(transcodeMenu);
-		if (transcodeMenu->isEmpty())
-			transcodeMenu->setEnabled(false);
-		m_transcodeAction = transcodeMenu;
+	if (menus.contains("extractAudioMenu") && menus.value("extractAudioMenu") ){
+		QMenu* extractAudioMenu = menus.value("extractAudioMenu");
+		m_menu->addMenu(extractAudioMenu);
+                m_extractAudioAction = extractAudioMenu;
 	}
+	if (menus.contains("transcodeMenu") && menus.value("transcodeMenu") ){
+                QMenu* transcodeMenu = menus.value("transcodeMenu");
+                m_menu->addMenu(transcodeMenu);
+                if (transcodeMenu->isEmpty())
+                        transcodeMenu->setEnabled(false);
+                m_transcodeAction = transcodeMenu;
+        }
 	if (menus.contains("stabilizeMenu") && menus.value("stabilizeMenu") ){
 		QMenu* stabilizeMenu=menus.value("stabilizeMenu");
 		m_menu->addMenu(stabilizeMenu);
@@ -791,6 +795,7 @@ void ProjectList::slotClipSelected()
             m_deleteButton->defaultAction()->setEnabled(true);
             m_openAction->setEnabled(false);
             m_reloadAction->setEnabled(false);
+            m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
             m_stabilizeAction->setEnabled(false);
         } else {
@@ -801,6 +806,7 @@ void ProjectList::slotClipSelected()
                 if (clip == NULL) kDebug() << "-----------ERROR";
                 SubProjectItem *sub = static_cast <SubProjectItem*>(item);
                 emit clipSelected(clip->referencedClip(), sub->zone());
+                m_extractAudioAction->setEnabled(false);
                 m_transcodeAction->setEnabled(false);
                 m_stabilizeAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
@@ -813,6 +819,7 @@ void ProjectList::slotClipSelected()
             m_editButton->defaultAction()->setEnabled(true);
             m_deleteButton->defaultAction()->setEnabled(true);
             m_reloadAction->setEnabled(true);
+            m_extractAudioAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
             m_stabilizeAction->setEnabled(true);
             if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
@@ -836,6 +843,7 @@ void ProjectList::slotClipSelected()
         m_deleteButton->defaultAction()->setEnabled(false);
         m_openAction->setEnabled(false);
         m_reloadAction->setEnabled(false);
+        m_extractAudioAction->setEnabled(true);
         m_transcodeAction->setEnabled(false);
         m_stabilizeAction->setEnabled(false);
     }
@@ -869,9 +877,11 @@ void ProjectList::adjustTranscodeActions(ProjectItem *clip) const
 {
     if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW) {
         m_transcodeAction->setEnabled(false);
+        m_extractAudioAction->setEnabled(false);
         return;
     }
     m_transcodeAction->setEnabled(true);
+    m_extractAudioAction->setEnabled(true);
     QList<QAction *> transcodeActions = m_transcodeAction->actions();
     QStringList data;
     QString condition;
@@ -1016,12 +1026,14 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
     m_editButton->defaultAction()->setEnabled(enable);
     m_deleteButton->defaultAction()->setEnabled(enable);
     m_reloadAction->setEnabled(enable);
+    m_extractAudioAction->setEnabled(enable);
     m_transcodeAction->setEnabled(enable);
     m_stabilizeAction->setEnabled(enable);
     if (enable) {
         ProjectItem *clip = NULL;
         if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item->parent());
+            m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
             m_stabilizeAction->setEnabled(false);
             adjustProxyActions(clip);
@@ -1034,6 +1046,7 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
             // Display uses in timeline
             emit findInTimeline(clip->clipId());
         } else {
+            m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
             m_stabilizeAction->setEnabled(false);
         }
@@ -2280,6 +2293,7 @@ void ProjectList::slotSelectClip(const QString &ix)
         m_editButton->defaultAction()->setEnabled(true);
         m_deleteButton->defaultAction()->setEnabled(true);
         m_reloadAction->setEnabled(true);
+        m_extractAudioAction->setEnabled(true);
         m_transcodeAction->setEnabled(true);
         m_stabilizeAction->setEnabled(true);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
@@ -3159,6 +3173,5 @@ void ProjectList::discardJobs(const QString &id, JOBTYPE type) {
         }
     }
 }
-
 
 #include "projectlist.moc"

@@ -497,6 +497,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     clipInTimeline->setIcon(KIcon("go-jump"));
 	QHash<QString,QMenu*> menus;
 	menus.insert("addMenu",static_cast<QMenu*>(factory()->container("generators", this)));
+        menus.insert("extractAudioMenu",static_cast<QMenu*>(factory()->container("extract_audio", this)));
 	menus.insert("transcodeMenu",static_cast<QMenu*>(factory()->container("transcoders", this)));
 	menus.insert("stabilizeMenu",static_cast<QMenu*>(factory()->container("stabilize", this)));
 	menus.insert("inTimelineMenu",clipInTimeline);
@@ -3818,6 +3819,9 @@ void MainWindow::loadTranscoders()
 {
     QMenu *transMenu = static_cast<QMenu*>(factory()->container("transcoders", this));
     transMenu->clear();
+    
+    QMenu *extractAudioMenu = static_cast<QMenu*>(factory()->container("extract_audio", this));
+    extractAudioMenu->clear();
 
     KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
     KConfigGroup transConfig(config, "Transcoding");
@@ -3826,11 +3830,17 @@ void MainWindow::loadTranscoders()
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
         i.next();
-        QStringList data = i.value().split(";", QString::SkipEmptyParts);
-        QAction *a = transMenu->addAction(i.key());
+        QStringList data = i.value().split(";");
+        QAction *a;
+        // separate audio transcoding in a separate menu
+        if (data.count() > 2 && data.at(2) == "audio") {
+            a = extractAudioMenu->addAction(i.key());
+        }
+        else {
+            a = transMenu->addAction(i.key());
+        }
         a->setData(data);
-        if (data.count() > 1)
-            a->setToolTip(data.at(1));
+        a->setToolTip(data.at(1));
         connect(a, SIGNAL(triggered()), this, SLOT(slotTranscode()));
     }
 }

@@ -313,6 +313,7 @@ private:
     FolderProjectItem *getFolderItemById(const QString &id);
     QAction *m_openAction;
     QAction *m_reloadAction;
+    QMenu *m_extractAudioAction;
     QMenu *m_transcodeAction;
     QMenu *m_stabilizeAction;
     KdenliveDoc *m_doc;
