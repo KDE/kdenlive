@@ -28,11 +28,15 @@
 CutClipJob::CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(CUTJOB, cType, id, parameters)
 {
     jobStatus = JOBWAITING;
-    description = i18n("clip cut");
     m_dest = parameters.at(0);
     m_src = parameters.at(1);
     m_start = parameters.at(2);
     m_end = parameters.at(3);
+    if (m_start.isEmpty()) {
+        // this is a transcoding job
+        description = i18n("Transcode clip");
+    }
+    else description = i18n("Cut clip");
     m_jobDuration = parameters.at(4).toInt();
     addClipToProject = parameters.at(5).toInt();
     if (parameters.count() == 7) m_cutExtraParams = parameters.at(6).simplified();
@@ -44,8 +48,8 @@ QProcess *CutClipJob::startJob(bool *ok)
     if (clipType == AV || clipType == AUDIO || clipType == VIDEO) {
 	QStringList parameters;
         parameters << "-i" << m_src;
-        parameters << "-ss" << m_start <<"-t" << m_end;
-        parameters << "-acodec" << "copy" << "-vcodec" << "copy";
+        if (!m_start.isEmpty())
+            parameters << "-ss" << m_start <<"-t" << m_end;
         if (!m_cutExtraParams.isEmpty()) {
             foreach(const QString &s, m_cutExtraParams.split(' '))
                 parameters << s;
@@ -72,12 +76,12 @@ int CutClipJob::processLogInfo()
 {
     if (!m_jobProcess || m_jobDuration == 0 || jobStatus == JOBABORTED) return JOBABORTED;
     QString log = m_jobProcess->readAll();
+    kDebug()<<"// PROgress: "<<log;
     if (!log.isEmpty()) m_errorMessage.append(log + '\n');
     int progress;
     // Parse FFmpeg output
     if (log.contains("frame=")) {
         int progress = log.section("frame=", 1, 1).simplified().section(' ', 0, 0).toInt();
-        kDebug()<<"// PROgress: "<<progress<<", DUR: "<<m_jobDuration;
         return (int) (100.0 * progress / m_jobDuration);
     }
     else if (log.contains("time=")) {
@@ -113,10 +117,12 @@ const QString CutClipJob::statusMessage()
     QString statusInfo;
     switch (jobStatus) {
         case JOBWORKING:
-            statusInfo = i18n("Extracting clip cut");
+            if (m_start.isEmpty()) statusInfo = i18n("Transcoding clip");
+            else statusInfo = i18n("Extracting clip cut");
             break;
         case JOBWAITING:
-            statusInfo = i18n("Waiting - clip cut");
+            if (m_start.isEmpty()) statusInfo = i18n("Waiting - transcode clip");
+            else statusInfo = i18n("Waiting - cut clip");
             break;
         default:
             break;

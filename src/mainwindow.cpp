@@ -2699,7 +2699,7 @@ void MainWindow::updateConfiguration()
 
     // Update list of transcoding profiles
     loadTranscoders();
-	loadStabilize();
+    loadStabilize();
 #ifdef USE_JOGSHUTTLE
     activateShuttleDevice();
 #endif
@@ -3840,7 +3840,7 @@ void MainWindow::loadTranscoders()
             a = transMenu->addAction(i.key());
         }
         a->setData(data);
-        a->setToolTip(data.at(1));
+        if (data.count() > 1) a->setToolTip(data.at(1));
         connect(a, SIGNAL(triggered()), this, SLOT(slotTranscode()));
     }
 }
@@ -3878,9 +3878,10 @@ void MainWindow::slotTranscode(KUrl::List urls)
         QStringList data = action->data().toStringList();
         params = data.at(0);
         if (data.count() > 1) desc = data.at(1);
-        if (data.count() > 2) condition = data.at(2);
-        urls << m_projectList->getConditionalUrls(condition);
-        urls.removeAll(KUrl());
+        if (data.count() > 3) condition = data.at(3);
+        QStringList ids = m_projectList->getConditionalIds(condition);
+        m_projectList->slotTranscodeClipJob(ids, params, desc);
+        return;
     }
     if (urls.isEmpty()) {
         m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
@@ -3889,7 +3890,6 @@ void MainWindow::slotTranscode(KUrl::List urls)
     ClipTranscode *d = new ClipTranscode(urls, params, desc);
     connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     d->show();
-    //QProcess::startDetached("ffmpeg", parameters);
 }
 
 void MainWindow::slotTranscodeClip()

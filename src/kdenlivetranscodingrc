@@ -13,9 +13,9 @@ DNxHD 720p 50 fps 175 Mb/s=-s 1280x720 -r 50 -vb 175000k -threads 2 -vcodec dnxh
 DNxHD 720p 50 fps 115 Mb/s=-s 1280x720 -r 50 -vb 175000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
 DNxHD 720p 59.94 fps 220 Mb/s=-s 1280x720 -r 60000/1001 -vb 220000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
 DNxHD 720p 59.94 fps 145 Mb/s=-s 1280x720 -r 60000/1001 -vb 145000k -threads 2 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-Fix MPEG-1=-sameq -acodec copy -vcodec mpeg1video %1.mpg;Fix unplayable MPEG-1 files
-Fix Ogg Theora=-sameq -vcodec libtheora -acodec copy %1.ogv;Fix unplayable OGG Theora files
-Remux MPEG-2 PS/VOB=-vcodec copy -acodec copy %1.mpg;Fix audio sync in MPEG-2 vob files
+Fix MPEG-1=-sameq -acodec copy -vcodec mpeg1video %1.mpg;Fix unplayable MPEG-1 files;;vcodec=mpeg1video
+Fix Ogg Theora=-sameq -vcodec libtheora -acodec copy %1.ogv;Fix unplayable OGG Theora files;;vcodec=theora
+Remux MPEG-2 PS/VOB=-vcodec copy -acodec copy %1.mpg;Fix audio sync in MPEG-2 vob files;;vcodec=mpeg2video
 Lossless Matroska=-sn -vcodec huffyuv -acodec flac %1.mkv;High quality lossless encoding
 Wav 48000Hz=-vn -ar 48000 %1.wav;Extract audio as WAV file;audio
 Remux with MKV=-vcodec copy -acodec copy -sn %1.mkv

@@ -225,6 +225,8 @@ public:
     void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     QString currentClipUrl() const;
     KUrl::List getConditionalUrls(const QString &condition) const;
+    /** @brief Get a list of selected clip Id's that match a condition. */
+    QStringList getConditionalIds(const QString &condition) const;
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
     void cleanup();
     void trashUnusedClips();
@@ -299,6 +301,7 @@ public slots:
     void slotDeleteProxy(const QString proxyPath);
     /** @brief Start a hard cut clip job. */
     void slotCutClipJob(const QString &id, QPoint zone);
+    void slotTranscodeClipJob(QStringList ids, QString params, QString desc);
 
 private:
     ProjectListView *m_listView;

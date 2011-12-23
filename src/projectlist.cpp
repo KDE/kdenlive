@@ -2351,6 +2351,34 @@ KUrl::List ProjectList::getConditionalUrls(const QString &condition) const
     return result;
 }
 
+QStringList ProjectList::getConditionalIds(const QString &condition) const
+{
+    QStringList result;
+    ProjectItem *item;
+    QList<QTreeWidgetItem *> list = m_listView->selectedItems();
+    for (int i = 0; i < list.count(); i++) {
+        if (list.at(i)->type() == PROJECTFOLDERTYPE)
+            continue;
+        if (list.at(i)->type() == PROJECTSUBCLIPTYPE) {
+            // subitem
+            item = static_cast <ProjectItem*>(list.at(i)->parent());
+        } else {
+            item = static_cast <ProjectItem*>(list.at(i));
+        }
+        if (item == NULL || item->type() == COLOR || item->type() == SLIDESHOW || item->type() == TEXT)
+            continue;
+        DocClipBase *clip = item->referencedClip();
+        if (!condition.isEmpty()) {
+            if (condition.startsWith("vcodec") && !clip->hasVideoCodec(condition.section('=', 1, 1)))
+                continue;
+            else if (condition.startsWith("acodec") && !clip->hasAudioCodec(condition.section('=', 1, 1)))
+                continue;
+        }
+        result.append(item->clipId());
+    }
+    return result;
+}
+
 void ProjectList::regenerateTemplate(const QString &id)
 {
     ProjectItem *clip = getItemById(id);
@@ -2591,6 +2619,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
     ui.file_url->fileDialog()->setOperationMode(KFileDialog::Saving);
     ui.file_url->setUrl(KUrl(dest));
+    ui.extra_params->setPlainText("-acodec copy -vcodec copy");
     QString mess = i18n("Extracting %1 out of %2", timeOut, Timecode::getStringTimecode(max, clipFps, true));
     ui.info_label->setText(mess);
     if (d->exec() != QDialog::Accepted) {
@@ -2630,6 +2659,42 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
 
     slotCheckJobProcess();
+}
+
+void ProjectList::slotTranscodeClipJob(QStringList ids, QString params, QString desc)
+{
+    QStringList existingFiles;
+    foreach(const QString &id, ids) {
+        ProjectItem *item = getItemById(id);
+        if (!item) continue;
+        QString newFile = params.section(' ', -1).replace("%1", item->clipUrl().path());
+        if (QFile::exists(newFile)) existingFiles << newFile;
+    }
+    if (!existingFiles.isEmpty()) {
+        if (KMessageBox::warningContinueCancelList(this, i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;
+    }
+    
+    foreach(const QString &id, ids) {
+        ProjectItem *item = getItemById(id);
+        if (!item || !item->referencedClip()) continue;
+        QString src = item->clipUrl().path();
+        QString dest = params.section(' ', -1).replace("%1", src);
+        m_processingProxy.append(dest);
+        QStringList jobParams;
+        jobParams << dest << src << QString() << QString();
+        double clipFps = item->referencedClip()->getProperty("fps").toDouble();
+        if (clipFps == 0) clipFps = m_fps;
+        int max = item->clipMaxDuration();
+        QString duration = QString::number(max);
+        jobParams << duration;
+        jobParams << QString::number(KdenliveSettings::add_clip_cut());
+        jobParams << params.section(' ', 0, -2);
+        CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
+        m_jobList.append(job);
+        setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
+    }
+    slotCheckJobProcess();
+    
 }
 
 
