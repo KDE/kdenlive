@@ -47,33 +47,44 @@ public:
                const QModelIndex &index) const {
         if (index.column() == 1) {
             painter->save();
-            int factor = 2;
             QStyleOptionViewItemV4 opt(option);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 
-            if (option.state & QStyle::State_Selected) {
-                painter->setPen(option.palette.highlightedText().color());
-                factor = 3;
-            }// else painter->setPen(option.palette.color(QPalette::Text));
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
             QRect r1 = option.rect;
             r1.adjust(0, textMargin, 0, - textMargin);
-            int mid = (int)((r1.height() / factor));
+            int mid = (int)((r1.height() / 2));
             r1.setBottom(r1.y() + mid);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
-            r1.setBottom(r1.bottom() + mid);
-            r1.setTop(r1.bottom() - mid);
+            QRect bounding;
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop ,index.data().toString(), &bounding);
+            r1.moveTop(r1.bottom() - textMargin);
             font.setBold(false);
             painter->setFont(font);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole).toString());
-            if (factor > 2) {
-                r1.setBottom(r1.bottom() + mid);
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop , index.data(Qt::UserRole).toString());
+            int progress = index.data(Qt::UserRole + 3).toInt();
+            if (progress > 0 && progress < 100) {
+                QColor color = option.palette.alternateBase().color();
+                QColor fgColor = option.palette.text().color();
+                color.setAlpha(150);
+                fgColor.setAlpha(150);
+                painter->setBrush(QBrush(color));
+                painter->setPen(QPen(fgColor));
+                int width = qMin(200, r1.width() - 4);
+                QRect bgrect(r1.left() + 2, option.rect.bottom() - 6 - textMargin, width, 6);
+                painter->drawRect(bgrect);
+                painter->setBrush(QBrush(fgColor));
+                bgrect.adjust(2, 2, 0, -1);
+                painter->setPen(Qt::NoPen);
+                bgrect.setWidth((width - 2) * progress / 100);
+                painter->drawRect(bgrect);
+            } else {
+                r1.setBottom(opt.rect.bottom());
                 r1.setTop(r1.bottom() - mid);
-                painter->drawText(r1, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole + 5).toString());
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data(Qt::UserRole + 5).toString());
             }
             painter->restore();
         } else if (index.column() == 2) {

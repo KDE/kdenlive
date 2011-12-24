@@ -589,6 +589,9 @@
           <property name="allColumnsShowFocus">
            <bool>true</bool>
           </property>
+          <property name="headerHidden">
+           <bool>true</bool>
+          </property>
           <property name="columnCount">
            <number>0</number>
           </property>

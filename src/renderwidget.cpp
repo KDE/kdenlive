@@ -65,6 +65,8 @@ const int DefaultAudioBitrateRole = GroupRole + 11;
 // Render job roles
 const int ParametersRole = Qt::UserRole + 1;
 const int TimeRole = Qt::UserRole + 2;
+const int ProgressRole = Qt::UserRole + 3;
+const int ExtraInfoRole = Qt::UserRole + 5;
 
 const int ScriptType = QTreeWidgetItem::UserType;
 
@@ -80,7 +82,7 @@ const int ABORTEDJOB = 4;
 RenderJobItem::RenderJobItem(QTreeWidget * parent, const QStringList & strings, int type) : QTreeWidgetItem(parent, strings, type),
     m_status(-1)
 {
-    setSizeHint(1, QSize(parent->columnWidth(1), parent->fontMetrics().height() * 2));
+    setSizeHint(1, QSize(parent->columnWidth(1), parent->fontMetrics().height() * 3));
     setStatus(WAITINGJOB);
 }
 
@@ -96,17 +98,17 @@ void RenderJobItem::setStatus(int status)
         case FINISHEDJOB:
             setData(1, Qt::UserRole, i18n("Rendering finished"));
             setIcon(0, KIcon("dialog-ok"));
-            setData(2, Qt::UserRole, 100);
+            setData(1, ProgressRole, 100);
             break;
         case FAILEDJOB:
             setData(1, Qt::UserRole, i18n("Rendering crashed"));
             setIcon(0, KIcon("dialog-close"));
-            setData(2, Qt::UserRole, 100);
+            setData(1, ProgressRole, 100);
             break;
         case ABORTEDJOB:
             setData(1, Qt::UserRole, i18n("Rendering aborted"));
             setIcon(0, KIcon("dialog-cancel"));
-            setData(2, Qt::UserRole, 100);
+            setData(1, ProgressRole, 100);
         
         default:
             break;
@@ -269,7 +271,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, MltVi
 
     m_view.out_file->setMode(KFile::File);
 
-    m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File") << i18n("Progress"));
+    m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
     m_jobsDelegate = new RenderViewDelegate(this);
     m_view.running_jobs->setItemDelegate(m_jobsDelegate);
 
@@ -277,11 +279,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, MltVi
     header->setResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, 30);
     header->setResizeMode(1, QHeaderView::Interactive);
-    header->setResizeMode(2, QHeaderView::Fixed);
-    header->resizeSection(1, width() * 2 / 3 - 15);
-    header->setResizeMode(2, QHeaderView::Interactive);
-    //header->setResizeMode(1, QHeaderView::Fixed);
-
 
     m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Script Files"));
     m_scriptsDelegate = new RenderViewDelegate(this);
@@ -1036,10 +1033,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", dest), i18n("Already running"));
             return;
         }
-        renderItem->setData(2, Qt::UserRole, 0);
+        renderItem->setData(1, ProgressRole, 0);
         renderItem->setStatus(WAITINGJOB);
     } else {
-        renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest << QString());
+        renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
     }    
     renderItem->setData(1, TimeRole, QTime::currentTime());
 
@@ -1065,8 +1062,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         }
     }
     renderItem->setData(1, ParametersRole, render_process_args);
-    if (exportAudio == false) renderItem->setData(1, Qt::UserRole + 5, i18n("Video without audio track"));
-    else  renderItem->setData(1, Qt::UserRole + 5, QString());
+    if (exportAudio == false) renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
+    else  renderItem->setData(1, ExtraInfoRole, QString());
     m_view.running_jobs->setCurrentItem(renderItem);
     m_view.tabWidget->setCurrentIndex(1);
     checkRenderStatus();
@@ -1731,12 +1728,12 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) item = static_cast<RenderJobItem*> (existing.at(0));
     else {
-        item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest << QString());
+        item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
         if (progress == 0) {
             item->setStatus(WAITINGJOB);
         }
     }
-    item->setData(2, Qt::UserRole, progress);
+    item->setData(1, ProgressRole, progress);
     item->setStatus(RUNNINGJOB);
     if (progress == 0) {
         item->setIcon(0, KIcon("system-run"));
@@ -1756,8 +1753,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) item = static_cast<RenderJobItem*> (existing.at(0));
     else {
-        item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest << QString());
-        item->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
+        item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
     }
     if (status == -1) {
         // Job finished successfully
@@ -1826,12 +1822,13 @@ void RenderWidget::slotCheckJob()
         activate = true;
     }
     m_view.abort_job->setEnabled(activate);
+    /*
     for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); i++) {
         current = static_cast<RenderJobItem*>(m_view.running_jobs->topLevelItem(i));
         if (current == static_cast<RenderJobItem*> (m_view.running_jobs->currentItem())) {
             current->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 3));
         } else current->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
-    }
+    }*/
 }
 
 void RenderWidget::slotCLeanUpJobs()
@@ -1938,12 +1935,11 @@ void RenderWidget::slotStartScript()
                 KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", destination), i18n("Already running"));
                 return;
             }
-        } else renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination << QString(), ScriptType);
-        renderItem->setData(2, Qt::UserRole, 0);
+        } else renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination, ScriptType);
+        renderItem->setData(1, ProgressRole, 0);
         renderItem->setStatus(WAITINGJOB);
         renderItem->setIcon(0, KIcon("media-playback-pause"));
         renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
-        renderItem->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
         renderItem->setData(1, TimeRole, QTime::currentTime());
         renderItem->setData(1, ParametersRole, path);
         checkRenderStatus();
