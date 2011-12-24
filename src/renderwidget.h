@@ -87,34 +87,6 @@ public:
                 painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data(Qt::UserRole + 5).toString());
             }
             painter->restore();
-        } else if (index.column() == 2) {
-            // Set up a QStyleOptionProgressBar to precisely mimic the
-            // environment of a progress bar.
-            QStyleOptionViewItemV4 opt(option);
-            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
-            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
-
-            QStyleOptionProgressBar progressBarOption;
-            progressBarOption.state = option.state;
-            progressBarOption.direction = QApplication::layoutDirection();
-            QRect rect = option.rect;
-            int mid = rect.height() / 2;
-            rect.setTop(rect.top() + mid / 2);
-            rect.setHeight(mid);
-            progressBarOption.rect = rect;
-            progressBarOption.fontMetrics = QApplication::fontMetrics();
-            progressBarOption.minimum = 0;
-            progressBarOption.maximum = 100;
-            progressBarOption.textAlignment = Qt::AlignCenter;
-            progressBarOption.textVisible = true;
-
-            // Set the progress and text values of the style option.
-            int progress = index.data(Qt::UserRole).toInt();
-            progressBarOption.progress = progress < 0 ? 0 : progress;
-            progressBarOption.text = QString().sprintf("%d%%", progressBarOption.progress);
-
-            // Draw the progress bar onto the view.
-            QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
         } else QStyledItemDelegate::paint(painter, option, index);
     }
 };
