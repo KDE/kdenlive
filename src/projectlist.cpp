@@ -2616,9 +2616,12 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     QDialog *d = new QDialog(this);
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
+    ui.extra_params->setVisible(false);
     ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
     ui.file_url->fileDialog()->setOperationMode(KFileDialog::Saving);
+    ui.extra_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     ui.file_url->setUrl(KUrl(dest));
+    ui.button_more->setIcon(KIcon("configure"));
     ui.extra_params->setPlainText("-acodec copy -vcodec copy");
     QString mess = i18n("Extracting %1 out of %2", timeOut, Timecode::getStringTimecode(max, clipFps, true));
     ui.info_label->setText(mess);
@@ -2673,6 +2676,29 @@ void ProjectList::slotTranscodeClipJob(QStringList ids, QString params, QString 
     if (!existingFiles.isEmpty()) {
         if (KMessageBox::warningContinueCancelList(this, i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;
     }
+    
+    QDialog *d = new QDialog(this);
+    Ui::CutJobDialog_UI ui;
+    ui.setupUi(d);
+    d->setWindowTitle(i18n("Transcoding"));
+    ui.destination_label->setVisible(false);
+    ui.extra_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
+    ui.file_url->setVisible(false);
+    ui.extra_params->setVisible(false);
+    ui.button_more->setIcon(KIcon("configure"));
+    ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
+    ui.extra_params->setPlainText(params.simplified());
+    QString mess = desc;
+    mess.append(" " + i18np("(%1 clip)", "(%1 clips)", ids.count()));
+    ui.info_label->setText(mess);
+    d->adjustSize();
+    if (d->exec() != QDialog::Accepted) {
+        delete d;
+        return;
+    }
+    params = ui.extra_params->toPlainText().simplified();
+    KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
+    delete d;
     
     foreach(const QString &id, ids) {
         ProjectItem *item = getItemById(id);

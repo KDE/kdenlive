@@ -76,7 +76,6 @@ int CutClipJob::processLogInfo()
 {
     if (!m_jobProcess || m_jobDuration == 0 || jobStatus == JOBABORTED) return JOBABORTED;
     QString log = m_jobProcess->readAll();
-    kDebug()<<"// PROgress: "<<log;
     if (!log.isEmpty()) m_errorMessage.append(log + '\n');
     int progress;
     // Parse FFmpeg output
@@ -91,7 +90,6 @@ int CutClipJob::processLogInfo()
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
         }
         else progress = (int) time.toDouble();
-        kDebug()<<"// PROgress: "<<progress<<", DUR: "<<m_jobDuration;
         return (int) (100.0 * progress / m_jobDuration);
     }
     return -1;
