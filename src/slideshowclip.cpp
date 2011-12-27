@@ -438,14 +438,14 @@ void SlideshowClip::slotMethodChanged(bool active)
 {
     if (active) {
         // User wants mimetype image sequence
-        if (m_view.clip_duration->text().isEmpty()) {
+        if (m_view.clip_duration->text().isEmpty() || m_view.clip_duration->text().length() < 4) {
             m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
         }
         m_view.stackedWidget->setCurrentIndex(0);
         KdenliveSettings::setSlideshowbymime(true);
     } else {
         // User wants pattern image sequence
-        if (m_view.clip_duration->text().isEmpty()) {
+        if (m_view.clip_duration->text().isEmpty() || m_view.clip_duration->text().length() < 4) {
             m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()));
         }
         m_view.stackedWidget->setCurrentIndex(1);
