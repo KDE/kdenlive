@@ -417,15 +417,11 @@ void SlideshowClip::slotUpdateDurationFormat(int ix)
     bool framesFormat = ix == 1;
     if (framesFormat) {
         // switching to frames count, update widget
-        m_view.clip_duration->setInputMask("");
         m_view.clip_duration_frames->setValue(m_timecode.getFrameCount(m_view.clip_duration->text()));
-        m_view.luma_duration->setInputMask("");
         m_view.luma_duration_frames->setValue(m_timecode.getFrameCount(m_view.luma_duration->text()));
     } else {
         // switching to timecode format
-        m_view.clip_duration->setInputMask(m_timecode.mask());
         m_view.clip_duration->setText(m_timecode.getTimecodeFromFrames(m_view.clip_duration_frames->value()));
-        m_view.luma_duration->setInputMask(m_timecode.mask());
         m_view.luma_duration->setText(m_timecode.getTimecodeFromFrames(m_view.luma_duration_frames->value()));
     }
     m_view.clip_duration_frames->setHidden(!framesFormat);
@@ -438,16 +434,12 @@ void SlideshowClip::slotMethodChanged(bool active)
 {
     if (active) {
         // User wants mimetype image sequence
-        if (m_view.clip_duration->text().isEmpty() || m_view.clip_duration->text().length() < 4) {
-            m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
-        }
+        m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
         m_view.stackedWidget->setCurrentIndex(0);
         KdenliveSettings::setSlideshowbymime(true);
     } else {
         // User wants pattern image sequence
-        if (m_view.clip_duration->text().isEmpty() || m_view.clip_duration->text().length() < 4) {
-            m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()));
-        }
+        m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()));
         m_view.stackedWidget->setCurrentIndex(1);
         KdenliveSettings::setSlideshowbymime(false);
     }
