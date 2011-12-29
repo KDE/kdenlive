@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="66">
+<gui name="kdenlive" version="67">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -25,6 +25,7 @@
       <Action name="add_text_clip" />
       <Action name="add_text_template_clip" />
       <Action name="add_folder" /> 
+      <Action name="download_audio" /> 
       <Menu name="extract_audio" ><text>Extract Audio</text>
       </Menu>
       <Menu name="stabilize" ><text>Stabilize</text>

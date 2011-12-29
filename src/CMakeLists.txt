@@ -79,6 +79,7 @@ add_subdirectory(colorcorrection)
 add_subdirectory(colorscopes)
 add_subdirectory(commands)
 add_subdirectory(projecttree)
+add_subdirectory(utils)
 add_subdirectory(databackup)
 add_subdirectory(kiss_fft)
 add_subdirectory(mimetypes)
@@ -214,6 +215,7 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/dvdwizardvob_ui.ui
   widgets/effectlist_ui.ui
   widgets/effectstack_ui.ui
+  widgets/freesound_ui.ui
   widgets/geometryval_ui.ui
   widgets/geometrywidget_ui.ui
   widgets/histogram_ui.ui

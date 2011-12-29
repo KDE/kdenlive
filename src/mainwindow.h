@@ -550,6 +550,8 @@ private slots:
     void slotDisableProxies();
 
     void slotElapsedTime();
+    /** @brief Open the freesound audio search dialog. */
+    void slotDownloadAudio();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

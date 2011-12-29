@@ -64,6 +64,7 @@
 #include "audioscopes/spectrogram.h"
 #include "archivewidget.h"
 #include "databackup/backupwidget.h"
+#include "utils/freesound.h"
 
 
 #include <KApplication>
@@ -1638,6 +1639,10 @@ void MainWindow::setupActions()
     QAction *addFolderButton = new KAction(KIcon("folder-new"), i18n("Create Folder"), this);
     collection.addAction("add_folder", addFolderButton);
     connect(addFolderButton , SIGNAL(triggered()), m_projectList, SLOT(slotAddFolder()));
+    
+    QAction *downloadAudio = new KAction(KIcon("download"), i18n("Download Audio"), this);
+    collection.addAction("download_audio", downloadAudio);
+    connect(downloadAudio , SIGNAL(triggered()), this, SLOT(slotDownloadAudio()));
 
     QAction *clipProperties = new KAction(KIcon("document-edit"), i18n("Clip Properties"), this);
     collection.addAction("clip_properties", clipProperties);
@@ -4496,6 +4501,16 @@ void MainWindow::slotElapsedTime()
     kDebug()<<"-----------------------------------------\n"<<"Time elapsed: "<<m_timer.elapsed()<<"\n-------------------------";
 }
 
+
+void MainWindow::slotDownloadAudio()
+{
+    QString currentFolder;
+    if (m_activeDocument) currentFolder = m_activeDocument->projectFolder().path();
+    else currentFolder = KdenliveSettings::defaultprojectfolder();
+    FreeSound *d = new FreeSound(currentFolder);
+    connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
+    d->show();
+}
 
 #include "mainwindow.moc"
 
