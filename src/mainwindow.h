@@ -411,7 +411,7 @@ private slots:
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
-    void slotAddProjectClip(KUrl url);
+    void slotAddProjectClip(KUrl url, const QString &comment = QString());
     void slotAddProjectClipList(KUrl::List urls);
     void slotShowClipProperties(DocClipBase *clip);
     void slotShowClipProperties(QList <DocClipBase *>cliplist, QMap<QString, QString> commonproperties);

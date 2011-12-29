@@ -83,7 +83,7 @@ Q_OBJECT public:
      *
      * If the clip wasn't added before, it tries to add it to the project. */
     bool addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
-    void slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId = QString());
+    void slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId = QString(), const QString &comment = QString());
     void slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId = QString());
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);

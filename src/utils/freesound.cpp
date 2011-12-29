@@ -199,7 +199,7 @@ void FreeSound::slotSaveSound()
     QString saveUrl = KFileDialog::getSaveFileName(KUrl(path), ext);
     if (saveUrl.isEmpty()) return;
     if (KIO::NetAccess::download(KUrl(m_currentUrl), saveUrl, this)) {
-        emit addClip(KUrl(saveUrl));
+        emit addClip(KUrl(saveUrl), sound_name->url());
     }
 }
 

@@ -82,6 +82,9 @@
         <property name="text">
          <string/>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
       <item row="4" column="1">
@@ -115,6 +118,9 @@
        <widget class="KUrlLabel" name="sound_name">
         <property name="text">
          <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>

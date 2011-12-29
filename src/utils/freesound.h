@@ -59,7 +59,7 @@ private:
     QProcess *m_previewProcess;
    
 signals:
-    void addClip(KUrl);
+    void addClip(KUrl, const QString &);
 };
 
 

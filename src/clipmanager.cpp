@@ -460,7 +460,7 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
     emit checkAllClips(displayRatioChanged, fpsChanged, brokenClips);
 }
 
-void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId)
+void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId, const QString &comment)
 {
     QUndoCommand *addClips = new QUndoCommand();
     foreach(const KUrl & file, urls) {
@@ -476,6 +476,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
             prod.setAttribute("resource", file.path());
             uint id = m_clipIdCounter++;
             prod.setAttribute("id", QString::number(id));
+            if (!comment.isEmpty()) prod.setAttribute("description", comment);
             if (!group.isEmpty()) {
                 prod.setAttribute("groupname", group);
                 prod.setAttribute("groupid", groupId);
@@ -536,9 +537,9 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
     }
 }
 
-void ClipManager::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId)
+void ClipManager::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment)
 {
-    slotAddClipList(KUrl::List(url), group, groupId);
+    slotAddClipList(KUrl::List(url), group, groupId, comment);
 }
 
 void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)

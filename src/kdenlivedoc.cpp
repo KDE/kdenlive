@@ -1201,9 +1201,9 @@ void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString &group, c
 }
 
 
-void KdenliveDoc::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId)
+void KdenliveDoc::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment)
 {
-    m_clipManager->slotAddClipFile(url, group, groupId);
+    m_clipManager->slotAddClipFile(url, group, groupId, comment);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
 }

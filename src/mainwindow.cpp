@@ -3055,10 +3055,10 @@ void MainWindow::slotEditItemDuration()
         m_activeTimeline->projectView()->editItemDuration();
 }
 
-void MainWindow::slotAddProjectClip(KUrl url)
+void MainWindow::slotAddProjectClip(KUrl url, const QString &comment)
 {
     if (m_activeDocument)
-        m_activeDocument->slotAddClipFile(url, QString());
+        m_activeDocument->slotAddClipFile(url, QString(), QString(), comment);
 }
 
 void MainWindow::slotAddProjectClipList(KUrl::List urls)
@@ -4508,7 +4508,7 @@ void MainWindow::slotDownloadAudio()
     if (m_activeDocument) currentFolder = m_activeDocument->projectFolder().path();
     else currentFolder = KdenliveSettings::defaultprojectfolder();
     FreeSound *d = new FreeSound(currentFolder);
-    connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
+    connect(d, SIGNAL(addClip(KUrl, const QString &)), this, SLOT(slotAddProjectClip(KUrl, const QString &)));
     d->show();
 }
 
