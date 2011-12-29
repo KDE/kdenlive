@@ -37,9 +37,10 @@ ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, QStringList parameters) : 
     m_proxyParams = parameters.at(3);
     m_renderWidth = parameters.at(4).toInt();
     m_renderHeight = parameters.at(5).toInt();
+    replaceClip = true;
 }
 
-QProcess *ProxyJob::startJob(bool *ok)
+void ProxyJob::startJob()
 {
     // Special case: playlist clips (.mlt or .kdenlive project files)
     m_jobDuration = 0;
@@ -47,41 +48,41 @@ QProcess *ProxyJob::startJob(bool *ok)
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
         QStringList mltParameters;
-                mltParameters << m_src;
-                mltParameters << "-consumer" << "avformat:" + m_dest;
-                QStringList params = m_proxyParams.split('-', QString::SkipEmptyParts);
+        mltParameters << m_src;
+        mltParameters << "-consumer" << "avformat:" + m_dest;
+        QStringList params = m_proxyParams.split('-', QString::SkipEmptyParts);
                 
-                foreach(QString s, params) {
-                    s = s.simplified();
-                    if (s.count(' ') == 0) {
-                        s.append("=1");
-                    }
-                    else s.replace(' ', '=');
-                    mltParameters << s;
-                }
+        foreach(QString s, params) {
+            s = s.simplified();
+            if (s.count(' ') == 0) {
+                s.append("=1");
+            }
+            else s.replace(' ', '=');
+            mltParameters << s;
+        }
         
-            mltParameters.append(QString("real_time=-%1").arg(KdenliveSettings::mltthreads()));
+        mltParameters.append(QString("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
-            //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
-            double display_ratio = KdenliveDoc::getDisplayRatio(m_src);
-            mltParameters << "aspect=" + QString::number(display_ratio);
+        //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
+        double display_ratio = KdenliveDoc::getDisplayRatio(m_src);
+        mltParameters << "aspect=" + QString::number(display_ratio);
             
-            // Ask for progress reporting
-            mltParameters << "progress=1";
+        // Ask for progress reporting
+        mltParameters << "progress=1";
 
-	    m_jobProcess = new QProcess;
-            m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-            m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
-            m_jobProcess->waitForStarted();
-	    return m_jobProcess;
+	m_jobProcess = new QProcess;
+        m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
+        m_jobProcess->waitForStarted();
     }
     else if (clipType == IMAGE) {
         m_isFfmpegJob = false;
         // Image proxy
         QImage i(m_src);
         if (i.isNull()) {
-	    *ok = false;
-	    return NULL;
+	    m_errorMessage.append(i18n("Cannot load image %1.", m_src));
+            setStatus(JOBCRASHED);
+	    return;
 	}
 	
         QImage proxy;
@@ -123,8 +124,8 @@ QProcess *ProxyJob::startJob(bool *ok)
             processed.save(m_dest);
         }
         else proxy.save(m_dest);
-	*ok = true;
-	return NULL;
+        setStatus(JOBDONE);
+	return;
     }
     else {
         m_isFfmpegJob = true;
@@ -139,19 +140,48 @@ QProcess *ProxyJob::startJob(bool *ok)
         parameters << m_dest;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        m_jobProcess->start("ffmpeg", parameters);
+        m_jobProcess->start("ffmpeg", parameters, QIODevice::ReadOnly);
         m_jobProcess->waitForStarted();
-        QString log = m_jobProcess->readAll();
-        if (!log.isEmpty()) m_errorMessage.append(log + '\n');
-	return m_jobProcess;
     }
+    while (m_jobProcess->state() != QProcess::NotRunning) {
+        processLogInfo();
+        if (jobStatus == JOBABORTED) {
+            emit cancelRunningJob(m_clipId, cancelProperties());
+            m_jobProcess->close();
+            m_jobProcess->waitForFinished();
+            QFile::remove(m_dest);
+        }
+        m_jobProcess->waitForFinished(400);
+    }
+    
+    if (jobStatus != JOBABORTED) {
+        int result = m_jobProcess->exitStatus();
+        if (result == QProcess::NormalExit) {
+            if (QFileInfo(m_dest).size() == 0) {
+                // File was not created
+                processLogInfo();
+                m_errorMessage.append(i18n("Failed to create file."));
+                setStatus(JOBCRASHED);
+            }
+            else setStatus(JOBDONE);
+        }
+        else if (result == QProcess::CrashExit) {
+            // Proxy process crashed
+            QFile::remove(m_dest);
+            setStatus(JOBCRASHED);
+        }
+    }
+    
+    delete m_jobProcess;
+    return;
 }
 
-int ProxyJob::processLogInfo()
+void ProxyJob::processLogInfo()
 {
-    if (!m_jobProcess || jobStatus == JOBABORTED) return JOBABORTED;
+    if (!m_jobProcess || jobStatus == JOBABORTED) return;
     QString log = m_jobProcess->readAll();
     if (!log.isEmpty()) m_errorMessage.append(log + '\n');
+    else return;
     int progress;
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
@@ -169,17 +199,16 @@ int ProxyJob::processLogInfo()
                 progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
             }
             else progress = (int) time.toDouble();
-            return (int) (100.0 * progress / m_jobDuration);
+            emit jobProgress(m_clipId, (int) (100.0 * progress / m_jobDuration), jobType);
         }
     }
     else {
         // Parse MLT output
         if (log.contains("percentage:")) {
             progress = log.section(':', -1).simplified().toInt();
-            return progress;
+            emit jobProgress(m_clipId, progress, jobType);
         }
     }
-    return -1;
 }
 
 ProxyJob::~ProxyJob()

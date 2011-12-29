@@ -18,49 +18,44 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef ABSTRACTCLIPJOB
-#define ABSTRACTCLIPJOB
+#ifndef MELTJOB
+#define MELTJOB
 
 #include <QObject>
 #include <QProcess>
 
-#include "definitions.h"
+#include "abstractclipjob.h"
 
-enum JOBTYPE { NOJOBTYPE = 0, PROXYJOB = 1, CUTJOB = 2, MLTJOB = 3};
+namespace Mlt{
+        class Profile;
+        class Producer;
+        class Consumer;
+        class Filter;
+        class Event;
+};
 
-class AbstractClipJob : public QObject
+class MeltJob : public AbstractClipJob
 {
     Q_OBJECT
 
 public:
-    AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList parameters);    virtual ~ AbstractClipJob();
-    CLIPTYPE clipType;
-    JOBTYPE jobType;
-    CLIPJOBSTATUS jobStatus;
-    QString m_clipId;
-    QString description;
+    MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters);
+    virtual ~ MeltJob();
+    const QString destination() const;
+    void startJob();
+    stringMap cancelProperties();
     bool addClipToProject;
-    bool replaceClip;
-    const QString clipId() const;
-    const QString errorMessage() const;
-    void setStatus(CLIPJOBSTATUS status);
-    virtual const QString destination() const;
-    virtual void startJob();
-    virtual stringMap cancelProperties();
-    virtual void processLogInfo();
-    virtual const QString statusMessage();
-    /** @brief Returns true if only one instance of this job can be run on a clip. */
-    virtual bool isExclusive();
+    const QString statusMessage();
+    void setProducer(Mlt::Producer *producer);
+    void emitFrameNumber();
     
-protected:
-    QString m_errorMessage;
-    QProcess *m_jobProcess;
-    
-signals:
-    void jobProgress(QString, int, int);
-    void cancelRunningJob(const QString, stringMap);
+private:
+    Mlt::Producer *m_producer;
+    Mlt::Profile *m_profile;
+    Mlt::Consumer *m_consumer;
+    Mlt::Event *m_showFrameEvent;
+    QStringList m_params;
+    int m_length;
 };
 
-
 #endif
-

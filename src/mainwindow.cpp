@@ -269,6 +269,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_effectStack = new EffectStackView(m_projectMonitor);
     m_effectStackDock->setWidget(m_effectStack);
     addDockWidget(Qt::TopDockWidgetArea, m_effectStackDock);
+    connect(m_effectStack, SIGNAL(startFilterJob(const QString&,const QString&,const QString&,const QString&,const QString&,const QString&)), m_projectList, SLOT(slotStartFilterJob(const QString&,const QString&,const QString&,const QString&,const QString&,const QString&)));
 
     m_transitionConfigDock = new QDockWidget(i18n("Transition"), this);
     m_transitionConfigDock->setObjectName("transition");
@@ -3847,14 +3848,14 @@ void MainWindow::loadTranscoders()
 
 void MainWindow::slotStabilize(KUrl::List urls)
 {
-	QString condition,filtername;
+    QString condition,filtername;
 
-	if (urls.isEmpty()) {
+    if (urls.isEmpty()) {
         QAction *action = qobject_cast<QAction *>(sender());
-		if (action){
-			filtername=action->data().toString();
-			urls = m_projectList->getConditionalUrls(condition);
-		}
+	if (action){
+            filtername=action->data().toString();
+            urls = m_projectList->getConditionalUrls(condition);
+	}
     }
     if (urls.isEmpty()) {
         m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);

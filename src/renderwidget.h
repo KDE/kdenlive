@@ -67,6 +67,7 @@ public:
             painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop , index.data(Qt::UserRole).toString());
             int progress = index.data(Qt::UserRole + 3).toInt();
             if (progress > 0 && progress < 100) {
+                // draw progress bar
                 QColor color = option.palette.alternateBase().color();
                 QColor fgColor = option.palette.text().color();
                 color.setAlpha(150);
@@ -75,7 +76,7 @@ public:
                 painter->setPen(QPen(fgColor));
                 int width = qMin(200, r1.width() - 4);
                 QRect bgrect(r1.left() + 2, option.rect.bottom() - 6 - textMargin, width, 6);
-                painter->drawRect(bgrect);
+                painter->drawRoundedRect(bgrect, 3, 3);
                 painter->setBrush(QBrush(fgColor));
                 bgrect.adjust(2, 2, 0, -1);
                 painter->setPen(Qt::NoPen);

@@ -141,6 +141,9 @@ private slots:
 
     /** @brief Shows/Hides the comment box and emits showComments to notify the parameter widgets to do the same. */
     void slotShowComments();
+    
+    /** @brief Triggers a filter job on this clip. */
+    void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QString&properties);
 
 signals:
     void removeEffect(ClipItem*, int, QDomElement);
@@ -161,6 +164,7 @@ signals:
     void updateClipRegion(ClipItem*, int, QString);
     void displayMessage(const QString&, int);
     void showComments(bool show);
+    void startFilterJob(const QString &clipId, const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QString &properties);
 };
 
 #endif

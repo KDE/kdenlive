@@ -35,10 +35,11 @@ public:
     ProxyJob(CLIPTYPE cType, const QString &id, QStringList parameters);
     virtual ~ ProxyJob();
     const QString destination() const;
-    QProcess *startJob(bool *ok);
+    void startJob();
     stringMap cancelProperties();
-    int processLogInfo();
     const QString statusMessage();
+    void processLogInfo();
+
     
 private:
     QString m_dest;

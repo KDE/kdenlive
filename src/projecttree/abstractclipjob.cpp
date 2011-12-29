@@ -32,6 +32,8 @@ AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id
         jobType(type),
         jobStatus(NOJOB),
         m_clipId(id),
+        addClipToProject(false),
+        replaceClip(false),
         m_jobProcess(NULL)
 {
 }
@@ -55,9 +57,8 @@ const QString AbstractClipJob::errorMessage() const
     return m_errorMessage;
 }
 
-QProcess *AbstractClipJob::startJob(bool */*ok*/)
+void AbstractClipJob::startJob()
 {
-    return NULL;
 }
 
 const QString AbstractClipJob::destination() const
@@ -70,9 +71,8 @@ stringMap AbstractClipJob::cancelProperties()
     return QMap <QString, QString>();
 }
 
-int AbstractClipJob::processLogInfo()
+void AbstractClipJob::processLogInfo()
 {
-    return -1;
 }
 
 const QString AbstractClipJob::statusMessage()
@@ -80,4 +80,8 @@ const QString AbstractClipJob::statusMessage()
     return QString();
 }
 
+bool AbstractClipJob::isExclusive()
+{
+    return true;
+}
 

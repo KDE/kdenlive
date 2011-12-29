@@ -304,7 +304,15 @@ void ProjectListView::mousePressEvent(QMouseEvent *event)
         m_DragStartPosition = event->pos();
         m_dragStarted = true;
         /*QTreeWidgetItem *underMouse = itemAt(event->pos());
-        if (underMouse && underMouse->isSelected()) emit focusMonitor();*/
+        ProjectItem *item = static_cast<ProjectItem *>(underMouse);
+        if (item) {
+            QRect itemRect = visualItemRect(item);
+            if (item->underJobMenu(itemRect, event->pos())) {
+                emit display
+            }
+            
+            && underMouse->isSelected()) emit focusMonitor()
+        }*/
     }
     QTreeWidget::mousePressEvent(event);
 }

@@ -42,31 +42,33 @@ class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
     Q_OBJECT
 
 public:
-    ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter* filter,QWidget * parent = 0);
+    ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter* filter = NULL,QWidget * parent = 0);
     ~ClipStabilize();
+    /** @brief Should the generated clip be added to current project. */
+    bool autoAddClip() const;
 
 
 private slots:
     void slotShowStabilizeInfo();
     void slotStartStabilize();
     void slotStabilizeFinished(bool success);
-	void slotRunStabilize();
-	void slotAbortStabilize();
-	void slotUpdateParams();
+    void slotRunStabilize();
+    void slotAbortStabilize();
+    void slotUpdateParams();
 
 private:
-	QFuture<void> m_stabilizeRun;
-	QString filtername;
-	Mlt::Profile *m_profile;
-	Mlt::Consumer *m_consumer;
-	Mlt::Playlist *m_playlist;
+    QFuture<void> m_stabilizeRun;
+    QString filtername;
+    Mlt::Profile *m_profile;
+    Mlt::Consumer *m_consumer;
+    Mlt::Playlist *m_playlist;
     KUrl::List m_urls;
     int m_duration;
-	Mlt::Filter* m_filter;
-	QTimer *m_timer;
-	QHash<QString,QHash<QString,QString> > m_ui_params;
-	QVBoxLayout *vbox;
-	void fillParameters(QStringList);
+    Mlt::Filter* m_filter;
+    QTimer *m_timer;
+    QHash<QString,QHash<QString,QString> > m_ui_params;
+    QVBoxLayout *vbox;
+    void fillParameters(QStringList);
 
 signals:
     void addClip(KUrl url);

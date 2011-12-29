@@ -39,10 +39,11 @@ CutClipJob::CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters
     else description = i18n("Cut clip");
     m_jobDuration = parameters.at(4).toInt();
     addClipToProject = parameters.at(5).toInt();
+    replaceClip = false;
     if (parameters.count() == 7) m_cutExtraParams = parameters.at(6).simplified();
 }
 
-QProcess *CutClipJob::startJob(bool *ok)
+void CutClipJob::startJob()
 {
     // Special case: playlist clips (.mlt or .kdenlive project files)
     if (clipType == AV || clipType == AUDIO || clipType == VIDEO) {
@@ -63,25 +64,51 @@ QProcess *CutClipJob::startJob(bool *ok)
         kDebug()<<"// STARTING CIUT JOS: "<<parameters;
         m_jobProcess->start("ffmpeg", parameters);
         m_jobProcess->waitForStarted();
-        QString log = m_jobProcess->readAll();
-        if (!log.isEmpty()) m_errorMessage.append(log + '\n');
-	return m_jobProcess;
+        while (m_jobProcess->state() != QProcess::NotRunning) {
+            processLogInfo();
+            if (jobStatus == JOBABORTED) {
+                m_jobProcess->close();
+                m_jobProcess->waitForFinished();
+                QFile::remove(m_dest);
+            }
+            m_jobProcess->waitForFinished(400);
+        }
+        
+        if (jobStatus != JOBABORTED) {
+            int result = m_jobProcess->exitStatus();
+            if (result == QProcess::NormalExit) {
+                if (QFileInfo(m_dest).size() == 0) {
+                    // File was not created
+                    processLogInfo();
+                    m_errorMessage.append(i18n("Failed to create file."));
+                    setStatus(JOBCRASHED);
+                }
+                else setStatus(JOBDONE);
+            }
+            else if (result == QProcess::CrashExit) {
+                // Proxy process crashed
+                QFile::remove(m_dest);
+                setStatus(JOBCRASHED);
+            }
+        }
+	delete m_jobProcess;
+        return;
     }
     else m_errorMessage = i18n("Cannot process this clip type.");
-    *ok = false;
-    return NULL;
+    setStatus(JOBCRASHED);
+    return;
 }
 
-int CutClipJob::processLogInfo()
+void CutClipJob::processLogInfo()
 {
-    if (!m_jobProcess || m_jobDuration == 0 || jobStatus == JOBABORTED) return JOBABORTED;
+    if (!m_jobProcess || m_jobDuration == 0 || jobStatus == JOBABORTED) return;
     QString log = m_jobProcess->readAll();
     if (!log.isEmpty()) m_errorMessage.append(log + '\n');
     int progress;
     // Parse FFmpeg output
     if (log.contains("frame=")) {
-        int progress = log.section("frame=", 1, 1).simplified().section(' ', 0, 0).toInt();
-        return (int) (100.0 * progress / m_jobDuration);
+        progress = log.section("frame=", 1, 1).simplified().section(' ', 0, 0).toInt();
+        emit jobProgress(m_clipId, (int) (100.0 * progress / m_jobDuration), jobType);
     }
     else if (log.contains("time=")) {
         QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
@@ -90,9 +117,8 @@ int CutClipJob::processLogInfo()
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
         }
         else progress = (int) time.toDouble();
-        return (int) (100.0 * progress / m_jobDuration);
+        emit jobProgress(m_clipId, (int) (100.0 * progress / m_jobDuration), jobType);
     }
-    return -1;
 }
 
 CutClipJob::~CutClipJob()
@@ -126,5 +152,10 @@ const QString CutClipJob::statusMessage()
             break;
     }
     return statusInfo;
+}
+
+bool CutClipJob::isExclusive()
+{
+    return false;
 }
 

@@ -262,7 +262,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
         QString comment;
         if (!commentElem.isNull())
             comment = i18n(commentElem.text().toUtf8().data());
-        QWidget * toFillin = new QWidget(m_baseWidget);
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
 
@@ -289,7 +288,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
         } else if (type == "list") {
             Listval *lsval = new Listval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             lsval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             QStringList listitems = pa.attribute("paramlist").split(';');
             if (listitems.count() == 1) {
                 // probably custom effect created before change to ';' as separator
@@ -327,7 +328,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             m_uiItems.append(lsval);
         } else if (type == "bool") {
             Boolval *bval = new Boolval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             bval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             bval->checkBox->setCheckState(value == "0" ? Qt::Unchecked : Qt::Checked);
             bval->name->setText(paramName);
             bval->labelComment->setText(comment);
@@ -479,7 +482,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
 #endif
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             wpval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             wipeInfo w = getWipeInfo(value);
             switch (w.start) {
             case UP:
@@ -534,7 +539,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             m_uiItems.append(wpval);
         } else if (type == "url") {
             Urlval *cval = new Urlval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             cval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             cval->label->setText(paramName);
             cval->urlwidget->fileDialog()->setFilter(ProjectList::getExtensions());
             m_valueItems[paramName] = cval;
@@ -544,7 +551,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             m_uiItems.append(cval);
         } else if (type == "keywords") {
             Keywordval* kval = new Keywordval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             kval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             kval->label->setText(paramName);
             kval->lineeditwidget->setText(value);
             QDomElement klistelem = pa.firstChildElement("keywords");
@@ -571,19 +580,20 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             m_uiItems.append(kval);
         } else if (type == "fontfamily") {
             Fontval* fval = new Fontval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             fval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             fval->name->setText(paramName);
             fval->fontfamilywidget->setCurrentFont(QFont(value));
             m_valueItems[paramName] = fval;
             connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(collectAllParameters())) ;
             m_uiItems.append(fval);
-        } else {
-            delete toFillin;
-            toFillin = NULL;
+        } else if (type == "filterjob") {
+            QPushButton *button = new QPushButton(paramName, m_baseWidget);
+            m_vbox->addWidget(button);
+            m_valueItems[paramName] = button;
+            connect(button, SIGNAL(pressed()), this, SLOT(slotStartFilterJobAction()));   
         }
-
-        if (toFillin)
-            m_vbox->addWidget(toFillin);
     }
 
     if (stretch)
@@ -892,3 +902,18 @@ void EffectStackEdit::slotSyncEffectsPos(int pos)
 {
     emit syncEffectsPos(pos);
 }
+
+void EffectStackEdit::slotStartFilterJobAction()
+{
+    QDomNodeList namenode = m_params.elementsByTagName("parameter");
+    for (int i = 0; i < namenode.count() ; i++) {
+        QDomElement pa = namenode.item(i).toElement();
+        QString type = pa.attribute("type");
+        if (type == "filterjob") {
+            emit startFilterJob(pa.attribute("filtertag"), pa.attribute("filterparams"), pa.attribute("consumer"), pa.attribute("consumerparams"), pa.attribute("wantedproperties"));
+            kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("wantedproperties");
+            break;
+        }
+    }
+}
+

@@ -38,22 +38,22 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
-    setAttribute(Qt::WA_DeleteOnClose);
+    if (filter) setAttribute(Qt::WA_DeleteOnClose);
     log_text->setHidden(true);
     setWindowTitle(i18n("Stabilize Clip"));
     auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
-	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
-	filtername=params;
+    m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
+    filtername = params;
 
 
-	QPalette p = palette();
-	KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-	QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
-	QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
-	QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
-	QColor light_bg = scheme.shade(KColorScheme::LightShade);
+    QPalette p = palette();
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
+    QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
+    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
+    QColor light_bg = scheme.shade(KColorScheme::LightShade);
 
-	QString stylesheet(QString("QProgressBar:horizontal {border: 1px solid %1;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center}\
+    QString stylesheet(QString("QProgressBar:horizontal {border: 1px solid %1;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center}\
 				QProgressBar:horizontal#dragOnly {background: %1} QProgressBar:horizontal:hover#dragOnly {background: %3} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;}\
 				QProgressBar::chunk:horizontal {background: %1;} QProgressBar::chunk:horizontal:hover {background: %3;}\
 				QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
@@ -299,6 +299,11 @@ void ClipStabilize::slotUpdateParams()
 			}
 		}
 	}
+}
+
+bool ClipStabilize::autoAddClip() const
+{
+    return auto_add->isChecked();
 }
 
 void ClipStabilize::fillParameters(QStringList lst)

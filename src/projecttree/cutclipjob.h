@@ -35,11 +35,11 @@ public:
     CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters);
     virtual ~ CutClipJob();
     const QString destination() const;
-    QProcess *startJob(bool *ok);
+    void startJob();
     stringMap cancelProperties();
-    int processLogInfo();
-    bool addClipToProject;
+    void processLogInfo();
     const QString statusMessage();
+    bool isExclusive();
     
 private:
     QString m_dest;
