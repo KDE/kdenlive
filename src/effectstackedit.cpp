@@ -910,7 +910,7 @@ void EffectStackEdit::slotStartFilterJobAction()
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute("type");
         if (type == "filterjob") {
-            emit startFilterJob(pa.attribute("filtertag"), pa.attribute("filterparams"), pa.attribute("consumer"), pa.attribute("consumerparams"), pa.attribute("wantedproperties"));
+            emit startFilterJob(pa.attribute("filtertag"), pa.attribute("filterparams"), pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), pa.attribute("wantedproperties"));
             kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("wantedproperties");
             break;
         }

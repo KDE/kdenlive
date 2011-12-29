@@ -451,6 +451,8 @@ private slots:
      *  @param id The clip's Id string.
      *  @param resetThumbs Should we recreate the timeline thumbnails. */
     void slotRefreshThumbs(const QString &id, bool resetThumbs);
+    /** @brief A Filter job producer results. */
+    void slotGotFilterJobResults(const QString &id, int startPos, int track, const QString &filter, stringMap filterParams);
 
 signals:
     void cursorMoved(int, int);

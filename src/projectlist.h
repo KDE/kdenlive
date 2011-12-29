@@ -303,7 +303,7 @@ public slots:
     void slotCutClipJob(const QString &id, QPoint zone);
     void slotTranscodeClipJob(QStringList ids, QString params, QString desc);
     /** @brief Start an MLT process job. */
-    void slotStartFilterJob(const QString&,const QString&,const QString&,const QString&,const QString&,const QString&);
+    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&);
 
 private:
     ProjectListView *m_listView;
@@ -483,6 +483,8 @@ signals:
     void updateJobStatus(const QString, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString details = QString());
     void gotProxy(const QString);
     void checkJobProcess();
+    /** @brief A Filter Job produced results, send them back to the clip. */
+    void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params);
 };
 
 #endif

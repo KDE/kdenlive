@@ -2832,6 +2832,7 @@ void ProjectList::slotProcessJobs()
         }
         connect(job, SIGNAL(jobProgress(QString, int, int)), this, SIGNAL(processLog(QString, int, int)));
         connect(job, SIGNAL(cancelRunningJob(const QString, stringMap)), this, SIGNAL(cancelRunningJob(const QString, stringMap)));
+        connect(job, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap)));
 
         if (job->jobType == MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
@@ -3247,13 +3248,13 @@ void ProjectList::discardJobs(const QString &id, JOBTYPE type) {
     }
 }
 
-void ProjectList::slotStartFilterJob(const QString&id, const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QString&properties)
+void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties)
 {
     ProjectItem *item = getItemById(id);
     if (!item) return;
     QStringList jobParams;
-    jobParams << filterName << filterParams << consumer << consumerParams << properties;
-    kDebug()<<"// STARTING JOB: "<<jobParams;
+    jobParams << QString::number(info.cropStart.frames(m_fps)) << QString::number((info.cropStart + info.cropDuration).frames(m_fps));
+    jobParams << filterName << filterParams << consumer << consumerParams << properties << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track) << finalFilterName;
     MeltJob *job = new MeltJob(item->clipType(), id, jobParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;

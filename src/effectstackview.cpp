@@ -92,10 +92,11 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
     connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SLOT(slotShowComments()));
     connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement &, const QDomElement &)), this , SLOT(slotUpdateEffectParams(const QDomElement &, const QDomElement &)));
-    connect(m_effectedit, SIGNAL(startFilterJob(QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString)));
+    connect(m_effectedit, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString,QString)));
     connect(m_effectedit, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     connect(m_effectedit, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     connect(m_effectedit, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
+    
     connect(monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     connect(this, SIGNAL(showComments(bool)), m_effectedit, SIGNAL(showComments(bool)));
     m_effectLists["audio"] = &MainWindow::audioEffects;
@@ -529,10 +530,10 @@ void EffectStackView::slotShowComments()
     emit showComments(m_ui.buttonShowComments->isChecked());
 }
 
-void EffectStackView::slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QString&properties)
+void EffectStackView::slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties)
 {
     if (!m_clipref) return;
-    emit startFilterJob(m_clipref->clipProducer(), filterName, filterParams, consumer, consumerParams, properties);
+    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterName, filterParams, finalFilterName, consumer, consumerParams, properties);
 }
 
 #include "effectstackview.moc"

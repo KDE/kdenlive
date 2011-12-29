@@ -1896,7 +1896,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         return;
     }
     QDomElement effect = insertedEffect.cloneNode().toElement();
-    //kDebug() << "// update effect ix: " << effect.attribute("kdenlive_ix")<<", TRACK: "<<track;
+    //kDebug() << "// update effect ix: " << effect.attribute("kdenlive_ix")<<", GAIN: "<<EffectsList::parameter(effect, "gain");
     if (pos < GenTime()) {
         // editing a track effect
         EffectsParameterList effectParams = getEffectArgs(effect);
@@ -1964,6 +1964,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 emit clipItemSelected(clip, ix);
         }
     }
+    else emit displayMessage(i18n("Cannot find clip to update effect"), ErrorMessage);
     setDocumentModified();
 }
 
@@ -6745,6 +6746,31 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
             ++i;
         }
     }
+}
+
+
+void CustomTrackView::slotGotFilterJobResults(const QString &id, int startPos, int track, const QString &filter, stringMap filterParams)
+{
+    ClipItem *clip = getClipItemAt(GenTime(startPos, m_document->fps()), track);
+    if (clip == NULL) {
+        emit displayMessage(i18n("Cannot find clip for effect update %1.", filter), ErrorMessage);
+        return;
+    }
+    QDomElement newEffect;
+    QDomElement effect = clip->getEffectAt(clip->selectedEffectIndex());
+    if (effect.attribute("id") == filter) {
+        newEffect = effect.cloneNode().toElement();
+        QMap<QString, QString>::const_iterator i = filterParams.constBegin();
+        while (i != filterParams.constEnd()) {
+            EffectsList::setParameter(newEffect, i.key(), i.value());
+            kDebug()<<"// RESULT FILTER: "<<i.key()<<"="<< i.value();
+            ++i;
+        }
+        EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true);
+        m_commandStack->push(command);
+        emit clipItemSelected(clip, clip->selectedEffectIndex());
+    }
+    
 }
 
 

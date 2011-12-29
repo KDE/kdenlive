@@ -57,11 +57,25 @@ void MeltJob::startJob()
         setStatus(JOBCRASHED);
         return;
     }
+    int in = m_params.takeFirst().toInt();
+    int out = m_params.takeFirst().toInt();
     QString filter = m_params.takeFirst();
     QString filterParams = m_params.takeFirst();
     QString consumer = m_params.takeFirst();
     QString consumerParams = m_params.takeFirst();
     QString properties = m_params.takeFirst();
+    int startPos = m_params.takeFirst().toInt();
+    int track = m_params.takeFirst().toInt();
+    QString finalFilter;
+    if (!m_params.isEmpty()) finalFilter = m_params.takeFirst();
+    else finalFilter = filter;
+
+    if (out <= in) {
+        m_errorMessage.append(i18n("Clip zone undefined (%1 - %2).", in, out));
+        setStatus(JOBCRASHED);
+        return;
+    }
+    Mlt::Producer *prod = m_producer->cut(in, out);
     m_profile = m_producer->profile();
     m_consumer = new Mlt::Consumer(*m_profile, consumer.toUtf8().constData());
     if (!m_consumer || !m_consumer->is_valid()) {
@@ -88,25 +102,29 @@ void MeltJob::startJob()
             mltFilter.set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
         }
     }
-    m_producer->attach(mltFilter);
-    m_length = m_producer->get_length();
-    m_consumer->connect(*m_producer);
-    m_producer->set_speed(0);
-    m_producer->seek(0);
+    prod->attach(mltFilter);
+    m_length = prod->get_length();
+    m_consumer->connect(*prod);
+    prod->set_speed(0);
+    prod->seek(0);
     m_showFrameEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_render);
     m_consumer->start();
-    m_producer->set_speed(1);
+    prod->set_speed(1);
     while (jobStatus != JOBABORTED && !m_consumer->is_stopped()) {
         
     }
     m_consumer->stop();
     QStringList wanted = properties.split(',', QString::SkipEmptyParts);
+    stringMap jobResults;
     foreach(const QString key, wanted) {
         QString value = mltFilter.get(key.toUtf8().constData());
+        jobResults.insert(key, value);
         kDebug()<<"RESULT: "<<key<<" = "<< value;
     }
+    if (!jobResults.isEmpty()) emit gotFilterJobResults(m_clipId, startPos, track, finalFilter, jobResults);
     setStatus(JOBDONE);
     delete m_consumer;
+    delete prod;
     return;
 }
 
