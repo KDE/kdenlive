@@ -45,7 +45,7 @@ private slots:
     void slotDataIsHere(KIO::Job *,const QByteArray & data );
     void slotShowResults();
     void slotUpdateCurrentSound();
-    void slotPlaySound();
+    void slotPlaySound(bool play = true);
     void slotPreviewStatusChanged(QProcess::ProcessState state);
     void slotSaveSound();
     void slotOpenUrl(const QString &url);

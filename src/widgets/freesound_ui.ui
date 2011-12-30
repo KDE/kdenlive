@@ -88,7 +88,7 @@
         </property>
        </spacer>
       </item>
-      <item row="8" column="0" colspan="4">
+      <item row="9" column="0" colspan="4">
        <widget class="QPushButton" name="button_import">
         <property name="text">
          <string>Import</string>
@@ -139,6 +139,13 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0" colspan="3">
+       <widget class="QCheckBox" name="sound_autoplay">
+        <property name="text">
+         <string>Auto play</string>
         </property>
        </widget>
       </item>
