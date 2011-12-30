@@ -285,11 +285,13 @@ void FreeSound::slotChangeService()
         button_preview->setVisible(true);
         duration_label->setVisible(true);
         search_info->setVisible(true);
+        sound_autoplay->setVisible(true);
     }
     else if (m_service == OPENCLIPART) {
         button_preview->setVisible(false);
         duration_label->setVisible(false);
         search_info->setVisible(false);
+        sound_autoplay->setVisible(false);
         sound_duration->setText(QString());
     }
     if (!search_text->text().isEmpty()) slotStartSearch();
