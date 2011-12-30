@@ -81,6 +81,7 @@ FreeSound::FreeSound(const QString & folder, QWidget * parent) :
     connect(page_next, SIGNAL(clicked()), this, SLOT(slotNextPage()));
     connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
+    sound_box->setEnabled(false);
 }
 
 FreeSound::~FreeSound()
@@ -194,7 +195,7 @@ void FreeSound::slotShowResults()
 
 void FreeSound::slotUpdateCurrentSound()
 {
-    if (!sound_autoplay->isChecked()) slotPlaySound(false);
+    if (!sound_autoplay->isChecked()) slotForcePlaySound(false);
     m_currentPreview.clear();
     m_currentUrl.clear();
     QListWidgetItem *item = search_results->currentItem();
@@ -204,7 +205,7 @@ void FreeSound::slotUpdateCurrentSound()
     }
     m_currentPreview = item->data(previewRole).toString();
     m_currentUrl = item->data(downloadRole).toString();
-    if (sound_autoplay->isChecked()) slotPlaySound(true);
+    if (sound_autoplay->isChecked()) slotForcePlaySound(true);
     button_preview->setEnabled(!m_currentPreview.isEmpty());
     sound_box->setEnabled(true);
     sound_name->setText(item->text());
@@ -233,15 +234,24 @@ void FreeSound::slotUpdateCurrentSound()
     }
 }
 
-
-void FreeSound::slotPlaySound(bool play)
+void FreeSound::slotPlaySound()
 {
     if (m_currentPreview.isEmpty()) return;
-    if (!play || (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning)) {
+    if (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning) {
         m_previewProcess->close();
-        if (!play) return;
+        return;
     }
     m_previewProcess->start("ffplay", QStringList() << m_currentPreview << "-nodisp");
+}
+
+
+void FreeSound::slotForcePlaySound(bool play)
+{
+    if (m_service != FREESOUND) return;
+    m_previewProcess->close();
+    if (m_currentPreview.isEmpty()) return;
+    if (play)
+        m_previewProcess->start("ffplay", QStringList() << m_currentPreview << "-nodisp");
 }
 
 void FreeSound::slotPreviewStatusChanged(QProcess::ProcessState state)
