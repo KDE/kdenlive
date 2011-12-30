@@ -34,7 +34,7 @@
 #include <KFileDialog>
 
 ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter* filter,QWidget * parent) :
-        QDialog(parent), m_urls(urls), m_duration(0),m_profile(NULL),m_consumer(NULL),m_playlist(NULL),m_filter(filter),vbox(NULL)
+        QDialog(parent), m_profile(NULL),m_consumer(NULL),m_playlist(NULL),m_urls(urls),m_duration(0),m_filter(filter),vbox(NULL)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -205,8 +205,8 @@ void ClipStabilize::slotStartStabilize()
 			m_playlist->append(p);
 			m_playlist->attach(filter);
 			m_consumer= new Mlt::Consumer(*m_profile,"xml",destination.toUtf8().data());
-			m_consumer->set("all","1");
-			m_consumer->set("real_time","-2");
+			m_consumer->set("all",1);
+			m_consumer->set("real_time",-2);
 			m_consumer->connect(*m_playlist);
 			m_stabilizeRun = QtConcurrent::run(this, &ClipStabilize::slotRunStabilize);
 			m_timer->start(500);
