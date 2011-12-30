@@ -78,6 +78,9 @@ FreeSound::FreeSound(const QString & folder, QWidget * parent) :
     }
     connect(Solid::Networking::notifier(), SIGNAL(shouldConnect()), this, SLOT(slotOnline()));
     connect(Solid::Networking::notifier(), SIGNAL(shouldDisconnect()), this, SLOT(slotOffline()));
+    connect(page_next, SIGNAL(clicked()), this, SLOT(slotNextPage()));
+    connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
+    connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
 }
 
 FreeSound::~FreeSound()
@@ -85,24 +88,25 @@ FreeSound::~FreeSound()
     if (m_previewProcess) delete m_previewProcess;
 }
 
-void FreeSound::slotStartSearch()
+void FreeSound::slotStartSearch(int page)
 {
     m_result.clear();
     m_currentPreview.clear();
     m_currentUrl.clear();
     page_number->blockSignals(true);
-    page_number->setValue(0);
+    page_number->setValue(page);
     page_number->blockSignals(false);
     QString uri;
     if (m_service == FREESOUND) {
         uri = "http://www.freesound.org/api/sounds/search/?q=";
         uri.append(search_text->text());
+        if (page > 1) uri.append("&p=" + QString::number(page));
         uri.append("&api_key=a1772c8236e945a4bee30a64058dabf8");
     }
     else if (m_service == OPENCLIPART) {
         uri = "http://openclipart.org/api/search/?query=";
         uri.append(search_text->text());
-        //water&page=4
+        if (page > 1) uri.append("&page=" + QString::number(page));
     }
     KIO::TransferJob *job = KIO::get(KUrl(uri));
     connect (job, SIGNAL(  data(KIO::Job *, const QByteArray & )), this, SLOT(slotDataIsHere(KIO::Job *,const QByteArray &)));
@@ -299,5 +303,17 @@ void FreeSound::slotOffline()
 {
     button_search->setEnabled(false);
     search_info->setText(i18n("You need to be online\n for searching"));
+}
+
+void FreeSound::slotNextPage()
+{
+    int ix = page_number->value();
+    if (search_results->count() > 0) page_number->setValue(ix + 1);
+}
+
+void FreeSound::slotPreviousPage()
+{
+    int ix = page_number->value();
+    if (ix > 1) page_number->setValue(ix - 1);
 }
 

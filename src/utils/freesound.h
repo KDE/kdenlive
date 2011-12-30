@@ -41,7 +41,7 @@ public:
 
 
 private slots:
-    void slotStartSearch();
+    void slotStartSearch(int page = 0);
     void slotDataIsHere(KIO::Job *,const QByteArray & data );
     void slotShowResults();
     void slotUpdateCurrentSound();
@@ -52,6 +52,8 @@ private slots:
     void slotChangeService();
     void slotOnline();
     void slotOffline();
+    void slotNextPage();
+    void slotPreviousPage();
 
 private:
     QString m_folder;

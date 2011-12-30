@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
-    <height>227</height>
+    <width>360</width>
+    <height>229</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -173,6 +173,12 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="prefix">
+      <string>page </string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
     </widget>
    </item>
    <item row="3" column="3">
@@ -188,22 +194,26 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="4">
-    <widget class="QLabel" name="search_info">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="4">
-    <widget class="QDialogButtonBox" name="ButtonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
-     </property>
-    </widget>
+   <item row="4" column="0" colspan="5">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="search_info">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="ButtonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Close</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
