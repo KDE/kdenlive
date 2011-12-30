@@ -111,7 +111,7 @@ void FreeSound::slotShowResults()
     if (m_service == FREESOUND) {
         QJson::Parser parser;
         bool ok;
-        kDebug()<<"// GOT RESULT: "<<m_result;
+        //kDebug()<<"// GOT RESULT: "<<m_result;
         m_data = parser.parse(m_result, &ok);
         QVariant sounds;
         if (m_data.canConvert(QVariant::Map)) {
