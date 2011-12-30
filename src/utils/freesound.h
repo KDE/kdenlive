@@ -29,7 +29,7 @@
 #include <QProcess>
 #include <kio/jobclasses.h>
 
-
+enum SERVICETYPE { FREESOUND = 0, OPENCLIPART = 1 };
 
 class FreeSound : public QDialog, public Ui::FreeSound_UI
 {
@@ -49,6 +49,7 @@ private slots:
     void slotPreviewStatusChanged(QProcess::ProcessState state);
     void slotSaveSound();
     void slotOpenUrl(const QString &url);
+    void slotChangeService();
 
 private:
     QString m_folder;
@@ -57,6 +58,7 @@ private:
     QString m_currentPreview;
     QString m_currentUrl;
     QProcess *m_previewProcess;
+    SERVICETYPE m_service;
    
 signals:
     void addClip(KUrl, const QString &);

@@ -6,25 +6,53 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>334</width>
-    <height>284</height>
+    <width>250</width>
+    <height>227</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0" colspan="2">
-    <widget class="KLineEdit" name="search_text"/>
+   <item row="0" column="0" colspan="5">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Service</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="service_list">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="0" column="2" colspan="2">
+   <item row="1" column="0" colspan="2">
+    <widget class="KLineEdit" name="search_text">
+     <property name="clickMessage">
+      <string/>
+     </property>
+     <property name="showClearButton" stdset="0">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2" colspan="2">
     <widget class="QPushButton" name="button_search">
      <property name="text">
       <string>Search</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="4" rowspan="2">
+   <item row="1" column="4" rowspan="2">
     <widget class="QGroupBox" name="sound_box">
      <property name="title">
       <string/>
@@ -35,8 +63,8 @@
         <property name="text">
          <string/>
         </property>
-        <property name="scaledContents">
-         <bool>true</bool>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -47,17 +75,7 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="0" colspan="2">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Similar sounds</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="3">
-       <widget class="QComboBox" name="similar_list"/>
-      </item>
-      <item row="8" column="1">
+      <item row="7" column="1">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -70,7 +88,7 @@
         </property>
        </spacer>
       </item>
-      <item row="9" column="0" colspan="4">
+      <item row="8" column="0" colspan="4">
        <widget class="QPushButton" name="button_import">
         <property name="text">
          <string>Import</string>
@@ -95,7 +113,7 @@
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="duration_label">
         <property name="text">
          <string>Duration</string>
         </property>
@@ -127,14 +145,14 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="4">
+   <item row="2" column="0" colspan="4">
     <widget class="QListWidget" name="search_results">
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="3" column="0">
     <widget class="QPushButton" name="page_prev">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -147,7 +165,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2">
+   <item row="3" column="1" colspan="2">
     <widget class="QSpinBox" name="page_number">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -157,7 +175,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="3">
+   <item row="3" column="3">
     <widget class="QPushButton" name="page_next">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -170,14 +188,14 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="4">
+   <item row="4" column="0" colspan="4">
     <widget class="QLabel" name="search_info">
      <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="3" column="4">
+   <item row="4" column="4">
     <widget class="QDialogButtonBox" name="ButtonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

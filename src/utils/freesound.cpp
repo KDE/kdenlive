@@ -24,6 +24,7 @@
 #include <QPushButton>
 #include <QSpinBox>
 #include <QListWidget>
+#include <QDomDocument>
 
 #include <KDebug>
 #include "kdenlivesettings.h"
@@ -38,21 +39,25 @@
 
 const int imageRole = Qt::UserRole;
 const int urlRole = Qt::UserRole + 1;
-const int soundRole = Qt::UserRole + 2;
+const int downloadRole = Qt::UserRole + 2;
 const int durationRole = Qt::UserRole + 3;
 const int previewRole = Qt::UserRole + 4;
 const int authorRole = Qt::UserRole + 5;
 const int authorUrl = Qt::UserRole + 6;
-const int soundUrl = Qt::UserRole + 7;
+const int infoUrl = Qt::UserRole + 7;
+
 
 FreeSound::FreeSound(const QString & folder, QWidget * parent) :
         QDialog(parent),
-        m_folder(folder)
+        m_folder(folder),
+        m_service(FREESOUND)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-    setWindowTitle(i18n("Search FreeSound Audio Library"));
+    service_list->addItem(i18n("Freesound Audio Library"), FREESOUND);
+    service_list->addItem(i18n("Open Clip Art Graphic Library"), OPENCLIPART);
+    setWindowTitle(i18n("Search Online Resources"));
     connect(button_search, SIGNAL(clicked()), this, SLOT(slotStartSearch()));
     connect(search_results, SIGNAL(currentRowChanged(int)), this, SLOT(slotUpdateCurrentSound()));
     connect(button_preview, SIGNAL(clicked()), this, SLOT(slotPlaySound()));
@@ -61,6 +66,8 @@ FreeSound::FreeSound(const QString & folder, QWidget * parent) :
     connect(sound_name, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     m_previewProcess = new QProcess;
     connect(m_previewProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotPreviewStatusChanged(QProcess::ProcessState)));
+    connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
+    sound_image->setFixedWidth(180);
 }
 
 FreeSound::~FreeSound()
@@ -76,9 +83,17 @@ void FreeSound::slotStartSearch()
     page_number->blockSignals(true);
     page_number->setValue(0);
     page_number->blockSignals(false);
-    QString uri = "http://www.freesound.org/api/sounds/search/?q=";
-    uri.append(search_text->text());
-    uri.append("&api_key=a1772c8236e945a4bee30a64058dabf8");
+    QString uri;
+    if (m_service == FREESOUND) {
+        uri = "http://www.freesound.org/api/sounds/search/?q=";
+        uri.append(search_text->text());
+        uri.append("&api_key=a1772c8236e945a4bee30a64058dabf8");
+    }
+    else if (m_service == OPENCLIPART) {
+        uri = "http://openclipart.org/api/search/?query=";
+        uri.append(search_text->text());
+        //water&page=4
+    }
     KIO::TransferJob *job = KIO::get(KUrl(uri));
     connect (job, SIGNAL(  data(KIO::Job *, const QByteArray & )), this, SLOT(slotDataIsHere(KIO::Job *,const QByteArray &)));
     connect(job, SIGNAL(result(KJob*)), this, SLOT(slotShowResults()));
@@ -86,54 +101,75 @@ void FreeSound::slotStartSearch()
 
 void FreeSound::slotDataIsHere(KIO::Job *,const QByteArray & data )
 {
-  //kDebug() << "data is here";
   m_result.append(data);
 }
 
 void FreeSound::slotShowResults()
 {
-    QJson::Parser parser;
-    bool ok;
-    m_data = parser.parse(m_result, &ok);
-    QVariant sounds;
     search_results->blockSignals(true);
     search_results->clear();
-    if (m_data.canConvert(QVariant::Map)) {
-        QMap <QString, QVariant> map = m_data.toMap();
-        QMap<QString, QVariant>::const_iterator i = map.constBegin();
-        while (i != map.constEnd()) {
-            if (i.key() == "num_results") search_info->setText(i18np("Found %1 result", "Found %1 results", i.value().toInt()));
-            else if (i.key() == "num_pages") {
-                page_number->setMaximum(i.value().toInt());
-            }
-            else if (i.key() == "sounds") {
-                sounds = i.value();
-                if (sounds.canConvert(QVariant::List)) {
-                    QList <QVariant> soundsList = sounds.toList();
-                    for (int j = 0; j < soundsList.count(); j++) {
-                        if (soundsList.at(j).canConvert(QVariant::Map)) {
-                            QMap <QString, QVariant> soundmap = soundsList.at(j).toMap();
-                            if (soundmap.contains("original_filename")) {
-                                QListWidgetItem *item = new QListWidgetItem(soundmap.value("original_filename").toString(), search_results);
-                                item->setData(imageRole, soundmap.value("waveform_m").toString());
-                                item->setData(soundUrl, soundmap.value("url").toString());
-                                item->setData(durationRole, soundmap.value("duration").toDouble());
-                                item->setData(previewRole, soundmap.value("preview-hq-mp3").toString());
-                                item->setData(soundRole, soundmap.value("serve").toString() + "?api_key=a1772c8236e945a4bee30a64058dabf8");
-                                QVariant authorInfo = soundmap.value("user");
-                                if (authorInfo.canConvert(QVariant::Map)) {
-                                    QMap <QString, QVariant> authorMap = authorInfo.toMap();
-                                    if (authorMap.contains("username")) {
-                                        item->setData(authorRole, authorMap.value("username").toString());
-                                        item->setData(authorUrl, authorMap.value("url").toString());
+    if (m_service == FREESOUND) {
+        QJson::Parser parser;
+        bool ok;
+        kDebug()<<"// GOT RESULT: "<<m_result;
+        m_data = parser.parse(m_result, &ok);
+        QVariant sounds;
+        if (m_data.canConvert(QVariant::Map)) {
+            QMap <QString, QVariant> map = m_data.toMap();
+            QMap<QString, QVariant>::const_iterator i = map.constBegin();
+            while (i != map.constEnd()) {
+                if (i.key() == "num_results") search_info->setText(i18np("Found %1 result", "Found %1 results", i.value().toInt()));
+                else if (i.key() == "num_pages") {
+                    page_number->setMaximum(i.value().toInt());
+                }
+                else if (i.key() == "sounds") {
+                    sounds = i.value();
+                    if (sounds.canConvert(QVariant::List)) {
+                        QList <QVariant> soundsList = sounds.toList();
+                        for (int j = 0; j < soundsList.count(); j++) {
+                            if (soundsList.at(j).canConvert(QVariant::Map)) {
+                                QMap <QString, QVariant> soundmap = soundsList.at(j).toMap();
+                                if (soundmap.contains("original_filename")) {
+                                    QListWidgetItem *item = new   QListWidgetItem(soundmap.value("original_filename").toString(), search_results);
+                                    item->setData(imageRole, soundmap.value("waveform_m").toString());
+                                    item->setData(infoUrl, soundmap.value("url").toString());
+                                    item->setData(durationRole, soundmap.value("duration").toDouble());
+                                    item->setData(previewRole, soundmap.value("preview-hq-mp3").toString());
+                                    item->setData(downloadRole, soundmap.value("serve").toString() + "?api_key=a1772c8236e945a4bee30a64058dabf8");
+                                    QVariant authorInfo = soundmap.value("user");
+                                    if (authorInfo.canConvert(QVariant::Map)) {
+                                        QMap <QString, QVariant> authorMap = authorInfo.toMap();
+                                        if (authorMap.contains("username")) {
+                                            item->setData(authorRole, authorMap.value("username").toString());
+                                            item->setData(authorUrl, authorMap.value("url").toString());
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+                ++i;
             }
-            ++i;
+        }
+    }
+    else if (m_service == OPENCLIPART) {
+        QDomDocument doc;
+        doc.setContent(m_result);
+        QDomNodeList items = doc.documentElement().elementsByTagName("item");
+        for (int i = 0; i < items.count(); i++) {
+            QDomElement currentClip = items.at(i).toElement();
+            QDomElement title = currentClip.firstChildElement("title");
+            QListWidgetItem *item = new QListWidgetItem(title.firstChild().nodeValue(), search_results);
+            QDomElement thumb = currentClip.firstChildElement("media:thumbnail");
+            item->setData(imageRole, thumb.attribute("url"));
+            QDomElement enclosure = currentClip.firstChildElement("enclosure");
+            item->setData(downloadRole, enclosure.attribute("url"));
+            QDomElement link = currentClip.firstChildElement("link");
+            item->setData(infoUrl, link.firstChild().nodeValue());
+            QDomElement author = currentClip.firstChildElement("dc:creator");
+            item->setData(authorRole, author.firstChild().nodeValue());
+            item->setData(authorUrl, QString("http://openclipart.org/user-detail/") + author.firstChild().nodeValue());
         }
     }
     search_results->blockSignals(false);
@@ -150,20 +186,29 @@ void FreeSound::slotUpdateCurrentSound()
         return;
     }
     m_currentPreview = item->data(previewRole).toString();
-    m_currentUrl = item->data(soundRole).toString();
+    m_currentUrl = item->data(downloadRole).toString();
     button_preview->setEnabled(!m_currentPreview.isEmpty());
     sound_box->setEnabled(true);
     sound_name->setText(item->text());
-    sound_name->setUrl(item->data(soundUrl).toString());
+    sound_name->setUrl(item->data(infoUrl).toString());
     sound_author->setText(item->data(authorRole).toString());
     sound_author->setUrl(item->data(authorUrl).toString());
-    sound_duration->setText(QString::number(item->data(durationRole).toDouble()));
+    if (!item->data(durationRole).isNull()) sound_duration->setText(QString::number(item->data(durationRole).toDouble()));
     KUrl img(item->data(imageRole).toString());
     if (img.isEmpty()) return;
     if (KIO::NetAccess::exists(img, KIO::NetAccess::SourceSide, this)) {
         QString tmpFile;
         if (KIO::NetAccess::download(img, tmpFile, this)) {
             QPixmap pix(tmpFile);
+            int newHeight = pix.height() * sound_image->width() / pix.width();
+            if (newHeight > 2 * sound_image->width()) {
+                sound_image->setScaledContents(false);
+                //sound_image->setFixedHeight(sound_image->width());
+            }
+            else {
+                sound_image->setScaledContents(true);
+                sound_image->setFixedHeight(newHeight);
+            }
             sound_image->setPixmap(pix);
             KIO::NetAccess::removeTempFile(tmpFile);
         }
@@ -195,7 +240,14 @@ void FreeSound::slotSaveSound()
     QString path = m_folder;
     if (!path.endsWith('/')) path.append('/');
     path.append(sound_name->text());
-    QString ext = "*." + sound_name->text().section('.', -1);
+    QString ext;
+    if (m_service == FREESOUND) {
+        ext = "*." + sound_name->text().section('.', -1);
+    }
+    else if (m_service == OPENCLIPART) {
+        path.append("." + m_currentUrl.section('.', -1));
+        ext = "*." + m_currentUrl.section('.', -1);
+    }
     QString saveUrl = KFileDialog::getSaveFileName(KUrl(path), ext);
     if (saveUrl.isEmpty()) return;
     if (KIO::NetAccess::download(KUrl(m_currentUrl), saveUrl, this)) {
@@ -207,3 +259,21 @@ void FreeSound::slotOpenUrl(const QString &url)
 {
     new KRun(KUrl(url), this);
 }
+
+void FreeSound::slotChangeService()
+{
+    m_service = (SERVICETYPE) service_list->itemData(service_list->currentIndex()).toInt();
+    if (m_service == FREESOUND) {
+        button_preview->setVisible(true);
+        duration_label->setVisible(true);
+        search_info->setVisible(true);
+    }
+    else if (m_service == OPENCLIPART) {
+        button_preview->setVisible(false);
+        duration_label->setVisible(false);
+        search_info->setVisible(false);
+        sound_duration->setText(QString());
+    }
+    if (!search_text->text().isEmpty()) slotStartSearch();
+}
+

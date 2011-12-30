@@ -1640,9 +1640,9 @@ void MainWindow::setupActions()
     collection.addAction("add_folder", addFolderButton);
     connect(addFolderButton , SIGNAL(triggered()), m_projectList, SLOT(slotAddFolder()));
     
-    QAction *downloadAudio = new KAction(KIcon("download"), i18n("Download Audio"), this);
-    collection.addAction("download_audio", downloadAudio);
-    connect(downloadAudio , SIGNAL(triggered()), this, SLOT(slotDownloadAudio()));
+    QAction *downloadResources = new KAction(KIcon("download"), i18n("Online Resources"), this);
+    collection.addAction("download_resource", downloadResources);
+    connect(downloadResources , SIGNAL(triggered()), this, SLOT(slotDownloadResources()));
 
     QAction *clipProperties = new KAction(KIcon("document-edit"), i18n("Clip Properties"), this);
     collection.addAction("clip_properties", clipProperties);
@@ -1686,6 +1686,7 @@ void MainWindow::setupActions()
     addClips->addAction(addTitleClip);
     addClips->addAction(addTitleTemplateClip);
     addClips->addAction(addFolderButton);
+    addClips->addAction(downloadResources);
 
     addClips->addAction(reloadClip);
     addClips->addAction(proxyClip);
@@ -4502,7 +4503,7 @@ void MainWindow::slotElapsedTime()
 }
 
 
-void MainWindow::slotDownloadAudio()
+void MainWindow::slotDownloadResources()
 {
     QString currentFolder;
     if (m_activeDocument) currentFolder = m_activeDocument->projectFolder().path();
