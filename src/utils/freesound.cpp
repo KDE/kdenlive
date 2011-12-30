@@ -33,9 +33,12 @@
 #include <KFileDialog>
 #include <kio/job.h>
 #include <KIO/NetAccess>
+#include <Solid/Networking>
 #include <KRun>
 
+#ifdef USE_QJSON
 #include <qjson/parser.h>
+#endif
 
 const int imageRole = Qt::UserRole;
 const int urlRole = Qt::UserRole + 1;
@@ -55,7 +58,9 @@ FreeSound::FreeSound(const QString & folder, QWidget * parent) :
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
+#ifdef USE_QJSON
     service_list->addItem(i18n("Freesound Audio Library"), FREESOUND);
+#endif
     service_list->addItem(i18n("Open Clip Art Graphic Library"), OPENCLIPART);
     setWindowTitle(i18n("Search Online Resources"));
     connect(button_search, SIGNAL(clicked()), this, SLOT(slotStartSearch()));
@@ -68,6 +73,11 @@ FreeSound::FreeSound(const QString & folder, QWidget * parent) :
     connect(m_previewProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotPreviewStatusChanged(QProcess::ProcessState)));
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
     sound_image->setFixedWidth(180);
+    if (Solid::Networking::status() == Solid::Networking::Unconnected) {
+        slotOffline();
+    }
+    connect(Solid::Networking::notifier(), SIGNAL(shouldConnect()), this, SLOT(slotOnline()));
+    connect(Solid::Networking::notifier(), SIGNAL(shouldDisconnect()), this, SLOT(slotOffline()));
 }
 
 FreeSound::~FreeSound()
@@ -109,6 +119,7 @@ void FreeSound::slotShowResults()
     search_results->blockSignals(true);
     search_results->clear();
     if (m_service == FREESOUND) {
+#ifdef USE_QJSON
         QJson::Parser parser;
         bool ok;
         //kDebug()<<"// GOT RESULT: "<<m_result;
@@ -152,6 +163,7 @@ void FreeSound::slotShowResults()
                 ++i;
             }
         }
+#endif  
     }
     else if (m_service == OPENCLIPART) {
         QDomDocument doc;
@@ -275,5 +287,17 @@ void FreeSound::slotChangeService()
         sound_duration->setText(QString());
     }
     if (!search_text->text().isEmpty()) slotStartSearch();
+}
+
+void FreeSound::slotOnline()
+{
+    button_search->setEnabled(true);
+    search_info->setText(QString());
+}
+
+void FreeSound::slotOffline()
+{
+    button_search->setEnabled(false);
+    search_info->setText(i18n("You need to be online\n for searching"));
 }
 

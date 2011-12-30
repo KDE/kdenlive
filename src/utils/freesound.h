@@ -50,6 +50,8 @@ private slots:
     void slotSaveSound();
     void slotOpenUrl(const QString &url);
     void slotChangeService();
+    void slotOnline();
+    void slotOffline();
 
 private:
     QString m_folder;

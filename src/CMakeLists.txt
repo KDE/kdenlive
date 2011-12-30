@@ -69,8 +69,9 @@ macro_log_feature(QJSON_FOUND
   "http://qjson.sourceforge.net"
   FALSE
   ""
-  "Required to build the rotoscoping filter"
+  "Required to build the rotoscoping filter and for Freesound.org queries"
 )
+
 
 add_subdirectory(audioscopes)
 add_subdirectory(beziercurve)
@@ -316,6 +317,7 @@ target_link_libraries(kdenlive
   ${KDE4_KNEWSTUFF_LIBS}
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
   ${KDE4_KROSSUI_LIBS}
+  ${KDE4_SOLID_LIBS}
   ${QT_LIBRARIES}
   ${LIBMLT_LIBRARY}
   ${LIBMLTPLUS_LIBRARY}

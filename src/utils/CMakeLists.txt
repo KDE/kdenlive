@@ -3,3 +3,5 @@ set(kdenlive_SRCS
   utils/freesound.cpp
   PARENT_SCOPE
 )
+
+
