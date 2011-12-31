@@ -36,6 +36,15 @@
 #include <Solid/Networking>
 #include <KRun>
 
+#ifdef USE_NEPOMUK
+#include <Nepomuk/Variant>
+#include <Nepomuk/Resource>
+#include <Nepomuk/ResourceManager>
+#include <Soprano/Vocabulary/NAO>
+#include <Nepomuk/Vocabulary/NIE>
+#include <Nepomuk/Vocabulary/NDO>
+#endif
+
 #ifdef USE_QJSON
 #include <qjson/parser.h>
 #endif
@@ -89,6 +98,7 @@ FreeSound::FreeSound(const QString & folder, QWidget * parent) :
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
     sound_box->setEnabled(false);
     search_text->setFocus();
+    Nepomuk::ResourceManager::instance()->init();
 }
 
 FreeSound::~FreeSound()
@@ -340,7 +350,16 @@ void FreeSound::slotSaveSound()
     QString saveUrl = KFileDialog::getSaveFileName(KUrl(path), ext);
     if (saveUrl.isEmpty()) return;
     if (KIO::NetAccess::download(KUrl(m_currentUrl), saveUrl, this)) {
-        emit addClip(KUrl(saveUrl), sound_name->url());
+        const KUrl filePath = KUrl(saveUrl);
+#ifdef USE_NEPOMUK
+        Nepomuk::Resource res( filePath );
+        res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) item_license->text() );
+        res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) item_license->url() );
+        res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), sound_name->url() );
+        //res.setDescription(item_description->toPlainText());
+        //res.setProperty( Soprano::Vocabulary::NAO::description(), 
+#endif
+        emit addClip(KUrl(saveUrl), QString());//, sound_name->url());
     }
 }
 

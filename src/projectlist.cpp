@@ -58,9 +58,10 @@
 #include <KActionCollection>
 #include <KUrlRequester>
 
-#ifdef NEPOMUK
+#ifdef USE_NEPOMUK
 #include <nepomuk/global.h>
 #include <nepomuk/resourcemanager.h>
+#include <Nepomuk/Resource>
 //#include <nepomuk/tag.h>
 #endif
 
@@ -306,7 +307,7 @@ ProjectList::ProjectList(QWidget *parent) :
     
     m_listViewDelegate = new ItemDelegate(m_listView);
     m_listView->setItemDelegate(m_listViewDelegate);
-#ifdef NEPOMUK
+#ifdef USE_NEPOMUK
     if (KdenliveSettings::activate_nepomuk()) {
         Nepomuk::ResourceManager::instance()->init();
         if (!Nepomuk::ResourceManager::instance()->initialized()) {
@@ -954,7 +955,7 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
         monitorItemEditing(false);
         clip->setText(1, properties.value("description"));
         monitorItemEditing(true);
-#ifdef NEPOMUK
+#ifdef USE_NEPOMUK
         if (KdenliveSettings::activate_nepomuk() && (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST)) {
             // Use Nepomuk system to store clip description
             Nepomuk::Resource f(clip->clipUrl().path());
@@ -1297,7 +1298,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     }*/
     
     KUrl url = clip->fileURL();
-#ifdef NEPOMUK
+#ifdef USE_NEPOMUK
     if (!url.isEmpty() && KdenliveSettings::activate_nepomuk()) {
         // if file has Nepomuk comment, use it
         Nepomuk::Resource f(url.path());
