@@ -42,8 +42,8 @@ public:
 
 private slots:
     void slotStartSearch(int page = 0);
-    void slotDataIsHere(KIO::Job *,const QByteArray & data );
-    void slotShowResults();
+    void slotShowResults(KJob* job);
+    void slotParseResults(KJob* job);
     void slotUpdateCurrentSound();
     void slotPlaySound();
     void slotForcePlaySound(bool play);
@@ -58,12 +58,12 @@ private slots:
 
 private:
     QString m_folder;
-    QByteArray m_result;
-    QVariant m_data;
     QString m_currentPreview;
     QString m_currentUrl;
+    int m_currentId;
     QProcess *m_previewProcess;
     SERVICETYPE m_service;
+    void parseLicense(const QString &);
    
 signals:
     void addClip(KUrl, const QString &);

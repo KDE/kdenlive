@@ -48,7 +48,10 @@ const int previewRole = Qt::UserRole + 4;
 const int authorRole = Qt::UserRole + 5;
 const int authorUrl = Qt::UserRole + 6;
 const int infoUrl = Qt::UserRole + 7;
-
+const int infoData = Qt::UserRole + 8;
+const int idRole = Qt::UserRole + 9;
+const int licenseRole = Qt::UserRole + 10;
+const int descriptionRole = Qt::UserRole + 11;
 
 FreeSound::FreeSound(const QString & folder, QWidget * parent) :
         QDialog(parent),
@@ -63,11 +66,14 @@ FreeSound::FreeSound(const QString & folder, QWidget * parent) :
 #endif
     service_list->addItem(i18n("Open Clip Art Graphic Library"), OPENCLIPART);
     setWindowTitle(i18n("Search Online Resources"));
+    info_widget->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
+    item_description->setStyleSheet(QString("KTextBrowser { background-color: transparent;}"));
     connect(button_search, SIGNAL(clicked()), this, SLOT(slotStartSearch()));
     connect(search_results, SIGNAL(currentRowChanged(int)), this, SLOT(slotUpdateCurrentSound()));
     connect(button_preview, SIGNAL(clicked()), this, SLOT(slotPlaySound()));
     connect(button_import, SIGNAL(clicked()), this, SLOT(slotSaveSound()));
     connect(sound_author, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
+    connect(item_license, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     connect(sound_name, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     m_previewProcess = new QProcess;
     connect(m_previewProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotPreviewStatusChanged(QProcess::ProcessState)));
@@ -82,6 +88,7 @@ FreeSound::FreeSound(const QString & folder, QWidget * parent) :
     connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
     sound_box->setEnabled(false);
+    search_text->setFocus();
 }
 
 FreeSound::~FreeSound()
@@ -91,7 +98,6 @@ FreeSound::~FreeSound()
 
 void FreeSound::slotStartSearch(int page)
 {
-    m_result.clear();
     m_currentPreview.clear();
     m_currentUrl.clear();
     page_number->blockSignals(true);
@@ -109,29 +115,27 @@ void FreeSound::slotStartSearch(int page)
         uri.append(search_text->text());
         if (page > 1) uri.append("&page=" + QString::number(page));
     }
-    KIO::TransferJob *job = KIO::get(KUrl(uri));
-    connect (job, SIGNAL(  data(KIO::Job *, const QByteArray & )), this, SLOT(slotDataIsHere(KIO::Job *,const QByteArray &)));
-    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotShowResults()));
+    
+    KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
+    connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotShowResults( KJob* ) ) );
 }
 
-void FreeSound::slotDataIsHere(KIO::Job *,const QByteArray & data )
-{
-  m_result.append(data);
-}
 
-void FreeSound::slotShowResults()
+void FreeSound::slotShowResults(KJob* job)
 {
+    if (job->error() != 0 ) return;
     search_results->blockSignals(true);
     search_results->clear();
+    KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     if (m_service == FREESOUND) {
 #ifdef USE_QJSON
         QJson::Parser parser;
         bool ok;
         //kDebug()<<"// GOT RESULT: "<<m_result;
-        m_data = parser.parse(m_result, &ok);
+        QVariant data = parser.parse(storedQueryJob->data(), &ok);
         QVariant sounds;
-        if (m_data.canConvert(QVariant::Map)) {
-            QMap <QString, QVariant> map = m_data.toMap();
+        if (data.canConvert(QVariant::Map)) {
+            QMap <QString, QVariant> map = data.toMap();
             QMap<QString, QVariant>::const_iterator i = map.constBegin();
             while (i != map.constEnd()) {
                 if (i.key() == "num_results") search_info->setText(i18np("Found %1 result", "Found %1 results", i.value().toInt()));
@@ -149,7 +153,9 @@ void FreeSound::slotShowResults()
                                     QListWidgetItem *item = new   QListWidgetItem(soundmap.value("original_filename").toString(), search_results);
                                     item->setData(imageRole, soundmap.value("waveform_m").toString());
                                     item->setData(infoUrl, soundmap.value("url").toString());
+                                    item->setData(infoData, soundmap.value("ref").toString() + "?api_key=a1772c8236e945a4bee30a64058dabf8");
                                     item->setData(durationRole, soundmap.value("duration").toDouble());
+                                    item->setData(idRole, soundmap.value("id").toInt());
                                     item->setData(previewRole, soundmap.value("preview-hq-mp3").toString());
                                     item->setData(downloadRole, soundmap.value("serve").toString() + "?api_key=a1772c8236e945a4bee30a64058dabf8");
                                     QVariant authorInfo = soundmap.value("user");
@@ -172,7 +178,7 @@ void FreeSound::slotShowResults()
     }
     else if (m_service == OPENCLIPART) {
         QDomDocument doc;
-        doc.setContent(m_result);
+        doc.setContent(storedQueryJob->data());
         QDomNodeList items = doc.documentElement().elementsByTagName("item");
         for (int i = 0; i < items.count(); i++) {
             QDomElement currentClip = items.at(i).toElement();
@@ -184,6 +190,10 @@ void FreeSound::slotShowResults()
             item->setData(downloadRole, enclosure.attribute("url"));
             QDomElement link = currentClip.firstChildElement("link");
             item->setData(infoUrl, link.firstChild().nodeValue());
+            QDomElement license = currentClip.firstChildElement("cc:license");
+            item->setData(licenseRole, license.firstChild().nodeValue());
+            QDomElement desc = currentClip.firstChildElement("description");
+            item->setData(descriptionRole, desc.firstChild().nodeValue());
             QDomElement author = currentClip.firstChildElement("dc:creator");
             item->setData(authorRole, author.firstChild().nodeValue());
             item->setData(authorUrl, QString("http://openclipart.org/user-detail/") + author.firstChild().nodeValue());
@@ -198,6 +208,9 @@ void FreeSound::slotUpdateCurrentSound()
     if (!sound_autoplay->isChecked()) slotForcePlaySound(false);
     m_currentPreview.clear();
     m_currentUrl.clear();
+    info_widget->clear();
+    item_description->clear();
+    item_license->clear();
     QListWidgetItem *item = search_results->currentItem();
     if (!item) {
         sound_box->setEnabled(false);
@@ -205,6 +218,7 @@ void FreeSound::slotUpdateCurrentSound()
     }
     m_currentPreview = item->data(previewRole).toString();
     m_currentUrl = item->data(downloadRole).toString();
+    m_currentId = item->data(idRole).toInt();
     if (sound_autoplay->isChecked()) slotForcePlaySound(true);
     button_preview->setEnabled(!m_currentPreview.isEmpty());
     sound_box->setEnabled(true);
@@ -212,7 +226,22 @@ void FreeSound::slotUpdateCurrentSound()
     sound_name->setUrl(item->data(infoUrl).toString());
     sound_author->setText(item->data(authorRole).toString());
     sound_author->setUrl(item->data(authorUrl).toString());
-    if (!item->data(durationRole).isNull()) sound_duration->setText(QString::number(item->data(durationRole).toDouble()));
+    if (!item->data(durationRole).isNull()) {
+        new QTreeWidgetItem(info_widget, QStringList() << i18n("Duration") << QString::number(item->data(durationRole).toDouble()));
+    }
+    if (!item->data(licenseRole).isNull()) {
+        parseLicense(item->data(licenseRole).toString());
+    }
+    if (!item->data(descriptionRole).isNull()) {
+        item_description->setHtml(item->data(descriptionRole).toString());
+    }
+    QString extraInfo = item->data(infoData).toString();
+    if (!extraInfo.isEmpty()) {
+        KJob* resolveJob = KIO::storedGet( KUrl(extraInfo), KIO::NoReload, KIO::HideProgressInfo );
+        connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseResults( KJob* ) ) );
+    }
+    else info_widget->resizeColumnToContents(0);
+
     KUrl img(item->data(imageRole).toString());
     if (img.isEmpty()) return;
     if (KIO::NetAccess::exists(img, KIO::NetAccess::SourceSide, this)) {
@@ -220,7 +249,7 @@ void FreeSound::slotUpdateCurrentSound()
         if (KIO::NetAccess::download(img, tmpFile, this)) {
             QPixmap pix(tmpFile);
             int newHeight = pix.height() * sound_image->width() / pix.width();
-            if (newHeight > 2 * sound_image->width()) {
+            if (newHeight > 200) {
                 sound_image->setScaledContents(false);
                 //sound_image->setFixedHeight(sound_image->width());
             }
@@ -233,6 +262,38 @@ void FreeSound::slotUpdateCurrentSound()
         }
     }
 }
+
+
+void FreeSound::slotParseResults(KJob* job)
+{
+#ifdef USE_QJSON
+    KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
+    QJson::Parser parser;
+    bool ok;
+    QVariant data = parser.parse(storedQueryJob->data(), &ok);
+    if (data.canConvert(QVariant::Map)) {
+        QMap <QString, QVariant> infos = data.toMap();
+        if (m_currentId != infos.value("id").toInt()) return;
+        if (infos.contains("samplerate"))
+            new QTreeWidgetItem(info_widget, QStringList() << i18n("Samplerate") << QString::number(infos.value("samplerate").toDouble()));
+        if (infos.contains("channels"))
+            new QTreeWidgetItem(info_widget, QStringList() << i18n("Channels") << QString::number(infos.value("channels").toInt()));
+        if (infos.contains("filesize")) {
+            KIO::filesize_t fSize = infos.value("filesize").toDouble();
+            new QTreeWidgetItem(info_widget, QStringList() << i18n("File size") << KIO::convertSize(fSize));
+        }
+        if (infos.contains("description")) {
+            item_description->setHtml(infos.value("description").toString());
+        }
+        if (infos.contains("license")) {
+            parseLicense(infos.value("license").toString());
+        }
+    }
+    info_widget->resizeColumnToContents(0);
+    info_widget->resizeColumnToContents(1);
+#endif    
+}
+
 
 void FreeSound::slotPlaySound()
 {
@@ -293,16 +354,15 @@ void FreeSound::slotChangeService()
     m_service = (SERVICETYPE) service_list->itemData(service_list->currentIndex()).toInt();
     if (m_service == FREESOUND) {
         button_preview->setVisible(true);
-        duration_label->setVisible(true);
         search_info->setVisible(true);
         sound_autoplay->setVisible(true);
+        info_widget->setVisible(true);
     }
     else if (m_service == OPENCLIPART) {
         button_preview->setVisible(false);
-        duration_label->setVisible(false);
         search_info->setVisible(false);
         sound_autoplay->setVisible(false);
-        sound_duration->setText(QString());
+        info_widget->setVisible(false);
     }
     if (!search_text->text().isEmpty()) slotStartSearch();
 }
@@ -329,5 +389,30 @@ void FreeSound::slotPreviousPage()
 {
     int ix = page_number->value();
     if (ix > 1) page_number->setValue(ix - 1);
+}
+
+void FreeSound::parseLicense(const QString &licenseUrl)
+{
+    QString licenseName;
+    if (licenseUrl.contains("/sampling+/"))
+        licenseName = "Sampling+";
+    else if (licenseUrl.contains("/by/"))
+        licenseName = "Attribution";
+    else if (licenseUrl.contains("/by-nd/"))
+        licenseName = "Attribution-NoDerivs";
+    else if (licenseUrl.contains("/by-nc-sa/"))
+        licenseName = "Attribution-NonCommercial-ShareAlike";
+    else if (licenseUrl.contains("/by-sa/"))
+        licenseName = "Attribution-ShareAlike";
+    else if (licenseUrl.contains("/by-nc/"))
+        licenseName = "Attribution-NonCommercial";
+    else if (licenseUrl.contains("/by-nc-nd/"))
+        licenseName = "Attribution-NonCommercial-NoDerivs";
+    else if (licenseUrl.contains("/publicdomain/zero/"))
+        licenseName = "Creative Commons 0";
+    else if (licenseUrl.endsWith("/publicdomain"))
+        licenseName = "Public Domain";
+    item_license->setText(i18n("License: %1", licenseName));
+    item_license->setUrl(licenseUrl);
 }
 

@@ -338,7 +338,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
 void ArchiveWidget::slotCheckSpace()
 {
     KDiskFreeSpaceInfo inf = KDiskFreeSpaceInfo::freeSpaceInfo( archive_url->url().path());
-    KIO::filesize_t freeSize = inf.available();;
+    KIO::filesize_t freeSize = inf.available();
     if (freeSize > m_requestedSize) {
         // everything is ok
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
