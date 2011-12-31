@@ -19,41 +19,48 @@
  ***************************************************************************/
 
 
-#ifndef FREESOUND_H
-#define FREESOUND_H
+#ifndef RESOURCEWIDGET_H
+#define RESOURCEWIDGET_H
 
 
+#include "ui_freesound_ui.h"
 #include "abstractservice.h"
 
+#include <QDialog>
 #include <QProcess>
 #include <kio/jobclasses.h>
 
 
-class FreeSound : public AbstractService
+class ResourceWidget : public QDialog, public Ui::FreeSound_UI
 {
     Q_OBJECT
 
 public:
-    FreeSound(QListWidget *listWidget, QObject * parent = 0);
-    ~FreeSound();
-    virtual QString getExtension(QListWidgetItem *item);
-    virtual QString getDefaultDownloadName(QListWidgetItem *item);
+    ResourceWidget(const QString & folder, QWidget * parent = 0);
+    ~ResourceWidget();
 
-
-public slots:
-    virtual void slotStartSearch(const QString searchText, int page = 0);
-    virtual OnlineItemInfo displayItemDetails(QListWidgetItem *item);
-    virtual bool startItemPreview(QListWidgetItem *item);
-    virtual void stopItemPreview(QListWidgetItem *item);    
 
 private slots:
-    void slotShowResults(KJob* job);
-    void slotParseResults(KJob* job);
-    
-private:
-    QMap <QString, QString> m_metaInfo;
-    QProcess *m_previewProcess;
+    void slotStartSearch(int page = 0);
+    void slotUpdateCurrentSound();
+    void slotPlaySound();
+    void slotForcePlaySound(bool play);
+    void slotPreviewStatusChanged(QProcess::ProcessState state);
+    void slotDisplayMetaInfo(QMap <QString, QString> metaInfo);
+    void slotSaveSound();
+    void slotOpenUrl(const QString &url);
+    void slotChangeService();
+    void slotOnline();
+    void slotOffline();
+    void slotNextPage();
+    void slotPreviousPage();
 
+private:
+    QString m_folder;
+    AbstractService *m_currentService;
+    void parseLicense(const QString &);
+    OnlineItemInfo m_currentInfo;
+   
 signals:
     void addClip(KUrl, const QString &);
 };

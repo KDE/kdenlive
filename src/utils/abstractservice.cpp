@@ -19,45 +19,51 @@
  ***************************************************************************/
 
 
-#ifndef FREESOUND_H
-#define FREESOUND_H
-
-
 #include "abstractservice.h"
 
-#include <QProcess>
-#include <kio/jobclasses.h>
+#include <QObject>
 
 
-class FreeSound : public AbstractService
+AbstractService::AbstractService(QListWidget *listWidget, QObject * parent) :
+        QObject(parent),
+        hasPreview(false),
+        hasMetadata(false),
+        serviceType(NOSERVICE),
+        m_listWidget(listWidget)
 {
-    Q_OBJECT
+}
 
-public:
-    FreeSound(QListWidget *listWidget, QObject * parent = 0);
-    ~FreeSound();
-    virtual QString getExtension(QListWidgetItem *item);
-    virtual QString getDefaultDownloadName(QListWidgetItem *item);
+AbstractService::~AbstractService()
+{
+}
+
+void AbstractService::slotStartSearch(const QString , int )
+{
+}
+
+OnlineItemInfo AbstractService::displayItemDetails(QListWidgetItem */*item*/)
+{
+    OnlineItemInfo info;
+    return info;
+}
+
+bool AbstractService::startItemPreview(QListWidgetItem *)
+{
+    return false;
+}
+
+void AbstractService::stopItemPreview(QListWidgetItem *)
+{
+}
+
+QString AbstractService::getExtension(QListWidgetItem *)
+{
+    return QString();
+}
 
 
-public slots:
-    virtual void slotStartSearch(const QString searchText, int page = 0);
-    virtual OnlineItemInfo displayItemDetails(QListWidgetItem *item);
-    virtual bool startItemPreview(QListWidgetItem *item);
-    virtual void stopItemPreview(QListWidgetItem *item);    
-
-private slots:
-    void slotShowResults(KJob* job);
-    void slotParseResults(KJob* job);
-    
-private:
-    QMap <QString, QString> m_metaInfo;
-    QProcess *m_previewProcess;
-
-signals:
-    void addClip(KUrl, const QString &);
-};
-
-
-#endif
+QString AbstractService::getDefaultDownloadName(QListWidgetItem *)
+{
+    return QString();
+}
 

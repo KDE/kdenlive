@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef FREESOUND_H
-#define FREESOUND_H
+#ifndef OPENCLIPART_H
+#define OPENCLIPART_H
 
 
 #include "abstractservice.h"
@@ -29,13 +29,13 @@
 #include <kio/jobclasses.h>
 
 
-class FreeSound : public AbstractService
+class OpenClipArt : public AbstractService
 {
     Q_OBJECT
 
 public:
-    FreeSound(QListWidget *listWidget, QObject * parent = 0);
-    ~FreeSound();
+    OpenClipArt(QListWidget *listWidget, QObject * parent = 0);
+    ~OpenClipArt();
     virtual QString getExtension(QListWidgetItem *item);
     virtual QString getDefaultDownloadName(QListWidgetItem *item);
 
@@ -43,19 +43,11 @@ public:
 public slots:
     virtual void slotStartSearch(const QString searchText, int page = 0);
     virtual OnlineItemInfo displayItemDetails(QListWidgetItem *item);
-    virtual bool startItemPreview(QListWidgetItem *item);
-    virtual void stopItemPreview(QListWidgetItem *item);    
+ 
 
 private slots:
     void slotShowResults(KJob* job);
-    void slotParseResults(KJob* job);
-    
-private:
-    QMap <QString, QString> m_metaInfo;
-    QProcess *m_previewProcess;
 
-signals:
-    void addClip(KUrl, const QString &);
 };
 
 

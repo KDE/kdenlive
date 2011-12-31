@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>396</width>
-    <height>315</height>
+    <width>424</width>
+    <height>391</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -216,9 +216,6 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-     <property name="prefix">
-      <string>page </string>
      </property>
      <property name="minimum">
       <number>1</number>

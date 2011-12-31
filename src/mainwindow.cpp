@@ -64,7 +64,7 @@
 #include "audioscopes/spectrogram.h"
 #include "archivewidget.h"
 #include "databackup/backupwidget.h"
-#include "utils/freesound.h"
+#include "utils/resourcewidget.h"
 
 
 #include <KApplication>
@@ -4508,7 +4508,7 @@ void MainWindow::slotDownloadResources()
     QString currentFolder;
     if (m_activeDocument) currentFolder = m_activeDocument->projectFolder().path();
     else currentFolder = KdenliveSettings::defaultprojectfolder();
-    FreeSound *d = new FreeSound(currentFolder);
+    ResourceWidget *d = new ResourceWidget(currentFolder);
     connect(d, SIGNAL(addClip(KUrl, const QString &)), this, SLOT(slotAddProjectClip(KUrl, const QString &)));
     d->show();
 }
