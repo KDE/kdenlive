@@ -28,22 +28,8 @@
 
 #include <KDebug>
 #include "kdenlivesettings.h"
-#include <KGlobalSettings>
-#include <KMessageBox>
-#include <KFileDialog>
 #include <kio/job.h>
-#include <KIO/NetAccess>
-#include <Solid/Networking>
-#include <KRun>
-
-#ifdef USE_NEPOMUK
-#include <Nepomuk/Variant>
-#include <Nepomuk/Resource>
-#include <Nepomuk/ResourceManager>
-#include <Soprano/Vocabulary/NAO>
-#include <Nepomuk/Vocabulary/NIE>
-#include <Nepomuk/Vocabulary/NDO>
-#endif
+#include <KLocale>
 
 #ifdef USE_QJSON
 #include <qjson/parser.h>

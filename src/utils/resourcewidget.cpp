@@ -38,7 +38,7 @@
 #include <Solid/Networking>
 #include <KRun>
 
-#ifdef USE_NEPOMUK
+#ifdef USE_NEPOMUK AND KDE_IS_VERSION(4,6,0)
 #include <Nepomuk/Variant>
 #include <Nepomuk/Resource>
 #include <Nepomuk/ResourceManager>
@@ -46,7 +46,6 @@
 #include <Nepomuk/Vocabulary/NIE>
 #include <Nepomuk/Vocabulary/NDO>
 #endif
-
 
 ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
         QDialog(parent),
@@ -82,7 +81,9 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
     sound_box->setEnabled(false);
     search_text->setFocus();
+#ifdef USE_NEPOMUK AND KDE_IS_VERSION(4,6,0)    
     Nepomuk::ResourceManager::instance()->init();
+#endif
     slotChangeService();
 }
 
@@ -221,7 +222,7 @@ void ResourceWidget::slotSaveSound()
     if (saveUrl.isEmpty()) return;
     if (KIO::NetAccess::download(KUrl(m_currentInfo.itemDownload), saveUrl, this)) {
         const KUrl filePath = KUrl(saveUrl);
-#ifdef USE_NEPOMUK
+#ifdef USE_NEPOMUK AND KDE_IS_VERSION(4,6,0)
         Nepomuk::Resource res( filePath );
         res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) item_license->text() );
         res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) item_license->url() );
