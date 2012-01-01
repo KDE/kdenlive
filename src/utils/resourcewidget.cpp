@@ -29,6 +29,7 @@
 #include <QDomDocument>
 
 #include <KDebug>
+#include <kdeversion.h>
 #include "kdenlivesettings.h"
 #include <KGlobalSettings>
 #include <KMessageBox>
@@ -38,13 +39,15 @@
 #include <Solid/Networking>
 #include <KRun>
 
-#ifdef USE_NEPOMUK AND KDE_IS_VERSION(4,6,0)
+#ifdef USE_NEPOMUK
+#if KDE_IS_VERSION(4,6,0)
 #include <Nepomuk/Variant>
 #include <Nepomuk/Resource>
 #include <Nepomuk/ResourceManager>
 #include <Soprano/Vocabulary/NAO>
 #include <Nepomuk/Vocabulary/NIE>
 #include <Nepomuk/Vocabulary/NDO>
+#endif
 #endif
 
 ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
@@ -81,8 +84,10 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
     sound_box->setEnabled(false);
     search_text->setFocus();
-#ifdef USE_NEPOMUK AND KDE_IS_VERSION(4,6,0)    
+#ifdef USE_NEPOMUK
+#if KDE_IS_VERSION(4,6,0)    
     Nepomuk::ResourceManager::instance()->init();
+#endif
 #endif
     slotChangeService();
 }
@@ -222,13 +227,15 @@ void ResourceWidget::slotSaveSound()
     if (saveUrl.isEmpty()) return;
     if (KIO::NetAccess::download(KUrl(m_currentInfo.itemDownload), saveUrl, this)) {
         const KUrl filePath = KUrl(saveUrl);
-#ifdef USE_NEPOMUK AND KDE_IS_VERSION(4,6,0)
+#ifdef USE_NEPOMUK
+#if KDE_IS_VERSION(4,6,0)
         Nepomuk::Resource res( filePath );
         res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) item_license->text() );
         res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) item_license->url() );
         res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), sound_name->url() );
         //res.setDescription(item_description->toPlainText());
         //res.setProperty( Soprano::Vocabulary::NAO::description(), 
+#endif
 #endif
         emit addClip(KUrl(saveUrl), QString());//, sound_name->url());
     }
