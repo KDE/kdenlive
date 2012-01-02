@@ -27,6 +27,19 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <KFileItem>
+#include <kdeversion.h>
+#include <KUrlLabel>
+#include <KRun>
+
+#ifdef USE_NEPOMUK
+#if KDE_IS_VERSION(4,6,0)
+#include <Nepomuk/Variant>
+#include <Nepomuk/Resource>
+#include <Nepomuk/ResourceManager>
+#include <Nepomuk/Vocabulary/NIE>
+#endif
+#endif
+
 
 #include <QDir>
 
@@ -454,6 +467,32 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.marker_delete->setIcon(KIcon("trash-empty"));
     m_view.marker_delete->setToolTip(i18n("Delete marker"));
 
+        // Check for Nepomuk metadata
+#ifdef USE_NEPOMUK
+#if KDE_IS_VERSION(4,6,0)
+    if (!url.isEmpty()) {
+        Nepomuk::ResourceManager::instance()->init();
+        Nepomuk::Resource res( url.path() );
+        // Check if file has a license
+        if (res.hasProperty(Nepomuk::Vocabulary::NIE::license())) {
+            QGridLayout *l = static_cast<QGridLayout *>(layout());
+            QString ltype = res.property(Nepomuk::Vocabulary::NIE::licenseType()).toString();
+            m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk::Vocabulary::NIE::license()).toString()));
+            if (ltype.startsWith("http")) {
+                m_view.clip_license->setUrl(ltype);
+                connect(m_view.clip_license, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
+            }
+        }
+        else m_view.clip_license->setHidden(true);
+    }
+    else m_view.clip_license->setHidden(true);
+#else
+    m_view.clip_license->setHidden(true);
+#endif
+#else
+    m_view.clip_license->setHidden(true);
+#endif
+    
     slotFillMarkersList();
     connect(m_view.marker_new, SIGNAL(clicked()), this, SLOT(slotAddMarker()));
     connect(m_view.marker_edit, SIGNAL(clicked()), this, SLOT(slotEditMarker()));
@@ -463,7 +502,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(this, SIGNAL(accepted()), this, SLOT(slotApplyProperties()));
     connect(m_view.buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApplyProperties()));
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    //adjustSize();
+    adjustSize();
 }
 
 
@@ -1033,6 +1072,11 @@ void ClipProperties::slotDeleteProxy()
       if (proxy.isEmpty()) return;
       emit deleteProxy(proxy);
       if (m_proxyContainer) delete m_proxyContainer;
+}
+
+void ClipProperties::slotOpenUrl(const QString &url)
+{
+    new KRun(KUrl(url), this);
 }
 
 #include "clipproperties.moc"

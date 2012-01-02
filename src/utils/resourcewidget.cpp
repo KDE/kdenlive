@@ -315,7 +315,8 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
         licenseName = "Creative Commons 0";
     else if (licenseUrl.endsWith("/publicdomain"))
         licenseName = "Public Domain";
-    item_license->setText(i18n("License: %1", licenseName));
+    else licenseName = i18n("Unknown");
+    item_license->setText(licenseName);
     item_license->setUrl(licenseUrl);
 }
 

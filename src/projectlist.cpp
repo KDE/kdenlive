@@ -1299,11 +1299,14 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     
     KUrl url = clip->fileURL();
 #ifdef USE_NEPOMUK
-    if (!url.isEmpty() && KdenliveSettings::activate_nepomuk()) {
+    if (!url.isEmpty() && KdenliveSettings::activate_nepomuk() && clip->getProperty("description").isEmpty()) {
         // if file has Nepomuk comment, use it
         Nepomuk::Resource f(url.path());
         QString annotation = f.description();
-        if (!annotation.isEmpty()) item->setText(1, annotation);
+        if (!annotation.isEmpty()) {
+            item->setText(1, annotation);
+            clip->setProperty("description", annotation);
+        }
         item->setText(2, QString::number(f.rating()));
     }
 #endif
