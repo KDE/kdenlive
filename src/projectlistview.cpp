@@ -276,6 +276,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
             const QList <QTreeWidgetItem *> list = selectedItems();
             ProjectItem *clone;
             foreach(QTreeWidgetItem *it, list) {
+                if (it->type() != PROJECTCLIPTYPE) continue;
                 QTreeWidgetItem *parent = it->parent();
                 if (parent/* && ((ProjectItem *) it)->clipId() < 10000*/)  {
                     kDebug() << "++ item parent: " << parent->text(1);
