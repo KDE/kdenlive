@@ -3097,13 +3097,16 @@ void ProjectList::processThumbOverlays(ProjectItem *item, QPixmap &pix)
     if (item->hasProxy()) {
         QPainter p(&pix);
         QColor c = QPalette().base().color();
-        c.setAlpha(160);
+        c.setAlpha(200);
         QBrush br(c);
         p.setBrush(br);
         p.setPen(Qt::NoPen);
-        QRect r(1, 1, 10, 10);
-        p.drawRect(r);
+        QRect r(1, 1, 15, 15);
+        p.drawRoundedRect(r, 2, 2);
         p.setPen(QPalette().text().color());
+        QFont font = p.font();
+        font.setBold(true);
+        p.setFont(font);
         p.drawText(r, Qt::AlignCenter, i18nc("The first letter of Proxy, used as abbreviation", "P"));
     }
 }

@@ -156,7 +156,7 @@ public:
                     painter->setPen(Qt::NoPen);
                     color.setAlpha(180);
                     painter->setBrush(QBrush(color));
-                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 5, pixmap.width() - 2, 4);
+                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 2, 8);
                     painter->drawRect(progress);
                     painter->setBrush(option.palette.text());
                     if (jobProgress > 0) {
@@ -179,7 +179,7 @@ public:
                         painter->setBrush(option.palette.highlight());
                         painter->drawRoundedRect(txtBounding, 2, 2);
                         painter->setPen(option.palette.highlightedText().color());
-                        painter->drawText(txtBounding, Qt::AlignHCenter | Qt::AlignVCenter , jobText);
+                        painter->drawText(txtBounding, Qt::AlignCenter, jobText);
                     }
                 }
             }
