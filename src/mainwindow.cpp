@@ -1847,13 +1847,14 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     QString profileName = KdenliveSettings::default_profile();
     KUrl projectFolder = KdenliveSettings::defaultprojectfolder();
     QMap <QString, QString> documentProperties;
+    QMap <QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     if (!showProjectSettings) {
         if (!KdenliveSettings::activatetabs())
             if (!closeCurrentDocument())
                 return;
     } else {
-        ProjectSettings *w = new ProjectSettings(NULL, QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
+        ProjectSettings *w = new ProjectSettings(NULL, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
         if (w->exec() != QDialog::Accepted)
             return;
         if (!KdenliveSettings::activatetabs())
@@ -1873,12 +1874,13 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
         documentProperties.insert("proxyextension", w->proxyExtension());
         documentProperties.insert("generateimageproxy", QString::number((int) w->generateImageProxy()));
         documentProperties.insert("proxyimageminsize", QString::number(w->proxyImageMinSize()));
+        documentMetadata = w->metadata();
         delete w;
     }
     m_timelineArea->setEnabled(true);
     m_projectList->setEnabled(true);
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, documentProperties, projectTracks, m_projectMonitor->render, m_notesWidget, &openBackup, this);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, m_projectMonitor->render, m_notesWidget, &openBackup, this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
     TrackView *trackView = new TrackView(doc, &ok, this);
@@ -2111,7 +2113,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     qApp->processEvents();
 
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, &openBackup, this, &progressDialog);
+    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, &openBackup, this, &progressDialog);
 
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);
@@ -2279,7 +2281,7 @@ void MainWindow::slotDetectAudioDriver()
 void MainWindow::slotEditProjectSettings()
 {
     QPoint p = m_activeDocument->getTracksCount();
-    ProjectSettings *w = new ProjectSettings(m_projectList, m_activeTimeline->projectView()->extractTransitionsLumas(), p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
+    ProjectSettings *w = new ProjectSettings(m_projectList, m_activeDocument->metadata(), m_activeTimeline->projectView()->extractTransitionsLumas(), p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
     connect(w, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
 
     if (w->exec() == QDialog::Accepted) {
@@ -2325,6 +2327,7 @@ void MainWindow::slotEditProjectSettings()
             m_activeDocument->setModified();
             slotUpdateProxySettings();
         }
+        m_activeDocument->setMetadata(w->metadata());
     }
     delete w;
 }
@@ -4079,7 +4082,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         return;
     }
     file.close();
-    m_renderWidget->slotExport(scriptExport, m_activeTimeline->inPoint(), m_activeTimeline->outPoint(), playlistPath, scriptPath, exportAudio);
+    m_renderWidget->slotExport(scriptExport, m_activeTimeline->inPoint(), m_activeTimeline->outPoint(), m_activeDocument->metadata(), playlistPath, scriptPath, exportAudio);
 }
 
 void MainWindow::slotUpdateTimecodeFormat(int ix)

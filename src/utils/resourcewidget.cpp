@@ -99,24 +99,10 @@ ResourceWidget::~ResourceWidget()
 
 void ResourceWidget::slotStartSearch(int page)
 {
-    /*m_currentPreview.clear();
-    m_currentUrl.clear();*/
     page_number->blockSignals(true);
     page_number->setValue(page);
     page_number->blockSignals(false);
     m_currentService->slotStartSearch(search_text->text(), page);
-    /*QString uri;
-    if (m_service == FREESOUND) {
-        uri = "http://www.freesound.org/api/sounds/search/?q=";
-        uri.append(search_text->text());
-        if (page > 1) uri.append("&p=" + QString::number(page));
-        uri.append("&api_key=a1772c8236e945a4bee30a64058dabf8");
-    }
-    else if (m_service == OPENCLIPART) {
-        uri = "http://openclipart.org/api/search/?query=";
-        uri.append(search_text->text());
-        if (page > 1) uri.append("&page=" + QString::number(page));
-    }*/
 }
 
 void ResourceWidget::slotUpdateCurrentSound()
@@ -131,9 +117,6 @@ void ResourceWidget::slotUpdateCurrentSound()
         return;
     }
     m_currentInfo = m_currentService->displayItemDetails(item);
-    /*m_currentPreview = item->data(previewRole).toString();
-    m_currentUrl = item->data(downloadRole).toString();
-    m_currentId = item->data(idRole).toInt();*/
     
     if (sound_autoplay->isChecked()) m_currentService->startItemPreview(item);
     sound_box->setEnabled(true);

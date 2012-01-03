@@ -52,7 +52,7 @@ class KdenliveDoc: public QObject
 {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, QMap <QString, QString> metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -161,6 +161,10 @@ Q_OBJECT public:
     static double getDisplayRatio(const QString &path);
     /** @brief Backup the project file */
     void backupLastSavedVersion(const QString &path);
+    /** @brief Returns the document metadata (author, copyright, ...) */
+    const QMap <QString, QString> metadata() const;
+    /** @brief Set the document metadata (author, copyright, ...) */
+    void setMetadata(const QMap <QString, QString> meta);
     
 private:
     KUrl m_url;
@@ -183,6 +187,7 @@ private:
     /** @brief The project folder, used to store project files (titles, effects...). */
     KUrl m_projectFolder;
     QMap <QString, QString> m_documentProperties;
+    QMap <QString, QString> m_documentMetadata;
 
     QList <TrackInfo> m_tracksList;
     void setNewClipResource(const QString &id, const QString &path);

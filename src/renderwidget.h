@@ -140,7 +140,7 @@ protected:
     virtual QSize sizeHint() const;
 
 public slots:
-    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
+    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
 
 private slots:
     void slotUpdateButtons(KUrl url);

@@ -824,7 +824,7 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
 }
 
 
-void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath, bool exportAudio)
+void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio)
 {
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;
@@ -890,6 +890,15 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     else render_process_args << "-";
 
     QString renderArgs = m_view.advanced_params->toPlainText().simplified();
+    
+    // Project metadata
+    if (m_view.export_meta->isChecked()) {
+        QMap<QString, QString>::const_iterator i = metadata.constBegin();
+        while (i != metadata.constEnd()) {
+            renderArgs.append(QString(" %1=\"%2\"").arg(i.key()).arg(i.value()));
+            ++i;
+        }
+    }
 
     // Adjust frame scale
     int width;

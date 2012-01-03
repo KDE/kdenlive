@@ -58,7 +58,7 @@
 
 const double DOCUMENTVERSION = 0.88;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, QMap <QString, QString> metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -110,6 +110,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     while (i.hasNext()) {
         i.next();
         m_documentProperties[i.key()] = i.value();
+    }
+    
+    // Load metadata
+    QMapIterator<QString, QString> j(metadata);
+    while (j.hasNext()) {
+        j.next();
+        m_documentMetadata[j.key()] = j.value();
     }
 
     if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
@@ -286,6 +293,10 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                 QDomNamedNodeMap props = docproperties.attributes();
                                 for (int i = 0; i < props.count(); i++)
                                     m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
+                                docproperties = infoXml.firstChildElement("documentmetadata");
+                                props = docproperties.attributes();
+                                for (int i = 0; i < props.count(); i++)
+                                    m_documentMetadata.insert(props.item(i).nodeName(), props.item(i).nodeValue());
 
                                 if (validator.isModified()) setModified(true);
                                 kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
@@ -644,6 +655,14 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     }
     docproperties.setAttribute("position", m_render->seekPosition().frames(m_fps));
     addedXml.appendChild(docproperties);
+    
+    QDomElement docmetadata = sceneList.createElement("documentmetadata");
+    QMapIterator<QString, QString> j(m_documentMetadata);
+    while (j.hasNext()) {
+        j.next();
+        docmetadata.setAttribute(j.key(), j.value());
+    }
+    addedXml.appendChild(docmetadata);
 
     QDomElement docnotes = sceneList.createElement("documentnotes");
     QDomText value = sceneList.createTextNode(m_notesWidget->toHtml());
@@ -1760,6 +1779,16 @@ void KdenliveDoc::cleanupBackupFiles()
         QFile::remove(f);
         QFile::remove(f + ".png");
     }
+}
+
+const QMap <QString, QString> KdenliveDoc::metadata() const
+{
+    return m_documentMetadata;
+}
+
+void KdenliveDoc::setMetadata(const QMap <QString, QString> meta)
+{
+    m_documentMetadata = meta;
 }
 
 #include "kdenlivedoc.moc"

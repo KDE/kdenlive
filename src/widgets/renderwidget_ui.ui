@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>456</width>
-    <height>677</height>
+    <width>406</width>
+    <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -297,6 +297,13 @@
        </item>
        <item row="13" column="0" colspan="5">
         <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QCheckBox" name="export_meta">
+           <property name="text">
+            <string>Export metadata</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QCheckBox" name="tc_overlay">
            <property name="sizePolicy">
