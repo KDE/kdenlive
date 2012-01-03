@@ -19,72 +19,43 @@
  ***************************************************************************/
 
 
-#ifndef ABSTRACTSERVICE_H
-#define ABSTRACTSERVICE_H
+#ifndef ARCHIVEORG_H
+#define ARCHIVEORG_H
 
 
-#include <QListWidget>
+#include "abstractservice.h"
 
-const int imageRole = Qt::UserRole;
-const int urlRole = Qt::UserRole + 1;
-const int downloadRole = Qt::UserRole + 2;
-const int durationRole = Qt::UserRole + 3;
-const int previewRole = Qt::UserRole + 4;
-const int authorRole = Qt::UserRole + 5;
-const int authorUrl = Qt::UserRole + 6;
-const int infoUrl = Qt::UserRole + 7;
-const int infoData = Qt::UserRole + 8;
-const int idRole = Qt::UserRole + 9;
-const int licenseRole = Qt::UserRole + 10;
-const int descriptionRole = Qt::UserRole + 11;
-
-enum SERVICETYPE { NOSERVICE = 0, FREESOUND = 1, OPENCLIPART = 2, ARCHIVEORG = 3 };
-
-struct OnlineItemInfo {
-    QString imagePreview;
-    QString itemPreview;
-    QString itemName;
-    QString itemDownload;
-    QString itemId;
-    QString infoUrl;
-    QString license;
-    QString author;
-    QString authorUrl;
-    QString description;
-};
+#include <QProcess>
+#include <kio/jobclasses.h>
 
 
-class AbstractService : public QObject
+class ArchiveOrg : public AbstractService
 {
     Q_OBJECT
 
 public:
-    AbstractService(QListWidget *listWidget, QObject * parent = 0);
-    ~AbstractService();
-    /** @brief Get file extension for currently selected item. */
+    ArchiveOrg(QListWidget *listWidget, QObject * parent = 0);
+    ~ArchiveOrg();
     virtual QString getExtension(QListWidgetItem *item);
-    /** @brief Get recommanded download file name. */
     virtual QString getDefaultDownloadName(QListWidgetItem *item);
-        /** @brief Does this service provide a preview (for example preview a sound. */
-    bool hasPreview;
-    /** @brief Does this service provide meta info about the item. */
-    bool hasMetadata;
-    /** @brief The type for this service. */
-    SERVICETYPE serviceType;
+
 
 public slots:
     virtual void slotStartSearch(const QString searchText, int page = 0);
     virtual OnlineItemInfo displayItemDetails(QListWidgetItem *item);
     virtual bool startItemPreview(QListWidgetItem *item);
-    virtual void stopItemPreview(QListWidgetItem *item);
+    virtual void stopItemPreview(QListWidgetItem *item);    
 
-protected:
-    QListWidget *m_listWidget;
+private slots:
+    void slotShowResults(KJob* job);
+    void slotParseResults(KJob* job);
     
+private:
+    QMap <QString, QString> m_metaInfo;
+    QProcess *m_previewProcess;
+
 signals:
-    void searchInfo(const QString &);
-    void maxPages(int);
-    void gotMetaInfo(QMap <QString, QString> info);
+    void addClip(KUrl, const QString &);
 };
 
 

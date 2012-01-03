@@ -22,6 +22,7 @@
 #include "resourcewidget.h"
 #include "freesound.h"
 #include "openclipart.h"
+#include "archiveorg.h"
 
 #include <QPushButton>
 #include <QSpinBox>
@@ -60,6 +61,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     setAttribute(Qt::WA_DeleteOnClose);
 #ifdef USE_QJSON
     service_list->addItem(i18n("Freesound Audio Library"), FREESOUND);
+    service_list->addItem(i18n("Archive.org Video Library"), ARCHIVEORG);
 #endif
     service_list->addItem(i18n("Open Clip Art Graphic Library"), OPENCLIPART);
     setWindowTitle(i18n("Search Online Resources"));
@@ -242,6 +244,10 @@ void ResourceWidget::slotChangeService()
     else if (service == OPENCLIPART) {
         m_currentService = new OpenClipArt(search_results);
     }
+    else if (service == ARCHIVEORG) {
+        m_currentService = new ArchiveOrg(search_results);
+    }
+    
     connect(m_currentService, SIGNAL(gotMetaInfo(QMap <QString, QString>)), this, SLOT(slotDisplayMetaInfo(QMap <QString, QString>)));
     connect(m_currentService, SIGNAL(maxPages(int)), page_number, SLOT(setMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
