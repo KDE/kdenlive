@@ -172,8 +172,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(backgroundColor, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
     connect(backgroundAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotChangeBackground())) ;
 
-    connect(fontColorButton, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
-    connect(textOutlineColor, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
+    connect(fontColorButton, SIGNAL(changed(const QColor &)), this, SLOT(slotUpdateText())) ;
+    connect(textOutlineColor, SIGNAL(changed(const QColor &)), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
     connect(textOutline, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
@@ -181,8 +181,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     connect(font_family, SIGNAL(editTextChanged(const QString &)), this, SLOT(slotFontText(const QString&)));
 
-    connect(rectFColor, SIGNAL(clicked()), this, SLOT(rectChanged()));
-    connect(rectBColor, SIGNAL(clicked()), this, SLOT(rectChanged()));
+    connect(rectFColor, SIGNAL(changed(const QColor &)), this, SLOT(rectChanged()));
+    connect(rectBColor, SIGNAL(changed(const QColor &)), this, SLOT(rectChanged()));
     connect(rectLineWidth, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
 
     /*connect(startViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
