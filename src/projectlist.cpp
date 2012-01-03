@@ -2780,6 +2780,8 @@ void ProjectList::slotCheckJobProcess()
 
 void ProjectList::slotAbortProxy(const QString id, const QString path)
 {
+    Q_UNUSED(path)
+
     ProjectItem *item = getItemById(id);
     if (!item) return;
     if (!item->isProxyRunning()) slotGotProxy(item);
