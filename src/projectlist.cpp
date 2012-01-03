@@ -2850,9 +2850,8 @@ void ProjectList::slotProcessJobs()
             if (job->addClipToProject) {
                 emit addClip(destination, QString(), QString());
             }
-        }
-        else if (job->jobStatus == JOBCRASHED) {
-            emit updateJobStatus(job->clipId(), job->jobType, JOBCRASHED, job->errorMessage());
+        } else if (job->jobStatus == JOBCRASHED || job->jobStatus == JOBABORTED) {
+            emit updateJobStatus(job->clipId(), job->jobType, job->jobStatus, job->errorMessage());
         }
     }
     // Thread finished, cleanup & update count

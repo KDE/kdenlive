@@ -35,8 +35,9 @@ CutClipJob::CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters
     if (m_start.isEmpty()) {
         // this is a transcoding job
         description = i18n("Transcode clip");
+    } else {
+        description = i18n("Cut clip");
     }
-    else description = i18n("Cut clip");
     m_jobDuration = parameters.at(4).toInt();
     addClipToProject = parameters.at(5).toInt();
     replaceClip = false;
@@ -47,7 +48,7 @@ void CutClipJob::startJob()
 {
     // Special case: playlist clips (.mlt or .kdenlive project files)
     if (clipType == AV || clipType == AUDIO || clipType == VIDEO) {
-	QStringList parameters;
+        QStringList parameters;
         parameters << "-i" << m_src;
         if (!m_start.isEmpty())
             parameters << "-ss" << m_start <<"-t" << m_end;
@@ -61,7 +62,7 @@ void CutClipJob::startJob()
         parameters << m_dest;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        kDebug()<<"// STARTING CIUT JOS: "<<parameters;
+        // kDebug()<<"// STARTING CUT JOB: "<<parameters;
         m_jobProcess->start("ffmpeg", parameters);
         m_jobProcess->waitForStarted();
         while (m_jobProcess->state() != QProcess::NotRunning) {
@@ -82,19 +83,20 @@ void CutClipJob::startJob()
                     processLogInfo();
                     m_errorMessage.append(i18n("Failed to create file."));
                     setStatus(JOBCRASHED);
+                } else {
+                    setStatus(JOBDONE);
                 }
-                else setStatus(JOBDONE);
-            }
-            else if (result == QProcess::CrashExit) {
+            } else if (result == QProcess::CrashExit) {
                 // Proxy process crashed
                 QFile::remove(m_dest);
                 setStatus(JOBCRASHED);
             }
         }
-	delete m_jobProcess;
+        delete m_jobProcess;
         return;
+    } else {
+        m_errorMessage = i18n("Cannot process this clip type.");
     }
-    else m_errorMessage = i18n("Cannot process this clip type.");
     setStatus(JOBCRASHED);
     return;
 }
