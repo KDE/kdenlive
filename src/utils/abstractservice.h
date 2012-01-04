@@ -91,6 +91,8 @@ signals:
     void gotMetaInfo(QMap <QString, QString> info);
     /** @brief We have an url for current item's preview thumbnail. */
     void gotThumb(const QString url);
+    /** @brief The requested search query is finished. */
+    void searchDone();
 };
 
 

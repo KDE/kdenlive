@@ -117,6 +117,7 @@ void FreeSound::slotShowResults(KJob* job)
 #endif  
     m_listWidget->blockSignals(false);
     m_listWidget->setCurrentRow(0);
+    emit searchDone();
 }
     
 
@@ -204,7 +205,7 @@ void FreeSound::slotParseResults(KJob* job)
         }
         html +="</table>";
         if (infos.contains("description")) {
-            html += "<em>" + infos.value("description").toString() + "</em>";
+            m_metaInfo.insert("description", infos.value("description").toString());
         }
     }
     emit gotMetaInfo(html);
@@ -226,7 +227,7 @@ bool FreeSound::startItemPreview(QListWidgetItem *item)
 }
 
 
-void FreeSound::stopItemPreview(QListWidgetItem *item)
+void FreeSound::stopItemPreview(QListWidgetItem */*item*/)
 {    
     if (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning) {
         m_previewProcess->close();

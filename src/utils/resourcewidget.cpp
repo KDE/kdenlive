@@ -27,7 +27,8 @@
 #include <QPushButton>
 #include <QSpinBox>
 #include <QListWidget>
-#include <QDomDocument>
+#include <QAction>
+#include <QMenu>
 
 #include <KDebug>
 #include <kdeversion.h>
@@ -39,14 +40,17 @@
 #include <KIO/NetAccess>
 #include <Solid/Networking>
 #include <KRun>
+#include <KPixmapSequence>
+#include <KPixmapSequenceOverlayPainter>
+
 
 #ifdef USE_NEPOMUK
 #if KDE_IS_VERSION(4,6,0)
 #include <Nepomuk/Variant>
 #include <Nepomuk/Resource>
 #include <Nepomuk/ResourceManager>
-#include <Soprano/Vocabulary/NAO>
 #include <Nepomuk/Vocabulary/NIE>
+#include <Nepomuk/Vocabulary/NCO>
 #include <Nepomuk/Vocabulary/NDO>
 #include <kfileitem.h>
 #endif
@@ -71,11 +75,8 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(search_results, SIGNAL(currentRowChanged(int)), this, SLOT(slotUpdateCurrentSound()));
     connect(button_preview, SIGNAL(clicked()), this, SLOT(slotPlaySound()));
     connect(button_import, SIGNAL(clicked()), this, SLOT(slotSaveItem()));
-    connect(sound_author, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     connect(item_license, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
-    connect(sound_name, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
-    item_image->setFixedWidth(180);
     if (Solid::Networking::status() == Solid::Networking::Unconnected) {
         slotOffline();
     }
@@ -85,6 +86,17 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
     connect(info_browser, SIGNAL(anchorClicked(const QUrl &)), this, SLOT(slotOpenLink(const QUrl &)));
+    
+    m_autoPlay = new QAction(i18n("Auto Play"), this);
+    m_autoPlay->setCheckable(true);
+    QMenu *resourceMenu = new QMenu;
+    resourceMenu->addAction(m_autoPlay);
+    config_button->setMenu(resourceMenu);
+    config_button->setIcon(KIcon("configure"));
+
+    m_busyWidget = new KPixmapSequenceOverlayPainter(this);
+    m_busyWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    m_busyWidget->setWidget(search_results->viewport());
     
     sound_box->setEnabled(false);
     search_text->setFocus();
@@ -99,6 +111,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
 ResourceWidget::~ResourceWidget()
 {
     if (m_currentService) delete m_currentService;
+    KIO::NetAccess::removeTempFile(m_tmpThumbFile);
 }
 
 void ResourceWidget::slotStartSearch(int page)
@@ -106,15 +119,19 @@ void ResourceWidget::slotStartSearch(int page)
     page_number->blockSignals(true);
     page_number->setValue(page);
     page_number->blockSignals(false);
+    m_busyWidget->start();
     m_currentService->slotStartSearch(search_text->text(), page);
 }
 
 void ResourceWidget::slotUpdateCurrentSound()
 {
-    item_image->setEnabled(false);
-    if (!sound_autoplay->isChecked()) m_currentService->stopItemPreview(NULL);
-    info_browser->clear();
+    KIO::NetAccess::removeTempFile(m_tmpThumbFile);
+    if (!m_autoPlay->isChecked()) m_currentService->stopItemPreview(NULL);
     item_license->clear();
+    m_title.clear();
+    m_image.clear();
+    m_desc.clear();
+    m_meta.clear();
     QListWidgetItem *item = search_results->currentItem();
     if (!item) {
         sound_box->setEnabled(false);
@@ -122,13 +139,25 @@ void ResourceWidget::slotUpdateCurrentSound()
     }
     m_currentInfo = m_currentService->displayItemDetails(item);
     
-    if (sound_autoplay->isChecked()) m_currentService->startItemPreview(item);
+    if (m_autoPlay->isChecked() && m_currentService->hasPreview) m_currentService->startItemPreview(item);
     sound_box->setEnabled(true);
-    sound_name->setText(item->text());
-    sound_name->setUrl(m_currentInfo.infoUrl);
-    sound_author->setText(m_currentInfo.author);
-    sound_author->setUrl(m_currentInfo.authorUrl);
-    if (!m_currentInfo.description.isEmpty()) info_browser->setHtml("<em>" + m_currentInfo.description + "</em>");
+    QString title = "<h3>" + m_currentInfo.itemName;
+    if (!m_currentInfo.infoUrl.isEmpty()) title += QString(" (<a href=\"%1\">%2</a>)").arg(m_currentInfo.infoUrl).arg(i18nc("the url link pointing to a web page", "link"));
+    title.append("</h3>");
+    
+    if (!m_currentInfo.authorUrl.isEmpty()) {
+        title += QString("<a href=\"%1\">").arg(m_currentInfo.authorUrl);
+        if (!m_currentInfo.author.isEmpty())
+            title.append(m_currentInfo.author);
+        else title.append(i18n("Author"));
+        title.append("</a><br />");
+    }
+    else if (!m_currentInfo.author.isEmpty())
+        title.append(m_currentInfo.author + "<br />");
+    else title.append("<br />");
+    
+    slotSetTitle(title);
+    if (!m_currentInfo.description.isEmpty()) slotSetDescription(m_currentInfo.description);
     if (!m_currentInfo.license.isEmpty()) parseLicense(m_currentInfo.license);
 }
 
@@ -138,9 +167,10 @@ void ResourceWidget::slotLoadThumb(const QString url)
     KUrl img(url);
     if (img.isEmpty()) return;
     if (KIO::NetAccess::exists(img, KIO::NetAccess::SourceSide, this)) {
-        QString tmpFile;
-        if (KIO::NetAccess::download(img, tmpFile, this)) {
-            QPixmap pix(tmpFile);
+        if (KIO::NetAccess::download(img, m_tmpThumbFile, this)) {
+            slotSetImage(m_tmpThumbFile);
+            /*QPixmap pix(tmpFile);
+            
             int newHeight = pix.height() * item_image->width() / pix.width();
             if (newHeight > 200) {
                 item_image->setScaledContents(false);
@@ -150,11 +180,9 @@ void ResourceWidget::slotLoadThumb(const QString url)
                 item_image->setScaledContents(true);
                 item_image->setFixedHeight(newHeight);
             }
-            item_image->setPixmap(pix);
-            KIO::NetAccess::removeTempFile(tmpFile);
+            item_image->setPixmap(pix);*/
         }
     }
-    item_image->setEnabled(true);
 }
 
 
@@ -162,6 +190,9 @@ void ResourceWidget::slotDisplayMetaInfo(QMap <QString, QString> metaInfo)
 {
     if (metaInfo.contains("license")) {
         parseLicense(metaInfo.value("license"));
+    }
+    if (metaInfo.contains("description")) {
+        slotSetDescription(metaInfo.value("description"));
     }
 }
 
@@ -219,6 +250,11 @@ void ResourceWidget::slotSaveItem(const QString originalUrl)
     
     KFileItem info(entry, srcUrl); 
     getJob->setSourceSize(info.size());
+    getJob->setProperty("license", item_license->text());
+    getJob->setProperty("licenseurl", item_license->url());
+    getJob->setProperty("originurl", m_currentInfo.itemDownload);
+    if (!m_currentInfo.authorUrl.isEmpty()) getJob->setProperty("author", m_currentInfo.authorUrl);
+    else if (!m_currentInfo.author.isEmpty()) getJob->setProperty("author", m_currentInfo.author);
     connect(getJob, SIGNAL(result(KJob*)), this, SLOT(slotGotFile(KJob*)));
     getJob->start();
 }
@@ -231,14 +267,16 @@ void ResourceWidget::slotGotFile(KJob *job)
 #ifdef USE_NEPOMUK
 #if KDE_IS_VERSION(4,6,0)
         Nepomuk::Resource res( filePath );
-        res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) item_license->text() );
-        res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) item_license->url() );
-        res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), sound_name->url() );
+        res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
+        res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
+        res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
+        res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
+        res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
         //res.setDescription(item_description->toPlainText());
         //res.setProperty( Soprano::Vocabulary::NAO::description(), 
 #endif
 #endif
-        emit addClip(filePath, QString());//, sound_name->url());
+        emit addClip(filePath, QString());
 }
 
 void ResourceWidget::slotOpenUrl(const QString &url)
@@ -263,17 +301,16 @@ void ResourceWidget::slotChangeService()
         m_currentService = new ArchiveOrg(search_results);
     }
 
-    connect(m_currentService, SIGNAL(gotMetaInfo(const QString)), this, SLOT(slotGotMetaInfo(const QString)));
+    connect(m_currentService, SIGNAL(gotMetaInfo(const QString)), this, SLOT(slotSetMetadata(const QString)));
     connect(m_currentService, SIGNAL(gotMetaInfo(QMap <QString, QString>)), this, SLOT(slotDisplayMetaInfo(QMap <QString, QString>)));
     connect(m_currentService, SIGNAL(maxPages(int)), page_number, SLOT(setMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
     connect(m_currentService, SIGNAL(gotThumb(const QString)), this, SLOT(slotLoadThumb(const QString)));
+    connect(m_currentService, SIGNAL(searchDone()), m_busyWidget, SLOT(stop()));
     
     button_preview->setVisible(m_currentService->hasPreview);
     button_import->setVisible(!m_currentService->inlineDownload);
-    sound_autoplay->setVisible(m_currentService->hasPreview);
     search_info->setText(QString());
-    info_browser->setVisible(m_currentService->hasMetadata);
     if (!search_text->text().isEmpty()) slotStartSearch();
 }
 
@@ -327,22 +364,49 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
     item_license->setUrl(licenseUrl);
 }
 
-void ResourceWidget::slotGotMetaInfo(const QString info)
-{
-    info_browser->setHtml(info_browser->toHtml() + info);
-}
-
 
 void ResourceWidget::slotOpenLink(const QUrl &url)
 {
     QString path = url.toEncoded();
-    if (path.endsWith("_preview")) {
-        path.chop(8);
-        slotOpenUrl(path);
-    }
-    else {
+    if (path.endsWith("_import")) {
+        path.chop(7);
         // import file in Kdenlive
         slotSaveItem(path);
     }
+    else {
+        slotOpenUrl(path);
+    }
 }
 
+void ResourceWidget::slotSetDescription(const QString desc)
+{
+    m_desc = desc;
+    updateLayout();
+}
+
+void ResourceWidget::slotSetMetadata(const QString desc)
+{
+    m_meta = desc;
+    updateLayout();
+}
+
+void ResourceWidget::slotSetImage(const QString desc)
+{
+    m_image = QString("<img src=\"%1\" style=\"max-height:150px\" max-width=\"%2px\" />").arg(desc).arg((int) (info_browser->width() * 0.9));
+    updateLayout();
+}
+
+void ResourceWidget::slotSetTitle(const QString desc)
+{
+    m_title = desc;
+    updateLayout();
+}
+
+void ResourceWidget::updateLayout()
+{
+    QString content = m_title;
+    if (!m_image.isEmpty()) content.append(m_image + "<br clear=\"all\" />");
+    if (!m_desc.isEmpty()) content.append(m_desc);
+    if (!m_meta.isEmpty()) content.append(m_meta);
+    info_browser->setHtml(content);
+}

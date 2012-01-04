@@ -117,6 +117,7 @@ void ArchiveOrg::slotShowResults(KJob* job)
 #endif  
     m_listWidget->blockSignals(false);
     m_listWidget->setCurrentRow(0);
+    emit searchDone();
 }
     
 
@@ -138,10 +139,12 @@ OnlineItemInfo ArchiveOrg::displayItemDetails(QListWidgetItem *item)
     info.description = item->data(descriptionRole).toString();
     
     m_metaInfo.insert("url", info.itemDownload);
+    m_metaInfo.insert("id", info.itemId);
     
     QString extraInfoUrl = item->data(downloadRole).toString();
     if (!extraInfoUrl.isEmpty()) {
         KJob* resolveJob = KIO::storedGet( KUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
+        resolveJob->setProperty("id", info.itemId);
         connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseResults( KJob* ) ) );
     }
     return info;
@@ -152,7 +155,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
 {
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     QDomDocument doc;
-    doc.setContent(storedQueryJob->data());
+    doc.setContent(QString::fromUtf8(storedQueryJob->data()));
     QDomNodeList links = doc.elementsByTagName("a");
     QString html = QString("<style type=\"text/css\">tr.cellone {background-color: %1;}").arg(qApp->palette().alternateBase().color().name());
     html += "</style><table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">";
@@ -165,6 +168,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
             // sub folder contains image thumbs, display one.
             m_thumbsPath = m_metaInfo.value("url") + "/" + href;
             KJob* thumbJob = KIO::storedGet( KUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
+            thumbJob->setProperty("id", m_metaInfo.value("id"));
             connect( thumbJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseThumbs( KJob* ) ) );
         }
         else if (!href.contains('/') && !href.endsWith(".xml")) {
@@ -174,11 +178,11 @@ void ArchiveOrg::slotParseResults(KJob* job)
                 html += "<tr class=\"cellone\">";
             }
             else html += "<tr>";
-            html += "<td>" + KUrl(link).fileName() + QString("</td><td><a href=\"%1\">preview</a></td><td><a href=\"%2\">download</a></td></tr>").arg(link + "_preview").arg(link);
+            html += "<td>" + KUrl(link).fileName() + QString("</td><td><a href=\"%1\">%2</a></td><td><a href=\"%3\">%4</a></td></tr>").arg(link).arg(i18n("Preview")).arg(link + "_import").arg(i18n("Import"));
         }
     }
     html += "</table>";
-    emit gotMetaInfo(html);
+    if (m_metaInfo.value("id") == job->property("id").toString()) emit gotMetaInfo(html);
 }
 
 
@@ -195,7 +199,7 @@ bool ArchiveOrg::startItemPreview(QListWidgetItem *item)
 }
 
 
-void ArchiveOrg::stopItemPreview(QListWidgetItem *item)
+void ArchiveOrg::stopItemPreview(QListWidgetItem */*item*/)
 {    
     if (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning) {
         m_previewProcess->close();
@@ -219,14 +223,15 @@ void ArchiveOrg::slotParseThumbs(KJob* job)
 {
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     QDomDocument doc;
-    doc.setContent(storedQueryJob->data());
+    doc.setContent(QString::fromUtf8(storedQueryJob->data()));
     QDomNodeList links = doc.elementsByTagName("a");
     if (links.isEmpty()) return;
     for (int i = 0; i < links.count(); i++) {
         QString href = links.at(i).toElement().attribute("href");
         if (!href.contains('/') && i >= links.count() / 2) {
             QString thumbUrl = m_thumbsPath + href;
-            emit gotThumb(thumbUrl);
+            if (m_metaInfo.value("id") == job->property("id").toString())
+                emit gotThumb(thumbUrl);
             break;
         }
     }

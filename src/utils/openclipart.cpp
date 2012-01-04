@@ -58,30 +58,29 @@ void OpenClipArt::slotShowResults(KJob* job)
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     
     QDomDocument doc;
-        doc.setContent(storedQueryJob->data());
-        QDomNodeList items = doc.documentElement().elementsByTagName("item");
-        for (int i = 0; i < items.count(); i++) {
-            QDomElement currentClip = items.at(i).toElement();
-            QDomElement title = currentClip.firstChildElement("title");
-            QListWidgetItem *item = new QListWidgetItem(title.firstChild().nodeValue(), m_listWidget);
-            QDomElement thumb = currentClip.firstChildElement("media:thumbnail");
-            item->setData(imageRole, thumb.attribute("url"));
-            emit gotThumb(thumb.attribute("url"));
-            QDomElement enclosure = currentClip.firstChildElement("enclosure");
-            item->setData(downloadRole, enclosure.attribute("url"));
-            QDomElement link = currentClip.firstChildElement("link");
-            item->setData(infoUrl, link.firstChild().nodeValue());
-            QDomElement license = currentClip.firstChildElement("cc:license");
-            item->setData(licenseRole, license.firstChild().nodeValue());
-            QDomElement desc = currentClip.firstChildElement("description");
-            item->setData(descriptionRole, desc.firstChild().nodeValue());
-            QDomElement author = currentClip.firstChildElement("dc:creator");
-            item->setData(authorRole, author.firstChild().nodeValue());
-            item->setData(authorUrl, QString("http://openclipart.org/user-detail/") + author.firstChild().nodeValue());
-        }
-            
+    doc.setContent(QString::fromAscii(storedQueryJob->data()));
+    QDomNodeList items = doc.documentElement().elementsByTagName("item");
+    for (int i = 0; i < items.count(); i++) {
+        QDomElement currentClip = items.at(i).toElement();
+        QDomElement title = currentClip.firstChildElement("title");
+        QListWidgetItem *item = new QListWidgetItem(title.firstChild().nodeValue(), m_listWidget);
+        QDomElement thumb = currentClip.firstChildElement("media:thumbnail");
+        item->setData(imageRole, thumb.attribute("url"));
+        QDomElement enclosure = currentClip.firstChildElement("enclosure");
+        item->setData(downloadRole, enclosure.attribute("url"));
+        QDomElement link = currentClip.firstChildElement("link");
+        item->setData(infoUrl, link.firstChild().nodeValue());
+        QDomElement license = currentClip.firstChildElement("cc:license");
+        item->setData(licenseRole, license.firstChild().nodeValue());
+        QDomElement desc = currentClip.firstChildElement("description");
+        item->setData(descriptionRole, desc.firstChild().nodeValue());
+        QDomElement author = currentClip.firstChildElement("dc:creator");
+        item->setData(authorRole, author.firstChild().nodeValue());
+        item->setData(authorUrl, QString("http://openclipart.org/user-detail/") + author.firstChild().nodeValue());
+    }        
     m_listWidget->blockSignals(false);
     m_listWidget->setCurrentRow(0);
+    emit searchDone();
 }
     
 

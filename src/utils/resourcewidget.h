@@ -30,6 +30,8 @@
 #include <QProcess>
 #include <kio/jobclasses.h>
 
+class KPixmapSequenceOverlayPainter;
+class QAction;
 
 class ResourceWidget : public QDialog, public Ui::FreeSound_UI
 {
@@ -54,17 +56,28 @@ private slots:
     void slotOffline();
     void slotNextPage();
     void slotPreviousPage();
-    void slotGotMetaInfo(const QString info);
     void slotOpenLink(const QUrl &url);
     void slotLoadThumb(const QString url);
     /** @brief A file download is finished */
     void slotGotFile(KJob *job);
+    void slotSetMetadata(const QString desc);
+    void slotSetDescription(const QString desc);
+    void slotSetImage(const QString desc);
+    void slotSetTitle(const QString desc);
 
 private:
     QString m_folder;
     AbstractService *m_currentService;
     void parseLicense(const QString &);
     OnlineItemInfo m_currentInfo;
+    KPixmapSequenceOverlayPainter *m_busyWidget;
+    QAction *m_autoPlay;
+    QString m_tmpThumbFile;
+    QString m_title;
+    QString m_image;
+    QString m_desc;
+    QString m_meta;
+    void updateLayout();
    
 signals:
     void addClip(KUrl, const QString &);
