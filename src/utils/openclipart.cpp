@@ -68,6 +68,7 @@ void OpenClipArt::slotShowResults(KJob* job)
             QListWidgetItem *item = new QListWidgetItem(title.firstChild().nodeValue(), m_listWidget);
             QDomElement thumb = currentClip.firstChildElement("media:thumbnail");
             item->setData(imageRole, thumb.attribute("url"));
+            emit gotThumb(thumb.attribute("url"));
             QDomElement enclosure = currentClip.firstChildElement("enclosure");
             item->setData(downloadRole, enclosure.attribute("url"));
             QDomElement link = currentClip.firstChildElement("link");
@@ -101,7 +102,7 @@ OnlineItemInfo OpenClipArt::displayItemDetails(QListWidgetItem *item)
     info.authorUrl = item->data(authorUrl).toString();
     info.license = item->data(licenseRole).toString();
     info.description = item->data(descriptionRole).toString();
-    info.imagePreview = item->data(imageRole).toString();
+    emit gotThumb(item->data(imageRole).toString());
     return info;
 }
 

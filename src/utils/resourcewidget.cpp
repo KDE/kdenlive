@@ -65,17 +65,16 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
 #endif
     service_list->addItem(i18n("Open Clip Art Graphic Library"), OPENCLIPART);
     setWindowTitle(i18n("Search Online Resources"));
-    info_widget->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
-    item_description->setStyleSheet(QString("KTextBrowser { background-color: transparent;}"));
+    info_browser->setStyleSheet(QString("QTextBrowser { background-color: transparent;}"));
     connect(button_search, SIGNAL(clicked()), this, SLOT(slotStartSearch()));
     connect(search_results, SIGNAL(currentRowChanged(int)), this, SLOT(slotUpdateCurrentSound()));
     connect(button_preview, SIGNAL(clicked()), this, SLOT(slotPlaySound()));
-    connect(button_import, SIGNAL(clicked()), this, SLOT(slotSaveSound()));
+    connect(button_import, SIGNAL(clicked()), this, SLOT(slotSaveItem()));
     connect(sound_author, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     connect(item_license, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     connect(sound_name, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
-    sound_image->setFixedWidth(180);
+    item_image->setFixedWidth(180);
     if (Solid::Networking::status() == Solid::Networking::Unconnected) {
         slotOffline();
     }
@@ -84,6 +83,8 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(page_next, SIGNAL(clicked()), this, SLOT(slotNextPage()));
     connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
+    connect(info_browser, SIGNAL(anchorClicked(const QUrl &)), this, SLOT(slotOpenLink(const QUrl &)));
+    
     sound_box->setEnabled(false);
     search_text->setFocus();
 #ifdef USE_NEPOMUK
@@ -109,9 +110,9 @@ void ResourceWidget::slotStartSearch(int page)
 
 void ResourceWidget::slotUpdateCurrentSound()
 {
+    item_image->setEnabled(false);
     if (!sound_autoplay->isChecked()) m_currentService->stopItemPreview(NULL);
-    info_widget->clear();
-    item_description->clear();
+    info_browser->clear();
     item_license->clear();
     QListWidgetItem *item = search_results->currentItem();
     if (!item) {
@@ -126,48 +127,41 @@ void ResourceWidget::slotUpdateCurrentSound()
     sound_name->setUrl(m_currentInfo.infoUrl);
     sound_author->setText(m_currentInfo.author);
     sound_author->setUrl(m_currentInfo.authorUrl);
-    item_description->setHtml(m_currentInfo.description);
-    
+    if (!m_currentInfo.description.isEmpty()) info_browser->setHtml("<em>" + m_currentInfo.description + "</em>");
+    if (!m_currentInfo.license.isEmpty()) parseLicense(m_currentInfo.license);
+}
 
-    KUrl img(m_currentInfo.imagePreview);
+
+void ResourceWidget::slotLoadThumb(const QString url)
+{
+    KUrl img(url);
     if (img.isEmpty()) return;
     if (KIO::NetAccess::exists(img, KIO::NetAccess::SourceSide, this)) {
         QString tmpFile;
         if (KIO::NetAccess::download(img, tmpFile, this)) {
             QPixmap pix(tmpFile);
-            int newHeight = pix.height() * sound_image->width() / pix.width();
+            int newHeight = pix.height() * item_image->width() / pix.width();
             if (newHeight > 200) {
-                sound_image->setScaledContents(false);
-                //sound_image->setFixedHeight(sound_image->width());
+                item_image->setScaledContents(false);
+                //item_image->setFixedHeight(item_image->width());
             }
             else {
-                sound_image->setScaledContents(true);
-                sound_image->setFixedHeight(newHeight);
+                item_image->setScaledContents(true);
+                item_image->setFixedHeight(newHeight);
             }
-            sound_image->setPixmap(pix);
+            item_image->setPixmap(pix);
             KIO::NetAccess::removeTempFile(tmpFile);
         }
     }
+    item_image->setEnabled(true);
 }
 
 
 void ResourceWidget::slotDisplayMetaInfo(QMap <QString, QString> metaInfo)
 {
-    if (metaInfo.contains("description")) {
-        item_description->setHtml(metaInfo.value("description"));
-        metaInfo.remove("description");
-    }
     if (metaInfo.contains("license")) {
         parseLicense(metaInfo.value("license"));
-        metaInfo.remove("license");
     }
-    QMap<QString, QString>::const_iterator i = metaInfo.constBegin();
-    while (i != metaInfo.constEnd()) {
-        new QTreeWidgetItem(info_widget, QStringList() << i.key() << i.value());
-        ++i;
-    }
-    info_widget->resizeColumnToContents(0);
-    info_widget->resizeColumnToContents(1);
 }
 
 
@@ -199,15 +193,23 @@ void ResourceWidget::slotPreviewStatusChanged(QProcess::ProcessState state)
         button_preview->setText(i18n("Stop"));*/
 }
 
-void ResourceWidget::slotSaveSound()
+void ResourceWidget::slotSaveItem(const QString originalUrl)
 {
     //if (m_currentUrl.isEmpty()) return;
     QListWidgetItem *item = search_results->currentItem();
     if (!item) return;
     QString path = m_folder;
+    QString ext;
     if (!path.endsWith('/')) path.append('/');
-    path.append(m_currentService->getDefaultDownloadName(item));
-    QString ext = m_currentService->getExtension(search_results->currentItem());
+    if (!originalUrl.isEmpty()) {
+        path.append(KUrl(originalUrl).fileName());
+        ext = "*." + KUrl(originalUrl).fileName().section(".", -1);
+        m_currentInfo.itemDownload = originalUrl;
+    }
+    else {
+        path.append(m_currentService->getDefaultDownloadName(item));
+        ext = m_currentService->getExtension(search_results->currentItem());
+    }
     QString saveUrl = KFileDialog::getSaveFileName(KUrl(path), ext);
     if (saveUrl.isEmpty()) return;
     if (KIO::NetAccess::download(KUrl(m_currentInfo.itemDownload), saveUrl, this)) {
@@ -247,15 +249,18 @@ void ResourceWidget::slotChangeService()
     else if (service == ARCHIVEORG) {
         m_currentService = new ArchiveOrg(search_results);
     }
-    
+
+    connect(m_currentService, SIGNAL(gotMetaInfo(const QString)), this, SLOT(slotGotMetaInfo(const QString)));
     connect(m_currentService, SIGNAL(gotMetaInfo(QMap <QString, QString>)), this, SLOT(slotDisplayMetaInfo(QMap <QString, QString>)));
     connect(m_currentService, SIGNAL(maxPages(int)), page_number, SLOT(setMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
+    connect(m_currentService, SIGNAL(gotThumb(const QString)), this, SLOT(slotLoadThumb(const QString)));
     
     button_preview->setVisible(m_currentService->hasPreview);
+    button_import->setVisible(!m_currentService->inlineDownload);
     sound_autoplay->setVisible(m_currentService->hasPreview);
     search_info->setText(QString());
-    info_widget->setVisible(m_currentService->hasMetadata);
+    info_browser->setVisible(m_currentService->hasMetadata);
     if (!search_text->text().isEmpty()) slotStartSearch();
 }
 
@@ -307,5 +312,24 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
     else licenseName = i18n("Unknown");
     item_license->setText(licenseName);
     item_license->setUrl(licenseUrl);
+}
+
+void ResourceWidget::slotGotMetaInfo(const QString info)
+{
+    info_browser->setHtml(info_browser->toHtml() + info);
+}
+
+
+void ResourceWidget::slotOpenLink(const QUrl &url)
+{
+    QString path = url.toEncoded();
+    if (path.endsWith("_preview")) {
+        path.chop(8);
+        slotOpenUrl(path);
+    }
+    else {
+        // import file in Kdenlive
+        slotSaveItem(path);
+    }
 }
 

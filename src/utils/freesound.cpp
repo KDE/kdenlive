@@ -25,6 +25,7 @@
 #include <QSpinBox>
 #include <QListWidget>
 #include <QDomDocument>
+#include <QApplication>
 
 #include <KDebug>
 #include "kdenlivesettings.h"
@@ -42,7 +43,6 @@ FreeSound::FreeSound(QListWidget *listWidget, QObject *parent) :
     serviceType = FREESOUND;
     hasPreview = true;
     hasMetadata = true;
-    //connect(m_previewProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotPreviewStatusChanged(QProcess::ProcessState)));
 }
 
 FreeSound::~FreeSound()
@@ -143,7 +143,7 @@ OnlineItemInfo FreeSound::displayItemDetails(QListWidgetItem *item)
         KJob* resolveJob = KIO::storedGet( KUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
         connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseResults( KJob* ) ) );
     }
-    info.imagePreview = item->data(imageRole).toString();
+    emit gotThumb(item->data(imageRole).toString());
     return info;
 }
 
@@ -154,25 +154,60 @@ void FreeSound::slotParseResults(KJob* job)
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     QJson::Parser parser;
     bool ok;
+    int ct = 0;
+    QString html = QString("<style type=\"text/css\">tr.cellone {background-color: %1;}</style>").arg(qApp->palette().alternateBase().color().name());
+    
     QVariant data = parser.parse(storedQueryJob->data(), &ok);
     if (data.canConvert(QVariant::Map)) {
         QMap <QString, QVariant> infos = data.toMap();
         //if (m_currentId != infos.value("id").toInt()) return;
-        if (infos.contains("samplerate"))
-            m_metaInfo.insert(i18n("Samplerate"), QString::number(infos.value("samplerate").toDouble()));
-        if (infos.contains("channels"))
-            m_metaInfo.insert(i18n("Channels"), QString::number(infos.value("channels").toInt()));
-        if (infos.contains("filesize")) {
-            KIO::filesize_t fSize = infos.value("filesize").toDouble();
-            m_metaInfo.insert(i18n("File size"), KIO::convertSize(fSize));
+        
+        html += "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">";
+    
+        if (m_metaInfo.contains(i18n("Duration"))) {
+            ct++;
+            if (ct %2 == 0) {
+                html += "<tr class=\"cellone\">";
+            }
+            else html += "<tr>";
+            html += "<td>" + i18n("Duration") + "</td><td>" + m_metaInfo.value(i18n("Duration")) + "</td></tr>";
+            m_metaInfo.remove(i18n("Duration"));
         }
-        if (infos.contains("description")) {
-            m_metaInfo.insert("description", infos.value("description").toString());
+        
+        if (infos.contains("samplerate")) {
+            ct++;
+            if (ct %2 == 0) {
+                html += "<tr class=\"cellone\">";
+            }
+            else html += "<tr>";
+            html += "<td>" + i18n("Samplerate") + "</td><td>" + QString::number(infos.value("samplerate").toDouble()) + "</td></tr>";
+        }
+        if (infos.contains("channels")) {
+            ct++;
+            if (ct %2 == 0) {
+                html += "<tr class=\"cellone\">";
+            }
+            else html += "<tr>";
+            html += "<td>" + i18n("Channels") + "</td><td>" + QString::number(infos.value("channels").toInt()) + "</td></tr>";
+        }
+        if (infos.contains("filesize")) {
+            ct++;
+            if (ct %2 == 0) {
+                html += "<tr class=\"cellone\">";
+            }
+            else html += "<tr>";
+            KIO::filesize_t fSize = infos.value("filesize").toDouble();
+            html += "<td>" + i18n("File size") + "</td><td>" + KIO::convertSize(fSize) + "</td></tr>";
         }
         if (infos.contains("license")) {
             m_metaInfo.insert("license", infos.value("license").toString());
         }
+        html +="</table>";
+        if (infos.contains("description")) {
+            html += "<em>" + infos.value("description").toString() + "</em>";
+        }
     }
+    emit gotMetaInfo(html);
     emit gotMetaInfo(m_metaInfo);
 #endif    
 }

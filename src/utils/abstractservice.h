@@ -41,7 +41,6 @@ const int descriptionRole = Qt::UserRole + 11;
 enum SERVICETYPE { NOSERVICE = 0, FREESOUND = 1, OPENCLIPART = 2, ARCHIVEORG = 3 };
 
 struct OnlineItemInfo {
-    QString imagePreview;
     QString itemPreview;
     QString itemName;
     QString itemDownload;
@@ -69,6 +68,8 @@ public:
     bool hasPreview;
     /** @brief Does this service provide meta info about the item. */
     bool hasMetadata;
+    /** @brief Should we show the "import" button or does this service provide download urls in info browser. */
+    bool inlineDownload;
     /** @brief The type for this service. */
     SERVICETYPE serviceType;
 
@@ -84,7 +85,12 @@ protected:
 signals:
     void searchInfo(const QString &);
     void maxPages(int);
+    /** @brief Emit meta info for current item in formatted html. */
+    void gotMetaInfo(const QString);
+    /** @brief Emit some extra meta info (description, license). */
     void gotMetaInfo(QMap <QString, QString> info);
+    /** @brief We have an url for current item's preview thumbnail. */
+    void gotThumb(const QString url);
 };
 
 

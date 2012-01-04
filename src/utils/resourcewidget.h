@@ -47,13 +47,16 @@ private slots:
     void slotForcePlaySound(bool play);
     void slotPreviewStatusChanged(QProcess::ProcessState state);
     void slotDisplayMetaInfo(QMap <QString, QString> metaInfo);
-    void slotSaveSound();
+    void slotSaveItem(const QString originalUrl = QString());
     void slotOpenUrl(const QString &url);
     void slotChangeService();
     void slotOnline();
     void slotOffline();
     void slotNextPage();
     void slotPreviousPage();
+    void slotGotMetaInfo(const QString info);
+    void slotOpenLink(const QUrl &url);
+    void slotLoadThumb(const QString url);
 
 private:
     QString m_folder;

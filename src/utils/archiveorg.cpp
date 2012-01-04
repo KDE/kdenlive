@@ -25,6 +25,7 @@
 #include <QSpinBox>
 #include <QListWidget>
 #include <QDomDocument>
+#include <QApplication>
 
 #include <KDebug>
 #include "kdenlivesettings.h"
@@ -40,8 +41,9 @@ ArchiveOrg::ArchiveOrg(QListWidget *listWidget, QObject *parent) :
         m_previewProcess(new QProcess)
 {
     serviceType = ARCHIVEORG;
-    hasPreview = true;
+    hasPreview = false;
     hasMetadata = true;
+    inlineDownload = true;
     //connect(m_previewProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotPreviewStatusChanged(QProcess::ProcessState)));
 }
 
@@ -55,7 +57,8 @@ void ArchiveOrg::slotStartSearch(const QString searchText, int page)
     m_listWidget->clear();
     QString uri = "http://www.archive.org/advancedsearch.php?q=";
     uri.append(searchText);
-    uri.append("%20AND%20mediatype:MovingImage");
+    uri.append("%20AND%20mediatype:movies");//MovingImage");
+    uri.append("&fl%5B%5D=creator&fl%5B%5D=description&fl%5B%5D=identifier&fl%5B%5D=licenseurl&fl%5B%5D=title");
     uri.append("&rows=30");
     if (page > 1) uri.append("&page=" + QString::number(page));
     uri.append("&output=json"); //&callback=callback&save=yes#raw");
@@ -96,7 +99,12 @@ void ArchiveOrg::slotShowResults(KJob* job)
                             if (soundmap.contains("title")) {
                                 QListWidgetItem *item = new   QListWidgetItem(soundmap.value("title").toString(), m_listWidget);
                                 item->setData(descriptionRole, soundmap.value("description").toString());
-                                item->setData(idRole, soundmap.value("identifier").toString());                        
+                                item->setData(idRole, soundmap.value("identifier").toString());
+                                QString author = soundmap.value("creator").toString();
+                                item->setData(authorRole, author);
+                                if (author.startsWith("http")) item->setData(authorUrl, author);
+                                item->setData(infoUrl, "http://archive.org/details/" + soundmap.value("identifier").toString());
+                                item->setData(downloadRole, "http://archive.org/download/" + soundmap.value("identifier").toString());
                                 item->setData(licenseRole, soundmap.value("licenseurl").toString());                        
                             }
                         }
@@ -126,47 +134,51 @@ OnlineItemInfo ArchiveOrg::displayItemDetails(QListWidgetItem *item)
     info.infoUrl = item->data(infoUrl).toString();
     info.author = item->data(authorRole).toString();
     info.authorUrl = item->data(authorUrl).toString();
-    m_metaInfo.insert(i18n("Duration"), item->data(durationRole).toString());
     info.license = item->data(licenseRole).toString();
     info.description = item->data(descriptionRole).toString();
     
-    QString extraInfoUrl = item->data(infoData).toString();
+    m_metaInfo.insert("url", info.itemDownload);
+    
+    QString extraInfoUrl = item->data(downloadRole).toString();
     if (!extraInfoUrl.isEmpty()) {
         KJob* resolveJob = KIO::storedGet( KUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
         connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseResults( KJob* ) ) );
     }
-    info.imagePreview = item->data(imageRole).toString();
     return info;
 }
 
 
 void ArchiveOrg::slotParseResults(KJob* job)
 {
-#ifdef USE_QJSON
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
-    QJson::Parser parser;
-    bool ok;
-    QVariant data = parser.parse(storedQueryJob->data(), &ok);
-    if (data.canConvert(QVariant::Map)) {
-        QMap <QString, QVariant> infos = data.toMap();
-        //if (m_currentId != infos.value("id").toInt()) return;
-        if (infos.contains("samplerate"))
-            m_metaInfo.insert(i18n("Samplerate"), QString::number(infos.value("samplerate").toDouble()));
-        if (infos.contains("channels"))
-            m_metaInfo.insert(i18n("Channels"), QString::number(infos.value("channels").toInt()));
-        if (infos.contains("filesize")) {
-            KIO::filesize_t fSize = infos.value("filesize").toDouble();
-            m_metaInfo.insert(i18n("File size"), KIO::convertSize(fSize));
+    QDomDocument doc;
+    doc.setContent(storedQueryJob->data());
+    QDomNodeList links = doc.elementsByTagName("a");
+    QString html = QString("<style type=\"text/css\">tr.cellone {background-color: %1;}").arg(qApp->palette().alternateBase().color().name());
+    html += "</style><table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">";
+    QString link;
+    int ct = 0;
+    m_thumbsPath.clear();
+    for (int i = 0; i < links.count(); i++) {
+        QString href = links.at(i).toElement().attribute("href");
+        if (href.endsWith(".thumbs/")) {
+            // sub folder contains image thumbs, display one.
+            m_thumbsPath = m_metaInfo.value("url") + "/" + href;
+            KJob* thumbJob = KIO::storedGet( KUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
+            connect( thumbJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseThumbs( KJob* ) ) );
         }
-        if (infos.contains("description")) {
-            m_metaInfo.insert("description", infos.value("description").toString());
-        }
-        if (infos.contains("license")) {
-            m_metaInfo.insert("license", infos.value("license").toString());
+        else if (!href.contains('/') && !href.endsWith(".xml")) {
+            link = m_metaInfo.value("url") + "/" + href;
+            ct++;
+            if (ct %2 == 0) {
+                html += "<tr class=\"cellone\">";
+            }
+            else html += "<tr>";
+            html += "<td>" + KUrl(link).fileName() + QString("</td><td><a href=\"%1\">preview</a></td><td><a href=\"%2\">download</a></td></tr>").arg(link + "_preview").arg(link);
         }
     }
-    emit gotMetaInfo(m_metaInfo);
-#endif    
+    html += "</table>";
+    emit gotMetaInfo(html);
 }
 
 
@@ -201,4 +213,21 @@ QString ArchiveOrg::getDefaultDownloadName(QListWidgetItem *item)
 {
     if (!item) return QString();
     return item->text();
+}
+
+void ArchiveOrg::slotParseThumbs(KJob* job)
+{
+    KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
+    QDomDocument doc;
+    doc.setContent(storedQueryJob->data());
+    QDomNodeList links = doc.elementsByTagName("a");
+    if (links.isEmpty()) return;
+    for (int i = 0; i < links.count(); i++) {
+        QString href = links.at(i).toElement().attribute("href");
+        if (!href.contains('/') && i >= links.count() / 2) {
+            QString thumbUrl = m_thumbsPath + href;
+            emit gotThumb(thumbUrl);
+            break;
+        }
+    }
 }

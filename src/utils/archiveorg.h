@@ -49,10 +49,12 @@ public slots:
 private slots:
     void slotShowResults(KJob* job);
     void slotParseResults(KJob* job);
+    void slotParseThumbs(KJob* job);
     
 private:
     QMap <QString, QString> m_metaInfo;
     QProcess *m_previewProcess;
+    QString m_thumbsPath;
 
 signals:
     void addClip(KUrl, const QString &);
