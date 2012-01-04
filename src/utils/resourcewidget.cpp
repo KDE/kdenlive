@@ -48,6 +48,7 @@
 #include <Soprano/Vocabulary/NAO>
 #include <Nepomuk/Vocabulary/NIE>
 #include <Nepomuk/Vocabulary/NDO>
+#include <kfileitem.h>
 #endif
 #endif
 
@@ -211,9 +212,22 @@ void ResourceWidget::slotSaveItem(const QString originalUrl)
         ext = m_currentService->getExtension(search_results->currentItem());
     }
     QString saveUrl = KFileDialog::getSaveFileName(KUrl(path), ext);
-    if (saveUrl.isEmpty()) return;
-    if (KIO::NetAccess::download(KUrl(m_currentInfo.itemDownload), saveUrl, this)) {
-        const KUrl filePath = KUrl(saveUrl);
+    KIO::UDSEntry entry;
+    KUrl srcUrl(m_currentInfo.itemDownload);
+    if (saveUrl.isEmpty() || !KIO::NetAccess::stat(srcUrl, entry, this)) return;
+    KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, KUrl(saveUrl), -1, KIO::Overwrite);
+    
+    KFileItem info(entry, srcUrl); 
+    getJob->setSourceSize(info.size());
+    connect(getJob, SIGNAL(result(KJob*)), this, SLOT(slotGotFile(KJob*)));
+    getJob->start();
+}
+
+void ResourceWidget::slotGotFile(KJob *job)
+{
+    if (job->error() != 0 ) return;
+    KIO::FileCopyJob* copyJob = static_cast<KIO::FileCopyJob*>( job );
+    const KUrl filePath = copyJob->destUrl();
 #ifdef USE_NEPOMUK
 #if KDE_IS_VERSION(4,6,0)
         Nepomuk::Resource res( filePath );
@@ -224,8 +238,7 @@ void ResourceWidget::slotSaveItem(const QString originalUrl)
         //res.setProperty( Soprano::Vocabulary::NAO::description(), 
 #endif
 #endif
-        emit addClip(KUrl(saveUrl), QString());//, sound_name->url());
-    }
+        emit addClip(filePath, QString());//, sound_name->url());
 }
 
 void ResourceWidget::slotOpenUrl(const QString &url)

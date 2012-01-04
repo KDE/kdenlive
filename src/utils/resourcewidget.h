@@ -57,6 +57,8 @@ private slots:
     void slotGotMetaInfo(const QString info);
     void slotOpenLink(const QUrl &url);
     void slotLoadThumb(const QString url);
+    /** @brief A file download is finished */
+    void slotGotFile(KJob *job);
 
 private:
     QString m_folder;

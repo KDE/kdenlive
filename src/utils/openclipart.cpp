@@ -54,9 +54,7 @@ void OpenClipArt::slotStartSearch(const QString searchText, int page)
 void OpenClipArt::slotShowResults(KJob* job)
 {
     if (job->error() != 0 ) return;
-    m_listWidget->blockSignals(true);
-    
-    
+    m_listWidget->blockSignals(true);    
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     
     QDomDocument doc;
