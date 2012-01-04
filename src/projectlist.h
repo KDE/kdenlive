@@ -148,25 +148,22 @@ public:
             QRectF bounding;
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
             
-            int proxy = index.data(Qt::UserRole + 5).toInt();
-            if (proxy != 0 && proxy != JOBDONE) {
-                QString proxyText;
-                QColor color;
-                if (proxy != JOBCRASHED) {
-                    // Draw proxy progress bar
-                    color = option.palette.alternateBase().color();
+            int jobProgress = index.data(Qt::UserRole + 5).toInt();
+            if (jobProgress != 0 && jobProgress != JOBDONE && jobProgress != JOBABORTED) {
+                if (jobProgress != JOBCRASHED) {
+                    // Draw job progress bar
+                    QColor color = option.palette.alternateBase().color();
                     painter->setPen(Qt::NoPen);
                     color.setAlpha(180);
                     painter->setBrush(QBrush(color));
-                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 5, pixmap.width() - 2, 4);
+                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 2, 8);
                     painter->drawRect(progress);
                     painter->setBrush(option.palette.text());
-                    if (proxy > 0) {
+                    if (jobProgress > 0) {
                         progress.adjust(1, 1, 0, -1);
-                        progress.setWidth((pixmap.width() - 4) * proxy / 100);
+                        progress.setWidth((pixmap.width() - 4) * jobProgress / 100);
                         painter->drawRect(progress);
-                    }
-                    else if (proxy == JOBWAITING) {
+                    } else if (jobProgress == JOBWAITING) {
                         // Draw kind of a pause icon
                         progress.adjust(1, 1, 0, -1);
                         progress.setWidth(2);
@@ -174,16 +171,15 @@ public:
                         progress.moveLeft(progress.right() + 2);
                         painter->drawRect(progress);
                     }
-                }
-                else if (proxy == JOBCRASHED) {
-                    proxyText = index.data(Qt::UserRole + 7).toString();
-                    if (!proxyText.isEmpty()) {
-                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
+                } else if (jobProgress == JOBCRASHED) {
+                    QString jobText = index.data(Qt::UserRole + 7).toString();
+                    if (!jobText.isEmpty()) {
+                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
                         painter->setPen(Qt::NoPen);
                         painter->setBrush(option.palette.highlight());
                         painter->drawRoundedRect(txtBounding, 2, 2);
                         painter->setPen(option.palette.highlightedText().color());
-                        painter->drawText(txtBounding, Qt::AlignHCenter | Qt::AlignVCenter , proxyText);
+                        painter->drawText(txtBounding, Qt::AlignCenter, jobText);
                     }
                 }
             }
