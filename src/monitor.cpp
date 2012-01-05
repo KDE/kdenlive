@@ -449,7 +449,7 @@ void Monitor::slotSetZoneEnd()
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (event->button() != Qt::RightButton) {
-        if (m_videoBox->underMouse() && (!m_overlay || !m_overlay->underMouse())) {
+        if (m_videoBox->geometry().contains(event->pos()) && (!m_overlay || !m_overlay->underMouse())) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
@@ -473,11 +473,11 @@ void Monitor::slotSwitchFullScreen()
 // virtual
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
-    if (m_dragStarted) {
-        if (m_videoBox->underMouse() && (!m_effectWidget || !m_effectWidget->isVisible())) {
+    if (m_dragStarted && event->button() != Qt::RightButton) {
+        if (m_videoBox->geometry().contains(event->pos()) && (!m_effectWidget || !m_effectWidget->isVisible())) {
             if (isActive()) slotPlay();
             else activateMonitor();
-        } else QWidget::mouseReleaseEvent(event);
+        } //else event->ignore(); //QWidget::mouseReleaseEvent(event);
         m_dragStarted = false;
     }
 }
@@ -485,7 +485,6 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
 // virtual
 void Monitor::mouseMoveEvent(QMouseEvent *event)
 {
-    // kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
     if (!m_dragStarted || m_currentClip == NULL) return;
 
     if ((event->pos() - m_DragStartPosition).manhattanLength()
@@ -545,6 +544,14 @@ void Monitor::wheelEvent(QWheelEvent * event)
 {
     slotMouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
     event->accept();
+}
+
+void Monitor::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    if (!KdenliveSettings::openglmonitors()) {
+        m_videoBox->switchFullScreen();
+        event->accept();
+    }
 }
 
 void Monitor::slotMouseSeek(int eventDelta, bool fast)
@@ -1090,20 +1097,20 @@ Overlay::Overlay(QWidget* parent) :
 // virtual
 void Overlay::mouseReleaseEvent ( QMouseEvent * event )
 {
-    event->accept();
+    event->ignore();
 }
 
 // virtual
 void Overlay::mousePressEvent( QMouseEvent * event )
 {
-    event->accept();
+    event->ignore();
 }
 
 // virtual
 void Overlay::mouseDoubleClickEvent ( QMouseEvent * event )
 {
     emit editMarker();
-    event->accept();
+    event->ignore();
 }
 
 void Overlay::setOverlayText(const QString &text, bool isZone)
@@ -1126,32 +1133,20 @@ VideoContainer::VideoContainer(Monitor* parent) :
 {
     setFrameShape(QFrame::NoFrame);
     setFocusPolicy(Qt::ClickFocus);
+    setEnabled(false);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-}
-
-// virtual
-void VideoContainer::mousePressEvent(QMouseEvent * event)
-{
-    if (m_monitor->underMouse()) event->setAccepted(false);
 }
 
 // virtual
 void VideoContainer::mouseReleaseEvent(QMouseEvent * event)
 {
-    if (m_monitor->underMouse()) event->setAccepted(false);
-    else {
+    if (event->button() != Qt::RightButton) {
         if (m_monitor->isActive()) {
             m_monitor->slotPlay();
-            event->accept();
         }
     }
 }
 
-// virtual
-void VideoContainer::mouseMoveEvent(QMouseEvent *event)
-{
-    if (m_monitor->underMouse()) event->setAccepted(false);
-}
 
 // virtual
 void VideoContainer::keyPressEvent(QKeyEvent *event)
@@ -1166,19 +1161,15 @@ void VideoContainer::keyPressEvent(QKeyEvent *event)
 // virtual
 void VideoContainer::wheelEvent(QWheelEvent * event)
 {
-    if (m_monitor->underMouse()) event->setAccepted(false);
-    else {
-        m_monitor->slotMouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
-        event->accept();
-    }
+    m_monitor->slotMouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
+    event->accept();
 }
 
 void VideoContainer::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    Q_UNUSED(event)
-
     if (!KdenliveSettings::openglmonitors())
         switchFullScreen();
+    event->accept();
 }
 
 void VideoContainer::switchFullScreen()
@@ -1220,6 +1211,7 @@ void VideoContainer::switchFullScreen()
         setUpdatesEnabled(true);
         show();
 #endif
+        setEnabled(true);
     } else {
         setUpdatesEnabled(false);
         flags ^= (Qt::Window | Qt::SubWindow); //clear the flags...
@@ -1227,6 +1219,7 @@ void VideoContainer::switchFullScreen()
         setWindowFlags(flags);
         setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
         setUpdatesEnabled(true);
+        setEnabled(false);
         show();
     }
     m_monitor->pause();

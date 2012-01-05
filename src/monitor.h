@@ -56,9 +56,7 @@ public:
 
 protected:
     virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     virtual void wheelEvent(QWheelEvent * event);
 
@@ -126,6 +124,7 @@ public:
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
+    virtual void mouseDoubleClickEvent(QMouseEvent * event);
     virtual void resizeEvent(QResizeEvent *event);
 
     /** @brief Move to another position on mouse wheel event.
