@@ -1476,6 +1476,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
     m_mltConsumer->set("refresh", 1);
+    if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
     m_isZoneMode = true;
 }
 
@@ -1492,7 +1493,6 @@ void Render::seekToFrame(int pos)
 {
     if (!m_mltProducer)
         return;
-    
     resetZoneMode();
     m_mltProducer->seek(pos);
     if (m_mltProducer->get_speed() == 0) {
@@ -1591,7 +1591,7 @@ void Render::emitConsumerStopped()
     if (m_mltProducer) {
         double pos = m_mltProducer->position();
         if (m_isLoopMode) play(m_loopStart);
-        else if (m_isZoneMode) resetZoneMode();
+        //else if (m_isZoneMode) resetZoneMode();
         emit rendererStopped((int) pos);
     }
 }
