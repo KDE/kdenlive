@@ -102,16 +102,27 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
     }
 }
 
+void KeyframeHelper::leaveEvent( QEvent * event )
+{
+    Q_UNUSED(event);
+    if (m_hoverKeyframe != -1) {
+        m_hoverKeyframe = -1;
+        update();
+    }
+}
+
 // virtual
 void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
 {
     int xPos = event->x() - margin;
     if (!m_drag) {
         int mousePos = qMax((int)(xPos / m_scale), 0);
-        if (qAbs(m_position * m_scale - xPos) < cursorWidth && event->y() >= m_lineHeight && event->y() < 17) {
+        if (qAbs(m_position * m_scale - xPos) < cursorWidth && event->y() >= m_lineHeight) {
             // Mouse over time cursor
-            m_hoverKeyframe = -2;
-            update();
+            if (m_hoverKeyframe != -2) {
+                m_hoverKeyframe = -2;
+                update();
+            }
             event->accept();
             return;
         }
@@ -280,7 +291,7 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
     const int cursor = margin + m_position * m_scale;
     pa.setPoints(3, cursor - cursorWidth, 16, cursor + cursorWidth, 16, cursor, 10);
     if (m_hoverKeyframe == -2)
-        p.setBrush(m_selected);
+        p.setBrush(palette().highlight());
     else
         p.setBrush(palette().dark().color());
     p.drawPolygon(pa);

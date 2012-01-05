@@ -21,9 +21,11 @@
 #ifndef SMALLRULER_H
 #define SMALLRULER_H
 
+#include <KColorScheme>
 #include <QWidget>
 
 #include "monitormanager.h"
+
 
 class SmallRuler : public QWidget
 {
@@ -33,6 +35,7 @@ public:
     SmallRuler(MonitorManager *manager, QWidget *parent = 0);
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
+    virtual void leaveEvent( QEvent * event );
     void adjustScale(int maximum);
     void setZone(int start, int end);
     QPoint zone();
@@ -52,10 +55,12 @@ private:
     int m_maxval;
     int m_zoneStart;
     int m_zoneEnd;
-    QColor m_zoneColor;
+    KStatefulBrush m_zoneBrush;
     QList <int> m_markers;
     QPixmap m_pixmap;
     MonitorManager *m_manager;
+    /** @brief True is mouse is over the ruler cursor. */
+    bool m_overCursor;
     void updatePixmap();
 
 public slots:
