@@ -1019,6 +1019,7 @@ void Monitor::slotEffectScene(bool show)
         if (show) {
             m_effectWidget->getScene()->slotZoomFit();
         }
+        m_videoBox->setEnabled(show);
         render->doRefresh();
     }
 }
