@@ -1416,7 +1416,7 @@ void Render::switchPlay(bool play)
             m_mltConsumer->start();
         }
         m_mltProducer->set_speed(1.0);
-        m_mltConsumer->set("refresh", "1");
+        m_mltConsumer->set("refresh", 1);
     } else if (!play) {
         m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("refresh", 0);
@@ -1476,6 +1476,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
     m_mltConsumer->set("refresh", 1);
+    if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
     m_isZoneMode = true;
 }
 
