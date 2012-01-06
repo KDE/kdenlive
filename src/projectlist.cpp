@@ -301,7 +301,7 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(this, SIGNAL(cancelRunningJob(const QString, stringMap )), this, SLOT(slotCancelRunningJob(const QString, stringMap)));
     connect(this, SIGNAL(processLog(const QString, int , int, const QString)), this, SLOT(slotProcessLog(const QString, int , int, const QString)));
     
-    connect(this, SIGNAL(updateJobStatus(const QString &, int, int, const QString &, const QString &, const QString)), this, SLOT(slotUpdateJobStatus(const QString &, int, int, const QString &, const QString &, const QString)));
+    connect(this, SIGNAL(updateJobStatus(const QString, int, int, const QString, const QString, const QString)), this, SLOT(slotUpdateJobStatus(const QString, int, int, const QString, const QString, const QString)));
     
     connect(this, SIGNAL(gotProxy(const QString)), this, SLOT(slotGotProxyForId(const QString)));
     
@@ -2815,10 +2815,10 @@ void ProjectList::slotProcessJobs()
             break;
         }
         QString destination = job->destination();
-       
         // Check if the clip is still here
-        ProjectItem *processingItem = getItemById(job->clipId());
-        if (processingItem == NULL) {
+        DocClipBase *currentClip = m_doc->clipManager()->getClipById(job->clipId());
+        //ProjectItem *processingItem = getItemById(job->clipId());
+        if (currentClip == NULL) {
             job->setStatus(JOBDONE);
             continue;
         }
@@ -2842,7 +2842,7 @@ void ProjectList::slotProcessJobs()
 
         if (job->jobType == MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
-            jb->setProducer(processingItem->referencedClip()->getProducer());
+            jb->setProducer(currentClip->getProducer());
         }
         job->startJob();
         if (job->jobStatus == JOBDONE) {
@@ -3125,11 +3125,11 @@ void ProjectList::slotCancelJobs()
     command->setText(i18np("Cancel job", "Cancel jobs", m_jobList.count()));
     m_jobMutex.lock();
     for (int i = 0; i < m_jobList.count(); i++) {
-        ProjectItem *item = getItemById(m_jobList.at(i)->clipId());
-        if (!item || !item->referencedClip()) continue;
+        DocClipBase *currentClip = m_doc->clipManager()->getClipById(m_jobList.at(i)->clipId());
+        if (!currentClip) continue;
         QMap <QString, QString> newProps = m_jobList.at(i)->cancelProperties();
         if (newProps.isEmpty()) continue;
-        QMap <QString, QString> oldProps = item->referencedClip()->currentProperties(newProps);
+        QMap <QString, QString> oldProps = currentClip->currentProperties(newProps);
         new EditClipCommand(this, m_jobList.at(i)->clipId(), oldProps, newProps, true, command);
     }
     m_jobMutex.unlock();
@@ -3146,9 +3146,9 @@ void ProjectList::slotCancelJobs()
 void ProjectList::slotCancelRunningJob(const QString id, stringMap newProps)
 {
     if (newProps.isEmpty() || m_closing) return;
-    ProjectItem *item = getItemById(id);
-    if (!item || !item->referencedClip()) return;
-    QMap <QString, QString> oldProps = item->referencedClip()->currentProperties(newProps);
+    DocClipBase *currentClip = m_doc->clipManager()->getClipById(id);
+    if (!currentClip) return;
+    QMap <QString, QString> oldProps = currentClip->currentProperties(newProps);
     if (newProps == oldProps) return;
     QMapIterator<QString, QString> i(oldProps);
     EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true);
@@ -3179,7 +3179,7 @@ void ProjectList::deleteJobsForClip(const QString &clipId)
     }
 }
 
-void ProjectList::slotUpdateJobStatus(const QString &id, int type, int status, const QString &label, const QString &actionName, const QString details)
+void ProjectList::slotUpdateJobStatus(const QString id, int type, int status, const QString label, const QString actionName, const QString details)
 {
     ProjectItem *item = getItemById(id);
     if (!item) return;
