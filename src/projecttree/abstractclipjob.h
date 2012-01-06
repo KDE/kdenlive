@@ -43,6 +43,7 @@ public:
     bool replaceClip;
     const QString clipId() const;
     const QString errorMessage() const;
+    const QString logDetails() const;
     void setStatus(CLIPJOBSTATUS status);
     virtual const QString destination() const;
     virtual void startJob();
@@ -54,6 +55,7 @@ public:
     
 protected:
     QString m_errorMessage;
+    QString m_logDetails;
     QProcess *m_jobProcess;
     
 signals:

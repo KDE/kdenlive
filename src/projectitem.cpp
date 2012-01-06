@@ -283,7 +283,7 @@ void ProjectItem::setConditionalJobStatus(CLIPJOBSTATUS status, JOBTYPE requeste
 bool ProjectItem::hasProxy() const
 {
     if (m_clip == NULL) return false;
-    if (m_clip->getProperty("proxy").isEmpty() || m_clip->getProperty("proxy") == "-" || data(0, JobProgressRole).toInt() == JOBCRASHED) return false;
+    if (m_clip->getProperty("proxy").size() < 2 || data(0, JobProgressRole).toInt() == JOBCRASHED) return false;
     return true;
 }
 

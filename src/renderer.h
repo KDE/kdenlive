@@ -408,6 +408,9 @@ signals:
      */
     void removeInvalidProxy(const QString &id, bool durationError);
     void refreshDocumentProducers(bool displayRatioChanged, bool fpsChanged);
+    /** @brief A proxy clip is missing, ask for creation. */
+    void requestProxy(QString);
+
 
     /** @brief A frame's image has to be shown.
      *

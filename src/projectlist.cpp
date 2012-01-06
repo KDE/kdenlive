@@ -792,6 +792,7 @@ void ProjectList::setRenderer(Render *projectRender)
 {
     m_render = projectRender;
     m_listView->setIconSize(QSize((ProjectItem::itemDefaultHeight() - 2) * m_render->dar(), ProjectItem::itemDefaultHeight() - 2));
+    connect(m_render, SIGNAL(requestProxy(QString)), this, SLOT(slotCreateProxy(QString)));
 }
 
 void ProjectList::slotClipSelected()
@@ -1500,7 +1501,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
         } else {
             item = static_cast <ProjectItem *>(*it);
             clip = item->referencedClip();
-            if (item->referencedClip()->getProducer() == NULL) {
+            if (clip->getProducer() == NULL) {
                 bool replace = false;
                 if (brokenClips.contains(item->clipId())) {
                     // if this is a proxy clip, disable proxy
@@ -1516,7 +1517,8 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                         xml.removeAttribute("file_hash");
                         xml.removeAttribute("proxy_out");
                     }
-                    if (!replace) replace = xml.attribute("replace") == "1";
+                    if (!replace) replace = xml.attribute("_replaceproxy") == "1";
+                    xml.removeAttribute("_replaceproxy");
                     if (replace) {
                         resetThumbsProducer(clip);
                     }
@@ -1543,7 +1545,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                     getCachedThumbnail(item);
                 }
                 if (item->data(0, DurationRole).toString().isEmpty()) {
-                    item->changeDuration(item->referencedClip()->getProducer()->get_playtime());
+                    item->changeDuration(clip->getProducer()->get_playtime());
                 }
                 if (clip->isPlaceHolder()) {
                     QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
@@ -1555,6 +1557,10 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                     p.drawPixmap(3, 3, KIcon("dialog-close").pixmap(pixmap.width() - 6, pixmap.height() - 6));
                     p.end();
                     item->setData(0, Qt::DecorationRole, pixmap);
+                }
+                else if (clip->getProperty("_replaceproxy") == "1") {
+                    clip->setProperty("_replaceproxy", QString());
+                    slotCreateProxy(clip->getId());
                 }
             }
             item->setData(0, UsageRole, QString::number(item->numReferences()));
@@ -2590,17 +2596,17 @@ void ProjectList::slotCreateProxy(const QString id)
         slotUpdateJobStatus(item, PROXYJOB, JOBCRASHED, i18n("Failed to create proxy, empty path."));
         return;
     }
-
-    ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << item->clipUrl().path() << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
-    if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
-        delete job;
-        return;
-    }
-
+    
     if (QFileInfo(path).size() > 0) {
         // Proxy already created
         setJobStatus(item, PROXYJOB, JOBDONE);
         slotGotProxy(path);
+        return;
+    }
+
+    ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << item->clipUrl().path() << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
+    if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
+        delete job;
         return;
     }
 
@@ -2853,7 +2859,7 @@ void ProjectList::slotProcessJobs()
                 emit addClip(destination, QString(), QString());
             }
         } else if (job->jobStatus == JOBCRASHED || job->jobStatus == JOBABORTED) {
-            emit updateJobStatus(job->clipId(), job->jobType, job->jobStatus, job->errorMessage());
+            emit updateJobStatus(job->clipId(), job->jobType, job->jobStatus, job->errorMessage(), QString(), job->logDetails());
         }
     }
     // Thread finished, cleanup & update count
@@ -2897,7 +2903,6 @@ void ProjectList::updateProxyConfig()
                 // remove proxy
                 QMap <QString, QString> newProps;
                 newProps.insert("proxy", QString());
-                newProps.insert("replace", "1");
                 // insert required duration for proxy
                 newProps.insert("proxy_out", item->referencedClip()->producerProperty("out"));
                 new EditClipCommand(this, item->clipId(), item->referencedClip()->currentProperties(newProps), newProps, true, command);
@@ -2922,7 +2927,6 @@ void ProjectList::updateProxyConfig()
                 // remove proxy
                 QMap <QString, QString> newProps;
                 newProps.insert("proxy", QString());
-                newProps.insert("replace", "1");
                 new EditClipCommand(this, item->clipId(), item->referencedClip()->properties(), newProps, true, command);
             }
         }
@@ -3098,17 +3102,13 @@ void ProjectList::processThumbOverlays(ProjectItem *item, QPixmap &pix)
 {
     if (item->hasProxy()) {
         QPainter p(&pix);
-        QColor c = QPalette().base().color();
-        c.setAlpha(200);
-        QBrush br(c);
-        p.setBrush(br);
-        p.setPen(Qt::NoPen);
-        QRect r(1, 1, 15, 15);
-        p.drawRoundedRect(r, 2, 2);
-        p.setPen(QPalette().text().color());
+        QColor c(220, 220, 10, 200);
+        QRect r(0, 0, 12, 12);
+        p.fillRect(r, c);
         QFont font = p.font();
         font.setBold(true);
         p.setFont(font);
+        p.setPen(Qt::black);
         p.drawText(r, Qt::AlignCenter, i18nc("The first letter of Proxy, used as abbreviation", "P"));
     }
 }

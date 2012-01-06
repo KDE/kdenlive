@@ -644,7 +644,14 @@ void Render::processFileProperties()
         bool proxyProducer;
         if (info.xml.hasAttribute("proxy") && info.xml.attribute("proxy") != "-") {
             path = info.xml.attribute("proxy");
-            proxyProducer = true;
+            // Check for missing proxies
+            if (QFileInfo(path).size() <= 0) {
+                // proxy is missing, re-create it
+                emit requestProxy(info.clipId);
+                proxyProducer = false;
+                path = info.xml.attribute("resource");
+            }
+            else proxyProducer = true;
         }
         else {
             path = info.xml.attribute("resource");

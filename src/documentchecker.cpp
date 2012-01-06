@@ -325,6 +325,8 @@ bool DocumentChecker::hasErrorInClips()
         QString clipType;
         QString realPath = e.attribute("resource");
         QString id = e.attribute("id");
+        // Tell Kdenlive to recreate proxy
+        e.setAttribute("_replaceproxy", "1");
         // Replace proxy url with real clip in MLT producers
         QDomNodeList properties;
         QDomElement mltProd;

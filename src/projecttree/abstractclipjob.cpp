@@ -57,6 +57,11 @@ const QString AbstractClipJob::errorMessage() const
     return m_errorMessage;
 }
 
+const QString AbstractClipJob::logDetails() const
+{
+    return m_logDetails;
+}
+
 void AbstractClipJob::startJob()
 {
 }
