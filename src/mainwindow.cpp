@@ -1973,9 +1973,10 @@ bool MainWindow::saveFileAs(const QString &outputFileName)
     // Save timeline thumbnails
     m_activeTimeline->projectView()->saveThumbnails();
     m_activeDocument->setUrl(KUrl(outputFileName));
+    QByteArray hash = QCryptographicHash::hash(KUrl(outputFileName).encodedPath(), QCryptographicHash::Md5).toHex();
     if (m_activeDocument->m_autosave == NULL) {
-        m_activeDocument->m_autosave = new KAutoSaveFile(KUrl(outputFileName), this);
-    } else m_activeDocument->m_autosave->setManagedFile(KUrl(outputFileName));
+        m_activeDocument->m_autosave = new KAutoSaveFile(KUrl(hash), this);
+    } else m_activeDocument->m_autosave->setManagedFile(KUrl(hash));
     setCaption(m_activeDocument->description());
     m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), m_activeDocument->url().path());
@@ -2072,13 +2073,14 @@ void MainWindow::openFile(const KUrl &url)
     if (!KdenliveSettings::activatetabs()) if (!closeCurrentDocument()) return;
 
     // Check for backup file
-    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(url);
+    QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
+    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(KUrl(hash));
     if (!staleFiles.isEmpty()) {
         if (KMessageBox::questionYesNo(this,
                                        i18n("Auto-saved files exist. Do you want to recover them now?"),
                                        i18n("File Recovery"),
                                        KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {
-            recoverFiles(staleFiles);
+            recoverFiles(staleFiles, url);
             return;
         } else {
             // remove the stale files
@@ -2113,7 +2115,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     qApp->processEvents();
 
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, &openBackup, this, &progressDialog);
+    KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, &openBackup, this, &progressDialog);
 
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);
@@ -2121,11 +2123,12 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     qApp->processEvents();
 
     if (stale == NULL) {
-        stale = new KAutoSaveFile(url, doc);
+        QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
+        stale = new KAutoSaveFile(KUrl(hash), doc);
         doc->m_autosave = stale;
     } else {
         doc->m_autosave = stale;
-        doc->setUrl(stale->managedFile());
+        doc->setUrl(url);//stale->managedFile());
         doc->setModified(true);
         stale->setParent(doc);
     }
@@ -2161,7 +2164,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     if (openBackup) slotOpenBackupDialog(url);
 }
 
-void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles)
+void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles, const KUrl &originUrl)
 {
     foreach(KAutoSaveFile * stale, staleFiles) {
         /*if (!stale->open(QIODevice::QIODevice::ReadOnly)) {
@@ -2172,7 +2175,7 @@ void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles)
         }*/
         kDebug() << "// OPENING RECOVERY: " << stale->fileName() << "\nMANAGED: " << stale->managedFile().path();
         // the stalefiles also contain ".lock" files so we must ignore them... bug in KAutoSaveFile?
-        if (!stale->fileName().endsWith(".lock")) doOpenFile(KUrl(stale->fileName()), stale);
+        if (!stale->fileName().endsWith(".lock")) doOpenFile(originUrl, stale);
         else KIO::NetAccess::del(KUrl(stale->fileName()), this);
     }
 }

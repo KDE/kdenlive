@@ -273,7 +273,7 @@ private:
     void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
-    void recoverFiles(QList<KAutoSaveFile *> staleFiles);
+    void recoverFiles(QList<KAutoSaveFile *> staleFiles, const KUrl &originUrl);
 
     /** @brief Loads static and dynamic plugins.
      *
