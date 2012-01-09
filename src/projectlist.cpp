@@ -1193,9 +1193,9 @@ void ProjectList::editFolder(const QString folderName, const QString oldfolderNa
     m_doc->setModified(true);
 }
 
-void ProjectList::slotAddFolder()
+void ProjectList::slotAddFolder(const QString &name)
 {
-    AddFolderCommand *command = new AddFolderCommand(this, i18n("Folder"), QString::number(m_doc->clipManager()->getFreeFolderId()), true);
+    AddFolderCommand *command = new AddFolderCommand(this, name.isEmpty() ? i18n("Folder") : name, QString::number(m_doc->clipManager()->getFreeFolderId()), true);
     m_commandStack->push(command);
 }
 
@@ -1665,24 +1665,52 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
         for (int i = 0; i < givenList.count(); i++)
             list << givenList.at(i);
     }
+    QList <KUrl::List> foldersList;
 
     foreach(const KUrl & file, list) {
         // Check there is no folder here
         KMimeType::Ptr type = KMimeType::findByUrl(file);
         if (type->is("inode/directory")) {
-            // user dropped a folder
+            // user dropped a folder, import its files
             list.removeAll(file);
+            QDir dir(file.path());
+            QStringList result = dir.entryList(QDir::Files);
+            KUrl::List folderFiles;
+            folderFiles << file;
+            foreach(const QString & path, result) {
+                KUrl newFile = file;
+                newFile.addPath(path);
+                folderFiles.append(newFile);
+            }
+            if (folderFiles.count() > 1) foldersList.append(folderFiles);
         }
     }
 
-    if (list.isEmpty())
-        return;
-
-    if (givenList.isEmpty()) {
+    if (givenList.isEmpty() && !list.isEmpty()) {
         QStringList groupInfo = getGroup();
         m_doc->slotAddClipList(list, groupInfo.at(0), groupInfo.at(1));
-    } else {
+    } else if (!list.isEmpty()) {
         m_doc->slotAddClipList(list, groupName, groupId);
+    }
+    
+    if (!foldersList.isEmpty()) {
+        // create folders 
+        for (int i = 0; i < foldersList.count(); i++) {
+            KUrl::List urls = foldersList.at(i);
+            KUrl folderUrl = urls.takeFirst();
+            QString folderName = folderUrl.fileName();
+            FolderProjectItem *folder = NULL;
+            if (!folderName.isEmpty()) {
+                folder = getFolderItemByName(folderName);
+                if (folder == NULL) {
+                    slotAddFolder(folderName);
+                    folder = getFolderItemByName(folderName);
+                }
+            }
+            if (folder)
+                m_doc->slotAddClipList(urls, folder->groupName(), folder->clipId());
+            else m_doc->slotAddClipList(urls);
+        }
     }
 }
 
@@ -2289,6 +2317,19 @@ ProjectItem *ProjectList::getItemById(const QString &id)
         ++it;
     }
     return NULL;
+}
+
+FolderProjectItem *ProjectList::getFolderItemByName(const QString &name)
+{
+    FolderProjectItem *item = NULL;
+    QList <QTreeWidgetItem *> hits = m_listView->findItems(name, Qt::MatchExactly, 0);
+    for (int i = 0; i < hits.count(); i++) {
+        if (hits.at(i)->type() == PROJECTFOLDERTYPE) {
+            item = static_cast<FolderProjectItem *>(hits.at(i));
+            break;
+        }
+    }
+    return item;
 }
 
 FolderProjectItem *ProjectList::getFolderItemById(const QString &id)

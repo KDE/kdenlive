@@ -312,6 +312,7 @@ private:
     ProjectItem *getItemById(const QString &id);
     QTreeWidgetItem *getAnyItemById(const QString &id);
     FolderProjectItem *getFolderItemById(const QString &id);
+    FolderProjectItem *getFolderItemByName(const QString &name);
     QAction *m_openAction;
     QAction *m_reloadAction;
     QAction *m_discardCurrentClipJobs;
@@ -402,7 +403,7 @@ private slots:
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *item);
 
     /** @brief Creates an AddFolderCommand. */
-    void slotAddFolder();
+    void slotAddFolder(const QString &name = QString());
 
     /** @brief This is triggered when a clip description has been modified. */
     void slotItemEdited(QTreeWidgetItem *item, int column);
