@@ -39,14 +39,14 @@
 #include <QScrollBar>
 #include <QInputDialog>
 
-TrackView::TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent) :
+TrackView::TrackView(KdenliveDoc *doc, QList <QAction*> actions, bool *ok, QWidget *parent) :
     QWidget(parent),
     m_scale(1.0),
     m_projectTracks(0),
     m_doc(doc),
     m_verticalZoom(1)
 {
-
+    m_trackActions << actions;
     setupUi(this);
 //    ruler_frame->setMaximumHeight();
 //    size_frame->setMaximumHeight();
@@ -550,15 +550,13 @@ void TrackView::slotRebuildTrackHeaders()
         frame->setFixedHeight(1);
         headers_container->layout()->addWidget(frame);
         TrackInfo info = list.at(max - i - 1);
-        header = new HeaderTrack(i, info, height, headers_container);
+        header = new HeaderTrack(i, info, height, m_trackActions, headers_container);
         header->setPalette(p);
         header->setSelectedIndex(m_trackview->selectedTrack());
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
         connect(header, SIGNAL(switchTrackLock(int)), m_trackview, SLOT(slotSwitchTrackLock(int)));
         connect(header, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
-        connect(header, SIGNAL(deleteTrack(int)), this, SIGNAL(deleteTrack(int)));
-        connect(header, SIGNAL(insertTrack(int)), this, SIGNAL(insertTrack(int)));
         connect(header, SIGNAL(renameTrack(int, QString)), this, SLOT(slotRenameTrack(int, QString)));
         connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
         connect(header, SIGNAL(addTrackInfo(const QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(const QDomElement, int)));

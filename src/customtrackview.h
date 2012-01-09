@@ -262,6 +262,10 @@ public slots:
     * @param effect The new effect xml
     * @param ix The track index */
     void slotAddTrackEffect(const QDomElement &effect, int ix);
+    /** @brief Select all clips in selected track. */
+    void slotSelectClipsInTrack();
+    /** @brief Select all clips in timeline. */
+    void slotSelectAllClips();
 
     /** @brief Update the list of snap points (sticky timeline hotspots).
     * @param selected The currently selected clip if any
@@ -453,6 +457,7 @@ private slots:
     void slotRefreshThumbs(const QString &id, bool resetThumbs);
     /** @brief A Filter job producer results. */
     void slotGotFilterJobResults(const QString &id, int startPos, int track, const QString &filter, stringMap filterParams);
+
 
 signals:
     void cursorMoved(int, int);

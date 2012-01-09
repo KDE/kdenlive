@@ -479,6 +479,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
+    QMenu *trackMenu = (QMenu*)(factory()->container("track_menu", this));
+    if (trackMenu) trackMenu->addActions(m_tracksActionCollection->actions());
+
 
     QMenu *saveLayout = (QMenu*)(factory()->container("layout_save_as", this));
     if (saveLayout)
@@ -1542,18 +1545,29 @@ void MainWindow::setupActions()
     collection.addAction("delete_space", removeSpace);
     connect(removeSpace, SIGNAL(triggered()), this, SLOT(slotRemoveSpace()));
 
-    KAction *insertTrack = new KAction(KIcon(), i18n("Insert Track"), this);
-    collection.addAction("insert_track", insertTrack);
+    m_tracksActionCollection = new KActionCollection(m_tracksActionCollection, KGlobal::mainComponent());
+    m_tracksActionCollection->addAssociatedWidget(m_timelineArea);
+    
+    KAction *insertTrack = new KAction(KIcon(), i18n("Insert Track"), m_tracksActionCollection);
+    m_tracksActionCollection->addAction("insert_track", insertTrack);
     connect(insertTrack, SIGNAL(triggered()), this, SLOT(slotInsertTrack()));
 
-    KAction *deleteTrack = new KAction(KIcon(), i18n("Delete Track"), this);
-    collection.addAction("delete_track", deleteTrack);
+    KAction *deleteTrack = new KAction(KIcon(), i18n("Delete Track"), m_tracksActionCollection);
+    m_tracksActionCollection->addAction("delete_track", deleteTrack);
     connect(deleteTrack, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));
 
-    KAction *configTracks = new KAction(KIcon("configure"), i18n("Configure Tracks"), this);
-    collection.addAction("config_tracks", configTracks);
+    KAction *configTracks = new KAction(KIcon("configure"), i18n("Configure Tracks"), m_tracksActionCollection);
+    m_tracksActionCollection->addAction("config_tracks", configTracks);
     connect(configTracks, SIGNAL(triggered()), this, SLOT(slotConfigTrack()));
 
+    KAction *selectTrack = new KAction(KIcon(), i18n("Select All in Current Track"), m_tracksActionCollection);
+    connect(selectTrack, SIGNAL(triggered()), this, SLOT(slotSelectTrack()));
+    m_tracksActionCollection->addAction("select_track", selectTrack);
+    
+    QAction *selectAll = KStandardAction::selectAll(this, SLOT(slotSelectAllTracks()), m_tracksActionCollection);
+    selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    m_tracksActionCollection->addAction("select_all_tracks", selectAll);
+    
     KAction *addGuide = new KAction(KIcon("document-new"), i18n("Add Guide"), this);
     collection.addAction("add_guide", addGuide);
     connect(addGuide, SIGNAL(triggered()), this, SLOT(slotAddGuide()));
@@ -1883,7 +1897,7 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, m_projectMonitor->render, m_notesWidget, &openBackup, this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
-    TrackView *trackView = new TrackView(doc, &ok, this);
+    TrackView *trackView = new TrackView(doc, m_tracksActionCollection->actions(), &ok, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description());
     if (!ok) {
         // MLT is broken
@@ -2138,7 +2152,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     qApp->processEvents();
 
     bool ok;
-    TrackView *trackView = new TrackView(doc, &ok, this);
+    TrackView *trackView = new TrackView(doc, m_tracksActionCollection->actions(), &ok, this);
     connectDocument(trackView, doc);
     progressDialog.progressBar()->setValue(3);
     qApp->processEvents();
@@ -2503,8 +2517,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, const QString &, stringMap)), m_activeTimeline->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, const QString &, stringMap)));
             
             disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
-            disconnect(m_activeTimeline, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
-            disconnect(m_activeTimeline, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
             disconnect(m_activeTimeline, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(m_effectStack, SIGNAL(updateEffect(ClipItem*, int, QDomElement, QDomElement, int)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, int, QDomElement, QDomElement, int)));
@@ -2538,8 +2550,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectList, SIGNAL(clipNameChanged(const QString, const QString)), trackView->projectView(), SLOT(clipNameChanged(const QString, const QString)));
 
     //connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
-    connect(trackView, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
-    connect(trackView, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
     connect(trackView, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
     connect(trackView, SIGNAL(updateTracksInfo()), this, SLOT(slotUpdateTrackInfo()));
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
@@ -2600,9 +2610,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
     connect(trackView, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
     connect(m_projectList, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
-
-
-    trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, (QMenu*)(factory()->container("marker_menu", this)));
+    trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu*>(factory()->container("marker_menu", this)));
     m_activeTimeline = trackView;
     if (m_renderWidget) {
         slotCheckRenderStatus();
@@ -2653,6 +2661,7 @@ void MainWindow::slotEditKeys()
     KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
     dialog.addCollection(m_effectsActionCollection, i18nc("effects and transitions keyboard shortcuts", "Effects & Transitions"));
+    dialog.addCollection(m_tracksActionCollection, i18nc("timeline track keyboard shortcuts", "Timeline and Tracks"));
     dialog.configure();
 }
 
@@ -2952,8 +2961,10 @@ void MainWindow::slotRemoveSpace()
 void MainWindow::slotInsertTrack(int ix)
 {
     m_projectMonitor->activateMonitor();
-    if (m_activeTimeline)
+    if (m_activeTimeline) {
+        if (ix == -1) ix = m_activeTimeline->projectView()->selectedTrack();
         m_activeTimeline->projectView()->slotInsertTrack(ix);
+    }
     if (m_activeDocument)
         m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
 }
@@ -2961,8 +2972,10 @@ void MainWindow::slotInsertTrack(int ix)
 void MainWindow::slotDeleteTrack(int ix)
 {
     m_projectMonitor->activateMonitor();
-    if (m_activeTimeline)
+    if (m_activeTimeline) {
+        if (ix == -1) ix = m_activeTimeline->projectView()->selectedTrack();
         m_activeTimeline->projectView()->slotDeleteTrack(ix);
+    }
     if (m_activeDocument)
         m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
 }
@@ -2974,6 +2987,21 @@ void MainWindow::slotConfigTrack(int ix)
         m_activeTimeline->projectView()->slotConfigTracks(ix);
     if (m_activeDocument)
         m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
+}
+
+void MainWindow::slotSelectTrack()
+{
+    m_projectMonitor->activateMonitor();
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->slotSelectClipsInTrack();
+    }
+}
+
+void MainWindow::slotSelectAllTracks()
+{
+    m_projectMonitor->activateMonitor();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotSelectAllClips();
 }
 
 void MainWindow::slotEditGuide()

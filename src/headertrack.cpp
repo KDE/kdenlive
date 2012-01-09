@@ -33,7 +33,7 @@
 #include <QTimer>
 #include <QDomDocument>
 
-HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent) :
+HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QList <QAction *> actions, QWidget *parent) :
         QWidget(parent),
         m_index(index),
         m_type(info.type),
@@ -88,18 +88,8 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent)
         //horizontalSpacer;
     }
 
-    setContextMenuPolicy(Qt::DefaultContextMenu); //Qt::ActionsContextMenu);
-    QAction *insertAction = new QAction(i18n("Insert Track"), this);
-    m_menu.addAction(insertAction);
-    connect(insertAction, SIGNAL(triggered()), this, SLOT(slotAddTrack()));
-
-    QAction *removeAction = new QAction(KIcon("edit-delete"), i18n("Delete Track"), this);
-    m_menu.addAction(removeAction);
-    connect(removeAction, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));
-
-    QAction *configAction = new QAction(KIcon("configure"), i18n("Configure Track"), this);
-    m_menu.addAction(configAction);
-    connect(configAction, SIGNAL(triggered()), this, SLOT(slotConfigTrack()));
+    setContextMenuPolicy(Qt::ActionsContextMenu);
+    addActions(actions);
 }
 
 /*HeaderTrack::~HeaderTrack()
@@ -129,23 +119,13 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
     QWidget::mousePressEvent(event);
 }
 
-// virtual
-void HeaderTrack::contextMenuEvent(QContextMenuEvent * event)
-{
-    if (track_number->hasFocus()) {
-        track_number->clearFocus();
-        return;
-    }
-    m_menu.popup(event->globalPos());
-}
-
 void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
 {
     if (track_number->hasFocus()) {
         track_number->clearFocus();
         return;
     }
-    slotConfigTrack();
+    emit configTrack(m_index);
     QWidget::mouseDoubleClickEvent(event);
 }
 
@@ -248,25 +228,11 @@ void HeaderTrack::slotDeleteTrack()
     QTimer::singleShot(500, this, SLOT(deleteTrack()));
 }
 
-void HeaderTrack::deleteTrack()
-{
-    emit deleteTrack(m_index);
-}
-
-void HeaderTrack::slotAddTrack()
-{
-    emit insertTrack(m_index);
-}
-
 void HeaderTrack::slotRenameTrack()
 {
     if (m_name != track_number->text()) emit renameTrack(m_index, track_number->text());
 }
 
-void HeaderTrack::slotConfigTrack()
-{
-    emit configTrack(m_index);
-}
 
 
 #include "headertrack.moc"
