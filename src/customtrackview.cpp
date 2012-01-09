@@ -6349,10 +6349,12 @@ void CustomTrackView::slotSelectClipsInTrack()
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     m_scene->clearSelection();
     for (int i = 0; i < selection.count(); i++) {
-        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
+        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET) {
             selection.at(i)->setSelected(true);
         }
     }    
+    resetSelectionGroup();
+    groupSelectedItems();
 }
 
 void CustomTrackView::slotSelectAllClips()
@@ -6360,10 +6362,12 @@ void CustomTrackView::slotSelectAllClips()
     QList<QGraphicsItem *> selection = m_scene->items();
     m_scene->clearSelection();
     for (int i = 0; i < selection.count(); i++) {
-        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
+        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET  || selection.at(i)->type() == GROUPWIDGET) {
             selection.at(i)->setSelected(true);
         }
-    }  
+    }
+    resetSelectionGroup();
+    groupSelectedItems();
 }
 
 void CustomTrackView::selectClip(bool add, bool group, int track, int pos)
