@@ -1545,7 +1545,7 @@ void MainWindow::setupActions()
     collection.addAction("delete_space", removeSpace);
     connect(removeSpace, SIGNAL(triggered()), this, SLOT(slotRemoveSpace()));
 
-    m_tracksActionCollection = new KActionCollection(m_tracksActionCollection, KGlobal::mainComponent());
+    m_tracksActionCollection = new KActionCollection(this, KGlobal::mainComponent());
     m_tracksActionCollection->addAssociatedWidget(m_timelineArea);
     
     KAction *insertTrack = new KAction(KIcon(), i18n("Insert Track"), m_tracksActionCollection);
