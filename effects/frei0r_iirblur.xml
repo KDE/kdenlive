@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.IIRblur" id="frei0r.IIRblur">
-        <name>IIR Blur</name>
-        <description>Blur using 2D IIR filters</description>
+        <name>Blur</name>
+        <description>Blur using 2D IIR filters (Exponential, Lowpass, Gaussian)</description>
         <author>Marko Cebokli</author>
         
         <parameter type="simplekeyframe" name="Amount" default="40" min="0" max="1000" factor="1000">
