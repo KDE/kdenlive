@@ -282,6 +282,8 @@ void ClipManager::slotGetAudioThumbs()
             kDebug() << "++++++++  INVALID CLIP: " << url.path();
             continue;
         }
+        
+        producer.set("video_index", "-1");
 
         if (KdenliveSettings::normaliseaudiothumbs()) {
             Mlt::Filter m_convert(prof, "volume");

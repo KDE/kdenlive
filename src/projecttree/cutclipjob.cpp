@@ -105,7 +105,7 @@ void CutClipJob::processLogInfo()
 {
     if (!m_jobProcess || m_jobDuration == 0 || jobStatus == JOBABORTED) return;
     QString log = m_jobProcess->readAll();
-    if (!log.isEmpty()) m_errorMessage.append(log + '\n');
+    if (!log.isEmpty()) m_logDetails.append(log + '\n');
     int progress;
     // Parse FFmpeg output
     if (log.contains("frame=")) {

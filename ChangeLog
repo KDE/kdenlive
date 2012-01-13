@@ -1,3 +1,17 @@
+Current git
+    * Fix archiving feature not saving playlist clips and slowmotion clips inside them
+    * Fix Crash recovery feature triggering error messages about wrong path
+    * Fix rendering jobs sometimes not starting
+    * Fix crash on proxy creation (concurrency issue)
+    * Fix zone playing
+    * Fix click on monitor sometimes not triggering play
+    * Add Online Resource Widget allowing easy search and download of online services (freesound, openclipart, archive.org)
+    * Introduce generic job framework for project tree jobs
+    * Fix color change not working in title widget
+    * Fix crash when moving a folder and a clip in project tree
+    * Fix profile warning with clips that have 1088 pixels height
+    * Add audio only recording (works while playing)
+
 0.8.2.1
     * Fix title text oultine transparency not working
     * Make titler window fit on smaller resolutions (1024x768)

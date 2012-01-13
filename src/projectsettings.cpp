@@ -255,6 +255,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
     texts->setIcon(0, KIcon("text-plain"));
     texts->setExpanded(true);
+    QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
+    playlists->setIcon(0, KIcon("video-mlt-playlist"));
+    playlists->setExpanded(true);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
     others->setIcon(0, KIcon("unknown"));
     others->setExpanded(true);
@@ -284,6 +287,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
                 break;
             case IMAGE:
                 new QTreeWidgetItem(images, QStringList() << clip->fileURL().path());
+                break;
+            case PLAYLIST:
+                new QTreeWidgetItem(playlists, QStringList() << clip->fileURL().path());
                 break;
             case UNKNOWN:
                 new QTreeWidgetItem(others, QStringList() << clip->fileURL().path());
@@ -458,6 +464,9 @@ QStringList ProjectSettings::extractPlaylistUrls(QString path)
         QString type = EffectsList::property(e, "mlt_service");
         if (type != "colour") {
             QString url = EffectsList::property(e, "resource");
+            if (type == "framebuffer") {
+                url = url.section('?', 0, 0);
+            }
             if (!url.isEmpty()) {
                 if (!url.startsWith('/')) url.prepend(root);
                 if (url.section('.', 0, -2).endsWith("/.all")) {

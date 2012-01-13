@@ -260,6 +260,7 @@ private:
     StatusBarMessageLabel *m_messageLabel;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
+    KActionCollection *m_tracksActionCollection;
 
     bool m_findActivated;
     QString m_findString;
@@ -273,7 +274,7 @@ private:
     void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
-    void recoverFiles(QList<KAutoSaveFile *> staleFiles);
+    void recoverFiles(QList<KAutoSaveFile *> staleFiles, const KUrl &originUrl);
 
     /** @brief Loads static and dynamic plugins.
      *
@@ -453,10 +454,14 @@ private slots:
     void slotResizeItemStart();
     void slotResizeItemEnd();
     void configureNotifications();
-    void slotInsertTrack(int ix = 0);
-    void slotDeleteTrack(int ix = 0);
+    void slotInsertTrack(int ix = -1);
+    void slotDeleteTrack(int ix = -1);
     /** @brief Shows the configure tracks dialog and updates transitions afterwards. */
     void slotConfigTrack(int ix = -1);
+    /** @brief Select all clips in active track. */
+    void slotSelectTrack();
+    /** @brief Select all clips in timeline. */
+    void slotSelectAllTracks();
     void slotGetNewLumaStuff();
     void slotGetNewTitleStuff();
     void slotGetNewRenderStuff();

@@ -32,6 +32,9 @@
 #include <KDebug>
 #include <KApplication>
 #include <kio/directorysizejob.h>
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#endif
 
 #include <QTreeWidget>
 #include <QtConcurrentRun>
@@ -46,7 +49,8 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
         m_doc(doc),
         m_abortArchive(false),
         m_extractMode(false),
-        m_extractArchive(NULL)
+        m_extractArchive(NULL),
+        m_missingClips(0)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
@@ -77,6 +81,10 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     texts->setIcon(0, KIcon("text-plain"));
     texts->setData(0, Qt::UserRole, "texts");
     texts->setExpanded(false);
+    QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
+    playlists->setIcon(0, KIcon("video-mlt-playlist"));
+    playlists->setData(0, Qt::UserRole, "playlist");
+    playlists->setExpanded(false);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
     others->setIcon(0, KIcon("unknown"));
     others->setData(0, Qt::UserRole, "others");
@@ -102,6 +110,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     QStringList videoUrls;
     QStringList imageUrls;
     QStringList otherUrls;
+    QStringList playlistUrls;
     QStringList proxyUrls;
 
     for (int i = 0; i < list.count(); i++) {
@@ -119,6 +128,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
             imageUrls << imagefiles;
             allFonts << fonts;
         } else if (t == PLAYLIST) {
+            playlistUrls << clip->fileURL().path();
             QStringList files = ProjectSettings::extractPlaylistUrls(clip->fileURL().path());
             otherUrls << files;
         }
@@ -137,10 +147,32 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     generateItems(videos, videoUrls);
     generateItems(images, imageUrls);
     generateItems(slideshows, slideUrls);
+    generateItems(playlists, playlistUrls);
     generateItems(others, otherUrls);
     generateItems(proxies, proxyUrls);
     
     allFonts.removeDuplicates();
+
+#if KDE_IS_VERSION(4,7,0)
+        m_infoMessage = new KMessageWidget(this);
+        QVBoxLayout *s =  static_cast <QVBoxLayout*> (layout());
+        s->insertWidget(5, m_infoMessage);
+        m_infoMessage->setCloseButtonVisible(false);
+        m_infoMessage->setWordWrap(true);
+        m_infoMessage->hide();
+#endif
+        
+        // missing clips, warn user
+    if (m_missingClips > 0) {
+        QString infoText = i18np("You have %1 missing clip in your project.", "You have %1 missing clips in your project.", m_missingClips);
+#if KDE_IS_VERSION(4,7,0)
+        m_infoMessage->setMessageType(KMessageWidget::Warning);
+        m_infoMessage->setText(infoText);
+        m_infoMessage->animatedShow();
+#else
+        KMessageBox::sorry(this, infoText);
+#endif
+    }
 
     //TODO: fonts
 
@@ -170,7 +202,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartArchiving()));
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    
+
     slotCheckSpace();
 }
 
@@ -194,7 +226,7 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
     archive_url->setUrl(KUrl(QDir::homePath()));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Extract"));
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartExtracting()));
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     adjustSize();
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::openArchiveForExtraction);
 }
@@ -206,9 +238,22 @@ ArchiveWidget::~ArchiveWidget()
 }
 
 void ArchiveWidget::slotDisplayMessage(const QString &icon, const QString &text)
-{
+{    
     icon_info->setPixmap(KIcon(icon).pixmap(16, 16));
     text_info->setText(text);
+}
+
+void ArchiveWidget::slotJobResult(bool success, const QString &text)
+{
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage->setMessageType(success ? KMessageWidget::Positive : KMessageWidget::Warning);
+    m_infoMessage->setText(text);
+    m_infoMessage->animatedShow();
+#else
+    if (success) icon_info->setPixmap(KIcon("dialog-ok").pixmap(16, 16));
+    else icon_info->setPixmap(KIcon("dialog-close").pixmap(16, 16));
+    text_info->setText(text);
+#endif
 }
 
 void ArchiveWidget::openArchiveForExtraction()
@@ -329,7 +374,12 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
             item->setData(0, Qt::UserRole, fileName);
         }
         if (!isSlideshow) {
-            m_requestedSize += QFileInfo(file).size();
+            qint64 fileSize = QFileInfo(file).size();
+            if (fileSize <= 0) {
+                item->setIcon(0, KIcon("edit-delete"));
+                m_missingClips++;
+            }
+            else m_requestedSize += fileSize;
             filesList << fileName;
         }
     }
@@ -476,16 +526,16 @@ void ArchiveWidget::slotArchivingFinished(KJob *job)
             // Archiving finished
             progressBar->setValue(100);
             if (processProjectFile()) {
-                slotDisplayMessage("dialog-ok", i18n("Project was successfully archived."));
+                slotJobResult(true, i18n("Project was successfully archived."));
             }
             else {
-                slotDisplayMessage("dialog-close", i18n("There was an error processing project file"));
+                slotJobResult(false, i18n("There was an error processing project file"));
             }
         } else processProjectFile();
     }
     else {
         m_copyJob = NULL;
-        slotDisplayMessage("dialog-close", i18n("There was an error while copying the files: %1", job->errorString()));
+        slotJobResult(false, i18n("There was an error while copying the files: %1", job->errorString()));
     }
     if (!compressed_archive->isChecked()) {
         buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
@@ -666,10 +716,11 @@ void ArchiveWidget::createArchive()
 void ArchiveWidget::slotArchivingFinished(bool result)
 {
     if (result) {
-        slotDisplayMessage("dialog-ok", i18n("Project was successfully archived."));
+        slotJobResult(true, i18n("Project was successfully archived."));
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     }
     else {
-        slotDisplayMessage("dialog-close", i18n("There was an error processing project file"));
+        slotJobResult(false, i18n("There was an error processing project file"));
     }
     progressBar->setValue(100);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));

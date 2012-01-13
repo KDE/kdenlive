@@ -160,7 +160,7 @@ void ProxyJob::startJob()
             if (QFileInfo(m_dest).size() == 0) {
                 // File was not created
                 processLogInfo();
-                m_errorMessage.append(i18n("Failed to create file."));
+                m_errorMessage.append(i18n("Failed to create proxy clip."));
                 setStatus(JOBCRASHED);
             }
             else setStatus(JOBDONE);
@@ -180,7 +180,7 @@ void ProxyJob::processLogInfo()
 {
     if (!m_jobProcess || jobStatus == JOBABORTED) return;
     QString log = m_jobProcess->readAll();
-    if (!log.isEmpty()) m_errorMessage.append(log + '\n');
+    if (!log.isEmpty()) m_logDetails.append(log + '\n');
     else return;
     int progress;
     if (m_isFfmpegJob) {

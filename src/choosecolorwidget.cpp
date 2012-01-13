@@ -35,28 +35,30 @@ static QColor stringToColor(QString strColor)
     int intval = 0;
 
     if (strColor.startsWith("0x")) {
-        // Format must be 0xRRGGBBAA
-        intval = strColor.toUInt(&ok, 16);
-        color.setRgb( ( intval >> 24 ) & 0xff,   // r
-                      ( intval >> 16 ) & 0xff,   // g
-                      ( intval >>  8 ) & 0xff,   // b
-                      ( intval )       & 0xff ); // a
-    } else if (strColor.startsWith("#") && strColor.length() == 9) {
-        // Format must be #AARRGGBB
-        strColor = strColor.replace('#', "0x");
-        intval = strColor.toUInt(&ok, 16);
-        color.setRgb( ( intval >> 16 ) & 0xff,   // r
-                      ( intval >>  8 ) & 0xff,   // g
-                      ( intval       ) & 0xff,   // b
-                      ( intval >> 24 ) & 0xff ); // a
-    } else if (strColor.startsWith("#") && strColor.length() == 7) {
-        // Format must be #RRGGBB
-        strColor = strColor.replace('#', "0x");
-        intval = strColor.toUInt(&ok, 16);
-        color.setRgb( ( intval >> 16 ) & 0xff,   // r
-                      ( intval >>  8 ) & 0xff,   // g
-                      ( intval       ) & 0xff,   // b
-                      0xff );                    // a
+        if (strColor.length() == 10) {
+            // 0xRRGGBBAA
+            intval = strColor.toUInt(&ok, 16);
+            color.setRgb( ( intval >> 24 ) & 0xff,   // r
+                          ( intval >> 16 ) & 0xff,   // g
+                          ( intval >>  8 ) & 0xff,   // b
+                          ( intval       ) & 0xff ); // a
+        } else {
+            // 0xRRGGBB, 0xRGB
+            color.setNamedColor(strColor.replace(0, 2, "#"));
+        }
+    } else {
+        if (strColor.length() == 9) {
+            // #AARRGGBB
+            strColor = strColor.replace('#', "0x");
+            intval = strColor.toUInt(&ok, 16);
+            color.setRgb( ( intval >> 16 ) & 0xff,   // r
+                          ( intval >>  8 ) & 0xff,   // g
+                          ( intval       ) & 0xff,   // b
+                          ( intval >> 24 ) & 0xff ); // a
+        } else {
+            // #RRGGBB, #RGB
+            color.setNamedColor(strColor);
+        }
     }
 
     return color;

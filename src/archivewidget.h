@@ -26,11 +26,14 @@
 #include "docclipbase.h"
 
 #include <kio/global.h>
+#include <KIO/CopyJob>
+#include <KTemporaryFile>
+#include <kdeversion.h>
+
 #include <QLabel>
 #include <QDialog>
 #include <QList>
-#include <KIO/CopyJob>
-#include <KTemporaryFile>
+
 
 class KJob;
 class KArchive;
@@ -40,6 +43,10 @@ class KArchive;
  * @brief A widget allowing to archive a project (copy all project files to a new location)
  * @author Jean-Baptiste Mardelle
  */
+
+#if KDE_IS_VERSION(4,7,0)
+    class KMessageWidget;
+#endif
 
 class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
 {
@@ -70,6 +77,7 @@ private slots:
     void slotGotProgress(KJob*);
     void openArchiveForExtraction();
     void slotDisplayMessage(const QString &icon, const QString &text);
+    void slotJobResult(bool success, const QString &text);
 
 protected:
     virtual void closeEvent ( QCloseEvent * e );
@@ -91,6 +99,11 @@ private:
     QString m_projectName;
     QTimer *m_progressTimer;
     KArchive *m_extractArchive;
+    int m_missingClips;
+    
+#if KDE_IS_VERSION(4,7,0)
+    KMessageWidget *m_infoMessage;
+#endif
 
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, QStringList items);

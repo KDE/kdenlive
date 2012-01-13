@@ -312,6 +312,7 @@ private:
     ProjectItem *getItemById(const QString &id);
     QTreeWidgetItem *getAnyItemById(const QString &id);
     FolderProjectItem *getFolderItemById(const QString &id);
+    FolderProjectItem *getFolderItemByName(const QString &name);
     QAction *m_openAction;
     QAction *m_reloadAction;
     QAction *m_discardCurrentClipJobs;
@@ -402,7 +403,7 @@ private slots:
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *item);
 
     /** @brief Creates an AddFolderCommand. */
-    void slotAddFolder();
+    void slotAddFolder(const QString &name = QString());
 
     /** @brief This is triggered when a clip description has been modified. */
     void slotItemEdited(QTreeWidgetItem *item, int column);
@@ -436,7 +437,7 @@ private slots:
     /** @brief Update a clip's job status. */
     void slotProcessLog(const QString, int progress, int, const QString = QString());
     /** @brief A clip job crashed, inform user. */
-    void slotUpdateJobStatus(const QString &id, int type, int status, const QString &label, const QString &actionName, const QString details);
+    void slotUpdateJobStatus(const QString id, int type, int status, const QString label, const QString actionName, const QString details);
     void slotUpdateJobStatus(ProjectItem *item, int type, int status, const QString &label, const QString &actionName = QString(), const QString details = QString());
     /** @brief Display error log for last failed job. */
     void slotShowJobLog();
@@ -476,7 +477,7 @@ signals:
     void cancelRunningJob(const QString, stringMap);
     void processLog(const QString, int , int, const QString = QString());
     void addClip(const QString, const QString &, const QString &);
-    void updateJobStatus(const QString, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString details = QString());
+    void updateJobStatus(const QString, int, int, const QString label = QString(), const QString actionName = QString(), const QString details = QString());
     void gotProxy(const QString);
     void checkJobProcess();
     /** @brief A Filter Job produced results, send them back to the clip. */

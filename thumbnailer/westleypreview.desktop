@@ -1,11 +1,16 @@
 [Desktop Entry]
 Type=Service
 Name=MLT Playlist
+Name[ca]=Llista de reproducció del MLT
 Name[cs]=Seznam skladeb MLT
 Name[da]=MLT-spilleliste
 Name[de]=MLT-Wiedergabeliste
 Name[el]=Λίστα αναπαραγωγής MLT
+Name[es]=Lista de reproducción de MLT
+Name[gl]=Lista de reprodución MLT
+Name[nb]=MLT-spilleliste
 Name[nl]=MLT-afspeellijst
+Name[pl]=Lista odtwarzania MLT
 Name[pt]=Lista de Reprodução MLT
 Name[pt_BR]=Lista de Reprodução MLT
 Name[sv]=MLT-spellista

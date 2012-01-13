@@ -644,7 +644,14 @@ void Render::processFileProperties()
         bool proxyProducer;
         if (info.xml.hasAttribute("proxy") && info.xml.attribute("proxy") != "-") {
             path = info.xml.attribute("proxy");
-            proxyProducer = true;
+            // Check for missing proxies
+            if (QFileInfo(path).size() <= 0) {
+                // proxy is missing, re-create it
+                emit requestProxy(info.clipId);
+                proxyProducer = false;
+                path = info.xml.attribute("resource");
+            }
+            else proxyProducer = true;
         }
         else {
             path = info.xml.attribute("resource");
@@ -1493,7 +1500,6 @@ void Render::seekToFrame(int pos)
 {
     if (!m_mltProducer)
         return;
-    
     resetZoneMode();
     m_mltProducer->seek(pos);
     if (m_mltProducer->get_speed() == 0) {
@@ -1592,7 +1598,7 @@ void Render::emitConsumerStopped()
     if (m_mltProducer) {
         double pos = m_mltProducer->position();
         if (m_isLoopMode) play(m_loopStart);
-        else if (m_isZoneMode) resetZoneMode();
+        //else if (m_isZoneMode) resetZoneMode();
         emit rendererStopped((int) pos);
     }
 }

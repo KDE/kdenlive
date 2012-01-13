@@ -68,7 +68,8 @@ const int TimeRole = Qt::UserRole + 2;
 const int ProgressRole = Qt::UserRole + 3;
 const int ExtraInfoRole = Qt::UserRole + 5;
 
-const int ScriptType = QTreeWidgetItem::UserType;
+const int DirectRenderType = QTreeWidgetItem::Type;
+const int ScriptRenderType = QTreeWidgetItem::UserType;
 
 
 // Running job status
@@ -1034,19 +1035,27 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     emit selectedRenderProfile(renderProps);
 
     // insert item in running jobs list
-    RenderJobItem *renderItem;
+    RenderJobItem *renderItem = NULL;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) {
         renderItem = static_cast<RenderJobItem*> (existing.at(0));
-        if (renderItem->status() == RUNNINGJOB) {
+        if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB) {
             KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", dest), i18n("Already running"));
             return;
         }
-        renderItem->setData(1, ProgressRole, 0);
-        renderItem->setStatus(WAITINGJOB);
-    } else {
-        renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
-    }    
+        if (renderItem->type() != DirectRenderType) {
+            delete renderItem;
+            renderItem = NULL;
+        }
+        else {
+            renderItem->setData(1, ProgressRole, 0);
+            renderItem->setStatus(WAITINGJOB);
+            renderItem->setIcon(0, KIcon("media-playback-pause"));
+            renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
+            renderItem->setData(1, ParametersRole, dest);
+        }
+    }
+    if (!renderItem) renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);    
     renderItem->setData(1, TimeRole, QTime::currentTime());
 
     // Set rendering type
@@ -1083,12 +1092,16 @@ void RenderWidget::checkRenderStatus()
     // check if we have a job waiting to render
     if (m_blockProcessing) return;
     RenderJobItem* item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
+    
+    // Make sure no other rendering is running
     while (item) {
         if (item->status() == RUNNINGJOB) return;
         item = static_cast<RenderJobItem*> (m_view.running_jobs->itemBelow(item));
     }
     item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     bool waitingJob = false;
+    
+    // Find first aiting job
     while (item) {
         if (item->status() == WAITINGJOB) {
             item->setData(1, TimeRole, QTime::currentTime());
@@ -1103,15 +1116,17 @@ void RenderWidget::checkRenderStatus()
 
 void RenderWidget::startRendering(RenderJobItem *item)
 {
-    if (item->type() == QTreeWidgetItem::Type) {
+    if (item->type() == DirectRenderType) {
         // Normal render process
+        kDebug()<<"// Normal process";
         if (QProcess::startDetached(m_renderer, item->data(1, ParametersRole).toStringList()) == false) {
             item->setStatus(FAILEDJOB);
         } else {
             KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
         }
-    } else if (item->type() == ScriptType){
+    } else if (item->type() == ScriptRenderType){
         // Script item
+        kDebug()<<"// SCRIPT process: "<<item->data(1, ParametersRole).toString();
         if (QProcess::startDetached(item->data(1, ParametersRole).toString()) == false) {
             item->setStatus(FAILEDJOB);
         }
@@ -1932,19 +1947,25 @@ void RenderWidget::slotStartScript()
 {
     RenderJobItem* item = static_cast<RenderJobItem*> (m_view.scripts_list->currentItem());
     if (item) {
+        kDebug() << "// STARTING SCRIPT: "<<item->text(1);
         QString destination = item->data(1, Qt::UserRole).toString();
         QString path = item->data(1, Qt::UserRole + 1).toString();
         // Insert new job in queue
-        RenderJobItem *renderItem;
+        RenderJobItem *renderItem = NULL;
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(destination, Qt::MatchExactly, 1);
         kDebug() << "------  START SCRIPT";
         if (!existing.isEmpty()) {
             renderItem = static_cast<RenderJobItem*> (existing.at(0));
-            if (renderItem->status() == RUNNINGJOB) {
+            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB) {
                 KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", destination), i18n("Already running"));
                 return;
             }
-        } else renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination, ScriptType);
+            else if (renderItem->type() != ScriptRenderType) {
+                delete renderItem;
+                renderItem = NULL;
+            }
+        }
+        if (!renderItem) renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination, ScriptRenderType);
         renderItem->setData(1, ProgressRole, 0);
         renderItem->setStatus(WAITINGJOB);
         renderItem->setIcon(0, KIcon("media-playback-pause"));
@@ -2061,11 +2082,11 @@ bool RenderWidget::startWaitingRenderJobs()
     RenderJobItem *item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     while (item) {
         if (item->status() == WAITINGJOB) {
-            if (item->type() == QTreeWidgetItem::Type) {
+            if (item->type() == DirectRenderType) {
                 // Add render process for item
                 const QString params = item->data(1, ParametersRole).toStringList().join(" ");
                 outStream << m_renderer << " " << params << "\n";
-            } else if (item->type() == ScriptType){
+            } else if (item->type() == ScriptRenderType){
                 // Script item
                 outStream << item->data(1, ParametersRole).toString() << "\n";
             }

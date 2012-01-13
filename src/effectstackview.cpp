@@ -231,17 +231,20 @@ void EffectStackView::slotTrackItemSelected(int ix, const TrackInfo info)
 
 void EffectStackView::slotItemChanged(QListWidgetItem *item)
 {
-    bool disable = true;
-    if (item->checkState() == Qt::Checked) disable = false;
-    m_ui.buttonReset->setEnabled(!disable || !KdenliveSettings::disable_effect_parameters());
+    bool disable = item->checkState() == Qt::Unchecked;
+    int row = m_ui.effectlist->row(item);
     int activeRow = m_ui.effectlist->currentRow();
-    if (activeRow >= 0) {
+
+    if (row == activeRow) {
+        m_ui.buttonReset->setEnabled(!disable || !KdenliveSettings::disable_effect_parameters());
         m_effectedit->updateParameter("disable", QString::number((int) disable));
-        if (m_trackMode)
-            emit changeEffectState(NULL, m_trackindex, activeRow, disable);
-        else
-            emit changeEffectState(m_clipref, -1, activeRow, disable);
     }
+
+    if (m_trackMode)
+        emit changeEffectState(NULL, m_trackindex, row, disable);
+    else
+        emit changeEffectState(m_clipref, -1, row, disable);
+
     slotUpdateCheckAllButton();
 }
 

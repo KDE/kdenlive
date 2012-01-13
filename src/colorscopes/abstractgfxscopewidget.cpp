@@ -62,7 +62,8 @@ void AbstractGfxScopeWidget::slotActiveMonitorChanged()
 {
     if (m_activeRender) {
         if (m_activeRender == m_manager->activeRenderer()) return;
-        bool b = m_activeRender->disconnect(this);
+        bool b = true;
+        b &= m_activeRender->disconnect(this);
         Q_ASSERT(b);
     }
     m_activeRender = m_manager->activeRenderer();
