@@ -143,8 +143,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         else {
             QFile file(tmpFile);
             QString errorMsg;
-            QDomImplementation impl;
-            impl.setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
+            QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
             success = m_document.setContent(&file, false, &errorMsg);
             file.close();
             KIO::NetAccess::removeTempFile(tmpFile);
@@ -159,7 +158,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             else {
                 parent->slotGotProgressInfo(i18n("Validating"), 0);
                 qApp->processEvents();
-                DocumentValidator validator(m_document);
+                DocumentValidator validator(m_document, url);
                 success = validator.isProject();
                 if (!success) {
                     // It is not a project file
