@@ -24,20 +24,22 @@
 #include <QDomDocument>
 #include <QColor>
 
-class QScriptValue;
+#include <KUrl>
 
+class QScriptValue;
 
 class DocumentValidator
 {
 
 public:
-    DocumentValidator(QDomDocument doc);
+    DocumentValidator(QDomDocument doc, KUrl documentUrl);
     bool isProject() const;
     bool validate(const double currentVersion);
     bool isModified() const;
 
 private:
     QDomDocument m_doc;
+    KUrl m_url;
     bool m_modified;
     bool upgrade(double version, const double currentVersion);
     QStringList getInfoFromEffectName(const QString oldName);
