@@ -42,7 +42,7 @@
 #include <KRun>
 #include <KPixmapSequence>
 #include <KPixmapSequenceOverlayPainter>
-
+#include <KFileItem>
 
 #ifdef USE_NEPOMUK
 #if KDE_IS_VERSION(4,6,0)
@@ -52,7 +52,6 @@
 #include <Nepomuk/Vocabulary/NIE>
 #include <Nepomuk/Vocabulary/NCO>
 #include <Nepomuk/Vocabulary/NDO>
-#include <kfileitem.h>
 #endif
 #endif
 
@@ -205,25 +204,6 @@ void ResourceWidget::slotPlaySound()
     else button_preview->setText(i18n("Stop"));
 }
 
-
-void ResourceWidget::slotForcePlaySound(bool play)
-{
-    /*
-    if (m_service != FREESOUND) return;
-    m_previewProcess->close();
-    if (m_currentPreview.isEmpty()) return;
-    if (play)
-        m_previewProcess->start("ffplay", QStringList() << m_currentPreview << "-nodisp");
-    */
-}
-
-void ResourceWidget::slotPreviewStatusChanged(QProcess::ProcessState state)
-{
-    /*if (state == QProcess::NotRunning)
-        button_preview->setText(i18n("Preview"));
-    else 
-        button_preview->setText(i18n("Stop"));*/
-}
 
 void ResourceWidget::slotSaveItem(const QString originalUrl)
 {

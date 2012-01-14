@@ -46,8 +46,6 @@ private slots:
     void slotStartSearch(int page = 0);
     void slotUpdateCurrentSound();
     void slotPlaySound();
-    void slotForcePlaySound(bool play);
-    void slotPreviewStatusChanged(QProcess::ProcessState state);
     void slotDisplayMetaInfo(QMap <QString, QString> metaInfo);
     void slotSaveItem(const QString originalUrl = QString());
     void slotOpenUrl(const QString &url);
