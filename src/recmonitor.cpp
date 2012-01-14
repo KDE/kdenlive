@@ -104,10 +104,10 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     rec_audio->setChecked(KdenliveSettings::v4l_captureaudio());
     rec_video->setChecked(KdenliveSettings::v4l_capturevideo());
     
-    m_previewSettings = new KSelectAction(i18n("Preview Settings"), this);
-    m_previewSettings->addAction(i18n("Quick preview"));
-    m_previewSettings->addAction(i18n("Full preview"));
-    m_previewSettings->addAction(i18n("No preview"));
+    m_previewSettings = new QAction(i18n("Recording Preview"), this);
+    m_previewSettings->setCheckable(true);
+    
+
     rec_options->setMenu(menu);
     menu->addAction(m_previewSettings);
 
@@ -169,8 +169,8 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
 
     kDebug() << "/////// BUILDING MONITOR, ID: " << video_frame->winId();
     slotVideoDeviceChanged(device_selector->currentIndex());
-    m_previewSettings->setCurrentItem(KdenliveSettings::recording_preview());
-    connect(m_previewSettings, SIGNAL(triggered(int)), this, SLOT(slotChangeRecordingPreview(int)));
+    m_previewSettings->setChecked(KdenliveSettings::enable_recording_preview());
+    connect(m_previewSettings, SIGNAL(triggered(bool)), this, SLOT(slotChangeRecordingPreview(bool)));
 }
 
 RecMonitor::~RecMonitor()
@@ -510,7 +510,6 @@ void RecMonitor::slotStartPreview(bool play)
         path = KdenliveSettings::current_profile();
         m_manager->activateMonitor("record");
         buildMltDevice(path);
-        profile = ProfilesDialog::getVideoProfile(path);
         producer = QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice());
         if (!m_captureDevice->slotStartPreview(producer)) {
             // v4l capture failed to start
@@ -584,6 +583,7 @@ void RecMonitor::slotRecord()
 
         switch (device_selector->currentIndex()) {
         case VIDEO4LINUX:
+            m_manager->activateMonitor("record");
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
             m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
@@ -624,8 +624,8 @@ void RecMonitor::slotRecord()
                 }
             }
             
-            showPreview = m_previewSettings->currentItem();
-            if (!rec_video->isChecked()) showPreview = 2;
+            showPreview = m_previewSettings->isChecked();
+            if (!rec_video->isChecked()) showPreview = false;
 
             if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, showPreview)) {
                 m_videoBox->setHidden(false);
@@ -642,6 +642,7 @@ void RecMonitor::slotRecord()
             break;
             
         case BLACKMAGIC:
+            m_manager->activateMonitor("record");
             path = KdenliveSettings::current_profile();
             profile = ProfilesDialog::getVideoProfile(path);
             m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
@@ -649,7 +650,7 @@ void RecMonitor::slotRecord()
                
             playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
 
-            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), m_previewSettings->currentItem(), false)) {
+            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), m_previewSettings->isChecked(), false)) {
                 m_videoBox->setHidden(false);
                 m_isCapturing = true;
                 slotSetInfoMessage(i18n("Capturing to %1", m_captureFile.fileName()));
@@ -942,9 +943,9 @@ void RecMonitor::buildMltDevice(const QString &path)
     }
 }
 
-void RecMonitor::slotChangeRecordingPreview(int ix)
+void RecMonitor::slotChangeRecordingPreview(bool enable)
 {
-    KdenliveSettings::setRecording_preview(ix);
+    KdenliveSettings::setEnable_recording_preview(enable);
 }
 
 #include "recmonitor.moc"

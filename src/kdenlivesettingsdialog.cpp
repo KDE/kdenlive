@@ -22,7 +22,9 @@
 #ifdef USE_V4L
 #include "v4l/v4lcapture.h"
 #endif
+#ifdef USE_BLACKMAGIC
 #include "blackmagic/devices.h"
+#endif
 #include "encodingprofilesdialog.h"
 #include "kdenlivesettings.h"
 
@@ -266,6 +268,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     slotUpdateV4lProfile(-1);
     slotUpdateDecklinkProfile(-1);
 
+#ifdef USE_BLACKMAGIC
     BMInterface::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
     if (m_configCapture.kcfg_decklink_capturedevice->count() > 0) {
         QStringList modes = m_configCapture.kcfg_decklink_capturedevice->itemData(m_configCapture.kcfg_decklink_capturedevice->currentIndex()).toStringList();
@@ -276,6 +279,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     if (BMInterface::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
         // Found blackmagic card
     } else m_configSdl.kcfg_external_display->setEnabled(false);
+#endif
 
     double dvgrabVersion = 0;
     if (!KdenliveSettings::dvgrab_path().isEmpty()) {

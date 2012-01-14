@@ -107,15 +107,6 @@ int ProjectItem::clipMaxDuration() const
     return m_clip->getProperty("duration").toInt();
 }
 
-QStringList ProjectItem::names() const
-{
-    QStringList result;
-    result.append(text(0));
-    result.append(text(1));
-    result.append(text(2));
-    return result;
-}
-
 QDomElement ProjectItem::toXml() const
 {
     return m_clip->toXML();

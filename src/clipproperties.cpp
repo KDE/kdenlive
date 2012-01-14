@@ -475,7 +475,6 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         Nepomuk::Resource res( url.path() );
         // Check if file has a license
         if (res.hasProperty(Nepomuk::Vocabulary::NIE::license())) {
-            QGridLayout *l = static_cast<QGridLayout *>(layout());
             QString ltype = res.property(Nepomuk::Vocabulary::NIE::licenseType()).toString();
             m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk::Vocabulary::NIE::license()).toString()));
             if (ltype.startsWith("http")) {

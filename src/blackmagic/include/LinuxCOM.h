@@ -88,12 +88,10 @@ typedef void *LPVOID;
 #ifdef __cplusplus
 class IUnknown
 {
-public:
-    virtual ~IUnknown() = 0;
-
-    virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID iid, LPVOID *ppv) = 0;
-    virtual ULONG STDMETHODCALLTYPE AddRef(void) = 0;
-    virtual ULONG STDMETHODCALLTYPE Release(void) = 0;
+    public:
+    	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID iid, LPVOID *ppv) = 0;
+    	virtual ULONG STDMETHODCALLTYPE AddRef(void) = 0;
+    	virtual ULONG STDMETHODCALLTYPE Release(void) = 0;
 };
 #endif
 

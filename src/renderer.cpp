@@ -29,7 +29,10 @@
 #include "definitions.h"
 #include "slideshowclip.h"
 #include "profilesdialog.h"
+
+#ifdef USE_BLACKMAGIC
 #include "blackmagic/devices.h"
+#endif
 
 #include <mlt++/Mlt.h>
 
@@ -201,6 +204,7 @@ void Render::buildConsumer(const QString &profileName)
     m_blackClip->set("mlt_type", "producer");
 
     if (KdenliveSettings::external_display() && m_name != "clip") {
+#ifdef USE_BLACKMAGIC
         // Use blackmagic card for video output
         QMap< QString, QString > profileProperties = ProfilesDialog::getSettingsFromFile(profileName);
         int device = KdenliveSettings::blackmagic_output_device();
@@ -221,6 +225,7 @@ void Render::buildConsumer(const QString &profileName)
                 if (m_mltConsumer && m_mltConsumer->is_valid()) return;
             } else KMessageBox::informationList(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()), BMInterface::supportedModes(KdenliveSettings::blackmagic_output_device()));
         }
+#endif
     }
     m_externalConsumer = false;
     QString videoDriver = KdenliveSettings::videodrivername();

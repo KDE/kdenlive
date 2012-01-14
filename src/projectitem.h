@@ -53,7 +53,6 @@ public:
      *
      * The clipId is used both to identify clips and folders (groups) */
     const QString &clipId() const;
-    QStringList names() const;
     const KUrl clipUrl() const;
     int clipMaxDuration() const;
     CLIPTYPE clipType() const;
