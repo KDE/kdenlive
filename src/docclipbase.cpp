@@ -441,9 +441,11 @@ void DocClipBase::cleanupProducers()
         }
     }*/
 
-    qDeleteAll(m_toDeleteProducers);
-    m_toDeleteProducers.clear();
-    m_replaceMutex.unlock();
+    if (!isClean()) {
+      qDeleteAll(m_toDeleteProducers);
+      m_toDeleteProducers.clear();
+      m_replaceMutex.unlock();
+    }
 }
 
 bool DocClipBase::isClean() const
