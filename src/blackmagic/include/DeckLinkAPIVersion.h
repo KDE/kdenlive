@@ -30,8 +30,8 @@
 #ifndef __DeckLink_API_Verison_h__
 #define __DeckLink_API_Version_h__
 
-#define BLACKMAGIC_DECKLINK_API_VERSION					0x08060100
-#define BLACKMAGIC_DECKLINK_API_VERSION_STRING			"8.6.1"
+#define BLACKMAGIC_DECKLINK_API_VERSION					0x09000000
+#define BLACKMAGIC_DECKLINK_API_VERSION_STRING			"9.0"
 
 #endif	// __DeckLink_API_Version_h__
 

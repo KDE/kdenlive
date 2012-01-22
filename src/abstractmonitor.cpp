@@ -32,6 +32,8 @@ VideoPreviewContainer::VideoPreviewContainer(QWidget *parent) :
 {
     setFrameShape(QFrame::NoFrame);
     setFocusPolicy(Qt::ClickFocus);
+    setAttribute(Qt::WA_PaintOnScreen);
+    setAttribute(Qt::WA_OpaquePaintEvent);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(update()));
     m_refreshTimer.setSingleShot(false);

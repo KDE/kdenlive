@@ -74,7 +74,7 @@ Q_OBJECT public:
     /** @brief Starts the MLT Video4Linux process.
      * @param surface The widget onto which the frame should be painted
      */
-    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, int livePreview, bool xmlPlaylist = true);
+    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool livePreview, bool xmlPlaylist = true);
     bool slotStartPreview(const QString &producer, bool xmlFormat = false);
     /** @brief A frame arrived from the MLT Video4Linux process. */
     void gotCapturedFrame(Mlt::Frame& frame);
@@ -104,7 +104,7 @@ private:
     QString m_activeProfile;
     int m_droppedFrames;
     /** @brief When true, images will be displayed on monitor while capturing. */
-    int m_livePreview;
+    bool m_livePreview;
     /** @brief Count captured frames, used to display only one in ten images while capturing. */
     int m_frameCount;
 
@@ -117,6 +117,8 @@ private:
     void uyvy2rgb(unsigned char *yuv_buffer, int width, int height);
 
     QString m_capturePath;
+    
+    QTimer m_droppedFramesTimer;
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
@@ -126,6 +128,8 @@ private:
 private slots:
     void slotPreparePreview();
     void slotAllowPreview();
+    /** @brief When capturing, check every second for dropped frames. */
+    void slotCheckDroppedFrames();
   
 signals:
     /** @brief A frame's image has to be shown.

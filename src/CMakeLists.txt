@@ -13,6 +13,7 @@ macro_optional_find_package(QJSON)
 
 option(WITH_V4L "Build capture support with Video4Linux" ON)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
+option(WITH_BlackMagic "Build Blackmagic Decklinkl support" ON)
 
 if(WITH_V4L)
   # This can be changed to support FreeBSD as soon as we move to a newer V4L2
@@ -29,6 +30,10 @@ if(WITH_JogShuttle)
     set(BUILD_JogShuttle TRUE)
   endif(HAVE_LINUX_INPUT_H)
 endif(WITH_JogShuttle)
+
+if(WITH_BlackMagic)
+    set(BUILD_BlackMagic TRUE)
+endif(WITH_BlackMagic)
 
 macro_log_feature(QT_QTOPENGL_FOUND
   "QtOpenGL"
@@ -75,7 +80,6 @@ macro_log_feature(QJSON_FOUND
 
 add_subdirectory(audioscopes)
 add_subdirectory(beziercurve)
-add_subdirectory(blackmagic)
 add_subdirectory(colorcorrection)
 add_subdirectory(colorscopes)
 add_subdirectory(commands)
@@ -96,6 +100,10 @@ endif(QJSON_FOUND)
 if(BUILD_V4L)
   add_subdirectory(v4l)
 endif(BUILD_V4L)
+
+if(BUILD_BlackMagic)
+  add_subdirectory(blackmagic)
+endif(BUILD_BlackMagic)
 
 list(APPEND kdenlive_SRCS
   main.cpp
@@ -354,6 +362,10 @@ endif(QJSON_FOUND)
 if(BUILD_V4L)
   add_definitions(-DUSE_V4L)
 endif(BUILD_V4L)
+
+if(BUILD_BlackMagic)
+  add_definitions(-DUSE_BLACKMAGIC)
+endif(BUILD_BlackMagic)
 
 if(BUILD_JogShuttle)
   add_definitions(-DUSE_JOGSHUTTLE)

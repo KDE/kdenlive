@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include "stopmotion.h"
+#ifdef USE_BLACKMAGIC
 #include "blackmagic/devices.h"
+#endif
 #ifdef USE_V4L
 #include "v4l/v4lcapture.h"
 #endif
@@ -251,10 +253,11 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     m_videoBox->setLineWidth(4);
     layout->addWidget(m_videoBox);
 
-
+#ifdef USE_BLACKMAGIC
     if (BMInterface::getBlackMagicDeviceList(capture_device)) {
         // Found a BlackMagic device
     }
+#endif
     if (QFile::exists(KdenliveSettings::video4vdevice())) {
 #ifdef USE_V4L
         // Video 4 Linux device detection

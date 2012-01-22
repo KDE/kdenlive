@@ -37,7 +37,6 @@
 
 #include <KIcon>
 #include <KAction>
-#include <KSelectAction>
 #include <KRestrictedLine>
 #include <KDateTime>
 #include <kdeversion.h>
@@ -101,7 +100,7 @@ private:
     MltDeviceCapture *m_captureDevice;
     VideoPreviewContainer *m_videoBox;
     QAction *m_addCapturedClip;
-    KSelectAction *m_previewSettings;
+    QAction *m_previewSettings;
     
     bool m_analyse;
     void checkDeviceAvailability();
@@ -127,7 +126,7 @@ private slots:
     void slotSetInfoMessage(const QString &message);
     void slotDroppedFrames(int dropped);
     /** @brief Change setting for preview while recording. */
-    void slotChangeRecordingPreview(int ix);
+    void slotChangeRecordingPreview(bool enable);
 
 public slots:
     void refreshRecMonitor(bool visible);

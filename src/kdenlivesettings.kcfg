@@ -781,9 +781,9 @@
       <default>true</default>
     </entry>
     
-    <entry name="recording_preview" type="UInt">
+    <entry name="enable_recording_preview" type="Bool">
       <label>Should we display video frames while capturing.</label>
-      <default>0</default>
+      <default>true</default>
     </entry>
     
     <entry name="add_clip_cut" type="Bool">
