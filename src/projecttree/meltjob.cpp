@@ -153,7 +153,6 @@ void MeltJob::startJob()
     foreach(const QString key, wanted) {
         QString value = mltFilter.get(key.toUtf8().constData());
         jobResults.insert(key, value);
-        kDebug()<<"RESULT: "<<key<<" = "<< value;
     }
     if (!jobResults.isEmpty()) emit gotFilterJobResults(m_clipId, startPos, track, finalFilter, jobResults);
     setStatus(JOBDONE);
@@ -183,10 +182,10 @@ const QString MeltJob::statusMessage()
     QString statusInfo;
     switch (jobStatus) {
         case JOBWORKING:
-            statusInfo = i18n("Processing clip");
+            statusInfo = description;
             break;
         case JOBWAITING:
-            statusInfo = i18n("Waiting - process clip");
+            statusInfo = i18n("Waiting to process clip");
             break;
         default:
             break;

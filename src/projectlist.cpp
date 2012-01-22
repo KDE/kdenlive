@@ -3313,12 +3313,12 @@ void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QStr
     QStringList jobParams;
     jobParams << QString::number(info.cropStart.frames(m_fps)) << QString::number((info.cropStart + info.cropDuration).frames(m_fps));
     jobParams << QString() << filterName << filterParams << consumer << consumerParams << properties << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track) << finalFilterName;
-    kDebug()<<"// JPB PARAMS:"<<jobParams;
     MeltJob *job = new MeltJob(item->clipType(), id, jobParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
         return;
     }
+    job->description = i18n("Filter %1", finalFilterName);
     m_jobList.append(job);
     setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
     slotCheckJobProcess();
@@ -3381,6 +3381,7 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
             delete job;
             return;
         }
+        job->description = description;
         m_jobList.append(job);
         setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
     }

@@ -259,7 +259,8 @@ void ProjectItem::setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progre
     if (progress > 0) setData(0, JobProgressRole, progress);
     else {
         setData(0, JobProgressRole, status);
-        setData(0, JobStatusMessage, statusMessage);
+        if ((status == JOBABORTED || status == JOBCRASHED  || status == JOBDONE) || !statusMessage.isEmpty())
+            setData(0, JobStatusMessage, statusMessage);
         slotSetToolTip();
     }
 }
