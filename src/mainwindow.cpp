@@ -54,7 +54,6 @@
 #include "interfaces.h"
 #include "config-kdenlive.h"
 #include "cliptranscode.h"
-#include "clipstabilize.h"
 #include "ui_templateclip_ui.h"
 #include "colorscopes/vectorscope.h"
 #include "colorscopes/waveform.h"
@@ -3890,27 +3889,33 @@ void MainWindow::loadTranscoders()
     }
 }
 
-void MainWindow::slotStabilize(KUrl::List urls)
+void MainWindow::slotStabilize()
 {
     QString condition,filtername;
+    QStringList ids;
 
-    if (urls.isEmpty()) {
-        QAction *action = qobject_cast<QAction *>(sender());
-	if (action){
-            filtername=action->data().toString();
-            urls = m_projectList->getConditionalUrls(condition);
-	}
+    // Stablize selected clips
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action){
+        filtername=action->data().toString();
     }
-    if (urls.isEmpty()) {
+    m_projectList->startClipFilterJob(filtername, condition);
+    /*
+    if (ids.isEmpty()) {
         m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
         return;
     }
-	Mlt::Profile profile;
-	Mlt::Filter filter(profile,filtername.toUtf8().data());
-	ClipStabilize *d=new ClipStabilize(urls,filtername,&filter);
-	connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
-	d->show();
-
+    QString destination;
+    ProjectItem *item = m_projectList->getClipById(ids.at(0));
+    if (ids.count() == 1) {
+        
+    }
+    ClipStabilize *d = new ClipStabilize(destination, ids.count(), filtername);
+    //connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
+    if (d->exec() == QDialog::Accepted) {
+        m_projectList->slotStabilizeClipJob(ids, d->autoAddClip(), d->params(), d->desc());
+    }
+    delete d;*/
 }
 
 void MainWindow::slotTranscode(KUrl::List urls)
@@ -3924,8 +3929,7 @@ void MainWindow::slotTranscode(KUrl::List urls)
         params = data.at(0);
         if (data.count() > 1) desc = data.at(1);
         if (data.count() > 3) condition = data.at(3);
-        QStringList ids = m_projectList->getConditionalIds(condition);
-        m_projectList->slotTranscodeClipJob(ids, params, desc);
+        m_projectList->slotTranscodeClipJob(condition, params, desc);
         return;
     }
     if (urls.isEmpty()) {

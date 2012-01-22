@@ -39,7 +39,7 @@ CutClipJob::CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters
         description = i18n("Cut clip");
     }
     m_jobDuration = parameters.at(4).toInt();
-    addClipToProject = parameters.at(5).toInt();
+    m_addClipToProject = parameters.at(5).toInt();
     replaceClip = false;
     if (parameters.count() == 7) m_cutExtraParams = parameters.at(6).simplified();
 }

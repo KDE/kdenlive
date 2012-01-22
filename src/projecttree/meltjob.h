@@ -55,6 +55,7 @@ private:
     Mlt::Consumer *m_consumer;
     Mlt::Event *m_showFrameEvent;
     QStringList m_params;
+    QString m_dest;
     int m_length;
 };
 

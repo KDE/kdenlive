@@ -42,30 +42,25 @@ class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
     Q_OBJECT
 
 public:
-    ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter* filter = NULL,QWidget * parent = 0);
+    ClipStabilize(const QString &dest, int count, const QString &filterName,QWidget * parent = 0);
     ~ClipStabilize();
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
+    /** @brief Return the filter parameters. */
+    QStringList params();
+    /** @brief Return the destination file or folder. */
+    QString destination() const;
+    /** @brief Return the job description. */
+    QString desc() const;
 
 
 private slots:
-    void slotShowStabilizeInfo();
     void slotStartStabilize();
-    void slotStabilizeFinished(bool success);
-    void slotRunStabilize();
-    void slotAbortStabilize();
     void slotUpdateParams();
 
 private:
-    QFuture<void> m_stabilizeRun;
-    QString filtername;
-    Mlt::Profile *m_profile;
-    Mlt::Consumer *m_consumer;
-    Mlt::Playlist *m_playlist;
-    KUrl::List m_urls;
-    int m_duration;
-    Mlt::Filter* m_filter;
-    QTimer *m_timer;
+    QString m_filtername;
+    int m_count;
     QHash<QString,QHash<QString,QString> > m_ui_params;
     QVBoxLayout *vbox;
     void fillParameters(QStringList);

@@ -37,9 +37,7 @@ public:
     CLIPTYPE clipType;
     JOBTYPE jobType;
     CLIPJOBSTATUS jobStatus;
-    QString m_clipId;
     QString description;
-    bool addClipToProject;
     bool replaceClip;
     const QString clipId() const;
     const QString errorMessage() const;
@@ -52,10 +50,14 @@ public:
     virtual const QString statusMessage();
     /** @brief Returns true if only one instance of this job can be run on a clip. */
     virtual bool isExclusive();
+    bool addClipToProject() const;
+    void setAddClipToProject(bool add);
     
 protected:
+    QString m_clipId;
     QString m_errorMessage;
     QString m_logDetails;
+    bool m_addClipToProject;
     QProcess *m_jobProcess;
     
 signals:

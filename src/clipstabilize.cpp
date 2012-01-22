@@ -33,18 +33,16 @@
 #include <QSlider>
 #include <KFileDialog>
 
-ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter* filter,QWidget * parent) :
-        QDialog(parent), m_profile(NULL),m_consumer(NULL),m_playlist(NULL),m_urls(urls),m_duration(0),m_filter(filter),vbox(NULL)
+ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filterName,QWidget * parent) :
+        QDialog(parent), 
+        m_filtername(filterName),
+        m_count(count),
+        vbox(NULL)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
-    if (filter) setAttribute(Qt::WA_DeleteOnClose);
-    log_text->setHidden(true);
     setWindowTitle(i18n("Stabilize Clip"));
-    auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
-    m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
-    filtername = params;
-
+    auto_add->setText(i18np("Add clip to project", "Add clips to project", count));
 
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
@@ -62,40 +60,25 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
             .arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()));
     setStyleSheet(stylesheet);
 
-    if (m_urls.count() == 1) {
-        QString fileName = m_urls.at(0).path(); //.section('.', 0, -1);
-        QString newFile = fileName.append(".mlt");
+    if (m_count == 1) {
+        QString newFile = dest;
+        newFile.append(".mlt");
         KUrl dest(newFile);
-        source_url->setUrl(m_urls.at(0));
         dest_url->setMode(KFile::File);
-        dest_url->setUrl(dest);
+        dest_url->setUrl(KUrl(newFile));
         dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
-        urls_list->setHidden(true);
-        connect(source_url, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateParams()));
     } else {
-        label_source->setHidden(true);
-        source_url->setHidden(true);
         label_dest->setText(i18n("Destination folder"));
         dest_url->setMode(KFile::Directory);
-        dest_url->setUrl(KUrl(m_urls.at(0).directory()));
+        dest_url->setUrl(KUrl(dest));
         dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
-        for (int i = 0; i < m_urls.count(); i++)
-            urls_list->addItem(m_urls.at(i).path());
     }
-    if (!params.isEmpty()) {
-        label_profile->setHidden(true);
-        profile_list->setHidden(true);
-        //ffmpeg_params->setPlainText(params.simplified());
-        /*if (!description.isEmpty()) {
-            transcode_info->setText(description);
-        } else transcode_info->setHidden(true);*/
-    } 
 
-    if (filtername=="videostab"){
+    if (m_filtername=="videostab"){
         QStringList ls;
         ls << "shutterangle,type,int,value,0,min,0,max,100,tooltip,Angle that Images could be maximum rotated";
         fillParameters(ls);
-    }else if (filtername=="videostab2"){
+    }else if (m_filtername=="videostab2"){
         QStringList ls;
         ls << "accuracy,type,int,value,4,min,1,max,10,tooltip,Accuracy of Shakiness detection";
         ls << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video";
@@ -115,11 +98,8 @@ ClipStabilize::ClipStabilize(KUrl::List urls, const QString &params, Mlt::Filter
         fillParameters(ls);
 
     }
-    connect(button_start, SIGNAL(clicked()), this, SLOT(slotStartStabilize()));
-    connect(buttonBox,SIGNAL(rejected()), this, SLOT(slotAbortStabilize()));
 
-    m_timer=new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(slotShowStabilizeInfo()));
+    //connect(buttonBox,SIGNAL(rejected()), this, SLOT(slotAbortStabilize()));
 
     vbox=new QVBoxLayout(optionsbox);
     QHashIterator<QString,QHash<QString,QString> > hi(m_ui_params);
@@ -152,19 +132,49 @@ ClipStabilize::~ClipStabilize()
     /*if (m_stabilizeProcess.state() != QProcess::NotRunning) {
         m_stabilizeProcess.close();
     }*/
-    if (m_stabilizeRun.isRunning()){
-        if (m_consumer){
-            m_consumer->stop();
-        }
-        m_stabilizeRun.waitForFinished();
+}
+
+QStringList ClipStabilize::params()
+{
+    //we must return a stringlist with:
+    // producerparams << filtername << filterparams << consumer << consumerparams
+    QStringList params;
+    // producer params
+    params << QString();
+    // filter
+    params << m_filtername;
+    QStringList filterparamsList;
+    QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
+    while (it.hasNext()){
+        it.next();
+        filterparamsList << it.key() + "=" + it.value().value("value");
     }
-    if (m_profile) free (m_profile);
-    if (m_consumer) free (m_consumer);
-    if (m_playlist) free (m_playlist);
+    params << filterparamsList.join(" ");
+    
+    // consumer
+    params << "xml";
+    // consumer params
+    QString title = i18n("Stabilised");
+    params << QString("all=1 title=\"%1\"").arg(title);
+    return params;
+}
+
+QString ClipStabilize::destination() const
+{
+    if (m_count == 1)
+        return dest_url->url().path();
+    else
+        return dest_url->url().directory(KUrl::AppendTrailingSlash);
+}
+
+QString ClipStabilize::desc() const
+{
+    return i18n("Stabilize clip");
 }
 
 void ClipStabilize::slotStartStabilize()
 {
+    /*
     if (m_consumer && !m_consumer->is_stopped()) {
         return;
     }
@@ -213,76 +223,10 @@ void ClipStabilize::slotStartStabilize()
             button_start->setEnabled(false);
         }
     }
-
+*/
 }
 
-void ClipStabilize::slotRunStabilize()
-{
-    if (m_consumer)
-    {
-        m_consumer->run();
-    }
-}
 
-void ClipStabilize::slotAbortStabilize()
-{
-    if (m_consumer)
-    {
-        m_timer->stop();
-        m_consumer->stop();
-        slotStabilizeFinished(false);
-    }
-}
-
-void ClipStabilize::slotShowStabilizeInfo()
-{
-    if (m_playlist){
-        job_progress->setValue((int) (100.0 * m_consumer->position()/m_playlist->get_out() ));
-        if (m_consumer->position()==m_playlist->get_out()){
-            m_timer->stop();
-            slotStabilizeFinished(true);
-        }
-    }
-}
-
-void ClipStabilize::slotStabilizeFinished(bool success)
-{
-    buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Close"));
-    button_start->setEnabled(true);
-    m_duration = 0;
-    if (m_stabilizeRun.isRunning()){
-        if (m_consumer){
-            m_consumer->stop();
-        }
-        m_stabilizeRun.waitForFinished();
-    }
-
-    if (success) {
-        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Stabilize finished."));
-        if (auto_add->isChecked()) {
-            KUrl url;
-            if (urls_list->count() > 0) {
-                url = KUrl(dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName()+".mlt");
-            } else url = dest_url->url();
-            emit addClip(url);
-        }
-        if (urls_list->count() > 0 && m_urls.count() > 0) {
-            slotStartStabilize();
-            return;
-        } else if (auto_close->isChecked()) accept();
-    } else {
-        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Stabilizing FAILED!"));
-    }
-    if (m_playlist){
-        free(m_playlist);
-        m_playlist=NULL;
-    }
-    if (m_consumer){
-        free(m_consumer);
-        m_consumer=NULL;
-    }
-
-}
 
 void ClipStabilize::slotUpdateParams()
 {

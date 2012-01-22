@@ -36,6 +36,7 @@
 #include "projectlistview.h"
 #include "timecodedisplay.h"
 #include "profilesdialog.h"
+#include "clipstabilize.h"
 #include "commands/editclipcommand.h"
 #include "commands/editclipcutcommand.h"
 #include "commands/editfoldercommand.h"
@@ -2730,13 +2731,16 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     slotCheckJobProcess();
 }
 
-void ProjectList::slotTranscodeClipJob(QStringList ids, QString params, QString desc)
+void ProjectList::slotTranscodeClipJob(const QString &condition, QString params, QString desc)
 {
     QStringList existingFiles;
+    QStringList ids = getConditionalIds(condition);
+    QStringList destinations;
     foreach(const QString &id, ids) {
         ProjectItem *item = getItemById(id);
         if (!item) continue;
         QString newFile = params.section(' ', -1).replace("%1", item->clipUrl().path());
+        destinations << newFile;
         if (QFile::exists(newFile)) existingFiles << newFile;
     }
     if (!existingFiles.isEmpty()) {
@@ -2747,30 +2751,36 @@ void ProjectList::slotTranscodeClipJob(QStringList ids, QString params, QString 
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
     d->setWindowTitle(i18n("Transcoding"));
-    ui.destination_label->setVisible(false);
     ui.extra_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
-    ui.file_url->setVisible(false);
+    if (ids.count() == 1) {
+        ui.file_url->setUrl(KUrl(destinations.first()));
+    }
+    else {
+        ui.destination_label->setVisible(false);
+        ui.file_url->setVisible(false);
+    }
     ui.extra_params->setVisible(false);
+    d->adjustSize();
     ui.button_more->setIcon(KIcon("configure"));
     ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
-    ui.extra_params->setPlainText(params.simplified());
+    ui.extra_params->setPlainText(params.simplified().section(" ", 0, -2));
     QString mess = desc;
     mess.append(" " + i18np("(%1 clip)", "(%1 clips)", ids.count()));
     ui.info_label->setText(mess);
-    d->adjustSize();
     if (d->exec() != QDialog::Accepted) {
         delete d;
         return;
     }
     params = ui.extra_params->toPlainText().simplified();
     KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
-    delete d;
     
     foreach(const QString &id, ids) {
         ProjectItem *item = getItemById(id);
         if (!item || !item->referencedClip()) continue;
         QString src = item->clipUrl().path();
-        QString dest = params.section(' ', -1).replace("%1", src);
+        QString dest;
+        if (ids.count() > 1) dest = params.section(' ', -1).replace("%1", src);
+        else dest = ui.file_url->url().path();
         QStringList jobParams;
         jobParams << dest << src << QString() << QString();
         double clipFps = item->referencedClip()->getProperty("fps").toDouble();
@@ -2779,7 +2789,7 @@ void ProjectList::slotTranscodeClipJob(QStringList ids, QString params, QString 
         QString duration = QString::number(max);
         jobParams << duration;
         jobParams << QString::number(KdenliveSettings::add_clip_cut());
-        jobParams << params.section(' ', 0, -2);
+        jobParams << params;
         CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
         if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
             delete job;
@@ -2788,11 +2798,10 @@ void ProjectList::slotTranscodeClipJob(QStringList ids, QString params, QString 
         m_jobList.append(job);
         setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
     }
+    delete d;
     slotCheckJobProcess();
     
 }
-
-
 
 void ProjectList::slotCheckJobProcess()
 {        
@@ -2896,7 +2905,7 @@ void ProjectList::slotProcessJobs()
             emit updateJobStatus(job->clipId(), job->jobType, JOBDONE);
             //TODO: replace with more generic clip replacement framework
             if (job->jobType == PROXYJOB) emit gotProxy(job->clipId());
-            if (job->addClipToProject) {
+            if (job->addClipToProject()) {
                 emit addClip(destination, QString(), QString());
             }
         } else if (job->jobStatus == JOBCRASHED || job->jobStatus == JOBABORTED) {
@@ -3303,7 +3312,8 @@ void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QStr
     if (!item) return;
     QStringList jobParams;
     jobParams << QString::number(info.cropStart.frames(m_fps)) << QString::number((info.cropStart + info.cropDuration).frames(m_fps));
-    jobParams << filterName << filterParams << consumer << consumerParams << properties << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track) << finalFilterName;
+    jobParams << QString() << filterName << filterParams << consumer << consumerParams << properties << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track) << finalFilterName;
+    kDebug()<<"// JPB PARAMS:"<<jobParams;
     MeltJob *job = new MeltJob(item->clipType(), id, jobParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
@@ -3311,6 +3321,69 @@ void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QStr
     }
     m_jobList.append(job);
     setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
+    slotCheckJobProcess();
+}
+
+void ProjectList::startClipFilterJob(const QString &filterName, const QString &condition)
+{
+    QStringList ids = getConditionalIds(condition);
+    QString destination;
+    ProjectItem *item = getItemById(ids.at(0));
+    if (!item) {
+        emit displayMessage(i18n("Cannot find clip to process filter %1", filterName), -2);
+        return;
+    }
+    if (ids.count() == 1) {
+        destination = item->clipUrl().path();
+    }
+    else {
+        destination = item->clipUrl().directory();
+    }
+    ClipStabilize *d = new ClipStabilize(destination, ids.count(), filterName);
+    if (d->exec() == QDialog::Accepted) {
+        processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc());
+    }
+    delete d;
+}
+
+void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description)
+{
+    QStringList preParams;
+    // in and out
+    preParams << QString::number(0) << QString::number(-1);
+    // producer params
+    preParams << jobParams.takeFirst();
+    // filter name
+    preParams << jobParams.takeFirst();
+    // filter params
+    preParams << jobParams.takeFirst();
+    // consumer
+    QString consumer = jobParams.takeFirst();
+    
+    foreach(const QString&id, ids) {
+        ProjectItem *item = getItemById(id);
+        if (!item) continue;
+        if (ids.count() == 1) {
+            consumer += ":" + destination;
+        }
+        else {
+            consumer += ":" + destination + item->clipUrl().fileName() + ".mlt";
+        }
+        preParams << consumer << jobParams;
+        
+        MeltJob *job = new MeltJob(item->clipType(), id, preParams);
+        if (autoAdd) {
+            job->setAddClipToProject(true);
+            kDebug()<<"// ADDING TRUE";
+        }
+        else kDebug()<<"// ADDING FALSE!!!";
+        if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
+            delete job;
+            return;
+        }
+        m_jobList.append(job);
+        setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
+    }
     slotCheckJobProcess();
 }
 

@@ -257,9 +257,12 @@ public:
     void clearSelection();
     /** @brief Print required overlays over clip thumb (proxy, stabilized,...). */
     void processThumbOverlays(ProjectItem *item, QPixmap &pix);
+    /** @brief Start an MLT process job. */
+    void startClipFilterJob(const QString &filterName, const QString &condition);
+    /** @brief Set current document for the project tree. */
+    void setDocument(KdenliveDoc *doc);
 
 public slots:
-    void setDocument(KdenliveDoc *doc);
     void updateAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
     void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
@@ -297,9 +300,11 @@ public slots:
     void slotDeleteProxy(const QString proxyPath);
     /** @brief Start a hard cut clip job. */
     void slotCutClipJob(const QString &id, QPoint zone);
-    void slotTranscodeClipJob(QStringList ids, QString params, QString desc);
+    /** @brief Start transcoding selected clips. */
+    void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
     void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&);
+    
 
 private:
     ProjectListView *m_listView;
@@ -390,6 +395,8 @@ private:
     void discardJobs(const QString &id, JOBTYPE type = NOJOBTYPE);
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
+    /** @brief Start an MLT process job. */
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description);
 
 private slots:
     void slotClipSelected();

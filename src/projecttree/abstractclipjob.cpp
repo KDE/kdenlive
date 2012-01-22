@@ -31,15 +31,26 @@ AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id
         clipType(cType),
         jobType(type),
         jobStatus(NOJOB),
-        m_clipId(id),
-        addClipToProject(false),
         replaceClip(false),
+        m_clipId(id),
+        m_addClipToProject(false),
         m_jobProcess(NULL)
 {
 }
 
 AbstractClipJob::~AbstractClipJob()
 {
+}
+
+
+bool AbstractClipJob::addClipToProject() const
+{
+    return m_addClipToProject;
+}
+
+void AbstractClipJob::setAddClipToProject(bool add)
+{
+    m_addClipToProject = add;
 }
 
 void AbstractClipJob::setStatus(CLIPJOBSTATUS status)
