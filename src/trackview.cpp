@@ -62,12 +62,14 @@ TrackView::TrackView(KdenliveDoc *doc, QList <QAction*> actions, bool *ok, QWidg
     layout->setContentsMargins(m_trackview->frameWidth(), 0, 0, 0);
     layout->setSpacing(0);
     ruler_frame->setLayout(layout);
+    ruler_frame->setMaximumHeight(m_ruler->height());
     layout->addWidget(m_ruler);
 
     QHBoxLayout *sizeLayout = new QHBoxLayout;
     sizeLayout->setContentsMargins(0, 0, 0, 0);
     sizeLayout->setSpacing(0);
     size_frame->setLayout(sizeLayout);
+    size_frame->setMaximumHeight(m_ruler->height());
 
     QToolButton *butSmall = new QToolButton(this);
     butSmall->setIcon(KIcon("kdenlive-zoom-small"));

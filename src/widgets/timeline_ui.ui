@@ -19,12 +19,6 @@
    </property>
    <item row="0" column="0">
     <widget class="QFrame" name="size_frame">
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>20</height>
-      </size>
-     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -46,12 +40,6 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>24</height>
-      </size>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
@@ -92,7 +80,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>60</width>
+        <width>72</width>
         <height>153</height>
        </rect>
       </property>
