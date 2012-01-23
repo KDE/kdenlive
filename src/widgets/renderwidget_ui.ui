@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>406</width>
-    <height>668</height>
+    <height>677</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,28 +50,22 @@
        <item row="1" column="3" colspan="2">
         <widget class="KUrlRequester" name="out_file"/>
        </item>
-       <item row="2" column="0">
-        <widget class="QToolButton" name="buttonInfo">
-         <property name="text">
-          <string>I</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>124</width>
-           <height>23</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="4">
+       <item row="2" column="0" colspan="5">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QToolButton" name="buttonInfo">
+           <property name="text">
+            <string>I</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="show_all_profiles">
+           <property name="text">
+            <string>Show all profiles</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QToolButton" name="buttonFavorite">
            <property name="text">

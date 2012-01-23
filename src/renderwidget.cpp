@@ -166,6 +166,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, MltVi
     m_view.buttonFavorite->setIcon(KIcon("favorites"));
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
     
+    m_view.show_all_profiles->setToolTip(i18n("Show profiles with different framerate"));
+    
     m_view.advanced_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     
     m_view.buttonRender->setEnabled(false);
@@ -255,6 +257,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, MltVi
     connect(m_view.out_file, SIGNAL(urlSelected(const KUrl &)), this, SLOT(slotUpdateButtons(const KUrl &)));
     connect(m_view.format_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshView()));
     connect(m_view.size_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshParams()));
+    connect(m_view.show_all_profiles, SIGNAL(stateChanged(int)), this, SLOT(refreshView()));
 
     connect(m_view.size_list, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotEditItem(QListWidgetItem *)));
 
@@ -1247,7 +1250,7 @@ void RenderWidget::refreshView()
         QListWidgetItem *dupItem = NULL;
         if ((sizeItem->data(GroupRole).toString() == group || sizeItem->data(GroupRole).toString().isEmpty()) && sizeItem->data(MetaGroupRole).toString() == destination) {
             std = sizeItem->data(StandardRole).toString();
-            if (!std.isEmpty()) {
+            if (!m_view.show_all_profiles->isChecked() && !std.isEmpty()) {
                 if ((std.contains("PAL", Qt::CaseInsensitive) && m_profile.frame_rate_num == 25 && m_profile.frame_rate_den == 1) ||
                     (std.contains("NTSC", Qt::CaseInsensitive) && m_profile.frame_rate_num == 30000 && m_profile.frame_rate_den == 1001))
                     dupItem = sizeItem->clone();
@@ -1259,7 +1262,7 @@ void RenderWidget::refreshView()
                 m_view.size_list->addItem(dupItem);
                 std = dupItem->data(ParamsRole).toString();
                 // Make sure the selected profile uses the same frame rate as project profile
-                if (std.contains("mlt_profile=")) {
+                if (!m_view.show_all_profiles->isChecked() && std.contains("mlt_profile=")) {
                     QString profile = std.section("mlt_profile=", 1, 1).section(' ', 0, 0);
                     MltVideoProfile p = ProfilesDialog::getVideoProfile(profile);
                     if (p.frame_rate_den > 0) {
