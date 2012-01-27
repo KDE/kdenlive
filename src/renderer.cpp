@@ -1252,14 +1252,16 @@ const QString Render::sceneList()
     QString playlist;
     Mlt::Profile profile((mlt_profile) 0);
     Mlt::Consumer xmlConsumer(profile, "xml:kdenlive_playlist");
+    if (!xmlConsumer.is_valid()) return QString();
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
     Mlt::Producer prod(m_mltProducer->get_producer());
+    if (!prod.is_valid()) return QString();
     bool split = m_isSplitView;
     if (split) slotSplitView(false);
     xmlConsumer.connect(prod);
-    xmlConsumer.start();
-    while (!xmlConsumer.is_stopped()) {}
+    xmlConsumer.run();
+    //while (!xmlConsumer.is_stopped()) {}
     playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
     if (split) slotSplitView(true);
     return playlist;
@@ -1270,10 +1272,10 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
     QFile file(path);
     QDomDocument doc;
     doc.setContent(sceneList(), false);
-    if (!kdenliveData.isNull()) {
+    QDomElement root = doc.documentElement();
+    if (!kdenliveData.isNull() && !root.isNull()) {
         // add Kdenlive specific tags
-        QDomNode mlt = doc.elementsByTagName("mlt").at(0);
-        mlt.appendChild(doc.importNode(kdenliveData, true));
+        root.appendChild(doc.importNode(kdenliveData, true));
     }
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << path;
@@ -4175,11 +4177,14 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
             }
         }
     }
-    QDomElement tractor = doc.elementsByTagName("tractor").at(0).toElement();
-    int out = tractor.attribute("out").toInt();
-    out = factor * out + 0.5;
-    tractor.setAttribute("out", out);
-    emit durationChanged(out);
+    QDomElement root = doc.documentElement();
+    if (!root.isNull()) {
+        QDomElement tractor = root.firstChildElement("tractor");
+        int out = tractor.attribute("out").toInt();
+        out = factor * out + 0.5;
+        tractor.setAttribute("out", out);
+        emit durationChanged(out);
+    }
 
     //kDebug() << "///////////////////////////// " << out << " \n" << doc.toString() << "\n-------------------------";
     return doc.toString();
