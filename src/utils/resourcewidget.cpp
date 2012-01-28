@@ -40,8 +40,10 @@
 #include <KIO/NetAccess>
 #include <Solid/Networking>
 #include <KRun>
+#if KDE_IS_VERSION(4,4,0)
 #include <KPixmapSequence>
 #include <KPixmapSequenceOverlayPainter>
+#endif
 #include <KFileItem>
 
 #ifdef USE_NEPOMUK
@@ -93,9 +95,11 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     config_button->setMenu(resourceMenu);
     config_button->setIcon(KIcon("configure"));
 
+#if KDE_IS_VERSION(4,4,0)
     m_busyWidget = new KPixmapSequenceOverlayPainter(this);
     m_busyWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_busyWidget->setWidget(search_results->viewport());
+#endif
     
     sound_box->setEnabled(false);
     search_text->setFocus();
@@ -118,7 +122,9 @@ void ResourceWidget::slotStartSearch(int page)
     page_number->blockSignals(true);
     page_number->setValue(page);
     page_number->blockSignals(false);
+#if KDE_IS_VERSION(4,4,0)
     m_busyWidget->start();
+#endif
     m_currentService->slotStartSearch(search_text->text(), page);
 }
 
@@ -286,7 +292,9 @@ void ResourceWidget::slotChangeService()
     connect(m_currentService, SIGNAL(maxPages(int)), page_number, SLOT(setMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
     connect(m_currentService, SIGNAL(gotThumb(const QString)), this, SLOT(slotLoadThumb(const QString)));
+#if KDE_IS_VERSION(4,4,0)
     connect(m_currentService, SIGNAL(searchDone()), m_busyWidget, SLOT(stop()));
+#endif
     
     button_preview->setVisible(m_currentService->hasPreview);
     button_import->setVisible(!m_currentService->inlineDownload);

@@ -1261,7 +1261,6 @@ const QString Render::sceneList()
     if (split) slotSplitView(false);
     xmlConsumer.connect(prod);
     xmlConsumer.run();
-    //while (!xmlConsumer.is_stopped()) {}
     playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
     if (split) slotSplitView(true);
     return playlist;
@@ -1272,6 +1271,7 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
     QFile file(path);
     QDomDocument doc;
     doc.setContent(sceneList(), false);
+    if (doc.isNull()) return false;
     QDomElement root = doc.documentElement();
     if (!kdenliveData.isNull() && !root.isNull()) {
         // add Kdenlive specific tags

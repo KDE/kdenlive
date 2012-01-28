@@ -70,17 +70,24 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_timeline = new KeyframeHelper(m_ui.frameTimeline);
     layout->addWidget(m_timeline);
     layout->setContentsMargins(0, 0, 0, 0);
+    
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
 
     m_ui.buttonPrevious->setIcon(KIcon("media-skip-backward"));
     m_ui.buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
+    m_ui.buttonPrevious->setIconSize(iconSize);
     m_ui.buttonNext->setIcon(KIcon("media-skip-forward"));
     m_ui.buttonNext->setToolTip(i18n("Go to next keyframe"));
+    m_ui.buttonNext->setIconSize(iconSize);
     m_ui.buttonAddDelete->setIcon(KIcon("document-new"));
     m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
+    m_ui.buttonAddDelete->setIconSize(iconSize);
 
     m_ui.buttonSync->setIcon(KIcon("insert-link"));
     m_ui.buttonSync->setToolTip(i18n("Synchronize with timeline cursor"));
     m_ui.buttonSync->setChecked(KdenliveSettings::transitionfollowcursor());
+    m_ui.buttonSync->setIconSize(iconSize);
 
     connect(m_timeline, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
     connect(m_timeline, SIGNAL(keyframeMoved(int)),   this, SLOT(slotKeyframeMoved(int)));

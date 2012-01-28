@@ -29,8 +29,12 @@
 #include <QDialog>
 #include <QProcess>
 #include <kio/jobclasses.h>
+#include <kdeversion.h>
 
+
+#if KDE_IS_VERSION(4,4,0)
 class KPixmapSequenceOverlayPainter;
+#endif
 class QAction;
 
 class ResourceWidget : public QDialog, public Ui::FreeSound_UI
@@ -68,7 +72,9 @@ private:
     AbstractService *m_currentService;
     void parseLicense(const QString &);
     OnlineItemInfo m_currentInfo;
+#if KDE_IS_VERSION(4,4,0)
     KPixmapSequenceOverlayPainter *m_busyWidget;
+#endif
     QAction *m_autoPlay;
     QString m_tmpThumbFile;
     QString m_title;
