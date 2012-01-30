@@ -59,19 +59,27 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     //m_ui.region_url->fileDialog()->setFilter(ProjectList::getExtensions());
     //m_ui.effectlist->horizontalHeader()->setVisible(false);
     //m_ui.effectlist->verticalHeader()->setVisible(false);
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
 
     m_ui.buttonNew->setIcon(KIcon("document-new"));
     m_ui.buttonNew->setToolTip(i18n("Add new effect"));
+    m_ui.buttonNew->setIconSize(iconSize);
     m_ui.buttonUp->setIcon(KIcon("go-up"));
     m_ui.buttonUp->setToolTip(i18n("Move effect up"));
+    m_ui.buttonUp->setIconSize(iconSize);
     m_ui.buttonDown->setIcon(KIcon("go-down"));
     m_ui.buttonDown->setToolTip(i18n("Move effect down"));
+    m_ui.buttonDown->setIconSize(iconSize);
     m_ui.buttonDel->setIcon(KIcon("edit-delete"));
     m_ui.buttonDel->setToolTip(i18n("Delete effect"));
+    m_ui.buttonDel->setIconSize(iconSize);
     m_ui.buttonSave->setIcon(KIcon("document-save"));
     m_ui.buttonSave->setToolTip(i18n("Save effect"));
+    m_ui.buttonSave->setIconSize(iconSize);
     m_ui.buttonReset->setIcon(KIcon("view-refresh"));
     m_ui.buttonReset->setToolTip(i18n("Reset effect"));
+    m_ui.buttonReset->setIconSize(iconSize);
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
     m_ui.buttonShowComments->setIcon(KIcon("help-about"));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));

@@ -35,7 +35,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
 {
     setupUi(this);
 
-    QString style = "QTreeView::branch:has-siblings:!adjoins-item{border-image:none;border:0px} \
+    QString styleSheet = "QTreeView::branch:has-siblings:!adjoins-item{border-image:none;border:0px} \
     QTreeView::branch:has-siblings:adjoins-item {border-image: none;border:0px}      \
     QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none;border:0px} \
     QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings {   \
@@ -45,14 +45,18 @@ EffectsListView::EffectsListView(QWidget *parent) :
 
     QMenu *contextMenu = new QMenu(this);
     m_effectsList = new EffectsListWidget(contextMenu);
-    m_effectsList->setStyleSheet(style);
+    m_effectsList->setStyleSheet(styleSheet);
     QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
     search_effect->setTreeWidget(m_effectsList);
     search_effect->setToolTip(i18n("Search in the effect list"));
+    
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
     buttonInfo->setIcon(KIcon("help-about"));
     buttonInfo->setToolTip(i18n("Show/Hide the effect description"));
+    buttonInfo->setIconSize(iconSize);
     setFocusPolicy(Qt::StrongFocus);
     setFocusProxy(search_effect);
     m_effectsList->setFocusProxy(search_effect);
