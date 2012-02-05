@@ -712,7 +712,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     QDomElement e;
     QList <DocClipBase*> list = m_clipManager->documentClipList();
     for (int i = 0; i < list.count(); i++) {
-        e = list.at(i)->toXML();
+        e = list.at(i)->toXML(true);
         e.setTagName("kdenlive_producer");
         addedXml.appendChild(sceneList.importNode(e, true));
         QList < CommentedTime > marks = list.at(i)->commentedSnapMarkers();
@@ -1052,8 +1052,10 @@ bool KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             extension = KUrl(path).fileName();
             path = KUrl(path).directory();
         }
-
-        if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT && !elem.hasAttribute("placeholder")) {
+        if (elem.hasAttribute("_missingsource")) {
+            // Clip has proxy but missing original source
+        }
+        else if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT && !elem.hasAttribute("placeholder")) {
             kDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
             const QString size = elem.attribute("file_size");
             const QString hash = elem.attribute("file_hash");

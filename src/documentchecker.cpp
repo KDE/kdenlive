@@ -56,6 +56,7 @@ const int CLIPOK = 1;
 const int CLIPPLACEHOLDER = 2;
 const int CLIPWRONGDURATION = 3;
 const int PROXYMISSING = 4;
+const int SOURCEMISSING = 5;
 
 const int LUMAMISSING = 10;
 const int LUMAOK = 11;
@@ -78,7 +79,10 @@ bool DocumentChecker::hasErrorInClips()
     int max;
     QDomNodeList documentProducers = m_doc.elementsByTagName("producer");
     QList <QDomElement> wrongDurationClips;
+    // List clips whose proxy is missing
     QList <QDomElement> missingProxies;
+    // List clips who have a working proxy but no source clip
+    QList <QDomElement> missingSources;
     m_safeImages.clear();
     m_safeFonts.clear();
     max = m_info.count();
@@ -132,9 +136,17 @@ bool DocumentChecker::hasErrorInClips()
         resource = e.attribute("resource");
         if (e.hasAttribute("proxy")) {
             QString proxyresource = e.attribute("proxy");
-            if (!proxyresource.isEmpty() && proxyresource != "-" && !KIO::NetAccess::exists(KUrl(proxyresource), KIO::NetAccess::SourceSide, 0)) {
-                // Missing clip found
-                missingProxies.append(e);
+            if (!proxyresource.isEmpty() && proxyresource != "-") {
+                // clip has a proxy
+                if (!KIO::NetAccess::exists(KUrl(proxyresource), KIO::NetAccess::SourceSide, 0)) {
+                    // Missing clip found
+                    missingProxies.append(e);
+                }
+                else if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
+                    // clip has proxy but original clip is missing
+                    missingSources.append(e);
+                    continue;
+                }
             }
         }
         if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
@@ -174,7 +186,7 @@ bool DocumentChecker::hasErrorInClips()
     
     
 
-    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && wrongDurationClips.isEmpty() && missingProxies.isEmpty())
+    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && wrongDurationClips.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty())
         return false;
 
     m_dialog = new QDialog();
@@ -263,6 +275,10 @@ bool DocumentChecker::hasErrorInClips()
         if (!m_ui.infoLabel->text().isEmpty()) m_ui.infoLabel->setText(m_ui.infoLabel->text() + ". ");
         m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18n("Missing proxies will be recreated after opening."));
     }
+    if (missingSources.count() > 0) {
+        if (!m_ui.infoLabel->text().isEmpty()) m_ui.infoLabel->setText(m_ui.infoLabel->text() + ". ");
+        m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18np("The project file contains a missing clip, you can still work with its proxy.", "The project file contains missing clips, you can still work with their proxies.", missingSources.count()));
+    }
 
     m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());
     m_ui.recursiveSearch->setEnabled(!m_missingClips.isEmpty() || !missingLumas.isEmpty());
@@ -310,16 +326,17 @@ bool DocumentChecker::hasErrorInClips()
         item->setToolTip(0, i18n("Duration mismatch"));
     }
 
-    if (missingProxies.count() > 0) {
+    // Check missing proxies
+    max = missingProxies.count();
+    if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
         item->setIcon(0, KIcon("dialog-warning"));
-        item->setText(1, i18n("%1 missing proxy clips, will be recreated on project opening", missingProxies.count()));
+        item->setText(1, i18n("%1 missing proxy clips, will be recreated on project opening", max));
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, PROXYMISSING);
         item->setToolTip(0, i18n("Missing proxy"));
     }
 
-    max = missingProxies.count();
     for (int i = 0; i < max; i++) {
         e = missingProxies.at(i).toElement();
         QString clipType;
@@ -358,7 +375,33 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
     
-    if (missingProxies.count() > 0) {
+    if (max > 0) {
+        // original doc was modified
+        QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
+        infoXml.setAttribute("modified", "1");
+    }
+    
+    // Check clips with available proxies but missing original source clips
+    max = missingSources.count();
+    if (max > 0) {
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Source clip"));
+        item->setIcon(0, KIcon("dialog-warning"));
+        item->setText(1, i18n("%1 missing source clips, you can only use the proxies", max));
+        item->setData(0, hashRole, e.attribute("file_hash"));
+        item->setData(0, statusRole, SOURCEMISSING);
+        item->setToolTip(0, i18n("Missing source clip"));
+    }
+
+    for (int i = 0; i < max; i++) {
+        e = missingSources.at(i).toElement();
+        QString clipType;
+        QString realPath = e.attribute("resource");
+        QString id = e.attribute("id");
+        // Tell Kdenlive the source is missing
+        e.setAttribute("_missingsource", "1");
+    }
+    
+    if (max > 0) {
         // original doc was modified
         QDomElement infoXml = m_doc.elementsByTagName("kdenlivedoc").at(0).toElement();
         infoXml.setAttribute("modified", "1");

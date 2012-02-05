@@ -871,7 +871,9 @@ void ProjectList::adjustProxyActions(ProjectItem *clip) const
         m_proxyAction->setEnabled(false);
         return;
     }
-    m_proxyAction->setEnabled(useProxy());
+    bool enabled = useProxy();
+    if (clip->referencedClip() && !clip->referencedClip()->getProperty("_missingsource").isEmpty()) enabled = false;
+    m_proxyAction->setEnabled(enabled);
     m_proxyAction->blockSignals(true);
     m_proxyAction->setChecked(clip->hasProxy());
     m_proxyAction->blockSignals(false);

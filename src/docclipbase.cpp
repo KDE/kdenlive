@@ -235,7 +235,7 @@ qulonglong DocClipBase::fileSize() const
 }
 
 // virtual
-QDomElement DocClipBase::toXML() const
+QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
 {
     QDomDocument doc;
     QDomElement clip = doc.createElement("producer");
@@ -243,6 +243,7 @@ QDomElement DocClipBase::toXML() const
     QMapIterator<QString, QString> i(m_properties);
     while (i.hasNext()) {
         i.next();
+        if (hideTemporaryProperties && i.key().startsWith("_")) continue;
         if (!i.value().isEmpty()) clip.setAttribute(i.key(), i.value());
     }
     doc.appendChild(clip);
