@@ -564,7 +564,10 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
         p.next();
         kDebug() << "Result: " << p.key() << " = " << p.value();
     }*/
-    emit showClipProperties(clipList, commonproperties);
+    if (clipList.isEmpty()) {
+        emit displayMessage(i18n("No available clip selected"), -2);        
+    }
+    else emit showClipProperties(clipList, commonproperties);
 }
 
 void ProjectList::slotOpenClip()
