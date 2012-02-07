@@ -223,6 +223,7 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
     connect(this, SIGNAL(showMessage(const QString &, const QString &)), this, SLOT(slotDisplayMessage(const QString &, const QString &)));
     
     compressed_archive->setHidden(true);
+    proxy_only->setHidden(true);
     project_files->setHidden(true);
     files_list->setHidden(true);
     label->setText(i18n("Extract to"));
