@@ -281,7 +281,7 @@ bool DocumentChecker::hasErrorInClips()
     }
 
     m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());
-    m_ui.recursiveSearch->setEnabled(!m_missingClips.isEmpty() || !missingLumas.isEmpty());
+    m_ui.recursiveSearch->setEnabled(!m_missingClips.isEmpty() || !missingLumas.isEmpty() || !missingSources.isEmpty());
     m_ui.usePlaceholders->setEnabled(!m_missingClips.isEmpty());
     m_ui.fixDuration->setEnabled(!wrongDurationClips.isEmpty());
 
@@ -390,15 +390,24 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, SOURCEMISSING);
         item->setToolTip(0, i18n("Missing source clip"));
-    }
-
-    for (int i = 0; i < max; i++) {
-        e = missingSources.at(i).toElement();
-        QString clipType;
-        QString realPath = e.attribute("resource");
-        QString id = e.attribute("id");
-        // Tell Kdenlive the source is missing
-        e.setAttribute("_missingsource", "1");
+        for (int i = 0; i < max; i++) {
+            e = missingSources.at(i).toElement();
+            QString clipType;
+            QString realPath = e.attribute("resource");
+            QString id = e.attribute("id");
+            // Tell Kdenlive the source is missing
+            e.setAttribute("_missingsource", "1");
+            QTreeWidgetItem *subitem = new QTreeWidgetItem(item, QStringList() << i18n("Source clip"));
+            kDebug()<<"// Adding missing source clip: "<<realPath;
+            subitem->setIcon(0, KIcon("dialog-close"));
+            subitem->setText(1, realPath);
+            subitem->setData(0, hashRole, e.attribute("file_hash"));
+            subitem->setData(0, sizeRole, e.attribute("file_size"));
+            subitem->setData(0, statusRole, CLIPMISSING);
+            int t = e.attribute("type").toInt();
+            subitem->setData(0, typeRole, t);
+            subitem->setData(0, idRole, id);
+        }
     }
     
     if (max > 0) {
@@ -460,7 +469,20 @@ void DocumentChecker::slotSearchClips()
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     QDir searchDir(newpath);
     while (child) {
-        if (child->data(0, statusRole).toInt() == CLIPMISSING) {
+        if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
+            for (int j = 0; j < child->childCount(); j++) {
+                QTreeWidgetItem *subchild = child->child(j);
+                QString clipPath = searchFileRecursively(searchDir, subchild->data(0, sizeRole).toString(), subchild->data(0, hashRole).toString());
+                if (!clipPath.isEmpty()) {
+                    fixed = true;
+                    
+                    subchild->setText(1, clipPath);
+                    subchild->setIcon(0, KIcon("dialog-ok"));
+                    subchild->setData(0, statusRole, CLIPOK);
+                }
+            }
+        }
+        else if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             QString clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
             if (!clipPath.isEmpty()) {
                 fixed = true;
@@ -586,7 +608,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
 void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
 {
     int t = item->data(0, typeRole).toInt();
-    if (t == TITLE_FONT_ELEMENT) return;
+    if (t == TITLE_FONT_ELEMENT || t == UNKNOWN) return;
     //|| t == TITLE_IMAGE_ELEMENT) {
 
     KUrl url = KUrlRequesterDialog::getUrl(item->text(1), m_dialog, i18n("Enter new location for file"));
@@ -610,10 +632,8 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
 
 void DocumentChecker::acceptDialog()
 {
-    QDomElement e, property;
     QDomNodeList producers = m_doc.elementsByTagName("producer");
     QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
-    QDomNodeList properties;
     int ix = 0;
 
     // prepare transitions
@@ -624,99 +644,110 @@ void DocumentChecker::acceptDialog()
 
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     while (child) {
-        int t = child->data(0, typeRole).toInt();
-        if (child->data(0, statusRole).toInt() == CLIPOK) {
-            QString id = child->data(0, idRole).toString();
-            if (t == TITLE_IMAGE_ELEMENT) {
-                // edit images embedded in titles
-                for (int i = 0; i < infoproducers.count(); i++) {
-                    e = infoproducers.item(i).toElement();
-                    if (e.attribute("id") == id) {
-                        // Fix clip
-                        QString xml = e.attribute("xmldata");
-                        xml.replace(child->data(0, typeOriginalResource).toString(), child->text(1));
-                        e.setAttribute("xmldata", xml);
-                        break;
-                    }
-                }
-                for (int i = 0; i < producers.count(); i++) {
-                    e = producers.item(i).toElement();
-                    if (e.attribute("id").section('_', 0, 0) == id) {
-                        // Fix clip
-                        properties = e.childNodes();
-                        for (int j = 0; j < properties.count(); ++j) {
-                            property = properties.item(j).toElement();
-                            if (property.attribute("name") == "xmldata") {
-                                QString xml = property.firstChild().nodeValue();
-                                xml.replace(child->data(0, typeOriginalResource).toString(), child->text(1));
-                                property.firstChild().setNodeValue(xml);
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else {
-                // edit clip url
-                for (int i = 0; i < infoproducers.count(); i++) {
-                    e = infoproducers.item(i).toElement();
-                    if (e.attribute("id") == id) {
-                        // Fix clip
-                        e.setAttribute("resource", child->text(1));
-                        e.setAttribute("name", KUrl(child->text(1)).fileName());
-                        break;
-                    }
-                }
-                for (int i = 0; i < producers.count(); i++) {
-                    e = producers.item(i).toElement();
-                    if (e.attribute("id").section('_', 0, 0) == id || e.attribute("id").section(':', 1, 1) == id) {
-                        // Fix clip
-                        properties = e.childNodes();
-                        for (int j = 0; j < properties.count(); ++j) {
-                            property = properties.item(j).toElement();
-                            if (property.attribute("name") == "resource") {
-                                QString resource = property.firstChild().nodeValue();
-                                if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$")))
-                                    property.firstChild().setNodeValue(child->text(1) + '?' + resource.section('?', -1));
-                                else
-                                    property.firstChild().setNodeValue(child->text(1));
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER && t != TITLE_FONT_ELEMENT && t != TITLE_IMAGE_ELEMENT) {
-            QString id = child->data(0, idRole).toString();
-            for (int i = 0; i < infoproducers.count(); i++) {
-                e = infoproducers.item(i).toElement();
-                if (e.attribute("id") == id) {
-                    // Fix clip
-                    e.setAttribute("placeholder", '1');
-                    break;
-                }
-            }
-        } else if (child->data(0, statusRole).toInt() == LUMAOK) {
-            for (int i = 0; i < trans.count(); i++) {
-                QString luma = getProperty(trans.at(i).toElement(), "luma");
-                
-                kDebug() << "luma: " << luma;
-                if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                    setProperty(trans.at(i).toElement(), "luma", child->text(1));
-                    kDebug() << "replace with; " << child->text(1);
-                }
-            }
-        } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
-            for (int i = 0; i < trans.count(); i++) {
-                QString luma = getProperty(trans.at(i).toElement(), "luma");
-                if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                    setProperty(trans.at(i).toElement(), "luma", QString());
-                }
+        if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
+            for (int j = 0; j < child->childCount(); j++) {
+                fixClipItem(child->child(j), producers, infoproducers, trans);
             }
         }
+        else fixClipItem(child, producers, infoproducers, trans);
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
     }
     //QDialog::accept();
+}
+
+void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList infoproducers, QDomNodeList trans)
+{
+    QDomElement e, property;
+    QDomNodeList properties;
+    int t = child->data(0, typeRole).toInt();
+    if (child->data(0, statusRole).toInt() == CLIPOK) {
+        QString id = child->data(0, idRole).toString();
+        if (t == TITLE_IMAGE_ELEMENT) {
+            // edit images embedded in titles
+            for (int i = 0; i < infoproducers.count(); i++) {
+                e = infoproducers.item(i).toElement();
+                if (e.attribute("id") == id) {
+                    // Fix clip
+                    QString xml = e.attribute("xmldata");
+                    xml.replace(child->data(0, typeOriginalResource).toString(), child->text(1));
+                    e.setAttribute("xmldata", xml);
+                    break;
+                }
+            }
+            for (int i = 0; i < producers.count(); i++) {
+                e = producers.item(i).toElement();
+                if (e.attribute("id").section('_', 0, 0) == id) {
+                    // Fix clip
+                    properties = e.childNodes();
+                    for (int j = 0; j < properties.count(); ++j) {
+                        property = properties.item(j).toElement();
+                        if (property.attribute("name") == "xmldata") {
+                            QString xml = property.firstChild().nodeValue();
+                            xml.replace(child->data(0, typeOriginalResource).toString(), child->text(1));
+                            property.firstChild().setNodeValue(xml);
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            // edit clip url
+            for (int i = 0; i < infoproducers.count(); i++) {
+                e = infoproducers.item(i).toElement();
+                if (e.attribute("id") == id) {
+                    // Fix clip
+                    e.setAttribute("resource", child->text(1));
+                    e.setAttribute("name", KUrl(child->text(1)).fileName());
+                    e.removeAttribute("_missingsource");
+                    break;
+                }
+            }
+            for (int i = 0; i < producers.count(); i++) {
+                e = producers.item(i).toElement();
+                if (e.attribute("id").section('_', 0, 0) == id || e.attribute("id").section(':', 1, 1) == id) {
+                    // Fix clip
+                    properties = e.childNodes();
+                    for (int j = 0; j < properties.count(); ++j) {
+                        property = properties.item(j).toElement();
+                        if (property.attribute("name") == "resource") {
+                            QString resource = property.firstChild().nodeValue();
+                            if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$")))
+                                property.firstChild().setNodeValue(child->text(1) + '?' + resource.section('?', -1));
+                            else
+                                property.firstChild().setNodeValue(child->text(1));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER && t != TITLE_FONT_ELEMENT && t != TITLE_IMAGE_ELEMENT) {
+        QString id = child->data(0, idRole).toString();
+        for (int i = 0; i < infoproducers.count(); i++) {
+            e = infoproducers.item(i).toElement();
+            if (e.attribute("id") == id) {
+                // Fix clip
+                e.setAttribute("placeholder", '1');
+                break;
+            }
+        }
+    } else if (child->data(0, statusRole).toInt() == LUMAOK) {
+        for (int i = 0; i < trans.count(); i++) {
+            QString luma = getProperty(trans.at(i).toElement(), "luma");
+            if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
+                setProperty(trans.at(i).toElement(), "luma", child->text(1));
+                kDebug() << "replace with; " << child->text(1);
+            }
+        }
+    } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
+        for (int i = 0; i < trans.count(); i++) {
+            QString luma = getProperty(trans.at(i).toElement(), "luma");
+            if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
+                setProperty(trans.at(i).toElement(), "luma", QString());
+            }
+        }
+    }
 }
 
 void DocumentChecker::slotPlaceholders()
