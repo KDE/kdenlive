@@ -78,6 +78,7 @@ private slots:
     void openArchiveForExtraction();
     void slotDisplayMessage(const QString &icon, const QString &text);
     void slotJobResult(bool success, const QString &text);
+    void slotProxyOnly(int onlyProxy);
 
 protected:
     virtual void closeEvent ( QCloseEvent * e );
@@ -107,6 +108,8 @@ private:
 
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, QStringList items);
+    /** @brief Generate tree widget subitems from a map of clip ids / urls. */
+    void generateItems(QTreeWidgetItem *parentItem, QMap <QString, QString> items);
     /** @brief Replace urls in project file. */
     bool processProjectFile();
 
