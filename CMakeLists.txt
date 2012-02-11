@@ -88,6 +88,7 @@ add_subdirectory(renderer)
 add_subdirectory(src)
 add_subdirectory(thumbnailer)
 add_subdirectory(titles)
+add_subdirectory(testingArea)
 
 macro_display_feature_log()
 
