@@ -1,8 +1,63 @@
 
+#include <QMap>
 #include <QFile>
 #include <mlt++/Mlt.h>
 #include <iostream>
 #include <cstdlib>
+
+int info(char *filename)
+{
+
+    // Initialize MLT
+    Mlt::Factory::init(NULL);
+
+    // Load an arbitrary profile
+    Mlt::Profile prof("hdv_1080_25p");
+
+
+    std::cout << "MLT initialized, profile loaded. Loading clips ..." << std::endl;
+
+
+    Mlt::Producer producer(prof, filename);
+    if (!producer.is_valid()) {
+        std::cout << filename << " is invalid." << std::endl;
+        return 2;
+    }
+    std::cout << "Successfully loaded producer " << filename << std::endl;
+
+    int streams = atoi(producer.get("meta.media.nb_streams"));
+    std::cout << "Number of streams: " << streams << std::endl;
+
+    int audioStream = -1;
+    for (int i = 0; i < streams; i++) {
+        std::string propertyName = QString("meta.media.%1.stream.type").arg(i).toStdString();
+        std::cout << "Producer " << i << ": " << producer.get(propertyName.c_str());
+        if (strcmp("audio", producer.get(propertyName.c_str())) == 0) {
+            std::cout << " (Using this stream)";
+            audioStream = i;
+        }
+        std::cout << std::endl;
+    }
+
+    if (audioStream >= 0) {
+        QMap<QString, QString> map;
+        map.insert("Sampling format", QString("meta.media.%1.codec.sample_fmt").arg(audioStream));
+        map.insert("Sampling rate", QString("meta.media.%1.codec.sample_rate").arg(audioStream));
+        map.insert("Bit rate", QString("meta.media.%1.codec.bit_rate").arg(audioStream));
+        map.insert("Channels", QString("meta.media.%1.codec.channels").arg(audioStream));
+        map.insert("Codec", QString("meta.media.%1.codec.name").arg(audioStream));
+        map.insert("Codec, long name", QString("meta.media.%1.codec.long_name").arg(audioStream));
+
+        std::cout << "Audio properties (stream " << audioStream << ")" << std::endl;
+        foreach (QString key, map.keys()) {
+            std::string value = map.value(key).toStdString();
+            std::cout << "\t" << key.toStdString() << ": " << producer.get(value.c_str())
+                      << "  (" << value << ")" << std::endl;
+        }
+    }
+
+    return 0;
+}
 
 int main(int argc, char *argv[])
 {
@@ -19,36 +74,14 @@ int main(int argc, char *argv[])
               << "\n, result will indicate by how much (1) has to be moved." << std::endl;
 
 
-    // Initialize MLT
-    Mlt::Factory::init(NULL);
-
-    // Load an arbitrary profile
-    Mlt::Profile prof("hdv_1080_25p");
-
-
-    std::cout << "MLT initialized, profile loaded. Loading clips ..." << std::endl;
-
-
-    Mlt::Producer producer(prof, fileMain);
-    if (!producer.is_valid()) {
-        std::cout << fileMain << " is invalid." << std::endl;
-        return 2;
-    }
-    std::cout << "Successfully loaded producer " << fileMain << std::endl;
-    std::cout << "Some data: " << std::endl
-              << "Length: " << producer.get_length() << std::endl
-              << "fps: " << producer.get_fps() << std::endl;
-
-    int nSamples = 50;
-    Mlt::Frame *frame = producer.get_frame();
-    float *data = frame->get_audio(mlt_audio_float, 24000, 1, nSamples);
-
-    for (int i = 0; i < nSamples; i++) {
-        std::cout << " " << data[i];
-    }
-    std::cout << std::endl;
+    info(fileMain);
+    info(fileSub);
 
 /*
+    Mlt::Frame *frame = producer.get_frame();
+
+
+    float *data = (float*)frame->get_audio(format, samplingRate, channels, nSamples);
     producer.set("video_index", "-1");
 
     if (KdenliveSettings::normaliseaudiothumbs()) {
