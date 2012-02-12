@@ -1,0 +1,66 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by Simon Andreas Eugster (simon.eu@gmail.com)      *
+ *   This file is part of kdenlive. See www.kdenlive.org.                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ ***************************************************************************/
+
+#include "audioStreamInfo.h"
+
+#include <iostream>
+#include <cstdlib>
+
+AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) :
+    m_audioStreamIndex(audioStreamIndex)
+{
+
+    std::string key;
+
+    key = QString("meta.media.%1.codec.sample_fmt").arg(audioStreamIndex).toStdString();
+    m_samplingFormat = QString(producer->get(key.c_str()));
+
+    key = QString("meta.media.%1.codec.sample_rate").arg(audioStreamIndex).toStdString();
+    m_samplingRate = atoi(producer->get(key.c_str()));
+
+    key = QString("meta.media.%1.codec.bit_rate").arg(audioStreamIndex).toStdString();
+    m_bitRate = atoi(producer->get(key.c_str()));
+
+    key = QString("meta.media.%1.codec.channels").arg(audioStreamIndex).toStdString();
+    m_channels = atoi(producer->get(key.c_str()));
+
+    key = QString("meta.media.%1.codec.name").arg(audioStreamIndex).toStdString();
+    m_codecName = QString(producer->get(key.c_str()));
+
+    key = QString("meta.media.%1.codec.long_name").arg(audioStreamIndex).toStdString();
+    m_codecLongName = QString(producer->get(key.c_str()));
+}
+AudioStreamInfo::~AudioStreamInfo()
+{
+}
+
+int AudioStreamInfo::streamIndex() const { return m_audioStreamIndex; }
+int AudioStreamInfo::samplingRate() const { return m_samplingRate; }
+int AudioStreamInfo::channels() const { return m_channels; }
+int AudioStreamInfo::bitrate() const { return m_bitRate; }
+const QString& AudioStreamInfo::codecName(bool longName) const
+{
+    if (longName) {
+        return m_codecLongName;
+    } else {
+        return m_codecName;
+    }
+}
+
+void AudioStreamInfo::dumpInfo() const
+{
+    std::cout << "Info for audio stream " << m_audioStreamIndex << std::endl
+              << "\tCodec: " << m_codecLongName.toStdString() << " (" << m_codecName.toStdString() << ")" << std::endl
+              << "\tChannels: " << m_channels << std::endl
+              << "\tSampling rate: " << m_samplingRate << std::endl
+              << "\tBit rate: " << m_bitRate << std::endl
+                 ;
+
+}

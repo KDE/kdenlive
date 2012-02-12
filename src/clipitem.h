@@ -39,7 +39,7 @@ class Transition;
 namespace Mlt
 {
 class Producer;
-};
+}
 
 class ClipItem : public AbstractClipItem
 {

@@ -1,63 +1,27 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by Simon Andreas Eugster (simon.eu@gmail.com)      *
+ *   This file is part of kdenlive. See www.kdenlive.org.                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ ***************************************************************************/
+
 
 #include <QMap>
 #include <QFile>
+#include <QTime>
+#include <QImage>
+#include <QFileInfo>
+#include <QDateTime>
 #include <mlt++/Mlt.h>
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
-int info(char *filename)
-{
-
-    // Initialize MLT
-    Mlt::Factory::init(NULL);
-
-    // Load an arbitrary profile
-    Mlt::Profile prof("hdv_1080_25p");
-
-
-    std::cout << "MLT initialized, profile loaded. Loading clips ..." << std::endl;
-
-
-    Mlt::Producer producer(prof, filename);
-    if (!producer.is_valid()) {
-        std::cout << filename << " is invalid." << std::endl;
-        return 2;
-    }
-    std::cout << "Successfully loaded producer " << filename << std::endl;
-
-    int streams = atoi(producer.get("meta.media.nb_streams"));
-    std::cout << "Number of streams: " << streams << std::endl;
-
-    int audioStream = -1;
-    for (int i = 0; i < streams; i++) {
-        std::string propertyName = QString("meta.media.%1.stream.type").arg(i).toStdString();
-        std::cout << "Producer " << i << ": " << producer.get(propertyName.c_str());
-        if (strcmp("audio", producer.get(propertyName.c_str())) == 0) {
-            std::cout << " (Using this stream)";
-            audioStream = i;
-        }
-        std::cout << std::endl;
-    }
-
-    if (audioStream >= 0) {
-        QMap<QString, QString> map;
-        map.insert("Sampling format", QString("meta.media.%1.codec.sample_fmt").arg(audioStream));
-        map.insert("Sampling rate", QString("meta.media.%1.codec.sample_rate").arg(audioStream));
-        map.insert("Bit rate", QString("meta.media.%1.codec.bit_rate").arg(audioStream));
-        map.insert("Channels", QString("meta.media.%1.codec.channels").arg(audioStream));
-        map.insert("Codec", QString("meta.media.%1.codec.name").arg(audioStream));
-        map.insert("Codec, long name", QString("meta.media.%1.codec.long_name").arg(audioStream));
-
-        std::cout << "Audio properties (stream " << audioStream << ")" << std::endl;
-        foreach (QString key, map.keys()) {
-            std::string value = map.value(key).toStdString();
-            std::cout << "\t" << key.toStdString() << ": " << producer.get(value.c_str())
-                      << "  (" << value << ")" << std::endl;
-        }
-    }
-
-    return 0;
-}
+#include "audioInfo.h"
+#include "audioStreamInfo.h"
 
 int main(int argc, char *argv[])
 {
@@ -73,60 +37,90 @@ int main(int argc, char *argv[])
     std::cout << "Trying to align (1)\n\t" << fileSub << "\nto fit on (2)\n\t" << fileMain
               << "\n, result will indicate by how much (1) has to be moved." << std::endl;
 
+    // Initialize MLT
+    Mlt::Factory::init(NULL);
 
-    info(fileMain);
-    info(fileSub);
+    // Load an arbitrary profile
+    Mlt::Profile prof("hdv_1080_25p");
 
-/*
-    Mlt::Frame *frame = producer.get_frame();
-
-
-    float *data = (float*)frame->get_audio(format, samplingRate, channels, nSamples);
-    producer.set("video_index", "-1");
-
-    if (KdenliveSettings::normaliseaudiothumbs()) {
-        Mlt::Filter m_convert(prof, "volume");
-        m_convert.set("gain", "normalise");
-        producer.attach(m_convert);
+    // Load the MLT producers
+    Mlt::Producer prodMain(prof, fileMain);
+    if (!prodMain.is_valid()) {
+        std::cout << fileMain << " is invalid." << std::endl;
+        return 2;
+    }
+    Mlt::Producer profSub(prof, fileSub);
+    if (!profSub.is_valid()) {
+        std::cout << fileSub << " is invalid." << std::endl;
+        return 2;
     }
 
-    int last_val = 0;
-    int val = 0;
-    double framesPerSecond = mlt_producer_get_fps(producer.get_producer());
-    Mlt::Frame *mlt_frame;
+    AudioInfo infoMain(&prodMain);
+    AudioInfo infoSub(&profSub);
+    infoMain.dumpInfo();
+    infoSub.dumpInfo();
 
-    for (int z = (int) frame; z < (int)(frame + lengthInFrames) && producer.is_valid() &&  !m_abortAudioThumb; z++) {
-        val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
-        if (last_val != val && val > 1) {
-            setThumbsProgress(i18n("Creating audio thumbnail for %1", url.fileName()), val);
-            last_val = val;
-        }
-        producer.seek(z);
-        mlt_frame = producer.get_frame();
-        if (mlt_frame && mlt_frame->is_valid()) {
-            int samples = mlt_sample_calculator(framesPerSecond, frequency, mlt_frame_get_position(mlt_frame->get_frame()));
-            qint16* pcm = static_cast<qint16*>(mlt_frame->get_audio(audioFormat, frequency, channels, samples));
-            for (int c = 0; c < channels; c++) {
-                QByteArray audioArray;
-                audioArray.resize(arrayWidth);
-                for (int i = 0; i < audioArray.size(); i++) {
-                    audioArray[i] = ((*(pcm + c + i * samples / audioArray.size())) >> 9) + 127 / 2 ;
-                }
-                f.write(audioArray);
-                storeIn[z][c] = audioArray;
-            }
-        } else {
-            f.write(QByteArray(arrayWidth, '\x00'));
-        }
-        delete mlt_frame;
+    prodMain.get_fps();
+
+
+    int framesToFetch = prodMain.get_length();
+    std::cout << "Length: " << framesToFetch
+              << " (Seconds: " << framesToFetch/prodMain.get_fps() << ")"
+              << std::endl;
+    if (framesToFetch > 5000) {
+        framesToFetch = 5000;
     }
-    f.close();
-    setThumbsProgress(i18n("Creating audio thumbnail for %1", url.fileName()), -1);
-    if (m_abortAudioThumb) {
-        f.remove();
-    } else {
-        clip->updateAudioThumbnail(storeIn);
-    }*/
+
+    mlt_audio_format format_s16 = mlt_audio_s16;
+    int samplingRate = infoMain.info(0)->samplingRate();
+    int channels = 1;
+
+    Mlt::Frame *frame;
+    int64_t position;
+    int samples;
+
+    uint64_t envelope[framesToFetch];
+    uint64_t max = 0;
+
+    QTime t;
+    t.start();
+    for (int i = 0; i < framesToFetch; i++) {
+
+        frame = prodMain.get_frame(i);
+        position = mlt_frame_get_position(frame->get_frame());
+        samples = mlt_sample_calculator(prodMain.get_fps(), infoMain.info(0)->samplingRate(), position);
+
+        int16_t *data = static_cast<int16_t*>(frame->get_audio(format_s16, samplingRate, channels, samples));
+
+        uint64_t sum = 0;
+        for (int k = 0; k < samples; k++) {
+            sum += fabs(data[k]);
+        }
+        envelope[i] = sum;
+
+        if (sum > max) {
+            max = sum;
+        }
+    }
+    std::cout << "Calculating the envelope (" << framesToFetch << " frames) took "
+              << t.elapsed() << " ms." << std::endl;
+
+    QImage img(framesToFetch, 400, QImage::Format_ARGB32);
+    img.fill(qRgb(255,255,255));
+    double fy;
+    for (int x = 0; x < img.width(); x++) {
+        fy = envelope[x]/double(max) * img.height();
+        for (int y = img.height()-1; y > img.height()-1-fy; y--) {
+            img.setPixel(x,y, qRgb(50, 50, 50));
+        }
+    }
+
+    QString outImg = QString("envelope-%1.png")
+            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+    img.save(outImg);
+    std::cout << "Saved volume envelope as "
+              << QFileInfo(outImg).absoluteFilePath().toStdString()
+              << std::endl;
 
     return 0;
 
