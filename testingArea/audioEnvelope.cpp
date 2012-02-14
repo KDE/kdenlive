@@ -19,7 +19,9 @@
 AudioEnvelope::AudioEnvelope(Mlt::Producer *producer) :
     m_envelope(NULL),
     m_producer(producer),
-    m_envelopeStdDevCalculated(false)
+    m_envelopeSize(producer->get_length()),
+    m_envelopeStdDevCalculated(false),
+    m_envelopeIsNormalized(false)
 {
     m_info = new AudioInfo(m_producer);
 }
@@ -33,13 +35,27 @@ AudioEnvelope::~AudioEnvelope()
 }
 
 
+
+const int64_t *AudioEnvelope::envelope()
+{
+    if (m_envelope == NULL) {
+        loadEnvelope();
+    }
+    return m_envelope;
+}
+int AudioEnvelope::envelopeSize() const
+{
+    return m_envelopeSize;
+}
+
+
+
+
 void AudioEnvelope::loadEnvelope()
 {
     Q_ASSERT(m_envelope == NULL);
 
     std::cout << "Loading envelope ..." << std::endl;
-
-    m_envelopeSize = m_producer->get_length();
 
     int samplingRate = m_info->info(0)->samplingRate();
     mlt_audio_format format_s16 = mlt_audio_s16;
@@ -49,7 +65,7 @@ void AudioEnvelope::loadEnvelope()
     int64_t position;
     int samples;
 
-    m_envelope = new uint64_t[m_envelopeSize];
+    m_envelope = new int64_t[m_envelopeSize];
     m_envelopeMax = 0;
     m_envelopeMean = 0;
 
@@ -63,7 +79,7 @@ void AudioEnvelope::loadEnvelope()
 
         int16_t *data = static_cast<int16_t*>(frame->get_audio(format_s16, samplingRate, channels, samples));
 
-        uint64_t sum = 0;
+        int64_t sum = 0;
         for (int k = 0; k < samples; k++) {
             sum += fabs(data[k]);
         }
@@ -97,6 +113,37 @@ int64_t AudioEnvelope::loadStdDev()
 
     }
     return m_envelopeStdDev;
+}
+
+void AudioEnvelope::normalizeEnvelope(bool clampTo0)
+{
+    if (m_envelope == NULL) {
+        loadEnvelope();
+    }
+
+    if (!m_envelopeIsNormalized) {
+
+        m_envelopeMax = 0;
+        int64_t newMean = 0;
+        for (int i = 0; i < m_envelopeSize; i++) {
+
+            m_envelope[i] -= m_envelopeMean;
+
+            if (clampTo0) {
+                if (m_envelope[i] < 0) { m_envelope[i] = 0; }
+            }
+
+            if (m_envelope[i] > m_envelopeMax) {
+                m_envelopeMax = m_envelope[i];
+            }
+
+            newMean += m_envelope[i];
+        }
+        m_envelopeMean = newMean / m_envelopeSize;
+
+        m_envelopeIsNormalized = true;
+    }
+
 }
 
 QImage AudioEnvelope::drawEnvelope()

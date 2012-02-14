@@ -50,37 +50,88 @@ int main(int argc, char *argv[])
         std::cout << fileMain << " is invalid." << std::endl;
         return 2;
     }
-    Mlt::Producer profSub(prof, fileSub);
-    if (!profSub.is_valid()) {
+    Mlt::Producer prodSub(prof, fileSub);
+    if (!prodSub.is_valid()) {
         std::cout << fileSub << " is invalid." << std::endl;
         return 2;
-    }
-
-    AudioInfo infoMain(&prodMain);
-    AudioInfo infoSub(&profSub);
-    infoMain.dumpInfo();
-    infoSub.dumpInfo();
-
-    prodMain.get_fps();
-
-
-    int framesToFetch = prodMain.get_length();
-    std::cout << "Length: " << framesToFetch
-              << " (Seconds: " << framesToFetch/prodMain.get_fps() << ")"
-              << std::endl;
-    if (framesToFetch > 5000) {
-        framesToFetch = 5000;
     }
 
     AudioEnvelope envelopeMain(&prodMain);
     envelopeMain.loadEnvelope();
     envelopeMain.loadStdDev();
     envelopeMain.dumpInfo();
+    envelopeMain.normalizeEnvelope();
+    envelopeMain.dumpInfo();
+
+    AudioEnvelope envelopeSub(&prodSub);
+    envelopeSub.loadEnvelope();
+    envelopeMain.normalizeEnvelope();
+    envelopeSub.dumpInfo();
 
 
     QString outImg = QString("envelope-%1.png")
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
     envelopeMain.drawEnvelope().save(outImg);
+    std::cout << "Saved volume envelope as "
+              << QFileInfo(outImg).absoluteFilePath().toStdString()
+              << std::endl;
+
+
+
+    const int sizeX = envelopeMain.envelopeSize();
+    const int sizeY = envelopeSub.envelopeSize();
+    int64_t correlation[sizeX + sizeY + 1];
+    const int64_t *envX = envelopeMain.envelope();
+    const int64_t *envY = envelopeSub.envelope();
+    int64_t const* left;
+    int64_t const* right;
+    int size;
+    int64_t sum;
+    int64_t max = 0;
+
+    QTime t;
+    t.start();
+    for (int shift = -sizeX; shift <= sizeY; shift++) {
+
+        if (shift <= 0) {
+            left = envX-shift;
+            right = envY;
+            size = std::min(sizeX+shift, sizeY);
+        } else {
+            left = envX;
+            right = envY+shift;
+            size = std::min(sizeX, sizeY-shift);
+        }
+
+        sum = 0;
+        for (int i = 0; i < size; i++) {
+            sum += (*left) * (*right);
+            left++;
+            right++;
+        }
+        correlation[sizeX+shift] = std::abs(sum);
+        std::cout << sum << " ";
+
+        if (sum > max) {
+            max = sum;
+        }
+
+    }
+    std::cout << "Correlation calculated. Time taken: " << t.elapsed() << " ms." << std::endl;
+
+    int val;
+    QImage img(sizeX + sizeY + 1, 400, QImage::Format_ARGB32);
+    img.fill(qRgb(255,255,255));
+    for (int x = 0; x < sizeX+sizeY+1; x++) {
+        val = correlation[x]/double(max)*img.height();
+        for (int y = img.height()-1; y > img.height() - val - 1; y--) {
+            img.setPixel(x, y, qRgb(50, 50, 50));
+        }
+    }
+
+    outImg = QString("correlation-%1.png")
+            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+    img.save(outImg);
     std::cout << "Saved volume envelope as "
               << QFileInfo(outImg).absoluteFilePath().toStdString()
               << std::endl;

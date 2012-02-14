@@ -21,24 +21,30 @@ public:
     AudioEnvelope(Mlt::Producer *producer);
     ~AudioEnvelope();
 
+    /// Returns the envelope, calculates it if necessary.
+    int64_t const* envelope();
+    int envelopeSize() const;
+
     void loadEnvelope();
     int64_t loadStdDev();
+    void normalizeEnvelope(bool clampTo0 = false);
 
     QImage drawEnvelope();
 
     void dumpInfo() const;
 
 private:
-    uint64_t *m_envelope;
+    int64_t *m_envelope;
     Mlt::Producer *m_producer;
     AudioInfo *m_info;
 
     int m_envelopeSize;
-    uint64_t m_envelopeMax;
-    uint64_t m_envelopeMean;
-    uint64_t m_envelopeStdDev;
+    int64_t m_envelopeMax;
+    int64_t m_envelopeMean;
+    int64_t m_envelopeStdDev;
 
     bool m_envelopeStdDevCalculated;
+    bool m_envelopeIsNormalized;
 };
 
 #endif // AUDIOENVELOPE_H
