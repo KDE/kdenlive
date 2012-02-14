@@ -7,7 +7,7 @@ include_directories(
 )
 include(${QT_USE_FILE})
 
-add_executable(audioOffset  audioOffset.cpp audioInfo.cpp audioStreamInfo.cpp audioEnvelope.cpp)
+add_executable(audioOffset  audioOffset.cpp audioInfo.cpp audioStreamInfo.cpp audioEnvelope.cpp audioCorrelation.cpp audioCorrelationInfo.cpp)
 target_link_libraries(audioOffset 
   ${QT_LIBRARIES}
   ${LIBMLT_LIBRARY}

@@ -13,8 +13,11 @@
 #include <QFile>
 #include <QTime>
 #include <QImage>
+#include <QDebug>
 #include <QFileInfo>
 #include <QDateTime>
+#include <QStringList>
+#include <QCoreApplication>
 #include <mlt++/Mlt.h>
 #include <iostream>
 #include <cstdlib>
@@ -23,11 +26,62 @@
 #include "audioInfo.h"
 #include "audioStreamInfo.h"
 #include "audioEnvelope.h"
+#include "audioCorrelation.h"
+
+void printUsage(const char *path)
+{
+    std::cout << "Usage: " << path << " <main audio file> <second audio file>" << std::endl
+              << "\t-h, --help\tDisplay this help" << std::endl
+              << "\t--profile=<profile>\tUse the given profile for calculation (run: melt -query profiles)" << std::endl
+              << "\t--no-images\tDo not save envelope and correlation images" << std::endl
+                 ;
+}
 
 int main(int argc, char *argv[])
 {
-    char *fileMain;
-    char *fileSub;
+    QCoreApplication app(argc, argv);
+    QStringList args = app.arguments();
+    args.removeAt(0);
+
+    std::string profile = "atsc_1080p_24";
+    bool saveImages = true;
+
+    // Load arguments
+    foreach (QString str, args) {
+
+        if (str.startsWith("--profile=")) {
+            QString s = str;
+            s.remove(0, QString("--profile=").length());
+            profile = s.toStdString();
+            args.removeOne(str);
+
+        } else if (str == "-h" || str == "--help") {
+            printUsage(argv[0]);
+            return 0;
+
+        } else if (str == "--no-images") {
+            saveImages = false;
+            args.removeOne(str);
+        }
+
+    }
+
+    if (args.length() < 2) {
+        printUsage(argv[0]);
+        return 1;
+    }
+
+
+
+    std::string fileMain(args.at(0).toStdString());
+    args.removeFirst();
+    std::string fileSub = args.at(0).toStdString();
+    args.removeFirst();
+
+
+    qDebug() << "Unused arguments: " << args;
+
+
     if (argc > 2) {
         fileMain = argv[1];
         fileSub = argv[2];
@@ -35,106 +89,79 @@ int main(int argc, char *argv[])
         std::cout << "Usage: " << argv[0] << " <main audio file> <second audio file>" << std::endl;
         return 0;
     }
-    std::cout << "Trying to align (1)\n\t" << fileSub << "\nto fit on (2)\n\t" << fileMain
-              << "\n, result will indicate by how much (1) has to be moved." << std::endl;
+    std::cout << "Trying to align (2)\n\t" << fileSub << "\nto fit on (1)\n\t" << fileMain
+              << "\n, result will indicate by how much (2) has to be moved." << std::endl
+              << "Profile used: " << profile << std::endl
+                 ;
+
 
     // Initialize MLT
     Mlt::Factory::init(NULL);
 
     // Load an arbitrary profile
-    Mlt::Profile prof("hdv_1080_25p");
+    Mlt::Profile prof(profile.c_str());
 
     // Load the MLT producers
-    Mlt::Producer prodMain(prof, fileMain);
+    Mlt::Producer prodMain(prof, fileMain.c_str());
     if (!prodMain.is_valid()) {
         std::cout << fileMain << " is invalid." << std::endl;
         return 2;
     }
-    Mlt::Producer prodSub(prof, fileSub);
+    Mlt::Producer prodSub(prof, fileSub.c_str());
     if (!prodSub.is_valid()) {
         std::cout << fileSub << " is invalid." << std::endl;
         return 2;
     }
 
+
+    // Build the audio envelopes for the correlation
     AudioEnvelope envelopeMain(&prodMain);
     envelopeMain.loadEnvelope();
     envelopeMain.loadStdDev();
     envelopeMain.dumpInfo();
-    envelopeMain.normalizeEnvelope();
-    envelopeMain.dumpInfo();
 
     AudioEnvelope envelopeSub(&prodSub);
     envelopeSub.loadEnvelope();
-    envelopeMain.normalizeEnvelope();
+    envelopeSub.loadStdDev();
     envelopeSub.dumpInfo();
 
 
-    QString outImg = QString("envelope-%1.png")
-            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
-    envelopeMain.drawEnvelope().save(outImg);
-    std::cout << "Saved volume envelope as "
-              << QFileInfo(outImg).absoluteFilePath().toStdString()
-              << std::endl;
 
 
 
-    const int sizeX = envelopeMain.envelopeSize();
-    const int sizeY = envelopeSub.envelopeSize();
-    int64_t correlation[sizeX + sizeY + 1];
-    const int64_t *envX = envelopeMain.envelope();
-    const int64_t *envY = envelopeSub.envelope();
-    int64_t const* left;
-    int64_t const* right;
-    int size;
-    int64_t sum;
-    int64_t max = 0;
 
-    QTime t;
-    t.start();
-    for (int shift = -sizeX; shift <= sizeY; shift++) {
+    // Calculate the correlation and hereby the audio shift
+    AudioCorrelation corr(&envelopeMain);
+    int index = corr.addChild(&envelopeSub);
 
-        if (shift <= 0) {
-            left = envX-shift;
-            right = envY;
-            size = std::min(sizeX+shift, sizeY);
-        } else {
-            left = envX;
-            right = envY+shift;
-            size = std::min(sizeX, sizeY-shift);
-        }
+    int shift = corr.getShift(index);
+    std::cout << fileSub << " should be shifted by " << shift << " frames" << std::endl
+              << "\trelative to " << fileMain << std::endl
+              << "\tin a " << prodMain.get_fps() << " fps profile (" << profile << ")." << std::endl
+                 ;
 
-        sum = 0;
-        for (int i = 0; i < size; i++) {
-            sum += (*left) * (*right);
-            left++;
-            right++;
-        }
-        correlation[sizeX+shift] = std::abs(sum);
-        std::cout << sum << " ";
 
-        if (sum > max) {
-            max = sum;
-        }
-
+    if (saveImages) {
+        QString outImg;
+        outImg = QString("envelope-main-%1.png")
+                .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+        envelopeMain.drawEnvelope().save(outImg);
+        std::cout << "Saved volume envelope as "
+                  << QFileInfo(outImg).absoluteFilePath().toStdString()
+                  << std::endl;
+        outImg = QString("envelope-sub-%1.png")
+                .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+        envelopeSub.drawEnvelope().save(outImg);
+        std::cout << "Saved volume envelope as "
+                  << QFileInfo(outImg).absoluteFilePath().toStdString()
+                  << std::endl;
+        outImg = QString("correlation-%1.png")
+                .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+        corr.info(index)->toImage().save(outImg);
+        std::cout << "Saved correlation image as "
+                  << QFileInfo(outImg).absoluteFilePath().toStdString()
+                  << std::endl;
     }
-    std::cout << "Correlation calculated. Time taken: " << t.elapsed() << " ms." << std::endl;
-
-    int val;
-    QImage img(sizeX + sizeY + 1, 400, QImage::Format_ARGB32);
-    img.fill(qRgb(255,255,255));
-    for (int x = 0; x < sizeX+sizeY+1; x++) {
-        val = correlation[x]/double(max)*img.height();
-        for (int y = img.height()-1; y > img.height() - val - 1; y--) {
-            img.setPixel(x, y, qRgb(50, 50, 50));
-        }
-    }
-
-    outImg = QString("correlation-%1.png")
-            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
-    img.save(outImg);
-    std::cout << "Saved volume envelope as "
-              << QFileInfo(outImg).absoluteFilePath().toStdString()
-              << std::endl;
 
 
     return 0;
