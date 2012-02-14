@@ -10,6 +10,7 @@
 
 #include "audioStreamInfo.h"
 
+#include <QString>
 #include <iostream>
 #include <cstdlib>
 
@@ -17,25 +18,25 @@ AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) 
     m_audioStreamIndex(audioStreamIndex)
 {
 
-    std::string key;
+    QByteArray key;
 
-    key = QString("meta.media.%1.codec.sample_fmt").arg(audioStreamIndex).toStdString();
-    m_samplingFormat = QString(producer->get(key.c_str()));
+    key = QString("meta.media.%1.codec.sample_fmt").arg(audioStreamIndex).toLocal8Bit();
+    m_samplingFormat = QString(producer->get(key.data()));
 
-    key = QString("meta.media.%1.codec.sample_rate").arg(audioStreamIndex).toStdString();
-    m_samplingRate = atoi(producer->get(key.c_str()));
+    key = QString("meta.media.%1.codec.sample_rate").arg(audioStreamIndex).toLocal8Bit();
+    m_samplingRate = atoi(producer->get(key.data()));
 
-    key = QString("meta.media.%1.codec.bit_rate").arg(audioStreamIndex).toStdString();
-    m_bitRate = atoi(producer->get(key.c_str()));
+    key = QString("meta.media.%1.codec.bit_rate").arg(audioStreamIndex).toLocal8Bit();
+    m_bitRate = atoi(producer->get(key.data()));
 
-    key = QString("meta.media.%1.codec.channels").arg(audioStreamIndex).toStdString();
-    m_channels = atoi(producer->get(key.c_str()));
+    key = QString("meta.media.%1.codec.channels").arg(audioStreamIndex).toLocal8Bit();
+    m_channels = atoi(producer->get(key.data()));
 
-    key = QString("meta.media.%1.codec.name").arg(audioStreamIndex).toStdString();
-    m_codecName = QString(producer->get(key.c_str()));
+    key = QString("meta.media.%1.codec.name").arg(audioStreamIndex).toLocal8Bit();
+    m_codecName = QString(producer->get(key.data()));
 
-    key = QString("meta.media.%1.codec.long_name").arg(audioStreamIndex).toStdString();
-    m_codecLongName = QString(producer->get(key.c_str()));
+    key = QString("meta.media.%1.codec.long_name").arg(audioStreamIndex).toLocal8Bit();
+    m_codecLongName = QString(producer->get(key.data()));
 }
 AudioStreamInfo::~AudioStreamInfo()
 {
@@ -57,7 +58,7 @@ const QString& AudioStreamInfo::codecName(bool longName) const
 void AudioStreamInfo::dumpInfo() const
 {
     std::cout << "Info for audio stream " << m_audioStreamIndex << std::endl
-              << "\tCodec: " << m_codecLongName.toStdString() << " (" << m_codecName.toStdString() << ")" << std::endl
+              << "\tCodec: " << m_codecLongName.toLocal8Bit().data() << " (" << m_codecName.toLocal8Bit().data() << ")" << std::endl
               << "\tChannels: " << m_channels << std::endl
               << "\tSampling rate: " << m_samplingRate << std::endl
               << "\tBit rate: " << m_bitRate << std::endl

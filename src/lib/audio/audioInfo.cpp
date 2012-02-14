@@ -11,6 +11,7 @@
 #include "audioInfo.h"
 
 #include "audioStreamInfo.h"
+#include <QString>
 #include <iostream>
 #include <cstdlib>
 
@@ -22,9 +23,9 @@ AudioInfo::AudioInfo(Mlt::Producer *producer)
     // Get the number of streams and add the information of each of them if it is an audio stream.
     int streams = atoi(producer->get("meta.media.nb_streams"));
     for (int i = 0; i < streams; i++) {
-        std::string propertyName = QString("meta.media.%1.stream.type").arg(i).toStdString();
+        QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
 
-        if (strcmp("audio", producer->get(propertyName.c_str())) == 0) {
+        if (strcmp("audio", producer->get(propertyName.data())) == 0) {
             m_list << new AudioStreamInfo(producer, i);
         }
 

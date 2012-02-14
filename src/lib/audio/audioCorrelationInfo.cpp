@@ -21,7 +21,7 @@ AudioCorrelationInfo::AudioCorrelationInfo(int mainSize, int subSize) :
 
 AudioCorrelationInfo::~AudioCorrelationInfo()
 {
-    delete m_correlationVector;
+    delete[] m_correlationVector;
 }
 
 int AudioCorrelationInfo::size() const

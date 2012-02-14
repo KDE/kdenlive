@@ -22,6 +22,10 @@ AudioCorrelation::AudioCorrelation(AudioEnvelope *mainTrackEnvelope) :
 
 AudioCorrelation::~AudioCorrelation()
 {
+    delete m_mainTrackEnvelope;
+    foreach (AudioEnvelope *envelope, m_children) {
+        delete envelope;
+    }
 }
 
 int AudioCorrelation::addChild(AudioEnvelope *envelope)

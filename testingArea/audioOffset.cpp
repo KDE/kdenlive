@@ -117,15 +117,15 @@ int main(int argc, char *argv[])
 
 
     // Build the audio envelopes for the correlation
-    AudioEnvelope envelopeMain(&prodMain);
-    envelopeMain.loadEnvelope();
-    envelopeMain.loadStdDev();
-    envelopeMain.dumpInfo();
+    AudioEnvelope *envelopeMain = new AudioEnvelope(&prodMain);
+    envelopeMain->loadEnvelope();
+    envelopeMain->loadStdDev();
+    envelopeMain->dumpInfo();
 
-    AudioEnvelope envelopeSub(&prodSub);
-    envelopeSub.loadEnvelope();
-    envelopeSub.loadStdDev();
-    envelopeSub.dumpInfo();
+    AudioEnvelope *envelopeSub = new AudioEnvelope(&prodSub);
+    envelopeSub->loadEnvelope();
+    envelopeSub->loadStdDev();
+    envelopeSub->dumpInfo();
 
 
 
@@ -133,8 +133,8 @@ int main(int argc, char *argv[])
 
 
     // Calculate the correlation and hereby the audio shift
-    AudioCorrelation corr(&envelopeMain);
-    int index = corr.addChild(&envelopeSub);
+    AudioCorrelation corr(envelopeMain);
+    int index = corr.addChild(envelopeSub);
 
     int shift = corr.getShift(index);
     std::cout << fileSub << " should be shifted by " << shift << " frames" << std::endl
@@ -147,13 +147,13 @@ int main(int argc, char *argv[])
         QString outImg;
         outImg = QString("envelope-main-%1.png")
                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
-        envelopeMain.drawEnvelope().save(outImg);
+        envelopeMain->drawEnvelope().save(outImg);
         std::cout << "Saved volume envelope as "
                   << QFileInfo(outImg).absoluteFilePath().toStdString()
                   << std::endl;
         outImg = QString("envelope-sub-%1.png")
                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
-        envelopeSub.drawEnvelope().save(outImg);
+        envelopeSub->drawEnvelope().save(outImg);
         std::cout << "Saved volume envelope as "
                   << QFileInfo(outImg).absoluteFilePath().toStdString()
                   << std::endl;

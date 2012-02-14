@@ -27,10 +27,14 @@ class AudioCorrelationInfo;
 class AudioCorrelation
 {
 public:
+    /// AudioCorrelation will take ownership of mainTrackEnvelope
     AudioCorrelation(AudioEnvelope *mainTrackEnvelope);
     ~AudioCorrelation();
 
-    /// \return The child's index
+    /**
+      This object will take ownership of the passed envelope.
+      \return The child's index
+      */
     int addChild(AudioEnvelope *envelope);
 
     const AudioCorrelationInfo *info(int childIndex) const;

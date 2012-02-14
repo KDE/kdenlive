@@ -29,7 +29,7 @@ AudioEnvelope::AudioEnvelope(Mlt::Producer *producer) :
 AudioEnvelope::~AudioEnvelope()
 {
     if (m_envelope != NULL) {
-        delete m_envelope;
+        delete[] m_envelope;
     }
     delete m_info;
 }
