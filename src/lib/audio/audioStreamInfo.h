@@ -14,6 +14,9 @@
 #include <mlt++/Mlt.h>
 #include <QString>
 
+/**
+  Provides easy access to properties of an audio stream.
+  */
 class AudioStreamInfo
 {
 public:

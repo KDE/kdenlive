@@ -15,6 +15,14 @@
 #include <mlt++/Mlt.h>
 
 class QImage;
+
+/**
+  The audio envelope is a simplified version of an audio track
+  with frame resolution. One entry is calculated by the sum
+  of the absolute values of all samples in the current frame.
+
+  See also: http://bemasc.net/wordpress/2011/07/26/an-auto-aligner-for-pitivi/
+  */
 class AudioEnvelope
 {
 public:

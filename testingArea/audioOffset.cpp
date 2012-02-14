@@ -23,17 +23,19 @@
 #include <cstdlib>
 #include <cmath>
 
-#include "audioInfo.h"
-#include "audioStreamInfo.h"
-#include "audioEnvelope.h"
-#include "audioCorrelation.h"
+#include "../src/lib/audio/audioInfo.h"
+#include "../src/lib/audio/audioStreamInfo.h"
+#include "../src/lib/audio/audioEnvelope.h"
+#include "../src/lib/audio/audioCorrelation.h"
 
 void printUsage(const char *path)
 {
-    std::cout << "Usage: " << path << " <main audio file> <second audio file>" << std::endl
-              << "\t-h, --help\tDisplay this help" << std::endl
-              << "\t--profile=<profile>\tUse the given profile for calculation (run: melt -query profiles)" << std::endl
-              << "\t--no-images\tDo not save envelope and correlation images" << std::endl
+    std::cout << "This executable takes two audio/video files A and B and determines " << std::endl
+              << "how much B needs to be shifted in order to be synchronized with A." << std::endl << std::endl
+              << path << " <main audio file> <second audio file>" << std::endl
+              << "\t-h, --help\n\t\tDisplay this help" << std::endl
+              << "\t--profile=<profile>\n\t\tUse the given profile for calculation (run: melt -query profiles)" << std::endl
+              << "\t--no-images\n\t\tDo not save envelope and correlation images" << std::endl
                  ;
 }
 
