@@ -42,6 +42,7 @@ class ClipItem;
 class AbstractClipItem;
 class AbstractGroupItem;
 class Transition;
+class AudioCorrelation;
 
 class CustomTrackView : public QGraphicsView
 {
@@ -137,6 +138,12 @@ public:
 
     /** @brief Creates SplitAudioCommands for selected clips. */
     void splitAudio();
+
+    /// Define which clip to take as reference for automatic audio alignment
+    void setAudioAlignReference();
+
+    /// Automatically align the currently selected clips to synchronize their audio with the reference's audio
+    void alignAudio();
 
     /** @brief Seperates the audio of a clip to a audio track.
     * @param pos Position of the clip to split
@@ -355,6 +362,9 @@ private:
     QMutex m_mutex;
     QWaitCondition m_producerNotReady;
     KStatefulBrush m_activeTrackBrush;
+
+    AudioCorrelation *m_audioCorrelator;
+    ClipItem *m_audioAlignmentReference;
 
     /** stores the state of the control modifier during mouse press.
      * Will then be used to identify whether we resize a group or only one item of it. */

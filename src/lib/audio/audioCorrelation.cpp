@@ -26,6 +26,7 @@ AudioCorrelation::~AudioCorrelation()
     foreach (AudioEnvelope *envelope, m_children) {
         delete envelope;
     }
+    std::cout << "Envelope deleted." << std::endl;
 }
 
 int AudioCorrelation::addChild(AudioEnvelope *envelope)

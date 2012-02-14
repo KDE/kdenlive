@@ -478,6 +478,8 @@ private slots:
     void slotClipInProjectTree();
     //void slotClipToProjectTree();
     void slotSplitAudio();
+    void slotSetAudioAlignReference();
+    void slotAlignAudio();
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);

@@ -71,6 +71,8 @@ void AudioEnvelope::loadEnvelope()
 
     QTime t;
     t.start();
+    m_producer->seek(0);
+    m_producer->set_speed(1.0); // This is necessary, otherwise we don't get any new frames in the 2nd run.
     for (int i = 0; i < m_envelopeSize; i++) {
 
         frame = m_producer->get_frame(i);
@@ -89,6 +91,11 @@ void AudioEnvelope::loadEnvelope()
         if (sum > m_envelopeMax) {
             m_envelopeMax = sum;
         }
+
+//        std::cout << position << "|" << m_producer->get_playtime()
+//                  << "-" << m_producer->get_in() << "+" << m_producer->get_out() << " ";
+
+        delete frame;
     }
     m_envelopeMean /= m_envelopeSize;
     std::cout << "Calculating the envelope (" << m_envelopeSize << " frames) took "

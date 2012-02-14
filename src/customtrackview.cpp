@@ -62,6 +62,9 @@
 #include "commands/razorgroupcommand.h"
 #include "profilesdialog.h"
 
+#include "lib/audio/audioEnvelope.h"
+#include "lib/audio/audioCorrelation.h"
+
 #include <KDebug>
 #include <KLocale>
 #include <KUrl>
@@ -98,38 +101,41 @@ bool sortGuidesList(const Guide *g1 , const Guide *g2)
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
-        QGraphicsView(projectscene, parent),
-        m_tracksHeight(KdenliveSettings::trackheight()),
-        m_projectDuration(0),
-        m_cursorPos(0),
-        m_document(doc),
-        m_scene(projectscene),
-        m_cursorLine(NULL),
-        m_operationMode(NONE),
-        m_moveOpMode(NONE),
-        m_dragItem(NULL),
-        m_dragGuide(NULL),
-        m_visualTip(NULL),
-        m_animation(NULL),
-        m_clickPoint(),
-        m_autoScroll(KdenliveSettings::autoscroll()),
-        m_pasteEffectsAction(NULL),
-        m_ungroupAction(NULL),
-        m_scrollOffset(0),
-        m_clipDrag(false),
-        m_findIndex(0),
-        m_tool(SELECTTOOL),
-        m_copiedItems(),
-        m_menuPosition(),
-        m_blockRefresh(false),
-        m_selectionGroup(NULL),
-        m_selectedTrack(0),
-        m_controlModifier(false)
+    QGraphicsView(projectscene, parent),
+    m_tracksHeight(KdenliveSettings::trackheight()),
+    m_projectDuration(0),
+    m_cursorPos(0),
+    m_document(doc),
+    m_scene(projectscene),
+    m_cursorLine(NULL),
+    m_operationMode(NONE),
+    m_moveOpMode(NONE),
+    m_dragItem(NULL),
+    m_dragGuide(NULL),
+    m_visualTip(NULL),
+    m_animation(NULL),
+    m_clickPoint(),
+    m_autoScroll(KdenliveSettings::autoscroll()),
+    m_pasteEffectsAction(NULL),
+    m_ungroupAction(NULL),
+    m_scrollOffset(0),
+    m_clipDrag(false),
+    m_findIndex(0),
+    m_tool(SELECTTOOL),
+    m_copiedItems(),
+    m_menuPosition(),
+    m_blockRefresh(false),
+    m_selectionGroup(NULL),
+    m_selectedTrack(0),
+    m_audioCorrelator(NULL),
+    m_audioAlignmentReference(NULL),
+    m_controlModifier(false)
 {
-    if (doc)
+    if (doc) {
         m_commandStack = doc->commandStack();
-    else
+    } else {
         m_commandStack = NULL;
+    }
     m_ct = 0;
     setMouseTracking(true);
     setAcceptDrops(true);
@@ -2475,6 +2481,10 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         }
         event->setDropAction(Qt::MoveAction);
         event->accept();
+
+        /// \todo enable when really working
+//        alignAudio();
+
     } else QGraphicsView::dropEvent(event);
     setFocus();
 }
@@ -5943,6 +5953,97 @@ void CustomTrackView::splitAudio()
     }
 }
 
+void CustomTrackView::setAudioAlignReference()
+{
+    QList<QGraphicsItem *> selection = scene()->selectedItems();
+    if (selection.isEmpty() || selection.size() > 1) {
+        emit displayMessage(i18n("You must select exactly one clip for the audio reference."), ErrorMessage);
+        return;
+    }
+    if (m_audioCorrelator != NULL) {
+        delete m_audioCorrelator;
+    }
+    if (selection.at(0)->type() == AVWIDGET) {
+        ClipItem *clip = static_cast<ClipItem*>(selection.at(0));
+        if (clip->clipType() == AV || clip->clipType() == AUDIO) {
+            m_audioAlignmentReference = clip;
+
+            AudioEnvelope *envelope = new AudioEnvelope(clip->getProducer(clip->track()));
+            m_audioCorrelator = new AudioCorrelation(envelope);
+
+            envelope->drawEnvelope().save("kdenlive-audio-reference-envelope.png");
+            envelope->dumpInfo();
+
+            emit displayMessage(i18n("Audio align reference set."), InformationMessage);
+        }
+        return;
+    }
+    emit displayMessage(i18n("Reference for audio alignment must contain audio data."), ErrorMessage);
+}
+
+void CustomTrackView::alignAudio()
+{
+    bool referenceOK = true;
+    if (m_audioCorrelator == NULL) {
+        referenceOK = false;
+    }
+    if (referenceOK) {
+        if (!scene()->items().contains(m_audioAlignmentReference)) {
+            // The reference item has been deleted from the timeline (or so)
+            referenceOK = false;
+        }
+    }
+    if (!referenceOK) {
+        emit displayMessage(i18n("Audio alignment reference not yet set."), DefaultMessage);
+        return;
+    }
+
+    int counter = 0;
+    QList<QGraphicsItem *> selection = scene()->selectedItems();
+    foreach (QGraphicsItem *item, selection) {
+        if (item->type() == AVWIDGET) {
+            ClipItem *clip = static_cast<ClipItem*>(item);
+            if (clip->clipType() == AV || clip->clipType() == AUDIO) {
+                AudioEnvelope *envelope = new AudioEnvelope(clip->getProducer(clip->track()));
+                int index = m_audioCorrelator->addChild(envelope);
+                int shift = m_audioCorrelator->getShift(index);
+                counter++;
+
+                m_audioCorrelator->info(index)->toImage().save("kdenlive-audio-align-cross-correlation.png");
+                envelope->drawEnvelope().save("kdenlive-audio-align-envelope.png");
+                envelope->dumpInfo();
+
+                int targetPos = m_audioAlignmentReference->startPos().frames(m_document->fps()) + shift;
+                qDebug() << "Reference starts at " << m_audioAlignmentReference->startPos().frames(m_document->fps());
+                qDebug() << "We will start at " << targetPos;
+                qDebug() << "to shift by " << shift;
+                qDebug() << "(eventually)";
+                qDebug() << "(maybe)";
+
+                GenTime add(shift, m_document->fps());
+                ItemInfo start = clip->info();
+                ItemInfo end = clip->info();
+                end.startPos = m_audioAlignmentReference->info().startPos + add;
+                end.endPos = m_audioAlignmentReference->info().startPos + add + clip->info().cropDuration;
+
+                QUndoCommand *moveCommand = new QUndoCommand();
+                moveCommand->setText(i18n("Auto-align clip"));
+                new MoveClipCommand(this, start, end, true, moveCommand);
+                moveClip(start, end, true);
+                updateTrackDuration(clip->track(), moveCommand);
+                m_commandStack->push(moveCommand);
+
+            }
+        }
+    }
+
+    if (counter == 0) {
+        emit displayMessage(i18n("No audio clips selected."), ErrorMessage);
+    } else {
+        emit displayMessage(i18n("Auto-aligned %1 clips.").arg(counter), InformationMessage);
+    }
+}
+
 void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList effects, bool split)
 {
     ClipItem *clip = getClipItemAt(pos, track);
@@ -6026,8 +6127,15 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
                 deleteClip(clp->info());
                 clip->setVideoOnly(false);
                 Mlt::Tractor *tractor = m_document->renderer()->lockService();
-                if (!m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - info.track, info.startPos.frames(m_document->fps()), clip->baseClip()->getProducer(info.track))) {
-                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+                if (!m_document->renderer()->mltUpdateClipProducer(
+                            tractor,
+                            m_document->tracksCount() - info.track,
+                            info.startPos.frames(m_document->fps()),
+                            clip->baseClip()->getProducer(info.track))) {
+
+                    emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)",
+                                             info.startPos.frames(m_document->fps()), info.track),
+                                        ErrorMessage);
                 }
                 m_document->renderer()->unlockService(tractor);
 
