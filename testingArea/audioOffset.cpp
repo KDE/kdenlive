@@ -22,6 +22,7 @@
 
 #include "audioInfo.h"
 #include "audioStreamInfo.h"
+#include "audioEnvelope.h"
 
 int main(int argc, char *argv[])
 {
@@ -71,57 +72,23 @@ int main(int argc, char *argv[])
         framesToFetch = 5000;
     }
 
-    mlt_audio_format format_s16 = mlt_audio_s16;
-    int samplingRate = infoMain.info(0)->samplingRate();
-    int channels = 1;
+    AudioEnvelope envelopeMain(&prodMain);
+    envelopeMain.loadEnvelope();
+    envelopeMain.loadStdDev();
+    envelopeMain.dumpInfo();
 
-    Mlt::Frame *frame;
-    int64_t position;
-    int samples;
-
-    uint64_t envelope[framesToFetch];
-    uint64_t max = 0;
-
-    QTime t;
-    t.start();
-    for (int i = 0; i < framesToFetch; i++) {
-
-        frame = prodMain.get_frame(i);
-        position = mlt_frame_get_position(frame->get_frame());
-        samples = mlt_sample_calculator(prodMain.get_fps(), infoMain.info(0)->samplingRate(), position);
-
-        int16_t *data = static_cast<int16_t*>(frame->get_audio(format_s16, samplingRate, channels, samples));
-
-        uint64_t sum = 0;
-        for (int k = 0; k < samples; k++) {
-            sum += fabs(data[k]);
-        }
-        envelope[i] = sum;
-
-        if (sum > max) {
-            max = sum;
-        }
-    }
-    std::cout << "Calculating the envelope (" << framesToFetch << " frames) took "
-              << t.elapsed() << " ms." << std::endl;
-
-    QImage img(framesToFetch, 400, QImage::Format_ARGB32);
-    img.fill(qRgb(255,255,255));
-    double fy;
-    for (int x = 0; x < img.width(); x++) {
-        fy = envelope[x]/double(max) * img.height();
-        for (int y = img.height()-1; y > img.height()-1-fy; y--) {
-            img.setPixel(x,y, qRgb(50, 50, 50));
-        }
-    }
 
     QString outImg = QString("envelope-%1.png")
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
-    img.save(outImg);
+    envelopeMain.drawEnvelope().save(outImg);
     std::cout << "Saved volume envelope as "
               << QFileInfo(outImg).absoluteFilePath().toStdString()
               << std::endl;
 
+
     return 0;
 
 }
+
+
+

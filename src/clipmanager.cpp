@@ -305,7 +305,7 @@ void ClipManager::slotGetAudioThumbs()
             producer.seek(z);
             mlt_frame = producer.get_frame();
             if (mlt_frame && mlt_frame->is_valid()) {
-                int samples = mlt_sample_calculator(framesPerSecond, frequency, mlt_frame_get_position(mlt_frame->get_frame()));
+                int samples = mlt_sample_calculator(framesPerSecond, frequency, mlt_frame->get_position());
                 qint16* pcm = static_cast<qint16*>(mlt_frame->get_audio(audioFormat, frequency, channels, samples));
                 for (int c = 0; c < channels; c++) {
                     QByteArray audioArray;
