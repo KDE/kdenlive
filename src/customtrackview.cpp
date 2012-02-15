@@ -4292,18 +4292,24 @@ Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
     return clip;
 }
 
-void CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh)
+bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, ItemInfo *out_actualEnd)
 {
     if (m_selectionGroup) resetSelectionGroup(false);
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()), start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";
-        return;
+        return false;
     }
     Mlt::Producer *prod = item->getProducer(end.track);
 
-    bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), prod);
+    qDebug() << "Moving item " << (long)item << " from .. to:";
+    qDebug().maybeSpace() << item->info();
+    qDebug() << start;
+    qDebug() << end;
+    bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track),
+                                                       (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()),
+                                                       prod);
     if (success) {
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
@@ -4333,6 +4339,12 @@ void CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
         emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(end.startPos.frames(m_document->fps()))), ErrorMessage);
     }
     if (refresh) m_document->renderer()->doRefresh();
+    if (out_actualEnd != NULL) {
+        *out_actualEnd = item->info();
+        qDebug() << "Actual end position updated:" << *out_actualEnd;
+    }
+    qDebug() << item->info();
+    return success;
 }
 
 void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove)
@@ -6029,7 +6041,7 @@ void CustomTrackView::alignAudio()
                 QUndoCommand *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Auto-align clip"));
                 new MoveClipCommand(this, start, end, true, moveCommand);
-                moveClip(start, end, true);
+//                moveClip(start, end, true);
                 updateTrackDuration(clip->track(), moveCommand);
                 m_commandStack->push(moveCommand);
 

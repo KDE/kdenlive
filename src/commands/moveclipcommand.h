@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *                 2012    Simon A. Eugster <simon.eu@gmail.com>           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -37,9 +38,10 @@ public:
 private:
     CustomTrackView *m_view;
     const ItemInfo m_startPos;
-    const ItemInfo m_endPos;
+    ItemInfo m_endPos;
     bool m_doIt;
     bool m_refresh;
+    bool m_success;
 };
 
 #endif

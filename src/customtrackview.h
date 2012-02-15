@@ -61,7 +61,13 @@ public:
     void configTracks(QList <TrackInfo> trackInfos);
     int cursorPos();
     void checkAutoScroll();
-    void moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh);
+    /**
+      Move the clip at \c start to \c end.
+
+      If \c out_actualEnd is not NULL, it will be set to the position the clip really ended up at.
+      For example, attempting to move a clip to t = -1 s will actually move it to t = 0 s.
+      */
+    bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, ItemInfo *out_actualEnd = NULL);
     void moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove = false);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);

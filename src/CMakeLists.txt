@@ -133,6 +133,7 @@ list(APPEND kdenlive_SRCS
   customruler.cpp
   customtrackscene.cpp
   customtrackview.cpp
+  definitions.cpp
   docclipbase.cpp
   documentchecker.cpp
   documentvalidator.cpp

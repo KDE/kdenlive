@@ -26,6 +26,7 @@
 
 #include <QTreeWidgetItem>
 #include <KLocale>
+#include <QDebug>
 
 const int MAXCLIPDURATION = 15000;
 
@@ -214,6 +215,8 @@ private:
 
 
 };
+
+QDebug operator << (QDebug qd, const ItemInfo &info);
 
 
 #endif

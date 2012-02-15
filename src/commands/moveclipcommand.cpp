@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *                 2012    Simon A. Eugster <simon.eu@gmail.com>           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,11 +25,12 @@
 #include <KLocale>
 
 MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_startPos(start),
-        m_endPos(end),
-        m_doIt(doIt)
+    QUndoCommand(parent),
+    m_view(view),
+    m_startPos(start),
+    m_endPos(end),
+    m_doIt(doIt),
+    m_success(true)
 {
     setText(i18n("Move clip"));
     if (parent) {
@@ -38,19 +40,22 @@ MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, co
 }
 
 
-// virtual
 void MoveClipCommand::undo()
 {
-// kDebug()<<"----  undoing action";
     m_doIt = true;
-    m_view->moveClip(m_endPos, m_startPos, m_refresh);
+    // We can only undo what was done;
+    // if moveClip() failed in redo() the document does (or should) not change.
+    if (m_success) {
+        m_view->moveClip(m_endPos, m_startPos, m_refresh);
+    }
 }
-// virtual
 void MoveClipCommand::redo()
 {
-    //kDebug() << "----  redoing action";
-    if (m_doIt)
-        m_view->moveClip(m_startPos, m_endPos, m_refresh);
+    if (m_doIt) {
+        qDebug() << "Executing move clip command. End now:" << m_endPos;
+        m_success = m_view->moveClip(m_startPos, m_endPos, m_refresh, &m_endPos);
+        qDebug() << "Move clip command executed. End now: " << m_endPos;
+    }
     m_doIt = true;
 }
 

@@ -3344,6 +3344,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
         if (!overwrite && !destTrackPlaylist.is_blank_at(moveEnd)) {
             // error, destination is not empty
+            kDebug() << "Cannot move: Destination is not empty";
             service.unlock();
             return false;
         } else {
