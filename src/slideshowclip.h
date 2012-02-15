@@ -48,6 +48,8 @@ public:
     QString lumaFile() const;
     int softness() const;
     QString animation() const;
+    /** @brief Return the first number for the sequence begining */
+    int begin() const;
 
     /** @brief Check if there are several files with filename pattern, like: image_001.jpg, image_002.jpg,... */
     static int sequenceCount(KUrl file);
@@ -72,6 +74,7 @@ private slots:
 private:
     Ui::SlideshowClip_UI m_view;
     int m_count;
+    int m_patternBegin;
     Timecode m_timecode;
     KIO::PreviewJob *m_thumbJob;
 };

@@ -1656,11 +1656,18 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
                         while (fileName.at(fileName.size() - 1).isDigit()) {
                             fileName.chop(1);
                         }
-
-                        m_doc->slotCreateSlideshowClipFile(fileName, pattern, count, m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()),
-                                                           false, false, false,
-                                                           m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))), QString(), 0,
-                                                           QString(), groupInfo.at(0), groupInfo.at(1));
+                        QMap <QString, QString> properties;
+                        properties.insert("name", fileName);
+                        properties.insert("resource", pattern);
+                        properties.insert("in", "0");
+                        QString duration = m_timecode.reformatSeparators(KdenliveSettings::sequence_duration());
+                        properties.insert("out", QString::number(m_doc->getFramePos(duration) * count));
+                        properties.insert("ttl", QString::number(m_doc->getFramePos(duration)));
+                        properties.insert("loop", QString::number(false));
+                        properties.insert("crop", QString::number(false));
+                        properties.insert("fade", QString::number(false));
+                        properties.insert("luma_duration", QString::number(m_doc->getFramePos(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))))));
+                        m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
                         return;
                     }
                 }
@@ -1821,10 +1828,27 @@ void ProjectList::slotAddSlideshowClip()
 
     if (dia->exec() == QDialog::Accepted) {
         QStringList groupInfo = getGroup();
-        m_doc->slotCreateSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(),
-                                           dia->loop(), dia->crop(), dia->fade(),
-                                           dia->lumaDuration(), dia->lumaFile(), dia->softness(),
-                                           dia->animation(), groupInfo.at(0), groupInfo.at(1));
+        
+        QMap <QString, QString> properties;
+        properties.insert("name", dia->clipName());
+        int begin = dia->begin();
+        if (begin > 0) 
+            properties.insert("resource", dia->selectedPath() + "?" + QString::number(begin));
+        else
+            properties.insert("resource", dia->selectedPath());
+        properties.insert("in", "0");
+        properties.insert("out", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
+        properties.insert("ttl", QString::number(m_doc->getFramePos(dia->clipDuration())));
+        properties.insert("loop", QString::number(dia->loop()));
+        properties.insert("crop", QString::number(dia->crop()));
+        properties.insert("fade", QString::number(dia->fade()));
+        properties.insert("luma_duration", dia->lumaDuration());
+        properties.insert("luma_file", dia->lumaFile());
+        properties.insert("softness", QString::number(dia->softness()));
+        properties.insert("animation", dia->animation());
+        properties.insert("begin", QString::number(dia->begin()));
+        
+        m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
     }
     delete dia;
 }
@@ -2604,10 +2628,19 @@ void ProjectList::slotAddOrUpdateSequence(const QString frameName)
         } else {
             // Create sequence
             QStringList groupInfo = getGroup();
-            m_doc->slotCreateSlideshowClipFile(fileName, pattern, count, m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()),
-                                               false, false, false,
-                                               m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))), QString(), 0,
-                                               QString(), groupInfo.at(0), groupInfo.at(1));
+            QMap <QString, QString> properties;
+            properties.insert("name", fileName);
+            properties.insert("resource", pattern);
+            properties.insert("in", "0");
+            QString duration = m_timecode.reformatSeparators(KdenliveSettings::sequence_duration());
+            properties.insert("out", QString::number(m_doc->getFramePos(duration) * count));
+            properties.insert("ttl", QString::number(m_doc->getFramePos(duration)));
+            properties.insert("loop", QString::number(false));
+            properties.insert("crop", QString::number(false));
+            properties.insert("fade", QString::number(false));
+            properties.insert("luma_duration", m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))));
+                        
+            m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
         }
     } else emit displayMessage(i18n("Sequence not found"), -2);
 }

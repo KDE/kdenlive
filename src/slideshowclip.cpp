@@ -31,6 +31,7 @@
 SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     QDialog(parent),
     m_count(0),
+    m_patternBegin(0),
     m_timecode(tc),
     m_thumbJob(NULL)
 {
@@ -157,6 +158,7 @@ void SlideshowClip::slotEnableLumaFile(int state)
 }
 
 // static
+//TODO: sequence begin
 int SlideshowClip::sequenceCount(KUrl file)
 {
     // find pattern
@@ -220,9 +222,10 @@ void SlideshowClip::parseFolder()
             filter.remove(filter.size() - 1, 1);
         }
         int precision = fullSize - filter.size();
+        m_patternBegin = m_view.pattern_url->url().fileName().section('.', 0, -2).right(precision).toInt();
         QString path;
         int gap = 0;
-        for (int i = 0; gap < 100; i++) {
+        for (int i = m_patternBegin; gap < 100; i++) {
             path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
             if (dir.exists(path)) {
                 result.append(path);
@@ -462,6 +465,11 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
         geometry = QString().sprintf("0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%", ttl - 1);
     }
     return geometry;
+}
+
+int SlideshowClip::begin() const
+{
+   return m_patternBegin;
 }
 
 #include "slideshowclip.moc"
