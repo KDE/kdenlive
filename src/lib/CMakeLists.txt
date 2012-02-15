@@ -5,6 +5,8 @@ add_subdirectory(audio)
 # now we again need to add it to the parent scope.
 
 set(kdenlive_SRCS
-    ${kdenlive_SRCS}
-    PARENT_SCOPE
+  ${kdenlive_SRCS}
+  lib/qtimerWithTime.cpp
+  PARENT_SCOPE
 )
+
