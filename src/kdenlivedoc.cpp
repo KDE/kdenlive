@@ -1252,15 +1252,9 @@ void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color,
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
-void KdenliveDoc::slotCreateSlideshowClipFile(const QString &name, const QString &path, int count, const QString &duration,
-        const bool loop, const bool crop, const bool fade,
-        const QString &luma_duration, const QString &luma_file, const int softness,
-        const QString &animation, QString group, const QString &groupId)
+void KdenliveDoc::slotCreateSlideshowClipFile(QMap <QString, QString> properties, QString group, const QString &groupId)
 {
-    m_clipManager->slotAddSlideshowClipFile(name, path, count, duration, loop,
-                                            crop, fade, luma_duration,
-                                            luma_file, softness,
-                                            animation, group, groupId);
+    m_clipManager->slotAddSlideshowClipFile(properties, group, groupId);
     setModified(true);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }

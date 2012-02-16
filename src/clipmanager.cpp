@@ -582,29 +582,18 @@ void ClipManager::slotAddColorClipFile(const QString &name, const QString &color
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddSlideshowClipFile(const QString &name, const QString &path, int count, const QString &duration,
-        const bool loop, const bool crop, const bool fade,
-        const QString &luma_duration, const QString &luma_file, const int softness,
-        const QString &animation, const QString &group, const QString &groupId)
+void ClipManager::slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     doc.appendChild(prod);
-    prod.setAttribute("resource", path);
+    QMap<QString, QString>::const_iterator i = properties.constBegin();
+    while (i != properties.constEnd()) {
+        prod.setAttribute(i.key(), i.value());
+        ++i;
+    }
     prod.setAttribute("type", (int) SLIDESHOW);
     uint id = m_clipIdCounter++;
-    prod.setAttribute("id", QString::number(id));
-    prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(duration) * count);
-    prod.setAttribute("ttl", m_doc->getFramePos(duration));
-    prod.setAttribute("luma_duration", m_doc->getFramePos(luma_duration));
-    prod.setAttribute("name", name);
-    prod.setAttribute("loop", loop);
-    prod.setAttribute("crop", crop);
-    prod.setAttribute("fade", fade);
-    prod.setAttribute("softness", QString::number(softness));
-    prod.setAttribute("luma_file", luma_file);
-    prod.setAttribute("animation", animation);
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);
         prod.setAttribute("groupid", groupId);
