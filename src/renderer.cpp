@@ -3331,6 +3331,13 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 trackPlaylist.insert_blank(clipIndex, clipProducer->get_playtime() - 1);
             }
             int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            if (newIndex == -1) {
+                kDebug()<<"// CANNOT MOVE CLIP TO: "<<moveEnd;
+                trackPlaylist.insert_at(moveStart, clipProducer, 1);
+                delete clipProducer;
+                service.unlock();
+                return false;
+            }
             trackPlaylist.consolidate_blanks(1);
             delete clipProducer;
             /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {

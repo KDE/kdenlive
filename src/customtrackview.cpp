@@ -6034,9 +6034,9 @@ void CustomTrackView::alignAudio()
 
                 GenTime add(shift, m_document->fps());
                 ItemInfo start = clip->info();
-                ItemInfo end = clip->info();
+                ItemInfo end = start;
                 end.startPos = m_audioAlignmentReference->info().startPos + add;
-                end.endPos = m_audioAlignmentReference->info().startPos + add + clip->info().cropDuration;
+                end.endPos = end.startPos + start.cropDuration;
 
                 QUndoCommand *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Auto-align clip"));
