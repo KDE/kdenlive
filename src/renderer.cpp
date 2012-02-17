@@ -3313,39 +3313,47 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     bool checkLength = false;
     if (endTrack == startTrack) {
         Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
-        if ((!overwrite && !trackPlaylist.is_blank_at(moveEnd)) || !clipProducer || !clipProducer->is_valid() || clipProducer->is_blank()) {
-            // error, destination is not empty
-            if (clipProducer) {
-                if (!trackPlaylist.is_blank_at(moveEnd) && clipProducer->is_valid()) trackPlaylist.insert_at(moveStart, clipProducer, 1);
-                delete clipProducer;
+        trackPlaylist.consolidate_blanks(0);
+        if (!overwrite) {
+            bool success = true;
+            if (!trackPlaylist.is_blank_at(moveEnd) || !clipProducer || !clipProducer->is_valid() || clipProducer->is_blank()) success = false;
+            else {
+                // Check that the destination region is empty
+                int destinationIndex = trackPlaylist.get_clip_index_at(moveEnd);
+                if (destinationIndex < trackPlaylist.count() - 1) {
+                    // We are not at the end of the track
+                    int blankSize = trackPlaylist.blanks_from(destinationIndex, 0);
+                    // Make sure we have enough place to insert clip
+                    if (blankSize - clipProducer->get_length() - (moveEnd - trackPlaylist.clip_start(destinationIndex)) < 0) success = false;
+                }
             }
-            //int ix = trackPlaylist.get_clip_index_at(moveEnd);
-            kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
-            service.unlock();
-            return false;
-        } else {
-            trackPlaylist.consolidate_blanks(0);
-            if (overwrite) {
-                trackPlaylist.remove_region(moveEnd, clipProducer->get_playtime());
-                int clipIndex = trackPlaylist.get_clip_index_at(moveEnd);
-                trackPlaylist.insert_blank(clipIndex, clipProducer->get_playtime() - 1);
-            }
-            int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
-            if (newIndex == -1) {
-                kDebug()<<"// CANNOT MOVE CLIP TO: "<<moveEnd;
-                trackPlaylist.insert_at(moveStart, clipProducer, 1);
-                delete clipProducer;
+            if (!success) {
+                if (clipProducer) {
+                    trackPlaylist.insert_at(moveStart, clipProducer, 1);
+                    delete clipProducer;
+                }
+                kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
                 service.unlock();
                 return false;
             }
-            trackPlaylist.consolidate_blanks(1);
-            delete clipProducer;
-            /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
-            mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
-            }*/
-            if (newIndex + 1 == trackPlaylist.count()) checkLength = true;
         }
-        //service.unlock();
+        
+        if (overwrite) {
+            trackPlaylist.remove_region(moveEnd, clipProducer->get_playtime());
+            int clipIndex = trackPlaylist.get_clip_index_at(moveEnd);
+            trackPlaylist.insert_blank(clipIndex, clipProducer->get_playtime() - 1);
+        }
+        int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
+        if (newIndex == -1) {
+            kDebug()<<"// CANNOT MOVE CLIP TO: "<<moveEnd;
+            trackPlaylist.insert_at(moveStart, clipProducer, 1);
+            delete clipProducer;
+            service.unlock();
+            return false;
+        }
+        trackPlaylist.consolidate_blanks(1);
+        delete clipProducer;
+        if (newIndex + 1 == trackPlaylist.count()) checkLength = true;
     } else {
         Mlt::Producer destTrackProducer(tractor.track(endTrack));
         Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
