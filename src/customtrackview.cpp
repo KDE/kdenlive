@@ -4304,7 +4304,7 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     Mlt::Producer *prod = item->getProducer(end.track);
 
     qDebug() << "Moving item " << (long)item << " from .. to:";
-    qDebug().maybeSpace() << item->info();
+    qDebug() << item->info();
     qDebug() << start;
     qDebug() << end;
     bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track),
@@ -6006,7 +6006,7 @@ void CustomTrackView::alignAudio()
         }
     }
     if (!referenceOK) {
-        emit displayMessage(i18n("Audio alignment reference not yet set."), DefaultMessage);
+        emit displayMessage(i18n("Audio alignment reference not yet set."), InformationMessage);
         return;
     }
 
@@ -6016,7 +6016,9 @@ void CustomTrackView::alignAudio()
         if (item->type() == AVWIDGET) {
             ClipItem *clip = static_cast<ClipItem*>(item);
             if (clip->clipType() == AV || clip->clipType() == AUDIO) {
-                AudioEnvelope *envelope = new AudioEnvelope(clip->getProducer(clip->track()));
+                AudioEnvelope *envelope = new AudioEnvelope(clip->getProducer(clip->track()),
+                                                            clip->info().cropStart.frames(m_document->fps()),
+                                                            clip->info().cropDuration.frames(m_document->fps()));
                 int index = m_audioCorrelator->addChild(envelope);
                 int shift = m_audioCorrelator->getShift(index);
                 counter++;
@@ -6032,16 +6034,39 @@ void CustomTrackView::alignAudio()
                 qDebug() << "(eventually)";
                 qDebug() << "(maybe)";
 
+
+                QUndoCommand *moveCommand = new QUndoCommand();
+
                 GenTime add(shift, m_document->fps());
                 ItemInfo start = clip->info();
+
                 ItemInfo end = start;
                 end.startPos = m_audioAlignmentReference->info().startPos + add;
                 end.endPos = end.startPos + start.cropDuration;
 
-                QUndoCommand *moveCommand = new QUndoCommand();
+                if ( end.startPos.seconds() < 0 ) {
+                    // Clip would start before 0, so crop it first
+                    qDebug() << "Need to crop clip. " << start;
+
+
+                    GenTime cropBy = -end.startPos;
+                    qDebug() << "end.startPos: " << end.startPos.toString() << ", cropBy: " << cropBy.toString();
+
+                    ItemInfo resized = start;
+                    resized.startPos += cropBy;
+
+                    resizeClip(start, resized);
+                    new ResizeClipCommand(this, start, resized, false, false, moveCommand);
+
+                    start = clip->info();
+                    end.startPos += cropBy;
+
+                    qDebug() << "Clip cropped. " << start;
+                    qDebug() << "Moving to: " << end;
+                }
+
                 moveCommand->setText(i18n("Auto-align clip"));
                 new MoveClipCommand(this, start, end, true, moveCommand);
-//                moveClip(start, end, true);
                 updateTrackDuration(clip->track(), moveCommand);
                 m_commandStack->push(moveCommand);
 

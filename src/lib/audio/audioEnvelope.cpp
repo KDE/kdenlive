@@ -16,14 +16,22 @@
 #include <cmath>
 #include <iostream>
 
-AudioEnvelope::AudioEnvelope(Mlt::Producer *producer) :
+AudioEnvelope::AudioEnvelope(Mlt::Producer *producer, int offset, int length) :
     m_envelope(NULL),
     m_producer(producer),
+    m_offset(offset),
+    m_length(length),
     m_envelopeSize(producer->get_length()),
     m_envelopeStdDevCalculated(false),
     m_envelopeIsNormalized(false)
 {
     m_info = new AudioInfo(m_producer);
+
+    Q_ASSERT(m_offset >= 0);
+    if (m_length > 0) {
+        Q_ASSERT(m_length+m_offset <= m_envelopeSize);
+        m_envelopeSize = m_length;
+    }
 }
 
 AudioEnvelope::~AudioEnvelope()
@@ -71,7 +79,8 @@ void AudioEnvelope::loadEnvelope()
 
     QTime t;
     t.start();
-    m_producer->seek(0);
+    int count = 0;
+    m_producer->seek(m_offset);
     m_producer->set_speed(1.0); // This is necessary, otherwise we don't get any new frames in the 2nd run.
     for (int i = 0; i < m_envelopeSize; i++) {
 
@@ -92,10 +101,15 @@ void AudioEnvelope::loadEnvelope()
             m_envelopeMax = sum;
         }
 
-//        std::cout << position << "|" << m_producer->get_playtime()
-//                  << "-" << m_producer->get_in() << "+" << m_producer->get_out() << " ";
+        std::cout << position << "|" << m_producer->get_playtime()
+                  << "-" << m_producer->get_in() << "+" << m_producer->get_out() << " ";
 
         delete frame;
+
+        count++;
+        if (m_length > 0 && count > m_length) {
+            break;
+        }
     }
     m_envelopeMean /= m_envelopeSize;
     std::cout << "Calculating the envelope (" << m_envelopeSize << " frames) took "
