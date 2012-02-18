@@ -1516,11 +1516,11 @@ void MainWindow::setupActions()
     collection.addAction("split_audio", splitAudio);
     connect(splitAudio, SIGNAL(triggered(bool)), this, SLOT(slotSplitAudio()));
 
-    KAction* setAudioAlignReference = new KAction(i18n("Set reference for audio alignment"), this);
+    KAction* setAudioAlignReference = new KAction(i18n("Set Audio Reference"), this);
     collection.addAction("set_audio_align_ref", setAudioAlignReference);
     connect(setAudioAlignReference, SIGNAL(triggered()), this, SLOT(slotSetAudioAlignReference()));
 
-    KAction* alignAudio = new KAction(i18n("Align audio to reference"), this);
+    KAction* alignAudio = new KAction(i18n("Align Audio to Reference"), this);
     collection.addAction("align_audio", alignAudio);
     connect(alignAudio, SIGNAL(triggered()), this, SLOT(slotAlignAudio()));
 

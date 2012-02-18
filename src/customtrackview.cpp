@@ -6014,7 +6014,12 @@ void CustomTrackView::alignAudio()
     QList<QGraphicsItem *> selection = scene()->selectedItems();
     foreach (QGraphicsItem *item, selection) {
         if (item->type() == AVWIDGET) {
+
             ClipItem *clip = static_cast<ClipItem*>(item);
+            if (clip == m_audioAlignmentReference) {
+                continue;
+            }
+
             if (clip->clipType() == AV || clip->clipType() == AUDIO) {
                 AudioEnvelope *envelope = new AudioEnvelope(clip->getProducer(clip->track()),
                                                             clip->info().cropStart.frames(m_document->fps()),
