@@ -29,7 +29,7 @@
 
 #include "abstractaudioscopewidget.h"
 #include "ui_audiospectrum_ui.h"
-#include "kiss_fft/tools/kiss_fftr.h"
+#include "lib/external/kiss_fft/tools/kiss_fftr.h"
 #include "ffttools.h"
 
 class AudioSpectrum_UI;
