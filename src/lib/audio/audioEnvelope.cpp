@@ -55,6 +55,10 @@ int AudioEnvelope::envelopeSize() const
 {
     return m_envelopeSize;
 }
+int64_t AudioEnvelope::maxValue() const
+{
+    return m_envelopeMax;
+}
 
 
 

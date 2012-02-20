@@ -32,6 +32,7 @@ public:
     /// Returns the envelope, calculates it if necessary.
     int64_t const* envelope();
     int envelopeSize() const;
+    int64_t maxValue() const;
 
     void loadEnvelope();
     int64_t loadStdDev();
