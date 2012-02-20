@@ -24,14 +24,14 @@ target_link_libraries(audioOffset
   ${LIBMLTPLUS_LIBRARY}
 )
 
-add_executable(correlation
-    correlation.cpp
+add_executable(audioOffsetFFT
+    audioOffsetFFT.cpp
     ../src/lib/audio/audioInfo.cpp
     ../src/lib/audio/audioStreamInfo.cpp
     ../src/lib/audio/audioEnvelope.cpp
     ../src/lib/audio/fftCorrelation.cpp
 )
-target_link_libraries(correlation
+target_link_libraries(audioOffsetFFT
   ${QT_LIBRARIES}
   ${LIBMLT_LIBRARY}
   ${LIBMLTPLUS_LIBRARY}

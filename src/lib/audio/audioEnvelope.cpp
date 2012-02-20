@@ -105,8 +105,8 @@ void AudioEnvelope::loadEnvelope()
             m_envelopeMax = sum;
         }
 
-        std::cout << position << "|" << m_producer->get_playtime()
-                  << "-" << m_producer->get_in() << "+" << m_producer->get_out() << " ";
+//        std::cout << position << "|" << m_producer->get_playtime()
+//                  << "-" << m_producer->get_in() << "+" << m_producer->get_out() << " ";
 
         delete frame;
 

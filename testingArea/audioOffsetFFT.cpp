@@ -1,17 +1,30 @@
+/*
+Copyright (C) 2012  Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
+This file is part of kdenlive. See www.kdenlive.org.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+*/
 
 #include "../src/lib/audio/audioEnvelope.h"
 #include "../src/lib/audio/fftCorrelation.h"
 
 #include <QCoreApplication>
 #include <QStringList>
+#include <QTime>
 #include <QImage>
 #include <QDebug>
 #include <iostream>
+#include <cmath>
 
 void printUsage(const char *path)
 {
     std::cout << "This executable takes two audio/video files A and B and determines " << std::endl
-              << "how much B needs to be shifted in order to be synchronized with A." << std::endl << std::endl
+              << "how much B needs to be shifted in order to be synchronized with A." << std::endl
+              << "Other than audioOffset this executable will use Fast Fourier Tranform " << std::endl
+              << "which should be faster especially for large files." << std::endl << std::endl
               << path << " <main audio file> <second audio file>" << std::endl
               << "\t-h, --help\n\t\tDisplay this help" << std::endl
               << "\t--profile=<profile>\n\t\tUse the given profile for calculation (run: melt -query profiles)" << std::endl
@@ -107,45 +120,46 @@ int main(int argc, char *argv[])
     envelopeSub->loadStdDev();
     envelopeSub->dumpInfo();
 
-    int leftSize = envelopeMain->envelopeSize();
-    int rightSize = envelopeSub->envelopeSize();
-    float left[leftSize];
-    float right[rightSize];
-    const int64_t *leftEnv = envelopeMain->envelope();
-    const int64_t *rightEnv = envelopeSub->envelope();
-
-    for (int i = 0; i < leftSize; i++) {
-        left[i] = double(leftEnv[i])/envelopeMain->maxValue();
-        if (i < 20) std::cout << left[i] << " ";
-    }
-    std::cout << " (max: " << envelopeMain->maxValue() << ")" << std::endl;
-    for (int i = 0; i < rightSize; i++) {
-        right[i] = double(rightEnv[i])/envelopeSub->maxValue();
-    }
 
     float *correlated;
     int corrSize = 0;
-    FFTCorrelation::correlate(left, leftSize, right, rightSize, &correlated, corrSize);
 
-    qDebug() << "Correlated: Size " << corrSize;
+    FFTCorrelation::correlate(envelopeMain->envelope(), envelopeMain->envelopeSize(),
+                              envelopeSub->envelope(), envelopeSub->envelopeSize(),
+                              &correlated, corrSize);
 
+
+    int maxIndex = 0;
     float max = 0;
     for (int i = 0; i < corrSize; i++) {
         if (correlated[i] > max) {
             max = correlated[i];
+            maxIndex = i;
         }
     }
-    qDebug() << "Max correlation value is " << max;
+    int shift = envelopeMain->envelopeSize() - maxIndex-1;
+    qDebug() << "Max correlation value is " << max << " at " << maxIndex;
+    qDebug() << "Will have to move by " << shift << " frames";
 
-    QImage img(corrSize, 400, QImage::Format_ARGB32);
-    img.fill(qRgb(255,255,255));
-    for (int x = 0; x < corrSize; x++) {
-        float val = correlated[x]/max;
-        for (int y = 0; y < 400*val; y++) {
-            img.setPixel(x, 400-1-y, qRgb(50,50,50));
+    std::cout << fileSub << " should be shifted by " << shift << " frames" << std::endl
+              << "\trelative to " << fileMain << std::endl
+              << "\tin a " << prodMain.get_fps() << " fps profile (" << profile << ")." << std::endl
+                 ;
+
+    if (saveImages) {
+        QString filename = QString("correlation-fft-%1.png")
+                        .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+        QImage img(corrSize/2, 400, QImage::Format_ARGB32);
+        img.fill(qRgb(255,255,255));
+        for (int x = 0; x < img.width(); x++) {
+            float val = fabs(correlated[x]/max);
+            for (int y = 0; y < img.height()*val; y++) {
+                img.setPixel(x, img.height()-1-y, qRgb(50,50,50));
+            }
         }
+        img.save(filename);
+        qDebug() << "Saved image to " << filename;
     }
-    img.save("correlated-fft.png");
 
 
     delete correlated;
