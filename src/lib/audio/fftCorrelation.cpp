@@ -21,7 +21,22 @@ extern "C"
 
 void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
                                const int64_t *right, const int rightSize,
-                               float **out_correlated, int &out_size)
+                               int64_t *out_correlated)
+{
+    float correlatedFloat[leftSize+rightSize+1];
+    correlate(left, leftSize, right, rightSize, correlatedFloat);
+
+    // The correlation vector will have entries up to N (number of entries
+    // of the vector), so converting to integers will not lose that much
+    // of precision.
+    for (int i = 0; i < leftSize+rightSize+1; i++) {
+        out_correlated[i] = correlatedFloat[i];
+    }
+}
+
+void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
+                               const int64_t *right, const int rightSize,
+                               float *out_correlated)
 {
     QTime t;
     t.start();
@@ -50,21 +65,21 @@ void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
     // One side needs to be reverted, since multiplication in frequency domain (fourier space)
     // calculates the convolution: \sum l[x]r[N-x] and not the correlation: \sum l[x]r[x]
     for (int i = 0; i < leftSize; i++) {
-        leftF[leftSize-1 - i] = double(left[i])/maxLeft;
+        leftF[i] = double(left[i])/maxLeft;
     }
     for (int i = 0; i < rightSize; i++) {
-        rightF[i] = double(right[i])/maxRight;
+        rightF[rightSize-1 - i] = double(right[i])/maxRight;
     }
 
     // Now we can convolve to get the correlation
-    convolute(leftF, leftSize, rightF, rightSize, out_correlated, out_size);
+    convolute(leftF, leftSize, rightF, rightSize, out_correlated);
 
     std::cout << "Correlation (FFT based) computed in " << t.elapsed() << " ms." << std::endl;
 }
 
 void FFTCorrelation::convolute(const float *left, const int leftSize,
                                const float *right, const int rightSize,
-                               float **out_convolved, int &out_size)
+                               float *out_convolved)
 {
     QTime time;
     time.start();
@@ -95,7 +110,7 @@ void FFTCorrelation::convolute(const float *left, const int leftSize,
     // Fill in the data into our new vectors with padding
     float leftData[size];
     float rightData[size];
-    *out_convolved = new float[size];
+    float convolved[size];
 
     std::fill(leftData, leftData+size, 0);
     std::fill(rightData, rightData+size, 0);
@@ -113,9 +128,14 @@ void FFTCorrelation::convolute(const float *left, const int leftSize,
         correlatedFFT[i].i = leftFFT[i].r*rightFFT[i].i + leftFFT[i].i*rightFFT[i].r;
     }
 
-    // Inverse fourier tranformation to get the convolved data
-    kiss_fftri(ifftConfig, correlatedFFT, *out_convolved);
-    out_size = size;
+    // Inverse fourier tranformation to get the convolved data.
+    // Insert one element at the beginning to obtain the same result
+    // that we also get with the nested for loop correlation.
+    *out_convolved = 0;
+    int out_size = leftSize+rightSize+1;
+
+    kiss_fftri(ifftConfig, correlatedFFT, convolved);
+    std::copy(convolved, convolved+out_size-1, out_convolved+1);
 
     // Finally some cleanup.
     kiss_fftr_free(fftConfig);

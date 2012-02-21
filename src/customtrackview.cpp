@@ -86,6 +86,8 @@
 #include <QGraphicsDropShadowEffect>
 #endif
 
+//#define DEBUG
+
 bool sortGuidesList(const Guide *g1 , const Guide *g2)
 {
     return (*g1).position() < (*g2).position();
@@ -4303,10 +4305,12 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     }
     Mlt::Producer *prod = item->getProducer(end.track);
 
+#ifdef DEBUG
     qDebug() << "Moving item " << (long)item << " from .. to:";
     qDebug() << item->info();
     qDebug() << start;
     qDebug() << end;
+#endif
     bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track),
                                                        (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()),
                                                        prod);
@@ -4341,9 +4345,13 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     if (refresh) m_document->renderer()->doRefresh();
     if (out_actualEnd != NULL) {
         *out_actualEnd = item->info();
+#ifdef DEBUG
         qDebug() << "Actual end position updated:" << *out_actualEnd;
+#endif
     }
+#ifdef DEBUG
     qDebug() << item->info();
+#endif
     return success;
 }
 
@@ -6024,7 +6032,10 @@ void CustomTrackView::alignAudio()
                 AudioEnvelope *envelope = new AudioEnvelope(clip->getProducer(clip->track()),
                                                             clip->info().cropStart.frames(m_document->fps()),
                                                             clip->info().cropDuration.frames(m_document->fps()));
-                int index = m_audioCorrelator->addChild(envelope);
+
+                // FFT only for larger vectors. We could use it all time, but for small vectors
+                // the (anyway not noticeable) overhead is smaller with a nested for loop correlation.
+                int index = m_audioCorrelator->addChild(envelope, envelope->envelopeSize() > 200);
                 int shift = m_audioCorrelator->getShift(index);
                 counter++;
 
@@ -6032,12 +6043,14 @@ void CustomTrackView::alignAudio()
                 envelope->drawEnvelope().save("kdenlive-audio-align-envelope.png");
                 envelope->dumpInfo();
 
+#ifdef DEBUG
                 int targetPos = m_audioAlignmentReference->startPos().frames(m_document->fps()) + shift;
                 qDebug() << "Reference starts at " << m_audioAlignmentReference->startPos().frames(m_document->fps());
                 qDebug() << "We will start at " << targetPos;
                 qDebug() << "to shift by " << shift;
                 qDebug() << "(eventually)";
                 qDebug() << "(maybe)";
+#endif
 
 
                 QUndoCommand *moveCommand = new QUndoCommand();
@@ -6051,11 +6064,12 @@ void CustomTrackView::alignAudio()
 
                 if ( end.startPos.seconds() < 0 ) {
                     // Clip would start before 0, so crop it first
-                    qDebug() << "Need to crop clip. " << start;
-
-
                     GenTime cropBy = -end.startPos;
+
+#ifdef DEBUG
+                    qDebug() << "Need to crop clip. " << start;
                     qDebug() << "end.startPos: " << end.startPos.toString() << ", cropBy: " << cropBy.toString();
+#endif
 
                     ItemInfo resized = start;
                     resized.startPos += cropBy;
@@ -6066,8 +6080,10 @@ void CustomTrackView::alignAudio()
                     start = clip->info();
                     end.startPos += cropBy;
 
+#ifdef DEBUG
                     qDebug() << "Clip cropped. " << start;
                     qDebug() << "Moving to: " << end;
+#endif
                 }
 
                 moveCommand->setText(i18n("Auto-align clip"));

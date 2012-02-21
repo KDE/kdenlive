@@ -1,13 +1,12 @@
-/***************************************************************************
- *   Copyright (C) 2012 by Simon Andreas Eugster (simon.eu@gmail.com)      *
- *   This file is part of kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- ***************************************************************************/
+/*
+Copyright (C) 2012  Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
+This file is part of kdenlive. See www.kdenlive.org.
 
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+*/
 
 #include <QMap>
 #include <QFile>
@@ -34,6 +33,9 @@ void printUsage(const char *path)
               << "how much B needs to be shifted in order to be synchronized with A." << std::endl << std::endl
               << path << " <main audio file> <second audio file>" << std::endl
               << "\t-h, --help\n\t\tDisplay this help" << std::endl
+              << "\t--fft\n\t\tUse Fourier Transform (FFT) to calculate the offset. This only takes" << std::endl
+              << "\t\tO(n log n) time compared to O(n²) when using normal correlation and should be " << std::endl
+              << "\t\tfaster for large data (several minutes)." << std::endl
               << "\t--profile=<profile>\n\t\tUse the given profile for calculation (run: melt -query profiles)" << std::endl
               << "\t--no-images\n\t\tDo not save envelope and correlation images" << std::endl
                  ;
@@ -47,6 +49,7 @@ int main(int argc, char *argv[])
 
     std::string profile = "atsc_1080p_24";
     bool saveImages = true;
+    bool useFFT = false;
 
     // Load arguments
     foreach (QString str, args) {
@@ -63,6 +66,10 @@ int main(int argc, char *argv[])
 
         } else if (str == "--no-images") {
             saveImages = false;
+            args.removeOne(str);
+
+        } else if (str == "--fft") {
+            useFFT = true;
             args.removeOne(str);
         }
 
@@ -95,6 +102,9 @@ int main(int argc, char *argv[])
               << "\n, result will indicate by how much (2) has to be moved." << std::endl
               << "Profile used: " << profile << std::endl
                  ;
+    if (useFFT) {
+        std::cout << "Will use FFT based correlation." << std::endl;
+    }
 
 
     // Initialize MLT
@@ -134,10 +144,10 @@ int main(int argc, char *argv[])
 
     // Calculate the correlation and hereby the audio shift
     AudioCorrelation corr(envelopeMain);
-    int index = corr.addChild(envelopeSub);
+    int index = corr.addChild(envelopeSub, useFFT);
 
     int shift = corr.getShift(index);
-    std::cout << fileSub << " should be shifted by " << shift << " frames" << std::endl
+    std::cout << " Should be shifted by " << shift << " frames: " << fileSub << std::endl
               << "\trelative to " << fileMain << std::endl
               << "\tin a " << prodMain.get_fps() << " fps profile (" << profile << ")." << std::endl
                  ;

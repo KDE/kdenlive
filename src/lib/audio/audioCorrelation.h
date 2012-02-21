@@ -15,7 +15,6 @@
 #include "audioEnvelope.h"
 #include <QList>
 
-class AudioCorrelationInfo;
 
 /**
   This class does the correlation between two tracks
@@ -35,12 +34,19 @@ public:
       This object will take ownership of the passed envelope.
       \return The child's index
       */
-    int addChild(AudioEnvelope *envelope);
+    int addChild(AudioEnvelope *envelope, bool useFFT = false);
 
     const AudioCorrelationInfo *info(int childIndex) const;
     int getShift(int childIndex) const;
 
-
+    /**
+      Correlates the two vectors envMain and envSub.
+      \c correlation must be a pre-allocated vector of size sizeMain+sizeSub+1.
+      */
+    static void correlate(const int64_t *envMain, int sizeMain,
+                          const int64_t *envSub, int sizeSub,
+                          int64_t *correlation,
+                          int64_t *out_max = NULL);
 private:
     AudioEnvelope *m_mainTrackEnvelope;
 

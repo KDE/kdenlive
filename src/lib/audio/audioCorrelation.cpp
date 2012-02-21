@@ -1,14 +1,15 @@
-/***************************************************************************
- *   Copyright (C) 2012 by Simon Andreas Eugster (simon.eu@gmail.com)      *
- *   This file is part of kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- ***************************************************************************/
+/*
+Copyright (C) 2012  Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
+This file is part of kdenlive. See www.kdenlive.org.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+*/
 
 #include "audioCorrelation.h"
+#include "fftCorrelation.h"
 
 #include <QTime>
 #include <cmath>
@@ -29,7 +30,7 @@ AudioCorrelation::~AudioCorrelation()
     std::cout << "Envelope deleted." << std::endl;
 }
 
-int AudioCorrelation::addChild(AudioEnvelope *envelope)
+int AudioCorrelation::addChild(AudioEnvelope *envelope, bool useFFT)
 {
     envelope->normalizeEnvelope();
 
@@ -42,6 +43,56 @@ int AudioCorrelation::addChild(AudioEnvelope *envelope)
 
     const int64_t *envMain = m_mainTrackEnvelope->envelope();
     const int64_t *envSub = envelope->envelope();
+    int64_t max = 0;
+
+    if (useFFT) {
+        FFTCorrelation::correlate(envMain, sizeMain,
+                                  envSub, sizeSub,
+                                  correlation);
+    } else {
+        correlate(envMain, sizeMain,
+                  envSub, sizeSub,
+                  correlation,
+                  &max);
+        info->setMax(max);
+    }
+
+
+    m_children.append(envelope);
+    m_correlations.append(info);
+
+    Q_ASSERT(m_correlations.size() == m_children.size());
+
+    return m_children.indexOf(envelope);
+}
+
+int AudioCorrelation::getShift(int childIndex) const
+{
+    Q_ASSERT(childIndex >= 0);
+    Q_ASSERT(childIndex < m_correlations.size());
+
+    int indexOffset = m_correlations.at(childIndex)->maxIndex();
+    indexOffset -= m_children.at(childIndex)->envelopeSize();
+
+    return indexOffset;
+}
+
+AudioCorrelationInfo const* AudioCorrelation::info(int childIndex) const
+{
+    Q_ASSERT(childIndex >= 0);
+    Q_ASSERT(childIndex < m_correlations.size());
+
+    return m_correlations.at(childIndex);
+}
+
+
+void AudioCorrelation::correlate(const int64_t *envMain, int sizeMain,
+                                 const int64_t *envSub, int sizeSub,
+                                 int64_t *correlation,
+                                 int64_t *out_max)
+{
+    Q_ASSERT(correlation != NULL);
+
     int64_t const* left;
     int64_t const* right;
     int size;
@@ -92,33 +143,9 @@ int AudioCorrelation::addChild(AudioEnvelope *envelope)
         }
 
     }
-    info->setMax(max);
     std::cout << "Correlation calculated. Time taken: " << t.elapsed() << " ms." << std::endl;
 
-
-    m_children.append(envelope);
-    m_correlations.append(info);
-
-    Q_ASSERT(m_correlations.size() == m_children.size());
-
-    return m_children.indexOf(envelope);
-}
-
-int AudioCorrelation::getShift(int childIndex) const
-{
-    Q_ASSERT(childIndex >= 0);
-    Q_ASSERT(childIndex < m_correlations.size());
-
-    int indexOffset = m_correlations.at(childIndex)->maxIndex();
-    indexOffset -= m_children.at(childIndex)->envelopeSize();
-
-    return indexOffset;
-}
-
-AudioCorrelationInfo const* AudioCorrelation::info(int childIndex) const
-{
-    Q_ASSERT(childIndex >= 0);
-    Q_ASSERT(childIndex < m_correlations.size());
-
-    return m_correlations.at(childIndex);
+    if (out_max != NULL) {
+        *out_max = max;
+    }
 }

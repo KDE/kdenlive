@@ -28,9 +28,16 @@ public:
     int64_t* correlationVector();
     int64_t const* correlationVector() const;
 
+    /**
+      Returns the maximum value in the correlation vector.
+      If it has not been set before with setMax(), it will be calculated.
+      */
     int64_t max() const;
     void setMax(int64_t max); ///< Can be set to avoid calculating the max again in this function
 
+    /**
+      Returns the index of the largest value in the correlation vector
+      */
     int maxIndex() const;
 
     QImage toImage(int height = 400) const;

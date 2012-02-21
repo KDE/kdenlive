@@ -36,7 +36,6 @@ void AudioCorrelationInfo::setMax(int64_t max)
 
 int64_t AudioCorrelationInfo::max() const
 {
-    Q_ASSERT(m_max > 0);
     if (m_max <= 0) {
         int width = size();
         int64_t max = 0;

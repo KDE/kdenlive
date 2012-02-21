@@ -7,5 +7,6 @@ set(kdenlive_SRCS
     lib/audio/audioInfo.cpp
     lib/audio/audioStreamInfo.cpp
     lib/audio/fftCorrelation.cpp
+    lib/audio/fftTools.cpp
     PARENT_SCOPE
 )

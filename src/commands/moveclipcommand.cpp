@@ -52,9 +52,9 @@ void MoveClipCommand::undo()
 void MoveClipCommand::redo()
 {
     if (m_doIt) {
-        qDebug() << "Executing move clip command. End now:" << m_endPos;
+//        qDebug() << "Executing move clip command. End now:" << m_endPos;
         m_success = m_view->moveClip(m_startPos, m_endPos, m_refresh, &m_endPos);
-        qDebug() << "Move clip command executed. End now: " << m_endPos;
+//        qDebug() << "Move clip command executed. End now: " << m_endPos;
     }
     m_doIt = true;
 }

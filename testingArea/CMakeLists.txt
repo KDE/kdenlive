@@ -17,21 +17,9 @@ add_executable(audioOffset
     ../src/lib/audio/audioEnvelope.cpp
     ../src/lib/audio/audioCorrelation.cpp
     ../src/lib/audio/audioCorrelationInfo.cpp
-)
-target_link_libraries(audioOffset 
-  ${QT_LIBRARIES}
-  ${LIBMLT_LIBRARY}
-  ${LIBMLTPLUS_LIBRARY}
-)
-
-add_executable(audioOffsetFFT
-    audioOffsetFFT.cpp
-    ../src/lib/audio/audioInfo.cpp
-    ../src/lib/audio/audioStreamInfo.cpp
-    ../src/lib/audio/audioEnvelope.cpp
     ../src/lib/audio/fftCorrelation.cpp
 )
-target_link_libraries(audioOffsetFFT
+target_link_libraries(audioOffset 
   ${QT_LIBRARIES}
   ${LIBMLT_LIBRARY}
   ${LIBMLTPLUS_LIBRARY}
