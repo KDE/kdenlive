@@ -89,9 +89,6 @@ Q_OBJECT public:
 
     /** @brief This will add a horizontal flip effect, easier to work when filming yourself. */
     void mirror(bool activate);
-
-    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
-    bool analyseAudio;
     
     /** @brief True if we are processing an image (yuv > rgb) when recording. */
     bool processingImage;

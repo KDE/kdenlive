@@ -12,28 +12,27 @@
 #define ABSTRACTGFXSCOPEWIDGET_H
 
 #include <QtCore>
+#include <QtCore/QString>
 #include <QWidget>
 
-#include "abstractscopewidget.h"
-#include "renderer.h"
+#include "../abstractscopewidget.h"
 
 class QMenu;
 
-class MonitorManager;
 
+/**
+\brief Abstract class for scopes analyzing image frames.
+*/
 class AbstractGfxScopeWidget : public AbstractScopeWidget
 {
     Q_OBJECT
 
 public:
-    AbstractGfxScopeWidget(MonitorManager *manager, bool trackMouse = false, QWidget *parent = 0);
+    AbstractGfxScopeWidget(bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractGfxScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
 protected:
     ///// Variables /////
-
-    MonitorManager *m_manager;
-    AbstractRender *m_activeRender;
 
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
         when calculation has finished, to allow multi-threading.
@@ -51,14 +50,13 @@ public slots:
     /** @brief Must be called when the active monitor has shown a new frame.
       This slot must be connected in the implementing class, it is *not*
       done in this abstract class. */
-    void slotActiveMonitorChanged();
-    void slotClearMonitor();
+    void slotRenderZoneUpdated(QImage);
 
 protected slots:
     virtual void slotAutoRefreshToggled(bool autoRefresh);
 
-private slots:
-    void slotRenderZoneUpdated(QImage);
+signals:
+    void signalFrameRequest(const QString widgetName);
 
 };
 

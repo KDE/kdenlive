@@ -16,11 +16,14 @@
 
 class HistogramGenerator;
 
+/**
+ *  \brief Displays the histogram of frames.
+ */
 class Histogram : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Histogram(MonitorManager *manager, QWidget *parent = 0);
+    Histogram(QWidget *parent = 0);
     ~Histogram();
     QString widgetName() const;
 

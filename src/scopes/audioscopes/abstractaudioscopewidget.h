@@ -17,19 +17,25 @@
 
 #include <stdint.h>
 
-#include "abstractscopewidget.h"
+#include "../abstractscopewidget.h"
 
 class QMenu;
 
 class Monitor;
 class Render;
 
+/**
+ \brief Abstract class for scopes analyzing audio samples.
+ */
 class AbstractAudioScopeWidget : public AbstractScopeWidget
 {
     Q_OBJECT
 public:
     AbstractAudioScopeWidget(bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractAudioScopeWidget();
+
+public slots:
+    void slotReceiveAudio(QVector<int16_t> sampleData, int freq, int num_channels, int num_samples);
 
 protected:
     /** @brief This is just a wrapper function, subclasses can use renderAudioScope. */
@@ -50,9 +56,6 @@ protected:
 private:
     QVector<int16_t> m_audioFrame;
     QAtomicInt m_newData;
-
-private slots:
-    void slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples);
 
 };
 

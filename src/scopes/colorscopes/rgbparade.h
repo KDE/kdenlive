@@ -15,15 +15,18 @@
 #include "abstractgfxscopewidget.h"
 #include "ui_rgbparade_ui.h"
 
-class Monitor;
 class QImage;
 class RGBParade_UI;
 class RGBParadeGenerator;
 
+/**
+ * \brief Displays the RGB waveform of a frame.
+ * This is the same as the Waveform, but for each colour channel separately.
+ */
 class RGBParade : public AbstractGfxScopeWidget
 {
 public:
-    RGBParade(MonitorManager *manager, QWidget *parent = 0);
+    RGBParade(QWidget *parent = 0);
     ~RGBParade();
     QString widgetName() const;
 

@@ -17,7 +17,6 @@
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
 
-#include "renderer.h"
 #include "waveform.h"
 #include "colorcorrection/waveformgenerator.h"
 
@@ -25,8 +24,8 @@
 const QSize Waveform::m_textWidth(35,0);
 const int Waveform::m_paddingBottom(20);
 
-Waveform::Waveform(MonitorManager *manager, QWidget *parent) :
-    AbstractGfxScopeWidget(manager, true, parent)
+Waveform::Waveform(QWidget *parent) :
+    AbstractGfxScopeWidget(true, parent)
   ,ui(NULL)
 {
     ui = new Ui::Waveform_UI();

@@ -24,10 +24,19 @@
 #include "gentime.h"
 #include "effectslist.h"
 
-#include <QTreeWidgetItem>
 #include <KLocale>
 
+#include <QTreeWidgetItem>
+ #include <QtCore/QString>
+
 const int MAXCLIPDURATION = 15000;
+
+namespace Kdenlive {
+  const QString clipMonitor("clipMonitor");
+  const QString recordMonitor("recordMonitor");
+  const QString projectMonitor("projectMonitor");
+  const QString stopmotionMonitor("stopmotionMonitor");
+}
 
 enum OPERATIONTYPE { NONE = 0, MOVE = 1, RESIZESTART = 2, RESIZEEND = 3, FADEIN = 4, FADEOUT = 5, TRANSITIONSTART = 6, TRANSITIONEND = 7, MOVEGUIDE = 8, KEYFRAME = 9, SEEK = 10, SPACER = 11, RUBBERSELECTION = 12};
 enum CLIPTYPE { UNKNOWN = 0, AUDIO = 1, VIDEO = 2, AV = 3, COLOR = 4, IMAGE = 5, TEXT = 6, SLIDESHOW = 7, VIRTUAL = 8, PLAYLIST = 9 };

@@ -277,8 +277,6 @@ Q_OBJECT public:
     void showFrame(Mlt::Frame&);
 
     void showAudio(Mlt::Frame&);
-    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
-    bool analyseAudio;
     
     QList <int> checkTrackSequence(int);
     void sendFrameUpdate();

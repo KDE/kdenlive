@@ -8,11 +8,12 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include "qtconcurrentrun.h"
+
 #include "abstractscopewidget.h"
 #include "renderer.h"
 #include "monitor.h"
 
-#include <QtConcurrentRun>
 #include <QFuture>
 #include <QColor>
 #include <QMenu>
@@ -62,7 +63,8 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
         initialDimensionUpdateDone(false),
         m_requestForcedUpdate(false),
         m_rescaleMinDist(4),
-        m_rescaleVerticalThreshold(2.0f)
+        m_rescaleVerticalThreshold(2.0f),
+        m_rescaleActive(false)
 
 {
     m_scopePalette = QPalette();
@@ -427,7 +429,7 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
         qDebug() << "Trying to start a new HUD thread for " << m_widgetName
                 << ". New frames/updates: " << m_newHUDFrames << "/" << m_newHUDUpdates;
 #endif
-        prodHUDThread();;
+        prodHUDThread();
     }
 }
 
@@ -531,7 +533,7 @@ void AbstractScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)
     }
 }
 
-bool AbstractScopeWidget::autoRefreshEnabled()
+bool AbstractScopeWidget::autoRefreshEnabled() const
 {
     return m_aAutoRefresh->isChecked();
 }

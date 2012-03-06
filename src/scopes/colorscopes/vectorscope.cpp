@@ -20,7 +20,6 @@
 
 #include "colorplaneexport.h"
 #include "colortools.h"
-#include "renderer.h"
 #include "vectorscope.h"
 #include "colorcorrection/vectorscopegenerator.h"
 
@@ -42,8 +41,8 @@ const QPointF YPbPr_Mg(.331, .419);
 const QPointF YPbPr_Yl(-.5, .081);
 
 
-Vectorscope::Vectorscope(MonitorManager *manager, QWidget *parent) :
-    AbstractGfxScopeWidget(manager, true, parent),
+Vectorscope::Vectorscope(QWidget *parent) :
+    AbstractGfxScopeWidget(true, parent),
     m_gain(1)
 {
     ui = new Ui::Vectorscope_UI();

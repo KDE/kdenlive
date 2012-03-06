@@ -105,7 +105,6 @@ static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_
 
 Render::Render(const QString & rendererName, int winid, QString profile, QWidget *parent) :
     AbstractRender(rendererName, parent),
-    analyseAudio(KdenliveSettings::monitor_audio()),
     m_name(rendererName),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -119,6 +118,7 @@ Render::Render(const QString & rendererName, int winid, QString profile, QWidget
     m_blackClip(NULL),
     m_winid(winid)
 {
+    analyseAudio = KdenliveSettings::monitor_audio();
     if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
     m_mltProducer = m_blackClip->cut(0, 1);
@@ -137,7 +137,7 @@ Render::~Render()
 
 
 void Render::closeMlt()
-{       
+{
     //delete m_osdTimer;
     m_requestList.clear();
     m_infoThread.waitForFinished();
@@ -203,7 +203,7 @@ void Render::buildConsumer(const QString &profileName)
     m_blackClip->set("id", "black");
     m_blackClip->set("mlt_type", "producer");
 
-    if (KdenliveSettings::external_display() && m_name != "clip") {
+    if (KdenliveSettings::external_display() && m_name != Kdenlive::clipMonitor) {
 #ifdef USE_BLACKMAGIC
         // Use blackmagic card for video output
         QMap< QString, QString > profileProperties = ProfilesDialog::getSettingsFromFile(profileName);
@@ -360,7 +360,7 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
     buildConsumer(profileName);
     double new_fps = m_mltProfile->fps();
     double new_dar = m_mltProfile->dar();
-    
+
     if (!dropSceneList) {
         // We need to recover our playlist
         if (current_fps != new_fps) {
@@ -447,7 +447,7 @@ QImage Render::extractFrame(int frame_position, QString path, int width, int hei
             else delete producer;
         }
     }
-    
+
     if (!m_mltProducer || !path.isEmpty()) {
         QImage pix(width, height, QImage::Format_RGB32);
         pix.fill(Qt::black);
@@ -644,7 +644,7 @@ void Render::processFileProperties()
         info = m_requestList.takeFirst();
         m_processingClipId = info.clipId;
         m_infoMutex.unlock();
-        
+
         QString path;
         bool proxyProducer;
         if (info.xml.hasAttribute("proxy") && info.xml.attribute("proxy") != "-") {
@@ -784,7 +784,7 @@ void Render::processFileProperties()
         int imageWidth = (int)((double) info.imageHeight * m_mltProfile->width() / m_mltProfile->height() + 0.5);
         int fullWidth = (int)((double) info.imageHeight * m_mltProfile->dar() + 0.5);
         int frameNumber = info.xml.attribute("thumbnail", "-1").toInt();
-        
+
         if ((!info.replaceProducer && info.xml.hasAttribute("file_hash")) || proxyProducer) {
             // Clip  already has all properties
             if (proxyProducer) {
@@ -805,9 +805,9 @@ void Render::processFileProperties()
         stringMap filePropertyMap;
         stringMap metadataPropertyMap;
         char property[200];
-        
+
         if (frameNumber > 0) producer->seek(frameNumber);
-        
+
         duration = duration > 0 ? duration : producer->get_playtime();
         filePropertyMap["duration"] = QString::number(duration);
         //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
@@ -857,9 +857,9 @@ void Render::processFileProperties()
                 }
             }
         }
-        
+
         // Get frame rate
-        int vindex = producer->get_int("video_index");     
+        int vindex = producer->get_int("video_index");
         if (vindex > -1) {
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             if (producer->get(property))
@@ -925,7 +925,7 @@ void Render::processFileProperties()
             int video_max = 0;
             int default_audio = producer->get_int("audio_index");
             int audio_max = 0;
-            
+
             int scan = producer->get_int("meta.media.progressive");
             filePropertyMap["progressive"] = QString::number(scan);
 
@@ -1295,7 +1295,7 @@ void Render::saveZone(KUrl url, QString desc, QPoint zone)
     Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.path()).toUtf8().constData());
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
-    if (m_name == "clip") {
+    if (m_name == Kdenlive::clipMonitor) {
         Mlt::Producer *prod = m_mltProducer->cut(zone.x(), zone.y());
         Mlt::Playlist list;
         list.insert_at(0, prod, 0);
@@ -1425,7 +1425,7 @@ void Render::switchPlay(bool play)
         return;
     if (m_isZoneMode) resetZoneMode();
     if (play && m_mltProducer->get_speed() == 0.0) {
-        if (m_name == "clip" && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
+        if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
         if (m_mltConsumer->is_stopped()) {
             m_mltConsumer->start();
         }
@@ -1437,7 +1437,7 @@ void Render::switchPlay(bool play)
         m_mltProducer->seek(m_mltConsumer->position());
         if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         if (m_isZoneMode) resetZoneMode();
-        
+
         //emitConsumerStopped();
         /*m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
@@ -1585,12 +1585,19 @@ const QString & Render::rendererName() const
 
 void Render::emitFrameUpdated(Mlt::Frame& frame)
 {
-    mlt_image_format format = mlt_image_rgb24;
+    mlt_image_format format = mlt_image_rgb24a;
+    int width = 0;
+    int height = 0;
+    const uchar* image = frame.get_image(format, width, height);
+    QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
+    memcpy(qimage.scanLine(0), image, width * height * 4);
+
+    /*mlt_image_format format = mlt_image_rgb24;
     int width = 0;
     int height = 0;
     const uchar* image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_RGB888);
-    memcpy(qimage.bits(), image, width * height * 3);
+    memcpy(qimage.bits(), image, width * height * 3);*/
     emit frameUpdated(qimage);
 }
 
@@ -1925,7 +1932,7 @@ Mlt::Tractor *Render::lockService()
     }
     service.lock();
     return new Mlt::Tractor(service);
-    
+
 }
 
 void Render::unlockService(Mlt::Tractor *tractor)
@@ -2812,7 +2819,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     service.lock();
     for (int j = 0; j < params.count(); j++) {
         filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
-    }   
+    }
 
     delete clip;
     service.unlock();
@@ -3105,7 +3112,7 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind)
         trackProducer.set("hide", 0);
     }
     if (audioMixingBroken) fixAudioMixing(tractor);
-    
+
     tractor.multitrack()->refresh();
     tractor.refresh();
     refresh();

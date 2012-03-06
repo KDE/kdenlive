@@ -39,6 +39,10 @@ public:
     void resetProfiles(Timecode tc);
     void stopActiveMonitor();
     AbstractRender *activeRenderer();
+    /** Searches for a monitor with the given name.
+	@return NULL, if no monitor could be found, or the monitor otherwise.
+    */
+    AbstractMonitor *monitor(const QString monitorName);
     void updateScopeSource();
     void clearScopeSource();
 

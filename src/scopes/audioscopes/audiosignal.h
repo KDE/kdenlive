@@ -20,6 +20,8 @@
 #ifndef AUDIOSIGNAL_H
 #define AUDIOSIGNAL_H
 
+#include "scopes/audioscopes/abstractaudioscopewidget.h"
+
 #include <QByteArray>
 #include <QList>
 #include <QColor>
@@ -30,7 +32,7 @@ class QLabel;
 
 #include <stdint.h>
 
-class AudioSignal : public QWidget
+class AudioSignal : public AbstractAudioScopeWidget
 {
     Q_OBJECT
 public:
@@ -39,23 +41,27 @@ public:
     /** @brief Used for checking whether audio data needs to be delivered */
     bool monitoringEnabled() const;
 
+    QRect scopeRect();
+    QImage renderHUD(uint accelerationFactor);
+    QImage renderBackground(uint accelerationFactor);
+    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> audioFrame, const int, const int num_channels, const int samples, const int);
+
+    QString widgetName() const { return "audioSignal"; }
+    bool isHUDDependingOnInput() const { return false; }
+    bool isScopeDependingOnInput() const { return true; }
+    bool isBackgroundDependingOnInput() const { return false; }
+
 private:
     double valueToPixel(double in);
-	QTimer m_timer;
-    QLabel* label;
+    QTimer m_timer;
     QByteArray channels,peeks,peekage;
-	QList<int> dbscale;
-    QAction *m_aMonitoringEnabled;
-
-protected:
-    void paintEvent(QPaintEvent*);
+    QList<int> dbscale;
 
 public slots:
     void showAudio(const QByteArray);
-    void slotReceiveAudio(const QVector<int16_t>&,int,int,int);
+    void slotReceiveAudio(QVector<int16_t>,int,int,int);
 private slots:
-     void slotSwitchAudioMonitoring(bool isOn);
-	void slotNoAudioTimeout();
+     void slotNoAudioTimeout();
 
 signals:
     void updateAudioMonitoring();

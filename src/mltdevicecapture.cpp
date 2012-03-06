@@ -48,12 +48,12 @@ static void consumer_gl_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_fr
     self->showFrame(frame);
 }
 
-static void rec_consumer_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
+/*static void rec_consumer_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
     if (!frame.is_valid()) return;
     self->gotCapturedFrame(frame);
-}
+}*/
 
 static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
 {
@@ -80,7 +80,6 @@ MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surfa
     AbstractRender("capture", parent),
     doCapture(0),
     sendFrameForAnalysis(false),
-    analyseAudio(KdenliveSettings::monitor_audio()),
     processingImage(false),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -91,6 +90,7 @@ MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surfa
     m_captureDisplayWidget(surface),
     m_winid((int) surface->winId())
 {
+    analyseAudio = KdenliveSettings::monitor_audio();
     if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
     connect(this, SIGNAL(unblockPreview()), this, SLOT(slotPreparePreview()));

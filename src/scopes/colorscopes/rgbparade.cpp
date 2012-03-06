@@ -12,12 +12,11 @@
 #include <QPainter>
 #include <QRect>
 #include <QTime>
-#include "renderer.h"
 #include "rgbparade.h"
 #include "colorcorrection/rgbparadegenerator.h"
 
-RGBParade::RGBParade(MonitorManager *manager, QWidget *parent) :
-        AbstractGfxScopeWidget(manager, true, parent)
+RGBParade::RGBParade(QWidget *parent) :
+        AbstractGfxScopeWidget(true, parent)
 {
     ui = new Ui::RGBParade_UI();
     ui->setupUi(this);

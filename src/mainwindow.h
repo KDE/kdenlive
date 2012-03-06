@@ -66,6 +66,7 @@ class JogShuttleAction;
 class DocClipBase;
 class Render;
 class Transition;
+class ScopeManager;
 class Histogram;
 class Vectorscope;
 class Waveform;
@@ -137,6 +138,8 @@ private:
     KTabWidget* m_timelineArea;
     QProgressBar *m_statusProgressBar;
 
+    ScopeManager *m_scopeManager;
+
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
     KdenliveDoc *m_activeDocument;
@@ -197,7 +200,6 @@ private:
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList <QDockWidget *> m_gfxScopesList;
-    QList <AbstractAudioScopeWidget *> m_audioScopesList;
 
     KActionCategory *m_effectActions;
     QMenu *m_effectsMenu;
@@ -209,7 +211,7 @@ private:
 
     /** Actions used in the stopmotion widget */
     KActionCategory *m_stopmotion_actions;
-    
+
     /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
     QStringList m_action_names;
 
@@ -529,16 +531,6 @@ private slots:
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
-    /** @brief Check if someone needs the render frame sent. */
-    void slotUpdateGfxScopeFrameRequest();
-    /** @brief Check if someone needs the render frame sent. */
-    void slotDoUpdateGfxScopeFrameRequest();
-    void slotUpdateAudioScopeFrameRequest();
-    void slotDoUpdateAudioScopeFrameRequest();
-    /** @brief When switching between monitors, update the visible scopes. */
-    void slotUpdateColorScopes();
-    /** @brief Active monitor deleted, clear scopes. */
-    void slotClearColorScopes();
     /** @brief Switch current monitor to fullscreen. */
     void slotSwitchFullscreen();
     /** @brief Open the stopmotion dialog. */

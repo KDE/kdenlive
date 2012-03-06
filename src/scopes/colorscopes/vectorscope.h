@@ -17,18 +17,22 @@
 
 class ColorPlaneExport;
 class ColorTools;
-class Render;
-class Monitor;
+
 class Vectorscope_UI;
 class VectorscopeGenerator;
 
 enum BACKGROUND_MODE { BG_NONE = 0, BG_YUV = 1, BG_CHROMA = 2, BG_YPbPr = 3 };
 
+/**
+   \brief Displays the vectorscope of a frame.
+
+   \see VectorscopeGenerator for more details about the vectorscope.
+   */
 class Vectorscope : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Vectorscope(MonitorManager *manager, QWidget *parent = 0);
+    Vectorscope(QWidget *parent = 0);
     ~Vectorscope();
 
     QString widgetName() const;

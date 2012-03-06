@@ -8,16 +8,28 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+
+
+#ifndef ABSTRACTSCOPEWIDGET_H
+#define ABSTRACTSCOPEWIDGET_H
+
+#include <QtCore>
+#include <QWidget>
+
+class QMenu;
 /**
-  This abstract widget is a proof that abstract things sometimes *are* useful.
+  \brief Abstract class for audio/colour scopes (receive data and paint it).
+
+  This abstract widget is a proof that abstract things sometimes \b *are* useful.
 
   The widget expects three layers which
-  * Will be painted on top of each other on each update
-  * Are rendered in a separate thread so that the UI is not blocked
-  * Are rendered only if necessary (e.g., if a layer does not depend
+  \li Will be painted on top of each other on each update
+  \li Are rendered in a separate thread so that the UI is not blocked
+  \li Are rendered only if necessary (e.g., if a layer does not depend
     on input images, it will not be re-rendered for incoming frames)
 
   The layer order is as follows:
+  \verbatim
      _____________________
     /                     \
    /      HUD Layer        \
@@ -33,6 +45,7 @@
    /   Background Layer    \
   /                         \
   ---------------------------
+  \endverbatim
 
   Colors of Scope Widgets are defined in here (and thus don't need to be
   re-defined in the implementation of the widget's .ui file).
@@ -44,22 +57,16 @@
   the comments on the unimplemented methods carefully. They are not only here
   for optical amusement, but also contain important information.
  */
-
-#ifndef ABSTRACTSCOPEWIDGET_H
-#define ABSTRACTSCOPEWIDGET_H
-
-#include <QtCore>
-#include <QWidget>
-
-class QMenu;
-
 class AbstractScopeWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    /** trackMouse enables mouse tracking; The variables m_mousePos and m_mouseWithinWidget will be set
-            if mouse tracking is enabled. See also signalMousePositionChanged(). */
+    /**
+      \param trackMouse enables mouse tracking; The variables m_mousePos and m_mouseWithinWidget will be set
+            if mouse tracking is enabled.
+      \see signalMousePositionChanged(): Emitted when mouse tracking is enabled
+      */
     AbstractScopeWidget(bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
@@ -75,7 +82,9 @@ public:
 
     /** Tell whether this scope has auto-refresh enabled. Required for determining whether
         new data (e.g. an image frame) has to be delivered to this widget. */
-    bool autoRefreshEnabled();
+    bool autoRefreshEnabled() const;
+
+    bool needsSingleFrame();
 
     ///// Unimplemented /////
 
@@ -156,13 +165,20 @@ protected:
         that have to change together with the widget's size.  */
     virtual QRect scopeRect() = 0;
 
-    /** @brief HUD renderer. Must emit signalHUDRenderingFinished(). @see renderScope */
+    /** @brief HUD renderer. Must emit signalHUDRenderingFinished().
+        @see renderScope(uint). */
     virtual QImage renderHUD(uint accelerationFactor) = 0;
-    /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
-        when calculation has finished, to allow multi-threading.
-        accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
+    /** @brief Rendering function for the scope layer.
+        This function \b must emit signalScopeRenderingFinished(), otherwise the scope
+        will not attempt to ever call this function again. This signal is required for multi-threading;
+        not emitting it on unused rendering function may increase performance.
+        @param accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible.
+        @see renderHUD(uint) for the upper layer
+        @see renderBackground(uint) for the layer below
+         */
     virtual QImage renderScope(uint accelerationFactor) = 0;
-    /** @brief Background renderer. Must emit signalBackgroundRenderingFinished(). @see renderScope */
+    /** @brief Background renderer. Must emit signalBackgroundRenderingFinished().
+        @see renderScope(uint) */
     virtual QImage renderBackground(uint accelerationFactor) = 0;
 
     /** Must return true if the HUD layer depends on the input data.
@@ -198,17 +214,21 @@ protected:
     //    void raise(); // Called only when  manually calling the event -> useless
 
 
-protected slots:
+public slots:
     /** Forces an update of all layers. */
     void forceUpdate(bool doUpdate = true);
     void forceUpdateHUD();
     void forceUpdateScope();
     void forceUpdateBackground();
+
+protected slots:
     void slotAutoRefreshToggled(bool);
 
 signals:
-    /** mseconds represent the time taken for the calculation,
-        accelerationFactor is the acceleration factor that has been used for this calculation. */
+    /**
+      \param mseconds represents the time taken for the calculation.
+      \param accelerationFactor is the acceleration factor that has been used for this calculation.
+      */
     void signalHUDRenderingFinished(uint mseconds, uint accelerationFactor);
     void signalScopeRenderingFinished(uint mseconds, uint accelerationFactor);
     void signalBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);
@@ -218,26 +238,27 @@ signals:
         This signal is typically connected to forceUpdateHUD(). */
     void signalMousePositionChanged();
 
-    /** Do we need the renderer to send its frames to us? */
+    /** Do we need the renderer to send its frames to us?
+        Emitted when auto-refresh is toggled. */
     void requestAutoRefresh(bool);
 
 private:
 
     /** Counts the number of data frames that have been rendered in the active monitor.
-      The frame number will be reset when the calculation starts for the current data set. */
+        The frame number will be reset when the calculation starts for the current data set. */
     QAtomicInt m_newHUDFrames;
     QAtomicInt m_newScopeFrames;
     QAtomicInt m_newBackgroundFrames;
 
     /** Counts the number of updates that, unlike new frames, force a recalculation
-      of the scope, like for example a resize event. */
+        of the scope, like for example a resize event. */
     QAtomicInt m_newHUDUpdates;
     QAtomicInt m_newScopeUpdates;
     QAtomicInt m_newBackgroundUpdates;
 
     /** The semaphores ensure that the QFutures for the HUD/Scope/Background threads cannot
-      be assigned a new thread while it is still running. (Could cause deadlocks and other
-      nasty things known from parallelism.) */
+        be assigned a new thread while it is still running. (Could cause deadlocks and other
+        nasty things known from parallelism.) */
     QSemaphore m_semaphoreHUD;
     QSemaphore m_semaphoreScope;
     QSemaphore m_semaphoreBackground;
@@ -273,11 +294,11 @@ private:
 protected slots:
     void customContextMenuRequested(const QPoint &pos);
     /** To be called when a new frame has been received.
-      The scope then decides whether and when it wants to recalculate the scope, depending
-      on whether it is currently visible and whether a calculation thread is already running. */
+        The scope then decides whether and when it wants to recalculate the scope, depending
+        on whether it is currently visible and whether a calculation thread is already running. */
     void slotRenderZoneUpdated();
     /** The following slots are called when rendering of a component has finished. They e.g. update
-      the widget and decide whether to immediately restart the calculation thread. */
+        the widget and decide whether to immediately restart the calculation thread. */
     void slotHUDRenderingFinished(uint mseconds, uint accelerationFactor);
     void slotScopeRenderingFinished(uint mseconds, uint accelerationFactor);
     void slotBackgroundRenderingFinished(uint mseconds, uint accelerationFactor);

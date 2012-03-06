@@ -63,6 +63,17 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
     m_monitorsList.removeAll(monitor);
 }
 
+AbstractMonitor* MonitorManager::monitor(const QString monitorName)
+{
+    AbstractMonitor *monitor = NULL;
+    for (int i = 0; i < m_monitorsList.size(); i++) {
+	if (m_monitorsList[i]->name() == monitorName) {
+	    monitor = m_monitorsList[i];
+	}
+    }
+    return monitor;
+}
+
 bool MonitorManager::activateMonitor(const QString &name)
 {
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
@@ -94,9 +105,9 @@ bool MonitorManager::isActive(const QString &name) const
 void MonitorManager::slotSwitchMonitors(bool activateClip)
 {
     if (activateClip)
-        activateMonitor("clip");
+        activateMonitor(Kdenlive::clipMonitor);
     else
-        activateMonitor("project");
+        activateMonitor(Kdenlive::projectMonitor);
 }
 
 void MonitorManager::stopActiveMonitor()
@@ -207,11 +218,14 @@ void MonitorManager::slotRefreshCurrentMonitor(const QString &id)
 void MonitorManager::slotUpdateAudioMonitoring()
 {
     // if(...) added since they are 0x0 when the config wizard is running! --Granjow
-    if (m_clipMonitor) {
+    /*if (m_clipMonitor) {
         m_clipMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
     }
     if (m_projectMonitor) {
         m_projectMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
+    }*/
+    for (int i = 0; i < m_monitorsList.count(); i++) {
+        if (m_monitorsList.at(i)->abstractRender()) m_monitorsList.at(i)->abstractRender()->analyseAudio = KdenliveSettings::monitor_audio();
     }
 }
 

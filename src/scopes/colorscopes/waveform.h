@@ -18,11 +18,16 @@
 class Waveform_UI;
 class WaveformGenerator;
 
+/**
+  \brief Displays the waveform of a frame.
+
+   For further explanations of the waveform see the WaveformGenerator class.
+*/
 class Waveform : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Waveform(MonitorManager *manager, QWidget *parent = 0);
+    Waveform(QWidget *parent = 0);
     ~Waveform();
 
     virtual QString widgetName() const;

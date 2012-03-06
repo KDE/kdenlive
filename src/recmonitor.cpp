@@ -93,20 +93,20 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     m_recAction = toolbar->addAction(KIcon("media-record"), i18n("Record"));
     connect(m_recAction, SIGNAL(triggered()), this, SLOT(slotRecord()));
     m_recAction->setCheckable(true);
-    
+
     rec_options->setIcon(KIcon("system-run"));
     QMenu *menu = new QMenu(this);
     m_addCapturedClip = new QAction(i18n("Add Captured File to Project"), this);
     m_addCapturedClip->setCheckable(true);
     m_addCapturedClip->setChecked(true);
     menu->addAction(m_addCapturedClip);
-    
+
     rec_audio->setChecked(KdenliveSettings::v4l_captureaudio());
     rec_video->setChecked(KdenliveSettings::v4l_capturevideo());
-    
+
     m_previewSettings = new QAction(i18n("Recording Preview"), this);
     m_previewSettings->setCheckable(true);
-    
+
 
     rec_options->setMenu(menu);
     menu->addAction(m_previewSettings);
@@ -142,7 +142,7 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     connect(m_captureProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotProcessStatus(QProcess::ProcessState)));
     connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadDvgrabInfo()));
 
-    
+
     QString videoDriver = KdenliveSettings::videodrivername();
 #if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -488,34 +488,34 @@ void RecMonitor::slotStartPreview(bool play)
         break;
     case VIDEO4LINUX:
         path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
-        m_manager->activateMonitor("record");
+        m_manager->activateMonitor(Kdenlive::recordMonitor);
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
         producer = getV4lXmlPlaylist(profile);
-        
+
         //producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
         if (!m_captureDevice->slotStartPreview(producer, true)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
             m_videoBox->setHidden(true);
-            
+
         } else {
             m_playAction->setEnabled(false);
             m_stopAction->setEnabled(true);
             m_isPlaying = true;
         }
-        
+
         break;
     case BLACKMAGIC:
         path = KdenliveSettings::current_profile();
-        m_manager->activateMonitor("record");
+        m_manager->activateMonitor(Kdenlive::recordMonitor);
         buildMltDevice(path);
         producer = QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice());
         if (!m_captureDevice->slotStartPreview(producer)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
             m_videoBox->setHidden(true);
-            
+
         } else {
             m_playAction->setEnabled(false);
             m_stopAction->setEnabled(true);
@@ -583,7 +583,7 @@ void RecMonitor::slotRecord()
 
         switch (device_selector->currentIndex()) {
         case VIDEO4LINUX:
-            m_manager->activateMonitor("record");
+            m_manager->activateMonitor(Kdenlive::recordMonitor);
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
             m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
@@ -591,7 +591,7 @@ void RecMonitor::slotRecord()
             playlist = getV4lXmlPlaylist(profile);
 
             v4lparameters = KdenliveSettings::v4l_parameters();
-            
+
             // TODO: when recording audio only, allow param configuration?
             if (!rec_video->isChecked()) v4lparameters.clear();
 
@@ -623,7 +623,7 @@ void RecMonitor::slotRecord()
                     v4lparameters = QString(v4lparameters.section("acodec", 0, 0) + "an=1 " + endParam).simplified();
                 }
             }
-            
+
             showPreview = m_previewSettings->isChecked();
             if (!rec_video->isChecked()) showPreview = false;
 
@@ -635,19 +635,19 @@ void RecMonitor::slotRecord()
                 m_previewSettings->setEnabled(false);
             }
             else {
-                video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));                
+                video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
                 m_videoBox->setHidden(true);
                 m_isCapturing = false;
             }
             break;
-            
+
         case BLACKMAGIC:
-            m_manager->activateMonitor("record");
+            m_manager->activateMonitor(Kdenlive::recordMonitor);
             path = KdenliveSettings::current_profile();
             profile = ProfilesDialog::getVideoProfile(path);
             m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
-               
+
             playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
 
             if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), m_previewSettings->isChecked(), false)) {
@@ -665,7 +665,7 @@ void RecMonitor::slotRecord()
                 m_isCapturing = false;
             }
             break;
-            
+
         case SCREENGRAB:
             switch (KdenliveSettings::rmd_capture_type()) {
             case 0:
@@ -731,13 +731,13 @@ void RecMonitor::slotRecord()
 }
 
 const QString RecMonitor::getV4lXmlPlaylist(MltVideoProfile profile) {
-    
+
     QString playlist = QString("<mlt title=\"capture\" LC_NUMERIC=\"C\"><profile description=\"v4l\" width=\"%1\" height=\"%2\" progressive=\"%3\" sample_aspect_num=\"%4\" sample_aspect_den=\"%5\" display_aspect_num=\"%6\" display_aspect_den=\"%7\" frame_rate_num=\"%8\" frame_rate_den=\"%9\" colorspace=\"%10\"/>").arg(profile.width).arg(profile.height).arg(profile.progressive).arg(profile.sample_aspect_num).arg(profile.sample_aspect_den).arg(profile.display_aspect_num).arg(profile.display_aspect_den).arg(profile.frame_rate_num).arg(profile.frame_rate_den).arg(profile.colorspace);
-    
+
     if (rec_video->isChecked()) {
         playlist.append(QString("<producer id=\"producer0\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"eof\">loop</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den));
     }
-    
+
     if (rec_audio->isChecked()) {
         playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"eof\">loop</property><property name=\"resource\">alsa:%5</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()));
     }
@@ -859,7 +859,7 @@ void RecMonitor::manageCapturedFiles()
                     if (QFile::rename(url.path(), newUrl)) {
                         url = KUrl(newUrl);
                     }
-                    
+
                 }
                 capturedFiles.append(url);
             }

@@ -12,10 +12,9 @@
 #include <QTime>
 #include "colorcorrection/histogramgenerator.h"
 #include "histogram.h"
-#include "renderer.h"
 
-Histogram::Histogram(MonitorManager *manager, QWidget *parent) :
-    AbstractGfxScopeWidget(manager, false, parent)
+Histogram::Histogram(QWidget *parent) :
+    AbstractGfxScopeWidget(false, parent)
 {
     ui = new Ui::Histogram_UI();
     ui->setupUi(this);

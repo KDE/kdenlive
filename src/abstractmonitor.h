@@ -82,6 +82,9 @@ Q_OBJECT public:
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
     
+    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
+    bool analyseAudio;
+    
     const QString &name() const {return m_name;};
 
     /** @brief Someone needs us to send again a frame. */
@@ -95,7 +98,7 @@ signals:
     void frameUpdated(QImage);
 
     /** @brief This signal contains the audio of the current frame. */
-    void audioSamplesSignal(const QVector<int16_t>&, const int&, const int&, const int&);
+    void audioSamplesSignal(QVector<int16_t>,int,int,int);
 };
 
 class AbstractMonitor : public QWidget
