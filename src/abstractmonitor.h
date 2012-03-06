@@ -20,6 +20,8 @@
 #ifndef ABSTRACTMONITOR_H
 #define ABSTRACTMONITOR_H
 
+#include "definitions.h"
+
 #include <QObject>
 #include <QVector>
 #include <QWidget>
@@ -74,7 +76,7 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    AbstractRender(const QString &name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), m_name(name) {};
+    AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), m_name(name) {};
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~AbstractRender() {};
@@ -105,14 +107,17 @@ class AbstractMonitor : public QWidget
 {
     Q_OBJECT
 public:
-    AbstractMonitor(QWidget *parent = 0): QWidget(parent) {};
+    AbstractMonitor(Kdenlive::MONITORID id, QWidget *parent = 0): QWidget(parent) {m_id = id;};
+    Kdenlive::MONITORID id() {return m_id;};
     virtual ~AbstractMonitor() {};
     virtual AbstractRender *abstractRender() = 0;
-    virtual const QString name() const = 0;
 
 public slots:
     virtual void stop() = 0;
     virtual void start() = 0;
+
+protected:
+    Kdenlive::MONITORID m_id;
 };
 
 #endif

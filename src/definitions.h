@@ -32,10 +32,11 @@
 const int MAXCLIPDURATION = 15000;
 
 namespace Kdenlive {
-  const QString clipMonitor("clipMonitor");
+  enum MONITORID { noMonitor, clipMonitor, projectMonitor, recordMonitor, stopmotionMonitor, dvdMonitor };
+  /*const QString clipMonitor("clipMonitor");
   const QString recordMonitor("recordMonitor");
   const QString projectMonitor("projectMonitor");
-  const QString stopmotionMonitor("stopmotionMonitor");
+  const QString stopmotionMonitor("stopmotionMonitor");*/
 }
 
 enum OPERATIONTYPE { NONE = 0, MOVE = 1, RESIZESTART = 2, RESIZEEND = 3, FADEIN = 4, FADEOUT = 5, TRANSITIONSTART = 6, TRANSITIONEND = 7, MOVEGUIDE = 8, KEYFRAME = 9, SEEK = 10, SPACER = 11, RUBBERSELECTION = 12};

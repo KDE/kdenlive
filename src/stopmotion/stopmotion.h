@@ -19,6 +19,7 @@
 #define STOPMOTION_H
 
 #include "ui_stopmotion_ui.h"
+#include "definitions.h"
 
 #include <KUrl>
 #include <QLabel>
@@ -64,7 +65,7 @@ public:
     StopmotionMonitor(QWidget *parent);
     ~StopmotionMonitor();
     AbstractRender *abstractRender();
-    const QString name() const;
+    Kdenlive::MONITORID id() const;
     void setRender(MltDeviceCapture *render);
 
 private:

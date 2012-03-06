@@ -52,10 +52,9 @@ class RecMonitor : public AbstractMonitor, public Ui::RecMonitor_UI
     Q_OBJECT
 
 public:
-    explicit RecMonitor(QString name, MonitorManager *manager, QWidget *parent = 0);
+    explicit RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidget *parent = 0);
     virtual ~RecMonitor();
 
-    const QString name() const;
     AbstractRender *abstractRender();
     void analyseFrames(bool analyse);
     enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2, BLACKMAGIC = 3};
@@ -64,7 +63,6 @@ protected:
     virtual void mousePressEvent(QMouseEvent * event);
 
 private:
-    QString m_name;
     KDateTime m_captureTime;
     /** @brief Provide feedback about dvgrab operations */
     QLabel m_dvinfo;

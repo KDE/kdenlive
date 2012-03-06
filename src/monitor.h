@@ -23,6 +23,7 @@
 
 #include "gentime.h"
 #include "renderer.h"
+#include "definitions.h"
 #include "timecodedisplay.h"
 #include "abstractmonitor.h"
 #ifdef USE_OPENGL
@@ -100,12 +101,11 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
-    Monitor(QString name, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
+    Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender();
     void resetProfile(const QString &profile);
-    const QString name() const;
     void resetSize();
     bool isActive() const;
     void pause();
@@ -142,7 +142,7 @@ protected:
     //virtual void paintEvent(QPaintEvent * event);
 
 private:
-    QString m_name;
+    Kdenlive::MONITORID m_name;
     MonitorManager *m_monitorManager;
     DocClipBase *m_currentClip;
     SmallRuler *m_ruler;

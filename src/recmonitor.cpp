@@ -43,9 +43,8 @@
 #include <QDir>
 
 
-RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
-    AbstractMonitor(parent),
-    m_name(name),
+RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidget *parent) :
+    AbstractMonitor(name, parent),
     m_isCapturing(false),
     m_didCapture(false),
     m_isPlaying(false),
@@ -181,10 +180,6 @@ RecMonitor::~RecMonitor()
     if (m_captureDevice) delete m_captureDevice;
 }
 
-const QString RecMonitor::name() const
-{
-    return m_name;
-}
 
 void RecMonitor::stop()
 {

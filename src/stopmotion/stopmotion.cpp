@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "stopmotion.h"
-#include "definitions.h"
 #ifdef USE_BLACKMAGIC
 #include "blackmagic/devices.h"
 #endif
@@ -95,7 +94,7 @@ void MyLabel::paintEvent(QPaintEvent* event)
 
 
 StopmotionMonitor::StopmotionMonitor(QWidget *parent) :
-    AbstractMonitor(parent),
+    AbstractMonitor(Kdenlive::stopmotionMonitor, parent),
     m_captureDevice(NULL)
 {
 }
@@ -114,7 +113,7 @@ AbstractRender *StopmotionMonitor::abstractRender()
     return m_captureDevice;
 }
 
-const QString StopmotionMonitor::name() const
+Kdenlive::MONITORID StopmotionMonitor::id() const
 {
     return Kdenlive::stopmotionMonitor;
 }

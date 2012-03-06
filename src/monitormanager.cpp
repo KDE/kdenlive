@@ -63,26 +63,26 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
     m_monitorsList.removeAll(monitor);
 }
 
-AbstractMonitor* MonitorManager::monitor(const QString monitorName)
+AbstractMonitor* MonitorManager::monitor(Kdenlive::MONITORID monitorName)
 {
     AbstractMonitor *monitor = NULL;
     for (int i = 0; i < m_monitorsList.size(); i++) {
-	if (m_monitorsList[i]->name() == monitorName) {
+        if (m_monitorsList[i]->id() == monitorName) {
 	    monitor = m_monitorsList[i];
 	}
     }
     return monitor;
 }
 
-bool MonitorManager::activateMonitor(const QString &name)
+bool MonitorManager::activateMonitor(Kdenlive::MONITORID name)
 {
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
         return false;
-    if (m_activeMonitor && m_activeMonitor->name() == name)
+    if (m_activeMonitor && m_activeMonitor->id() == name)
         return false;
     m_activeMonitor = NULL;
     for (int i = 0; i < m_monitorsList.count(); i++) {
-        if (m_monitorsList.at(i)->name() == name) {
+        if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
         }
         else m_monitorsList.at(i)->stop();
@@ -97,9 +97,9 @@ bool MonitorManager::activateMonitor(const QString &name)
     return (m_activeMonitor != NULL);
 }
 
-bool MonitorManager::isActive(const QString &name) const
+bool MonitorManager::isActive(Kdenlive::MONITORID id) const
 {
-    return m_activeMonitor ? m_activeMonitor->name() == name: false;
+    return m_activeMonitor ? m_activeMonitor->id() == id: false;
 }
 
 void MonitorManager::slotSwitchMonitors(bool activateClip)
@@ -198,10 +198,10 @@ void MonitorManager::slotResetProfiles()
 {
     if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
     blockSignals(true);
-    QString active = m_activeMonitor ? m_activeMonitor->name() : QString();
+    Kdenlive::MONITORID active = m_activeMonitor ? m_activeMonitor->id() : Kdenlive::noMonitor;
     m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
     m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
-    if (!active.isEmpty()) activateMonitor(active);
+    if (active != Kdenlive::noMonitor) activateMonitor(active);
     blockSignals(false);
     if (m_activeMonitor) m_activeMonitor->parentWidget()->raise();
     emit checkColorScopes();

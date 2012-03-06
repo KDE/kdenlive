@@ -103,7 +103,7 @@ static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_
     }
 }
 
-Render::Render(const QString & rendererName, int winid, QString profile, QWidget *parent) :
+Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWidget *parent) :
     AbstractRender(rendererName, parent),
     m_name(rendererName),
     m_mltConsumer(NULL),
@@ -1576,11 +1576,6 @@ int Render::seekFramePosition() const
     //if (m_mltProducer) return (int) m_mltProducer->position();
     if (m_mltConsumer) return (int) m_mltConsumer->position();
     return 0;
-}
-
-const QString & Render::rendererName() const
-{
-    return m_name;
 }
 
 void Render::emitFrameUpdated(Mlt::Frame& frame)

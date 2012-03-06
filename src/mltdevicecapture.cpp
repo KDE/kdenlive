@@ -77,7 +77,7 @@ static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, ml
 
 
 MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surface, QWidget *parent) :
-    AbstractRender("capture", parent),
+    AbstractRender(Kdenlive::recordMonitor, parent),
     doCapture(0),
     sendFrameForAnalysis(false),
     processingImage(false),

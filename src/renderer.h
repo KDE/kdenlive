@@ -99,7 +99,7 @@ Q_OBJECT public:
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(const QString &rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
+    Render(Kdenlive::MONITORID rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -153,9 +153,6 @@ Q_OBJECT public:
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
 
     void saveZone(KUrl url, QString desc, QPoint zone);
-
-    /** @brief Returns the name of the renderer. */
-    const QString & rendererName() const;
 
     /** @brief Returns the speed at which the renderer is currently playing.
      *
@@ -309,7 +306,7 @@ private:
      *
      * Useful to identify the renderers by what they do - e.g. background
      * rendering, workspace monitor, etc. */
-    QString m_name;
+    Kdenlive::MONITORID m_name;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;

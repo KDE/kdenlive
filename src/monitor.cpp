@@ -43,10 +43,9 @@
 #include <QVBoxLayout>
 
 
-Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget *parent) :
-    AbstractMonitor(parent),
+Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile, QWidget *parent) :
+    AbstractMonitor(id, parent),
     render(NULL),
-    m_name(name),
     m_monitorManager(manager),
     m_currentClip(NULL),
     m_ruler(new SmallRuler(m_monitorManager)),
@@ -55,6 +54,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     m_length(0),
     m_dragStarted(false),
     m_monitorRefresh(NULL),
+    m_contextMenu(NULL),
     m_effectWidget(NULL),
     m_selectedClip(NULL),
     m_loopClipTransition(true),
@@ -77,13 +77,13 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     // Monitor ruler
     layout->addWidget(m_ruler);
     // Tool bar buttons
-    m_toolbar = new QToolBar(name, this);
+    m_toolbar = new QToolBar(this);
     m_toolbar->setIconSize(QSize(s, s));
 
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
-    if (name != "chapter") {
+    if (id != Kdenlive::dvdMonitor) {
         m_toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
         m_toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
     } else {
@@ -108,7 +108,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 
     playButton->setDefaultAction(m_playAction);
 
-    if (name != "chapter") {
+    if (id != Kdenlive::dvdMonitor) {
         QToolButton *configButton = new QToolButton(m_toolbar);
         m_configMenu = new QMenu(i18n("Misc..."), this);
         configButton->setIcon(KIcon("system-run"));
@@ -116,7 +116,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
         m_toolbar->addWidget(configButton);
 
-        if (name == Kdenlive::clipMonitor) {
+        if (id == Kdenlive::clipMonitor) {
             m_markerMenu = new QMenu(i18n("Go to marker..."), this);
             m_markerMenu->setEnabled(false);
             m_configMenu->addMenu(m_markerMenu);
@@ -166,7 +166,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
         m_monitorRefresh = new MonitorRefresh;
         lay->addWidget(m_monitorRefresh);
         m_videoBox->setLayout(lay);
-        render = new Render(m_name, (int) m_monitorRefresh->winId(), profile, this);
+        render = new Render(m_id, (int) m_monitorRefresh->winId(), profile, this);
         m_monitorRefresh->setRenderer(render);
     }
 #ifdef USE_OPENGL
@@ -182,7 +182,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 
-    if (name != Kdenlive::clipMonitor) {
+    if (id != Kdenlive::clipMonitor) {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
@@ -192,7 +192,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QString profile, QWidget
 
     if (m_monitorRefresh) m_monitorRefresh->show();
 
-    if (name == Kdenlive::projectMonitor) {
+    if (id == Kdenlive::projectMonitor) {
         m_effectWidget = new MonitorEditWidget(render, m_videoBox);
         m_toolbar->addAction(m_effectWidget->getVisibilityAction());
         lay->addWidget(m_effectWidget);
@@ -225,15 +225,10 @@ QWidget *Monitor::container()
     return m_videoBox;
 }
 
-const QString Monitor::name() const
-{
-    return m_name;
-}
-
 #ifdef USE_OPENGL
 bool Monitor::createOpenGlWidget(QWidget *parent, const QString profile)
 {
-    render = new Render(m_name, 0, profile, this);
+    render = new Render(id(), 0, profile, this);
     m_glWidget = new VideoGLWidget(parent);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...
@@ -271,7 +266,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     }
 
     //TODO: add save zone to timeline monitor when fixed
-    if (m_name == Kdenlive::clipMonitor) {
+    if (m_id == Kdenlive::clipMonitor) {
         m_contextMenu->addMenu(m_markerMenu);
         m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
         QAction *extractZone = m_configMenu->addAction(KIcon("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
@@ -280,7 +275,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     QAction *extractFrame = m_configMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
 
-    if (m_name != Kdenlive::clipMonitor) {
+    if (m_id != Kdenlive::clipMonitor) {
         QAction *splitView = m_contextMenu->addAction(KIcon("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
@@ -453,7 +448,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
-    } else if (!m_effectWidget || !m_effectWidget->isVisible()) {
+    } else if (m_contextMenu && (!m_effectWidget || !m_effectWidget->isVisible())) {
         m_contextMenu->popup(event->globalPos());
     }
 }
@@ -605,12 +600,12 @@ void Monitor::slotExtractCurrentFrame()
 
 bool Monitor::isActive() const
 {
-    return m_monitorManager->isActive(m_name);
+    return m_monitorManager->isActive(m_id);
 }
 
 bool Monitor::activateMonitor()
 {
-    return m_monitorManager->activateMonitor(m_name);
+    return m_monitorManager->activateMonitor(m_id);
 }
 
 void Monitor::setTimePos(const QString &pos)
@@ -1005,7 +1000,7 @@ void Monitor::slotSetSelectedClip(Transition* item)
 
 void Monitor::slotEffectScene(bool show)
 {
-    if (m_name == Kdenlive::projectMonitor) {
+    if (m_id == Kdenlive::projectMonitor) {
         if (m_monitorRefresh) {
             m_monitorRefresh->setVisible(!show);
         } else {

@@ -42,7 +42,7 @@ public:
     /** Searches for a monitor with the given name.
 	@return NULL, if no monitor could be found, or the monitor otherwise.
     */
-    AbstractMonitor *monitor(const QString monitorName);
+    AbstractMonitor *monitor(Kdenlive::MONITORID monitorName);
     void updateScopeSource();
     void clearScopeSource();
 
@@ -50,8 +50,8 @@ public slots:
 
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */
-    bool activateMonitor(const QString &name = QString());
-    bool isActive(const QString &name) const;
+    bool activateMonitor(Kdenlive::MONITORID);
+    bool isActive(Kdenlive::MONITORID id) const;
     void slotPlay();
     void slotPause();
     void slotPlayZone();
