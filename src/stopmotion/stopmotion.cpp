@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "stopmotion.h"
+#include "definitions.h"
 #ifdef USE_BLACKMAGIC
 #include "blackmagic/devices.h"
 #endif
@@ -115,7 +116,7 @@ AbstractRender *StopmotionMonitor::abstractRender()
 
 const QString StopmotionMonitor::name() const
 {
-    return QString("stopmotion");
+    return Kdenlive::stopmotionMonitor;
 }
 
 
@@ -493,7 +494,7 @@ void StopmotionWidget::slotLive(bool isOn)
             connect(m_captureDevice, SIGNAL(frameSaved(const QString &)), this, SLOT(slotNewThumb(const QString &)));
         }
 
-        m_manager->activateMonitor("stopmotion");
+        m_manager->activateMonitor(Kdenlive::stopmotionMonitor);
         QString producer = createProducer(profile, service, resource);
         if (m_captureDevice->slotStartPreview(producer, true)) {
             if (m_showOverlay->isChecked()) {
