@@ -380,6 +380,8 @@ void RecMonitor::slotStopCapture()
     // stop capture
     if (!m_isCapturing && !m_isPlaying) return;
     m_videoBox->setHidden(true);
+    rec_audio->setEnabled(true);
+    rec_video->setEnabled(true);
     switch (device_selector->currentIndex()) {
     case FIREWIRE:
         m_captureProcess->write("\e", 2);
@@ -526,6 +528,9 @@ void RecMonitor::slotStartPreview(bool play)
         break;
     }
 
+    rec_audio->setEnabled(false);
+    rec_video->setEnabled(false);
+
     if (device_selector->currentIndex() == FIREWIRE) {
         kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
         m_displayProcess->start("ffplay", m_displayArgs);
@@ -537,6 +542,9 @@ void RecMonitor::slotStartPreview(bool play)
 
 void RecMonitor::slotRecord()
 {
+    rec_audio->setEnabled(false);
+    rec_video->setEnabled(false);
+
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartPreview();
     }
