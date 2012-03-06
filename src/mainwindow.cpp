@@ -177,7 +177,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     dbus.registerObject("/MainWindow", this);
 
     if (!KdenliveSettings::colortheme().isEmpty()) slotChangePalette(NULL, KdenliveSettings::colortheme());
-    //setFont(KGlobalSettings::toolBarFont());
+    setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
     m_commandStack = new QUndoGroup;
@@ -962,7 +962,7 @@ void MainWindow::setupActions()
     QColor buttonBg = scheme.background(KColorScheme::LinkBackground).color();
     QColor buttonBord = scheme.foreground(KColorScheme::LinkText).color();
     QColor buttonBord2 = scheme.shade(KColorScheme::LightShade);
-    //statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
+    statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
     QString style1 = QString("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:hover { background: rgb(%7, %8, %9);border-style: inset; border:1px solid rgb(%7, %8, %9);border-radius: 3px;} QToolButton:checked { background-color: rgb(%1, %2, %3); border-style: inset; border:1px solid rgb(%4, %5, %6);border-radius: 3px;}").arg(buttonBg.red()).arg(buttonBg.green()).arg(buttonBg.blue()).arg(buttonBord.red()).arg(buttonBord.green()).arg(buttonBord.blue()).arg(buttonBord2.red()).arg(buttonBord2.green()).arg(buttonBord2.blue());
     QString styleBorderless = "QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}";
 
