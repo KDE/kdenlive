@@ -235,12 +235,12 @@ void MltDeviceCapture::emitFrameUpdated(Mlt::Frame& frame)
     }
     */
 
-    mlt_image_format format = mlt_image_rgb24;
+    mlt_image_format format = mlt_image_rgb24a;
     int width = 0;
     int height = 0;
     const uchar* image = frame.get_image(format, width, height);
-    QImage qimage(width, height, QImage::Format_ARGB32);
-    memcpy(qimage.bits(), image, width * height * 3);
+    QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
+    memcpy(qimage.bits(), image, width * height * 4);
     emit frameUpdated(qimage.rgbSwapped());
 }
 
