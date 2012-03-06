@@ -1,8 +1,10 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  audioscopes/abstractaudioscopewidget.cpp
-  audioscopes/audiospectrum.cpp
-  audioscopes/ffttools.cpp
-  audioscopes/spectrogram.cpp
+  scopes/audioscopes/abstractaudioscopewidget.cpp
+  scopes/audioscopes/audiosignal.cpp
+  scopes/audioscopes/audiospectrum.cpp
+  scopes/audioscopes/ffttools.cpp
+  scopes/audioscopes/spectrogram.cpp
   PARENT_SCOPE
 )
+

@@ -78,10 +78,8 @@ macro_log_feature(QJSON_FOUND
 )
 
 
-add_subdirectory(audioscopes)
 add_subdirectory(beziercurve)
 add_subdirectory(colorcorrection)
-add_subdirectory(colorscopes)
 add_subdirectory(commands)
 add_subdirectory(projecttree)
 add_subdirectory(utils)
@@ -89,6 +87,7 @@ add_subdirectory(databackup)
 add_subdirectory(kiss_fft)
 add_subdirectory(mimetypes)
 add_subdirectory(onmonitoritems)
+add_subdirectory(scopes)
 add_subdirectory(simplekeyframes)
 add_subdirectory(stopmotion)
 
@@ -113,9 +112,7 @@ list(APPEND kdenlive_SRCS
   abstractclipitem.cpp
   abstractgroupitem.cpp
   abstractmonitor.cpp
-  abstractscopewidget.cpp
   archivewidget.cpp
-  audiosignal.cpp
   choosecolorwidget.cpp
   clipdurationdialog.cpp
   clipitem.cpp
