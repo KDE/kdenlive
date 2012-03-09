@@ -1593,7 +1593,7 @@ void Render::emitFrameUpdated(Mlt::Frame& frame)
     const uchar* image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_RGB888);
     memcpy(qimage.bits(), image, width * height * 3);*/
-    emit frameUpdated(qimage);
+    emit frameUpdated(qimage.rgbSwapped());
 }
 
 void Render::emitFrameNumber()
