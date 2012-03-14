@@ -29,6 +29,7 @@ ScopeManager::ScopeManager(MonitorManager *monitorManager) :
 
     bool b = true;
     b &= connect(m_monitorManager, SIGNAL(checkColorScopes()), this, SLOT(slotUpdateActiveRenderer()));
+    b &= connect(m_monitorManager, SIGNAL(clearScopes()), this, SLOT(slotClearColorScopes()));
     b &= connect(m_signalMapper, SIGNAL(mapped(QString)), this, SLOT(slotRequestFrame(QString)));
     Q_ASSERT(b);
 
@@ -181,6 +182,11 @@ void ScopeManager::slotRequestFrame(const QString widgetName)
 }
 
 
+void ScopeManager::slotClearColorScopes()
+{
+    m_lastConnectedRenderer = NULL;
+}
+
 
 void ScopeManager::slotUpdateActiveRenderer()
 {
@@ -282,7 +288,10 @@ void ScopeManager::checkActiveColourScopes()
     // Notify monitors whether frames are still required
     Monitor *monitor;
     monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::projectMonitor) );
-    if (monitor != NULL) { monitor->render->sendFrameForAnalysis = imageStillRequested; }
+    if (monitor != NULL) { 
+	if (monitor->effectSceneDisplayed()) monitor->render->sendFrameForAnalysis = true;
+	else monitor->render->sendFrameForAnalysis = imageStillRequested;
+    }
 
     monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::clipMonitor) );
     if (monitor != NULL) { monitor->render->sendFrameForAnalysis = imageStillRequested; }

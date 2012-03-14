@@ -98,9 +98,14 @@ private slots:
       */
     void slotUpdateActiveRenderer();
     /**
+      The scope source was deleted, clear it.
+      */
+    void slotClearColorScopes();
+    /**
       \see checkActiveAudioScopes()
       \see checkActiveColourScopes()
       */
+    
     void slotCheckActiveScopes();
     void slotDistributeFrame(QImage image);
     void slotDistributeAudio(QVector<int16_t> sampleData, int freq, int num_channels, int num_samples);
