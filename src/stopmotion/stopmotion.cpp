@@ -93,13 +93,17 @@ void MyLabel::paintEvent(QPaintEvent* event)
 }
 
 
-StopmotionMonitor::StopmotionMonitor(QWidget *parent) :
-    AbstractMonitor(Kdenlive::stopmotionMonitor, parent),
+StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent) :
+    AbstractMonitor(Kdenlive::stopmotionMonitor, manager, parent),
     m_captureDevice(NULL)
 {
 }
 
 StopmotionMonitor::~StopmotionMonitor()
+{
+}
+
+void StopmotionMonitor::slotSwitchFullScreen()
 {
 }
 
@@ -129,6 +133,22 @@ void StopmotionMonitor::start()
 {
 }
 
+void StopmotionMonitor::pause()
+{
+}
+
+void StopmotionMonitor::unpause()
+{
+}
+
+void StopmotionMonitor::slotPlay()
+{
+}
+
+void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
+{
+}
+
 StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, QList< QAction* > actions, QWidget* parent) :
     QDialog(parent)
     , Ui::Stopmotion_UI()
@@ -138,7 +158,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     , m_animatedIndex(-1)
     , m_animate(false)
     , m_manager(manager)
-    , m_monitor(new StopmotionMonitor(this))
+    , m_monitor(new StopmotionMonitor(manager, this))
 {
     //setAttribute(Qt::WA_DeleteOnClose);
     //HACK: the monitor widget is hidden, it is just used to control the capturedevice from monitormanager
@@ -246,10 +266,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    m_videoBox = new VideoPreviewContainer();
-    m_videoBox->setContentsMargins(0, 0, 0, 0);
-    m_videoBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    //m_videoBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    m_videoBox = new VideoContainer(m_monitor);
     m_videoBox->setLineWidth(4);
     layout->addWidget(m_videoBox);
 
@@ -884,6 +901,7 @@ void StopmotionWidget::slotSwitchMirror(bool isOn)
     //KdenliveSettings::setAnalyse_stopmotion(isOn);
     if (m_captureDevice) m_captureDevice->mirror(isOn);
 }
+
 
 const QString StopmotionWidget::createProducer(MltVideoProfile profile, const QString &service, const QString &resource)
 {

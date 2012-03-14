@@ -573,7 +573,6 @@ void GeometryWidget::slotUpdateGeometry()
             geom->insert(item2);
         }
     }
-    
     emit parameterChanged();
 }
 

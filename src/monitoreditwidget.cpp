@@ -32,10 +32,15 @@
 MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
         QWidget(parent)
 {
+    setAutoFillBackground(true);
+    setAttribute(Qt::WA_PaintOnScreen, false);
+    setAttribute(Qt::WA_OpaquePaintEvent, false);
+    setContentsMargins(0, 0, 0, 0);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_ui.setupUi(this);
-
     m_scene = new MonitorScene(renderer);
     m_view = new QGraphicsView(m_scene, m_ui.frameVideo);
+    m_view->setFrameShape(QFrame::NoFrame);
     m_view->setRenderHints(QFlags<QPainter::RenderHint>());
     m_view->scale(((double) renderer->renderWidth()) / renderer->frameRenderWidth(), 1.0);
     m_view->setMouseTracking(true);

@@ -224,7 +224,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     // Connect the project list
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *, QPoint, bool)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, bool)));
-    connect(m_projectList, SIGNAL(raiseClipMonitor()), m_clipMonitor, SLOT(activateMonitor()));
+    connect(m_projectList, SIGNAL(raiseClipMonitor()), m_clipMonitor, SLOT(slotActivateMonitor()));
     connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
     connect(m_projectList, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
@@ -566,8 +566,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
-    //connect(m_monitorManager, SIGNAL(checkColorScopes()), this, SLOT(slotUpdateColorScopes()));
-    //connect(m_monitorManager, SIGNAL(clearScopes()), this, SLOT(slotClearColorScopes()));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
@@ -1277,7 +1275,7 @@ void MainWindow::setupActions()
     KAction *fullMon = collection.addAction("monitor_fullscreen");
     fullMon->setText(i18n("Switch monitor fullscreen"));
     fullMon->setIcon(KIcon("view-fullscreen"));
-    connect(fullMon, SIGNAL(triggered(bool)), this, SLOT(slotSwitchFullscreen()));
+    connect(fullMon, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotSwitchFullscreen()));
 
     KAction *insertTree = collection.addAction("insert_project_tree");
     insertTree->setText(i18n("Insert zone in project tree"));
@@ -2476,7 +2474,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, bool, const int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, bool, const int)));
             disconnect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, const QString &, stringMap)), m_activeTimeline->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, const QString &, stringMap)));
 
-            disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
+            disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(slotActivateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(m_effectStack, SIGNAL(updateEffect(ClipItem*, int, QDomElement, QDomElement, int)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, int, QDomElement, QDomElement, int)));
@@ -2488,7 +2486,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_effectStack, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
             disconnect(m_transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), m_activeTimeline->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
             disconnect(m_transitionConfig, SIGNAL(seekTimeline(int)), m_activeTimeline->projectView() , SLOT(setCursorPos(int)));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
             disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
             disconnect(m_projectList, SIGNAL(refreshClip(const QString &)), m_activeTimeline->projectView(), SLOT(slotRefreshThumbs(const QString &)));
@@ -2567,7 +2565,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
     connect(m_effectStack, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
 
-    connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
+    connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
     connect(trackView, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
     connect(m_projectList, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu*>(factory()->container("marker_menu", this)));
@@ -2920,7 +2918,7 @@ void MainWindow::slotRemoveSpace()
 
 void MainWindow::slotInsertTrack(int ix)
 {
-    m_projectMonitor->activateMonitor();
+    m_projectMonitor->slotActivateMonitor();
     if (m_activeTimeline) {
         if (ix == -1) ix = m_activeTimeline->projectView()->selectedTrack();
         m_activeTimeline->projectView()->slotInsertTrack(ix);
@@ -2931,7 +2929,7 @@ void MainWindow::slotInsertTrack(int ix)
 
 void MainWindow::slotDeleteTrack(int ix)
 {
-    m_projectMonitor->activateMonitor();
+    m_projectMonitor->slotActivateMonitor();
     if (m_activeTimeline) {
         if (ix == -1) ix = m_activeTimeline->projectView()->selectedTrack();
         m_activeTimeline->projectView()->slotDeleteTrack(ix);
@@ -2942,7 +2940,7 @@ void MainWindow::slotDeleteTrack(int ix)
 
 void MainWindow::slotConfigTrack(int ix)
 {
-    m_projectMonitor->activateMonitor();
+    m_projectMonitor->slotActivateMonitor();
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotConfigTracks(ix);
     if (m_activeDocument)
@@ -2951,7 +2949,7 @@ void MainWindow::slotConfigTrack(int ix)
 
 void MainWindow::slotSelectTrack()
 {
-    m_projectMonitor->activateMonitor();
+    m_projectMonitor->slotActivateMonitor();
     if (m_activeTimeline) {
         m_activeTimeline->projectView()->slotSelectClipsInTrack();
     }
@@ -2959,7 +2957,7 @@ void MainWindow::slotSelectTrack()
 
 void MainWindow::slotSelectAllTracks()
 {
-    m_projectMonitor->activateMonitor();
+    m_projectMonitor->slotActivateMonitor();
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotSelectAllClips();
 }
@@ -4245,12 +4243,6 @@ void MainWindow::slotSwitchMonitors()
     m_monitorManager->slotSwitchMonitors(!m_clipMonitor->isActive());
     if (m_projectMonitor->isActive()) m_activeTimeline->projectView()->setFocus();
     else m_projectList->focusTree();
-}
-
-void MainWindow::slotSwitchFullscreen()
-{
-    if (m_projectMonitor->isActive()) m_projectMonitor->slotSwitchFullScreen();
-    else m_clipMonitor->slotSwitchFullScreen();
 }
 
 void MainWindow::slotInsertZoneToTree()

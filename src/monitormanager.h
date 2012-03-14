@@ -65,6 +65,9 @@ public slots:
     void slotStart();
     void slotEnd();
     void slotResetProfiles();
+    
+    /** @brief Switch current monitor to fullscreen. */
+    void slotSwitchFullscreen();
 
     /** @brief Switches between project and clip monitor.
      * @ref activateMonitor

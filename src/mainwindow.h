@@ -531,8 +531,6 @@ private slots:
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
-    /** @brief Switch current monitor to fullscreen. */
-    void slotSwitchFullscreen();
     /** @brief Open the stopmotion dialog. */
     void slotOpenStopmotion();
     /** @brief Implements all the actions that are int he ActionsCollection. */

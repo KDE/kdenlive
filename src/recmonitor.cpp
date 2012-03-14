@@ -44,17 +44,16 @@
 
 
 RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidget *parent) :
-    AbstractMonitor(name, parent),
+    AbstractMonitor(name, manager, parent),
     m_isCapturing(false),
     m_didCapture(false),
     m_isPlaying(false),
-    m_manager(manager),
     m_captureDevice(NULL),
     m_analyse(false)
 {
     setupUi(this);
 
-    video_frame->setAttribute(Qt::WA_PaintOnScreen);
+    //video_frame->setAttribute(Qt::WA_PaintOnScreen);
     device_selector->setCurrentIndex(KdenliveSettings::defaultcapture());
     connect(device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
 
@@ -62,10 +61,8 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     QVBoxLayout *l = new QVBoxLayout;
     l->setContentsMargins(0, 0, 0, 0);
     l->setSpacing(0);
-    m_videoBox = new VideoPreviewContainer();
-    m_videoBox->setContentsMargins(0, 0, 0, 0);
-    m_videoBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    l->addWidget(m_videoBox);
+    m_videoBox = new VideoContainer(this);
+    l->addWidget(m_videoBox, 10);
     video_frame->setLayout(l);
 
     QToolBar *toolbar = new QToolBar(this);
@@ -145,7 +142,7 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     QString videoDriver = KdenliveSettings::videodrivername();
 #if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("SDL_WINDOWID", QString::number(video_frame->winId()));
+    env.insert("SDL_WINDOWID", QString::number(m_videoBox->winId()));
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
             env.insert("SDL_VIDEO_YUV_HWACCEL", "0");
@@ -155,7 +152,7 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     m_displayProcess->setProcessEnvironment(env);
 #else
     QStringList env = QProcess::systemEnvironment();
-    env << "SDL_WINDOWID=" + QString::number(video_frame->winId());
+    env << "SDL_WINDOWID=" + QString::number(m_videoBox->winId());
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
             env << "SDL_VIDEO_YUV_HWACCEL=0";
@@ -166,7 +163,7 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
 #endif
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
-    kDebug() << "/////// BUILDING MONITOR, ID: " << video_frame->winId();
+    kDebug() << "/////// BUILDING MONITOR, ID: " << m_videoBox->winId();
     slotVideoDeviceChanged(device_selector->currentIndex());
     m_previewSettings->setChecked(KdenliveSettings::enable_recording_preview());
     connect(m_previewSettings, SIGNAL(triggered(bool)), this, SLOT(slotChangeRecordingPreview(bool)));
@@ -180,6 +177,18 @@ RecMonitor::~RecMonitor()
     if (m_captureDevice) delete m_captureDevice;
 }
 
+void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    if (!KdenliveSettings::openglmonitors() && m_videoBox && m_videoBox->isVisible()) {
+        m_videoBox->switchFullScreen();
+        event->accept();
+    }
+}
+
+void RecMonitor::slotSwitchFullScreen()
+{
+    m_videoBox->switchFullScreen();
+}
 
 void RecMonitor::stop()
 {
@@ -188,6 +197,7 @@ void RecMonitor::stop()
 
 void RecMonitor::start()
 {
+    //slotStartPreview(true);
 }
 
 void RecMonitor::slotConfigure()
@@ -224,10 +234,10 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     m_logger.setVisible(ix == BLACKMAGIC);
     if (m_captureDevice) {
         // MLT capture still running, abort
+        m_monitorManager->clearScopeSource();
         m_captureDevice->stop();
         delete m_captureDevice;
         m_captureDevice = NULL;
-        m_manager->clearScopeSource();
     }
 
     // The m_videoBox container has to be shown once before the MLT consumer is build, or preview will fail
@@ -430,6 +440,7 @@ void RecMonitor::slotStartPreview(bool play)
         }
         return;
     }
+    if (m_isPlaying) return;
     m_captureArgs.clear();
     m_displayArgs.clear();
     m_isPlaying = false;
@@ -485,7 +496,7 @@ void RecMonitor::slotStartPreview(bool play)
         break;
     case VIDEO4LINUX:
         path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
-        m_manager->activateMonitor(Kdenlive::recordMonitor);
+        slotActivateMonitor();
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
         producer = getV4lXmlPlaylist(profile);
@@ -505,7 +516,7 @@ void RecMonitor::slotStartPreview(bool play)
         break;
     case BLACKMAGIC:
         path = KdenliveSettings::current_profile();
-        m_manager->activateMonitor(Kdenlive::recordMonitor);
+        slotActivateMonitor();
         buildMltDevice(path);
         producer = QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice());
         if (!m_captureDevice->slotStartPreview(producer)) {
@@ -586,10 +597,10 @@ void RecMonitor::slotRecord()
 
         switch (device_selector->currentIndex()) {
         case VIDEO4LINUX:
-            m_manager->activateMonitor(Kdenlive::recordMonitor);
+            slotActivateMonitor();
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
-            m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
+            //m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
             playlist = getV4lXmlPlaylist(profile);
 
@@ -645,10 +656,10 @@ void RecMonitor::slotRecord()
             break;
 
         case BLACKMAGIC:
-            m_manager->activateMonitor(Kdenlive::recordMonitor);
+            slotActivateMonitor();
             path = KdenliveSettings::current_profile();
             profile = ProfilesDialog::getVideoProfile(path);
-            m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
+            //m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
 
             playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
@@ -881,9 +892,10 @@ void RecMonitor::manageCapturedFiles()
 }
 
 // virtual
-void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
+void RecMonitor::mousePressEvent(QMouseEvent *event)
 {
     if (m_freeSpace->underMouse()) slotUpdateFreeSpace();
+    else QWidget::mousePressEvent(event);//m_videoBox->mousePressEvent(event);
 }
 
 void RecMonitor::slotUpdateFreeSpace()
@@ -899,16 +911,15 @@ void RecMonitor::slotUpdateFreeSpace()
 void RecMonitor::refreshRecMonitor(bool visible)
 {
     if (visible) {
-        //if (!m_isActive) m_monitorManager->activateRecMonitor(m_name);
+        //if (!m_isActive) activateMonitor();
 
     }
 }
 
 void RecMonitor::slotPlay()
 {
-
-    //if (!m_isActive) m_monitorManager->activateRecMonitor(m_name);
-
+    if (m_isPlaying) slotStopCapture();
+    else slotStartPreview(true);
 }
 
 void RecMonitor::slotReadDvgrabInfo()
@@ -939,10 +950,11 @@ void RecMonitor::slotDroppedFrames(int dropped)
 void RecMonitor::buildMltDevice(const QString &path)
 {
     if (m_captureDevice == NULL) {
+	m_monitorManager->updateScopeSource();
         m_captureDevice = new MltDeviceCapture(path, m_videoBox, this);
         connect(m_captureDevice, SIGNAL(droppedFrames(int)), this, SLOT(slotDroppedFrames(int)));
         m_captureDevice->sendFrameForAnalysis = m_analyse;
-        m_manager->updateScopeSource();
+        m_monitorManager->updateScopeSource();
     }
 }
 
@@ -950,6 +962,28 @@ void RecMonitor::slotChangeRecordingPreview(bool enable)
 {
     KdenliveSettings::setEnable_recording_preview(enable);
 }
+
+void RecMonitor::pause()
+{
+    if (m_isCapturing) return;
+    slotStopCapture();
+    if (m_captureDevice) {
+	m_monitorManager->clearScopeSource();
+	delete m_captureDevice;
+	m_captureDevice = NULL;
+    }
+}
+
+void RecMonitor::unpause()
+{
+    if (m_isCapturing) return;
+    slotStartPreview(true);
+}
+
+void RecMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
+{
+}
+
 
 #include "recmonitor.moc"
 

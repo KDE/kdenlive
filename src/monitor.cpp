@@ -44,9 +44,8 @@
 
 
 Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile, QWidget *parent) :
-    AbstractMonitor(id, parent),
+    AbstractMonitor(id, manager, parent),
     render(NULL),
-    m_monitorManager(manager),
     m_currentClip(NULL),
     m_ruler(new SmallRuler(m_monitorManager)),
     m_overlay(NULL),
@@ -66,8 +65,6 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 
     // Video widget holder
     m_videoBox = new VideoContainer(this);
-    m_videoBox->setContentsMargins(0, 0, 0, 0);
-    m_videoBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     layout->addWidget(m_videoBox, 10);
     layout->addStretch();
 
@@ -471,7 +468,7 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
     if (m_dragStarted && event->button() != Qt::RightButton) {
         if (m_videoBox->geometry().contains(event->pos()) && (!m_effectWidget || !m_effectWidget->isVisible())) {
             if (isActive()) slotPlay();
-            else activateMonitor();
+            else slotActivateMonitor();
         } //else event->ignore(); //QWidget::mouseReleaseEvent(event);
         m_dragStarted = false;
     }
@@ -598,16 +595,6 @@ void Monitor::slotExtractCurrentFrame()
     }
 }
 
-bool Monitor::isActive() const
-{
-    return m_monitorManager->isActive(m_id);
-}
-
-bool Monitor::activateMonitor()
-{
-    return m_monitorManager->activateMonitor(m_id);
-}
-
 void Monitor::setTimePos(const QString &pos)
 {
     m_timePos->setValue(pos);
@@ -622,7 +609,7 @@ void Monitor::slotSeek()
 void Monitor::slotSeek(int pos)
 {
     if (render == NULL) return;
-    activateMonitor();
+    slotActivateMonitor();
     render->seekToFrame(pos);
 }
 
@@ -648,35 +635,35 @@ void Monitor::checkOverlay()
 
 void Monitor::slotStart()
 {
-    activateMonitor();
+    slotActivateMonitor();
     render->play(0);
     render->seekToFrame(0);
 }
 
 void Monitor::slotEnd()
 {
-    activateMonitor();
+    slotActivateMonitor();
     render->play(0);
     render->seekToFrame(render->getLength());
 }
 
 void Monitor::slotZoneStart()
 {
-    activateMonitor();
+    slotActivateMonitor();
     render->play(0);
     render->seekToFrame(m_ruler->zone().x());
 }
 
 void Monitor::slotZoneEnd()
 {
-    activateMonitor();
+    slotActivateMonitor();
     render->play(0);
     render->seekToFrame(m_ruler->zone().y());
 }
 
 void Monitor::slotRewind(double speed)
 {
-    activateMonitor();
+    slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
         if (currentspeed >= 0) render->play(-2);
@@ -688,7 +675,7 @@ void Monitor::slotRewind(double speed)
 
 void Monitor::slotForward(double speed)
 {
-    activateMonitor();
+    slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
         if (currentspeed <= 1) render->play(2);
@@ -700,21 +687,21 @@ void Monitor::slotForward(double speed)
 
 void Monitor::slotRewindOneFrame(int diff)
 {
-    activateMonitor();
+    slotActivateMonitor();
     render->play(0);
     render->seekToFrameDiff(-diff);
 }
 
 void Monitor::slotForwardOneFrame(int diff)
 {
-    activateMonitor();
+    slotActivateMonitor();
     render->play(0);
     render->seekToFrameDiff(diff);
 }
 
 void Monitor::seekCursor(int pos)
 {
-    //activateMonitor();
+    //slotActivateMonitor();
     if (m_ruler->slotNewValue(pos)) {
         checkOverlay();
         m_timePos->setValue(pos);
@@ -754,7 +741,7 @@ void Monitor::start()
 void Monitor::refreshMonitor(bool visible)
 {
     if (visible && render) {
-        if (!activateMonitor()) {
+        if (!slotActivateMonitor()) {
             // the monitor was already active, simply refreshClipThumbnail
             render->doRefresh();
         }
@@ -771,16 +758,20 @@ void Monitor::refreshMonitor()
 void Monitor::pause()
 {
     if (render == NULL) return;
-    activateMonitor();
+    slotActivateMonitor();
     render->pause();
     //m_playAction->setChecked(true);
     m_playAction->setIcon(m_playIcon);
 }
 
+void Monitor::unpause()
+{
+}
+
 void Monitor::slotPlay()
 {
     if (render == NULL) return;
-    activateMonitor();
+    slotActivateMonitor();
     if (render->playSpeed() == 0.0) {
         m_playAction->setIcon(m_pauseIcon);
         render->switchPlay(true);
@@ -793,7 +784,7 @@ void Monitor::slotPlay()
 void Monitor::slotPlayZone()
 {
     if (render == NULL) return;
-    activateMonitor();
+    slotActivateMonitor();
     QPoint p = m_ruler->zone();
     render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
     //m_playAction->setChecked(true);
@@ -803,7 +794,7 @@ void Monitor::slotPlayZone()
 void Monitor::slotLoopZone()
 {
     if (render == NULL) return;
-    activateMonitor();
+    slotActivateMonitor();
     QPoint p = m_ruler->zone();
     render->loopZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
     //m_playAction->setChecked(true);
@@ -814,7 +805,7 @@ void Monitor::slotLoopClip()
 {
     if (render == NULL || m_selectedClip == NULL)
         return;
-    activateMonitor();
+    slotActivateMonitor();
     render->loopZone(m_selectedClip->startPos(), m_selectedClip->endPos());
     //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
@@ -839,7 +830,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
 
     if (clip != m_currentClip || forceUpdate) {
         m_currentClip = clip;
-        if (m_currentClip) activateMonitor();
+        if (m_currentClip) slotActivateMonitor();
         updateMarkers(clip);
         Mlt::Producer *prod = NULL;
         if (clip) prod = clip->getCloneProducer();
@@ -849,7 +840,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
         }
     } else {
         if (m_currentClip) {
-            activateMonitor();
+            slotActivateMonitor();
             if (position == -1) position = render->seekFramePosition();
             render->seek(position);
         }
@@ -863,7 +854,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
 void Monitor::slotOpenFile(const QString &file)
 {
     if (render == NULL) return;
-    activateMonitor();
+    slotActivateMonitor();
     QDomDocument doc;
     QDomElement mlt = doc.createElement("mlt");
     doc.appendChild(mlt);
@@ -887,7 +878,7 @@ void Monitor::resetProfile(const QString &profile)
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == NULL) return;
     if (!render->hasProfile(profile)) {
-        activateMonitor();
+        slotActivateMonitor();
         render->resetProfile(profile);
     }
     if (m_effectWidget)
@@ -1121,104 +1112,6 @@ void Overlay::setOverlayText(const QString &text, bool isZone)
     setText(' ' + text + ' ');
     setHidden(false);
     update();
-}
-
-VideoContainer::VideoContainer(Monitor* parent) :
-    QFrame()
-    , m_monitor(parent)
-{
-    setFrameShape(QFrame::NoFrame);
-    setFocusPolicy(Qt::ClickFocus);
-    setEnabled(false);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-}
-
-// virtual
-void VideoContainer::mouseReleaseEvent(QMouseEvent * event)
-{
-    if (event->button() != Qt::RightButton) {
-        if (m_monitor->isActive()) {
-            m_monitor->slotPlay();
-        }
-    }
-}
-
-
-// virtual
-void VideoContainer::keyPressEvent(QKeyEvent *event)
-{
-    // Exit fullscreen with Esc key
-    if (event->key() == Qt::Key_Escape && isFullScreen()) {
-        switchFullScreen();
-        event->setAccepted(true);
-    } else event->setAccepted(false);
-}
-
-// virtual
-void VideoContainer::wheelEvent(QWheelEvent * event)
-{
-    m_monitor->slotMouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
-    event->accept();
-}
-
-void VideoContainer::mouseDoubleClickEvent(QMouseEvent * event)
-{
-    if (!KdenliveSettings::openglmonitors())
-        switchFullScreen();
-    event->accept();
-}
-
-void VideoContainer::switchFullScreen()
-{
-    // TODO: disable screensaver?
-    Qt::WindowFlags flags = windowFlags();
-    if (!isFullScreen()) {
-        // Check if we ahave a multiple monitor setup
-        setUpdatesEnabled(false);
-#if QT_VERSION >= 0x040600
-        int monitors = QApplication::desktop()->screenCount();
-#else
-        int monitors = QApplication::desktop()->numScreens();
-#endif
-        if (monitors > 1) {
-            QRect screenres;
-            // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
-            int currentScreen = QApplication::desktop()->screenNumber(this);
-            if (currentScreen < monitors - 1)
-                screenres = QApplication::desktop()->screenGeometry(currentScreen + 1);
-            else
-                screenres = QApplication::desktop()->screenGeometry(currentScreen - 1);
-            move(QPoint(screenres.x(), screenres.y()));
-            resize(screenres.width(), screenres.height());
-        }
-
-        m_baseFlags = flags & (Qt::Window | Qt::SubWindow);
-        flags |= Qt::Window;
-        flags ^= Qt::SubWindow;
-        setWindowFlags(flags);
-#ifdef Q_WS_X11
-        // This works around a bug with Compiz
-        // as the window must be visible before we can set the state
-        show();
-        raise();
-        setWindowState(windowState() | Qt::WindowFullScreen);   // set
-#else
-        setWindowState(windowState() | Qt::WindowFullScreen);   // set
-        setUpdatesEnabled(true);
-        show();
-#endif
-        setEnabled(true);
-    } else {
-        setUpdatesEnabled(false);
-        flags ^= (Qt::Window | Qt::SubWindow); //clear the flags...
-        flags |= m_baseFlags; //then we reset the flags (window and subwindow)
-        setWindowFlags(flags);
-        setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
-        setUpdatesEnabled(true);
-        setEnabled(false);
-        show();
-    }
-    m_monitor->pause();
 }
 
 

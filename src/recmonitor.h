@@ -57,10 +57,13 @@ public:
 
     AbstractRender *abstractRender();
     void analyseFrames(bool analyse);
+    void pause();
+    void unpause();
     enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2, BLACKMAGIC = 3};
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
+    virtual void mouseDoubleClickEvent(QMouseEvent * event);
 
 private:
     KDateTime m_captureTime;
@@ -96,7 +99,7 @@ private:
 
     MonitorManager *m_manager;
     MltDeviceCapture *m_captureDevice;
-    VideoPreviewContainer *m_videoBox;
+    VideoContainer *m_videoBox;
     QAction *m_addCapturedClip;
     QAction *m_previewSettings;
     
@@ -133,6 +136,8 @@ public slots:
     void start();
     void slotStopCapture();
     void slotUpdateCaptureFolder(const QString &currentProjectFolder);
+    void slotMouseSeek(int eventDelta, bool fast);
+    void slotSwitchFullScreen();
 
 signals:
     void renderPosition(int);

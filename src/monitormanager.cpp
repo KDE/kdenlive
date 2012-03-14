@@ -113,13 +113,12 @@ void MonitorManager::slotSwitchMonitors(bool activateClip)
 void MonitorManager::stopActiveMonitor()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->pause();
-    else m_projectMonitor->pause();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->pause();
 }
 
 void MonitorManager::slotPlay()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotPlay();
-    else m_projectMonitor->slotPlay();
+    if (m_activeMonitor) m_activeMonitor->slotPlay();
 }
 
 void MonitorManager::slotPause()
@@ -130,7 +129,7 @@ void MonitorManager::slotPause()
 void MonitorManager::slotPlayZone()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotPlayZone();
-    else m_projectMonitor->slotPlayZone();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotPlayZone();
 }
 
 void MonitorManager::slotLoopZone()
@@ -142,49 +141,49 @@ void MonitorManager::slotLoopZone()
 void MonitorManager::slotRewind(double speed)
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotRewind(speed);
-    else m_projectMonitor->slotRewind(speed);
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotRewind(speed);
 }
 
 void MonitorManager::slotForward(double speed)
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotForward(speed);
-    else m_projectMonitor->slotForward(speed);
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotForward(speed);
 }
 
 void MonitorManager::slotRewindOneFrame()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotRewindOneFrame();
-    else m_projectMonitor->slotRewindOneFrame();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotRewindOneFrame();
 }
 
 void MonitorManager::slotForwardOneFrame()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotForwardOneFrame();
-    else m_projectMonitor->slotForwardOneFrame();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotForwardOneFrame();
 }
 
 void MonitorManager::slotRewindOneSecond()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotRewindOneFrame(m_timecode.fps());
-    else m_projectMonitor->slotRewindOneFrame(m_timecode.fps());
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotRewindOneFrame(m_timecode.fps());
 }
 
 void MonitorManager::slotForwardOneSecond()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotForwardOneFrame(m_timecode.fps());
-    else m_projectMonitor->slotForwardOneFrame(m_timecode.fps());
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotForwardOneFrame(m_timecode.fps());
 }
 
 void MonitorManager::slotStart()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotStart();
-    else m_projectMonitor->slotStart();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotStart();
 }
 
 void MonitorManager::slotEnd()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotEnd();
-    else m_projectMonitor->slotEnd();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotEnd();
 }
 
 void MonitorManager::resetProfiles(Timecode tc)
@@ -245,6 +244,11 @@ AbstractRender *MonitorManager::activeRenderer()
         return m_activeMonitor->abstractRender();
     }
     return NULL;
+}
+
+void MonitorManager::slotSwitchFullscreen()
+{
+    if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
 }
 
 #include "monitormanager.moc"

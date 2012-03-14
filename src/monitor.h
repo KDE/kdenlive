@@ -48,23 +48,6 @@ class MonitorEditWidget;
 class Monitor;
 class MonitorManager;
 
-class VideoContainer : public QFrame
-{
-    Q_OBJECT
-public:
-    VideoContainer(Monitor *parent = 0);
-    void switchFullScreen();
-
-protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *event);
-    virtual void wheelEvent(QWheelEvent * event);
-
-private:
-    Qt::WindowFlags m_baseFlags;
-    Monitor *m_monitor;
-};
 
 class MonitorRefresh : public QWidget
 {
@@ -107,8 +90,8 @@ public:
     AbstractRender *abstractRender();
     void resetProfile(const QString &profile);
     void resetSize();
-    bool isActive() const;
     void pause();
+    void unpause();
     void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
     const QString sceneList();
     DocClipBase *activeClip();
@@ -143,7 +126,6 @@ protected:
 
 private:
     Kdenlive::MONITORID m_name;
-    MonitorManager *m_monitorManager;
     DocClipBase *m_currentClip;
     SmallRuler *m_ruler;
     Overlay *m_overlay;
@@ -209,7 +191,6 @@ public slots:
     void slotSeek(int pos);
     void stop();
     void start();
-    bool activateMonitor();
     void slotPlay();
     void slotPlayZone();
     void slotLoopZone();
