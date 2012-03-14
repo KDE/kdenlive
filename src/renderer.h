@@ -170,8 +170,6 @@ Q_OBJECT public:
     /** @brief Returns the aspect ratio of the consumer. */
     double consumerRatio() const;
 
-    void doRefresh();
-
     /** @brief Saves current producer frame as an image. */
     void exportCurrentFrame(KUrl url, bool notify);
 
@@ -431,6 +429,8 @@ public slots:
     void slotSwitchFullscreen();
     void slotSetVolume(int volume);
     void seekToFrame(int pos);
+    /** @brief Starts a timer to query for a refresh. */
+    void doRefresh();
 };
 
 #endif

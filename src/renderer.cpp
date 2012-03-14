@@ -125,7 +125,7 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);
     m_refreshTimer.setSingleShot(true);
-    m_refreshTimer.setInterval(50);
+    m_refreshTimer.setInterval(70);
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 }
 

@@ -61,9 +61,9 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     QVBoxLayout *l = new QVBoxLayout;
     l->setContentsMargins(0, 0, 0, 0);
     l->setSpacing(0);
-    m_videoBox = new VideoContainer(this);
-    l->addWidget(m_videoBox, 10);
+    l->addWidget(videoBox, 10);
     video_frame->setLayout(l);
+    createVideoSurface();
 
     QToolBar *toolbar = new QToolBar(this);
     QHBoxLayout *layout = new QHBoxLayout;
@@ -142,7 +142,7 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     QString videoDriver = KdenliveSettings::videodrivername();
 #if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("SDL_WINDOWID", QString::number(m_videoBox->winId()));
+    env.insert("SDL_WINDOWID", QString::number(videoSurface->winId()));
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
             env.insert("SDL_VIDEO_YUV_HWACCEL", "0");
@@ -152,7 +152,7 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     m_displayProcess->setProcessEnvironment(env);
 #else
     QStringList env = QProcess::systemEnvironment();
-    env << "SDL_WINDOWID=" + QString::number(m_videoBox->winId());
+    env << "SDL_WINDOWID=" + QString::number(videoSurface->winId());
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
             env << "SDL_VIDEO_YUV_HWACCEL=0";
@@ -163,7 +163,7 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
 #endif
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
-    kDebug() << "/////// BUILDING MONITOR, ID: " << m_videoBox->winId();
+    kDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
     slotVideoDeviceChanged(device_selector->currentIndex());
     m_previewSettings->setChecked(KdenliveSettings::enable_recording_preview());
     connect(m_previewSettings, SIGNAL(triggered(bool)), this, SLOT(slotChangeRecordingPreview(bool)));
@@ -179,15 +179,15 @@ RecMonitor::~RecMonitor()
 
 void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    if (!KdenliveSettings::openglmonitors() && m_videoBox && m_videoBox->isVisible()) {
-        m_videoBox->switchFullScreen();
+    if (!KdenliveSettings::openglmonitors() && videoBox && videoBox->isVisible()) {
+        videoBox->switchFullScreen();
         event->accept();
     }
 }
 
 void RecMonitor::slotSwitchFullScreen()
 {
-    m_videoBox->switchFullScreen();
+    videoBox->switchFullScreen();
 }
 
 void RecMonitor::stop()
@@ -241,8 +241,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     }
 
     // The m_videoBox container has to be shown once before the MLT consumer is build, or preview will fail
-    m_videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
-    m_videoBox->setHidden(true);
+    videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    videoBox->setHidden(true);
     switch (ix) {
     case SCREENGRAB:
         m_discAction->setEnabled(false);
@@ -384,7 +384,7 @@ void RecMonitor::slotStopCapture()
 {
     // stop capture
     if (!m_isCapturing && !m_isPlaying) return;
-    m_videoBox->setHidden(true);
+    videoBox->setHidden(true);
     rec_audio->setEnabled(true);
     rec_video->setEnabled(true);
     switch (device_selector->currentIndex()) {
@@ -440,6 +440,7 @@ void RecMonitor::slotStartPreview(bool play)
         }
         return;
     }
+    slotActivateMonitor();
     if (m_isPlaying) return;
     m_captureArgs.clear();
     m_displayArgs.clear();
@@ -450,7 +451,7 @@ void RecMonitor::slotStartPreview(bool play)
     QString producer;
     QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(" ", QString::SkipEmptyParts);
     int ix = device_selector->currentIndex();
-    m_videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
     switch (ix) {
     case FIREWIRE:
         switch (KdenliveSettings::firewireformat()) {
@@ -496,7 +497,6 @@ void RecMonitor::slotStartPreview(bool play)
         break;
     case VIDEO4LINUX:
         path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
-        slotActivateMonitor();
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
         producer = getV4lXmlPlaylist(profile);
@@ -505,7 +505,7 @@ void RecMonitor::slotStartPreview(bool play)
         if (!m_captureDevice->slotStartPreview(producer, true)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
-            m_videoBox->setHidden(true);
+            videoBox->setHidden(true);
 
         } else {
             m_playAction->setEnabled(false);
@@ -522,7 +522,7 @@ void RecMonitor::slotStartPreview(bool play)
         if (!m_captureDevice->slotStartPreview(producer)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
-            m_videoBox->setHidden(true);
+            videoBox->setHidden(true);
 
         } else {
             m_playAction->setEnabled(false);
@@ -642,7 +642,7 @@ void RecMonitor::slotRecord()
             if (!rec_video->isChecked()) showPreview = false;
 
             if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, showPreview)) {
-                m_videoBox->setHidden(false);
+                videoBox->setHidden(false);
                 m_isCapturing = true;
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
@@ -650,7 +650,7 @@ void RecMonitor::slotRecord()
             }
             else {
                 video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
-                m_videoBox->setHidden(true);
+                videoBox->setHidden(true);
                 m_isCapturing = false;
             }
             break;
@@ -665,7 +665,7 @@ void RecMonitor::slotRecord()
             playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
 
             if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), m_previewSettings->isChecked(), false)) {
-                m_videoBox->setHidden(false);
+                videoBox->setHidden(false);
                 m_isCapturing = true;
                 slotSetInfoMessage(i18n("Capturing to %1", m_captureFile.fileName()));
                 m_recAction->setEnabled(false);
@@ -675,7 +675,7 @@ void RecMonitor::slotRecord()
             else {
                 video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
                 slotSetInfoMessage(i18n("Failed to start capture"));
-                m_videoBox->setHidden(true);
+                videoBox->setHidden(true);
                 m_isCapturing = false;
             }
             break;
@@ -918,8 +918,8 @@ void RecMonitor::refreshRecMonitor(bool visible)
 
 void RecMonitor::slotPlay()
 {
-    if (m_isPlaying) slotStopCapture();
-    else slotStartPreview(true);
+    /*if (m_isPlaying) slotStopCapture();
+    else slotStartPreview(true);*/
 }
 
 void RecMonitor::slotReadDvgrabInfo()
@@ -951,7 +951,7 @@ void RecMonitor::buildMltDevice(const QString &path)
 {
     if (m_captureDevice == NULL) {
 	m_monitorManager->updateScopeSource();
-        m_captureDevice = new MltDeviceCapture(path, m_videoBox, this);
+        m_captureDevice = new MltDeviceCapture(path, videoSurface, this);
         connect(m_captureDevice, SIGNAL(droppedFrames(int)), this, SLOT(slotDroppedFrames(int)));
         m_captureDevice->sendFrameForAnalysis = m_analyse;
         m_monitorManager->updateScopeSource();
@@ -963,22 +963,6 @@ void RecMonitor::slotChangeRecordingPreview(bool enable)
     KdenliveSettings::setEnable_recording_preview(enable);
 }
 
-void RecMonitor::pause()
-{
-    if (m_isCapturing) return;
-    slotStopCapture();
-    if (m_captureDevice) {
-	m_monitorManager->clearScopeSource();
-	delete m_captureDevice;
-	m_captureDevice = NULL;
-    }
-}
-
-void RecMonitor::unpause()
-{
-    if (m_isCapturing) return;
-    slotStartPreview(true);
-}
 
 void RecMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 {

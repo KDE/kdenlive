@@ -49,26 +49,12 @@ class Monitor;
 class MonitorManager;
 
 
-class MonitorRefresh : public QWidget
-{
-    Q_OBJECT
-public:
-    MonitorRefresh(QWidget *parent = 0);
-    void setRenderer(Render* render);
-
-private:
-    Render *m_renderer;
-};
-
 class Overlay : public QLabel
 {
     Q_OBJECT
 public:
     Overlay(QWidget* parent = 0);
     void setOverlayText(const QString &, bool isZone = true);
-
-private:
-    bool m_isZone;
 
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
@@ -132,7 +118,6 @@ private:
     double m_scale;
     int m_length;
     bool m_dragStarted;
-    MonitorRefresh *m_monitorRefresh;
     KIcon m_playIcon;
     KIcon m_pauseIcon;
     TimecodeDisplay *m_timePos;

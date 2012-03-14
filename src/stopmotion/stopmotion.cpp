@@ -133,14 +133,6 @@ void StopmotionMonitor::start()
 {
 }
 
-void StopmotionMonitor::pause()
-{
-}
-
-void StopmotionMonitor::unpause()
-{
-}
-
 void StopmotionMonitor::slotPlay()
 {
 }
@@ -266,9 +258,8 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    m_videoBox = new VideoContainer(m_monitor);
-    m_videoBox->setLineWidth(4);
-    layout->addWidget(m_videoBox);
+    m_monitor->videoBox->setLineWidth(4);
+    layout->addWidget(m_monitor->videoBox);
 
 #ifdef USE_BLACKMAGIC
     if (BMInterface::getBlackMagicDeviceList(capture_device)) {
@@ -319,7 +310,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
         profilePath = KdenliveSettings::current_profile();
     }
 
-    m_captureDevice = new MltDeviceCapture(profilePath, m_videoBox, this);
+    m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
     m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
     m_monitor->setRender(m_captureDevice);
     connect(m_captureDevice, SIGNAL(frameSaved(const QString &)), this, SLOT(slotNewThumb(const QString &)));
@@ -479,7 +470,7 @@ void StopmotionWidget::slotLive(bool isOn)
     capture_button->setEnabled(false);
     if (isOn) {
         m_frame_preview->setHidden(true);
-        m_videoBox->setHidden(false);
+        m_monitor->videoBox->setHidden(false);
         QLocale locale;
 
         MltVideoProfile profile;
@@ -504,7 +495,7 @@ void StopmotionWidget::slotLive(bool isOn)
         }
 
         if (m_captureDevice == NULL) {
-            m_captureDevice = new MltDeviceCapture(profilePath, m_videoBox, this);
+            m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
             m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
             m_monitor->setRender(m_captureDevice);
             connect(m_captureDevice, SIGNAL(frameSaved(const QString &)), this, SLOT(slotNewThumb(const QString &)));
@@ -533,7 +524,7 @@ void StopmotionWidget::slotLive(bool isOn)
         live_button->setChecked(false);
         if (m_captureDevice) {
             m_captureDevice->stop();
-            m_videoBox->setHidden(true);
+            m_monitor->videoBox->setHidden(true);
             log_box->insertItem(-1, i18n("Stopped"));
             log_box->setCurrentIndex(0);
             //delete m_captureDevice;

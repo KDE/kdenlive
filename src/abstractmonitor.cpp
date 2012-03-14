@@ -26,13 +26,33 @@
 
 #include <QPaintEvent>
 #include <QDesktopWidget>
+#include <QVBoxLayout>
 
 
 AbstractMonitor::AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager, QWidget *parent): 
     QWidget(parent),
     m_id(id),
+    videoSurface(NULL),
     m_monitorManager(manager)
-{}
+{
+    videoBox = new VideoContainer(this);
+}
+
+
+AbstractMonitor::~AbstractMonitor()
+{
+    if (videoSurface)
+	delete videoSurface;
+}
+
+void AbstractMonitor::createVideoSurface()
+{
+    QVBoxLayout *lay = new QVBoxLayout;
+    lay->setContentsMargins(0, 0, 0, 0);
+    videoSurface = new VideoSurface;
+    lay->addWidget(videoSurface);
+    videoBox->setLayout(lay);
+}
 
 bool AbstractMonitor::isActive() const
 {
@@ -50,8 +70,6 @@ VideoContainer::VideoContainer(AbstractMonitor* monitor, QWidget *parent) :
 {
     setFrameShape(QFrame::NoFrame);
     setFocusPolicy(Qt::ClickFocus);
-    setAttribute(Qt::WA_PaintOnScreen);
-    setAttribute(Qt::WA_OpaquePaintEvent);
     //setEnabled(false);
     setContentsMargins(0, 0, 0, 0);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -94,7 +112,6 @@ void VideoContainer::mouseDoubleClickEvent(QMouseEvent * event)
 void VideoContainer::switchFullScreen()
 {
     // TODO: disable screensaver?
-    m_monitor->pause();
     Qt::WindowFlags flags = windowFlags();
     if (!isFullScreen()) {
         // Check if we ahave a multiple monitor setup
@@ -142,5 +159,24 @@ void VideoContainer::switchFullScreen()
         setEnabled(false);
         show();
     }
-    m_monitor->unpause();
 }
+
+VideoSurface::VideoSurface(QWidget* parent) :
+    QWidget(parent)
+{
+    // MonitorRefresh is used as container for the SDL display (it's window id is passed to SDL)
+    setAttribute(Qt::WA_PaintOnScreen);
+    setAttribute(Qt::WA_OpaquePaintEvent);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    setAttribute(Qt::WA_NoSystemBackground);
+    setUpdatesEnabled(false);
+}
+
+void VideoSurface::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    //WARNING: This might trigger unnecessary refreshes from MLT's producer, but without this,
+    // as soon as monitor is covered by a popup menu or another window, image is corrupted.
+    emit refreshMonitor();
+}
+

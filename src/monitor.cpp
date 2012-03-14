@@ -52,7 +52,6 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     m_scale(1),
     m_length(0),
     m_dragStarted(false),
-    m_monitorRefresh(NULL),
     m_contextMenu(NULL),
     m_effectWidget(NULL),
     m_selectedClip(NULL),
@@ -64,8 +63,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     layout->setSpacing(0);
 
     // Video widget holder
-    m_videoBox = new VideoContainer(this);
-    layout->addWidget(m_videoBox, 10);
+    layout->addWidget(videoBox, 10);
     layout->addStretch();
 
     // Get base size for icons
@@ -149,27 +147,25 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 
     bool monitorCreated = false;
 #ifdef Q_WS_MAC
-    createOpenGlWidget(m_videoBox, profile);
+    createOpenGlWidget(videoBox, profile);
     monitorCreated = true;
     //m_glWidget->setFixedSize(width, height);
 #elif defined(USE_OPENGL)
     if (KdenliveSettings::openglmonitors()) {
-        monitorCreated = createOpenGlWidget(m_videoBox, profile);
+        monitorCreated = createOpenGlWidget(videoBox, profile);
     }
 #endif
-    QVBoxLayout *lay = new QVBoxLayout;
-    lay->setContentsMargins(0, 0, 0, 0);
     if (!monitorCreated) {
-        m_monitorRefresh = new MonitorRefresh;
-        lay->addWidget(m_monitorRefresh);
-        m_videoBox->setLayout(lay);
-        render = new Render(m_id, (int) m_monitorRefresh->winId(), profile, this);
-        m_monitorRefresh->setRenderer(render);
+	createVideoSurface();
+        render = new Render(m_id, (int) videoSurface->winId(), profile, this);
+	connect(videoSurface, SIGNAL(refreshMonitor()), render, SLOT(doRefresh()));
     }
 #ifdef USE_OPENGL
     else if (m_glWidget) {
+	QVBoxLayout *lay = new QVBoxLayout;
+	lay->setContentsMargins(0, 0, 0, 0);
         lay->addWidget(m_glWidget);
-        m_videoBox->setLayout(lay);
+        videoBox->setLayout(lay);
     }
 #endif
 
@@ -187,12 +183,12 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SLOT(setClipZone(QPoint)));
     }
 
-    if (m_monitorRefresh) m_monitorRefresh->show();
+    if (videoSurface) videoSurface->show();
 
     if (id == Kdenlive::projectMonitor) {
-        m_effectWidget = new MonitorEditWidget(render, m_videoBox);
+        m_effectWidget = new MonitorEditWidget(render, videoBox);
         m_toolbar->addAction(m_effectWidget->getVisibilityAction());
-        lay->addWidget(m_effectWidget);
+        videoBox->layout()->addWidget(m_effectWidget);
         m_effectWidget->hide();
     }
 
@@ -213,13 +209,12 @@ Monitor::~Monitor()
     delete m_overlay;
     if (m_effectWidget)
         delete m_effectWidget;
-    delete m_monitorRefresh;
     delete render;
 }
 
 QWidget *Monitor::container()
 {
-    return m_videoBox;
+    return videoBox;
 }
 
 #ifdef USE_OPENGL
@@ -315,7 +310,7 @@ void Monitor::slotSetSizeOneToOne()
         height = height * 0.8;
     }
     kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
-    m_videoBox->setFixedSize(width, height);
+    videoBox->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
     //m_ui.video_frame->setMinimumSize(0, 0);
@@ -335,7 +330,7 @@ void Monitor::slotSetSizeOneToTwo()
         height = height * 0.8;
     }
     kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
-    m_videoBox->setFixedSize(width, height);
+    videoBox->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
     //m_ui.video_frame->setMinimumSize(0, 0);
@@ -344,7 +339,7 @@ void Monitor::slotSetSizeOneToTwo()
 
 void Monitor::resetSize()
 {
-    m_videoBox->setMinimumSize(0, 0);
+    videoBox->setMinimumSize(0, 0);
 }
 
 DocClipBase *Monitor::activeClip()
@@ -441,7 +436,7 @@ void Monitor::slotSetZoneEnd()
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (event->button() != Qt::RightButton) {
-        if (m_videoBox->geometry().contains(event->pos()) && (!m_overlay || !m_overlay->underMouse())) {
+        if (videoBox->geometry().contains(event->pos()) && (!m_overlay || !m_overlay->underMouse())) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
@@ -456,17 +451,16 @@ void Monitor::resizeEvent(QResizeEvent *event)
     if (render && isVisible() && isActive()) render->doRefresh();
 }
 
-
 void Monitor::slotSwitchFullScreen()
 {
-    m_videoBox->switchFullScreen();
+    videoBox->switchFullScreen();
 }
 
 // virtual
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_dragStarted && event->button() != Qt::RightButton) {
-        if (m_videoBox->geometry().contains(event->pos()) && (!m_effectWidget || !m_effectWidget->isVisible())) {
+        if (videoBox->geometry().contains(event->pos()) && (!m_effectWidget || !m_effectWidget->isVisible())) {
             if (isActive()) slotPlay();
             else slotActivateMonitor();
         } //else event->ignore(); //QWidget::mouseReleaseEvent(event);
@@ -541,7 +535,7 @@ void Monitor::wheelEvent(QWheelEvent * event)
 void Monitor::mouseDoubleClickEvent(QMouseEvent * event)
 {
     if (!KdenliveSettings::openglmonitors()) {
-        m_videoBox->switchFullScreen();
+        videoBox->switchFullScreen();
         event->accept();
     }
 }
@@ -616,21 +610,24 @@ void Monitor::slotSeek(int pos)
 void Monitor::checkOverlay()
 {
     if (m_overlay == NULL) return;
+    QString overlayText;
     int pos = m_ruler->position();
     QPoint zone = m_ruler->zone();
     if (pos == zone.x())
-        m_overlay->setOverlayText(i18n("In Point"));
+        overlayText = i18n("In Point");
     else if (pos == zone.y())
-        m_overlay->setOverlayText(i18n("Out Point"));
+        overlayText = i18n("Out Point");
     else {
         if (m_currentClip) {
-            QString markerComment = m_currentClip->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
-            if (markerComment.isEmpty())
-                m_overlay->setHidden(true);
-            else
-                m_overlay->setOverlayText(markerComment, false);
-        } else m_overlay->setHidden(true);
+            overlayText = m_currentClip->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
+	    if (!overlayText.isEmpty()) {
+		m_overlay->setOverlayText(overlayText, false);
+		return;
+	    }
+	}
     }
+    if (m_overlay->isVisible() && overlayText.isEmpty()) m_overlay->setOverlayText(QString(), false);
+    else m_overlay->setOverlayText(overlayText);
 }
 
 void Monitor::slotStart()
@@ -734,8 +731,8 @@ void Monitor::stop()
 
 void Monitor::start()
 {
-    if (!isVisible()) return;
-    if (render) render->start();
+    if (!isVisible() || !isActive()) return;
+    if (render) render->doRefresh();// start();
 }
 
 void Monitor::refreshMonitor(bool visible)
@@ -913,7 +910,7 @@ void Monitor::slotSwitchMonitorInfo(bool show)
     KdenliveSettings::setDisplayMonitorInfo(show);
     if (show) {
         if (m_overlay) return;
-        if (m_monitorRefresh == NULL) {
+        if (videoSurface == NULL) {
             // Using OpenGL display
 #ifdef USE_OPENGL
             if (m_glWidget->layout()) delete m_glWidget->layout();
@@ -925,13 +922,13 @@ void Monitor::slotSwitchMonitorInfo(bool show)
             m_glWidget->setLayout(layout);
 #endif
         } else {
-            if (m_monitorRefresh->layout()) delete m_monitorRefresh->layout();
+            if (videoSurface->layout()) delete videoSurface->layout();
             m_overlay = new Overlay();
             connect(m_overlay, SIGNAL(editMarker()), this, SLOT(slotEditMarker()));
             QVBoxLayout *layout = new QVBoxLayout;
             layout->addStretch(10);
             layout->addWidget(m_overlay);
-            m_monitorRefresh->setLayout(layout);
+            videoSurface->setLayout(layout);
             m_overlay->raise();
             m_overlay->setHidden(true);
         }
@@ -992,8 +989,8 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotEffectScene(bool show)
 {
     if (m_id == Kdenlive::projectMonitor) {
-        if (m_monitorRefresh) {
-            m_monitorRefresh->setVisible(!show);
+        if (videoSurface) {
+            videoSurface->setVisible(!show);
         } else {
 #ifdef USE_OPENGL
             m_glWidget->setVisible(!show);
@@ -1005,7 +1002,7 @@ void Monitor::slotEffectScene(bool show)
         if (show) {
             m_effectWidget->getScene()->slotZoomFit();
         }
-        m_videoBox->setEnabled(show);
+        videoBox->setEnabled(show);
         render->doRefresh();
     }
 }
@@ -1054,22 +1051,6 @@ void Monitor::reloadProducer(const QString &id)
         slotSetClipProducer(m_currentClip, m_currentClip->zone(), true);
 }
 
-MonitorRefresh::MonitorRefresh(QWidget* parent) :
-    QWidget(parent)
-    , m_renderer(NULL)
-{
-    // MonitorRefresh is used as container for the SDL display (it's window id is passed to SDL)
-    setAttribute(Qt::WA_PaintOnScreen);
-    setAttribute(Qt::WA_OpaquePaintEvent);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    //setAttribute(Qt::WA_NoSystemBackground);
-}
-
-void MonitorRefresh::setRenderer(Render* render)
-{
-    m_renderer = render;
-}
-
 
 Overlay::Overlay(QWidget* parent) :
     QLabel(parent)
@@ -1102,16 +1083,23 @@ void Overlay::mouseDoubleClickEvent ( QMouseEvent * event )
 
 void Overlay::setOverlayText(const QString &text, bool isZone)
 {
+    if (text.isEmpty()) {
+	QPalette p;
+	p.setColor(QPalette::Base, KdenliveSettings::window_background());
+	setPalette(p);
+	setText(QString());
+	repaint();
+	setHidden(true);
+	return;
+    }
     setHidden(true);
-    m_isZone = isZone;
     QPalette p;
     p.setColor(QPalette::Text, Qt::white);
-    if (m_isZone) p.setColor(QPalette::Base, QColor(200, 0, 0));
+    if (isZone) p.setColor(QPalette::Base, QColor(200, 0, 0));
     else p.setColor(QPalette::Base, QColor(0, 0, 200));
     setPalette(p);
     setText(' ' + text + ' ');
     setHidden(false);
-    update();
 }
 
 

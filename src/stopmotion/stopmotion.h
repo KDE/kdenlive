@@ -67,8 +67,6 @@ public:
     AbstractRender *abstractRender();
     Kdenlive::MONITORID id() const;
     void setRender(MltDeviceCapture *render);
-    void pause();
-    void unpause();
 
 private:
     MltDeviceCapture *m_captureDevice;

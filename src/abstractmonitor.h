@@ -33,7 +33,7 @@
 #include <stdint.h>
 
 class MonitorManager;
-
+class VideoContainer;
 
 class AbstractRender: public QObject
 {
@@ -70,17 +70,35 @@ signals:
     void audioSamplesSignal(QVector<int16_t>,int,int,int);
 };
 
+
+
+class VideoSurface : public QWidget
+{
+    Q_OBJECT
+public:
+    VideoSurface(QWidget *parent = 0);
+    
+signals:
+    void refreshMonitor();
+
+protected:
+    virtual void paintEvent ( QPaintEvent * event );
+};
+
+
 class AbstractMonitor : public QWidget
 {
     Q_OBJECT
 public:
     AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager, QWidget *parent = 0);
     Kdenlive::MONITORID id() {return m_id;};
-    virtual ~AbstractMonitor() {};
+    virtual ~AbstractMonitor();
     virtual AbstractRender *abstractRender() = 0;
-    virtual void pause() = 0;
-    virtual void unpause() = 0;
     bool isActive() const;
+    VideoContainer *videoBox;
+    VideoSurface *videoSurface;
+    void createVideoSurface();
+    
     
 public slots:
     virtual void stop() = 0;
@@ -112,6 +130,5 @@ private:
     Qt::WindowFlags m_baseFlags;
     AbstractMonitor *m_monitor;
 };
-
 
 #endif

@@ -57,8 +57,6 @@ public:
 
     AbstractRender *abstractRender();
     void analyseFrames(bool analyse);
-    void pause();
-    void unpause();
     enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2, BLACKMAGIC = 3};
 
 protected:
