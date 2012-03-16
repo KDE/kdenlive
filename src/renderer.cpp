@@ -4213,5 +4213,42 @@ const QString Render::activeClipId()
     return QString();
 }
 
+//static 
+bool Render::getBlackMagicDeviceList(KComboBox *devicelist)
+{
+    Mlt::Profile profile;
+    Mlt::Producer bm(profile, "decklink");
+    int found_devices = 0;
+    if (bm.is_valid()) found_devices = bm.get_int("devices");
+    if (found_devices <= 0) {
+	devicelist->setEnabled(false);
+	return false;
+    }
+    for (int i = 0; i < found_devices; i++) {
+	char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
+	devicelist->addItem(bm.get(tmp));
+	delete[] tmp;
+    }
+    return true;
+}
+
+bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist)
+{
+    Mlt::Profile profile;
+    Mlt::Consumer bm(profile, "decklink");
+    int found_devices = 0;
+    if (bm.is_valid()) found_devices = bm.get_int("devices");
+    if (found_devices <= 0) {
+	devicelist->setEnabled(false);
+	return false;
+    }
+    for (int i = 0; i < found_devices; i++) {
+	char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
+	devicelist->addItem(bm.get(tmp));
+	delete[] tmp;
+    }
+    return true;
+}
+
 #include "renderer.moc"
 

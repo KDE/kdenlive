@@ -31,8 +31,8 @@
 
 AbstractMonitor::AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager, QWidget *parent): 
     QWidget(parent),
-    m_id(id),
     videoSurface(NULL),
+    m_id(id),
     m_monitorManager(manager)
 {
     videoBox = new VideoContainer(this);

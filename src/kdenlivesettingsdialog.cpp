@@ -22,11 +22,9 @@
 #ifdef USE_V4L
 #include "v4l/v4lcapture.h"
 #endif
-#ifdef USE_BLACKMAGIC
-#include "blackmagic/devices.h"
-#endif
 #include "encodingprofilesdialog.h"
 #include "kdenlivesettings.h"
+#include "renderer.h"
 
 #include <KStandardDirs>
 #include <KDebug>
@@ -268,18 +266,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     slotUpdateV4lProfile(-1);
     slotUpdateDecklinkProfile(-1);
 
-#ifdef USE_BLACKMAGIC
-    BMInterface::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
-    if (m_configCapture.kcfg_decklink_capturedevice->count() > 0) {
-        QStringList modes = m_configCapture.kcfg_decklink_capturedevice->itemData(m_configCapture.kcfg_decklink_capturedevice->currentIndex()).toStringList();
-        m_configCapture.kcfg_decklink_capturedevice->setToolTip(i18n("Supported capture modes:\n") + modes.join("\n"));
+    Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
+    if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
+        // No blackmagic card found
+	m_configSdl.kcfg_external_display->setEnabled(false);
     }
-    connect(m_configCapture.kcfg_decklink_capturedevice, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateHDMIModes()));
-
-    if (BMInterface::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
-        // Found blackmagic card
-    } else m_configSdl.kcfg_external_display->setEnabled(false);
-#endif
 
     double dvgrabVersion = 0;
     if (!KdenliveSettings::dvgrab_path().isEmpty()) {
@@ -312,12 +303,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 }
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
-
-void KdenliveSettingsDialog::slotUpdateHDMIModes()
-{
-    QStringList modes = m_configCapture.kcfg_decklink_capturedevice->itemData(m_configCapture.kcfg_decklink_capturedevice->currentIndex()).toStringList();
-    m_configCapture.kcfg_decklink_capturedevice->setToolTip(i18n("Supported capture modes:\n") + modes.join("\n"));
-}
 
 void KdenliveSettingsDialog::slotUpdateRmdRegionStatus()
 {

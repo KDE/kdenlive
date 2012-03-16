@@ -48,6 +48,8 @@
 class QTimer;
 class QPixmap;
 
+class KComboBox;
+
 namespace Mlt
 {
 class Consumer;
@@ -297,6 +299,9 @@ Q_OBJECT public:
     /** @brief Unlock the MLT service */
     void unlockService(Mlt::Tractor *tractor);
     const QString activeClipId();
+    /** @brief Fill a combobox with the found blackmagic devices */
+    static bool getBlackMagicDeviceList(KComboBox *devicelist);
+    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist);
 
 private:
 
