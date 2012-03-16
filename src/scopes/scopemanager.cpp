@@ -178,7 +178,7 @@ void ScopeManager::slotRequestFrame(const QString widgetName)
             break;
         }
     }
-    m_lastConnectedRenderer->sendFrameUpdate();
+    if (m_lastConnectedRenderer) m_lastConnectedRenderer->sendFrameUpdate();
 }
 
 
