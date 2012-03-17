@@ -1831,11 +1831,7 @@ void ProjectList::slotAddSlideshowClip()
         
         QMap <QString, QString> properties;
         properties.insert("name", dia->clipName());
-        int begin = dia->begin();
-        if (begin > 0) 
-            properties.insert("resource", dia->selectedPath() + "?" + QString::number(begin));
-        else
-            properties.insert("resource", dia->selectedPath());
+        properties.insert("resource", dia->selectedPath());
         properties.insert("in", "0");
         properties.insert("out", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
         properties.insert("ttl", QString::number(m_doc->getFramePos(dia->clipDuration())));
@@ -1846,7 +1842,6 @@ void ProjectList::slotAddSlideshowClip()
         properties.insert("luma_file", dia->lumaFile());
         properties.insert("softness", QString::number(dia->softness()));
         properties.insert("animation", dia->animation());
-        properties.insert("begin", QString::number(dia->begin()));
         
         m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
     }
