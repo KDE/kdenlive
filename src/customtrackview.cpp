@@ -6086,6 +6086,12 @@ void CustomTrackView::alignAudio()
 #endif
                 }
 
+                if (itemCollision(clip, end)) {
+                    delete moveCommand;
+                    emit displayMessage(i18n("Unable to move clip due to collision."), ErrorMessage);
+                    return;
+                }
+
                 moveCommand->setText(i18n("Auto-align clip"));
                 new MoveClipCommand(this, start, end, true, moveCommand);
                 updateTrackDuration(clip->track(), moveCommand);
