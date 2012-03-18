@@ -6059,7 +6059,7 @@ void CustomTrackView::alignAudio()
                 ItemInfo start = clip->info();
 
                 ItemInfo end = start;
-                end.startPos = m_audioAlignmentReference->info().startPos + add;
+                end.startPos = m_audioAlignmentReference->startPos() + add - m_audioAlignmentReference->cropStart();
                 end.endPos = end.startPos + start.cropDuration;
 
                 if ( end.startPos.seconds() < 0 ) {
