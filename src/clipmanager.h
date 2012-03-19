@@ -72,22 +72,19 @@ Q_OBJECT public:
      * @param url file to add
      * @param group name of the group to insert the file in (can be empty)
      * @param groupId id of the group (if any) */
-    void slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId);
+    void slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment = QString());
 
     /** @brief Adds a list of files to the project.
      * @param urls files to add
      * @param group name of the group to insert the files in (can be empty)
      * @param groupId id of the group (if any)
      * It checks for duplicated items and asks to the user for instructions. */
-    void slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId);
+    void slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId, const QString &comment = QString());
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const KUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
     void slotAddColorClipFile(const QString &name, const QString &color, QString duration, const QString &group, const QString &groupId);
-    void slotAddSlideshowClipFile(const QString &name, const QString &path, int count, const QString &duration,
-                                  const bool loop, const bool crop,const bool fade,
-                                  const QString &luma_duration, const QString &luma_file, const int softness,
-                                  const QString &animation, const QString &group, const QString &groupId);
+    void slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId);
     DocClipBase *getClipById(QString clipId);
     const QList <DocClipBase *> getClipByResource(QString resource);
     void slotDeleteClips(QStringList ids);
@@ -98,8 +95,6 @@ Q_OBJECT public:
     int getFreeClipId();
     int getFreeFolderId();
     int lastClipId() const;
-    void startAudioThumbsGeneration();
-    void endAudioThumbsGeneration(const QString &requestedId);
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
     void clearUnusedProducers();
@@ -129,6 +124,7 @@ private slots:
     /** Check the list of externally modified clips, and process them if they were not modified in the last 1500 milliseconds */
     void slotProcessModifiedClips();
     void slotGetThumbs();
+    void slotGetAudioThumbs();
 
 private:   // Private attributes
     /** the list of clips in the document */
@@ -141,7 +137,6 @@ private:   // Private attributes
     KdenliveDoc *m_doc;
     int m_clipIdCounter;
     int m_folderIdCounter;
-    QString m_generatingAudioId;
     KDirWatch m_fileWatcher;
     /** Timer used to reload clips when they have been externally modified */
     QTimer m_modifiedTimer;
@@ -151,10 +146,17 @@ private:   // Private attributes
     QMap <QString, int> m_requestedThumbs;
     QMutex m_thumbsMutex;
     QFuture<void> m_thumbsThread;
+    /** @brief The id of currently processed clip for thumbs creation. */
+    QString m_processingThumbId;
     /** @brief If true, abort processing of clip thumbs before removing a clip. */
     bool m_abortThumb;
     /** @brief We are about to delete the clip producer, stop processing thumbs. */
     bool m_closing;
+    QFuture<void> m_audioThumbsThread;
+    /** @brief If true, abort processing of audio thumbs. */
+    bool m_abortAudioThumb;
+    /** @brief The id of currently processed clip for audio thumbs creation. */
+    QString m_processingAudioThumbId;
 
 signals:
     void reloadClip(const QString &);
@@ -162,6 +164,7 @@ signals:
     void missingClip(const QString &);
     void availableClip(const QString &);
     void checkAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
+    void displayMessage(const QString &, int);
 };
 
 #endif

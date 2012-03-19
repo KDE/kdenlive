@@ -27,7 +27,6 @@
 #include <KMessageBox>
 #include <KApplication>
 #include <KLocale>
-#include <KUrl>
 #include <KStandardDirs>
 
 #include <QFile>
@@ -38,11 +37,12 @@
 
 #include <mlt++/Mlt.h>
 
-#include "locale.h"
+#include <locale>
 
 
-DocumentValidator::DocumentValidator(QDomDocument doc):
+DocumentValidator::DocumentValidator(QDomDocument doc, KUrl documentUrl):
         m_doc(doc),
+        m_url(documentUrl),
         m_modified(false)
 {}
 
@@ -57,15 +57,40 @@ bool DocumentValidator::validate(const double currentVersion)
     // Check if we're validating a Kdenlive project
     if (kdenliveDoc.isNull())
         return false;
+    
+    QString rootDir = mlt.attribute("root");
+    if (rootDir == "$CURRENTPATH") {
+        // The document was extracted from a Kdenlive archived project, fix root directory$
+        QString playlist = m_doc.toString();
+        playlist.replace("$CURRENTPATH", m_url.directory(KUrl::IgnoreTrailingSlash));
+        m_doc.setContent(playlist);
+        mlt = m_doc.firstChildElement("mlt");
+        kdenliveDoc = mlt.firstChildElement("kdenlivedoc");
+    }
 
     // Previous MLT / Kdenlive versions used C locale by default
     QLocale documentLocale = QLocale::c();
     
     if (mlt.hasAttribute("LC_NUMERIC")) {
-        // Set locale for the document
-        // WARNING: what should be done in case the locale does not exist on the system?
-        setlocale(LC_NUMERIC, mlt.attribute("LC_NUMERIC").toUtf8().constData());
+        // Set locale for the document        
+        QString newLocale = setlocale(LC_NUMERIC, mlt.attribute("LC_NUMERIC").toUtf8().constData());
         documentLocale = QLocale(mlt.attribute("LC_NUMERIC"));
+
+        // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
+        // With some locales since C++ and Qt use a different database for locales
+        char *separator = localeconv()->decimal_point;
+        if (separator != documentLocale.decimalPoint()) {
+            if (newLocale.isEmpty()) {
+                // Requested locale not available, ask for install
+                KMessageBox::sorry(kapp->activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
+                
+            }
+            else KMessageBox::sorry(kapp->activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
+            kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
+            // HACK: There is a locale conflict, so set locale to at least have correct decimal point
+            if (strncmp(separator, ".", 1) == 0) documentLocale = QLocale::c();
+            else if (strncmp(separator, ",", 1) == 0) documentLocale = QLocale("fr_FR.UTF-8");
+        }
     }
     
     documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);

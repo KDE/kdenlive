@@ -71,15 +71,17 @@ The rest:
                 - multiple choice
                 - represented by a drop-down menu
                 - additional parameter attribute:
-                    - "paramlist": list of possible values separated by comma (no whitespaces!)
+                    - "paramlist": list of possible values separated by semicolon (no whitespaces!)
                 - addtional tag:
-                    - "paramlistdisplay": (optional) list of names to use for the values
+                    - "paramlistdisplay": (optional) list of names to use for the values separated by comma
             - "position":
                 - time stored as frame number
                 - represented by a slider
             - "color":
-                - color value, similar to representation HTML ("#rrggbb" or "0xrrggbb")
+                - color value, similar to representation HTML ("#rrggbb"/"#aarrggbb" or "0xrrggbbaa")
                 - represented by a button opening the KDE color dialog + a color picker button
+                - additional attributes:
+                    - "alpha": (default = "0") use to enable alpha support
             - "keyframe":
                 - keyframable number
                 - keyframes are opt-in (only one keyframe by default -> should be prefered over "constant" whenever possible)
@@ -112,6 +114,13 @@ The rest:
                 - cubic Bézier spline editor for the frei0r color curves filter (new version, might be reused for other filters)
             - "roto-spline":
                 - GUI for the rotoscoping filter (spline on the monitor)
+            - "keywords":
+                - Text entry with a selection of possible keywords to be inserted in the text.
+                - additional tags:
+                    - "keywords": list of possible keyword values separated by semicolon
+                    - "keywordsdisplay": list of names to use for the values separated by semicolon
+            - "fontfamily":
+                - Font typeface entry
 ==========
 
 ==========

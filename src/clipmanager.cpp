@@ -45,9 +45,9 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     QObject(),
     m_audioThumbsQueue(),
     m_doc(doc),
-    m_generatingAudioId(),
     m_abortThumb(false),
-    m_closing(false)
+    m_closing(false),
+    m_abortAudioThumb(false)
 {
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
@@ -68,15 +68,14 @@ ClipManager::~ClipManager()
 {
     m_closing = true;
     m_abortThumb = true;
+    m_abortAudioThumb = true;
     m_thumbsThread.waitForFinished();
+    m_audioThumbsThread.waitForFinished();
     m_thumbsMutex.lock();
     m_requestedThumbs.clear();
-    m_thumbsMutex.unlock();
     m_audioThumbsQueue.clear();
-    m_generatingAudioId.clear();
-    m_thumbsMutex.lock();
-    m_requestedThumbs.clear();
     m_thumbsMutex.unlock();
+
     qDeleteAll(m_clipList);
     m_clipList.clear();
 #if KDE_IS_VERSION(4,5,0)
@@ -87,13 +86,16 @@ ClipManager::~ClipManager()
 void ClipManager::clear()
 {
     m_abortThumb = true;
+    m_abortAudioThumb = true;
     m_thumbsThread.waitForFinished();
+    m_audioThumbsThread.waitForFinished();
     m_thumbsMutex.lock();
     m_requestedThumbs.clear();
+    m_audioThumbsQueue.clear();
     m_thumbsMutex.unlock();
     m_abortThumb = false;
+    m_abortAudioThumb = false;
     m_folderList.clear();
-    m_audioThumbsQueue.clear();
     m_modifiedClips.clear();
     qDeleteAll(m_clipList);
     m_clipList.clear();
@@ -125,94 +127,209 @@ void ClipManager::requestThumbs(const QString id, QList <int> frames)
 
 void ClipManager::stopThumbs(const QString &id)
 {
-    if (m_requestedThumbs.isEmpty() || m_closing) return;
+    if (m_closing || (m_requestedThumbs.isEmpty() && m_processingThumbId != id && m_audioThumbsQueue.isEmpty() && m_processingAudioThumbId != id)) return;
+    // Abort video thumbs for this clip
     m_abortThumb = true;
     m_thumbsThread.waitForFinished();
     m_thumbsMutex.lock();
     m_requestedThumbs.remove(id);
+    m_audioThumbsQueue.removeAll(id);
     m_thumbsMutex.unlock();
     m_abortThumb = false;
-    if (!m_thumbsThread.isRunning()) {
+
+    // Abort audio thumbs for this clip
+    if (m_processingAudioThumbId == id) {
+        m_abortAudioThumb = true;
+        m_audioThumbsThread.waitForFinished();
+        m_abortAudioThumb = false;
+    }
+    
+    if (!m_thumbsThread.isRunning() && !m_requestedThumbs.isEmpty()) {
         m_thumbsThread = QtConcurrent::run(this, &ClipManager::slotGetThumbs);
+    }
+    
+    if (!m_audioThumbsThread.isRunning() && !m_audioThumbsQueue.isEmpty()) {
+        m_audioThumbsThread = QtConcurrent::run(this, &ClipManager::slotGetAudioThumbs);
     }
 }
 
 void ClipManager::slotGetThumbs()
 {
-    QMap<QString, int>::iterator i = m_requestedThumbs.begin();
-    while (i != m_requestedThumbs.end() && !m_abortThumb) {
-        QString producerId = i.key();
+    QMap<QString, int>::const_iterator i;
+    int max;
+    int done = 0;
+    while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {
         m_thumbsMutex.lock();
-        QList<int> values = m_requestedThumbs.values(producerId);
-        i = m_requestedThumbs.erase(i);
+        i = m_requestedThumbs.constBegin();
+        m_processingThumbId = i.key();
+        QList<int> values = m_requestedThumbs.values(m_processingThumbId);
+        m_requestedThumbs.remove(m_processingThumbId);
         m_thumbsMutex.unlock();
         qSort(values);
-        DocClipBase *clip = getClipById(producerId);
+        DocClipBase *clip = getClipById(m_processingThumbId);
         if (!clip) continue;
+        max = m_requestedThumbs.size() + values.count();
         while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
             clip->thumbProducer()->getThumb(values.takeFirst());
+            done++;
+            if (max > 3) emit displayMessage(i18n("Loading thumbnails"), 100 * done / max);
         }
     }
+    m_processingThumbId.clear();
+    emit displayMessage(QString(), -1);
 }
 
 void ClipManager::checkAudioThumbs()
 {
     if (!KdenliveSettings::audiothumbnails()) {
-        if (!m_generatingAudioId.isEmpty()) {
-            DocClipBase *clip = getClipById(m_generatingAudioId);
-            if (clip) clip->slotClearAudioCache();
+        if (m_audioThumbsThread.isRunning()) {
+            m_abortAudioThumb = true;
+            m_thumbsMutex.lock();
+            m_audioThumbsQueue.clear();
+            m_thumbsMutex.unlock();
+            m_audioThumbsThread.waitForFinished();
+            m_abortAudioThumb = false;
         }
-        m_audioThumbsQueue.clear();
-        m_generatingAudioId.clear();
         return;
     }
 
+    m_thumbsMutex.lock();
     for (int i = 0; i < m_clipList.count(); i++) {
-        m_audioThumbsQueue.append(m_clipList.at(i)->getId());
+        DocClipBase *clip = m_clipList.at(i);
+        if (clip->hasAudioThumb() && !clip->audioThumbCreated())
+            m_audioThumbsQueue.append(m_clipList.at(i)->getId());
     }
-    if (m_generatingAudioId.isEmpty()) startAudioThumbsGeneration();
+    m_thumbsMutex.unlock();
+    if (!m_audioThumbsThread.isRunning() && !m_audioThumbsQueue.isEmpty()) {
+        m_audioThumbsThread = QtConcurrent::run(this, &ClipManager::slotGetAudioThumbs);
+    }
 }
 
 void ClipManager::askForAudioThumb(const QString &id)
 {
     DocClipBase *clip = getClipById(id);
-    if (clip && KdenliveSettings::audiothumbnails()) {
-        m_audioThumbsQueue.append(id);
-        if (m_generatingAudioId.isEmpty()) startAudioThumbsGeneration();
+    if (clip && KdenliveSettings::audiothumbnails() && (clip->hasAudioThumb())) {
+        m_thumbsMutex.lock();
+        if (!m_audioThumbsQueue.contains(id)) m_audioThumbsQueue.append(id);
+        m_thumbsMutex.unlock();
+        if (!m_audioThumbsThread.isRunning()) m_audioThumbsThread = QtConcurrent::run(this, &ClipManager::slotGetAudioThumbs);
     }
 }
 
-void ClipManager::startAudioThumbsGeneration()
+void ClipManager::slotGetAudioThumbs()
 {
-    if (!KdenliveSettings::audiothumbnails()) {
-        m_audioThumbsQueue.clear();
-        m_generatingAudioId.clear();
-        return;
-    }
-    if (!m_audioThumbsQueue.isEmpty()) {
-        m_generatingAudioId = m_audioThumbsQueue.takeFirst();
-        DocClipBase *clip = getClipById(m_generatingAudioId);
-        if (!clip || !clip->slotGetAudioThumbs())
-            endAudioThumbsGeneration(m_generatingAudioId);
-    } else {
-        m_generatingAudioId.clear();
-    }
-}
+    Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().constData());
+    mlt_audio_format audioFormat = mlt_audio_pcm;
+    while (!m_abortAudioThumb && !m_audioThumbsQueue.isEmpty()) {
+        m_thumbsMutex.lock();
+        m_processingAudioThumbId = m_audioThumbsQueue.takeFirst();
+        m_thumbsMutex.unlock();
+        DocClipBase *clip = getClipById(m_processingAudioThumbId);
+        if (!clip || clip->audioThumbCreated()) continue;
+        KUrl url = clip->fileURL();
+        QString hash = clip->getClipHash();
+        if (hash.isEmpty()) continue;
+        QString audioPath = projectFolder() + "/thumbs/" + hash + ".thumb";
+        double lengthInFrames = clip->duration().frames(m_doc->fps());
+        //FIXME: should this be hardcoded??
+        int channels = 2;
+        int frequency = 48000;
+        int arrayWidth = 20;
+        double frame = 0.0;
+        audioByteArray storeIn;
+        QFile f(audioPath);
+        if (QFileInfo(audioPath).size() > 0 && f.open(QIODevice::ReadOnly)) {
+            const QByteArray channelarray = f.readAll();
+            f.close();
+            if (channelarray.size() != arrayWidth*(frame + lengthInFrames) * channels) {
+                kDebug() << "--- BROKEN THUMB FOR: " << url.fileName() << " ---------------------- ";
+                f.remove();
+                continue;
+            }
+            kDebug() << "reading audio thumbs from file";
 
-void ClipManager::endAudioThumbsGeneration(const QString &requestedId)
-{
-    if (!KdenliveSettings::audiothumbnails()) {
-        m_audioThumbsQueue.clear();
-        m_generatingAudioId.clear();
-        return;
-    }
-    if (!m_audioThumbsQueue.isEmpty()) {
-        if (m_generatingAudioId == requestedId) {
-            startAudioThumbsGeneration();
+            int h1 = arrayWidth * channels;
+            int h2 = (int) frame * h1;
+            int h3;
+            for (int z = (int) frame; z < (int)(frame + lengthInFrames) && !m_abortAudioThumb; z++) {
+                h3 = 0;
+                for (int c = 0; c < channels; c++) {
+                    QByteArray audioArray(arrayWidth, '\x00');
+                    for (int i = 0; i < arrayWidth; i++) {
+                        audioArray[i] = channelarray.at(h2 + h3 + i);
+                    }
+                    h3 += arrayWidth;
+                    storeIn[z][c] = audioArray;
+                }
+                h2 += h1;
+            }
+            if (!m_abortAudioThumb) clip->updateAudioThumbnail(storeIn);
+            continue;
+        } 
+        
+        if (!f.open(QIODevice::WriteOnly)) {
+            kDebug() << "++++++++  ERROR WRITING TO FILE: " << audioPath;
+            kDebug() << "++++++++  DISABLING AUDIO THUMBS";
+            m_thumbsMutex.lock();
+            m_audioThumbsQueue.clear();
+            m_thumbsMutex.unlock();
+            KdenliveSettings::setAudiothumbnails(false);
+            break;
         }
-    } else {
-        m_generatingAudioId.clear();
+
+        Mlt::Producer producer(prof, url.path().toUtf8().constData());
+        if (!producer.is_valid()) {
+            kDebug() << "++++++++  INVALID CLIP: " << url.path();
+            continue;
+        }
+        
+        producer.set("video_index", "-1");
+
+        if (KdenliveSettings::normaliseaudiothumbs()) {
+            Mlt::Filter m_convert(prof, "volume");
+            m_convert.set("gain", "normalise");
+            producer.attach(m_convert);
+        }
+
+        int last_val = 0;
+        int val = 0;
+        double framesPerSecond = mlt_producer_get_fps(producer.get_producer());
+        Mlt::Frame *mlt_frame;
+
+        for (int z = (int) frame; z < (int)(frame + lengthInFrames) && producer.is_valid() &&  !m_abortAudioThumb; z++) {
+            val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
+            if (last_val != val && val > 1) {
+                setThumbsProgress(i18n("Creating audio thumbnail for %1", url.fileName()), val);
+                last_val = val;
+            }
+            producer.seek(z);
+            mlt_frame = producer.get_frame();
+            if (mlt_frame && mlt_frame->is_valid()) {
+                int samples = mlt_sample_calculator(framesPerSecond, frequency, mlt_frame_get_position(mlt_frame->get_frame()));
+                qint16* pcm = static_cast<qint16*>(mlt_frame->get_audio(audioFormat, frequency, channels, samples));
+                for (int c = 0; c < channels; c++) {
+                    QByteArray audioArray;
+                    audioArray.resize(arrayWidth);
+                    for (int i = 0; i < audioArray.size(); i++) {
+                        audioArray[i] = ((*(pcm + c + i * samples / audioArray.size())) >> 9) + 127 / 2 ;
+                    }
+                    f.write(audioArray);
+                    storeIn[z][c] = audioArray;
+                }
+            } else {
+                f.write(QByteArray(arrayWidth, '\x00'));
+            }
+            delete mlt_frame;
+        }
+        f.close();
+        setThumbsProgress(i18n("Creating audio thumbnail for %1", url.fileName()), -1);
+        if (m_abortAudioThumb) {
+            f.remove();
+        } else {
+            clip->updateAudioThumbnail(storeIn);
+        }
     }
+    m_processingAudioThumbId.clear();
 }
 
 void ClipManager::setThumbsProgress(const QString &message, int progress)
@@ -345,12 +462,11 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
     emit checkAllClips(displayRatioChanged, fpsChanged, brokenClips);
 }
 
-void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId)
+void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId, const QString &comment)
 {
     QUndoCommand *addClips = new QUndoCommand();
-
     foreach(const KUrl & file, urls) {
-        if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
+        if (QFile::exists(file.path())) {//KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
             if (!getClipByResource(file.path()).empty()) {
                 if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;
@@ -362,6 +478,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
             prod.setAttribute("resource", file.path());
             uint id = m_clipIdCounter++;
             prod.setAttribute("id", QString::number(id));
+            if (!comment.isEmpty()) prod.setAttribute("description", comment);
             if (!group.isEmpty()) {
                 prod.setAttribute("groupname", group);
                 prod.setAttribute("groupid", groupId);
@@ -414,6 +531,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
             }
             new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true, addClips);
         }
+        else kDebug()<<"// CANNOT READ FILE: "<<file;
     }
     if (addClips->childCount() > 0) {
         addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));
@@ -421,9 +539,9 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
     }
 }
 
-void ClipManager::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId)
+void ClipManager::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment)
 {
-    slotAddClipList(KUrl::List(url), group, groupId);
+    slotAddClipList(KUrl::List(url), group, groupId, comment);
 }
 
 void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)
@@ -464,29 +582,18 @@ void ClipManager::slotAddColorClipFile(const QString &name, const QString &color
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddSlideshowClipFile(const QString &name, const QString &path, int count, const QString &duration,
-        const bool loop, const bool crop, const bool fade,
-        const QString &luma_duration, const QString &luma_file, const int softness,
-        const QString &animation, const QString &group, const QString &groupId)
+void ClipManager::slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     doc.appendChild(prod);
-    prod.setAttribute("resource", path);
+    QMap<QString, QString>::const_iterator i = properties.constBegin();
+    while (i != properties.constEnd()) {
+        prod.setAttribute(i.key(), i.value());
+        ++i;
+    }
     prod.setAttribute("type", (int) SLIDESHOW);
     uint id = m_clipIdCounter++;
-    prod.setAttribute("id", QString::number(id));
-    prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(duration) * count);
-    prod.setAttribute("ttl", m_doc->getFramePos(duration));
-    prod.setAttribute("luma_duration", m_doc->getFramePos(luma_duration));
-    prod.setAttribute("name", name);
-    prod.setAttribute("loop", loop);
-    prod.setAttribute("crop", crop);
-    prod.setAttribute("fade", fade);
-    prod.setAttribute("softness", QString::number(softness));
-    prod.setAttribute("luma_file", luma_file);
-    prod.setAttribute("animation", animation);
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);
         prod.setAttribute("groupid", groupId);

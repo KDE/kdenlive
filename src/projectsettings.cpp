@@ -35,7 +35,7 @@
 #include <QDir>
 #include <kmessagebox.h>
 
-ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
     QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist), m_lumas(lumas)
 {
     setupUi(this);
@@ -130,6 +130,26 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QStringList lumas, in
         video_tracks->setEnabled(false);
         audio_tracks->setEnabled(false);
     }
+    
+    
+    // Metadata list
+    QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Title"));
+    item->setData(0, Qt::UserRole, QString("meta.attr.title.markup"));
+    if (metadata.contains("meta.attr.title.markup")) item->setText(1, metadata.value("meta.attr.title.markup"));
+    item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Author"));
+    item->setData(0, Qt::UserRole, QString("meta.attr.author.markup"));
+    if (metadata.contains("meta.attr.author.markup")) item->setText(1, metadata.value("meta.attr.author.markup"));
+    item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Copyright"));
+    item->setData(0, Qt::UserRole, QString("meta.attr.copyright.markup"));
+    if (metadata.contains("meta.attr.copyright.markup")) item->setText(1, metadata.value("meta.attr.copyright.markup"));
+    item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Year"));
+    item->setData(0, Qt::UserRole, QString("meta.attr.year.markup"));
+    if (metadata.contains("meta.attr.year.markup")) item->setText(1, metadata.value("meta.attr.year.markup"));
+    item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    
     slotUpdateDisplay();
     if (m_projectList != NULL) {
         slotUpdateFiles();
@@ -235,6 +255,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
     texts->setIcon(0, KIcon("text-plain"));
     texts->setExpanded(true);
+    QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
+    playlists->setIcon(0, KIcon("video-mlt-playlist"));
+    playlists->setExpanded(true);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
     others->setIcon(0, KIcon("unknown"));
     others->setExpanded(true);
@@ -264,6 +287,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
                 break;
             case IMAGE:
                 new QTreeWidgetItem(images, QStringList() << clip->fileURL().path());
+                break;
+            case PLAYLIST:
+                new QTreeWidgetItem(playlists, QStringList() << clip->fileURL().path());
                 break;
             case UNKNOWN:
                 new QTreeWidgetItem(others, QStringList() << clip->fileURL().path());
@@ -438,6 +464,9 @@ QStringList ProjectSettings::extractPlaylistUrls(QString path)
         QString type = EffectsList::property(e, "mlt_service");
         if (type != "colour") {
             QString url = EffectsList::property(e, "resource");
+            if (type == "framebuffer") {
+                url = url.section('?', 0, 0);
+            }
             if (!url.isEmpty()) {
                 if (!url.startsWith('/')) url.prepend(root);
                 if (url.section('.', 0, -2).endsWith("/.all")) {
@@ -534,6 +563,22 @@ void ProjectSettings::slotUpdateProxyParams()
 {
     QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
     proxyparams->setPlainText(params.section(';', 0, 0));
+}
+
+const QMap <QString, QString> ProjectSettings::metadata() const
+{
+    QMap <QString, QString> metadata;
+    for (int i = 0; i < metadata_list->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *item = metadata_list->topLevelItem(i);
+        if (!item->text(1).simplified().isEmpty()) {
+            // Insert metadata entry
+            QString key = item->data(0, Qt::UserRole).toString();
+            QString value = item->text(1);
+            metadata.insert(key, value);
+        }
+    }
+    return metadata;
 }
 
 #include "projectsettings.moc"

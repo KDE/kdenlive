@@ -43,19 +43,17 @@
 #include <QDir>
 
 
-RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
-    AbstractMonitor(parent),
-    m_name(name),
+RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidget *parent) :
+    AbstractMonitor(name, manager, parent),
     m_isCapturing(false),
     m_didCapture(false),
     m_isPlaying(false),
-    m_manager(manager),
     m_captureDevice(NULL),
     m_analyse(false)
 {
     setupUi(this);
 
-    video_frame->setAttribute(Qt::WA_PaintOnScreen);
+    //video_frame->setAttribute(Qt::WA_PaintOnScreen);
     device_selector->setCurrentIndex(KdenliveSettings::defaultcapture());
     connect(device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
 
@@ -63,11 +61,9 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     QVBoxLayout *l = new QVBoxLayout;
     l->setContentsMargins(0, 0, 0, 0);
     l->setSpacing(0);
-    m_videoBox = new VideoPreviewContainer();
-    m_videoBox->setContentsMargins(0, 0, 0, 0);
-    m_videoBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    l->addWidget(m_videoBox);
+    l->addWidget(videoBox, 10);
     video_frame->setLayout(l);
+    createVideoSurface();
 
     QToolBar *toolbar = new QToolBar(this);
     QHBoxLayout *layout = new QHBoxLayout;
@@ -93,6 +89,23 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     m_recAction = toolbar->addAction(KIcon("media-record"), i18n("Record"));
     connect(m_recAction, SIGNAL(triggered()), this, SLOT(slotRecord()));
     m_recAction->setCheckable(true);
+
+    rec_options->setIcon(KIcon("system-run"));
+    QMenu *menu = new QMenu(this);
+    m_addCapturedClip = new QAction(i18n("Add Captured File to Project"), this);
+    m_addCapturedClip->setCheckable(true);
+    m_addCapturedClip->setChecked(true);
+    menu->addAction(m_addCapturedClip);
+
+    rec_audio->setChecked(KdenliveSettings::v4l_captureaudio());
+    rec_video->setChecked(KdenliveSettings::v4l_capturevideo());
+
+    m_previewSettings = new QAction(i18n("Recording Preview"), this);
+    m_previewSettings->setCheckable(true);
+
+
+    rec_options->setMenu(menu);
+    menu->addAction(m_previewSettings);
 
     toolbar->addSeparator();
 
@@ -125,11 +138,11 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     connect(m_captureProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotProcessStatus(QProcess::ProcessState)));
     connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadDvgrabInfo()));
 
-    
+
     QString videoDriver = KdenliveSettings::videodrivername();
 #if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("SDL_WINDOWID", QString::number(video_frame->winId()));
+    env.insert("SDL_WINDOWID", QString::number(videoSurface->winId()));
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
             env.insert("SDL_VIDEO_YUV_HWACCEL", "0");
@@ -139,7 +152,7 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
     m_displayProcess->setProcessEnvironment(env);
 #else
     QStringList env = QProcess::systemEnvironment();
-    env << "SDL_WINDOWID=" + QString::number(video_frame->winId());
+    env << "SDL_WINDOWID=" + QString::number(videoSurface->winId());
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
             env << "SDL_VIDEO_YUV_HWACCEL=0";
@@ -150,11 +163,10 @@ RecMonitor::RecMonitor(QString name, MonitorManager *manager, QWidget *parent) :
 #endif
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
-    kDebug() << "/////// BUILDING MONITOR, ID: " << video_frame->winId();
+    kDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
     slotVideoDeviceChanged(device_selector->currentIndex());
-    recording_preview->setToolTip(i18n("Capture preview settings"));
-    recording_preview->setCurrentIndex(KdenliveSettings::recording_preview());
-    connect(recording_preview, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeRecordingPreview(int)));
+    m_previewSettings->setChecked(KdenliveSettings::enable_recording_preview());
+    connect(m_previewSettings, SIGNAL(triggered(bool)), this, SLOT(slotChangeRecordingPreview(bool)));
 }
 
 RecMonitor::~RecMonitor()
@@ -165,9 +177,17 @@ RecMonitor::~RecMonitor()
     if (m_captureDevice) delete m_captureDevice;
 }
 
-const QString RecMonitor::name() const
+void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
 {
-    return m_name;
+    if (!KdenliveSettings::openglmonitors() && videoBox && videoBox->isVisible()) {
+        videoBox->switchFullScreen();
+        event->accept();
+    }
+}
+
+void RecMonitor::slotSwitchFullScreen()
+{
+    videoBox->switchFullScreen();
 }
 
 void RecMonitor::stop()
@@ -177,6 +197,7 @@ void RecMonitor::stop()
 
 void RecMonitor::start()
 {
+    //slotStartPreview(true);
 }
 
 void RecMonitor::slotConfigure()
@@ -203,7 +224,9 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 {
     QString capturefile;
     QString capturename;
-    recording_preview->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    m_previewSettings->setEnabled(ix == VIDEO4LINUX || ix == BLACKMAGIC);
+    rec_audio->setVisible(ix == VIDEO4LINUX);
+    rec_video->setVisible(ix == VIDEO4LINUX);
     m_fwdAction->setVisible(ix == FIREWIRE);
     m_discAction->setVisible(ix == FIREWIRE);
     m_rewAction->setVisible(ix == FIREWIRE);
@@ -211,15 +234,15 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     m_logger.setVisible(ix == BLACKMAGIC);
     if (m_captureDevice) {
         // MLT capture still running, abort
+        m_monitorManager->clearScopeSource();
         m_captureDevice->stop();
         delete m_captureDevice;
         m_captureDevice = NULL;
-        m_manager->clearScopeSource();
     }
 
     // The m_videoBox container has to be shown once before the MLT consumer is build, or preview will fail
-    m_videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
-    m_videoBox->setHidden(true);
+    videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    videoBox->setHidden(true);
     switch (ix) {
     case SCREENGRAB:
         m_discAction->setEnabled(false);
@@ -361,7 +384,9 @@ void RecMonitor::slotStopCapture()
 {
     // stop capture
     if (!m_isCapturing && !m_isPlaying) return;
-    m_videoBox->setHidden(true);
+    videoBox->setHidden(true);
+    rec_audio->setEnabled(true);
+    rec_video->setEnabled(true);
     switch (device_selector->currentIndex()) {
     case FIREWIRE:
         m_captureProcess->write("\e", 2);
@@ -379,7 +404,7 @@ void RecMonitor::slotStopCapture()
         if (m_captureDevice) {
             m_captureDevice->stop();
         }
-        recording_preview->setEnabled(true);
+        m_previewSettings->setEnabled(true);
         m_isCapturing = false;
         m_isPlaying = false;
         m_playAction->setEnabled(true);
@@ -388,7 +413,7 @@ void RecMonitor::slotStopCapture()
         slotSetInfoMessage(i18n("Capture stopped"));
         m_isCapturing = false;
         m_recAction->setChecked(false);
-        if (autoaddbox->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.path())) {
+        if (m_addCapturedClip->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.path())) {
             emit addProjectClip(m_captureFile);
             m_captureFile.clear();
         }
@@ -415,6 +440,8 @@ void RecMonitor::slotStartPreview(bool play)
         }
         return;
     }
+    slotActivateMonitor();
+    if (m_isPlaying) return;
     m_captureArgs.clear();
     m_displayArgs.clear();
     m_isPlaying = false;
@@ -424,7 +451,7 @@ void RecMonitor::slotStartPreview(bool play)
     QString producer;
     QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(" ", QString::SkipEmptyParts);
     int ix = device_selector->currentIndex();
-    m_videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
     switch (ix) {
     case FIREWIRE:
         switch (KdenliveSettings::firewireformat()) {
@@ -470,33 +497,33 @@ void RecMonitor::slotStartPreview(bool play)
         break;
     case VIDEO4LINUX:
         path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
-        m_manager->activateMonitor("record");
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
-        producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
-        if (!m_captureDevice->slotStartPreview(producer)) {
+        producer = getV4lXmlPlaylist(profile);
+
+        //producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
+        if (!m_captureDevice->slotStartPreview(producer, true)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
-            m_videoBox->setHidden(true);
-            
+            videoBox->setHidden(true);
+
         } else {
             m_playAction->setEnabled(false);
             m_stopAction->setEnabled(true);
             m_isPlaying = true;
         }
-        
+
         break;
     case BLACKMAGIC:
         path = KdenliveSettings::current_profile();
-        m_manager->activateMonitor("record");
+        slotActivateMonitor();
         buildMltDevice(path);
-        profile = ProfilesDialog::getVideoProfile(path);
         producer = QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice());
         if (!m_captureDevice->slotStartPreview(producer)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
-            m_videoBox->setHidden(true);
-            
+            videoBox->setHidden(true);
+
         } else {
             m_playAction->setEnabled(false);
             m_stopAction->setEnabled(true);
@@ -506,6 +533,9 @@ void RecMonitor::slotStartPreview(bool play)
     default:
         break;
     }
+
+    rec_audio->setEnabled(false);
+    rec_video->setEnabled(false);
 
     if (device_selector->currentIndex() == FIREWIRE) {
         kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
@@ -518,6 +548,9 @@ void RecMonitor::slotStartPreview(bool play)
 
 void RecMonitor::slotRecord()
 {
+    rec_audio->setEnabled(false);
+    rec_video->setEnabled(false);
+
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartPreview();
     }
@@ -537,7 +570,11 @@ void RecMonitor::slotRecord()
         m_recAction->setChecked(true);
         QString extension = "mpg";
         if (device_selector->currentIndex() == SCREENGRAB) extension = "ogv"; //KdenliveSettings::screengrabextension();
-        else if (device_selector->currentIndex() == VIDEO4LINUX) extension = KdenliveSettings::v4l_extension();
+        else if (device_selector->currentIndex() == VIDEO4LINUX) {
+            // TODO: when recording audio only, allow configuration?
+            if (!rec_video->isChecked()) extension = "wav";
+            else extension = KdenliveSettings::v4l_extension();
+        }
         else if (device_selector->currentIndex() == BLACKMAGIC) extension = KdenliveSettings::decklink_extension();
         QString path = KUrl(m_capturePath).path(KUrl::AddTrailingSlash) + "capture0000." + extension;
         int i = 1;
@@ -554,24 +591,26 @@ void RecMonitor::slotRecord()
         QString playlist;
         QString v4lparameters;
         MltVideoProfile profile;
+        bool showPreview;
         QString capturename = KdenliveSettings::dvgrabfilename();
         if (capturename.isEmpty()) capturename = "capture";
 
         switch (device_selector->currentIndex()) {
         case VIDEO4LINUX:
+            slotActivateMonitor();
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
-            m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
+            //m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
-            playlist = QString("<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
+            playlist = getV4lXmlPlaylist(profile);
 
             v4lparameters = KdenliveSettings::v4l_parameters();
 
+            // TODO: when recording audio only, allow param configuration?
+            if (!rec_video->isChecked()) v4lparameters.clear();
+
             // Add alsa audio capture
-            if (KdenliveSettings::v4l_captureaudio()) {
-                playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">alsa:%5</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"99999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()));
-            }
-            else {
+            if (!rec_audio->isChecked()) {
                 // if we do not want audio, make sure that we don't have audio encoding parameters
                 // this is required otherwise the MLT avformat consumer will not close properly
                 if (v4lparameters.contains("acodec")) {
@@ -598,58 +637,49 @@ void RecMonitor::slotRecord()
                     v4lparameters = QString(v4lparameters.section("acodec", 0, 0) + "an=1 " + endParam).simplified();
                 }
             }
-            
 
-            playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"99999\">");
+            showPreview = m_previewSettings->isChecked();
+            if (!rec_video->isChecked()) showPreview = false;
 
-            playlist.append("<track producer=\"playlist0\"/>");            
-
-            // Audio mix
-            if (KdenliveSettings::v4l_captureaudio()) {
-                playlist.append("<track producer=\"playlist1\"/>");
-                playlist.append("<transition id=\"transition0\" in=\"0\" out=\"0\"><property name=\"a_track\">0</property><property name=\"b_track\">1</property><property name=\"mlt_type\">transition</property><property name=\"mlt_service\">mix</property></transition>");
-            }
-
-            playlist.append("</tractor></mlt>");
-
-            if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, recording_preview->currentIndex())) {
-                m_videoBox->setHidden(false);
+            if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, showPreview)) {
+                videoBox->setHidden(false);
                 m_isCapturing = true;
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
-                recording_preview->setEnabled(false);
+                m_previewSettings->setEnabled(false);
             }
             else {
-                video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));                
-                m_videoBox->setHidden(true);
+                video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
+                videoBox->setHidden(true);
                 m_isCapturing = false;
             }
             break;
-            
+
         case BLACKMAGIC:
+            slotActivateMonitor();
             path = KdenliveSettings::current_profile();
             profile = ProfilesDialog::getVideoProfile(path);
-            m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
+            //m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
-               
+
             playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
 
-            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), recording_preview->currentIndex(), false)) {
-                m_videoBox->setHidden(false);
+            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), m_previewSettings->isChecked(), false)) {
+                videoBox->setHidden(false);
                 m_isCapturing = true;
                 slotSetInfoMessage(i18n("Capturing to %1", m_captureFile.fileName()));
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
-                recording_preview->setEnabled(false);
+                m_previewSettings->setEnabled(false);
             }
             else {
                 video_frame->setText(i18n("Failed to start Decklink,\ncheck your parameters..."));
                 slotSetInfoMessage(i18n("Failed to start capture"));
-                m_videoBox->setHidden(true);
+                videoBox->setHidden(true);
                 m_isCapturing = false;
             }
             break;
-            
+
         case SCREENGRAB:
             switch (KdenliveSettings::rmd_capture_type()) {
             case 0:
@@ -714,6 +744,25 @@ void RecMonitor::slotRecord()
     }
 }
 
+const QString RecMonitor::getV4lXmlPlaylist(MltVideoProfile profile) {
+
+    QString playlist = QString("<mlt title=\"capture\" LC_NUMERIC=\"C\"><profile description=\"v4l\" width=\"%1\" height=\"%2\" progressive=\"%3\" sample_aspect_num=\"%4\" sample_aspect_den=\"%5\" display_aspect_num=\"%6\" display_aspect_den=\"%7\" frame_rate_num=\"%8\" frame_rate_den=\"%9\" colorspace=\"%10\"/>").arg(profile.width).arg(profile.height).arg(profile.progressive).arg(profile.sample_aspect_num).arg(profile.sample_aspect_den).arg(profile.display_aspect_num).arg(profile.display_aspect_den).arg(profile.frame_rate_num).arg(profile.frame_rate_den).arg(profile.colorspace);
+
+    if (rec_video->isChecked()) {
+        playlist.append(QString("<producer id=\"producer0\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"eof\">loop</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den));
+    }
+
+    if (rec_audio->isChecked()) {
+        playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"eof\">loop</property><property name=\"resource\">alsa:%5</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()));
+    }
+    playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"999999\">");
+    if (rec_video->isChecked()) playlist.append("<track producer=\"playlist0\"/>");
+    if (rec_audio->isChecked()) playlist.append("<track producer=\"playlist1\"/>");
+    playlist.append("</tractor></mlt>");
+
+    return playlist;
+}
+
 /*
 void RecMonitor::slotStartGrab(const QRect &rect) {
     rgnGrab->deleteLater();
@@ -748,7 +797,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
     if (status == QProcess::NotRunning) {
         m_displayProcess->kill();
         if (m_isCapturing && device_selector->currentIndex() != FIREWIRE)
-            if (autoaddbox->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.path())) {
+            if (m_addCapturedClip->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.path())) {
                 emit addProjectClip(m_captureFile);
                 m_captureFile.clear();
             }
@@ -824,7 +873,7 @@ void RecMonitor::manageCapturedFiles()
                     if (QFile::rename(url.path(), newUrl)) {
                         url = KUrl(newUrl);
                     }
-                    
+
                 }
                 capturedFiles.append(url);
             }
@@ -843,9 +892,10 @@ void RecMonitor::manageCapturedFiles()
 }
 
 // virtual
-void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
+void RecMonitor::mousePressEvent(QMouseEvent *event)
 {
     if (m_freeSpace->underMouse()) slotUpdateFreeSpace();
+    else QWidget::mousePressEvent(event);//m_videoBox->mousePressEvent(event);
 }
 
 void RecMonitor::slotUpdateFreeSpace()
@@ -861,16 +911,15 @@ void RecMonitor::slotUpdateFreeSpace()
 void RecMonitor::refreshRecMonitor(bool visible)
 {
     if (visible) {
-        //if (!m_isActive) m_monitorManager->activateRecMonitor(m_name);
+        //if (!m_isActive) activateMonitor();
 
     }
 }
 
 void RecMonitor::slotPlay()
 {
-
-    //if (!m_isActive) m_monitorManager->activateRecMonitor(m_name);
-
+    /*if (m_isPlaying) slotStopCapture();
+    else slotStartPreview(true);*/
 }
 
 void RecMonitor::slotReadDvgrabInfo()
@@ -901,17 +950,24 @@ void RecMonitor::slotDroppedFrames(int dropped)
 void RecMonitor::buildMltDevice(const QString &path)
 {
     if (m_captureDevice == NULL) {
-        m_captureDevice = new MltDeviceCapture(path, m_videoBox, this);
+	m_monitorManager->updateScopeSource();
+        m_captureDevice = new MltDeviceCapture(path, videoSurface, this);
         connect(m_captureDevice, SIGNAL(droppedFrames(int)), this, SLOT(slotDroppedFrames(int)));
         m_captureDevice->sendFrameForAnalysis = m_analyse;
-        m_manager->updateScopeSource();
+        m_monitorManager->updateScopeSource();
     }
 }
 
-void RecMonitor::slotChangeRecordingPreview(int ix)
+void RecMonitor::slotChangeRecordingPreview(bool enable)
 {
-    KdenliveSettings::setRecording_preview(ix);
+    KdenliveSettings::setEnable_recording_preview(enable);
 }
+
+
+void RecMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
+{
+}
+
 
 #include "recmonitor.moc"
 

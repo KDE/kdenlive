@@ -30,6 +30,8 @@
 
 #include "gentime.h"
 #include "definitions.h"
+#include "projecttree/abstractclipjob.h"
+
 
 class DocClipBase;
 
@@ -51,7 +53,6 @@ public:
      *
      * The clipId is used both to identify clips and folders (groups) */
     const QString &clipId() const;
-    QStringList names() const;
     const KUrl clipUrl() const;
     int clipMaxDuration() const;
     CLIPTYPE clipType() const;
@@ -63,12 +64,16 @@ public:
     QString getClipHash() const;
     static int itemDefaultHeight();
     void slotSetToolTip();
-    /** \brief Set the status of proxy clip creation. 0 = no proxy, 1 = creating proxy, 2 = proxy created. */
-    void setProxyStatus(PROXYSTATUS status, int progress = 0);
+    /** \brief Set the status of the clip job. */
+    void setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progress = 0, const QString &statusMessage = QString());
+    /** \brief Set the status of a clip job if it is of the specified job type. */
+    void setConditionalJobStatus(CLIPJOBSTATUS status, JOBTYPE requestedJobType);
     /** \brief Returns the proxy status for this clip (true means there is a proxy clip). */
     bool hasProxy() const;
     /** \brief Returns true if the proxy for this clip is ready. */
     bool isProxyReady() const;
+    /** \brief Returns true if there is a job currently running for this clip. */
+    bool isJobRunning() const;
     /** \brief Returns true if we are currently creating the proxy for this clip. */
     bool isProxyRunning() const;
 

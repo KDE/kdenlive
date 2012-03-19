@@ -32,7 +32,7 @@ class HeaderTrack : public QWidget, public Ui::TrackHeader_UI
     Q_OBJECT
 
 public:
-    HeaderTrack(int index, TrackInfo info, int height, QWidget *parent = 0);
+    HeaderTrack(int index, TrackInfo info, int height, QList <QAction *> actions, QWidget *parent = 0);
     //virtual ~HeaderTrack();
     void setLock(bool lock);
     void adjustSize(int height);
@@ -43,7 +43,6 @@ public:
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void contextMenuEvent(QContextMenuEvent * event);
     virtual void dropEvent(QDropEvent * event);
     virtual void dragEnterEvent(QDragEnterEvent *event);
 
@@ -51,25 +50,19 @@ private:
     int m_index;
     TRACKTYPE m_type;
     bool m_isSelected;
-    QMenu m_menu;
     QString m_name;
 
 private slots:
     void switchAudio();
     void switchVideo();
     void slotDeleteTrack();
-    void deleteTrack();
-    void slotAddTrack();
     void slotRenameTrack();
-    void slotConfigTrack();
     void switchLock(bool emitSignal = true);
 
 signals:
     void switchTrackAudio(int);
     void switchTrackVideo(int);
     void switchTrackLock(int);
-    void insertTrack(int);
-    void deleteTrack(int);
     void renameTrack(int, QString);
     void selectTrack(int);
     void configTrack(int);

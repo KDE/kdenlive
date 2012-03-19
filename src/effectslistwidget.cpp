@@ -164,12 +164,30 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     sortByColumn(0, Qt::AscendingOrder);
 
     // populate effects menu
+    QMenu *sub1 = NULL;
+    QMenu *sub2 = NULL;
+    QMenu *sub3 = NULL;
+    QMenu *sub4 = NULL;
     for (int i = 0; i < topLevelItemCount(); i++) {
         if (!topLevelItem(i)->childCount())
             continue;
         QMenu *sub = new QMenu(topLevelItem(i)->text(0), effectsMenu);
         effectsMenu->addMenu(sub);
-        for (int j = 0; j < topLevelItem(i)->childCount(); j++) {
+        int effectsInCategory = topLevelItem(i)->childCount();
+        bool hasSubCategories = false;
+        if (effectsInCategory > 60) {
+            // create subcategories if there are too many effects
+            hasSubCategories = true;
+            sub1 = new QMenu(i18nc("menu name for effects names between these 2 letters", "0 - F"), sub);
+            sub->addMenu(sub1);
+            sub2 = new QMenu(i18nc("menu name for effects names between these 2 letters", "G - L"), sub);
+            sub->addMenu(sub2);
+            sub3 = new QMenu(i18nc("menu name for effects names between these 2 letters", "M - R"), sub);
+            sub->addMenu(sub3);
+            sub4 = new QMenu(i18nc("menu name for effects names between these 2 letters", "S - Z"), sub);
+            sub->addMenu(sub4);
+        }
+        for (int j = 0; j < effectsInCategory; j++) {
                 QTreeWidgetItem *item = topLevelItem(i)->child(j);
                 KAction *a = new KAction(KIcon(item->icon(0)), item->text(0), sub);
                 QStringList data = item->data(0, IdRole).toStringList();
@@ -177,7 +195,26 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
                 if (id.isEmpty()) id = data.at(0);
                 a->setData(data);
                 a->setIconVisibleInMenu(false);
-                sub->addAction(a);
+                if (hasSubCategories) {
+                    // put action in sub category
+                    QRegExp rx("^[s-z].+");
+                    if (rx.exactMatch(item->text(0).toLower())) {
+                        sub4->addAction(a);
+                    } else {
+                        rx.setPattern("^[m-r].+");
+                        if (rx.exactMatch(item->text(0).toLower())) {
+                            sub3->addAction(a);
+                        }
+                        else {
+                            rx.setPattern("^[g-l].+");
+                            if (rx.exactMatch(item->text(0).toLower())) {
+                                sub2->addAction(a);
+                            }
+                            else sub1->addAction(a);
+                        }
+                    }
+                }
+                else sub->addAction(a);
                 effectActions->addAction("video_effect_" + id, a);
         }
     }

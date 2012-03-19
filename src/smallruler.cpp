@@ -35,10 +35,13 @@ SmallRuler::SmallRuler(MonitorManager *manager, QWidget *parent) :
         ,m_scale(1)
         ,m_maxval(25)
         ,m_manager(manager)
+        ,m_overCursor(false)
 {
     m_zoneStart = 10;
     m_zoneEnd = 60;
-    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
+    m_zoneBrush = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, config);
+
     setMouseTracking(true);
     setMinimumHeight(10);
 }
@@ -111,11 +114,35 @@ void SmallRuler::mousePressEvent(QMouseEvent * event)
     } else emit seekRenderer((int) pos);
 }
 
+void SmallRuler::leaveEvent( QEvent * event )
+{
+    Q_UNUSED(event);
+    if (m_overCursor) {
+        m_overCursor = false;
+        update();
+    }
+}
+
 // virtual
 void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
     const int pos = event->x() / m_scale;
-    if (event->buttons() & Qt::LeftButton) emit seekRenderer((int) pos);
+    if (event->button() == Qt::NoButton) {
+        if (qAbs(pos * m_scale - m_cursorPosition) < 6) {
+            if (!m_overCursor) {
+                m_overCursor = true;
+                update();
+            }
+        }
+        else if (m_overCursor) {
+            m_overCursor = false;
+            update();
+        }
+    }
+    if (event->buttons() & Qt::LeftButton) {
+        m_overCursor = true;
+        emit seekRenderer((int) pos);
+    }
     else {
         if (qAbs((pos - m_zoneStart) * m_scale) < 4) {
             setToolTip(i18n("Zone start: %1", m_manager->timecode().getTimecodeFromFrames(m_zoneStart)));
@@ -160,7 +187,9 @@ void SmallRuler::updatePixmap()
 
     const int zoneStart = (int)(m_zoneStart * m_scale);
     const int zoneEnd = (int)(m_zoneEnd * m_scale);
-    p.fillRect(zoneStart, height() / 2 - 1, zoneEnd - zoneStart, height() / 2, m_zoneColor);
+    p.setPen(Qt::NoPen);
+    p.setBrush(m_zoneBrush.brush(this));
+    p.drawRect(zoneStart, height() / 2 - 1, zoneEnd - zoneStart, height() / 2);
 
     // draw ruler
     p.setPen(palette().text().color());
@@ -197,8 +226,9 @@ void SmallRuler::paintEvent(QPaintEvent *e)
 
     // draw pointer
     QPolygon pa(3);
-    pa.setPoints(3, m_cursorPosition - 5, 10, m_cursorPosition + 5, 10, m_cursorPosition/*+0*/, 5);
-    p.setBrush(palette().text().color());
+    pa.setPoints(3, m_cursorPosition - 6, 10, m_cursorPosition + 6, 10, m_cursorPosition/*+0*/, 4);
+    if (m_overCursor) p.setBrush(palette().highlight());
+    else p.setBrush(palette().text().color());
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
 }

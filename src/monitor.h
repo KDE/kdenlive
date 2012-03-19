@@ -23,6 +23,7 @@
 
 #include "gentime.h"
 #include "renderer.h"
+#include "definitions.h"
 #include "timecodedisplay.h"
 #include "abstractmonitor.h"
 #ifdef USE_OPENGL
@@ -47,36 +48,6 @@ class MonitorEditWidget;
 class Monitor;
 class MonitorManager;
 
-class VideoContainer : public QFrame
-{
-    Q_OBJECT
-public:
-    VideoContainer(Monitor *parent = 0);
-    void switchFullScreen();
-
-protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *event);
-    virtual void wheelEvent(QWheelEvent * event);
-
-private:
-    Qt::WindowFlags m_baseFlags;
-    Monitor *m_monitor;
-};
-
-class MonitorRefresh : public QWidget
-{
-    Q_OBJECT
-public:
-    MonitorRefresh(QWidget *parent = 0);
-    void setRenderer(Render* render);
-
-private:
-    Render *m_renderer;
-};
 
 class Overlay : public QLabel
 {
@@ -84,9 +55,6 @@ class Overlay : public QLabel
 public:
     Overlay(QWidget* parent = 0);
     void setOverlayText(const QString &, bool isZone = true);
-
-private:
-    bool m_isZone;
 
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
@@ -102,15 +70,14 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
-    Monitor(QString name, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
+    Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender();
     void resetProfile(const QString &profile);
-    const QString name() const;
     void resetSize();
-    bool isActive() const;
     void pause();
+    void unpause();
     void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
     const QString sceneList();
     DocClipBase *activeClip();
@@ -120,11 +87,13 @@ public:
     void updateMarkers(DocClipBase *source);
     MonitorEditWidget *getEffectEdit();
     QWidget *container();
+    void reloadProducer(const QString &id);
     QFrame *m_volumePopup;
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
+    virtual void mouseDoubleClickEvent(QMouseEvent * event);
     virtual void resizeEvent(QResizeEvent *event);
 
     /** @brief Move to another position on mouse wheel event.
@@ -142,15 +111,13 @@ protected:
     //virtual void paintEvent(QPaintEvent * event);
 
 private:
-    QString m_name;
-    MonitorManager *m_monitorManager;
+    Kdenlive::MONITORID m_name;
     DocClipBase *m_currentClip;
     SmallRuler *m_ruler;
     Overlay *m_overlay;
     double m_scale;
     int m_length;
     bool m_dragStarted;
-    MonitorRefresh *m_monitorRefresh;
     KIcon m_playIcon;
     KIcon m_pauseIcon;
     TimecodeDisplay *m_timePos;
@@ -198,17 +165,17 @@ private slots:
     void slotSetVolume(int volume);
     void slotShowVolume();
     void slotEditMarker();
+    void slotExtractCurrentZone();
 
 public slots:
     void slotOpenFile(const QString &);
-    void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), int position = -1);
+    void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
     void refreshMonitor(bool visible);
     void refreshMonitor();
     void slotSeek(int pos);
     void stop();
     void start();
-    bool activateMonitor();
     void slotPlay();
     void slotPlayZone();
     void slotLoopZone();
@@ -251,6 +218,8 @@ signals:
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);
+    /** @brief Request a zone extraction (ffmpeg transcoding). */
+    void extractZone(const QString &id, QPoint zone);
 };
 
 #endif

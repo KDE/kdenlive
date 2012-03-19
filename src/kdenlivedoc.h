@@ -52,7 +52,7 @@ class KdenliveDoc: public QObject
 {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, QMap <QString, QString> metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -83,8 +83,8 @@ Q_OBJECT public:
      *
      * If the clip wasn't added before, it tries to add it to the project. */
     bool addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
-    void slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId = QString());
-    void slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId = QString());
+    void slotAddClipFile(const KUrl &url, const QString &group = QString(), const QString &groupId = QString(), const QString &comment = QString());
+    void slotAddClipList(const KUrl::List urls, const QString &group = QString(), const QString &groupId = QString());
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(const QString &clipId);
@@ -140,8 +140,7 @@ Q_OBJECT public:
      * The returned duration might differ from the actual track duration!
      * It is the one stored in the track's TrackInfo. */
     int trackDuration(int ix);
-
-    void cachePixmap(const QString &fileId, const QPixmap &pix) const;
+    void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(KUrl url);
     void setZone(int start, int end);
     QPoint zone() const;
@@ -162,6 +161,10 @@ Q_OBJECT public:
     static double getDisplayRatio(const QString &path);
     /** @brief Backup the project file */
     void backupLastSavedVersion(const QString &path);
+    /** @brief Returns the document metadata (author, copyright, ...) */
+    const QMap <QString, QString> metadata() const;
+    /** @brief Set the document metadata (author, copyright, ...) */
+    void setMetadata(const QMap <QString, QString> meta);
     
 private:
     KUrl m_url;
@@ -184,6 +187,7 @@ private:
     /** @brief The project folder, used to store project files (titles, effects...). */
     KUrl m_projectFolder;
     QMap <QString, QString> m_documentProperties;
+    QMap <QString, QString> m_documentMetadata;
 
     QList <TrackInfo> m_tracksList;
     void setNewClipResource(const QString &id, const QString &path);
@@ -206,13 +210,7 @@ private:
 public slots:
     void slotCreateXmlClip(const QString &name, const QDomElement xml, QString group, const QString &groupId);
     void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, QString group, const QString &groupId);
-    void slotCreateSlideshowClipFile(const QString &name, const QString &path,
-                                     int count, const QString &duration,
-                                     const bool loop, const bool crop,
-                                     const bool fade, const QString &luma_duration,
-                                     const QString &luma_file, const int softness,
-                                     const QString &animation, QString group,
-                                     const QString &groupId);
+    void slotCreateSlideshowClipFile(QMap <QString, QString> properties, QString group, const QString &groupId);
     void slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath = QString());
     void slotCreateTextTemplateClip(QString group, const QString &groupId, KUrl path);
 

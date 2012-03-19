@@ -1,3 +1,35 @@
+Current git
+    * Fix archiving feature not saving playlist clips and slowmotion clips inside them
+    * Fix Crash recovery feature triggering error messages about wrong path
+    * Fix rendering jobs sometimes not starting
+    * Fix crash on proxy creation (concurrency issue)
+    * Fix zone playing
+    * Fix click on monitor sometimes not triggering play
+    * Add Online Resource Widget allowing easy search and download of online services (freesound, openclipart, archive.org)
+    * Introduce generic job framework for project tree jobs
+    * Fix color change not working in title widget
+    * Fix crash when moving a folder and a clip in project tree
+    * Fix profile warning with clips that have 1088 pixels height
+    * Add audio only recording (works while playing)
+
+0.8.2.1
+    * Fix title text oultine transparency not working
+    * Make titler window fit on smaller resolutions (1024x768)
+    * Fix corruption when undoing and redoing a transition add + move
+    * Fix possible crash in thumbnails
+    * Fix possible crashes in clip transcoding and improve feedback when failing
+    * Various small optimizations (unnecessary clip reloads)
+    * Fix timecode widget hard to edit and sometimes giving random values
+    * Workaround locale issue ahappening when system C locale and Qt's locale did not give the same numeric separator
+    * Fix audio thumbnail concurrency issue
+    * Fix various video thumbnails issues (don't load several times the same thumb, load all of them, ...)
+    * Fix crash when opening a file dialog on KDE < 4.5
+    * Fix various proxy issues (missing extension, concurrency, disabling broken proxy, ...)
+    * Fix startup crash caused by invalid parsing of v4l data
+    * Fix project tree disabled after loading some projects / creating new one
+    * Fix corrupted timeline / monitor timecode
+    * Fix search path for Luma files when missing
+
 0.8.2
     * Load zone thumbnails from disk if available.
     * Optimise document loading.

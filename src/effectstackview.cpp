@@ -59,19 +59,27 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     //m_ui.region_url->fileDialog()->setFilter(ProjectList::getExtensions());
     //m_ui.effectlist->horizontalHeader()->setVisible(false);
     //m_ui.effectlist->verticalHeader()->setVisible(false);
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
 
     m_ui.buttonNew->setIcon(KIcon("document-new"));
     m_ui.buttonNew->setToolTip(i18n("Add new effect"));
+    m_ui.buttonNew->setIconSize(iconSize);
     m_ui.buttonUp->setIcon(KIcon("go-up"));
     m_ui.buttonUp->setToolTip(i18n("Move effect up"));
+    m_ui.buttonUp->setIconSize(iconSize);
     m_ui.buttonDown->setIcon(KIcon("go-down"));
     m_ui.buttonDown->setToolTip(i18n("Move effect down"));
+    m_ui.buttonDown->setIconSize(iconSize);
     m_ui.buttonDel->setIcon(KIcon("edit-delete"));
     m_ui.buttonDel->setToolTip(i18n("Delete effect"));
+    m_ui.buttonDel->setIconSize(iconSize);
     m_ui.buttonSave->setIcon(KIcon("document-save"));
     m_ui.buttonSave->setToolTip(i18n("Save effect"));
+    m_ui.buttonSave->setIconSize(iconSize);
     m_ui.buttonReset->setIcon(KIcon("view-refresh"));
     m_ui.buttonReset->setToolTip(i18n("Reset effect"));
+    m_ui.buttonReset->setIconSize(iconSize);
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
     m_ui.buttonShowComments->setIcon(KIcon("help-about"));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
@@ -92,9 +100,11 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
     connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SLOT(slotShowComments()));
     connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement &, const QDomElement &)), this , SLOT(slotUpdateEffectParams(const QDomElement &, const QDomElement &)));
+    connect(m_effectedit, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString,QString)));
     connect(m_effectedit, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     connect(m_effectedit, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     connect(m_effectedit, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
+    
     connect(monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     connect(this, SIGNAL(showComments(bool)), m_effectedit, SIGNAL(showComments(bool)));
     m_effectLists["audio"] = &MainWindow::audioEffects;
@@ -229,17 +239,20 @@ void EffectStackView::slotTrackItemSelected(int ix, const TrackInfo info)
 
 void EffectStackView::slotItemChanged(QListWidgetItem *item)
 {
-    bool disable = true;
-    if (item->checkState() == Qt::Checked) disable = false;
-    m_ui.buttonReset->setEnabled(!disable || !KdenliveSettings::disable_effect_parameters());
+    bool disable = item->checkState() == Qt::Unchecked;
+    int row = m_ui.effectlist->row(item);
     int activeRow = m_ui.effectlist->currentRow();
-    if (activeRow >= 0) {
+
+    if (row == activeRow) {
+        m_ui.buttonReset->setEnabled(!disable || !KdenliveSettings::disable_effect_parameters());
         m_effectedit->updateParameter("disable", QString::number((int) disable));
-        if (m_trackMode)
-            emit changeEffectState(NULL, m_trackindex, activeRow, disable);
-        else
-            emit changeEffectState(m_clipref, -1, activeRow, disable);
     }
+
+    if (m_trackMode)
+        emit changeEffectState(NULL, m_trackindex, row, disable);
+    else
+        emit changeEffectState(m_clipref, -1, row, disable);
+
     slotUpdateCheckAllButton();
 }
 
@@ -526,6 +539,12 @@ void EffectStackView::slotShowComments()
 {
     m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count());
     emit showComments(m_ui.buttonShowComments->isChecked());
+}
+
+void EffectStackView::slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties)
+{
+    if (!m_clipref) return;
+    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterName, filterParams, finalFilterName, consumer, consumerParams, properties);
 }
 
 #include "effectstackview.moc"

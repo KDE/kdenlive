@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>297</width>
-    <height>215</height>
+    <height>244</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -247,7 +247,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Processing threads</string>
+         <string>Concurrent threads</string>
         </property>
        </widget>
       </item>

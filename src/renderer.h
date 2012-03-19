@@ -48,6 +48,8 @@
 class QTimer;
 class QPixmap;
 
+class KComboBox;
+
 namespace Mlt
 {
 class Consumer;
@@ -99,7 +101,7 @@ Q_OBJECT public:
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(const QString &rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
+    Render(Kdenlive::MONITORID rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -154,9 +156,6 @@ Q_OBJECT public:
 
     void saveZone(KUrl url, QString desc, QPoint zone);
 
-    /** @brief Returns the name of the renderer. */
-    const QString & rendererName() const;
-
     /** @brief Returns the speed at which the renderer is currently playing.
      *
      * It returns 0.0 when the renderer is not playing anything. */
@@ -172,8 +171,6 @@ Q_OBJECT public:
 
     /** @brief Returns the aspect ratio of the consumer. */
     double consumerRatio() const;
-
-    void doRefresh();
 
     /** @brief Saves current producer frame as an image. */
     void exportCurrentFrame(KUrl url, bool notify);
@@ -277,8 +274,6 @@ Q_OBJECT public:
     void showFrame(Mlt::Frame&);
 
     void showAudio(Mlt::Frame&);
-    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
-    bool analyseAudio;
     
     QList <int> checkTrackSequence(int);
     void sendFrameUpdate();
@@ -303,6 +298,10 @@ Q_OBJECT public:
     Mlt::Tractor *lockService();
     /** @brief Unlock the MLT service */
     void unlockService(Mlt::Tractor *tractor);
+    const QString activeClipId();
+    /** @brief Fill a combobox with the found blackmagic devices */
+    static bool getBlackMagicDeviceList(KComboBox *devicelist);
+    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist);
 
 private:
 
@@ -310,7 +309,7 @@ private:
      *
      * Useful to identify the renderers by what they do - e.g. background
      * rendering, workspace monitor, etc. */
-    QString m_name;
+    Kdenlive::MONITORID m_name;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
@@ -407,6 +406,9 @@ signals:
      */
     void removeInvalidProxy(const QString &id, bool durationError);
     void refreshDocumentProducers(bool displayRatioChanged, bool fpsChanged);
+    /** @brief A proxy clip is missing, ask for creation. */
+    void requestProxy(QString);
+
 
     /** @brief A frame's image has to be shown.
      *
@@ -432,6 +434,8 @@ public slots:
     void slotSwitchFullscreen();
     void slotSetVolume(int volume);
     void seekToFrame(int pos);
+    /** @brief Starts a timer to query for a refresh. */
+    void doRefresh();
 };
 
 #endif

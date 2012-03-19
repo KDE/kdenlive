@@ -20,94 +20,163 @@
 
 #include "abstractmonitor.h"
 #include "kdenlivesettings.h"
+#include "monitormanager.h"
 
 #include <KDebug>
 
 #include <QPaintEvent>
+#include <QDesktopWidget>
+#include <QVBoxLayout>
 
-VideoPreviewContainer::VideoPreviewContainer(QWidget *parent) :
-    QFrame(parent),
-    m_dar(1.0),
-    m_refresh(false)
+
+AbstractMonitor::AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager, QWidget *parent): 
+    QWidget(parent),
+    videoSurface(NULL),
+    m_id(id),
+    m_monitorManager(manager)
+{
+    videoBox = new VideoContainer(this);
+}
+
+
+AbstractMonitor::~AbstractMonitor()
+{
+    if (videoSurface)
+	delete videoSurface;
+}
+
+void AbstractMonitor::createVideoSurface()
+{
+    QVBoxLayout *lay = new QVBoxLayout;
+    lay->setContentsMargins(0, 0, 0, 0);
+    videoSurface = new VideoSurface;
+    lay->addWidget(videoSurface);
+    videoBox->setLayout(lay);
+}
+
+bool AbstractMonitor::isActive() const
+{
+    return m_monitorManager->isActive(m_id);
+}
+
+bool AbstractMonitor::slotActivateMonitor()
+{
+    return m_monitorManager->activateMonitor(m_id);
+}
+
+VideoContainer::VideoContainer(AbstractMonitor* monitor, QWidget *parent) :
+    QFrame(parent)
+    , m_monitor(monitor)
 {
     setFrameShape(QFrame::NoFrame);
     setFocusPolicy(Qt::ClickFocus);
+    //setEnabled(false);
+    setContentsMargins(0, 0, 0, 0);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(update()));
-    m_refreshTimer.setSingleShot(false);
-    m_refreshTimer.setInterval(200);
-}
-
-VideoPreviewContainer::~VideoPreviewContainer()
-{
-    qDeleteAll(m_imageQueue);
-}
-
-//virtual
-void VideoPreviewContainer::resizeEvent( QResizeEvent * /*event*/ )
-{
-    updateDisplayZone();
-}
-
-void VideoPreviewContainer::setRatio(double ratio)
-{
-    m_dar = ratio;
-    updateDisplayZone();
-}
-
-
-void VideoPreviewContainer::updateDisplayZone()
-{
-    QRect rect = this->frameRect();
-    int paintW = rect.height() * m_dar + 0.5;
-    if (paintW > rect.width()) {
-        int paintH = rect.width() / m_dar + 0.5;
-        int diff = (rect.height() - paintH)  / 2;
-        rect.adjust(0, diff, 0, 0);
-        rect.setHeight(paintH);
-    }
-    else {
-        int diff = (rect.width() - paintW)  / 2;
-        rect.adjust(diff, 0, 0, 0);
-        rect.setWidth(paintW);
-    }
-    m_displayRect = rect;
-    m_refresh = true;
-}
-
-void VideoPreviewContainer::setImage(QImage img)
-{
-    if (m_imageQueue.count() > 2) {
-        delete m_imageQueue.takeLast();
-    }
-    m_imageQueue.prepend(new QImage(img));
-    update();
-}
-
-void VideoPreviewContainer::stop()
-{
-    //m_refreshTimer.stop();
-    qDeleteAll(m_imageQueue);
-    m_imageQueue.clear();
-}
-
-void VideoPreviewContainer::start()
-{
-    //m_refreshTimer.start();
 }
 
 // virtual
-void VideoPreviewContainer::paintEvent(QPaintEvent *event)
+void VideoContainer::mouseReleaseEvent(QMouseEvent * event)
 {
-    if (m_imageQueue.isEmpty()) return;
-    QImage *img = m_imageQueue.takeFirst();
-    QPainter painter(this);
-    if (m_refresh) {
-        painter.fillRect(event->rect(), QColor(KdenliveSettings::window_background()));
-        m_refresh = false;
+    if (event->button() != Qt::RightButton) {
+        if (m_monitor->isActive()) {
+            m_monitor->slotPlay();
+        }
     }
-    painter.drawImage(m_displayRect, *img);
-    delete img;
 }
 
+// virtual
+void VideoContainer::keyPressEvent(QKeyEvent *event)
+{
+    // Exit fullscreen with Esc key
+    if (event->key() == Qt::Key_Escape && isFullScreen()) {
+        switchFullScreen();
+        event->setAccepted(true);
+    } else event->setAccepted(false);
+}
+
+// virtual
+void VideoContainer::wheelEvent(QWheelEvent * event)
+{
+    m_monitor->slotMouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
+    event->accept();
+}
+
+void VideoContainer::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    if (!KdenliveSettings::openglmonitors())
+        switchFullScreen();
+    event->accept();
+}
+
+void VideoContainer::switchFullScreen()
+{
+    // TODO: disable screensaver?
+    Qt::WindowFlags flags = windowFlags();
+    if (!isFullScreen()) {
+        // Check if we ahave a multiple monitor setup
+        setUpdatesEnabled(false);
+#if QT_VERSION >= 0x040600
+        int monitors = QApplication::desktop()->screenCount();
+#else
+        int monitors = QApplication::desktop()->numScreens();
+#endif
+        if (monitors > 1) {
+            QRect screenres;
+            // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
+            int currentScreen = QApplication::desktop()->screenNumber(this);
+            if (currentScreen < monitors - 1)
+                screenres = QApplication::desktop()->screenGeometry(currentScreen + 1);
+            else
+                screenres = QApplication::desktop()->screenGeometry(currentScreen - 1);
+            move(QPoint(screenres.x(), screenres.y()));
+            resize(screenres.width(), screenres.height());
+        }
+
+        m_baseFlags = flags & (Qt::Window | Qt::SubWindow);
+        flags |= Qt::Window;
+        flags ^= Qt::SubWindow;
+        setWindowFlags(flags);
+#ifdef Q_WS_X11
+        // This works around a bug with Compiz
+        // as the window must be visible before we can set the state
+        show();
+        raise();
+        setWindowState(windowState() | Qt::WindowFullScreen);   // set
+#else
+        setWindowState(windowState() | Qt::WindowFullScreen);   // set
+        setUpdatesEnabled(true);
+        show();
+#endif
+        setEnabled(true);
+    } else {
+        setUpdatesEnabled(false);
+        flags ^= (Qt::Window | Qt::SubWindow); //clear the flags...
+        flags |= m_baseFlags; //then we reset the flags (window and subwindow)
+        setWindowFlags(flags);
+        setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
+        setUpdatesEnabled(true);
+        setEnabled(false);
+        show();
+    }
+}
+
+VideoSurface::VideoSurface(QWidget* parent) :
+    QWidget(parent)
+{
+    // MonitorRefresh is used as container for the SDL display (it's window id is passed to SDL)
+    setAttribute(Qt::WA_PaintOnScreen);
+    setAttribute(Qt::WA_OpaquePaintEvent);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    setAttribute(Qt::WA_NoSystemBackground);
+    setUpdatesEnabled(false);
+}
+
+void VideoSurface::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    //WARNING: This might trigger unnecessary refreshes from MLT's producer, but without this,
+    // as soon as monitor is covered by a popup menu or another window, image is corrupted.
+    emit refreshMonitor();
+}
 

@@ -34,10 +34,17 @@
 #include <QFuture>
 #include <QFutureSynchronizer>
 #include <QListWidget>
+#include <QTimeLine>
+#include <QPushButton>
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
 #include <KIcon>
+#include <kdeversion.h>
+
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#endif
 
 #ifdef NEPOMUK
 #include <nepomuk/kratingpainter.h>
@@ -49,6 +56,7 @@
 #include "kdenlivesettings.h"
 #include "folderprojectitem.h"
 #include "subprojectitem.h"
+#include "projecttree/abstractclipjob.h"
 #include <kdialog.h>
 
 namespace Mlt
@@ -56,23 +64,34 @@ namespace Mlt
 class Producer;
 };
 
-struct PROXYINFO {
-    QString dest;
-    QString src;
-    CLIPTYPE type;
-    int exif;
-};
-
 class ProjectItem;
 class ProjectListView;
 class Render;
 class KdenliveDoc;
 class DocClipBase;
+class AbstractClipJob;
 
 const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;
 const int UsageRole = NameRole + 2;
 
+class SmallInfoLabel: public QPushButton
+{
+    Q_OBJECT
+public:
+    SmallInfoLabel(QWidget *parent = 0);
+
+private:
+    QTimeLine* m_timeLine;
+
+public slots:
+    void slotSetJobCount(int jobCount);
+
+private slots:
+    void slotTimeLineChanged(qreal value);
+    void slotTimeLineFinished();
+};
+    
 class InvalidDialog: public KDialog
 {
     Q_OBJECT
@@ -91,7 +110,7 @@ class ItemDelegate: public QStyledItemDelegate
 public:
     ItemDelegate(QAbstractItemView* parent = 0): QStyledItemDelegate(parent) {
     }
-
+    
     /*void drawFocus(QPainter *, const QStyleOptionViewItem &, const QRect &) const {
     }*/
 
@@ -108,7 +127,8 @@ public:
             }
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
-            painter->drawPixmap(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2, pixmap);
+            QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
+            painter->drawPixmap(pixmapPoint, pixmap);
             int decoWidth = pixmap.width() + 2 * textMargin;
 
             QFont font = painter->font();
@@ -118,7 +138,7 @@ public:
             r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, index.data().toString());
             font.setBold(false);
             painter->setFont(font);
             QString subText = index.data(DurationRole).toString();
@@ -128,46 +148,40 @@ public:
             QRectF bounding;
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
             
-            int proxy = index.data(Qt::UserRole + 5).toInt();
-            if (proxy != 0) {
-                QRectF txtBounding;
-                QString proxyText;
-                QBrush brush;
-                QColor color;
-                if (proxy > 0) {
-                    proxyText = QString::number(proxy) + "% ";
-                    proxyText.append(i18n("Generating proxy ..."));
-                    brush = option.palette.highlight();
-                    color = option.palette.color(QPalette::HighlightedText);
-                    
-                }
-                else if (proxy == PROXYDONE) {
-                    proxyText = i18n("Proxy");
-                    brush = option.palette.mid();
-                    color = option.palette.color(QPalette::WindowText);
-                }
-                else {
-                    switch (proxy)  {
-                        case CREATINGPROXY:
-                            proxyText = i18n("Generating proxy ...");
-                            break;
-                        case PROXYWAITING:
-                            proxyText = i18n("Waiting proxy ...");
-                            break;
-                        case PROXYCRASHED:
-                        default:
-                            proxyText = i18n("Proxy crashed");
+            int jobProgress = index.data(Qt::UserRole + 5).toInt();
+            if (jobProgress != 0 && jobProgress != JOBDONE && jobProgress != JOBABORTED) {
+                if (jobProgress != JOBCRASHED) {
+                    // Draw job progress bar
+                    QColor color = option.palette.alternateBase().color();
+                    painter->setPen(Qt::NoPen);
+                    color.setAlpha(180);
+                    painter->setBrush(QBrush(color));
+                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 2, 8);
+                    painter->drawRect(progress);
+                    painter->setBrush(option.palette.text());
+                    if (jobProgress > 0) {
+                        progress.adjust(1, 1, 0, -1);
+                        progress.setWidth((pixmap.width() - 4) * jobProgress / 100);
+                        painter->drawRect(progress);
+                    } else if (jobProgress == JOBWAITING) {
+                        // Draw kind of a pause icon
+                        progress.adjust(1, 1, 0, -1);
+                        progress.setWidth(2);
+                        painter->drawRect(progress);
+                        progress.moveLeft(progress.right() + 2);
+                        painter->drawRect(progress);
                     }
-                    brush = option.palette.highlight();
-                    color = option.palette.color(QPalette::HighlightedText);
+                } else if (jobProgress == JOBCRASHED) {
+                    QString jobText = index.data(Qt::UserRole + 7).toString();
+                    if (!jobText.isEmpty()) {
+                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                        painter->setPen(Qt::NoPen);
+                        painter->setBrush(option.palette.highlight());
+                        painter->drawRoundedRect(txtBounding, 2, 2);
+                        painter->setPen(option.palette.highlightedText().color());
+                        painter->drawText(txtBounding, Qt::AlignCenter, jobText);
+                    }
                 }
-               
-                txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + proxyText + " ");
-                painter->setPen(Qt::NoPen);
-                painter->setBrush(brush);
-                painter->drawRoundedRect(txtBounding, 2, 2);
-                painter->setPen(option.palette.highlightedText().color());
-                painter->drawText(txtBounding, Qt::AlignHCenter | Qt::AlignVCenter , proxyText);
             }
             
             painter->restore();
@@ -207,6 +221,8 @@ public:
     void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
     QString currentClipUrl() const;
     KUrl::List getConditionalUrls(const QString &condition) const;
+    /** @brief Get a list of selected clip Id's that match a condition. */
+    QStringList getConditionalIds(const QString &condition) const;
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);
     void cleanup();
     void trashUnusedClips();
@@ -239,9 +255,14 @@ public:
     QStringList expandedFolders() const;
     /** @brief Deselect all clips in project tree. */
     void clearSelection();
+    /** @brief Print required overlays over clip thumb (proxy, stabilized,...). */
+    void processThumbOverlays(ProjectItem *item, QPixmap &pix);
+    /** @brief Start an MLT process job. */
+    void startClipFilterJob(const QString &filterName, const QString &condition);
+    /** @brief Set current document for the project tree. */
+    void setDocument(KdenliveDoc *doc);
 
 public slots:
-    void setDocument(KdenliveDoc *doc);
     void updateAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
     void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
@@ -257,6 +278,7 @@ public slots:
 
     /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
+    void slotAddClip(const QString url, const QString &groupName, const QString &groupId);
     void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
 
     /** @brief Adds, edits or deletes a folder item.
@@ -276,6 +298,13 @@ public slots:
     void slotForceProcessing(const QString &id);
     /** @brief Remove all instances of a proxy and delete the file. */
     void slotDeleteProxy(const QString proxyPath);
+    /** @brief Start a hard cut clip job. */
+    void slotCutClipJob(const QString &id, QPoint zone);
+    /** @brief Start transcoding selected clips. */
+    void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
+    /** @brief Start an MLT process job. */
+    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&);
+    
 
 private:
     ProjectListView *m_listView;
@@ -288,8 +317,11 @@ private:
     ProjectItem *getItemById(const QString &id);
     QTreeWidgetItem *getAnyItemById(const QString &id);
     FolderProjectItem *getFolderItemById(const QString &id);
+    FolderProjectItem *getFolderItemByName(const QString &name);
     QAction *m_openAction;
     QAction *m_reloadAction;
+    QAction *m_discardCurrentClipJobs;
+    QMenu *m_extractAudioAction;
     QMenu *m_transcodeAction;
     QMenu *m_stabilizeAction;
     KdenliveDoc *m_doc;
@@ -305,16 +337,22 @@ private:
     QMap <QString, QDomElement> m_producerQueue;
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
-    QStringList m_processingClips;
-    /** @brief Holds a list of proxy urls that should be aborted. */
-    QStringList m_abortProxy;
-    /** @brief Holds a list of proxy urls that are currently being created. */
-    QStringList m_processingProxy;
-    QMutex m_mutex;
-    bool m_abortAllProxies;
-    QList <PROXYINFO> m_proxyList;
-    QFutureSynchronizer<void> m_proxyThreads;
+    QMutex m_jobMutex;
+    bool m_abortAllJobs;
+    /** @brief We are cleaning up the project list, so stop processing signals. */
+    bool m_closing;
+    QList <AbstractClipJob *> m_jobList;
+    QFutureSynchronizer<void> m_jobThreads;
     InvalidDialog *m_invalidClipDialog;
+    QMenu *m_jobsMenu;
+    SmallInfoLabel *m_infoLabel;
+#if KDE_IS_VERSION(4,7,0)
+    KMessageWidget *m_infoMessage;
+    /** @brief A string containing the last error log for a clip job. */
+    QString m_errorLog;
+    /** @brief The action that will trigger the log dialog. */
+    QAction *m_logAction;
+#endif
     
     void requestClipThumbnail(const QString id);
 
@@ -338,19 +376,27 @@ private:
 
     /** @brief Set the Proxy status on a clip. 
      * @param item The clip item to set status
-     * @param status The proxy status (see definitions.h) */
-    void setProxyStatus(const QString proxyPath, PROXYSTATUS status, int progress = 0);
-    void setProxyStatus(ProjectItem *item, PROXYSTATUS status, int progress = 0);
-    /** @brief Process ffmpeg output to find out process progress. */
-    void processLogInfo(QList <ProjectItem *>items, int *duration, const QString &log);
+     * @param jobType The job type 
+     * @param status The job status (see definitions.h)
+     * @param progress The job progress (in percents)
+     * @param statusMessage The job info message */
+    void setJobStatus(ProjectItem *item, JOBTYPE jobType, CLIPJOBSTATUS status, int progress = 0, const QString &statusMessage = QString());
     void monitorItemEditing(bool enable);
-    /** @brief Set thumbnail for a project's clip. */
-    void setThumbnail(const QString &clipId, const QPixmap &pix);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);
     void getCachedThumbnail(SubProjectItem *item);
     /** @brief The clip is about to be reloaded, cancel thumbnail requests. */
     void resetThumbsProducer(DocClipBase *clip);
+    /** @brief Check if a clip has a running or pending job process. */
+    bool hasPendingJob(ProjectItem *item, JOBTYPE type);
+    /** @brief Delete pending jobs for a clip. */
+    void deleteJobsForClip(const QString &clipId);
+    /** @brief Discard specific job type for a clip. */
+    void discardJobs(const QString &id, JOBTYPE type = NOJOBTYPE);
+    /** @brief Get the list of job names for current clip. */
+    QStringList getPendingJobs(const QString &id);
+    /** @brief Start an MLT process job. */
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description);
 
 private slots:
     void slotClipSelected();
@@ -364,7 +410,7 @@ private slots:
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *item);
 
     /** @brief Creates an AddFolderCommand. */
-    void slotAddFolder();
+    void slotAddFolder(const QString &name = QString());
 
     /** @brief This is triggered when a clip description has been modified. */
     void slotItemEdited(QTreeWidgetItem *item, int column);
@@ -389,11 +435,30 @@ private slots:
     void slotCreateProxy(const QString id);
     /** @brief Stop creation of this clip's proxy. */
     void slotAbortProxy(const QString id, const QString path);
-    /** @brief Start creation of proxy clip. */
-    void slotGenerateProxy();
+    /** @brief Start creation of clip jobs. */
+    void slotProcessJobs();
+    /** @brief Discard running and pending clip jobs. */
+    void slotCancelJobs();
+    /** @brief Discard a running clip jobs. */
+    void slotCancelRunningJob(const QString id, stringMap);
+    /** @brief Update a clip's job status. */
+    void slotProcessLog(const QString, int progress, int, const QString = QString());
+    /** @brief A clip job crashed, inform user. */
+    void slotUpdateJobStatus(const QString id, int type, int status, const QString label, const QString actionName, const QString details);
+    void slotUpdateJobStatus(ProjectItem *item, int type, int status, const QString &label, const QString &actionName = QString(), const QString details = QString());
+    /** @brief Display error log for last failed job. */
+    void slotShowJobLog();
+    /** @brief A proxy clip is ready. */
+    void slotGotProxyForId(const QString);
+    /** @brief Check if it is necessary to start a job thread. */
+    void slotCheckJobProcess();
+    /** @brief Fill the jobs menu with current clip's jobs. */
+    void slotPrepareJobsMenu();
+    /** @brief Discard all jobs for current clip. */
+    void slotDiscardClipJobs();
 
 signals:
-    void clipSelected(DocClipBase *, QPoint zone = QPoint());
+    void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
@@ -414,6 +479,16 @@ signals:
     void processNextThumbnail();
     /** @brief Activate the clip monitor. */
     void raiseClipMonitor();
+    /** @brief Set number of running jobs. */
+    void jobCount(int);
+    void cancelRunningJob(const QString, stringMap);
+    void processLog(const QString, int , int, const QString = QString());
+    void addClip(const QString, const QString &, const QString &);
+    void updateJobStatus(const QString, int, int, const QString label = QString(), const QString actionName = QString(), const QString details = QString());
+    void gotProxy(const QString);
+    void checkJobProcess();
+    /** @brief A Filter Job produced results, send them back to the clip. */
+    void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params);
 };
 
 #endif

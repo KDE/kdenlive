@@ -39,10 +39,13 @@ public:
     /** @brief Sets up the widget.
     * @param text (optional) What the color will be used for
     * @param color (optional) initial color */
-    ChooseColorWidget(QString text = QString(), QColor color = QColor(), QWidget* parent = 0);
+    ChooseColorWidget(QString text = QString(), QString color = "0xffffffff", QWidget* parent = 0);
 
     /** @brief Gets the choosen color. */
-    QColor getColor();
+    QString getColor();
+    /** @brief Enable the use of alpha channel.
+    * @param enabled (required) whether alpha is enabled or disabled */
+    void setAlphaChannelEnabled(bool enabled);
 
 private:
     KColorButton *m_button;

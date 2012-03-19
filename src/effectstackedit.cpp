@@ -20,6 +20,8 @@
 #include "ui_boolval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "ui_urlval_ui.h"
+#include "ui_keywordval_ui.h"
+#include "ui_fontval_ui.h"
 #include "complexparameter.h"
 #include "geometryval.h"
 #include "positionedit.h"
@@ -67,6 +69,14 @@ class Wipeval: public QWidget, public Ui::Wipeval_UI
 };
 
 class Urlval: public QWidget, public Ui::Urlval_UI
+{
+};
+
+class Keywordval: public QWidget, public Ui::Keywordval_UI
+{
+};
+
+class Fontval: public QWidget, public Ui::Fontval_UI
 {
 };
 
@@ -252,7 +262,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
         QString comment;
         if (!commentElem.isNull())
             comment = i18n(commentElem.text().toUtf8().data());
-        QWidget * toFillin = new QWidget(m_baseWidget);
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
 
@@ -279,7 +288,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
         } else if (type == "list") {
             Listval *lsval = new Listval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             lsval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             QStringList listitems = pa.attribute("paramlist").split(';');
             if (listitems.count() == 1) {
                 // probably custom effect created before change to ';' as separator
@@ -317,7 +328,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             m_uiItems.append(lsval);
         } else if (type == "bool") {
             Boolval *bval = new Boolval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             bval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             bval->checkBox->setCheckState(value == "0" ? Qt::Unchecked : Qt::Checked);
             bval->name->setText(paramName);
             bval->labelComment->setText(comment);
@@ -391,10 +404,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
                 m_keyframeEditor->addParameter(pa);
             }
         } else if (type == "color") {
-            if (value.startsWith('#'))
-                value = value.replace('#', "0x");
-            bool ok;
-            ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, QColor(value.toUInt(&ok, 16)), this);
+            ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, this);
+            choosecolor->setAlphaChannelEnabled(pa.attribute("alpha") == "1");
             m_vbox->addWidget(choosecolor);
             m_valueItems[paramName] = choosecolor;
             connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
@@ -471,7 +482,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
 #endif
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             wpval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             wipeInfo w = getWipeInfo(value);
             switch (w.start) {
             case UP:
@@ -526,7 +539,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             m_uiItems.append(wpval);
         } else if (type == "url") {
             Urlval *cval = new Urlval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
             cval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
             cval->label->setText(paramName);
             cval->urlwidget->fileDialog()->setFilter(ProjectList::getExtensions());
             m_valueItems[paramName] = cval;
@@ -534,13 +549,51 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(collectAllParameters()));
             connect(cval->urlwidget, SIGNAL(urlSelected(const KUrl&)) , this, SLOT(collectAllParameters()));
             m_uiItems.append(cval);
-        } else {
-            delete toFillin;
-            toFillin = NULL;
-        }
-
-        if (toFillin)
+        } else if (type == "keywords") {
+            Keywordval* kval = new Keywordval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
+            kval->setupUi(toFillin);
             m_vbox->addWidget(toFillin);
+            kval->label->setText(paramName);
+            kval->lineeditwidget->setText(value);
+            QDomElement klistelem = pa.firstChildElement("keywords");
+            QDomElement kdisplaylistelem = pa.firstChildElement("keywordsdisplay");
+            QStringList keywordlist;
+            QStringList keyworddisplaylist;
+            if (!klistelem.isNull()) {
+                keywordlist = klistelem.text().split(';');
+                keyworddisplaylist = i18n(kdisplaylistelem.text().toUtf8().data()).split(';');
+            }
+            if (keyworddisplaylist.count() != keywordlist.count()) {
+                keyworddisplaylist = keywordlist;
+            }
+            for (int i = 0; i < keywordlist.count(); i++) {
+                kval->comboboxwidget->addItem(keyworddisplaylist.at(i), keywordlist.at(i));
+            }
+            // Add disabled user prompt at index 0
+            kval->comboboxwidget->insertItem(0, i18n("<select a keyword>"), "");
+            kval->comboboxwidget->model()->setData( kval->comboboxwidget->model()->index(0,0), QVariant(Qt::NoItemFlags), Qt::UserRole -1);
+            kval->comboboxwidget->setCurrentIndex(0);
+            m_valueItems[paramName] = kval;
+            connect(kval->lineeditwidget, SIGNAL(editingFinished()) , this, SLOT(collectAllParameters()));
+            connect(kval->comboboxwidget, SIGNAL(activated (const QString&)), this, SLOT(collectAllParameters()));
+            m_uiItems.append(kval);
+        } else if (type == "fontfamily") {
+            Fontval* fval = new Fontval;
+            QWidget * toFillin = new QWidget(m_baseWidget);
+            fval->setupUi(toFillin);
+            m_vbox->addWidget(toFillin);
+            fval->name->setText(paramName);
+            fval->fontfamilywidget->setCurrentFont(QFont(value));
+            m_valueItems[paramName] = fval;
+            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(collectAllParameters())) ;
+            m_uiItems.append(fval);
+        } else if (type == "filterjob") {
+            QPushButton *button = new QPushButton(paramName, m_baseWidget);
+            m_vbox->addWidget(button);
+            m_valueItems[paramName] = button;
+            connect(button, SIGNAL(pressed()), this, SLOT(slotStartFilterJobAction()));   
+        }
     }
 
     if (stretch)
@@ -685,7 +738,7 @@ void EffectStackEdit::collectAllParameters()
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
             ChooseColorWidget *choosecolor = ((ChooseColorWidget*)m_valueItems.value(paramName));
-            setValue = choosecolor->getColor().name();
+            setValue = choosecolor->getColor();
         } else if (type == "complex") {
             ComplexParameter *complex = ((ComplexParameter*)m_valueItems.value(paramName));
             namenode.item(i) = complex->getParamDesc();
@@ -801,6 +854,19 @@ void EffectStackEdit::collectAllParameters()
         } else if (type == "url") {
             KUrlRequester *req = ((Urlval*)m_valueItems.value(paramName))->urlwidget;
             setValue = req->url().path();
+        } else if (type == "keywords"){
+            QLineEdit *line = ((Keywordval*)m_valueItems.value(paramName))->lineeditwidget;
+            QComboBox *combo = ((Keywordval*)m_valueItems.value(paramName))->comboboxwidget;
+            if(combo->currentIndex())
+            {
+                QString comboval = combo->itemData(combo->currentIndex()).toString();
+                line->insert(comboval);
+                combo->setCurrentIndex(0);
+            }
+            setValue = line->text();
+        } else if (type == "fontfamily") {
+            QFontComboBox* fontfamily = ((Fontval*)m_valueItems.value(paramName))->fontfamilywidget;
+            setValue = fontfamily->currentFont().family();
         }
 
         if (!setValue.isNull())
@@ -836,3 +902,18 @@ void EffectStackEdit::slotSyncEffectsPos(int pos)
 {
     emit syncEffectsPos(pos);
 }
+
+void EffectStackEdit::slotStartFilterJobAction()
+{
+    QDomNodeList namenode = m_params.elementsByTagName("parameter");
+    for (int i = 0; i < namenode.count() ; i++) {
+        QDomElement pa = namenode.item(i).toElement();
+        QString type = pa.attribute("type");
+        if (type == "filterjob") {
+            emit startFilterJob(pa.attribute("filtertag"), pa.attribute("filterparams"), pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), pa.attribute("wantedproperties"));
+            kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("wantedproperties");
+            break;
+        }
+    }
+}
+

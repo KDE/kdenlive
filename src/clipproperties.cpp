@@ -27,6 +27,19 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <KFileItem>
+#include <kdeversion.h>
+#include <KUrlLabel>
+#include <KRun>
+
+#ifdef USE_NEPOMUK
+#if KDE_IS_VERSION(4,6,0)
+#include <Nepomuk/Variant>
+#include <Nepomuk/Resource>
+#include <Nepomuk/ResourceManager>
+#include <Nepomuk/Vocabulary/NIE>
+#endif
+#endif
+
 
 #include <QDir>
 
@@ -401,6 +414,13 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame rate") << props.value("fps"));
             if (!m_view.clip_framerate->isEnabled()) m_view.clip_framerate->setValue(props.value("fps").toDouble());
         }
+
+        if (props.contains("progressive")) {
+            int scanning = props.value("progressive").toInt();
+            QString txt = scanning == 1 ? i18n("Progressive") : i18n("Interlaced");
+            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Scanning") << txt);
+        }
+        
         if (props.contains("aspect_ratio"))
             new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel aspect ratio") << props.value("aspect_ratio"));
 
@@ -409,6 +429,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 
         if (props.contains("colorspace"))
             new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
+        
 
         int width = 180.0 * KdenliveSettings::project_display_ratio();
         if (width % 2 == 1) width++;
@@ -430,8 +451,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_filesize->setHidden(true);
         m_view.label_size->setHidden(true);
     }
-    m_view.clip_duration->setInputMask("");
-    m_view.clip_duration->setValidator(tc.validator());
+    m_view.clip_duration->setInputMask(tc.mask());
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration()));
     if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
     else {
@@ -447,6 +467,31 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.marker_delete->setIcon(KIcon("trash-empty"));
     m_view.marker_delete->setToolTip(i18n("Delete marker"));
 
+        // Check for Nepomuk metadata
+#ifdef USE_NEPOMUK
+#if KDE_IS_VERSION(4,6,0)
+    if (!url.isEmpty()) {
+        Nepomuk::ResourceManager::instance()->init();
+        Nepomuk::Resource res( url.path() );
+        // Check if file has a license
+        if (res.hasProperty(Nepomuk::Vocabulary::NIE::license())) {
+            QString ltype = res.property(Nepomuk::Vocabulary::NIE::licenseType()).toString();
+            m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk::Vocabulary::NIE::license()).toString()));
+            if (ltype.startsWith("http")) {
+                m_view.clip_license->setUrl(ltype);
+                connect(m_view.clip_license, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
+            }
+        }
+        else m_view.clip_license->setHidden(true);
+    }
+    else m_view.clip_license->setHidden(true);
+#else
+    m_view.clip_license->setHidden(true);
+#endif
+#else
+    m_view.clip_license->setHidden(true);
+#endif
+    
     slotFillMarkersList();
     connect(m_view.marker_new, SIGNAL(clicked()), this, SLOT(slotAddMarker()));
     connect(m_view.marker_edit, SIGNAL(clicked()), this, SLOT(slotEditMarker()));
@@ -456,7 +501,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(this, SIGNAL(accepted()), this, SLOT(slotApplyProperties()));
     connect(m_view.buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApplyProperties()));
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    //adjustSize();
+    adjustSize();
 }
 
 
@@ -612,8 +657,10 @@ ClipProperties::~ClipProperties()
 
 void ClipProperties::slotApplyProperties()
 {
-    if (m_clip != NULL)
-        emit applyNewClipProperties(m_clip->getId(), m_clip->properties(), properties(), needsTimelineRefresh(), needsTimelineReload());
+    if (m_clip != NULL) {
+        QMap <QString, QString> props = properties();
+        emit applyNewClipProperties(m_clip->getId(), m_clip->currentProperties(props), props, needsTimelineRefresh(), needsTimelineReload());
+    }
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
 }
 
@@ -1024,6 +1071,11 @@ void ClipProperties::slotDeleteProxy()
       if (proxy.isEmpty()) return;
       emit deleteProxy(proxy);
       if (m_proxyContainer) delete m_proxyContainer;
+}
+
+void ClipProperties::slotOpenUrl(const QString &url)
+{
+    new KRun(KUrl(url), this);
 }
 
 #include "clipproperties.moc"

@@ -68,10 +68,8 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     m_view.animation->addItem(i18n("Zoom"), "Zoom");
     m_view.animation->addItem(i18n("Zoom, low-pass"), "Zoom, low-pass");
 
-    m_view.clip_duration->setInputMask("");
-    m_view.clip_duration->setValidator(m_timecode.validator());
-    m_view.luma_duration->setInputMask("");
-    m_view.luma_duration->setValidator(m_timecode.validator());
+    m_view.clip_duration->setInputMask(m_timecode.mask());
+    m_view.luma_duration->setInputMask(m_timecode.mask());
     m_view.luma_duration->setText(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))));
     m_view.folder_url->setUrl(QDir::homePath());
 
@@ -159,6 +157,7 @@ void SlideshowClip::slotEnableLumaFile(int state)
 }
 
 // static
+//TODO: sequence begin
 int SlideshowClip::sequenceCount(KUrl file)
 {
     // find pattern
@@ -177,12 +176,13 @@ int SlideshowClip::sequenceCount(KUrl file)
 
     // Find number of digits in sequence
     int precision = fullSize - filter.size();
+    int firstFrame = file.fileName().section('.', 0, -2).right(precision).toInt();    
     QString folder = file.directory(KUrl::AppendTrailingSlash);
     // Check how many files we have
     QDir dir(folder);
     QString path;
     int gap = 0;
-    for (int i = 0; gap < 100; i++) {
+    for (int i = firstFrame; gap < 100; i++) {
         path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
         if (dir.exists(path)) {
             count ++;
@@ -219,12 +219,13 @@ void SlideshowClip::parseFolder()
         filter = filter.section('.', 0, -2);
         int fullSize = filter.size();
         while (filter.at(filter.size() - 1).isDigit()) {
-            filter.remove(filter.size() - 1, 1);
+            filter.chop(1);
         }
         int precision = fullSize - filter.size();
+        int firstFrame = m_view.pattern_url->url().fileName().section('.', 0, -2).right(precision).toInt();
         QString path;
         int gap = 0;
-        for (int i = 0; gap < 100; i++) {
+        for (int i = firstFrame; gap < 100; i++) {
             path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
             if (dir.exists(path)) {
                 result.append(path);
@@ -299,6 +300,7 @@ QString SlideshowClip::selectedPath()
     else url = m_view.pattern_url->url();
     QString path = selectedPath(url, m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
     m_count = list.count();
+    kDebug()<<"// SELECTED PATH: "<<path;
     return path;
 }
 
@@ -326,6 +328,7 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
         QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);
         int fullSize = filter.size();
+	QString firstFrameData = filter;
 
         while (filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
@@ -333,12 +336,13 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
 
         // Find number of digits in sequence
         int precision = fullSize - filter.size();
+	int firstFrame = firstFrameData.right(precision).toInt();
 
         // Check how many files we have
         QDir dir(folder);
         QString path;
         int gap = 0;
-        for (int i = 0; gap < 100; i++) {
+        for (int i = firstFrame; gap < 100; i++) {
             path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
             if (dir.exists(path)) {
                 (*list).append(folder + path);
@@ -347,7 +351,8 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
                 gap++;
             }
         }
-        extension = filter + "%." + QString::number(precision) + "d" + ext;
+        if (firstFrame > 0) extension = filter + "%" + QString::number(firstFrame).rightJustified(precision, '0', false) + "d" + ext;
+        else extension = filter + "%" + QString::number(precision) + "d" + ext;
     }
     kDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;
@@ -423,11 +428,7 @@ void SlideshowClip::slotUpdateDurationFormat(int ix)
         m_view.luma_duration_frames->setValue(m_timecode.getFrameCount(m_view.luma_duration->text()));
     } else {
         // switching to timecode format
-        m_view.clip_duration->setInputMask("");
-        m_view.clip_duration->setValidator(m_timecode.validator());
         m_view.clip_duration->setText(m_timecode.getTimecodeFromFrames(m_view.clip_duration_frames->value()));
-        m_view.luma_duration->setInputMask("");
-        m_view.luma_duration->setValidator(m_timecode.validator());
         m_view.luma_duration->setText(m_timecode.getTimecodeFromFrames(m_view.luma_duration_frames->value()));
     }
     m_view.clip_duration_frames->setHidden(!framesFormat);
@@ -440,16 +441,12 @@ void SlideshowClip::slotMethodChanged(bool active)
 {
     if (active) {
         // User wants mimetype image sequence
-        if (m_view.clip_duration->text().isEmpty()) {
-            m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
-        }
+        m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
         m_view.stackedWidget->setCurrentIndex(0);
         KdenliveSettings::setSlideshowbymime(true);
     } else {
         // User wants pattern image sequence
-        if (m_view.clip_duration->text().isEmpty()) {
-            m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()));
-        }
+        m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::sequence_duration()));
         m_view.stackedWidget->setCurrentIndex(1);
         KdenliveSettings::setSlideshowbymime(false);
     }
@@ -473,6 +470,7 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
     }
     return geometry;
 }
+
 
 #include "slideshowclip.moc"
 

@@ -51,7 +51,7 @@ class TrackView : public QWidget, public Ui::TimeLine_UI
     Q_OBJECT
 
 public:
-    explicit TrackView(KdenliveDoc *doc, bool *ok, QWidget *parent = 0);
+    explicit TrackView(KdenliveDoc *doc, QList <QAction *> actions, bool *ok, QWidget *parent = 0);
     virtual ~ TrackView();
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
@@ -103,6 +103,8 @@ private:
     KdenliveDoc *m_doc;
     int m_verticalZoom;
     QString m_documentErrors;
+    QList <QAction *> m_trackActions;
+    
     void parseDocument(QDomDocument doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers);
     DocClipBase *getMissingProducer(const QString id) const;
@@ -141,8 +143,6 @@ signals:
     void mousePosition(int);
     void cursorMoved();
     void zoneMoved(int, int);
-    void insertTrack(int);
-    void deleteTrack(int);
     void configTrack(int);
     void updateTracksInfo();
     void setZoom(int);

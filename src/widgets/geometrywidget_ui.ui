@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>133</width>
-    <height>85</height>
+    <width>129</width>
+    <height>86</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
@@ -77,13 +77,13 @@
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>16</height>
+          <height>20</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>16</height>
+          <height>20</height>
          </size>
         </property>
        </widget>

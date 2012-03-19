@@ -96,6 +96,9 @@ public slots:
 
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotSyncEffectsPos(int pos);
+    
+private slots:
+    void slotStartFilterJobAction();
 
 signals:
     void parameterChanged(const QDomElement &, const QDomElement &);
@@ -105,6 +108,8 @@ signals:
     void syncEffectsPos(int pos);
     void showComments(bool show);
     void effectStateChanged(bool enabled);
+    /** @brief Start an MLT filter job on this clip. */
+    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &finalFilterName, const QString &consumer, const QString &consumerParams, const QString &properties);
 };
 
 #endif

@@ -67,6 +67,7 @@ class JogShuttleAction;
 class DocClipBase;
 class Render;
 class Transition;
+class ScopeManager;
 class Histogram;
 class Vectorscope;
 class Waveform;
@@ -138,6 +139,8 @@ private:
     KTabWidget* m_timelineArea;
     QProgressBar *m_statusProgressBar;
 
+    ScopeManager *m_scopeManager;
+
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
     KdenliveDoc *m_activeDocument;
@@ -198,7 +201,6 @@ private:
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList <QDockWidget *> m_gfxScopesList;
-    QList <AbstractAudioScopeWidget *> m_audioScopesList;
 
     KActionCategory *m_effectActions;
     QMenu *m_effectsMenu;
@@ -210,7 +212,7 @@ private:
 
     /** Actions used in the stopmotion widget */
     KActionCategory *m_stopmotion_actions;
-    
+
     /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
     QStringList m_action_names;
 
@@ -261,6 +263,7 @@ private:
     StatusBarMessageLabel *m_messageLabel;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
+    KActionCollection *m_tracksActionCollection;
 
     bool m_findActivated;
     QString m_findString;
@@ -274,7 +277,7 @@ private:
     void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
-    void recoverFiles(QList<KAutoSaveFile *> staleFiles);
+    void recoverFiles(QList<KAutoSaveFile *> staleFiles, const KUrl &originUrl);
 
     /** @brief Loads static and dynamic plugins.
      *
@@ -412,7 +415,7 @@ private slots:
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
-    void slotAddProjectClip(KUrl url);
+    void slotAddProjectClip(KUrl url, const QString &comment = QString());
     void slotAddProjectClipList(KUrl::List urls);
     void slotShowClipProperties(DocClipBase *clip);
     void slotShowClipProperties(QList <DocClipBase *>cliplist, QMap<QString, QString> commonproperties);
@@ -454,10 +457,14 @@ private slots:
     void slotResizeItemStart();
     void slotResizeItemEnd();
     void configureNotifications();
-    void slotInsertTrack(int ix = 0);
-    void slotDeleteTrack(int ix = 0);
+    void slotInsertTrack(int ix = -1);
+    void slotDeleteTrack(int ix = -1);
     /** @brief Shows the configure tracks dialog and updates transitions afterwards. */
     void slotConfigTrack(int ix = -1);
+    /** @brief Select all clips in active track. */
+    void slotSelectTrack();
+    /** @brief Select all clips in timeline. */
+    void slotSelectAllTracks();
     void slotGetNewLumaStuff();
     void slotGetNewTitleStuff();
     void slotGetNewRenderStuff();
@@ -478,7 +485,7 @@ private slots:
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
     void slotTranscode(KUrl::List urls = KUrl::List());
-    void slotStabilize(KUrl::List urls = KUrl::List());
+    void slotStabilize();
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();
@@ -525,18 +532,6 @@ private slots:
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
-    /** @brief Check if someone needs the render frame sent. */
-    void slotUpdateGfxScopeFrameRequest();
-    /** @brief Check if someone needs the render frame sent. */
-    void slotDoUpdateGfxScopeFrameRequest();
-    void slotUpdateAudioScopeFrameRequest();
-    void slotDoUpdateAudioScopeFrameRequest();
-    /** @brief When switching between monitors, update the visible scopes. */
-    void slotUpdateColorScopes();
-    /** @brief Active monitor deleted, clear scopes. */
-    void slotClearColorScopes();
-    /** @brief Switch current monitor to fullscreen. */
-    void slotSwitchFullscreen();
     /** @brief Open the stopmotion dialog. */
     void slotOpenStopmotion();
     /** @brief Implements all the actions that are int he ActionsCollection. */
@@ -551,6 +546,8 @@ private slots:
     void slotDisableProxies();
 
     void slotElapsedTime();
+    /** @brief Open the online services search dialog. */
+    void slotDownloadResources();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

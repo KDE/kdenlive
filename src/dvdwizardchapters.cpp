@@ -148,7 +148,7 @@ void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList &
     if (isWide) profile.append("_wide");
     m_manager->resetProfiles(m_tc);
     if (m_monitor == NULL) {
-        m_monitor = new Monitor("chapter", m_manager, profile, this);
+        m_monitor = new Monitor(Kdenlive::dvdMonitor, m_manager, profile, this);
         //m_monitor->start();
         QVBoxLayout *vbox = new QVBoxLayout;
         vbox->addWidget(m_monitor);

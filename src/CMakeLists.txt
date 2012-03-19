@@ -69,20 +69,21 @@ macro_log_feature(QJSON_FOUND
   "http://qjson.sourceforge.net"
   FALSE
   ""
-  "Required to build the rotoscoping filter"
+  "Required to build the rotoscoping filter and for Freesound.org queries"
 )
 
-add_subdirectory(audioscopes)
+
 add_subdirectory(beziercurve)
-add_subdirectory(blackmagic)
 add_subdirectory(colorcorrection)
-add_subdirectory(colorscopes)
 add_subdirectory(commands)
+add_subdirectory(projecttree)
+add_subdirectory(utils)
 add_subdirectory(databackup)
 add_subdirectory(effectstack)
 add_subdirectory(kiss_fft)
 add_subdirectory(mimetypes)
 add_subdirectory(onmonitoritems)
+add_subdirectory(scopes)
 add_subdirectory(simplekeyframes)
 add_subdirectory(stopmotion)
 
@@ -103,15 +104,14 @@ list(APPEND kdenlive_SRCS
   abstractclipitem.cpp
   abstractgroupitem.cpp
   abstractmonitor.cpp
-  abstractscopewidget.cpp
   archivewidget.cpp
-  audiosignal.cpp
   choosecolorwidget.cpp
   clipdurationdialog.cpp
   clipitem.cpp
   clipmanager.cpp
   clipproperties.cpp
   cliptranscode.cpp
+  clipstabilize.cpp
   colorpickerwidget.cpp
   colorplaneexport.cpp
   colortools.cpp
@@ -197,6 +197,7 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/clipproperties_ui.ui
   widgets/cliptranscode_ui.ui
   widgets/collapsiblewidget_ui.ui
+  widgets/clipstabilize_ui.ui
   widgets/colorclip_ui.ui
   widgets/colorplaneexport_ui.ui
   widgets/configcapture_ui.ui
@@ -214,6 +215,7 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/effectlist_ui.ui
   widgets/effectstack_ui.ui
   widgets/effectstack2_ui.ui
+  widgets/freesound_ui.ui
   widgets/geometryval_ui.ui
   widgets/geometrywidget_ui.ui
   widgets/histogram_ui.ui
@@ -254,6 +256,9 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/wizardextra_ui.ui
   widgets/wizardmltcheck_ui.ui
   widgets/wizardstandard_ui.ui
+  widgets/keywordval_ui.ui
+  widgets/fontval_ui.ui
+  widgets/cutjobdialog_ui.ui
 )
 
 if(OPENGL_FOUND)
@@ -311,6 +316,7 @@ target_link_libraries(kdenlive
   ${KDE4_KNEWSTUFF_LIBS}
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
   ${KDE4_KROSSUI_LIBS}
+  ${KDE4_SOLID_LIBS}
   ${QT_LIBRARIES}
   ${LIBMLT_LIBRARY}
   ${LIBMLTPLUS_LIBRARY}

@@ -34,15 +34,10 @@
 namespace Mlt
 {
 class Consumer;
-class Playlist;
-class Tractor;
-class Transition;
 class Frame;
-class Field;
+class Event;
 class Producer;
-class Filter;
 class Profile;
-class Service;
 };
 
 class MltDeviceCapture: public AbstractRender
@@ -55,7 +50,7 @@ Q_OBJECT public:
     /** @brief Build a MLT Renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the capture (default one will be used if empty). */
-    MltDeviceCapture(QString profile, VideoPreviewContainer *surface, QWidget *parent = 0);
+    MltDeviceCapture(QString profile, VideoSurface *surface, QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     ~MltDeviceCapture();
@@ -79,13 +74,13 @@ Q_OBJECT public:
     /** @brief Starts the MLT Video4Linux process.
      * @param surface The widget onto which the frame should be painted
      */
-    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, int livePreview, bool xmlPlaylist = true);
+    bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool livePreview, bool xmlPlaylist = true);
     bool slotStartPreview(const QString &producer, bool xmlFormat = false);
     /** @brief A frame arrived from the MLT Video4Linux process. */
     void gotCapturedFrame(Mlt::Frame& frame);
     /** @brief Save current frame to file. */
     void captureFrame(const QString &path);
-    void doRefresh();
+    
     /** @brief This will add the video clip from path and add it in the overlay track. */
     void setOverlay(const QString &path);
 
@@ -94,26 +89,26 @@ Q_OBJECT public:
 
     /** @brief This will add a horizontal flip effect, easier to work when filming yourself. */
     void mirror(bool activate);
-
-    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
-    bool analyseAudio;
     
     /** @brief True if we are processing an image (yuv > rgb) when recording. */
     bool processingImage;
+    
+    void pause();
 
 private:
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
+    Mlt::Event *m_showFrameEvent;
     QString m_activeProfile;
     int m_droppedFrames;
     /** @brief When true, images will be displayed on monitor while capturing. */
-    int m_livePreview;
+    bool m_livePreview;
     /** @brief Count captured frames, used to display only one in ten images while capturing. */
     int m_frameCount;
 
     /** @brief The surface onto which the captured frames should be painted. */
-    VideoPreviewContainer *m_captureDisplayWidget;
+    VideoSurface *m_captureDisplayWidget;
 
     /** @brief A human-readable description of this renderer. */
     int m_winid;
@@ -121,6 +116,10 @@ private:
     void uyvy2rgb(unsigned char *yuv_buffer, int width, int height);
 
     QString m_capturePath;
+    
+    QTimer m_droppedFramesTimer;
+    
+    QMutex m_mutex;
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
@@ -130,15 +129,14 @@ private:
 private slots:
     void slotPreparePreview();
     void slotAllowPreview();
+    /** @brief When capturing, check every second for dropped frames. */
+    void slotCheckDroppedFrames();
   
 signals:
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
-    
-    /** @brief This signal contains the audio of the current frame. */
-    void audioSamplesSignal(const QVector<int16_t>&, int freq, int num_channels, int num_samples);
 
     void frameSaved(const QString &);
     
@@ -152,6 +150,7 @@ public slots:
 
     /** @brief Stops the consumer. */
     void stop();
+    void slotDoRefresh();
 };
 
 #endif

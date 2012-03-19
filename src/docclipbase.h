@@ -83,6 +83,7 @@ Q_OBJECT public:
     /** Returns the internal unique id of the clip. */
     const QString &getId() const;
 
+    bool hasAudioThumb() const;
     //KThumb *thumbCreator;
     bool audioThumbCreated() const;
     /*void getClipMainThumb();*/
@@ -137,7 +138,7 @@ Q_OBJECT public:
     QDomDocument sceneToXML(const GenTime & startTime,
                             const GenTime & endTime) const;
     /** returns a QString containing all of the XML data required to recreate this clip. */
-    QDomElement toXML() const;
+    QDomElement toXML(bool hideTemporaryProperties = false) const;
 
     /** Returns true if the xml passed matches the values in this clip */
     bool matchesXML(const QDomElement & element) const;
@@ -161,14 +162,8 @@ Q_OBJECT public:
      * it uses it as part of it's own composition. */
     bool referencesClip(DocClipBase * clip) const;
 
-    /** Sets the thumbnail to be used by this clip */
-    void setThumbnail(const QPixmap & pixmap);
-
     /** Returns the thumbnail producer used by this clip */
     KThumb *thumbProducer();
-
-    /** Returns the thumbnail used by this clip */
-    const QPixmap & thumbnail() const;
 
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
@@ -176,7 +171,6 @@ Q_OBJECT public:
 
     /** Free cache data */
     void slotClearAudioCache();
-    void askForAudioThumbs();
     QString getClipHash() const;
     void refreshThumbUrl();
     const char *producerProperty(const char *name) const;
@@ -204,11 +198,12 @@ Q_OBJECT public:
     bool hasAudioCodec(const QString &codec) const;
     bool checkHash() const;
     void setPlaceHolder(bool place);
-    QPixmap extractImage(int frame, int width, int height);
+    QImage extractImage(int frame, int width, int height);
     void clearThumbProducer();
     void reloadThumbProducer();
     void cleanupProducers();
     bool isClean() const;
+    bool getAudioThumbs();
 
 private:   // Private attributes
 
@@ -223,12 +218,8 @@ private:   // Private attributes
 
     /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
-
-    /** A thumbnail for this clip */
-    QPixmap m_thumbnail;
     GenTime m_duration;
 
-    QTimer *m_audioTimer;
     KThumb *m_thumbProd;
     bool m_audioThumbCreated;
 
@@ -249,9 +240,11 @@ private:   // Private attributes
     /** Try to make sure we don't delete a producer while using it */
     QMutex m_producerMutex;
     QMutex m_replaceMutex;
+    
+    /** @brief This timer will trigger creation of audio thumbnails. */
+    QTimer m_audioTimer;
 
     /** Create connections for audio thumbnails */
-    void slotCreateAudioTimer();
     void slotRefreshProducer();
     void setProducerProperty(const char *name, int data);
     void setProducerProperty(const char *name, double data);
@@ -264,7 +257,6 @@ private:   // Private attributes
    
 public slots:
     void updateAudioThumbnail(const audioByteArray& data);
-    bool slotGetAudioThumbs();
     QList < CommentedTime > commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime & currTime);
     GenTime findPreviousSnapMarker(const GenTime & currTime);
@@ -278,7 +270,10 @@ public slots:
     uint getClipThumbFrame() const;
     void setProperties(QMap <QString, QString> properties);
     void setMetadata(QMap <QString, QString> properties);
+    /** Returns all current properties for this clip */
     QMap <QString, QString> properties() const;
+    /** Return the current values for a set of properties */
+    QMap <QString, QString> currentProperties(QMap <QString, QString> props);
     QMap <QString, QString> metadata() const;
     void slotExtractImage(QList <int> frames);
 

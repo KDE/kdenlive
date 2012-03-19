@@ -276,6 +276,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
             const QList <QTreeWidgetItem *> list = selectedItems();
             ProjectItem *clone;
             foreach(QTreeWidgetItem *it, list) {
+                if (it->type() != PROJECTCLIPTYPE) continue;
                 QTreeWidgetItem *parent = it->parent();
                 if (parent/* && ((ProjectItem *) it)->clipId() < 10000*/)  {
                     kDebug() << "++ item parent: " << parent->text(1);
@@ -304,7 +305,15 @@ void ProjectListView::mousePressEvent(QMouseEvent *event)
         m_DragStartPosition = event->pos();
         m_dragStarted = true;
         /*QTreeWidgetItem *underMouse = itemAt(event->pos());
-        if (underMouse && underMouse->isSelected()) emit focusMonitor();*/
+        ProjectItem *item = static_cast<ProjectItem *>(underMouse);
+        if (item) {
+            QRect itemRect = visualItemRect(item);
+            if (item->underJobMenu(itemRect, event->pos())) {
+                emit display
+            }
+            
+            && underMouse->isSelected()) emit focusMonitor()
+        }*/
     }
     QTreeWidget::mousePressEvent(event);
 }

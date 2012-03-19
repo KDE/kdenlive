@@ -69,6 +69,7 @@ private slots:
     void slotApplyProperties();
     void slotModified();
     void slotDeleteProxy();
+    void slotOpenUrl(const QString &url);
 
 private:
     Ui::ClipProperties_UI m_view;

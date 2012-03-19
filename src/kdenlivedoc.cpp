@@ -58,7 +58,7 @@
 
 const double DOCUMENTVERSION = 0.88;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, QMap <QString, QString> metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -83,6 +83,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
     m_autoSaveTimer->setSingleShot(true);
+    connect(m_clipManager, SIGNAL(displayMessage(QString, int)), parent, SLOT(slotGotProgressInfo(QString,int)));
     bool success = false;
 
     // init default document properties
@@ -110,6 +111,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         i.next();
         m_documentProperties[i.key()] = i.value();
     }
+    
+    // Load metadata
+    QMapIterator<QString, QString> j(metadata);
+    while (j.hasNext()) {
+        j.next();
+        m_documentMetadata[j.key()] = j.value();
+    }
 
     if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
         setlocale(LC_NUMERIC, "");
@@ -135,8 +143,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         else {
             QFile file(tmpFile);
             QString errorMsg;
-            QDomImplementation impl;
-            impl.setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
+            QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
             success = m_document.setContent(&file, false, &errorMsg);
             file.close();
             KIO::NetAccess::removeTempFile(tmpFile);
@@ -151,7 +158,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             else {
                 parent->slotGotProgressInfo(i18n("Validating"), 0);
                 qApp->processEvents();
-                DocumentValidator validator(m_document);
+                DocumentValidator validator(m_document, url);
                 success = validator.isProject();
                 if (!success) {
                     // It is not a project file
@@ -285,6 +292,10 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                 QDomNamedNodeMap props = docproperties.attributes();
                                 for (int i = 0; i < props.count(); i++)
                                     m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
+                                docproperties = infoXml.firstChildElement("documentmetadata");
+                                props = docproperties.attributes();
+                                for (int i = 0; i < props.count(); i++)
+                                    m_documentMetadata.insert(props.item(i).nodeName(), props.item(i).nodeValue());
 
                                 if (validator.isModified()) setModified(true);
                                 kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
@@ -643,6 +654,14 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     }
     docproperties.setAttribute("position", m_render->seekPosition().frames(m_fps));
     addedXml.appendChild(docproperties);
+    
+    QDomElement docmetadata = sceneList.createElement("documentmetadata");
+    QMapIterator<QString, QString> j(m_documentMetadata);
+    while (j.hasNext()) {
+        j.next();
+        docmetadata.setAttribute(j.key(), j.value());
+    }
+    addedXml.appendChild(docmetadata);
 
     QDomElement docnotes = sceneList.createElement("documentnotes");
     QDomText value = sceneList.createTextNode(m_notesWidget->toHtml());
@@ -693,7 +712,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     QDomElement e;
     QList <DocClipBase*> list = m_clipManager->documentClipList();
     for (int i = 0; i < list.count(); i++) {
-        e = list.at(i)->toXML();
+        e = list.at(i)->toXML(true);
         e.setTagName("kdenlive_producer");
         addedXml.appendChild(sceneList.importNode(e, true));
         QList < CommentedTime > marks = list.at(i)->commentedSnapMarkers();
@@ -1033,8 +1052,10 @@ bool KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             extension = KUrl(path).fileName();
             path = KUrl(path).directory();
         }
-
-        if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT && !elem.hasAttribute("placeholder")) {
+        if (elem.hasAttribute("_missingsource")) {
+            // Clip has proxy but missing original source
+        }
+        else if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT && !elem.hasAttribute("placeholder")) {
             kDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
             const QString size = elem.attribute("file_size");
             const QString hash = elem.attribute("file_hash");
@@ -1200,9 +1221,9 @@ void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString &group, c
 }
 
 
-void KdenliveDoc::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId)
+void KdenliveDoc::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment)
 {
-    m_clipManager->slotAddClipFile(url, group, groupId);
+    m_clipManager->slotAddClipFile(url, group, groupId, comment);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
 }
@@ -1231,15 +1252,9 @@ void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color,
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
-void KdenliveDoc::slotCreateSlideshowClipFile(const QString &name, const QString &path, int count, const QString &duration,
-        const bool loop, const bool crop, const bool fade,
-        const QString &luma_duration, const QString &luma_file, const int softness,
-        const QString &animation, QString group, const QString &groupId)
+void KdenliveDoc::slotCreateSlideshowClipFile(QMap <QString, QString> properties, QString group, const QString &groupId)
 {
-    m_clipManager->slotAddSlideshowClipFile(name, path, count, duration, loop,
-                                            crop, fade, luma_duration,
-                                            luma_file, softness,
-                                            animation, group, groupId);
+    m_clipManager->slotAddSlideshowClipFile(properties, group, groupId);
     setModified(true);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
@@ -1376,9 +1391,9 @@ QPoint KdenliveDoc::getTracksCount() const
     return QPoint(video, audio);
 }
 
-void KdenliveDoc::cachePixmap(const QString &fileId, const QPixmap &pix) const
+void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
 {
-    pix.save(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + fileId + ".png");
+    img.save(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + fileId + ".png");
 }
 
 bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)
@@ -1759,6 +1774,16 @@ void KdenliveDoc::cleanupBackupFiles()
         QFile::remove(f);
         QFile::remove(f + ".png");
     }
+}
+
+const QMap <QString, QString> KdenliveDoc::metadata() const
+{
+    return m_documentMetadata;
+}
+
+void KdenliveDoc::setMetadata(const QMap <QString, QString> meta)
+{
+    m_documentMetadata = meta;
 }
 
 #include "kdenlivedoc.moc"

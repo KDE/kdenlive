@@ -27,6 +27,7 @@
 #define RECMONITOR_H
 
 #include "abstractmonitor.h"
+#include "definitions.h"
 #include "ui_recmonitor_ui.h"
 
 #include <QToolBar>
@@ -51,19 +52,18 @@ class RecMonitor : public AbstractMonitor, public Ui::RecMonitor_UI
     Q_OBJECT
 
 public:
-    explicit RecMonitor(QString name, MonitorManager *manager, QWidget *parent = 0);
+    explicit RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidget *parent = 0);
     virtual ~RecMonitor();
 
-    const QString name() const;
     AbstractRender *abstractRender();
     void analyseFrames(bool analyse);
     enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2, BLACKMAGIC = 3};
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
+    virtual void mouseDoubleClickEvent(QMouseEvent * event);
 
 private:
-    QString m_name;
     KDateTime m_captureTime;
     /** @brief Provide feedback about dvgrab operations */
     QLabel m_dvinfo;
@@ -97,13 +97,18 @@ private:
 
     MonitorManager *m_manager;
     MltDeviceCapture *m_captureDevice;
-    VideoPreviewContainer *m_videoBox;
+    VideoContainer *m_videoBox;
+    QAction *m_addCapturedClip;
+    QAction *m_previewSettings;
+    
     bool m_analyse;
     void checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString &txt);
     void manageCapturedFiles();
     /** @brief Build MLT producer for device, using path as profile. */
     void buildMltDevice(const QString &path);
+    /** @brief Create string containing an XML playlist for v4l capture. */
+    const QString getV4lXmlPlaylist(MltVideoProfile profile);
 
 private slots:
     void slotStartPreview(bool play = true);
@@ -120,7 +125,7 @@ private slots:
     void slotSetInfoMessage(const QString &message);
     void slotDroppedFrames(int dropped);
     /** @brief Change setting for preview while recording. */
-    void slotChangeRecordingPreview(int ix);
+    void slotChangeRecordingPreview(bool enable);
 
 public slots:
     void refreshRecMonitor(bool visible);
@@ -129,6 +134,8 @@ public slots:
     void start();
     void slotStopCapture();
     void slotUpdateCaptureFolder(const QString &currentProjectFolder);
+    void slotMouseSeek(int eventDelta, bool fast);
+    void slotSwitchFullScreen();
 
 signals:
     void renderPosition(int);

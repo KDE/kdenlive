@@ -21,9 +21,6 @@
 
 #include "gentime.h"
 
-class QValidator;
-class QRegExpValidator;
-
 /**
 Handles the conversion of a GenTime into a nicely formatted string, taking into account things such as drop frame if necessary. Handles multiple formats, such as HH:MM:SS:FF, HH:MM:SS:F, All Frames, All Seconds, etc.
 
@@ -53,12 +50,12 @@ public:
     int getDisplayFrameCount(const QString &duration, bool frameDisplay) const;
     int getFrameCount(const QString &duration) const;
     static QString getEasyTimecode(const GenTime & time, const double &fps);
-    static QString getStringTimecode(int frames, const double &fps);
+    static QString getStringTimecode(int frames, const double &fps, bool showFrames = false);
     const QString getDisplayTimecodeFromFrames(int frames, bool frameDisplay) const;
     const QString getTimecodeFromFrames(int frames) const;
     double fps() const;
     bool df() const;
-    const QValidator *validator() const;
+    const QString mask(GenTime t = GenTime()) const;
     QString reformatSeparators(QString duration) const;
 
 private:
@@ -68,7 +65,6 @@ private:
     double m_realFps;
     double m_dropFrames;
     int m_framesPer10Minutes;
-    QRegExpValidator *m_validator;
 
     const QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
     const QString getTimecodeHH_MM_SS_FF(int frames) const;

@@ -80,7 +80,6 @@ return frameNumber;
 */
 
 
-#include <QValidator>
 
 #include <KDebug>
 #include <KLocale>
@@ -89,7 +88,6 @@ return frameNumber;
 
 Timecode::Timecode(Formats format, double framesPerSecond)
 {
-    m_validator = new QRegExpValidator(0);
     setFormat(framesPerSecond, format);
 }
 
@@ -107,12 +105,6 @@ void Timecode::setFormat(double framesPerSecond, Formats format)
         m_dropFrames = round(m_realFps * .066666); //Number of frames to drop on the minute marks is the nearest integer to 6% of the framerate
         m_framesPer10Minutes = round(m_realFps * 600); //Number of frames per ten minutes
     }
-    QRegExp regExp;
-    if (m_dropFrameTimecode)
-        regExp.setPattern("^\\d{2}:\\d{2}:\\d{2};\\d{2}$");
-    else
-        regExp.setPattern("^\\d{2}:\\d{2}:\\d{2}:\\d{2}$");
-    m_validator->setRegExp(regExp);
 }
 
 double Timecode::fps() const
@@ -125,15 +117,20 @@ bool Timecode::df() const
     return m_dropFrameTimecode;
 }
 
-const QValidator *Timecode::validator() const
+const QString Timecode::mask(GenTime t) const
 {
-    return m_validator;
+    if (t < GenTime()) {
+        if (m_dropFrameTimecode) return "#99:99:99,99";
+        else return "#99:99:99:99";
+    }
+    if (m_dropFrameTimecode) return "99:99:99,99";
+    else return "99:99:99:99";
 }
 
 QString Timecode::reformatSeparators(QString duration) const
 {
     if (m_dropFrameTimecode)
-        return duration.replace(8, 1, ';');
+        return duration.replace(8, 1, ',');
     return duration.replace(8, 1, ':');
 }
 
@@ -145,31 +142,30 @@ int Timecode::getDisplayFrameCount(const QString &duration, bool frameDisplay) c
 
 int Timecode::getFrameCount(const QString &duration) const
 {
+    if (duration.isEmpty()) {
+        return 0;
+    }
+    int hours, minutes, seconds, frames;
+    int offset = 0;
+    if (duration.at(0) == '-') {
+        offset = 1;
+        hours = duration.mid(1, 2).toInt();
+    } else {
+        hours = duration.left(2).toInt();
+    }
+    minutes = duration.mid(3 + offset, 2).toInt();
+    seconds = duration.mid(6 + offset, 2).toInt();
+    frames = duration.right(2).toInt();
     if (m_dropFrameTimecode) {
-
         //CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
         //Code by David Heidelberger, adapted from Andrew Duncan
         //Given ints called hours, minutes, seconds, frames, and a double called framerate
-
-        //Get Hours, Minutes, Seconds, Frames from timecode
-        int hours, minutes, seconds, frames;
-
-        hours = duration.section(':', 0, 0).toInt();
-        minutes = duration.section(':', 1, 1).toInt();
-        if (duration.contains(';')) {
-            seconds = duration.section(';', 0, 0).section(':', 2, 2).toInt();
-            frames = duration.section(';', 1, 1).toInt();
-        } else {
-            //Handle Drop Frame timecode frame calculations, even if the timecode supplied uses incorrect "99:99:99:99" format instead of "99:99:99;99"
-            seconds = duration.section(':', 2, 2).toInt();
-            frames = duration.section(':', 3, 3).toInt();
-        }
 
         int totalMinutes = (60 * hours) + minutes; //Total number of minutes
         int frameNumber = ((m_displayedFramesPerSecond * 3600 * hours) + (m_displayedFramesPerSecond * 60 * minutes) + (m_displayedFramesPerSecond * seconds) + frames) - (m_dropFrames * (totalMinutes - floor(totalMinutes / 10)));
         return frameNumber;
     }
-    return (int)((duration.section(':', 0, 0).toInt()*3600.0 + duration.section(':', 1, 1).toInt()*60.0 + duration.section(':', 2, 2).toInt()) * m_realFps + duration.section(':', 3, 3).toInt());
+    return (int)((hours * 3600.0 + minutes * 60.0 + seconds) * m_realFps + frames);
 }
 
 QString Timecode::getDisplayTimecode(const GenTime & time, bool frameDisplay) const
@@ -214,7 +210,7 @@ const QString Timecode::getTimecodeFromFrames(int frames) const
 
 
 //static
-QString Timecode::getStringTimecode(int frames, const double &fps)
+QString Timecode::getStringTimecode(int frames, const double &fps, bool showFrames)
 {
     // Returns the timecode in an hh:mm:ss format
 
@@ -225,6 +221,7 @@ QString Timecode::getStringTimecode(int frames, const double &fps)
     }
 
     int seconds = (int)(frames / fps);
+    int frms = frames % (int) (fps + 0.5);
     int minutes = seconds / 60;
     seconds = seconds % 60;
     int hours = minutes / 60;
@@ -237,6 +234,10 @@ QString Timecode::getStringTimecode(int frames, const double &fps)
     text.append(QString::number(minutes).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(seconds).rightJustified(2, '0', false));
+    if (showFrames) {
+        text.append('.');
+        text.append(QString::number(frms).rightJustified(2, '0', false));
+    }
     return text;
 }
 
@@ -364,7 +365,7 @@ const QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
     text.append(':');
     text.append(QString::number(seconds).rightJustified(2, '0', false));
     if (m_dropFrameTimecode)
-        text.append(';');
+        text.append(',');
     else
         text.append(':');
     text.append(QString::number(hundredths).rightJustified(2, '0', false));
@@ -423,7 +424,7 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
     text.append(QString::number(minutes).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(seconds).rightJustified(2, '0', false));
-    text.append(';');
+    text.append(',');
     text.append(QString::number(frames).rightJustified(2, '0', false));
 
     return text;

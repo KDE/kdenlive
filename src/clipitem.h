@@ -173,6 +173,8 @@ public:
      * Which producer is returned depends on the type of this clip (audioonly, videoonly, normal) */
     Mlt::Producer *getProducer(int track, bool trackSpecific = true);
     void resetFrameWidth(int width);
+    /** @brief Clip is about to be deleted, block thumbs. */
+    void stopThumbs();
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

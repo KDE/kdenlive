@@ -66,6 +66,8 @@ private:
     QList <QDomElement> m_missingClips;
     QStringList m_safeImages;
     QStringList m_safeFonts;
+    
+    void fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList infoproducers, QDomNodeList trans);
 };
 
 

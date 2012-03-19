@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>822</width>
     <height>265</height>
    </rect>
   </property>
@@ -29,11 +29,8 @@
      <property name="selectionMode">
       <enum>QAbstractItemView::ExtendedSelection</enum>
      </property>
-     <property name="rootIsDecorated">
-      <bool>false</bool>
-     </property>
      <property name="itemsExpandable">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="sortingEnabled">
       <bool>true</bool>
