@@ -85,15 +85,18 @@ void clearLayout(QLayout *layout)
     }
 }
 
-CollapsibleEffect::CollapsibleEffect(QDomElement effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
+CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
         QWidget(parent),
         m_paramWidget(NULL),
         m_effect(effect),
+        m_original_effect(original_effect),
         m_lastEffect(lastEffect),
         m_active(false)
 {
-    setMouseTracking(true);
+    //setMouseTracking(true);
     setupUi(this);
+    frame->setBackgroundRole(QPalette::Midlight);
+    frame->setAutoFillBackground(true);
     setFont(KGlobalSettings::smallestReadableFont());
     QDomElement namenode = m_effect.firstChildElement("name");
     if (namenode.isNull()) return;
@@ -156,19 +159,20 @@ CollapsibleEffect::~CollapsibleEffect()
 void CollapsibleEffect::setActive(bool activate)
 {
     m_active = activate;
-    title->setBackgroundRole(m_active ? QPalette::AlternateBase : QPalette::Window);
-    title->setAutoFillBackground(m_active);    
+    frame->setBackgroundRole(m_active ? QPalette::Mid : QPalette::Midlight);
+    frame->setAutoFillBackground(activate);
 }
 
 void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
 {
-    if (title->underMouse() && collapseButton->isEnabled()) slotSwitch();
+    if (frame->underMouse() && collapseButton->isEnabled()) slotSwitch();
     QWidget::mouseDoubleClickEvent(event);
 }
 
-void CollapsibleEffect::mousePressEvent ( QMouseEvent * /*event*/ )
+void CollapsibleEffect::mousePressEvent ( QMouseEvent *event )
 {
     if (!m_active) emit activateEffect(m_paramWidget->index());
+    QWidget::mousePressEvent(event);
 }
 
 void CollapsibleEffect::enterEvent ( QEvent * event )
@@ -177,6 +181,8 @@ void CollapsibleEffect::enterEvent ( QEvent * event )
     if (!m_lastEffect) buttonDown->setVisible(true);
     buttonSave->setVisible(true);
     buttonDel->setVisible(true);
+    if (!m_active) frame->setBackgroundRole(QPalette::Midlight);
+    frame->setAutoFillBackground(true);
     QWidget::enterEvent(event);
 }
 
@@ -186,6 +192,7 @@ void CollapsibleEffect::leaveEvent ( QEvent * event )
     buttonDown->setVisible(false);
     buttonSave->setVisible(false);
     buttonDel->setVisible(false);
+    if (!m_active) frame->setAutoFillBackground(false);
     QWidget::leaveEvent(event);
 }
 
@@ -225,9 +232,11 @@ void CollapsibleEffect::slotShow(bool show)
     widgetFrame->setVisible(show);
     if (show) {
         collapseButton->setArrowType(Qt::DownArrow);
+	m_original_effect.removeAttribute("k_collapsed");
     }
     else {
         collapseButton->setArrowType(Qt::RightArrow);
+	m_original_effect.setAttribute("k_collapsed", 1);
     }
 }
 
@@ -243,11 +252,12 @@ void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *me
         vbox->setContentsMargins(0, 0, 0, 0);
 	vbox->setSpacing(2);
         QDomNodeList effects =  m_effect.elementsByTagName("effect");
+	QDomNodeList origin_effects =  m_original_effect.elementsByTagName("effect");
         QWidget *container = new QWidget(widgetFrame);
         vbox->addWidget(container);
         m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, index, container);
         for (int i = 0; i < effects.count(); i++) {
-            CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), info, i, metaInfo, container);
+            CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, i, metaInfo, container);
             m_subParamWidgets.append(coll);
             //container = new QWidget(widgetFrame);
             vbox->addWidget(coll);
@@ -263,7 +273,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *me
             widgetFrame->setVisible(false);            
         }
     }
-    if (collapseButton->isEnabled()) slotShow(true);
+    if (collapseButton->isEnabled()) slotShow(!m_effect.hasAttribute("k_collapsed"));
     connect (m_paramWidget, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)));
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (this, SIGNAL(effectStateChanged(bool)), m_paramWidget, SIGNAL(effectStateChanged(bool)));
@@ -632,7 +642,6 @@ ParameterContainer::~ParameterContainer()
 {
     clearLayout(m_vbox);
     delete m_vbox;
-    kDebug()<<"// DELETING PARAM CONT: "<<m_effect.attribute("id");
 }
 
 void ParameterContainer::meetDependency(const QString& name, QString type, QString value)

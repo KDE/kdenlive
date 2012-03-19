@@ -200,7 +200,7 @@ void EffectStackView2::setupListView(int ix)
         doc.appendChild(doc.importNode(d, true));
         kDebug() << "IMPORTED STK: " << doc.toString();*/
 
-        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_clipref->info(), i, &m_effectMetaInfo, i == m_currentEffectList.count() - 1, view);
+        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), m_clipref->info(), i, &m_effectMetaInfo, i == m_currentEffectList.count() - 1, view);
         m_effects.append(currentEffect);
         vbox1->addWidget(currentEffect);
         connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));

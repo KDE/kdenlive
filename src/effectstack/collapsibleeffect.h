@@ -83,10 +83,11 @@ signals:
     void effectStateChanged(bool);
     void checkMonitorPosition(int);
     void seekTimeline(int);
+    void showComments(bool);
     
 };
 
-/**
+/**)
  * @class CollapsibleEffect
  * @brief A dialog for editing markers and guides.
  * @author Jean-Baptiste Mardelle
@@ -97,7 +98,7 @@ class CollapsibleEffect : public QWidget, public Ui::CollapsibleWidget_UI
     Q_OBJECT
 
 public:
-    CollapsibleEffect(QDomElement effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
+    CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
     ~CollapsibleEffect();
     static QMap<QString, QImage> iconCache;
     void setupWidget(ItemInfo info, int index, EffectMetaInfo *metaInfo);
@@ -119,6 +120,7 @@ private:
     ParameterContainer *m_paramWidget;
     QList <CollapsibleEffect *> m_subParamWidgets;
     QDomElement m_effect;
+    QDomElement m_original_effect;
     QList <QDomElement> m_subEffects;
     bool m_lastEffect;
     int m_in;
