@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>235</width>
-    <height>28</height>
+    <width>318</width>
+    <height>43</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>1</width>
+       <width>80</width>
        <height>20</height>
       </size>
      </property>
@@ -94,7 +94,14 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
+   <item row="0" column="3">
+    <widget class="QLabel" name="effectIcon">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
     <widget class="QToolButton" name="collapseButton">
      <property name="text">
       <string>...</string>
@@ -104,13 +111,6 @@
      </property>
      <property name="arrowType">
       <enum>Qt::DownArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QLabel" name="effectIcon">
-     <property name="text">
-      <string/>
      </property>
     </widget>
    </item>

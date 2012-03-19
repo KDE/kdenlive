@@ -68,7 +68,6 @@ private:
     QList <CollapsibleEffect*> m_effects;
     EffectsList m_currentEffectList;
     EffectMetaInfo m_effectMetaInfo;
-    QWidget *m_view;
 
     /** @brief The track index of currently edited track. */
     int m_trackindex;
@@ -79,6 +78,8 @@ private:
     /** @brief Sets the list of effects according to the clip's effect list.
     * @param ix Number of the effect to preselect */
     void setupListView(int ix);
+    
+    void clearLayout(QLayout *layout);
 
 public slots:
     /** @brief Sets the clip whose effect list should be managed.

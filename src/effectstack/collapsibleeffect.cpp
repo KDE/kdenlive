@@ -70,7 +70,20 @@ class Urlval: public QWidget, public Ui::Urlval_UI
 
 QMap<QString, QImage> CollapsibleEffect::iconCache;
 
-
+void clearLayout(QLayout *layout)
+{
+    QLayoutItem *item;
+    while((item = layout->takeAt(0))) {
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
+}
 
 CollapsibleEffect::CollapsibleEffect(QDomElement effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
         QWidget(parent),
@@ -79,9 +92,9 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, ItemInfo info, int ix, 
         m_lastEffect(lastEffect),
         m_active(false)
 {
-    setFont(KGlobalSettings::toolBarFont());
     setMouseTracking(true);
     setupUi(this);
+    setFont(KGlobalSettings::smallestReadableFont());
     QDomElement namenode = m_effect.firstChildElement("name");
     if (namenode.isNull()) return;
     QString type = m_effect.attribute("type", QString());
@@ -117,7 +130,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, ItemInfo info, int ix, 
     effectIcon->setPixmap(icon.pixmap(QSize(16,16)));
     
     //QLabel *lab = new QLabel("HEllo", widgetFrame);
-    //vbox->addWidget(lab);
+    //m_vbox->addWidget(lab);
     if (m_effect.attribute("disable") == "1") {
         enabledBox->setCheckState(Qt::Unchecked);
         title->setEnabled(false);
@@ -136,7 +149,9 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, ItemInfo info, int ix, 
 
 CollapsibleEffect::~CollapsibleEffect()
 {
+    if (m_paramWidget) delete m_paramWidget;
 }
+
 
 void CollapsibleEffect::setActive(bool activate)
 {
@@ -151,7 +166,7 @@ void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
     QWidget::mouseDoubleClickEvent(event);
 }
 
-void CollapsibleEffect::mousePressEvent ( QMouseEvent * event )
+void CollapsibleEffect::mousePressEvent ( QMouseEvent * /*event*/ )
 {
     if (!m_active) emit activateEffect(m_paramWidget->index());
 }
@@ -214,7 +229,6 @@ void CollapsibleEffect::slotShow(bool show)
     else {
         collapseButton->setArrowType(Qt::RightArrow);
     }
-
 }
 
 
@@ -227,6 +241,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *me
     if (m_effect.attribute("tag") == "region") {
         QVBoxLayout *vbox = new QVBoxLayout(widgetFrame);
         vbox->setContentsMargins(0, 0, 0, 0);
+	vbox->setSpacing(2);
         QDomNodeList effects =  m_effect.elementsByTagName("effect");
         QWidget *container = new QWidget(widgetFrame);
         vbox->addWidget(container);
@@ -276,11 +291,11 @@ void CollapsibleEffect::slotSyncEffectsPos(int pos)
 
 
 ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, int index, QWidget * parent) :
+	m_index(index),
         m_keyframeEditor(NULL),
         m_geometryWidget(NULL),
-        m_effect(effect),
         m_metaInfo(metaInfo),
-        m_index(index)
+        m_effect(effect)
 {
     m_in = info.cropStart.frames(KdenliveSettings::project_fps());
     m_out = (info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1;
@@ -297,8 +312,9 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
     parent->setEnabled(!disable);
 
     bool stretch = true;
-    QVBoxLayout *vbox = new QVBoxLayout(parent);
-    vbox->setContentsMargins(0, 0, 0, 0);
+    m_vbox = new QVBoxLayout(parent);
+    m_vbox->setContentsMargins(0, 0, 0, 0);
+    m_vbox->setSpacing(2);
 
     for (int i = 0; i < namenode.count() ; i++) {
         QDomElement pa = namenode.item(i).toElement();
@@ -331,7 +347,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 
             DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, value.toDouble(), min, max,
                     pa.attribute("default").toDouble(), comment, -1, pa.attribute("suffix"), pa.attribute("decimals").toInt(), parent);
-            vbox->addWidget(doubleparam);
+            m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotCollectAllParameters()));
             connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
@@ -388,7 +404,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
         } else if (type == "complex") {
             ComplexParameter *pl = new ComplexParameter;
             pl->setupParam(effect, pa.attribute("name"), 0, 100);
-            vbox->addWidget(pl);
+            m_vbox->addWidget(pl);
             m_valueItems[paramName+"complex"] = pl;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
         } else if (type == "geometry") {
@@ -403,7 +419,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                     m_geometryWidget->setupParam(pa, m_in, m_out);
                 else
                     m_geometryWidget->setupParam(pa, minFrame, maxFrame);
-                vbox->addWidget(m_geometryWidget);
+                m_vbox->addWidget(m_geometryWidget);
                 m_valueItems[paramName+"geometry"] = m_geometryWidget;
                 connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
@@ -414,7 +430,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                     geo->setupParam(pa, m_in, m_out);
                 else
                     geo->setupParam(pa, minFrame, maxFrame);
-                vbox->addWidget(geo);
+                m_vbox->addWidget(geo);
                 m_valueItems[paramName+"geometry"] = geo;
                 connect(geo, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
                 connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
@@ -438,7 +454,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 } else {
                     geo = new KeyframeEdit(pa, m_in, m_out, m_metaInfo->timecode, e.attribute("active_keyframe", "-1").toInt());
                 }
-                vbox->addWidget(geo);
+                m_vbox->addWidget(geo);
                 m_valueItems[paramName+"keyframe"] = geo;
                 m_keyframeEditor = geo;
                 connect(geo, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
@@ -451,9 +467,8 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
         } else if (type == "color") {
             if (value.startsWith('#'))
                 value = value.replace('#', "0x");
-            bool ok;
-            ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, QColor(value.toUInt(&ok, 16)), parent);
-            vbox->addWidget(choosecolor);
+            ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, parent);
+            m_vbox->addWidget(choosecolor);
             m_valueItems[paramName] = choosecolor;
             connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
             connect(choosecolor, SIGNAL(modified()) , this, SLOT(slotCollectAllParameters()));
@@ -466,7 +481,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 pos = m_out - pos;
             }
             PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->timecode);
-            vbox->addWidget(posedit);
+            m_vbox->addWidget(posedit);
             m_valueItems[paramName+"position"] = posedit;
             connect(posedit, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
         } else if (type == "curve") {
@@ -491,9 +506,9 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             QSpinBox *spinout = new QSpinBox();
             spinout->setRange(0, 1000);
             curve->setupInOutControls(spinin, spinout, 0, 1000);
-            vbox->addWidget(curve);
-            vbox->addWidget(spinin);
-            vbox->addWidget(spinout);
+            m_vbox->addWidget(curve);
+            m_vbox->addWidget(spinin);
+            m_vbox->addWidget(spinout);
 
             connect(curve, SIGNAL(modified()), this, SLOT(slotCollectAllParameters()));
             m_valueItems[paramName] = curve;
@@ -504,7 +519,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
         } else if (type == "bezier_spline") {
             BezierSplineWidget *widget = new BezierSplineWidget(value, parent);
             stretch = false;
-            vbox->addWidget(widget);
+            m_vbox->addWidget(widget);
             m_valueItems[paramName] = widget;
             connect(widget, SIGNAL(modified()), this, SLOT(slotCollectAllParameters()));
             QString depends = pa.attribute("depends");
@@ -519,7 +534,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             connect(roto, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
             connect(this, SIGNAL(syncEffectsPos(int)), roto, SLOT(slotSyncPosition(int)));
             connect(this, SIGNAL(effectStateChanged(bool)), roto, SLOT(slotShowScene(bool)));
-            vbox->addWidget(roto);
+            m_vbox->addWidget(roto);
             m_valueItems[paramName] = roto;
 #endif
         } else if (type == "wipe") {
@@ -593,11 +608,11 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
         }
 
         if (toFillin)
-            vbox->addWidget(toFillin);
+            m_vbox->addWidget(toFillin);
     }
 
     if (stretch)
-        vbox->addStretch();
+        m_vbox->addStretch();
 
     if (m_keyframeEditor)
         m_keyframeEditor->checkVisibleParam();
@@ -613,6 +628,12 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
     }
 }
 
+ParameterContainer::~ParameterContainer()
+{
+    clearLayout(m_vbox);
+    delete m_vbox;
+    kDebug()<<"// DELETING PARAM CONT: "<<m_effect.attribute("id");
+}
 
 void ParameterContainer::meetDependency(const QString& name, QString type, QString value)
 {
@@ -744,7 +765,7 @@ void ParameterContainer::slotCollectAllParameters()
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
             ChooseColorWidget *choosecolor = ((ChooseColorWidget*)m_valueItems.value(paramName));
-            setValue = choosecolor->getColor().name();
+            setValue = choosecolor->getColor();
         } else if (type == "complex") {
             ComplexParameter *complex = ((ComplexParameter*)m_valueItems.value(paramName));
             namenode.item(i) = complex->getParamDesc();

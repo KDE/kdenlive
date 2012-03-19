@@ -43,13 +43,13 @@
 EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
         QWidget(parent),
         m_clipref(NULL),
-        m_view(NULL),
         m_trackindex(-1)
 {
     m_effectMetaInfo.trackMode = false;
     m_effectMetaInfo.monitor = monitor;
 
     m_ui.setupUi(this);
+    setFont(KGlobalSettings::smallestReadableFont());
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
     m_ui.buttonShowComments->setIcon(KIcon("help-about"));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
@@ -122,10 +122,12 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, int ix)
         //TODO: clear list, reset paramdesc and info
         //ItemInfo info;
         //m_effectedit->transferParamDesc(QDomElement(), info);
-        kDebug()<<" - - -DELETE LAYOUT";
         m_effects.clear();
-        delete m_view;
-        m_view = NULL;
+	QWidget *view = m_ui.container->takeWidget();
+	if (view) {
+	    if (view->layout()) clearLayout(view->layout());
+	    delete view;
+	}
         m_ui.checkAll->setToolTip(QString());
         m_ui.checkAll->setText(QString());
         setEnabled(false);
@@ -150,31 +152,40 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
     setupListView(0);
 }
 
+void EffectStackView2::clearLayout(QLayout *layout)
+{
+    QLayoutItem *item;
+    while((item = layout->takeAt(0))) {
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
+}
+
 void EffectStackView2::setupListView(int ix)
 {
     //TODO: clear list
 
-    kDebug()<<"++++++++++++++++++++++++++++++++   setup +++++++++++"<<ix;
+    kDebug()<<"++++++++++++++++++++++++++++++++   setup: "<<children().count();
 
     blockSignals(true);
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     m_effects.clear();
-    QLayoutItem *child;
-    QLayout *vbox = NULL;
-    if (m_view) vbox = m_view->layout();
-    if (vbox) {
-        while ((child = vbox->takeAt(0)) != 0) {
-            QWidget *wid = child->widget();
-            delete child;
-            if (wid) delete wid;
-        }
+    QWidget *view = m_ui.container->takeWidget();
+    if (view) {
+	if (view->layout()) clearLayout(view->layout());
+	delete view;
     }
-    if (m_view) delete m_view;
     blockSignals(false);
-    m_view = new QWidget(m_ui.container);
-    m_ui.container->setWidget(m_view);
+    view = new QWidget(m_ui.container);
+    m_ui.container->setWidget(view);
 
-    QVBoxLayout *vbox1 = new QVBoxLayout(m_view);
+    QVBoxLayout *vbox1 = new QVBoxLayout(view);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
 
@@ -189,7 +200,7 @@ void EffectStackView2::setupListView(int ix)
         doc.appendChild(doc.importNode(d, true));
         kDebug() << "IMPORTED STK: " << doc.toString();*/
 
-        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_clipref->info(), i, &m_effectMetaInfo, i == m_currentEffectList.count() - 1, m_view);
+        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_clipref->info(), i, &m_effectMetaInfo, i == m_currentEffectList.count() - 1, view);
         m_effects.append(currentEffect);
         vbox1->addWidget(currentEffect);
         connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
@@ -204,6 +215,7 @@ void EffectStackView2::setupListView(int ix)
     vbox1->addStretch(10);
     connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
 }
+
 
 void EffectStackView2::slotUpdateEffectState(bool disable, int index)
 {

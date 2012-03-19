@@ -380,12 +380,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 #ifndef Q_WS_MAC
     tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
 #endif
-
-
-
-
     setCentralWidget(m_timelineArea);
-
 
     m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)), actionCollection());
     readOptions();

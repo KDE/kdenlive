@@ -48,6 +48,7 @@ class ParameterContainer : public QObject
 
 public:
     ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, int index, QWidget * parent = 0);
+    ~ParameterContainer();
     void updateTimecodeFormat();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
     int index();
@@ -74,6 +75,7 @@ private:
     GeometryWidget *m_geometryWidget;
     EffectMetaInfo *m_metaInfo;
     QDomElement m_effect;
+    QVBoxLayout *m_vbox;
 
 signals:
     void parameterChanged(const QDomElement, const QDomElement, int);
