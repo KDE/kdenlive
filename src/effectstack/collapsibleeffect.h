@@ -67,6 +67,7 @@ public:
 
 private slots:
     void slotCollectAllParameters();
+    void slotStartFilterJobAction();
 
 private:
         /** @brief Updates parameter @param name according to new value of dependency.
@@ -95,7 +96,9 @@ signals:
     void effectStateChanged(bool);
     void checkMonitorPosition(int);
     void seekTimeline(int);
-    void showComments(bool);
+    void showComments(bool);    
+    /** @brief Start an MLT filter job on this clip. */
+    void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QString properties);
     
 };
 
@@ -135,8 +138,7 @@ private:
     QDomElement m_effect;
     QDomElement m_original_effect;
     QList <QDomElement> m_subEffects;
-    bool m_lastEffect;
-    int m_in;
+    bool m_lastEffect;    int m_in;
     int m_out;
     bool m_active;
     
@@ -155,6 +157,8 @@ signals:
     void activateEffect(int);
     void checkMonitorPosition(int);
     void seekTimeline(int);
+    /** @brief Start an MLT filter job on this clip. */
+    void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QString properties);
 };
 
 

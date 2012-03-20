@@ -204,6 +204,7 @@ void EffectStackView2::setupListView(int ix)
         m_effects.append(currentEffect);
         vbox1->addWidget(currentEffect);
         connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
+	connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString,QString)));
         connect(currentEffect, SIGNAL(deleteEffect(const QDomElement, int)), this , SLOT(slotDeleteEffect(const QDomElement, int)));
         connect(currentEffect, SIGNAL(changeEffectPosition(int,bool)), this , SLOT(slotMoveEffect(int , bool)));
         connect(currentEffect, SIGNAL(effectStateChanged(bool, int)), this, SLOT(slotUpdateEffectState(bool, int)));
@@ -330,6 +331,12 @@ void EffectStackView2::slotMoveEffect(int index, bool up)
     }
     if (m_effectMetaInfo.trackMode) emit changeEffectPosition(NULL, m_trackindex, startPos, endPos);
     else emit changeEffectPosition(m_clipref, -1, startPos, endPos);
+}
+
+void EffectStackView2::slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties)
+{
+    if (!m_clipref) return;
+    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterName, filterParams, finalFilterName, consumer, consumerParams, properties);
 }
 
 #include "effectstackview2.moc"

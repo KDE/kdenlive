@@ -121,6 +121,9 @@ private slots:
     void slotUpdateEffectState(bool disable, int index);
 
     void slotSetCurrentEffect(int ix);
+    
+    /** @brief Triggers a filter job on this clip. */
+    void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties);
 
 
 signals:
@@ -142,6 +145,7 @@ signals:
     void updateClipRegion(ClipItem*, int, QString);
     void displayMessage(const QString&, int);
     void showComments(bool show);
+    void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString&finalFilterName, const QString &consumer, const QString &consumerParams, const QString &properties);
 };
 
 #endif
