@@ -4219,7 +4219,10 @@ bool Render::getBlackMagicDeviceList(KComboBox *devicelist)
     Mlt::Profile profile;
     Mlt::Producer bm(profile, "decklink");
     int found_devices = 0;
-    if (bm.is_valid()) found_devices = bm.get_int("devices");
+    if (bm.is_valid()) {
+	bm.set("list_devices", 1);
+	found_devices = bm.get_int("devices");
+    }
     if (found_devices <= 0) {
 	devicelist->setEnabled(false);
 	return false;
@@ -4237,7 +4240,10 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist)
     Mlt::Profile profile;
     Mlt::Consumer bm(profile, "decklink");
     int found_devices = 0;
-    if (bm.is_valid()) found_devices = bm.get_int("devices");
+    if (bm.is_valid()) {
+	bm.set("list_devices", 1);
+	found_devices = bm.get_int("devices");
+    }
     if (found_devices <= 0) {
 	devicelist->setEnabled(false);
 	return false;
