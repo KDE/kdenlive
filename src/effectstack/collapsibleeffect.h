@@ -120,6 +120,8 @@ public:
     void updateTimecodeFormat();
     void setActive(bool activate);
     virtual bool eventFilter( QObject * o, QEvent * e );
+    /** @brief Update effect GUI to reflect parameted changes. */
+    void updateWidget(ItemInfo info, int index, QDomElement effect, EffectMetaInfo *metaInfo);
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -131,6 +133,8 @@ private slots:
     void slotDeleteEffect();
     void slotEffectUp();
     void slotEffectDown();
+    void slotSaveEffect();
+    void slotResetEffect();
 
 private:
     ParameterContainer *m_paramWidget;
@@ -159,6 +163,9 @@ signals:
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
     void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QString properties);
+    /** @brief An effect was saved, trigger effect list reload. */
+    void reloadEffects();
+    void resetEffect(int ix);
 };
 
 

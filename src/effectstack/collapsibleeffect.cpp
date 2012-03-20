@@ -46,12 +46,15 @@
 #include "rotoscoping/rotowidget.h"
 #endif
 
-
+#include <QInputDialog>
 #include <QDialog>
+#include <QMenu>
 #include <QVBoxLayout>
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KLocale>
+#include <KMessageBox>
+#include <KStandardDirs>
 #include <KFileDialog>
 #include <KUrlRequester>
 
@@ -142,12 +145,9 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     }
     buttonDel->setIcon(KIcon("edit-delete"));
     buttonDel->setToolTip(i18n("Delete effect"));
-    buttonSave->setIcon(KIcon("document-save"));
-    buttonSave->setToolTip(i18n("Save effect"));
 
     buttonUp->setVisible(false);
     buttonDown->setVisible(false);
-    buttonSave->setVisible(false);
     buttonDel->setVisible(false);
     
     /*buttonReset->setIcon(KIcon("view-refresh"));
@@ -157,10 +157,12 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     //buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
             
     title->setText(i18n(namenode.text().toUtf8().data()));
-    effectIcon->setPixmap(icon.pixmap(QSize(16,16)));
+    title->setIcon(icon);
+    QMenu *menu = new QMenu;
+    menu->addAction(KIcon("view-refresh"), i18n("Reset effect"), this, SLOT(slotResetEffect()));
+    menu->addAction(KIcon("document-save"), i18n("Save effect"), this, SLOT(slotSaveEffect()));
+    title->setMenu(menu);
     
-    //QLabel *lab = new QLabel("HEllo", widgetFrame);
-    //m_vbox->addWidget(lab);
     if (m_effect.attribute("disable") == "1") {
         enabledBox->setCheckState(Qt::Unchecked);
         title->setEnabled(false);
@@ -174,6 +176,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     connect(buttonUp, SIGNAL(clicked()), this, SLOT(slotEffectUp()));
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
     connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteEffect()));
+
     setupWidget(info, ix, metaInfo);
     Q_FOREACH( QSpinBox * sp, findChildren<QSpinBox*>() ) {
         sp->installEventFilter( this );
@@ -262,7 +265,6 @@ void CollapsibleEffect::enterEvent ( QEvent * event )
 {
     if (m_paramWidget->index() > 0) buttonUp->setVisible(true);
     if (!m_lastEffect) buttonDown->setVisible(true);
-    buttonSave->setVisible(true);
     buttonDel->setVisible(true);
     if (!m_active) frame->setBackgroundRole(QPalette::Midlight);
     frame->setAutoFillBackground(true);
@@ -273,7 +275,6 @@ void CollapsibleEffect::leaveEvent ( QEvent * event )
 {
     buttonUp->setVisible(false);
     buttonDown->setVisible(false);
-    buttonSave->setVisible(false);
     buttonDel->setVisible(false);
     if (!m_active) frame->setAutoFillBackground(false);
     QWidget::leaveEvent(event);
@@ -304,6 +305,45 @@ void CollapsibleEffect::slotEffectDown()
     emit changeEffectPosition(m_paramWidget->index(), false);
 }
 
+void CollapsibleEffect::slotSaveEffect()
+{
+    QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
+    if (name.isEmpty()) return;
+    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+    path = path + name + ".xml";
+    if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) return;
+
+    QDomDocument doc;
+    QDomElement effect = m_effect.cloneNode().toElement();
+    doc.appendChild(doc.importNode(effect, true));
+    effect = doc.firstChild().toElement();
+    effect.removeAttribute("kdenlive_ix");
+    effect.setAttribute("id", name);
+    effect.setAttribute("type", "custom");
+    QDomElement effectname = effect.firstChildElement("name");
+    effect.removeChild(effectname);
+    effectname = doc.createElement("name");
+    QDomText nametext = doc.createTextNode(name);
+    effectname.appendChild(nametext);
+    effect.insertBefore(effectname, QDomNode());
+    QDomElement effectprops = effect.firstChildElement("properties");
+    effectprops.setAttribute("id", name);
+    effectprops.setAttribute("type", "custom");
+
+    QFile file(path);
+    if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+        QTextStream out(&file);
+        out << doc.toString();
+    }
+    file.close();
+    emit reloadEffects();
+}
+
+void CollapsibleEffect::slotResetEffect()
+{
+    emit resetEffect(m_paramWidget->index());
+}
+
 void CollapsibleEffect::slotSwitch()
 {
     bool enable = !widgetFrame->isVisible();
@@ -323,6 +363,16 @@ void CollapsibleEffect::slotShow(bool show)
     }
 }
 
+void CollapsibleEffect::updateWidget(ItemInfo info, int index, QDomElement effect, EffectMetaInfo *metaInfo)
+{
+    if (m_paramWidget) {
+	// cleanup
+	delete m_paramWidget;
+	m_paramWidget = NULL;
+    }
+    m_effect = effect;
+    setupWidget(info, index, metaInfo);
+}
 
 void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *metaInfo)
 {
@@ -330,6 +380,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *me
 //         kDebug() << "// EMPTY EFFECT STACK";
         return;
     }
+
     if (m_effect.attribute("tag") == "region") {
         QVBoxLayout *vbox = new QVBoxLayout(widgetFrame);
         vbox->setContentsMargins(0, 0, 0, 0);
@@ -870,8 +921,8 @@ void ParameterContainer::slotCollectAllParameters()
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     const QDomElement oldparam = m_effect.cloneNode().toElement();
-    QDomElement newparam = oldparam.cloneNode().toElement();
-    QDomNodeList namenode = newparam.elementsByTagName("parameter");
+    //QDomElement newparam = oldparam.cloneNode().toElement();
+    QDomNodeList namenode = m_effect.elementsByTagName("parameter");
 
     for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
@@ -920,23 +971,23 @@ void ParameterContainer::slotCollectAllParameters()
             PositionEdit *pedit = ((PositionEdit*)m_valueItems.value(paramName));
             int pos = pedit->getPosition();
             setValue = QString::number(pos);
-            if (newparam.attribute("id") == "fadein" || newparam.attribute("id") == "fade_from_black") {
+            if (m_effect.attribute("id") == "fadein" || m_effect.attribute("id") == "fade_from_black") {
                 // Make sure duration is not longer than clip
                 /*if (pos > m_out) {
                     pos = m_out;
                     pedit->setPosition(pos);
                 }*/
-                EffectsList::setParameter(newparam, "in", QString::number(m_in));
-                EffectsList::setParameter(newparam, "out", QString::number(m_in + pos));
+                EffectsList::setParameter(m_effect, "in", QString::number(m_in));
+                EffectsList::setParameter(m_effect, "out", QString::number(m_in + pos));
                 setValue.clear();
-            } else if (newparam.attribute("id") == "fadeout" || newparam.attribute("id") == "fade_to_black") {
+            } else if (m_effect.attribute("id") == "fadeout" || m_effect.attribute("id") == "fade_to_black") {
                 // Make sure duration is not longer than clip
                 /*if (pos > m_out) {
                     pos = m_out;
                     pedit->setPosition(pos);
                 }*/
-                EffectsList::setParameter(newparam, "in", QString::number(m_out - pos));
-                EffectsList::setParameter(newparam, "out", QString::number(m_out));
+                EffectsList::setParameter(m_effect, "in", QString::number(m_out - pos));
+                EffectsList::setParameter(m_effect, "out", QString::number(m_out));
                 setValue.clear();
             }
         } else if (type == "curve") {
@@ -947,24 +998,24 @@ void ParameterContainer::slotCollectAllParameters()
             QString outName = pa.attributes().namedItem("outpoints").nodeValue();
             int off = pa.attributes().namedItem("min").nodeValue().toInt();
             int end = pa.attributes().namedItem("max").nodeValue().toInt();
-            EffectsList::setParameter(newparam, number, QString::number(points.count()));
+            EffectsList::setParameter(m_effect, number, QString::number(points.count()));
             for (int j = 0; (j < points.count() && j + off <= end); j++) {
                 QString in = inName;
                 in.replace("%i", QString::number(j + off));
                 QString out = outName;
                 out.replace("%i", QString::number(j + off));
-                EffectsList::setParameter(newparam, in, locale.toString(points.at(j).x()));
-                EffectsList::setParameter(newparam, out, locale.toString(points.at(j).y()));
+                EffectsList::setParameter(m_effect, in, locale.toString(points.at(j).x()));
+                EffectsList::setParameter(m_effect, out, locale.toString(points.at(j).y()));
             }
             QString depends = pa.attributes().namedItem("depends").nodeValue();
             if (!depends.isEmpty())
-                meetDependency(paramName, type, EffectsList::parameter(newparam, depends));
+                meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
         } else if (type == "bezier_spline") {
             BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems.value(paramName);
             setValue = widget->spline();
             QString depends = pa.attributes().namedItem("depends").nodeValue();
             if (!depends.isEmpty())
-                meetDependency(paramName, type, EffectsList::parameter(newparam, depends));
+                meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
 #ifdef USE_QJSON
         } else if (type == "roto-spline") {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
@@ -1033,7 +1084,7 @@ void ParameterContainer::slotCollectAllParameters()
             pa.attributes().namedItem("value").setNodeValue(setValue);
 
     }
-    emit parameterChanged(oldparam, newparam, m_index);
+    emit parameterChanged(oldparam, m_effect, m_index);
 }
 
 QString ParameterContainer::getWipeString(wipeInfo info)

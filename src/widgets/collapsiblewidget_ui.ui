@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>236</width>
+    <width>176</width>
     <height>38</height>
    </rect>
   </property>
@@ -38,16 +38,22 @@
       <property name="margin">
        <number>0</number>
       </property>
-      <item row="0" column="0">
-       <widget class="QToolButton" name="collapseButton">
+      <item row="0" column="2">
+       <widget class="QToolButton" name="title">
         <property name="text">
-         <string>...</string>
+         <string/>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::MenuButtonPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
         </property>
         <property name="arrowType">
-         <enum>Qt::DownArrow</enum>
+         <enum>Qt::NoArrow</enum>
         </property>
        </widget>
       </item>
@@ -58,21 +64,17 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="effectIcon">
+      <item row="0" column="4">
+       <widget class="QToolButton" name="buttonUp">
         <property name="text">
-         <string/>
+         <string>...</string>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QLabel" name="title">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -86,16 +88,6 @@
        </spacer>
       </item>
       <item row="0" column="5">
-       <widget class="QToolButton" name="buttonUp">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="6">
        <widget class="QToolButton" name="buttonDown">
         <property name="text">
          <string>...</string>
@@ -105,18 +97,21 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="7">
-       <widget class="QToolButton" name="buttonDel">
+      <item row="0" column="0">
+       <widget class="QToolButton" name="collapseButton">
         <property name="text">
          <string>...</string>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
         </property>
+        <property name="arrowType">
+         <enum>Qt::DownArrow</enum>
+        </property>
        </widget>
       </item>
-      <item row="0" column="8">
-       <widget class="QToolButton" name="buttonSave">
+      <item row="0" column="6">
+       <widget class="QToolButton" name="buttonDel">
         <property name="text">
          <string>...</string>
         </property>

@@ -124,6 +124,9 @@ private slots:
     
     /** @brief Triggers a filter job on this clip. */
     void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties);
+    
+    /** @brief Reset an effect to its default values. */
+    void slotResetEffect(int ix);
 
 
 signals:

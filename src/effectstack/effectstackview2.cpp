@@ -206,6 +206,8 @@ void EffectStackView2::setupListView(int ix)
         connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
 	connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString,QString)));
         connect(currentEffect, SIGNAL(deleteEffect(const QDomElement, int)), this , SLOT(slotDeleteEffect(const QDomElement, int)));
+	connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
+	connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
         connect(currentEffect, SIGNAL(changeEffectPosition(int,bool)), this , SLOT(slotMoveEffect(int , bool)));
         connect(currentEffect, SIGNAL(effectStateChanged(bool, int)), this, SLOT(slotUpdateEffectState(bool, int)));
         connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
@@ -337,6 +339,47 @@ void EffectStackView2::slotStartFilterJob(const QString&filterName, const QStrin
 {
     if (!m_clipref) return;
     emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterName, filterParams, finalFilterName, consumer, consumerParams, properties);
+}
+
+void EffectStackView2::slotResetEffect(int ix)
+{
+    QDomElement old = m_currentEffectList.at(ix);
+    QDomElement dom;
+    QString effectId = old.attribute("id");
+    QMap<QString, EffectsList*> effectLists;
+    effectLists["audio"] = &MainWindow::audioEffects;
+    effectLists["video"] = &MainWindow::videoEffects;
+    effectLists["custom"] = &MainWindow::customEffects;
+    foreach(const QString &type, effectLists.keys()) {
+        EffectsList *list = effectLists[type];
+        dom = list->getEffectByTag(QString(), effectId).cloneNode().toElement();
+        if (!dom.isNull()) break;
+    }
+    if (!dom.isNull()) {
+        dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
+	//TODO: Track mode
+        /*if (m_trackMode) {
+            EffectsList::setParameter(dom, "in", QString::number(0));
+            EffectsList::setParameter(dom, "out", QString::number(m_trackInfo.duration));
+            ItemInfo info;
+            info.track = m_trackInfo.type;
+            info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
+            info.cropStart = GenTime(0);
+            info.startPos = GenTime(-1);
+            info.track = 0;
+            m_effectedit->transferParamDesc(dom, info);
+            emit updateEffect(NULL, m_trackindex, old, dom, activeRow);
+        } else*/ {
+            m_clipref->initEffect(dom);
+	    m_effects.at(ix)->updateWidget(m_clipref->info(), ix, dom, &m_effectMetaInfo);
+            //m_effectedit->transferParamDesc(dom, m_clipref->info());
+            //m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
+            emit updateEffect(m_clipref, -1, old, dom, ix);
+        }
+    }
+
+    /*emit showComments(m_ui.buttonShowComments->isChecked());
+    m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count());*/
 }
 
 #include "effectstackview2.moc"
