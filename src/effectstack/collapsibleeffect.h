@@ -42,6 +42,18 @@ struct EffectMetaInfo {
     bool trackMode;
 };
 
+class MySpinBox : public QSpinBox
+{
+    Q_OBJECT
+
+public:
+    MySpinBox(QWidget * parent = 0);
+    
+protected:
+    virtual void focusInEvent(QFocusEvent*);
+    virtual void focusOutEvent(QFocusEvent*);
+};
+
 class ParameterContainer : public QObject
 {
     Q_OBJECT
@@ -104,6 +116,7 @@ public:
     void setupWidget(ItemInfo info, int index, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
     void setActive(bool activate);
+    virtual bool eventFilter( QObject * o, QEvent * e );
 
 public slots:
     void slotSyncEffectsPos(int pos);

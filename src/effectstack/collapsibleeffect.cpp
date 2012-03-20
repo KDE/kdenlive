@@ -38,6 +38,7 @@
 #include "colortools.h"
 #include "doubleparameterwidget.h"
 #include "cornerswidget.h"
+#include "dragvalue.h"
 #include "beziercurve/beziersplinewidget.h"
 #ifdef USE_QJSON
 #include "rotoscoping/rotowidget.h"
@@ -83,6 +84,22 @@ void clearLayout(QLayout *layout)
         }
         delete item;
     }
+}
+
+MySpinBox::MySpinBox(QWidget * parent):
+    QSpinBox(parent)
+{
+    setFocusPolicy(Qt::StrongFocus);
+}
+
+void MySpinBox::focusInEvent(QFocusEvent*)
+{
+     setFocusPolicy(Qt::WheelFocus);
+}
+
+void MySpinBox::focusOutEvent(QFocusEvent*)
+{
+     setFocusPolicy(Qt::StrongFocus);
 }
 
 CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
@@ -148,11 +165,67 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
     connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteEffect()));
     setupWidget(info, ix, metaInfo);
+    Q_FOREACH( QSpinBox * sp, findChildren<QSpinBox*>() ) {
+        sp->installEventFilter( this );
+        sp->setFocusPolicy( Qt::StrongFocus );
+    }
+    Q_FOREACH( KComboBox * cb, findChildren<KComboBox*>() ) {
+	cb->installEventFilter( this );
+        cb->setFocusPolicy( Qt::StrongFocus );
+    }
+    Q_FOREACH( QProgressBar * cb, findChildren<QProgressBar*>() ) {
+	cb->installEventFilter( this );
+        cb->setFocusPolicy( Qt::StrongFocus );
+    }
+    
 }
 
 CollapsibleEffect::~CollapsibleEffect()
 {
     if (m_paramWidget) delete m_paramWidget;
+}
+
+bool CollapsibleEffect::eventFilter( QObject * o, QEvent * e ) 
+{
+    if(e->type() == QEvent::Wheel) {
+	if (qobject_cast<QAbstractSpinBox*>(o)) {
+	    if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
+	    {
+		e->accept();
+		return false;
+	    }
+	    else
+	    {
+		e->ignore();
+		return true;
+	    }
+	}
+	if (qobject_cast<KComboBox*>(o)) {
+	    if(qobject_cast<KComboBox*>(o)->focusPolicy() == Qt::WheelFocus)
+	    {
+		e->accept();
+		return false;
+	    }
+	    else
+	    {
+		e->ignore();
+		return true;
+	    }
+	}
+	if (qobject_cast<QProgressBar*>(o)) {
+	    if(qobject_cast<QProgressBar*>(o)->focusPolicy() == Qt::WheelFocus)
+	    {
+		e->accept();
+		return false;
+	    }
+	    else
+	    {
+		e->ignore();
+		return true;
+	    }
+	}
+    }
+    return QWidget::eventFilter(o, e);
 }
 
 
@@ -357,6 +430,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 
             DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, value.toDouble(), min, max,
                     pa.attribute("default").toDouble(), comment, -1, pa.attribute("suffix"), pa.attribute("decimals").toInt(), parent);
+	    doubleparam->setFocusPolicy(Qt::StrongFocus);
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
             connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotCollectAllParameters()));
@@ -364,6 +438,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
         } else if (type == "list") {
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
+	    lsval->list->setFocusPolicy(Qt::StrongFocus);
             QStringList listitems = pa.attribute("paramlist").split(';');
             if (listitems.count() == 1) {
                 // probably custom effect created before change to ';' as separator
@@ -511,9 +586,9 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             }
             if (!points.isEmpty())
                 curve->setCurve(KisCubicCurve(points));
-            QSpinBox *spinin = new QSpinBox();
+            MySpinBox *spinin = new MySpinBox();
             spinin->setRange(0, 1000);
-            QSpinBox *spinout = new QSpinBox();
+            MySpinBox *spinout = new MySpinBox();
             spinout->setRange(0, 1000);
             curve->setupInOutControls(spinin, spinout, 0, 1000);
             m_vbox->addWidget(curve);

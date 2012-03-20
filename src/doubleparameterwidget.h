@@ -59,6 +59,7 @@ public:
     /** @brief Returns minimum size for QSpinBox, used to set all spinboxes to the same width. */
     int spinSize();
     void setSpinSize(int width);
+    
 
 public slots:
     /** @brief Sets the value to @param value. */
