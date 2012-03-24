@@ -282,7 +282,7 @@ void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
 
 void CollapsibleEffect::mousePressEvent ( QMouseEvent *event )
 {
-    if (!m_active) emit activateEffect(m_paramWidget->index());
+    if (!m_active && m_paramWidget) emit activateEffect(m_paramWidget->index());
     QWidget::mousePressEvent(event);
 }
 
@@ -308,11 +308,20 @@ void CollapsibleEffect::leaveEvent ( QEvent * event )
 void CollapsibleEffect::slotEnable(bool enable)
 {
     title->setEnabled(enable);
-    m_effect.setAttribute("disable", enable ? 0 : 1);
-    if (enable || KdenliveSettings::disable_effect_parameters()) {
-        widgetFrame->setEnabled(enable);
+    if (m_isGroup) {
+	QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
+	if (vbox == NULL) return;
+	for (int i = 0; i < vbox->count(); i++) {
+	    CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(i)->widget());
+	    if (e) e->enabledBox->setChecked(enable);// slotEnable(enable);
+	}
+    } else {
+	m_effect.setAttribute("disable", enable ? 0 : 1);
+	if (enable || KdenliveSettings::disable_effect_parameters()) {
+	    widgetFrame->setEnabled(enable);
+	}
+	emit effectStateChanged(!enable, m_paramWidget->index());
     }
-    emit effectStateChanged(!enable, m_paramWidget->index());
 }
 
 void CollapsibleEffect::slotDeleteEffect()
