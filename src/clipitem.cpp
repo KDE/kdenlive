@@ -1626,7 +1626,8 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 	event->acceptProposedAction();
 	QDomDocument doc;
 	doc.setContent(effects, true);
-	const QDomElement e = doc.documentElement();
+	QDomElement e = doc.documentElement();
+	e.setAttribute("kdenlive_ix", 0);
         CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
         if (view) view->slotAddEffect(e, m_info.startPos, track());
     }

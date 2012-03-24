@@ -224,12 +224,23 @@ void EffectsList::setProperty(QDomElement effect, const QString &name, const QSt
 {
     QDomNodeList params = effect.elementsByTagName("property");
     // Update property if it already exists
+    bool found = false;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute("name") == name) {
             e.firstChild().setNodeValue(value);
+	    found = true;
             break;
         }
+    }
+    if (!found) {
+	// create property
+	QDomDocument doc = effect.ownerDocument();
+	QDomElement e = doc.createElement("property");
+	e.setAttribute("name", name);
+	QDomText val = doc.createTextNode(value);
+	e.appendChild(val);
+	effect.appendChild(e);
     }
 }
 

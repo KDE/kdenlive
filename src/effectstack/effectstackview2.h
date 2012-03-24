@@ -64,6 +64,8 @@ public:
     
     /** @brief Used to trigger drag effects. */
     virtual bool eventFilter( QObject * o, QEvent * e );
+    
+    CollapsibleEffect *getEffectByIndex(int ix);
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent * event);
@@ -89,6 +91,9 @@ private:
     
     /** @brief The effect currently being dragged, NULL if no drag happening. */
     CollapsibleEffect *m_draggedEffect;
+    
+    /** @brief The current number of groups. */
+    int m_groupIndex;
 
     /** @brief Sets the list of effects according to the clip's effect list.
     * @param ix Number of the effect to preselect */
@@ -143,6 +148,12 @@ private slots:
     
     /** @brief Reset an effect to its default values. */
     void slotResetEffect(int ix);
+    
+    /** @brief Create a group containing effect with ix index. */
+    void slotCreateGroup(int ix);
+    
+    /** @brief Move an effect into a group. */
+    void slotMoveEffectToGroup(int, CollapsibleEffect*);
 
 
 signals:

@@ -2043,6 +2043,7 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElemen
     if (clip) command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldeffect, effect, ix, true);
     else command = new EditEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), oldeffect, effect, ix, true);
     m_commandStack->push(command);
+    kDebug()<<"// UPDATE EFFECT, "<<EffectsList::property(effect, "kdenlive_ix")<<" / "<<EffectsList::property(effect, "kdenlive_group");
 }
 
 void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, QString region)

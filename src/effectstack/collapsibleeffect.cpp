@@ -116,12 +116,13 @@ void MySpinBox::focusOutEvent(QFocusEvent*)
 }
 
 
-CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
+CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, bool isGroup, QWidget * parent) :
         QWidget(parent),
         m_paramWidget(NULL),
         m_effect(effect),
         m_original_effect(original_effect),
         m_lastEffect(lastEffect),
+        m_isGroup(isGroup),
         m_active(false)
 {
     //setMouseTracking(true);
@@ -148,20 +149,30 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     //checkAll->setToolTip(i18n("Enable/Disable all effects"));
     //buttonShowComments->setIcon(KIcon("help-about"));
     //buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
-    QDomElement namenode = m_effect.firstChildElement("name");
-    if (namenode.isNull()) return;
-    title->setText(i18n(namenode.text().toUtf8().data()));
-    QString type = m_effect.attribute("type", QString());
-    KIcon icon;
-    if (type == "audio") icon = KIcon("kdenlive-show-audio");
-    else if (m_effect.attribute("tag") == "region") icon = KIcon("kdenlive-mask-effect");
-    else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
-    else icon = KIcon("kdenlive-show-video");
-    title->setIcon(icon);
-            
     m_menu = new QMenu;
     m_menu->addAction(KIcon("view-refresh"), i18n("Reset effect"), this, SLOT(slotResetEffect()));
     m_menu->addAction(KIcon("document-save"), i18n("Save effect"), this, SLOT(slotSaveEffect()));
+    
+    if (!m_isGroup) {
+	QDomElement namenode = m_effect.firstChildElement("name");
+	if (namenode.isNull()) return;
+	title->setText(i18n(namenode.text().toUtf8().data()));
+	QString type = m_effect.attribute("type", QString());
+	KIcon icon;
+	if (type == "audio") icon = KIcon("kdenlive-show-audio");
+	else if (m_effect.attribute("tag") == "region") icon = KIcon("kdenlive-mask-effect");
+	else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
+	else icon = KIcon("kdenlive-show-video");
+	title->setIcon(icon);
+	m_menu->addAction(KIcon("folder-new"), i18n("Create Group"), this, SLOT(slotCreateGroup()));
+	setupWidget(info, ix, metaInfo);
+    }
+    else {
+	setAcceptDrops(true);
+	title->setText(i18n("Effect Group"));
+	title->setIcon(KIcon("folder"));
+    }
+    
     title->setMenu(m_menu);
     
     if (m_effect.attribute("disable") == "1") {
@@ -178,7 +189,6 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
     connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteEffect()));
 
-    setupWidget(info, ix, metaInfo);
     Q_FOREACH( QSpinBox * sp, findChildren<QSpinBox*>() ) {
         sp->installEventFilter( this );
         sp->setFocusPolicy( Qt::StrongFocus );
@@ -197,6 +207,11 @@ CollapsibleEffect::~CollapsibleEffect()
 {
     if (m_paramWidget) delete m_paramWidget;
     delete m_menu;
+}
+
+void CollapsibleEffect::slotCreateGroup()
+{
+    emit createGroup(m_paramWidget->index());
 }
 
 bool CollapsibleEffect::eventFilter( QObject * o, QEvent * e ) 
@@ -273,7 +288,7 @@ void CollapsibleEffect::mousePressEvent ( QMouseEvent *event )
 
 void CollapsibleEffect::enterEvent ( QEvent * event )
 {
-    if (m_paramWidget->index() > 0) buttonUp->setVisible(true);
+    if (m_paramWidget == NULL || m_paramWidget->index() > 0) buttonUp->setVisible(true);
     if (!m_lastEffect) buttonDown->setVisible(true);
     buttonDel->setVisible(true);
     if (!m_active) frame->setBackgroundRole(QPalette::Midlight);
@@ -373,6 +388,30 @@ void CollapsibleEffect::slotShow(bool show)
     }
 }
 
+void CollapsibleEffect::addGroupEffect(CollapsibleEffect *effect)
+{
+    QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
+    if (vbox == NULL) {
+	vbox = new QVBoxLayout();
+	vbox->setContentsMargins(10, 0, 0, 0);
+	vbox->setSpacing(2);
+	widgetFrame->setLayout(vbox);
+    }
+    vbox->addWidget(effect);
+}
+
+int CollapsibleEffect::index() const
+{
+    if (m_paramWidget) return m_paramWidget->index();
+    return 0;
+}
+
+int CollapsibleEffect::effectIndex() const
+{
+    if (m_effect.isNull()) return -1;
+    return m_effect.attribute("kdenlive_ix").toInt();
+}
+
 void CollapsibleEffect::updateWidget(ItemInfo info, int index, QDomElement effect, EffectMetaInfo *metaInfo)
 {
     if (m_paramWidget) {
@@ -445,7 +484,24 @@ void CollapsibleEffect::slotSyncEffectsPos(int pos)
     emit syncEffectsPos(pos);
 }
 
+void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat("kdenlive/effectslist"))
+	event->acceptProposedAction();
+}
 
+void CollapsibleEffect::dropEvent(QDropEvent *event)
+{
+    const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+    //event->acceptProposedAction();
+    QDomDocument doc;
+    doc.setContent(effects, true);
+    const QDomElement e = doc.documentElement();
+    int ix = e.attribute("kdenlive_ix").toInt();
+    emit moveEffect(ix, this);
+    event->setDropAction(Qt::MoveAction);
+    event->accept();
+}
 
 ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, int index, QWidget * parent) :
 	m_index(index),
@@ -1142,7 +1198,7 @@ QString ParameterContainer::getWipeString(wipeInfo info)
     return QString(start + ";-1=" + end);
 }
 
-int ParameterContainer::index()
+int ParameterContainer::index() const
 {
     return m_index;
 }
@@ -1160,3 +1216,4 @@ void ParameterContainer::slotStartFilterJobAction()
         }
     }
 }
+

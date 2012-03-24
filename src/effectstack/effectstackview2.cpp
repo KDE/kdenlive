@@ -44,7 +44,8 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
         QWidget(parent),
         m_clipref(NULL),
         m_trackindex(-1),
-        m_draggedEffect(NULL)
+        m_draggedEffect(NULL),
+        m_groupIndex(0)
 {
     m_effectMetaInfo.trackMode = false;
     m_effectMetaInfo.monitor = monitor;
@@ -161,6 +162,7 @@ void EffectStackView2::setupListView(int ix)
     m_draggedEffect = NULL;
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     m_effects.clear();
+    m_groupIndex = 0;
     QWidget *view = m_ui.container->takeWidget();
     if (view) {
 	delete view;
@@ -180,6 +182,15 @@ void EffectStackView2::setupListView(int ix)
             kDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";
             continue;
         }
+        
+        CollapsibleEffect *group = NULL;
+        QString groupName = EffectsList::property(d, "kdenlive_group");
+	if (!groupName.isEmpty()) {
+	    kDebug()<<"// CREATING EWFFECT GRP: "<<groupName;
+	    group = new CollapsibleEffect(QDomElement(), QDomElement(), ItemInfo(), groupName.toInt(), &m_effectMetaInfo, false, true, m_ui.container->widget());
+	    connect(group, SIGNAL(moveEffect(int, CollapsibleEffect*)), this , SLOT(slotMoveEffectToGroup(int, CollapsibleEffect*)));
+	    vbox1->addWidget(group);
+	}
 
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(d, true));
@@ -195,9 +206,13 @@ void EffectStackView2::setupListView(int ix)
 	}
 	else info = m_clipref->info();
 
-        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, i, &m_effectMetaInfo, i == m_currentEffectList.count() - 1, view);
+        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, i, &m_effectMetaInfo, i == m_currentEffectList.count() - 1, false, view);
         m_effects.append(currentEffect);
-        vbox1->addWidget(currentEffect);
+        if (group) {
+	    group->addGroupEffect(currentEffect);
+	} else {
+	    vbox1->addWidget(currentEffect);
+	}
 
 	// Check drag & drop
 	currentEffect->installEventFilter( this );
@@ -212,7 +227,10 @@ void EffectStackView2::setupListView(int ix)
         connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
         connect(currentEffect, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
         connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
-            //ui.title->setPixmap(icon.pixmap(QSize(12, 12)));
+	connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
+	connect(currentEffect, SIGNAL(moveEffect(int, CollapsibleEffect*)), this , SLOT(slotMoveEffectToGroup(int, CollapsibleEffect*)));
+	
+        //ui.title->setPixmap(icon.pixmap(QSize(12, 12)));
     }
     vbox1->addStretch(10);
     connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
@@ -271,7 +289,6 @@ void EffectStackView2::startDrag()
     QDomElement effect = m_draggedEffect->effect().cloneNode().toElement();
     QPixmap pixmap = QPixmap::grabWidget(m_draggedEffect->title);
     drag->setPixmap(pixmap);
-    effect.setAttribute("kdenlive_ix", 0);
     QDomDocument doc;
     doc.appendChild(doc.importNode(effect, true));
     QMimeData *mime = new QMimeData;
@@ -282,7 +299,7 @@ void EffectStackView2::startDrag()
     // Assign ownership of the QMimeData object to the QDrag object.
     drag->setMimeData(mime);
     // Start the drag and drop operation
-    drag->exec(Qt::CopyAction);// | Qt::MoveAction);
+    drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 }
 
 
@@ -354,6 +371,16 @@ void EffectStackView2::updateTimecodeFormat()
         m_effects.at(i)->updateTimecodeFormat();
 }
 
+CollapsibleEffect *EffectStackView2::getEffectByIndex(int ix)
+{
+    for (int i = 0; i< m_effects.count(); i++) {
+        if (m_effects.at(i)->effectIndex() == ix) {
+	    return m_effects.at(i);
+	}
+    }
+    return NULL;
+}
+
 void EffectStackView2::slotUpdateEffectParams(const QDomElement old, const QDomElement e, int ix)
 {
     if (m_effectMetaInfo.trackMode)
@@ -423,7 +450,6 @@ void EffectStackView2::slotResetEffect(int ix)
     }
     if (!dom.isNull()) {
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
-	//TODO: Track mode
         if (m_effectMetaInfo.trackMode) {
             EffectsList::setParameter(dom, "in", QString::number(0));
             EffectsList::setParameter(dom, "out", QString::number(m_trackInfo.duration));
@@ -438,7 +464,6 @@ void EffectStackView2::slotResetEffect(int ix)
         } else {
             m_clipref->initEffect(dom);
 	    m_effects.at(ix)->updateWidget(m_clipref->info(), ix, dom, &m_effectMetaInfo);
-            //m_effectedit->transferParamDesc(dom, m_clipref->info());
             //m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
             emit updateEffect(m_clipref, -1, old, dom, ix);
         }
@@ -446,6 +471,46 @@ void EffectStackView2::slotResetEffect(int ix)
 
     /*emit showComments(m_ui.buttonShowComments->isChecked());
     m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count());*/
+}
+
+
+void EffectStackView2::slotCreateGroup(int ix)
+{
+    QDomElement oldeffect = m_currentEffectList.at(ix);
+    QDomElement neweffect = oldeffect.cloneNode().toElement();
+    QString groupName = QString::number(m_groupIndex);
+    m_groupIndex++;
+    EffectsList::setProperty(neweffect, "kdenlive_group", groupName);
+
+    ItemInfo info;
+    if (m_effectMetaInfo.trackMode) { 
+	info.track = m_trackInfo.type;
+        info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
+        info.cropStart = GenTime(0);
+        info.startPos = GenTime(-1);
+        info.track = 0;
+	emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, ix);
+    } else {
+	emit updateEffect(m_clipref, -1, oldeffect, neweffect, ix);
+    }
+    
+    QVBoxLayout *l = static_cast<QVBoxLayout *>(m_ui.container->widget()->layout());
+    int groupPos = l->indexOf(m_effects.at(ix));
+    
+    CollapsibleEffect *group = new CollapsibleEffect(QDomElement(), QDomElement(), ItemInfo(), m_groupIndex, &m_effectMetaInfo, false, true, m_ui.container->widget());
+    connect(group, SIGNAL(moveEffect(int, CollapsibleEffect*)), this , SLOT(slotMoveEffectToGroup(int, CollapsibleEffect*)));
+    CollapsibleEffect *w = static_cast<CollapsibleEffect*>(l->takeAt(groupPos)->widget());
+    l->insertWidget(groupPos, group);
+    group->addGroupEffect(w);
+}
+
+void EffectStackView2::slotMoveEffectToGroup(int ix, CollapsibleEffect* group)
+{
+    QVBoxLayout *l = static_cast<QVBoxLayout *>(m_ui.container->widget()->layout());
+    CollapsibleEffect *effectToMove = getEffectByIndex(ix);
+    if (effectToMove == NULL) return;
+    l->removeWidget(effectToMove);
+    group->addGroupEffect(effectToMove);
 }
 
 #include "effectstackview2.moc"

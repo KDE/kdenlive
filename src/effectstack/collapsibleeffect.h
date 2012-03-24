@@ -64,7 +64,7 @@ public:
     ~ParameterContainer();
     void updateTimecodeFormat();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
-    int index();
+    int index() const;
 
 private slots:
     void slotCollectAllParameters();
@@ -114,7 +114,7 @@ class CollapsibleEffect : public QWidget, public Ui::CollapsibleWidget_UI
     Q_OBJECT
 
 public:
-    CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
+    CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, bool isGroup = false, QWidget * parent = 0);
     ~CollapsibleEffect();
     static QMap<QString, QImage> iconCache;
     void setupWidget(ItemInfo info, int index, EffectMetaInfo *metaInfo);
@@ -124,6 +124,9 @@ public:
     /** @brief Update effect GUI to reflect parameted changes. */
     void updateWidget(ItemInfo info, int index, QDomElement effect, EffectMetaInfo *metaInfo);
     QDomElement effect() const;
+    void addGroupEffect(CollapsibleEffect *effect);
+    int index() const;
+    int effectIndex() const;
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -137,6 +140,7 @@ private slots:
     void slotEffectDown();
     void slotSaveEffect();
     void slotResetEffect();
+    void slotCreateGroup();
 
 private:
     ParameterContainer *m_paramWidget;
@@ -147,6 +151,7 @@ private:
     bool m_lastEffect;    
     int m_in;
     int m_out;
+    bool m_isGroup;
     bool m_active;
     QMenu *m_menu;
     QPoint m_clickPoint;
@@ -156,6 +161,8 @@ protected:
     virtual void mousePressEvent ( QMouseEvent * event );
     virtual void enterEvent( QEvent * event );
     virtual void leaveEvent( QEvent * event );
+    virtual void dragEnterEvent(QDragEnterEvent *event);
+    virtual void dropEvent(QDropEvent *event);
     
 signals:
     void parameterChanged(const QDomElement, const QDomElement, int);
@@ -170,7 +177,11 @@ signals:
     void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QString properties);
     /** @brief An effect was saved, trigger effect list reload. */
     void reloadEffects();
+    /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
+    /** @brief Ask for creation of a group. */
+    void createGroup(int ix);
+    void moveEffect(int ix, CollapsibleEffect*);
 };
 
 
