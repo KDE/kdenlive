@@ -1621,22 +1621,25 @@ const ItemInfo ClipItem::speedIndependantInfo() const
 //virtual
 void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
-    const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
-    QDomDocument doc;
-    doc.setContent(effects, true);
-    const QDomElement e = doc.documentElement();
-    if (scene() && !scene()->views().isEmpty()) {
-        event->accept();
+    if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
+	const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+	event->acceptProposedAction();
+	QDomDocument doc;
+	doc.setContent(effects, true);
+	const QDomElement e = doc.documentElement();
         CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
         if (view) view->slotAddEffect(e, m_info.startPos, track());
     }
+    else return;
 }
 
 //virtual
 void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     if (isItemLocked()) event->setAccepted(false);
-    else event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
+    else if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+	event->acceptProposedAction();
+    } else event->setAccepted(false);
 }
 
 void ClipItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)

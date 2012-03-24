@@ -115,6 +115,7 @@ void MySpinBox::focusOutEvent(QFocusEvent*)
      setFocusPolicy(Qt::StrongFocus);
 }
 
+
 CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
         QWidget(parent),
         m_paramWidget(NULL),
@@ -128,14 +129,6 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     frame->setBackgroundRole(QPalette::Midlight);
     frame->setAutoFillBackground(true);
     setFont(KGlobalSettings::smallestReadableFont());
-    QDomElement namenode = m_effect.firstChildElement("name");
-    if (namenode.isNull()) return;
-    QString type = m_effect.attribute("type", QString());
-    KIcon icon;
-    if (type == "audio") icon = KIcon("kdenlive-show-audio");
-    else if (m_effect.attribute("tag") == "region") icon = KIcon("kdenlive-mask-effect");
-    else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
-    else icon = KIcon("kdenlive-show-video");
    
     buttonUp->setIcon(KIcon("go-up"));
     buttonUp->setToolTip(i18n("Move effect up"));
@@ -155,13 +148,21 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     //checkAll->setToolTip(i18n("Enable/Disable all effects"));
     //buttonShowComments->setIcon(KIcon("help-about"));
     //buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
-            
+    QDomElement namenode = m_effect.firstChildElement("name");
+    if (namenode.isNull()) return;
     title->setText(i18n(namenode.text().toUtf8().data()));
+    QString type = m_effect.attribute("type", QString());
+    KIcon icon;
+    if (type == "audio") icon = KIcon("kdenlive-show-audio");
+    else if (m_effect.attribute("tag") == "region") icon = KIcon("kdenlive-mask-effect");
+    else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
+    else icon = KIcon("kdenlive-show-video");
     title->setIcon(icon);
-    QMenu *menu = new QMenu;
-    menu->addAction(KIcon("view-refresh"), i18n("Reset effect"), this, SLOT(slotResetEffect()));
-    menu->addAction(KIcon("document-save"), i18n("Save effect"), this, SLOT(slotSaveEffect()));
-    title->setMenu(menu);
+            
+    m_menu = new QMenu;
+    m_menu->addAction(KIcon("view-refresh"), i18n("Reset effect"), this, SLOT(slotResetEffect()));
+    m_menu->addAction(KIcon("document-save"), i18n("Save effect"), this, SLOT(slotSaveEffect()));
+    title->setMenu(m_menu);
     
     if (m_effect.attribute("disable") == "1") {
         enabledBox->setCheckState(Qt::Unchecked);
@@ -190,17 +191,22 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
 	cb->installEventFilter( this );
         cb->setFocusPolicy( Qt::StrongFocus );
     }
-    
 }
 
 CollapsibleEffect::~CollapsibleEffect()
 {
     if (m_paramWidget) delete m_paramWidget;
+    delete m_menu;
 }
 
 bool CollapsibleEffect::eventFilter( QObject * o, QEvent * e ) 
 {
-    if(e->type() == QEvent::Wheel) {
+    if (e->type() == QEvent::Wheel) {
+	QWheelEvent *we = static_cast<QWheelEvent *>(e);
+	if (we->modifiers() != Qt::NoModifier) {
+	    e->accept();
+	    return false;
+	}
 	if (qobject_cast<QAbstractSpinBox*>(o)) {
 	    if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
 	    {
@@ -241,6 +247,10 @@ bool CollapsibleEffect::eventFilter( QObject * o, QEvent * e )
     return QWidget::eventFilter(o, e);
 }
 
+QDomElement CollapsibleEffect::effect() const
+{
+    return m_effect;
+}
 
 void CollapsibleEffect::setActive(bool activate)
 {
@@ -820,7 +830,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 
 ParameterContainer::~ParameterContainer()
 {
-    clearLayout(m_vbox);
+    //clearLayout(m_vbox);
     delete m_vbox;
 }
 

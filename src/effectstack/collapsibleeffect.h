@@ -29,6 +29,7 @@
 #include "effectstackedit.h"
 
 #include <QDomElement>
+#include <QToolButton>
 
 class QFrame;
 class Monitor;
@@ -122,6 +123,7 @@ public:
     virtual bool eventFilter( QObject * o, QEvent * e );
     /** @brief Update effect GUI to reflect parameted changes. */
     void updateWidget(ItemInfo info, int index, QDomElement effect, EffectMetaInfo *metaInfo);
+    QDomElement effect() const;
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -142,9 +144,12 @@ private:
     QDomElement m_effect;
     QDomElement m_original_effect;
     QList <QDomElement> m_subEffects;
-    bool m_lastEffect;    int m_in;
+    bool m_lastEffect;    
+    int m_in;
     int m_out;
     bool m_active;
+    QMenu *m_menu;
+    QPoint m_clickPoint;
     
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );

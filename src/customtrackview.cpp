@@ -1597,7 +1597,13 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
 void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
 {
     if (insertDropClips(event->mimeData(), event->pos())) {
-        event->acceptProposedAction();
+      if (event->source() == this) {
+             event->setDropAction(Qt::MoveAction);
+             event->accept();
+         } else {
+	     event->setDropAction(Qt::MoveAction);
+             event->acceptProposedAction();
+	 }
     } else QGraphicsView::dragEnterEvent(event);
 }
 
@@ -1826,11 +1832,11 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 		if (itemList.at(i)->type() == AVWIDGET) {
 		    ClipItem *clip = static_cast<ClipItem *>(itemList.at(i));
 		    if (!clip->isSelected()) {
-			clearSelection();
+			clearSelection(false);
 			clip->setSelected(true);
 		    }
 		    clip->setSelectedEffect(clip->effectsCount() - 1);
-		    emit clipItemSelected(clip, clip->effectsCount() - 1);
+		    emit clipItemSelected(clip, clip->selectedEffectIndex());
 		    break;
 		}
 	    }
@@ -6474,12 +6480,12 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
         splitAudio();
 }
 
-void CustomTrackView::clearSelection()
+void CustomTrackView::clearSelection(bool emitInfo)
 {
     resetSelectionGroup();
     scene()->clearSelection();
     m_dragItem = NULL;
-    emit clipItemSelected(NULL);
+    if (emitInfo) emit clipItemSelected(NULL);
 }
 
 void CustomTrackView::updatePalette()

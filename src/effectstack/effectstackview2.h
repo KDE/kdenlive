@@ -61,25 +61,41 @@ public:
 
     /** @brief Tells the effect editor to update its timecode format. */
     void updateTimecodeFormat();
+    
+    /** @brief Used to trigger drag effects. */
+    virtual bool eventFilter( QObject * o, QEvent * e );
 
+protected:
+    virtual void mouseMoveEvent(QMouseEvent * event);
+    virtual void mouseReleaseEvent(QMouseEvent * event);
+  
 private:
     Ui::EffectStack2_UI m_ui;
     ClipItem* m_clipref;
     QList <CollapsibleEffect*> m_effects;
     EffectsList m_currentEffectList;
+    
+    /** @brief Contains infos about effect like is it a track effect, which monitor displays it,... */
     EffectMetaInfo m_effectMetaInfo;
+    
+    /** @brief The last mouse click position, used to detect drag events. */
+    QPoint m_clickPoint;
 
     /** @brief The track index of currently edited track. */
     int m_trackindex;
 
     /** If in track mode: Info of the edited track to be able to access its duration. */
     TrackInfo m_trackInfo;
+    
+    /** @brief The effect currently being dragged, NULL if no drag happening. */
+    CollapsibleEffect *m_draggedEffect;
 
     /** @brief Sets the list of effects according to the clip's effect list.
     * @param ix Number of the effect to preselect */
     void setupListView(int ix);
     
-    void clearLayout(QLayout *layout);
+    /** @brief Build the drag info and start it. */
+    void startDrag();
 
 public slots:
     /** @brief Sets the clip whose effect list should be managed.

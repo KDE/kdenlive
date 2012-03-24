@@ -174,7 +174,7 @@ public:
     *
     * Inserts at the position of timeline cursor and selected track. */
     void insertClipCut(DocClipBase *clip, int in, int out);
-    void clearSelection();
+    void clearSelection(bool emitInfo = true);
     void editItemDuration();
     void buildGuidesMenu(QMenu *goMenu) const;
     /** update the timeline objects when palette changes */

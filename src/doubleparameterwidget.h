@@ -25,8 +25,6 @@
 
 
 class QLabel;
-class QSlider;
-class QSpinBox;
 class DragValue;
 
 /**
@@ -51,6 +49,7 @@ public:
     * @param suffix (optional) Suffix to display in spinbox
     * @param parent (optional) Parent Widget */
     DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString suffix = QString(), int decimals = 0, QWidget* parent = 0);
+    ~DoubleParameterWidget();
 
     /** @brief Gets the parameter's value. */
     double getValue();
@@ -75,9 +74,6 @@ private slots:
     void slotSetValue(double value, bool final);
 
 private:
-    QLabel *m_name;
-    QSlider *m_slider;
-    QSpinBox *m_spinBox;
     DragValue *m_dragVal;
     QLabel *m_commentLabel;
     

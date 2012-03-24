@@ -294,7 +294,12 @@ void ProjectListView::dropEvent(QDropEvent *event)
         QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(';');
         emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
     }
-    event->acceptProposedAction();
+    if (event->source() == this) {
+	event->setDropAction(Qt::MoveAction);
+        event->accept();
+    } else {
+	event->acceptProposedAction();
+    }
     QTreeWidget::dropEvent(event);
 }
 
@@ -357,7 +362,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             drag->setMimeData(mimeData);
             drag->setPixmap(clickItem->data(0, Qt::DecorationRole).value<QPixmap>());
             drag->setHotSpot(QPoint(0, 50));
-            drag->exec();
+            drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
         }
     } else {
         if (it && (it->flags() & Qt::ItemIsDragEnabled)) {
@@ -385,7 +390,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             drag->setMimeData(mimeData);
             drag->setPixmap(it->data(0, Qt::DecorationRole).value<QPixmap>());
             drag->setHotSpot(QPoint(0, 50));
-            drag->exec();
+            drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
         }
         //event->accept();
     }

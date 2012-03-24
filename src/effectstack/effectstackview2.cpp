@@ -43,7 +43,8 @@
 EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
         QWidget(parent),
         m_clipref(NULL),
-        m_trackindex(-1)
+        m_trackindex(-1),
+        m_draggedEffect(NULL)
 {
     m_effectMetaInfo.trackMode = false;
     m_effectMetaInfo.monitor = monitor;
@@ -125,7 +126,6 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, int ix)
         m_effects.clear();
 	QWidget *view = m_ui.container->takeWidget();
 	if (view) {
-	    if (view->layout()) clearLayout(view->layout());
 	    delete view;
 	}
         m_ui.checkAll->setToolTip(QString());
@@ -152,34 +152,19 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
     setupListView(0);
 }
 
-void EffectStackView2::clearLayout(QLayout *layout)
-{
-    QLayoutItem *item;
-    while((item = layout->takeAt(0))) {
-        if (item->layout()) {
-            clearLayout(item->layout());
-            delete item->layout();
-        }
-        if (item->widget()) {
-            delete item->widget();
-        }
-        delete item;
-    }
-}
 
 void EffectStackView2::setupListView(int ix)
 {
     //TODO: clear list
 
-    kDebug()<<"++++++++++++++++++++++++++++++++   setup: "<<children().count();
-
     blockSignals(true);
+    m_draggedEffect = NULL;
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     m_effects.clear();
     QWidget *view = m_ui.container->takeWidget();
     if (view) {
-	if (view->layout()) clearLayout(view->layout());
 	delete view;
+	//view->deleteLater();
     }
     blockSignals(false);
     view = new QWidget(m_ui.container);
@@ -213,6 +198,10 @@ void EffectStackView2::setupListView(int ix)
         CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, i, &m_effectMetaInfo, i == m_currentEffectList.count() - 1, view);
         m_effects.append(currentEffect);
         vbox1->addWidget(currentEffect);
+
+	// Check drag & drop
+	currentEffect->installEventFilter( this );
+
         connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
 	connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString,QString)));
         connect(currentEffect, SIGNAL(deleteEffect(const QDomElement, int)), this , SLOT(slotDeleteEffect(const QDomElement, int)));
@@ -227,6 +216,73 @@ void EffectStackView2::setupListView(int ix)
     }
     vbox1->addStretch(10);
     connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+}
+
+bool EffectStackView2::eventFilter( QObject * o, QEvent * e ) 
+{
+    // Check if user clicked in an effect's top bar to start dragging it
+    if (e->type() == QEvent::MouseButtonPress)  {
+	m_draggedEffect = qobject_cast<CollapsibleEffect*>(o);
+	if (m_draggedEffect) {
+	    QMouseEvent *me = static_cast<QMouseEvent *>(e);
+	    if (me->button() == Qt::LeftButton && (m_draggedEffect->frame->underMouse() || m_draggedEffect->title->underMouse()))
+		m_clickPoint = me->pos();
+	    else {
+		m_clickPoint = QPoint();
+		m_draggedEffect = NULL;
+	    }
+	    e->accept();
+	    return false;
+	}
+    }  
+    if (e->type() == QEvent::MouseMove)  {
+	if (qobject_cast<CollapsibleEffect*>(o)) {
+	    CollapsibleEffect *effect = qobject_cast<CollapsibleEffect*>(o);
+	    QMouseEvent *me = static_cast<QMouseEvent *>(e);
+	    if (me->buttons() != Qt::LeftButton) {
+		e->accept();
+		return false;
+	    }
+	    else {
+		e->ignore();
+		return true;
+	    }
+	}
+    }
+    return QWidget::eventFilter(o, e);
+}
+
+void EffectStackView2::mouseMoveEvent(QMouseEvent * event)
+{
+    if (m_draggedEffect && (event->buttons() & Qt::LeftButton) && (m_clickPoint != QPoint()) && ((event->pos() - m_clickPoint).manhattanLength() >= QApplication::startDragDistance()))
+	startDrag();
+}
+
+void EffectStackView2::mouseReleaseEvent(QMouseEvent * event)
+{
+    m_draggedEffect = NULL;
+    QWidget::mouseReleaseEvent(event);
+}
+
+void EffectStackView2::startDrag()
+{
+    QDrag *drag = new QDrag(this);
+    // The data to be transferred by the drag and drop operation is contained in a QMimeData object
+    QDomElement effect = m_draggedEffect->effect().cloneNode().toElement();
+    QPixmap pixmap = QPixmap::grabWidget(m_draggedEffect->title);
+    drag->setPixmap(pixmap);
+    effect.setAttribute("kdenlive_ix", 0);
+    QDomDocument doc;
+    doc.appendChild(doc.importNode(effect, true));
+    QMimeData *mime = new QMimeData;
+    QByteArray data;
+    data.append(doc.toString().toUtf8());
+    mime->setData("kdenlive/effectslist", data);
+
+    // Assign ownership of the QMimeData object to the QDrag object.
+    drag->setMimeData(mime);
+    // Start the drag and drop operation
+    drag->exec(Qt::CopyAction);// | Qt::MoveAction);
 }
 
 
@@ -311,7 +367,7 @@ void EffectStackView2::slotUpdateEffectParams(const QDomElement old, const QDomE
 
 void EffectStackView2::slotSetCurrentEffect(int ix)
 {
-    if (ix != m_clipref->selectedEffectIndex())
+    if (m_clipref && ix != m_clipref->selectedEffectIndex())
         m_clipref->setSelectedEffect(ix);
     for (int i = 0; i < m_effects.count(); i++) {
         m_effects.at(i)->setActive(i == ix);
@@ -368,7 +424,7 @@ void EffectStackView2::slotResetEffect(int ix)
     if (!dom.isNull()) {
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
 	//TODO: Track mode
-        /*if (m_trackMode) {
+        if (m_effectMetaInfo.trackMode) {
             EffectsList::setParameter(dom, "in", QString::number(0));
             EffectsList::setParameter(dom, "out", QString::number(m_trackInfo.duration));
             ItemInfo info;
@@ -377,9 +433,9 @@ void EffectStackView2::slotResetEffect(int ix)
             info.cropStart = GenTime(0);
             info.startPos = GenTime(-1);
             info.track = 0;
-            m_effectedit->transferParamDesc(dom, info);
-            emit updateEffect(NULL, m_trackindex, old, dom, activeRow);
-        } else*/ {
+	    m_effects.at(ix)->updateWidget(info, ix, dom, &m_effectMetaInfo);
+            emit updateEffect(NULL, m_trackindex, old, dom, ix);
+        } else {
             m_clipref->initEffect(dom);
 	    m_effects.at(ix)->updateWidget(m_clipref->info(), ix, dom, &m_effectMetaInfo);
             //m_effectedit->transferParamDesc(dom, m_clipref->info());
