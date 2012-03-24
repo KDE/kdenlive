@@ -1932,12 +1932,13 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 if (strobe == 0) strobe = 1;
                 doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, clip->speed(), strobe, clip->baseClip()->getId());
             }
-            clip->setEffectAt(ix, effect);
-            if (ix == clip->selectedEffectIndex()) {
-                clip->setSelectedEffect(ix);
-                if (!triggeredByUser)
-                    emit clipItemSelected(clip, ix);
-            }
+            if (clip->setEffectAt(ix, effect)) {
+		if (ix == clip->selectedEffectIndex()) {
+		    clip->setSelectedEffect(ix);
+		    if (!triggeredByUser)
+			emit clipItemSelected(clip, ix);
+		}
+	    } else emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             return;
         }
 
@@ -1959,16 +1960,17 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 clip->setFadeOut(pos);
             }
         }
+	bool success = true;
+        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams)) success = false;
 
-        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams))
-            emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-
-        clip->setEffectAt(ix, effect);
-        if (ix == clip->selectedEffectIndex()) {
-            clip->setSelectedEffect(ix);
-            if (!triggeredByUser)
-                emit clipItemSelected(clip, ix);
-        }
+        if (success && clip->setEffectAt(ix, effect)) {
+	    if (ix == clip->selectedEffectIndex()) {
+		clip->setSelectedEffect(ix);
+		if (!triggeredByUser)
+		    emit clipItemSelected(clip, ix);
+	    }
+	}
+	else emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
     }
     else emit displayMessage(i18n("Cannot find clip to update effect"), ErrorMessage);
     setDocumentModified();
@@ -1978,6 +1980,9 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
 {
     if (pos < GenTime()) {
         // Moving track effect
+        if (newPos > m_document->getTrackEffects(m_document->tracksCount() - track - 1).count()) {
+	    newPos = m_document->getTrackEffects(m_document->tracksCount() - track - 1).count();
+	}
         QDomElement act = m_document->getTrackEffect(m_document->tracksCount() - track - 1, newPos - 1);
         QDomElement before = m_document->getTrackEffect(m_document->tracksCount() - track - 1, oldPos - 1);
 
@@ -1990,6 +1995,9 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
         return;
     }
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
+    if (newPos > clip->effectsCount()) {
+	newPos = clip->effectsCount();
+    }
     if (clip && !clip->effectAt(newPos - 1).isNull() && !clip->effectAt(oldPos - 1).isNull()) {
         QDomElement act = clip->effectAt(newPos - 1);
         QDomElement before = clip->effectAt(oldPos - 1);
@@ -2043,7 +2051,7 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElemen
     if (clip) command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldeffect, effect, ix, true);
     else command = new EditEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), oldeffect, effect, ix, true);
     m_commandStack->push(command);
-    kDebug()<<"// UPDATE EFFECT, "<<EffectsList::property(effect, "kdenlive_ix")<<" / "<<EffectsList::property(effect, "kdenlive_group");
+    kDebug()<<"// UPDATE EFFECT, "<<EffectsList::property(effect, "kdenlive_ix")<<" / "<<EffectsList::property(effect, "kdenlive_info");
 }
 
 void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, QString region)
@@ -6618,6 +6626,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
     parameters.addParam("tag", effect.attribute("tag"));
     if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
+    parameters.addParam("kdenlive_info", effect.attribute("kdenlive_info"));
     parameters.addParam("id", effect.attribute("id"));
     if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
     if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));

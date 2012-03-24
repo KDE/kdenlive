@@ -123,10 +123,12 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
         m_original_effect(original_effect),
         m_lastEffect(lastEffect),
         m_isGroup(isGroup),
-        m_active(false)
+        m_active(false),
+        m_index(ix)
 {
     //setMouseTracking(true);
     setupUi(this);
+    m_info.fromString(effect.attribute("kdenlive_info"));
     frame->setBackgroundRole(QPalette::Midlight);
     frame->setAutoFillBackground(true);
     setFont(KGlobalSettings::smallestReadableFont());
@@ -326,17 +328,17 @@ void CollapsibleEffect::slotEnable(bool enable)
 
 void CollapsibleEffect::slotDeleteEffect()
 {
-    emit deleteEffect(m_effect, m_paramWidget->index());
+    if (!m_isGroup) emit deleteEffect(m_effect, m_paramWidget->index());
 }
 
 void CollapsibleEffect::slotEffectUp()
 {
-    emit changeEffectPosition(m_paramWidget->index(), true);
+    if (!m_isGroup) emit changeEffectPosition(m_paramWidget->index(), true);
 }
 
 void CollapsibleEffect::slotEffectDown()
 {
-    emit changeEffectPosition(m_paramWidget->index(), false);
+    if (!m_isGroup) emit changeEffectPosition(m_paramWidget->index(), false);
 }
 
 void CollapsibleEffect::slotSaveEffect()
@@ -389,12 +391,20 @@ void CollapsibleEffect::slotShow(bool show)
     widgetFrame->setVisible(show);
     if (show) {
         collapseButton->setArrowType(Qt::DownArrow);
-	m_original_effect.removeAttribute("k_collapsed");
+	m_info.isCollapsed = false;
     }
     else {
         collapseButton->setArrowType(Qt::RightArrow);
-	m_original_effect.setAttribute("k_collapsed", 1);
+	m_info.isCollapsed = true;
     }
+    m_effect.setAttribute("kdenlive_info", m_info.toString());
+    emit parameterChanged(m_original_effect, m_effect, m_index);
+    
+}
+
+void CollapsibleEffect::setGroupIndex(int ix)
+{
+    m_info.groupIndex = ix;
 }
 
 void CollapsibleEffect::addGroupEffect(CollapsibleEffect *effect)
@@ -406,13 +416,19 @@ void CollapsibleEffect::addGroupEffect(CollapsibleEffect *effect)
 	vbox->setSpacing(2);
 	widgetFrame->setLayout(vbox);
     }
+    effect->setGroupIndex(groupIndex());
     vbox->addWidget(effect);
 }
 
 int CollapsibleEffect::index() const
 {
-    if (m_paramWidget) return m_paramWidget->index();
-    return 0;
+    return m_index;
+}
+
+int CollapsibleEffect::groupIndex() const
+{
+    if (m_isGroup) return m_index;
+    return -1;
 }
 
 int CollapsibleEffect::effectIndex() const
@@ -465,7 +481,11 @@ void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *me
             widgetFrame->setVisible(false);            
         }
     }
-    if (collapseButton->isEnabled()) slotShow(!m_effect.hasAttribute("k_collapsed"));
+    if (collapseButton->isEnabled() && m_info.isCollapsed) {
+ 	widgetFrame->setVisible(false);
+	collapseButton->setArrowType(Qt::RightArrow);
+	
+    }
     connect (m_paramWidget, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)));
     
     connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)));
@@ -507,7 +527,14 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
     doc.setContent(effects, true);
     const QDomElement e = doc.documentElement();
     int ix = e.attribute("kdenlive_ix").toInt();
-    emit moveEffect(ix, this);
+    int last_index = -1;
+    if (m_isGroup) {
+	QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
+	if (vbox == NULL) return;
+	CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(vbox->count() -1)->widget());
+	last_index = e->effectIndex();
+    }
+    emit moveEffect(ix, this, last_index);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }

@@ -152,8 +152,12 @@ private slots:
     /** @brief Create a group containing effect with ix index. */
     void slotCreateGroup(int ix);
     
-    /** @brief Move an effect into a group. */
-    void slotMoveEffectToGroup(int, CollapsibleEffect*);
+    /** @brief Move an effect into a group.
+      ** @param ix the index of effect to move in stack layout
+      ** @param group the effect group where the effect is moved
+      ** @param lastEffectIndex the last effect index in the group, effect will be inserted after that index
+      */
+    void slotMoveEffectToGroup(int ix, CollapsibleEffect *group, int lastEffectIndex);
 
 
 signals:

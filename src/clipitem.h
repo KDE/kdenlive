@@ -99,7 +99,7 @@ public:
     /** @brief Replaces an effect.
     * @param ix The effect's index in effectlist
     * @param effect The new effect */
-    void setEffectAt(int ix, QDomElement effect);
+    bool setEffectAt(int ix, QDomElement effect);
     void flashClip();
     void addTransition(Transition*);
 

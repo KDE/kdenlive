@@ -765,6 +765,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         // add effect to clip
         QString effecttag;
         QString effectid;
+	QString effectinfo;
         QString effectindex = QString::number(effectNb);
         // Get effect tag & index
         for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
@@ -774,6 +775,8 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 effecttag = effectparam.text();
             } else if (effectparam.attribute("name") == "kdenlive_id") {
                 effectid = effectparam.text();
+	    } else if (effectparam.attribute("name") == "kdenlive_info") {
+                effectinfo = effectparam.text();
             } else if (effectparam.attribute("name") == "disable" && effectparam.text().toInt() == 1) {
                 // Fix effects index
                 disableeffect = true;
@@ -799,6 +802,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         } else {
             QDomElement currenteffect = clipeffect.cloneNode().toElement();
             currenteffect.setAttribute("kdenlive_ix", effectindex);
+	    currenteffect.setAttribute("kdenlive_info", effectinfo);
             QDomNodeList clipeffectparams = currenteffect.childNodes();
 
             if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {

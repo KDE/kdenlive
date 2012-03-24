@@ -1371,11 +1371,11 @@ QDomElement ClipItem::getEffectAt(int ix) const
     return m_effectList.at(ix);
 }
 
-void ClipItem::setEffectAt(int ix, QDomElement effect)
+bool ClipItem::setEffectAt(int ix, QDomElement effect)
 {
     if (ix < 0 || ix > (m_effectList.count() - 1) || effect.isNull()) {
         kDebug() << "Invalid effect index: " << ix;
-        return;
+        return false;
     }
     //kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
     effect.setAttribute("kdenlive_ix", ix + 1);
@@ -1389,6 +1389,7 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
         r.setHeight(20);
         update(r);
     }
+    return true;
 }
 
 EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animate*/)

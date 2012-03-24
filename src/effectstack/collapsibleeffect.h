@@ -126,7 +126,9 @@ public:
     QDomElement effect() const;
     void addGroupEffect(CollapsibleEffect *effect);
     int index() const;
+    int groupIndex() const;
     int effectIndex() const;
+    void setGroupIndex(int ix);
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -155,6 +157,8 @@ private:
     bool m_active;
     QMenu *m_menu;
     QPoint m_clickPoint;
+    int m_index;
+    EffectInfo m_info;
     
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
@@ -181,7 +185,7 @@ signals:
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
-    void moveEffect(int ix, CollapsibleEffect*);
+    void moveEffect(int ix, CollapsibleEffect *group, int lastEffectIndex);
 };
 
 

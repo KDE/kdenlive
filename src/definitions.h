@@ -125,6 +125,32 @@ struct MltVideoProfile {
     }
 };
 
+/**)
+ * @class EffectInfo
+ * @brief A class holding some meta info for effects widgets, like state (collapsed or not, ...)
+ * @author Jean-Baptiste Mardelle
+ */
+
+class EffectInfo
+{
+public:
+    EffectInfo() {isCollapsed = false; groupIndex = -1;}
+    bool isCollapsed;
+    int groupIndex;
+    QString groupName;
+    QString toString() const {
+        QStringList data;
+	data << QString::number(isCollapsed) << QString::number(groupIndex) << groupName;
+	return data.join("/");
+    }
+    void fromString(QString value) {
+	if (value.isEmpty()) return;
+	QStringList data = value.split("/");
+	isCollapsed = data.at(0).toInt();
+	if (data.count() > 1) groupIndex = data.at(1).toInt();
+	if (data.count() > 2) groupName = data.at(2);
+    }
+};
 
 class EffectParameter
 {
