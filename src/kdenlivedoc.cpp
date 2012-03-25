@@ -1502,15 +1502,13 @@ void KdenliveDoc::removeTrackEffect(int ix, QDomElement effect)
         kWarning() << "Remove Track effect outisde of range";
         return;
     }
-    QString index;
-    QString toRemove = effect.attribute("kdenlive_ix");
+    int index;
+    int toRemove = effect.attribute("kdenlive_ix").toInt();
     for (int i = 0; i < m_tracksList.at(ix).effectsList.count(); ++i) {
-        index = m_tracksList.at(ix).effectsList.at(i).attribute("kdenlive_ix");
+        index = m_tracksList.at(ix).effectsList.at(i).attribute("kdenlive_ix").toInt();
         if (toRemove == index) {
-            m_tracksList[ix].effectsList.removeAt(i);
-            i--;
-        } else if (index.toInt() > toRemove.toInt()) {
-            m_tracksList[ix].effectsList.item(i).setAttribute("kdenlive_ix", index.toInt() - 1);
+            m_tracksList[ix].effectsList.removeAt(toRemove);
+            break;
         }
     }
 }
@@ -1521,12 +1519,12 @@ void KdenliveDoc::setTrackEffect(int trackIndex, int effectIndex, QDomElement ef
         kWarning() << "Set Track effect outisde of range";
         return;
     }
-    if (effectIndex < 0 || effectIndex > (m_tracksList.at(trackIndex).effectsList.count() - 1) || effect.isNull()) {
+    if (effectIndex <= 0 || effectIndex > (m_tracksList.at(trackIndex).effectsList.count()) || effect.isNull()) {
         kDebug() << "Invalid effect index: " << effectIndex;
         return;
     }
-    effect.setAttribute("kdenlive_ix", effectIndex + 1);
-    m_tracksList[trackIndex].effectsList.replace(effectIndex, effect);
+    effect.setAttribute("kdenlive_ix", effectIndex);
+    m_tracksList[trackIndex].effectsList.updateEffect(effect);
 }
 
 const EffectsList KdenliveDoc::getTrackEffects(int ix)
@@ -1545,8 +1543,8 @@ QDomElement KdenliveDoc::getTrackEffect(int trackIndex, int effectIndex) const
         return QDomElement();
     }
     EffectsList list = m_tracksList.at(trackIndex).effectsList;
-    if (effectIndex > list.count() - 1 || effectIndex < 0 || list.at(effectIndex).isNull()) return QDomElement();
-    return list.at(effectIndex).cloneNode().toElement();
+    if (effectIndex > list.count() || effectIndex < 1 || list.itemFromIndex(effectIndex).isNull()) return QDomElement();
+    return list.itemFromIndex(effectIndex).cloneNode().toElement();
 }
 
 bool KdenliveDoc::saveCustomEffects(QDomNodeList customeffects)

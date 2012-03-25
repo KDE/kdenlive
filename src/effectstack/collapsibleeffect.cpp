@@ -173,6 +173,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
 	setAcceptDrops(true);
 	title->setText(i18n("Effect Group"));
 	title->setIcon(KIcon("folder"));
+	m_menu->addAction(KIcon("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
     }
     
     title->setMenu(m_menu);
@@ -213,7 +214,12 @@ CollapsibleEffect::~CollapsibleEffect()
 
 void CollapsibleEffect::slotCreateGroup()
 {
-    emit createGroup(m_paramWidget->index());
+    emit createGroup(effectIndex());
+}
+
+void CollapsibleEffect::slotUnGroup()
+{
+    emit unGroup(this);
 }
 
 bool CollapsibleEffect::eventFilter( QObject * o, QEvent * e ) 
@@ -328,17 +334,17 @@ void CollapsibleEffect::slotEnable(bool enable)
 
 void CollapsibleEffect::slotDeleteEffect()
 {
-    if (!m_isGroup) emit deleteEffect(m_effect, m_paramWidget->index());
+    if (!m_isGroup) emit deleteEffect(m_effect);
 }
 
 void CollapsibleEffect::slotEffectUp()
 {
-    if (!m_isGroup) emit changeEffectPosition(m_paramWidget->index(), true);
+    if (!m_isGroup) emit changeEffectPosition(effectIndex(), true);
 }
 
 void CollapsibleEffect::slotEffectDown()
 {
-    if (!m_isGroup) emit changeEffectPosition(m_paramWidget->index(), false);
+    if (!m_isGroup) emit changeEffectPosition(effectIndex(), false);
 }
 
 void CollapsibleEffect::slotSaveEffect()
@@ -377,7 +383,7 @@ void CollapsibleEffect::slotSaveEffect()
 
 void CollapsibleEffect::slotResetEffect()
 {
-    emit resetEffect(m_paramWidget->index());
+    emit resetEffect(effectIndex());
 }
 
 void CollapsibleEffect::slotSwitch()
@@ -398,8 +404,14 @@ void CollapsibleEffect::slotShow(bool show)
 	m_info.isCollapsed = true;
     }
     m_effect.setAttribute("kdenlive_info", m_info.toString());
+    emit parameterChanged(m_original_effect, m_effect, m_index);   
+}
+
+void CollapsibleEffect::updateGroupIndex(int groupIndex)
+{
+    m_info.groupIndex = groupIndex;
+    m_effect.setAttribute("kdenlive_info", m_info.toString());
     emit parameterChanged(m_original_effect, m_effect, m_index);
-    
 }
 
 void CollapsibleEffect::setGroupIndex(int ix)
@@ -418,6 +430,25 @@ void CollapsibleEffect::addGroupEffect(CollapsibleEffect *effect)
     }
     effect->setGroupIndex(groupIndex());
     vbox->addWidget(effect);
+}
+
+QString CollapsibleEffect::infoString() const
+{
+    return m_info.toString();
+}
+
+void CollapsibleEffect::removeGroup(int ix, QVBoxLayout *layout)
+{
+    QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
+    if (vbox == NULL) return;
+    
+    for (int j = vbox->count() - 1; j >= 0; j--) {
+	QLayoutItem *child = vbox->takeAt(j);
+	CollapsibleEffect *e = static_cast<CollapsibleEffect *>(child->widget());
+	layout->insertWidget(ix, e);
+	e->updateGroupIndex(-1);
+	delete child;
+    }
 }
 
 int CollapsibleEffect::index() const

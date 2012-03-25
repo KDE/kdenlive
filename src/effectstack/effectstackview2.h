@@ -133,7 +133,7 @@ private slots:
     void slotMoveEffect(int index, bool up);
 
     /** @brief Delete an effect in the stack. */
-    void slotDeleteEffect(const QDomElement effect, int index);
+    void slotDeleteEffect(const QDomElement effect);
 
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotRenderPos(int pos);
@@ -157,8 +157,9 @@ private slots:
       ** @param group the effect group where the effect is moved
       ** @param lastEffectIndex the last effect index in the group, effect will be inserted after that index
       */
-    void slotMoveEffectToGroup(int ix, CollapsibleEffect *group, int lastEffectIndex);
-
+    void slotMoveEffectToGroup(int effectIndex, CollapsibleEffect *group, int lastEffectIndex);
+    /** @brief Remove effects from a group */
+    void slotUnGroup(CollapsibleEffect* group);
 
 signals:
     void removeEffect(ClipItem*, int, QDomElement);

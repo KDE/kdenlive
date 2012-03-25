@@ -129,6 +129,8 @@ public:
     int groupIndex() const;
     int effectIndex() const;
     void setGroupIndex(int ix);
+    void removeGroup(int ix, QVBoxLayout *layout);
+    QString infoString() const;
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -143,6 +145,7 @@ private slots:
     void slotSaveEffect();
     void slotResetEffect();
     void slotCreateGroup();
+    void slotUnGroup();
 
 private:
     ParameterContainer *m_paramWidget;
@@ -160,6 +163,8 @@ private:
     int m_index;
     EffectInfo m_info;
     
+    void updateGroupIndex(int groupIndex);
+    
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
     virtual void mousePressEvent ( QMouseEvent * event );
@@ -172,7 +177,7 @@ signals:
     void parameterChanged(const QDomElement, const QDomElement, int);
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix = -1);
-    void deleteEffect(const QDomElement, int);
+    void deleteEffect(const QDomElement);
     void changeEffectPosition(int, bool);
     void activateEffect(int);
     void checkMonitorPosition(int);
@@ -186,6 +191,7 @@ signals:
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
     void moveEffect(int ix, CollapsibleEffect *group, int lastEffectIndex);
+    void unGroup(CollapsibleEffect *);
 };
 
 

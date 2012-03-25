@@ -1818,6 +1818,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
             if (effect.attribute("id") == "freeze" && m_cursorPos > item->startPos().frames(m_document->fps()) && m_cursorPos < item->endPos().frames(m_document->fps())) {
                 item->initEffect(effect, m_cursorPos - item->startPos().frames(m_document->fps()));
             } else {
+		kDebug()<<"PREIT 0: "<<effect.attribute("kdenlive_ix");
                 item->initEffect(effect);
             }
             new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
@@ -1932,7 +1933,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 if (strobe == 0) strobe = 1;
                 doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, clip->speed(), strobe, clip->baseClip()->getId());
             }
-            if (clip->setEffectAt(ix, effect)) {
+            if (clip->updateEffect(effect)) {
 		if (ix == clip->selectedEffectIndex()) {
 		    clip->setSelectedEffect(ix);
 		    if (!triggeredByUser)
@@ -1963,7 +1964,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
 	bool success = true;
         if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams)) success = false;
 
-        if (success && clip->setEffectAt(ix, effect)) {
+        if (success && clip->updateEffect(effect)) {
 	    if (ix == clip->selectedEffectIndex()) {
 		clip->setSelectedEffect(ix);
 		if (!triggeredByUser)
@@ -1983,12 +1984,12 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
         if (newPos > m_document->getTrackEffects(m_document->tracksCount() - track - 1).count()) {
 	    newPos = m_document->getTrackEffects(m_document->tracksCount() - track - 1).count();
 	}
-        QDomElement act = m_document->getTrackEffect(m_document->tracksCount() - track - 1, newPos - 1);
-        QDomElement before = m_document->getTrackEffect(m_document->tracksCount() - track - 1, oldPos - 1);
+        QDomElement act = m_document->getTrackEffect(m_document->tracksCount() - track - 1, newPos);
+        QDomElement before = m_document->getTrackEffect(m_document->tracksCount() - track - 1, oldPos);
 
         if (!act.isNull() && !before.isNull()) {
-            m_document->setTrackEffect(m_document->tracksCount() - track - 1, oldPos - 1, act);
-            m_document->setTrackEffect(m_document->tracksCount() - track - 1, newPos - 1, before);
+            m_document->setTrackEffect(m_document->tracksCount() - track - 1, oldPos, act);
+            m_document->setTrackEffect(m_document->tracksCount() - track - 1, newPos, before);
             m_document->renderer()->mltMoveEffect(m_document->tracksCount() - track, pos, oldPos, newPos);
             emit showTrackEffects(m_document->tracksCount() - track, m_document->trackInfoAt(m_document->tracksCount() - track - 1));
         } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
@@ -1998,11 +1999,11 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
     if (newPos > clip->effectsCount()) {
 	newPos = clip->effectsCount();
     }
-    if (clip && !clip->effectAt(newPos - 1).isNull() && !clip->effectAt(oldPos - 1).isNull()) {
-        QDomElement act = clip->effectAt(newPos - 1);
-        QDomElement before = clip->effectAt(oldPos - 1);
-        clip->setEffectAt(oldPos - 1, act);
-        clip->setEffectAt(newPos - 1, before);
+    if (clip && !clip->effectAt(newPos ).isNull() && !clip->effectAt(oldPos).isNull()) {
+        QDomElement act = clip->effectAt(newPos);
+        QDomElement before = clip->effectAt(oldPos);
+        clip->moveEffect(act, oldPos);
+        clip->moveEffect(before, newPos);
         // special case: speed effect, which is a pseudo-effect, not appearing in MLT's effects
         if (act.attribute("id") == "speed") {
             m_document->renderer()->mltUpdateEffectPosition(track, pos, oldPos, newPos);
@@ -2051,7 +2052,6 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElemen
     if (clip) command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldeffect, effect, ix, true);
     else command = new EditEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), oldeffect, effect, ix, true);
     m_commandStack->push(command);
-    kDebug()<<"// UPDATE EFFECT, "<<EffectsList::property(effect, "kdenlive_ix")<<" / "<<EffectsList::property(effect, "kdenlive_info");
 }
 
 void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, QString region)

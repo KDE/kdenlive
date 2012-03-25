@@ -35,7 +35,7 @@
 class EffectsList: public QDomDocument
 {
 public:
-    EffectsList();
+    EffectsList(bool indexRequired = false);
     ~EffectsList();
 
     /** @brief Returns the XML element of an effect.
@@ -65,9 +65,9 @@ public:
     int count() const;
     const QDomElement at(int ix) const;
     void removeAt(int ix);
-    QDomElement item(int ix);
-    void insert(int ix, QDomElement effect);
-    void replace(int ix, QDomElement effect);
+    QDomElement itemFromIndex(int ix) const;
+    void insert(QDomElement effect);
+    void updateEffect(QDomElement effect);
     static bool hasKeyFrames(QDomElement effect);
     static bool hasSimpleKeyFrames(QDomElement effect);
     static bool hasGeometryKeyFrames(QDomElement effect);
@@ -84,9 +84,14 @@ public:
     /** @brief Remove all 'meta.*' properties from a producer, used when replacing proxy producers in xml for rendering. */
     static void removeMetaProperties(QDomElement producer);
     void clearList();
+    /** @brief Get am effect with effect index equal to ix. */
+    QDomElement effectFromIndex(QDomNodeList effects, int ix);
+    /** @brief Update all effects indexes to make sure they are 1, 2, 3, ... */
+    void updateIndexes(QDomNodeList effects);
 
 private:
     QDomElement m_baseElement;
+    bool m_useIndex;
 
 };
 
