@@ -219,6 +219,7 @@ void EffectStackView2::setupListView(int ix)
 	} else {
 	    vbox1->addWidget(currentEffect);
 	}
+	if (currentEffect->effectIndex() == ix) currentEffect->setActive(true);
 
 	// Check drag & drop
 	currentEffect->installEventFilter( this );
@@ -412,7 +413,7 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
     if (m_clipref && ix != m_clipref->selectedEffectIndex())
         m_clipref->setSelectedEffect(ix);
     for (int i = 0; i < m_effects.count(); i++) {
-        m_effects.at(i)->setActive(i == ix);
+        m_effects.at(i)->setActive(m_effects.at(i)->effectIndex() == ix);
     }
 }
 

@@ -291,7 +291,7 @@ void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
 
 void CollapsibleEffect::mousePressEvent ( QMouseEvent *event )
 {
-    if (!m_active && m_paramWidget) emit activateEffect(m_paramWidget->index());
+    if (!m_active && m_paramWidget) emit activateEffect(effectIndex());
     QWidget::mousePressEvent(event);
 }
 
