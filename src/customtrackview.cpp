@@ -1842,7 +1842,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 			clip->setSelected(true);
 		    }
 		    clip->setSelectedEffect(clip->effectsCount() - 1);
-		    emit clipItemSelected(clip, clip->selectedEffectIndex());
+		    //emit clipItemSelected(clip, clip->selectedEffectIndex());
 		    break;
 		}
 	    }

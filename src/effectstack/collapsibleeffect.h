@@ -131,13 +131,16 @@ public:
     void setGroupIndex(int ix);
     void removeGroup(int ix, QVBoxLayout *layout);
     QString infoString() const;
+    bool isActive() const;
+    /** @brief Should the wheel event be sent to parent widget for scrolling. */
+    bool filterWheelEvent;
 
 public slots:
     void slotSyncEffectsPos(int pos);
+    void slotEnable(bool enable);
 
 private slots:
     void slotSwitch();
-    void slotEnable(bool enable);
     void slotShow(bool show);
     void slotDeleteEffect();
     void slotEffectUp();

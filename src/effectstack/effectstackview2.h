@@ -45,10 +45,6 @@ public:
     /** @brief Raises @param dock if a clip is loaded. */
     void raiseWindow(QWidget* dock);
 
-    /** @brief Sets the add effect button's menu to @param menu. */
-    void setMenu(QMenu *menu);
-
-
     /** @brief return the index of the track displayed in effect stack
      ** @param ok set to true if we are looking at a track's effects, otherwise false. */
     int isTrackMode(bool *ok) const;
@@ -66,10 +62,14 @@ public:
     virtual bool eventFilter( QObject * o, QEvent * e );
     
     CollapsibleEffect *getEffectByIndex(int ix);
+    
+    /** @brief Delete currently selected effect. */
+    void deleteCurrentEffect();
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
+    virtual void resizeEvent ( QResizeEvent * event );
   
 private:
     Ui::EffectStack2_UI m_ui;
@@ -109,9 +109,9 @@ public slots:
     void slotClipItemSelected(ClipItem* c, int ix);
 
     void slotTrackItemSelected(int ix, const TrackInfo info);
-
-    /** @brief Removes the selected effect. */
-    void slotItemDel();
+   
+    /** @brief Check if the mouse wheel events should be used for scrolling the widget view. */
+    void slotCheckWheelEventFilter();
 
 private slots:
 
@@ -162,7 +162,14 @@ private slots:
     /** @brief Remove effects from a group */
     void slotUnGroup(CollapsibleEffect* group);
     
+    /** @brief Add en effect to selected clip */
     void slotAddEffect(QDomElement effect);
+    
+    /** @brief Enable / disable all effects for the clip */
+    void slotCheckAll(int state);
+    
+    /** @brief Update check all button status */
+    void slotUpdateCheckAllButton();
 
 signals:
     void removeEffect(ClipItem*, int, QDomElement);

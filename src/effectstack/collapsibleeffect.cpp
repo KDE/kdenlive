@@ -128,6 +128,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
 {
     //setMouseTracking(true);
     setupUi(this);
+    filterWheelEvent = true;
     m_info.fromString(effect.attribute("kdenlive_info"));
     frame->setBackgroundRole(QPalette::Midlight);
     frame->setAutoFillBackground(true);
@@ -225,7 +226,7 @@ bool CollapsibleEffect::eventFilter( QObject * o, QEvent * e )
 {
     if (e->type() == QEvent::Wheel) {
 	QWheelEvent *we = static_cast<QWheelEvent *>(e);
-	if (we->modifiers() != Qt::NoModifier) {
+	if (!filterWheelEvent || we->modifiers() != Qt::NoModifier) {
 	    e->accept();
 	    return false;
 	}
@@ -274,6 +275,11 @@ QDomElement CollapsibleEffect::effect() const
     return m_effect;
 }
 
+bool CollapsibleEffect::isActive() const
+{
+    return m_active;
+}
+
 void CollapsibleEffect::setActive(bool activate, bool focused)
 {
     m_active = activate;
@@ -314,6 +320,9 @@ void CollapsibleEffect::leaveEvent ( QEvent * event )
 void CollapsibleEffect::slotEnable(bool enable)
 {
     title->setEnabled(enable);
+    enabledBox->blockSignals(true);
+    enabledBox->setChecked(enable);
+    enabledBox->blockSignals(false);
     if (m_isGroup) {
 	QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
 	if (vbox == NULL) return;

@@ -520,8 +520,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_effectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
     connect(m_transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
 
-    m_effectStack->setMenu(m_effectsMenu);
-
     QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
     const QList<QAction *> viewActions = createPopupMenu()->actions();
     viewMenu->insertActions(NULL, viewActions);
@@ -2741,7 +2739,7 @@ void MainWindow::slotDeleteItem()
         QWidget *widget = QApplication::focusWidget();
         while (widget) {
             if (widget == m_effectStackDock) {
-                m_effectStack->slotItemDel();
+                m_effectStack->deleteCurrentEffect();
                 return;
             }
             widget = widget->parentWidget();

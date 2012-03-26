@@ -38,6 +38,7 @@
 #include <QTextStream>
 #include <QFile>
 #include <QInputDialog>
+#include <QScrollBar>
 
 
 EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
@@ -56,6 +57,8 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
     m_ui.buttonShowComments->setIcon(KIcon("help-about"));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
+    
+    connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
 
 
     setEnabled(false);
@@ -91,11 +94,6 @@ void EffectStackView2::slotRenderPos(int pos)
         m_effects.at(i)->slotSyncEffectsPos(pos);
 }
 
-void EffectStackView2::setMenu(QMenu *menu)
-{
-    //m_ui.buttonNew->setMenu(menu);
-}
-
 void EffectStackView2::slotClipItemSelected(ClipItem* c, int ix)
 {
     if (c && !c->isEnabled()) return;
@@ -113,6 +111,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, int ix)
                 m_ui.checkAll->setToolTip(QString());
                 m_ui.checkAll->setText(i18n("Effects for %1").arg(cname));
             }
+            m_ui.checkAll->setEnabled(true);
             ix = c->selectedEffectIndex();
             QString size = c->baseClip()->getProperty("frame_size");
             double factor = c->baseClip()->getProperty("aspect_ratio").toDouble();
@@ -150,8 +149,6 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
 
 void EffectStackView2::setupListView(int ix)
 {
-    //TODO: clear list
-
     blockSignals(true);
     m_draggedEffect = NULL;
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
@@ -164,6 +161,7 @@ void EffectStackView2::setupListView(int ix)
     blockSignals(false);
     view = new QWidget(m_ui.container);
     m_ui.container->setWidget(view);
+    slotUpdateCheckAllButton();
 
     QVBoxLayout *vbox1 = new QVBoxLayout(view);
     vbox1->setContentsMargins(0, 0, 0, 0);
@@ -180,10 +178,9 @@ void EffectStackView2::setupListView(int ix)
 	EffectInfo effectInfo;
 	effectInfo.fromString(d.attribute("kdenlive_info"));
 	if (effectInfo.groupIndex >= 0) {
-	    for (int j = 0; j < vbox1->count(); j++) {
-		CollapsibleEffect *gp = static_cast<CollapsibleEffect *>(vbox1->itemAt(j)->widget());
-		if (gp->groupIndex() == effectInfo.groupIndex) {
-		    group = gp;
+	    for (int i = 0; i < m_effects.count(); i++) {
+		if (m_effects.at(i)->groupIndex() == effectInfo.groupIndex) {
+		    group = m_effects.at(i);
 		    break;
 		}
 	    }
@@ -242,6 +239,30 @@ void EffectStackView2::setupListView(int ix)
     }
     vbox1->addStretch(10);
     connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+    
+    // Wait a little bit for the new layout to be ready, then check if we have a scrollbar
+    QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
+}
+
+
+void EffectStackView2::slotCheckWheelEventFilter()
+{
+    // If the effect stack widget has no scrollbar, we will not filter the
+    // mouse wheel events, so that user can easily adjust effect params
+    bool filterWheelEvent = false;
+    if (m_ui.container->verticalScrollBar() && m_ui.container->verticalScrollBar()->isVisible()) {
+	// widget has scroll bar, 
+	filterWheelEvent = true;
+    }
+    for (int i = 0; i < m_effects.count(); i++) {
+	m_effects.at(i)->filterWheelEvent = filterWheelEvent;
+    }    
+}
+
+void EffectStackView2::resizeEvent ( QResizeEvent * event )
+{
+    slotCheckWheelEventFilter();
+    QWidget::resizeEvent(event);
 }
 
 bool EffectStackView2::eventFilter( QObject * o, QEvent * e ) 
@@ -317,6 +338,7 @@ void EffectStackView2::slotUpdateEffectState(bool disable, int index)
         emit changeEffectState(NULL, m_trackindex, index, disable);
     else
         emit changeEffectState(m_clipref, -1, index, disable);
+    slotUpdateCheckAllButton();
 }
 
 
@@ -367,18 +389,61 @@ void EffectStackView2::clear()
     }
     m_ui.checkAll->setToolTip(QString());
     m_ui.checkAll->setText(QString());
+    m_ui.checkAll->setEnabled(false);
     setEnabled(false);
+}
+
+void EffectStackView2::slotCheckAll(int state)
+{
+    if (state == 1) {
+        state = 2;
+        m_ui.checkAll->blockSignals(true);
+        m_ui.checkAll->setCheckState(Qt::Checked);
+        m_ui.checkAll->blockSignals(false);
+    }
+
+    bool disabled = (state != 2);
+    for (int i = 0; i < m_effects.count(); i++) {
+	if (m_effects.at(i)->groupIndex() == -1) {
+	    m_effects.at(i)->slotEnable(disabled);
+	}
+    }
+}
+
+void EffectStackView2::slotUpdateCheckAllButton()
+{
+    bool hasEnabled = false;
+    bool hasDisabled = false;
+    
+    for (int i = 0; i < m_effects.count(); i++) {
+	if (m_effects.at(i)->enabledBox->isChecked()) hasEnabled = true;
+	else hasDisabled = true; 
+    }
+
+    m_ui.checkAll->blockSignals(true);
+    if (hasEnabled && hasDisabled)
+        m_ui.checkAll->setCheckState(Qt::PartiallyChecked);
+    else if (hasEnabled)
+        m_ui.checkAll->setCheckState(Qt::Checked);
+    else
+        m_ui.checkAll->setCheckState(Qt::Unchecked);
+    m_ui.checkAll->blockSignals(false);
+}
+
+void EffectStackView2::deleteCurrentEffect()
+{
+    for (int i = 0; i < m_effects.count(); i++) {
+        if (m_effects.at(i)->isActive()) {
+	    slotDeleteEffect(m_effects.at(i)->effect());
+	    break;
+	}
+    }
 }
 
 void EffectStackView2::updateProjectFormat(MltVideoProfile profile, Timecode t)
 {
     m_effectMetaInfo.profile = profile;
     m_effectMetaInfo.timecode = t;
-}
-
-void EffectStackView2::slotItemDel()
-{
-
 }
 
 void EffectStackView2::updateTimecodeFormat()
@@ -406,6 +471,7 @@ void EffectStackView2::slotUpdateEffectParams(const QDomElement old, const QDomE
         // Make sure the changed effect is currently displayed
         slotSetCurrentEffect(ix);
     }
+    QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
 }
 
 void EffectStackView2::slotSetCurrentEffect(int ix)
@@ -515,14 +581,12 @@ void EffectStackView2::slotCreateGroup(int ix)
     
     QVBoxLayout *l = static_cast<QVBoxLayout *>(m_ui.container->widget()->layout());
     int groupPos = 0;
-    
     CollapsibleEffect *effectToMove = NULL;
-    for (int j = 0; j < l->count(); j++) {
-	CollapsibleEffect *gp = static_cast<CollapsibleEffect *>(l->itemAt(j)->widget());
-	if (gp->effectIndex() == ix) {
-	    effectToMove = gp;
-	    groupPos = l->indexOf(gp);
-	    l->removeWidget(gp);
+    for (int i = 0; i < m_effects.count(); i++) {
+        if (m_effects.at(i)->effectIndex() == ix) {
+	    effectToMove = m_effects.at(i);
+	    groupPos = l->indexOf(effectToMove);
+	    l->removeWidget(effectToMove);
 	    break;
 	}
     }
