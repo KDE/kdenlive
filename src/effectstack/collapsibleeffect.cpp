@@ -297,7 +297,7 @@ void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
 
 void CollapsibleEffect::mousePressEvent ( QMouseEvent *event )
 {
-    if (!m_active && m_paramWidget) emit activateEffect(effectIndex());
+    if (!m_active && !isGroup()) emit activateEffect(effectIndex());
     QWidget::mousePressEvent(event);
 }
 
@@ -411,14 +411,14 @@ void CollapsibleEffect::slotShow(bool show)
 	m_info.isCollapsed = true;
     }
     m_effect.setAttribute("kdenlive_info", m_info.toString());
-    emit parameterChanged(m_original_effect, m_effect, m_index);   
+    emit parameterChanged(m_original_effect, m_effect, effectIndex());   
 }
 
 void CollapsibleEffect::updateGroupIndex(int groupIndex)
 {
     m_info.groupIndex = groupIndex;
     m_effect.setAttribute("kdenlive_info", m_info.toString());
-    emit parameterChanged(m_original_effect, m_effect, m_index);
+    emit parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 
 void CollapsibleEffect::setGroupIndex(int ix)
@@ -1252,7 +1252,7 @@ void ParameterContainer::slotCollectAllParameters()
             pa.attributes().namedItem("value").setNodeValue(setValue);
 
     }
-    emit parameterChanged(oldparam, m_effect, m_index);
+    emit parameterChanged(oldparam, m_effect, m_effect.attribute("kdenlive_ix").toInt());
 }
 
 QString ParameterContainer::getWipeString(wipeInfo info)
