@@ -30,11 +30,11 @@
 #include <QMenu>
 #include <QDir>
 
+
 EffectsListView::EffectsListView(QWidget *parent) :
         QWidget(parent)
 {
     setupUi(this);
-
     QString styleSheet = "QTreeView::branch:has-siblings:!adjoins-item{border-image:none;border:0px} \
     QTreeView::branch:has-siblings:adjoins-item {border-image: none;border:0px}      \
     QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none;border:0px} \
@@ -71,8 +71,9 @@ EffectsListView::EffectsListView(QWidget *parent) :
     connect(type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
     connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
-    connect(m_effectsList, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEffectSelected()));
+    connect(m_effectsList, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotEffectSelected()));
     connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem *, bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem *, bool)));
+    connect(m_effectsList, SIGNAL(applyEffect(QDomElement)), this, SIGNAL(addEffect(QDomElement)));
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
     //m_effectsList->setCurrentRow(0);
 }
@@ -121,10 +122,10 @@ void EffectsListView::showInfoPanel()
 void EffectsListView::slotEffectSelected()
 {
     QDomElement effect = m_effectsList->currentEffect();
-	QTreeWidgetItem* item=m_effectsList->currentItem();
-	if (item &&  m_effectsList->indexOfTopLevelItem(item)!=-1){
-		item->setExpanded(!item->isExpanded());		
-	}
+    QTreeWidgetItem* item=m_effectsList->currentItem();
+    if (item &&  m_effectsList->indexOfTopLevelItem(item)!=-1){
+	item->setExpanded(!item->isExpanded());		
+    }
     if (!effect.isNull())
         emit addEffect(effect);
 }
@@ -186,7 +187,7 @@ void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
 void EffectsListView::slotAutoExpand(QString text)
 {
     search_effect->updateSearch();
-
+    bool selected = false;
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
         bool expandFolder = false;
@@ -195,12 +196,18 @@ void EffectsListView::slotAutoExpand(QString text)
         if (!text.isEmpty()) {
             for (int j = 0; j < folder->childCount(); j++) {
                 QTreeWidgetItem *item = folder->child(j);
-                if (!item->isHidden())
+                if (!item->isHidden()) {
                     expandFolder = true;
+		    if (!selected) {
+			m_effectsList->setCurrentItem(item);
+			selected = true;
+		    }
+		}
             }
         }
         folder->setExpanded(expandFolder);
     }
+    if (!selected) m_effectsList->setCurrentItem(NULL);
 }
 
 #include "effectslistview.moc"

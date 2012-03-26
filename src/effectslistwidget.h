@@ -45,6 +45,7 @@ protected:
     virtual void dragMoveEvent(QDragMoveEvent *event);
     virtual void contextMenuEvent(QContextMenuEvent * event);
     virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const;
+    virtual void keyPressEvent(QKeyEvent *e);
 
 private:
     QMenu *m_menu;
@@ -64,6 +65,9 @@ private:
 
 private slots:
     void slotExpandItem(const QModelIndex & index);
+    
+signals:
+    void applyEffect(const QDomElement);
 };
 
 #endif

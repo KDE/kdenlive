@@ -1837,12 +1837,12 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 	    for (int i = 0; i < itemList.count(); i++) {
 		if (itemList.at(i)->type() == AVWIDGET) {
 		    ClipItem *clip = static_cast<ClipItem *>(itemList.at(i));
+		    clip->setSelectedEffect(clip->effectsCount() - 1);
 		    if (!clip->isSelected()) {
 			clearSelection(false);
 			clip->setSelected(true);
+			emit clipItemSelected(clip, clip->selectedEffectIndex());
 		    }
-		    clip->setSelectedEffect(clip->effectsCount() - 1);
-		    //emit clipItemSelected(clip, clip->selectedEffectIndex());
 		    break;
 		}
 	    }

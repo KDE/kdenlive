@@ -283,7 +283,6 @@ const QDomElement EffectsListWidget::itemEffect(QTreeWidgetItem *item) const
     QDomElement effect;
     if (!item || item->data(0, TypeRole).toInt() == (int)EFFECT_FOLDER) return effect;
     QStringList effectInfo = item->data(0, IdRole).toStringList();
-    kDebug() << "// EFFECT SELECTED: " << effectInfo;
     switch (item->data(0, TypeRole).toInt()) {
     case 1:
         effect =  MainWindow::videoEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
@@ -317,6 +316,15 @@ QString EffectsListWidget::currentInfo()
         break;
     }
     return info;
+}
+
+//virtual
+void EffectsListWidget::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
+	emit applyEffect(currentEffect());
+    }
+    QTreeWidget::keyPressEvent(e);
 }
 
 //virtual
