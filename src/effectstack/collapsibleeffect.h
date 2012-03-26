@@ -127,6 +127,7 @@ public:
     void addGroupEffect(CollapsibleEffect *effect);
     int index() const;
     int groupIndex() const;
+    bool isGroup() const;
     int effectIndex() const;
     void setGroupIndex(int ix);
     void removeGroup(int ix, QVBoxLayout *layout);

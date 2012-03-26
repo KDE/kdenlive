@@ -335,7 +335,7 @@ void CollapsibleEffect::slotEnable(bool enable)
 	if (enable || KdenliveSettings::disable_effect_parameters()) {
 	    widgetFrame->setEnabled(enable);
 	}
-	emit effectStateChanged(!enable, m_paramWidget->index());
+	emit effectStateChanged(!enable, effectIndex());
     }
 }
 
@@ -467,6 +467,11 @@ int CollapsibleEffect::groupIndex() const
 {
     if (m_isGroup) return m_index;
     return -1;
+}
+
+bool CollapsibleEffect::isGroup() const
+{
+    return m_isGroup;
 }
 
 int CollapsibleEffect::effectIndex() const

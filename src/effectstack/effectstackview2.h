@@ -170,6 +170,9 @@ private slots:
     
     /** @brief Update check all button status */
     void slotUpdateCheckAllButton();
+    
+    /** @brief Display additionnal effect info */
+    void slotShowComments();
 
 signals:
     void removeEffect(ClipItem*, int, QDomElement);

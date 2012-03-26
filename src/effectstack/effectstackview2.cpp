@@ -59,7 +59,8 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
     
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
-
+    connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SLOT(slotShowComments()));
+    m_ui.labelComment->setHidden(true);
 
     setEnabled(false);
 
@@ -161,11 +162,12 @@ void EffectStackView2::setupListView(int ix)
     blockSignals(false);
     view = new QWidget(m_ui.container);
     m_ui.container->setWidget(view);
-    slotUpdateCheckAllButton();
 
     QVBoxLayout *vbox1 = new QVBoxLayout(view);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
+    
+    if (m_currentEffectList.isEmpty()) m_ui.labelComment->setHidden(true);
 
     for (int i = 0; i < m_currentEffectList.count(); i++) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
@@ -178,6 +180,7 @@ void EffectStackView2::setupListView(int ix)
 	EffectInfo effectInfo;
 	effectInfo.fromString(d.attribute("kdenlive_info"));
 	if (effectInfo.groupIndex >= 0) {
+	    // effect is in a group
 	    for (int i = 0; i < m_effects.count(); i++) {
 		if (m_effects.at(i)->groupIndex() == effectInfo.groupIndex) {
 		    group = m_effects.at(i);
@@ -238,6 +241,7 @@ void EffectStackView2::setupListView(int ix)
         //ui.title->setPixmap(icon.pixmap(QSize(12, 12)));
     }
     vbox1->addStretch(10);
+    slotUpdateCheckAllButton();
     connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     
     // Wait a little bit for the new layout to be ready, then check if we have a scrollbar
@@ -390,6 +394,7 @@ void EffectStackView2::clear()
     m_ui.checkAll->setToolTip(QString());
     m_ui.checkAll->setText(QString());
     m_ui.checkAll->setEnabled(false);
+    m_ui.labelComment->setText(QString());
     setEnabled(false);
 }
 
@@ -404,8 +409,8 @@ void EffectStackView2::slotCheckAll(int state)
 
     bool disabled = (state != 2);
     for (int i = 0; i < m_effects.count(); i++) {
-	if (m_effects.at(i)->groupIndex() == -1) {
-	    m_effects.at(i)->slotEnable(disabled);
+	if (!m_effects.at(i)->isGroup()) {
+	    m_effects.at(i)->slotEnable(!disabled);
 	}
     }
 }
@@ -479,7 +484,12 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
     if (m_clipref && ix != m_clipref->selectedEffectIndex())
         m_clipref->setSelectedEffect(ix);
     for (int i = 0; i < m_effects.count(); i++) {
-        m_effects.at(i)->setActive(m_effects.at(i)->effectIndex() == ix);
+	if (m_effects.at(i)->effectIndex() == ix) {
+	    m_effects.at(i)->setActive(true);
+	    m_ui.labelComment->setText(i18n(m_effects.at(i)->effect().firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
+	     m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
+	}
+        else m_effects.at(i)->setActive(false);
     }
 }
 
@@ -552,16 +562,20 @@ void EffectStackView2::slotResetEffect(int ix)
         }
     }
 
-    /*emit showComments(m_ui.buttonShowComments->isChecked());
-    m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || !m_ui.labelComment->text().count());*/
+    emit showComments(m_ui.buttonShowComments->isChecked());
+    m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
 }
 
+void EffectStackView2::slotShowComments()
+{
+    m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
+    emit showComments(m_ui.buttonShowComments->isChecked());
+}
 
 void EffectStackView2::slotCreateGroup(int ix)
 {
     QDomElement oldeffect = m_currentEffectList.itemFromIndex(ix);
     QDomElement neweffect = oldeffect.cloneNode().toElement();
-    QString groupName = QString::number(m_groupIndex);
     EffectInfo effectinfo;
     effectinfo.fromString(oldeffect.attribute("kdenlive_info"));
     effectinfo.groupIndex = m_groupIndex;

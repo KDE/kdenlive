@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>86</width>
-    <height>102</height>
+    <width>113</width>
+    <height>121</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -62,6 +62,16 @@
      </item>
     </layout>
    </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelComment">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="QScrollArea" name="container">
      <property name="sizePolicy">
@@ -87,10 +97,11 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>86</width>
+        <width>113</width>
         <height>72</height>
        </rect>
       </property>
+      <zorder>labelComment</zorder>
      </widget>
     </widget>
    </item>
