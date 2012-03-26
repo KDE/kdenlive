@@ -119,7 +119,7 @@ public:
     static QMap<QString, QImage> iconCache;
     void setupWidget(ItemInfo info, int index, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
-    void setActive(bool activate);
+    void setActive(bool activate, bool focused = false);
     virtual bool eventFilter( QObject * o, QEvent * e );
     /** @brief Update effect GUI to reflect parameted changes. */
     void updateWidget(ItemInfo info, int index, QDomElement effect, EffectMetaInfo *metaInfo);
@@ -171,6 +171,7 @@ protected:
     virtual void enterEvent( QEvent * event );
     virtual void leaveEvent( QEvent * event );
     virtual void dragEnterEvent(QDragEnterEvent *event);
+    virtual void dragLeaveEvent(QDragLeaveEvent *event);
     virtual void dropEvent(QDropEvent *event);
     
 signals:
@@ -190,7 +191,7 @@ signals:
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
-    void moveEffect(int ix, CollapsibleEffect *group, int lastEffectIndex);
+    void moveEffect(int current_pos, int new_pos, CollapsibleEffect *target);
     void unGroup(CollapsibleEffect *);
 };
 

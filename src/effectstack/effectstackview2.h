@@ -130,7 +130,7 @@ private slots:
     /** @brief Move an effect in the stack.
      * @param index The effect index in the stack
      * @param up true if we want to move effect up, false for down */
-    void slotMoveEffect(int index, bool up);
+    void slotMoveEffectUp(int index, bool up);
 
     /** @brief Delete an effect in the stack. */
     void slotDeleteEffect(const QDomElement effect);
@@ -154,10 +154,10 @@ private slots:
     
     /** @brief Move an effect into a group.
       ** @param ix the index of effect to move in stack layout
-      ** @param group the effect group where the effect is moved
+      ** @param group the effect on which the effect was dropped
       ** @param lastEffectIndex the last effect index in the group, effect will be inserted after that index
       */
-    void slotMoveEffectToGroup(int effectIndex, CollapsibleEffect *group, int lastEffectIndex);
+    void slotMoveEffect(int currentIndex, int newIndex, CollapsibleEffect* target);
     /** @brief Remove effects from a group */
     void slotUnGroup(CollapsibleEffect* group);
 

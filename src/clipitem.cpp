@@ -1391,7 +1391,7 @@ bool ClipItem::updateEffect(QDomElement effect)
 
 bool ClipItem::moveEffect(QDomElement effect, int ix)
 {
-    if (ix < 0 || ix > (m_effectList.count() - 1) || effect.isNull()) {
+    if (ix <= 0 || ix > (m_effectList.count()) || effect.isNull()) {
         kDebug() << "Invalid effect index: " << ix;
         return false;
     }

@@ -170,12 +170,11 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
 	setupWidget(info, ix, metaInfo);
     }
     else {
-	setAcceptDrops(true);
 	title->setText(i18n("Effect Group"));
 	title->setIcon(KIcon("folder"));
 	m_menu->addAction(KIcon("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
     }
-    
+    setAcceptDrops(true);
     title->setMenu(m_menu);
     
     if (m_effect.attribute("disable") == "1") {
@@ -275,11 +274,13 @@ QDomElement CollapsibleEffect::effect() const
     return m_effect;
 }
 
-void CollapsibleEffect::setActive(bool activate)
+void CollapsibleEffect::setActive(bool activate, bool focused)
 {
     m_active = activate;
-    frame->setBackgroundRole(m_active ? QPalette::Mid : QPalette::Midlight);
-    frame->setAutoFillBackground(activate);
+    if (focused) {
+	frame->setBackgroundRole(QPalette::Highlight);
+    }
+    else frame->setBackgroundRole(m_active ? QPalette::Mid : QPalette::Midlight);
 }
 
 void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
@@ -299,8 +300,6 @@ void CollapsibleEffect::enterEvent ( QEvent * event )
     if (m_paramWidget == NULL || m_paramWidget->index() > 0) buttonUp->setVisible(true);
     if (!m_lastEffect) buttonDown->setVisible(true);
     buttonDel->setVisible(true);
-    if (!m_active) frame->setBackgroundRole(QPalette::Midlight);
-    frame->setAutoFillBackground(true);
     QWidget::enterEvent(event);
 }
 
@@ -309,7 +308,6 @@ void CollapsibleEffect::leaveEvent ( QEvent * event )
     buttonUp->setVisible(false);
     buttonDown->setVisible(false);
     buttonDel->setVisible(false);
-    if (!m_active) frame->setAutoFillBackground(false);
     QWidget::leaveEvent(event);
 }
 
@@ -546,8 +544,15 @@ void CollapsibleEffect::slotSyncEffectsPos(int pos)
 
 void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasFormat("kdenlive/effectslist"))
+    if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+	setActive(m_active, true);
 	event->acceptProposedAction();
+    }
+}
+
+void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
+{
+    setActive(m_active, false);
 }
 
 void CollapsibleEffect::dropEvent(QDropEvent *event)
@@ -558,14 +563,22 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
     doc.setContent(effects, true);
     const QDomElement e = doc.documentElement();
     int ix = e.attribute("kdenlive_ix").toInt();
-    int last_index = -1;
+    if (ix == effectIndex()) {
+	// effect dropped on itself, reject
+	event->ignore();
+	return;
+    }
+    int new_index = -1;
     if (m_isGroup) {
 	QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
 	if (vbox == NULL) return;
 	CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(vbox->count() -1)->widget());
-	last_index = e->effectIndex();
+	new_index = e->effectIndex() + 1;
     }
-    emit moveEffect(ix, this, last_index);
+    else {
+	new_index = effectIndex();
+    }
+    emit moveEffect(ix, new_index, this);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
