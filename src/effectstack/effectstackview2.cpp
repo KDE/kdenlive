@@ -181,9 +181,10 @@ void EffectStackView2::setupListView(int ix)
 	effectInfo.fromString(d.attribute("kdenlive_info"));
 	if (effectInfo.groupIndex >= 0) {
 	    // effect is in a group
-	    for (int i = 0; i < m_effects.count(); i++) {
-		if (m_effects.at(i)->groupIndex() == effectInfo.groupIndex) {
-		    group = m_effects.at(i);
+	    for (int i = 0; i < vbox1->count(); i++) {
+		CollapsibleEffect *eff = static_cast<CollapsibleEffect *>(vbox1->itemAt(i)->widget());
+		if (eff->isGroup() &&  eff->groupIndex() == effectInfo.groupIndex) {
+		    group = eff;
 		    break;
 		}
 	    }
@@ -638,7 +639,7 @@ void EffectStackView2::slotMoveEffect(int currentIndex, int newIndex, Collapsibl
 	emit updateEffect(m_clipref, -1, oldeffect, neweffect, effectToMove->index());
     }
     
-    if (currentIndex == newIndex) return;
+    //if (currentIndex == newIndex) return;
     // Update effect index with new position
     if (m_effectMetaInfo.trackMode) {
 	emit changeEffectPosition(NULL, m_trackindex, currentIndex, newIndex);
