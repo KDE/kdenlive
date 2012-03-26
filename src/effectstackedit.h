@@ -21,6 +21,7 @@
 #include "definitions.h"
 #include "timecode.h"
 #include "keyframeedit.h"
+#include "effectstack/collapsibleeffect.h"
 
 #include <QWidget>
 #include <QDomElement>
@@ -28,15 +29,6 @@
 #include <QList>
 #include <QMap>
 #include <QScrollArea>
-
-enum WIPE_DIRECTON { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, CENTER = 4 };
-
-struct wipeInfo {
-    WIPE_DIRECTON start;
-    WIPE_DIRECTON end;
-    int startTransparency;
-    int endTransparency;
-};
 
 class QFrame;
 class Monitor;
@@ -59,12 +51,11 @@ public:
     void updateTimecodeFormat();
     /** @brief Returns true if this effect wants to keep track of current position in clip. */
     bool effectNeedsSyncPosition() const;
+    Monitor *monitor();
 
 private:
     /** @brief Deletes all parameter widgets. */
     void clearAllItems();
-    wipeInfo getWipeInfo(QString value);
-    QString getWipeString(wipeInfo info);
     /** @brief Updates parameter @param name according to new value of dependency.
     * @param name Name of the parameter which will be updated
     * @param type Type of the parameter which will be updated
@@ -73,17 +64,16 @@ private:
 
     QVBoxLayout *m_vbox;
     QList<QWidget*> m_uiItems;
-    QWidget *m_baseWidget;
     QDomElement m_params;
     QMap<QString, QWidget*> m_valueItems;
-    MltVideoProfile m_profile;
-    Timecode m_timecode;
     int m_in;
     int m_out;
-    QPoint m_frameSize;
     KeyframeEdit *m_keyframeEditor;
     Monitor *m_monitor;
     GeometryWidget *m_geometryWidget;
+    EffectMetaInfo m_metaInfo;
+    QWidget *m_baseWidget;
+    ParameterContainer *m_paramWidget;
 
 public slots:
     /** @brief Called when an effect is selected, builds the UI for this effect. */
@@ -101,7 +91,7 @@ private slots:
     void slotStartFilterJobAction();
 
 signals:
-    void parameterChanged(const QDomElement &, const QDomElement &);
+    void parameterChanged(const QDomElement &, const QDomElement &, int);
     void seekTimeline(int);
     void displayMessage(const QString&, int);
     void checkMonitorPosition(int);

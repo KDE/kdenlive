@@ -212,6 +212,7 @@ CollapsibleEffect::~CollapsibleEffect()
     delete m_menu;
 }
 
+
 void CollapsibleEffect::slotCreateGroup()
 {
     emit createGroup(effectIndex());
@@ -988,7 +989,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 
 ParameterContainer::~ParameterContainer()
 {
-    //clearLayout(m_vbox);
+    clearLayout(m_vbox);
     delete m_vbox;
 }
 
@@ -1318,4 +1319,5 @@ void ParameterContainer::slotStartFilterJobAction()
         }
     }
 }
+
 

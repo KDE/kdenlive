@@ -57,6 +57,8 @@ private slots:
     void slotTransitionTrackChanged();
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotRenderPos(int pos);
+    void slotSeekTimeline(int pos);
+    void slotCheckMonitorPosition(int renderPos);
 
 signals:
     void transitionUpdated(Transition *, QDomElement);

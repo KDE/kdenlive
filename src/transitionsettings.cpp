@@ -23,6 +23,8 @@
 #include "effectstackedit.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "monitoreditwidget.h"
+#include "monitorscene.h"
 
 #include <KDebug>
 
@@ -38,7 +40,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     vbox1->setSpacing(0);
     vbox1->addWidget(m_effectEdit);
     frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
-    connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
+    connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SLOT(slotSeekTimeline(int)));
     setEnabled(false);
 
     QList<QStringList> transitionsList;
@@ -62,7 +64,8 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
 
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
-    connect(m_effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
+    connect(m_effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&, int)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
+    connect(m_effectEdit, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
 }
 
@@ -211,5 +214,22 @@ void TransitionSettings::slotRenderPos(int pos)
     if (m_usedTransition)
         m_effectEdit->slotSyncEffectsPos(pos - m_usedTransition->startPos().frames(KdenliveSettings::project_fps()));
 }
+
+void TransitionSettings::slotSeekTimeline(int pos)
+{
+    if (m_usedTransition)
+	emit seekTimeline(m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) + pos);
+}
+
+void TransitionSettings::slotCheckMonitorPosition(int renderPos)
+{
+    if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
+        if (!m_effectEdit->monitor()->getEffectEdit()->getScene()->views().at(0)->isVisible())
+            m_effectEdit->monitor()->slotEffectScene(true);
+    } else {
+        m_effectEdit->monitor()->slotEffectScene(false);
+    }
+}
+
 
 #include "transitionsettings.moc"

@@ -26,7 +26,6 @@
 
 #include "timecode.h"
 #include "keyframeedit.h"
-#include "effectstackedit.h"
 
 #include <QDomElement>
 #include <QToolButton>
@@ -41,6 +40,15 @@ struct EffectMetaInfo {
     Monitor *monitor;
     QPoint frameSize;
     bool trackMode;
+};
+
+enum WIPE_DIRECTON { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, CENTER = 4 };
+
+struct wipeInfo {
+    WIPE_DIRECTON start;
+    WIPE_DIRECTON end;
+    int startTransparency;
+    int endTransparency;
 };
 
 class MySpinBox : public QSpinBox
