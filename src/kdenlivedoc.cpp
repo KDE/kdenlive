@@ -217,6 +217,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                         projectTrack.isBlind = e.attribute("blind").toInt();
                                         projectTrack.isLocked = e.attribute("locked").toInt();
                                         projectTrack.trackName = e.attribute("trackname");
+					projectTrack.effectsList = EffectsList(true);
                                         m_tracksList.append(projectTrack);
                                     }
                                 }
@@ -385,6 +386,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         audioTrack.isLocked = false;
         audioTrack.trackName = QString("Audio ") + QString::number(audiotracks - i);
         audioTrack.duration = 0;
+	audioTrack.effectsList = EffectsList(true);
         m_tracksList.append(audioTrack);
 
     }
@@ -396,6 +398,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.isLocked = false;
         videoTrack.trackName = QString("Video ") + QString::number(videotracks - i);
         videoTrack.duration = 0;
+	videoTrack.effectsList = EffectsList(true);
         m_tracksList.append(videoTrack);
     }
     return createEmptyDocument(m_tracksList);
@@ -1523,8 +1526,10 @@ void KdenliveDoc::setTrackEffect(int trackIndex, int effectIndex, QDomElement ef
         kDebug() << "Invalid effect index: " << effectIndex;
         return;
     }
+    m_tracksList[trackIndex].effectsList.removeAt(effect.attribute("kdenlive_ix").toInt());
     effect.setAttribute("kdenlive_ix", effectIndex);
-    m_tracksList[trackIndex].effectsList.updateEffect(effect);
+    m_tracksList[trackIndex].effectsList.insert(effect);
+    //m_tracksList[trackIndex].effectsList.updateEffect(effect);
 }
 
 const EffectsList KdenliveDoc::getTrackEffects(int ix)

@@ -1991,9 +1991,8 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
 	}
         QDomElement act = m_document->getTrackEffect(m_document->tracksCount() - track - 1, newPos);
         QDomElement before = m_document->getTrackEffect(m_document->tracksCount() - track - 1, oldPos);
-
         if (!act.isNull() && !before.isNull()) {
-            m_document->setTrackEffect(m_document->tracksCount() - track - 1, oldPos, act);
+            //m_document->setTrackEffect(m_document->tracksCount() - track - 1, oldPos, act);
             m_document->setTrackEffect(m_document->tracksCount() - track - 1, newPos, before);
             m_document->renderer()->mltMoveEffect(m_document->tracksCount() - track, pos, oldPos, newPos);
             emit showTrackEffects(m_document->tracksCount() - track, m_document->trackInfoAt(m_document->tracksCount() - track - 1));
@@ -5776,6 +5775,7 @@ void CustomTrackView::slotInsertTrack(int ix)
         info.duration = 0;
         info.isMute = false;
         info.isLocked = false;
+	info.effectsList = EffectsList(true);
         if (d.video_track->isChecked()) {
             info.type = VIDEOTRACK;
             info.isBlind = false;

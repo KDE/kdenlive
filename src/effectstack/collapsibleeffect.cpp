@@ -596,7 +596,7 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
 	QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
 	if (vbox == NULL) return;
 	CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(vbox->count() -1)->widget());
-	new_index = e->effectIndex() + 1;
+	new_index = e->effectIndex();
     }
     else {
 	new_index = effectIndex();
