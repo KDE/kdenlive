@@ -1758,6 +1758,11 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     } else delete effectCommand;
 }
 
+void CustomTrackView::slotAddEffect(ClipItem *clip, QDomElement effect)
+{
+    if (clip) slotAddEffect(effect, clip->startPos(), clip->track());
+}
+
 void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 {
     QList<QGraphicsItem *> itemList;

@@ -193,6 +193,7 @@ signals:
     void createGroup(int ix);
     void moveEffect(int current_pos, int new_pos, CollapsibleEffect *target);
     void unGroup(CollapsibleEffect *);
+    void addEffect(QDomElement e);
 };
 
 

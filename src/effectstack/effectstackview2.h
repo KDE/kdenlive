@@ -158,8 +158,11 @@ private slots:
       ** @param lastEffectIndex the last effect index in the group, effect will be inserted after that index
       */
     void slotMoveEffect(int currentIndex, int newIndex, CollapsibleEffect* target);
+    
     /** @brief Remove effects from a group */
     void slotUnGroup(CollapsibleEffect* group);
+    
+    void slotAddEffect(QDomElement effect);
 
 signals:
     void removeEffect(ClipItem*, int, QDomElement);
@@ -181,6 +184,7 @@ signals:
     void displayMessage(const QString&, int);
     void showComments(bool show);
     void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString&finalFilterName, const QString &consumer, const QString &consumerParams, const QString &properties);
+    void addEffect(ClipItem*,QDomElement);
 };
 
 #endif

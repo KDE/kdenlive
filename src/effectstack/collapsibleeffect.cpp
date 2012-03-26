@@ -561,11 +561,19 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
     //event->acceptProposedAction();
     QDomDocument doc;
     doc.setContent(effects, true);
-    const QDomElement e = doc.documentElement();
+    QDomElement e = doc.documentElement();
     int ix = e.attribute("kdenlive_ix").toInt();
     if (ix == effectIndex()) {
 	// effect dropped on itself, reject
 	event->ignore();
+	return;
+    }
+    if (ix == 0) {
+	// effect dropped from effects list, add it
+	e.setAttribute("kdenlive_ix", ix);
+	event->setDropAction(Qt::CopyAction);
+	event->accept();
+	emit addEffect(e);
 	return;
     }
     int new_index = -1;

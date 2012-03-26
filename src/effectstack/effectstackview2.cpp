@@ -235,6 +235,7 @@ void EffectStackView2::setupListView(int ix)
         connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
 	connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
 	connect(currentEffect, SIGNAL(moveEffect(int,int,CollapsibleEffect*)), this , SLOT(slotMoveEffect(int,int,CollapsibleEffect*)));
+	connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
 	
         //ui.title->setPixmap(icon.pixmap(QSize(12, 12)));
     }
@@ -423,6 +424,11 @@ void EffectStackView2::slotDeleteEffect(const QDomElement effect)
         emit removeEffect(m_clipref, -1, effect);
 }
 
+void EffectStackView2::slotAddEffect(QDomElement effect)
+{
+    emit addEffect(m_clipref, effect);
+}
+
 void EffectStackView2::slotMoveEffectUp(int index, bool up)
 {
     if (up && index <= 1) return;
@@ -530,7 +536,6 @@ void EffectStackView2::slotCreateGroup(int ix)
 
 void EffectStackView2::slotMoveEffect(int currentIndex, int newIndex, CollapsibleEffect* target)
 {
-    QVBoxLayout *l = static_cast<QVBoxLayout *>(m_ui.container->widget()->layout());
     CollapsibleEffect *effectToMove = getEffectByIndex(currentIndex);
     if (effectToMove == NULL) return;
 
