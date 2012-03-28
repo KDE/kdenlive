@@ -24,6 +24,7 @@
 
 #include "ui_collapsiblewidget_ui.h"
 
+#include "abstractcollapsiblewidget.h"
 #include "timecode.h"
 #include "keyframeedit.h"
 
@@ -68,11 +69,10 @@ class ParameterContainer : public QObject
     Q_OBJECT
 
 public:
-    ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, int index, QWidget * parent = 0);
+    ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent = 0);
     ~ParameterContainer();
     void updateTimecodeFormat();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
-    int index() const;
 
 private slots:
     void slotCollectAllParameters();
@@ -89,7 +89,6 @@ private:
     
     int m_in;
     int m_out;
-    int m_index;
     QList<QWidget*> m_uiItems;
     QMap<QString, QWidget*> m_valueItems;
     Timecode m_timecode;
@@ -117,23 +116,21 @@ signals:
  * @author Jean-Baptiste Mardelle
  */
 
-class CollapsibleEffect : public QWidget, public Ui::CollapsibleWidget_UI
+class CollapsibleEffect : public AbstractCollapsibleWidget, public Ui::CollapsibleWidget_UI
 {
     Q_OBJECT
 
 public:
-    CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, bool isGroup = false, QWidget * parent = 0);
+    CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
     ~CollapsibleEffect();
     static QMap<QString, QImage> iconCache;
-    void setupWidget(ItemInfo info, int index, EffectMetaInfo *metaInfo);
+    void setupWidget(ItemInfo info, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
     void setActive(bool activate);
     virtual bool eventFilter( QObject * o, QEvent * e );
     /** @brief Update effect GUI to reflect parameted changes. */
-    void updateWidget(ItemInfo info, int index, QDomElement effect, EffectMetaInfo *metaInfo);
+    void updateWidget(ItemInfo info, QDomElement effect, EffectMetaInfo *metaInfo);
     QDomElement effect() const;
-    void addGroupEffect(CollapsibleEffect *effect);
-    int index() const;
     int groupIndex() const;
     bool isGroup() const;
     int effectIndex() const;
@@ -171,10 +168,8 @@ private:
     bool m_lastEffect;
     int m_in;
     int m_out;
-    bool m_isGroup;
     QMenu *m_menu;
     QPoint m_clickPoint;
-    int m_index;
     EffectInfo m_info;
     
     void updateGroupIndex(int groupIndex);
@@ -203,7 +198,7 @@ signals:
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
-    void moveEffect(int current_pos, int new_pos, CollapsibleEffect *target);
+    void moveEffect(int current_pos, int new_pos, int groupIndex);
     void unGroup(CollapsibleEffect *);
     void addEffect(QDomElement e);
 };

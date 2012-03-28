@@ -27,6 +27,7 @@
 #include "ui_effectstack2_ui.h"
 #include "effectstackedit.h"
 #include "collapsibleeffect.h"
+#include "collapsiblegroup.h"
 
 class EffectsList;
 class ClipItem;
@@ -157,10 +158,10 @@ private slots:
       ** @param group the effect on which the effect was dropped
       ** @param lastEffectIndex the last effect index in the group, effect will be inserted after that index
       */
-    void slotMoveEffect(int currentIndex, int newIndex, CollapsibleEffect* target);
+    void slotMoveEffect(int currentIndex, int newIndex, int groupIndex);
     
     /** @brief Remove effects from a group */
-    void slotUnGroup(CollapsibleEffect* group);
+    void slotUnGroup(CollapsibleGroup* group);
     
     /** @brief Add en effect to selected clip */
     void slotAddEffect(QDomElement effect);

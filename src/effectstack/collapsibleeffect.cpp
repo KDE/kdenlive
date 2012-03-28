@@ -118,14 +118,12 @@ void MySpinBox::focusOutEvent(QFocusEvent*)
 }
 
 
-CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, int ix, EffectMetaInfo *metaInfo, bool lastEffect, bool isGroup, QWidget * parent) :
-        QWidget(parent),
+CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
+        AbstractCollapsibleWidget(parent),
         m_paramWidget(NULL),
         m_effect(effect),
         m_original_effect(original_effect),
-        m_lastEffect(lastEffect),
-        m_isGroup(isGroup),
-        m_index(ix)
+        m_lastEffect(lastEffect)
 {
     setupUi(this);
     filterWheelEvent = true;
@@ -154,25 +152,19 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     m_menu->addAction(KIcon("view-refresh"), i18n("Reset effect"), this, SLOT(slotResetEffect()));
     m_menu->addAction(KIcon("document-save"), i18n("Save effect"), this, SLOT(slotSaveEffect()));
     
-    if (!m_isGroup) {
-	QDomElement namenode = m_effect.firstChildElement("name");
-	if (namenode.isNull()) return;
-	title->setText(i18n(namenode.text().toUtf8().data()));
-	QString type = m_effect.attribute("type", QString());
-	KIcon icon;
-	if (type == "audio") icon = KIcon("kdenlive-show-audio");
-	else if (m_effect.attribute("tag") == "region") icon = KIcon("kdenlive-mask-effect");
-	else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
-	else icon = KIcon("kdenlive-show-video");
-	effecticon->setPixmap(icon.pixmap(16,16));
-	m_menu->addAction(KIcon("folder-new"), i18n("Create Group"), this, SLOT(slotCreateGroup()));
-	setupWidget(info, ix, metaInfo);
-    }
-    else {
-	title->setText(i18n("Effect Group"));
-	effecticon->setPixmap(KIcon("folder").pixmap(16,16));
-	m_menu->addAction(KIcon("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
-    }
+    QDomElement namenode = m_effect.firstChildElement("name");
+    if (namenode.isNull()) return;
+    title->setText(i18n(namenode.text().toUtf8().data()));
+    QString type = m_effect.attribute("type", QString());
+    KIcon icon;
+    if (type == "audio") icon = KIcon("kdenlive-show-audio");
+    else if (m_effect.attribute("tag") == "region") icon = KIcon("kdenlive-mask-effect");
+    else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
+    else icon = KIcon("kdenlive-show-video");
+    effecticon->setPixmap(icon.pixmap(16,16));
+    m_menu->addAction(KIcon("folder-new"), i18n("Create Group"), this, SLOT(slotCreateGroup()));
+    setupWidget(info, metaInfo);
+    
     setAcceptDrops(true);
     menuButton->setIcon(KIcon("kdenlive-menu"));
     menuButton->setMenu(m_menu);
@@ -225,7 +217,7 @@ const QString CollapsibleEffect::getStyleSheet(QPalette p)
     KColorScheme scheme2(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor normal_bg2 = scheme2.background(KColorScheme::NormalBackground).color();
 
-    QString stylesheet(QString("QFrame#decoframe {border-radius:5px;border:0px solid %1;border-top:0px;background:%6;} QFrame:hover#decoframe {background:%7;} QFrame#decoframe[active=\"true\"] {background:%5;} QFrame#frame[active=\"true\"] {background:%3;}  QProgressBar::chunk:horizontal {background: %6;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %5;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}\
+    QString stylesheet(QString("QLineEdit#title { background-color: transparent;} QFrame#decoframe {border-radius:5px;border:0px solid %1;background:%6;} QFrame#decoframegroup {border-radius:5px;border:1px solid %1;background:%6;} QFrame:hover#decoframe {background:%7;} QFrame#decoframe[active=\"true\"] {background:%5;} QFrame#decoframegroup[active=\"true\"] {background:%5;} QFrame#frame[active=\"true\"] {background:%3;}  QProgressBar::chunk:horizontal {background: %6;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %5;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}\
     QProgressBar:horizontal {border: 1px solid %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%5;padding: 0px;text-align:left center}\
                                 QProgressBar:horizontal:disabled {border: 1px solid %6} QProgressBar:horizontal#dragOnly {background: %5}\
                                 QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
@@ -350,35 +342,26 @@ void CollapsibleEffect::slotEnable(bool enable)
     enabledBox->blockSignals(true);
     enabledBox->setChecked(enable);
     enabledBox->blockSignals(false);
-    if (m_isGroup) {
-	QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-	if (vbox == NULL) return;
-	for (int i = 0; i < vbox->count(); i++) {
-	    CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(i)->widget());
-	    if (e) e->enabledBox->setChecked(enable);// slotEnable(enable);
-	}
-    } else {
-	m_effect.setAttribute("disable", enable ? 0 : 1);
-	if (enable || KdenliveSettings::disable_effect_parameters()) {
-	    widgetFrame->setEnabled(enable);
-	}
-	emit effectStateChanged(!enable, effectIndex());
+    m_effect.setAttribute("disable", enable ? 0 : 1);
+    if (enable || KdenliveSettings::disable_effect_parameters()) {
+	widgetFrame->setEnabled(enable);
     }
+    emit effectStateChanged(!enable, effectIndex());
 }
 
 void CollapsibleEffect::slotDeleteEffect()
 {
-    if (!m_isGroup) emit deleteEffect(m_effect);
+    emit deleteEffect(m_effect);
 }
 
 void CollapsibleEffect::slotEffectUp()
 {
-    if (!m_isGroup) emit changeEffectPosition(effectIndex(), true);
+    emit changeEffectPosition(effectIndex(), true);
 }
 
 void CollapsibleEffect::slotEffectDown()
 {
-    if (!m_isGroup) emit changeEffectPosition(effectIndex(), false);
+    emit changeEffectPosition(effectIndex(), false);
 }
 
 void CollapsibleEffect::slotSaveEffect()
@@ -453,18 +436,6 @@ void CollapsibleEffect::setGroupIndex(int ix)
     m_info.groupIndex = ix;
 }
 
-void CollapsibleEffect::addGroupEffect(CollapsibleEffect *effect)
-{
-    QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-    if (vbox == NULL) {
-	vbox = new QVBoxLayout();
-	vbox->setContentsMargins(10, 0, 0, 0);
-	vbox->setSpacing(2);
-	widgetFrame->setLayout(vbox);
-    }
-    effect->setGroupIndex(groupIndex());
-    vbox->addWidget(effect);
-}
 
 QString CollapsibleEffect::infoString() const
 {
@@ -485,20 +456,9 @@ void CollapsibleEffect::removeGroup(int ix, QVBoxLayout *layout)
     }
 }
 
-int CollapsibleEffect::index() const
-{
-    return m_index;
-}
-
 int CollapsibleEffect::groupIndex() const
 {
-    if (m_isGroup) return m_index;
-    return -1;
-}
-
-bool CollapsibleEffect::isGroup() const
-{
-    return m_isGroup;
+    return m_info.groupIndex;
 }
 
 int CollapsibleEffect::effectIndex() const
@@ -507,7 +467,7 @@ int CollapsibleEffect::effectIndex() const
     return m_effect.attribute("kdenlive_ix").toInt();
 }
 
-void CollapsibleEffect::updateWidget(ItemInfo info, int index, QDomElement effect, EffectMetaInfo *metaInfo)
+void CollapsibleEffect::updateWidget(ItemInfo info, QDomElement effect, EffectMetaInfo *metaInfo)
 {
     if (m_paramWidget) {
 	// cleanup
@@ -515,10 +475,10 @@ void CollapsibleEffect::updateWidget(ItemInfo info, int index, QDomElement effec
 	m_paramWidget = NULL;
     }
     m_effect = effect;
-    setupWidget(info, index, metaInfo);
+    setupWidget(info, metaInfo);
 }
 
-void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *metaInfo)
+void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
 {
     if (m_effect.isNull()) {
 //         kDebug() << "// EMPTY EFFECT STACK";
@@ -533,9 +493,9 @@ void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *me
 	QDomNodeList origin_effects =  m_original_effect.elementsByTagName("effect");
         QWidget *container = new QWidget(widgetFrame);
         vbox->addWidget(container);
-        m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, index, container);
+        m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, container);
         for (int i = 0; i < effects.count(); i++) {
-            CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, i, metaInfo, container);
+            CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, container);
             m_subParamWidgets.append(coll);
             //container = new QWidget(widgetFrame);
             vbox->addWidget(coll);
@@ -544,7 +504,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *me
         
     }
     else {
-        m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, index, widgetFrame);
+        m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
         if (m_effect.firstChildElement("parameter").isNull()) {
             // Effect has no parameter, don't allow expand
             collapseButton->setEnabled(false);
@@ -567,6 +527,11 @@ void CollapsibleEffect::setupWidget(ItemInfo info, int index, EffectMetaInfo *me
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     
     
+}
+
+bool CollapsibleEffect::isGroup() const
+{
+    return false;
 }
 
 void CollapsibleEffect::updateTimecodeFormat()
@@ -622,23 +587,12 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
 	emit addEffect(e);
 	return;
     }
-    int new_index = -1;
-    if (m_isGroup) {
-	QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-	if (vbox == NULL) return;
-	CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(vbox->count() -1)->widget());
-	new_index = e->effectIndex();
-    }
-    else {
-	new_index = effectIndex();
-    }
-    emit moveEffect(ix, new_index, this);
+    emit moveEffect(ix, effectIndex(), groupIndex());
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
 
-ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, int index, QWidget * parent) :
-	m_index(index),
+ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent) :
         m_keyframeEditor(NULL),
         m_geometryWidget(NULL),
         m_metaInfo(metaInfo),
@@ -1330,11 +1284,6 @@ QString ParameterContainer::getWipeString(wipeInfo info)
     }
     end.append(':' + QString::number(info.endTransparency));
     return QString(start + ";-1=" + end);
-}
-
-int ParameterContainer::index() const
-{
-    return m_index;
 }
 
 void ParameterContainer::slotStartFilterJobAction()
