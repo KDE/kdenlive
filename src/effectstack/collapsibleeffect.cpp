@@ -211,41 +211,42 @@ const QString CollapsibleEffect::getStyleSheet(QPalette p)
     QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
+    QColor midlight_bg = scheme.shade(KColorScheme::MidlightShade);
     QColor normal_bg = scheme.background(KColorScheme::AlternateBackground).color();
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
     
     KColorScheme scheme2(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor normal_bg2 = scheme2.background(KColorScheme::NormalBackground).color();
-
-    QString stylesheet(QString("MyEditableLabel { background-color: transparent;} QFrame#decoframe {border-radius:5px;border:0px solid %1;background:%6;} QFrame#decoframegroup {border-radius:5px;border:1px solid %1;background:%6;} QFrame:hover#decoframe {background:%7;} QFrame#decoframe[active=\"true\"] {background:%5;} QFrame#decoframegroup[active=\"true\"] {background:%5;} QFrame#frame[active=\"true\"] {background:%3;}  QProgressBar::chunk:horizontal {background: %6;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %5;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}\
-    QProgressBar:horizontal {border: 1px solid %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%5;padding: 0px;text-align:left center}\
-                                QProgressBar:horizontal:disabled {border: 1px solid %6} QProgressBar:horizontal#dragOnly {background: %5}\
-                                QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
-                                QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}\
-                                QAbstractSpinBox:disabled#dragBox {border: 1px solid %6;}\
-                                QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} ")
-                                .arg(dark_bg.name()).arg(hover_bg.name()).arg(selected_bg.name()).arg(light_bg.name()).arg(alt_bg.name()).arg(normal_bg2.name()).arg(normal_bg.name()));
-    return stylesheet;/*
-    QPalette p = QApplication::palette();
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
-    QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
-    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
-    QColor light_bg = scheme.shade(KColorScheme::LightShade);
-    QColor normal_bg = scheme.background(KColorScheme::NormalBackground).color();
+    QColor normal_bg3 = scheme2.background(KColorScheme::AlternateBackground).color();
     
-    KColorScheme scheme2(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor normal_bg2 = scheme2.background(KColorScheme::NormalBackground).color();
+    QString stylesheet;
+    
+    // group editable labels
+    stylesheet.append(QString("MyEditableLabel { background-color: transparent;} "));
+    
+    // effect background
+    stylesheet.append(QString("QFrame#decoframe {border-radius:5px;border:0px solid %1;background:%3;}  QFrame:hover#decoframe {background:%4;} QFrame#decoframe[active=\"true\"] {background:%2;} ").arg(dark_bg.name()).arg(alt_bg.name()).arg(normal_bg2.name()).arg(normal_bg.name()));
+    
+    // effect group background
+    stylesheet.append(QString("QFrame#decoframegroup {border-radius:5px;border:1px solid %1;background:%2;} QFrame#decoframegroup[active=\"true\"] {background:%3;} ").arg(dark_bg.name()).arg(normal_bg2.name()).arg(alt_bg.name()));
+    
+    // effect title bar
+    stylesheet.append(QString("QFrame#frame {border-radius: 5px;} QFrame#frame[active=\"true\"] {background:%1;}").arg(selected_bg.name()));
+    
+    // group effect title bar
+    stylesheet.append(QString("QFrame#framegroup {border-radius: 5px; background: %2;}  QFrame#framegroup[active=\"true\"] {background:%1;} ").arg(selected_bg.name()).arg(normal_bg3.name()));
+    
+    // draggable effect content bar
+    stylesheet.append(QString("QProgressBar::chunk:horizontal {background: %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %2;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}").arg(normal_bg2.name()).arg(alt_bg.name()).arg(selected_bg.name()));
+    
+    // draggable effect content bar
+    stylesheet.append(QString("QProgressBar:horizontal {border: 1px solid %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%4;padding: 0px;text-align:left center} QProgressBar:horizontal:disabled {border: 1px solid %5} QProgressBar:horizontal#dragOnly {background: %4} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %3;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}").arg(dark_bg.name()).arg(hover_bg.name()).arg(light_bg.name()).arg(alt_bg.name()).arg(normal_bg2.name()));
+    
+    
+    // spin box for draggable widget
+    stylesheet.append(QString("QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px solid %4;} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} ").arg(dark_bg.name()).arg(hover_bg.name()).arg(selected_bg.name()).arg(normal_bg2.name()));
 
-    QString stylesheet(QString("QProgressBar::chunk:horizontal {background: %6;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %5;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}\
-    QProgressBar:horizontal {border: 1px solid %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%5;padding: 0px;text-align:left center}\
-                                QProgressBar:horizontal:disabled {border: 1px solid %6} QProgressBar:horizontal#dragOnly {background: %5}\
-                                QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
-                                QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}\
-                                QAbstractSpinBox:disabled#dragBox {border: 1px solid %6;}\
-                                QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} ")
-                                .arg(dark_bg.name()).arg(hover_bg.name()).arg(selected_bg.name()).arg(light_bg.name()).arg(normal_bg.name()).arg(normal_bg2.name()));
-    return stylesheet;*/
+    return stylesheet;
 }
 
 void CollapsibleEffect::slotCreateGroup()

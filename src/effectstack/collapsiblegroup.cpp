@@ -57,7 +57,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QStr
 {
     setupUi(this);
     setFont(KGlobalSettings::smallestReadableFont());
-    QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
+    QHBoxLayout *l = static_cast <QHBoxLayout *>(framegroup->layout());
     m_title = new MyEditableLabel(this);
     l->insertWidget(4, m_title);
     m_title->setText(groupName.isEmpty() ? i18n("Effect Group") : groupName);
@@ -114,7 +114,7 @@ void CollapsibleGroup::setActive(bool activate)
 
 void CollapsibleGroup::mouseDoubleClickEvent ( QMouseEvent * event )
 {
-    if (frame->underMouse() && collapseButton->isEnabled()) slotSwitch();
+    if (framegroup->underMouse() && collapseButton->isEnabled()) slotSwitch();
     QWidget::mouseDoubleClickEvent(event);
 }
 
@@ -221,7 +221,7 @@ void CollapsibleGroup::addGroupEffect(CollapsibleEffect *effect)
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
     if (vbox == NULL) {
 	vbox = new QVBoxLayout();
-	vbox->setContentsMargins(10, 0, 0, 0);
+	vbox->setContentsMargins(0, 0, 0, 0);
 	vbox->setSpacing(2);
 	widgetFrame->setLayout(vbox);
     }
@@ -273,22 +273,22 @@ void CollapsibleGroup::updateTimecodeFormat()
 void CollapsibleGroup::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
-	frame->setProperty("active", true);
-	frame->setStyleSheet(frame->styleSheet());
+	framegroup->setProperty("active", true);
+	framegroup->setStyleSheet(framegroup->styleSheet());
 	event->acceptProposedAction();
     }
 }
 
 void CollapsibleGroup::dragLeaveEvent(QDragLeaveEvent */*event*/)
 {
-    frame->setProperty("active", false);
-    frame->setStyleSheet(frame->styleSheet());
+    framegroup->setProperty("active", false);
+    framegroup->setStyleSheet(framegroup->styleSheet());
 }
 
 void CollapsibleGroup::dropEvent(QDropEvent *event)
 {
-    frame->setProperty("active", false);
-    frame->setStyleSheet(frame->styleSheet());
+    framegroup->setProperty("active", false);
+    framegroup->setStyleSheet(framegroup->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
     //event->acceptProposedAction();
     QDomDocument doc;
