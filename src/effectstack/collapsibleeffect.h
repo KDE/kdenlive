@@ -143,6 +143,9 @@ public:
     bool isActive() const;
     /** @brief Should the wheel event be sent to parent widget for scrolling. */
     bool filterWheelEvent;
+    
+    /** @brief Return the stylesheet required for effect parameters. */
+    static const QString getStyleSheet(QPalette p);
 
 public slots:
     void slotSyncEffectsPos(int pos);

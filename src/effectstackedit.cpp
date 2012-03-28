@@ -44,7 +44,6 @@
 #include <KDebug>
 #include <KLocale>
 #include <KFileDialog>
-#include <KColorScheme>
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -99,21 +98,7 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     setFrameStyle(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
     
-    QPalette p = palette();
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
-    QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
-    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();    
-    QColor light_bg = scheme.shade(KColorScheme::LightShade);
-    
-    QString stylesheet(QString("QProgressBar:horizontal {border: 1px solid %1;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center}\
-                                QProgressBar:horizontal#dragOnly {background: %1} QProgressBar:horizontal:hover#dragOnly {background: %3} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;}\
-                                QProgressBar::chunk:horizontal {background: %1;} QProgressBar::chunk:horizontal:hover {background: %3;}\
-                                QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
-                                QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}\
-                                QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} ")
-                                .arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()));
-    setStyleSheet(stylesheet);
+    setStyleSheet(CollapsibleEffect::getStyleSheet(palette()));
     setWidget(m_baseWidget);   
     /*m_vbox = new QVBoxLayout(m_baseWidget);
     m_vbox->setContentsMargins(0, 0, 0, 0);
