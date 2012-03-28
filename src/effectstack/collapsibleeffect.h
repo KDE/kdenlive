@@ -127,7 +127,7 @@ public:
     static QMap<QString, QImage> iconCache;
     void setupWidget(ItemInfo info, int index, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
-    void setActive(bool activate, bool focused = false);
+    void setActive(bool activate);
     virtual bool eventFilter( QObject * o, QEvent * e );
     /** @brief Update effect GUI to reflect parameted changes. */
     void updateWidget(ItemInfo info, int index, QDomElement effect, EffectMetaInfo *metaInfo);
@@ -168,11 +168,10 @@ private:
     QDomElement m_effect;
     QDomElement m_original_effect;
     QList <QDomElement> m_subEffects;
-    bool m_lastEffect;    
+    bool m_lastEffect;
     int m_in;
     int m_out;
     bool m_isGroup;
-    bool m_active;
     QMenu *m_menu;
     QPoint m_clickPoint;
     int m_index;
@@ -183,8 +182,6 @@ private:
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
     virtual void mousePressEvent ( QMouseEvent * event );
-    virtual void enterEvent( QEvent * event );
-    virtual void leaveEvent( QEvent * event );
     virtual void dragEnterEvent(QDragEnterEvent *event);
     virtual void dragLeaveEvent(QDragLeaveEvent *event);
     virtual void dropEvent(QDropEvent *event);

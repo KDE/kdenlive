@@ -125,15 +125,11 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
         m_original_effect(original_effect),
         m_lastEffect(lastEffect),
         m_isGroup(isGroup),
-        m_active(false),
         m_index(ix)
 {
-    //setMouseTracking(true);
     setupUi(this);
     filterWheelEvent = true;
     m_info.fromString(effect.attribute("kdenlive_info"));
-    //frame->setBackgroundRole(QPalette::Midlight);
-    //frame->setAutoFillBackground(true);
     setFont(KGlobalSettings::smallestReadableFont());
    
     buttonUp->setIcon(KIcon("kdenlive-up"));
@@ -223,19 +219,20 @@ const QString CollapsibleEffect::getStyleSheet(QPalette p)
     QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
-    QColor normal_bg = scheme.background(KColorScheme::NormalBackground).color();
+    QColor normal_bg = scheme.background(KColorScheme::AlternateBackground).color();
+    QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
     
     KColorScheme scheme2(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor normal_bg2 = scheme2.background(KColorScheme::NormalBackground).color();
 
-    QString stylesheet(QString("QProgressBar::chunk:horizontal {background: %6;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %5;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}\
+    QString stylesheet(QString("QFrame#decoframe {border-radius:5px;border:0px solid %1;border-top:0px;background:%6;} QFrame:hover#decoframe {background:%7;} QFrame#decoframe[active=\"true\"] {background:%5;} QFrame#frame[active=\"true\"] {background:%3;}  QProgressBar::chunk:horizontal {background: %6;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %5;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}\
     QProgressBar:horizontal {border: 1px solid %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%5;padding: 0px;text-align:left center}\
                                 QProgressBar:horizontal:disabled {border: 1px solid %6} QProgressBar:horizontal#dragOnly {background: %5}\
                                 QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
                                 QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}\
                                 QAbstractSpinBox:disabled#dragBox {border: 1px solid %6;}\
                                 QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} ")
-                                .arg(dark_bg.name()).arg(hover_bg.name()).arg(selected_bg.name()).arg(light_bg.name()).arg(normal_bg.name()).arg(normal_bg2.name()));
+                                .arg(dark_bg.name()).arg(hover_bg.name()).arg(selected_bg.name()).arg(light_bg.name()).arg(alt_bg.name()).arg(normal_bg2.name()).arg(normal_bg.name()));
     return stylesheet;/*
     QPalette p = QApplication::palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
@@ -324,27 +321,13 @@ QDomElement CollapsibleEffect::effect() const
 
 bool CollapsibleEffect::isActive() const
 {
-    return m_active;
+    return decoframe->property("active").toBool();
 }
 
-void CollapsibleEffect::setActive(bool activate, bool focused)
+void CollapsibleEffect::setActive(bool activate)
 {
-    m_active = activate;
-    if (focused) {
-	frame->setBackgroundRole(QPalette::Highlight);
-	frame->setAutoFillBackground(true);
-    }
-    else {
-	frame->setBackgroundRole(QPalette::Window);
-	frame->setAutoFillBackground(false);
-	if (m_active) {
-	    setBackgroundRole(QPalette::Mid);
-	    setAutoFillBackground(true);
-	}
-	else setAutoFillBackground(false);
-	//title->setDown(m_active);
-	//frame->setBackgroundRole(m_active ? QPalette::Mid : QPalette::Midlight);
-    }
+    decoframe->setProperty("active", activate);
+    decoframe->setStyleSheet(decoframe->styleSheet());
 }
 
 void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
@@ -355,21 +338,11 @@ void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
 
 void CollapsibleEffect::mousePressEvent ( QMouseEvent *event )
 {
-    if (!m_active && !isGroup()) emit activateEffect(effectIndex());
+  
+    if (!decoframe->property("active").toBool() && !isGroup()) emit activateEffect(effectIndex());
     QWidget::mousePressEvent(event);
 }
 
-void CollapsibleEffect::enterEvent ( QEvent * event )
-{
-    //buttonDel->setVisible(true);
-    //menuButton->setVisible(true);
-    QWidget::enterEvent(event);
-}
-
-void CollapsibleEffect::leaveEvent ( QEvent * event )
-{
-    QWidget::leaveEvent(event);
-}
 
 void CollapsibleEffect::slotEnable(bool enable)
 {
@@ -614,19 +587,22 @@ void CollapsibleEffect::slotSyncEffectsPos(int pos)
 void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
-	setActive(m_active, true);
+	frame->setProperty("active", true);
+	frame->setStyleSheet(frame->styleSheet());
 	event->acceptProposedAction();
     }
 }
 
 void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
 {
-    setActive(m_active, false);
+    frame->setProperty("active", false);
+    frame->setStyleSheet(frame->styleSheet());
 }
 
 void CollapsibleEffect::dropEvent(QDropEvent *event)
 {
-    setActive(m_active, false);
+    frame->setProperty("active", false);
+    frame->setStyleSheet(frame->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
     //event->acceptProposedAction();
     QDomDocument doc;
