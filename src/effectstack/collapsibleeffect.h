@@ -135,6 +135,7 @@ public:
     bool isGroup() const;
     int effectIndex() const;
     void setGroupIndex(int ix);
+    void setGroupName(const QString &groupName);
     void removeGroup(int ix, QVBoxLayout *layout);
     QString infoString() const;
     bool isActive() const;

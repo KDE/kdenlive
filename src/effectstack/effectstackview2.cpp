@@ -2,8 +2,8 @@
                           effecstackview.cpp2  -  description
                              -------------------
     begin                : Feb 15 2008
-    copyright            : (C) 2008 by Marco Gittler
-    email                : g.marco@freenet.de
+    copyright            : (C) 2008 by Marco Gittler (g.marco@freenet.de)
+    copyright            : (C) 2012 by Jean-Baptiste Mardelle (jb@kdenlive.org)
  ***************************************************************************/
 
 /***************************************************************************
@@ -180,10 +180,10 @@ void EffectStackView2::setupListView(int ix)
 	    }
 	    
 	    if (group == NULL) {
-		group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == m_currentEffectList.count() - 1, m_ui.container->widget());
-		if (!effectInfo.groupName.isEmpty()) group->title->setText(effectInfo.groupName);
+		group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == m_currentEffectList.count() - 1, effectInfo.groupName, m_ui.container->widget());
 		connect(group, SIGNAL(moveEffect(int,int,int)), this, SLOT(slotMoveEffect(int,int,int)));
 		connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
+		connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this, SLOT(slotRenameGroup(CollapsibleGroup*)));
 		vbox1->addWidget(group);
 	    }
 	    if (effectInfo.groupIndex >= m_groupIndex) m_groupIndex = effectInfo.groupIndex + 1;
@@ -596,10 +596,11 @@ void EffectStackView2::slotCreateGroup(int ix)
 	}
     }
     
-    CollapsibleGroup *group = new CollapsibleGroup(m_groupIndex, ix == 1, ix == m_currentEffectList.count() - 2, m_ui.container->widget());
+    CollapsibleGroup *group = new CollapsibleGroup(m_groupIndex, ix == 1, ix == m_currentEffectList.count() - 2, QString(), m_ui.container->widget());
     m_groupIndex++;
     connect(group, SIGNAL(moveEffect(int,int,int)), this , SLOT(slotMoveEffect(int,int,int)));
     connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
+    connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
     l->insertWidget(groupPos, group);
     group->addGroupEffect(effectToMove);
 }
@@ -645,6 +646,21 @@ void EffectStackView2::slotUnGroup(CollapsibleGroup* group)
     int ix = l->indexOf(group);
     group->removeGroup(ix, l);
     group->deleteLater();
+}
+
+void EffectStackView2::slotRenameGroup(CollapsibleGroup *group)
+{
+    QList <CollapsibleEffect*> effects = group->effects();
+    for (int i = 0; i < effects.count(); i++) {
+	QDomElement origin = effects.at(i)->effect();
+	QDomElement changed = origin.cloneNode().toElement();
+	changed.setAttribute("kdenlive_info", effects.at(i)->infoString());
+	if (m_effectMetaInfo.trackMode) { 
+	    emit updateEffect(NULL, m_trackindex, origin, changed, effects.at(i)->effectIndex());
+	} else {
+	    emit updateEffect(m_clipref, -1, origin, changed, effects.at(i)->effectIndex());
+	}
+    }
 }
 
 #include "effectstackview2.moc"

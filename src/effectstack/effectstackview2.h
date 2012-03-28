@@ -2,8 +2,8 @@
                           effecstackview2.h  -  description
                              -------------------
     begin                : Feb 15 2008
-    copyright            : (C) 2008 by Marco Gittler
-    email                : g.marco@freenet.de
+    copyright            : (C) 2008 by Marco Gittler (g.marco@freenet.de)
+    copyright            : (C) 2012 by Jean-Baptiste Mardelle (jb@kdenlive.org) 
  ***************************************************************************/
 
 /***************************************************************************
@@ -174,6 +174,9 @@ private slots:
     
     /** @brief Display additionnal effect info */
     void slotShowComments();
+    
+    /** @brief An effect group was renamed, update effects info */
+    void slotRenameGroup(CollapsibleGroup *group);
 
 signals:
     void removeEffect(ClipItem*, int, QDomElement);

@@ -35,7 +35,6 @@
 #include "trackview.h"
 #include "customtrackview.h"
 #include "effectslistview.h"
-#include "effectstackview.h"
 #include "effectstack/effectstackview2.h"
 #include "transitionsettings.h"
 #include "renderwidget.h"

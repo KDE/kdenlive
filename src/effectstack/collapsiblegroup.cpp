@@ -27,6 +27,7 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 
+
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KLocale>
@@ -36,14 +37,31 @@
 #include <KUrlRequester>
 #include <KColorScheme>
 
+MyEditableLabel::MyEditableLabel(QWidget * parent):
+    QLineEdit(parent)
+{
+    setFrame(false);
+    setReadOnly(true);
+}
 
-CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QWidget * parent) :
+void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
+{
+    setReadOnly(false);
+    selectAll();
+}
+
+
+CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QString groupName, QWidget * parent) :
         AbstractCollapsibleWidget(parent),
         m_index(ix)
 {
     setupUi(this);
     setFont(KGlobalSettings::smallestReadableFont());
-   
+    QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
+    m_title = new MyEditableLabel(this);
+    l->insertWidget(4, m_title);
+    m_title->setText(groupName.isEmpty() ? i18n("Effect Group") : groupName);
+    connect(m_title, SIGNAL(editingFinished()), this, SLOT(slotRenameGroup()));
     buttonUp->setIcon(KIcon("kdenlive-up"));
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonDown->setIcon(KIcon("kdenlive-down"));
@@ -57,7 +75,6 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QWid
     m_menu->addAction(KIcon("view-refresh"), i18n("Reset effect"), this, SLOT(slotResetEffect()));
     m_menu->addAction(KIcon("document-save"), i18n("Save effect"), this, SLOT(slotSaveEffect()));
     
-    title->setText(i18n("Effect Group"));
     effecticon->setPixmap(KIcon("folder").pixmap(16,16));
     m_menu->addAction(KIcon("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
     setAcceptDrops(true);
@@ -104,7 +121,7 @@ void CollapsibleGroup::mouseDoubleClickEvent ( QMouseEvent * event )
 
 void CollapsibleGroup::slotEnable(bool enable)
 {
-    title->setEnabled(enable);
+    m_title->setEnabled(enable);
     enabledBox->blockSignals(true);
     enabledBox->setChecked(enable);
     enabledBox->blockSignals(false);
@@ -295,4 +312,22 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
+
+void CollapsibleGroup::slotRenameGroup()
+{
+    m_title->setReadOnly(true);
+    if (m_title->text().isEmpty()) m_title->setText(i18n("Effect Group"));
+    QList <CollapsibleEffect*> effects = findChildren<CollapsibleEffect*>();
+    for (int j = 0; j < effects.count(); j++) {
+	effects.at(j)->setGroupName(m_title->text());
+    }
+    emit groupRenamed(this);
+}
+
+QList <CollapsibleEffect*> CollapsibleGroup::effects()
+{
+    QList <CollapsibleEffect*> result = findChildren<CollapsibleEffect*>();
+    return result;
+}
+
 

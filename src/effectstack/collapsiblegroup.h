@@ -31,8 +31,20 @@
 
 #include <QDomElement>
 #include <QToolButton>
+#include <QLineEdit>
 
 class QFrame;
+
+class MyEditableLabel : public QLineEdit
+{
+    Q_OBJECT
+
+public:
+    MyEditableLabel(QWidget * parent = 0);
+    
+protected:
+    virtual void mouseDoubleClickEvent( QMouseEvent *e);
+};
 
 
 /**)
@@ -46,7 +58,7 @@ class CollapsibleGroup : public AbstractCollapsibleWidget, public Ui::Collapsibl
     Q_OBJECT
 
 public:
-    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QWidget * parent = 0);
+    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QString groupName = QString(), QWidget * parent = 0);
     ~CollapsibleGroup();
     void updateTimecodeFormat();
     void setActive(bool activate);
@@ -56,6 +68,7 @@ public:
     bool isActive() const;
     void addGroupEffect(CollapsibleEffect *effect);
     void removeGroup(int ix, QVBoxLayout *layout);
+    QList <CollapsibleEffect*> effects();
 
 public slots:
     void slotEnable(bool enable);
@@ -69,6 +82,7 @@ private slots:
     void slotSaveEffect();
     void slotResetEffect();
     void slotUnGroup();
+    void slotRenameGroup();
 
 private:
     //QList <CollapsibleEffect *> m_subParamWidgets;
@@ -76,6 +90,7 @@ private:
     EffectInfo m_info;
     int m_index;
     void updateGroupIndex(int groupIndex);
+    MyEditableLabel *m_title;
     
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
@@ -92,6 +107,7 @@ signals:
     void moveEffect(int current_pos, int new_pos, int groupIndex);
     void addEffect(QDomElement e);
     void unGroup(CollapsibleGroup *);
+    void groupRenamed(CollapsibleGroup *);
 };
 
 

@@ -217,7 +217,7 @@ const QString CollapsibleEffect::getStyleSheet(QPalette p)
     KColorScheme scheme2(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor normal_bg2 = scheme2.background(KColorScheme::NormalBackground).color();
 
-    QString stylesheet(QString("QLineEdit#title { background-color: transparent;} QFrame#decoframe {border-radius:5px;border:0px solid %1;background:%6;} QFrame#decoframegroup {border-radius:5px;border:1px solid %1;background:%6;} QFrame:hover#decoframe {background:%7;} QFrame#decoframe[active=\"true\"] {background:%5;} QFrame#decoframegroup[active=\"true\"] {background:%5;} QFrame#frame[active=\"true\"] {background:%3;}  QProgressBar::chunk:horizontal {background: %6;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %5;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}\
+    QString stylesheet(QString("MyEditableLabel { background-color: transparent;} QFrame#decoframe {border-radius:5px;border:0px solid %1;background:%6;} QFrame#decoframegroup {border-radius:5px;border:1px solid %1;background:%6;} QFrame:hover#decoframe {background:%7;} QFrame#decoframe[active=\"true\"] {background:%5;} QFrame#decoframegroup[active=\"true\"] {background:%5;} QFrame#frame[active=\"true\"] {background:%3;}  QProgressBar::chunk:horizontal {background: %6;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %5;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}\
     QProgressBar:horizontal {border: 1px solid %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%5;padding: 0px;text-align:left center}\
                                 QProgressBar:horizontal:disabled {border: 1px solid %6} QProgressBar:horizontal#dragOnly {background: %5}\
                                 QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
@@ -436,6 +436,10 @@ void CollapsibleEffect::setGroupIndex(int ix)
     m_info.groupIndex = ix;
 }
 
+void CollapsibleEffect::setGroupName(const QString &groupName)
+{
+    m_info.groupName = groupName;
+}
 
 QString CollapsibleEffect::infoString() const
 {
@@ -1299,5 +1303,3 @@ void ParameterContainer::slotStartFilterJobAction()
         }
     }
 }
-
-
