@@ -93,6 +93,9 @@ private:
     /** @brief The effect currently being dragged, NULL if no drag happening. */
     CollapsibleEffect *m_draggedEffect;
     
+    /** @brief The effect currently being dragged, NULL if no drag happening. */
+    CollapsibleGroup *m_draggedGroup;
+    
     /** @brief The current number of groups. */
     int m_groupIndex;
 
@@ -158,7 +161,7 @@ private slots:
       ** @param group the effect on which the effect was dropped
       ** @param lastEffectIndex the last effect index in the group, effect will be inserted after that index
       */
-    void slotMoveEffect(int currentIndex, int newIndex, int groupIndex);
+    void slotMoveEffect(int currentIndex, int newIndex, int groupIndex, QString groupName = QString());
     
     /** @brief Remove effects from a group */
     void slotUnGroup(CollapsibleGroup* group);

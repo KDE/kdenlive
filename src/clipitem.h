@@ -75,7 +75,7 @@ public:
 
     /** @brief Adds an effect to the clip.
     * @return The parameters that will be passed to Mlt */
-    EffectsParameterList addEffect(const QDomElement effect, bool animate = true);
+    EffectsParameterList addEffect(QDomElement effect, bool animate = true);
 
     /** @brief Deletes the effect with id @param index. */
     void deleteEffect(QString index);

@@ -230,8 +230,6 @@ void ClipItem::initEffect(QDomElement effect, int diff)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
-    if (effect.attribute("kdenlive_ix").toInt() == 0)
-        effect.setAttribute("kdenlive_ix", QString::number(effectsCounter()));
 
     if (effect.attribute("id") == "freeze" && diff > 0) {
         EffectsList::setParameter(effect, "frame", QString::number(diff));
@@ -1410,31 +1408,36 @@ bool ClipItem::moveEffect(QDomElement effect, int ix)
     return true;
 }
 
-EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animate*/)
+EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
 {
     bool needRepaint = false;
     QLocale locale;
     int ix;
+    QDomElement insertedEffect;
     if (!effect.hasAttribute("kdenlive_ix")) {
         ix = effectsCounter();
     } else ix = effect.attribute("kdenlive_ix").toInt();
     if (!m_effectList.isEmpty() && ix <= m_effectList.count()) {
         needRepaint = true;
-        m_effectList.insert(effect);
-    } else m_effectList.append(effect);
+        insertedEffect = m_effectList.insert(effect);
+    } else insertedEffect = m_effectList.append(effect);
+    
+    // Update index to the real one
+    effect.setAttribute("kdenlive_ix", insertedEffect.attribute("kdenlive_ix"));
+    
     EffectsParameterList parameters;
-    parameters.addParam("tag", effect.attribute("tag"));
-    parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
-    if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
-    if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));
+    parameters.addParam("tag", insertedEffect.attribute("tag"));
+    parameters.addParam("kdenlive_ix", insertedEffect.attribute("kdenlive_ix"));
+    if (insertedEffect.hasAttribute("src")) parameters.addParam("src", insertedEffect.attribute("src"));
+    if (insertedEffect.hasAttribute("disable")) parameters.addParam("disable", insertedEffect.attribute("disable"));
 
-    QString effectId = effect.attribute("id");
-    if (effectId.isEmpty()) effectId = effect.attribute("tag");
+    QString effectId = insertedEffect.attribute("id");
+    if (effectId.isEmpty()) effectId = insertedEffect.attribute("tag");
     parameters.addParam("id", effectId);
 
     // special case: the affine effect needs in / out points
 
-    QDomNodeList params = effect.elementsByTagName("parameter");
+    QDomNodeList params = insertedEffect.elementsByTagName("parameter");
     int fade = 0;
     bool needInOutSync = false;
     for (int i = 0; i < params.count(); i++) {
@@ -1635,7 +1638,16 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 	QDomDocument doc;
 	doc.setContent(effects, true);
 	QDomElement e = doc.documentElement();
-	e.setAttribute("kdenlive_ix", 0);
+	if (e.tagName() == "list") {
+	    // dropped an effect group
+	    QDomNodeList effectlist = e.elementsByTagName("effect");
+	    for (int i = 0; i < effectlist.count(); i++) {
+		effectlist.at(i).toElement().removeAttribute("kdenlive_ix");
+	    }
+	} else {
+	    // single effect dropped
+	    e.removeAttribute("kdenlive_ix");
+	}
         CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
         if (view) view->slotAddEffect(e, m_info.startPos, track());
     }

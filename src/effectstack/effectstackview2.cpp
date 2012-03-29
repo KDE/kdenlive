@@ -48,6 +48,7 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
         m_clipref(NULL),
         m_trackindex(-1),
         m_draggedEffect(NULL),
+        m_draggedGroup(NULL),
         m_groupIndex(0)
 {
     m_effectMetaInfo.trackMode = false;
@@ -141,6 +142,7 @@ void EffectStackView2::setupListView(int ix)
 {
     blockSignals(true);
     m_draggedEffect = NULL;
+    m_draggedGroup = NULL;
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     m_effects.clear();
     m_groupIndex = 0;
@@ -181,10 +183,11 @@ void EffectStackView2::setupListView(int ix)
 	    
 	    if (group == NULL) {
 		group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == m_currentEffectList.count() - 1, effectInfo.groupName, m_ui.container->widget());
-		connect(group, SIGNAL(moveEffect(int,int,int)), this, SLOT(slotMoveEffect(int,int,int)));
+		connect(group, SIGNAL(moveEffect(int,int,int,QString)), this, SLOT(slotMoveEffect(int,int,int,QString)));
 		connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
 		connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this, SLOT(slotRenameGroup(CollapsibleGroup*)));
 		vbox1->addWidget(group);
+		group->installEventFilter( this );
 	    }
 	    if (effectInfo.groupIndex >= m_groupIndex) m_groupIndex = effectInfo.groupIndex + 1;
 	}
@@ -226,7 +229,7 @@ void EffectStackView2::setupListView(int ix)
         connect(currentEffect, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
         connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
 	connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
-	connect(currentEffect, SIGNAL(moveEffect(int,int,int)), this , SLOT(slotMoveEffect(int,int,int)));
+	connect(currentEffect, SIGNAL(moveEffect(int,int,int,QString)), this , SLOT(slotMoveEffect(int,int,int,QString)));
 	connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
 	
         //ui.title->setPixmap(icon.pixmap(QSize(12, 12)));
@@ -276,6 +279,18 @@ bool EffectStackView2::eventFilter( QObject * o, QEvent * e )
 	    e->accept();
 	    return false;
 	}
+	m_draggedGroup = qobject_cast<CollapsibleGroup*>(o);
+	if (m_draggedGroup) {
+	    QMouseEvent *me = static_cast<QMouseEvent *>(e);
+	    if (me->button() == Qt::LeftButton && (m_draggedGroup->framegroup->underMouse() || m_draggedGroup->title()->underMouse()))
+		m_clickPoint = me->globalPos();
+	    else {
+		m_clickPoint = QPoint();
+		m_draggedGroup = NULL;
+	    }
+	    e->accept();
+	    return false;
+	}
     }  
     if (e->type() == QEvent::MouseMove)  {
 	if (qobject_cast<CollapsibleEffect*>(o)) {
@@ -295,26 +310,37 @@ bool EffectStackView2::eventFilter( QObject * o, QEvent * e )
 
 void EffectStackView2::mouseMoveEvent(QMouseEvent * event)
 {
-    if (m_draggedEffect && (event->buttons() & Qt::LeftButton) && (m_clickPoint != QPoint()) && ((event->globalPos() - m_clickPoint).manhattanLength() >= QApplication::startDragDistance())) {
-	startDrag();
+    if (m_draggedEffect || m_draggedGroup) {
+	if ((event->buttons() & Qt::LeftButton) && (m_clickPoint != QPoint()) && ((event->globalPos() - m_clickPoint).manhattanLength() >= QApplication::startDragDistance())) {
+	    startDrag();
+	}
     }
 }
 
 void EffectStackView2::mouseReleaseEvent(QMouseEvent * event)
 {
     m_draggedEffect = NULL;
+    m_draggedGroup = NULL;
     QWidget::mouseReleaseEvent(event);
 }
 
 void EffectStackView2::startDrag()
 {
-    QDrag *drag = new QDrag(this);
     // The data to be transferred by the drag and drop operation is contained in a QMimeData object
-    QDomElement effect = m_draggedEffect->effect().cloneNode().toElement();
-    QPixmap pixmap = QPixmap::grabWidget(m_draggedEffect->title);
-    drag->setPixmap(pixmap);
     QDomDocument doc;
-    doc.appendChild(doc.importNode(effect, true));
+    QPixmap pixmap;
+    if (m_draggedEffect) {
+	QDomElement effect = m_draggedEffect->effect().cloneNode().toElement();
+	doc.appendChild(doc.importNode(effect, true));
+	pixmap = QPixmap::grabWidget(m_draggedEffect->title);
+    }
+    else if (m_draggedGroup) {
+	doc = m_draggedGroup->effectsData();
+	pixmap = QPixmap::grabWidget(m_draggedGroup->title());
+    }
+    else return;
+    QDrag *drag = new QDrag(this);
+    drag->setPixmap(pixmap);
     QMimeData *mime = new QMimeData;
     QByteArray data;
     data.append(doc.toString().toUtf8());
@@ -598,14 +624,15 @@ void EffectStackView2::slotCreateGroup(int ix)
     
     CollapsibleGroup *group = new CollapsibleGroup(m_groupIndex, ix == 1, ix == m_currentEffectList.count() - 2, QString(), m_ui.container->widget());
     m_groupIndex++;
-    connect(group, SIGNAL(moveEffect(int,int,int)), this , SLOT(slotMoveEffect(int,int,int)));
+    connect(group, SIGNAL(moveEffect(int,int,int,QString)), this , SLOT(slotMoveEffect(int,int,int,QString)));
     connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
     connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
     l->insertWidget(groupPos, group);
+    group->installEventFilter( this );
     group->addGroupEffect(effectToMove);
 }
 
-void EffectStackView2::slotMoveEffect(int currentIndex, int newIndex, int groupIndex)
+void EffectStackView2::slotMoveEffect(int currentIndex, int newIndex, int groupIndex, QString groupName)
 {
     CollapsibleEffect *effectToMove = getEffectByIndex(currentIndex);
     if (effectToMove == NULL) return;
@@ -616,6 +643,7 @@ void EffectStackView2::slotMoveEffect(int currentIndex, int newIndex, int groupI
     EffectInfo effectinfo;
     effectinfo.fromString(oldeffect.attribute("kdenlive_info"));
     effectinfo.groupIndex = groupIndex;
+    effectinfo.groupName = groupName;
     neweffect.setAttribute("kdenlive_info", effectinfo.toString());
 
     ItemInfo info;

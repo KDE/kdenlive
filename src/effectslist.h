@@ -60,13 +60,13 @@ public:
     QString getInfoFromIndex(const int ix) const;
     QString getEffectInfo(const QDomElement effect) const;
     void clone(const EffectsList &original);
-    void append(QDomElement e);
+    QDomElement append(QDomElement e);
     bool isEmpty() const;
     int count() const;
     const QDomElement at(int ix) const;
     void removeAt(int ix);
     QDomElement itemFromIndex(int ix) const;
-    void insert(QDomElement effect);
+    QDomElement insert(QDomElement effect);
     void updateEffect(QDomElement effect);
     static bool hasKeyFrames(QDomElement effect);
     static bool hasSimpleKeyFrames(QDomElement effect);

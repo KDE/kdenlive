@@ -42,6 +42,7 @@ MyEditableLabel::MyEditableLabel(QWidget * parent):
 {
     setFrame(false);
     setReadOnly(true);
+    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
 }
 
 void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
@@ -56,6 +57,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QStr
         m_index(ix)
 {
     setupUi(this);
+    m_subWidgets = QList <CollapsibleEffect *> ();
     setFont(KGlobalSettings::smallestReadableFont());
     QHBoxLayout *l = static_cast <QHBoxLayout *>(framegroup->layout());
     m_title = new MyEditableLabel(this);
@@ -208,12 +210,9 @@ void CollapsibleGroup::slotShow(bool show)
     //emit parameterChanged(m_original_effect, m_effect, effectIndex());   
 }
 
-void CollapsibleGroup::updateGroupIndex(int groupIndex)
+QWidget *CollapsibleGroup::title() const
 {
-  /*TODO:
-    m_info.groupIndex = groupIndex;
-    m_effect.setAttribute("kdenlive_info", m_info.toString());
-    emit parameterChanged(m_original_effect, m_effect, effectIndex());*/
+    return m_title;
 }
 
 void CollapsibleGroup::addGroupEffect(CollapsibleEffect *effect)
@@ -226,6 +225,8 @@ void CollapsibleGroup::addGroupEffect(CollapsibleEffect *effect)
 	widgetFrame->setLayout(vbox);
     }
     effect->setGroupIndex(groupIndex());
+    effect->setGroupName(m_title->text());
+    m_subWidgets.append(effect);
     vbox->addWidget(effect);
 }
 
@@ -238,22 +239,17 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
 {
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
     if (vbox == NULL) return;
-    
-    for (int j = vbox->count() - 1; j >= 0; j--) {
-	QLayoutItem *child = vbox->takeAt(j);
-	CollapsibleGroup *e = static_cast<CollapsibleGroup *>(child->widget());
-	layout->insertWidget(ix, e);
-	e->updateGroupIndex(-1);
-	delete child;
+    for (int i = m_subWidgets.count() - 1; i >= 0 ; i--) {
+	vbox->removeWidget(m_subWidgets.at(i));
+	layout->insertWidget(ix, m_subWidgets.at(i));
     }
+    m_subWidgets.clear();
 }
 
 int CollapsibleGroup::groupIndex() const
 {
     return m_index;
 }
-
-
 
 bool CollapsibleGroup::isGroup() const
 {
@@ -303,12 +299,9 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 	emit addEffect(e);
 	return;
     }
-    int new_index = -1;
-    QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-    if (vbox == NULL) return;
-    CollapsibleEffect *effect = static_cast<CollapsibleEffect *>(vbox->itemAt(vbox->count() -1)->widget());
-    new_index = effect->effectIndex();
-    emit moveEffect(ix, new_index, m_index);
+    if (m_subWidgets.isEmpty()) return;
+    int new_index = m_subWidgets.at(m_subWidgets.count() - 1)->effectIndex();
+    emit moveEffect(ix, new_index, m_index, m_title->text());
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
@@ -317,17 +310,26 @@ void CollapsibleGroup::slotRenameGroup()
 {
     m_title->setReadOnly(true);
     if (m_title->text().isEmpty()) m_title->setText(i18n("Effect Group"));
-    QList <CollapsibleEffect*> effects = findChildren<CollapsibleEffect*>();
-    for (int j = 0; j < effects.count(); j++) {
-	effects.at(j)->setGroupName(m_title->text());
+    for (int j = 0; j < m_subWidgets.count(); j++) {
+	m_subWidgets.at(j)->setGroupName(m_title->text());
     }
     emit groupRenamed(this);
 }
 
 QList <CollapsibleEffect*> CollapsibleGroup::effects()
 {
-    QList <CollapsibleEffect*> result = findChildren<CollapsibleEffect*>();
-    return result;
+    return m_subWidgets;
 }
 
+QDomDocument CollapsibleGroup::effectsData()
+{
+    QDomDocument doc;
+    QDomElement list = doc.createElement("list");
+    list.setAttribute("name", m_title->text());
+    doc.appendChild(list);
+    for (int j = 0; j < m_subWidgets.count(); j++) {
+	list.appendChild(doc.importNode(m_subWidgets.at(j)->effect(), true));
+    }
+    return doc;
+}
 

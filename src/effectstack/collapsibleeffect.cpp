@@ -428,6 +428,7 @@ void CollapsibleEffect::slotShow(bool show)
 void CollapsibleEffect::updateGroupIndex(int groupIndex)
 {
     m_info.groupIndex = groupIndex;
+    if (groupIndex == -1) m_info.groupName.clear();
     m_effect.setAttribute("kdenlive_info", m_info.toString());
     emit parameterChanged(m_original_effect, m_effect, effectIndex());
 }
@@ -592,7 +593,7 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
 	emit addEffect(e);
 	return;
     }
-    emit moveEffect(ix, effectIndex(), groupIndex());
+    emit moveEffect(ix, effectIndex(), m_info.groupIndex, m_info.groupName);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }

@@ -297,12 +297,16 @@ void EffectsList::removeMetaProperties(QDomElement producer)
     }
 }
 
-void EffectsList::append(QDomElement e)
+QDomElement EffectsList::append(QDomElement e)
 {
+    QDomElement result;
     if (!e.isNull()) {
-	m_baseElement.appendChild(importNode(e, true));
-	if (m_useIndex) updateIndexes(m_baseElement.childNodes());
+	result = m_baseElement.appendChild(importNode(e, true)).toElement();
+	if (m_useIndex) {
+	    updateIndexes(m_baseElement.childNodes());
+	}
     }
+    return result;
 }
 
 int EffectsList::count() const
@@ -337,16 +341,18 @@ QDomElement EffectsList::itemFromIndex(int ix) const
     return effects.at(ix - 1).toElement();
 }
 
-void EffectsList::insert(QDomElement effect)
+QDomElement EffectsList::insert(QDomElement effect)
 {
     QDomNodeList effects = m_baseElement.childNodes();
     int ix = effect.attribute("kdenlive_ix").toInt();
-    if (ix > effects.count()) m_baseElement.appendChild(importNode(effect, true));
+    QDomElement result;
+    if (effect.hasAttribute("kdenlive_ix") && ix > effects.count()) result = m_baseElement.appendChild(importNode(effect, true)).toElement();
     else {
         QDomElement listeffect =  effects.at(ix - 1).toElement();
-	m_baseElement.insertBefore(importNode(effect, true), listeffect);
+	result = m_baseElement.insertBefore(importNode(effect, true), listeffect).toElement();
     }
     if (m_useIndex) updateIndexes(effects);
+    return result;
 }
 
 void EffectsList::updateIndexes(QDomNodeList effects)

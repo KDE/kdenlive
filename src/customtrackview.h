@@ -441,6 +441,9 @@ private:
      * @param fromStart false = resize from end
      * @param command Used as a parent for EditEffectCommand */
     void adjustEffects(ClipItem *item, ItemInfo oldInfo, QUndoCommand *command);
+    
+    /** @brief Prepare an add clip command for an effect */
+    void processEffect(ClipItem *item, QDomElement effect, QUndoCommand *effectCommand);
 
 private slots:
     void slotRefreshGuides();

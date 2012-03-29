@@ -68,7 +68,12 @@ public:
     bool isActive() const;
     void addGroupEffect(CollapsibleEffect *effect);
     void removeGroup(int ix, QVBoxLayout *layout);
+    /** @brief Return all effects in group. */
     QList <CollapsibleEffect*> effects();
+    /** @brief Return the editable title widget. */
+    QWidget *title() const;
+    /** @brief Return the XML data describing all effects in group. */
+    QDomDocument effectsData();
 
 public slots:
     void slotEnable(bool enable);
@@ -85,11 +90,10 @@ private slots:
     void slotRenameGroup();
 
 private:
-    //QList <CollapsibleEffect *> m_subParamWidgets;
+    QList <CollapsibleEffect *> m_subWidgets;
     QMenu *m_menu;
     EffectInfo m_info;
     int m_index;
-    void updateGroupIndex(int groupIndex);
     MyEditableLabel *m_title;
     
 protected:
@@ -104,7 +108,7 @@ signals:
     void deleteGroup(int);
     void changeGroupPosition(int, bool);
     void activateEffect(int);
-    void moveEffect(int current_pos, int new_pos, int groupIndex);
+    void moveEffect(int current_pos, int new_pos, int groupIndex, QString groupName);
     void addEffect(QDomElement e);
     void unGroup(CollapsibleGroup *);
     void groupRenamed(CollapsibleGroup *);

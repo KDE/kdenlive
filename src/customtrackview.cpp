@@ -1727,32 +1727,21 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
     else effectName = i18n("effect");
     effectCommand->setText(i18n("Add %1", effectName));
-    int count = 0;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            if (effect.attribute("type") == "audio") {
-                // Don't add audio effects on video clips
-                if (item->isVideoOnly() || (item->clipType() != AUDIO && item->clipType() != AV && item->clipType() != PLAYLIST)) continue;
-            } else if (effect.hasAttribute("type") == false) {
-                // Don't add video effect on audio clips
-                if (item->isAudioOnly() || item->clipType() == AUDIO) continue;
-            }
-
-            if (effect.attribute("unique", "0") != "0" && item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1) {
-                emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
-                continue;
-            }
-            if (item->isItemLocked()) {
-                continue;
-            }
-            item->initEffect(effect);
-
-            new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
-            count++;
+            if (effect.tagName() == "list") {
+		QDomNodeList effectlist = effect.elementsByTagName("effect");
+		for (int j = 0; j < effectlist.count(); j++) {
+		    processEffect(item, effectlist.at(j).toElement(), effectCommand);
+		}
+	    }
+            else {
+		processEffect(item, effect, effectCommand);
+	    }
         }
     }
-    if (count > 0) {
+    if (effectCommand->childCount() > 0) {
         m_commandStack->push(effectCommand);
         setDocumentModified();
     } else delete effectCommand;
@@ -1768,9 +1757,13 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     QList<QGraphicsItem *> itemList;
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
-    QDomElement namenode = effect.firstChildElement("name");
-    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
-    else effectName = i18n("effect");
+    if (effect.tagName() == "list") {
+	effectName = effect.attribute("name");
+    } else {
+	QDomElement namenode = effect.firstChildElement("name");
+	if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
+	else effectName = i18n("effect");
+    }
     effectCommand->setText(i18n("Add %1", effectName));
 
     if (track == -1) itemList = scene()->selectedItems();
@@ -1793,40 +1786,13 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            if (effect.attribute("type") == "audio") {
-                // Don't add audio effects on video clips
-                if (item->isVideoOnly() || (item->clipType() != AUDIO && item->clipType() != AV && item->clipType() != PLAYLIST)) {
-                    /* do not show error message when item is part of a group as the user probably knows what he does then
-                     * and the message is annoying when working with the split audio feature */
-                    if (!item->parentItem() || item->parentItem() == m_selectionGroup)
-                        emit displayMessage(i18n("Cannot add an audio effect to this clip"), ErrorMessage);
-                    continue;
-                }
-            } else if (effect.attribute("type") == "video" || !effect.hasAttribute("type")) {
-                // Don't add video effect on audio clips
-                if (item->isAudioOnly() || item->clipType() == AUDIO) {
-                    /* do not show error message when item is part of a group as the user probably knows what he does then
-                     * and the message is annoying when working with the split audio feature */
-                    if (!item->parentItem() || item->parentItem() == m_selectionGroup)
-                        emit displayMessage(i18n("Cannot add a video effect to this clip"), ErrorMessage);
-                    continue;
-                }
-            }
-            if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
-                emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
-                continue;
-            }
-            if (item->isItemLocked()) {
-                continue;
-            }
-
-            if (effect.attribute("id") == "freeze" && m_cursorPos > item->startPos().frames(m_document->fps()) && m_cursorPos < item->endPos().frames(m_document->fps())) {
-                item->initEffect(effect, m_cursorPos - item->startPos().frames(m_document->fps()));
-            } else {
-		kDebug()<<"PREIT 0: "<<effect.attribute("kdenlive_ix");
-                item->initEffect(effect);
-            }
-            new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
+	    if (effect.tagName() == "list") {
+		QDomNodeList effectlist = effect.elementsByTagName("effect");
+		for (int j = 0; j < effectlist.count(); j++) {
+		    processEffect(item, effectlist.at(j).toElement(), effectCommand);
+		}
+	    }
+            else processEffect(item, effect, effectCommand);
         }
     }
     if (effectCommand->childCount() > 0) {
@@ -1848,6 +1814,43 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 	    }
 	}
     } else delete effectCommand;
+}
+
+void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, QUndoCommand *effectCommand)
+{
+    if (effect.attribute("type") == "audio") {
+	// Don't add audio effects on video clips
+        if (item->isVideoOnly() || (item->clipType() != AUDIO && item->clipType() != AV && item->clipType() != PLAYLIST)) {
+	    /* do not show error message when item is part of a group as the user probably knows what he does then
+            * and the message is annoying when working with the split audio feature */
+            if (!item->parentItem() || item->parentItem() == m_selectionGroup)
+		emit displayMessage(i18n("Cannot add an audio effect to this clip"), ErrorMessage);
+            return;
+        }
+    } else if (effect.attribute("type") == "video" || !effect.hasAttribute("type")) {
+	// Don't add video effect on audio clips
+        if (item->isAudioOnly() || item->clipType() == AUDIO) {
+	    /* do not show error message when item is part of a group as the user probably knows what he does then
+            * and the message is annoying when working with the split audio feature */
+            if (!item->parentItem() || item->parentItem() == m_selectionGroup)
+		emit displayMessage(i18n("Cannot add a video effect to this clip"), ErrorMessage);
+            return;
+        }
+    }
+    if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
+	emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
+        return;
+    }
+    if (item->isItemLocked()) {
+	return;
+    }
+
+    if (effect.attribute("id") == "freeze" && m_cursorPos > item->startPos().frames(m_document->fps()) && m_cursorPos < item->endPos().frames(m_document->fps())) {
+	item->initEffect(effect, m_cursorPos - item->startPos().frames(m_document->fps()));
+    } else {
+	item->initEffect(effect);
+    }
+    new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
 }
 
 void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup)

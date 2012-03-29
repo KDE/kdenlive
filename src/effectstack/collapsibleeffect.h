@@ -199,7 +199,7 @@ signals:
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
-    void moveEffect(int current_pos, int new_pos, int groupIndex);
+    void moveEffect(int current_pos, int new_pos, int groupIndex, QString groupName);
     void unGroup(CollapsibleEffect *);
     void addEffect(QDomElement e);
 };
