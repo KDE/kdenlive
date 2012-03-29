@@ -270,14 +270,15 @@ bool EffectStackView2::eventFilter( QObject * o, QEvent * e )
 	m_draggedEffect = qobject_cast<CollapsibleEffect*>(o);
 	if (m_draggedEffect) {
 	    QMouseEvent *me = static_cast<QMouseEvent *>(e);
-	    if (me->button() == Qt::LeftButton && (m_draggedEffect->frame->underMouse() || m_draggedEffect->title->underMouse()))
+	    if (me->button() == Qt::LeftButton && (m_draggedEffect->frame->underMouse() || m_draggedEffect->title->underMouse())) {
 		m_clickPoint = me->globalPos();
+	    }
 	    else {
 		m_clickPoint = QPoint();
 		m_draggedEffect = NULL;
 	    }
 	    e->accept();
-	    return false;
+	    return true;
 	}
 	m_draggedGroup = qobject_cast<CollapsibleGroup*>(o);
 	if (m_draggedGroup) {
@@ -289,10 +290,10 @@ bool EffectStackView2::eventFilter( QObject * o, QEvent * e )
 		m_draggedGroup = NULL;
 	    }
 	    e->accept();
-	    return false;
+	    return true;
 	}
     }  
-    if (e->type() == QEvent::MouseMove)  {
+    /*if (e->type() == QEvent::MouseMove)  {
 	if (qobject_cast<CollapsibleEffect*>(o)) {
 	    QMouseEvent *me = static_cast<QMouseEvent *>(e);
 	    if (me->buttons() != Qt::LeftButton) {
@@ -304,7 +305,7 @@ bool EffectStackView2::eventFilter( QObject * o, QEvent * e )
 		return true;
 	    }
 	}
-    }
+    }*/
     return QWidget::eventFilter(o, e);
 }
 
