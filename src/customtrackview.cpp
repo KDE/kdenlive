@@ -5552,7 +5552,7 @@ void CustomTrackView::pasteClipEffects()
     for (int i = 0; i < clips.count(); ++i) {
         if (clips.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast < ClipItem *>(clips.at(i));
-            for (int j = 0; j < clip->effectsCount(); j++) {
+            for (int j = 1; j <= clip->effectsCount(); j++) {
                 QDomElement eff = clip->effectAt(j);
                 if (eff.attribute("unique", "0") == "0" || item->hasEffect(eff.attribute("tag"), eff.attribute("id")) == -1) {
                     adjustKeyfames(clip->cropStart(), item->cropStart(), item->cropDuration(), eff);

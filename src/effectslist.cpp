@@ -90,8 +90,8 @@ int EffectsList::hasEffect(const QString & tag, const QString & id) const
     for (int i = 0; i < effects.count(); i++) {
         QDomElement effect =  effects.at(i).toElement();
         if (!id.isEmpty()) {
-            if (effect.attribute("id") == id) return i;
-        } else if (!tag.isEmpty() && effect.attribute("tag") == tag) return i;
+            if (effect.attribute("id") == id) return effect.attribute("kdenlive_ix").toInt();
+        } else if (!tag.isEmpty() && effect.attribute("tag") == tag) return effect.attribute("kdenlive_ix").toInt();
     }
     return -1;
 }

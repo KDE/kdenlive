@@ -160,7 +160,7 @@ void ClipItem::setEffectList(const EffectsList effectList)
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (!m_effectList.isEmpty()) {
         for (int i = 0; i < m_effectList.count(); i++) {
-	    QDomElement effect = m_effectList.itemFromIndex(i + 1);
+	    QDomElement effect = m_effectList.at(i);
             QString effectId = effect.attribute("id");
             // check if it is a fade effect
             QDomNodeList params = effect.elementsByTagName("parameter");
@@ -394,7 +394,7 @@ bool ClipItem::checkKeyFrames()
 
 void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
 {
-    QDomElement effect = getEffectAt(ix);
+    QDomElement effect = m_effectList.at(ix);
     if (effect.attribute("disable") == "1") return;
     QLocale locale;
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -473,7 +473,7 @@ void ClipItem::setSelectedEffect(const int ix)
 QStringList ClipItem::keyframes(const int index)
 {
     QStringList result;
-    QDomElement effect = effectAt(index);
+    QDomElement effect = m_effectList.at(index);
     QDomNodeList params = effect.elementsByTagName("parameter");
 
     for (int i = 0; i < params.count(); i++) {
@@ -1367,7 +1367,7 @@ QDomElement ClipItem::effectAt(int ix) const
 
 QDomElement ClipItem::getEffectAt(int ix) const
 {
-    if (ix > m_effectList.count() || ix < 0) return QDomElement();
+    if (ix > m_effectList.count() || ix <= 0) return QDomElement();
     return m_effectList.itemFromIndex(ix);
 }
 
