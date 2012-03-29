@@ -136,7 +136,8 @@ public:
     int effectIndex() const;
     void setGroupIndex(int ix);
     void setGroupName(const QString &groupName);
-    void removeGroup(int ix, QVBoxLayout *layout);
+    /** @brief Remove this effect from its group. */
+    void removeFromGroup();
     QString infoString() const;
     bool isActive() const;
     /** @brief Should the wheel event be sent to parent widget for scrolling. */
@@ -172,8 +173,6 @@ private:
     QMenu *m_menu;
     QPoint m_clickPoint;
     EffectInfo m_info;
-    
-    void updateGroupIndex(int groupIndex);
     
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );

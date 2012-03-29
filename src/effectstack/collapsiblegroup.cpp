@@ -49,6 +49,7 @@ void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
 {
     setReadOnly(false);
     selectAll();
+    e->accept();
 }
 
 
@@ -242,6 +243,7 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
     for (int i = m_subWidgets.count() - 1; i >= 0 ; i--) {
 	vbox->removeWidget(m_subWidgets.at(i));
 	layout->insertWidget(ix, m_subWidgets.at(i));
+        m_subWidgets.at(i)->removeFromGroup();
     }
     m_subWidgets.clear();
 }

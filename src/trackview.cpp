@@ -561,7 +561,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
         connect(header, SIGNAL(renameTrack(int, QString)), this, SLOT(slotRenameTrack(int, QString)));
         connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
-        connect(header, SIGNAL(addTrackInfo(const QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(const QDomElement, int)));
+        connect(header, SIGNAL(addTrackEffect(const QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(const QDomElement, int)));
         connect(header, SIGNAL(showTrackEffects(int)), this, SLOT(slotShowTrackEffects(int)));
         headers_container->layout()->addWidget(header);
     }

@@ -425,14 +425,6 @@ void CollapsibleEffect::slotShow(bool show)
     emit parameterChanged(m_original_effect, m_effect, effectIndex());   
 }
 
-void CollapsibleEffect::updateGroupIndex(int groupIndex)
-{
-    m_info.groupIndex = groupIndex;
-    if (groupIndex == -1) m_info.groupName.clear();
-    m_effect.setAttribute("kdenlive_info", m_info.toString());
-    emit parameterChanged(m_original_effect, m_effect, effectIndex());
-}
-
 void CollapsibleEffect::setGroupIndex(int ix)
 {
     m_info.groupIndex = ix;
@@ -448,18 +440,12 @@ QString CollapsibleEffect::infoString() const
     return m_info.toString();
 }
 
-void CollapsibleEffect::removeGroup(int ix, QVBoxLayout *layout)
+void CollapsibleEffect::removeFromGroup()
 {
-    QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-    if (vbox == NULL) return;
-    
-    for (int j = vbox->count() - 1; j >= 0; j--) {
-	QLayoutItem *child = vbox->takeAt(j);
-	CollapsibleEffect *e = static_cast<CollapsibleEffect *>(child->widget());
-	layout->insertWidget(ix, e);
-	e->updateGroupIndex(-1);
-	delete child;
-    }
+    m_info.groupIndex = -1;
+    m_info.groupName.clear();
+    m_effect.setAttribute("kdenlive_info", m_info.toString());
+    emit parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 
 int CollapsibleEffect::groupIndex() const

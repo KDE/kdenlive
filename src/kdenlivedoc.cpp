@@ -1552,6 +1552,16 @@ QDomElement KdenliveDoc::getTrackEffect(int trackIndex, int effectIndex) const
     return list.itemFromIndex(effectIndex).cloneNode().toElement();
 }
 
+int KdenliveDoc::hasTrackEffect(int trackIndex, const QString &tag, const QString &id) const
+{
+    if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
+        kWarning() << "Get Track effect outisde of range";
+        return -1;
+    }
+    EffectsList list = m_tracksList.at(trackIndex).effectsList;
+    return list.hasEffect(tag, id);
+}
+
 bool KdenliveDoc::saveCustomEffects(QDomNodeList customeffects)
 {
     QDomElement e;

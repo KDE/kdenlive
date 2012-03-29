@@ -1837,7 +1837,7 @@ void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, QUndoCom
             return;
         }
     }
-    if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
+    if (effect.attribute("unique", "0") != "0" && item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1) {
 	emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
         return;
     }
@@ -6625,9 +6625,42 @@ bool CustomTrackView::hasAudio(int track) const
 
 void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
 {
-    AddEffectCommand *command = new AddEffectCommand(this, m_document->tracksCount() - ix, GenTime(-1), effect, true);
-    m_commandStack->push(command);
-    setDocumentModified();
+    
+    QUndoCommand *effectCommand = new QUndoCommand();
+    QString effectName;
+    if (effect.tagName() == "list") {
+        effectName = effect.attribute("name");
+    } else {
+        QDomElement namenode = effect.firstChildElement("name");
+        if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
+        else effectName = i18n("effect");
+    }
+    effectCommand->setText(i18n("Add %1", effectName));
+    if (effect.tagName() == "list") {
+        QDomNodeList effectlist = effect.elementsByTagName("effect");
+        for (int j = 0; j < effectlist.count(); j++) {
+            QDomElement trackeffect = effectlist.at(j).toElement();
+            if (trackeffect.attribute("unique", "0") != "0" && m_document->hasTrackEffect(m_document->tracksCount() - ix - 1, trackeffect.attribute("tag"), trackeffect.attribute("id")) != -1) {
+                emit displayMessage(i18n("Effect already present in track"), ErrorMessage);
+                continue;
+            }
+            new AddEffectCommand(this, m_document->tracksCount() - ix, GenTime(-1), trackeffect, true, effectCommand);
+        }
+    }
+    else {
+        if (effect.attribute("unique", "0") != "0" && m_document->hasTrackEffect(m_document->tracksCount() - ix - 1, effect.attribute("tag"), effect.attribute("id")) != -1) {
+            emit displayMessage(i18n("Effect already present in track"), ErrorMessage);
+            delete effectCommand;
+            return;
+        }
+        new AddEffectCommand(this, m_document->tracksCount() - ix, GenTime(-1), effect, true, effectCommand);
+    }
+
+    if (effectCommand->childCount() > 0) {
+        m_commandStack->push(effectCommand);
+        setDocumentModified();
+    }
+    else delete effectCommand;
 }
 
 

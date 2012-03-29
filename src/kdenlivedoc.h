@@ -155,6 +155,8 @@ Q_OBJECT public:
     void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
     const EffectsList getTrackEffects(int ix);
     QDomElement getTrackEffect(int trackIndex, int effectIndex) const;
+    /** @brief Check if a track already contains a specific effect. */
+    int hasTrackEffect(int trackIndex, const QString &tag, const QString &id) const;
     /** @brief Get a list of folder id's that were opened on last save. */
     QStringList getExpandedFolders();
     /** @brief Read the display ratio from an xml project file. */

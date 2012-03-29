@@ -135,9 +135,19 @@ void HeaderTrack::dropEvent(QDropEvent * event)
     const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
     QDomDocument doc;
     doc.setContent(effects, true);
-    const QDomElement e = doc.documentElement();
+    QDomElement e = doc.documentElement();
+    if (e.tagName() == "list") {
+        // dropped an effect group
+        QDomNodeList effectlist = e.elementsByTagName("effect");
+        for (int i = 0; i < effectlist.count(); i++) {
+            effectlist.at(i).toElement().removeAttribute("kdenlive_ix");
+        }
+    } else {
+        // single effect dropped
+        e.removeAttribute("kdenlive_ix");
+    }
     emit selectTrack(m_index);
-    emit addTrackInfo(e, m_index);
+    emit addTrackEffect(e, m_index);
     /*if (scene() && !scene()->views().isEmpty()) {
         event->accept();
         CustomTrackView *view = (CustomTrackView *) scene()->views()[0];

@@ -66,7 +66,7 @@ signals:
     void renameTrack(int, QString);
     void selectTrack(int);
     void configTrack(int);
-    void addTrackInfo(const QDomElement, int);
+    void addTrackEffect(const QDomElement, int);
     void showTrackEffects(int);
 };
 
