@@ -574,7 +574,12 @@ void EffectStackView2::slotResetEffect(int ix)
             emit updateEffect(NULL, m_trackindex, old, dom, ix,false);
         } else {
             m_clipref->initEffect(dom);
-	    m_effects.at(ix)->updateWidget(m_clipref->info(), dom, &m_effectMetaInfo);
+            for (int i = 0; i < m_effects.count(); i++) {
+                if (m_effects.at(i)->effectIndex() == ix) {
+                    m_effects.at(i)->updateWidget(m_clipref->info(), dom, &m_effectMetaInfo);
+                    break;
+                }
+            }
             //m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
             emit updateEffect(m_clipref, -1, old, dom, ix,false);
         }
