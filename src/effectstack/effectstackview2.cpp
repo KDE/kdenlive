@@ -488,9 +488,9 @@ CollapsibleEffect *EffectStackView2::getEffectByIndex(int ix)
 void EffectStackView2::slotUpdateEffectParams(const QDomElement old, const QDomElement e, int ix)
 {
     if (m_effectMetaInfo.trackMode)
-        emit updateEffect(NULL, m_trackindex, old, e, ix);
+        emit updateEffect(NULL, m_trackindex, old, e, ix,false);
     else if (m_clipref) {
-        emit updateEffect(m_clipref, -1, old, e, ix);
+        emit updateEffect(m_clipref, -1, old, e, ix, false);
         // Make sure the changed effect is currently displayed
         slotSetCurrentEffect(ix);
     }
@@ -571,12 +571,12 @@ void EffectStackView2::slotResetEffect(int ix)
             info.startPos = GenTime(-1);
             info.track = 0;
 	    m_effects.at(ix)->updateWidget(info, dom, &m_effectMetaInfo);
-            emit updateEffect(NULL, m_trackindex, old, dom, ix);
+            emit updateEffect(NULL, m_trackindex, old, dom, ix,false);
         } else {
             m_clipref->initEffect(dom);
 	    m_effects.at(ix)->updateWidget(m_clipref->info(), dom, &m_effectMetaInfo);
             //m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
-            emit updateEffect(m_clipref, -1, old, dom, ix);
+            emit updateEffect(m_clipref, -1, old, dom, ix,false);
         }
     }
 
@@ -606,9 +606,9 @@ void EffectStackView2::slotCreateGroup(int ix)
         info.cropStart = GenTime(0);
         info.startPos = GenTime(-1);
         info.track = 0;
-	emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, ix);
+	emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, ix, false);
     } else {
-	emit updateEffect(m_clipref, -1, oldeffect, neweffect, ix);
+	emit updateEffect(m_clipref, -1, oldeffect, neweffect, ix, false);
     }
     
     QVBoxLayout *l = static_cast<QVBoxLayout *>(m_ui.container->widget()->layout());
@@ -654,9 +654,9 @@ void EffectStackView2::slotMoveEffect(int currentIndex, int newIndex, int groupI
         info.cropStart = GenTime(0);
         info.startPos = GenTime(-1);
         info.track = 0;
-	emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, effectToMove->effectIndex());
+	emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, effectToMove->effectIndex(),false);
     } else {
-	emit updateEffect(m_clipref, -1, oldeffect, neweffect, effectToMove->effectIndex());
+	emit updateEffect(m_clipref, -1, oldeffect, neweffect, effectToMove->effectIndex(),false);
     }
     
     //if (currentIndex == newIndex) return;
@@ -685,9 +685,9 @@ void EffectStackView2::slotRenameGroup(CollapsibleGroup *group)
 	QDomElement changed = origin.cloneNode().toElement();
 	changed.setAttribute("kdenlive_info", effects.at(i)->infoString());
 	if (m_effectMetaInfo.trackMode) { 
-	    emit updateEffect(NULL, m_trackindex, origin, changed, effects.at(i)->effectIndex());
+	    emit updateEffect(NULL, m_trackindex, origin, changed, effects.at(i)->effectIndex(),false);
 	} else {
-	    emit updateEffect(m_clipref, -1, origin, changed, effects.at(i)->effectIndex());
+	    emit updateEffect(m_clipref, -1, origin, changed, effects.at(i)->effectIndex(),false);
 	}
     }
 }

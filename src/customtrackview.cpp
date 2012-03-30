@@ -1287,7 +1287,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             //item->updateKeyframeEffect();
             //QString next = item->keyframes(item->selectedEffectIndex());
             QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
-            EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false);
+            EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
             //EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
             m_commandStack->push(command);
             updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
@@ -1904,7 +1904,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
     setDocumentModified();
 }
 
-void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, int ix, bool triggeredByUser)
+void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, int ix, bool updateEffectStack)
 {
     if (insertedEffect.isNull()) {
         emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
@@ -1942,11 +1942,12 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, clip->speed(), strobe, clip->baseClip()->getId());
             }
             if (clip->updateEffect(effect)) {
-		if (ix == clip->selectedEffectIndex()) {
-		    clip->setSelectedEffect(ix);
-		    if (!triggeredByUser)
+		if (updateEffectStack && clip->isSelected())
 			emit clipItemSelected(clip, ix);
-		}
+		/*if (ix == clip->selectedEffectIndex()) {
+		    clip->setSelectedEffect(ix);
+		    
+		}*/
 	    } else emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             return;
         }
@@ -1969,15 +1970,15 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 clip->setFadeOut(pos);
             }
         }
-	bool success = true;
-        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams)) success = false;
+	bool success = m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams);
 
         if (success && clip->updateEffect(effect)) {
-	    if (ix == clip->selectedEffectIndex()) {
-		clip->setSelectedEffect(ix);
-		if (!triggeredByUser)
-		    emit clipItemSelected(clip, ix);
+	    if (updateEffectStack && clip->isSelected()) {
+		emit clipItemSelected(clip, ix);
 	    }
+	    /*if (ix == clip->selectedEffectIndex()) {
+		clip->setSelectedEffect(ix);
+	    }*/
 	}
 	else emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
     }
@@ -2038,9 +2039,9 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, int effec
 
     if (clip == NULL) {
         // editing track effect
-        command = new EditEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), oldEffect, effect, effectPos, true);
+        command = new EditEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), oldEffect, effect, effectPos, true, true);
     } else {
-        command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, true);
+        command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, true, true);
     }
     m_commandStack->push(command);
     setDocumentModified();;
@@ -2057,11 +2058,11 @@ void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, int cu
     setDocumentModified();
 }
 
-void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix)
+void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix, bool refreshEffectStack)
 {
     EditEffectCommand *command;
-    if (clip) command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldeffect, effect, ix, true);
-    else command = new EditEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), oldeffect, effect, ix, true);
+    if (clip) command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldeffect, effect, ix, refreshEffectStack, true);
+    else command = new EditEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), oldeffect, effect, ix, refreshEffectStack, true);
     m_commandStack->push(command);
 }
 
@@ -2070,7 +2071,7 @@ void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, QString regio
     QDomElement effect = clip->getEffectAt(ix);
     QDomElement oldeffect = effect.cloneNode().toElement();
     effect.setAttribute("region", region);
-    EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldeffect, effect, ix, true);
+    EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldeffect, effect, ix, true, true);
     m_commandStack->push(command);
 }
 
@@ -3769,7 +3770,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         //item->updateKeyframeEffect();
         //QString next = item->keyframes(item->selectedEffectIndex());
         //EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
-        EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false);
+        EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
 
         m_commandStack->push(command);
         updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
@@ -6830,7 +6831,7 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
     if (effects.count()) {
         QMap<int, QDomElement>::const_iterator i = effects.constBegin();
         while (i != effects.constEnd()) {
-            new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), i.value(), item->effectAt(i.key()), i.key(), false, command);
+            new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), i.value(), item->effectAt(i.key()), i.key(), false, false, command);
             ++i;
         }
     }
@@ -6854,7 +6855,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
             kDebug()<<"// RESULT FILTER: "<<i.key()<<"="<< i.value();
             ++i;
         }
-        EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true);
+        EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true);
         m_commandStack->push(command);
         emit clipItemSelected(clip, clip->selectedEffectIndex());
     }

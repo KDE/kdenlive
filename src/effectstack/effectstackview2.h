@@ -184,7 +184,7 @@ private slots:
 signals:
     void removeEffect(ClipItem*, int, QDomElement);
     /**  Parameters for an effect changed, update the filter in playlist */
-    void updateEffect(ClipItem*, int, QDomElement, QDomElement, int);
+    void updateEffect(ClipItem*, int, QDomElement, QDomElement, int,bool);
     /** An effect in stack was moved, we need to regenerate
         all effects for this clip in the playlist */
     void refreshEffectStack(ClipItem *);

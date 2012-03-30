@@ -26,7 +26,7 @@
 #include <QInputDialog>
 #include <QDragEnterEvent>
 #include <QDropEvent>
-
+#include <QMutexLocker>
 
 #include <KDebug>
 #include <KGlobalSettings>
@@ -218,6 +218,7 @@ QWidget *CollapsibleGroup::title() const
 
 void CollapsibleGroup::addGroupEffect(CollapsibleEffect *effect)
 {
+    QMutexLocker lock(&m_mutex);
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
     if (vbox == NULL) {
 	vbox = new QVBoxLayout();
@@ -238,12 +239,14 @@ QString CollapsibleGroup::infoString() const
 
 void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
 {
+    QMutexLocker lock(&m_mutex);
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
     if (vbox == NULL) return;
     for (int i = m_subWidgets.count() - 1; i >= 0 ; i--) {
 	vbox->removeWidget(m_subWidgets.at(i));
 	layout->insertWidget(ix, m_subWidgets.at(i));
         m_subWidgets.at(i)->removeFromGroup();
+	kDebug()<<"// Removing effect at: "<<i;
     }
     m_subWidgets.clear();
 }
@@ -285,6 +288,7 @@ void CollapsibleGroup::dragLeaveEvent(QDragLeaveEvent */*event*/)
 
 void CollapsibleGroup::dropEvent(QDropEvent *event)
 {
+    QMutexLocker lock(&m_mutex);
     framegroup->setProperty("active", false);
     framegroup->setStyleSheet(framegroup->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
@@ -310,6 +314,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 
 void CollapsibleGroup::slotRenameGroup()
 {
+    QMutexLocker lock(&m_mutex);
     m_title->setReadOnly(true);
     if (m_title->text().isEmpty()) m_title->setText(i18n("Effect Group"));
     for (int j = 0; j < m_subWidgets.count(); j++) {
@@ -320,11 +325,13 @@ void CollapsibleGroup::slotRenameGroup()
 
 QList <CollapsibleEffect*> CollapsibleGroup::effects()
 {
+    QMutexLocker lock(&m_mutex);
     return m_subWidgets;
 }
 
 QDomDocument CollapsibleGroup::effectsData()
 {
+    QMutexLocker lock(&m_mutex);
     QDomDocument doc;
     QDomElement list = doc.createElement("list");
     list.setAttribute("name", m_title->text());

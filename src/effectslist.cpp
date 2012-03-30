@@ -303,7 +303,7 @@ QDomElement EffectsList::append(QDomElement e)
     if (!e.isNull()) {
 	result = m_baseElement.appendChild(importNode(e, true)).toElement();
 	if (m_useIndex) {
-	    updateIndexes(m_baseElement.childNodes());
+	    updateIndexes(m_baseElement.childNodes(), m_baseElement.childNodes().count() - 1);
 	}
     }
     return result;
@@ -331,7 +331,7 @@ void EffectsList::removeAt(int ix)
     QDomNodeList effects = m_baseElement.childNodes();
     if (ix <= 0 || ix > effects.count()) return;
     m_baseElement.removeChild(effects.at(ix - 1));
-    if (m_useIndex) updateIndexes(effects);
+    if (m_useIndex) updateIndexes(effects, ix - 1);
 }
 
 QDomElement EffectsList::itemFromIndex(int ix) const
@@ -346,18 +346,21 @@ QDomElement EffectsList::insert(QDomElement effect)
     QDomNodeList effects = m_baseElement.childNodes();
     int ix = effect.attribute("kdenlive_ix").toInt();
     QDomElement result;
-    if (effect.hasAttribute("kdenlive_ix") && ix > effects.count()) result = m_baseElement.appendChild(importNode(effect, true)).toElement();
+    if (effect.hasAttribute("kdenlive_ix") && ix > effects.count()) {
+	ix = effects.count();
+	result = m_baseElement.appendChild(importNode(effect, true)).toElement();
+    }
     else {
         QDomElement listeffect =  effects.at(ix - 1).toElement();
 	result = m_baseElement.insertBefore(importNode(effect, true), listeffect).toElement();
     }
-    if (m_useIndex) updateIndexes(effects);
+    if (m_useIndex) updateIndexes(effects, ix - 1);
     return result;
 }
 
-void EffectsList::updateIndexes(QDomNodeList effects)
+void EffectsList::updateIndexes(QDomNodeList effects, int startIndex)
 {
-    for (int i = 0; i < effects.count(); i++) {
+    for (int i = startIndex; i < effects.count(); i++) {
         QDomElement listeffect =  effects.at(i).toElement();
 	listeffect.setAttribute("kdenlive_ix", i + 1);
     }

@@ -87,7 +87,7 @@ public:
     /** @brief Get am effect with effect index equal to ix. */
     QDomElement effectFromIndex(QDomNodeList effects, int ix);
     /** @brief Update all effects indexes to make sure they are 1, 2, 3, ... */
-    void updateIndexes(QDomNodeList effects);
+    void updateIndexes(QDomNodeList effects, int startIndex);
 
 private:
     QDomElement m_baseElement;

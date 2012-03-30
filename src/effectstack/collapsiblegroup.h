@@ -32,6 +32,7 @@
 #include <QDomElement>
 #include <QToolButton>
 #include <QLineEdit>
+#include <QMutex>
 
 class QFrame;
 
@@ -95,6 +96,7 @@ private:
     EffectInfo m_info;
     int m_index;
     MyEditableLabel *m_title;
+    QMutex m_mutex;
     
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );

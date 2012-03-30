@@ -2470,7 +2470,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(slotActivateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
-            disconnect(m_effectStack, SIGNAL(updateEffect(ClipItem*, int, QDomElement, QDomElement, int)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, int, QDomElement, QDomElement, int)));
+            disconnect(m_effectStack, SIGNAL(updateEffect(ClipItem*, int, QDomElement, QDomElement, int,bool)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, int, QDomElement, QDomElement, int,bool)));
             disconnect(m_effectStack, SIGNAL(removeEffect(ClipItem*, int, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, int, QDomElement)));
 	    disconnect(m_effectStack, SIGNAL(addEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotAddEffect(ClipItem*, QDomElement)));
             disconnect(m_effectStack, SIGNAL(changeEffectState(ClipItem*, int, int, bool)), m_activeTimeline->projectView(), SLOT(slotChangeEffectState(ClipItem*, int, int, bool)));
@@ -2547,7 +2547,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, const QString &, stringMap)), trackView->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, const QString &, stringMap)));
 
-    connect(m_effectStack, SIGNAL(updateEffect(ClipItem*, int, QDomElement, QDomElement, int)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, int, QDomElement, QDomElement, int)));
+    connect(m_effectStack, SIGNAL(updateEffect(ClipItem*, int, QDomElement, QDomElement, int,bool)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, int, QDomElement, QDomElement, int,bool)));
     connect(m_effectStack, SIGNAL(updateClipRegion(ClipItem*, int, QString)), trackView->projectView(), SLOT(slotUpdateClipRegion(ClipItem*, int, QString)));
     connect(m_effectStack, SIGNAL(removeEffect(ClipItem*, int, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, int, QDomElement)));
     connect(m_effectStack, SIGNAL(addEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotAddEffect(ClipItem*, QDomElement)));
