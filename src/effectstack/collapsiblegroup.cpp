@@ -75,8 +75,8 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QStr
     if (firstGroup) buttonUp->setVisible(false);
     if (lastGroup) buttonDown->setVisible(false);
     m_menu = new QMenu;
-    m_menu->addAction(KIcon("view-refresh"), i18n("Reset effect"), this, SLOT(slotResetEffect()));
-    m_menu->addAction(KIcon("document-save"), i18n("Save effect"), this, SLOT(slotSaveEffect()));
+    m_menu->addAction(KIcon("view-refresh"), i18n("Reset Group"), this, SLOT(slotResetGroup()));
+    m_menu->addAction(KIcon("document-save"), i18n("Save Group"), this, SLOT(slotSaveGroup()));
     
     effecticon->setPixmap(KIcon("folder").pixmap(16,16));
     m_menu->addAction(KIcon("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
@@ -151,31 +151,22 @@ void CollapsibleGroup::slotEffectDown()
     emit changeGroupPosition(groupIndex(), false);
 }
 
-void CollapsibleGroup::slotSaveEffect()
+void CollapsibleGroup::slotSaveGroup()
 {
-    QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
+    QString name = QInputDialog::getText(this, i18n("Save Group"), i18n("Name for saved group: "), QLineEdit::Normal, m_title->text());
     if (name.isEmpty()) return;
     QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
     path = path + name + ".xml";
     if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) return;
 
-    /*TODO
-    QDomDocument doc;
-    QDomElement effect = m_effect.cloneNode().toElement();
-    doc.appendChild(doc.importNode(effect, true));
-    effect = doc.firstChild().toElement();
-    effect.removeAttribute("kdenlive_ix");
-    effect.setAttribute("id", name);
-    effect.setAttribute("type", "custom");
-    QDomElement effectname = effect.firstChildElement("name");
-    effect.removeChild(effectname);
-    effectname = doc.createElement("name");
-    QDomText nametext = doc.createTextNode(name);
-    effectname.appendChild(nametext);
-    effect.insertBefore(effectname, QDomNode());
-    QDomElement effectprops = effect.firstChildElement("properties");
-    effectprops.setAttribute("id", name);
-    effectprops.setAttribute("type", "custom");
+    QDomDocument doc = effectsData();
+    QDomElement base = doc.documentElement();
+    QDomNodeList effects = base.elementsByTagName("effect");
+    for (int i = 0; i < effects.count(); i++)
+        effects.at(i).toElement().removeAttribute("kdenlive_ix");
+    
+    base.setAttribute("id", name);
+    base.setAttribute("type", "custom");  
 
     QFile file(path);
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
@@ -183,12 +174,14 @@ void CollapsibleGroup::slotSaveEffect()
         out << doc.toString();
     }
     file.close();
-    emit reloadEffects();*/
+    emit reloadEffects();
 }
 
-void CollapsibleGroup::slotResetEffect()
+void CollapsibleGroup::slotResetGroup()
 {
-    //TODO: emit resetEffect(effectIndex());
+    QMutexLocker lock(&m_mutex);
+    for (int i = 0; i < m_subWidgets.count(); i++)
+        m_subWidgets.at(i)->slotResetEffect();
 }
 
 void CollapsibleGroup::slotSwitch()
@@ -246,7 +239,6 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
 	vbox->removeWidget(m_subWidgets.at(i));
 	layout->insertWidget(ix, m_subWidgets.at(i));
         m_subWidgets.at(i)->removeFromGroup();
-	kDebug()<<"// Removing effect at: "<<i;
     }
     m_subWidgets.clear();
 }
@@ -314,7 +306,6 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 
 void CollapsibleGroup::slotRenameGroup()
 {
-    QMutexLocker lock(&m_mutex);
     m_title->setReadOnly(true);
     if (m_title->text().isEmpty()) m_title->setText(i18n("Effect Group"));
     for (int j = 0; j < m_subWidgets.count(); j++) {

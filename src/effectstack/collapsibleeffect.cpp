@@ -149,8 +149,8 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     //buttonShowComments->setIcon(KIcon("help-about"));
     //buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
     m_menu = new QMenu;
-    m_menu->addAction(KIcon("view-refresh"), i18n("Reset effect"), this, SLOT(slotResetEffect()));
-    m_menu->addAction(KIcon("document-save"), i18n("Save effect"), this, SLOT(slotSaveEffect()));
+    m_menu->addAction(KIcon("view-refresh"), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
+    m_menu->addAction(KIcon("document-save"), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
     
     QDomElement namenode = m_effect.firstChildElement("name");
     if (namenode.isNull()) return;

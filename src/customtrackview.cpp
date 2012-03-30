@@ -2039,9 +2039,9 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, int effec
 
     if (clip == NULL) {
         // editing track effect
-        command = new EditEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), oldEffect, effect, effectPos, true, true);
+        command = new EditEffectCommand(this, m_document->tracksCount() - track, GenTime(-1), oldEffect, effect, effectPos, false, true);
     } else {
-        command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, true, true);
+        command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, false, true);
     }
     m_commandStack->push(command);
     setDocumentModified();;

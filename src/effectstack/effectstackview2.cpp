@@ -186,6 +186,7 @@ void EffectStackView2::setupListView(int ix)
 		connect(group, SIGNAL(moveEffect(int,int,int,QString)), this, SLOT(slotMoveEffect(int,int,int,QString)));
 		connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
 		connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this, SLOT(slotRenameGroup(CollapsibleGroup*)));
+                connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
 		vbox1->addWidget(group);
 		group->installEventFilter( this );
 	    }
@@ -633,6 +634,7 @@ void EffectStackView2::slotCreateGroup(int ix)
     connect(group, SIGNAL(moveEffect(int,int,int,QString)), this , SLOT(slotMoveEffect(int,int,int,QString)));
     connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
     connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
+    connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     l->insertWidget(groupPos, group);
     group->installEventFilter( this );
     group->addGroupEffect(effectToMove);

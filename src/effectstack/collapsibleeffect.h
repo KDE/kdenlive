@@ -149,6 +149,7 @@ public:
 public slots:
     void slotSyncEffectsPos(int pos);
     void slotEnable(bool enable);
+    void slotResetEffect();
 
 private slots:
     void slotSwitch();
@@ -157,7 +158,6 @@ private slots:
     void slotEffectUp();
     void slotEffectDown();
     void slotSaveEffect();
-    void slotResetEffect();
     void slotCreateGroup();
     void slotUnGroup();
 

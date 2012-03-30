@@ -85,8 +85,8 @@ private slots:
     void slotDeleteEffect();
     void slotEffectUp();
     void slotEffectDown();
-    void slotSaveEffect();
-    void slotResetEffect();
+    void slotSaveGroup();
+    void slotResetGroup();
     void slotUnGroup();
     void slotRenameGroup();
 
@@ -114,6 +114,7 @@ signals:
     void addEffect(QDomElement e);
     void unGroup(CollapsibleGroup *);
     void groupRenamed(CollapsibleGroup *);
+    void reloadEffects();
 };
 
 
