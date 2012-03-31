@@ -136,7 +136,7 @@ void HeaderTrack::dropEvent(QDropEvent * event)
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
-    if (e.tagName() == "list") {
+    if (e.tagName() == "effectgroup") {
         // dropped an effect group
         QDomNodeList effectlist = e.elementsByTagName("effect");
         for (int i = 0; i < effectlist.count(); i++) {

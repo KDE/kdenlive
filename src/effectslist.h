@@ -32,6 +32,10 @@
 
 #include <QDomDocument>
 
+namespace Kdenlive {
+  enum EFFECTTYPE { simpleEffect, groupEffect };
+}
+
 class EffectsList: public QDomDocument
 {
 public:

@@ -100,8 +100,14 @@ QStringList EffectsList::effectIdInfo(const int ix) const
 {
     QStringList info;
     QDomElement effect = m_baseElement.childNodes().at(ix).toElement();
-    QDomElement namenode = effect.firstChildElement("name");
-    info << i18n(namenode.text().toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
+    if (effect.tagName() == "effectgroup") {
+	QString groupName = effect.attribute("name");
+	info << groupName << groupName << groupName << QString::number(Kdenlive::groupEffect);
+    }
+    else {
+	QDomElement namenode = effect.firstChildElement("name");
+	info << i18n(namenode.text().toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
+    }
     return info;
 }
 

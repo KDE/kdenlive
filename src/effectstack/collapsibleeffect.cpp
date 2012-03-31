@@ -211,7 +211,7 @@ const QString CollapsibleEffect::getStyleSheet(QPalette p)
     QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
-    QColor midlight_bg = scheme.shade(KColorScheme::MidlightShade);
+    //QColor midlight_bg = scheme.shade(KColorScheme::MidlightShade);
     QColor normal_bg = scheme.background(KColorScheme::AlternateBackground).color();
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
     

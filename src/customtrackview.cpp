@@ -1730,7 +1730,7 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            if (effect.tagName() == "list") {
+            if (effect.tagName() == "effectgroup") {
 		QDomNodeList effectlist = effect.elementsByTagName("effect");
 		for (int j = 0; j < effectlist.count(); j++) {
 		    processEffect(item, effectlist.at(j).toElement(), effectCommand);
@@ -1757,7 +1757,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     QList<QGraphicsItem *> itemList;
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
-    if (effect.tagName() == "list") {
+    if (effect.tagName() == "effectgroup") {
 	effectName = effect.attribute("name");
     } else {
 	QDomElement namenode = effect.firstChildElement("name");
@@ -1786,7 +1786,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-	    if (effect.tagName() == "list") {
+	    if (effect.tagName() == "effectgroup") {
 		QDomNodeList effectlist = effect.elementsByTagName("effect");
 		for (int j = 0; j < effectlist.count(); j++) {
 		    processEffect(item, effectlist.at(j).toElement(), effectCommand);
@@ -6629,7 +6629,7 @@ void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
     
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
-    if (effect.tagName() == "list") {
+    if (effect.tagName() == "effectgroup") {
         effectName = effect.attribute("name");
     } else {
         QDomElement namenode = effect.firstChildElement("name");
@@ -6637,7 +6637,7 @@ void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
         else effectName = i18n("effect");
     }
     effectCommand->setText(i18n("Add %1", effectName));
-    if (effect.tagName() == "list") {
+    if (effect.tagName() == "effectgroup") {
         QDomNodeList effectlist = effect.elementsByTagName("effect");
         for (int j = 0; j < effectlist.count(); j++) {
             QDomElement trackeffect = effectlist.at(j).toElement();

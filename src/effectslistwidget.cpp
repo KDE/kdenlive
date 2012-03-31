@@ -246,7 +246,8 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
 
         if (!effectInfo.isEmpty()) {
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
-            item->setIcon(0, icon);
+	    if (effectInfo.count() == 4) item->setIcon(0, KIcon("folder"));
+            else item->setIcon(0, icon);
             item->setData(0, TypeRole, type);
             item->setData(0, IdRole, effectInfo);
             item->setToolTip(0, effectlist->getInfo(effectInfo.at(0), effectInfo.at(1)));

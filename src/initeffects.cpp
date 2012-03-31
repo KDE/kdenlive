@@ -318,18 +318,25 @@ void initEffects::parseCustomEffectsFile()
     QDomDocument doc;
     QDomNodeList effects;
     QDomElement e;
+    int unknownGroupCount = 0;
     foreach(const QString & filename, fileList) {
         QString itemName = KUrl(path + filename).path();
         QFile file(itemName);
         doc.setContent(&file, false);
         file.close();
-        effects = doc.elementsByTagName("effect");
-        if (effects.count() != 1) {
-            kDebug() << "More than one effect in file " << itemName << ", not supported yet";
-        } else {
-            e = effects.item(0).toElement();
-            effectsMap.insert(e.firstChildElement("name").text().toLower().toUtf8().data(), e);
+	QDomElement base = doc.documentElement();
+        if (base.tagName() == "effectgroup") {
+	    QString groupName = base.attribute("name");
+	    if (groupName.isEmpty()) {
+		groupName = i18n("Group %1", unknownGroupCount);
+		base.setAttribute("name", groupName);
+		unknownGroupCount++;
+	    }
+	    effectsMap.insert(groupName.toLower().toUtf8().data(), base);
+        } else if (base.tagName() == "effect") {
+            effectsMap.insert(e.firstChildElement("name").text().toLower().toUtf8().data(), base);
         }
+        else kDebug() << "Unsupported effect file: " << itemName;
     }
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::customEffects.append(effect);
@@ -343,7 +350,9 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     doc.setContent(&file, false);
     file.close();
     QDomElement documentElement;
-    QDomNodeList effects = doc.elementsByTagName("effect");
+    QDomNodeList effects;
+    QDomElement base = doc.documentElement();
+    effects = doc.elementsByTagName("effect");
 
     if (effects.count() == 0) {
         kDebug() << "Effect broken: " << name;
@@ -404,7 +413,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
         }
 
         // Parse effect information.
-        if ((filtersList.contains(tag) || producersList.contains(tag))) {
+        if (base.tagName() != "effectgroup" && (filtersList.contains(tag) || producersList.contains(tag))) {
             QString type = documentElement.attribute("type", QString());
             if (type == "audio")
                 audioEffectList->append(documentElement);
@@ -413,6 +422,15 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             else
                 videoEffectList->append(documentElement);
         }
+    }
+    if (base.tagName() == "effectgroup") {
+	QString type = base.attribute("type", QString());
+        if (type == "audio")
+                audioEffectList->append(base);
+            else if (type == "custom")
+                customEffectList->append(base);
+            else
+                videoEffectList->append(base);
     }
 }
 

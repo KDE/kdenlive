@@ -162,9 +162,17 @@ void CollapsibleGroup::slotSaveGroup()
     QDomDocument doc = effectsData();
     QDomElement base = doc.documentElement();
     QDomNodeList effects = base.elementsByTagName("effect");
-    for (int i = 0; i < effects.count(); i++)
-        effects.at(i).toElement().removeAttribute("kdenlive_ix");
+    for (int i = 0; i < effects.count(); i++) {
+	QDomElement eff = effects.at(i).toElement();
+        eff.removeAttribute("kdenlive_ix");
+	QString kdenliveInfo = eff.attribute("kdenlive_info");
+	// Make sure all effects have the correct new group name
+	if (kdenliveInfo.count('/') >= 2) {
+	    eff.setAttribute("kdenlive_info", kdenliveInfo.section('/', 0, 1) + "/" + name);
+	}
+    }
     
+    base.setAttribute("name", name);
     base.setAttribute("id", name);
     base.setAttribute("type", "custom");  
 
@@ -324,7 +332,7 @@ QDomDocument CollapsibleGroup::effectsData()
 {
     QMutexLocker lock(&m_mutex);
     QDomDocument doc;
-    QDomElement list = doc.createElement("list");
+    QDomElement list = doc.createElement("effectgroup");
     list.setAttribute("name", m_title->text());
     doc.appendChild(list);
     for (int j = 0; j < m_subWidgets.count(); j++) {
