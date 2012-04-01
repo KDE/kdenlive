@@ -52,6 +52,8 @@ public:
     /** @brief Returns true if this effect wants to keep track of current position in clip. */
     bool effectNeedsSyncPosition() const;
     Monitor *monitor();
+    /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
+    virtual bool eventFilter( QObject * o, QEvent * e );
 
 private:
     /** @brief Deletes all parameter widgets. */

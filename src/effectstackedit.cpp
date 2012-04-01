@@ -50,6 +50,8 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QScrollArea>
+#include <QScrollBar>
+#include <QProgressBar>
 
 // For QDomNode debugging (output into files); leaving here as sample code.
 //#define DEBUG_ESE
@@ -182,6 +184,55 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
     }
 }
 
+bool EffectStackEdit::eventFilter( QObject * o, QEvent * e ) 
+{
+    if (e->type() == QEvent::Wheel) {
+	QWheelEvent *we = static_cast<QWheelEvent *>(e);
+	bool filterWheel = verticalScrollBar() && verticalScrollBar()->isVisible();
+	if (!filterWheel || we->modifiers() != Qt::NoModifier) {
+	    e->accept();
+	    return false;
+	}
+	if (qobject_cast<QAbstractSpinBox*>(o)) {
+	    if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
+	    {
+		e->accept();
+		return false;
+	    }
+	    else
+	    {
+		e->ignore();
+		return true;
+	    }
+	}
+	if (qobject_cast<KComboBox*>(o)) {
+	    if(qobject_cast<KComboBox*>(o)->focusPolicy() == Qt::WheelFocus)
+	    {
+		e->accept();
+		return false;
+	    }
+	    else
+	    {
+		e->ignore();
+		return true;
+	    }
+	}
+	if (qobject_cast<QProgressBar*>(o)) {
+	    if(qobject_cast<QProgressBar*>(o)->focusPolicy() == Qt::WheelFocus)
+	    {
+		e->accept();
+		return false;
+	    }
+	    else
+	    {
+		e->ignore();
+		return true;
+	    }
+	}
+    }
+    return QWidget::eventFilter(o, e);
+}
+
 void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, bool /*isEffect*/)
 {
     if (m_paramWidget) delete m_paramWidget;
@@ -193,6 +244,21 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
+    
+    
+    Q_FOREACH( QSpinBox * sp, m_baseWidget->findChildren<QSpinBox*>() ) {
+        sp->installEventFilter( this );
+        sp->setFocusPolicy( Qt::StrongFocus );
+    }
+    Q_FOREACH( KComboBox * cb, m_baseWidget->findChildren<KComboBox*>() ) {
+	cb->installEventFilter( this );
+        cb->setFocusPolicy( Qt::StrongFocus );
+    }
+    Q_FOREACH( QProgressBar * cb, m_baseWidget->findChildren<QProgressBar*>() ) {
+	cb->installEventFilter( this );
+        cb->setFocusPolicy( Qt::StrongFocus );
+    }
+    
     return;
     /*
     //clearAllItems();

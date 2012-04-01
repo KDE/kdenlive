@@ -127,6 +127,7 @@ public:
     void setupWidget(ItemInfo info, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
     void setActive(bool activate);
+    /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     virtual bool eventFilter( QObject * o, QEvent * e );
     /** @brief Update effect GUI to reflect parameted changes. */
     void updateWidget(ItemInfo info, QDomElement effect, EffectMetaInfo *metaInfo);
