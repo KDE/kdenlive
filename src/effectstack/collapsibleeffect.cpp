@@ -107,14 +107,16 @@ MySpinBox::MySpinBox(QWidget * parent):
     setFocusPolicy(Qt::StrongFocus);
 }
 
-void MySpinBox::focusInEvent(QFocusEvent*)
+void MySpinBox::focusInEvent(QFocusEvent *e)
 {
      setFocusPolicy(Qt::WheelFocus);
+     e->accept();
 }
 
-void MySpinBox::focusOutEvent(QFocusEvent*)
+void MySpinBox::focusOutEvent(QFocusEvent *e)
 {
      setFocusPolicy(Qt::StrongFocus);
+     e->accept();
 }
 
 
@@ -164,7 +166,6 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     effecticon->setPixmap(icon.pixmap(16,16));
     m_menu->addAction(KIcon("folder-new"), i18n("Create Group"), this, SLOT(slotCreateGroup()));
     setupWidget(info, metaInfo);
-    
     setAcceptDrops(true);
     menuButton->setIcon(KIcon("kdenlive-menu"));
     menuButton->setMenu(m_menu);

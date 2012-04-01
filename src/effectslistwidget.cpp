@@ -324,6 +324,8 @@ void EffectsListWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
 	emit applyEffect(currentEffect());
+	e->accept();
+	return;
     }
     QTreeWidget::keyPressEvent(e);
 }
