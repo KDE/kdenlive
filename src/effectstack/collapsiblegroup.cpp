@@ -90,7 +90,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QStr
     connect(enabledBox, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
     connect(buttonUp, SIGNAL(clicked()), this, SLOT(slotEffectUp()));
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
-    connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteEffect()));
+    connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteGroup()));
 
 }
 
@@ -136,9 +136,14 @@ void CollapsibleGroup::slotEnable(bool enable)
     }
 }
 
-void CollapsibleGroup::slotDeleteEffect()
+void CollapsibleGroup::slotDeleteGroup()
 {
-    emit deleteGroup(groupIndex());
+    QDomDocument doc;
+    // delete effects from the last one to the first, otherwise each deletion would trigger an update
+    // in other effects's kdenlive_ix index.
+    for (int i = m_subWidgets.count() - 1; i >= 0; i--)
+        doc.appendChild(doc.importNode(m_subWidgets.at(i)->effect(), true));
+    emit deleteGroup(m_index, doc);
 }
 
 void CollapsibleGroup::slotEffectUp()

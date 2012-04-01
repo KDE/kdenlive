@@ -82,7 +82,7 @@ public slots:
 private slots:
     void slotSwitch();
     void slotShow(bool show);
-    void slotDeleteEffect();
+    void slotDeleteGroup();
     void slotEffectUp();
     void slotEffectDown();
     void slotSaveGroup();
@@ -107,7 +107,7 @@ protected:
 signals:
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix = -1);
-    void deleteGroup(int);
+    void deleteGroup(int, QDomDocument);
     void changeGroupPosition(int, bool);
     void activateEffect(int);
     void moveEffect(int current_pos, int new_pos, int groupIndex, QString groupName);

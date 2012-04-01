@@ -187,6 +187,7 @@ void EffectStackView2::setupListView(int ix)
 		connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
 		connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this, SLOT(slotRenameGroup(CollapsibleGroup*)));
                 connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
+		connect(group, SIGNAL(deleteGroup(int, QDomDocument)), this , SLOT(slotDeleteGroup(int,QDomDocument)));
 		vbox1->addWidget(group);
 		group->installEventFilter( this );
 	    }
@@ -512,6 +513,23 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
     }
 }
 
+void EffectStackView2::slotDeleteGroup(int groupIndex, QDomDocument doc)
+{
+    QDomNodeList effects = doc.elementsByTagName("effect");
+    ClipItem * clip = NULL;
+    int ix;
+    if (m_effectMetaInfo.trackMode) {
+	ix = m_trackindex;
+    }
+    else {
+	clip = m_clipref;
+	ix = -1;
+    }
+    
+    for (int i = 0; i < effects.count(); i++)
+	emit removeEffect(clip, ix, effects.at(i).toElement());
+}
+
 void EffectStackView2::slotDeleteEffect(const QDomElement effect)
 {
     if (m_effectMetaInfo.trackMode)
@@ -635,6 +653,7 @@ void EffectStackView2::slotCreateGroup(int ix)
     connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
     connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
     connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
+    connect(group, SIGNAL(deleteGroup(int, QDomDocument)), this , SLOT(slotDeleteGroup(int,QDomDocument)));
     l->insertWidget(groupPos, group);
     group->installEventFilter( this );
     group->addGroupEffect(effectToMove);

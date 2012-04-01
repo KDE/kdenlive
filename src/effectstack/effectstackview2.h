@@ -138,6 +138,9 @@ private slots:
 
     /** @brief Delete an effect in the stack. */
     void slotDeleteEffect(const QDomElement effect);
+    
+    /** @brief Delete all effect in a group. */
+    void slotDeleteGroup(int groupIndex, QDomDocument doc);
 
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotRenderPos(int pos);
