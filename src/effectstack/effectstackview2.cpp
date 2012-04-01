@@ -665,7 +665,6 @@ void EffectStackView2::slotMoveEffect(int currentIndex, int newIndex, int groupI
     } else {
 	emit updateEffect(m_clipref, -1, oldeffect, neweffect, effectToMove->effectIndex(),false);
     }
-    
     //if (currentIndex == newIndex) return;
     // Update effect index with new position
     if (m_effectMetaInfo.trackMode) {

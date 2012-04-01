@@ -288,7 +288,6 @@ void CollapsibleGroup::dragLeaveEvent(QDragLeaveEvent */*event*/)
 
 void CollapsibleGroup::dropEvent(QDropEvent *event)
 {
-    QMutexLocker lock(&m_mutex);
     framegroup->setProperty("active", false);
     framegroup->setStyleSheet(framegroup->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
@@ -306,7 +305,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 	return;
     }
     if (m_subWidgets.isEmpty()) return;
-    int new_index = m_subWidgets.at(m_subWidgets.count() - 1)->effectIndex();
+    int new_index = m_subWidgets.last()->effectIndex();
     emit moveEffect(ix, new_index, m_index, m_title->text());
     event->setDropAction(Qt::MoveAction);
     event->accept();

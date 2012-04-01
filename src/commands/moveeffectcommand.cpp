@@ -48,6 +48,7 @@ int MoveEffectCommand::id() const
 // virtual
 bool MoveEffectCommand::mergeWith(const QUndoCommand * other)
 {
+    return false;
     if (other->id() != id()) return false;
     if (m_track != static_cast<const MoveEffectCommand*>(other)->m_track) return false;
     if (m_pos != static_cast<const MoveEffectCommand*>(other)->m_pos) return false;
