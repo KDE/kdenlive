@@ -784,7 +784,13 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             KisCurveWidget *curve = new KisCurveWidget(parent);
             curve->setMaxPoints(pa.attribute("max").toInt());
             QList<QPointF> points;
-            int number = EffectsList::parameter(e, pa.attribute("number")).toInt();
+            int number;
+	    if (e.attribute("version").toDouble() > 0.2) {
+		// Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
+                number = EffectsList::parameter(e, pa.attribute("number")).toDouble() * 10 + 0.5;
+            } else {
+                number = EffectsList::parameter(e, pa.attribute("number")).toInt();
+            }
             QString inName = pa.attribute("inpoints");
             QString outName = pa.attribute("outpoints");
             int start = pa.attribute("min").toInt();
@@ -982,7 +988,7 @@ void ParameterContainer::meetDependency(const QString& name, QString type, QStri
     } else if (type == "bezier_spline") {
         BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems[name];
         if (widget) {
-            widget->setMode((BezierSplineWidget::CurveModes)((int)(value.toDouble() * 10)));
+            widget->setMode((BezierSplineWidget::CurveModes)((int)(value.toDouble() * 10 + 0.5)));
         }
     }
 }
@@ -1145,7 +1151,11 @@ void ParameterContainer::slotCollectAllParameters()
             QString outName = pa.attributes().namedItem("outpoints").nodeValue();
             int off = pa.attributes().namedItem("min").nodeValue().toInt();
             int end = pa.attributes().namedItem("max").nodeValue().toInt();
-            EffectsList::setParameter(m_effect, number, QString::number(points.count()));
+            if (oldparam.attribute("version").toDouble() > 0.2) {
+                EffectsList::setParameter(m_effect, number, locale.toString(points.count() / 10.));
+            } else {
+                EffectsList::setParameter(m_effect, number, QString::number(points.count()));
+            }
             for (int j = 0; (j < points.count() && j + off <= end); j++) {
                 QString in = inName;
                 in.replace("%i", QString::number(j + off));
