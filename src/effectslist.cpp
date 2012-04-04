@@ -352,7 +352,7 @@ QDomElement EffectsList::insert(QDomElement effect)
     QDomNodeList effects = m_baseElement.childNodes();
     int ix = effect.attribute("kdenlive_ix").toInt();
     QDomElement result;
-    if (effect.hasAttribute("kdenlive_ix") && ix > effects.count()) {
+    if (ix <= 0 || ix > effects.count()) {
 	ix = effects.count();
 	result = m_baseElement.appendChild(importNode(effect, true)).toElement();
     }

@@ -1415,6 +1415,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
     int ix;
     QDomElement insertedEffect;
     if (!effect.hasAttribute("kdenlive_ix")) {
+	// effect dropped from effect list
         ix = effectsCounter();
     } else ix = effect.attribute("kdenlive_ix").toInt();
     if (!m_effectList.isEmpty() && ix <= m_effectList.count()) {
