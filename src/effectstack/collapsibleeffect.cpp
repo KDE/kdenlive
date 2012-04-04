@@ -205,9 +205,9 @@ CollapsibleEffect::~CollapsibleEffect()
 }
 
 //static
-const QString CollapsibleEffect::getStyleSheet(QPalette p)
+const QString CollapsibleEffect::getStyleSheet()
 {
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
     QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
@@ -216,7 +216,7 @@ const QString CollapsibleEffect::getStyleSheet(QPalette p)
     QColor normal_bg = scheme.background(KColorScheme::AlternateBackground).color();
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
     
-    KColorScheme scheme2(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme2(QApplication::palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor normal_bg2 = scheme2.background(KColorScheme::NormalBackground).color();
     QColor normal_bg3 = scheme2.background(KColorScheme::AlternateBackground).color();
     

@@ -311,6 +311,9 @@ private:
 
     StopmotionWidget *m_stopmotion;
     QTime m_timer;
+    
+    /** @brief Update statusbar stylesheet (in case of color theme change). */
+    void setStatusBarStyleSheet(const QPalette &p);
 
 public slots:
     /** @brief Prepares opening @param url.
@@ -548,6 +551,8 @@ private slots:
     void slotElapsedTime();
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
+    
+    void slotChangePalette();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

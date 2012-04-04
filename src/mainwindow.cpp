@@ -144,6 +144,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     KXmlGuiWindow(parent),
     m_activeDocument(NULL),
     m_activeTimeline(NULL),
+    m_clipMonitor(NULL),
+    m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
 #ifdef USE_JOGSHUTTLE
@@ -630,6 +632,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
             KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
         }
     }
+    
+    connect (KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(slotChangePalette()));
 }
 
 MainWindow::~MainWindow()
@@ -949,12 +953,8 @@ void MainWindow::setupActions()
 
     KToolBar *toolbar = new KToolBar("statusToolBar", this, Qt::BottomToolBarArea);
     toolbar->setMovable(false);
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor buttonBg = scheme.background(KColorScheme::LinkBackground).color();
-    QColor buttonBord = scheme.foreground(KColorScheme::LinkText).color();
-    QColor buttonBord2 = scheme.shade(KColorScheme::LightShade);
-    statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
-    QString style1 = QString("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:hover { background: rgb(%7, %8, %9);border-style: inset; border:1px solid rgb(%7, %8, %9);border-radius: 3px;} QToolButton:checked { background-color: rgb(%1, %2, %3); border-style: inset; border:1px solid rgb(%4, %5, %6);border-radius: 3px;}").arg(buttonBg.red()).arg(buttonBg.green()).arg(buttonBg.blue()).arg(buttonBord.red()).arg(buttonBord.green()).arg(buttonBord.blue()).arg(buttonBord2.red()).arg(buttonBord2.green()).arg(buttonBord2.blue());
+    
+    setStatusBarStyleSheet(palette());
     QString styleBorderless = "QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}";
 
     //create edit mode buttons
@@ -1040,7 +1040,6 @@ void MainWindow::setupActions()
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
 
-    toolbar->setStyleSheet(style1);
     connect(toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
 
     toolbar->addSeparator();
@@ -1681,6 +1680,17 @@ void MainWindow::setupActions()
 void MainWindow::slotDisplayActionMessage(QAction *a)
 {
     statusBar()->showMessage(a->data().toString(), 3000);
+}
+
+void MainWindow::setStatusBarStyleSheet(const QPalette &p)
+{
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    QColor buttonBg = scheme.background(KColorScheme::LinkBackground).color();
+    QColor buttonBord = scheme.foreground(KColorScheme::LinkText).color();
+    QColor buttonBord2 = scheme.shade(KColorScheme::LightShade);
+    statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
+    QString style1 = QString("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:hover { background: %3;border-style: inset; border:1px solid %3;border-radius: 3px;} QToolButton:checked { background-color: %1; border-style: inset; border:1px solid %2;border-radius: 3px;}").arg(buttonBg.name()).arg(buttonBord.name()).arg(buttonBord2.name());
+    statusBar()->setStyleSheet(style1);
 }
 
 void MainWindow::loadLayouts()
@@ -4176,6 +4186,7 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
     }
 
     kapp->setPalette(plt);
+    slotChangePalette();
     const QObjectList children = statusBar()->children();
 
     foreach(QObject * child, children) {
@@ -4186,9 +4197,6 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
             if (subchild->isWidgetType())
                 ((QWidget*)subchild)->setPalette(plt);
         }
-    }
-    if (m_activeTimeline) {
-        m_activeTimeline->projectView()->updatePalette();
     }
 }
 
@@ -4417,6 +4425,23 @@ void MainWindow::slotDownloadResources()
     connect(d, SIGNAL(addClip(KUrl, const QString &)), this, SLOT(slotAddProjectClip(KUrl, const QString &)));
     d->show();
 }
+
+void MainWindow::slotChangePalette()
+{
+    QPalette plt = QApplication::palette();
+    if (m_effectStack) m_effectStack->updatePalette();
+    if (m_projectList) m_projectList->updatePalette();
+    if (m_effectList) m_effectList->updatePalette();
+    
+    if (m_clipMonitor) m_clipMonitor->setPalette(plt);
+    if (m_projectMonitor) m_projectMonitor->setPalette(plt);
+    
+    setStatusBarStyleSheet(plt);
+    if (m_activeTimeline) {
+        m_activeTimeline->updatePalette();
+    }
+}
+
 
 #include "mainwindow.moc"
 

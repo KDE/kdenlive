@@ -49,6 +49,8 @@ public:
     int offset() const;
     void updateProjectFps(Timecode t);
     void updateFrameSize();
+    void updatePalette();
+    
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
     virtual void wheelEvent(QWheelEvent * e);

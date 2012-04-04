@@ -210,4 +210,9 @@ void EffectsListView::slotAutoExpand(QString text)
     if (!selected) m_effectsList->setCurrentItem(NULL);
 }
 
+void EffectsListView::updatePalette()
+{
+    m_effectsList->setStyleSheet(m_effectsList->styleSheet());
+}
+
 #include "effectslistview.moc"

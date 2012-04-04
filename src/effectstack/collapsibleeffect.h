@@ -145,7 +145,7 @@ public:
     bool filterWheelEvent;
     
     /** @brief Return the stylesheet required for effect parameters. */
-    static const QString getStyleSheet(QPalette p);
+    static const QString getStyleSheet();
 
 public slots:
     void slotSyncEffectsPos(int pos);

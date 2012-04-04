@@ -68,13 +68,17 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
     setEnabled(false);
 
     
-    setStyleSheet(CollapsibleEffect::getStyleSheet(palette()));
+    setStyleSheet(CollapsibleEffect::getStyleSheet());
 }
 
 EffectStackView2::~EffectStackView2()
 {
 }
 
+void EffectStackView2::updatePalette()
+{
+    setStyleSheet(CollapsibleEffect::getStyleSheet());
+}
 
 void EffectStackView2::slotRenderPos(int pos)
 {

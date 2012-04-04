@@ -66,6 +66,9 @@ public:
     
     /** @brief Delete currently selected effect. */
     void deleteCurrentEffect();
+    
+    /** @brief Palette was changed, update style. */
+    void updatePalette();
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent * event);

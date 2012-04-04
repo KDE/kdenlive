@@ -41,6 +41,7 @@ public:
     QPoint zone();
     void setMarkers(QList < int > list);
     int position() const;
+    void updatePalette();
 
 protected:
     virtual void paintEvent(QPaintEvent *e);

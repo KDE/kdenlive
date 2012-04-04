@@ -78,6 +78,7 @@ public:
 
     void checkTrackHeight();
     void updateProfile();
+    void updatePalette();
 
 protected:
     virtual void keyPressEvent(QKeyEvent * event);

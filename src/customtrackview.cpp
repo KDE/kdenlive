@@ -6519,7 +6519,6 @@ void CustomTrackView::updatePalette()
         pen1.setColor(palette().text().color());
         m_cursorLine->setPen(pen1);
     }
-    emit tracksChanged();
 }
 
 void CustomTrackView::removeTipAnimation()

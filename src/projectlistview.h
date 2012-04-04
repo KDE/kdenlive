@@ -37,6 +37,7 @@ public:
     ProjectListView(QWidget *parent = 0);
     virtual ~ProjectListView();
     void processLayout();
+    void updateStyleSheet();
 
 protected:
     virtual void contextMenuEvent(QContextMenuEvent * event);

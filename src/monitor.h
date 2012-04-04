@@ -89,6 +89,8 @@ public:
     QWidget *container();
     void reloadProducer(const QString &id);
     QFrame *m_volumePopup;
+    /** @brief Reimplemented from QWidget, updates the palette colors. */
+    void setPalette ( const QPalette & p);
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);

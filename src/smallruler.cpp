@@ -233,4 +233,11 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     p.drawPolygon(pa);
 }
 
+void SmallRuler::updatePalette()
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
+    m_zoneBrush = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, config);
+    updatePixmap();
+}
+
 #include "smallruler.moc"

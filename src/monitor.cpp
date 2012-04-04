@@ -1051,6 +1051,12 @@ void Monitor::reloadProducer(const QString &id)
         slotSetClipProducer(m_currentClip, m_currentClip->zone(), true);
 }
 
+void Monitor::setPalette ( const QPalette & p)
+{
+    QWidget::setPalette(p);
+    if (m_ruler) m_ruler->updatePalette();
+    
+}
 
 Overlay::Overlay(QWidget* parent) :
     QLabel(parent)

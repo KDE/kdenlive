@@ -100,7 +100,7 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     setFrameStyle(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
     
-    setStyleSheet(CollapsibleEffect::getStyleSheet(palette()));
+    setStyleSheet(CollapsibleEffect::getStyleSheet());
     setWidget(m_baseWidget);   
     /*m_vbox = new QVBoxLayout(m_baseWidget);
     m_vbox->setContentsMargins(0, 0, 0, 0);

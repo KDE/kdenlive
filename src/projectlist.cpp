@@ -72,6 +72,7 @@
 #include <QIcon>
 #include <QMenu>
 #include <QProcess>
+#include <QScrollBar>
 #include <QHeaderView>
 #include <QInputDialog>
 #include <QtConcurrentRun>
@@ -84,7 +85,15 @@ SmallInfoLabel::SmallInfoLabel(QWidget *parent) : QPushButton(parent)
     
     /*QString style = "QToolButton {background-color: %1;border-style: outset;border-width: 2px;
      border-radius: 5px;border-color: beige;}";*/
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    m_timeLine = new QTimeLine(500, this);
+    QObject::connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(slotTimeLineChanged(qreal)));
+    QObject::connect(m_timeLine, SIGNAL(finished()), this, SLOT(slotTimeLineFinished()));
+    hide();
+}
+
+const QString SmallInfoLabel::getStyleSheet(const QPalette &p)
+{
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor bg = scheme.background(KColorScheme::LinkBackground).color();
     QColor fg = scheme.foreground(KColorScheme::LinkText).color();
     QString style = QString("QPushButton {padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue());
@@ -93,11 +102,7 @@ SmallInfoLabel::SmallInfoLabel(QWidget *parent) : QPushButton(parent)
     fg = scheme.foreground(KColorScheme::ActiveText).color();
     style.append(QString("\nQPushButton:hover {padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue()));
     
-    setStyleSheet(style);
-    m_timeLine = new QTimeLine(500, this);
-    QObject::connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(slotTimeLineChanged(qreal)));
-    QObject::connect(m_timeLine, SIGNAL(finished()), this, SLOT(slotTimeLineFinished()));
-    hide();
+    return style;
 }
 
 void SmallInfoLabel::slotTimeLineChanged(qreal value)
@@ -233,6 +238,7 @@ ProjectList::ProjectList(QWidget *parent) :
     
     // small info button for pending jobs
     m_infoLabel = new SmallInfoLabel(this);
+    m_infoLabel->setStyleSheet(SmallInfoLabel::getStyleSheet(palette()));
     connect(this, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
     m_jobsMenu = new QMenu(this);
     connect(m_jobsMenu, SIGNAL(aboutToShow()), this, SLOT(slotPrepareJobsMenu()));
@@ -269,7 +275,7 @@ ProjectList::ProjectList(QWidget *parent) :
     frame->setLayout(box);
     layout->addWidget(frame);
 
-    m_listView = new ProjectListView;
+    m_listView = new ProjectListView(this);
     layout->addWidget(m_listView);
     
 #if KDE_IS_VERSION(4,7,0)    
@@ -3446,6 +3452,12 @@ void ProjectList::slotDiscardClipJobs()
     QString id = m_discardCurrentClipJobs->data().toString();
     if (id.isEmpty()) return;
     discardJobs(id);
+}
+
+void ProjectList::updatePalette()
+{
+    m_infoLabel->setStyleSheet(SmallInfoLabel::getStyleSheet(QApplication::palette()));
+    m_listView->updateStyleSheet();
 }
 
 #include "projectlist.moc"
