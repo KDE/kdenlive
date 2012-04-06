@@ -459,6 +459,8 @@ private slots:
     void slotPrepareJobsMenu();
     /** @brief Discard all jobs for current clip. */
     void slotDiscardClipJobs();
+    /** @brief Make sure current clip is visible in project tree. */
+    void slotCheckScrolling();
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);

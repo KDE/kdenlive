@@ -1038,9 +1038,15 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
                 emit projectModified();
                 EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
                 m_commandStack->push(command);
+		QTimer::singleShot(100, this, SLOT(slotCheckScrolling()));
             }
         }
     }
+}
+
+void ProjectList::slotCheckScrolling()
+{
+    m_listView->scrollToItem(m_listView->currentItem());
 }
 
 void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
