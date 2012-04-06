@@ -1941,13 +1941,12 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 if (strobe == 0) strobe = 1;
                 doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), speed, clip->speed(), strobe, clip->baseClip()->getId());
             }
-            if (clip->updateEffect(effect)) {
-		if (updateEffectStack && clip->isSelected())
-			emit clipItemSelected(clip, ix);
-		/*if (ix == clip->selectedEffectIndex()) {
-		    clip->setSelectedEffect(ix);
-		    
-		}*/
+            clip->updateEffect(effect);
+	    if (updateEffectStack && clip->isSelected())
+		emit clipItemSelected(clip, ix);
+	    if (ix == clip->selectedEffectIndex()) {
+		// make sure to update display of clip keyframes
+		clip->setSelectedEffect(ix);
 	    } else emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             return;
         }
@@ -1972,13 +1971,15 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         }
 	bool success = m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams);
 
-        if (success && clip->updateEffect(effect)) {
+        if (success) {
+	    clip->updateEffect(effect);
 	    if (updateEffectStack && clip->isSelected()) {
 		emit clipItemSelected(clip, ix);
 	    }
-	    /*if (ix == clip->selectedEffectIndex()) {
+	    if (ix == clip->selectedEffectIndex()) {
+		// make sure to update display of clip keyframes
 		clip->setSelectedEffect(ix);
-	    }*/
+	    }
 	}
 	else emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
     }

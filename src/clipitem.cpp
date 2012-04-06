@@ -1371,7 +1371,7 @@ QDomElement ClipItem::getEffectAt(int ix) const
     return m_effectList.itemFromIndex(ix);
 }
 
-bool ClipItem::updateEffect(QDomElement effect)
+void ClipItem::updateEffect(QDomElement effect)
 {
     //kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
     m_effectList.updateEffect(effect);
@@ -1384,7 +1384,6 @@ bool ClipItem::updateEffect(QDomElement effect)
         r.setHeight(20);
         update(r);
     }
-    return true;
 }
 
 bool ClipItem::moveEffect(QDomElement effect, int ix)

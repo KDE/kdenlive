@@ -445,7 +445,7 @@ void EffectStackView2::slotUpdateCheckAllButton()
     bool hasDisabled = false;
     
     for (int i = 0; i < m_effects.count(); i++) {
-	if (m_effects.at(i)->enabledBox->isChecked()) hasEnabled = true;
+	if (!m_effects.at(i)->enabledButton->isChecked()) hasEnabled = true;
 	else hasDisabled = true; 
     }
 
@@ -505,15 +505,16 @@ void EffectStackView2::slotUpdateEffectParams(const QDomElement old, const QDomE
 
 void EffectStackView2::slotSetCurrentEffect(int ix)
 {
-    if (m_clipref && ix != m_clipref->selectedEffectIndex())
+    if (m_clipref && ix != m_clipref->selectedEffectIndex()) {
         m_clipref->setSelectedEffect(ix);
-    for (int i = 0; i < m_effects.count(); i++) {
-	if (m_effects.at(i)->effectIndex() == ix) {
-	    m_effects.at(i)->setActive(true);
-	    m_ui.labelComment->setText(i18n(m_effects.at(i)->effect().firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
-	     m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
+	for (int i = 0; i < m_effects.count(); i++) {
+	    if (m_effects.at(i)->effectIndex() == ix) {
+		m_effects.at(i)->setActive(true);
+		m_ui.labelComment->setText(i18n(m_effects.at(i)->effect().firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
+		m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
+	    }
+	    else m_effects.at(i)->setActive(false);
 	}
-        else m_effects.at(i)->setActive(false);
     }
 }
 

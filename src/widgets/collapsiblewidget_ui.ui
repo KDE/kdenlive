@@ -79,23 +79,21 @@
           </widget>
          </item>
          <item>
-          <widget class="KSeparator" name="kseparator">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QToolButton" name="enabledButton">
+           <property name="maximumSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="enabledBox">
            <property name="text">
-            <string/>
+            <string>...</string>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="effecticon">
-           <property name="text">
-            <string/>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -204,13 +202,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KSeparator</class>
-   <extends>QFrame</extends>
-   <header>kseparator.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

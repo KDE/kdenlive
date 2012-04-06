@@ -99,7 +99,7 @@ public:
     /** @brief Replaces an effect.
     * @param ix The effect's index in effectlist
     * @param effect The new effect */
-    bool updateEffect(QDomElement effect);
+    void updateEffect(QDomElement effect);
     bool moveEffect(QDomElement effect, int ix);
     void flashClip();
     void addTransition(Transition*);

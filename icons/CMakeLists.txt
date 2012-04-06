@@ -1,3 +1,8 @@
-#FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.svg*")
-kde4_install_icons( ${DATA_INSTALL_DIR}/kdenlive/icons )
-#install( FILES ${files} DESTINATION ${ICON_INSTALL_DIR} )
+install(FILES
+    visible.png  	
+    novisible.png
+    DESTINATION ${DATA_INSTALL_DIR}/kdenlive/pics)
+    
+kde4_install_icons( ${ICON_INSTALL_DIR}   )
+
+

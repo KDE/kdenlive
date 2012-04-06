@@ -59,6 +59,7 @@
 #include <KFileDialog>
 #include <KUrlRequester>
 #include <KColorScheme>
+#include <KColorUtils>
 
 class Boolval: public QWidget, public Ui::Boolval_UI
 {
@@ -131,7 +132,6 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     filterWheelEvent = true;
     m_info.fromString(effect.attribute("kdenlive_info"));
     setFont(KGlobalSettings::smallestReadableFont());
-   
     buttonUp->setIcon(KIcon("kdenlive-up"));
     buttonUp->setToolTip(i18n("Move effect up"));
     if (!lastEffect) {
@@ -157,13 +157,16 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     QDomElement namenode = m_effect.firstChildElement("name");
     if (namenode.isNull()) return;
     title->setText(i18n(namenode.text().toUtf8().data()));
+    /*
+     * Do not show icon, makes too much visual noise
     QString type = m_effect.attribute("type", QString());
     KIcon icon;
     if (type == "audio") icon = KIcon("kdenlive-show-audio");
     else if (m_effect.attribute("tag") == "region") icon = KIcon("kdenlive-mask-effect");
     else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
     else icon = KIcon("kdenlive-show-video");
-    effecticon->setPixmap(icon.pixmap(16,16));
+    effecticon->setPixmap(icon.pixmap(16,16));*/
+    
     m_menu->addAction(KIcon("folder-new"), i18n("Create Group"), this, SLOT(slotCreateGroup()));
     setupWidget(info, metaInfo);
     setAcceptDrops(true);
@@ -172,14 +175,16 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     
     if (m_effect.attribute("disable") == "1") {
         title->setEnabled(false);
-	enabledBox->setChecked(false);
+	enabledButton->setChecked(true);
+	enabledButton->setIcon(KIcon("novisible"));
     }
     else {
-        enabledBox->setChecked(true);
+        enabledButton->setChecked(false);
+	enabledButton->setIcon(KIcon("visible"));
     }
 
     connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
-    connect(enabledBox, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
+    connect(enabledButton, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
     connect(buttonUp, SIGNAL(clicked()), this, SLOT(slotEffectUp()));
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
     connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteEffect()));
@@ -208,44 +213,40 @@ CollapsibleEffect::~CollapsibleEffect()
 const QString CollapsibleEffect::getStyleSheet()
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
     QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
+    QColor hgh = KColorUtils::mix(QApplication::palette().window().color(), selected_bg, 0.2);
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
-    //QColor midlight_bg = scheme.shade(KColorScheme::MidlightShade);
-    QColor normal_bg = scheme.background(KColorScheme::AlternateBackground).color();
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
-    
-    KColorScheme scheme2(QApplication::palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor normal_bg2 = scheme2.background(KColorScheme::NormalBackground).color();
-    QColor normal_bg3 = scheme2.background(KColorScheme::AlternateBackground).color();
     
     QString stylesheet;
     
     // group editable labels
-    stylesheet.append(QString("MyEditableLabel { background-color: transparent;} "));
+    stylesheet.append(QString("MyEditableLabel { background-color: transparent;color: palette(bright-text);} "));
     
     // effect background
-    stylesheet.append(QString("QFrame#decoframe {border-radius:5px;border:0px solid %1;background:%3;}  QFrame:hover#decoframe {background:%4;} QFrame#decoframe[active=\"true\"] {background:%2;} ").arg(dark_bg.name()).arg(alt_bg.name()).arg(normal_bg2.name()).arg(normal_bg.name()));
+    stylesheet.append(QString("QFrame#decoframe {border-top-left-radius:5px;border-top-right-radius:5px;border-bottom:2px solid palette(mid);border-top:1px solid palette(light);} QFrame#decoframe[active=\"true\"] {background: %1;}").arg(hgh.name()));
+
+    // effect in group background
+    stylesheet.append(QString("QFrame#decoframesub {border-top:1px solid palette(light);}  QFrame#decoframesub[active=\"true\"] {background: %1;}").arg(hgh.name()));
     
-    // effect group background
-    stylesheet.append(QString("QFrame#decoframegroup {border-radius:5px;border:1px solid %1;background:%2;} QFrame#decoframegroup[active=\"true\"] {background:%3;} ").arg(dark_bg.name()).arg(normal_bg2.name()).arg(alt_bg.name()));
+    // group background
+    stylesheet.append(QString("QFrame#decoframegroup {border-top-left-radius:5px;border-top-right-radius:5px;border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
     
     // effect title bar
-    stylesheet.append(QString("QFrame#frame {border-radius: 5px;} QFrame#frame[active=\"true\"] {background:%1;}").arg(selected_bg.name()));
-    
+    stylesheet.append(QString("QFrame#frame {margin-bottom:2px;border-top-left-radius:5px;border-top-right-radius:5px;}  QFrame#frame[target=\"true\"] {background: palette(highlight);}"));
+
     // group effect title bar
-    stylesheet.append(QString("QFrame#framegroup {border-radius: 5px; background: %2;}  QFrame#framegroup[active=\"true\"] {background:%1;} ").arg(selected_bg.name()).arg(normal_bg3.name()));
+    stylesheet.append(QString("QFrame#framegroup {border-top-left-radius:2px;border-top-right-radius:2px;background: palette(dark);}  QFrame#framegroup[target=\"true\"] {background: palette(highlight);} "));
     
-    // draggable effect content bar
-    stylesheet.append(QString("QProgressBar::chunk:horizontal {background: %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %2;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %3;}").arg(normal_bg2.name()).arg(alt_bg.name()).arg(selected_bg.name()));
+    // draggable effect bar content
+    stylesheet.append(QString("QProgressBar::chunk:horizontal {background: palette(button);border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %2;}").arg(alt_bg.name()).arg(selected_bg.name()));
     
-    // draggable effect content bar
-    stylesheet.append(QString("QProgressBar:horizontal {border: 1px solid %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%4;padding: 0px;text-align:left center} QProgressBar:horizontal:disabled {border: 1px solid %5} QProgressBar:horizontal#dragOnly {background: %4} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %3;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}").arg(dark_bg.name()).arg(hover_bg.name()).arg(light_bg.name()).arg(alt_bg.name()).arg(normal_bg2.name()));
-    
+    // draggable effect bar
+    stylesheet.append(QString("QProgressBar:horizontal {border: 1px solid palette(dark);border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%3;padding: 0px;text-align:left center} QProgressBar:horizontal:disabled {border: 1px solid palette(button)} QProgressBar:horizontal#dragOnly {background: %3} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %1;border-right: 0px;background: %2;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %1;}").arg(hover_bg.name()).arg(light_bg.name()).arg(alt_bg.name()));
     
     // spin box for draggable widget
-    stylesheet.append(QString("QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px solid %4;} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} ").arg(dark_bg.name()).arg(hover_bg.name()).arg(selected_bg.name()).arg(normal_bg2.name()));
+    stylesheet.append(QString("QAbstractSpinBox#dragBox {border: 1px solid palette(dark);border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ").arg(hover_bg.name()).arg(selected_bg.name()));
 
     return stylesheet;
 }
@@ -262,6 +263,11 @@ void CollapsibleEffect::slotUnGroup()
 
 bool CollapsibleEffect::eventFilter( QObject * o, QEvent * e ) 
 {
+    if (e->type() == QEvent::Enter) {
+	frame->setProperty("mouseover", true);
+	frame->setStyleSheet(frame->styleSheet());
+	return QWidget::eventFilter(o, e);
+    }
     if (e->type() == QEvent::Wheel) {
 	QWheelEvent *we = static_cast<QWheelEvent *>(e);
 	if (!filterWheelEvent || we->modifiers() != Qt::NoModifier) {
@@ -326,29 +332,31 @@ void CollapsibleEffect::setActive(bool activate)
 
 void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
 {
-    if (frame->underMouse() && collapseButton->isEnabled()) slotSwitch();
-    QWidget::mouseDoubleClickEvent(event);
-}
-
-void CollapsibleEffect::mousePressEvent ( QMouseEvent *event )
-{
-  
-    if (!decoframe->property("active").toBool() && !isGroup()) emit activateEffect(effectIndex());
-    QWidget::mousePressEvent(event);
-}
-
-
-void CollapsibleEffect::slotEnable(bool enable)
-{
-    title->setEnabled(enable);
-    enabledBox->blockSignals(true);
-    enabledBox->setChecked(enable);
-    enabledBox->blockSignals(false);
-    m_effect.setAttribute("disable", enable ? 0 : 1);
-    if (enable || KdenliveSettings::disable_effect_parameters()) {
-	widgetFrame->setEnabled(enable);
+    if (frame->underMouse() && collapseButton->isEnabled()) {
+	event->accept();
+	slotSwitch();
     }
-    emit effectStateChanged(!enable, effectIndex());
+    else event->ignore();
+}
+
+void CollapsibleEffect::mouseReleaseEvent( QMouseEvent *event )
+{
+  if (!decoframe->property("active").toBool()) emit activateEffect(effectIndex());
+  QWidget::mouseReleaseEvent(event);
+}
+
+void CollapsibleEffect::slotEnable(bool disable)
+{
+    title->setEnabled(!disable);
+    enabledButton->blockSignals(true);
+    enabledButton->setChecked(disable);
+    enabledButton->blockSignals(false);
+    enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
+    m_effect.setAttribute("disable", disable ? 1 : 0);
+    if (disable || KdenliveSettings::disable_effect_parameters()) {
+	widgetFrame->setEnabled(!disable);
+    }
+    emit effectStateChanged(disable, effectIndex());
 }
 
 void CollapsibleEffect::slotDeleteEffect()
@@ -480,7 +488,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
 
     if (m_effect.attribute("tag") == "region") {
         QVBoxLayout *vbox = new QVBoxLayout(widgetFrame);
-        vbox->setContentsMargins(2, 0, 2, 0);
+        vbox->setContentsMargins(0, 0, 0, 0);
 	vbox->setSpacing(2);
         QDomNodeList effects =  m_effect.elementsByTagName("effect");
 	QDomNodeList origin_effects =  m_original_effect.elementsByTagName("effect");
@@ -545,7 +553,7 @@ void CollapsibleEffect::slotSyncEffectsPos(int pos)
 void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
-	frame->setProperty("active", true);
+	frame->setProperty("target", true);
 	frame->setStyleSheet(frame->styleSheet());
 	event->acceptProposedAction();
     }
@@ -553,13 +561,13 @@ void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
 
 void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
 {
-    frame->setProperty("active", false);
+    frame->setProperty("target", false);
     frame->setStyleSheet(frame->styleSheet());
 }
 
 void CollapsibleEffect::dropEvent(QDropEvent *event)
 {
-    frame->setProperty("active", false);
+    frame->setProperty("target", false);
     frame->setStyleSheet(frame->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
     //event->acceptProposedAction();
@@ -607,7 +615,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 
     bool stretch = true;
     m_vbox = new QVBoxLayout(parent);
-    m_vbox->setContentsMargins(2, 0, 2, 0);
+    m_vbox->setContentsMargins(4, 0, 4, 0);
     m_vbox->setSpacing(2);
 
     for (int i = 0; i < namenode.count() ; i++) {
@@ -1216,8 +1224,9 @@ void ParameterContainer::slotCollectAllParameters()
             QString val = m_keyframeEditor->getValue(realName);
             elem.setAttribute("keyframes", val);
 
-            if (m_keyframeEditor->isVisibleParam(realName))
+            if (m_keyframeEditor->isVisibleParam(realName)) {
                 elem.setAttribute("intimeline", "1");
+	    }
             else if (elem.hasAttribute("intimeline"))
                 elem.removeAttribute("intimeline");
         } else if (type == "url") {

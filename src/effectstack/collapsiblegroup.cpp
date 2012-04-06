@@ -62,7 +62,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QStr
     setFont(KGlobalSettings::smallestReadableFont());
     QHBoxLayout *l = static_cast <QHBoxLayout *>(framegroup->layout());
     m_title = new MyEditableLabel(this);
-    l->insertWidget(4, m_title);
+    l->insertWidget(3, m_title);
     m_title->setText(groupName.isEmpty() ? i18n("Effect Group") : groupName);
     connect(m_title, SIGNAL(editingFinished()), this, SLOT(slotRenameGroup()));
     buttonUp->setIcon(KIcon("kdenlive-up"));
@@ -78,16 +78,16 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QStr
     m_menu->addAction(KIcon("view-refresh"), i18n("Reset Group"), this, SLOT(slotResetGroup()));
     m_menu->addAction(KIcon("document-save"), i18n("Save Group"), this, SLOT(slotSaveGroup()));
     
-    effecticon->setPixmap(KIcon("folder").pixmap(16,16));
     m_menu->addAction(KIcon("list-remove"), i18n("Ungroup"), this, SLOT(slotUnGroup()));
     setAcceptDrops(true);
     menuButton->setIcon(KIcon("kdenlive-menu"));
     menuButton->setMenu(m_menu);
     
-    enabledBox->setChecked(true);
+    enabledButton->setChecked(false);
+    enabledButton->setIcon(KIcon("visible"));
 
     connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
-    connect(enabledBox, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
+    connect(enabledButton, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
     connect(buttonUp, SIGNAL(clicked()), this, SLOT(slotEffectUp()));
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
     connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteGroup()));
@@ -122,18 +122,15 @@ void CollapsibleGroup::mouseDoubleClickEvent ( QMouseEvent * event )
 }
 
 
-void CollapsibleGroup::slotEnable(bool enable)
+void CollapsibleGroup::slotEnable(bool disable)
 {
-    m_title->setEnabled(enable);
-    enabledBox->blockSignals(true);
-    enabledBox->setChecked(enable);
-    enabledBox->blockSignals(false);
-    QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-    if (vbox == NULL) return;
-    for (int i = 0; i < vbox->count(); i++) {
-	CollapsibleGroup *e = static_cast<CollapsibleGroup *>(vbox->itemAt(i)->widget());
-	if (e) e->enabledBox->setChecked(enable);// slotEnable(enable);
-    }
+    m_title->setEnabled(!disable);
+    enabledButton->blockSignals(true);
+    enabledButton->setChecked(disable);
+    enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
+    enabledButton->blockSignals(false);
+    for (int i = 0; i < m_subWidgets.count(); i++)
+	m_subWidgets.at(i)->slotEnable(disable);
 }
 
 void CollapsibleGroup::slotDeleteGroup()
@@ -234,6 +231,7 @@ void CollapsibleGroup::addGroupEffect(CollapsibleEffect *effect)
     }
     effect->setGroupIndex(groupIndex());
     effect->setGroupName(m_title->text());
+    effect->decoframe->setObjectName("decoframesub");
     m_subWidgets.append(effect);
     vbox->addWidget(effect);
 }
@@ -251,6 +249,7 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
     for (int i = m_subWidgets.count() - 1; i >= 0 ; i--) {
 	vbox->removeWidget(m_subWidgets.at(i));
 	layout->insertWidget(ix, m_subWidgets.at(i));
+	m_subWidgets.at(i)->decoframe->setObjectName("decoframe");
         m_subWidgets.at(i)->removeFromGroup();
     }
     m_subWidgets.clear();
@@ -279,7 +278,7 @@ void CollapsibleGroup::updateTimecodeFormat()
 void CollapsibleGroup::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
-	framegroup->setProperty("active", true);
+	framegroup->setProperty("target", true);
 	framegroup->setStyleSheet(framegroup->styleSheet());
 	event->acceptProposedAction();
     }
@@ -287,13 +286,13 @@ void CollapsibleGroup::dragEnterEvent(QDragEnterEvent *event)
 
 void CollapsibleGroup::dragLeaveEvent(QDragLeaveEvent */*event*/)
 {
-    framegroup->setProperty("active", false);
+    framegroup->setProperty("target", false);
     framegroup->setStyleSheet(framegroup->styleSheet());
 }
 
 void CollapsibleGroup::dropEvent(QDropEvent *event)
 {
-    framegroup->setProperty("active", false);
+    framegroup->setProperty("target", false);
     framegroup->setStyleSheet(framegroup->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
     //event->acceptProposedAction();
