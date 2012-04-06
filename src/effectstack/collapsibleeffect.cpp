@@ -333,8 +333,8 @@ void CollapsibleEffect::setActive(bool activate)
 void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
 {
     if (frame->underMouse() && collapseButton->isEnabled()) {
-	event->accept();
-	slotSwitch();
+        event->accept();
+        slotSwitch();
     }
     else event->ignore();
 }
@@ -353,8 +353,8 @@ void CollapsibleEffect::slotEnable(bool disable)
     enabledButton->blockSignals(false);
     enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
     m_effect.setAttribute("disable", disable ? 1 : 0);
-    if (disable || KdenliveSettings::disable_effect_parameters()) {
-	widgetFrame->setEnabled(!disable);
+    if (!disable || KdenliveSettings::disable_effect_parameters()) {
+        widgetFrame->setEnabled(!disable);
     }
     emit effectStateChanged(disable, effectIndex());
 }
@@ -424,11 +424,11 @@ void CollapsibleEffect::slotShow(bool show)
     widgetFrame->setVisible(show);
     if (show) {
         collapseButton->setArrowType(Qt::DownArrow);
-	m_info.isCollapsed = false;
+        m_info.isCollapsed = false;
     }
     else {
         collapseButton->setArrowType(Qt::RightArrow);
-	m_info.isCollapsed = true;
+        m_info.isCollapsed = true;
     }
     m_effect.setAttribute("kdenlive_info", m_info.toString());
     emit parameterChanged(m_original_effect, m_effect, effectIndex());   
@@ -471,9 +471,9 @@ int CollapsibleEffect::effectIndex() const
 void CollapsibleEffect::updateWidget(ItemInfo info, QDomElement effect, EffectMetaInfo *metaInfo)
 {
     if (m_paramWidget) {
-	// cleanup
-	delete m_paramWidget;
-	m_paramWidget = NULL;
+        // cleanup
+        delete m_paramWidget;
+        m_paramWidget = NULL;
     }
     m_effect = effect;
     setupWidget(info, metaInfo);
@@ -489,9 +489,9 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
     if (m_effect.attribute("tag") == "region") {
         QVBoxLayout *vbox = new QVBoxLayout(widgetFrame);
         vbox->setContentsMargins(0, 0, 0, 0);
-	vbox->setSpacing(2);
+        vbox->setSpacing(2);
         QDomNodeList effects =  m_effect.elementsByTagName("effect");
-	QDomNodeList origin_effects =  m_original_effect.elementsByTagName("effect");
+        QDomNodeList origin_effects =  m_original_effect.elementsByTagName("effect");
         QWidget *container = new QWidget(widgetFrame);
         vbox->addWidget(container);
         m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, container);
