@@ -1,47 +1,99 @@
 <!DOCTYPE kpartgui>
-<effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r">
-        <name>Color Selection</name>
-        <description>Color based alpha selection</description>
-        <author>Marko Cebokli</author>
+<group>
+    <effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r">
+            <name>Color Selection</name>
+            <description>Color based alpha selection</description>
+            <author>Marko Cebokli</author>
         
-        <parameter type="color" name="Color to select" default="0x00FF00">
-                <name>Color to select</name>
-        </parameter>
+            <parameter type="color" name="Color to select" default="0x00FF00">
+                    <name>Color to select</name>
+            </parameter>
         
-        <parameter type="bool" name="Invert selection" default="0">
-                <name>Invert selection</name>
-        </parameter>    
+            <parameter type="bool" name="Invert selection" default="0">
+                    <name>Invert selection</name>
+            </parameter>    
         
-        <parameter type="simplekeyframe" name="Delta R / A / Hue" default="200" min="0" max="1000" factor="1000">
-                <name>Delta R / A / Hue</name>
-        </parameter>
+            <parameter type="simplekeyframe" name="Delta R / A / Hue" default="200" min="0" max="1000" factor="1000">
+                    <name>Delta R / A / Hue</name>
+            </parameter>
         
-        <parameter type="simplekeyframe" name="Delta G / B / Chroma" default="200" min="0" max="1000" factor="1000">
-                <name>Delta G / B / Chroma</name>
-        </parameter>
+            <parameter type="simplekeyframe" name="Delta G / B / Chroma" default="200" min="0" max="1000" factor="1000">
+                    <name>Delta G / B / Chroma</name>
+            </parameter>
         
-        <parameter type="simplekeyframe" name="Delta B / I / I" default="200" min="0" max="1000" factor="1000">
-                <name>Delta B / I / I</name>
-        </parameter>
+            <parameter type="simplekeyframe" name="Delta B / I / I" default="200" min="0" max="1000" factor="1000">
+                    <name>Delta B / I / I</name>
+            </parameter>
         
-        <parameter type="list" name="Selection subspace" default="0.0" paramlist="0.0;0.5;1.0">
-                <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
-                <name>Selection subspace</name>
-        </parameter>
+            <parameter type="list" name="Selection subspace" default="0.0" paramlist="0.0;0.5;1.0">
+                    <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
+                    <name>Selection subspace</name>
+            </parameter>
         
-        <parameter type="list" name="Subspace shape" default="0.0" paramlist="0.0;0.5;1.0">
-                <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
-                <name>Subspace shape</name>
-        </parameter>
+            <parameter type="list" name="Subspace shape" default="0.5" paramlist="0.0;0.5;1.0">
+                    <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
+                    <name>Subspace shape</name>
+            </parameter>
         
-        <parameter type="list" name="Edge mode" default="0.0" paramlist="0.0;0.35;0.60;1.0">
-                <paramlistdisplay>Hard,Fat,Normal,Skinny</paramlistdisplay>
-                <name>Edge mode</name>
-        </parameter>
+            <parameter type="list" name="Edge mode" default="0.0" paramlist="0.0;0.35;0.60;1.0">
+                    <paramlistdisplay>Hard,Fat,Normal,Skinny</paramlistdisplay>
+                    <name>Edge mode</name>
+            </parameter>
         
-        <parameter type="list" name="Operation" default="0.0" paramlist="0.0;0.3;0.5;0.7;1.0">
-                <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
-                <name>Operation</name>
-        </parameter>
+            <parameter type="list" name="Operation" default="0.0" paramlist="0.0;0.3;0.5;0.7;1.0">
+                    <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
+                    <name>Operation</name>
+            </parameter>
+    </effect>
+
+
+    <effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r" version="0.4">
+            <name>Color Selection</name>
+            <description>Color based alpha selection</description>
+            <author>Marko Cebokli</author>
         
-</effect>
+            <parameter type="color" name="Color to select" default="0x00FF00">
+                    <name>Color to select</name>
+            </parameter>
+        
+            <parameter type="bool" name="Invert selection" default="0">
+                    <name>Invert selection</name>
+            </parameter>
+
+            <parameter type="list" name="Selection subspace" default="0.0" paramlist="0.0;0.5;1.0">
+                    <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
+                    <name>Selection subspace</name>
+            </parameter>
+        
+            <parameter type="list" name="Subspace shape" default="0.5" paramlist="0.0;0.5;1.0">
+                    <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
+                    <name>Subspace shape</name>
+            </parameter>
+        
+            <parameter type="list" name="Edge mode" default="0.9" paramlist="0.0;0.35;0.60;0.7;0.9">
+                    <paramlistdisplay>Hard,Fat,Normal,Skinny,Slope</paramlistdisplay>
+                    <name>Edge mode</name>
+            </parameter>
+        
+            <parameter type="simplekeyframe" name="Delta R / A / Hue" default="200" min="0" max="1000" factor="1000">
+                    <name>Delta R / A / Hue</name>
+            </parameter>
+        
+            <parameter type="simplekeyframe" name="Delta G / B / Chroma" default="200" min="0" max="1000" factor="1000">
+                    <name>Delta G / B / Chroma</name>
+            </parameter>
+        
+            <parameter type="simplekeyframe" name="Delta B / I / I" default="200" min="0" max="1000" factor="1000">
+                    <name>Delta B / I / I</name>
+            </parameter>
+        
+            <parameter type="simplekeyframe" name="Slope" default="0" min="0" max="1000" factor="1000">
+                    <name>Slope</name>
+            </parameter>
+        
+            <parameter type="list" name="Operation" default="0.0" paramlist="0.0;0.3;0.5;0.7;1.0">
+                    <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
+                    <name>Operation</name>
+            </parameter>
+    </effect>
+</group>
