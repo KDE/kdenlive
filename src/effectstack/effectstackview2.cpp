@@ -89,7 +89,7 @@ void EffectStackView2::slotRenderPos(int pos)
         m_effects.at(i)->slotSyncEffectsPos(pos);
 }
 
-void EffectStackView2::slotClipItemSelected(ClipItem* c, int ix)
+void EffectStackView2::slotClipItemSelected(ClipItem* c)
 {
     if (c && !c->isEnabled()) return;
     if (c && c == m_clipref) {
@@ -107,12 +107,9 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, int ix)
                 m_ui.checkAll->setText(i18n("Effects for %1").arg(cname));
             }
             m_ui.checkAll->setEnabled(true);
-            ix = c->selectedEffectIndex();
             QString size = c->baseClip()->getProperty("frame_size");
             double factor = c->baseClip()->getProperty("aspect_ratio").toDouble();
             m_effectMetaInfo.frameSize = QPoint((int)(size.section('x', 0, 0).toInt() * factor + 0.5), size.section('x', 1, 1).toInt());
-        } else {
-            ix = 0;
         }
     }
     if (m_clipref == NULL) {
@@ -125,7 +122,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, int ix)
     setEnabled(true);
     m_effectMetaInfo.trackMode = false;
     m_currentEffectList = m_clipref->effectList();
-    setupListView(ix);
+    setupListView();
 }
 
 void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
@@ -138,11 +135,11 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
     m_ui.checkAll->setToolTip(QString());
     m_ui.checkAll->setText(i18n("Effects for track %1").arg(info.trackName.isEmpty() ? QString::number(ix) : info.trackName));
     m_trackindex = ix;
-    setupListView(0);
+    setupListView();
 }
 
 
-void EffectStackView2::setupListView(int ix)
+void EffectStackView2::setupListView()
 {
     blockSignals(true);
     m_draggedEffect = NULL;
@@ -203,6 +200,7 @@ void EffectStackView2::setupListView(int ix)
         kDebug() << "IMPORTED STK: " << doc.toString();*/
 	
 	ItemInfo info;
+	bool isSelected = false;
 	if (m_effectMetaInfo.trackMode) { 
             info.track = m_trackInfo.type;
             info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
@@ -210,16 +208,24 @@ void EffectStackView2::setupListView(int ix)
             info.startPos = GenTime(-1);
             info.track = 0;
 	}
-	else info = m_clipref->info();
+	else {
+	    info = m_clipref->info();
+	}
 
         CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, &m_effectMetaInfo, i == m_currentEffectList.count() - 1, view);
+	if (m_effectMetaInfo.trackMode) {
+	    isSelected = currentEffect->effectIndex() == 1;
+	}
+	else {
+	    isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
+	}
+	if (isSelected) currentEffect->setActive(true);
         m_effects.append(currentEffect);
         if (group) {
 	    group->addGroupEffect(currentEffect);
 	} else {
 	    vbox1->addWidget(currentEffect);
 	}
-	if (currentEffect->effectIndex() == ix) currentEffect->setActive(true);
 
 	// Check drag & drop
 	currentEffect->installEventFilter( this );

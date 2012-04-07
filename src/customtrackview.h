@@ -472,9 +472,8 @@ signals:
     void mousePosition(int);
     /** @brief A clip was selected in timeline, update the effect stack
      *  @param clip The clip
-     *  @param ix The index of currently selected effect
      *  @param raise If true, the effect stack widget will be raised (come to front). */
-    void clipItemSelected(ClipItem *clip, int ix = -1, bool raise = true);
+    void clipItemSelected(ClipItem *clip, bool raise = true);
     void transitionItemSelected(Transition*, int track = 0, QPoint p = QPoint(), bool update = false);
     void activateDocumentMonitor();
     void trackHeightChanged();

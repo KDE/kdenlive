@@ -102,18 +102,16 @@ private:
     /** @brief The current number of groups. */
     int m_groupIndex;
 
-    /** @brief Sets the list of effects according to the clip's effect list.
-    * @param ix Number of the effect to preselect */
-    void setupListView(int ix);
+    /** @brief Sets the list of effects according to the clip's effect list. */
+    void setupListView();
     
     /** @brief Build the drag info and start it. */
     void startDrag();
 
 public slots:
     /** @brief Sets the clip whose effect list should be managed.
-    * @param c Clip whose effect list should be managed
-    * @param ix Effect to preselect */
-    void slotClipItemSelected(ClipItem* c, int ix);
+    * @param c Clip whose effect list should be managed */
+    void slotClipItemSelected(ClipItem* c);
 
     void slotTrackItemSelected(int ix, const TrackInfo info);
    

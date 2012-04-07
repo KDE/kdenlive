@@ -1570,10 +1570,10 @@ void ClipItem::deleteEffect(QString index)
     m_effectList.removeAt(ix);
     m_effectNames = m_effectList.effectNames().join(" / ");
 
-    if (m_effectList.isEmpty() || m_selectedEffect + 1 == ix) {
+    if (m_effectList.isEmpty() || m_selectedEffect == ix) {
         // Current effect was removed
-        if (ix > m_effectList.count() - 1) {
-            setSelectedEffect(m_effectList.count() - 1);
+        if (ix > m_effectList.count()) {
+            setSelectedEffect(m_effectList.count());
         } else setSelectedEffect(ix);
     }
     if (needRepaint) update(boundingRect());
