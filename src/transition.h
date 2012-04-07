@@ -55,7 +55,6 @@ public:
     int transitionEndTrack() const;
     bool hasClip(const ClipItem * clip) const;
     bool belongsToClip(const ClipItem * clip) const;
-    bool invertedTransition() const;
     QString transitionTag() const;
     QStringList transitionInfo() const;
     OPERATIONTYPE operationMode(QPointF pos);
@@ -63,10 +62,7 @@ public:
     static int itemOffset();
     //const QMap < QString, QString > transitionParameters() const;
     void setTransitionParameters(const QDomElement params);
-    void setTransitionDirection(bool inv);
     void setTransitionTrack(int track);
-    //Transition *reparent(ClipItem * clip);
-    bool isValid() const;
 
     /** @brief Links the transition to another track.
      *

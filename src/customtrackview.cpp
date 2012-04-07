@@ -2666,13 +2666,14 @@ int CustomTrackView::duration() const
 
 void CustomTrackView::addTrack(TrackInfo type, int ix)
 {
+    QList <TransitionInfo> transitionInfos;
     if (ix == -1 || ix == m_document->tracksCount()) {
         m_document->insertTrack(0, type);
-        m_document->renderer()->mltInsertTrack(1, type.type == VIDEOTRACK);
+        transitionInfos = m_document->renderer()->mltInsertTrack(1, type.type == VIDEOTRACK);
     } else {
         m_document->insertTrack(m_document->tracksCount() - ix, type);
         // insert track in MLT playlist
-        m_document->renderer()->mltInsertTrack(m_document->tracksCount() - ix, type.type == VIDEOTRACK);
+        transitionInfos = m_document->renderer()->mltInsertTrack(m_document->tracksCount() - ix, type.type == VIDEOTRACK);
 
         double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
         QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
@@ -2714,14 +2715,25 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
                         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
                     }
                 }
-            } else if (item->type() == TRANSITIONWIDGET) {
+            } /*else if (item->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast <Transition *>(item);
                 int track = tr->transitionEndTrack();
                 if (track >= ix) {
                     tr->updateTransitionEndTrack(getPreviousVideoTrack(clipinfo.track));
                 }
-            }
+            }*/
         }
+        // Sync transition tracks with MLT playlist
+        
+        Transition *tr;        
+	TransitionInfo info;
+	for (int i = 0; i < transitionInfos.count(); i++) {
+	    info = transitionInfos.at(i);
+	    tr = getTransitionItem(info);
+	    if (tr) tr->setForcedTrack(info.forceTrack, info.a_track);
+	    else kDebug()<<"// Cannot update TRANSITION AT: "<<info.b_track<<" / "<<info.startPos.frames(m_document->fps()); 
+	}
+	
         resetSelectionGroup(false);
         m_document->renderer()->unlockService(tractor);
     }
@@ -4255,6 +4267,14 @@ ClipItem *CustomTrackView::getClipItemAt(int pos, int track)
 ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track)
 {
     return getClipItemAt((int) pos.frames(m_document->fps()), track);
+}
+
+
+Transition *CustomTrackView::getTransitionItem(TransitionInfo info)
+{
+    int pos = info.startPos.frames(m_document->fps());
+    int track = m_document->tracksCount() - info.b_track;
+    return getTransitionItemAt(pos, track);
 }
 
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track)

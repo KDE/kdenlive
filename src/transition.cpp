@@ -136,17 +136,6 @@ void Transition::setTransitionParameters(const QDomElement params)
     update();
 }
 
-
-bool Transition::invertedTransition() const
-{
-    return false; //m_parameters.attribute("reverse").toInt();
-}
-
-void Transition::setTransitionDirection(bool /*inv*/)
-{
-    //m_parameters.setAttribute("reverse", inv);
-}
-
 int Transition::transitionEndTrack() const
 {
     return m_transitionTrack;
@@ -334,16 +323,6 @@ bool Transition::belongsToClip(const ClipItem * clip) const
 Transition *Transition::clone() {
     return new Transition::Transition(rect(), m_referenceClip, toXML() , m_fps);
 }*/
-
-/*
-Transition *Transition::reparent(ClipItem * clip) {
-    return new Transition::Transition(rect(), clip, toXML(), m_fps, m_referenceClip->startPos());
-}*/
-
-bool Transition::isValid() const
-{
-    return true; //(m_transitionDuration != GenTime());
-}
 
 const ClipItem *Transition::referencedClip() const
 {

@@ -3952,19 +3952,17 @@ void Render::fillSlowMotionProducers()
     }
 }
 
-void Render::mltInsertTrack(int ix, bool videoTrack)
+QList <TransitionInfo> Render::mltInsertTrack(int ix, bool videoTrack)
 {
-    blockSignals(true);
-
     Mlt::Service service(m_mltProducer->parent().get_service());
-    service.lock();
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
-        return;
+        return QList <TransitionInfo> ();
     }
-
+    blockSignals(true);
+    service.lock();
     Mlt::Tractor tractor(service);
-
+    QList <TransitionInfo> transitionInfos;
     Mlt::Playlist playlist;
     int ct = tractor.count();
     if (ix > ct) {
@@ -4006,9 +4004,10 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
 	    nextservice = mlt_service_producer(nextservice);
             int currentbTrack = transition.get_b_track();
             int currentaTrack = transition.get_a_track();
-
 	    bool trackChanged = false;
+	    bool forceTransitionTrack = false;
             if (currentbTrack >= ix) {
+		if (currentbTrack == ix && currentaTrack < ix) forceTransitionTrack = true;
 		currentbTrack++;
 		trackChanged = true;
 	    }
@@ -4016,6 +4015,7 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
 		currentaTrack++;
 		trackChanged = true;
 	    }
+	    kDebug()<<"// Newtrans: "<<currentaTrack<<"/"<<currentbTrack;
 	    
 	    // disconnect all transitions
 	    Mlt::Properties trans_props(transition.get_properties());
@@ -4024,9 +4024,17 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
 	    new_trans_props.inherit(trans_props);
 	    
 	    if (trackChanged) {
-		// Transition track needs to be adjusted  	
+		// Transition track needs to be adjusted
 		cp->set("a_track", currentaTrack);
 		cp->set("b_track", currentbTrack);
+		// Check if transition track was changed and needs to be forced
+		if (forceTransitionTrack) cp->set("force_track", 1);
+		TransitionInfo trInfo;
+		trInfo.startPos = GenTime(transition.get_in(), m_fps);
+		trInfo.a_track = currentaTrack;
+		trInfo.b_track = currentbTrack;
+		trInfo.forceTrack = cp->get_int("force_track");
+		transitionInfos.append(trInfo);
 	    }
 	    trList.append(cp);
 	    field->disconnect_service(transition);
@@ -4055,6 +4063,7 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
     
     service.unlock();
     blockSignals(false);
+    return transitionInfos;
 }
 
 

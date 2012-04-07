@@ -94,6 +94,19 @@ struct ItemInfo {
     int track;
 };
 
+struct TransitionInfo {
+/** startPos is the position where the clip starts on the track */
+    GenTime startPos;
+    /** endPos is the duration where the clip ends on the track */
+    GenTime endPos;
+    /** the track on which the transition is (b_track)*/
+    int b_track;
+    /** the track on which the transition is applied (a_track)*/
+    int a_track;
+    /** Does the user request for a special a_track */
+    bool forceTrack;
+};
+
 struct MltVideoProfile {
     QString path;
     QString description;

@@ -4,6 +4,7 @@
 	<description>Flip your image in any direction</description>
 	<author>Charles Yates</author>
 	<parameter type="list" name="mirror" default="horizontal" paramlist="horizontal;vertical;diagonal;xdiagonal;flip;flop">
+	   <paramlistdisplay>Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop</paramlistdisplay>
 		<name>Mirroring direction</name>
 	</parameter>
 	<parameter type="bool" name="reverse" default="0">
