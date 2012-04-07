@@ -561,13 +561,16 @@ void Render::slotSplitView(bool doit)
         mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
         QString mlt_type = mlt_properties_get(properties, "mlt_type");
         QString resource = mlt_properties_get(properties, "mlt_service");
+	mlt_service nextservicetodisconnect;
 
         while (mlt_type == "transition") {
             QString added = mlt_properties_get(MLT_SERVICE_PROPERTIES(nextservice), "internal_added");
             if (added == "200") {
-                mlt_field_disconnect_service(field->get_field(), nextservice);
+		nextservicetodisconnect = nextservice;
+		nextservice = mlt_service_producer(nextservice);
+		mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
             }
-            nextservice = mlt_service_producer(nextservice);
+            else nextservice = mlt_service_producer(nextservice);
             if (nextservice == NULL) break;
             properties = MLT_SERVICE_PROPERTIES(nextservice);
             mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -3467,6 +3470,7 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
 
     while (mlt_type == "transition") {
         Mlt::Transition transition((mlt_transition) nextservice);
+	nextservice = mlt_service_producer(nextservice);
         int currentTrack = transition.get_b_track();
         int currentIn = (int) transition.get_in();
         int currentOut = (int) transition.get_out();
@@ -3485,7 +3489,6 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
             } else transition.set_in_and_out(new_in, new_out);
             break;
         }
-        nextservice = mlt_service_producer(nextservice);
         if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -3505,12 +3508,16 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
     QList <Mlt::Transition *> trList;
+    mlt_properties insertproperties = tr.get_properties();
+    QString insertresource = mlt_properties_get(insertproperties, "mlt_service");
+    bool isMixTransition = insertresource == "mix";
 
     while (mlt_type == "transition") {
         Mlt::Transition transition((mlt_transition) nextservice);
+	nextservice = mlt_service_producer(nextservice);
         int aTrack = transition.get_a_track();
         int bTrack = transition.get_b_track();
-        if (resource != "mix" && (aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
+        if ((isMixTransition || resource != "mix") && (aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
             Mlt::Properties trans_props(transition.get_properties());
             Mlt::Transition *cp = new Mlt::Transition(*m_mltProfile, transition.get("mlt_service"));
             Mlt::Properties new_trans_props(cp->get_properties());
@@ -3520,7 +3527,6 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
         }
         //else kDebug() << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
 
-        nextservice = mlt_service_producer(nextservice);
         if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -3533,6 +3539,7 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
         //kDebug()<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
+    qDeleteAll(trList);
 }
 
 void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool force)
@@ -3836,29 +3843,29 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
 
-    Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, tag.toUtf8().constData());
+    Mlt::Transition transition(*m_mltProfile, tag.toUtf8().constData());
     if (out != GenTime())
-        transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps) - 1);
+        transition.set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps) - 1);
 
     if (do_refresh && (m_mltProducer->position() < in.frames(m_fps) || m_mltProducer->position() > out.frames(m_fps))) do_refresh = false;
     QMap<QString, QString>::Iterator it;
     QString key;
-    if (xml.attribute("automatic") == "1") transition->set("automatic", 1);
+    if (xml.attribute("automatic") == "1") transition.set("automatic", 1);
     //kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
     if (xml.hasAttribute("id"))
-        transition->set("kdenlive_id", xml.attribute("id").toUtf8().constData());
+        transition.set("kdenlive_id", xml.attribute("id").toUtf8().constData());
     if (xml.hasAttribute("force_track"))
-        transition->set("force_track", xml.attribute("force_track").toInt());
+        transition.set("force_track", xml.attribute("force_track").toInt());
 
     for (it = args.begin(); it != args.end(); ++it) {
         key = it.key();
         if (!it.value().isEmpty())
-            transition->set(key.toUtf8().constData(), it.value().toUtf8().constData());
+            transition.set(key.toUtf8().constData(), it.value().toUtf8().constData());
         //kDebug() << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
     }
     // attach transition
     service.lock();
-    mltPlantTransition(field, *transition, a_track, b_track);
+    mltPlantTransition(field, transition, a_track, b_track);
     // field->plant_transition(*transition, a_track, b_track);
     service.unlock();
     if (do_refresh) refresh();
@@ -3990,20 +3997,41 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
+    Mlt::Field *field = tractor.field();
+    QList <Mlt::Transition *> trList;
 
     while (mlt_type == "transition") {
         if (resource != "mix") {
-            mlt_transition tr = (mlt_transition) nextservice;
-            int currentTrack = mlt_transition_get_b_track(tr);
-            int currentaTrack = mlt_transition_get_a_track(tr);
-            mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
+	    Mlt::Transition transition((mlt_transition) nextservice);
+	    nextservice = mlt_service_producer(nextservice);
+            int currentbTrack = transition.get_b_track();
+            int currentaTrack = transition.get_a_track();
 
-            if (currentTrack >= ix) {
-                mlt_properties_set_int(properties, "b_track", currentTrack + 1);
-                mlt_properties_set_int(properties, "a_track", currentaTrack + 1);
-            }
+	    bool trackChanged = false;
+            if (currentbTrack >= ix) {
+		currentbTrack++;
+		trackChanged = true;
+	    }
+	    if (currentaTrack >= ix) {
+		currentaTrack++;
+		trackChanged = true;
+	    }
+	    
+	    // disconnect all transitions
+	    Mlt::Properties trans_props(transition.get_properties());
+	    Mlt::Transition *cp = new Mlt::Transition(*m_mltProfile, transition.get("mlt_service"));
+	    Mlt::Properties new_trans_props(cp->get_properties());
+	    new_trans_props.inherit(trans_props);
+	    
+	    if (trackChanged) {
+		// Transition track needs to be adjusted  	
+		cp->set("a_track", currentaTrack);
+		cp->set("b_track", currentbTrack);
+	    }
+	    trList.append(cp);
+	    field->disconnect_service(transition);
         }
-        nextservice = mlt_service_producer(nextservice);
+        else nextservice = mlt_service_producer(nextservice);
         if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -4011,18 +4039,21 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
     }
 
     // Add audio mix transition to last track
-    Mlt::Field *field = tractor.field();
-    Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "mix");
-    transition->set("a_track", 1);
-    transition->set("b_track", ct);
-    transition->set("always_active", 1);
-    transition->set("internal_added", 237);
-    transition->set("combine", 1);
-    field->plant_transition(*transition, 1, ct);
-    //mlt_service_unlock(m_mltConsumer->get_service());
+    Mlt::Transition transition(*m_mltProfile, "mix");
+    transition.set("a_track", 1);
+    transition.set("b_track", ct);
+    transition.set("always_active", 1);
+    transition.set("internal_added", 237);
+    transition.set("combine", 1);
+    mltPlantTransition(field, transition, 1, ct);
+    
+    // re-add transitions
+    for (int i = trList.count() - 1; i >= 0; i--) {
+        field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
+    }
+    qDeleteAll(trList);
+    
     service.unlock();
-    //tractor.multitrack()->refresh();
-    //tractor.refresh();
     blockSignals(false);
 }
 
