@@ -27,6 +27,7 @@
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QScrollBar>
 
 
 MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
@@ -250,7 +251,15 @@ void MonitorScene::wheelEvent(QGraphicsSceneWheelEvent* event)
             slotZoomOut(5);
         }
     } else {
-        QGraphicsScene::wheelEvent(event);
+        QAbstractSlider::SliderAction action;
+        if (event->delta() > 0)
+            action = QAbstractSlider::SliderSingleStepSub;
+        else
+            action = QAbstractSlider::SliderSingleStepAdd;
+        if (event->orientation() == Qt::Horizontal)
+            m_view->horizontalScrollBar()->triggerAction(action);
+        else
+            m_view->verticalScrollBar()->triggerAction(action);
     }
 
     event->accept();
