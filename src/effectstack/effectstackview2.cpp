@@ -191,7 +191,7 @@ void EffectStackView2::setupListView(int ix)
 		connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
 		connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this, SLOT(slotRenameGroup(CollapsibleGroup*)));
                 connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
-		connect(group, SIGNAL(deleteGroup(int, QDomDocument)), this , SLOT(slotDeleteGroup(int,QDomDocument)));
+		connect(group, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
 		vbox1->addWidget(group);
 		group->installEventFilter( this );
 	    }
@@ -230,7 +230,7 @@ void EffectStackView2::setupListView(int ix)
 	connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
 	connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
         connect(currentEffect, SIGNAL(changeEffectPosition(int,bool)), this , SLOT(slotMoveEffectUp(int , bool)));
-        connect(currentEffect, SIGNAL(effectStateChanged(bool, int)), this, SLOT(slotUpdateEffectState(bool, int)));
+        connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
         connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
         connect(currentEffect, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
         connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
@@ -360,13 +360,13 @@ void EffectStackView2::startDrag()
 }
 
 
-void EffectStackView2::slotUpdateEffectState(bool disable, int index)
+void EffectStackView2::slotUpdateEffectState(bool disable, int index, bool updateMainStatus)
 {
     if (m_effectMetaInfo.trackMode)
         emit changeEffectState(NULL, m_trackindex, index, disable);
     else
         emit changeEffectState(m_clipref, -1, index, disable);
-    slotUpdateCheckAllButton();
+    if (updateMainStatus) slotUpdateCheckAllButton();
 }
 
 
@@ -424,17 +424,17 @@ void EffectStackView2::clear()
 
 void EffectStackView2::slotCheckAll(int state)
 {
-    if (state == 1) {
-        state = 2;
+    if (state == Qt::PartiallyChecked) {
+        state = Qt::Checked;
         m_ui.checkAll->blockSignals(true);
         m_ui.checkAll->setCheckState(Qt::Checked);
         m_ui.checkAll->blockSignals(false);
     }
 
-    bool disabled = (state != 2);
+    bool disabled = state == Qt::Unchecked;
     for (int i = 0; i < m_effects.count(); i++) {
 	if (!m_effects.at(i)->isGroup()) {
-	    m_effects.at(i)->slotEnable(!disabled);
+	    m_effects.at(i)->slotEnable(disabled, false);
 	}
     }
 }
@@ -518,7 +518,7 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
     }
 }
 
-void EffectStackView2::slotDeleteGroup(int groupIndex, QDomDocument doc)
+void EffectStackView2::slotDeleteGroup(QDomDocument doc)
 {
     QDomNodeList effects = doc.elementsByTagName("effect");
     ClipItem * clip = NULL;
@@ -658,7 +658,7 @@ void EffectStackView2::slotCreateGroup(int ix)
     connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
     connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
     connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
-    connect(group, SIGNAL(deleteGroup(int, QDomDocument)), this , SLOT(slotDeleteGroup(int,QDomDocument)));
+    connect(group, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
     l->insertWidget(groupPos, group);
     group->installEventFilter( this );
     group->addGroupEffect(effectToMove);

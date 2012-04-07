@@ -149,7 +149,7 @@ public:
 
 public slots:
     void slotSyncEffectsPos(int pos);
-    void slotEnable(bool enable);
+    void slotEnable(bool enable, bool updateMainStatus = true);
     void slotResetEffect();
 
 private slots:
@@ -185,7 +185,7 @@ protected:
 signals:
     void parameterChanged(const QDomElement, const QDomElement, int);
     void syncEffectsPos(int);
-    void effectStateChanged(bool, int ix = -1);
+    void effectStateChanged(bool, int ix = -1, bool updateMainStatus = true);
     void deleteEffect(const QDomElement);
     void changeEffectPosition(int, bool);
     void activateEffect(int);

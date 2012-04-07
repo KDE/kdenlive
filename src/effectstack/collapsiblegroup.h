@@ -107,7 +107,7 @@ protected:
 signals:
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix = -1);
-    void deleteGroup(int, QDomDocument);
+    void deleteGroup(QDomDocument);
     void changeGroupPosition(int, bool);
     void activateEffect(int);
     void moveEffect(int current_pos, int new_pos, int groupIndex, QString groupName);

@@ -2724,7 +2724,6 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
             }*/
         }
         // Sync transition tracks with MLT playlist
-        
         Transition *tr;        
 	TransitionInfo info;
 	for (int i = 0; i < transitionInfos.count(); i++) {

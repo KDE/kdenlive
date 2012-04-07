@@ -140,7 +140,7 @@ void CollapsibleGroup::slotDeleteGroup()
     // in other effects's kdenlive_ix index.
     for (int i = m_subWidgets.count() - 1; i >= 0; i--)
         doc.appendChild(doc.importNode(m_subWidgets.at(i)->effect(), true));
-    emit deleteGroup(m_index, doc);
+    emit deleteGroup(doc);
 }
 
 void CollapsibleGroup::slotEffectUp()
