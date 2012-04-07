@@ -242,10 +242,13 @@ void MonitorScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 void MonitorScene::wheelEvent(QGraphicsSceneWheelEvent* event)
 {
     if (event->modifiers() == Qt::ControlModifier) {
-        if (event->delta() > 0)
+        if (event->delta() > 0) {
+            m_view->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
             slotZoomIn(5);
-        else
+            m_view->setTransformationAnchor(QGraphicsView::AnchorViewCenter);
+        } else {
             slotZoomOut(5);
+        }
     } else {
         QGraphicsScene::wheelEvent(event);
     }
