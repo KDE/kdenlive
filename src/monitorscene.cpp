@@ -27,6 +27,7 @@
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QScrollBar>
 
 
 MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
@@ -242,12 +243,23 @@ void MonitorScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 void MonitorScene::wheelEvent(QGraphicsSceneWheelEvent* event)
 {
     if (event->modifiers() == Qt::ControlModifier) {
-        if (event->delta() > 0)
+        if (event->delta() > 0) {
+            m_view->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
             slotZoomIn(5);
-        else
+            m_view->setTransformationAnchor(QGraphicsView::AnchorViewCenter);
+        } else {
             slotZoomOut(5);
+        }
     } else {
-        QGraphicsScene::wheelEvent(event);
+        QAbstractSlider::SliderAction action;
+        if (event->delta() > 0)
+            action = QAbstractSlider::SliderSingleStepSub;
+        else
+            action = QAbstractSlider::SliderSingleStepAdd;
+        if (event->orientation() == Qt::Horizontal)
+            m_view->horizontalScrollBar()->triggerAction(action);
+        else
+            m_view->verticalScrollBar()->triggerAction(action);
     }
 
     event->accept();
