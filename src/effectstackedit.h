@@ -93,7 +93,7 @@ private slots:
     void slotStartFilterJobAction();
 
 signals:
-    void parameterChanged(const QDomElement &, const QDomElement &, int);
+    void parameterChanged(const QDomElement, const QDomElement, int);
     void seekTimeline(int);
     void displayMessage(const QString&, int);
     void checkMonitorPosition(int);

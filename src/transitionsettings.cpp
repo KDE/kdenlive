@@ -64,7 +64,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
 
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
-    connect(m_effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&, int)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
+    connect(m_effectEdit, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement)));
     connect(m_effectEdit, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
 }
@@ -191,7 +191,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
 
 }
 
-void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, const QDomElement &param)
+void TransitionSettings::slotUpdateEffectParams(const QDomElement oldparam, const QDomElement param)
 {
     if (m_usedTransition) {
         m_usedTransition->setTransitionParameters(param);
