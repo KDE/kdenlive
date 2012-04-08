@@ -1252,7 +1252,6 @@ void ParameterContainer::slotCollectAllParameters()
             pa.setAttribute("value", setValue);
 
     }
-    kDebug()<<"// PARAM STK CHANGED";
     emit parameterChanged(oldparam, m_effect, m_effect.attribute("kdenlive_ix").toInt());
 }
 
