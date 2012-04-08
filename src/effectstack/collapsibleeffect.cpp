@@ -769,9 +769,11 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 m_keyframeEditor->addParameter(pa);
             }
         } else if (type == "color") {
+	    if (pa.hasAttribute("paramprefix")) value.remove(0, pa.attribute("paramprefix").size());
             if (value.startsWith('#'))
                 value = value.replace('#', "0x");
             ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, parent);
+	    choosecolor->setAlphaChannelEnabled(true);
             m_vbox->addWidget(choosecolor);
             m_valueItems[paramName] = choosecolor;
             connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
@@ -1086,10 +1088,10 @@ void ParameterContainer::slotCollectAllParameters()
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");
 
     for (int i = 0; i < namenode.count() ; i++) {
-        QDomNode pa = namenode.item(i);
+        QDomElement pa = namenode.item(i).toElement();
         QDomElement na = pa.firstChildElement("name");
-        QString type = pa.attributes().namedItem("type").nodeValue();
-        QString paramName = na.isNull() ? pa.attributes().namedItem("name").nodeValue() : i18n(na.text().toUtf8().data());
+        QString type = pa.attribute("type");
+        QString paramName = na.isNull() ? pa.attribute("name") : i18n(na.text().toUtf8().data());
         if (type == "complex")
             paramName.append("complex");
         else if (type == "position")
@@ -1116,6 +1118,7 @@ void ParameterContainer::slotCollectAllParameters()
         } else if (type == "color") {
             ChooseColorWidget *choosecolor = ((ChooseColorWidget*)m_valueItems.value(paramName));
             setValue = choosecolor->getColor();
+	    if (pa.hasAttribute("paramprefix")) setValue.prepend(pa.attribute("paramprefix"));
         } else if (type == "complex") {
             ComplexParameter *complex = ((ComplexParameter*)m_valueItems.value(paramName));
             namenode.item(i) = complex->getParamDesc();
@@ -1154,11 +1157,11 @@ void ParameterContainer::slotCollectAllParameters()
         } else if (type == "curve") {
             KisCurveWidget *curve = ((KisCurveWidget*)m_valueItems.value(paramName));
             QList<QPointF> points = curve->curve().points();
-            QString number = pa.attributes().namedItem("number").nodeValue();
-            QString inName = pa.attributes().namedItem("inpoints").nodeValue();
-            QString outName = pa.attributes().namedItem("outpoints").nodeValue();
-            int off = pa.attributes().namedItem("min").nodeValue().toInt();
-            int end = pa.attributes().namedItem("max").nodeValue().toInt();
+            QString number = pa.attribute("number");
+            QString inName = pa.attribute("inpoints");
+            QString outName = pa.attribute("outpoints");
+            int off = pa.attribute("min").toInt();
+            int end = pa.attribute("max").toInt();
             if (oldparam.attribute("version").toDouble() > 0.2) {
                 EffectsList::setParameter(m_effect, number, locale.toString(points.count() / 10.));
             } else {
@@ -1172,13 +1175,13 @@ void ParameterContainer::slotCollectAllParameters()
                 EffectsList::setParameter(m_effect, in, locale.toString(points.at(j).x()));
                 EffectsList::setParameter(m_effect, out, locale.toString(points.at(j).y()));
             }
-            QString depends = pa.attributes().namedItem("depends").nodeValue();
+            QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
         } else if (type == "bezier_spline") {
             BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems.value(paramName);
             setValue = widget->spline();
-            QString depends = pa.attributes().namedItem("depends").nodeValue();
+            QString depends = pa.attribute("depends");
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
 #ifdef USE_QJSON
@@ -1219,16 +1222,15 @@ void ParameterContainer::slotCollectAllParameters()
 
             setValue = getWipeString(info);
         } else if ((type == "simplekeyframe" || type == "keyframe") && m_keyframeEditor) {
-            QDomElement elem = pa.toElement();
             QString realName = i18n(na.toElement().text().toUtf8().data());
             QString val = m_keyframeEditor->getValue(realName);
-            elem.setAttribute("keyframes", val);
+            pa.setAttribute("keyframes", val);
 
             if (m_keyframeEditor->isVisibleParam(realName)) {
-                elem.setAttribute("intimeline", "1");
+                pa.setAttribute("intimeline", "1");
 	    }
-            else if (elem.hasAttribute("intimeline"))
-                elem.removeAttribute("intimeline");
+            else if (pa.hasAttribute("intimeline"))
+                pa.removeAttribute("intimeline");
         } else if (type == "url") {
             KUrlRequester *req = ((Urlval*)m_valueItems.value(paramName))->urlwidget;
             setValue = req->url().path();
@@ -1247,7 +1249,7 @@ void ParameterContainer::slotCollectAllParameters()
             setValue = fontfamily->currentFont().family();
         }
         if (!setValue.isNull())
-            pa.attributes().namedItem("value").setNodeValue(setValue);
+            pa.setAttribute("value", setValue);
 
     }
     emit parameterChanged(oldparam, m_effect, m_effect.attribute("kdenlive_ix").toInt());

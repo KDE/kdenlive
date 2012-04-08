@@ -2755,7 +2755,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     int index = params.paramValue("kdenlive_ix").toInt();
     QString tag =  params.paramValue("tag");
 
-    if (!params.paramValue("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle" || params.hasParam("region")) {
+    if (!params.paramValue("keyframes").isEmpty() || (tag == "affine" && params.hasParam("background")) || tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle" || params.hasParam("region")) {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         bool success = mltRemoveEffect(track, position, index, false);
 //         if (!success) kDebug() << "// ERROR Removing effect : " << index;

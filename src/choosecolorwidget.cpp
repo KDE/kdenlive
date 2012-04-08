@@ -33,7 +33,6 @@ static QColor stringToColor(QString strColor)
     bool ok = false;
     QColor color("black");
     int intval = 0;
-
     if (strColor.startsWith("0x")) {
         if (strColor.length() == 10) {
             // 0xRRGGBBAA
@@ -55,6 +54,10 @@ static QColor stringToColor(QString strColor)
                           ( intval >>  8 ) & 0xff,   // g
                           ( intval       ) & 0xff,   // b
                           ( intval >> 24 ) & 0xff ); // a
+	} else if (strColor.length() == 8) {
+	    // 0xRRGGBB
+	    strColor = strColor.replace('#', "0x");
+	    color.setNamedColor(strColor);
         } else {
             // #RRGGBB, #RGB
             color.setNamedColor(strColor);
@@ -68,17 +71,16 @@ static QString colorToString(QColor color, bool alpha)
 {
     QString colorStr;
     QTextStream stream(&colorStr);
-    stream << "#";
+    stream << "0x";
     stream.setIntegerBase(16);
     stream.setFieldWidth(2);
     stream.setFieldAlignment(QTextStream::AlignRight);
     stream.setPadChar('0');
+    stream <<  color.red() << color.green() << color.blue();
     if(alpha)
     {
         stream << color.alpha();
     }
-    stream <<  color.red() << color.green() << color.blue();
-
     return colorStr;
 }
 
