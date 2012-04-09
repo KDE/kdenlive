@@ -65,6 +65,17 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
     connect(m_renderer, SIGNAL(frameUpdated(QImage)), this, SLOT(slotSetBackgroundImage(QImage)));
 }
 
+void MonitorScene::centerView()
+{
+    if (m_view) m_view->centerOn(m_frameBorder);
+}
+
+void MonitorScene::cleanup()
+{
+    // Reset scene rect
+    setSceneRect(QRectF());
+}
+
 void MonitorScene::setUp()
 {
     if (views().count() > 0) {
