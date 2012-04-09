@@ -6691,7 +6691,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
     EffectsParameterList parameters;
     QLocale locale;
     parameters.addParam("tag", effect.attribute("tag"));
-    if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
+    //if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
     parameters.addParam("kdenlive_info", effect.attribute("kdenlive_info"));
     parameters.addParam("id", effect.attribute("id"));
@@ -6699,16 +6699,37 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
     if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));
     if (effect.hasAttribute("in")) parameters.addParam("in", effect.attribute("in"));
     if (effect.hasAttribute("out")) parameters.addParam("out", effect.attribute("out"));
+    if (effect.attribute("id") == "region") {
+	QDomNodeList subeffects = effect.elementsByTagName("effect");
+	for (int i = 0; i < subeffects.count(); i++) {
+	    QDomElement subeffect = subeffects.at(i).toElement();
+	    int subeffectix = subeffect.attribute("region_ix").toInt();
+	    parameters.addParam(QString("filter%1").arg(subeffectix), subeffect.attribute("id"));
+	    parameters.addParam(QString("filter%1.tag").arg(subeffectix), subeffect.attribute("tag"));
+	    parameters.addParam(QString("filter%1.kdenlive_info").arg(subeffectix), subeffect.attribute("kdenlive_info"));
+	    QDomNodeList subparams = subeffect.elementsByTagName("parameter");
+	    adjustEffectParameters(parameters, subparams, QString("filter%1.").arg(subeffectix));
+	}
+    }
 
     QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
+    adjustEffectParameters(parameters, params);
+    
+    return parameters;
+}
+
+
+void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const QString &prefix)
+{
+  QLocale locale;
+  for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
+	QString paramname = prefix + e.attribute("name");
         if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
             // effects with geometry param need in / out synced with the clip, request it...
             parameters.addParam("_sync_in_out", "1");
         }
         if (e.attribute("type") == "simplekeyframe") {
-
             QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
             double factor = e.attribute("factor", "1").toDouble();
             double offset = e.attribute("offset", "0").toDouble();
@@ -6718,7 +6739,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
                 values[j] = pos + "=" + locale.toString(val);
             }
             // kDebug() << "/ / / /SENDING KEYFR:" << values;
-            parameters.addParam(e.attribute("name"), values.join(";"));
+            parameters.addParam(paramname, values.join(";"));
             /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
             parameters.addParam("max", e.attribute("max"));
             parameters.addParam("min", e.attribute("min"));
@@ -6754,14 +6775,14 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
                     fact = e.attribute("factor", "1").toDouble();
                 }
                 double offset = e.attribute("offset", "0").toDouble();
-                parameters.addParam(e.attribute("name"), locale.toString((e.attribute("value").toDouble() - offset) / fact));
+                parameters.addParam(paramname, locale.toString((e.attribute("value").toDouble() - offset) / fact));
             } else {
-                parameters.addParam(e.attribute("name"), e.attribute("value"));
+                parameters.addParam(paramname, e.attribute("value"));
             }
         }
     }
-    return parameters;
 }
+
 
 void CustomTrackView::updateTrackNames(int track, bool added)
 {

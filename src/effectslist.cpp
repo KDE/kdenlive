@@ -203,12 +203,23 @@ void EffectsList::clearList()
 void EffectsList::setParameter(QDomElement effect, const QString &name, const QString &value)
 {
     QDomNodeList params = effect.elementsByTagName("parameter");
+    bool found = false;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute("name") == name) {
             e.setAttribute("value", value);
+	    found = true;
             break;
         }
+    }
+    if (!found) {
+	// create property
+	QDomDocument doc = effect.ownerDocument();
+	QDomElement e = doc.createElement("parameter");
+	e.setAttribute("name", name);
+	QDomText val = doc.createTextNode(value);
+	e.appendChild(val);
+	effect.appendChild(e);
     }
 }
 

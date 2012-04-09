@@ -160,7 +160,10 @@ private slots:
     void slotEffectDown();
     void slotSaveEffect();
     void slotCreateGroup();
+    void slotCreateRegion();
     void slotUnGroup();
+    /** @brief A sub effect parameter was changed */
+    void slotUpdateRegionEffectParams(const QDomElement /*old*/, const QDomElement /*e*/, int /*ix*/);
 
 private:
     ParameterContainer *m_paramWidget;
@@ -174,6 +177,8 @@ private:
     QMenu *m_menu;
     QPoint m_clickPoint;
     EffectInfo m_info;
+    /** @brief True if this is a region effect, which behaves in a special way, like a group. */
+    bool m_regionEffect;
     
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
@@ -202,6 +207,7 @@ signals:
     void moveEffect(int current_pos, int new_pos, int groupIndex, QString groupName);
     void unGroup(CollapsibleEffect *);
     void addEffect(QDomElement e);
+    void createRegion(int, KUrl);
 };
 
 

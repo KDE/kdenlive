@@ -172,8 +172,7 @@ void EffectStackView2::setupListView()
 	EffectInfo effectInfo;
 	effectInfo.fromString(d.attribute("kdenlive_info"));
 	if (effectInfo.groupIndex >= 0) {
-	    // effect is in a group
-	    
+	    // effect is in a group    
 	    for (int j = 0; j < vbox1->count(); j++) {
 		CollapsibleGroup *eff = static_cast<CollapsibleGroup *>(vbox1->itemAt(j)->widget());
 		if (eff->isGroup() &&  eff->groupIndex() == effectInfo.groupIndex) {
@@ -243,6 +242,7 @@ void EffectStackView2::setupListView()
 	connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
 	connect(currentEffect, SIGNAL(moveEffect(int,int,int,QString)), this , SLOT(slotMoveEffect(int,int,int,QString)));
 	connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
+	connect(currentEffect, SIGNAL(createRegion(int,KUrl)), this, SLOT(slotCreateRegion(int,KUrl)));
 	
         //ui.title->setPixmap(icon.pixmap(QSize(12, 12)));
     }
@@ -623,6 +623,65 @@ void EffectStackView2::slotShowComments()
 {
     m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
     emit showComments(m_ui.buttonShowComments->isChecked());
+}
+
+void EffectStackView2::slotCreateRegion(int ix, KUrl url)
+{
+    QDomElement oldeffect = m_currentEffectList.itemFromIndex(ix);
+    QDomElement neweffect = oldeffect.cloneNode().toElement();
+    QDomElement region = MainWindow::videoEffects.getEffectByTag("region", "region").cloneNode().toElement();
+    region.appendChild(region.ownerDocument().importNode(neweffect, true));
+    region.setAttribute("kdenlive_ix", ix);
+    EffectsList::setParameter(region, "resource", url.path());
+    if (m_effectMetaInfo.trackMode)
+        emit updateEffect(NULL, m_trackindex, oldeffect, region, ix,false);
+    else if (m_clipref) {
+        emit updateEffect(m_clipref, -1, oldeffect, region, ix, false);
+        // Make sure the changed effect is currently displayed
+        //slotSetCurrentEffect(ix);
+    }
+    // refresh effect stack
+    ItemInfo info;
+    bool isSelected = false;
+    if (m_effectMetaInfo.trackMode) { 
+	info.track = m_trackInfo.type;
+        info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
+        info.cropStart = GenTime(0);
+        info.startPos = GenTime(-1);
+        info.track = 0;
+    }
+    else {
+	info = m_clipref->info();
+    }
+    CollapsibleEffect *current = getEffectByIndex(ix);
+    m_effects.removeAll(current);
+    current->setEnabled(false);
+    m_currentEffectList.removeAt(ix);
+    m_currentEffectList.insert(region);
+    current->deleteLater();
+    CollapsibleEffect *currentEffect = new CollapsibleEffect(region, m_currentEffectList.itemFromIndex(ix), info, &m_effectMetaInfo, ix == m_currentEffectList.count() - 1, m_ui.container->widget());
+    connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
+    if (m_effectMetaInfo.trackMode) {
+	isSelected = currentEffect->effectIndex() == 1;
+    }
+    else {
+	isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
+    }
+    if (isSelected) currentEffect->setActive(true);
+    m_effects.append(currentEffect);
+    // TODO: region in group?
+    //if (group) {
+    //	group->addGroupEffect(currentEffect);
+    //} else {
+    QVBoxLayout *vbox = static_cast <QVBoxLayout *> (m_ui.container->widget()->layout());
+    vbox->insertWidget(ix, currentEffect);
+    //}
+
+    // Check drag & drop
+    currentEffect->installEventFilter( this );
+	
+    QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));    
+    
 }
 
 void EffectStackView2::slotCreateGroup(int ix)

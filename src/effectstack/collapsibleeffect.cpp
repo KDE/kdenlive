@@ -60,6 +60,7 @@
 #include <KUrlRequester>
 #include <KColorScheme>
 #include <KColorUtils>
+#include <KApplication>
 
 class Boolval: public QWidget, public Ui::Boolval_UI
 {
@@ -126,9 +127,14 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
         m_paramWidget(NULL),
         m_effect(effect),
         m_original_effect(original_effect),
-        m_lastEffect(lastEffect)
+        m_lastEffect(lastEffect),
+        m_regionEffect(false)
 {
     setupUi(this);
+    if (m_effect.attribute("tag") == "region") {
+	m_regionEffect = true;
+	decoframe->setObjectName("decoframegroup");
+    }
     filterWheelEvent = true;
     m_info.fromString(effect.attribute("kdenlive_info"));
     setFont(KGlobalSettings::smallestReadableFont());
@@ -151,12 +157,15 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     //buttonShowComments->setIcon(KIcon("help-about"));
     //buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
     m_menu = new QMenu;
+    if (m_regionEffect) m_menu->addAction(KIcon("document-new"), i18n("Change Region"), this, SLOT(slotResetEffect()));
     m_menu->addAction(KIcon("view-refresh"), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
     m_menu->addAction(KIcon("document-save"), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
     
     QDomElement namenode = m_effect.firstChildElement("name");
     if (namenode.isNull()) return;
-    title->setText(i18n(namenode.text().toUtf8().data()));
+    QString effectname = i18n(namenode.text().toUtf8().data());
+    if (m_regionEffect) effectname.append(":" + KUrl(EffectsList::parameter(m_effect, "resource")).fileName());
+    title->setText(effectname);
     /*
      * Do not show icon, makes too much visual noise
     QString type = m_effect.attribute("type", QString());
@@ -167,7 +176,10 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     else icon = KIcon("kdenlive-show-video");
     effecticon->setPixmap(icon.pixmap(16,16));*/
     
-    m_menu->addAction(KIcon("folder-new"), i18n("Create Group"), this, SLOT(slotCreateGroup()));
+    if (!m_regionEffect) {
+	m_menu->addAction(KIcon("folder-new"), i18n("Create Group"), this, SLOT(slotCreateGroup()));
+	m_menu->addAction(KIcon("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
+    }
     setupWidget(info, metaInfo);
     setAcceptDrops(true);
     menuButton->setIcon(KIcon("kdenlive-menu"));
@@ -254,6 +266,20 @@ const QString CollapsibleEffect::getStyleSheet()
 void CollapsibleEffect::slotCreateGroup()
 {
     emit createGroup(effectIndex());
+}
+
+void CollapsibleEffect::slotCreateRegion()
+{
+    QString allExtensions = ProjectList::getExtensions();
+    const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
+    KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow());
+    d->setOperationMode(KFileDialog::Opening);
+    d->setMode(KFile::File);
+    if (d->exec() == QDialog::Accepted) {
+	KUrl url = d->selectedUrl();
+	if (!url.isEmpty()) emit createRegion(effectIndex(), url);
+    }
+    delete d;
 }
 
 void CollapsibleEffect::slotUnGroup()
@@ -487,6 +513,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
     }
 
     if (m_effect.attribute("tag") == "region") {
+	m_regionEffect = true;
         QVBoxLayout *vbox = new QVBoxLayout(widgetFrame);
         vbox->setContentsMargins(0, 0, 0, 0);
         vbox->setSpacing(2);
@@ -494,10 +521,11 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
         QDomNodeList origin_effects =  m_original_effect.elementsByTagName("effect");
         QWidget *container = new QWidget(widgetFrame);
         vbox->addWidget(container);
-        m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, container);
+       // m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, container);
         for (int i = 0; i < effects.count(); i++) {
             CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, container);
             m_subParamWidgets.append(coll);
+	    connect(coll, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateRegionEffectParams(const QDomElement, const QDomElement, int)));
             //container = new QWidget(widgetFrame);
             vbox->addWidget(coll);
             //p = new ParameterContainer(effects.at(i).toElement(), info, isEffect, container);
@@ -543,6 +571,12 @@ void CollapsibleEffect::updateTimecodeFormat()
         for (int i = 0; i < m_subParamWidgets.count(); i++)
             m_subParamWidgets.at(i)->updateTimecodeFormat();
     }
+}
+
+void CollapsibleEffect::slotUpdateRegionEffectParams(const QDomElement /*old*/, const QDomElement /*e*/, int /*ix*/)
+{
+    kDebug()<<"// EMIT CHANGE SUBEFFECT.....:";
+    emit parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 
 void CollapsibleEffect::slotSyncEffectsPos(int pos)

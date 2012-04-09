@@ -93,7 +93,7 @@ luma
 data_show
 gtkrescale
 watermark
-region
+#region
 resize
 resample
 mono

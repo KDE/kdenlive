@@ -160,6 +160,9 @@ private slots:
     /** @brief Create a group containing effect with ix index. */
     void slotCreateGroup(int ix);
     
+    /** @brief Create a region effect with ix index. */
+    void slotCreateRegion(int ix, KUrl url);
+    
     /** @brief Move an effect into a group.
       ** @param ix the index of effect to move in stack layout
       ** @param group the effect on which the effect was dropped

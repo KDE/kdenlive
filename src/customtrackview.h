@@ -445,6 +445,9 @@ private:
     
     /** @brief Prepare an add clip command for an effect */
     void processEffect(ClipItem *item, QDomElement effect, QUndoCommand *effectCommand);
+    
+    /** @brief Get effect parameters ready for MLT*/
+    void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const QString &prefix = QString());
 
 private slots:
     void slotRefreshGuides();
