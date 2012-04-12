@@ -1734,7 +1734,18 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
             if (effect.tagName() == "effectgroup") {
 		QDomNodeList effectlist = effect.elementsByTagName("effect");
 		for (int j = 0; j < effectlist.count(); j++) {
-		    processEffect(item, effectlist.at(j).toElement(), effectCommand);
+		    QDomElement subeffect = effectlist.at(j).toElement();
+		    if (subeffect.hasAttribute("kdenlive_info")) {
+			// effect is in a group
+			EffectInfo effectInfo;
+			effectInfo.fromString(subeffect.attribute("kdenlive_info"));
+			if (effectInfo.groupIndex < 0) {
+			    // group needs to be appended
+			    effectInfo.groupIndex = item->nextFreeEffectGroupIndex();
+			    subeffect.setAttribute("kdenlive_info", effectInfo.toString());
+			}
+		    }
+		    processEffect(item, subeffect, effectCommand);
 		}
 	    }
             else {
@@ -1790,7 +1801,18 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 	    if (effect.tagName() == "effectgroup") {
 		QDomNodeList effectlist = effect.elementsByTagName("effect");
 		for (int j = 0; j < effectlist.count(); j++) {
-		    processEffect(item, effectlist.at(j).toElement(), effectCommand);
+		    QDomElement subeffect = effectlist.at(j).toElement();
+		    if (subeffect.hasAttribute("kdenlive_info")) {
+			// effect is in a group
+			EffectInfo effectInfo;
+			effectInfo.fromString(subeffect.attribute("kdenlive_info"));
+			if (effectInfo.groupIndex < 0) {
+			    // group needs to be appended
+			    effectInfo.groupIndex = item->nextFreeEffectGroupIndex();
+			    subeffect.setAttribute("kdenlive_info", effectInfo.toString());
+			}
+		    }
+		    processEffect(item, subeffect, effectCommand);
 		}
 	    }
             else processEffect(item, effect, effectCommand);

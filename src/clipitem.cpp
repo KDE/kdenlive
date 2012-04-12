@@ -1629,6 +1629,20 @@ const ItemInfo ClipItem::speedIndependantInfo() const
     return m_speedIndependantInfo;
 }
 
+int ClipItem::nextFreeEffectGroupIndex() const
+{
+    int freeGroupIndex = 0;
+    for (int i = 0; i < m_effectList.count(); i++) {
+        QDomElement effect = m_effectList.at(i);
+	EffectInfo effectInfo;
+	effectInfo.fromString(effect.attribute("kdenlive_info"));
+	if (effectInfo.groupIndex >= freeGroupIndex) {
+	    freeGroupIndex = effectInfo.groupIndex + 1;
+	}
+    }
+    return freeGroupIndex;
+}
+
 //virtual
 void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
@@ -1641,8 +1655,14 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 	if (e.tagName() == "effectgroup") {
 	    // dropped an effect group
 	    QDomNodeList effectlist = e.elementsByTagName("effect");
+	    int freeGroupIndex = nextFreeEffectGroupIndex();
+	    EffectInfo effectInfo;
 	    for (int i = 0; i < effectlist.count(); i++) {
-		effectlist.at(i).toElement().removeAttribute("kdenlive_ix");
+		QDomElement effect = effectlist.at(i).toElement();
+		effectInfo.fromString(effect.attribute("kdenlive_info"));
+		effectInfo.groupIndex = freeGroupIndex;
+		effect.setAttribute("kdenlive_info", effectInfo.toString());
+		effect.removeAttribute("kdenlive_ix");
 	    }
 	} else {
 	    // single effect dropped

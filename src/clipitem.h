@@ -176,6 +176,9 @@ public:
     void resetFrameWidth(int width);
     /** @brief Clip is about to be deleted, block thumbs. */
     void stopThumbs();
+    
+    /** @brief Get a free index value for effect group. */
+    int nextFreeEffectGroupIndex() const;
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

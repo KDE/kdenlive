@@ -167,11 +167,14 @@ void CollapsibleGroup::slotSaveGroup()
     for (int i = 0; i < effects.count(); i++) {
 	QDomElement eff = effects.at(i).toElement();
         eff.removeAttribute("kdenlive_ix");
-	QString kdenliveInfo = eff.attribute("kdenlive_info");
+	EffectInfo info;
+	info.fromString(eff.attribute("kdenlive_info"));
 	// Make sure all effects have the correct new group name
-	if (kdenliveInfo.count('/') >= 2) {
-	    eff.setAttribute("kdenlive_info", kdenliveInfo.section('/', 0, 1) + "/" + name);
-	}
+	info.groupName = name;
+	// Saved effect group should have a group index of -1
+	info.groupIndex = -1;
+	eff.setAttribute("kdenlive_info", info.toString());
+
     }
     
     base.setAttribute("name", name);
