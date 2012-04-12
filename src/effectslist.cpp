@@ -54,6 +54,17 @@ QDomElement EffectsList::getEffectByName(const QString & name) const
     return QDomElement();
 }
 
+
+void EffectsList::initEffect(QDomElement effect) const
+{
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+	QDomElement e = params.item(i).toElement();
+	if (!e.hasAttribute("value"))
+	    e.setAttribute("value", e.attribute("default"));
+    }
+}
+
 QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id) const
 {
     QDomNodeList effects = m_baseElement.childNodes();
@@ -61,22 +72,20 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
         QDomElement effect =  effects.at(i).toElement();
         if (!id.isEmpty()) {
             if (effect.attribute("id") == id) {
-                QDomNodeList params = effect.elementsByTagName("parameter");
-                for (int i = 0; i < params.count(); i++) {
-                    QDomElement e = params.item(i).toElement();
-                    if (!e.hasAttribute("value"))
-                        e.setAttribute("value", e.attribute("default"));
-                }
+		if (effect.tagName() == "effectgroup") {
+		    // Effect group
+		    QDomNodeList subeffects = effect.elementsByTagName("effect");
+		    for (int j = 0; j < subeffects.count(); j++) {
+			QDomElement sub = subeffects.at(j).toElement();
+			initEffect(sub);
+		    }
+		}
+		else initEffect(effect);
                 return effect;
             }
         } else if (!tag.isEmpty()) {
             if (effect.attribute("tag") == tag) {
-                QDomNodeList params = effect.elementsByTagName("parameter");
-                for (int i = 0; i < params.count(); i++) {
-                    QDomElement e = params.item(i).toElement();
-                    if (!e.hasAttribute("value"))
-                        e.setAttribute("value", e.attribute("default"));
-                }
+                initEffect(effect);
                 return effect;
             }
         }
@@ -102,7 +111,7 @@ QStringList EffectsList::effectIdInfo(const int ix) const
     QDomElement effect = m_baseElement.childNodes().at(ix).toElement();
     if (effect.tagName() == "effectgroup") {
 	QString groupName = effect.attribute("name");
-	info << groupName << groupName << groupName << QString::number(Kdenlive::groupEffect);
+	info << groupName << groupName << effect.attribute("id") << QString::number(Kdenlive::groupEffect);
     }
     else {
 	QDomElement namenode = effect.firstChildElement("name");

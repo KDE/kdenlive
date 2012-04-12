@@ -3082,9 +3082,9 @@ void MainWindow::slotAddVideoEffect(QAction *result)
 
     if (info.isEmpty() || info.size() < 3) return;
     QDomElement effect ;
-    if (info.at(2) == QString::number((int) EFFECT_VIDEO))
+    if (info.last() == QString::number((int) EFFECT_VIDEO))
             effect = videoEffects.getEffectByTag(info.at(0), info.at(1));
-    else if (info.at(2) == QString::number((int) EFFECT_AUDIO))
+    else if (info.last() == QString::number((int) EFFECT_AUDIO))
             effect = audioEffects.getEffectByTag(info.at(0), info.at(1));
     else
             effect = customEffects.getEffectByTag(info.at(0), info.at(1));
