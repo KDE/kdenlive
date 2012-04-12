@@ -107,6 +107,9 @@ private:
     
     /** @brief Build the drag info and start it. */
     void startDrag();
+    
+    /** @brief Connect an effect to its signals. */
+    void connectEffect(CollapsibleEffect *currentEffect);
 
 public slots:
     /** @brief Sets the clip whose effect list should be managed.

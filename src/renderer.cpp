@@ -1320,6 +1320,34 @@ void Render::saveZone(KUrl url, QString desc, QPoint zone)
     xmlConsumer.start();
 }
 
+
+bool Render::saveClip(int track, GenTime position, KUrl url, QString desc)
+{
+    // find clip
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+
+    int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
+    if (!clip) {
+        kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
+        return false;
+    }
+    
+    Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.path()).toUtf8().constData());
+    xmlConsumer.set("terminate_on_pause", 1);
+    Mlt::Playlist list;
+    list.insert_at(0, clip, 0);
+    //delete clip;
+    list.set("title", desc.toUtf8().constData());
+    xmlConsumer.connect(list);
+    xmlConsumer.run();
+    kDebug()<<"// SAVED: "<<url;
+    return true;
+}
+
 double Render::fps() const
 {
     return m_fps;
@@ -2532,7 +2560,6 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
 {
     bool updateIndex = false;
     const int filter_ix = params.paramValue("kdenlive_ix").toInt();
-    const QString region =  params.paramValue("region");
     int ct = 0;
     service.lock();
 
@@ -2576,15 +2603,30 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         filter = service.filter(ct);
     }
 
-    // create filter
+    addFilterToService(service, params, duration);
+
+    // re-add following filters
+    for (int i = 0; i < filtersList.count(); i++) {
+        Mlt::Filter *filter = filtersList.at(i);
+        if (updateIndex)
+            filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
+        service.attach(*filter);
+    }
+    service.unlock();
+    if (doRefresh) refresh();
+    return true;
+}
+
+
+bool Render::addFilterToService(Mlt::Service service, EffectsParameterList params, int duration)
+{
+      // create filter
     QString tag =  params.paramValue("tag");
     //kDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     char *filterTag = qstrdup(tag.toUtf8().constData());
     char *filterId = qstrdup(params.paramValue("id").toUtf8().constData());
-    QHash<QString, QString>::Iterator it;
     QString kfr = params.paramValue("keyframes");
-
-    if (!kfr.isEmpty()) {
+  if (!kfr.isEmpty()) {
         QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
         //kDebug() << "// ADDING KEYFRAME EFFECT: " << params.paramValue("keyframes");
         char *starttag = qstrdup(params.paramValue("starttag", "start").toUtf8().constData());
@@ -2645,20 +2687,9 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     } else {
         Mlt::Filter *filter;
         QString prefix;
-        if (!region.isEmpty()) {
-            filter = new Mlt::Filter(*m_mltProfile, "region");
-        } else filter = new Mlt::Filter(*m_mltProfile, filterTag);
+        filter = new Mlt::Filter(*m_mltProfile, filterTag);
         if (filter && filter->is_valid()) {
             filter->set("kdenlive_id", filterId);
-            if (!region.isEmpty()) {
-                filter->set("resource", region.toUtf8().constData());
-                filter->set("kdenlive_ix", params.paramValue("kdenlive_ix").toUtf8().constData());
-                filter->set("filter0", filterTag);
-                prefix = "filter0.";
-                params.removeParam("id");
-                params.removeParam("region");
-                params.removeParam("kdenlive_ix");
-            }
         } else {
             kDebug() << "filter is NULL";
             service.unlock();
@@ -2690,22 +2721,12 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
             //kDebug() << "SOX EFFECTS: " << effectArgs.simplified();
             filter->set("effect", effectArgs.simplified().toUtf8().constData());
         }
-
         // attach filter to the clip
         service.attach(*filter);
     }
+	
     delete[] filterId;
     delete[] filterTag;
-
-    // re-add following filters
-    for (int i = 0; i < filtersList.count(); i++) {
-        Mlt::Filter *filter = filtersList.at(i);
-        if (updateIndex)
-            filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
-        service.attach(*filter);
-    }
-    service.unlock();
-    if (doRefresh) refresh();
     return true;
 }
 
@@ -2755,7 +2776,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     int index = params.paramValue("kdenlive_ix").toInt();
     QString tag =  params.paramValue("tag");
 
-    if (!params.paramValue("keyframes").isEmpty() || (tag == "affine" && params.hasParam("background")) || tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle" || params.hasParam("region")) {
+    if (!params.paramValue("keyframes").isEmpty() || (tag == "affine" && params.hasParam("background")) || tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         bool success = mltRemoveEffect(track, position, index, false);
 //         if (!success) kDebug() << "// ERROR Removing effect : " << index;
@@ -2806,17 +2827,45 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         bool success = mltAddEffect(track, position, params);
         return success;
     }
-    QString prefix;
+    ct = 0;
     QString ser = filter->get("mlt_service");
-    if (ser == "region") prefix = "filter0.";
+    QList <Mlt::Filter *> filtersList;
+    service.lock();
+    if (ser != tag) {
+	// Effect service changes, delete effect and re-add it
+	clip->detach(*filter);	
+	
+	// Delete all effects after deleted one
+	filter = clip->filter(ct);
+        while (filter) {
+            if (filter->get_int("kdenlive_ix") > index) {
+                filtersList.append(filter);
+                clip->detach(*filter);
+	    }
+	    else ct++;
+            filter = clip->filter(ct);
+	}
+	
+	// re-add filter
+	addFilterToService(*clip, params, clip->get_playtime());
+	delete clip;
+	service.unlock();
+
+	if (doRefresh) refresh();
+	return true;
+    }
     if (params.hasParam("_sync_in_out")) {
         // This effect must sync in / out with parent clip
         params.removeParam("_sync_in_out");
         filter->set_in_and_out(clip->get_in(), clip->get_out());
     }
-    service.lock();
+
     for (int j = 0; j < params.count(); j++) {
-        filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
+        filter->set((params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
+    }
+    
+    for (int j = 0; j < filtersList.count(); j++) {
+	clip->attach(*(filtersList.at(j)));
     }
 
     delete clip;

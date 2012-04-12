@@ -538,7 +538,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_timelineContextClipMenu->addAction(actionCollection()->action("clip_in_project_tree"));
     //m_timelineContextClipMenu->addAction(actionCollection()->action("clip_to_project_tree"));
-    m_timelineContextClipMenu->addAction(actionCollection()->action("edit_item_duration"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_item"));
     m_timelineContextClipMenu->addSeparator();
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
@@ -556,7 +555,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_timelineContextClipMenu->addMenu(m_transitionsMenu);
     m_timelineContextClipMenu->addMenu(m_effectsMenu);
 
-    m_timelineContextTransitionMenu->addAction(actionCollection()->action("edit_item_duration"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_item"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
 
@@ -1393,6 +1391,10 @@ void MainWindow::setupActions()
     KAction* editItemDuration = new KAction(KIcon("measure"), i18n("Edit Duration"), this);
     collection.addAction("edit_item_duration", editItemDuration);
     connect(editItemDuration, SIGNAL(triggered(bool)), this, SLOT(slotEditItemDuration()));
+    
+    KAction* saveTimelineClip = new KAction(KIcon("document-save"), i18n("Save clip"), this);
+    collection.addAction("save_timeline_clip", saveTimelineClip);
+    connect(saveTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotSaveTimelineClip()));
 
     KAction* clipInProjectTree = new KAction(KIcon("go-jump-definition"), i18n("Clip in Project Tree"), this);
     collection.addAction("clip_in_project_tree", clipInProjectTree);
@@ -4443,6 +4445,19 @@ void MainWindow::slotChangePalette()
     setStatusBarStyleSheet(plt);
     if (m_activeTimeline) {
         m_activeTimeline->updatePalette();
+    }
+}
+
+void MainWindow::slotSaveTimelineClip()
+{
+    if (m_activeTimeline && m_projectMonitor->render) {
+	ClipItem *clip = m_activeTimeline->projectView()->getActiveClipUnderCursor(true);
+	if (!clip) {
+	    m_messageLabel->setMessage(i18n("Select a clip to save"), InformationMessage);
+	    return;
+	}
+	KUrl url = KFileDialog::getSaveUrl(m_activeDocument->projectFolder(), "video/mlt-playlist");
+	if (!url.isEmpty()) m_projectMonitor->render->saveClip(m_activeDocument->tracksCount() - clip->track(), clip->startPos(), url);
     }
 }
 

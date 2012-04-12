@@ -155,6 +155,9 @@ Q_OBJECT public:
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
 
     void saveZone(KUrl url, QString desc, QPoint zone);
+    
+    /** @brief Save a clip in timeline to an xml playlist. */
+    bool saveClip(int track, GenTime position, KUrl url, QString desc = QString());
 
     /** @brief Returns the speed at which the renderer is currently playing.
      *
@@ -223,6 +226,7 @@ Q_OBJECT public:
 
     /** @brief Adds an effect to a clip in MLT's playlist. */
     bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
+    bool addFilterToService(Mlt::Service service, EffectsParameterList params, int duration);
     bool mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh);
     bool mltAddTrackEffect(int track, EffectsParameterList params);
 

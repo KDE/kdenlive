@@ -225,26 +225,7 @@ void EffectStackView2::setupListView()
 	} else {
 	    vbox1->addWidget(currentEffect);
 	}
-
-	// Check drag & drop
-	currentEffect->installEventFilter( this );
-
-        connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
-	connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString,QString)));
-        connect(currentEffect, SIGNAL(deleteEffect(const QDomElement)), this , SLOT(slotDeleteEffect(const QDomElement)));
-	connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
-	connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
-        connect(currentEffect, SIGNAL(changeEffectPosition(int,bool)), this , SLOT(slotMoveEffectUp(int , bool)));
-        connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
-        connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
-        connect(currentEffect, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
-        connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
-	connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
-	connect(currentEffect, SIGNAL(moveEffect(int,int,int,QString)), this , SLOT(slotMoveEffect(int,int,int,QString)));
-	connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
-	connect(currentEffect, SIGNAL(createRegion(int,KUrl)), this, SLOT(slotCreateRegion(int,KUrl)));
-	
-        //ui.title->setPixmap(icon.pixmap(QSize(12, 12)));
+	connectEffect(currentEffect);
     }
     vbox1->addStretch(10);
     slotUpdateCheckAllButton();
@@ -254,6 +235,25 @@ void EffectStackView2::setupListView()
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
 }
 
+void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
+{
+    // Check drag & drop
+    currentEffect->installEventFilter( this );
+    connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
+    connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString,QString)));
+    connect(currentEffect, SIGNAL(deleteEffect(const QDomElement)), this , SLOT(slotDeleteEffect(const QDomElement)));
+    connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
+    connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
+    connect(currentEffect, SIGNAL(changeEffectPosition(int,bool)), this , SLOT(slotMoveEffectUp(int , bool)));
+    connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
+    connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
+    connect(currentEffect, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
+    connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
+    connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
+    connect(currentEffect, SIGNAL(moveEffect(int,int,int,QString)), this , SLOT(slotMoveEffect(int,int,int,QString)));
+    connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
+    connect(currentEffect, SIGNAL(createRegion(int,KUrl)), this, SLOT(slotCreateRegion(int,KUrl)));
+}
 
 void EffectStackView2::slotCheckWheelEventFilter()
 {
@@ -660,7 +660,8 @@ void EffectStackView2::slotCreateRegion(int ix, KUrl url)
     m_currentEffectList.insert(region);
     current->deleteLater();
     CollapsibleEffect *currentEffect = new CollapsibleEffect(region, m_currentEffectList.itemFromIndex(ix), info, &m_effectMetaInfo, ix == m_currentEffectList.count() - 1, m_ui.container->widget());
-    connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
+    connectEffect(currentEffect);
+    
     if (m_effectMetaInfo.trackMode) {
 	isSelected = currentEffect->effectIndex() == 1;
     }

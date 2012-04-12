@@ -554,6 +554,8 @@ private slots:
     void slotDownloadResources();
     
     void slotChangePalette();
+    /** @brief Save current timeline clip as mlt playlist. */
+    void slotSaveTimelineClip();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
