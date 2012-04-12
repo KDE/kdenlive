@@ -146,9 +146,9 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
     //insertTopLevelItems(0, folders);
 
-    loadEffects(&MainWindow::videoEffects, KIcon("kdenlive-show-video"), misc, &folders, QString::number((int) EFFECT_VIDEO), current, &found);
-    loadEffects(&MainWindow::audioEffects, KIcon("kdenlive-show-audio"), audio, &folders, QString::number((int) EFFECT_AUDIO), current, &found);
-    loadEffects(&MainWindow::customEffects, KIcon("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), QString::number((int) EFFECT_CUSTOM), current, &found);
+    loadEffects(&MainWindow::videoEffects, KIcon("kdenlive-show-video"), misc, &folders, EFFECT_VIDEO, current, &found);
+    loadEffects(&MainWindow::audioEffects, KIcon("kdenlive-show-audio"), audio, &folders, EFFECT_AUDIO, current, &found);
+    loadEffects(&MainWindow::customEffects, KIcon("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
 
     if (!found && !currentFolder.isEmpty()) {
         // previously selected effect was removed, focus on its parent folder
@@ -220,16 +220,17 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     }
 }
 
-void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, const QString type, const QString current, bool *found)
+void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString current, bool *found)
 {
     QStringList effectInfo, l;
     QTreeWidgetItem *parentItem;
     QTreeWidgetItem *item;
     int ct = effectlist->count();
 
+    
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = effectlist->effectIdInfo(ix);
-        effectInfo.append(type);
+        effectInfo.append(QString::number(type));
         parentItem = NULL;
 
         if (folders) {

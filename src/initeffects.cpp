@@ -268,7 +268,10 @@ void initEffects::parseEffectFiles()
     max = MainWindow::customEffects.count();
     for (int i = 0; i < max; ++i) {
         effectInfo = MainWindow::customEffects.at(i);
-        effectsMap.insert(effectInfo.firstChildElement("name").text().toLower().toUtf8().data(), effectInfo);
+	if (effectInfo.tagName() == "effectgroup") {
+	    effectsMap.insert(effectInfo.attribute("name").toLower().toUtf8().data(), effectInfo);
+	}
+        else effectsMap.insert(effectInfo.firstChildElement("name").text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::customEffects.clearList();
     foreach(const QDomElement & effect, effectsMap)
@@ -426,11 +429,11 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     if (base.tagName() == "effectgroup") {
 	QString type = base.attribute("type", QString());
         if (type == "audio")
-                audioEffectList->append(base);
-            else if (type == "custom")
-                customEffectList->append(base);
-            else
-                videoEffectList->append(base);
+            audioEffectList->append(base);
+        else if (type == "custom")
+	    customEffectList->append(base);
+        else
+	    videoEffectList->append(base);
     }
 }
 
