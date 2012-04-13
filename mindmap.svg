@@ -14,8 +14,8 @@
    height="6765.7144"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48+devel r"
-   sodipodi:docname="kdenlive-mindmap.svg"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="mindmap.svg"
    inkscape:export-filename="/data/cworkspace/kdenlive.git/kdenlive/kdenlive-mindmap.png"
    inkscape:export-xdpi="90.003799"
    inkscape:export-ydpi="90.003799">
@@ -1087,16 +1087,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.0875"
-     inkscape:cx="9315.434"
-     inkscape:cy="2634.062"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="8079.501"
+     inkscape:cy="1150.228"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="999"
-     inkscape:window-x="-2"
-     inkscape:window-y="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     inkscape:window-x="-3"
+     inkscape:window-y="-3"
      inkscape:window-maximized="1"
      inkscape:showpageshadow="false"
      showborder="true" />
@@ -2566,5 +2566,27 @@
          x="-3640.9109"
          y="2973.2024"
          id="tspan529">http://en.wikipedia.org/wiki/Safe_area</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3486"
+       y="3808.0583"
+       x="1992.021"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       xml:space="preserve"><tspan
+         y="3808.0583"
+         x="1992.021"
+         id="tspan3488"
+         sodipodi:role="line">Unified keyframing for all effects</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       x="1648.5691"
+       y="3707.043"
+       id="text3490"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3492"
+         x="1648.5691"
+         y="3707.043">Smooth Keyframe interpolation (see Blender)</tspan></text>
   </g>
 </svg>
