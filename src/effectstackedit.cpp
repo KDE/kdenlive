@@ -174,7 +174,7 @@ void EffectStackEdit::meetDependency(const QString& name, QString type, QString 
 
 void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 {
-    m_params.setAttribute(name, value);
+    m_paramWidget->updateParameter(name, value);
 
     if (name == "disable") {
         // if effect is disabled, disable parameters widget
@@ -855,18 +855,5 @@ void EffectStackEdit::slotSyncEffectsPos(int pos)
     emit syncEffectsPos(pos);
 }
 
-void EffectStackEdit::slotStartFilterJobAction()
-{
-    QDomNodeList namenode = m_params.elementsByTagName("parameter");
-    for (int i = 0; i < namenode.count() ; i++) {
-        QDomElement pa = namenode.item(i).toElement();
-        QString type = pa.attribute("type");
-        if (type == "filterjob") {
-            emit startFilterJob(pa.attribute("filtertag"), pa.attribute("filterparams"), pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), pa.attribute("wantedproperties"));
-            kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("wantedproperties");
-            break;
-        }
-    }
-}
 
 

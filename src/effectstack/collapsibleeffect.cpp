@@ -1334,6 +1334,11 @@ QString ParameterContainer::getWipeString(wipeInfo info)
     return QString(start + ";-1=" + end);
 }
 
+void ParameterContainer::updateParameter(const QString &key, const QString &value)
+{
+    m_effect.setAttribute(key, value);
+}
+
 void ParameterContainer::slotStartFilterJobAction()
 {
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");

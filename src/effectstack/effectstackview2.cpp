@@ -54,6 +54,7 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
     m_effectMetaInfo.trackMode = false;
     m_effectMetaInfo.monitor = monitor;
     m_effects = QList <CollapsibleEffect*>();
+    setAcceptDrops(true);
 
     m_ui.setupUi(this);
     setFont(KGlobalSettings::smallestReadableFont());
@@ -786,6 +787,58 @@ void EffectStackView2::slotRenameGroup(CollapsibleGroup *group)
 	    emit updateEffect(m_clipref, -1, origin, changed, effects.at(i)->effectIndex(),false);
 	}
     }
+}
+
+void EffectStackView2::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+	event->acceptProposedAction();
+    }
+}
+
+void EffectStackView2::dropEvent(QDropEvent *event)
+{
+    const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+    //event->acceptProposedAction();
+    QDomDocument doc;
+    doc.setContent(effects, true);
+    QDomElement e = doc.documentElement();
+    int ix = e.attribute("kdenlive_ix").toInt();
+    if (e.tagName() == "effectgroup") {
+	// We are dropping a group, all effects in group should be moved
+	QDomNodeList effects = e.elementsByTagName("effect");
+	if (effects.count() == 0) {
+	    event->ignore();
+	    return;
+	}
+	EffectInfo info;
+	info.fromString(effects.at(0).toElement().attribute("kdenlive_info"));
+	if (info.groupIndex < 0) {
+	    // Adding a new group effect to the stack
+	    event->setDropAction(Qt::CopyAction);
+	    event->accept();
+	    slotAddEffect(e);
+	    return;
+	}
+	for (int i = 0; i < effects.count(); i++) {
+	    //TODO: not working because wee need to move all effects in one go
+	    slotMoveEffect(effects.at(i).toElement().attribute("kdenlive_ix").toInt(), m_currentEffectList.count() + 1 + i, info.groupIndex, info.groupName);
+	}
+    }
+    else if (ix == 0) {
+	// effect dropped from effects list, add it
+	e.setAttribute("kdenlive_ix", m_currentEffectList.count() + 1);
+	event->setDropAction(Qt::CopyAction);
+	event->accept();
+	slotAddEffect(e);
+	return;
+    }
+    else {
+	// User is moving an effect
+	slotMoveEffect(ix, m_currentEffectList.count() + 1, -1);
+    }
+    event->setDropAction(Qt::MoveAction);
+    event->accept();
 }
 
 #include "effectstackview2.moc"

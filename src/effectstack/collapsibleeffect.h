@@ -73,6 +73,7 @@ public:
     ~ParameterContainer();
     void updateTimecodeFormat();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
+    void updateParameter(const QString &key, const QString &value);
 
 private slots:
     void slotCollectAllParameters();
