@@ -144,9 +144,10 @@ public:
     bool isActive() const;
     /** @brief Should the wheel event be sent to parent widget for scrolling. */
     bool filterWheelEvent;
-    
     /** @brief Return the stylesheet required for effect parameters. */
     static const QString getStyleSheet();
+    /** @brief Parent group was collapsed, update. */
+    void groupStateChanged(bool collapsed);
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -180,6 +181,8 @@ private:
     EffectInfo m_info;
     /** @brief True if this is a region effect, which behaves in a special way, like a group. */
     bool m_regionEffect;
+    /** @brief Check if collapsed state changed and inform MLT. */
+    void updateCollapsedState();
     
 protected:
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );

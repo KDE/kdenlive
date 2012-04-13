@@ -53,17 +53,18 @@ void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
 }
 
 
-CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QString groupName, QWidget * parent) :
+CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, EffectInfo info, QWidget * parent) :
         AbstractCollapsibleWidget(parent),
         m_index(ix)
 {
     setupUi(this);
+    
     m_subWidgets = QList <CollapsibleEffect *> ();
     setFont(KGlobalSettings::smallestReadableFont());
     QHBoxLayout *l = static_cast <QHBoxLayout *>(framegroup->layout());
     m_title = new MyEditableLabel(this);
     l->insertWidget(3, m_title);
-    m_title->setText(groupName.isEmpty() ? i18n("Effect Group") : groupName);
+    m_title->setText(info.groupName.isEmpty() ? i18n("Effect Group") : info.groupName);
     connect(m_title, SIGNAL(editingFinished()), this, SLOT(slotRenameGroup()));
     buttonUp->setIcon(KIcon("kdenlive-up"));
     buttonUp->setToolTip(i18n("Move effect up"));
@@ -85,6 +86,10 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QStr
     
     enabledButton->setChecked(false);
     enabledButton->setIcon(KIcon("visible"));
+    
+    if (info.groupIsCollapsed) {
+	slotShow(false);
+    }
 
     connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
     connect(enabledButton, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
@@ -208,13 +213,13 @@ void CollapsibleGroup::slotShow(bool show)
     widgetFrame->setVisible(show);
     if (show) {
         collapseButton->setArrowType(Qt::DownArrow);
-	m_info.isCollapsed = false;
+	m_info.groupIsCollapsed = false;
     }
     else {
         collapseButton->setArrowType(Qt::RightArrow);
-	m_info.isCollapsed = true;
+	m_info.groupIsCollapsed = true;
     }
-    //emit parameterChanged(m_original_effect, m_effect, effectIndex());   
+    if (!m_subWidgets.isEmpty()) m_subWidgets.at(0)->groupStateChanged(m_info.groupIsCollapsed);
 }
 
 QWidget *CollapsibleGroup::title() const

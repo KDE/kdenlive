@@ -456,8 +456,22 @@ void CollapsibleEffect::slotShow(bool show)
         collapseButton->setArrowType(Qt::RightArrow);
         m_info.isCollapsed = true;
     }
-    m_effect.setAttribute("kdenlive_info", m_info.toString());
-    emit parameterChanged(m_original_effect, m_effect, effectIndex());   
+    updateCollapsedState();
+}
+
+void CollapsibleEffect::groupStateChanged(bool collapsed)
+{
+    m_info.groupIsCollapsed = collapsed;
+    updateCollapsedState();
+}
+
+void CollapsibleEffect::updateCollapsedState()
+{
+    QString info = m_info.toString();
+    if (info != m_effect.attribute("kdenlive_info")) {
+	m_effect.setAttribute("kdenlive_info", info);
+	emit parameterChanged(m_original_effect, m_effect, effectIndex());   
+    }
 }
 
 void CollapsibleEffect::setGroupIndex(int ix)

@@ -183,7 +183,7 @@ void EffectStackView2::setupListView()
 	    }
 	    
 	    if (group == NULL) {
-		group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == m_currentEffectList.count() - 1, effectInfo.groupName, m_ui.container->widget());
+		group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == m_currentEffectList.count() - 1, effectInfo, m_ui.container->widget());
 		connect(group, SIGNAL(moveEffect(int,int,int,QString)), this, SLOT(slotMoveEffect(int,int,int,QString)));
 		connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
 		connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this, SLOT(slotRenameGroup(CollapsibleGroup*)));
@@ -719,7 +719,7 @@ void EffectStackView2::slotCreateGroup(int ix)
 	}
     }
     
-    CollapsibleGroup *group = new CollapsibleGroup(m_groupIndex, ix == 1, ix == m_currentEffectList.count() - 2, QString(), m_ui.container->widget());
+    CollapsibleGroup *group = new CollapsibleGroup(m_groupIndex, ix == 1, ix == m_currentEffectList.count() - 2, effectinfo, m_ui.container->widget());
     m_groupIndex++;
     connect(group, SIGNAL(moveEffect(int,int,int,QString)), this , SLOT(slotMoveEffect(int,int,int,QString)));
     connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
@@ -744,19 +744,22 @@ void EffectStackView2::slotMoveEffect(int currentIndex, int newIndex, int groupI
     effectinfo.groupIndex = groupIndex;
     effectinfo.groupName = groupName;
     neweffect.setAttribute("kdenlive_info", effectinfo.toString());
-
-    ItemInfo info;
-    if (m_effectMetaInfo.trackMode) { 
-	info.track = m_trackInfo.type;
-        info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
-        info.cropStart = GenTime(0);
-        info.startPos = GenTime(-1);
-        info.track = 0;
-	emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, effectToMove->effectIndex(),false);
-    } else {
-	emit updateEffect(m_clipref, -1, oldeffect, neweffect, effectToMove->effectIndex(),false);
+    
+    if (oldeffect.attribute("kdenlive_info") != effectinfo.toString()) {
+	// effect's group info or collapsed state changed
+	ItemInfo info;
+	if (m_effectMetaInfo.trackMode) { 
+	    info.track = m_trackInfo.type;
+	    info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
+	    info.cropStart = GenTime(0);
+	    info.startPos = GenTime(-1);
+	    info.track = 0;
+	    emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, effectToMove->effectIndex(),false);
+	} else {
+	    emit updateEffect(m_clipref, -1, oldeffect, neweffect, effectToMove->effectIndex(),false);
+	}
     }
-    //if (currentIndex == newIndex) return;
+
     // Update effect index with new position
     if (m_effectMetaInfo.trackMode) {
 	emit changeEffectPosition(NULL, m_trackindex, currentIndex, newIndex);
@@ -820,9 +823,10 @@ void EffectStackView2::dropEvent(QDropEvent *event)
 	    slotAddEffect(e);
 	    return;
 	}
-	for (int i = 0; i < effects.count(); i++) {
+	// 
+	for (int i = effects.count() - 1; i >= 0; i--) {
 	    //TODO: not working because wee need to move all effects in one go
-	    slotMoveEffect(effects.at(i).toElement().attribute("kdenlive_ix").toInt(), m_currentEffectList.count() + 1 + i, info.groupIndex, info.groupName);
+	    slotMoveEffect(effects.at(i).toElement().attribute("kdenlive_ix").toInt(), m_currentEffectList.count(), info.groupIndex, info.groupName);
 	}
     }
     else if (ix == 0) {

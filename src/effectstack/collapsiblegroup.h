@@ -59,7 +59,7 @@ class CollapsibleGroup : public AbstractCollapsibleWidget, public Ui::Collapsibl
     Q_OBJECT
 
 public:
-    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, QString groupName = QString(), QWidget * parent = 0);
+    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, EffectInfo info, QWidget * parent = 0);
     ~CollapsibleGroup();
     void updateTimecodeFormat();
     void setActive(bool activate);
