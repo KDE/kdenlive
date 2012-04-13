@@ -359,6 +359,7 @@ void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event)
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
+    e.setAttribute("kdenlive_ix", 0);
     CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
     if (view) view->slotAddGroupEffect(e, this);
 }

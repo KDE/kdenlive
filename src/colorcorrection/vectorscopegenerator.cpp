@@ -137,13 +137,12 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     double /*y,*/ u, v;
     QPoint pt;
     QRgb px;
-    int bpp = image.depth() / 8;
 
-    const int stepsize = bpp * accelFactor;
+    const int stepsize = 4 * accelFactor;
 
     // Just an average for the number of image pixels per scope pixel.
     // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see: http://doc.trolltech.org/4.6/qimage.html#bytesPerLine
-    double avgPxPerPx = (double) bpp*(image.bytesPerLine()*image.height())/scope.size().width()/scope.size().height()/accelFactor;
+    double avgPxPerPx = (double) 4*(image.bytesPerLine()*image.height())/scope.size().width()/scope.size().height()/accelFactor;
 
     for (int i = 0; i < (image.bytesPerLine()*image.height()); i+= stepsize) {
         QRgb *col = (QRgb *) bits;

@@ -146,9 +146,9 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
     //insertTopLevelItems(0, folders);
 
-    loadEffects(&MainWindow::videoEffects, KIcon("kdenlive-show-video"), misc, &folders, QString::number((int) EFFECT_VIDEO), current, &found);
-    loadEffects(&MainWindow::audioEffects, KIcon("kdenlive-show-audio"), audio, &folders, QString::number((int) EFFECT_AUDIO), current, &found);
-    loadEffects(&MainWindow::customEffects, KIcon("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), QString::number((int) EFFECT_CUSTOM), current, &found);
+    loadEffects(&MainWindow::videoEffects, KIcon("kdenlive-show-video"), misc, &folders, EFFECT_VIDEO, current, &found);
+    loadEffects(&MainWindow::audioEffects, KIcon("kdenlive-show-audio"), audio, &folders, EFFECT_AUDIO, current, &found);
+    loadEffects(&MainWindow::customEffects, KIcon("kdenlive-custom-effect"), custom, static_cast<QList<QTreeWidgetItem *> *>(0), EFFECT_CUSTOM, current, &found);
 
     if (!found && !currentFolder.isEmpty()) {
         // previously selected effect was removed, focus on its parent folder
@@ -220,16 +220,17 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     }
 }
 
-void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, const QString type, const QString current, bool *found)
+void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString current, bool *found)
 {
     QStringList effectInfo, l;
     QTreeWidgetItem *parentItem;
     QTreeWidgetItem *item;
     int ct = effectlist->count();
 
+    
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = effectlist->effectIdInfo(ix);
-        effectInfo.append(type);
+        effectInfo.append(QString::number(type));
         parentItem = NULL;
 
         if (folders) {
@@ -246,7 +247,8 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
 
         if (!effectInfo.isEmpty()) {
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
-            item->setIcon(0, icon);
+	    if (effectInfo.count() == 4) item->setIcon(0, KIcon("folder"));
+            else item->setIcon(0, icon);
             item->setData(0, TypeRole, type);
             item->setData(0, IdRole, effectInfo);
             item->setToolTip(0, effectlist->getInfo(effectInfo.at(0), effectInfo.at(1)));
@@ -283,7 +285,6 @@ const QDomElement EffectsListWidget::itemEffect(QTreeWidgetItem *item) const
     QDomElement effect;
     if (!item || item->data(0, TypeRole).toInt() == (int)EFFECT_FOLDER) return effect;
     QStringList effectInfo = item->data(0, IdRole).toStringList();
-    kDebug() << "// EFFECT SELECTED: " << effectInfo;
     switch (item->data(0, TypeRole).toInt()) {
     case 1:
         effect =  MainWindow::videoEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1)).cloneNode().toElement();
@@ -317,6 +318,17 @@ QString EffectsListWidget::currentInfo()
         break;
     }
     return info;
+}
+
+//virtual
+void EffectsListWidget::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
+	emit applyEffect(currentEffect());
+	e->accept();
+	return;
+    }
+    QTreeWidget::keyPressEvent(e);
 }
 
 //virtual

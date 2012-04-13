@@ -74,7 +74,6 @@ private slots:
     void slotShuttleModified();
     void slotDialogModified();
     void slotEnableCaptureFolder();
-    void slotUpdateHDMIModes();
     void slotUpdatev4lDevice();
     void slotUpdatev4lCaptureProfile();
     void slotManageEncodingProfile();

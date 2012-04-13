@@ -24,11 +24,21 @@
 #include "gentime.h"
 #include "effectslist.h"
 
-#include <QTreeWidgetItem>
 #include <KLocale>
 #include <QDebug>
 
+#include <QTreeWidgetItem>
+ #include <QtCore/QString>
+
 const int MAXCLIPDURATION = 15000;
+
+namespace Kdenlive {
+  enum MONITORID { noMonitor, clipMonitor, projectMonitor, recordMonitor, stopmotionMonitor, dvdMonitor };
+  /*const QString clipMonitor("clipMonitor");
+  const QString recordMonitor("recordMonitor");
+  const QString projectMonitor("projectMonitor");
+  const QString stopmotionMonitor("stopmotionMonitor");*/
+}
 
 enum OPERATIONTYPE { NONE = 0, MOVE = 1, RESIZESTART = 2, RESIZEEND = 3, FADEIN = 4, FADEOUT = 5, TRANSITIONSTART = 6, TRANSITIONEND = 7, MOVEGUIDE = 8, KEYFRAME = 9, SEEK = 10, SPACER = 11, RUBBERSELECTION = 12};
 enum CLIPTYPE { UNKNOWN = 0, AUDIO = 1, VIDEO = 2, AV = 3, COLOR = 4, IMAGE = 5, TEXT = 6, SLIDESHOW = 7, VIRTUAL = 8, PLAYLIST = 9 };
@@ -85,6 +95,19 @@ struct ItemInfo {
     int track;
 };
 
+struct TransitionInfo {
+/** startPos is the position where the clip starts on the track */
+    GenTime startPos;
+    /** endPos is the duration where the clip ends on the track */
+    GenTime endPos;
+    /** the track on which the transition is (b_track)*/
+    int b_track;
+    /** the track on which the transition is applied (a_track)*/
+    int a_track;
+    /** Does the user request for a special a_track */
+    bool forceTrack;
+};
+
 struct MltVideoProfile {
     QString path;
     QString description;
@@ -116,6 +139,32 @@ struct MltVideoProfile {
     }
 };
 
+/**)
+ * @class EffectInfo
+ * @brief A class holding some meta info for effects widgets, like state (collapsed or not, ...)
+ * @author Jean-Baptiste Mardelle
+ */
+
+class EffectInfo
+{
+public:
+    EffectInfo() {isCollapsed = false; groupIndex = -1;}
+    bool isCollapsed;
+    int groupIndex;
+    QString groupName;
+    QString toString() const {
+        QStringList data;
+	data << QString::number(isCollapsed) << QString::number(groupIndex) << groupName;
+	return data.join("/");
+    }
+    void fromString(QString value) {
+	if (value.isEmpty()) return;
+	QStringList data = value.split("/");
+	isCollapsed = data.at(0).toInt();
+	if (data.count() > 1) groupIndex = data.at(1).toInt();
+	if (data.count() > 2) groupName = data.at(2);
+    }
+};
 
 class EffectParameter
 {

@@ -80,7 +80,7 @@ class SmallInfoLabel: public QPushButton
     Q_OBJECT
 public:
     SmallInfoLabel(QWidget *parent = 0);
-
+    static const QString getStyleSheet(const QPalette &p);
 private:
     QTimeLine* m_timeLine;
 
@@ -261,6 +261,9 @@ public:
     void startClipFilterJob(const QString &filterName, const QString &condition);
     /** @brief Set current document for the project tree. */
     void setDocument(KdenliveDoc *doc);
+    
+    /** @brief Palette was changed, update style. */
+    void updatePalette();
 
 public slots:
     void updateAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
@@ -456,6 +459,8 @@ private slots:
     void slotPrepareJobsMenu();
     /** @brief Discard all jobs for current clip. */
     void slotDiscardClipJobs();
+    /** @brief Make sure current clip is visible in project tree. */
+    void slotCheckScrolling();
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);

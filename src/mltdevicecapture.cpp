@@ -48,12 +48,12 @@ static void consumer_gl_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_fr
     self->showFrame(frame);
 }
 
-static void rec_consumer_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
+/*static void rec_consumer_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
     if (!frame.is_valid()) return;
     self->gotCapturedFrame(frame);
-}
+}*/
 
 static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
 {
@@ -76,11 +76,10 @@ static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, ml
 }
 
 
-MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surface, QWidget *parent) :
-    AbstractRender("capture", parent),
+MltDeviceCapture::MltDeviceCapture(QString profile, VideoSurface *surface, QWidget *parent) :
+    AbstractRender(Kdenlive::recordMonitor, parent),
     doCapture(0),
     sendFrameForAnalysis(false),
-    analyseAudio(KdenliveSettings::monitor_audio()),
     processingImage(false),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -88,9 +87,10 @@ MltDeviceCapture::MltDeviceCapture(QString profile, VideoPreviewContainer *surfa
     m_showFrameEvent(NULL),
     m_droppedFrames(0),
     m_livePreview(KdenliveSettings::enable_recording_preview()),
-    m_captureDisplayWidget(surface),
     m_winid((int) surface->winId())
 {
+    m_captureDisplayWidget = surface;
+    analyseAudio = KdenliveSettings::monitor_audio();
     if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
     connect(this, SIGNAL(unblockPreview()), this, SLOT(slotPreparePreview()));
@@ -163,12 +163,21 @@ void MltDeviceCapture::buildConsumer(const QString &profileName)
     //m_mltConsumer->set("real_time", 0);
 }
 
+void MltDeviceCapture::pause()
+{   
+    if (m_mltConsumer) {
+          m_mltConsumer->set("refresh", 0);
+	  //m_mltProducer->set_speed(0.0);
+	  m_mltConsumer->purge();
+    }
+}
+
 void MltDeviceCapture::stop()
 {
     m_droppedFramesTimer.stop();
     bool isPlaylist = false;
-    disconnect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
-    m_captureDisplayWidget->stop();
+    //disconnect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
+    //m_captureDisplayWidget->stop();
     
     if (m_showFrameEvent) delete m_showFrameEvent;
     m_showFrameEvent = NULL;
@@ -215,9 +224,16 @@ void MltDeviceCapture::stop()
 }
 
 
-void MltDeviceCapture::doRefresh()
+void MltDeviceCapture::slotDoRefresh()
 {
-    if (m_mltConsumer) m_mltConsumer->set("refresh", 1);
+    QMutexLocker locker(&m_mutex);
+    if (!m_mltProducer)
+        return;
+    if (m_mltConsumer) {
+        if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+        m_mltConsumer->purge();
+        m_mltConsumer->set("refresh", 1);
+    }
 }
 
 
@@ -235,12 +251,12 @@ void MltDeviceCapture::emitFrameUpdated(Mlt::Frame& frame)
     }
     */
 
-    mlt_image_format format = mlt_image_rgb24;
+    mlt_image_format format = mlt_image_rgb24a;
     int width = 0;
     int height = 0;
     const uchar* image = frame.get_image(format, width, height);
-    QImage qimage(width, height, QImage::Format_ARGB32);
-    memcpy(qimage.bits(), image, width * height * 3);
+    QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
+    memcpy(qimage.bits(), image, width * height * 4);
     emit frameUpdated(qimage.rgbSwapped());
 }
 
@@ -308,7 +324,7 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
         return 0;
     }
     m_droppedFramesTimer.start();
-    connect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
+    //connect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
     return 1;
 }
 
@@ -343,7 +359,7 @@ void MltDeviceCapture::gotCapturedFrame(Mlt::Frame& frame)
     //memcpy(image.bits(), data, width * height * 3);
     QImage image((uchar *)data, width, height, QImage::Format_RGB888);
 
-    m_captureDisplayWidget->setImage(image);
+    //m_captureDisplayWidget->setImage(image);
 
     //TEST: is it better to process frame conversion ouside MLT???
     /*
@@ -731,7 +747,7 @@ void MltDeviceCapture::uyvy2rgb(unsigned char *yuv_buffer, int width, int height
         rgb_ptr += 3;
     }
     //emit imageReady(image);
-    m_captureDisplayWidget->setImage(image);
+    //m_captureDisplayWidget->setImage(image);
     emit unblockPreview();
     //processingImage = false;
 }

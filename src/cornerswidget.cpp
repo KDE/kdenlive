@@ -45,6 +45,7 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
     MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->showVisibilityButton(true);
     m_scene = edit->getScene();
+    m_scene->cleanup();
 
     m_item = new OnMonitorCornersItem();
     m_scene->addItem(m_item);
@@ -62,6 +63,7 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotInsertKeyframe()));
 
     connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotUpdateItem()));
+    m_scene->centerView();
 }
 
 CornersWidget::~CornersWidget()

@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool doIt, QUndoCommand *parent) :
+EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),
@@ -31,7 +31,8 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, Gen
         m_effect(effect),
         m_pos(pos),
         m_stackPos(stackPos),
-        m_doIt(doIt)
+        m_doIt(doIt),
+        m_refreshEffectStack(refreshEffectStack)
 {
     QString effectName;
     QDomElement namenode = effect.firstChildElement("name");
@@ -51,6 +52,7 @@ bool EditEffectCommand::mergeWith(const QUndoCommand * other)
 {
     if (other->id() != id()) return false;
     if (m_track != static_cast<const EditEffectCommand*>(other)->m_track) return false;
+    if (m_stackPos != static_cast<const EditEffectCommand*>(other)->m_stackPos) return false;
     if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos) return false;
     m_effect = static_cast<const EditEffectCommand*>(other)->m_effect.cloneNode().toElement();
     return true;
@@ -59,13 +61,14 @@ bool EditEffectCommand::mergeWith(const QUndoCommand * other)
 // virtual
 void EditEffectCommand::undo()
 {
-    m_view->updateEffect(m_track, m_pos, m_oldeffect, m_stackPos, false);
+    m_view->updateEffect(m_track, m_pos, m_oldeffect, m_stackPos, true);
 }
 // virtual
 void EditEffectCommand::redo()
 {
-    m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos, m_doIt);
-    m_doIt = false;
+    if (m_doIt) m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos, m_refreshEffectStack);
+    m_doIt = true;
+    m_refreshEffectStack = true;
 }
 
 

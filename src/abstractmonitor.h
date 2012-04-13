@@ -20,6 +20,8 @@
 #ifndef ABSTRACTMONITOR_H
 #define ABSTRACTMONITOR_H
 
+#include "definitions.h"
+
 #include <QObject>
 #include <QVector>
 #include <QWidget>
@@ -30,41 +32,8 @@
 
 #include <stdint.h>
 
-class VideoPreviewContainer : public QFrame
-{
-    Q_OBJECT
-public:
-    VideoPreviewContainer(QWidget *parent = 0);
-    ~VideoPreviewContainer();
-    /** @brief Set the image to be displayed, will be put in the queue. */
-    void setImage(QImage img);
-    /** @brief Start the display refresh timer. */
-    void start();
-    /** @brief Stop the display refresh timer. */
-    void stop();
-    /** @brief Set the display ratio for this display. */
-    void setRatio(double ratio);
-
-protected:
-    virtual void paintEvent(QPaintEvent */*event*/);
-    virtual void resizeEvent(QResizeEvent * event);
-
-private:
-    /** @brief The display aspect ratio for profile. */
-    double m_dar;
-    /** @brief When true, the whole widget surface will be repainted, useful when resizing widget. */
-    bool m_refresh;
-    /** @brief The rectangle defining the area for painting our image. */
-    QRect m_displayRect;
-    /** @brief The queue of images to be displayed. */
-    QList <QImage *> m_imageQueue;
-    /** @brief We refresh the image with a timer, since this widget is only for preview during capture. */
-    QTimer m_refreshTimer;
-    /** @brief Re-calculate the display zone after a resize or aspect ratio change. */
-    void updateDisplayZone();
-};
-
-
+class MonitorManager;
+class VideoContainer;
 
 class AbstractRender: public QObject
 {
@@ -74,13 +43,16 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    AbstractRender(const QString &name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), m_name(name) {};
+    AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), m_name(name) {};
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~AbstractRender() {};
 
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
+    
+    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
+    bool analyseAudio;
     
     const QString &name() const {return m_name;};
 
@@ -95,21 +67,68 @@ signals:
     void frameUpdated(QImage);
 
     /** @brief This signal contains the audio of the current frame. */
-    void audioSamplesSignal(const QVector<int16_t>&, const int&, const int&, const int&);
+    void audioSamplesSignal(QVector<int16_t>,int,int,int);
 };
+
+
+
+class VideoSurface : public QWidget
+{
+    Q_OBJECT
+public:
+    VideoSurface(QWidget *parent = 0);
+    
+signals:
+    void refreshMonitor();
+
+protected:
+    virtual void paintEvent ( QPaintEvent * event );
+};
+
 
 class AbstractMonitor : public QWidget
 {
     Q_OBJECT
 public:
-    AbstractMonitor(QWidget *parent = 0): QWidget(parent) {};
-    virtual ~AbstractMonitor() {};
+    AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager, QWidget *parent = 0);
+    Kdenlive::MONITORID id() {return m_id;};
+    virtual ~AbstractMonitor();
     virtual AbstractRender *abstractRender() = 0;
-    virtual const QString name() const = 0;
-
+    bool isActive() const;
+    VideoContainer *videoBox;
+    VideoSurface *videoSurface;
+    void createVideoSurface();
+    
+    
 public slots:
     virtual void stop() = 0;
     virtual void start() = 0;
+    virtual void slotPlay() = 0;
+    virtual void slotMouseSeek(int eventDelta, bool fast) = 0;
+    bool slotActivateMonitor();
+    virtual void slotSwitchFullScreen() = 0;
+
+protected:
+    Kdenlive::MONITORID m_id;
+    MonitorManager *m_monitorManager;
+};
+
+class VideoContainer : public QFrame
+{
+    Q_OBJECT
+public:
+    VideoContainer(AbstractMonitor *monitor, QWidget *parent = 0);
+    void switchFullScreen();
+
+protected:
+    virtual void mouseDoubleClickEvent(QMouseEvent * event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    virtual void wheelEvent(QWheelEvent * event);
+
+private:
+    Qt::WindowFlags m_baseFlags;
+    AbstractMonitor *m_monitor;
 };
 
 #endif

@@ -75,7 +75,7 @@ public:
 
     /** @brief Adds an effect to the clip.
     * @return The parameters that will be passed to Mlt */
-    EffectsParameterList addEffect(const QDomElement effect, bool animate = true);
+    EffectsParameterList addEffect(QDomElement effect, bool animate = true);
 
     /** @brief Deletes the effect with id @param index. */
     void deleteEffect(QString index);
@@ -99,7 +99,8 @@ public:
     /** @brief Replaces an effect.
     * @param ix The effect's index in effectlist
     * @param effect The new effect */
-    void setEffectAt(int ix, QDomElement effect);
+    void updateEffect(QDomElement effect);
+    bool moveEffect(QDomElement effect, int ix);
     void flashClip();
     void addTransition(Transition*);
 
@@ -175,6 +176,9 @@ public:
     void resetFrameWidth(int width);
     /** @brief Clip is about to be deleted, block thumbs. */
     void stopThumbs();
+    
+    /** @brief Get a free index value for effect group. */
+    int nextFreeEffectGroupIndex() const;
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

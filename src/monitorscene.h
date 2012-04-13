@@ -42,6 +42,12 @@ public:
 
     /** @brief Makes the background frame fit again after the profile changed (and therefore the resolution might have changed). */
     void resetProfile();
+    
+    /** @brief Reset scene size. */
+    void cleanup();
+    
+    /** @brief Center view on frame border. */
+    void centerView();
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);

@@ -63,15 +63,26 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
     m_monitorsList.removeAll(monitor);
 }
 
-bool MonitorManager::activateMonitor(const QString &name)
+AbstractMonitor* MonitorManager::monitor(Kdenlive::MONITORID monitorName)
+{
+    AbstractMonitor *monitor = NULL;
+    for (int i = 0; i < m_monitorsList.size(); i++) {
+        if (m_monitorsList[i]->id() == monitorName) {
+	    monitor = m_monitorsList[i];
+	}
+    }
+    return monitor;
+}
+
+bool MonitorManager::activateMonitor(Kdenlive::MONITORID name)
 {
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
         return false;
-    if (m_activeMonitor && m_activeMonitor->name() == name)
+    if (m_activeMonitor && m_activeMonitor->id() == name)
         return false;
     m_activeMonitor = NULL;
     for (int i = 0; i < m_monitorsList.count(); i++) {
-        if (m_monitorsList.at(i)->name() == name) {
+        if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
         }
         else m_monitorsList.at(i)->stop();
@@ -86,29 +97,28 @@ bool MonitorManager::activateMonitor(const QString &name)
     return (m_activeMonitor != NULL);
 }
 
-bool MonitorManager::isActive(const QString &name) const
+bool MonitorManager::isActive(Kdenlive::MONITORID id) const
 {
-    return m_activeMonitor ? m_activeMonitor->name() == name: false;
+    return m_activeMonitor ? m_activeMonitor->id() == id: false;
 }
 
 void MonitorManager::slotSwitchMonitors(bool activateClip)
 {
     if (activateClip)
-        activateMonitor("clip");
+        activateMonitor(Kdenlive::clipMonitor);
     else
-        activateMonitor("project");
+        activateMonitor(Kdenlive::projectMonitor);
 }
 
 void MonitorManager::stopActiveMonitor()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->pause();
-    else m_projectMonitor->pause();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->pause();
 }
 
 void MonitorManager::slotPlay()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotPlay();
-    else m_projectMonitor->slotPlay();
+    if (m_activeMonitor) m_activeMonitor->slotPlay();
 }
 
 void MonitorManager::slotPause()
@@ -119,7 +129,7 @@ void MonitorManager::slotPause()
 void MonitorManager::slotPlayZone()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotPlayZone();
-    else m_projectMonitor->slotPlayZone();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotPlayZone();
 }
 
 void MonitorManager::slotLoopZone()
@@ -131,49 +141,49 @@ void MonitorManager::slotLoopZone()
 void MonitorManager::slotRewind(double speed)
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotRewind(speed);
-    else m_projectMonitor->slotRewind(speed);
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotRewind(speed);
 }
 
 void MonitorManager::slotForward(double speed)
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotForward(speed);
-    else m_projectMonitor->slotForward(speed);
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotForward(speed);
 }
 
 void MonitorManager::slotRewindOneFrame()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotRewindOneFrame();
-    else m_projectMonitor->slotRewindOneFrame();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotRewindOneFrame();
 }
 
 void MonitorManager::slotForwardOneFrame()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotForwardOneFrame();
-    else m_projectMonitor->slotForwardOneFrame();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotForwardOneFrame();
 }
 
 void MonitorManager::slotRewindOneSecond()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotRewindOneFrame(m_timecode.fps());
-    else m_projectMonitor->slotRewindOneFrame(m_timecode.fps());
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotRewindOneFrame(m_timecode.fps());
 }
 
 void MonitorManager::slotForwardOneSecond()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotForwardOneFrame(m_timecode.fps());
-    else m_projectMonitor->slotForwardOneFrame(m_timecode.fps());
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotForwardOneFrame(m_timecode.fps());
 }
 
 void MonitorManager::slotStart()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotStart();
-    else m_projectMonitor->slotStart();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotStart();
 }
 
 void MonitorManager::slotEnd()
 {
     if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotEnd();
-    else m_projectMonitor->slotEnd();
+    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotEnd();
 }
 
 void MonitorManager::resetProfiles(Timecode tc)
@@ -187,10 +197,10 @@ void MonitorManager::slotResetProfiles()
 {
     if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
     blockSignals(true);
-    QString active = m_activeMonitor ? m_activeMonitor->name() : QString();
+    Kdenlive::MONITORID active = m_activeMonitor ? m_activeMonitor->id() : Kdenlive::noMonitor;
     m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
     m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
-    if (!active.isEmpty()) activateMonitor(active);
+    if (active != Kdenlive::noMonitor) activateMonitor(active);
     blockSignals(false);
     if (m_activeMonitor) m_activeMonitor->parentWidget()->raise();
     emit checkColorScopes();
@@ -207,11 +217,14 @@ void MonitorManager::slotRefreshCurrentMonitor(const QString &id)
 void MonitorManager::slotUpdateAudioMonitoring()
 {
     // if(...) added since they are 0x0 when the config wizard is running! --Granjow
-    if (m_clipMonitor) {
+    /*if (m_clipMonitor) {
         m_clipMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
     }
     if (m_projectMonitor) {
         m_projectMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
+    }*/
+    for (int i = 0; i < m_monitorsList.count(); i++) {
+        if (m_monitorsList.at(i)->abstractRender()) m_monitorsList.at(i)->abstractRender()->analyseAudio = KdenliveSettings::monitor_audio();
     }
 }
 
@@ -231,6 +244,11 @@ AbstractRender *MonitorManager::activeRenderer()
         return m_activeMonitor->abstractRender();
     }
     return NULL;
+}
+
+void MonitorManager::slotSwitchFullscreen()
+{
+    if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
 }
 
 #include "monitormanager.moc"

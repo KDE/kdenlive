@@ -44,13 +44,14 @@
 #include <KDebug>
 #include <KLocale>
 #include <KFileDialog>
-#include <KColorScheme>
 
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QScrollArea>
+#include <QScrollBar>
+#include <QProgressBar>
 
 // For QDomNode debugging (output into files); leaving here as sample code.
 //#define DEBUG_ESE
@@ -86,38 +87,25 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     QScrollArea(parent),
     m_in(0),
     m_out(0),
-    m_frameSize(QPoint()),
     m_keyframeEditor(NULL),
     m_monitor(monitor),
-    m_geometryWidget(NULL)
+    m_geometryWidget(NULL),
+    m_paramWidget(NULL)
 {
     m_baseWidget = new QWidget(this);
+    m_metaInfo.monitor = monitor;
+    m_metaInfo.trackMode = false;
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setFrameStyle(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
     
-    QPalette p = palette();
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
-    QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
-    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();    
-    QColor light_bg = scheme.shade(KColorScheme::LightShade);
-    
-    QString stylesheet(QString("QProgressBar:horizontal {border: 1px solid %1;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center}\
-                                QProgressBar:horizontal#dragOnly {background: %1} QProgressBar:horizontal:hover#dragOnly {background: %3} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;}\
-                                QProgressBar::chunk:horizontal {background: %1;} QProgressBar::chunk:horizontal:hover {background: %3;}\
-                                QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}\
-                                QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}\
-                                QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} ")
-                                .arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()));
-    setStyleSheet(stylesheet);
-    
-    setWidget(m_baseWidget);
-    setWidgetResizable(true);
-    m_vbox = new QVBoxLayout(m_baseWidget);
+    setStyleSheet(CollapsibleEffect::getStyleSheet());
+    setWidget(m_baseWidget);   
+    /*m_vbox = new QVBoxLayout(m_baseWidget);
     m_vbox->setContentsMargins(0, 0, 0, 0);
-    m_vbox->setSpacing(2);
+    m_vbox->setSpacing(2);    */
+    setWidgetResizable(true);
 }
 
 EffectStackEdit::~EffectStackEdit()
@@ -126,8 +114,21 @@ EffectStackEdit::~EffectStackEdit()
     delete m_baseWidget;
 }
 
+Monitor *EffectStackEdit::monitor()
+{
+    return m_metaInfo.monitor;
+}
+
+void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
+{
+    m_metaInfo.profile = profile;
+    m_metaInfo.timecode = t;
+}
+
 void EffectStackEdit::setFrameSize(QPoint p)
 {
+    m_metaInfo.frameSize = p;
+    /*
     m_frameSize = p;
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
     for (int i = 0; i < namenode.count() ; i++) {
@@ -147,38 +148,12 @@ void EffectStackEdit::setFrameSize(QPoint p)
                 break;
             }
         }
-    }
+    }*/
 }
 
 void EffectStackEdit::updateTimecodeFormat()
 {
-    if (m_keyframeEditor)
-        m_keyframeEditor->updateTimecodeFormat();
-
-    QDomNodeList namenode = m_params.elementsByTagName("parameter");
-    for (int i = 0; i < namenode.count() ; i++) {
-        QDomNode pa = namenode.item(i);
-        QDomElement na = pa.firstChildElement("name");
-        QString type = pa.attributes().namedItem("type").nodeValue();
-        QString paramName = na.isNull() ? pa.attributes().namedItem("name").nodeValue() : i18n(na.text().toUtf8().data());
-
-        if (type == "geometry") {
-            if (KdenliveSettings::on_monitor_effects()) {
-                if (m_geometryWidget) m_geometryWidget->updateTimecodeFormat();
-            } else {
-                Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
-                geom->updateTimecodeFormat();
-            }
-            break;
-        } else if (type == "position") {
-            PositionEdit *posi = ((PositionEdit*)m_valueItems[paramName+"position"]);
-            posi->updateTimecodeFormat();
-            break;
-        } else if (type == "roto-spline") {
-            RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems[paramName]);
-            widget->updateTimecodeFormat();
-        }
-    }
+    if (m_paramWidget) m_paramWidget->updateTimecodeFormat();
 }
 
 void EffectStackEdit::meetDependency(const QString& name, QString type, QString value)
@@ -197,12 +172,6 @@ void EffectStackEdit::meetDependency(const QString& name, QString type, QString 
     }
 }
 
-void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
-{
-    m_profile = profile;
-    m_timecode = t;
-}
-
 void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 {
     m_params.setAttribute(name, value);
@@ -215,9 +184,84 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
     }
 }
 
-void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, bool isEffect)
+bool EffectStackEdit::eventFilter( QObject * o, QEvent * e ) 
 {
-    clearAllItems();
+    if (e->type() == QEvent::Wheel) {
+	QWheelEvent *we = static_cast<QWheelEvent *>(e);
+	bool filterWheel = verticalScrollBar() && verticalScrollBar()->isVisible();
+	if (!filterWheel || we->modifiers() != Qt::NoModifier) {
+	    e->accept();
+	    return false;
+	}
+	if (qobject_cast<QAbstractSpinBox*>(o)) {
+	    if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
+	    {
+		e->accept();
+		return false;
+	    }
+	    else
+	    {
+		e->ignore();
+		return true;
+	    }
+	}
+	if (qobject_cast<KComboBox*>(o)) {
+	    if(qobject_cast<KComboBox*>(o)->focusPolicy() == Qt::WheelFocus)
+	    {
+		e->accept();
+		return false;
+	    }
+	    else
+	    {
+		e->ignore();
+		return true;
+	    }
+	}
+	if (qobject_cast<QProgressBar*>(o)) {
+	    if(qobject_cast<QProgressBar*>(o)->focusPolicy() == Qt::WheelFocus)
+	    {
+		e->accept();
+		return false;
+	    }
+	    else
+	    {
+		e->ignore();
+		return true;
+	    }
+	}
+    }
+    return QWidget::eventFilter(o, e);
+}
+
+void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, bool /*isEffect*/)
+{
+    if (m_paramWidget) delete m_paramWidget;
+    m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);
+    connect (m_paramWidget, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)));
+    
+    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)));
+    
+    connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
+    connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
+    connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
+    
+    
+    Q_FOREACH( QSpinBox * sp, m_baseWidget->findChildren<QSpinBox*>() ) {
+        sp->installEventFilter( this );
+        sp->setFocusPolicy( Qt::StrongFocus );
+    }
+    Q_FOREACH( KComboBox * cb, m_baseWidget->findChildren<KComboBox*>() ) {
+	cb->installEventFilter( this );
+        cb->setFocusPolicy( Qt::StrongFocus );
+    }
+    Q_FOREACH( QProgressBar * cb, m_baseWidget->findChildren<QProgressBar*>() ) {
+	cb->installEventFilter( this );
+        cb->setFocusPolicy( Qt::StrongFocus );
+    }
+    
+    return;
+    /*
+    //clearAllItems();
     if (m_keyframeEditor) delete m_keyframeEditor;
     m_keyframeEditor = NULL;
     m_params = d;
@@ -266,7 +310,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
                         pa.attribute("default") : pa.attribute("value");
 
 
-        /** See effects/README for info on the different types */
+      
 
         if (type == "double" || type == "constant") {
             double min;
@@ -610,98 +654,12 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
     }
     for (int i = 0; i < allWidgets.count(); i++) {
         allWidgets.at(i)->setSpinSize(minSize);
-    }
-}
-
-wipeInfo EffectStackEdit::getWipeInfo(QString value)
-{
-    wipeInfo info;
-    // Convert old geometry values that used a comma as separator
-    if (value.contains(',')) value.replace(',','/');
-    QString start = value.section(';', 0, 0);
-    QString end = value.section(';', 1, 1).section('=', 1, 1);
-    if (start.startsWith("-100%/0"))
-        info.start = LEFT;
-    else if (start.startsWith("100%/0"))
-        info.start = RIGHT;
-    else if (start.startsWith("0%/100%"))
-        info.start = DOWN;
-    else if (start.startsWith("0%/-100%"))
-        info.start = UP;
-    else
-        info.start = CENTER;
-
-    if (start.count(':') == 2)
-        info.startTransparency = start.section(':', -1).toInt();
-    else
-        info.startTransparency = 100;
-
-    if (end.startsWith("-100%/0"))
-        info.end = LEFT;
-    else if (end.startsWith("100%/0"))
-        info.end = RIGHT;
-    else if (end.startsWith("0%/100%"))
-        info.end = DOWN;
-    else if (end.startsWith("0%/-100%"))
-        info.end = UP;
-    else
-        info.end = CENTER;
-
-    if (end.count(':') == 2)
-        info.endTransparency = end.section(':', -1).toInt();
-    else
-        info.endTransparency = 100;
-
-    return info;
-}
-
-QString EffectStackEdit::getWipeString(wipeInfo info)
-{
-
-    QString start;
-    QString end;
-    switch (info.start) {
-    case LEFT:
-        start = "-100%/0%:100%x100%";
-        break;
-    case RIGHT:
-        start = "100%/0%:100%x100%";
-        break;
-    case DOWN:
-        start = "0%/100%:100%x100%";
-        break;
-    case UP:
-        start = "0%/-100%:100%x100%";
-        break;
-    default:
-        start = "0%/0%:100%x100%";
-        break;
-    }
-    start.append(':' + QString::number(info.startTransparency));
-
-    switch (info.end) {
-    case LEFT:
-        end = "-100%/0%:100%x100%";
-        break;
-    case RIGHT:
-        end = "100%/0%:100%x100%";
-        break;
-    case DOWN:
-        end = "0%/100%:100%x100%";
-        break;
-    case UP:
-        end = "0%/-100%:100%x100%";
-        break;
-    default:
-        end = "0%/0%:100%x100%";
-        break;
-    }
-    end.append(':' + QString::number(info.endTransparency));
-    return QString(start + ";-1=" + end);
+    }*/
 }
 
 void EffectStackEdit::collectAllParameters()
 {
+  /*
     if (m_valueItems.isEmpty() || m_params.isNull()) return;
     const QDomElement oldparam = m_params.cloneNode().toElement();
     QDomElement newparam = oldparam.cloneNode().toElement();
@@ -757,19 +715,13 @@ void EffectStackEdit::collectAllParameters()
             setValue = QString::number(pos);
             if (newparam.attribute("id") == "fadein" || newparam.attribute("id") == "fade_from_black") {
                 // Make sure duration is not longer than clip
-                /*if (pos > m_out) {
-                    pos = m_out;
-                    pedit->setPosition(pos);
-                }*/
+
                 EffectsList::setParameter(newparam, "in", QString::number(m_in));
                 EffectsList::setParameter(newparam, "out", QString::number(m_in + pos));
                 setValue.clear();
             } else if (newparam.attribute("id") == "fadeout" || newparam.attribute("id") == "fade_to_black") {
                 // Make sure duration is not longer than clip
-                /*if (pos > m_out) {
-                    pos = m_out;
-                    pedit->setPosition(pos);
-                }*/
+
                 EffectsList::setParameter(newparam, "in", QString::number(m_out - pos));
                 EffectsList::setParameter(newparam, "out", QString::number(m_out));
                 setValue.clear();
@@ -873,7 +825,7 @@ void EffectStackEdit::collectAllParameters()
             pa.attributes().namedItem("value").setNodeValue(setValue);
 
     }
-    emit parameterChanged(oldparam, newparam);
+    emit parameterChanged(oldparam, newparam);*/
 }
 
 void EffectStackEdit::clearAllItems()
@@ -916,4 +868,5 @@ void EffectStackEdit::slotStartFilterJobAction()
         }
     }
 }
+
 

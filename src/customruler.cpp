@@ -88,6 +88,11 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     setMouseTracking(true);
 }
 
+void CustomRuler::updatePalette()
+{
+    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+}
+
 void CustomRuler::updateProjectFps(Timecode t)
 {
     m_timecode = t;
@@ -343,7 +348,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     p.setClipRect(e->rect());
     
     // Draw background
-    p.fillRect(0, 0, m_duration * m_factor - m_offset, MAX_HEIGHT, palette().alternateBase().color());
+    //p.fillRect(0, 0, m_duration * m_factor - m_offset, MAX_HEIGHT, palette().alternateBase().color());
 
     // Draw zone background
     const int zoneStart = (int)(m_zoneStart * m_factor);

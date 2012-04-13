@@ -83,7 +83,7 @@ public:
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
-    void updateEffect(int track, GenTime pos, QDomElement insertedEffect, int ix, bool triggeredByUser = true);
+    void updateEffect(int track, GenTime pos, QDomElement insertedEffect, int ix, bool refreshEffectStack = false);
     void moveEffect(int track, GenTime pos, int oldPos, int newPos);
     void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);
     void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);
@@ -187,7 +187,7 @@ public:
     *
     * Inserts at the position of timeline cursor and selected track. */
     void insertClipCut(DocClipBase *clip, int in, int out);
-    void clearSelection();
+    void clearSelection(bool emitInfo = true);
     void editItemDuration();
     void buildGuidesMenu(QMenu *goMenu) const;
     /** update the timeline objects when palette changes */
@@ -207,7 +207,7 @@ public slots:
     void slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup = true);
     void slotChangeEffectState(ClipItem *clip, int track, int effectPos, bool disable);
     void slotChangeEffectPosition(ClipItem *clip, int track, int currentPos, int newPos);
-    void slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix);
+    void slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix, bool refreshEffectStack = true);
     void slotUpdateClipRegion(ClipItem *clip, int ix, QString region);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
@@ -285,6 +285,8 @@ public slots:
     * @param offsetList The list of points that should also snap (for example when movin a clip, start and end points should snap
     * @param skipSelectedItems if true, the selected item start and end points will not be added to snap list */
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
+    
+    void slotAddEffect(ClipItem *clip, QDomElement effect);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -328,6 +330,7 @@ private:
     ClipItem *getClipItemAt(GenTime pos, int track);
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
     ClipItem *getClipItemAtStart(GenTime pos, int track);
+    Transition *getTransitionItem(TransitionInfo info);
     Transition *getTransitionItemAt(int pos, int track);
     Transition *getTransitionItemAt(GenTime pos, int track);
     Transition *getTransitionItemAtEnd(GenTime pos, int track);
@@ -455,6 +458,12 @@ private:
      * @param fromStart false = resize from end
      * @param command Used as a parent for EditEffectCommand */
     void adjustEffects(ClipItem *item, ItemInfo oldInfo, QUndoCommand *command);
+    
+    /** @brief Prepare an add clip command for an effect */
+    void processEffect(ClipItem *item, QDomElement effect, QUndoCommand *effectCommand);
+    
+    /** @brief Get effect parameters ready for MLT*/
+    void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const QString &prefix = QString());
 
 private slots:
     void slotRefreshGuides();
@@ -482,9 +491,8 @@ signals:
     void mousePosition(int);
     /** @brief A clip was selected in timeline, update the effect stack
      *  @param clip The clip
-     *  @param ix The index of currently selected effect
      *  @param raise If true, the effect stack widget will be raised (come to front). */
-    void clipItemSelected(ClipItem *clip, int ix = -1, bool raise = true);
+    void clipItemSelected(ClipItem *clip, bool raise = true);
     void transitionItemSelected(Transition*, int track = 0, QPoint p = QPoint(), bool update = false);
     void activateDocumentMonitor();
     void trackHeightChanged();

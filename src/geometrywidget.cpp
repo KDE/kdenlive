@@ -294,6 +294,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 {
     m_inPoint = minframe;
     m_outPoint = maxframe;
+    m_scene->cleanup();
 
     if (m_geometry)
         m_geometry->parse(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
@@ -325,7 +326,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     m_rect->setZValue(0);
     m_scene->addItem(m_rect);
     connect(m_rect, SIGNAL(changed()), this, SLOT(slotUpdateGeometry()));
-
+    m_scene->centerView();
     slotPositionChanged(0, false);
     slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }
@@ -573,7 +574,6 @@ void GeometryWidget::slotUpdateGeometry()
             geom->insert(item2);
         }
     }
-    
     emit parameterChanged();
 }
 

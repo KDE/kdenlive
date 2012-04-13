@@ -50,13 +50,15 @@ private:
 public slots:
     void slotTransitionItemSelected(Transition* t, int nextTrack, QPoint p, bool update);
     void slotTransitionChanged(bool reinit = true, bool updateCurrent = false);
-    void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
+    void slotUpdateEffectParams(const QDomElement, const QDomElement);
 
 private slots:
     /** @brief Sets the new B track for the transition (automatic or forced). */
     void slotTransitionTrackChanged();
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotRenderPos(int pos);
+    void slotSeekTimeline(int pos);
+    void slotCheckMonitorPosition(int renderPos);
 
 signals:
     void transitionUpdated(Transition *, QDomElement);

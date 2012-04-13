@@ -78,6 +78,7 @@ public:
 
     void checkTrackHeight();
     void updateProfile();
+    void updatePalette();
 
 protected:
     virtual void keyPressEvent(QKeyEvent * event);
@@ -111,6 +112,12 @@ private:
     void adjustTrackHeaders();
     /** @brief Add effects from the xml. Returns true if some effect was upgraded, false if everything went fine.*/
     void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);
+    
+    /** @brief Returns a kdenlive effect xml description from an effect tag / id */
+    QDomElement getEffectByTag(const QString &effecttag, const QString &effectid);
+    
+    /** @brief Adjust kdenlive effect xml parameters to the MLT value*/
+    void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
 
 private slots:
     void setCursorPos(int pos);

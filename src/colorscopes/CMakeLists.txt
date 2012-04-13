@@ -1,9 +1,0 @@
-set(kdenlive_SRCS
-  ${kdenlive_SRCS}
-  colorscopes/abstractgfxscopewidget.cpp
-  colorscopes/histogram.cpp
-  colorscopes/rgbparade.cpp
-  colorscopes/vectorscope.cpp
-  colorscopes/waveform.cpp
-  PARENT_SCOPE
-)

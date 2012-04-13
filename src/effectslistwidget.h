@@ -45,6 +45,7 @@ protected:
     virtual void dragMoveEvent(QDragMoveEvent *event);
     virtual void contextMenuEvent(QContextMenuEvent * event);
     virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const;
+    virtual void keyPressEvent(QKeyEvent *e);
 
 private:
     QMenu *m_menu;
@@ -60,10 +61,13 @@ private:
      * @param current name of selected effect before reload; if an effect name matches this one it will become selected
      * @param found will be set to true if an effect name matches current
      */
-    void loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, const QString type, const QString current, bool *found);
+    void loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString current, bool *found);
 
 private slots:
     void slotExpandItem(const QModelIndex & index);
+    
+signals:
+    void applyEffect(const QDomElement);
 };
 
 #endif

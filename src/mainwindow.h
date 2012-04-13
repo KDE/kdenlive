@@ -54,6 +54,7 @@ class MonitorManager;
 class ProjectList;
 class EffectsListView;
 class EffectStackView;
+class EffectStackView2;
 class TransitionSettings;
 class Monitor;
 class RecMonitor;
@@ -66,6 +67,7 @@ class JogShuttleAction;
 class DocClipBase;
 class Render;
 class Transition;
+class ScopeManager;
 class Histogram;
 class Vectorscope;
 class Waveform;
@@ -137,6 +139,8 @@ private:
     KTabWidget* m_timelineArea;
     QProgressBar *m_statusProgressBar;
 
+    ScopeManager *m_scopeManager;
+
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
     KdenliveDoc *m_activeDocument;
@@ -154,7 +158,7 @@ private:
     NotesWidget *m_notesWidget;
 
     QDockWidget *m_effectStackDock;
-    EffectStackView *m_effectStack;
+    EffectStackView2 *m_effectStack;
 
     QDockWidget *m_transitionConfigDock;
     TransitionSettings *m_transitionConfig;
@@ -197,7 +201,6 @@ private:
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList <QDockWidget *> m_gfxScopesList;
-    QList <AbstractAudioScopeWidget *> m_audioScopesList;
 
     KActionCategory *m_effectActions;
     QMenu *m_effectsMenu;
@@ -209,7 +212,7 @@ private:
 
     /** Actions used in the stopmotion widget */
     KActionCategory *m_stopmotion_actions;
-    
+
     /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
     QStringList m_action_names;
 
@@ -308,6 +311,9 @@ private:
 
     StopmotionWidget *m_stopmotion;
     QTime m_timer;
+    
+    /** @brief Update statusbar stylesheet (in case of color theme change). */
+    void setStatusBarStyleSheet(const QPalette &p);
 
 public slots:
     /** @brief Prepares opening @param url.
@@ -416,7 +422,8 @@ private slots:
     void slotAddProjectClipList(KUrl::List urls);
     void slotShowClipProperties(DocClipBase *clip);
     void slotShowClipProperties(QList <DocClipBase *>cliplist, QMap<QString, QString> commonproperties);
-    void slotActivateEffectStackView(ClipItem* item = NULL, int ix = -1, bool raise = true);
+    void slotTimelineClipSelected(ClipItem* item, bool raise = true);
+    void slotTrackSelected(int index, TrackInfo info, bool raise = true);
     void slotActivateTransitionView(Transition *);
     void slotChangeTool(QAction * action);
     void slotChangeEdit(QAction * action);
@@ -531,18 +538,6 @@ private slots:
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
-    /** @brief Check if someone needs the render frame sent. */
-    void slotUpdateGfxScopeFrameRequest();
-    /** @brief Check if someone needs the render frame sent. */
-    void slotDoUpdateGfxScopeFrameRequest();
-    void slotUpdateAudioScopeFrameRequest();
-    void slotDoUpdateAudioScopeFrameRequest();
-    /** @brief When switching between monitors, update the visible scopes. */
-    void slotUpdateColorScopes();
-    /** @brief Active monitor deleted, clear scopes. */
-    void slotClearColorScopes();
-    /** @brief Switch current monitor to fullscreen. */
-    void slotSwitchFullscreen();
     /** @brief Open the stopmotion dialog. */
     void slotOpenStopmotion();
     /** @brief Implements all the actions that are int he ActionsCollection. */
@@ -559,6 +554,10 @@ private slots:
     void slotElapsedTime();
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
+    
+    void slotChangePalette();
+    /** @brief Save current timeline clip as mlt playlist. */
+    void slotSaveTimelineClip();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

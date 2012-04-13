@@ -48,7 +48,7 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
 {
     m_ui.setupUi(this);
     QVBoxLayout *vbox1 = new QVBoxLayout(m_ui.frame);
-    m_effectedit = new EffectStackEdit(monitor, m_ui.frame);
+    //m_effectedit = new EffectStackEdit(monitor, m_ui.frame);
     m_ui.frame->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     vbox1->setContentsMargins(2, 0, 2, 0);
     vbox1->setSpacing(0);

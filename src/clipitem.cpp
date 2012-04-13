@@ -63,6 +63,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         m_limitedKeyFrames(false)
 {
     setZValue(2);
+    m_effectList = EffectsList(true);
     FRAME_SIZE = frame_width;
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double) itemHeight());
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1 + itemOffset());
@@ -159,9 +160,10 @@ void ClipItem::setEffectList(const EffectsList effectList)
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (!m_effectList.isEmpty()) {
         for (int i = 0; i < m_effectList.count(); i++) {
-            QString effectId = m_effectList.item(i).attribute("id");
+	    QDomElement effect = m_effectList.at(i);
+            QString effectId = effect.attribute("id");
             // check if it is a fade effect
-            QDomNodeList params = m_effectList.item(i).elementsByTagName("parameter");
+            QDomNodeList params = effect.elementsByTagName("parameter");
             int fade = 0;
             for (int j = 0; j < params.count(); j++) {
                 QDomElement e = params.item(j).toElement();
@@ -228,8 +230,6 @@ void ClipItem::initEffect(QDomElement effect, int diff)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
-    if (effect.attribute("kdenlive_ix").toInt() == 0)
-        effect.setAttribute("kdenlive_ix", QString::number(effectsCounter()));
 
     if (effect.attribute("id") == "freeze" && diff > 0) {
         EffectsList::setParameter(effect, "frame", QString::number(diff));
@@ -394,7 +394,7 @@ bool ClipItem::checkKeyFrames()
 
 void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
 {
-    QDomElement effect = getEffectAt(ix);
+    QDomElement effect = m_effectList.at(ix);
     if (effect.attribute("disable") == "1") return;
     QLocale locale;
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -473,7 +473,7 @@ void ClipItem::setSelectedEffect(const int ix)
 QStringList ClipItem::keyframes(const int index)
 {
     QStringList result;
-    QDomElement effect = effectAt(index);
+    QDomElement effect = m_effectList.at(index);
     QDomNodeList params = effect.elementsByTagName("parameter");
 
     for (int i = 0; i < params.count(); i++) {
@@ -1361,25 +1361,20 @@ QStringList ClipItem::effectNames()
 
 QDomElement ClipItem::effectAt(int ix) const
 {
-    if (ix > m_effectList.count() - 1 || ix < 0 || m_effectList.at(ix).isNull()) return QDomElement();
-    return m_effectList.at(ix).cloneNode().toElement();
+    if (ix > m_effectList.count() || ix <= 0) return QDomElement();
+    return m_effectList.itemFromIndex(ix).cloneNode().toElement();
 }
 
 QDomElement ClipItem::getEffectAt(int ix) const
 {
-    if (ix > m_effectList.count() - 1 || ix < 0 || m_effectList.at(ix).isNull()) return QDomElement();
-    return m_effectList.at(ix);
+    if (ix > m_effectList.count() || ix <= 0) return QDomElement();
+    return m_effectList.itemFromIndex(ix);
 }
 
-void ClipItem::setEffectAt(int ix, QDomElement effect)
+void ClipItem::updateEffect(QDomElement effect)
 {
-    if (ix < 0 || ix > (m_effectList.count() - 1) || effect.isNull()) {
-        kDebug() << "Invalid effect index: " << ix;
-        return;
-    }
     //kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
-    effect.setAttribute("kdenlive_ix", ix + 1);
-    m_effectList.replace(ix, effect);
+    m_effectList.updateEffect(effect);
     m_effectNames = m_effectList.effectNames().join(" / ");
     QString id = effect.attribute("id");
     if (id == "fadein" || id == "fadeout" || id == "fade_from_black" || id == "fade_to_black")
@@ -1391,35 +1386,58 @@ void ClipItem::setEffectAt(int ix, QDomElement effect)
     }
 }
 
-EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animate*/)
+bool ClipItem::moveEffect(QDomElement effect, int ix)
+{
+    if (ix <= 0 || ix > (m_effectList.count()) || effect.isNull()) {
+        kDebug() << "Invalid effect index: " << ix;
+        return false;
+    }
+    m_effectList.removeAt(effect.attribute("kdenlive_ix").toInt());
+    effect.setAttribute("kdenlive_ix", ix);
+    m_effectList.insert(effect);
+    m_effectNames = m_effectList.effectNames().join(" / ");
+    QString id = effect.attribute("id");
+    if (id == "fadein" || id == "fadeout" || id == "fade_from_black" || id == "fade_to_black")
+        update();
+    else {
+        QRectF r = boundingRect();
+        r.setHeight(20);
+        update(r);
+    }
+    return true;
+}
+
+EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
 {
     bool needRepaint = false;
     QLocale locale;
     int ix;
+    QDomElement insertedEffect;
     if (!effect.hasAttribute("kdenlive_ix")) {
+	// effect dropped from effect list
         ix = effectsCounter();
     } else ix = effect.attribute("kdenlive_ix").toInt();
     if (!m_effectList.isEmpty() && ix <= m_effectList.count()) {
         needRepaint = true;
-        m_effectList.insert(ix - 1, effect);
-        for (int i = ix; i < m_effectList.count(); i++) {
-            int index = m_effectList.item(i).attribute("kdenlive_ix").toInt();
-            if (index >= ix) m_effectList.item(i).setAttribute("kdenlive_ix", index + 1);
-        }
-    } else m_effectList.append(effect);
+        insertedEffect = m_effectList.insert(effect);
+    } else insertedEffect = m_effectList.append(effect);
+    
+    // Update index to the real one
+    effect.setAttribute("kdenlive_ix", insertedEffect.attribute("kdenlive_ix"));
+    
     EffectsParameterList parameters;
-    parameters.addParam("tag", effect.attribute("tag"));
-    parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
-    if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
-    if (effect.hasAttribute("disable")) parameters.addParam("disable", effect.attribute("disable"));
+    parameters.addParam("tag", insertedEffect.attribute("tag"));
+    parameters.addParam("kdenlive_ix", insertedEffect.attribute("kdenlive_ix"));
+    if (insertedEffect.hasAttribute("src")) parameters.addParam("src", insertedEffect.attribute("src"));
+    if (insertedEffect.hasAttribute("disable")) parameters.addParam("disable", insertedEffect.attribute("disable"));
 
-    QString effectId = effect.attribute("id");
-    if (effectId.isEmpty()) effectId = effect.attribute("tag");
+    QString effectId = insertedEffect.attribute("id");
+    if (effectId.isEmpty()) effectId = insertedEffect.attribute("tag");
     parameters.addParam("id", effectId);
 
     // special case: the affine effect needs in / out points
 
-    QDomNodeList params = effect.elementsByTagName("parameter");
+    QDomNodeList params = insertedEffect.elementsByTagName("parameter");
     int fade = 0;
     bool needInOutSync = false;
     for (int i = 0; i < params.count(); i++) {
@@ -1536,34 +1554,27 @@ EffectsParameterList ClipItem::addEffect(const QDomElement effect, bool /*animat
 void ClipItem::deleteEffect(QString index)
 {
     bool needRepaint = false;
-    QString ix;
+    int ix = index.toInt();
 
-    for (int i = 0; i < m_effectList.count(); ++i) {
-        ix = m_effectList.at(i).attribute("kdenlive_ix");
-        if (ix == index) {
-            QString effectId = m_effectList.at(i).attribute("id");
-            if ((effectId == "fadein" && hasEffect(QString(), "fade_from_black") == -1) ||
-                    (effectId == "fade_from_black" && hasEffect(QString(), "fadein") == -1)) {
-                m_startFade = 0;
-                needRepaint = true;
-            } else if ((effectId == "fadeout" && hasEffect(QString(), "fade_to_black") == -1) ||
-                       (effectId == "fade_to_black" && hasEffect(QString(), "fadeout") == -1)) {
-                m_endFade = 0;
-                needRepaint = true;
-            } else if (EffectsList::hasKeyFrames(m_effectList.at(i))) needRepaint = true;
-            m_effectList.removeAt(i);
-            i--;
-        } else if (ix.toInt() > index.toInt()) {
-            m_effectList.item(i).setAttribute("kdenlive_ix", ix.toInt() - 1);
-        }
-    }
+    QDomElement effect = m_effectList.itemFromIndex(ix);
+    QString effectId = effect.attribute("id");
+    if ((effectId == "fadein" && hasEffect(QString(), "fade_from_black") == -1) ||
+	(effectId == "fade_from_black" && hasEffect(QString(), "fadein") == -1)) {
+        m_startFade = 0;
+        needRepaint = true;
+    } else if ((effectId == "fadeout" && hasEffect(QString(), "fade_to_black") == -1) ||
+	(effectId == "fade_to_black" && hasEffect(QString(), "fadeout") == -1)) {
+        m_endFade = 0;
+        needRepaint = true;
+    } else if (EffectsList::hasKeyFrames(effect)) needRepaint = true;
+    m_effectList.removeAt(ix);
     m_effectNames = m_effectList.effectNames().join(" / ");
 
-    if (m_effectList.isEmpty() || m_selectedEffect + 1 == index.toInt()) {
+    if (m_effectList.isEmpty() || m_selectedEffect == ix) {
         // Current effect was removed
-        if (index.toInt() > m_effectList.count() - 1) {
-            setSelectedEffect(m_effectList.count() - 1);
-        } else setSelectedEffect(index.toInt());
+        if (ix > m_effectList.count()) {
+            setSelectedEffect(m_effectList.count());
+        } else setSelectedEffect(ix);
     }
     if (needRepaint) update(boundingRect());
     else {
@@ -1618,25 +1629,58 @@ const ItemInfo ClipItem::speedIndependantInfo() const
     return m_speedIndependantInfo;
 }
 
+int ClipItem::nextFreeEffectGroupIndex() const
+{
+    int freeGroupIndex = 0;
+    for (int i = 0; i < m_effectList.count(); i++) {
+        QDomElement effect = m_effectList.at(i);
+	EffectInfo effectInfo;
+	effectInfo.fromString(effect.attribute("kdenlive_info"));
+	if (effectInfo.groupIndex >= freeGroupIndex) {
+	    freeGroupIndex = effectInfo.groupIndex + 1;
+	}
+    }
+    return freeGroupIndex;
+}
+
 //virtual
 void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
-    const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
-    QDomDocument doc;
-    doc.setContent(effects, true);
-    const QDomElement e = doc.documentElement();
-    if (scene() && !scene()->views().isEmpty()) {
-        event->accept();
+    if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
+	const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+	event->acceptProposedAction();
+	QDomDocument doc;
+	doc.setContent(effects, true);
+	QDomElement e = doc.documentElement();
+	if (e.tagName() == "effectgroup") {
+	    // dropped an effect group
+	    QDomNodeList effectlist = e.elementsByTagName("effect");
+	    int freeGroupIndex = nextFreeEffectGroupIndex();
+	    EffectInfo effectInfo;
+	    for (int i = 0; i < effectlist.count(); i++) {
+		QDomElement effect = effectlist.at(i).toElement();
+		effectInfo.fromString(effect.attribute("kdenlive_info"));
+		effectInfo.groupIndex = freeGroupIndex;
+		effect.setAttribute("kdenlive_info", effectInfo.toString());
+		effect.removeAttribute("kdenlive_ix");
+	    }
+	} else {
+	    // single effect dropped
+	    e.removeAttribute("kdenlive_ix");
+	}
         CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
         if (view) view->slotAddEffect(e, m_info.startPos, track());
     }
+    else return;
 }
 
 //virtual
 void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     if (isItemLocked()) event->setAccepted(false);
-    else event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
+    else if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
+	event->acceptProposedAction();
+    } else event->setAccepted(false);
 }
 
 void ClipItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)

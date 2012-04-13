@@ -100,9 +100,12 @@
       </Menu>
       <Action name="resize_timeline_clip_start" />
       <Action name="resize_timeline_clip_end" />
-      <Action name="cut_timeline_clip" />
-      <Action name="delete_timeline_clip" />
-      <Action name="edit_item_duration" />
+      <Menu name="current_clip" ><text>Current clip</text>
+	  <Action name="cut_timeline_clip" />
+	  <Action name="delete_timeline_clip" />
+	  <Action name="edit_item_duration" />
+	  <Action name="save_timeline_clip" />
+      </Menu>
       <Menu name="guide_menu" ><text>Guides</text>
 		<Action name="add_guide" />
 		<Action name="edit_guide" />

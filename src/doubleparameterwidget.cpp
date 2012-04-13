@@ -58,6 +58,12 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
     connect(m_dragVal, SIGNAL(inTimeline(int)), this, SIGNAL(setInTimeline(int)));
 }
 
+DoubleParameterWidget::~DoubleParameterWidget()
+{
+    delete m_dragVal;
+    if (m_commentLabel) delete m_commentLabel;
+}
+
 int DoubleParameterWidget::spinSize()
 {
     return m_dragVal->spinSize();

@@ -1334,9 +1334,7 @@ void RenderWidget::refreshView()
             }
         }
     }
-    // m_view.size_list->sortItems();
     focusFirstVisibleItem();
-    m_view.size_list->setVisible(m_view.size_list->count() > 1 || m_view.format_list->count() <= 1);
     m_view.size_list->blockSignals(false);
     m_view.format_list->blockSignals(false);
     if (m_view.size_list->count() > 0) {

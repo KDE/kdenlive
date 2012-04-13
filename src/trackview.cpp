@@ -537,14 +537,7 @@ void TrackView::slotRebuildTrackHeaders()
     HeaderTrack *header = NULL;
     QFrame *frame = NULL;
 
-    QPalette p = palette();
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor norm = scheme.shade(scheme.background(KColorScheme::ActiveBackground).color(), KColorScheme::MidShade);
-    p.setColor(QPalette::Button, norm);
-
-    QColor col = scheme.background().color();
-    QColor col2 = scheme.foreground().color();
-    headers_container->setStyleSheet(QString("QLineEdit { background-color: transparent;color: rgb(%4, %5, %6);} QLineEdit:hover{ background-color: rgb(%1, %2, %3);} QLineEdit:focus { background-color: rgb(%1, %2, %3);}").arg(col.red()).arg(col.green()).arg(col.blue()).arg(col2.red()).arg(col2.green()).arg(col2.blue()));
+    updatePalette();
     
     for (int i = 0; i < max; i++) {
         frame = new QFrame(headers_container);
@@ -553,7 +546,6 @@ void TrackView::slotRebuildTrackHeaders()
         headers_container->layout()->addWidget(frame);
         TrackInfo info = list.at(max - i - 1);
         header = new HeaderTrack(i, info, height, m_trackActions, headers_container);
-        header->setPalette(p);
         header->setSelectedIndex(m_trackview->selectedTrack());
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
@@ -561,7 +553,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
         connect(header, SIGNAL(renameTrack(int, QString)), this, SLOT(slotRenameTrack(int, QString)));
         connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
-        connect(header, SIGNAL(addTrackInfo(const QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(const QDomElement, int)));
+        connect(header, SIGNAL(addTrackEffect(const QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(const QDomElement, int)));
         connect(header, SIGNAL(showTrackEffects(int)), this, SLOT(slotShowTrackEffects(int)));
         headers_container->layout()->addWidget(header);
     }
@@ -571,6 +563,20 @@ void TrackView::slotRebuildTrackHeaders()
     headers_container->layout()->addWidget(frame);
 }
 
+
+void TrackView::updatePalette()
+{
+    QPalette p = palette();
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    QColor norm = scheme.shade(scheme.background(KColorScheme::ActiveBackground).color(), KColorScheme::MidShade);
+    p.setColor(QPalette::Button, norm);
+    QColor col = scheme.background().color();
+    QColor col2 = scheme.foreground().color();
+    headers_container->setStyleSheet(QString("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;}").arg(col2.name()).arg(col.name()));
+    m_trackview->updatePalette();
+    m_ruler->updatePalette();
+    
+}
 
 void TrackView::adjustTrackHeaders()
 {
@@ -765,6 +771,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         // add effect to clip
         QString effecttag;
         QString effectid;
+	QString effectinfo;
         QString effectindex = QString::number(effectNb);
         // Get effect tag & index
         for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
@@ -774,6 +781,8 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 effecttag = effectparam.text();
             } else if (effectparam.attribute("name") == "kdenlive_id") {
                 effectid = effectparam.text();
+	    } else if (effectparam.attribute("name") == "kdenlive_info") {
+                effectinfo = effectparam.text();
             } else if (effectparam.attribute("name") == "disable" && effectparam.text().toInt() == 1) {
                 // Fix effects index
                 disableeffect = true;
@@ -784,13 +793,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         }
         //kDebug() << "+ + CLIP EFF FND: " << effecttag << ", " << effectid << ", " << effectindex;
         // get effect standard tags
-        QDomElement clipeffect = MainWindow::customEffects.getEffectByTag(QString(), effectid);
-        if (clipeffect.isNull()) {
-            clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
-        }
-        if (clipeffect.isNull()) {
-            clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
-        }
+        QDomElement clipeffect = getEffectByTag(effecttag, effectid);
         if (clipeffect.isNull()) {
             kDebug() << "///  WARNING, EFFECT: " << effecttag << ": " << effectid << " not found, removing it from project";
             m_documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effecttag, effectid));
@@ -799,6 +802,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         } else {
             QDomElement currenteffect = clipeffect.cloneNode().toElement();
             currenteffect.setAttribute("kdenlive_ix", effectindex);
+	    currenteffect.setAttribute("kdenlive_info", effectinfo);
             QDomNodeList clipeffectparams = currenteffect.childNodes();
 
             if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
@@ -889,49 +893,49 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                     EffectsList::setParameter(currenteffect, "out",  effect.attribute("out"));
                 }
             }
-
+            
+            // Special case, region filter embeds other effects
+	    bool regionFilter = effecttag == "region";
+	    QMap <QString, QString> regionEffects;
+	    
             // adjust effect parameters
             for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
                 // parse effect parameters
                 QDomElement effectparam = n3.toElement();
                 QString paramname = effectparam.attribute("name");
                 QString paramvalue = effectparam.text();
+		
+		if (regionFilter && paramname.startsWith("filter")) {
+		    regionEffects.insert(paramname, paramvalue);
+		    continue;
+		}
 
-                // try to find this parameter in the effect xml
-                QDomElement e;
-                for (int k = 0; k < clipeffectparams.count(); k++) {
-                    e = clipeffectparams.item(k).toElement();
-                    if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
-                        QString type = e.attribute("type");
-                        QString factor = e.attribute("factor", "1");
-                        double fact;
-                        if (factor.contains('%')) {
-                            fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-                        } else {
-                            fact = factor.toDouble();
-                        }
-                        double offset = e.attribute("offset", "0").toDouble();
-                        if (type == "simplekeyframe") {
-                            QStringList kfrs = paramvalue.split(";");
-                            for (int l = 0; l < kfrs.count(); l++) {
-                                QString fr = kfrs.at(l).section('=', 0, 0);
-                                double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
-                                //kfrs[l] = fr + ":" + locale.toString((int)(val * fact));
-                                kfrs[l] = fr + ":" + QString::number((int) (offset + val * fact));
-                            }
-                            e.setAttribute("keyframes", kfrs.join(";"));
-                        } else if (type == "double" || type == "constant") {
-                            bool ok;
-                            e.setAttribute("value", offset + locale.toDouble(paramvalue, &ok) * fact);
-                            if (!ok)
-                                e.setAttribute("value", paramvalue);
-                        } else {
-                            e.setAttribute("value", paramvalue);
-                        }
-                        break;
-                    }
-                }
+                // try to find this parameter in the effect xml and set its value
+                adjustparameterValue(clipeffectparams, paramname, paramvalue);
+                
             }
+            
+            if (regionFilter && !regionEffects.isEmpty()) {
+		// insert region sub-effects
+		int i = 0;
+		while (regionEffects.contains(QString("filter%1").arg(i))) {
+		    QString filterid = regionEffects.value(QString("filter%1.kdenlive_id").arg(i));
+		    QString filtertag = regionEffects.value(QString("filter%1.tag").arg(i));
+		    QDomElement subclipeffect = getEffectByTag(filtertag, filterid).cloneNode().toElement();
+		    QDomNodeList subclipeffectparams = subclipeffect.childNodes();
+		    subclipeffect.setAttribute("region_ix", i);
+		    QMap<QString, QString>::const_iterator j = regionEffects.constBegin();
+		    while (j != regionEffects.constEnd()) {
+			if (j.key().startsWith(QString("filter%1.").arg(i))) {
+			    QString pname = j.key().section('.', 1, -1);
+			    adjustparameterValue(subclipeffectparams, pname, j.value());
+			}
+			++j;
+		    }
+		    currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
+		    i++;
+		}
+	    }
             
             if (disableeffect) currenteffect.setAttribute("disable", "1");
             if (clip)
@@ -940,6 +944,58 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 m_doc->addTrackEffect(trackIndex, currenteffect);
         }
     }
+}
+
+
+void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue)
+{
+    QDomElement e;
+    QLocale locale;
+    for (int k = 0; k < clipeffectparams.count(); k++) {
+	e = clipeffectparams.item(k).toElement();
+        if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
+	    QString type = e.attribute("type");
+            QString factor = e.attribute("factor", "1");
+            double fact;
+            if (factor.contains('%')) {
+		fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+            } else {
+		fact = factor.toDouble();
+            }
+            double offset = e.attribute("offset", "0").toDouble();
+            if (type == "simplekeyframe") {
+		QStringList kfrs = paramvalue.split(";");
+                for (int l = 0; l < kfrs.count(); l++) {
+		    QString fr = kfrs.at(l).section('=', 0, 0);
+                    double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
+                    //kfrs[l] = fr + ":" + locale.toString((int)(val * fact));
+                    kfrs[l] = fr + ":" + QString::number((int) (offset + val * fact));
+                }
+                e.setAttribute("keyframes", kfrs.join(";"));
+            } else if (type == "double" || type == "constant") {
+		bool ok;
+                e.setAttribute("value", offset + locale.toDouble(paramvalue, &ok) * fact);
+                if (!ok)
+		    e.setAttribute("value", paramvalue);
+            } else {
+		e.setAttribute("value", paramvalue);
+            }
+            break;
+        }
+    }  
+}
+
+
+QDomElement TrackView::getEffectByTag(const QString &effecttag, const QString &effectid)
+{
+    QDomElement clipeffect = MainWindow::customEffects.getEffectByTag(QString(), effectid);
+    if (clipeffect.isNull()) {
+	clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
+    }
+    if (clipeffect.isNull()) {
+	clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
+    }
+    return clipeffect;
 }
 
 

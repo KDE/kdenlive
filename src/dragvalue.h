@@ -49,6 +49,8 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
     //virtual void paintEvent(QPaintEvent *event);
     virtual void wheelEvent(QWheelEvent * event);
+    virtual void focusInEvent(QFocusEvent *e);
+    virtual void focusOutEvent(QFocusEvent *e);
 
 private:
     QPoint m_dragStartPosition;
@@ -139,6 +141,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *e);*/
     /** @brief Forwards tab focus to lineedit since it is disabled. */
     virtual void focusInEvent(QFocusEvent *e);
+    virtual void focusOutEvent(QFocusEvent *e);
     //virtual void keyPressEvent(QKeyEvent *e);
     //virtual void wheelEvent(QWheelEvent *e);
     //virtual void paintEvent( QPaintEvent * event );

@@ -31,7 +31,6 @@
 SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     QDialog(parent),
     m_count(0),
-    m_patternBegin(0),
     m_timecode(tc),
     m_thumbJob(NULL)
 {
@@ -177,12 +176,13 @@ int SlideshowClip::sequenceCount(KUrl file)
 
     // Find number of digits in sequence
     int precision = fullSize - filter.size();
+    int firstFrame = file.fileName().section('.', 0, -2).right(precision).toInt();    
     QString folder = file.directory(KUrl::AppendTrailingSlash);
     // Check how many files we have
     QDir dir(folder);
     QString path;
     int gap = 0;
-    for (int i = 0; gap < 100; i++) {
+    for (int i = firstFrame; gap < 100; i++) {
         path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
         if (dir.exists(path)) {
             count ++;
@@ -219,13 +219,13 @@ void SlideshowClip::parseFolder()
         filter = filter.section('.', 0, -2);
         int fullSize = filter.size();
         while (filter.at(filter.size() - 1).isDigit()) {
-            filter.remove(filter.size() - 1, 1);
+            filter.chop(1);
         }
         int precision = fullSize - filter.size();
-        m_patternBegin = m_view.pattern_url->url().fileName().section('.', 0, -2).right(precision).toInt();
+        int firstFrame = m_view.pattern_url->url().fileName().section('.', 0, -2).right(precision).toInt();
         QString path;
         int gap = 0;
-        for (int i = m_patternBegin; gap < 100; i++) {
+        for (int i = firstFrame; gap < 100; i++) {
             path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
             if (dir.exists(path)) {
                 result.append(path);
@@ -300,6 +300,7 @@ QString SlideshowClip::selectedPath()
     else url = m_view.pattern_url->url();
     QString path = selectedPath(url, m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
     m_count = list.count();
+    kDebug()<<"// SELECTED PATH: "<<path;
     return path;
 }
 
@@ -327,6 +328,7 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
         QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);
         int fullSize = filter.size();
+	QString firstFrameData = filter;
 
         while (filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
@@ -334,12 +336,13 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
 
         // Find number of digits in sequence
         int precision = fullSize - filter.size();
+	int firstFrame = firstFrameData.right(precision).toInt();
 
         // Check how many files we have
         QDir dir(folder);
         QString path;
         int gap = 0;
-        for (int i = 0; gap < 100; i++) {
+        for (int i = firstFrame; gap < 100; i++) {
             path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
             if (dir.exists(path)) {
                 (*list).append(folder + path);
@@ -348,7 +351,8 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
                 gap++;
             }
         }
-        extension = filter + "%." + QString::number(precision) + "d" + ext;
+        if (firstFrame > 0) extension = filter + "%" + QString::number(firstFrame).rightJustified(precision, '0', false) + "d" + ext;
+        else extension = filter + "%" + QString::number(precision) + "d" + ext;
     }
     kDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;
@@ -467,10 +471,6 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
     return geometry;
 }
 
-int SlideshowClip::begin() const
-{
-   return m_patternBegin;
-}
 
 #include "slideshowclip.moc"
 

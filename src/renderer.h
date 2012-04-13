@@ -48,6 +48,8 @@
 class QTimer;
 class QPixmap;
 
+class KComboBox;
+
 namespace Mlt
 {
 class Consumer;
@@ -99,7 +101,7 @@ Q_OBJECT public:
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(const QString &rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
+    Render(Kdenlive::MONITORID rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -153,9 +155,9 @@ Q_OBJECT public:
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
 
     void saveZone(KUrl url, QString desc, QPoint zone);
-
-    /** @brief Returns the name of the renderer. */
-    const QString & rendererName() const;
+    
+    /** @brief Save a clip in timeline to an xml playlist. */
+    bool saveClip(int track, GenTime position, KUrl url, QString desc = QString());
 
     /** @brief Returns the speed at which the renderer is currently playing.
      *
@@ -172,8 +174,6 @@ Q_OBJECT public:
 
     /** @brief Returns the aspect ratio of the consumer. */
     double consumerRatio() const;
-
-    void doRefresh();
 
     /** @brief Saves current producer frame as an image. */
     void exportCurrentFrame(KUrl url, bool notify);
@@ -226,6 +226,7 @@ Q_OBJECT public:
 
     /** @brief Adds an effect to a clip in MLT's playlist. */
     bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
+    bool addFilterToService(Mlt::Service service, EffectsParameterList params, int duration);
     bool mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh);
     bool mltAddTrackEffect(int track, EffectsParameterList params);
 
@@ -254,7 +255,7 @@ Q_OBJECT public:
     void mltMoveTransparency(int startTime, int endTime, int startTrack, int endTrack, int id);
     void mltDeleteTransparency(int pos, int track, int id);
     void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
-    void mltInsertTrack(int ix, bool videoTrack);
+    QList <TransitionInfo> mltInsertTrack(int ix, bool videoTrack);
     void mltDeleteTrack(int ix);
     bool mltUpdateClipProducer(Mlt::Tractor *tractor, int track, int pos, Mlt::Producer *prod);
     void mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
@@ -277,8 +278,6 @@ Q_OBJECT public:
     void showFrame(Mlt::Frame&);
 
     void showAudio(Mlt::Frame&);
-    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
-    bool analyseAudio;
     
     QList <int> checkTrackSequence(int);
     void sendFrameUpdate();
@@ -304,6 +303,9 @@ Q_OBJECT public:
     /** @brief Unlock the MLT service */
     void unlockService(Mlt::Tractor *tractor);
     const QString activeClipId();
+    /** @brief Fill a combobox with the found blackmagic devices */
+    static bool getBlackMagicDeviceList(KComboBox *devicelist);
+    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist);
 
 private:
 
@@ -311,7 +313,7 @@ private:
      *
      * Useful to identify the renderers by what they do - e.g. background
      * rendering, workspace monitor, etc. */
-    QString m_name;
+    Kdenlive::MONITORID m_name;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
@@ -436,6 +438,8 @@ public slots:
     void slotSwitchFullscreen();
     void slotSetVolume(int volume);
     void seekToFrame(int pos);
+    /** @brief Starts a timer to query for a refresh. */
+    void doRefresh();
 };
 
 #endif

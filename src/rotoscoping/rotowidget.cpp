@@ -59,6 +59,7 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, ItemInfo info, Timecode t
     MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->showVisibilityButton(true);
     m_scene = edit->getScene();
+    m_scene->cleanup();
 
     m_item = new SplineItem(QList <BPoint>(), NULL, m_scene);
 
@@ -73,6 +74,7 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, ItemInfo info, Timecode t
 
     setSpline(data, false);
     setupTrackingListen(info);
+    m_scene->centerView();
 }
 
 RotoWidget::~RotoWidget()

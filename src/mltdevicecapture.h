@@ -50,7 +50,7 @@ Q_OBJECT public:
     /** @brief Build a MLT Renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the capture (default one will be used if empty). */
-    MltDeviceCapture(QString profile, VideoPreviewContainer *surface, QWidget *parent = 0);
+    MltDeviceCapture(QString profile, VideoSurface *surface, QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     ~MltDeviceCapture();
@@ -80,7 +80,7 @@ Q_OBJECT public:
     void gotCapturedFrame(Mlt::Frame& frame);
     /** @brief Save current frame to file. */
     void captureFrame(const QString &path);
-    void doRefresh();
+    
     /** @brief This will add the video clip from path and add it in the overlay track. */
     void setOverlay(const QString &path);
 
@@ -89,12 +89,11 @@ Q_OBJECT public:
 
     /** @brief This will add a horizontal flip effect, easier to work when filming yourself. */
     void mirror(bool activate);
-
-    /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
-    bool analyseAudio;
     
     /** @brief True if we are processing an image (yuv > rgb) when recording. */
     bool processingImage;
+    
+    void pause();
 
 private:
     Mlt::Consumer * m_mltConsumer;
@@ -109,7 +108,7 @@ private:
     int m_frameCount;
 
     /** @brief The surface onto which the captured frames should be painted. */
-    VideoPreviewContainer *m_captureDisplayWidget;
+    VideoSurface *m_captureDisplayWidget;
 
     /** @brief A human-readable description of this renderer. */
     int m_winid;
@@ -119,6 +118,8 @@ private:
     QString m_capturePath;
     
     QTimer m_droppedFramesTimer;
+    
+    QMutex m_mutex;
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
@@ -149,6 +150,7 @@ public slots:
 
     /** @brief Stops the consumer. */
     void stop();
+    void slotDoRefresh();
 };
 
 #endif

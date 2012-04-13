@@ -51,6 +51,9 @@ public:
     void reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions);
     QMenu* getEffectsMenu();
     //void slotAddEffect(GenTime pos, int track, QString name);
+    
+    /** @brief Palette was changed, update styles. */
+    void updatePalette();
 
 private:
     EffectsListWidget *m_effectsList;

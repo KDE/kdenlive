@@ -19,6 +19,7 @@
 #define STOPMOTION_H
 
 #include "ui_stopmotion_ui.h"
+#include "definitions.h"
 
 #include <KUrl>
 #include <QLabel>
@@ -61,18 +62,21 @@ class StopmotionMonitor : public AbstractMonitor
 {
     Q_OBJECT
 public:
-    StopmotionMonitor(QWidget *parent);
+    StopmotionMonitor(MonitorManager *manager, QWidget *parent);
     ~StopmotionMonitor();
     AbstractRender *abstractRender();
-    const QString name() const;
+    Kdenlive::MONITORID id() const;
     void setRender(MltDeviceCapture *render);
 
 private:
     MltDeviceCapture *m_captureDevice;
 
 public slots:
-    virtual void stop();
-    virtual void start();
+    void stop();
+    void start();
+    void slotPlay();
+    void slotMouseSeek(int eventDelta, bool fast);
+    void slotSwitchFullScreen();
 
 signals:
     void stopCapture();
@@ -102,7 +106,7 @@ private:
     /** @brief Capture holder that will handle all video operation. */
     MltDeviceCapture *m_captureDevice;
 
-    VideoPreviewContainer *m_videoBox;
+    VideoContainer *m_videoBox;
 
     /** @brief Holds the name of the current sequence.
      * Files will be saved in project folder with name: sequence001.png */

@@ -45,15 +45,7 @@ ProjectListView::ProjectListView(QWidget *parent) :
     setFrameShape(QFrame::NoFrame);
     setRootIsDecorated(true);
 
-    QString style = "QTreeView::branch:has-siblings:!adjoins-item{border-image: none;border:0px} \
-    QTreeView::branch:has-siblings:adjoins-item {border-image: none;border:0px}      \
-    QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none;border:0px} \
-    QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings {   \
-         border-image: none;image: url(:/images/stylesheet-branch-closed.png);}      \
-    QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-children:has-siblings  {    \
-         border-image: none;image: url(:/images/stylesheet-branch-open.png);}";
-
-    setStyleSheet(style);
+    updateStyleSheet();
 
     setColumnCount(4);
     QStringList headers;
@@ -80,6 +72,18 @@ ProjectListView::ProjectListView(QWidget *parent) :
 
 ProjectListView::~ProjectListView()
 {
+}
+
+void ProjectListView::updateStyleSheet()
+{
+    QString style = "QTreeView::branch:has-siblings:!adjoins-item{border-image: none;border:0px} \
+    QTreeView::branch:has-siblings:adjoins-item {border-image: none;border:0px}      \
+    QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: none;border:0px} \
+    QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings {   \
+         border-image: none;image: url(:/images/stylesheet-branch-closed.png);}      \
+    QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-children:has-siblings  {    \
+         border-image: none;image: url(:/images/stylesheet-branch-open.png);}";
+    setStyleSheet(style);
 }
 
 void ProjectListView::processLayout()
@@ -294,7 +298,12 @@ void ProjectListView::dropEvent(QDropEvent *event)
         QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(';');
         emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
     }
-    event->acceptProposedAction();
+    if (event->source() == this) {
+	event->setDropAction(Qt::MoveAction);
+        event->accept();
+    } else {
+	event->acceptProposedAction();
+    }
     QTreeWidget::dropEvent(event);
 }
 
@@ -357,7 +366,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             drag->setMimeData(mimeData);
             drag->setPixmap(clickItem->data(0, Qt::DecorationRole).value<QPixmap>());
             drag->setHotSpot(QPoint(0, 50));
-            drag->exec();
+            drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
         }
     } else {
         if (it && (it->flags() & Qt::ItemIsDragEnabled)) {
@@ -385,7 +394,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
             drag->setMimeData(mimeData);
             drag->setPixmap(it->data(0, Qt::DecorationRole).value<QPixmap>());
             drag->setHotSpot(QPoint(0, 50));
-            drag->exec();
+            drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
         }
         //event->accept();
     }

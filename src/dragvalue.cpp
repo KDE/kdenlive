@@ -57,6 +57,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     else setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
     setFocusPolicy(Qt::StrongFocus);
     setContextMenuPolicy(Qt::CustomContextMenu);
+    setFocusPolicy(Qt::StrongFocus);
     
     QHBoxLayout *l = new QHBoxLayout;
     l->setSpacing(0);
@@ -68,6 +69,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_label->setStep(1);
         m_intEdit = new QSpinBox(this);
         m_intEdit->setObjectName("dragBox");
+	m_intEdit->setFocusPolicy(Qt::StrongFocus);
         if (!suffix.isEmpty()) m_intEdit->setSuffix(suffix);
         m_intEdit->setKeyboardTracking(false);
         m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
@@ -81,6 +83,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     else {
         m_doubleEdit = new QDoubleSpinBox(this);
         m_doubleEdit->setDecimals(decimals);
+	m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
         m_doubleEdit->setObjectName("dragBox");
         if (!suffix.isEmpty()) m_doubleEdit->setSuffix(suffix);
         m_doubleEdit->setKeyboardTracking(false);
@@ -139,8 +142,8 @@ DragValue::~DragValue()
     if (m_intEdit) delete m_intEdit;
     if (m_doubleEdit) delete m_doubleEdit;
     delete m_menu;
-    delete m_scale;
-    delete m_directUpdate;
+    //delete m_scale;
+    //delete m_directUpdate;
 }
 
 int DragValue::spinSize()
@@ -274,8 +277,16 @@ void DragValue::setValue(double value, bool final)
     m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
 }
 
+void DragValue::focusOutEvent(QFocusEvent*)
+{
+    if (m_intEdit) m_intEdit->setFocusPolicy(Qt::StrongFocus);
+    else m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
+}
+
 void DragValue::focusInEvent(QFocusEvent* e)
 {
+    if (m_intEdit) m_intEdit->setFocusPolicy(Qt::WheelFocus);
+    else m_doubleEdit->setFocusPolicy(Qt::WheelFocus);
     if (e->reason() == Qt::TabFocusReason || e->reason() == Qt::BacktabFocusReason) {
         if (m_intEdit) m_intEdit->setFocus(e->reason());
         else m_doubleEdit->setFocus(e->reason());
@@ -351,7 +362,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
 {
     setFont(KGlobalSettings::toolBarFont());
     setFormat(" " + label);
-    setFocusPolicy(Qt::ClickFocus);
+    setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::PointingHandCursor);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     if (showSlider) setRange(0, 1000);
@@ -476,6 +487,16 @@ void CustomLabel::setNewValue(double value, bool update)
 void CustomLabel::setStep(double step)
 {
     m_step = step;
+}
+
+void CustomLabel::focusInEvent(QFocusEvent*)
+{
+     setFocusPolicy(Qt::WheelFocus);
+}
+
+void CustomLabel::focusOutEvent(QFocusEvent*)
+{
+     setFocusPolicy(Qt::StrongFocus);
 }
 
 #include "dragvalue.moc"
