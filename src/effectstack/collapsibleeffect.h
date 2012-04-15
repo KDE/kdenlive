@@ -21,9 +21,6 @@
 #ifndef COLLAPSIBLEEFFECT_H
 #define COLLAPSIBLEEFFECT_H
 
-
-#include "ui_collapsiblewidget_ui.h"
-
 #include "abstractcollapsiblewidget.h"
 #include "timecode.h"
 #include "keyframeedit.h"
@@ -32,6 +29,8 @@
 #include <QToolButton>
 
 class QFrame;
+class QLabel;
+
 class Monitor;
 class GeometryWidget;
 
@@ -117,7 +116,7 @@ signals:
  * @author Jean-Baptiste Mardelle
  */
 
-class CollapsibleEffect : public AbstractCollapsibleWidget, public Ui::CollapsibleWidget_UI
+class CollapsibleEffect : public AbstractCollapsibleWidget
 {
     Q_OBJECT
 
@@ -125,6 +124,8 @@ public:
     CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
     ~CollapsibleEffect();
     static QMap<QString, QImage> iconCache;
+    QLabel *title;
+	
     void setupWidget(ItemInfo info, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
     void setActive(bool activate);
@@ -196,21 +197,16 @@ signals:
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix = -1, bool updateMainStatus = true);
     void deleteEffect(const QDomElement);
-    void changeEffectPosition(int, bool);
     void activateEffect(int);
     void checkMonitorPosition(int);
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
     void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QString properties);
-    /** @brief An effect was saved, trigger effect list reload. */
-    void reloadEffects();
     /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
-    void moveEffect(QList <int> current_pos, int new_pos, int groupIndex, QString groupName);
     void unGroup(CollapsibleEffect *);
-    void addEffect(QDomElement e);
     void createRegion(int, KUrl);
     void deleteGroup(QDomDocument);
 };

@@ -241,7 +241,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(deleteEffect(const QDomElement)), this , SLOT(slotDeleteEffect(const QDomElement)));
     connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
-    connect(currentEffect, SIGNAL(changeEffectPosition(int,bool)), this , SLOT(slotMoveEffectUp(int , bool)));
+    connect(currentEffect, SIGNAL(changeEffectPosition(QList <int>,bool)), this , SLOT(slotMoveEffectUp(QList <int>,bool)));
     connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
     connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
     connect(currentEffect, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
@@ -293,7 +293,7 @@ bool EffectStackView2::eventFilter( QObject * o, QEvent * e )
 	m_draggedGroup = qobject_cast<CollapsibleGroup*>(o);
 	if (m_draggedGroup) {
 	    QMouseEvent *me = static_cast<QMouseEvent *>(e);
-	    if (me->button() == Qt::LeftButton && (m_draggedGroup->framegroup->underMouse() || m_draggedGroup->title()->underMouse()))
+	    if (me->button() == Qt::LeftButton && (m_draggedGroup->frame->underMouse() || m_draggedGroup->title()->underMouse()))
 		m_clickPoint = me->globalPos();
 	    else {
 		m_clickPoint = QPoint();
@@ -552,19 +552,19 @@ void EffectStackView2::slotAddEffect(QDomElement effect)
     emit addEffect(m_clipref, effect);
 }
 
-void EffectStackView2::slotMoveEffectUp(int index, bool up)
+void EffectStackView2::slotMoveEffectUp(QList <int> indexes, bool up)
 {
-    if (up && index <= 1) return;
-    if (!up && index >= m_currentEffectList.count()) return;
+    if (up && indexes.first() <= 1) return;
+    if (!up && indexes.last() >= m_currentEffectList.count()) return;
     int endPos;
     if (up) {
-        endPos = index - 1;
+        endPos = indexes.first() - 1;
     }
     else {
-        endPos =  index + 1;
+        endPos =  indexes.last() + 1;
     }
-    if (m_effectMetaInfo.trackMode) emit changeEffectPosition(NULL, m_trackindex, QList <int>() <<index, endPos);
-    else emit changeEffectPosition(m_clipref, -1, QList <int>() <<index, endPos);
+    if (m_effectMetaInfo.trackMode) emit changeEffectPosition(NULL, m_trackindex, indexes, endPos);
+    else emit changeEffectPosition(m_clipref, -1, indexes, endPos);
 }
 
 void EffectStackView2::slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties)
@@ -732,6 +732,7 @@ void EffectStackView2::connectGroup(CollapsibleGroup *group)
     connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
     connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(group, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
+    connect(group, SIGNAL(changeEffectPosition(QList <int>,bool)), this , SLOT(slotMoveEffectUp(QList <int>,bool)));
 }
 
 void EffectStackView2::slotMoveEffect(QList <int> currentIndexes, int newIndex, int groupIndex, QString groupName)

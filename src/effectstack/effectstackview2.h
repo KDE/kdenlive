@@ -143,9 +143,9 @@ private slots:
     void slotUpdateEffectParams(const QDomElement old, const QDomElement e, int ix);
 
     /** @brief Move an effect in the stack.
-     * @param index The effect index in the stack
+     * @param indexes The list of effect index in the stack
      * @param up true if we want to move effect up, false for down */
-    void slotMoveEffectUp(int index, bool up);
+    void slotMoveEffectUp(QList <int> indexes, bool up);
 
     /** @brief Delete an effect in the stack. */
     void slotDeleteEffect(const QDomElement effect);

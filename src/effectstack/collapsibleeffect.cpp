@@ -130,7 +130,6 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
         m_lastEffect(lastEffect),
         m_regionEffect(false)
 {
-    setupUi(this);
     if (m_effect.attribute("tag") == "region") {
 	m_regionEffect = true;
 	decoframe->setObjectName("decoframegroup");
@@ -165,6 +164,11 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     if (namenode.isNull()) return;
     QString effectname = i18n(namenode.text().toUtf8().data());
     if (m_regionEffect) effectname.append(":" + KUrl(EffectsList::parameter(m_effect, "resource")).fileName());
+    
+    QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
+    title = new QLabel(this);
+    l->insertWidget(2, title);
+    
     title->setText(effectname);
     /*
      * Do not show icon, makes too much visual noise
@@ -233,12 +237,9 @@ const QString CollapsibleEffect::getStyleSheet()
     
     QString stylesheet;
     
-    // group editable labels
-    stylesheet.append(QString("MyEditableLabel { background-color: transparent;color: palette(bright-text);} "));
-    
     // effect background
     stylesheet.append(QString("QFrame#decoframe {border-top-left-radius:5px;border-top-right-radius:5px;border-bottom:2px solid palette(mid);border-top:1px solid palette(light);} QFrame#decoframe[active=\"true\"] {background: %1;}").arg(hgh.name()));
-
+    
     // effect in group background
     stylesheet.append(QString("QFrame#decoframesub {border-top:1px solid palette(light);}  QFrame#decoframesub[active=\"true\"] {background: %1;}").arg(hgh.name()));
     
@@ -259,7 +260,10 @@ const QString CollapsibleEffect::getStyleSheet()
     
     // spin box for draggable widget
     stylesheet.append(QString("QAbstractSpinBox#dragBox {border: 1px solid palette(dark);border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ").arg(hover_bg.name()).arg(selected_bg.name()));
-
+    
+    // group editable labels
+    stylesheet.append(QString("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
+    
     return stylesheet;
 }
 
@@ -392,12 +396,12 @@ void CollapsibleEffect::slotDeleteEffect()
 
 void CollapsibleEffect::slotEffectUp()
 {
-    emit changeEffectPosition(effectIndex(), true);
+    emit changeEffectPosition(QList <int>() <<effectIndex(), true);
 }
 
 void CollapsibleEffect::slotEffectDown()
 {
-    emit changeEffectPosition(effectIndex(), false);
+    emit changeEffectPosition(QList <int>() <<effectIndex(), false);
 }
 
 void CollapsibleEffect::slotSaveEffect()

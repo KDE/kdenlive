@@ -42,7 +42,7 @@ MyEditableLabel::MyEditableLabel(QWidget * parent):
 {
     setFrame(false);
     setReadOnly(true);
-    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
 
 void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
@@ -56,13 +56,14 @@ void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
 CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, EffectInfo info, QWidget * parent) :
         AbstractCollapsibleWidget(parent)
 {
-    setupUi(this);
     m_info.groupIndex = ix;
     m_subWidgets = QList <CollapsibleEffect *> ();
     setFont(KGlobalSettings::smallestReadableFont());
-    QHBoxLayout *l = static_cast <QHBoxLayout *>(framegroup->layout());
+    frame->setObjectName("framegroup");
+    decoframe->setObjectName("decoframegroup");
+    QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
     m_title = new MyEditableLabel(this);
-    l->insertWidget(3, m_title);
+    l->insertWidget(2, m_title);
     m_title->setText(info.groupName.isEmpty() ? i18n("Effect Group") : info.groupName);
     m_info.groupName = m_title->text();
     connect(m_title, SIGNAL(editingFinished()), this, SLOT(slotRenameGroup()));
@@ -111,18 +112,18 @@ void CollapsibleGroup::slotUnGroup()
 
 bool CollapsibleGroup::isActive() const
 {
-    return decoframegroup->property("active").toBool();
+    return decoframe->property("active").toBool();
 }
 
 void CollapsibleGroup::setActive(bool activate)
 {
-    decoframegroup->setProperty("active", activate);
-    decoframegroup->setStyleSheet(decoframegroup->styleSheet());
+    decoframe->setProperty("active", activate);
+    decoframe->setStyleSheet(decoframe->styleSheet());
 }
 
 void CollapsibleGroup::mouseDoubleClickEvent ( QMouseEvent * event )
 {
-    if (framegroup->underMouse() && collapseButton->isEnabled()) slotSwitch();
+    if (frame->underMouse() && collapseButton->isEnabled()) slotSwitch();
     QWidget::mouseDoubleClickEvent(event);
 }
 
@@ -150,12 +151,18 @@ void CollapsibleGroup::slotDeleteGroup()
 
 void CollapsibleGroup::slotEffectUp()
 {
-    emit changeGroupPosition(groupIndex(), true);
+    QList <int> indexes;
+    for (int i = 0; i < m_subWidgets.count(); i++)
+        indexes << m_subWidgets.at(i)->effectIndex();
+    emit changeEffectPosition(indexes, true);
 }
 
 void CollapsibleGroup::slotEffectDown()
 {
-    emit changeGroupPosition(groupIndex(), false);
+    QList <int> indexes;
+    for (int i = 0; i < m_subWidgets.count(); i++)
+        indexes << m_subWidgets.at(i)->effectIndex();
+    emit changeEffectPosition(indexes, false);
 }
 
 void CollapsibleGroup::slotSaveGroup()
@@ -286,22 +293,22 @@ void CollapsibleGroup::updateTimecodeFormat()
 void CollapsibleGroup::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
-	framegroup->setProperty("target", true);
-	framegroup->setStyleSheet(framegroup->styleSheet());
+	frame->setProperty("target", true);
+	frame->setStyleSheet(frame->styleSheet());
 	event->acceptProposedAction();
     }
 }
 
 void CollapsibleGroup::dragLeaveEvent(QDragLeaveEvent */*event*/)
 {
-    framegroup->setProperty("target", false);
-    framegroup->setStyleSheet(framegroup->styleSheet());
+    frame->setProperty("target", false);
+    frame->setStyleSheet(frame->styleSheet());
 }
 
 void CollapsibleGroup::dropEvent(QDropEvent *event)
 {
-    framegroup->setProperty("target", false);
-    framegroup->setStyleSheet(framegroup->styleSheet());
+    frame->setProperty("target", false);
+    frame->setStyleSheet(frame->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
     //event->acceptProposedAction();
     QDomDocument doc;

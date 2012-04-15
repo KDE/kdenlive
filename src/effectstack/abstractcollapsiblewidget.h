@@ -21,9 +21,12 @@
 #ifndef ABSTRACTCOLLAPSIBLEWIDGET_H
 #define ABSTRACTCOLLAPSIBLEWIDGET_H
 
-#include <QWidget>
+#include "ui_collapsiblewidget_ui.h"
 
-class AbstractCollapsibleWidget : public QWidget
+#include <QWidget>
+#include <QDomElement>
+
+class AbstractCollapsibleWidget : public QWidget, public Ui::CollapsibleWidget_UI
 {
     Q_OBJECT
 
@@ -31,6 +34,15 @@ public:
     AbstractCollapsibleWidget(QWidget * parent = 0);
     virtual void setActive(bool activate) = 0;
     virtual bool isGroup() const = 0;
+    
+signals:
+    void addEffect(QDomElement e);
+    /** @brief Move effects in the stack one step up or down. */
+    void changeEffectPosition(QList <int>, bool upwards);
+    /** @brief Move effects in the stack. */
+    void moveEffect(QList <int> current_pos, int new_pos, int groupIndex, QString groupName);
+    /** @brief An effect was saved, trigger effect list reload. */
+    void reloadEffects();
   
 };
 

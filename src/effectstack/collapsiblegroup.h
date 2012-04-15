@@ -54,7 +54,7 @@ protected:
  * @author Jean-Baptiste Mardelle
  */
 
-class CollapsibleGroup : public AbstractCollapsibleWidget, public Ui::CollapsibleGroup_UI
+class CollapsibleGroup : public AbstractCollapsibleWidget
 {
     Q_OBJECT
 
@@ -104,16 +104,10 @@ protected:
     virtual void dropEvent(QDropEvent *event);
     
 signals:
-    void syncEffectsPos(int);
-    void effectStateChanged(bool, int ix = -1);
     void deleteGroup(QDomDocument);
-    void changeGroupPosition(int, bool);
-    void activateEffect(int);
-    void moveEffect(QList <int> current_pos, int new_pos, int groupIndex, QString groupName);
-    void addEffect(QDomElement e);
     void unGroup(CollapsibleGroup *);
     void groupRenamed(CollapsibleGroup *);
-    void reloadEffects();
+
 };
 
 

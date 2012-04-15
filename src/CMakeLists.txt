@@ -197,7 +197,6 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/clipproperties_ui.ui
   widgets/cliptranscode_ui.ui
   widgets/collapsiblewidget_ui.ui
-  widgets/collapsiblegroup_ui.ui
   widgets/clipstabilize_ui.ui
   widgets/colorclip_ui.ui
   widgets/colorplaneexport_ui.ui
