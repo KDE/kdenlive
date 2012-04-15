@@ -54,17 +54,17 @@ void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
 
 
 CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, EffectInfo info, QWidget * parent) :
-        AbstractCollapsibleWidget(parent),
-        m_index(ix)
+        AbstractCollapsibleWidget(parent)
 {
     setupUi(this);
-    
+    m_info.groupIndex = ix;
     m_subWidgets = QList <CollapsibleEffect *> ();
     setFont(KGlobalSettings::smallestReadableFont());
     QHBoxLayout *l = static_cast <QHBoxLayout *>(framegroup->layout());
     m_title = new MyEditableLabel(this);
     l->insertWidget(3, m_title);
     m_title->setText(info.groupName.isEmpty() ? i18n("Effect Group") : info.groupName);
+    m_info.groupName = m_title->text();
     connect(m_title, SIGNAL(editingFinished()), this, SLOT(slotRenameGroup()));
     buttonUp->setIcon(KIcon("kdenlive-up"));
     buttonUp->setToolTip(i18n("Move effect up"));
@@ -265,7 +265,7 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
 
 int CollapsibleGroup::groupIndex() const
 {
-    return m_index;
+    return m_info.groupIndex;
 }
 
 bool CollapsibleGroup::isGroup() const
@@ -308,17 +308,60 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
     int ix = e.attribute("kdenlive_ix").toInt();
-    if (ix == 0) {
+    if (ix == 0 || e.tagName() == "effectgroup") {
+	if (e.tagName() == "effectgroup") {
+	    // dropped a group on another group
+	    QDomNodeList pastedEffects = e.elementsByTagName("effect");
+	    if (pastedEffects.isEmpty() || m_subWidgets.isEmpty()) {
+		// Buggy groups, should not happen
+		event->ignore();
+		return;
+	    }
+	    QList <int> pastedEffectIndexes;
+	    QList <int> currentEffectIndexes;
+	    EffectInfo pasteInfo;
+	    pasteInfo.fromString(pastedEffects.at(0).toElement().attribute("kdenlive_info"));
+	    if (pasteInfo.groupIndex == -1) {
+		// Group dropped from effects list, add effect
+		e.setAttribute("kdenlive_ix", m_subWidgets.last()->effectIndex());
+		emit addEffect(e);
+		event->setDropAction(Qt::CopyAction);
+		event->accept();
+		return;
+	    }
+	    // Moving group
+	    for (int i = 0; i < pastedEffects.count(); i++) {
+		pastedEffectIndexes << pastedEffects.at(i).toElement().attribute("kdenlive_ix").toInt();
+	    }
+	    for (int i = 0; i < m_subWidgets.count(); i++) {
+		currentEffectIndexes << m_subWidgets.at(i)->effectIndex();
+	    }
+	    kDebug()<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
+	    if (pastedEffectIndexes.at(0) < currentEffectIndexes.at(0)) {
+		// Pasting group after current one:
+		emit moveEffect(pastedEffectIndexes, currentEffectIndexes.last(), pasteInfo.groupIndex, pasteInfo.groupName);
+	    }
+	    else {
+		// Group moved before current one
+		emit moveEffect(pastedEffectIndexes, currentEffectIndexes.first(), pasteInfo.groupIndex, pasteInfo.groupName);
+	    }
+	    event->setDropAction(Qt::MoveAction);
+	    event->accept();
+	    return;
+	}
 	// effect dropped from effects list, add it
-	e.setAttribute("kdenlive_ix", ix);
+	e.setAttribute("kdenlive_info", m_info.toString());
+	if (!m_subWidgets.isEmpty()) {
+	    e.setAttribute("kdenlive_ix", m_subWidgets.at(0)->effectIndex());
+	}
+	emit addEffect(e);
 	event->setDropAction(Qt::CopyAction);
 	event->accept();
-	emit addEffect(e);
 	return;
     }
     if (m_subWidgets.isEmpty()) return;
     int new_index = m_subWidgets.last()->effectIndex();
-    emit moveEffect(ix, new_index, m_index, m_title->text());
+    emit moveEffect(QList <int> () <<ix, new_index, m_info.groupIndex, m_title->text());
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
@@ -330,6 +373,7 @@ void CollapsibleGroup::slotRenameGroup()
     for (int j = 0; j < m_subWidgets.count(); j++) {
 	m_subWidgets.at(j)->setGroupName(m_title->text());
     }
+    m_info.groupName = m_title->text();
     emit groupRenamed(this);
 }
 

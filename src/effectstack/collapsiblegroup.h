@@ -94,7 +94,6 @@ private:
     QList <CollapsibleEffect *> m_subWidgets;
     QMenu *m_menu;
     EffectInfo m_info;
-    int m_index;
     MyEditableLabel *m_title;
     QMutex m_mutex;
     
@@ -110,7 +109,7 @@ signals:
     void deleteGroup(QDomDocument);
     void changeGroupPosition(int, bool);
     void activateEffect(int);
-    void moveEffect(int current_pos, int new_pos, int groupIndex, QString groupName);
+    void moveEffect(QList <int> current_pos, int new_pos, int groupIndex, QString groupName);
     void addEffect(QDomElement e);
     void unGroup(CollapsibleGroup *);
     void groupRenamed(CollapsibleGroup *);

@@ -2010,44 +2010,62 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     setDocumentModified();
 }
 
-void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
+void CustomTrackView::moveEffect(int track, GenTime pos, QList <int> oldPos, QList <int> newPos)
 {
     if (pos < GenTime()) {
         // Moving track effect
-        if (newPos > m_document->getTrackEffects(m_document->tracksCount() - track - 1).count()) {
-	    newPos = m_document->getTrackEffects(m_document->tracksCount() - track - 1).count();
+        int documentTrack = m_document->tracksCount() - track - 1;
+        int max = m_document->getTrackEffects(documentTrack).count();
+	int new_position = newPos.at(0);
+	if (new_position > max) {
+	    new_position = max;
 	}
-        QDomElement act = m_document->getTrackEffect(m_document->tracksCount() - track - 1, newPos);
-        QDomElement before = m_document->getTrackEffect(m_document->tracksCount() - track - 1, oldPos);
-        if (!act.isNull() && !before.isNull()) {
-            //m_document->setTrackEffect(m_document->tracksCount() - track - 1, oldPos, act);
-            m_document->setTrackEffect(m_document->tracksCount() - track - 1, newPos, before);
-            m_document->renderer()->mltMoveEffect(m_document->tracksCount() - track, pos, oldPos, newPos);
-            emit showTrackEffects(m_document->tracksCount() - track, m_document->trackInfoAt(m_document->tracksCount() - track - 1));
-        } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
+	int old_position = oldPos.at(0);
+	for (int i = 0; i < newPos.count(); i++) {
+	    QDomElement act = m_document->getTrackEffect(documentTrack, new_position);
+	    if (old_position > new_position) {
+		// Moving up, we need to adjust index
+		old_position = oldPos.at(i);
+		new_position = newPos.at(i);
+	    }
+	    QDomElement before = m_document->getTrackEffect(documentTrack, old_position);
+	    if (!act.isNull() && !before.isNull()) {
+		m_document->setTrackEffect(documentTrack, new_position, before);
+		m_document->renderer()->mltMoveEffect(m_document->tracksCount() - track, pos, old_position, new_position);
+	    } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
+	}
+	emit showTrackEffects(m_document->tracksCount() - track, m_document->trackInfoAt(documentTrack));
         return;
     }
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
-    if (newPos > clip->effectsCount()) {
-	newPos = clip->effectsCount();
-    }
     if (clip) {
-        QDomElement act = clip->effectAt(newPos);
-        QDomElement before = clip->effectAt(oldPos);
-	if (act.isNull() || before.isNull()) {
-	    emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
-	    return;
+	int new_position = newPos.at(0);
+	if (new_position > clip->effectsCount()) {
+	    new_position = clip->effectsCount();
 	}
-        //clip->moveEffect(act, oldPos);
-        clip->moveEffect(before, newPos);
-        // special case: speed effect, which is a pseudo-effect, not appearing in MLT's effects
-        if (act.attribute("id") == "speed") {
-            m_document->renderer()->mltUpdateEffectPosition(track, pos, oldPos, newPos);
-        } else if (before.attribute("id") == "speed") {
-            m_document->renderer()->mltUpdateEffectPosition(track, pos, newPos, oldPos);
-        } else m_document->renderer()->mltMoveEffect(track, pos, oldPos, newPos);
-	clip->setSelectedEffect(newPos);
-        emit clipItemSelected(clip);
+	int old_position = oldPos.at(0);
+	for (int i = 0; i < newPos.count(); i++) {
+	    QDomElement act = clip->effectAt(new_position);
+	    if (old_position > new_position) {
+		// Moving up, we need to adjust index
+		old_position = oldPos.at(i);
+		new_position = newPos.at(i);
+	    }
+	    QDomElement before = clip->effectAt(old_position);
+	    if (act.isNull() || before.isNull()) {
+		emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
+		return;
+	    }
+	    clip->moveEffect(before, new_position);
+	    // special case: speed effect, which is a pseudo-effect, not appearing in MLT's effects
+	    if (act.attribute("id") == "speed") {
+		m_document->renderer()->mltUpdateEffectPosition(track, pos, old_position, new_position);
+	    } else if (before.attribute("id") == "speed") {
+		m_document->renderer()->mltUpdateEffectPosition(track, pos, new_position, old_position);
+	    } else m_document->renderer()->mltMoveEffect(track, pos, old_position, new_position);
+	}
+	clip->setSelectedEffect(newPos.at(0));
+	emit clipItemSelected(clip);
         setDocumentModified();
     } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
 }
@@ -2072,7 +2090,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, int effec
     setDocumentModified();;
 }
 
-void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, int currentPos, int newPos)
+void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, QList <int> currentPos, int newPos)
 {
     MoveEffectCommand *command;
     if (clip == NULL) {

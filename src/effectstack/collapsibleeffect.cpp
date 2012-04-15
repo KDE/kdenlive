@@ -477,11 +477,13 @@ void CollapsibleEffect::updateCollapsedState()
 void CollapsibleEffect::setGroupIndex(int ix)
 {
     m_info.groupIndex = ix;
+    m_effect.setAttribute("kdenlive_info", m_info.toString());
 }
 
 void CollapsibleEffect::setGroupName(const QString &groupName)
 {
     m_info.groupName = groupName;
+    m_effect.setAttribute("kdenlive_info", m_info.toString());
 }
 
 QString CollapsibleEffect::infoString() const
@@ -623,20 +625,56 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
     int ix = e.attribute("kdenlive_ix").toInt();
-    if (ix == effectIndex()) {
+    int currentEffectIx = effectIndex();
+    if (ix == currentEffectIx) {
 	// effect dropped on itself, reject
 	event->ignore();
 	return;
     }
-    if (ix == 0) {
+    if (ix == 0 || e.tagName() == "effectgroup") {
+	if (e.tagName() == "effectgroup") {
+	    // moving a group
+	    QDomNodeList subeffects = e.elementsByTagName("effect");
+	    if (subeffects.isEmpty()) {
+		event->ignore();
+		return;
+	    }
+	    EffectInfo info;
+	    info.fromString(subeffects.at(0).toElement().attribute("kdenlive_info"));
+	    event->setDropAction(Qt::MoveAction);
+	    event->accept();
+	    if (info.groupIndex >= 0) {
+		// Moving group
+		QList <int> effectsIds;
+		// Collect moved effects ids
+		for (int i = 0; i < subeffects.count(); i++) {
+		    QDomElement effect = subeffects.at(i).toElement();
+		    effectsIds << effect.attribute("kdenlive_ix").toInt();
+		}
+		emit moveEffect(effectsIds, currentEffectIx, info.groupIndex, info.groupName);
+	    }
+	    else {
+		// group effect dropped from effect list
+		if (m_info.groupIndex > -1) {
+		    // TODO: Should we merge groups??
+		    
+		}
+		emit addEffect(e);
+	    }
+	    return;
+	}
 	// effect dropped from effects list, add it
 	e.setAttribute("kdenlive_ix", ix);
+	if (m_info.groupIndex > -1) {
+	    // Dropped on a group
+	    e.setAttribute("kdenlive_info", m_info.toString());
+	}
 	event->setDropAction(Qt::CopyAction);
 	event->accept();
 	emit addEffect(e);
 	return;
     }
-    emit moveEffect(ix, effectIndex(), m_info.groupIndex, m_info.groupName);
+    emit moveEffect(QList <int> () <<ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
