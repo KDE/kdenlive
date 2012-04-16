@@ -179,9 +179,10 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
     else icon = KIcon("kdenlive-show-video");
     effecticon->setPixmap(icon.pixmap(16,16));*/
-    
+    m_groupAction = new QAction(KIcon("folder-new"), i18n("Create Group"), this);
+    connect(m_groupAction, SIGNAL(triggered(bool)), this, SLOT(slotCreateGroup()));
     if (!m_regionEffect) {
-	m_menu->addAction(KIcon("folder-new"), i18n("Create Group"), this, SLOT(slotCreateGroup()));
+	if (m_info.groupIndex == -1) m_menu->addAction(m_groupAction);
 	m_menu->addAction(KIcon("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
     setupWidget(info, metaInfo);
@@ -480,6 +481,12 @@ void CollapsibleEffect::updateCollapsedState()
 
 void CollapsibleEffect::setGroupIndex(int ix)
 {
+    if (m_info.groupIndex == -1 && ix != -1) {
+	m_menu->removeAction(m_groupAction); 
+    }
+    else if (m_info.groupIndex != -1 && ix == -1) {
+	m_menu->addAction(m_groupAction); 
+    }
     m_info.groupIndex = ix;
     m_effect.setAttribute("kdenlive_info", m_info.toString());
 }
@@ -497,6 +504,9 @@ QString CollapsibleEffect::infoString() const
 
 void CollapsibleEffect::removeFromGroup()
 {
+    if (m_info.groupIndex != -1) {
+	m_menu->addAction(m_groupAction); 
+    }
     m_info.groupIndex = -1;
     m_info.groupName.clear();
     m_effect.setAttribute("kdenlive_info", m_info.toString());
@@ -681,6 +691,13 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
     emit moveEffect(QList <int> () <<ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
     event->setDropAction(Qt::MoveAction);
     event->accept();
+}
+
+
+void CollapsibleEffect::adjustButtons(int ix, int max)
+{
+    buttonUp->setVisible(ix > 0);
+    buttonDown->setVisible(ix < max - 1);
 }
 
 ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent) :
@@ -1408,3 +1425,6 @@ void ParameterContainer::slotStartFilterJobAction()
         }
     }
 }
+
+
+

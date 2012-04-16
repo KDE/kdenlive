@@ -149,6 +149,8 @@ public:
     static const QString getStyleSheet();
     /** @brief Parent group was collapsed, update. */
     void groupStateChanged(bool collapsed);
+    /** @brief Show / hide up / down buttons. */
+    void adjustButtons(int ix, int max);
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -182,6 +184,8 @@ private:
     EffectInfo m_info;
     /** @brief True if this is a region effect, which behaves in a special way, like a group. */
     bool m_regionEffect;
+    /** @brief The add group action. */
+    QAction *m_groupAction;
     /** @brief Check if collapsed state changed and inform MLT. */
     void updateCollapsedState();
     

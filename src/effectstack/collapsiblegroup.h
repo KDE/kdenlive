@@ -73,6 +73,8 @@ public:
     QWidget *title() const;
     /** @brief Return the XML data describing all effects in group. */
     QDomDocument effectsData();
+    /** @brief Adjust sub effects buttons. */
+    void adjustEffects();
 
 public slots:
     void slotEnable(bool enable);

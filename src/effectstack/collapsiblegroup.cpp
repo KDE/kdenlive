@@ -403,3 +403,10 @@ QDomDocument CollapsibleGroup::effectsData()
     return doc;
 }
 
+void CollapsibleGroup::adjustEffects()
+{
+    for (int i = 0; i < m_subWidgets.count(); i++) {
+	m_subWidgets.at(i)->adjustButtons(i, m_subWidgets.count());
+    }
+}
+

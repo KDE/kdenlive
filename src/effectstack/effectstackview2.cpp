@@ -224,6 +224,13 @@ void EffectStackView2::setupListView()
 	}
 	connectEffect(currentEffect);
     }
+    
+    // Adjust group effects (up / down buttons)
+    QList<CollapsibleGroup *> allGroups = m_ui.container->widget()->findChildren<CollapsibleGroup *>();
+    for (int i = 0; i < allGroups.count(); i++) {
+	allGroups.at(i)->adjustEffects();
+    }
+    
     vbox1->addStretch(10);
     slotUpdateCheckAllButton();
     connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
