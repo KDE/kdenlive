@@ -69,7 +69,8 @@ int main(int argc, char **argv)
         QString profile = args.takeFirst();
         QString rendermodule = args.takeFirst();
         QString player = args.takeFirst();
-        QString src = args.takeFirst();
+	QUrl srcurl = QUrl::fromEncoded(args.takeFirst().toUtf8());
+        QString src = srcurl.path();
         QUrl desturl = QUrl::fromEncoded(args.takeFirst().toUtf8());
         QString dest = desturl.path();
         bool dualpass = false;

@@ -991,7 +991,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         }
         QTextStream outStream(&file);
         outStream << "#! /bin/sh" << "\n" << "\n";
-        outStream << "SOURCE=" << "\"" + playlistPath + "\"" << "\n";
+        outStream << "SOURCE=" << "\"" + KUrl(playlistPath).url() + "\"" << "\n";
         outStream << "TARGET=" << "\"" + KUrl(dest).url() + "\"" << "\n";
         outStream << "RENDERER=" << "\"" + m_renderer + "\"" << "\n";
         outStream << "MELT=" << "\"" + KdenliveSettings::rendererpath() + "\"" << "\n";
@@ -1130,7 +1130,7 @@ void RenderWidget::startRendering(RenderJobItem *item)
     } else if (item->type() == ScriptRenderType){
         // Script item
         kDebug()<<"// SCRIPT process: "<<item->data(1, ParametersRole).toString();
-        if (QProcess::startDetached(item->data(1, ParametersRole).toString()) == false) {
+        if (QProcess::startDetached('"' + item->data(1, ParametersRole).toString() + '"') == false) {
             item->setStatus(FAILEDJOB);
         }
     }
