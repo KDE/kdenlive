@@ -22,8 +22,6 @@
 #define COLLAPSIBLEGROUP_H
 
 
-#include "ui_collapsiblegroup_ui.h"
-
 #include "abstractcollapsiblewidget.h"
 #include "collapsibleeffect.h"
 #include "timecode.h"
