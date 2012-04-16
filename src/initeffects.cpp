@@ -269,9 +269,9 @@ void initEffects::parseEffectFiles()
     for (int i = 0; i < max; ++i) {
         effectInfo = MainWindow::customEffects.at(i);
 	if (effectInfo.tagName() == "effectgroup") {
-	    effectsMap.insert(effectInfo.attribute("name").toLower().toUtf8().data(), effectInfo);
+	    effectsMap.insert(effectInfo.attribute("name").toUtf8().data(), effectInfo);
 	}
-        else effectsMap.insert(effectInfo.firstChildElement("name").text().toLower().toUtf8().data(), effectInfo);
+        else effectsMap.insert(effectInfo.firstChildElement("name").text().toUtf8().data(), effectInfo);
     }
     MainWindow::customEffects.clearList();
     foreach(const QDomElement & effect, effectsMap)
