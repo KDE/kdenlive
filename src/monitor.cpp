@@ -989,7 +989,6 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotShowEffectScene(bool show)
 {
     if (m_id == Kdenlive::projectMonitor) {
-	kDebug()<<"// SHOWING SCENE: "<<show<<", IS DISPLAYD: "<<m_effectWidget->isVisible();
 	if (m_effectWidget->isVisible() == show) return;
         if (videoSurface) {
             videoSurface->setVisible(!show);

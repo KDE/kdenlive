@@ -108,6 +108,9 @@ private:
     
     /** @brief The current number of groups. */
     int m_groupIndex;
+    
+    /** @brief The current effect may require an on monitor scene. */
+    bool m_monitorSceneWanted;
 
     /** @brief Sets the list of effects according to the clip's effect list. */
     void setupListView();
@@ -119,8 +122,6 @@ private:
     void connectEffect(CollapsibleEffect *currentEffect);
     /** @brief Connect a group to its signals. */
     void connectGroup(CollapsibleGroup *group);
-    /** @brief Returns the currentl active effect. */
-    CollapsibleEffect *currentEffect() const;
 
 public slots:
     /** @brief Sets the clip whose effect list should be managed.

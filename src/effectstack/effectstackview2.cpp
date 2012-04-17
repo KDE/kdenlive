@@ -50,7 +50,8 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
         m_trackindex(-1),
         m_draggedEffect(NULL),
         m_draggedGroup(NULL),
-        m_groupIndex(0)
+        m_groupIndex(0),
+        m_monitorSceneWanted(false)
 {
     m_effectMetaInfo.trackMode = false;
     m_effectMetaInfo.monitor = monitor;
@@ -85,7 +86,7 @@ void EffectStackView2::updatePalette()
 void EffectStackView2::slotRenderPos(int pos)
 {
     if (m_effects.isEmpty()) return;
-    slotCheckMonitorPosition(pos);
+    if (m_monitorSceneWanted) slotCheckMonitorPosition(pos);
     if (!m_effectMetaInfo.trackMode && m_clipref) pos = pos - m_clipref->startPos().frames(KdenliveSettings::project_fps());
 
     for (int i = 0; i< m_effects.count(); i++)
@@ -145,6 +146,7 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
 void EffectStackView2::setupListView()
 {
     blockSignals(true);
+    m_monitorSceneWanted = false;
     m_draggedEffect = NULL;
     m_draggedGroup = NULL;
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
@@ -215,7 +217,10 @@ void EffectStackView2::setupListView()
 	else {
 	    isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
 	}
-	if (isSelected) currentEffect->setActive(true);
+	if (isSelected) {
+	    currentEffect->setActive(true);
+	    if (currentEffect->needsMonitorEffectScene()) m_monitorSceneWanted = true;
+	}
         m_effects.append(currentEffect);
         if (group) {
 	    group->addGroupEffect(currentEffect);
@@ -409,8 +414,7 @@ void EffectStackView2::slotSeekTimeline(int pos)
 
 void EffectStackView2::slotCheckMonitorPosition(int renderPos)
 {
-    CollapsibleEffect *current = currentEffect();
-    if (current && current->needsMonitorEffectScene()) {
+    if (m_monitorSceneWanted) {
 	if (m_effectMetaInfo.trackMode || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
 	    if (!m_effectMetaInfo.monitor->effectSceneDisplayed()) {
 		m_effectMetaInfo.monitor->slotShowEffectScene(true);
@@ -433,6 +437,7 @@ int EffectStackView2::isTrackMode(bool *ok) const
 void EffectStackView2::clear()
 {
     m_effects.clear();
+    m_monitorSceneWanted = false;
     QWidget *view = m_ui.container->takeWidget();
     if (view) {
 	delete view;
@@ -533,6 +538,7 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
 	    if (m_effects.at(i)->effectIndex() == ix) {
 		if (m_effects.at(i)->isActive()) return;
 		m_effects.at(i)->setActive(true);
+		m_monitorSceneWanted = m_effects.at(i)->needsMonitorEffectScene();
 		slotCheckMonitorPosition(m_effectMetaInfo.monitor->render->seekFramePosition());
 		m_ui.labelComment->setText(i18n(m_effects.at(i)->effect().firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
 		m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
@@ -540,14 +546,6 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
 	    else m_effects.at(i)->setActive(false);
 	}
     }
-}
-
-CollapsibleEffect *EffectStackView2::currentEffect() const
-{
-    for (int i = 0; i < m_effects.count(); i++) {
-	if (m_effects.at(i)->isActive()) return m_effects.at(i);
-    }
-    return NULL;
 }
 
 void EffectStackView2::slotDeleteGroup(QDomDocument doc)
