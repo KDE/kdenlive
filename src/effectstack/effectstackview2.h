@@ -119,6 +119,8 @@ private:
     void connectEffect(CollapsibleEffect *currentEffect);
     /** @brief Connect a group to its signals. */
     void connectGroup(CollapsibleGroup *group);
+    /** @brief Returns the currentl active effect. */
+    CollapsibleEffect *currentEffect() const;
 
 public slots:
     /** @brief Sets the clip whose effect list should be managed.

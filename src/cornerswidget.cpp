@@ -58,7 +58,6 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
                           true, KdenliveSettings::onmonitoreffects_cornersshowlines());
 
     connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
-    connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(m_item, SIGNAL(changed()), this, SLOT(slotUpdateProperties()));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotInsertKeyframe()));
 
@@ -74,7 +73,6 @@ CornersWidget::~CornersWidget()
         MonitorEditWidget *edit = m_monitor->getEffectEdit();
         edit->showVisibilityButton(false);
         edit->removeCustomControls();
-        m_monitor->slotShowEffectScene(false);
     }
 }
 

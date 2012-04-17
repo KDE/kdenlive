@@ -576,7 +576,7 @@ void CollapsibleEffect::adjustButtons(int ix, int max)
     buttonDown->setVisible(ix < max - 1);
 }
 
-bool CollapsibleEffect::needsMonitorEffectScene()
+bool CollapsibleEffect::needsMonitorEffectScene() const
 {
     return m_paramWidget->needsMonitorEffectScene();
 }

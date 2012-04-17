@@ -72,7 +72,7 @@ public:
     /** @brief Show / hide up / down buttons. */
     void adjustButtons(int ix, int max);
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
-    bool needsMonitorEffectScene();
+    bool needsMonitorEffectScene() const;
 
 public slots:
     void slotSyncEffectsPos(int pos);

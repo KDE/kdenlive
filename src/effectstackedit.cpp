@@ -18,6 +18,7 @@
 #include "effectstackedit.h"
 #include "effectstack/effectstackview2.h"
 #include "effectslist.h"
+#include "monitor.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -40,8 +41,6 @@
 
 EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     QScrollArea(parent),
-    m_in(0),
-    m_out(0),
     m_paramWidget(NULL)
 {
     m_baseWidget = new QWidget(this);
@@ -159,7 +158,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     
-    
     Q_FOREACH( QSpinBox * sp, m_baseWidget->findChildren<QSpinBox*>() ) {
         sp->installEventFilter( this );
         sp->setFocusPolicy( Qt::StrongFocus );
@@ -172,8 +170,6 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
 	cb->installEventFilter( this );
         cb->setFocusPolicy( Qt::StrongFocus );
     }
-    
-    return;
 }
 
 void EffectStackEdit::slotSyncEffectsPos(int pos)
@@ -181,5 +177,10 @@ void EffectStackEdit::slotSyncEffectsPos(int pos)
     emit syncEffectsPos(pos);
 }
 
+bool EffectStackEdit::needsMonitorEffectScene() const
+{
+    if (!m_paramWidget) return false;
+    return m_paramWidget->needsMonitorEffectScene();
+}
 
 

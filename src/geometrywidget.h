@@ -67,8 +67,6 @@ public slots:
     void setupParam(const QDomElement elem, int minframe, int maxframe);
     /** @brief Updates position of the local timeline to @param relTimelinePos.  */
     void slotSyncPosition(int relTimelinePos);
-    /** @brief Switches from normal monitor to monitor scene according to @param show. */
-    void slotShowScene(bool show = true);
 
 private:
     Ui::GeometryWidget_UI m_ui;
@@ -172,6 +170,8 @@ private slots:
     void slotFitToHeight();
     /** @brief Show / hide previous keyframe in monitor scene. */
     void slotShowPreviousKeyFrame(bool show);
+    /** @brief Switches from normal monitor to monitor scene according to @param show. */
+    void slotShowScene(bool show = true);
 
 signals:
     void parameterChanged();

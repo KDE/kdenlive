@@ -85,6 +85,7 @@ void EffectStackView2::updatePalette()
 void EffectStackView2::slotRenderPos(int pos)
 {
     if (m_effects.isEmpty()) return;
+    slotCheckMonitorPosition(pos);
     if (!m_effectMetaInfo.trackMode && m_clipref) pos = pos - m_clipref->startPos().frames(KdenliveSettings::project_fps());
 
     for (int i = 0; i< m_effects.count(); i++)
@@ -160,8 +161,6 @@ void EffectStackView2::setupListView()
     QVBoxLayout *vbox1 = new QVBoxLayout(view);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
-    
-    if (m_currentEffectList.isEmpty()) m_ui.labelComment->setHidden(true);
 
     for (int i = 0; i < m_currentEffectList.count(); i++) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
@@ -226,15 +225,20 @@ void EffectStackView2::setupListView()
 	connectEffect(currentEffect);
     }
     
-    // Adjust group effects (up / down buttons)
-    QList<CollapsibleGroup *> allGroups = m_ui.container->widget()->findChildren<CollapsibleGroup *>();
-    for (int i = 0; i < allGroups.count(); i++) {
-	allGroups.at(i)->adjustEffects();
+    if (m_currentEffectList.isEmpty()) {
+	m_ui.labelComment->setHidden(true);
+    }
+    else {
+	// Adjust group effects (up / down buttons)
+	QList<CollapsibleGroup *> allGroups = m_ui.container->widget()->findChildren<CollapsibleGroup *>();
+	for (int i = 0; i < allGroups.count(); i++) {
+	    allGroups.at(i)->adjustEffects();
+	}
+	connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     }
     
     vbox1->addStretch(10);
     slotUpdateCheckAllButton();
-    connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     
     // Wait a little bit for the new layout to be ready, then check if we have a scrollbar
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
@@ -252,7 +256,6 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(changeEffectPosition(QList <int>,bool)), this , SLOT(slotMoveEffectUp(QList <int>,bool)));
     connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
     connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
-    connect(currentEffect, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
     connect(currentEffect, SIGNAL(moveEffect(QList<int>,int,int,QString)), this , SLOT(slotMoveEffect(QList<int>,int,int,QString)));
@@ -406,12 +409,18 @@ void EffectStackView2::slotSeekTimeline(int pos)
 
 void EffectStackView2::slotCheckMonitorPosition(int renderPos)
 {
-    if (m_effectMetaInfo.trackMode || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
-	if (!m_effectMetaInfo.monitor->effectSceneDisplayed())
-        //if (!m_effectMetaInfo.monitor->getEffectEdit()->getScene()->views().at(0)->isVisible())
-            m_effectMetaInfo.monitor->slotShowEffectScene(true);
-    } else {
-        m_effectMetaInfo.monitor->slotShowEffectScene(false);
+    CollapsibleEffect *current = currentEffect();
+    if (current && current->needsMonitorEffectScene()) {
+	if (m_effectMetaInfo.trackMode || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
+	    if (!m_effectMetaInfo.monitor->effectSceneDisplayed()) {
+		m_effectMetaInfo.monitor->slotShowEffectScene(true);
+	    }
+	} else {
+	    m_effectMetaInfo.monitor->slotShowEffectScene(false);
+	}
+    }
+    else {
+	m_effectMetaInfo.monitor->slotShowEffectScene(false);
     }
 }
 
@@ -522,14 +531,23 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
         m_clipref->setSelectedEffect(ix);
 	for (int i = 0; i < m_effects.count(); i++) {
 	    if (m_effects.at(i)->effectIndex() == ix) {
+		if (m_effects.at(i)->isActive()) return;
 		m_effects.at(i)->setActive(true);
-		m_effectMetaInfo.monitor->slotShowEffectScene(m_effects.at(i)->needsMonitorEffectScene());
+		slotCheckMonitorPosition(m_effectMetaInfo.monitor->render->seekFramePosition());
 		m_ui.labelComment->setText(i18n(m_effects.at(i)->effect().firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
 		m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
 	    }
 	    else m_effects.at(i)->setActive(false);
 	}
     }
+}
+
+CollapsibleEffect *EffectStackView2::currentEffect() const
+{
+    for (int i = 0; i < m_effects.count(); i++) {
+	if (m_effects.at(i)->isActive()) return m_effects.at(i);
+    }
+    return NULL;
 }
 
 void EffectStackView2::slotDeleteGroup(QDomDocument doc)

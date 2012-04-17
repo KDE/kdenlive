@@ -229,7 +229,6 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
 
     connect(m_scene, SIGNAL(addKeyframe()),    this, SLOT(slotAddKeyframe()));
-    connect(m_monitor, SIGNAL(renderPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
 }
 
@@ -255,7 +254,6 @@ GeometryWidget::~GeometryWidget()
     }
     if (m_monitor) {
         m_monitor->getEffectEdit()->showVisibilityButton(false);
-        m_monitor->slotShowEffectScene(false);
     }
 }
 

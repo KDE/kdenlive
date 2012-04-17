@@ -98,7 +98,8 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
         m_keyframeEditor(NULL),
         m_geometryWidget(NULL),
         m_metaInfo(metaInfo),
-        m_effect(effect)
+        m_effect(effect),
+        m_needsMonitorEffectScene(false)
 {
     m_in = info.cropStart.frames(KdenliveSettings::project_fps());
     m_out = (info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1;
@@ -214,9 +215,9 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
+		m_needsMonitorEffectScene = true;
                 m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, 0, true, effect.hasAttribute("showrotation"), parent);
                 m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
-                m_geometryWidget->slotShowScene(!disable);
                 // connect this before setupParam to make sure the monitor scene shows up at startup
                 connect(m_geometryWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
@@ -251,7 +252,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 if (pa.attribute("widget") == "corners") {
                     // we want a corners-keyframe-widget
                     CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, m_metaInfo->timecode, e.attribute("active_keyframe", "-1").toInt(), parent);
-                    corners->slotShowScene(!disable);
+		    m_needsMonitorEffectScene = true;
                     connect(corners, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                     connect(this, SIGNAL(effectStateChanged(bool)), corners, SLOT(slotShowScene(bool)));
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
@@ -340,8 +341,8 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
 #ifdef USE_QJSON
         } else if (type == "roto-spline") {
+	    m_needsMonitorEffectScene = true;
             RotoWidget *roto = new RotoWidget(value, m_metaInfo->monitor, info, m_metaInfo->timecode, parent);
-            roto->slotShowScene(!disable);
             connect(roto, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
             connect(roto, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
             connect(roto, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
@@ -836,7 +837,7 @@ void ParameterContainer::clearLayout(QLayout *layout)
     }
 }
 
-bool ParameterContainer::needsMonitorEffectScene()
+bool ParameterContainer::needsMonitorEffectScene() const
 {
-    return true;
+    return m_needsMonitorEffectScene;
 }

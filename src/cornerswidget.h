@@ -46,8 +46,6 @@ public:
     virtual void addParameter(QDomElement e, int activeKeyframe = -1);
 
 public slots:
-    /** @brief Switches from normal monitor to monitor scene according to @param show. */
-    void slotShowScene(bool show = true);
     /** @brief Updates the on-monitor item.  */
     void slotSyncPosition(int relTimelinePos);
 
@@ -79,6 +77,9 @@ private slots:
 
     /** @brief Shows/Hides additional controls on the monitor according to @param show. */
     void slotShowControls(bool show = true);
+    
+    /** @brief Switches from normal monitor to monitor scene according to @param show. */
+    void slotShowScene(bool show = true);
 
 signals:
     void checkMonitorPosition(int);

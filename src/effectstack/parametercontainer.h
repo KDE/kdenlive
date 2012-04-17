@@ -65,7 +65,7 @@ public:
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
     void updateParameter(const QString &key, const QString &value);
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
-    bool needsMonitorEffectScene();
+    bool needsMonitorEffectScene() const;
 
 private slots:
     void slotCollectAllParameters();
@@ -92,6 +92,7 @@ private:
     EffectMetaInfo *m_metaInfo;
     QDomElement m_effect;
     QVBoxLayout *m_vbox;
+    bool m_needsMonitorEffectScene;
 
 signals:
     void parameterChanged(const QDomElement, const QDomElement, int);

@@ -54,10 +54,10 @@ public:
     Monitor *monitor();
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     virtual bool eventFilter( QObject * o, QEvent * e );
+    /** @brief Returns true if this transition requires an on monitor scene. */
+    bool needsMonitorEffectScene() const;
 
 private:
-    int m_in;
-    int m_out;
     Monitor *m_monitor;
     EffectMetaInfo m_metaInfo;
     QWidget *m_baseWidget;
