@@ -21,7 +21,7 @@
 #include "definitions.h"
 #include "timecode.h"
 #include "keyframeedit.h"
-#include "effectstack/collapsibleeffect.h"
+#include "effectstack/parametercontainer.h"
 
 #include <QWidget>
 #include <QDomElement>
@@ -56,22 +56,9 @@ public:
     virtual bool eventFilter( QObject * o, QEvent * e );
 
 private:
-    /** @brief Deletes all parameter widgets. */
-    void clearAllItems();
-    /** @brief Updates parameter @param name according to new value of dependency.
-    * @param name Name of the parameter which will be updated
-    * @param type Type of the parameter which will be updated
-    * @param value Value of the dependency parameter */
-    void meetDependency(const QString& name, QString type, QString value);
-
-    QVBoxLayout *m_vbox;
-    QList<QWidget*> m_uiItems;
-    QMap<QString, QWidget*> m_valueItems;
     int m_in;
     int m_out;
-    KeyframeEdit *m_keyframeEditor;
     Monitor *m_monitor;
-    GeometryWidget *m_geometryWidget;
     EffectMetaInfo m_metaInfo;
     QWidget *m_baseWidget;
     ParameterContainer *m_paramWidget;
@@ -79,11 +66,6 @@ private:
 public slots:
     /** @brief Called when an effect is selected, builds the UI for this effect. */
     void transferParamDesc(const QDomElement &d, ItemInfo info, bool isEffect = true);
-
-    /** @brief Called whenever(?) some parameter is changed in the gui.
-     *
-     * Transfers all Dynamic gui parameter settings into m_params(??) */
-    void collectAllParameters();
 
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotSyncEffectsPos(int pos);

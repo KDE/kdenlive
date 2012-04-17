@@ -140,6 +140,8 @@ EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
 EffectsList MainWindow::transitions;
 
+QMap <QString,QImage> MainWindow::m_lumacache;
+
 MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
     m_activeDocument(NULL),
@@ -207,7 +209,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // FIXME: the next call returns a newly allocated object, which leaks
     initEffects::parseEffectFiles();
     //initEffects::parseCustomEffectsFile();
-
+    
     m_monitorManager = new MonitorManager();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);

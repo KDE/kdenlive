@@ -91,7 +91,7 @@ RotoWidget::~RotoWidget()
         MonitorEditWidget *edit = m_monitor->getEffectEdit();
         edit->showVisibilityButton(false);
         edit->removeCustomControls();
-        m_monitor->slotEffectScene(false);
+        m_monitor->slotShowEffectScene(false);
     }
 }
 
@@ -112,7 +112,7 @@ void RotoWidget::slotShowScene(bool show)
 {
     m_showScene = show;
     if (!m_showScene)
-        m_monitor->slotEffectScene(false);
+        m_monitor->slotShowEffectScene(false);
     else
         slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }

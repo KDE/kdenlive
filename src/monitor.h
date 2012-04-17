@@ -200,7 +200,8 @@ public slots:
     void adjustRulerSize(int length);
     void setTimePos(const QString &pos);
     QStringList getZoneInfo() const;
-    void slotEffectScene(bool show = true);
+    /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
+    void slotShowEffectScene(bool show = true);
     bool effectSceneDisplayed();
 
     /** @brief Sets m_selectedClip to @param item. Used for looping it. */

@@ -28,6 +28,9 @@
 #include <QEvent>
 #include <QTimer>
 #include <QShortcut>
+#include <QMap>
+#include <QString>
+#include <QImage>
 
 #include <KXmlGuiWindow>
 #include <KTextEdit>
@@ -38,6 +41,7 @@
 #include <KComboBox>
 #include <kautosavefile.h>
 #include <KActionCategory>
+#include <KImageCache>
 
 #include "effectslist.h"
 #include "gentime.h"
@@ -109,6 +113,10 @@ public:
     static EffectsList audioEffects;
     static EffectsList customEffects;
     static EffectsList transitions;
+    
+    /** @brief Cache for luma files thumbnails. */
+    static QMap <QString,QImage> m_lumacache;
+
 protected:
 
     /** @brief Closes the window.

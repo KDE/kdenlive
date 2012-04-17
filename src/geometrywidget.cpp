@@ -100,16 +100,16 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_ui.buttonSync,      SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
 
     m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, this);
-    m_ui.horizontalLayout->addWidget(m_spinX);
+    m_ui.horizontalLayout->addWidget(m_spinX, 0, 0);
     
     m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, this);
-    m_ui.horizontalLayout->addWidget(m_spinY);
+    m_ui.horizontalLayout->addWidget(m_spinY, 0, 1);
     
     m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_monitor->render->frameRenderWidth(), 0, 1, 99000, -1, QString(), false, this);
-    m_ui.horizontalLayout->addWidget(m_spinWidth);
+    m_ui.horizontalLayout->addWidget(m_spinWidth, 0, 2);
     
     m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
-    m_ui.horizontalLayout->addWidget(m_spinHeight);
+    m_ui.horizontalLayout->addWidget(m_spinHeight, 0, 3);
 
     QMenu *menu = new QMenu(this);
     QAction *adjustSize = new QAction(i18n("Adjust to original size"), this);
@@ -174,9 +174,10 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     alignButton->setDefaultAction(alignbottom);
     alignButton->setAutoRaise(true);
     alignLayout->addWidget(alignButton);
+    alignLayout->addStretch(10);
 
-    m_ui.horizontalLayout->addLayout(alignLayout);
-    m_ui.horizontalLayout->addStretch(10);
+    m_ui.horizontalLayout->addLayout(alignLayout, 1, 0, 1, 4);
+    //m_ui.horizontalLayout->addStretch(10);
     
     m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, this);
     m_ui.horizontalLayout2->addWidget(m_spinSize);
@@ -254,7 +255,7 @@ GeometryWidget::~GeometryWidget()
     }
     if (m_monitor) {
         m_monitor->getEffectEdit()->showVisibilityButton(false);
-        m_monitor->slotEffectScene(false);
+        m_monitor->slotShowEffectScene(false);
     }
 }
 
@@ -538,9 +539,9 @@ void GeometryWidget::slotCheckMonitorPosition(int renderPos)
         } else {
             if (renderPos >= m_clipPos && renderPos <= m_clipPos + m_outPoint - m_inPoint) {
                 if (!m_scene->views().at(0)->isVisible())
-                    m_monitor->slotEffectScene(true);
+                    m_monitor->slotShowEffectScene(true);
             } else {
-                m_monitor->slotEffectScene(false);
+                m_monitor->slotShowEffectScene(false);
             }
         }
     }
@@ -707,7 +708,7 @@ void GeometryWidget::slotShowScene(bool show)
 {
     m_showScene = show;
     if (!m_showScene)
-        m_monitor->slotEffectScene(false);
+        m_monitor->slotShowEffectScene(false);
     else
         slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }

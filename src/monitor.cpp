@@ -986,7 +986,7 @@ void Monitor::slotSetSelectedClip(Transition* item)
 }
 
 
-void Monitor::slotEffectScene(bool show)
+void Monitor::slotShowEffectScene(bool show)
 {
     if (m_id == Kdenlive::projectMonitor) {
         if (videoSurface) {

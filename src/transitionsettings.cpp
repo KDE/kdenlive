@@ -224,10 +224,11 @@ void TransitionSettings::slotSeekTimeline(int pos)
 void TransitionSettings::slotCheckMonitorPosition(int renderPos)
 {
     if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
-        if (!m_effectEdit->monitor()->getEffectEdit()->getScene()->views().at(0)->isVisible())
-            m_effectEdit->monitor()->slotEffectScene(true);
+        if (!m_effectEdit->monitor()->effectSceneDisplayed())
+	    //m_effectEdit->monitor()->getEffectEdit()->getScene()->views().at(0)->isVisible())
+            m_effectEdit->monitor()->slotShowEffectScene(true);
     } else {
-        m_effectEdit->monitor()->slotEffectScene(false);
+        m_effectEdit->monitor()->slotShowEffectScene(false);
     }
 }
 

@@ -25,7 +25,6 @@
 #define EFFECTSTACKVIEW2_H
 
 #include "ui_effectstack2_ui.h"
-#include "effectstackedit.h"
 #include "collapsibleeffect.h"
 #include "collapsiblegroup.h"
 
@@ -72,6 +71,9 @@ public:
     
     /** @brief Process dropped xml effect. */
     void processDroppedEffect(QDomElement e, QDropEvent *event);
+    
+    /** @brief Return the stylesheet required for effect parameters. */
+    static const QString getStyleSheet();
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent * event);

@@ -35,6 +35,7 @@
 #include <KStandardDirs>
 #include <KFileDialog>
 #include <KColorScheme>
+#include <KColorUtils>
 
 #include <QMenu>
 #include <QTextStream>
@@ -69,7 +70,7 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
     setEnabled(false);
 
     
-    setStyleSheet(CollapsibleEffect::getStyleSheet());
+    setStyleSheet(getStyleSheet());
 }
 
 EffectStackView2::~EffectStackView2()
@@ -78,7 +79,7 @@ EffectStackView2::~EffectStackView2()
 
 void EffectStackView2::updatePalette()
 {
-    setStyleSheet(CollapsibleEffect::getStyleSheet());
+    setStyleSheet(getStyleSheet());
 }
 
 void EffectStackView2::slotRenderPos(int pos)
@@ -406,10 +407,11 @@ void EffectStackView2::slotSeekTimeline(int pos)
 void EffectStackView2::slotCheckMonitorPosition(int renderPos)
 {
     if (m_effectMetaInfo.trackMode || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
-        if (!m_effectMetaInfo.monitor->getEffectEdit()->getScene()->views().at(0)->isVisible())
-            m_effectMetaInfo.monitor->slotEffectScene(true);
+	if (!m_effectMetaInfo.monitor->effectSceneDisplayed())
+        //if (!m_effectMetaInfo.monitor->getEffectEdit()->getScene()->views().at(0)->isVisible())
+            m_effectMetaInfo.monitor->slotShowEffectScene(true);
     } else {
-        m_effectMetaInfo.monitor->slotEffectScene(false);
+        m_effectMetaInfo.monitor->slotShowEffectScene(false);
     }
 }
 
@@ -521,6 +523,7 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
 	for (int i = 0; i < m_effects.count(); i++) {
 	    if (m_effects.at(i)->effectIndex() == ix) {
 		m_effects.at(i)->setActive(true);
+		m_effectMetaInfo.monitor->slotShowEffectScene(m_effects.at(i)->needsMonitorEffectScene());
 		m_ui.labelComment->setText(i18n(m_effects.at(i)->effect().firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
 		m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
 	    }
@@ -864,6 +867,48 @@ void EffectStackView2::dropEvent(QDropEvent *event)
     QDomDocument doc;
     doc.setContent(effects, true);
     processDroppedEffect(doc.documentElement(), event);
+}
+
+//static
+const QString EffectStackView2::getStyleSheet()
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
+    QColor hgh = KColorUtils::mix(QApplication::palette().window().color(), selected_bg, 0.2);
+    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
+    QColor light_bg = scheme.shade(KColorScheme::LightShade);
+    QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
+    
+    QString stylesheet;
+    
+    // effect background
+    stylesheet.append(QString("QFrame#decoframe {border-top-left-radius:5px;border-top-right-radius:5px;border-bottom:2px solid palette(mid);border-top:1px solid palette(light);} QFrame#decoframe[active=\"true\"] {background: %1;}").arg(hgh.name()));
+    
+    // effect in group background
+    stylesheet.append(QString("QFrame#decoframesub {border-top:1px solid palette(light);}  QFrame#decoframesub[active=\"true\"] {background: %1;}").arg(hgh.name()));
+    
+    // group background
+    stylesheet.append(QString("QFrame#decoframegroup {border-top-left-radius:5px;border-top-right-radius:5px;border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
+    
+    // effect title bar
+    stylesheet.append(QString("QFrame#frame {margin-bottom:2px;border-top-left-radius:5px;border-top-right-radius:5px;}  QFrame#frame[target=\"true\"] {background: palette(highlight);}"));
+
+    // group effect title bar
+    stylesheet.append(QString("QFrame#framegroup {border-top-left-radius:2px;border-top-right-radius:2px;background: palette(dark);}  QFrame#framegroup[target=\"true\"] {background: palette(highlight);} "));
+    
+    // draggable effect bar content
+    stylesheet.append(QString("QProgressBar::chunk:horizontal {background: palette(button);border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %2;}").arg(alt_bg.name()).arg(selected_bg.name()));
+    
+    // draggable effect bar
+    stylesheet.append(QString("QProgressBar:horizontal {border: 1px solid palette(dark);border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%3;padding: 0px;text-align:left center} QProgressBar:horizontal:disabled {border: 1px solid palette(button)} QProgressBar:horizontal#dragOnly {background: %3} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %1;border-right: 0px;background: %2;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %1;}").arg(hover_bg.name()).arg(light_bg.name()).arg(alt_bg.name()));
+    
+    // spin box for draggable widget
+    stylesheet.append(QString("QAbstractSpinBox#dragBox {border: 1px solid palette(dark);border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ").arg(hover_bg.name()).arg(selected_bg.name()));
+    
+    // group editable labels
+    stylesheet.append(QString("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
+    
+    return stylesheet;
 }
 
 #include "effectstackview2.moc"

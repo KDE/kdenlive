@@ -20,7 +20,6 @@
 #include "initeffects.h"
 #include "kdenlivesettings.h"
 #include "effectslist.h"
-#include "effectstackedit.h"
 #include "mainwindow.h"
 
 #include <KDebug>
@@ -49,10 +48,10 @@ void initEffectsThumbnailer::run()
     foreach(const QString & entry, m_list) {
         kDebug() << entry;
         if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
-            if (!EffectStackEdit::iconCache.contains(entry)) {
+            if (!MainWindow::m_lumacache.contains(entry)) {
                 QImage pix(entry);
                 //if (!pix.isNull())
-                EffectStackEdit::iconCache[entry] = pix.scaled(30, 30);
+		MainWindow::m_lumacache.insert(entry, pix.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
                 kDebug() << "stored";
             }
         }
