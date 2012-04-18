@@ -1931,6 +1931,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool updateEffectStack)
 {
     if (insertedEffect.isNull()) {
+	kDebug()<<"// Trying to add null effect";
         emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         return;
     }
@@ -1945,8 +1946,9 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             clip->initEffect(effect);
             effectParams = getEffectArgs(effect);
         }*/
-        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - track, pos, effectParams))
+        if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - track, pos, effectParams)) {
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+	}
         m_document->setTrackEffect(m_document->tracksCount() - track - 1, ix, effect);
         emit updateTrackEffectState(track);
         setDocumentModified();
@@ -1972,7 +1974,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
 	    if (ix == clip->selectedEffectIndex()) {
 		// make sure to update display of clip keyframes
 		clip->setSelectedEffect(ix);
-	    } else emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+	    }
             return;
         }
 
