@@ -128,7 +128,7 @@ void CollapsibleGroup::mouseDoubleClickEvent ( QMouseEvent * event )
 }
 
 
-void CollapsibleGroup::slotEnable(bool disable)
+void CollapsibleGroup::slotEnable(bool disable, bool emitInfo)
 {
     m_title->setEnabled(!disable);
     enabledButton->blockSignals(true);
@@ -136,7 +136,7 @@ void CollapsibleGroup::slotEnable(bool disable)
     enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
     enabledButton->blockSignals(false);
     for (int i = 0; i < m_subWidgets.count(); i++)
-	m_subWidgets.at(i)->slotEnable(disable);
+	m_subWidgets.at(i)->slotEnable(disable, emitInfo);
 }
 
 void CollapsibleGroup::slotDeleteGroup()

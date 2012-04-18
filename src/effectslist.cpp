@@ -393,6 +393,16 @@ void EffectsList::updateIndexes(QDomNodeList effects, int startIndex)
     }
 }
 
+void EffectsList::enableEffects(QList <int> indexes, bool disable)
+{
+    QDomNodeList effects = m_baseElement.childNodes();
+    QDomElement effect;
+    for (int i = 0; i < indexes.count(); i++) {
+        effect =  effectFromIndex(effects, indexes.at(i));
+        effect.setAttribute("disable", (int) disable);
+    }
+}
+
 QDomElement EffectsList::effectFromIndex(QDomNodeList effects, int ix)
 {
     if (ix <= 0 || ix > effects.count()) return QDomElement();

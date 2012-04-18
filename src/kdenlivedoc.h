@@ -154,6 +154,8 @@ Q_OBJECT public:
     void removeTrackEffect(int ix, QDomElement effect);
     void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
     const EffectsList getTrackEffects(int ix);
+    /** @brief Enable / disable an effect in Kdenlive's xml list. */
+    void enableTrackEffects(int trackIndex, QList <int> effectIndexes, bool disable);
     QDomElement getTrackEffect(int trackIndex, int effectIndex) const;
     /** @brief Check if a track already contains a specific effect. */
     int hasTrackEffect(int trackIndex, const QString &tag, const QString &id) const;

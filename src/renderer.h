@@ -229,6 +229,18 @@ Q_OBJECT public:
     bool addFilterToService(Mlt::Service service, EffectsParameterList params, int duration);
     bool mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh);
     bool mltAddTrackEffect(int track, EffectsParameterList params);
+    
+    /** @brief Enable / disable clip effects. 
+     * @param track The track where the clip is
+     * @param position The start position of the clip
+     * @param effectIndexes The list of effect indexes to enable / disable
+     * @param disable True if effects should be disabled, false otherwise */
+    bool mltEnableEffects(int track, GenTime position, QList <int> effectIndexes, bool disable);
+    /** @brief Enable / disable track effects.
+     * @param track The track where the effect is
+     * @param effectIndexes The list of effect indexes to enable / disable
+     * @param disable True if effects should be disabled, false otherwise */
+    bool mltEnableTrackEffects(int track, QList <int> effectIndexes, bool disable);
 
     /** @brief Edits an effect parameters in MLT's playlist. */
     bool mltEditEffect(int track, GenTime position, EffectsParameterList params);

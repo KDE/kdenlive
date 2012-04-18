@@ -162,7 +162,7 @@ private slots:
     void slotRenderPos(int pos);
 
     /** @brief Called whenever an effect is enabled / disabled by user. */
-    void slotUpdateEffectState(bool disable, int index, bool updateMainStatus);
+    void slotUpdateEffectState(bool disable, int index);
 
     void slotSetCurrentEffect(int ix);
     
@@ -212,7 +212,7 @@ signals:
         all effects for this clip in the playlist */
     void refreshEffectStack(ClipItem *);
     /** Enable or disable an effect */
-    void changeEffectState(ClipItem*, int, int, bool);
+    void changeEffectState(ClipItem*, int, QList <int>, bool);
     /** An effect in stack was moved */
     void changeEffectPosition(ClipItem*, int, QList <int>, int);
     /** an effect was saved, reload list */

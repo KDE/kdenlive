@@ -9,6 +9,7 @@ set(kdenlive_SRCS
   commands/addtrackcommand.cpp
   commands/addtransitioncommand.cpp
   commands/changecliptypecommand.cpp
+  commands/changeeffectstatecommand.cpp
   commands/changespeedcommand.cpp
   commands/configtrackscommand.cpp
   commands/editclipcommand.cpp

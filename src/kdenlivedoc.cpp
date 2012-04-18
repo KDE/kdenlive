@@ -1532,6 +1532,20 @@ void KdenliveDoc::setTrackEffect(int trackIndex, int effectIndex, QDomElement ef
     //m_tracksList[trackIndex].effectsList.updateEffect(effect);
 }
 
+void KdenliveDoc::enableTrackEffects(int trackIndex, QList <int> effectIndexes, bool disable)
+{
+    if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
+        kWarning() << "Set Track effect outisde of range";
+        return;
+    }
+    EffectsList list = m_tracksList.at(trackIndex).effectsList;
+    QDomElement effect;
+    for (int i = 0; i < effectIndexes.count(); i++) {
+	effect = list.itemFromIndex(effectIndexes.at(i));
+	if (!effect.isNull()) effect.setAttribute("disable", (int) disable);
+    }
+}
+
 const EffectsList KdenliveDoc::getTrackEffects(int ix)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {

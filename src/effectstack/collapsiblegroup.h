@@ -77,7 +77,7 @@ public:
     void adjustEffects();
 
 public slots:
-    void slotEnable(bool enable);
+    void slotEnable(bool enable, bool emitInfo = true);
 
 private slots:
     void slotSwitch();

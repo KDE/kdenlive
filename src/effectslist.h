@@ -92,6 +92,8 @@ public:
     QDomElement effectFromIndex(QDomNodeList effects, int ix);
     /** @brief Update all effects indexes to make sure they are 1, 2, 3, ... */
     void updateIndexes(QDomNodeList effects, int startIndex);
+    /** @brief Enable / disable a list of effects */
+    void enableEffects(QList <int> indexes, bool disable);
 
 private:
     QDomElement m_baseElement;

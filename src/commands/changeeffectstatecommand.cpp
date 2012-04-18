@@ -18,55 +18,36 @@
  ***************************************************************************/
 
 
-#include "editeffectcommand.h"
+#include "changeeffectstatecommand.h"
 #include "customtrackview.h"
 
 #include <KLocale>
 
-EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
+ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, GenTime pos, QList <int> effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),
-        m_oldeffect(oldeffect),
-        m_effect(effect),
+        m_effectIndexes(effectIndexes),
         m_pos(pos),
-        m_stackPos(stackPos),
+        m_disable(disable),
         m_doIt(doIt),
         m_refreshEffectStack(refreshEffectStack)
 {
-    QString effectName;
-    QDomElement namenode = effect.firstChildElement("name");
-    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
-    else effectName = i18n("effect");
-    setText(i18n("Edit effect %1", effectName));
+    if (disable) 
+	setText(i18np("Disable effect", "Disable effects", effectIndexes.count()));
+    else
+	setText(i18np("Enable effect", "Enable effects", effectIndexes.count()));
 }
 
 // virtual
-int EditEffectCommand::id() const
+void ChangeEffectStateCommand::undo()
 {
-    return 1;
-}
-
-// virtual
-bool EditEffectCommand::mergeWith(const QUndoCommand * other)
-{
-    if (other->id() != id()) return false;
-    if (m_track != static_cast<const EditEffectCommand*>(other)->m_track) return false;
-    if (m_stackPos != static_cast<const EditEffectCommand*>(other)->m_stackPos) return false;
-    if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos) return false;
-    m_effect = static_cast<const EditEffectCommand*>(other)->m_effect.cloneNode().toElement();
-    return true;
-}
-
-// virtual
-void EditEffectCommand::undo()
-{
-    m_view->updateEffect(m_track, m_pos, m_oldeffect, true);
+    m_view->updateEffectState(m_track, m_pos, m_effectIndexes, !m_disable, true);
 }
 // virtual
-void EditEffectCommand::redo()
+void ChangeEffectStateCommand::redo()
 {
-    if (m_doIt) m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack);
+    if (m_doIt) m_view->updateEffectState(m_track, m_pos, m_effectIndexes, m_disable, m_refreshEffectStack);
     m_doIt = true;
     m_refreshEffectStack = true;
 }

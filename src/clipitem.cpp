@@ -1386,6 +1386,11 @@ void ClipItem::updateEffect(QDomElement effect)
     }
 }
 
+void ClipItem::enableEffects(QList <int> indexes, bool disable)
+{
+    m_effectList.enableEffects(indexes, disable);
+}
+
 bool ClipItem::moveEffect(QDomElement effect, int ix)
 {
     if (ix <= 0 || ix > (m_effectList.count()) || effect.isNull()) {

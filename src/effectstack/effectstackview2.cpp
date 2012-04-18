@@ -259,7 +259,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
     connect(currentEffect, SIGNAL(changeEffectPosition(QList <int>,bool)), this , SLOT(slotMoveEffectUp(QList <int>,bool)));
-    connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
+    connect(currentEffect, SIGNAL(effectStateChanged(bool,int)), this, SLOT(slotUpdateEffectState(bool,int)));
     connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
     connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
@@ -380,13 +380,13 @@ void EffectStackView2::startDrag()
 }
 
 
-void EffectStackView2::slotUpdateEffectState(bool disable, int index, bool updateMainStatus)
+void EffectStackView2::slotUpdateEffectState(bool disable, int index)
 {
     if (m_effectMetaInfo.trackMode)
-        emit changeEffectState(NULL, m_trackindex, index, disable);
+        emit changeEffectState(NULL, m_trackindex, QList <int>() << index, disable);
     else
-        emit changeEffectState(m_clipref, -1, index, disable);
-    if (updateMainStatus) slotUpdateCheckAllButton();
+        emit changeEffectState(m_clipref, -1, QList <int>() <<index, disable);
+    slotUpdateCheckAllButton();
 }
 
 
@@ -459,11 +459,22 @@ void EffectStackView2::slotCheckAll(int state)
     }
 
     bool disabled = state == Qt::Unchecked;
+    // Disable all effects
+    QList <int> indexes;
     for (int i = 0; i < m_effects.count(); i++) {
-	if (!m_effects.at(i)->isGroup()) {
-	    m_effects.at(i)->slotEnable(disabled, false);
-	}
+	m_effects.at(i)->slotEnable(disabled, false);
+	indexes << m_effects.at(i)->effectIndex();
     }
+    // Take care of groups
+    QList<CollapsibleGroup *> allGroups = m_ui.container->widget()->findChildren<CollapsibleGroup *>();
+    for (int i = 0; i < allGroups.count(); i++) {
+	allGroups.at(i)->slotEnable(disabled, false);
+    }
+    
+    if (m_effectMetaInfo.trackMode)
+        emit changeEffectState(NULL, m_trackindex, indexes, disabled);
+    else
+        emit changeEffectState(m_clipref, -1, indexes, disabled);
 }
 
 void EffectStackView2::slotUpdateCheckAllButton()

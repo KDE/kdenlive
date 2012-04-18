@@ -76,7 +76,7 @@ public:
 
 public slots:
     void slotSyncEffectsPos(int pos);
-    void slotEnable(bool enable, bool updateMainStatus = true);
+    void slotEnable(bool enable, bool emitInfo = true);
     void slotResetEffect();
 
 private slots:

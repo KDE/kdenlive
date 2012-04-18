@@ -100,6 +100,8 @@ public:
     * @param ix The effect's index in effectlist
     * @param effect The new effect */
     void updateEffect(QDomElement effect);
+    /** @brief Enable / disable a list of effect from their indexes. */
+    void enableEffects(QList <int> indexes, bool disable);
     bool moveEffect(QDomElement effect, int ix);
     void flashClip();
     void addTransition(Transition*);

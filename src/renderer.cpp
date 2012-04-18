@@ -2768,7 +2768,6 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
 
     refresh();
     return true;
-
 }
 
 bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList params)
@@ -2872,6 +2871,71 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     service.unlock();
 
     if (doRefresh) refresh();
+    return true;
+}
+
+bool Render::mltEnableEffects(int track, GenTime position, QList <int> effectIndexes, bool disable)
+{
+    if (position < GenTime()) {
+        return mltEnableTrackEffects(track, effectIndexes, disable);
+    }
+    // find filter
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+
+    int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
+    if (!clip) {
+        kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
+        return false;
+    }
+
+    int duration = clip->get_playtime();
+    bool doRefresh = true;
+    // Check if clip is visible in monitor
+    int diff = trackPlaylist.clip_start(clipIndex) + duration - m_mltProducer->position();
+    if (diff < 0 || diff > duration)
+        doRefresh = false;
+    int ct = 0;
+
+    Mlt::Filter *filter = clip->filter(ct);
+    while (filter) {
+        if (effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
+            filter->set("disable", (int) disable);
+        }
+        ct++;
+        filter = clip->filter(ct);
+    }
+
+    delete clip;
+    service.unlock();
+
+    if (doRefresh) refresh();
+    return true;
+}
+
+bool Render::mltEnableTrackEffects(int track, QList <int> effectIndexes, bool disable)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    Mlt::Service clipService(trackPlaylist.get_service());
+    int ct = 0;
+
+    Mlt::Filter *filter = clipService.filter(ct);
+    while (filter) {
+        if (effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
+            filter->set("disable", (int) disable);
+        }
+        ct++;
+        filter = clipService.filter(ct);
+    }
+    service.unlock();
+
+    refresh();
     return true;
 }
 

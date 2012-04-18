@@ -253,7 +253,7 @@ void CollapsibleEffect::mouseReleaseEvent( QMouseEvent *event )
   QWidget::mouseReleaseEvent(event);
 }
 
-void CollapsibleEffect::slotEnable(bool disable, bool updateMainStatus)
+void CollapsibleEffect::slotEnable(bool disable, bool emitInfo)
 {
     title->setEnabled(!disable);
     enabledButton->blockSignals(true);
@@ -264,7 +264,7 @@ void CollapsibleEffect::slotEnable(bool disable, bool updateMainStatus)
     if (!disable || KdenliveSettings::disable_effect_parameters()) {
         widgetFrame->setEnabled(!disable);
     }
-    emit effectStateChanged(disable, effectIndex(), updateMainStatus);
+    if (emitInfo) emit effectStateChanged(disable, effectIndex());
 }
 
 void CollapsibleEffect::slotDeleteEffect()
