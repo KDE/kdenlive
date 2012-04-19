@@ -42,6 +42,7 @@ class ClipItem;
 class AbstractClipItem;
 class AbstractGroupItem;
 class Transition;
+class AudioCorrelation;
 
 class CustomTrackView : public QGraphicsView
 {
@@ -60,7 +61,13 @@ public:
     void configTracks(QList <TrackInfo> trackInfos);
     int cursorPos();
     void checkAutoScroll();
-    void moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh);
+    /**
+      Move the clip at \c start to \c end.
+
+      If \c out_actualEnd is not NULL, it will be set to the position the clip really ended up at.
+      For example, attempting to move a clip to t = -1 s will actually move it to t = 0 s.
+      */
+    bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, ItemInfo *out_actualEnd = NULL);
     void moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove = false);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
@@ -139,6 +146,12 @@ public:
 
     /** @brief Creates SplitAudioCommands for selected clips. */
     void splitAudio();
+
+    /// Define which clip to take as reference for automatic audio alignment
+    void setAudioAlignReference();
+
+    /// Automatically align the currently selected clips to synchronize their audio with the reference's audio
+    void alignAudio();
 
     /** @brief Seperates the audio of a clip to a audio track.
     * @param pos Position of the clip to split
@@ -360,6 +373,9 @@ private:
     QMutex m_mutex;
     QWaitCondition m_producerNotReady;
     KStatefulBrush m_activeTrackBrush;
+
+    AudioCorrelation *m_audioCorrelator;
+    ClipItem *m_audioAlignmentReference;
 
     /** stores the state of the control modifier during mouse press.
      * Will then be used to identify whether we resize a group or only one item of it. */

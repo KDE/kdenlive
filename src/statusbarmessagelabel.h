@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006 by Peter Penz                                      *
+ *                 2012    Simon A. Eugster <simon.eu@gmail.com>           *
  *   peter.penz@gmx.at                                                     *
  *   Code borrowed from Dolphin, adapted (2008) to Kdenlive by             *
  *   Jean-Baptiste Mardelle, jb@kdenlive.org                               *
@@ -28,12 +29,41 @@
 #include <QPixmap>
 #include <QWidget>
 #include <QTimer>
+#include <QSemaphore>
 
 #include <definitions.h>
+
+#include "lib/qtimerWithTime.h"
 
 class QPaintEvent;
 class QResizeEvent;
 class QPushButton;
+
+
+/**
+  Queue-able message item holding all important information
+  */
+struct StatusBarMessageItem {
+
+    QString text;
+    MessageType type;
+    int timeoutMillis;
+    bool confirmed; ///< MLT errors need to be confirmed.
+
+    /// \return true if the error still needs to be confirmed
+    bool needsConfirmation() const
+    {
+        return type == MltError && !confirmed;
+    }
+
+    StatusBarMessageItem(const QString& text = QString(), MessageType type = DefaultMessage, int timeoutMS = 0) :
+        text(text), type(type), timeoutMillis(timeoutMS), confirmed(false) {}
+
+    bool operator ==(const StatusBarMessageItem &other)
+    {
+        return type == other.type && text == other.text;
+    }
+};
 
 /**
  * @brief Represents a message text label as part of the status bar.
@@ -51,10 +81,6 @@ public:
     explicit StatusBarMessageLabel(QWidget* parent);
     virtual ~StatusBarMessageLabel();
 
-    MessageType type() const;
-
-    const QString& text() const;
-
     // TODO: maybe a better approach is possible with the size hint
     void setMinimumTextHeight(int min);
     int minimumTextHeight() const;
@@ -67,16 +93,10 @@ protected:
     virtual void resizeEvent(QResizeEvent* event);
 
 public slots:
-    void setMessage(const QString& text, MessageType type);
+    void setMessage(const QString& text, MessageType type, int timeoutMS = 0);
 
 private slots:
     void timerDone();
-
-    /**
-     * Increases the height of the message label so that
-     * the given text fits into given area.
-     */
-    void assureVisibleText();
 
     /**
      * Returns the available width in pixels for the text.
@@ -93,21 +113,13 @@ private slots:
      * Closes the currently shown error message and replaces it
      * by the next pending message.
      */
-    void closeErrorMessage();
+    void confirmErrorMessage();
 
-private:
     /**
      * Shows the next pending error message. If no pending message
      * was in the queue, false is returned.
      */
-    bool showPendingMessage();
-
-    /**
-     * Resets the message label properties. This is useful when the
-     * result of invoking StatusBarMessageLabel::setMessage() should
-     * not rely on previous states.
-     */
-    void reset();
+    bool slotMessageTimeout();
 
 private:
     enum State {
@@ -120,31 +132,24 @@ private:
     enum { GeometryTimeout = 100 };
     enum { BorderGap = 2 };
 
-    MessageType m_type;
     State m_state;
     int m_illumination;
     int m_minTextHeight;
     QTimer m_timer;
-    QTimer m_hidetimer;
-    QString m_text;
-    QList<QString> m_pendingMessages;
+
+    QTimerWithTime m_queueTimer;
+    QSemaphore m_queueSemaphore;
+    QList<StatusBarMessageItem> m_messageQueue;
+    StatusBarMessageItem m_currentMessage;
+
     QPixmap m_pixmap;
     QPushButton* m_closeButton;
 };
-
-inline MessageType StatusBarMessageLabel::type() const
-{
-    return m_type;
-}
-
-inline const QString& StatusBarMessageLabel::text() const
-{
-    return m_text;
-}
 
 inline int StatusBarMessageLabel::minimumTextHeight() const
 {
     return m_minTextHeight;
 }
+
 
 #endif

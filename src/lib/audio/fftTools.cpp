@@ -13,7 +13,7 @@
 
 #include <QString>
 
-#include "ffttools.h"
+#include "fftTools.h"
 
 // Uncomment for debugging, like writing a GNU Octave .m file to /tmp
 //#define DEBUG_FFTTOOLS
@@ -139,7 +139,7 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
 #ifdef DEBUG_FFTTOOLS
         qDebug() << "Creating FFT configuration with size " << windowSize;
 #endif
-        myCfg = kiss_fftr_alloc(windowSize, 0,0,0);
+        myCfg = kiss_fftr_alloc(windowSize, false,NULL,NULL);
         m_fftCfgs.insert(cfgSig, myCfg);
     }
 

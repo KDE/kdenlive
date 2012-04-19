@@ -10,6 +10,7 @@ Input
         proxy creation
         input method (register mimetype in file dialog, custom widget)
         effect support (a, v, av, special effects (freeze, speed))
+	support for multi-channel sound (5.1, ...)
 
         => modules for avformat, qimage/gtk_image(?), generators (slideshow, color, f0r)
 

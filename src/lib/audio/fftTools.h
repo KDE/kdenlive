@@ -13,7 +13,7 @@
 
 #include <QVector>
 #include <QHash>
-#include "kiss_fft/tools/kiss_fftr.h"
+#include "lib/external/kiss_fft/tools/kiss_fftr.h"
 
 class FFTTools
 {

@@ -25,6 +25,7 @@
 #include "effectslist.h"
 
 #include <KLocale>
+#include <QDebug>
 
 #include <QTreeWidgetItem>
  #include <QtCore/QString>
@@ -269,6 +270,8 @@ private:
 
 
 };
+
+QDebug operator << (QDebug qd, const ItemInfo &info);
 
 
 #endif

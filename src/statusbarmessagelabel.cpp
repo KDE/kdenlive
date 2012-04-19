@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006 by Peter Penz                                      *
+ *                 2012    Simon A. Eugster <simon.eu@gmail.com>           *
  *   peter.penz@gmx.at                                                     *
  *   Code borrowed from Dolphin, adapted (2008) to Kdenlive by             *
  *   Jean-Baptiste Mardelle, jb@kdenlive.org                               *
@@ -37,25 +38,29 @@
 
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
-        QWidget(parent),
-        m_type(DefaultMessage),
-        m_state(Default),
-        m_illumination(-64),
-        m_minTextHeight(-1),
-        m_closeButton(0)
+    QWidget(parent),
+    m_state(Default),
+    m_illumination(-64),
+    m_minTextHeight(-1),
+    m_queueSemaphore(1),
+    m_closeButton(0)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
     QPalette palette;
     palette.setColor(QPalette::Background, Qt::transparent);
     setPalette(palette);
-    m_hidetimer.setSingleShot(true);
-    m_hidetimer.setInterval(5000);
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerDone()));
-    connect(&m_hidetimer, SIGNAL(timeout()), this, SLOT(closeErrorMessage()));
 
-    m_closeButton = new QPushButton(i18nc("@action:button", "Close"), this);
+    m_closeButton = new QPushButton(i18nc("@action:button", "Confirm"), this);
     m_closeButton->hide();
-    connect(m_closeButton, SIGNAL(clicked()), this, SLOT(closeErrorMessage()));
+
+    m_queueTimer.setSingleShot(true);
+
+    bool b = true;
+    b &= connect(&m_queueTimer, SIGNAL(timeout()), this, SLOT(slotMessageTimeout()));
+
+    b &= connect(m_closeButton, SIGNAL(clicked()), this, SLOT(confirmErrorMessage()));
+    b &= connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerDone()));
+    Q_ASSERT(b);
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()
@@ -63,44 +68,93 @@ StatusBarMessageLabel::~StatusBarMessageLabel()
 }
 
 void StatusBarMessageLabel::setMessage(const QString& text,
-                                       MessageType type)
+                                       MessageType type, int timeoutMS)
 {
-    if ((text == m_text) && (type == m_type)) {
-        if (type == ErrorMessage) KNotification::event("ErrorMessage", m_text);
-        return;
+    StatusBarMessageItem item(text, type, timeoutMS);
+
+    if (item.type == ErrorMessage || item.type == MltError) {
+        KNotification::event("ErrorMessage", item.text);
     }
 
-    /*if (m_type == ErrorMessage) {
-        if (type == ErrorMessage) {
-            m_pendingMessages.insert(0, m_text);
-        } else if ((m_state != Default) || !m_pendingMessages.isEmpty()) {
-            // a non-error message should not be shown, as there
-            // are other pending error messages in the queue
-            return;
-        }
-    }*/
+    m_queueSemaphore.acquire();
+    if (!m_messageQueue.contains(item)) {
+        if (item.type == ErrorMessage || item.type == MltError) {
+            qDebug() << item.text;
 
-    m_text = text;
-    m_type = type;
+            // Put the new errror message at first place and immediately show it
+            if (item.timeoutMillis < 2000) {
+                item.timeoutMillis = 2000;
+            }
+            m_messageQueue.push_front(item);
+
+            // In case we are already displaying an error message, add a little delay
+            int delay = 800 * (m_currentMessage.type == ErrorMessage || m_currentMessage.type == MltError);
+            m_queueTimer.start(delay);
+
+        } else {
+
+            // Message with normal priority
+            m_messageQueue.push_back(item);
+            if (!m_queueTimer.elapsed() >= m_currentMessage.timeoutMillis) {
+                m_queueTimer.start(0);
+            }
+
+        }
+    }
+
+    m_queueSemaphore.release();
+}
+
+bool StatusBarMessageLabel::slotMessageTimeout()
+{
+    m_queueSemaphore.acquire();
+
+    bool newMessage = false;
+
+    // Get the next message from the queue, unless the current one needs to be confirmed
+    if (m_messageQueue.size() > 0) {
+
+        if (!m_currentMessage.needsConfirmation()) {
+
+            m_currentMessage = m_messageQueue.at(0);
+            m_messageQueue.removeFirst();
+            newMessage = true;
+
+        }
+    }
+
+    // If the queue is empty, add a default (empty) message
+    if (m_messageQueue.size() == 0 && m_currentMessage.type != DefaultMessage) {
+        m_messageQueue.push_back(StatusBarMessageItem());
+    }
+
+    // Start a new timer, unless the current message still needs to be confirmed
+    if (m_messageQueue.size() > 0) {
+
+        if (!m_currentMessage.needsConfirmation()) {
+
+            // If we only have the default message left to show in the queue,
+            // keep the current one for a little longer.
+            m_queueTimer.start(m_currentMessage.timeoutMillis + 2000*(m_messageQueue.at(0).type == DefaultMessage));
+
+        }
+    }
+
 
     m_illumination = -64;
     m_state = Default;
     m_timer.stop();
 
     const char* iconName = 0;
-    QPixmap pixmap;
-    switch (type) {
+    switch (m_currentMessage.type) {
     case OperationCompletedMessage:
         iconName = "dialog-ok";
-        // "ok" icon should probably be "dialog-success", but we don't have that icon in KDE 4.0
         m_closeButton->hide();
-        m_hidetimer.stop();
         break;
 
     case InformationMessage:
         iconName = "dialog-information";
         m_closeButton->hide();
-        m_hidetimer.start();
         break;
 
     case ErrorMessage:
@@ -108,8 +162,6 @@ void StatusBarMessageLabel::setMessage(const QString& text,
         m_timer.start(100);
         m_state = Illuminate;
         m_closeButton->hide();
-        KNotification::event("ErrorMessage", m_text);
-        m_hidetimer.stop();
         break;
 
     case MltError:
@@ -118,24 +170,26 @@ void StatusBarMessageLabel::setMessage(const QString& text,
         m_state = Illuminate;
         updateCloseButtonPosition();
         m_closeButton->show();
-        m_hidetimer.stop();
         break;
 
     case DefaultMessage:
     default:
         m_closeButton->hide();
-        m_hidetimer.stop();
         break;
     }
 
     m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
 
-    /*QFontMetrics fontMetrics(font());
-    setMaximumWidth(fontMetrics.boundingRect(m_text).width() + m_pixmap.width() + (BorderGap * 4));
-    updateGeometry();*/
+    m_queueSemaphore.release();
 
-    //QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
     update();
+    return newMessage;
+}
+
+void StatusBarMessageLabel::confirmErrorMessage()
+{
+    m_currentMessage.confirmed = true;
+    m_queueTimer.start(0);
 }
 
 void StatusBarMessageLabel::setMinimumTextHeight(int min)
@@ -149,7 +203,7 @@ void StatusBarMessageLabel::setMinimumTextHeight(int min)
     }
 }
 
-void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
+void StatusBarMessageLabel::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
@@ -179,7 +233,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     if (height() > m_minTextHeight) {
         flags = flags | Qt::TextWordWrap;
     }
-    painter.drawText(QRect(x, 0, availableTextWidth(), height()), flags, m_text);
+    painter.drawText(QRect(x, 0, availableTextWidth(), height()), flags, m_currentMessage.text);
     painter.end();
 }
 
@@ -187,7 +241,6 @@ void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
     updateCloseButtonPosition();
-    //QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
 }
 
 void StatusBarMessageLabel::timerDone()
@@ -211,7 +264,7 @@ void StatusBarMessageLabel::timerDone()
 
     case Illuminated: {
         // start desaturation
-        if (m_type != MltError) {
+        if (m_currentMessage.type != MltError) {
             m_state = Desaturate;
             m_timer.start(80);
         }
@@ -237,53 +290,6 @@ void StatusBarMessageLabel::timerDone()
     }
 }
 
-void StatusBarMessageLabel::assureVisibleText()
-{
-    if (m_text.isEmpty()) {
-        return;
-    }
-
-    int requiredHeight = m_minTextHeight;
-    if (m_type != DefaultMessage) {
-        // Calculate the required height of the widget thats
-        // needed for having a fully visible text. Note that for the default
-        // statusbar type (e. g. hover information) increasing the text height
-        // is not wanted, as this might rearrange the layout of items.
-
-        QFontMetrics fontMetrics(font());
-        const QRect bounds(fontMetrics.boundingRect(0, 0, availableTextWidth(), height(),
-                           Qt::AlignVCenter | Qt::TextWordWrap, m_text));
-        requiredHeight = bounds.height();
-        if (requiredHeight < m_minTextHeight) {
-            requiredHeight = m_minTextHeight;
-        }
-    }
-
-    // Increase/decrease the current height of the widget to the
-    // required height. The increasing/decreasing is done in several
-    // steps to have an animation if the height is modified
-    // (see StatusBarMessageLabel::resizeEvent())
-    const int gap = m_minTextHeight / 2;
-    int minHeight = minimumHeight();
-    if (minHeight < requiredHeight) {
-        minHeight += gap;
-        if (minHeight > requiredHeight) {
-            minHeight = requiredHeight;
-        }
-        setMinimumHeight(minHeight);
-        updateGeometry();
-    } else if (minHeight > requiredHeight) {
-        minHeight -= gap;
-        if (minHeight < requiredHeight) {
-            minHeight = requiredHeight;
-        }
-        setMinimumHeight(minHeight);
-        updateGeometry();
-    }
-
-    updateCloseButtonPosition();
-}
-
 int StatusBarMessageLabel::availableTextWidth() const
 {
     const int buttonWidth = 0; /*(m_type == ErrorMessage) ?
@@ -296,22 +302,6 @@ void StatusBarMessageLabel::updateCloseButtonPosition()
     const int x = width() - m_closeButton->width() - BorderGap;
     const int y = (height() - m_closeButton->height()) / 2;
     m_closeButton->move(x, y);
-}
-
-void StatusBarMessageLabel::closeErrorMessage()
-{
-    if (!showPendingMessage()) {
-        setMessage(QString(), DefaultMessage);
-    }
-}
-
-bool StatusBarMessageLabel::showPendingMessage()
-{
-    if (!m_pendingMessages.isEmpty()) {
-        setMessage(m_pendingMessages.takeFirst(), ErrorMessage);
-        return true;
-    }
-    return false;
 }
 
 

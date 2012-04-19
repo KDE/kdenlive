@@ -545,6 +545,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("ungroup_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("split_audio"));
+    if (KdenliveSettings::enableaudioalign()) {
+        m_timelineContextClipMenu->addAction(actionCollection()->action("set_audio_align_ref"));
+        m_timelineContextClipMenu->addAction(actionCollection()->action("align_audio"));
+    }
     m_timelineContextClipMenu->addSeparator();
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
@@ -1463,7 +1467,7 @@ void MainWindow::setupActions()
     collection.addAction("edit_clip_marker", editClipMarker);
     connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
 
-    KAction *addMarkerGuideQuickly = new KAction(KIcon("bookmark-new"), i18n("Add Marker/Guide quickly"), this);
+    KAction* addMarkerGuideQuickly = new KAction(KIcon("bookmark-new"), i18n("Add Marker/Guide quickly"), this);
     addMarkerGuideQuickly->setShortcut(Qt::Key_Asterisk);
     collection.addAction("add_marker_guide_quickly", addMarkerGuideQuickly);
     connect(addMarkerGuideQuickly, SIGNAL(triggered(bool)), this, SLOT(slotAddMarkerGuideQuickly()));
@@ -1471,6 +1475,14 @@ void MainWindow::setupActions()
     KAction* splitAudio = new KAction(KIcon("document-new"), i18n("Split Audio"), this);
     collection.addAction("split_audio", splitAudio);
     connect(splitAudio, SIGNAL(triggered(bool)), this, SLOT(slotSplitAudio()));
+
+    KAction* setAudioAlignReference = new KAction(i18n("Set Audio Reference"), this);
+    collection.addAction("set_audio_align_ref", setAudioAlignReference);
+    connect(setAudioAlignReference, SIGNAL(triggered()), this, SLOT(slotSetAudioAlignReference()));
+
+    KAction* alignAudio = new KAction(i18n("Align Audio to Reference"), this);
+    collection.addAction("align_audio", alignAudio);
+    connect(alignAudio, SIGNAL(triggered()), this, SLOT(slotAlignAudio()));
 
     KAction* audioOnly = new KAction(KIcon("document-new"), i18n("Audio Only"), this);
     collection.addAction("clip_audio_only", audioOnly);
@@ -3770,6 +3782,20 @@ void MainWindow::slotSplitAudio()
 {
     if (m_activeTimeline)
         m_activeTimeline->projectView()->splitAudio();
+}
+
+void MainWindow::slotSetAudioAlignReference()
+{
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->setAudioAlignReference();
+    }
+}
+
+void MainWindow::slotAlignAudio()
+{
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->alignAudio();
+    }
 }
 
 void MainWindow::slotUpdateClipType(QAction *action)

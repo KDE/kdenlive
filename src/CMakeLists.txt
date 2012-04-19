@@ -76,11 +76,11 @@ macro_log_feature(QJSON_FOUND
 add_subdirectory(beziercurve)
 add_subdirectory(colorcorrection)
 add_subdirectory(commands)
+add_subdirectory(lib)
 add_subdirectory(projecttree)
 add_subdirectory(utils)
 add_subdirectory(databackup)
 add_subdirectory(effectstack)
-add_subdirectory(kiss_fft)
 add_subdirectory(mimetypes)
 add_subdirectory(onmonitoritems)
 add_subdirectory(scopes)
@@ -120,6 +120,7 @@ list(APPEND kdenlive_SRCS
   customruler.cpp
   customtrackscene.cpp
   customtrackview.cpp
+  definitions.cpp
   docclipbase.cpp
   documentchecker.cpp
   documentvalidator.cpp

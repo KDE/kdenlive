@@ -18,6 +18,7 @@
 #ifndef GENTIME_H
 #define GENTIME_H
 
+#include <QString>
 #include <cmath>
 
 /**
@@ -52,16 +53,25 @@ public:
     * @param framesPerSecond Number of frames per second */
     GenTime & roundNearestFrame(double framesPerSecond);
 
+    QString toString() const;
+
 
     /*
      * Operators.
      */
+
+    /// Unary minus
+    GenTime operator -() {
+        return GenTime(-m_time);
+    }
     
+    /// Addition
     GenTime & operator+=(GenTime op) {
         m_time += op.m_time;
         return *this;
     }
 
+    /// Subtraction
     GenTime & operator-=(GenTime op) {
         m_time -= op.m_time;
         return *this;
@@ -112,7 +122,7 @@ public:
     }
 
 private:
-    /** Holds the time for this object. */
+    /** Holds the time in seconds for this object. */
     double m_time;
 
     /** A delta value that is used to get around floating point rounding issues. */
