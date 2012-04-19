@@ -148,19 +148,25 @@ struct MltVideoProfile {
 class EffectInfo
 {
 public:
-    EffectInfo() {isCollapsed = false; groupIndex = -1;}
+    EffectInfo() {isCollapsed = false; groupIndex = -1; groupIsCollapsed = false;}
     bool isCollapsed;
+    bool groupIsCollapsed;
     int groupIndex;
     QString groupName;
     QString toString() const {
         QStringList data;
-	data << QString::number(isCollapsed) << QString::number(groupIndex) << groupName;
+	// effect collapsed state: 0 = effect not collapsed, 1 = effect collapsed, 
+	// 2 = group collapsed - effect not, 3 = group and effect collapsed
+	int collapsedState = (int) isCollapsed;
+	if (groupIsCollapsed) collapsedState += 2;
+	data << QString::number(collapsedState) << QString::number(groupIndex) << groupName;
 	return data.join("/");
     }
     void fromString(QString value) {
 	if (value.isEmpty()) return;
 	QStringList data = value.split("/");
-	isCollapsed = data.at(0).toInt();
+	isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
+	groupIsCollapsed = data.at(0).toInt() == 3;
 	if (data.count() > 1) groupIndex = data.at(1).toInt();
 	if (data.count() > 2) groupName = data.at(2);
     }

@@ -69,11 +69,16 @@ public:
     
     /** @brief Palette was changed, update style. */
     void updatePalette();
+    
+    /** @brief Process dropped xml effect. */
+    void processDroppedEffect(QDomElement e, QDropEvent *event);
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void resizeEvent ( QResizeEvent * event );
+    virtual void dragEnterEvent(QDragEnterEvent *event);
+    virtual void dropEvent(QDropEvent *event);
   
 private:
     Ui::EffectStack2_UI m_ui;
@@ -110,6 +115,8 @@ private:
     
     /** @brief Connect an effect to its signals. */
     void connectEffect(CollapsibleEffect *currentEffect);
+    /** @brief Connect a group to its signals. */
+    void connectGroup(CollapsibleGroup *group);
 
 public slots:
     /** @brief Sets the clip whose effect list should be managed.
@@ -166,12 +173,13 @@ private slots:
     /** @brief Create a region effect with ix index. */
     void slotCreateRegion(int ix, KUrl url);
     
-    /** @brief Move an effect into a group.
-      ** @param ix the index of effect to move in stack layout
-      ** @param group the effect on which the effect was dropped
-      ** @param lastEffectIndex the last effect index in the group, effect will be inserted after that index
+    /** @brief Move an effect.
+      ** @param currentIndexes the list of effect indexes to move in stack layout
+      ** @param newIndex the position where the effects will be moved
+      ** @param groupIndex the index of the group if any (-1 if none)
+      ** @param groupName the name of the group to paste the effect
       */
-    void slotMoveEffect(int currentIndex, int newIndex, int groupIndex, QString groupName = QString());
+    void slotMoveEffect(QList <int> currentIndexes, int newIndex, int groupIndex, QString groupName = QString());
     
     /** @brief Remove effects from a group */
     void slotUnGroup(CollapsibleGroup* group);
@@ -201,7 +209,7 @@ signals:
     /** Enable or disable an effect */
     void changeEffectState(ClipItem*, int, int, bool);
     /** An effect in stack was moved */
-    void changeEffectPosition(ClipItem*, int, int, int);
+    void changeEffectPosition(ClipItem*, int, QList <int>, int);
     /** an effect was saved, reload list */
     void reloadEffects();
     /** An effect with position parameter was changed, seek */

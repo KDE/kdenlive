@@ -66,7 +66,6 @@ private:
 
     QVBoxLayout *m_vbox;
     QList<QWidget*> m_uiItems;
-    QDomElement m_params;
     QMap<QString, QWidget*> m_valueItems;
     int m_in;
     int m_out;
@@ -88,9 +87,6 @@ public slots:
 
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotSyncEffectsPos(int pos);
-    
-private slots:
-    void slotStartFilterJobAction();
 
 signals:
     void parameterChanged(const QDomElement, const QDomElement, int);
