@@ -57,14 +57,12 @@ RotoWidget::RotoWidget(QString data, Monitor *monitor, ItemInfo info, Timecode t
     l->addWidget(m_keyframeWidget);
 
     MonitorEditWidget *edit = monitor->getEffectEdit();
-    edit->showVisibilityButton(true);
     m_scene = edit->getScene();
     m_scene->cleanup();
 
     m_item = new SplineItem(QList <BPoint>(), NULL, m_scene);
 
     connect(m_item, SIGNAL(changed(bool)), this, SLOT(slotUpdateData(bool)));
-    connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
     connect(m_keyframeWidget, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
     connect(m_keyframeWidget, SIGNAL(keyframeAdded(int)), this, SLOT(slotAddKeyframe(int)));
     connect(m_keyframeWidget, SIGNAL(keyframeRemoved(int)), this, SLOT(slotRemoveKeyframe(int)));
@@ -88,16 +86,9 @@ RotoWidget::~RotoWidget()
 
     if (m_monitor) {
         MonitorEditWidget *edit = m_monitor->getEffectEdit();
-        edit->showVisibilityButton(false);
         edit->removeCustomControls();
         m_monitor->slotShowEffectScene(false);
     }
-}
-
-void RotoWidget::slotCheckMonitorPosition(int renderPos)
-{
-    if (m_showScene)
-        emit checkMonitorPosition(renderPos);
 }
 
 void RotoWidget::slotSyncPosition(int relTimelinePos)
@@ -105,15 +96,6 @@ void RotoWidget::slotSyncPosition(int relTimelinePos)
     relTimelinePos = qBound(0, relTimelinePos, m_out);
     m_keyframeWidget->slotSetPosition(relTimelinePos, false);
     slotPositionChanged(relTimelinePos, false);
-}
-
-void RotoWidget::slotShowScene(bool show)
-{
-    m_showScene = show;
-    if (!m_showScene)
-        m_monitor->slotShowEffectScene(false);
-    else
-        slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }
 
 void RotoWidget::slotUpdateData(int pos, bool editing)

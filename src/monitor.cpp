@@ -187,6 +187,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 
     if (id == Kdenlive::projectMonitor) {
         m_effectWidget = new MonitorEditWidget(render, videoBox);
+	connect(m_effectWidget, SIGNAL(showEdit(bool)), this, SLOT(slotShowEffectScene(bool)));
         m_toolbar->addAction(m_effectWidget->getVisibilityAction());
         videoBox->layout()->addWidget(m_effectWidget);
         m_effectWidget->hide();
@@ -989,22 +990,40 @@ void Monitor::slotSetSelectedClip(Transition* item)
 void Monitor::slotShowEffectScene(bool show)
 {
     if (m_id == Kdenlive::projectMonitor) {
+	if (!m_effectWidget->getVisibilityAction()->isChecked()) show = false;
 	if (m_effectWidget->isVisible() == show) return;
-        if (videoSurface) {
-            videoSurface->setVisible(!show);
-        } else {
+	setUpdatesEnabled(false);
+	if (show) {
+	    if (videoSurface) {
+		videoSurface->setVisible(!show);
+		// Preview is handeled internally through the Render::showFrame method
+		render->disablePreview(show);
+	    } else {
 #ifdef USE_OPENGL
-            m_glWidget->setVisible(!show);
+		m_glWidget->setVisible(!show);
 #endif
-        }
-        m_effectWidget->setVisible(show);
-        m_effectWidget->getVisibilityAction()->setChecked(show);
-        emit requestFrameForAnalysis(show);
-        if (show) {
+	    }
+	    m_effectWidget->setVisible(show);
             m_effectWidget->getScene()->slotZoomFit();
-        }
+	    emit requestFrameForAnalysis(show);
+	}
+	else {	    
+	    m_effectWidget->setVisible(show);
+	    emit requestFrameForAnalysis(show);
+	    if (videoSurface) {
+		videoSurface->setVisible(!show);
+		// Preview is handeled internally through the Render::showFrame method
+		render->disablePreview(show);
+	    } else {
+#ifdef USE_OPENGL
+		m_glWidget->setVisible(!show);
+#endif
+	    }
+	}
+	m_effectWidget->showVisibilityButton(show);
+        setUpdatesEnabled(true);
         videoBox->setEnabled(show);
-        render->doRefresh();
+        //render->doRefresh();
     }
 }
 

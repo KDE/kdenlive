@@ -121,7 +121,7 @@ protected:
 signals:
     void parameterChanged(const QDomElement, const QDomElement, int);
     void syncEffectsPos(int);
-    void effectStateChanged(bool, int ix = -1, bool updateMainStatus = true);
+    void effectStateChanged(bool, int ix, bool effectNeedsMonitorScene);
     void deleteEffect(const QDomElement);
     void activateEffect(int);
     void checkMonitorPosition(int);

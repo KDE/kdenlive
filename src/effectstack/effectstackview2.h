@@ -162,7 +162,7 @@ private slots:
     void slotRenderPos(int pos);
 
     /** @brief Called whenever an effect is enabled / disabled by user. */
-    void slotUpdateEffectState(bool disable, int index);
+    void slotUpdateEffectState(bool disable, int index, bool needsMonitorEffectScene);
 
     void slotSetCurrentEffect(int ix);
     

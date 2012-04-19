@@ -75,7 +75,6 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     //buttonShowComments->setIcon(KIcon("help-about"));
     //buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
     m_menu = new QMenu;
-    if (m_regionEffect) m_menu->addAction(KIcon("document-new"), i18n("Change Region"), this, SLOT(slotResetEffect()));
     m_menu->addAction(KIcon("view-refresh"), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
     m_menu->addAction(KIcon("document-save"), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
     
@@ -264,7 +263,7 @@ void CollapsibleEffect::slotEnable(bool disable, bool emitInfo)
     if (!disable || KdenliveSettings::disable_effect_parameters()) {
         widgetFrame->setEnabled(!disable);
     }
-    if (emitInfo) emit effectStateChanged(disable, effectIndex());
+    if (emitInfo) emit effectStateChanged(disable, effectIndex(), isActive() && needsMonitorEffectScene());
 }
 
 void CollapsibleEffect::slotDeleteEffect()
@@ -457,7 +456,6 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
     connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)));
     
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
-    connect (this, SIGNAL(effectStateChanged(bool)), m_paramWidget, SIGNAL(effectStateChanged(bool)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     

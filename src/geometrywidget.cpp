@@ -56,7 +56,6 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->removeCustomControls();
     edit->addCustomButton(KIcon("transform-crop"), i18n("Show previous keyframe"), this, SLOT(slotShowPreviousKeyFrame(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowprevious());
-    edit->showVisibilityButton(true);
     m_scene = edit->getScene();
 
 
@@ -226,8 +225,6 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
         Setup of configuration controls
     */
 
-    connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
-
     connect(m_scene, SIGNAL(addKeyframe()),    this, SLOT(slotAddKeyframe()));
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
 }
@@ -251,9 +248,6 @@ GeometryWidget::~GeometryWidget()
     while (!m_extraGeometries.isEmpty()) {
         Mlt::Geometry *g = m_extraGeometries.takeFirst();
         delete g;
-    }
-    if (m_monitor) {
-        m_monitor->getEffectEdit()->showVisibilityButton(false);
     }
 }
 
@@ -327,7 +321,6 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     connect(m_rect, SIGNAL(changed()), this, SLOT(slotUpdateGeometry()));
     m_scene->centerView();
     slotPositionChanged(0, false);
-    slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }
 
 void GeometryWidget::addParameter(const QDomElement elem)
@@ -525,26 +518,6 @@ void GeometryWidget::slotAddDeleteKeyframe()
 }
 
 
-void GeometryWidget::slotCheckMonitorPosition(int renderPos)
-{
-    if (m_showScene) {
-        /*
-            We do only get the position in timeline if this geometry belongs to a transition,
-            therefore we need two ways here.
-        */
-        if (m_isEffect) {
-            emit checkMonitorPosition(renderPos);
-        } else {
-            if (renderPos >= m_clipPos && renderPos <= m_clipPos + m_outPoint - m_inPoint) {
-                if (!m_scene->views().at(0)->isVisible())
-                    m_monitor->slotShowEffectScene(true);
-            } else {
-                m_monitor->slotShowEffectScene(false);
-            }
-        }
-    }
-}
-
 
 void GeometryWidget::slotUpdateGeometry()
 {
@@ -700,15 +673,6 @@ void GeometryWidget::slotSetSynchronize(bool sync)
     KdenliveSettings::setTransitionfollowcursor(sync);
     if (sync)
         emit seekToPos(m_clipPos + m_timePos->getValue());
-}
-
-void GeometryWidget::slotShowScene(bool show)
-{
-    m_showScene = show;
-    if (!m_showScene)
-        m_monitor->slotShowEffectScene(false);
-    else
-        slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
 }
 
 void GeometryWidget::setFrameSize(QPoint size)

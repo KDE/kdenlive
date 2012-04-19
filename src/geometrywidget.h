@@ -126,10 +126,6 @@ private slots:
     /** @brief Adds or deletes a keyframe depending on whether there is already a keyframe at the current position. */
     void slotAddDeleteKeyframe();
 
-    /** @brief Makes sure the monitor effect scene is only visible if the clip this geometry belongs to is visible.
-    * @param renderPos Postion of the Monitor / Timeline cursor */
-    void slotCheckMonitorPosition(int renderPos);
-
     /** @brief Updates the Mlt::Geometry object. */
     void slotUpdateGeometry();
     /** @brief Updates the spinBoxes according to the rect. */
@@ -170,12 +166,9 @@ private slots:
     void slotFitToHeight();
     /** @brief Show / hide previous keyframe in monitor scene. */
     void slotShowPreviousKeyFrame(bool show);
-    /** @brief Switches from normal monitor to monitor scene according to @param show. */
-    void slotShowScene(bool show = true);
 
 signals:
     void parameterChanged();
-    void checkMonitorPosition(int);
     void seekToPos(int);
 };
 

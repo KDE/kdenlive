@@ -43,7 +43,6 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
         m_pos(0)
 {
     MonitorEditWidget *edit = monitor->getEffectEdit();
-    edit->showVisibilityButton(true);
     m_scene = edit->getScene();
     m_scene->cleanup();
 
@@ -57,7 +56,6 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
     edit->addCustomButton(KIcon("insert-horizontal-rule"), i18n("Show/Hide the lines connecting the corners"), this, SLOT(slotShowLines(bool)),
                           true, KdenliveSettings::onmonitoreffects_cornersshowlines());
 
-    connect(edit, SIGNAL(showEdit(bool)), this, SLOT(slotShowScene(bool)));
     connect(m_item, SIGNAL(changed()), this, SLOT(slotUpdateProperties()));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotInsertKeyframe()));
 
@@ -71,7 +69,6 @@ CornersWidget::~CornersWidget()
     delete m_item;
     if (m_monitor) {
         MonitorEditWidget *edit = m_monitor->getEffectEdit();
-        edit->showVisibilityButton(false);
         edit->removeCustomControls();
     }
 }
@@ -166,20 +163,6 @@ QList<QPointF> CornersWidget::getPoints(QTableWidgetItem* keyframe)
     return points;
 }
 
-void CornersWidget::slotCheckMonitorPosition(int renderPos)
-{
-    if (m_showScene)
-        emit checkMonitorPosition(renderPos);
-}
-
-void CornersWidget::slotShowScene(bool show)
-{
-    m_showScene = show;
-    if (!m_showScene)
-        m_monitor->slotShowEffectScene(false);
-    else
-        slotCheckMonitorPosition(m_monitor->render->seekFramePosition());
-}
 
 void CornersWidget::slotShowLines(bool show)
 {

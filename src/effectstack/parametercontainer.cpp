@@ -218,8 +218,6 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 		m_needsMonitorEffectScene = true;
                 m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, 0, true, effect.hasAttribute("showrotation"), parent);
                 m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
-                // connect this before setupParam to make sure the monitor scene shows up at startup
-                connect(m_geometryWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
                 if (minFrame == maxFrame)
                     m_geometryWidget->setupParam(pa, m_in, m_out);
@@ -229,7 +227,6 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 m_valueItems[paramName+"geometry"] = m_geometryWidget;
                 connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
-                connect(this, SIGNAL(effectStateChanged(bool)), m_geometryWidget, SLOT(slotShowScene(bool)));
             } else {
                 Geometryval *geo = new Geometryval(m_metaInfo->profile, m_metaInfo->timecode, m_metaInfo->frameSize, 0);
                 if (minFrame == maxFrame)
@@ -253,8 +250,6 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                     // we want a corners-keyframe-widget
                     CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, m_metaInfo->timecode, e.attribute("active_keyframe", "-1").toInt(), parent);
 		    m_needsMonitorEffectScene = true;
-                    connect(corners, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
-                    connect(this, SIGNAL(effectStateChanged(bool)), corners, SLOT(slotShowScene(bool)));
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
@@ -344,10 +339,8 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 	    m_needsMonitorEffectScene = true;
             RotoWidget *roto = new RotoWidget(value, m_metaInfo->monitor, info, m_metaInfo->timecode, parent);
             connect(roto, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
-            connect(roto, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
             connect(roto, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
             connect(this, SIGNAL(syncEffectsPos(int)), roto, SLOT(slotSyncPosition(int)));
-            connect(this, SIGNAL(effectStateChanged(bool)), roto, SLOT(slotShowScene(bool)));
             m_vbox->addWidget(roto);
             m_valueItems[paramName] = roto;
 #endif

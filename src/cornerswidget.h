@@ -60,9 +60,6 @@ private:
     QList <QPointF> getPoints(QTableWidgetItem *keyframe);
 
 private slots:
-    /** @brief Makes sure the monitor effect scene is only visible if the clip this geometry belongs to is visible.
-    * @param renderPos Postion of the Monitor / Timeline cursor */
-    void slotCheckMonitorPosition(int renderPos);
 
     /** @brief Updates the on-monitor item according to the current timeline position. */
     void slotUpdateItem();
@@ -77,12 +74,6 @@ private slots:
 
     /** @brief Shows/Hides additional controls on the monitor according to @param show. */
     void slotShowControls(bool show = true);
-    
-    /** @brief Switches from normal monitor to monitor scene according to @param show. */
-    void slotShowScene(bool show = true);
-
-signals:
-    void checkMonitorPosition(int);
 };
 
 #endif

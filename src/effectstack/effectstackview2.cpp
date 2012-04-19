@@ -118,8 +118,11 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c)
     }
     if (m_clipref == NULL) {
         //TODO: clear list, reset paramdesc and info
-        //ItemInfo info;
-        //m_effectedit->transferParamDesc(QDomElement(), info);
+        // If monitor scene is displayed, hide it
+        if (m_monitorSceneWanted) {
+	    m_effectMetaInfo.monitor->slotShowEffectScene(false);
+	}
+        m_monitorSceneWanted = false;
 	clear();
         return;
     }
@@ -146,6 +149,7 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
 void EffectStackView2::setupListView()
 {
     blockSignals(true);
+    bool previousMonitorScene = m_monitorSceneWanted;
     m_monitorSceneWanted = false;
     m_draggedEffect = NULL;
     m_draggedGroup = NULL;
@@ -164,7 +168,14 @@ void EffectStackView2::setupListView()
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
 
-    for (int i = 0; i < m_currentEffectList.count(); i++) {
+    int effectsCount = m_currentEffectList.count();
+    
+    // Make sure we always have one effect selected
+    int selectedEffect = m_clipref->selectedEffectIndex();
+    if (selectedEffect < 1 && effectsCount > 0) m_clipref->setSelectedEffect(1);
+    else if (selectedEffect > effectsCount) m_clipref->setSelectedEffect(effectsCount);
+    
+    for (int i = 0; i < effectsCount; i++) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
         if (d.isNull()) {
             kDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";
@@ -185,7 +196,7 @@ void EffectStackView2::setupListView()
 	    }
 	    
 	    if (group == NULL) {
-		group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == m_currentEffectList.count() - 1, effectInfo, m_ui.container->widget());
+		group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == effectsCount - 1, effectInfo, m_ui.container->widget());
 		connectGroup(group);
 		vbox1->addWidget(group);
 		group->installEventFilter( this );
@@ -210,7 +221,7 @@ void EffectStackView2::setupListView()
 	    info = m_clipref->info();
 	}
 
-        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, &m_effectMetaInfo, i == m_currentEffectList.count() - 1, view);
+        CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, &m_effectMetaInfo, i == effectsCount - 1, view);
 	if (m_effectMetaInfo.trackMode) {
 	    isSelected = currentEffect->effectIndex() == 1;
 	}
@@ -244,6 +255,10 @@ void EffectStackView2::setupListView()
     
     vbox1->addStretch(10);
     slotUpdateCheckAllButton();
+    if (previousMonitorScene && !m_monitorSceneWanted) {
+	// monitor scene was displayed, not wanted anymore
+	m_effectMetaInfo.monitor->slotShowEffectScene(false);
+    }
     
     // Wait a little bit for the new layout to be ready, then check if we have a scrollbar
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
@@ -259,7 +274,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
     connect(currentEffect, SIGNAL(changeEffectPosition(QList <int>,bool)), this , SLOT(slotMoveEffectUp(QList <int>,bool)));
-    connect(currentEffect, SIGNAL(effectStateChanged(bool,int)), this, SLOT(slotUpdateEffectState(bool,int)));
+    connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
     connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
     connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
     connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
@@ -380,8 +395,16 @@ void EffectStackView2::startDrag()
 }
 
 
-void EffectStackView2::slotUpdateEffectState(bool disable, int index)
+void EffectStackView2::slotUpdateEffectState(bool disable, int index, bool needsMonitorEffectScene)
 {
+    if (m_monitorSceneWanted && disable) {
+	m_effectMetaInfo.monitor->slotShowEffectScene(false);
+	m_monitorSceneWanted = false;
+    }
+    else if (!disable && !m_monitorSceneWanted && needsMonitorEffectScene) {
+	m_effectMetaInfo.monitor->slotShowEffectScene(true);
+	m_monitorSceneWanted = true;
+    }
     if (m_effectMetaInfo.trackMode)
         emit changeEffectState(NULL, m_trackindex, QList <int>() << index, disable);
     else

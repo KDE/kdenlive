@@ -55,14 +55,11 @@ public:
     void updateTimecodeFormat();
 
 public slots:
-    /** @brief Switches from normal monitor to monitor scene according to @param show. */
-    void slotShowScene(bool show = true);
     /** @brief Updates the on-monitor item.  */
     void slotSyncPosition(int relTimelinePos);
 
 signals:
     void valueChanged();
-    void checkMonitorPosition(int);
     void seekToPos(int pos);
 
 
@@ -90,9 +87,6 @@ private:
     void keyframeTimelineFullUpdate();
 
 private slots:
-    /** @brief Makes sure the monitor effect scene is only visible if the clip this geometry belongs to is visible.
-    * @param renderPos Postion of the Monitor / Timeline cursor */
-    void slotCheckMonitorPosition(int renderPos);
 
     /** @brief Updates/Creates the spline at @param pos based on the on-monitor items. */
     void slotUpdateData(int pos = -1, bool editing = false);

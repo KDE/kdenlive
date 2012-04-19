@@ -636,6 +636,11 @@
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>true</default>
     </entry>
+    
+    <entry name="showOnMonitorScene" type="Bool">
+      <label>Show on monitor adjustable effect parameter (geometry, ..).</label>
+      <default>true</default>
+    </entry>
 
     <entry name="autoaudiodrivername" type="String">
       <label>Audio driver selected automatically.</label>

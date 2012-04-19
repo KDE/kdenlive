@@ -1691,6 +1691,16 @@ void Render::showFrame(Mlt::Frame& frame)
     }
 }
 
+void Render::disablePreview(bool disable)
+{
+    if (m_mltConsumer) {
+	m_mltConsumer->stop();
+	m_mltConsumer->set("preview_off", (int) disable);
+	m_mltConsumer->set("refresh", 0);
+	m_mltConsumer->start();
+    }
+}
+
 void Render::showAudio(Mlt::Frame& frame)
 {
     if (!frame.is_valid() || frame.get_int("test_audio") != 0) {

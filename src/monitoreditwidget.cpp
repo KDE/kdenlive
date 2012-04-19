@@ -54,6 +54,7 @@ MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
 
     m_visibilityAction = new QAction(KIcon("video-display"), i18n("Show/Hide edit mode"), this);
     m_visibilityAction->setCheckable(true);
+    m_visibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
     m_visibilityAction->setVisible(false);
 
     m_ui.buttonDirectUpdate->setIcon(KIcon("transform-scale"));
@@ -77,6 +78,7 @@ MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
 
 MonitorEditWidget::~MonitorEditWidget()
 {
+    KdenliveSettings::setShowOnMonitorScene(m_visibilityAction->isChecked());
     delete m_view;
     delete m_scene;
     delete m_visibilityAction;

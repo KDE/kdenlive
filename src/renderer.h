@@ -318,6 +318,8 @@ Q_OBJECT public:
     /** @brief Fill a combobox with the found blackmagic devices */
     static bool getBlackMagicDeviceList(KComboBox *devicelist);
     static bool getBlackMagicOutputDeviceList(KComboBox *devicelist);
+    /** @brief Frame rendering is handeled by Kdenlive, don't show video through SDL display */
+    void disablePreview(bool disable);
 
 private:
 
