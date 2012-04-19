@@ -543,8 +543,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("ungroup_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("split_audio"));
-    m_timelineContextClipMenu->addAction(actionCollection()->action("set_audio_align_ref"));
-    m_timelineContextClipMenu->addAction(actionCollection()->action("align_audio"));
+    if (KdenliveSettings::enableaudioalign()) {
+        m_timelineContextClipMenu->addAction(actionCollection()->action("set_audio_align_ref"));
+        m_timelineContextClipMenu->addAction(actionCollection()->action("align_audio"));
+    }
     m_timelineContextClipMenu->addSeparator();
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));

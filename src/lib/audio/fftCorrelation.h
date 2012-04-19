@@ -28,7 +28,7 @@ public:
       \c out_correlated must be a pre-allocated vector of size
       \c leftSize + \c rightSize.
       */
-    static void convolute(const float *left, const int leftSize,
+    static void convolve(const float *left, const int leftSize,
                           const float *right, const int rightSize,
                           float *out_convolved);
 

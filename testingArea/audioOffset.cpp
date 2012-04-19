@@ -176,6 +176,9 @@ int main(int argc, char *argv[])
     }
 
 
+//    Mlt::Factory::close();
+
+
     return 0;
 
 }

@@ -1,4 +1,4 @@
-/*
+ /*
 Copyright (C) 2012  Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
 This file is part of kdenlive. See www.kdenlive.org.
 
@@ -72,12 +72,12 @@ void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
     }
 
     // Now we can convolve to get the correlation
-    convolute(leftF, leftSize, rightF, rightSize, out_correlated);
+    convolve(leftF, leftSize, rightF, rightSize, out_correlated);
 
     std::cout << "Correlation (FFT based) computed in " << t.elapsed() << " ms." << std::endl;
 }
 
-void FFTCorrelation::convolute(const float *left, const int leftSize,
+void FFTCorrelation::convolve(const float *left, const int leftSize,
                                const float *right, const int rightSize,
                                float *out_convolved)
 {
