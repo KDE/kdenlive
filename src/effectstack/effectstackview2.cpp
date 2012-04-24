@@ -171,9 +171,11 @@ void EffectStackView2::setupListView()
     int effectsCount = m_currentEffectList.count();
 
     // Make sure we always have one effect selected
-    int selectedEffect = m_clipref->selectedEffectIndex();
-    if (selectedEffect < 1 && effectsCount > 0) m_clipref->setSelectedEffect(1);
-    else if (selectedEffect > effectsCount) m_clipref->setSelectedEffect(effectsCount);
+    if (!m_effectMetaInfo.trackMode) {
+        int selectedEffect = m_clipref->selectedEffectIndex();
+        if (selectedEffect < 1 && effectsCount > 0) m_clipref->setSelectedEffect(1);
+        else if (selectedEffect > effectsCount) m_clipref->setSelectedEffect(effectsCount);
+    }
 
     for (int i = 0; i < effectsCount; i++) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
