@@ -63,14 +63,14 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
     m_ui.buttonShowComments->setIcon(KIcon("help-about"));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
-    
+
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
     connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SLOT(slotShowComments()));
     m_ui.labelComment->setHidden(true);
 
     setEnabled(false);
 
-    
+
     setStyleSheet(getStyleSheet());
 }
 
@@ -97,7 +97,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c)
 {
     if (c && !c->isEnabled()) return;
     if (c && c == m_clipref) {
-        
+
     } else {
         m_clipref = c;
         if (c) {
@@ -120,10 +120,10 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c)
         //TODO: clear list, reset paramdesc and info
         // If monitor scene is displayed, hide it
         if (m_monitorSceneWanted) {
-	    m_effectMetaInfo.monitor->slotShowEffectScene(false);
-	}
+            m_effectMetaInfo.monitor->slotShowEffectScene(false);
+        }
         m_monitorSceneWanted = false;
-	clear();
+        clear();
         return;
     }
     setEnabled(true);
@@ -158,7 +158,7 @@ void EffectStackView2::setupListView()
     m_groupIndex = 0;
     QWidget *view = m_ui.container->takeWidget();
     if (view) {
-	delete view;
+        delete view;
     }
     blockSignals(false);
     view = new QWidget(m_ui.container);
@@ -169,97 +169,97 @@ void EffectStackView2::setupListView()
     vbox1->setSpacing(0);
 
     int effectsCount = m_currentEffectList.count();
-    
+
     // Make sure we always have one effect selected
     int selectedEffect = m_clipref->selectedEffectIndex();
     if (selectedEffect < 1 && effectsCount > 0) m_clipref->setSelectedEffect(1);
     else if (selectedEffect > effectsCount) m_clipref->setSelectedEffect(effectsCount);
-    
+
     for (int i = 0; i < effectsCount; i++) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
         if (d.isNull()) {
             kDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";
             continue;
         }
-        
+
         CollapsibleGroup *group = NULL;
-	EffectInfo effectInfo;
-	effectInfo.fromString(d.attribute("kdenlive_info"));
-	if (effectInfo.groupIndex >= 0) {
-	    // effect is in a group    
-	    for (int j = 0; j < vbox1->count(); j++) {
-		CollapsibleGroup *eff = static_cast<CollapsibleGroup *>(vbox1->itemAt(j)->widget());
-		if (eff->isGroup() &&  eff->groupIndex() == effectInfo.groupIndex) {
-		    group = eff;
-		    break;
-		}
-	    }
-	    
-	    if (group == NULL) {
-		group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == effectsCount - 1, effectInfo, m_ui.container->widget());
-		connectGroup(group);
-		vbox1->addWidget(group);
-		group->installEventFilter( this );
-	    }
-	    if (effectInfo.groupIndex >= m_groupIndex) m_groupIndex = effectInfo.groupIndex + 1;
-	}
+        EffectInfo effectInfo;
+        effectInfo.fromString(d.attribute("kdenlive_info"));
+        if (effectInfo.groupIndex >= 0) {
+            // effect is in a group
+            for (int j = 0; j < vbox1->count(); j++) {
+                CollapsibleGroup *eff = static_cast<CollapsibleGroup *>(vbox1->itemAt(j)->widget());
+                if (eff->isGroup() &&  eff->groupIndex() == effectInfo.groupIndex) {
+                    group = eff;
+                    break;
+                }
+            }
+
+            if (group == NULL) {
+                group = new CollapsibleGroup(effectInfo.groupIndex, i == 0, i == effectsCount - 1, effectInfo, m_ui.container->widget());
+                connectGroup(group);
+                vbox1->addWidget(group);
+                group->installEventFilter( this );
+            }
+            if (effectInfo.groupIndex >= m_groupIndex) m_groupIndex = effectInfo.groupIndex + 1;
+        }
 
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(d, true));
         kDebug() << "IMPORTED STK: " << doc.toString();*/
-	
-	ItemInfo info;
-	bool isSelected = false;
-	if (m_effectMetaInfo.trackMode) { 
+
+        ItemInfo info;
+        bool isSelected = false;
+        if (m_effectMetaInfo.trackMode) {
             info.track = m_trackInfo.type;
             info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
             info.cropStart = GenTime(0);
             info.startPos = GenTime(-1);
             info.track = 0;
-	}
-	else {
-	    info = m_clipref->info();
-	}
+        }
+        else {
+            info = m_clipref->info();
+        }
 
         CollapsibleEffect *currentEffect = new CollapsibleEffect(d, m_currentEffectList.at(i), info, &m_effectMetaInfo, i == effectsCount - 1, view);
-	if (m_effectMetaInfo.trackMode) {
-	    isSelected = currentEffect->effectIndex() == 1;
-	}
-	else {
-	    isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
-	}
-	if (isSelected) {
-	    currentEffect->setActive(true);
-	    if (currentEffect->needsMonitorEffectScene()) m_monitorSceneWanted = true;
-	}
+        if (m_effectMetaInfo.trackMode) {
+            isSelected = currentEffect->effectIndex() == 1;
+        }
+        else {
+            isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
+        }
+        if (isSelected) {
+            currentEffect->setActive(true);
+            if (currentEffect->needsMonitorEffectScene()) m_monitorSceneWanted = true;
+        }
         m_effects.append(currentEffect);
         if (group) {
-	    group->addGroupEffect(currentEffect);
-	} else {
-	    vbox1->addWidget(currentEffect);
-	}
-	connectEffect(currentEffect);
+            group->addGroupEffect(currentEffect);
+        } else {
+            vbox1->addWidget(currentEffect);
+        }
+        connectEffect(currentEffect);
     }
-    
+
     if (m_currentEffectList.isEmpty()) {
-	m_ui.labelComment->setHidden(true);
+        m_ui.labelComment->setHidden(true);
     }
     else {
-	// Adjust group effects (up / down buttons)
-	QList<CollapsibleGroup *> allGroups = m_ui.container->widget()->findChildren<CollapsibleGroup *>();
-	for (int i = 0; i < allGroups.count(); i++) {
-	    allGroups.at(i)->adjustEffects();
-	}
-	connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+        // Adjust group effects (up / down buttons)
+        QList<CollapsibleGroup *> allGroups = m_ui.container->widget()->findChildren<CollapsibleGroup *>();
+        for (int i = 0; i < allGroups.count(); i++) {
+            allGroups.at(i)->adjustEffects();
+        }
+        connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     }
-    
+
     vbox1->addStretch(10);
     slotUpdateCheckAllButton();
     if (previousMonitorScene && !m_monitorSceneWanted) {
-	// monitor scene was displayed, not wanted anymore
-	m_effectMetaInfo.monitor->slotShowEffectScene(false);
+        // monitor scene was displayed, not wanted anymore
+        m_effectMetaInfo.monitor->slotShowEffectScene(false);
     }
-    
+
     // Wait a little bit for the new layout to be ready, then check if we have a scrollbar
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
 }
@@ -290,12 +290,12 @@ void EffectStackView2::slotCheckWheelEventFilter()
     // mouse wheel events, so that user can easily adjust effect params
     bool filterWheelEvent = false;
     if (m_ui.container->verticalScrollBar() && m_ui.container->verticalScrollBar()->isVisible()) {
-	// widget has scroll bar, 
-	filterWheelEvent = true;
+        // widget has scroll bar,
+        filterWheelEvent = true;
     }
     for (int i = 0; i < m_effects.count(); i++) {
-	m_effects.at(i)->filterWheelEvent = filterWheelEvent;
-    }    
+        m_effects.at(i)->filterWheelEvent = filterWheelEvent;
+    }
 }
 
 void EffectStackView2::resizeEvent ( QResizeEvent * event )
@@ -304,48 +304,48 @@ void EffectStackView2::resizeEvent ( QResizeEvent * event )
     QWidget::resizeEvent(event);
 }
 
-bool EffectStackView2::eventFilter( QObject * o, QEvent * e ) 
+bool EffectStackView2::eventFilter( QObject * o, QEvent * e )
 {
     // Check if user clicked in an effect's top bar to start dragging it
     if (e->type() == QEvent::MouseButtonPress)  {
-	m_draggedEffect = qobject_cast<CollapsibleEffect*>(o);
-	if (m_draggedEffect) {
-	    QMouseEvent *me = static_cast<QMouseEvent *>(e);
-	    if (me->button() == Qt::LeftButton && (m_draggedEffect->frame->underMouse() || m_draggedEffect->title->underMouse())) {
-		m_clickPoint = me->globalPos();
-	    }
-	    else {
-		m_clickPoint = QPoint();
-		m_draggedEffect = NULL;
-	    }
-	    e->accept();
-	    return true;
-	}
-	m_draggedGroup = qobject_cast<CollapsibleGroup*>(o);
-	if (m_draggedGroup) {
-	    QMouseEvent *me = static_cast<QMouseEvent *>(e);
-	    if (me->button() == Qt::LeftButton && (m_draggedGroup->frame->underMouse() || m_draggedGroup->title()->underMouse()))
-		m_clickPoint = me->globalPos();
-	    else {
-		m_clickPoint = QPoint();
-		m_draggedGroup = NULL;
-	    }
-	    e->accept();
-	    return true;
-	}
-    }  
+        m_draggedEffect = qobject_cast<CollapsibleEffect*>(o);
+        if (m_draggedEffect) {
+            QMouseEvent *me = static_cast<QMouseEvent *>(e);
+            if (me->button() == Qt::LeftButton && (m_draggedEffect->frame->underMouse() || m_draggedEffect->title->underMouse())) {
+                m_clickPoint = me->globalPos();
+            }
+            else {
+                m_clickPoint = QPoint();
+                m_draggedEffect = NULL;
+            }
+            e->accept();
+            return true;
+        }
+        m_draggedGroup = qobject_cast<CollapsibleGroup*>(o);
+        if (m_draggedGroup) {
+            QMouseEvent *me = static_cast<QMouseEvent *>(e);
+            if (me->button() == Qt::LeftButton && (m_draggedGroup->frame->underMouse() || m_draggedGroup->title()->underMouse()))
+                m_clickPoint = me->globalPos();
+            else {
+                m_clickPoint = QPoint();
+                m_draggedGroup = NULL;
+            }
+            e->accept();
+            return true;
+        }
+    }
     /*if (e->type() == QEvent::MouseMove)  {
-	if (qobject_cast<CollapsibleEffect*>(o)) {
-	    QMouseEvent *me = static_cast<QMouseEvent *>(e);
-	    if (me->buttons() != Qt::LeftButton) {
-		e->accept();
-		return false;
-	    }
-	    else {
-		e->ignore();
-		return true;
-	    }
-	}
+    if (qobject_cast<CollapsibleEffect*>(o)) {
+        QMouseEvent *me = static_cast<QMouseEvent *>(e);
+        if (me->buttons() != Qt::LeftButton) {
+    	e->accept();
+    	return false;
+        }
+        else {
+    	e->ignore();
+    	return true;
+        }
+    }
     }*/
     return QWidget::eventFilter(o, e);
 }
@@ -353,9 +353,9 @@ bool EffectStackView2::eventFilter( QObject * o, QEvent * e )
 void EffectStackView2::mouseMoveEvent(QMouseEvent * event)
 {
     if (m_draggedEffect || m_draggedGroup) {
-	if ((event->buttons() & Qt::LeftButton) && (m_clickPoint != QPoint()) && ((event->globalPos() - m_clickPoint).manhattanLength() >= QApplication::startDragDistance())) {
-	    startDrag();
-	}
+        if ((event->buttons() & Qt::LeftButton) && (m_clickPoint != QPoint()) && ((event->globalPos() - m_clickPoint).manhattanLength() >= QApplication::startDragDistance())) {
+            startDrag();
+        }
     }
 }
 
@@ -372,13 +372,13 @@ void EffectStackView2::startDrag()
     QDomDocument doc;
     QPixmap pixmap;
     if (m_draggedEffect) {
-	QDomElement effect = m_draggedEffect->effect().cloneNode().toElement();
-	doc.appendChild(doc.importNode(effect, true));
-	pixmap = QPixmap::grabWidget(m_draggedEffect->title);
+        QDomElement effect = m_draggedEffect->effect().cloneNode().toElement();
+        doc.appendChild(doc.importNode(effect, true));
+        pixmap = QPixmap::grabWidget(m_draggedEffect->title);
     }
     else if (m_draggedGroup) {
-	doc = m_draggedGroup->effectsData();
-	pixmap = QPixmap::grabWidget(m_draggedGroup->title());
+        doc = m_draggedGroup->effectsData();
+        pixmap = QPixmap::grabWidget(m_draggedGroup->title());
     }
     else return;
     QDrag *drag = new QDrag(this);
@@ -398,12 +398,12 @@ void EffectStackView2::startDrag()
 void EffectStackView2::slotUpdateEffectState(bool disable, int index, bool needsMonitorEffectScene)
 {
     if (m_monitorSceneWanted && disable) {
-	m_effectMetaInfo.monitor->slotShowEffectScene(false);
-	m_monitorSceneWanted = false;
+        m_effectMetaInfo.monitor->slotShowEffectScene(false);
+        m_monitorSceneWanted = false;
     }
     else if (!disable && !m_monitorSceneWanted && needsMonitorEffectScene) {
-	m_effectMetaInfo.monitor->slotShowEffectScene(true);
-	m_monitorSceneWanted = true;
+        m_effectMetaInfo.monitor->slotShowEffectScene(true);
+        m_monitorSceneWanted = true;
     }
     if (m_effectMetaInfo.trackMode)
         emit changeEffectState(NULL, m_trackindex, QList <int>() << index, disable);
@@ -438,16 +438,16 @@ void EffectStackView2::slotSeekTimeline(int pos)
 void EffectStackView2::slotCheckMonitorPosition(int renderPos)
 {
     if (m_monitorSceneWanted) {
-	if (m_effectMetaInfo.trackMode || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
-	    if (!m_effectMetaInfo.monitor->effectSceneDisplayed()) {
-		m_effectMetaInfo.monitor->slotShowEffectScene(true);
-	    }
-	} else {
-	    m_effectMetaInfo.monitor->slotShowEffectScene(false);
-	}
+        if (m_effectMetaInfo.trackMode || (m_clipref && renderPos >= m_clipref->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_clipref->endPos().frames(KdenliveSettings::project_fps()))) {
+            if (!m_effectMetaInfo.monitor->effectSceneDisplayed()) {
+                m_effectMetaInfo.monitor->slotShowEffectScene(true);
+            }
+        } else {
+            m_effectMetaInfo.monitor->slotShowEffectScene(false);
+        }
     }
     else {
-	m_effectMetaInfo.monitor->slotShowEffectScene(false);
+        m_effectMetaInfo.monitor->slotShowEffectScene(false);
     }
 }
 
@@ -463,7 +463,7 @@ void EffectStackView2::clear()
     m_monitorSceneWanted = false;
     QWidget *view = m_ui.container->takeWidget();
     if (view) {
-	delete view;
+        delete view;
     }
     m_ui.checkAll->setToolTip(QString());
     m_ui.checkAll->setText(QString());
@@ -485,15 +485,15 @@ void EffectStackView2::slotCheckAll(int state)
     // Disable all effects
     QList <int> indexes;
     for (int i = 0; i < m_effects.count(); i++) {
-	m_effects.at(i)->slotEnable(disabled, false);
-	indexes << m_effects.at(i)->effectIndex();
+        m_effects.at(i)->slotEnable(disabled, false);
+        indexes << m_effects.at(i)->effectIndex();
     }
     // Take care of groups
     QList<CollapsibleGroup *> allGroups = m_ui.container->widget()->findChildren<CollapsibleGroup *>();
     for (int i = 0; i < allGroups.count(); i++) {
-	allGroups.at(i)->slotEnable(disabled, false);
+        allGroups.at(i)->slotEnable(disabled, false);
     }
-    
+
     if (m_effectMetaInfo.trackMode)
         emit changeEffectState(NULL, m_trackindex, indexes, disabled);
     else
@@ -504,10 +504,10 @@ void EffectStackView2::slotUpdateCheckAllButton()
 {
     bool hasEnabled = false;
     bool hasDisabled = false;
-    
+
     for (int i = 0; i < m_effects.count(); i++) {
-	if (!m_effects.at(i)->enabledButton->isChecked()) hasEnabled = true;
-	else hasDisabled = true; 
+        if (!m_effects.at(i)->enabledButton->isChecked()) hasEnabled = true;
+        else hasDisabled = true;
     }
 
     m_ui.checkAll->blockSignals(true);
@@ -524,9 +524,9 @@ void EffectStackView2::deleteCurrentEffect()
 {
     for (int i = 0; i < m_effects.count(); i++) {
         if (m_effects.at(i)->isActive()) {
-	    slotDeleteEffect(m_effects.at(i)->effect());
-	    break;
-	}
+            slotDeleteEffect(m_effects.at(i)->effect());
+            break;
+        }
     }
 }
 
@@ -546,8 +546,8 @@ CollapsibleEffect *EffectStackView2::getEffectByIndex(int ix)
 {
     for (int i = 0; i< m_effects.count(); i++) {
         if (m_effects.at(i)->effectIndex() == ix) {
-	    return m_effects.at(i);
-	}
+            return m_effects.at(i);
+        }
     }
     return NULL;
 }
@@ -568,17 +568,17 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
 {
     if (m_clipref && ix != m_clipref->selectedEffectIndex()) {
         m_clipref->setSelectedEffect(ix);
-	for (int i = 0; i < m_effects.count(); i++) {
-	    if (m_effects.at(i)->effectIndex() == ix) {
-		if (m_effects.at(i)->isActive()) return;
-		m_effects.at(i)->setActive(true);
-		m_monitorSceneWanted = m_effects.at(i)->needsMonitorEffectScene();
-		slotCheckMonitorPosition(m_effectMetaInfo.monitor->render->seekFramePosition());
-		m_ui.labelComment->setText(i18n(m_effects.at(i)->effect().firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
-		m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
-	    }
-	    else m_effects.at(i)->setActive(false);
-	}
+        for (int i = 0; i < m_effects.count(); i++) {
+            if (m_effects.at(i)->effectIndex() == ix) {
+                if (m_effects.at(i)->isActive()) return;
+                m_effects.at(i)->setActive(true);
+                m_monitorSceneWanted = m_effects.at(i)->needsMonitorEffectScene();
+                slotCheckMonitorPosition(m_effectMetaInfo.monitor->render->seekFramePosition());
+                m_ui.labelComment->setText(i18n(m_effects.at(i)->effect().firstChildElement("description").firstChildElement("full").text().toUtf8().data()));
+                m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
+            }
+            else m_effects.at(i)->setActive(false);
+        }
     }
 }
 
@@ -588,15 +588,15 @@ void EffectStackView2::slotDeleteGroup(QDomDocument doc)
     ClipItem * clip = NULL;
     int ix;
     if (m_effectMetaInfo.trackMode) {
-	ix = m_trackindex;
+        ix = m_trackindex;
     }
     else {
-	clip = m_clipref;
-	ix = -1;
+        clip = m_clipref;
+        ix = -1;
     }
-    
+
     for (int i = 0; i < effects.count(); i++)
-	emit removeEffect(clip, ix, effects.at(i).toElement());
+        emit removeEffect(clip, ix, effects.at(i).toElement());
 }
 
 void EffectStackView2::slotDeleteEffect(const QDomElement effect)
@@ -658,7 +658,7 @@ void EffectStackView2::slotResetEffect(int ix)
             info.cropStart = GenTime(0);
             info.startPos = GenTime(-1);
             info.track = 0;
-	    m_effects.at(ix)->updateWidget(info, dom, &m_effectMetaInfo);
+            m_effects.at(ix)->updateWidget(info, dom, &m_effectMetaInfo);
             emit updateEffect(NULL, m_trackindex, old, dom, ix,false);
         } else {
             m_clipref->initEffect(dom);
@@ -701,15 +701,15 @@ void EffectStackView2::slotCreateRegion(int ix, KUrl url)
     // refresh effect stack
     ItemInfo info;
     bool isSelected = false;
-    if (m_effectMetaInfo.trackMode) { 
-	info.track = m_trackInfo.type;
+    if (m_effectMetaInfo.trackMode) {
+        info.track = m_trackInfo.type;
         info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
         info.cropStart = GenTime(0);
         info.startPos = GenTime(-1);
         info.track = 0;
     }
     else {
-	info = m_clipref->info();
+        info = m_clipref->info();
     }
     CollapsibleEffect *current = getEffectByIndex(ix);
     m_effects.removeAll(current);
@@ -719,12 +719,12 @@ void EffectStackView2::slotCreateRegion(int ix, KUrl url)
     current->deleteLater();
     CollapsibleEffect *currentEffect = new CollapsibleEffect(region, m_currentEffectList.itemFromIndex(ix), info, &m_effectMetaInfo, ix == m_currentEffectList.count() - 1, m_ui.container->widget());
     connectEffect(currentEffect);
-    
+
     if (m_effectMetaInfo.trackMode) {
-	isSelected = currentEffect->effectIndex() == 1;
+        isSelected = currentEffect->effectIndex() == 1;
     }
     else {
-	isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
+        isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
     }
     if (isSelected) currentEffect->setActive(true);
     m_effects.append(currentEffect);
@@ -738,9 +738,9 @@ void EffectStackView2::slotCreateRegion(int ix, KUrl url)
 
     // Check drag & drop
     currentEffect->installEventFilter( this );
-	
-    QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));    
-    
+
+    QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
+
 }
 
 void EffectStackView2::slotCreateGroup(int ix)
@@ -753,29 +753,29 @@ void EffectStackView2::slotCreateGroup(int ix)
     neweffect.setAttribute("kdenlive_info", effectinfo.toString());
 
     ItemInfo info;
-    if (m_effectMetaInfo.trackMode) { 
-	info.track = m_trackInfo.type;
+    if (m_effectMetaInfo.trackMode) {
+        info.track = m_trackInfo.type;
         info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
         info.cropStart = GenTime(0);
         info.startPos = GenTime(-1);
         info.track = 0;
-	emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, ix, false);
+        emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, ix, false);
     } else {
-	emit updateEffect(m_clipref, -1, oldeffect, neweffect, ix, false);
+        emit updateEffect(m_clipref, -1, oldeffect, neweffect, ix, false);
     }
-    
+
     QVBoxLayout *l = static_cast<QVBoxLayout *>(m_ui.container->widget()->layout());
     int groupPos = 0;
     CollapsibleEffect *effectToMove = NULL;
     for (int i = 0; i < m_effects.count(); i++) {
         if (m_effects.at(i)->effectIndex() == ix) {
-	    effectToMove = m_effects.at(i);
-	    groupPos = l->indexOf(effectToMove);
-	    l->removeWidget(effectToMove);
-	    break;
-	}
+            effectToMove = m_effects.at(i);
+            groupPos = l->indexOf(effectToMove);
+            l->removeWidget(effectToMove);
+            break;
+        }
     }
-    
+
     CollapsibleGroup *group = new CollapsibleGroup(m_groupIndex, ix == 1, ix == m_currentEffectList.count() - 2, effectinfo, m_ui.container->widget());
     m_groupIndex++;
     connectGroup(group);
@@ -798,40 +798,40 @@ void EffectStackView2::connectGroup(CollapsibleGroup *group)
 void EffectStackView2::slotMoveEffect(QList <int> currentIndexes, int newIndex, int groupIndex, QString groupName)
 {
     if (currentIndexes.count() == 1) {
-	CollapsibleEffect *effectToMove = getEffectByIndex(currentIndexes.at(0));
-	if (effectToMove == NULL) return;
+        CollapsibleEffect *effectToMove = getEffectByIndex(currentIndexes.at(0));
+        if (effectToMove == NULL) return;
 
-	QDomElement oldeffect = effectToMove->effect();
-	QDomElement neweffect = oldeffect.cloneNode().toElement();
-    
-	EffectInfo effectinfo;
-	effectinfo.fromString(oldeffect.attribute("kdenlive_info"));
-	effectinfo.groupIndex = groupIndex;
-	effectinfo.groupName = groupName;
-	neweffect.setAttribute("kdenlive_info", effectinfo.toString());
-    
-	if (oldeffect.attribute("kdenlive_info") != effectinfo.toString()) {
-	    // effect's group info or collapsed state changed
-	    ItemInfo info;
-	    if (m_effectMetaInfo.trackMode) { 
-		info.track = m_trackInfo.type;
-		info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
-		info.cropStart = GenTime(0);
-		info.startPos = GenTime(-1);
-		info.track = 0;
-		emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, effectToMove->effectIndex(),false);
-	    } else {
-		emit updateEffect(m_clipref, -1, oldeffect, neweffect, effectToMove->effectIndex(),false);
-	    }
-	}
+        QDomElement oldeffect = effectToMove->effect();
+        QDomElement neweffect = oldeffect.cloneNode().toElement();
+
+        EffectInfo effectinfo;
+        effectinfo.fromString(oldeffect.attribute("kdenlive_info"));
+        effectinfo.groupIndex = groupIndex;
+        effectinfo.groupName = groupName;
+        neweffect.setAttribute("kdenlive_info", effectinfo.toString());
+
+        if (oldeffect.attribute("kdenlive_info") != effectinfo.toString()) {
+            // effect's group info or collapsed state changed
+            ItemInfo info;
+            if (m_effectMetaInfo.trackMode) {
+                info.track = m_trackInfo.type;
+                info.cropDuration = GenTime(m_trackInfo.duration, KdenliveSettings::project_fps());
+                info.cropStart = GenTime(0);
+                info.startPos = GenTime(-1);
+                info.track = 0;
+                emit updateEffect(NULL, m_trackindex, oldeffect, neweffect, effectToMove->effectIndex(),false);
+            } else {
+                emit updateEffect(m_clipref, -1, oldeffect, neweffect, effectToMove->effectIndex(),false);
+            }
+        }
     }
 
     // Update effect index with new position
     if (m_effectMetaInfo.trackMode) {
-	emit changeEffectPosition(NULL, m_trackindex, currentIndexes, newIndex);
+        emit changeEffectPosition(NULL, m_trackindex, currentIndexes, newIndex);
     }
     else {
-	emit changeEffectPosition(m_clipref, -1, currentIndexes, newIndex);
+        emit changeEffectPosition(m_clipref, -1, currentIndexes, newIndex);
     }
 }
 
@@ -847,21 +847,21 @@ void EffectStackView2::slotRenameGroup(CollapsibleGroup *group)
 {
     QList <CollapsibleEffect*> effects = group->effects();
     for (int i = 0; i < effects.count(); i++) {
-	QDomElement origin = effects.at(i)->effect();
-	QDomElement changed = origin.cloneNode().toElement();
-	changed.setAttribute("kdenlive_info", effects.at(i)->infoString());
-	if (m_effectMetaInfo.trackMode) { 
-	    emit updateEffect(NULL, m_trackindex, origin, changed, effects.at(i)->effectIndex(),false);
-	} else {
-	    emit updateEffect(m_clipref, -1, origin, changed, effects.at(i)->effectIndex(),false);
-	}
+        QDomElement origin = effects.at(i)->effect();
+        QDomElement changed = origin.cloneNode().toElement();
+        changed.setAttribute("kdenlive_info", effects.at(i)->infoString());
+        if (m_effectMetaInfo.trackMode) {
+            emit updateEffect(NULL, m_trackindex, origin, changed, effects.at(i)->effectIndex(),false);
+        } else {
+            emit updateEffect(m_clipref, -1, origin, changed, effects.at(i)->effectIndex(),false);
+        }
     }
 }
 
 void EffectStackView2::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
-	event->acceptProposedAction();
+        event->acceptProposedAction();
     }
 }
 
@@ -869,42 +869,42 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
 {
     int ix = e.attribute("kdenlive_ix").toInt();
     if (e.tagName() == "effectgroup") {
-	// We are dropping a group, all effects in group should be moved
-	QDomNodeList effects = e.elementsByTagName("effect");
-	if (effects.count() == 0) {
-	    event->ignore();
-	    return;
-	}
-	EffectInfo info;
-	info.fromString(effects.at(0).toElement().attribute("kdenlive_info"));
-	if (info.groupIndex < 0) {
-	    kDebug()<<"// ADDING EFFECT!!!";
-	    // Adding a new group effect to the stack
-	    event->setDropAction(Qt::CopyAction);
-	    event->accept();
-	    slotAddEffect(e);
-	    return;
-	}
-	// Moving group: delete all effects and re-add them
-	QList <int> indexes;
-	for (int i = 0; i < effects.count(); i++) {
-	    QDomElement effect = effects.at(i).cloneNode().toElement();
-	    indexes << effect.attribute("kdenlive_ix").toInt();
-	}
-	kDebug()<<"// Moving: "<<indexes<<" TO "<<m_currentEffectList.count();
-	slotMoveEffect(indexes, m_currentEffectList.count(), info.groupIndex, info.groupName);
+        // We are dropping a group, all effects in group should be moved
+        QDomNodeList effects = e.elementsByTagName("effect");
+        if (effects.count() == 0) {
+            event->ignore();
+            return;
+        }
+        EffectInfo info;
+        info.fromString(effects.at(0).toElement().attribute("kdenlive_info"));
+        if (info.groupIndex < 0) {
+            kDebug()<<"// ADDING EFFECT!!!";
+            // Adding a new group effect to the stack
+            event->setDropAction(Qt::CopyAction);
+            event->accept();
+            slotAddEffect(e);
+            return;
+        }
+        // Moving group: delete all effects and re-add them
+        QList <int> indexes;
+        for (int i = 0; i < effects.count(); i++) {
+            QDomElement effect = effects.at(i).cloneNode().toElement();
+            indexes << effect.attribute("kdenlive_ix").toInt();
+        }
+        kDebug()<<"// Moving: "<<indexes<<" TO "<<m_currentEffectList.count();
+        slotMoveEffect(indexes, m_currentEffectList.count(), info.groupIndex, info.groupName);
     }
     else if (ix == 0) {
-	// effect dropped from effects list, add it
-	e.setAttribute("kdenlive_ix", m_currentEffectList.count() + 1);
-	event->setDropAction(Qt::CopyAction);
-	event->accept();
-	slotAddEffect(e);
-	return;
+        // effect dropped from effects list, add it
+        e.setAttribute("kdenlive_ix", m_currentEffectList.count() + 1);
+        event->setDropAction(Qt::CopyAction);
+        event->accept();
+        slotAddEffect(e);
+        return;
     }
     else {
-	// User is moving an effect
-	slotMoveEffect(QList<int> () << ix, m_currentEffectList.count() + 1, -1);
+        // User is moving an effect
+        slotMoveEffect(QList<int> () << ix, m_currentEffectList.count() + 1, -1);
     }
     event->setDropAction(Qt::MoveAction);
     event->accept();
@@ -928,37 +928,38 @@ const QString EffectStackView2::getStyleSheet()
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
-    
+
     QString stylesheet;
-    
+
     // effect background
     stylesheet.append(QString("QFrame#decoframe {border-top-left-radius:5px;border-top-right-radius:5px;border-bottom:2px solid palette(mid);border-top:1px solid palette(light);} QFrame#decoframe[active=\"true\"] {background: %1;}").arg(hgh.name()));
-    
+
     // effect in group background
     stylesheet.append(QString("QFrame#decoframesub {border-top:1px solid palette(light);}  QFrame#decoframesub[active=\"true\"] {background: %1;}").arg(hgh.name()));
-    
+
     // group background
     stylesheet.append(QString("QFrame#decoframegroup {border-top-left-radius:5px;border-top-right-radius:5px;border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
-    
+
     // effect title bar
     stylesheet.append(QString("QFrame#frame {margin-bottom:2px;border-top-left-radius:5px;border-top-right-radius:5px;}  QFrame#frame[target=\"true\"] {background: palette(highlight);}"));
 
     // group effect title bar
     stylesheet.append(QString("QFrame#framegroup {border-top-left-radius:2px;border-top-right-radius:2px;background: palette(dark);}  QFrame#framegroup[target=\"true\"] {background: palette(highlight);} "));
-    
+
     // draggable effect bar content
     stylesheet.append(QString("QProgressBar::chunk:horizontal {background: palette(button);border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal#dragOnly {background: %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} QProgressBar::chunk:horizontal:hover {background: %2;}").arg(alt_bg.name()).arg(selected_bg.name()));
-    
+
     // draggable effect bar
     stylesheet.append(QString("QProgressBar:horizontal {border: 1px solid palette(dark);border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right:0px;background:%3;padding: 0px;text-align:left center} QProgressBar:horizontal:disabled {border: 1px solid palette(button)} QProgressBar:horizontal#dragOnly {background: %3} QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %1;border-right: 0px;background: %2;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %1;}").arg(hover_bg.name()).arg(light_bg.name()).arg(alt_bg.name()));
-    
+
     // spin box for draggable widget
     stylesheet.append(QString("QAbstractSpinBox#dragBox {border: 1px solid palette(dark);border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ").arg(hover_bg.name()).arg(selected_bg.name()));
-    
+
     // group editable labels
     stylesheet.append(QString("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
-    
+
     return stylesheet;
 }
 
 #include "effectstackview2.moc"
+
