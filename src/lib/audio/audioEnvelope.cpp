@@ -18,13 +18,14 @@
 
 AudioEnvelope::AudioEnvelope(Mlt::Producer *producer, int offset, int length) :
     m_envelope(NULL),
-    m_producer(producer),
     m_offset(offset),
     m_length(length),
     m_envelopeSize(producer->get_length()),
     m_envelopeStdDevCalculated(false),
     m_envelopeIsNormalized(false)
 {
+    // make a copy of the producer to avoid audio playback issues
+    m_producer = new Mlt::Producer(*(producer->profile()), producer->get("resource"));
     m_info = new AudioInfo(m_producer);
 
     Q_ASSERT(m_offset >= 0);
@@ -40,6 +41,7 @@ AudioEnvelope::~AudioEnvelope()
         delete[] m_envelope;
     }
     delete m_info;
+    delete m_producer;
 }
 
 
