@@ -140,7 +140,7 @@ void AudioCorrelation::correlate(const int64_t *envMain, int sizeMain,
             left++;
             right++;
         }
-        correlation[sizeSub+shift] = std::abs(sum);
+        correlation[sizeSub+shift] = qAbs(sum);
 
         if (sum > max) {
             max = sum;
