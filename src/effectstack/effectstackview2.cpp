@@ -660,7 +660,12 @@ void EffectStackView2::slotResetEffect(int ix)
             info.cropStart = GenTime(0);
             info.startPos = GenTime(-1);
             info.track = 0;
-            m_effects.at(ix)->updateWidget(info, dom, &m_effectMetaInfo);
+            for (int i = 0; i < m_effects.count(); i++) {
+                if (m_effects.at(i)->effectIndex() == ix) {
+                    m_effects.at(i)->updateWidget(info, dom, &m_effectMetaInfo);
+                    break;
+                }
+            }
             emit updateEffect(NULL, m_trackindex, old, dom, ix,false);
         } else {
             m_clipref->initEffect(dom);
