@@ -70,7 +70,7 @@ private:
 
 signals:
     /** true = show edit monitor, false = show normal monitor */
-    void showEdit(bool show);
+    void showEdit(bool show, bool manuallyTriggered = true);
 };
 
 

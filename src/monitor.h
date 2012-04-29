@@ -201,7 +201,7 @@ public slots:
     void setTimePos(const QString &pos);
     QStringList getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
-    void slotShowEffectScene(bool show = true);
+    void slotShowEffectScene(bool show = true, bool manuallyTriggered = false);
     bool effectSceneDisplayed();
 
     /** @brief Sets m_selectedClip to @param item. Used for looping it. */
