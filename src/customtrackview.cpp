@@ -6126,8 +6126,12 @@ void CustomTrackView::setAudioAlignReference()
             AudioEnvelope *envelope = new AudioEnvelope(clip->getProducer(clip->track()));
             m_audioCorrelator = new AudioCorrelation(envelope);
 
+
+#ifdef DEBUG
             envelope->drawEnvelope().save("kdenlive-audio-reference-envelope.png");
             envelope->dumpInfo();
+#endif
+
 
             emit displayMessage(i18n("Audio align reference set."), InformationMessage);
         }
@@ -6174,11 +6178,12 @@ void CustomTrackView::alignAudio()
                 int shift = m_audioCorrelator->getShift(index);
                 counter++;
 
+
+#ifdef DEBUG
                 m_audioCorrelator->info(index)->toImage().save("kdenlive-audio-align-cross-correlation.png");
                 envelope->drawEnvelope().save("kdenlive-audio-align-envelope.png");
                 envelope->dumpInfo();
 
-#ifdef DEBUG
                 int targetPos = m_audioAlignmentReference->startPos().frames(m_document->fps()) + shift;
                 qDebug() << "Reference starts at " << m_audioAlignmentReference->startPos().frames(m_document->fps());
                 qDebug() << "We will start at " << targetPos;

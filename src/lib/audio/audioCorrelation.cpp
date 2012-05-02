@@ -41,7 +41,6 @@ int AudioCorrelation::addChild(AudioEnvelope *envelope, bool useFFT)
     const int sizeMain = m_mainTrackEnvelope->envelopeSize();
     const int sizeSub = envelope->envelopeSize();
 
-
     AudioCorrelationInfo *info = new AudioCorrelationInfo(sizeMain, sizeSub);
     int64_t *correlation = info->correlationVector();
 

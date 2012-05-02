@@ -21,6 +21,7 @@ AudioEnvelope::AudioEnvelope(Mlt::Producer *producer, int offset, int length) :
     m_offset(offset),
     m_length(length),
     m_envelopeSize(producer->get_length()),
+    m_envelopeMax(0),
     m_envelopeStdDevCalculated(false),
     m_envelopeIsNormalized(false)
 {
