@@ -72,6 +72,7 @@ macro_log_feature(QJSON_FOUND
   "Required to build the rotoscoping filter and for Freesound.org queries"
 )
 
+add_subdirectory(effects)
 
 add_subdirectory(beziercurve)
 add_subdirectory(colorcorrection)
