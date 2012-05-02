@@ -7,6 +7,7 @@ set(kdenlive_SRCS
   effects/doubleparameter.cpp
   effects/doubleparametereffectstackitem.cpp
   effects/effect.cpp
+  effects/effectdevice.cpp
   effects/multiuihandler.cpp
   PARENT_SCOPE
 )

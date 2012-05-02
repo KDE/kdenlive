@@ -18,7 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 Effect::Effect(QDomElement effectDescription, AbstractEffectList* parent)
 {
     m_filter = new Mlt::Filter(*parent->getService()->profile(), effectDescription.attribute("tag").toUtf8().constData());
-    parent->addFilter(m_filter);
+    parent->appendFilter(m_filter);
     loadParameters(effectDescription.elementsByTagName("parameter"));
 
     m_uiHandler = new MultiUiHandler(parent->getUiHandler());

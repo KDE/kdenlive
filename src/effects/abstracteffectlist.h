@@ -25,12 +25,15 @@ public:
     AbstractEffectList();
     ~AbstractEffectList();
 
-    virtual void addFilter(Mlt::Filter *filter) = 0;
+    virtual void appendFilter(Mlt::Filter *filter) = 0;
 
     MultiUiHandler *getUiHandler();
     virtual Mlt::Service *getService() = 0;
 
-private:
+public slots:
+    virtual void appendEffect(QString id) = 0;
+
+protected:
     MultiUiHandler *m_uiHandler;
 };
 
