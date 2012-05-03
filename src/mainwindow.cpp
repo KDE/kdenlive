@@ -65,6 +65,7 @@
 #include "archivewidget.h"
 #include "databackup/backupwidget.h"
 #include "utils/resourcewidget.h"
+#include "effects/effectrepository.h"
 
 
 #include <KApplication>
@@ -160,6 +161,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_findActivated(false),
     m_stopmotion(NULL)
 {
+    EffectRepository *repo = new EffectRepository();
+    delete repo;
+
     qRegisterMetaType<QVector<int16_t> > ();
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
@@ -209,6 +213,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // FIXME: the next call returns a newly allocated object, which leaks
     initEffects::parseEffectFiles();
     //initEffects::parseCustomEffectsFile();
+
+    
     
     m_monitorManager = new MonitorManager();
 

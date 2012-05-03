@@ -1,4 +1,4 @@
- /*
+/*
 Copyright (C) 2012  Till Theato <root@ttill.de>
 This file is part of kdenlive. See www.kdenlive.org.
 

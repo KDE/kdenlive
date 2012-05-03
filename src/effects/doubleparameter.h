@@ -39,6 +39,7 @@ private:
     int m_max;
     int m_factor;
     int m_offset;
+    int m_decimals;
 
 signals:
     void valueUpdated(double value);

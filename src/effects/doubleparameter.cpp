@@ -23,6 +23,7 @@ DoubleParameter::DoubleParameter(QDomElement parameterDescription, AbstractParam
     m_max = parameterDescription.attribute("max").toInt();
     m_factor = parameterDescription.attribute("factor").toInt();
     m_offset = parameterDescription.attribute("offset").toInt();
+    m_decimals = 0;
 
     double value;
     if (parameterDescription.hasAttribute("value"))
