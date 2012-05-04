@@ -3437,22 +3437,24 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(moveStart);
-    //kDebug() << "//////  LOOKING FOR CLIP TO MOVE, INDEX: " << clipIndex;
+    int clipDuration = trackPlaylist.clip_length(clipIndex);
     bool checkLength = false;
     if (endTrack == startTrack) {
         Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
-        trackPlaylist.consolidate_blanks(0);
         if (!overwrite) {
             bool success = true;
-            if (!trackPlaylist.is_blank_at(moveEnd) || !clipProducer || !clipProducer->is_valid() || clipProducer->is_blank()) success = false;
+            if (!trackPlaylist.is_blank_at(moveEnd) || !clipProducer || !clipProducer->is_valid() || clipProducer->is_blank()) {
+		success = false;
+	    }
             else {
                 // Check that the destination region is empty
+                trackPlaylist.consolidate_blanks(0);
                 int destinationIndex = trackPlaylist.get_clip_index_at(moveEnd);
                 if (destinationIndex < trackPlaylist.count() - 1) {
                     // We are not at the end of the track
-                    int blankSize = trackPlaylist.blanks_from(destinationIndex, 0);
+                    int blankSize = trackPlaylist.blanks_from(destinationIndex, 1);
                     // Make sure we have enough place to insert clip
-                    if (blankSize - clipProducer->get_length() - (moveEnd - trackPlaylist.clip_start(destinationIndex)) < 0) success = false;
+                    if (blankSize - clipDuration - (moveEnd - trackPlaylist.clip_start(destinationIndex)) < 0) success = false;
                 }
             }
             if (!success) {
