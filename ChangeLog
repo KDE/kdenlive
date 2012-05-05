@@ -1,16 +1,59 @@
-Current git
-    * Fix archiving feature not saving playlist clips and slowmotion clips inside them
-    * Fix Crash recovery feature triggering error messages about wrong path
-    * Fix rendering jobs sometimes not starting
-    * Fix crash on proxy creation (concurrency issue)
-    * Fix zone playing
-    * Fix click on monitor sometimes not triggering play
+0.8.4
+    * Add background color parameter to "Rotate" and "Pan and Zoom" effects
+    * Allow to scroll using the mouse wheel in monitor editing scene
+    * Zoom to mouse when using CTRL + mouse wheel in monitor editing scene
+    * Add support for new slope mode in "Color Selection" effect to allow smooth alpha transition
+    * Introduce grouping of effects; groups can also be saved
+    * Allow dragging an effect to another clip/track
+    * Allow record monitor to go fullscreen
+    * Image sequences can now start at an arbitrary frame (http://kdenlive.org/mantis/view.php?id=2508)
+    * Add automatic clip alignment based on audio (experimental, has to be manually enabled)s
+    * Allow archiving for offline use (only archive proxies)
+    * Offline editing: Allow working on project with only proxies available (http://kdenlive.org/mantis/view.php?id=2509)
+    * Allow rendering to another framerate
+    * Check for missing locale and ask to install instead of opening corrupted project
+    * Allow to open project files manually extracted from archived project
+    * Support dropping a folder in the project tree (http://kdenlive.org/mantis/view.php?id=1288)
+    * Add "select all clips in track" and "select all clips in timeline" features (http://kdenlive.org/mantis/view.php?id=1950)
+    * Put audio effects in subcategories to avoid uberlong menus (http://kdenlive.org/mantis/view.php?id=2436)
+    * Support for project metadata (can be embedded in rendered file)
     * Add Online Resource Widget allowing easy search and download of online services (freesound, openclipart, archive.org)
-    * Introduce generic job framework for project tree jobs
-    * Fix color change not working in title widget
-    * Fix crash when moving a folder and a clip in project tree
-    * Fix profile warning with clips that have 1088 pixels height
+    * Introduce MLT clip analysis to get auto normalize data in sox gain effect
+    * Connect recording to audio scopes
     * Add audio only recording (works while playing)
+    * Add extract zone function: part of clip is copied to new file without re-encoding
+    * Introduce generic job framework to process clips
+    * Improve the Choose color widget: Use less space and make it easier to pick the average color value from an area
+    * Add GUI for effect Dynamic Text: Allows to display timecode/framecount and other data
+    * Rework effect stack: All effects are shown at once and are collapsible
+    * Add two different video stabilizers
+    * Add IIR Blur GUI
+    * Add date column to project tree
+
+    * Fix clip move sometimes giving error when it should work 
+    * Fix custom effects not considering capital letters in name (http://kdenlive.org/mantis/view.php?id=2580)
+    * Fix script rendering when script name contains whitespace
+    * Ensure clip in project tree is visible after rename (scroll if necessary) (http://kdenlive.org/mantis/view.php?id=2563)
+    * Fix monitor scene never resetting scrollbars
+    * Fix issues with transitions when inserting track (http://kdenlive.org/mantis/view.php?id=2477)
+    * Fix some GUI elements not responding to color theme change
+    * Do not hide render profile list when there is only one item to avoid confusion (http://kdenlive.org/mantis/view.php?id=2543)
+    * Fix consecutive error messages overwriting each other (http://www.kdenlive.org/mantis/view.php?id=2519)
+    * Fix crash when editing properties of several missing clips
+    * Fix vectorscope for 24b RGB images (http://kdenlive.org/mantis/view.php?id=2478)
+    * Fix archiving sometimes not saving playlist clips and subclips (http://kdenlive.org/mantis/view.php?id=2475)
+    * Fix archiving feature not saving playlist clips and slowmotion clips inside them (http://kdenlive.org/mantis/view.php?id=2475)
+    * Fix crash recovery feature issues with long or non UTF-8 filenames (http://kdenlive.org/mantis/view.php?id=2441, http://kdenlive.org/mantis/view.php?id=2450)
+    * Fix rendering jobs sometimes not starting
+    * Fix crash on proxy creation (concurrency issue) (http://kdenlive.org/mantis/view.php?id=2471)
+    * Fix zone playing (http://kdenlive.org/mantis/view.php?id=2468)
+    * Fix click on monitor sometimes not triggering play
+    * Fix crash when moving a folder and a clip in project tree (http://kdenlive.org/mantis/view.php?id=2458)
+    * Fix color change not working in title widget (http://kdenlive.org/mantis/view.php?id=2459)
+    * Fix slideshow clips created with invalid frame duration
+    * Fix profile warning with clips that have 1088 pixels height
+    * Fix unnecessary proxy reload on document load
+    * Fix detection of broken render scripts
 
 0.8.2.1
     * Fix title text oultine transparency not working
