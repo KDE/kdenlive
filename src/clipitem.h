@@ -85,16 +85,21 @@ public:
 
     /** @brief Gets a unique (?) effect id. */
     int effectsCounter();
+    
+        /** @brief Gets a copy of the xml of an effect.
+    * @param ix The effect's list index (starting from 0)
+    * @return A copy of the effect's xml */
+    QDomElement effect(int ix) const;
 
     /** @brief Gets a copy of the xml of an effect.
-    * @param ix The effect's index in effectlist
+    * @param ix The effect's index in effectlist (starting from 1)
     * @return A copy of the effect's xml */
-    QDomElement effectAt(int ix) const;
+    QDomElement effectAtIndex(int ix) const;
 
     /** @brief Gets the xml of an effect.
-    * @param ix The effect's index in effectlist
+    * @param ix The effect's index in effectlist (starting from 1)
     * @return The effect's xml */
-    QDomElement getEffectAt(int ix) const;
+    QDomElement getEffectAtIndex(int ix) const;
 
     /** @brief Replaces an effect.
     * @param ix The effect's index in effectlist

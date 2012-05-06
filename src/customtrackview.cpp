@@ -1292,7 +1292,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             ClipItem * item = static_cast <ClipItem *>(m_dragItem);
             //QString previous = item->keyframes(item->selectedEffectIndex());
             QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
-            item->insertKeyframe(item->getEffectAt(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
+            item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
             //item->updateKeyframeEffect();
             //QString next = item->keyframes(item->selectedEffectIndex());
             QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
@@ -1645,7 +1645,7 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip)
     }
     bool success = true;
     for (int i = 0; i < clip->effectsCount(); i++) {
-        if (!m_document->renderer()->mltAddEffect(track, pos, getEffectArgs(clip->effectAt(i)), false)) success = false;
+        if (!m_document->renderer()->mltAddEffect(track, pos, getEffectArgs(clip->effect(i)), false)) success = false;
     }
     if (!success) emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
     m_document->renderer()->doRefresh();
@@ -1919,7 +1919,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
                 ClipItem *item = static_cast <ClipItem *>(items.at(i));
                 int ix = item->hasEffect(effect.attribute("tag"), effect.attribute("id"));
                 if (ix != -1) {
-                    QDomElement eff = item->effectAt(ix);
+                    QDomElement eff = item->effectAtIndex(ix);
                     new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), eff, false, delCommand);
                 }
             }
@@ -2089,13 +2089,13 @@ void CustomTrackView::moveEffect(int track, GenTime pos, QList <int> oldPos, QLi
 	}
 	int old_position = oldPos.at(0);
 	for (int i = 0; i < newPos.count(); i++) {
-	    QDomElement act = clip->effectAt(new_position);
+	    QDomElement act = clip->effectAtIndex(new_position);
 	    if (old_position > new_position) {
 		// Moving up, we need to adjust index
 		old_position = oldPos.at(i);
 		new_position = newPos.at(i);
 	    }
-	    QDomElement before = clip->effectAt(old_position);
+	    QDomElement before = clip->effectAtIndex(old_position);
 	    if (act.isNull() || before.isNull()) {
 		emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
 		return;
@@ -2124,7 +2124,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, QList <in
 	// Check if we have a speed effect, disabling / enabling it needs a special procedure since it is a pseudoo effect
 	QList <int> speedEffectIndexes;
 	for (int i = 0; i < effectIndexes.count(); i++) {
-	    QDomElement effect = clip->effectAt(effectIndexes.at(i));
+	    QDomElement effect = clip->effectAtIndex(effectIndexes.at(i));
 	    if (effect.attribute("id") == "speed") {
 		// speed effect
 		speedEffectIndexes << effectIndexes.at(i);
@@ -2164,7 +2164,7 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElemen
 
 void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, QString region)
 {
-    QDomElement effect = clip->getEffectAt(ix);
+    QDomElement effect = clip->getEffectAtIndex(ix);
     QDomElement oldeffect = effect.cloneNode().toElement();
     effect.setAttribute("region", region);
     EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), oldeffect, effect, ix, true, true);
@@ -2203,23 +2203,23 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         // fade in from 2nd part of the clip
         int ix = dup->hasEffect(QString(), "fadein");
         if (ix != -1) {
-            QDomElement oldeffect = dup->effectAt(ix);
+            QDomElement oldeffect = dup->effectAtIndex(ix);
             dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
         }
         ix = dup->hasEffect(QString(), "fade_from_black");
         if (ix != -1) {
-            QDomElement oldeffect = dup->effectAt(ix);
+            QDomElement oldeffect = dup->effectAtIndex(ix);
             dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
         }
         // fade out from 1st part of the clip
         ix = item->hasEffect(QString(), "fadeout");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = item->effectAtIndex(ix);
             item->deleteEffect(oldeffect.attribute("kdenlive_ix"));
         }
         ix = item->hasEffect(QString(), "fade_to_black");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = item->effectAtIndex(ix);
             item->deleteEffect(oldeffect.attribute("kdenlive_ix"));
         }
 
@@ -2260,12 +2260,12 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         // join fade effects again
         int ix = dup->hasEffect(QString(), "fadeout");
         if (ix != -1) {
-            QDomElement effect = dup->effectAt(ix);
+            QDomElement effect = dup->effectAtIndex(ix);
             item->addEffect(effect);
         }
         ix = dup->hasEffect(QString(), "fade_to_black");
         if (ix != -1) {
-            QDomElement effect = dup->effectAt(ix);
+            QDomElement effect = dup->effectAtIndex(ix);
             item->addEffect(effect);
         }
 
@@ -3581,7 +3581,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     KdenliveSettings::setSnaptopoints(false);
                     item->setPos((int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItemInfo.track * m_tracksHeight + 1));
                     KdenliveSettings::setSnaptopoints(snap);
-                    emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(m_dragItemInfo.startPos.frames(m_document->fps()))), ErrorMessage);
+                    emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps()))), ErrorMessage);
                 }
                 setDocumentModified();
             } else if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
@@ -3670,7 +3670,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
                         m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
                         for (int i = 0; i < clip->effectsCount(); i++) {
-                            m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
+                            m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effect(i)), false);
                         }
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
@@ -3774,7 +3774,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         int ix = item->hasEffect("volume", "fadein");
         int ix2 = item->hasEffect("", "fade_from_black");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = item->effectAtIndex(ix);
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
             if (end == 0) {
@@ -3797,7 +3797,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
         }
         if (ix2 != -1) {
-            QDomElement oldeffect = item->effectAt(ix2);
+            QDomElement oldeffect = item->effectAtIndex(ix2);
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
             if (end == 0) {
@@ -3817,7 +3817,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         int ix = item->hasEffect("volume", "fadeout");
         int ix2 = item->hasEffect("", "fade_to_black");
         if (ix != -1) {
-            QDomElement oldeffect = item->effectAt(ix);
+            QDomElement oldeffect = item->effectAtIndex(ix);
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
@@ -3842,7 +3842,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
         }
         if (ix2 != -1) {
-            QDomElement oldeffect = item->effectAt(ix2);
+            QDomElement oldeffect = item->effectAtIndex(ix2);
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
@@ -3872,9 +3872,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
         if ((val < -50 || val > 150) && item->editedKeyFramePos() != start && item->editedKeyFramePos() != end && item->keyFrameNumber() > 1) {
             //delete keyframe
-            item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), -1, 0);
+            item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), -1, 0);
         } else {
-            item->movedKeyframe(item->getEffectAt(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos(), item->editedKeyFrameValue());
+            item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->editedKeyFramePos(), item->editedKeyFrameValue());
         }
 
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
@@ -4274,7 +4274,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     info.track = m_document->tracksCount() - info.track;
     m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
     for (int i = 0; i < item->effectsCount(); i++) {
-        m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(item->effectAt(i)), false);
+        m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(item->effect(i)), false);
     }
     setDocumentModified();
     if (refresh)
@@ -4578,7 +4578,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 info.track = m_document->tracksCount() - info.track;
                 m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer));
                 for (int i = 0; i < clip->effectsCount(); i++) {
-                    m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
+                    m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effect(i)), false);
                 }
             } else if (item->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast <Transition*>(item);
@@ -4907,7 +4907,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool 
         // there is a fade in effect
         int effectPos = item->hasEffect("volume", "fadein");
         if (effectPos != -1) {
-            QDomElement effect = item->getEffectAt(effectPos);
+            QDomElement effect = item->getEffectAtIndex(effectPos);
             int start = item->cropStart().frames(m_document->fps());
             int max = item->cropDuration().frames(m_document->fps());
             if (end > max) {
@@ -4928,7 +4928,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool 
         }
         effectPos = item->hasEffect("brightness", "fade_from_black");
         if (effectPos != -1) {
-            QDomElement effect = item->getEffectAt(effectPos);
+            QDomElement effect = item->getEffectAtIndex(effectPos);
             int start = item->cropStart().frames(m_document->fps());
             int max = item->cropDuration().frames(m_document->fps());
             if (end > max) {
@@ -4954,7 +4954,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool 
         // there is a fade out effect
         int effectPos = item->hasEffect("volume", "fadeout");
         if (effectPos != -1) {
-            QDomElement effect = item->getEffectAt(effectPos);
+            QDomElement effect = item->getEffectAtIndex(effectPos);
             int max = item->cropDuration().frames(m_document->fps());
             int end = max + item->cropStart().frames(m_document->fps());
             if (start > max) {
@@ -4975,7 +4975,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool 
         }
         effectPos = item->hasEffect("brightness", "fade_to_black");
         if (effectPos != -1) {
-            QDomElement effect = item->getEffectAt(effectPos);
+            QDomElement effect = item->getEffectAtIndex(effectPos);
             int max = item->cropDuration().frames(m_document->fps());
             int end = max + item->cropStart().frames(m_document->fps());
             if (start > max) {
@@ -5000,7 +5000,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool 
     if (effectPos != -1) {
         // Freeze effect needs to be adjusted with clip resize
         int diff = (info.startPos - item->startPos()).frames(m_document->fps());
-        QDomElement eff = item->getEffectAt(effectPos);
+        QDomElement eff = item->getEffectAtIndex(effectPos);
         if (!eff.isNull() && diff != 0) {
             int freeze_pos = EffectsList::parameter(eff, "frame").toInt() + diff;
             EffectsList::setParameter(eff, "frame", QString::number(freeze_pos));
@@ -5690,8 +5690,8 @@ void CustomTrackView::pasteClipEffects()
     for (int i = 0; i < clips.count(); ++i) {
         if (clips.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast < ClipItem *>(clips.at(i));
-            for (int j = 1; j <= clip->effectsCount(); j++) {
-                QDomElement eff = clip->effectAt(j);
+            for (int j = 0; j < clip->effectsCount(); j++) {
+                QDomElement eff = clip->effect(j);
                 if (eff.attribute("unique", "0") == "0" || item->hasEffect(eff.attribute("tag"), eff.attribute("id")) == -1) {
                     adjustKeyfames(clip->cropStart(), item->cropStart(), item->cropDuration(), eff);
                     new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), eff, true, paste);
@@ -6301,10 +6301,10 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
                 int audioIx = 0;
                 for (int i = 0; i < effects.count(); ++i) {
                     if (effects.at(i).attribute("type") == "audio") {
-                        deleteEffect(m_document->tracksCount() - track, pos, clip->effectAt(videoIx));
+                        deleteEffect(m_document->tracksCount() - track, pos, clip->effect(videoIx));
                         audioIx++;
                     } else {
-                        deleteEffect(freetrack, pos, audioClip->effectAt(audioIx));
+                        deleteEffect(freetrack, pos, audioClip->effect(audioIx));
                         videoIx++;
                     }
                 }
@@ -7135,7 +7135,7 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
     if (effects.count()) {
         QMap<int, QDomElement>::const_iterator i = effects.constBegin();
         while (i != effects.constEnd()) {
-            new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), i.value(), item->effectAt(i.key()), i.key(), false, false, command);
+            new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), i.value(), item->effect(i.key()), i.key(), false, false, command);
             ++i;
         }
     }
@@ -7150,7 +7150,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
         return;
     }
     QDomElement newEffect;
-    QDomElement effect = clip->getEffectAt(clip->selectedEffectIndex());
+    QDomElement effect = clip->getEffectAtIndex(clip->selectedEffectIndex());
     if (effect.attribute("id") == filter) {
         newEffect = effect.cloneNode().toElement();
         QMap<QString, QString>::const_iterator i = filterParams.constBegin();

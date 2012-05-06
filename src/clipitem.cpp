@@ -433,7 +433,7 @@ void ClipItem::setSelectedEffect(const int ix)
 {
     m_selectedEffect = ix;
     QLocale locale;
-    QDomElement effect = effectAt(m_selectedEffect);
+    QDomElement effect = effectAtIndex(m_selectedEffect);
     if (!effect.isNull() && effect.attribute("disable") != "1") {
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int i = 0; i < params.count(); i++) {
@@ -487,7 +487,7 @@ QStringList ClipItem::keyframes(const int index)
 void ClipItem::updateKeyframeEffect()
 {
     // regenerate xml parameter from the clip keyframes
-    QDomElement effect = getEffectAt(m_selectedEffect);
+    QDomElement effect = getEffectAtIndex(m_selectedEffect);
     if (effect.attribute("disable") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
     QDomElement e = params.item(m_visibleParam).toElement();
@@ -509,7 +509,7 @@ void ClipItem::updateKeyframeEffect()
 QDomElement ClipItem::selectedEffect()
 {
     if (m_selectedEffect == -1 || m_effectList.isEmpty()) return QDomElement();
-    return effectAt(m_selectedEffect);
+    return effectAtIndex(m_selectedEffect);
 }
 
 void ClipItem::resetThumbs(bool clearExistingThumbs)
@@ -1359,13 +1359,19 @@ QStringList ClipItem::effectNames()
     return m_effectList.effectNames();
 }
 
-QDomElement ClipItem::effectAt(int ix) const
+QDomElement ClipItem::effect(int ix) const
+{
+    if (ix >= m_effectList.count() || ix < 0) return QDomElement();
+    return m_effectList.at(ix).cloneNode().toElement();
+}
+
+QDomElement ClipItem::effectAtIndex(int ix) const
 {
     if (ix > m_effectList.count() || ix <= 0) return QDomElement();
     return m_effectList.itemFromIndex(ix).cloneNode().toElement();
 }
 
-QDomElement ClipItem::getEffectAt(int ix) const
+QDomElement ClipItem::getEffectAtIndex(int ix) const
 {
     if (ix > m_effectList.count() || ix <= 0) return QDomElement();
     return m_effectList.itemFromIndex(ix);

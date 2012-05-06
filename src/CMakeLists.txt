@@ -134,7 +134,6 @@ list(APPEND kdenlive_SRCS
   effectslistview.cpp
   effectslistwidget.cpp
   effectstackedit.cpp
-  effectstackview.cpp
   encodingprofilesdialog.cpp
   folderprojectitem.cpp
   gentime.cpp
