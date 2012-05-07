@@ -9,7 +9,8 @@ the Free Software Foundation, either version 3 of the License, or
 */
  
 #include "abstractparameterlist.h"
-#include "parametertypes.h"
+#include "abstractparameter.h"
+#include "doubleparameter.h"
 #include "multiuihandler.h"
 
 
@@ -24,16 +25,17 @@ AbstractParameterList::~AbstractParameterList()
     delete m_uiHandler;
 }
 
-void AbstractParameterList::loadParameters(QDomNodeList parameters)
+void AbstractParameterList::loadParameters(QList<AbstractParameterDescription *> parameters)
 {
-    for (int i = 0; i < parameters.count(); ++i) {
-        QDomElement parameterDescription = parameters.at(i).toElement();
-        QString type = parameterDescription.attribute("type");
+    foreach(AbstractParameterDescription *parameterDescription, parameters) {
+        ParameterType type = parameterDescription->getType();
         AbstractParameter *parameter;
-        if (type == "double" || type == "constant") {
-            parameter = new DoubleParameter(parameterDescription, this);
+        if (type == DoubleParameterType) {
+            parameter = new DoubleParameter(static_cast<DoubleParameterDescription*>(parameterDescription), this);
         }
-        append(parameter);
+        if (parameter) {
+            append(parameter);
+        }
     }
 }
 

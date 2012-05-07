@@ -11,51 +11,41 @@ the Free Software Foundation, either version 3 of the License, or
 #include "doubleparameter.h"
 #include "abstractparameterlist.h"
 #include "doubleparametereffectstackitem.h"
-#include <QDomElement>
+#include <QLocale>
 
 
-// WARNING: locale!
-DoubleParameter::DoubleParameter(QDomElement parameterDescription, AbstractParameterList* parent) :
-    AbstractParameter(parameterDescription, parent)
+DoubleParameter::DoubleParameter(DoubleParameterDescription *parameterDescription, AbstractParameterList* parent) :
+    AbstractParameter(parameterDescription, parent),
+    m_description(parameterDescription)
 {
-    m_default  = parameterDescription.attribute("default").toDouble();
-    m_min = parameterDescription.attribute("min").toInt();
-    m_max = parameterDescription.attribute("max").toInt();
-    m_factor = parameterDescription.attribute("factor").toInt();
-    m_offset = parameterDescription.attribute("offset").toInt();
-    m_decimals = 0;
-
-    double value;
-    if (parameterDescription.hasAttribute("value"))
-        value = parameterDescription.attribute("value").toDouble();
-    else
-        value = m_default;
-    set(value);
+    set(m_description->getDefault());
 }
 
 void DoubleParameter::set(const char* data)
 {
-    double value = QString::fromUtf8(data).toDouble();
-    value = m_offset + value * m_factor;
+    QLocale locale;
+    double value = locale.toDouble(QString(data));
+    value = m_description->getOffset() + value * m_description->getFactor();
     emit valueUpdated(value);
 }
 
 void DoubleParameter::set(double value, bool update)
 {
+    QLocale locale;
     if (update)
         emit valueUpdated(value);
-    value = (value + m_min - m_offset) / m_factor;
-    m_parent->setParameter(m_name, QString::number(value));
+    value = (value + m_description->getMin() - m_description->getOffset()) / m_description->getFactor();
+    m_parent->setParameter(getName(), locale.toString(value));
 }
 
 const char* DoubleParameter::get() const
 {
-    return m_parent->getParameter(m_name).toUtf8().constData();
+    return m_parent->getParameter(getName()).toUtf8().constData();
 }
 
 double DoubleParameter::getValue() const
 {
-    return m_parent->getParameter(m_name).toDouble();
+    return m_parent->getParameter(getName()).toDouble();
 }
 
 void DoubleParameter::createUi(EffectUiTypes type, QObject* parent)
@@ -64,7 +54,7 @@ void DoubleParameter::createUi(EffectUiTypes type, QObject* parent)
     switch (type)
     {
         case EffectStackEffectUi:
-            effectStackItem = new DoubleParameterEffectStackItem(m_name, getValue(), m_min, m_max, QString(), -1, QString(), 0, static_cast<AbstractEffectStackItem*>(parent));
+            effectStackItem = new DoubleParameterEffectStackItem(m_description->getDisplayName(), getValue(), m_description->getMin(), m_description->getMax(), m_description->getComment(), -1, m_description->getSuffix(), m_description->getDecimals(), static_cast<AbstractEffectStackItem*>(parent));
             connect(this, SIGNAL(valueUpdated(double)), effectStackItem, SLOT(setValue(double)));
             connect(effectStackItem, SIGNAL(valueChanged(double)), this, SLOT(set(double)));
             getMultiUiHandler()->addUi(type, static_cast<QObject *>(effectStackItem));

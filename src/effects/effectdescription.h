@@ -25,6 +25,7 @@ public:
     EffectDescription(QDomElement description, double version);
     virtual ~EffectDescription();
 
+    QList <AbstractParameterDescription *> getParameters();
     QString getTag() const;
     QString getName() const;
     QString getDescription() const;

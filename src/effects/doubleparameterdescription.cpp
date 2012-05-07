@@ -17,7 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 DoubleParameterDescription::DoubleParameterDescription(QDomElement parameter, QLocale locale) :
-    AbstractParameterDescription(parameter, locale)
+    AbstractParameterDescription(DoubleParameterType, parameter, locale)
 {
     m_default = locale.toDouble(parameter.attribute("default"));
     m_factor = locale.toDouble(parameter.attribute("factor", QString("1")));
@@ -31,7 +31,7 @@ DoubleParameterDescription::DoubleParameterDescription(QDomElement parameter, QL
 }
 
 DoubleParameterDescription::DoubleParameterDescription(Mlt::Properties& properties, QLocale locale) :
-    AbstractParameterDescription(properties, locale),
+    AbstractParameterDescription(DoubleParameterType, properties, locale),
     m_factor(1),
     m_offset(0),
     m_decimals(0),

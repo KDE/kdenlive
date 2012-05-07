@@ -26,7 +26,7 @@ public:
     AbstractParameterList(QObject *parent = 0);
     virtual ~AbstractParameterList();
 
-    void loadParameters(QDomNodeList parameters);
+    void loadParameters(QList<AbstractParameterDescription *> parameters);
 
     virtual void setParameter(QString name, QString value) = 0;
     virtual QString getParameter(QString name) const = 0;

@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QList>
 
 class Effect;
-
+class EffectDescription;
 
 class AbstractEffectList : public QObject, protected QList<Effect *>
 {
@@ -26,6 +26,8 @@ public:
     ~AbstractEffectList();
 
     virtual void appendFilter(Mlt::Filter *filter) = 0;
+    virtual void appendEffect(QString id) = 0;
+    virtual void appendEffect(EffectDescription *description) = 0;
 
     MultiUiHandler *getUiHandler();
     virtual Mlt::Service *getService() = 0;

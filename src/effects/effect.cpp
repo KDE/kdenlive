@@ -11,15 +11,15 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "effect.h"
 #include "abstracteffectlist.h"
+#include "effectdescription.h"
 
-#include <QDomElement>
 
-
-Effect::Effect(QDomElement effectDescription, AbstractEffectList* parent)
+Effect::Effect(EffectDescription *effectDescription, AbstractEffectList* parent) :
+    m_description(effectDescription)
 {
-    m_filter = new Mlt::Filter(*parent->getService()->profile(), effectDescription.attribute("tag").toUtf8().constData());
+    m_filter = new Mlt::Filter(*parent->getService()->profile(), effectDescription->getTag().toUtf8().constData());
     parent->appendFilter(m_filter);
-    loadParameters(effectDescription.elementsByTagName("parameter"));
+    loadParameters(effectDescription->getParameters());
 
     m_uiHandler = new MultiUiHandler(parent->getUiHandler());
 }

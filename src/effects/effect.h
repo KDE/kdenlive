@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractparameterlist.h"
 #include <mlt++/Mlt.h>
 
-class QDomElement;
+class EffectDescription;
 class AbstractEffectList;
 
 
@@ -23,7 +23,7 @@ class Effect : public AbstractParameterList
     Q_OBJECT
 
 public:
-    Effect(QDomElement effectDescription, AbstractEffectList* parent = 0);
+    Effect(EffectDescription *effectDescription, AbstractEffectList* parent = 0);
     ~Effect();
 
     void setParameter(QString name, QString value);
@@ -34,6 +34,7 @@ public:
 
 private:
     Mlt::Filter *m_filter;
+    EffectDescription *m_description;
 };
 
 #endif

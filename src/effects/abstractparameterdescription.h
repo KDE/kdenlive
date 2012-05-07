@@ -21,16 +21,20 @@ namespace Mlt
     class Properties;
 }
 
+//proper location?
+enum ParameterType { DoubleParameterType};
+
 
 // make template to be able to store default?
 class AbstractParameterDescription
 {
 public:
-    AbstractParameterDescription(QDomElement parameter, QLocale locale);
-    AbstractParameterDescription(Mlt::Properties &properties, QLocale locale);
+    AbstractParameterDescription(ParameterType type, QDomElement parameter, QLocale locale);
+    AbstractParameterDescription(ParameterType type, Mlt::Properties &properties, QLocale locale);
     virtual ~AbstractParameterDescription();
 
     QString getName() const;
+    ParameterType getType() const;
     QString getDisplayName() const;
     QString getComment() const;
     bool isValid() const;
@@ -39,6 +43,7 @@ protected:
     bool m_valid;
 
 private:
+    ParameterType m_type;
     QString m_name;
     QString m_displayName;
     QString m_displayNameOrig;

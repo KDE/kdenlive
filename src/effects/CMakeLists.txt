@@ -4,7 +4,6 @@ set(kdenlive_SRCS
   effects/abstracteffectrepositoryitem.cpp
   effects/abstracteffectstackitem.cpp
   effects/abstractparameter.cpp
-  effects/abstractparameterlist.cpp
   effects/abstractparameterdescription.cpp
   effects/abstractparameterlist.cpp
   effects/doubleparameter.cpp

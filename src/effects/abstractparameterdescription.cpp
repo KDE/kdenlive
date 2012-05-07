@@ -16,7 +16,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KLocale>
 
 
-AbstractParameterDescription::AbstractParameterDescription(QDomElement parameter, QLocale locale) : 
+AbstractParameterDescription::AbstractParameterDescription(ParameterType type, QDomElement parameter, QLocale locale) :
+    m_type(type),
     m_valid(true)
 {
     m_name = parameter.attribute("name");
@@ -36,7 +37,8 @@ AbstractParameterDescription::AbstractParameterDescription(QDomElement parameter
     m_comment = i18n(m_commentOrig.toUtf8());
 }
 
-AbstractParameterDescription::AbstractParameterDescription(Mlt::Properties& properties, QLocale locale) : 
+AbstractParameterDescription::AbstractParameterDescription(ParameterType type, Mlt::Properties& properties, QLocale locale) :
+    m_type(type),
     m_valid(true)
 {
     m_name = properties.get("identifier");
@@ -55,6 +57,11 @@ AbstractParameterDescription::~AbstractParameterDescription()
 QString AbstractParameterDescription::getName() const
 {
     return m_name;
+}
+
+ParameterType AbstractParameterDescription::getType() const
+{
+    return m_type;
 }
 
 QString AbstractParameterDescription::getDisplayName() const

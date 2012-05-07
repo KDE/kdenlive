@@ -11,12 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef ABSTRACTPARAMETER_H
 #define ABSTRACTPARAMETER_H
 
-#include "multiuihandler.h"
-#include <mlt++/Mlt.h>
 #include <QObject>
+#include "multiuihandler.h"
 
+class AbstractParameterDescription;
 class AbstractParameterList;
-class QDomElement;
 
 
 class AbstractParameter : public QObject
@@ -24,11 +23,13 @@ class AbstractParameter : public QObject
     Q_OBJECT
 
 public:
-    AbstractParameter(QDomElement parameterDescription, AbstractParameterList *parent);
+    AbstractParameter(AbstractParameterDescription *parameterDescription, AbstractParameterList *parent);
     virtual ~AbstractParameter();
 
     virtual void set(const char *data) = 0;
     virtual const char *get() const = 0;
+    QString getName() const;
+    AbstractParameterDescription *getDescription();
     MultiUiHandler *getMultiUiHandler();
 
 public slots:
@@ -36,7 +37,7 @@ public slots:
 
 protected:
     AbstractParameterList *m_parent;
-    QString m_name;
+    AbstractParameterDescription *m_abstractDescription;
 
 private:
     MultiUiHandler *m_uiHandler;

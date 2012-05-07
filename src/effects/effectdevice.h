@@ -22,11 +22,11 @@ class EffectDevice : public AbstractEffectList
 public:
     EffectDevice(Mlt::Service *service);
     ~EffectDevice();
-    
-    void appendFilter(Mlt::Filter *filter);
-    Mlt::Service *getService();
 
+    void appendFilter(Mlt::Filter *filter);
     void appendEffect(QString id);
+    void appendEffect(EffectDescription *description);
+    Mlt::Service *getService();
 
 private:
     Mlt::Service *m_service;

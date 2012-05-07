@@ -12,16 +12,17 @@ the Free Software Foundation, either version 3 of the License, or
 #define DOUBLEPARAMETER_H
 
 #include "abstractparameter.h"
+#include "doubleparameterdescription.h"
 #include "parametertypes.h"
 
-class AbstractParameterList;
+
 
 class DoubleParameter : public AbstractParameter
 {
     Q_OBJECT
 
 public:
-    DoubleParameter(QDomElement parameterDescription, AbstractParameterList *parent);
+    DoubleParameter(DoubleParameterDescription *parameterDescription, AbstractParameterList *parent);
 //     ~DoubleParameter();
 
     void set(const char*data);
@@ -34,12 +35,7 @@ public slots:
     void set(double value, bool update = false);
 
 private:
-    double m_default;
-    int m_min;
-    int m_max;
-    int m_factor;
-    int m_offset;
-    int m_decimals;
+    DoubleParameterDescription *m_description;
 
 signals:
     void valueUpdated(double value);

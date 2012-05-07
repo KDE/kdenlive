@@ -9,16 +9,16 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "abstractparameter.h"
+#include "abstractparameterdescription.h"
 #include "abstractparameterlist.h"
 #include "multiuihandler.h"
-#include <QDomElement>
 
-AbstractParameter::AbstractParameter(QDomElement parameterDescription, AbstractParameterList* parent) :
+
+AbstractParameter::AbstractParameter(AbstractParameterDescription *parameterDescription, AbstractParameterList* parent) :
+    m_abstractDescription(static_cast<AbstractParameterDescription*>(parameterDescription)),
     m_parent(parent)
 {
     m_uiHandler = new MultiUiHandler(parent->getUiHandler());
-    m_name = parameterDescription.attribute("name");
-
     connect(m_uiHandler, SIGNAL(createUi(EffectUiTypes, QObject*)), this, SLOT(createUi(EffectUiTypes, QObject*)));
 }
 
@@ -27,9 +27,17 @@ AbstractParameter::~AbstractParameter()
     delete m_uiHandler;
 }
 
-MultiUiHandler* AbstractParameter::getMultiUiHandler()
+MultiUiHandler *AbstractParameter::getMultiUiHandler()
 {
     return m_uiHandler;
 }
 
+QString AbstractParameter::getName() const
+{
+    return m_abstractDescription->getName();
+}
 
+AbstractParameterDescription* AbstractParameter::getDescription()
+{
+    return m_abstractDescription;
+}

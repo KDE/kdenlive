@@ -118,6 +118,11 @@ EffectDescription::~EffectDescription()
     qDeleteAll(begin(), end());
 }
 
+QList< AbstractParameterDescription* > EffectDescription::getParameters()
+{
+    return *this;
+}
+
 QString EffectDescription::getTag() const
 {
     return m_tag;

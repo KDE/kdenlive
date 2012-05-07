@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
  
 #include "effectdevice.h"
+#include "effectdescription.h"
 
 EffectDevice::EffectDevice(Mlt::Service* service) : 
     AbstractEffectList(),
