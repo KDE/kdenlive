@@ -15,16 +15,14 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QString>
 #include <kdemacros.h>
 
+class AbstractParameterList;
+class AbstractParameter;
 class QDomElement;
 class QLocale;
-
 namespace Mlt
 {
     class Properties;
 }
-
-//proper location?
-enum ParameterType { DoubleParameterType};
 
 
 // make template to be able to store default?
@@ -34,12 +32,14 @@ class KDE_EXPORT AbstractParameterDescription : public QObject
 
 public:
     AbstractParameterDescription();
-    virtual void init(QDomElement parameter, QLocale locale);
-    virtual void init(Mlt::Properties &properties, QLocale locale);
     virtual ~AbstractParameterDescription();
 
+    virtual void init(QDomElement parameter, QLocale locale);
+    virtual void init(Mlt::Properties &properties, QLocale locale);
+
+    virtual AbstractParameter *createParameter(AbstractParameterList *parent) const = 0;
+
     QString getName() const;
-//     ParameterType getType() const;
     QString getDisplayName() const;
     QString getComment() const;
     bool isValid() const;
@@ -48,7 +48,6 @@ protected:
     bool m_valid;
 
 private:
-//     ParameterType m_type;
     QString m_name;
     QString m_displayName;
     QString m_displayNameOrig;

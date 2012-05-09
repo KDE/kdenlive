@@ -13,8 +13,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractparameterlist.h"
 
 
-AbstractParameter::AbstractParameter(AbstractParameterDescription *parameterDescription, AbstractParameterList* parent) :
-    m_abstractDescription(static_cast<AbstractParameterDescription*>(parameterDescription)),
+AbstractParameter::AbstractParameter(const AbstractParameterDescription *parameterDescription, AbstractParameterList* parent) :
+    m_abstractDescription(static_cast<const AbstractParameterDescription*>(parameterDescription)),
     m_parent(parent)
 {
     m_uiHandler = new MultiUiHandler(parent->getUiHandler());
@@ -36,7 +36,7 @@ QString AbstractParameter::getName() const
     return m_abstractDescription->getName();
 }
 
-AbstractParameterDescription* AbstractParameter::getDescription()
+const AbstractParameterDescription* AbstractParameter::getDescription() const
 {
     return m_abstractDescription;
 }

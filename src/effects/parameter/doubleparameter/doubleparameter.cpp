@@ -15,7 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QLocale>
 
 
-DoubleParameter::DoubleParameter(DoubleParameterDescription *parameterDescription, AbstractParameterList* parent) :
+DoubleParameter::DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList* parent) :
     AbstractParameter(parameterDescription, parent),
     m_description(parameterDescription)
 {

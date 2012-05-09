@@ -25,13 +25,13 @@ class KDE_EXPORT AbstractParameter : public QObject
     Q_OBJECT
 
 public:
-    AbstractParameter(AbstractParameterDescription *parameterDescription, AbstractParameterList *parent);
+    AbstractParameter(const AbstractParameterDescription *parameterDescription, AbstractParameterList *parent);
     virtual ~AbstractParameter();
 
     virtual void set(const char *data) = 0;
     virtual const char *get() const = 0;
     QString getName() const;
-    AbstractParameterDescription *getDescription();
+    const AbstractParameterDescription *getDescription() const;
     MultiUiHandler *getMultiUiHandler();
 
 public slots:
@@ -39,7 +39,7 @@ public slots:
 
 protected:
     AbstractParameterList *m_parent;
-    AbstractParameterDescription *m_abstractDescription;
+    const AbstractParameterDescription *m_abstractDescription;
 
 private:
     MultiUiHandler *m_uiHandler;

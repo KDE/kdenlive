@@ -27,6 +27,8 @@ public:
     void init(QDomElement parameter, QLocale locale);
     void init(Mlt::Properties &properties, QLocale locale);
 
+    AbstractParameter *createParameter(AbstractParameterList *parent) const;
+
     double getDefault() const;
     double getFactor() const;
     double getOffset() const;

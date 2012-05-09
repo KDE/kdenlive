@@ -10,6 +10,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "effectdescription.h"
 #include "core/effectsystem/abstractparameterdescription.h"
+#include "effect.h"
+#include "abstracteffectlist.h"
 #include <mlt++/Mlt.h>
 #include <QString>
 #include <QDomElement>
@@ -113,6 +115,12 @@ EffectDescription::EffectDescription(QDomElement description, double version, Ef
 EffectDescription::~EffectDescription()
 {
     qDeleteAll(begin(), end());
+}
+
+Effect* EffectDescription::createEffect(AbstractEffectList* parent)
+{
+    Effect *effect = new Effect(this, parent);
+    return effect;
 }
 
 QList< AbstractParameterDescription* > EffectDescription::getParameters()

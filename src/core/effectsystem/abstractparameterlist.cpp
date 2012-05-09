@@ -10,7 +10,9 @@ the Free Software Foundation, either version 3 of the License, or
  
 #include "abstractparameterlist.h"
 #include "abstractparameter.h"
+#include "abstractparameterdescription.h"
 #include "multiuihandler.h"
+#include <KDebug>
 
 
 AbstractParameterList::AbstractParameterList(QObject *parent) :
@@ -27,14 +29,13 @@ AbstractParameterList::~AbstractParameterList()
 void AbstractParameterList::loadParameters(QList<AbstractParameterDescription *> parameters)
 {
     foreach(AbstractParameterDescription *parameterDescription, parameters) {
-        /*ParameterType type = parameterDescription->getType();
-        AbstractParameter *parameter;
-        if (type == DoubleParameterType) {
-            parameter = new DoubleParameter(static_cast<DoubleParameterDescription*>(parameterDescription), this);
-        }
+        AbstractParameter *parameter = parameterDescription->createParameter(this);
         if (parameter) {
             append(parameter);
-        }*/
+        } else {
+            kWarning() << "Parameter " << parameterDescription->getName() << " could not be created";
+            delete parameter;
+        }
     }
 }
 

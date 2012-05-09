@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "doubleparameterdescription.h"
+#include "doubleparameter.h"
 #include <mlt++/Mlt.h>
 #include <QString>
 #include <QDomElement>
@@ -22,6 +23,11 @@ K_EXPORT_PLUGIN( DoubleParameterFactory( "kdenlivedoubleparameter" ) )
 
 
 DoubleParameterDescription::DoubleParameterDescription(QObject *, const QVariantList&)
+{
+}
+
+
+DoubleParameterDescription::~DoubleParameterDescription()
 {
 }
 
@@ -59,10 +65,12 @@ void DoubleParameterDescription::init(Mlt::Properties& properties, QLocale local
     kDebug() << "param descr n" << getName() << m_default;
 }
 
-
-DoubleParameterDescription::~DoubleParameterDescription()
+AbstractParameter *DoubleParameterDescription::createParameter(AbstractParameterList* parent) const
 {
+    DoubleParameter *parameter = new DoubleParameter(this, parent);
+    return static_cast<AbstractParameter*>(parameter);
 }
+
 
 double DoubleParameterDescription::getDefault() const
 {

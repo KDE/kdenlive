@@ -21,7 +21,7 @@ class DoubleParameter : public AbstractParameter
     Q_OBJECT
 
 public:
-    DoubleParameter(DoubleParameterDescription *parameterDescription, AbstractParameterList *parent);
+    DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList *parent);
 //     ~DoubleParameter();
 
     void set(const char*data);
@@ -34,7 +34,7 @@ public slots:
     void set(double value, bool update = false);
 
 private:
-    DoubleParameterDescription *m_description;
+    const DoubleParameterDescription *m_description;
 
 signals:
     void valueUpdated(double value);

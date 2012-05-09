@@ -17,6 +17,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 class QString;
 class AbstractParameterDescription;
+class Effect;
+class AbstractEffectList;
 
 
 class EffectDescription : public AbstractEffectRepositoryItem, protected QList<AbstractParameterDescription*>
@@ -25,6 +27,8 @@ public:
     EffectDescription(const QString filterName, Mlt::Repository *mltRepository, EffectRepository *repository);
     EffectDescription(QDomElement description, double version, EffectRepository *repository);
     virtual ~EffectDescription();
+
+    Effect *createEffect(AbstractEffectList *parent);
 
     QList <AbstractParameterDescription *> getParameters();
     QString getTag() const;
