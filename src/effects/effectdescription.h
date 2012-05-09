@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "effectrepository.h"
 #include "abstracteffectrepositoryitem.h"
+#include <KService>
 
 class QString;
 class AbstractParameterDescription;
@@ -21,8 +22,8 @@ class AbstractParameterDescription;
 class EffectDescription : public AbstractEffectRepositoryItem, protected QList<AbstractParameterDescription*>
 {
 public:
-    EffectDescription(Mlt::Repository *repository, const QString filterName);
-    EffectDescription(QDomElement description, double version);
+    EffectDescription(const QString filterName, Mlt::Repository *mltRepository, EffectRepository *repository);
+    EffectDescription(QDomElement description, double version, EffectRepository *repository);
     virtual ~EffectDescription();
 
     QList <AbstractParameterDescription *> getParameters();

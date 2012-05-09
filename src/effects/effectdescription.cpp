@@ -9,8 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "effectdescription.h"
-#include "abstractparameterdescription.h"
-#include "doubleparameterdescription.h"
+#include "core/effectsystem/abstractparameterdescription.h"
 #include <mlt++/Mlt.h>
 #include <QString>
 #include <QDomElement>
@@ -19,12 +18,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KDebug>
 
 
-EffectDescription::EffectDescription(Mlt::Repository* repository, const QString filterName) :
+EffectDescription::EffectDescription(const QString filterName, Mlt::Repository* mltRepository, EffectRepository *repository) :
     AbstractEffectRepositoryItem()
 {
     m_valid = false;
 
-    Mlt::Properties *metadata = repository->metadata(filter_type, filterName.toUtf8().constData());
+    Mlt::Properties *metadata = mltRepository->metadata(filter_type, filterName.toUtf8().constData());
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier")) {
             QLocale locale;
@@ -52,14 +51,15 @@ EffectDescription::EffectDescription(Mlt::Repository* repository, const QString 
                 Mlt::Properties parameterProperties(parameters.get_data(i, size));
                 QString parameterType = parameterProperties.get("type");
 
-                if (parameterType == "integer" || parameterType == "float") {
-                    DoubleParameterDescription *parameter = new DoubleParameterDescription(parameterProperties, locale);
+                // TODO: might need conversion from mlt param type to kdenlive paramtype/not needed for double
+                AbstractParameterDescription *parameter = repository->getNewParameterDescription(parameterType);
+                if (parameter) {
+                    parameter->init(parameterProperties, locale);
                     if (parameter->isValid()) {
-                        append(static_cast<AbstractParameterDescription*>(parameter));
+                        append(parameter);
                     } else {
                         delete parameter;
                     }
-                } else {
                 }
             }
 
@@ -69,11 +69,9 @@ EffectDescription::EffectDescription(Mlt::Repository* repository, const QString 
     if (metadata) {
         delete metadata;
     }
-
-//     kDebug() << "eff descr n" << m_id << m_tag << count();
 }
 
-EffectDescription::EffectDescription(QDomElement description, double version) :
+EffectDescription::EffectDescription(QDomElement description, double version, EffectRepository *repository) :
     AbstractEffectRepositoryItem(),
     m_version(version)
 {
@@ -99,17 +97,16 @@ EffectDescription::EffectDescription(QDomElement description, double version) :
         QDomElement parameterElement = parameters.at(i).toElement();
         QString parameterType = parameterElement.attribute("type");
 
-        if (parameterType == "double" || parameterType == "constant") {
-            DoubleParameterDescription *parameter = new DoubleParameterDescription(parameterElement, locale);
+        AbstractParameterDescription *parameter = repository->getNewParameterDescription(parameterType);
+        if (parameter) {
+            parameter->init(parameterElement, locale);
             if (parameter->isValid()) {
-                append(static_cast<AbstractParameterDescription*>(parameter));
+                append(parameter);
             } else {
                 delete parameter;
             }
-        } else {
         }
     }
-    kDebug() << "eff descr y" << m_id << m_tag << count();
 }
 
 

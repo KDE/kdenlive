@@ -11,15 +11,21 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef DOUBLEPARAMETERDESCRIPTION_H
 #define DOUBLEPARAMETERDESCRIPTION_H
 
-#include "abstractparameterdescription.h"
+#include "core/effectsystem/abstractparameterdescription.h"
+#include <QVariantList>
+#include <kdemacros.h>
 
 
-class DoubleParameterDescription : public AbstractParameterDescription
+class KDE_EXPORT DoubleParameterDescription : public AbstractParameterDescription
 {
+    Q_OBJECT
+
 public:
-    DoubleParameterDescription(QDomElement parameter, QLocale locale);
-    DoubleParameterDescription(Mlt::Properties &properties, QLocale locale);
+    DoubleParameterDescription(QObject *, const QVariantList&);
     ~DoubleParameterDescription();
+
+    void init(QDomElement parameter, QLocale locale);
+    void init(Mlt::Properties &properties, QLocale locale);
 
     double getDefault() const;
     double getFactor() const;

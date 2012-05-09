@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef ABSTRACTEFFECTLIST_H
 #define ABSTRACTEFFECTLIST_H
 
-#include "multiuihandler.h"
+#include "core/effectsystem/multiuihandler.h"
 #include <mlt++/Mlt.h>
 #include <QList>
 
@@ -26,14 +26,13 @@ public:
     ~AbstractEffectList();
 
     virtual void appendFilter(Mlt::Filter *filter) = 0;
-    virtual void appendEffect(QString id) = 0;
-    virtual void appendEffect(EffectDescription *description) = 0;
 
     MultiUiHandler *getUiHandler();
     virtual Mlt::Service *getService() = 0;
 
 public slots:
     virtual void appendEffect(QString id) = 0;
+    virtual void appendEffect(EffectDescription *description) = 0;
 
 protected:
     MultiUiHandler *m_uiHandler;

@@ -19,7 +19,7 @@
 
 
 #include "doubleparameterwidget.h"
-#include "dragvalue.h"
+#include "core/widgets/dragvalue.h"
 
 #include <QGridLayout>
 #include <QLabel>

@@ -9,8 +9,9 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "doubleparameter.h"
-#include "abstractparameterlist.h"
 #include "doubleparametereffectstackitem.h"
+#include "core/effectsystem/abstractparameterlist.h"
+#include "core/effectsystem/multiuihandler.h"
 #include <QLocale>
 
 
@@ -66,3 +67,4 @@ void DoubleParameter::createUi(EffectUiTypes type, QObject* parent)
     }
 }
 
+#include "doubleparameter.moc"

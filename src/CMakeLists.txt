@@ -72,12 +72,13 @@ macro_log_feature(QJSON_FOUND
   "Required to build the rotoscoping filter and for Freesound.org queries"
 )
 
+add_subdirectory(core)
 add_subdirectory(effects)
 
 add_subdirectory(beziercurve)
 add_subdirectory(colorcorrection)
 add_subdirectory(commands)
-add_subdirectory(lib)
+add_subdirectory(nolib)
 add_subdirectory(projecttree)
 add_subdirectory(utils)
 add_subdirectory(databackup)
@@ -113,7 +114,6 @@ list(APPEND kdenlive_SRCS
   clipproperties.cpp
   cliptranscode.cpp
   clipstabilize.cpp
-  colorpickerwidget.cpp
   colorplaneexport.cpp
   colortools.cpp
   complexparameter.cpp
@@ -126,7 +126,6 @@ list(APPEND kdenlive_SRCS
   documentchecker.cpp
   documentvalidator.cpp
   doubleparameterwidget.cpp
-  dragvalue.cpp
   dvdwizard.cpp
   dvdwizardchapters.cpp
   dvdwizardmenu.cpp
@@ -275,7 +274,47 @@ if(BUILD_JogShuttle)
   )
 endif(BUILD_JogShuttle)
 
-kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
+# KDE definitions and include directories *must* always come first, Qt follows
+# (to avoid breaking builds when KDE and/or Qt are installed to different
+# prefixes).
+add_definitions(${KDE4_DEFINITIONS})
+
+include_directories(
+  ${CMAKE_SOURCE_DIR}
+  ${CMAKE_BINARY_DIR}
+  ${KDE4_INCLUDES} # Adds Qt include directories too.
+  ${LIBMLT_INCLUDE_DIR}
+  ${LIBMLTPLUS_INCLUDE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+# Adds Qt definitions and include directories, and sets QT_LIBRARIES according
+# to the components requested in find_package().
+include(${QT_USE_FILE})
+
+################################################
+
+kde4_add_kcfg_files(kdenlivecore_LIB_SRCS kdenlivesettings.kcfgc)
+
+kde4_add_library(kdenlivecore SHARED ${kdenlivecore_LIB_SRCS})
+
+target_link_libraries(kdenlivecore
+  ${KDE4_KDEUI_LIBS}
+  ${KDE4_KIO_LIBS}
+  ${QT_LIBRARIES}
+  ${LIBMLT_LIBRARY}
+  ${LIBMLTPLUS_LIBRARY}
+)
+
+if(Q_WS_X11)
+  target_link_libraries(kdenlivecore ${X11_LIBRARIES})
+endif(Q_WS_X11)
+
+set_target_properties(kdenlivecore PROPERTIES VERSION 1.0.0 SOVERSION 1 )
+install(TARGETS kdenlivecore ${INSTALL_TARGETS_DEFAULT_ARGS} )
+
+################################################
+
 qt4_add_dbus_adaptor(kdenlive_SRCS
   org.kdenlive.MainWindow.xml
   mainwindow.h
@@ -290,22 +329,6 @@ kde4_add_executable(kdenlive
 # To compile kiss_fft.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99")
 
-# KDE definitions and include directories *must* always come first, Qt follows
-# (to avoid breaking builds when KDE and/or Qt are installed to different
-# prefixes).
-add_definitions(${KDE4_DEFINITIONS})
-
-include_directories(
-  ${CMAKE_BINARY_DIR}
-  ${KDE4_INCLUDES} # Adds Qt include directories too.
-  ${LIBMLT_INCLUDE_DIR}
-  ${LIBMLTPLUS_INCLUDE_DIR}
-)
-
-# Adds Qt definitions and include directories, and sets QT_LIBRARIES according
-# to the components requested in find_package().
-include(${QT_USE_FILE})
-
 if(${KDE_VERSION} VERSION_LESS 4.3.80)
   set(KDE4_KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
 else(${KDE_VERSION} VERSION_LESS 4.3.80)
@@ -313,6 +336,7 @@ else(${KDE_VERSION} VERSION_LESS 4.3.80)
 endif(${KDE_VERSION} VERSION_LESS 4.3.80)
 
 target_link_libraries(kdenlive
+  kdenlivecore
   ${KDE4_KDEUI_LIBS}
   ${KDE4_KIO_LIBS}
   ${KDE4_KNEWSTUFF_LIBS}
@@ -366,7 +390,7 @@ install(FILES
   kdenlive.notifyrc
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive
 )
-install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+
 install(FILES
   kdenlive_projectprofiles.knsrc
   kdenlive_renderprofiles.knsrc
@@ -377,3 +401,4 @@ install(FILES
 )
 kde4_install_icons(${ICON_INSTALL_DIR})
 install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})

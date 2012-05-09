@@ -27,7 +27,7 @@
 #include "monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "kdenlivesettings.h"
-#include "dragvalue.h"
+#include "core/widgets/dragvalue.h"
 
 #include <QtCore>
 #include <QGraphicsView>

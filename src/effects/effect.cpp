@@ -49,3 +49,6 @@ QString Effect::getProperty(QString name) const
 {
     return QString(m_filter->get(name.toUtf8().constData()));
 }
+
+#include "effect.moc"
+

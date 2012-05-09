@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef DOUBLEPARAMETEREFFECTSTACKITEM_H
 #define DOUBLEPARAMETEREFFECTSTACKITEM_H
 
-#include "abstracteffectstackitem.h"
+#include "core/effectsystem/abstracteffectstackitem.h"
 
 class DragValue;
 

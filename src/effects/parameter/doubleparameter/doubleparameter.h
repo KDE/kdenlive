@@ -11,9 +11,8 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef DOUBLEPARAMETER_H
 #define DOUBLEPARAMETER_H
 
-#include "abstractparameter.h"
+#include "core/effectsystem/abstractparameter.h"
 #include "doubleparameterdescription.h"
-#include "parametertypes.h"
 
 
 
@@ -29,7 +28,7 @@ public:
     const char *get() const;
     double getValue() const;
 
-    void createUi(EffectUiTypes type, QObject *parent);
+    void createUi(enum EffectUiTypes type, QObject *parent);
 
 public slots:
     void set(double value, bool update = false);

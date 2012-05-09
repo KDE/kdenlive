@@ -37,3 +37,8 @@ void EffectDevice::appendEffect(QString id)
 {
     
 }
+
+void EffectDevice::appendEffect(EffectDescription* description)
+{
+
+}

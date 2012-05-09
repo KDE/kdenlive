@@ -21,6 +21,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KStandardDirs>
 #include <KUrl>
 #include <KDebug>
+#include <KServiceTypeTrader>
+
+#include <KPluginInfo>
+
+#include "core/effectsystem/abstractparameterdescription.h"
 
 
 EffectRepository::EffectRepository()
@@ -37,6 +42,8 @@ EffectRepository::~EffectRepository()
 void EffectRepository::initRepository()
 {
     kDebug() << "initing";
+
+    loadParameterPlugins();
 
     Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
@@ -78,12 +85,11 @@ void EffectRepository::initRepository()
     double filterVersion = 0;
     QMultiHash<QString, QDomElement>::const_iterator effectDescriptionIterator;
     foreach (QString filterName, availableFilters) {
-        kDebug() << filterName;
         filterHasDescription = false;
         if (availableEffectDescriptions.contains(filterName)) {
             effectDescriptionIterator = availableEffectDescriptions.constFind(filterName);
             while (effectDescriptionIterator != availableEffectDescriptions.constEnd() && effectDescriptionIterator.key() == filterName) {
-                effectDescription = new EffectDescription(effectDescriptionIterator.value(), filterVersion);
+                effectDescription = new EffectDescription(effectDescriptionIterator.value(), filterVersion, this);
                 if (effectDescription->isValid()) {
                     m_effects.insert(effectDescription->getId(), effectDescription);
                     filterHasDescription = true;
@@ -94,7 +100,7 @@ void EffectRepository::initRepository()
             }
         }
         if (!filterHasDescription) {
-            effectDescription = new EffectDescription(repository, filterName);
+            effectDescription = new EffectDescription(filterName, repository, this);
             if (effectDescription->isValid()) {
                 m_effects.insert(effectDescription->getId(), effectDescription);
             } else {
@@ -107,6 +113,15 @@ void EffectRepository::initRepository()
 //         delete repository;
     }
 }
+
+AbstractParameterDescription* EffectRepository::getNewParameterDescription(QString type)
+{
+    if(m_parameterPlugins.contains(type)) {
+        return m_parameterPlugins.value(type)->create<AbstractParameterDescription>();
+    }
+    return NULL;
+}
+
 
 void EffectRepository::getNamesFromProperties(Mlt::Properties* properties, QStringList& names) const
 {
@@ -129,5 +144,20 @@ void EffectRepository::applyBlacklist(QString filename, QStringList& list) const
             }
         }
         file.close();
+    }
+}
+
+void EffectRepository::loadParameterPlugins()
+{
+    KService::List availableParameterServices = KServiceTypeTrader::self()->query("Kdenlive/Parameter");
+    for (int i = 0; i < availableParameterServices.count(); ++i) {
+        KPluginFactory *factory = KPluginLoader(availableParameterServices.at(i)->library()).factory();
+        KPluginInfo info = KPluginInfo(availableParameterServices.at(i));
+        if (factory && info.isValid()) {
+            QStringList types = info.property("X-Kdenlive-ParameterType").toStringList();
+            foreach(QString type, types) {
+                m_parameterPlugins.insert(type, factory);
+            }
+        }
     }
 }

@@ -12,9 +12,12 @@ the Free Software Foundation, either version 3 of the License, or
 #define EFFECTREPOSITORY_H
 
 #include <QMap>
+#include <QHash>
 
 class AbstractEffectRepositoryItem;
+class AbstractParameterDescription;
 class QStringList;
+class KPluginFactory;
 namespace Mlt {
     class Properties;
 }
@@ -28,12 +31,16 @@ public:
     EffectRepository();
     ~EffectRepository();
 
+    AbstractParameterDescription *getNewParameterDescription(QString type);
+
 private:
     void initRepository();
     void getNamesFromProperties(Mlt::Properties *properties, QStringList &names) const;
     void applyBlacklist(QString filename, QStringList &list) const;
+    void loadParameterPlugins();
 
     QMap <QString, AbstractEffectRepositoryItem*> m_effects;
+    QHash <QString, KPluginFactory*> m_parameterPlugins;
 };
 
 #endif

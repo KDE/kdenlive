@@ -22,10 +22,10 @@ the Free Software Foundation, either version 3 of the License, or
 #include <cstdlib>
 #include <cmath>
 
-#include "../src/lib/audio/audioInfo.h"
-#include "../src/lib/audio/audioStreamInfo.h"
-#include "../src/lib/audio/audioEnvelope.h"
-#include "../src/lib/audio/audioCorrelation.h"
+#include "../src/nolib/audio/audioInfo.h"
+#include "../src/nolib//audio/audioStreamInfo.h"
+#include "../src/nolib/audio/audioEnvelope.h"
+#include "../src/nolib/audio/audioCorrelation.h"
 
 void printUsage(const char *path)
 {

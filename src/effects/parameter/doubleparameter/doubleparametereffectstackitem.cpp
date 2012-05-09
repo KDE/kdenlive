@@ -9,7 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "doubleparametereffectstackitem.h"
-#include "dragvalue.h"
+#include "core/widgets/dragvalue.h"
 #include <QWidget>
 #include <QGridLayout>
 
@@ -28,7 +28,7 @@ DoubleParameterEffectStackItem::DoubleParameterEffectStackItem(const QString& na
     layout->addWidget(m_dragValue, 0, 1);
 
     m_dragValue->setValue(value);
-    connect(m_dragValue, SIGNAL(valueChanged(double, bool)), this, SLOT(slotSetValue(double, bool)));
+    connect(m_dragValue, SIGNAL(valueChanged(double, bool)), this, SLOT(valueChanged(double,bool)));
 }
 
 void DoubleParameterEffectStackItem::setValue(double value)
@@ -44,3 +44,5 @@ void DoubleParameterEffectStackItem::valueChanged(double value, bool final)
         emit valueChanged(value);
     }
 }
+
+#include "doubleparametereffectstackitem.moc"

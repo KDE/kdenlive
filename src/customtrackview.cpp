@@ -63,8 +63,8 @@
 #include "commands/razorgroupcommand.h"
 #include "profilesdialog.h"
 
-#include "lib/audio/audioEnvelope.h"
-#include "lib/audio/audioCorrelation.h"
+#include "nolib/audio/audioEnvelope.h"
+#include "nolib/audio/audioCorrelation.h"
 
 #include <KDebug>
 #include <KLocale>

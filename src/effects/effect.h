@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef EFFECT_H
 #define EFFECT_H
 
-#include "abstractparameterlist.h"
+#include "core/effectsystem/abstractparameterlist.h"
 #include <mlt++/Mlt.h>
 
 class EffectDescription;
