@@ -1002,11 +1002,11 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
         return FADEIN;
-    } else if (pos.x() - rect.x() < maximumOffset && (rect.bottom() - pos.y() > addtransitionOffset)) {
+    } else if ((pos.x() <= rect.x() + rect.width() / 2) && pos.x() - rect.x() < maximumOffset && (rect.bottom() - pos.y() > addtransitionOffset)) {
         return RESIZESTART;
     } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y() - rect.y())) < 6) {
         return FADEOUT;
-    } else if ((rect.right() - pos.x() < maximumOffset) && (rect.bottom() - pos.y() > addtransitionOffset)) {
+    } else if ((pos.x() >= rect.x() + rect.width() / 2) && (rect.right() - pos.x() < maximumOffset) && (rect.bottom() - pos.y() > addtransitionOffset)) {
         return RESIZEEND;
     } else if ((pos.x() - rect.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
         return TRANSITIONSTART;

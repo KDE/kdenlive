@@ -621,7 +621,11 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             // all other modes break the selection, so the user probably wants to move it
             opMode = MOVE;
         } else {
-            opMode = clip->operationMode(mapToScene(event->pos()));
+	    if (clip->rect().width() * transform().m11() < 15) {
+		// If the item is very small, only allow move
+		opMode = MOVE;
+	    }
+            else opMode = clip->operationMode(mapToScene(event->pos()));
         }
 
         const double size = 5;
@@ -1010,7 +1014,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         // all other modes break the selection, so the user probably wants to move it
         m_operationMode = MOVE;
     } else {
-        m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
+	if (m_dragItem->rect().width() * transform().m11() < 15) {
+	    // If the item is very small, only allow move
+	    m_operationMode = MOVE;
+	}
+        else m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
     }
     m_controlModifier = (event->modifiers() == Qt::ControlModifier);
 
