@@ -11,8 +11,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "doubleparameter.h"
 #include "doubleparametereffectstackitem.h"
 #include "core/effectsystem/abstractparameterlist.h"
-#include "core/effectsystem/multiuihandler.h"
+#include "core/effectsystem/multiviewhandler.h"
 #include <QLocale>
+#include <QWidget>
 
 
 DoubleParameter::DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList* parent) :
@@ -33,8 +34,9 @@ void DoubleParameter::set(const char* data)
 void DoubleParameter::set(double value, bool update)
 {
     QLocale locale;
-    if (update)
+    if (update) {
         emit valueUpdated(value);
+    }
     value = (value + m_description->getMin() - m_description->getOffset()) / m_description->getFactor();
     m_parent->setParameter(getName(), locale.toString(value));
 }
@@ -49,21 +51,29 @@ double DoubleParameter::getValue() const
     return m_parent->getParameter(getName()).toDouble();
 }
 
-void DoubleParameter::createUi(EffectUiTypes type, QObject* parent)
+void DoubleParameter::checkPropertiesViewState()
 {
-    DoubleParameterEffectStackItem *effectStackItem;
-    switch (type)
-    {
-        case EffectStackEffectUi:
-            effectStackItem = new DoubleParameterEffectStackItem(m_description->getDisplayName(), getValue(), m_description->getMin(), m_description->getMax(), m_description->getComment(), -1, m_description->getSuffix(), m_description->getDecimals(), static_cast<AbstractEffectStackItem*>(parent));
+    bool exists = m_viewHandler->hasView(EffectPropertiesView);
+    // when the effect or parametergroup (=parent) has a widget than we want a parameter widget in all cases
+    bool shouldExist = m_viewHandler->getParentView(EffectPropertiesView) ? true : false;
+    if (shouldExist != exists) {
+        if (shouldExist) {
+            DoubleParameterEffectStackItem *effectStackItem = new DoubleParameterEffectStackItem(m_description->getDisplayName(),
+                                                                                                 getValue(),
+                                                                                                 m_description->getMin(),
+                                                                                                 m_description->getMax(),
+                                                                                                 m_description->getComment(),
+                                                                                                 -1,
+                                                                                                 m_description->getSuffix(),
+                                                                                                 m_description->getDecimals(),
+                                                                                                 static_cast<QWidget*>(m_viewHandler->getParentView(EffectPropertiesView))
+                                                                                                );
             connect(this, SIGNAL(valueUpdated(double)), effectStackItem, SLOT(setValue(double)));
             connect(effectStackItem, SIGNAL(valueChanged(double)), this, SLOT(set(double)));
-            getMultiUiHandler()->addUi(type, static_cast<QObject *>(effectStackItem));
-            break;
-        case TimelineEffectUi:
-            break;
-        case MonitorEffectUi:
-            break;
+            m_viewHandler->setView(EffectPropertiesView, effectStackItem);
+        } else {
+            m_viewHandler->deleteView(EffectPropertiesView);
+        }
     }
 }
 

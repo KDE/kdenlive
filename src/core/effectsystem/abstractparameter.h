@@ -11,38 +11,34 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef ABSTRACTPARAMETER_H
 #define ABSTRACTPARAMETER_H
 
-#include "multiuihandler.h"
+#include "effectsystemitem.h"
 #include <QObject>
 #include <kdemacros.h>
 
 class AbstractParameterDescription;
 class AbstractParameterList;
-class MultiUiHandler;
+class MultiViewHandler;
 
 
-class KDE_EXPORT AbstractParameter : public QObject
+class KDE_EXPORT AbstractParameter : public EffectSystemItem
 {
     Q_OBJECT
 
 public:
     AbstractParameter(const AbstractParameterDescription *parameterDescription, AbstractParameterList *parent);
-    virtual ~AbstractParameter();
+    virtual ~AbstractParameter() {};
 
     virtual void set(const char *data) = 0;
     virtual const char *get() const = 0;
     QString getName() const;
     const AbstractParameterDescription *getDescription() const;
-    MultiUiHandler *getMultiUiHandler();
 
-public slots:
-    virtual void createUi(EffectUiTypes type, QObject *parent) = 0;
+    void checkPropertiesViewState() {};
+    void checkTimelineViewState() {};
+    void checkMonitorViewState() {};
 
-protected:
     AbstractParameterList *m_parent;
     const AbstractParameterDescription *m_abstractDescription;
-
-private:
-    MultiUiHandler *m_uiHandler;
 };
 
 #endif

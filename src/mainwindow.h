@@ -82,6 +82,8 @@ class AbstractAudioScopeWidget;
 class AudioSpectrum;
 class Spectrogram;
 
+class EffectRepository;
+
 class MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
@@ -116,6 +118,9 @@ public:
     
     /** @brief Cache for luma files thumbnails. */
     static QMap <QString,QImage> m_lumacache;
+
+    QWidget *m_eff;
+    EffectRepository *m_effectRepository;
 
 protected:
 
@@ -566,6 +571,9 @@ private slots:
     void slotChangePalette();
     /** @brief Save current timeline clip as mlt playlist. */
     void slotSaveTimelineClip();
+
+
+    void slotGetDevNeeded(EffectRepository *&repository, QWidget *&widget);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

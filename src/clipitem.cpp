@@ -60,7 +60,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         m_speed(speed),
         m_strobe(strobe),
         m_framePixelWidth(0),
-        m_limitedKeyFrames(false)
+        m_limitedKeyFrames(false),
+        m_effectDevice(NULL)
 {
     setZValue(2);
     m_effectList = EffectsList(true);
@@ -122,6 +123,14 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
 }
 
 
+void ClipItem::setupEffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *widget)
+{
+    m_effectDevice = new EffectDevice(service, repository, widget);
+    m_effectDevice->appendEffect("gain");
+}
+
+
+
 ClipItem::~ClipItem()
 {
     blockSignals(true);
@@ -133,6 +142,8 @@ ClipItem::~ClipItem()
         //disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
     delete m_timeLine;
+    if (m_effectDevice)
+        delete m_effectDevice;
 }
 
 ClipItem *ClipItem::clone(ItemInfo info) const

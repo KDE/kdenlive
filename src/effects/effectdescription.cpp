@@ -53,7 +53,7 @@ EffectDescription::EffectDescription(const QString filterName, Mlt::Repository* 
                 Mlt::Properties parameterProperties(parameters.get_data(i, size));
                 QString parameterType = parameterProperties.get("type");
 
-                // TODO: might need conversion from mlt param type to kdenlive paramtype/not needed for double
+                // TODO: needs conversion from mlt param type to kdenlive paramtype/not needed for double
                 AbstractParameterDescription *parameter = repository->getNewParameterDescription(parameterType);
                 if (parameter) {
                     parameter->init(parameterProperties, locale);

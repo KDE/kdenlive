@@ -71,7 +71,6 @@ AbstractParameter *DoubleParameterDescription::createParameter(AbstractParameter
     return static_cast<AbstractParameter*>(parameter);
 }
 
-
 double DoubleParameterDescription::getDefault() const
 {
     return m_default;

@@ -22,16 +22,16 @@ class DoubleParameter : public AbstractParameter
 
 public:
     DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList *parent);
-//     ~DoubleParameter();
+    ~DoubleParameter() {};
 
     void set(const char*data);
     const char *get() const;
     double getValue() const;
 
-    void createUi(enum EffectUiTypes type, QObject *parent);
-
 public slots:
     void set(double value, bool update = false);
+
+    void checkPropertiesViewState();
 
 private:
     const DoubleParameterDescription *m_description;

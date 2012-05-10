@@ -32,6 +32,10 @@ public:
     virtual void setProperty(QString name, QString value);
     virtual QString getProperty(QString name) const;
 
+    void checkPropertiesViewState();
+    void checkTimelineViewState();
+    void checkMonitorViewState();
+
 private:
     Mlt::Filter *m_filter;
     EffectDescription *m_description;

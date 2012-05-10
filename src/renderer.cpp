@@ -1808,7 +1808,7 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
     return slowprod;
 }
 
-int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite, bool push)
+int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite, bool push, Mlt::Service &clipService)
 {
     if (m_mltProducer == NULL) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
@@ -1867,6 +1867,15 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
         mltAddClipTransparency(info, info.track - 1, QString(prod->get("id")).toInt());*/
 
     if (info.track != 0 && (newIndex + 1 == trackPlaylist.count())) mltCheckLength(&tractor);
+
+    int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
+    clip = trackPlaylist.get_clip(clipIndex);
+    if (!clip) {
+        return false;
+    }
+    clipService = Mlt::Service(clip->get_service());
+    delete clip;
+
     service.unlock();
     /*tractor.multitrack()->refresh();
     tractor.refresh();*/

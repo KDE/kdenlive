@@ -11,20 +11,13 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstracteffectlist.h"
 
 
-AbstractEffectList::AbstractEffectList() :
-    QObject()
+AbstractEffectList::AbstractEffectList(AbstractEffectList *parent) :
+    EffectSystemItem(parent)
 {
-
 }
 
 AbstractEffectList::~AbstractEffectList()
 {
-    if (m_uiHandler) {
-        delete m_uiHandler;
-    }
 }
 
-MultiUiHandler* AbstractEffectList::getUiHandler()
-{
-    return m_uiHandler;
-}
+#include "abstracteffectlist.moc"

@@ -44,6 +44,8 @@ class AbstractGroupItem;
 class Transition;
 class AudioCorrelation;
 
+class EffectRepository;
+
 class CustomTrackView : public QGraphicsView
 {
     Q_OBJECT
@@ -511,6 +513,8 @@ signals:
     void showTrackEffects(int, TrackInfo);
     /** @brief Update the track effect button that shows if a track has effects or not.*/
     void updateTrackEffectState(int);
+
+    void getDevNeeded(EffectRepository *&repo, QWidget *&);
 };
 
 #endif

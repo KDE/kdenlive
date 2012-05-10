@@ -32,6 +32,7 @@ public:
     ~EffectRepository();
 
     AbstractParameterDescription *getNewParameterDescription(QString type);
+    AbstractEffectRepositoryItem *getEffectDescription(QString id);
 
 private:
     void initRepository();

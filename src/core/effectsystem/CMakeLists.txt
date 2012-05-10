@@ -5,6 +5,7 @@ set(kdenlivecore_LIB_SRCS
   core/effectsystem/abstractparameter.cpp
   core/effectsystem/abstractparameterdescription.cpp
   core/effectsystem/abstractparameterlist.cpp
-  core/effectsystem/multiuihandler.cpp
+  core/effectsystem/effectsystemitem.cpp
+  core/effectsystem/multiviewhandler.cpp
   PARENT_SCOPE
 )

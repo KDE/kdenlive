@@ -14,22 +14,29 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstracteffectlist.h"
 #include <mlt++/Mlt.h>
 
+class EffectRepository;
+
 
 class EffectDevice : public AbstractEffectList
 {
     Q_OBJECT
 
 public:
-    EffectDevice(Mlt::Service *service);
+    EffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *parameterViewParent);
     ~EffectDevice();
 
     void appendFilter(Mlt::Filter *filter);
     void appendEffect(QString id);
     void appendEffect(EffectDescription *description);
-    Mlt::Service *getService();
+    Mlt::Service getService();
+
+    void checkPropertiesViewState();
+    void checkTimelineViewState();
+    void checkMonitorViewState();
 
 private:
-    Mlt::Service *m_service;
+    Mlt::Service m_service;
+    EffectRepository *m_repository;
 };
 
 #endif

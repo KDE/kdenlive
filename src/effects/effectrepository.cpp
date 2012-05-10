@@ -122,6 +122,15 @@ AbstractParameterDescription* EffectRepository::getNewParameterDescription(QStri
     return NULL;
 }
 
+AbstractEffectRepositoryItem* EffectRepository::getEffectDescription(QString id)
+{
+    if (m_effects.contains(id)) {
+        return m_effects.value(id);
+    }
+    return NULL;
+}
+
+
 
 void EffectRepository::getNamesFromProperties(Mlt::Properties* properties, QStringList& names) const
 {

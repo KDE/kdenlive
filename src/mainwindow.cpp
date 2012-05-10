@@ -161,8 +161,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_findActivated(false),
     m_stopmotion(NULL)
 {
-    EffectRepository *repo = new EffectRepository();
-    delete repo;
+    m_effectRepository = new EffectRepository();
 
     qRegisterMetaType<QVector<int16_t> > ();
     qRegisterMetaType<stringMap> ("stringMap");
@@ -223,6 +222,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
 
     /// Add Widgets ///
+
+    QDockWidget *effDock = new QDockWidget(i18n("EffStack3"), this);
+    effDock->setObjectName("effDoc");
+    m_eff = new QWidget();
+    QVBoxLayout *l = new QVBoxLayout(m_eff);
+    effDock->setWidget(m_eff);
+    addDockWidget(Qt::TopDockWidgetArea, effDock);
 
     m_projectListDock = new QDockWidget(i18n("Project Tree"), this);
     m_projectListDock->setObjectName("project_tree");
@@ -670,6 +676,8 @@ MainWindow::~MainWindow()
     delete[] m_transitions;
     delete m_monitorManager;
     delete m_scopeManager;
+    delete m_eff;
+    delete m_effectRepository;
     Mlt::Factory::close();
 }
 
@@ -2517,6 +2525,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
             disconnect(m_projectList, SIGNAL(refreshClip(const QString &)), m_activeTimeline->projectView(), SLOT(slotRefreshThumbs(const QString &)));
             m_effectStack->clear();
+
+            disconnect(m_activeTimeline->projectView(), SIGNAL(getDevNeeded(EffectRepository*&, QWidget*&)), this, SLOT(slotGetDevNeeded(EffectRepository*&, QWidget*&)));
         }
         //m_activeDocument->setRenderer(NULL);
         m_clipMonitor->stop();
@@ -2574,6 +2584,10 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
 
+
+    connect(trackView->projectView(), SIGNAL(getDevNeeded(EffectRepository*&, QWidget*&)), this, SLOT(slotGetDevNeeded(EffectRepository*&, QWidget*&)));
+
+
     connect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, const QString &, stringMap)), trackView->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, const QString &, stringMap)));
 
     // Effect stack signals
@@ -2627,6 +2641,12 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_monitorManager->activateMonitor(Kdenlive::clipMonitor);
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
+}
+
+void MainWindow::slotGetDevNeeded(EffectRepository *&repository, QWidget *&widget)
+{
+    repository = m_effectRepository;
+    widget = m_eff;
 }
 
 void MainWindow::slotZoneMoved(int start, int end)

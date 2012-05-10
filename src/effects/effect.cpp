@@ -12,16 +12,21 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effect.h"
 #include "abstracteffectlist.h"
 #include "effectdescription.h"
+#include <core/effectsystem/multiviewhandler.h>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <KDebug>
+
+#include <QLabel>
 
 
 Effect::Effect(EffectDescription *effectDescription, AbstractEffectList* parent) :
+    AbstractParameterList(parent),
     m_description(effectDescription)
 {
-    m_filter = new Mlt::Filter(*parent->getService()->profile(), effectDescription->getTag().toUtf8().constData());
+    m_filter = new Mlt::Filter(*parent->getService().profile(), effectDescription->getTag().toUtf8().constData());
     parent->appendFilter(m_filter);
     loadParameters(effectDescription->getParameters());
-
-    m_uiHandler = new MultiUiHandler(parent->getUiHandler());
 }
 
 Effect::~Effect()
@@ -48,6 +53,35 @@ void Effect::setProperty(QString name, QString value)
 QString Effect::getProperty(QString name) const
 {
     return QString(m_filter->get(name.toUtf8().constData()));
+}
+
+void Effect::checkPropertiesViewState()
+{
+    bool exists = m_viewHandler->hasView(EffectPropertiesView);
+    bool shouldExist = m_viewHandler->getParentView(EffectPropertiesView) ? true : false;
+    if (shouldExist != exists) {
+        if (shouldExist) {
+            // TODO : proper widget
+            QWidget *p = static_cast<QWidget *>(m_viewHandler->getParentView(EffectPropertiesView));
+            QFrame *w = new QFrame(p);
+            QVBoxLayout *l = new QVBoxLayout(w);
+            p->layout()->addWidget(w);
+            m_viewHandler->setView(EffectPropertiesView, w);
+            orderedChildViewUpdate(EffectPropertiesView, begin(), end());
+        } else {
+            QObject *view = m_viewHandler->popView(EffectPropertiesView);
+            orderedChildViewUpdate(EffectPropertiesView, begin(), end());
+            delete view;
+        }
+    }
+}
+
+void Effect::checkTimelineViewState()
+{
+}
+
+void Effect::checkMonitorViewState()
+{
 }
 
 #include "effect.moc"

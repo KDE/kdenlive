@@ -11,24 +11,27 @@ the Free Software Foundation, either version 3 of the License, or
 #include "doubleparametereffectstackitem.h"
 #include "core/widgets/dragvalue.h"
 #include <QWidget>
+#include <QLayout>
 #include <QGridLayout>
 
 
-DoubleParameterEffectStackItem::DoubleParameterEffectStackItem(const QString& name, double value, double min, double max, const QString& comment, int id, const QString suffix, int decimals, AbstractEffectStackItem* parent) :
-    AbstractEffectStackItem(parent)
+DoubleParameterEffectStackItem::DoubleParameterEffectStackItem(const QString& name, double value, double min, double max, const QString& comment, int id, const QString suffix, int decimals, QWidget* parent) :
+    QWidget(parent)
 {
-    m_ui = new QWidget(m_parent->getWidget());
-    m_ui->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-    QGridLayout *layout = new QGridLayout(m_ui);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    QGridLayout *layout = new QGridLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
     // WARNING: Using "value" as "default"
-    m_dragValue = new DragValue(name, value, decimals, min, max, id, suffix, m_ui);
+    m_dragValue = new DragValue(name, value, decimals, min, max, id, suffix, this);
     layout->addWidget(m_dragValue, 0, 1);
 
     m_dragValue->setValue(value);
     connect(m_dragValue, SIGNAL(valueChanged(double, bool)), this, SLOT(valueChanged(double,bool)));
+
+    // here or in doubleparameter.cpp?
+    parent->layout()->addWidget(this);
 }
 
 void DoubleParameterEffectStackItem::setValue(double value)

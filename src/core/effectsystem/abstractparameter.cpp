@@ -13,22 +13,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractparameterlist.h"
 
 
-AbstractParameter::AbstractParameter(const AbstractParameterDescription *parameterDescription, AbstractParameterList* parent) :
+AbstractParameter::AbstractParameter(const AbstractParameterDescription *parameterDescription, AbstractParameterList* parent) : 
+    EffectSystemItem(parent),
     m_abstractDescription(static_cast<const AbstractParameterDescription*>(parameterDescription)),
     m_parent(parent)
 {
-    m_uiHandler = new MultiUiHandler(parent->getUiHandler());
-    connect(m_uiHandler, SIGNAL(createUi(EffectUiTypes, QObject*)), this, SLOT(createUi(EffectUiTypes, QObject*)));
-}
-
-AbstractParameter::~AbstractParameter()
-{
-    delete m_uiHandler;
-}
-
-MultiUiHandler *AbstractParameter::getMultiUiHandler()
-{
-    return m_uiHandler;
 }
 
 QString AbstractParameter::getName() const

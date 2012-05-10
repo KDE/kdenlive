@@ -11,19 +11,13 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractparameterlist.h"
 #include "abstractparameter.h"
 #include "abstractparameterdescription.h"
-#include "multiuihandler.h"
 #include <KDebug>
 
 
-AbstractParameterList::AbstractParameterList(QObject *parent) :
+AbstractParameterList::AbstractParameterList(EffectSystemItem *parent) :
+    EffectSystemItem(parent),
     QList<AbstractParameter* >()
 {
-    m_uiHandler = new MultiUiHandler();
-}
-
-AbstractParameterList::~AbstractParameterList()
-{
-    delete m_uiHandler;
 }
 
 void AbstractParameterList::loadParameters(QList<AbstractParameterDescription *> parameters)
@@ -37,11 +31,6 @@ void AbstractParameterList::loadParameters(QList<AbstractParameterDescription *>
             delete parameter;
         }
     }
-}
-
-MultiUiHandler* AbstractParameterList::getUiHandler()
-{
-    return m_uiHandler;
 }
 
 #include "abstractparameterlist.moc"

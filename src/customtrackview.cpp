@@ -2543,7 +2543,8 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             ItemInfo clipInfo = info;
             clipInfo.track = m_document->tracksCount() - item->track();
 
-            int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
+            Mlt::Service service;
+            int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, service);
             if (worked == -1) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
@@ -3668,7 +3669,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         int trackProducer = info.track;
                         info.track = m_document->tracksCount() - info.track;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
+                        Mlt::Service service;
+                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, service);
                         for (int i = 0; i < clip->effectsCount(); i++) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
                         }
@@ -4272,7 +4274,16 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
     info.track = m_document->tracksCount() - info.track;
-    m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push);
+    Mlt::Service service;
+    m_document->renderer()->mltInsertClip(info, xml, item->getProducer(producerTrack), overwrite, push, service);
+
+    EffectRepository *repository;
+    QWidget *widget;
+    emit getDevNeeded(repository, widget);
+    Q_ASSERT(repository);
+    Q_ASSERT(widget);
+    item->setupEffectDevice(service, repository, widget);
+
     for (int i = 0; i < item->effectsCount(); i++) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(item->effectAt(i)), false);
     }
@@ -4576,7 +4587,8 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 int trackProducer = info.track;
                 info.track = m_document->tracksCount() - info.track;
-                m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer));
+                Mlt::Service service;
+                m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), false, false, service);
                 for (int i = 0; i < clip->effectsCount(); i++) {
                     m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effectAt(i)), false);
                 }

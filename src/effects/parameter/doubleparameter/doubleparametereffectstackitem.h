@@ -11,17 +11,17 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef DOUBLEPARAMETEREFFECTSTACKITEM_H
 #define DOUBLEPARAMETEREFFECTSTACKITEM_H
 
-#include "core/effectsystem/abstracteffectstackitem.h"
+#include <QWidget>
 
 class DragValue;
 
 
-class DoubleParameterEffectStackItem : public AbstractEffectStackItem
+class DoubleParameterEffectStackItem : public QWidget
 {
     Q_OBJECT
 
 public:
-    DoubleParameterEffectStackItem(const QString &name, double value, double min, double max, const QString &comment, int id, const QString suffix = QString(), int decimals = 0, AbstractEffectStackItem* parent = 0);
+    DoubleParameterEffectStackItem(const QString &name, double value, double min, double max, const QString &comment, int id, const QString suffix = QString(), int decimals = 0, QWidget* parent = 0);
     ~DoubleParameterEffectStackItem() {};
 
 public slots:

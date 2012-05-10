@@ -10,12 +10,18 @@ the Free Software Foundation, either version 3 of the License, or
  
 #include "effectdevice.h"
 #include "effectdescription.h"
+#include "effect.h"
+#include "core/effectsystem/multiviewhandler.h"
+#include <QWidget>
+#include <KDebug>
 
-EffectDevice::EffectDevice(Mlt::Service* service) : 
+
+EffectDevice::EffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *parameterViewParent) : 
     AbstractEffectList(),
-    m_service(service)
+    m_service(service),
+    m_repository(repository)
 {
-    m_uiHandler = new MultiUiHandler();
+    m_viewHandler->setView(EffectPropertiesView, parameterViewParent);
 }
 
 EffectDevice::~EffectDevice()
@@ -25,20 +31,38 @@ EffectDevice::~EffectDevice()
 
 void EffectDevice::appendFilter(Mlt::Filter* filter)
 {
-    m_service->attach(*filter);
+    m_service.attach(*filter);
 }
 
-Mlt::Service* EffectDevice::getService()
+Mlt::Service EffectDevice::getService()
 {
     return m_service;
 }
 
 void EffectDevice::appendEffect(QString id)
 {
-    
+    AbstractEffectRepositoryItem *item = m_repository->getEffectDescription(id);
+    EffectDescription *effect = static_cast<EffectDescription*>(item);
+    appendEffect(effect);
 }
 
 void EffectDevice::appendEffect(EffectDescription* description)
 {
-
+    Effect *effect = description->createEffect(this);
+    append(effect);
+    orderedChildViewUpdate(EffectPropertiesView, begin(), end());
 }
+
+void EffectDevice::checkPropertiesViewState()
+{
+}
+
+void EffectDevice::checkTimelineViewState()
+{
+}
+
+void EffectDevice::checkMonitorViewState()
+{
+}
+
+#include "effectdevice.moc"
