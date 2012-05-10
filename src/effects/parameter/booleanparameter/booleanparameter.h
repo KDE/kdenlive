@@ -8,36 +8,36 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
  
-#ifndef DOUBLEPARAMETER_H
-#define DOUBLEPARAMETER_H
+#ifndef BOOLEANPARAMETER_H
+#define BOOLEANPARAMETER_H
 
 #include "core/effectsystem/abstractparameter.h"
-#include "doubleparameterdescription.h"
+#include "booleanparameterdescription.h"
 
 
 
-class DoubleParameter : public AbstractParameter
+class BooleanParameter : public AbstractParameter
 {
     Q_OBJECT
 
 public:
-    DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList *parent);
-    ~DoubleParameter() {};
+    BooleanParameter(const BooleanParameterDescription *parameterDescription, AbstractParameterList *parent);
+    ~BooleanParameter() {};
 
     void set(const char*data);
     const char *get() const;
-    double getValue() const;
+    bool getValue() const;
 
 public slots:
-    void set(double value);
+    void set(bool value);
 
     void checkPropertiesViewState();
 
 private:
-    const DoubleParameterDescription *m_description;
+    const BooleanParameterDescription *m_description;
 
 signals:
-    void valueUpdated(double value);
+    void valueUpdated(bool value);
 };
 
 #endif

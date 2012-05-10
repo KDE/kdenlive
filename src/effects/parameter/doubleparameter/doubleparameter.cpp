@@ -31,12 +31,12 @@ void DoubleParameter::set(const char* data)
     emit valueUpdated(value);
 }
 
-void DoubleParameter::set(double value, bool update)
+void DoubleParameter::set(double value)
 {
     QLocale locale;
-    if (update) {
-        emit valueUpdated(value);
-    }
+
+    emit valueUpdated(value);
+
     value = (value + m_description->getMin() - m_description->getOffset()) / m_description->getFactor();
     m_parent->setParameter(getName(), locale.toString(value));
 }
@@ -48,7 +48,8 @@ const char* DoubleParameter::get() const
 
 double DoubleParameter::getValue() const
 {
-    return m_parent->getParameter(getName()).toDouble();
+    QLocale locale;
+    return locale.toDouble(m_parent->getParameter(getName()));
 }
 
 void DoubleParameter::checkPropertiesViewState()

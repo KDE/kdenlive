@@ -127,6 +127,7 @@ void ClipItem::setupEffectDevice(Mlt::Service service, EffectRepository *reposit
 {
     m_effectDevice = new EffectDevice(service, repository, widget);
     m_effectDevice->appendEffect("gain");
+    m_effectDevice->appendEffect("frei0r.letterb0xed");
 }
 
 
