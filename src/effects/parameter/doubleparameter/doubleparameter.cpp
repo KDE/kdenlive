@@ -41,11 +41,6 @@ void DoubleParameter::set(double value)
     m_parent->setParameter(getName(), locale.toString(value));
 }
 
-const char* DoubleParameter::get() const
-{
-    return m_parent->getParameter(getName()).toUtf8().constData();
-}
-
 double DoubleParameter::getValue() const
 {
     QLocale locale;

@@ -29,7 +29,7 @@ public:
     virtual ~AbstractParameter() {};
 
     virtual void set(const char *data) = 0;
-    virtual const char *get() const = 0;
+    virtual const char *get() const;
     QString getName() const;
     const AbstractParameterDescription *getDescription() const;
 

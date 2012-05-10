@@ -20,6 +20,11 @@ AbstractParameter::AbstractParameter(const AbstractParameterDescription *paramet
 {
 }
 
+const char* AbstractParameter::get() const
+{
+    return m_parent->getParameter(getName()).toUtf8().constData();
+}
+
 QString AbstractParameter::getName() const
 {
     return m_abstractDescription->getName();

@@ -25,7 +25,6 @@ public:
     ~DoubleParameter() {};
 
     void set(const char*data);
-    const char *get() const;
     double getValue() const;
 
 public slots:

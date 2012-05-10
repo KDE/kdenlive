@@ -25,7 +25,6 @@ public:
     ~BooleanParameter() {};
 
     void set(const char*data);
-    const char *get() const;
     bool getValue() const;
 
 public slots:

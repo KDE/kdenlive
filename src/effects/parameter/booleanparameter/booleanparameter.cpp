@@ -35,11 +35,6 @@ void BooleanParameter::set(bool value)
     m_parent->setParameter(getName(), QString::number(value));
 }
 
-const char* BooleanParameter::get() const
-{
-    return m_parent->getParameter(getName()).toUtf8().constData();
-}
-
 bool BooleanParameter::getValue() const
 {
     return m_parent->getParameter(getName()).toInt();
