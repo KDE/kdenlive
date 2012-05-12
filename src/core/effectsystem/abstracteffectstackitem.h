@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 class QWidget;
 
+/** currently not used... */
 
 class KDE_EXPORT AbstractEffectStackItem : public QObject
 {

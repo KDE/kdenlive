@@ -9,15 +9,33 @@ the Free Software Foundation, either version 3 of the License, or
 */
  
 #include "abstracteffectlist.h"
+#include "abstracteffectrepositoryitem.h"
+#include "effectdescription.h"
+#include "effect.h"
 
 
-AbstractEffectList::AbstractEffectList(AbstractEffectList *parent) :
-    EffectSystemItem(parent)
+AbstractEffectList::AbstractEffectList(AbstractEffectList *parent, EffectRepository *repository) :
+    EffectSystemItem(parent),
+    m_repository(repository)
 {
 }
 
 AbstractEffectList::~AbstractEffectList()
 {
+}
+
+void AbstractEffectList::appendEffect(const QString& id)
+{
+    AbstractEffectRepositoryItem *item = m_repository->effectDescription(id);
+    EffectDescription *effect = static_cast<EffectDescription*>(item);
+    appendEffect(effect);
+}
+
+void AbstractEffectList::appendEffect(EffectDescription* description)
+{
+    Effect *effect = description->createEffect(this);
+    append(effect);
+    orderedChildViewUpdate(EffectPropertiesView, begin(), end());
 }
 
 #include "abstracteffectlist.moc"

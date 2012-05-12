@@ -32,25 +32,25 @@ void BooleanParameter::set(const char* data)
 void BooleanParameter::set(bool value)
 {
     emit valueUpdated(value);
-    m_parent->setParameter(getName(), QString::number(value));
+    m_parent->setParameterValue(name(), QString::number(value));
 }
 
 bool BooleanParameter::getValue() const
 {
-    return m_parent->getParameter(getName()).toInt();
+    return m_parent->parameterValue(name()).toInt();
 }
 
 void BooleanParameter::checkPropertiesViewState()
 {
     bool exists = m_viewHandler->hasView(EffectPropertiesView);
     // when the effect or parametergroup (=parent) has a widget than we want a parameter widget in all cases
-    bool shouldExist = m_viewHandler->getParentView(EffectPropertiesView) ? true : false;
+    bool shouldExist = m_viewHandler->parentView(EffectPropertiesView) ? true : false;
     if (shouldExist != exists) {
         if (shouldExist) {
-            BooleanParameterEffectStackItem *effectStackItem = new BooleanParameterEffectStackItem(m_description->getDisplayName(),
+            BooleanParameterEffectStackItem *effectStackItem = new BooleanParameterEffectStackItem(m_description->displayName(),
                                                                                                    getValue(),
-                                                                                                   m_description->getComment(),
-                                                                                                   static_cast<QWidget*>(m_viewHandler->getParentView(EffectPropertiesView)));
+                                                                                                   m_description->comment(),
+                                                                                                   static_cast<QWidget*>(m_viewHandler->parentView(EffectPropertiesView)));
             connect(this, SIGNAL(valueUpdated(bool)), effectStackItem, SLOT(setValue(bool)));
             connect(effectStackItem, SIGNAL(valueChanged(bool)), this, SLOT(set(bool)));
             m_viewHandler->setView(EffectPropertiesView, effectStackItem);

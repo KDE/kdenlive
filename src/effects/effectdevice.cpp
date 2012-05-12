@@ -16,12 +16,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KDebug>
 
 
-EffectDevice::EffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *parameterViewParent) : 
-    AbstractEffectList(),
+EffectDevice::EffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *propertiesViewMainWidget) : 
+    AbstractEffectList(m_repository),
     m_service(service),
     m_repository(repository)
 {
-    m_viewHandler->setView(EffectPropertiesView, parameterViewParent);
+    m_viewHandler->setView(EffectPropertiesView, propertiesViewMainWidget);
 }
 
 EffectDevice::~EffectDevice()
@@ -34,23 +34,9 @@ void EffectDevice::appendFilter(Mlt::Filter* filter)
     m_service.attach(*filter);
 }
 
-Mlt::Service EffectDevice::getService()
+Mlt::Service EffectDevice::service()
 {
     return m_service;
-}
-
-void EffectDevice::appendEffect(QString id)
-{
-    AbstractEffectRepositoryItem *item = m_repository->getEffectDescription(id);
-    EffectDescription *effect = static_cast<EffectDescription*>(item);
-    appendEffect(effect);
-}
-
-void EffectDevice::appendEffect(EffectDescription* description)
-{
-    Effect *effect = description->createEffect(this);
-    append(effect);
-    orderedChildViewUpdate(EffectPropertiesView, begin(), end());
 }
 
 void EffectDevice::checkPropertiesViewState()

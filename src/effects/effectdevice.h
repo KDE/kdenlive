@@ -17,26 +17,55 @@ the Free Software Foundation, either version 3 of the License, or
 class EffectRepository;
 
 
+/**
+ * @class EffectDevice
+ * @brief Top level effect system item to handle connection between effects and item they are attached to.
+ * 
+ * Expand when timeline is refactored?
+ */
+
 class EffectDevice : public AbstractEffectList
 {
     Q_OBJECT
 
 public:
-    EffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *parameterViewParent);
+    /**
+     * @brief Creates an empty effect device.
+     * @param service MLT service the effects should be attached to
+     * @param repository remove!!
+     * @param propertiesViewMainWidget top widget for the properties view 
+     */
+    EffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *propertiesViewMainWidget);
     ~EffectDevice();
 
+    /**
+     * @brief Appends a filter to the service.
+     * @param filter pointer to filter to attach
+     */
     void appendFilter(Mlt::Filter *filter);
-    void appendEffect(QString id);
-    void appendEffect(EffectDescription *description);
-    Mlt::Service getService();
 
+    /**
+     * @brief Returns the MLT service of which the device manages the filters.
+     */
+    Mlt::Service service();
+
+    /**
+     * tbd
+     */
     void checkPropertiesViewState();
+
+    /**
+     * tbd
+     */
     void checkTimelineViewState();
+
+    /**
+     * tbd
+     */
     void checkMonitorViewState();
 
 private:
     Mlt::Service m_service;
-    EffectRepository *m_repository;
 };
 
 #endif

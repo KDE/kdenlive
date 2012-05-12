@@ -17,12 +17,14 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 AbstractParameterDescription::AbstractParameterDescription() :
-    m_valid(true)
+    m_valid(false)
 {
 }
 
 void AbstractParameterDescription::init(QDomElement parameter, QLocale locale)
 {
+    m_valid = true;
+
     m_name = parameter.attribute("name");
 
     m_displayNameOrig = m_name;
@@ -42,6 +44,8 @@ void AbstractParameterDescription::init(QDomElement parameter, QLocale locale)
 
 void AbstractParameterDescription::init(Mlt::Properties& properties, QLocale locale)
 {
+    m_valid = true;
+
     m_name = properties.get("identifier");
     m_displayNameOrig = properties.get("title");
     m_displayName = i18n(m_displayNameOrig.toUtf8());
@@ -55,7 +59,7 @@ AbstractParameterDescription::~AbstractParameterDescription()
 {
 }
 
-QString AbstractParameterDescription::getName() const
+QString AbstractParameterDescription::name() const
 {
     return m_name;
 }
@@ -65,12 +69,12 @@ QString AbstractParameterDescription::getName() const
 //     return m_type;
 // }
 
-QString AbstractParameterDescription::getDisplayName() const
+QString AbstractParameterDescription::displayName() const
 {
     return m_displayName;
 }
 
-QString AbstractParameterDescription::getComment() const
+QString AbstractParameterDescription::comment() const
 {
     return m_comment;
 }

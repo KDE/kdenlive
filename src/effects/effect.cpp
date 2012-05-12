@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effect.h"
 #include "abstracteffectlist.h"
 #include "effectdescription.h"
+#include <mlt++/Mlt.h>
 #include <core/effectsystem/multiviewhandler.h>
 #include <QWidget>
 #include <QVBoxLayout>
@@ -24,9 +25,12 @@ Effect::Effect(EffectDescription *effectDescription, AbstractEffectList* parent)
     AbstractParameterList(parent),
     m_description(effectDescription)
 {
-    m_filter = new Mlt::Filter(*parent->getService().profile(), effectDescription->getTag().toUtf8().constData());
+    m_filter = new Mlt::Filter(*parent->service().profile(), effectDescription->tag().toUtf8().constData());
+
+    // TODO: do this properly
     parent->appendFilter(m_filter);
-    loadParameters(effectDescription->getParameters());
+
+    createParameters(effectDescription->parameters());
 }
 
 Effect::~Effect()
@@ -35,22 +39,22 @@ Effect::~Effect()
     delete m_filter;
 }
 
-void Effect::setParameter(QString name, QString value)
+void Effect::setParameterValue(const QString &name, const QString &value)
 {
     setProperty(name, value);
 }
 
-QString Effect::getParameter(QString name) const
+QString Effect::parameterValue(const QString &name) const
 {
-    return getProperty(name);
+    return property(name);
 }
 
-void Effect::setProperty(QString name, QString value)
+void Effect::setProperty(const QString &name, const QString &value)
 {
     m_filter->set(name.toUtf8().constData(), value.toUtf8().constData());
 }
 
-QString Effect::getProperty(QString name) const
+QString Effect::property(const QString &name) const
 {
     return QString(m_filter->get(name.toUtf8().constData()));
 }
@@ -58,11 +62,11 @@ QString Effect::getProperty(QString name) const
 void Effect::checkPropertiesViewState()
 {
     bool exists = m_viewHandler->hasView(EffectPropertiesView);
-    bool shouldExist = m_viewHandler->getParentView(EffectPropertiesView) ? true : false;
+    bool shouldExist = m_viewHandler->parentView(EffectPropertiesView) ? true : false;
     if (shouldExist != exists) {
         if (shouldExist) {
             // TODO : proper widget
-            QWidget *p = static_cast<QWidget *>(m_viewHandler->getParentView(EffectPropertiesView));
+            QWidget *p = static_cast<QWidget *>(m_viewHandler->parentView(EffectPropertiesView));
             QFrame *w = new QFrame(p);
             QVBoxLayout *l = new QVBoxLayout(w);
             p->layout()->addWidget(w);

@@ -20,14 +20,14 @@ AbstractParameterList::AbstractParameterList(EffectSystemItem *parent) :
 {
 }
 
-void AbstractParameterList::loadParameters(QList<AbstractParameterDescription *> parameters)
+void AbstractParameterList::createParameters(const QList<AbstractParameterDescription *> &parameters)
 {
     foreach(AbstractParameterDescription *parameterDescription, parameters) {
         AbstractParameter *parameter = parameterDescription->createParameter(this);
         if (parameter) {
             append(parameter);
         } else {
-            kWarning() << "Parameter " << parameterDescription->getName() << " could not be created";
+            kWarning() << "Parameter " << parameterDescription->name() << " could not be created";
             delete parameter;
         }
     }

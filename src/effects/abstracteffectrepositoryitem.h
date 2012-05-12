@@ -20,6 +20,9 @@ namespace Mlt
     class Repository;
 }
 
+/**
+ * tbd when groups are implemented
+ */
 
 class AbstractEffectRepositoryItem
 {

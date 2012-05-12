@@ -20,25 +20,70 @@ class AbstractParameterList;
 class MultiViewHandler;
 
 
+/**
+ * @class AbstractParameter
+ * @brief Abstract base class for parameters.
+ * 
+ * Parameters are constructed from their descriptions and also store a pointer to it. Therefore as
+ * little information as possible should be copied from the description but instead the values from
+ * there should be used directly.
+ */
+
 class KDE_EXPORT AbstractParameter : public EffectSystemItem
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Stores the pointers to description and parent.
+     */
     AbstractParameter(const AbstractParameterDescription *parameterDescription, AbstractParameterList *parent);
-    virtual ~AbstractParameter() {};
+    virtual ~AbstractParameter();
 
+    /**
+     * @brief Should set the parameter's value.
+     * @param data the new value.
+     */
     virtual void set(const char *data) = 0;
+
+    /**
+     * @brief Returns the current raw value.
+     * 
+     * The value is received from the parent parameter list.
+     */
     virtual const char *get() const;
-    QString getName() const;
-    const AbstractParameterDescription *getDescription() const;
 
-    void checkPropertiesViewState() {};
-    void checkTimelineViewState() {};
-    void checkMonitorViewState() {};
+    /**
+     * @brief Returns the (internal) name.
+     */
+    QString name() const;
 
+    /**
+     * @brief Returns a pointer to the description.
+     */
+    const AbstractParameterDescription *description() const;
+
+    /**
+     * @brief Empty implementation. Needs to reimplemented if the parameter has a properties view.
+     */
+    void checkPropertiesViewState();
+
+    /**
+     * @brief Empty implementation. Needs to reimplemented if the parameter has a timeline view.
+     */
+    void checkTimelineViewState();
+
+    /**
+     * @brief Empty implementation. Needs to reimplemented if the parameter has a monitor view.
+     */
+    void checkMonitorViewState();
+
+protected:
+    /** pointer to parent parameter list */
     AbstractParameterList *m_parent;
-    const AbstractParameterDescription *m_abstractDescription;
+
+private:
+    const AbstractParameterDescription *m_description;
 };
 
 #endif

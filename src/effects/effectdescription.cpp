@@ -20,7 +20,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KDebug>
 
 
-EffectDescription::EffectDescription(const QString filterName, Mlt::Repository* mltRepository, EffectRepository *repository) :
+EffectDescription::EffectDescription(const QString &filterName, Mlt::Repository* mltRepository, EffectRepository *repository) :
     AbstractEffectRepositoryItem()
 {
     m_valid = false;
@@ -54,7 +54,7 @@ EffectDescription::EffectDescription(const QString filterName, Mlt::Repository* 
                 QString parameterType = parameterProperties.get("type");
 
                 // TODO: needs conversion from mlt param type to kdenlive paramtype/not needed for double
-                AbstractParameterDescription *parameter = repository->getNewParameterDescription(parameterType);
+                AbstractParameterDescription *parameter = repository->newParameterDescription(parameterType);
                 if (parameter) {
                     parameter->init(parameterProperties, locale);
                     if (parameter->isValid()) {
@@ -80,7 +80,7 @@ EffectDescription::EffectDescription(QDomElement description, double version, Ef
     m_id = description.attribute("id");
     m_tag = description.attribute("tag");
     m_type = getType(description.attribute("type"));
-    m_unique = static_cast<bool>(description.attribute("unique", "0").toInt());
+    m_unique = description.attribute("unique", "0").toInt();
     m_nameOrig = getTextFromElement(description.firstChildElement("name"));
     m_name = i18n(m_nameOrig.toUtf8());
     m_descriptionOrig = getTextFromElement(description.firstChildElement("description"));
@@ -99,7 +99,7 @@ EffectDescription::EffectDescription(QDomElement description, double version, Ef
         QDomElement parameterElement = parameters.at(i).toElement();
         QString parameterType = parameterElement.attribute("type");
 
-        AbstractParameterDescription *parameter = repository->getNewParameterDescription(parameterType);
+        AbstractParameterDescription *parameter = repository->newParameterDescription(parameterType);
         if (parameter) {
             parameter->init(parameterElement, locale);
             if (parameter->isValid()) {
@@ -123,37 +123,37 @@ Effect* EffectDescription::createEffect(AbstractEffectList* parent)
     return effect;
 }
 
-QList< AbstractParameterDescription* > EffectDescription::getParameters()
+QList< AbstractParameterDescription* > EffectDescription::parameters()
 {
     return *this;
 }
 
-QString EffectDescription::getTag() const
+QString EffectDescription::tag() const
 {
     return m_tag;
 }
 
-QString EffectDescription::getName() const
+QString EffectDescription::displayName() const
 {
     return m_name;
 }
 
-QString EffectDescription::getDescription() const
+QString EffectDescription::description() const
 {
     return m_description;
 }
 
-QString EffectDescription::getAuthors() const
+QString EffectDescription::authors() const
 {
     return m_authors;
 }
 
-double EffectDescription::getVersion() const
+double EffectDescription::version() const
 {
     return m_version;
 }
 
-bool EffectDescription::getUniqueness() const
+bool EffectDescription::isUnique() const
 {
     return m_unique;
 }

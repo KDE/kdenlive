@@ -18,11 +18,10 @@ MultiViewHandler::MultiViewHandler(MultiViewHandler* parent) :
 
 void MultiViewHandler::setView(const EffectViewTypes type, QObject* ui)
 {
-    // delete previous UI first?
-    insert(static_cast<int>(type), ui);
+    insert(type, ui);
 }
 
-QObject* MultiViewHandler::getView(EffectViewTypes type)
+QObject* MultiViewHandler::view(EffectViewTypes type) const
 {
     if (contains(type)) {
         return value(type);
@@ -54,10 +53,10 @@ QObject* MultiViewHandler::popView(const EffectViewTypes type)
     return NULL;
 }
 
-QObject* MultiViewHandler::getParentView(EffectViewTypes type)
+QObject* MultiViewHandler::parentView(EffectViewTypes type)
 {
     if (m_parent) {
-        return m_parent->getView(type);
+        return m_parent->view(type);
     }
     return NULL;
 }

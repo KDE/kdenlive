@@ -43,7 +43,7 @@ void DoubleParameterDescription::init(QDomElement parameter, QLocale locale)
     m_decimals = locale.toInt(parameter.attribute("decimals", QString("0")));
     m_suffix = parameter.attribute("suffix");
 
-    kDebug() << "param descr y" << getName() << m_default;
+    kDebug() << "param descr y" << name() << m_default;
 }
 
 void DoubleParameterDescription::init(Mlt::Properties& properties, QLocale locale)
@@ -62,7 +62,7 @@ void DoubleParameterDescription::init(Mlt::Properties& properties, QLocale local
         m_decimals = 3;
     }
 
-    kDebug() << "param descr n" << getName() << m_default;
+    kDebug() << "param descr n" << name() << m_default;
 }
 
 AbstractParameter *DoubleParameterDescription::createParameter(AbstractParameterList* parent) const

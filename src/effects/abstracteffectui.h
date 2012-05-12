@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 
+/** not in use!!! */
 
 class AbstractEffectUi : public QObject
 {

@@ -12,28 +12,79 @@ the Free Software Foundation, either version 3 of the License, or
 #define EFFECT_H
 
 #include "core/effectsystem/abstractparameterlist.h"
-#include <mlt++/Mlt.h>
 
 class EffectDescription;
 class AbstractEffectList;
+namespace Mlt
+{
+    class Filter;
+}
 
+
+/**
+ * @class Effect
+ * @brief Represents an effect in the effect system.
+ * 
+ * It handles the parameters and the connection to the MLT filter.
+ */
 
 class Effect : public AbstractParameterList
 {
     Q_OBJECT
 
 public:
-    Effect(EffectDescription *effectDescription, AbstractEffectList* parent = 0);
-    ~Effect();
+    /**
+     * @brief Constructs an effect based on the given description.
+     * @param effectDescription the description according to which the effect should be created
+     * @param parent parent container of this effect
+     * 
+     * A new MLT filter gets created and handed over to the parent effect list to be attached to
+     * the MLT DOM. Afterwards parameters are created.
+     */
+    Effect(EffectDescription *effectDescription, AbstractEffectList* parent);
+    virtual ~Effect();
 
-    void setParameter(QString name, QString value);
-    QString getParameter(QString name) const;
+    /**
+     * @brief Sets the parameter value to the belonging MLT filter property.
+     * @param name name/id of the parameter
+     * @param value value to set
+     * @see AbstractParameterList::setParameterValue
+     */
+    void setParameterValue(const QString &name, const QString &value);
 
-    virtual void setProperty(QString name, QString value);
-    virtual QString getProperty(QString name) const;
+    /**
+     * @brief Receives and returns the parameter value from the belonging MLT filter property.
+     * @param name name/id of the parameter
+     * @see AbstractParameterList::parameterValue
+     */
+    QString parameterValue(const QString &name) const;
 
+    /**
+     * @brief Sets a MLT filter property.
+     * @param name/id of the property
+     * @param value value to set
+     */
+    virtual void setProperty(const QString &name, const QString &value);
+
+    /**
+     * @brief Returns a property value.
+     * @param name name of the property
+     */
+    virtual QString property(const QString &name) const;
+
+    /**
+     * @brief Creates or destroys the properties view widget if necessary and informs the children.
+     */
     void checkPropertiesViewState();
+
+    /**
+     * tbd
+     */
     void checkTimelineViewState();
+
+    /**
+     * tbd
+     */
     void checkMonitorViewState();
 
 private:

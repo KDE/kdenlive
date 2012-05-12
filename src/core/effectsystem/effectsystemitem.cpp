@@ -15,7 +15,7 @@ EffectSystemItem::EffectSystemItem(EffectSystemItem* parent) :
     m_parent(parent)
 {
     if (parent) {
-        m_viewHandler = new MultiViewHandler(parent->getViewHandler());
+        m_viewHandler = new MultiViewHandler(parent->viewHandler());
 
         connect(parent, SIGNAL(propertiesViewUpdateRequired()), this, SLOT(checkPropertiesViewState()));
         connect(parent, SIGNAL(timelineViewUpdateRequired()), this, SLOT(checkTimelineViewState()));
@@ -30,7 +30,7 @@ EffectSystemItem::~EffectSystemItem()
     delete m_viewHandler;
 }
 
-MultiViewHandler* EffectSystemItem::getViewHandler()
+MultiViewHandler* EffectSystemItem::viewHandler()
 {
     return m_viewHandler;
 }

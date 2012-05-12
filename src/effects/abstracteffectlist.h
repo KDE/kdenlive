@@ -15,23 +15,54 @@ the Free Software Foundation, either version 3 of the License, or
 #include <mlt++/Mlt.h>
 #include <QList>
 
+class EffectRepository;
 class Effect;
 class EffectDescription;
+
+
+/**
+ * @class AbstractEffectList
+ * @brief Abstract base class for effect containers.
+ */
 
 class AbstractEffectList : public EffectSystemItem, protected QList<Effect *>
 {
     Q_OBJECT
 public:
-    AbstractEffectList(AbstractEffectList *parent = 0);
-    ~AbstractEffectList();
+    /**
+     * @brief Constructs an empty effect list.
+     * @param parent parent container
+     */
+    AbstractEffectList(EffectRepository *repository, AbstractEffectList *parent = 0);
+    virtual ~AbstractEffectList();
 
+    /**
+     * @brief Should append a filter to the MLT DOM.
+     * @param filter filter to append
+     */
     virtual void appendFilter(Mlt::Filter *filter) = 0;
 
-    virtual Mlt::Service getService() = 0;
+    /**
+     * @brief Should return the service this object or its parent represent.
+     */
+    virtual Mlt::Service service() = 0;
 
 public slots:
-    virtual void appendEffect(QString id) = 0;
-    virtual void appendEffect(EffectDescription *description) = 0;
+    /**
+     * @brief Creates and appends an effect.
+     * @param id name/kdenlive identifier of the effect
+     */
+    virtual void appendEffect(const QString &id);
+
+    /**
+     * @brief Creates and appends an effect.
+     * @param description effect description for the effect to create
+     */
+    virtual void appendEffect(EffectDescription *description);
+
+protected:
+    /** change! */
+    EffectRepository *m_repository;
 };
 
 #endif

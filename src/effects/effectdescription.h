@@ -20,23 +20,75 @@ class AbstractParameterDescription;
 class Effect;
 class AbstractEffectList;
 
+/**
+ * @class EffectDescription
+ * @brief Stores information to create effect from.
+ * 
+ * The description is created either from a Kdenlive XML effect description or from MLT metadata.
+ * It stores all necessary information and provides them to the actual effect that are also created
+ * through their description object.
+ */
 
 class EffectDescription : public AbstractEffectRepositoryItem, protected QList<AbstractParameterDescription*>
 {
 public:
-    EffectDescription(const QString filterName, Mlt::Repository *mltRepository, EffectRepository *repository);
+    /**
+     * @brief Constructs a description from MLT metadata.
+     * @param filterName name of the filter
+     * @param mltRepository MLT repository containing the metadata
+     * @param repository remove?
+     */
+    EffectDescription(const QString &filterName, Mlt::Repository *mltRepository, EffectRepository *repository);
+
+    /**
+     * @brief Constructs a description from Kdenlive effect XML.
+     * @param description "effect" element containing the description
+     * @param version version of the effect
+     * @param repository remove?
+     */
     EffectDescription(QDomElement description, double version, EffectRepository *repository);
     virtual ~EffectDescription();
 
+    /**
+     * @brief Creates and returns a parameter based on this description.
+     * @param parent the effect list that will contain the constructed effect
+     */
     Effect *createEffect(AbstractEffectList *parent);
 
-    QList <AbstractParameterDescription *> getParameters();
-    QString getTag() const;
-    QString getName() const;
-    QString getDescription() const;
-    QString getAuthors() const;
-    double getVersion() const;
-    bool getUniqueness() const;
+    /**
+     * @brief Returns the parameter descriptions.
+     */
+    QList <AbstractParameterDescription *> parameters();
+
+    /**
+     * @brief Returns the effects tag, which is the MLT filter name/identifier.
+     */
+    QString tag() const;
+
+    /**
+     * @brief Returns a localized user visible name to be used in UI.
+     */
+    QString displayName() const;
+
+    /**
+     * @brief Returns a brief description of the effect.
+     */
+    QString description() const;
+
+    /**
+     * @brief Returns the authors of the effect.
+     */
+    QString authors() const;
+
+    /**
+     * @brief Returns the used filter version.
+     */
+    double version() const;
+
+    /**
+     * @brief Returns true if this effect can be added only once to a effect device; otherwise false.
+     */
+    bool isUnique() const;
 
 private:
     QString getTextFromElement(QDomElement element);

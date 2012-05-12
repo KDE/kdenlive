@@ -14,24 +14,49 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effectsystemitem.h"
 #include "abstractparameter.h"
 #include <QObject>
-#include <QDomNodeList>
 #include <QList>
 #include <kdemacros.h>
 
 class MultiViewHandler;
+
+
+/**
+ * @class AbstractParameterList
+ * @brief Abstract base class for parameter containers.
+ */
 
 class KDE_EXPORT AbstractParameterList : public EffectSystemItem, protected QList<AbstractParameter*>
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Constructs an empty parameter list.
+     */
     AbstractParameterList(EffectSystemItem *parent = 0);
     virtual ~AbstractParameterList() {};
 
-    void loadParameters(QList<AbstractParameterDescription *> parameters);
+    /**
+     * @brief Creates and stores parameters from a list of descriptions.
+     * @param parameters list of parameters to load
+     */
+    void createParameters(const QList<AbstractParameterDescription *> &parameters);
 
-    virtual void setParameter(QString name, QString value) = 0;
-    virtual QString getParameter(QString name) const = 0;
+    /**
+     * @brief Should set the value of a parameter to its MLT property.
+     * @param name name/identifier of the parameter
+     * @param value value to set
+     * 
+     * This function should only be used to pass the value from a parameter object to its MLT
+     * filter property.
+     */
+    virtual void setParameterValue(const QString &name, const QString &value) = 0;
+
+    /**
+     * @brief Should receive the parameter value from MLT.
+     * @param name name/id of the parameter
+     */
+    virtual QString parameterValue(const QString &name) const = 0;
 };
 
 #endif

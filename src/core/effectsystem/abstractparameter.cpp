@@ -15,24 +15,41 @@ the Free Software Foundation, either version 3 of the License, or
 
 AbstractParameter::AbstractParameter(const AbstractParameterDescription *parameterDescription, AbstractParameterList* parent) : 
     EffectSystemItem(parent),
-    m_abstractDescription(static_cast<const AbstractParameterDescription*>(parameterDescription)),
+    m_description(static_cast<const AbstractParameterDescription*>(parameterDescription)),
     m_parent(parent)
 {
 }
 
+AbstractParameter::~AbstractParameter()
+{
+}
+
+
 const char* AbstractParameter::get() const
 {
-    return m_parent->getParameter(getName()).toUtf8().constData();
+    return m_parent->parameterValue(name()).toUtf8().constData();
 }
 
-QString AbstractParameter::getName() const
+QString AbstractParameter::name() const
 {
-    return m_abstractDescription->getName();
+    return m_description->name();
 }
 
-const AbstractParameterDescription* AbstractParameter::getDescription() const
+const AbstractParameterDescription* AbstractParameter::description() const
 {
-    return m_abstractDescription;
+    return m_description;
+}
+
+void AbstractParameter::checkPropertiesViewState()
+{
+}
+
+void AbstractParameter::checkTimelineViewState()
+{
+}
+
+void AbstractParameter::checkMonitorViewState()
+{
 }
 
 #include "abstractparameter.moc"

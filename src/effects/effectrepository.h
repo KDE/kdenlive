@@ -25,14 +25,35 @@ namespace Mlt {
 enum EffectTypes { AudioEffect, VideoEffect, CustomEffect };
 
 
+/**
+ * @class EffectRepository
+ * @brief Contains the descriptions of all available filters.
+ * 
+ * The filter list is filtered by a blacklist (data/blacklisted_effects.txt). To create the
+ * descriptions the effect xml files are used and only when not available for a specific filter the
+ * metadata provided by MLT is used.
+ */
+
 class EffectRepository
 {
 public:
+    /**
+     * @brief Constructs the repository.
+     */
     EffectRepository();
     ~EffectRepository();
 
-    AbstractParameterDescription *getNewParameterDescription(QString type);
-    AbstractEffectRepositoryItem *getEffectDescription(QString id);
+    /**
+     * @brief Returns an empty parameter description as received from the factory of its plugin.
+     * @param type type of the parameter for which the description should be received
+     */
+    AbstractParameterDescription *newParameterDescription(QString type);
+
+    /**
+     * @brief Returns a pointer to the requested effect description.
+     * @param id name/kdenlive internal id of the effect whose description should be received
+     */
+    AbstractEffectRepositoryItem *effectDescription(QString id);
 
 private:
     void initRepository();

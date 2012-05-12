@@ -41,8 +41,6 @@ EffectRepository::~EffectRepository()
 // TODO: comment on repository->filters()->get_name() vs. metadata identifier
 void EffectRepository::initRepository()
 {
-    kDebug() << "initing";
-
     loadParameterPlugins();
 
     Mlt::Repository *repository = Mlt::Factory::init();
@@ -56,25 +54,20 @@ void EffectRepository::initRepository()
     applyBlacklist("blacklisted_effects.txt", availableFilters);
 
     QMultiHash<QString, QDomElement> availableEffectDescriptions;
+
+    // load effect description XML from files
     QStringList effectDirectories = KGlobal::dirs()->findDirs("appdata", "effects");
-    QDir directory;
-    QStringList fileList;
-    QString filename;
-    QDomDocument document;
-    QFile file;
-    QDomNodeList effectDescriptions;
-    QDomElement effectDescriptionElement;
-    int i;
     foreach(QString directoryName, effectDirectories) {
-        directory = QDir(directoryName);
-        fileList = directory.entryList(QStringList() << "*.xml", QDir::Files);
-        foreach (filename, fileList) {
-            file.setFileName(KUrl(directoryName + filename).path());
+        QDir directory(directoryName);
+        QStringList fileList = directory.entryList(QStringList() << "*.xml", QDir::Files);
+        foreach (QString filename, fileList) {
+            QFile file(KUrl(directoryName + filename).path());
+            QDomDocument document;
             document.setContent(&file, false);
             file.close();
-            effectDescriptions = document.elementsByTagName("effect");
-            for (i = 0; i < effectDescriptions.count(); ++i) {
-                effectDescriptionElement = effectDescriptions.at(i).toElement();
+            QDomNodeList effectDescriptions = document.elementsByTagName("effect");
+            for (int i = 0; i < effectDescriptions.count(); ++i) {
+                QDomElement effectDescriptionElement = effectDescriptions.at(i).toElement();
                 availableEffectDescriptions.insert(effectDescriptionElement.attribute("tag"), effectDescriptionElement);
             }
         }
@@ -82,15 +75,26 @@ void EffectRepository::initRepository()
 
     bool filterHasDescription;
     EffectDescription *effectDescription;
+
+    // TODO: do sth when there are multiple versions available
     double filterVersion = 0;
     QMultiHash<QString, QDomElement>::const_iterator effectDescriptionIterator;
     foreach (QString filterName, availableFilters) {
         filterHasDescription = false;
+
+        // try to create the description from Kdenlive XML first
         if (availableEffectDescriptions.contains(filterName)) {
             effectDescriptionIterator = availableEffectDescriptions.constFind(filterName);
+
+            // iterate over possibly multiple descriptions for the same mlt filter
             while (effectDescriptionIterator != availableEffectDescriptions.constEnd() && effectDescriptionIterator.key() == filterName) {
                 effectDescription = new EffectDescription(effectDescriptionIterator.value(), filterVersion, this);
                 if (effectDescription->isValid()) {
+                    if (m_effects.contains(effectDescription->getId())) {
+                        // simply remove exsiting descriptions with the same kdenlive internal id
+                        // TODO: write about different versions (needs proper handling in effectdescription first!
+                        delete m_effects.take(effectDescription->getId());
+                    }
                     m_effects.insert(effectDescription->getId(), effectDescription);
                     filterHasDescription = true;
                 } else {
@@ -99,6 +103,8 @@ void EffectRepository::initRepository()
                 ++effectDescriptionIterator;
             }
         }
+
+        // if no description for the filter could be created from the Kdenlive XML create it from MLT metadata
         if (!filterHasDescription) {
             effectDescription = new EffectDescription(filterName, repository, this);
             if (effectDescription->isValid()) {
@@ -114,7 +120,7 @@ void EffectRepository::initRepository()
     }
 }
 
-AbstractParameterDescription* EffectRepository::getNewParameterDescription(QString type)
+AbstractParameterDescription* EffectRepository::newParameterDescription(QString type)
 {
     if(m_parameterPlugins.contains(type)) {
         return m_parameterPlugins.value(type)->create<AbstractParameterDescription>();
@@ -122,7 +128,7 @@ AbstractParameterDescription* EffectRepository::getNewParameterDescription(QStri
     return NULL;
 }
 
-AbstractEffectRepositoryItem* EffectRepository::getEffectDescription(QString id)
+AbstractEffectRepositoryItem* EffectRepository::effectDescription(QString id)
 {
     if (m_effects.contains(id)) {
         return m_effects.value(id);

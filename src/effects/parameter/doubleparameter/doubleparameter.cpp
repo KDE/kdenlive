@@ -38,31 +38,31 @@ void DoubleParameter::set(double value)
     emit valueUpdated(value);
 
     value = (value + m_description->getMin() - m_description->getOffset()) / m_description->getFactor();
-    m_parent->setParameter(getName(), locale.toString(value));
+    m_parent->setParameterValue(name(), locale.toString(value));
 }
 
 double DoubleParameter::getValue() const
 {
     QLocale locale;
-    return locale.toDouble(m_parent->getParameter(getName()));
+    return locale.toDouble(m_parent->parameterValue(name()));
 }
 
 void DoubleParameter::checkPropertiesViewState()
 {
     bool exists = m_viewHandler->hasView(EffectPropertiesView);
     // when the effect or parametergroup (=parent) has a widget than we want a parameter widget in all cases
-    bool shouldExist = m_viewHandler->getParentView(EffectPropertiesView) ? true : false;
+    bool shouldExist = m_viewHandler->parentView(EffectPropertiesView) ? true : false;
     if (shouldExist != exists) {
         if (shouldExist) {
-            DoubleParameterEffectStackItem *effectStackItem = new DoubleParameterEffectStackItem(m_description->getDisplayName(),
+            DoubleParameterEffectStackItem *effectStackItem = new DoubleParameterEffectStackItem(m_description->displayName(),
                                                                                                  getValue(),
                                                                                                  m_description->getMin(),
                                                                                                  m_description->getMax(),
-                                                                                                 m_description->getComment(),
+                                                                                                 m_description->comment(),
                                                                                                  -1,
                                                                                                  m_description->getSuffix(),
                                                                                                  m_description->getDecimals(),
-                                                                                                 static_cast<QWidget*>(m_viewHandler->getParentView(EffectPropertiesView))
+                                                                                                 static_cast<QWidget*>(m_viewHandler->parentView(EffectPropertiesView))
                                                                                                 );
             connect(this, SIGNAL(valueUpdated(double)), effectStackItem, SLOT(setValue(double)));
             connect(effectStackItem, SIGNAL(valueChanged(double)), this, SLOT(set(double)));
