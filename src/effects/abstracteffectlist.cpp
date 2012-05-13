@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effect.h"
 
 
-AbstractEffectList::AbstractEffectList(AbstractEffectList *parent, EffectRepository *repository) :
+AbstractEffectList::AbstractEffectList(EffectRepository *repository, AbstractEffectList *parent) :
     EffectSystemItem(parent),
     m_repository(repository)
 {

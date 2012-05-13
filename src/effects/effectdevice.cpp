@@ -17,9 +17,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 EffectDevice::EffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *propertiesViewMainWidget) : 
-    AbstractEffectList(m_repository),
-    m_service(service),
-    m_repository(repository)
+    AbstractEffectList(repository),
+    m_service(service)
 {
     m_viewHandler->setView(EffectPropertiesView, propertiesViewMainWidget);
 }

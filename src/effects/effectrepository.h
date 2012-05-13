@@ -47,18 +47,18 @@ public:
      * @brief Returns an empty parameter description as received from the factory of its plugin.
      * @param type type of the parameter for which the description should be received
      */
-    AbstractParameterDescription *newParameterDescription(QString type);
+    AbstractParameterDescription *newParameterDescription(const QString &type);
 
     /**
      * @brief Returns a pointer to the requested effect description.
      * @param id name/kdenlive internal id of the effect whose description should be received
      */
-    AbstractEffectRepositoryItem *effectDescription(QString id);
+    AbstractEffectRepositoryItem *effectDescription(const QString &id);
 
 private:
     void initRepository();
     void getNamesFromProperties(Mlt::Properties *properties, QStringList &names) const;
-    void applyBlacklist(QString filename, QStringList &list) const;
+    void applyBlacklist(const QString &filename, QStringList &list) const;
     void loadParameterPlugins();
 
     QMap <QString, AbstractEffectRepositoryItem*> m_effects;

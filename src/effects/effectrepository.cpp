@@ -45,6 +45,7 @@ void EffectRepository::initRepository()
 
     Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
+        kWarning() << "MLT repository could not be loaded!!!";
         // TODO: error msg
         return;
     }
@@ -120,7 +121,7 @@ void EffectRepository::initRepository()
     }
 }
 
-AbstractParameterDescription* EffectRepository::newParameterDescription(QString type)
+AbstractParameterDescription* EffectRepository::newParameterDescription(const QString &type)
 {
     if(m_parameterPlugins.contains(type)) {
         return m_parameterPlugins.value(type)->create<AbstractParameterDescription>();
@@ -128,7 +129,7 @@ AbstractParameterDescription* EffectRepository::newParameterDescription(QString 
     return NULL;
 }
 
-AbstractEffectRepositoryItem* EffectRepository::effectDescription(QString id)
+AbstractEffectRepositoryItem* EffectRepository::effectDescription(const QString &id)
 {
     if (m_effects.contains(id)) {
         return m_effects.value(id);
@@ -147,7 +148,7 @@ void EffectRepository::getNamesFromProperties(Mlt::Properties* properties, QStri
     delete properties;
 }
 
-void EffectRepository::applyBlacklist(QString filename, QStringList& list) const
+void EffectRepository::applyBlacklist(const QString &filename, QStringList& list) const
 {
     QFile file(KStandardDirs::locate("appdata", filename));
     if (file.open(QIODevice::ReadOnly)) {
