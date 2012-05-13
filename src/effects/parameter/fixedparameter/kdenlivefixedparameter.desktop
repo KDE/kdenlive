@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Parameter
+Name=Fixed Parameter
+X-KDE-PluginInfo-Name=kdenlivefixedparameter
+X-KDE-Library=kdenlivefixedparameter
+X-Kdenlive-ParameterType=fixed

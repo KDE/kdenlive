@@ -126,7 +126,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
 void ClipItem::setupEffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *widget)
 {
     m_effectDevice = new EffectDevice(service, repository, widget);
-    m_effectDevice->appendEffect("gain");
+    m_effectDevice->appendEffect("mute");
     m_effectDevice->appendEffect("frei0r.letterb0xed");
 }
 
