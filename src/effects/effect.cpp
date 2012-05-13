@@ -16,9 +16,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <core/effectsystem/multiviewhandler.h>
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QFrame>
 #include <KDebug>
-
-#include <QLabel>
 
 
 Effect::Effect(EffectDescription *effectDescription, AbstractEffectList* parent) :

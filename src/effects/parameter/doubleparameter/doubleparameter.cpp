@@ -44,7 +44,7 @@ void DoubleParameter::set(double value)
 double DoubleParameter::getValue() const
 {
     QLocale locale;
-    return locale.toDouble(m_parent->parameterValue(name()));
+    return m_description->getOffset() + locale.toDouble(m_parent->parameterValue(name())) * m_description->getFactor();
 }
 
 void DoubleParameter::checkPropertiesViewState()
