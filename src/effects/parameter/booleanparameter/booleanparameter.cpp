@@ -9,7 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "booleanparameter.h"
-#include "booleanparametereffectstackitem.h"
+#include "booleanpropertiesview.h"
 #include "core/effectsystem/abstractparameterlist.h"
 #include "core/effectsystem/multiviewhandler.h"
 #include <QLocale>
@@ -35,7 +35,7 @@ void BooleanParameter::set(bool value)
     m_parent->setParameterValue(name(), QString::number(value));
 }
 
-bool BooleanParameter::getValue() const
+bool BooleanParameter::value() const
 {
     return m_parent->parameterValue(name()).toInt();
 }
@@ -47,13 +47,13 @@ void BooleanParameter::checkPropertiesViewState()
     bool shouldExist = m_viewHandler->parentView(EffectPropertiesView) ? true : false;
     if (shouldExist != exists) {
         if (shouldExist) {
-            BooleanParameterEffectStackItem *effectStackItem = new BooleanParameterEffectStackItem(m_description->displayName(),
-                                                                                                   getValue(),
-                                                                                                   m_description->comment(),
-                                                                                                   static_cast<QWidget*>(m_viewHandler->parentView(EffectPropertiesView)));
-            connect(this, SIGNAL(valueUpdated(bool)), effectStackItem, SLOT(setValue(bool)));
-            connect(effectStackItem, SIGNAL(valueChanged(bool)), this, SLOT(set(bool)));
-            m_viewHandler->setView(EffectPropertiesView, effectStackItem);
+            BooleanPropertiesView *view = new BooleanPropertiesView(m_description->displayName(),
+                                                                    value(),
+                                                                    m_description->comment(),
+                                                                    static_cast<QWidget*>(m_viewHandler->parentView(EffectPropertiesView)));
+            connect(this, SIGNAL(valueUpdated(bool)), view, SLOT(setValue(bool)));
+            connect(view, SIGNAL(valueChanged(bool)), this, SLOT(set(bool)));
+            m_viewHandler->setView(EffectPropertiesView, view);
         } else {
             m_viewHandler->deleteView(EffectPropertiesView);
         }

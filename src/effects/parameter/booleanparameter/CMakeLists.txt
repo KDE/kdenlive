@@ -2,10 +2,10 @@
 SET(booleanparameter_SRCS
     booleanparameterdescription.cpp
     booleanparameter.cpp
-    booleanparametereffectstackitem.cpp
+    booleanpropertiesview.cpp
 )
 
-kde4_add_ui_files(booleanparameter_UIS booleanparameterview_ui.ui)
+kde4_add_ui_files(booleanparameter_UIS booleanpropertiesview_ui.ui)
 
 KDE4_ADD_PLUGIN(kdenlivebooleanparameter ${booleanparameter_SRCS} ${booleanparameter_UIS})
 
