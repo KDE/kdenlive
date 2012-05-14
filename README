@@ -1,4 +1,4 @@
-Kdenlive 0.8.2
+Kdenlive 0.9
 by Jean-Baptiste Mardelle <jb@kdenlive.org> and the Kdenlive team
 
 Kdenlive is a video editing application based on KDE Platform 4.
@@ -12,7 +12,7 @@ the following web page:
 
 http://www.mltframework.org
 
-The recommended MLT version is 0.7.6. It may work with other
+The recommended MLT version is 0.7.8. It may work with other
 versions, but this is not guaranteed, or (at this stage of development) likely.
 
 We welcome all bug reports, feedback, and offers for help!
