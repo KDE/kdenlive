@@ -174,7 +174,7 @@ void Render::closeMlt()
         service.unlock();
     }*/
 
-    kDebug() << "// // // CLOSE RENDERER " << m_name;
+    //kDebug() << "// // // CLOSE RENDERER " << m_name;
     if (m_blackClip) delete m_blackClip;
     //delete m_osdInfo;
 }

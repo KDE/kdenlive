@@ -88,7 +88,7 @@ void TransitionSettings::updateTrackList()
     int limit = 1;
     if (m_usedTransition)
         limit = m_usedTransition->track() + 1;
-    kDebug() << "/ / TRANS TRK: " << limit;
+    //kDebug() << "/ / TRANS TRK: " << limit;
     KIcon videoIcon("kdenlive-show-video");
     KIcon audioIcon("kdenlive-show-audio");
     for (int i = limit; i < m_tracks.count(); i++) {
@@ -208,7 +208,6 @@ void TransitionSettings::raiseWindow(QWidget* dock)
 {
     if (dock && m_usedTransition)
         dock->raise();
-
 }
 
 void TransitionSettings::slotRenderPos(int pos)
