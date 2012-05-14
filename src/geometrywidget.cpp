@@ -110,6 +110,8 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
     m_ui.horizontalLayout->addWidget(m_spinHeight, 0, 3);
 
+    m_ui.horizontalLayout->setColumnStretch(4, 10);
+
     QMenu *menu = new QMenu(this);
     QAction *adjustSize = new QAction(i18n("Adjust to original size"), this);
     connect(adjustSize, SIGNAL(triggered()), this, SLOT(slotAdjustToFrameSize()));
