@@ -99,9 +99,11 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     effecticon->setPixmap(icon.pixmap(16,16));*/
     m_groupAction = new QAction(KIcon("folder-new"), i18n("Create Group"), this);
     connect(m_groupAction, SIGNAL(triggered(bool)), this, SLOT(slotCreateGroup()));
+
     if (!m_regionEffect) {
 	if (m_info.groupIndex == -1) m_menu->addAction(m_groupAction);
-	m_menu->addAction(KIcon("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
+	//TODO: re-enable region effect when the MLT feature is stabilized
+	//m_menu->addAction(KIcon("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
     setupWidget(info, metaInfo);
     setAcceptDrops(true);
