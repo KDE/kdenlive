@@ -1,4 +1,6 @@
 0.8.4
+    * Improve detection of locale issues (default to POSIX when there is a locale conflict on the system)
+    * Improve timeline operation for small clips (disable resizing, only allow move)
     * Add background color parameter to "Rotate" and "Pan and Zoom" effects
     * Allow to scroll using the mouse wheel in monitor editing scene
     * Zoom to mouse when using CTRL + mouse wheel in monitor editing scene

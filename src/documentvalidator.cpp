@@ -73,7 +73,7 @@ bool DocumentValidator::validate(const double currentVersion)
     
     if (mlt.hasAttribute("LC_NUMERIC")) {
         // Set locale for the document        
-        QString newLocale = setlocale(LC_NUMERIC, mlt.attribute("LC_NUMERIC").toUtf8().constData());
+        const QString newLocale = setlocale(LC_NUMERIC, mlt.attribute("LC_NUMERIC").toUtf8().constData());
         documentLocale = QLocale(mlt.attribute("LC_NUMERIC"));
 
         // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
@@ -96,11 +96,13 @@ bool DocumentValidator::validate(const double currentVersion)
     documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
         // If loading an older MLT file without LC_NUMERIC, set locale to C which was previously the default
-        if (!mlt.hasAttribute("LC_NUMERIC")) setlocale(LC_NUMERIC, "C");
+        if (!mlt.hasAttribute("LC_NUMERIC")) {
+	    setlocale(LC_NUMERIC, "C");
+	}
 
         QLocale::setDefault(documentLocale);
         // locale conversion might need to be redone
-        initEffects::parseEffectFiles();
+        initEffects::parseEffectFiles(setlocale(LC_NUMERIC, NULL));
     }
 
     bool ok;

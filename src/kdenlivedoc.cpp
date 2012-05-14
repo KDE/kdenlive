@@ -125,7 +125,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
         QLocale::setDefault(systemLocale);
         // locale conversion might need to be redone
-        initEffects::parseEffectFiles();
+	initEffects::parseEffectFiles(setlocale(LC_NUMERIC, NULL));
     }
 
     *openBackup = false;

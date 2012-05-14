@@ -31,6 +31,8 @@
 #include <QDir>
 #include <QIcon>
 
+#include "locale.h"
+
 initEffectsThumbnailer::initEffectsThumbnailer() :
     QThread()
 {
@@ -133,7 +135,7 @@ QDomDocument initEffects::getUsedCustomEffects(QMap <QString, QString> effectids
 }
 
 //static
-void initEffects::parseEffectFiles()
+void initEffects::parseEffectFiles(const QString &locale)
 {
     QStringList::Iterator more;
     QStringList::Iterator it;
@@ -146,6 +148,9 @@ void initEffects::parseEffectFiles()
         return;
     }
 
+    // Warning: Mlt::Factory::init() resets the locale to the default system value, make sure we keep correct locale
+    if (!locale.isEmpty()) setlocale(LC_NUMERIC, locale.toUtf8().constData());
+    
     // Retrieve the list of MLT's available effects.
     Mlt::Properties *filters = repository->filters();
     QStringList filtersList;
