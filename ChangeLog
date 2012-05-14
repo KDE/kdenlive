@@ -1,4 +1,5 @@
-0.8.4
+0.9
+    * Fix monitor effect scene sometimes forcing monitor minimum size
     * Improve detection of locale issues (default to POSIX when there is a locale conflict on the system)
     * Improve timeline operation for small clips (disable resizing, only allow move)
     * Add background color parameter to "Rotate" and "Pan and Zoom" effects

@@ -2,17 +2,17 @@ project(kdenlive)
 
 # An odd patch version number means development version, while an even one means
 # stable release. An additional number can be used for bugfix-only releases.
-set(KDENLIVE_VERSION 0.8.3)
+set(KDENLIVE_VERSION 0.9)
 
 # Minimum versions of main dependencies.
-set(LIBMLT_MIN_VERSION 0.7.6)
+set(LIBMLT_MIN_VERSION 0.7.8)
 set(QT_MIN_VERSION 4.5.0)
 set(KDE_MIN_VERSION 4.3.0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 # To be switched on when releasing.
-option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" OFF)
+option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
 
 # Get current version.
 set(VERSION "\"${KDENLIVE_VERSION}\"")
