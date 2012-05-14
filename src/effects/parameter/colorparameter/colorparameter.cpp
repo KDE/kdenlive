@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core/effectsystem/abstractparameterlist.h"
 #include "colorpropertiesview.h"
 #include <QColor>
+#include <QTextStream>
 
 ColorParameter::ColorParameter(const ColorParameterDescription* parameterDescription, AbstractParameterList* parent) :
     AbstractParameter(parameterDescription, parent),
@@ -23,7 +24,7 @@ ColorParameter::ColorParameter(const ColorParameterDescription* parameterDescrip
 void ColorParameter::set(const char* data)
 {
     QString string = QString(data).remove(m_description->prefix());
-    QColor value = m_description->stringToColor(data);
+    QColor value = stringToColor(data);
     emit valueUpdated(value);
 }
 
@@ -31,13 +32,61 @@ void ColorParameter::set(const QColor &value)
 {
     emit valueUpdated(value);
 
-    QString string = m_description->colorToString(value, m_description->supportsAlpha()).prepend(m_description->prefix());
+    QString string = colorToString(value, m_description->supportsAlpha()).prepend(m_description->prefix());
     m_parent->setParameterValue(name(), string);
 }
 
 QColor ColorParameter::value() const
 {
-    return m_description->stringToColor(m_parent->parameterValue(name()).remove(m_description->prefix()));
+    return stringToColor(m_parent->parameterValue(name()).remove(m_description->prefix()));
+}
+
+QColor ColorParameter::stringToColor(QString string)
+{
+    QColor color("black");
+    if (string.startsWith("0x")) {
+        if (string.length() == 10) {
+            // 0xRRGGBBAA
+            uint intval = string.toUInt(0, 16);
+            color.setRgb( ( intval >> 24 ) & 0xff,   // r
+                          ( intval >> 16 ) & 0xff,   // g
+                          ( intval >>  8 ) & 0xff,   // b
+                          ( intval       ) & 0xff ); // a
+        } else {
+            // 0xRRGGBB, 0xRGB
+            color.setNamedColor(string.replace(0, 2, "#"));
+        }
+    } else {
+        if (string.length() == 9) {
+            // #AARRGGBB
+            uint intval = string.replace('#', "0x").toUInt(0, 16);
+            color.setRgb( ( intval >> 16 ) & 0xff,   // r
+                          ( intval >>  8 ) & 0xff,   // g
+                          ( intval       ) & 0xff,   // b
+                          ( intval >> 24 ) & 0xff ); // a
+        } else {
+            // #RRGGBB, #RGB
+            color.setNamedColor(string);
+        }
+    }
+
+    return color;
+}
+
+QString ColorParameter::colorToString(const QColor &color, bool hasAlpha)
+{
+    QString colorStr;
+    QTextStream stream(&colorStr);
+    stream << "0x";
+    stream.setIntegerBase(16);
+    stream.setFieldWidth(2);
+    stream.setFieldAlignment(QTextStream::AlignRight);
+    stream.setPadChar('0');
+    stream <<  color.red() << color.green() << color.blue();
+    if(hasAlpha) {
+        stream << color.alpha();
+    }
+    return colorStr;
 }
 
 void ColorParameter::checkPropertiesViewState()

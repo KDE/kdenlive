@@ -27,6 +27,9 @@ public:
     void set(const char*data);
     QColor value() const;
 
+    static QColor stringToColor(QString string);
+    static QString colorToString(const QColor &color, bool hasAlpha = false);
+
 public slots:
     void set(const QColor &value);
 

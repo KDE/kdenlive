@@ -34,9 +34,6 @@ public:
     QString prefix() const;
     bool supportsAlpha() const;
 
-    QColor stringToColor(QString string) const;
-    QString colorToString(const QColor &color, bool hasAlpha = false) const;
-
 protected:
     QColor m_default;
     QString m_prefix;
