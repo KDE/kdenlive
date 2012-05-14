@@ -41,7 +41,6 @@
 #include <KComboBox>
 #include <kautosavefile.h>
 #include <KActionCategory>
-#include <KImageCache>
 
 #include "effectslist.h"
 #include "gentime.h"
