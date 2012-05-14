@@ -60,7 +60,8 @@ public:
 private slots:
     /** @brief Sets the KdenliveSetting directupdate with true = update parameters (rerender frame) during mouse move (before mouse button is released) */
     void slotSetDirectUpdate(bool directUpdate);
-    
+    /** @brief Update zoom slider value */
+    void slotZoom(int value);
 private:
     Ui::MonitorEditWidget_UI m_ui;
     MonitorScene *m_scene;

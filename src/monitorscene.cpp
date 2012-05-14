@@ -73,7 +73,7 @@ void MonitorScene::centerView()
 void MonitorScene::cleanup()
 {
     // Reset scene rect
-    setSceneRect(QRectF());
+    setSceneRect(m_frameBorder->boundingRect());
 }
 
 void MonitorScene::setUp()

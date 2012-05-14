@@ -57,7 +57,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     edit->removeCustomControls();
     edit->addCustomButton(KIcon("transform-crop"), i18n("Show previous keyframe"), this, SLOT(slotShowPreviousKeyFrame(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowprevious());
     m_scene = edit->getScene();
-
+    m_scene->cleanup();
 
     /*
         Setup of timeline and keyframe controls
@@ -209,7 +209,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_spinWidth,        SIGNAL(valueChanged(double)), this, SLOT(slotSetWidth(double)));
     connect(m_spinHeight,       SIGNAL(valueChanged(double)), this, SLOT(slotSetHeight(double)));
 
-    connect(m_spinSize,         SIGNAL(valueChanged(double)), this, SLOT(slotResize(double)));
+    connect(m_spinSize, SIGNAL(valueChanged(double)), this, SLOT(slotResize(double)));
 
     connect(m_opacity, SIGNAL(valueChanged(double)), this, SLOT(slotSetOpacity(double)));
     
@@ -287,7 +287,6 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
 {
     m_inPoint = minframe;
     m_outPoint = maxframe;
-    m_scene->cleanup();
 
     if (m_geometry)
         m_geometry->parse(elem.attribute("value").toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());

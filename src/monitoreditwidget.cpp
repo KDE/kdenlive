@@ -67,7 +67,7 @@ MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
     m_ui.buttonZoomOriginal->setToolTip(i18n("Original size"));
 
     connect(m_ui.sliderZoom, SIGNAL(valueChanged(int)), m_scene, SLOT(slotZoom(int)));
-    connect(m_scene, SIGNAL(zoomChanged(int)), m_ui.sliderZoom, SLOT(setValue(int)));
+    connect(m_scene, SIGNAL(zoomChanged(int)), this, SLOT(slotZoom(int)));
     connect(m_ui.buttonZoomFit,      SIGNAL(clicked()), m_scene, SLOT(slotZoomFit()));
     connect(m_ui.buttonZoomOriginal, SIGNAL(clicked()), m_scene, SLOT(slotZoomOriginal()));
     m_scene->slotZoomFit();
@@ -82,6 +82,13 @@ MonitorEditWidget::~MonitorEditWidget()
     delete m_view;
     delete m_scene;
     delete m_visibilityAction;
+}
+
+void MonitorEditWidget::slotZoom(int value)
+{
+    m_ui.sliderZoom->blockSignals(true);
+    m_ui.sliderZoom->setValue(value);
+    m_ui.sliderZoom->blockSignals(false);
 }
 
 void MonitorEditWidget::resetProfile(Render* renderer)
