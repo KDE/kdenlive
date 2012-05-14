@@ -149,7 +149,6 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
 void EffectStackView2::setupListView()
 {
     blockSignals(true);
-    bool previousMonitorScene = m_monitorSceneWanted;
     m_monitorSceneWanted = false;
     m_draggedEffect = NULL;
     m_draggedGroup = NULL;
@@ -257,8 +256,8 @@ void EffectStackView2::setupListView()
 
     vbox1->addStretch(10);
     slotUpdateCheckAllButton();
-    if (previousMonitorScene && !m_monitorSceneWanted) {
-        // monitor scene was displayed, not wanted anymore
+    if (!m_monitorSceneWanted) {
+        // monitor scene not wanted
         m_effectMetaInfo.monitor->slotShowEffectScene(false);
     }
 
