@@ -170,9 +170,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     char *separator = localeconv()->decimal_point;
     if (separator != systemLocale.decimalPoint()) {
         kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
-        // HACK: There is a locale conflict, so set locale to at least have correct decimal point
-        if (strncmp(separator, ".", 1) == 0) systemLocale = QLocale::c();
-        else if (strncmp(separator, ",", 1) == 0) systemLocale = QLocale("fr_FR.UTF-8");
+        // HACK: There is a locale conflict, so set locale to C
+	// Make sure to override exported values or it won't work
+	setenv("LANG", "C", 1);
+	setlocale(LC_NUMERIC, "C");
+        systemLocale = QLocale::c();
     }
 
     systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
