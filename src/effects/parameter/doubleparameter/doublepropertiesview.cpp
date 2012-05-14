@@ -8,14 +8,14 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#include "doubleparametereffectstackitem.h"
+#include "doublepropertiesview.h"
 #include "core/widgets/dragvalue.h"
 #include <QWidget>
 #include <QLayout>
 #include <QGridLayout>
 
 
-DoubleParameterEffectStackItem::DoubleParameterEffectStackItem(const QString& name, double value, double min, double max, const QString& comment, int id, const QString suffix, int decimals, QWidget* parent) :
+DoublePropertiesView::DoublePropertiesView(const QString& name, double value, double min, double max, const QString& comment, int id, const QString suffix, int decimals, QWidget* parent) :
     QWidget(parent)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -30,22 +30,21 @@ DoubleParameterEffectStackItem::DoubleParameterEffectStackItem(const QString& na
     m_dragValue->setValue(value);
     connect(m_dragValue, SIGNAL(valueChanged(double, bool)), this, SLOT(valueChanged(double,bool)));
 
-    // here or in doubleparameter.cpp?
     parent->layout()->addWidget(this);
 }
 
-void DoubleParameterEffectStackItem::setValue(double value)
+void DoublePropertiesView::setValue(double value)
 {
     m_dragValue->blockSignals(true);
     m_dragValue->setValue(value);
     m_dragValue->blockSignals(false);
 }
 
-void DoubleParameterEffectStackItem::valueChanged(double value, bool final)
+void DoublePropertiesView::valueChanged(double value, bool final)
 {
     if (final) {
         emit valueChanged(value);
     }
 }
 
-#include "doubleparametereffectstackitem.moc"
+#include "doublepropertiesview.moc"

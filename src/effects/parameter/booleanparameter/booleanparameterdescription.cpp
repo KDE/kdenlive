@@ -46,7 +46,7 @@ AbstractParameter *BooleanParameterDescription::createParameter(AbstractParamete
     return static_cast<AbstractParameter*>(parameter);
 }
 
-bool BooleanParameterDescription::getDefault() const
+bool BooleanParameterDescription::defaultValue() const
 {
     return m_default;
 }

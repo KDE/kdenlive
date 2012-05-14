@@ -25,7 +25,7 @@ public:
     ~FixedParameter() {};
 
     void set(const char *data);
-    QString getValue() const;
+    QString value() const;
 
 private:
     const FixedParameterDescription *m_description;

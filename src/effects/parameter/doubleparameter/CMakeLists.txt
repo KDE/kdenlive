@@ -2,7 +2,7 @@
 SET(doubleparameter_SRCS
      doubleparameterdescription.cpp
      doubleparameter.cpp
-     doubleparametereffectstackitem.cpp
+     doublepropertiesview.cpp
 ) 
 
 KDE4_ADD_PLUGIN(kdenlivedoubleparameter ${doubleparameter_SRCS})

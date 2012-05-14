@@ -8,21 +8,21 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#ifndef DOUBLEPARAMETEREFFECTSTACKITEM_H
-#define DOUBLEPARAMETEREFFECTSTACKITEM_H
+#ifndef DOUBLEPROPERTIESVIEW_H
+#define DOUBLEPROPERTIESVIEW_H
 
 #include <QWidget>
 
 class DragValue;
 
 
-class DoubleParameterEffectStackItem : public QWidget
+class DoublePropertiesView : public QWidget
 {
     Q_OBJECT
 
 public:
-    DoubleParameterEffectStackItem(const QString &name, double value, double min, double max, const QString &comment, int id, const QString suffix = QString(), int decimals = 0, QWidget* parent = 0);
-    ~DoubleParameterEffectStackItem() {};
+    DoublePropertiesView(const QString &name, double value, double min, double max, const QString &comment, int id, const QString suffix = QString(), int decimals = 0, QWidget* parent = 0);
+    ~DoublePropertiesView() {};
 
 public slots:
     /** @brief Sets the value to @param value. */

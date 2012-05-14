@@ -29,13 +29,13 @@ public:
 
     AbstractParameter *createParameter(AbstractParameterList *parent) const;
 
-    double getDefault() const;
-    double getFactor() const;
-    double getOffset() const;
-    double getMin() const;
-    double getMax() const;
-    int getDecimals() const;
-    QString getSuffix() const;
+    double defaultValue() const;
+    double factor() const;
+    double offset() const;
+    double min() const;
+    double max() const;
+    int decimals() const;
+    QString suffix() const;
 
 protected:
     double m_default;

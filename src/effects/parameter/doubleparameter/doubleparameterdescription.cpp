@@ -42,8 +42,6 @@ void DoubleParameterDescription::init(QDomElement parameter, QLocale locale)
     m_max = locale.toDouble(parameter.attribute("max", QString("-1")));
     m_decimals = locale.toInt(parameter.attribute("decimals", QString("0")));
     m_suffix = parameter.attribute("suffix");
-
-    kDebug() << "param descr y" << name() << m_default;
 }
 
 void DoubleParameterDescription::init(Mlt::Properties& properties, QLocale locale)
@@ -61,8 +59,6 @@ void DoubleParameterDescription::init(Mlt::Properties& properties, QLocale local
     if(QString(properties.get("type")) == "float") {
         m_decimals = 3;
     }
-
-    kDebug() << "param descr n" << name() << m_default;
 }
 
 AbstractParameter *DoubleParameterDescription::createParameter(AbstractParameterList* parent) const
@@ -71,37 +67,37 @@ AbstractParameter *DoubleParameterDescription::createParameter(AbstractParameter
     return static_cast<AbstractParameter*>(parameter);
 }
 
-double DoubleParameterDescription::getDefault() const
+double DoubleParameterDescription::defaultValue() const
 {
     return m_default;
 }
 
-double DoubleParameterDescription::getFactor() const
+double DoubleParameterDescription::factor() const
 {
     return m_factor;
 }
 
-double DoubleParameterDescription::getOffset() const
+double DoubleParameterDescription::offset() const
 {
     return m_offset;
 }
 
-double DoubleParameterDescription::getMin() const
+double DoubleParameterDescription::min() const
 {
     return m_min;
 }
 
-double DoubleParameterDescription::getMax() const
+double DoubleParameterDescription::max() const
 {
     return m_max;
 }
 
-int DoubleParameterDescription::getDecimals() const
+int DoubleParameterDescription::decimals() const
 {
     return m_decimals;
 }
 
-QString DoubleParameterDescription::getSuffix() const
+QString DoubleParameterDescription::suffix() const
 {
     return m_suffix;
 }

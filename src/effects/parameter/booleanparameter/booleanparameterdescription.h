@@ -29,7 +29,7 @@ public:
 
     AbstractParameter *createParameter(AbstractParameterList *parent) const;
 
-    bool getDefault() const;
+    bool defaultValue() const;
 
 private:
     bool m_default;

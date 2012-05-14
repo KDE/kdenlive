@@ -26,7 +26,7 @@ void FixedParameter::set(const char* data)
     Q_UNUSED(data)
 }
 
-QString FixedParameter::getValue() const
+QString FixedParameter::value() const
 {
     return m_parent->parameterValue(name());
 }

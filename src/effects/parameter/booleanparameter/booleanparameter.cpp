@@ -20,7 +20,7 @@ BooleanParameter::BooleanParameter(const BooleanParameterDescription *parameterD
     AbstractParameter(parameterDescription, parent),
     m_description(parameterDescription)
 {
-    set(m_description->getDefault());
+    set(m_description->defaultValue());
 }
 
 void BooleanParameter::set(const char* data)
