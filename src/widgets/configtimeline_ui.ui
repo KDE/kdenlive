@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
-    <height>268</height>
+    <width>281</width>
+    <height>222</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -112,14 +112,6 @@
       </spacer>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_enableaudioalign">
-     <property name="text">
-      <string>Enable Audio Alignment (experimental!)
-Requires restart.</string>
-     </property>
-    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">
