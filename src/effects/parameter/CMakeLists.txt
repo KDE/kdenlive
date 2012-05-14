@@ -1,4 +1,5 @@
 add_subdirectory(booleanparameter)
+add_subdirectory(colorparameter)
 add_subdirectory(doubleparameter)
 add_subdirectory(fixedparameter)
 add_subdirectory(listparameter)

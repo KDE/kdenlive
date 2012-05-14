@@ -129,7 +129,7 @@ void ClipItem::setupEffectDevice(Mlt::Service service, EffectRepository *reposit
     m_effectDevice->appendEffect("mute");
     m_effectDevice->appendEffect("frei0r.letterb0xed");
     m_effectDevice->appendEffect("frei0r.pr0be");
-    m_effectDevice->appendEffect("mirror");
+    m_effectDevice->appendEffect("dynamictext");
 }
 
 
