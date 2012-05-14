@@ -79,13 +79,13 @@ bool DocumentValidator::validate(const double currentVersion)
         // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
         // With some locales since C++ and Qt use a different database for locales
         char *separator = localeconv()->decimal_point;
+	if (newLocale.isEmpty()) {
+            // Requested locale not available, ask for install
+            KMessageBox::sorry(kapp->activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
+        }
+	
         if (separator != documentLocale.decimalPoint()) {
-            if (newLocale.isEmpty()) {
-                // Requested locale not available, ask for install
-                KMessageBox::sorry(kapp->activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
-                
-            }
-            else KMessageBox::sorry(kapp->activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
+	    KMessageBox::sorry(kapp->activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
             kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
             // HACK: There is a locale conflict, so set locale to at least have correct decimal point
             if (strncmp(separator, ".", 1) == 0) documentLocale = QLocale::c();
@@ -103,8 +103,18 @@ bool DocumentValidator::validate(const double currentVersion)
         initEffects::parseEffectFiles();
     }
 
+    bool ok;
+    double version = documentLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
+    if (!ok) {
+	// Could not parse version number, there is probably a conflict in decimal separator
+	QLocale tempLocale = QLocale(mlt.attribute("LC_NUMERIC"));
+	version = tempLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
+	if (!ok) version = kdenliveDoc.attribute("version").toDouble(&ok);
+	if (!ok) kDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
+    }
+    
     // Upgrade the document to the latest version
-    if (!upgrade(documentLocale.toDouble(kdenliveDoc.attribute("version")), currentVersion))
+    if (!upgrade(version, currentVersion))
         return false;
 
     /*
