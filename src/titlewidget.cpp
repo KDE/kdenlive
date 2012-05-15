@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "titlewidget.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "KoSliderCombo.h"
 #include "kthumb.h"
 #include <cmath>

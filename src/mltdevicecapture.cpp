@@ -17,7 +17,7 @@
 
 
 #include "mltdevicecapture.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "definitions.h"
 
 #include <mlt++/Mlt.h>

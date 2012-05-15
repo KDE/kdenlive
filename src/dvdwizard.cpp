@@ -19,7 +19,7 @@
 
 
 #include "dvdwizard.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "profilesdialog.h"
 #include "timecode.h"
 #include "monitormanager.h"

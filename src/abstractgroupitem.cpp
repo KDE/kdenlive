@@ -20,7 +20,7 @@
 
 #include "abstractgroupitem.h"
 #include "abstractclipitem.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "customtrackscene.h"
 #include "customtrackview.h"
 

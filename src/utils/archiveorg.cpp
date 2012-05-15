@@ -28,7 +28,7 @@
 #include <QApplication>
 
 #include <KDebug>
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include <kio/job.h>
 #include <KLocale>
 

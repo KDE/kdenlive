@@ -20,7 +20,7 @@
 
 #include "projectitem.h"
 #include "timecode.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "docclipbase.h"
 
 #include <KDebug>

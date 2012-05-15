@@ -19,7 +19,7 @@
 
 
 #include "keyframehelper.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "definitions.h"
 
 #include <KDebug>

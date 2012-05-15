@@ -21,7 +21,7 @@
 #include "effectslistview.h"
 #include "effectslistwidget.h"
 #include "effectslist.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 #include <KLocale>

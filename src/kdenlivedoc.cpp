@@ -21,7 +21,7 @@
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 #include "profilesdialog.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "renderer.h"
 #include "clipmanager.h"
 #include "titlewidget.h"

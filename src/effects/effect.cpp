@@ -26,6 +26,7 @@ Effect::Effect(EffectDescription *effectDescription, AbstractEffectList* parent)
     m_description(effectDescription)
 {
     m_filter = new Mlt::Filter(*parent->service().profile(), effectDescription->tag().toUtf8().constData());
+    setProperty("kdenlive_id", m_description->getId());
 
     // TODO: do this properly
     parent->appendFilter(m_filter);
@@ -69,6 +70,9 @@ void Effect::checkPropertiesViewState()
                                                                   m_description->description(),
                                                                   static_cast<QWidget *>(m_viewHandler->parentView(MultiViewHandler::propertiesView))
                                                                  );
+            connect(view, SIGNAL(reset()), this, SIGNAL(reset()));
+            connect(view, SIGNAL(disabled(bool)), this, SLOT(setDisabled(bool)));
+            connect(view, SIGNAL(collapsed(bool)), this, SLOT(setPropertiesViewCollapsed(bool)));
             m_viewHandler->setView(MultiViewHandler::propertiesView, view);
             orderedChildViewUpdate(MultiViewHandler::propertiesView, begin(), end());
         } else {
@@ -86,6 +90,17 @@ void Effect::checkTimelineViewState()
 void Effect::checkMonitorViewState()
 {
 }
+
+void Effect::setDisabled(bool disabled)
+{
+    setProperty("disable", QString::number(disabled));
+}
+
+void Effect::setPropertiesViewCollapsed(bool collapsed)
+{
+    // ...
+}
+
 
 #include "effect.moc"
 

@@ -22,7 +22,7 @@
 #include "renderer.h"
 #include "onmonitoritems/rotoscoping/bpointitem.h"
 #include "onmonitoritems/rotoscoping/splineitem.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>

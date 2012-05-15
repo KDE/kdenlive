@@ -32,6 +32,9 @@ public slots:
 
     void checkPropertiesViewState();
 
+protected:
+    void resetValue();
+
 private:
     const ListParameterDescription *m_description;
 

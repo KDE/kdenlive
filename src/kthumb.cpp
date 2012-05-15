@@ -23,7 +23,7 @@
 #include "kthumb.h"
 #include "clipmanager.h"
 #include "renderer.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <mlt++/Mlt.h>
 

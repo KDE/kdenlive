@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "dvdwizardmenu.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 #include <KColorScheme>

@@ -26,7 +26,7 @@
 #include "monitorscene.h"
 #include "monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "core/widgets/dragvalue.h"
 
 #include <QtCore>

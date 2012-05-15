@@ -23,7 +23,7 @@
 #include "v4l/v4lcapture.h"
 #endif
 #include "encodingprofilesdialog.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "renderer.h"
 
 #include <KStandardDirs>

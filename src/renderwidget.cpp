@@ -19,7 +19,7 @@
 
 
 #include "renderwidget.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "ui_saveprofile_ui.h"
 #include "timecode.h"
 #include "profilesdialog.h"

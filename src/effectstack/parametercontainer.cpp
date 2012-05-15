@@ -38,7 +38,7 @@
 #ifdef USE_QJSON
 #include "rotoscoping/rotowidget.h"
 #endif
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "profilesdialog.h"
 #include "projectlist.h"
 #include "mainwindow.h"

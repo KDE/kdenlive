@@ -19,7 +19,7 @@
 #include "effectstack/effectstackview2.h"
 #include "effectslist.h"
 #include "monitor.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 #include <KLocale>

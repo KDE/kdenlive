@@ -110,4 +110,9 @@ void ColorParameter::checkPropertiesViewState()
     }
 }
 
+void ColorParameter::resetValue()
+{
+    set(m_description->defaultValue());
+}
+
 #include "colorparameter.moc"

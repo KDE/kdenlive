@@ -68,4 +68,9 @@ void ListParameter::checkPropertiesViewState()
     }
 }
 
+void ListParameter::resetValue()
+{
+    setCurrentIndex(m_description->defaultIndex());
+}
+
 #include "listparameter.moc"

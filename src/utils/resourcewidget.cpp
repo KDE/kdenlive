@@ -32,7 +32,7 @@
 
 #include <KDebug>
 #include <kdeversion.h>
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include <KGlobalSettings>
 #include <KMessageBox>
 #include <KFileDialog>

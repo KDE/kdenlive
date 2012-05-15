@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "initeffects.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "effectslist.h"
 #include "mainwindow.h"
 

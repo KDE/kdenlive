@@ -22,7 +22,7 @@
 #include "headertrack.h"
 #include "clipitem.h"
 #include "transition.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "clipmanager.h"
 #include "customruler.h"
 #include "kdenlivedoc.h"

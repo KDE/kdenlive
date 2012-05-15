@@ -23,7 +23,7 @@
 #include "docclipbase.h"
 #include "titlewidget.h"
 #include "definitions.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 #include <KGlobalSettings>

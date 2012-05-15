@@ -19,7 +19,7 @@
 
 
 #include "clipproperties.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "kthumb.h"
 #include "markerdialog.h"
 #include "profilesdialog.h"

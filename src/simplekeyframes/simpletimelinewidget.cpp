@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "simpletimelinewidget.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <QStylePainter>
 #include <QMouseEvent>

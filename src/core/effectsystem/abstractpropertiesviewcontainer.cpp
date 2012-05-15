@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "abstractpropertiesviewcontainer.h"
 #include "ui_propertiesviewcontainer_ui.h"
+#include "kdenlivesettings.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QToolButton>
@@ -34,17 +35,40 @@ AbstractPropertiesViewContainer::~AbstractPropertiesViewContainer()
 void AbstractPropertiesViewContainer::addChild(QWidget* child)
 {
     m_ui->frameContainer->layout()->addWidget(child);
+    m_ui->buttonCollapse->setEnabled(true);
 }
 
-void AbstractPropertiesViewContainer::slotEnable(bool disable)
+void AbstractPropertiesViewContainer::setContainerDisabled(bool disable)
 {
+    if (1) {
+        m_ui->frameContainer->setDisabled(disable);
+    }
+    emit disabled(disable);
 }
+
+void AbstractPropertiesViewContainer::setCollapsed()
+{
+    bool collapse = !m_ui->frameContainer->isHidden();
+    m_ui->frameContainer->setHidden(collapse);
+
+    if (collapse) {
+        m_ui->buttonCollapse->setArrowType(Qt::RightArrow);
+    } else {
+        m_ui->buttonCollapse->setArrowType(Qt::DownArrow);
+    }
+
+    emit collapsed(collapse);
+}
+
 
 void AbstractPropertiesViewContainer::setUpHeader(const AbstractPropertiesViewContainer::HeaderButtons& buttons)
 {
     QToolButton *button;
     if (buttons & CollapseButton) {
-
+        if (m_ui->frameContainer->layout()->count() == 0) {
+            m_ui->buttonCollapse->setEnabled(false);
+        }
+        connect(m_ui->buttonCollapse, SIGNAL(clicked()), this, SLOT(setCollapsed()));
     } else {
         m_ui->buttonCollapse->setHidden(true);
     }
@@ -53,7 +77,7 @@ void AbstractPropertiesViewContainer::setUpHeader(const AbstractPropertiesViewCo
         m_ui->buttonEnable->setChecked(false);
         m_ui->buttonEnable->setIcon(KIcon("visible"));
 //         buttonEnable->setToolTip(i18n());
-        connect(m_ui->buttonEnable, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
+        connect(m_ui->buttonEnable, SIGNAL(toggled(bool)), this, SLOT(setContainerDisabled(bool)));
     } else {
         m_ui->buttonEnable->setHidden(true);
     }

@@ -60,4 +60,9 @@ void BooleanParameter::checkPropertiesViewState()
     }
 }
 
+void BooleanParameter::resetValue()
+{
+    set(m_description->defaultValue());
+}
+
 #include "booleanparameter.moc"

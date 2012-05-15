@@ -20,7 +20,7 @@
 
 #include "mainwindow.h"
 #include "mainwindowadaptor.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "kdenlivesettingsdialog.h"
 #include "initeffects.h"
 #include "profilesdialog.h"

@@ -20,6 +20,7 @@ EffectSystemItem::EffectSystemItem(EffectSystemItem* parent) :
         connect(parent, SIGNAL(propertiesViewUpdateRequired()), this, SLOT(checkPropertiesViewState()));
         connect(parent, SIGNAL(timelineViewUpdateRequired()), this, SLOT(checkTimelineViewState()));
         connect(parent, SIGNAL(monitorViewUpdateRequired()), this, SLOT(checkMonitorViewState()));
+        connect(parent, SIGNAL(reset()), this, SIGNAL(reset()));
     } else {
         m_viewHandler = new MultiViewHandler();
     }

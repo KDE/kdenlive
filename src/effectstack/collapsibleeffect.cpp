@@ -20,7 +20,7 @@
 
 #include "collapsibleeffect.h"
 #include "effectslist.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "projectlist.h"
 
 #include <QInputDialog>

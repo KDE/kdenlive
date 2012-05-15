@@ -21,6 +21,10 @@ EffectPropertiesView::EffectPropertiesView(const QString& name, const QString& c
     QLabel *labelName = new QLabel(name, frameHeader());
     static_cast<QHBoxLayout *>(frameHeader()->layout())->insertWidget(2, labelName);
 
+    QFont font;
+    font.setBold(true);
+    frameHeader()->setFont(font);
+
     parent->layout()->addWidget(this);
 }
 

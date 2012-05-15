@@ -21,7 +21,7 @@
 #include "subprojectitem.h"
 #include "timecode.h"
 #include "definitions.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "docclipbase.h"
 
 #include <KDebug>

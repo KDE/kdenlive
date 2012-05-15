@@ -24,7 +24,7 @@
 
 
 #include "renderer.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "kthumb.h"
 #include "definitions.h"
 #include "slideshowclip.h"

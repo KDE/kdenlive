@@ -20,7 +20,7 @@
 
 #include "abstractclipitem.h"
 #include "customtrackscene.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 #include <KLocale>

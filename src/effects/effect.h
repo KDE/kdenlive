@@ -87,6 +87,10 @@ public:
      */
     void checkMonitorViewState();
 
+private slots:
+    void setDisabled(bool disabled);
+    void setPropertiesViewCollapsed(bool collapsed);
+
 private:
     Mlt::Filter *m_filter;
     EffectDescription *m_description;

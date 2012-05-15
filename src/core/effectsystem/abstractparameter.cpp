@@ -18,6 +18,7 @@ AbstractParameter::AbstractParameter(const AbstractParameterDescription *paramet
     m_description(static_cast<const AbstractParameterDescription*>(parameterDescription)),
     m_parent(parent)
 {
+    connect(this, SIGNAL(reset()), this, SLOT(resetValue()));
 }
 
 AbstractParameter::~AbstractParameter()
@@ -49,6 +50,10 @@ void AbstractParameter::checkTimelineViewState()
 }
 
 void AbstractParameter::checkMonitorViewState()
+{
+}
+
+void AbstractParameter::resetValue()
 {
 }
 

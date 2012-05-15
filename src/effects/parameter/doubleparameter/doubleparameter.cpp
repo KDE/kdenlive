@@ -73,4 +73,9 @@ void DoubleParameter::checkPropertiesViewState()
     }
 }
 
+void DoubleParameter::resetValue()
+{
+    set(m_description->defaultValue());
+}
+
 #include "doubleparameter.moc"

@@ -45,17 +45,19 @@ public:
 
     void setUpHeader(const HeaderButtons &buttons = AllButtons);
 
+protected slots:
+    virtual void setContainerDisabled(bool disable);
+    virtual void setCollapsed();
+
 protected:
     QFrame *frameHeader();
 
     Ui::PropertiesViewContainer_UI *m_ui;
 
 signals:
-    void disable(bool disable);
+    void disabled(bool disabled);
+    void collapsed(bool collapsed);
     void reset();
-
-private slots:
-    void slotEnable(bool disable);
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(AbstractPropertiesViewContainer::HeaderButtons)
 

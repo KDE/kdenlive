@@ -21,7 +21,7 @@
 #include "transition.h"
 #include "effectslist.h"
 #include "effectstackedit.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitoreditwidget.h"
 #include "monitorscene.h"

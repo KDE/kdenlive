@@ -20,7 +20,7 @@
 
 #include "clipmanager.h"
 #include "commands/addclipcommand.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
 #include "abstractclipitem.h"

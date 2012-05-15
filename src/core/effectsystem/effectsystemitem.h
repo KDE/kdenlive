@@ -94,6 +94,11 @@ signals:
      */
     void monitorViewUpdateRequired();
 
+    /**
+     * Used to tell children to reset their values to the default ones.
+     */
+    void reset();
+
 private:
     EffectSystemItem *m_parent;
 };

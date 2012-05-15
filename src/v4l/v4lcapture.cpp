@@ -33,7 +33,7 @@
 #include <KLocale>
 
 #include "v4lcapture.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 
 V4lCaptureHandler::V4lCaptureHandler()

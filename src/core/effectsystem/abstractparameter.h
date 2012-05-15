@@ -82,6 +82,12 @@ protected:
     /** pointer to parent parameter list */
     AbstractParameterList *m_parent;
 
+protected slots:
+    /**
+     * @brief Empty implementation. Needs to reimplemented if there is something to reset.
+     */
+    virtual void resetValue();
+
 private:
     const AbstractParameterDescription *m_description;
 };

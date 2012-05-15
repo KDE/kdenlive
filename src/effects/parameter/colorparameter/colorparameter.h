@@ -35,6 +35,9 @@ public slots:
 
     void checkPropertiesViewState();
 
+protected:
+    void resetValue();
+
 private:
     const ColorParameterDescription *m_description;
 

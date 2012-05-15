@@ -19,7 +19,7 @@
 
 
 #include "backupwidget.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KUrl>
 

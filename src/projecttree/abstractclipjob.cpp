@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "abstractclipjob.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "kdenlivedoc.h"
 
 #include <KDebug>

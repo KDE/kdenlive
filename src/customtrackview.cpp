@@ -36,7 +36,7 @@
 #include "commands/changespeedcommand.h"
 #include "commands/addmarkercommand.h"
 #include "commands/razorclipcommand.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "transition.h"
 #include "clipmanager.h"
 #include "renderer.h"

@@ -22,7 +22,7 @@
 #include "projectitem.h"
 #include "subprojectitem.h"
 #include "folderprojectitem.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 #include <KMenu>

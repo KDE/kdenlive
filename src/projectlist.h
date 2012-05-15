@@ -53,7 +53,7 @@
 
 #include "definitions.h"
 #include "timecode.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "folderprojectitem.h"
 #include "subprojectitem.h"
 #include "projecttree/abstractclipjob.h"

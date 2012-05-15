@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "onmonitorcornersitem.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <algorithm>
 
