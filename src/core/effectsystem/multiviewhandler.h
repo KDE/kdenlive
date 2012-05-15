@@ -15,9 +15,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QHash>
 #include <kdemacros.h>
 
-enum EffectViewTypes { EffectPropertiesView, EffectTimelineView, EffectMonitorView };
-
-
 /**
  * @class MultiViewHandler
  * @brief Stores the multiple views an item in the effect system has.
@@ -28,6 +25,13 @@ class KDE_EXPORT MultiViewHandler : public QObject, private QHash<int, QObject*>
     Q_OBJECT
 
 public:
+
+    enum EffectViewTypes {
+        propertiesView,
+        timelineView,
+        monitorView
+    };
+
     /**
      * @brief Constructs a view handler which is a child of @p parent.
      * @param parent parent of this handler

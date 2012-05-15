@@ -49,9 +49,9 @@ double DoubleParameter::value() const
 
 void DoubleParameter::checkPropertiesViewState()
 {
-    bool exists = m_viewHandler->hasView(EffectPropertiesView);
+    bool exists = m_viewHandler->hasView(MultiViewHandler::propertiesView);
     // when the effect or parametergroup (=parent) has a widget than we want a parameter widget in all cases
-    bool shouldExist = m_viewHandler->parentView(EffectPropertiesView) ? true : false;
+    bool shouldExist = m_viewHandler->parentView(MultiViewHandler::propertiesView) ? true : false;
     if (shouldExist != exists) {
         if (shouldExist) {
             DoublePropertiesView *view = new DoublePropertiesView(m_description->displayName(),
@@ -62,13 +62,13 @@ void DoubleParameter::checkPropertiesViewState()
                                                                   -1,
                                                                   m_description->suffix(),
                                                                   m_description->decimals(),
-                                                                  static_cast<QWidget*>(m_viewHandler->parentView(EffectPropertiesView))
+                                                                  static_cast<QWidget*>(m_viewHandler->parentView(MultiViewHandler::propertiesView))
                                                                   );
             connect(this, SIGNAL(valueUpdated(double)), view, SLOT(setValue(double)));
             connect(view, SIGNAL(valueChanged(double)), this, SLOT(set(double)));
-            m_viewHandler->setView(EffectPropertiesView, view);
+            m_viewHandler->setView(MultiViewHandler::propertiesView, view);
         } else {
-            m_viewHandler->deleteView(EffectPropertiesView);
+            m_viewHandler->deleteView(MultiViewHandler::propertiesView);
         }
     }
 }

@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "colorpropertiesview.h"
 #include "core/widgets/colorpickerwidget.h"
+#include "core/effectsystem/abstractpropertiesviewcontainer.h"
 #include <QLabel>
 #include <QHBoxLayout>
 #include <KColorButton>
@@ -45,7 +46,7 @@ ColorPropertiesView::ColorPropertiesView(const QString &name, const QColor &colo
 //     connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     connect(m_button, SIGNAL(changed(const QColor&)), this, SIGNAL(valueChanged(const QColor&)));
 
-    parent->layout()->addWidget(this);
+    static_cast<AbstractPropertiesViewContainer*>(parent)->addChild(this);
 }
 void ColorPropertiesView::setValue(const QColor &color)
 {

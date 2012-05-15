@@ -75,7 +75,7 @@ protected:
      * @param end iterator to determine end of list
      */
     template <class Iterator>
-    void orderedChildViewUpdate(EffectViewTypes type, Iterator childIterator, Iterator end);
+    void orderedChildViewUpdate(MultiViewHandler::EffectViewTypes type, Iterator childIterator, Iterator end);
 
     /** The item's view handler. Must not be deleted in a subclass! */
     MultiViewHandler *m_viewHandler;
@@ -99,17 +99,17 @@ private:
 };
 
 template <class Iterator>
-void EffectSystemItem::orderedChildViewUpdate(EffectViewTypes type, Iterator childIterator, Iterator end)
+void EffectSystemItem::orderedChildViewUpdate(MultiViewHandler::EffectViewTypes type, Iterator childIterator, Iterator end)
 {
     while(childIterator != end) {
         switch (type) {
-            case EffectPropertiesView:
+            case MultiViewHandler::propertiesView:
                 (*childIterator)->checkPropertiesViewState();
                 break;
-            case EffectTimelineView:
+            case MultiViewHandler::timelineView:
                 (*childIterator)->checkTimelineViewState();
                 break;
-            case EffectMonitorView:
+            case MultiViewHandler::monitorView:
                 (*childIterator)->checkMonitorViewState();
                 break;
         }

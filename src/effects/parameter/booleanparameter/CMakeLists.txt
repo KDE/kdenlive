@@ -7,7 +7,7 @@ SET(booleanparameter_SRCS
 
 kde4_add_ui_files(booleanparameter_UIS booleanpropertiesview_ui.ui)
 
-KDE4_ADD_PLUGIN(kdenlivebooleanparameter ${booleanparameter_SRCS} ${booleanparameter_UIS})
+kde4_add_plugin(kdenlivebooleanparameter ${booleanparameter_SRCS} ${booleanparameter_UIS})
 
 
 # KDE definitions and include directories *must* always come first, Qt follows

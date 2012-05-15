@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "doublepropertiesview.h"
 #include "core/widgets/dragvalue.h"
+#include "core/effectsystem/abstractpropertiesviewcontainer.h"
 #include <QWidget>
 #include <QLayout>
 #include <QGridLayout>
@@ -30,7 +31,7 @@ DoublePropertiesView::DoublePropertiesView(const QString& name, double value, do
     m_dragValue->setValue(value);
     connect(m_dragValue, SIGNAL(valueChanged(double, bool)), this, SLOT(valueChanged(double,bool)));
 
-    parent->layout()->addWidget(this);
+    static_cast<AbstractPropertiesViewContainer*>(parent)->addChild(this);
 }
 
 void DoublePropertiesView::setValue(double value)

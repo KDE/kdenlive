@@ -292,28 +292,6 @@ include_directories(
 # to the components requested in find_package().
 include(${QT_USE_FILE})
 
-################################################
-
-kde4_add_kcfg_files(kdenlivecore_LIB_SRCS kdenlivesettings.kcfgc)
-
-kde4_add_library(kdenlivecore SHARED ${kdenlivecore_LIB_SRCS})
-
-target_link_libraries(kdenlivecore
-  ${KDE4_KDEUI_LIBS}
-  ${KDE4_KIO_LIBS}
-  ${QT_LIBRARIES}
-  ${LIBMLT_LIBRARY}
-  ${LIBMLTPLUS_LIBRARY}
-)
-
-if(Q_WS_X11)
-  target_link_libraries(kdenlivecore ${X11_LIBRARIES})
-endif(Q_WS_X11)
-
-set_target_properties(kdenlivecore PROPERTIES VERSION 1.0.0 SOVERSION 1 )
-install(TARGETS kdenlivecore ${INSTALL_TARGETS_DEFAULT_ARGS} )
-
-################################################
 
 qt4_add_dbus_adaptor(kdenlive_SRCS
   org.kdenlive.MainWindow.xml
@@ -401,4 +379,3 @@ install(FILES
 )
 kde4_install_icons(${ICON_INSTALL_DIR})
 install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})

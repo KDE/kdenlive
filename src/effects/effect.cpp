@@ -12,8 +12,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effect.h"
 #include "abstracteffectlist.h"
 #include "effectdescription.h"
+#include "effectpropertiesview.h"
+#include "core/effectsystem/multiviewhandler.h"
 #include <mlt++/Mlt.h>
-#include <core/effectsystem/multiviewhandler.h>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QFrame>
@@ -60,20 +61,19 @@ QString Effect::property(const QString &name) const
 
 void Effect::checkPropertiesViewState()
 {
-    bool exists = m_viewHandler->hasView(EffectPropertiesView);
-    bool shouldExist = m_viewHandler->parentView(EffectPropertiesView) ? true : false;
+    bool exists = m_viewHandler->hasView(MultiViewHandler::propertiesView);
+    bool shouldExist = m_viewHandler->parentView(MultiViewHandler::propertiesView) ? true : false;
     if (shouldExist != exists) {
         if (shouldExist) {
-            // TODO : proper widget
-            QWidget *p = static_cast<QWidget *>(m_viewHandler->parentView(EffectPropertiesView));
-            QFrame *w = new QFrame(p);
-            QVBoxLayout *l = new QVBoxLayout(w);
-            p->layout()->addWidget(w);
-            m_viewHandler->setView(EffectPropertiesView, w);
-            orderedChildViewUpdate(EffectPropertiesView, begin(), end());
+            EffectPropertiesView *view = new EffectPropertiesView(m_description->displayName(),
+                                                                  m_description->description(),
+                                                                  static_cast<QWidget *>(m_viewHandler->parentView(MultiViewHandler::propertiesView))
+                                                                 );
+            m_viewHandler->setView(MultiViewHandler::propertiesView, view);
+            orderedChildViewUpdate(MultiViewHandler::propertiesView, begin(), end());
         } else {
-            QObject *view = m_viewHandler->popView(EffectPropertiesView);
-            orderedChildViewUpdate(EffectPropertiesView, begin(), end());
+            QObject *view = m_viewHandler->popView(MultiViewHandler::propertiesView);
+            orderedChildViewUpdate(MultiViewHandler::propertiesView, begin(), end());
             delete view;
         }
     }

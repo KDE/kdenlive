@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "booleanpropertiesview.h"
+#include "core/effectsystem/abstractpropertiesviewcontainer.h"
 #include <QWidget>
 #include <QLayout>
 
@@ -25,7 +26,7 @@ BooleanPropertiesView::BooleanPropertiesView(const QString &name, bool value, co
 
 //     if (!comment.isEmpty())
 
-    parent->layout()->addWidget(this);
+    static_cast<AbstractPropertiesViewContainer*>(parent)->addChild(this);
 }
 
 void BooleanPropertiesView::setValue(bool value)

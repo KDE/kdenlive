@@ -48,22 +48,22 @@ int ListParameter::currentIndex() const
 
 void ListParameter::checkPropertiesViewState()
 {
-    bool exists = m_viewHandler->hasView(EffectPropertiesView);
+    bool exists = m_viewHandler->hasView(MultiViewHandler::propertiesView);
     // when the effect or parametergroup (=parent) has a widget than we want a parameter widget in all cases
-    bool shouldExist = m_viewHandler->parentView(EffectPropertiesView) ? true : false;
+    bool shouldExist = m_viewHandler->parentView(MultiViewHandler::propertiesView) ? true : false;
     if (shouldExist != exists) {
         if (shouldExist) {
             ListPropertiesView *view = new ListPropertiesView(m_description->displayName(),
                                                               m_description->displayItems(),
                                                               currentIndex(),
                                                               m_description->comment(),
-                                                              static_cast<QWidget*>(m_viewHandler->parentView(EffectPropertiesView))
+                                                              static_cast<QWidget*>(m_viewHandler->parentView(MultiViewHandler::propertiesView))
                                                              );
             connect(this, SIGNAL(currentIndexUpdated(int)), view, SLOT(setCurrentIndex(int)));
             connect(view, SIGNAL(currentIndexChanged(int)), this, SLOT(setCurrentIndex(int)));
-            m_viewHandler->setView(EffectPropertiesView, view);
+            m_viewHandler->setView(MultiViewHandler::propertiesView, view);
         } else {
-            m_viewHandler->deleteView(EffectPropertiesView);
+            m_viewHandler->deleteView(MultiViewHandler::propertiesView);
         }
     }
 }

@@ -5,6 +5,7 @@ set(kdenlive_SRCS
   effects/effect.cpp
   effects/effectdescription.cpp
   effects/effectdevice.cpp
+  effects/effectpropertiesview.cpp
   effects/effectrepository.cpp
   PARENT_SCOPE
 )

@@ -20,7 +20,7 @@ EffectDevice::EffectDevice(Mlt::Service service, EffectRepository *repository, Q
     AbstractEffectList(repository),
     m_service(service)
 {
-    m_viewHandler->setView(EffectPropertiesView, propertiesViewMainWidget);
+    m_viewHandler->setView(MultiViewHandler::propertiesView, propertiesViewMainWidget);
 }
 
 EffectDevice::~EffectDevice()

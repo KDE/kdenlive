@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "listpropertiesview.h"
+#include "core/effectsystem/abstractpropertiesviewcontainer.h"
 #include <QWidget>
 #include <QLayout>
 
@@ -27,7 +28,7 @@ ListPropertiesView::ListPropertiesView(const QString& name, const QStringList& i
 
 //     if (!comment.isEmpty())
 
-    parent->layout()->addWidget(this);
+    static_cast<AbstractPropertiesViewContainer*>(parent)->addChild(this);
 }
 
 void ListPropertiesView::setCurrentIndex(int index)

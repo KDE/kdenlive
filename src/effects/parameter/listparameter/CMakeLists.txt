@@ -7,7 +7,7 @@ SET(listparameter_SRCS
 
 kde4_add_ui_files(listparameter_UIS listpropertiesview_ui.ui)
 
-KDE4_ADD_PLUGIN(kdenlivelistparameter ${listparameter_SRCS} ${listparameter_UIS})
+kde4_add_plugin(kdenlivelistparameter ${listparameter_SRCS} ${listparameter_UIS})
 
 
 # KDE definitions and include directories *must* always come first, Qt follows

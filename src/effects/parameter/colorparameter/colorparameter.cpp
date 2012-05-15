@@ -91,21 +91,21 @@ QString ColorParameter::colorToString(const QColor &color, bool hasAlpha)
 
 void ColorParameter::checkPropertiesViewState()
 {
-    bool exists = m_viewHandler->hasView(EffectPropertiesView);
+    bool exists = m_viewHandler->hasView(MultiViewHandler::propertiesView);
     // when the effect or parametergroup (=parent) has a widget than we want a parameter widget in all cases
-    bool shouldExist = m_viewHandler->parentView(EffectPropertiesView) ? true : false;
+    bool shouldExist = m_viewHandler->parentView(MultiViewHandler::propertiesView) ? true : false;
     if (shouldExist != exists) {
         if (shouldExist) {
             ColorPropertiesView *view = new ColorPropertiesView(m_description->displayName(),
                                                                 value(),
                                                                 m_description->supportsAlpha(),
-                                                                static_cast<QWidget*>(m_viewHandler->parentView(EffectPropertiesView))
+                                                                static_cast<QWidget*>(m_viewHandler->parentView(MultiViewHandler::propertiesView))
                                                                 );
             connect(this, SIGNAL(valueUpdated(const QColor&)), view, SLOT(setValue(const QColor &)));
             connect(view, SIGNAL(valueChanged(const QColor&)), this, SLOT(set(const QColor&)));
-            m_viewHandler->setView(EffectPropertiesView, view);
+            m_viewHandler->setView(MultiViewHandler::propertiesView, view);
         } else {
-            m_viewHandler->deleteView(EffectPropertiesView);
+            m_viewHandler->deleteView(MultiViewHandler::propertiesView);
         }
     }
 }

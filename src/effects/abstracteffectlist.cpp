@@ -35,7 +35,7 @@ void AbstractEffectList::appendEffect(EffectDescription* description)
 {
     Effect *effect = description->createEffect(this);
     append(effect);
-    orderedChildViewUpdate(EffectPropertiesView, begin(), end());
+    orderedChildViewUpdate(MultiViewHandler::propertiesView, begin(), end());
 }
 
 #include "abstracteffectlist.moc"
