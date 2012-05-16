@@ -13,6 +13,8 @@
 
 #include <QImage>
 
+#include <sys/types.h>
+
 /**
   This class holds the correlation of two audio samples.
   It is mainly a container for data, the correlation itself is calculated
