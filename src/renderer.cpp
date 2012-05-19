@@ -1707,8 +1707,9 @@ void Render::showAudio(Mlt::Frame& frame)
         return;
     }
     mlt_audio_format audio_format = mlt_audio_s16;
-    int freq = 0;
-    int num_channels = 0;
+    //FIXME: should not be hardcoded..
+    int freq = 48000;
+    int num_channels = 2;
     int samples = 0;
     int16_t* data = (int16_t*)frame.get_audio(audio_format, freq, num_channels, samples);
 
