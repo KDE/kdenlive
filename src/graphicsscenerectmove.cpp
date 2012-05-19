@@ -79,35 +79,38 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
         QGraphicsScene::keyPressEvent(keyEvent);
         return;
     }
-    int diff = 1;
-    if (m_selectedItem->type() == 8) {
+    if (m_selectedItem->type() == QGraphicsTextItem::Type) {
         QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
         if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
             QGraphicsScene::keyPressEvent(keyEvent);
             return;
         }
     }
+    int diff = 1;
     if (keyEvent->modifiers() & Qt::ControlModifier) diff = 10;
     switch (keyEvent->key()) {
     case Qt::Key_Left:
-        m_selectedItem->setPos(m_selectedItem->pos() - QPointF(diff, 0));
+        foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(-diff,0); }
         emit itemMoved();
         break;
     case Qt::Key_Right:
-        m_selectedItem->setPos(m_selectedItem->pos() + QPointF(diff, 0));
+        foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy( diff,0); }
         emit itemMoved();
         break;
     case Qt::Key_Up:
-        m_selectedItem->setPos(m_selectedItem->pos() - QPointF(0, diff));
+        foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(0,-diff); }
         emit itemMoved();
         break;
     case Qt::Key_Down:
-        m_selectedItem->setPos(m_selectedItem->pos() + QPointF(0, diff));
+        foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(0, diff); }
         emit itemMoved();
         break;
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
-        delete m_selectedItem;
+        foreach (QGraphicsItem *qgi, selectedItems()) {
+            removeItem(qgi);
+            delete qgi;
+        }
         m_selectedItem = NULL;
         emit selectionChanged();
         break;
@@ -126,16 +129,14 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
 
     // http://www.kdenlive.org/mantis/view.php?id=1035
     QList<QGraphicsItem*> i = items(QRectF(p , QSizeF(4, 4)).toRect());
-    if (i.size() <= 0) return;
+    if (i.isEmpty()) return;
 
-    QGraphicsItem* g = i.at(0);
-    if (g) {
-        if (g->type() == 8) {
-            QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(g);
-            m_selectedItem = g;
-            t->setTextInteractionFlags(Qt::TextEditorInteraction);
-        } else emit doubleClickEvent();
-    }
+    QGraphicsItem* g = i.first();
+    if (g->type() == QGraphicsTextItem::Type) {
+        m_selectedItem = g;
+        QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(g);
+        t->setTextInteractionFlags(Qt::TextEditorInteraction);
+    } else emit doubleClickEvent();
     QGraphicsScene::mouseDoubleClickEvent(e);
 }
 
@@ -165,7 +166,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
             }
         }
         if (item == NULL  || !(item->flags() & QGraphicsItem::ItemIsSelectable)) {
-            if (m_selectedItem && m_selectedItem->type() == 8) {
+            if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
                 // disable text editing
                 QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
                 t->textCursor().setPosition(0);
@@ -185,7 +186,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
             m_sceneClickPoint = e->scenePos();
             m_selectedItem = item;
             kDebug() << "/////////  ITEM TYPE: " << item->type();
-            if (item->type() == 8) {
+            if (item->type() == QGraphicsTextItem::Type) {
                 QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(item);
                 if (t->textInteractionFlags() == Qt::TextEditorInteraction) {
                     QGraphicsScene::mousePressEvent(e);
@@ -193,9 +194,9 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 }
                 t->setTextInteractionFlags(Qt::NoTextInteraction);
                 setCursor(Qt::ClosedHandCursor);
-            } else if (item->type() == 3 || item->type() == 13 || item->type() == 7) {
+            } else if (item->type() == QGraphicsRectItem::Type || item->type() == QGraphicsSvgItem::Type || item->type() == QGraphicsPixmapItem::Type) {
                 QRectF r1;
-                if (m_selectedItem->type() == 3)
+                if (m_selectedItem->type() == QGraphicsRectItem::Type)
                     r1 = ((QGraphicsRectItem*)m_selectedItem)->rect().normalized();
                 else
                     r1 = m_selectedItem->boundingRect().normalized();
@@ -254,7 +255,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
 
 void GraphicsSceneRectMove::clearTextSelection()
 {
-    if (m_selectedItem && m_selectedItem->type() == 8) {
+    if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
         // disable text editing
         QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
         t->textCursor().setPosition(0);
@@ -273,9 +274,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         return;
     }
     if (m_selectedItem && e->buttons() & Qt::LeftButton) {
-        if (m_selectedItem->type() == 3 || m_selectedItem->type() == 13 || m_selectedItem->type() == 7) {
+        if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsSvgItem::Type || m_selectedItem->type() == QGraphicsPixmapItem::Type) {
             QRectF newrect;
-            if (m_selectedItem->type() == 3)
+            if (m_selectedItem->type() == QGraphicsRectItem::Type)
                 newrect = ((QGraphicsRectItem*)m_selectedItem)->rect();
             else
                 newrect = m_selectedItem->boundingRect();
@@ -398,10 +399,10 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             default:
                 QPointF diff = e->scenePos() - m_sceneClickPoint;
                 m_sceneClickPoint = e->scenePos();
-                m_selectedItem->moveBy(diff.x(), diff.y());
+                foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(diff.x(), diff.y()); }
                 break;
             }
-            if (m_selectedItem->type() == 3 && m_resizeMode != NoResize) {
+            if (m_selectedItem->type() == QGraphicsRectItem::Type && m_resizeMode != NoResize) {
                 QGraphicsRectItem *gi = (QGraphicsRectItem*)m_selectedItem;
                 // Resize using aspect ratio
                 if (!m_selectedItem->data(0).isNull()) {
@@ -426,7 +427,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 QGraphicsScene::mouseMoveEvent(e);
                 return;
             }*/
-        } else if (m_selectedItem->type() == 8) {
+        } else if (m_selectedItem->type() == QGraphicsTextItem::Type) {
             QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
             if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
                 QGraphicsScene::mouseMoveEvent(e);
@@ -434,7 +435,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             }
             QPointF diff = e->scenePos() - m_sceneClickPoint;
             m_sceneClickPoint = e->scenePos();
-            m_selectedItem->moveBy(diff.x(), diff.y());
+            foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(diff.x(), diff.y()); }
         }
         emit itemMoved();
     } else if (m_tool == TITLE_SELECT) {
@@ -448,11 +449,11 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         bool itemFound = false;
         QList<QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
         foreach(const QGraphicsItem* g, list) {
-            if ((g->type() == 13 || g->type() == 7) && g->zValue() > -1000) {
+            if ((g->type() == QGraphicsSvgItem::Type || g->type() == QGraphicsPixmapItem::Type) && g->zValue() > -1000) {
                 // image or svg item
                 setCursor(Qt::OpenHandCursor);
                 break;
-            } else if (g->type() == 3 && g->zValue() > -1000) {
+            } else if (g->type() == QGraphicsRectItem::Type && g->zValue() > -1000) {
                 if (view == NULL) continue;
                 QRectF r1 = ((const QGraphicsRectItem*)g)->rect().normalized();
                 itemFound = true;
