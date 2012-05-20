@@ -322,6 +322,12 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
     QString folder;
     if (isMime) {
         folder = url.path(KUrl::AddTrailingSlash);
+	// Check how many files we have
+        QDir dir(folder);
+	QStringList filters;
+	filters << "*." + extension.section('.', -1);
+	dir.setNameFilters(filters);
+	*list = dir.entryList(QDir::Files);
     } else {
         folder = url.directory(KUrl::AppendTrailingSlash);
         QString filter = url.fileName();
