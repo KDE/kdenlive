@@ -1808,7 +1808,7 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
     return slowprod;
 }
 
-int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite, bool push, Mlt::Service &clipService)
+int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite, bool push/*, Mlt::Service &clipService*/)
 {
     if (m_mltProducer == NULL) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
@@ -1873,7 +1873,7 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
     if (!clip) {
         return false;
     }
-    clipService = Mlt::Service(clip->get_service());
+//     clipService = Mlt::Service(clip->get_service());
     delete clip;
 
     service.unlock();

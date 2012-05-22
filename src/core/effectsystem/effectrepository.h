@@ -61,7 +61,9 @@ private:
     void applyBlacklist(const QString &filename, QStringList &list) const;
     void loadParameterPlugins();
 
+    /** key: id of the effect */
     QMap <QString, AbstractEffectRepositoryItem*> m_effects;
+    /** key: parameter types supported by the parameter; value: factory to create parameter description */
     QHash <QString, KPluginFactory*> m_parameterPlugins;
 };
 

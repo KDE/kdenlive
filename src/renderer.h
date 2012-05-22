@@ -204,7 +204,7 @@ Q_OBJECT public:
      * Playlist manipulation.
      */
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
-    int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite/* = false*/, bool push/* = false*/, Mlt::Service &service);
+    int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false/*, Mlt::Service &service*/);
     bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);

@@ -11,9 +11,10 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef ABSTRACTEFFECTLIST_H
 #define ABSTRACTEFFECTLIST_H
 
-#include "core/effectsystem/effectsystemitem.h"
+#include "effectsystemitem.h"
 #include <mlt++/Mlt.h>
 #include <QList>
+#include <kdemacros.h>
 
 class EffectRepository;
 class Effect;
@@ -25,7 +26,7 @@ class EffectDescription;
  * @brief Abstract base class for effect containers.
  */
 
-class AbstractEffectList : public EffectSystemItem, protected QList<Effect *>
+class KDE_EXPORT AbstractEffectList : public EffectSystemItem, protected QList<Effect *>
 {
     Q_OBJECT
 public:

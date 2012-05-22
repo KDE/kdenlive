@@ -1,4 +1,4 @@
- /*
+/*
 Copyright (C) 2012  Till Theato <root@ttill.de>
 This file is part of kdenlive. See www.kdenlive.org.
 
@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstracteffectlist.h"
 #include "effectdescription.h"
 #include "effectpropertiesview.h"
-#include "core/effectsystem/multiviewhandler.h"
+#include "multiviewhandler.h"
 #include <mlt++/Mlt.h>
 #include <QWidget>
 #include <QVBoxLayout>

@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef EFFECTPROPERTIESVIEW_H
 #define EFFECTPROPERTIESVIEW_H
 
-#include "core/effectsystem/abstractpropertiesviewcontainer.h"
+#include "abstractpropertiesviewcontainer.h"
 
 
 class EffectPropertiesView : public AbstractPropertiesViewContainer

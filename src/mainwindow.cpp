@@ -65,7 +65,7 @@
 #include "archivewidget.h"
 #include "databackup/backupwidget.h"
 #include "utils/resourcewidget.h"
-#include "effects/effectrepository.h"
+#include "core/effectsystem/effectrepository.h"
 
 
 #include <KApplication>
@@ -118,6 +118,13 @@
 #include <stdlib.h>
 #include <locale.h>
 
+
+// #include "testmltevents.h"
+#include "core/project/project.h"
+#include "core/project/clippluginmanager.h"
+#include "core/project/abstractprojectclip.h"
+
+
 // Uncomment for deeper debugging
 //#define DEBUG_MAINW
 
@@ -161,7 +168,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_findActivated(false),
     m_stopmotion(NULL)
 {
-    m_effectRepository = new EffectRepository();
+//     m_effectRepository = new EffectRepository();
 
     qRegisterMetaType<QVector<int16_t> > ();
     qRegisterMetaType<stringMap> ("stringMap");
@@ -213,6 +220,16 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     initEffects::parseEffectFiles();
     //initEffects::parseCustomEffectsFile();
 
+//     eventInit();
+
+    ClipPluginManager *cpm = new ClipPluginManager();
+    Project *project = new Project(Url, cpm);
+    delete project;
+//     AbstractProjectClip *clip = cpm->createClip(KUrl("/home/till/Stadtleben.png"));
+//     if (clip) {
+//         delete clip;
+//     }
+    delete cpm;
     
     
     m_monitorManager = new MonitorManager();
@@ -588,7 +605,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // Open or create a file.  Command line argument passed in Url has
     // precedence, then "openlastproject", then just a plain empty file.
     // If opening Url fails, openlastproject will _not_ be used.
-    if (!Url.isEmpty()) {
+    if (0 && !Url.isEmpty()) {
         // delay loading so that the window shows up
         m_startUrl = Url;
         QTimer::singleShot(500, this, SLOT(openFile()));
@@ -677,7 +694,7 @@ MainWindow::~MainWindow()
     delete m_monitorManager;
     delete m_scopeManager;
     delete m_eff;
-    delete m_effectRepository;
+//     delete m_effectRepository;
     Mlt::Factory::close();
 }
 
@@ -2526,7 +2543,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(refreshClip(const QString &)), m_activeTimeline->projectView(), SLOT(slotRefreshThumbs(const QString &)));
             m_effectStack->clear();
 
-            disconnect(m_activeTimeline->projectView(), SIGNAL(getDevNeeded(EffectRepository*&, QWidget*&)), this, SLOT(slotGetDevNeeded(EffectRepository*&, QWidget*&)));
+//             disconnect(m_activeTimeline->projectView(), SIGNAL(getDevNeeded(EffectRepository*&, QWidget*&)), this, SLOT(slotGetDevNeeded(EffectRepository*&, QWidget*&)));
         }
         //m_activeDocument->setRenderer(NULL);
         m_clipMonitor->stop();
@@ -2585,7 +2602,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
 
 
-    connect(trackView->projectView(), SIGNAL(getDevNeeded(EffectRepository*&, QWidget*&)), this, SLOT(slotGetDevNeeded(EffectRepository*&, QWidget*&)));
+//     connect(trackView->projectView(), SIGNAL(getDevNeeded(EffectRepository*&, QWidget*&)), this, SLOT(slotGetDevNeeded(EffectRepository*&, QWidget*&)));
 
 
     connect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, const QString &, stringMap)), trackView->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, const QString &, stringMap)));
@@ -2645,8 +2662,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
 void MainWindow::slotGetDevNeeded(EffectRepository *&repository, QWidget *&widget)
 {
-    repository = m_effectRepository;
-    widget = m_eff;
+//     repository = m_effectRepository;
+//     widget = m_eff;
 }
 
 void MainWindow::slotZoneMoved(int start, int end)

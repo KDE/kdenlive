@@ -1,9 +1,11 @@
 
 add_subdirectory(effectsystem)
+add_subdirectory(project)
 add_subdirectory(widgets)
 
 set(kdenlivecore_LIB_SRCS
   ${effectsystem_SRCS}
+  ${project_SRCS}
   ${widget_SRCS}
 )
 

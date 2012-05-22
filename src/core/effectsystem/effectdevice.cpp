@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effectdevice.h"
 #include "effectdescription.h"
 #include "effect.h"
-#include "core/effectsystem/multiviewhandler.h"
+#include "multiviewhandler.h"
 #include <QWidget>
 #include <KDebug>
 

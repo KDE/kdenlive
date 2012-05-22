@@ -33,7 +33,7 @@
 #include "effectslist.h"
 #include "abstractclipitem.h"
 
-#include "effects/effectdevice.h"
+#include "core/effectsystem/effectdevice.h"
 
 class DocClipBase;
 class Transition;

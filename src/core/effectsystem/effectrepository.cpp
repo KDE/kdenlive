@@ -25,7 +25,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <KPluginInfo>
 
-#include "core/effectsystem/abstractparameterdescription.h"
+#include "abstractparameterdescription.h"
 
 
 EffectRepository::EffectRepository()

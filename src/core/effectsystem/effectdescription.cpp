@@ -9,9 +9,9 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "effectdescription.h"
-#include "core/effectsystem/abstractparameterdescription.h"
-#include "effect.h"
+#include "abstractparameterdescription.h"
 #include "abstracteffectlist.h"
+#include "effect.h"
 #include <mlt++/Mlt.h>
 #include <QString>
 #include <QDomElement>

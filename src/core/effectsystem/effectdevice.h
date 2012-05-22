@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "abstracteffectlist.h"
 #include <mlt++/Mlt.h>
+#include <kdemacros.h>
 
 class EffectRepository;
 
@@ -24,7 +25,7 @@ class EffectRepository;
  * Expand when timeline is refactored?
  */
 
-class EffectDevice : public AbstractEffectList
+class KDE_EXPORT EffectDevice : public AbstractEffectList
 {
     Q_OBJECT
 
