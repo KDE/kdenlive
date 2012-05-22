@@ -141,6 +141,7 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
     setEnabled(true);
     m_ui.checkAll->setToolTip(QString());
     m_ui.checkAll->setText(i18n("Effects for track %1").arg(info.trackName.isEmpty() ? QString::number(ix) : info.trackName));
+    m_ui.checkAll->setEnabled(true);
     m_trackindex = ix;
     setupListView();
 }
