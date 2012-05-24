@@ -399,11 +399,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), actionCollection());
     m_loadLayout = new KSelectAction(i18n("Load Layout"), actionCollection());
     for (int i = 1; i < 5; i++) {
-        KAction *load = new KAction(KIcon(), i18n("Layout %1").arg(i), this);
+        KAction *load = new KAction(KIcon(), i18n("Layout %1", i), this);
         load->setData("_" + QString::number(i));
 	layoutActions->addAction("load_layout" + QString::number(i), load);
         m_loadLayout->addAction(load);
-        KAction *save = new KAction(KIcon(), i18n("Save As Layout %1").arg(i), this);
+        KAction *save = new KAction(KIcon(), i18n("Save As Layout %1", i), this);
         save->setData("_" + QString::number(i));
         layoutActions->addAction("save_layout" + QString::number(i), save);
     }
@@ -698,7 +698,7 @@ bool MainWindow::queryClose()
         if (m_activeDocument->url().fileName().isEmpty())
             message = i18n("Save changes to document?");
         else
-            message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?").arg(m_activeDocument->url().fileName());
+            message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_activeDocument->url().fileName());
         switch (KMessageBox::warningYesNoCancel(this, message)) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
@@ -1736,7 +1736,7 @@ void MainWindow::loadLayouts()
                 }
                 for (int j = 0; j < saveActions.count(); j++) {
                     if (saveActions.at(j)->data().toString().endsWith("_" + QString::number(i))) {
-                        saveActions[j]->setText(i18n("Save as %1").arg(layoutName));
+                        saveActions[j]->setText(i18n("Save as %1", layoutName));
                         saveActions[j]->setData(key);
                         break;
                     }
@@ -1919,7 +1919,7 @@ bool MainWindow::closeCurrentDocument(bool saveChanges)
         if (m_activeDocument->url().fileName().isEmpty())
             message = i18n("Save changes to document?");
         else
-            message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?").arg(m_activeDocument->url().fileName());
+            message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_activeDocument->url().fileName());
         switch (KMessageBox::warningYesNoCancel(this, message)) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
@@ -3108,7 +3108,7 @@ void MainWindow::slotAddVideoEffect(QAction *result)
     else
             effect = customEffects.getEffectByTag(info.at(0), info.at(1));
     if (!effect.isNull()) slotAddEffect(effect);
-    else m_messageLabel->setMessage(i18n("Cannot find effect %1 / %2").arg(info.at(0)).arg(info.at(1)), ErrorMessage);
+    else m_messageLabel->setMessage(i18n("Cannot find effect %1 / %2", info.at(0), info.at(1)), ErrorMessage);
 }
 
 
@@ -4108,12 +4108,12 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     // Do save scenelist
     QFile file(playlistPath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        m_messageLabel->setMessage(i18n("Cannot write to file %1").arg(playlistPath), ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot write to file %1", playlistPath), ErrorMessage);
         return;
     }
     file.write(playlistContent.toUtf8());
     if (file.error() != QFile::NoError) {
-        m_messageLabel->setMessage(i18n("Cannot write to file %1").arg(playlistPath), ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot write to file %1", playlistPath), ErrorMessage);
         file.close();
         return;
     }

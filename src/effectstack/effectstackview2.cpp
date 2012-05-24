@@ -103,12 +103,12 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c)
         if (c) {
             QString cname = m_clipref->clipName();
             if (cname.length() > 30) {
-                m_ui.checkAll->setToolTip(i18n("Effects for %1").arg(cname));
+                m_ui.checkAll->setToolTip(i18n("Effects for %1", cname));
                 cname.truncate(27);
-                m_ui.checkAll->setText(i18n("Effects for %1").arg(cname) + "...");
+                m_ui.checkAll->setText(i18n("Effects for %1", cname) + "...");
             } else {
                 m_ui.checkAll->setToolTip(QString());
-                m_ui.checkAll->setText(i18n("Effects for %1").arg(cname));
+                m_ui.checkAll->setText(i18n("Effects for %1", cname));
             }
             m_ui.checkAll->setEnabled(true);
             QString size = c->baseClip()->getProperty("frame_size");
@@ -140,7 +140,7 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
     m_trackInfo = info;
     setEnabled(true);
     m_ui.checkAll->setToolTip(QString());
-    m_ui.checkAll->setText(i18n("Effects for track %1").arg(info.trackName.isEmpty() ? QString::number(ix) : info.trackName));
+    m_ui.checkAll->setText(i18n("Effects for track %1", info.trackName.isEmpty() ? QString::number(ix) : info.trackName));
     m_ui.checkAll->setEnabled(true);
     m_trackindex = ix;
     setupListView();

@@ -230,7 +230,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_proxyContainer = new QFrame();
         m_proxyContainer->setFrameShape(QFrame::NoFrame);
         QHBoxLayout *l = new QHBoxLayout;
-        l->addWidget(new QLabel(i18n("Proxy clip: %1").arg(KIO::convertSize(f.size()))));
+        l->addWidget(new QLabel(i18n("Proxy clip: %1", KIO::convertSize(f.size()))));
         l->addStretch(5);
         QPushButton *pb = new QPushButton(i18n("Delete proxy"));
         l->addWidget(pb);
