@@ -6252,7 +6252,7 @@ void CustomTrackView::alignAudio()
     if (counter == 0) {
         emit displayMessage(i18n("No audio clips selected."), ErrorMessage);
     } else {
-        emit displayMessage(i18n("Auto-aligned %1 clips.").arg(counter), InformationMessage);
+        emit displayMessage(i18n("Auto-aligned %1 clips.", counter), InformationMessage);
     }
 }
 

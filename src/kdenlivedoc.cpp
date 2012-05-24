@@ -798,7 +798,7 @@ void KdenliveDoc::setProjectFolder(KUrl url)
     KStandardDirs::makeDir(url.path());
     KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "titles/");
     KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "thumbs/");
-    if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?").arg(m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
+    if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
 
     updateProjectFolderPlacesEntry();
