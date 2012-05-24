@@ -17,7 +17,8 @@ the Free Software Foundation, either version 3 of the License, or
 class ClipPluginManager;
 class Timeline;
 class AbstractProjectClip;
-class QDomNodeList;
+class ProjectFolder;
+class QDomElement;
 
 
 class KDE_EXPORT Project : public QObject
@@ -32,13 +33,14 @@ public:
     KUrl url() const;
     Timeline *timeline();
     AbstractProjectClip *clip(int id);
+    ProjectFolder *items();
 
 private:
-    void loadClips(const QDomNodeList &clipEntries, ClipPluginManager *clipPluginManager);
+    void loadClips(const QDomElement &description, ClipPluginManager *clipPluginManager);
     void loadTimeline(const QString &content);
 
     KUrl m_url;
-    QHash <int, AbstractProjectClip *> m_clips;
+    ProjectFolder *m_items;
     Timeline *m_timeline;
     
 };

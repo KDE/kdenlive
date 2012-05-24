@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project.h"
 #include "clippluginmanager.h"
 #include "timeline.h"
+#include "projectfolder.h"
 #include "abstractprojectclip.h"
 #include <KIO/NetAccess>
 #include <QFile>
@@ -36,7 +37,7 @@ Project::Project(const KUrl& url, ClipPluginManager *clipPluginManager, QObject*
             KIO::NetAccess::removeTempFile(temporaryFileName);
             
             if (success) {
-                loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_clips").childNodes(), clipPluginManager);
+                loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"), clipPluginManager);
                 loadTimeline(document.toString());
             } else {
                 kWarning() << "unable to load document" << url.path() << errorMessage;
@@ -60,7 +61,9 @@ Project::~Project()
     if (m_timeline) {
         delete m_timeline;
     }
-    qDeleteAll(m_clips);
+    if (m_items) {
+        delete m_items;
+    }
 }
 
 KUrl Project::url() const
@@ -75,21 +78,16 @@ Timeline* Project::timeline()
 
 AbstractProjectClip* Project::clip(int id)
 {
-    if (m_clips.contains(id)) {
-        return m_clips.value(id);
-    }
-    return NULL;
+    return m_items->clip(id);
+}
+ProjectFolder* Project::items()
+{
+    return m_items;
 }
 
-void Project::loadClips(const QDomNodeList& clipEntries, ClipPluginManager *clipPluginManager)
+void Project::loadClips(const QDomElement& description, ClipPluginManager *clipPluginManager)
 {
-    for (int i = 0; i < clipEntries.count(); ++i) {
-        QDomElement clipEntry = clipEntries.item(i).toElement();
-        AbstractProjectClip *clip = clipPluginManager->loadClip(clipEntry);
-        if (clip) {
-            m_clips.insert(clip->id(), clip);
-        }
-    }
+    m_items = new ProjectFolder(description, clipPluginManager);
 }
 
 void Project::loadTimeline(const QString& content)

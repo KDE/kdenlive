@@ -122,7 +122,7 @@
 // #include "testmltevents.h"
 #include "core/project/project.h"
 #include "core/project/clippluginmanager.h"
-#include "core/project/abstractprojectclip.h"
+#include "core/bin/bin.h"
 
 
 // Uncomment for deeper debugging
@@ -222,14 +222,17 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
 //     eventInit();
 
-    ClipPluginManager *cpm = new ClipPluginManager();
-    Project *project = new Project(Url, cpm);
-    delete project;
-//     AbstractProjectClip *clip = cpm->createClip(KUrl("/home/till/Stadtleben.png"));
-//     if (clip) {
-//         delete clip;
-//     }
-    delete cpm;
+    
+
+    m_cpm = new ClipPluginManager();
+    QDockWidget *binDock = new QDockWidget(i18n("Bin"), this);
+    binDock->setObjectName("bin");
+    m_bin = new Bin();
+    binDock->setWidget(m_bin);
+    addDockWidget(Qt::TopDockWidgetArea, binDock);
+
+    m_project = new Project(Url, m_cpm);
+    m_bin->setProject(m_project);
     
     
     m_monitorManager = new MonitorManager();
@@ -693,6 +696,9 @@ MainWindow::~MainWindow()
     delete[] m_transitions;
     delete m_monitorManager;
     delete m_scopeManager;
+
+    delete m_project;
+    delete m_cpm;
     delete m_eff;
 //     delete m_effectRepository;
     Mlt::Factory::close();

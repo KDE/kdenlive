@@ -14,8 +14,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDomElement>
 
 
-AbstractProjectClip::AbstractProjectClip(const KUrl& url, QObject* parent) :
-    QObject(parent),
+AbstractProjectClip::AbstractProjectClip(const KUrl& url, AbstractProjectItem* parent) :
+    AbstractProjectItem(parent),
     m_url(url)
 {
     if (url.isValid()) {
@@ -23,21 +23,19 @@ AbstractProjectClip::AbstractProjectClip(const KUrl& url, QObject* parent) :
     }
 }
 
-AbstractProjectClip::AbstractProjectClip(ProducerWrapper* producer, QObject* parent) :
-    QObject(parent),
+AbstractProjectClip::AbstractProjectClip(ProducerWrapper* producer, AbstractProjectItem* parent) :
+    AbstractProjectItem(parent),
     m_baseProducer(producer)
 {
 }
 
-AbstractProjectClip::AbstractProjectClip(const QDomElement& description, QObject* parent) :
-    QObject(parent)
+AbstractProjectClip::AbstractProjectClip(const QDomElement& description, AbstractProjectItem* parent) :
+    AbstractProjectItem(description, parent)
 {
     Q_ASSERT(description.hasAttribute("id"));
 
     m_id = description.attribute("id").toInt();
     m_url = KUrl(description.attribute("url"));
-    m_name = description.attribute("name");
-    m_description = description.attribute("description");
 }
 
 
@@ -45,6 +43,14 @@ AbstractProjectClip::~AbstractProjectClip()
 {
     // ?
     delete m_baseProducer;
+}
+
+AbstractProjectClip* AbstractProjectClip::clip(int id)
+{
+    if (id == m_id) {
+        return this;
+    }
+    return NULL;
 }
 
 int AbstractProjectClip::id() const
@@ -60,26 +66,6 @@ bool AbstractProjectClip::hasUrl() const
 KUrl AbstractProjectClip::url() const
 {
     return m_url;
-}
-
-QString AbstractProjectClip::name() const
-{
-    return m_name;
-}
-
-void AbstractProjectClip::setName(const QString& name)
-{
-    m_name = name;
-}
-
-QString AbstractProjectClip::description() const
-{
-    return m_description;
-}
-
-void AbstractProjectClip::setDescription(const QString& description)
-{
-    m_description = description;
 }
 
 bool AbstractProjectClip::hasLimitedDuration() const

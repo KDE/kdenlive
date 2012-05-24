@@ -52,7 +52,7 @@ AbstractProjectClip* ClipPluginManager::createClip(const KUrl& url) const
 {
     if (QFile::exists(url.path())) {
         Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-        ProducerWrapper *producer = new ProducerWrapper(profile, url);
+        ProducerWrapper *producer = new ProducerWrapper(profile, url.path());
         QString producerType(producer->get("mlt_service"));
         if (m_clipPluginsForProducers.contains(producerType)) {
             AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->createClip(producer);
@@ -60,7 +60,6 @@ AbstractProjectClip* ClipPluginManager::createClip(const KUrl& url) const
         } else {
             kWarning() << "no clip plugin available for mlt service " << producerType;
         }
-        kDebug() << producer->get("mlt_service");
         // ?
         delete producer;
     } else {
@@ -70,11 +69,11 @@ AbstractProjectClip* ClipPluginManager::createClip(const KUrl& url) const
     return NULL;
 }
 
-AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescription) const
+AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescription, AbstractProjectItem *parent) const
 {
     QString producerType = clipDescription.attribute("producer_type");
     if (m_clipPluginsForProducers.contains(producerType)) {
-        AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->loadClip(clipDescription);
+        AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->loadClip(clipDescription, parent);
         return clip;
     } else {
         kWarning() << "no clip plugin available for mlt service " << producerType;

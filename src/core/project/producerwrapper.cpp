@@ -18,11 +18,9 @@ ProducerWrapper::ProducerWrapper(Mlt::Producer* producer) :
 {
 }
 
-ProducerWrapper::ProducerWrapper(Mlt::Profile& profile, const KUrl& url) :
-    Mlt::Producer(profile, url.path().toUtf8().constData())
+ProducerWrapper::ProducerWrapper(Mlt::Profile& profile, const QString&input, const QString &service) :
+    Mlt::Producer(profile, service == QString() ? NULL : service.toUtf8().constData(), input.toUtf8().constData())
 {
-//     Mlt::Profile profile(profileName.toUtf8().constData());
-//     Mlt::Producer::Producer(new Mlt::Producer(profile, url.path().toUtf8().constData()));
 }
 
 ProducerWrapper::~ProducerWrapper()

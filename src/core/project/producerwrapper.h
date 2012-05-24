@@ -12,9 +12,9 @@ the Free Software Foundation, either version 3 of the License, or
 #define PRODUCERWRAPPER_H
 
 #include <mlt++/Mlt.h>
+#include <QString>
 #include <kdemacros.h>
 
-class KUrl;
 class QPixmap;
 
 
@@ -22,7 +22,7 @@ class KDE_EXPORT ProducerWrapper : public Mlt::Producer
 {
 public:
     ProducerWrapper(Mlt::Producer *producer);
-    ProducerWrapper(Mlt::Profile &profile, const KUrl &url);
+    ProducerWrapper(Mlt::Profile &profile, const QString &input, const QString &service = QString());
     virtual ~ProducerWrapper();
 
     void setProperty(const QString &name, const QString &value);

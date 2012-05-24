@@ -22,9 +22,9 @@ class ImageProjectClip : public AbstractProjectClip
     Q_OBJECT
 
 public:
-    ImageProjectClip(const KUrl& url, QObject* parent = 0);
-    ImageProjectClip(ProducerWrapper* producer, QObject* parent = 0);
-    ImageProjectClip(const QDomElement &description, QObject *parent = 0);
+    ImageProjectClip(const KUrl& url, AbstractProjectItem* parent);
+    ImageProjectClip(ProducerWrapper* producer, AbstractProjectItem* parent = 0);
+    ImageProjectClip(const QDomElement &description, AbstractProjectItem *parent);
     ~ImageProjectClip();
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
@@ -32,7 +32,7 @@ public:
     QPixmap *thumbnail();
 
 private:
-    void init();
+    void init(int duration = 0);
 
     QList<ImageTimelineClip *> m_instances;
     QPixmap *m_thumbnail;

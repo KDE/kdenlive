@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef ABSTRACTPROJECTCLIP_H
 #define ABSTRACTPROJECTCLIP_H
 
-#include <kdemacros.h>
+#include "abstractprojectitem.h"
 #include <KUrl>
 
 class ProducerWrapper;
@@ -20,25 +20,23 @@ class AbstractTimelineClip;
 class QDomElement;
 
 
-class KDE_EXPORT AbstractProjectClip : public QObject
+class KDE_EXPORT AbstractProjectClip : public AbstractProjectItem
 {
     Q_OBJECT
 
 public:
-    AbstractProjectClip(const KUrl &url, QObject *parent = 0);
-    AbstractProjectClip(ProducerWrapper *producer, QObject *parent = 0);
-    AbstractProjectClip(const QDomElement &description, QObject *parent = 0);
+    AbstractProjectClip(const KUrl &url, AbstractProjectItem *parent);
+    AbstractProjectClip(ProducerWrapper *producer, AbstractProjectItem *parent);
+    AbstractProjectClip(const QDomElement &description, AbstractProjectItem *parent);
     virtual ~AbstractProjectClip();
 
     virtual AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent) = 0;
 
+    AbstractProjectClip *clip(int id);
+
     int id() const;
     bool hasUrl() const;
     KUrl url() const;
-    QString name() const;
-    virtual void setName(const QString &name);
-    QString description() const;
-    virtual void setDescription(const QString &description);
     virtual bool hasLimitedDuration() const;
     virtual int duration() const;
 
@@ -46,8 +44,6 @@ protected:
     ProducerWrapper *m_baseProducer;
     int m_id;
     KUrl m_url;
-    QString m_name;
-    QString m_description;
     bool m_hasLimitedDuration;
 };
 

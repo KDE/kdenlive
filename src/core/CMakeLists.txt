@@ -1,9 +1,11 @@
 
+add_subdirectory(bin)
 add_subdirectory(effectsystem)
 add_subdirectory(project)
 add_subdirectory(widgets)
 
 set(kdenlivecore_LIB_SRCS
+  ${bin_SRCS}
   ${effectsystem_SRCS}
   ${project_SRCS}
   ${widget_SRCS}
@@ -21,7 +23,8 @@ message(${CMAKE_BINARY_DIR})
 add_definitions(${KDE4_DEFINITIONS})
 
 include_directories(
-  ${KDE4_INCLUDES} # Adds Qt include directories too.
+  ${CMAKE_SOURCE_DIR}
+  ${KDE4_INCLUDES}
   ${LIBMLT_INCLUDE_DIR}
   ${LIBMLTPLUS_INCLUDE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}

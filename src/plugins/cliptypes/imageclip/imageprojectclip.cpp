@@ -19,34 +19,33 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDomElement>
 
 
-ImageProjectClip::ImageProjectClip(const KUrl& url, QObject* parent) :
+ImageProjectClip::ImageProjectClip(const KUrl& url, AbstractProjectItem* parent) :
     AbstractProjectClip(url, parent)
 {
-    m_hasLimitedDuration = false;
 
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-    m_baseProducer = new ProducerWrapper(profile, url);
+    m_baseProducer = new ProducerWrapper(profile, url.path());
 
     init();
 }
 
-ImageProjectClip::ImageProjectClip(ProducerWrapper* producer, QObject* parent) :
+ImageProjectClip::ImageProjectClip(ProducerWrapper* producer, AbstractProjectItem* parent) :
     AbstractProjectClip(producer, parent)
 {
     init();
 }
 
-ImageProjectClip::ImageProjectClip(const QDomElement& description, QObject* parent) :
+ImageProjectClip::ImageProjectClip(const QDomElement& description, AbstractProjectItem* parent) :
     AbstractProjectClip(description, parent)
 {
     Q_ASSERT(description.attribute("producer_type") == "pixbuf" || description.attribute("producer_type") == "qimage");
 
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-    m_baseProducer = new ProducerWrapper(profile, m_url);
+    m_baseProducer = new ProducerWrapper(profile, m_url.path(), description.attribute("producer_type"));
 
     kDebug() << "image project clip created" << id();
 
-    // set duration...
+    init(description.attribute("duration", "0").toInt());
 }
 
 ImageProjectClip::~ImageProjectClip()
@@ -72,19 +71,24 @@ QPixmap *ImageProjectClip::thumbnail()
     return m_thumbnail;
 }
 
-void ImageProjectClip::init()
+void ImageProjectClip::init(int duration)
 {
     Q_ASSERT(m_baseProducer && m_baseProducer->is_valid());
     Q_ASSERT(m_baseProducer->property("mlt_service") == "qimage" || m_baseProducer->property("mlt_service") == "pixbuf");
 
-    m_baseProducer->setProperty("length", KdenliveSettings::image_duration());
-    m_baseProducer->set_in_and_out(0, KdenliveSettings::image_duration().toInt());
+    m_hasLimitedDuration = false;
+
+    if (duration == 0) {
+        duration = KdenliveSettings::image_duration().toInt();
+    }
+    m_baseProducer->set("length", duration);
+    m_baseProducer->set_in_and_out(0, duration);
 
     m_thumbnail = 0;
 
-    kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length() << m_baseProducer->position();
-    QPixmap *pix = thumbnail();
-    pix->save("test.png");
+    kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
+//     QPixmap *pix = thumbnail();
+//     pix->save("test.png");
     //...
 }
 

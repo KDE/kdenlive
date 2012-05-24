@@ -35,9 +35,9 @@ AbstractProjectClip* ImageClipPlugin::createClip(ProducerWrapper *producer) cons
     return projectClip;
 }
 
-AbstractProjectClip* ImageClipPlugin::loadClip(const QDomElement& description) const
+AbstractProjectClip* ImageClipPlugin::loadClip(const QDomElement& description, AbstractProjectItem *parent) const
 {
-    ImageProjectClip *projectClip = new ImageProjectClip(description);
+    ImageProjectClip *projectClip = new ImageProjectClip(description, parent);
     return projectClip;
 }
 

@@ -25,7 +25,7 @@ public:
     ~ImageClipPlugin();
 
     AbstractProjectClip *createClip(ProducerWrapper *producer) const;
-    AbstractProjectClip *loadClip(const QDomElement &description) const;
+    AbstractProjectClip *loadClip(const QDomElement &description, AbstractProjectItem *parent) const;
 };
 
 #endif

@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 class AbstractClipPlugin;
 class AbstractProjectClip;
+class AbstractProjectItem;
 class KUrl;
 class QDomElement;
 
@@ -30,7 +31,7 @@ public:
     ~ClipPluginManager();
 
     AbstractProjectClip *createClip(const KUrl &url) const;
-    AbstractProjectClip *loadClip(const QDomElement &clipDescription) const;
+    AbstractProjectClip *loadClip(const QDomElement &clipDescription, AbstractProjectItem *parent) const;
 
 private:
     QList<AbstractClipPlugin *> m_clipPlugins;

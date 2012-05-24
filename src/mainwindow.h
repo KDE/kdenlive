@@ -52,6 +52,9 @@
 #include "noteswidget.h"
 #include "ui_backupdialog_ui.h"
 
+class Bin;
+class ClipPluginManager;
+class Project;
 class KdenliveDoc;
 class TrackView;
 class MonitorManager;
@@ -149,6 +152,13 @@ protected:
     virtual void readProperties(const KConfigGroup &config);
 
 private:
+    Project *m_project;
+    ClipPluginManager *m_cpm;
+    Bin *m_bin;
+    
+    
+    
+    
     KTabWidget* m_timelineArea;
     QProgressBar *m_statusProgressBar;
 

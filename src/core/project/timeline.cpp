@@ -21,7 +21,7 @@ Timeline::Timeline(const QString& document, Project* parent) :
     m_parent(parent)
 {
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-    m_producer = new ProducerWrapper(new Mlt::Producer(profile, "xml-string", document.toUtf8().constData()));
+    m_producer = new ProducerWrapper(profile, document.toUtf8().constData(), "xml-string");
 
     Q_ASSERT(m_producer && m_producer->is_valid());
 
@@ -31,6 +31,8 @@ Timeline::Timeline(const QString& document, Project* parent) :
 
     m_tractor = new Mlt::Tractor(service);
 
+//     m_producer->optimise();
+
     Mlt::Multitrack *multitrack = m_tractor->multitrack();
     for (int i = 0; i < multitrack->count(); ++i) {
         TimelineTrack *track = new TimelineTrack(new ProducerWrapper(multitrack->track(i)), this);
@@ -38,6 +40,8 @@ Timeline::Timeline(const QString& document, Project* parent) :
             m_tracks.append(track);
         }
     }
+
+
     kDebug() << "timline created" << m_tracks.count();
 }
 
