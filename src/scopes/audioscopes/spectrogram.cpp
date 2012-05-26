@@ -426,7 +426,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
         for (QList< QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); it++) {
             storedBytes += (*it).size() * sizeof((*it)[0]);
         }
-        qDebug() << QString("Total storage used: %1 kB", QString("%1").arg((double)storedBytes/1000, 0, 'f', 2));
+        qDebug() << QString("Total storage used: %1 kB").arg((double)storedBytes/1000, 0, 'f', 2);
 #endif
 
         m_fftHistoryImg = spectrum;
