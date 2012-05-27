@@ -1856,9 +1856,9 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
             if (id == "fade_from_black" || id == "fadein") {
                 if (in != cropStart().frames(m_fps)) {
                     effects[i] = effect.cloneNode().toElement();
-                    int diff = in - cropStart().frames(m_fps);
-                    in -= diff;
-                    out -= diff;
+                    int duration = out - in;
+                    in = cropStart().frames(m_fps);
+                    out = in + duration;
                     EffectsList::setParameter(effect, "in", QString::number(in));
                     EffectsList::setParameter(effect, "out", QString::number(out));
                 }

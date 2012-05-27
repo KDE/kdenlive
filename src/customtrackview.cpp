@@ -4702,7 +4702,7 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
         kDebug() << "// RESIZE CROP, DIFF: " << (end.cropStart - start.cropStart).frames(25);
         ItemInfo clipinfo = end;
         clipinfo.track = m_document->tracksCount() - end.track;
-        bool success = m_document->renderer()->mltResizeClipCrop(clipinfo, end.cropStart - start.cropStart);
+        bool success = m_document->renderer()->mltResizeClipCrop(clipinfo, end.cropStart);
         if (success) {
             item->setCropStart(end.cropStart);
             item->resetThumbs(true);
@@ -4777,7 +4777,6 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
             adjustEffects(clip, oldInfo, command);
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
-            emit clipItemSelected(clip);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeStart((int) oldInfo.startPos.frames(m_document->fps()));
@@ -4872,7 +4871,6 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
             adjustEffects(clip, oldInfo, command);
             new ResizeClipCommand(this, oldInfo, info, false, true, command);
-            emit clipItemSelected(clip);
         } else {
             KdenliveSettings::setSnaptopoints(false);
             item->resizeEnd((int) oldInfo.endPos.frames(m_document->fps()));
@@ -7143,7 +7141,7 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
     if (effects.count()) {
         QMap<int, QDomElement>::const_iterator i = effects.constBegin();
         while (i != effects.constEnd()) {
-            new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), i.value(), item->effect(i.key()), i.key(), false, false, command);
+            new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), i.value(), item->effect(i.key()), i.value().attribute("kdenlive_ix").toInt(), true, true, command);
             ++i;
         }
     }

@@ -215,7 +215,7 @@ Q_OBJECT public:
 
     bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
-    bool mltResizeClipCrop(ItemInfo info, GenTime diff);
+    bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
     bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
     bool mltRemoveClip(int track, GenTime position);
