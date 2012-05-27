@@ -31,6 +31,13 @@ public:
     AbstractProjectClip *projectClip();
     TimelineTrack *track();
 
+    int position() const;
+    int duration() const;
+    int in() const;
+    int out() const;
+
+    QString name() const;
+
 protected:
     ProducerWrapper *m_producer;
     AbstractProjectClip *m_projectClip;

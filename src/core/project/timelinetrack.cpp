@@ -33,7 +33,7 @@ TimelineTrack::TimelineTrack(ProducerWrapper* producer, Timeline* parent) :
             if (projectClip) {
                 kDebug() << "project clip found" << id;
                 AbstractTimelineClip *clip = projectClip->addInstance(clipProducer, this);
-                m_clips.append(clip);
+                m_clips.insert(i, clip);
             } else {
                 kDebug() << "project clip not found" << id;
                 delete clipProducer;
@@ -42,7 +42,7 @@ TimelineTrack::TimelineTrack(ProducerWrapper* producer, Timeline* parent) :
             delete clipProducer;
         }
     }
-    kDebug() << "track created" << m_clips.count() << m_playlist->count();
+    kDebug() << "track created" << producer->get("name") << m_clips.count() << m_playlist->count();
 }
 
 TimelineTrack::~TimelineTrack()
@@ -51,5 +51,39 @@ TimelineTrack::~TimelineTrack()
     delete m_producer;
 }
 
+Timeline* TimelineTrack::timeline()
+{
+    return m_parent;
+}
+
+ProducerWrapper* TimelineTrack::producer()
+{
+    return m_producer;
+}
+
+Mlt::Playlist* TimelineTrack::playlist()
+{
+    return m_playlist;
+}
+
+QList< AbstractTimelineClip* > TimelineTrack::clips()
+{
+    return m_clips.values();
+}
+
+int TimelineTrack::clipPosition(const AbstractTimelineClip* clip) const
+{
+    return m_playlist->clip(mlt_whence_relative_start, m_clips.key(const_cast<AbstractTimelineClip*>(clip)));
+}
+
+QString TimelineTrack::name() const
+{
+    return QString();
+}
+
+void TimelineTrack::setName(const QString& name)
+{
+
+}
 
 #include "timelinetrack.moc"

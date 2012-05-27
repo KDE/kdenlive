@@ -43,4 +43,29 @@ TimelineTrack* AbstractTimelineClip::track()
     return m_parent;
 }
 
+int AbstractTimelineClip::position() const
+{
+    return m_parent->clipPosition(this);
+}
+
+int AbstractTimelineClip::duration() const
+{
+    return m_producer->get_playtime();
+}
+
+int AbstractTimelineClip::in() const
+{
+    return m_producer->get_in();
+}
+
+int AbstractTimelineClip::out() const
+{
+    return m_producer->get_out();
+}
+
+QString AbstractTimelineClip::name() const
+{
+    return m_projectClip->name();
+}
+
 #include "abstracttimelineclip.moc"

@@ -32,6 +32,7 @@ public:
     virtual ~Timeline();
 
     Project *project();
+    QList<TimelineTrack *> tracks();
 
 private:
     Project *m_parent;

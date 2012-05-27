@@ -59,4 +59,9 @@ Project* Timeline::project()
     return m_parent;
 }
 
+QList< TimelineTrack* > Timeline::tracks()
+{
+    return m_tracks;
+}
+
 #include "timeline.moc"

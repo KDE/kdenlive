@@ -2,12 +2,14 @@
 add_subdirectory(bin)
 add_subdirectory(effectsystem)
 add_subdirectory(project)
+add_subdirectory(timelineview)
 add_subdirectory(widgets)
 
 set(kdenlivecore_LIB_SRCS
   ${bin_SRCS}
   ${effectsystem_SRCS}
   ${project_SRCS}
+  ${timelineview_SRCS}
   ${widget_SRCS}
 )
 

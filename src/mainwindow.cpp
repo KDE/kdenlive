@@ -123,6 +123,8 @@
 #include "core/project/project.h"
 #include "core/project/clippluginmanager.h"
 #include "core/bin/bin.h"
+#include "core/timelineview/timelinescene.h"
+#include <QGraphicsView>
 
 
 // Uncomment for deeper debugging
@@ -233,8 +235,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_project = new Project(Url, m_cpm);
     m_bin->setProject(m_project);
-    
-    
+
+    QDockWidget *timelineTest = new QDockWidget(i18n("Timeline"), this);
+    timelineTest->setObjectName("timeline_test");
+    TimelineScene *scene = new TimelineScene(m_project->timeline(), this);//static_cast<QObject*>(this));
+    QGraphicsView *viewT = new QGraphicsView(scene, timelineTest);
+    timelineTest->setWidget(viewT);
+    addDockWidget(Qt::BottomDockWidgetArea, timelineTest);
     m_monitorManager = new MonitorManager();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);

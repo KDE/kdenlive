@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define TIMELINETRACK_H
 
 #include <QObject>
+#include <QMap>
 #include <kdemacros.h>
 
 class Timeline;
@@ -32,12 +33,22 @@ public:
     TimelineTrack(ProducerWrapper *producer, Timeline* parent = 0);
     virtual ~TimelineTrack();
 
+    Timeline *timeline();
+    ProducerWrapper *producer();
+    Mlt::Playlist *playlist();
+
+    QList<AbstractTimelineClip*> clips();
+    int clipPosition(const AbstractTimelineClip *clip) const;
+
+    QString name() const;
+    void setName(const QString &name);
+
 private:
     Timeline *m_parent;
     ProducerWrapper *m_producer;
     Mlt::Playlist *m_playlist;
     EffectDevice *m_effectDevice;
-    QList<AbstractTimelineClip *> m_clips;
+    QMap<int, AbstractTimelineClip *> m_clips;
 };
 
 #endif
