@@ -2871,7 +2871,7 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     }
 
     for (int j = 0; j < params.count(); j++) {
-        filter->set((params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
+        filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
     
     for (int j = 0; j < filtersList.count(); j++) {
@@ -3289,10 +3289,10 @@ void Render::fixAudioMixing(Mlt::Tractor tractor)
     mlt_service_unlock(serv);
 }
 
-bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff)
+bool Render::mltResizeClipCrop(ItemInfo info, GenTime newCropStart)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
-    int frameOffset = (int) diff.frames(m_fps);
+    int newCropFrame = (int) newCropStart.frames(m_fps);
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -3311,7 +3311,13 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff)
     int previousStart = clip->get_in();
     int previousOut = clip->get_out();
     delete clip;
-    trackPlaylist.resize_clip(clipIndex, previousStart + frameOffset, previousOut + frameOffset);
+    if (previousStart == newCropFrame) {
+	kDebug() << "////////  No ReSIZING Required";
+        service.unlock();
+        return true;
+    }
+    int frameOffset = newCropFrame - previousStart;
+    trackPlaylist.resize_clip(clipIndex, newCropFrame, previousOut + frameOffset);
     service.unlock();
     m_mltConsumer->set("refresh", 1);
     return true;
