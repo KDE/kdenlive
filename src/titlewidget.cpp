@@ -169,7 +169,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     title_duration->setInputMask(m_tc.mask());
     title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
 
-    connect(backgroundColor, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundColor, SIGNAL(changed(const QColor &)), this, SLOT(slotChangeBackground())) ;
     connect(backgroundAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotChangeBackground())) ;
 
     connect(fontColorButton, SIGNAL(changed(const QColor &)), this, SLOT(slotUpdateText())) ;
@@ -1472,6 +1472,7 @@ void TitleWidget::updateAxisButtons(QGraphicsItem *i)
 void TitleWidget::slotChangeBackground()
 {
     QColor color = backgroundColor->color();
+    m_scene->setBackgroundBrush(QBrush(color));
     color.setAlpha(backgroundAlpha->value());
     m_frameBorder->setBrush(QBrush(color));
 }
