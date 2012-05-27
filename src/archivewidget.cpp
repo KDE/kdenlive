@@ -529,6 +529,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     QString destPath;
     QTreeWidgetItem *parentItem;
     bool isSlideshow = false;
+    int items = 0;
     
     // We parse all files going into one folder, then start the copy job
     
@@ -555,6 +556,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                 item = parentItem->child(j);
                 if (item->isDisabled()) continue;
                 // Special case: slideshows
+		items++;
                 if (isSlideshow) {
                     destPath += item->data(0, Qt::UserRole).toString() + "/";
                     destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + destPath);
@@ -586,6 +588,12 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         }
     }
 
+    if (items == 0) {
+	// No clips to archive
+	if (isArchive) slotArchivingFinished(NULL, true);
+	return true;
+    }
+    
     if (destPath.isEmpty()) {
         if (m_duplicateFiles.isEmpty()) return false;        
         QMapIterator<KUrl, KUrl> i(m_duplicateFiles);
@@ -624,10 +632,10 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     return true;
 }
 
-void ArchiveWidget::slotArchivingFinished(KJob *job)
+void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
 {
     if (job == NULL || job->error() == 0) {
-        if (slotStartArchiving(false)) {
+        if (!finished && slotStartArchiving(false)) {
             // We still have files to archive
             return;
         }
