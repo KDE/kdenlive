@@ -405,7 +405,7 @@ void DocClipBase::deleteProducers()
 {
     if (m_thumbProd) m_thumbProd->clearProducer();
     
-    if (numReferences() > 0) {
+    if (numReferences() > 0 && (!m_baseTrackProducers.isEmpty() || m_videoOnlyProducer || !m_audioTrackProducers.isEmpty())) {
         // Clip is used in timeline, delay producers deletion
         if (m_videoOnlyProducer) m_toDeleteProducers.append(m_videoOnlyProducer);
         for (int i = 0; i < m_baseTrackProducers.count(); i++) {
@@ -650,6 +650,7 @@ Mlt::Producer *DocClipBase::getCloneProducer()
     }
     return prod;
 }
+
 
 Mlt::Producer *DocClipBase::getProducer(int track)
 {

@@ -693,7 +693,7 @@ void ProjectList::slotReloadClip(const QString &id)
                 item->referencedClip()->setPlaceHolder(true);
                 item->setProperty("file_hash", QString());
             } else if (t == IMAGE) {
-                clip->getProducer()->set("force_reload", 1);
+                //clip->getProducer() clip->getProducer()->set("force_reload", 1);
             }
 
             QDomElement e = item->toXml();
