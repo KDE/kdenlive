@@ -47,6 +47,8 @@
 #include <QThread>
 #include <QScriptEngine>
 
+#include "locale.h"
+
 
 // Render profiles roles
 const int GroupRole = Qt::UserRole;
@@ -869,7 +871,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
     // Set locale for render process if required
     if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
-        render_process_args << QString("-locale:%1").arg(QLocale().name());
+	const QString currentLocale = setlocale(LC_NUMERIC, NULL);
+        render_process_args << QString("-locale:%1").arg(currentLocale);
     }
 
     double guideStart = 0;
@@ -1082,6 +1085,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             renderItem->setMetadata(url);
         }
     }
+
     renderItem->setData(1, ParametersRole, render_process_args);
     if (exportAudio == false) renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
     else  renderItem->setData(1, ExtraInfoRole, QString());
