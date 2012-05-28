@@ -137,8 +137,7 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
 
     connect(m_captureProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotProcessStatus(QProcess::ProcessState)));
     connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadDvgrabInfo()));
-
-
+    
     QString videoDriver = KdenliveSettings::videodrivername();
 #if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -161,6 +160,7 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     }
     m_displayProcess->setEnvironment(env);
 #endif
+
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
     kDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
@@ -352,7 +352,7 @@ void RecMonitor::slotDisconnect()
 {
     if (m_captureProcess->state() == QProcess::NotRunning) {
         m_captureTime = KDateTime::currentLocalDateTime();
-        kDebug() << "CURRENT TIME: " << m_captureTime.toString();
+        kDebug() << "CURRENT TIME: " << m_captureTime.toString();       
         m_didCapture = false;
         slotStartPreview(false);
         m_discAction->setIcon(KIcon("network-disconnect"));
@@ -427,6 +427,7 @@ void RecMonitor::slotStartPreview(bool play)
 {
     if (m_captureProcess->state() != QProcess::NotRunning) {
         if (device_selector->currentIndex() == FIREWIRE) {
+            videoBox->setHidden(false);
             if (m_isPlaying) {
                 m_captureProcess->write("k", 1);
                 //captureProcess->write("\e", 2);
@@ -451,7 +452,7 @@ void RecMonitor::slotStartPreview(bool play)
     QString producer;
     QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(" ", QString::SkipEmptyParts);
     int ix = device_selector->currentIndex();
-    videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC && ix != FIREWIRE);
     switch (ix) {
     case FIREWIRE:
         switch (KdenliveSettings::firewireformat()) {
@@ -485,7 +486,7 @@ void RecMonitor::slotStartPreview(bool play)
         if (capturename.isEmpty()) capturename = "capture";
         m_captureArgs << capturename << "-";
 
-        m_displayArgs << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-";
+        m_displayArgs << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-noframedrop" << "-";
 
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
         m_captureProcess->setWorkingDirectory(m_capturePath);
@@ -540,7 +541,7 @@ void RecMonitor::slotStartPreview(bool play)
     if (device_selector->currentIndex() == FIREWIRE) {
         kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
         m_displayProcess->start("ffplay", m_displayArgs);
-        video_frame->setText(i18n("Initialising..."));
+        //video_frame->setText(i18n("Initialising..."));
     } else {
         // do something when starting screen grab
     }
