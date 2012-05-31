@@ -52,10 +52,6 @@ void MonitorGraphicsScene::initializeGL(QGLWidget* glWidget)
 {
     glWidget->makeCurrent();
 
-    glClearColor(KdenliveSettings::window_background().redF(),
-                 KdenliveSettings::window_background().greenF(),
-                 KdenliveSettings::window_background().blueF(),
-                 1.0f);
     glShadeModel(GL_FLAT);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
@@ -73,13 +69,19 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
         return;
     }
 
+    glClearColor(KdenliveSettings::window_background().redF(),
+                 KdenliveSettings::window_background().greenF(),
+                 KdenliveSettings::window_background().blueF(),
+                 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     if(!m_texture && !m_image) {
         return;
     }
 
     if (m_needsResize) {
-        int width = views()[0]->width();
-        int height = views()[0]->height();
+        int width = views()[0]->viewport()->width();
+        int height = views()[0]->viewport()->height();
 
         glViewport(0, 0, width, height);
         glMatrixMode(GL_PROJECTION);
@@ -110,8 +112,6 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
     m_imageMutex.unlock();
 
     QPolygon viewRect = views()[0]->mapFromScene(imageRect);
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
 //     timer.start();
