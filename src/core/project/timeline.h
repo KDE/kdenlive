@@ -20,6 +20,7 @@ class TimelineTrack;
 namespace Mlt
 {
     class Tractor;
+    class Profile;
 }
 
 
@@ -33,11 +34,15 @@ public:
 
     Project *project();
     QList<TimelineTrack *> tracks();
+    Mlt::Profile *profile();
+
+    void loadTracks();
 
 private:
     Project *m_parent;
     Mlt::Tractor *m_tractor;
     ProducerWrapper *m_producer;
+    Mlt::Profile *m_profile;
     QList <TimelineTrack *> m_tracks;
     
 };

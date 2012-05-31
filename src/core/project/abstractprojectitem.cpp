@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "abstractprojectitem.h"
+#include "project.h"
 #include <QDomElement>
 #include <QVariant>
 
@@ -31,7 +32,14 @@ AbstractProjectItem::~AbstractProjectItem()
 {
 }
 
-AbstractProjectItem* AbstractProjectItem::parent()
+bool AbstractProjectItem::operator==(const AbstractProjectItem* projectItem) const
+{
+    bool equal = static_cast<const QList* const>(this) == static_cast<const QList* const>(projectItem);
+    equal &= m_parent == projectItem->parent();
+    return equal;
+}
+
+AbstractProjectItem* AbstractProjectItem::parent() const
 {
     return m_parent;
 }
@@ -43,6 +51,14 @@ int AbstractProjectItem::index() const
     }
 
     return 0;
+}
+
+Project* AbstractProjectItem::project()
+{
+    if (m_parent) {
+        return m_parent->project();
+    }
+    return NULL;
 }
 
 QVariant AbstractProjectItem::data(DataType type) const

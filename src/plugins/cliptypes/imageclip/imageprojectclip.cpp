@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "imageprojectclip.h"
 #include "imagetimelineclip.h"
 #include "core/project/producerwrapper.h"
+#include "core/project/project.h"
 #include "src/core/kdenlivesettings.h"
 #include <mlt++/Mlt.h>
 #include <KUrl>
@@ -22,9 +23,7 @@ the Free Software Foundation, either version 3 of the License, or
 ImageProjectClip::ImageProjectClip(const KUrl& url, AbstractProjectItem* parent) :
     AbstractProjectClip(url, parent)
 {
-
-    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-    m_baseProducer = new ProducerWrapper(profile, url.path());
+    m_baseProducer = new ProducerWrapper(*project()->profile(), url.path());
 
     init();
 }
@@ -40,8 +39,7 @@ ImageProjectClip::ImageProjectClip(const QDomElement& description, AbstractProje
 {
     Q_ASSERT(description.attribute("producer_type") == "pixbuf" || description.attribute("producer_type") == "qimage");
 
-    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-    m_baseProducer = new ProducerWrapper(profile, m_url.path(), description.attribute("producer_type"));
+    m_baseProducer = new ProducerWrapper(*(project()->profile()), m_url.path(), description.attribute("producer_type"));
 
     kDebug() << "image project clip created" << id();
 

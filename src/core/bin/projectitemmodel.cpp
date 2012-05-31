@@ -96,7 +96,7 @@ QModelIndex ProjectItemModel::parent(const QModelIndex& index) const
 
     AbstractProjectItem * parentItem = static_cast<AbstractProjectItem*>(index.internalPointer())->parent();
 
-    if (parentItem == m_project->items()) {
+    if (!parentItem || parentItem == m_project->items()) {
         return QModelIndex();
     }
 

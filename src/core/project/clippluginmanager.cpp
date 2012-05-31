@@ -51,6 +51,7 @@ ClipPluginManager::~ClipPluginManager()
 AbstractProjectClip* ClipPluginManager::createClip(const KUrl& url) const
 {
     if (QFile::exists(url.path())) {
+        // TODO: get proper profile (through parent)
         Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
         ProducerWrapper *producer = new ProducerWrapper(profile, url.path());
         QString producerType(producer->get("mlt_service"));

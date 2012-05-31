@@ -20,8 +20,9 @@ Timeline::Timeline(const QString& document, Project* parent) :
     QObject(parent),
     m_parent(parent)
 {
-    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-    m_producer = new ProducerWrapper(profile, document.toUtf8().constData(), "xml-string");
+    // profile we set doesn't matter, it will be overwritten anyways with the info in the profile tag
+    m_profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
+    m_producer = new ProducerWrapper(*m_profile, document, "xml-string");
 
     Q_ASSERT(m_producer && m_producer->is_valid());
 
@@ -30,19 +31,7 @@ Timeline::Timeline(const QString& document, Project* parent) :
     Q_ASSERT(service.type() == tractor_type);
 
     m_tractor = new Mlt::Tractor(service);
-
 //     m_producer->optimise();
-
-    Mlt::Multitrack *multitrack = m_tractor->multitrack();
-    for (int i = 0; i < multitrack->count(); ++i) {
-        TimelineTrack *track = new TimelineTrack(new ProducerWrapper(multitrack->track(i)), this);
-        if (track) {
-            m_tracks.append(track);
-        }
-    }
-
-
-    kDebug() << "timline created" << m_tracks.count();
 }
 
 Timeline::~Timeline()
@@ -52,6 +41,7 @@ Timeline::~Timeline()
         kDebug() << "deleteing m_tractorProducer";
         delete m_producer;
     }
+    delete m_profile;
 }
 
 Project* Timeline::project()
@@ -62,6 +52,24 @@ Project* Timeline::project()
 QList< TimelineTrack* > Timeline::tracks()
 {
     return m_tracks;
+}
+
+Mlt::Profile* Timeline::profile()
+{
+    return m_profile;
+}
+
+void Timeline::loadTracks()
+{
+    Q_ASSERT(m_tracks.count() == 0);
+
+    Mlt::Multitrack *multitrack = m_tractor->multitrack();
+    for (int i = 0; i < multitrack->count(); ++i) {
+        TimelineTrack *track = new TimelineTrack(new ProducerWrapper(multitrack->track(i)), this);
+        if (track) {
+            m_tracks.append(track);
+        }
+    }
 }
 
 #include "timeline.moc"

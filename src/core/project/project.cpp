@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline.h"
 #include "projectfolder.h"
 #include "abstractprojectclip.h"
+#include <mlt++/Mlt.h>
 #include <KIO/NetAccess>
 #include <QFile>
 #include <QDomImplementation>
@@ -37,8 +38,9 @@ Project::Project(const KUrl& url, ClipPluginManager *clipPluginManager, QObject*
             KIO::NetAccess::removeTempFile(temporaryFileName);
             
             if (success) {
-                loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"), clipPluginManager);
                 loadTimeline(document.toString());
+                loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"), clipPluginManager);
+                m_timeline->loadTracks();
             } else {
                 kWarning() << "unable to load document" << url.path() << errorMessage;
             }
@@ -85,9 +87,15 @@ ProjectFolder* Project::items()
     return m_items;
 }
 
+Mlt::Profile* Project::profile()
+{
+    return m_timeline->profile();
+}
+
+
 void Project::loadClips(const QDomElement& description, ClipPluginManager *clipPluginManager)
 {
-    m_items = new ProjectFolder(description, clipPluginManager);
+    m_items = new ProjectFolder(description, clipPluginManager, this);
 }
 
 void Project::loadTimeline(const QString& content)

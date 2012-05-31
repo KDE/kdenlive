@@ -1,13 +1,18 @@
+set(QT_USE_QTOPENGL 1)
 
 add_subdirectory(bin)
 add_subdirectory(effectsystem)
+add_subdirectory(monitor)
 add_subdirectory(project)
 add_subdirectory(timelineview)
 add_subdirectory(widgets)
 
 set(kdenlivecore_LIB_SRCS
+  mainwindow.cpp
+
   ${bin_SRCS}
   ${effectsystem_SRCS}
+  ${monitor_SRCS}
   ${project_SRCS}
   ${timelineview_SRCS}
   ${widget_SRCS}
@@ -46,6 +51,7 @@ target_link_libraries(kdenlivecore
   ${QT_LIBRARIES}
   ${LIBMLT_LIBRARY}
   ${LIBMLTPLUS_LIBRARY}
+  ${OPENGL_LIBRARIES}
 )
 
 if(Q_WS_X11)

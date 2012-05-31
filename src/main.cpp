@@ -19,13 +19,13 @@
  ***************************************************************************/
 
 #include "config-kdenlive.h"
-#include "mainwindow.h"
+#include "core/mainwindow.h"
 
 #include <KApplication>
 #include <KAboutData>
 #include <KDebug>
 #include <KCmdLineArgs>
-#include <KUrl> //new
+#include <KUrl>
 
 
 int main(int argc, char *argv[])
@@ -53,9 +53,9 @@ int main(int argc, char *argv[])
 
     KCmdLineOptions options;
     options.add("mlt-path <path>", ki18n("Set the path for MLT environment"));
-    options.add("+[file]", ki18n("Document to open")); //new
-    options.add("i <clips>", ki18n("Comma separated list of clips to add")); //new
-    KCmdLineArgs::addCmdLineOptions(options); //new
+    options.add("+[file]", ki18n("Document to open"));
+    options.add("i <clips>", ki18n("Comma separated list of clips to add"));
+    KCmdLineArgs::addCmdLineOptions(options);
 
     KApplication app;
     MainWindow* window = 0;
@@ -74,8 +74,8 @@ int main(int argc, char *argv[])
             ++n;
         }
     } else {
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
-	QString clipsToLoad = args->getOption("i");
+        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+        QString clipsToLoad = args->getOption("i");
         QString mltPath = args->getOption("mlt-path");
         KUrl url;
         if (args->count()) {

@@ -19,6 +19,10 @@ class Timeline;
 class AbstractProjectClip;
 class ProjectFolder;
 class QDomElement;
+namespace Mlt
+{
+    class Profile;
+}
 
 
 class KDE_EXPORT Project : public QObject
@@ -34,6 +38,8 @@ public:
     Timeline *timeline();
     AbstractProjectClip *clip(int id);
     ProjectFolder *items();
+
+    Mlt::Profile *profile();
 
 private:
     void loadClips(const QDomElement &description, ClipPluginManager *clipPluginManager);

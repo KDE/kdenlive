@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <kdemacros.h>
 
 class AbstractProjectClip;
+class Project;
 class QDomElement;
 
 
@@ -27,7 +28,10 @@ public:
     AbstractProjectItem(const QDomElement &description, AbstractProjectItem* parent = 0);
     virtual ~AbstractProjectItem();
 
-    AbstractProjectItem *parent();
+    bool operator==(const AbstractProjectItem *projectItem) const;
+
+    AbstractProjectItem *parent() const;
+    virtual Project *project();
     int index() const;
 
     virtual AbstractProjectClip *clip(int id) = 0;

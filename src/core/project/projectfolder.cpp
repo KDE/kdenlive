@@ -11,32 +11,24 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectfolder.h"
 #include "clippluginmanager.h"
 #include "abstractprojectclip.h"
+#include "project.h"
 #include <QDomElement>
-
-#include <KDebug>
 
 
 ProjectFolder::ProjectFolder(const QDomElement& description, ClipPluginManager *clipPluginManager, AbstractProjectItem* parent) :
-    AbstractProjectItem(description, parent)
+    AbstractProjectItem(description, parent),
+    m_project(NULL)
 {
-    if (description.tagName() == "project_items") {
-        kDebug() << "root folder created";
-    } else kDebug() << "folder created" << m_name;
-
-    QDomNodeList childen = description.childNodes();
-    for (int i = 0; i < childen.count(); ++i) {
-        QDomElement childElement = childen.at(i).toElement();
-        AbstractProjectItem *child;
-        if (childElement.tagName() == "folder") {
-            child = new ProjectFolder(childElement, clipPluginManager, this);
-        } else {
-            child = clipPluginManager->loadClip(childElement, this);
-        }
-        if (child) {
-            append(child);
-        }
-    }
+    loadChildren(description, clipPluginManager);
 }
+
+ProjectFolder::ProjectFolder(const QDomElement& description, ClipPluginManager* clipPluginManager, Project* project) :
+    AbstractProjectItem(description),
+    m_project(project)
+{
+    loadChildren(description, clipPluginManager);
+}
+
 
 ProjectFolder::~ProjectFolder()
 {
@@ -54,6 +46,32 @@ AbstractProjectClip* ProjectFolder::clip(int id)
         }
     }
     return NULL;
+}
+
+Project* ProjectFolder::project()
+{
+    if (m_project) {
+        return m_project;
+    } else {
+        return AbstractProjectItem::project();
+    }
+}
+
+void ProjectFolder::loadChildren(const QDomElement& description, ClipPluginManager* clipPluginManager)
+{
+    QDomNodeList childen = description.childNodes();
+    for (int i = 0; i < childen.count(); ++i) {
+        QDomElement childElement = childen.at(i).toElement();
+        AbstractProjectItem *child;
+        if (childElement.tagName() == "folder") {
+            child = new ProjectFolder(childElement, clipPluginManager, this);
+        } else {
+            child = clipPluginManager->loadClip(childElement, this);
+        }
+        if (child) {
+            append(child);
+        }
+    }
 }
 
 #include "projectfolder.moc"

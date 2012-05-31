@@ -21,10 +21,17 @@ class ProjectFolder : public AbstractProjectItem
     Q_OBJECT
 
 public:
-    ProjectFolder(const QDomElement &description, ClipPluginManager *clipPluginManager, AbstractProjectItem* parent = 0);
+    ProjectFolder(const QDomElement &description, ClipPluginManager *clipPluginManager, AbstractProjectItem* parent);
+    ProjectFolder(const QDomElement &description, ClipPluginManager *clipPluginManager, Project *project);
     ~ProjectFolder();
 
     AbstractProjectClip *clip(int id);
+    Project *project();
+
+private:
+    void loadChildren(const QDomElement &description, ClipPluginManager *clipPluginManager);
+
+    Project *m_project;
 };
 
 #endif

@@ -74,117 +74,117 @@ macro_log_feature(QJSON_FOUND
 
 add_subdirectory(core)
 add_subdirectory(plugins)
-
-add_subdirectory(beziercurve)
-add_subdirectory(colorcorrection)
-add_subdirectory(commands)
-add_subdirectory(nolib)
-add_subdirectory(projecttree)
-add_subdirectory(utils)
-add_subdirectory(databackup)
-add_subdirectory(effectstack)
-add_subdirectory(mimetypes)
-add_subdirectory(onmonitoritems)
-add_subdirectory(scopes)
-add_subdirectory(simplekeyframes)
-add_subdirectory(stopmotion)
+# 
+# add_subdirectory(beziercurve)
+# add_subdirectory(colorcorrection)
+# add_subdirectory(commands)
+# add_subdirectory(nolib)
+# add_subdirectory(projecttree)
+# add_subdirectory(utils)
+# add_subdirectory(databackup)
+# add_subdirectory(effectstack)
+# add_subdirectory(mimetypes)
+# add_subdirectory(onmonitoritems)
+# add_subdirectory(scopes)
+# add_subdirectory(simplekeyframes)
+# add_subdirectory(stopmotion)
 
 if(QJSON_FOUND)
-  add_subdirectory(onmonitoritems/rotoscoping)
-  add_subdirectory(rotoscoping)
+#   add_subdirectory(onmonitoritems/rotoscoping)
+#   add_subdirectory(rotoscoping)
 endif(QJSON_FOUND)
 
 if(BUILD_V4L)
-  add_subdirectory(v4l)
+#   add_subdirectory(v4l)
 endif(BUILD_V4L)
 
 list(APPEND kdenlive_SRCS
   main.cpp
-  mainwindow.cpp
-
-  KoSliderCombo.cpp
-  abstractclipitem.cpp
-  abstractgroupitem.cpp
-  abstractmonitor.cpp
-  archivewidget.cpp
-  choosecolorwidget.cpp
-  clipdurationdialog.cpp
-  clipitem.cpp
-  clipmanager.cpp
-  clipproperties.cpp
-  cliptranscode.cpp
-  clipstabilize.cpp
-  colorplaneexport.cpp
-  colortools.cpp
-  complexparameter.cpp
-  cornerswidget.cpp
-  customruler.cpp
-  customtrackscene.cpp
-  customtrackview.cpp
-  definitions.cpp
-  docclipbase.cpp
-  documentchecker.cpp
-  documentvalidator.cpp
-  doubleparameterwidget.cpp
-  dvdwizard.cpp
-  dvdwizardchapters.cpp
-  dvdwizardmenu.cpp
-  dvdwizardvob.cpp
-  effectslist.cpp
-  effectslistview.cpp
-  effectslistwidget.cpp
-  effectstackedit.cpp
-  effectstackview.cpp
-  encodingprofilesdialog.cpp
-  folderprojectitem.cpp
-  gentime.cpp
-  geometryval.cpp
-  geometrywidget.cpp
-  graphicsscenerectmove.cpp
-  guide.cpp
-  headertrack.cpp
-  initeffects.cpp
-  kdenlivedoc.cpp
-  kdenlivesettingsdialog.cpp
-  keyframeedit.cpp
-  keyframehelper.cpp
-  kis_cubic_curve.cpp
-  kis_curve_widget.cpp
-  kthumb.cpp
-  managecapturesdialog.cpp
-  markerdialog.cpp
-  mltdevicecapture.cpp
-  monitor.cpp
-  monitoreditwidget.cpp
-  monitormanager.cpp
-  monitorscene.cpp
-  noteswidget.cpp
-  parameterplotter.cpp
-  positionedit.cpp
-  profilesdialog.cpp
-  projectitem.cpp
-  projectlist.cpp
-  projectlistview.cpp
-  projectsettings.cpp
-  recmonitor.cpp
-  renderer.cpp
-  renderwidget.cpp
-  slideshowclip.cpp
-  smallruler.cpp
-  spacerdialog.cpp
-  statusbarmessagelabel.cpp
-  subprojectitem.cpp
-  timecode.cpp
-  timecodedisplay.cpp
-  titledocument.cpp
-  titlewidget.cpp
-  trackdialog.cpp
-  tracksconfigdialog.cpp
-  trackview.cpp
-  transition.cpp
-  transitionsettings.cpp
-  unicodedialog.cpp
-  wizard.cpp
+#   mainwindow.cpp
+# 
+#   KoSliderCombo.cpp
+#   abstractclipitem.cpp
+#   abstractgroupitem.cpp
+#   abstractmonitor.cpp
+#   archivewidget.cpp
+#   choosecolorwidget.cpp
+#   clipdurationdialog.cpp
+#   clipitem.cpp
+#   clipmanager.cpp
+#   clipproperties.cpp
+#   cliptranscode.cpp
+#   clipstabilize.cpp
+#   colorplaneexport.cpp
+#   colortools.cpp
+#   complexparameter.cpp
+#   cornerswidget.cpp
+#   customruler.cpp
+#   customtrackscene.cpp
+#   customtrackview.cpp
+#   definitions.cpp
+#   docclipbase.cpp
+#   documentchecker.cpp
+#   documentvalidator.cpp
+#   doubleparameterwidget.cpp
+#   dvdwizard.cpp
+#   dvdwizardchapters.cpp
+#   dvdwizardmenu.cpp
+#   dvdwizardvob.cpp
+#   effectslist.cpp
+#   effectslistview.cpp
+#   effectslistwidget.cpp
+#   effectstackedit.cpp
+#   effectstackview.cpp
+#   encodingprofilesdialog.cpp
+#   folderprojectitem.cpp
+#   gentime.cpp
+#   geometryval.cpp
+#   geometrywidget.cpp
+#   graphicsscenerectmove.cpp
+#   guide.cpp
+#   headertrack.cpp
+#   initeffects.cpp
+#   kdenlivedoc.cpp
+#   kdenlivesettingsdialog.cpp
+#   keyframeedit.cpp
+#   keyframehelper.cpp
+#   kis_cubic_curve.cpp
+#   kis_curve_widget.cpp
+#   kthumb.cpp
+#   managecapturesdialog.cpp
+#   markerdialog.cpp
+#   mltdevicecapture.cpp
+#   monitor.cpp
+#   monitoreditwidget.cpp
+#   monitormanager.cpp
+#   monitorscene.cpp
+#   noteswidget.cpp
+#   parameterplotter.cpp
+#   positionedit.cpp
+#   profilesdialog.cpp
+#   projectitem.cpp
+#   projectlist.cpp
+#   projectlistview.cpp
+#   projectsettings.cpp
+#   recmonitor.cpp
+#   renderer.cpp
+#   renderwidget.cpp
+#   slideshowclip.cpp
+#   smallruler.cpp
+#   spacerdialog.cpp
+#   statusbarmessagelabel.cpp
+#   subprojectitem.cpp
+#   timecode.cpp
+#   timecodedisplay.cpp
+#   titledocument.cpp
+#   titlewidget.cpp
+#   trackdialog.cpp
+#   tracksconfigdialog.cpp
+#   trackview.cpp
+#   transition.cpp
+#   transitionsettings.cpp
+#   unicodedialog.cpp
+#   wizard.cpp
 )
 
 kde4_add_ui_files(kdenlive_UIS
@@ -293,11 +293,11 @@ include_directories(
 include(${QT_USE_FILE})
 
 
-qt4_add_dbus_adaptor(kdenlive_SRCS
-  org.kdenlive.MainWindow.xml
-  mainwindow.h
-  MainWindow
-)
+# qt4_add_dbus_adaptor(kdenlive_SRCS
+#   org.kdenlive.MainWindow.xml
+#   mainwindow.h
+#   MainWindow
+# )
 qt4_add_resources(kdenlive_SRCS widgets/resources.qrc)
 kde4_add_executable(kdenlive
   ${kdenlive_SRCS}
