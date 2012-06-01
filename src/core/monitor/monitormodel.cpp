@@ -70,6 +70,7 @@ void MonitorModel::pause()
 {
     if (m_producer) {
         m_producer->pause();
+        m_consumer->stop();
         kDebug() << "pause";
     }
 }
