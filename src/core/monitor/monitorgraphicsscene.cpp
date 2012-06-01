@@ -19,32 +19,43 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QScrollBar>
 #include <QElapsedTimer>
 #include <QGLWidget>
+
 #include <GL/glu.h>
+#include <GL/glext.h>
 
 #ifndef GL_TEXTURE_RECTANGLE_EXT
 #define GL_TEXTURE_RECTANGLE_EXT GL_TEXTURE_RECTANGLE_NV
 #endif
 
 
+#define USE_PBO
+
 MonitorGraphicsScene::MonitorGraphicsScene(QObject* parent) :
     QGraphicsScene(parent),
-    m_image(0),
-    m_imageSize(0),
-    m_hasNewImage(false),
+    m_frame(NULL),
+    m_imageSizeChanged(true),
+    m_textureBuffer(0),
     m_texture(0),
     m_zoom(1),
-    m_needsResize(true)
+    m_needsResize(true),
+    m_pbo(0)
 {
-    m_imageRect = addRect(QRectF(0, 0, 1920, 1080));
+    m_imageRect = addRect(QRectF(0, 0, 0, 0));
+
+    m_frameCount = 0;
+    m_timer.start();
 }
 
 MonitorGraphicsScene::~MonitorGraphicsScene()
 {
-    if (m_image) {
-        free(m_image);
-    }
     if (m_texture) {
         glDeleteTextures(1, &m_texture);
+    }
+    if (m_textureBuffer) {
+        delete[] m_textureBuffer;
+    }
+    if (m_pbo) {
+        glDeleteBuffers(1, &m_pbo);
     }
 }
 
@@ -59,11 +70,19 @@ void MonitorGraphicsScene::initializeGL(QGLWidget* glWidget)
     glDisable(GL_DITHER);
     glDisable(GL_BLEND);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+}
+
+void MonitorGraphicsScene::setFramePointer(AtomicFramePointer* frame)
+{
+    m_frame = frame;
 }
 
 void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
 {
-    QElapsedTimer timer;
+    Q_UNUSED(rect)
+
     if (painter->paintEngine()->type() != QPaintEngine::OpenGL && painter->paintEngine()->type() != QPaintEngine::OpenGL2) {
         kWarning() << "not used with a OpenGL viewport";
         return;
@@ -74,10 +93,6 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
                  KdenliveSettings::window_background().blueF(),
                  1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-
-    if(!m_texture && !m_image) {
-        return;
-    }
 
     if (m_needsResize) {
         int width = views()[0]->viewport()->width();
@@ -91,70 +106,134 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
         m_needsResize = false;
     }
 
-    m_imageMutex.lock();
+    Mlt::Frame *frame = 0;
+    if (m_frame) {
+        frame = m_frame->fetchAndStoreAcquire(0);
+    }
+
+    if(!m_texture && !frame) {
+        return;
+    }
+
+    if (frame) {
+        int width = 0;
+        int height = 0;
+
+        mlt_image_format format = mlt_image_rgb24a;
+        const uint8_t *image = frame->get_image(format, width, height);
+        int size = width * height * 4;
+
+        if (size != m_imageRect->rect().width() * m_imageRect->rect().height() * 4) {
+            m_imageRect->setRect(0, 0, width, height);
+
+#ifdef USE_PBO
+            if (m_textureBuffer) {
+                delete[] m_textureBuffer;
+                m_textureBuffer = 0;
+            }
+            if (m_texture) {
+                glDeleteTextures(1, &m_texture);
+            }
+            if (m_pbo) {
+                glDeleteBuffers(1, &m_pbo);
+            }
+
+            glGenBuffers(1, &m_pbo);
+            glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_pbo);
+            glBufferData(GL_PIXEL_UNPACK_BUFFER, size, 0, GL_STREAM_DRAW);
+            glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+
+            glGenTextures(1, &m_texture);
+            glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP);
+            glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)m_textureBuffer);
+            
+#else
+
+            if (m_texture) {
+                glDeleteTextures(1, &m_texture);
+            }
+            glGenTextures(1, &m_texture);
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, width);
+            glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameterf(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+#endif
+        }
+
+#ifdef USE_PBO
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_pbo);
+
+        // map the buffer object into client's memory
+        // Note that glMapBufferARB() causes sync issue.
+        // If GPU is working with this buffer, glMapBufferARB() will wait(stall)
+        // for GPU to finish its job. To avoid waiting (stall), you can call
+        // first glBufferDataARB() with NULL pointer before glMapBufferARB().
+        // If you do that, the previous data in PBO will be discarded and
+        // glMapBufferARB() returns a new allocated pointer immediately
+        // even if GPU is still working with the previous data.
+        glBufferData(GL_PIXEL_UNPACK_BUFFER, size, 0, GL_STREAM_DRAW);
+        GLubyte* ptr = (GLubyte*)glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
+        if(ptr)
+        {
+            memcpy(ptr, image, size);
+            glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
+        }
+
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
+        glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+#else
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
+        glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image);
+#endif
+
+        delete frame;
+    }
+
     QRectF imageRect = m_imageRect->rect();
 
-    if (m_hasNewImage) {
-        m_hasNewImage = false;
-        if (m_texture) {
-            glDeleteTextures(1, &m_texture);
-        }
-
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, imageRect.width());
-        glGenTextures(1, &m_texture);
-        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, imageRect.width(), imageRect.height(), 0, GL_RGBA,
-                     GL_UNSIGNED_BYTE, m_image);
-
-    }
-    m_imageMutex.unlock();
-
     QPolygon viewRect = views()[0]->mapFromScene(imageRect);
+    int left = viewRect.point(0).x();
+    int right = viewRect.point(1).x();
+    int top = viewRect.point(0).y();
+    int bottom = viewRect.point(3).y();
+    GLint texCoords[] = {0, 0,
+                         imageRect.width(), 0,
+                         imageRect.width(), imageRect.height(),
+                         0, imageRect.height() };
+    GLint vertices[] = {left, top,
+                        right, top,
+                        right, bottom,
+                        left, bottom };
 
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
-//     timer.start();
-    glBegin(GL_QUADS);
-//     kDebug() << "drawBg:" << timer.elapsed();
-    glTexCoord2i(0, 0);
-    glVertex2i(viewRect.point(0).x(), viewRect.point(0).y());
-    glTexCoord2i(imageRect.width(), 0);
-    glVertex2i(viewRect.point(1).x(), viewRect.point(1).y());
-    glTexCoord2i(imageRect.width(), imageRect.height());
-    glVertex2i(viewRect.point(2).x(), viewRect.point(2).y());
-    glTexCoord2i(0, imageRect.height());
-    glVertex2i(viewRect.point(3).x(), viewRect.point(3).y());
-    glEnd();
+
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+    glTexCoordPointer(2, GL_INT, 0, texCoords);
+    glVertexPointer(2, GL_INT, 0, vertices);
+
+    glDrawArrays(GL_QUADS, 0, 4);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
     glDisable(GL_TEXTURE_RECTANGLE_EXT);
-}
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, 0);
 
-void MonitorGraphicsScene::setImage(Mlt::Frame& frame)
-{
-    int width = 0;
-    int height = 0;
-
-    mlt_image_format format = mlt_image_rgb24a;
-    const uint8_t *image = frame.get_image(format, width, height);
-    int size = width * height * 4;
-
-    m_imageMutex.lock();
-    m_imageRect->setRect(0, 0, width, height);
-
-    if (m_imageSize != size) {
-        m_imageSize = size;
-        if (m_image) {
-            free(m_image);
-            m_image = 0;
-        }
-        m_image = static_cast<uint8_t*>(malloc(size));
+    ++m_frameCount;
+    if (m_timer.elapsed() / 1000 >= 1) {
+        kDebug() << "fps" << m_frameCount;
+        m_frameCount = 0;
+        m_timer.restart();
     }
-    memcpy(m_image, image, size);
-    m_hasNewImage = true;
-
-    m_imageMutex.unlock();
-
-    update();
 }
 
 void MonitorGraphicsScene::setZoom(qreal level)
@@ -215,8 +294,6 @@ void MonitorGraphicsScene::wheelEvent(QGraphicsSceneWheelEvent* event)
         else
             views()[0]->verticalScrollBar()->triggerAction(action);
     }
-
-//     QGraphicsScene::wheelEvent(event);
 }
 
 bool MonitorGraphicsScene::eventFilter(QObject* object, QEvent* event)
@@ -230,4 +307,3 @@ bool MonitorGraphicsScene::eventFilter(QObject* object, QEvent* event)
         return QGraphicsScene::eventFilter(object, event);
     }
 }
-

@@ -11,9 +11,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitorview.h"
 #include "monitormodel.h"
 #include "monitorgraphicsscene.h"
+#include "positionbar.h"
 #include <mlt++/Mlt.h>
 #include <KLocale>
-#include <KIcon>
 #include <QVBoxLayout>
 #include <QGraphicsView>
 #include <QGLWidget>
@@ -38,14 +38,19 @@ MonitorView::MonitorView(QWidget* parent) :
     m_videoScene->initializeGL(glWidget);
     layout->addWidget(m_videoView, 10);
 
+    m_positionBar = new PositionBar(this);
+    layout->addWidget(m_positionBar);
+
     QToolBar *toolbar = new QToolBar(this);
 
-    QAction *playAction = toolbar->addAction(KIcon("media-playback-start"), i18n("Play..."));
+    m_playIcon = KIcon("media-playback-start");
+    m_pauseIcon = KIcon("media-playback-pause");
+    m_playAction = toolbar->addAction(m_playIcon, i18n("Play..."));
 //     QToolButton *playButton = new QToolButton(toolbar);
 //     m_playMenu = new QMenu(i18n("Play..."), this);
 //     m_playAction = m_playMenu->addAction(m_playIcon, i18n("Play"));
     //m_playAction->setCheckable(true);
-    connect(playAction, SIGNAL(triggered()), this, SLOT(togglePlaybackState()));
+    connect(m_playAction, SIGNAL(triggered()), this, SLOT(togglePlaybackState()));
     layout->addWidget(toolbar);
 
 //     playButton->setMenu(m_playMenu);
@@ -65,7 +70,14 @@ void MonitorView::setModel(MonitorModel* model)
         m_model->disconnect(this);
     }
     m_model = model;
-    connect(m_model, SIGNAL(frameReceived(Mlt::Frame&)), m_videoScene, SLOT(setImage(Mlt::Frame&)), Qt::DirectConnection);
+    m_videoScene->setFramePointer(m_model->framePointer());
+    connect(m_model, SIGNAL(frameUpdated()), m_videoScene, SLOT(update()));
+    connect(m_model, SIGNAL(playbackStateChanged(bool)), this, SLOT(onPlaybackStateChange(bool)));
+
+    m_positionBar->setDuration(m_model->duration());
+    m_positionBar->setPosition(m_model->position());
+    connect(m_positionBar, SIGNAL(positionChanged(int)), m_model, SLOT(setPosition(int)));
+    connect(m_model, SIGNAL(positionChanged(int)), m_positionBar, SLOT(setPosition(int)));
 }
 
 MonitorModel* MonitorView::model()
@@ -79,5 +91,11 @@ void MonitorView::togglePlaybackState()
         m_model->togglePlaybackState();
     }
 }
+
+void MonitorView::onPlaybackStateChange(bool plays)
+{
+    m_playAction->setIcon(plays ? m_pauseIcon : m_playIcon);
+}
+
 
 #include "monitorview.moc"

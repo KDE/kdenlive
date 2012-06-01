@@ -12,14 +12,18 @@ the Free Software Foundation, either version 3 of the License, or
 #define MONITORGRAPHICSSCENE_H
 
 #include <QGraphicsScene>
-#include <QMutex>
+
+#define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
+
+#include <QElapsedTimer>
 
 class QGLWidget;
 namespace Mlt
 {
     class Frame;
 }
+typedef QAtomicPointer<Mlt::Frame> AtomicFramePointer;
 
 
 class MonitorGraphicsScene : public QGraphicsScene
@@ -33,9 +37,9 @@ public:
     qreal zoom() const;
 
     void initializeGL(QGLWidget *glWidget);
+    void setFramePointer(AtomicFramePointer *frame);
 
 public slots:
-    void setImage(Mlt::Frame &frame);
     void setZoom(qreal level = 1);
     void zoomFit();
     void zoomIn(qreal by = .05);
@@ -51,13 +55,19 @@ protected:
 
 private:
     GLuint m_texture;
+    GLubyte *m_textureBuffer;
+    GLuint m_pbo;
+    AtomicFramePointer *m_frame;
+    bool m_imageSizeChanged;
     uint8_t *m_image;
     int m_imageSize;
     bool m_hasNewImage;
     QGraphicsRectItem *m_imageRect;
     qreal m_zoom;
     bool m_needsResize;
-    QMutex m_imageMutex;
+
+    QElapsedTimer m_timer;
+    int m_frameCount;
 };
 
 #endif

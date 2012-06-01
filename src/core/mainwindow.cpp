@@ -47,11 +47,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &Url, const QString & 
     QDockWidget *monitorDock = new QDockWidget(i18n("Monitor"), this);
     m_monitor = new MonitorView();
     MonitorModel *monitorModel = new MonitorModel(m_project);
-    m_monitor->setModel(monitorModel);
 
-    // monitor testing
-    ProducerWrapper *producer = new ProducerWrapper(*m_project->profile(), "test.MTS");
+    // Monitor testing
+    ProducerWrapper *producer = new ProducerWrapper(*m_project->profile(), "/media/video/11/1118_hsgkeller/MVI_0760.MOV");
     monitorModel->setProducer(producer);
+
+    m_monitor->setModel(monitorModel);
 
     monitorDock->setWidget(m_monitor);
     addDockWidget(Qt::TopDockWidgetArea, monitorDock);

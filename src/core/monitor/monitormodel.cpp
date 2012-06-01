@@ -18,7 +18,8 @@ the Free Software Foundation, either version 3 of the License, or
 MonitorModel::MonitorModel(Project* project) :
     QObject(project),
     m_project(project),
-    m_producer(NULL)
+    m_producer(NULL),
+    m_frame(NULL)
 {
     // do this in Project
 //     setenv("MLT_PROFILE", KdenliveSettings::current_profile().toUtf8().constData(), 1);
@@ -46,6 +47,10 @@ MonitorModel::~MonitorModel()
 {
     delete m_frameShowEvent;
     delete m_consumer;
+    Mlt::Frame *frame = m_frame.fetchAndStoreAcquire(0);
+    if (frame) {
+        delete frame;
+    }
 }
 
 void MonitorModel::setProducer(ProducerWrapper* producer)
@@ -59,10 +64,11 @@ void MonitorModel::setProducer(ProducerWrapper* producer)
 void MonitorModel::play()
 {
     if (m_producer) {
-        m_producer->set_speed(1.);
+        setSpeed(1);
         m_consumer->start();
-        m_consumer->set("refresh", 1);
+        refreshConsumer();
         kDebug() << "play";
+        emit playbackStateChanged(true);
     }
 }
 
@@ -70,8 +76,9 @@ void MonitorModel::pause()
 {
     if (m_producer) {
         m_producer->pause();
-        m_consumer->stop();
+//         m_consumer->stop();
         kDebug() << "pause";
+        emit playbackStateChanged(false);
     }
 }
 
@@ -86,7 +93,13 @@ void MonitorModel::togglePlaybackState()
 
 void MonitorModel::setPosition(int position)
 {
-
+    if (m_producer) {
+        m_producer->seek(position);
+        if (speed() == 0) {
+            refreshConsumer();
+        }
+        emit positionChanged(position);
+    }
 }
 
 int MonitorModel::position() const
@@ -96,7 +109,10 @@ int MonitorModel::position() const
 
 void MonitorModel::setSpeed(double speed)
 {
-
+    if (m_producer) {
+        m_producer->set_speed(speed);
+        emit speedChanged(speed);
+    }
 }
 
 double MonitorModel::speed() const
@@ -108,11 +124,43 @@ double MonitorModel::speed() const
     }
 }
 
+int MonitorModel::duration() const
+{
+    if (m_producer) {
+        return m_producer->get_playtime();
+    } else {
+        return 0;
+    }
+}
+
+AtomicFramePointer* MonitorModel::framePointer()
+{
+    return &m_frame;
+}
+
+void MonitorModel::updateFrame(mlt_frame frame_ptr)
+{
+    Mlt::Frame *frame = m_frame.fetchAndStoreAcquire(new Mlt::Frame(frame_ptr));
+    if (frame) {
+        delete frame;
+    }
+    emit frameUpdated();
+    if (m_position != m_consumer->position()) {
+        m_position = m_consumer->position();
+        emit positionChanged(m_position);
+    }
+}
+
 void MonitorModel::consumer_frame_show(mlt_consumer , MonitorModel* self, mlt_frame frame_ptr)
 {
-    Mlt::Frame frame(frame_ptr);
-    emit self->frameReceived(frame);
+    self->updateFrame(frame_ptr);
 }
+
+void MonitorModel::refreshConsumer()
+{
+    m_consumer->set("refresh", 1);
+}
+
 
 #include "monitormodel.moc"
 

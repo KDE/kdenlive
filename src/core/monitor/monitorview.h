@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef MONITORVIEW_H
 #define MONITORVIEW_H
 
+#include <KIcon>
 #include <QWidget>
 #include <kdemacros.h>
 
@@ -34,11 +35,17 @@ public:
 public slots:
     void togglePlaybackState();
 
+private slots:
+    void onPlaybackStateChange(bool plays);
+
 private:
     QGraphicsView *m_videoView;
     MonitorGraphicsScene *m_videoScene;
     MonitorModel *m_model;
     PositionBar *m_positionBar;
+    KIcon m_playIcon;
+    KIcon m_pauseIcon;
+    QAction *m_playAction;
 };
 
 #endif

@@ -25,6 +25,8 @@ namespace Mlt
 }
 class QImage;
 
+typedef QAtomicPointer<Mlt::Frame> AtomicFramePointer;
+
 
 class KDE_EXPORT MonitorModel : public QObject
 {
@@ -38,6 +40,10 @@ public:
 
     int position() const;
     double speed() const;
+    int duration() const;
+    AtomicFramePointer *framePointer();
+
+    void updateFrame(mlt_frame frame);
 
     static void consumer_frame_show(mlt_consumer, MonitorModel *self, mlt_frame frame_ptr);
 
@@ -49,13 +55,20 @@ public slots:
     void setSpeed(double speed);
 
 signals:
-    void frameReceived(Mlt::Frame &frame);
+    void frameUpdated();
+    void playbackStateChanged(bool plays);
+    void positionChanged(int position);
+    void speedChanged(double speed);
 
 private:
+    void refreshConsumer();
+
     Project *m_project;
     Mlt::Consumer *m_consumer;
     Mlt::Event *m_frameShowEvent;
     ProducerWrapper *m_producer;
+    AtomicFramePointer m_frame;
+    int m_position;
 };
 
 #endif
