@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 class MonitorGraphicsScene;
 class MonitorModel;
 class PositionBar;
+class KDualAction;
 class QGraphicsView;
 
 
@@ -43,9 +44,7 @@ private:
     MonitorGraphicsScene *m_videoScene;
     MonitorModel *m_model;
     PositionBar *m_positionBar;
-    KIcon m_playIcon;
-    KIcon m_pauseIcon;
-    QAction *m_playAction;
+    KDualAction *m_playAction;
 };
 
 #endif

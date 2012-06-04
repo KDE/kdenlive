@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitorgraphicsscene.h"
 #include "positionbar.h"
 #include <mlt++/Mlt.h>
+#include <KDualAction>
 #include <KLocale>
 #include <QVBoxLayout>
 #include <QGraphicsView>
@@ -44,9 +45,10 @@ MonitorView::MonitorView(QWidget* parent) :
 
     QToolBar *toolbar = new QToolBar(this);
 
-    m_playIcon = KIcon("media-playback-start");
-    m_pauseIcon = KIcon("media-playback-pause");
-    m_playAction = toolbar->addAction(m_playIcon, i18n("Play..."));
+    m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
+    m_playAction->setInactiveIcon(KIcon("media-playback-start"));
+    m_playAction->setActiveIcon(KIcon("media-playback-pause"));
+    toolbar->addAction(m_playAction);
 //     QToolButton *playButton = new QToolButton(toolbar);
 //     m_playMenu = new QMenu(i18n("Play..."), this);
 //     m_playAction = m_playMenu->addAction(m_playIcon, i18n("Play"));
@@ -95,7 +97,7 @@ void MonitorView::togglePlaybackState()
 
 void MonitorView::onPlaybackStateChange(bool plays)
 {
-    m_playAction->setIcon(plays ? m_pauseIcon : m_playIcon);
+    m_playAction->setActive(plays);
 }
 
 

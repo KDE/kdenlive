@@ -124,6 +124,7 @@ void ClipPluginManager::execAddClipDialog(ProjectFolder* folder) const
             if (folder) {
                 folder->addChild(clip);
             } else {
+                // TODO: retrieve current position + parent
                 pCore->currentProject()->items()->addChild(clip);
             }
             pCore->currentProject()->addItem(clip);
