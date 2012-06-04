@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "imageprojectclip.h"
 #include "core/project/clippluginmanager.h"
 #include "core/project/producerwrapper.h"
+#include "core/project/projectfolder.h"
 #include <KPluginFactory>
 #include <QDomElement>
 
@@ -22,6 +23,12 @@ ImageClipPlugin::ImageClipPlugin(QObject* parent, const QVariantList& args) :
     AbstractClipPlugin(static_cast<ClipPluginManager*>(parent))
 {
     Q_UNUSED(args)
+
+    ClipPluginManager *clipPluginManager = static_cast<ClipPluginManager*>(parent);
+
+    clipPluginManager->addSupportedMimetypes(QStringList() << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp"
+                                                           << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp"
+                                                           << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr");
 }
 
 ImageClipPlugin::~ImageClipPlugin()
@@ -29,13 +36,13 @@ ImageClipPlugin::~ImageClipPlugin()
     
 }
 
-AbstractProjectClip* ImageClipPlugin::createClip(ProducerWrapper *producer) const
+AbstractProjectClip* ImageClipPlugin::createClip(ProducerWrapper *producer, ProjectFolder *parent) const
 {
-    ImageProjectClip *projectClip = new ImageProjectClip(producer);
+    ImageProjectClip *projectClip = new ImageProjectClip(producer, parent);
     return projectClip;
 }
 
-AbstractProjectClip* ImageClipPlugin::loadClip(const QDomElement& description, AbstractProjectItem *parent) const
+AbstractProjectClip* ImageClipPlugin::loadClip(const QDomElement& description, ProjectFolder *parent) const
 {
     ImageProjectClip *projectClip = new ImageProjectClip(description, parent);
     return projectClip;

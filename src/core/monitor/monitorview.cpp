@@ -31,6 +31,7 @@ MonitorView::MonitorView(QWidget* parent) :
     QGLWidget *glWidget = new QGLWidget();
     m_videoView->setViewport(glWidget);
     m_videoView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    m_videoView->setFrameShape(QFrame::NoFrame);
     m_videoView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_videoScene = new MonitorGraphicsScene(this);
     m_videoView->setScene(m_videoScene);

@@ -18,7 +18,7 @@ ProjectItemModel::ProjectItemModel(Project* project, QObject* parent) :
     QAbstractItemModel(parent),
     m_project(project)
 {
-    
+    connect(project, SIGNAL(itemAdded(AbstractProjectItem*)), this, SIGNAL(layoutChanged()));
 }
 
 ProjectItemModel::~ProjectItemModel()

@@ -26,6 +26,8 @@ public:
     AbstractProjectClip *clip(int id);
     Project *project();
 
+    void addChild(AbstractProjectItem *child);
+
 private:
     void loadChildren(const QDomElement &description);
 

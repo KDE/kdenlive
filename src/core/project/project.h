@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 class Timeline;
 class AbstractProjectClip;
+class AbstractProjectItem;
 class ProjectFolder;
 class QDomElement;
 namespace Mlt
@@ -36,9 +37,15 @@ public:
     KUrl url() const;
     Timeline *timeline();
     AbstractProjectClip *clip(int id);
+
     ProjectFolder *items();
 
     Mlt::Profile *profile();
+
+    void addItem(AbstractProjectItem *item);
+
+signals:
+    void itemAdded(AbstractProjectItem *item);
 
 private:
     void loadClips(const QDomElement &description);

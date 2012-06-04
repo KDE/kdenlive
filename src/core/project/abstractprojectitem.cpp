@@ -34,6 +34,7 @@ AbstractProjectItem::~AbstractProjectItem()
 
 bool AbstractProjectItem::operator==(const AbstractProjectItem* projectItem) const
 {
+    // FIXME: only works for folders
     bool equal = static_cast<const QList* const>(this) == static_cast<const QList* const>(projectItem);
     equal &= m_parent == projectItem->parent();
     return equal;

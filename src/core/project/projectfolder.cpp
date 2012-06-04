@@ -58,6 +58,13 @@ Project* ProjectFolder::project()
     }
 }
 
+void ProjectFolder::addChild(AbstractProjectItem* child)
+{
+    if (child) {
+        append(child);
+    }
+}
+
 void ProjectFolder::loadChildren(const QDomElement& description)
 {
     QDomNodeList childen = description.childNodes();

@@ -11,13 +11,15 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef CLIPPLUGINMANAGER_H
 #define CLIPPLUGINMANAGER_H
 
-#include <kdemacros.h>
 #include <QObject>
 #include <QHash>
+#include <QStringList>
+#include <kdemacros.h>
 
 class AbstractClipPlugin;
 class AbstractProjectClip;
 class AbstractProjectItem;
+class ProjectFolder;
 class KUrl;
 class QDomElement;
 
@@ -30,12 +32,18 @@ public:
     explicit ClipPluginManager(QObject* parent = 0);
     ~ClipPluginManager();
 
-    AbstractProjectClip *createClip(const KUrl &url) const;
-    AbstractProjectClip *loadClip(const QDomElement &clipDescription, AbstractProjectItem *parent) const;
+    AbstractProjectClip *createClip(const KUrl &url, ProjectFolder *folder) const;
+    AbstractProjectClip *loadClip(const QDomElement &clipDescription, ProjectFolder *folder) const;
+
+    void addSupportedMimetypes(const QStringList &mimetypes);
+
+public slots:
+    void execAddClipDialog(ProjectFolder *folder = 0) const;
 
 private:
     QList<AbstractClipPlugin *> m_clipPlugins;
     QHash<QString, AbstractClipPlugin*> m_clipPluginsForProducers;
+    QStringList m_supportedFileExtensions;
 };
 
 #endif

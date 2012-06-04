@@ -9,16 +9,24 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "clippluginmanager.h"
+#include "core.h"
 #include "abstractclipplugin.h"
 #include "abstractprojectclip.h"
 #include "producerwrapper.h"
+#include "project.h"
+#include "projectfolder.h"
+#include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include <mlt++/Mlt.h>
 #include <KPluginLoader>
 #include <KServiceTypeTrader>
 #include <KPluginInfo>
+#include <KFileDialog>
 #include <QFile>
 #include <QDomElement>
+#include <KAction>
+#include <KActionCollection>
+
 #include <KDebug>
 
 
@@ -35,12 +43,15 @@ ClipPluginManager::ClipPluginManager(QObject* parent) :
             if (clipPlugin) {
                 m_clipPlugins.append(clipPlugin);
                 foreach (QString producer, providedProducers) {
-                    kDebug() << producer;
                     m_clipPluginsForProducers.insert(producer, clipPlugin);
                 }
             }
         }
     }
+
+    KAction *addClipAction = new KAction(KIcon("kdenlive-add-clip"), i18n("Add Clip"), this);
+    pCore->window()->actionCollection()->addAction("add_clip", addClipAction);
+    connect(addClipAction , SIGNAL(triggered()), this, SLOT(execAddClipDialog()));
 }
 
 ClipPluginManager::~ClipPluginManager()
@@ -48,15 +59,13 @@ ClipPluginManager::~ClipPluginManager()
     qDeleteAll(m_clipPlugins);
 }
 
-AbstractProjectClip* ClipPluginManager::createClip(const KUrl& url) const
+AbstractProjectClip* ClipPluginManager::createClip(const KUrl& url, ProjectFolder *folder) const
 {
     if (QFile::exists(url.path())) {
-        // TODO: get proper profile (through parent)
-        Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-        ProducerWrapper *producer = new ProducerWrapper(profile, url.path());
+        ProducerWrapper *producer = new ProducerWrapper(*pCore->currentProject()->profile(), url.path());
         QString producerType(producer->get("mlt_service"));
         if (m_clipPluginsForProducers.contains(producerType)) {
-            AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->createClip(producer);
+            AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->createClip(producer, folder);
             return clip;
         } else {
             kWarning() << "no clip plugin available for mlt service " << producerType;
@@ -70,15 +79,67 @@ AbstractProjectClip* ClipPluginManager::createClip(const KUrl& url) const
     return NULL;
 }
 
-AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescription, AbstractProjectItem *parent) const
+AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescription, ProjectFolder *folder) const
 {
     QString producerType = clipDescription.attribute("producer_type");
     if (m_clipPluginsForProducers.contains(producerType)) {
-        AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->loadClip(clipDescription, parent);
+        AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->loadClip(clipDescription, folder);
         return clip;
     } else {
         kWarning() << "no clip plugin available for mlt service " << producerType;
         return NULL;
+    }
+}
+
+void ClipPluginManager::execAddClipDialog(ProjectFolder* folder) const
+{
+    QString allExtensions = m_supportedFileExtensions.join(" ");
+    const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
+
+//         QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
+//         b->setChecked(KdenliveSettings::autoimagesequence());
+//         QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
+//         c->setChecked(KdenliveSettings::autoimagetransparency());
+//         QFrame *f = new QFrame;
+//         f->setFrameShape(QFrame::NoFrame);
+//         QHBoxLayout *l = new QHBoxLayout;
+//         l->addWidget(b);
+//         l->addWidget(c);
+//         l->addStretch(5);
+//         f->setLayout(l);
+
+    KFileDialog *dialog = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, pCore->window()/*, f*/);
+    dialog->setOperationMode(KFileDialog::Opening);
+    dialog->setMode(KFile::Files);
+    dialog->exec();
+
+//         if (dialog->exec() == QDialog::Accepted) {
+//             KdenliveSettings::setAutoimagetransparency(c->isChecked());
+//         }
+
+    KUrl::List urlList = dialog->selectedUrls();
+    foreach (KUrl url, urlList) {
+        AbstractProjectClip *clip = createClip(url, folder);
+        if (clip) {
+            if (folder) {
+                folder->addChild(clip);
+            } else {
+                pCore->currentProject()->items()->addChild(clip);
+            }
+            pCore->currentProject()->addItem(clip);
+        }
+    }
+
+    delete dialog;
+}
+
+void ClipPluginManager::addSupportedMimetypes(const QStringList& mimetypes)
+{
+    foreach(const QString &mimetypeString, mimetypes) {
+        KMimeType::Ptr mimetype(KMimeType::mimeType(mimetypeString));
+        if (mimetype) {
+            m_supportedFileExtensions.append(mimetype->patterns());
+        }
     }
 }
 

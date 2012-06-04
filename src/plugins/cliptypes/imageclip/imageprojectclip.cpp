@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "imageprojectclip.h"
 #include "imagetimelineclip.h"
+#include "core/project/projectfolder.h"
 #include "core/project/producerwrapper.h"
 #include "core/project/project.h"
 #include "src/core/kdenlivesettings.h"
@@ -20,7 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDomElement>
 
 
-ImageProjectClip::ImageProjectClip(const KUrl& url, AbstractProjectItem* parent) :
+ImageProjectClip::ImageProjectClip(const KUrl& url, ProjectFolder* parent) :
     AbstractProjectClip(url, parent)
 {
     m_baseProducer = new ProducerWrapper(*project()->profile(), url.path());
@@ -28,13 +29,13 @@ ImageProjectClip::ImageProjectClip(const KUrl& url, AbstractProjectItem* parent)
     init();
 }
 
-ImageProjectClip::ImageProjectClip(ProducerWrapper* producer, AbstractProjectItem* parent) :
+ImageProjectClip::ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent) :
     AbstractProjectClip(producer, parent)
 {
     init();
 }
 
-ImageProjectClip::ImageProjectClip(const QDomElement& description, AbstractProjectItem* parent) :
+ImageProjectClip::ImageProjectClip(const QDomElement& description, ProjectFolder* parent) :
     AbstractProjectClip(description, parent)
 {
     Q_ASSERT(description.attribute("producer_type") == "pixbuf" || description.attribute("producer_type") == "qimage");

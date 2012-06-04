@@ -23,9 +23,6 @@ Core::Core(MainWindow *mainWindow) :
     m_mainWindow(mainWindow),
     m_currentProject(NULL)
 {
-    m_effectRepository = new EffectRepository();
-    m_clipPluginManager = new ClipPluginManager();
-
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
 }
 
@@ -44,6 +41,13 @@ Core::~Core()
 void Core::initialize(MainWindow* mainWindow)
 {
     m_self = new Core(mainWindow);
+    m_self->init();
+}
+
+void Core::init()
+{
+    m_effectRepository = new EffectRepository();
+    m_clipPluginManager = new ClipPluginManager();
 }
 
 Core* Core::self()

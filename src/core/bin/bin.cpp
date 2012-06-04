@@ -23,6 +23,7 @@ Bin::Bin(QWidget* parent) :
 {
     // TODO: proper ui, search line, add menu, ...
     QVBoxLayout *layout = new QVBoxLayout(this);
+
 }
 
 Bin::~Bin()

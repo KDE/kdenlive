@@ -10,11 +10,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "abstractprojectclip.h"
 #include "producerwrapper.h"
+#include "projectfolder.h"
 #include <mlt++/Mlt.h>
 #include <QDomElement>
 
 
-AbstractProjectClip::AbstractProjectClip(const KUrl& url, AbstractProjectItem* parent) :
+AbstractProjectClip::AbstractProjectClip(const KUrl& url, ProjectFolder* parent) :
     AbstractProjectItem(parent),
     m_url(url)
 {
@@ -23,13 +24,20 @@ AbstractProjectClip::AbstractProjectClip(const KUrl& url, AbstractProjectItem* p
     }
 }
 
-AbstractProjectClip::AbstractProjectClip(ProducerWrapper* producer, AbstractProjectItem* parent) :
+AbstractProjectClip::AbstractProjectClip(ProducerWrapper* producer, ProjectFolder* parent) :
     AbstractProjectItem(parent),
     m_baseProducer(producer)
 {
+    char *resource = producer->get("resource");
+    if (resource) {
+        m_url = KUrl(resource);
+        if (m_url.isValid()) {
+            m_name = m_url.fileName();
+        }
+    }
 }
 
-AbstractProjectClip::AbstractProjectClip(const QDomElement& description, AbstractProjectItem* parent) :
+AbstractProjectClip::AbstractProjectClip(const QDomElement& description, ProjectFolder* parent) :
     AbstractProjectItem(description, parent)
 {
     Q_ASSERT(description.hasAttribute("id"));

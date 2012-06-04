@@ -22,9 +22,9 @@ class ImageProjectClip : public AbstractProjectClip
     Q_OBJECT
 
 public:
-    ImageProjectClip(const KUrl& url, AbstractProjectItem* parent);
-    ImageProjectClip(ProducerWrapper* producer, AbstractProjectItem* parent = 0);
-    ImageProjectClip(const QDomElement &description, AbstractProjectItem *parent);
+    ImageProjectClip(const KUrl& url, ProjectFolder* parent);
+    ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent);
+    ImageProjectClip(const QDomElement &description, ProjectFolder *parent);
     ~ImageProjectClip();
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);

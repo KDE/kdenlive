@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractprojectitem.h"
 #include <KUrl>
 
+class ProjectFolder;
 class ProducerWrapper;
 class TimelineTrack;
 class AbstractTimelineClip;
@@ -25,9 +26,9 @@ class KDE_EXPORT AbstractProjectClip : public AbstractProjectItem
     Q_OBJECT
 
 public:
-    AbstractProjectClip(const KUrl &url, AbstractProjectItem *parent);
-    AbstractProjectClip(ProducerWrapper *producer, AbstractProjectItem *parent);
-    AbstractProjectClip(const QDomElement &description, AbstractProjectItem *parent);
+    AbstractProjectClip(const KUrl &url, ProjectFolder *parent);
+    AbstractProjectClip(ProducerWrapper *producer, ProjectFolder *parent);
+    AbstractProjectClip(const QDomElement &description, ProjectFolder *parent);
     virtual ~AbstractProjectClip();
 
     virtual AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent) = 0;

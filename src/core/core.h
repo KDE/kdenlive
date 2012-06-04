@@ -46,6 +46,7 @@ public:
 private:
     Core(MainWindow *mainWindow);
     static Core *m_self;
+    void init();
 
     MainWindow *m_mainWindow;
     Project *m_currentProject;

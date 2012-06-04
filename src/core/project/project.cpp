@@ -86,6 +86,7 @@ AbstractProjectClip* Project::clip(int id)
 {
     return m_items->clip(id);
 }
+
 ProjectFolder* Project::items()
 {
     return m_items;
@@ -96,6 +97,11 @@ Mlt::Profile* Project::profile()
     return m_timeline->profile();
 }
 
+void Project::addItem(AbstractProjectItem* item)
+{
+    // item is added to its parent by the clipPluginManager; no further action required here
+    emit itemAdded(item);
+}
 
 void Project::loadClips(const QDomElement& description)
 {
