@@ -13,23 +13,21 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "abstractprojectitem.h"
 
-class ClipPluginManager;
-
 
 class ProjectFolder : public AbstractProjectItem
 {
     Q_OBJECT
 
 public:
-    ProjectFolder(const QDomElement &description, ClipPluginManager *clipPluginManager, AbstractProjectItem* parent);
-    ProjectFolder(const QDomElement &description, ClipPluginManager *clipPluginManager, Project *project);
+    ProjectFolder(const QDomElement &description, AbstractProjectItem* parent);
+    ProjectFolder(const QDomElement &description, Project *project);
     ~ProjectFolder();
 
     AbstractProjectClip *clip(int id);
     Project *project();
 
 private:
-    void loadChildren(const QDomElement &description, ClipPluginManager *clipPluginManager);
+    void loadChildren(const QDomElement &description);
 
     Project *m_project;
 };

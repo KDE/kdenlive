@@ -14,7 +14,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KUrl>
 #include <kdemacros.h>
 
-class ClipPluginManager;
 class Timeline;
 class AbstractProjectClip;
 class ProjectFolder;
@@ -30,7 +29,7 @@ class KDE_EXPORT Project : public QObject
     Q_OBJECT
 
 public:
-    Project(const KUrl &url, ClipPluginManager *clipPluginManager, QObject* parent = 0);
+    Project(const KUrl &url, QObject* parent = 0);
     Project(QObject *parent = 0);
     virtual ~Project();
 
@@ -42,7 +41,7 @@ public:
     Mlt::Profile *profile();
 
 private:
-    void loadClips(const QDomElement &description, ClipPluginManager *clipPluginManager);
+    void loadClips(const QDomElement &description);
     void loadTimeline(const QString &content);
 
     KUrl m_url;

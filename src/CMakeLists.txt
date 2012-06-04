@@ -363,11 +363,11 @@ if(BUILD_JogShuttle)
 endif(BUILD_JogShuttle)
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
-install(FILES
-  kdenliveui.rc
-  kdenlive.notifyrc
-  DESTINATION ${DATA_INSTALL_DIR}/kdenlive
-)
+# install(FILES
+#   kdenliveui.rc
+#   kdenlive.notifyrc
+#   DESTINATION ${DATA_INSTALL_DIR}/kdenlive
+# )
 
 install(FILES
   kdenlive_projectprofiles.knsrc

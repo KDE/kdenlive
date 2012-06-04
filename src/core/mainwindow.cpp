@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "mainwindow.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "project/clippluginmanager.h"
 #include "project/project.h"
@@ -32,24 +33,22 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &Url, const QString & 
 {
     initLocale();
 
-    m_effectRepository = new EffectRepository();
+    Core::initialize(this);
 
-    m_clipPluginManager = new ClipPluginManager();
     QDockWidget *binDock = new QDockWidget(i18n("Bin"), this);
     binDock->setObjectName("bin");
     m_bin = new Bin();
     binDock->setWidget(m_bin);
     addDockWidget(Qt::TopDockWidgetArea, binDock);
 
-    m_project = new Project(Url, m_clipPluginManager);
-    m_bin->setProject(m_project);
+    pCore->setCurrentProject(new Project(Url));
 
     QDockWidget *monitorDock = new QDockWidget(i18n("Monitor"), this);
     m_monitor = new MonitorView();
-    MonitorModel *monitorModel = new MonitorModel(m_project);
+    MonitorModel *monitorModel = new MonitorModel(pCore->currentProject());
 
     // Monitor testing
-    ProducerWrapper *producer = new ProducerWrapper(*m_project->profile(), "/media/video/11/1118_hsgkeller/MVI_0760.MOV");
+    ProducerWrapper *producer = new ProducerWrapper(*pCore->currentProject()->profile(), "/media/video/11/1118_hsgkeller/MVI_0760.MOV");
     monitorModel->setProducer(producer);
 
     m_monitor->setModel(monitorModel);
@@ -59,18 +58,18 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &Url, const QString & 
 
     QDockWidget *timelineTest = new QDockWidget(i18n("Timeline"), this);
     timelineTest->setObjectName("timeline_test");
-    TimelineScene *scene = new TimelineScene(m_project->timeline(), this);
+    TimelineScene *scene = new TimelineScene(pCore->currentProject()->timeline(), this);
     QGraphicsView *viewT = new QGraphicsView(scene, timelineTest);
     timelineTest->setWidget(viewT);
     addDockWidget(Qt::BottomDockWidgetArea, timelineTest);
+
+    setupGUI();
 }
 
 MainWindow::~MainWindow()
 {
-    delete m_clipPluginManager;
-    delete m_project;
     delete m_bin;
-    delete m_effectRepository;
+    delete m_monitor;
 }
 
 void MainWindow::initLocale()
@@ -92,8 +91,19 @@ void MainWindow::initLocale()
     QLocale::setDefault(systemLocale);
 }
 
+Bin* MainWindow::bin()
+{
+    return m_bin;
+}
+
+MonitorView* MainWindow::monitor()
+{
+    return m_monitor;
+}
+
 void MainWindow::loadDocks()
 {
 
 }
+
 #include "mainwindow.moc"

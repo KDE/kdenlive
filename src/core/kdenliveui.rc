@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<gui name="kdenlive" version="70">
+  <ToolBar name="extraToolBar" >
+    <text>Extra Toolbar</text>
+    <Action name="project_render" />
+  </ToolBar>
+
+  <MenuBar>
+    <Menu name="file" >
+    </Menu>
+  
+    <Menu name="edit" >
+      <Action name="paste_effects" />
+    </Menu>
+    
+    <Menu name="project" ><text>Project</text>
+      <Action name="add_clip" />
+      <Action name="add_folder" /> 
+      <Menu name="track_menu" ><text>Tracks</text>
+        <Action name="insert_track" />
+        <Action name="delete_track" />
+        <Action name="config_tracks" />
+        <Separator />
+        <Action name="select_track" />
+        <Action name="select_all_tracks" />
+      </Menu>
+      <Separator />
+      <Separator />
+      <Action name="reload_clip" />
+      <Action name="clip_properties" />
+      <Action name="edit_clip" />
+      <Action name="delete_clip" />
+      <Separator />
+      <Action name="project_render" />
+      <Action name="project_settings" />
+    </Menu>
+
+    <Menu name="clip" ><text>Clip</text>
+    </Menu>
+
+    <Menu name="timeline" ><text>Timeline</text>
+      <Menu name="keyboard_selection" ><text>Selection</text>
+      <Action name="select_timeline_clip" />
+      <Action name="select_add_timeline_clip" />
+      <Action name="deselect_timeline_clip" />
+      <Action name="select_timeline_transition" />
+      <Action name="select_add_timeline_transition" />
+      <Action name="deselect_timeline_transition" />
+      </Menu>
+      <Menu name="keyboard_insert" ><text>Insertion</text>
+      <Action name="overwrite_to_in_point" />
+      </Menu>
+      <Action name="resize_timeline_clip_start" />
+      <Action name="resize_timeline_clip_end" />
+      <Menu name="current_clip" ><text>Current clip</text>
+      <Action name="cut_timeline_clip" />
+      <Action name="delete_timeline_clip" />
+      <Action name="edit_item_duration" />
+      <Action name="save_timeline_clip" />
+      </Menu>
+      <Separator />
+      <Menu name="video_effects_menu" ><text>Add Effect</text>
+      </Menu>
+      <Separator />
+        <Action name="show_video_thumbs" />
+        <Action name="show_audio_thumbs" />
+        <Action name="show_markers" />
+        <Action name="snap" />
+      <Separator />
+        <Action name="zoom_in" />
+        <Action name="zoom_out" />      
+        <Action name="zoom_fit" />
+    </Menu>
+    <Menu name="monitor" ><text>Monitor</text>
+      <Action name="monitor_play" />
+      <Separator />      
+      <Menu name="monitor_go" ><text>Go To</text>
+        <Action name="seek_start" />
+        <Action name="monitor_seek_snap_backward" />
+        <Action name="seek_zone_start" />
+        <Action name="seek_clip_start" />
+        <Action name="seek_clip_end" />
+        <Action name="seek_zone_end" />
+        <Action name="monitor_seek_snap_forward" />
+        <Action name="seek_end" />
+      </Menu>
+      <Action name="monitor_seek_backward" />
+      <Action name="monitor_seek_backward-one-frame" />
+      <Action name="monitor_seek_backward-one-second" />
+      <Action name="monitor_seek_forward-one-second" />
+      <Action name="monitor_seek_forward-one-frame" />
+      <Action name="monitor_seek_forward" />
+      <Separator />
+      <Action name="monitor_fullscreen" />
+      <Action name="insert_project_tree" />
+      <Action name="insert_timeline" />
+    </Menu>
+    <Menu name="dockwindows" ><text>View</text>
+      <Separator />
+      <Action name="show_titlebars" />
+      <Action name="maximize_current" />
+      <Action name="show_timeline" />
+    </Menu>
+    <Menu name="settings" >
+      <Action name="manage_profiles" />
+      <Action name="run_wizard" />
+      <Menu name="themes_menu" ><text>Themes</text>
+    </Menu>
+</Menu>
+  </MenuBar>
+</gui>

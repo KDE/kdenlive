@@ -9,10 +9,12 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "project.h"
-#include "clippluginmanager.h"
+#include "core.h"
 #include "timeline.h"
 #include "projectfolder.h"
 #include "abstractprojectclip.h"
+#include "mainwindow.h"
+#include "bin/bin.h"
 #include <mlt++/Mlt.h>
 #include <KIO/NetAccess>
 #include <QFile>
@@ -21,7 +23,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KDebug>
 
 
-Project::Project(const KUrl& url, ClipPluginManager *clipPluginManager, QObject* parent) :
+Project::Project(const KUrl& url, QObject* parent) :
     QObject(parent),
     m_url(url),
     m_timeline(0)
@@ -39,7 +41,7 @@ Project::Project(const KUrl& url, ClipPluginManager *clipPluginManager, QObject*
             
             if (success) {
                 loadTimeline(document.toString());
-                loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"), clipPluginManager);
+                loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"));
                 m_timeline->loadTracks();
             } else {
                 kWarning() << "unable to load document" << url.path() << errorMessage;
@@ -51,6 +53,8 @@ Project::Project(const KUrl& url, ClipPluginManager *clipPluginManager, QObject*
     } else {
         kWarning() << "empty URL";
     }
+
+    pCore->window()->bin()->setProject(this);
 }
 
 Project::Project(QObject* parent) :
@@ -93,9 +97,9 @@ Mlt::Profile* Project::profile()
 }
 
 
-void Project::loadClips(const QDomElement& description, ClipPluginManager *clipPluginManager)
+void Project::loadClips(const QDomElement& description)
 {
-    m_items = new ProjectFolder(description, clipPluginManager, this);
+    m_items = new ProjectFolder(description, this);
 }
 
 void Project::loadTimeline(const QString& content)

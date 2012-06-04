@@ -9,24 +9,25 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "projectfolder.h"
+#include "core.h"
 #include "clippluginmanager.h"
 #include "abstractprojectclip.h"
 #include "project.h"
 #include <QDomElement>
 
 
-ProjectFolder::ProjectFolder(const QDomElement& description, ClipPluginManager *clipPluginManager, AbstractProjectItem* parent) :
+ProjectFolder::ProjectFolder(const QDomElement& description, AbstractProjectItem* parent) :
     AbstractProjectItem(description, parent),
     m_project(NULL)
 {
-    loadChildren(description, clipPluginManager);
+    loadChildren(description);
 }
 
-ProjectFolder::ProjectFolder(const QDomElement& description, ClipPluginManager* clipPluginManager, Project* project) :
+ProjectFolder::ProjectFolder(const QDomElement& description, Project* project) :
     AbstractProjectItem(description),
     m_project(project)
 {
-    loadChildren(description, clipPluginManager);
+    loadChildren(description);
 }
 
 
@@ -57,16 +58,16 @@ Project* ProjectFolder::project()
     }
 }
 
-void ProjectFolder::loadChildren(const QDomElement& description, ClipPluginManager* clipPluginManager)
+void ProjectFolder::loadChildren(const QDomElement& description)
 {
     QDomNodeList childen = description.childNodes();
     for (int i = 0; i < childen.count(); ++i) {
         QDomElement childElement = childen.at(i).toElement();
         AbstractProjectItem *child;
         if (childElement.tagName() == "folder") {
-            child = new ProjectFolder(childElement, clipPluginManager, this);
+            child = new ProjectFolder(childElement, this);
         } else {
-            child = clipPluginManager->loadClip(childElement, this);
+            child = pCore->clipPluginManager()->loadClip(childElement, this);
         }
         if (child) {
             append(child);

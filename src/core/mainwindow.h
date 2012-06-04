@@ -15,10 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KUrl>
 #include <kdemacros.h>
 
-class ClipPluginManager;
-class Project;
 class Bin;
-class EffectRepository;
 class MonitorView;
 
 
@@ -31,15 +28,15 @@ public:
                         const KUrl &Url = KUrl(), const QString & clipsToLoad = QString(), QWidget* parent = 0);
     virtual ~MainWindow();
 
+    Bin *bin();
+    MonitorView *monitor();
+
     void addDock();
 
 private:
     void initLocale();
     void loadDocks();
 
-    EffectRepository *m_effectRepository;
-    ClipPluginManager *m_clipPluginManager;
-    Project *m_project;
     Bin *m_bin;
     MonitorView *m_monitor;
 };

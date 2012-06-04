@@ -9,6 +9,7 @@ add_subdirectory(widgets)
 
 set(kdenlivecore_LIB_SRCS
   mainwindow.cpp
+  core.cpp
 
   ${bin_SRCS}
   ${effectsystem_SRCS}
@@ -61,3 +62,4 @@ endif(Q_WS_X11)
 set_target_properties(kdenlivecore PROPERTIES VERSION 1.0.0 SOVERSION 1 )
 install(TARGETS kdenlivecore ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+install(FILES kdenliveui.rc DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
