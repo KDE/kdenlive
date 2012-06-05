@@ -407,6 +407,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         save->setData("_" + QString::number(i));
         layoutActions->addAction("save_layout" + QString::number(i), save);
     }
+    // Required to enable user to add the load layout action to toolbar
     layoutActions->addAction("load_layouts", m_loadLayout);
     connect(m_loadLayout, SIGNAL(triggered(QAction*)), this, SLOT(slotLoadLayout(QAction*)));
 
@@ -429,6 +430,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
     m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
     m_effectsActionCollection->readSettings();
+
+       // Populate View menu with show / hide actions for dock widgets
+    KActionCategory *guiActions = new KActionCategory(i18n("Interface"), actionCollection());
 
     setupGUI();
 
@@ -526,11 +530,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     connect(m, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
     connect(m_effectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
-    connect(m_transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
-
-    QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
-    const QList<QAction *> viewActions = createPopupMenu()->actions();
-    viewMenu->insertActions(NULL, viewActions);
+    connect(m_transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));    
 
     m_timelineContextMenu = new QMenu(this);
     m_timelineContextClipMenu = new QMenu(this);
@@ -604,6 +604,33 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     actionCollection()->addAssociatedWidget(m_clipMonitor->container());
     actionCollection()->addAssociatedWidget(m_projectMonitor->container());
 
+    QMap <QString, KAction *> viewActions;
+    KAction *showTimeline = new KAction(i18n("Timeline"), this);
+    showTimeline->setCheckable(true);
+    showTimeline->setChecked(true);
+    connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
+    viewActions.insert(showTimeline->text(), showTimeline);
+    
+    QList <QDockWidget *> docks = findChildren<QDockWidget *>();
+    for (int i = 0; i < docks.count(); i++) {
+        QDockWidget* dock = docks.at(i);
+	KAction* dockInformations = new KAction(this);
+	dockInformations->setText(dock->windowTitle());
+	dockInformations->setCheckable(true);
+	dockInformations->setChecked(!dock->isHidden());
+	connect(dockInformations,SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
+	viewActions.insert(dockInformations->text(), dockInformations);
+    }
+
+
+    KMenu *viewMenu = static_cast<KMenu*>(factory()->container("dockwindows", this));
+    //const QList<QAction *> viewActions = createPopupMenu()->actions();
+    QMap<QString, KAction *>::const_iterator i = viewActions.constBegin();
+    while (i != viewActions.constEnd()) {
+	viewMenu->addAction(guiActions->addAction(i.key(), i.value()));
+	++i;
+    }
+    
     // Populate encoding profiles
     KConfig conf("encodingprofiles.rc", KConfig::FullConfig, "appdata");
     if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {
@@ -1558,12 +1585,6 @@ void MainWindow::setupActions()
     pasteEffects->setData("paste_effects");
     connect(pasteEffects , SIGNAL(triggered()), this, SLOT(slotPasteEffects()));
 
-    QAction *showTimeline = new KAction(i18n("Show Timeline"), this);
-    collection.addAction("show_timeline", showTimeline);
-    showTimeline->setCheckable(true);
-    showTimeline->setChecked(true);
-    connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
-
     QAction *showTitleBar = new KAction(i18n("Show Title Bars"), this);
     collection.addAction("show_titlebars", showTitleBar);
     showTitleBar->setCheckable(true);
@@ -1578,7 +1599,7 @@ void MainWindow::setupActions()
     KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             collection);
     KStandardAction::openNew(this,                SLOT(newFile()),                collection);
     // TODO: make the following connection to slotEditKeys work
-    KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           collection);
+    //KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           collection);
     KStandardAction::preferences(this,            SLOT(slotPreferences()),        collection);
     KStandardAction::configureNotifications(this, SLOT(configureNotifications()), collection);
     KStandardAction::copy(this,                   SLOT(slotCopy()),               collection);

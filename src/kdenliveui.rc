@@ -170,10 +170,9 @@
 	<Action name="save_layout4" />
       </Menu>
       <Action name="load_layouts" />
-      <Separator />
       <Action name="show_titlebars" />
+      <Separator />
       <Action name="maximize_current" />
-      <Action name="show_timeline" />
     </Menu>
     <Menu name="settings" >
       <Action name="manage_profiles" />
