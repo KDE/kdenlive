@@ -496,6 +496,11 @@
       <label>Additionnal dvgrab parameters.</label>
       <default></default>
     </entry>
+
+    <entry name="decklink_device_found" type="Bool">
+      <label>Enable Blackmagic decklink support.</label>
+      <default>true</default>
+    </entry>
     
     <entry name="decklink_capturedevice" type="UInt">
       <label>default HDMI capture device.</label>
