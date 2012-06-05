@@ -4404,6 +4404,7 @@ const QString Render::activeClipId()
 //static 
 bool Render::getBlackMagicDeviceList(KComboBox *devicelist)
 {
+    if (!KdenliveSettings::decklink_device_found()) return false;
     Mlt::Profile profile;
     Mlt::Producer bm(profile, "decklink");
     int found_devices = 0;
@@ -4411,6 +4412,7 @@ bool Render::getBlackMagicDeviceList(KComboBox *devicelist)
 	bm.set("list_devices", 1);
 	found_devices = bm.get_int("devices");
     }
+    else KdenliveSettings::setDecklink_device_found(false);
     if (found_devices <= 0) {
 	devicelist->setEnabled(false);
 	return false;
@@ -4425,6 +4427,7 @@ bool Render::getBlackMagicDeviceList(KComboBox *devicelist)
 
 bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist)
 {
+    if (!KdenliveSettings::decklink_device_found()) return false;
     Mlt::Profile profile;
     Mlt::Consumer bm(profile, "decklink");
     int found_devices = 0;
@@ -4432,6 +4435,7 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist)
 	bm.set("list_devices", 1);
 	found_devices = bm.get_int("devices");
     }
+    else KdenliveSettings::setDecklink_device_found(false);
     if (found_devices <= 0) {
 	devicelist->setEnabled(false);
 	return false;
