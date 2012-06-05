@@ -76,11 +76,12 @@ void MonitorView::setModel(MonitorModel* model)
     m_videoScene->setFramePointer(m_model->framePointer());
     connect(m_model, SIGNAL(frameUpdated()), m_videoScene, SLOT(update()));
     connect(m_model, SIGNAL(playbackStateChanged(bool)), this, SLOT(onPlaybackStateChange(bool)));
+    connect(m_model, SIGNAL(producerChanged()), this, SLOT(onProducerChanged()));
 
-    m_positionBar->setDuration(m_model->duration());
-    m_positionBar->setPosition(m_model->position());
     connect(m_positionBar, SIGNAL(positionChanged(int)), m_model, SLOT(setPosition(int)));
     connect(m_model, SIGNAL(positionChanged(int)), m_positionBar, SLOT(setPosition(int)));
+
+    onProducerChanged();
 }
 
 MonitorModel* MonitorView::model()
@@ -100,5 +101,10 @@ void MonitorView::onPlaybackStateChange(bool plays)
     m_playAction->setActive(plays);
 }
 
+void MonitorView::onProducerChanged()
+{
+    m_positionBar->setDuration(m_model->duration());
+    m_positionBar->setPosition(m_model->position());
+}
 
 #include "monitorview.moc"

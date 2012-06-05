@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KUrl>
 #include <kdemacros.h>
 
+class MonitorModel;
 class Timeline;
 class AbstractProjectClip;
 class AbstractProjectItem;
@@ -44,6 +45,8 @@ public:
 
     void addItem(AbstractProjectItem *item);
 
+    MonitorModel *monitor();
+
 signals:
     void itemAdded(AbstractProjectItem *item);
 
@@ -54,7 +57,8 @@ private:
     KUrl m_url;
     ProjectFolder *m_items;
     Timeline *m_timeline;
-    
+    MonitorModel *m_monitor;
+//     MonitorModel *m_clipMonitor;
 };
 
 #endif

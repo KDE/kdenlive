@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QAbstractItemModel>
 
 class Project;
+class QItemSelectionModel;
 
 
 class ProjectItemModel : public QAbstractItemModel
@@ -24,6 +25,8 @@ public:
     ProjectItemModel(Project *project, QObject* parent = 0);
     ~ProjectItemModel();
 
+    QItemSelectionModel *selectionModel();
+
     QVariant data(const QModelIndex &index, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
@@ -32,8 +35,12 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
+private slots:
+    void onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous);
+
 private:
     Project *m_project;
+    QItemSelectionModel *m_selection;
 };
 
 #endif

@@ -52,6 +52,7 @@ void Bin::setProject(Project* project)
     m_itemView = new QTreeView();
     layout()->addWidget(m_itemView);
     m_itemView->setModel(m_itemModel);
+    m_itemView->setSelectionModel(m_itemModel->selectionModel());
 }
 
 #include "bin.moc"

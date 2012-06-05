@@ -38,6 +38,7 @@ public slots:
 
 private slots:
     void onPlaybackStateChange(bool plays);
+    void onProducerChanged();
 
 private:
     QGraphicsView *m_videoView;

@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivesettings.h"
 #include <mlt++/Mlt.h>
 #include <QPainter>
-#include <qpaintengine.h>
+#include <QPaintEngine>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneWheelEvent>
@@ -94,7 +94,7 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
                  1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    if (m_needsResize) {
+    if (KDE_ISUNLIKELY(m_needsResize)) {
         int width = views()[0]->viewport()->width();
         int height = views()[0]->viewport()->height();
 
@@ -111,7 +111,7 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
         frame = m_frame->fetchAndStoreAcquire(0);
     }
 
-    if(!m_texture && !frame) {
+    if(KDE_ISUNLIKELY(!m_texture && !frame)) {
         return;
     }
 
@@ -123,7 +123,7 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
         const uint8_t *image = frame->get_image(format, width, height);
         int size = width * height * 4;
 
-        if (size != m_imageRect->rect().width() * m_imageRect->rect().height() * 4) {
+        if (KDE_ISUNLIKELY(size != m_imageRect->rect().width() * m_imageRect->rect().height() * 4)) {
             m_imageRect->setRect(0, 0, width, height);
 
 #ifdef USE_PBO
@@ -177,12 +177,9 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
         // glMapBufferARB() returns a new allocated pointer immediately
         // even if GPU is still working with the previous data.
         glBufferData(GL_PIXEL_UNPACK_BUFFER, size, 0, GL_STREAM_DRAW);
-        GLubyte* ptr = (GLubyte*)glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
-        if(ptr)
-        {
-            memcpy(ptr, image, size);
-            glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
-        }
+        void* ptr = glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
+        memcpy(ptr, image, size);
+        glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
 
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
         glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0);

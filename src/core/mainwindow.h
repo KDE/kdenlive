@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KUrl>
 #include <kdemacros.h>
 
+class TimelineWidget;
 class Bin;
 class MonitorView;
 
@@ -29,7 +30,8 @@ public:
     virtual ~MainWindow();
 
     Bin *bin();
-    MonitorView *monitor();
+    MonitorView *monitorWidget();
+    TimelineWidget *timelineWidget();
 
     void addDock();
 
@@ -39,6 +41,7 @@ private:
 
     Bin *m_bin;
     MonitorView *m_monitor;
+    TimelineWidget *m_timeline;
 };
 
 #endif

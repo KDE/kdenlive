@@ -59,6 +59,7 @@ signals:
     void playbackStateChanged(bool plays);
     void positionChanged(int position);
     void speedChanged(double speed);
+    void producerChanged();
 
 private:
     void refreshConsumer();

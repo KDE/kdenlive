@@ -13,6 +13,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/project.h"
 #include "project/clippluginmanager.h"
 #include "effectsystem/effectrepository.h"
+#include "bin/bin.h"
+#include "timelineview/timelinewidget.h"
+#include "monitor/monitorview.h"
 #include <QCoreApplication>
 
 
@@ -72,6 +75,9 @@ void Core::setCurrentProject(Project* project)
     }
 
     m_currentProject = project;
+    m_mainWindow->bin()->setProject(project);
+    m_mainWindow->timelineWidget()->setProject(project);
+    m_mainWindow->monitorWidget()->setModel(project->monitor());
 }
 
 EffectRepository* Core::effectRepository()

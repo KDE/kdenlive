@@ -50,6 +50,9 @@ public:
     QString description() const;
     virtual void setDescription(const QString &description);
 
+    virtual void setCurrent(bool current);
+//     virtual bool isSelected();
+
 protected:
     AbstractProjectItem *m_parent;
     QString m_name;

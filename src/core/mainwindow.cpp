@@ -11,14 +11,10 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "core.h"
 #include "kdenlivesettings.h"
-#include "project/clippluginmanager.h"
 #include "project/project.h"
 #include "bin/bin.h"
-#include "timelineview/timelinescene.h"
-#include "effectsystem/effectrepository.h"
 #include "monitor/monitorview.h"
-#include "monitor/monitormodel.h"
-#include "project/producerwrapper.h"
+#include "timelineview/timelinewidget.h"
 #include <KLocale>
 #include <QDockWidget>
 #include <QGraphicsView>
@@ -41,35 +37,28 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &Url, const QString & 
     binDock->setWidget(m_bin);
     addDockWidget(Qt::TopDockWidgetArea, binDock);
 
-    pCore->setCurrentProject(new Project(Url));
-
     QDockWidget *monitorDock = new QDockWidget(i18n("Monitor"), this);
+    monitorDock->setObjectName("monitor");
     m_monitor = new MonitorView();
-    MonitorModel *monitorModel = new MonitorModel(pCore->currentProject());
-
-    // Monitor testing
-    ProducerWrapper *producer = new ProducerWrapper(*pCore->currentProject()->profile(), "/media/video/11/1118_hsgkeller/MVI_0760.MOV");
-    monitorModel->setProducer(producer);
-
-    m_monitor->setModel(monitorModel);
 
     monitorDock->setWidget(m_monitor);
     addDockWidget(Qt::TopDockWidgetArea, monitorDock);
 
-    QDockWidget *timelineTest = new QDockWidget(i18n("Timeline"), this);
-    timelineTest->setObjectName("timeline_test");
-    TimelineScene *scene = new TimelineScene(pCore->currentProject()->timeline(), this);
-    QGraphicsView *viewT = new QGraphicsView(scene, timelineTest);
-    timelineTest->setWidget(viewT);
-    addDockWidget(Qt::BottomDockWidgetArea, timelineTest);
+    m_timeline = new TimelineWidget(this);
+    setCentralWidget(m_timeline);
+
 
     setupGUI();
+
+
+    pCore->setCurrentProject(new Project(Url));
 }
 
 MainWindow::~MainWindow()
 {
     delete m_bin;
     delete m_monitor;
+    delete m_timeline;
 }
 
 void MainWindow::initLocale()
@@ -96,9 +85,14 @@ Bin* MainWindow::bin()
     return m_bin;
 }
 
-MonitorView* MainWindow::monitor()
+MonitorView* MainWindow::monitorWidget()
 {
     return m_monitor;
+}
+
+TimelineWidget* MainWindow::timelineWidget()
+{
+    return m_timeline;
 }
 
 void MainWindow::loadDocks()

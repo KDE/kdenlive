@@ -41,6 +41,8 @@ public:
     virtual bool hasLimitedDuration() const;
     virtual int duration() const;
 
+    virtual void setCurrent(bool current);
+
 protected:
     ProducerWrapper *m_baseProducer;
     int m_id;

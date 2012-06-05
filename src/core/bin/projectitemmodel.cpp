@@ -12,17 +12,26 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/project.h"
 #include "project/projectfolder.h"
 #include <KLocale>
+#include <QItemSelectionModel>
 
 
 ProjectItemModel::ProjectItemModel(Project* project, QObject* parent) :
     QAbstractItemModel(parent),
     m_project(project)
 {
+    m_selection = new QItemSelectionModel(this);
     connect(project, SIGNAL(itemAdded(AbstractProjectItem*)), this, SIGNAL(layoutChanged()));
+    connect(m_selection, SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex, QModelIndex)));
 }
 
 ProjectItemModel::~ProjectItemModel()
 {
+    delete m_selection;
+}
+
+QItemSelectionModel* ProjectItemModel::selectionModel()
+{
+    return m_selection;
 }
 
 QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
@@ -126,6 +135,19 @@ int ProjectItemModel::columnCount(const QModelIndex& parent) const
         return static_cast<AbstractProjectItem*>(parent.internalPointer())->supportedDataCount();
     } else {
         return m_project->items()->supportedDataCount();
+    }
+}
+
+void ProjectItemModel::onCurrentRowChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+    if (previous.isValid()) {
+        AbstractProjectItem *previousItem = static_cast<AbstractProjectItem *>(previous.internalPointer());
+        previousItem->setCurrent(false);
+    }
+
+    if (current.isValid()) {
+        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(current.internalPointer());
+        currentItem->setCurrent(true);
     }
 }
 

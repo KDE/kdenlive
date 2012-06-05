@@ -11,6 +11,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractprojectclip.h"
 #include "producerwrapper.h"
 #include "projectfolder.h"
+#include "project.h"
+#include "monitor/monitormodel.h"
 #include <mlt++/Mlt.h>
 #include <QDomElement>
 
@@ -84,6 +86,13 @@ bool AbstractProjectClip::hasLimitedDuration() const
 int AbstractProjectClip::duration() const
 {
     return m_baseProducer->get_playtime();
+}
+
+void AbstractProjectClip::setCurrent(bool current)
+{
+    if (current) {
+        project()->monitor()->setProducer(m_baseProducer);
+    }
 }
 
 #include "abstractprojectclip.moc"

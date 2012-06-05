@@ -55,17 +55,24 @@ MonitorModel::~MonitorModel()
 
 void MonitorModel::setProducer(ProducerWrapper* producer)
 {
+    pause();
+    m_consumer->stop();
+
     m_producer = producer;
     m_producer->set_speed(0.);
+
     // should we mlt_service_disconnect ?
     m_consumer->connect(*static_cast<Mlt::Service *>(producer));
+    m_consumer->start();
+    refreshConsumer();
+
+    emit producerChanged();
 }
 
 void MonitorModel::play()
 {
     if (m_producer) {
         setSpeed(1);
-        m_consumer->start();
         refreshConsumer();
         kDebug() << "play";
         emit playbackStateChanged(true);

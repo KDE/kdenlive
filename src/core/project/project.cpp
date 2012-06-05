@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractprojectclip.h"
 #include "mainwindow.h"
 #include "bin/bin.h"
+#include "monitor/monitormodel.h"
 #include <mlt++/Mlt.h>
 #include <KIO/NetAccess>
 #include <QFile>
@@ -38,7 +39,7 @@ Project::Project(const KUrl& url, QObject* parent) :
             bool success = document.setContent(&file, false, &errorMessage);
             file.close();
             KIO::NetAccess::removeTempFile(temporaryFileName);
-            
+
             if (success) {
                 loadTimeline(document.toString());
                 loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"));
@@ -54,7 +55,7 @@ Project::Project(const KUrl& url, QObject* parent) :
         kWarning() << "empty URL";
     }
 
-    pCore->window()->bin()->setProject(this);
+    m_monitor = new MonitorModel(this);
 }
 
 Project::Project(QObject* parent) :
@@ -101,6 +102,11 @@ void Project::addItem(AbstractProjectItem* item)
 {
     // item is added to its parent by the clipPluginManager; no further action required here
     emit itemAdded(item);
+}
+
+MonitorModel* Project::monitor()
+{
+    return m_monitor;
 }
 
 void Project::loadClips(const QDomElement& description)

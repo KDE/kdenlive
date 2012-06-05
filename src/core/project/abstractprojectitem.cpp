@@ -103,4 +103,8 @@ void AbstractProjectItem::setDescription(const QString& description)
     m_description = description;
 }
 
+void AbstractProjectItem::setCurrent(bool current)
+{
+}
+
 #include "abstractprojectitem.moc"

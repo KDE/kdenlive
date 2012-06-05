@@ -40,7 +40,9 @@ ImageProjectClip::ImageProjectClip(const QDomElement& description, ProjectFolder
 {
     Q_ASSERT(description.attribute("producer_type") == "pixbuf" || description.attribute("producer_type") == "qimage");
 
-    m_baseProducer = new ProducerWrapper(*(project()->profile()), m_url.path(), description.attribute("producer_type"));
+    m_baseProducer = new ProducerWrapper(*(project()->profile()), m_url.path());
+
+    Q_ASSERT(m_baseProducer->property("mlt_service") == description.attribute("producer_type"));
 
     kDebug() << "image project clip created" << id();
 
