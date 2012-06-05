@@ -118,15 +118,14 @@ void ClipPluginManager::execAddClipDialog(ProjectFolder* folder) const
 //         }
 
     KUrl::List urlList = dialog->selectedUrls();
+    // TODO: retrieve current position + parent
+    if (!folder) {
+        folder = pCore->currentProject()->items();
+    }
     foreach (KUrl url, urlList) {
         AbstractProjectClip *clip = createClip(url, folder);
         if (clip) {
-            if (folder) {
-                folder->addChild(clip);
-            } else {
-                // TODO: retrieve current position + parent
-                pCore->currentProject()->items()->addChild(clip);
-            }
+            folder->addChild(clip);
             pCore->currentProject()->addItem(clip);
         }
     }

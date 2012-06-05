@@ -62,7 +62,7 @@ signals:
     void producerChanged();
 
 private:
-    void refreshConsumer();
+    inline void refreshConsumer();
 
     Project *m_project;
     Mlt::Consumer *m_consumer;

@@ -80,10 +80,11 @@ void ImageProjectClip::init(int duration)
     m_hasLimitedDuration = false;
 
     if (duration == 0) {
-        duration = KdenliveSettings::image_duration().toInt();
+        // requires timecode parsing first
+        duration = 125; //KdenliveSettings::image_duration().toInt();
     }
     m_baseProducer->set("length", duration);
-    m_baseProducer->set_in_and_out(0, duration);
+    m_baseProducer->set_in_and_out(0, -1);
 
     m_thumbnail = 0;
 

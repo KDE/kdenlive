@@ -82,8 +82,15 @@ void MonitorModel::play()
 void MonitorModel::pause()
 {
     if (m_producer) {
+        int position = m_consumer->position();
         m_producer->pause();
-//         m_consumer->stop();
+        // FIXME: causes problems when playback is near the end
+        m_consumer->stop();
+
+        // do this here to avoid checks in every refreshConsumer call
+        m_consumer->start();
+        setPosition(position);
+
         kDebug() << "pause";
         emit playbackStateChanged(false);
     }
@@ -167,7 +174,6 @@ void MonitorModel::refreshConsumer()
 {
     m_consumer->set("refresh", 1);
 }
-
 
 #include "monitormodel.moc"
 
