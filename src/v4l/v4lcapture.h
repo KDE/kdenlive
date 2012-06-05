@@ -19,12 +19,13 @@
 
 #ifndef __V4LCAPTUREHANDLER_H__
 #define __V4LCAPTUREHANDLER_H__
-#include "src.h"
+//#include "src.h"
 
 #include <QWidget>
 #include <QObject>
 #include <QLayout>
 #include <QLabel>
+
 
 class V4lCaptureHandler
 {
