@@ -7,16 +7,17 @@
   </ToolBar>
 
   <MenuBar>
-    <Menu name="file" >
-    </Menu>
+    <!--<Menu name="file" >
+      
+    </Menu>-->
   
-    <Menu name="edit" >
+    <!--<Menu name="edit" >
       <Action name="paste_effects" />
-    </Menu>
+  </Menu>-->
     
     <Menu name="project" ><text>Project</text>
       <Action name="add_clip" />
-      <Action name="add_folder" /> 
+      <!--<Action name="add_folder" /> 
       <Menu name="track_menu" ><text>Tracks</text>
         <Action name="insert_track" />
         <Action name="delete_track" />
@@ -33,10 +34,10 @@
       <Action name="delete_clip" />
       <Separator />
       <Action name="project_render" />
-      <Action name="project_settings" />
+      <Action name="project_settings" />-->
     </Menu>
 
-    <Menu name="clip" ><text>Clip</text>
+    <!--<Menu name="clip" ><text>Clip</text>
     </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>
@@ -107,6 +108,6 @@
       <Action name="run_wizard" />
       <Menu name="themes_menu" ><text>Themes</text>
     </Menu>
-</Menu>
+    </Menu>-->
   </MenuBar>
 </gui>

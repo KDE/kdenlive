@@ -14,10 +14,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 
 class MainWindow;
+class ProjectManager;
 class ClipPluginManager;
 class EffectRepository;
 class Project;
 class PluginManager;
+class KUrl;
 
 
 #define pCore Core::self()
@@ -30,15 +32,12 @@ class Core : public QObject
 public:
     virtual ~Core();
 
-    static void initialize(MainWindow *mainWindow);
+    static void initialize(MainWindow *mainWindow, const KUrl &projectUrl, const QString &clipsToLoad);
 
     static Core *self();
 
     MainWindow *window();
-
-    Project *currentProject();
-    void setCurrentProject(Project *project);
-
+    ProjectManager *projectManager();
     EffectRepository *effectRepository();
     ClipPluginManager *clipPluginManager();
 //     PluginManager *pluginManager();
@@ -46,12 +45,13 @@ public:
 private:
     Core(MainWindow *mainWindow);
     static Core *m_self;
-    void init();
+    void init(const KUrl &projectUrl, const QString &clipsToLoad);
 
     MainWindow *m_mainWindow;
     Project *m_currentProject;
     EffectRepository *m_effectRepository;
     ClipPluginManager *m_clipPluginManager;
+    ProjectManager *m_projectManager;
 //     PluginManager *m_pluginManager;
 };
 

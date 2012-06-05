@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractprojectclip.h"
 #include "producerwrapper.h"
 #include "project.h"
+#include "projectmanager.h"
 #include "projectfolder.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
@@ -62,7 +63,7 @@ ClipPluginManager::~ClipPluginManager()
 AbstractProjectClip* ClipPluginManager::createClip(const KUrl& url, ProjectFolder *folder) const
 {
     if (QFile::exists(url.path())) {
-        ProducerWrapper *producer = new ProducerWrapper(*pCore->currentProject()->profile(), url.path());
+        ProducerWrapper *producer = new ProducerWrapper(*pCore->projectManager()->current()->profile(), url.path());
         QString producerType(producer->get("mlt_service"));
         if (m_clipPluginsForProducers.contains(producerType)) {
             AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->createClip(producer, folder);
@@ -120,13 +121,13 @@ void ClipPluginManager::execAddClipDialog(ProjectFolder* folder) const
     KUrl::List urlList = dialog->selectedUrls();
     // TODO: retrieve current position + parent
     if (!folder) {
-        folder = pCore->currentProject()->items();
+        folder = pCore->projectManager()->current()->items();
     }
     foreach (KUrl url, urlList) {
         AbstractProjectClip *clip = createClip(url, folder);
         if (clip) {
             folder->addChild(clip);
-            pCore->currentProject()->addItem(clip);
+            pCore->projectManager()->current()->addItem(clip);
         }
     }
 

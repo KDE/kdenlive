@@ -8,6 +8,7 @@ set(project_SRCS
   project/producerwrapper.cpp
   project/project.cpp
   project/projectfolder.cpp
+  project/projectmanager.cpp
   project/timeline.cpp
   project/timelinetrack.cpp
   PARENT_SCOPE

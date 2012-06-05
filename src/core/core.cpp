@@ -10,12 +10,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "core.h"
 #include "mainwindow.h"
-#include "project/project.h"
 #include "project/clippluginmanager.h"
 #include "effectsystem/effectrepository.h"
 #include "bin/bin.h"
 #include "timelineview/timelinewidget.h"
 #include "monitor/monitorview.h"
+#include "project/projectmanager.h"
 #include <QCoreApplication>
 
 
@@ -31,26 +31,24 @@ Core::Core(MainWindow *mainWindow) :
 
 Core::~Core()
 {
-    if (m_currentProject) {
-        delete m_currentProject;
-    }
-
+    delete m_projectManager;
     delete m_effectRepository;
     delete m_clipPluginManager;
 
     m_self = 0;
 }
 
-void Core::initialize(MainWindow* mainWindow)
+void Core::initialize(MainWindow* mainWindow, const KUrl &projectUrl, const QString &clipsToLoad)
 {
     m_self = new Core(mainWindow);
-    m_self->init();
+    m_self->init(projectUrl, clipsToLoad);
 }
 
-void Core::init()
+void Core::init(const KUrl &projectUrl, const QString &clipsToLoad)
 {
     m_effectRepository = new EffectRepository();
     m_clipPluginManager = new ClipPluginManager();
+    m_projectManager = new ProjectManager(projectUrl, clipsToLoad);
 }
 
 Core* Core::self()
@@ -63,21 +61,9 @@ MainWindow* Core::window()
     return m_mainWindow;
 }
 
-Project* Core::currentProject()
+ProjectManager* Core::projectManager()
 {
-    return m_currentProject;
-}
-
-void Core::setCurrentProject(Project* project)
-{
-    if (m_currentProject) {
-        delete m_currentProject;
-    }
-
-    m_currentProject = project;
-    m_mainWindow->bin()->setProject(project);
-    m_mainWindow->timelineWidget()->setProject(project);
-    m_mainWindow->monitorWidget()->setModel(project->monitor());
+    return m_projectManager;
 }
 
 EffectRepository* Core::effectRepository()

@@ -20,16 +20,15 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QGraphicsView>
 #include <QLocale>
 #include <locale.h>
+#include <KActionCollection>
 
 #include <KDebug>
 
 
-MainWindow::MainWindow(const QString &MltPath, const KUrl &Url, const QString & clipsToLoad, QWidget* parent) :
+MainWindow::MainWindow(const QString &MltPath, const KUrl &url, const QString & clipsToLoad, QWidget* parent) :
     KXmlGuiWindow(parent)
 {
     initLocale();
-
-    Core::initialize(this);
 
     QDockWidget *binDock = new QDockWidget(i18n("Bin"), this);
     binDock->setObjectName("bin");
@@ -40,18 +39,17 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &Url, const QString & 
     QDockWidget *monitorDock = new QDockWidget(i18n("Monitor"), this);
     monitorDock->setObjectName("monitor");
     m_monitor = new MonitorView();
-
     monitorDock->setWidget(m_monitor);
     addDockWidget(Qt::TopDockWidgetArea, monitorDock);
 
     m_timeline = new TimelineWidget(this);
     setCentralWidget(m_timeline);
 
+    Core::initialize(this, url, clipsToLoad);
+
+    KStandardAction::quit(this, SLOT(close()), actionCollection());
 
     setupGUI();
-
-
-    pCore->setCurrentProject(new Project(Url));
 }
 
 MainWindow::~MainWindow()
