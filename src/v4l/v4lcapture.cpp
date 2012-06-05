@@ -35,6 +35,8 @@
 #include "v4lcapture.h"
 #include "kdenlivesettings.h"
 
+#include <linux/videodev2.h>
+#include <sys/ioctl.h>
 
 V4lCaptureHandler::V4lCaptureHandler()
 {
@@ -44,32 +46,87 @@ V4lCaptureHandler::V4lCaptureHandler()
 
 QStringList V4lCaptureHandler::getDeviceName(QString input)
 {
-    src_t v4lsrc;
 
-    /* Set source options... */
-    memset(&v4lsrc, 0, sizeof(v4lsrc));
-    v4lsrc.input      = NULL;
-    v4lsrc.tuner      = 0;
-    v4lsrc.frequency  = 0;
-    v4lsrc.delay      = 0;
-    v4lsrc.timeout    = 10; /* seconds */
-    v4lsrc.use_read   = 0;
-    v4lsrc.list       = 0;
-    v4lsrc.palette    = SRC_PAL_ANY;
-    v4lsrc.width      = 384;
-    v4lsrc.height     = 288;
-    v4lsrc.fps        = 0;
-    v4lsrc.option     = NULL;
-    v4lsrc.source     = strdup(input.toUtf8().constData());
-    char *pixelformatdescription;
-    pixelformatdescription = (char *) calloc(2048, sizeof(char));
+    char *src = strdup(input.toUtf8().constData());
+    QString pixelformatdescription;
+    int fd = open(src, O_RDWR | O_NONBLOCK);
+    if(fd < 0) {
+	delete[] src;
+	return QStringList();
+    }
+    struct v4l2_capability cap;
+
+    char *devName = NULL;
+    int captureEnabled = 1;
+    if (ioctl(fd, VIDIOC_QUERYCAP, &cap) < 0) {
+            fprintf(stderr, "Cannot get capabilities.");
+            //return NULL;
+    }
+    else {
+	devName = strdup((char*) cap.card);
+        if(!cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) {
+            // Device cannot capture
+            captureEnabled = 0;
+        }
+    }
+
+    if (captureEnabled) {
+	struct v4l2_format format;
+        memset(&format,0,sizeof(format));
+        format.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+
+        struct v4l2_fmtdesc fmt;
+        memset(&fmt,0,sizeof(fmt));
+        fmt.index = 0;
+        fmt.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+
+        struct v4l2_frmsizeenum sizes;
+        memset(&sizes,0,sizeof(sizes));
+
+        struct v4l2_frmivalenum rates;
+        memset(&rates,0,sizeof(rates));
+	char value[200];
+
+        while (ioctl(fd, VIDIOC_ENUM_FMT, &fmt) != -1)
+        {
+	    if (pixelformatdescription.length() > 2000) break;
+            if (snprintf( value, sizeof(value), ">%c%c%c%c", fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24 ) > 0)
+		pixelformatdescription.append(value);
+            fprintf(stderr, "detected format: %s: %c%c%c%c\n", fmt.description, fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24);
+
+            sizes.pixel_format = fmt.pixelformat;
+            sizes.index = 0;
+            // Query supported frame size
+            while (ioctl(fd, VIDIOC_ENUM_FRAMESIZES, &sizes) != -1) {
+		struct v4l2_frmsize_discrete image_size = sizes.discrete;
+                // Query supported frame rates
+                rates.index = 0;
+                rates.pixel_format = fmt.pixelformat;
+                rates.width = image_size.width;
+                rates.height = image_size.height;
+                if (pixelformatdescription.length() > 2000) break;
+                if (snprintf( value, sizeof(value), ":%dx%d=", image_size.width, image_size.height ) > 0)
+		    pixelformatdescription.append(value);
+                fprintf(stderr, "Size: %dx%d: ", image_size.width, image_size.height);
+                while (ioctl(fd, VIDIOC_ENUM_FRAMEINTERVALS, &rates) != -1) {
+		    if (pixelformatdescription.length() > 2000) break;
+                    if (snprintf( value, sizeof(value), "%d/%d,", rates.discrete.denominator, rates.discrete.numerator ) > 0)
+			pixelformatdescription.append(value);
+                    fprintf(stderr, "%d/%d, ", rates.discrete.numerator, rates.discrete.denominator);
+		    rates.index ++;
+                }
+                fprintf(stderr, "\n");
+                sizes.index++;
+            }
+            fmt.index++;
+        }
+    }
+    close(fd);
+
     QStringList result;
-    const char *devName = query_v4ldevice(&v4lsrc, &pixelformatdescription);
     if (devName == NULL) return result; 
     QString deviceName(devName);
-    QString info(pixelformatdescription);
-    free (pixelformatdescription);
-    result << (deviceName.isEmpty() ? input : deviceName) << info;
+    result << (deviceName.isEmpty() ? input : deviceName) << pixelformatdescription;
     return result;
 }
 

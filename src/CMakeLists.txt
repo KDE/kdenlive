@@ -14,13 +14,16 @@ macro_optional_find_package(QJSON)
 option(WITH_V4L "Build capture support with Video4Linux" ON)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
+
+
 if(WITH_V4L)
   # This can be changed to support FreeBSD as soon as we move to a newer V4L2
   # header.
-  check_include_files(linux/ioctl.h HAVE_LINUX_IOCTL_H)
-  if(HAVE_LINUX_IOCTL_H)
+  find_package(LibV4L2)
+  macro_log_feature(LIBV4L2_FOUND "libv4l" "Collection of video4linux support libraries" "http://hansdegoede.livejournal.com, http://linuxtv.org/hg/~hgoede/libv4l/" FALSE "" "Required for better webcam support")
+  if(LIBV4L2_FOUND)
     set(BUILD_V4L TRUE)
-  endif(HAVE_LINUX_IOCTL_H)
+  endif(LIBV4L2_FOUND)
 endif(WITH_V4L)
 
 if(WITH_JogShuttle)
@@ -300,6 +303,7 @@ include_directories(
   ${LIBMLTPLUS_INCLUDE_DIR}
 )
 
+
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
 # to the components requested in find_package().
 include(${QT_USE_FILE})
@@ -351,6 +355,8 @@ if(QJSON_FOUND)
 endif(QJSON_FOUND)
 
 if(BUILD_V4L)
+  include_directories(${LIBV4L2_INCLUDE_DIR})
+  target_link_libraries(kdenlive ${LIBV4L2_LIBRARY})  
   add_definitions(-DUSE_V4L)
 endif(BUILD_V4L)
 

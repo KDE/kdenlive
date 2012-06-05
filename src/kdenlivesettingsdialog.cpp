@@ -104,7 +104,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     for (int i = 0; i < 10; i++) {
         QString path = "/dev/video" + QString::number(i);
         if (QFile::exists(path)) {
-            QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path.toUtf8().constData());
+            QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path);
             if (!deviceInfo.isEmpty()) {
                 m_configCapture.kcfg_detectedv4ldevices->addItem(deviceInfo.at(0), path);
                 m_configCapture.kcfg_detectedv4ldevices->setItemData(m_configCapture.kcfg_detectedv4ldevices->count() - 1, deviceInfo.at(1), Qt::UserRole + 1);
