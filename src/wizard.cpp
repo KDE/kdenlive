@@ -20,6 +20,7 @@
 #include "wizard.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
+#include "renderer.h"
 #ifdef USE_V4L
 #include "v4l/v4lcapture.h"
 #endif
@@ -43,8 +44,8 @@
 
 // Recommended MLT version
 const int mltVersionMajor = 0;
-const int mltVersionMinor = 7;
-const int mltVersionRevision = 6;
+const int mltVersionMinor = 8;
+const int mltVersionRevision = 0;
 
 static const char kdenlive_version[] = VERSION;
 
@@ -135,8 +136,13 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
 #ifndef Q_WS_MAC
     QWizardPage *page6 = new QWizardPage;
-    page6->setTitle(i18n("Webcam"));
+    page6->setTitle(i18n("Capture device"));
     m_capture.setupUi(page6);
+    bool found_decklink = Render::getBlackMagicDeviceList(m_capture.decklink_devices);
+    KdenliveSettings::setDecklink_device_found(found_decklink);
+    if (found_decklink) m_capture.decklink_status->setText(i18n("Default Blackmagic Decklink card:"));
+    else m_capture.decklink_status->setText(i18n("No Blackmagic Decklink device found"));
+    connect(m_capture.decklink_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkDevice(int)));
     connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
     connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
     connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
@@ -174,7 +180,7 @@ void Wizard::slotDetectWebcam()
         }
     }
     if (m_capture.v4l_devices->count() > 0) {
-        m_capture.v4l_status->setText(i18n("Select your default video4linux device"));
+        m_capture.v4l_status->setText(i18n("Default video4linux device:"));
         // select default device
         bool found = false;
         for (int i = 0; i < m_capture.v4l_devices->count(); i++) {
@@ -674,6 +680,11 @@ void Wizard::slotSaveCaptureFormat()
     profile.progressive = 1;
     QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
     ProfilesDialog::saveProfile(profile, vl4ProfilePath);
+}
+
+void Wizard::slotUpdateDecklinkDevice(int captureCard)
+{
+    KdenliveSettings::setDecklink_capturedevice(captureCard);
 }
 
 #include "wizard.moc"
