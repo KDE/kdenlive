@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectfolder.h"
 #include "abstractprojectclip.h"
 #include "mainwindow.h"
+#include "timecodeformatter.h"
 #include "bin/bin.h"
 #include "monitor/monitormodel.h"
 #include <mlt++/Mlt.h>
@@ -109,6 +110,11 @@ MonitorModel* Project::monitor()
     return m_monitor;
 }
 
+TimecodeFormatter* Project::timecodeFormatter()
+{
+    return m_timecodeFormatter;
+}
+
 void Project::loadClips(const QDomElement& description)
 {
     m_items = new ProjectFolder(description, this);
@@ -117,6 +123,7 @@ void Project::loadClips(const QDomElement& description)
 void Project::loadTimeline(const QString& content)
 {
     m_timeline = new Timeline(content, this);
+    m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()));
 }
 
 #include "project.moc"

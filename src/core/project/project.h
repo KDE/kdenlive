@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KUrl>
 #include <kdemacros.h>
 
+class TimecodeFormatter;
 class MonitorModel;
 class Timeline;
 class AbstractProjectClip;
@@ -37,15 +38,14 @@ public:
 
     KUrl url() const;
     Timeline *timeline();
+    ProjectFolder *items();
+    MonitorModel *monitor();
+    Mlt::Profile *profile();
+    TimecodeFormatter *timecodeFormatter();
+
     AbstractProjectClip *clip(int id);
 
-    ProjectFolder *items();
-
-    Mlt::Profile *profile();
-
     void addItem(AbstractProjectItem *item);
-
-    MonitorModel *monitor();
 
 signals:
     void itemAdded(AbstractProjectItem *item);
@@ -58,6 +58,7 @@ private:
     ProjectFolder *m_items;
     Timeline *m_timeline;
     MonitorModel *m_monitor;
+    TimecodeFormatter *m_timecodeFormatter;
 //     MonitorModel *m_clipMonitor;
 };
 

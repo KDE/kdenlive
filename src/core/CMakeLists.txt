@@ -10,6 +10,9 @@ add_subdirectory(widgets)
 set(kdenlivecore_LIB_SRCS
   mainwindow.cpp
   core.cpp
+  fraction.cpp
+  timecode.cpp
+  timecodeformatter.cpp
 
   ${bin_SRCS}
   ${effectsystem_SRCS}

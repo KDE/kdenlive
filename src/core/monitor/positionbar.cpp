@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "positionbar.h"
+#include "timecode.h"
 #include <KLocale>
 #include <QPainter>
 #include <QPaintEvent>
@@ -70,8 +71,7 @@ void PositionBar::mouseMoveEvent(QMouseEvent* event)
         m_mouseOverCursor = true;
         emit positionChanged(framePosition);
     } else {
-        // TODO: get proper timecode formating
-        setToolTip(i18n("Position: %1", framePosition));
+        setToolTip(i18n("Position: %1", Timecode(framePosition).formatted()));
     }
 }
 
