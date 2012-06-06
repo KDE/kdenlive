@@ -124,7 +124,8 @@
 
 <group name="Lossless/HQ" renderer="avformat" type="av">
   <groupname id="lossless">Lossless / HQ</groupname>
-  <profile name="FFV1 lossless (video) + FLAC (sound)" extension="avi" args="f=avi acodec=flac ar=48000 ab=1024k ac=2 vcodec=ffv1 qscale=1 aspect=%dar" />
+  <profile name="FFV1 lossless (video) + FLAC (sound)" extension="mkv" args="f=mkv acodec=flac ar=48000 ac=2 vcodec=ffv1 aspect=%dar" />
+  <profile name="FFV1 lossless (video) + PCM (sound)" extension="mkv" args="f=mkv acodec=pcm_s16le ac=2 vcodec=ffv1 aspect=%dar" />
   <profile name="HuffYUV lossless (video) + PCM (sound)" extension="avi" args="f=avi acodec=pcm_s16le ac=2 vcodec=huffyuv aspect=%dar" />
   <profile name="MPEG-2 I-frame only (video) + MP2 (sound)" extension="mpg" args="f=mpeg acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video qscale=1 qmin=1 aspect=%dar intra=1" />
   <profile name="MPEG-4 I-frame only (video) + MP3 (sound)" extension="mp4" args="f=mp4 acodec=libmp3lame ab=384k ar=48000 ac=2 vcodec=mpeg4 qscale=1 qmin=1 aspect=%dar intra=1" />
