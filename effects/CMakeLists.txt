@@ -90,6 +90,7 @@ frei0r_tehroxx0r.xml
 frei0r_three_point_balance.xml
 frei0r_threelay0r.xml
 frei0r_threshold0r.xml
+frei0r_timeout.xml
 frei0r_tint0r.xml
 frei0r_twolay0r.xml
 frei0r_vectorscope.xml
