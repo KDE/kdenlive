@@ -18,7 +18,7 @@ public:
     Fraction(int num, int den);
     Fraction();
 
-    inline double value() const;
+    double value() const;
 
     int numerator;
     int denominator;

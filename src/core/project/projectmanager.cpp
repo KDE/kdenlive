@@ -19,15 +19,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KActionCollection>
 
 
-ProjectManager::ProjectManager(const KUrl& projectUrl, const QString& clipsToLoad, QObject* parent) :
+ProjectManager::ProjectManager(QObject* parent) :
     QObject(parent),
     m_project(NULL)
 {
     KStandardAction::open(this, SLOT(execOpenFileDialog()), pCore->window()->actionCollection());
-
-    if (!projectUrl.isEmpty()) {
-        openProject(projectUrl);
-    }
 }
 
 ProjectManager::~ProjectManager()
@@ -56,8 +52,9 @@ void ProjectManager::openProject(const KUrl& url)
         delete m_project;
     }
     m_project = new Project(url, this);
-    pCore->window()->bin()->setProject(m_project);
-    pCore->window()->timelineWidget()->setProject(m_project);
+    emit projectOpened(m_project);
+
+    // remove line when monitormanager is introduced
     pCore->window()->monitorWidget()->setModel(m_project->monitor());
 }
 

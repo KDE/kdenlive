@@ -11,18 +11,21 @@ the Free Software Foundation, either version 3 of the License, or
 #include "bin.h"
 #include "projectitemmodel.h"
 #include "project/project.h"
+#include "project/projectmanager.h"
+#include "core.h"
 #include <QVBoxLayout>
 #include <QTreeView>
 
 
 Bin::Bin(QWidget* parent) :
     QWidget(parent),
-    m_project(NULL),
     m_itemModel(NULL),
     m_itemView(NULL)
 {
     // TODO: proper ui, search line, add menu, ...
     QVBoxLayout *layout = new QVBoxLayout(this);
+
+    connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 
 }
 
@@ -44,8 +47,6 @@ void Bin::setProject(Project* project)
     if (m_itemModel) {
         delete m_itemModel;
     }
-
-    m_project = project;
 
     m_itemModel = new ProjectItemModel(project, this);
 

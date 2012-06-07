@@ -38,17 +38,17 @@ Core::~Core()
     m_self = 0;
 }
 
-void Core::initialize(MainWindow* mainWindow, const KUrl &projectUrl, const QString &clipsToLoad)
+void Core::initialize(MainWindow* mainWindow)
 {
     m_self = new Core(mainWindow);
-    m_self->init(projectUrl, clipsToLoad);
+    m_self->init();
 }
 
-void Core::init(const KUrl &projectUrl, const QString &clipsToLoad)
+void Core::init()
 {
     m_effectRepository = new EffectRepository();
     m_clipPluginManager = new ClipPluginManager();
-    m_projectManager = new ProjectManager(projectUrl, clipsToLoad);
+    m_projectManager = new ProjectManager();
 }
 
 Core* Core::self()

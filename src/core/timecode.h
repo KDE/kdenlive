@@ -18,12 +18,12 @@ the Free Software Foundation, either version 3 of the License, or
 class Timecode
 {
 public:
-    Timecode(TimecodeFormatter *formatter = 0);
-    Timecode(double seconds, TimecodeFormatter *formatter = 0);
-    Timecode(int frames, TimecodeFormatter *formatter = 0);
+    Timecode(TimecodeFormatter const *formatter = 0);
+    Timecode(double seconds, TimecodeFormatter const *formatter = 0);
+    Timecode(int frames, TimecodeFormatter const *formatter = 0);
 
-    void setFormatter(TimecodeFormatter *formatter);
-    TimecodeFormatter *formatter();
+    void setFormatter(TimecodeFormatter const *formatter);
+    TimecodeFormatter const *formatter();
 
     double seconds() const;
     double milliseconds() const;
@@ -50,7 +50,7 @@ public:
 
 private:
     int m_frames;
-    TimecodeFormatter *m_formatter;
+    TimecodeFormatter const *m_formatter;
 };
 
 #endif

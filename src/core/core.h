@@ -32,7 +32,7 @@ class Core : public QObject
 public:
     virtual ~Core();
 
-    static void initialize(MainWindow *mainWindow, const KUrl &projectUrl, const QString &clipsToLoad);
+    static void initialize(MainWindow *mainWindow);
 
     static Core *self();
 
@@ -45,7 +45,7 @@ public:
 private:
     Core(MainWindow *mainWindow);
     static Core *m_self;
-    void init(const KUrl &projectUrl, const QString &clipsToLoad);
+    void init();
 
     MainWindow *m_mainWindow;
     Project *m_currentProject;

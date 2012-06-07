@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "project/project.h"
+#include "project/projectmanager.h"
 #include "bin/bin.h"
 #include "monitor/monitorview.h"
 #include "timelineview/timelinewidget.h"
@@ -30,6 +31,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &url, const QString & 
 {
     initLocale();
 
+    Core::initialize(this);
+
     QDockWidget *binDock = new QDockWidget(i18n("Bin"), this);
     binDock->setObjectName("bin");
     m_bin = new Bin();
@@ -45,11 +48,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &url, const QString & 
     m_timeline = new TimelineWidget(this);
     setCentralWidget(m_timeline);
 
-    Core::initialize(this, url, clipsToLoad);
-
     KStandardAction::quit(this, SLOT(close()), actionCollection());
 
     setupGUI();
+
+    if (!url.isEmpty() && url.isValid()) {
+        pCore->projectManager()->openProject(url);
+    }
 }
 
 MainWindow::~MainWindow()

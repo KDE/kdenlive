@@ -27,11 +27,11 @@ public:
     Bin(QWidget* parent = 0);
     ~Bin();
 
+public slots:
     void setProject(Project *project);
 
 
 private:
-    Project *m_project;
     ProjectItemModel *m_itemModel;
     QAbstractItemView *m_itemView;
 };

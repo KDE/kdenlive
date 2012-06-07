@@ -22,7 +22,7 @@ class ProjectManager : public QObject
     Q_OBJECT
 
 public:
-    explicit ProjectManager(const KUrl &projectUrl, const QString &clipsToLoad, QObject* parent = 0);
+    explicit ProjectManager(QObject* parent = 0);
     virtual ~ProjectManager();
 
     Project *current();
@@ -31,6 +31,9 @@ public:
 
 public slots:
     void execOpenFileDialog();
+
+signals:
+    void projectOpened(Project *project);
 
 private:
     Project *m_project;

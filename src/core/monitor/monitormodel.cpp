@@ -19,7 +19,8 @@ MonitorModel::MonitorModel(Project* project) :
     QObject(project),
     m_project(project),
     m_producer(NULL),
-    m_frame(NULL)
+    m_frame(NULL),
+    m_position(-1)
 {
     // do this in Project
 //     setenv("MLT_PROFILE", KdenliveSettings::current_profile().toUtf8().constData(), 1);
@@ -60,6 +61,7 @@ void MonitorModel::setProducer(ProducerWrapper* producer)
 
     m_producer = producer;
     m_producer->set_speed(0.);
+    m_position = -1;
 
     // should we mlt_service_disconnect ?
     m_consumer->connect(*static_cast<Mlt::Service *>(producer));
@@ -107,7 +109,8 @@ void MonitorModel::togglePlaybackState()
 
 void MonitorModel::setPosition(int position)
 {
-    if (m_producer) {
+    if (m_producer && position != m_position) {
+        m_position = position;
         m_producer->seek(position);
         if (speed() == 0) {
             refreshConsumer();
@@ -118,7 +121,7 @@ void MonitorModel::setPosition(int position)
 
 int MonitorModel::position() const
 {
-    return m_consumer->position();
+    return m_position;
 }
 
 void MonitorModel::setSpeed(double speed)

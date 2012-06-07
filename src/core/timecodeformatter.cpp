@@ -37,6 +37,8 @@ void TimecodeFormatter::setFramerate(const Fraction& framerate)
         m_dropFrames = qRound(m_framerate * .066666);
         m_framesPer10Minutes = qRound(m_framerate * 600);
     }
+
+    emit framerateChanged();
 }
 
 Fraction TimecodeFormatter::framerate() const
@@ -51,6 +53,8 @@ void TimecodeFormatter::setDefaultFormat(TimecodeFormatter::Formats format)
     } else {
         m_defaultFormat = format;
     }
+
+    emit defaultFormatChanged();
 }
 
 TimecodeFormatter::Formats TimecodeFormatter::defaultFormat() const

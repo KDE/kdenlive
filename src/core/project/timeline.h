@@ -35,6 +35,7 @@ public:
     Project *project();
     QList<TimelineTrack *> tracks();
     Mlt::Profile *profile();
+    ProducerWrapper *producer();
 
     void loadTracks();
 

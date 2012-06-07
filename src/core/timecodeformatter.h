@@ -12,13 +12,15 @@ the Free Software Foundation, either version 3 of the License, or
 #define TIMECODEFORMATTER_H
 
 #include "fraction.h"
-#include <QString>
+#include <QObject>
 
 class Timecode;
 
 
-class TimecodeFormatter
+class TimecodeFormatter : public QObject
 {
+    Q_OBJECT
+    
 public:
     enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds, Milliseconds, Time, DefaultFormat };
 
@@ -32,6 +34,10 @@ public:
 
     QString format(const Timecode &timecode, Formats format = DefaultFormat) const;
     QString mask(const Timecode &timecode) const;
+
+signals:
+    void framerateChanged();
+    void defaultFormatChanged();
 
 private:
     QString formatHH_MM_SS_FF(const Timecode &timecode) const;

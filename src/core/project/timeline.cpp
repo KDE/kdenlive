@@ -59,6 +59,11 @@ Mlt::Profile* Timeline::profile()
     return m_profile;
 }
 
+ProducerWrapper* Timeline::producer()
+{
+    return m_producer;
+}
+
 void Timeline::loadTracks()
 {
     Q_ASSERT(m_tracks.count() == 0);

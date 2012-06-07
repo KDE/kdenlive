@@ -15,25 +15,25 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/project.h"
 
 
-Timecode::Timecode(TimecodeFormatter* formatter) :
+Timecode::Timecode(TimecodeFormatter const* formatter) :
     m_frames(0)
 {
     setFormatter(formatter);
 }
 
-Timecode::Timecode(double seconds, TimecodeFormatter* formatter)
+Timecode::Timecode(double seconds, TimecodeFormatter const* formatter)
 {
     setFormatter(formatter);
     m_frames = qRound(m_formatter->framerate() * seconds);
 }
 
-Timecode::Timecode(int frames, TimecodeFormatter* formatter) :
+Timecode::Timecode(int frames, TimecodeFormatter const* formatter) :
     m_frames(frames)
 {
     setFormatter(formatter);
 }
 
-void Timecode::setFormatter(TimecodeFormatter* formatter)
+void Timecode::setFormatter(TimecodeFormatter const* formatter)
 {
     if (formatter) {
         m_formatter = formatter;
@@ -42,7 +42,7 @@ void Timecode::setFormatter(TimecodeFormatter* formatter)
     }
 }
 
-TimecodeFormatter* Timecode::formatter()
+TimecodeFormatter const *Timecode::formatter()
 {
     return m_formatter;
 }

@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 class Project;
 class TimelineScene;
+class TimelinePositionBar;
 class QGraphicsView;
 
 
@@ -26,6 +27,7 @@ public:
     explicit TimelineWidget(QWidget* parent = 0);
     virtual ~TimelineWidget();
 
+public slots:
     void setProject(Project *project);
 
     TimelineScene *scene();
@@ -34,6 +36,7 @@ public:
 private:
     TimelineScene *m_scene;
     QGraphicsView *m_view;
+    TimelinePositionBar *m_positionBar;
 };
 
 #endif
