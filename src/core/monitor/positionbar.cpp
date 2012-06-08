@@ -102,6 +102,7 @@ void PositionBar::paintEvent(QPaintEvent* event)
         p.setBrush(palette().text().color());
     }
 
+    p.setRenderHint(QPainter::Antialiasing);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pointer);
 }

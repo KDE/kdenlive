@@ -41,7 +41,7 @@ TimelinePositionBar::TimelinePositionBar(QWidget *parent) :
     m_duration(0),
     m_offset(0),
     m_playbackPosition(0),
-    m_zoomLevel(7)
+    m_zoomLevel(0)
 {
     setFont(KGlobalSettings::toolBarFont());
     QFontMetricsF fontMetrics(font());
@@ -98,12 +98,16 @@ void TimelinePositionBar::setOffset(int offset)
 
 void TimelinePositionBar::setCursorPosition(int position)
 {
+    int oldPosition = m_playbackPosition;
     m_playbackPosition = position;
     update();
-//     if (qAbs(oldpos - newpos) * m_factor > m_textSpacing) {
-//         update(oldpos * m_factor - offset() - 6, m_bigMarkX, 14, MAX_HEIGHT - m_bigMarkX);
-//         update(newpos * m_factor - offset() - 6, m_bigMarkX, 14, MAX_HEIGHT - m_bigMarkX);
-//     } else update(qMin(oldpos, newpos) * m_factor - offset() - 6, m_bigMarkX, qAbs(oldpos - newpos) * m_factor + 14, MAX_HEIGHT - m_bigMarkX);
+    if (qAbs(oldPosition - m_playbackPosition) * m_factor > m_textSpacing) {
+        update(oldPosition * m_factor - offset() - 6, m_bigMarkX, 14, height() - m_bigMarkX);
+//         update(oldPosition * m_factor - offset() - 6, m_bigMarkX, 14, height() - m_bigMarkX);
+    } else {
+        update(qMin(oldPosition, m_playbackPosition) * m_factor - offset() - 6, m_bigMarkX,
+               qAbs(oldPosition - m_playbackPosition) * m_factor + 14, height() - m_bigMarkX);
+    }
 }
 
 void TimelinePositionBar::setZoomLevel(int level)
@@ -212,7 +216,7 @@ void TimelinePositionBar::paintEvent(QPaintEvent* event)
 
     QPainter painter(this);
     painter.setClipRect(event->rect());
-    
+
     const int maxval = (event->rect().right() + m_offset) / m_smallMarkDistance + 1;
 
     double f, fend;
