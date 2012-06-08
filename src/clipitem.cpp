@@ -226,7 +226,7 @@ int ClipItem::selectedEffectIndex() const
     return m_selectedEffect;
 }
 
-void ClipItem::initEffect(QDomElement effect, int diff)
+void ClipItem::initEffect(QDomElement effect, int diff, int offset)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
@@ -258,9 +258,16 @@ void ClipItem::initEffect(QDomElement effect, int diff)
                 e.setAttribute("value", "1");
         }
 
-        if ((e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("keyframes").isEmpty()) {
-            // Effect has a keyframe type parameter, we need to set the values
-            e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + e.attribute("default"));
+        if (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") {
+	    if (e.attribute("keyframes").isEmpty()) {
+		// Effect has a keyframe type parameter, we need to set the values
+		e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + e.attribute("default"));
+	    }
+	    else if (offset != 0) {
+		// adjust keyframes to this clip
+		QString adjusted = adjustKeyframes(e.attribute("keyframes"), offset - cropStart().frames(m_fps));
+		e.setAttribute("keyframes", adjusted);
+	    }
         }
     }
     if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
@@ -318,6 +325,19 @@ void ClipItem::initEffect(QDomElement effect, int diff)
             EffectsList::setParameter(effect, "out", QString::number(end));
         }
     }
+}
+
+const QString ClipItem::adjustKeyframes(QString keyframes, int offset)
+{
+    QStringList result;
+    // Simple keyframes
+    const QStringList list = keyframes.split(';', QString::SkipEmptyParts);
+    foreach(const QString &keyframe, list) {
+	int pos = keyframe.section(':', 0, 0).toInt() - offset;
+	QString newKey = QString::number(pos) + ":" + keyframe.section(':', 1);
+	result.append(newKey);
+    }
+    return result.join(";");
 }
 
 bool ClipItem::checkKeyFrames()

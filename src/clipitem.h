@@ -134,7 +134,8 @@ public:
     void updateKeyframeEffect();
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
-    void initEffect(QDomElement effect, int diff = 0);
+    
+    void initEffect(QDomElement effect, int diff = 0, int offset = 0);
 
     /** @brief Gets all keyframes.
     * @param index Number of the effect
@@ -155,6 +156,8 @@ public:
     const ItemInfo speedIndependantInfo() const;
     int hasEffect(const QString &tag, const QString &id) const;
 
+    /** @brief Adjust keyframes to the new clip. */
+    const QString adjustKeyframes(QString keyframes, int offset);
     /** @brief Makes sure all keyframes are in the clip's cropped duration.
     * @return Whether or not changes were made */
     bool checkKeyFrames();
