@@ -39,6 +39,7 @@ frei0r.facebl0r
 frei0r.flippo
 frei0r.glow
 frei0r.IIRblur
+frei0r.keyspillm0pup
 frei0r.hqdn3d
 frei0r.hueshift0r
 frei0r.lenscorrection
