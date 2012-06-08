@@ -242,6 +242,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
 
         for (int col = 0; col < keyframe_list->horizontalHeader()->count(); col++) {
             item = keyframe_list->item(row, col);
+	    if (!item) continue;
             int v = item->text().toInt();
             if (v >= m_params.at(col).attribute("max").toInt())
                 item->setText(m_params.at(col).attribute("max"));

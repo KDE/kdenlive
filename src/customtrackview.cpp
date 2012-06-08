@@ -1741,6 +1741,7 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     QList<QGraphicsItem *> itemList = group->childItems();
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
+    int offset = effect.attribute("clipstart").toInt();
     QDomElement namenode = effect.firstChildElement("name");
     if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
     else effectName = i18n("effect");
@@ -1762,11 +1763,11 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
 			    subeffect.setAttribute("kdenlive_info", effectInfo.toString());
 			}
 		    }
-		    processEffect(item, subeffect, effectCommand);
+		    processEffect(item, subeffect, offset, effectCommand);
 		}
 	    }
             else {
-		processEffect(item, effect, effectCommand);
+		processEffect(item, effect, offset, effectCommand);
 	    }
         }
     }
@@ -1786,6 +1787,8 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     QList<QGraphicsItem *> itemList;
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
+    
+    int offset = effect.attribute("clipstart").toInt();
     if (effect.tagName() == "effectgroup") {
 	effectName = effect.attribute("name");
     } else {
@@ -1829,10 +1832,10 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 			    subeffect.setAttribute("kdenlive_info", effectInfo.toString());
 			}
 		    }
-		    processEffect(item, subeffect, effectCommand);
+		    processEffect(item, subeffect, offset, effectCommand);
 		}
 	    }
-            else processEffect(item, effect, effectCommand);
+            else processEffect(item, effect, offset, effectCommand);
         }
     }
     if (effectCommand->childCount() > 0) {
@@ -1856,7 +1859,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     } else delete effectCommand;
 }
 
-void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, QUndoCommand *effectCommand)
+void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, int offset, QUndoCommand *effectCommand)
 {
     if (effect.attribute("type") == "audio") {
 	// Don't add audio effects on video clips
@@ -1886,9 +1889,9 @@ void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, QUndoCom
     }
 
     if (effect.attribute("id") == "freeze" && m_cursorPos > item->startPos().frames(m_document->fps()) && m_cursorPos < item->endPos().frames(m_document->fps())) {
-	item->initEffect(effect, m_cursorPos - item->startPos().frames(m_document->fps()));
+	item->initEffect(effect, m_cursorPos - item->startPos().frames(m_document->fps()), offset);
     } else {
-	item->initEffect(effect);
+	item->initEffect(effect, 0, offset);
     }
     new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
 }

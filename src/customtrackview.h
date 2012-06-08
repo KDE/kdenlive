@@ -79,6 +79,7 @@ public:
     void addMarker(const QString &id, const GenTime &pos, const QString &comment);
     void setScale(double scaleFactor, double verticalScale);
     void deleteClip(const QString &clipId);
+    /** @brief Add effect to current clip */
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group);
     void addEffect(int track, GenTime pos, QDomElement effect);
@@ -462,7 +463,7 @@ private:
     void adjustEffects(ClipItem *item, ItemInfo oldInfo, QUndoCommand *command);
     
     /** @brief Prepare an add clip command for an effect */
-    void processEffect(ClipItem *item, QDomElement effect, QUndoCommand *effectCommand);
+    void processEffect(ClipItem *item, QDomElement effect, int offset, QUndoCommand *effectCommand);
     
     /** @brief Get effect parameters ready for MLT*/
     void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const QString &prefix = QString());

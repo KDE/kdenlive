@@ -375,6 +375,8 @@ void EffectStackView2::startDrag()
     QPixmap pixmap;
     if (m_draggedEffect) {
         QDomElement effect = m_draggedEffect->effect().cloneNode().toElement();
+	// Keep clip crop start in case we want to paste effect 
+	effect.setAttribute("clipstart", m_clipref->cropStart().frames(KdenliveSettings::project_fps()));
         doc.appendChild(doc.importNode(effect, true));
         pixmap = QPixmap::grabWidget(m_draggedEffect->title);
     }
