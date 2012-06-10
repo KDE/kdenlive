@@ -35,20 +35,32 @@ AbstractTimelineClip* TimelineClipItem::clip()
 
 void TimelineClipItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    painter->fillRect(boundingRect(), brush());
+    const QRectF exposed = option->exposedRect;
+    painter->setClipRect(exposed);
+    painter->fillRect(exposed, brush());
+    painter->setWorldMatrixEnabled(false);;
+    const QRectF mapped = painter->worldTransform().mapRect(rect());
 
-    const QRectF textBounding = painter->boundingRect(rect(), Qt::AlignHCenter | Qt::AlignVCenter, ' ' + m_clip->name() + ' ');
-    painter->setRenderHint(QPainter::Antialiasing, true);
-    painter->setBrush(Qt::blue);
-    painter->setPen(Qt::NoPen);
-    painter->drawRoundedRect(textBounding, 3, 3);
-    painter->setBrush(Qt::NoBrush);
+    // only paint details if clip is big enough
+    if (mapped.width() > 20) {
+        const QRectF textBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + m_clip->name() + ' ');
+        painter->setRenderHint(QPainter::Antialiasing, true);
+        painter->setBrush(Qt::blue);
+        painter->setPen(Qt::NoPen);
+        painter->drawRoundedRect(textBounding, 3, 3);
+        painter->setBrush(Qt::NoBrush);
 
-    painter->setPen(Qt::white);
-    painter->drawText(textBounding, Qt::AlignCenter, m_clip->name());
+        painter->setPen(Qt::white);
+        painter->drawText(textBounding, Qt::AlignCenter, m_clip->name());
+        painter->setRenderHint(QPainter::Antialiasing, false);
+    }
+
+    // draw clip border
+    // expand clip rect to allow correct painting of clip border
+    painter->setClipping(false);
+    painter->drawRect(mapped.adjusted(0, 0, -0.5, 0));
 }
 
 #include "timelineclipitem.moc"
