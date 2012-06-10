@@ -32,6 +32,8 @@ public:
     Timeline(const QString &document, Project* parent);
     virtual ~Timeline();
 
+    int duration() const;
+
     Project *project();
     QList<TimelineTrack *> tracks();
     Mlt::Profile *profile();

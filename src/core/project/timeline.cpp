@@ -44,6 +44,11 @@ Timeline::~Timeline()
     delete m_profile;
 }
 
+int Timeline::duration() const
+{
+    return m_tractor->get_length();
+}
+
 Project* Timeline::project()
 {
     return m_parent;

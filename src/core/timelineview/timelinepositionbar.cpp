@@ -32,7 +32,7 @@
 #include <QPainter>
 
 
-const int TimelinePositionBar::m_comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000 };
+const int TimelinePositionBar::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000 };
 
 
 TimelinePositionBar::TimelinePositionBar(QWidget *parent) :
@@ -85,7 +85,7 @@ void TimelinePositionBar::setProject(Project* project)
     m_playbackPosition = project->monitor()->position();
     connect(project->monitor(), SIGNAL(positionChanged(int)), this, SLOT(setCursorPosition(int)));
 
-    setDuration(project->timeline()->producer()->get_playtime());
+    setDuration(project->timeline()->duration());
 
     updateFrameSize();
 }
@@ -114,20 +114,22 @@ void TimelinePositionBar::setZoomLevel(int level)
 {
     m_zoomLevel = level;
 
-    m_scale = 1 / (double) m_comboScale[level];
+    m_scale = 1 / (double) comboScale[level];
     m_factor = m_scale * m_smallMarkDistance;
 
-    m_middleMarkDistance = m_timecodeFormatter->framerate() * m_smallMarkDistance;
+    double adjustedDistance = m_timecodeFormatter->framerate() * m_smallMarkDistance;
     if (level > 8) {
-        m_middleMarkDistance *= 60;
-        m_bigMarkDistance = m_middleMarkDistance * 5;
+        m_middleMarkDistance = adjustedDistance * 60;
+        m_bigMarkDistance = adjustedDistance * 300;
     } else if (level > 6) {
-        m_middleMarkDistance *= 10;
-        m_bigMarkDistance = m_middleMarkDistance * 3;
+        m_middleMarkDistance = adjustedDistance * 10;
+        m_bigMarkDistance = adjustedDistance * 30;
     } else if (level > 3) {
-        m_bigMarkDistance = m_middleMarkDistance * 5;
+        m_middleMarkDistance = adjustedDistance;
+        m_bigMarkDistance = adjustedDistance * 5;
     } else {
-        m_bigMarkDistance = m_middleMarkDistance * 60;
+        m_middleMarkDistance = adjustedDistance;
+        m_bigMarkDistance = adjustedDistance * 60;
     }
 
     switch (level) {
@@ -171,15 +173,12 @@ void TimelinePositionBar::setZoomLevel(int level)
 
 void TimelinePositionBar::onFramerateChange()
 {
-    m_middleMarkDistance = m_timecodeFormatter->framerate() * m_smallMarkDistance;
-    m_bigMarkDistance = m_middleMarkDistance * 60;
-    update();
+    setZoomLevel(m_zoomLevel);
 }
 
 void TimelinePositionBar::updateFrameSize()
 {
     m_smallMarkDistance = 90; // m_view->getFrameWidth();
-    onFramerateChange();
     setZoomLevel(m_zoomLevel);
 }
 
@@ -249,7 +248,7 @@ void TimelinePositionBar::paintEvent(QPaintEvent* event)
         offsetmin = (event->rect().left() + m_offset) / m_middleMarkDistance;
         offsetmin *= m_middleMarkDistance;
         for (f = offsetmin - m_offset - fend; f < offsetmax - m_offset + fend; f += fend)
-            painter.drawLine((int)f, m_middleMarkX, (int)f, height());
+            painter.drawLine(f, m_middleMarkX, f, height());
     }
 
     // draw big marks
@@ -258,9 +257,9 @@ void TimelinePositionBar::paintEvent(QPaintEvent* event)
         offsetmin = (event->rect().left() + m_offset) / m_bigMarkDistance;
         offsetmin *= m_bigMarkDistance;
         for (f = offsetmin - m_offset; f < offsetmax - m_offset; f += fend)
-            painter.drawLine((int)f, m_bigMarkX, (int)f, height());
+            painter.drawLine(f, m_bigMarkX, f, height());
     }
-    
+
     // draw pointer
     painter.setRenderHint(QPainter::Antialiasing);
     int position = m_playbackPosition * m_factor - m_offset;

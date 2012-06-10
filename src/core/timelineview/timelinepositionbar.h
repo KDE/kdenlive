@@ -35,6 +35,8 @@ public:
 
     int offset() const;
 
+    static const int comboScale[];
+
 public slots:
     void setProject(Project *project);
     void setCursorPosition(int position);
@@ -55,7 +57,6 @@ private:
     void updateFrameSize();
 
     TimecodeFormatter *m_timecodeFormatter;
-    static const int m_comboScale[];
     int m_duration;
     int m_offset;
     int m_playbackPosition;
