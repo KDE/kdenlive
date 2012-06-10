@@ -1,0 +1,99 @@
+/*
+Copyright (C) 2012  Till Theato <root@ttill.de>
+This file is part of kdenlive. See www.kdenlive.org.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+*/
+
+#include "timelineview.h"
+#include "timelinescene.h"
+#include "timelinepositionbar.h"
+#include "project/timeline.h"
+#include <QWheelEvent>
+
+
+TimelineView::TimelineView(QWidget* parent) :
+    QGraphicsView(parent),
+    m_scene(0)
+{
+    setFrameShape(QFrame::NoFrame);
+}
+
+TimelineView::~TimelineView()
+{
+}
+
+void TimelineView::setScene(TimelineScene* scene)
+{
+    QGraphicsView::setScene(scene);
+    m_scene = scene;
+    setZoom(m_zoomLevel);
+}
+
+void TimelineView::setZoom(int level)
+{
+    if (!m_scene) {
+        return;
+    }
+
+    // not so nice to hardcode it here
+    level = qBound(0, level, 13);
+
+    if (level == m_zoomLevel) {
+        return;
+    }
+
+    m_zoomLevel = level;
+
+    double scale = (double) /*frameWidth()*/90 / TimelinePositionBar::comboScale[level];
+
+    QMatrix scaleMatrix;
+    scaleMatrix = scaleMatrix.scale(scale, transform().m22());
+
+    setMatrix(scaleMatrix);
+
+    int diff = sceneRect().width() - m_scene->timeline()->duration();
+    if (diff * scaleMatrix.m11() < 50) {
+        if (scaleMatrix.m11() < 0.4) {
+            setSceneRect(0, 0, (m_scene->timeline()->duration() + 100 / scaleMatrix.m11()), sceneRect().height());
+        } else {
+            setSceneRect(0, 0, (m_scene->timeline()->duration() + 300), sceneRect().height());
+        }
+    }
+
+    emit zoomChanged(level);
+
+//     double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();
+//     centerOn(QPointF(cursorPos(), verticalPos));
+}
+
+void TimelineView::zoomIn()
+{
+    setZoom(m_zoomLevel - 1);
+}
+
+void TimelineView::zoomOut()
+{
+    setZoom(m_zoomLevel + 1);
+}
+
+void TimelineView::zoomFit()
+{
+
+}
+
+void TimelineView::wheelEvent(QWheelEvent* event)
+{
+    if (event->modifiers() == Qt::ControlModifier) {
+        if (event->delta() > 0) {
+            zoomIn();
+        } else {
+            zoomOut();
+        }
+    }
+}
+
+#include "timelineview.moc"

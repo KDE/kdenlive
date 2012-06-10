@@ -8,35 +8,39 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#ifndef TIMELINEWIDGET_H
-#define TIMELINEWIDGET_H
+#ifndef TIMELINEVIEW_H
+#define TIMELINEVIEW_H
 
-#include <QWidget>
+#include <QGraphicsView>
 
-class Project;
-class TimelineView;
 class TimelineScene;
-class TimelinePositionBar;
 
 
-class TimelineWidget : public QWidget
+class TimelineView : public QGraphicsView
 {
     Q_OBJECT
 
 public:
-    explicit TimelineWidget(QWidget* parent = 0);
-    virtual ~TimelineWidget();
+    TimelineView(QWidget* parent = 0);
+    virtual ~TimelineView();
+
+    void setScene(TimelineScene *scene);
 
 public slots:
-    void setProject(Project *project);
+    void setZoom(int level);
+    void zoomIn();
+    void zoomOut();
+    void zoomFit();
 
-    TimelineView *view();
-    TimelineScene *scene();
+signals:
+    void zoomChanged(int level);
+
+protected:
+    void wheelEvent(QWheelEvent *event);
 
 private:
     TimelineScene *m_scene;
-    TimelineView *m_view;
-    TimelinePositionBar *m_positionBar;
+    int m_zoomLevel;
 };
 
 #endif

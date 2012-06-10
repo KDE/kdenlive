@@ -9,13 +9,14 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "timelinewidget.h"
+#include "timelineview.h"
 #include "timelinescene.h"
 #include "timelinepositionbar.h"
 #include "project/project.h"
 #include "project/projectmanager.h"
 #include "core.h"
-#include <QGraphicsView>
 #include <QGridLayout>
+#include <QScrollBar>
 
 
 TimelineWidget::TimelineWidget(QWidget* parent) :
@@ -27,10 +28,12 @@ TimelineWidget::TimelineWidget(QWidget* parent) :
     m_positionBar = new TimelinePositionBar(this);
     layout->addWidget(m_positionBar, 0, 0);
 
-    m_view = new QGraphicsView(this);
-    m_view->setFrameShape(QFrame::NoFrame);
+    m_view = new TimelineView(this);
     layout->addWidget(m_view, 1, 0);
 
+
+    connect(m_view, SIGNAL(zoomChanged(int)), m_positionBar, SLOT(setZoomLevel(int)));
+    connect(m_view->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_positionBar, SLOT(setOffset(int)));
 
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 }
@@ -57,7 +60,7 @@ TimelineScene* TimelineWidget::scene()
     return m_scene;
 }
 
-QGraphicsView* TimelineWidget::view()
+TimelineView* TimelineWidget::view()
 {
     return m_view;
 }

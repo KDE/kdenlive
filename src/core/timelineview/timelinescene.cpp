@@ -19,7 +19,6 @@ TimelineScene::TimelineScene(Timeline* timeline, QObject* parent) :
     m_timeline(timeline)
 {
     setupTimeline();
-    positionTracks();
 }
 
 TimelineScene::~TimelineScene()
@@ -45,6 +44,8 @@ void TimelineScene::positionTracks(TimelineTrackItem *after)
         m_trackItems.at(i)->setY(position);
         position += m_trackItems.at(i)->rect().height();
     }
+
+//     views()[0]->setSceneRect();
 }
 
 void TimelineScene::setupTimeline()
@@ -55,7 +56,7 @@ void TimelineScene::setupTimeline()
         addItem(trackItem);
         m_trackItems.append(trackItem);
     }
+    positionTracks();
 }
-
 
 #include "timelinescene.moc"
