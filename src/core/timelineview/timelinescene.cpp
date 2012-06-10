@@ -45,7 +45,7 @@ void TimelineScene::positionTracks(TimelineTrackItem *after)
         position += m_trackItems.at(i)->rect().height();
     }
 
-//     views()[0]->setSceneRect();
+    emit heightChanged(position);
 }
 
 void TimelineScene::setupTimeline()

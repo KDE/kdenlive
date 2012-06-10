@@ -31,6 +31,7 @@ public slots:
     void zoomIn();
     void zoomOut();
     void zoomFit();
+    void setHeight(int height);
 
 signals:
     void zoomChanged(int level);

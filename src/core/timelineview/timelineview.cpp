@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timelinepositionbar.h"
 #include "project/timeline.h"
 #include <QWheelEvent>
+#include <QScrollBar>
 
 
 TimelineView::TimelineView(QWidget* parent) :
@@ -20,6 +21,7 @@ TimelineView::TimelineView(QWidget* parent) :
     m_scene(0)
 {
     setFrameShape(QFrame::NoFrame);
+    setAlignment(Qt::AlignLeft | Qt::AlignTop);
 }
 
 TimelineView::~TimelineView()
@@ -30,6 +32,10 @@ void TimelineView::setScene(TimelineScene* scene)
 {
     QGraphicsView::setScene(scene);
     m_scene = scene;
+
+    connect(m_scene, SIGNAL(heightChanged(int)), this, SLOT(setHeight(int)));
+
+    m_scene->positionTracks();
     setZoom(m_zoomLevel);
 }
 
@@ -85,6 +91,11 @@ void TimelineView::zoomFit()
 
 }
 
+void TimelineView::setHeight(int height)
+{
+    setSceneRect(0, 0, sceneRect().width(), height);
+}
+
 void TimelineView::wheelEvent(QWheelEvent* event)
 {
     if (event->modifiers() == Qt::ControlModifier) {
@@ -92,6 +103,12 @@ void TimelineView::wheelEvent(QWheelEvent* event)
             zoomIn();
         } else {
             zoomOut();
+        }
+    } else {
+        if (event->delta() > 0) {
+            horizontalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepSub);
+        } else {
+            horizontalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
         }
     }
 }

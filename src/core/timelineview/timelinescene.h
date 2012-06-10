@@ -31,6 +31,9 @@ public:
 public slots:
     void positionTracks(TimelineTrackItem *after = 0);
 
+signals:
+    void heightChanged(int height);
+
 private:
     void setupTimeline();
 
