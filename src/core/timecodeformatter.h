@@ -24,7 +24,7 @@ class TimecodeFormatter : public QObject
 public:
     enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds, Milliseconds, Time, DefaultFormat };
 
-    TimecodeFormatter(const Fraction &framerate = Fraction(), Formats defaultFormat = DefaultFormat);
+    TimecodeFormatter(const Fraction &framerate = Fraction(), Formats defaultFormat = DefaultFormat, QObject *parent = 0);
 
     void setFramerate(const Fraction &framerate);
     Fraction framerate() const;
@@ -34,6 +34,8 @@ public:
 
     QString format(const Timecode &timecode, Formats format = DefaultFormat) const;
     QString mask(const Timecode &timecode) const;
+
+    Timecode fromString(const QString &timecode, Formats format = DefaultFormat) const;
 
 signals:
     void framerateChanged();
@@ -46,6 +48,13 @@ private:
     QString formatSeconds(const Timecode &timecode) const;
     QString formatMilliseconds(const Timecode &timecode) const;
     QString formatTime(const Timecode &timecode) const;
+
+    Timecode fromHH_MM_SS_FF(const QString &timecode) const;
+    Timecode fromHH_MM_SS_HH(const QString &timecode) const;
+    Timecode fromFrames(const QString &timecode) const;
+    Timecode fromSeconds(const QString &timecode) const;
+    Timecode fromMilliseconds(const QString &timecode) const;
+    Timecode fromTime(const QString &timecode) const;
 
     void fillComponents(int factor, int &lastComponent, int &seconds, int &minutes, int &hours) const;
     QString fillMask(int hours, int minutes, int seconds, int lastComponent, bool isNegative = false) const;

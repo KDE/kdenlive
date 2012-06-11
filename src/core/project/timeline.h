@@ -30,6 +30,7 @@ class KDE_EXPORT Timeline : public QObject
 
 public:
     Timeline(const QString &document, Project* parent);
+    Timeline(Project *parent);
     virtual ~Timeline();
 
     int duration() const;

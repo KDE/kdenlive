@@ -21,6 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KIO/NetAccess>
 #include <QFile>
 #include <QDomImplementation>
+#include <KLocale>
 
 #include <KDebug>
 
@@ -30,33 +31,14 @@ Project::Project(const KUrl& url, QObject* parent) :
     m_url(url),
     m_timeline(0)
 {
-    if (!url.isEmpty()) {
-        QString temporaryFileName;
-        if (KIO::NetAccess::download(url.path(), temporaryFileName, NULL)) {
-            QFile file(temporaryFileName);
-            QString errorMessage;
-            QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
-            QDomDocument document;
-            bool success = document.setContent(&file, false, &errorMessage);
-            file.close();
-            KIO::NetAccess::removeTempFile(temporaryFileName);
-
-            if (success) {
-                loadTimeline(document.toString());
-                loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"));
-                m_timeline->loadTracks();
-            } else {
-                kWarning() << "unable to load document" << url.path() << errorMessage;
-            }
-
-        } else {
-            kWarning() << "not able to access " << url.path();
-        }
+    if (url.isEmpty()) {
+        openNew();
     } else {
-        kWarning() << "empty URL";
+        openFile();
     }
 
-    m_monitor = new MonitorModel(this);
+    m_binMonitor = new MonitorModel(this);
+    m_timelineMonitor = new MonitorModel(this);
 }
 
 Project::Project(QObject* parent) :
@@ -66,17 +48,19 @@ Project::Project(QObject* parent) :
 
 Project::~Project()
 {
-    if (m_timeline) {
-        delete m_timeline;
-    }
-    if (m_items) {
-        delete m_items;
-    }
 }
 
 KUrl Project::url() const
 {
     return m_url;
+}
+
+QString Project::description()
+{
+    if (m_url.isEmpty())
+        return i18n("Untitled") + " / " + profile()->description();
+    else
+        return m_url.fileName() + " / " + profile()->description();
 }
 
 Timeline* Project::timeline()
@@ -105,14 +89,50 @@ void Project::addItem(AbstractProjectItem* item)
     emit itemAdded(item);
 }
 
-MonitorModel* Project::monitor()
+MonitorModel* Project::binMonitor()
 {
-    return m_monitor;
+    return m_binMonitor;
+}
+
+MonitorModel* Project::timelineMonitor()
+{
+    return m_timelineMonitor;
 }
 
 TimecodeFormatter* Project::timecodeFormatter()
 {
     return m_timecodeFormatter;
+}
+
+void Project::openFile()
+{
+    QString temporaryFileName;
+    if (KIO::NetAccess::download(m_url.path(), temporaryFileName, NULL)) {
+        QFile file(temporaryFileName);
+        QString errorMessage;
+        QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
+        QDomDocument document;
+        bool success = document.setContent(&file, false, &errorMessage);
+        file.close();
+        KIO::NetAccess::removeTempFile(temporaryFileName);
+
+        if (success) {
+            loadTimeline(document.toString());
+            loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"));
+            m_timeline->loadTracks();
+        } else {
+            kWarning() << "unable to load document" << m_url.path() << errorMessage;
+        }
+    } else {
+        kWarning() << "not able to access " << m_url.path();
+    }
+}
+
+void Project::openNew()
+{
+    m_timeline = new Timeline(this);
+    m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()));
+    m_items = new ProjectFolder(this);
 }
 
 void Project::loadClips(const QDomElement& description)

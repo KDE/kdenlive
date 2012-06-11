@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 class MonitorGraphicsScene;
 class MonitorModel;
 class PositionBar;
+class TimecodeWidget;
 class KDualAction;
 class QGraphicsView;
 
@@ -35,6 +36,7 @@ public:
 
 public slots:
     void togglePlaybackState();
+    void setPosition(int position);
 
 private slots:
     void onPlaybackStateChange(bool plays);
@@ -46,6 +48,7 @@ private:
     MonitorModel *m_model;
     PositionBar *m_positionBar;
     KDualAction *m_playAction;
+    TimecodeWidget *m_timecodeWiget;
 };
 
 #endif

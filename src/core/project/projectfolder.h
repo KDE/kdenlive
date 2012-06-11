@@ -21,6 +21,8 @@ class ProjectFolder : public AbstractProjectItem
 public:
     ProjectFolder(const QDomElement &description, AbstractProjectItem* parent);
     ProjectFolder(const QDomElement &description, Project *project);
+    ProjectFolder(AbstractProjectItem *parent);
+    ProjectFolder(Project *project);
     ~ProjectFolder();
 
     AbstractProjectClip *clip(int id);

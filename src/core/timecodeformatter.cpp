@@ -18,7 +18,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <math.h>
 
 
-TimecodeFormatter::TimecodeFormatter(const Fraction& framerate, TimecodeFormatter::Formats defaultFormat)
+TimecodeFormatter::TimecodeFormatter(const Fraction& framerate, TimecodeFormatter::Formats defaultFormat, QObject *parent) :
+    QObject(parent)
 {
     setFramerate(framerate);
     setDefaultFormat(defaultFormat);
@@ -98,6 +99,30 @@ QString TimecodeFormatter::mask(const Timecode& timecode) const
         mask.append("99:99:99:99");
     }
     return mask;
+}
+
+Timecode TimecodeFormatter::fromString(const QString& timecode, TimecodeFormatter::Formats format) const
+{
+    if (format == DefaultFormat) {
+        format = m_defaultFormat;
+    }
+
+    switch (format) {
+        case HH_MM_SS_FF:
+            return fromHH_MM_SS_FF(timecode);
+        case HH_MM_SS_HH:
+            return fromHH_MM_SS_HH(timecode);
+        case Frames:
+            return fromFrames(timecode);
+        case Seconds:
+            return fromSeconds(timecode);
+        case Milliseconds:
+            return fromMilliseconds(timecode);
+        case Time:
+            return fromTime(timecode);
+        default:
+            return Timecode(this);
+    }
 }
 
 QString TimecodeFormatter::formatHH_MM_SS_FF(const Timecode& timecode) const
@@ -214,6 +239,62 @@ QString TimecodeFormatter::formatTime(const Timecode& timecode) const
     }
 
     return text;
+}
+
+Timecode TimecodeFormatter::fromHH_MM_SS_FF(const QString& timecode) const
+{
+    if (timecode.isEmpty()) {
+        return Timecode(this);
+    }
+
+    int totalFrames;
+
+    int hours;
+    int offset = 0;
+    if (timecode.at(0) == '-') {
+        // FIXME: preserve "-"
+        offset = 1;
+        hours = timecode.mid(1, 2).toInt();
+    } else {
+        hours = timecode.left(2).toInt();
+    }
+    int minutes = timecode.mid(3 + offset, 2).toInt();
+    int seconds = timecode.mid(6 + offset, 2).toInt();
+    int frames = timecode.right(2).toInt();
+
+    totalFrames = qRound(m_framerate.value()) * (hours * 3600 + minutes * 60 + seconds) + frames;
+
+    if (m_isDropFrame) {
+        int totalMinutes = (60 * hours) + minutes;
+        totalFrames -= m_dropFrames * (totalMinutes - floor(totalMinutes / 10));
+    }
+
+    return Timecode(totalFrames, this);
+}
+
+Timecode TimecodeFormatter::fromHH_MM_SS_HH(const QString& timecode) const
+{
+    return Timecode();
+}
+
+Timecode TimecodeFormatter::fromFrames(const QString& timecode) const
+{
+    return Timecode(timecode.toInt(), this);
+}
+
+Timecode TimecodeFormatter::fromSeconds(const QString& timecode) const
+{
+    return Timecode();
+}
+
+Timecode TimecodeFormatter::fromMilliseconds(const QString& timecode) const
+{
+    return Timecode();
+}
+
+Timecode TimecodeFormatter::fromTime(const QString& timecode) const
+{
+    return Timecode();
 }
 
 void TimecodeFormatter::fillComponents(int factor, int &lastComponent, int &seconds, int &minutes, int &hours) const

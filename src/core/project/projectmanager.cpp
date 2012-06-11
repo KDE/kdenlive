@@ -21,16 +21,15 @@ the Free Software Foundation, either version 3 of the License, or
 
 ProjectManager::ProjectManager(QObject* parent) :
     QObject(parent),
-    m_project(NULL)
+    m_project(0)
 {
     KStandardAction::open(this, SLOT(execOpenFileDialog()), pCore->window()->actionCollection());
+
+    openProject(KUrl());
 }
 
 ProjectManager::~ProjectManager()
 {
-    if (m_project) {
-        delete m_project;
-    }
 }
 
 Project* ProjectManager::current()
@@ -52,10 +51,15 @@ void ProjectManager::openProject(const KUrl& url)
         delete m_project;
     }
     m_project = new Project(url, this);
+
+    pCore->window()->setCaption(m_project->description());
+
     emit projectOpened(m_project);
 
     // remove line when monitormanager is introduced
-    pCore->window()->monitorWidget()->setModel(m_project->monitor());
+    if (pCore->window()->monitorWidget()) {
+        pCore->window()->monitorWidget()->setModel(m_project->binMonitor());
+    }
 }
 
 #include "projectmanager.moc"

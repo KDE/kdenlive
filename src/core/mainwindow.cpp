@@ -31,6 +31,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &url, const QString & 
 {
     initLocale();
 
+    m_monitor = NULL;
+
     Core::initialize(this);
 
     QDockWidget *binDock = new QDockWidget(i18n("Bin"), this);

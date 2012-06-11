@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitormodel.h"
 #include "monitorgraphicsscene.h"
 #include "positionbar.h"
+#include "widgets/timecodewidget.h"
 #include <mlt++/Mlt.h>
 #include <KDualAction>
 #include <KLocale>
@@ -59,6 +60,13 @@ MonitorView::MonitorView(QWidget* parent) :
 //     playButton->setMenu(m_playMenu);
 //     playButton->setPopupMode(QToolButton::MenuButtonPopup);
 //     m_toolbar->addWidget(playButton);
+
+    QWidget *spacer = new QWidget(this);
+    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    toolbar->addWidget(spacer);
+
+    m_timecodeWiget = new TimecodeWidget(this);
+    toolbar->addWidget(m_timecodeWiget);
 }
 
 MonitorView::~MonitorView()
@@ -79,7 +87,8 @@ void MonitorView::setModel(MonitorModel* model)
     connect(m_model, SIGNAL(producerChanged()), this, SLOT(onProducerChanged()));
 
     connect(m_positionBar, SIGNAL(positionChanged(int)), m_model, SLOT(setPosition(int)));
-    connect(m_model, SIGNAL(positionChanged(int)), m_positionBar, SLOT(setPosition(int)));
+    connect(m_timecodeWiget, SIGNAL(valueChanged(int)), m_model, SLOT(setPosition(int)));
+    connect(m_model, SIGNAL(positionChanged(int)), this, SLOT(setPosition(int)));
 
     onProducerChanged();
 }
@@ -96,6 +105,12 @@ void MonitorView::togglePlaybackState()
     }
 }
 
+void MonitorView::setPosition(int position)
+{
+    m_positionBar->setPosition(position);
+    m_timecodeWiget->setValue(position);
+}
+
 void MonitorView::onPlaybackStateChange(bool plays)
 {
     m_playAction->setActive(plays);
@@ -104,7 +119,8 @@ void MonitorView::onPlaybackStateChange(bool plays)
 void MonitorView::onProducerChanged()
 {
     m_positionBar->setDuration(m_model->duration());
-    m_positionBar->setPosition(m_model->position());
+    m_timecodeWiget->setMaximum(m_model->duration());
+    setPosition(m_model->position());
 }
 
 #include "monitorview.moc"

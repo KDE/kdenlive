@@ -21,6 +21,7 @@ public:
     Timecode(TimecodeFormatter const *formatter = 0);
     Timecode(double seconds, TimecodeFormatter const *formatter = 0);
     Timecode(int frames, TimecodeFormatter const *formatter = 0);
+    Timecode(const QString &timecode, TimecodeFormatter const *formatter = 0);
 
     void setFormatter(TimecodeFormatter const *formatter);
     TimecodeFormatter const *formatter();

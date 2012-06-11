@@ -74,16 +74,12 @@ int TimelinePositionBar::offset() const
 
 void TimelinePositionBar::setProject(Project* project)
 {
-    if (m_timecodeFormatter) {
-        m_timecodeFormatter->disconnect(this);
-    }
-
     m_timecodeFormatter = project->timecodeFormatter();
     connect(m_timecodeFormatter, SIGNAL(framerateChanged()), this, SLOT(onFramerateChange()));
     connect(m_timecodeFormatter, SIGNAL(defaultFormatChanged()), this, SLOT(update()));
 
-    m_playbackPosition = project->monitor()->position();
-    connect(project->monitor(), SIGNAL(positionChanged(int)), this, SLOT(setCursorPosition(int)));
+    m_playbackPosition = project->timelineMonitor()->position();
+    connect(project->timelineMonitor(), SIGNAL(positionChanged(int)), this, SLOT(setCursorPosition(int)));
 
     setDuration(project->timeline()->duration());
 

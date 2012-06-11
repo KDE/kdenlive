@@ -34,6 +34,19 @@ Timeline::Timeline(const QString& document, Project* parent) :
 //     m_producer->optimise();
 }
 
+Timeline::Timeline(Project* parent) :
+    QObject(parent),
+    m_parent(parent)
+{
+    m_profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
+    m_tractor = new Mlt::Tractor();
+    m_producer = 0;
+
+//     m_producer = m_tractor->parent().producer();
+
+//     Q_ASSERT(m_producer && m_producer->is_valid());
+}
+
 Timeline::~Timeline()
 {
     qDeleteAll(m_tracks);

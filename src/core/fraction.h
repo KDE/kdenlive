@@ -15,7 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 class Fraction
 {
 public:
-    Fraction(int num, int den);
+    Fraction(int num, int den = 1);
     Fraction();
 
     double value() const;

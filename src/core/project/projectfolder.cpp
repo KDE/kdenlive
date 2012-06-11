@@ -30,6 +30,16 @@ ProjectFolder::ProjectFolder(const QDomElement& description, Project* project) :
     loadChildren(description);
 }
 
+ProjectFolder::ProjectFolder(AbstractProjectItem* parent) :
+    AbstractProjectItem(parent)
+{
+}
+
+ProjectFolder::ProjectFolder(Project* project) :
+    AbstractProjectItem(),
+    m_project(project)
+{
+}
 
 ProjectFolder::~ProjectFolder()
 {

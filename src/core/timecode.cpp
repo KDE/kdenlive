@@ -33,6 +33,12 @@ Timecode::Timecode(int frames, TimecodeFormatter const* formatter) :
     setFormatter(formatter);
 }
 
+Timecode::Timecode(const QString& timecode, const TimecodeFormatter* formatter)
+{
+    setFormatter(formatter);
+    m_frames = m_formatter->fromString(timecode).frames();
+}
+
 void Timecode::setFormatter(TimecodeFormatter const* formatter)
 {
     if (formatter) {

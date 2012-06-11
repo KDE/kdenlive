@@ -91,7 +91,7 @@ int AbstractProjectClip::duration() const
 void AbstractProjectClip::setCurrent(bool current)
 {
     if (current) {
-        project()->monitor()->setProducer(m_baseProducer);
+        project()->binMonitor()->setProducer(m_baseProducer);
     }
 }
 

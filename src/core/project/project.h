@@ -37,9 +37,12 @@ public:
     virtual ~Project();
 
     KUrl url() const;
+    QString description();
+
     Timeline *timeline();
     ProjectFolder *items();
-    MonitorModel *monitor();
+    MonitorModel *binMonitor();
+    MonitorModel *timelineMonitor();
     Mlt::Profile *profile();
     TimecodeFormatter *timecodeFormatter();
 
@@ -51,15 +54,17 @@ signals:
     void itemAdded(AbstractProjectItem *item);
 
 private:
+    void openFile();
+    void openNew();
     void loadClips(const QDomElement &description);
     void loadTimeline(const QString &content);
 
     KUrl m_url;
     ProjectFolder *m_items;
     Timeline *m_timeline;
-    MonitorModel *m_monitor;
+    MonitorModel *m_binMonitor;
+    MonitorModel *m_timelineMonitor;
     TimecodeFormatter *m_timecodeFormatter;
-//     MonitorModel *m_clipMonitor;
 };
 
 #endif
