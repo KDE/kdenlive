@@ -35,11 +35,18 @@
 #include <KFileDialog>
 #include <KApplication>
 #include <kio/netaccess.h>
+#include <kio/jobuidelegate.h>
+
+#include <solid/device.h>
+#include <solid/storageaccess.h>
+#include <solid/storagedrive.h>
+#include <solid/storagevolume.h>
 
 #include <QGraphicsItemGroup>
 #include <QtConcurrentRun>
 
 #include <KFileMetaInfo>
+
 
 ClipManager::ClipManager(KdenliveDoc *doc) :
     QObject(),
@@ -464,15 +471,43 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
     emit checkAllClips(displayRatioChanged, fpsChanged, brokenClips);
 }
 
+void ClipManager::slotAddClip(KIO::Job *job, const KUrl &, const KUrl &dst)
+{
+    KIO::MetaData meta = job->metaData();
+    kDebug()<<"Finished copying: "<<dst<<" / "<<meta.value("group")<<" / "<<meta.value("groupid");
+    slotAddClipList(KUrl::List () << dst, meta.value("group"), meta.value("groupid"), meta.value("comment"));
+}
+
 void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId, const QString &comment)
 {
     QUndoCommand *addClips = new QUndoCommand();
+    // Update list of removable volumes
+    //TODO: update only when new volume is plugged / unplugged
+    listRemovableVolumes();
     foreach(const KUrl & file, urls) {
         if (QFile::exists(file.path())) {//KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
             if (!getClipByResource(file.path()).empty()) {
                 if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;
             }
+            if (isOnRemovableDevice(file)) {
+		int answer = KMessageBox::warningYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")), KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
+		if (answer == KMessageBox::Cancel) continue;
+		else if (answer == KMessageBox::Yes) {
+		    // Copy files to project folder
+		    QString sourcesFolder = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "clips/";
+		    KIO::NetAccess::mkdir(sourcesFolder, kapp->activeWindow());
+		    //KIO::filesize_t m_requestedSize;
+		    KIO::CopyJob *copyjob = KIO::copy (file, KUrl(sourcesFolder));
+		    //TODO: for some reason, passing metadata does not work...
+		    copyjob->addMetaData("group", group);
+		    copyjob->addMetaData("groupId", groupId);
+		    copyjob->addMetaData("comment", comment);
+		    copyjob->ui()->setWindow(kapp->activeWindow());
+		    connect(copyjob, SIGNAL(copyingDone(KIO::Job *, const KUrl &, const KUrl &, time_t, bool, bool)), this, SLOT(slotAddClip(KIO::Job *, const KUrl &, const KUrl &)));
+		    continue;
+		}
+	    }
             kDebug() << "Adding clip: " << file.path();
             QDomDocument doc;
             QDomElement prod = doc.createElement("producer");
@@ -789,5 +824,92 @@ int ClipManager::clipsCount() const
 {
     return m_clipList.count();
 }
+
+
+void ClipManager::listRemovableVolumes()
+{
+    QList<SolidVolumeInfo> volumes;
+    m_removableVolumes.clear();
+
+    QList<Solid::Device> devices = Solid::Device::listFromType(Solid::DeviceInterface::StorageAccess);
+
+    foreach(const Solid::Device &accessDevice, devices)
+    {
+        // check for StorageAccess
+        if (!accessDevice.is<Solid::StorageAccess>())
+            continue;
+
+        const Solid::StorageAccess *access = accessDevice.as<Solid::StorageAccess>();
+
+        if (!access->isAccessible())
+            continue;
+
+        // check for StorageDrive
+        Solid::Device driveDevice;
+        for (Solid::Device currentDevice = accessDevice; currentDevice.isValid(); currentDevice = currentDevice.parent())
+        {
+            if (currentDevice.is<Solid::StorageDrive>())
+            {
+                driveDevice = currentDevice;
+                break;
+            }
+        }
+        if (!driveDevice.isValid())
+            continue;
+
+        Solid::StorageDrive *drive = driveDevice.as<Solid::StorageDrive>();
+	if (!drive->isRemovable()) continue;
+
+        // check for StorageVolume
+        Solid::Device volumeDevice;
+        for (Solid::Device currentDevice = accessDevice; currentDevice.isValid(); currentDevice = currentDevice.parent())
+        {
+            if (currentDevice.is<Solid::StorageVolume>())
+            {
+                volumeDevice = currentDevice;
+                break;
+            }
+        }
+        if (!volumeDevice.isValid())
+            continue;
+
+        Solid::StorageVolume *volume = volumeDevice.as<Solid::StorageVolume>();
+
+        SolidVolumeInfo info;
+        info.path = access->filePath();
+        info.isMounted = access->isAccessible();
+        if (!info.path.isEmpty() && !info.path.endsWith('/'))
+            info.path += '/';
+        info.uuid = volume->uuid();
+        info.label = volume->label();
+        info.isRemovable = drive->isRemovable();
+        m_removableVolumes << info;
+    }
+}
+
+bool ClipManager::isOnRemovableDevice(const KUrl &url)
+{
+    SolidVolumeInfo volume;
+    QString path = url.path(KUrl::RemoveTrailingSlash);
+    int volumeMatch = 0;
+
+    //FIXME: Network shares! Here we get only the volume of the mount path...
+    // This is probably not really clean. But Solid does not help us.
+    foreach (const SolidVolumeInfo &v, m_removableVolumes)
+    {
+        if (v.isMounted && !v.path.isEmpty() && path.startsWith(v.path))
+        {
+            int length = v.path.length();
+            if (length > volumeMatch)
+            {
+                volumeMatch = v.path.length();
+                volume = v;
+            }
+        }
+    }
+
+    return volumeMatch;
+}
+
 
 
