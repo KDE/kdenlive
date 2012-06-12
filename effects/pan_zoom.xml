@@ -9,7 +9,7 @@
         <parameter type="bool" name="transition.distort" default="0">
                 <name>Distort</name>
         </parameter>
-	<parameter type="color" name="background" default="colour:0x00000000" paramprefix="colour:">
+	<parameter type="color" name="background" default="colour:0x00000000" alpha="1" paramprefix="colour:">
 		<name>Background Color</name>
 	</parameter>
 </effect>

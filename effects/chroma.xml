@@ -3,7 +3,7 @@
 	<name>Blue Screen</name>
 	<description>Make selected color transparent</description>
 	<author>Charles Yates</author>
-	<parameter type="color" name="key" default="0x0000FF">
+	<parameter type="color" name="key" default="0x0000ffff">
 		<name>Color key</name>
 	</parameter>
 	<parameter type="constant" name="variance" max="100" min="0" factor="100" default="15">

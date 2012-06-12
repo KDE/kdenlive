@@ -4,11 +4,11 @@
     <description>Reduces the visibility of key color spill in chroma keying</description>
     <author>Marko Cebokli</author>
     
-    <parameter type="color" name="Key color" default="0x1010D0">
+    <parameter type="color" name="Key color" default="0x1010D0ff">
         <name>Key color</name>
     </parameter>
     
-    <parameter type="color" name="Target color" default="0xC87F65">
+    <parameter type="color" name="Target color" default="0xC87F65ff">
         <name>Target color</name>
     </parameter>
 

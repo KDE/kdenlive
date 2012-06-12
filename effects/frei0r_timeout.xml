@@ -3,7 +3,7 @@
     <effect tag="frei0r.timeout" id="frei0r.timeout">
 	<name>Timeout indicator</name>
 	<author>Simon A. Eugster (Granjow)</author>
-	<parameter type="color" name="color" default="0x6893C8">
+	<parameter type="color" name="color" default="0x6893C8ff">
 		<name>Indicator color</name>
 	</parameter>
         <parameter type="simplekeyframe" name="time" default="0" min="0" max="1000" factor="1000">

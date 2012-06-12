@@ -4,7 +4,7 @@
 	<name>White Balance</name>
 	<description>Adjust the white balance / color temperature</description>
 	<author>Dan Dennedy</author>
-	<parameter type="color" name="Neutral Color" default="0xFFFFFF">
+	<parameter type="color" name="Neutral Color" default="0xffffffff">
 		<name>Neutral Color</name>
 	</parameter>
         <parameter type="simplekeyframe" name="Green Tint" default="1200" min="0" max="2500" factor="1000">
@@ -15,7 +15,7 @@
 	<name>White Balance</name>
 	<description>Adjust the white balance / color temperature</description>
 	<author>Dan Dennedy</author>
-	<parameter type="color" name="Neutral Color" default="0xFFFFFF">
+	<parameter type="color" name="Neutral Color" default="0xffffffff">
 		<name>Neutral Color</name>
 	</parameter>
         <parameter type="simplekeyframe" name="Green Tint" default="1333" min="0" max="10000" factor="10000">

@@ -36,7 +36,7 @@
 	<parameter type="geometry" name="transition.geometry" default="0%,0%:100%x100%" fixed="1" opacity="false">
 		<name>Pan and Zoom</name>
 	</parameter>
-	<parameter type="color" name="background" default="colour:0x00000000" paramprefix="colour:">
+	<parameter type="color" name="background" default="colour:0x00000000" alpha="1" paramprefix="colour:">
 		<name>Background Color</name>
 	</parameter>
 </effect>

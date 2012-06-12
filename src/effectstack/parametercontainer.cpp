@@ -269,8 +269,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 	    if (pa.hasAttribute("paramprefix")) value.remove(0, pa.attribute("paramprefix").size());
             if (value.startsWith('#'))
                 value = value.replace('#', "0x");
-            ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, parent);
-	    choosecolor->setAlphaChannelEnabled(true);
+            ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, pa.hasAttribute("alpha"), parent);
             m_vbox->addWidget(choosecolor);
             m_valueItems[paramName] = choosecolor;
             connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
