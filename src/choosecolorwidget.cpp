@@ -27,6 +27,7 @@
 #include <KColorButton>
 #include <KLocalizedString>
 #include <kdeversion.h>
+#include <KDebug>
 
 static QColor stringToColor(QString strColor)
 {
@@ -81,10 +82,14 @@ static QString colorToString(QColor color, bool alpha)
     {
         stream << color.alpha();
     }
+    else {
+	// MLT always wants 0xRRGGBBAA format
+	stream << "ff";
+    }
     return colorStr;
 }
 
-ChooseColorWidget::ChooseColorWidget(QString text, QString color, QWidget *parent) :
+ChooseColorWidget::ChooseColorWidget(QString text, QString color, bool alphaEnabled, QWidget *parent) :
         QWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -99,6 +104,9 @@ ChooseColorWidget::ChooseColorWidget(QString text, QString color, QWidget *paren
     rightSideLayout->setSpacing(0);
 
     m_button = new KColorButton(stringToColor(color), rightSide);
+#if KDE_IS_VERSION(4,5,0)
+    if (alphaEnabled) m_button->setAlphaChannelEnabled(alphaEnabled);
+#endif
 //     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     ColorPickerWidget *picker = new ColorPickerWidget(rightSide);
 
@@ -119,13 +127,6 @@ QString ChooseColorWidget::getColor()
     alphaChannel = m_button->isAlphaChannelEnabled();
 #endif
     return colorToString(m_button->color(), alphaChannel);
-}
-
-void ChooseColorWidget::setAlphaChannelEnabled(bool enabled)
-{
-#if KDE_IS_VERSION(4,5,0)
-    m_button->setAlphaChannelEnabled(enabled);
-#endif
 }
 
 void ChooseColorWidget::setColor(QColor color)

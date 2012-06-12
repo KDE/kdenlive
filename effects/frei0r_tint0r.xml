@@ -3,10 +3,10 @@
 	<name>Tint</name>
 	<description>Maps source image luminance between two colors specified</description>
 	<author>Maksim Golovkin</author>
-	<parameter type="color" name="Map black to" default="0x000000">
+	<parameter type="color" name="Map black to" default="0x000000ff">
 		<name>Map black to</name>
 	</parameter>
-	<parameter type="color" name="Map white to" default="0x80FF80">
+	<parameter type="color" name="Map white to" default="0x80FF80ff">
 		<name>Map white to</name>
 	</parameter>
 	<parameter type="simplekeyframe" name="Tint amount" default="250" min="0" max="1000" factor="1000">

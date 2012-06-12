@@ -5,7 +5,7 @@
             <description>Color based alpha selection</description>
             <author>Marko Cebokli</author>
         
-            <parameter type="color" name="Color to select" default="0x00FF00">
+            <parameter type="color" name="Color to select" default="0x00ff00ff">
                     <name>Color to select</name>
             </parameter>
         
@@ -52,7 +52,7 @@
             <description>Color based alpha selection</description>
             <author>Marko Cebokli</author>
         
-            <parameter type="color" name="Color to select" default="0x00FF00">
+            <parameter type="color" name="Color to select" default="0x00ff00ff">
                     <name>Color to select</name>
             </parameter>
         

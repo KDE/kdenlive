@@ -18,7 +18,7 @@
         <parameter type="simplekeyframe" name="transition.oy" max="32000" min="-32000" default="0">
                 <name>Offset Y</name>
         </parameter>
-	<parameter type="color" name="background" default="colour:0x00000000" paramprefix="colour:">
+	<parameter type="color" name="background" default="colour:0x00000000" alpha="1" paramprefix="colour:">
 		<name>Background Color</name>
 	</parameter>
         <parameter type="fixed" name="transition.keyed" max="1" min="1" default="1" />
