@@ -31,21 +31,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &url, const QString & 
 {
     initLocale();
 
-    m_monitor = NULL;
-
     Core::initialize(this);
 
-    QDockWidget *binDock = new QDockWidget(i18n("Bin"), this);
-    binDock->setObjectName("bin");
-    m_bin = new Bin();
-    binDock->setWidget(m_bin);
-    addDockWidget(Qt::TopDockWidgetArea, binDock);
-
-    QDockWidget *monitorDock = new QDockWidget(i18n("Monitor"), this);
-    monitorDock->setObjectName("monitor");
-    m_monitor = new MonitorView();
-    monitorDock->setWidget(m_monitor);
-    addDockWidget(Qt::TopDockWidgetArea, monitorDock);
+    m_bin = new Bin(this);
+    addDock(i18n("Bin"), "bin", m_bin);
 
     m_timeline = new TimelineWidget(this);
     setCentralWidget(m_timeline);
@@ -61,9 +50,15 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &url, const QString & 
 
 MainWindow::~MainWindow()
 {
-    delete m_bin;
-    delete m_monitor;
-    delete m_timeline;
+}
+
+QDockWidget *MainWindow::addDock(const QString& title, const QString& objectName, QWidget* widget, Qt::DockWidgetArea area)
+{
+    QDockWidget *dockWidget = new QDockWidget(title, this);
+    dockWidget->setObjectName(objectName);
+    dockWidget->setWidget(widget);
+    addDockWidget(area, dockWidget);
+    return dockWidget;
 }
 
 void MainWindow::initLocale()
@@ -90,19 +85,9 @@ Bin* MainWindow::bin()
     return m_bin;
 }
 
-MonitorView* MainWindow::monitorWidget()
-{
-    return m_monitor;
-}
-
 TimelineWidget* MainWindow::timelineWidget()
 {
     return m_timeline;
-}
-
-void MainWindow::loadDocks()
-{
-
 }
 
 #include "mainwindow.moc"

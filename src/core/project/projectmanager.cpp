@@ -55,11 +55,6 @@ void ProjectManager::openProject(const KUrl& url)
     pCore->window()->setCaption(m_project->description());
 
     emit projectOpened(m_project);
-
-    // remove line when monitormanager is introduced
-    if (pCore->window()->monitorWidget()) {
-        pCore->window()->monitorWidget()->setModel(m_project->binMonitor());
-    }
 }
 
 #include "projectmanager.moc"

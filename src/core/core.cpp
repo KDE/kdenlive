@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effectsystem/effectrepository.h"
 #include "bin/bin.h"
 #include "timelineview/timelinewidget.h"
-#include "monitor/monitorview.h"
+#include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
 #include <QCoreApplication>
 
@@ -23,17 +23,14 @@ Core *Core::m_self = NULL;
 
 
 Core::Core(MainWindow *mainWindow) :
-    m_mainWindow(mainWindow),
-    m_currentProject(NULL)
+    m_mainWindow(mainWindow)
 {
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
 }
 
 Core::~Core()
 {
-    delete m_projectManager;
     delete m_effectRepository;
-    delete m_clipPluginManager;
 
     m_self = 0;
 }
@@ -47,8 +44,9 @@ void Core::initialize(MainWindow* mainWindow)
 void Core::init()
 {
     m_effectRepository = new EffectRepository();
-    m_clipPluginManager = new ClipPluginManager();
-    m_projectManager = new ProjectManager();
+    m_clipPluginManager = new ClipPluginManager(this);
+    m_projectManager = new ProjectManager(this);
+    m_monitorManager = new MonitorManager(this);
 }
 
 Core* Core::self()
@@ -74,4 +72,9 @@ EffectRepository* Core::effectRepository()
 ClipPluginManager* Core::clipPluginManager()
 {
     return m_clipPluginManager;
+}
+
+MonitorManager* Core::monitorManager()
+{
+    return m_monitorManager;
 }

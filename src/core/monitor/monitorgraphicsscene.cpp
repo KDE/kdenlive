@@ -83,7 +83,7 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
 {
     Q_UNUSED(rect)
 
-    if (painter->paintEngine()->type() != QPaintEngine::OpenGL && painter->paintEngine()->type() != QPaintEngine::OpenGL2) {
+    if (KDE_ISUNLIKELY(painter->paintEngine()->type() != QPaintEngine::OpenGL && painter->paintEngine()->type() != QPaintEngine::OpenGL2)) {
         kWarning() << "not used with a OpenGL viewport";
         return;
     }
@@ -108,7 +108,7 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
 
     Mlt::Frame *frame = 0;
     if (m_frame) {
-        frame = m_frame->fetchAndStoreAcquire(0);
+        frame = m_frame->fetchAndStoreOrdered(0);
     }
 
     if(KDE_ISUNLIKELY(!m_texture && !frame)) {

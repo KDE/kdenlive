@@ -19,6 +19,7 @@ class ClipPluginManager;
 class EffectRepository;
 class Project;
 class PluginManager;
+class MonitorManager;
 class KUrl;
 
 
@@ -40,6 +41,7 @@ public:
     ProjectManager *projectManager();
     EffectRepository *effectRepository();
     ClipPluginManager *clipPluginManager();
+    MonitorManager *monitorManager();
 //     PluginManager *pluginManager();
 
 private:
@@ -48,10 +50,10 @@ private:
     void init();
 
     MainWindow *m_mainWindow;
-    Project *m_currentProject;
+    ProjectManager *m_projectManager;
     EffectRepository *m_effectRepository;
     ClipPluginManager *m_clipPluginManager;
-    ProjectManager *m_projectManager;
+    MonitorManager *m_monitorManager;
 //     PluginManager *m_pluginManager;
 };
 

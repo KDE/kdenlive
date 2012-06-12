@@ -12,8 +12,10 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project.h"
 #include "producerwrapper.h"
 #include "timelinetrack.h"
+#include "monitor/monitormodel.h"
 #include "kdenlivesettings.h"
 #include <mlt++/Mlt.h>
+#include <KLocale>
 
 
 Timeline::Timeline(const QString& document, Project* parent) :
@@ -31,6 +33,9 @@ Timeline::Timeline(const QString& document, Project* parent) :
     Q_ASSERT(service.type() == tractor_type);
 
     m_tractor = new Mlt::Tractor(service);
+
+//     m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
+//     m_monitor->setProducer(m_producer);
 //     m_producer->optimise();
 }
 
@@ -80,6 +85,12 @@ Mlt::Profile* Timeline::profile()
 ProducerWrapper* Timeline::producer()
 {
     return m_producer;
+}
+
+MonitorModel* Timeline::monitor()
+{
+//     return m_monitor;
+    return m_parent->binMonitor();
 }
 
 void Timeline::loadTracks()

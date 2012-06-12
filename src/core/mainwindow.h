@@ -30,17 +30,14 @@ public:
     virtual ~MainWindow();
 
     Bin *bin();
-    MonitorView *monitorWidget();
     TimelineWidget *timelineWidget();
 
-    void addDock();
+    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
 private:
     void initLocale();
-    void loadDocks();
 
     Bin *m_bin;
-    MonitorView *m_monitor;
     TimelineWidget *m_timeline;
 };
 

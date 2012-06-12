@@ -22,6 +22,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QToolBar>
 #include <QAction>
 
+#include <KDebug>
+
 
 MonitorView::MonitorView(QWidget* parent) :
     QWidget(parent),

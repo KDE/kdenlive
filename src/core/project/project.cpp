@@ -37,8 +37,7 @@ Project::Project(const KUrl& url, QObject* parent) :
         openFile();
     }
 
-    m_binMonitor = new MonitorModel(this);
-    m_timelineMonitor = new MonitorModel(this);
+    m_binMonitor = new MonitorModel(profile(), i18n("Bin"), this);
 }
 
 Project::Project(QObject* parent) :
@@ -96,7 +95,7 @@ MonitorModel* Project::binMonitor()
 
 MonitorModel* Project::timelineMonitor()
 {
-    return m_timelineMonitor;
+    return m_timeline->monitor();
 }
 
 TimecodeFormatter* Project::timecodeFormatter()

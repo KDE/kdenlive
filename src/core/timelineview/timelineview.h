@@ -38,6 +38,7 @@ signals:
 
 protected:
     void wheelEvent(QWheelEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     TimelineScene *m_scene;

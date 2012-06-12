@@ -16,12 +16,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include <kdemacros.h>
 
 class ProducerWrapper;
-class Project;
 namespace Mlt
 {
     class Consumer;
     class Frame;
     class Event;
+    class Profile;
 }
 class QImage;
 
@@ -33,8 +33,10 @@ class KDE_EXPORT MonitorModel : public QObject
     Q_OBJECT
 
 public:
-    explicit MonitorModel(Project* project);
+    explicit MonitorModel(Mlt::Profile *profile, const QString &name, QObject *parent = 0);
     virtual ~MonitorModel();
+
+    QString name() const;
 
     void setProducer(ProducerWrapper *producer);
 
@@ -53,6 +55,7 @@ public slots:
     void togglePlaybackState();
     void setPosition(int position);
     void setSpeed(double speed);
+    void activate();
 
 signals:
     void frameUpdated();
@@ -60,11 +63,12 @@ signals:
     void positionChanged(int position);
     void speedChanged(double speed);
     void producerChanged();
+    void activated();
 
 private:
     inline void refreshConsumer();
 
-    Project *m_project;
+    QString m_name;
     Mlt::Consumer *m_consumer;
     Mlt::Event *m_frameShowEvent;
     ProducerWrapper *m_producer;

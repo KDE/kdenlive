@@ -63,7 +63,6 @@ private:
     ProjectFolder *m_items;
     Timeline *m_timeline;
     MonitorModel *m_binMonitor;
-    MonitorModel *m_timelineMonitor;
     TimecodeFormatter *m_timecodeFormatter;
 };
 

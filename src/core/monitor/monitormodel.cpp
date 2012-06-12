@@ -15,9 +15,10 @@ the Free Software Foundation, either version 3 of the License, or
 #include <mlt++/Mlt.h>
 #include <QImage>
 
-MonitorModel::MonitorModel(Project* project) :
-    QObject(project),
-    m_project(project),
+
+MonitorModel::MonitorModel(Mlt::Profile* profile, const QString &name, QObject *parent) :
+    QObject(parent),
+    m_name(name),
     m_producer(NULL),
     m_frame(NULL),
     m_position(-1)
@@ -26,7 +27,7 @@ MonitorModel::MonitorModel(Project* project) :
 //     setenv("MLT_PROFILE", KdenliveSettings::current_profile().toUtf8().constData(), 1);
 
     // use Mlt::FilteredConsumer for splitview?
-    m_consumer = new Mlt::Consumer(*m_project->profile(), "sdl_audio");
+    m_consumer = new Mlt::Consumer(*profile, "sdl_audio");
 
     Q_ASSERT(m_consumer);
 
@@ -54,8 +55,17 @@ MonitorModel::~MonitorModel()
     }
 }
 
+QString MonitorModel::name() const
+{
+    return m_name;
+}
+
 void MonitorModel::setProducer(ProducerWrapper* producer)
 {
+    if (m_producer == producer) {
+        return;
+    }
+
     pause();
     m_consumer->stop();
 
@@ -65,10 +75,12 @@ void MonitorModel::setProducer(ProducerWrapper* producer)
 
     // should we mlt_service_disconnect ?
     m_consumer->connect(*static_cast<Mlt::Service *>(producer));
-    m_consumer->start();
+    int success = m_consumer->start();
+    Q_ASSERT(success != -1);
     refreshConsumer();
 
     emit producerChanged();
+    emit activated();
 }
 
 void MonitorModel::play()
@@ -84,14 +96,7 @@ void MonitorModel::play()
 void MonitorModel::pause()
 {
     if (m_producer) {
-        int position = m_consumer->position();
         m_producer->pause();
-        // FIXME: causes problems when playback is near the end
-        m_consumer->stop();
-
-        // do this here to avoid checks in every refreshConsumer call
-        m_consumer->start();
-        setPosition(position);
 
         kDebug() << "pause";
         emit playbackStateChanged(false);
@@ -148,6 +153,12 @@ int MonitorModel::duration() const
     } else {
         return 0;
     }
+}
+
+void MonitorModel::activate()
+{
+//     refreshConsumer();
+    emit activated();
 }
 
 AtomicFramePointer* MonitorModel::framePointer()

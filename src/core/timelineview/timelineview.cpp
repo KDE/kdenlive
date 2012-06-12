@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timelinescene.h"
 #include "timelinepositionbar.h"
 #include "project/timeline.h"
+#include "monitor/monitormodel.h"
 #include <QWheelEvent>
 #include <QScrollBar>
 
@@ -111,6 +112,14 @@ void TimelineView::wheelEvent(QWheelEvent* event)
             horizontalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
         }
     }
+}
+
+void TimelineView::mousePressEvent(QMouseEvent* event)
+{
+    QGraphicsView::mousePressEvent(event);
+//     m_scene->timeline()->monitor()->activate();
+    // HACK: use only one consumer. using two is buggy
+    m_scene->timeline()->monitor()->setProducer(m_scene->timeline()->producer());
 }
 
 #include "timelineview.moc"

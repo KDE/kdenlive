@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 class Project;
 class ProducerWrapper;
 class TimelineTrack;
+class MonitorModel;
 namespace Mlt
 {
     class Tractor;
@@ -39,6 +40,7 @@ public:
     QList<TimelineTrack *> tracks();
     Mlt::Profile *profile();
     ProducerWrapper *producer();
+    MonitorModel *monitor();
 
     void loadTracks();
 
@@ -48,6 +50,7 @@ private:
     ProducerWrapper *m_producer;
     Mlt::Profile *m_profile;
     QList <TimelineTrack *> m_tracks;
+    MonitorModel *m_monitor;
     
 };
 
