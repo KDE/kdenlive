@@ -269,6 +269,13 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
 		e.setAttribute("keyframes", adjusted);
 	    }
         }
+
+        if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
+            // Effects with a geometry parameter need to sync in / out with parent clip
+	    effect.setAttribute("in", QString::number(cropStart().frames(m_fps)));
+	    effect.setAttribute("out", QString::number((cropStart() + cropDuration()).frames(m_fps) - 1));
+	    effect.setAttribute("_sync_in_out", "1");
+	}
     }
     if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
         if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {

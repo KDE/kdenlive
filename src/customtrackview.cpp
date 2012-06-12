@@ -1850,6 +1850,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 		    if (!clip->isSelected()) {
 			clearSelection(false);
 			clip->setSelected(true);
+			m_dragItem = clip;
 			emit clipItemSelected(clip);
 		    }
 		    break;

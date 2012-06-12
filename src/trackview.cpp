@@ -887,10 +887,11 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
             } else {
                 // Check if effect has in/out points
                 if (effect.hasAttribute("in")) {
-                    EffectsList::setParameter(currenteffect, "in",  effect.attribute("in"));
+		    currenteffect.setAttribute("in", effect.attribute("in"));
+		    currenteffect.setAttribute("_sync_in_out", "1");
                 }
                 if (effect.hasAttribute("out")) {
-                    EffectsList::setParameter(currenteffect, "out",  effect.attribute("out"));
+		    currenteffect.setAttribute("out", effect.attribute("out"));
                 }
             }
             
