@@ -1,4 +1,9 @@
-0.9.1
+0.9.3
+    * Fix color parameter in some effects not working correctly (#2644)
+    * Fix V4l licensing issue (#2632)
+    * Fix keyframes lost / broken when pasting an effect
+
+0.9.2
     * Fix firewire capture (preview not showing)
     * Fix freeze when reloading previously missing clip
     * Fade effects lost when moving / resizing clip
