@@ -17,7 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 class ProjectFolder;
 class ClipPluginManager;
 class AbstractProjectClip;
-class ProducerWrapper;
+class KUrl;
 class QDomElement;
 
 
@@ -29,7 +29,7 @@ public:
     explicit AbstractClipPlugin(ClipPluginManager* parent = 0);
     virtual ~AbstractClipPlugin();
 
-    virtual AbstractProjectClip *createClip(ProducerWrapper *producer, ProjectFolder *parent) const = 0;
+    virtual AbstractProjectClip *createClip(const KUrl &url, ProjectFolder *parent) const = 0;
     virtual AbstractProjectClip *loadClip(const QDomElement &description, ProjectFolder *parent) const = 0;
 
 protected:

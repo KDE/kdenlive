@@ -31,6 +31,8 @@ public:
     bool operator==(const AbstractProjectItem *projectItem) const;
 
     AbstractProjectItem *parent() const;
+    virtual void addChild(AbstractProjectItem *child);
+    virtual void childDeleted(AbstractProjectItem *child);
     virtual Project *project();
     int index() const;
 
@@ -52,6 +54,10 @@ public:
 
     virtual void setCurrent(bool current);
 //     virtual bool isSelected();
+
+signals:
+    void childAdded(AbstractProjectItem *child);
+    void aboutToRemoveChild(AbstractProjectItem *child);
 
 protected:
     AbstractProjectItem *m_parent;

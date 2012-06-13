@@ -20,7 +20,7 @@ ProjectItemModel::ProjectItemModel(Project* project, QObject* parent) :
     m_project(project)
 {
     m_selection = new QItemSelectionModel(this);
-    connect(project, SIGNAL(itemAdded(AbstractProjectItem*)), this, SIGNAL(layoutChanged()));
+    connect(project, SIGNAL(itemsChanged()), this, SIGNAL(layoutChanged()));
     connect(m_selection, SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex, QModelIndex)));
 }
 

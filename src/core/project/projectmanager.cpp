@@ -17,6 +17,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitor/monitorview.h"
 #include <KFileDialog>
 #include <KActionCollection>
+#include <KAction>
+#include <QUndoStack>
 
 
 ProjectManager::ProjectManager(QObject* parent) :
@@ -24,6 +26,13 @@ ProjectManager::ProjectManager(QObject* parent) :
     m_project(0)
 {
     KStandardAction::open(this, SLOT(execOpenFileDialog()), pCore->window()->actionCollection());
+
+    m_undoAction = KStandardAction::undo(this, SLOT(undoCommand()), pCore->window()->actionCollection());
+    m_redoAction = KStandardAction::redo(this, SLOT(redoCommand()), pCore->window()->actionCollection());
+    m_undoAction->setPriority(QAction::LowPriority);
+    m_redoAction->setPriority(QAction::LowPriority);
+    m_undoAction->setEnabled(false);
+    m_redoAction->setEnabled(false);
 
     openProject(KUrl());
 }
@@ -55,6 +64,25 @@ void ProjectManager::openProject(const KUrl& url)
     pCore->window()->setCaption(m_project->description());
 
     emit projectOpened(m_project);
+
+    connect(m_project->undoStack(), SIGNAL(canUndoChanged(bool)), m_undoAction, SLOT(setEnabled(bool)));
+    connect(m_project->undoStack(), SIGNAL(canRedoChanged(bool)), m_redoAction, SLOT(setEnabled(bool)));
+    m_undoAction->setEnabled(false);
+    m_redoAction->setEnabled(false);
+}
+
+void ProjectManager::undoCommand()
+{
+    if (m_project) {
+        m_project->undoStack()->undo();
+    }
+}
+
+void ProjectManager::redoCommand()
+{
+    if (m_project) {
+        m_project->undoStack()->redo();
+    }
 }
 
 #include "projectmanager.moc"

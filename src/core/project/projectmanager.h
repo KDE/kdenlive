@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 
 class Project;
+class KAction;
 class KUrl;
 
 
@@ -31,12 +32,16 @@ public:
 
 public slots:
     void execOpenFileDialog();
+    void undoCommand();
+    void redoCommand();
 
 signals:
     void projectOpened(Project *project);
 
 private:
     Project *m_project;
+    KAction *m_undoAction;
+    KAction *m_redoAction;
 };
 
 #endif

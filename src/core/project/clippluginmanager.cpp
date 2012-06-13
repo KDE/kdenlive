@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectfolder.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
+#include "commands/addclipcommand.h"
 #include <mlt++/Mlt.h>
 #include <KPluginLoader>
 #include <KServiceTypeTrader>
@@ -60,24 +61,23 @@ ClipPluginManager::~ClipPluginManager()
     qDeleteAll(m_clipPlugins);
 }
 
-AbstractProjectClip* ClipPluginManager::createClip(const KUrl& url, ProjectFolder *folder) const
+void ClipPluginManager::createClip(const KUrl& url, ProjectFolder *folder, QUndoCommand *parentCommand) const
 {
     if (QFile::exists(url.path())) {
         ProducerWrapper *producer = new ProducerWrapper(*pCore->projectManager()->current()->profile(), url.path());
-        QString producerType(producer->get("mlt_service"));
-        if (m_clipPluginsForProducers.contains(producerType)) {
-            AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->createClip(producer, folder);
-            return clip;
-        } else {
-            kWarning() << "no clip plugin available for mlt service " << producerType;
+        if (producer->is_valid()) {
+            AbstractClipPlugin *plugin = clipPlugin(producer->get("mlt_service"));
+            if (plugin) {
+                new AddClipCommand(url, plugin, folder, parentCommand);
+            } else {
+                kWarning() << "no clip plugin available for mlt service " << producer->get("mlt_service");
+            }
         }
-        // ?
         delete producer;
     } else {
         // TODO: proper warning
         kWarning() << url.path() << " does not exist";
     }
-    return NULL;
 }
 
 AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescription, ProjectFolder *folder) const
@@ -88,6 +88,15 @@ AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescript
         return clip;
     } else {
         kWarning() << "no clip plugin available for mlt service " << producerType;
+        return NULL;
+    }
+}
+
+AbstractClipPlugin* ClipPluginManager::clipPlugin(const QString& producerType) const
+{
+    if (m_clipPluginsForProducers.contains(producerType)) {
+        return m_clipPluginsForProducers.value(producerType);
+    } else {
         return NULL;
     }
 }
@@ -123,12 +132,16 @@ void ClipPluginManager::execAddClipDialog(ProjectFolder* folder) const
     if (!folder) {
         folder = pCore->projectManager()->current()->items();
     }
-    foreach (KUrl url, urlList) {
-        AbstractProjectClip *clip = createClip(url, folder);
-        if (clip) {
-            folder->addChild(clip);
-            pCore->projectManager()->current()->addItem(clip);
-        }
+
+    QUndoCommand *addClipsCommand = new QUndoCommand();
+
+    foreach (const KUrl &url, urlList) {
+        createClip(url, folder, addClipsCommand);
+    }
+
+    if (addClipsCommand->childCount()) {
+        addClipsCommand->setText(i18np("Add clip", "Add clips", addClipsCommand->childCount()));
+        pCore->projectManager()->current()->undoStack()->push(addClipsCommand);
     }
 
     delete dialog;

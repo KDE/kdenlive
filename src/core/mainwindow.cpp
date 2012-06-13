@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "mainwindow.h"
 #include "core.h"
+#include "undoview.h"
 #include "kdenlivesettings.h"
 #include "project/project.h"
 #include "project/projectmanager.h"
@@ -35,6 +36,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &url, const QString & 
 
     m_bin = new Bin(this);
     addDock(i18n("Bin"), "bin", m_bin);
+
+    UndoView *undoView = new UndoView(this);
+    addDock(i18n("Undo History"), "undo_history", undoView);
 
     m_timeline = new TimelineWidget(this);
     setCentralWidget(m_timeline);

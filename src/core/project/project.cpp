@@ -21,6 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KIO/NetAccess>
 #include <QFile>
 #include <QDomImplementation>
+#include <QUndoStack>
 #include <KLocale>
 
 #include <KDebug>
@@ -38,6 +39,8 @@ Project::Project(const KUrl& url, QObject* parent) :
     }
 
     m_binMonitor = new MonitorModel(profile(), i18n("Bin"), this);
+
+    m_undoStack = new QUndoStack(this);
 }
 
 Project::Project(QObject* parent) :
@@ -82,11 +85,11 @@ Mlt::Profile* Project::profile()
     return m_timeline->profile();
 }
 
-void Project::addItem(AbstractProjectItem* item)
+void Project::itemsChange()
 {
-    // item is added to its parent by the clipPluginManager; no further action required here
-    emit itemAdded(item);
+    emit itemsChanged();
 }
+
 
 MonitorModel* Project::binMonitor()
 {
@@ -101,6 +104,11 @@ MonitorModel* Project::timelineMonitor()
 TimecodeFormatter* Project::timecodeFormatter()
 {
     return m_timecodeFormatter;
+}
+
+QUndoStack* Project::undoStack()
+{
+    return m_undoStack;
 }
 
 void Project::openFile()

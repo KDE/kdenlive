@@ -22,6 +22,7 @@ class AbstractProjectItem;
 class ProjectFolder;
 class KUrl;
 class QDomElement;
+class QUndoCommand;
 
 
 class KDE_EXPORT ClipPluginManager : public QObject
@@ -32,10 +33,12 @@ public:
     explicit ClipPluginManager(QObject* parent = 0);
     ~ClipPluginManager();
 
-    AbstractProjectClip *createClip(const KUrl &url, ProjectFolder *folder) const;
+    void createClip(const KUrl &url, ProjectFolder *folder, QUndoCommand *parentCommand = 0) const;
     AbstractProjectClip *loadClip(const QDomElement &clipDescription, ProjectFolder *folder) const;
 
     void addSupportedMimetypes(const QStringList &mimetypes);
+
+    AbstractClipPlugin *clipPlugin(const QString &producerType) const;
 
 public slots:
     void execAddClipDialog(ProjectFolder *folder = 0) const;

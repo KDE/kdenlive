@@ -13,6 +13,7 @@ set(kdenlivecore_LIB_SRCS
   fraction.cpp
   timecode.cpp
   timecodeformatter.cpp
+  undoview.cpp
 
   ${bin_SRCS}
   ${effectsystem_SRCS}

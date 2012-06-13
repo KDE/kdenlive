@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 class TimelineWidget;
 class Bin;
 class MonitorView;
+class QUndoView;
 
 
 class KDE_EXPORT MainWindow : public KXmlGuiWindow

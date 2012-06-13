@@ -1,3 +1,4 @@
+add_subdirectory(commands)
 
 set(project_SRCS
   project/abstractclipplugin.cpp
@@ -11,5 +12,7 @@ set(project_SRCS
   project/projectmanager.cpp
   project/timeline.cpp
   project/timelinetrack.cpp
+
+  ${commands_SRCS}
   PARENT_SCOPE
 )

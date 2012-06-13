@@ -68,26 +68,15 @@ Project* ProjectFolder::project()
     }
 }
 
-void ProjectFolder::addChild(AbstractProjectItem* child)
-{
-    if (child) {
-        append(child);
-    }
-}
-
 void ProjectFolder::loadChildren(const QDomElement& description)
 {
     QDomNodeList childen = description.childNodes();
     for (int i = 0; i < childen.count(); ++i) {
         QDomElement childElement = childen.at(i).toElement();
-        AbstractProjectItem *child;
         if (childElement.tagName() == "folder") {
-            child = new ProjectFolder(childElement, this);
+            new ProjectFolder(childElement, this);
         } else {
-            child = pCore->clipPluginManager()->loadClip(childElement, this);
-        }
-        if (child) {
-            append(child);
+            pCore->clipPluginManager()->loadClip(childElement, this);
         }
     }
 }

@@ -18,6 +18,9 @@ AbstractProjectItem::AbstractProjectItem(AbstractProjectItem* parent) :
     QObject(parent),
     m_parent(parent)
 {
+    if (m_parent) {
+        m_parent->addChild(this);
+    }
 }
 
 AbstractProjectItem::AbstractProjectItem(const QDomElement& description, AbstractProjectItem* parent) :
@@ -26,10 +29,15 @@ AbstractProjectItem::AbstractProjectItem(const QDomElement& description, Abstrac
 {
     m_name = description.attribute("name");
     m_description = description.attribute("description");
+
+    if (m_parent) {
+        m_parent->addChild(this);
+    }
 }
 
 AbstractProjectItem::~AbstractProjectItem()
 {
+    m_parent->childDeleted(this);
 }
 
 bool AbstractProjectItem::operator==(const AbstractProjectItem* projectItem) const
@@ -43,6 +51,22 @@ bool AbstractProjectItem::operator==(const AbstractProjectItem* projectItem) con
 AbstractProjectItem* AbstractProjectItem::parent() const
 {
     return m_parent;
+}
+
+void AbstractProjectItem::addChild(AbstractProjectItem* child)
+{
+    if (child) {
+        append(child);
+        emit childAdded(child);
+        project()->itemsChange();
+    }
+}
+
+void AbstractProjectItem::childDeleted(AbstractProjectItem* child)
+{
+    emit aboutToRemoveChild(child);
+    removeAll(child);
+    project()->itemsChange();
 }
 
 int AbstractProjectItem::index() const

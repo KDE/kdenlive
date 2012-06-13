@@ -21,6 +21,7 @@ class AbstractProjectClip;
 class AbstractProjectItem;
 class ProjectFolder;
 class QDomElement;
+class QUndoStack;
 namespace Mlt
 {
     class Profile;
@@ -48,10 +49,12 @@ public:
 
     AbstractProjectClip *clip(int id);
 
-    void addItem(AbstractProjectItem *item);
+    void itemsChange();
+
+    QUndoStack *undoStack();
 
 signals:
-    void itemAdded(AbstractProjectItem *item);
+    void itemsChanged();
 
 private:
     void openFile();
@@ -64,6 +67,8 @@ private:
     Timeline *m_timeline;
     MonitorModel *m_binMonitor;
     TimecodeFormatter *m_timecodeFormatter;
+
+    QUndoStack *m_undoStack;
 };
 
 #endif
