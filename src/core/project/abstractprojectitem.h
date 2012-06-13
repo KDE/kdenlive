@@ -15,7 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <kdemacros.h>
 
 class AbstractProjectClip;
-class Project;
+class BinModel;
 class QDomElement;
 
 
@@ -31,9 +31,12 @@ public:
     bool operator==(const AbstractProjectItem *projectItem) const;
 
     AbstractProjectItem *parent() const;
+    virtual void setParent(AbstractProjectItem *parent);
+
     virtual void addChild(AbstractProjectItem *child);
-    virtual void childDeleted(AbstractProjectItem *child);
-    virtual Project *project();
+    virtual void removeChild(AbstractProjectItem *child);
+
+    virtual BinModel *bin();
     int index() const;
 
     virtual AbstractProjectClip *clip(int id) = 0;
@@ -63,6 +66,9 @@ protected:
     AbstractProjectItem *m_parent;
     QString m_name;
     QString m_description;
+
+private:
+    bool m_isCurrent;
 };
 
 #endif

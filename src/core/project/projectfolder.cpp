@@ -12,20 +12,20 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "clippluginmanager.h"
 #include "abstractprojectclip.h"
-#include "project.h"
+#include "binmodel.h"
 #include <QDomElement>
 
 
 ProjectFolder::ProjectFolder(const QDomElement& description, AbstractProjectItem* parent) :
     AbstractProjectItem(description, parent),
-    m_project(NULL)
+    m_bin(NULL)
 {
     loadChildren(description);
 }
 
-ProjectFolder::ProjectFolder(const QDomElement& description, Project* project) :
+ProjectFolder::ProjectFolder(const QDomElement& description, BinModel* bin) :
     AbstractProjectItem(description),
-    m_project(project)
+    m_bin(bin)
 {
     loadChildren(description);
 }
@@ -35,15 +35,14 @@ ProjectFolder::ProjectFolder(AbstractProjectItem* parent) :
 {
 }
 
-ProjectFolder::ProjectFolder(Project* project) :
+ProjectFolder::ProjectFolder(BinModel* bin) :
     AbstractProjectItem(),
-    m_project(project)
+    m_bin(bin)
 {
 }
 
 ProjectFolder::~ProjectFolder()
 {
-    qDeleteAll(begin(), end());
 }
 
 
@@ -59,12 +58,12 @@ AbstractProjectClip* ProjectFolder::clip(int id)
     return NULL;
 }
 
-Project* ProjectFolder::project()
+BinModel* ProjectFolder::bin()
 {
-    if (m_project) {
-        return m_project;
+    if (m_bin) {
+        return m_bin;
     } else {
-        return AbstractProjectItem::project();
+        return AbstractProjectItem::bin();
     }
 }
 

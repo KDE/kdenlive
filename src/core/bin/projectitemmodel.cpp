@@ -9,24 +9,29 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "projectitemmodel.h"
-#include "project/project.h"
+#include "project/binmodel.h"
 #include "project/projectfolder.h"
 #include <KLocale>
 #include <QItemSelectionModel>
 
+#include <KDebug>
 
-ProjectItemModel::ProjectItemModel(Project* project, QObject* parent) :
+
+ProjectItemModel::ProjectItemModel(BinModel* binModel, QObject* parent) :
     QAbstractItemModel(parent),
-    m_project(project)
+    m_binModel(binModel)
 {
     m_selection = new QItemSelectionModel(this);
-    connect(project, SIGNAL(itemsChanged()), this, SIGNAL(layoutChanged()));
     connect(m_selection, SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex, QModelIndex)));
+
+    connect(m_binModel, SIGNAL(aboutToAddItem(AbstractProjectItem*)), this, SLOT(onAboutToAddItem(AbstractProjectItem*)));
+    connect(m_binModel, SIGNAL(itemAdded(AbstractProjectItem*)), this, SLOT(onItemAdded(AbstractProjectItem*)));
+    connect(m_binModel, SIGNAL(aboutToRemoveItem(AbstractProjectItem*)), this, SLOT(onAboutToRemoveItem(AbstractProjectItem*)));
+    connect(m_binModel, SIGNAL(itemRemoved(AbstractProjectItem*)), this, SLOT(onItemRemoved(AbstractProjectItem*)));
 }
 
 ProjectItemModel::~ProjectItemModel()
 {
-    delete m_selection;
 }
 
 QItemSelectionModel* ProjectItemModel::selectionModel()
@@ -90,7 +95,7 @@ QModelIndex ProjectItemModel::index(int row, int column, const QModelIndex& pare
     if (parent.isValid()) {
         parentItem = static_cast<AbstractProjectItem*>(parent.internalPointer());
     } else {
-        parentItem = m_project->items();
+        parentItem = m_binModel->rootFolder();
     }
 
     AbstractProjectItem *childItem = parentItem->at(row);
@@ -105,7 +110,7 @@ QModelIndex ProjectItemModel::parent(const QModelIndex& index) const
 
     AbstractProjectItem * parentItem = static_cast<AbstractProjectItem*>(index.internalPointer())->parent();
 
-    if (!parentItem || parentItem == m_project->items()) {
+    if (!parentItem || parentItem == m_binModel->rootFolder()) {
         return QModelIndex();
     }
 
@@ -123,7 +128,7 @@ int ProjectItemModel::rowCount(const QModelIndex& parent) const
     if (parent.isValid()) {
         parentItem = static_cast<AbstractProjectItem*>(parent.internalPointer());
     } else {
-        parentItem = m_project->items();
+        parentItem = m_binModel->rootFolder();
     }
 
     return parentItem->count();
@@ -134,21 +139,54 @@ int ProjectItemModel::columnCount(const QModelIndex& parent) const
     if (parent.isValid()) {
         return static_cast<AbstractProjectItem*>(parent.internalPointer())->supportedDataCount();
     } else {
-        return m_project->items()->supportedDataCount();
+        return m_binModel->rootFolder()->supportedDataCount();
     }
 }
 
 void ProjectItemModel::onCurrentRowChanged(const QModelIndex& current, const QModelIndex& previous)
 {
-    if (previous.isValid()) {
-        AbstractProjectItem *previousItem = static_cast<AbstractProjectItem *>(previous.internalPointer());
-        previousItem->setCurrent(false);
-    }
+    Q_UNUSED(previous)
 
     if (current.isValid()) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(current.internalPointer());
         currentItem->setCurrent(true);
     }
+}
+
+void ProjectItemModel::onAboutToAddItem(AbstractProjectItem* item)
+{
+    AbstractProjectItem *parentItem = item->parent();
+    QModelIndex parentIndex;
+    if (parentItem != m_binModel->rootFolder()) {
+        parentIndex = createIndex(parentItem->index(), 0, parentItem);
+    }
+
+    beginInsertRows(parentIndex, parentItem->count(), parentItem->count());
+}
+
+void ProjectItemModel::onItemAdded(AbstractProjectItem* item)
+{
+    Q_UNUSED(item)
+
+    endInsertRows();
+}
+
+void ProjectItemModel::onAboutToRemoveItem(AbstractProjectItem* item)
+{
+    AbstractProjectItem *parentItem = item->parent();
+    QModelIndex parentIndex;
+    if (parentItem != m_binModel->rootFolder()) {
+        parentIndex = createIndex(parentItem->index(), 0, parentItem);
+    }
+
+    beginRemoveRows(parentIndex, item->index(), item->index());
+}
+
+void ProjectItemModel::onItemRemoved(AbstractProjectItem* item)
+{
+    Q_UNUSED(item)
+
+    endRemoveRows();
 }
 
 #include "projectitemmodel.moc"

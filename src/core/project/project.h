@@ -17,9 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 class TimecodeFormatter;
 class MonitorModel;
 class Timeline;
-class AbstractProjectClip;
-class AbstractProjectItem;
-class ProjectFolder;
+class BinModel;
 class QDomElement;
 class QUndoStack;
 namespace Mlt
@@ -41,31 +39,22 @@ public:
     QString description();
 
     Timeline *timeline();
-    ProjectFolder *items();
+    BinModel *bin();
     MonitorModel *binMonitor();
     MonitorModel *timelineMonitor();
     Mlt::Profile *profile();
     TimecodeFormatter *timecodeFormatter();
 
-    AbstractProjectClip *clip(int id);
-
-    void itemsChange();
-
     QUndoStack *undoStack();
-
-signals:
-    void itemsChanged();
 
 private:
     void openFile();
     void openNew();
-    void loadClips(const QDomElement &description);
     void loadTimeline(const QString &content);
 
     KUrl m_url;
-    ProjectFolder *m_items;
+    BinModel *m_bin;
     Timeline *m_timeline;
-    MonitorModel *m_binMonitor;
     TimecodeFormatter *m_timecodeFormatter;
 
     QUndoStack *m_undoStack;

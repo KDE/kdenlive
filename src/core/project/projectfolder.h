@@ -13,6 +13,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "abstractprojectitem.h"
 
+class BinModel;
+
 
 class ProjectFolder : public AbstractProjectItem
 {
@@ -20,18 +22,18 @@ class ProjectFolder : public AbstractProjectItem
 
 public:
     ProjectFolder(const QDomElement &description, AbstractProjectItem* parent);
-    ProjectFolder(const QDomElement &description, Project *project);
+    ProjectFolder(const QDomElement &description, BinModel *bin);
     ProjectFolder(AbstractProjectItem *parent);
-    ProjectFolder(Project *project);
+    ProjectFolder(BinModel *bin);
     ~ProjectFolder();
 
     AbstractProjectClip *clip(int id);
-    Project *project();
+    BinModel *bin();
 
 private:
     void loadChildren(const QDomElement &description);
 
-    Project *m_project;
+    BinModel *m_bin;
 };
 
 #endif

@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstracttimelineclip.h"
 #include "project.h"
 #include "abstractprojectclip.h"
+#include "binmodel.h"
 #include "effectsystem/effectdevice.h"
 
 #include <KDebug>
@@ -29,7 +30,7 @@ TimelineTrack::TimelineTrack(ProducerWrapper* producer, Timeline* parent) :
         ProducerWrapper *clipProducer = new ProducerWrapper(m_playlist->get_clip(i));
         if (!clipProducer->is_blank()) {
             QString id = QString(clipProducer->parent().get("id")).section('_', 0, 0);
-            AbstractProjectClip *projectClip = parent->project()->clip(id.toInt());
+            AbstractProjectClip *projectClip = parent->project()->bin()->clip(id.toInt());
             if (projectClip) {
                 kDebug() << "project clip found" << id;
                 AbstractTimelineClip *clip = projectClip->addInstance(clipProducer, this);

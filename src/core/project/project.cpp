@@ -11,11 +11,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project.h"
 #include "core.h"
 #include "timeline.h"
-#include "projectfolder.h"
-#include "abstractprojectclip.h"
 #include "mainwindow.h"
 #include "timecodeformatter.h"
-#include "bin/bin.h"
+#include "binmodel.h"
 #include "monitor/monitormodel.h"
 #include <mlt++/Mlt.h>
 #include <KIO/NetAccess>
@@ -37,8 +35,6 @@ Project::Project(const KUrl& url, QObject* parent) :
     } else {
         openFile();
     }
-
-    m_binMonitor = new MonitorModel(profile(), i18n("Bin"), this);
 
     m_undoStack = new QUndoStack(this);
 }
@@ -70,14 +66,9 @@ Timeline* Project::timeline()
     return m_timeline;
 }
 
-AbstractProjectClip* Project::clip(int id)
+BinModel* Project::bin()
 {
-    return m_items->clip(id);
-}
-
-ProjectFolder* Project::items()
-{
-    return m_items;
+    return m_bin;
 }
 
 Mlt::Profile* Project::profile()
@@ -85,15 +76,9 @@ Mlt::Profile* Project::profile()
     return m_timeline->profile();
 }
 
-void Project::itemsChange()
-{
-    emit itemsChanged();
-}
-
-
 MonitorModel* Project::binMonitor()
 {
-    return m_binMonitor;
+    return m_bin->monitor();
 }
 
 MonitorModel* Project::timelineMonitor()
@@ -125,7 +110,7 @@ void Project::openFile()
 
         if (success) {
             loadTimeline(document.toString());
-            loadClips(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"));
+            m_bin = new BinModel(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"), this);
             m_timeline->loadTracks();
         } else {
             kWarning() << "unable to load document" << m_url.path() << errorMessage;
@@ -139,12 +124,7 @@ void Project::openNew()
 {
     m_timeline = new Timeline(this);
     m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()));
-    m_items = new ProjectFolder(this);
-}
-
-void Project::loadClips(const QDomElement& description)
-{
-    m_items = new ProjectFolder(description, this);
+    m_bin = new BinModel(this);
 }
 
 void Project::loadTimeline(const QString& content)

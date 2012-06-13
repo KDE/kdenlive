@@ -26,7 +26,7 @@ class KDE_EXPORT AbstractClipPlugin : public QObject
     Q_OBJECT
 
 public:
-    explicit AbstractClipPlugin(ClipPluginManager* parent = 0);
+    explicit AbstractClipPlugin(ClipPluginManager* parent);
     virtual ~AbstractClipPlugin();
 
     virtual AbstractProjectClip *createClip(const KUrl &url, ProjectFolder *parent) const = 0;

@@ -48,7 +48,7 @@ void Bin::setProject(Project* project)
         delete m_itemModel;
     }
 
-    m_itemModel = new ProjectItemModel(project, this);
+    m_itemModel = new ProjectItemModel(project->bin(), this);
 
     m_itemView = new QTreeView();
     layout()->addWidget(m_itemView);

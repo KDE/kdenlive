@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core/project/projectfolder.h"
 #include "core/project/producerwrapper.h"
 #include "core/project/project.h"
+#include "core/project/binmodel.h"
 #include "src/core/kdenlivesettings.h"
 #include <mlt++/Mlt.h>
 #include <KUrl>
@@ -24,7 +25,7 @@ the Free Software Foundation, either version 3 of the License, or
 ImageProjectClip::ImageProjectClip(const KUrl& url, ProjectFolder* parent) :
     AbstractProjectClip(url, parent)
 {
-    m_baseProducer = new ProducerWrapper(*project()->profile(), url.path());
+    m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url.path());
 
     init();
 }
@@ -40,7 +41,7 @@ ImageProjectClip::ImageProjectClip(const QDomElement& description, ProjectFolder
 {
     Q_ASSERT(description.attribute("producer_type") == "pixbuf" || description.attribute("producer_type") == "qimage");
 
-    m_baseProducer = new ProducerWrapper(*(project()->profile()), m_url.path());
+    m_baseProducer = new ProducerWrapper(*(bin()->project()->profile()), m_url.path());
 
     Q_ASSERT(m_baseProducer->property("mlt_service") == description.attribute("producer_type"));
 

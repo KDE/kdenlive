@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project.h"
 #include "projectmanager.h"
 #include "projectfolder.h"
+#include "binmodel.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include "commands/addclipcommand.h"
@@ -128,7 +129,7 @@ void ClipPluginManager::execAddClipDialog(ProjectFolder* folder) const
     KUrl::List urlList = dialog->selectedUrls();
     // TODO: retrieve current position + parent
     if (!folder) {
-        folder = pCore->projectManager()->current()->items();
+        folder = pCore->projectManager()->current()->bin()->rootFolder();
     }
 
     QUndoCommand *addClipsCommand = new QUndoCommand();

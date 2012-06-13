@@ -27,10 +27,12 @@ AddClipCommand::AddClipCommand(const KUrl &url, AbstractClipPlugin *plugin, Proj
 
 void AddClipCommand::undo()
 {
+    m_clip->setParent(NULL);
     delete m_clip;
 }
 
 void AddClipCommand::redo()
 {
     m_clip = m_plugin->createClip(m_url, m_parentItem);
+    m_clip->setParent(m_parentItem);
 }

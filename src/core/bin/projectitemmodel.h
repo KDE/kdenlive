@@ -13,7 +13,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QAbstractItemModel>
 
-class Project;
+class BinModel;
+class AbstractProjectItem;
 class QItemSelectionModel;
 
 
@@ -22,7 +23,7 @@ class ProjectItemModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    ProjectItemModel(Project *project, QObject* parent = 0);
+    ProjectItemModel(BinModel *binModel, QObject* parent = 0);
     ~ProjectItemModel();
 
     QItemSelectionModel *selectionModel();
@@ -38,8 +39,13 @@ public:
 private slots:
     void onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous);
 
+    void onAboutToAddItem(AbstractProjectItem *item);
+    void onItemAdded(AbstractProjectItem *item);
+    void onAboutToRemoveItem(AbstractProjectItem *item);
+    void onItemRemoved(AbstractProjectItem *item);
+
 private:
-    Project *m_project;
+    BinModel *m_binModel;
     QItemSelectionModel *m_selection;
 };
 

@@ -9,35 +9,38 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "abstractprojectitem.h"
-#include "project.h"
+#include "binmodel.h"
 #include <QDomElement>
 #include <QVariant>
+
+#include <KDebug>
 
 
 AbstractProjectItem::AbstractProjectItem(AbstractProjectItem* parent) :
     QObject(parent),
-    m_parent(parent)
+    m_parent(parent),
+    m_isCurrent(false)
 {
-    if (m_parent) {
-        m_parent->addChild(this);
-    }
 }
 
 AbstractProjectItem::AbstractProjectItem(const QDomElement& description, AbstractProjectItem* parent) :
     QObject(parent),
-    m_parent(parent)
+    m_parent(NULL),
+    m_isCurrent(false)
 {
     m_name = description.attribute("name");
     m_description = description.attribute("description");
 
-    if (m_parent) {
-        m_parent->addChild(this);
-    }
+    setParent(parent);
 }
 
 AbstractProjectItem::~AbstractProjectItem()
 {
-    m_parent->childDeleted(this);
+    if (m_isCurrent) {
+        if (bin()) {
+            bin()->setCurrentItem(NULL);
+        }
+    }
 }
 
 bool AbstractProjectItem::operator==(const AbstractProjectItem* projectItem) const
@@ -53,20 +56,37 @@ AbstractProjectItem* AbstractProjectItem::parent() const
     return m_parent;
 }
 
-void AbstractProjectItem::addChild(AbstractProjectItem* child)
+void AbstractProjectItem::setParent(AbstractProjectItem* parent)
 {
-    if (child) {
-        append(child);
-        emit childAdded(child);
-        project()->itemsChange();
+    if (m_parent != parent) {
+        if (m_parent) {
+            m_parent->removeChild(this);
+        }
+        m_parent = parent;
+        QObject::setParent(m_parent);
+    }
+
+    if (m_parent && !m_parent->contains(this)) {
+        m_parent->addChild(this);
     }
 }
 
-void AbstractProjectItem::childDeleted(AbstractProjectItem* child)
+void AbstractProjectItem::addChild(AbstractProjectItem* child)
 {
-    emit aboutToRemoveChild(child);
-    removeAll(child);
-    project()->itemsChange();
+    if (child) {
+        bin()->emitAboutToAddItem(child);
+        append(child);
+        bin()->emitItemAdded(child);
+    }
+}
+
+void AbstractProjectItem::removeChild(AbstractProjectItem* child)
+{
+    if (child && contains(child)) {
+        bin()->emitAboutToRemoveItem(child);
+        removeAll(child);
+        bin()->emitItemAdded(child);
+    }
 }
 
 int AbstractProjectItem::index() const
@@ -78,10 +98,10 @@ int AbstractProjectItem::index() const
     return 0;
 }
 
-Project* AbstractProjectItem::project()
+BinModel* AbstractProjectItem::bin()
 {
     if (m_parent) {
-        return m_parent->project();
+        return m_parent->bin();
     }
     return NULL;
 }
@@ -129,6 +149,14 @@ void AbstractProjectItem::setDescription(const QString& description)
 
 void AbstractProjectItem::setCurrent(bool current)
 {
+    if (m_isCurrent != current) {
+        m_isCurrent = current;
+        if (current) {
+            bin()->setCurrentItem(this);
+        } else {
+            bin()->setCurrentItem(NULL);
+        }
+    }
 }
 
 #include "abstractprojectitem.moc"

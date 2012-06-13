@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "producerwrapper.h"
 #include "projectfolder.h"
 #include "project.h"
+#include "binmodel.h"
 #include "monitor/monitormodel.h"
 #include <mlt++/Mlt.h>
 #include <QDomElement>
@@ -90,8 +91,9 @@ int AbstractProjectClip::duration() const
 
 void AbstractProjectClip::setCurrent(bool current)
 {
+    AbstractProjectItem::setCurrent(current);
     if (current) {
-        project()->binMonitor()->setProducer(m_baseProducer);
+        bin()->monitor()->setProducer(m_baseProducer);
     }
 }
 
