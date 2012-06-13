@@ -43,9 +43,8 @@ ClipPluginManager::ClipPluginManager(QObject* parent) :
             QStringList providedProducers = info.property("X-Kdenlive-ProvidedProducers").toStringList();
             AbstractClipPlugin *clipPlugin = factory->create<AbstractClipPlugin>(this);
             if (clipPlugin) {
-                m_clipPlugins.append(clipPlugin);
                 foreach (QString producer, providedProducers) {
-                    m_clipPluginsForProducers.insert(producer, clipPlugin);
+                    m_clipPlugins.insert(producer, clipPlugin);
                 }
             }
         }
@@ -58,7 +57,6 @@ ClipPluginManager::ClipPluginManager(QObject* parent) :
 
 ClipPluginManager::~ClipPluginManager()
 {
-    qDeleteAll(m_clipPlugins);
 }
 
 void ClipPluginManager::createClip(const KUrl& url, ProjectFolder *folder, QUndoCommand *parentCommand) const
@@ -83,8 +81,8 @@ void ClipPluginManager::createClip(const KUrl& url, ProjectFolder *folder, QUndo
 AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescription, ProjectFolder *folder) const
 {
     QString producerType = clipDescription.attribute("producer_type");
-    if (m_clipPluginsForProducers.contains(producerType)) {
-        AbstractProjectClip *clip = m_clipPluginsForProducers.value(producerType)->loadClip(clipDescription, folder);
+    if (m_clipPlugins.contains(producerType)) {
+        AbstractProjectClip *clip = m_clipPlugins.value(producerType)->loadClip(clipDescription, folder);
         return clip;
     } else {
         kWarning() << "no clip plugin available for mlt service " << producerType;
@@ -94,8 +92,8 @@ AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescript
 
 AbstractClipPlugin* ClipPluginManager::clipPlugin(const QString& producerType) const
 {
-    if (m_clipPluginsForProducers.contains(producerType)) {
-        return m_clipPluginsForProducers.value(producerType);
+    if (m_clipPlugins.contains(producerType)) {
+        return m_clipPlugins.value(producerType);
     } else {
         return NULL;
     }

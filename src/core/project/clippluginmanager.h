@@ -44,8 +44,7 @@ public slots:
     void execAddClipDialog(ProjectFolder *folder = 0) const;
 
 private:
-    QList<AbstractClipPlugin *> m_clipPlugins;
-    QHash<QString, AbstractClipPlugin*> m_clipPluginsForProducers;
+    QHash<QString, AbstractClipPlugin*> m_clipPlugins;
     QStringList m_supportedFileExtensions;
 };
 

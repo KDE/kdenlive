@@ -9,9 +9,11 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "abstractclipplugin.h"
+#include "clippluginmanager.h"
 
 
 AbstractClipPlugin::AbstractClipPlugin(ClipPluginManager* parent) :
+    QObject(parent),
     m_parent(parent)
 {
 
