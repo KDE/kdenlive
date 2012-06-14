@@ -80,6 +80,7 @@ void TimelinePositionBar::setProject(Project* project)
 
     m_playbackPosition = project->timelineMonitor()->position();
     connect(project->timelineMonitor(), SIGNAL(positionChanged(int)), this, SLOT(setCursorPosition(int)));
+    connect(this, SIGNAL(positionChanged(int)), project->timelineMonitor(), SLOT(setPosition(int)));
 
     setDuration(project->timeline()->duration());
 
