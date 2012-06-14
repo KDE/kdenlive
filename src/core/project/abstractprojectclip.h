@@ -18,6 +18,7 @@ class ProjectFolder;
 class ProducerWrapper;
 class TimelineTrack;
 class AbstractTimelineClip;
+class AbstractClipPlugin;
 class QDomElement;
 
 
@@ -26,10 +27,12 @@ class KDE_EXPORT AbstractProjectClip : public AbstractProjectItem
     Q_OBJECT
 
 public:
-    AbstractProjectClip(const KUrl &url, ProjectFolder *parent);
-    AbstractProjectClip(ProducerWrapper *producer, ProjectFolder *parent);
-    AbstractProjectClip(const QDomElement &description, ProjectFolder *parent);
+    AbstractProjectClip(const KUrl &url, ProjectFolder *parent, AbstractClipPlugin const *plugin);
+    AbstractProjectClip(ProducerWrapper *producer, ProjectFolder *parent, AbstractClipPlugin const *plugin);
+    AbstractProjectClip(const QDomElement &description, ProjectFolder *parent, AbstractClipPlugin const *plugin);
     virtual ~AbstractProjectClip();
+
+    AbstractClipPlugin const *plugin() const;
 
     virtual AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent) = 0;
 
@@ -44,6 +47,7 @@ public:
     virtual void setCurrent(bool current);
 
 protected:
+    AbstractClipPlugin const *m_plugin;
     ProducerWrapper *m_baseProducer;
     int m_id;
     KUrl m_url;

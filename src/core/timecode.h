@@ -13,9 +13,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "timecodeformatter.h"
 #include <QString>
+#include <kdemacros.h>
 
 
-class Timecode
+class KDE_EXPORT Timecode
 {
 public:
     Timecode(TimecodeFormatter const *formatter = 0);

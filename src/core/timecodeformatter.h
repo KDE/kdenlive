@@ -13,11 +13,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "fraction.h"
 #include <QObject>
+#include <kdemacros.h>
 
 class Timecode;
 
 
-class TimecodeFormatter : public QObject
+class KDE_EXPORT TimecodeFormatter : public QObject
 {
     Q_OBJECT
     

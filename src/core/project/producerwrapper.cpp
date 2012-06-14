@@ -36,7 +36,7 @@ void ProducerWrapper::setProperty(const QString& name, const QString& value)
     set(name.toUtf8().constData(), value.toUtf8().constData());
 }
 
-QPixmap* ProducerWrapper::pixmap(int position, int width, int height)
+QPixmap ProducerWrapper::pixmap(int position, int width, int height)
 {
     seek(position);
     Mlt::Frame *frame = get_frame();
@@ -49,9 +49,15 @@ QPixmap* ProducerWrapper::pixmap(int position, int width, int height)
 
     if (width == 0) {
         width = get_int("meta.media.width");
+        if (width == 0) {
+            width = get_int("width");
+        }
     }
     if (height == 0) {
         height = get_int("meta.media.height");
+        if (height == 0) {
+            height = get_int("height");
+        }
     }
     
 //     int ow = frameWidth;
@@ -64,8 +70,8 @@ QPixmap* ProducerWrapper::pixmap(int position, int width, int height)
 
     image = image.rgbSwapped();
 
-    QPixmap *pixmap = new QPixmap();
-    pixmap->convertFromImage(image);
+    QPixmap pixmap;;
+    pixmap.convertFromImage(image);
 
     return pixmap;
 

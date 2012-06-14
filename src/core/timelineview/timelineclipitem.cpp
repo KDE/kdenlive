@@ -14,13 +14,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QStyleOptionGraphicsItem>
 
 
-TimelineClipItem::TimelineClipItem(AbstractTimelineClip* clip, QGraphicsRectItem* parent) :
+TimelineClipItem::TimelineClipItem(AbstractTimelineClip* clip, QGraphicsItem* parent) :
     QGraphicsRectItem(parent),
     m_clip(clip)
 {
-    setRect(m_clip->position(), 0, m_clip->duration(), parent->rect().height());
-
-    setBrush(Qt::green);
+    setRect(m_clip->position(), 0, m_clip->duration(), static_cast<QGraphicsRectItem*>(parent)->rect().height());
 }
 
 TimelineClipItem::~TimelineClipItem()
@@ -40,6 +38,9 @@ void TimelineClipItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     const QRectF exposed = option->exposedRect;
     painter->setClipRect(exposed);
     painter->fillRect(exposed, brush());
+
+    paintBackgroundLayer(painter, exposed);
+
     painter->setWorldMatrixEnabled(false);;
     const QRectF mapped = painter->worldTransform().mapRect(rect());
 
@@ -61,6 +62,10 @@ void TimelineClipItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     // expand clip rect to allow correct painting of clip border
     painter->setClipping(false);
     painter->drawRect(mapped.adjusted(0, 0, -0.5, 0));
+}
+
+void TimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF exposed)
+{
 }
 
 #include "timelineclipitem.moc"

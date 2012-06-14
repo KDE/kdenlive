@@ -12,21 +12,25 @@ the Free Software Foundation, either version 3 of the License, or
 #define TIMELINECLIPITEM_H
 
 #include <QGraphicsRectItem>
+#include <kdemacros.h>
 
 class AbstractTimelineClip;
 
 
-class TimelineClipItem : public QObject, public QGraphicsRectItem
+class KDE_EXPORT TimelineClipItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 
 public:
-    TimelineClipItem(AbstractTimelineClip *clip, QGraphicsRectItem* parent = 0);
+    TimelineClipItem(AbstractTimelineClip *clip, QGraphicsItem* parent);
     virtual ~TimelineClipItem();
 
     AbstractTimelineClip *clip();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+
+protected:
+    virtual void paintBackgroundLayer(QPainter *painter, QRectF exposed);
 
 private:
     AbstractTimelineClip *m_clip;

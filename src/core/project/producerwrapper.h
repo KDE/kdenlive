@@ -28,7 +28,7 @@ public:
     void setProperty(const QString &name, const QString &value);
     QString property(const QString &name);
 
-    QPixmap *pixmap(int position = 0, int width = 0, int height = 0);
+    QPixmap pixmap(int position = 0, int width = 0, int height = 0);
 };
 
 #endif

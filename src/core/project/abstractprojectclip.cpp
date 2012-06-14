@@ -18,8 +18,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDomElement>
 
 
-AbstractProjectClip::AbstractProjectClip(const KUrl& url, ProjectFolder* parent) :
+AbstractProjectClip::AbstractProjectClip(const KUrl& url, ProjectFolder* parent, AbstractClipPlugin const *plugin) :
     AbstractProjectItem(parent),
+    m_plugin(plugin),
     m_url(url)
 {
     if (url.isValid()) {
@@ -27,8 +28,9 @@ AbstractProjectClip::AbstractProjectClip(const KUrl& url, ProjectFolder* parent)
     }
 }
 
-AbstractProjectClip::AbstractProjectClip(ProducerWrapper* producer, ProjectFolder* parent) :
+AbstractProjectClip::AbstractProjectClip(ProducerWrapper* producer, ProjectFolder* parent, AbstractClipPlugin const *plugin) :
     AbstractProjectItem(parent),
+    m_plugin(plugin),
     m_baseProducer(producer)
 {
     char *resource = producer->get("resource");
@@ -40,8 +42,9 @@ AbstractProjectClip::AbstractProjectClip(ProducerWrapper* producer, ProjectFolde
     }
 }
 
-AbstractProjectClip::AbstractProjectClip(const QDomElement& description, ProjectFolder* parent) :
-    AbstractProjectItem(description, parent)
+AbstractProjectClip::AbstractProjectClip(const QDomElement& description, ProjectFolder* parent, AbstractClipPlugin const *plugin) :
+    AbstractProjectItem(description, parent),
+    m_plugin(plugin)
 {
     Q_ASSERT(description.hasAttribute("id"));
 
@@ -54,6 +57,11 @@ AbstractProjectClip::~AbstractProjectClip()
 {
     // ?
     delete m_baseProducer;
+}
+
+AbstractClipPlugin const *AbstractProjectClip::plugin() const
+{
+    return m_plugin;
 }
 
 AbstractProjectClip* AbstractProjectClip::clip(int id)

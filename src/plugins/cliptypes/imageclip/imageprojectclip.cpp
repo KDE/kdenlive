@@ -9,35 +9,37 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "imageprojectclip.h"
+#include "imageclipplugin.h"
 #include "imagetimelineclip.h"
 #include "core/project/projectfolder.h"
 #include "core/project/producerwrapper.h"
 #include "core/project/project.h"
 #include "core/project/binmodel.h"
+#include "core/timecodeformatter.h"
+#include "core/timecode.h"
 #include "src/core/kdenlivesettings.h"
 #include <mlt++/Mlt.h>
 #include <KUrl>
 #include <KFileMetaInfo>
-#include <QPixmap>
 #include <QDomElement>
 
 
-ImageProjectClip::ImageProjectClip(const KUrl& url, ProjectFolder* parent) :
-    AbstractProjectClip(url, parent)
+ImageProjectClip::ImageProjectClip(const KUrl& url, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+    AbstractProjectClip(url, parent, plugin)
 {
     m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url.path());
 
     init();
 }
 
-ImageProjectClip::ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent) :
-    AbstractProjectClip(producer, parent)
+ImageProjectClip::ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+    AbstractProjectClip(producer, parent, plugin)
 {
     init();
 }
 
-ImageProjectClip::ImageProjectClip(const QDomElement& description, ProjectFolder* parent) :
-    AbstractProjectClip(description, parent)
+ImageProjectClip::ImageProjectClip(const QDomElement& description, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+    AbstractProjectClip(description, parent, plugin)
 {
     Q_ASSERT(description.attribute("producer_type") == "pixbuf" || description.attribute("producer_type") == "qimage");
 
@@ -52,9 +54,6 @@ ImageProjectClip::ImageProjectClip(const QDomElement& description, ProjectFolder
 
 ImageProjectClip::~ImageProjectClip()
 {
-    if (m_thumbnail) {
-        delete m_thumbnail;
-    }
 }
 
 AbstractTimelineClip* ImageProjectClip::addInstance(ProducerWrapper* producer, TimelineTrack* parent)
@@ -65,10 +64,10 @@ AbstractTimelineClip* ImageProjectClip::addInstance(ProducerWrapper* producer, T
 }
 
 
-QPixmap *ImageProjectClip::thumbnail()
+QPixmap ImageProjectClip::thumbnail()
 {
-    if (!m_thumbnail) {
-        m_thumbnail = m_baseProducer->pixmap();
+    if (m_thumbnail.isNull()) {
+        m_thumbnail = m_baseProducer->pixmap().scaledToHeight(100, Qt::SmoothTransformation);
     }
     return m_thumbnail;
 }
@@ -81,18 +80,12 @@ void ImageProjectClip::init(int duration)
     m_hasLimitedDuration = false;
 
     if (duration == 0) {
-        // requires timecode parsing first
-        duration = 125; //KdenliveSettings::image_duration().toInt();
+        duration = bin()->project()->timecodeFormatter()->fromString(KdenliveSettings::image_duration(), TimecodeFormatter::HH_MM_SS_FF).frames();
     }
     m_baseProducer->set("length", duration);
     m_baseProducer->set_in_and_out(0, -1);
 
-    m_thumbnail = 0;
-
     kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
-//     QPixmap *pix = thumbnail();
-//     pix->save("test.png");
-    //...
 }
 
 

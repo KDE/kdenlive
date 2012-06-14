@@ -3,6 +3,7 @@ SET(imageclip_SRCS
     imageclipplugin.cpp
     imageprojectclip.cpp
     imagetimelineclip.cpp
+    imagetimelineclipitem.cpp
 )
 
 kde4_add_plugin(kdenliveimageclip ${imageclip_SRCS})

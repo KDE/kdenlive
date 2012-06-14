@@ -12,9 +12,10 @@ the Free Software Foundation, either version 3 of the License, or
 #define IMAGEPROJECTCLIP_H
 
 #include "core/project/abstractprojectclip.h"
+#include <QPixmap>
 
+class ImageClipPlugin;
 class ImageTimelineClip;
-class QPixmap;
 
 
 class ImageProjectClip : public AbstractProjectClip
@@ -22,20 +23,20 @@ class ImageProjectClip : public AbstractProjectClip
     Q_OBJECT
 
 public:
-    ImageProjectClip(const KUrl& url, ProjectFolder* parent);
-    ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent);
-    ImageProjectClip(const QDomElement &description, ProjectFolder *parent);
+    ImageProjectClip(const KUrl& url, ProjectFolder* parent, ImageClipPlugin const *plugin);
+    ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent, ImageClipPlugin const *plugin);
+    ImageProjectClip(const QDomElement &description, ProjectFolder *parent, ImageClipPlugin const *plugin);
     ~ImageProjectClip();
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
 
-    QPixmap *thumbnail();
+    QPixmap thumbnail();
 
 private:
     void init(int duration = 0);
 
     QList<ImageTimelineClip *> m_instances;
-    QPixmap *m_thumbnail;
+    QPixmap m_thumbnail;
 };
 
 #endif

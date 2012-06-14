@@ -10,9 +10,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "imageclipplugin.h"
 #include "imageprojectclip.h"
+#include "imagetimelineclip.h"
+#include "imagetimelineclipitem.h"
 #include "core/project/clippluginmanager.h"
-#include "core/project/producerwrapper.h"
 #include "core/project/projectfolder.h"
+#include "core/project/abstracttimelineclip.h"
 #include <KPluginFactory>
 #include <QDomElement>
 
@@ -38,14 +40,19 @@ ImageClipPlugin::~ImageClipPlugin()
 
 AbstractProjectClip* ImageClipPlugin::createClip(const KUrl &url, ProjectFolder *parent) const
 {
-    ImageProjectClip *projectClip = new ImageProjectClip(url, parent);
+    ImageProjectClip *projectClip = new ImageProjectClip(url, parent, this);
     return projectClip;
 }
 
 AbstractProjectClip* ImageClipPlugin::loadClip(const QDomElement& description, ProjectFolder *parent) const
 {
-    ImageProjectClip *projectClip = new ImageProjectClip(description, parent);
+    ImageProjectClip *projectClip = new ImageProjectClip(description, parent, this);
     return projectClip;
+}
+
+TimelineClipItem* ImageClipPlugin::timelineClipView(AbstractTimelineClip* clip, QGraphicsItem* parent) const
+{
+    return new ImageTimelineClipItem(static_cast<ImageTimelineClip*>(clip), parent);
 }
 
 #include "imageclipplugin.moc"

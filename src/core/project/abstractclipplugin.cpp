@@ -10,6 +10,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "abstractclipplugin.h"
 #include "clippluginmanager.h"
+#include "abstracttimelineclip.h"
+#include "timelineview/timelineclipitem.h"
 
 
 AbstractClipPlugin::AbstractClipPlugin(ClipPluginManager* parent) :
@@ -23,5 +25,9 @@ AbstractClipPlugin::~AbstractClipPlugin()
 {
 }
 
+TimelineClipItem* AbstractClipPlugin::timelineClipView(AbstractTimelineClip *clip, QGraphicsItem *parent) const
+{
+    return new TimelineClipItem(clip, parent);
+}
 
 #include "abstractclipplugin.moc"

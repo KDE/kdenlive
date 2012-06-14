@@ -13,6 +13,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timelineclipitem.h"
 #include "project/timelinetrack.h"
 #include "project/abstracttimelineclip.h"
+#include "project/abstractprojectclip.h"
+#include "project/abstractclipplugin.h"
 
 
 TimelineTrackItem::TimelineTrackItem(TimelineTrack* track, QObject* parent) :
@@ -51,7 +53,7 @@ void TimelineTrackItem::loadClips()
 {
     QList <AbstractTimelineClip*> clips = m_track->clips();
     foreach(AbstractTimelineClip *clip, clips) {
-        TimelineClipItem *item = new TimelineClipItem(clip, this);
+        TimelineClipItem *item = clip->projectClip()->plugin()->timelineClipView(clip, this);
         m_clipItems.append(item);
     }
 }

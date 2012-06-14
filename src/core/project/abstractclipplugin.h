@@ -14,11 +14,14 @@ the Free Software Foundation, either version 3 of the License, or
 #include <kdemacros.h>
 #include <QObject>
 
+class TimelineClipItem;
 class ProjectFolder;
 class ClipPluginManager;
 class AbstractProjectClip;
+class AbstractTimelineClip;
 class KUrl;
 class QDomElement;
+class QGraphicsItem;
 
 
 class KDE_EXPORT AbstractClipPlugin : public QObject
@@ -31,6 +34,9 @@ public:
 
     virtual AbstractProjectClip *createClip(const KUrl &url, ProjectFolder *parent) const = 0;
     virtual AbstractProjectClip *loadClip(const QDomElement &description, ProjectFolder *parent) const = 0;
+
+    // change to QObject *timelineClipView(TimelineViewType type, AbstractTimelineClip *clip, QObject *parent) once we have different timeline views
+    virtual TimelineClipItem *timelineClipView(AbstractTimelineClip *clip, QGraphicsItem* parent) const;
 
 protected:
     ClipPluginManager *m_parent;
