@@ -54,7 +54,7 @@ void PositionBar::mousePressEvent(QMouseEvent* event)
 
 void PositionBar::mouseMoveEvent(QMouseEvent* event)
 {
-    const int framePosition = event->x() / m_scale;
+    const int framePosition = qBound(0, event->x(), rect().width()) / m_scale;
     if (event->button() == Qt::NoButton) {
         if (qAbs(event->x() - m_pixelPosition) < 6) {
             if (!m_mouseOverCursor) {
