@@ -14,17 +14,19 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 #include <QGraphicsLineItem>
 
+class TimelineScene;
+
 
 class PositionItem : public QObject, public QGraphicsLineItem
 {
     Q_OBJECT
 
 public:
-    explicit PositionItem(QGraphicsItem* parent = 0);
-    virtual ~PositionItem();
+    explicit PositionItem(TimelineScene *scene);
 
-public slots:
+private slots:
     void setPosition(int position);
+    void setHeight(int height);
 };
 
 #endif

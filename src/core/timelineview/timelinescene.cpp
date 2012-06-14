@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "timelinescene.h"
+#include "positionitem.h"
 #include "timelinetrackitem.h"
 #include "project/timeline.h"
 #include "project/timelinetrack.h"
@@ -19,6 +20,8 @@ TimelineScene::TimelineScene(Timeline* timeline, QObject* parent) :
     m_timeline(timeline)
 {
     setupTimeline();
+
+    addItem(new PositionItem(this));
 }
 
 TimelineScene::~TimelineScene()

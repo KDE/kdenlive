@@ -1,5 +1,6 @@
 
 set(timelineview_SRCS
+  timelineview/positionitem.cpp
   timelineview/timelineclipitem.cpp
   timelineview/timelinepositionbar.cpp
   timelineview/timelinescene.cpp
