@@ -2008,11 +2008,11 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
             // A fade effect was modified, update the clip
             if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fade_from_black") {
-                int pos = effectParams.paramValue("out").toInt() - effectParams.paramValue("in").toInt();
+                int pos = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
                 clip->setFadeIn(pos);
             }
             if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {
-                int pos = effectParams.paramValue("out").toInt() - effectParams.paramValue("in").toInt();
+                int pos = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
                 clip->setFadeOut(pos);
             }
         }
