@@ -77,7 +77,7 @@ void MonitorModel::setProducer(ProducerWrapper* producer)
     m_consumer->connect(*static_cast<Mlt::Service *>(producer));
     int success = m_consumer->start();
     Q_ASSERT(success != -1);
-    refreshConsumer();
+    refresh();
 
     emit producerChanged();
     emit activated();
@@ -87,7 +87,7 @@ void MonitorModel::play()
 {
     if (m_producer) {
         setSpeed(1);
-        refreshConsumer();
+        refresh();
         kDebug() << "play";
         emit playbackStateChanged(true);
     }
@@ -118,7 +118,7 @@ void MonitorModel::setPosition(int position)
         m_position = position;
         m_producer->seek(position);
         if (speed() == 0) {
-            refreshConsumer();
+            refresh();
         }
         emit positionChanged(position);
     }
@@ -184,7 +184,7 @@ void MonitorModel::consumer_frame_show(mlt_consumer , MonitorModel* self, mlt_fr
     self->updateFrame(frame_ptr);
 }
 
-void MonitorModel::refreshConsumer()
+void MonitorModel::refresh()
 {
     m_consumer->set("refresh", 1);
 }

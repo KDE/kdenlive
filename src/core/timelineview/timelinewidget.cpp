@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timelineview.h"
 #include "timelinescene.h"
 #include "timelinepositionbar.h"
+#include "trackheadercontainer.h"
 #include "project/project.h"
 #include "project/projectmanager.h"
 #include "core.h"
@@ -24,23 +25,30 @@ TimelineWidget::TimelineWidget(QWidget* parent) :
     m_scene(NULL)
 {
     QGridLayout *layout = new QGridLayout(this);
+    layout->setSpacing(0);
 
     m_positionBar = new TimelinePositionBar(this);
-    layout->addWidget(m_positionBar, 0, 0);
+    layout->addWidget(m_positionBar, 0, 1);
+
+    m_headerContainer = new TrackHeaderContainer(this);
+    layout->addWidget(m_headerContainer, 1, 0);
 
     m_view = new TimelineView(this);
-    layout->addWidget(m_view, 1, 0);
+    layout->addWidget(m_view, 1, 1);
 
 
     connect(m_view, SIGNAL(zoomChanged(int)), m_positionBar, SLOT(setZoomLevel(int)));
     connect(m_view->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_positionBar, SLOT(setOffset(int)));
+
+    connect(m_view->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), m_headerContainer, SLOT(adjustHeight(int,int)));
+    connect(m_view->verticalScrollBar(), SIGNAL(valueChanged(int)), m_headerContainer->verticalScrollBar(), SLOT(setValue(int)));
+    connect(m_headerContainer->verticalScrollBar(), SIGNAL(valueChanged(int)), m_view->verticalScrollBar(), SLOT(setValue(int)));
 
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 }
 
 TimelineWidget::~TimelineWidget()
 {
-    delete m_scene;
 }
 
 void TimelineWidget::setProject(Project* project)
@@ -53,6 +61,8 @@ void TimelineWidget::setProject(Project* project)
         m_scene = new TimelineScene(project->timeline(), this);
     }
     m_view->setScene(m_scene);
+
+    m_headerContainer->setTimeline(project->timeline());
 }
 
 TimelineScene* TimelineWidget::scene()

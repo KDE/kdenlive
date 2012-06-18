@@ -23,7 +23,10 @@ set(kdenlivecore_LIB_SRCS
   ${widget_SRCS}
 )
 
-kde4_add_ui_files(kdenlivecore_UIS effectsystem/propertiesviewcontainer_ui.ui)
+kde4_add_ui_files(kdenlivecore_UIS
+  ${effectsystem_UIS}
+  ${timelineview_UIS}
+)
 
 message(${kdenlivecore_UIS})
 message(${CMAKE_CURRENT_BINARY_DIR})

@@ -33,6 +33,12 @@ Timeline* TimelineScene::timeline()
     return m_timeline;
 }
 
+
+TimelineTrackItem* TimelineScene::trackItem(int index)
+{
+    return m_trackItems.at(index);
+}
+
 void TimelineScene::positionTracks(TimelineTrackItem *after)
 {
     int i = 0;

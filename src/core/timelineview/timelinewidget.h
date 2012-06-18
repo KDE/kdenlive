@@ -17,6 +17,7 @@ class Project;
 class TimelineView;
 class TimelineScene;
 class TimelinePositionBar;
+class TrackHeaderContainer;
 
 
 class TimelineWidget : public QWidget
@@ -27,16 +28,17 @@ public:
     explicit TimelineWidget(QWidget* parent = 0);
     virtual ~TimelineWidget();
 
-public slots:
-    void setProject(Project *project);
-
     TimelineView *view();
     TimelineScene *scene();
+
+public slots:
+    void setProject(Project *project);
 
 private:
     TimelineScene *m_scene;
     TimelineView *m_view;
     TimelinePositionBar *m_positionBar;
+    TrackHeaderContainer *m_headerContainer;
 };
 
 #endif

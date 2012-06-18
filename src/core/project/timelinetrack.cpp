@@ -15,7 +15,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project.h"
 #include "abstractprojectclip.h"
 #include "binmodel.h"
+#include "commands/configuretrackcommand.h"
 #include "effectsystem/effectdevice.h"
+#include "monitor/monitormodel.h"
 
 #include <KDebug>
 
@@ -67,6 +69,11 @@ Mlt::Playlist* TimelineTrack::playlist()
     return m_playlist;
 }
 
+int TimelineTrack::index() const
+{
+    return m_parent->tracks().indexOf(const_cast<TimelineTrack*>(this));
+}
+
 QList< AbstractTimelineClip* > TimelineTrack::clips()
 {
     return m_clips.values();
@@ -79,10 +86,115 @@ int TimelineTrack::clipPosition(const AbstractTimelineClip* clip) const
 
 QString TimelineTrack::name() const
 {
-    return QString();
+    return m_producer->property("name");
 }
 
 void TimelineTrack::setName(const QString& name)
+{
+    if (name != this->name()) {
+        m_parent->project()->undoStack()->push(new ConfigureTrackCommand("Change track name",
+                                                                         index(),
+                                                                         "name",
+                                                                         name,
+                                                                         this->name(),
+                                                                         &TimelineTrack::emitNameChanged
+                                                                        ));
+    }
+}
+
+void TimelineTrack::emitNameChanged()
+{
+    emit nameChanged(name());
+}
+
+bool TimelineTrack::isHidden() const
+{
+    int hideState = m_producer->get_int("hide");
+    return hideState == 1 || hideState == 3;
+}
+
+void TimelineTrack::hide(bool hide)
+{
+    int muteValue = isMute() ? 2 : 0;
+    int hideValue = hide ? 1 : 0;
+    QString value = QString::number(muteValue + hideValue);
+    QString oldValue = m_producer->property("hide");
+    if (value != oldValue) {
+        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(hide ? "Hide Track" : "Show Track",
+                                                                         index(),
+                                                                         "hide",
+                                                                         value,
+                                                                         oldValue,
+                                                                         &TimelineTrack::emitVisibilityChanged
+                                                                        ));
+    }
+}
+
+void TimelineTrack::emitVisibilityChanged()
+{
+    emit visibilityChanged(isHidden());
+    m_parent->monitor()->refresh();
+}
+
+
+bool TimelineTrack::isMute() const
+{
+    int hideState = m_producer->get_int("hide");
+    return hideState == 2 || hideState == 3;
+}
+
+void TimelineTrack::mute(bool mute)
+{
+    int hideValue = isHidden() ? 1 : 0;
+    int muteValue = mute ? 2 : 0;
+    QString value = QString::number(muteValue + hideValue);
+    QString oldValue = m_producer->property("hide");
+    if (value != oldValue) {
+        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(mute ? "Mute Track" : "Unmute Track",
+                                                                         index(),
+                                                                         "hide",
+                                                                         value,
+                                                                         oldValue,
+                                                                         &TimelineTrack::emitAudibilityChanged
+                                                                        ));
+    }
+}
+
+void TimelineTrack::emitAudibilityChanged()
+{
+    emit audibilityChanged(isMute());
+}
+
+
+bool TimelineTrack::isLocked() const
+{
+    return m_producer->get_int("locked");
+}
+
+void TimelineTrack::lock(bool lock)
+{
+    if (lock != isLocked()) {
+        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(lock ? "Lock Track" : "Unlock Track",
+                                                                         index(),
+                                                                         "locked",
+                                                                         QString::number(lock),
+                                                                         m_producer->property("locked"),
+                                                                         &TimelineTrack::emitLockStateChanged
+                                                                        ));
+    }
+}
+
+void TimelineTrack::emitLockStateChanged()
+{
+    emit lockStateChanged(isLocked());
+}
+
+TimelineTrack::Types TimelineTrack::type() const
+{
+    return static_cast<TimelineTrack::Types>(m_producer->get_int("type"));
+}
+
+void TimelineTrack::setType(TimelineTrack::Types type)
 {
 
 }

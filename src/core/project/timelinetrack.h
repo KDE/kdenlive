@@ -36,12 +36,40 @@ public:
     Timeline *timeline();
     ProducerWrapper *producer();
     Mlt::Playlist *playlist();
+    int index() const;
 
     QList<AbstractTimelineClip*> clips();
     int clipPosition(const AbstractTimelineClip *clip) const;
 
     QString name() const;
     void setName(const QString &name);
+
+    bool isHidden() const;
+
+    bool isMute() const;
+
+    bool isLocked() const;
+
+    enum Types { VideoTrack, AudioTrack };
+
+    Types type() const;
+    void setType(Types type);
+
+    void emitNameChanged();
+    void emitVisibilityChanged();
+    void emitAudibilityChanged();
+    void emitLockStateChanged();
+
+public slots:
+    void hide(bool hide);
+    void mute(bool mute);
+    void lock(bool lock);
+
+signals:
+    void nameChanged(const QString &name);
+    void visibilityChanged(bool isHidden);
+    void audibilityChanged(bool isMute);
+    void lockStateChanged(bool isLocked);
 
 private:
     Timeline *m_parent;

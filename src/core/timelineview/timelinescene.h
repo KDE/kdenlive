@@ -27,6 +27,7 @@ public:
     ~TimelineScene();
 
     Timeline *timeline();
+    TimelineTrackItem *trackItem(int index);
 
 public slots:
     void positionTracks(TimelineTrackItem *after = 0);

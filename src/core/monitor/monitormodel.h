@@ -56,6 +56,7 @@ public slots:
     void setPosition(int position);
     void setSpeed(double speed);
     void activate();
+    void refresh();
 
 signals:
     void frameUpdated();
@@ -66,8 +67,6 @@ signals:
     void activated();
 
 private:
-    inline void refreshConsumer();
-
     QString m_name;
     Mlt::Consumer *m_consumer;
     Mlt::Event *m_frameShowEvent;

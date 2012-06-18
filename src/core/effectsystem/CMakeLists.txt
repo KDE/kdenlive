@@ -16,3 +16,8 @@ set(effectsystem_SRCS
   effectsystem/multiviewhandler.cpp
   PARENT_SCOPE
 )
+
+set(effectsystem_UIS
+  effectsystem/propertiesviewcontainer_ui.ui
+  PARENT_SCOPE
+)
