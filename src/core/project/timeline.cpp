@@ -98,7 +98,7 @@ void Timeline::loadTracks()
     Q_ASSERT(m_tracks.count() == 0);
 
     Mlt::Multitrack *multitrack = m_tractor->multitrack();
-    for (int i = 0; i < multitrack->count(); ++i) {
+    for (int i = multitrack->count() - 1; i > 0; --i) {
         TimelineTrack *track = new TimelineTrack(new ProducerWrapper(multitrack->track(i)), this);
         if (track) {
             m_tracks.append(track);
