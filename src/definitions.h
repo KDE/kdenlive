@@ -166,7 +166,7 @@ public:
 	if (value.isEmpty()) return;
 	QStringList data = value.split("/");
 	isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
-	groupIsCollapsed = data.at(0).toInt() == 3;
+	groupIsCollapsed = data.at(0).toInt() >= 2;
 	if (data.count() > 1) groupIndex = data.at(1).toInt();
 	if (data.count() > 2) groupName = data.at(2);
     }
