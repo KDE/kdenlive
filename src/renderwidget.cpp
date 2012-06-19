@@ -994,8 +994,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         }
         QTextStream outStream(&file);
         outStream << "#! /bin/sh" << "\n" << "\n";
-        outStream << "SOURCE=" << "\"" + KUrl(playlistPath).url() + "\"" << "\n";
-        outStream << "TARGET=" << "\"" + KUrl(dest).url() + "\"" << "\n";
+        outStream << "SOURCE=" << "\"" + QUrl(playlistPath).toEncoded() + "\"" << "\n";
+        outStream << "TARGET=" << "\"" + QUrl(dest).toEncoded() + "\"" << "\n";
         outStream << "RENDERER=" << "\"" + m_renderer + "\"" << "\n";
         outStream << "MELT=" << "\"" + KdenliveSettings::rendererpath() + "\"" << "\n";
         outStream << "PARAMETERS=" << "\"" + render_process_args.join(" ") + "\"" << "\n";
@@ -1920,7 +1920,7 @@ void RenderWidget::parseScriptFiles()
             item->setData(0, Qt::UserRole, '1');
         } else item->setIcon(0, KIcon("application-x-executable-script"));
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
-        item->setData(1, Qt::UserRole, KUrl(target).path());
+        item->setData(1, Qt::UserRole, KUrl(QUrl::fromEncoded(target.toUtf8())).pathOrUrl());
         item->setData(1, Qt::UserRole + 1, scriptpath.path());
     }
     QTreeWidgetItem *script = m_view.scripts_list->topLevelItem(0);
