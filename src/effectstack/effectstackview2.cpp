@@ -388,6 +388,12 @@ void EffectStackView2::startDrag()
     }
     else if (m_draggedGroup) {
         doc = m_draggedGroup->effectsData();
+	if (m_effectMetaInfo.trackMode) {
+	    doc.documentElement().setAttribute("clipstart", 0);
+	}
+	else {
+	    doc.documentElement().setAttribute("clipstart", m_clipref->cropStart().frames(KdenliveSettings::project_fps()));
+	}
         pixmap = QPixmap::grabWidget(m_draggedGroup->title());
     }
     else return;
