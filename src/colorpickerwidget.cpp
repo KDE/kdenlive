@@ -38,6 +38,23 @@
 #include <fixx11h.h>
 #endif 
 
+MyFrame::MyFrame(QWidget* parent) :
+    QFrame(parent)
+{
+    setFrameStyle(QFrame::Box | QFrame::Plain);
+    setWindowOpacity(0.5);
+    setWindowFlags(Qt::FramelessWindowHint);
+}
+
+// virtual
+void MyFrame::hideEvent ( QHideEvent * event )
+{
+    QFrame::hideEvent(event);
+    // We need a timer here since hiding the frame will trigger a monitor refresh timer that will
+    // repaint the monitor after 70 ms.
+    QTimer::singleShot(250, this, SIGNAL(getColor()));
+}
+
 
 ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
         QWidget(parent),
@@ -59,10 +76,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
     layout->addWidget(button);
     setFocusPolicy(Qt::StrongFocus);
 
-    m_grabRectFrame = new QFrame();
-    m_grabRectFrame->setFrameStyle(QFrame::Box | QFrame::Plain);
-    m_grabRectFrame->setWindowOpacity(0.5);
-    m_grabRectFrame->setWindowFlags(Qt::FramelessWindowHint);
+    m_grabRectFrame = new MyFrame();
     m_grabRectFrame->hide();
 }
 
@@ -74,6 +88,7 @@ ColorPickerWidget::~ColorPickerWidget()
 
 void ColorPickerWidget::slotGetAverageColor()
 {
+    disconnect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
     m_grabRect = m_grabRect.normalized();
 
     int numPixel = m_grabRect.width() * m_grabRect.height();
@@ -142,18 +157,18 @@ void ColorPickerWidget::mousePressEvent(QMouseEvent* event)
 void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_filterActive) {
-        m_grabRectFrame->hide();
-
         closeEventFilter();
 
         m_grabRect.setWidth(event->globalX() - m_grabRect.x());
         m_grabRect.setHeight(event->globalY() - m_grabRect.y());
 
         if (m_grabRect.width() * m_grabRect.height() == 0) {
+	    m_grabRectFrame->hide();
             emit colorPicked(grabColor(event->globalPos()));
         } else {
             // delay because m_grabRectFrame does not hide immediately
-            QTimer::singleShot(50, this, SLOT(slotGetAverageColor()));
+            connect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
+	    m_grabRectFrame->hide();
         }
 
         return;

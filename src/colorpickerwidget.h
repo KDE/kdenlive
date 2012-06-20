@@ -23,6 +23,7 @@
 
 #include <QtCore>
 #include <QWidget>
+#include <QFrame>
 
 class QSpinBox;
 class QFrame;
@@ -30,6 +31,19 @@ class QFrame;
 #include <X11/Xlib.h>
 #endif
 
+
+class MyFrame : public QFrame
+{
+    Q_OBJECT
+public:
+    MyFrame(QWidget* parent = 0);
+
+protected:
+    virtual void hideEvent ( QHideEvent * event );
+
+signals:
+    void getColor();
+};
 
 /**
  * @class ColorPickerWidget
