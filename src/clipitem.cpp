@@ -1931,7 +1931,10 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
             int frame = EffectsList::parameter(effect, "frame").toInt();
             EffectsList::setParameter(effect, "frame", QString::number(frame - diff));
             continue;
-        }
+        } else if (effect.attribute("id") == "pan_zoom") {
+	    effect.setAttribute("in", cropStart().frames(m_fps));
+	    effect.setAttribute("out", (cropStart() + cropDuration()).frames(m_fps) - 1);
+	}
 
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int j = 0; j < params.count(); j++) {
@@ -1945,7 +1948,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
             } else if (type == "simplekeyframe" || type == "keyframe") {
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
-                updateNormalKeyframes(param);
+                updateNormalKeyframes(param, oldInfo);
 #ifdef USE_QJSON
             } else if (type == "roto-spline") {
                 if (!effects.contains(i))
@@ -1960,16 +1963,25 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
     return effects;
 }
 
-bool ClipItem::updateNormalKeyframes(QDomElement parameter)
+bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
 {
     int in = cropStart().frames(m_fps);
     int out = (cropStart() + cropDuration()).frames(m_fps) - 1;
+    int oldin = oldInfo.cropStart.frames(m_fps);
     QLocale locale;
+    bool keyFrameUpdated = false;
 
     const QStringList data = parameter.attribute("keyframes").split(';', QString::SkipEmptyParts);
     QMap <int, double> keyframes;
-    foreach (QString keyframe, data)
-        keyframes[keyframe.section(':', 0, 0).toInt()] = locale.toDouble(keyframe.section(':', 1, 1));
+    foreach (QString keyframe, data) {
+	int keyframepos = keyframe.section(':', 0, 0).toInt();
+	// if keyframe was at clip start, update it
+	if (keyframepos == oldin) {
+	    keyframepos = in;
+	    keyFrameUpdated = true;
+	}
+        keyframes[keyframepos] = locale.toDouble(keyframe.section(':', 1, 1));
+    }
 
 
     QMap<int, double>::iterator i = keyframes.end();
@@ -2021,7 +2033,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter)
             ++i;
     }
 
-    if (startFound || endFound) {
+    if (startFound || endFound || keyFrameUpdated) {
         QString newkfr;
         QMap<int, double>::const_iterator k = keyframes.constBegin();
         while (k != keyframes.constEnd()) {
@@ -2037,7 +2049,6 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter)
 
 void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int width, int height, ItemInfo oldInfo)
 {
-
     QDomElement param = effect.elementsByTagName("parameter").item(paramIndex).toElement();
     int offset = oldInfo.cropStart.frames(m_fps);
     QString data = param.attribute("value");
