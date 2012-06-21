@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "core.h"
 #include "undoview.h"
+#include "pluginmanager.h"
 #include "kdenlivesettings.h"
 #include "project/project.h"
 #include "project/projectmanager.h"
@@ -44,6 +45,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl &url, const QString & 
     setCentralWidget(m_timeline);
 
     KStandardAction::quit(this, SLOT(close()), actionCollection());
+
+    pCore->pluginManager()->load();
 
     setupGUI();
 

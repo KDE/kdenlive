@@ -4,6 +4,7 @@ set(project_SRCS
   project/abstractclipplugin.cpp
   project/abstractprojectclip.cpp
   project/abstractprojectitem.cpp
+  project/abstractprojectpart.cpp
   project/abstracttimelineclip.cpp
   project/binmodel.cpp
   project/clippluginmanager.cpp

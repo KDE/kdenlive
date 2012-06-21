@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "projectmanager.h"
 #include "project.h"
+#include "abstractprojectpart.h"
 #include "core.h"
 #include "mainwindow.h"
 #include "bin/bin.h"
@@ -69,6 +70,16 @@ void ProjectManager::openProject(const KUrl& url)
     connect(m_project->undoStack(), SIGNAL(canRedoChanged(bool)), m_redoAction, SLOT(setEnabled(bool)));
     m_undoAction->setEnabled(false);
     m_redoAction->setEnabled(false);
+}
+
+void ProjectManager::registerPart(AbstractProjectPart* part)
+{
+    m_projectParts.append(part);
+}
+
+QList<AbstractProjectPart*> ProjectManager::parts()
+{
+    return m_projectParts;
 }
 
 void ProjectManager::undoCommand()

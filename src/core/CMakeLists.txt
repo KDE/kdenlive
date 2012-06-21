@@ -8,9 +8,10 @@ add_subdirectory(timelineview)
 add_subdirectory(widgets)
 
 set(kdenlivecore_LIB_SRCS
-  mainwindow.cpp
   core.cpp
   fraction.cpp
+  mainwindow.cpp
+  pluginmanager.cpp
   timecode.cpp
   timecodeformatter.cpp
   undoview.cpp

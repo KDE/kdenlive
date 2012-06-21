@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "core.h"
 #include "mainwindow.h"
+#include "pluginmanager.h"
 #include "project/clippluginmanager.h"
 #include "effectsystem/effectrepository.h"
 #include "bin/bin.h"
@@ -47,6 +48,12 @@ void Core::init()
     m_clipPluginManager = new ClipPluginManager(this);
     m_projectManager = new ProjectManager(this);
     m_monitorManager = new MonitorManager(this);
+    m_pluginManager = new PluginManager(this);
+}
+
+void Core::loadPlugins()
+{
+    m_pluginManager->load();
 }
 
 Core* Core::self()
@@ -78,3 +85,9 @@ MonitorManager* Core::monitorManager()
 {
     return m_monitorManager;
 }
+
+PluginManager* Core::pluginManager()
+{
+    return m_pluginManager;
+}
+

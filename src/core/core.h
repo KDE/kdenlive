@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define CORE_H
 
 #include <QObject>
+#include <kdemacros.h>
 
 class MainWindow;
 class ProjectManager;
@@ -26,7 +27,7 @@ class KUrl;
 #define pCore Core::self()
 
 
-class Core : public QObject
+class KDE_EXPORT Core : public QObject
 {
     Q_OBJECT
 
@@ -37,12 +38,14 @@ public:
 
     static Core *self();
 
+    void loadPlugins();
+
     MainWindow *window();
     ProjectManager *projectManager();
     EffectRepository *effectRepository();
     ClipPluginManager *clipPluginManager();
     MonitorManager *monitorManager();
-//     PluginManager *pluginManager();
+    PluginManager *pluginManager();
 
 private:
     Core(MainWindow *mainWindow);
@@ -54,7 +57,7 @@ private:
     EffectRepository *m_effectRepository;
     ClipPluginManager *m_clipPluginManager;
     MonitorManager *m_monitorManager;
-//     PluginManager *m_pluginManager;
+    PluginManager *m_pluginManager;
 };
 
 #endif

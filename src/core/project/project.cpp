@@ -14,6 +14,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "timecodeformatter.h"
 #include "binmodel.h"
+#include "abstractprojectpart.h"
+#include "projectmanager.h"
 #include "monitor/monitormodel.h"
 #include <mlt++/Mlt.h>
 #include <KIO/NetAccess>
@@ -110,7 +112,9 @@ void Project::openFile()
 
         if (success) {
             loadTimeline(document.toString());
-            m_bin = new BinModel(document.documentElement().firstChildElement("kdenlivedoc").firstChildElement("project_items"), this);
+            QDomElement kdenliveDoc = document.documentElement().firstChildElement("kdenlivedoc");
+            m_bin = new BinModel(kdenliveDoc.firstChildElement("project_items"), this);
+            loadParts(kdenliveDoc);
             m_timeline->loadTracks();
         } else {
             kWarning() << "unable to load document" << m_url.path() << errorMessage;
@@ -131,6 +135,14 @@ void Project::loadTimeline(const QString& content)
 {
     m_timeline = new Timeline(content, this);
     m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()));
+}
+
+void Project::loadParts(const QDomElement& element)
+{
+    QList<AbstractProjectPart*> parts = pCore->projectManager()->parts();
+    for (int i = 0; i < parts.count(); ++i) {
+        parts.at(i)->load(element.firstChildElement(parts.at(i)->name()));
+    }
 }
 
 #include "project.moc"

@@ -12,13 +12,15 @@ the Free Software Foundation, either version 3 of the License, or
 #define PROJECTMANAGER_H
 
 #include <QObject>
+#include <kdemacros.h>
 
 class Project;
+class AbstractProjectPart;
 class KAction;
 class KUrl;
 
 
-class ProjectManager : public QObject
+class KDE_EXPORT ProjectManager : public QObject
 {
     Q_OBJECT
 
@@ -29,6 +31,9 @@ public:
     Project *current();
 
     void openProject(const KUrl &url);
+
+    void registerPart(AbstractProjectPart *part);
+    QList<AbstractProjectPart*> parts();
 
 public slots:
     void execOpenFileDialog();
@@ -42,6 +47,7 @@ private:
     Project *m_project;
     KAction *m_undoAction;
     KAction *m_redoAction;
+    QList<AbstractProjectPart*> m_projectParts;
 };
 
 #endif

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=ServiceType
+X-KDE-ServiceType=Kdenlive/Plugin
+Name=Kdenlive Plugin
+
+[PropertyDef::X-Kdenlive-Autoload]
+Type=bool

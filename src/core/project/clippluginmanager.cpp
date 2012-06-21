@@ -44,7 +44,7 @@ ClipPluginManager::ClipPluginManager(QObject* parent) :
             QStringList providedProducers = info.property("X-Kdenlive-ProvidedProducers").toStringList();
             AbstractClipPlugin *clipPlugin = factory->create<AbstractClipPlugin>(this);
             if (clipPlugin) {
-                foreach (QString producer, providedProducers) {
+                foreach (const QString &producer, providedProducers) {
                     m_clipPlugins.insert(producer, clipPlugin);
                 }
             }

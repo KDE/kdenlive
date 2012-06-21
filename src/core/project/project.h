@@ -51,6 +51,7 @@ private:
     void openFile();
     void openNew();
     void loadTimeline(const QString &content);
+    void loadParts(const QDomElement &element);
 
     KUrl m_url;
     BinModel *m_bin;
