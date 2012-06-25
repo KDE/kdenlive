@@ -34,7 +34,6 @@ TimelineTrack::TimelineTrack(ProducerWrapper* producer, Timeline* parent) :
             QString id = QString(clipProducer->parent().get("id")).section('_', 0, 0);
             AbstractProjectClip *projectClip = parent->project()->bin()->clip(id.toInt());
             if (projectClip) {
-                kDebug() << "project clip found" << id;
                 AbstractTimelineClip *clip = projectClip->addInstance(clipProducer, this);
                 m_clips.insert(i, clip);
             } else {
@@ -45,12 +44,14 @@ TimelineTrack::TimelineTrack(ProducerWrapper* producer, Timeline* parent) :
             delete clipProducer;
         }
     }
-    kDebug() << "track created" << producer->get("name") << m_clips.count() << m_playlist->count();
+
+    m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
 }
 
 TimelineTrack::~TimelineTrack()
 {
     qDeleteAll(m_clips);
+    delete m_producerChangeEvent;
     delete m_producer;
 }
 
@@ -233,7 +234,6 @@ void TimelineTrack::emitAudibilityChanged()
     emit audibilityChanged(isMute());
 }
 
-
 bool TimelineTrack::isLocked() const
 {
     return m_producer->get_int("locked");
@@ -255,6 +255,16 @@ void TimelineTrack::lock(bool lock)
 void TimelineTrack::emitLockStateChanged()
 {
     emit lockStateChanged(isLocked());
+}
+
+void TimelineTrack::emitDurationChanged()
+{
+    emit durationChanged(producer()->get_playtime());
+}
+
+void TimelineTrack::producer_change(mlt_producer producer, TimelineTrack* self)
+{
+    self->emitDurationChanged();
 }
 
 TimelineTrack::Types TimelineTrack::type() const

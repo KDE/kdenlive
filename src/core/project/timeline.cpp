@@ -37,11 +37,14 @@ Timeline::Timeline(const QString& document, Project* parent) :
     m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
     m_monitor->setProducer(m_producer);
 //     m_producer->optimise();
+
+    m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
 }
 
 Timeline::Timeline(Project* parent) :
     QObject(parent),
-    m_parent(parent)
+    m_parent(parent),
+    m_producerChangeEvent(0)
 {
     m_profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
     m_tractor = new Mlt::Tractor();
@@ -55,16 +58,14 @@ Timeline::Timeline(Project* parent) :
 Timeline::~Timeline()
 {
     qDeleteAll(m_tracks);
-    if (m_producer) {
-        kDebug() << "deleteing m_tractorProducer";
-        delete m_producer;
-    }
+    delete m_producerChangeEvent;
+    delete m_producer;
     delete m_profile;
 }
 
 int Timeline::duration() const
 {
-    return m_tractor->get_length();
+    return m_tractor->get_playtime();
 }
 
 Project* Timeline::project()
@@ -109,6 +110,16 @@ void Timeline::loadTracks()
             m_tracks.append(track);
         }
     }
+}
+
+void Timeline::emitDurationChanged()
+{
+    emit durationChanged(duration());
+}
+
+void Timeline::producer_change(mlt_producer producer, Timeline* self)
+{
+    self->emitDurationChanged();
 }
 
 #include "timeline.moc"

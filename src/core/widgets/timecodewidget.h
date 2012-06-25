@@ -37,7 +37,6 @@ public:
     int minimum() const;
     void setMinimum(int minimum);
     int maximum() const;
-    void setMaximum(int maximum);
     void setRange(int minimum, int maximum);
 
     Timecode value() const;
@@ -47,6 +46,7 @@ public:
 public slots:
     void setProject(Project *project);
     void setValue(Timecode value);
+    void setMaximum(int maximum);
     void updateMask();
     void onEditingFinished();
 

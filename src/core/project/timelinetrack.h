@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef TIMELINETRACK_H
 #define TIMELINETRACK_H
 
+#include <mlt/framework/mlt_producer.h>
 #include <QObject>
 #include <QMap>
 #include <kdemacros.h>
@@ -22,6 +23,7 @@ class AbstractTimelineClip;
 namespace Mlt
 {
     class Playlist;
+    class Event;
 }
 
 
@@ -68,6 +70,10 @@ public:
     void emitAudibilityChanged();
     void emitLockStateChanged();
 
+    void emitDurationChanged();
+
+    static void producer_change(mlt_producer producer, TimelineTrack *self);
+
 public slots:
     void hide(bool hide);
     void mute(bool mute);
@@ -78,11 +84,13 @@ signals:
     void visibilityChanged(bool isHidden);
     void audibilityChanged(bool isMute);
     void lockStateChanged(bool isLocked);
+    void durationChanged(int duration);
 
 private:
     Timeline *m_parent;
     ProducerWrapper *m_producer;
     Mlt::Playlist *m_playlist;
+    Mlt::Event *m_producerChangeEvent;
     EffectDevice *m_effectDevice;
     QMap<int, AbstractTimelineClip *> m_clips;
 };

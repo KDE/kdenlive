@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/abstracttimelineclip.h"
 #include "project/abstractprojectclip.h"
 #include "project/abstractclipplugin.h"
+#include "project/producerwrapper.h"
 
 
 TimelineTrackItem::TimelineTrackItem(TimelineTrack* track, QObject* parent) :
@@ -25,7 +26,9 @@ TimelineTrackItem::TimelineTrackItem(TimelineTrack* track, QObject* parent) :
     setBrush(Qt::red);
 
     loadClips();
-    adjustLength();
+    updateGeometry();
+
+    connect(m_track, SIGNAL(durationChanged(int)), this, SLOT(updateGeometry()));
 }
 
 TimelineTrackItem::~TimelineTrackItem()
@@ -43,14 +46,10 @@ TimelineTrack* TimelineTrackItem::track()
     return m_track;
 }
 
-void TimelineTrackItem::adjustLength()
+void TimelineTrackItem::updateGeometry()
 {
     QRectF r = rect();
-    if (m_clipItems.isEmpty()) {
-        r.setWidth(0);
-    } else {
-        r.setWidth(m_clipItems.last()->rect().right());
-    }
+    r.setWidth(m_track->producer()->get_playtime());
     setRect(r);
 }
 

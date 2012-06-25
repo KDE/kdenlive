@@ -19,6 +19,7 @@ the Free Software Foundation, either version 3 of the License, or
 MonitorModel::MonitorModel(Mlt::Profile* profile, const QString &name, QObject *parent) :
     QObject(parent),
     m_name(name),
+    m_producerChangeEvent(NULL),
     m_producer(NULL),
     m_frame(NULL),
     m_position(-1)
@@ -48,6 +49,7 @@ MonitorModel::MonitorModel(Mlt::Profile* profile, const QString &name, QObject *
 MonitorModel::~MonitorModel()
 {
     delete m_frameShowEvent;
+    delete m_producerChangeEvent;
     delete m_consumer;
     Mlt::Frame *frame = m_frame.fetchAndStoreAcquire(0);
     if (frame) {
@@ -69,9 +71,15 @@ void MonitorModel::setProducer(ProducerWrapper* producer)
     pause();
     m_consumer->stop();
 
+    if (producer) {
+        delete m_producerChangeEvent;
+    }
+
     m_producer = producer;
     m_producer->set_speed(0.);
     m_position = -1;
+
+    m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
 
     // should we mlt_service_disconnect ?
     m_consumer->connect(*static_cast<Mlt::Service *>(producer));
@@ -114,6 +122,8 @@ void MonitorModel::togglePlaybackState()
 
 void MonitorModel::setPosition(int position)
 {
+    position = qBound(0, position, duration());
+
     if (m_producer && position != m_position) {
         m_position = position;
         m_producer->seek(position);
@@ -179,9 +189,20 @@ void MonitorModel::updateFrame(mlt_frame frame_ptr)
     }
 }
 
+void MonitorModel::emitDurationChanged()
+{
+    emit durationChanged(duration());
+    setPosition(m_position);
+}
+
 void MonitorModel::consumer_frame_show(mlt_consumer , MonitorModel* self, mlt_frame frame_ptr)
 {
     self->updateFrame(frame_ptr);
+}
+
+void MonitorModel::producer_change(mlt_producer producer, MonitorModel* self)
+{
+    self->emitDurationChanged();
 }
 
 void MonitorModel::refresh()

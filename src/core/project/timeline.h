@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef TIMELINE_H
 #define TIMELINE_H
 
+#include <mlt/framework/mlt_producer.h>
 #include <QObject>
 #include <kdemacros.h>
 
@@ -22,6 +23,7 @@ namespace Mlt
 {
     class Tractor;
     class Profile;
+    class Event;
 }
 
 
@@ -46,10 +48,18 @@ public:
 
     void loadTracks();
 
+    void emitDurationChanged();
+
+    static void producer_change(mlt_producer producer, Timeline *self);
+
+signals:
+    void durationChanged(int duration);
+
 private:
     Project *m_parent;
     Mlt::Tractor *m_tractor;
     ProducerWrapper *m_producer;
+    Mlt::Event *m_producerChangeEvent;
     Mlt::Profile *m_profile;
     QList <TimelineTrack *> m_tracks;
     MonitorModel *m_monitor;

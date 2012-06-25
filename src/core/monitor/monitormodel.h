@@ -47,7 +47,10 @@ public:
 
     void updateFrame(mlt_frame frame);
 
+    void emitDurationChanged();
+
     static void consumer_frame_show(mlt_consumer, MonitorModel *self, mlt_frame frame_ptr);
+    static void producer_change(mlt_producer producer, MonitorModel *self);
 
 public slots:
     void play();
@@ -64,12 +67,14 @@ signals:
     void positionChanged(int position);
     void speedChanged(double speed);
     void producerChanged();
+    void durationChanged(int duration);
     void activated();
 
 private:
     QString m_name;
     Mlt::Consumer *m_consumer;
     Mlt::Event *m_frameShowEvent;
+    Mlt::Event *m_producerChangeEvent;
     ProducerWrapper *m_producer;
     AtomicFramePointer m_frame;
     int m_position;

@@ -33,7 +33,7 @@ public:
     TimelineTrack *track();
 
 public slots:
-    void adjustLength();
+    void updateGeometry();
 
 private:
     void loadClips();
