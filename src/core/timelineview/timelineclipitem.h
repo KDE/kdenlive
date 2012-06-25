@@ -13,8 +13,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QGraphicsRectItem>
 #include <kdemacros.h>
+#include "timelinescene.h"
 
 class AbstractTimelineClip;
+class QEvent;
 
 
 class KDE_EXPORT TimelineClipItem : public QObject, public QGraphicsRectItem
@@ -25,12 +27,24 @@ public:
     TimelineClipItem(AbstractTimelineClip *clip, QGraphicsItem* parent);
     virtual ~TimelineClipItem();
 
+    enum { Type = TimelineScene::ClipItemType };
+
+    int type() const;
+
     AbstractTimelineClip *clip();
+
+    void setGeometry(int position, int duration);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
+public slots:
+    void updateGeometry();
+
 protected:
     virtual void paintBackgroundLayer(QPainter *painter, QRectF exposed);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     AbstractTimelineClip *m_clip;

@@ -12,15 +12,17 @@ the Free Software Foundation, either version 3 of the License, or
 #define TIMELINEWIDGET_H
 
 #include <QWidget>
+#include <kdemacros.h>
 
 class Project;
+class ToolManager;
 class TimelineView;
 class TimelineScene;
 class TimelinePositionBar;
 class TrackHeaderContainer;
 
 
-class TimelineWidget : public QWidget
+class KDE_EXPORT TimelineWidget : public QWidget
 {
     Q_OBJECT
 
@@ -30,6 +32,7 @@ public:
 
     TimelineView *view();
     TimelineScene *scene();
+    ToolManager *toolManager();
 
 public slots:
     void setProject(Project *project);
@@ -39,6 +42,7 @@ private:
     TimelineView *m_view;
     TimelinePositionBar *m_positionBar;
     TrackHeaderContainer *m_headerContainer;
+    ToolManager *m_toolManager;
 };
 
 #endif

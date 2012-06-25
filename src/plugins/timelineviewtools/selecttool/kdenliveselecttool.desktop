@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Plugin
+Name=Timelineview Standard Tool
+X-KDE-PluginInfo-Name=kdenliveselecttool
+X-KDE-Library=kdenliveselecttool
+X-Kdenlive-Autoload=true

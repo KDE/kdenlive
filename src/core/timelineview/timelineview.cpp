@@ -23,6 +23,8 @@ TimelineView::TimelineView(QWidget* parent) :
 {
     setFrameShape(QFrame::NoFrame);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
+    setMouseTracking(true);
 }
 
 TimelineView::~TimelineView()
@@ -40,6 +42,11 @@ void TimelineView::setScene(TimelineScene* scene)
     setZoom(m_zoomLevel);
 }
 
+double TimelineView::scale() const
+{
+    return (double) /*frameWidth()*/90 / TimelinePositionBar::comboScale[m_zoomLevel];
+}
+
 void TimelineView::setZoom(int level)
 {
     if (!m_scene) {
@@ -55,7 +62,7 @@ void TimelineView::setZoom(int level)
 
     m_zoomLevel = level;
 
-    double scale = (double) /*frameWidth()*/90 / TimelinePositionBar::comboScale[level];
+    double scale = this->scale();
 
     QMatrix scaleMatrix;
     scaleMatrix = scaleMatrix.scale(scale, transform().m22());
@@ -117,9 +124,9 @@ void TimelineView::wheelEvent(QWheelEvent* event)
 void TimelineView::mousePressEvent(QMouseEvent* event)
 {
     QGraphicsView::mousePressEvent(event);
-//     m_scene->timeline()->monitor()->activate();
+    m_scene->timeline()->monitor()->activate();
     // HACK: use only one consumer. using two is buggy
-    m_scene->timeline()->monitor()->setProducer(m_scene->timeline()->producer());
+//     m_scene->timeline()->monitor()->setProducer(m_scene->timeline()->producer());
 }
 
 #include "timelineview.moc"

@@ -12,6 +12,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include "producerwrapper.h"
 #include "abstractprojectclip.h"
 #include "timelinetrack.h"
+#include "timeline.h"
+#include "project.h"
+#include "commands/resizeclipcommand.h"
+#include "commands/moveclipcommand.h"
+#include <QUndoStack>
 
 AbstractTimelineClip::AbstractTimelineClip(ProducerWrapper* producer, AbstractProjectClip* projectClip, TimelineTrack* parent) :
     m_producer(producer),
@@ -43,6 +48,21 @@ TimelineTrack* AbstractTimelineClip::track()
     return m_parent;
 }
 
+int AbstractTimelineClip::index() const
+{
+    return m_parent->indexOfClip(const_cast<AbstractTimelineClip*>(this));
+}
+
+AbstractTimelineClip* AbstractTimelineClip::before()
+{
+    return m_parent->before(this);
+}
+
+AbstractTimelineClip* AbstractTimelineClip::after()
+{
+    return m_parent->after(this);
+}
+
 int AbstractTimelineClip::position() const
 {
     return m_parent->clipPosition(this);
@@ -67,5 +87,42 @@ QString AbstractTimelineClip::name() const
 {
     return m_projectClip->name();
 }
+
+void AbstractTimelineClip::emitResized()
+{
+    emit resized();
+}
+
+void AbstractTimelineClip::emitMoved()
+{
+    emit moved();
+}
+
+void AbstractTimelineClip::setPosition(int position, QUndoCommand* parentCommand)
+{
+    MoveClipCommand *command = new MoveClipCommand(m_parent->index(), position, this->position(), parentCommand);
+    if (!parentCommand) {
+        m_parent->timeline()->project()->undoStack()->push(command);
+    }
+}
+
+void AbstractTimelineClip::setIn(int in, QUndoCommand* parentCommand)
+{
+    setInOut(in, out(), parentCommand);
+}
+
+void AbstractTimelineClip::setOut(int out, QUndoCommand* parentCommand)
+{
+    setInOut(in(), out, parentCommand);
+}
+
+void AbstractTimelineClip::setInOut(int in, int out, QUndoCommand* parentCommand)
+{
+    ResizeClipCommand *command = new ResizeClipCommand(m_parent->index(), position(), in, out, this->in(), this->out(), parentCommand);
+    if (!parentCommand) {
+        m_parent->timeline()->project()->undoStack()->push(command);
+    }
+}
+
 
 #include "abstracttimelineclip.moc"

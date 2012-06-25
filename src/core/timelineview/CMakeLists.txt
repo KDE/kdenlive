@@ -1,5 +1,8 @@
+add_subdirectory(tool)
 
 set(timelineview_SRCS
+  ${timelineview_tool_SRCS}
+
   timelineview/positionitem.cpp
   timelineview/timelineclipitem.cpp
   timelineview/timelinepositionbar.cpp

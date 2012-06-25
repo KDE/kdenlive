@@ -12,10 +12,13 @@ the Free Software Foundation, either version 3 of the License, or
 #define TIMELINESCENE_H
 
 #include <QGraphicsScene>
+#include <QGraphicsItem>
 #include <kdemacros.h>
 
 class Timeline;
 class TimelineTrackItem;
+class ToolManager;
+class TimelineView;
 
 
 class KDE_EXPORT TimelineScene : public QGraphicsScene
@@ -23,11 +26,15 @@ class KDE_EXPORT TimelineScene : public QGraphicsScene
     Q_OBJECT
 
 public:
-    TimelineScene(Timeline *timeline, QObject* parent = 0);
+    enum ItemTypes { TrackItemType = QGraphicsItem::UserType + 1, ClipItemType };
+
+    TimelineScene(Timeline *timeline, ToolManager *toolManager, TimelineView *view, QObject* parent = 0);
     ~TimelineScene();
 
     Timeline *timeline();
+    TimelineView *view();
     TimelineTrackItem *trackItem(int index);
+    ToolManager *toolManager();
 
 public slots:
     void positionTracks(TimelineTrackItem *after = 0);
@@ -35,11 +42,18 @@ public slots:
 signals:
     void heightChanged(int height);
 
+protected:
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
 private:
     void setupTimeline();
 
     Timeline *m_timeline;
+    TimelineView *m_view;
     QList <TimelineTrackItem*> m_trackItems;
+    ToolManager *m_toolManager;
 };
 
 #endif

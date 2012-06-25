@@ -42,8 +42,8 @@ MonitorGraphicsScene::MonitorGraphicsScene(QObject* parent) :
 {
     m_imageRect = addRect(QRectF(0, 0, 0, 0));
 
-    m_frameCount = 0;
-    m_timer.start();
+//     m_frameCount = 0;
+//     m_timer.start();
 }
 
 MonitorGraphicsScene::~MonitorGraphicsScene()
@@ -225,12 +225,12 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
     glDisable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, 0);
 
-    ++m_frameCount;
-    if (m_timer.elapsed() / 1000 >= 1) {
-        kDebug() << "fps" << m_frameCount;
-        m_frameCount = 0;
-        m_timer.restart();
-    }
+//     ++m_frameCount;
+//     if (m_timer.elapsed() / 1000 >= 1) {
+//         kDebug() << "fps" << m_frameCount;
+//         m_frameCount = 0;
+//         m_timer.restart();
+//     }
 }
 
 void MonitorGraphicsScene::setZoom(qreal level)

@@ -33,6 +33,11 @@ TimelineTrackItem::~TimelineTrackItem()
 
 }
 
+int TimelineTrackItem::type() const
+{
+    return Type;
+}
+
 TimelineTrack* TimelineTrackItem::track()
 {
     return m_track;

@@ -30,7 +30,7 @@ ConfigureTrackCommand::ConfigureTrackCommand(const char *text, int trackIndex, c
 
 void ConfigureTrackCommand::redo()
 {
-    TimelineTrack *track = pCore->projectManager()->current()->timeline()->tracks().at(m_trackIndex);
+    TimelineTrack *track = pCore->projectManager()->current()->timeline()->track(m_trackIndex);
     track->producer()->setProperty(m_setting, m_value);
     (track->*m_notifier)();
 }
@@ -38,7 +38,7 @@ void ConfigureTrackCommand::redo()
 
 void ConfigureTrackCommand::undo()
 {
-    TimelineTrack *track = pCore->projectManager()->current()->timeline()->tracks().at(m_trackIndex);
+    TimelineTrack *track = pCore->projectManager()->current()->timeline()->track(m_trackIndex);
     track->producer()->setProperty(m_setting, m_oldValue);
     (track->*m_notifier)();
 }

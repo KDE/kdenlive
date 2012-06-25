@@ -42,6 +42,8 @@ public:
     ProducerWrapper *producer();
     MonitorModel *monitor();
 
+    TimelineTrack *track(int index);
+
     void loadTracks();
 
 private:

@@ -27,7 +27,7 @@ MonitorModel::MonitorModel(Mlt::Profile* profile, const QString &name, QObject *
 //     setenv("MLT_PROFILE", KdenliveSettings::current_profile().toUtf8().constData(), 1);
 
     // use Mlt::FilteredConsumer for splitview?
-    m_consumer = new Mlt::Consumer(*profile, "sdl_audio");
+    m_consumer = new Mlt::Consumer(*profile, "rtaudio");
 
     Q_ASSERT(m_consumer);
 

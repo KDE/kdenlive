@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 class ProducerWrapper;
 class AbstractProjectClip;
 class TimelineTrack;
+class QUndoCommand;
 
 
 class KDE_EXPORT AbstractTimelineClip : public QObject
@@ -30,6 +31,10 @@ public:
     ProducerWrapper *producer();
     AbstractProjectClip *projectClip();
     TimelineTrack *track();
+    int index() const;
+
+    AbstractTimelineClip *before();
+    AbstractTimelineClip *after();
 
     int position() const;
     int duration() const;
@@ -37,6 +42,19 @@ public:
     int out() const;
 
     QString name() const;
+
+    void emitResized();
+    void emitMoved();
+
+public slots:
+    void setPosition(int position, QUndoCommand *parentCommand = 0);
+    virtual void setIn(int in, QUndoCommand *parentCommand = 0);
+    virtual void setOut(int out, QUndoCommand *parentCommand = 0);
+    virtual void setInOut(int in, int out, QUndoCommand *parentCommand = 0);
+
+signals:
+    void resized();
+    void moved();
 
 protected:
     ProducerWrapper *m_producer;

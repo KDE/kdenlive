@@ -74,14 +74,82 @@ int TimelineTrack::index() const
     return m_parent->tracks().indexOf(const_cast<TimelineTrack*>(this));
 }
 
+int TimelineTrack::mltIndex() const
+{
+    return 0;
+}
+
 QList< AbstractTimelineClip* > TimelineTrack::clips()
 {
     return m_clips.values();
 }
 
+AbstractTimelineClip* TimelineTrack::clip(int index)
+{
+    return m_clips.value(index);
+}
+
+int TimelineTrack::indexOfClip(AbstractTimelineClip* clip) const
+{
+    return m_clips.key(clip);
+}
+
 int TimelineTrack::clipPosition(const AbstractTimelineClip* clip) const
 {
     return m_playlist->clip(mlt_whence_relative_start, m_clips.key(const_cast<AbstractTimelineClip*>(clip)));
+}
+
+AbstractTimelineClip* TimelineTrack::before(AbstractTimelineClip* clip)
+{
+    QMap<int, AbstractTimelineClip*>::iterator it = m_clips.find(m_clips.key(clip));
+    if (it == m_clips.begin()) {
+        return 0;
+    } else {
+        return (--it).value();
+    }
+}
+
+AbstractTimelineClip* TimelineTrack::after(AbstractTimelineClip* clip)
+{
+    QMap<int, AbstractTimelineClip*>::iterator it = m_clips.find(m_clips.key(clip)) + 1;
+    if (it == m_clips.end()) {
+        return 0;
+    } else {
+        return it.value();
+    }
+}
+
+void TimelineTrack::adjustIndices(AbstractTimelineClip* after, int by)
+{
+    QMap<int, AbstractTimelineClip*> adjusted;
+    QMap<int, AbstractTimelineClip*>::iterator it;
+    int index;
+    if (after) {
+        index = m_clips.key(after);
+        it = m_clips.find(index) + 1;
+        ++index;
+    } else {
+        index = 0;
+        it = m_clips.begin();
+    }
+
+    if (by == 0) {
+        while (it != m_clips.end()) {
+            while (m_playlist->is_blank(index) && index < m_playlist->count() - 1) {
+                ++index;
+            }
+            adjusted.insert(index, it.value());
+            ++index;
+            it = m_clips.erase(it);
+        }
+    } else {
+        while (it != m_clips.end()) {
+            adjusted.insert(it.key() + by, it.value());
+            it = m_clips.erase(it);
+        }
+    }
+
+    m_clips.unite(adjusted);
 }
 
 QString TimelineTrack::name() const

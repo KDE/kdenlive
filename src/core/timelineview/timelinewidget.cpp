@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timelinescene.h"
 #include "timelinepositionbar.h"
 #include "trackheadercontainer.h"
+#include "tool/toolmanager.h"
 #include "project/project.h"
 #include "project/projectmanager.h"
 #include "core.h"
@@ -36,6 +37,8 @@ TimelineWidget::TimelineWidget(QWidget* parent) :
     m_view = new TimelineView(this);
     layout->addWidget(m_view, 1, 1);
 
+    m_toolManager = new ToolManager(this);
+
 
     connect(m_view, SIGNAL(zoomChanged(int)), m_positionBar, SLOT(setZoomLevel(int)));
     connect(m_view->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_positionBar, SLOT(setOffset(int)));
@@ -58,7 +61,7 @@ void TimelineWidget::setProject(Project* project)
         m_scene = NULL;
     }
     if (project) {
-        m_scene = new TimelineScene(project->timeline(), this);
+        m_scene = new TimelineScene(project->timeline(), m_toolManager, m_view, this);
     }
     m_view->setScene(m_scene);
 
@@ -73,6 +76,11 @@ TimelineScene* TimelineWidget::scene()
 TimelineView* TimelineWidget::view()
 {
     return m_view;
+}
+
+ToolManager* TimelineWidget::toolManager()
+{
+    return m_toolManager;
 }
 
 #include "timelinewidget.moc"

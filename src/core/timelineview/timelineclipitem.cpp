@@ -9,26 +9,44 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "timelineclipitem.h"
+#include "timelinetrackitem.h"
+#include "timelinescene.h"
+#include "tool/toolmanager.h"
 #include "project/abstracttimelineclip.h"
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#include <QGraphicsSceneMouseEvent>
 
 
 TimelineClipItem::TimelineClipItem(AbstractTimelineClip* clip, QGraphicsItem* parent) :
     QGraphicsRectItem(parent),
     m_clip(clip)
 {
-    setRect(m_clip->position(), 0, m_clip->duration(), static_cast<QGraphicsRectItem*>(parent)->rect().height());
+    updateGeometry();
+
+    connect(m_clip, SIGNAL(resized()), this, SLOT(updateGeometry()));
+    connect(m_clip, SIGNAL(moved()), this, SLOT(updateGeometry()));
+
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 }
 
 TimelineClipItem::~TimelineClipItem()
 {
 }
 
+int TimelineClipItem::type() const
+{
+    return Type;
+}
 
 AbstractTimelineClip* TimelineClipItem::clip()
 {
     return m_clip;
+}
+
+void TimelineClipItem::setGeometry(int position, int duration)
+{
+    setRect(position, 0, duration, static_cast<QGraphicsRectItem*>(parentItem())->rect().height());
 }
 
 void TimelineClipItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -61,11 +79,32 @@ void TimelineClipItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     // draw clip border
     // expand clip rect to allow correct painting of clip border
     painter->setClipping(false);
+    painter->setPen(Qt::blue);
     painter->drawRect(mapped.adjusted(0, 0, -0.5, 0));
 }
 
 void TimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF exposed)
 {
+}
+
+void TimelineClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+    static_cast<TimelineScene*>(scene())->toolManager()->clipEvent(this, event);
+}
+
+void TimelineClipItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    static_cast<TimelineScene*>(scene())->toolManager()->clipEvent(this, event);
+}
+
+void TimelineClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    static_cast<TimelineScene*>(scene())->toolManager()->clipEvent(this, event);
+}
+
+void TimelineClipItem::updateGeometry()
+{
+    setGeometry(m_clip->position(), m_clip->duration());
 }
 
 #include "timelineclipitem.moc"

@@ -26,6 +26,8 @@ public:
 
     void setScene(TimelineScene *scene);
 
+    double scale() const;
+
 public slots:
     void setZoom(int level);
     void zoomIn();

@@ -34,8 +34,8 @@ Timeline::Timeline(const QString& document, Project* parent) :
 
     m_tractor = new Mlt::Tractor(service);
 
-//     m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
-//     m_monitor->setProducer(m_producer);
+    m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
+    m_monitor->setProducer(m_producer);
 //     m_producer->optimise();
 }
 
@@ -89,8 +89,13 @@ ProducerWrapper* Timeline::producer()
 
 MonitorModel* Timeline::monitor()
 {
-//     return m_monitor;
-    return m_parent->binMonitor();
+    return m_monitor;
+//     return m_parent->binMonitor();
+}
+
+TimelineTrack* Timeline::track(int index)
+{
+    return m_tracks.at(index);
 }
 
 void Timeline::loadTracks()

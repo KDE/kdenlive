@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef TIMELINETRACKITEM_H
 #define TIMELINETRACKITEM_H
 
+#include "timelinescene.h"
 #include <QGraphicsRectItem>
 
 class TimelineTrack;
@@ -24,6 +25,10 @@ class TimelineTrackItem : public QObject, public QGraphicsRectItem
 public:
     TimelineTrackItem(TimelineTrack *track, QObject* parent = 0);
     virtual ~TimelineTrackItem();
+
+    enum { Type = TimelineScene::TrackItemType };
+
+    int type() const;
 
     TimelineTrack *track();
 

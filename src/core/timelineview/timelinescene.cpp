@@ -11,13 +11,17 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timelinescene.h"
 #include "positionitem.h"
 #include "timelinetrackitem.h"
+#include "tool/toolmanager.h"
 #include "project/timeline.h"
 #include "project/timelinetrack.h"
+#include <QGraphicsSceneMouseEvent>
 
 
-TimelineScene::TimelineScene(Timeline* timeline, QObject* parent) :
+TimelineScene::TimelineScene(Timeline* timeline, ToolManager *toolManager, TimelineView *view, QObject* parent) :
     QGraphicsScene(parent),
-    m_timeline(timeline)
+    m_timeline(timeline),
+    m_view(view),
+    m_toolManager(toolManager)
 {
     setupTimeline();
 
@@ -33,10 +37,19 @@ Timeline* TimelineScene::timeline()
     return m_timeline;
 }
 
+TimelineView* TimelineScene::view()
+{
+    return m_view;
+}
 
 TimelineTrackItem* TimelineScene::trackItem(int index)
 {
     return m_trackItems.at(index);
+}
+
+ToolManager* TimelineScene::toolManager()
+{
+    return m_toolManager;
 }
 
 void TimelineScene::positionTracks(TimelineTrackItem *after)
@@ -66,6 +79,30 @@ void TimelineScene::setupTimeline()
         m_trackItems.append(trackItem);
     }
     positionTracks();
+}
+
+void TimelineScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+    QGraphicsScene::mouseMoveEvent(event);
+    if (!event->isAccepted()) {
+        m_toolManager->sceneEvent(this, event);
+    }
+}
+
+void TimelineScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    QGraphicsScene::mousePressEvent(event);
+    if (!event->isAccepted()) {
+        m_toolManager->sceneEvent(this, event);
+    }
+}
+
+void TimelineScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    QGraphicsScene::mousePressEvent(event);
+    if (!event->isAccepted()) {
+        m_toolManager->sceneEvent(this, event);
+    }
 }
 
 #include "timelinescene.moc"
