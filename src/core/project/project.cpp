@@ -98,6 +98,16 @@ QUndoStack* Project::undoStack()
     return m_undoStack;
 }
 
+QString Project::setting(const QString& name) const
+{
+    return m_settings.value(name);
+}
+
+void Project::setSetting(const QString& name, const QString& value)
+{
+    m_settings.insert(name, value);
+}
+
 void Project::openFile()
 {
     QString temporaryFileName;
@@ -115,6 +125,7 @@ void Project::openFile()
             QDomElement kdenliveDoc = document.documentElement().firstChildElement("kdenlivedoc");
             m_bin = new BinModel(kdenliveDoc.firstChildElement("project_items"), this);
             loadParts(kdenliveDoc);
+            loadSettings(kdenliveDoc.firstChildElement("settings"));
             m_timeline->loadTracks();
         } else {
             kWarning() << "unable to load document" << m_url.path() << errorMessage;
@@ -142,6 +153,15 @@ void Project::loadParts(const QDomElement& element)
     QList<AbstractProjectPart*> parts = pCore->projectManager()->parts();
     for (int i = 0; i < parts.count(); ++i) {
         parts.at(i)->load(element.firstChildElement(parts.at(i)->name()));
+    }
+}
+
+void Project::loadSettings(const QDomElement& settings)
+{
+    QDomNamedNodeMap attributes = settings.attributes();
+    for (int i = 0; i < attributes.length(); ++i) {
+        QDomNode attribute = attributes.item(i);
+        m_settings.insert(attribute.nodeName(), attribute.nodeValue());
     }
 }
 

@@ -47,16 +47,21 @@ public:
 
     QUndoStack *undoStack();
 
+    QString setting(const QString &name) const;
+    void setSetting(const QString &name, const QString &value);
+
 private:
     void openFile();
     void openNew();
     void loadTimeline(const QString &content);
     void loadParts(const QDomElement &element);
+    void loadSettings(const QDomElement &settings);
 
     KUrl m_url;
     BinModel *m_bin;
     Timeline *m_timeline;
     TimecodeFormatter *m_timecodeFormatter;
+    QHash<QString, QString> m_settings;
 
     QUndoStack *m_undoStack;
 };
