@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timelinescene.h"
 #include "timelinepositionbar.h"
 #include "project/timeline.h"
+#include "project/producerwrapper.h"
 #include "monitor/monitormodel.h"
 #include <QWheelEvent>
 #include <QScrollBar>
@@ -19,7 +20,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 TimelineView::TimelineView(QWidget* parent) :
     QGraphicsView(parent),
-    m_scene(0)
+    m_scene(0),
+    m_zoomLevel(-1)
 {
     setFrameShape(QFrame::NoFrame);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -39,7 +41,7 @@ void TimelineView::setScene(TimelineScene* scene)
     connect(m_scene, SIGNAL(heightChanged(int)), this, SLOT(setHeight(int)));
 
     m_scene->positionTracks();
-    setZoom(m_zoomLevel);
+    setZoom(m_scene->timeline()->producer()->get_int("timelineview_zoom"));
 }
 
 double TimelineView::scale() const
@@ -61,6 +63,9 @@ void TimelineView::setZoom(int level)
     }
 
     m_zoomLevel = level;
+    if (m_scene) {
+        m_scene->timeline()->producer()->set("timelineview_zoom", m_zoomLevel);
+    }
 
     double scale = this->scale();
 
