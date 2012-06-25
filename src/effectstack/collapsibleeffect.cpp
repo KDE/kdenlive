@@ -102,8 +102,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
 
     if (!m_regionEffect) {
 	if (m_info.groupIndex == -1) m_menu->addAction(m_groupAction);
-	//TODO: re-enable region effect when the MLT feature is stabilized
-	//m_menu->addAction(KIcon("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
+	m_menu->addAction(KIcon("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
     setupWidget(info, metaInfo);
     setAcceptDrops(true);
