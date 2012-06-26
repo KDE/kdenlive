@@ -43,6 +43,18 @@ void SelectClipItemTool::mouseMove(QGraphicsSceneMouseEvent* event)
             m_clip->setGeometry(m_clip->clip()->position(), position - m_clip->clip()->position());
             break;
         case SetPosition:
+            position = m_clip->rect().x();
+            m_clip->setGeometry(qMax(0, qRound(event->scenePos().x()) - m_original + m_clip->clip()->position()), m_clip->rect().width());
+
+            QList<QGraphicsItem *> collisions = m_clip->collidingItems();
+            foreach (QGraphicsItem * const &item, collisions) {
+                if (item->type() == TimelineClipItem::Type
+                    && item->parentItem() == m_clip->parentItem()
+                    && item != m_clip) {
+                    m_clip->setGeometry(position, m_clip->rect().width());
+                    break;
+                }
+            }
             break;
     }
 }
@@ -70,6 +82,7 @@ void SelectClipItemTool::mousePress(QGraphicsSceneMouseEvent* event)
                 }
                 break;
             case SetPosition:
+                m_original = qRound(event->scenePos().x());
                 break;
             default:
                 ;
@@ -105,6 +118,8 @@ void SelectClipItemTool::mouseRelease(QGraphicsSceneMouseEvent* event)
             m_clip->clip()->setOut(m_clip->clip()->out() + position - m_original);
             break;
         case SetPosition:
+            position = m_clip->rect().x();
+            m_clip->clip()->setPosition(position);
             break;
     }
     m_editMode = NoEditing;

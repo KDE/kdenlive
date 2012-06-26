@@ -90,7 +90,7 @@ AbstractTimelineClip* TimelineTrack::clip(int index)
     return m_clips.value(index);
 }
 
-int TimelineTrack::indexOfClip(AbstractTimelineClip* clip) const
+int TimelineTrack::clipIndex(AbstractTimelineClip* clip) const
 {
     return m_clips.key(clip);
 }
@@ -139,6 +139,7 @@ void TimelineTrack::adjustIndices(AbstractTimelineClip* after, int by)
             while (m_playlist->is_blank(index) && index < m_playlist->count() - 1) {
                 ++index;
             }
+
             adjusted.insert(index, it.value());
             ++index;
             it = m_clips.erase(it);
@@ -151,6 +152,32 @@ void TimelineTrack::adjustIndices(AbstractTimelineClip* after, int by)
     }
 
     m_clips.unite(adjusted);
+}
+
+void TimelineTrack::setClipIndex(AbstractTimelineClip* clip, int index)
+{
+    int oldIndex = m_clips.key(clip);
+
+    if (index == oldIndex) {
+        return;
+    }
+
+    m_clips.remove(oldIndex);
+
+    QMap<int, AbstractTimelineClip*> adjusted;
+    QMap<int, AbstractTimelineClip*>::iterator it = m_clips.begin();
+
+    for (int i = 0; i < m_playlist->count(); ++i) {
+        if (!m_playlist->is_blank(i)) {
+            if (i == index) {
+                adjusted.insert(i, clip);
+            } else {
+                adjusted.insert(i, (it++).value());
+            }
+        }
+    }
+
+    m_clips = adjusted;
 }
 
 QString TimelineTrack::name() const

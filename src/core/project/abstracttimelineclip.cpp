@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "commands/moveclipcommand.h"
 #include <QUndoStack>
 
+
 AbstractTimelineClip::AbstractTimelineClip(ProducerWrapper* producer, AbstractProjectClip* projectClip, TimelineTrack* parent) :
     m_producer(producer),
     m_projectClip(projectClip),
@@ -38,6 +39,16 @@ ProducerWrapper* AbstractTimelineClip::producer()
     return m_producer;
 }
 
+void AbstractTimelineClip::setProducer(ProducerWrapper* producer)
+{
+    if (m_producer->get_parent() == producer->get_parent()) {
+        delete m_producer;
+        m_producer = producer;
+        emit producerChanged();
+    } else {
+    }
+}
+
 AbstractProjectClip* AbstractTimelineClip::projectClip()
 {
     return m_projectClip;
@@ -50,7 +61,7 @@ TimelineTrack* AbstractTimelineClip::track()
 
 int AbstractTimelineClip::index() const
 {
-    return m_parent->indexOfClip(const_cast<AbstractTimelineClip*>(this));
+    return m_parent->clipIndex(const_cast<AbstractTimelineClip*>(this));
 }
 
 AbstractTimelineClip* AbstractTimelineClip::before()

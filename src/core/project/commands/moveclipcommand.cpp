@@ -15,10 +15,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/timeline.h"
 #include "project/timelinetrack.h"
 #include "project/abstracttimelineclip.h"
+#include "project/producerwrapper.h"
 #include <mlt++/Mlt.h>
 #include <KLocalizedString>
-
-#include <KDebug>
 
 
 MoveClipCommand::MoveClipCommand(int track, int position, int oldPosition, QUndoCommand* parent) :
@@ -57,38 +56,19 @@ void MoveClipCommand::move(int position, int oldPosition)
     int index = playlist->get_clip_index_at(oldPosition);
     AbstractTimelineClip *clip = track->clip(index);
 
-    int indexAtPosition = playlist->get_clip_index_at(position);
+    Mlt::Producer *producer = playlist->replace_with_blank(index);
 
-    if (indexAtPosition == index) {
-        // insert blank before clip
-        playlist->insert_blank(index, position - oldPosition - 1);
-        if (index + 2 < playlist->count()) {
-            // remove same amount after clip
-            playlist->remove_region(position + clip->duration(), position - oldPosition);
-        }
-    } else {
-        Q_ASSERT(playlist->is_blank(indexAtPosition));
+    // necessary if clip is only moved by a duration shorter than its duration
+    // in this case the blank created by replace_with_blank and the following one need to be joined
+    playlist->consolidate_blanks();
 
-        int oldCount = playlist->count();
-        // we cannot just use the clip's duration as the region then might overlap with the clip at its current position
-        int amountToRemove = qMin(clip->duration(), oldPosition - position);
-        indexAtPosition = playlist->remove_region(position, amountToRemove);
-        if (index > indexAtPosition) {
-            // The index needs to be adjusted when a whole blank was removed or one was splitted
-            index += playlist->count() - oldCount;
-        }
-        playlist->move(index, indexAtPosition);
-
-        if (index >= indexAtPosition) {
-            // clip was moved to a position smaller than the old one, so the indices shifted
-            ++index;
-        }
-        playlist->insert_blank(index, amountToRemove - 1);
-    }
+    playlist->insert_at(position, producer, 1);
+    clip->setProducer(new ProducerWrapper(playlist->get_clip_at(position)));
+    delete producer;
 
     playlist->consolidate_blanks();
 
-    track->adjustIndices();
+    track->setClipIndex(clip, playlist->get_clip_index_at(position));
 
     clip->emitMoved();
 }

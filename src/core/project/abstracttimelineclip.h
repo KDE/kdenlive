@@ -29,6 +29,8 @@ public:
     virtual ~AbstractTimelineClip();
 
     ProducerWrapper *producer();
+    virtual void setProducer(ProducerWrapper *producer);
+
     AbstractProjectClip *projectClip();
     TimelineTrack *track();
     int index() const;
@@ -55,6 +57,7 @@ public slots:
 signals:
     void resized();
     void moved();
+    void producerChanged();
 
 protected:
     ProducerWrapper *m_producer;

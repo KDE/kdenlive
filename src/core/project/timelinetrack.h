@@ -44,12 +44,13 @@ public:
 
     QList<AbstractTimelineClip*> clips();
     AbstractTimelineClip *clip(int index);
-    int indexOfClip(AbstractTimelineClip *clip) const;
+    int clipIndex(AbstractTimelineClip *clip) const;
     int clipPosition(const AbstractTimelineClip *clip) const;
     AbstractTimelineClip *before(AbstractTimelineClip *clip);
     AbstractTimelineClip *after(AbstractTimelineClip *clip);
 
     void adjustIndices(AbstractTimelineClip *after = 0, int by = 0);
+    void setClipIndex(AbstractTimelineClip *clip, int index);
 
     QString name() const;
     void setName(const QString &name);
