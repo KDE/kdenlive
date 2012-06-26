@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project.h"
 #include "producerwrapper.h"
 #include "timelinetrack.h"
+#include "timelinebackground.h"
 #include "monitor/monitormodel.h"
 #include "kdenlivesettings.h"
 #include <mlt++/Mlt.h>
@@ -104,7 +105,12 @@ void Timeline::loadTracks()
     Q_ASSERT(m_tracks.count() == 0);
 
     Mlt::Multitrack *multitrack = m_tractor->multitrack();
-    for (int i = multitrack->count() - 1; i > 0; --i) {
+    int min = 0;
+    if (multitrack->track(0)->get("id") == QString("black_track")) {
+        new TimelineBackground(new ProducerWrapper(multitrack->track(0)), this);
+        ++min;
+    }
+    for (int i = multitrack->count() - 1; i >= min; --i) {
         TimelineTrack *track = new TimelineTrack(new ProducerWrapper(multitrack->track(i)), this);
         if (track) {
             m_tracks.append(track);

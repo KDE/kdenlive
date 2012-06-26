@@ -13,6 +13,7 @@ set(project_SRCS
   project/projectfolder.cpp
   project/projectmanager.cpp
   project/timeline.cpp
+  project/timelinebackground.cpp
   project/timelinetrack.cpp
 
   ${commands_SRCS}
