@@ -3,5 +3,7 @@ Type=ServiceType
 X-KDE-ServiceType=Kdenlive/Plugin
 Name=Kdenlive Plugin
 
+# @c true: plugin will be loaded at application start by the plugin manager,
+# @c false: plugins needs to be created manually
 [PropertyDef::X-Kdenlive-Autoload]
 Type=bool

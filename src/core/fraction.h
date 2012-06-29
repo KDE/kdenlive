@@ -12,6 +12,11 @@ the Free Software Foundation, either version 3 of the License, or
 #define FRACTION_H
 
 
+/**
+ * @class Fraction
+ * @brief Describes a fraction with numerator and denominator.
+ */
+
 class Fraction
 {
 public:

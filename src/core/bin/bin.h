@@ -18,6 +18,11 @@ class Project;
 class QAbstractItemView;
 class ProjectItemModel;
 
+/**
+ * @class Bin
+ * @brief The bin widget takes care of both item model and view upon project opening.
+ */
+
 
 class KDE_EXPORT Bin : public QWidget
 {
@@ -27,9 +32,8 @@ public:
     Bin(QWidget* parent = 0);
     ~Bin();
 
-public slots:
+private slots:
     void setProject(Project *project);
-
 
 private:
     ProjectItemModel *m_itemModel;

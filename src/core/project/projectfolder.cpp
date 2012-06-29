@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDomElement>
 
 
-ProjectFolder::ProjectFolder(const QDomElement& description, AbstractProjectItem* parent) :
+ProjectFolder::ProjectFolder(const QDomElement& description, ProjectFolder* parent) :
     AbstractProjectItem(description, parent),
     m_bin(NULL)
 {
@@ -30,7 +30,7 @@ ProjectFolder::ProjectFolder(const QDomElement& description, BinModel* bin) :
     loadChildren(description);
 }
 
-ProjectFolder::ProjectFolder(AbstractProjectItem* parent) :
+ProjectFolder::ProjectFolder(ProjectFolder* parent) :
     AbstractProjectItem(parent)
 {
 }

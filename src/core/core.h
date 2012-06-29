@@ -23,9 +23,16 @@ class PluginManager;
 class MonitorManager;
 class KUrl;
 
-
 #define pCore Core::self()
 
+
+/**
+ * @class Core
+ * @brief Singleton that provides access to the different parts of Kdenlive
+ * 
+ * Needs to be initialize before any widgets are created in MainWindow.
+ * Plugins should be loaded after the widget setup.
+ */
 
 class KDE_EXPORT Core : public QObject
 {
@@ -34,17 +41,29 @@ class KDE_EXPORT Core : public QObject
 public:
     virtual ~Core();
 
+    /**
+     * @brief Constructs the singleton object and the managers.
+     * @param mainWindow pointer to MainWindow
+     */
     static void initialize(MainWindow *mainWindow);
 
+    /** @brief Returns a pointer to the singleton object. */
     static Core *self();
 
+    /** @brief Makes the plugin manager load all auto load plugins. */
     void loadPlugins();
 
+    /** @brief Returns a pointer to the main window. */
     MainWindow *window();
+    /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
+    /** @brief Returns a pointer to the effect repository. */
     EffectRepository *effectRepository();
+    /** @brief Returns a pointer to the clip plugin manager. */
     ClipPluginManager *clipPluginManager();
+    /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
+    /** @brief Returns a pointer to the plugin manager. */
     PluginManager *pluginManager();
 
 private:

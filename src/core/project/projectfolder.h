@@ -16,18 +16,41 @@ the Free Software Foundation, either version 3 of the License, or
 class BinModel;
 
 
+/**
+ * @class ProjectFolder
+ * @brief A folder in the bin.
+ */
+
+
 class ProjectFolder : public AbstractProjectItem
 {
     Q_OBJECT
 
 public:
-    ProjectFolder(const QDomElement &description, AbstractProjectItem* parent);
+    /**
+     * @brief Creates the supplied folder and loads its children.
+     * @param description element describing the folder and its children
+     * @param parent parent folder
+     */
+    ProjectFolder(const QDomElement &description, ProjectFolder* parent);
+    /**
+     * @brief Creates the supplied folder and loads its children. This constructor is used for the root folder.
+     * @param description element describing the folder and its children
+     * @param bin bin model
+     */
     ProjectFolder(const QDomElement &description, BinModel *bin);
-    ProjectFolder(AbstractProjectItem *parent);
+    /** @brief Creates an empty folder. */
+    ProjectFolder(ProjectFolder *parent);
+    /** @brief Creates an empty root folder. */
     ProjectFolder(BinModel *bin);
     ~ProjectFolder();
 
+    /** 
+     * @brief Returns the clip if it is a child (also indirect).
+     * @param id id of the child which should be returned
+     */
     AbstractProjectClip *clip(int id);
+    /** @brief Returns a pointer to the bin model this folder belongs to. */
     BinModel *bin();
 
 private:

@@ -17,6 +17,10 @@ class BinModel;
 class AbstractProjectItem;
 class QItemSelectionModel;
 
+/**
+ * @class ProjectItemModel
+ * @brief Acts as an adaptor to be able to use BinModel with item views.
+ */
 
 class ProjectItemModel : public QAbstractItemModel
 {

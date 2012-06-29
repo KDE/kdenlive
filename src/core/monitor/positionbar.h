@@ -24,6 +24,11 @@
 #include <QWidget>
 
 
+/**
+ * @class PositionBar
+ * @brief Small bar with time ticks and a movable position indicator/cursor.
+ */
+
 class PositionBar : public QWidget
 {
     Q_OBJECT
@@ -32,10 +37,16 @@ public:
     explicit PositionBar(QWidget* parent = 0);
     virtual ~PositionBar();
 
+    /** @brief Returns the currently displayed position. */
     int position() const;
 
 public slots:
+    /** @brief Updates the length in frames to show. */
     void setDuration(int duration);
+    /** @brief Updates the displayed position.
+     * 
+     * positionChanged is not emitted
+     */
     void setPosition(int position);
 
 signals:

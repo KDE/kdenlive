@@ -22,6 +22,12 @@ namespace Mlt
 }
 
 
+/**
+ * @class TimelineBackground
+ * @brief Handles the background track (containing a black clip) and takes care of adjusting its length.
+ */
+
+
 class TimelineBackground : public QObject
 {
     Q_OBJECT

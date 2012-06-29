@@ -29,8 +29,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 Project::Project(const KUrl& url, QObject* parent) :
     QObject(parent),
-    m_url(url),
-    m_timeline(0)
+    m_url(url)
 {
     if (url.isEmpty()) {
         openNew();
@@ -44,6 +43,9 @@ Project::Project(const KUrl& url, QObject* parent) :
 Project::Project(QObject* parent) :
     QObject(parent)
 {
+    openNew();
+
+    m_undoStack = new QUndoStack(this);
 }
 
 Project::~Project()
@@ -55,7 +57,7 @@ KUrl Project::url() const
     return m_url;
 }
 
-QString Project::description()
+QString Project::caption()
 {
     if (m_url.isEmpty())
         return i18n("Untitled") + " / " + profile()->description();

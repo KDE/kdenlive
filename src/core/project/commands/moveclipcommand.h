@@ -14,9 +14,23 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUndoCommand>
 
 
+/**
+ * @class MoveClipCommand
+ * @brief Handles changing a clips position inside a track.
+ * 
+ * WARNING: No safety checks are performed. Make sure there is sufficient white space at the new position.
+ */
+
+
 class MoveClipCommand : public QUndoCommand
 {
 public:
+    /**
+     * @brief Constructor; if no parent command is supplied redo is called (it won't be called again when pushing to the stack).
+     * @param track index of the track containing the clip
+     * @param position new position
+     * @param oldPosition current/old position
+     */
     explicit MoveClipCommand(int track, int position, int oldPosition, QUndoCommand* parent = 0);
 
     void redo();

@@ -28,7 +28,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KDebug>
 
 
-MainWindow::MainWindow(const QString &MltPath, const KUrl &url, const QString & clipsToLoad, QWidget* parent) :
+MainWindow::MainWindow(const QString &mltPath, const KUrl &url, const QString & clipsToLoad, QWidget* parent) :
     KXmlGuiWindow(parent)
 {
     initLocale();

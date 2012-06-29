@@ -28,37 +28,100 @@ class QImage;
 typedef QAtomicPointer<Mlt::Frame> AtomicFramePointer;
 
 
+/**
+ * @class MonitorModel
+ * @brief Wrapper around Mlt::Consumer
+ */
+
 class KDE_EXPORT MonitorModel : public QObject
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Creates a new consumer according to the parameters and some global settings.
+     * @param profile profile to use
+     * @param name Displayable (translated) name used as dock widget title by MonitorManager
+     */
     explicit MonitorModel(Mlt::Profile *profile, const QString &name, QObject *parent = 0);
     virtual ~MonitorModel();
 
+    /** @brief Returns the displayable translated name. */
     QString name() const;
 
+    /**
+     * @brief Connects the provided producer to the handled consumer.
+     * @param producer new producer to use
+     * 
+     * emits activated
+     * emits producerChanged
+     */
     void setProducer(ProducerWrapper *producer);
 
+    /** @brief Returns the current position. */
     int position() const;
+    /** @brief Returns the current playback speed. */
     double speed() const;
+    /** @brief Returns the producer's duration (playtime). */
     int duration() const;
+
+    /**
+     * @brief Returns the frame pointer.
+     * 
+     * The frame pointer either points to the current frame or is 0 if it was already used.
+     */
     AtomicFramePointer *framePointer();
 
+    /**
+     * @brief Updates the frame pointer.
+     * 
+     * emits frameUpdated
+     * emits positionChanged if necessary
+     * 
+     * Should only be used internally by consumer_frame_show!
+     */
     void updateFrame(mlt_frame frame);
 
+    /** @brief Emits durationChanged and makes sure the current position is still valid. */
     void emitDurationChanged();
 
+    /** @brief Callback for the consumer-frame-show consumer event. Calls updateFrame. */
     static void consumer_frame_show(mlt_consumer, MonitorModel *self, mlt_frame frame_ptr);
+
+    /** @brief Callback for the producer-changed producer event. Calls emitDurationChanged. */
     static void producer_change(mlt_producer producer, MonitorModel *self);
 
 public slots:
+    /** @brief Starts playback. */
     void play();
+    /** @brief Pauses playback. */
     void pause();
+    /** @brief Toggles between play and pause. */
     void togglePlaybackState();
+    /** 
+     * @brief Sets the position.
+     * @param position new position
+     * 
+     * A range change for position is performed.
+     * 
+     * emits positionChanged and triggers a frame update if necessary
+     */
     void setPosition(int position);
+    /** 
+     * @brief Sets the speed.
+     * @param speed new speed
+     * 
+     * Does not trigger a monitor refresh!
+     * emits speedChanged
+     */
     void setSpeed(double speed);
+    /**
+     * @brief Emits activated.
+     */
     void activate();
+    /**
+     * @brief Tells the consumer to refresh/get a new frame.
+     */
     void refresh();
 
 signals:

@@ -15,6 +15,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 class Project;
 
+/**
+ * @class UndoView
+ * @brief Thin layer to around QUndoView which reacts when the current project changes.
+ */
 
 class UndoView : public QUndoView
 {

@@ -22,26 +22,60 @@ class AbstractProjectItem;
 class QDomElement;
 
 
+/**
+ * @class BinModel
+ * @brief Provides some functionality on top of the root folder for easy access from both the project and the item model.
+ */
+
+
 class KDE_EXPORT BinModel : public QObject
 {
     Q_OBJECT
 
 public:
+    /** 
+     * @brief Creates an empty root folder and a monitor model.
+     * @param parent project this bin belongs to
+     */
     BinModel(Project *parent = 0);
+    /**
+     * @brief Creates monitor model and root folder and passes the supplied information on to it.
+     * @param rootItem element describing the bin contents (handled by the root folder)
+     * @param parent project this bin belongs to
+     * 
+     */
     BinModel(const QDomElement &rootItem, Project* parent = 0);
 
+    /** @brief Returns a pointer to the project this bin belongs to. */
     Project *project();
+    /** @brief Returns a pointer to the bin's monitor model. */
     MonitorModel *monitor();
 
+    /** @brief Returns a pointer to the root folder. */
     ProjectFolder *rootFolder();
+    /** 
+     * @brief Returns a pointer to the clip or NULL if not found. 
+     * @param id id of the clip which should be searched for
+     */
     AbstractProjectClip *clip(int id);
+    /** @brief Returns a pointer to the current item or NULL if there is no current item. */
     AbstractProjectItem *currentItem();
+    /**
+     * @brief Sets a new current item and tells the old one about it.
+     * @param item new current item
+     * 
+     * emits currentItemChanged
+     */
     void setCurrentItem(AbstractProjectItem *item);
 
 public slots:
+    /** @brief emits aboutToAddItem. */
     void emitAboutToAddItem(AbstractProjectItem *item);
+    /** @brief emits itemAdded. */
     void emitItemAdded(AbstractProjectItem *item);
+    /** @brief emits aboutToRemoveItem. */
     void emitAboutToRemoveItem(AbstractProjectItem *item);
+    /** @brief emits itemRemoved. */
     void emitItemRemoved(AbstractProjectItem *item);
 
 signals:

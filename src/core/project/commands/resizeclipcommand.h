@@ -14,9 +14,32 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUndoCommand>
 
 
+/**
+ * @class ResizeClipCommand
+ * @brief Handles resizing a clip.
+ * 
+ * The clips position will not be changed. Modifying the in point will cause the absolute out point
+ * to change (=position + duration).
+ * 
+ * WARNING: No safety checks are perfomed!
+ * Make sure that the in and out points are valid for the clip and that there is sufficient white
+ * space following the clip.
+ */
+
+
 class ResizeClipCommand : public QUndoCommand
 {
 public:
+    /**
+     * @brief Constructor; if no parent command is supplied redo is called (it won't be called again when pushing to the stack).
+     * @param track index of the track containing the clip
+     * @param position position of the clip
+     * @param in new in point (in frames); negative values are allowed for clips without a duration
+     *           limit and will cause "out" to be increased
+     * @param out new out point
+     * @param oldIn current in point
+     * @param oldOut current out point
+     */
     explicit ResizeClipCommand(int track, int position, int in, int out, int oldIn, int oldOut, QUndoCommand* parent = 0);
 
     void redo();

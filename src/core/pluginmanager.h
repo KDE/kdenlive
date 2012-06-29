@@ -17,14 +17,21 @@ the Free Software Foundation, either version 3 of the License, or
 
 class KPluginFactory;
 
+/**
+ * @class PluginManager
+ * @brief Locates the plugins and allows to load them.
+ */
 
 class PluginManager : public QObject
 {
     Q_OBJECT
 
 public:
+    /** @brief Locates the plugins. */
     explicit PluginManager(QObject* parent = 0);
 
+    /** @brief Creates all plugins with should be auto loaded.
+     * @see kdenliveplugin.desktop */
     void load();
 
 private:

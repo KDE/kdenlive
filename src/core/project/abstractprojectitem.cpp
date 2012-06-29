@@ -73,7 +73,7 @@ void AbstractProjectItem::setParent(AbstractProjectItem* parent)
 
 void AbstractProjectItem::addChild(AbstractProjectItem* child)
 {
-    if (child) {
+    if (child && !contains(child)) {
         bin()->emitAboutToAddItem(child);
         append(child);
         bin()->emitItemAdded(child);

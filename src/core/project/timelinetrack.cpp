@@ -75,10 +75,10 @@ int TimelineTrack::index() const
     return m_parent->tracks().indexOf(const_cast<TimelineTrack*>(this));
 }
 
-int TimelineTrack::mltIndex() const
-{
-    return 0;
-}
+// int TimelineTrack::mltIndex() const
+// {
+//     return 0;
+// }
 
 QList< AbstractTimelineClip* > TimelineTrack::clips()
 {

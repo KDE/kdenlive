@@ -14,12 +14,28 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUndoCommand>
 #include "project/timelinetrack.h"
 
+/** Pointer to a member function of TimelineTrack with no arguments. */
 typedef void (TimelineTrack::*TrackNotifier)();
+
+
+/**
+ * @class ConfigureTrackCommand
+ * @brief Handles the modification of track settings.
+ */
 
 
 class ConfigureTrackCommand : public QUndoCommand
 {
 public:
+    /**
+     * @brief Constructor.
+     * @param text untranslated text describing the command (@see QUndoCommand::setText)
+     * @param trackIndex index of the track
+     * @param setting producer property name of the setting to be modified
+     * @param value new value
+     * @param oldValue current/old value
+     * @param notifier notifier which should be called upon setting change
+     */
     explicit ConfigureTrackCommand(const char *text, int trackIndex, const QString &setting, const QString &value, const QString &oldValue, TrackNotifier notifier, QUndoCommand* parent = 0);
 
     void undo();

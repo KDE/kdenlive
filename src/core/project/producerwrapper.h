@@ -18,16 +18,48 @@ the Free Software Foundation, either version 3 of the License, or
 class QPixmap;
 
 
+/**
+ * @class ProducerWrapper
+ * @brief Provides a thin convenience wrapper around Mlt::Producer
+ */
+
+
 class KDE_EXPORT ProducerWrapper : public Mlt::Producer
 {
 public:
+    /**
+     * @brief Constructor.
+     * @param producer producer to create reference to
+     */
     ProducerWrapper(Mlt::Producer *producer);
+    /**
+     * @brief Constructs a new producer.
+     * @param profile profile to use
+     * @param input construction argument for the producer (for example the resource)
+     * @param service type of producer to create
+     * @see mlt_factory_producer
+     */
     ProducerWrapper(Mlt::Profile &profile, const QString &input, const QString &service = QString());
     virtual ~ProducerWrapper();
 
+    /**
+     * @brief Sets a property.
+     * @param name name of the property
+     * @param value the new value
+     */
     void setProperty(const QString &name, const QString &value);
+    /**
+     * @brief Returns the value of a property.
+     * @param name name o the property
+     */
     QString property(const QString &name);
 
+    /**
+     * @brief Returns a pixmap created from a frame of the producer.
+     * @param position frame position
+     * @param width width of the pixmap (only a guidance)
+     * @param height height of the pixmap (only a guidance)
+     */
     QPixmap pixmap(int position = 0, int width = 0, int height = 0);
 };
 

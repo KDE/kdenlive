@@ -20,19 +20,35 @@ class Project;
 class QSignalMapper;
 
 
+/**
+ * @class MonitorManager
+ * @brief Takes care of assigning the monitor models to views.
+ */
+
+
 class MonitorManager : public QObject
 {
     Q_OBJECT
 
 public:
+    /** @brief Creates a "auto" monitor view. */
     explicit MonitorManager(QObject* parent = 0);
 
+    /**
+     * @brief Registers a model and creates a view for it is necessary.
+     * @param id indentifier for model and view
+     * @param model pointer to model
+     * @param needsOwnView @c false if a view with id @param id exists it is used, otherwise on activation
+     *                              the model is assigned to the auto view
+     *                     @c true if no view with id @param id exists one is created.
+     * 
+     * The two default project models (bin, timeline) do not need to be added manually, they are registerd
+     * internally once a project is openend.
+     */
     void registerModel(const QString &id, MonitorModel *model, bool needsOwnView = false);
 
-public slots:
-    void setProject(Project *project);
-
 private slots:
+    void setProject(Project *project);
     void onModelActivated(const QString &id);
 
 private:

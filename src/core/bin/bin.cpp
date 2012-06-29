@@ -31,12 +31,6 @@ Bin::Bin(QWidget* parent) :
 
 Bin::~Bin()
 {
-    if (m_itemView) {
-        delete m_itemView;
-    }
-    if (m_itemModel) {
-        delete m_itemModel;
-    }
 }
 
 void Bin::setProject(Project* project)
@@ -50,7 +44,7 @@ void Bin::setProject(Project* project)
 
     m_itemModel = new ProjectItemModel(project->bin(), this);
 
-    m_itemView = new QTreeView();
+    m_itemView = new QTreeView(this);
     layout()->addWidget(m_itemView);
     m_itemView->setModel(m_itemModel);
     m_itemView->setSelectionModel(m_itemModel->selectionModel());

@@ -62,7 +62,7 @@ void ProjectManager::openProject(const KUrl& url)
     }
     m_project = new Project(url, this);
 
-    pCore->window()->setCaption(m_project->description());
+    pCore->window()->setCaption(m_project->caption());
 
     emit projectOpened(m_project);
 

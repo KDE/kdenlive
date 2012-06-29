@@ -26,28 +26,61 @@ namespace Mlt
 }
 
 
+/**
+ * @class Project
+ * @brief ...
+ */
+
+
 class KDE_EXPORT Project : public QObject
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Loads the project from the supplied url.
+     * @param url url of file to open/load
+     */
     Project(const KUrl &url, QObject* parent = 0);
+    /** @brief Creates a new project. */
     Project(QObject *parent = 0);
     virtual ~Project();
 
+    /** @brief Returns the url of the project file. */
     KUrl url() const;
-    QString description();
+    /** @brief Returns a short displayable caption describing the project in the format: filename / profile name. */
+    QString caption();
 
+    /** @brief Returns a pointer to the timeline. */
     Timeline *timeline();
+    /** @brief Returns a pointer to the bin model. */
     BinModel *bin();
+    /** @brief Returns a pointer to the bin monitor model. */
     MonitorModel *binMonitor();
+    /** @brief Returns a pointer to the timeline monitor model. */
     MonitorModel *timelineMonitor();
+    /** @brief Returns a pointer to the used profile. */
     Mlt::Profile *profile();
+    /** @brief Returns a pointer to the used timecode formatter. */
     TimecodeFormatter *timecodeFormatter();
 
+    /** @brief Returns a pointer to the project's undo stack. */
     QUndoStack *undoStack();
 
+    /** @brief Retrieves a setting.
+     * @param name name of the setting to get
+     * 
+     * Settings can be used to store simple data in the project. For more complex data or something
+     * that requires better separation subclass AbstractProjectPart.
+     */
     QString setting(const QString &name) const;
+    /**
+     * @brief Sets a new settings value.
+     * @param name name of value (does not have to exist already)
+     * @param value new value
+     * 
+     * @see setting
+     */
     void setSetting(const QString &name, const QString &value);
 
 private:

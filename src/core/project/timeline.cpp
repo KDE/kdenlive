@@ -27,6 +27,7 @@ Timeline::Timeline(const QString& document, Project* parent) :
     m_profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
     m_producer = new ProducerWrapper(*m_profile, document, "xml-string");
 
+    // this shouldn't be an assert
     Q_ASSERT(m_producer && m_producer->is_valid());
 
     Mlt::Service service(m_producer->parent().get_service());

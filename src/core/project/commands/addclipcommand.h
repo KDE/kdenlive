@@ -18,11 +18,24 @@ class AbstractClipPlugin;
 class ProjectFolder;
 class AbstractProjectClip;
 
-// WARNING: when the parentItem is recreated between redo and undo calls we will crash
-// -> instead of a pointer store a "index"-Tree which allows us to get the current pointer to the parentItem
+
+/**
+ * @class AddClipCommand
+ * @brief Handles creating and adding a clip to the project.
+ * 
+ * WARNING: when the parentItem is recreated between redo and undo calls we will crash
+ * -> instead of a pointer store a "index"-Tree which allows us to get the current pointer to the parentItem
+ */
+
 class AddClipCommand : public QUndoCommand
 {
 public:
+    /**
+     * @brief Constructor.
+     * @param url url to the file which should be added
+     * @param plugin plugin handling the clip type of the file
+     * @param parentItem folder to which the clip should be added to
+     */
     explicit AddClipCommand(const KUrl &url, AbstractClipPlugin *plugin, ProjectFolder *parentItem, QUndoCommand* parent = 0);
 
     void undo();

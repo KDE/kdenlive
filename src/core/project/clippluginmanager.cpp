@@ -67,14 +67,16 @@ void ClipPluginManager::createClip(const KUrl& url, ProjectFolder *folder, QUndo
         if (producer->is_valid()) {
             AbstractClipPlugin *plugin = clipPlugin(producer->get("mlt_service"));
             if (plugin) {
-                new AddClipCommand(url, plugin, folder, parentCommand);
+                AddClipCommand *command = new AddClipCommand(url, plugin, folder, parentCommand);
+                if (!parentCommand) {
+                    pCore->projectManager()->current()->undoStack()->push(command);
+                }
             } else {
                 kWarning() << "no clip plugin available for mlt service " << producer->get("mlt_service");
             }
         }
         delete producer;
     } else {
-        // TODO: proper warning
         kWarning() << url.path() << " does not exist";
     }
 }

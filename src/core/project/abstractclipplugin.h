@@ -24,17 +24,39 @@ class QDomElement;
 class QGraphicsItem;
 
 
+/**
+ * @class AbstractClipPlugin
+ * @brief Abstract base class for clip plugins.
+ * 
+ * A clip plugin has to exist for every clip type. It should be created by the plugins factory (which
+ * will be loaded on startup) and is responsible for providing means to open a clip of the implemented
+ * type (for example by registering a mimetype to the add file dialog).
+ * The plugin object is also responsible for creating project clip objects.
+ */
+
+
 class KDE_EXPORT AbstractClipPlugin : public QObject
 {
     Q_OBJECT
 
 public:
+    /** @brief Should do basic setup and registering the different ways of creating a clip. */
     explicit AbstractClipPlugin(ClipPluginManager* parent);
     virtual ~AbstractClipPlugin();
 
+    /** @brief Should return a clip created from @param url. */
     virtual AbstractProjectClip *createClip(const KUrl &url, ProjectFolder *parent) const = 0;
+    /**
+     * @brief Should return a clip created from @paramd description.
+     * 
+     * This function is only used when opening a project.
+     */
     virtual AbstractProjectClip *loadClip(const QDomElement &description, ProjectFolder *parent) const = 0;
 
+    /**
+     * @brief Returns a timelineView clip item for the provided timeline clip.
+     * @param clip timeline clip to create view for.
+     */
     // change to QObject *timelineClipView(TimelineViewType type, AbstractTimelineClip *clip, QObject *parent) once we have different timeline views
     virtual TimelineClipItem *timelineClipView(AbstractTimelineClip *clip, QGraphicsItem* parent) const;
 

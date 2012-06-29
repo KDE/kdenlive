@@ -30,6 +30,8 @@ void TimelineBackground::onTimelineDurationChange()
 {
     int duration = m_playlist->get_playtime();
 
+    // if the other tracks were shortened this track prevents us from seing the real timeline duration
+    // so hide it to find out the real timeline duration
     m_parent->producer()->block();
     m_playlist->set_in_and_out(0, 0);
     int timelineDuration = m_parent->duration();

@@ -124,6 +124,8 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
         int size = width * height * 4;
 
         if (KDE_ISUNLIKELY(size != m_imageRect->rect().width() * m_imageRect->rect().height() * 4)) {
+            // The frame dimensions have changed. We need to update the gl buffer sizes.
+
             m_imageRect->setRect(0, 0, width, height);
 
 #ifdef USE_PBO

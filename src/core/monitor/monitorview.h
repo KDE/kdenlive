@@ -23,22 +23,37 @@ class KDualAction;
 class QGraphicsView;
 
 
+/**
+ * @class MonitorView
+ * @brief Widget contains the actual monitor and the related controls.
+ */
+
+
 class KDE_EXPORT MonitorView : public QWidget
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Sets up the GUI elements.
+     */
     explicit MonitorView(QWidget* parent = 0);
     virtual ~MonitorView();
 
+    /**
+     * @brief Assigns a new model to the view and connects the controls to it.
+     * @param model new monitor model
+     */
     void setModel(MonitorModel *model);
+    /** @brief Returns the current model */
     MonitorModel *model();
 
-public slots:
+private slots:
+    /** @brief Toggles between play and pause. */
     void togglePlaybackState();
+    /** @brief Updates the shown position of the controls (position bar, timecode widget). */
     void setPosition(int position);
 
-private slots:
     void onPlaybackStateChange(bool plays);
     void onProducerChanged();
 

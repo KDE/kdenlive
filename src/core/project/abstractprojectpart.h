@@ -16,18 +16,42 @@ the Free Software Foundation, either version 3 of the License, or
 #include <kdemacros.h>
 
 
+/**
+ * @class AbstractProjectPart
+ * @brief Subclassing AbstractProjectPart allows to store extra information in the project.
+ * 
+ * For very simple information that does not need a complete separation the project's setting
+ * functionality should be used instead.
+ * 
+ * Objects are registered to the project manager and the individual projects only call load and
+ * save but don't instantiate the objects themself.
+ */
+
+
 class KDE_EXPORT AbstractProjectPart : public QObject
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Registers the part to the project manager. 
+     * @param name name of the element this part stores its information in
+     */
     explicit AbstractProjectPart(const QString &name, QObject *parent = 0);
 
+    /** @brief Returns the (tag) name of the element this part stores its information in. */
     QString name() const;
 
+    /** @brief Called by the project to request the current data. */
     virtual QDomElement save() const = 0;
+    /** @brief Called upon project creation. */
     virtual void load(const QDomElement &element) = 0;
 
+    /** 
+     * @brief Should be called when the data of this part has changed.
+     * 
+     * emits modified to notify the project.
+     */
     void setModified();
 
 signals:
