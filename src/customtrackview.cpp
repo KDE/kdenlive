@@ -3824,7 +3824,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
         }
     } else if (m_operationMode == FADEOUT) {
-        // resize fade in effect
+        // resize fade out effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         int ix = item->hasEffect("volume", "fadeout");
         int ix2 = item->hasEffect("", "fade_to_black");
@@ -3849,8 +3849,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 // add video fade
                 effect = MainWindow::videoEffects.getEffectByTag("", "fade_to_black").cloneNode().toElement();
             } else effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout").cloneNode().toElement();
-            EffectsList::setParameter(effect, "in", QString::number(item->fadeOut()));
-            EffectsList::setParameter(effect, "out", QString::number(0));
+            int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
+            int start = end-item->fadeOut();
+            EffectsList::setParameter(effect, "in", QString::number(start));
+            EffectsList::setParameter(effect, "out", QString::number(end));
             slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
         }
         if (ix2 != -1) {
