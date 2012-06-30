@@ -188,21 +188,21 @@ void ClipItem::setEffectList(const EffectsList effectList)
                         }
                     } else if (effectId == "fadeout") {
                         if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
-                            if (e.attribute("name") == "out") fade -= e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
+                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
+                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
                         } else {
                             QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
-                            if (fadeout.attribute("name") == "out") fade -= fadeout.attribute("value").toInt();
-                            else if (fadeout.attribute("name") == "in") fade += fadeout.attribute("value").toInt();
+                            if (fadeout.attribute("name") == "out") fade += fadeout.attribute("value").toInt();
+                            else if (fadeout.attribute("name") == "in") fade -= fadeout.attribute("value").toInt();
                         }
                     } else if (effectId == "fade_to_black") {
                         if (m_effectList.hasEffect(QString(), "fadeout") == -1) {
-                            if (e.attribute("name") == "out") fade -= e.attribute("value").toInt();
-                            else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
+                            if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
+                            else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
                         } else {
                             QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
-                            if (fadeout.attribute("name") == "out") fade -= fadeout.attribute("value").toInt();
-                            else if (fadeout.attribute("name") == "in") fade += fadeout.attribute("value").toInt();
+                            if (fadeout.attribute("name") == "out") fade += fadeout.attribute("value").toInt();
+                            else if (fadeout.attribute("name") == "in") fade -= fadeout.attribute("value").toInt();
                         }
                     }
                 }
