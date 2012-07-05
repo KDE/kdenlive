@@ -5,5 +5,7 @@ set (monitor_SRCS
   monitor/monitormodel.cpp
   monitor/monitorview.cpp
   monitor/positionbar.cpp
+  monitor/glwidget.cpp
+  monitor/mltcontroller.cpp
   PARENT_SCOPE
 )
