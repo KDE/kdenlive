@@ -398,3 +398,4 @@ void ResourceWidget::updateLayout()
     if (!m_meta.isEmpty()) content.append(m_meta);
     info_browser->setHtml(content);
 }
+

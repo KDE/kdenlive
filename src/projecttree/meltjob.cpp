@@ -199,3 +199,4 @@ void MeltJob::emitFrameNumber()
         emit jobProgress(m_clipId, (int) (100 * m_consumer->position() / m_length), jobType);
     }
 }
+
