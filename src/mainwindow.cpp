@@ -4470,7 +4470,7 @@ void MainWindow::slotOpenBackupDialog(const KUrl url)
         projectId = m_activeDocument->getDocumentProperty("documentid");
     }
 
-    BackupWidget *dia = new BackupWidget(projectFile, projectFolder, projectId, this);
+    QPointer<BackupWidget> dia = new BackupWidget(projectFile, projectFolder, projectId, this);
     if (dia->exec() == QDialog::Accepted) {
         QString requestedBackup = dia->selectedFile();
         m_activeDocument->backupLastSavedVersion(projectFile.path());
