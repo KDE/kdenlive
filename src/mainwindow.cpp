@@ -2062,7 +2062,7 @@ void MainWindow::openFile(const KUrl &url)
     if (mime.data()->is("application/x-compressed-tar")) {
         // Opening a compressed project file, we need to process it
         kDebug()<<"Opening archive, processing";
-        ArchiveWidget *ar = new ArchiveWidget(url);
+        QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) openFile(KUrl(ar->extractedProjectFile()));
         delete ar;
         return;
