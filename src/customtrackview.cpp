@@ -5310,11 +5310,13 @@ void CustomTrackView::slotEditTimeLineGuide()
 {
     if (m_dragGuide == NULL) return;
     CommentedTime guide = m_dragGuide->info();
-    MarkerDialog d(NULL, guide, m_document->timecode(), i18n("Edit Guide"), this);
-    if (d.exec() == QDialog::Accepted) {
-        EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d.newMarker().time(), d.newMarker().comment(), true);
+    QPointer<MarkerDialog> d = new MarkerDialog(NULL, guide,
+                     m_document->timecode(), i18n("Edit Guide"), this);
+    if (d->exec() == QDialog::Accepted) {
+        EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d->newMarker().time(), d->newMarker().comment(), true);
         m_commandStack->push(command);
     }
+    delete d;
 }
 
 void CustomTrackView::slotDeleteGuide(int guidePos)
