@@ -5964,21 +5964,22 @@ void CustomTrackView::slotInsertTrack(int ix)
 void CustomTrackView::slotDeleteTrack(int ix)
 {
     if (m_document->tracksCount() < 2) return;
-    TrackDialog d(m_document, parentWidget());
-    d.comboTracks->setCurrentIndex(ix);
-    d.label->setText(i18n("Delete track"));
-    d.before_select->setHidden(true);
-    d.setWindowTitle(i18n("Delete Track"));
-    d.video_track->setHidden(true);
-    d.audio_track->setHidden(true);
-    if (d.exec() == QDialog::Accepted) {
-        ix = d.comboTracks->currentIndex();
+    QPointer<TrackDialog> d = new TrackDialog(m_document, parentWidget());
+    d->comboTracks->setCurrentIndex(ix);
+    d->label->setText(i18n("Delete track"));
+    d->before_select->setHidden(true);
+    d->setWindowTitle(i18n("Delete Track"));
+    d->video_track->setHidden(true);
+    d->audio_track->setHidden(true);
+    if (d->exec() == QDialog::Accepted) {
+        ix = d->comboTracks->currentIndex();
         TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
         deleteTimelineTrack(ix, info);
         setDocumentModified();
         /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false);
         m_commandStack->push(command);*/
     }
+    delete d;
 }
 
 void CustomTrackView::slotConfigTracks(int ix)
