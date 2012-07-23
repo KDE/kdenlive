@@ -2919,14 +2919,16 @@ void MainWindow::slotEditClipMarker()
     }
 
     CommentedTime marker(pos, oldcomment);
-    MarkerDialog d(clip, marker, m_activeDocument->timecode(), i18n("Edit Marker"), this);
-    if (d.exec() == QDialog::Accepted) {
-        m_activeTimeline->projectView()->slotAddClipMarker(id, d.newMarker().time(), d.newMarker().comment());
-        if (d.newMarker().time() != pos) {
+    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker,
+                      m_activeDocument->timecode(), i18n("Edit Marker"), this);
+    if (d->exec() == QDialog::Accepted) {
+        m_activeTimeline->projectView()->slotAddClipMarker(id, d->newMarker().time(), d->newMarker().comment());
+        if (d->newMarker().time() != pos) {
             // remove old marker
             m_activeTimeline->projectView()->slotAddClipMarker(id, pos, QString());
         }
     }
+    delete d;
 }
 
 void MainWindow::slotAddMarkerGuideQuickly()
