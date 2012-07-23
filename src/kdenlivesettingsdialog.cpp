@@ -480,34 +480,45 @@ void KdenliveSettingsDialog::showPage(int page, int option)
 void KdenliveSettingsDialog::slotEditVideoApplication()
 {
     KService::Ptr service;
-    KOpenWithDialog dlg(KUrl::List(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
-    if (dlg.exec() != QDialog::Accepted)
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
+    if (dlg->exec() != QDialog::Accepted)
+    {
+        delete dlg;
         return;
+    }
 
-    service = dlg.service();
+    service = dlg->service();
     m_configEnv.kcfg_defaultplayerapp->setText(service->exec());
+    delete dlg;
 }
 
 void KdenliveSettingsDialog::slotEditAudioApplication()
 {
     KService::Ptr service;
-    KOpenWithDialog dlg(KUrl::List(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
-    if (dlg.exec() != QDialog::Accepted)
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
+    if (dlg->exec() != QDialog::Accepted)
+    {
+        delete dlg;
         return;
+    }
 
-    service = dlg.service();
+    service = dlg->service();
     m_configEnv.kcfg_defaultaudioapp->setText(service->exec());
+    delete dlg;
 }
 
 void KdenliveSettingsDialog::slotEditImageApplication()
 {
     KService::Ptr service;
-    KOpenWithDialog dlg(KUrl::List(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
-    if (dlg.exec() != QDialog::Accepted)
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
+    if (dlg->exec() != QDialog::Accepted)
+    {
+        delete dlg;
         return;
-
-    service = dlg.service();
+    }
+    service = dlg->service();
     m_configEnv.kcfg_defaultimageapp->setText(service->exec());
+    delete dlg;
 }
 
 #ifdef USE_JOGSHUTTLE
@@ -988,7 +999,7 @@ void KdenliveSettingsDialog::slotManageEncodingProfile()
         if (m_configCapture.tabWidget->currentIndex() == 1) type = 1;
         else if (m_configCapture.tabWidget->currentIndex() == 3) type = 2;
     }
-    EncodingProfilesDialog *d = new EncodingProfilesDialog(type);
+    QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(type);
     d->exec();
     delete d;
     loadEncodingProfiles();
@@ -1076,7 +1087,7 @@ void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
 void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
 {
     QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
-    ProfilesDialog *w = new ProfilesDialog(vl4ProfilePath);
+    QPointer<ProfilesDialog> w = new ProfilesDialog(vl4ProfilePath);
     if (w->exec() == QDialog::Accepted) {
         // save and update profile
         loadCurrentV4lProfileInfo();
