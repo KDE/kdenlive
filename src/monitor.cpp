@@ -577,7 +577,7 @@ void Monitor::slotExtractCurrentFrame()
         frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().path());
     }
     else frame = render->extractFrame(render->seekFramePosition());
-    KFileDialog *fs = new KFileDialog(KUrl(), "image/png", this);
+    QPointer<KFileDialog> fs = new KFileDialog(KUrl(), "image/png", this);
     fs->setOperationMode(KFileDialog::Saving);
     fs->setMode(KFile::File);
     fs->setConfirmOverwrite(true);
