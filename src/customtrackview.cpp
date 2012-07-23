@@ -5984,17 +5984,19 @@ void CustomTrackView::slotDeleteTrack(int ix)
 
 void CustomTrackView::slotConfigTracks(int ix)
 {
-    TracksConfigDialog d(m_document, ix, parentWidget());
-    if (d.exec() == QDialog::Accepted) {
-        ConfigTracksCommand *configTracks = new ConfigTracksCommand(this, m_document->tracksList(), d.tracksList());
+    QPointer<TracksConfigDialog> d = new TracksConfigDialog(m_document,
+                                                        ix, parentWidget());
+    if (d->exec() == QDialog::Accepted) {
+        ConfigTracksCommand *configTracks = new ConfigTracksCommand(this, m_document->tracksList(), d->tracksList());
         m_commandStack->push(configTracks);
-        QList <int> toDelete = d.deletedTracks();
+        QList <int> toDelete = d->deletedTracks();
         for (int i = 0; i < toDelete.count(); ++i) {
             TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - toDelete.at(i) + i - 1);
             deleteTimelineTrack(toDelete.at(i) - i, info);
         }
         setDocumentModified();
     }
+    delete d;
 }
 
 void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
