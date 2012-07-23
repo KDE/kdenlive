@@ -3076,15 +3076,19 @@ void CustomTrackView::slotRemoveSpace()
     if (m_menuPosition.isNull()) {
         pos = GenTime(cursorPos(), m_document->fps());
 
-        TrackDialog d(m_document, parentWidget());
-        d.comboTracks->setCurrentIndex(m_selectedTrack);
-        d.label->setText(i18n("Track"));
-        d.before_select->setHidden(true);
-        d.setWindowTitle(i18n("Remove Space"));
-        d.video_track->setHidden(true);
-        d.audio_track->setHidden(true);
-        if (d.exec() != QDialog::Accepted) return;
-        track = d.comboTracks->currentIndex();
+        QPointer<TrackDialog> d = new TrackDialog(m_document, parentWidget());
+        d->comboTracks->setCurrentIndex(m_selectedTrack);
+        d->label->setText(i18n("Track"));
+        d->before_select->setHidden(true);
+        d->setWindowTitle(i18n("Remove Space"));
+        d->video_track->setHidden(true);
+        d->audio_track->setHidden(true);
+        if (d->exec() != QDialog::Accepted) {
+            delete d;
+            return;
+        }
+        track = d->comboTracks->currentIndex();
+        delete d;
     } else {
         pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
         track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight);
