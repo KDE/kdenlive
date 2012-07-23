@@ -2833,9 +2833,11 @@ void MainWindow::slotAddClipMarker()
     }
     QString id = clip->getId();
     CommentedTime marker(pos, i18n("Marker"));
-    MarkerDialog d(clip, marker, m_activeDocument->timecode(), i18n("Add Marker"), this);
-    if (d.exec() == QDialog::Accepted)
-        m_activeTimeline->projectView()->slotAddClipMarker(id, d.newMarker().time(), d.newMarker().comment());
+    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker,
+                       m_activeDocument->timecode(), i18n("Add Marker"), this);
+    if (d->exec() == QDialog::Accepted)
+        m_activeTimeline->projectView()->slotAddClipMarker(id, d->newMarker().time(), d->newMarker().comment());
+    delete d;
 }
 
 void MainWindow::slotDeleteClipMarker()
