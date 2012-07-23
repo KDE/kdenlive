@@ -1870,12 +1870,16 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
             if (!closeCurrentDocument())
                 return;
     } else {
-        ProjectSettings *w = new ProjectSettings(NULL, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
-        if (w->exec() != QDialog::Accepted)
+        QPointer<ProjectSettings> w = new ProjectSettings(NULL, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, this);
+        if (w->exec() != QDialog::Accepted) {
+            delete w;
             return;
+        }
         if (!KdenliveSettings::activatetabs())
-            if (!closeCurrentDocument())
+            if (!closeCurrentDocument()) {
+                delete w;
                 return;
+            }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs())
             slotSwitchVideoThumbs();
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs())
