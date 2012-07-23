@@ -104,7 +104,8 @@ public:
     ItemInfo() : track(0) {};
 };
 
-struct TransitionInfo {
+class TransitionInfo {
+public:
 /** startPos is the position where the clip starts on the track */
     GenTime startPos;
     /** endPos is the duration where the clip ends on the track */
@@ -115,6 +116,10 @@ struct TransitionInfo {
     int a_track;
     /** Does the user request for a special a_track */
     bool forceTrack;
+    TransitionInfo() :
+        b_track(0),
+        a_track(0),
+        forceTrack(0) {};
 };
 
 class MltVideoProfile {
