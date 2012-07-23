@@ -70,7 +70,8 @@ enum TRACKTYPE { AUDIOTRACK = 0, VIDEOTRACK = 1 };
 
 enum CLIPJOBSTATUS { NOJOB = 0, JOBWAITING = -1, JOBWORKING = -2, JOBDONE = -3, JOBCRASHED = -4, JOBABORTED = -5};
 
-struct TrackInfo {
+class TrackInfo {
+public:
     TRACKTYPE type;
     QString trackName;
     bool isMute;
@@ -78,6 +79,12 @@ struct TrackInfo {
     bool isLocked;
     EffectsList effectsList;
     int duration;
+    TrackInfo() :
+        type(VIDEOTRACK),
+        isMute(0),
+        isBlind(0),
+        isLocked(0),
+        duration(0) {};
 };
 
 typedef QMap<QString, QString> stringMap;
