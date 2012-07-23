@@ -154,7 +154,7 @@ void CollapsibleEffect::slotCreateRegion()
 {
     QString allExtensions = ProjectList::getExtensions();
     const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
-    KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow());
+    QPointer<KFileDialog> d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow());
     d->setOperationMode(KFileDialog::Opening);
     d->setMode(KFile::File);
     if (d->exec() == QDialog::Accepted) {
