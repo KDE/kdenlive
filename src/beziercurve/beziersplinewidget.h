@@ -34,7 +34,7 @@ class BezierSplineWidget : public QWidget
     
 public:
     /** @brief Sets up the UI and sets the spline to @param spline. */
-    BezierSplineWidget(const QString &spline, QWidget* parent = 0);
+    explicit BezierSplineWidget(const QString &spline, QWidget* parent = 0);
 
     /** @brief Returns the current spline. */
     QString spline();

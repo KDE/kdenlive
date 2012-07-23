@@ -38,7 +38,7 @@ class EffectStackEdit : public QScrollArea
 {
     Q_OBJECT
 public:
-    EffectStackEdit(Monitor *monitor, QWidget *parent = 0);
+    explicit EffectStackEdit(Monitor *monitor, QWidget *parent = 0);
     ~EffectStackEdit();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
     static QMap<QString, QImage> iconCache;

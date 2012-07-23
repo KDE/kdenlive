@@ -31,7 +31,7 @@ class MonitorScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    MonitorScene(Render *renderer, QObject* parent = 0);
+    explicit MonitorScene(Render *renderer, QObject* parent = 0);
 
     /** @brief Sets m_view to this scenes view. */
     void setUp();

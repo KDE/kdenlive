@@ -34,7 +34,7 @@ class DvdWizardVob : public QWizardPage
     Q_OBJECT
 
 public:
-    DvdWizardVob(const QString &profile, QWidget * parent = 0);
+    explicit DvdWizardVob(const QString &profile, QWidget * parent = 0);
     virtual ~DvdWizardVob();
     virtual bool isComplete() const;
     QStringList selectedUrls() const;

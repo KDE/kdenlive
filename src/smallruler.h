@@ -32,7 +32,7 @@ class SmallRuler : public QWidget
     Q_OBJECT
 
 public:
-    SmallRuler(MonitorManager *manager, QWidget *parent = 0);
+    explicit SmallRuler(MonitorManager *manager, QWidget *parent = 0);
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void leaveEvent( QEvent * event );

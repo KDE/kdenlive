@@ -33,7 +33,7 @@ class TransitionSettings : public QWidget, public Ui::TransitionSettings_UI
     Q_OBJECT
 
 public:
-    TransitionSettings(Monitor *monitor, QWidget* parent = 0);
+    explicit TransitionSettings(Monitor *monitor, QWidget* parent = 0);
     void raiseWindow(QWidget*);
     void updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info);
     void updateTimecodeFormat();

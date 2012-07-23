@@ -28,7 +28,7 @@ class AbstractGfxScopeWidget : public AbstractScopeWidget
     Q_OBJECT
 
 public:
-    AbstractGfxScopeWidget(bool trackMouse = false, QWidget *parent = 0);
+    explicit AbstractGfxScopeWidget(bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractGfxScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
 protected:

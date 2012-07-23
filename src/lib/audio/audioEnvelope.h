@@ -26,7 +26,7 @@ class QImage;
 class AudioEnvelope
 {
 public:
-    AudioEnvelope(Mlt::Producer *producer, int offset = 0, int length = 0);
+    explicit AudioEnvelope(Mlt::Producer *producer, int offset = 0, int length = 0);
     ~AudioEnvelope();
 
     /// Returns the envelope, calculates it if necessary.

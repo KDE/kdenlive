@@ -67,7 +67,7 @@ public:
             if mouse tracking is enabled.
       \see signalMousePositionChanged(): Emitted when mouse tracking is enabled
       */
-    AbstractScopeWidget(bool trackMouse = false, QWidget *parent = 0);
+    explicit AbstractScopeWidget(bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
 

@@ -42,7 +42,7 @@ class ResourceWidget : public QDialog, public Ui::FreeSound_UI
     Q_OBJECT
 
 public:
-    ResourceWidget(const QString & folder, QWidget * parent = 0);
+    explicit ResourceWidget(const QString & folder, QWidget * parent = 0);
     ~ResourceWidget();
 
 

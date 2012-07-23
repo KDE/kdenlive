@@ -41,7 +41,7 @@ public:
     /** @brief Constructor for the widget, sets value to 0.
     * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
     * @param parent parent Widget */
-    TimecodeDisplay(Timecode t, QWidget *parent = 0);
+    explicit TimecodeDisplay(Timecode t, QWidget *parent = 0);
 
     /** @brief Returns the minimum value, which can be entered.
     * default is 0 */

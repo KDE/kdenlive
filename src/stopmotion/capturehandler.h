@@ -28,7 +28,7 @@ class CaptureHandler : public QObject
 {
     Q_OBJECT
 public:
-    CaptureHandler(QVBoxLayout *lay, QWidget *parent = 0);
+    explicit CaptureHandler(QVBoxLayout *lay, QWidget *parent = 0);
     ~CaptureHandler();
     virtual void startPreview(int deviceId, int captureMode, bool audio = true) = 0;
     virtual void stopPreview() = 0;

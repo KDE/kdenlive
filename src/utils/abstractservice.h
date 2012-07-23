@@ -58,7 +58,7 @@ class AbstractService : public QObject
     Q_OBJECT
 
 public:
-    AbstractService(QListWidget *listWidget, QObject * parent = 0);
+    explicit AbstractService(QListWidget *listWidget, QObject * parent = 0);
     ~AbstractService();
     /** @brief Get file extension for currently selected item. */
     virtual QString getExtension(QListWidgetItem *item);
