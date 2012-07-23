@@ -2220,8 +2220,9 @@ void MainWindow::parseProfiles(const QString &mltPath)
 
     if (KdenliveSettings::rendererpath().isEmpty()) {
         // Cannot find the MLT melt renderer, ask for location
-        KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(QString(), i18n("Cannot find the melt program required for rendering (part of MLT)"), this);
+        QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QString(), i18n("Cannot find the melt program required for rendering (part of MLT)"), this);
         if (getUrl->exec() == QDialog::Rejected) {
+            delete getUrl;
             ::exit(0);
         }
         KUrl rendererPath = getUrl->selectedUrl();
@@ -2243,9 +2244,10 @@ void MainWindow::parseProfiles(const QString &mltPath)
         }
         if (profilesList.isEmpty()) {
             // Cannot find the MLT profiles, ask for location
-            KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(), i18n("Cannot find your MLT profiles, please give the path"), this);
+            QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(), i18n("Cannot find your MLT profiles, please give the path"), this);
             getUrl->fileDialog()->setMode(KFile::Directory);
             if (getUrl->exec() == QDialog::Rejected) {
+                delete getUrl;
                 ::exit(0);
             }
             KUrl mltPath = getUrl->selectedUrl();
