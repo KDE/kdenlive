@@ -718,11 +718,13 @@ void ClipProperties::slotFillMarkersList()
 void ClipProperties::slotAddMarker()
 {
     CommentedTime marker(GenTime(), i18n("Marker"));
-    MarkerDialog d(m_clip, marker, m_tc, i18n("Add Marker"), this);
-    if (d.exec() == QDialog::Accepted) {
-        emit addMarker(m_clip->getId(), d.newMarker().time(), d.newMarker().comment());
+    QPointer<MarkerDialog> d = new MarkerDialog(m_clip, marker,
+                                          m_tc, i18n("Add Marker"), this);
+    if (d->exec() == QDialog::Accepted) {
+        emit addMarker(m_clip->getId(), d->newMarker().time(), d->newMarker().comment());
     }
     QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
+    delete d;
 }
 
 void ClipProperties::slotEditMarker()
