@@ -85,6 +85,8 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
                         item2->x(item.x());
                         item2->frame(item.frame());
                         m_extraMovingItems.append(item2);
+                    } else {
+                        delete(item2);
                     }
                 }
                 
