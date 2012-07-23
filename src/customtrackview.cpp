@@ -5262,10 +5262,14 @@ void CustomTrackView::slotAddGuide(bool dialog)
 {
     CommentedTime marker(GenTime(m_cursorPos, m_document->fps()), i18n("Guide"));
     if (dialog) {
-        MarkerDialog d(NULL, marker, m_document->timecode(), i18n("Add Guide"), this);
-        if (d.exec() != QDialog::Accepted) return;
-        marker = d.newMarker();
-        
+        QPointer<MarkerDialog> d = new MarkerDialog(NULL, marker,
+                             m_document->timecode(), i18n("Add Guide"), this);
+        if (d->exec() != QDialog::Accepted) {
+            delete d;
+            return;
+        }
+        marker = d->newMarker();
+        delete d;
     } else {
         marker.setComment(m_document->timecode().getDisplayTimecodeFromFrames(m_cursorPos, false));
     }
