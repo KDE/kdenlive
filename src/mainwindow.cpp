@@ -3272,7 +3272,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             return;
         }
         QString path = clip->getProperty("resource");
-        TitleWidget *dia_ui = new TitleWidget(KUrl(), m_activeDocument->timecode(), titlepath, m_projectMonitor->render, this);
+        QPointer<TitleWidget> dia_ui = new TitleWidget(KUrl(), m_activeDocument->timecode(), titlepath, m_projectMonitor->render, this);
         QDomDocument doc;
         doc.setContent(clip->getProperty("xmldata"));
         dia_ui->setXml(doc);
