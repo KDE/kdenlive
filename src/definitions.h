@@ -108,7 +108,8 @@ struct TransitionInfo {
     bool forceTrack;
 };
 
-struct MltVideoProfile {
+class MltVideoProfile {
+public:
     QString path;
     QString description;
     int frame_rate_num;
@@ -121,6 +122,17 @@ struct MltVideoProfile {
     int display_aspect_num;
     int display_aspect_den;
     int colorspace;
+    MltVideoProfile() :
+        frame_rate_num(0),
+        frame_rate_den(0),
+        width(0),
+        height(0),
+        progressive(0),
+        sample_aspect_num(0),
+        sample_aspect_den(0),
+        display_aspect_num(0),
+        display_aspect_den(0),
+        colorspace(0) {};
     bool operator==(const MltVideoProfile& point) const
     {
         if (!description.isEmpty() && point.description  == description) return true;
