@@ -1356,14 +1356,15 @@ void CustomTrackView::editItemDuration()
         else
             getClipAvailableSpace(item, minimum, maximum);
 
-        ClipDurationDialog d(item, m_document->timecode(), minimum, maximum, this);
-        if (d.exec() == QDialog::Accepted) {
+        QPointer<ClipDurationDialog> d = new ClipDurationDialog(item,
+                               m_document->timecode(), minimum, maximum, this);
+        if (d->exec() == QDialog::Accepted) {
             ItemInfo clipInfo = item->info();
             ItemInfo startInfo = clipInfo;
             if (item->type() == TRANSITIONWIDGET) {
                 // move & resize transition
-                clipInfo.startPos = d.startPos();
-                clipInfo.endPos = clipInfo.startPos + d.duration();
+                clipInfo.startPos = d->startPos();
+                clipInfo.endPos = clipInfo.startPos + d->duration();
                 clipInfo.track = item->track();
                 MoveTransitionCommand *command = new MoveTransitionCommand(this, startInfo, clipInfo, true);
                 updateTrackDuration(clipInfo.track, command);
@@ -1373,10 +1374,10 @@ void CustomTrackView::editItemDuration()
                 ClipItem *clip = static_cast<ClipItem *>(item);
                 QUndoCommand *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Edit clip"));
-                if (d.duration() < item->cropDuration() || d.cropStart() != clipInfo.cropStart) {
+                if (d->duration() < item->cropDuration() || d->cropStart() != clipInfo.cropStart) {
                     // duration was reduced, so process it first
-                    clipInfo.endPos = clipInfo.startPos + d.duration();
-                    clipInfo.cropStart = d.cropStart();
+                    clipInfo.endPos = clipInfo.startPos + d->duration();
+                    clipInfo.cropStart = d->cropStart();
 
                     resizeClip(startInfo, clipInfo);
                     new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
@@ -1384,18 +1385,18 @@ void CustomTrackView::editItemDuration()
                     new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
                 }
 
-                if (d.startPos() != clipInfo.startPos) {
+                if (d->startPos() != clipInfo.startPos) {
                     startInfo = clipInfo;
-                    clipInfo.startPos = d.startPos();
+                    clipInfo.startPos = d->startPos();
                     clipInfo.endPos = item->endPos() + (clipInfo.startPos - startInfo.startPos);
                     new MoveClipCommand(this, startInfo, clipInfo, true, moveCommand);
                 }
 
-                if (d.duration() > item->cropDuration()) {
+                if (d->duration() > item->cropDuration()) {
                     // duration was increased, so process it after move
                     startInfo = clipInfo;
-                    clipInfo.endPos = clipInfo.startPos + d.duration();
-                    clipInfo.cropStart = d.cropStart();
+                    clipInfo.endPos = clipInfo.startPos + d->duration();
+                    clipInfo.cropStart = d->cropStart();
 
                     resizeClip(startInfo, clipInfo);
                     new ResizeClipCommand(this, startInfo, clipInfo, false, true, moveCommand);
@@ -1405,6 +1406,7 @@ void CustomTrackView::editItemDuration()
                 updateTrackDuration(clipInfo.track, moveCommand);
                 m_commandStack->push(moveCommand);
             }
+        delete d;
         }
     } else {
         emit displayMessage(i18n("Item is locked"), ErrorMessage);
