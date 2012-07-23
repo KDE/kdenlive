@@ -3183,10 +3183,15 @@ void CustomTrackView::slotInsertSpace()
         pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
         track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight) + 1;
     }
-    SpacerDialog d(GenTime(65, m_document->fps()), m_document->timecode(), track, m_document->tracksList(), this);
-    if (d.exec() != QDialog::Accepted) return;
-    GenTime spaceDuration = d.selectedDuration();
-    track = d.selectedTrack();
+    QPointer<SpacerDialog> d = new SpacerDialog(GenTime(65, m_document->fps()),
+                m_document->timecode(), track, m_document->tracksList(), this);
+    if (d->exec() != QDialog::Accepted) {
+        delete d;
+        return;
+    }
+    GenTime spaceDuration = d->selectedDuration();
+    track = d->selectedTrack();
+    delete d;
 
     QList<QGraphicsItem *> items;
     if (track >= 0) {
