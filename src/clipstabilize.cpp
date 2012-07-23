@@ -233,7 +233,7 @@ void ClipStabilize::slotUpdateParams()
     for (int i=0;i<vbox->count();i++){
         QWidget* w=vbox->itemAt(i)->widget();
         QString name=w->objectName();
-        if (name !="" && m_ui_params.contains(name)){
+        if (!name.isEmpty() && m_ui_params.contains(name)){
             if (m_ui_params[name]["type"]=="int" || m_ui_params[name]["type"]=="double"){
                 DoubleParameterWidget *dbl=(DoubleParameterWidget*)w;
                 m_ui_params[name]["value"]=QString::number((double)(dbl->getValue()));

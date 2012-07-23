@@ -635,7 +635,7 @@ void TitleWidget::refreshTitleTemplates()
 void TitleWidget::templateIndexChanged(int index)
 {
     QString item = templateBox->itemData(index).toString();
-    if (item != "") {
+    if (!item.isEmpty()) {
         if (lastDocumentHash != QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex()) {
             if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No) return;
         }

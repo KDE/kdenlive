@@ -80,7 +80,7 @@ bool UnicodeDialog::controlCharacter(QString text)
 
     switch (inputMethod) {
     case InputHex:
-        if (t == ""
+        if (t.isEmpty()
                 || (t.length() == 1 && !(t == "9" || t == "a" || t == "d"))
                 || (t.length() == 2 && t.at(0) == QChar('1'))) {
             isControlCharacter = true;

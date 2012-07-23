@@ -74,7 +74,7 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
 
 void JogShuttleAction::slotButton(int button_id)
 {
-    if (button_id >= m_actionMap.size() || m_actionMap[button_id] == "") {
+    if (button_id >= m_actionMap.size() || m_actionMap[button_id].isEmpty()) {
         // TODO(fleury): Shoudl this go to the status bar to inform the user ?
         fprintf(stderr, "Button %d has no action\n", button_id);
         return;
