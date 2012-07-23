@@ -83,7 +83,8 @@ struct TrackInfo {
 typedef QMap<QString, QString> stringMap;
 typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
 
-struct ItemInfo {
+class ItemInfo {
+public:
     /** startPos is the position where the clip starts on the track */
     GenTime startPos;
     /** endPos is the duration where the clip ends on the track */
@@ -93,6 +94,7 @@ struct ItemInfo {
     /** cropDuration is the duration of the clip */
     GenTime cropDuration;
     int track;
+    ItemInfo() : track(0) {};
 };
 
 struct TransitionInfo {
