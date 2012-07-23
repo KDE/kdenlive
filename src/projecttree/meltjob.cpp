@@ -38,6 +38,7 @@ MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters) : Ab
     m_producer(NULL),
     m_profile(NULL),
     m_consumer(NULL),
+    m_showFrameEvent(NULL),
     m_length(0)
 {
     jobStatus = JOBWAITING;
