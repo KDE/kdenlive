@@ -1426,7 +1426,7 @@ void RenderWidget::refreshParams()
         m_view.bitrateLabel->setEnabled(true);
         if ( item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(BitratesRole).toStringList();
-            foreach (QString bitrate, bitrates)
+            foreach (const QString &bitrate, bitrates)
                 m_view.comboBitrates->addItem(bitrate);
             if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
                 m_view.comboBitrates->setCurrentIndex(bitrates.indexOf(item->data(DefaultBitrateRole).toString()));
@@ -1443,7 +1443,7 @@ void RenderWidget::refreshParams()
         m_view.audiobitrateLabel->setEnabled(true);
         if ( item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
             QStringList audiobitrates = item->data(AudioBitratesRole).toStringList();
-            foreach (QString bitrate, audiobitrates)
+            foreach (const QString &bitrate, audiobitrates)
                 m_view.comboAudioBitrates->addItem(bitrate);
             if (item->data(DefaultAudioBitrateRole).canConvert(QVariant::String))
                 m_view.comboAudioBitrates->setCurrentIndex(audiobitrates.indexOf(item->data(DefaultAudioBitrateRole).toString()));

@@ -96,7 +96,7 @@ void MeltJob::startJob()
     else 
         prod = m_producer->cut(in, out);
     QStringList list = producerParams.split(' ', QString::SkipEmptyParts);
-    foreach(QString data, list) {
+    foreach(const QString &data, list) {
         if (data.contains('=')) {
             prod->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
         }
@@ -119,7 +119,7 @@ void MeltJob::startJob()
     m_consumer->set("real_time", -KdenliveSettings::mltthreads() );
 
     list = consumerParams.split(' ', QString::SkipEmptyParts);
-    foreach(QString data, list) {
+    foreach(const QString &data, list) {
         if (data.contains('=')) {
             kDebug()<<"// filter con: "<<data;
             m_consumer->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
@@ -128,7 +128,7 @@ void MeltJob::startJob()
     
     Mlt::Filter mltFilter(*m_profile, filter.toUtf8().data());
     list = filterParams.split(' ', QString::SkipEmptyParts);
-    foreach(QString data, list) {
+    foreach(const QString &data, list) {
         if (data.contains('=')) {
             kDebug()<<"// filter p: "<<data;
             mltFilter.set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
@@ -150,7 +150,7 @@ void MeltJob::startJob()
     m_consumer->stop();
     QStringList wanted = properties.split(',', QString::SkipEmptyParts);
     stringMap jobResults;
-    foreach(const QString key, wanted) {
+    foreach(const QString &key, wanted) {
         QString value = mltFilter.get(key.toUtf8().constData());
         jobResults.insert(key, value);
     }

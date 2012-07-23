@@ -463,7 +463,7 @@ void KeyframeEdit::checkVisibleParam()
     if (m_params.count() == 0)
         return;
     
-    foreach(QDomElement elem, m_params) {
+    foreach(const QDomElement &elem, m_params) {
         if (elem.attribute("intimeline") == "1")
             return;
     }

@@ -589,7 +589,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     if (!clipsToLoad.isEmpty() && m_activeDocument) {
         QStringList list = clipsToLoad.split(',');
         QList <QUrl> urls;
-        foreach(QString path, list) {
+        foreach(const QString &path, list) {
             kDebug() << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }

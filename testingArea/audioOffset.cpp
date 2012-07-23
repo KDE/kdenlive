@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     bool useFFT = false;
 
     // Load arguments
-    foreach (QString str, args) {
+    foreach (const QString &str, args) {
 
         if (str.startsWith("--profile=")) {
             QString s = str;

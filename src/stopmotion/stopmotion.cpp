@@ -438,7 +438,7 @@ void StopmotionWidget::parseExistingSequences()
     //dir.setNameFilters(filters);
     QStringList sequences = dir.entryList(filters, QDir::Files, QDir::Name);
     //kDebug()<<"PF: "<<<<", sm: "<<sequences;
-    foreach(QString sequencename, sequences) {
+    foreach(const QString &sequencename, sequences) {
         sequence_name->addItem(sequencename.section('_', 0, -2));
     }
 }

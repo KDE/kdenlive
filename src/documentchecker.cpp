@@ -176,7 +176,7 @@ bool DocumentChecker::hasErrorInClips()
             filesToCheck.append(luma);
     }
     // Check existence of luma files
-    foreach (const QString lumafile, filesToCheck) {
+    foreach (const QString &lumafile, filesToCheck) {
         filePath = lumafile;
         if (!filePath.startsWith('/')) filePath.prepend(root);
         if (!QFile::exists(filePath)) {
@@ -193,7 +193,7 @@ bool DocumentChecker::hasErrorInClips()
     m_dialog->setFont(KGlobalSettings::toolBarFont());
     m_ui.setupUi(m_dialog);
 
-    foreach(const QString l, missingLumas) {
+    foreach(const QString &l, missingLumas) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << l);
         item->setIcon(0, KIcon("dialog-close"));
         item->setData(0, idRole, l);
@@ -856,7 +856,7 @@ void DocumentChecker::slotDeleteSelected()
     if (!deletedLumas.isEmpty()) {
         QDomElement e;
         QDomNodeList transitions = m_doc.elementsByTagName("transition");
-        foreach (QString lumaPath, deletedLumas) {
+        foreach (const QString &lumaPath, deletedLumas) {
             for (int i = 0; i < transitions.count(); i++) {
                 e = transitions.item(i).toElement();
                 QString resource = EffectsList::property(e, "luma");

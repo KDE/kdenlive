@@ -52,13 +52,13 @@ void ProxyJob::startJob()
         mltParameters << "-consumer" << "avformat:" + m_dest;
         QStringList params = m_proxyParams.split('-', QString::SkipEmptyParts);
                 
-        foreach(QString s, params) {
-            s = s.simplified();
-            if (s.count(' ') == 0) {
-                s.append("=1");
+        foreach(const QString &s, params) {
+            QString t = s.simplified();
+            if (t.count(' ') == 0) {
+                t.append("=1");
             }
-            else s.replace(' ', '=');
-            mltParameters << s;
+            else t.replace(' ', '=');
+            mltParameters << t;
         }
         
         mltParameters.append(QString("real_time=-%1").arg(KdenliveSettings::mltthreads()));

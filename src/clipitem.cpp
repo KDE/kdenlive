@@ -2055,7 +2055,7 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
     if (offset > 0) {
         QStringList kfrs = data.split(';');
         data.clear();
-        foreach (QString keyframe, kfrs) {
+        foreach (const QString &keyframe, kfrs) {
             if (keyframe.contains('=')) {
                 int pos = keyframe.section('=', 0, 0).toInt();
                 pos += offset;

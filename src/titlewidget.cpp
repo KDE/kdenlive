@@ -512,7 +512,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     //templateBox->setIconSize(QSize(60,60));
     templateBox->clear();
     templateBox->addItem("");
-    foreach(TitleTemplate t, titletemplates) {
+    foreach(const TitleTemplate &t, titletemplates) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
     lastDocumentHash = QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
