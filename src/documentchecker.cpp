@@ -103,7 +103,7 @@ bool DocumentChecker::hasErrorInClips()
                 prodId = mltProd.attribute("id");
                 // Don't check slowmotion clips for now... (TODO?)
                 if (prodId.startsWith("slowmotion")) continue;
-                if (prodId.contains("_")) prodId = prodId.section("_", 0, 0);
+                if (prodId.contains('_')) prodId = prodId.section('_', 0, 0);
                 if (prodId != id) continue;
                 if (mltDuration > 0 ) {
                     // We have several MLT producers for the same clip (probably track producers)
@@ -366,7 +366,7 @@ bool DocumentChecker::hasErrorInClips()
                     if (property.attribute("name") == "resource") {
                         QString resource = property.firstChild().nodeValue();                    
                         QString suffix;
-                        if (slowmotion) suffix = "?" + resource.section('?', -1);
+                        if (slowmotion) suffix = '?' + resource.section('?', -1);
                         property.firstChild().setNodeValue(realPath + suffix);
                         break;
                     }
@@ -799,7 +799,7 @@ void DocumentChecker::slotFixDuration()
                 for (int j = 0; j < documentProducers.count(); j++) {
                     QDomElement mltProd = documentProducers.at(j).toElement();
                     QString prodId = mltProd.attribute("id");
-                    if (prodId == id || prodId.startsWith(id + "_")) {
+                    if (prodId == id || prodId.startsWith(id + '_')) {
                         EffectsList::removeProperty(mltProd, "length");
                     }
                 }

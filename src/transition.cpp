@@ -377,7 +377,7 @@ bool Transition::updateKeyframes()
     }
     if (keyframes.isEmpty()) return false;
     int duration = cropDuration().frames(m_fps) - 1;
-    QStringList values = keyframes.split(";");
+    QStringList values = keyframes.split(';');
     int frame;
     int i = 0;
     foreach(const QString &pos, values) {

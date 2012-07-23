@@ -357,8 +357,8 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
                 gap++;
             }
         }
-        if (firstFrame > 0) extension = filter + "%" + QString::number(firstFrame).rightJustified(precision, '0', false) + "d" + ext;
-        else extension = filter + "%" + QString::number(precision) + "d" + ext;
+        if (firstFrame > 0) extension = filter + '%' + QString::number(firstFrame).rightJustified(precision, '0', false) + 'd' + ext;
+        else extension = filter + '%' + QString::number(precision) + 'd' + ext;
     }
     kDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;

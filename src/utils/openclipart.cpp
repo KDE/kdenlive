@@ -115,7 +115,7 @@ QString OpenClipArt::getDefaultDownloadName(QListWidgetItem *item)
     if (!item) return QString();
     QString url = item->data(downloadRole).toString();
     QString path = item->text();
-    path.append("." + url.section('.', -1));
+    path.append('.' + url.section('.', -1));
     return path;
 }
 

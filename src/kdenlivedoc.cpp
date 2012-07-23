@@ -87,9 +87,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     bool success = false;
 
     // init default document properties
-    m_documentProperties["zoom"] = "7";
-    m_documentProperties["verticalzoom"] = "1";
-    m_documentProperties["zonein"] = "0";
+    m_documentProperties["zoom"] = '7';
+    m_documentProperties["verticalzoom"] = '1';
+    m_documentProperties["zonein"] = '0';
     m_documentProperties["zoneout"] = "100";
     m_documentProperties["enableproxy"] = QString::number((int) KdenliveSettings::enableproxy());
     m_documentProperties["proxyparams"] = KdenliveSettings::proxyparams();
@@ -769,7 +769,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
         cleanupBackupFiles();
         QFileInfo info(file);
         QString fileName = KUrl(path).fileName().section('.', 0, -2);   
-        fileName.append("-" + m_documentProperties.value("documentid"));
+        fileName.append('-' + m_documentProperties.value("documentid"));
         fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
         fileName.append(".kdenlive.png");
         KUrl backupFile = m_projectFolder;
@@ -1693,7 +1693,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     KIO::NetAccess::mkdir(backupFile, kapp->activeWindow());
     QString fileName = KUrl(path).fileName().section('.', 0, -2);
     QFileInfo info(file);
-    fileName.append("-" + m_documentProperties.value("documentid"));
+    fileName.append('-' + m_documentProperties.value("documentid"));
     fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
     fileName.append(".kdenlive");
     backupFile.addPath(fileName);
@@ -1713,7 +1713,7 @@ void KdenliveDoc::cleanupBackupFiles()
     backupFile.addPath(".backup/");
     QDir dir(backupFile.path());
     QString projectFile = url().fileName().section('.', 0, -2);
-    projectFile.append("-" + m_documentProperties.value("documentid"));
+    projectFile.append('-' + m_documentProperties.value("documentid"));
     projectFile.append("-??");
     projectFile.append("??");
     projectFile.append("-??");

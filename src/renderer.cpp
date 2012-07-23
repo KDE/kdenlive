@@ -285,7 +285,7 @@ void Render::buildConsumer(const QString &profileName)
 Mlt::Producer *Render::invalidProducer(const QString &id)
 {
     Mlt::Producer *clip;
-    QString txt = "+" + i18n("Missing clip") + ".txt";
+    QString txt = '+' + i18n("Missing clip") + ".txt";
     char *tmp = qstrdup(txt.toUtf8().constData());
     clip = new Mlt::Producer(*m_mltProfile, tmp);
     delete[] tmp;

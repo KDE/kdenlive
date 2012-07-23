@@ -267,7 +267,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
         capturefile = m_capturePath;
-        if (!capturefile.endsWith("/")) capturefile.append("/");
+        if (!capturefile.endsWith('/')) capturefile.append('/');
         capturename = KdenliveSettings::decklink_filename();
         capturename.append("xxx.");
         capturename.append(KdenliveSettings::decklink_extension());
@@ -289,7 +289,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         } else {
             // Show capture info
             capturefile = m_capturePath;
-            if (!capturefile.endsWith("/")) capturefile.append("/");
+            if (!capturefile.endsWith('/')) capturefile.append('/');
             capturename = KdenliveSettings::dvgrabfilename();
             if (capturename.isEmpty()) capturename = "capture";
             QString extension;
@@ -450,7 +450,7 @@ void RecMonitor::slotStartPreview(bool play)
     QString path;
     MltVideoProfile profile;
     QString producer;
-    QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(" ", QString::SkipEmptyParts);
+    QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(' ', QString::SkipEmptyParts);
     int ix = device_selector->currentIndex();
     videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC && ix != FIREWIRE);
     switch (ix) {
@@ -704,7 +704,7 @@ void RecMonitor::slotRecord()
                 m_captureArgs << "--channels" << QString::number(KdenliveSettings::rmd_audio_channels());
                 if (KdenliveSettings::rmd_use_jack()) {
                     m_captureArgs << "--use-jack";
-                    QStringList ports = KdenliveSettings::rmd_jackports().split(" ", QString::SkipEmptyParts);
+                    QStringList ports = KdenliveSettings::rmd_jackports().split(' ', QString::SkipEmptyParts);
                     for (int i = 0; i < ports.count(); ++i) {
                         m_captureArgs << ports.at(i);
                     }
@@ -858,7 +858,7 @@ void RecMonitor::manageCapturedFiles()
     QStringList filters;
     QString capturename = KdenliveSettings::dvgrabfilename();
     if (capturename.isEmpty()) capturename = "capture";
-    filters << capturename + "*" + extension;
+    filters << capturename + '*' + extension;
     const QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
     KUrl::List capturedFiles;
     foreach(const QString & name, result) {

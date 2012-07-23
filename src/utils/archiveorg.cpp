@@ -166,13 +166,13 @@ void ArchiveOrg::slotParseResults(KJob* job)
         QString href = links.at(i).toElement().attribute("href");
         if (href.endsWith(".thumbs/")) {
             // sub folder contains image thumbs, display one.
-            m_thumbsPath = m_metaInfo.value("url") + "/" + href;
+            m_thumbsPath = m_metaInfo.value("url") + '/' + href;
             KJob* thumbJob = KIO::storedGet( KUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
             thumbJob->setProperty("id", m_metaInfo.value("id"));
             connect( thumbJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseThumbs( KJob* ) ) );
         }
         else if (!href.contains('/') && !href.endsWith(".xml")) {
-            link = m_metaInfo.value("url") + "/" + href;
+            link = m_metaInfo.value("url") + '/' + href;
             ct++;
             if (ct %2 == 0) {
                 html += "<tr class=\"cellone\">";

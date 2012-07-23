@@ -453,11 +453,11 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     renderProps->set("mlt_profile", m_activeProfile.toUtf8().constData());
     
 
-    QStringList paramList = params.split(" ", QString::SkipEmptyParts);
+    QStringList paramList = params.split(' ', QString::SkipEmptyParts);
     char *tmp2;
     for (int i = 0; i < paramList.count(); i++) {
-        tmp = qstrdup(paramList.at(i).section("=", 0, 0).toUtf8().constData());
-        QString value = paramList.at(i).section("=", 1, 1);
+        tmp = qstrdup(paramList.at(i).section('=', 0, 0).toUtf8().constData());
+        QString value = paramList.at(i).section('=', 1, 1);
         if (value == "%threads") value = QString::number(QThread::idealThreadCount());
         tmp2 = qstrdup(value.toUtf8().constData());
         renderProps->set(tmp, tmp2);
@@ -642,7 +642,7 @@ void MltDeviceCapture::setOverlayEffect(const QString &tag, QStringList paramete
     delete[] tmp;
     if (filter && filter->is_valid()) {
         for (int j = 0; j < parameters.count(); j++) {
-            filter->set(parameters.at(j).section("=", 0, 0).toUtf8().constData(), parameters.at(j).section("=", 1, 1).toUtf8().constData());
+            filter->set(parameters.at(j).section('=', 0, 0).toUtf8().constData(), parameters.at(j).section('=', 1, 1).toUtf8().constData());
         }
         trackService.attach(*filter);
     }

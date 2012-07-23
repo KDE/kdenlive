@@ -509,20 +509,20 @@ QStringList ProjectSettings::extractSlideshowUrls(KUrl url)
         filters << "*." + ext;
         dir.setNameFilters(filters);
         QStringList result = dir.entryList(QDir::Files);
-        urls.append(path + filters.at(0) + " (" + i18np("1 image found", "%1 images found", result.count()) + ")");
+        urls.append(path + filters.at(0) + " (" + i18np("1 image found", "%1 images found", result.count()) + ')');
     } else {
         // this is a pattern slideshow, like sequence%4d.jpg
         QString filter = url.fileName();
         QString ext = filter.section('.', -1);
         filter = filter.section('%', 0, -2);
-        QString regexp = "^" + filter + "\\d+\\." + ext + "$";
+        QString regexp = '^' + filter + "\\d+\\." + ext + '$';
         QRegExp rx(regexp);
         int count = 0;
         QStringList result = dir.entryList(QDir::Files);
         foreach(const QString & path, result) {
             if (rx.exactMatch(path)) count++;
         }
-        urls.append(url.path() + " (" + i18np("1 image found", "%1 images found", count) + ")");
+        urls.append(url.path() + " (" + i18np("1 image found", "%1 images found", count) + ')');
     }
     return urls;
 }
@@ -532,14 +532,14 @@ void ProjectSettings::slotExportToText()
     QString savePath = KFileDialog::getSaveFileName(project_folder->url(), "text/plain", this);
     if (savePath.isEmpty()) return;
     QString data;
-    data.append(i18n("Project folder: %1",  project_folder->url().path()) + "\n");
-    data.append(i18n("Project profile: %1",  profiles_list->currentText()) + "\n");
+    data.append(i18n("Project folder: %1",  project_folder->url().path()) + '\n');
+    data.append(i18n("Project profile: %1",  profiles_list->currentText()) + '\n');
     data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
     for (int i = 0; i < files_list->topLevelItemCount(); i++) {
         if (files_list->topLevelItem(i)->childCount() > 0) {
-            data.append("\n" + files_list->topLevelItem(i)->text(0) + ":\n\n");
+            data.append('\n' + files_list->topLevelItem(i)->text(0) + ":\n\n");
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++) {
-                data.append(files_list->topLevelItem(i)->child(j)->text(0) + "\n");
+                data.append(files_list->topLevelItem(i)->child(j)->text(0) + '\n');
             }
         }
     }

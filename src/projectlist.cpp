@@ -518,7 +518,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
                 if (clip->getProperty("transparency").isEmpty() || clip->getProperty("transparency").toInt() == 0) {
                     if (transparency == "-") {
                         // first non transparent image
-                        transparency = "0";
+                        transparency = '0';
                     }
                     else if (transparency == "1") {
                         // we have transparent and non transparent clips
@@ -528,7 +528,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
                 else {
                     if (transparency == "-") {
                         // first transparent image
-                        transparency = "1";
+                        transparency = '1';
                     }
                     else if (transparency == "0") {
                         // we have transparent and non transparent clips
@@ -1465,7 +1465,7 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
     DocClipBase *clip = parentItem->referencedClip();
     if (!clip) return;
     int pos = item->zone().x();
-    QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + "#" + QString::number(pos) + ".png";
+    QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(pos) + ".png";
     if (QFile::exists(cachedPixmap)) {
         QPixmap pix(cachedPixmap);
         if (pix.isNull()) {
@@ -2145,7 +2145,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 if (clip->getProperty("proxy").isEmpty()) {
                     KUrl proxyPath = m_doc->projectFolder();
                     proxyPath.addPath("proxy/");
-                    proxyPath.addPath(clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension")));
+                    proxyPath.addPath(clip->getClipHash() + '.' + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension")));
                     QMap <QString, QString> newProps;
                     // insert required duration for proxy
                     if (t != IMAGE) newProps.insert("proxy_out", clip->producerProperty("out"));
@@ -2708,7 +2708,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     if (!item|| item->referencedClip()->isPlaceHolder()) return;
     QString source = item->clipUrl().path();
     QString ext = source.section('.', -1);
-    QString dest = source.section('.', 0, -2) + "_" + QString::number(zone.x()) + "." + ext;
+    QString dest = source.section('.', 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
     
     double clipFps = item->referencedClip()->getProperty("fps").toDouble();
     if (clipFps == 0) clipFps = m_fps;
@@ -2808,9 +2808,9 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
     d->adjustSize();
     ui.button_more->setIcon(KIcon("configure"));
     ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
-    ui.extra_params->setPlainText(params.simplified().section(" ", 0, -2));
+    ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
     QString mess = desc;
-    mess.append(" " + i18np("(%1 clip)", "(%1 clips)", ids.count()));
+    mess.append(' ' + i18np("(%1 clip)", "(%1 clips)", ids.count()));
     ui.info_label->setText(mess);
     if (d->exec() != QDialog::Accepted) {
         delete d;
@@ -2989,7 +2989,7 @@ void ProjectList::updateProxyConfig()
                         QMap <QString, QString> oldProps;// = clip->properties();
                         oldProps.insert("proxy", QString());
                         QMap <QString, QString> newProps;
-                        newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + "." + m_doc->getDocumentProperty("proxyextension"));
+                        newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + '.' + m_doc->getDocumentProperty("proxyextension"));
                         new EditClipCommand(this, clip->getId(), oldProps, newProps, true, command);
                     }
                 }
@@ -3093,7 +3093,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
             //oldProps = clip->properties();
             if (doProxy) {
                 newProps.clear();
-                QString path = proxydir + clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
+                QString path = proxydir + clip->getClipHash() + '.' + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
                 // insert required duration for proxy
                 newProps.insert("proxy_out", clip->producerProperty("out"));
                 newProps.insert("proxy", path);
@@ -3409,10 +3409,10 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
         ProjectItem *item = getItemById(id);
         if (!item) continue;
         if (ids.count() == 1) {
-            consumer += ":" + destination;
+            consumer += ':' + destination;
         }
         else {
-            consumer += ":" + destination + item->clipUrl().fileName() + ".mlt";
+            consumer += ':' + destination + item->clipUrl().fileName() + ".mlt";
         }
         preParams << consumer << jobParams;
         

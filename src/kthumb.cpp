@@ -355,7 +355,7 @@ void KThumb::slotGetIntraThumbs()
     const int theight = KdenliveSettings::trackheight();
     const int frameWidth = (int)(theight * m_ratio + 0.5);
     const int displayWidth = (int)(theight * m_dar + 0.5);
-    QString path = m_url.path() + "_";
+    QString path = m_url.path() + '_';
     bool addedThumbs = false;
 
     while (!m_intraFramesQueue.isEmpty()) {

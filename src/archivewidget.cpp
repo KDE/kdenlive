@@ -197,7 +197,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
                 }
             }
             else total += items;
-            parentItem->setText(0, files_list->topLevelItem(i)->text(0) + " " + i18np("(%1 item)", "(%1 items)", items));
+            parentItem->setText(0, files_list->topLevelItem(i)->text(0) + ' ' + i18np("(%1 item)", "(%1 items)", items));
         }
     }
     if (m_name.isEmpty()) m_name = i18n("Untitled");
@@ -356,7 +356,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
                 QString filter = slideUrl.fileName();
                 QString ext = filter.section('.', -1);
                 filter = filter.section('%', 0, -2);
-                QString regexp = "^" + filter + "\\d+\\." + ext + "$";
+                QString regexp = '^' + filter + "\\d+\\." + ext + '$';
                 QRegExp rx(regexp);
                 QStringList slideImages;
                 QString directory = dir.absolutePath();
@@ -376,10 +376,10 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
         else if (filesList.contains(fileName)) {
             // we have 2 files with same name
             int ix = 0;
-            QString newFileName = fileName.section('.', 0, -2) + "_" + QString::number(ix) + "." + fileName.section('.', -1);
+            QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
             while (filesList.contains(newFileName)) {
                 ix ++;
-                newFileName = fileName.section('.', 0, -2) + "_" + QString::number(ix) + "." + fileName.section('.', -1);
+                newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
             }
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);
@@ -442,7 +442,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QMap <QString, QS
                 QString filter = slideUrl.fileName();
                 QString ext = filter.section('.', -1);
                 filter = filter.section('%', 0, -2);
-                QString regexp = "^" + filter + "\\d+\\." + ext + "$";
+                QString regexp = '^' + filter + "\\d+\\." + ext + '$';
                 QRegExp rx(regexp);
                 QStringList slideImages;
                 qint64 totalSize = 0;
@@ -462,7 +462,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QMap <QString, QS
         else if (filesList.contains(fileName)) {
             // we have 2 files with same name
             int ix = 0;
-            QString newFileName = fileName.section('.', 0, -2) + "_" + QString::number(ix) + "." + fileName.section('.', -1);
+            QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
             while (filesList.contains(newFileName)) {
                 ix ++;
                 newFileName = fileName.section('.', 0, -2) + "_" + QString::number(ix) + "." + fileName.section('.', -1);
@@ -549,7 +549,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             else isSlideshow = false;
             files_list->setCurrentItem(parentItem);
             parentItem->setExpanded(true);
-            destPath = parentItem->data(0, Qt::UserRole).toString() + "/";
+            destPath = parentItem->data(0, Qt::UserRole).toString() + '/';
             destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + destPath);
             QTreeWidgetItem *item;
             for (int j = 0; j < parentItem->childCount(); j++) {
@@ -558,7 +558,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                 // Special case: slideshows
 		items++;
                 if (isSlideshow) {
-                    destPath += item->data(0, Qt::UserRole).toString() + "/";
+                    destPath += item->data(0, Qt::UserRole).toString() + '/';
                     destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + destPath);
                     QStringList srcFiles = item->data(0, Qt::UserRole + 1).toStringList();
                     for (int k = 0; k < srcFiles.count(); k++) {
@@ -689,7 +689,7 @@ bool ArchiveWidget::processProjectFile()
                 KUrl src(item->text(0));
                 KUrl dest = destUrl;
                 if (isSlideshow) {
-                    dest = KUrl(destUrl.path(KUrl::AddTrailingSlash) + item->data(0, Qt::UserRole).toString() + "/" + src.fileName());
+                    dest = KUrl(destUrl.path(KUrl::AddTrailingSlash) + item->data(0, Qt::UserRole).toString() + '/' + src.fileName());
                 }
                 else if (item->data(0, Qt::UserRole).isNull()) {
                     dest.addPath(src.fileName());
@@ -703,7 +703,7 @@ bool ArchiveWidget::processProjectFile()
     }
     
     QDomElement mlt = m_doc.documentElement();
-    QString root = mlt.attribute("root") + "/";
+    QString root = mlt.attribute("root") + '/';
 
     // Adjust global settings
     QString basePath;
@@ -769,8 +769,8 @@ bool ArchiveWidget::processProjectFile()
         QString endString("\"");
         endString.append(basePath);
         playList.replace(startString, endString);
-        startString = ">" + archive_url->url().path(KUrl::RemoveTrailingSlash);
-        endString = ">" + basePath;
+        startString = '>' + archive_url->url().path(KUrl::RemoveTrailingSlash);
+        endString = '>' + basePath;
         playList.replace(startString, endString);
     }
 
@@ -1005,7 +1005,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
                 itemsCount ++;
             }
         }
-        parentItem->setText(0, parentItem->text(0).section("(", 0, 0) + i18np("(%1 item)", "(%1 items)", itemsCount));
+        parentItem->setText(0, parentItem->text(0).section('(', 0, 0) + i18np("(%1 item)", "(%1 items)", itemsCount));
     }
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     slotCheckSpace();

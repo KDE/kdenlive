@@ -81,7 +81,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     QDomElement namenode = m_effect.firstChildElement("name");
     if (namenode.isNull()) return;
     QString effectname = i18n(namenode.text().toUtf8().data());
-    if (m_regionEffect) effectname.append(":" + KUrl(EffectsList::parameter(m_effect, "resource")).fileName());
+    if (m_regionEffect) effectname.append(':' + KUrl(EffectsList::parameter(m_effect, "resource")).fileName());
     
     QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
     title = new QLabel(this);

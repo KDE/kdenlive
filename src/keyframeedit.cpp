@@ -126,7 +126,7 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
         doubleparam->setInTimelineProperty(true);
     }
 
-    QStringList frames = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+    QStringList frames = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
     for (int i = 0; i < frames.count(); i++) {
         int frame = frames.at(i).section(':', 0, 0).toInt();
         bool found = false;

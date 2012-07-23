@@ -147,7 +147,7 @@ QStringList ClipStabilize::params()
     QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
     while (it.hasNext()){
         it.next();
-        filterparamsList << it.key() + "=" + it.value().value("value");
+        filterparamsList << it.key() + '=' + it.value().value("value");
     }
     params << filterparamsList.join(" ");
     
@@ -256,7 +256,7 @@ void ClipStabilize::fillParameters(QStringList lst)
     m_ui_params.clear();
     while (!lst.isEmpty()){
         QString vallist=lst.takeFirst();
-        QStringList cont=vallist.split(",");
+        QStringList cont=vallist.split(',');
         QString name=cont.takeFirst();
         while (!cont.isEmpty()){
             QString valname=cont.takeFirst();

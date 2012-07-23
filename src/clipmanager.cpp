@@ -531,7 +531,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
                     KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
                     const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
                     foreach(const KFileMetaInfoItem & metaInfoItem, metaInfoItems) {
-                        prod.setAttribute("meta.attr." + metaInfoItem.name().section("#", 1), metaInfoItem.value().toString());
+                        prod.setAttribute("meta.attr." + metaInfoItem.name().section('#', 1), metaInfoItem.value().toString());
                     }
                 }
             } else if (type->is("application/x-kdenlivetitle")) {

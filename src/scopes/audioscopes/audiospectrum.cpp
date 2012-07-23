@@ -458,7 +458,7 @@ QImage AudioSpectrum::renderHUD(uint)
                 davinci.drawRect(rect);
                 davinci.drawText(textRect, QString(
                                      i18n("%1 dB", QString("%1").arg(db, 0, 'f', 2))
-                                     + "\n"
+                                     + '\n'
                                      + i18n("%1 kHz", QString("%1").arg(freq/1000, 0, 'f', 2))));
             }
 

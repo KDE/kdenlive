@@ -5208,7 +5208,7 @@ void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
     goMenu->clear();
     double fps = m_document->fps();
     for (int i = 0; i < m_guides.count(); i++) {
-        act = goMenu->addAction(m_guides.at(i)->label() + "/" + Timecode::getStringTimecode(m_guides.at(i)->position().frames(fps), fps));
+        act = goMenu->addAction(m_guides.at(i)->label() + '/' + Timecode::getStringTimecode(m_guides.at(i)->position().frames(fps), fps));
         act->setData(m_guides.at(i)->position().frames(m_document->fps()));
     }
     goMenu->setEnabled(!m_guides.isEmpty());
@@ -5754,7 +5754,7 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             QString def = e.attribute("default");
             // Effect has a keyframe type parameter, we need to adjust the values
-            QStringList keys = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+            QStringList keys = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
             QStringList newKeyFrames;
             foreach(const QString &str, keys) {
                 int pos = str.section(':', 0, 0).toInt();
@@ -7026,13 +7026,13 @@ void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, Q
             parameters.addParam("_sync_in_out", "1");
         }
         if (e.attribute("type") == "simplekeyframe") {
-            QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+            QStringList values = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
             double factor = e.attribute("factor", "1").toDouble();
             double offset = e.attribute("offset", "0").toDouble();
             for (int j = 0; j < values.count(); j++) {
                 QString pos = values.at(j).section(':', 0, 0);
                 double val = (values.at(j).section(':', 1, 1).toDouble() - offset) / factor;
-                values[j] = pos + "=" + locale.toString(val);
+                values[j] = pos + '=' + locale.toString(val);
             }
             // kDebug() << "/ / / /SENDING KEYFR:" << values;
             parameters.addParam(paramname, values.join(";"));

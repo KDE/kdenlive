@@ -400,11 +400,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_loadLayout = new KSelectAction(i18n("Load Layout"), actionCollection());
     for (int i = 1; i < 5; i++) {
         KAction *load = new KAction(KIcon(), i18n("Layout %1", i), this);
-        load->setData("_" + QString::number(i));
+        load->setData('_' + QString::number(i));
 	layoutActions->addAction("load_layout" + QString::number(i), load);
         m_loadLayout->addAction(load);
         KAction *save = new KAction(KIcon(), i18n("Save As Layout %1", i), this);
-        save->setData("_" + QString::number(i));
+        save->setData('_' + QString::number(i));
         layoutActions->addAction("save_layout" + QString::number(i), save);
     }
     // Required to enable user to add the load layout action to toolbar
@@ -1747,16 +1747,16 @@ void MainWindow::loadLayouts()
         foreach(const QString & key, entries) {
             if (key.endsWith(QString("_%1").arg(i))) {
                 // Found previously saved layout
-                QString layoutName = key.section("_", 0, -2);
+                QString layoutName = key.section('_', 0, -2);
                 for (int j = 0; j < loadActions.count(); j++) {
-                    if (loadActions.at(j)->data().toString().endsWith("_" + QString::number(i))) {
+                    if (loadActions.at(j)->data().toString().endsWith('_' + QString::number(i))) {
                         loadActions[j]->setText(layoutName);
                         loadActions[j]->setData(key);
                         break;
                     }
                 }
                 for (int j = 0; j < saveActions.count(); j++) {
-                    if (saveActions.at(j)->data().toString().endsWith("_" + QString::number(i))) {
+                    if (saveActions.at(j)->data().toString().endsWith('_' + QString::number(i))) {
                         saveActions[j]->setText(i18n("Save as %1", layoutName));
                         saveActions[j]->setData(key);
                         break;
@@ -1790,7 +1790,7 @@ void MainWindow::slotSaveLayout(QAction *action)
     layouts.deleteEntry(originallayoutName);
 
     QByteArray st = saveState();
-    layoutName.append("_" + QString::number(layoutId));
+    layoutName.append('_' + QString::number(layoutId));
     layouts.writeEntry(layoutName, st.toBase64());
     loadLayouts();
 }
@@ -3678,7 +3678,7 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone, DocClipBase *baseClip
         QString tmppath = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash);
         if (baseClip == NULL) tmppath.append("untitled.mlt");
         else {
-            tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + "-" + QString::number(zone.x()).rightJustified(4, '0') + ".mlt");
+            tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + '-' + QString::number(zone.x()).rightJustified(4, '0') + ".mlt");
         }
         path = KUrl(tmppath);
     }
@@ -3911,7 +3911,7 @@ void MainWindow::loadTranscoders()
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
         i.next();
-        QStringList data = i.value().split(";");
+        QStringList data = i.value().split(';');
         QAction *a;
         // separate audio transcoding in a separate menu
         if (data.count() > 2 && data.at(2) == "audio") {
@@ -4106,12 +4106,12 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             QDomElement e = producers.item(n).toElement();
             producerResource = EffectsList::property(e, "resource");
             if (producerResource.isEmpty()) continue;
-            if (!producerResource.startsWith("/")) {
-                producerResource.prepend(root + "/");
+            if (!producerResource.startsWith('/')) {
+                producerResource.prepend(root + '/');
             }
             if (producerResource.contains('?')) {
                 // slowmotion producer
-                suffix = "?" + producerResource.section('?', 1);
+                suffix = '?' + producerResource.section('?', 1);
                 producerResource = producerResource.section('?', 0, 0);
             }
             else suffix.clear();

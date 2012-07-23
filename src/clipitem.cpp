@@ -823,7 +823,7 @@ void ClipItem::paint(QPainter *painter,
             else {
 #if KDE_IS_VERSION(4,5,0)
                 if (m_clip && m_clip->thumbProducer()) {
-                    QString path = m_clip->fileURL().path() + "_";
+                    QString path = m_clip->fileURL().path() + '_';
                     QImage img;
                     QPen pen(Qt::white);
                     pen.setStyle(Qt::DotLine);
@@ -1539,14 +1539,14 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
                 needInOutSync = true;
             }
             if (e.attribute("type") == "simplekeyframe") {
-                QStringList values = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+                QStringList values = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                 double factor = locale.toDouble(e.attribute("factor", "1"));
                 double offset = e.attribute("offset", "0").toDouble();
                 if (factor != 1 || offset != 0) {
                     for (int j = 0; j < values.count(); j++) {
                         QString pos = values.at(j).section(':', 0, 0);
                         double val = (locale.toDouble(values.at(j).section(':', 1, 1)) - offset) / factor;
-                        values[j] = pos + "=" + locale.toString(val);
+                        values[j] = pos + '=' + locale.toString(val);
                     }
                 }
                 parameters.addParam(e.attribute("name"), values.join(";"));
@@ -1797,18 +1797,18 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
                     newkfr.append(str);
                 } else if (!added) {
                     if (i == m_visibleParam)
-                        newkfr.append(QString::number(pos) + ":" + QString::number(val));
+                        newkfr.append(QString::number(pos) + ':' + QString::number(val));
                     else
-                        newkfr.append(QString::number(pos) + ":" + locale.toString(newval));
+                        newkfr.append(QString::number(pos) + ':' + locale.toString(newval));
                     if (kpos > pos) newkfr.append(str);
                     added = true;
                 } else newkfr.append(str);
             }
             if (!added) {
                 if (i == m_visibleParam)
-                    newkfr.append(QString::number(pos) + ":" + QString::number(val));
+                    newkfr.append(QString::number(pos) + ':' + QString::number(val));
                 else
-                    newkfr.append(QString::number(pos) + ":" + e.attribute("default"));
+                    newkfr.append(QString::number(pos) + ':' + e.attribute("default"));
             }
             e.setAttribute("keyframes", newkfr.join(";"));
         }
@@ -1836,9 +1836,9 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
                     newpos = qMax(newpos, start);
                     newpos = qMin(newpos, end);
                     if (i == m_visibleParam)
-                        newkfr.append(QString::number(newpos) + ":" + locale.toString(value));
+                        newkfr.append(QString::number(newpos) + ':' + locale.toString(value));
                     else
-                        newkfr.append(QString::number(newpos) + ":" + str.section(':', 1, 1));
+                        newkfr.append(QString::number(newpos) + ':' + str.section(':', 1, 1));
                 }
             }
             e.setAttribute("keyframes", newkfr.join(";"));
@@ -2059,9 +2059,9 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
             if (keyframe.contains('=')) {
                 int pos = keyframe.section('=', 0, 0).toInt();
                 pos += offset;
-                data.append(QString::number(pos) + "=" + keyframe.section('=', 1) + ";");
+                data.append(QString::number(pos) + '=' + keyframe.section('=', 1) + ";");
             }
-            else data.append(keyframe + ";");
+            else data.append(keyframe + ';');
         }
     }
     Mlt::Geometry geometry(data.toUtf8().data(), oldInfo.cropDuration.frames(m_fps), width, height);

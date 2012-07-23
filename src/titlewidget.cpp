@@ -2248,7 +2248,7 @@ void TitleWidget::slotAddEffect(int ix)
              * element, but do not add it to non-text elements.
              */
             if (item->type() == TEXTITEM) {
-                QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
+                QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
                 item->setData(100, effdata);
             }
             break;
@@ -2281,7 +2281,7 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
+        QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
         l[0]->setData(100, effdata);
     }
 }

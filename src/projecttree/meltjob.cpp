@@ -44,7 +44,7 @@ MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters) : Ab
     m_params = parameters;
     description = i18n("Process clip");
     QString consum = m_params.at(5);
-    if (consum.contains(":")) m_dest = consum.section(":", 1);
+    if (consum.contains(':')) m_dest = consum.section(':', 1);
 }
 
 void MeltJob::setProducer(Mlt::Producer *producer)
@@ -66,7 +66,7 @@ void MeltJob::startJob()
     QString filterParams = m_params.takeFirst();
     QString consumer = m_params.takeFirst();
     kDebug()<<"consumer: "<<consumer;
-    if (consumer.contains(":")) m_dest = consumer.section(":", 1);
+    if (consumer.contains(':')) m_dest = consumer.section(':', 1);
     QString consumerParams = m_params.takeFirst();
     
     // optional params
@@ -103,7 +103,7 @@ void MeltJob::startJob()
     }
 
     if (consumer.contains(":")) {
-        m_consumer = new Mlt::Consumer(*m_profile, consumer.section(":", 0, 0).toUtf8().constData(), consumer.section(":", 1).toUtf8().constData());
+        m_consumer = new Mlt::Consumer(*m_profile, consumer.section(':', 0, 0).toUtf8().constData(), consumer.section(':', 1).toUtf8().constData());
     }
     else {
         m_consumer = new Mlt::Consumer(*m_profile, consumer.toUtf8().constData());

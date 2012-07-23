@@ -641,7 +641,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                     QString prodId = clip->getId();
                     if (clip->clipType() == PLAYLIST || clip->clipType() == AV || clip->clipType() == AUDIO) {
                         // We need producer for the track
-                        prodId.append("_" + QString::number(ix));
+                        prodId.append('_' + QString::number(ix));
                     }
                     elem.setAttribute("producer", prodId);
                     producerReplacementIds.insert(idString, prodId);
@@ -671,7 +671,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                         for (int i = 0; i < producers.count(); i++) {
                             QDomElement prod = producers.at(i).toElement();
                             QString mltProdId = prod.attribute("id");
-                            if (mltProdId == prodId || mltProdId.startsWith(prodId + "_")) {
+                            if (mltProdId == prodId || mltProdId.startsWith(prodId + '_')) {
                                 // Found parent producer, clone it
                                 QDomElement clone = prod.cloneNode().toElement();
                                 clone.setAttribute("id", prodId);
@@ -972,7 +972,7 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
 		    QString fr = kfrs.at(l).section('=', 0, 0);
                     double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
                     //kfrs[l] = fr + ":" + locale.toString((int)(val * fact));
-                    kfrs[l] = fr + ":" + QString::number((int) (offset + val * fact));
+                    kfrs[l] = fr + ':' + QString::number((int) (offset + val * fact));
                 }
                 e.setAttribute("keyframes", kfrs.join(";"));
             } else if (type == "double" || type == "constant") {

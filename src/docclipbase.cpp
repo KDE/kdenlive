@@ -66,7 +66,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     }
 
     if (xml.hasAttribute("cutzones")) {
-        QStringList cuts = xml.attribute("cutzones").split(";", QString::SkipEmptyParts);
+        QStringList cuts = xml.attribute("cutzones").split(';', QString::SkipEmptyParts);
         for (int i = 0; i < cuts.count(); i++) {
             QString z = cuts.at(i);
             addCutZone(z.section('-', 0, 0).toInt(), z.section('-', 1, 1).toInt(), z.section('-', 2, 2));
@@ -243,7 +243,7 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
     QMapIterator<QString, QString> i(m_properties);
     while (i.hasNext()) {
         i.next();
-        if (hideTemporaryProperties && i.key().startsWith("_")) continue;
+        if (hideTemporaryProperties && i.key().startsWith('_')) continue;
         if (!i.value().isEmpty()) clip.setAttribute(i.key(), i.value());
     }
     doc.appendChild(clip);

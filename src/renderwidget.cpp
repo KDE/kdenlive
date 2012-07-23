@@ -459,7 +459,7 @@ void RenderWidget::slotSaveProfile()
     if (customGroup.isEmpty()) customGroup = i18nc("Group Name", "Custom");
     ui.group_name->setText(customGroup);
 
-    QStringList arguments = m_view.advanced_params->toPlainText().split(" ", QString::SkipEmptyParts);
+    QStringList arguments = m_view.advanced_params->toPlainText().split(' ', QString::SkipEmptyParts);
     ui.parameters->setText(arguments.join(" "));
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
@@ -843,7 +843,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     QString extension = item->data(ExtensionRole).toString();
     if (!dest.endsWith(extension, Qt::CaseInsensitive)) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", extension)) == KMessageBox::Yes) {
-            dest.append("." + extension);
+            dest.append('.' + extension);
         }
     }
 
@@ -952,7 +952,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         renderArgs.append(subsize);
     }
     bool resizeProfile = (subsize != currentSize);
-    QStringList paramsList = renderArgs.split(" ", QString::SkipEmptyParts);
+    QStringList paramsList = renderArgs.split(' ', QString::SkipEmptyParts);
 
     QScriptEngine sEngine;
     sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText());

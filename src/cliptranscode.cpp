@@ -79,7 +79,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
         QMapIterator<QString, QString> i(profiles);
         while (i.hasNext()) {
             i.next();
-            QStringList data = i.value().split(";");
+            QStringList data = i.value().split(';');
             profile_list->addItem(i.key(), data.at(0));
             if (data.count() > 1) profile_list->setItemData(profile_list->count() - 1, data.at(1), Qt::UserRole + 1);
         }

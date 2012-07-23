@@ -351,7 +351,7 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
             x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
             y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
             if (qAbs(pos.x() - x1) < maxOffset && qAbs(pos.y() - y1) < 10) {
-                setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + "]");
+                setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + ']');
                 return i.key();
             } else if (x1 > pos.x()) {
                 break;

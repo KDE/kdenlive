@@ -439,7 +439,7 @@ void StopmotionWidget::parseExistingSequences()
     QStringList sequences = dir.entryList(filters, QDir::Files, QDir::Name);
     //kDebug()<<"PF: "<<<<", sm: "<<sequences;
     foreach(QString sequencename, sequences) {
-        sequence_name->addItem(sequencename.section("_", 0, -2));
+        sequence_name->addItem(sequencename.section('_', 0, -2));
     }
 }
 
@@ -722,7 +722,7 @@ void StopmotionWidget::slotCreateThumbs(QImage img, int ix)
 QString StopmotionWidget::getPathForFrame(int ix, QString seqName)
 {
     if (seqName.isEmpty()) seqName = m_sequenceName;
-    return m_projectFolder.path(KUrl::AddTrailingSlash) + seqName + "_" + QString::number(ix).rightJustified(4, '0', false) + ".png";
+    return m_projectFolder.path(KUrl::AddTrailingSlash) + seqName + '_' + QString::number(ix).rightJustified(4, '0', false) + ".png";
 }
 
 void StopmotionWidget::slotShowFrame(const QString& path)
