@@ -1847,7 +1847,7 @@ void TitleWidget::saveTitle(KUrl url)
         embed_image=true;	
     }
     if (url.isEmpty()) {
-        KFileDialog *fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this);
+        QPointer<KFileDialog> fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this);
         fs->setOperationMode(KFileDialog::Saving);
         fs->setMode(KFile::File);
         fs->setConfirmOverwrite(true);
