@@ -1830,12 +1830,13 @@ void MainWindow::readOptions()
 
     if (!initialGroup.exists() || upgrade) {
         // this is our first run, show Wizard
-        Wizard *w = new Wizard(upgrade, this);
+        QPointer<Wizard> w = new Wizard(upgrade, this);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
             initialGroup.writeEntry("version", version);
             delete w;
         } else {
+            delete w;
             ::exit(1);
         }
     }
