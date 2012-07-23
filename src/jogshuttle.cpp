@@ -95,6 +95,7 @@ void ShuttleThread::run()
 
     if (ioctl(fd, EVIOCGRAB, 1) < 0) {
         fprintf(stderr, "Can't get exclusive access on  Jog Shuttle FILE DESCRIPTOR\n");
+        close(fd);
         return;;
     }
 
