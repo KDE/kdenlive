@@ -884,7 +884,7 @@ void RecMonitor::manageCapturedFiles()
     kDebug() << capturedFiles;
 
     if (capturedFiles.count() > 0) {
-        ManageCapturesDialog *d = new ManageCapturesDialog(capturedFiles, this);
+        QPointer<ManageCapturesDialog> d = new ManageCapturesDialog(capturedFiles, this);
         if (d->exec() == QDialog::Accepted) {
             emit addProjectClipList(d->importFiles());
         }
