@@ -5933,21 +5933,21 @@ void CustomTrackView::saveThumbnails()
 
 void CustomTrackView::slotInsertTrack(int ix)
 {
-    TrackDialog d(m_document, parentWidget());
-    d.comboTracks->setCurrentIndex(ix);
-    d.label->setText(i18n("Insert track"));
-    d.setWindowTitle(i18n("Insert New Track"));
+    QPointer<TrackDialog> d = new TrackDialog(m_document, parentWidget());
+    d->comboTracks->setCurrentIndex(ix);
+    d->label->setText(i18n("Insert track"));
+    d->setWindowTitle(i18n("Insert New Track"));
 
-    if (d.exec() == QDialog::Accepted) {
-        ix = d.comboTracks->currentIndex();
-        if (d.before_select->currentIndex() == 1)
+    if (d->exec() == QDialog::Accepted) {
+        ix = d->comboTracks->currentIndex();
+        if (d->before_select->currentIndex() == 1)
             ix++;
         TrackInfo info;
         info.duration = 0;
         info.isMute = false;
         info.isLocked = false;
 	info.effectsList = EffectsList(true);
-        if (d.video_track->isChecked()) {
+        if (d->video_track->isChecked()) {
             info.type = VIDEOTRACK;
             info.isBlind = false;
         } else {
@@ -5958,6 +5958,7 @@ void CustomTrackView::slotInsertTrack(int ix)
         m_commandStack->push(addTrack);
         setDocumentModified();
     }
+    delete d;
 }
 
 void CustomTrackView::slotDeleteTrack(int ix)
