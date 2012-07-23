@@ -1642,7 +1642,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
         l->addWidget(c);
         l->addStretch(5);
         f->setLayout(l);
-        KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow(), f);
+        QPointer<KFileDialog> d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow(), f);
         d->setOperationMode(KFileDialog::Opening);
         d->setMode(KFile::Files);
         if (d->exec() == QDialog::Accepted) {
@@ -1808,7 +1808,7 @@ void ProjectList::slotAddColorClip()
     if (!m_commandStack)
         kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
-    QDialog *dia = new QDialog(this);
+    QPointer<QDialog> dia = new QDialog(this);
     Ui::ColorClip_UI dia_ui;
     dia_ui.setupUi(dia);
     dia->setWindowTitle(i18n("Color Clip"));
@@ -1879,7 +1879,7 @@ void ProjectList::slotAddTitleTemplateClip()
     const QString path = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
     QStringList templateFiles = QDir(path).entryList(filter, QDir::Files);
 
-    QDialog *dia = new QDialog(this);
+    QPointer<QDialog> dia = new QDialog(this);
     Ui::TemplateClip_UI dia_ui;
     dia_ui.setupUi(dia);
     for (int i = 0; i < templateFiles.size(); ++i)
@@ -2722,7 +2722,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     QString timeIn = Timecode::getStringTimecode(in, clipFps, true);
     QString timeOut = Timecode::getStringTimecode(duration, clipFps, true);
     
-    QDialog *d = new QDialog(this);
+    QPointer<QDialog> d = new QDialog(this);
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
     ui.extra_params->setVisible(false);
@@ -3384,7 +3384,7 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
     else {
         destination = item->clipUrl().directory();
     }
-    ClipStabilize *d = new ClipStabilize(destination, ids.count(), filterName);
+    QPointer<ClipStabilize> d = new ClipStabilize(destination, ids.count(), filterName);
     if (d->exec() == QDialog::Accepted) {
         processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc());
     }
