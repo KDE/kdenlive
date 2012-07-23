@@ -60,6 +60,8 @@ QByteArray fileToByteArray(const QString& filename)
 TitleDocument::TitleDocument()
 {
     m_scene = NULL;
+    m_width = 0;
+    m_height = 0;
 }
 
 void TitleDocument::setScene(QGraphicsScene* _scene, int width, int height)
