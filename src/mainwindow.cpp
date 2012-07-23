@@ -2306,7 +2306,7 @@ void MainWindow::slotDetectAudioDriver()
 void MainWindow::slotEditProjectSettings()
 {
     QPoint p = m_activeDocument->getTracksCount();
-    ProjectSettings *w = new ProjectSettings(m_projectList, m_activeDocument->metadata(), m_activeTimeline->projectView()->extractTransitionsLumas(), p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
+    QPointer<ProjectSettings> w = new ProjectSettings(m_projectList, m_activeDocument->metadata(), m_activeTimeline->projectView()->extractTransitionsLumas(), p.x(), p.y(), m_activeDocument->projectFolder().path(), true, !m_activeDocument->isModified(), this);
     connect(w, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
 
     if (w->exec() == QDialog::Accepted) {
