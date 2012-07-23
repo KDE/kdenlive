@@ -51,15 +51,15 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
         ct++;
         counter = QString::number(ct).rightJustified(5, '0', false);
     }
-    QDialog d;
+    QPointer<QDialog> d = new QDialog;
     Ui::CountDown_UI view;
-    view.setupUi(&d);
+    view.setupUi(d);
     if (generator == i18n("Noise")) {
-        d.setWindowTitle(tr("Create Noise Clip"));
+        d->setWindowTitle(tr("Create Noise Clip"));
         view.font_label->setHidden(true);
         view.font->setHidden(true);
     } else {
-        d.setWindowTitle(tr("Create Countdown Clip"));
+        d->setWindowTitle(tr("Create Countdown Clip"));
         view.font->setValue(height);
     }
 
@@ -68,7 +68,7 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
 
     QString clipFile = prePath + counter + ".mlt";
     view.path->setUrl(KUrl(clipFile));
-    if (d.exec() == QDialog::Accepted) {
+    if (d->exec() == QDialog::Accepted) {
         QDomDocument doc;
         QDomElement mlt = doc.createElement("mlt");
         QDomElement playlist = doc.createElement("playlist");
@@ -99,6 +99,7 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             kWarning() << "//////  ERROR writing to file: " << view.path->url().path();
             KMessageBox::error(0, i18n("Cannot write to file %1", view.path->url().path()));
+            delete d;
             return KUrl();
         }
         QTextStream out(&file);
@@ -106,9 +107,11 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
         if (file.error() != QFile::NoError) {
             KMessageBox::error(0, i18n("Cannot write to file %1", view.path->url().path()));
             file.close();
+            delete d;
             return KUrl();
         }
         file.close();
+       delete d;
         return view.path->url();
     }
     return KUrl();
