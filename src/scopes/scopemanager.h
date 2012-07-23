@@ -36,14 +36,22 @@ class ScopeManager : QObject
         AbstractGfxScopeWidget *scope;
         QDockWidget *scopeDockWidget;
         bool singleFrameRequested;
-        GfxScopeData() { singleFrameRequested = false; }
+        GfxScopeData() {
+            scope = NULL;
+            scopeDockWidget = NULL;
+            singleFrameRequested = false;
+        }
     };
 
     struct AudioScopeData {
         AbstractAudioScopeWidget *scope;
         QDockWidget *scopeDockWidget;
         bool singleFrameRequested;
-        AudioScopeData() { singleFrameRequested = false; }
+        AudioScopeData() {
+            scope = NULL;
+            scopeDockWidget = NULL;
+            singleFrameRequested = false; 
+        }
     };
 
 public:
