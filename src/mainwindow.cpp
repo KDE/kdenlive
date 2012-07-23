@@ -1848,7 +1848,7 @@ void MainWindow::readOptions()
 
 void MainWindow::slotRunWizard()
 {
-    Wizard *w = new Wizard(false, this);
+    QPointer<Wizard> w = new Wizard(false, this);
     if (w->exec() == QDialog::Accepted && w->isOk()) {
         w->adjustSettings();
     }
