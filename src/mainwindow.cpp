@@ -3847,9 +3847,10 @@ void MainWindow::slotDvdWizard(const QString &url, const QString &profile)
     // We must stop the monitors since we create a new on in the dvd wizard
     m_clipMonitor->stop();
     m_projectMonitor->stop();
-    DvdWizard w(url, profile, this);
-    w.exec();
+    QPointer<DvdWizard> w = new DvdWizard(url, profile, this);
+    w->exec();
     m_projectMonitor->start();
+    delete w;
 }
 
 void MainWindow::slotShowTimeline(bool show)
