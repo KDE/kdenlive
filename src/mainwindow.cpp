@@ -3756,13 +3756,14 @@ int MainWindow::getNewStuff(const QString &configFile)
 {
     KNS3::Entry::List entries;
 #if KDE_IS_VERSION(4,3,80)
-    KNS3::DownloadDialog dialog(configFile);
-    dialog.exec();
-    entries = dialog.changedEntries();
+    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
+    dialog->exec();
+    entries = dialog->changedEntries();
     foreach(const KNS3::Entry & entry, entries) {
         if (entry.status() == KNS3::Entry::Installed)
             kDebug() << "// Installed files: " << entry.installedFiles();
     }
+    delete dialog;
 #else
     KNS::Engine engine(0);
     if (engine.init(configFile))
