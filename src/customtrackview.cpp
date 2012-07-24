@@ -1406,8 +1406,8 @@ void CustomTrackView::editItemDuration()
                 updateTrackDuration(clipInfo.track, moveCommand);
                 m_commandStack->push(moveCommand);
             }
-        delete d;
         }
+        delete d;
     } else {
         emit displayMessage(i18n("Item is locked"), ErrorMessage);
     }

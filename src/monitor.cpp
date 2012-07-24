@@ -583,7 +583,8 @@ void Monitor::slotExtractCurrentFrame()
     fs->setConfirmOverwrite(true);
     fs->setKeepLocation(true);
     fs->exec();
-    QString path = fs->selectedFile();
+    QString path;
+    if (fs) path = fs->selectedFile();
     delete fs;
     if (!path.isEmpty()) {
         frame.save(path);

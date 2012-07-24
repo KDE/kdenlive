@@ -1853,7 +1853,7 @@ void TitleWidget::saveTitle(KUrl url)
         fs->setConfirmOverwrite(true);
         fs->setKeepLocation(true);
         fs->exec();
-        url = fs->selectedUrl();
+        if (fs) url = fs->selectedUrl();
         delete fs;
     }
     if (!url.isEmpty()) {
