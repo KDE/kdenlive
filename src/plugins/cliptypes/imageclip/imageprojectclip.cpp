@@ -84,6 +84,7 @@ void ImageProjectClip::init(int duration)
     }
     m_baseProducer->set("length", duration);
     m_baseProducer->set_in_and_out(0, -1);
+    m_thumbnail = m_baseProducer->pixmap().scaledToHeight(100, Qt::SmoothTransformation);
 
     kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
 }

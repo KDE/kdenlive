@@ -188,7 +188,6 @@ void MonitorModel::updateFrame(mlt_frame frame_ptr)
         emit positionChanged(m_position);
     }
 }
-
 void MonitorModel::emitDurationChanged()
 {
     emit durationChanged(duration());

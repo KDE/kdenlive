@@ -36,7 +36,6 @@ private:
     void init(int duration = 0);
 
     QList<ImageTimelineClip *> m_instances;
-    QPixmap m_thumbnail;
 };
 
 #endif

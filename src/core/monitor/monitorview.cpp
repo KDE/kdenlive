@@ -94,7 +94,6 @@ void MonitorView::setModel(MonitorModel* model)
 
     connect(m_model, SIGNAL(durationChanged(int)), m_positionBar, SLOT(setDuration(int)));
     connect(m_model, SIGNAL(durationChanged(int)), m_timecodeWiget, SLOT(setMaximum(int)));
-
     onProducerChanged();
 }
 

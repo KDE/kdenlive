@@ -12,11 +12,13 @@ the Free Software Foundation, either version 3 of the License, or
 #define ABSTRACTPROJECTITEM_H
 
 #include <QObject>
+#include <QPixmap>
 #include <kdemacros.h>
 
 class AbstractProjectClip;
 class BinModel;
 class QDomElement;
+
 
 
 class KDE_EXPORT AbstractProjectItem : public QObject, public QList<AbstractProjectItem *>
@@ -44,7 +46,8 @@ public:
     enum DataType {
         DataName = 0,
         DataDescription,
-        DataDate
+        DataDate,
+	DataThumbnail
     };
 
     virtual QVariant data(DataType type) const;
@@ -66,6 +69,7 @@ protected:
     AbstractProjectItem *m_parent;
     QString m_name;
     QString m_description;
+    QPixmap m_thumbnail;
 
 private:
     bool m_isCurrent;

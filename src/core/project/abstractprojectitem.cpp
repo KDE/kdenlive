@@ -116,6 +116,9 @@ QVariant AbstractProjectItem::data(DataType type) const
         case DataDescription:
             data = QVariant(m_description);
             break;
+	case DataThumbnail:
+            data = QVariant(m_thumbnail);
+            break;
         default:
             break;
     }
