@@ -184,6 +184,10 @@ QImage AudioEnvelope::drawEnvelope()
 
     QImage img(m_envelopeSize, 400, QImage::Format_ARGB32);
     img.fill(qRgb(255,255,255));
+
+    if (m_envelopeMax == 0)
+        return img;
+
     double fy;
     for (int x = 0; x < img.width(); x++) {
         fy = m_envelope[x]/double(m_envelopeMax) * img.height();
