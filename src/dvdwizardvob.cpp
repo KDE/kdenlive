@@ -131,7 +131,10 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
         QFile file(url.path() + ".dvdchapter");
         if (file.open(QIODevice::ReadOnly)) {
             QDomDocument doc;
-            doc.setContent(&file);
+            if (doc.setContent(&file) == false) {
+                file.close();
+                return;
+            }
             file.close();
             QDomNodeList chapters = doc.elementsByTagName("chapter");
             QStringList chaptersList;
