@@ -1925,11 +1925,21 @@ void Render::mltCutClip(int track, GenTime position)
     Mlt::Producer *original = trackPlaylist.get_clip_at(clipStart);
     Mlt::Producer *clip = trackPlaylist.get_clip_at(cutPos);
 
-    if (original == NULL || clip == NULL) {
+    Mlt::Service clipService;
+    Mlt::Service dupService;
+    if (original)
+        clipService = Mlt::Service(original->get_service());
+    else
+        clipService = Mlt::Service();
+
+    if (clip)
+        dupService = Mlt::Service(clip->get_service());
+    else
+        dupService = Mlt::Service();
+
+    if (original == NULL || clip == NULL)
         kDebug() << "// ERROR GRABBING CLIP AFTER SPLIT";
-    }
-    Mlt::Service clipService(original->get_service());
-    Mlt::Service dupService(clip->get_service());
+
     delete original;
     delete clip;
     int ct = 0;
