@@ -549,7 +549,8 @@ void ProjectSettings::slotExportToText()
         return;
     }
     QFile xmlf(tmpfile.fileName());
-    xmlf.open(QIODevice::WriteOnly);
+    if (!xmlf.open(QIODevice::WriteOnly))
+        return;
     xmlf.write(data.toUtf8());
     if (xmlf.error() != QFile::NoError) {
         xmlf.close();
