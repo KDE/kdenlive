@@ -802,7 +802,8 @@ void EffectStackView2::slotCreateGroup(int ix)
     connectGroup(group);
     l->insertWidget(groupPos, group);
     group->installEventFilter( this );
-    group->addGroupEffect(effectToMove);
+    if (effectToMove)
+        group->addGroupEffect(effectToMove);
 }
 
 void EffectStackView2::connectGroup(CollapsibleGroup *group)
