@@ -733,6 +733,10 @@ void ProjectList::slotMissingClip(const QString &id)
     if (item) {
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
         int height = m_listView->iconSize().height();
+        if (m_render == NULL) {
+            kDebug() << "*********  ERROR, NULL RENDR";
+            return;
+        }
         int width = (int)(height  * m_render->dar());
         QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
         if (pixmap.isNull()) {
@@ -746,10 +750,6 @@ void ProjectList::slotMissingClip(const QString &id)
         item->setData(0, Qt::DecorationRole, pixmap);
         if (item->referencedClip()) {
             item->referencedClip()->setPlaceHolder(true);
-            if (m_render == NULL) {
-                kDebug() << "*********  ERROR, NULL RENDR";
-                return;
-            }
             Mlt::Producer *newProd = m_render->invalidProducer(id);
             if (item->referencedClip()->getProducer()) {
                 Mlt::Properties props(newProd->get_properties());
