@@ -297,7 +297,8 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGr
         return false;
     }
     QFile xmlf(tmpfile.fileName());
-    xmlf.open(QIODevice::WriteOnly);
+    if (!xmlf.open(QIODevice::WriteOnly))
+        return false;
     xmlf.write(doc.toString().toUtf8());
     if (xmlf.error() != QFile::NoError) {
         xmlf.close();
