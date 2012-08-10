@@ -126,8 +126,9 @@ protected:
     int m_intervals;
 
 public:
-    KisCubicSpline() {}
-    KisCubicSpline(const QList<T_point> &a) {
+    KisCubicSpline() : m_begin(0), m_end(0), m_intervals(0) {}
+    KisCubicSpline(const QList<T_point> &a) : m_begin(0), m_end(0),
+      m_intervals(0) {
         createSpline(a);
     }
 
