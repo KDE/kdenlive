@@ -266,7 +266,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
                 if (it->type() == PROJECTCLIPTYPE) {
                     if (it->parent()) clone = (ProjectItem*) it->parent()->takeChild(it->parent()->indexOfChild(it));
                     else clone = (ProjectItem*) takeTopLevelItem(indexOfTopLevelItem(it));
-                    if (clone) {
+                    if (clone && item) {
                         item->addChild(clone);
                         QMap <QString, QString> props;
                         props.insert("groupname", item->groupName());
