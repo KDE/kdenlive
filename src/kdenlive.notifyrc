@@ -192,6 +192,7 @@ Action=Sound
 [Event/ReadyToCapture]
 Name=Ready to capture
 Name[ca]=A punt per capturar
+Name[cs]=Připraven zachytávat
 Name[da]=Klar til at indfange
 Name[de]=Bereit zur Aufnahme
 Name[el]=Έτοιμο για σύλληψη
