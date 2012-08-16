@@ -34,6 +34,7 @@ TimecodeWidget::TimecodeWidget(QWidget* parent) :
     m_value(0),
     m_timecodeFormatter(0)
 {
+    setFocusPolicy(Qt::ClickFocus);
     lineEdit()->setFont(KGlobalSettings::toolBarFont());
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     QFontMetrics fm = lineEdit()->fontMetrics();

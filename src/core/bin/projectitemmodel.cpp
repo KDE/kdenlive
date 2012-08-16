@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/projectfolder.h"
 #include <KLocale>
 #include <QItemSelectionModel>
+#include <QIcon>
 
 #include <KDebug>
 
@@ -48,6 +49,13 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
     if (role == Qt::DisplayRole) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->data(static_cast<AbstractProjectItem::DataType>(index.column()));
+    }
+
+    if (role == Qt::DecorationRole && index.column() == 0) {
+	// Data has to be returned as icon to allow the view to scale it
+        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+        QIcon icon = QIcon(item->data(AbstractProjectItem::DataThumbnail).value<QPixmap>());
+        return icon;
     }
 
     return QVariant();

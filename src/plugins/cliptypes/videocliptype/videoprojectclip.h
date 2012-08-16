@@ -8,34 +8,33 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#ifndef IMAGEPROJECTCLIP_H
-#define IMAGEPROJECTCLIP_H
+#ifndef VIDEOPROJECTCLIP_H
+#define VIDEOPROJECTCLIP_H
 
 #include "core/project/abstractprojectclip.h"
 #include <QPixmap>
 
-class ImageClipPlugin;
-class ImageTimelineClip;
+class VideoClipPlugin;
+class VideoTimelineClip;
 
 
-class ImageProjectClip : public AbstractProjectClip
+class VideoProjectClip : public AbstractProjectClip
 {
     Q_OBJECT
 
 public:
-    ImageProjectClip(const KUrl& url, ProjectFolder* parent, ImageClipPlugin const *plugin);
-    ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent, ImageClipPlugin const *plugin);
-    ImageProjectClip(const QDomElement &description, ProjectFolder *parent, ImageClipPlugin const *plugin);
-    ~ImageProjectClip();
+    VideoProjectClip(const KUrl& url, ProjectFolder* parent, VideoClipPlugin const *plugin);
+    VideoProjectClip(ProducerWrapper* producer, ProjectFolder* parent, VideoClipPlugin const *plugin);
+    VideoProjectClip(const QDomElement &description, ProjectFolder *parent, VideoClipPlugin const *plugin);
+    ~VideoProjectClip();
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
 
     QPixmap thumbnail();
 
 private:
-    void init(int duration = 0);
-
-    QList<ImageTimelineClip *> m_instances;
+    void init();
+    QList<VideoTimelineClip *> m_instances;
 };
 
 #endif

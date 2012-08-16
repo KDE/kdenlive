@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define ABSTRACTPROJECTITEM_H
 
 #include <QObject>
+#include <QPixmap>
 #include <kdemacros.h>
 
 class AbstractProjectClip;
@@ -82,7 +83,8 @@ public:
     enum DataType {
         DataName = 0,
         DataDescription,
-        DataDate
+        DataDate,
+        DataThumbnail
     };
 
     /** @brief Returns the data that describes this item.
@@ -122,6 +124,7 @@ protected:
     AbstractProjectItem *m_parent;
     QString m_name;
     QString m_description;
+    QPixmap m_thumbnail;
 
 private:
     bool m_isCurrent;

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Clip
+Name=Video Clip
+X-KDE-PluginInfo-Name=kdenlivevideoclip
+X-KDE-Library=kdenlivevideoclip
+X-Kdenlive-ProvidedProducers=avformat

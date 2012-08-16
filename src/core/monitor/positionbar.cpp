@@ -18,7 +18,8 @@ the Free Software Foundation, either version 3 of the License, or
 PositionBar::PositionBar(QWidget* parent) :
     QWidget(parent),
     m_duration(0),
-    m_position(0)
+    m_position(0),
+    m_activeControl(CONTROL_NONE)
 {
     setMouseTracking(true);
     setMinimumHeight(10);
@@ -30,11 +31,14 @@ PositionBar::~PositionBar()
 
 int PositionBar::position() const
 {
-    return m_position;
+    return m_head;
 }
 
 void PositionBar::setPosition(int position)
 {
+    if (m_activeControl != CONTROL_HEAD) {
+	m_head = position;
+    }
     m_position = position;
     m_pixelPosition = position * m_scale;
     update();
@@ -49,7 +53,14 @@ void PositionBar::setDuration(int duration)
 void PositionBar::mousePressEvent(QMouseEvent* event)
 {
     const int framePosition = event->x() / m_scale;
+    m_head = framePosition;
+    m_activeControl = CONTROL_HEAD;
     emit positionChanged(framePosition);
+}
+
+void PositionBar::mouseReleaseEvent(QMouseEvent* event)
+{
+    m_activeControl = CONTROL_NONE;
 }
 
 void PositionBar::mouseMoveEvent(QMouseEvent* event)
@@ -69,6 +80,7 @@ void PositionBar::mouseMoveEvent(QMouseEvent* event)
     
     if (event->buttons() & Qt::LeftButton) {
         m_mouseOverCursor = true;
+	m_head = framePosition;
         emit positionChanged(framePosition);
     } else {
         setToolTip(i18n("Position: %1", Timecode(framePosition).formatted()));
@@ -105,6 +117,7 @@ void PositionBar::paintEvent(QPaintEvent* event)
     p.setRenderHint(QPainter::Antialiasing);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pointer);
+    p.fillRect(m_head * m_scale - 1, 0, 2, height(), palette().text());
 }
 
 void PositionBar::resizeEvent(QResizeEvent* event)

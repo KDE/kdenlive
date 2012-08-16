@@ -33,6 +33,13 @@ class PositionBar : public QWidget
 {
     Q_OBJECT
 
+    enum controls {
+        CONTROL_NONE,
+        CONTROL_HEAD,
+        CONTROL_IN,
+        CONTROL_OUT
+    };
+
 public:
     explicit PositionBar(QWidget* parent = 0);
     virtual ~PositionBar();
@@ -55,6 +62,7 @@ signals:
 protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent* event);
     void leaveEvent(QEvent *event);
     void paintEvent(QPaintEvent *event);
     void resizeEvent(QResizeEvent *event);
@@ -65,6 +73,8 @@ private:
 
     int m_duration;
     int m_position;
+    enum controls m_activeControl;
+    int m_head;
     int m_pixelPosition;
     double m_scale;
     double m_smallMarkSteps;

@@ -28,6 +28,9 @@ class KDE_EXPORT Bin : public QWidget
 {
     Q_OBJECT
 
+    /** @brief Defines the view types (icon view, tree view,...)  */
+    enum BinViewType {BinTreeView, BinIconView };
+      
 public:
     Bin(QWidget* parent = 0);
     ~Bin();
@@ -35,9 +38,21 @@ public:
 private slots:
     void setProject(Project *project);
 
+private slots:
+    /** @brief Setup the bin view type (icon view, tree view, ...).
+    * @param action The action whose data defines the view type or NULL to keep default view */
+    void slotInitView(QAction *action);
+    void slotSetIconSize(int size);
+
 private:
     ProjectItemModel *m_itemModel;
     QAbstractItemView *m_itemView;
+    /** @brief Default view type (icon, tree, ...) */
+    BinViewType m_listType;
+    /** @brief Default icon size for the views. */
+    int m_iconSize;
+    /** @brief Keeps the column width info of the tree view. */
+    QByteArray m_headerInfo;
 };
 
 #endif

@@ -29,12 +29,17 @@ MonitorManager::MonitorManager(QObject* parent) :
     pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);
     m_views.insert("auto", autoView);
 
+    /*MonitorView *projectView = new MonitorView(1, pCore->window());
+    pCore->window()->addDock(i18n("Monitor"), "project_monitor", projectView);
+    m_views.insert("project", projectView);*/
+
     connect(m_modelSignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(onModelActivated(const QString &)));
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 }
 
 void MonitorManager::registerModel(const QString &id, MonitorModel* model, bool needsOwnView)
 {
+    if (m_models.contains(id) || model == NULL) return;
     m_models.insert(id, model);
     if (m_views.contains(id)) {
         m_views.value(id)->setModel(model);

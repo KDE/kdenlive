@@ -8,9 +8,9 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#include "imageprojectclip.h"
-#include "imageclipplugin.h"
-#include "imagetimelineclip.h"
+#include "videoprojectclip.h"
+#include "videoclipplugin.h"
+#include "videotimelineclip.h"
 #include "core/project/projectfolder.h"
 #include "core/project/producerwrapper.h"
 #include "core/project/project.h"
@@ -24,7 +24,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDomElement>
 
 
-ImageProjectClip::ImageProjectClip(const KUrl& url, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+VideoProjectClip::VideoProjectClip(const KUrl& url, ProjectFolder* parent, VideoClipPlugin const *plugin) :
     AbstractProjectClip(url, parent, plugin)
 {
     m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url.path());
@@ -32,39 +32,39 @@ ImageProjectClip::ImageProjectClip(const KUrl& url, ProjectFolder* parent, Image
     init();
 }
 
-ImageProjectClip::ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+VideoProjectClip::VideoProjectClip(ProducerWrapper* producer, ProjectFolder* parent, VideoClipPlugin const *plugin) :
     AbstractProjectClip(producer, parent, plugin)
 {
     init();
 }
 
-ImageProjectClip::ImageProjectClip(const QDomElement& description, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+VideoProjectClip::VideoProjectClip(const QDomElement& description, ProjectFolder* parent, VideoClipPlugin const *plugin) :
     AbstractProjectClip(description, parent, plugin)
 {
-    Q_ASSERT(description.attribute("producer_type") == "pixbuf" || description.attribute("producer_type") == "qimage");
+    Q_ASSERT(description.attribute("producer_type") == "avformat");
 
     m_baseProducer = new ProducerWrapper(*(bin()->project()->profile()), m_url.path());
 
     Q_ASSERT(m_baseProducer->property("mlt_service") == description.attribute("producer_type"));
 
-    kDebug() << "image project clip created" << id();
+    kDebug() << "video project clip created" << id();
 
-    init(description.attribute("duration", "0").toInt());
+    init();
 }
 
-ImageProjectClip::~ImageProjectClip()
+VideoProjectClip::~VideoProjectClip()
 {
 }
 
-AbstractTimelineClip* ImageProjectClip::addInstance(ProducerWrapper* producer, TimelineTrack* parent)
+AbstractTimelineClip* VideoProjectClip::addInstance(ProducerWrapper* producer, TimelineTrack* parent)
 {
-    ImageTimelineClip *instance = new ImageTimelineClip(producer, this, parent);
+    VideoTimelineClip *instance = new VideoTimelineClip(producer, this, parent);
     m_instances.append(instance);
     return static_cast<AbstractTimelineClip *>(instance);
 }
 
 
-QPixmap ImageProjectClip::thumbnail()
+QPixmap VideoProjectClip::thumbnail()
 {
     if (m_thumbnail.isNull()) {
         m_thumbnail = m_baseProducer->pixmap().scaledToHeight(100, Qt::SmoothTransformation);
@@ -72,18 +72,12 @@ QPixmap ImageProjectClip::thumbnail()
     return m_thumbnail;
 }
 
-void ImageProjectClip::init(int duration)
+void VideoProjectClip::init()
 {
     Q_ASSERT(m_baseProducer && m_baseProducer->is_valid());
-    Q_ASSERT(m_baseProducer->property("mlt_service") == "qimage" || m_baseProducer->property("mlt_service") == "pixbuf");
+    Q_ASSERT(m_baseProducer->property("mlt_service") == "avformat");
 
-    m_hasLimitedDuration = false;
-
-    if (duration == 0) {
-        duration = bin()->project()->timecodeFormatter()->fromString(KdenliveSettings::image_duration(), TimecodeFormatter::HH_MM_SS_FF).frames();
-    }
-    m_baseProducer->set("length", duration);
-    m_baseProducer->set_in_and_out(0, -1);
+    m_hasLimitedDuration = true;
     m_thumbnail = m_baseProducer->pixmap().scaledToHeight(100, Qt::SmoothTransformation);
 
     kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
@@ -92,4 +86,4 @@ void ImageProjectClip::init(int duration)
 
 
 
-#include "imageprojectclip.moc"
+#include "videoprojectclip.moc"
