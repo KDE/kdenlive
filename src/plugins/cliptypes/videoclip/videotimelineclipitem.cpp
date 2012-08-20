@@ -24,7 +24,7 @@ VideoTimelineClipItem::VideoTimelineClipItem(VideoTimelineClip* clip, QGraphicsI
 
 void VideoTimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF exposed)
 {
-    painter->setWorldMatrixEnabled(false);;
+    painter->setWorldMatrixEnabled(false);
     const QRectF mapped = painter->worldTransform().mapRect(rect());
 
     QPixmap thumbnail = m_projectClip->thumbnail().scaledToHeight(mapped.height());
