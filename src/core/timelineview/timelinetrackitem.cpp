@@ -22,7 +22,9 @@ TimelineTrackItem::TimelineTrackItem(TimelineTrack* track, QObject* parent) :
     QObject(parent),
     m_track(track)
 {
+    // the height should be changeable
     setRect(0, 0, 0, 50);
+    // red only for testing purposes
     setBrush(Qt::red);
 
     loadClips();

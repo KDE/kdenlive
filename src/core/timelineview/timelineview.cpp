@@ -46,6 +46,7 @@ void TimelineView::setScene(TimelineScene* scene)
 
 double TimelineView::scale() const
 {
+    // TODO: fix hardcoding
     return (double) /*frameWidth()*/90 / TimelinePositionBar::comboScale[m_zoomLevel];
 }
 

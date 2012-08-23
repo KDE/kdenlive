@@ -78,7 +78,7 @@ void VideoProjectClip::init()
     Q_ASSERT(m_baseProducer->property("mlt_service") == "avformat");
 
     m_hasLimitedDuration = true;
-    m_thumbnail = m_baseProducer->pixmap().scaledToHeight(100, Qt::SmoothTransformation);
+    thumbnail();
 
     kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
 }

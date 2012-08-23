@@ -26,6 +26,14 @@ class Project;
 class TimecodeFormatter;
 
 
+/**
+ * @class TimelinePositionBar
+ * @brief Position bar/ruler used above the timeline view.
+ * 
+ * TODO: refactor for more dynamic zooming options
+ */
+
+
 class TimelinePositionBar : public QWidget
 {
     Q_OBJECT
@@ -33,17 +41,23 @@ class TimelinePositionBar : public QWidget
 public:
     TimelinePositionBar(QWidget *parent = 0);
 
+    /** @brief Returns the offset (number of frames in the beginning not shown) in frames. */
     int offset() const;
 
+    /** @brief A list of scaling factors for the different zoom levels (currently 13). */
     static const int comboScale[];
 
 public slots:
+    /** @brief Connects to @param project and sets position, duration and timecode format. */
     void setProject(Project *project);
+    /** @brief Redraws the cursor indicator. */
     void setCursorPosition(int position);
+    /** @brief Sets the offset. */
     void setOffset(int offset);
+    /** @brief Sets the duration / timeline length. */
     void setDuration(int duration);
+    /** @brief Sets the zoom level. */
     void setZoomLevel(int level);
-    void onFramerateChange();
 
 signals:
     void positionChanged(int position);
@@ -52,6 +66,9 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void paintEvent(QPaintEvent *event);
+
+private slots:
+    void onFramerateChange();
 
 private:
     void updateFrameSize();

@@ -17,13 +17,21 @@ class Timeline;
 class TrackHeaderWidget;
 
 
+/**
+ * @class TrackHeaderContainer
+ * @brief Manages the track header widgets.
+ */
+
+
 class TrackHeaderContainer : public QScrollArea
 {
     Q_OBJECT
 
 public:
+    /** @brief Constructor. */
     explicit TrackHeaderContainer(QWidget* parent = 0);
 
+    /** @brief Creates track header widgets for the @param timeline. */
     void setTimeline(Timeline *timeline);
 
 public slots:

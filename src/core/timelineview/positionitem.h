@@ -17,11 +17,20 @@ the Free Software Foundation, either version 3 of the License, or
 class TimelineScene;
 
 
+/**
+ * @class PositionItem
+ * @brief Indicates the current playback position with a vertical line in the timeline view.
+ */
+
+
 class PositionItem : public QObject, public QGraphicsLineItem
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Creates the line at the current playback position with the required height and sets up signal/slot connections to take of position changes.
+     */
     explicit PositionItem(TimelineScene *scene);
 
 private slots:

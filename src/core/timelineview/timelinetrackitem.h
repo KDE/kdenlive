@@ -17,6 +17,11 @@ the Free Software Foundation, either version 3 of the License, or
 class TimelineTrack;
 class TimelineClipItem;
 
+/**
+ * @class TimelineTrackItem
+ * @brief Represents a track.
+ */
+
 
 class TimelineTrackItem : public QObject, public QGraphicsRectItem
 {
@@ -32,7 +37,7 @@ public:
 
     TimelineTrack *track();
 
-public slots:
+private slots:
     void updateGeometry();
 
 private:

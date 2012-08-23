@@ -20,6 +20,13 @@ class TimelineTrackItem;
 class ToolManager;
 class TimelineView;
 
+/**
+ * @class TimelineScene
+ * @brief Scene representing the timeline.
+ * 
+ * Unlike the old system clips are no direct children, but are managed by track items instead.
+ */
+
 
 class KDE_EXPORT TimelineScene : public QGraphicsScene
 {
@@ -28,15 +35,26 @@ class KDE_EXPORT TimelineScene : public QGraphicsScene
 public:
     enum ItemTypes { TrackItemType = QGraphicsItem::UserType + 1, ClipItemType };
 
+    /** @brief Triggers the creation of the track items and adds the playback position cursor. */
     TimelineScene(Timeline *timeline, ToolManager *toolManager, TimelineView *view, QObject* parent = 0);
     ~TimelineScene();
 
+    /** @brief Returns a pointer to the timeline this scene represents. */
     Timeline *timeline();
+    /** @brief Returns a pointer to the view that displays this scene. */
     TimelineView *view();
+    /** @brief Returns a pointer to the track item at @param index. */
     TimelineTrackItem *trackItem(int index);
+    /** @brief Returns a pointer to the tool manager used by this scene. */
     ToolManager *toolManager();
 
 public slots:
+    /**
+     * @brief Positions the track items vertically.
+     * @param after pointer to the track item whose size changed
+     * 
+     * emits heightChanged
+     */
     void positionTracks(TimelineTrackItem *after = 0);
 
 signals:

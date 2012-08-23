@@ -21,20 +21,30 @@ class TimelineScene;
 class TimelinePositionBar;
 class TrackHeaderContainer;
 
+/**
+ * @class TimelineWidget
+ * @brief The timeline widgets contains the sub widgets (track headers, position bar, actual timeline view) and establishes the connections between them.
+ */
+
 
 class KDE_EXPORT TimelineWidget : public QWidget
 {
     Q_OBJECT
 
 public:
+    /** @brief Creates the sub widgets and a tool manager. */
     explicit TimelineWidget(QWidget* parent = 0);
     virtual ~TimelineWidget();
 
+    /** @brief Returns a pointer to the timeline view. */
     TimelineView *view();
+    /** @brief Returns a pointer to the currently used timeline scene. */
     TimelineScene *scene();
+    /** @brief Returns a pointer to the tool manager. */
     ToolManager *toolManager();
 
-public slots:
+private slots:
+    /** @brief Creates a new timeline scene and triggers the creation of new track headers. */
     void setProject(Project *project);
 
 private:

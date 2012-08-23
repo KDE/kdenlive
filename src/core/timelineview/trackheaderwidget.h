@@ -17,11 +17,18 @@ the Free Software Foundation, either version 3 of the License, or
 class TimelineTrack;
 
 
+/**
+ * @class TrackHeaderWidget
+ * @brief Widget to be displayed in front of the track in the timeline view. Provides basic track configuration.
+ */
+
+
 class TrackHeaderWidget : public QWidget, public Ui::TrackHeader_UI
 {
     Q_OBJECT
 
 public:
+    /** @brief Constructor. */
     explicit TrackHeaderWidget(TimelineTrack *track, QWidget* parent = 0);
 
 private slots:

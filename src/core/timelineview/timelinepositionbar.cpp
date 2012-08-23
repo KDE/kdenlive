@@ -100,7 +100,6 @@ void TimelinePositionBar::setCursorPosition(int position)
     update();
     if (qAbs(oldPosition - m_playbackPosition) * m_factor > m_textSpacing) {
         update(oldPosition * m_factor - offset() - 6, m_bigMarkX, 14, height() - m_bigMarkX);
-//         update(oldPosition * m_factor - offset() - 6, m_bigMarkX, 14, height() - m_bigMarkX);
     } else {
         update(qMin(oldPosition, m_playbackPosition) * m_factor - offset() - 6, m_bigMarkX,
                qAbs(oldPosition - m_playbackPosition) * m_factor + 14, height() - m_bigMarkX);
