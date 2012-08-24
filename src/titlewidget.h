@@ -105,6 +105,7 @@ public:
 
 protected:
     virtual void resizeEvent(QResizeEvent * event);
+    virtual void keyPressEvent(QKeyEvent *e);
     virtual QSize sizeHint() const;
 
 private:

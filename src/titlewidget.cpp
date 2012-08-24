@@ -40,6 +40,7 @@
 #include <QTextCursor>
 #include <QComboBox>
 #include <QCryptographicHash>
+#include <QKeyEvent>
 
 #if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
@@ -397,25 +398,25 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
     m_toolbar->setIconSize(iconSize);
 
-    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), QString());
+    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + ' ' + m_buttonCursor->shortcut().toString());
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
-    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), QString());
+    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), i18n("Add Text"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
     m_buttonText->setToolTip(i18n("Add Text") + ' ' + m_buttonText->shortcut().toString());
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
-    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), QString());
+    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
     m_buttonRect->setToolTip(i18n("Add Rectangle") + ' ' + m_buttonRect->shortcut().toString());
     connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
 
-    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), QString());
+    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
     m_buttonImage->setToolTip(i18n("Add Image") + ' ' + m_buttonImage->shortcut().toString());
@@ -426,11 +427,13 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_buttonLoad = m_toolbar->addAction(KIcon("document-open"), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
+    m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonImage->shortcut().toString());
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
     m_buttonSave = m_toolbar->addAction(KIcon("document-save-as"), i18n("Save As"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
+    m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonImage->shortcut().toString());
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
     layout->addWidget(m_toolbar);
@@ -661,7 +664,10 @@ void TitleWidget::resizeEvent(QResizeEvent * /*event*/)
 {
     //slotAdjustZoom();
 }
-
+//virtual
+void TitleWidget::keyPressEvent(QKeyEvent *e){
+    if(e->key()!=Qt::Key_Escape && e->key()!=Qt::Key_Return && e->key()!=Qt::Key_Enter) QDialog::keyPressEvent(e);
+}
 void TitleWidget::slotTextTool()
 {
     m_scene->setTool(TITLE_TEXT);
