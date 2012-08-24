@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.scale0tilt" id="frei0r.scale0tilt">
-	<name>Scale and Tilt</name>
+	<name>Crop, Scale and Position</name>
 	<description>Scales, Tilts and Crops an Image</description>
 	<author>Richard Spindler</author>
 	<parameter type="constant" name="Clip left" max="%width-1" min="0" default="0" factor="%width">

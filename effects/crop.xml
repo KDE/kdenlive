@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="crop" id="crop">
-	<name>Crop</name>
+	<name>Edge Crop</name>
 	<description>Trim the edges of a clip</description>
 	<author>Dan Dennedy</author>
 	<parameter type="constant" name="top" max="%maxHeight" min="0" default="0" suffix="pixels">
