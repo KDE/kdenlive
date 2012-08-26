@@ -1,9 +1,9 @@
 <!DOCTYPE kpartgui>
 <effect tag="volume" id="fadeout" type="audio" unique="1">
 	<name>Fade out</name>
-	<description>Fade in audio track</description>
+	<description>Fade out audio track</description>
 	<author></author>
-	<parameter type="position" name="in" max="0" min="0" default="75">
+	<parameter type="position" name="in" max="0" min="0" default="-75">
 		<name>Duration</name>
 	</parameter>
 	<parameter type="fixed" name="out" max="90000" min="0" default="0">
