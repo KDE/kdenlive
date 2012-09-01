@@ -341,7 +341,7 @@ void initEffects::parseCustomEffectsFile()
 	    }
 	    effectsMap.insert(groupName.toLower().toUtf8().data(), base);
         } else if (base.tagName() == "effect") {
-            effectsMap.insert(e.firstChildElement("name").text().toLower().toUtf8().data(), base);
+            effectsMap.insert(base.firstChildElement("name").text().toLower().toUtf8().data(), base);
         }
         else kDebug() << "Unsupported effect file: " << itemName;
     }
