@@ -462,16 +462,23 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         if (m_safeRect->scene() != 0) m_scene->removeItem(m_safeRect);
         if (m_color->scene() != 0) m_scene->removeItem(m_color);
         if (m_background->scene() != 0) m_scene->removeItem(m_background);
-        
-        QImage img(m_width, m_height, QImage::Format_Mono);
+
+#if QT_VERSION >= 0x040800
+        QImage img(m_width, m_height, QImage::Format_ARGB32);
+        img.fill(Qt::transparent);
+        updateColor(m_view.text_color->color());
+#else
+	QImage img(m_width, m_height, QImage::Format_Mono);
         img.fill(Qt::white);
         updateColor(Qt::black);
+#endif
         QPainter p(&img);
         p.setRenderHints(QPainter::Antialiasing, false);
         p.setRenderHints(QPainter::TextAntialiasing, false);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
-#if QT_VERSION >= 0x040600
+#if QT_VERSION >= 0x040800
+#elif QT_VERSION >= 0x040600 
         img.setColor(0, m_view.text_color->color().rgb());
         img.setColor(1, qRgba(0,0,0,0));
 #else
@@ -479,13 +486,19 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 #endif
         img.save(img1);
 
+#if QT_VERSION >= 0x040800
+        img.fill(Qt::transparent);
+	updateColor(m_view.highlighted_color->color());
+#else
         img.fill(Qt::white);
+#endif
         p.begin(&img);
         p.setRenderHints(QPainter::Antialiasing, false);
         p.setRenderHints(QPainter::TextAntialiasing, false);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
-#if QT_VERSION >= 0x040600
+#if QT_VERSION >= 0x040800
+#elif QT_VERSION >= 0x040600
         img.setColor(0, m_view.highlighted_color->color().rgb());
         img.setColor(1, qRgba(0,0,0,0));
 #else
@@ -493,14 +506,19 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 #endif
         img.save(img3);        
 
+#if QT_VERSION >= 0x040800
+        img.fill(Qt::transparent);
+	updateColor(m_view.selected_color->color());
+#else
         img.fill(Qt::white);
-        p.begin(&img);
+#endif
+	p.begin(&img);
         p.setRenderHints(QPainter::Antialiasing, false);
         p.setRenderHints(QPainter::TextAntialiasing, false);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
-
-#if QT_VERSION >= 0x040600
+#if QT_VERSION >= 0x040800
+#elif QT_VERSION >= 0x040600
         img.setColor(0, m_view.selected_color->color().rgb());
         img.setColor(1, qRgba(0,0,0,0));
 #else
