@@ -243,12 +243,12 @@ void DragValue::slotReset()
 
 void DragValue::slotSetValue(int value)
 {
-   setValue(value, KdenliveSettings::dragvalue_directupdate());
+   setValue(value, true);
 }
 
 void DragValue::slotSetValue(double value)
 {
-    setValue(value, KdenliveSettings::dragvalue_directupdate());
+    setValue(value, true);
 }
 
 void DragValue::setValueFromProgress(double value, bool final)
@@ -302,7 +302,7 @@ void DragValue::slotEditingFinished()
         m_intEdit->blockSignals(true);
         m_intEdit->clearFocus();
         m_intEdit->blockSignals(false);
-        if (!KdenliveSettings::dragvalue_directupdate()) emit valueChanged(value, true);
+        if (!KdenliveSettings::dragvalue_directupdate()) emit valueChanged((double) value, true);
     }
     else {
         double value = m_doubleEdit->value();
