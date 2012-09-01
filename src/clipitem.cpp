@@ -1301,7 +1301,9 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
-        int newTrack = newPos.y() / KdenliveSettings::trackheight();
+	// Warning: newPos gives a position relative to the click event, so hack to get absolute pos
+	int yOffset = property("y_absolute").toInt() + newPos.y();
+        int newTrack = yOffset / KdenliveSettings::trackheight();
         newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
         newPos.setY((int)(newTrack  * KdenliveSettings::trackheight() + 1));

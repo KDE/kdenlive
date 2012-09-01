@@ -422,6 +422,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         bool move = (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance();
         if (m_dragItem && m_tool == SELECTTOOL) {
             if (m_operationMode == MOVE && move) {
+		//m_dragItem->setProperty("y_absolute", event->pos().y());
                 QGraphicsView::mouseMoveEvent(event);
                 // If mouse is at a border of the view, scroll
                 if (pos < 5) {
@@ -799,6 +800,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             else
                 m_dragItem = collisionClip;
             found = true;
+	    m_dragItem->setProperty("y_absolute", m_clickEvent.y() - m_dragItem->scenePos().y());
             m_dragItemInfo = m_dragItem->info();
             if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET && m_dragItem->parentItem() != m_selectionGroup) {
                 // kDebug()<<"// KLIK FOUND GRP: "<<m_dragItem->sceneBoundingRect();
