@@ -87,6 +87,7 @@
 #include <QGraphicsDropShadowEffect>
 #endif
 
+#define SEEK_INACTIVE (-1)
 
 //#define DEBUG
 
@@ -3371,11 +3372,12 @@ int CustomTrackView::cursorPos()
 
 void CustomTrackView::moveCursorPos(int delta)
 {
-    if (m_cursorPos + delta < 0) delta = 0 - m_cursorPos;
-    emit cursorMoved((int)(m_cursorPos), (int)((m_cursorPos + delta)));
-    m_cursorPos += delta;
-    m_cursorLine->setPos(m_cursorPos, 0);
-    m_document->renderer()->seek(m_cursorPos);
+    int currentPos = m_document->renderer()->requestedSeekPosition;
+    if (currentPos == SEEK_INACTIVE) currentPos = m_document->renderer()->seekFramePosition();
+    if (currentPos + delta < 0) delta = 0 - currentPos;
+    currentPos += delta;
+    m_document->renderer()->seek(currentPos);
+    emit updateRuler();
 }
 
 void CustomTrackView::initCursorPos(int pos)

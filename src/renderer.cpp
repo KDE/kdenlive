@@ -1413,6 +1413,7 @@ void Render::start()
 
 void Render::stop()
 {
+    requestedSeekPosition = SEEK_INACTIVE;
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_mltProducer == NULL) return;
@@ -1429,6 +1430,7 @@ void Render::stop()
 
 void Render::stop(const GenTime & startTime)
 {
+    requestedSeekPosition = SEEK_INACTIVE;
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_mltProducer) {
@@ -1441,6 +1443,7 @@ void Render::stop(const GenTime & startTime)
 
 void Render::pause()
 {
+    requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer)
         return;
     if (m_mltProducer->get_speed() == 0.0) return;
@@ -1484,6 +1487,7 @@ void Render::switchPlay(bool play)
 
 void Render::play(double speed)
 {
+    requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer)
         return;
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
@@ -1497,6 +1501,7 @@ void Render::play(double speed)
 
 void Render::play(const GenTime & startTime)
 {
+    requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer)
         return;
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
@@ -1506,6 +1511,7 @@ void Render::play(const GenTime & startTime)
 
 void Render::loopZone(const GenTime & startTime, const GenTime & stopTime)
 {
+    requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer)
         return;
     //m_mltProducer->set("eof", "loop");
@@ -1516,6 +1522,7 @@ void Render::loopZone(const GenTime & startTime, const GenTime & stopTime)
 
 void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
 {
+    requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer)
         return;
     if (!m_isZoneMode) m_originalOut = m_mltProducer->get_playtime() - 1;
@@ -1545,7 +1552,9 @@ void Render::seekToFrame(int pos)
 void Render::seekToFrameDiff(int diff)
 {
     resetZoneMode();
-    seek(m_mltProducer->position() + diff);
+    if (requestedSeekPosition == SEEK_INACTIVE)
+	seek(m_mltProducer->position() + diff);
+    else seek(requestedSeekPosition + diff);
 }
 
 void Render::doRefresh()

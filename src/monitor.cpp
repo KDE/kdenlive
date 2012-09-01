@@ -551,7 +551,9 @@ void Monitor::slotMouseSeek(int eventDelta, bool fast)
     if (fast) {
         int delta = m_monitorManager->timecode().fps();
         if (eventDelta > 0) delta = 0 - delta;
-        slotSeek(render->requestedSeekPosition - delta);
+	if (render->requestedSeekPosition != SEEK_INACTIVE)
+	    slotSeek(render->requestedSeekPosition - delta);
+	else slotSeek(render->seekFramePosition() - delta);
     } else {
         if (eventDelta >= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
