@@ -43,11 +43,13 @@
 #include <QVBoxLayout>
 
 
+#define SEEK_INACTIVE (-1)
+
+
 Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile, QWidget *parent) :
     AbstractMonitor(id, manager, parent),
     render(NULL),
     m_currentClip(NULL),
-    m_ruler(new SmallRuler(m_monitorManager)),
     m_overlay(NULL),
     m_scale(1),
     m_length(0),
@@ -69,8 +71,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     // Get base size for icons
     int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
 
-    // Monitor ruler
-    layout->addWidget(m_ruler);
+
     // Tool bar buttons
     m_toolbar = new QToolBar(this);
     m_toolbar->setIconSize(QSize(s, s));
@@ -78,11 +79,10 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
+
     if (id != Kdenlive::dvdMonitor) {
         m_toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
         m_toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
-    } else {
-        m_ruler->setZone(-3, -2);
     }
 
     m_toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
@@ -169,6 +169,11 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     }
 #endif
 
+    // Monitor ruler
+    m_ruler = new SmallRuler(m_monitorManager, render);
+    if (id == Kdenlive::dvdMonitor) m_ruler->setZone(-3, -2);
+    layout->addWidget(m_ruler);
+    
     connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
@@ -419,7 +424,7 @@ void Monitor::slotZoneMoved(int start, int end)
 
 void Monitor::slotSetZoneStart()
 {
-    m_ruler->setZone(m_ruler->position(), -1);
+    m_ruler->setZoneStart();
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
     setClipZone(m_ruler->zone());
@@ -427,7 +432,7 @@ void Monitor::slotSetZoneStart()
 
 void Monitor::slotSetZoneEnd()
 {
-    m_ruler->setZone(-1, m_ruler->position());
+    m_ruler->setZoneEnd();
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
     setClipZone(m_ruler->zone());
@@ -546,7 +551,7 @@ void Monitor::slotMouseSeek(int eventDelta, bool fast)
     if (fast) {
         int delta = m_monitorManager->timecode().fps();
         if (eventDelta > 0) delta = 0 - delta;
-        slotSeek(m_ruler->position() - delta);
+        slotSeek(render->requestedSeekPosition - delta);
     } else {
         if (eventDelta >= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
@@ -607,13 +612,14 @@ void Monitor::slotSeek(int pos)
     if (render == NULL) return;
     slotActivateMonitor();
     render->seekToFrame(pos);
+    m_ruler->update();
 }
 
 void Monitor::checkOverlay()
 {
     if (m_overlay == NULL) return;
     QString overlayText;
-    int pos = m_ruler->position();
+    int pos = render->seekFramePosition();
     QPoint zone = m_ruler->zone();
     if (pos == zone.x())
         overlayText = i18n("In Point");
@@ -689,6 +695,7 @@ void Monitor::slotRewindOneFrame(int diff)
     slotActivateMonitor();
     render->play(0);
     render->seekToFrameDiff(-diff);
+    m_ruler->update();
 }
 
 void Monitor::slotForwardOneFrame(int diff)
@@ -696,6 +703,7 @@ void Monitor::slotForwardOneFrame(int diff)
     slotActivateMonitor();
     render->play(0);
     render->seekToFrameDiff(diff);
+    m_ruler->update();
 }
 
 void Monitor::seekCursor(int pos)

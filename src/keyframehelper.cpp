@@ -33,6 +33,8 @@
 const int margin = 5;
 const int cursorWidth = 6;
 
+#define SEEK_INACTIVE (-1)
+
 KeyframeHelper::KeyframeHelper(QWidget *parent) :
         QWidget(parent),
         m_geom(NULL),
@@ -41,7 +43,8 @@ KeyframeHelper::KeyframeHelper(QWidget *parent) :
         m_movingKeyframe(false),
         m_lineHeight(9),
         m_drag(false),
-        m_hoverKeyframe(-1)
+        m_hoverKeyframe(-1),
+        m_seekPosition(SEEK_INACTIVE)
 {
     setFont(KGlobalSettings::toolBarFont());
     setMouseTracking(true);
@@ -98,8 +101,8 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
     }
     if (event->y() >= m_lineHeight && event->y() < height()) {
         m_drag = true;
-        m_position = xPos / m_scale;
-        emit positionChanged(m_position);
+        m_seekPosition = xPos / m_scale;
+        emit requestSeek(m_seekPosition);
         update();
     }
 }
@@ -167,11 +170,11 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
         update();
         return;
     }
-    m_position = xPos / m_scale;
-    m_position = qMax(0, m_position);
-    m_position = qMin(frameLength, m_position);
+    m_seekPosition = (int) (xPos / m_scale);
+    m_seekPosition = qMax(0, m_seekPosition);
+    m_seekPosition = qMin(frameLength, m_seekPosition);
     m_hoverKeyframe = -2;
-    emit positionChanged(m_position);
+    emit requestSeek(m_seekPosition);
     update();
 }
 
@@ -221,7 +224,7 @@ void KeyframeHelper::wheelEvent(QWheelEvent * e)
         ++m_position;
     m_position = qMax(0, m_position);
     m_position = qMin(frameLength, m_position);
-    emit positionChanged(m_position);
+    emit requestSeek(m_position);
     update();
     /*    int delta = 1;
         if (e->modifiers() == Qt::ControlModifier) delta = m_timecode.fps();
@@ -289,6 +292,9 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
     p.drawLine(width() - margin - 1, m_lineHeight - 3, width() - margin - 1, m_lineHeight + 3);
 
     // draw pointer
+    if (m_seekPosition != SEEK_INACTIVE) {
+	p.fillRect(margin + m_seekPosition * m_scale - 1, 0, 3, height(), palette().dark());
+    }
     QPolygon pa(3);
     const int cursor = margin + m_position * m_scale;
     pa.setPoints(3, cursor - cursorWidth, 16, cursor + cursorWidth, 16, cursor, 10);
@@ -307,6 +313,9 @@ int KeyframeHelper::value() const
 void KeyframeHelper::setValue(const int pos)
 {
     if (pos == m_position || m_geom == NULL) return;
+    if (pos == m_seekPosition) {
+	m_seekPosition = SEEK_INACTIVE;
+    }
     m_position = pos;
     update();
 }

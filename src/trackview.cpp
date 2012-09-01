@@ -113,6 +113,8 @@ TrackView::TrackView(KdenliveDoc *doc, QList <QAction*> actions, bool *ok, QWidg
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
+    connect(m_trackview, SIGNAL(updateRuler()), m_ruler, SLOT(update()));
+
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int, int)), this, SLOT(slotUpdateVerticalScroll(int, int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));

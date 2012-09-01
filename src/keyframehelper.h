@@ -59,6 +59,7 @@ private:
     QColor m_keyframe;
     QColor m_keyframebg;
     QList <Mlt::Geometry *>m_extraGeometries;
+    int m_seekPosition;
         
 public slots:
     void setKeyGeometry(Mlt::Geometry *geom, const int length);
@@ -66,7 +67,7 @@ public slots:
     void setValue(const int pos);
 
 signals:
-    void positionChanged(int);
+    void requestSeek(int);
     void keyframeMoved(int);
     void addKeyframe(int);
     void removeKeyframe(int);

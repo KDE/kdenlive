@@ -87,6 +87,7 @@
 #include <QGraphicsDropShadowEffect>
 #endif
 
+
 //#define DEBUG
 
 bool sortGuidesList(const Guide *g1 , const Guide *g2)
@@ -390,10 +391,10 @@ void CustomTrackView::slotCheckPositionScrolling()
     if (mapFromScene(m_cursorPos, 0).x() < 3) {
         horizontalScrollBar()->setValue(horizontalScrollBar()->value() - 2);
         QTimer::singleShot(200, this, SLOT(slotCheckPositionScrolling()));
-        setCursorPos(mapToScene(QPoint(-2, 0)).x());
+        seekCursorPos(mapToScene(QPoint(-2, 0)).x());
     } else if (viewport()->width() - 3 < mapFromScene(m_cursorPos + 1, 0).x()) {
         horizontalScrollBar()->setValue(horizontalScrollBar()->value() + 2);
-        setCursorPos(mapToScene(QPoint(viewport()->width(), 0)).x() + 1);
+        seekCursorPos(mapToScene(QPoint(viewport()->width(), 0)).x() + 1);
         QTimer::singleShot(200, this, SLOT(slotCheckPositionScrolling()));
     }
 }
@@ -706,7 +707,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
             QGraphicsView::mouseMoveEvent(event);
             m_moveOpMode = SEEK;
-            setCursorPos(mappedXPos);
+            seekCursorPos(mappedXPos);
             slotCheckPositionScrolling();
             return;
         } else m_moveOpMode = NONE;
@@ -938,7 +939,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             }
             m_operationMode = SPACER;
         } else {
-            setCursorPos((int)(mapToScene(event->x(), 0).x()));
+            seekCursorPos((int)(mapToScene(event->x(), 0).x()));
         }
         //QGraphicsView::mousePressEvent(event);
         event->ignore();
@@ -3336,14 +3337,26 @@ void CustomTrackView::deleteClip(const QString &clipId)
     }
 }
 
+void CustomTrackView::seekCursorPos(int pos)
+{
+    m_document->renderer()->seek(pos);
+    emit updateRuler();
+}
+
+int CustomTrackView::seekPosition() const
+{
+    return m_document->renderer()->requestedSeekPosition;
+}
+
+
 void CustomTrackView::setCursorPos(int pos, bool seek)
 {
-    if (pos == m_cursorPos) return;
-    emit cursorMoved((int)(m_cursorPos), (int)(pos));
-    m_cursorPos = pos;
-    if (seek) m_document->renderer()->seek(m_cursorPos);
+    if (pos != m_cursorPos) {
+	emit cursorMoved((int)(m_cursorPos), (int)(pos));
+	m_cursorPos = pos;
+	m_cursorLine->setPos(m_cursorPos, 0);
+    }
     else if (m_autoScroll) checkScrolling();
-    m_cursorLine->setPos(m_cursorPos, 0);
 }
 
 void CustomTrackView::updateCursorPos()
@@ -5121,7 +5134,7 @@ void CustomTrackView::slotSeekToPreviousSnap()
 {
     updateSnapPoints(NULL);
     GenTime res = m_scene->previousSnapPoint(GenTime(m_cursorPos, m_document->fps()));
-    setCursorPos((int) res.frames(m_document->fps()));
+    seekCursorPos((int) res.frames(m_document->fps()));
     checkScrolling();
 }
 
@@ -5129,7 +5142,7 @@ void CustomTrackView::slotSeekToNextSnap()
 {
     updateSnapPoints(NULL);
     GenTime res = m_scene->nextSnapPoint(GenTime(m_cursorPos, m_document->fps()));
-    setCursorPos((int) res.frames(m_document->fps()));
+    seekCursorPos((int) res.frames(m_document->fps()));
     checkScrolling();
 }
 
@@ -5137,7 +5150,7 @@ void CustomTrackView::clipStart()
 {
     AbstractClipItem *item = getMainActiveClip();
     if (item != NULL) {
-        setCursorPos((int) item->startPos().frames(m_document->fps()));
+        seekCursorPos((int) item->startPos().frames(m_document->fps()));
         checkScrolling();
     }
 }
@@ -5146,7 +5159,7 @@ void CustomTrackView::clipEnd()
 {
     AbstractClipItem *item = getMainActiveClip();
     if (item != NULL) {
-        setCursorPos((int) item->endPos().frames(m_document->fps()) - 1);
+        seekCursorPos((int) item->endPos().frames(m_document->fps()) - 1);
         checkScrolling();
     }
 }
@@ -5430,7 +5443,7 @@ bool CustomTrackView::findString(const QString &text)
     for (int i = 0; i < m_searchPoints.size(); ++i) {
         marker = m_searchPoints.at(i).comment();
         if (marker.contains(text, Qt::CaseInsensitive)) {
-            setCursorPos(m_searchPoints.at(i).time().frames(m_document->fps()), true);
+            seekCursorPos(m_searchPoints.at(i).time().frames(m_document->fps()));
             int vert = verticalScrollBar()->value();
             int hor = cursorPos();
             ensureVisible(hor, vert + 10, 2, 2, 50, 0);
@@ -5443,7 +5456,7 @@ bool CustomTrackView::findString(const QString &text)
 
 void CustomTrackView::selectFound(QString track, QString pos)
 {
-    setCursorPos(m_document->timecode().getFrameCount(pos), true);
+    seekCursorPos(m_document->timecode().getFrameCount(pos));
     slotSelectTrack(track.toInt());
     selectClip(true);
     int vert = verticalScrollBar()->value();
@@ -5457,7 +5470,7 @@ bool CustomTrackView::findNextString(const QString &text)
     for (int i = m_findIndex + 1; i < m_searchPoints.size(); ++i) {
         marker = m_searchPoints.at(i).comment();
         if (marker.contains(text, Qt::CaseInsensitive)) {
-            setCursorPos(m_searchPoints.at(i).time().frames(m_document->fps()), true);
+            seekCursorPos(m_searchPoints.at(i).time().frames(m_document->fps()));
             int vert = verticalScrollBar()->value();
             int hor = cursorPos();
             ensureVisible(hor, vert + 10, 2, 2, 50, 0);
@@ -6526,7 +6539,7 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
 void CustomTrackView::slotGoToMarker(QAction *action)
 {
     int pos = action->data().toInt();
-    setCursorPos(pos, true);
+    seekCursorPos(pos);
 }
 
 void CustomTrackView::reloadTransitionLumas()

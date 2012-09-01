@@ -109,6 +109,8 @@ private slots:
     * @param seek (optional, default = true) Whether to seek timleine & project monitor to pos
     * If pos = -1 (default) the value of m_timePos is used. */
     void slotPositionChanged(int pos = -1, bool seek = true);
+    /** @brief Seeking requested from timeline. */
+    void slotRequestSeek(int pos);
     /** @brief Updates settings after a keyframe was moved to @param pos. */
     void slotKeyframeMoved(int pos);
     /** @brief Adds a keyframe.

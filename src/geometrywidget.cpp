@@ -88,7 +88,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_ui.buttonSync->setChecked(KdenliveSettings::transitionfollowcursor());
     m_ui.buttonSync->setIconSize(iconSize);
 
-    connect(m_timeline, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
+    connect(m_timeline, SIGNAL(requestSeek(int)), this, SLOT(slotRequestSeek(int)));
     connect(m_timeline, SIGNAL(keyframeMoved(int)),   this, SLOT(slotKeyframeMoved(int)));
     connect(m_timeline, SIGNAL(addKeyframe(int)),     this, SLOT(slotAddKeyframe(int)));
     connect(m_timeline, SIGNAL(removeKeyframe(int)),  this, SLOT(slotDeleteKeyframe(int)));
@@ -344,6 +344,12 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
     }
 }
 
+void GeometryWidget::slotRequestSeek(int pos)
+{
+    if (KdenliveSettings::transitionfollowcursor())
+        emit seekToPos(m_clipPos + pos);
+}
+
 
 void GeometryWidget::slotPositionChanged(int pos, bool seek)
 {
@@ -352,9 +358,9 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     else
         m_timePos->setValue(pos);
 
-    m_timeline->blockSignals(true);
+    //m_timeline->blockSignals(true);
     m_timeline->setValue(pos);
-    m_timeline->blockSignals(false);
+    //m_timeline->blockSignals(false);
 
     Mlt::GeometryItem item;
     Mlt::GeometryItem previousItem;

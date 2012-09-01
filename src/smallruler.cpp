@@ -28,13 +28,16 @@
 #include <QMouseEvent>
 #include <QStylePainter>
 
+#define SEEK_INACTIVE (-1)
 
-SmallRuler::SmallRuler(MonitorManager *manager, QWidget *parent) :
+
+SmallRuler::SmallRuler(MonitorManager *manager, Render *render, QWidget *parent) :
         QWidget(parent)
         ,m_cursorFramePosition(0)
         ,m_scale(1)
         ,m_maxval(25)
         ,m_manager(manager)
+	,m_render(render)
         ,m_overCursor(false)
 {
     m_zoneStart = 10;
@@ -45,6 +48,7 @@ SmallRuler::SmallRuler(MonitorManager *manager, QWidget *parent) :
     setMouseTracking(true);
     setMinimumHeight(10);
 }
+
 
 void SmallRuler::adjustScale(int maximum)
 {
@@ -62,8 +66,21 @@ void SmallRuler::adjustScale(int maximum)
         m_small = 30 * 25;
         m_medium = 60 * 25;
     }
-    m_cursorPosition = m_cursorFramePosition * m_scale;
     updatePixmap();
+}
+
+void SmallRuler::setZoneStart()
+{
+    int pos = m_render->requestedSeekPosition;
+    if (pos == SEEK_INACTIVE) pos = m_render->seekFramePosition();
+    m_zoneStart = pos;
+}
+
+void SmallRuler::setZoneEnd()
+{
+    int pos = m_render->requestedSeekPosition;
+    if (pos == SEEK_INACTIVE) pos = m_render->seekFramePosition();
+    m_zoneEnd = pos;
 }
 
 void SmallRuler::setZone(int start, int end)
@@ -111,7 +128,9 @@ void SmallRuler::mousePressEvent(QMouseEvent * event)
         emit zoneChanged(QPoint(m_zoneStart, m_zoneEnd));
         updatePixmap();
 
-    } else emit seekRenderer((int) pos);
+    } else {
+	emit seekRenderer((int) pos);
+    }
 }
 
 void SmallRuler::leaveEvent( QEvent * event )
@@ -128,7 +147,7 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
     const int pos = event->x() / m_scale;
     if (event->button() == Qt::NoButton) {
-        if (qAbs(pos * m_scale - m_cursorPosition) < 6) {
+        if (qAbs(pos * m_scale - m_render->seekFramePosition()) < 6) {
             if (!m_overCursor) {
                 m_overCursor = true;
                 update();
@@ -142,6 +161,7 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
     if (event->buttons() & Qt::LeftButton) {
         m_overCursor = true;
         emit seekRenderer((int) pos);
+	update();
     }
     else {
         if (qAbs((pos - m_zoneStart) * m_scale) < 4) {
@@ -156,21 +176,18 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 
 bool SmallRuler::slotNewValue(int value)
 {
-    if (value == m_cursorFramePosition) return false;
+    /*if (value == m_cursorFramePosition) return false;
     m_cursorFramePosition = value;
     int oldPos = m_cursorPosition;
     m_cursorPosition = value * m_scale;
     const int offset = 6;
     const int x = qMin(oldPos, m_cursorPosition);
     const int w = qAbs(oldPos - m_cursorPosition);
-    update(x - offset, 4, w + 2 * offset, 6);
+    update(x - offset, 0, w + 2 * offset, height());*/
+    update();
     return true;
 }
 
-int SmallRuler::position() const
-{
-    return m_cursorFramePosition;
-}
 
 //virtual
 void SmallRuler::resizeEvent(QResizeEvent *)
@@ -224,9 +241,19 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     p.setClipRect(r);
     p.drawPixmap(QPointF(), m_pixmap);
 
+    int seekPos;
+    int cursorPos = m_render->seekFramePosition() * m_scale;
+    if (m_render->requestedSeekPosition != SEEK_INACTIVE) {
+	seekPos = m_render->requestedSeekPosition * m_scale - 1;
+    }
+    else seekPos =  cursorPos - 1;
+
+    // Draw seeking pointer
+    p.fillRect(seekPos, 0, 3, height(), palette().text());
+
     // draw pointer
     QPolygon pa(3);
-    pa.setPoints(3, m_cursorPosition - 6, 10, m_cursorPosition + 6, 10, m_cursorPosition/*+0*/, 4);
+    pa.setPoints(3, cursorPos - 6, 10, cursorPos + 6, 10, cursorPos/*+0*/, 4);
     if (m_overCursor) p.setBrush(palette().highlight());
     else p.setBrush(palette().text().color());
     p.setPen(Qt::NoPen);

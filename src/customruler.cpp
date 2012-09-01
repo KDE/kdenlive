@@ -44,6 +44,8 @@ static int littleMarkDistance;
 static int mediumMarkDistance;
 static int bigMarkDistance;
 
+#define SEEK_INACTIVE (-1)
+
 #include "definitions.h"
 
 const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
@@ -123,7 +125,7 @@ void CustomRuler::slotDeleteGuide()
 
 void CustomRuler::slotGoToGuide(QAction *act)
 {
-    m_view->setCursorPos(act->data().toInt(), true);
+    m_view->seekCursorPos(act->data().toInt());
     m_view->initCursorPos(act->data().toInt());
 }
 
@@ -166,7 +168,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
         m_view->updateSnapPoints(NULL);
     }
     if (m_moveCursor == RULER_CURSOR) {
-        m_view->setCursorPos((int) pos / m_factor);
+        m_view->seekCursorPos((int) pos / m_factor);
         m_clickPoint = event->pos();
         m_startRate = m_rate;
     }
@@ -193,7 +195,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
                 } else return;
             }
             if (m_mouseMove == HORIZONTAL_MOVE) {
-                m_view->setCursorPos(pos);
+                m_view->seekCursorPos(pos);
                 m_view->slotCheckPositionScrolling();
             } else {
                 int verticalDiff = m_startRate - (diff.y()) / 7;
@@ -427,6 +429,12 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     }
     
     // draw pointer
+    int pos = m_view->seekPosition();
+    if (pos != SEEK_INACTIVE) {
+	pos  = pos * m_factor - m_offset;
+	p.fillRect(pos - 1, 0, 3, height(), palette().highlight());
+    }
+    
     const int value  = m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
     pa.setPoints(3, value - 6, BIG_MARK_X, value + 6, BIG_MARK_X, value, MAX_HEIGHT - 1);

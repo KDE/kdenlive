@@ -53,6 +53,7 @@
 
 #include <QDebug>
 
+#define SEEK_INACTIVE (-1)
 
 static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
@@ -105,6 +106,7 @@ static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_
 
 Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWidget *parent) :
     AbstractRender(rendererName, parent),
+    requestedSeekPosition(SEEK_INACTIVE),
     m_name(rendererName),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -376,24 +378,21 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
 
 void Render::seek(GenTime time)
 {
-    if (!m_mltProducer)
-        return;
-
-    m_mltProducer->seek((int)(time.frames(m_fps)));
-    if (m_mltProducer->get_speed() == 0) {
-        refresh();
-    }
+    int pos = time.frames(m_fps);
+    seek(pos);
 }
 
 void Render::seek(int time)
 {
     if (!m_mltProducer)
         return;
-
-    m_mltProducer->seek(time);
-    if (m_mltProducer->get_speed() == 0) {
-        refresh();
+    if (requestedSeekPosition == SEEK_INACTIVE) {
+	m_mltProducer->seek(time);
+	if (m_mltProducer->get_speed() == 0) {
+	    refresh();
+	}
     }
+    requestedSeekPosition = time;
 }
 
 //static
@@ -1032,6 +1031,7 @@ void Render::initSceneList()
 int Render::setProducer(Mlt::Producer *producer, int position)
 {
     m_refreshTimer.stop();
+    requestedSeekPosition = SEEK_INACTIVE;
     QMutexLocker locker(&m_mutex);
     QString currentId;
     int consumerPosition = 0;
@@ -1106,6 +1106,7 @@ int Render::setSceneList(QDomDocument list, int position)
 
 int Render::setSceneList(QString playlist, int position)
 {
+    requestedSeekPosition = SEEK_INACTIVE;
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_winid == -1) return -1;
@@ -1452,6 +1453,7 @@ void Render::pause()
 void Render::switchPlay(bool play)
 {
     QMutexLocker locker(&m_mutex);
+    requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer)
         return;
     if (m_isZoneMode) resetZoneMode();
@@ -1527,7 +1529,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
 
 void Render::resetZoneMode()
 {
-    if (!m_isZoneMode && !m_isLoopMode) return;
+    if (!m_mltProducer || (!m_isZoneMode && !m_isLoopMode)) return;
     m_mltProducer->set("out", m_originalOut);
     //m_mltProducer->set("eof", "pause");
     m_isZoneMode = false;
@@ -1536,22 +1538,14 @@ void Render::resetZoneMode()
 
 void Render::seekToFrame(int pos)
 {
-    if (!m_mltProducer)
-        return;
     resetZoneMode();
-    m_mltProducer->seek(pos);
-    if (m_mltProducer->get_speed() == 0) {
-        refresh();
-    }
+    seek(pos);
 }
 
 void Render::seekToFrameDiff(int diff)
 {
-    if (!m_mltProducer)
-        return;
     resetZoneMode();
-    m_mltProducer->seek(m_mltProducer->position() + diff);
-    refresh();
+    seek(m_mltProducer->position() + diff);
 }
 
 void Render::doRefresh()
@@ -1629,7 +1623,15 @@ void Render::emitFrameUpdated(Mlt::Frame& frame)
 
 void Render::emitFrameNumber()
 {
-    if (m_mltConsumer) emit rendererPosition((int) m_mltConsumer->position());
+    int currentPos = m_mltConsumer->position();
+    if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
+    emit rendererPosition(currentPos);
+    if (requestedSeekPosition != SEEK_INACTIVE) {
+	m_mltProducer->seek(requestedSeekPosition);
+	if (m_mltProducer->get_speed() == 0) {
+	    refresh();
+	}
+    }
 }
 
 void Render::emitConsumerStopped()

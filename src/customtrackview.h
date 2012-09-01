@@ -202,8 +202,11 @@ public:
     bool hasAudio(int track) const;
 
     int getFrameWidth();
+    /** @brief Returns last requested seeking pos (or SEEK_INACTIVE if no seek). */
+    int seekPosition() const;
     
 public slots:
+    void seekCursorPos(int pos);
     void setCursorPos(int pos, bool seek = true);
     void moveCursorPos(int delta);
     void updateCursorPos();
@@ -512,6 +515,8 @@ signals:
     void showTrackEffects(int, TrackInfo);
     /** @brief Update the track effect button that shows if a track has effects or not.*/
     void updateTrackEffectState(int);
+    /** @brief Cursor position changed, repaint ruler.*/
+    void updateRuler();
 };
 
 #endif

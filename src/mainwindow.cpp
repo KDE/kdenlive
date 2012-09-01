@@ -916,6 +916,8 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectList, SIGNAL(showClipProperties(QList <DocClipBase *>, QMap<QString, QString>)), this, SLOT(slotShowClipProperties(QList <DocClipBase *>, QMap<QString, QString>)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QString &, int, int)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QString &, int, int)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QImage &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QImage &)));
+
+    kDebug()<<"  - - - - - -\n CONNECTED REPLY";
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &, bool)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &, bool)));
@@ -2555,7 +2557,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));
     connect(m_projectList, SIGNAL(clipNameChanged(const QString, const QString)), trackView->projectView(), SLOT(clipNameChanged(const QString, const QString)));
 
-    //connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
     connect(trackView, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
     connect(trackView, SIGNAL(updateTracksInfo()), this, SLOT(slotUpdateTrackInfo()));
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
@@ -2606,13 +2607,13 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_effectStack, SIGNAL(changeEffectState(ClipItem*, int, QList <int>, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, int, QList <int>, bool)));
     connect(m_effectStack, SIGNAL(changeEffectPosition(ClipItem*, int, QList <int>, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*, int, QList <int>, int)));
     connect(m_effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
-    connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(setCursorPos(int)));
+    connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
     connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
     connect(m_effectStack, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
     
     // Transition config signals
     connect(m_transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
-    connect(m_transitionConfig, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(setCursorPos(int)));
+    connect(m_transitionConfig, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
     connect(trackView, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
