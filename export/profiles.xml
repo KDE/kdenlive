@@ -124,14 +124,14 @@
 
 <group name="Lossless/HQ" renderer="avformat" type="av">
   <groupname id="lossless">Lossless / HQ</groupname>
-  <profile name="FFV1 lossless (video) + FLAC (sound)" extension="mkv" args="f=mkv acodec=flac ar=48000 ac=2 vcodec=ffv1 aspect=%dar" />
-  <profile name="FFV1 lossless (video) + PCM (sound)" extension="mkv" args="f=mkv acodec=pcm_s16le ac=2 vcodec=ffv1 aspect=%dar" />
+  <profile name="FFV1 lossless (video) + FLAC (sound)" extension="mkv" args="f=matroska acodec=flac ar=48000 ac=2 vcodec=ffv1 aspect=%dar" />
+  <profile name="FFV1 lossless (video) + PCM (sound)" extension="mkv" args="f=matroska acodec=pcm_s16le ac=2 vcodec=ffv1 aspect=%dar" />
   <profile name="HuffYUV lossless (video) + PCM (sound)" extension="avi" args="f=avi acodec=pcm_s16le ac=2 vcodec=huffyuv aspect=%dar" />
   <profile name="MPEG-2 I-frame only (video) + MP2 (sound)" extension="mpg" args="f=mpeg acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video qscale=1 qmin=1 aspect=%dar intra=1" />
   <profile name="MPEG-4 I-frame only (video) + MP3 (sound)" extension="mp4" args="f=mp4 acodec=libmp3lame ab=384k ar=48000 ac=2 vcodec=mpeg4 qscale=1 qmin=1 aspect=%dar intra=1" />
   <profile name="H.264 I-frame only (video) + AAC (sound)" extension="mp4" args="f=mp4 acodec=aac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=1 subq=1 qmax=1 qmin=1 qcomp=0.6 qdiff=0 coder=ac trellis=1 aspect=%dar intra=1" />
-  <profile name="H.264 lossless slow (video) + AAC (sound)" extension="mp4" args="f=mp4 acodec=aac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=0 me_method=esa subq=8 qmin=10 qcomp=0.6 qdiff=4 qmax=51 coder=ac partitions=+parti4x4+parti8x8+partp4x4+partp8x8+partb8x8 refs=16 flags2=+dct8x8+mixed_refs trellis=1 aspect=%dar" />
-  <profile name="H.264 lossless fast (video) + AAC (sound)" extension="mp4" args="f=mp4 acodec=aac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=0 me_method=dia subq=1 qmin=10 qcomp=0.6 qdiff=4 qmax=51 partitions=-parti4x4-parti8x8-partp4x4-partp8x8-partb8x8 trellis=1 aspect=%dar" />
+  <profile name="H.264 lossless slow (video) + PCM (sound)" extension="mkv" args="f=matroska acodec=pcm_s16le ac=2 pix_fmt=yuv420p vcodec=libx264 qp=0 preset=veryslow aspect=%dar" />
+  <profile name="H.264 lossless fast (video) + PCM (sound)" extension="mkv" args="f=matroska acodec=pcm_s16le ac=2 pix_fmt=yuv420p vcodec=libx264 qp=0 preset=ultrafast aspect=%dar" />
 </group>
 
 <group name="Apple" renderer="avformat" type="av">
