@@ -2204,7 +2204,13 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
             return NULL;
         }
 
-        if (execute) m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime);
+        if (execute) {
+	    if (!m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime)) {
+		// Error cuting clip in playlist
+		m_blockRefresh = false;
+		return NULL;
+	    }
+	}
         int cutPos = (int) cutTime.frames(m_document->fps());
         ItemInfo newPos;
         newPos.startPos = cutTime;
