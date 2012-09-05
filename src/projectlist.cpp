@@ -58,6 +58,8 @@
 #include <KColorScheme>
 #include <KActionCollection>
 #include <KUrlRequester>
+#include <KVBox>
+#include <KHBox>
 
 #ifdef USE_NEPOMUK
 #include <nepomuk/global.h>
@@ -77,6 +79,17 @@
 #include <QInputDialog>
 #include <QtConcurrentRun>
 #include <QVBoxLayout>
+#include <KPassivePopup>
+
+
+MyMessageWidget::MyMessageWidget(QWidget *parent) : KMessageWidget(parent) {}
+MyMessageWidget::MyMessageWidget(const QString &text, QWidget *parent) : KMessageWidget(text, parent) {}
+
+
+bool MyMessageWidget::event(QEvent* ev) {
+    if (ev->type() == QEvent::Hide || ev->type() == QEvent::Close) emit messageClosing();
+    return KMessageWidget::event(ev);
+}
 
 SmallInfoLabel::SmallInfoLabel(QWidget *parent) : QPushButton(parent)
 {
@@ -278,10 +291,11 @@ ProjectList::ProjectList(QWidget *parent) :
     m_listView = new ProjectListView(this);
     layout->addWidget(m_listView);
     
-#if KDE_IS_VERSION(4,7,0)    
-    m_infoMessage = new KMessageWidget;
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage = new MyMessageWidget;
     layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(true);
+    connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
     m_logAction = new QAction(i18n("Show Log"), this);
@@ -3297,14 +3311,11 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
     item->setJobStatus((JOBTYPE) type, (CLIPJOBSTATUS) status);
     if (status != JOBCRASHED) return;
 #if KDE_IS_VERSION(4,7,0)
-    m_infoMessage->animatedHide();
-    m_errorLog.clear();
-    m_infoMessage->setText(label);
-    m_infoMessage->setWordWrap(label.length() > 35);
-    m_infoMessage->setMessageType(KMessageWidget::Warning);
     QList<QAction *> actions = m_infoMessage->actions();
-    for (int i = 0; i < actions.count(); i++) {
-        m_infoMessage->removeAction(actions.at(i));
+    if (m_infoMessage->isHidden()) {
+	m_infoMessage->setText(label);
+	m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+	m_infoMessage->setMessageType(KMessageWidget::Warning);
     }
     
     if (!actionName.isEmpty()) {
@@ -3315,27 +3326,47 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
             action = coll->action(actionName);
             if (action) break;
         }
-        if (action) m_infoMessage->addAction(action);
+        if (action && !actions.contains(action)) m_infoMessage->addAction(action);
     }
     if (!details.isEmpty()) {
-        m_errorLog = details;
-        m_infoMessage->addAction(m_logAction);
+        m_errorLog.append(details);
+        if (!actions.contains(m_logAction)) m_infoMessage->addAction(m_logAction);
     }
     m_infoMessage->animatedShow();
+#else
+    // warning for KDE < 4.7
+    KPassivePopup *passivePop = new KPassivePopup( this );
+    passivePop->setAutoDelete(true);
+    connect(passivePop, SIGNAL(clicked()), this, SLOT(slotClosePopup()));
+    m_errorLog.append(details);
+    KVBox *vb = new KVBox( passivePop );
+    KHBox *vh1 = new KHBox( vb );
+    KIcon icon("dialog-warning");
+    QLabel *iconLabel = new QLabel(vh1);
+    iconLabel->setPixmap(icon.pixmap(m_listView->iconSize()));
+    (void) new QLabel( label, vh1);
+    KHBox *box = new KHBox( vb );
+    QPushButton *but = new QPushButton( "Show log", box );
+    connect(but, SIGNAL(clicked(bool)), this, SLOT(slotShowJobLog()));
+
+    passivePop->setView( vb );
+    passivePop->show();
+    
 #endif
 }
 
 void ProjectList::slotShowJobLog()
 {
-#if KDE_IS_VERSION(4,7,0)
     KDialog d(this);
     d.setButtons(KDialog::Close);
     QTextEdit t(&d);
-    t.setPlainText(m_errorLog);
+    for (int i = 0; i < m_errorLog.count(); i++) {
+	if (i > 0) t.insertHtml("<br><hr /><br>");
+	t.insertPlainText(m_errorLog.at(i));
+    }
     t.setReadOnly(true);
     d.setMainWidget(&t);
     d.exec();
-#endif
 }
 
 QStringList ProjectList::getPendingJobs(const QString &id)
@@ -3474,6 +3505,22 @@ void ProjectList::updatePalette()
 {
     m_infoLabel->setStyleSheet(SmallInfoLabel::getStyleSheet(QApplication::palette()));
     m_listView->updateStyleSheet();
+}
+
+void ProjectList::slotResetInfoMessage()
+{
+#if KDE_IS_VERSION(4,7,0)
+    m_errorLog.clear();
+    QList<QAction *> actions = m_infoMessage->actions();
+    for (int i = 0; i < actions.count(); i++) {
+	m_infoMessage->removeAction(actions.at(i));
+    }
+#endif
+}
+
+void ProjectList::slotClosePopup()
+{
+    m_errorLog.clear();
 }
 
 #include "projectlist.moc"

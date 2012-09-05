@@ -42,10 +42,6 @@
 #include <KIcon>
 #include <kdeversion.h>
 
-#if KDE_IS_VERSION(4,7,0)
-#include <KMessageWidget>
-#endif
-
 #ifdef NEPOMUK
 #include <nepomuk/kratingpainter.h>
 #include <nepomuk/resource.h>
@@ -58,6 +54,34 @@
 #include "subprojectitem.h"
 #include "projecttree/abstractclipjob.h"
 #include <kdialog.h>
+
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#else
+// Dummy KMessageWidget to allow compilation of MyMessageWidget class since Qt's moc doesn work inside #ifdef
+#include <QLabel>
+class KMessageWidget: public QLabel
+{
+public:
+    KMessageWidget(QWidget * = 0) {};
+    KMessageWidget(const QString &, QWidget * = 0) {};
+    virtual ~KMessageWidget(){};
+};
+#endif
+
+class MyMessageWidget: public KMessageWidget
+{
+    Q_OBJECT
+public:
+    MyMessageWidget(QWidget *parent = 0);
+    MyMessageWidget(const QString &text, QWidget *parent = 0);
+
+protected:
+    bool event(QEvent* ev);
+
+signals:
+    void messageClosing();
+};
 
 namespace Mlt
 {
@@ -349,10 +373,11 @@ private:
     InvalidDialog *m_invalidClipDialog;
     QMenu *m_jobsMenu;
     SmallInfoLabel *m_infoLabel;
+    /** @brief A list of strings containing the last error logs for clip jobs. */
+    QStringList m_errorLog;
+
 #if KDE_IS_VERSION(4,7,0)
-    KMessageWidget *m_infoMessage;
-    /** @brief A string containing the last error log for a clip job. */
-    QString m_errorLog;
+    MyMessageWidget *m_infoMessage;
     /** @brief The action that will trigger the log dialog. */
     QAction *m_logAction;
 #endif
@@ -461,6 +486,10 @@ private slots:
     void slotDiscardClipJobs();
     /** @brief Make sure current clip is visible in project tree. */
     void slotCheckScrolling();
+    /** @brief Reset all text and log data from info message widget. */
+    void slotResetInfoMessage();
+    /** @brief close warning info passive popup. */
+    void slotClosePopup();
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
@@ -497,4 +526,5 @@ signals:
 };
 
 #endif
+
 
