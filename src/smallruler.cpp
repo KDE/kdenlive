@@ -73,14 +73,14 @@ void SmallRuler::setZoneStart()
 {
     int pos = m_render->requestedSeekPosition;
     if (pos == SEEK_INACTIVE) pos = m_render->seekFramePosition();
-    m_zoneStart = pos;
+    setZone(pos, -1);
 }
 
 void SmallRuler::setZoneEnd()
 {
     int pos = m_render->requestedSeekPosition;
     if (pos == SEEK_INACTIVE) pos = m_render->seekFramePosition();
-    m_zoneEnd = pos;
+    setZone(-1, pos);
 }
 
 void SmallRuler::setZone(int start, int end)
