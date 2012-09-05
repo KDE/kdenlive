@@ -3364,8 +3364,8 @@ void CustomTrackView::setCursorPos(int pos, bool seek)
 	emit cursorMoved((int)(m_cursorPos), (int)(pos));
 	m_cursorPos = pos;
 	m_cursorLine->setPos(m_cursorPos, 0);
+	if (m_autoScroll) checkScrolling();
     }
-    else if (m_autoScroll) checkScrolling();
 }
 
 void CustomTrackView::updateCursorPos()
