@@ -387,12 +387,13 @@ void Render::seek(int time)
     if (!m_mltProducer)
         return;
     if (requestedSeekPosition == SEEK_INACTIVE) {
+	requestedSeekPosition = time;
 	m_mltProducer->seek(time);
 	if (m_mltProducer->get_speed() == 0) {
 	    refresh();
 	}
     }
-    requestedSeekPosition = time;
+    else requestedSeekPosition = time;
 }
 
 //static
@@ -1637,6 +1638,7 @@ void Render::emitFrameNumber()
     emit rendererPosition(currentPos);
     if (requestedSeekPosition != SEEK_INACTIVE) {
 	m_mltProducer->seek(requestedSeekPosition);
+	requestedSeekPosition = SEEK_INACTIVE;
 	if (m_mltProducer->get_speed() == 0) {
 	    refresh();
 	}
