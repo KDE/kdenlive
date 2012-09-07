@@ -53,10 +53,8 @@ protected slots:
 
 private slots:
     void slotUpdateDisplay();
-#ifdef USE_JOGSHUTTLE
     void slotCheckShuttle(int state = 0);
     void slotUpdateShuttleDevice(int ix = 0);
-#endif
     void slotEditImageApplication();
     void slotEditAudioApplication();
     void slotEditVideoApplication();
