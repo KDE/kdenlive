@@ -389,6 +389,7 @@ void Render::seek(int time)
     if (requestedSeekPosition == SEEK_INACTIVE) {
 	requestedSeekPosition = time;
 	m_mltProducer->seek(time);
+	m_mltConsumer->purge();
 	if (m_mltProducer->get_speed() == 0) {
 	    refresh();
 	}

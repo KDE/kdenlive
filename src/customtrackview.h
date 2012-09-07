@@ -516,7 +516,7 @@ signals:
     /** @brief Update the track effect button that shows if a track has effects or not.*/
     void updateTrackEffectState(int);
     /** @brief Cursor position changed, repaint ruler.*/
-    void updateRuler();
+    void updateRuler(int min, int max);
 };
 
 #endif

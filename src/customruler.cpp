@@ -277,6 +277,11 @@ void CustomRuler::slotCursorMoved(int oldpos, int newpos)
     } else update(qMin(oldpos, newpos) * m_factor - offset() - 6, BIG_MARK_X, qAbs(oldpos - newpos) * m_factor + 14, MAX_HEIGHT - BIG_MARK_X);
 }
 
+void CustomRuler::updateRuler(int min, int max)
+{
+    update(min * m_factor - offset(), 0, max - min, height());
+}
+
 void CustomRuler::setPixelPerMark(int rate)
 {
     int scale = comboScale[rate];

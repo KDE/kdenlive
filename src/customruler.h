@@ -87,6 +87,7 @@ private:
 public slots:
     void slotMoveRuler(int newPos);
     void slotCursorMoved(int oldpos, int newpos);
+    void updateRuler(int min, int max);
 
 private slots:
     void slotEditGuide();

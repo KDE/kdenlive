@@ -3348,8 +3348,22 @@ void CustomTrackView::deleteClip(const QString &clipId)
 
 void CustomTrackView::seekCursorPos(int pos)
 {
+    int current = m_document->renderer()->requestedSeekPosition;
+    int playhead = m_document->renderer()->seekFramePosition();
+    int min;
+    int max;
+    if (current != SEEK_INACTIVE) {
+	min = qMin(pos, playhead);
+	min = qMin (min, current) - 5;
+	max = qMax(pos, playhead);
+	max = qMax(max, current) + 5;
+    }
+    else {
+	min = qMin(pos, playhead) - 5;
+	max = qMax(pos, playhead) + 5;
+    }
     m_document->renderer()->seek(pos);
-    emit updateRuler();
+    emit updateRuler(min, max);
 }
 
 int CustomTrackView::seekPosition() const
@@ -3381,11 +3395,26 @@ int CustomTrackView::cursorPos()
 void CustomTrackView::moveCursorPos(int delta)
 {
     int currentPos = m_document->renderer()->requestedSeekPosition;
-    if (currentPos == SEEK_INACTIVE) currentPos = m_document->renderer()->seekFramePosition();
-    if (currentPos + delta < 0) delta = 0 - currentPos;
-    currentPos += delta;
+    int actualPos = m_document->renderer()->seekPosition().frames(m_document->fps());
+    int min;
+    int max;
+    if (currentPos == SEEK_INACTIVE) {
+	currentPos = actualPos + delta;
+	if (currentPos < 0) currentPos = 0;
+	min = qMin(actualPos, currentPos) - 5;
+	max = qMax(actualPos, currentPos) + 5;
+    }
+    else {
+	min = qMin(currentPos, currentPos + delta);
+	min = qMin (min, actualPos) - 5;
+	max = qMax(currentPos, currentPos + delta);
+	max = qMax(max, actualPos) + 5;
+	currentPos += delta;
+	if (currentPos < 0) currentPos = 0;
+    }
+
     m_document->renderer()->seek(currentPos);
-    emit updateRuler();
+    emit updateRuler(min, max);
 }
 
 void CustomTrackView::initCursorPos(int pos)
