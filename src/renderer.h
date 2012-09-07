@@ -393,6 +393,8 @@ private slots:
     void slotOsdTimeout();
     /** @brief Process the clip info requests (in a separate thread). */
     void processFileProperties();
+    /** @brief A clip with multiple video streams was found, ask what to do. */
+    void slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data);
 
 signals:
 
@@ -427,6 +429,8 @@ signals:
     void refreshDocumentProducers(bool displayRatioChanged, bool fpsChanged);
     /** @brief A proxy clip is missing, ask for creation. */
     void requestProxy(QString);
+    /** @brief A multiple stream clip was found. */
+    void multiStreamFound(const QString &,QList<int>,QList<int>,stringMap data);
 
 
     /** @brief A frame's image has to be shown.
@@ -434,6 +438,7 @@ signals:
      * Used in Mac OS X. */
     void showImageSignal(QImage);
     void showAudioSignal(const QByteArray &);
+    void addClip(const KUrl &, stringMap);
 
 public slots:
 

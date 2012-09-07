@@ -342,6 +342,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+    connect(m_render, SIGNAL(addClip(const KUrl &, stringMap)), this, SLOT(slotAddClipFile(const KUrl &, stringMap)));
 }
 
 KdenliveDoc::~KdenliveDoc()
@@ -1216,17 +1217,17 @@ void KdenliveDoc::deleteClip(const QString &clipId)
     emit signalDeleteProjectClip(clipId);
 }
 
-void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId)
+void KdenliveDoc::slotAddClipList(const KUrl::List urls, stringMap data)
 {
-    m_clipManager->slotAddClipList(urls, group, groupId);
+    m_clipManager->slotAddClipList(urls, data);
     //emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
 }
 
 
-void KdenliveDoc::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment)
+void KdenliveDoc::slotAddClipFile(const KUrl &url, stringMap data)
 {
-    m_clipManager->slotAddClipFile(url, group, groupId, comment);
+    m_clipManager->slotAddClipFile(url, data);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
 }

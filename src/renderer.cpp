@@ -120,6 +120,7 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_blackClip(NULL),
     m_winid(winid)
 {
+    qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
     if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
@@ -129,6 +130,7 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(70);
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
+    connect(this, SIGNAL(multiStreamFound(const QString &,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(const QString &,QList<int>,QList<int>,stringMap)));
 }
 
 Render::~Render()
@@ -864,6 +866,28 @@ void Render::processFileProperties()
 
         // Get frame rate
         int vindex = producer->get_int("video_index");
+
+	// List streams
+	int streams = producer->get_int("meta.media.nb_streams");
+	QList <int> audio_list;
+	QList <int> video_list;
+	for (int i = 0; i < streams; i++) {
+	    QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
+	    QString type = producer->get(propertyName.data());
+	    if (type == "audio") audio_list.append(i);
+	    else if (type == "video") video_list.append(i);
+	}
+
+	if (!info.xml.hasAttribute("video_index") && video_list.count() > 1) {
+	    // Clip has more than one video stream, ask which one should be used
+	    QMap <QString, QString> data;
+	    if (info.xml.hasAttribute("group")) data.insert("group", info.xml.attribute("group"));
+	    if (info.xml.hasAttribute("groupId")) data.insert("groupId", info.xml.attribute("groupId"));
+	    emit multiStreamFound(path, audio_list, video_list, data);
+	    // Force video index so that when reloading the clip we don't ask again for other streams
+	    filePropertyMap["video_index"] = QString::number(vindex);
+	}
+	
         if (vindex > -1) {
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             if (producer->get(property))
@@ -4466,7 +4490,63 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist)
     return true;
 }
 
+void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data)
+{
+    int width = 60.0 * m_mltProfile->dar();
+    int swidth = 60.0 * m_mltProfile->width() / m_mltProfile->height();
+    if (width % 2 == 1) width++;
 
+    KDialog dialog(qApp->activeWindow());
+    dialog.setCaption("Multi Stream Clip");
+    dialog.setButtons(KDialog::Ok | KDialog::Cancel);
+    dialog.setButtonText(KDialog::Ok, i18n("Import selected clips"));
+    QWidget *content = new QWidget(&dialog);
+    dialog.setMainWidget(content);
+    QVBoxLayout *vbox = new QVBoxLayout(content);
+    QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", path), content);
+    vbox->addWidget(lab1);
+    QList <QGroupBox*> groupList;
+    QList <QComboBox*> comboList;
+    // We start loading the list at 1, video index 0 should already be loaded
+    for (int j = 1; j < video_list.count(); j++) {
+	Mlt::Producer multiprod(* m_mltProfile, path.toUtf8().constData());
+	multiprod.set("video_index", video_list.at(j));
+	kDebug()<<"// LOADING: "<<j<<" = "<<video_list.at(j);
+	QImage thumb = KThumb::getFrame(&multiprod, 0, swidth, width, 60);
+	QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", video_list.at(j)), content);
+	streamFrame->setProperty("vindex", video_list.at(j));
+	groupList << streamFrame;
+	streamFrame->setCheckable(true);
+	streamFrame->setChecked(false);
+	QVBoxLayout *vh = new QVBoxLayout( streamFrame );
+	QLabel *iconLabel = new QLabel(content);
+	iconLabel->setPixmap(QPixmap::fromImage(thumb));
+	vh->addWidget(iconLabel);
+	if (audio_list.count() > 1) {
+	    QComboBox *cb = new QComboBox(content);
+	    for (int k = 0; k < audio_list.count(); k++) {
+		cb->addItem(i18n("Audio stream %1", audio_list.at(k)), audio_list.at(k));
+	    }
+	    comboList << cb;
+	    cb->setCurrentIndex(j);
+	    vh->addWidget(cb);
+	}
+	vbox->addWidget(streamFrame);
+    }
+    if (dialog.exec() == QDialog::Accepted) {
+	// import selected streams
+	for (int i = 0; i < groupList.count(); i++) {
+	    if (groupList.at(i)->isChecked()) {
+		int vindex = groupList.at(i)->property("vindex").toInt();
+		int aindex = comboList.at(i)->itemData(comboList.at(i)->currentIndex()).toInt();
+		data.insert("video_index", QString::number(vindex));
+		data.insert("audio_index", QString::number(aindex));
+		data.insert("bypassDuplicate", "1");
+		emit addClip(KUrl(path), data);
+	    }
+	}
+    }
+}
 
 #include "renderer.moc"
 

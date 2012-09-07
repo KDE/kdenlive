@@ -88,14 +88,14 @@ Q_OBJECT public:
      * @param url file to add
      * @param group name of the group to insert the file in (can be empty)
      * @param groupId id of the group (if any) */
-    void slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment = QString());
+    void slotAddClipFile(const KUrl &url, QMap <QString, QString> data);
 
     /** @brief Adds a list of files to the project.
      * @param urls files to add
      * @param group name of the group to insert the files in (can be empty)
      * @param groupId id of the group (if any)
      * It checks for duplicated items and asks to the user for instructions. */
-    void slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId, const QString &comment = QString());
+    void slotAddClipList(const KUrl::List urls, QMap <QString, QString> data);
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const KUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);

@@ -474,11 +474,15 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
 void ClipManager::slotAddClip(KIO::Job *job, const KUrl &, const KUrl &dst)
 {
     KIO::MetaData meta = job->metaData();
+    QMap <QString, QString> data;
+    data.insert("group", meta.value("group"));
+    data.insert("groupid", meta.value("groupid"));
+    data.insert("comment", meta.value("comment"));
     kDebug()<<"Finished copying: "<<dst<<" / "<<meta.value("group")<<" / "<<meta.value("groupid");
-    slotAddClipList(KUrl::List () << dst, meta.value("group"), meta.value("groupid"), meta.value("comment"));
+    slotAddClipList(KUrl::List () << dst, data);
 }
 
-void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId, const QString &comment)
+void ClipManager::slotAddClipList(const KUrl::List urls, QMap <QString, QString> data)
 {
     QUndoCommand *addClips = new QUndoCommand();
     // Update list of removable volumes
@@ -486,7 +490,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
     listRemovableVolumes();
     foreach(const KUrl & file, urls) {
         if (QFile::exists(file.path())) {//KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
-            if (!getClipByResource(file.path()).empty()) {
+            if (!data.contains("bypassDuplicate") && !getClipByResource(file.path()).empty()) {
                 if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;
             }
@@ -500,9 +504,9 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
 		    //KIO::filesize_t m_requestedSize;
 		    KIO::CopyJob *copyjob = KIO::copy (file, KUrl(sourcesFolder));
 		    //TODO: for some reason, passing metadata does not work...
-		    copyjob->addMetaData("group", group);
-		    copyjob->addMetaData("groupId", groupId);
-		    copyjob->addMetaData("comment", comment);
+		    copyjob->addMetaData("group", data.value("group"));
+		    copyjob->addMetaData("groupId", data.value("groupId"));
+		    copyjob->addMetaData("comment", data.value("comment"));
 		    copyjob->ui()->setWindow(kapp->activeWindow());
 		    connect(copyjob, SIGNAL(copyingDone(KIO::Job *, const KUrl &, const KUrl &, time_t, bool, bool)), this, SLOT(slotAddClip(KIO::Job *, const KUrl &, const KUrl &)));
 		    continue;
@@ -515,11 +519,14 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
             prod.setAttribute("resource", file.path());
             uint id = m_clipIdCounter++;
             prod.setAttribute("id", QString::number(id));
-            if (!comment.isEmpty()) prod.setAttribute("description", comment);
-            if (!group.isEmpty()) {
-                prod.setAttribute("groupname", group);
-                prod.setAttribute("groupid", groupId);
+            if (data.contains("comment")) prod.setAttribute("description", data.value("comment"));
+            if (data.contains("group")) {
+                prod.setAttribute("groupname", data.value("group"));
+                prod.setAttribute("groupid", data.value("groupId"));
             }
+            if (data.contains("video_index")) prod.setAttribute("video_index", data.value("video_index"));
+	    if (data.contains("audio_index")) prod.setAttribute("audio_index", data.value("audio_index"));
+	    
             KMimeType::Ptr type = KMimeType::findByUrl(file);
             if (type->name().startsWith("image/")) {
                 prod.setAttribute("type", (int) IMAGE);
@@ -576,9 +583,9 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString &group, c
     }
 }
 
-void ClipManager::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment)
+void ClipManager::slotAddClipFile(const KUrl &url, QMap <QString, QString> data)
 {
-    slotAddClipList(KUrl::List(url), group, groupId, comment);
+    slotAddClipList(KUrl::List(url), data);
 }
 
 void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)

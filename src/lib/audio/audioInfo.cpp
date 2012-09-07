@@ -22,14 +22,13 @@ m_producer(NULL)
     // Mlt::Factory::init(NULL);
 
     // Get the number of streams and add the information of each of them if it is an audio stream.
-    int streams = atoi(producer->get("meta.media.nb_streams"));
+    int streams = producer->get_int("meta.media.nb_streams");
     for (int i = 0; i < streams; i++) {
         QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
 	const char* streamtype = producer->get(propertyName.data());
         if (streamtype && strcmp("audio", streamtype) == 0) {
             m_list << new AudioStreamInfo(producer, i);
         }
-
     }
 }
 

@@ -83,8 +83,7 @@ Q_OBJECT public:
      *
      * If the clip wasn't added before, it tries to add it to the project. */
     bool addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
-    void slotAddClipFile(const KUrl &url, const QString &group = QString(), const QString &groupId = QString(), const QString &comment = QString());
-    void slotAddClipList(const KUrl::List urls, const QString &group = QString(), const QString &groupId = QString());
+    void slotAddClipList(const KUrl::List urls, stringMap data = QMap <QString, QString>());
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(const QString &clipId);
@@ -222,6 +221,7 @@ public slots:
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
+    void slotAddClipFile(const KUrl &url, stringMap data = QMap <QString, QString>());
 
 private slots:
     void slotAutoSave();

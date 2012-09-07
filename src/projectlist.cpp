@@ -946,7 +946,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource")) {
+        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index")) {
             slotReloadClip(id);
         } else if (properties.contains("colour") ||
                    properties.contains("xmldata") ||
@@ -1291,14 +1291,13 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 {
     //m_listView->setEnabled(false);
     const QString parent = clip->getProperty("groupid");
+    QString groupName = clip->getProperty("groupname");
     ProjectItem *item = NULL;
-    kDebug()<<"// Adding clip 1";
     monitorItemEditing(false);
     if (!parent.isEmpty()) {
         FolderProjectItem *parentitem = getFolderItemById(parent);
         if (!parentitem) {
             QStringList text;
-            QString groupName = clip->getProperty("groupname");
             //kDebug() << "Adding clip to new group: " << groupName;
             if (groupName.isEmpty()) groupName = i18n("Folder");
             text << groupName;
@@ -1311,7 +1310,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     if (item == NULL) {
         item = new ProjectItem(m_listView, clip);
     }
-    kDebug()<<"// Adding clip 2";
     if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
     connect(clip, SIGNAL(createProxy(const QString &)), this, SLOT(slotCreateProxy(const QString &)));
     connect(clip, SIGNAL(abortProxy(const QString &, const QString &)), this, SLOT(slotAbortProxy(const QString, const QString)));
@@ -1323,6 +1321,10 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         //item->setFlags(Qt::ItemIsSelectable);
         m_listView->processLayout();
         QDomElement e = clip->toXML().cloneNode().toElement();
+	if (!groupName.isEmpty()) {
+	    e.setAttribute("groupId", parent);
+	    e.setAttribute("group", groupName);
+	}
         e.removeAttribute("file_hash");
         resetThumbsProducer(clip);
         m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
@@ -1735,9 +1737,15 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
 
     if (givenList.isEmpty() && !list.isEmpty()) {
         QStringList groupInfo = getGroup();
-        m_doc->slotAddClipList(list, groupInfo.at(0), groupInfo.at(1));
+	QMap <QString, QString> data;
+	data.insert("group", groupInfo.at(0));
+	data.insert("groupId", groupInfo.at(1));
+        m_doc->slotAddClipList(list, data);
     } else if (!list.isEmpty()) {
-        m_doc->slotAddClipList(list, groupName, groupId);
+	QMap <QString, QString> data;
+	data.insert("group", groupName);
+	data.insert("groupId", groupId);
+        m_doc->slotAddClipList(list, data);
     }
     
     if (!foldersList.isEmpty()) {
@@ -1754,8 +1762,12 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
                     folder = getFolderItemByName(folderName);
                 }
             }
-            if (folder)
-                m_doc->slotAddClipList(urls, folder->groupName(), folder->clipId());
+            if (folder) {
+		QMap <QString, QString> data;
+		data.insert("group", folder->groupName());
+		data.insert("groupId", folder->clipId());
+                m_doc->slotAddClipList(urls, data);
+	    }
             else m_doc->slotAddClipList(urls);
         }
     }
@@ -2132,7 +2144,6 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
 void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace)
 {
     QString toReload;
-    kDebug()<<"// CLIP LOADED 1;";
     ProjectItem *item = getItemById(clipId);
     int queue = m_render->processingItems();
     if (item && producer) {
@@ -2190,7 +2201,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (queue == 0) {
         monitorItemEditing(true);
         if (item && m_thumbnailQueue.isEmpty()) {
-	    kDebug()<<"// CLIP LOADED;";
             if (!item->hasProxy() || m_render->activeClipId() == item->clipId())
                 m_listView->setCurrentItem(item);
             bool updatedProfile = false;
