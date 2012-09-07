@@ -6209,7 +6209,7 @@ void CustomTrackView::setAudioAlignReference()
         if (clip->clipType() == AV || clip->clipType() == AUDIO) {
             m_audioAlignmentReference = clip;
 
-            AudioEnvelope *envelope = new AudioEnvelope(clip->getProducer(clip->track()));
+            AudioEnvelope *envelope = new AudioEnvelope(clip->baseClip()->fileURL().path(), clip->getProducer(clip->track()));
             m_audioCorrelator = new AudioCorrelation(envelope);
 
 
@@ -6254,9 +6254,7 @@ void CustomTrackView::alignAudio()
             }
 
             if (clip->clipType() == AV || clip->clipType() == AUDIO) {
-                AudioEnvelope *envelope = new AudioEnvelope(clip->getProducer(clip->track()),
-                                                            clip->info().cropStart.frames(m_document->fps()),
-                                                            clip->info().cropDuration.frames(m_document->fps()));
+                AudioEnvelope *envelope = new AudioEnvelope(clip->baseClip()->fileURL().path(), clip->getProducer(clip->track()), clip->info().cropStart.frames(m_document->fps()), clip->info().cropDuration.frames(m_document->fps()));
 
                 // FFT only for larger vectors. We could use it all time, but for small vectors
                 // the (anyway not noticeable) overhead is smaller with a nested for loop correlation.

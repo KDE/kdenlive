@@ -11,12 +11,13 @@
 #include "audioEnvelope.h"
 
 #include "audioStreamInfo.h"
+#include <QDebug>
 #include <QImage>
 #include <QTime>
 #include <cmath>
 #include <iostream>
 
-AudioEnvelope::AudioEnvelope(Mlt::Producer *producer, int offset, int length) :
+AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length) :
     m_envelope(NULL),
     m_offset(offset),
     m_length(length),
@@ -28,7 +29,13 @@ AudioEnvelope::AudioEnvelope(Mlt::Producer *producer, int offset, int length) :
     m_envelopeIsNormalized(false)
 {
     // make a copy of the producer to avoid audio playback issues
-    m_producer = new Mlt::Producer(*(producer->profile()), producer->get("resource"));
+    QString path = QString::fromUtf8(producer->get("resource"));
+    if (path == "<playlist>" || path == "<tractor>" || path == "<producer>")
+	path = url;
+    m_producer = new Mlt::Producer(*(producer->profile()), path.toUtf8().constData());
+    if (!m_producer || !m_producer->is_valid()) {
+	qDebug()<<"// Cannot create envelope for producer: "<<path;
+    }
     m_info = new AudioInfo(m_producer);
 
     Q_ASSERT(m_offset >= 0);

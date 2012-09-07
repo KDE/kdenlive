@@ -692,6 +692,10 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
 {
     Mlt::Producer *result = NULL;
     QString url = QString::fromUtf8(source->get("resource"));
+    if (url == "<playlist>" || url == "<tractor>" || url == "<producer>") {
+	// Xml producer sometimes loses the correct url
+	url = m_properties.value("resource");
+    }
     if (m_clipType == SLIDESHOW || KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
         result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());
     }

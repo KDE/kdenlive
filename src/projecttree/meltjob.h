@@ -26,6 +26,8 @@
 
 #include "abstractclipjob.h"
 
+class KUrl;
+
 namespace Mlt{
         class Profile;
         class Producer;
@@ -46,7 +48,7 @@ public:
     stringMap cancelProperties();
     bool addClipToProject;
     const QString statusMessage();
-    void setProducer(Mlt::Producer *producer);
+    void setProducer(Mlt::Producer *producer, KUrl url);
     void emitFrameNumber();
     
 private:
@@ -56,6 +58,7 @@ private:
     Mlt::Event *m_showFrameEvent;
     QStringList m_params;
     QString m_dest;
+    QString m_url;
     int m_length;
 };
 

@@ -23,6 +23,7 @@
 #include "kdenlivedoc.h"
 
 #include <KDebug>
+#include <KUrl>
 #include <KLocale>
 
 #include <mlt++/Mlt.h>
@@ -49,9 +50,12 @@ MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters) : Ab
     if (consum.contains(':')) m_dest = consum.section(':', 1);
 }
 
-void MeltJob::setProducer(Mlt::Producer *producer)
+void MeltJob::setProducer(Mlt::Producer *producer, KUrl url)
 {
     m_producer = producer;
+    m_url = QString::fromUtf8(m_producer->get("resource"));
+    if (m_url == "<playlist>" || m_url == "<tractor>" || m_url == "<producer>")
+	m_url == url.path();
 }
 
 void MeltJob::startJob()
@@ -92,8 +96,7 @@ void MeltJob::startJob()
 
     Mlt::Producer *prod;
     if (out == -1) {
-        QString url = QString::fromUtf8(m_producer->get("resource"));
-        prod = new Mlt::Producer(*m_profile,  url.toUtf8().constData());
+        prod = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
     }
     else 
         prod = m_producer->cut(in, out);

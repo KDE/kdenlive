@@ -2967,7 +2967,7 @@ void ProjectList::slotProcessJobs()
 
         if (job->jobType == MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
-            jb->setProducer(currentClip->getProducer());
+            jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
         }
         job->startJob();
         if (job->jobStatus == JOBDONE) {
