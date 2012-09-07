@@ -243,6 +243,16 @@
       <default></default>
     </entry>
 
+    <entry name="ffmpegpath" type="Path">
+      <label>FFmpeg / Libav binary path.</label>
+      <default></default>
+    </entry>
+
+    <entry name="ffplaypath" type="Path">
+      <label>FFplay / avplay binary path.</label>
+      <default></default>
+    </entry>
+    
     <entry name="mltthreads" type="Int">
       <label>Mlt processing thread count.</label>
       <default>1</default>

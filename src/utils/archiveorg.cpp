@@ -194,7 +194,7 @@ bool ArchiveOrg::startItemPreview(QListWidgetItem *item)
     if (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning) {
         m_previewProcess->close();
     }
-    m_previewProcess->start("ffplay", QStringList() << url << "-nodisp");
+    m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << "-nodisp");
     return true;
 }
 

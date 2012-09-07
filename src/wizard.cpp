@@ -415,9 +415,20 @@ void Wizard::slotCheckPrograms()
     item->setData(1, Qt::UserRole, i18n("Required for webcam capture"));
     item->setSizeHint(0, itemSize);
     QString exepath = KStandardDirs::findExe("ffmpeg");
-    if (exepath.isEmpty()) item->setIcon(0, m_badIcon);
-    else if (KStandardDirs::findExe("ffplay").isEmpty()) item->setIcon(0, m_badIcon);
-    else item->setIcon(0, m_okIcon);
+    QString playpath = KStandardDirs::findExe("ffplay");
+    item->setIcon(0, m_okIcon);
+    if (exepath.isEmpty()) {
+	// Check for libav version
+	exepath = KStandardDirs::findExe("avconv");
+	if (exepath.isEmpty()) item->setIcon(0, m_badIcon);
+    }
+    if (playpath.isEmpty()) {
+	// Check for libav version
+	playpath = KStandardDirs::findExe("avplay");
+	if (playpath.isEmpty()) item->setIcon(0, m_badIcon);
+    }
+    if (!exepath.isEmpty()) KdenliveSettings::setFfmpegpath(exepath);
+    if (!playpath.isEmpty()) KdenliveSettings::setFfplaypath(playpath);
 
 #ifndef Q_WS_MAC
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("recordmydesktop"));

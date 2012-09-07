@@ -1829,7 +1829,7 @@ void MainWindow::readOptions()
         }
 
     }
-
+    if (KdenliveSettings::ffmpegpath().isEmpty() || KdenliveSettings::ffplaypath().isEmpty()) upgrade = true;
     if (!initialGroup.exists() || upgrade) {
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(upgrade, this);

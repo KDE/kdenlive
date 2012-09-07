@@ -540,7 +540,7 @@ void RecMonitor::slotStartPreview(bool play)
 
     if (device_selector->currentIndex() == FIREWIRE) {
         kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
-        m_displayProcess->start("ffplay", m_displayArgs);
+        m_displayProcess->start(KdenliveSettings::ffplaypath(), m_displayArgs);
         //video_frame->setText(i18n("Initialising..."));
     } else {
         // do something when starting screen grab
@@ -734,7 +734,7 @@ void RecMonitor::slotRecord()
         if (device_selector->currentIndex() == FIREWIRE) {
             m_isCapturing = true;
             kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
-            m_displayProcess->start("ffplay", m_displayArgs);
+            m_displayProcess->start(KdenliveSettings::ffplaypath(), m_displayArgs);
             video_frame->setText(i18n("Initialising..."));
         }
     } else {
@@ -790,7 +790,7 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
         alsaProcess->start("arecord", alsaArgs);
     }
     kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
-    captureProcess->start("ffmpeg", m_captureArgs);
+    captureProcess->start(KdenliveSettings::ffmpegpath(), m_captureArgs);
 }*/
 
 void RecMonitor::slotProcessStatus(QProcess::ProcessState status)

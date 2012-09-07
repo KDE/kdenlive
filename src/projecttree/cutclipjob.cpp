@@ -63,7 +63,7 @@ void CutClipJob::startJob()
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         // kDebug()<<"// STARTING CUT JOB: "<<parameters;
-        m_jobProcess->start("ffmpeg", parameters);
+        m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters);
         m_jobProcess->waitForStarted();
         while (m_jobProcess->state() != QProcess::NotRunning) {
             processLogInfo();

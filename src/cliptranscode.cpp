@@ -19,6 +19,7 @@
 
 
 #include "cliptranscode.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KGlobalSettings>
@@ -145,7 +146,7 @@ void ClipTranscode::slotStartTransCode()
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
 
     m_destination = destination + extension;
-    m_transcodeProcess.start("ffmpeg", parameters);
+    m_transcodeProcess.start(KdenliveSettings::ffmpegpath(), parameters);
     source_url->setEnabled(false);
     dest_url->setEnabled(false);
     button_start->setEnabled(false);

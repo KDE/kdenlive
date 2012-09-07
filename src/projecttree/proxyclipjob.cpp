@@ -140,7 +140,7 @@ void ProxyJob::startJob()
         parameters << m_dest;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        m_jobProcess->start("ffmpeg", parameters, QIODevice::ReadOnly);
+        m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         m_jobProcess->waitForStarted();
     }
     while (m_jobProcess->state() != QProcess::NotRunning) {
