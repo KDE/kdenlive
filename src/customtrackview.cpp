@@ -5863,7 +5863,28 @@ void CustomTrackView::setInPoint()
             return;
         }
     }
-    prepareResizeClipStart(clip, clip->info(), m_cursorPos, true);
+
+    AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(clip->parentItem());
+    if (parent) {
+	// Resizing a group
+	QUndoCommand *resizeCommand = new QUndoCommand();
+        resizeCommand->setText(i18n("Resize group"));
+        QList <QGraphicsItem *> items = parent->childItems();
+        int itemcount = 0;
+        for (int i = 0; i < items.count(); ++i) {
+	    AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
+            if (item && item->type() == AVWIDGET) {
+                prepareResizeClipStart(item, item->info(), m_cursorPos, true, resizeCommand);
+                ++itemcount;
+            }
+        }
+        if (resizeCommand->childCount() > 0) m_commandStack->push(resizeCommand);
+	else {
+	    //TODO warn user of failed resize
+	    delete resizeCommand;
+	}
+    }
+    else prepareResizeClipStart(clip, clip->info(), m_cursorPos, true);
 }
 
 void CustomTrackView::setOutPoint()
@@ -5877,7 +5898,27 @@ void CustomTrackView::setOutPoint()
             return;
         }
     }
-    prepareResizeClipEnd(clip, clip->info(), m_cursorPos, true);
+    AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(clip->parentItem());
+    if (parent) {
+	// Resizing a group
+	QUndoCommand *resizeCommand = new QUndoCommand();
+        resizeCommand->setText(i18n("Resize group"));
+        QList <QGraphicsItem *> items = parent->childItems();
+        int itemcount = 0;
+        for (int i = 0; i < items.count(); ++i) {
+	    AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
+            if (item && item->type() == AVWIDGET) {
+                prepareResizeClipEnd(item, item->info(), m_cursorPos, true, resizeCommand);
+                ++itemcount;
+            }
+        }
+        if (resizeCommand->childCount() > 0) m_commandStack->push(resizeCommand);
+	else {
+	    //TODO warn user of failed resize
+	    delete resizeCommand;
+	}
+    }
+    else prepareResizeClipEnd(clip, clip->info(), m_cursorPos, true);
 }
 
 void CustomTrackView::slotUpdateAllThumbs()
