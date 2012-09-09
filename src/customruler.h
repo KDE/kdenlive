@@ -71,6 +71,7 @@ private:
     double m_factor;
     double m_scale;
     int m_offset;
+    int m_lastSeekPosition;
     RULER_MOVE m_moveCursor;
     QMenu *m_contextMenu;
     QAction *m_editGuide;
@@ -87,7 +88,7 @@ private:
 public slots:
     void slotMoveRuler(int newPos);
     void slotCursorMoved(int oldpos, int newpos);
-    void updateRuler(int min, int max);
+    void updateRuler();
 
 private slots:
     void slotEditGuide();

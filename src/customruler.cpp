@@ -56,6 +56,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
         m_view(parent),
         m_duration(0),
         m_offset(0),
+        m_lastSeekPosition(SEEK_INACTIVE),
         m_clickedGuide(-1),
         m_rate(-1),
         m_mouseMove(NO_MOVE)
@@ -210,7 +211,6 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
             m_zoneStart += move;
             m_zoneEnd += move;
         }
-
         int min = qMin(m_zoneStart, zoneStart);
         int max = qMax(m_zoneEnd, zoneEnd);
         update(min * m_factor - m_offset - 2, 0, (max - min) * m_factor + 4, height());
@@ -277,9 +277,27 @@ void CustomRuler::slotCursorMoved(int oldpos, int newpos)
     } else update(qMin(oldpos, newpos) * m_factor - offset() - 6, BIG_MARK_X, qAbs(oldpos - newpos) * m_factor + 14, MAX_HEIGHT - BIG_MARK_X);
 }
 
-void CustomRuler::updateRuler(int min, int max)
+void CustomRuler::updateRuler()
 {
-    update(min * m_factor - offset(), 0, max - min, height());
+    // Update requested seek position
+    int min = SEEK_INACTIVE;
+    int max = SEEK_INACTIVE;
+    if (m_lastSeekPosition != SEEK_INACTIVE) {
+	min = max = m_lastSeekPosition;
+    }
+    m_lastSeekPosition = m_view->seekPosition();
+    if (m_lastSeekPosition != SEEK_INACTIVE) {
+	if (min == SEEK_INACTIVE) {
+	    min = max = m_lastSeekPosition;
+	}
+	else {
+	    min = qMin(min, m_lastSeekPosition);
+	    max = qMax(max, m_lastSeekPosition);
+	}
+    }
+    if (min != SEEK_INACTIVE) {
+	update(min * m_factor - offset() - 3, BIG_MARK_X, (max - min) * m_factor + 6, MAX_HEIGHT - BIG_MARK_X);
+    }
 }
 
 void CustomRuler::setPixelPerMark(int rate)
@@ -352,18 +370,16 @@ void CustomRuler::setDuration(int d)
 void CustomRuler::paintEvent(QPaintEvent *e)
 {
     QStylePainter p(this);
-    p.setClipRect(e->rect());
-    
-    // Draw background
-    //p.fillRect(0, 0, m_duration * m_factor - m_offset, MAX_HEIGHT, palette().alternateBase().color());
+    const QRect &paintRect = e->rect();
+    p.setClipRect(paintRect);
 
     // Draw zone background
     const int zoneStart = (int)(m_zoneStart * m_factor);
     const int zoneEnd = (int)(m_zoneEnd * m_factor);
     p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 2, m_zoneColor);
     
-    int minval = (e->rect().left() + m_offset) / FRAME_SIZE - 1;
-    const int maxval = (e->rect().right() + m_offset) / FRAME_SIZE + 1;
+    int minval = (paintRect.left() + m_offset) / FRAME_SIZE - 1;
+    const int maxval = (paintRect.right() + m_offset) / FRAME_SIZE + 1;
     if (minval < 0)
         minval = 0;
 
@@ -374,8 +390,8 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     p.setPen(palette().text().color());
 
     // draw time labels
-    if (e->rect().y() < LABEL_SIZE) {
-        offsetmin = (e->rect().left() + m_offset) / m_textSpacing;
+    if (paintRect.y() < LABEL_SIZE) {
+        offsetmin = (paintRect.left() + m_offset) / m_textSpacing;
         offsetmin = offsetmin * m_textSpacing;
         for (f = offsetmin; f < offsetmax; f += m_textSpacing) {
             QString lab;
@@ -387,7 +403,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
         }
     }
 
-    offsetmin = (e->rect().left() + m_offset) / littleMarkDistance;
+    offsetmin = (paintRect.left() + m_offset) / littleMarkDistance;
     offsetmin = offsetmin * littleMarkDistance;
     // draw the little marks
     fend = m_scale * littleMarkDistance;
@@ -396,7 +412,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
             p.drawLine((int)f, LITTLE_MARK_X, (int)f, MAX_HEIGHT);
     }
 
-    offsetmin = (e->rect().left() + m_offset) / mediumMarkDistance;
+    offsetmin = (paintRect.left() + m_offset) / mediumMarkDistance;
     offsetmin = offsetmin * mediumMarkDistance;
     // draw medium marks
     fend = m_scale * mediumMarkDistance;
@@ -405,7 +421,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
             p.drawLine((int)f, MIDDLE_MARK_X, (int)f, MAX_HEIGHT);
     }
 
-    offsetmin = (e->rect().left() + m_offset) / bigMarkDistance;
+    offsetmin = (paintRect.left() + m_offset) / bigMarkDistance;
     offsetmin = offsetmin * bigMarkDistance;
     // draw big marks
     fend = m_scale * bigMarkDistance;
@@ -434,17 +450,17 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     }
     
     // draw pointer
-    int pos = m_view->seekPosition();
-    if (pos != SEEK_INACTIVE) {
-	pos  = pos * m_factor - m_offset;
-	p.fillRect(pos - 1, 0, 3, height(), palette().highlight());
-    }
-    
-    const int value  = m_view->cursorPos() * m_factor - m_offset;
+    const int value  =  m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
     pa.setPoints(3, value - 6, BIG_MARK_X, value + 6, BIG_MARK_X, value, MAX_HEIGHT - 1);
-    p.setBrush(palette().highlight());
+    p.setBrush(palette().text());
+    p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
+    
+    if (m_lastSeekPosition != SEEK_INACTIVE) {
+	p.fillRect(m_lastSeekPosition * m_factor - m_offset - 1, BIG_MARK_X, 3, MAX_HEIGHT - 1, palette().highlight());
+    }
+
 }
 
 #include "customruler.moc"
