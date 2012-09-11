@@ -457,7 +457,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
     
-    if (m_lastSeekPosition != SEEK_INACTIVE) {
+    if (m_lastSeekPosition != SEEK_INACTIVE && m_lastSeekPosition != m_view->cursorPos()) {
 	p.fillRect(m_lastSeekPosition * m_factor - m_offset - 1, BIG_MARK_X, 3, MAX_HEIGHT - 1, palette().highlight());
     }
 
