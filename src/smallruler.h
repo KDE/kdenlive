@@ -35,7 +35,6 @@ public:
     explicit SmallRuler(MonitorManager *manager, Render *render, QWidget *parent = 0);
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
-    virtual void leaveEvent( QEvent * event );
     void adjustScale(int maximum);
     void setZone(int start, int end);
     void setZoneStart();
@@ -62,8 +61,6 @@ private:
     QPixmap m_pixmap;
     MonitorManager *m_manager;
     Render *m_render;
-    /** @brief True is mouse is over the ruler cursor. */
-    bool m_overCursor;
     void updatePixmap();
 
 public slots:

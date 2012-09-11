@@ -38,7 +38,6 @@ SmallRuler::SmallRuler(MonitorManager *manager, Render *render, QWidget *parent)
         ,m_maxval(25)
         ,m_manager(manager)
 	,m_render(render)
-        ,m_overCursor(false)
 {
     m_zoneStart = 10;
     m_zoneEnd = 60;
@@ -133,33 +132,12 @@ void SmallRuler::mousePressEvent(QMouseEvent * event)
     }
 }
 
-void SmallRuler::leaveEvent( QEvent * event )
-{
-    Q_UNUSED(event);
-    if (m_overCursor) {
-        m_overCursor = false;
-        update();
-    }
-}
 
 // virtual
 void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
     const int pos = event->x() / m_scale;
-    if (event->button() == Qt::NoButton) {
-        if (qAbs(pos * m_scale - m_render->seekFramePosition()) < 6) {
-            if (!m_overCursor) {
-                m_overCursor = true;
-                update();
-            }
-        }
-        else if (m_overCursor) {
-            m_overCursor = false;
-            update();
-        }
-    }
     if (event->buttons() & Qt::LeftButton) {
-        m_overCursor = true;
         emit seekRenderer((int) pos);
 	update();
     }
@@ -241,23 +219,19 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     p.setClipRect(r);
     p.drawPixmap(QPointF(), m_pixmap);
 
-    int seekPos;
     int cursorPos = m_render->seekFramePosition() * m_scale;
-    if (m_render->requestedSeekPosition != SEEK_INACTIVE) {
-	seekPos = m_render->requestedSeekPosition * m_scale - 1;
-    }
-    else seekPos =  cursorPos - 1;
-
-    // Draw seeking pointer
-    p.fillRect(seekPos, 0, 3, height(), palette().text());
-
     // draw pointer
     QPolygon pa(3);
     pa.setPoints(3, cursorPos - 6, 10, cursorPos + 6, 10, cursorPos/*+0*/, 4);
-    if (m_overCursor) p.setBrush(palette().highlight());
-    else p.setBrush(palette().text().color());
+    p.setBrush(palette().text());
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
+
+    // Draw seeking pointer
+    if (m_render->requestedSeekPosition != SEEK_INACTIVE) {
+	int seekPos = m_render->requestedSeekPosition * m_scale - 1;
+	p.fillRect(seekPos, 0, 3, height(), palette().highlight());
+    }
 }
 
 void SmallRuler::updatePalette()
