@@ -3557,7 +3557,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             // check if we are moving a slowmotion producer
             QString serv = clipProducer->parent().get("mlt_service");
             QString currentid = clipProducer->parent().get("id");
-            if (serv == "framebuffer" || currentid.endsWith("_video")) {
+            if (serv == "framebuffer") {
                 clip = clipProducer;
             } else {
                 if (prod == NULL) {

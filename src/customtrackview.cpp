@@ -4354,7 +4354,7 @@ void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
                 ItemInfo info = clip->info();
                 Mlt::Producer *prod = NULL;
                 if (clip->isAudioOnly()) prod = baseClip->audioProducer(info.track);
-                else if (clip->isVideoOnly()) prod = baseClip->videoProducer();
+                else if (clip->isVideoOnly()) prod = baseClip->videoProducer(info.track);
                 else prod = baseClip->getProducer(info.track);
                 if (reload && !m_document->renderer()->mltUpdateClip(tractor, info, clip->xml(), prod)) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
@@ -6386,7 +6386,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
             if (audioClip) {
                 Mlt::Tractor *tractor = m_document->renderer()->lockService();
                 clip->setVideoOnly(true);
-                if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, clip->baseClip()->videoProducer()) == false) {
+                if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, clip->baseClip()->videoProducer(info.track)) == false) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
                 }
                 if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - info.track, start, clip->baseClip()->audioProducer(info.track)) == false) {
@@ -6546,7 +6546,7 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
         int start = pos.frames(m_document->fps());
         clip->setVideoOnly(true);
         clip->setAudioOnly(false);
-        if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, clip->baseClip()->videoProducer()) == false) {
+        if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, clip->baseClip()->videoProducer(track)) == false) {
             emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
         }
     } else if (audioOnly) {

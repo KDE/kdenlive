@@ -1879,7 +1879,7 @@ Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
     if (isAudioOnly())
         return m_clip->audioProducer(track);
     else if (isVideoOnly())
-        return m_clip->videoProducer();
+        return m_clip->videoProducer(track);
     else
         return m_clip->getProducer(trackSpecific ? track : -1);
 }

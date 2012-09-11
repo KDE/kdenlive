@@ -123,7 +123,7 @@ Q_OBJECT public:
     /** Get a copy of the producer, for use in the clip monitor */
     Mlt::Producer *getCloneProducer();
     /** Retrieve the producer that shows only video */
-    Mlt::Producer *videoProducer();
+    Mlt::Producer *videoProducer(int track);
     /** Retrieve the producer that shows only audio */
     Mlt::Producer *audioProducer(int track);
 
@@ -211,9 +211,9 @@ private:   // Private attributes
      * that exist. */
     uint m_refcount;
     QList <Mlt::Producer *> m_baseTrackProducers;
+    QList <Mlt::Producer *> m_videoTrackProducers;
     QList <Mlt::Producer *> m_audioTrackProducers;
     QList <Mlt::Producer *> m_toDeleteProducers;
-    Mlt::Producer *m_videoOnlyProducer;
     CLIPTYPE m_clipType;
 
     /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */

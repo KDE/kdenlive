@@ -45,7 +45,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_refcount(0),
         m_baseTrackProducers(),
         m_audioTrackProducers(),
-        m_videoOnlyProducer(NULL),
+        m_videoTrackProducers(),
         m_snapMarkers(QList < CommentedTime >()),
         m_duration(),
         m_thumbProd(NULL),
@@ -106,8 +106,8 @@ DocClipBase::~DocClipBase()
     m_baseTrackProducers.clear();
     qDeleteAll(m_audioTrackProducers);
     m_audioTrackProducers.clear();
-    delete m_videoOnlyProducer;
-    m_videoOnlyProducer = NULL;
+    qDeleteAll(m_videoTrackProducers);
+    m_videoTrackProducers.clear();
 }
 
 void DocClipBase::setZone(QPoint zone)
@@ -405,24 +405,26 @@ void DocClipBase::deleteProducers()
 {
     if (m_thumbProd) m_thumbProd->clearProducer();
     
-    if (numReferences() > 0 && (!m_baseTrackProducers.isEmpty() || m_videoOnlyProducer || !m_audioTrackProducers.isEmpty())) {
+    if (numReferences() > 0 && (!m_baseTrackProducers.isEmpty() || !m_videoTrackProducers.isEmpty() || !m_audioTrackProducers.isEmpty())) {
         // Clip is used in timeline, delay producers deletion
-        if (m_videoOnlyProducer) m_toDeleteProducers.append(m_videoOnlyProducer);
         for (int i = 0; i < m_baseTrackProducers.count(); i++) {
             m_toDeleteProducers.append(m_baseTrackProducers.at(i));
+        }
+        for (int i = 0; i < m_videoTrackProducers.count(); i++) {
+            m_toDeleteProducers.append(m_videoTrackProducers.at(i));
         }
         for (int i = 0; i < m_audioTrackProducers.count(); i++) {
             m_toDeleteProducers.append(m_audioTrackProducers.at(i));
         }
     }
     else {
-        delete m_videoOnlyProducer;
         qDeleteAll(m_baseTrackProducers);
+	qDeleteAll(m_videoTrackProducers);
         qDeleteAll(m_audioTrackProducers);
         m_replaceMutex.unlock();
     }
-    m_videoOnlyProducer = NULL;
     m_baseTrackProducers.clear();
+    m_videoTrackProducers.clear();
     m_audioTrackProducers.clear();
 }
 
@@ -501,8 +503,14 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             else delete producer;
             return;
         } else if (id.endsWith("video")) {
-            if (m_videoOnlyProducer == NULL) {
-                m_videoOnlyProducer = producer;
+	    int pos = id.section('_', 0, 0).toInt();
+            if (pos >= m_videoTrackProducers.count()) {
+                while (m_videoTrackProducers.count() - 1 < pos) {
+                    m_videoTrackProducers.append(NULL);
+                }
+            }
+            if (m_videoTrackProducers.at(pos) == NULL) {
+                m_videoTrackProducers[pos] = producer;
                 updated = true;
             }
             else delete producer;
@@ -598,18 +606,33 @@ void DocClipBase::adjustProducerProperties(Mlt::Producer *prod, const QString &i
 
 }
 
-Mlt::Producer *DocClipBase::videoProducer()
+Mlt::Producer *DocClipBase::videoProducer(int track)
 {
     QMutexLocker locker(&m_producerMutex);
-    if (m_videoOnlyProducer == NULL) {
-        int i;
-        for (i = 0; i < m_baseTrackProducers.count(); i++)
-            if (m_baseTrackProducers.at(i) != NULL) break;
-        if (i >= m_baseTrackProducers.count()) return NULL;
-        m_videoOnlyProducer = cloneProducer(m_baseTrackProducers.at(i));
-        adjustProducerProperties(m_videoOnlyProducer, QString(getId() + "_video"), true, false);
+    if (m_videoTrackProducers.count() <= track) {
+        while (m_videoTrackProducers.count() - 1 < track) {
+            m_videoTrackProducers.append(NULL);
+        }
     }
-    return m_videoOnlyProducer;
+    if (m_videoTrackProducers.at(track) == NULL) {
+        int i;
+        for (i = 0; i < m_videoTrackProducers.count(); i++)
+            if (m_videoTrackProducers.at(i) != NULL) break;
+        Mlt::Producer *base;
+        if (i >= m_videoTrackProducers.count()) {
+            // Could not find a valid producer for that clip
+            locker.unlock();
+            base = getProducer();
+            if (base == NULL) {
+                return NULL;
+            }
+            locker.relock();
+        }
+        else base = m_videoTrackProducers.at(i);
+        m_videoTrackProducers[track] = cloneProducer(base);
+        adjustProducerProperties(m_videoTrackProducers.at(track), QString(getId() + '_' + QString::number(track) + "_video"), true, false);
+    }
+    return m_videoTrackProducers.at(track);
 }
 
 Mlt::Producer *DocClipBase::getCloneProducer()
