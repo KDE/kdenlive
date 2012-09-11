@@ -503,7 +503,9 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             else delete producer;
             return;
         } else if (id.endsWith("video")) {
-	    int pos = id.section('_', 0, 0).toInt();
+	    int pos = 0;
+	    // Keep compatibility with older projects where video only producers were not track specific
+	    if (id.contains('_')) pos = id.section('_', 0, 0).toInt();
             if (pos >= m_videoTrackProducers.count()) {
                 while (m_videoTrackProducers.count() - 1 < pos) {
                     m_videoTrackProducers.append(NULL);
