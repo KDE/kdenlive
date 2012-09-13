@@ -3440,6 +3440,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             track = -1;
         } else track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
         GenTime timeOffset = GenTime((int)(m_selectionGroup->scenePos().x()), m_document->fps()) - m_selectionGroupInfo.startPos;
+	QList <AbstractGroupItem*> groups;
 
         if (timeOffset != GenTime()) {
             QList<QGraphicsItem *> items = m_selectionGroup->childItems();
@@ -3457,8 +3458,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
 
             for (int i = 0; i < items.count(); i++) {
-                if (items.at(i)->type() == GROUPWIDGET)
-                    items += items.at(i)->childItems();
+                if (items.at(i)->type() == GROUPWIDGET) {
+		    AbstractGroupItem* group = (AbstractGroupItem*)items.at(i);
+		    if (!groups.contains(group)) groups.append(group);
+		    items += items.at(i)->childItems();
+		}
             }
 
             for (int i = 0; i < items.count(); i++) {
@@ -3488,7 +3492,13 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 setDocumentModified();
             }
         }
-        resetSelectionGroup(false);
+        for (int i = 0; i < groups.count(); i++)
+	    rebuildGroup(groups.at(i));
+
+	resetSelectionGroup();
+	
+        clearSelection();
+	
         m_operationMode = NONE;
     } else if (m_operationMode == RUBBERSELECTION) {
         resetSelectionGroup();
@@ -3662,7 +3672,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             else
                 group = static_cast <QGraphicsItemGroup *>(m_dragItem->parentItem());
             QList<QGraphicsItem *> items = group->childItems();
-
             QList<ItemInfo> clipsToMove;
             QList<ItemInfo> transitionsToMove;
 
@@ -3746,13 +3755,19 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
                     m_selectionGroupInfo.track = m_selectionGroup->track();
 
+		    QList <AbstractGroupItem*> groupList;
                     for (int i = 0; i < items.count(); ++i) {
                         if (items.at(i)->type() == GROUPWIDGET) {
-                            rebuildGroup((AbstractGroupItem*)items.at(i));
+			    AbstractGroupItem* group = (AbstractGroupItem*)items.at(i);
+			    if (!groupList.contains(group)) groupList.append(group);
                             items.removeAt(i);
                             --i;
                         }
                     }
+                    for (int i = 0; i < groupList.count(); ++i) {
+			rebuildGroup(groupList.at(i));
+		    }
+                    
                     for (int i = 0; i < items.count(); ++i) {
                         if (items.at(i)) {
                             items.at(i)->setSelected(true);
@@ -4597,6 +4612,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
         //m_selectionGroup->moveBy(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
 
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+	QList <AbstractGroupItem*> groupList;
         // Expand groups
         int max = children.count();
         for (int i = 0; i < max; i++) {
@@ -4606,6 +4622,8 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 //grp->moveBy(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
                 /*m_document->clipManager()->removeGroup(grp);
                 m_scene->destroyItemGroup(grp);*/
+		AbstractGroupItem *group = (AbstractGroupItem*) children.at(i);
+		if (!groupList.contains(group)) groupList.append(group);
                 children.removeAll(children.at(i));
                 i--;
             }
@@ -4647,11 +4665,9 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
         }
 
         resetSelectionGroup(false);
+	for (int i = 0; i < groupList.count(); i++)
+	    rebuildGroup(groupList.at(i));
 
-        for (int i = 0; i < children.count(); i++) {
-            if (children.at(i)->parentItem())
-                rebuildGroup((AbstractGroupItem*)children.at(i)->parentItem());
-        }
         clearSelection();
 
         KdenliveSettings::setSnaptopoints(snap);
@@ -5870,12 +5886,10 @@ void CustomTrackView::setInPoint()
 	QUndoCommand *resizeCommand = new QUndoCommand();
         resizeCommand->setText(i18n("Resize group"));
         QList <QGraphicsItem *> items = parent->childItems();
-        int itemcount = 0;
         for (int i = 0; i < items.count(); ++i) {
 	    AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
             if (item && item->type() == AVWIDGET) {
                 prepareResizeClipStart(item, item->info(), m_cursorPos, true, resizeCommand);
-                ++itemcount;
             }
         }
         if (resizeCommand->childCount() > 0) m_commandStack->push(resizeCommand);
@@ -5904,12 +5918,10 @@ void CustomTrackView::setOutPoint()
 	QUndoCommand *resizeCommand = new QUndoCommand();
         resizeCommand->setText(i18n("Resize group"));
         QList <QGraphicsItem *> items = parent->childItems();
-        int itemcount = 0;
         for (int i = 0; i < items.count(); ++i) {
 	    AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
             if (item && item->type() == AVWIDGET) {
                 prepareResizeClipEnd(item, item->info(), m_cursorPos, true, resizeCommand);
-                ++itemcount;
             }
         }
         if (resizeCommand->childCount() > 0) m_commandStack->push(resizeCommand);
