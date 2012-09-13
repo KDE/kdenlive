@@ -3348,7 +3348,7 @@ void CustomTrackView::deleteClip(const QString &clipId)
 
 void CustomTrackView::seekCursorPos(int pos)
 {
-    m_document->renderer()->seek(pos);
+    m_document->renderer()->seek(qMax(pos, 0));
     emit updateRuler();
 }
 
