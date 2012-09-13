@@ -271,10 +271,18 @@ int CustomRuler::offset() const
 
 void CustomRuler::slotCursorMoved(int oldpos, int newpos)
 {
-    if (qAbs(oldpos - newpos) * m_factor > m_textSpacing) {
-        update(oldpos * m_factor - offset() - 6, BIG_MARK_X, 14, MAX_HEIGHT - BIG_MARK_X);
-        update(newpos * m_factor - offset() - 6, BIG_MARK_X, 14, MAX_HEIGHT - BIG_MARK_X);
-    } else update(qMin(oldpos, newpos) * m_factor - offset() - 6, BIG_MARK_X, qAbs(oldpos - newpos) * m_factor + 14, MAX_HEIGHT - BIG_MARK_X);
+    int min = qMin(oldpos, newpos);
+    int max = qMax(oldpos, newpos);
+    if (m_lastSeekPosition != SEEK_INACTIVE) {
+	if (m_lastSeekPosition == newpos) {
+	    m_lastSeekPosition = SEEK_INACTIVE;
+	}
+	else {
+	    min = qMin(min, m_lastSeekPosition);
+	    max = qMax(max, m_lastSeekPosition);
+	}
+    }
+    update(min * m_factor - offset() - 6, BIG_MARK_X, (max - min) * m_factor + 14, MAX_HEIGHT - BIG_MARK_X);
 }
 
 void CustomRuler::updateRuler()
