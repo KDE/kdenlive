@@ -1026,8 +1026,8 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     }
     QRectF rect = sceneBoundingRect();
     int addtransitionOffset = 10;
-    // Don't allow add transition if track height is very small
-    if (rect.height() < 30) addtransitionOffset = 0;
+    // Don't allow add transition if track height is very small. No transitions for audio only clips
+    if (rect.height() < 30 || isAudioOnly() || m_clipType == AUDIO) addtransitionOffset = 0;
 
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
         return FADEIN;
