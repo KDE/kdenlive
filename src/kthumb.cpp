@@ -205,7 +205,9 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
     int ow = frameWidth;
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
-
+    frame->set("rescale.interp", "nearest");
+    frame->set("deinterlace_method", "onefield");
+    frame->set("progressive", "1");
     const uchar* imagedata = frame->get_image(format, ow, oh);
     QImage image(ow, oh, QImage::Format_ARGB32_Premultiplied);
     memcpy(image.bits(), imagedata, ow * oh * 4);//.byteCount());
