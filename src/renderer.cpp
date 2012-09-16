@@ -534,26 +534,25 @@ void Render::slotSplitView(bool doit)
                 transition->set("b_track", i);
                 transition->set("distort", 1);
                 transition->set("internal_added", "200");
-                const char *tmp;
+                QString geometry;
                 switch (screen) {
                 case 0:
-                    tmp = "0,0:50%x50%";
+                    geometry = "0/0:50%x50%";
                     break;
                 case 1:
-                    tmp = "50%,0:50%x50%";
+                    geometry = "50%/0:50%x50%";
                     break;
                 case 2:
-                    tmp = "0,50%:50%x50%";
+                    geometry = "0/50%:50%x50%";
                     break;
                 case 3:
                 default:
-                    tmp = "50%,50%:50%x50%";
+                    geometry = "50%/50%:50%x50%";
                     break;
                 }
-                transition->set("geometry", tmp);
+                transition->set("geometry", geometry.toUtf8().constData());
                 transition->set("always_active", "1");
                 field->plant_transition(*transition, 0, i);
-                //delete[] tmp;
                 screen++;
             }
         }
