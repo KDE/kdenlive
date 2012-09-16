@@ -863,41 +863,53 @@ void Render::processFileProperties()
             }
         }
 
-        // Get frame rate
-        int vindex = producer->get_int("video_index");
-
-	// List streams
-	int streams = producer->get_int("meta.media.nb_streams");
-	QList <int> audio_list;
-	QList <int> video_list;
-	for (int i = 0; i < streams; i++) {
-	    QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
-	    QString type = producer->get(propertyName.data());
-	    if (type == "audio") audio_list.append(i);
-	    else if (type == "video") video_list.append(i);
-	}
-
-	if (!info.xml.hasAttribute("video_index") && video_list.count() > 1) {
-	    // Clip has more than one video stream, ask which one should be used
-	    QMap <QString, QString> data;
-	    if (info.xml.hasAttribute("group")) data.insert("group", info.xml.attribute("group"));
-	    if (info.xml.hasAttribute("groupId")) data.insert("groupId", info.xml.attribute("groupId"));
-	    emit multiStreamFound(path, audio_list, video_list, data);
-	    // Force video index so that when reloading the clip we don't ask again for other streams
-	    filePropertyMap["video_index"] = QString::number(vindex);
-	}
+	int vindex = -1;
+	const QString mltService = producer->get("mlt_service");
 	
-        if (vindex > -1) {
-            snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
-            if (producer->get(property))
-                filePropertyMap["fps"] = producer->get(property);
-        }
+	if (mltService == "xml" || mltService == "consumer") {
+	    // MLT playlist
+	    mlt_profile prof = producer->get_profile();
+	    filePropertyMap["progressive"] = QString::number(prof->progressive);
+	    filePropertyMap["colorspace"] = QString::number(prof->colorspace);
+	    filePropertyMap["fps"] = QString::number(mlt_profile_fps(prof));
+	}
+	else if (mltService == "avformat") {
+	    // Get frame rate
+	    vindex = producer->get_int("video_index");
 
-        if (!filePropertyMap.contains("fps")) {
-            if (producer->get_double("meta.media.frame_rate_den") > 0) {
-                filePropertyMap["fps"] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
-            } else filePropertyMap["fps"] = producer->get("source_fps");
-        }
+	    // List streams
+	    int streams = producer->get_int("meta.media.nb_streams");
+	    QList <int> audio_list;
+	    QList <int> video_list;
+	    for (int i = 0; i < streams; i++) {
+		QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
+		QString type = producer->get(propertyName.data());
+		if (type == "audio") audio_list.append(i);
+		else if (type == "video") video_list.append(i);
+	    }
+
+	    if (!info.xml.hasAttribute("video_index") && video_list.count() > 1) {
+		// Clip has more than one video stream, ask which one should be used
+		QMap <QString, QString> data;
+		if (info.xml.hasAttribute("group")) data.insert("group", info.xml.attribute("group"));
+		if (info.xml.hasAttribute("groupId")) data.insert("groupId", info.xml.attribute("groupId"));
+		emit multiStreamFound(path, audio_list, video_list, data);
+		// Force video index so that when reloading the clip we don't ask again for other streams
+		filePropertyMap["video_index"] = QString::number(vindex);
+	    }
+	
+	    if (vindex > -1) {
+		snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
+		if (producer->get(property))
+		    filePropertyMap["fps"] = producer->get(property);
+	    }
+
+	    if (!filePropertyMap.contains("fps")) {
+		if (producer->get_double("meta.media.frame_rate_den") > 0) {
+		    filePropertyMap["fps"] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
+		} else filePropertyMap["fps"] = producer->get("source_fps");
+	    }
+	}
 
         Mlt::Frame *frame = producer->get_frame();
         if (frame && frame->is_valid()) {
@@ -941,61 +953,63 @@ void Render::processFileProperties()
         // Retrieve audio / video codec name
         // If there is a
 
-        if (vindex > -1) {
-            /*if (context->duration == AV_NOPTS_VALUE) {
-            kDebug() << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
-                emit removeInvalidClip(clipId);
-            delete producer;
-            return;
-            }*/
-            // Get the video_index
-            int video_max = 0;
-            int default_audio = producer->get_int("audio_index");
-            int audio_max = 0;
+        if (mltService == "avformat") {
+	    if (vindex > -1) {
+		/*if (context->duration == AV_NOPTS_VALUE) {
+		kDebug() << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
+		    emit removeInvalidClip(clipId);
+		delete producer;
+		return;
+		}*/
+		// Get the video_index
+		int video_max = 0;
+		int default_audio = producer->get_int("audio_index");
+		int audio_max = 0;
 
-            int scan = producer->get_int("meta.media.progressive");
-            filePropertyMap["progressive"] = QString::number(scan);
+		int scan = producer->get_int("meta.media.progressive");
+		filePropertyMap["progressive"] = QString::number(scan);
 
-            // Find maximum stream index values
-            for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ix++) {
-                snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
-                QString type = producer->get(property);
-                if (type == "video")
-                    video_max = ix;
-                else if (type == "audio")
-                    audio_max = ix;
-            }
-            filePropertyMap["default_video"] = QString::number(vindex);
-            filePropertyMap["video_max"] = QString::number(video_max);
-            filePropertyMap["default_audio"] = QString::number(default_audio);
-            filePropertyMap["audio_max"] = QString::number(audio_max);
+		// Find maximum stream index values
+		for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ix++) {
+		    snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
+		    QString type = producer->get(property);
+		    if (type == "video")
+			video_max = ix;
+		    else if (type == "audio")
+			audio_max = ix;
+		}
+		filePropertyMap["default_video"] = QString::number(vindex);
+		filePropertyMap["video_max"] = QString::number(video_max);
+		filePropertyMap["default_audio"] = QString::number(default_audio);
+		filePropertyMap["audio_max"] = QString::number(audio_max);
 
-            snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
-            if (producer->get(property)) {
-                filePropertyMap["videocodec"] = producer->get(property);
-            } else {
-                snprintf(property, sizeof(property), "meta.media.%d.codec.name", vindex);
-                if (producer->get(property))
-                    filePropertyMap["videocodec"] = producer->get(property);
-            }
-            QString query;
-            query = QString("meta.media.%1.codec.pix_fmt").arg(vindex);
-            filePropertyMap["pix_fmt"] = producer->get(query.toUtf8().constData());
-            filePropertyMap["colorspace"] = producer->get("meta.media.colorspace");
+		snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
+		if (producer->get(property)) {
+		    filePropertyMap["videocodec"] = producer->get(property);
+		} else {
+		    snprintf(property, sizeof(property), "meta.media.%d.codec.name", vindex);
+		    if (producer->get(property))
+			filePropertyMap["videocodec"] = producer->get(property);
+		}
+		QString query;
+		query = QString("meta.media.%1.codec.pix_fmt").arg(vindex);
+		filePropertyMap["pix_fmt"] = producer->get(query.toUtf8().constData());
+		filePropertyMap["colorspace"] = producer->get("meta.media.colorspace");
 
-        } else kDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
-        if (producer->get_int("audio_index") > -1) {
-            // Get the audio_index
-            int index = producer->get_int("audio_index");
-            snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", index);
-            if (producer->get(property)) {
-                filePropertyMap["audiocodec"] = producer->get(property);
-            } else {
-                snprintf(property, sizeof(property), "meta.media.%d.codec.name", index);
-                if (producer->get(property))
-                    filePropertyMap["audiocodec"] = producer->get(property);
-            }
-        }
+	    } else kDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
+	    if (producer->get_int("audio_index") > -1) {
+		// Get the audio_index
+		int index = producer->get_int("audio_index");
+		snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", index);
+		if (producer->get(property)) {
+		    filePropertyMap["audiocodec"] = producer->get(property);
+		} else {
+		    snprintf(property, sizeof(property), "meta.media.%d.codec.name", index);
+		    if (producer->get(property))
+			filePropertyMap["audiocodec"] = producer->get(property);
+		}
+	    }
+	}
 
         // metadata
         Mlt::Properties metadata;
@@ -1626,7 +1640,8 @@ double Render::playSpeed() const
 
 GenTime Render::seekPosition() const
 {
-    if (m_mltProducer) return GenTime((int) m_mltProducer->position(), m_fps);
+    if (m_mltConsumer) return GenTime((int) m_mltConsumer->position(), m_fps);
+    //if (m_mltProducer) return GenTime((int) m_mltProducer->position(), m_fps);
     else return GenTime();
 }
 
