@@ -390,6 +390,7 @@ void CustomTrackView::slotCheckPositionScrolling()
     // If mouse is at a border of the view, scroll
     if (m_moveOpMode != SEEK) return;
     if (mapFromScene(m_cursorPos, 0).x() < 3) {
+	if (horizontalScrollBar()->value() == 0) return;
         horizontalScrollBar()->setValue(horizontalScrollBar()->value() - 2);
         QTimer::singleShot(200, this, SLOT(slotCheckPositionScrolling()));
         seekCursorPos(mapToScene(QPoint(-2, 0)).x());
