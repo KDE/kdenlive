@@ -221,7 +221,7 @@ public slots:
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
-    void slotAddClipFile(const KUrl &url, stringMap data = QMap <QString, QString>());
+    void slotAddClipFile(const KUrl &url, stringMap data);
 
 private slots:
     void slotAutoSave();

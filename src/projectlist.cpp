@@ -2111,12 +2111,12 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
         int dwidth = (int)(height  * m_render->dar() + 0.5);
         if (clip->clipType() == AUDIO)
             pix = KIcon("audio-x-generic").pixmap(QSize(dwidth, height));
-        else if (clip->clipType() == IMAGE)
+        else if (clip->clipType() == IMAGE) {
             img = KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height);
+	}
         else {
             img = item->referencedClip()->extractImage(frame, dwidth, height);
         }
-
         if (!pix.isNull() || !img.isNull()) {
             monitorItemEditing(false);
             if (!img.isNull()) {

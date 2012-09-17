@@ -262,7 +262,7 @@ void ResourceWidget::slotGotFile(KJob *job)
         //res.setProperty( Soprano::Vocabulary::NAO::description(), 
 #endif
 #endif
-        emit addClip(filePath);
+        emit addClip(filePath, QMap <QString, QString>());
 }
 
 void ResourceWidget::slotOpenUrl(const QString &url)

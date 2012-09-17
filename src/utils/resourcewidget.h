@@ -84,7 +84,7 @@ private:
     void updateLayout();
    
 signals:
-    void addClip(KUrl, QMap <QString, QString> data = QMap <QString, QString>());
+    void addClip(KUrl, QMap <QString, QString> data);
 };
 
 
