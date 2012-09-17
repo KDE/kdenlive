@@ -193,15 +193,23 @@ void Render::buildConsumer(const QString &profileName)
     delete m_blackClip;
     m_blackClip = NULL;
 
-    //TODO: uncomment following line when everything is clean
-    // uncommented Feb 2011 --Granjow
-    if (m_mltProfile) delete m_mltProfile;
     m_activeProfile = profileName;
-    char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
-    setenv("MLT_PROFILE", tmp, 1);
-    m_mltProfile = new Mlt::Profile(tmp);
+    if (m_mltProfile) {
+	Mlt::Profile tmpProfile(m_activeProfile.toUtf8().constData());
+	m_mltProfile->set_colorspace(tmpProfile.colorspace());
+	m_mltProfile->set_frame_rate(tmpProfile.frame_rate_num(), tmpProfile.frame_rate_den());
+	m_mltProfile->set_height(tmpProfile.height());
+	m_mltProfile->set_width(tmpProfile.width());
+	m_mltProfile->set_progressive(tmpProfile.progressive());
+	m_mltProfile->set_sample_aspect(tmpProfile.sample_aspect_num(), tmpProfile.sample_aspect_den());
+	m_mltProfile->get_profile()->display_aspect_num = tmpProfile.display_aspect_num();
+	m_mltProfile->get_profile()->display_aspect_den = tmpProfile.display_aspect_den();
+    }
+    else {
+	m_mltProfile = new Mlt::Profile(m_activeProfile.toUtf8().constData());
+    }
+    setenv("MLT_PROFILE", m_activeProfile.toUtf8().constData(), 1);
     m_mltProfile->set_explicit(true);
-    delete[] tmp;
 
     m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");
     m_blackClip->set("id", "black");
@@ -215,16 +223,16 @@ void Render::buildConsumer(const QString &profileName)
         if (device >= 0) {
             if (BMInterface::isSupportedProfile(device, profileProperties)) {
                 QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
-                tmp = qstrdup(decklink.toUtf8().constData());
-                m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
-                delete[] tmp;
+                if (!m_mltConsumer) {
+		    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
+		    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+		    mlt_log_set_callback(kdenlive_callback);
+		}
                 if (m_mltConsumer->is_valid()) {
                     m_externalConsumer = true;
-                    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
                     m_mltConsumer->set("terminate_on_pause", 0);
                     m_mltConsumer->set("deinterlace_method", "onefield");
                     m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
-                    mlt_log_set_callback(kdenlive_callback);
                 }
                 if (m_mltConsumer && m_mltConsumer->is_valid()) return;
             } else KMessageBox::informationList(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()), BMInterface::supportedModes(KdenliveSettings::blackmagic_output_device()));
@@ -246,15 +254,19 @@ void Render::buildConsumer(const QString &profileName)
     //m_mltConsumer->set("fullscreen", 1);
     if (m_winid == 0) {
         // OpenGL monitor
-        m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
+        if (!m_mltConsumer) {
+	    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
+	    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
+	}
         m_mltConsumer->set("preview_off", 1);
         m_mltConsumer->set("preview_format", mlt_image_rgb24a);
-        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
     } else {
-        m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
-        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-        m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
-        m_mltConsumer->set("window_id", m_winid);
+        if (!m_mltConsumer) {
+	    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
+	  m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+	  m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
+	}
+	m_mltConsumer->set("window_id", m_winid);
     }
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("terminate_on_pause", 1);
@@ -328,12 +340,6 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
         if (m_isSplitView) slotSplitView(false);
         if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         m_mltConsumer->purge();
-        if (m_showFrameEvent) delete m_showFrameEvent;
-        m_showFrameEvent = NULL;
-        if (m_pauseEvent) delete m_pauseEvent;
-        m_pauseEvent = NULL;
-        delete m_mltConsumer;
-        m_mltConsumer = NULL;
     }
     QString scene;
     if (!dropSceneList) scene = sceneList();
