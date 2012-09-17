@@ -532,7 +532,6 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     int items = 0;
     
     // We parse all files going into one folder, then start the copy job
-    
     for (int i = 0; i < files_list->topLevelItemCount(); i++) {
         parentItem = files_list->topLevelItem(i);
         if (parentItem->isDisabled()) {
@@ -590,7 +589,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
 
     if (items == 0) {
 	// No clips to archive
-	if (isArchive) slotArchivingFinished(NULL, true);
+	slotArchivingFinished(NULL, true);
 	return true;
     }
     
@@ -914,7 +913,7 @@ void ArchiveWidget::slotExtractingFinished()
         error = true;
     }
     else {
-        QString playList = file.readAll();
+        QString playList = QString::fromUtf8(file.readAll());
         file.close();
         if (playList.isEmpty()) {
             error = true;
