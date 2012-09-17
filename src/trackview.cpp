@@ -470,7 +470,7 @@ void TrackView::setCursorPos(int pos)
 
 void TrackView::moveCursorPos(int pos)
 {
-    m_trackview->setCursorPos(pos, false);
+    m_trackview->setCursorPos(pos);
 }
 
 void TrackView::slotChangeZoom(int horizontal, int vertical)

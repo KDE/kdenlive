@@ -256,7 +256,6 @@ void ResourceWidget::slotGotFile(KJob *job)
         res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
         res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
         res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
-        res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
         res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
         //res.setDescription(item_description->toPlainText());
         //res.setProperty( Soprano::Vocabulary::NAO::description(), 

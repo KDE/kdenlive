@@ -3359,7 +3359,7 @@ int CustomTrackView::seekPosition() const
 }
 
 
-void CustomTrackView::setCursorPos(int pos, bool seek)
+void CustomTrackView::setCursorPos(int pos)
 {
     if (pos != m_cursorPos) {
 	emit cursorMoved((int)(m_cursorPos), (int)(pos));
