@@ -4511,7 +4511,22 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist)
 }
 
 void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data)
-{
+{ 
+    if (KdenliveSettings::automultistreams()) {
+	for (int i = 1; i < video_list.count(); i++) {
+	    int vindex = video_list.at(i);
+	    int aindex = 0;
+	    if (i <= audio_list.count() -1) {
+		aindex = audio_list.at(i);
+	    }
+	    data.insert("video_index", QString::number(vindex));
+	    data.insert("audio_index", QString::number(aindex));
+	    data.insert("bypassDuplicate", "1");
+	    emit addClip(KUrl(path), data);
+	}
+	return;
+    }
+    
     int width = 60.0 * m_mltProfile->dar();
     int swidth = 60.0 * m_mltProfile->width() / m_mltProfile->height();
     if (width % 2 == 1) width++;
@@ -4531,13 +4546,12 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
     for (int j = 1; j < video_list.count(); j++) {
 	Mlt::Producer multiprod(* m_mltProfile, path.toUtf8().constData());
 	multiprod.set("video_index", video_list.at(j));
-	kDebug()<<"// LOADING: "<<j<<" = "<<video_list.at(j);
 	QImage thumb = KThumb::getFrame(&multiprod, 0, swidth, width, 60);
 	QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", video_list.at(j)), content);
 	streamFrame->setProperty("vindex", video_list.at(j));
 	groupList << streamFrame;
 	streamFrame->setCheckable(true);
-	streamFrame->setChecked(false);
+	streamFrame->setChecked(true);
 	QVBoxLayout *vh = new QVBoxLayout( streamFrame );
 	QLabel *iconLabel = new QLabel(content);
 	iconLabel->setPixmap(QPixmap::fromImage(thumb));
@@ -4548,7 +4562,7 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
 		cb->addItem(i18n("Audio stream %1", audio_list.at(k)), audio_list.at(k));
 	    }
 	    comboList << cb;
-	    cb->setCurrentIndex(j);
+	    cb->setCurrentIndex(qMin(j, audio_list.count() - 1));
 	    vh->addWidget(cb);
 	}
 	vbox->addWidget(streamFrame);

@@ -60,7 +60,7 @@ bool DocumentValidator::validate(const double currentVersion)
     
     QString rootDir = mlt.attribute("root");
     if (rootDir == "$CURRENTPATH") {
-        // The document was extracted from a Kdenlive archived project, fix root directory$
+        // The document was extracted from a Kdenlive archived project, fix root directory
         QString playlist = m_doc.toString();
         playlist.replace("$CURRENTPATH", m_url.directory(KUrl::IgnoreTrailingSlash));
         m_doc.setContent(playlist);
