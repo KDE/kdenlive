@@ -3102,7 +3102,7 @@ void MainWindow::slotEditItemDuration()
         m_activeTimeline->projectView()->editItemDuration();
 }
 
-void MainWindow::slotAddProjectClip(KUrl url, QMap <QString, QString> data)
+void MainWindow::slotAddProjectClip(KUrl url, stringMap data)
 {
     if (m_activeDocument) {
         m_activeDocument->slotAddClipFile(url, data);
@@ -4497,7 +4497,7 @@ void MainWindow::slotDownloadResources()
     if (m_activeDocument) currentFolder = m_activeDocument->projectFolder().path();
     else currentFolder = KdenliveSettings::defaultprojectfolder();
     ResourceWidget *d = new ResourceWidget(currentFolder);
-    connect(d, SIGNAL(addClip(KUrl, QMap <QString, QString>)), this, SLOT(slotAddProjectClip(KUrl, QMap <QString, QString>)));
+    connect(d, SIGNAL(addClip(KUrl,stringMap)), this, SLOT(slotAddProjectClip(KUrl,stringMap)));
     d->show();
 }
 

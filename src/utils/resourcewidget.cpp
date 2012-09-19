@@ -261,7 +261,7 @@ void ResourceWidget::slotGotFile(KJob *job)
         //res.setProperty( Soprano::Vocabulary::NAO::description(), 
 #endif
 #endif
-        emit addClip(filePath, QMap <QString, QString>());
+        emit addClip(filePath, stringMap());
 }
 
 void ResourceWidget::slotOpenUrl(const QString &url)
@@ -288,7 +288,7 @@ void ResourceWidget::slotChangeService()
 
     connect(m_currentService, SIGNAL(gotMetaInfo(const QString)), this, SLOT(slotSetMetadata(const QString)));
     connect(m_currentService, SIGNAL(gotMetaInfo(QMap <QString, QString>)), this, SLOT(slotDisplayMetaInfo(QMap <QString, QString>)));
-    connect(m_currentService, SIGNAL(maxPages(int)), page_number, SLOT(setMaximum(int)));
+    connect(m_currentService, SIGNAL(maxPages(int)), this, SLOT(slotSetMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
     connect(m_currentService, SIGNAL(gotThumb(const QString)), this, SLOT(slotLoadThumb(const QString)));
 #if KDE_IS_VERSION(4,4,0)
@@ -299,6 +299,11 @@ void ResourceWidget::slotChangeService()
     button_import->setVisible(!m_currentService->inlineDownload);
     search_info->setText(QString());
     if (!search_text->text().isEmpty()) slotStartSearch();
+}
+
+void ResourceWidget::slotSetMaximum(int max)
+{
+    page_number->setMaximum(max);
 }
 
 void ResourceWidget::slotOnline()
