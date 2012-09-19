@@ -501,7 +501,7 @@ void EffectStackView2::slotCheckAll(int state)
     // Disable all effects
     QList <int> indexes;
     for (int i = 0; i < m_effects.count(); i++) {
-        m_effects.at(i)->slotEnable(disabled, false);
+        m_effects.at(i)->slotDisable(disabled, false);
         indexes << m_effects.at(i)->effectIndex();
     }
     // Take care of groups

@@ -76,7 +76,7 @@ public:
 
 public slots:
     void slotSyncEffectsPos(int pos);
-    void slotEnable(bool enable, bool emitInfo = true);
+    void slotDisable(bool disable, bool emitInfo = true);
     void slotResetEffect();
 
 private slots:
@@ -91,6 +91,8 @@ private slots:
     void slotUnGroup();
     /** @brief A sub effect parameter was changed */
     void slotUpdateRegionEffectParams(const QDomElement /*old*/, const QDomElement /*e*/, int /*ix*/);
+    /** @brief Dis/enable effect before processing an operation (color picker) */
+    void slotDisableEffect(bool disable);
 
 private:
     ParameterContainer *m_paramWidget;

@@ -274,6 +274,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             m_valueItems[paramName] = choosecolor;
             connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
             connect(choosecolor, SIGNAL(modified()) , this, SLOT(slotCollectAllParameters()));
+	    connect(choosecolor, SIGNAL(disableCurrentFilter(bool)) , this, SIGNAL(disableCurrentFilter(bool)));
         } else if (type == "position") {
             int pos = value.toInt();
             if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fade_from_black") {

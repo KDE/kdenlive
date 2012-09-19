@@ -4109,6 +4109,7 @@ const QList <Mlt::Producer *> Render::producersList()
         Mlt::Producer trackProducer(tt);
         delete tt;
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+	if (!trackPlaylist.is_valid()) continue;
         int clipNb = trackPlaylist.count();
         for (int i = 0; i < clipNb; i++) {
             Mlt::Producer *c = trackPlaylist.get_clip(i);
@@ -4141,6 +4142,7 @@ void Render::fillSlowMotionProducers()
         Mlt::Producer trackProducer(tt);
         delete tt;
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+	if (!trackPlaylist.is_valid()) continue;
         int clipNb = trackPlaylist.count();
         for (int i = 0; i < clipNb; i++) {
             Mlt::Producer *c = trackPlaylist.get_clip(i);

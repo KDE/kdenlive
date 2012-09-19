@@ -120,7 +120,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     }
 
     connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
-    connect(enabledButton, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
+    connect(enabledButton, SIGNAL(toggled(bool)), this, SLOT(slotDisable(bool)));
     connect(buttonUp, SIGNAL(clicked()), this, SLOT(slotEffectUp()));
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
     connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteEffect()));
@@ -253,7 +253,7 @@ void CollapsibleEffect::mouseReleaseEvent( QMouseEvent *event )
   QWidget::mouseReleaseEvent(event);
 }
 
-void CollapsibleEffect::slotEnable(bool disable, bool emitInfo)
+void CollapsibleEffect::slotDisable(bool disable, bool emitInfo)
 {
     title->setEnabled(!disable);
     enabledButton->blockSignals(true);
@@ -440,6 +440,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
     }
     else {
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
+	connect(m_paramWidget, SIGNAL(disableCurrentFilter(bool)), this, SLOT(slotDisableEffect(bool)));
         if (m_effect.firstChildElement("parameter").isNull()) {
             // Effect has no parameter, don't allow expand
             collapseButton->setEnabled(false);
@@ -461,6 +462,17 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     
     
+}
+
+void CollapsibleEffect::slotDisableEffect(bool disable)
+{
+    title->setEnabled(!disable);
+    enabledButton->blockSignals(true);
+    enabledButton->setChecked(disable);
+    enabledButton->blockSignals(false);
+    enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
+    m_effect.setAttribute("disable", disable ? 1 : 0);
+    emit effectStateChanged(disable, effectIndex(), isActive() && needsMonitorEffectScene());
 }
 
 bool CollapsibleEffect::isGroup() const

@@ -188,6 +188,7 @@ void ColorPickerWidget::mouseMoveEvent(QMouseEvent* event)
 
 void ColorPickerWidget::slotSetupEventFilter()
 {
+    emit disableCurrentFilter(true);
     m_filterActive = true;
     setFocus();
     installEventFilter(this);
@@ -201,6 +202,7 @@ void ColorPickerWidget::closeEventFilter()
     releaseMouse();
     releaseKeyboard();
     removeEventFilter(this);
+    emit disableCurrentFilter(false);
 }
 
 bool ColorPickerWidget::eventFilter(QObject *object, QEvent *event)

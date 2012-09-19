@@ -136,7 +136,7 @@ void CollapsibleGroup::slotEnable(bool disable, bool emitInfo)
     enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
     enabledButton->blockSignals(false);
     for (int i = 0; i < m_subWidgets.count(); i++)
-	m_subWidgets.at(i)->slotEnable(disable, emitInfo);
+	m_subWidgets.at(i)->slotDisable(disable, emitInfo);
 }
 
 void CollapsibleGroup::slotDeleteGroup()

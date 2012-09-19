@@ -56,6 +56,8 @@ signals:
     /** @brief Emitted whenever a different color was choosen. */
     void modified();
     void displayMessage(const QString&, int);
+    /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
+    void disableCurrentFilter(bool);
 };
 
 #endif

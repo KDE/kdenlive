@@ -97,7 +97,7 @@ private:
 signals:
     void parameterChanged(const QDomElement, const QDomElement, int);
     void syncEffectsPos(int);
-    void effectStateChanged(bool);
+    void disableCurrentFilter(bool);
     void checkMonitorPosition(int);
     void seekTimeline(int);
     void showComments(bool);    
