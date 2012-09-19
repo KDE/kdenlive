@@ -480,7 +480,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(m_scene, SIGNAL(newRect(QGraphicsRectItem *)), this , SLOT(slotNewRect(QGraphicsRectItem *)));
     connect(m_scene, SIGNAL(newText(QGraphicsTextItem *)), this , SLOT(slotNewText(QGraphicsTextItem *)));
     connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
-
+    connect(zoom_spin, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateZoom(int)));
 
     // mbd: load saved settings
     readChoices();
@@ -860,8 +860,9 @@ void TitleWidget::initAnimation()
 
 void TitleWidget::slotUpdateZoom(int pos)
 {
+    zoom_spin->setValue(pos);
+    zoom_slider->setValue(pos);
     m_scene->setZoom((double) pos / 100);
-    zoom_label->setText(QString::number(pos) + '%');
 }
 
 void TitleWidget::slotZoom(bool up)
