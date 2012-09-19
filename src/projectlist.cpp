@@ -2852,13 +2852,16 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
     }
     params = ui.extra_params->toPlainText().simplified();
     KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
-    
+    int index = 0;
     foreach(const QString &id, ids) {
         ProjectItem *item = getItemById(id);
         if (!item || !item->referencedClip()) continue;
         QString src = item->clipUrl().path();
         QString dest;
-        if (ids.count() > 1) dest = params.section(' ', -1).replace("%1", src);
+        if (ids.count() > 1) {
+	    dest = destinations.at(index);
+	    index++;
+	}
         else dest = ui.file_url->url().path();
         QStringList jobParams;
         jobParams << dest << src << QString() << QString();

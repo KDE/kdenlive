@@ -256,7 +256,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 void ProjectItem::setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progress, const QString &statusMessage)
 {
     setData(0, JobTypeRole, jobType);
-    if (progress > 0) setData(0, JobProgressRole, progress);
+    if (progress > 0) setData(0, JobProgressRole, qMin(100, progress));
     else {
         setData(0, JobProgressRole, status);
         if ((status == JOBABORTED || status == JOBCRASHED  || status == JOBDONE) || !statusMessage.isEmpty())
