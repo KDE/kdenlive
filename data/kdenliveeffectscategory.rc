@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <data name="effects" version="0">
-  <group list="brightness,gamma,frei0r.balanc0r,frei0r.brightness,frei0r.levels,frei0r.three_point_balance,frei0r.curves,frei0r.coloradj_RGB,frei0r.sopsat,frei0r.bezier_curves">
+  <group list="brightness,gamma,frei0r.colgate,frei0r.balanc0r,frei0r.brightness,frei0r.levels,frei0r.three_point_balance,frei0r.curves,frei0r.coloradj_RGB,frei0r.sopsat,frei0r.bezier_curves">
     <text>Colour correction</text>
   </group>
   <group list="invert,sepia,tcolor,greyscale,frei0r.B,frei0r.G,frei0r.R,frei0r.contrast0r,frei0r.saturat0r,frei0r.tint0r,frei0r.primaries,frei0r.rgbparade,chroma_hold,frei0r.hueshift0r">

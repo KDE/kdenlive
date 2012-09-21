@@ -48,6 +48,7 @@ frei0r_bezier_curves.xml
 frei0r_brightness.xml
 frei0r_cartoon.xml
 frei0r_cluster.xml
+frei0r_colgate.xml
 frei0r_coloradj_rgb.xml
 frei0r_colordistance.xml
 frei0r_contrast0r.xml
