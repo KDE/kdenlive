@@ -777,12 +777,12 @@ void Render::processFileProperties()
         if (type == COLOR || type == TEXT || type == IMAGE || type == SLIDESHOW) {
             int length;
             if (info.xml.hasAttribute("length")) {
-                if (clipOut > 0) duration = clipOut + 1;
                 length = info.xml.attribute("length").toInt();
                 clipOut = length - 1;
             }
             else length = info.xml.attribute("out").toInt() - info.xml.attribute("in").toInt();
             producer->set("length", length);
+	    duration = length;
         }
 
         if (clipOut > 0) producer->set_in_and_out(info.xml.attribute("in").toInt(), clipOut);
@@ -818,7 +818,6 @@ void Render::processFileProperties()
         char property[200];
 
         if (frameNumber > 0) producer->seek(frameNumber);
-
         duration = duration > 0 ? duration : producer->get_playtime();
         filePropertyMap["duration"] = QString::number(duration);
         //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
@@ -1224,7 +1223,6 @@ int Render::setSceneList(QString playlist, int position)
 
     blockSignals(true);
     m_locale = QLocale();
-
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
