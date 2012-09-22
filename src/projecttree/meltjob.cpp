@@ -139,10 +139,12 @@ void MeltJob::startJob()
             mltFilter.set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
         }
     }
+    Mlt::Tractor tractor;
     Mlt::Playlist playlist;
     playlist.append(*prod);
+    tractor.set_track(playlist, 0);
     m_length = prod->get_length();
-    m_consumer->connect(playlist);
+    m_consumer->connect(tractor);
     prod->set_speed(0);
     prod->seek(0);
     prod->attach(mltFilter);
