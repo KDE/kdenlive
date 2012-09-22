@@ -25,10 +25,12 @@
 #include <KIntSpinBox>
 #include <KDebug>
 #include <KMessageBox>
+#include <KApplication>
 
 #include <QDialog>
 #include <QDomDocument>
 #include <QInputDialog>
+#include <QProcess>
 
 QStringList SamplePlugin::generators(const QStringList producers) const
 {
@@ -39,7 +41,7 @@ QStringList SamplePlugin::generators(const QStringList producers) const
 }
 
 
-KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int height)
+KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generator, const KUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int height)
 {
     QString prePath;
     if (generator == i18n("Noise")) {
@@ -68,53 +70,54 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
 
     QString clipFile = prePath + counter + ".mlt";
     view.path->setUrl(KUrl(clipFile));
+    KUrl result;
+    
     if (d->exec() == QDialog::Accepted) {
-        QDomDocument doc;
-        QDomElement mlt = doc.createElement("mlt");
-        QDomElement playlist = doc.createElement("playlist");
-        if (generator == i18n("Noise")) {
-            QDomElement prod = doc.createElement("producer");
-            prod.setAttribute("mlt_service", "noise");
-            prod.setAttribute("in", "0");
-            prod.setAttribute("out", QString::number((int) fps * view.duration->value()));
-            playlist.appendChild(prod);
-        } else {
-            for (int i = 0; i < view.duration->value(); i++) {
+	QProcess generatorProcess;
+
+	// Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
+#if QT_VERSION >= 0x040600
+	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	env.insert("MLT_NO_VDPAU", "1");
+	generatorProcess.setProcessEnvironment(env);
+#else
+	QStringList env = QProcess::systemEnvironment();
+	env << "MLT_NO_VDPAU=1";
+	generatorProcess.setEnvironment(env);
+#endif
+	QStringList args;
+	if (generator == i18n("Noise")) {
+	    args << "noise:" << "in=0" << QString("out=" + QString::number((int) fps * view.duration->value()));
+	}
+	else {
+	    // Countdown producer
+	    for (int i = 0; i < view.duration->value(); i++) {
                 // Create the producers
-                QDomElement prod = doc.createElement("producer");
-                prod.setAttribute("mlt_service", "pango");
-                prod.setAttribute("in", "0");
-                prod.setAttribute("out", QString::number((int) fps));
-                prod.setAttribute("text", QString::number(view.duration->value() - i));
-                //FIXME: the font and pad values are approximate, the pango producer seems unable
-                // to produce a predictable frame size.
-                prod.setAttribute("font", QString::number(view.font->value()) + "px");
-                //prod.setAttribute("pad", 50);
-                playlist.appendChild(prod);
-            }
+                args << "pango:" << "in=0" << QString("out=" + QString::number((int) fps * view.duration->value()));
+		args << QString("text=" + QString::number(view.duration->value() - i));
+		args << QString("font=" + QString::number(view.font->value()) + "px");
+	    }
+	}
+	
+	args << "-consumer"<<QString("xml:%1").arg(view.path->url().path());
+	generatorProcess.start(renderer, args);
+        if (generatorProcess.waitForFinished()) {
+	    if (generatorProcess.exitStatus() == QProcess::CrashExit) {
+                kDebug() << "/// Generator failed: ";
+		QString error = generatorProcess.readAllStandardError();
+		KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
+	    }
+	    else {
+		result = view.path->url();
+	    }
+        } else {
+	    kDebug() << "/// Generator failed: ";
+	    QString error = generatorProcess.readAllStandardError();
+	    KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
         }
-        mlt.appendChild(playlist);
-        doc.appendChild(mlt);
-        QFile file(view.path->url().path());
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            kWarning() << "//////  ERROR writing to file: " << view.path->url().path();
-            KMessageBox::error(0, i18n("Cannot write to file %1", view.path->url().path()));
-            delete d;
-            return KUrl();
-        }
-        QTextStream out(&file);
-        out << doc.toString();
-        if (file.error() != QFile::NoError) {
-            KMessageBox::error(0, i18n("Cannot write to file %1", view.path->url().path()));
-            file.close();
-            delete d;
-            return KUrl();
-        }
-        file.close();
-       delete d;
-        return view.path->url();
     }
-    return KUrl();
+    delete d;
+    return result;
 }
 
 Q_EXPORT_PLUGIN2(kdenlive_sampleplugin, SamplePlugin)

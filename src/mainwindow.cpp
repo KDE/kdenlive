@@ -812,7 +812,7 @@ void MainWindow::generateClip()
     QAction *action = qobject_cast<QAction *>(sender());
     ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(action->parent());
 
-    KUrl clipUrl = iGenerator->generatedClip(action->data().toString(), m_activeDocument->projectFolder(),
+    KUrl clipUrl = iGenerator->generatedClip(KdenliveSettings::rendererpath(), action->data().toString(), m_activeDocument->projectFolder(),
                    QStringList(), QStringList(), m_activeDocument->fps(), m_activeDocument->width(), m_activeDocument->height());
     if (!clipUrl.isEmpty()) {
         m_projectList->slotAddClip(QList <QUrl> () << clipUrl);
