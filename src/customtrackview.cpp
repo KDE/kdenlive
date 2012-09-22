@@ -73,6 +73,7 @@
 #include <KCursor>
 #include <KMessageBox>
 #include <KIO/NetAccess>
+#include <KFileDialog>
 
 #include <QMouseEvent>
 #include <QStylePainter>
@@ -5195,11 +5196,11 @@ void CustomTrackView::clipEnd()
     }
 }
 
-void CustomTrackView::slotAddClipMarker(const QString &id, GenTime t, QString c)
+void CustomTrackView::slotAddClipMarker(const QString &id, GenTime t, QString c, QUndoCommand *groupCommand)
 {
     QString oldcomment = m_document->clipManager()->getClipById(id)->markerComment(t);
-    AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, c, id, t);
-    m_commandStack->push(command);
+    AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, c, id, t, groupCommand);
+    if (!groupCommand) m_commandStack->push(command);
 }
 
 void CustomTrackView::slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position)
@@ -5224,6 +5225,85 @@ void CustomTrackView::slotDeleteAllClipMarkers(const QString &id)
         new AddMarkerCommand(this, markers.at(i).comment(), QString(), id, markers.at(i).time(), deleteMarkers);
     }
     m_commandStack->push(deleteMarkers);
+}
+
+void CustomTrackView::slotSaveClipMarkers(const QString &id)
+{
+    DocClipBase *base = m_document->clipManager()->getClipById(id);
+    QList < CommentedTime > markers = base->commentedSnapMarkers();
+    QString data;
+    for (int i = 0; i < markers.count(); i++) {
+	data.append(QString::number(markers.at(i).time().seconds()));
+	data.append("\t");
+	data.append(QString::number(markers.at(i).time().seconds()));
+	data.append("\t");
+	data.append(markers.at(i).comment());
+	data.append("\n");
+    }
+    if (!data.isEmpty()) {
+	QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
+	if (url.isEmpty()) return;
+	QFile file(url);
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+	    emit displayMessage(i18n("Cannot open file %1", url), ErrorMessage);
+	    return;
+	}
+	file.write(data.toUtf8());
+	file.close();
+    }
+}
+
+void CustomTrackView::slotLoadClipMarkers(const QString &id)
+{
+    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
+    if (url.isEmpty()) return;
+    QFile file(url.path());
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+	emit displayMessage(i18n("Cannot open file %1", url.fileName()), ErrorMessage);
+	return;
+    }
+    QString data = QString::fromUtf8(file.readAll());
+    file.close();
+    QStringList lines = data.split("\n", QString::SkipEmptyParts);
+    QStringList values;
+    bool ok;
+    QUndoCommand *command = new QUndoCommand();
+    command->setText("Load markers");
+    QString markerText;
+    foreach(QString line, lines) {
+	markerText.clear();
+	values = line.split("\t", QString::SkipEmptyParts);
+	double time1 = values.at(0).toDouble(&ok);
+	double time2 = -1;
+	if (!ok) continue;
+	if (values.count() >1) {
+	    time2 = values.at(1).toDouble(&ok);
+	    if (values.count() == 2) {
+		// Check if second value is a number or text
+		if (!ok) {
+		    time2 = -1;
+		    markerText = values.at(1);
+		}
+		else markerText = i18n("Marker");
+	    }
+	    else {
+		// We assume 3 values per line: in out name
+		if (!ok) {
+		    // 2nd value is not a number, drop
+		}
+		else {
+		    markerText = values.at(2);
+		}
+	    }
+	}
+	if (!markerText.isEmpty()) {
+	    // Marker found, add it
+	    slotAddClipMarker(id, GenTime(time1), markerText, command);
+	    if (time2 > 0 && time2 != time1) slotAddClipMarker(id, GenTime(time2), markerText, command);
+	}
+    }
+    if (command->childCount() > 0) m_commandStack->push(command);
+    else delete command;
 }
 
 void CustomTrackView::addMarker(const QString &id, const GenTime &pos, const QString &comment)

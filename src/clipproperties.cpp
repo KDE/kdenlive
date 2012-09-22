@@ -466,6 +466,10 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.marker_edit->setToolTip(i18n("Edit marker"));
     m_view.marker_delete->setIcon(KIcon("trash-empty"));
     m_view.marker_delete->setToolTip(i18n("Delete marker"));
+    m_view.marker_save->setIcon(KIcon("document-save-as"));
+    m_view.marker_save->setToolTip(i18n("Save markers"));
+    m_view.marker_load->setIcon(KIcon("document-open"));
+    m_view.marker_load->setToolTip(i18n("Load markers"));
 
         // Check for Nepomuk metadata
 #ifdef USE_NEPOMUK
@@ -492,10 +496,12 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.clip_license->setHidden(true);
 #endif
     
-    slotFillMarkersList();
+    slotFillMarkersList(m_clip);
     connect(m_view.marker_new, SIGNAL(clicked()), this, SLOT(slotAddMarker()));
     connect(m_view.marker_edit, SIGNAL(clicked()), this, SLOT(slotEditMarker()));
     connect(m_view.marker_delete, SIGNAL(clicked()), this, SLOT(slotDeleteMarker()));
+    connect(m_view.marker_save, SIGNAL(clicked()), this, SLOT(slotSaveMarkers()));
+    connect(m_view.marker_load, SIGNAL(clicked()), this, SLOT(slotLoadMarkers()));
     connect(m_view.markers_list, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotEditMarker()));
 
     connect(this, SIGNAL(accepted()), this, SLOT(slotApplyProperties()));
@@ -703,8 +709,9 @@ void ClipProperties::slotEnableLumaFile(int state)
     m_view.label_softness->setEnabled(enable);
 }
 
-void ClipProperties::slotFillMarkersList()
+void ClipProperties::slotFillMarkersList(DocClipBase *clip)
 {
+    if (m_clip != clip) return;
     m_view.markers_list->clear();
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     for (int count = 0; count < marks.count(); ++count) {
@@ -723,8 +730,17 @@ void ClipProperties::slotAddMarker()
     if (d->exec() == QDialog::Accepted) {
         emit addMarker(m_clip->getId(), d->newMarker().time(), d->newMarker().comment());
     }
-    QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
     delete d;
+}
+
+void ClipProperties::slotSaveMarkers()
+{
+    emit saveMarkers(m_clip->getId());
+}
+
+void ClipProperties::slotLoadMarkers()
+{
+    emit loadMarkers(m_clip->getId());
 }
 
 void ClipProperties::slotEditMarker()
@@ -736,7 +752,6 @@ void ClipProperties::slotEditMarker()
     if (d.exec() == QDialog::Accepted) {
         emit addMarker(m_clip->getId(), d.newMarker().time(), d.newMarker().comment());
     }
-    QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
 }
 
 void ClipProperties::slotDeleteMarker()
@@ -745,8 +760,6 @@ void ClipProperties::slotDeleteMarker()
     int pos = m_view.markers_list->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) return;
     emit addMarker(m_clip->getId(), marks.at(pos).time(), QString());
-
-    QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
 }
 
 const QString &ClipProperties::clipId() const

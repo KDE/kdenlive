@@ -3310,6 +3310,9 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
     // any type of clip but a title
     ClipProperties *dia = new ClipProperties(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
     connect(dia, SIGNAL(addMarker(const QString &, GenTime, QString)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, GenTime, QString)));
+    connect(m_activeTimeline->projectView(), SIGNAL(updateClipMarkers(DocClipBase *)), dia, SLOT(slotFillMarkersList(DocClipBase *)));
+    connect(dia, SIGNAL(loadMarkers(const QString &)), m_activeTimeline->projectView(), SLOT(slotLoadClipMarkers(const QString &)));
+    connect(dia, SIGNAL(saveMarkers(const QString &)), m_activeTimeline->projectView(), SLOT(slotSaveClipMarkers(const QString &)));
     connect(dia, SIGNAL(deleteProxy(const QString)), m_projectList, SLOT(slotDeleteProxy(const QString)));
     connect(dia, SIGNAL(applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool)), this, SLOT(slotApplyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool)));
     dia->show();

@@ -55,13 +55,15 @@ public:
     bool needsTimelineRefresh() const;
     bool needsTimelineReload() const;
     void disableClipId(const QString &id);
+
+public slots:
+    void slotFillMarkersList(DocClipBase *clip);
     
 private slots:
     void parseFolder();
     void slotAddMarker();
     void slotEditMarker();
     void slotDeleteMarker();
-    void slotFillMarkersList();
     void slotCheckMaxLength();
     void slotEnableLuma(int state);
     void slotEnableLumaFile(int state);
@@ -70,6 +72,8 @@ private slots:
     void slotModified();
     void slotDeleteProxy();
     void slotOpenUrl(const QString &url);
+    void slotSaveMarkers();
+    void slotLoadMarkers();
 
 private:
     Ui::ClipProperties_UI m_view;
@@ -90,6 +94,8 @@ signals:
     void addMarker(const QString &, GenTime, QString);
     void deleteProxy(const QString);
     void applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool);
+    void saveMarkers(const QString &);
+    void loadMarkers(const QString &);
 };
 
 

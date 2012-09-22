@@ -231,7 +231,9 @@ public slots:
      * @param id Id of the marker's clip
      * @param t Position of the marker
      * @param c Comment of the marker */
-    void slotAddClipMarker(const QString &id, GenTime t, QString c);
+    void slotAddClipMarker(const QString &id, GenTime t, QString c, QUndoCommand *groupCommand = 0);
+    void slotLoadClipMarkers(const QString &id);
+    void slotSaveClipMarkers(const QString &id);
     bool addGuide(const GenTime &pos, const QString &comment);
 
     /** @brief Shows a dialog for adding a guide.
