@@ -684,12 +684,20 @@ void Render::processFileProperties()
             if (producer && producer->is_valid() && info.xml.hasAttribute("xmldata"))
                 producer->set("xmldata", info.xml.attribute("xmldata").toUtf8().constData());
         } else if (url.isEmpty()) {
+	    //WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
             QDomElement mlt = doc.createElement("mlt");
             QDomElement play = doc.createElement("playlist");
+	    play.setAttribute("id", "playlist0");
             doc.appendChild(mlt);
             mlt.appendChild(play);
             play.appendChild(doc.importNode(info.xml, true));
+	    QDomElement tractor = doc.createElement("tractor");
+	    tractor.setAttribute("id", "tractor0");
+	    QDomElement track = doc.createElement("track");
+	    track.setAttribute("producer", "playlist0");
+	    tractor.appendChild(track);
+	    mlt.appendChild(tractor);
             producer = new Mlt::Producer(*m_mltProfile, "xml-string", doc.toString().toUtf8().constData());
         } else {
             producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
