@@ -38,6 +38,7 @@ SmallRuler::SmallRuler(MonitorManager *manager, Render *render, QWidget *parent)
         ,m_maxval(25)
         ,m_manager(manager)
 	,m_render(render)
+	,m_lastSeekPosition(SEEK_INACTIVE)
 {
     m_zoneStart = 10;
     m_zoneEnd = 60;
@@ -128,7 +129,9 @@ void SmallRuler::mousePressEvent(QMouseEvent * event)
         updatePixmap();
 
     } else {
-	emit seekRenderer((int) pos);
+	m_render->seekToFrame(pos);
+	m_lastSeekPosition = pos;
+	update();
     }
 }
 
@@ -138,7 +141,8 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
     const int pos = event->x() / m_scale;
     if (event->buttons() & Qt::LeftButton) {
-        emit seekRenderer((int) pos);
+	m_render->seekToFrame(pos);
+	m_lastSeekPosition = pos;
 	update();
     }
     else {
@@ -154,9 +158,13 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 
 bool SmallRuler::slotNewValue(int value)
 {
-    /*if (value == m_cursorFramePosition) return false;
+    if (m_render->requestedSeekPosition != SEEK_INACTIVE) {
+	m_lastSeekPosition = m_render->requestedSeekPosition;
+	if (value == m_lastSeekPosition) m_lastSeekPosition = SEEK_INACTIVE;
+    }
+    if (value == m_cursorFramePosition) return false;
     m_cursorFramePosition = value;
-    int oldPos = m_cursorPosition;
+    /*int oldPos = m_cursorPosition;
     m_cursorPosition = value * m_scale;
     const int offset = 6;
     const int x = qMin(oldPos, m_cursorPosition);
@@ -177,6 +185,7 @@ void SmallRuler::updatePixmap()
 {
     m_pixmap = QPixmap(width(), height());
     m_pixmap.fill(palette().window().color());
+    m_lastSeekPosition = SEEK_INACTIVE;
     QPainter p(&m_pixmap);
     double f, fend;
 
@@ -219,7 +228,7 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     p.setClipRect(r);
     p.drawPixmap(QPointF(), m_pixmap);
 
-    int cursorPos = m_render->seekFramePosition() * m_scale;
+    int cursorPos = m_cursorFramePosition * m_scale;
     // draw pointer
     QPolygon pa(3);
     pa.setPoints(3, cursorPos - 6, 10, cursorPos + 6, 10, cursorPos/*+0*/, 4);
@@ -228,9 +237,8 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     p.drawPolygon(pa);
 
     // Draw seeking pointer
-    if (m_render->requestedSeekPosition != SEEK_INACTIVE) {
-	int seekPos = m_render->requestedSeekPosition * m_scale - 1;
-	p.fillRect(seekPos, 0, 3, height(), palette().highlight());
+    if (m_lastSeekPosition != SEEK_INACTIVE && m_lastSeekPosition != m_cursorFramePosition) {
+	p.fillRect(m_lastSeekPosition * m_scale - 1, 0, 3, height(), palette().highlight());
     }
 }
 

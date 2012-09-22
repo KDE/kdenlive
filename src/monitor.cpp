@@ -175,7 +175,6 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     layout->addWidget(m_ruler);
     
     connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
-    connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
@@ -710,7 +709,6 @@ void Monitor::slotForwardOneFrame(int diff)
 
 void Monitor::seekCursor(int pos)
 {
-    //slotActivateMonitor();
     if (m_ruler->slotNewValue(pos)) {
         checkOverlay();
         m_timePos->setValue(pos);

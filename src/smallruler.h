@@ -61,13 +61,13 @@ private:
     QPixmap m_pixmap;
     MonitorManager *m_manager;
     Render *m_render;
+    int m_lastSeekPosition;
     void updatePixmap();
 
 public slots:
     bool slotNewValue(int value);
 
 signals:
-    void seekRenderer(int);
     void zoneChanged(QPoint);
 };
 
