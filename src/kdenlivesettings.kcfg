@@ -811,7 +811,7 @@
       <default>true</default>
     </entry>
     
-    <entry name="add_clip_cut" type="Bool">
+    <entry name="add_new_clip" type="Bool">
       <label>Add cutted clips to project after transcoding.</label>
       <default>true</default>
     </entry>

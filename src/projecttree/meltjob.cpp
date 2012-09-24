@@ -91,22 +91,25 @@ void MeltJob::startJob()
         setStatus(JOBCRASHED);
         return;
     }
-    
-    m_profile = m_producer->profile();
-
-    Mlt::Producer *prod;
+    Mlt::Producer *prod ;
+    m_profile = new Mlt::Profile;
+    m_profile->set_explicit(false);
     if (out == -1) {
-        prod = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+	prod = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
     }
-    else 
-        prod = m_producer->cut(in, out);
+    else {
+	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+        prod = tmp->cut(in, out);
+	delete tmp;
+    }
+    m_profile->from_producer(*prod);
+    m_profile->set_explicit(true);
     QStringList list = producerParams.split(' ', QString::SkipEmptyParts);
     foreach(const QString &data, list) {
         if (data.contains('=')) {
             prod->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
         }
     }
-
     if (consumer.contains(":")) {
         m_consumer = new Mlt::Consumer(*m_profile, consumer.section(':', 0, 0).toUtf8().constData(), consumer.section(':', 1).toUtf8().constData());
     }

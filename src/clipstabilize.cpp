@@ -43,6 +43,7 @@ ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filt
     setupUi(this);
     setWindowTitle(i18n("Stabilize Clip"));
     auto_add->setText(i18np("Add clip to project", "Add clips to project", count));
+    auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
@@ -132,6 +133,7 @@ ClipStabilize::~ClipStabilize()
     /*if (m_stabilizeProcess.state() != QProcess::NotRunning) {
         m_stabilizeProcess.close();
     }*/
+    KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
 }
 
 QStringList ClipStabilize::params()

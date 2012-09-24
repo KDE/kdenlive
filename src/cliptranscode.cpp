@@ -43,6 +43,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
     log_text->setHidden(true);
     setWindowTitle(i18n("Transcode Clip"));
     auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
+    auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     if (m_urls.count() == 1) {
         QString fileName = m_urls.at(0).path(); //.section('.', 0, -1);
@@ -101,6 +102,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
 
 ClipTranscode::~ClipTranscode()
 {
+    KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
     if (m_transcodeProcess.state() != QProcess::NotRunning) {
         m_transcodeProcess.close();
     }

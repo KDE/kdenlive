@@ -58,7 +58,7 @@
    <item row="2" column="0" colspan="2">
     <widget class="QCheckBox" name="add_clip">
      <property name="text">
-      <string>Add new clip to project</string>
+      <string>Add clip to project</string>
      </property>
     </widget>
    </item>

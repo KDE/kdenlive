@@ -2760,7 +2760,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
     ui.extra_params->setVisible(false);
-    ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
+    ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
     ui.file_url->fileDialog()->setOperationMode(KFileDialog::Saving);
     ui.extra_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     ui.file_url->setUrl(KUrl(dest));
@@ -2793,11 +2793,11 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
         }
     }
     QString extraParams = ui.extra_params->toPlainText().simplified();
-    KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
+    KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
     delete d;
 
     QStringList jobParams;
-    jobParams << dest << item->clipUrl().path() << timeIn << timeOut << QString::number(duration) << QString::number(KdenliveSettings::add_clip_cut());
+    jobParams << dest << item->clipUrl().path() << timeIn << timeOut << QString::number(duration) << QString::number(KdenliveSettings::add_new_clip());
     if (!extraParams.isEmpty()) jobParams << extraParams;
     CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
@@ -2841,7 +2841,7 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
     ui.extra_params->setVisible(false);
     d->adjustSize();
     ui.button_more->setIcon(KIcon("configure"));
-    ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
+    ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
     ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
     QString mess = desc;
     mess.append(' ' + i18np("(%1 clip)", "(%1 clips)", ids.count()));
@@ -2851,7 +2851,7 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
         return;
     }
     params = ui.extra_params->toPlainText().simplified();
-    KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
+    KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
     int index = 0;
     foreach(const QString &id, ids) {
         ProjectItem *item = getItemById(id);
@@ -2870,7 +2870,7 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
         int max = item->clipMaxDuration();
         QString duration = QString::number(max);
         jobParams << duration;
-        jobParams << QString::number(KdenliveSettings::add_clip_cut());
+        jobParams << QString::number(KdenliveSettings::add_new_clip());
         jobParams << params;
         CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
         if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
