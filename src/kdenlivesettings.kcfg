@@ -584,7 +584,7 @@
        </entry>
        <entry name="dragvalue_directupdate" type="Bool">
            <label>...</label>
-           <default>false</default>
+           <default>true</default>
        </entry>
    </group>
 

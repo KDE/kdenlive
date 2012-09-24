@@ -29,6 +29,7 @@
 #include <QPushButton>
 #include <QPainter>
 #include <QStyledItemDelegate>
+#include <QKeyEvent>
 
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
@@ -138,6 +139,7 @@ public:
 
 protected:
     virtual QSize sizeHint() const;
+    virtual void keyPressEvent(QKeyEvent *e);
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);

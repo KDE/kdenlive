@@ -276,6 +276,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, MltVi
     m_view.splitter->setStretchFactor(0, 2);
 
     m_view.out_file->setMode(KFile::File);
+    m_view.out_file->setFocusPolicy(Qt::ClickFocus);
 
     m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
     m_jobsDelegate = new RenderViewDelegate(this);
@@ -1108,7 +1109,7 @@ void RenderWidget::checkRenderStatus()
     item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     bool waitingJob = false;
     
-    // Find first aiting job
+    // Find first waiting job
     while (item) {
         if (item->status() == WAITINGJOB) {
             item->setData(1, TimeRole, QTime::currentTime());
@@ -2226,5 +2227,22 @@ void RenderWidget::setRescaleEnabled(bool enable)
     for (int i = 0; i < m_view.rescale_box->layout()->count(); i++) {
         if (m_view.rescale_box->itemAt(i)->widget()) m_view.rescale_box->itemAt(i)->widget()->setEnabled(enable);
     }   
+}
+
+void RenderWidget::keyPressEvent(QKeyEvent *e) {
+    if(e->key()==Qt::Key_Return || e->key()==Qt::Key_Enter) {
+	switch (m_view.tabWidget->currentIndex()) {
+	  case 1:
+	    if (m_view.start_job->isEnabled()) slotStartCurrentJob();
+	    break;
+	  case 2:
+	    if (m_view.start_script->isEnabled()) slotStartScript();
+	    break;
+	  default:
+	    if (m_view.buttonRender->isEnabled()) slotPrepareExport();
+	    break;
+	}
+    }
+    else QDialog::keyPressEvent(e);
 }
 
