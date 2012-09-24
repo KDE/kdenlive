@@ -786,6 +786,7 @@ void Monitor::slotPlay()
         m_playAction->setIcon(m_playIcon);
         render->switchPlay(false);
     }
+    m_ruler->refreshRuler();
 }
 
 void Monitor::slotPlayZone()
