@@ -676,7 +676,6 @@ void Render::processFileProperties()
         KUrl url(path);
         Mlt::Producer *producer = NULL;
         CLIPTYPE type = (CLIPTYPE)info.xml.attribute("type").toInt();
-
         if (type == COLOR) {
             producer = new Mlt::Producer(*m_mltProfile, 0, ("colour:" + info.xml.attribute("colour")).toUtf8().constData());
         } else if (type == TEXT) {
@@ -700,7 +699,7 @@ void Render::processFileProperties()
 	    mlt.appendChild(tractor);
             producer = new Mlt::Producer(*m_mltProfile, "xml-string", doc.toString().toUtf8().constData());
         } else {
-            producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
+	    producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
         }
 
         if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
@@ -878,13 +877,16 @@ void Render::processFileProperties()
 
 	int vindex = -1;
 	const QString mltService = producer->get("mlt_service");
-	
 	if (mltService == "xml" || mltService == "consumer") {
-	    // MLT playlist
-	    mlt_profile prof = producer->get_profile();
-	    filePropertyMap["progressive"] = QString::number(prof->progressive);
-	    filePropertyMap["colorspace"] = QString::number(prof->colorspace);
-	    filePropertyMap["fps"] = QString::number(mlt_profile_fps(prof));
+	    // MLT playlist, create producer with blank profile to get real profile info
+	    // TODO: is there an easier way to get this info (original source clip profile) from MLT?
+	    Mlt::Profile *original_profile = new Mlt::Profile();
+	    Mlt::Producer *tmpProd = new Mlt::Producer(*original_profile, path.toUtf8().constData());
+	    filePropertyMap["progressive"] = QString::number(original_profile->progressive());
+	    filePropertyMap["colorspace"] = QString::number(original_profile->colorspace());
+	    filePropertyMap["fps"] = QString::number(original_profile->fps());
+	    delete tmpProd;
+	    delete original_profile;
 	}
 	else if (mltService == "avformat") {
 	    // Get frame rate
