@@ -164,9 +164,6 @@ void SmallRuler::refreshRuler()
 
 bool SmallRuler::slotNewValue(int value)
 {
-    if (m_render->requestedSeekPosition != SEEK_INACTIVE) {
-	m_lastSeekPosition = m_render->requestedSeekPosition;
-    }
     if (value == m_cursorFramePosition) return false;
     if (value == m_lastSeekPosition) m_lastSeekPosition = SEEK_INACTIVE;
     m_cursorFramePosition = value;
