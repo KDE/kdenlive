@@ -885,6 +885,7 @@ void Render::processFileProperties()
 	    filePropertyMap["progressive"] = QString::number(original_profile->progressive());
 	    filePropertyMap["colorspace"] = QString::number(original_profile->colorspace());
 	    filePropertyMap["fps"] = QString::number(original_profile->fps());
+	    filePropertyMap["aspect_ratio"] = QString::number(original_profile->sar());
 	    delete tmpProd;
 	    delete original_profile;
 	}
@@ -931,10 +932,10 @@ void Render::processFileProperties()
             filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
             filePropertyMap["frequency"] = QString::number(frame->get_int("frequency"));
             filePropertyMap["channels"] = QString::number(frame->get_int("channels"));
-            filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
+            if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
 
             if (frame->get_int("test_image") == 0) {
-                if (url.path().endsWith(".mlt") || url.path().endsWith(".westley") || url.path().endsWith(".kdenlive")) {
+                if (mltService == "xml" || mltService == "consumer") {
                     filePropertyMap["type"] = "playlist";
                     metadataPropertyMap["comment"] = QString::fromUtf8(producer->get("title"));
                 } else if (frame->get_int("test_audio") == 0)

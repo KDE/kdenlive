@@ -258,6 +258,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_force_vindex->setEnabled(false);
     }
 
+    if (t == PLAYLIST)
+	m_view.tabWidget->setTabText(VIDEOTAB, i18n("Playlist"));
+
     if (t == IMAGE) {
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(COLORTAB);
@@ -435,7 +438,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         if (width % 2 == 1) width++;
         QPixmap pix = m_clip->thumbProducer()->getImage(url, m_clip->getClipThumbFrame(), width, 180);
         m_view.clip_thumb->setPixmap(pix);
-        if (t == IMAGE || t == VIDEO) m_view.tabWidget->removeTab(AUDIOTAB);
+        if (t == IMAGE || t == VIDEO || t == PLAYLIST) m_view.tabWidget->removeTab(AUDIOTAB);
     } else {
         m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(SLIDETAB);
