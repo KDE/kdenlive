@@ -5901,7 +5901,8 @@ ClipItem *CustomTrackView::getClipUnderCursor() const
     QList<QGraphicsItem *> collisions = scene()->items(rect, Qt::IntersectsItemBoundingRect);
     for (int i = 0; i < collisions.count(); i++) {
         if (collisions.at(i)->type() == AVWIDGET) {
-            return static_cast < ClipItem *>(collisions.at(i));
+	    ClipItem *clip = static_cast < ClipItem *>(collisions.at(i));
+	    if (!clip->isItemLocked()) return clip;
         }
     }
     return NULL;
