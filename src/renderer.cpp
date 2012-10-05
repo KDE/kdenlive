@@ -538,7 +538,8 @@ void Render::slotSplitView(bool doit)
                 transition->set("mlt_service", "composite");
                 transition->set("a_track", 0);
                 transition->set("b_track", i);
-                transition->set("distort", 1);
+                transition->set("distort", 0);
+		transition->set("aligned", 0);
                 transition->set("internal_added", "200");
                 QString geometry;
                 switch (screen) {
