@@ -347,56 +347,40 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
 
     QTreeWidgetItem *it = itemAt(m_DragStartPosition);
     if (!it) return;
-    if (it->type() == PROJECTSUBCLIPTYPE) {
-        // subitem
-        SubProjectItem *clickItem = static_cast <SubProjectItem *>(it);
-        if (clickItem && (clickItem->flags() & Qt::ItemIsDragEnabled)) {
-            ProjectItem *clip = static_cast <ProjectItem *>(it->parent());
-            QDrag *drag = new QDrag(this);
-            QMimeData *mimeData = new QMimeData;
-
-            QStringList list;
-            list.append(clip->clipId());
-            QPoint p = clickItem->zone();
-            list.append(QString::number(p.x()));
-            list.append(QString::number(p.y()));
-            QByteArray data;
-            data.append(list.join(";").toUtf8());
-            mimeData->setData("kdenlive/clip", data);
-            drag->setMimeData(mimeData);
-            drag->setPixmap(clickItem->data(0, Qt::DecorationRole).value<QPixmap>());
-            drag->setHotSpot(QPoint(0, 50));
-            drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
-        }
-    } else {
-        if (it && (it->flags() & Qt::ItemIsDragEnabled)) {
-            QDrag *drag = new QDrag(this);
-            QMimeData *mimeData = new QMimeData;
-            const QList <QTreeWidgetItem *> list = selectedItems();
-            QStringList ids;
-            foreach(const QTreeWidgetItem *item, list) {
-                if (item->type() == PROJECTFOLDERTYPE) {
-                    const int children = item->childCount();
-                    for (int i = 0; i < children; i++) {
-                        ids.append(static_cast <ProjectItem *>(item->child(i))->clipId());
-                    }
-                } else {
-                    const ProjectItem *clip = static_cast <const ProjectItem *>(item);
-                    ids.append(clip->clipId());
+    if (it && (it->flags() & Qt::ItemIsDragEnabled)) {
+	QDrag *drag = new QDrag(this);
+        QMimeData *mimeData = new QMimeData;
+        const QList <QTreeWidgetItem *> list = selectedItems();
+        QStringList ids;
+        foreach(const QTreeWidgetItem *item, list) {
+	    if (item->type() == PROJECTFOLDERTYPE) {
+		const int children = item->childCount();
+                for (int i = 0; i < children; i++) {
+		    ids.append(static_cast <ProjectItem *>(item->child(i))->clipId());
                 }
+	    } else if (item->type() == PROJECTSUBCLIPTYPE) {
+		const ProjectItem *parentclip = static_cast <const ProjectItem *>(item->parent());
+		const SubProjectItem *clickItem = static_cast <const SubProjectItem *>(item);
+		QPoint p = clickItem->zone();
+		QString data = parentclip->clipId();
+		data.append("/" + QString::number(p.x()));
+		data.append("/" + QString::number(p.y()));
+		ids.append(data);
+            } else {
+		const ProjectItem *clip = static_cast <const ProjectItem *>(item);
+                ids.append(clip->clipId());
             }
-            if (ids.isEmpty()) return;
-            QByteArray data;
-            data.append(ids.join(";").toUtf8()); //doc.toString().toUtf8());
-            mimeData->setData("kdenlive/producerslist", data);
-            //mimeData->setText(ids.join(";")); //doc.toString());
-            //mimeData->setImageData(image);
-            drag->setMimeData(mimeData);
-            drag->setPixmap(it->data(0, Qt::DecorationRole).value<QPixmap>());
-            drag->setHotSpot(QPoint(0, 50));
-            drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
         }
-        //event->accept();
+        if (ids.isEmpty()) return;
+        QByteArray data;
+        data.append(ids.join(";").toUtf8()); //doc.toString().toUtf8());
+        mimeData->setData("kdenlive/producerslist", data);
+        //mimeData->setText(ids.join(";")); //doc.toString());
+        //mimeData->setImageData(image);
+        drag->setMimeData(mimeData);
+        drag->setPixmap(it->data(0, Qt::DecorationRole).value<QPixmap>());
+        drag->setHotSpot(QPoint(0, 40));
+        drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
     }
 }
 

@@ -1566,7 +1566,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
 
         // Check if clips can be inserted at that position
         for (int i = 0; i < ids.size(); ++i) {
-            DocClipBase *clip = m_document->getBaseClip(ids.at(i));
+	    QString clipData = ids.at(i);
+            DocClipBase *clip = m_document->getBaseClip(clipData.section('/', 0, 0));
             if (clip == NULL) {
                 kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
                 return false;
@@ -1577,11 +1578,20 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             }
             ItemInfo info;
             info.startPos = start;
-            info.cropDuration = clip->duration();
-            info.endPos = info.startPos + info.cropDuration;
+	    if (clipData.contains('/')) {
+		// this is a clip zone, set in / out
+		int in = clipData.section('/', 1, 1).toInt();
+		int out = clipData.section('/', 2, 2).toInt();
+		info.cropStart = GenTime(in, m_document->fps());
+		info.cropDuration = GenTime(out - in, m_document->fps());
+	    }
+            else {
+		info.cropDuration = clip->duration();
+	    }
+	    info.endPos = info.startPos + info.cropDuration;
             info.track = track;
             infoList.append(info);
-            start += clip->duration();
+            start += info.cropDuration;
         }
         if (!canBePastedTo(infoList, AVWIDGET)) {
             return true;
@@ -1589,11 +1599,21 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         start = GenTime();
         for (int i = 0; i < ids.size(); ++i) {
-            DocClipBase *clip = m_document->getBaseClip(ids.at(i));
+            QString clipData = ids.at(i);
+            DocClipBase *clip = m_document->getBaseClip(clipData.section('/', 0, 0));
             ItemInfo info;
             info.startPos = start;
-            info.cropDuration = clip->duration();
-            info.endPos = info.startPos + info.cropDuration;
+	    if (clipData.contains('/')) {
+		// this is a clip zone, set in / out
+		int in = clipData.section('/', 1, 1).toInt();
+		int out = clipData.section('/', 2, 2).toInt();
+		info.cropStart = GenTime(in, m_document->fps());
+		info.cropDuration = GenTime(out - in, m_document->fps());
+	    }
+            else {
+		info.cropDuration = clip->duration();
+	    }
+	    info.endPos = info.startPos + info.cropDuration;
             info.track = 0;
             start += info.cropDuration;
             offsetList.append(start);
