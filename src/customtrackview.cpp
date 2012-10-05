@@ -1489,7 +1489,15 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
     pasteInfo.startPos = GenTime(m_cursorPos, m_document->fps());
     pasteInfo.endPos = pasteInfo.startPos + info.endPos;
     pasteInfo.track = selectedTrack();
-    if (!canBePastedTo(pasteInfo, AVWIDGET)) {
+    bool ok = canBePastedTo(pasteInfo, AVWIDGET);
+    if (!ok) {
+	// Cannot be inserted at cursor pos, insert at end of track
+	int duration = m_document->renderer()->mltTrackDuration(m_document->tracksCount() - pasteInfo.track) + 1;
+	pasteInfo.startPos = GenTime(duration, m_document->fps());
+	pasteInfo.endPos = pasteInfo.startPos + info.endPos;
+	ok = canBePastedTo(pasteInfo, AVWIDGET);
+    }
+    if (!ok) {
         emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
         return;
     }
