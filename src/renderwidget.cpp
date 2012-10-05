@@ -1241,9 +1241,14 @@ void RenderWidget::refreshView()
     KIcon brokenIcon("dialog-close");
     KIcon warningIcon("dialog-warning");
 
-    const QStringList formatsList = KdenliveSettings::supportedformats();
-    const QStringList vcodecsList = KdenliveSettings::videocodecs();
-    const QStringList acodecsList = KdenliveSettings::audiocodecs();
+    QStringList formatsList;
+    QStringList vcodecsList;
+    QStringList acodecsList;
+    if (!KdenliveSettings::bypasscodeccheck()) {
+	formatsList= KdenliveSettings::supportedformats();
+	vcodecsList = KdenliveSettings::videocodecs();
+	acodecsList = KdenliveSettings::audiocodecs();
+    }
 
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
@@ -1894,7 +1899,7 @@ void RenderWidget::parseScriptFiles()
             QTextStream stream(&file);
             while (!stream.atEnd()) {
                 QString line = stream.readLine();
-                kDebug()<<"# :"<<line;
+                //kDebug()<<"# :"<<line;
                 if (line.startsWith("TARGET=")) {
                     target = line.section("TARGET=\"", 1);
                     target = target.section('"', 0, 0);
@@ -1909,7 +1914,7 @@ void RenderWidget::parseScriptFiles()
             file.close();
         }
         if (target.isEmpty()) continue;
-        kDebug()<<"ScRIPT RENDERER: "<<renderer<<"\n++++++++++++++++++++++++++";
+        //kDebug()<<"ScRIPT RENDERER: "<<renderer<<"\n++++++++++++++++++++++++++";
         item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
         if (!renderer.isEmpty() && renderer.contains('/') && !QFile::exists(renderer)) {
             item->setIcon(0, KIcon("dialog-cancel"));

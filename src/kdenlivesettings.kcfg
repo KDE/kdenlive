@@ -60,6 +60,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="bypasscodeccheck" type="Bool">
+      <label>Ignore libav / ffmpeg codec checking.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="title_duration" type="String">
       <label>Default title clip duration.</label>
       <default>00:00:05:00</default>
