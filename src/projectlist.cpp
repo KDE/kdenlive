@@ -3462,15 +3462,17 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
     foreach(const QString&id, ids) {
         ProjectItem *item = getItemById(id);
         if (!item) continue;
+	QStringList jobArgs;
+	jobArgs << preParams;
         if (ids.count() == 1) {
-            consumer += ':' + destination;
+            jobArgs << consumer + ':' + destination;
         }
         else {
-            consumer += ':' + destination + item->clipUrl().fileName() + ".mlt";
+            jobArgs << consumer + ':' + destination + item->clipUrl().fileName() + ".mlt";
         }
-        preParams << consumer << jobParams;
+        jobArgs << jobParams;
         
-        MeltJob *job = new MeltJob(item->clipType(), id, preParams);
+        MeltJob *job = new MeltJob(item->clipType(), id, jobArgs);
         if (autoAdd) {
             job->setAddClipToProject(true);
             kDebug()<<"// ADDING TRUE";

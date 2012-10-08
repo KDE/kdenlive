@@ -166,7 +166,7 @@ QString ClipStabilize::destination() const
     if (m_count == 1)
         return dest_url->url().path();
     else
-        return dest_url->url().directory(KUrl::AppendTrailingSlash);
+        return dest_url->url().path(KUrl::AddTrailingSlash);
 }
 
 QString ClipStabilize::desc() const
