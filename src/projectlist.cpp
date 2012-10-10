@@ -2724,8 +2724,12 @@ void ProjectList::slotCreateProxy(const QString id)
         slotGotProxy(path);
         return;
     }
-
-    ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << item->clipUrl().path() << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
+    QString sourcePath = item->clipUrl().path();
+    if (item->clipType() == PLAYLIST) {
+	// Special case: playlists use the special 'consumer' producer to support resizing
+	sourcePath.prepend("consumer:");
+    }
+    ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << sourcePath << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
         return;
