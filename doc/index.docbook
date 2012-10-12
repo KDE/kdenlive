@@ -4,7 +4,7 @@
   <!ENTITY % English "INCLUDE">
 ]>
 <book id="kdenlive" lang="&language;">
-<book id="kdenlive"info>
+<bookinfo>
 <title>The Kdenlive Quick Start Guide</title>
 <authorgroup>
 <author>
