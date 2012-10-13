@@ -3,7 +3,7 @@
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE">
 ]>
-<book lang="&language;">
+<book id="kdenlive" lang="&language;">
 <bookinfo>
 <title>The Kdenlive Quick Start Guide</title>
 <authorgroup>
