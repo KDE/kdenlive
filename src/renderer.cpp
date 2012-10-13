@@ -1118,9 +1118,38 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     emit stopped();
     if (position == -1 && producer->get("id") == currentId) position = consumerPosition;
     if (position != -1) producer->seek(position);
-    int volume = KdenliveSettings::volume();
-    producer->set("meta.volume", (double)volume / 100);
     m_fps = producer->get_fps();
+    int volume = KdenliveSettings::volume();
+    if (producer->get_int("_audioclip") == 1) {
+	// This is an audio only clip, create fake multitrack to apply audiowave filter
+	Mlt::Tractor *tractor = new Mlt::Tractor();
+	Mlt::Producer *color= new Mlt::Producer(*m_mltProfile, "color:red");
+	color->set_in_and_out(0, producer->get_out());
+	tractor->set_track(*producer, 0);
+	tractor->set_track(*color, 1);
+
+	Mlt::Consumer xmlConsumer(*m_mltProfile, "xml:audio_hack");
+	if (!xmlConsumer.is_valid()) return -1;
+	xmlConsumer.set("terminate_on_pause", 1);
+	xmlConsumer.connect(tractor->parent());
+	xmlConsumer.run();
+	delete tractor;
+	delete color;
+	delete producer;
+	QString playlist = QString::fromUtf8(xmlConsumer.get("audio_hack"));
+	
+	Mlt::Producer *result = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
+	Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "audiowave");
+	result->attach(*filter);
+	tractor = new Mlt::Tractor();
+	tractor->set_track(*result, 0);
+	delete result;
+	delete filter;
+	producer = &(tractor->parent());
+	m_mltConsumer->connect(*producer);
+    }
+    
+    producer->set("meta.volume", (double)volume / 100);
     blockSignals(false);
     m_mltConsumer->connect(*producer);
 

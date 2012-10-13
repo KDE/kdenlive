@@ -672,6 +672,9 @@ Mlt::Producer *DocClipBase::getCloneProducer()
             if (m_properties.contains("duration")) prod->set("length", m_properties.value("duration").toInt());
             if (m_properties.contains("out"))prod->set("out", m_properties.value("out").toInt());
         }
+        if (m_clipType == AUDIO) {
+	    prod->set("_audioclip", 1);
+	}
     }
     return prod;
 }
