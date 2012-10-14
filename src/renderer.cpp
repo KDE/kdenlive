@@ -1788,9 +1788,7 @@ void Render::showFrame(Mlt::Frame& frame)
 void Render::slotCheckSeeking()
 {
       if (requestedSeekPosition != SEEK_INACTIVE) {
-	kDebug()<<"// SEEKONG: "<<requestedSeekPosition;
 	m_mltProducer->seek(requestedSeekPosition);
-	//m_mltConsumer->purge();
 	if (m_mltProducer->get_speed() == 0) {
 	    refresh();
 	}
