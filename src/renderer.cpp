@@ -1705,13 +1705,6 @@ void Render::emitFrameUpdated(Mlt::Frame& frame)
     const uchar* image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
     memcpy(qimage.scanLine(0), image, width * height * 4);
-
-    /*mlt_image_format format = mlt_image_rgb24;
-    int width = 0;
-    int height = 0;
-    const uchar* image = frame.get_image(format, width, height);
-    QImage qimage(width, height, QImage::Format_RGB888);
-    memcpy(qimage.bits(), image, width * height * 3);*/
     emit frameUpdated(qimage.rgbSwapped());
 }
 

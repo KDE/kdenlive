@@ -912,6 +912,7 @@ void MainWindow::slotUpdateClip(const QString &id)
 void MainWindow::slotConnectMonitors()
 {
     m_projectList->setRenderer(m_projectMonitor->render);
+    connect(m_projectList, SIGNAL(pauseMonitor()), m_monitorManager, SLOT(slotPause()));
     connect(m_projectList, SIGNAL(deleteProjectClips(QStringList, QMap<QString, QString>)), this, SLOT(slotDeleteProjectClips(QStringList, QMap<QString, QString>)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(showClipProperties(QList <DocClipBase *>, QMap<QString, QString>)), this, SLOT(slotShowClipProperties(QList <DocClipBase *>, QMap<QString, QString>)));

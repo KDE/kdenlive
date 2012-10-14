@@ -37,6 +37,7 @@ AbstractGfxScopeWidget::~AbstractGfxScopeWidget() { }
 
 QImage AbstractGfxScopeWidget::renderScope(uint accelerationFactor)
 {
+    QMutexLocker lock(&m_mutex);
     return renderGfxScope(accelerationFactor, m_scopeImage);
 }
 
@@ -50,8 +51,9 @@ void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 ///// Slots /////
 
 
-void AbstractGfxScopeWidget::slotRenderZoneUpdated(QImage frame)
+void AbstractGfxScopeWidget::slotRenderZoneUpdated(const QImage frame)
 {
+    QMutexLocker lock(&m_mutex);
     m_scopeImage = frame;
     AbstractScopeWidget::slotRenderZoneUpdated();
 }

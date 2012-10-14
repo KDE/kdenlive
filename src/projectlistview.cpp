@@ -184,6 +184,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 {
     QTreeWidgetItem *it = itemAt(event->pos());
     if (!it) {
+	emit pauseMonitor();
         emit addClip();
         return;
     }

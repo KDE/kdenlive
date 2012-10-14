@@ -523,6 +523,7 @@ signals:
     void checkJobProcess();
     /** @brief A Filter Job produced results, send them back to the clip. */
     void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params);
+    void pauseMonitor();
 };
 
 #endif

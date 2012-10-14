@@ -310,8 +310,9 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(m_listView, SIGNAL(projectModified()), this, SIGNAL(projectModified()));
     connect(m_listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
     connect(m_listView, SIGNAL(focusMonitor()), this, SIGNAL(raiseClipMonitor()));
-    connect(m_listView, SIGNAL(pauseMonitor()), this, SLOT(slotPauseMonitor()));
+    connect(m_listView, SIGNAL(pauseMonitor()), this, SIGNAL(pauseMonitor()));
     connect(m_listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
+    connect(m_listView, SIGNAL(addClip()), this, SIGNAL(pauseMonitor()));
     connect(m_listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
     connect(m_listView, SIGNAL(addClip(const QList <QUrl>, const QString &, const QString &)), this, SLOT(slotAddClip(const QList <QUrl>, const QString &, const QString &)));
     connect(this, SIGNAL(addClip(const QString, const QString &, const QString &)), this, SLOT(slotAddClip(const QString, const QString &, const QString &)));
