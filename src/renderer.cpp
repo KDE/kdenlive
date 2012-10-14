@@ -128,7 +128,7 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);
     m_refreshTimer.setSingleShot(true);
-    m_refreshTimer.setInterval(70);
+    m_refreshTimer.setInterval(100);
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(this, SIGNAL(multiStreamFound(const QString &,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(const QString &,QList<int>,QList<int>,stringMap)));
 }
@@ -1653,7 +1653,7 @@ void Render::refresh()
         return;
     if (m_mltConsumer) {
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
-        m_mltConsumer->purge();
+        //m_mltConsumer->purge();
         m_mltConsumer->set("refresh", 1);
     }
 }

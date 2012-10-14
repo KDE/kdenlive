@@ -2316,7 +2316,15 @@ void ProjectList::slotReplyGetImage(const QString &clipId, const QImage &img)
 {
     ProjectItem *item = getItemById(clipId);
     if (item && !img.isNull()) {
-        QPixmap pix = QPixmap::fromImage(img);
+	QPixmap pix(img.width(), img.height());
+	pix.fill(Qt::transparent);
+	QPainter p(&pix);
+	p.setRenderHint(QPainter::Antialiasing, true);
+	QPainterPath path;
+	path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 2, 2);
+	p.setClipPath(path);
+	p.drawImage(0, 0, img);
+	p.end();
         processThumbOverlays(item, pix);
         monitorItemEditing(false);
         item->setData(0, Qt::DecorationRole, pix);

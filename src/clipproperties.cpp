@@ -42,6 +42,8 @@
 
 
 #include <QDir>
+#include <QPainter>
+
 
 static const int VIDEOTAB = 0;
 static const int AUDIOTAB = 1;
@@ -437,7 +439,17 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         int width = 180.0 * KdenliveSettings::project_display_ratio();
         if (width % 2 == 1) width++;
         QPixmap pix = m_clip->thumbProducer()->getImage(url, m_clip->getClipThumbFrame(), width, 180);
-        m_view.clip_thumb->setPixmap(pix);
+	QPixmap framedPix(pix.width(), pix.height());
+	framedPix.fill(Qt::transparent);
+	QPainter p(&framedPix);
+	p.setRenderHint(QPainter::Antialiasing, true);
+	QPainterPath path;
+	path.addRoundedRect(0.5, 0.5, framedPix.width() - 1, framedPix.height() - 1, 4, 4);
+	p.setClipPath(path);
+	p.drawPixmap(0, 0, pix);
+	p.end();
+	
+        m_view.clip_thumb->setPixmap(framedPix);
         if (t == IMAGE || t == VIDEO || t == PLAYLIST) m_view.tabWidget->removeTab(AUDIOTAB);
     } else {
         m_view.tabWidget->removeTab(IMAGETAB);
