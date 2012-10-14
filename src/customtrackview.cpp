@@ -980,27 +980,34 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     else if (dragGroup && dragGroup->isSelected())
         itemSelected = true;
 
-    if (event->modifiers() == Qt::ControlModifier || itemSelected == false) {
+    if ((event->modifiers() == Qt::ControlModifier) || itemSelected == false) {
         if (event->modifiers() != Qt::ControlModifier) {
             resetSelectionGroup(false);
             m_scene->clearSelection();
             // A refresh seems necessary otherwise in zoomed mode, some clips disappear
             viewport()->update();
-        } else resetSelectionGroup();
+        } else {
+	    resetSelectionGroup();
+	}
         dragGroup = NULL;
         if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET) {
             dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
         }
         bool selected = !m_dragItem->isSelected();
-        if (dragGroup)
+        /*if (dragGroup)
             dragGroup->setSelected(selected);
-        else
+        else*/
             m_dragItem->setSelected(selected);
-
+	if (selected == false) {
+	    m_dragItem = NULL;
+	}
         groupSelectedItems();
-        ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
-        updateClipTypeActions(dragGroup == NULL ? clip : NULL);
-        m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
+	if (m_dragItem) { 
+	    ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
+	    updateClipTypeActions(dragGroup == NULL ? clip : NULL);
+	    m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
+	}
+	else updateClipTypeActions(NULL);
     }
 
     if (collisionClip != NULL || m_dragItem == NULL) {
@@ -1013,9 +1020,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     // If clicked item is selected, allow move
-    if (event->modifiers() != Qt::ControlModifier && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
+    //if (!(event->modifiers() | Qt::ControlModifier) && m_operationMode == NONE)
+    QGraphicsView::mousePressEvent(event);
 
-    m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
+    if (m_dragItem) {
+	m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
     if (m_selectionGroup && m_dragItem->parentItem() == m_selectionGroup) {
         // all other modes break the selection, so the user probably wants to move it
         m_operationMode = MOVE;
@@ -1026,6 +1035,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	}
         else m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
     }
+    } else m_operationMode = NONE;
     m_controlModifier = (event->modifiers() == Qt::ControlModifier);
 
     // Update snap points
@@ -1887,9 +1897,20 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 			clearSelection(false);
 			clip->setSelected(true);
 			m_dragItem = clip;
-			emit clipItemSelected(clip);
 		    }
+		    emit clipItemSelected(clip);
 		    break;
+		}
+	    }
+	}
+	else {
+	    for (int i = 0; i < itemList.count(); i++) {
+		if (itemList.at(i)->type() == AVWIDGET) {
+		    ClipItem *clip = static_cast<ClipItem *>(itemList.at(i));
+		    if (clip->isMainSelectedClip()) {
+			emit clipItemSelected(clip);
+			break;
+		    }
 		}
 	    }
 	}
@@ -3438,7 +3459,7 @@ void CustomTrackView::checkScrolling()
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_moveOpMode == SEEK) m_moveOpMode = NONE;
-    QGraphicsView::mouseReleaseEvent(event);
+    if (!m_controlModifier) QGraphicsView::mouseReleaseEvent(event);
     setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
 #if QT_VERSION >= 0x040600
     if (m_dragItem) m_dragItem->setGraphicsEffect(NULL);
@@ -5555,7 +5576,9 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
 {
     painter->setClipRect(rect);
     QPen pen1 = painter->pen();
-    pen1.setColor(palette().dark().color());
+    QColor lineColor = palette().dark().color();
+    lineColor.setAlpha(100);
+    pen1.setColor(lineColor);
     painter->setPen(pen1);
     double min = rect.left();
     double max = rect.right();

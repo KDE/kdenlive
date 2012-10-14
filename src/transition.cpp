@@ -161,22 +161,26 @@ void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget */*widget*/)
 {
-    const QRectF exposed = option->exposedRect;
-    painter->setClipRect(exposed);
+    const QRectF exposed = painter->worldTransform().mapRect(option->exposedRect);
     const QRectF br = rect();
     QPen framePen;
+    framePen.setWidthF(1.2);
     const QRectF mapped = painter->worldTransform().mapRect(br);
-
-    painter->fillRect(exposed, brush());
 
     QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
     painter->setWorldMatrixEnabled(false);
+    QPainterPath p;
+    p.addRect(exposed);
+    QPainterPath q;
+    q.addRoundedRect(mapped.adjusted(0, 0, -1, -1), 3, 3);
+    painter->setClipPath(p.intersected(q));
+    painter->fillRect(exposed, brush());
     const QString text = m_name + (m_forceTransitionTrack ? "|>" : QString());
 
     // Draw clip name
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        framePen.setColor(Qt::red);
-        framePen.setWidthF(2.0);
+        framePen.setColor(scene()->palette().highlight().color());
+	framePen.setColor(Qt::red);
     }
     else {
         framePen.setColor(brush().color().darker());
@@ -194,7 +198,8 @@ void Transition::paint(QPainter *painter,
     // Draw frame
     painter->setPen(framePen);
     painter->setClipping(false);
-    painter->drawRect(mapped.adjusted(0, 0, -0.5, -0.5));
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->drawRoundedRect(mapped.adjusted(0, 0, -0.5, -0.5), 3, 3);
 }
 
 int Transition::type() const

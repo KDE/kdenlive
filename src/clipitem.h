@@ -189,6 +189,10 @@ public:
     
     /** @brief Get a free index value for effect group. */
     int nextFreeEffectGroupIndex() const;
+    /** @brief Set this clip as the main selected clip (or not). */
+    void setMainSelectedClip(bool selected);
+    /** @brief Is this clip selected as the main clip. */
+    bool isMainSelectedClip();
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -238,6 +242,8 @@ private:
     /** @brief Keyframes type can be "keyframe" or "simplekeyframe" which have to be painted differently.
      * True if keyframe type is "keyframe" */
     bool m_limitedKeyFrames;
+    /** @brief True if this is the last clip the user selected */
+    bool m_isMainSelectedClip;
 
 private slots:
     void slotGetStartThumb();

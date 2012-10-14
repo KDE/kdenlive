@@ -318,7 +318,8 @@ private:
 
     StopmotionWidget *m_stopmotion;
     QTime m_timer;
-    
+    /** @brief The last selected clip in timeline. */
+    ClipItem *m_mainClip;
     /** @brief Update statusbar stylesheet (in case of color theme change). */
     void setStatusBarStyleSheet(const QPalette &p);
 

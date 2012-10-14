@@ -60,7 +60,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         m_speed(speed),
         m_strobe(strobe),
         m_framePixelWidth(0),
-        m_limitedKeyFrames(false)
+        m_limitedKeyFrames(false),
+        m_isMainSelectedClip(false)
 {
     setZValue(2);
     m_effectList = EffectsList(true);
@@ -768,29 +769,39 @@ void ClipItem::paint(QPainter *painter,
                      const QStyleOptionGraphicsItem *option,
                      QWidget *)
 {
+    QPalette palette = scene()->palette();
     QColor paintColor;
+    QColor textColor;
+    QColor textBgColor;
     QPen framePen;
     if (parentItem()) paintColor = QColor(255, 248, 149);
     else paintColor = m_baseColor;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
+	textColor = palette.highlightedText().color();
+	textBgColor = palette.highlight().color();
         paintColor = paintColor.darker();
-        framePen.setColor(Qt::red);
-        framePen.setWidthF(2.0);
+        framePen.setColor(textBgColor);
     }
     else {
+	textColor = palette.text().color();
+	textBgColor = palette.window().color();
+	textBgColor.setAlpha(200);
         framePen.setColor(paintColor.darker());
     }
-
     const QRectF exposed = option->exposedRect;
-    painter->setClipRect(exposed);
-    painter->fillRect(exposed, paintColor);
-    painter->setWorldMatrixEnabled(false);;
+    const QRectF mappedExposed = painter->worldTransform().mapRect(exposed);
     const QRectF mapped = painter->worldTransform().mapRect(rect());
+    painter->setWorldMatrixEnabled(false);
+    QPainterPath p;
+    p.addRect(mappedExposed);
+    QPainterPath q;
+    q.addRoundedRect(mapped.adjusted(0, 0, -0.5, 0), 3, 3);
+    painter->setClipPath(p.intersected(q));
+    painter->setPen(Qt::NoPen);
+    painter->fillRect(mappedExposed, paintColor);
+    painter->setPen(paintColor.darker());
     // draw thumbnails
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
-        QPen pen = painter->pen();
-        pen.setColor(QColor(255, 255, 255, 150));
-        painter->setPen(pen);
         if ((m_clipType == IMAGE || m_clipType == TEXT) && !m_startPix.isNull()) {
             const QPointF top = mapped.topRight() - QPointF(m_startPix.width() - 1, 0);
             painter->drawPixmap(top, m_startPix);
@@ -827,7 +838,6 @@ void ClipItem::paint(QPainter *painter,
                     QImage img;
                     QPen pen(Qt::white);
                     pen.setStyle(Qt::DotLine);
-                    painter->setPen(pen);
                     QList <int> missing;
                     for (int i = left; i <= right; i++) {
                         img = m_clip->thumbProducer()->findCachedThumb(path + QString::number(i));
@@ -844,7 +854,6 @@ void ClipItem::paint(QPainter *painter,
 #endif
             }
         }
-        painter->setPen(Qt::black);
     }
 
     // draw audio thumbnails
@@ -892,36 +901,38 @@ void ClipItem::paint(QPainter *painter,
         // Draw effects names
         if (!m_effectNames.isEmpty() && mapped.width() > 40) {
             QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
-            QColor bgColor;
+            QColor bColor = palette.window().color();
+	    QColor tColor = palette.text().color();
+	    tColor.setAlpha(220);
             if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
                 qreal value = m_timeLine->currentValue();
                 txtBounding.setWidth(txtBounding.width() * value);
-                bgColor.setRgb(50 + 200 *(1.0 - value), 50, 50, 100 + 50 * value);
-            } else bgColor.setRgb(50, 50, 90, 180);
+                bColor.setAlpha(100 + 50 * value);
+            };
 
-            QPainterPath rounded;
-            rounded.moveTo(txtBounding.bottomRight());
-            rounded.arcTo(txtBounding.right() - txtBounding.height() - 2, txtBounding.top() - txtBounding.height(), txtBounding.height() * 2, txtBounding.height() * 2, 270, 90);
-            rounded.lineTo(txtBounding.topLeft());
-            rounded.lineTo(txtBounding.bottomLeft());
-            painter->fillPath(rounded, bgColor);
-            painter->setPen(Qt::lightGray);
-            painter->drawText(txtBounding.adjusted(1, 0, 1, 0), Qt::AlignCenter, m_effectNames);
+	    painter->setBrush(bColor);
+	    painter->setPen(Qt::NoPen);
+	    painter->drawRoundedRect(txtBounding.adjusted(-1, -2, 4, -1), 3, 3);
+            painter->setPen(tColor);
+            painter->drawText(txtBounding.adjusted(2, 0, 1, -1), Qt::AlignCenter, m_effectNames);
         }
 
-        const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + m_clipName + ' ');
-        painter->setBrush(framePen.color());
-        painter->setPen(Qt::NoPen);
-        painter->drawRoundedRect(txtBounding2, 3, 3);
+        // Draw clip name
+        const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignRight | Qt::AlignTop, m_clipName + ' ').adjusted(0, -1, 0, -1);
+	painter->setPen(Qt::NoPen);
+	if (m_isMainSelectedClip) {
+	    framePen.setColor(Qt::red);
+	    textBgColor = Qt::red;
+	}
+        painter->fillRect(txtBounding2.adjusted(-3, 0, 0, 0), textBgColor);
         painter->setBrush(QBrush(Qt::NoBrush));
-
+	painter->setPen(textColor);
         if (m_videoOnly) {
             painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_videoPix);
         } else if (m_audioOnly) {
             painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_audioPix);
         }
-        painter->setPen(Qt::white);
-        painter->drawText(txtBounding2, Qt::AlignCenter, m_clipName);
+        painter->drawText(txtBounding2, Qt::AlignLeft, m_clipName);
 
 
         // draw markers
@@ -945,7 +956,7 @@ void ClipItem::paint(QPainter *painter,
                     painter->drawLine(l2);
                     if (KdenliveSettings::showmarkers()) {
                         framepos = rect().x() + pos.frames(m_fps);
-                        const QRectF r1(framepos + 0.04, 10, rect().width() - framepos - 2, rect().height() - 10);
+                        const QRectF r1(framepos + 0.04, rect().height()/3, rect().width() - framepos - 2, rect().height() / 2);
                         const QRectF r2 = painter->worldTransform().mapRect(r1);
                         const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
                         painter->setBrush(markerBrush);
@@ -1002,13 +1013,10 @@ void ClipItem::paint(QPainter *painter,
     // draw clip border
     // expand clip rect to allow correct painting of clip border
     painter->setClipping(false);
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    framePen.setWidthF(1.5);
     painter->setPen(framePen);
-    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        painter->drawRect(mapped.adjusted(0.5, 0.5, -0.5, -0.5));
-    }
-    else {
-        painter->drawRect(mapped.adjusted(0, 0, -0.5, 0));
-    }
+    painter->drawRoundedRect(mapped.adjusted(0, 0, -0.5, -0.5), 3, 3);
 }
 
 
@@ -2076,6 +2084,18 @@ void ClipItem::slotGotThumbsCache()
 {
     disconnect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
     update();
+}
+
+void ClipItem::setMainSelectedClip(bool selected)
+{
+    if (selected == m_isMainSelectedClip) return;
+    m_isMainSelectedClip = selected;
+    update();
+}
+
+bool ClipItem::isMainSelectedClip()
+{
+    return m_isMainSelectedClip;
 }
 
 #include "clipitem.moc"
