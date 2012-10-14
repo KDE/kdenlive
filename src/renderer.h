@@ -396,6 +396,8 @@ private slots:
     /** @brief A clip with multiple video streams was found, ask what to do. */
     void slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data);
 
+    void slotCheckSeeking();
+
 signals:
 
     /** @brief The renderer received a reply to a getFileProperties request. */
@@ -439,6 +441,7 @@ signals:
     void showImageSignal(QImage);
     void showAudioSignal(const QByteArray &);
     void addClip(const KUrl &, stringMap);
+    void checkSeeking();
 
 public slots:
 
