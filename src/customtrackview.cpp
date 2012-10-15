@@ -1782,7 +1782,7 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
     }
 }
 
-void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group)
+void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget)
 {
     QList<QGraphicsItem *> itemList = group->childItems();
     QUndoCommand *effectCommand = new QUndoCommand();
@@ -1821,6 +1821,12 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
         m_commandStack->push(effectCommand);
         setDocumentModified();
     } else delete effectCommand;
+    if (dropTarget) {
+	clearSelection(false);
+	m_dragItem = dropTarget;
+	m_dragItem->setSelected(true);
+	emit clipItemSelected(static_cast<ClipItem *>(dropTarget));
+    }
 }
 
 void CustomTrackView::slotAddEffect(ClipItem *clip, QDomElement effect)

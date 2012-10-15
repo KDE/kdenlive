@@ -81,7 +81,7 @@ public:
     void deleteClip(const QString &clipId);
     /** @brief Add effect to current clip */
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
-    void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group);
+    void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = NULL);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false);

@@ -361,7 +361,16 @@ void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event)
     QDomElement e = doc.documentElement();
     e.setAttribute("kdenlive_ix", 0);
     CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
-    if (view) view->slotAddGroupEffect(e, this);
+    QPointF dropPos = event->scenePos();
+    QList<QGraphicsItem *> selection = scene()->items(dropPos);
+    AbstractClipItem *dropChild = NULL;
+    for (int i = 0; i < selection.count(); i++) {
+	if (selection.at(i)->type() == AVWIDGET) {
+            dropChild = (AbstractClipItem *) selection.at(i);
+	    break;
+        }
+    }           
+    if (view) view->slotAddGroupEffect(e, this, dropChild);
 }
 
 //virtual
