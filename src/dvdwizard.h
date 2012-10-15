@@ -56,6 +56,7 @@ private:
     DvdWizardChapters *m_pageChapters;
     KTemporaryFile m_authorFile;
     KTemporaryFile m_menuFile;
+    KTemporaryFile m_menuVobFile;
     QProcess *m_dvdauthor;
     QProcess *m_mkiso;
     QString m_creationLog;

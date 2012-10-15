@@ -126,6 +126,7 @@ DvdWizard::~DvdWizard()
 {
     m_authorFile.remove();
     m_menuFile.remove();
+    m_menuVobFile.remove();
     blockSignals(true);
     delete m_burnMenu;
     if (m_dvdauthor) {
@@ -195,15 +196,15 @@ void DvdWizard::generateDvd()
     //temp5.setAutoRemove(false);
     temp5.open();
 
-    KTemporaryFile temp6;
-    temp6.setSuffix(".xml");
-    //temp6.setAutoRemove(false);
-    temp6.open();
-
     m_menuFile.close();
-    m_menuFile.setSuffix(".mpg");
+    m_menuFile.setSuffix(".xml");
     m_menuFile.setAutoRemove(false);
     m_menuFile.open();
+
+    m_menuVobFile.close();
+    m_menuVobFile.setSuffix(".mpg");
+    m_menuVobFile.setAutoRemove(false);
+    m_menuVobFile.open();
 
     m_authorFile.close();
     m_authorFile.setSuffix(".xml");
@@ -222,7 +223,7 @@ void DvdWizard::generateDvd()
 
     if (m_pageMenu->createMenu()) {
         m_pageMenu->createButtonImages(temp1.fileName(), temp2.fileName(), temp3.fileName());
-        m_pageMenu->createBackgroundImage(temp4.fileName());
+        m_pageMenu->createBackgroundImage(temp1.fileName(), temp4.fileName());
 
 
         images->setIcon(KIcon("dialog-ok"));
@@ -294,11 +295,9 @@ void DvdWizard::generateDvd()
         spu.setAttribute("force", "yes");
         spu.setAttribute("start", "00:00:00.00");
         spu.setAttribute("image", temp1.fileName());
-        spu.setAttribute("select", temp2.fileName());
+	spu.setAttribute("select", temp2.fileName());
         spu.setAttribute("highlight", temp3.fileName());
-        /*spu.setAttribute("autooutline", "infer");
-        spu.setAttribute("outlinewidth", "12");
-        spu.setAttribute("autoorder", "rows");*/
+        /*spu.setAttribute("autoorder", "rows");*/
 
         int max = buttons.count() - 1;
         int i = 0;
@@ -318,15 +317,19 @@ void DvdWizard::generateDvd()
 
             // We need to make sure that the y coordinate is a multiple of 2, otherwise button may not be displayed
             buttonsTarget.append(it.key());
+	    int y0 = r.y() - 2;
+	    if (y0 % 2 == 1) y0++;
+	    int y1 = r.bottom() + 2;
+	    if (y1 % 2 == 1) y1++;
             but.setAttribute("x0", QString::number(r.x()));
-            but.setAttribute("y0", QString::number((int) 2 * (r.y() / 2)));
+            but.setAttribute("y0", QString::number(y0));
             but.setAttribute("x1", QString::number(r.right()));
-            but.setAttribute("y1", QString::number((int) 2 * (r.bottom() / 2)));
+            but.setAttribute("y1", QString::number(y1));
             spu.appendChild(but);
             i++;
         }
 
-        QFile data(temp6.fileName());
+        QFile data(m_menuFile.fileName());
         if (data.open(QFile::WriteOnly)) {
             data.write(doc.toString().toUtf8());
         }
@@ -335,8 +338,8 @@ void DvdWizard::generateDvd()
         kDebug() << " SPUMUX DATA: " << doc.toString();
 
         QStringList args;
-        args.append(temp6.fileName());
-        kDebug() << "SPM ARGS: " << args << temp5.fileName() << m_menuFile.fileName();
+        args.append(m_menuFile.fileName());
+        kDebug() << "SPM ARGS: " << args << temp5.fileName() << m_menuVobFile.fileName();
 
         QProcess spumux;
 
@@ -352,7 +355,7 @@ void DvdWizard::generateDvd()
     
         if (m_pageMenu->menuMovie()) spumux.setStandardInputFile(m_pageMenu->menuMoviePath());
         else spumux.setStandardInputFile(temp5.fileName());
-        spumux.setStandardOutputFile(m_menuFile.fileName());
+        spumux.setStandardOutputFile(m_menuVobFile.fileName());
         spumux.start("spumux", args);
         if (spumux.waitForFinished()) {
             m_status.error_log->append(spumux.readAllStandardError());
@@ -384,7 +387,7 @@ void DvdWizard::generateDvd()
         }
 
         spuitem->setIcon(KIcon("dialog-ok"));
-        kDebug() << "/// DONE: " << m_menuFile.fileName();
+        kDebug() << "/// DONE: " << m_menuVobFile.fileName();
     }
 
     // create dvdauthor xml
@@ -431,6 +434,9 @@ void DvdWizard::generateDvd()
         pgc.appendChild(pre);
         QDomText nametext = dvddoc.createTextNode("{g1 = 0;}");
         pre.appendChild(nametext);
+	QDomElement menuvob = dvddoc.createElement("vob");
+        menuvob.setAttribute("file", m_menuVobFile.fileName());
+        pgc.appendChild(menuvob);
         for (int i = 0; i < buttons.count(); i++) {
             QDomElement button = dvddoc.createElement("button");
             button.setAttribute("name", 'b' + QString::number(i));
@@ -438,9 +444,6 @@ void DvdWizard::generateDvd()
             button.appendChild(nametext);
             pgc.appendChild(button);
         }
-        QDomElement menuvob = dvddoc.createElement("vob");
-        menuvob.setAttribute("file", m_menuFile.fileName());
-        pgc.appendChild(menuvob);
 
         if (m_pageMenu->loopMovie()) {
             QDomElement menuloop = dvddoc.createElement("post");
@@ -705,9 +708,18 @@ void DvdWizard::cleanup()
 
 void DvdWizard::slotPreview()
 {
-    QString programName("xine");
-    QString exec = KStandardDirs::findExe(programName);
-    if (exec.isEmpty()) KMessageBox::sorry(this, i18n("You need program <b>%1</b> to perform this action", programName));
+    QStringList programNames;
+    programNames << "xine" << "vlc";
+    QString exec;
+    foreach(const QString &prog, programNames) {
+	exec = KStandardDirs::findExe(prog);
+	if (!exec.isEmpty()) {
+	    break;
+	}
+    }
+    if (exec.isEmpty()) {
+	KMessageBox::sorry(this, i18n("Previewing requires one of these applications (%1)", programNames.join(",")));
+    }
     else QProcess::startDetached(exec, QStringList() << "dvd://" + m_status.iso_image->url().path());
 }
 

@@ -462,7 +462,6 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         if (m_safeRect->scene() != 0) m_scene->removeItem(m_safeRect);
         if (m_color->scene() != 0) m_scene->removeItem(m_color);
         if (m_background->scene() != 0) m_scene->removeItem(m_background);
-
 #if QT_VERSION >= 0x040800
         QImage img(m_width, m_height, QImage::Format_ARGB32);
         img.fill(Qt::transparent);
@@ -504,7 +503,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 #else
         img.setNumColors(4);
 #endif
-        img.save(img3);        
+        img.save(img3);
 
 #if QT_VERSION >= 0x040800
         img.fill(Qt::transparent);
@@ -534,7 +533,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 }
 
 
-void DvdWizardMenu::createBackgroundImage(const QString &img1)
+void DvdWizardMenu::createBackgroundImage(const QString &overlayMenu, const QString &img1)
 {
     QImage img;
     if (m_view.background_list->currentIndex() == 0) {
@@ -554,6 +553,13 @@ void DvdWizardMenu::createBackgroundImage(const QString &img1)
                 img = img.scaled(720, 540, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         }
     } else return;
+    // Overlay Normal menu
+    QImage menu(overlayMenu);
+    QPainter p(&img);
+    QRectF target(0, 0, img.width(), img.height());
+    QRectF src(0, 0, menu.width(), menu.height());
+    p.drawImage(target, menu, src);
+    p.end();
     img.save(img1);
 }
 

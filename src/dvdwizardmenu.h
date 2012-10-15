@@ -133,7 +133,7 @@ public:
     virtual ~DvdWizardMenu();
     virtual bool isComplete() const;
     bool createMenu() const;
-    void createBackgroundImage(const QString &img1);
+    void createBackgroundImage(const QString &overlayMenu, const QString &img1);
     void createButtonImages(const QString &img1, const QString &img2, const QString &img3);
     void setTargets(QStringList list, QStringList targetlist);
     QMap <QString, QRect> buttonsInfo();

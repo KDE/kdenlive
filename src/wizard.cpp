@@ -464,7 +464,13 @@ void Wizard::slotCheckPrograms()
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("xine"));
     item->setData(1, Qt::UserRole, i18n("Required to preview your DVD"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("xine").isEmpty()) item->setIcon(0, m_badIcon);
+    if (KStandardDirs::findExe("xine").isEmpty()) {
+	if (!KStandardDirs::findExe("vlc").isEmpty()) {
+	    item->setText(1, i18n("vlc"));
+	    item->setIcon(0, m_okIcon);
+	}
+	else item->setIcon(0, m_badIcon);
+    }
     else item->setIcon(0, m_okIcon);
 
     // set up some default applications
