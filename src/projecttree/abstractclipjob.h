@@ -63,7 +63,6 @@ protected:
 signals:
     void jobProgress(QString, int, int);
     void cancelRunningJob(const QString, stringMap);
-    void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params);
 };
 
 

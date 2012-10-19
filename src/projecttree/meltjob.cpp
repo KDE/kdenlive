@@ -35,13 +35,14 @@ static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame /*fram
     self->emitFrameNumber();
 }
 
-MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(MLTJOB, cType, id, parameters),
+MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters, QStringList extraParams) : AbstractClipJob(MLTJOB, cType, id, parameters),
     addClipToProject(0),
     m_producer(NULL),
     m_profile(NULL),
     m_consumer(NULL),
     m_showFrameEvent(NULL),
-    m_length(0)
+    m_length(0),
+    m_extra(extraParams)
 {
     jobStatus = JOBWAITING;
     m_params = parameters;
@@ -71,7 +72,6 @@ void MeltJob::startJob()
     QString filter = m_params.takeFirst();
     QString filterParams = m_params.takeFirst();
     QString consumer = m_params.takeFirst();
-    kDebug()<<"consumer: "<<consumer;
     if (consumer.contains(':')) m_dest = consumer.section(':', 1);
     QString consumerParams = m_params.takeFirst();
     
@@ -86,14 +86,20 @@ void MeltJob::startJob()
     if (!m_params.isEmpty()) finalFilter = m_params.takeFirst();
     else finalFilter = filter;
 
+
     if (out != -1 && out <= in) {
         m_errorMessage.append(i18n("Clip zone undefined (%1 - %2).", in, out));
         setStatus(JOBCRASHED);
         return;
     }
     Mlt::Producer *prod ;
-    m_profile = new Mlt::Profile;
-    m_profile->set_explicit(false);
+    if (m_extra.contains("project_profile")) {
+	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
+    }
+    else {
+	m_profile = new Mlt::Profile;
+	m_profile->set_explicit(false);
+    }
     if (out == -1) {
 	prod = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
     }
@@ -102,8 +108,10 @@ void MeltJob::startJob()
         prod = tmp->cut(in, out);
 	delete tmp;
     }
-    m_profile->from_producer(*prod);
-    m_profile->set_explicit(true);
+    if (!m_extra.contains("project_profile")) {
+	m_profile->from_producer(*prod);
+	m_profile->set_explicit(true);
+    }
     QStringList list = producerParams.split(' ', QString::SkipEmptyParts);
     foreach(const QString &data, list) {
         if (data.contains('=')) {
@@ -125,6 +133,7 @@ void MeltJob::startJob()
     //m_consumer->set("terminate_on_pause", 1 );
     //m_consumer->set("eof", "pause" );
     m_consumer->set("real_time", -KdenliveSettings::mltthreads() );
+
 
     list = consumerParams.split(' ', QString::SkipEmptyParts);
     foreach(const QString &data, list) {
@@ -209,4 +218,11 @@ void MeltJob::emitFrameNumber()
         emit jobProgress(m_clipId, (int) (100 * m_consumer->position() / m_length), jobType);
     }
 }
+
+bool MeltJob::isProjectFilter() const
+{
+    return m_extra.contains("projecttreefilter");
+}
+
+
 

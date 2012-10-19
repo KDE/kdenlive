@@ -424,7 +424,7 @@ private:
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description);
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QStringList extraParams = QStringList());
 
 private slots:
     void slotClipSelected();
@@ -490,6 +490,8 @@ private slots:
     void slotResetInfoMessage();
     /** @brief close warning info passive popup. */
     void slotClosePopup();
+    /** @brief process clip job result. */
+    void slotGotFilterJobResults(QString ,int , int, QString, stringMap);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);

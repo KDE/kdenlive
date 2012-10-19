@@ -460,7 +460,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     loadPlugins();
     loadTranscoders();
-    loadStabilize();
+    loadClipActions();
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, NULL, m_loopClip);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
@@ -471,7 +471,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 	menus.insert("addMenu",static_cast<QMenu*>(factory()->container("generators", this)));
         menus.insert("extractAudioMenu",static_cast<QMenu*>(factory()->container("extract_audio", this)));
 	menus.insert("transcodeMenu",static_cast<QMenu*>(factory()->container("transcoders", this)));
-	menus.insert("stabilizeMenu",static_cast<QMenu*>(factory()->container("stabilize", this)));
+	menus.insert("clipActionsMenu",static_cast<QMenu*>(factory()->container("clip_actions", this)));
 	menus.insert("inTimelineMenu",clipInTimeline);
     m_projectList->setupGeneratorMenu(menus);
 
@@ -2735,7 +2735,7 @@ void MainWindow::updateConfiguration()
 
     // Update list of transcoding profiles
     loadTranscoders();
-    loadStabilize();
+    loadClipActions();
 #ifdef USE_JOGSHUTTLE
     activateShuttleDevice();
 #endif
@@ -3887,24 +3887,34 @@ void MainWindow::slotMaximizeCurrent(bool)
     kDebug() << "CURRENT WIDGET: " << par->objectName();
 }
 
-void MainWindow::loadStabilize()
+void MainWindow::loadClipActions()
 {
-	QMenu* stabMenu= static_cast<QMenu*>(factory()->container("stabilize", this));
-	if (stabMenu){
-		stabMenu->clear();
+	QMenu* actionMenu= static_cast<QMenu*>(factory()->container("clip_actions", this));
+	if (actionMenu){
+		actionMenu->clear();
 		Mlt::Profile profile;
-		if (Mlt::Factory::filter(profile,(char*)"videostab")){
-			QAction *action=stabMenu->addAction("Videostab (vstab)");
+		Mlt::Filter *filter = Mlt::Factory::filter(profile,(char*)"videostab");
+		if (filter) {
+			delete filter;
+			QAction *action=actionMenu->addAction("Videostab (vstab)");
 			action->setData("videostab");
 			connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
 		}
-		if (Mlt::Factory::filter(profile,(char*)"videostab2")){
-			QAction *action=stabMenu->addAction("Videostab (transcode)");
+		filter = Mlt::Factory::filter(profile,(char*)"videostab2");
+		if (filter) {
+			delete filter;
+			QAction *action=actionMenu->addAction("Videostab (transcode)");
 			action->setData("videostab2");
 			connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
 		}
+		filter = Mlt::Factory::filter(profile,(char*)"motion_est");
+		if (filter) {
+			delete filter;
+			QAction *action=actionMenu->addAction("Automatic scene split");
+			action->setData("motion_est");
+			connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
+		}
 	}
-
 
 }
 

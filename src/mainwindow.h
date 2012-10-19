@@ -305,7 +305,7 @@ private:
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void loadTranscoders();
-    void loadStabilize();
+    void loadClipActions();
     QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config);
 
     /** @brief Checks that the Kdenlive mime type is correctly installed.

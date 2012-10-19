@@ -425,8 +425,8 @@ void ProjectList::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
                         transcodeMenu->setEnabled(false);
                 m_transcodeAction = transcodeMenu;
         }
-	if (menus.contains("stabilizeMenu") && menus.value("stabilizeMenu") ){
-		QMenu* stabilizeMenu=menus.value("stabilizeMenu");
+	if (menus.contains("clipActionsMenu") && menus.value("clipActionsMenu") ){
+		QMenu* stabilizeMenu=menus.value("clipActionsMenu");
 		m_menu->addMenu(stabilizeMenu);
 		if (stabilizeMenu->isEmpty())
 			stabilizeMenu->setEnabled(false);
@@ -903,7 +903,7 @@ void ProjectList::adjustProxyActions(ProjectItem *clip) const
 void ProjectList::adjustStabilizeActions(ProjectItem *clip) const
 {
 
-    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW) {
+    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == SLIDESHOW) {
         m_stabilizeAction->setEnabled(false);
         return;
     }
@@ -2989,11 +2989,14 @@ void ProjectList::slotProcessJobs()
         }
         connect(job, SIGNAL(jobProgress(QString, int, int)), this, SIGNAL(processLog(QString, int, int)));
         connect(job, SIGNAL(cancelRunningJob(const QString, stringMap)), this, SIGNAL(cancelRunningJob(const QString, stringMap)));
-        connect(job, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap)));
 
         if (job->jobType == MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
             jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
+	    if (jb->isProjectFilter())
+	      connect(job, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int, int, QString,stringMap)));
+	    else
+		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap)));
         }
         job->startJob();
         if (job->jobStatus == JOBDONE) {
@@ -3451,14 +3454,31 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
     else {
         destination = item->clipUrl().directory();
     }
-    QPointer<ClipStabilize> d = new ClipStabilize(destination, ids.count(), filterName);
-    if (d->exec() == QDialog::Accepted) {
-        processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc());
+    if (filterName == "motion_est") {
+	// Autosplit filter
+	QStringList jobParams;
+	// Producer params
+	jobParams << QString();
+	// Filter params, use a smaller region of the image to speed up operation
+	jobParams << filterName << "bounding=\"25%x25%:25%x25";
+	// Consumer
+	jobParams << "null" << "all=1 terminate_on_pause=1 real_time=-1";
+	// Keys
+	jobParams << "scene_cuts";
+	QStringList extraParams;
+	extraParams << "projecttreefilter" << "project_profile";
+	processClipJob(ids, QString(), false, jobParams, i18n("Auto split"), extraParams);
     }
-    delete d;
+    else {
+	QPointer<ClipStabilize> d = new ClipStabilize(destination, ids.count(), filterName);
+	if (d->exec() == QDialog::Accepted) {
+	    processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc());
+	}
+	delete d;
+    }
 }
 
-void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description)
+void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QStringList extraParams)
 {
     QStringList preParams;
     // in and out
@@ -3485,12 +3505,13 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
         }
         jobArgs << jobParams;
         
-        MeltJob *job = new MeltJob(item->clipType(), id, jobArgs);
+        MeltJob *job = new MeltJob(item->clipType(), id, jobArgs, extraParams);
         if (autoAdd) {
             job->setAddClipToProject(true);
             kDebug()<<"// ADDING TRUE";
         }
         else kDebug()<<"// ADDING FALSE!!!";
+	  
         if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
             delete job;
             return;
@@ -3549,6 +3570,28 @@ void ProjectList::slotResetInfoMessage()
 void ProjectList::slotClosePopup()
 {
     m_errorLog.clear();
+}
+
+void ProjectList::slotGotFilterJobResults(QString id, int , int , QString filter, stringMap results)
+{
+    if (filter == "motion_est") {
+	// Autosplit filter, add sub zones
+	QStringList cuts = results.value("scene_cuts").split(':', QString::SkipEmptyParts);
+	int cutPos = 0;
+	QUndoCommand *command = new QUndoCommand();
+	command->setText(i18n("Auto Split Clip"));
+	foreach (const QString &pos, cuts) {
+	    int newPos = pos.toInt();
+	    kDebug()<<"// SCENE CUT: "<<cutPos<<" - "<<newPos;
+	    if (newPos - cutPos < 24) continue;
+	    (void) new AddClipCutCommand(this, id, cutPos, newPos, QString(), true, false, command);
+	    cutPos = newPos;
+	}
+	if (command->childCount() == 0)
+	    delete command;
+	else m_commandStack->push(command);
+    }
+    
 }
 
 #include "projectlist.moc"
