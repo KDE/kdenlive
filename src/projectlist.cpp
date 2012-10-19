@@ -3460,11 +3460,11 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	// Producer params
 	jobParams << QString();
 	// Filter params, use a smaller region of the image to speed up operation
-	jobParams << filterName << "bounding=\"25%x25%:25%x25";
+	jobParams << filterName << "bounding=\"25%x25%:25%x25\" _scene_cuts=0";
 	// Consumer
 	jobParams << "null" << "all=1 terminate_on_pause=1 real_time=-1";
 	// Keys
-	jobParams << "scene_cuts";
+	jobParams << "_scene_cuts";
 	QStringList extraParams;
 	extraParams << "projecttreefilter" << "project_profile";
 	processClipJob(ids, QString(), false, jobParams, i18n("Auto split"), extraParams);
@@ -3576,13 +3576,13 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , QString filter
 {
     if (filter == "motion_est") {
 	// Autosplit filter, add sub zones
-	QStringList cuts = results.value("scene_cuts").split(':', QString::SkipEmptyParts);
+	QStringList cuts = results.value("_scene_cuts").split(':', QString::SkipEmptyParts);
 	int cutPos = 0;
 	QUndoCommand *command = new QUndoCommand();
 	command->setText(i18n("Auto Split Clip"));
 	foreach (const QString &pos, cuts) {
 	    int newPos = pos.toInt();
-	    kDebug()<<"// SCENE CUT: "<<cutPos<<" - "<<newPos;
+	    // Don't use scenes shorter than 1 second
 	    if (newPos - cutPos < 24) continue;
 	    (void) new AddClipCutCommand(this, id, cutPos, newPos, QString(), true, false, command);
 	    cutPos = newPos;

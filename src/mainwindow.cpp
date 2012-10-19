@@ -3896,21 +3896,21 @@ void MainWindow::loadClipActions()
 		Mlt::Filter *filter = Mlt::Factory::filter(profile,(char*)"videostab");
 		if (filter) {
 			delete filter;
-			QAction *action=actionMenu->addAction("Videostab (vstab)");
+			QAction *action=actionMenu->addAction(i18n("Stabilize (vstab)"));
 			action->setData("videostab");
 			connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
 		}
 		filter = Mlt::Factory::filter(profile,(char*)"videostab2");
 		if (filter) {
 			delete filter;
-			QAction *action=actionMenu->addAction("Videostab (transcode)");
+			QAction *action=actionMenu->addAction(i18n("Stabilize (transcode)"));
 			action->setData("videostab2");
 			connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
 		}
 		filter = Mlt::Factory::filter(profile,(char*)"motion_est");
 		if (filter) {
 			delete filter;
-			QAction *action=actionMenu->addAction("Automatic scene split");
+			QAction *action=actionMenu->addAction(i18n("Automatic scene split"));
 			action->setData("motion_est");
 			connect(action,SIGNAL(triggered()), this, SLOT(slotStabilize()));
 		}
