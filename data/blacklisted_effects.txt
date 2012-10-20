@@ -84,6 +84,7 @@ rotoscoping
 wave
 volume
 vignette
+crop
 
 
 #Effects not usable with a simple GUI
