@@ -77,6 +77,7 @@ public:
     void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     void slotDeleteAllClipMarkers(const QString &id);
     void addMarker(const QString &id, const CommentedTime marker);
+    void addData(const QString &id, const QString &key, const QString &data);
     void setScale(double scaleFactor, double verticalScale);
     void deleteClip(const QString &clipId);
     /** @brief Add effect to current clip */
@@ -226,7 +227,9 @@ public slots:
     void slotSwitchTrackVideo(int ix);
     void slotSwitchTrackLock(int ix);
     void slotUpdateClip(const QString &clipId, bool reload = true);
-
+    
+    /** @brief Add extra data to a clip. */
+    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
     /** @brief Creates a AddClipCommand to add, edit or delete a marker.
      * @param id Id of the marker's clip
      * @param t Position of the marker
@@ -511,6 +514,7 @@ signals:
     void showClipFrame(DocClipBase *, QPoint, bool, const int);
     void doTrackLock(int, bool);
     void updateClipMarkers(DocClipBase *);
+    void updateClipExtraData(DocClipBase *);
     void updateTrackHeaders();
     void playMonitor();
     /** @brief Monitor document changes (for example the presence of audio data in timeline for export widget.*/

@@ -204,6 +204,8 @@ Q_OBJECT public:
     void cleanupProducers();
     bool isClean() const;
     bool getAudioThumbs();
+    void setAnalysisData(const QString &name, const QString &data);
+    QMap <QString, QString> analysisData() const;
 
 private:   // Private attributes
 
@@ -236,6 +238,8 @@ private:   // Private attributes
     QMap <QString, QString> m_properties;
     /** Holds clip metadata like author, copyright,... */
     QMap <QString, QString> m_metadata;
+    /** Holds clip analysis data that can be used later to create markers or keyframes */
+    QMap <QString, QString> m_analysisdata;
     
     /** Try to make sure we don't delete a producer while using it */
     QMutex m_producerMutex;

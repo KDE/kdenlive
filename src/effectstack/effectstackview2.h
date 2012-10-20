@@ -167,7 +167,7 @@ private slots:
     void slotSetCurrentEffect(int ix);
     
     /** @brief Triggers a filter job on this clip. */
-    void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties);
+    void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties,const QStringList &extraParams);
     
     /** @brief Reset an effect to its default values. */
     void slotResetEffect(int ix);
@@ -223,7 +223,7 @@ signals:
     void updateClipRegion(ClipItem*, int, QString);
     void displayMessage(const QString&, int);
     void showComments(bool show);
-    void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString&finalFilterName, const QString &consumer, const QString &consumerParams, const QString &properties);
+    void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString&finalFilterName, const QString &consumer, const QString &consumerParams, const QString &properties,const QStringList &extraParams);
     void addEffect(ClipItem*,QDomElement);
 };
 

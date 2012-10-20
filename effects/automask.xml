@@ -12,4 +12,7 @@
 	<parameter type="bool" name="obscure" default="1">
 		<name>Obscure</name>
 	</parameter>
+	<parameter type="filterjob" filtertag="autotrack_rectangle:%geometry" filterparams="_serialize=1" consumer="null" consumerparams="all=1 terminate_on_pause=1" wantedproperties="motion_vector_list" finalfilter="autotrack_rectangle" extraparams="projecttreefilter">
+		<name>Analyse</name>
+	</parameter>
 </effect>

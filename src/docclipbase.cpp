@@ -1259,4 +1259,14 @@ QImage DocClipBase::extractImage(int frame, int width, int height)
     return m_thumbProd->extractImage(frame, width, height);
 }
 
+void DocClipBase::setAnalysisData(const QString &name, const QString &data)
+{
+    if (data.isEmpty()) m_analysisdata.remove(name);
+    else m_analysisdata.insert(name, data);
+}
+
+QMap <QString, QString> DocClipBase::analysisData() const
+{
+    return m_analysisdata;
+}
 

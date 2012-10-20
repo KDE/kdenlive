@@ -5,6 +5,7 @@ set(kdenlive_SRCS
   commands/addeffectcommand.cpp
   commands/addfoldercommand.cpp
   commands/addmarkercommand.cpp
+  commands/addextradatacommand.cpp
   commands/addtimelineclipcommand.cpp
   commands/addtrackcommand.cpp
   commands/addtransitioncommand.cpp

@@ -3421,14 +3421,14 @@ void ProjectList::discardJobs(const QString &id, JOBTYPE type) {
     }
 }
 
-void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties)
+void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties, const QStringList &extraParams)
 {
     ProjectItem *item = getItemById(id);
     if (!item) return;
     QStringList jobParams;
     jobParams << QString::number(info.cropStart.frames(m_fps)) << QString::number((info.cropStart + info.cropDuration).frames(m_fps));
     jobParams << QString() << filterName << filterParams << consumer << consumerParams << properties << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track) << finalFilterName;
-    MeltJob *job = new MeltJob(item->clipType(), id, jobParams);
+    MeltJob *job = new MeltJob(item->clipType(), id, jobParams, extraParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
         return;
@@ -3466,13 +3466,15 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	// Keys
 	jobParams << "shot_change_list";
 	QStringList extraParams;
-	extraParams << "projecttreefilter" << "project_profile";
+	extraParams << "projecttreefilter";
 	processClipJob(ids, QString(), false, jobParams, i18n("Auto split"), extraParams);
     }
     else {
 	QPointer<ClipStabilize> d = new ClipStabilize(destination, ids.count(), filterName);
 	if (d->exec() == QDialog::Accepted) {
-	    processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc());
+	    QStringList extraParams;
+	    extraParams << "producer_profile";
+	    processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc(), extraParams);
 	}
 	delete d;
     }
@@ -3591,6 +3593,14 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , QString filter
 	if (command->childCount() == 0)
 	    delete command;
 	else m_commandStack->push(command);
+    }
+    else if (filter.startsWith("autotrack_rectangle")) {
+	QString cuts = results.value("motion_vector_list");
+	ProjectItem *clip = getItemById(id);
+	if (clip) {
+	    clip->referencedClip()->setAnalysisData(i18n("Motion vectors"), cuts);
+	    emit updateAnalysisData(clip->referencedClip());
+	}
     }
     
 }

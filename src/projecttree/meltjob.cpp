@@ -93,12 +93,12 @@ void MeltJob::startJob()
         return;
     }
     Mlt::Producer *prod ;
-    if (m_extra.contains("project_profile")) {
-	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
-    }
-    else {
+    if (m_extra.contains("producer_profile")) {
 	m_profile = new Mlt::Profile;
 	m_profile->set_explicit(false);
+    }
+    else {
+	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
     }
     if (out == -1) {
 	prod = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
@@ -108,7 +108,7 @@ void MeltJob::startJob()
         prod = tmp->cut(in, out);
 	delete tmp;
     }
-    if (!m_extra.contains("project_profile")) {
+    if (m_extra.contains("prducer_profile")) {
 	m_profile->from_producer(*prod);
 	m_profile->set_explicit(true);
     }

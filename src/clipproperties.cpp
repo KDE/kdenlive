@@ -485,6 +485,12 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.marker_save->setToolTip(i18n("Save markers"));
     m_view.marker_load->setIcon(KIcon("document-open"));
     m_view.marker_load->setToolTip(i18n("Load markers"));
+    m_view.analysis_delete->setIcon(KIcon("trash-empty"));
+    m_view.analysis_delete->setToolTip(i18n("Delete analysis data"));
+    m_view.analysis_load->setIcon(KIcon("document-open"));
+    m_view.analysis_load->setToolTip(i18n("Load analysis data"));
+    m_view.analysis_save->setIcon(KIcon("document-save-as"));
+    m_view.analysis_save->setToolTip(i18n("Save analysis data"));
 
         // Check for Nepomuk metadata
 #ifdef USE_NEPOMUK
@@ -512,13 +518,19 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 #endif
     
     slotFillMarkersList(m_clip);
+    slotUpdateAnalysisData(m_clip);
+    
     connect(m_view.marker_new, SIGNAL(clicked()), this, SLOT(slotAddMarker()));
     connect(m_view.marker_edit, SIGNAL(clicked()), this, SLOT(slotEditMarker()));
     connect(m_view.marker_delete, SIGNAL(clicked()), this, SLOT(slotDeleteMarker()));
     connect(m_view.marker_save, SIGNAL(clicked()), this, SLOT(slotSaveMarkers()));
     connect(m_view.marker_load, SIGNAL(clicked()), this, SLOT(slotLoadMarkers()));
     connect(m_view.markers_list, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotEditMarker()));
-
+    
+    connect(m_view.analysis_delete, SIGNAL(clicked()), this, SLOT(slotDeleteAnalysis()));
+    connect(m_view.analysis_save, SIGNAL(clicked()), this, SLOT(slotSaveAnalysis()));
+    connect(m_view.analysis_load, SIGNAL(clicked()), this, SLOT(slotLoadAnalysis()));
+    
     connect(this, SIGNAL(accepted()), this, SLOT(slotApplyProperties()));
     connect(m_view.buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApplyProperties()));
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
@@ -724,6 +736,21 @@ void ClipProperties::slotEnableLumaFile(int state)
     m_view.label_softness->setEnabled(enable);
 }
 
+void ClipProperties::slotUpdateAnalysisData(DocClipBase *clip)
+{
+    if (m_clip != clip) return;
+    m_view.analysis_list->clear();
+    QMap <QString, QString> analysis = clip->analysisData();
+    m_view.analysis_box->setHidden(analysis.isEmpty());
+    QMap<QString, QString>::const_iterator i = analysis.constBegin();
+    while (i != analysis.constEnd()) {
+	QStringList itemtext;
+	itemtext << i.key() << i.value();
+	(void) new QTreeWidgetItem(m_view.analysis_list, itemtext);
+	++i;
+    }
+}
+
 void ClipProperties::slotFillMarkersList(DocClipBase *clip)
 {
     if (m_clip != clip) return;
@@ -783,6 +810,12 @@ void ClipProperties::slotDeleteMarker()
     }
     for (int i = 0; i < toDelete.count(); i++)
 	emit addMarker(m_clip->getId(), toDelete.at(i));
+}
+
+void ClipProperties::slotDeleteAnalysis()
+{
+    QTreeWidgetItem *current = m_view.analysis_list->currentItem();
+    if (current) emit deleteAnalysis(m_clip->getId(), current->text(0));
 }
 
 const QString &ClipProperties::clipId() const

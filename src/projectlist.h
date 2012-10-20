@@ -330,7 +330,7 @@ public slots:
     /** @brief Start transcoding selected clips. */
     void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
-    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&);
+    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&);
     
 
 private:
@@ -526,6 +526,7 @@ signals:
     /** @brief A Filter Job produced results, send them back to the clip. */
     void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params);
     void pauseMonitor();
+    void updateAnalysisData(DocClipBase *);
 };
 
 #endif

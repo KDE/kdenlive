@@ -807,8 +807,19 @@ void ParameterContainer::slotStartFilterJobAction()
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute("type");
         if (type == "filterjob") {
-            emit startFilterJob(pa.attribute("filtertag"), pa.attribute("filterparams"), pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), pa.attribute("wantedproperties"));
-            kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("wantedproperties");
+	    QString filtertag = pa.attribute("filtertag");
+	    if (filtertag.contains("%geometry")) {
+		// Replace with current geometry
+		if (m_geometryWidget) {
+		    QString data = m_geometryWidget->getValue();
+		    filtertag.replace("%geometry", data);
+		    kDebug()<<"// Setting geometry: "<<data<<", RES: "<<filtertag;
+		}
+	    }
+	    QStringList extra;
+	    extra = pa.attribute("extraparams").split(' ', QString::SkipEmptyParts);
+            emit startFilterJob(filtertag, pa.attribute("filterparams"), pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), pa.attribute("wantedproperties"), extra);
+            kDebug()<<" - - -PROPS:\n"<<"filtertag"<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("wantedproperties");
             break;
         }
     }

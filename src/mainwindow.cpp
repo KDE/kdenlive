@@ -280,7 +280,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_effectStack = new EffectStackView2(m_projectMonitor);
     m_effectStackDock->setWidget(m_effectStack);
     addDockWidget(Qt::TopDockWidgetArea, m_effectStackDock);
-    connect(m_effectStack, SIGNAL(startFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&)), m_projectList, SLOT(slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&)));
+    connect(m_effectStack, SIGNAL(startFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&)), m_projectList, SLOT(slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&)));
 
     m_transitionConfigDock = new QDockWidget(i18n("Transition"), this);
     m_transitionConfigDock->setObjectName("transition");
@@ -3313,7 +3313,10 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
     // any type of clip but a title
     ClipProperties *dia = new ClipProperties(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
     connect(dia, SIGNAL(addMarker(const QString &, CommentedTime)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, CommentedTime)));
+    connect(dia, SIGNAL(deleteAnalysis(QString,QString)), m_activeTimeline->projectView(), SLOT(slotAddClipExtraData(QString,QString)));
     connect(m_activeTimeline->projectView(), SIGNAL(updateClipMarkers(DocClipBase *)), dia, SLOT(slotFillMarkersList(DocClipBase *)));
+    connect(m_activeTimeline->projectView(), SIGNAL(updateClipExtraData(DocClipBase *)), dia, SLOT(slotUpdateAnalysisData(DocClipBase *)));
+    connect(m_projectList, SIGNAL(updateAnalysisData(DocClipBase *)), dia, SLOT(slotUpdateAnalysisData(DocClipBase *)));
     connect(dia, SIGNAL(loadMarkers(const QString &)), m_activeTimeline->projectView(), SLOT(slotLoadClipMarkers(const QString &)));
     connect(dia, SIGNAL(saveMarkers(const QString &)), m_activeTimeline->projectView(), SLOT(slotSaveClipMarkers(const QString &)));
     connect(dia, SIGNAL(deleteProxy(const QString)), m_projectList, SLOT(slotDeleteProxy(const QString)));

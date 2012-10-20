@@ -58,6 +58,7 @@ public:
 
 public slots:
     void slotFillMarkersList(DocClipBase *clip);
+    void slotUpdateAnalysisData(DocClipBase *clip);
     
 private slots:
     void parseFolder();
@@ -74,6 +75,7 @@ private slots:
     void slotOpenUrl(const QString &url);
     void slotSaveMarkers();
     void slotLoadMarkers();
+    void slotDeleteAnalysis();
 
 private:
     Ui::ClipProperties_UI m_view;
@@ -96,6 +98,7 @@ signals:
     void applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool);
     void saveMarkers(const QString &);
     void loadMarkers(const QString &);
+    void deleteAnalysis(const QString &, const QString &);
 };
 
 

@@ -152,7 +152,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
     m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);
     connect (m_paramWidget, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)));
     
-    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)));
+    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString,QStringList)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString,QStringList)));
     
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));

@@ -102,7 +102,7 @@ signals:
     void seekTimeline(int);
     void showComments(bool);    
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QString properties);
+    void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QString properties, QStringList extra);
     
 };
 
