@@ -417,7 +417,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     if (dragMode() == QGraphicsView::RubberBandDrag || (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && m_operationMode != RESIZESTART && m_operationMode != RESIZEEND)) {
         event->setAccepted(true);
         m_moveOpMode = NONE;
-        QGraphicsView::mouseMoveEvent(event);
+        if (event->modifiers() != Qt::ControlModifier || dragMode() == QGraphicsView::RubberBandDrag) QGraphicsView::mouseMoveEvent(event);
         return;
     }
 
@@ -740,6 +740,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         setDragMode(QGraphicsView::RubberBandDrag);
         if (!(event->modifiers() & Qt::ControlModifier)) {
             resetSelectionGroup();
+	    if (m_dragItem) {
+		emit clipItemSelected(NULL);
+		m_dragItem = NULL;
+	    }
             scene()->clearSelection();
         }
         m_blockRefresh = false;
@@ -1214,6 +1218,9 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup)
         return;
     }
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
+    if (m_dragItem && !selection.contains(m_dragItem)) {
+	selection << m_dragItem;
+    }
     if (selection.isEmpty()) return;
     QRectF rectUnion;
     // Find top left position of selection
