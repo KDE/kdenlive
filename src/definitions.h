@@ -262,9 +262,9 @@ public:
 class CommentedTime
 {
 public:
-    CommentedTime(): t(GenTime(0)) {}
-    CommentedTime(const GenTime &time, QString comment)
-        : t(time), c(comment) { }
+    CommentedTime(): t(GenTime(0)), type(0) {}
+    CommentedTime(const GenTime &time, QString comment, int markerType = 0)
+        : t(time), c(comment), type(markerType) { }
 
     QString comment()   const          {
         return (c.isEmpty() ? i18n("Marker") : c);
@@ -275,6 +275,31 @@ public:
     void    setComment(QString comm) {
         c = comm;
     }
+    void setMarkerType(int t) {
+	type = t;
+    }
+    int markerType() const {
+	return type;
+    }
+    static QColor markerColor(int type) {
+	switch (type) {
+	  case 0:
+	      return Qt::red;
+	      break;
+	  case 1:
+	      return Qt::blue;
+	      break;
+	  case 2:
+	      return Qt::green;
+	      break;
+	  case 3:
+	      return Qt::yellow;
+	      break;
+	  default:
+	      return Qt::cyan;
+	      break;
+	}
+    };
 
     /* Implementation of > operator; Works identically as with basic types. */
     bool operator>(CommentedTime op) const {
@@ -304,6 +329,8 @@ public:
 private:
     GenTime t;
     QString c;
+    int type;
+
 
 
 };

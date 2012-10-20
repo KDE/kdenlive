@@ -226,6 +226,7 @@ QWidget *Monitor::container()
 bool Monitor::createOpenGlWidget(QWidget *parent, const QString profile)
 {
     render = new Render(id(), 0, profile, this);
+    kDebug()<<"+++++++++++++\nCREATED OPENGL WIDG\n++++++++++++++";
     m_glWidget = new VideoGLWidget(parent);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...
@@ -366,8 +367,8 @@ void Monitor::updateMarkers(DocClipBase *source)
                 QAction *go = m_markerMenu->addAction(position);
                 go->setData(pos);
             }
-            m_ruler->setMarkers(marks);
-        } else m_ruler->setMarkers(QList <int>());
+        }
+	m_ruler->setMarkers(markers);
         m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
     }
 }

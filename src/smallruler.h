@@ -40,7 +40,7 @@ public:
     void setZoneStart();
     void setZoneEnd();
     QPoint zone();
-    void setMarkers(QList < int > list);
+    void setMarkers(QList < CommentedTime > list);
     void updatePalette();
     void refreshRuler();
 
@@ -58,7 +58,7 @@ private:
     int m_zoneStart;
     int m_zoneEnd;
     KStatefulBrush m_zoneBrush;
-    QList <int> m_markers;
+    QList <CommentedTime> m_markers;
     QPixmap m_pixmap;
     MonitorManager *m_manager;
     Render *m_render;

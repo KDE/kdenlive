@@ -941,10 +941,8 @@ void ClipItem::paint(QPainter *painter,
             QList < CommentedTime >::Iterator it = markers.begin();
             GenTime pos;
             double framepos;
-            QBrush markerBrush(QColor(120, 120, 0, 140));
+	    QBrush markerBrush(QColor(120, 120, 0, 140));
             QPen pen = painter->pen();
-            pen.setColor(QColor(255, 255, 255, 200));
-            pen.setStyle(Qt::DotLine);
 
             for (; it != markers.end(); ++it) {
                 pos = GenTime((int)((*it).time().frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
@@ -952,6 +950,8 @@ void ClipItem::paint(QPainter *painter,
                     if (pos > cropDuration()) break;
                     QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
                     QLineF l2 = painter->worldTransform().map(l);
+		    pen.setColor(CommentedTime::markerColor((*it).markerType()));
+		    pen.setStyle(Qt::DotLine);
                     painter->setPen(pen);
                     painter->drawLine(l2);
                     if (KdenliveSettings::showmarkers()) {
@@ -960,9 +960,10 @@ void ClipItem::paint(QPainter *painter,
                         const QRectF r2 = painter->worldTransform().mapRect(r1);
                         const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
                         painter->setBrush(markerBrush);
-                        painter->setPen(Qt::NoPen);
-                        painter->drawRoundedRect(txtBounding3, 3, 3);
-                        painter->setBrush(QBrush(Qt::NoBrush));
+			pen.setStyle(Qt::SolidLine);
+                        painter->setPen(pen);
+                        painter->drawRect(txtBounding3);
+                        painter->setBrush(Qt::NoBrush);
                         painter->setPen(Qt::white);
                         painter->drawText(txtBounding3, Qt::AlignCenter, (*it).comment());
                     }
@@ -1093,7 +1094,7 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const
         pos = GenTime((int)(markers.at(i).time().frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
-            else snaps.append(CommentedTime(pos + startPos(), markers.at(i).comment()));
+            else snaps.append(CommentedTime(pos + startPos(), markers.at(i).comment(), markers.at(i).markerType()));
         }
     }
     return snaps;

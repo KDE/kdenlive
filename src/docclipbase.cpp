@@ -290,22 +290,21 @@ QList < CommentedTime > DocClipBase::commentedSnapMarkers() const
 }
 
 
-void DocClipBase::addSnapMarker(const GenTime & time, QString comment)
+void DocClipBase::addSnapMarker(const CommentedTime marker)
 {
     QList < CommentedTime >::Iterator it = m_snapMarkers.begin();
     for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {
-        if ((*it).time() >= time)
+        if ((*it).time() >= marker.time())
             break;
     }
 
-    if ((it != m_snapMarkers.end()) && ((*it).time() == time)) {
-        (*it).setComment(comment);
+    if ((it != m_snapMarkers.end()) && ((*it).time() == marker.time())) {
+        (*it).setComment(marker.comment());
+	(*it).setMarkerType(marker.markerType());
         //kError() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
     } else {
-        CommentedTime t(time, comment);
-        m_snapMarkers.insert(it, t);
+        m_snapMarkers.insert(it, marker);
     }
-
 }
 
 void DocClipBase::editSnapMarker(const GenTime & time, QString comment)
@@ -378,16 +377,26 @@ GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime)
     return duration();
 }
 
-QString DocClipBase::markerComment(GenTime t)
+QString DocClipBase::markerComment(GenTime t) const
 {
-    QList < CommentedTime >::Iterator itt = m_snapMarkers.begin();
-
+    QList < CommentedTime >::ConstIterator itt = m_snapMarkers.begin();
     while (itt != m_snapMarkers.end()) {
         if ((*itt).time() == t)
             return (*itt).comment();
         ++itt;
     }
     return QString();
+}
+
+CommentedTime DocClipBase::markerAt(GenTime t) const
+{
+    QList < CommentedTime >::ConstIterator itt = m_snapMarkers.begin();
+    while (itt != m_snapMarkers.end()) {
+        if ((*itt).time() == t)
+            return (*itt);
+        ++itt;
+    }
+    return CommentedTime();
 }
 
 void DocClipBase::clearThumbProducer()

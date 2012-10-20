@@ -263,9 +263,10 @@ public slots:
     GenTime hasSnapMarkers(const GenTime & time);
     QString deleteSnapMarker(const GenTime & time);
     void editSnapMarker(const GenTime & time, QString comment);
-    void addSnapMarker(const GenTime & time, QString comment);
+    void addSnapMarker(const CommentedTime marker);
     QList < GenTime > snapMarkers() const;
-    QString markerComment(GenTime t);
+    QString markerComment(GenTime t) const;
+    CommentedTime markerAt(GenTime t) const;
     void setClipThumbFrame(const uint &ix);
     uint getClipThumbFrame() const;
     void setProperties(QMap <QString, QString> properties);

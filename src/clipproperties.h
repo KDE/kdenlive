@@ -91,7 +91,7 @@ private:
     QFrame* m_proxyContainer;
 
 signals:
-    void addMarker(const QString &, GenTime, QString);
+    void addMarker(const QString &, CommentedTime);
     void deleteProxy(const QString);
     void applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool);
     void saveMarkers(const QString &);

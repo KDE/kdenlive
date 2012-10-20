@@ -282,8 +282,10 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                     int maxchild = markerslist.count();
                                     for (int k = 0; k < maxchild; k++) {
                                         e = markerslist.at(k).toElement();
-                                        if (e.tagName() == "marker")
-                                            m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
+                                        if (e.tagName() == "marker") {
+					    CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
+                                            m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(marker);
+					}
                                     }
                                     infoXml.removeChild(markers);
                                 }
@@ -725,6 +727,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
             marker.setAttribute("time", marks.at(j).time().ms() / 1000);
             marker.setAttribute("comment", marks.at(j).comment());
             marker.setAttribute("id", e.attribute("id"));
+	    marker.setAttribute("type", marks.at(j).markerType());
             markers.appendChild(marker);
         }
     }

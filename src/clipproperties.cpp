@@ -732,8 +732,9 @@ void ClipProperties::slotFillMarkersList(DocClipBase *clip)
     for (int count = 0; count < marks.count(); ++count) {
         QString time = m_tc.getTimecode(marks[count].time());
         QStringList itemtext;
-        itemtext << time << marks[count].comment();
-        (void) new QTreeWidgetItem(m_view.markers_list, itemtext);
+        itemtext << time << marks.at(count).comment();
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.markers_list, itemtext);
+	item->setData(0, Qt::DecorationRole, CommentedTime::markerColor(marks.at(count).markerType()));
     }
 }
 
@@ -743,7 +744,7 @@ void ClipProperties::slotAddMarker()
     QPointer<MarkerDialog> d = new MarkerDialog(m_clip, marker,
                                           m_tc, i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        emit addMarker(m_clip->getId(), d->newMarker().time(), d->newMarker().comment());
+        emit addMarker(m_clip->getId(), d->newMarker());
     }
     delete d;
 }
@@ -765,7 +766,7 @@ void ClipProperties::slotEditMarker()
     if (pos < 0 || pos > marks.count() - 1) return;
     MarkerDialog d(m_clip, marks.at(pos), m_tc, i18n("Edit Marker"), this);
     if (d.exec() == QDialog::Accepted) {
-        emit addMarker(m_clip->getId(), d.newMarker().time(), d.newMarker().comment());
+        emit addMarker(m_clip->getId(), d.newMarker());
     }
 }
 
@@ -774,7 +775,9 @@ void ClipProperties::slotDeleteMarker()
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     int pos = m_view.markers_list->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) return;
-    emit addMarker(m_clip->getId(), marks.at(pos).time(), QString());
+    CommentedTime marker = marks.at(pos);
+    marker.setMarkerType(-1);
+    emit addMarker(m_clip->getId(), marker);
 }
 
 const QString &ClipProperties::clipId() const

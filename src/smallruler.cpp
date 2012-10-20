@@ -106,7 +106,7 @@ void SmallRuler::setZone(int start, int end)
     updatePixmap();
 }
 
-void SmallRuler::setMarkers(QList < int > list)
+void SmallRuler::setMarkers(QList < CommentedTime > list)
 {
     m_markers = list;
     updatePixmap();
@@ -213,9 +213,10 @@ void SmallRuler::updatePixmap()
     }
     // draw markers
     if (!m_markers.isEmpty()) {
-        p.setPen(Qt::red);
         for (int i = 0; i < m_markers.count(); i++) {
-            p.drawLine(m_markers.at(i) * m_scale, 0, m_markers.at(i) * m_scale, 9);
+	    int pos = m_markers.at(i).time().frames(m_manager->timecode().fps()) * m_scale;
+	    p.setPen(CommentedTime::markerColor(m_markers.at(i).markerType()));
+            p.drawLine(pos, 0, pos, 9);
         }
     }
     p.end();

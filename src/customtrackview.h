@@ -76,7 +76,7 @@ public:
     void deleteClip(ItemInfo info, bool refresh = true);
     void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     void slotDeleteAllClipMarkers(const QString &id);
-    void addMarker(const QString &id, const GenTime &pos, const QString &comment);
+    void addMarker(const QString &id, const CommentedTime marker);
     void setScale(double scaleFactor, double verticalScale);
     void deleteClip(const QString &clipId);
     /** @brief Add effect to current clip */
@@ -231,7 +231,7 @@ public slots:
      * @param id Id of the marker's clip
      * @param t Position of the marker
      * @param c Comment of the marker */
-    void slotAddClipMarker(const QString &id, GenTime t, QString c, QUndoCommand *groupCommand = 0);
+    void slotAddClipMarker(const QString &id, CommentedTime newMarker, QUndoCommand *groupCommand = 0);
     void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
     bool addGuide(const GenTime &pos, const QString &comment);

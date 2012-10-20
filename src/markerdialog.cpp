@@ -36,6 +36,13 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
     setupUi(this);
     setWindowTitle(caption);
 
+    // Set  up categories
+    for (int i = 0; i < 5; ++i) {
+         marker_type->insertItem(i, i18n("Category %1", i));
+         marker_type->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
+     }
+    marker_type->setCurrentIndex(t.markerType());
+
     m_in = new TimecodeDisplay(tc, this);
     inputLayout->addWidget(m_in);
     m_in->setValue(t.time());
@@ -121,7 +128,7 @@ void MarkerDialog::slotUpdateThumb()
 
 CommentedTime MarkerDialog::newMarker()
 {
-    return CommentedTime(m_in->gentime(), marker_comment->text());
+    return CommentedTime(m_in->gentime(), marker_comment->text(), marker_type->currentIndex());
 }
 
 #include "markerdialog.moc"
