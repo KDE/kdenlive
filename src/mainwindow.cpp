@@ -2835,7 +2835,7 @@ void MainWindow::slotAddClipMarker()
         return;
     }
     QString id = clip->getId();
-    CommentedTime marker(pos, i18n("Marker"));
+    CommentedTime marker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
     QPointer<MarkerDialog> d = new MarkerDialog(clip, marker,
                        m_activeDocument->timecode(), i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted)
@@ -2948,7 +2948,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
             return;
         }
         //TODO: allow user to set default marker category
-	CommentedTime marker(pos, m_activeDocument->timecode().getDisplayTimecode(pos, false));
+	CommentedTime marker(pos, m_activeDocument->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
         m_activeTimeline->projectView()->slotAddClipMarker(clip->getId(), marker);
     } else {
         m_activeTimeline->projectView()->slotAddGuide(false);

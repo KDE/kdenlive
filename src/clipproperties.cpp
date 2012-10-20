@@ -773,11 +773,16 @@ void ClipProperties::slotEditMarker()
 void ClipProperties::slotDeleteMarker()
 {
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
-    int pos = m_view.markers_list->currentIndex().row();
-    if (pos < 0 || pos > marks.count() - 1) return;
-    CommentedTime marker = marks.at(pos);
-    marker.setMarkerType(-1);
-    emit addMarker(m_clip->getId(), marker);
+    QList < CommentedTime > toDelete;
+    for (int i = 0; i < marks.count(); i++) {
+	if (m_view.markers_list->topLevelItem(i)->isSelected()) {
+	    CommentedTime marker = marks.at(i);
+	    marker.setMarkerType(-1);
+	    toDelete << marker;
+	}
+    }
+    for (int i = 0; i < toDelete.count(); i++)
+	emit addMarker(m_clip->getId(), toDelete.at(i));
 }
 
 const QString &ClipProperties::clipId() const

@@ -821,6 +821,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="default_marker_type" type="Int">
+      <label>Default category for newly created clip markers.</label>
+      <default>0</default>
+    </entry>
+
   </group>
 
 </kcfg>

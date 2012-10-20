@@ -128,6 +128,7 @@ void MarkerDialog::slotUpdateThumb()
 
 CommentedTime MarkerDialog::newMarker()
 {
+    KdenliveSettings::setDefault_marker_type(marker_type->currentIndex());
     return CommentedTime(m_in->gentime(), marker_comment->text(), marker_type->currentIndex());
 }
 

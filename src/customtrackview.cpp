@@ -5296,18 +5296,39 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
 {
     DocClipBase *base = m_document->clipManager()->getClipById(id);
     QList < CommentedTime > markers = base->commentedSnapMarkers();
-    QString data;
-    for (int i = 0; i < markers.count(); i++) {
-	data.append(QString::number(markers.at(i).time().seconds()));
-	data.append("\t");
-	data.append(QString::number(markers.at(i).time().seconds()));
-	data.append("\t");
-	data.append(markers.at(i).comment());
-	data.append("\n");
-    }
-    if (!data.isEmpty()) {
-	QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
+    if (!markers.isEmpty()) {
+	// Set  up categories
+	QComboBox *cbox = new QComboBox;
+	cbox->insertItem(0, i18n("All categories"));
+	for (int i = 0; i < 5; ++i) {
+	    cbox->insertItem(i + 1, i18n("Category %1", i));
+	    cbox->setItemData(i + 1, CommentedTime::markerColor(i), Qt::DecorationRole);
+	}
+	cbox->setCurrentIndex(0);
+	KFileDialog fd(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
+	fd.setMode(KFile::File);
+	fd.setOperationMode(KFileDialog::Saving);
+	fd.exec();
+	QString url = fd.selectedFile();
+	//QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
 	if (url.isEmpty()) return;
+
+	QString data;
+	int category = cbox->currentIndex() - 1;
+	for (int i = 0; i < markers.count(); i++) {
+	    if (category >= 0) {
+		// Save only the markers in selected category
+		if (markers.at(i).markerType() != category) continue;
+	    }
+	    data.append(QString::number(markers.at(i).time().seconds()));
+	    data.append("\t");
+	    data.append(QString::number(markers.at(i).time().seconds()));
+	    data.append("\t");
+	    data.append(markers.at(i).comment());
+	    data.append("\n");
+	}
+	delete cbox;
+	
 	QFile file(url);
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
 	    emit displayMessage(i18n("Cannot open file %1", url), ErrorMessage);
@@ -5320,11 +5341,25 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
 
 void CustomTrackView::slotLoadClipMarkers(const QString &id)
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
+    QComboBox *cbox = new QComboBox;
+    for (int i = 0; i < 5; ++i) {
+	cbox->insertItem(i, i18n("Category %1", i));
+	cbox->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
+    }
+    cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
+    KFileDialog fd(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
+    fd.setMode(KFile::File);
+    fd.setOperationMode(KFileDialog::Opening);
+    fd.exec();
+    QString url = fd.selectedFile();
+	
+    //KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
     if (url.isEmpty()) return;
-    QFile file(url.path());
+    int category = cbox->currentIndex();
+    delete cbox;
+    QFile file(url);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-	emit displayMessage(i18n("Cannot open file %1", url.fileName()), ErrorMessage);
+	emit displayMessage(i18n("Cannot open file %1", KUrl(url).fileName()), ErrorMessage);
 	return;
     }
     QString data = QString::fromUtf8(file.readAll());
@@ -5364,10 +5399,10 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
 	if (!markerText.isEmpty()) {
 	    // Marker found, add it
 	    //TODO: allow user to set a marker category
-	    CommentedTime marker1(GenTime(time1), markerText);
+	    CommentedTime marker1(GenTime(time1), markerText, category);
 	    slotAddClipMarker(id, marker1, command);
 	    if (time2 > 0 && time2 != time1) {
-		CommentedTime marker2(GenTime(time2), markerText);
+		CommentedTime marker2(GenTime(time2), markerText, category);
 		slotAddClipMarker(id, marker2, command);
 	    }
 	}
