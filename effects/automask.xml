@@ -12,7 +12,7 @@
 	<parameter type="constant" name="macroblock_height" max="100" min="1" default="16" suffix="pixels">
 		<name>Macroblock height</name>
 	</parameter>
-	<parameter type="bool" name="denoise" default="1">
+	<parameter type="bool" name="denoise" default="0">
 		<name>Denoise</name>
 	</parameter>
 	<parameter type="bool" name="debug" default="0">
