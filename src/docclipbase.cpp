@@ -73,6 +73,12 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         }
     }
 
+    if (xml.hasAttribute("analysisdata")) {
+	QStringList adata = xml.attribute("analysisdata").split('#', QString::SkipEmptyParts);
+	for (int i = 0; i < adata.count(); i++)
+	    m_analysisdata.insert(adata.at(i).section('?', 0, 0), adata.at(i).section('?', 1, 1));
+    }
+
     KUrl url = KUrl(xml.attribute("resource"));
     if (!m_properties.contains("file_hash") && !url.isEmpty()) getFileHash(url.path());
 
@@ -255,6 +261,16 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
         }
         clip.setAttribute("cutzones", cuts.join(";"));
     }
+    QString adata;
+    if (!m_analysisdata.isEmpty()) {
+	QMapIterator<QString, QString> i(m_analysisdata);
+	while (i.hasNext()) {
+	    i.next();
+	    //WARNING: a ? and # separator is not a good idea
+	    adata.append(i.key() + "?" + i.value() + "#");
+	}
+    }
+    clip.setAttribute("analysisdata", adata);
     //kDebug() << "/// CLIP XML: " << doc.toString();
     return doc.documentElement();
 }

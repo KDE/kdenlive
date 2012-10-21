@@ -225,6 +225,7 @@ signals:
     void showComments(bool show);
     void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString&finalFilterName, const QString &consumer, const QString &consumerParams, const QStringList &extraParams);
     void addEffect(ClipItem*,QDomElement);
+    void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
 };
 
 #endif

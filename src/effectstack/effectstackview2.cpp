@@ -284,6 +284,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
     connect(currentEffect, SIGNAL(createRegion(int,KUrl)), this, SLOT(slotCreateRegion(int,KUrl)));
     connect(currentEffect, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
+    connect(currentEffect, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
 }
 
 void EffectStackView2::slotCheckWheelEventFilter()

@@ -56,8 +56,8 @@ public:
     void updateTimecodeFormat();
     /** @brief Sets the size of the original clip. */
     void setFrameSize(QPoint size);
-
     void addParameter(const QDomElement elem);
+    void importKeyframes(const QString &data);
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
@@ -172,6 +172,7 @@ private slots:
 signals:
     void parameterChanged();
     void seekToPos(int);
+    void importClipKeyframes();
 };
 
 #endif

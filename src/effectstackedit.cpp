@@ -152,11 +152,12 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
     m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);
     connect (m_paramWidget, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)));
     
-    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString,QStringList)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString,QStringList)));
+    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QStringList)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QStringList)));
     
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
+    connect (m_paramWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
     
     Q_FOREACH( QSpinBox * sp, m_baseWidget->findChildren<QSpinBox*>() ) {
         sp->installEventFilter( this );
@@ -183,4 +184,9 @@ bool EffectStackEdit::needsMonitorEffectScene() const
     return m_paramWidget->needsMonitorEffectScene();
 }
 
+void EffectStackEdit::setKeyframes(const QString &data)
+{
+    if (!m_paramWidget) return;
+    m_paramWidget->setKeyframes(data);
+}
 

@@ -300,6 +300,7 @@ public slots:
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     
     void slotAddEffect(ClipItem *clip, QDomElement effect);
+    void slotImportClipKeyframes(GRAPHICSRECTITEM type);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -525,6 +526,8 @@ signals:
     void updateTrackEffectState(int);
     /** @brief Cursor position changed, repaint ruler.*/
     void updateRuler();
+    /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
+    void importKeyframes(GRAPHICSRECTITEM type, const QString&);
 };
 
 #endif

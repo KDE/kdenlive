@@ -3489,7 +3489,7 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	    // We want to cut scenes
 	    extraParams << "cutscenes";
 	}
-	
+	delete d;
 	processClipJob(ids, QString(), false, jobParams, i18n("Auto split"), extraParams);
     }
     else {
@@ -3612,14 +3612,15 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , QString filter
 	}
     }
     if (returnKey.isEmpty()) {
-	emit displayMessage(i18n("No data returned from clip analysis"), 2);
+	emit displayMessage(i18n("No data returned from clip analysis"), ErrorMessage);
 	return;
     }
     QStringList returnData = results.value(returnKey).split(';', QString::SkipEmptyParts);
     if (returnData.isEmpty()) {
-	emit displayMessage(i18n("No data returned from clip analysis"), 2);
+	emit displayMessage(i18n("No data returned from clip analysis"), ErrorMessage);
 	return;
     }
+    emit displayMessage(i18n("Processing data analysis"), InformationMessage);
     bool dataProcessed = false;
     if (extra.contains("cutscenes")) {
 	// Check if we want to cut scenes from returned data

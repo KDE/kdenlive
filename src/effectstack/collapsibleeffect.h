@@ -137,6 +137,7 @@ signals:
     void unGroup(CollapsibleEffect *);
     void createRegion(int, KUrl);
     void deleteGroup(QDomDocument);
+    void importClipKeyframes();
 };
 
 

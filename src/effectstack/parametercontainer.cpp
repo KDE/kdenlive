@@ -226,6 +226,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 m_vbox->addWidget(m_geometryWidget);
                 m_valueItems[paramName+"geometry"] = m_geometryWidget;
                 connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+		connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
             } else {
                 Geometryval *geo = new Geometryval(m_metaInfo->profile, m_metaInfo->timecode, m_metaInfo->frameSize, 0);
@@ -844,3 +845,14 @@ bool ParameterContainer::needsMonitorEffectScene() const
 {
     return m_needsMonitorEffectScene;
 }
+
+void ParameterContainer::setKeyframes(const QString &data)
+{
+    if (!m_geometryWidget) {
+	kDebug()<<" / / NO GEOMETRY WIDGET FOUND FOR IMPORTING DATA";
+	return;
+    }
+    m_geometryWidget->importKeyframes(data);
+    
+}
+

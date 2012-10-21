@@ -37,6 +37,7 @@ public:
     void raiseWindow(QWidget*);
     void updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info);
     void updateTimecodeFormat();
+    void setKeyframes(const QString data);
 
 private:
     EffectStackEdit *m_effectEdit;
@@ -63,6 +64,7 @@ private slots:
 signals:
     void transitionUpdated(Transition *, QDomElement);
     void seekTimeline(int);
+    void importClipKeyframes(GRAPHICSRECTITEM = TRANSITIONWIDGET);
 };
 
 #endif

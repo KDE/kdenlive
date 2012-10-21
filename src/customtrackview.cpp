@@ -52,6 +52,7 @@
 #include "commands/changeeffectstatecommand.h"
 #include "commands/movegroupcommand.h"
 #include "ui_addtrack_ui.h"
+#include "ui_importkeyframesdialog_ui.h"
 #include "initeffects.h"
 #include "commands/locktrackcommand.h"
 #include "commands/groupclipscommand.h"
@@ -7513,4 +7514,70 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
     }    
 }
 
+
+void CustomTrackView::slotImportClipKeyframes(GRAPHICSRECTITEM type)
+{
+    if (!m_selectionGroup) {
+	emit displayMessage(i18n("You need to select one clip and one transition"), ErrorMessage);
+	return;
+    }
+    // Make sure there is no collision
+    QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+    ClipItem *item;
+    for (int i = 0; i < children.count(); i++) {
+	if (children.at(i)->type() == AVWIDGET) {
+            item = (ClipItem*) children.at(i);
+            break;
+        }
+    }
+    QMap <QString, QString> data = item->baseClip()->analysisData();
+    if (data.isEmpty()) {
+	emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
+	return;
+    }
+    QPointer<QDialog> d = new QDialog(this);
+    Ui::ImportKeyframesDialog_UI ui;
+    ui.setupUi(d);
+
+    // Set  up data
+    int ix = 0;
+    QMap<QString, QString>::const_iterator i = data.constBegin();
+    while (i != data.constEnd()) {
+	ui.data_list->insertItem(ix, i.key());
+	ui.data_list->setItemData(ix, i.value(), Qt::UserRole);
+	++i;
+	ix++;
+    }
+
+    if (d->exec() != QDialog::Accepted) {
+	delete d;
+	return;
+    }
+    QString keyframeData = ui.data_list->itemData(ui.data_list->currentIndex()).toString();
+    QStringList keyframeList = keyframeData.split(';', QString::SkipEmptyParts);
+    QString result;
+    if (ui.import_position->isChecked()) {
+	if (ui.import_size->isChecked()) {
+	    foreach(QString key, keyframeList) {
+		if (key.count(':') > 1) result.append(key.section(':', 0, 1));
+		else result.append(key);
+		result.append(';');
+	    }
+	}
+	else {
+	    foreach(QString key, keyframeList) {
+		result.append(key.section(':', 0, 0));
+		result.append(';');
+	    }
+	}
+    }
+    else if (ui.import_size->isChecked()) {
+	foreach(QString key, keyframeList) {
+	    result.append(key.section(':', 1, 1));
+	    result.append(';');
+	}
+    }
+    emit importKeyframes(type, result);
+    delete d;
+}
 

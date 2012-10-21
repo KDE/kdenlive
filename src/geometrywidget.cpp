@@ -123,7 +123,10 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(fitToHeight, SIGNAL(triggered()), this, SLOT(slotFitToHeight()));
     menu->addAction(fitToHeight);
     menu->addSeparator();
-
+    QAction *importKeyframes = new QAction(i18n("Import keyframes from clip"), this);
+    connect(importKeyframes, SIGNAL(triggered()), this, SIGNAL(importClipKeyframes()));
+    menu->addAction(importKeyframes);
+    menu->addSeparator();
     QAction *alignleft = new QAction(KIcon("kdenlive-align-left"), i18n("Align left"), this);
     connect(alignleft, SIGNAL(triggered()), this, SLOT(slotMoveLeft()));
     menu->addAction(alignleft);
@@ -729,6 +732,43 @@ void GeometryWidget::slotFitToHeight()
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     updateMonitorGeometry();
+}
+
+void GeometryWidget::importKeyframes(const QString &data)
+{
+    QStringList list = data.split(';', QString::SkipEmptyParts);
+    QPoint screenSize = m_frameSize;
+    if (screenSize == QPoint() || screenSize.x() == 0 || screenSize.y() == 0) {
+        screenSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    }
+    for (int i = 0; i < list.count(); i++) {
+	Mlt::GeometryItem item;
+	QString geom = list.at(i);
+	if (geom.contains('=')) {
+	    item.frame(geom.section('=', 0, 0).toInt());
+	}
+	geom = geom.section('=', 1);
+	if (geom.contains('/')) {
+	    item.x(geom.section('/', 0, 0).toDouble());
+	    item.y(geom.section('/', 1, 1).section(':', 0, 0).toDouble());
+	}
+	else {
+	    item.x(0);
+	    item.y(0);
+	}
+	if (geom.contains('x')) {
+	    item.w(geom.section('x', 0, 0).section(':', 1, 1).toDouble());
+	    item.h(geom.section('x', 1, 1).section(':', 0, 0).toDouble());
+	}
+	else {
+	    item.w(screenSize.x());
+	    item.h(screenSize.y());
+	}
+	//TODO: opacity
+	item.mix(100);
+	m_geometry->insert(item);
+    }
+    emit parameterChanged();
 }
 
 #include "geometrywidget.moc"

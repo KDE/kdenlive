@@ -566,6 +566,8 @@ private slots:
     void slotChangePalette();
     /** @brief Save current timeline clip as mlt playlist. */
     void slotSaveTimelineClip();
+    /** @brief Process keyframe data sent from a clip to effect / transition stack. */
+    void slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

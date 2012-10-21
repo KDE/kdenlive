@@ -2538,6 +2538,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_effectStack, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
             disconnect(m_transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), m_activeTimeline->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
             disconnect(m_transitionConfig, SIGNAL(seekTimeline(int)), m_activeTimeline->projectView() , SLOT(setCursorPos(int)));
+	    disconnect(m_transitionConfig, SIGNAL(importClipKeyframes(GRAPHICSRECTITEM)), m_activeTimeline->projectView() , SLOT(slotImportClipKeyframes(GRAPHICSRECTITEM)));
+
             disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
             disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
@@ -2564,6 +2566,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView, SIGNAL(updateTracksInfo()), this, SLOT(slotUpdateTrackInfo()));
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(trackView->projectView(), SIGNAL(forceClipProcessing(const QString &)), m_projectList, SLOT(slotForceProcessing(const QString &)));
+
+    connect(trackView->projectView(), SIGNAL(importKeyframes(GRAPHICSRECTITEM, const QString&)), this, SLOT(slotProcessImportKeyframes(GRAPHICSRECTITEM, const QString&)));
+    
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
@@ -2611,13 +2616,16 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_effectStack, SIGNAL(addEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotAddEffect(ClipItem*, QDomElement)));
     connect(m_effectStack, SIGNAL(changeEffectState(ClipItem*, int, QList <int>, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, int, QList <int>, bool)));
     connect(m_effectStack, SIGNAL(changeEffectPosition(ClipItem*, int, QList <int>, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*, int, QList <int>, int)));
+    
     connect(m_effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
-    connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
+    connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView(), SLOT(seekCursorPos(int)));
+    connect(m_effectStack, SIGNAL(importClipKeyframes(GRAPHICSRECTITEM)), trackView->projectView(), SLOT(slotImportClipKeyframes(GRAPHICSRECTITEM)));
     connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
     connect(m_effectStack, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
     
     // Transition config signals
     connect(m_transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
+    connect(m_transitionConfig, SIGNAL(importClipKeyframes(GRAPHICSRECTITEM)), trackView->projectView() , SLOT(slotImportClipKeyframes(GRAPHICSRECTITEM)));
     connect(m_transitionConfig, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
@@ -4554,6 +4562,20 @@ void MainWindow::slotSaveTimelineClip()
 	}
 	KUrl url = KFileDialog::getSaveUrl(m_activeDocument->projectFolder(), "video/mlt-playlist");
 	if (!url.isEmpty()) m_projectMonitor->render->saveClip(m_activeDocument->tracksCount() - clip->track(), clip->startPos(), url);
+    }
+}
+
+void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data)
+{
+    if (type == AVWIDGET) {
+	// This data should be sent to the effect stack
+    }
+    else if (type == TRANSITIONWIDGET) {
+	// This data should be sent to the transition stack
+	m_transitionConfig->setKeyframes(data);
+    }
+    else {
+	// Error
     }
 }
 

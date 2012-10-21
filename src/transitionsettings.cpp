@@ -41,6 +41,8 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     vbox1->addWidget(m_effectEdit);
     frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SLOT(slotSeekTimeline(int)));
+    connect(m_effectEdit, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
+    
     setEnabled(false);
 
     QList<QStringList> transitionsList;
@@ -241,5 +243,9 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
     }
 }
 
+void TransitionSettings::setKeyframes(const QString data)
+{
+    m_effectEdit->setKeyframes(data);
+}
 
 #include "transitionsettings.moc"
