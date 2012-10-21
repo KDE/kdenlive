@@ -21,7 +21,7 @@
 	<parameter type="bool" name="obscure" default="1">
 		<name>Obscure</name>
 	</parameter>
-	<parameter type="filterjob" filtertag="autotrack_rectangle:%geometry" filterparams="_serialize=1 motion_vector_list=0" consumer="null" consumerparams="all=1 terminate_on_pause=1" finalfilter="autotrack_rectangle" extraparams="key:motion_vector_list projecttreefilter storedata">
+	<parameter type="filterjob" filtertag="autotrack_rectangle" filterparams="_serialize=1 motion_vector_list=0 %params" consumer="null" consumerparams="all=1 terminate_on_pause=1" finalfilter="autotrack_rectangle" extraparams="key:motion_vector_list projecttreefilter storedata">
 		<name>Analyse</name>
 	</parameter>
 </effect>

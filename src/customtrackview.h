@@ -302,6 +302,9 @@ public slots:
     void slotAddEffect(ClipItem *clip, QDomElement effect);
     void slotImportClipKeyframes(GRAPHICSRECTITEM type);
 
+    /** @brief Get effect parameters ready for MLT*/
+    static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
+
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
     //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
@@ -475,9 +478,6 @@ private:
     
     /** @brief Prepare an add clip command for an effect */
     void processEffect(ClipItem *item, QDomElement effect, int offset, QUndoCommand *effectCommand);
-    
-    /** @brief Get effect parameters ready for MLT*/
-    void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const QString &prefix = QString());
 
 private slots:
     void slotRefreshGuides();

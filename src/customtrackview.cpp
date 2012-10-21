@@ -7319,18 +7319,18 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
 	    parameters.addParam(QString("filter%1.tag").arg(subeffectix), subeffect.attribute("tag"));
 	    parameters.addParam(QString("filter%1.kdenlive_info").arg(subeffectix), subeffect.attribute("kdenlive_info"));
 	    QDomNodeList subparams = subeffect.elementsByTagName("parameter");
-	    adjustEffectParameters(parameters, subparams, QString("filter%1.").arg(subeffectix));
+	    adjustEffectParameters(parameters, subparams, m_document->mltProfile(), QString("filter%1.").arg(subeffectix));
 	}
     }
 
     QDomNodeList params = effect.elementsByTagName("parameter");
-    adjustEffectParameters(parameters, params);
+    adjustEffectParameters(parameters, params, m_document->mltProfile());
     
     return parameters;
 }
 
 
-void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const QString &prefix)
+void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix)
 {
   QLocale locale;
   for (int i = 0; i < params.count(); i++) {
@@ -7381,7 +7381,7 @@ void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, Q
             if (e.attribute("factor", "1") != "1" || e.attribute("offset", "0") != "0") {
                 double fact;
                 if (e.attribute("factor").contains('%')) {
-                    fact = ProfilesDialog::getStringEval(m_document->mltProfile(), e.attribute("factor"));
+                    fact = ProfilesDialog::getStringEval(profile, e.attribute("factor"));
                 } else {
                     fact = e.attribute("factor", "1").toDouble();
                 }
@@ -7523,12 +7523,16 @@ void CustomTrackView::slotImportClipKeyframes(GRAPHICSRECTITEM type)
     }
     // Make sure there is no collision
     QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-    ClipItem *item;
+    ClipItem *item = NULL;
     for (int i = 0; i < children.count(); i++) {
 	if (children.at(i)->type() == AVWIDGET) {
             item = (ClipItem*) children.at(i);
             break;
         }
+    }
+    if (!item) {
+	emit displayMessage(i18n("No clip found"), ErrorMessage);
+	return;
     }
     QMap <QString, QString> data = item->baseClip()->analysisData();
     if (data.isEmpty()) {

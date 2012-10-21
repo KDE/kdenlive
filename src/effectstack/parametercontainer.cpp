@@ -43,6 +43,7 @@
 #include "projectlist.h"
 #include "mainwindow.h"
 #include "parametercontainer.h"
+#include "../customtrackview.h"
 
 #include <KUrlRequester>
 #include <KFileDialog>
@@ -808,18 +809,20 @@ void ParameterContainer::slotStartFilterJobAction()
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute("type");
         if (type == "filterjob") {
-	    QString filtertag = pa.attribute("filtertag");
-	    if (filtertag.contains("%geometry")) {
+	    QString filterparams = pa.attribute("filterparams");
+	    if (filterparams.contains("%params")) {
 		// Replace with current geometry
-		if (m_geometryWidget) {
-		    QString data = m_geometryWidget->getValue();
-		    filtertag.replace("%geometry", data);
-		    kDebug()<<"// Setting geometry: "<<data<<", RES: "<<filtertag;
-		}
+		EffectsParameterList parameters;
+		QDomNodeList params = m_effect.elementsByTagName("parameter");
+		CustomTrackView::adjustEffectParameters(parameters, params, m_metaInfo->profile);
+		QString paramData;
+		for (int j = 0; j < parameters.count(); j++)
+		    paramData.append(parameters.at(j).name()+"="+parameters.at(j).value()+" ");
+		filterparams.replace("%params", paramData);
 	    }
 	    QStringList extra = pa.attribute("extraparams").split(' ', QString::SkipEmptyParts);
-            emit startFilterJob(filtertag, pa.attribute("filterparams"), pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), extra);
-            kDebug()<<" - - -PROPS:\n"<<"filtertag"<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
+            emit startFilterJob(pa.attribute("filtertag"), filterparams, pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), extra);
+            kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< filterparams<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
             break;
         }
     }
