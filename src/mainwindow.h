@@ -568,6 +568,8 @@ private slots:
     void slotSaveTimelineClip();
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
     void slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data);
+    /** @brief Move playhead to mouse curser position if p key is pressed */
+    void slotOnPlayheadKeyPressed();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

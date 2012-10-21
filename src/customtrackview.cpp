@@ -404,6 +404,15 @@ void CustomTrackView::slotCheckPositionScrolling()
     }
 }
 
+void CustomTrackView::slotOnPlayheadKeyPressed()
+{
+	/* get curser point ref in screen coord */
+	QPoint ps = QCursor::pos();
+	/* get xPos in scene coord */
+	int mappedXPos = qMax((int)(mapToScene(mapFromGlobal(ps)).x() + 0.5), 0);
+	/* move playhead to new xPos*/
+	seekCursorPos(mappedXPos);
+}
 
 // virtual
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
