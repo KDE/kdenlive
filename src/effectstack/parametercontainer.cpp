@@ -816,10 +816,9 @@ void ParameterContainer::slotStartFilterJobAction()
 		    kDebug()<<"// Setting geometry: "<<data<<", RES: "<<filtertag;
 		}
 	    }
-	    QStringList extra;
-	    extra = pa.attribute("extraparams").split(' ', QString::SkipEmptyParts);
-            emit startFilterJob(filtertag, pa.attribute("filterparams"), pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), pa.attribute("wantedproperties"), extra);
-            kDebug()<<" - - -PROPS:\n"<<"filtertag"<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("wantedproperties");
+	    QStringList extra = pa.attribute("extraparams").split(' ', QString::SkipEmptyParts);
+            emit startFilterJob(filtertag, pa.attribute("filterparams"), pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), extra);
+            kDebug()<<" - - -PROPS:\n"<<"filtertag"<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
             break;
         }
     }

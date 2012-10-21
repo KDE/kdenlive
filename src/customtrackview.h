@@ -234,7 +234,7 @@ public slots:
      * @param id Id of the marker's clip
      * @param t Position of the marker
      * @param c Comment of the marker */
-    void slotAddClipMarker(const QString &id, CommentedTime newMarker, QUndoCommand *groupCommand = 0);
+    void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
     void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
     bool addGuide(const GenTime &pos, const QString &comment);
@@ -494,7 +494,7 @@ private slots:
      *  @param resetThumbs Should we recreate the timeline thumbnails. */
     void slotRefreshThumbs(const QString &id, bool resetThumbs);
     /** @brief A Filter job producer results. */
-    void slotGotFilterJobResults(const QString &id, int startPos, int track, const QString &filter, stringMap filterParams);
+    void slotGotFilterJobResults(const QString &id, int startPos, int track, const QString &filter, stringMap filterParams, QStringList extra);
 
 
 signals:

@@ -76,8 +76,6 @@ void MeltJob::startJob()
     QString consumerParams = m_params.takeFirst();
     
     // optional params
-    QString properties;
-    if (!m_params.isEmpty()) properties = m_params.takeFirst();
     int startPos = -1;
     if (!m_params.isEmpty()) startPos = m_params.takeFirst().toInt();
     int track = -1;
@@ -85,6 +83,15 @@ void MeltJob::startJob()
     QString finalFilter;
     if (!m_params.isEmpty()) finalFilter = m_params.takeFirst();
     else finalFilter = filter;
+
+    // Check if we want to return analysis data
+    QString properties;
+    for (int i = 0; i < m_extra.count(); i++) {
+	if (m_extra.at(i).startsWith("key:")) {
+	    properties = m_extra.at(i).section(':', 1);
+	    break;
+	}
+    }
 
 
     if (out != -1 && out <= in) {
@@ -173,7 +180,7 @@ void MeltJob::startJob()
         QString value = mltFilter.get(key.toUtf8().constData());
         jobResults.insert(key, value);
     }
-    if (!jobResults.isEmpty()) emit gotFilterJobResults(m_clipId, startPos, track, finalFilter, jobResults);
+    if (!jobResults.isEmpty() && jobStatus != JOBABORTED) emit gotFilterJobResults(m_clipId, startPos, track, finalFilter, jobResults, m_extra);
     setStatus(JOBDONE);
     delete m_consumer;
     delete prod;

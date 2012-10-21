@@ -5269,15 +5269,31 @@ void CustomTrackView::slotAddClipExtraData(const QString &id, const QString &key
     if (!groupCommand) m_commandStack->push(command);
 }
 
-void CustomTrackView::slotAddClipMarker(const QString &id, CommentedTime newMarker, QUndoCommand *groupCommand)
+void CustomTrackView::slotAddClipMarker(const QString &id, QList <CommentedTime> newMarkers, QUndoCommand *groupCommand)
 {
-    CommentedTime oldMarker = m_document->clipManager()->getClipById(id)->markerAt(newMarker.time());
-    if (oldMarker == CommentedTime()) {
-	oldMarker = newMarker;
-	oldMarker.setMarkerType(-1);
+    QUndoCommand *subCommand = NULL;
+    if (newMarkers.count() > 1 && groupCommand == NULL) {
+	subCommand = new QUndoCommand;
+	subCommand->setText("Add markers");
     }
-    AddMarkerCommand *command = new AddMarkerCommand(this, oldMarker, newMarker, id, groupCommand);
-    if (!groupCommand) m_commandStack->push(command);
+    for (int i = 0; i < newMarkers.count(); i++) {
+	CommentedTime oldMarker = m_document->clipManager()->getClipById(id)->markerAt(newMarkers.at(i).time());
+	if (oldMarker == CommentedTime()) {
+	    oldMarker = newMarkers.at(i);
+	    oldMarker.setMarkerType(-1);
+	}
+	if (newMarkers.count() == 1 && !groupCommand) {
+	    AddMarkerCommand *command = new AddMarkerCommand(this, oldMarker, newMarkers.at(i), id, groupCommand);
+	    m_commandStack->push(command);
+	}
+	else if (groupCommand) {
+	    (void) new AddMarkerCommand(this, oldMarker, newMarkers.at(i), id, groupCommand);
+	}
+	else {
+	    (void) new AddMarkerCommand(this, oldMarker, newMarkers.at(i), id, subCommand);
+	}
+    }
+    if (subCommand) m_commandStack->push(subCommand);
 }
 
 void CustomTrackView::slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position)
@@ -5388,6 +5404,7 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
     QUndoCommand *command = new QUndoCommand();
     command->setText("Load markers");
     QString markerText;
+    QList <CommentedTime> markersList;
     foreach(QString line, lines) {
 	markerText.clear();
 	values = line.split("\t", QString::SkipEmptyParts);
@@ -5418,13 +5435,14 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
 	    // Marker found, add it
 	    //TODO: allow user to set a marker category
 	    CommentedTime marker1(GenTime(time1), markerText, category);
-	    slotAddClipMarker(id, marker1, command);
+	    markersList << marker1;
 	    if (time2 > 0 && time2 != time1) {
 		CommentedTime marker2(GenTime(time2), markerText, category);
-		slotAddClipMarker(id, marker2, command);
+		markersList << marker2;
 	    }
 	}
     }
+    if (!markersList.isEmpty()) slotAddClipMarker(id, markersList, command);
     if (command->childCount() > 0) m_commandStack->push(command);
     else delete command;
 }
@@ -7472,7 +7490,7 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
 }
 
 
-void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPos, int track, const QString &filter, stringMap filterParams)
+void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPos, int track, const QString &filter, stringMap filterParams, QStringList extra)
 {
     ClipItem *clip = getClipItemAt(GenTime(startPos, m_document->fps()), track);
     if (clip == NULL) {

@@ -499,7 +499,7 @@ private slots:
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
     void slotTranscode(KUrl::List urls = KUrl::List());
-    void slotStabilize();
+    void slotStartClipAction();
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();

@@ -771,7 +771,9 @@ void ClipProperties::slotAddMarker()
     QPointer<MarkerDialog> d = new MarkerDialog(m_clip, marker,
                                           m_tc, i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        emit addMarker(m_clip->getId(), d->newMarker());
+	QList <CommentedTime> markers;
+	markers << d->newMarker();
+        emit addMarkers(m_clip->getId(), markers);
     }
     delete d;
 }
@@ -793,7 +795,9 @@ void ClipProperties::slotEditMarker()
     if (pos < 0 || pos > marks.count() - 1) return;
     MarkerDialog d(m_clip, marks.at(pos), m_tc, i18n("Edit Marker"), this);
     if (d.exec() == QDialog::Accepted) {
-        emit addMarker(m_clip->getId(), d.newMarker());
+	QList <CommentedTime> markers;
+	markers << d.newMarker();
+        emit addMarkers(m_clip->getId(), markers);
     }
 }
 
@@ -808,8 +812,7 @@ void ClipProperties::slotDeleteMarker()
 	    toDelete << marker;
 	}
     }
-    for (int i = 0; i < toDelete.count(); i++)
-	emit addMarker(m_clip->getId(), toDelete.at(i));
+    emit addMarkers(m_clip->getId(), toDelete);
 }
 
 void ClipProperties::slotDeleteAnalysis()

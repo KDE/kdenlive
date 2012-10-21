@@ -330,7 +330,7 @@ public slots:
     /** @brief Start transcoding selected clips. */
     void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
-    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&);
+    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&);
     
 
 private:
@@ -491,7 +491,7 @@ private slots:
     /** @brief close warning info passive popup. */
     void slotClosePopup();
     /** @brief process clip job result. */
-    void slotGotFilterJobResults(QString ,int , int, QString, stringMap);
+    void slotGotFilterJobResults(QString ,int , int, QString, stringMap, QStringList);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
@@ -524,9 +524,10 @@ signals:
     void gotProxy(const QString);
     void checkJobProcess();
     /** @brief A Filter Job produced results, send them back to the clip. */
-    void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params);
+    void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params, QStringList extre);
     void pauseMonitor();
     void updateAnalysisData(DocClipBase *);
+    void addMarkers(const QString &, QList <CommentedTime>);
 };
 
 #endif
