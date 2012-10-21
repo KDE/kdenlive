@@ -6,13 +6,22 @@
 	<parameter type="geometry" name="geometry" default="50%,50%:50%x50%" fixed="1" opacity="false">
 		<name>Geometry</name>
 	</parameter>
+	<parameter type="constant" name="macroblock_width" max="100" min="1" default="16" suffix="pixels">
+		<name>Macroblock width</name>
+	</parameter>
+	<parameter type="constant" name="macroblock_height" max="100" min="1" default="16" suffix="pixels">
+		<name>Macroblock height</name>
+	</parameter>
+	<parameter type="bool" name="denoise" default="1">
+		<name>Denoise</name>
+	</parameter>
 	<parameter type="bool" name="debug" default="0">
 		<name>Debug</name>
 	</parameter>
 	<parameter type="bool" name="obscure" default="1">
 		<name>Obscure</name>
 	</parameter>
-	<parameter type="filterjob" filtertag="autotrack_rectangle:%geometry" filterparams="_serialize=1" consumer="null" consumerparams="all=1 terminate_on_pause=1" finalfilter="autotrack_rectangle" extraparams="key:motion_vector_list projecttreefilter storedata">
+	<parameter type="filterjob" filtertag="autotrack_rectangle:%geometry" filterparams="_serialize=1 motion_vector_list=0" consumer="null" consumerparams="all=1 terminate_on_pause=1" finalfilter="autotrack_rectangle" extraparams="key:motion_vector_list projecttreefilter storedata">
 		<name>Analyse</name>
 	</parameter>
 </effect>
