@@ -1360,7 +1360,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     QList <CutZoneInfo> cuts = clip->cutZones();
     if (!cuts.isEmpty()) {
         for (int i = 0; i < cuts.count(); i++) {
-            SubProjectItem *sub = new SubProjectItem(item, cuts.at(i).zone.x(), cuts.at(i).zone.y(), cuts.at(i).description);
+            SubProjectItem *sub = new SubProjectItem(m_render->dar(), item, cuts.at(i).zone.x(), cuts.at(i).zone.y(), cuts.at(i).description);
             if (!clip->getClipHash().isEmpty()) {
                 QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).zone.x()) + ".png";
                 if (QFile::exists(cachedPixmap)) {
@@ -2001,6 +2001,23 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(availableClip(const QString &)), this, SLOT(slotAvailableClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool, bool, QStringList)), this, SLOT(updateAllClips(bool, bool, QStringList)));
+    connect(m_doc->clipManager(), SIGNAL(thumbReady(const QString &, int, QImage)), this, SLOT(slotSetThumbnail(const QString &, int, QImage)));
+}
+
+void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)
+{
+    QString fullid = id + '#' + QString::number(framePos);
+    ProjectItem *pItem = NULL;
+    QTreeWidgetItem *item = getAnyItemById(fullid);
+    if (item && item->parent()) pItem = static_cast <ProjectItem *>(item->parent());
+    if (!item && framePos == 0) pItem = getItemById(id);
+    if (!item && !pItem) return;
+    if (item) item->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
+    else if (pItem) pItem->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
+    if (pItem) {
+	QString hash = pItem->getClipHash();
+	if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(framePos), img);
+    }
 }
 
 QList <DocClipBase*> ProjectList::documentClipList() const
@@ -2576,17 +2593,14 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
         DocClipBase *base = clip->referencedClip();
         base->addCutZone(in, out);
         monitorItemEditing(false);
-        SubProjectItem *sub = new SubProjectItem(clip, in, out, desc);
+        SubProjectItem *sub = new SubProjectItem(m_render->dar(), clip, in, out, desc);
         if (newItem && desc.isEmpty() && !m_listView->isColumnHidden(1)) {
             if (!clip->isExpanded())
                 clip->setExpanded(true);
             m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
-        QImage img = clip->referencedClip()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
-        sub->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
-        QString hash = clip->getClipHash();
-        if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(in), img);
+	m_doc->clipManager()->requestThumbs(QString('#' + id), QList <int>() << in);
         monitorItemEditing(true);
     }
     emit projectModified();
@@ -3667,5 +3681,6 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , QString filter
 	emit updateAnalysisData(clip->referencedClip());
     }
 }
+
 
 #include "projectlist.moc"

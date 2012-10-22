@@ -3323,6 +3323,13 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
 
     // any type of clip but a title
     ClipProperties *dia = new ClipProperties(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
+
+    if (clip->clipType() == AV || clip->clipType() == VIDEO || clip->clipType() == PLAYLIST) {
+	// request clip thumbnails
+	m_activeDocument->clipManager()->requestThumbs(QString('?' + clip->getId()), QList<int>() << clip->getClipThumbFrame());
+	connect(m_activeDocument->clipManager(), SIGNAL(gotClipPropertyThumbnail(const QString&,QImage)), dia, SLOT(slotGotThumbnail(const QString&,QImage)));
+    }
+    
     connect(dia, SIGNAL(addMarkers(const QString &, QList <CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, QList <CommentedTime>)));
     connect(dia, SIGNAL(deleteAnalysis(QString,QString)), m_activeTimeline->projectView(), SLOT(slotAddClipExtraData(QString,QString)));
     connect(m_activeTimeline->projectView(), SIGNAL(updateClipMarkers(DocClipBase *)), dia, SLOT(slotFillMarkersList(DocClipBase *)));

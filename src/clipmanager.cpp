@@ -26,6 +26,7 @@
 #include "abstractclipitem.h"
 #include "abstractgroupitem.h"
 #include "titledocument.h"
+#include "subprojectitem.h"
 #include "kthumb.h"
 
 #include <mlt++/Mlt.h>
@@ -167,19 +168,42 @@ void ClipManager::slotGetThumbs()
     QMap<QString, int>::const_iterator i;
     int max;
     int done = 0;
+    int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
+    
     while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {
         m_thumbsMutex.lock();
         i = m_requestedThumbs.constBegin();
         m_processingThumbId = i.key();
         QList<int> values = m_requestedThumbs.values(m_processingThumbId);
         m_requestedThumbs.remove(m_processingThumbId);
+	if (m_processingThumbId.startsWith("?")) {
+	    // if id starts with ?, it means the request comes from a clip property widget
+	    thumbType = 2;
+	    m_processingThumbId.remove(0, 1);
+	}
+	if (m_processingThumbId.startsWith("#")) {
+	    // if id starts with #, it means the request comes from project tree
+	    thumbType = 1;
+	    m_processingThumbId.remove(0, 1);
+	}
         m_thumbsMutex.unlock();
         qSort(values);
         DocClipBase *clip = getClipById(m_processingThumbId);
         if (!clip) continue;
         max = m_requestedThumbs.size() + values.count();
+	int pos;
         while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
-            clip->thumbProducer()->getThumb(values.takeFirst());
+	    pos = values.takeFirst();
+	    switch (thumbType) {
+	      case 1:
+		  clip->thumbProducer()->getGenericThumb(pos, SubProjectItem::itemDefaultHeight(), thumbType);
+		  break;
+	      case 2:
+		  clip->thumbProducer()->getGenericThumb(pos, 180, thumbType);
+		  break;
+	      default:
+		  clip->thumbProducer()->getThumb(pos);
+	    }
             done++;
             if (max > 3) emit displayMessage(i18n("Loading thumbnails"), 100 * done / max);
         }
@@ -918,5 +942,14 @@ bool ClipManager::isOnRemovableDevice(const KUrl &url)
     return volumeMatch;
 }
 
-
+void ClipManager::projectTreeThumbReady(const QString &id, int frame, QImage img, int type)
+{
+    switch (type) {
+      case 2:
+	  emit gotClipPropertyThumbnail(id, img);
+	  break;
+      default:
+	emit thumbReady(id, frame, img);
+    }
+}
 

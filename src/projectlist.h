@@ -331,6 +331,7 @@ public slots:
     void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
     void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&);
+    void slotSetThumbnail(const QString &id, int framePos, QImage img);
     
 
 private:
