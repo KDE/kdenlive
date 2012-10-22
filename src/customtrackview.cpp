@@ -404,7 +404,7 @@ void CustomTrackView::slotCheckPositionScrolling()
     }
 }
 
-void CustomTrackView::slotOnPlayheadKeyPressed()
+void CustomTrackView::slotAlignPlayheadToMousePos()
 {
 	/* get curser point ref in screen coord */
 	QPoint ps = QCursor::pos();

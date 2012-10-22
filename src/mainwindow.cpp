@@ -1402,10 +1402,10 @@ void MainWindow::setupActions()
     collection.addAction("delete_timeline_clip", deleteItem);
     connect(deleteItem, SIGNAL(triggered(bool)), this, SLOT(slotDeleteItem()));
 
-    KAction* movePlayhead = new KAction(i18n("Move Playhead"), this);
-    movePlayhead->setShortcut(Qt::Key_P);
-    collection.addAction("move_playhead", movePlayhead);
-    connect(movePlayhead, SIGNAL(triggered(bool)), this, SLOT(slotOnPlayheadKeyPressed()));
+    KAction* alignPlayhead = new KAction(i18n("Align Playhead to Mouse Position"), this);
+    alignPlayhead->setShortcut(Qt::Key_P);
+    collection.addAction("align_playhead", alignPlayhead);
+    connect(alignPlayhead, SIGNAL(triggered(bool)), this, SLOT(slotAlignPlayheadToMousePos()));
 
     /*KAction* editTimelineClipSpeed = new KAction(i18n("Change Clip Speed"), this);
     collection.addAction("change_clip_speed", editTimelineClipSpeed);
@@ -4584,9 +4584,9 @@ void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString
     }
 }
 
-void MainWindow::slotOnPlayheadKeyPressed()
+void MainWindow::slotAlignPlayheadToMousePos()
 {
-	m_activeTimeline->projectView()->slotOnPlayheadKeyPressed();
+	m_activeTimeline->projectView()->slotAlignPlayheadToMousePos();
 }
 
 #include "mainwindow.moc"
