@@ -47,6 +47,7 @@ public:
 protected:
     virtual void paintEvent(QPaintEvent *e);
     virtual void resizeEvent(QResizeEvent *);
+    virtual void leaveEvent(QEvent * event);
 
 private:
     int m_cursorPosition;
@@ -63,6 +64,7 @@ private:
     MonitorManager *m_manager;
     Render *m_render;
     int m_lastSeekPosition;
+    QBrush m_cursorColor;
     void updatePixmap();
 
 public slots:
