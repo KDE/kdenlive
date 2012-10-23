@@ -830,6 +830,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
 {
     if (render == NULL) return;
     if (clip == NULL && m_currentClip != NULL) {
+	m_currentClip->lastSeekPosition = render->seekFramePosition();
         kDebug()<<"// SETTING NULL CLIP MONITOR";
         m_currentClip = NULL;
         m_length = -1;
@@ -838,7 +839,9 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
     }
 
     if (clip != m_currentClip || forceUpdate) {
+	if (m_currentClip) m_currentClip->lastSeekPosition = render->seekFramePosition();
         m_currentClip = clip;
+	if (position == -1) position = clip->lastSeekPosition;
         if (m_currentClip) slotActivateMonitor();
         updateMarkers(clip);
         Mlt::Producer *prod = NULL;
