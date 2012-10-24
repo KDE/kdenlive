@@ -1962,6 +1962,7 @@ bool MainWindow::closeCurrentDocument(bool saveChanges)
             break;
         }
     }
+    slotTimelineClipSelected(NULL, false);
     m_clipMonitor->slotSetClipProducer(NULL);
     m_projectList->slotResetProjectList();
     m_timelineArea->removeTab(m_timelineArea->indexOf(w));
