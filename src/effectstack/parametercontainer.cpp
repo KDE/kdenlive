@@ -820,8 +820,13 @@ void ParameterContainer::slotStartFilterJobAction()
 		    paramData.append(parameters.at(j).name()+"="+parameters.at(j).value()+" ");
 		filterparams.replace("%params", paramData);
 	    }
-	    QStringList extra = pa.attribute("extraparams").split(' ', QString::SkipEmptyParts);
-            emit startFilterJob(pa.attribute("filtertag"), filterparams, pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), extra);
+	    QMap <QString, QString> extraParams;
+	    QDomNodeList jobparams = pa.elementsByTagName("jobparam");
+	    for (int j = 0; j < jobparams.count(); j++) {
+                QDomElement e = jobparams.item(j).toElement();
+		extraParams.insert(e.attribute("name"), e.text().toUtf8());
+	    }
+            emit startFilterJob(pa.attribute("filtertag"), filterparams, pa.attribute("consumer"), pa.attribute("consumerparams"), extraParams);
             kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< filterparams<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
             break;
         }

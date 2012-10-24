@@ -330,7 +330,7 @@ public slots:
     /** @brief Start transcoding selected clips. */
     void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
-    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&);
+    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QMap <QString, QString>&);
     void slotSetThumbnail(const QString &id, int framePos, QImage img);
     
 
@@ -425,7 +425,7 @@ private:
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QStringList extraParams = QStringList());
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QMap <QString, QString>extraParams = QMap <QString, QString>());
 
 private slots:
     void slotClipSelected();
@@ -492,7 +492,7 @@ private slots:
     /** @brief close warning info passive popup. */
     void slotClosePopup();
     /** @brief process clip job result. */
-    void slotGotFilterJobResults(QString ,int , int, QString, stringMap, QStringList);
+    void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
@@ -525,7 +525,7 @@ signals:
     void gotProxy(const QString);
     void checkJobProcess();
     /** @brief A Filter Job produced results, send them back to the clip. */
-    void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params, QStringList extre);
+    void gotFilterJobResults(const QString &id, int startPos, int track, stringMap params, stringMap extra);
     void pauseMonitor();
     void updateAnalysisData(DocClipBase *);
     void addMarkers(const QString &, QList <CommentedTime>);

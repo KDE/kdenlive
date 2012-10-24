@@ -1279,7 +1279,18 @@ QImage DocClipBase::extractImage(int frame, int width, int height)
 void DocClipBase::setAnalysisData(const QString &name, const QString &data)
 {
     if (data.isEmpty()) m_analysisdata.remove(name);
-    else m_analysisdata.insert(name, data);
+    else {
+	if (m_analysisdata.contains(name)) {
+	    int i = 1;
+	    QString newname = name + " " + QString::number(i);
+	    while (m_analysisdata.contains(newname)) {
+		i++;
+		newname = name + " " + QString::number(i);
+	    }
+	    m_analysisdata.insert(newname, data);
+	}
+	else m_analysisdata.insert(name, data);
+    }
 }
 
 QMap <QString, QString> DocClipBase::analysisData() const

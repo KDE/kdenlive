@@ -2684,7 +2684,8 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             groupSelectedItems(true);
         } else if (items.count() == 1) {
             m_dragItem = static_cast <AbstractClipItem *>(items.at(0));
-            emit clipItemSelected((ClipItem*)m_dragItem, false);
+	    ClipItem *selected = static_cast <ClipItem*>(m_dragItem);
+            emit clipItemSelected(selected, false);
         }
         event->setDropAction(Qt::MoveAction);
         event->accept();
@@ -7491,16 +7492,16 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
 }
 
 
-void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPos, int track, const QString &filter, stringMap filterParams, QStringList extra)
+void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPos, int track, stringMap filterParams, stringMap extra)
 {
     ClipItem *clip = getClipItemAt(GenTime(startPos, m_document->fps()), track);
     if (clip == NULL) {
-        emit displayMessage(i18n("Cannot find clip for effect update %1.", filter), ErrorMessage);
+        emit displayMessage(i18n("Cannot find clip for effect update %1.", extra.value("finalfilter")), ErrorMessage);
         return;
     }
     QDomElement newEffect;
     QDomElement effect = clip->getEffectAtIndex(clip->selectedEffectIndex());
-    if (effect.attribute("id") == filter) {
+    if (effect.attribute("id") == extra.value("finalfilter")) {
         newEffect = effect.cloneNode().toElement();
         QMap<QString, QString>::const_iterator i = filterParams.constBegin();
         while (i != filterParams.constEnd()) {

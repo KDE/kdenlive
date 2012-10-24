@@ -280,7 +280,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_effectStack = new EffectStackView2(m_projectMonitor);
     m_effectStackDock->setWidget(m_effectStack);
     addDockWidget(Qt::TopDockWidgetArea, m_effectStackDock);
-    connect(m_effectStack, SIGNAL(startFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&)), m_projectList, SLOT(slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&)));
+    connect(m_effectStack, SIGNAL(startFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QMap <QString, QString>&)), m_projectList, SLOT(slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QMap <QString, QString>&)));
 
     m_transitionConfigDock = new QDockWidget(i18n("Transition"), this);
     m_transitionConfigDock->setObjectName("transition");
@@ -2523,7 +2523,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeTimeline->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
             disconnect(m_activeTimeline->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, bool, const int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, bool, const int)));
-            disconnect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, const QString &, stringMap,QStringList)), m_activeTimeline->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, const QString &, stringMap,QStringList)));
+            disconnect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, stringMap,stringMap)), m_activeTimeline->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, stringMap, stringMap)));
 
             disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(slotActivateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
@@ -2605,7 +2605,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
 
-    connect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, const QString &, stringMap,QStringList)), trackView->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, const QString &, stringMap,QStringList)));
+    connect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, stringMap,stringMap)), trackView->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, stringMap,stringMap)));
 
     connect(m_projectList, SIGNAL(addMarkers(const QString &, QList <CommentedTime>)), trackView->projectView(), SLOT(slotAddClipMarker(const QString &, QList <CommentedTime>)));
 
