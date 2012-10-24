@@ -144,6 +144,8 @@ public:
     void changeProfile(bool isPal);
     QDomElement toXml() const;
     void loadXml(QDomElement xml);
+    void prepareUnderLines();
+    void resetUnderLines();
 
 private:
     Ui::DvdWizardMenu_UI m_view;
@@ -154,6 +156,7 @@ private:
     QGraphicsRectItem *m_safeRect;
     int m_width;
     int m_height;
+    QSize m_finalSize;
 #if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_menuMessage;
 #endif
@@ -171,9 +174,11 @@ private slots:
     void deleteButton();
     void updateColor();
     void updateColor(QColor c);
+    void updateUnderlineColor(QColor c);
     void setBackToMenu(bool backToMenu);
     void slotZoom();
     void slotUnZoom();
+    void slotEnableShadows(int enable);
 };
 
 #endif

@@ -294,7 +294,7 @@ void DvdWizard::generateDvd()
         stream.appendChild(spu);
         spu.setAttribute("force", "yes");
         spu.setAttribute("start", "00:00:00.00");
-        spu.setAttribute("image", temp1.fileName());
+        //spu.setAttribute("image", temp1.fileName());
 	spu.setAttribute("select", temp2.fileName());
         spu.setAttribute("highlight", temp3.fileName());
         /*spu.setAttribute("autoorder", "rows");*/
