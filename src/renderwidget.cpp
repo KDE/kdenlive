@@ -980,6 +980,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPath);
     else
         render_process_args <<  (scriptExport ? "$SOURCE" : playlistPath);
+
     render_process_args << (scriptExport ? "$TARGET" : KUrl(dest).url());
     render_process_args << paramsList;
 

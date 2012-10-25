@@ -1360,7 +1360,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     QList <CutZoneInfo> cuts = clip->cutZones();
     if (!cuts.isEmpty()) {
         for (int i = 0; i < cuts.count(); i++) {
-            SubProjectItem *sub = new SubProjectItem(item, cuts.at(i).zone.x(), cuts.at(i).zone.y(), cuts.at(i).description);
+            SubProjectItem *sub = new SubProjectItem(m_render->dar(), item, cuts.at(i).zone.x(), cuts.at(i).zone.y(), cuts.at(i).description);
             if (!clip->getClipHash().isEmpty()) {
                 QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).zone.x()) + ".png";
                 if (QFile::exists(cachedPixmap)) {
@@ -2001,6 +2001,23 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(availableClip(const QString &)), this, SLOT(slotAvailableClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool, bool, QStringList)), this, SLOT(updateAllClips(bool, bool, QStringList)));
+    connect(m_doc->clipManager(), SIGNAL(thumbReady(const QString &, int, QImage)), this, SLOT(slotSetThumbnail(const QString &, int, QImage)));
+}
+
+void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)
+{
+    QString fullid = id + '#' + QString::number(framePos);
+    ProjectItem *pItem = NULL;
+    QTreeWidgetItem *item = getAnyItemById(fullid);
+    if (item && item->parent()) pItem = static_cast <ProjectItem *>(item->parent());
+    if (!item && framePos == 0) pItem = getItemById(id);
+    if (!item && !pItem) return;
+    if (item) item->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
+    else if (pItem) pItem->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
+    if (pItem) {
+	QString hash = pItem->getClipHash();
+	if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(framePos), img);
+    }
 }
 
 QList <DocClipBase*> ProjectList::documentClipList() const
@@ -2576,17 +2593,14 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
         DocClipBase *base = clip->referencedClip();
         base->addCutZone(in, out);
         monitorItemEditing(false);
-        SubProjectItem *sub = new SubProjectItem(clip, in, out, desc);
+        SubProjectItem *sub = new SubProjectItem(m_render->dar(), clip, in, out, desc);
         if (newItem && desc.isEmpty() && !m_listView->isColumnHidden(1)) {
             if (!clip->isExpanded())
                 clip->setExpanded(true);
             m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
-        QImage img = clip->referencedClip()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
-        sub->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
-        QString hash = clip->getClipHash();
-        if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(in), img);
+	m_doc->clipManager()->requestThumbs(QString('#' + id), QList <int>() << in);
         monitorItemEditing(true);
     }
     emit projectModified();
@@ -2995,9 +3009,9 @@ void ProjectList::slotProcessJobs()
             MeltJob *jb = static_cast<MeltJob *> (job);
             jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
 	    if (jb->isProjectFilter())
-	      connect(job, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap,QStringList)), this, SLOT(slotGotFilterJobResults(QString,int, int, QString,stringMap,QStringList)));
+	      connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int, int,stringMap,stringMap)));
 	    else
-		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap,QStringList)), this, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap,QStringList)));
+		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int,stringMap,stringMap)));
         }
         job->startJob();
         if (job->jobStatus == JOBDONE) {
@@ -3422,19 +3436,19 @@ void ProjectList::discardJobs(const QString &id, JOBTYPE type) {
     }
 }
 
-void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QStringList &extraParams)
+void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QMap <QString, QString> &extraParams)
 {
     ProjectItem *item = getItemById(id);
     if (!item) return;
     QStringList jobParams;
     jobParams << QString::number(info.cropStart.frames(m_fps)) << QString::number((info.cropStart + info.cropDuration).frames(m_fps));
-    jobParams << QString() << filterName << filterParams << consumer << consumerParams << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track) << finalFilterName;
+    jobParams << QString() << filterName << filterParams << consumer << consumerParams << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track);
     MeltJob *job = new MeltJob(item->clipType(), id, jobParams, extraParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
         return;
     }
-    job->description = i18n("Filter %1", finalFilterName);
+    job->description = i18n("Filter %1", extraParams.value("finalfilter"));
     m_jobList.append(job);
     setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
     slotCheckJobProcess();
@@ -3478,16 +3492,16 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	jobParams << filterName << "bounding=\"25%x25%:25%x25\" shot_change_list=0";
 	// Consumer
 	jobParams << "null" << "all=1 terminate_on_pause=1 real_time=-1";
-	QStringList extraParams;
-	extraParams << "key:shot_change_list";
-	extraParams << "projecttreefilter";
+	QMap <QString, QString> extraParams;
+	extraParams.insert("key", "shot_change_list");
+	extraParams.insert("projecttreefilter", "1");
 	if (ui.add_markers->isChecked()) {
 	    // We want to create markers
-	    extraParams << QString("addmarkers:%1").arg(ui.marker_type->currentIndex());
+	    extraParams.insert("addmarkers", QString::number(ui.marker_type->currentIndex()));
 	}
 	if (ui.cut_scenes->isChecked()) {
 	    // We want to cut scenes
-	    extraParams << "cutscenes";
+	    extraParams.insert("cutscenes", "1");
 	}
 	delete d;
 	processClipJob(ids, QString(), false, jobParams, i18n("Auto split"), extraParams);
@@ -3495,15 +3509,15 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
     else {
 	QPointer<ClipStabilize> d = new ClipStabilize(destination, ids.count(), filterName);
 	if (d->exec() == QDialog::Accepted) {
-	    QStringList extraParams;
-	    extraParams << "producer_profile";
+	    QMap <QString, QString> extraParams;
+	    extraParams.insert("producer_profile", "1");
 	    processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc(), extraParams);
 	}
 	delete d;
     }
 }
 
-void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QStringList extraParams)
+void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QMap <QString, QString> extraParams)
 {
     QStringList preParams;
     // in and out
@@ -3597,38 +3611,31 @@ void ProjectList::slotClosePopup()
     m_errorLog.clear();
 }
 
-void ProjectList::slotGotFilterJobResults(QString id, int , int , QString filter, stringMap results, QStringList extra)
+void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap results, stringMap filterInfo)
 {
+    // Currently, only the first value of results is used
+    kDebug()<<"// FILTER RES:\n"<<filterInfo<<"\n--------------\n"<<results;
     ProjectItem *clip = getItemById(id);
     if (!clip) return;
     // Check for return value
-    QString returnKey;
     int markersType = -1;
-    for (int i = 0; i < extra.count(); i++) {
-	if (extra.at(i).startsWith("key:"))
-	    returnKey = extra.at(i).section(':', 1);
-	if (extra.at(i).startsWith("addmarkers:")) {
-	    markersType = extra.at(i).section(':', 1).toInt();
-	}
-    }
-    if (returnKey.isEmpty()) {
-	emit displayMessage(i18n("No data returned from clip analysis"), ErrorMessage);
-	return;
-    }
-    QStringList returnData = results.value(returnKey).split(';', QString::SkipEmptyParts);
-    if (returnData.isEmpty()) {
+    if (filterInfo.contains("addmarkers")) markersType = filterInfo.value("addmarkers").toInt();
+    if (results.isEmpty()) {
 	emit displayMessage(i18n("No data returned from clip analysis"), ErrorMessage);
 	return;
     }
     emit displayMessage(i18n("Processing data analysis"), InformationMessage);
     bool dataProcessed = false;
-    if (extra.contains("cutscenes")) {
+    QString key = filterInfo.value("key");
+    QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
+    kDebug()<<"// RESULT; "<<key<<" = "<<value;
+    if (filterInfo.contains("cutscenes")) {
 	// Check if we want to cut scenes from returned data
 	dataProcessed = true;
 	int cutPos = 0;
 	QUndoCommand *command = new QUndoCommand();
 	command->setText(i18n("Auto Split Clip"));
-	foreach (QString pos, returnData) {
+	foreach (QString pos, value) {
 	    if (!pos.contains("=")) continue;
 	    int newPos = pos.section("=", 0, 0).toInt();
 	    // Don't use scenes shorter than 1 second
@@ -3648,7 +3655,7 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , QString filter
 	command->setText(i18n("Add Markers"));
 	QList <CommentedTime> markersList;
 	int index = 1;
-	foreach (QString pos, returnData) {
+	foreach (QString pos, value) {
 	    if (!pos.contains("=")) continue;
 	    int newPos = pos.section("=", 0, 0).toInt();
 	    // Don't use scenes shorter than 1 second
@@ -3660,12 +3667,12 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , QString filter
 	}
 	emit addMarkers(id, markersList);
     }
-    if (!dataProcessed || extra.contains("storedata")) {
+    if (!dataProcessed || filterInfo.contains("storedata")) {
 	// Store returned data as clip extra data
-	
-	clip->referencedClip()->setAnalysisData(i18n("Motion vectors"), results.value(returnKey));
+	clip->referencedClip()->setAnalysisData(filterInfo.contains("displaydataname") ? filterInfo.value("displaydataname") : key, results.value(key));
 	emit updateAnalysisData(clip->referencedClip());
     }
 }
+
 
 #include "projectlist.moc"

@@ -71,6 +71,7 @@ Q_OBJECT public:
     QImage findCachedThumb(const QString &path);
 #endif
     void getThumb(int frame);
+    void getGenericThumb(int frame, int height, int type);
 
 public slots:
     void updateClipUrl(KUrl url, const QString &hash);

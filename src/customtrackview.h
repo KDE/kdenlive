@@ -497,7 +497,7 @@ private slots:
      *  @param resetThumbs Should we recreate the timeline thumbnails. */
     void slotRefreshThumbs(const QString &id, bool resetThumbs);
     /** @brief A Filter job producer results. */
-    void slotGotFilterJobResults(const QString &id, int startPos, int track, const QString &filter, stringMap filterParams, QStringList extra);
+    void slotGotFilterJobResults(const QString &id, int startPos, int track, stringMap filterParams, stringMap extra);
 
 
 signals:

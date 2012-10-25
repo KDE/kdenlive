@@ -76,6 +76,7 @@ private slots:
     void slotSaveMarkers();
     void slotLoadMarkers();
     void slotDeleteAnalysis();
+    void slotGotThumbnail(const QString &id, QImage img);
 
 private:
     Ui::ClipProperties_UI m_view;

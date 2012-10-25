@@ -1145,7 +1145,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
             int sample = (int)((frame - (int)(frame)) * 20);   // AUDIO_FRAME_SIZE
             if (frame < 0 || sample < 0 || sample > 19)
                 continue;
-            QMap<int, QByteArray> frame_channel_data = baseClip()->m_audioFrameCache[(int)frame];
+            QMap<int, QByteArray> frame_channel_data = baseClip()->audioFrameCache[(int)frame];
 
             for (int channel = 0; channel < channels && frame_channel_data[channel].size() > 0; channel++) {
 

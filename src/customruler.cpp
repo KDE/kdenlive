@@ -59,7 +59,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
         m_lastSeekPosition(SEEK_INACTIVE),
         m_clickedGuide(-1),
         m_rate(-1),
-        m_mouseMove(NO_MOVE)
+        m_mouseMove(NO_MOVE),
+        m_cursorColor(palette().text())
 {
     setFont(KGlobalSettings::toolBarFont());
     QFontMetricsF fontMetrics(font());
@@ -216,7 +217,17 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
         update(min * m_factor - m_offset - 2, 0, (max - min) * m_factor + 4, height());
 
     } else {
-        int pos = (int)((event->x() + offset()));
+        int pos = (int)((event->x() + m_offset));
+	if (m_cursorColor == palette().text() && qAbs(pos - m_view->cursorPos() * m_factor) < 7) {
+	    // Mouse is over cursor
+	    m_cursorColor = palette().highlight();
+	    update(m_view->cursorPos() * m_factor - m_offset - 10, 0, 20, height());
+	}
+	else if (m_cursorColor == palette().highlight() && qAbs(pos - m_view->cursorPos() * m_factor) >= 7) {
+	    m_cursorColor = palette().text();
+	    update(m_view->cursorPos() * m_factor - m_offset - 10, 0, 20, height());
+	}
+	
         if (event->y() <= 10) setCursor(Qt::ArrowCursor);
         else if (qAbs(pos - m_zoneStart * m_factor) < 4) {
             setCursor(KCursor("left_side", Qt::SizeHorCursor));
@@ -238,6 +249,16 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
     }
 }
 
+
+// virtual
+void CustomRuler::leaveEvent(QEvent * event)
+{
+    QWidget::leaveEvent(event);
+    if (m_cursorColor == palette().highlight()) {
+	m_cursorColor = palette().text();
+	update();
+    }
+}
 
 // virtual
 void CustomRuler::wheelEvent(QWheelEvent * e)
@@ -282,7 +303,7 @@ void CustomRuler::slotCursorMoved(int oldpos, int newpos)
 	    max = qMax(max, m_lastSeekPosition);
 	}
     }
-    update(min * m_factor - offset() - 6, BIG_MARK_X, (max - min) * m_factor + 14, MAX_HEIGHT - BIG_MARK_X);
+    update(min * m_factor - m_offset - 6, BIG_MARK_X, (max - min) * m_factor + 14, MAX_HEIGHT - BIG_MARK_X);
 }
 
 void CustomRuler::updateRuler()
@@ -461,7 +482,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     const int value  =  m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
     pa.setPoints(3, value - 6, BIG_MARK_X, value + 6, BIG_MARK_X, value, MAX_HEIGHT - 1);
-    p.setBrush(palette().text());
+    p.setBrush(m_cursorColor);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
     
