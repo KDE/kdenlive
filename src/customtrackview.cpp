@@ -810,6 +810,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             found = true;
 	    m_dragItem->setProperty("y_absolute", mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y());
             m_dragItemInfo = m_dragItem->info();
+	    if (m_selectionGroup) m_selectionGroup->setProperty("y_absolute", mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y());
             if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET && m_dragItem->parentItem() != m_selectionGroup) {
                 // kDebug()<<"// KLIK FOUND GRP: "<<m_dragItem->sceneBoundingRect();
                 dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
