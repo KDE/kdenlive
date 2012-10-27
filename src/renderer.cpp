@@ -1107,6 +1107,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     if (!producer || !producer->is_valid()) {
         if (producer) delete producer;
         producer = m_blackClip->cut(0, 1);
+	producer->set("id", "black");
     }
 
     if (!producer || !producer->is_valid()) {
@@ -2064,15 +2065,13 @@ bool Render::mltCutClip(int track, GenTime position)
 Mlt::Tractor *Render::lockService()
 {
     // we are going to replace some clips, purge consumer
-    QMutexLocker locker(&m_mutex);
     if (!m_mltProducer) return NULL;
+    QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
-        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         m_mltConsumer->purge();
     }
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
-        kWarning() << "// TRACTOR PROBLEM";
         return NULL;
     }
     service.lock();

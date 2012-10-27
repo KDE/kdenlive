@@ -115,7 +115,7 @@ QPainterPath AbstractGroupItem::groupShape(GRAPHICSRECTITEM type, QPointF offset
 void AbstractGroupItem::addItem(QGraphicsItem * item)
 {
     addToGroup(item);
-    //fixItemRect();
+    item->setFlag(QGraphicsItem::ItemIsMovable, false);
 }
 
 void AbstractGroupItem::fixItemRect()
