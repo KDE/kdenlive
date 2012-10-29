@@ -205,6 +205,9 @@ public:
     int getFrameWidth();
     /** @brief Returns last requested seeking pos (or SEEK_INACTIVE if no seek). */
     int seekPosition() const;
+
+    /** @brief Trigger a monitor refresh. */
+    void monitorRefresh();
     
 public slots:
     /** @brief Send seek request to MLT. */

@@ -59,9 +59,9 @@ bool AbstractMonitor::isActive() const
     return m_monitorManager->isActive(m_id);
 }
 
-bool AbstractMonitor::slotActivateMonitor()
+bool AbstractMonitor::slotActivateMonitor(bool forceRefresh)
 {
-    return m_monitorManager->activateMonitor(m_id);
+    return m_monitorManager->activateMonitor(m_id, forceRefresh);
 }
 
 VideoContainer::VideoContainer(AbstractMonitor* monitor, QWidget *parent) :

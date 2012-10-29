@@ -63,6 +63,7 @@
 #include "commands/configtrackscommand.h"
 #include "commands/rebuildgroupcommand.h"
 #include "commands/razorgroupcommand.h"
+#include "commands/refreshmonitorcommand.h"
 #include "profilesdialog.h"
 
 #include "lib/audio/audioEnvelope.h"
@@ -2711,7 +2712,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             m_dragItem = static_cast <AbstractClipItem *>(items.at(0));
             emit clipItemSelected((ClipItem*) m_dragItem, false);
         }
-        m_document->renderer()->doRefresh();
+        m_document->renderer()->refreshIfActive();
         event->setDropAction(Qt::MoveAction);
         event->accept();
 
@@ -3428,8 +3429,10 @@ void CustomTrackView::deleteClip(const QString &clipId)
         delete deleteCommand;
     } else {
         updateTrackDuration(-1, deleteCommand);
+	new RefreshMonitorCommand(this, false, deleteCommand);
         m_commandStack->push(deleteCommand);
     }
+    m_document->renderer()->doRefresh();    
 }
 
 void CustomTrackView::seekCursorPos(int pos)
@@ -4197,7 +4200,9 @@ void CustomTrackView::deleteSelectedClips()
         deleteSelected->setText(i18np("Delete selected transition", "Delete selected transitions", transitionCount));
     else deleteSelected->setText(i18n("Delete selected items"));
     updateTrackDuration(-1, deleteSelected);
+    new RefreshMonitorCommand(this, false, deleteSelected);
     m_commandStack->push(deleteSelected);
+    m_document->renderer()->doRefresh();
 }
 
 
@@ -6011,6 +6016,7 @@ void CustomTrackView::pasteClip()
         }
     }
     updateTrackDuration(-1, pasteClips);
+    new RefreshMonitorCommand(this, false, pasteClips);
     m_commandStack->push(pasteClips);
 }
 
@@ -6821,6 +6827,11 @@ void CustomTrackView::setAudioAndVideo()
         }
     }
     m_commandStack->push(videoCommand);
+}
+
+void CustomTrackView::monitorRefresh()
+{
+    m_document->renderer()->doRefresh();
 }
 
 void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool videoOnly, bool audioOnly)

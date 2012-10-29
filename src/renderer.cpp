@@ -1095,8 +1095,10 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         if (producer) delete producer;
         return -1;
     }
+    bool monitorIsActive = false;
     m_mltConsumer->set("refresh", 0);
     if (!m_mltConsumer->is_stopped()) {
+	monitorIsActive = true;
         m_mltConsumer->stop();
     }
     m_mltConsumer->purge();
@@ -1160,8 +1162,15 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     }
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);
+    if (monitorIsActive) startConsumer();
     emit durationChanged(m_mltProducer->get_playtime());
-    if (m_mltConsumer->start() == -1) {
+    position = m_mltProducer->position();
+    emit rendererPosition(position);
+    return 0;
+}
+
+void Render::startConsumer() {
+  if (m_mltConsumer->is_stopped() && m_mltConsumer->start() == -1) {
         // ARGH CONSUMER BROKEN!!!!
         KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
         if (m_showFrameEvent) delete m_showFrameEvent;
@@ -1170,18 +1179,14 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         m_pauseEvent = NULL;
         delete m_mltConsumer;
         m_mltConsumer = NULL;
-        return -1;
+        return;
     }
-
-    position = m_mltProducer->position();
     m_mltConsumer->set("refresh", 1);
     // Make sure the first frame is displayed, otherwise if we change producer too fast
     // We can crash the avformat producer
     Mlt::Event *ev = m_mltConsumer->setup_wait_for("consumer-frame-show");
     m_mltConsumer->wait_for(ev);
     delete ev;
-    emit rendererPosition(position);
-    return 0;
 }
 
 int Render::setSceneList(QDomDocument list, int position)
@@ -1639,6 +1644,11 @@ void Render::seekToFrameDiff(int diff)
     if (requestedSeekPosition == SEEK_INACTIVE)
 	seek(m_mltProducer->position() + diff);
     else seek(requestedSeekPosition + diff);
+}
+
+void Render::refreshIfActive()
+{
+    if (!m_mltConsumer->is_stopped() && m_mltProducer && m_mltProducer->get_speed() == 0) m_refreshTimer.start();
 }
 
 void Render::doRefresh()

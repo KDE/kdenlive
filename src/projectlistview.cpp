@@ -333,7 +333,7 @@ void ProjectListView::mouseReleaseEvent(QMouseEvent *event)
 {
     QTreeWidget::mouseReleaseEvent(event);
     QTreeWidgetItem *underMouse = itemAt(event->pos());
-    if (underMouse) emit focusMonitor();
+    if (underMouse) emit focusMonitor(true);
 }
 
 // virtual
