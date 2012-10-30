@@ -411,7 +411,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 {
     int pos = event->x();
     int mappedXPos = qMax((int)(mapToScene(event->pos()).x() + 0.5), 0);
-   
     double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
 
@@ -598,11 +597,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 
     if (m_tool == RAZORTOOL) {
         setCursor(m_razorCursor);
-        //QGraphicsView::mouseMoveEvent(event);
-        //return;
     } else if (m_tool == SPACERTOOL) {
         setCursor(m_spacerCursor);
-        return;
     }
 
     QList<QGraphicsItem *> itemList = items(event->pos());
@@ -611,12 +607,18 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 
     if (itemList.count() == 1 && itemList.at(0)->type() == GUIDEITEM) {
         opMode = MOVEGUIDE;
+	setCursor(Qt::SplitHCursor);
     } else for (int i = 0; i < itemList.count(); i++) {
-            if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
-                item = (QGraphicsRectItem*) itemList.at(i);
-                break;
-            }
-        }
+        if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
+            item = (QGraphicsRectItem*) itemList.at(i);
+	    break;
+	}
+    }
+
+    if (m_tool == SPACERTOOL) {
+        event->accept();
+        return;
+    }
 
     if (item && event->buttons() == Qt::NoButton) {
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
@@ -712,7 +714,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         return;
     } else if (opMode == MOVEGUIDE) {
         m_moveOpMode = opMode;
-        setCursor(Qt::SplitHCursor);
     } else {
         removeTipAnimation();
         setCursor(Qt::ArrowCursor);
@@ -884,7 +885,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     // No item under click
     if (m_dragItem == NULL || m_tool == SPACERTOOL) {
         resetSelectionGroup(false);
-        setCursor(Qt::ArrowCursor);
         m_scene->clearSelection();
         //event->accept();
         updateClipTypeActions(NULL);
@@ -957,6 +957,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             }
             m_operationMode = SPACER;
         } else {
+	    setCursor(Qt::ArrowCursor);
             seekCursorPos((int)(mapToScene(event->x(), 0).x()));
         }
         QGraphicsView::mousePressEvent(event);
@@ -3502,8 +3503,8 @@ void CustomTrackView::checkScrolling()
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_moveOpMode == SEEK) m_moveOpMode = NONE;
-    if (m_moveOpMode == SCROLLTIMELINE) {
-	m_moveOpMode = NONE;
+    if (m_operationMode == SCROLLTIMELINE) {
+	m_operationMode = NONE;
 	setDragMode(QGraphicsView::NoDrag);
 	QGraphicsView::mouseReleaseEvent(event);
 	return;
@@ -5695,6 +5696,16 @@ void CustomTrackView::slotDeleteAllGuides()
 void CustomTrackView::setTool(PROJECTTOOL tool)
 {
     m_tool = tool;
+    switch (m_tool) {
+      case RAZORTOOL:
+	  setCursor(m_razorCursor);
+	  break;
+      case SPACERTOOL:
+	  setCursor(m_spacerCursor);
+	  break;
+      default:
+	  unsetCursor();
+    }
 }
 
 void CustomTrackView::setScale(double scaleFactor, double verticalScale)
