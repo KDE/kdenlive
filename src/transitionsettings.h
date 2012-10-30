@@ -37,7 +37,7 @@ public:
     void raiseWindow(QWidget*);
     void updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info);
     void updateTimecodeFormat();
-    void setKeyframes(const QString data);
+    void setKeyframes(const QString data, int maximum);
 
 private:
     EffectStackEdit *m_effectEdit;

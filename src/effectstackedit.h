@@ -57,7 +57,7 @@ public:
     /** @brief Returns true if this transition requires an on monitor scene. */
     bool needsMonitorEffectScene() const;
     /** @brief Set keyframes for this transition. */
-    void setKeyframes(const QString &data);
+    void setKeyframes(const QString &data, int maximum);
 
 private:
     Monitor *m_monitor;

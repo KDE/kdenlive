@@ -1024,7 +1024,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	if (selected == false) {
 	    m_dragItem = NULL;
 	}
-        groupSelectedItems();
+        groupSelectedItems(QList <QGraphicsItem*>(), false, false, true);
 	if (m_dragItem) { 
 	    ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
 	    updateClipTypeActions(dragGroup == NULL ? clip : NULL);
@@ -7650,7 +7650,7 @@ void CustomTrackView::slotImportClipKeyframes(GRAPHICSRECTITEM type)
 	    result.append(';');
 	}
     }
-    emit importKeyframes(type, result);
+    emit importKeyframes(type, result, ui.limit_keyframes->isChecked() ? ui.max_keyframes->value() : -1);
     delete d;
 }
 

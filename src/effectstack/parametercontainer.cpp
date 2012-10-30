@@ -854,13 +854,13 @@ bool ParameterContainer::needsMonitorEffectScene() const
     return m_needsMonitorEffectScene;
 }
 
-void ParameterContainer::setKeyframes(const QString &data)
+void ParameterContainer::setKeyframes(const QString &data, int maximum)
 {
     if (!m_geometryWidget) {
 	kDebug()<<" / / NO GEOMETRY WIDGET FOUND FOR IMPORTING DATA";
 	return;
     }
-    m_geometryWidget->importKeyframes(data);
+    m_geometryWidget->importKeyframes(data, maximum);
     
 }
 
