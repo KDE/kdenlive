@@ -415,6 +415,11 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
 
+    if (m_operationMode == SCROLLTIMELINE) {
+	QGraphicsView::mouseMoveEvent(event);
+	return;
+    }
+
     if (event->buttons() & Qt::MidButton) return;
     if (dragMode() == QGraphicsView::RubberBandDrag || (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && m_operationMode != RESIZESTART && m_operationMode != RESIZEEND)) {
         event->setAccepted(true);
@@ -770,9 +775,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     if (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && collisionList.count() == 0) {
         // Pressing Ctrl + left mouse button in an empty area scrolls the timeline
         setDragMode(QGraphicsView::ScrollHandDrag);
-        QGraphicsView::mousePressEvent(event);
         m_blockRefresh = false;
-        m_operationMode = NONE;
+        m_operationMode = SCROLLTIMELINE;
+	QGraphicsView::mousePressEvent(event);
         return;
     }
 
@@ -3497,8 +3502,15 @@ void CustomTrackView::checkScrolling()
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_moveOpMode == SEEK) m_moveOpMode = NONE;
+    if (m_moveOpMode == SCROLLTIMELINE) {
+	m_moveOpMode = NONE;
+	setDragMode(QGraphicsView::NoDrag);
+	QGraphicsView::mouseReleaseEvent(event);
+	return;
+    }
     if (!m_controlModifier && m_operationMode != RUBBERSELECTION) {
 	//event->accept();
+	setDragMode(QGraphicsView::NoDrag);
 	if (m_clipDrag) QGraphicsView::mouseReleaseEvent(event);
     }
     m_clipDrag = false;
@@ -7072,10 +7084,16 @@ void CustomTrackView::slotSelectClipsInTrack()
 
 void CustomTrackView::slotSelectAllClips()
 {
-    QList<QGraphicsItem *> selection = m_scene->items();
     m_scene->clearSelection();
     resetSelectionGroup();
-    groupSelectedItems(selection);
+    QList<QGraphicsItem *> selection = m_scene->items();
+    for (int i = 0; i < selection.count(); i++) {
+	int type = selection.at(i)->type();
+	if (type == AVWIDGET || type == TRANSITIONWIDGET || type == GROUPWIDGET) {
+	    selection.at(i)->setSelected(true);
+	}
+    }
+    groupSelectedItems();
 }
 
 void CustomTrackView::selectClip(bool add, bool group, int track, int pos)
