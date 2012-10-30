@@ -353,8 +353,8 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     m_geomPath = new OnMonitorPathItem(m_monitor->render->dar());
     connect(m_geomPath, SIGNAL(changed()), this, SLOT(slotUpdatePath()));
     m_geomPath->setPen(QPen(Qt::red));
-    m_scene->addItem(m_geomPath);
     m_geomPath->setPoints(m_geometry);
+    m_scene->addItem(m_geomPath);
     m_scene->centerView();
     slotPositionChanged(0, false);
 }
@@ -523,7 +523,11 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
     }
 
     m_timeline->update();
-    if (m_geomPath) m_geomPath->setPoints(m_geometry);
+    if (m_geomPath) {
+	m_scene->removeItem(m_geomPath);
+	m_geomPath->setPoints(m_geometry);
+	m_scene->addItem(m_geomPath);
+    }
     slotPositionChanged(pos, false);
     emit parameterChanged();
 }
@@ -608,7 +612,11 @@ void GeometryWidget::slotUpdateGeometry()
             geom->insert(item2);
         }
     }
-    if (m_geomPath) m_geomPath->setPoints(m_geometry);
+    if (m_geomPath) {
+	m_scene->removeItem(m_geomPath);
+	m_geomPath->setPoints(m_geometry);
+	m_scene->addItem(m_geomPath);
+    }
     emit parameterChanged();
 }
 
@@ -861,7 +869,11 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
 	m_geometry->insert(item);
     }
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-    if (m_geomPath) m_geomPath->setPoints(m_geometry);
+    if (m_geomPath) {
+	m_scene->removeItem(m_geomPath);
+	m_geomPath->setPoints(m_geometry);
+	m_scene->addItem(m_geomPath);
+    }
     slotPositionChanged(-1, false);
     emit parameterChanged();
 }

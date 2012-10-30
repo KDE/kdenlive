@@ -56,8 +56,8 @@ rectActions OnMonitorRectItem::getMode(QPointF pos)
     right.lineTo(pol.at(2));
 
     QPainterPath mouseArea;
-    qreal xsize = 10;
-    qreal ysize = 10;
+    qreal xsize = 12;
+    qreal ysize = 12;
     if (getView()) {
         xsize /= m_view->matrix().m11();
 	ysize /= m_view->matrix().m22();
