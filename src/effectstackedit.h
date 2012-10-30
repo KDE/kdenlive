@@ -81,7 +81,7 @@ signals:
     void showComments(bool show);
     void effectStateChanged(bool enabled);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &finalFilterName, const QString &consumer, const QString &consumerParams, const QStringList&extraParams);
+    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString>);
     void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
 };
 
