@@ -205,6 +205,9 @@ public:
     int getFrameWidth();
     /** @brief Returns last requested seeking pos (or SEEK_INACTIVE if no seek). */
     int seekPosition() const;
+
+    /** @brief Trigger a monitor refresh. */
+    void monitorRefresh();
     
 public slots:
     /** @brief Send seek request to MLT. */
@@ -408,7 +411,7 @@ private:
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
     void resetSelectionGroup(bool selectItems = true);
-    void groupSelectedItems(bool force = false, bool createNewGroup = false);
+    void groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool force = false, bool createNewGroup = false, bool selectNewGroup = false);
     /** Get available space for clip move (min and max free positions) */
     void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     /** Get available space for transition move (min and max free positions) */

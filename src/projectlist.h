@@ -515,7 +515,7 @@ signals:
     void updateProfile(const QString &);
     void processNextThumbnail();
     /** @brief Activate the clip monitor. */
-    void raiseClipMonitor();
+    void raiseClipMonitor(bool forceRefresh);
     /** @brief Set number of running jobs. */
     void jobCount(int);
     void cancelRunningJob(const QString, stringMap);

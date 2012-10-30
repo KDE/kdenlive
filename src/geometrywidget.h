@@ -33,6 +33,7 @@ class MonitorScene;
 class KeyframeHelper;
 class TimecodeDisplay;
 class OnMonitorRectItem;
+class OnMonitorPathItem;
 class QGraphicsRectItem;
 class DragValue;
 
@@ -81,6 +82,7 @@ private:
     bool m_isEffect;
     MonitorScene *m_scene;
     OnMonitorRectItem *m_rect;
+    OnMonitorPathItem *m_geomPath;
     QGraphicsRectItem *m_previous;
     KeyframeHelper *m_timeline;
     /** Stores the different settings in the MLT geometry format. */
@@ -128,6 +130,8 @@ private slots:
     /** @brief Adds or deletes a keyframe depending on whether there is already a keyframe at the current position. */
     void slotAddDeleteKeyframe();
 
+    /** @brief Updates the Mlt::Geometry path object. */
+    void slotUpdatePath();
     /** @brief Updates the Mlt::Geometry object. */
     void slotUpdateGeometry();
     /** @brief Updates the spinBoxes according to the rect. */

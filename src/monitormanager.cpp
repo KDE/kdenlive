@@ -74,12 +74,14 @@ AbstractMonitor* MonitorManager::monitor(Kdenlive::MONITORID monitorName)
     return monitor;
 }
 
-bool MonitorManager::activateMonitor(Kdenlive::MONITORID name)
+bool MonitorManager::activateMonitor(Kdenlive::MONITORID name, bool forceRefresh)
 {
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
         return false;
-    if (m_activeMonitor && m_activeMonitor->id() == name)
+    if (m_activeMonitor && m_activeMonitor->id() == name) {
+	if (forceRefresh) m_activeMonitor->start();
         return false;
+    }
     m_activeMonitor = NULL;
     for (int i = 0; i < m_monitorsList.count(); i++) {
         if (m_monitorsList.at(i)->id() == name) {

@@ -94,7 +94,6 @@ public:
 
 protected:
     ItemInfo m_info;
-//    int m_track;
     /** The position of the current keyframe when it has moved */
     int m_editedKeyframe;
     /** The position of the current keyframe before it was moved */

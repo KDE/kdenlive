@@ -26,6 +26,7 @@
 #include "monitorscene.h"
 #include "monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
+#include "onmonitoritems/onmonitorpathitem.h"
 #include "kdenlivesettings.h"
 #include "dragvalue.h"
 
@@ -46,6 +47,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_outPoint(1),
     m_isEffect(isEffect),
     m_rect(NULL),
+    m_geomPath(NULL),
     m_previous(NULL),
     m_geometry(NULL),
     m_showScene(true),
@@ -245,7 +247,9 @@ GeometryWidget::~GeometryWidget()
     delete m_spinHeight;
     delete m_opacity;
     m_scene->removeItem(m_rect);
+    m_scene->removeItem(m_geomPath);
     if (m_rect) delete m_rect;
+    if (m_geomPath) delete m_geomPath;
     if (m_previous) delete m_previous;
     delete m_geometry;
     m_extraGeometryNames.clear();
@@ -315,14 +319,25 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     }
 
     Mlt::GeometryItem item;
-
     m_geometry->fetch(&item, 0);
-    delete m_rect;
+    if (m_rect) {
+	m_scene->removeItem(m_rect);
+	delete m_rect;
+    }
+    if (m_geomPath) {
+	m_scene->removeItem(m_geomPath);
+	delete m_geomPath;
+    }
     m_rect = new OnMonitorRectItem(QRectF(0, 0, item.w(), item.h()), m_monitor->render->dar());
     m_rect->setPos(item.x(), item.y());
     m_rect->setZValue(0);
     m_scene->addItem(m_rect);
     connect(m_rect, SIGNAL(changed()), this, SLOT(slotUpdateGeometry()));
+    m_geomPath = new OnMonitorPathItem(m_monitor->render->dar());
+    connect(m_geomPath, SIGNAL(changed()), this, SLOT(slotUpdatePath()));
+    m_geomPath->setPen(QPen(Qt::red));
+    m_scene->addItem(m_geomPath);
+    m_geomPath->setPoints(m_geometry);
     m_scene->centerView();
     slotPositionChanged(0, false);
 }
@@ -527,6 +542,25 @@ void GeometryWidget::slotAddDeleteKeyframe()
         slotDeleteKeyframe();
 }
 
+void GeometryWidget::slotUpdatePath()
+{
+    if (!m_geomPath) return;
+    QList <QPointF> points = m_geomPath->points();
+    Mlt::GeometryItem item;
+    int pos = 0;
+    int ix = 0;
+    while (ix < points.count() && !m_geometry->next_key(&item, pos)) {
+	QPointF center = points.at(ix);
+	QSizeF size(item.w(), item.h());
+	item.x(center.x() - size.width()/2);
+	item.y(center.y() - size.height()/2);
+	m_geometry->insert(item);
+	pos = item.frame() + 1;
+	ix++;
+    }
+    slotPositionChanged(-1, false);
+    emit parameterChanged();
+}
 
 
 void GeometryWidget::slotUpdateGeometry()
@@ -556,6 +590,7 @@ void GeometryWidget::slotUpdateGeometry()
             geom->insert(item2);
         }
     }
+    if (m_geomPath) m_geomPath->setPoints(m_geometry);
     emit parameterChanged();
 }
 

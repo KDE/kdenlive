@@ -70,7 +70,7 @@ signals:
     void addClip();
     void addClip(const QList <QUrl>, const QString &, const QString &);
     void showProperties(DocClipBase *);
-    void focusMonitor();
+    void focusMonitor(bool forceRefresh);
     void pauseMonitor();
     void addClipCut(const QString&, int, int);
     void projectModified();

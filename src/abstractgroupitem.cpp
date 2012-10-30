@@ -32,6 +32,7 @@
 #include <QMimeData>
 #include <QGraphicsSceneMouseEvent>
 
+
 AbstractGroupItem::AbstractGroupItem(double /* fps */) :
         QObject(),
         QGraphicsItemGroup()
@@ -114,7 +115,7 @@ QPainterPath AbstractGroupItem::groupShape(GRAPHICSRECTITEM type, QPointF offset
 void AbstractGroupItem::addItem(QGraphicsItem * item)
 {
     addToGroup(item);
-    //fixItemRect();
+    item->setFlag(QGraphicsItem::ItemIsMovable, false);
 }
 
 void AbstractGroupItem::fixItemRect()
@@ -168,22 +169,18 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         //kDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
         newPos.setX((int)(pos().x() + xpos - (int) start.x()));
 
-        //int startTrack = (start.y() + trackHeight / 2) / trackHeight;
-
-        int realTrack = (start.y() + newPos.y() - pos().y()) / trackHeight;
-        int proposedTrack = newPos.y() / trackHeight;
-
-        int correctedTrack = qMin(realTrack, projectScene()->tracksCount() - (int)(boundingRect().height() + 5) / trackHeight);
-        correctedTrack = qMax(correctedTrack, 0);
-
-        proposedTrack += (correctedTrack - realTrack);
+	int yOffset = property("y_absolute").toInt() + newPos.y();
+        int proposedTrack = yOffset / trackHeight;
 
         // Check if top item is a clip or a transition
         int offset = 0;
         int topTrack = -1;
         QList<QGraphicsItem *> children = childItems();
         for (int i = 0; i < children.count(); i++) {
-            int currentTrack = (int)(children.at(i)->scenePos().y() / trackHeight);
+            int currentTrack = 0;
+	    if (children.at(i)->type() == AVWIDGET || children.at(i)->type() == TRANSITIONWIDGET) currentTrack = static_cast <AbstractClipItem*> (children.at(i))->track();
+	    else if (children.at(i)->type() == GROUPWIDGET) currentTrack = static_cast <AbstractGroupItem*> (children.at(i))->track();
+	    else continue;
             if (children.at(i)->type() == AVWIDGET) {
                 if (topTrack == -1 || currentTrack <= topTrack) {
                     offset = 0;

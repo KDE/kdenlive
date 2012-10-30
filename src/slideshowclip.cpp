@@ -200,7 +200,12 @@ void SlideshowClip::parseFolder()
     bool isMime = m_view.method_mime->isChecked();
     QString path = isMime ? m_view.folder_url->url().path() : m_view.pattern_url->url().directory();
     QDir dir(path);
-    if (path.isEmpty() || !dir.exists()) return;
+    if (path.isEmpty() || !dir.exists()) {
+	m_count = 0;
+	m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+	m_view.label_info->setText(QString());
+	return;
+    }
 
     KIcon unknownicon("unknown");
     QStringList result;
@@ -241,9 +246,8 @@ void SlideshowClip::parseFolder()
         item->setData(Qt::UserRole, dir.filePath(path));
         m_view.icon_list->addItem(item);
     }
-    m_count = result.count();
-    if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+    m_count = m_view.icon_list->count();
+    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_count > 0);
     m_view.label_info->setText(i18np("1 image found", "%1 images found", m_count));
     if (m_view.show_thumbs->isChecked()) slotGenerateThumbs();
     m_view.icon_list->setCurrentRow(0);
@@ -344,6 +348,9 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
         int precision = fullSize - filter.size();
 	int firstFrame = firstFrameData.right(precision).toInt();
 
+	// Workaround bug in MLT image sequence detection
+	if (firstFrame < 3) firstFrame = 0;
+
         // Check how many files we have
         QDir dir(folder);
         QString path;
@@ -358,7 +365,7 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
             }
         }
         if (firstFrame > 0) extension = filter + '%' + QString::number(firstFrame).rightJustified(precision, '0', false) + 'd' + ext;
-        else extension = filter + '%' + QString::number(precision) + 'd' + ext;
+        else extension = filter + "%0" + QString::number(precision) + 'd' + ext;
     }
     kDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;

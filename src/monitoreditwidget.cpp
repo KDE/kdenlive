@@ -22,12 +22,17 @@
 #include "monitorscene.h"
 #include "kdenlivesettings.h"
 
+#include "onmonitoritems/onmonitorrectitem.h"
+#include "onmonitoritems/onmonitorpathitem.h"
+
 #include <QGraphicsView>
 #include <QVBoxLayout>
 #include <QAction>
 #include <QToolButton>
+#include <QMouseEvent>
 
 #include <KIcon>
+
 
 MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
         QWidget(parent)
@@ -41,7 +46,7 @@ MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
     m_scene = new MonitorScene(renderer);
     m_view = new QGraphicsView(m_scene, m_ui.frameVideo);
     m_view->setFrameShape(QFrame::NoFrame);
-    m_view->setRenderHints(QFlags<QPainter::RenderHint>());
+    //m_view->setRenderHints(QFlags<QPainter::RenderHint>());
     m_view->scale(((double) renderer->renderWidth()) / renderer->frameRenderWidth(), 1.0);
     m_view->setMouseTracking(true);
     m_scene->setUp();
