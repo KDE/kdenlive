@@ -120,23 +120,8 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
     if (url.isEmpty()) return;
     QFile f(url.path());
     qint64 fileSize = f.size();
-    QString profilename;
-    switch (m_view.dvd_profile->currentIndex()) {
-    case 1:
-        profilename = "dv_pal_wide";
-        break;
-    case 2:
-        profilename = "dv_ntsc";
-        break;
-    case 3:
-        profilename = "dv_ntsc_wide";
-        break;
-    default:
-        profilename = "dv_pal";
-        break;
-    }
 
-    Mlt::Profile profile(profilename.toUtf8().constData());
+    Mlt::Profile profile;
     profile.set_explicit(false);
     QTreeWidgetItem *item = new QTreeWidgetItem(m_view.vobs_list, QStringList() << url.path() << QString() << KIO::convertSize(fileSize));
     item->setData(0, Qt::UserRole, fileSize);
@@ -184,6 +169,14 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
 	}
 	item->setData(0, Qt::UserRole, standardName);
 	item->setData(0, Qt::UserRole + 1, standard);
+	if (m_view.vobs_list->topLevelItemCount() == 1) {
+	    // This is the first added movie, auto select DVD format
+	    if (standard >= 0) {
+		m_view.dvd_profile->blockSignals(true);
+		m_view.dvd_profile->setCurrentIndex(standard);
+		m_view.dvd_profile->blockSignals(false);
+	    }
+	}
 	
     }
     if (producer) delete producer;
