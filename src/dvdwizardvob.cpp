@@ -50,6 +50,7 @@ DvdWizardVob::DvdWizardVob(const QString &profile, QWidget *parent) :
     connect(m_view.button_up, SIGNAL(clicked()), this, SLOT(slotItemUp()));
     connect(m_view.button_down, SIGNAL(clicked()), this, SLOT(slotItemDown()));
     connect(m_view.vobs_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckVobList()));
+    
     m_view.vobs_list->setIconSize(QSize(60, 45));
 
     if (KStandardDirs::findExe("dvdauthor").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
@@ -63,15 +64,28 @@ DvdWizardVob::DvdWizardVob(const QString &profile, QWidget *parent) :
     else if (profile == "dv_ntsc_wide") m_view.dvd_profile->setCurrentIndex(3);
 
     connect(m_view.dvd_profile, SIGNAL(activated(int)), this, SLOT(changeFormat()));
+    connect(m_view.dvd_profile, SIGNAL(activated(int)), this, SLOT(slotCheckProfiles()));
     m_view.vobs_list->header()->setStretchLastSection(false);
     m_view.vobs_list->header()->setResizeMode(0, QHeaderView::Stretch);
     m_view.vobs_list->header()->setResizeMode(1, QHeaderView::Custom);
     m_view.vobs_list->header()->setResizeMode(2, QHeaderView::Custom);
 
     m_capacityBar = new KCapacityBar(KCapacityBar::DrawTextInline, this);
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->addWidget(m_capacityBar);
-    m_view.size_box->setLayout(layout);
+    QHBoxLayout *lay = new QHBoxLayout;
+    lay->addWidget(m_capacityBar);
+    m_view.size_box->setLayout(lay);
+
+    m_view.vobs_list->setItemDelegate(new DvdViewDelegate(m_view.vobs_list));
+
+#if KDE_IS_VERSION(4,7,0)
+    m_warnMessage = new KMessageWidget;
+    m_warnMessage->setText(i18n("Conflicting video standards, check DVD profile and clips"));
+    m_warnMessage->setMessageType(KMessageWidget::Warning);
+    QGridLayout *s =  static_cast <QGridLayout*> (layout());
+    s->addWidget(m_warnMessage, 3, 0, 1, -1);
+    m_warnMessage->hide();
+#endif
+    
     slotCheckVobList();
 }
 
@@ -80,6 +94,25 @@ DvdWizardVob::~DvdWizardVob()
     delete m_capacityBar;
 }
 
+void DvdWizardVob::slotCheckProfiles()
+{
+#if KDE_IS_VERSION(4,7,0)
+    bool conflict = false;
+    int comboProfile = m_view.dvd_profile->currentIndex();
+    for (int i = 0; i < m_view.vobs_list->topLevelItemCount(); i++) {
+        QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(i);
+        if (item->data(0, Qt::UserRole + 1).toInt() != comboProfile) {
+	    conflict = true;
+	    break;
+	}
+    }
+
+    if (conflict) {
+	m_warnMessage->animatedShow();
+    }
+    else m_warnMessage->animatedHide();
+#endif
+}
 
 void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
 {
@@ -103,25 +136,57 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
         break;
     }
 
-    Mlt::Profile profile(profilename.toUtf8().data());
+    Mlt::Profile profile(profilename.toUtf8().constData());
+    profile.set_explicit(false);
     QTreeWidgetItem *item = new QTreeWidgetItem(m_view.vobs_list, QStringList() << url.path() << QString() << KIO::convertSize(fileSize));
     item->setData(0, Qt::UserRole, fileSize);
-    item->setIcon(0, KIcon("video-x-generic"));
-
-    QPixmap pix(60, 45);
-
+    item->setData(0, Qt::DecorationRole, KIcon("video-x-generic").pixmap(60, 45));
+    item->setToolTip(0, url.path());
+    
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().data());
-
-    if (producer->is_blank() == false) {
+    if (producer && producer->is_valid() && !producer->is_blank()) {
+	//Mlt::Frame *frame = producer->get_frame();
+	//delete frame;
+	profile.from_producer(*producer);
         int width = 45.0 * profile.dar();
         int swidth = 45.0 * profile.width() / profile.height();
         if (width % 2 == 1) width++;
-        item->setIcon(0, QPixmap::fromImage(KThumb::getFrame(producer, 0, swidth, width, 45)));
+	item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, swidth, width, 45)));
         int playTime = producer->get_playtime();
         item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
         item->setData(1, Qt::UserRole, playTime);
+	int standard = -1;
+	int aspect = profile.dar() * 100;
+	if (profile.height() == 576) {
+	    if (aspect > 150) standard = 1;
+	    else standard = 0;
+	}
+	else if (profile.height() == 480) {
+	    if (aspect > 150) standard = 3;
+	    else standard = 2;
+	}
+	QString standardName;
+	switch (standard) {
+	  case 3:
+	      standardName = i18n("NTSC 16:9");
+	      break;
+	  case 2:
+	      standardName = i18n("NTSC 4:3");
+	      break;
+	  case 1:
+	      standardName = i18n("PAL 16:9");
+	      break;
+	  case 0:
+	      standardName = i18n("PAL 4:3");
+	      break;
+	  default:
+	      standardName = i18n("Unknown");
+	}
+	item->setData(0, Qt::UserRole, standardName);
+	item->setData(0, Qt::UserRole + 1, standard);
+	
     }
-    delete producer;
+    if (producer) delete producer;
 
     if (chapters.isEmpty() == false) {
         item->setData(1, Qt::UserRole + 1, chapters);
@@ -147,6 +212,7 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
         item->setData(1, Qt::UserRole + 1, "0");
 
     slotCheckVobList();
+    slotCheckProfiles();
 }
 
 void DvdWizardVob::changeFormat()
@@ -168,7 +234,7 @@ void DvdWizardVob::changeFormat()
         break;
     }
 
-    Mlt::Profile profile(profilename.toUtf8().data());
+    Mlt::Profile profile(profilename.toUtf8().constData());
     QPixmap pix(180, 135);
 
     for (int i = 0; i < max; i++) {
@@ -196,6 +262,7 @@ void DvdWizardVob::slotDeleteVobFile()
     if (item == NULL) return;
     delete item;
     slotCheckVobList();
+    slotCheckProfiles();
 }
 
 

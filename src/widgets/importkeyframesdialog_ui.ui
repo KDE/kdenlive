@@ -6,20 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>255</width>
-    <height>115</height>
+    <width>248</width>
+    <height>163</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Scene Cut</string>
+   <string>Import Keyframes</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Data to import</string>
-     </property>
-    </widget>
+   <item row="4" column="0" colspan="2">
+    <widget class="QLabel" name="keyframe_info"/>
    </item>
    <item row="0" column="1">
     <widget class="QComboBox" name="data_list">
@@ -28,6 +24,53 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" rowspan="2" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>218</width>
+       <height>2</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QCheckBox" name="limit_keyframes">
+       <property name="text">
+        <string>Limit keyframes number</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="max_keyframes">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="value">
+        <number>10</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QCheckBox" name="import_size">
+     <property name="text">
+      <string>Size</string>
      </property>
     </widget>
    </item>
@@ -41,27 +84,14 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QCheckBox" name="import_size">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Size</string>
+      <string>Data to import</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>218</width>
-       <height>2</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="1">
+   <item row="7" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -104,6 +134,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>limit_keyframes</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>max_keyframes</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>86</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>207</x>
+     <y>94</y>
     </hint>
    </hints>
   </connection>

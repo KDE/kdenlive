@@ -567,7 +567,7 @@ private slots:
     /** @brief Save current timeline clip as mlt playlist. */
     void slotSaveTimelineClip();
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
-    void slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data);
+    void slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum);
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 

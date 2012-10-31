@@ -58,7 +58,7 @@ public:
     /** @brief Sets the size of the original clip. */
     void setFrameSize(QPoint size);
     void addParameter(const QDomElement elem);
-    void importKeyframes(const QString &data);
+    void importKeyframes(const QString &data, int maximum);
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
@@ -68,6 +68,7 @@ public slots:
     void setupParam(const QDomElement elem, int minframe, int maxframe);
     /** @brief Updates position of the local timeline to @param relTimelinePos.  */
     void slotSyncPosition(int relTimelinePos);
+    void slotResetKeyframes();
 
 private:
     Ui::GeometryWidget_UI m_ui;

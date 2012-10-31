@@ -140,6 +140,7 @@ public:
     bool loopMovie() const;
     bool menuMovie() const;
     QString menuMoviePath() const;
+    int menuMovieLength() const;
     bool isPalMenu() const;
     void changeProfile(bool isPal);
     QDomElement toXml() const;
@@ -157,6 +158,7 @@ private:
     int m_width;
     int m_height;
     QSize m_finalSize;
+    int m_movieLength;
 #if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_menuMessage;
 #endif

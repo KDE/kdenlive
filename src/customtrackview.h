@@ -532,7 +532,7 @@ signals:
     /** @brief Cursor position changed, repaint ruler.*/
     void updateRuler();
     /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
-    void importKeyframes(GRAPHICSRECTITEM type, const QString&);
+    void importKeyframes(GRAPHICSRECTITEM type, const QString&, int maximum);
 };
 
 #endif

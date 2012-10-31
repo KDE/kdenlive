@@ -67,7 +67,7 @@ public:
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
     bool needsMonitorEffectScene() const;
     /** @brief Set keyframes for this param. */
-    void setKeyframes(const QString &data);
+    void setKeyframes(const QString &data, int maximum);
 
 private slots:
     void slotCollectAllParameters();

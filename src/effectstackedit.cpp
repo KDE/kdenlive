@@ -184,9 +184,9 @@ bool EffectStackEdit::needsMonitorEffectScene() const
     return m_paramWidget->needsMonitorEffectScene();
 }
 
-void EffectStackEdit::setKeyframes(const QString &data)
+void EffectStackEdit::setKeyframes(const QString &data, int maximum)
 {
     if (!m_paramWidget) return;
-    m_paramWidget->setKeyframes(data);
+    m_paramWidget->setKeyframes(data, maximum);
 }
 

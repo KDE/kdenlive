@@ -420,9 +420,13 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 {
     int pos = event->x();
     int mappedXPos = qMax((int)(mapToScene(event->pos()).x() + 0.5), 0);
-   
     double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
+
+    if (m_operationMode == SCROLLTIMELINE) {
+	QGraphicsView::mouseMoveEvent(event);
+	return;
+    }
 
     if (event->buttons() & Qt::MidButton) return;
     if (dragMode() == QGraphicsView::RubberBandDrag || (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && m_operationMode != RESIZESTART && m_operationMode != RESIZEEND)) {
@@ -602,11 +606,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 
     if (m_tool == RAZORTOOL) {
         setCursor(m_razorCursor);
-        //QGraphicsView::mouseMoveEvent(event);
-        //return;
     } else if (m_tool == SPACERTOOL) {
         setCursor(m_spacerCursor);
-        return;
     }
 
     QList<QGraphicsItem *> itemList = items(event->pos());
@@ -615,12 +616,18 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 
     if (itemList.count() == 1 && itemList.at(0)->type() == GUIDEITEM) {
         opMode = MOVEGUIDE;
+	setCursor(Qt::SplitHCursor);
     } else for (int i = 0; i < itemList.count(); i++) {
-            if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
-                item = (QGraphicsRectItem*) itemList.at(i);
-                break;
-            }
-        }
+        if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
+            item = (QGraphicsRectItem*) itemList.at(i);
+	    break;
+	}
+    }
+
+    if (m_tool == SPACERTOOL) {
+        event->accept();
+        return;
+    }
 
     if (item && event->buttons() == Qt::NoButton) {
         AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
@@ -716,7 +723,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         return;
     } else if (opMode == MOVEGUIDE) {
         m_moveOpMode = opMode;
-        setCursor(Qt::SplitHCursor);
     } else {
         removeTipAnimation();
         setCursor(Qt::ArrowCursor);
@@ -779,9 +785,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     if (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && collisionList.count() == 0) {
         // Pressing Ctrl + left mouse button in an empty area scrolls the timeline
         setDragMode(QGraphicsView::ScrollHandDrag);
-        QGraphicsView::mousePressEvent(event);
         m_blockRefresh = false;
-        m_operationMode = NONE;
+        m_operationMode = SCROLLTIMELINE;
+	QGraphicsView::mousePressEvent(event);
         return;
     }
 
@@ -888,7 +894,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     // No item under click
     if (m_dragItem == NULL || m_tool == SPACERTOOL) {
         resetSelectionGroup(false);
-        setCursor(Qt::ArrowCursor);
         m_scene->clearSelection();
         //event->accept();
         updateClipTypeActions(NULL);
@@ -961,6 +966,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             }
             m_operationMode = SPACER;
         } else {
+	    setCursor(Qt::ArrowCursor);
             seekCursorPos((int)(mapToScene(event->x(), 0).x()));
         }
         QGraphicsView::mousePressEvent(event);
@@ -1027,7 +1033,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	if (selected == false) {
 	    m_dragItem = NULL;
 	}
-        groupSelectedItems();
+        groupSelectedItems(QList <QGraphicsItem*>(), false, false, true);
 	if (m_dragItem) { 
 	    ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
 	    updateClipTypeActions(dragGroup == NULL ? clip : NULL);
@@ -3506,8 +3512,15 @@ void CustomTrackView::checkScrolling()
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_moveOpMode == SEEK) m_moveOpMode = NONE;
+    if (m_operationMode == SCROLLTIMELINE) {
+	m_operationMode = NONE;
+	setDragMode(QGraphicsView::NoDrag);
+	QGraphicsView::mouseReleaseEvent(event);
+	return;
+    }
     if (!m_controlModifier && m_operationMode != RUBBERSELECTION) {
 	//event->accept();
+	setDragMode(QGraphicsView::NoDrag);
 	if (m_clipDrag) QGraphicsView::mouseReleaseEvent(event);
     }
     m_clipDrag = false;
@@ -4418,7 +4431,7 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
             //clip->setSelected(true);
         }
     }
-    groupSelectedItems(list, false, true);
+    groupSelectedItems(list, false, true, true);
     setDocumentModified();
 }
 
@@ -5692,6 +5705,16 @@ void CustomTrackView::slotDeleteAllGuides()
 void CustomTrackView::setTool(PROJECTTOOL tool)
 {
     m_tool = tool;
+    switch (m_tool) {
+      case RAZORTOOL:
+	  setCursor(m_razorCursor);
+	  break;
+      case SPACERTOOL:
+	  setCursor(m_spacerCursor);
+	  break;
+      default:
+	  unsetCursor();
+    }
 }
 
 void CustomTrackView::setScale(double scaleFactor, double verticalScale)
@@ -7067,6 +7090,7 @@ void CustomTrackView::slotSelectTrack(int ix)
 void CustomTrackView::slotSelectClipsInTrack()
 {
     QRectF rect(0, m_selectedTrack * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 1);
+    resetSelectionGroup();
     QList<QGraphicsItem *> selection = m_scene->items(rect);
     m_scene->clearSelection();
     QList<QGraphicsItem *> list;
@@ -7075,16 +7099,14 @@ void CustomTrackView::slotSelectClipsInTrack()
 	    list.append(selection.at(i));
         }
     }    
-    resetSelectionGroup();
-    groupSelectedItems(list);
+    groupSelectedItems(list, false, false, true);
 }
 
 void CustomTrackView::slotSelectAllClips()
 {
-    QList<QGraphicsItem *> selection = m_scene->items();
     m_scene->clearSelection();
     resetSelectionGroup();
-    groupSelectedItems(selection);
+    groupSelectedItems(m_scene->items(), false, false, true);
 }
 
 void CustomTrackView::selectClip(bool add, bool group, int track, int pos)
@@ -7637,7 +7659,7 @@ void CustomTrackView::slotImportClipKeyframes(GRAPHICSRECTITEM type)
 	    result.append(';');
 	}
     }
-    emit importKeyframes(type, result);
+    emit importKeyframes(type, result, ui.limit_keyframes->isChecked() ? ui.max_keyframes->value() : -1);
     delete d;
 }
 

@@ -2573,7 +2573,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(trackView->projectView(), SIGNAL(forceClipProcessing(const QString &)), m_projectList, SLOT(slotForceProcessing(const QString &)));
 
-    connect(trackView->projectView(), SIGNAL(importKeyframes(GRAPHICSRECTITEM, const QString&)), this, SLOT(slotProcessImportKeyframes(GRAPHICSRECTITEM, const QString&)));
+    connect(trackView->projectView(), SIGNAL(importKeyframes(GRAPHICSRECTITEM, const QString&, int)), this, SLOT(slotProcessImportKeyframes(GRAPHICSRECTITEM, const QString&, int)));
     
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
@@ -4578,14 +4578,14 @@ void MainWindow::slotSaveTimelineClip()
     }
 }
 
-void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data)
+void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum)
 {
     if (type == AVWIDGET) {
 	// This data should be sent to the effect stack
     }
     else if (type == TRANSITIONWIDGET) {
 	// This data should be sent to the transition stack
-	m_transitionConfig->setKeyframes(data);
+	m_transitionConfig->setKeyframes(data, maximum);
     }
     else {
 	// Error
