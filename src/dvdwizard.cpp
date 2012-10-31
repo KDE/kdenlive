@@ -196,6 +196,11 @@ void DvdWizard::generateDvd()
     //temp5.setAutoRemove(false);
     temp5.open();
 
+    KTemporaryFile temp6;
+    temp6.setSuffix(".vob");
+    //temp6.setAutoRemove(false);
+    temp6.open();
+
     m_menuFile.close();
     m_menuFile.setSuffix(".xml");
     m_menuFile.setAutoRemove(false);
@@ -243,14 +248,7 @@ void DvdWizard::generateDvd()
             args.append(temp4.fileName());
             args.append("in=0");
             args.append("out=100");
-            args << "-consumer" << "avformat:" + temp5.fileName();
-            if (m_pageMenu->isPalMenu()) {
-                args << "f=dvd" << "acodec=ac3" << "ab=192k" << "ar=48000" << "vcodec=mpeg2video" << "vb=5000k" << "maxrate=8000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "s=720x576" << "g=15" << "me_range=63" << "trellis=1";
-            } else {
-                args << "f=dvd" << "acodec=ac3" << "ab=192k" << "ar=48000" << "vcodec=mpeg2video" << "vb=6000k" << "maxrate=9000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "s=720x480" << "g=18" << "me_range=63" << "trellis=1";
-            }
-
-            kDebug() << "MLT ARGS: " << args;
+            args << "-consumer" << "avformat:" + temp5.fileName()<<"properties=DVD";
             QProcess renderbg;
             renderbg.start(KdenliveSettings::rendererpath(), args);
             if (renderbg.waitForFinished()) {
@@ -277,7 +275,60 @@ void DvdWizard::generateDvd()
                 return;
             }
             vobitem->setIcon(KIcon("dialog-ok"));
-        }
+        } else {
+	    // Movie as menu background, do the compositing
+	    QListWidgetItem *vobitem =  m_status.job_progress->item(1);
+            m_status.job_progress->setCurrentRow(1);
+            vobitem->setIcon(KIcon("system-run"));
+            qApp->processEvents();
+
+	    QString std;
+	    if (m_pageMenu->isPalMenu()) std = "dv_pal";
+	    else std = "dv_ntsc";
+	    int menuLength = m_pageMenu->menuMovieLength();
+	    if (menuLength == -1) {
+		// menu movie is invalid
+		errorMessage(i18n("Menu movie is invalid"));
+		m_status.button_start->setEnabled(true);
+                m_status.button_abort->setEnabled(false);
+                return;
+	    }
+
+            QStringList args;
+            args.append("-profile");
+            args.append(std);
+            args.append(m_pageMenu->menuMoviePath());
+	    args << "-track" << temp4.fileName();
+	    args << "out=" + QString::number(menuLength);
+	    args << "-transition" << "composite" << "always_active=1";
+            args << "-consumer" << "avformat:" + temp6.fileName()<<"properties=DVD";
+            QProcess renderbg;
+	    renderbg.start(KdenliveSettings::rendererpath(), args);
+            if (renderbg.waitForFinished()) {
+                if (renderbg.exitStatus() == QProcess::CrashExit) {
+                    kDebug() << "/// RENDERING MENU vob crashed";
+                    errorMessage(i18n("Rendering menu crashed"));
+                    QByteArray result = renderbg.readAllStandardError();
+                    vobitem->setIcon(KIcon("dialog-close"));
+                    m_status.error_log->append(result);
+                    m_status.error_box->setHidden(false);
+                    m_status.button_start->setEnabled(true);
+                    m_status.button_abort->setEnabled(false);
+                    return;
+                }
+            } else {
+                kDebug() << "/// RENDERING MENU vob timed out";
+                errorMessage(i18n("Rendering job timed out"));
+                vobitem->setIcon(KIcon("dialog-close"));
+                m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Rendering job timed out"));
+                m_status.error_log->scrollToAnchor("result");
+                m_status.error_box->setHidden(false);
+                m_status.button_start->setEnabled(true);
+                m_status.button_abort->setEnabled(false);
+                return;
+            }
+            vobitem->setIcon(KIcon("dialog-ok"));
+	}
         kDebug() << "/// STARTING SPUMUX";
 
         // create xml spumux file
@@ -353,7 +404,7 @@ void DvdWizard::generateDvd()
         spumux.setEnvironment(env);
 #endif
     
-        if (m_pageMenu->menuMovie()) spumux.setStandardInputFile(m_pageMenu->menuMoviePath());
+        if (m_pageMenu->menuMovie()) spumux.setStandardInputFile(temp6.fileName());
         else spumux.setStandardInputFile(temp5.fileName());
         spumux.setStandardOutputFile(m_menuVobFile.fileName());
         spumux.start("spumux", args);

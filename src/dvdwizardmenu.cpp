@@ -34,7 +34,8 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
         QWizardPage(parent),
         m_color(NULL),
         m_safeRect(NULL),
-        m_finalSize(720, 576)
+        m_finalSize(720, 576),
+        m_movieLength(-1)
 {
     m_view.setupUi(this);
     m_view.play_text->setText(i18n("Play"));
@@ -329,10 +330,10 @@ void DvdWizardMenu::addButton()
 #endif
     //font.setStyleStrategy(QFont::NoAntialias);
     button->setFont(font);
+    button->setDefaultTextColor(m_view.text_color->color());
     button->setZValue(4);
     QRectF r = button->sceneBoundingRect();
     m_scene->addItem(button);
-    updateColor(m_view.text_color->color());
     button->setPos((m_width - r.width()) / 2, (m_height - r.height()) / 2);
     button->setSelected(true);
 }
@@ -441,11 +442,16 @@ void DvdWizardMenu::buildImage()
         pix = pix.scaled(m_width, m_height);
     } else if (m_view.background_list->currentIndex() == 2) {
         // video background
-        int w;
-        if (m_isPal) w = 768;
-        else w = 640;
-        pix = KThumb::getImage(m_view.background_image->url(), 0, w, m_height);
-        pix = pix.scaled(m_width, m_height);
+        m_movieLength = -1;
+        QString standard = "dv_pal";
+        if (!m_isPal) standard = "dv_ntsc";
+	Mlt::Profile profile(standard.toUtf8().constData());
+	Mlt::Producer *producer = new Mlt::Producer(profile, m_view.background_image->url().path().toUtf8().data());
+	if (producer && producer->is_valid()) {
+	    pix = QPixmap::fromImage(KThumb::getFrame(producer, 0, m_finalSize.width(), m_width, m_height));
+	    m_movieLength = producer->get_length();
+	}
+	if (producer) delete producer;
     }
     m_background->setPixmap(pix);
     m_scene->addItem(m_background);
@@ -634,7 +640,15 @@ void DvdWizardMenu::createBackgroundImage(const QString &overlayMenu, const QStr
 {
     m_scene->clearSelection();
     if (m_safeRect->scene() != 0) m_scene->removeItem(m_safeRect);
+    bool showBg = false;
     QImage img(m_width, m_height, QImage::Format_ARGB32);
+    if (menuMovie() && m_background->scene() != 0) {
+	showBg = true;
+	m_scene->removeItem(m_background);
+	if (m_color->scene() != 0) m_scene->removeItem(m_color);
+	if (m_safeRect->scene() != 0) m_scene->removeItem(m_safeRect);
+	img.fill(Qt::transparent);
+    }
     updateColor(m_view.text_color->color());
     QPainter p(&img);
     p.setRenderHints(QPainter::Antialiasing, true);
@@ -643,6 +657,10 @@ void DvdWizardMenu::createBackgroundImage(const QString &overlayMenu, const QStr
     p.end();
     img.save(img1);
     m_scene->addItem(m_safeRect);
+    if (showBg) {
+	m_scene->addItem(m_background);
+	m_scene->addItem(m_color);
+    }
     return;
 	
   
@@ -692,6 +710,11 @@ bool DvdWizardMenu::menuMovie() const
 QString DvdWizardMenu::menuMoviePath() const
 {
     return m_view.background_image->url().path();
+}
+
+int DvdWizardMenu::menuMovieLength() const
+{
+  return m_movieLength;
 }
 
 

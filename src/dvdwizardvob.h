@@ -27,7 +27,53 @@
 #include <kcapacitybar.h>
 #include <KUrl>
 
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#endif
+
 #include <QWizardPage>
+#include <QStyledItemDelegate>
+#include <QPainter>
+
+class DvdViewDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    DvdViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index) const {
+        if (index.column() == 0) {
+            painter->save();
+            QStyleOptionViewItemV4 opt(option);
+	    QRect r1 = option.rect;
+            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+
+            QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
+            QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
+            painter->drawPixmap(pixmapPoint, pixmap);
+            int decoWidth = pixmap.width() + 2 * textMargin;
+
+	    QFont font = painter->font();
+            font.setBold(true);
+            painter->setFont(font);
+            int mid = (int)((r1.height() / 2));
+            r1.adjust(decoWidth, 0, 0, -mid);
+            QRect r2 = option.rect;
+            r2.adjust(decoWidth, mid, 0, 0);
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, KUrl(index.data().toString()).fileName());
+            font.setBold(false);
+            painter->setFont(font);
+            QString subText = index.data(Qt::UserRole).toString();
+            QRectF bounding;
+            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
+            painter->restore();
+        } else QStyledItemDelegate::paint(painter, option, index);
+    }
+};
+
 
 class DvdWizardVob : public QWizardPage
 {
@@ -54,9 +100,13 @@ private:
     Ui::DvdWizardVob_UI m_view;
     QString m_errorMessage;
     KCapacityBar *m_capacityBar;
+#if KDE_IS_VERSION(4,7,0)
+    KMessageWidget *m_warnMessage;
+#endif
 
 public slots:
     void slotAddVobFile(KUrl url = KUrl(), const QString &chapters = QString());
+    void slotCheckProfiles();
 
 private slots:
     void slotCheckVobList();
