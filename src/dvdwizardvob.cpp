@@ -34,14 +34,14 @@
 #include <QTreeWidgetItem>
 #include <QHeaderView>
 
-DvdWizardVob::DvdWizardVob(const QString &profile, QWidget *parent) :
+DvdWizardVob::DvdWizardVob(QWidget *parent) :
         QWizardPage(parent)
 {
     m_view.setupUi(this);
     m_view.intro_vob->setEnabled(false);
     m_view.intro_vob->setFilter("video/mpeg");
-    m_view.button_add->setIcon(KIcon("document-new"));
-    m_view.button_delete->setIcon(KIcon("edit-delete"));
+    m_view.button_add->setIcon(KIcon("list-add"));
+    m_view.button_delete->setIcon(KIcon("list-remove"));
     m_view.button_up->setIcon(KIcon("go-up"));
     m_view.button_down->setIcon(KIcon("go-down"));
     connect(m_view.use_intro, SIGNAL(toggled(bool)), m_view.intro_vob, SLOT(setEnabled(bool)));
@@ -59,9 +59,6 @@ DvdWizardVob::DvdWizardVob(const QString &profile, QWidget *parent) :
     else m_view.error_message->setText(m_errorMessage);
 
     m_view.dvd_profile->addItems(QStringList() << i18n("PAL 4:3") << i18n("PAL 16:9") << i18n("NTSC 4:3") << i18n("NTSC 16:9"));
-    if (profile == "dv_pal_wide") m_view.dvd_profile->setCurrentIndex(1);
-    else if (profile == "dv_ntsc") m_view.dvd_profile->setCurrentIndex(2);
-    else if (profile == "dv_ntsc_wide") m_view.dvd_profile->setCurrentIndex(3);
 
     connect(m_view.dvd_profile, SIGNAL(activated(int)), this, SLOT(changeFormat()));
     connect(m_view.dvd_profile, SIGNAL(activated(int)), this, SLOT(slotCheckProfiles()));
@@ -387,22 +384,56 @@ void DvdWizardVob::slotItemDown()
     m_view.vobs_list->insertTopLevelItem(index + 1, m_view.vobs_list->takeTopLevelItem(index));
 }
 
-bool DvdWizardVob::isPal() const
+DVDFORMAT DvdWizardVob::dvdFormat() const
 {
-    return m_view.dvd_profile->currentIndex() < 2;
+    return (DVDFORMAT) m_view.dvd_profile->currentIndex();
 }
 
-bool DvdWizardVob::isWide() const
+const QString DvdWizardVob::dvdProfile() const
 {
-    return (m_view.dvd_profile->currentIndex() == 1 || m_view.dvd_profile->currentIndex() == 3);
+    QString profile;
+    switch (m_view.dvd_profile->currentIndex()) {
+	case PAL_WIDE:
+	    profile = "dv_pal_wide";
+	    break;
+	case NTSC:
+	    profile = "dv_ntsc";
+	    break;
+	case NTSC_WIDE:
+	    profile = "dv_ntsc_wide";
+	    break;
+	default:
+	    profile = "dv_pal";
+    }
+    return profile;
+}
+
+//static
+QString DvdWizardVob::getDvdProfile(DVDFORMAT format)
+{
+    QString profile;
+    switch (format) {
+	case PAL_WIDE:
+	    profile = "dv_pal_wide";
+	    break;
+	case NTSC:
+	    profile = "dv_ntsc";
+	    break;
+	case NTSC_WIDE:
+	    profile = "dv_ntsc_wide";
+	    break;
+	default:
+	    profile = "dv_pal";
+    }
+    return profile;
 }
 
 void DvdWizardVob::setProfile(const QString& profile)
 {
-    if (profile == "dv_pal") m_view.dvd_profile->setCurrentIndex(0);
-    else if (profile == "dv_pal_wide") m_view.dvd_profile->setCurrentIndex(1);
-    else if (profile == "dv_ntsc") m_view.dvd_profile->setCurrentIndex(2);
-    else if (profile == "dv_ntsc_wide") m_view.dvd_profile->setCurrentIndex(3);
+    if (profile == "dv_pal") m_view.dvd_profile->setCurrentIndex(PAL);
+    else if (profile == "dv_pal_wide") m_view.dvd_profile->setCurrentIndex(PAL_WIDE);
+    else if (profile == "dv_ntsc") m_view.dvd_profile->setCurrentIndex(NTSC);
+    else if (profile == "dv_ntsc_wide") m_view.dvd_profile->setCurrentIndex(NTSC_WIDE);
 }
 
 void DvdWizardVob::clear()

@@ -1801,7 +1801,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         item->setData(1, Qt::UserRole, t);
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == "dvd") {
-            emit openDvdWizard(item->text(1), item->metadata());
+            emit openDvdWizard(item->text(1));
         } else if (itemGroup == "websites") {
             QString url = item->metadata();
             if (!url.isEmpty()) new KRun(url, this);

@@ -486,7 +486,7 @@ private slots:
     /** @brief Lets the sampleplugin create a generator.  */
     void generateClip();
     void slotZoneMoved(int start, int end);
-    void slotDvdWizard(const QString &url = QString(), const QString &profile = "dv_pal");
+    void slotDvdWizard(const QString &url = QString());
     void slotGroupClips();
     void slotUnGroupClips();
     void slotEditItemDuration();

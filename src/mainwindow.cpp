@@ -2416,7 +2416,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, SIGNAL(selectedRenderProfile(QMap <QString, QString>)), this, SLOT(slotSetDocumentRenderProfile(QMap <QString, QString>)));
         connect(m_renderWidget, SIGNAL(prepareRenderingData(bool, bool, const QString&)), this, SLOT(slotPrepareRendering(bool, bool, const QString&)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
-        connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
+        connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &)), this, SLOT(slotDvdWizard(const QString &)));
         if (m_activeDocument) {
             m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
@@ -3877,12 +3877,12 @@ void MainWindow::slotUpdateClipType(QAction *action)
     }
 }
 
-void MainWindow::slotDvdWizard(const QString &url, const QString &profile)
+void MainWindow::slotDvdWizard(const QString &url)
 {
     // We must stop the monitors since we create a new on in the dvd wizard
     m_clipMonitor->stop();
     m_projectMonitor->stop();
-    QPointer<DvdWizard> w = new DvdWizard(url, profile, this);
+    QPointer<DvdWizard> w = new DvdWizard(url, this);
     w->exec();
     m_projectMonitor->start();
     delete w;

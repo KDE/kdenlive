@@ -35,6 +35,8 @@
 #include <QStyledItemDelegate>
 #include <QPainter>
 
+enum DVDFORMAT { PAL, PAL_WIDE, NTSC, NTSC_WIDE };
+
 class DvdViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
@@ -80,14 +82,14 @@ class DvdWizardVob : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardVob(const QString &profile, QWidget * parent = 0);
+    explicit DvdWizardVob(QWidget * parent = 0);
     virtual ~DvdWizardVob();
     virtual bool isComplete() const;
     QStringList selectedUrls() const;
     void setUrl(const QString &url);
     QString introMovie() const;
-    bool isPal() const;
-    bool isWide() const;
+    DVDFORMAT dvdFormat() const;
+    const QString dvdProfile() const;
     int duration(int ix) const;
     QStringList durations() const;
     QStringList chapters() const;
@@ -95,6 +97,7 @@ public:
     void clear();
     void updateChapters(QMap <QString, QString> chaptersdata);
     void setIntroMovie(const QString& path);
+    static QString getDvdProfile(DVDFORMAT format);
 
 private:
     Ui::DvdWizardVob_UI m_view;

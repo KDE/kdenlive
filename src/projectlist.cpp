@@ -946,6 +946,7 @@ void ProjectList::slotPauseMonitor()
 void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties)
 {
     ProjectItem *item = getItemById(id);
+    kDebug()<<"// PROPS: "<<properties;
     if (item) {
         slotUpdateClipProperties(item, properties);
         if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index")) {
@@ -954,10 +955,11 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
                    properties.contains("xmldata") ||
                    properties.contains("force_aspect_num") ||
                    properties.contains("force_aspect_den") ||
+                   properties.contains("full_luma") ||
                    properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip(id, true);
-        } else if (properties.contains("full_luma") || properties.contains("force_colorspace") || properties.contains("loop")) {
+        } else if (properties.contains("force_colorspace") || properties.contains("loop")) {
             emit refreshClip(id, false);
         }
     }
