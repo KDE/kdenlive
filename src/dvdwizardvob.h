@@ -107,7 +107,6 @@ public:
     virtual bool isComplete() const;
     QStringList selectedUrls() const;
     void setUrl(const QString &url);
-    QString introMovie() const;
     DVDFORMAT dvdFormat() const;
     const QString dvdProfile() const;
     int duration(int ix) const;
@@ -115,8 +114,9 @@ public:
     QStringList chapters() const;
     void setProfile(const QString& profile);
     void clear();
+    const QString introMovie() const;
+    void setUseIntroMovie(bool use);
     void updateChapters(QMap <QString, QString> chaptersdata);
-    void setIntroMovie(const QString& path);
     static QString getDvdProfile(DVDFORMAT format);
 
 private:

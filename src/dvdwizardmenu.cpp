@@ -453,8 +453,9 @@ void DvdWizardMenu::buildImage()
     } else if (m_view.background_list->currentIndex() == 2) {
         // video background
         m_movieLength = -1;
-	Mlt::Profile profile;
-	profile.set_explicit(false);
+	QString profileName = DvdWizardVob::getDvdProfile(m_format);
+	Mlt::Profile profile(profileName.toUtf8().constData());
+	profile.set_explicit(true);
 	Mlt::Producer *producer = new Mlt::Producer(profile, m_view.background_image->url().path().toUtf8().data());
 	if (producer && producer->is_valid()) {
 	    pix = QPixmap::fromImage(KThumb::getFrame(producer, 0, m_finalSize.width(), m_width, m_height));

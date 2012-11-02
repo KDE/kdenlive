@@ -537,7 +537,7 @@ void DvdWizard::generateDvd()
     auth.appendChild(vmgm);
 
     if (m_pageMenu->createMenu() && !m_pageVob->introMovie().isEmpty()) {
-        // intro movie
+        // Use first movie in list as intro movie
         QDomElement menus = dvddoc.createElement("menus");
         vmgm.appendChild(menus);
         QDomElement pgc = dvddoc.createElement("pgc");
@@ -614,16 +614,17 @@ void DvdWizard::generateDvd()
 	    break;
 	case NTSC:
 	    video.setAttribute("format", "ntsc");
+	    video.setAttribute("aspect", "4:3");
 	    break;
 	default:
 	    video.setAttribute("format", "pal");
+	    video.setAttribute("aspect", "4:3");
 	    break;
     }
 
-    QStringList voburls = m_pageVob->selectedUrls();
-
     QDomElement pgc2;
-
+    // Get list of clips
+    QStringList voburls = m_pageVob->selectedUrls();
 
     for (int i = 0; i < voburls.count(); i++) {
         if (!voburls.at(i).isEmpty()) {
@@ -931,7 +932,6 @@ void DvdWizard::slotSave()
     dvdproject.setAttribute("profile", m_pageVob->dvdProfile());
     dvdproject.setAttribute("tmp_folder", m_status.tmp_folder->url().path());
     dvdproject.setAttribute("iso_image", m_status.iso_image->url().path());
-
     dvdproject.setAttribute("intro_movie", m_pageVob->introMovie());
 
     doc.appendChild(dvdproject);
@@ -974,7 +974,11 @@ void DvdWizard::slotLoad()
 
     m_status.tmp_folder->setUrl(KUrl(dvdproject.attribute("tmp_folder")));
     m_status.iso_image->setUrl(KUrl(dvdproject.attribute("iso_image")));
-    m_pageVob->setIntroMovie(dvdproject.attribute("intro_movie"));
+    QString intro = dvdproject.attribute("intro_movie");
+    if (!intro.isEmpty()) {
+	m_pageVob->slotAddVobFile(KUrl(intro));
+	m_pageVob->setUseIntroMovie(true);
+    }
 
     QDomNodeList vobs = doc.elementsByTagName("vob");
     m_pageVob->clear();

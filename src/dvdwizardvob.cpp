@@ -69,8 +69,6 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
         m_installCheck(true)
 {
     m_view.setupUi(this);
-    m_view.intro_vob->setEnabled(false);
-    m_view.intro_vob->setFilter("video/mpeg");
     m_view.button_add->setIcon(KIcon("list-add"));
     m_view.button_delete->setIcon(KIcon("list-remove"));
     m_view.button_up->setIcon(KIcon("go-up"));
@@ -84,8 +82,6 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
 
     connect(m_vobList, SIGNAL(addClips(QList<QUrl>)), this, SLOT(slotAddVobList(QList<QUrl>)));
     connect(m_vobList, SIGNAL(addNewClip()), this, SLOT(slotAddVobFile()));
-    
-    connect(m_view.use_intro, SIGNAL(toggled(bool)), m_view.intro_vob, SLOT(setEnabled(bool)));
     connect(m_view.button_add, SIGNAL(clicked()), this, SLOT(slotAddVobFile()));
     connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteVobFile()));
     connect(m_view.button_up, SIGNAL(clicked()), this, SLOT(slotItemUp()));
@@ -306,7 +302,12 @@ QStringList DvdWizardVob::selectedUrls() const
     QStringList result;
     QString path;
     int max = m_vobList->topLevelItemCount();
-    for (int i = 0; i < max; i++) {
+    int i = 0;
+    if (m_view.use_intro->isChecked()) {
+	// First movie is only for intro
+	i = 1;
+    }
+    for (; i < max; i++) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (item) result.append(item->text(0));
     }
@@ -359,19 +360,17 @@ int DvdWizardVob::duration(int ix) const
     return result;
 }
 
-
-QString DvdWizardVob::introMovie() const
+const QString DvdWizardVob::introMovie() const
 {
-    if (!m_view.use_intro->isChecked()) return QString();
-    return m_view.intro_vob->url().path();
+    QString url;
+    if (m_view.use_intro->isChecked() && m_vobList->topLevelItemCount() > 0) url = m_vobList->topLevelItem(0)->text(0);
+    return url;
 }
 
-void DvdWizardVob::setIntroMovie(const QString& path)
+void DvdWizardVob::setUseIntroMovie(bool use)
 {
-    m_view.intro_vob->setUrl(KUrl(path));
-    m_view.use_intro->setChecked(path.isEmpty() == false);
+    m_view.use_intro->setChecked(use);
 }
-
 
 void DvdWizardVob::slotCheckVobList()
 {
