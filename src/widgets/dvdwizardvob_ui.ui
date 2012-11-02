@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>459</width>
-    <height>240</height>
+    <height>255</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -24,7 +24,7 @@
    <item row="3" column="5">
     <widget class="QCheckBox" name="use_intro">
      <property name="text">
-      <string>Use first movie as Intro</string>
+      <string>Use first movie as intro</string>
      </property>
     </widget>
    </item>
