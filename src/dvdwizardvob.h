@@ -34,8 +34,28 @@
 #include <QWizardPage>
 #include <QStyledItemDelegate>
 #include <QPainter>
+#include <QTreeWidget>
+#include <QDragEnterEvent>
+#include <QDropEvent>
 
 enum DVDFORMAT { PAL, PAL_WIDE, NTSC, NTSC_WIDE };
+
+class DvdTreeWidget : public QTreeWidget
+{
+    Q_OBJECT
+public:
+    DvdTreeWidget(QWidget *parent);
+
+protected:
+    virtual void dragEnterEvent(QDragEnterEvent * event );
+    virtual void dropEvent(QDropEvent * event );
+    virtual void mouseDoubleClickEvent( QMouseEvent * );
+    virtual void dragMoveEvent(QDragMoveEvent * event);
+
+signals:
+    void addNewClip();
+    void addClips(QList<QUrl>);
+};
 
 class DvdViewDelegate : public QStyledItemDelegate
 {
@@ -101,14 +121,20 @@ public:
 
 private:
     Ui::DvdWizardVob_UI m_view;
+    DvdTreeWidget *m_vobList;
     QString m_errorMessage;
     KCapacityBar *m_capacityBar;
+    QAction *m_transcodeAction;
+    bool m_installCheck;
 #if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_warnMessage;
 #endif
+    void showProfileError();
+    void showError(const QString error);
 
 public slots:
-    void slotAddVobFile(KUrl url = KUrl(), const QString &chapters = QString());
+    void slotAddVobFile(KUrl url = KUrl(), const QString &chapters = QString(), bool checkFormats = true);
+    void slotAddVobList(QList <QUrl>list);
     void slotCheckProfiles();
 
 private slots:
@@ -116,7 +142,8 @@ private slots:
     void slotDeleteVobFile();
     void slotItemUp();
     void slotItemDown();
-    void changeFormat();
+    void slotTranscodeFiles();
+    void slotTranscodedClip(KUrl, KUrl);
 };
 
 #endif

@@ -4018,7 +4018,7 @@ void MainWindow::slotTranscode(KUrl::List urls)
         m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
         return;
     }
-    ClipTranscode *d = new ClipTranscode(urls, params, desc);
+    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc);
     connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     d->show();
 }
