@@ -971,7 +971,7 @@ void DvdWizard::slotLoad()
 
     QString profile = dvdproject.attribute("profile");
     m_pageVob->setProfile(profile);
-
+    m_pageVob->clear();
     m_status.tmp_folder->setUrl(KUrl(dvdproject.attribute("tmp_folder")));
     m_status.iso_image->setUrl(KUrl(dvdproject.attribute("iso_image")));
     QString intro = dvdproject.attribute("intro_movie");
@@ -981,7 +981,6 @@ void DvdWizard::slotLoad()
     }
 
     QDomNodeList vobs = doc.elementsByTagName("vob");
-    m_pageVob->clear();
     for (int i = 0; i < vobs.count(); i++) {
         QDomElement e = vobs.at(i).toElement();
         m_pageVob->slotAddVobFile(KUrl(e.attribute("file")), e.attribute("chapters"));
