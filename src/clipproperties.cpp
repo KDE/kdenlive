@@ -27,6 +27,7 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <KFileItem>
+#include <KFileDialog>
 #include <kdeversion.h>
 #include <KUrlLabel>
 #include <KRun>
@@ -820,7 +821,32 @@ void ClipProperties::slotDeleteMarker()
 void ClipProperties::slotDeleteAnalysis()
 {
     QTreeWidgetItem *current = m_view.analysis_list->currentItem();
-    if (current) emit deleteAnalysis(m_clip->getId(), current->text(0));
+    if (current) emit editAnalysis(m_clip->getId(), current->text(0), QString());
+}
+
+void ClipProperties::slotSaveAnalysis()
+{
+    QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save Analysis Data"));
+    if (url.isEmpty()) return;
+    KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
+    KConfigGroup analysisConfig(config, "Analysis");
+    QTreeWidgetItem *current = m_view.analysis_list->currentItem();
+    analysisConfig.writeEntry(current->text(0), current->text(1));
+}
+
+void ClipProperties::slotLoadAnalysis()
+{
+    QString url = KFileDialog::getOpenFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Open Analysis Data"));
+    if (url.isEmpty()) return;
+    KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
+    KConfigGroup transConfig(config, "Analysis");
+    // read the entries
+    QMap< QString, QString > profiles = transConfig.entryMap();
+    QMapIterator<QString, QString> i(profiles);
+    while (i.hasNext()) {
+	i.next();
+	emit editAnalysis(m_clip->getId(), i.key(), i.value());
+    }
 }
 
 const QString &ClipProperties::clipId() const

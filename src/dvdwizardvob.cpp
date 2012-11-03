@@ -475,7 +475,7 @@ void DvdWizardVob::clear()
 void DvdWizardVob::slotTranscodeFiles()
 {
     // Find transcoding infos related to selected DVD profile
-    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
+    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc", KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     QString profileEasyName;

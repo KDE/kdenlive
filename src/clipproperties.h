@@ -77,6 +77,8 @@ private slots:
     void slotLoadMarkers();
     void slotDeleteAnalysis();
     void slotGotThumbnail(const QString &id, QImage img);
+    void slotSaveAnalysis();
+    void slotLoadAnalysis();
 
 private:
     Ui::ClipProperties_UI m_view;
@@ -97,9 +99,9 @@ signals:
     void addMarkers(const QString &, QList <CommentedTime>);
     void deleteProxy(const QString);
     void applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool);
-    void saveMarkers(const QString &);
-    void loadMarkers(const QString &);
-    void deleteAnalysis(const QString &, const QString &);
+    void saveMarkers(const QString &id);
+    void loadMarkers(const QString &id);
+    void editAnalysis(const QString &id, const QString &name, const QString &value);
 };
 
 
