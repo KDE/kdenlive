@@ -348,6 +348,7 @@ void KdenliveSettingsDialog::initDevices()
     m_configSdl.kcfg_audio_driver->addItem(i18n("OSS with DMA access"), "dma");
     m_configSdl.kcfg_audio_driver->addItem(i18n("Esound daemon"), "esd");
     m_configSdl.kcfg_audio_driver->addItem(i18n("ARTS daemon"), "artsc");
+    m_configSdl.kcfg_audio_driver->addItem(i18n("JACK"), "jack");
 #endif
 
     if (!KdenliveSettings::audiodrivername().isEmpty())

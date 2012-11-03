@@ -75,6 +75,9 @@ public slots:
     void slotSwitchMonitors(bool activateClip);
     void slotUpdateAudioMonitoring();
 
+    void slotEnableSlaveTransport();
+    void slotDisableSlaveTransport();
+
 private slots:
     void slotRefreshCurrentMonitor(const QString &id);
 

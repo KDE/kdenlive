@@ -1156,6 +1156,13 @@ void MainWindow::setupActions()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
 
+    m_buttonJackTransport = new KAction(/*KIcon("kdenlive-snap"), */i18n("Enable jack transport"), this);
+    toolbar->addAction(m_buttonJackTransport);
+    m_buttonJackTransport->setCheckable(true);
+    m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
+    connect(m_buttonJackTransport, SIGNAL(triggered()), this, SLOT(slotSwitchJackTransport()));
+
+
     actionWidget = toolbar->widgetForAction(m_buttonAutomaticSplitAudio);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
@@ -1173,6 +1180,10 @@ void MainWindow::setupActions()
     actionWidget->setMaximumHeight(max - 4);
 
     actionWidget = toolbar->widgetForAction(m_buttonSnap);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
+
+    actionWidget = toolbar->widgetForAction(m_buttonJackTransport);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
 
@@ -1198,6 +1209,7 @@ void MainWindow::setupActions()
     collection.addAction("show_audio_thumbs", m_buttonAudioThumbs);
     collection.addAction("show_markers", m_buttonShowMarkers);
     collection.addAction("snap", m_buttonSnap);
+    collection.addAction("jack_transport", m_buttonJackTransport);
     collection.addAction("zoom_fit", m_buttonFitZoom);
     collection.addAction("zoom_in", m_zoomIn);
     collection.addAction("zoom_out", m_zoomOut);
@@ -1316,6 +1328,16 @@ void MainWindow::setupActions()
     insertTimeline->setText(i18n("Insert zone in timeline"));
     insertTimeline->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_I);
     connect(insertTimeline, SIGNAL(triggered(bool)), this, SLOT(slotInsertZoneToTimeline()));
+
+    KAction *connectJack = collection.addAction("connect_jack");
+    connectJack->setText(i18n("Jack connect"));
+    connectJack->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
+    connect(connectJack, SIGNAL(triggered(bool)), this, SLOT(slotConnectJack()));
+
+    KAction *disconnectJack = collection.addAction("disconnect_jack");
+    disconnectJack->setText(i18n("Jack disconnect"));
+    disconnectJack->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_D);
+    connect(disconnectJack, SIGNAL(triggered(bool)), this, SLOT(slotDisconnectJack()));
 
     KAction *resizeStart =  new KAction(KIcon(), i18n("Resize Item Start"), this);
     collection.addAction("resize_timeline_clip_start", resizeStart);
@@ -2794,6 +2816,18 @@ void MainWindow::slotSwitchSnap()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
 }
 
+void MainWindow::slotSwitchJackTransport()
+{
+    KdenliveSettings::setJacktransport(!KdenliveSettings::jacktransport());
+    m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
+
+    /* switch transport settings */
+    if (KdenliveSettings::jacktransport()) {
+    	m_monitorManager->slotEnableSlaveTransport();
+    } else {
+    	m_monitorManager->slotDisableSlaveTransport();
+    }
+}
 
 void MainWindow::slotDeleteItem()
 {
@@ -4572,6 +4606,65 @@ void MainWindow::slotSaveTimelineClip()
 	if (!url.isEmpty()) m_projectMonitor->render->saveClip(m_activeDocument->tracksCount() - clip->track(), clip->startPos(), url);
     }
 }
+
+//#ifdef USE_JACK
+void MainWindow::slotConnectJack()
+{
+	Render * rp;
+	Render * rc;
+
+	if (m_projectMonitor != NULL) {
+		rp = m_projectMonitor->render;
+
+		if ( rp != NULL)
+		{
+			setenv("JACK_NAME_PRJ", "KdlivePrjMon", 1);
+			rp->connectSlave();
+			unsetenv("JACK_NAME_PRJ");
+			kDebug() << "Project monitor connected to jack" << "\n";
+		}
+	}
+
+//	if (m_clipMonitor != NULL)	{
+//		rc = m_clipMonitor->render;
+//
+//		if ( rc != NULL )
+//		{
+//			rc->setJackFilter(rp->getJackFilter());
+////			setenv("JACK_NAME_CLIP", "KdliveClipMon", 1);
+////			rc->mltConnectJack();
+////			unsetenv("JACK_NAME_CLIP");
+////			kDebug() << "Clip monitor connected to jack" << "\n";
+//		}
+//	}
+
+}
+
+void MainWindow::slotDisconnectJack()
+{
+	if (m_projectMonitor != NULL)
+	{
+		Render * rp = m_projectMonitor->render;
+
+		if ( rp != NULL)
+		{
+			rp->disconnectSlave();
+			kDebug() << "Project monitor disconnected from Jack" << "\n";
+		}
+	}
+
+//	if (m_clipMonitor != NULL) {
+//
+//		Render * rc = m_clipMonitor->render;
+//		if ( rc != NULL)
+//		{
+//			rc->mltDisconnectJack();
+//
+//			kDebug() << "Clip monitor disconnected from Jack" << "\n";
+//		}
+//	}
+}
+//#endif
 
 void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum)
 {

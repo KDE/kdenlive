@@ -146,6 +146,7 @@ list(APPEND kdenlive_SRCS
   guide.cpp
   headertrack.cpp
   initeffects.cpp
+  jackslave.cpp
   kdenlivedoc.cpp
   kdenlivesettingsdialog.cpp
   keyframeedit.cpp
@@ -365,6 +366,10 @@ endif(BUILD_V4L)
 if(BUILD_JogShuttle)
   add_definitions(-DUSE_JOGSHUTTLE)
 endif(BUILD_JogShuttle)
+
+# if(BUILD_JACK)
+  add_definitions(-DUSE_JACK)
+# endif(BUILD_JACK)
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 install(FILES

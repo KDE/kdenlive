@@ -636,6 +636,11 @@
       <label>Snap movements to clips, guides and markers.</label>
       <default>true</default>
     </entry>
+    
+    <entry name="jacktransport" type="Bool">
+      <label>Enable jack transport in timeline.</label>
+      <default>true</default>
+    </entry>
 
     <entry name="transitionfollowcursor" type="Bool">
       <label>When editing a composite transition, move timeline cursor for better preview.</label>
