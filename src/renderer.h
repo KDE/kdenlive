@@ -380,19 +380,7 @@ private:
     QList <requestClipInfo> m_requestList;
 
 #ifdef USE_JACK
-    bool m_isJackActive;
-    Mlt::Filter *m_mltFilterJack;
-    static void _on_jack_stopped( mlt_properties owner, mlt_consumer consumer, mlt_position *position );
-    static void _on_jack_started( mlt_properties owner, mlt_consumer consumer, mlt_position *position );
-    static void _on_jack_starting( mlt_properties owner, mlt_consumer consumer, mlt_position *position );
-    static void _on_jack_last_pos_req( mlt_properties owner, mlt_consumer consumer);
-    void mltOnJackStopped(mlt_position *position);
-    void mltOnJackStarted(mlt_position *position);
-    void mltOnJackStarting(mlt_position *position);
-    void mltOnJackLastPosReq();
-//#ifdef USE_JACK
     bool m_isSlaveTransportEnabled;
-//#endif
 #endif
 
     void closeMlt();

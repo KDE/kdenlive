@@ -130,8 +130,9 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_isZoneMode(false),
     m_isLoopMode(false),
     m_isSplitView(false),
-    m_isJackActive(false),
+#ifdef USE_JACK
     m_isSlaveTransportEnabled(false),
+#endif
     m_blackClip(NULL),
     m_winid(winid)
 {
@@ -144,8 +145,10 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);
 
+#ifdef USE_JACK
     if(&JACKSLAVE && !JACKSLAVE.isActive())
     	connectSlave(false);
+#endif
 
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(100);
@@ -1600,6 +1603,7 @@ void Render::switchPlay(bool play, bool slave)
     if (!m_mltProducer || !m_mltConsumer)
         return;
 
+#ifdef USE_JACK
     if (!slave && isSlaveTransportEnabled()) {
     	if(&JACKSLAVE) {
     		if (play) {
@@ -1611,6 +1615,7 @@ void Render::switchPlay(bool play, bool slave)
     	/* return */
     	return;
     }
+#endif
 
     if (m_isZoneMode) resetZoneMode();
     if (play && m_mltProducer->get_speed() == 0.0) {
@@ -4705,94 +4710,6 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
 }
 
 #ifdef USE_JACK
-void Render::_on_jack_stopped( mlt_properties owner, mlt_consumer consumer, mlt_position *position )
-{
-	Render *r = (Render*)consumer;// mlt_properties_get_data(owner, "render", NULL);
-
-	r->mltOnJackStopped(position);
-	//r->dar();
-	//std::cout << "_on_jack_stopped";
-}
-
-void Render::_on_jack_started( mlt_properties owner, mlt_consumer consumer, mlt_position *position )
-{
-	Render *r = (Render*)consumer;// mlt_properties_get_data(owner, "render", NULL);
-
-	r->mltOnJackStarted(position);
-	//r->dar();
-	//std::cout << "_on_jack_stopped";
-}
-
-void Render::_on_jack_starting( mlt_properties owner, mlt_consumer consumer, mlt_position *position )
-{
-	Render *r = (Render*)consumer;// mlt_properties_get_data(owner, "render", NULL);
-
-	r->mltOnJackStarting(position);
-	//std::cout << "_on_jack_sync";
-}
-
-void Render::_on_jack_last_pos_req( mlt_properties owner, mlt_consumer consumer)
-{
-	Render *r = (Render*)consumer;// mlt_properties_get_data(owner, "render", NULL);
-
-	r->mltOnJackLastPosReq();
-	//std::cout << "_on_jack_sync";
-}
-
-void Render::mltOnJackStopped(mlt_position *position)
-{
-	if(m_mltProducer)
-	{
-//		if(m_mltProducer->get_speed() != 0)
-//		{
-//			m_mltFilterJack->fire_event("jack-stop");
-//		}
-//		else
-		{
-			m_mltProducer->set_speed(0.0);
-			refresh();
-			m_mltProducer->seek(*position);
-		}
-	}
-}
-
-void Render::mltOnJackStarted(mlt_position *position)
-{
-	if(m_mltProducer)
-	{
-//		m_mltProducer->seek(*position);
-		refresh();
-		m_mltProducer->set_speed(1.0);
-	}
-}
-
-void Render::mltOnJackStarting(mlt_position *position)
-{
-	if(m_mltProducer)
-	{
-//		m_mltProducer->set_speed(0.0);
-		m_mltProducer->seek(*position);
-		m_mltProducer->set_speed(0.0);
-//		refresh();
-//		m_mltProducer->seek(*position);
-//		m_mltProducer->seek(*position);
-		//mlt_properties_set_position((mlt_properties)m_mltFilterJack->get_properties(), "_sync_pos", *position );
-		m_mltConsumer->purge();
-		m_mltConsumer->set("refresh", 1);
-	}
-}
-
-void Render::mltOnJackLastPosReq()
-{
-	if(m_mltProducer && m_mltFilterJack)
-	{
-		int32_t pos = m_mltConsumer->position();
-		mlt_properties_set_position((mlt_properties)m_mltFilterJack->get_properties(), "_last_position", pos );
-		//m_mltFilterJack->set("_sync_pos", (int32_t)pos);
-//		m_mltConsumer->purge();
-		m_mltConsumer->set("refresh", 1);
-	}
-}
 
 void Render::connectSlave(bool triggerInit)
 {
@@ -4828,110 +4745,6 @@ void Render::disconnectSlave()
 		JACKSLAVE.close();
 	}
 }
-
-#if 0
-void Render::switchPlay(bool play)
-{
-    QMutexLocker locker(&m_mutex);
-
-    //mlt_properties jack_properties = (mlt_properties)m_mltFilterJack->get_properties();
-
-    if (!m_mltProducer || !m_mltConsumer) {
-        return;
-    }
-
-    if (m_isZoneMode) {
-    	resetZoneMode();
-    }
-
-    if (play && m_mltProducer->get_speed() == 0.0) {
-        if (m_name == Kdenlive::projectMonitor) {
-        	int32_t pos = m_mltConsumer->position();
-			//mlt_events_fire( jack, "jack-seek", &pos, NULL );
-			//mlt_events_fire( jack, "jack-start", NULL );
-        	if(m_isJackActive) {
-        		//jack_properties
-        		//m_mltFilterJack->fire_event("jack-seek", *pos, NULL);
-        		//mlt_events_fire(jack_properties, "jack-seek", &pos, NULL);
-
-        		//mlt_events_fire(jack_properties, "jack-start",NULL);
-//                if (m_mltConsumer->is_stopped()) {
-//                    m_mltConsumer->start();
-//                }
-//                m_mltConsumer->purge();
-        		m_mltFilterJack->fire_event("jack-start");
-        	} else {
-                if (m_mltConsumer->is_stopped()) {
-                    m_mltConsumer->start();
-                }
-                m_mltProducer->set_speed(1.0);
-                m_mltConsumer->set("refresh", 1);
-        	}
-        } else {
-            if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
-            if (m_mltConsumer->is_stopped()) {
-                m_mltConsumer->start();
-            }
-            m_mltProducer->set_speed(1.0);
-            m_mltConsumer->set("refresh", 1);
-
-        }
-
-    }
-    else if (!play)
-    {
-
-        if (m_name == Kdenlive::projectMonitor) {
-        	//int32_t pos = 0;//m_mltConsumer->position();
-        	//mlt_events_fire( jack, "jack-seek", &pos, NULL );
-        	//mlt_events_fire( jack, "jack-stop", NULL );
-        	if (m_isJackActive) {
-            	m_mltProducer->set_speed(0.0);
-//                m_mltProducer->seek(m_mltConsumer->position());
-                //m_mltConsumer->set("refresh", 0);
-//                m_mltConsumer->purge();
-                int pos = m_mltProducer->position();
-
-                //if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-                if (m_isZoneMode) resetZoneMode();
-                // fire stop event
-        		m_mltFilterJack->fire_event("jack-stop");
-        	} else {
-                m_mltProducer->set_speed(0.0);
-                m_mltConsumer->set("refresh", 0);
-                m_mltProducer->seek(m_mltConsumer->position());
-                if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-                if (m_isZoneMode) resetZoneMode();
-        	}
-        } else {
-            m_mltProducer->set_speed(0.0);
-            m_mltConsumer->set("refresh", 0);
-            m_mltProducer->seek(m_mltConsumer->position());
-            if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-            if (m_isZoneMode) resetZoneMode();
-
-            //emitConsumerStopped();
-            /*m_mltConsumer->set("refresh", 0);
-            m_mltConsumer->stop();
-            m_mltConsumer->purge();
-            m_mltProducer->set_speed(0.0);
-            //m_framePosition = m_mltProducer->position();
-            m_mltProducer->seek(m_framePosition);
-            emit rendererPosition(m_framePosition);*/
-        }
-
-        //emitConsumerStopped();
-        /*m_mltConsumer->set("refresh", 0);
-        m_mltConsumer->stop();
-        m_mltConsumer->purge();
-        m_mltProducer->set_speed(0.0);
-        //m_framePosition = m_mltProducer->position();
-        m_mltProducer->seek(m_framePosition);
-        emit rendererPosition(m_framePosition);*/
-    }
-}
-#endif
-
 
 void Render::stopSlave()
 {

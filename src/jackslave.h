@@ -20,9 +20,8 @@
 #ifndef JACKSLAVE_H_
 #define JACKSLAVE_H_
 
-#include <kdebug.h>
 #include <mlt++/Mlt.h>
-#include <QImage>
+#include <QObject>
 
 
 class JackSlave : public QObject
