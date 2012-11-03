@@ -587,7 +587,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
         kDebug() << "Result: " << p.key() << " = " << p.value();
     }*/
     if (clipList.isEmpty()) {
-        emit displayMessage(i18n("No available clip selected"), -2);
+        emit displayMessage(i18n("No available clip selected"), -2, ErrorMessage);
     }
     else emit showClipProperties(clipList, commonproperties);
 }
@@ -778,7 +778,7 @@ void ProjectList::slotMissingClip(const QString &id)
         }
     }
     update();
-    emit displayMessage(i18n("Check missing clips"), -2);
+    emit displayMessage(i18n("Check missing clips"), -2, ErrorMessage);
     emit updateRenderStatus();
 }
 
@@ -1818,7 +1818,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
         if (durationError) {
             kDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
-            emit displayMessage(i18n("Proxy clip unusable (duration is different from original)."), -2);
+            emit displayMessage(i18n("Proxy clip unusable (duration is different from original)."), -2, ErrorMessage);
         }
         slotUpdateJobStatus(item, PROXYJOB, JOBCRASHED, i18n("Failed to create proxy for %1. check parameters", item->text(0)), "project_settings");
         QString path = item->referencedClip()->getProperty("proxy");
@@ -2708,7 +2708,7 @@ void ProjectList::slotAddOrUpdateSequence(const QString frameName)
                         
             m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
         }
-    } else emit displayMessage(i18n("Sequence not found"), -2);
+    } else emit displayMessage(i18n("Sequence not found"), -2, ErrorMessage);
 }
 
 QMap <QString, QString> ProjectList::getProxies()
@@ -3461,7 +3461,7 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
     QString destination;
     ProjectItem *item = getItemById(ids.at(0));
     if (!item) {
-        emit displayMessage(i18n("Cannot find clip to process filter %1", filterName), -2);
+        emit displayMessage(i18n("Cannot find clip to process filter %1", filterName), -2, ErrorMessage);
         return;
     }
     if (ids.count() == 1) {
@@ -3490,12 +3490,13 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	// Producer params
 	jobParams << QString();
 	// Filter params, use a smaller region of the image to speed up operation
-	jobParams << filterName << "bounding=\"25%x25%:25%x25\" shot_change_list=0";
+	jobParams << filterName << "bounding=\"25%x25%:15%x15\" shot_change_list=0 denoise=0";
 	// Consumer
 	jobParams << "null" << "all=1 terminate_on_pause=1 real_time=-1";
 	QMap <QString, QString> extraParams;
 	extraParams.insert("key", "shot_change_list");
 	extraParams.insert("projecttreefilter", "1");
+	extraParams.insert("resultmessage", i18n("Found %1 scenes.", "%count"));
 	if (ui.add_markers->isChecked()) {
 	    // We want to create markers
 	    extraParams.insert("addmarkers", QString::number(ui.marker_type->currentIndex()));
@@ -3622,14 +3623,19 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     int markersType = -1;
     if (filterInfo.contains("addmarkers")) markersType = filterInfo.value("addmarkers").toInt();
     if (results.isEmpty()) {
-	emit displayMessage(i18n("No data returned from clip analysis"), ErrorMessage);
+	emit displayMessage(i18n("No data returned from clip analysis"), 0, ErrorMessage);
 	return;
     }
-    emit displayMessage(i18n("Processing data analysis"), InformationMessage);
     bool dataProcessed = false;
     QString key = filterInfo.value("key");
     QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
     kDebug()<<"// RESULT; "<<key<<" = "<<value;
+    if (filterInfo.contains("resultmessage")) {
+	QString mess = filterInfo.value("resultmessage");
+	mess.replace("%count", QString::number(value.count()));
+	emit displayMessage(mess, 0, InformationMessage);
+    }
+    else emit displayMessage(i18n("Processing data analysis"), 0, InformationMessage);
     if (filterInfo.contains("cutscenes")) {
 	// Check if we want to cut scenes from returned data
 	dataProcessed = true;

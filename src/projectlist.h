@@ -501,7 +501,7 @@ signals:
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
     void projectModified();
     void loadingIsOver();
-    void displayMessage(const QString, int progress);
+    void displayMessage(const QString, int progress, MessageType type = DefaultMessage);
     void clipNameChanged(const QString, const QString);
     void clipNeedsReload(const QString&);
     /** @brief A property affecting display was changed, so we need to update monitors and thumbnails
