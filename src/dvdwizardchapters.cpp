@@ -23,9 +23,9 @@
 
 #include <QFile>
 
-DvdWizardChapters::DvdWizardChapters(bool isPal, QWidget *parent) :
+DvdWizardChapters::DvdWizardChapters(DVDFORMAT format, QWidget *parent) :
         QWizardPage(parent),
-        m_isPal(isPal),
+        m_format(format),
         m_monitor(NULL)
 
 {
@@ -37,7 +37,7 @@ DvdWizardChapters::DvdWizardChapters(bool isPal, QWidget *parent) :
 
     // Build monitor for chapters
 
-    if (m_isPal) m_tc.setFormat(25);
+    if (m_format == PAL || m_format == PAL_WIDE) m_tc.setFormat(25);
     else m_tc.setFormat(30000.0 / 1001);
 
     m_manager = new MonitorManager(this);
@@ -134,18 +134,15 @@ void DvdWizardChapters::slotGoToChapter()
     if (m_view.chapters_list->currentItem()) m_monitor->setTimePos(m_tc.reformatSeparators(m_view.chapters_list->currentItem()->text() + ":00"));
 }
 
-void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList &movies, const QStringList &durations, const QStringList &chapters)
+void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies, const QStringList &durations, const QStringList &chapters)
 {
-    m_isPal = isPal;
-    QString profile;
-    if (m_isPal) {
+    m_format = format;
+    QString profile = DvdWizardVob::getDvdProfile(format);
+    if (m_format == PAL || m_format == PAL_WIDE) {
         m_tc.setFormat(25);
-        profile = "dv_pal";
     } else {
         m_tc.setFormat(30000.0 / 1001);
-        profile = "dv_ntsc";
     }
-    if (isWide) profile.append("_wide");
     m_manager->resetProfiles(m_tc);
     if (m_monitor == NULL) {
         m_monitor = new Monitor(Kdenlive::dvdMonitor, m_manager, profile, this);

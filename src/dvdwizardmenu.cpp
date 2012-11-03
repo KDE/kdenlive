@@ -30,7 +30,7 @@
 
 #include "kthumb.h"
 
-DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
+DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
         QWizardPage(parent),
         m_color(NULL),
         m_safeRect(NULL),
@@ -61,9 +61,7 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     m_view.add_button->setToolTip(i18n("Add new button"));
     m_view.delete_button->setToolTip(i18n("Delete current button"));
 
-    if (profile == "dv_ntsc" || profile == "dv_ntsc_wide") {
-        changeProfile(false);
-    } else changeProfile(true);
+    changeProfile(format);
 
 
     // Create color background
@@ -349,17 +347,29 @@ void DvdWizardMenu::deleteButton()
     }
 }
 
-void DvdWizardMenu::changeProfile(bool isPal)
+void DvdWizardMenu::changeProfile(DVDFORMAT format)
 {
-    m_isPal = isPal;
-    if (isPal == false) {
-	m_finalSize = QSize(720, 480);
-        m_width = 640;
-        m_height = 480;
-    } else {
-	m_finalSize = QSize(720, 576);
-        m_width = 768;
-        m_height = 576;
+    m_format = format;
+    switch (m_format) {
+	case PAL_WIDE:
+	    m_finalSize = QSize(720, 576);
+	    m_width = 1024;
+	    m_height = 576;
+	    break;
+	case NTSC_WIDE:
+	    m_finalSize = QSize(720, 480);
+	    m_width = 853;
+	    m_height = 480;
+	    break;
+	case NTSC:
+	    m_finalSize = QSize(720, 480);
+	    m_width = 640;
+	    m_height = 480;
+	    break;
+	default:
+	    m_finalSize = QSize(720, 576);
+	    m_width = 768;
+	    m_height = 576;
     }
     updatePreview();
 }
@@ -443,9 +453,9 @@ void DvdWizardMenu::buildImage()
     } else if (m_view.background_list->currentIndex() == 2) {
         // video background
         m_movieLength = -1;
-        QString standard = "dv_pal";
-        if (!m_isPal) standard = "dv_ntsc";
-	Mlt::Profile profile(standard.toUtf8().constData());
+	QString profileName = DvdWizardVob::getDvdProfile(m_format);
+	Mlt::Profile profile(profileName.toUtf8().constData());
+	profile.set_explicit(true);
 	Mlt::Producer *producer = new Mlt::Producer(profile, m_view.background_image->url().path().toUtf8().data());
 	if (producer && producer->is_valid()) {
 	    pix = QPixmap::fromImage(KThumb::getFrame(producer, 0, m_finalSize.width(), m_width, m_height));
@@ -558,10 +568,19 @@ void DvdWizardMenu::updateColor(QColor c)
 }
 
 
-void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2, const QString &img3)
+void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2, const QString &img3, bool letterbox)
 {
     if (m_view.create_menu->isChecked()) {
         m_scene->clearSelection();
+	QRectF source(0, 0, m_width, m_height);
+	QRectF target;
+	if (!letterbox) target = QRectF(0, 0, m_finalSize.width(), m_finalSize.height());
+	else {
+	    // Scale the button images to fit a letterbox image
+	    double factor = (double) m_width / m_finalSize.width();
+	    int letterboxHeight = m_height / factor;
+	    target = QRectF(0, (m_finalSize.height() - letterboxHeight) / 2, m_finalSize.width(), letterboxHeight);
+	}
         if (m_safeRect->scene() != 0) m_scene->removeItem(m_safeRect);
         if (m_color->scene() != 0) m_scene->removeItem(m_color);
         if (m_background->scene() != 0) m_scene->removeItem(m_background);
@@ -578,7 +597,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         QPainter p(&img);
         //p.setRenderHints(QPainter::Antialiasing, false);
         //p.setRenderHints(QPainter::TextAntialiasing, false);
-        m_scene->render(&p, QRectF(0, 0, m_finalSize.width(), m_finalSize.height()), QRectF(0, 0, m_width, m_height), Qt::IgnoreAspectRatio);
+        m_scene->render(&p, target, source, Qt::IgnoreAspectRatio);
         p.end();
 #if QT_VERSION >= 0x040800
 #elif QT_VERSION >= 0x040600 
@@ -598,7 +617,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         p.begin(&img);
         //p.setRenderHints(QPainter::Antialiasing, false);
         //p.setRenderHints(QPainter::TextAntialiasing, false);
-	m_scene->render(&p, QRectF(0, 0, m_finalSize.width(), m_finalSize.height()), QRectF(0, 0, m_width, m_height), Qt::IgnoreAspectRatio);
+	m_scene->render(&p, target, source, Qt::IgnoreAspectRatio);
         p.end();
 #if QT_VERSION >= 0x040800
 #elif QT_VERSION >= 0x040600
@@ -618,7 +637,7 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 	p.begin(&img);
         //p.setRenderHints(QPainter::Antialiasing, false);
         //p.setRenderHints(QPainter::TextAntialiasing, false);
-        m_scene->render(&p, QRectF(0, 0, m_finalSize.width(), m_finalSize.height()), QRectF(0, 0, m_width, m_height), Qt::IgnoreAspectRatio);
+        m_scene->render(&p, target, source, Qt::IgnoreAspectRatio);
         p.end();
 #if QT_VERSION >= 0x040800
 #elif QT_VERSION >= 0x040600
@@ -718,16 +737,23 @@ int DvdWizardMenu::menuMovieLength() const
 }
 
 
-QMap <QString, QRect> DvdWizardMenu::buttonsInfo()
+QMap <QString, QRect> DvdWizardMenu::buttonsInfo(bool letterbox)
 {
     QMap <QString, QRect> info;
     QList<QGraphicsItem *> list = m_scene->items();
-    double ratio = (double) m_finalSize.width() / m_width;
+    double ratiox = (double) m_finalSize.width() / m_width;
+    double ratioy = 1;
+    int offset = 0;
+    if (letterbox) {
+	int letterboxHeight = m_height * ratiox;
+	ratioy = (double) letterboxHeight / m_finalSize.height();
+	offset = (m_finalSize.height() - letterboxHeight) / 2;
+    }
     for (int i = 0; i < list.count(); i++) {
         if (list.at(i)->type() == QGraphicsItem::UserType + 1) {
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
 	    QRectF r = button->sceneBoundingRect();
-	    QRect adjustedRect(r.x() * ratio, r.y(), r.width() * ratio, r.height());
+	    QRect adjustedRect(r.x() * ratiox, offset + r.y() * ratioy, r.width() * ratiox, r.height() * ratioy);
 	    // Make sure y1 is not odd (requested by spumux)
             if (adjustedRect.height() % 2 == 1) adjustedRect.setHeight(adjustedRect.height() + 1);
             if (adjustedRect.y() % 2 == 1) adjustedRect.setY(adjustedRect.y() - 1);
@@ -737,11 +763,6 @@ QMap <QString, QRect> DvdWizardMenu::buttonsInfo()
         }
     }
     return info;
-}
-
-bool DvdWizardMenu::isPalMenu() const
-{
-    return m_isPal;
 }
 
 QDomElement DvdWizardMenu::toXml() const
