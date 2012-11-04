@@ -255,6 +255,7 @@ public slots:
     void slotFetchThumbs();
     void slotSetStartThumb(const QPixmap pix);
     void slotSetEndThumb(const QPixmap pix);
+    void slotUpdateRange();
 
 signals:
     void prepareAudioThumb(double, int, int, int);

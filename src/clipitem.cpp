@@ -1273,7 +1273,12 @@ void ClipItem::resizeStart(int posx, bool /*size*/, bool emitChange)
             m_startThumbTimer.start(150);
         }
     }
-    if (m_isMainSelectedClip && emitChange) emit updateRange();
+    if (emitChange) slotUpdateRange();
+}
+
+void ClipItem::slotUpdateRange()
+{
+    if (m_isMainSelectedClip) emit updateRange();
 }
 
 void ClipItem::resizeEnd(int posx, bool emitChange)
@@ -1295,7 +1300,7 @@ void ClipItem::resizeEnd(int posx, bool emitChange)
             m_endThumbTimer.start(150);
         }
     }
-    if (m_isMainSelectedClip && emitChange) emit updateRange();
+    if (emitChange) slotUpdateRange();
 }
 
 //virtual

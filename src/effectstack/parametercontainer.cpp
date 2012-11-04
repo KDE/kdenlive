@@ -816,7 +816,6 @@ void ParameterContainer::slotStartFilterJobAction()
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute("type");
         if (type == "filterjob") {
-	    kDebug()<<"// FILTER POSE: "<<m_geometryWidget->currentPosition();
 	    QString filterparams = pa.attribute("filterparams");
 	    if (filterparams.contains("%position")) {
 		if (m_geometryWidget) filterparams.replace("%position", QString::number(m_geometryWidget->currentPosition()));
@@ -837,7 +836,6 @@ void ParameterContainer::slotStartFilterJobAction()
                 QDomElement e = jobparams.item(j).toElement();
 		extraParams.insert(e.attribute("name"), e.text().toUtf8());
 	    }
-	    kDebug()<<"+++++++++++++++++   CLIP IN: "<<m_in;
 	    extraParams.insert("offset", QString::number(m_in));
             emit startFilterJob(pa.attribute("filtertag"), filterparams, pa.attribute("consumer"), pa.attribute("consumerparams"), extraParams);
             kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< filterparams<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");

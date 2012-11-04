@@ -3936,6 +3936,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
         } else {
             prepareResizeClipStart(m_dragItem, m_dragItemInfo, m_dragItem->startPos().frames(m_document->fps()));
+	    if (m_dragItem->type() == AVWIDGET) static_cast <ClipItem*>(m_dragItem)->slotUpdateRange();
         }
     } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
@@ -3961,6 +3962,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
         } else {
             prepareResizeClipEnd(m_dragItem, m_dragItemInfo, m_dragItem->endPos().frames(m_document->fps()));
+	    if (m_dragItem->type() == AVWIDGET) static_cast <ClipItem*>(m_dragItem)->slotUpdateRange();
         }
     } else if (m_operationMode == FADEIN) {
         // resize fade in effect
