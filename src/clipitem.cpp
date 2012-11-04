@@ -60,8 +60,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         m_speed(speed),
         m_strobe(strobe),
         m_framePixelWidth(0),
-        m_limitedKeyFrames(false),
-        m_isMainSelectedClip(false)
+        m_limitedKeyFrames(false)
 {
     setZValue(2);
     m_effectList = EffectsList(true);
@@ -1251,7 +1250,7 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 }
 */
 
-void ClipItem::resizeStart(int posx, bool /*size*/)
+void ClipItem::resizeStart(int posx, bool /*size*/, bool emitChange)
 {
     bool sizeLimit = false;
     if (clipType() != IMAGE && clipType() != COLOR && clipType() != TEXT) {
@@ -1274,9 +1273,10 @@ void ClipItem::resizeStart(int posx, bool /*size*/)
             m_startThumbTimer.start(150);
         }
     }
+    if (m_isMainSelectedClip && emitChange) emit updateRange();
 }
 
-void ClipItem::resizeEnd(int posx)
+void ClipItem::resizeEnd(int posx, bool emitChange)
 {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps);
     if (posx > max && maxDuration() != GenTime()) posx = max;
@@ -1295,6 +1295,7 @@ void ClipItem::resizeEnd(int posx)
             m_endThumbTimer.start(150);
         }
     }
+    if (m_isMainSelectedClip && emitChange) emit updateRange();
 }
 
 //virtual
@@ -2087,17 +2088,6 @@ void ClipItem::slotGotThumbsCache()
     update();
 }
 
-void ClipItem::setMainSelectedClip(bool selected)
-{
-    if (selected == m_isMainSelectedClip) return;
-    m_isMainSelectedClip = selected;
-    update();
-}
-
-bool ClipItem::isMainSelectedClip()
-{
-    return m_isMainSelectedClip;
-}
 
 #include "clipitem.moc"
 

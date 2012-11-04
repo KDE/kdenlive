@@ -3695,7 +3695,7 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     }
     if (!dataProcessed || filterInfo.contains("storedata")) {
 	// Store returned data as clip extra data
-	clip->referencedClip()->setAnalysisData(filterInfo.contains("displaydataname") ? filterInfo.value("displaydataname") : key, results.value(key));
+	clip->referencedClip()->setAnalysisData(filterInfo.contains("displaydataname") ? filterInfo.value("displaydataname") : key, results.value(key), filterInfo.value("offset").toInt());
 	emit updateAnalysisData(clip->referencedClip());
     }
 }

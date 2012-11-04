@@ -326,8 +326,8 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     } else {
         m_ui.widgetTimeWrapper->setHidden(false);
         m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-        m_timePos->setRange(0, m_outPoint - m_inPoint);
     }
+    m_timePos->setRange(0, m_outPoint - m_inPoint);
 
     // no opacity
     if (elem.attribute("opacity") == "false") {
@@ -377,6 +377,11 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
         if (relTimelinePos != m_timePos->getValue())
             slotPositionChanged(relTimelinePos, false);
     }
+}
+
+int GeometryWidget::currentPosition() const
+{
+    return m_inPoint + m_timePos->getValue();
 }
 
 void GeometryWidget::slotRequestSeek(int pos)
@@ -878,5 +883,12 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
     emit parameterChanged();
 }
 
+void GeometryWidget::slotUpdateRange(int inPoint, int outPoint)
+{
+    m_inPoint = inPoint;
+    m_outPoint = outPoint;
+    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
+    m_timePos->setRange(0, m_outPoint - m_inPoint);    
+}
 
 #include "geometrywidget.moc"

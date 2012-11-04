@@ -68,6 +68,8 @@ public:
     bool needsMonitorEffectScene() const;
     /** @brief Set keyframes for this param. */
     void setKeyframes(const QString &data, int maximum);
+    /** @brief Update the in / out for the clip. */
+    void setRange(int inPoint, int outPoint);
 
 private slots:
     void slotCollectAllParameters();
@@ -107,6 +109,8 @@ signals:
     void startFilterJob(QString filterName, QString filterParams, QString consumer, QString consumerParams, const QMap <QString, QString>extra);
     /** @brief Request import of keyframes from clip data. */
     void importClipKeyframes();
+    /** @brief Master clip was resized, update effect. */
+    void updateRange(int inPoint, int outPoint);
 };
 
 #endif

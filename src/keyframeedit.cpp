@@ -471,4 +471,10 @@ void KeyframeEdit::checkVisibleParam()
     slotUpdateVisibleParameter(0);
 }
 
+void KeyframeEdit::slotUpdateRange(int inPoint, int outPoint)
+{
+    m_min = inPoint;
+    m_max = outPoint;
+}
+
 #include "keyframeedit.moc"

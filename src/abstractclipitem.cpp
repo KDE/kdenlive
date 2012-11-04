@@ -38,7 +38,8 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
         m_selectedKeyframe(0),
         m_keyframeFactor(1),
         m_keyframeOffset(0),
-        m_fps(fps)
+        m_fps(fps),
+        m_isMainSelectedClip(false)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 #if QT_VERSION >= 0x040600
@@ -126,7 +127,7 @@ void AbstractClipItem::updateRectGeometry()
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
 }
 
-void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
+void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChange*/)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - m_info.startPos;
     if (durationDiff == GenTime()) return;
@@ -189,7 +190,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
         }*/
 }
 
-void AbstractClipItem::resizeEnd(int posx)
+void AbstractClipItem::resizeEnd(int posx, bool /*emitChange*/)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
@@ -508,4 +509,15 @@ int AbstractClipItem::itemOffset()
     return 0;
 }
 
+void AbstractClipItem::setMainSelectedClip(bool selected)
+{
+    if (selected == m_isMainSelectedClip) return;
+    m_isMainSelectedClip = selected;
+    update();
+}
+
+bool AbstractClipItem::isMainSelectedClip()
+{
+    return m_isMainSelectedClip;
+}
 

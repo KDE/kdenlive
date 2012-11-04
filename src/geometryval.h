@@ -48,6 +48,7 @@ public:
     void setFrameSize(QPoint p);
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
+    void slotUpdateRange(int inPoint, int outPoint);
 
 private:
     MltVideoProfile m_profile;

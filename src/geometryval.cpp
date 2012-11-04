@@ -578,4 +578,9 @@ bool Geometryval::keyframeSelected()
 }
 
 
-
+void Geometryval::slotUpdateRange(int inPoint, int outPoint)
+{
+    m_helper->setKeyGeometry(m_geom, outPoint - inPoint - 1);
+    m_helper->update();
+    m_timePos.setRange(0, outPoint - inPoint - 1);
+}

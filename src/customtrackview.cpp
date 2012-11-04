@@ -450,7 +450,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                     if (parent)
                         parent->resizeStart((int)(snappedPos - m_dragItemInfo.startPos.frames(m_document->fps())));
                 } else {
-                    m_dragItem->resizeStart((int)(snappedPos));
+                    m_dragItem->resizeStart((int)(snappedPos), true, false);
                 }
                 QString crop = m_document->timecode().getDisplayTimecode(m_dragItem->cropStart(), KdenliveSettings::frametimecode());
                 QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
@@ -463,7 +463,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                     if (parent)
                         parent->resizeEnd((int)(snappedPos - m_dragItemInfo.endPos.frames(m_document->fps())));
                 } else {
-                    m_dragItem->resizeEnd((int)(snappedPos));
+                    m_dragItem->resizeEnd((int)(snappedPos), false);
                 }
                 QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
                 QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration() - m_dragItemInfo.cropDuration, KdenliveSettings::frametimecode());
@@ -2761,7 +2761,9 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
                         new RazorClipCommand(this, clipInfo, info.startPos, false, command);
                         new ResizeClipCommand(this, dupInfo, newdupInfo, false, false, command);
                         ClipItem *dup = cutClip(clipInfo, info.startPos, true, false);
-                        if (dup) dup->resizeStart(info.endPos.frames(m_document->fps()));
+                        if (dup) {
+			    dup->resizeStart(info.endPos.frames(m_document->fps()));
+			}
                     } else {
                         ItemInfo newclipInfo = clip->info();
                         newclipInfo.endPos = info.startPos;
@@ -4872,8 +4874,9 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
         bool success = m_document->renderer()->mltResizeClipStart(clipinfo, end.startPos - clipinfo.startPos);
-        if (success)
+        if (success) {
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
+	}
         else
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     } else {

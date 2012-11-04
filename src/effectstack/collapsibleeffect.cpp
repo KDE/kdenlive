@@ -593,4 +593,7 @@ bool CollapsibleEffect::needsMonitorEffectScene() const
     return m_paramWidget->needsMonitorEffectScene();
 }
 
-
+void CollapsibleEffect::setRange(int inPoint , int outPoint)
+{
+    m_paramWidget->setRange(inPoint, outPoint);
+}

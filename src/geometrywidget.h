@@ -59,6 +59,7 @@ public:
     void setFrameSize(QPoint size);
     void addParameter(const QDomElement elem);
     void importKeyframes(const QString &data, int maximum);
+    int currentPosition() const;
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
@@ -69,6 +70,7 @@ public slots:
     /** @brief Updates position of the local timeline to @param relTimelinePos.  */
     void slotSyncPosition(int relTimelinePos);
     void slotResetKeyframes();
+    void slotUpdateRange(int inPoint, int outPoint);
 
 private:
     Ui::GeometryWidget_UI m_ui;

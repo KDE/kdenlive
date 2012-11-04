@@ -94,6 +94,10 @@ public:
     /** @brief Makes the first parameter visible in timeline if no parameter is selected. */
     void checkVisibleParam();
 
+public slots:
+
+    void slotUpdateRange(int inPoint, int outPoint);
+
 protected:
     /** @brief Gets the position of a keyframe from the table.
      * @param row Row of the keyframe in the table */

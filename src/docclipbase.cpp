@@ -32,12 +32,14 @@
 
 #include <KIO/NetAccess>
 #include <KStandardDirs>
+#include <KApplication>
 #include <KDebug>
 
 #include <QCryptographicHash>
 #include <QtConcurrentRun>
 
 #include <cstdio>
+#include <kmessagebox.h>
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id) :
         QObject(),
@@ -1276,21 +1278,56 @@ QImage DocClipBase::extractImage(int frame, int width, int height)
     return m_thumbProd->extractImage(frame, width, height);
 }
 
-void DocClipBase::setAnalysisData(const QString &name, const QString &data)
+void DocClipBase::setAnalysisData(const QString &name, const QString &data, int offset)
 {
     if (data.isEmpty()) m_analysisdata.remove(name);
     else {
 	if (m_analysisdata.contains(name)) {
-	    int i = 1;
-	    QString newname = name + " " + QString::number(i);
-	    while (m_analysisdata.contains(newname)) {
-		i++;
-		newname = name + " " + QString::number(i);
+	    if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
+		// Merge data
+		Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
+		Mlt::Geometry geometry(m_analysisdata.value(name).toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
+		Mlt::Geometry newGeometry(data.toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
+		Mlt::GeometryItem item;
+		int pos = 0;
+		while (!newGeometry.next_key(&item, pos)) {
+		    pos = item.frame();
+		    item.frame(pos + offset);
+		    pos++;
+		    geometry.insert(item);
+		}
+		m_analysisdata.insert(name, geometry.serialise());
 	    }
-	    m_analysisdata.insert(newname, data);
+	    else {
+		// Add data with another name
+		int i = 1;
+		QString newname = name + " " + QString::number(i);
+		while (m_analysisdata.contains(newname)) {
+		    i++;
+		    newname = name + " " + QString::number(i);
+		}
+		m_analysisdata.insert(newname, geometryWithOffset(data, offset));
+	    }
 	}
-	else m_analysisdata.insert(name, data);
+	else m_analysisdata.insert(name, geometryWithOffset(data, offset));
     }
+}
+
+const QString DocClipBase::geometryWithOffset(QString data, int offset)
+{
+    if (offset == 0) return data;
+    Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
+    Mlt::Geometry geometry(data.toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
+    Mlt::Geometry newgeometry("", m_properties.value("duration").toInt(), profile->width(), profile->height());
+    Mlt::GeometryItem item;
+    int pos = 0;
+    while (!geometry.next_key(&item, pos)) {
+	pos = item.frame();
+	item.frame(pos + offset);
+	pos++;
+	newgeometry.insert(item);
+    }
+    return newgeometry.serialise();
 }
 
 QMap <QString, QString> DocClipBase::analysisData() const

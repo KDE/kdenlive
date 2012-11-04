@@ -27,7 +27,7 @@
 	<parameter type="bool" name="obscure" default="1">
 		<name>Obscure</name>
 	</parameter>
-	<parameter type="filterjob" filtertag="autotrack_rectangle" filterparams="_serialize=1 motion_vector_list=0 %params" consumer="null" consumerparams="all=1 terminate_on_pause=1">
+	<parameter type="filterjob" filtertag="autotrack_rectangle" filterparams="_serialize=1 motion_vector_list=0 %params in=%position" consumer="null" consumerparams="all=1 terminate_on_pause=1">
 		<jobparam name="storedata" />
 		<jobparam name="projecttreefilter" />
 		<jobparam name="key">motion_vector_list</jobparam>
