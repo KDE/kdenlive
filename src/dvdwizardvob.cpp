@@ -34,6 +34,7 @@
 #include <QDomDocument>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
+#include <unistd.h>
 
 DvdTreeWidget::DvdTreeWidget(QWidget *parent) :
         QTreeWidget(parent)
@@ -201,11 +202,11 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkF
         item->setData(1, Qt::UserRole, playTime);
 	int standard = -1;
 	int aspect = profile.dar() * 100;
-	if (profile.height() == 576) {
+	if (profile.height() == 576 && profile.fps() == 25.0) {
 	    if (aspect > 150) standard = 1;
 	    else standard = 0;
 	}
-	else if (profile.height() == 480) {
+	else if (profile.height() == 480 && qAbs(profile.fps() - 30000.0 / 1001) < 0.2) {
 	    if (aspect > 150) standard = 3;
 	    else standard = 2;
 	}
@@ -226,6 +227,7 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkF
 	  default:
 	      standardName = i18n("Unknown");
 	}
+	standardName.append(QString(" | %1x%2, %3fps").arg(profile.width()).arg(profile.height()).arg(profile.fps()));
 	item->setData(0, Qt::UserRole, standardName);
 	item->setData(0, Qt::UserRole + 1, standard);
 	item->setData(0, Qt::UserRole + 2, QSize(profile.dar() * profile.height(), profile.height()));
