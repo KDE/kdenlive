@@ -3516,8 +3516,12 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	extraParams.insert("projecttreefilter", "1");
 	QString keyword("%count");
 	extraParams.insert("resultmessage", i18n("Found %1 scenes.", keyword));
+	if (ui.store_data->isChecked()) {
+	    // We want to save result as clip metadata
+	    extraParams.insert("storedata", "1");
+	}
 	if (ui.zone_only->isChecked()) {
-	    // We want to create markers
+	    // We want to analyze only clip zone
 	    extraParams.insert("zoneonly", "1");
 	}
 	if (ui.add_markers->isChecked()) {
