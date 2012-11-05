@@ -177,6 +177,8 @@ private slots:
     void slotFitToHeight();
     /** @brief Show / hide previous keyframe in monitor scene. */
     void slotShowPreviousKeyFrame(bool show);
+    /** @brief Show / hide keyframe path in monitor scene. */
+    void slotShowPath(bool show);
 
 signals:
     void parameterChanged();
