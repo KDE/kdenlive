@@ -7632,7 +7632,23 @@ void CustomTrackView::slotImportClipKeyframes(GRAPHICSRECTITEM type)
 	return;
     }
     QString keyframeData = ui.data_list->itemData(ui.data_list->currentIndex()).toString();
-    QStringList keyframeList = keyframeData.split(';', QString::SkipEmptyParts);
+    
+    int offset = item->cropStart().frames(m_document->fps());
+    Mlt::Geometry geometry(keyframeData.toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
+    Mlt::Geometry newGeometry(QString().toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
+    Mlt::GeometryItem gitem;
+    geometry.fetch(&gitem, offset);
+    gitem.frame(0);
+    newGeometry.insert(gitem);
+    int pos = offset + 1;
+    while (!geometry.next_key(&gitem, pos)) {
+	pos = gitem.frame();
+	gitem.frame(pos - offset);
+	pos++;
+	newGeometry.insert(gitem);
+    }
+    QStringList keyframeList = QString(newGeometry.serialise()).split(';', QString::SkipEmptyParts);
+    
     QString result;
     if (ui.import_position->isChecked()) {
 	if (ui.import_size->isChecked()) {
