@@ -70,6 +70,8 @@ public slots:
     /** @brief Updates position of the local timeline to @param relTimelinePos.  */
     void slotSyncPosition(int relTimelinePos);
     void slotResetKeyframes();
+    void slotResetNextKeyframes();
+    void slotResetPreviousKeyframes();
     void slotUpdateRange(int inPoint, int outPoint);
 
 private:
