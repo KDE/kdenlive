@@ -73,6 +73,8 @@ public:
     void adjustButtons(int ix, int max);
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
     bool needsMonitorEffectScene() const;
+    /** @brief Set clip in / out points. */
+    void setRange(int inPoint , int outPoint);
 
 public slots:
     void slotSyncEffectsPos(int pos);

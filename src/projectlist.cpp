@@ -739,7 +739,7 @@ void ProjectList::slotModifiedClip(const QString &id)
         } else {
             pixmap = KIcon("view-refresh").pixmap(m_listView->iconSize());
         }
-        item->setData(0, Qt::DecorationRole, pixmap);
+        item->setPixmap(pixmap);
     }
 }
 
@@ -763,7 +763,7 @@ void ProjectList::slotMissingClip(const QString &id)
         QPainter p(&pixmap);
         p.drawPixmap(3, 3, icon.pixmap(width - 6, height - 6));
         p.end();
-        item->setData(0, Qt::DecorationRole, pixmap);
+        item->setPixmap(pixmap);
         if (item->referencedClip()) {
             item->referencedClip()->setPlaceHolder(true);
             Mlt::Producer *newProd = m_render->invalidProducer(id);
@@ -1295,6 +1295,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     //m_listView->setEnabled(false);
     const QString parent = clip->getProperty("groupid");
     QString groupName = clip->getProperty("groupname");
+    QSize pixelSize((int)(m_listView->iconSize().height()  * m_render->dar()), m_listView->iconSize().height());
     ProjectItem *item = NULL;
     monitorItemEditing(false);
     if (!parent.isEmpty()) {
@@ -1308,19 +1309,16 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         }
 
         if (parentitem)
-            item = new ProjectItem(parentitem, clip);
+            item = new ProjectItem(parentitem, clip, pixelSize);
     }
     if (item == NULL) {
-        item = new ProjectItem(m_listView, clip);
+        item = new ProjectItem(m_listView, clip, pixelSize);
     }
     if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
     connect(clip, SIGNAL(createProxy(const QString &)), this, SLOT(slotCreateProxy(const QString &)));
     connect(clip, SIGNAL(abortProxy(const QString &, const QString &)), this, SLOT(slotAbortProxy(const QString, const QString)));
+      
     if (getProperties) {
-        int height = m_listView->iconSize().height();
-        int width = (int)(height  * m_render->dar());
-        QPixmap pix =  KIcon("video-x-generic").pixmap(QSize(width, height));
-        item->setData(0, Qt::DecorationRole, pix);
         //item->setFlags(Qt::ItemIsSelectable);
         m_listView->processLayout();
         QDomElement e = clip->toXML().cloneNode().toElement();
@@ -1469,13 +1467,42 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
             requestClipThumbnail(item->clipId());
         }
         else {
-            processThumbOverlays(item, pix);
-            item->setData(0, Qt::DecorationRole, pix);
+	    QPixmap result = roundedPixmap(pix);
+            processThumbOverlays(item, result);
+            item->setPixmap(result);
         }
     }
     else {
         requestClipThumbnail(item->clipId());
     }
+}
+
+QPixmap ProjectList::roundedPixmap(QImage img)
+{
+    QPixmap pix(img.width(), img.height());
+    pix.fill(Qt::transparent);
+    QPainter p(&pix);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPainterPath path;
+    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 2, 2);
+    p.setClipPath(path);
+    p.drawImage(0, 0, img);
+    p.end();
+    return pix;
+}
+
+QPixmap ProjectList::roundedPixmap(QPixmap source)
+{
+    QPixmap pix(source.width(), source.height());
+    pix.fill(Qt::transparent);
+    QPainter p(&pix);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPainterPath path;
+    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 2, 2);
+    p.setClipPath(path);
+    p.drawPixmap(0, 0, source);
+    p.end();
+    return pix;
 }
 
 void ProjectList::getCachedThumbnail(SubProjectItem *item)
@@ -1565,22 +1592,22 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                 }
                 else if (clip->isPlaceHolder()) {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
-                    if (item->data(0, Qt::DecorationRole).isNull()) {
-                        item->setData(0, Qt::DecorationRole, missingPixmap);
+                    if (!item->hasPixmap()) {
+                        item->setPixmap(missingPixmap);
                     }
                     else {
                         QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
                         QPainter p(&pixmap);
                         p.drawPixmap(3, 3, KIcon("dialog-close").pixmap(pixmap.width() - 6, pixmap.height() - 6));
                         p.end();
-                        item->setData(0, Qt::DecorationRole, pixmap);
+                        item->setPixmap(pixmap);
                     }
                 }
             } else {              
                 if (displayRatioChanged) {
                     requestClipThumbnail(clip->getId());
                 }
-                else if (item->data(0, Qt::DecorationRole).isNull()) {
+                else if (!item->hasPixmap()) {
                     getCachedThumbnail(item);
                 }
                 if (item->data(0, DurationRole).toString().isEmpty()) {
@@ -1595,7 +1622,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                     QPainter p(&pixmap);
                     p.drawPixmap(3, 3, KIcon("dialog-close").pixmap(pixmap.width() - 6, pixmap.height() - 6));
                     p.end();
-                    item->setData(0, Qt::DecorationRole, pixmap);
+                    item->setPixmap(pixmap);
                 }
                 else if (clip->getProperty("_replaceproxy") == "1") {
                     clip->setProperty("_replaceproxy", QString());
@@ -2013,8 +2040,11 @@ void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)
     if (item && item->parent()) pItem = static_cast <ProjectItem *>(item->parent());
     if (!item && framePos == 0) pItem = getItemById(id);
     if (!item && !pItem) return;
-    if (item) item->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
-    else if (pItem) pItem->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
+    if (item) {
+	if (item->type() == PROJECTCLIPTYPE) static_cast<ProjectItem*>(item)->setPixmap(QPixmap::fromImage(img));
+	else item->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
+    }
+    else if (pItem) pItem->setPixmap(QPixmap::fromImage(img));
     if (pItem) {
 	QString hash = pItem->getClipHash();
 	if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(framePos), img);
@@ -2124,26 +2154,22 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
             slotProcessNextThumbnail();
             return;
         }
-        QPixmap pix;
         QImage img;
         int height = m_listView->iconSize().height();
         int swidth = (int)(height  * m_render->frameRenderWidth() / m_render->renderHeight()+ 0.5);
         int dwidth = (int)(height  * m_render->dar() + 0.5);
-        if (clip->clipType() == AUDIO)
-            pix = KIcon("audio-x-generic").pixmap(QSize(dwidth, height));
-        else if (clip->clipType() == IMAGE) {
+        if (clip->clipType() == IMAGE) {
             img = KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height);
 	}
-        else {
+        else if (clip->clipType() != AUDIO) {
             img = item->referencedClip()->extractImage(frame, dwidth, height);
         }
-        if (!pix.isNull() || !img.isNull()) {
+        if (!img.isNull()) {
             monitorItemEditing(false);
-            if (!img.isNull()) {
-                pix = QPixmap::fromImage(img);
-                processThumbOverlays(item, pix);
-            }
-            it->setData(0, Qt::DecorationRole, pix);
+	    QPixmap pix = roundedPixmap(img);
+	    processThumbOverlays(item, pix);
+            if (isSubItem) it->setData(0, Qt::DecorationRole, pix);
+	    else item->setPixmap(pix);
             monitorItemEditing(true);
             
             QString hash = item->getClipHash();
@@ -2212,7 +2238,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             }
         }
 
-        if (!replace && m_allClipsProcessed && item->data(0, Qt::DecorationRole).isNull()) {
+        if (!replace && m_allClipsProcessed && !item->hasPixmap()) {
             getCachedThumbnail(item);
         }
         if (!toReload.isEmpty())
@@ -2335,18 +2361,10 @@ void ProjectList::slotReplyGetImage(const QString &clipId, const QImage &img)
 {
     ProjectItem *item = getItemById(clipId);
     if (item && !img.isNull()) {
-	QPixmap pix(img.width(), img.height());
-	pix.fill(Qt::transparent);
-	QPainter p(&pix);
-	p.setRenderHint(QPainter::Antialiasing, true);
-	QPainterPath path;
-	path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 2, 2);
-	p.setClipPath(path);
-	p.drawImage(0, 0, img);
-	p.end();
+	QPixmap pix = roundedPixmap(img);
         processThumbOverlays(item, pix);
         monitorItemEditing(false);
-        item->setData(0, Qt::DecorationRole, pix);
+        item->setPixmap(pix);
         monitorItemEditing(true);
         QString hash = item->getClipHash();
         if (!hash.isEmpty()) m_doc->cacheImage(hash, img);
@@ -3496,7 +3514,8 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	QMap <QString, QString> extraParams;
 	extraParams.insert("key", "shot_change_list");
 	extraParams.insert("projecttreefilter", "1");
-	extraParams.insert("resultmessage", i18n("Found %1 scenes.", "%count"));
+	QString keyword("%count");
+	extraParams.insert("resultmessage", i18n("Found %1 scenes.", keyword));
 	if (ui.add_markers->isChecked()) {
 	    // We want to create markers
 	    extraParams.insert("addmarkers", QString::number(ui.marker_type->currentIndex()));
@@ -3676,7 +3695,7 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     }
     if (!dataProcessed || filterInfo.contains("storedata")) {
 	// Store returned data as clip extra data
-	clip->referencedClip()->setAnalysisData(filterInfo.contains("displaydataname") ? filterInfo.value("displaydataname") : key, results.value(key));
+	clip->referencedClip()->setAnalysisData(filterInfo.contains("displaydataname") ? filterInfo.value("displaydataname") : key, results.value(key), filterInfo.value("offset").toInt());
 	emit updateAnalysisData(clip->referencedClip());
     }
 }

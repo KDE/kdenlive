@@ -168,31 +168,28 @@ public:
             QString subText = index.data(DurationRole).toString();
             int usage = index.data(UsageRole).toInt();
             if (usage != 0) subText.append(QString(" (%1)").arg(usage));
-            if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
             QRectF bounding;
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
-            
             int jobProgress = index.data(Qt::UserRole + 5).toInt();
             if (jobProgress != 0 && jobProgress != JOBDONE && jobProgress != JOBABORTED) {
                 if (jobProgress != JOBCRASHED) {
                     // Draw job progress bar
                     QColor color = option.palette.alternateBase().color();
-                    painter->setPen(Qt::NoPen);
-                    color.setAlpha(180);
-                    painter->setBrush(QBrush(color));
-                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 2, 8);
-                    painter->drawRect(progress);
-                    painter->setBrush(option.palette.text());
-                    if (jobProgress > 0) {
-                        progress.adjust(1, 1, 0, -1);
-                        progress.setWidth((pixmap.width() - 4) * jobProgress / 100);
-                        painter->drawRect(progress);
-                    } else if (jobProgress == JOBWAITING) {
-                        // Draw kind of a pause icon
-                        progress.adjust(1, 1, 0, -1);
-                        progress.setWidth(2);
-                        painter->drawRect(progress);
-                        progress.moveLeft(progress.right() + 2);
+		    color.setAlpha(150);
+                    painter->setPen(option.palette.link().color());
+                    QRect progress(pixmapPoint.x() + 2, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 4, 7);
+		    painter->setBrush(QBrush(color));
+		    painter->drawRect(progress);
+		    painter->setBrush(option.palette.link());
+		    progress.adjust(2, 2, -2, -2);
+		    if (jobProgress == JOBWAITING) {
+			progress.setLeft(progress.right() - 2);
+			painter->drawRect(progress);
+			progress.moveLeft(progress.left() - 5);
+			painter->drawRect(progress);
+		    }
+		    else if (jobProgress > 0) {
+                        progress.setWidth(progress.width() * jobProgress / 100);
                         painter->drawRect(progress);
                     }
                 } else if (jobProgress == JOBCRASHED) {
@@ -426,6 +423,9 @@ private:
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */
     void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QMap <QString, QString>extraParams = QMap <QString, QString>());
+    /** @brief Create rounded shape pixmap for project tree thumb. */
+    QPixmap roundedPixmap(QImage img);
+    QPixmap roundedPixmap(QPixmap source);
 
 private slots:
     void slotClipSelected();

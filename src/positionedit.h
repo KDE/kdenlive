@@ -35,8 +35,10 @@ public:
     int getPosition() const;
     void setPosition(int pos);
     void updateTimecodeFormat();
-    void setRange(int min, int max);
 
+public slots:
+    void setRange(int min, int max);
+    
 private:
     TimecodeDisplay *m_display;
     QSlider *m_slider;

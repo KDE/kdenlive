@@ -200,7 +200,7 @@ Q_OBJECT public:
     void cleanupProducers();
     bool isClean() const;
     bool getAudioThumbs();
-    void setAnalysisData(const QString &name, const QString &data);
+    void setAnalysisData(const QString &name, const QString &data, int offset = 0);
     QMap <QString, QString> analysisData() const;
     int lastSeekPosition;
     /** Cache for every audio Frame with 10 Bytes */
@@ -256,6 +256,8 @@ private:   // Private attributes
     void adjustProducerProperties(Mlt::Producer *prod, const QString &id, bool mute, bool blind);
     /** @brief Create another instance of a producer. */
     Mlt::Producer *cloneProducer(Mlt::Producer *source);
+    /** @brief Offset all keyframes of a geometry. */
+    const QString geometryWithOffset(QString data, int offset);
 
    
 public slots:
