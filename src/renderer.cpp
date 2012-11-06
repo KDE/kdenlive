@@ -431,7 +431,7 @@ void Render::seek(int time, bool slave)
 #ifdef USE_JACK
     if (!slave && isSlaveTransportEnabled()) {
     	if(&JACKSLAVE) {
-    		JACKSLAVE.locate(time < 0 ? 0 : time);
+    		JACKSLAVE.seekPlayback(time < 0 ? 0 : time);
     	}
     	/* return */
 //    	return;
@@ -1603,6 +1603,8 @@ void Render::switchPlay(bool play, bool slave)
     if (!m_mltProducer || !m_mltConsumer)
         return;
 
+    int position = m_mltConsumer->position();
+
 #ifdef USE_JACK
     if (!slave && isSlaveTransportEnabled()) {
     	if(&JACKSLAVE) {
@@ -1610,10 +1612,11 @@ void Render::switchPlay(bool play, bool slave)
     			JACKSLAVE.startPlayback();
     		} else {
     			JACKSLAVE.stopPlayback();
+    			position = JACKSLAVE.getPlaybackPosition();
     		}
     	}
     	/* return */
-    	return;
+//    	return;
     }
 #endif
 
@@ -1628,7 +1631,7 @@ void Render::switchPlay(bool play, bool slave)
     } else if (!play) {
         m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("refresh", 0);
-        m_mltProducer->seek(m_mltConsumer->position());
+        m_mltProducer->seek(position);
         if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         if (m_isZoneMode) resetZoneMode();
 
@@ -4718,8 +4721,9 @@ void Render::connectSlave(bool triggerInit)
 			m_mltConsumer->stop();
 
 	// connect jackslave to jackd
-    if (&JACKSLAVE)
-    	JACKSLAVE.open();
+    if (&JACKSLAVE) {
+    	JACKSLAVE.open(QString("kdenlive"), 2, 512);
+    }
     // if slave is connected attach filter to consumer
     startSlave();
 
@@ -4738,9 +4742,7 @@ void Render::disconnectSlave()
 	// stop slave
 	stopSlave();
 
-	if(&JACKSLAVE && JACKSLAVE.isActive()) {
-		// enable audio playback
-//		m_mltConsumer->set("audio_off", 0);
+	if(&JACKSLAVE) {
 		// disconnect from jackd
 		JACKSLAVE.close();
 	}
@@ -4752,7 +4754,7 @@ void Render::stopSlave()
 		if (!m_mltConsumer->is_stopped())
 			m_mltConsumer->stop();
 		// detach filter from consumer
-		m_mltConsumer->detach(*JACKSLAVE.filter());
+//		m_mltConsumer->detach(*JACKSLAVE.filter());
 	}
 }
 
@@ -4761,7 +4763,7 @@ void Render::startSlave()
 	if(&JACKSLAVE && JACKSLAVE.isActive()) {
 		m_mltConsumer->set("audio_off", 1);
 		// attach filter to consumer
-		m_mltConsumer->attach(*JACKSLAVE.filter());
+//		m_mltConsumer->attach(*JACKSLAVE.filter());
 	}
 }
 
@@ -4781,7 +4783,7 @@ void Render::enableSlaveTransport()
 
 		/* stop playback and relocate */
 		JACKSLAVE.stopPlayback();
-		JACKSLAVE.locate(seekFramePosition());
+		JACKSLAVE.seekPlayback(seekFramePosition());
 		/* set indication flag */
 		m_isSlaveTransportEnabled = true;
 		/* DEBUG */

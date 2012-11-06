@@ -20,8 +20,13 @@
 #ifndef JACKSLAVE_H_
 #define JACKSLAVE_H_
 
+#include <jack/jack.h>
+#include <jack/ringbuffer.h>
+
 #include <mlt++/Mlt.h>
 #include <QObject>
+#include <qstring.h>
+#include <KDebug>
 
 
 class JackSlave : public QObject
@@ -33,15 +38,74 @@ public:
 	bool isActive();
 	Mlt::Filter * filter();
 	void open();
+	void open(QString name, int channels, int buffersize);
 	void close();
+
+	/**
+	 * Starts jack transport playback.
+	 */
 	void startPlayback();
+
+	/**
+	 * Stops jack transport playback.
+	 */
 	void stopPlayback();
+
+	/**
+	 * Seeks jack transport playback.
+	 * \param time The time to seek to.
+	 */
+	void seekPlayback(int time);
+
+	/**
+	 * Retrieves the jack transport playback time.
+	 * \return The current time position.
+	 */
+	int getPlaybackPosition();
+
+	/**
+	 * Returns whether jack transport plays back.
+	 * \return Whether jack transport plays back.
+	 */
+	bool doesPlayback();
+	/**
+	 * Next Jack Transport state (-1 if not expected to change).
+	 */
+	jack_transport_state_t m_nextState;
+
+	/**
+	 * Current jack transport status.
+	 */
+	jack_transport_state_t m_state;
+
+
 	void locate(int position);
 
 protected:
 	JackSlave(Mlt::Profile * profile);
 
 private:
+	/**
+	 * The output ports of jack.
+	 */
+	jack_port_t** m_ports;
+
+	/**
+	 * The jack client.
+	 */
+	jack_client_t* m_client;
+
+	/**
+	 * The jack ring buffer.
+	 */
+	jack_ringbuffer_t** m_ringbuffers;
+
+	/**
+	 * Whether the device is valid.
+	 */
+	bool m_valid;
+
+
 	bool m_isActive;
     Mlt::Filter *m_mltFilterJack;
     Mlt::Profile *m_mltProfile;

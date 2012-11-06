@@ -13,6 +13,7 @@ macro_optional_find_package(QJSON)
 
 option(WITH_V4L "Build capture support with Video4Linux" ON)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
+option(WITH_Jack "Build Jack support" ON)
 
 
 
@@ -32,6 +33,13 @@ if(WITH_JogShuttle)
     set(BUILD_JogShuttle TRUE)
   endif(HAVE_LINUX_INPUT_H)
 endif(WITH_JogShuttle)
+
+if(WITH_Jack)
+  check_include_files(jack/jack.h HAVE_JACK)
+  if(HAVE_JACK)
+    set(BUILD_Jack TRUE)
+  endif(HAVE_JACK)
+endif(WITH_Jack)
 
 macro_log_feature(QT_QTOPENGL_FOUND
   "QtOpenGL"
@@ -102,7 +110,6 @@ endif(BUILD_V4L)
 list(APPEND kdenlive_SRCS
   main.cpp
   mainwindow.cpp
-
   KoSliderCombo.cpp
   abstractclipitem.cpp
   abstractgroupitem.cpp
@@ -146,7 +153,6 @@ list(APPEND kdenlive_SRCS
   guide.cpp
   headertrack.cpp
   initeffects.cpp
-  jackslave.cpp
   kdenlivedoc.cpp
   kdenlivesettingsdialog.cpp
   keyframeedit.cpp
@@ -279,6 +285,10 @@ if(BUILD_JogShuttle)
   )
 endif(BUILD_JogShuttle)
 
+if(BUILD_Jack)
+  list(APPEND kdenlive_SRCS jackslave.cpp)
+endif(BUILD_Jack)
+
 kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 qt4_add_dbus_adaptor(kdenlive_SRCS
   org.kdenlive.MainWindow.xml
@@ -367,9 +377,10 @@ if(BUILD_JogShuttle)
   add_definitions(-DUSE_JOGSHUTTLE)
 endif(BUILD_JogShuttle)
 
-# if(BUILD_JACK)
+if(BUILD_Jack)
   add_definitions(-DUSE_JACK)
-# endif(BUILD_JACK)
+  target_link_libraries(kdenlive jack)
+endif(BUILD_Jack)
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 install(FILES
