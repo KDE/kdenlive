@@ -346,7 +346,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.slide_duration_frames->setHidden(true);
         m_view.luma_duration_frames->setHidden(true);
 
-        parseFolder();
+        parseFolder(false);
 
         m_view.luma_duration->setText(tc.getTimecodeFromFrames(props.value("luma_duration").toInt()));
         QString lumaFile = props.value("luma_file");
@@ -1081,7 +1081,7 @@ bool ClipProperties::needsTimelineReload() const
 }
 
 
-void ClipProperties::parseFolder()
+void ClipProperties::parseFolder(bool reloadThumb)
 {
     QString path = m_view.clip_path->text();
     bool isMime = !(path.contains('%'));
@@ -1101,17 +1101,31 @@ void ClipProperties::parseFolder()
     QStringList result = dir.entryList(QDir::Files);
 
     if (!isMime) {
-        // find pattern
-        QString filter = KUrl(m_view.clip_path->text()).fileName();
-        QString ext = filter.section('.', -1);
-        filter = filter.section('%', 0, -2);
-        QString regexp = '^' + filter + "\\d+\\." + ext + '$';
-        QRegExp rx(regexp);
-        QStringList entries;
-        foreach(const QString & path, result) {
-            if (rx.exactMatch(path)) entries << path;
-        }
-        result = entries;
+	int offset = 0;
+	QString path = m_view.clip_path->text();
+	if (path.contains('?')) {
+	    // New MLT syntax
+	    offset = m_view.clip_path->text().section(':', -1).toInt();
+	    path = path.section('?', 0, 0);
+	}
+	QString filter = KUrl(path).fileName();
+	QString ext = filter.section('.', -1);
+	filter = filter.section('%', 0, -2);
+	QString regexp = '^' + filter + "\\d+\\." + ext + '$';
+	QRegExp rx(regexp);
+	QStringList entries;
+	int ix;
+	foreach(const QString & path, result) {
+	    if (rx.exactMatch(path)) {
+		if (offset > 0) {
+		    // make sure our image is in the range we want (> begin)
+		    ix = path.section(filter, 1).section('.', 0, 0).toInt();
+		    if (ix < offset) continue;
+		}
+		entries << path;
+	    }
+	}
+	result = entries;
     }
 
     m_count = result.count();
@@ -1124,16 +1138,16 @@ void ClipProperties::parseFolder()
     }
     m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     m_view.slide_info->setText(i18np("1 image found", "%1 images found", m_count));
-    QDomElement xml = m_clip->toXML();
-    xml.setAttribute("resource", m_view.clip_path->text() + extension);
-    int width = 180.0 * KdenliveSettings::project_display_ratio();
-    if (width % 2 == 1) width++;
-    QString filePath = m_view.clip_path->text();
-    if (isMime) filePath.append(extension);
-    QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(filePath), 1, width, 180);
     QMap <QString, QString> props = m_clip->properties();
     m_view.clip_duration->setText(m_tc.getTimecodeFromFrames(props.value("ttl").toInt() * m_count));
-    m_view.clip_thumb->setPixmap(pix);
+    if (reloadThumb) {
+	int width = 180.0 * KdenliveSettings::project_display_ratio();
+	if (width % 2 == 1) width++;
+	QString filePath = m_view.clip_path->text();
+	if (isMime) filePath.append(extension);
+	QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(filePath), 1, width, 180);
+	m_view.clip_thumb->setPixmap(pix);
+    }
 }
 
 void ClipProperties::slotCheckMaxLength()
