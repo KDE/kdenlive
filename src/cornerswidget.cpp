@@ -246,4 +246,5 @@ void CornersWidget::slotInsertKeyframe()
     keyframe_list->selectRow(row);
 }
 
+
 #include "cornerswidget.moc"

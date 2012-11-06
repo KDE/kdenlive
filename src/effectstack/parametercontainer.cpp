@@ -220,8 +220,10 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, 0, true, effect.hasAttribute("showrotation"), parent);
                 m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
-                if (minFrame == maxFrame)
+                if (minFrame == maxFrame) {
                     m_geometryWidget->setupParam(pa, m_in, m_out);
+		    connect(this, SIGNAL(updateRange(int,int)), m_geometryWidget, SLOT(slotUpdateRange(int,int)));
+		}
                 else
                     m_geometryWidget->setupParam(pa, minFrame, maxFrame);
                 m_vbox->addWidget(m_geometryWidget);
@@ -231,8 +233,10 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
             } else {
                 Geometryval *geo = new Geometryval(m_metaInfo->profile, m_metaInfo->timecode, m_metaInfo->frameSize, 0);
-                if (minFrame == maxFrame)
+                if (minFrame == maxFrame) {
                     geo->setupParam(pa, m_in, m_out);
+		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
+		}
                 else
                     geo->setupParam(pa, minFrame, maxFrame);
                 m_vbox->addWidget(geo);
@@ -251,11 +255,13 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 if (pa.attribute("widget") == "corners") {
                     // we want a corners-keyframe-widget
                     CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, m_metaInfo->timecode, e.attribute("active_keyframe", "-1").toInt(), parent);
+		    connect(this, SIGNAL(updateRange(int,int)), corners, SLOT(slotUpdateRange(int,int)));
 		    m_needsMonitorEffectScene = true;
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
                     geo = new KeyframeEdit(pa, m_in, m_out, m_metaInfo->timecode, e.attribute("active_keyframe", "-1").toInt());
+		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
                 }
                 m_vbox->addWidget(geo);
                 m_valueItems[paramName+"keyframe"] = geo;
@@ -286,6 +292,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 pos = m_out - pos;
             }
             PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->timecode);
+	    connect(this, SIGNAL(updateRange(int,int)), posedit, SLOT(setRange(int,int)));
             m_vbox->addWidget(posedit);
             m_valueItems[paramName+"position"] = posedit;
             connect(posedit, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
@@ -810,6 +817,9 @@ void ParameterContainer::slotStartFilterJobAction()
         QString type = pa.attribute("type");
         if (type == "filterjob") {
 	    QString filterparams = pa.attribute("filterparams");
+	    if (filterparams.contains("%position")) {
+		if (m_geometryWidget) filterparams.replace("%position", QString::number(m_geometryWidget->currentPosition()));
+	    }
 	    if (filterparams.contains("%params")) {
 		// Replace with current geometry
 		EffectsParameterList parameters;
@@ -826,6 +836,7 @@ void ParameterContainer::slotStartFilterJobAction()
                 QDomElement e = jobparams.item(j).toElement();
 		extraParams.insert(e.attribute("name"), e.text().toUtf8());
 	    }
+	    extraParams.insert("offset", QString::number(m_in));
             emit startFilterJob(pa.attribute("filtertag"), filterparams, pa.attribute("consumer"), pa.attribute("consumerparams"), extraParams);
             kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< filterparams<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
             break;
@@ -863,4 +874,12 @@ void ParameterContainer::setKeyframes(const QString &data, int maximum)
     m_geometryWidget->importKeyframes(data, maximum);
     
 }
+
+void ParameterContainer::setRange(int inPoint, int outPoint)
+{
+    m_in = inPoint;
+    m_out = outPoint;
+    emit updateRange(m_in, m_out);
+}
+
 

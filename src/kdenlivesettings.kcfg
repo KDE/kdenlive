@@ -801,6 +801,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="onmonitoreffects_geometryshowpath" type="Bool">
+      <label>Show keyframe path in monitor.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="onmonitoreffects_cornersshowcontrols" type="Bool">
       <label>Show additional controls in the c0rners on-monitor widget.</label>
       <default>false</default>

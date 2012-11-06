@@ -52,8 +52,8 @@ public:
                        const QStyleOptionGraphicsItem *option,
                        QWidget *);
     virtual int type() const;
-    void resizeStart(int posx, bool size = true);
-    void resizeEnd(int posx);
+    void resizeStart(int posx, bool size = true, bool emitChange = true);
+    void resizeEnd(int posx, bool emitChange = true);
     OPERATIONTYPE operationMode(QPointF pos);
     static int itemHeight();
     const QString clipProducer() const;
@@ -189,10 +189,6 @@ public:
     
     /** @brief Get a free index value for effect group. */
     int nextFreeEffectGroupIndex() const;
-    /** @brief Set this clip as the main selected clip (or not). */
-    void setMainSelectedClip(bool selected);
-    /** @brief Is this clip selected as the main clip. */
-    bool isMainSelectedClip();
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -242,8 +238,6 @@ private:
     /** @brief Keyframes type can be "keyframe" or "simplekeyframe" which have to be painted differently.
      * True if keyframe type is "keyframe" */
     bool m_limitedKeyFrames;
-    /** @brief True if this is the last clip the user selected */
-    bool m_isMainSelectedClip;
 
 private slots:
     void slotGetStartThumb();
@@ -261,10 +255,11 @@ public slots:
     void slotFetchThumbs();
     void slotSetStartThumb(const QPixmap pix);
     void slotSetEndThumb(const QPixmap pix);
+    void slotUpdateRange();
 
 signals:
-    void getThumb(int, int);
     void prepareAudioThumb(double, int, int, int);
+    void updateRange();
 };
 
 #endif

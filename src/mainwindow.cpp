@@ -236,7 +236,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *, QPoint, bool)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, bool)));
     connect(m_projectList, SIGNAL(raiseClipMonitor(bool)), m_clipMonitor, SLOT(slotActivateMonitor(bool)));
     connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
-    connect(m_projectList, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
+    connect(m_projectList, SIGNAL(displayMessage(const QString&, int, MessageType)), this, SLOT(slotGotProgressInfo(const QString&, int, MessageType)));
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
     connect(m_projectList, SIGNAL(clipNeedsReload(const QString&)),this, SLOT(slotUpdateClip(const QString &)));
     connect(m_projectList, SIGNAL(updateProfile(const QString &)), this, SLOT(slotUpdateProjectProfile(const QString &)));
@@ -3246,19 +3246,13 @@ void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
     m_zoomSlider->setToolTip(i18n("Zoom Level: %1/13", (13 - zoomlevel)));
 }
 
-void MainWindow::slotGotProgressInfo(const QString &message, int progress)
+void MainWindow::slotGotProgressInfo(const QString &message, int progress, MessageType type)
 {
-    m_statusProgressBar->setValue(progress);
+    if (type == DefaultMessage) m_statusProgressBar->setValue(progress);
+    m_messageLabel->setMessage(message, type);
     if (progress >= 0) {
-        if (!message.isEmpty())
-            m_messageLabel->setMessage(message, InformationMessage);//statusLabel->setText(message);
-        m_statusProgressBar->setVisible(true);
-    } else if (progress == -2) {
-        if (!message.isEmpty())
-            m_messageLabel->setMessage(message, ErrorMessage);
-        m_statusProgressBar->setVisible(false);
+        if (type == DefaultMessage) m_statusProgressBar->setVisible(true);
     } else {
-        m_messageLabel->setMessage(QString(), DefaultMessage);
         m_statusProgressBar->setVisible(false);
     }
 }

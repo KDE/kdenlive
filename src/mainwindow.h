@@ -329,7 +329,7 @@ public slots:
     *
     * Checks if already open and whether backup exists */
     void openFile(const KUrl &url);
-    void slotGotProgressInfo(const QString &message, int progress);
+    void slotGotProgressInfo(const QString &message, int progress, MessageType type = DefaultMessage);
     void slotReloadEffects();
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);

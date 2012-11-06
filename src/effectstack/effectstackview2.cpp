@@ -93,14 +93,26 @@ void EffectStackView2::slotRenderPos(int pos)
         m_effects.at(i)->slotSyncEffectsPos(pos);
 }
 
+void EffectStackView2::slotClipItemUpdate()
+{
+    int inPoint = m_clipref->cropStart().frames(KdenliveSettings::project_fps());
+    int outPoint = m_clipref->cropDuration().frames(KdenliveSettings::project_fps()) - inPoint;
+    CollapsibleEffect *effectToMove = NULL;
+    for (int i = 0; i < m_effects.count(); i++) {
+        m_effects.at(i)->setRange(inPoint, outPoint);
+    }
+}
+
 void EffectStackView2::slotClipItemSelected(ClipItem* c)
 {
     if (c && !c->isEnabled()) return;
     if (c && c == m_clipref) {
 
     } else {
+	if (m_clipref) disconnect(m_clipref, SIGNAL(updateRange()), this, SLOT(slotClipItemUpdate()));
         m_clipref = c;
         if (c) {
+	    connect(m_clipref, SIGNAL(updateRange()), this, SLOT(slotClipItemUpdate()));
             QString cname = m_clipref->clipName();
             if (cname.length() > 30) {
                 m_ui.checkAll->setToolTip(i18n("Effects for %1", cname));

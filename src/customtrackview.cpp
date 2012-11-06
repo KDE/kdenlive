@@ -450,7 +450,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                     if (parent)
                         parent->resizeStart((int)(snappedPos - m_dragItemInfo.startPos.frames(m_document->fps())));
                 } else {
-                    m_dragItem->resizeStart((int)(snappedPos));
+                    m_dragItem->resizeStart((int)(snappedPos), true, false);
                 }
                 QString crop = m_document->timecode().getDisplayTimecode(m_dragItem->cropStart(), KdenliveSettings::frametimecode());
                 QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
@@ -463,7 +463,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                     if (parent)
                         parent->resizeEnd((int)(snappedPos - m_dragItemInfo.endPos.frames(m_document->fps())));
                 } else {
-                    m_dragItem->resizeEnd((int)(snappedPos));
+                    m_dragItem->resizeEnd((int)(snappedPos), false);
                 }
                 QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
                 QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration() - m_dragItemInfo.cropDuration, KdenliveSettings::frametimecode());
@@ -2761,7 +2761,9 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
                         new RazorClipCommand(this, clipInfo, info.startPos, false, command);
                         new ResizeClipCommand(this, dupInfo, newdupInfo, false, false, command);
                         ClipItem *dup = cutClip(clipInfo, info.startPos, true, false);
-                        if (dup) dup->resizeStart(info.endPos.frames(m_document->fps()));
+                        if (dup) {
+			    dup->resizeStart(info.endPos.frames(m_document->fps()));
+			}
                     } else {
                         ItemInfo newclipInfo = clip->info();
                         newclipInfo.endPos = info.startPos;
@@ -3934,6 +3936,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
         } else {
             prepareResizeClipStart(m_dragItem, m_dragItemInfo, m_dragItem->startPos().frames(m_document->fps()));
+	    if (m_dragItem->type() == AVWIDGET) static_cast <ClipItem*>(m_dragItem)->slotUpdateRange();
         }
     } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
@@ -3959,6 +3962,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
         } else {
             prepareResizeClipEnd(m_dragItem, m_dragItemInfo, m_dragItem->endPos().frames(m_document->fps()));
+	    if (m_dragItem->type() == AVWIDGET) static_cast <ClipItem*>(m_dragItem)->slotUpdateRange();
         }
     } else if (m_operationMode == FADEIN) {
         // resize fade in effect
@@ -4872,8 +4876,9 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
         bool success = m_document->renderer()->mltResizeClipStart(clipinfo, end.startPos - clipinfo.startPos);
-        if (success)
+        if (success) {
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
+	}
         else
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     } else {
@@ -7627,7 +7632,23 @@ void CustomTrackView::slotImportClipKeyframes(GRAPHICSRECTITEM type)
 	return;
     }
     QString keyframeData = ui.data_list->itemData(ui.data_list->currentIndex()).toString();
-    QStringList keyframeList = keyframeData.split(';', QString::SkipEmptyParts);
+    
+    int offset = item->cropStart().frames(m_document->fps());
+    Mlt::Geometry geometry(keyframeData.toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
+    Mlt::Geometry newGeometry(QString().toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
+    Mlt::GeometryItem gitem;
+    geometry.fetch(&gitem, offset);
+    gitem.frame(0);
+    newGeometry.insert(gitem);
+    int pos = offset + 1;
+    while (!geometry.next_key(&gitem, pos)) {
+	pos = gitem.frame();
+	gitem.frame(pos - offset);
+	pos++;
+	newGeometry.insert(gitem);
+    }
+    QStringList keyframeList = QString(newGeometry.serialise()).split(';', QString::SkipEmptyParts);
+    
     QString result;
     if (ui.import_position->isChecked()) {
 	if (ui.import_size->isChecked()) {
