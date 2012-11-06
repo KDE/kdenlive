@@ -67,6 +67,7 @@ void MeltJob::startJob()
         return;
     }
     int in = m_params.takeFirst().toInt();
+    if (in > 0 && !m_extra.contains("offset")) m_extra.insert("offset", QString::number(in));
     int out = m_params.takeFirst().toInt();
     QString producerParams =m_params.takeFirst(); 
     QString filter = m_params.takeFirst();
@@ -97,11 +98,13 @@ void MeltJob::startJob()
     }
     if (out == -1) {
 	prod = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+	m_length = prod->get_length();
     }
     else {
 	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
         prod = tmp->cut(in, out);
 	delete tmp;
+	m_length = prod->get_playtime();
     }
     if (m_extra.contains("producer_profile")) {
 	m_profile->from_producer(*prod);
@@ -150,7 +153,6 @@ void MeltJob::startJob()
     Mlt::Playlist playlist;
     playlist.append(*prod);
     tractor.set_track(playlist, 0);
-    m_length = prod->get_length();
     m_consumer->connect(tractor);
     prod->set_speed(0);
     prod->seek(0);

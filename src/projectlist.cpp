@@ -3516,6 +3516,14 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	extraParams.insert("projecttreefilter", "1");
 	QString keyword("%count");
 	extraParams.insert("resultmessage", i18n("Found %1 scenes.", keyword));
+	if (ui.store_data->isChecked()) {
+	    // We want to save result as clip metadata
+	    extraParams.insert("storedata", "1");
+	}
+	if (ui.zone_only->isChecked()) {
+	    // We want to analyze only clip zone
+	    extraParams.insert("zoneonly", "1");
+	}
 	if (ui.add_markers->isChecked()) {
 	    // We want to create markers
 	    extraParams.insert("addmarkers", QString::number(ui.marker_type->currentIndex()));
@@ -3556,6 +3564,13 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
         ProjectItem *item = getItemById(id);
         if (!item) continue;
 	QStringList jobArgs;
+	if (extraParams.contains("zoneonly")) {
+	    // Analyse clip zone only, remove in / out and replace with zone
+	    preParams.takeFirst();
+	    preParams.takeFirst();
+	    QPoint zone = item->referencedClip()->zone();
+	    jobArgs << QString::number(zone.x()) << QString::number(zone.y());
+	}
 	jobArgs << preParams;
         if (ids.count() == 1) {
             jobArgs << consumer + ':' + destination;
@@ -3647,6 +3662,7 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     }
     bool dataProcessed = false;
     QString key = filterInfo.value("key");
+    int offset = filterInfo.value("offset").toInt();
     QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
     kDebug()<<"// RESULT; "<<key<<" = "<<value;
     if (filterInfo.contains("resultmessage")) {
@@ -3666,7 +3682,7 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
 	    int newPos = pos.section("=", 0, 0).toInt();
 	    // Don't use scenes shorter than 1 second
 	    if (newPos - cutPos < 24) continue;
-	    (void) new AddClipCutCommand(this, id, cutPos, newPos, QString(), true, false, command);
+	    (void) new AddClipCutCommand(this, id, cutPos + offset, newPos + offset, QString(), true, false, command);
 	    cutPos = newPos;
 	}
 	if (command->childCount() == 0)
@@ -3686,7 +3702,7 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
 	    int newPos = pos.section("=", 0, 0).toInt();
 	    // Don't use scenes shorter than 1 second
 	    if (newPos - cutPos < 24) continue;
-	    CommentedTime m(GenTime(newPos, m_fps), QString::number(index), markersType);
+	    CommentedTime m(GenTime(newPos + offset, m_fps), QString::number(index), markersType);
 	    markersList << m;
 	    index++;
 	    cutPos = newPos;

@@ -70,6 +70,8 @@ public slots:
     /** @brief Updates position of the local timeline to @param relTimelinePos.  */
     void slotSyncPosition(int relTimelinePos);
     void slotResetKeyframes();
+    void slotResetNextKeyframes();
+    void slotResetPreviousKeyframes();
     void slotUpdateRange(int inPoint, int outPoint);
 
 private:
@@ -175,6 +177,8 @@ private slots:
     void slotFitToHeight();
     /** @brief Show / hide previous keyframe in monitor scene. */
     void slotShowPreviousKeyFrame(bool show);
+    /** @brief Show / hide keyframe path in monitor scene. */
+    void slotShowPath(bool show);
 
 signals:
     void parameterChanged();
