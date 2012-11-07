@@ -75,6 +75,9 @@ public:
     /** @brief Return the stylesheet required for effect parameters. */
     static const QString getStyleSheet();
 
+    /** @brief Import keyframes from the clip metadata */
+    void setKeyframes(const QString data, int maximum);
+
 protected:
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);

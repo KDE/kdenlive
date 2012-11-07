@@ -4571,6 +4571,7 @@ void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString
 {
     if (type == AVWIDGET) {
 	// This data should be sent to the effect stack
+	m_effectStack->setKeyframes(data, maximum);
     }
     else if (type == TRANSITIONWIDGET) {
 	// This data should be sent to the transition stack

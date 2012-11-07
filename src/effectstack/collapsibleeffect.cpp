@@ -597,3 +597,9 @@ void CollapsibleEffect::setRange(int inPoint , int outPoint)
 {
     m_paramWidget->setRange(inPoint, outPoint);
 }
+
+void CollapsibleEffect::setKeyframes(const QString data, int maximum)
+{
+    m_paramWidget->setKeyframes(data, maximum);
+}
+

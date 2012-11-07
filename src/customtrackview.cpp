@@ -7591,19 +7591,27 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
 
 void CustomTrackView::slotImportClipKeyframes(GRAPHICSRECTITEM type)
 {
-    if (!m_selectionGroup) {
-	emit displayMessage(i18n("You need to select one clip and one transition"), ErrorMessage);
-	return;
-    }
-    // Make sure there is no collision
-    QList<QGraphicsItem *> children = m_selectionGroup->childItems();
     ClipItem *item = NULL;
-    for (int i = 0; i < children.count(); i++) {
-	if (children.at(i)->type() == AVWIDGET) {
-            item = (ClipItem*) children.at(i);
-            break;
-        }
+    if (type == TRANSITIONWIDGET) {
+	// We want to import keyframes to a transition
+	if (!m_selectionGroup) {
+	    emit displayMessage(i18n("You need to select one clip and one transition"), ErrorMessage);
+	    return;
+	}
+	// Make sure there is no collision
+	QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+	for (int i = 0; i < children.count(); i++) {
+	    if (children.at(i)->type() == AVWIDGET) {
+		item = (ClipItem*) children.at(i);
+		break;
+	    }
+	}
     }
+    else {
+	// Import keyframes from current clip to its effect
+	if (m_dragItem) item = static_cast<ClipItem*> (m_dragItem);
+    }
+    
     if (!item) {
 	emit displayMessage(i18n("No clip found"), ErrorMessage);
 	return;

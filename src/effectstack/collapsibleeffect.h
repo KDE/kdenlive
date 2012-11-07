@@ -75,6 +75,8 @@ public:
     bool needsMonitorEffectScene() const;
     /** @brief Set clip in / out points. */
     void setRange(int inPoint , int outPoint);
+    /** @brief Import keyframes from a clip's data. */
+    void setKeyframes(const QString data, int maximum);
 
 public slots:
     void slotSyncEffectsPos(int pos);
