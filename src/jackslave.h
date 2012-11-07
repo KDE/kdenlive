@@ -35,10 +35,10 @@ class JackSlave : public QObject
 public:
     static JackSlave& singleton(Mlt::Profile * profile = 0);
 	virtual ~JackSlave();
-	bool isActive();
+	bool isValid();
 	Mlt::Filter * filter();
 	void open();
-	void open(QString name, int channels, int buffersize);
+	void open(const QString &name, int channels, int buffersize);
 	void close();
 
 	/**
@@ -105,8 +105,6 @@ private:
 	 */
 	bool m_valid;
 
-
-	bool m_isActive;
     Mlt::Filter *m_mltFilterJack;
     Mlt::Profile *m_mltProfile;
 

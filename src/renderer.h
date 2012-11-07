@@ -112,7 +112,7 @@ Q_OBJECT public:
     void seekToFrameDiff(int diff);
 
 #ifdef USE_JACK
-    void connectSlave(bool triggerInit = true);
+    void connectSlave();
     void disconnectSlave();
     void startSlave();
     void stopSlave();

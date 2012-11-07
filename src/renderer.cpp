@@ -146,8 +146,8 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_mltProducer->set_speed(0.0);
 
 #ifdef USE_JACK
-    if(&JACKSLAVE && !JACKSLAVE.isActive())
-    	connectSlave(false);
+    if(&JACKSLAVE && !JACKSLAVE.isValid())
+    	connectSlave();
 #endif
 
     m_refreshTimer.setSingleShot(true);
@@ -4713,8 +4713,7 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
 }
 
 #ifdef USE_JACK
-
-void Render::connectSlave(bool triggerInit)
+void Render::connectSlave()
 {
 	// stop consumer
 	if (!m_mltConsumer->is_stopped())
@@ -4722,19 +4721,10 @@ void Render::connectSlave(bool triggerInit)
 
 	// connect jackslave to jackd
     if (&JACKSLAVE) {
-    	JACKSLAVE.open(QString("kdenlive"), 2, 512);
+    	JACKSLAVE.open("kdenlive", 2, 512);
     }
     // if slave is connected attach filter to consumer
     startSlave();
-
-    if (triggerInit) {
-		// start consumer for forcing the filter_jackrack to connect to jackd
-		m_mltConsumer->start();
-		// give jackd some time
-		SleepThread::msleep(200);
-		// stop the consumer
-		m_mltConsumer->stop();
-	}
 }
 
 void Render::disconnectSlave()
@@ -4750,7 +4740,7 @@ void Render::disconnectSlave()
 
 void Render::stopSlave()
 {
-	if(&JACKSLAVE && JACKSLAVE.isActive()) {
+	if(&JACKSLAVE) {
 		if (!m_mltConsumer->is_stopped())
 			m_mltConsumer->stop();
 		// detach filter from consumer
@@ -4760,7 +4750,7 @@ void Render::stopSlave()
 
 void Render::startSlave()
 {
-	if(&JACKSLAVE && JACKSLAVE.isActive()) {
+	if(&JACKSLAVE) {
 		m_mltConsumer->set("audio_off", 1);
 		// attach filter to consumer
 //		m_mltConsumer->attach(*JACKSLAVE.filter());

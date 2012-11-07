@@ -20,7 +20,6 @@
 #include "jackslave.h"
 
 JackSlave::JackSlave(Mlt::Profile * profile) :
-	m_isActive(false),
 	m_valid(false)
 {
 	m_mltProfile = profile;
@@ -44,9 +43,9 @@ JackSlave::~JackSlave()
 
 }
 
-bool JackSlave::isActive()
+bool JackSlave::isValid()
 {
-	return m_isActive;
+	return m_valid;
 }
 
 Mlt::Filter * JackSlave::filter()
@@ -56,7 +55,8 @@ Mlt::Filter * JackSlave::filter()
 
 void JackSlave::open()
 {
-	if (m_isActive == false /* && m_mltFilterJack == 0 */) {
+//	if (m_isActive == false /* && m_mltFilterJack == 0 */)
+	{
 		// create jackrack filter using the factory
 		m_mltFilterJack = new Mlt::Filter(*m_mltProfile, "jackrack", NULL);
 
@@ -70,13 +70,11 @@ void JackSlave::open()
 			m_mltFilterJack->listen("jack-started", this, (mlt_listener) JackSlave::onJackStartedProxy);
 //			m_mltFilterJack->listen("jack-starting", this, (mlt_listener) Render::_on_jack_starting);
 //			m_mltFilterJack->listen("jack-last-pos-req", this, (mlt_listener) Render::_on_jack_last_pos_req);
-
-			m_isActive = true;
 		}
 	}
 }
 
-void JackSlave::open(QString name, int channels, int buffersize)
+void JackSlave::open(const QString &name, int channels, int buffersize)
 {
 	kDebug() << "open client";
 	if (m_valid == true)
@@ -86,8 +84,7 @@ void JackSlave::open(QString name, int channels, int buffersize)
 	jack_status_t status;
 
 	// open client
-//	m_client = jack_client_open(name.toAscii().data(), options, &status);
-	m_client = jack_client_open("kdenlive", options, &status);
+	m_client = jack_client_open(name.toUtf8().constData(), options, &status);
 
 	if(m_client == NULL)
 //		AUD_THROW(AUD_ERROR_JACK, clientopen_error);
