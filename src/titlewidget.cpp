@@ -1849,9 +1849,20 @@ void TitleWidget::saveTitle(KUrl url)
     if (anim_start->isChecked()) slotAnimStart(false);
     if (anim_end->isChecked()) slotAnimEnd(false);
     bool embed_image=false;
-    if (KMessageBox::questionYesNo(this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::No)
+
+    // If we have images in the title, ask for embed
+    QList <QGraphicsItem *> list = graphicsView->scene()->items();
+    QGraphicsPixmapItem pix;
+    int pixmapType = pix.type();
+    foreach(const QGraphicsItem *item, list) {
+	if (item->type() == pixmapType && item != m_frameImage) {
+	    embed_image = true;
+	    break;
+	}
+    }
+    if (embed_image && KMessageBox::questionYesNo(this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes)
     {
-        embed_image=true;	
+        embed_image=false;
     }
     if (url.isEmpty()) {
         QPointer<KFileDialog> fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this);
