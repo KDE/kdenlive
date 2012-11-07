@@ -61,7 +61,7 @@ public slots:
     void slotUpdateAnalysisData(DocClipBase *clip);
     
 private slots:
-    void parseFolder();
+    void parseFolder(bool reloadThumb = true);
     void slotAddMarker();
     void slotEditMarker();
     void slotDeleteMarker();

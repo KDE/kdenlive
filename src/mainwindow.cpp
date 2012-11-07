@@ -3353,7 +3353,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
     // any type of clip but a title
     ClipProperties *dia = new ClipProperties(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
 
-    if (clip->clipType() == AV || clip->clipType() == VIDEO || clip->clipType() == PLAYLIST) {
+    if (clip->clipType() == AV || clip->clipType() == VIDEO || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW) {
 	// request clip thumbnails
 	m_activeDocument->clipManager()->requestThumbs(QString('?' + clip->getId()), QList<int>() << clip->getClipThumbFrame());
 	connect(m_activeDocument->clipManager(), SIGNAL(gotClipPropertyThumbnail(const QString&,QImage)), dia, SLOT(slotGotThumbnail(const QString&,QImage)));

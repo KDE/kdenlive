@@ -156,44 +156,6 @@ void SlideshowClip::slotEnableLumaFile(int state)
     m_view.label_softness->setEnabled(enable);
 }
 
-// static
-//TODO: sequence begin
-int SlideshowClip::sequenceCount(KUrl file)
-{
-    // find pattern
-    int count = 0;
-    QString filter = file.fileName();
-    QString ext = filter.section('.', -1);
-    filter = filter.section('.', 0, -2);
-    int fullSize = filter.size();
-    bool hasDigit = false;
-    while (filter.at(filter.size() - 1).isDigit()) {
-        hasDigit = true;
-        filter.remove(filter.size() - 1, 1);
-    }
-    if (!hasDigit) return 0;
-
-
-    // Find number of digits in sequence
-    int precision = fullSize - filter.size();
-    int firstFrame = file.fileName().section('.', 0, -2).right(precision).toInt();    
-    QString folder = file.directory(KUrl::AppendTrailingSlash);
-    // Check how many files we have
-    QDir dir(folder);
-    QString path;
-    int gap = 0;
-    for (int i = firstFrame; gap < 100; i++) {
-        path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
-        if (dir.exists(path)) {
-            count ++;
-            gap = 0;
-        } else {
-            gap++;
-        }
-    }
-    return count;
-}
-
 void SlideshowClip::parseFolder()
 {
     m_view.icon_list->clear();
@@ -348,9 +310,6 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
         int precision = fullSize - filter.size();
 	int firstFrame = firstFrameData.right(precision).toInt();
 
-	// Workaround bug in MLT image sequence detection
-	if (firstFrame < 3) firstFrame = 0;
-
         // Check how many files we have
         QDir dir(folder);
         QString path;
@@ -364,8 +323,8 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
                 gap++;
             }
         }
-        if (firstFrame > 0) extension = filter + '%' + QString::number(firstFrame).rightJustified(precision, '0', false) + 'd' + ext;
-        else extension = filter + "%0" + QString::number(precision) + 'd' + ext;
+        extension = filter + "%0" + QString::number(precision) + 'd' + ext;
+	if (firstFrame > 0) extension.append(QString("?begin:%1").arg(firstFrame));
     }
     kDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;
