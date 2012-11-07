@@ -203,6 +203,25 @@ void JackSlave::close()
 //	delete[] m_ringbuffers;
 }
 
+bool JackSlave::probe()
+{
+	jack_client_t *client;
+	jack_status_t status;
+	jack_options_t options = JackNoStartServer;
+
+	/* try to connect to jackd */
+	client = jack_client_open("kdenliveprobe", options, &status, NULL );
+
+	/* close client if connection successful */
+	if (status == 0) {
+		jack_client_close(client);
+	}
+
+	/* return status */
+	return (status == 0);
+}
+
+
 void JackSlave::onJackStartedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position)
 {
 	/* get slave ref */

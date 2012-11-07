@@ -42,6 +42,11 @@ public:
 	void close();
 
 	/**
+	 * Checks if jackd is started.
+	 */
+	bool probe();
+
+	/**
 	 * Starts jack transport playback.
 	 */
 	void startPlayback();

@@ -146,8 +146,8 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_mltProducer->set_speed(0.0);
 
 #ifdef USE_JACK
-    if(&JACKSLAVE && !JACKSLAVE.isValid())
-    	connectSlave();
+//    if(&JACKSLAVE && !JACKSLAVE.isValid())
+//    	connectSlave();
 #endif
 
     m_refreshTimer.setSingleShot(true);
@@ -314,15 +314,20 @@ void Render::buildConsumer(const QString &profileName)
         audioDriver = KdenliveSettings::autoaudiodrivername();
     */
 
-    if (!audioDriver.isEmpty()) {
-    	if(audioDriver == "jack") {
-			// create the jackslave singleton instance
-			JackSlave::singleton(m_mltProfile);
-			m_mltConsumer->set("audio_off", 1);
-//			connectSlave();
-        } else {
+	if (!audioDriver.isEmpty()) {
+//		if(audioDriver == "jack") {
+//			m_mltConsumer->set("audio_off", 1);
+//			if(&JACKSLAVE && !JACKSLAVE.isValid())
+////			connectSlave();
+//        } else
+        {
             m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
         }
+    } else {
+        // create the jackslave singleton instance
+    	JackSlave::singleton(m_mltProfile);
+    	if(&JACKSLAVE && JACKSLAVE.probe())
+    		connectSlave();
     }
 
     m_mltConsumer->set("progressive", 1);
@@ -4718,7 +4723,8 @@ void Render::connectSlave()
 	// stop consumer
 	if (!m_mltConsumer->is_stopped())
 			m_mltConsumer->stop();
-
+	// disable audio
+	m_mltConsumer->set("audio_off", 1);
 	// connect jackslave to jackd
     if (&JACKSLAVE) {
     	JACKSLAVE.open("kdenlive", 2, 512);
@@ -4740,21 +4746,21 @@ void Render::disconnectSlave()
 
 void Render::stopSlave()
 {
-	if(&JACKSLAVE) {
-		if (!m_mltConsumer->is_stopped())
-			m_mltConsumer->stop();
-		// detach filter from consumer
-//		m_mltConsumer->detach(*JACKSLAVE.filter());
-	}
+//	if(&JACKSLAVE) {
+//		if (!m_mltConsumer->is_stopped())
+//			m_mltConsumer->stop();
+//		// detach filter from consumer
+////		m_mltConsumer->detach(*JACKSLAVE.filter());
+//	}
 }
 
 void Render::startSlave()
 {
-	if(&JACKSLAVE) {
-		m_mltConsumer->set("audio_off", 1);
-		// attach filter to consumer
-//		m_mltConsumer->attach(*JACKSLAVE.filter());
-	}
+//	if(&JACKSLAVE) {
+//		m_mltConsumer->set("audio_off", 1);
+//		// attach filter to consumer
+////		m_mltConsumer->attach(*JACKSLAVE.filter());
+//	}
 }
 
 bool Render::isSlaveTransportEnabled()
@@ -4764,40 +4770,46 @@ bool Render::isSlaveTransportEnabled()
 
 void Render::enableSlaveTransport()
 {
-	if (&JACKSLAVE) {
-		/* connect transport callbacks */
-		connect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
-				this, SLOT(slotOnSlavePlaybackStarted(int)));
-		connect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
-				this, SLOT(slotOnSlavePlaybackStopped(int)));
-
-		/* stop playback and relocate */
-		JACKSLAVE.stopPlayback();
-		JACKSLAVE.seekPlayback(seekFramePosition());
+//	if (&JACKSLAVE) {
+//		/* connect transport callbacks */
+//		connect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
+//				this, SLOT(slotOnSlavePlaybackStarted(int)));
+//		connect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
+//				this, SLOT(slotOnSlavePlaybackStopped(int)));
+//
+//		/* stop playback and relocate */
+//		JACKSLAVE.stopPlayback();
+//		JACKSLAVE.seekPlayback(seekFramePosition());
+//		/* set indication flag */
+//		m_isSlaveTransportEnabled = true;
+//		/* DEBUG */
+//		kDebug() << "// // // Slave Transport enabled";
+//	}
+	if (&JACKSLAVE && JACKSLAVE.isValid())
 		/* set indication flag */
 		m_isSlaveTransportEnabled = true;
-		/* DEBUG */
-		kDebug() << "// // // Slave Transport enabled";
-	}
 }
 
 void Render::disableSlaveTransport()
 {
-	if (&JACKSLAVE && isSlaveTransportEnabled()) {
-		/* disconnect transport callbacks */
-		disconnect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
-				this, SLOT(slotOnSlavePlaybackStarted(int)));
-		disconnect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
-				this, SLOT(slotOnSlavePlaybackStopped(int)));
-
-		/* stop playback */
-		switchPlay(false);
-		slotOnSlavePlaybackStopped(seekFramePosition());
-		/* reset flag */
+//	if (&JACKSLAVE && isSlaveTransportEnabled()) {
+//		/* disconnect transport callbacks */
+//		disconnect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
+//				this, SLOT(slotOnSlavePlaybackStarted(int)));
+//		disconnect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
+//				this, SLOT(slotOnSlavePlaybackStopped(int)));
+//
+//		/* stop playback */
+//		switchPlay(false);
+//		slotOnSlavePlaybackStopped(seekFramePosition());
+//		/* reset flag */
+//		m_isSlaveTransportEnabled = false;
+//		/* DEBUG */
+//		kDebug() << "// // // Slave Transport disabled";
+//	}
+	if (&JACKSLAVE && JACKSLAVE.isValid())
+		/* set indication flag */
 		m_isSlaveTransportEnabled = false;
-		/* DEBUG */
-		kDebug() << "// // // Slave Transport disabled";
-	}
 }
 
 void Render::slotOnSlavePlaybackStarted(int position)
