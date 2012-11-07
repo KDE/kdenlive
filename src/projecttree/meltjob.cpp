@@ -96,6 +96,10 @@ void MeltJob::startJob()
     else {
 	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
     }
+    if (m_extra.contains("resize_profile")) {	
+	m_profile->set_height(m_extra.value("resize_profile").toInt());
+	m_profile->set_width(m_profile->height() * m_profile->sar());
+    }
     if (out == -1) {
 	prod = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
 	m_length = prod->get_length();
