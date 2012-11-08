@@ -110,7 +110,52 @@ private:
 	 */
 	bool m_valid;
 
-    Mlt::Filter *m_mltFilterJack;
+	/**
+	 * The transport synchronization thread.
+	 */
+	pthread_t m_transportThread;
+
+	/**
+	 * Mutex for mixing.
+	 */
+	pthread_mutex_t m_transportLock;
+
+	/**
+	 * Condition for mixing.
+	 */
+	pthread_cond_t m_transportCondition;
+
+	/**
+	 * Transport thread function.
+	 * \param device The this pointer.
+	 * \return NULL.
+	 */
+	static void* runTransportThread(void* device);
+
+	/**
+	 * Updates the transport state.
+	 */
+	void updateTransportState();
+
+	/**
+	 * Invalidates the jack device.
+	 * \param data The jack device that gets invalidet by jack.
+	 */
+	static void jack_shutdown(void *data);
+
+	/**
+	 * Mixes the next bytes into the buffer.
+	 * \param length The length in samples to be filled.
+	 * \param data A pointer to the jack device.
+	 * \return 0 what shows success.
+	 */
+	static int jack_process(jack_nframes_t length, void *data);
+
+	static int jack_sync(jack_transport_state_t state, jack_position_t* pos, void* data);
+
+
+	/** ----------------------------- **/
+	Mlt::Filter *m_mltFilterJack;
     Mlt::Profile *m_mltProfile;
 
     static void onJackStartedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position);

@@ -4770,46 +4770,47 @@ bool Render::isSlaveTransportEnabled()
 
 void Render::enableSlaveTransport()
 {
-//	if (&JACKSLAVE) {
-//		/* connect transport callbacks */
-//		connect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
-//				this, SLOT(slotOnSlavePlaybackStarted(int)));
-//		connect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
-//				this, SLOT(slotOnSlavePlaybackStopped(int)));
-//
-//		/* stop playback and relocate */
-//		JACKSLAVE.stopPlayback();
-//		JACKSLAVE.seekPlayback(seekFramePosition());
-//		/* set indication flag */
-//		m_isSlaveTransportEnabled = true;
-//		/* DEBUG */
-//		kDebug() << "// // // Slave Transport enabled";
-//	}
-	if (&JACKSLAVE && JACKSLAVE.isValid())
+	if (&JACKSLAVE && JACKSLAVE.isValid()) {
+		/* connect transport callbacks */
+		connect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
+				this, SLOT(slotOnSlavePlaybackStarted(int)));
+		connect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
+				this, SLOT(slotOnSlavePlaybackStopped(int)));
+
+		/* stop playback and relocate */
+		JACKSLAVE.stopPlayback();
+		JACKSLAVE.seekPlayback(seekFramePosition());
 		/* set indication flag */
 		m_isSlaveTransportEnabled = true;
+		/* DEBUG */
+		kDebug() << "// // // Slave Transport enabled";
+	}
+
+//	if (&JACKSLAVE && JACKSLAVE.isValid())
+//		/* set indication flag */
+//		m_isSlaveTransportEnabled = true;
 }
 
 void Render::disableSlaveTransport()
 {
-//	if (&JACKSLAVE && isSlaveTransportEnabled()) {
-//		/* disconnect transport callbacks */
-//		disconnect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
-//				this, SLOT(slotOnSlavePlaybackStarted(int)));
-//		disconnect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
-//				this, SLOT(slotOnSlavePlaybackStopped(int)));
-//
-//		/* stop playback */
+	if (&JACKSLAVE && isSlaveTransportEnabled()) {
+		/* disconnect transport callbacks */
+		disconnect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
+				this, SLOT(slotOnSlavePlaybackStarted(int)));
+		disconnect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
+				this, SLOT(slotOnSlavePlaybackStopped(int)));
+
+		/* stop playback */
 //		switchPlay(false);
 //		slotOnSlavePlaybackStopped(seekFramePosition());
-//		/* reset flag */
-//		m_isSlaveTransportEnabled = false;
-//		/* DEBUG */
-//		kDebug() << "// // // Slave Transport disabled";
-//	}
-	if (&JACKSLAVE && JACKSLAVE.isValid())
-		/* set indication flag */
+		/* reset flag */
 		m_isSlaveTransportEnabled = false;
+		/* DEBUG */
+		kDebug() << "// // // Slave Transport disabled";
+	}
+//	if (&JACKSLAVE && JACKSLAVE.isValid())
+//		/* set indication flag */
+//		m_isSlaveTransportEnabled = false;
 }
 
 void Render::slotOnSlavePlaybackStarted(int position)

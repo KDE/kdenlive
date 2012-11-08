@@ -43,6 +43,42 @@ JackSlave::~JackSlave()
 
 }
 
+void* JackSlave::runTransportThread(void* device)
+{
+	((JackSlave*)device)->updateTransportState();
+	return NULL;
+}
+
+void JackSlave::updateTransportState()
+{
+	pthread_mutex_lock(&m_transportLock);
+	while (m_valid)	{
+		pthread_cond_wait(&m_transportCondition, &m_transportLock);
+
+		jack_position_t jack_pos;
+		jack_transport_state_t state = jack_transport_query(m_client, &jack_pos);
+
+		/* TODO: impl convert method jack_pos => kdenlive pos */
+		int position = getPlaybackPosition();
+
+		if(state != m_state) {
+			m_nextState = m_state = state;
+
+			switch (state) {
+			case JackTransportRolling:
+				/* fire playback started event */
+				emit playbackStarted(position);
+				break;
+			case JackTransportStopped:
+				/* fire playback stopped event */
+				emit playbackStopped(position);
+				break;
+			}
+		}
+	}
+	pthread_mutex_unlock(&m_transportLock);
+}
+
 bool JackSlave::isValid()
 {
 	return m_valid;
@@ -91,9 +127,9 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 		return;
 
 	// set callbacks
-//	jack_set_process_callback(m_client, AUD_JackDevice::jack_mix, this);
-//	jack_on_shutdown(m_client, AUD_JackDevice::jack_shutdown, this);
-//	jack_set_sync_callback(m_client, AUD_JackDevice::jack_sync, this);
+	jack_set_process_callback(m_client, JackSlave::jack_process, this);
+	jack_on_shutdown(m_client, JackSlave::jack_shutdown, this);
+	jack_set_sync_callback(m_client, JackSlave::jack_sync, this);
 
 	// register our output channels which are called ports in jack
 	m_ports = new jack_port_t*[channels];
@@ -141,6 +177,8 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 
 //	pthread_mutex_init(&m_mixingLock, NULL);
 //	pthread_cond_init(&m_mixingCondition, NULL);
+	pthread_mutex_init(&m_transportLock, NULL);
+	pthread_cond_init(&m_transportCondition, NULL);
 
 	// activate the client
 	if(jack_activate(m_client))
@@ -152,6 +190,9 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 //		delete[] m_ringbuffers;
 //		pthread_mutex_destroy(&m_mixingLock);
 //		pthread_cond_destroy(&m_mixingCondition);
+		pthread_mutex_destroy(&m_transportLock);
+		pthread_cond_destroy(&m_transportCondition);
+
 //		destroy();
 //
 //		AUD_THROW(AUD_ERROR_JACK, activate_error);
@@ -169,13 +210,11 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 //		free(ports);
 //	}
 
-//	pthread_attr_t attr;
-//	pthread_attr_init(&attr);
-//	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-//
-//	pthread_create(&m_mixingThread, &attr, runMixingThread, this);
-//
-//	pthread_attr_destroy(&attr);
+	pthread_attr_t attr;
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+	pthread_create(&m_transportThread, &attr, runTransportThread, this);
+	pthread_attr_destroy(&attr);
 }
 
 void JackSlave::close()
@@ -189,15 +228,18 @@ void JackSlave::close()
 	if(m_valid) {
 		jack_client_close(m_client);
 		delete[] m_ports;
+
 		m_valid = false;
+
+		/* TODO: find a better solution - don't call close 2 times (two monitor problem)*/
+		pthread_mutex_lock(&m_transportLock);
+		pthread_cond_signal(&m_transportCondition);
+		pthread_mutex_unlock(&m_transportLock);
+		pthread_join(m_transportThread, NULL);
+
+		pthread_cond_destroy(&m_transportCondition);
+		pthread_mutex_destroy(&m_transportLock);
 	}
-//	pthread_mutex_lock(&m_mixingLock);
-//	pthread_cond_signal(&m_mixingCondition);
-//	pthread_mutex_unlock(&m_mixingLock);
-//	pthread_join(m_mixingThread, NULL);
-//
-//	pthread_cond_destroy(&m_mixingCondition);
-//	pthread_mutex_destroy(&m_mixingLock);
 //	for(unsigned int i = 0; i < m_specs.channels; i++)
 //		jack_ringbuffer_free(m_ringbuffers[i]);
 //	delete[] m_ringbuffers;
@@ -221,6 +263,11 @@ bool JackSlave::probe()
 	return (status == 0);
 }
 
+void JackSlave::jack_shutdown(void *data)
+{
+	JackSlave* device = (JackSlave*)data;
+	device->m_valid = false;
+}
 
 void JackSlave::onJackStartedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position)
 {
@@ -229,6 +276,25 @@ void JackSlave::onJackStartedProxy(mlt_properties owner, mlt_consumer consumer, 
 
 	/* fire playback started event */
 	emit slave->playbackStarted(*position);
+}
+
+int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, void* data)
+{
+	JackSlave* device = (JackSlave*)data;
+
+//	if(state == JackTransportStopped)
+		return 1;
+}
+
+int JackSlave::jack_process(jack_nframes_t length, void *data)
+{
+	JackSlave* device = (JackSlave*)data;
+
+	if(pthread_mutex_trylock(&(device->m_transportLock)) == 0)	{
+		pthread_cond_signal(&(device->m_transportCondition));
+		pthread_mutex_unlock(&(device->m_transportLock));
+	}
+	return 0;
 }
 
 void JackSlave::onJackStoppedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position)
