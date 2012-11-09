@@ -83,6 +83,10 @@ public:
 	 */
 	jack_transport_state_t m_state;
 
+	/**
+	 * Syncronisation state.
+	 */
+	int m_sync;
 
 	void locate(int position);
 

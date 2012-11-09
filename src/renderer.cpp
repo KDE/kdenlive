@@ -1621,7 +1621,7 @@ void Render::switchPlay(bool play, bool slave)
     		}
     	}
     	/* return */
-//    	return;
+    	return;
     }
 #endif
 

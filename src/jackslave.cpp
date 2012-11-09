@@ -53,7 +53,6 @@ void JackSlave::updateTransportState()
 {
 	pthread_mutex_lock(&m_transportLock);
 	while (m_valid)	{
-		pthread_cond_wait(&m_transportCondition, &m_transportLock);
 
 		jack_position_t jack_pos;
 		jack_transport_state_t state = jack_transport_query(m_client, &jack_pos);
@@ -61,7 +60,7 @@ void JackSlave::updateTransportState()
 		/* TODO: impl convert method jack_pos => kdenlive pos */
 		int position = getPlaybackPosition();
 
-		if(state != m_state) {
+		if(state != m_state || m_sync == 2) {
 			m_nextState = m_state = state;
 
 			switch (state) {
@@ -74,7 +73,12 @@ void JackSlave::updateTransportState()
 				emit playbackStopped(position);
 				break;
 			}
+
+			if(m_sync > 1)
+				m_sync = 3;
 		}
+
+		pthread_cond_wait(&m_transportCondition, &m_transportLock);
 	}
 	pthread_mutex_unlock(&m_transportLock);
 }
@@ -226,9 +230,6 @@ void JackSlave::close()
 //	}
 //
 	if(m_valid) {
-		jack_client_close(m_client);
-		delete[] m_ports;
-
 		m_valid = false;
 
 		/* TODO: find a better solution - don't call close 2 times (two monitor problem)*/
@@ -239,6 +240,10 @@ void JackSlave::close()
 
 		pthread_cond_destroy(&m_transportCondition);
 		pthread_mutex_destroy(&m_transportLock);
+
+		jack_client_close(m_client);
+		delete[] m_ports;
+
 	}
 //	for(unsigned int i = 0; i < m_specs.channels; i++)
 //		jack_ringbuffer_free(m_ringbuffers[i]);
@@ -281,9 +286,27 @@ void JackSlave::onJackStartedProxy(mlt_properties owner, mlt_consumer consumer, 
 int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, void* data)
 {
 	JackSlave* device = (JackSlave*)data;
+	int result = 0;
 
-//	if(state == JackTransportStopped)
-		return 1;
+	if(state == JackTransportStopped && !device->m_sync) {
+		if(pthread_mutex_trylock(&(device->m_transportLock)) == 0)	{
+			device->m_sync = 2;
+			pthread_cond_signal(&(device->m_transportCondition));
+			pthread_mutex_unlock(&(device->m_transportLock));
+		} else {
+			device->m_sync = 1;
+		}
+	}
+
+	if (device->m_sync > 2) {
+		device->m_sync = 0;
+		result = 1;
+	}
+
+	if (!device->m_sync)
+		result = 1;
+
+	return result;
 }
 
 int JackSlave::jack_process(jack_nframes_t length, void *data)
@@ -294,6 +317,7 @@ int JackSlave::jack_process(jack_nframes_t length, void *data)
 		pthread_cond_signal(&(device->m_transportCondition));
 		pthread_mutex_unlock(&(device->m_transportLock));
 	}
+
 	return 0;
 }
 
