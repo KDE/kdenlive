@@ -1577,7 +1577,7 @@ void Render::switchPlay(bool play)
 void Render::play(double speed)
 {
     requestedSeekPosition = SEEK_INACTIVE;
-    if (!m_mltProducer)
+    if (!m_mltProducer || m_mltProducer->get_speed() == speed)
         return;
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
