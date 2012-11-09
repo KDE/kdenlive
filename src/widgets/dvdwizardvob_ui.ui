@@ -6,73 +6,32 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>459</width>
-    <height>255</height>
+    <width>463</width>
+    <height>275</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="margin">
     <number>0</number>
    </property>
-   <item row="3" column="2">
-    <widget class="QPushButton" name="button_delete">
-     <property name="text">
-      <string>Remove file</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="5">
-    <widget class="QCheckBox" name="use_intro">
-     <property name="text">
-      <string>Use first movie as intro</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="9">
+   <item row="4" column="0" colspan="10">
     <widget class="QGroupBox" name="size_box">
      <property name="title">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>DVD format</string>
-     </property>
-    </widget>
+   <item row="0" column="2" colspan="8">
+    <widget class="KComboBox" name="dvd_profile"/>
    </item>
-   <item row="3" column="6">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>244</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="7">
+   <item row="3" column="8">
     <widget class="QToolButton" name="button_transcode">
      <property name="text">
       <string>...</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="2" colspan="7">
-    <widget class="KComboBox" name="dvd_profile"/>
-   </item>
-   <item row="3" column="1">
-    <widget class="QPushButton" name="button_add">
-     <property name="text">
-      <string>Add movie file</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="9">
+   <item row="5" column="0" colspan="10">
     <widget class="QLabel" name="error_message">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -85,7 +44,14 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="8">
+   <item row="3" column="6">
+    <widget class="QCheckBox" name="use_intro">
+     <property name="text">
+      <string>Use first movie as intro</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="9">
     <widget class="QFrame" name="list_frame">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
@@ -107,10 +73,24 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="3">
-    <widget class="QToolButton" name="button_up">
+   <item row="3" column="2">
+    <widget class="QPushButton" name="button_delete">
      <property name="text">
-      <string>...</string>
+      <string>Remove file</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QPushButton" name="button_add">
+     <property name="text">
+      <string>Add movie file</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>DVD format</string>
      </property>
     </widget>
    </item>
@@ -120,6 +100,26 @@
       <string>...</string>
      </property>
     </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QToolButton" name="button_up">
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="5">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>244</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

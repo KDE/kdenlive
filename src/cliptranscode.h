@@ -40,10 +40,12 @@ public:
     ClipTranscode(KUrl::List urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode = false, QWidget * parent = 0);
     ~ClipTranscode();
 
+public slots:
+void slotStartTransCode();
+
 
 private slots:
     void slotShowTranscodeInfo();
-    void slotStartTransCode();
     void slotTranscodeFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void slotUpdateParams(int ix = -1);
 
