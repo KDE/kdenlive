@@ -41,6 +41,11 @@ public:
 	void close();
 
 	/**
+	 * Set transport state.
+	 */
+	void setTransportEnabled(bool state);
+
+	/**
 	 * Convert jack audio frame position to kdenlive video position.
 	 */
 	int toVideoPosition(const jack_position_t &position);
@@ -116,12 +121,12 @@ private:
 	/**
 	 * Whether the device is valid.
 	 */
-	bool m_valid;
+	volatile bool m_valid;
 
 	/**
 	 * Whether the device is shutdown by jack.
 	 */
-	bool m_shutdown;
+	volatile bool m_shutdown;
 
 	/**
 	 * The transport synchronization thread.
@@ -137,6 +142,15 @@ private:
 	 * Condition for mixing.
 	 */
 	pthread_cond_t m_transportCondition;
+
+	/**
+	 * Kdenlives current position.
+	 */
+	int m_currentPosition;
+	/**
+	 * Set transport status.
+	 */
+	volatile bool m_transportEnabled;
 
 	/**
 	 * Transport thread function.
@@ -174,8 +188,12 @@ private:
     static void onJackStartedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position);
     static void onJackStoppedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position);
 
+public slots:
+	void setCurrentPosition(int position);
+
 signals:
 	void playbackStarted(int position);
+	void playbackStarting(int position);
 	void playbackStopped(int position);
 };
 

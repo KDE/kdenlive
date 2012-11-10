@@ -21,7 +21,8 @@
 
 JackSlave::JackSlave(Mlt::Profile * profile) :
 	m_valid(false),
-	m_shutdown(false)
+	m_shutdown(false),
+	m_transportEnabled(false)
 {
 	m_mltProfile = profile;
 }
@@ -272,23 +273,64 @@ int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, voi
 	JackSlave* device = (JackSlave*)data;
 	int result = 0;
 
+	/* no job if transport is disabled */
+	if (!device->m_transportEnabled)
+		return 1;
+
 	if(state == JackTransportStopped && !device->m_sync) {
-		if(pthread_mutex_trylock(&(device->m_transportLock)) == 0)	{
+		if(pthread_mutex_trylock(&(device->m_transportLock)) == 0) {
 			device->m_sync = 2;
 			pthread_cond_signal(&(device->m_transportCondition));
 			pthread_mutex_unlock(&(device->m_transportLock));
 		} else {
 			device->m_sync = 1;
 		}
+	} else if (state == JackTransportStarting) {
+#if 1
+		if (!device->m_sync) {
+			/*start seeking */
+			device->m_sync = 1;
+			emit device->playbackStarting(device->toVideoPosition(*pos));
+		} else if (device->m_sync == 1) {
+			/* sync position */
+			if (device->m_currentPosition == device->toVideoPosition(*pos)) {
+				device->m_sync = 2;
+			} else {
+				device->m_sync = 0;
+			}
+		} else if (device->m_sync == 2) {
+			if(pthread_mutex_trylock(&(device->m_transportLock)) == 0) {
+				pthread_cond_signal(&(device->m_transportCondition));
+				pthread_mutex_unlock(&(device->m_transportLock));
+			}
+		}
+#endif
+#if 0
+		switch (device->m_sync) {
+			case 0:
+				/*start seeking */
+				device->m_sync = 1;
+				emit device->playbackStarting(device->toVideoPosition(*pos));
+				break;
+			case 1:
+				/* sync position */
+				if (device->m_currentPosition == device->toVideoPosition(*pos))
+					device->m_sync = 2;
+				break;
+			default:
+				break;
+		}
+#endif
+	} else if (state == JackTransportRolling) {
+		/* give up sync and just start playing */
+		device->m_sync = 0;
+		result = 1;
 	}
 
 	if (device->m_sync > 2) {
 		device->m_sync = 0;
 		result = 1;
 	}
-
-	if (!device->m_sync)
-		result = 1;
 
 	return result;
 }
@@ -297,11 +339,13 @@ int JackSlave::jack_process(jack_nframes_t length, void *data)
 {
 	JackSlave* device = (JackSlave*)data;
 
-	if(pthread_mutex_trylock(&(device->m_transportLock)) == 0)	{
-		pthread_cond_signal(&(device->m_transportCondition));
-		pthread_mutex_unlock(&(device->m_transportLock));
+	if(device->m_transportEnabled) {
+		if(pthread_mutex_trylock(&(device->m_transportLock)) == 0)	{
+			if (device->m_state != jack_transport_query(device->m_client, NULL))
+				pthread_cond_signal(&(device->m_transportCondition));
+			pthread_mutex_unlock(&(device->m_transportLock));
+		}
 	}
-
 	return 0;
 }
 
@@ -350,5 +394,16 @@ int JackSlave::getPlaybackPosition()
 //	mlt_position position = m_mltProfile->fps() * jack_pos->frame / jack_pos->frame_rate + 0.5;
 	return ((m_mltProfile->fps() * position.frame) / position.frame_rate + 0.5);
 }
+
+void JackSlave::setCurrentPosition(int position)
+{
+	m_currentPosition = position;
+}
+
+void JackSlave::setTransportEnabled(bool state)
+{
+	m_transportEnabled = state;
+}
+
 
 #include "jackslave.moc"
