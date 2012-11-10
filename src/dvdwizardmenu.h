@@ -35,6 +35,7 @@
 #include <KMessageWidget>
 #endif
 
+#include "dvdwizardvob.h"
 #include "ui_dvdwizardmenu_ui.h"
 
 class DvdScene : public QGraphicsScene
@@ -129,31 +130,35 @@ class DvdWizardMenu : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardMenu(const QString &profile, QWidget * parent = 0);
+    explicit DvdWizardMenu(DVDFORMAT format, QWidget * parent = 0);
     virtual ~DvdWizardMenu();
     virtual bool isComplete() const;
     bool createMenu() const;
     void createBackgroundImage(const QString &overlayMenu, const QString &img1);
-    void createButtonImages(const QString &img1, const QString &img2, const QString &img3);
+    void createButtonImages(const QString &img1, const QString &img2, const QString &img3, bool letterbox = false);
     void setTargets(QStringList list, QStringList targetlist);
-    QMap <QString, QRect> buttonsInfo();
+    QMap <QString, QRect> buttonsInfo(bool letterbox = false);
     bool loopMovie() const;
     bool menuMovie() const;
     QString menuMoviePath() const;
-    bool isPalMenu() const;
-    void changeProfile(bool isPal);
+    int menuMovieLength() const;
+    void changeProfile(DVDFORMAT format);
     QDomElement toXml() const;
     void loadXml(QDomElement xml);
+    void prepareUnderLines();
+    void resetUnderLines();
 
 private:
     Ui::DvdWizardMenu_UI m_view;
-    bool m_isPal;
+    DVDFORMAT m_format;
     DvdScene *m_scene;
     QGraphicsPixmapItem *m_background;
     QGraphicsRectItem *m_color;
     QGraphicsRectItem *m_safeRect;
     int m_width;
     int m_height;
+    QSize m_finalSize;
+    int m_movieLength;
 #if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_menuMessage;
 #endif
@@ -171,9 +176,11 @@ private slots:
     void deleteButton();
     void updateColor();
     void updateColor(QColor c);
+    void updateUnderlineColor(QColor c);
     void setBackToMenu(bool backToMenu);
     void slotZoom();
     void slotUnZoom();
+    void slotEnableShadows(int enable);
 };
 
 #endif

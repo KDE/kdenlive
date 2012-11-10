@@ -128,6 +128,10 @@ public slots:
     * @param c Clip whose effect list should be managed */
     void slotClipItemSelected(ClipItem* c);
 
+    /** @brief Update the clip range (in-out points)
+    * @param c Clip whose effect list should be managed */
+    void slotClipItemUpdate();
+
     void slotTrackItemSelected(int ix, const TrackInfo info);
    
     /** @brief Check if the mouse wheel events should be used for scrolling the widget view. */
@@ -167,7 +171,7 @@ private slots:
     void slotSetCurrentEffect(int ix);
     
     /** @brief Triggers a filter job on this clip. */
-    void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QStringList &extraParams);
+    void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QMap <QString, QString> &extraParams);
     
     /** @brief Reset an effect to its default values. */
     void slotResetEffect(int ix);
@@ -223,7 +227,7 @@ signals:
     void updateClipRegion(ClipItem*, int, QString);
     void displayMessage(const QString&, int);
     void showComments(bool show);
-    void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString&finalFilterName, const QString &consumer, const QString &consumerParams, const QStringList &extraParams);
+    void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap<QString, QString> &extraParams);
     void addEffect(ClipItem*,QDomElement);
     void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
 };

@@ -168,31 +168,28 @@ public:
             QString subText = index.data(DurationRole).toString();
             int usage = index.data(UsageRole).toInt();
             if (usage != 0) subText.append(QString(" (%1)").arg(usage));
-            if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
             QRectF bounding;
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
-            
             int jobProgress = index.data(Qt::UserRole + 5).toInt();
             if (jobProgress != 0 && jobProgress != JOBDONE && jobProgress != JOBABORTED) {
                 if (jobProgress != JOBCRASHED) {
                     // Draw job progress bar
                     QColor color = option.palette.alternateBase().color();
-                    painter->setPen(Qt::NoPen);
-                    color.setAlpha(180);
-                    painter->setBrush(QBrush(color));
-                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 2, 8);
-                    painter->drawRect(progress);
-                    painter->setBrush(option.palette.text());
-                    if (jobProgress > 0) {
-                        progress.adjust(1, 1, 0, -1);
-                        progress.setWidth((pixmap.width() - 4) * jobProgress / 100);
-                        painter->drawRect(progress);
-                    } else if (jobProgress == JOBWAITING) {
-                        // Draw kind of a pause icon
-                        progress.adjust(1, 1, 0, -1);
-                        progress.setWidth(2);
-                        painter->drawRect(progress);
-                        progress.moveLeft(progress.right() + 2);
+		    color.setAlpha(150);
+                    painter->setPen(option.palette.link().color());
+                    QRect progress(pixmapPoint.x() + 2, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 4, 7);
+		    painter->setBrush(QBrush(color));
+		    painter->drawRect(progress);
+		    painter->setBrush(option.palette.link());
+		    progress.adjust(2, 2, -2, -2);
+		    if (jobProgress == JOBWAITING) {
+			progress.setLeft(progress.right() - 2);
+			painter->drawRect(progress);
+			progress.moveLeft(progress.left() - 5);
+			painter->drawRect(progress);
+		    }
+		    else if (jobProgress > 0) {
+                        progress.setWidth(progress.width() * jobProgress / 100);
                         painter->drawRect(progress);
                     }
                 } else if (jobProgress == JOBCRASHED) {
@@ -330,7 +327,8 @@ public slots:
     /** @brief Start transcoding selected clips. */
     void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
-    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&);
+    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QMap <QString, QString>&);
+    void slotSetThumbnail(const QString &id, int framePos, QImage img);
     
 
 private:
@@ -424,7 +422,10 @@ private:
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QStringList extraParams = QStringList());
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QMap <QString, QString>extraParams = QMap <QString, QString>());
+    /** @brief Create rounded shape pixmap for project tree thumb. */
+    QPixmap roundedPixmap(QImage img);
+    QPixmap roundedPixmap(QPixmap source);
 
 private slots:
     void slotClipSelected();
@@ -491,7 +492,7 @@ private slots:
     /** @brief close warning info passive popup. */
     void slotClosePopup();
     /** @brief process clip job result. */
-    void slotGotFilterJobResults(QString ,int , int, QString, stringMap, QStringList);
+    void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
@@ -500,7 +501,7 @@ signals:
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
     void projectModified();
     void loadingIsOver();
-    void displayMessage(const QString, int progress);
+    void displayMessage(const QString, int progress, MessageType type = DefaultMessage);
     void clipNameChanged(const QString, const QString);
     void clipNeedsReload(const QString&);
     /** @brief A property affecting display was changed, so we need to update monitors and thumbnails
@@ -514,7 +515,7 @@ signals:
     void updateProfile(const QString &);
     void processNextThumbnail();
     /** @brief Activate the clip monitor. */
-    void raiseClipMonitor();
+    void raiseClipMonitor(bool forceRefresh);
     /** @brief Set number of running jobs. */
     void jobCount(int);
     void cancelRunningJob(const QString, stringMap);
@@ -524,7 +525,7 @@ signals:
     void gotProxy(const QString);
     void checkJobProcess();
     /** @brief A Filter Job produced results, send them back to the clip. */
-    void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params, QStringList extre);
+    void gotFilterJobResults(const QString &id, int startPos, int track, stringMap params, stringMap extra);
     void pauseMonitor();
     void updateAnalysisData(DocClipBase *);
     void addMarkers(const QString &, QList <CommentedTime>);

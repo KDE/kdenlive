@@ -2034,7 +2034,7 @@ void TitleWidget::readChoices()
     QColor bgColor = QColor(titleConfig.readEntry("rect_background_color", rectBColor->color()));
 
 #if KDE_IS_VERSION(4,5,0)
-    fgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", fgColor.alpha()));
+    fgColor.setAlpha(titleConfig.readEntry("rect_foreground_alpha", fgColor.alpha()));
     bgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", bgColor.alpha()));
 #else
     rectFAlpha->setValue(titleConfig.readEntry("rect_foreground_alpha", rectFAlpha->value()));

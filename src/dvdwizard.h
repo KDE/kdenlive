@@ -41,7 +41,7 @@ class DvdWizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit DvdWizard(const QString &url = QString(), const QString &profile = "dv_pal", QWidget * parent = 0);
+    explicit DvdWizard(const QString &url = QString(), QWidget * parent = 0);
     virtual ~DvdWizard();
 
 private:
@@ -57,6 +57,7 @@ private:
     KTemporaryFile m_authorFile;
     KTemporaryFile m_menuFile;
     KTemporaryFile m_menuVobFile;
+    KTemporaryFile m_letterboxMovie;
     QProcess *m_dvdauthor;
     QProcess *m_mkiso;
     QString m_creationLog;

@@ -22,6 +22,7 @@
 #include "ui_monitoreditwidget_ui.h"
 
 #include <QWidget>
+#include <QGraphicsView>
 
 class QIcon;
 class MonitorScene;
@@ -29,7 +30,6 @@ class Render;
 class QGraphicsView;
 class QToolButton;
 class QVBoxLayout;
-
 
 
 class MonitorEditWidget : public QWidget

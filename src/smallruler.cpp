@@ -39,6 +39,7 @@ SmallRuler::SmallRuler(MonitorManager *manager, Render *render, QWidget *parent)
         ,m_manager(manager)
 	,m_render(render)
 	,m_lastSeekPosition(SEEK_INACTIVE)
+	,m_cursorColor(palette().text())
 {
     m_zoneStart = 10;
     m_zoneEnd = 60;
@@ -135,10 +136,20 @@ void SmallRuler::mousePressEvent(QMouseEvent * event)
     }
 }
 
+// virtual
+void SmallRuler::leaveEvent(QEvent * event)
+{
+    QWidget::leaveEvent(event);
+    if (m_cursorColor == palette().highlight()) {
+	m_cursorColor = palette().text();
+	update();
+    }
+}
 
 // virtual
 void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
+    QWidget::mouseMoveEvent(event);
     const int pos = event->x() / m_scale;
     if (event->buttons() & Qt::LeftButton) {
 	m_render->seekToFrame(pos);
@@ -146,6 +157,15 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 	update();
     }
     else {
+	if (m_cursorColor == palette().text() && qAbs(pos - m_cursorFramePosition) * m_scale < 7) {
+	    // Mouse is over cursor
+	    m_cursorColor = palette().highlight();
+	    update();
+	}
+	else if (m_cursorColor == palette().highlight() && qAbs(pos - m_cursorFramePosition) * m_scale >= 7) {
+	    m_cursorColor = palette().text();
+	    update();
+	}
         if (qAbs((pos - m_zoneStart) * m_scale) < 4) {
             setToolTip(i18n("Zone start: %1", m_manager->timecode().getTimecodeFromFrames(m_zoneStart)));
         } else if (qAbs((pos - m_zoneEnd) * m_scale) < 4) {
@@ -236,7 +256,7 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     // draw pointer
     QPolygon pa(3);
     pa.setPoints(3, cursorPos - 6, 10, cursorPos + 6, 10, cursorPos/*+0*/, 4);
-    p.setBrush(palette().text());
+    p.setBrush(m_cursorColor);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
 

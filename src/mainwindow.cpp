@@ -234,9 +234,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     // Connect the project list
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *, QPoint, bool)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, bool)));
-    connect(m_projectList, SIGNAL(raiseClipMonitor()), m_clipMonitor, SLOT(slotActivateMonitor()));
+    connect(m_projectList, SIGNAL(raiseClipMonitor(bool)), m_clipMonitor, SLOT(slotActivateMonitor(bool)));
     connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
-    connect(m_projectList, SIGNAL(displayMessage(const QString&, int)), this, SLOT(slotGotProgressInfo(const QString&, int)));
+    connect(m_projectList, SIGNAL(displayMessage(const QString&, int, MessageType)), this, SLOT(slotGotProgressInfo(const QString&, int, MessageType)));
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
     connect(m_projectList, SIGNAL(clipNeedsReload(const QString&)),this, SLOT(slotUpdateClip(const QString &)));
     connect(m_projectList, SIGNAL(updateProfile(const QString &)), this, SLOT(slotUpdateProjectProfile(const QString &)));
@@ -280,7 +280,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_effectStack = new EffectStackView2(m_projectMonitor);
     m_effectStackDock->setWidget(m_effectStack);
     addDockWidget(Qt::TopDockWidgetArea, m_effectStackDock);
-    connect(m_effectStack, SIGNAL(startFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&)), m_projectList, SLOT(slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QStringList&)));
+    connect(m_effectStack, SIGNAL(startFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QMap <QString, QString>&)), m_projectList, SLOT(slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QMap <QString, QString>&)));
 
     m_transitionConfigDock = new QDockWidget(i18n("Transition"), this);
     m_transitionConfigDock->setObjectName("transition");
@@ -1967,6 +1967,7 @@ bool MainWindow::closeCurrentDocument(bool saveChanges)
             break;
         }
     }
+    slotTimelineClipSelected(NULL, false);
     m_clipMonitor->slotSetClipProducer(NULL);
     m_projectList->slotResetProjectList();
     m_timelineArea->removeTab(m_timelineArea->indexOf(w));
@@ -2420,7 +2421,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, SIGNAL(selectedRenderProfile(QMap <QString, QString>)), this, SLOT(slotSetDocumentRenderProfile(QMap <QString, QString>)));
         connect(m_renderWidget, SIGNAL(prepareRenderingData(bool, bool, const QString&)), this, SLOT(slotPrepareRendering(bool, bool, const QString&)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
-        connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
+        connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &)), this, SLOT(slotDvdWizard(const QString &)));
         if (m_activeDocument) {
             m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
@@ -2528,7 +2529,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeTimeline->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
             disconnect(m_activeTimeline->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, QPoint, bool, const int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase *, QPoint, bool, const int)));
-            disconnect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, const QString &, stringMap,QStringList)), m_activeTimeline->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, const QString &, stringMap,QStringList)));
+            disconnect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, stringMap,stringMap)), m_activeTimeline->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, stringMap, stringMap)));
 
             disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(slotActivateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
@@ -2572,7 +2573,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(trackView->projectView(), SIGNAL(forceClipProcessing(const QString &)), m_projectList, SLOT(slotForceProcessing(const QString &)));
 
-    connect(trackView->projectView(), SIGNAL(importKeyframes(GRAPHICSRECTITEM, const QString&)), this, SLOT(slotProcessImportKeyframes(GRAPHICSRECTITEM, const QString&)));
+    connect(trackView->projectView(), SIGNAL(importKeyframes(GRAPHICSRECTITEM, const QString&, int)), this, SLOT(slotProcessImportKeyframes(GRAPHICSRECTITEM, const QString&, int)));
     
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
@@ -2610,7 +2611,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
 
-    connect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, const QString &, stringMap,QStringList)), trackView->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, const QString &, stringMap,QStringList)));
+    connect(m_projectList, SIGNAL(gotFilterJobResults(const QString &, int, int, stringMap,stringMap)), trackView->projectView(), SLOT(slotGotFilterJobResults(const QString &, int, int, stringMap,stringMap)));
 
     connect(m_projectList, SIGNAL(addMarkers(const QString &, QList <CommentedTime>)), trackView->projectView(), SLOT(slotAddClipMarker(const QString &, QList <CommentedTime>)));
 
@@ -3216,19 +3217,13 @@ void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
     m_zoomSlider->setToolTip(i18n("Zoom Level: %1/13", (13 - zoomlevel)));
 }
 
-void MainWindow::slotGotProgressInfo(const QString &message, int progress)
+void MainWindow::slotGotProgressInfo(const QString &message, int progress, MessageType type)
 {
-    m_statusProgressBar->setValue(progress);
+    if (type == DefaultMessage) m_statusProgressBar->setValue(progress);
+    m_messageLabel->setMessage(message, type);
     if (progress >= 0) {
-        if (!message.isEmpty())
-            m_messageLabel->setMessage(message, InformationMessage);//statusLabel->setText(message);
-        m_statusProgressBar->setVisible(true);
-    } else if (progress == -2) {
-        if (!message.isEmpty())
-            m_messageLabel->setMessage(message, ErrorMessage);
-        m_statusProgressBar->setVisible(false);
+        if (type == DefaultMessage) m_statusProgressBar->setVisible(true);
     } else {
-        m_messageLabel->setMessage(QString(), DefaultMessage);
         m_statusProgressBar->setVisible(false);
     }
 }
@@ -3328,8 +3323,15 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
 
     // any type of clip but a title
     ClipProperties *dia = new ClipProperties(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
+
+    if (clip->clipType() == AV || clip->clipType() == VIDEO || clip->clipType() == PLAYLIST) {
+	// request clip thumbnails
+	m_activeDocument->clipManager()->requestThumbs(QString('?' + clip->getId()), QList<int>() << clip->getClipThumbFrame());
+	connect(m_activeDocument->clipManager(), SIGNAL(gotClipPropertyThumbnail(const QString&,QImage)), dia, SLOT(slotGotThumbnail(const QString&,QImage)));
+    }
+    
     connect(dia, SIGNAL(addMarkers(const QString &, QList <CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, QList <CommentedTime>)));
-    connect(dia, SIGNAL(deleteAnalysis(QString,QString)), m_activeTimeline->projectView(), SLOT(slotAddClipExtraData(QString,QString)));
+    connect(dia, SIGNAL(editAnalysis(QString,QString,QString)), m_activeTimeline->projectView(), SLOT(slotAddClipExtraData(QString,QString,QString)));
     connect(m_activeTimeline->projectView(), SIGNAL(updateClipMarkers(DocClipBase *)), dia, SLOT(slotFillMarkersList(DocClipBase *)));
     connect(m_activeTimeline->projectView(), SIGNAL(updateClipExtraData(DocClipBase *)), dia, SLOT(slotUpdateAnalysisData(DocClipBase *)));
     connect(m_projectList, SIGNAL(updateAnalysisData(DocClipBase *)), dia, SLOT(slotUpdateAnalysisData(DocClipBase *)));
@@ -3874,12 +3876,12 @@ void MainWindow::slotUpdateClipType(QAction *action)
     }
 }
 
-void MainWindow::slotDvdWizard(const QString &url, const QString &profile)
+void MainWindow::slotDvdWizard(const QString &url)
 {
     // We must stop the monitors since we create a new on in the dvd wizard
     m_clipMonitor->stop();
     m_projectMonitor->stop();
-    QPointer<DvdWizard> w = new DvdWizard(url, profile, this);
+    QPointer<DvdWizard> w = new DvdWizard(url, this);
     w->exec();
     m_projectMonitor->start();
     delete w;
@@ -3946,7 +3948,7 @@ void MainWindow::loadTranscoders()
     QMenu *extractAudioMenu = static_cast<QMenu*>(factory()->container("extract_audio", this));
     extractAudioMenu->clear();
 
-    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
+    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc", KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     QMap< QString, QString > profiles = transConfig.entryMap();
@@ -4015,7 +4017,7 @@ void MainWindow::slotTranscode(KUrl::List urls)
         m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
         return;
     }
-    ClipTranscode *d = new ClipTranscode(urls, params, desc);
+    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc);
     connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     d->show();
 }
@@ -4570,14 +4572,14 @@ void MainWindow::slotSaveTimelineClip()
     }
 }
 
-void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data)
+void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum)
 {
     if (type == AVWIDGET) {
 	// This data should be sent to the effect stack
     }
     else if (type == TRANSITIONWIDGET) {
 	// This data should be sent to the transition stack
-	m_transitionConfig->setKeyframes(data);
+	m_transitionConfig->setKeyframes(data, maximum);
     }
     else {
 	// Error

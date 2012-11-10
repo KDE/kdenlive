@@ -33,6 +33,7 @@ class MonitorScene;
 class KeyframeHelper;
 class TimecodeDisplay;
 class OnMonitorRectItem;
+class OnMonitorPathItem;
 class QGraphicsRectItem;
 class DragValue;
 
@@ -57,7 +58,8 @@ public:
     /** @brief Sets the size of the original clip. */
     void setFrameSize(QPoint size);
     void addParameter(const QDomElement elem);
-    void importKeyframes(const QString &data);
+    void importKeyframes(const QString &data, int maximum);
+    int currentPosition() const;
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
@@ -67,6 +69,10 @@ public slots:
     void setupParam(const QDomElement elem, int minframe, int maxframe);
     /** @brief Updates position of the local timeline to @param relTimelinePos.  */
     void slotSyncPosition(int relTimelinePos);
+    void slotResetKeyframes();
+    void slotResetNextKeyframes();
+    void slotResetPreviousKeyframes();
+    void slotUpdateRange(int inPoint, int outPoint);
 
 private:
     Ui::GeometryWidget_UI m_ui;
@@ -81,6 +87,7 @@ private:
     bool m_isEffect;
     MonitorScene *m_scene;
     OnMonitorRectItem *m_rect;
+    OnMonitorPathItem *m_geomPath;
     QGraphicsRectItem *m_previous;
     KeyframeHelper *m_timeline;
     /** Stores the different settings in the MLT geometry format. */
@@ -128,6 +135,8 @@ private slots:
     /** @brief Adds or deletes a keyframe depending on whether there is already a keyframe at the current position. */
     void slotAddDeleteKeyframe();
 
+    /** @brief Updates the Mlt::Geometry path object. */
+    void slotUpdatePath();
     /** @brief Updates the Mlt::Geometry object. */
     void slotUpdateGeometry();
     /** @brief Updates the spinBoxes according to the rect. */
@@ -168,6 +177,8 @@ private slots:
     void slotFitToHeight();
     /** @brief Show / hide previous keyframe in monitor scene. */
     void slotShowPreviousKeyFrame(bool show);
+    /** @brief Show / hide keyframe path in monitor scene. */
+    void slotShowPath(bool show);
 
 signals:
     void parameterChanged();

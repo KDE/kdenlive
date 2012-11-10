@@ -26,6 +26,7 @@
 #include "monitorscene.h"
 #include "monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
+#include "onmonitoritems/onmonitorpathitem.h"
 #include "kdenlivesettings.h"
 #include "dragvalue.h"
 
@@ -46,6 +47,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_outPoint(1),
     m_isEffect(isEffect),
     m_rect(NULL),
+    m_geomPath(NULL),
     m_previous(NULL),
     m_geometry(NULL),
     m_showScene(true),
@@ -55,6 +57,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     MonitorEditWidget *edit = monitor->getEffectEdit();
     edit->removeCustomControls();
+    edit->addCustomButton(KIcon("draw-path"), i18n("Show path"), this, SLOT(slotShowPath(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowpath());
     edit->addCustomButton(KIcon("transform-crop"), i18n("Show previous keyframe"), this, SLOT(slotShowPreviousKeyFrame(bool)), true, KdenliveSettings::onmonitoreffects_geometryshowprevious());
     m_scene = edit->getScene();
     m_scene->cleanup();
@@ -63,7 +66,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
         Setup of timeline and keyframe controls
     */
 
-    ((QGridLayout *)(m_ui.widgetTimeWrapper->layout()))->addWidget(m_timePos, 1, 6);
+    ((QGridLayout *)(m_ui.widgetTimeWrapper->layout()))->addWidget(m_timePos, 1, 5);
 
     QVBoxLayout *layout = new QVBoxLayout(m_ui.frameTimeline);
     m_timeline = new KeyframeHelper(m_ui.frameTimeline);
@@ -79,14 +82,9 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_ui.buttonNext->setIcon(KIcon("media-skip-forward"));
     m_ui.buttonNext->setToolTip(i18n("Go to next keyframe"));
     m_ui.buttonNext->setIconSize(iconSize);
-    m_ui.buttonAddDelete->setIcon(KIcon("document-new"));
+    m_ui.buttonAddDelete->setIcon(KIcon("list-add"));
     m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     m_ui.buttonAddDelete->setIconSize(iconSize);
-
-    m_ui.buttonSync->setIcon(KIcon("insert-link"));
-    m_ui.buttonSync->setToolTip(i18n("Synchronize with timeline cursor"));
-    m_ui.buttonSync->setChecked(KdenliveSettings::transitionfollowcursor());
-    m_ui.buttonSync->setIconSize(iconSize);
 
     connect(m_timeline, SIGNAL(requestSeek(int)), this, SLOT(slotRequestSeek(int)));
     connect(m_timeline, SIGNAL(keyframeMoved(int)),   this, SLOT(slotKeyframeMoved(int)));
@@ -96,7 +94,6 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_ui.buttonPrevious,  SIGNAL(clicked()), this, SLOT(slotPreviousKeyframe()));
     connect(m_ui.buttonNext,      SIGNAL(clicked()), this, SLOT(slotNextKeyframe()));
     connect(m_ui.buttonAddDelete, SIGNAL(clicked()), this, SLOT(slotAddDeleteKeyframe()));
-    connect(m_ui.buttonSync,      SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
 
     m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, this);
     m_ui.horizontalLayout->addWidget(m_spinX, 0, 0);
@@ -113,39 +110,51 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     m_ui.horizontalLayout->setColumnStretch(4, 10);
 
     QMenu *menu = new QMenu(this);
-    QAction *adjustSize = new QAction(i18n("Adjust to original size"), this);
+    QAction *adjustSize = new QAction(KIcon("zoom-fit-best"), i18n("Adjust to original size"), this);
     connect(adjustSize, SIGNAL(triggered()), this, SLOT(slotAdjustToFrameSize()));
-    menu->addAction(adjustSize);
-    QAction *fitToWidth = new QAction(i18n("Fit to width"), this);
+    QAction *fitToWidth = new QAction(KIcon("zoom-fit-width"), i18n("Fit to width"), this);
     connect(fitToWidth, SIGNAL(triggered()), this, SLOT(slotFitToWidth()));
-    menu->addAction(fitToWidth);
-    QAction *fitToHeight = new QAction(i18n("Fit to height"), this);
+    QAction *fitToHeight = new QAction(KIcon("zoom-fit-height"), i18n("Fit to height"), this);
     connect(fitToHeight, SIGNAL(triggered()), this, SLOT(slotFitToHeight()));
-    menu->addAction(fitToHeight);
-    menu->addSeparator();
+
     QAction *importKeyframes = new QAction(i18n("Import keyframes from clip"), this);
     connect(importKeyframes, SIGNAL(triggered()), this, SIGNAL(importClipKeyframes()));
     menu->addAction(importKeyframes);
+    QAction *resetKeyframes = new QAction(i18n("Reset all keyframes"), this);
+    connect(resetKeyframes, SIGNAL(triggered()), this, SLOT(slotResetKeyframes()));
+    menu->addAction(resetKeyframes);
+
+    QAction *resetNextKeyframes = new QAction(i18n("Reset keyframes after cursor"), this);
+    connect(resetNextKeyframes, SIGNAL(triggered()), this, SLOT(slotResetNextKeyframes()));
+    menu->addAction(resetNextKeyframes);
+    QAction *resetPreviousKeyframes = new QAction(i18n("Reset keyframes before cursor"), this);
+    connect(resetPreviousKeyframes, SIGNAL(triggered()), this, SLOT(slotResetPreviousKeyframes()));
+    menu->addAction(resetPreviousKeyframes);
     menu->addSeparator();
+
+    QAction *syncTimeline = new QAction(KIcon("insert-link"), i18n("Synchronize with timeline cursor"), this);
+    syncTimeline->setCheckable(true);
+    syncTimeline->setChecked(KdenliveSettings::transitionfollowcursor());
+    connect(syncTimeline, SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
+    menu->addAction(syncTimeline);
+
     QAction *alignleft = new QAction(KIcon("kdenlive-align-left"), i18n("Align left"), this);
     connect(alignleft, SIGNAL(triggered()), this, SLOT(slotMoveLeft()));
-    menu->addAction(alignleft);
     QAction *alignhcenter = new QAction(KIcon("kdenlive-align-hor"), i18n("Center horizontally"), this);
     connect(alignhcenter, SIGNAL(triggered()), this, SLOT(slotCenterH()));
-    menu->addAction(alignhcenter);
     QAction *alignright = new QAction(KIcon("kdenlive-align-right"), i18n("Align right"), this);
     connect(alignright, SIGNAL(triggered()), this, SLOT(slotMoveRight()));
-    menu->addAction(alignright);
     QAction *aligntop = new QAction(KIcon("kdenlive-align-top"), i18n("Align top"), this);
     connect(aligntop, SIGNAL(triggered()), this, SLOT(slotMoveTop()));
-    menu->addAction(aligntop);
     QAction *alignvcenter = new QAction(KIcon("kdenlive-align-vert"), i18n("Center vertically"), this);
     connect(alignvcenter, SIGNAL(triggered()), this, SLOT(slotCenterV()));
-    menu->addAction(alignvcenter);
     QAction *alignbottom = new QAction(KIcon("kdenlive-align-bottom"), i18n("Align bottom"), this);
     connect(alignbottom, SIGNAL(triggered()), this, SLOT(slotMoveBottom()));
-    menu->addAction(alignbottom);
+    
     m_ui.buttonOptions->setMenu(menu);
+    m_ui.buttonOptions->setIcon(KIcon("configure"));
+    m_ui.buttonOptions->setToolTip(i18n("Options"));
+    m_ui.buttonOptions->setIconSize(iconSize);
 
     QHBoxLayout *alignLayout = new QHBoxLayout;
     alignLayout->setSpacing(0);
@@ -176,6 +185,21 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
 
     alignButton = new QToolButton;
     alignButton->setDefaultAction(alignbottom);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+
+    alignButton = new QToolButton;
+    alignButton->setDefaultAction(adjustSize);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+
+    alignButton = new QToolButton;
+    alignButton->setDefaultAction(fitToWidth);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+    
+    alignButton = new QToolButton;
+    alignButton->setDefaultAction(fitToHeight);
     alignButton->setAutoRaise(true);
     alignLayout->addWidget(alignButton);
     alignLayout->addStretch(10);
@@ -236,7 +260,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
 
 GeometryWidget::~GeometryWidget()
 {
-    m_scene->setEnabled(true);
+    m_scene->setEnabled(false);
     delete m_timePos;
     delete m_timeline;
     delete m_spinX;
@@ -244,8 +268,14 @@ GeometryWidget::~GeometryWidget()
     delete m_spinWidth;
     delete m_spinHeight;
     delete m_opacity;
-    m_scene->removeItem(m_rect);
-    if (m_rect) delete m_rect;
+    if (m_rect) {
+	m_scene->removeItem(m_rect);
+	delete m_rect;
+    }
+    if (m_geomPath) {
+	m_scene->removeItem(m_geomPath);
+	delete m_geomPath;
+    }
     if (m_previous) delete m_previous;
     delete m_geometry;
     m_extraGeometryNames.clear();
@@ -259,6 +289,16 @@ GeometryWidget::~GeometryWidget()
 void GeometryWidget::slotShowPreviousKeyFrame(bool show)
 {
     KdenliveSettings::setOnmonitoreffects_geometryshowprevious(show);
+    slotPositionChanged(-1, false);
+}
+
+void GeometryWidget::slotShowPath(bool show)
+{
+    KdenliveSettings::setOnmonitoreffects_geometryshowpath(show);
+    if (m_geomPath) {
+	if (show) m_scene->addItem(m_geomPath);
+	else m_scene->removeItem(m_geomPath);
+    }
     slotPositionChanged(-1, false);
 }
 
@@ -304,9 +344,8 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     } else {
         m_ui.widgetTimeWrapper->setHidden(false);
         m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-        m_timeline->update();
-        m_timePos->setRange(0, m_outPoint - m_inPoint);
     }
+    m_timePos->setRange(0, m_outPoint - m_inPoint);
 
     // no opacity
     if (elem.attribute("opacity") == "false") {
@@ -315,14 +354,26 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     }
 
     Mlt::GeometryItem item;
-
     m_geometry->fetch(&item, 0);
-    delete m_rect;
+    if (m_rect) {
+	m_scene->removeItem(m_rect);
+	delete m_rect;
+    }
+    if (m_geomPath) {
+	m_scene->removeItem(m_geomPath);
+	delete m_geomPath;
+    }
     m_rect = new OnMonitorRectItem(QRectF(0, 0, item.w(), item.h()), m_monitor->render->dar());
     m_rect->setPos(item.x(), item.y());
     m_rect->setZValue(0);
     m_scene->addItem(m_rect);
     connect(m_rect, SIGNAL(changed()), this, SLOT(slotUpdateGeometry()));
+    m_geomPath = new OnMonitorPathItem(m_monitor->render->dar());
+    connect(m_geomPath, SIGNAL(changed()), this, SLOT(slotUpdatePath()));
+    m_geomPath->setPen(QPen(Qt::red));
+    m_geomPath->setPoints(m_geometry);
+    if (KdenliveSettings::onmonitoreffects_geometryshowpath())
+	m_scene->addItem(m_geomPath);
     m_scene->centerView();
     slotPositionChanged(0, false);
 }
@@ -345,6 +396,11 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
         if (relTimelinePos != m_timePos->getValue())
             slotPositionChanged(relTimelinePos, false);
     }
+}
+
+int GeometryWidget::currentPosition() const
+{
+    return m_inPoint + m_timePos->getValue();
 }
 
 void GeometryWidget::slotRequestSeek(int pos)
@@ -372,14 +428,14 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
         m_rect->setEnabled(false);
         m_scene->setEnabled(false);
         m_ui.widgetGeometry->setEnabled(false);
-        m_ui.buttonAddDelete->setIcon(KIcon("document-new"));
+        m_ui.buttonAddDelete->setIcon(KIcon("list-add"));
         m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     } else {
         // keyframe
         m_rect->setEnabled(true);
         m_scene->setEnabled(true);
         m_ui.widgetGeometry->setEnabled(true);
-        m_ui.buttonAddDelete->setIcon(KIcon("edit-delete"));
+        m_ui.buttonAddDelete->setIcon(KIcon("list-remove"));
         m_ui.buttonAddDelete->setToolTip(i18n("Delete keyframe"));
     }
     
@@ -491,6 +547,11 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
     }
 
     m_timeline->update();
+    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
+	m_scene->removeItem(m_geomPath);
+	m_geomPath->setPoints(m_geometry);
+	m_scene->addItem(m_geomPath);
+    }
     slotPositionChanged(pos, false);
     emit parameterChanged();
 }
@@ -527,6 +588,25 @@ void GeometryWidget::slotAddDeleteKeyframe()
         slotDeleteKeyframe();
 }
 
+void GeometryWidget::slotUpdatePath()
+{
+    if (!m_geomPath) return;
+    QList <QPointF> points = m_geomPath->points();
+    Mlt::GeometryItem item;
+    int pos = 0;
+    int ix = 0;
+    while (ix < points.count() && !m_geometry->next_key(&item, pos)) {
+	QPointF center = points.at(ix);
+	QSizeF size(item.w(), item.h());
+	item.x(center.x() - size.width()/2);
+	item.y(center.y() - size.height()/2);
+	m_geometry->insert(item);
+	pos = item.frame() + 1;
+	ix++;
+    }
+    slotPositionChanged(-1, false);
+    emit parameterChanged();
+}
 
 
 void GeometryWidget::slotUpdateGeometry()
@@ -555,6 +635,11 @@ void GeometryWidget::slotUpdateGeometry()
             item2.x((double) widget->value() / m_extraFactors.at(i).toInt());
             geom->insert(item2);
         }
+    }
+    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
+	m_scene->removeItem(m_geomPath);
+	m_geomPath->setPoints(m_geometry);
+	m_scene->addItem(m_geomPath);
     }
     emit parameterChanged();
 }
@@ -734,20 +819,126 @@ void GeometryWidget::slotFitToHeight()
     updateMonitorGeometry();
 }
 
-void GeometryWidget::importKeyframes(const QString &data)
+void GeometryWidget::slotResetKeyframes()
+{
+    // Delete existing keyframes
+    Mlt::GeometryItem item;
+    while (!m_geometry->next_key(&item, 1)) {
+	m_geometry->remove(item.frame());
+    }
+
+    // Create neutral first keyframe
+    item.frame(0);
+    item.x(0);
+    item.y(0);
+    item.w(m_monitor->render->frameRenderWidth());
+    item.h(m_monitor->render->renderHeight());
+    item.mix(100);
+    m_geometry->insert(item);
+    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
+    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
+	m_scene->removeItem(m_geomPath);
+	m_geomPath->setPoints(m_geometry);
+	m_scene->addItem(m_geomPath);
+    }
+    slotPositionChanged(-1, false);
+    emit parameterChanged();
+}
+
+void GeometryWidget::slotResetNextKeyframes()
+{
+    // Delete keyframes after cursor pos
+    Mlt::GeometryItem item;
+    int pos = m_timePos->getValue();
+    while (!m_geometry->next_key(&item, pos)) {
+	m_geometry->remove(item.frame());
+    }
+
+    // Make sure we have at least one keyframe
+    if (m_geometry->next_key(&item, 0)) {
+	item.frame(0);
+	item.x(0);
+	item.y(0);
+	item.w(m_monitor->render->frameRenderWidth());
+	item.h(m_monitor->render->renderHeight());
+	item.mix(100);
+	m_geometry->insert(item);
+    }
+    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
+    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
+	m_scene->removeItem(m_geomPath);
+	m_geomPath->setPoints(m_geometry);
+	m_scene->addItem(m_geomPath);
+    }
+    slotPositionChanged(-1, false);
+    emit parameterChanged();
+}
+
+void GeometryWidget::slotResetPreviousKeyframes()
+{
+    // Delete keyframes before cursor pos
+    Mlt::GeometryItem item;
+    int pos = 0;
+    while (!m_geometry->next_key(&item, pos) && pos < m_timePos->getValue()) {
+	pos = item.frame() + 1;
+	m_geometry->remove(item.frame());
+    }
+
+    // Make sure we have at least one keyframe
+    if (!m_geometry->next_key(&item, 0)) {
+	item.frame(0);
+	/*item.x(0);
+	item.y(0);
+	item.w(m_monitor->render->frameRenderWidth());
+	item.h(m_monitor->render->renderHeight());
+	item.mix(100);*/
+	m_geometry->insert(item);
+    }
+    else {
+	item.frame(0);
+	item.x(0);
+	item.y(0);
+	item.w(m_monitor->render->frameRenderWidth());
+	item.h(m_monitor->render->renderHeight());
+	item.mix(100);
+	m_geometry->insert(item);
+    }
+    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
+    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
+	m_scene->removeItem(m_geomPath);
+	m_geomPath->setPoints(m_geometry);
+	m_scene->addItem(m_geomPath);
+    }
+    slotPositionChanged(-1, false);
+    emit parameterChanged();
+}
+
+void GeometryWidget::importKeyframes(const QString &data, int maximum)
 {
     QStringList list = data.split(';', QString::SkipEmptyParts);
+    if (list.isEmpty()) return;
     QPoint screenSize = m_frameSize;
     if (screenSize == QPoint() || screenSize.x() == 0 || screenSize.y() == 0) {
         screenSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     }
-    for (int i = 0; i < list.count(); i++) {
-	Mlt::GeometryItem item;
+    // Clear existing keyframes
+    Mlt::GeometryItem item;
+    
+    while (!m_geometry->next_key(&item, 0)) {
+	m_geometry->remove(item.frame());
+    }
+    
+    int offset = 1;
+    if (maximum > 0 && list.count() > maximum) {
+	offset = list.count() / maximum;
+    }
+    for (int i = 0; i < list.count(); i += offset) {
 	QString geom = list.at(i);
 	if (geom.contains('=')) {
 	    item.frame(geom.section('=', 0, 0).toInt());
+	    geom = geom.section('=', 1);
 	}
-	geom = geom.section('=', 1);
+	else item.frame(0);
 	if (geom.contains('/')) {
 	    item.x(geom.section('/', 0, 0).toDouble());
 	    item.y(geom.section('/', 1, 1).section(':', 0, 0).toDouble());
@@ -768,7 +959,22 @@ void GeometryWidget::importKeyframes(const QString &data)
 	item.mix(100);
 	m_geometry->insert(item);
     }
+    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
+    if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
+	m_scene->removeItem(m_geomPath);
+	m_geomPath->setPoints(m_geometry);
+	m_scene->addItem(m_geomPath);
+    }
+    slotPositionChanged(-1, false);
     emit parameterChanged();
+}
+
+void GeometryWidget::slotUpdateRange(int inPoint, int outPoint)
+{
+    m_inPoint = inPoint;
+    m_outPoint = outPoint;
+    m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
+    m_timePos->setRange(0, m_outPoint - m_inPoint);    
 }
 
 #include "geometrywidget.moc"

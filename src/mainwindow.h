@@ -328,7 +328,7 @@ public slots:
     *
     * Checks if already open and whether backup exists */
     void openFile(const KUrl &url);
-    void slotGotProgressInfo(const QString &message, int progress);
+    void slotGotProgressInfo(const QString &message, int progress, MessageType type = DefaultMessage);
     void slotReloadEffects();
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
@@ -486,7 +486,7 @@ private slots:
     /** @brief Lets the sampleplugin create a generator.  */
     void generateClip();
     void slotZoneMoved(int start, int end);
-    void slotDvdWizard(const QString &url = QString(), const QString &profile = "dv_pal");
+    void slotDvdWizard(const QString &url = QString());
     void slotGroupClips();
     void slotUnGroupClips();
     void slotEditItemDuration();
@@ -567,7 +567,7 @@ private slots:
     /** @brief Save current timeline clip as mlt playlist. */
     void slotSaveTimelineClip();
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
-    void slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data);
+    void slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum);
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 

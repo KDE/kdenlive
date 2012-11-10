@@ -127,6 +127,7 @@ Q_OBJECT public:
     void requestThumbs(const QString id, QList <int> frames);
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
+    void projectTreeThumbReady(const QString &id, int frame, QImage img, int type);
 
 #if KDE_IS_VERSION(4,5,0)
     KImageCache* pixmapCache;
@@ -177,6 +178,8 @@ private:   // Private attributes
     QString m_processingAudioThumbId;
     /** @brief The list of removable drives. */
     QList<SolidVolumeInfo> m_removableVolumes;
+
+    QPoint m_projectTreeThumbSize;
     
     /** @brief Get a list of drives, to check if we have files on removable media. */
     void listRemovableVolumes();
@@ -190,6 +193,8 @@ signals:
     void availableClip(const QString &);
     void checkAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
     void displayMessage(const QString &, int);
+    void thumbReady(const QString &id, int, QImage);
+    void gotClipPropertyThumbnail(const QString &id, QImage);
 };
 
 #endif

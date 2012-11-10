@@ -41,7 +41,7 @@ class MeltJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters, QStringList extraParams = QStringList());
+    MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters, QMap <QString, QString> extraParams = QMap <QString, QString>());
     virtual ~ MeltJob();
     const QString destination() const;
     void startJob();
@@ -62,10 +62,10 @@ private:
     QString m_dest;
     QString m_url;
     int m_length;
-    QStringList m_extra;
+    QMap <QString, QString> m_extra;
 
 signals:
-    void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params, QStringList extraParam);
+    void gotFilterJobResults(const QString &id, int startPos, int track, stringMap result, stringMap extra);
 };
 
 #endif

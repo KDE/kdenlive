@@ -73,6 +73,8 @@ public:
     void adjustButtons(int ix, int max);
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
     bool needsMonitorEffectScene() const;
+    /** @brief Set clip in / out points. */
+    void setRange(int inPoint , int outPoint);
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -129,7 +131,7 @@ signals:
     void checkMonitorPosition(int);
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QStringList extraParams);
+    void startFilterJob(QString filterName, QString filterParams, QString consumer, QString consumerParams, const QMap <QString, QString>extraParams);
     /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */

@@ -980,6 +980,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPath);
     else
         render_process_args <<  (scriptExport ? "$SOURCE" : playlistPath);
+
     render_process_args << (scriptExport ? "$TARGET" : KUrl(dest).url());
     render_process_args << paramsList;
 
@@ -1800,7 +1801,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         item->setData(1, Qt::UserRole, t);
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == "dvd") {
-            emit openDvdWizard(item->text(1), item->metadata());
+            emit openDvdWizard(item->text(1));
         } else if (itemGroup == "websites") {
             QString url = item->metadata();
             if (!url.isEmpty()) new KRun(url, this);

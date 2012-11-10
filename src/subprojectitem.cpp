@@ -24,22 +24,27 @@
 #include "kdenlivesettings.h"
 #include "docclipbase.h"
 
+
 #include <KDebug>
 #include <KLocale>
 #include <KIcon>
 
 const int DurationRole = Qt::UserRole + 1;
+const int itemHeight = 30;
 
-SubProjectItem::SubProjectItem(QTreeWidgetItem * parent, int in, int out, QString description) :
+SubProjectItem::SubProjectItem(double display_ratio, QTreeWidgetItem * parent, int in, int out, QString description) :
         QTreeWidgetItem(parent, PROJECTSUBCLIPTYPE), m_in(in), m_out(out), m_description(description)
 {
-    setSizeHint(0, QSize(65, 30));
+    setSizeHint(0, QSize((int) (itemHeight * display_ratio) + 2, itemHeight + 2));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
     QString name = Timecode::getStringTimecode(in, KdenliveSettings::project_fps());
     setText(0, name);
     setText(1, description);
     GenTime duration = GenTime(out - in, KdenliveSettings::project_fps());
     if (duration != GenTime()) setData(0, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+    QPixmap pix((int) (itemHeight * display_ratio), itemHeight);
+    pix.fill(Qt::gray);
+    setData(0, Qt::DecorationRole, pix);
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;
 }
@@ -52,6 +57,12 @@ SubProjectItem::~SubProjectItem()
 int SubProjectItem::numReferences() const
 {
     return 0;
+}
+
+//static
+int SubProjectItem::itemDefaultHeight()
+{
+    return itemHeight;
 }
 
 QDomElement SubProjectItem::toXml() const

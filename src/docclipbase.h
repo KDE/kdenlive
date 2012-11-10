@@ -165,10 +165,6 @@ Q_OBJECT public:
     /** Returns the thumbnail producer used by this clip */
     KThumb *thumbProducer();
 
-    /** Cache for every audio Frame with 10 Bytes */
-    /** format is frame -> channel ->bytes */
-    QMap<int, QMap<int, QByteArray> > m_audioFrameCache;
-
     /** Free cache data */
     void slotClearAudioCache();
     QString getClipHash() const;
@@ -204,11 +200,14 @@ Q_OBJECT public:
     void cleanupProducers();
     bool isClean() const;
     bool getAudioThumbs();
-    void setAnalysisData(const QString &name, const QString &data);
+    void setAnalysisData(const QString &name, const QString &data, int offset = 0);
     QMap <QString, QString> analysisData() const;
+    int lastSeekPosition;
+    /** Cache for every audio Frame with 10 Bytes */
+    /** format is frame -> channel ->bytes */
+    QMap<int, QMap<int, QByteArray> > audioFrameCache;
 
 private:   // Private attributes
-
     /** The number of times this clip is used in the project - the number of references to this clip
      * that exist. */
     uint m_refcount;
@@ -257,6 +256,8 @@ private:   // Private attributes
     void adjustProducerProperties(Mlt::Producer *prod, const QString &id, bool mute, bool blind);
     /** @brief Create another instance of a producer. */
     Mlt::Producer *cloneProducer(Mlt::Producer *source);
+    /** @brief Offset all keyframes of a geometry. */
+    const QString geometryWithOffset(QString data, int offset);
 
    
 public slots:

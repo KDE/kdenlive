@@ -18,45 +18,51 @@
  ***************************************************************************/
 
 
-#ifndef ONMONITORRECTITEM_H
-#define ONMONITORRECTITEM_H
+#ifndef ONMONITORPATHITEM_H
+#define ONMONITORPATHITEM_H
 
 
 #include <QtCore>
-#include <QGraphicsRectItem>
+#include <QGraphicsPathItem>
 
 class QGraphicsView;
 
-enum rectActions { Move, ResizeTopLeft, ResizeBottomLeft, ResizeTopRight, ResizeBottomRight, ResizeLeft, ResizeRight, ResizeTop, ResizeBottom, NoAction };
+namespace Mlt {
+class Geometry;
+}
 
 
-class OnMonitorRectItem : public QObject, public QGraphicsRectItem
+class OnMonitorPathItem : public QObject, public QGraphicsPathItem
 {
     Q_OBJECT
 public:
-    OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem *parent = 0);
-
-    /** @brief Gets The action mode for the area @param pos +- 4.
-     * e.g. pos(0,0) returns ResizeTopLeft */
-    rectActions getMode(QPointF pos);
+    OnMonitorPathItem(double dar, QGraphicsItem *parent = 0);
+    void setPoints(Mlt::Geometry *geometry);
+    void getMode(QPointF pos);
+    void rebuildShape();
+    QList <QPointF> points() const;
+    virtual QPainterPath shape () const;
 
     /** @brief Reimplemented to draw the handles. */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
+    virtual QRectF boundingRect () const;
 
 protected:
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    //virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
 
 private:
     double m_dar;
-    rectActions m_mode;
-    QRectF m_oldRect;
+    QList <QPointF> m_points;
     QPointF m_lastPoint;
     bool m_modified;
-
     QGraphicsView *m_view;
+    int m_activePoint;
+    QPainterPath m_shape;
 
     /** @brief Tries to get the view of the scene. */
     bool getView();

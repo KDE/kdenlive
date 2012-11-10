@@ -27,6 +27,7 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <KFileItem>
+#include <KFileDialog>
 #include <kdeversion.h>
 #include <KUrlLabel>
 #include <KRun>
@@ -435,21 +436,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         if (props.contains("colorspace"))
             new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
         
-
-        int width = 180.0 * KdenliveSettings::project_display_ratio();
-        if (width % 2 == 1) width++;
-        QPixmap pix = m_clip->thumbProducer()->getImage(url, m_clip->getClipThumbFrame(), width, 180);
-	QPixmap framedPix(pix.width(), pix.height());
-	framedPix.fill(Qt::transparent);
-	QPainter p(&framedPix);
-	p.setRenderHint(QPainter::Antialiasing, true);
-	QPainterPath path;
-	path.addRoundedRect(0.5, 0.5, framedPix.width() - 1, framedPix.height() - 1, 4, 4);
-	p.setClipPath(path);
-	p.drawPixmap(0, 0, pix);
-	p.end();
-	
-        m_view.clip_thumb->setPixmap(framedPix);
+	m_view.clip_thumb->setMinimumSize(180 * KdenliveSettings::project_display_ratio(), 180);
+        
         if (t == IMAGE || t == VIDEO || t == PLAYLIST) m_view.tabWidget->removeTab(AUDIOTAB);
     } else {
         m_view.tabWidget->removeTab(IMAGETAB);
@@ -688,6 +676,21 @@ ClipProperties::~ClipProperties()
     if (del2) delete del2;
 }
 
+void ClipProperties::slotGotThumbnail(const QString &id, QImage img)
+{
+    if (id != m_clip->getId()) return;
+    QPixmap framedPix(img.width(), img.height());
+    framedPix.fill(Qt::transparent);
+    QPainter p(&framedPix);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPainterPath path;
+    path.addRoundedRect(0.5, 0.5, framedPix.width() - 1, framedPix.height() - 1, 4, 4);
+    p.setClipPath(path);
+    p.drawImage(0, 0, img);
+    p.end();
+    m_view.clip_thumb->setPixmap(framedPix);
+}
+
 void ClipProperties::slotApplyProperties()
 {
     if (m_clip != NULL) {
@@ -818,7 +821,32 @@ void ClipProperties::slotDeleteMarker()
 void ClipProperties::slotDeleteAnalysis()
 {
     QTreeWidgetItem *current = m_view.analysis_list->currentItem();
-    if (current) emit deleteAnalysis(m_clip->getId(), current->text(0));
+    if (current) emit editAnalysis(m_clip->getId(), current->text(0), QString());
+}
+
+void ClipProperties::slotSaveAnalysis()
+{
+    QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save Analysis Data"));
+    if (url.isEmpty()) return;
+    KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
+    KConfigGroup analysisConfig(config, "Analysis");
+    QTreeWidgetItem *current = m_view.analysis_list->currentItem();
+    analysisConfig.writeEntry(current->text(0), current->text(1));
+}
+
+void ClipProperties::slotLoadAnalysis()
+{
+    QString url = KFileDialog::getOpenFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Open Analysis Data"));
+    if (url.isEmpty()) return;
+    KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
+    KConfigGroup transConfig(config, "Analysis");
+    // read the entries
+    QMap< QString, QString > profiles = transConfig.entryMap();
+    QMapIterator<QString, QString> i(profiles);
+    while (i.hasNext()) {
+	i.next();
+	emit editAnalysis(m_clip->getId(), i.key(), i.value());
+    }
 }
 
 const QString &ClipProperties::clipId() const

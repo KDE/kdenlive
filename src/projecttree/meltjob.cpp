@@ -35,7 +35,7 @@ static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame /*fram
     self->emitFrameNumber();
 }
 
-MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters, QStringList extraParams) : AbstractClipJob(MLTJOB, cType, id, parameters),
+MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters,  QMap <QString, QString>extraParams) : AbstractClipJob(MLTJOB, cType, id, parameters),
     addClipToProject(0),
     m_producer(NULL),
     m_profile(NULL),
@@ -67,6 +67,7 @@ void MeltJob::startJob()
         return;
     }
     int in = m_params.takeFirst().toInt();
+    if (in > 0 && !m_extra.contains("offset")) m_extra.insert("offset", QString::number(in));
     int out = m_params.takeFirst().toInt();
     QString producerParams =m_params.takeFirst(); 
     QString filter = m_params.takeFirst();
@@ -80,19 +81,7 @@ void MeltJob::startJob()
     if (!m_params.isEmpty()) startPos = m_params.takeFirst().toInt();
     int track = -1;
     if (!m_params.isEmpty()) track = m_params.takeFirst().toInt();
-    QString finalFilter;
-    if (!m_params.isEmpty()) finalFilter = m_params.takeFirst();
-    else finalFilter = filter;
-
-    // Check if we want to return analysis data
-    QString properties;
-    for (int i = 0; i < m_extra.count(); i++) {
-	if (m_extra.at(i).startsWith("key:")) {
-	    properties = m_extra.at(i).section(':', 1);
-	    break;
-	}
-    }
-
+    if (!m_extra.contains("finalfilter")) m_extra.insert("finalfilter", filter);
 
     if (out != -1 && out <= in) {
         m_errorMessage.append(i18n("Clip zone undefined (%1 - %2).", in, out));
@@ -109,13 +98,15 @@ void MeltJob::startJob()
     }
     if (out == -1) {
 	prod = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+	m_length = prod->get_length();
     }
     else {
 	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
         prod = tmp->cut(in, out);
 	delete tmp;
+	m_length = prod->get_playtime();
     }
-    if (m_extra.contains("prducer_profile")) {
+    if (m_extra.contains("producer_profile")) {
 	m_profile->from_producer(*prod);
 	m_profile->set_explicit(true);
     }
@@ -162,7 +153,6 @@ void MeltJob::startJob()
     Mlt::Playlist playlist;
     playlist.append(*prod);
     tractor.set_track(playlist, 0);
-    m_length = prod->get_length();
     m_consumer->connect(tractor);
     prod->set_speed(0);
     prod->seek(0);
@@ -174,13 +164,10 @@ void MeltJob::startJob()
         
     }
     m_consumer->stop();
-    QStringList wanted = properties.split(',', QString::SkipEmptyParts);
-    stringMap jobResults;
-    foreach(const QString &key, wanted) {
-        QString value = mltFilter.get(key.toUtf8().constData());
-        jobResults.insert(key, value);
-    }
-    if (!jobResults.isEmpty() && jobStatus != JOBABORTED) emit gotFilterJobResults(m_clipId, startPos, track, finalFilter, jobResults, m_extra);
+    QMap <QString, QString> jobResults;
+    if (m_extra.contains("key"))
+	jobResults.insert(m_extra.value("key"), mltFilter.get(m_extra.value("key").toUtf8().constData()));
+    if (!jobResults.isEmpty() && jobStatus != JOBABORTED) emit gotFilterJobResults(m_clipId, startPos, track, jobResults, m_extra);
     setStatus(JOBDONE);
     delete m_consumer;
     delete prod;

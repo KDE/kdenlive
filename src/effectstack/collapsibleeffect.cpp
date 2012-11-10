@@ -455,7 +455,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
     }
     connect (m_paramWidget, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)));
     
-    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QStringList)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QStringList)));
+    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)));
     
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
@@ -593,4 +593,7 @@ bool CollapsibleEffect::needsMonitorEffectScene() const
     return m_paramWidget->needsMonitorEffectScene();
 }
 
-
+void CollapsibleEffect::setRange(int inPoint , int outPoint)
+{
+    m_paramWidget->setRange(inPoint, outPoint);
+}

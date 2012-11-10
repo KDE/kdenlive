@@ -205,6 +205,9 @@ public:
     int getFrameWidth();
     /** @brief Returns last requested seeking pos (or SEEK_INACTIVE if no seek). */
     int seekPosition() const;
+
+    /** @brief Trigger a monitor refresh. */
+    void monitorRefresh();
     
 public slots:
     /** @brief Send seek request to MLT. */
@@ -408,7 +411,7 @@ private:
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
     void resetSelectionGroup(bool selectItems = true);
-    void groupSelectedItems(bool force = false, bool createNewGroup = false);
+    void groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool force = false, bool createNewGroup = false, bool selectNewGroup = false);
     /** Get available space for clip move (min and max free positions) */
     void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     /** Get available space for transition move (min and max free positions) */
@@ -497,7 +500,7 @@ private slots:
      *  @param resetThumbs Should we recreate the timeline thumbnails. */
     void slotRefreshThumbs(const QString &id, bool resetThumbs);
     /** @brief A Filter job producer results. */
-    void slotGotFilterJobResults(const QString &id, int startPos, int track, const QString &filter, stringMap filterParams, QStringList extra);
+    void slotGotFilterJobResults(const QString &id, int startPos, int track, stringMap filterParams, stringMap extra);
 
 
 signals:
@@ -529,7 +532,7 @@ signals:
     /** @brief Cursor position changed, repaint ruler.*/
     void updateRuler();
     /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
-    void importKeyframes(GRAPHICSRECTITEM type, const QString&);
+    void importKeyframes(GRAPHICSRECTITEM type, const QString&, int maximum);
 };
 
 #endif

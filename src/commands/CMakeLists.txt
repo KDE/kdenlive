@@ -30,6 +30,7 @@ set(kdenlive_SRCS
   commands/razorclipcommand.cpp
   commands/razorgroupcommand.cpp
   commands/rebuildgroupcommand.cpp
+  commands/refreshmonitorcommand.cpp
   commands/resizeclipcommand.cpp
   commands/splitaudiocommand.cpp
   PARENT_SCOPE

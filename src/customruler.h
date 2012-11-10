@@ -57,6 +57,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
+    virtual void leaveEvent(QEvent * event);
 
 private:
     Timecode m_timecode;
@@ -64,8 +65,6 @@ private:
     int m_zoneStart;
     int m_zoneEnd;
     int m_duration;
-    QColor m_bgColor;
-    QColor m_cursorColor;
     QColor m_zoneColor;
     double m_textSpacing;
     double m_factor;
@@ -83,6 +82,7 @@ private:
     int m_startRate;
     MOUSE_MOVE m_mouseMove;
     QMenu *m_goMenu;
+    QBrush m_cursorColor;
 
 
 public slots:
