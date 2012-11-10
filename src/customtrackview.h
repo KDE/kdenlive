@@ -307,6 +307,8 @@ public slots:
 
     /** @brief Get effect parameters ready for MLT*/
     static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
+	/** @brief Move playhead to mouse curser position if defined key is pressed */
+    void slotAlignPlayheadToMousePos();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

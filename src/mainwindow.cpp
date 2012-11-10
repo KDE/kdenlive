@@ -1402,6 +1402,11 @@ void MainWindow::setupActions()
     collection.addAction("delete_timeline_clip", deleteItem);
     connect(deleteItem, SIGNAL(triggered(bool)), this, SLOT(slotDeleteItem()));
 
+    KAction* alignPlayhead = new KAction(i18n("Align Playhead to Mouse Position"), this);
+    alignPlayhead->setShortcut(Qt::Key_P);
+    collection.addAction("align_playhead", alignPlayhead);
+    connect(alignPlayhead, SIGNAL(triggered(bool)), this, SLOT(slotAlignPlayheadToMousePos()));
+
     /*KAction* editTimelineClipSpeed = new KAction(i18n("Change Clip Speed"), this);
     collection.addAction("change_clip_speed", editTimelineClipSpeed);
     editTimelineClipSpeed->setData("change_speed");
@@ -2987,7 +2992,7 @@ void MainWindow::slotRemoveSpace()
 
 void MainWindow::slotInsertTrack(int ix)
 {
-    m_projectMonitor->slotActivateMonitor();
+    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
     if (m_activeTimeline) {
         if (ix == -1) ix = m_activeTimeline->projectView()->selectedTrack();
         m_activeTimeline->projectView()->slotInsertTrack(ix);
@@ -2998,7 +3003,7 @@ void MainWindow::slotInsertTrack(int ix)
 
 void MainWindow::slotDeleteTrack(int ix)
 {
-    m_projectMonitor->slotActivateMonitor();
+    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
     if (m_activeTimeline) {
         if (ix == -1) ix = m_activeTimeline->projectView()->selectedTrack();
         m_activeTimeline->projectView()->slotDeleteTrack(ix);
@@ -3009,7 +3014,7 @@ void MainWindow::slotDeleteTrack(int ix)
 
 void MainWindow::slotConfigTrack(int ix)
 {
-    m_projectMonitor->slotActivateMonitor();
+    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotConfigTracks(ix);
     if (m_activeDocument)
@@ -3018,7 +3023,7 @@ void MainWindow::slotConfigTrack(int ix)
 
 void MainWindow::slotSelectTrack()
 {
-    m_projectMonitor->slotActivateMonitor();
+    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
     if (m_activeTimeline) {
         m_activeTimeline->projectView()->slotSelectClipsInTrack();
     }
@@ -3026,7 +3031,7 @@ void MainWindow::slotSelectTrack()
 
 void MainWindow::slotSelectAllTracks()
 {
-    m_projectMonitor->slotActivateMonitor();
+    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotSelectAllClips();
 }
@@ -4582,6 +4587,11 @@ void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString
     }
 }
 
+void MainWindow::slotAlignPlayheadToMousePos()
+{
+    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
+    m_activeTimeline->projectView()->slotAlignPlayheadToMousePos();
+}
 
 #include "mainwindow.moc"
 
