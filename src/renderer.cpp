@@ -1581,11 +1581,6 @@ void Render::play(double speed)
         return;
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
-    /*if (speed == 0.0) {
-    m_mltProducer->seek((int) m_framePosition + 1);
-        m_mltConsumer->purge();
-    }*/
-    refresh();
 }
 
 void Render::play(const GenTime & startTime)
