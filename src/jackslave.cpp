@@ -20,7 +20,8 @@
 #include "jackslave.h"
 
 JackSlave::JackSlave(Mlt::Profile * profile) :
-	m_valid(false)
+	m_valid(false),
+	m_shutdown(false)
 {
 	m_mltProfile = profile;
 }
@@ -52,26 +53,32 @@ void* JackSlave::runTransportThread(void* device)
 void JackSlave::updateTransportState()
 {
 	pthread_mutex_lock(&m_transportLock);
-	while (m_valid)	{
+	while (m_valid && !m_shutdown)	{
+		jack_position_t jackpos;
+		jack_transport_state_t state = JackTransportStopped;
+		int position = 0;
 
-		jack_position_t jack_pos;
-		jack_transport_state_t state = jack_transport_query(m_client, &jack_pos);
-
-		/* TODO: impl convert method jack_pos => kdenlive pos */
-		int position = getPlaybackPosition();
+		/* don't call client if already invalidated */
+		if (!m_shutdown) {
+			state = jack_transport_query(m_client, &jackpos);
+			/* convert jack (audio) to kdenlive video position  */
+			position = toVideoPosition(jackpos);
+		}
 
 		if(state != m_state || m_sync == 2) {
 			m_nextState = m_state = state;
 
 			switch (state) {
-			case JackTransportRolling:
-				/* fire playback started event */
-				emit playbackStarted(position);
-				break;
-			case JackTransportStopped:
-				/* fire playback stopped event */
-				emit playbackStopped(position);
-				break;
+				case JackTransportRolling:
+					/* fire playback started event */
+					emit playbackStarted(position);
+					break;
+				case JackTransportStopped:
+					/* fire playback stopped event */
+					emit playbackStopped(position);
+					break;
+				default:
+					break;
 			}
 
 			if(m_sync > 1)
@@ -83,6 +90,11 @@ void JackSlave::updateTransportState()
 	pthread_mutex_unlock(&m_transportLock);
 }
 
+int JackSlave::toVideoPosition(const jack_position_t &position)
+{
+	return (int)((m_mltProfile->fps() * (double)position.frame) / (double)position.frame_rate + 0.5);
+}
+
 bool JackSlave::isValid()
 {
 	return m_valid;
@@ -91,27 +103,6 @@ bool JackSlave::isValid()
 Mlt::Filter * JackSlave::filter()
 {
 	return m_mltFilterJack;
-}
-
-void JackSlave::open()
-{
-//	if (m_isActive == false /* && m_mltFilterJack == 0 */)
-	{
-		// create jackrack filter using the factory
-		m_mltFilterJack = new Mlt::Filter(*m_mltProfile, "jackrack", NULL);
-
-		if(m_mltFilterJack != NULL && m_mltFilterJack->is_valid()) {
-			// set filter properties
-			m_mltFilterJack->set("out_1", "system:playback_1");
-			m_mltFilterJack->set("out_2", "system:playback_2");
-
-			// register the jack listeners
-			m_mltFilterJack->listen("jack-stopped", this, (mlt_listener) JackSlave::onJackStoppedProxy);
-			m_mltFilterJack->listen("jack-started", this, (mlt_listener) JackSlave::onJackStartedProxy);
-//			m_mltFilterJack->listen("jack-starting", this, (mlt_listener) Render::_on_jack_starting);
-//			m_mltFilterJack->listen("jack-last-pos-req", this, (mlt_listener) Render::_on_jack_last_pos_req);
-		}
-	}
 }
 
 void JackSlave::open(const QString &name, int channels, int buffersize)
@@ -175,7 +166,7 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 //	create();
 
 	m_valid = true;
-//	m_sync = 0;
+	m_sync = 0;
 //	m_syncFunc = NULL;
 	m_nextState = m_state = jack_transport_query(m_client, NULL);
 
@@ -223,28 +214,21 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 
 void JackSlave::close()
 {
-//	if(m_mltFilterJack && isActive()) {
-//		delete m_mltFilterJack;
-//		m_mltFilterJack = 0;
-//		m_isActive = false;
-//	}
-//
 	if(m_valid) {
 		m_valid = false;
-
 		/* TODO: find a better solution - don't call close 2 times (two monitor problem)*/
 		pthread_mutex_lock(&m_transportLock);
 		pthread_cond_signal(&m_transportCondition);
 		pthread_mutex_unlock(&m_transportLock);
 		pthread_join(m_transportThread, NULL);
-
 		pthread_cond_destroy(&m_transportCondition);
 		pthread_mutex_destroy(&m_transportLock);
 
-		jack_client_close(m_client);
+		if (!m_shutdown)
+			jack_client_close(m_client);
 		delete[] m_ports;
-
 	}
+
 //	for(unsigned int i = 0; i < m_specs.channels; i++)
 //		jack_ringbuffer_free(m_ringbuffers[i]);
 //	delete[] m_ringbuffers;
@@ -271,7 +255,7 @@ bool JackSlave::probe()
 void JackSlave::jack_shutdown(void *data)
 {
 	JackSlave* device = (JackSlave*)data;
-	device->m_valid = false;
+	device->m_shutdown = true;
 }
 
 void JackSlave::onJackStartedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position)

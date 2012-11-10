@@ -37,9 +37,13 @@ public:
 	virtual ~JackSlave();
 	bool isValid();
 	Mlt::Filter * filter();
-	void open();
 	void open(const QString &name, int channels, int buffersize);
 	void close();
+
+	/**
+	 * Convert jack audio frame position to kdenlive video position.
+	 */
+	int toVideoPosition(const jack_position_t &position);
 
 	/**
 	 * Checks if jackd is started.
@@ -113,6 +117,11 @@ private:
 	 * Whether the device is valid.
 	 */
 	bool m_valid;
+
+	/**
+	 * Whether the device is shutdown by jack.
+	 */
+	bool m_shutdown;
 
 	/**
 	 * The transport synchronization thread.
