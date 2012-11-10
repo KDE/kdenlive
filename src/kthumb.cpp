@@ -168,9 +168,6 @@ QImage KThumb::getProducerFrame(int framepos, int frameWidth, int displayWidth, 
     QMutexLocker lock(&m_mutex);
     m_producer->seek(framepos);
     Mlt::Frame *frame = m_producer->get_frame();
-    frame->set("rescale.interp", "nearest");
-    frame->set("deinterlace_method", "onefield");
-    frame->set("top_field_first", -1 );
     QImage p = getFrame(frame, frameWidth, displayWidth, height);
     delete frame;
     return p;
@@ -229,7 +226,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         } else {
             image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }
-        p.fill(QColor(Qt::black).rgb());
+        p.fill(QColor(100, 100, 100, 70));
         QPainter painter(&p);
         painter.drawImage(p.rect(), image);
         painter.end();
