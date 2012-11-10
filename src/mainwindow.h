@@ -570,6 +570,8 @@ private slots:
     void slotSaveTimelineClip();
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
     void slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum);
+    /** @brief Move playhead to mouse curser position if defined key is pressed */
+    void slotAlignPlayheadToMousePos();
 
 //#ifdef USE_JACK
     void slotConnectJack();

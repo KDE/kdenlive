@@ -3508,14 +3508,16 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	// Producer params
 	jobParams << QString();
 	// Filter params, use a smaller region of the image to speed up operation
-	jobParams << filterName << "bounding=\"25%x25%:15%x15\" shot_change_list=0 denoise=0";
+	// In fact, it's faster to rescale whole image than using part of it (bounding=\"25%x25%:15%x15\")
+	jobParams << filterName << "shot_change_list=0 denoise=0";
 	// Consumer
-	jobParams << "null" << "all=1 terminate_on_pause=1 real_time=-1";
+	jobParams << "null" << "all=1 terminate_on_pause=1 real_time=-1 rescale=nearest deinterlace_method=onefield top_field_first=-1";
 	QMap <QString, QString> extraParams;
 	extraParams.insert("key", "shot_change_list");
 	extraParams.insert("projecttreefilter", "1");
 	QString keyword("%count");
 	extraParams.insert("resultmessage", i18n("Found %1 scenes.", keyword));
+	extraParams.insert("resize_profile", "160");
 	if (ui.store_data->isChecked()) {
 	    // We want to save result as clip metadata
 	    extraParams.insert("storedata", "1");

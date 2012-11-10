@@ -101,7 +101,6 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
     ffmpeg_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     adjustSize();
-    if (m_automaticMode) slotStartTransCode();
 }
 
 ClipTranscode::~ClipTranscode()
@@ -144,7 +143,15 @@ void ClipTranscode::slotStartTransCode()
     QString s_url = source_url->url().path();
     parameters << "-i" << s_url;
     if (QFile::exists(destination + extension)) {
-        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) return;
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
+	    // Abort operation
+	    if (m_automaticMode) {
+		// inform caller that we aborted
+		emit transcodedClip(source_url->url(), KUrl());
+		close();
+	    }
+	    return;
+	}
         parameters << "-y";
     }
 

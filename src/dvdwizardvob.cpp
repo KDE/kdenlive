@@ -123,7 +123,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_warnMessage->setCloseButtonVisible(false);
     m_warnMessage->addAction(m_transcodeAction);
     QGridLayout *s =  static_cast <QGridLayout*> (layout());
-    s->addWidget(m_warnMessage, 3, 0, 1, -1);
+    s->addWidget(m_warnMessage, 2, 0, 1, -1);
     m_warnMessage->hide();
     m_view.button_transcode->setHidden(true);
 #else
@@ -532,13 +532,20 @@ void DvdWizardVob::slotTranscodeFiles()
 	    }
 	    ClipTranscode *d = new ClipTranscode(KUrl::List () << KUrl(item->text(0)), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
 	    connect(d, SIGNAL(transcodedClip(KUrl,KUrl)), this, SLOT(slotTranscodedClip(KUrl, KUrl)));
+	    d->slotStartTransCode();
 	    d->show();
+	    
 	}
     }
 }
 
 void DvdWizardVob::slotTranscodedClip(KUrl src, KUrl transcoded)
 {
+    if (transcoded.isEmpty()) {
+	// Transcoding canceled or failed
+	m_transcodeAction->setEnabled(true);
+	return;
+    }
     int max = m_vobList->topLevelItemCount();
     for (int i = 0; i < max; i++) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
