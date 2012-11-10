@@ -93,7 +93,7 @@ void JackSlave::updateTransportState()
 
 int JackSlave::toVideoPosition(const jack_position_t &position)
 {
-	return (int)((m_mltProfile->fps() * (double)position.frame) / (double)position.frame_rate + 0.5);
+	return (int)((m_mltProfile->fps() * (double)position.frame) / (double)position.frame_rate /*+ (double)0.5*/);
 }
 
 bool JackSlave::isValid()
