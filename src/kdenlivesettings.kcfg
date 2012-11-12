@@ -155,6 +155,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="displayallchannels" type="Bool">
+      <label>Display all channels in audio thumbnails.</label>
+      <default>true</default>
+    </entry>
+    
     <entry name="normaliseaudiothumbs" type="Bool">
       <label>Normalise audio before creating thumbnails.</label>
       <default>true</default>

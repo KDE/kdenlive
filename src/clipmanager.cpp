@@ -252,7 +252,7 @@ void ClipManager::askForAudioThumb(const QString &id)
 void ClipManager::slotGetAudioThumbs()
 {
     Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().constData());
-    mlt_audio_format audioFormat = mlt_audio_pcm;
+    mlt_audio_format audioFormat = mlt_audio_s16;
     while (!m_abortAudioThumb && !m_audioThumbsQueue.isEmpty()) {
         m_thumbsMutex.lock();
         m_processingAudioThumbId = m_audioThumbsQueue.takeFirst();
@@ -264,11 +264,15 @@ void ClipManager::slotGetAudioThumbs()
         if (hash.isEmpty()) continue;
         QString audioPath = projectFolder() + "/thumbs/" + hash + ".thumb";
         double lengthInFrames = clip->duration().frames(m_doc->fps());
-        //FIXME: should this be hardcoded??
-        int channels = 2;
-        int frequency = 48000;
-        int arrayWidth = 20;
+	int frequency = 48000;
+	int channels = 2;
+	QString data = clip->getProperty("frequency");
+	if (!data.isEmpty()) frequency = data.toInt();
+	data = clip->getProperty("channels");
+	if (!data.isEmpty()) channels = data.toInt();
+	int arrayWidth = 20;
         double frame = 0.0;
+	int maxVolume = 0;
         audioByteArray storeIn;
         QFile f(audioPath);
         if (QFileInfo(audioPath).size() > 0 && f.open(QIODevice::ReadOnly)) {
@@ -290,13 +294,17 @@ void ClipManager::slotGetAudioThumbs()
                     QByteArray audioArray(arrayWidth, '\x00');
                     for (int i = 0; i < arrayWidth; i++) {
                         audioArray[i] = channelarray.at(h2 + h3 + i);
+			if (audioArray.at(i) > maxVolume) maxVolume = audioArray.at(i);
                     }
                     h3 += arrayWidth;
                     storeIn[z][c] = audioArray;
                 }
                 h2 += h1;
             }
-            if (!m_abortAudioThumb) clip->updateAudioThumbnail(storeIn);
+            if (!m_abortAudioThumb) {
+		clip->setProperty("audio_max", QString::number(maxVolume - 64));
+		clip->updateAudioThumbnail(storeIn);
+	    }
             continue;
         } 
         
@@ -319,9 +327,9 @@ void ClipManager::slotGetAudioThumbs()
         producer.set("video_index", "-1");
 
         if (KdenliveSettings::normaliseaudiothumbs()) {
-            Mlt::Filter m_convert(prof, "volume");
+            /*Mlt::Filter m_convert(prof, "volume");
             m_convert.set("gain", "normalise");
-            producer.attach(m_convert);
+            producer.attach(m_convert);*/
         }
 
         int last_val = 0;
@@ -344,7 +352,17 @@ void ClipManager::slotGetAudioThumbs()
                     QByteArray audioArray;
                     audioArray.resize(arrayWidth);
                     for (int i = 0; i < audioArray.size(); i++) {
-                        audioArray[i] = ((*(pcm + c + i * samples / audioArray.size())) >> 9) + 127 / 2 ;
+			double pcmval = *(pcm + c + i * samples / audioArray.size());
+			if (pcmval >= 0) {
+			    pcmval = sqrt(pcmval) / 2.83 + 64;
+			    audioArray[i] = pcmval;
+			    if (pcmval > maxVolume) maxVolume = pcmval;
+			}
+			else {
+			    pcmval = -sqrt(-pcmval) / 2.83 + 64;
+			    audioArray[i] = pcmval;
+			    if (-pcmval > maxVolume) maxVolume = -pcmval;
+			}
                     }
                     f.write(audioArray);
                     storeIn[z][c] = audioArray;
@@ -360,6 +378,7 @@ void ClipManager::slotGetAudioThumbs()
             f.remove();
         } else {
             clip->updateAudioThumbnail(storeIn);
+	    clip->setProperty("audio_max", QString::number(maxVolume - 64));
         }
     }
     m_processingAudioThumbId.clear();
