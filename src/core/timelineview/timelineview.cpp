@@ -41,7 +41,7 @@ void TimelineView::setScene(TimelineScene* scene)
     connect(m_scene, SIGNAL(heightChanged(int)), this, SLOT(setHeight(int)));
 
     m_scene->positionTracks();
-    setZoom(m_scene->timeline()->producer()->get_int("timelineview_zoom"));
+    setZoom(m_scene->timeline()->producer()->get_int("kdenlive.timelineview_zoom"));
 }
 
 double TimelineView::scale() const
@@ -65,7 +65,7 @@ void TimelineView::setZoom(int level)
 
     m_zoomLevel = level;
     if (m_scene) {
-        m_scene->timeline()->producer()->set("timelineview_zoom", m_zoomLevel);
+        m_scene->timeline()->producer()->set("kdenlive.timelineview_zoom", m_zoomLevel);
     }
 
     double scale = this->scale();

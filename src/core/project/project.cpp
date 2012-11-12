@@ -167,4 +167,23 @@ void Project::loadSettings(const QDomElement& settings)
     }
 }
 
+void Project::save()
+{
+    if (m_url.isEmpty()) {
+        
+    }
+
+    QFile file(m_url.path());
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        // TODO: warning
+        return /*false*/;
+    }
+    
+    QDomDocument document;
+    document.setContent(m_timeline->toXML(), false);
+
+    file.write(document.toString().toUtf8());
+    file.close();
+}
+
 #include "project.moc"

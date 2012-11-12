@@ -182,7 +182,7 @@ void TimelineTrack::setClipIndex(AbstractTimelineClip* clip, int index)
 
 QString TimelineTrack::name() const
 {
-    return m_producer->property("name");
+    return m_producer->property("kdenlive.name");
 }
 
 void TimelineTrack::setName(const QString& name)
@@ -190,7 +190,7 @@ void TimelineTrack::setName(const QString& name)
     if (name != this->name()) {
         m_parent->project()->undoStack()->push(new ConfigureTrackCommand("Change track name",
                                                                          index(),
-                                                                         "name",
+                                                                         "kdenlive.name",
                                                                          name,
                                                                          this->name(),
                                                                          &TimelineTrack::emitNameChanged
@@ -263,7 +263,7 @@ void TimelineTrack::emitAudibilityChanged()
 
 bool TimelineTrack::isLocked() const
 {
-    return m_producer->get_int("locked");
+    return m_producer->get_int("kdenlive.locked");
 }
 
 void TimelineTrack::lock(bool lock)
@@ -271,7 +271,7 @@ void TimelineTrack::lock(bool lock)
     if (lock != isLocked()) {
         m_parent->project()->undoStack()->push(new ConfigureTrackCommand(lock ? "Lock Track" : "Unlock Track",
                                                                          index(),
-                                                                         "locked",
+                                                                         "kdenlive.locked",
                                                                          QString::number(lock),
                                                                          m_producer->property("locked"),
                                                                          &TimelineTrack::emitLockStateChanged
@@ -296,7 +296,7 @@ void TimelineTrack::producer_change(mlt_producer producer, TimelineTrack* self)
 
 TimelineTrack::Types TimelineTrack::type() const
 {
-    return static_cast<TimelineTrack::Types>(m_producer->get_int("type"));
+    return static_cast<TimelineTrack::Types>(m_producer->get_int("kdenlive.type"));
 }
 
 void TimelineTrack::setType(TimelineTrack::Types type)

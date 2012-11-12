@@ -65,6 +65,28 @@ Timeline::~Timeline()
     delete m_profile;
 }
 
+QString Timeline::toXML() const
+{
+    QString playlist;
+    Mlt::Profile profile((mlt_profile) 0);
+    Mlt::Consumer xmlConsumer(profile, "xml:kdenlive_playlist");
+
+    Q_ASSERT(xmlConsumer.is_valid());
+
+//     m_producer->optimise();
+
+    xmlConsumer.set("terminate_on_pause", 1);
+    xmlConsumer.set("store", "kdenlive");
+    Mlt::Producer producer(m_producer->get_producer());
+
+    Q_ASSERT(producer.is_valid());
+
+    xmlConsumer.connect(producer);
+    xmlConsumer.run();
+    playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
+    return playlist;
+}
+
 int Timeline::duration() const
 {
     return m_tractor->get_playtime();

@@ -83,6 +83,9 @@ public:
      */
     void setSetting(const QString &name, const QString &value);
 
+public slots:
+    void save();
+
 private:
     void openFile();
     void openNew();

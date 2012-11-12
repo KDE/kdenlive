@@ -54,6 +54,8 @@ public:
 public slots:
     /** @brief Allows to open a project through the open file dialog. */
     void execOpenFileDialog();
+    /** @brief Saves the current project to disk. */
+    void saveProject();
     /** @brief Calls undo on the command stack of the current project. */
     void undoCommand();
     /** @brief Calls redo on the command stack of the current project. */
