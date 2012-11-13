@@ -35,9 +35,20 @@ class JackSlave : public QObject
 public:
     static JackSlave& singleton(Mlt::Profile * profile = 0);
 	virtual ~JackSlave();
+
+	/**
+	 * Checks if the slave is still valid for processing.
+	 */
 	bool isValid();
-	Mlt::Filter * filter();
+
+	/**
+	 * Open and init slave.
+	 */
 	void open(const QString &name, int channels, int buffersize);
+
+	/**
+	 * Close slave.
+	 */
 	void close();
 
 	/**
@@ -49,6 +60,11 @@ public:
 	 * Convert jack audio frame position to kdenlive video position.
 	 */
 	int toVideoPosition(const jack_position_t &position);
+
+	/**
+	 * Convert kdenlive video to jack audio frame position.
+	 */
+	jack_nframes_t toAudioPosition(const int &position, const jack_nframes_t &framerate);
 
 	/**
 	 * Checks if jackd is started.
@@ -96,8 +112,6 @@ public:
 	 * Syncronisation state.
 	 */
 	int m_sync;
-
-	void locate(int position);
 
 protected:
 	JackSlave(Mlt::Profile * profile);
@@ -182,18 +196,14 @@ private:
 
 
 	/** ----------------------------- **/
-	Mlt::Filter *m_mltFilterJack;
     Mlt::Profile *m_mltProfile;
-
-    static void onJackStartedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position);
-    static void onJackStoppedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position);
 
 public slots:
 	void setCurrentPosition(int position);
 
 signals:
 	void playbackStarted(int position);
-	void playbackStarting(int position);
+	void playbackSync(int position);
 	void playbackStopped(int position);
 };
 

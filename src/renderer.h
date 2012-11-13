@@ -484,7 +484,7 @@ public slots:
     void doRefresh();
 
     void slotOnSlavePlaybackStarted(int position);
-    void slotOnSlavePlaybackStarting(int position);
+    void slotOnSlavePlaybackSync(int position);
     void slotOnSlavePlaybackStopped(int position);
 };
 

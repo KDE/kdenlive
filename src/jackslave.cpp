@@ -66,7 +66,7 @@ void JackSlave::updateTransportState()
 			position = toVideoPosition(jackpos);
 		}
 
-		if(state != m_state || m_sync == 2) {
+		if(state != m_state) {
 			m_nextState = m_state = state;
 
 			switch (state) {
@@ -81,9 +81,6 @@ void JackSlave::updateTransportState()
 				default:
 					break;
 			}
-
-			if(m_sync > 1)
-				m_sync = 3;
 		}
 
 		pthread_cond_wait(&m_transportCondition, &m_transportLock);
@@ -96,14 +93,14 @@ int JackSlave::toVideoPosition(const jack_position_t &position)
 	return (int)((m_mltProfile->fps() * (double)position.frame) / (double)position.frame_rate /*+ (double)0.5*/);
 }
 
+jack_nframes_t JackSlave::toAudioPosition(const int &position, const jack_nframes_t &framerate)
+{
+	return (jack_nframes_t)(((double) framerate * (double) position) / (double) m_mltProfile->fps());
+}
+
 bool JackSlave::isValid()
 {
 	return m_valid;
-}
-
-Mlt::Filter * JackSlave::filter()
-{
-	return m_mltFilterJack;
 }
 
 void JackSlave::open(const QString &name, int channels, int buffersize)
@@ -259,15 +256,6 @@ void JackSlave::jack_shutdown(void *data)
 	device->m_shutdown = true;
 }
 
-void JackSlave::onJackStartedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position)
-{
-	/* get slave ref */
-	JackSlave *slave = (JackSlave*)consumer;
-
-	/* fire playback started event */
-	emit slave->playbackStarted(*position);
-}
-
 int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, void* data)
 {
 	JackSlave* device = (JackSlave*)data;
@@ -277,20 +265,11 @@ int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, voi
 	if (!device->m_transportEnabled)
 		return 1;
 
-	if(state == JackTransportStopped && !device->m_sync) {
-		if(pthread_mutex_trylock(&(device->m_transportLock)) == 0) {
-			device->m_sync = 2;
-			pthread_cond_signal(&(device->m_transportCondition));
-			pthread_mutex_unlock(&(device->m_transportLock));
-		} else {
-			device->m_sync = 1;
-		}
-	} else if (state == JackTransportStarting) {
-#if 1
+	if(state == JackTransportStopped) {
 		if (!device->m_sync) {
 			/*start seeking */
 			device->m_sync = 1;
-			emit device->playbackStarting(device->toVideoPosition(*pos));
+			emit device->playbackSync(device->toVideoPosition(*pos));
 		} else if (device->m_sync == 1) {
 			/* sync position */
 			if (device->m_currentPosition == device->toVideoPosition(*pos)) {
@@ -298,36 +277,27 @@ int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, voi
 			} else {
 				device->m_sync = 0;
 			}
-		} else if (device->m_sync == 2) {
-			if(pthread_mutex_trylock(&(device->m_transportLock)) == 0) {
-				pthread_cond_signal(&(device->m_transportCondition));
-				pthread_mutex_unlock(&(device->m_transportLock));
+		}
+	} else if (state == JackTransportStarting) {
+		if (!device->m_sync) {
+			/*start seeking */
+			device->m_sync = 1;
+			emit device->playbackSync(device->toVideoPosition(*pos));
+		} else if (device->m_sync == 1) {
+			/* sync position */
+			if (device->m_currentPosition == device->toVideoPosition(*pos)) {
+				device->m_sync = 2;
+			} else {
+				device->m_sync = 0;
 			}
 		}
-#endif
-#if 0
-		switch (device->m_sync) {
-			case 0:
-				/*start seeking */
-				device->m_sync = 1;
-				emit device->playbackStarting(device->toVideoPosition(*pos));
-				break;
-			case 1:
-				/* sync position */
-				if (device->m_currentPosition == device->toVideoPosition(*pos))
-					device->m_sync = 2;
-				break;
-			default:
-				break;
-		}
-#endif
 	} else if (state == JackTransportRolling) {
 		/* give up sync and just start playing */
 		device->m_sync = 0;
 		result = 1;
 	}
 
-	if (device->m_sync > 2) {
+	if (device->m_sync > 1) {
 		device->m_sync = 0;
 		result = 1;
 	}
@@ -347,15 +317,6 @@ int JackSlave::jack_process(jack_nframes_t length, void *data)
 		}
 	}
 	return 0;
-}
-
-void JackSlave::onJackStoppedProxy(mlt_properties owner, mlt_consumer consumer, mlt_position *position)
-{
-	/* get slave ref */
-	JackSlave *slave = (JackSlave*)consumer;
-
-	/* fire playback started event */
-	emit slave->playbackStopped(*position);
 }
 
 void JackSlave::startPlayback()
@@ -380,9 +341,9 @@ void JackSlave::seekPlayback(int time)
 {
     if (m_valid) {
     	if(time >= 0) {
-    		jack_nframes_t jack_frame = jack_get_sample_rate(m_client);
-    		jack_frame *= time / m_mltProfile->fps();
-    		jack_transport_locate(m_client, jack_frame);
+    		jack_nframes_t framerate = jack_get_sample_rate(m_client);
+//    		frame *= time / m_mltProfile->fps();
+    		jack_transport_locate(m_client, toAudioPosition(time, framerate));
     	}
     }
 }
@@ -391,8 +352,7 @@ int JackSlave::getPlaybackPosition()
 {
 	jack_position_t position;
 	jack_transport_query(m_client, &position);
-//	mlt_position position = m_mltProfile->fps() * jack_pos->frame / jack_pos->frame_rate + 0.5;
-	return ((m_mltProfile->fps() * position.frame) / position.frame_rate + 0.5);
+	return toVideoPosition(position);
 }
 
 void JackSlave::setCurrentPosition(int position)

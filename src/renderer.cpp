@@ -446,14 +446,14 @@ void Render::seek(int time, bool slave)
 #endif
 
     if (requestedSeekPosition == SEEK_INACTIVE) {
-	requestedSeekPosition = time;
-	m_mltProducer->seek(time);
-	//m_mltConsumer->purge();
-	if (m_mltProducer->get_speed() == 0) {
-	    refresh();
-	}
-    }
-    else requestedSeekPosition = time;
+		requestedSeekPosition = time;
+		m_mltProducer->seek(time);
+		//m_mltConsumer->purge();
+		if (m_mltProducer->get_speed() == 0) {
+			refresh();
+		}
+    } else
+    	requestedSeekPosition = time;
 }
 
 //static
@@ -1610,11 +1610,12 @@ void Render::switchPlay(bool play, bool slave)
     			JACKSLAVE.startPlayback();
     		} else {
     			JACKSLAVE.stopPlayback();
-    			position = JACKSLAVE.getPlaybackPosition();
     		}
     	}
     	/* return */
     	return;
+    } else if (slave && isSlaveTransportEnabled()) {
+		position = JACKSLAVE.getPlaybackPosition();
     }
 #endif
 
@@ -4762,8 +4763,8 @@ void Render::enableSlaveTransport()
 		/* connect transport callbacks */
 		connect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
 				this, SLOT(slotOnSlavePlaybackStarted(int)));
-		connect(&JACKSLAVE, SIGNAL(playbackStarting(int)),
-				this, SLOT(slotOnSlavePlaybackStarting(int)));
+		connect(&JACKSLAVE, SIGNAL(playbackSync(int)),
+				this, SLOT(slotOnSlavePlaybackSync(int)));
 		connect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
 				this, SLOT(slotOnSlavePlaybackStopped(int)));
 		connect(this, SIGNAL(rendererPosition(int)),
@@ -4789,8 +4790,8 @@ void Render::disableSlaveTransport()
 		/* disconnect transport callbacks */
 		disconnect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
 				this, SLOT(slotOnSlavePlaybackStarted(int)));
-		disconnect(&JACKSLAVE, SIGNAL(playbackStarting(int)),
-				this, SLOT(slotOnSlavePlaybackStarting(int)));
+		disconnect(&JACKSLAVE, SIGNAL(playbackSync(int)),
+				this, SLOT(slotOnSlavePlaybackSync(int)));
 		disconnect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
 				this, SLOT(slotOnSlavePlaybackStopped(int)));
 		disconnect(this, SIGNAL(rendererPosition(int)),
@@ -4812,7 +4813,7 @@ void Render::slotOnSlavePlaybackStarted(int position)
 	switchPlay(true, true);
 }
 
-void Render::slotOnSlavePlaybackStarting(int position)
+void Render::slotOnSlavePlaybackSync(int position)
 {
 	seek(position, true);
 }
@@ -4820,7 +4821,6 @@ void Render::slotOnSlavePlaybackStarting(int position)
 void Render::slotOnSlavePlaybackStopped(int position)
 {
 	switchPlay(false, true);
-	seek(position, true);
 }
 
 #endif
