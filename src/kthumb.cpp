@@ -133,7 +133,7 @@ QImage KThumb::extractImage(int frame, int width, int height)
 {
     if (m_producer == NULL) {
         QImage img(width, height, QImage::Format_ARGB32_Premultiplied);
-        img.fill(Qt::black);
+        img.fill(QColor(Qt::black).rgb());
         return img;
     }
     return getProducerFrame(frame, (int) (height * m_ratio + 0.5), width, height);
@@ -226,7 +226,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         } else {
             image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }
-        p.fill(QColor(100, 100, 100, 70));
+        p.fill(QColor(100, 100, 100, 70).rgba());
         QPainter painter(&p);
         painter.drawImage(p.rect(), image);
         painter.end();
@@ -305,7 +305,7 @@ void KThumb::getThumbs(KUrl url, int startframe, int endframe, int width, int he
     if (url.isEmpty()) return;
     QPixmap image(width, height);
     Mlt::Producer m_producer(url.path().toUtf8().constData());
-    image.fill(Qt::black);
+    image.fill(QColor(Qt::black).rgb());
 
     if (m_producer.is_blank()) {
  emit thumbReady(startframe, image);

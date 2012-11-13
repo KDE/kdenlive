@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>281</width>
+    <width>361</width>
     <height>222</height>
    </rect>
   </property>
@@ -40,7 +40,20 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="kcfg_displayallchannels">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Channels</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="kcfg_normaliseaudiothumbs">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Normalise audio for thumbnails</string>
           </property>
@@ -129,5 +142,38 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>kcfg_audiothumbnails</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kcfg_normaliseaudiothumbs</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>35</x>
+     <y>66</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>208</x>
+     <y>66</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>kcfg_audiothumbnails</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kcfg_displayallchannels</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>35</x>
+     <y>66</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>105</x>
+     <y>66</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
