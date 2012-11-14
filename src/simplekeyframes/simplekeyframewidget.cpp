@@ -60,7 +60,7 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(Timecode t, int duration, QWidget *pa
     l->addWidget(m_buttonNext, 1, 2);
     l->addWidget(m_time, 1, 3, Qt::AlignRight);
 
-    connect(m_time, SIGNAL(editingFinished()), this, SLOT(slotSetPosition()));
+    connect(m_time, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSetPosition()));
     connect(m_timeline, SIGNAL(positionChanged(int)), this, SLOT(slotSetPosition(int)));
     connect(m_timeline, SIGNAL(atKeyframe(bool)), this, SLOT(slotAtKeyframe(bool)));
     connect(m_timeline, SIGNAL(keyframeAdded(int)), this, SIGNAL(keyframeAdded(int)));

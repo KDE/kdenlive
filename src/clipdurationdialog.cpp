@@ -68,10 +68,10 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenT
     m_cropStart->setValue(m_clip->cropStart());
     m_cropEnd->setValue(m_clip->maxDuration() - m_clip->cropDuration() - m_clip->cropStart());
 
-    connect(m_pos,       SIGNAL(editingFinished()), this, SLOT(slotCheckStart()));
-    connect(m_dur,       SIGNAL(editingFinished()), this, SLOT(slotCheckDuration()));
-    connect(m_cropStart, SIGNAL(editingFinished()), this, SLOT(slotCheckCrop()));
-    connect(m_cropEnd,   SIGNAL(editingFinished()), this, SLOT(slotCheckEnd()));
+    connect(m_pos,       SIGNAL(timeCodeEditingFinished()), this, SLOT(slotCheckStart()));
+    connect(m_dur,       SIGNAL(timeCodeEditingFinished()), this, SLOT(slotCheckDuration()));
+    connect(m_cropStart, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotCheckCrop()));
+    connect(m_cropEnd,   SIGNAL(timeCodeEditingFinished()), this, SLOT(slotCheckEnd()));
 
     adjustSize();
 }

@@ -90,7 +90,7 @@ GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos,
     connect(m_timeline, SIGNAL(keyframeMoved(int)),   this, SLOT(slotKeyframeMoved(int)));
     connect(m_timeline, SIGNAL(addKeyframe(int)),     this, SLOT(slotAddKeyframe(int)));
     connect(m_timeline, SIGNAL(removeKeyframe(int)),  this, SLOT(slotDeleteKeyframe(int)));
-    connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotPositionChanged()));
+    connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotPositionChanged()));
     connect(m_ui.buttonPrevious,  SIGNAL(clicked()), this, SLOT(slotPreviousKeyframe()));
     connect(m_ui.buttonNext,      SIGNAL(clicked()), this, SLOT(slotNextKeyframe()));
     connect(m_ui.buttonAddDelete, SIGNAL(clicked()), this, SLOT(slotAddDeleteKeyframe()));
