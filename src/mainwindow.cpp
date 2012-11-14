@@ -2058,11 +2058,14 @@ void MainWindow::openFile()
 
 void MainWindow::openLastFile()
 {
-    KSharedConfigPtr config = KGlobal::config();
-    KUrl::List urls = m_fileOpenRecent->urls();
-    //WARNING: this is buggy, we get a random url, not the last one. Bug in KRecentFileAction?
-    if (urls.isEmpty()) newFile(false);
-    else openFile(urls.last());
+    if (m_fileOpenRecent->selectableActionGroup()->actions().isEmpty()) {
+        // No files in history
+        newFile(false);
+        return;
+    }
+    QAction *firstUrlAction = m_fileOpenRecent->selectableActionGroup()->actions().first();
+    if (firstUrlAction) firstUrlAction->trigger();
+    else newFile(false);
 }
 
 void MainWindow::openFile(const KUrl &url)
