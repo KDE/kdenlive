@@ -168,6 +168,9 @@ QImage KThumb::getProducerFrame(int framepos, int frameWidth, int displayWidth, 
     QMutexLocker lock(&m_mutex);
     m_producer->seek(framepos);
     Mlt::Frame *frame = m_producer->get_frame();
+    /*frame->set("rescale.interp", "nearest");
+    frame->set("deinterlace_method", "onefield");
+    frame->set("top_field_first", -1 );*/
     QImage p = getFrame(frame, frameWidth, displayWidth, height);
     delete frame;
     return p;

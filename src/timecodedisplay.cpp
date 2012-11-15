@@ -72,7 +72,6 @@ void TimecodeDisplay::stepBy(int steps)
 {
     int val = m_value + steps;
     setValue(val);
-    emit editingFinished();
 }
 
 void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
@@ -121,14 +120,12 @@ void TimecodeDisplay::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
-/*
+
 void TimecodeDisplay::wheelEvent(QWheelEvent *e)
 {
-    if (e->delta() > 0)
-        slotValueUp();
-    else
-        slotValueDown();
-}*/
+    QAbstractSpinBox::wheelEvent(e);
+    clearFocus();
+}
 
 
 int TimecodeDisplay::maximum() const
@@ -195,7 +192,7 @@ void TimecodeDisplay::slotEditingFinished()
     lineEdit()->deselect();
     if (m_frametimecode) setValue(lineEdit()->text().toInt());
     else setValue(lineEdit()->text());
-    emit editingFinished();
+    emit timeCodeEditingFinished();
 }
 
 #include <timecodedisplay.moc>

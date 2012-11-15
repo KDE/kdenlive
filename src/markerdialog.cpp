@@ -93,7 +93,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
             clip_thumb->setFixedHeight(p.height());
             clip_thumb->setPixmap(p);
         }
-        connect(m_in, SIGNAL(editingFinished()), this, SIGNAL(updateThumb()));
+        connect(m_in, SIGNAL(timeCodeEditingFinished()), this, SIGNAL(updateThumb()));
     } else {
         clip_thumb->setHidden(true);
     }
