@@ -315,11 +315,12 @@ void Render::buildConsumer(const QString &profileName)
     */
 
 	if (!audioDriver.isEmpty()) {
-//		if(audioDriver == "jack") {
-//			m_mltConsumer->set("audio_off", 1);
-//			if(&JACKSLAVE && !JACKSLAVE.isValid())
-////			connectSlave();
-//        } else
+		if(audioDriver == "jack") {
+	        // create the jackslave singleton instance
+	    	JackSlave::singleton(m_mltProfile);
+	    	if(&JACKSLAVE && JACKSLAVE.probe())
+	    		connectSlave();
+        } else
         {
             m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
         }
@@ -1680,7 +1681,32 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer)
         return;
-    if (!m_isZoneMode) m_originalOut = m_mltProducer->get_playtime() - 1;
+
+    if (!m_isZoneMode)
+    	m_originalOut = m_mltProducer->get_playtime() - 1;
+
+#ifdef USE_JACK
+    if(&JACKSLAVE && isSlaveTransportEnabled()) {
+		m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
+		m_isZoneMode = true;
+
+		if(JACKSLAVE.doesPlayback())
+			JACKSLAVE.stopPlayback();
+		/* TODO: provide robust solution in jackslave - async problem */
+		SleepThread::msleep(100);
+		JACKSLAVE.seekPlayback((int)(startTime.frames(m_fps)));
+		/* TODO: provide robust solution in jackslave - async problem */
+		SleepThread::msleep(100);
+		if(!JACKSLAVE.doesPlayback())
+			JACKSLAVE.startPlayback();
+//    m_mltProducer->seek((int)(startTime.frames(m_fps)));
+//    m_mltProducer->set_speed(1.0);
+//    m_mltConsumer->set("refresh", 1);
+//    if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+		return;
+    }
+#endif
+
     m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
@@ -1804,6 +1830,23 @@ void Render::emitConsumerStopped()
     // This is used to know when the playing stopped
     if (m_mltProducer) {
         double pos = m_mltProducer->position();
+
+#if USE_JACK
+    	if(&JACKSLAVE && isSlaveTransportEnabled()) {
+//    		JACKSLAVE.stopPlayback();
+//            if (m_isLoopMode) {
+//            	JACKSLAVE.seekPlayback((int)(m_loopStart.frames(m_fps)));
+//            	if (!JACKSLAVE.doesPlayback())
+//            		JACKSLAVE.startPlayback();
+//            } else {
+////            	if (JACKSLAVE.doesPlayback())
+////            		JACKSLAVE.stopPlayback();
+//            }
+        	emit rendererStopped((int) pos);
+    		return;
+    	}
+#endif
+
         if (m_isLoopMode) play(m_loopStart);
         //else if (m_isZoneMode) resetZoneMode();
         emit rendererStopped((int) pos);

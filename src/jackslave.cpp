@@ -341,6 +341,7 @@ void JackSlave::seekPlayback(int time)
 {
     if (m_valid) {
     	if(time >= 0) {
+    		/* TODO: replace with local m_framerate set on open */
     		jack_nframes_t framerate = jack_get_sample_rate(m_client);
 //    		frame *= time / m_mltProfile->fps();
     		jack_transport_locate(m_client, toAudioPosition(time, framerate));
@@ -365,5 +366,9 @@ void JackSlave::setTransportEnabled(bool state)
 	m_transportEnabled = state;
 }
 
+bool JackSlave::doesPlayback()
+{
+	return (m_state == JackTransportRolling);
+}
 
 #include "jackslave.moc"

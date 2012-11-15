@@ -148,12 +148,12 @@ private:
 	pthread_t m_transportThread;
 
 	/**
-	 * Mutex for mixing.
+	 * Mutex for transport.
 	 */
 	pthread_mutex_t m_transportLock;
 
 	/**
-	 * Condition for mixing.
+	 * Condition for transport.
 	 */
 	pthread_cond_t m_transportCondition;
 
