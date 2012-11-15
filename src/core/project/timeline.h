@@ -48,7 +48,7 @@ public:
     Timeline(Project *parent);
     virtual ~Timeline();
 
-    QString toXML() const;
+    QString toXml() const;
 
     /** @brief Returns the duration of the timeline. */
     int duration() const;

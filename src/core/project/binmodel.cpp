@@ -26,12 +26,12 @@ BinModel::BinModel(Project* parent) :
     m_monitor = new MonitorModel(m_project->profile(), i18n("Bin"), this);
 }
 
-BinModel::BinModel(const QDomElement&rootItem, Project* parent) :
+BinModel::BinModel(const QDomElement&element, Project* parent) :
     QObject(parent),
     m_project(parent),
     m_currentItem(NULL)
 {
-    m_rootFolder = new ProjectFolder(rootItem, this);
+    m_rootFolder = new ProjectFolder(element.firstChildElement("folder"), this);
     m_monitor = new MonitorModel(m_project->profile(), i18n("Bin"), this);
 }
 
@@ -71,6 +71,13 @@ void BinModel::setCurrentItem(AbstractProjectItem* item)
 
         emit currentItemChanged(item);
     }
+}
+
+QDomElement BinModel::toXml(QDomDocument& document) const
+{
+    QDomElement bin = document.createElement("bin");
+    bin.appendChild(m_rootFolder->toXml(document));
+    return bin;
 }
 
 void BinModel::emitAboutToAddItem(AbstractProjectItem* item)

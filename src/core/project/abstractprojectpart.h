@@ -43,7 +43,7 @@ public:
     QString name() const;
 
     /** @brief Called by the project to request the current data. */
-    virtual QDomElement save() const = 0;
+    virtual void save(QDomDocument &document, QDomElement &element) const = 0;
     /** @brief Called upon project creation. */
     virtual void load(const QDomElement &element) = 0;
 

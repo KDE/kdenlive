@@ -30,6 +30,8 @@ public:
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
 
+    QDomElement toXml(QDomDocument &document) const;
+
     QPixmap thumbnail();
 
 private:

@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 class AbstractProjectClip;
 class BinModel;
 class QDomElement;
+class QDomDocument;
 
 
 /**
@@ -115,6 +116,8 @@ public:
     /** @brief Flags this item as being current (or not) and notifies the bin model about it. */
     virtual void setCurrent(bool current);
 //     virtual bool isSelected();
+
+    virtual QDomElement toXml(QDomDocument &document) const = 0;
 
 signals:
     void childAdded(AbstractProjectItem *child);

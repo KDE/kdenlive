@@ -42,13 +42,10 @@ void NotesPlugin::load(const QDomElement& element)
     }
 }
 
-QDomElement NotesPlugin::save() const
+void NotesPlugin::save(QDomDocument &document, QDomElement &element) const
 {
-//     QDomElement docnotes = sceneList.createElement("documentnotes");
-//     QDomText value = sceneList.createTextNode(m_notesWidget->toHtml());
-//     docnotes.appendChild(value);
-//     addedXml.appendChild(docnotes);
-    return QDomElement();
+    QDomText value = document.createTextNode(m_widget->toHtml());
+    element.appendChild(value);
 }
 
 void NotesPlugin::insertTimecode()

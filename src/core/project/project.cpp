@@ -125,9 +125,9 @@ void Project::openFile()
         if (success) {
             loadTimeline(document.toString());
             QDomElement kdenliveDoc = document.documentElement().firstChildElement("kdenlivedoc");
-            m_bin = new BinModel(kdenliveDoc.firstChildElement("project_items"), this);
+            m_bin = new BinModel(kdenliveDoc.firstChildElement("bin"), this);
             loadParts(kdenliveDoc);
-            loadSettings(kdenliveDoc.firstChildElement("settings"));
+            loadSettings(kdenliveDoc);
             m_timeline->loadTracks();
         } else {
             kWarning() << "unable to load document" << m_url.path() << errorMessage;
@@ -158,13 +158,60 @@ void Project::loadParts(const QDomElement& element)
     }
 }
 
-void Project::loadSettings(const QDomElement& settings)
+QList<QDomElement> Project::saveParts(QDomDocument& document) const
 {
-    QDomNamedNodeMap attributes = settings.attributes();
+    QList<QDomElement> partElements;
+    QList<AbstractProjectPart*> parts = pCore->projectManager()->parts();
+    for (int i = 0; i < parts.count(); ++i) {
+        QDomElement partElement = document.createElement(parts.at(i)->name());
+        parts.at(i)->save(document, partElement);
+        partElements.append(partElement);
+    }
+
+    return partElements;
+}
+
+void Project::loadSettings(const QDomElement& kdenliveDoc)
+{
+    QDomNamedNodeMap attributes = kdenliveDoc.firstChildElement("settings").attributes();
     for (int i = 0; i < attributes.length(); ++i) {
         QDomNode attribute = attributes.item(i);
         m_settings.insert(attribute.nodeName(), attribute.nodeValue());
     }
+}
+
+QDomElement Project::saveSettings(QDomDocument& document) const
+{
+    QDomElement settings = document.createElement("settings");
+
+    QHash<QString, QString>::const_iterator i = m_settings.constBegin();
+    while (i != m_settings.constEnd()) {
+        settings.setAttribute(i.key(), i.value());
+        ++i;
+    }
+    
+    return settings;
+}
+
+QDomDocument Project::toXml() const
+{
+    QDomDocument document;
+
+    document.setContent(m_timeline->toXml(), false);
+
+    QDomElement kdenliveDoc = document.createElement("kdenlivedoc");
+
+    kdenliveDoc.appendChild(m_bin->toXml(document));
+    kdenliveDoc.appendChild(saveSettings(document));
+
+    QList<QDomElement> parts = saveParts(document);
+    foreach (QDomElement part, parts) {
+        kdenliveDoc.appendChild(part);
+    }
+
+    document.documentElement().appendChild(kdenliveDoc);
+
+    return document;
 }
 
 void Project::save()
@@ -178,11 +225,7 @@ void Project::save()
         // TODO: warning
         return /*false*/;
     }
-    
-    QDomDocument document;
-    document.setContent(m_timeline->toXML(), false);
-
-    file.write(document.toString().toUtf8());
+    file.write(toXml().toString().toUtf8());
     file.close();
 }
 

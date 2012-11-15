@@ -20,6 +20,7 @@ class ProjectFolder;
 class AbstractProjectClip;
 class AbstractProjectItem;
 class QDomElement;
+class QDomDocument;
 
 
 /**
@@ -40,11 +41,11 @@ public:
     BinModel(Project *parent = 0);
     /**
      * @brief Creates monitor model and root folder and passes the supplied information on to it.
-     * @param rootItem element describing the bin contents (handled by the root folder)
+     * @param element element describing the bin contents
      * @param parent project this bin belongs to
      * 
      */
-    BinModel(const QDomElement &rootItem, Project* parent = 0);
+    BinModel(const QDomElement &element, Project* parent = 0);
 
     /** @brief Returns a pointer to the project this bin belongs to. */
     Project *project();
@@ -67,6 +68,8 @@ public:
      * emits currentItemChanged
      */
     void setCurrentItem(AbstractProjectItem *item);
+
+    QDomElement toXml(QDomDocument &document) const;
 
 public slots:
     /** @brief emits aboutToAddItem. */

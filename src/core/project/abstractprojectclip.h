@@ -77,6 +77,8 @@ public:
     /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
     virtual void setCurrent(bool current);
 
+    virtual QDomElement toXml(QDomDocument &document) const;
+
 protected:
     AbstractClipPlugin const *m_plugin;
     ProducerWrapper *m_baseProducer;

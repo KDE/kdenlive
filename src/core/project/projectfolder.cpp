@@ -67,6 +67,18 @@ BinModel* ProjectFolder::bin()
     }
 }
 
+QDomElement ProjectFolder::toXml(QDomDocument& document) const
+{
+    QDomElement folder = document.createElement("folder");
+    folder.setAttribute("name", name());
+
+    for (int i = 0; i < count(); ++i) {
+        folder.appendChild(at(i)->toXml(document));
+    }
+
+    return folder;
+}
+
 void ProjectFolder::loadChildren(const QDomElement& description)
 {
     QDomNodeList childen = description.childNodes();

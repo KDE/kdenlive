@@ -19,6 +19,7 @@ class MonitorModel;
 class Timeline;
 class BinModel;
 class QDomElement;
+class QDomDocument;
 class QUndoStack;
 namespace Mlt
 {
@@ -83,6 +84,9 @@ public:
      */
     void setSetting(const QString &name, const QString &value);
 
+    /** @brief Returns a DomDocument that describes this project. */
+    QDomDocument toXml() const;
+
 public slots:
     void save();
 
@@ -91,7 +95,9 @@ private:
     void openNew();
     void loadTimeline(const QString &content);
     void loadParts(const QDomElement &element);
-    void loadSettings(const QDomElement &settings);
+    QList<QDomElement> saveParts(QDomDocument &document) const;
+    void loadSettings(const QDomElement &kdenliveDoc);
+    QDomElement saveSettings(QDomDocument &document) const;
 
     KUrl m_url;
     BinModel *m_bin;

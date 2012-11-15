@@ -63,6 +63,12 @@ AbstractTimelineClip* ImageProjectClip::addInstance(ProducerWrapper* producer, T
     return static_cast<AbstractTimelineClip *>(instance);
 }
 
+QDomElement ImageProjectClip::toXml(QDomDocument& document) const
+{
+    QDomElement clip = AbstractProjectClip::toXml(document);
+    clip.setAttribute("duration", m_baseProducer->get_length());
+    return clip;
+}
 
 QPixmap ImageProjectClip::thumbnail()
 {

@@ -65,9 +65,8 @@ Timeline::~Timeline()
     delete m_profile;
 }
 
-QString Timeline::toXML() const
+QString Timeline::toXml() const
 {
-    QString playlist;
     Mlt::Profile profile((mlt_profile) 0);
     Mlt::Consumer xmlConsumer(profile, "xml:kdenlive_playlist");
 
@@ -76,6 +75,7 @@ QString Timeline::toXML() const
 //     m_producer->optimise();
 
     xmlConsumer.set("terminate_on_pause", 1);
+    // makes the consumer also store properties we added (with the prefix "kdenlive")
     xmlConsumer.set("store", "kdenlive");
     Mlt::Producer producer(m_producer->get_producer());
 
@@ -83,8 +83,7 @@ QString Timeline::toXML() const
 
     xmlConsumer.connect(producer);
     xmlConsumer.run();
-    playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
-    return playlist;
+    return QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
 }
 
 int Timeline::duration() const

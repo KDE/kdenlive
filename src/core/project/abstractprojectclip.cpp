@@ -105,4 +105,19 @@ void AbstractProjectClip::setCurrent(bool current)
     }
 }
 
+QDomElement AbstractProjectClip::toXml(QDomDocument& document) const
+{
+    QDomElement clip = document.createElement("clip");
+    clip.setAttribute("id", id());
+    clip.setAttribute("producer_type",m_baseProducer->get("mlt_service"));
+    clip.setAttribute("name", name());
+    if (!description().isEmpty()) {
+        clip.setAttribute("description", description());
+    }
+    if (!m_url.isEmpty()) {
+        clip.setAttribute("url", m_url.path());
+    }
+    return clip;
+}
+
 #include "abstractprojectclip.moc"
