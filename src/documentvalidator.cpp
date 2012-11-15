@@ -112,7 +112,13 @@ bool DocumentValidator::validate(const double currentVersion)
 	QLocale tempLocale = QLocale(mlt.attribute("LC_NUMERIC"));
 	version = tempLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
 	if (!ok) version = kdenliveDoc.attribute("version").toDouble(&ok);
-	if (!ok) kDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
+	if (!ok) {
+	    // Last try: replace comma with a dot
+	    QString versionString = kdenliveDoc.attribute("version");
+	    if (versionString.contains(',')) versionString.replace(',', '.');
+	    version = versionString.toDouble(&ok);
+	    if (!ok) kDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
+	}
     }
     
     // Upgrade the document to the latest version
