@@ -1274,6 +1274,13 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 	}
     }
     if (itemsList.isEmpty() && groupsList.isEmpty()) return;
+    if (itemsList.count() == 1) {
+	// only one item selected:
+	QSetIterator<QGraphicsItem *> it(itemsList);
+	m_dragItem = static_cast<AbstractClipItem *>(it.next());
+	m_dragItem->setSelected(true);
+	emit clipItemSelected(static_cast<ClipItem *>(m_dragItem));
+    }
     
     QRectF rectUnion;
     // Find top left position of selection
