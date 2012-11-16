@@ -22,7 +22,8 @@
 JackSlave::JackSlave(Mlt::Profile * profile) :
 	m_valid(false),
 	m_shutdown(false),
-	m_transportEnabled(false)
+	m_transportEnabled(false),
+	m_loopState(0)
 {
 	m_mltProfile = profile;
 }
@@ -162,6 +163,9 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 //	m_buffer.resize(buffersize);
 //
 //	create();
+	resetLooping();
+	connect(this, SIGNAL(currentPositionChanged(int)),
+			this, SLOT(processLooping()));
 
 	m_valid = true;
 	m_sync = 0;
@@ -225,6 +229,9 @@ void JackSlave::close()
 		if (!m_shutdown)
 			jack_client_close(m_client);
 		delete[] m_ports;
+
+		disconnect(this, SIGNAL(currentPositionChanged(int)),
+				this, SLOT(processLooping()));
 	}
 
 //	for(unsigned int i = 0; i < m_specs.channels; i++)
@@ -319,34 +326,87 @@ int JackSlave::jack_process(jack_nframes_t length, void *data)
 	return 0;
 }
 
-void JackSlave::startPlayback()
+void JackSlave::processLooping()
+{
+//	m_loopIn = in;
+//	m_loopOut = out;
+//	m_loopMode = infinite;
+//	m_isLooping = true;
+
+	if (m_loopState == 1) {
+		m_loopState = 2;
+	} else if (m_loopState == 2) {
+		if (m_currentPosition == m_loopOut ) {
+			if (m_loopInfinite) {
+				seekPlayback(m_loopIn, false);
+			} else {
+				stopPlayback();
+			}
+		}
+	} else {
+		m_loopState = 0;
+		return;
+	}
+
+}
+
+void JackSlave::startPlayback(bool resetLoop)
 {
 	if (m_valid) {
+		/* reset looping state */
+		if (resetLoop)
+			resetLooping();
 		/* start jack transport */
 		jack_transport_start(m_client);
 		m_nextState = JackTransportRolling;
 	}
 }
 
-void JackSlave::stopPlayback()
+void JackSlave::stopPlayback(bool resetLoop)
 {
 	if (m_valid) {
+		/* reset looping state */
+		if (resetLoop)
+			resetLooping();
 		/* stop jack transport */
 		jack_transport_stop(m_client);
 		m_nextState = JackTransportStopped;
 	}
 }
 
-void JackSlave::seekPlayback(int time)
+void JackSlave::seekPlayback(int time, bool resetLoop)
 {
     if (m_valid) {
     	if(time >= 0) {
+    		/* reset looping state */
+    		if (resetLoop)
+    			resetLooping();
     		/* TODO: replace with local m_framerate set on open */
     		jack_nframes_t framerate = jack_get_sample_rate(m_client);
 //    		frame *= time / m_mltProfile->fps();
     		jack_transport_locate(m_client, toAudioPosition(time, framerate));
     	}
     }
+}
+
+void JackSlave::loopPlayback(int in, int out, bool infinite)
+{
+	m_loopIn = in;
+	m_loopOut = out;
+	m_loopInfinite = infinite;
+
+	if (!doesPlayback())
+		startPlayback(false);
+	seekPlayback(m_loopIn, false);
+	m_loopState = 1;
+}
+
+void JackSlave::resetLooping()
+{
+	m_loopIn = 0;
+	m_loopOut = 0;
+	m_loopInfinite = false;
+	m_loopState = 0;
 }
 
 int JackSlave::getPlaybackPosition()
@@ -359,6 +419,7 @@ int JackSlave::getPlaybackPosition()
 void JackSlave::setCurrentPosition(int position)
 {
 	m_currentPosition = position;
+	emit currentPositionChanged(position);
 }
 
 void JackSlave::setTransportEnabled(bool state)
@@ -368,7 +429,7 @@ void JackSlave::setTransportEnabled(bool state)
 
 bool JackSlave::doesPlayback()
 {
-	return (m_state == JackTransportRolling);
+	return (m_nextState != JackTransportStopped);
 }
 
 #include "jackslave.moc"

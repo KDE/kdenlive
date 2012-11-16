@@ -74,18 +74,26 @@ public:
 	/**
 	 * Starts jack transport playback.
 	 */
-	void startPlayback();
+	void startPlayback(bool resetLoop = true);
 
 	/**
 	 * Stops jack transport playback.
 	 */
-	void stopPlayback();
+	void stopPlayback(bool resetLoop = true);
 
 	/**
 	 * Seeks jack transport playback.
 	 * \param time The time to seek to.
 	 */
-	void seekPlayback(int time);
+	void seekPlayback(int time, bool resetLoop = true);
+
+	/**
+	 * Loop playback.
+	 * \param in The loop start time.
+	 * \param out The loop stop time.
+	 * \param infinite If true loop forever.
+	 */
+	void loopPlayback(int in, int out, bool infinite = true);
 
 	/**
 	 * Retrieves the jack transport playback time.
@@ -161,11 +169,36 @@ private:
 	 * Kdenlives current position.
 	 */
 	int m_currentPosition;
+
 	/**
 	 * Set transport status.
 	 */
 	volatile bool m_transportEnabled;
 
+	/**
+	 * Loop start position.
+	 */
+	int m_loopIn;
+
+	/**
+	 * Loop stop position.
+	 */
+	int m_loopOut;
+
+	/**
+	 * Flag infinite loop [true = infinite|false = single].
+	 */
+	bool m_loopInfinite;
+
+	/**
+	 * Loop state.
+	 */
+	int m_loopState;
+
+	/**
+	 * Reset looping.
+	 */
+	void resetLooping();
 	/**
 	 * Transport thread function.
 	 * \param device The this pointer.
@@ -201,10 +234,14 @@ private:
 public slots:
 	void setCurrentPosition(int position);
 
+private slots:
+	void processLooping();
+
 signals:
 	void playbackStarted(int position);
 	void playbackSync(int position);
 	void playbackStopped(int position);
+	void currentPositionChanged(int postition);
 };
 
 #define JACKSLAVE JackSlave::singleton()
