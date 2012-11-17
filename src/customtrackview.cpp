@@ -818,8 +818,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     while (!m_dragGuide && ct < collisionList.count()) {
         if (collisionList.at(ct)->type() == AVWIDGET || collisionList.at(ct)->type() == TRANSITIONWIDGET) {
             collisionClip = static_cast <AbstractClipItem *>(collisionList.at(ct));
-            if (collisionClip->isItemLocked())
-                break;
+            if (collisionClip->isItemLocked() || !collisionClip->isEnabled())
+                continue;
             if (collisionClip == m_dragItem) {
                 collisionClip = NULL;
 	    }
@@ -827,6 +827,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_dragItem = collisionClip;
 	    }
             found = true;
+	    
 	    m_dragItem->setProperty("y_absolute", mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y());
             m_dragItemInfo = m_dragItem->info();
 	    if (m_selectionGroup) m_selectionGroup->setProperty("y_absolute", mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y());
@@ -1269,7 +1270,6 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 	QSetIterator<QGraphicsItem *> it(itemsList);
 	m_dragItem = static_cast<AbstractClipItem *>(it.next());
 	m_dragItem->setSelected(true);
-	emit clipItemSelected(static_cast<ClipItem *>(m_dragItem));
     }
     
     QRectF rectUnion;
@@ -3625,6 +3625,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         resetSelectionGroup();
         groupSelectedItems();
         m_operationMode = NONE;
+	if (m_selectionGroup == NULL && m_dragItem) {
+	    // Only 1 item selected
+	    if (m_dragItem->type() == AVWIDGET)
+		emit clipItemSelected(static_cast<ClipItem *>(m_dragItem));
+	}
     }
 
     if (m_dragItem == NULL && m_selectionGroup == NULL) {
@@ -4091,7 +4096,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect());
         emit clipItemSelected(item);
     }
-    if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET && m_dragItem->isSelected()) {
+    if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET && m_dragItem->isSelected() && m_dragItem->isEnabled()) {
         // A transition is selected
         QPoint p;
         ClipItem *transitionClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track);
