@@ -3439,6 +3439,7 @@ void CustomTrackView::deleteClip(const QString &clipId)
     resetSelectionGroup();
     QList<QGraphicsItem *> itemList = items();
     QUndoCommand *deleteCommand = new QUndoCommand();
+    new RefreshMonitorCommand(this, false, true, deleteCommand);
     int count = 0;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
@@ -3458,10 +3459,10 @@ void CustomTrackView::deleteClip(const QString &clipId)
         delete deleteCommand;
     } else {
         updateTrackDuration(-1, deleteCommand);
-	new RefreshMonitorCommand(this, false, deleteCommand);
+	new RefreshMonitorCommand(this, false, false, deleteCommand);
         m_commandStack->push(deleteCommand);
     }
-    m_document->renderer()->doRefresh();    
+    m_document->renderer()->doRefresh();
 }
 
 void CustomTrackView::seekCursorPos(int pos)
@@ -4175,6 +4176,7 @@ void CustomTrackView::deleteSelectedClips()
     }
     scene()->clearSelection();
     QUndoCommand *deleteSelected = new QUndoCommand();
+    new RefreshMonitorCommand(this, false, true, deleteSelected);
 
     int groupCount = 0;
     int clipCount = 0;
@@ -4230,9 +4232,8 @@ void CustomTrackView::deleteSelectedClips()
         deleteSelected->setText(i18np("Delete selected transition", "Delete selected transitions", transitionCount));
     else deleteSelected->setText(i18n("Delete selected items"));
     updateTrackDuration(-1, deleteSelected);
-    new RefreshMonitorCommand(this, false, deleteSelected);
+    new RefreshMonitorCommand(this, true, false, deleteSelected);
     m_commandStack->push(deleteSelected);
-    m_document->renderer()->doRefresh();
 }
 
 
@@ -4491,8 +4492,9 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(item->effect(i)), false);
     }
     setDocumentModified();
-    if (refresh)
+    if (refresh) {
         m_document->renderer()->doRefresh();
+    }
     if (!baseclip->isPlaceHolder())
         m_waitingThumbs.append(item);
     m_thumbsTimer.start();
@@ -6028,6 +6030,7 @@ void CustomTrackView::pasteClip()
     }
     QUndoCommand *pasteClips = new QUndoCommand();
     pasteClips->setText("Paste clips");
+    new RefreshMonitorCommand(this, false, true, pasteClips);
 
     for (int i = 0; i < m_copiedItems.count(); i++) {
         // parse all clip names
@@ -6057,7 +6060,7 @@ void CustomTrackView::pasteClip()
         }
     }
     updateTrackDuration(-1, pasteClips);
-    new RefreshMonitorCommand(this, false, pasteClips);
+    new RefreshMonitorCommand(this, false, false, pasteClips);
     m_commandStack->push(pasteClips);
 }
 

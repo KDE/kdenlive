@@ -28,13 +28,14 @@ class CustomTrackView;
 class RefreshMonitorCommand : public QUndoCommand
 {
 public:
-    RefreshMonitorCommand(CustomTrackView *view, bool execute, QUndoCommand * parent = 0);
+    RefreshMonitorCommand(CustomTrackView *view, bool execute, bool refreshOnUndo, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
     bool m_exec;
+    bool m_execOnUndo;
 };
 
 #endif
