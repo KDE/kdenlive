@@ -859,14 +859,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // context menu requested
     if (event->button() == Qt::RightButton) {
-        if (m_dragItem) {
-            if (dragGroup) dragGroup->setSelected(true);
-            else if (!m_dragItem->isSelected()) {
-                resetSelectionGroup(false);
-                m_scene->clearSelection();
-                m_dragItem->setSelected(true);
-            }
-        } else if (!m_dragGuide) {
+        if (!m_dragItem && !m_dragGuide) {
             // check if there is a guide close to mouse click
             QList<QGraphicsItem *> guidesCollisionList = items(event->pos().x() - 5, event->pos().y(), 10, 2); // a rect of height < 2 does not always collide with the guide
             for (int i = 0; i < guidesCollisionList.count(); i++) {
@@ -886,9 +879,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_operationMode = NONE;
         displayContextMenu(event->globalPos(), m_dragItem, dragGroup);
         m_menuPosition = m_clickEvent;
-        m_dragItem = NULL;
-        event->accept();
-        return;
     }
 
     // No item under click
@@ -965,7 +955,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 updateSnapPoints(NULL, cleandOffsetList, true);
             }
             m_operationMode = SPACER;
-        } else {
+        } else if (event->button() != Qt::RightButton) {
 	    setCursor(Qt::ArrowCursor);
             seekCursorPos((int)(mapToScene(event->x(), 0).x()));
         }
@@ -1274,6 +1264,13 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 	}
     }
     if (itemsList.isEmpty() && groupsList.isEmpty()) return;
+    if (itemsList.count() == 1) {
+	// only one item selected:
+	QSetIterator<QGraphicsItem *> it(itemsList);
+	m_dragItem = static_cast<AbstractClipItem *>(it.next());
+	m_dragItem->setSelected(true);
+	emit clipItemSelected(static_cast<ClipItem *>(m_dragItem));
+    }
     
     QRectF rectUnion;
     // Find top left position of selection

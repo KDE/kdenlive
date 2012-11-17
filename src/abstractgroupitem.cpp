@@ -387,7 +387,17 @@ void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
     if (event->modifiers() & Qt::ShiftModifier) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
-    } else QGraphicsItem::mousePressEvent(event);
+    } else {
+	QList <QGraphicsItem *>list = scene()->items(event->scenePos());
+	// only allow group move if we click over an item in the group
+	foreach(const QGraphicsItem *item, list) {
+	    if (item->type() == TRANSITIONWIDGET || item->type() == AVWIDGET) {
+		QGraphicsItem::mousePressEvent(event);
+		return;
+	    }
+	}
+	event->ignore();
+    }
 }
 
 void AbstractGroupItem::resizeStart(int diff)
