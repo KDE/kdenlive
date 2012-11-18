@@ -142,6 +142,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_shuttle_buttons.push_back(m_configShuttle.shuttle3);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle4);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle5);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle6);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle7);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle8);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle9);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle10);
 
     // populate the buttons with the current configuration. The items are sorted
     // according to the user-selected language, so they do not appear in random order.
