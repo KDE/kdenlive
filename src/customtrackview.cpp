@@ -818,8 +818,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     while (!m_dragGuide && ct < collisionList.count()) {
         if (collisionList.at(ct)->type() == AVWIDGET || collisionList.at(ct)->type() == TRANSITIONWIDGET) {
             collisionClip = static_cast <AbstractClipItem *>(collisionList.at(ct));
-            if (collisionClip->isItemLocked())
-                break;
+            if (collisionClip->isItemLocked() || !collisionClip->isEnabled()) {
+		ct++;
+                continue;
+	    }
             if (collisionClip == m_dragItem) {
                 collisionClip = NULL;
 	    }
@@ -827,6 +829,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_dragItem = collisionClip;
 	    }
             found = true;
+	    
 	    m_dragItem->setProperty("y_absolute", mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y());
             m_dragItemInfo = m_dragItem->info();
 	    if (m_selectionGroup) m_selectionGroup->setProperty("y_absolute", mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y());
@@ -842,6 +845,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (m_dragItem) emit clipItemSelected(NULL);
         m_dragItem = NULL;
     }
+
 #if QT_VERSION >= 0x040800
     // Add shadow to dragged item, currently disabled because of painting artifacts
     /*if (m_dragItem) {
@@ -851,12 +855,25 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	m_dragItem->setGraphicsEffect(eff);
     }*/
 #endif
-    if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) {
+    if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET && m_dragItem->isEnabled()) {
         // update transition menu action
         m_autoTransition->setChecked(static_cast<Transition *>(m_dragItem)->isAutomatic());
         m_autoTransition->setEnabled(true);
-    } else m_autoTransition->setEnabled(false);
-
+	// A transition is selected
+        QPoint p;
+        ClipItem *transitionClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track);
+        if (transitionClip && transitionClip->baseClip()) {
+            QString size = transitionClip->baseClip()->getProperty("frame_size");
+            double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+            if (factor == 0) factor = 1.0;
+            p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
+            p.setY(size.section('x', 1, 1).toInt());
+        }
+        emit transitionItemSelected(static_cast <Transition *>(m_dragItem), getPreviousVideoTrack(m_dragItem->track()), p);
+    } else {
+	emit transitionItemSelected(NULL);
+	m_autoTransition->setEnabled(false);
+    }
     // context menu requested
     if (event->button() == Qt::RightButton) {
         if (!m_dragItem && !m_dragGuide) {
@@ -1180,7 +1197,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         resetSelectionGroup(false);
         m_dragItem->setSelected(true);
     }
-
     m_blockRefresh = false;
 }
 
@@ -1269,7 +1285,6 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 	QSetIterator<QGraphicsItem *> it(itemsList);
 	m_dragItem = static_cast<AbstractClipItem *>(it.next());
 	m_dragItem->setSelected(true);
-	emit clipItemSelected(static_cast<ClipItem *>(m_dragItem));
     }
     
     QRectF rectUnion;
@@ -3625,6 +3640,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         resetSelectionGroup();
         groupSelectedItems();
         m_operationMode = NONE;
+	if (m_selectionGroup == NULL && m_dragItem) {
+	    // Only 1 item selected
+	    if (m_dragItem->type() == AVWIDGET)
+		emit clipItemSelected(static_cast<ClipItem *>(m_dragItem));
+	}
     }
 
     if (m_dragItem == NULL && m_selectionGroup == NULL) {
@@ -4091,19 +4111,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect());
         emit clipItemSelected(item);
     }
-    if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET && m_dragItem->isSelected()) {
-        // A transition is selected
-        QPoint p;
-        ClipItem *transitionClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track);
-        if (transitionClip && transitionClip->baseClip()) {
-            QString size = transitionClip->baseClip()->getProperty("frame_size");
-            double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
-            if (factor == 0) factor = 1.0;
-            p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
-            p.setY(size.section('x', 1, 1).toInt());
-        }
-        emit transitionItemSelected(static_cast <Transition *>(m_dragItem), getPreviousVideoTrack(m_dragItem->track()), p);
-    } else emit transitionItemSelected(NULL);
     if (m_operationMode != NONE && m_operationMode != MOVE) setDocumentModified();
     m_operationMode = NONE;
 }
