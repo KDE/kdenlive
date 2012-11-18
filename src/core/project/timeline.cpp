@@ -67,8 +67,7 @@ Timeline::~Timeline()
 
 QString Timeline::toXml() const
 {
-    Mlt::Profile profile((mlt_profile) 0);
-    Mlt::Consumer xmlConsumer(profile, "xml:kdenlive_playlist");
+    Mlt::Consumer xmlConsumer(*m_profile, "xml:kdenlive_playlist");
 
     Q_ASSERT(xmlConsumer.is_valid());
 
