@@ -88,7 +88,10 @@ public:
     QDomDocument toXml() const;
 
 public slots:
+    /** @brief Saves to the current project file. */
     void save();
+    /** @brief Saves to a new project file. */
+    void saveAs();
 
 private:
     void openFile();

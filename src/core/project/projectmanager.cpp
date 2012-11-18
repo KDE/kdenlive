@@ -28,6 +28,7 @@ ProjectManager::ProjectManager(QObject* parent) :
 {
     KStandardAction::open(this, SLOT(execOpenFileDialog()), pCore->window()->actionCollection());
     KStandardAction::save(this, SLOT(saveProject()), pCore->window()->actionCollection());
+    KStandardAction::saveAs(this, SLOT(saveProjectAs()), pCore->window()->actionCollection());
 
     m_undoAction = KStandardAction::undo(this, SLOT(undoCommand()), pCore->window()->actionCollection());
     m_redoAction = KStandardAction::redo(this, SLOT(redoCommand()), pCore->window()->actionCollection());
@@ -59,6 +60,11 @@ void ProjectManager::execOpenFileDialog()
 void ProjectManager::saveProject()
 {
     m_project->save();
+}
+
+void ProjectManager::saveProjectAs()
+{
+    m_project->saveAs();
 }
 
 void ProjectManager::openProject(const KUrl& url)

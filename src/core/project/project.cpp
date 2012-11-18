@@ -23,6 +23,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDomImplementation>
 #include <QUndoStack>
 #include <KLocale>
+#include <KFileDialog>
+#include <KMessageBox>
 
 #include <KDebug>
 
@@ -217,16 +219,33 @@ QDomDocument Project::toXml() const
 void Project::save()
 {
     if (m_url.isEmpty()) {
-        
+        saveAs();
+    } else {
+        QFile file(m_url.path());
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            // TODO: warning
+            return /*false*/;
+        }
+        file.write(toXml().toString().toUtf8());
+        file.close();
     }
+}
 
-    QFile file(m_url.path());
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        // TODO: warning
-        return /*false*/;
+void Project::saveAs()
+{
+    QString outputFile = KFileDialog::getSaveFileName(/*m_activeDocument->projectFolder(), getMimeType(false)*/);
+
+    if (!outputFile.isEmpty()) {
+        if (QFile::exists(outputFile) &&
+            KMessageBox::questionYesNo(pCore->window(), i18n("File %1 already exists.\nDo you want to overwrite it?", outputFile)) == KMessageBox::No) {
+            // Show the file dialog again if the user does not want to overwrite the file
+            saveAs();
+        } else {
+            m_url = KUrl(outputFile);
+            pCore->window()->setCaption(caption());
+            save();
+        }
     }
-    file.write(toXml().toString().toUtf8());
-    file.close();
 }
 
 #include "project.moc"
