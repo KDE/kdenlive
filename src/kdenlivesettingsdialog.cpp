@@ -533,7 +533,7 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
         int fd;
         for (int i = 0; i < 30; i++) {
             QString filename = baseName + QString::number(i);
-            kDebug() << "/// CHECKING OFR: " << filename;
+            kDebug() << "/// CHECKING device: " << filename;
 
             char name[256] = "unknown";
             fd = KDE_open((char *) filename.toUtf8().data(), O_RDONLY);
