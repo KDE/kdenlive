@@ -137,6 +137,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configShuttle.shuttledisabled->hide();
 
     // Store the button pointers into an array for easier handling them in the other functions.
+    // TODO: impl enumerator or live with cut and paste :-)))
     m_shuttle_buttons.push_back(m_configShuttle.shuttle1);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle2);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle3);
@@ -147,6 +148,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_shuttle_buttons.push_back(m_configShuttle.shuttle8);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle9);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle10);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle11);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle12);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle13);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle14);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle15);
 
     // populate the buttons with the current configuration. The items are sorted
     // according to the user-selected language, so they do not appear in random order.

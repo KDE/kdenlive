@@ -676,6 +676,12 @@ MainWindow::~MainWindow()
     if (m_stopmotion) {
         delete m_stopmotion;
     }
+
+#ifdef USE_JOGSHUTTLE
+    if (m_jogProcess)
+    	delete m_jogProcess;
+#endif
+
     m_effectStack->slotClipItemSelected(NULL);
     m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 

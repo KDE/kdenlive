@@ -203,7 +203,7 @@ JogShuttle::JogShuttle(QString device, QObject *parent) :
 
 JogShuttle::~JogShuttle()
 {
-    if (m_shuttleProcess.isRunning()) m_shuttleProcess.exit();
+	stopDevice();
 }
 
 void JogShuttle::initDevice(QString device)
@@ -218,8 +218,19 @@ void JogShuttle::initDevice(QString device)
 
 void JogShuttle::stopDevice()
 {
-    if (m_shuttleProcess.isRunning())
+    if (m_shuttleProcess.isRunning()) {
+    	/* the read fd is in blocking mode => stop_me is broken at the moment */
         m_shuttleProcess.stop_me = true;
+        m_shuttleProcess.exit();
+        /* give the thread some time to shutdown */
+        m_shuttleProcess.wait(100);
+
+        /* if still running - do it in the hardcore way */
+        if (m_shuttleProcess.isRunning()) {
+        	m_shuttleProcess.terminate();
+            kDebug() << "/// terminate jogshuttle process\n";
+        }
+    }
 }
 
 void JogShuttle::customEvent(QEvent* e)
