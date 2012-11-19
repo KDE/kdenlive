@@ -415,6 +415,12 @@ void TrackView::parseDocument(QDomDocument doc)
     }
     QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
+    QDomElement propsXml = infoXml.firstChildElement("documentproperties");
+    
+    int currentPos = propsXml.attribute("position").toInt();
+    if (currentPos > 0) m_trackview->initCursorPos(currentPos);
+    
+
     // Add guides
     QDomNodeList guides = infoXml.elementsByTagName("guide");
     for (int i = 0; i < guides.count(); i++) {

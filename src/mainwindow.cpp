@@ -2187,7 +2187,6 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     }
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     trackView->setDuration(trackView->duration());
-    trackView->projectView()->initCursorPos(m_projectMonitor->render->seekPosition().frames(doc->fps()));
 
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
@@ -2577,7 +2576,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView->projectView(), SIGNAL(forceClipProcessing(const QString &)), m_projectList, SLOT(slotForceProcessing(const QString &)));
 
     connect(trackView->projectView(), SIGNAL(importKeyframes(GRAPHICSRECTITEM, const QString&, int)), this, SLOT(slotProcessImportKeyframes(GRAPHICSRECTITEM, const QString&, int)));
-    
+
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
