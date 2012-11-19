@@ -295,7 +295,6 @@ void DocClipBase::updateAudioThumbnail(const audioByteArray& data)
 QList < GenTime > DocClipBase::snapMarkers() const
 {
     QList < GenTime > markers;
-
     for (int count = 0; count < m_snapMarkers.count(); ++count) {
         markers.append(m_snapMarkers.at(count).time());
     }

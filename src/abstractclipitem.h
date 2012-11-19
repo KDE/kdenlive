@@ -38,6 +38,7 @@ class AbstractClipItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
     Q_PROPERTY(QRectF rect READ rect WRITE setRect)
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
 
 public:
     AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps);
