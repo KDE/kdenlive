@@ -29,6 +29,7 @@
 #include <QPainter>
 #include <QToolTip>
 #include <QGraphicsSceneMouseEvent>
+#include <QParallelAnimationGroup>
 
 AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps) :
         QObject(),
@@ -63,8 +64,9 @@ void AbstractClipItem::closeAnimation()
         return;
     }
     QPropertyAnimation *closeAnimation = new QPropertyAnimation(this, "rect");
-    connect(closeAnimation, SIGNAL(finished()), this, SLOT(deleteLater()));
+    QPropertyAnimation *closeAnimation2 = new QPropertyAnimation(this, "opacity");
     closeAnimation->setDuration(200);
+    closeAnimation2->setDuration(200);
     QRectF r = rect();
     QRectF r2 = r;
     r2.setLeft(r.left() + r.width() / 2);
@@ -74,7 +76,13 @@ void AbstractClipItem::closeAnimation()
     closeAnimation->setStartValue(r);
     closeAnimation->setEndValue(r2);
     closeAnimation->setEasingCurve(QEasingCurve::InQuad);
-    closeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+    closeAnimation2->setStartValue(1.0);
+    closeAnimation2->setEndValue(0.0);
+    QParallelAnimationGroup *group = new QParallelAnimationGroup;
+    connect(group, SIGNAL(finished()), this, SLOT(deleteLater()));
+    group->addAnimation(closeAnimation);
+    group->addAnimation(closeAnimation2);
+    group->start(QAbstractAnimation::DeleteWhenStopped);
 #endif
 }
 

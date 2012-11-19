@@ -38,6 +38,7 @@ public:
     virtual int type() const;
     CustomTrackScene* projectScene();
     void addItem(QGraphicsItem * item);
+    void removeItem(QGraphicsItem * item);
     int track() const;
     QPainterPath clipGroupShape(QPointF offset) const;
     QPainterPath transitionGroupShape(QPointF offset) const;
