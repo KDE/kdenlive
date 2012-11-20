@@ -159,7 +159,9 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
 
 Render::~Render()
 {
+#ifdef USE_JACK
 	disconnectSlave();
+#endif
 	closeMlt();
     delete m_mltProfile;
 }
@@ -315,21 +317,26 @@ void Render::buildConsumer(const QString &profileName)
     */
 
 	if (!audioDriver.isEmpty()) {
+#ifdef USE_JACK
 		if(audioDriver == "jack") {
 	        // create the jackslave singleton instance
 	    	JackSlave::singleton(m_mltProfile);
 	    	if(&JACKSLAVE && JACKSLAVE.probe())
 	    		connectSlave();
         } else
+#endif
         {
             m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
         }
-    } else {
+    }
+#ifdef USE_JACK
+	else {
         // create the jackslave singleton instance
     	JackSlave::singleton(m_mltProfile);
     	if(&JACKSLAVE && JACKSLAVE.probe())
     		connectSlave();
     }
+#endif
 
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
@@ -1823,7 +1830,7 @@ void Render::emitConsumerStopped()
 	if (m_mltProducer) {
 		double pos = m_mltProducer->position();
 
-#if USE_JACK
+#ifdef USE_JACK
 	if(&JACKSLAVE && isSlaveTransportEnabled()) {
 //		emit rendererStopped((int) pos);
 		return;

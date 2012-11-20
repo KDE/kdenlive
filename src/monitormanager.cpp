@@ -47,10 +47,12 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
 
+#ifdef USE_JACK
     /* MonitorManager knows the monitors logic - do it here */
     if (KdenliveSettings::jacktransport()) {
     	slotEnableSlaveTransport();
     }
+#endif
 
     m_monitorsList.append(clipMonitor);
     m_monitorsList.append(projectMonitor);
@@ -258,6 +260,7 @@ void MonitorManager::slotSwitchFullscreen()
     if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
 }
 
+#ifdef USE_JACK
 void MonitorManager::slotEnableSlaveTransport()
 {
 	m_projectMonitor->render->enableSlaveTransport();
@@ -267,5 +270,6 @@ void MonitorManager::slotDisableSlaveTransport()
 {
 	m_projectMonitor->render->disableSlaveTransport();
 }
+#endif
 
 #include "monitormanager.moc"

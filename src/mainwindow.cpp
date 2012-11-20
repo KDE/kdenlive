@@ -2824,6 +2824,7 @@ void MainWindow::slotSwitchSnap()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
 }
 
+#ifdef USE_JACK
 void MainWindow::slotSwitchJackTransport()
 {
     KdenliveSettings::setJacktransport(!KdenliveSettings::jacktransport());
@@ -2836,6 +2837,7 @@ void MainWindow::slotSwitchJackTransport()
     	m_monitorManager->slotDisableSlaveTransport();
     }
 }
+#endif
 
 void MainWindow::slotDeleteItem()
 {
@@ -4609,64 +4611,42 @@ void MainWindow::slotSaveTimelineClip()
     }
 }
 
-//#ifdef USE_JACK
+#ifdef USE_JACK
 void MainWindow::slotConnectJack()
 {
-	Render * rp;
 	Render * rc;
 
 	if (m_projectMonitor != NULL) {
-		rp = m_projectMonitor->render;
+		/* get renderer reference */
+		Render * rp = m_projectMonitor->render;
 
 		if ( rp != NULL)
 		{
-			setenv("JACK_NAME_PRJ", "KdlivePrjMon", 1);
+			/* disconnect slave */
 			rp->connectSlave();
-			unsetenv("JACK_NAME_PRJ");
-			kDebug() << "Project monitor connected to jack" << "\n";
+			/* debug */
+			kDebug() << "Slave connected to jack" << "\n";
 		}
 	}
-
-//	if (m_clipMonitor != NULL)	{
-//		rc = m_clipMonitor->render;
-//
-//		if ( rc != NULL )
-//		{
-//			rc->setJackFilter(rp->getJackFilter());
-////			setenv("JACK_NAME_CLIP", "KdliveClipMon", 1);
-////			rc->mltConnectJack();
-////			unsetenv("JACK_NAME_CLIP");
-////			kDebug() << "Clip monitor connected to jack" << "\n";
-//		}
-//	}
-
 }
 
 void MainWindow::slotDisconnectJack()
 {
 	if (m_projectMonitor != NULL)
 	{
+		/* get renderer reference */
 		Render * rp = m_projectMonitor->render;
 
 		if ( rp != NULL)
 		{
+			/* disconnect slave */
 			rp->disconnectSlave();
-			kDebug() << "Project monitor disconnected from Jack" << "\n";
+			/* debug */
+			kDebug() << "Slave disconnected from Jack" << "\n";
 		}
 	}
-
-//	if (m_clipMonitor != NULL) {
-//
-//		Render * rc = m_clipMonitor->render;
-//		if ( rc != NULL)
-//		{
-//			rc->mltDisconnectJack();
-//
-//			kDebug() << "Clip monitor disconnected from Jack" << "\n";
-//		}
-//	}
 }
-//#endif
+#endif
 
 void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum)
 {

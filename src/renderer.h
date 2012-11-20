@@ -483,9 +483,14 @@ public slots:
     /** @brief Starts a timer to query for a refresh. */
     void doRefresh();
 
+#ifdef USE_JACK
+    /** @brief */
     void slotOnSlavePlaybackStarted(int position);
+    /** @brief */
     void slotOnSlavePlaybackSync(int position);
+    /** @brief */
     void slotOnSlavePlaybackStopped(int position);
+#endif
 };
 
 #endif

@@ -380,7 +380,6 @@ private slots:
     void slotSwitchAudioThumbs();
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
-    void slotSwitchJackTransport();
     void slotRenderProject();
     void slotFullScreen();
     void slotUpdateDocumentState(bool modified);
@@ -573,10 +572,14 @@ private slots:
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
-//#ifdef USE_JACK
+#ifdef USE_JACK
+    /** @brief Connect slave to jackd */
     void slotConnectJack();
+    /** @brief Disconnect slave from jackd */
     void slotDisconnectJack();
-//#endif
+    /** @brief Switch jack transport enabled state */
+    void slotSwitchJackTransport();
+#endif
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

@@ -13,7 +13,7 @@ macro_optional_find_package(QJSON)
 
 option(WITH_V4L "Build capture support with Video4Linux" ON)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
-option(WITH_Jack "Build Jack support" ON)
+option(WITH_Jack "Build Jack support" OFF)
 
 
 
