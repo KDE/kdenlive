@@ -146,6 +146,13 @@ void MeltJob::startJob()
     }
     
     Mlt::Filter mltFilter(*m_profile, filter.toUtf8().data());
+    if (!mltFilter.is_valid()) {
+	m_errorMessage = i18n("Filter %1 crashed", filter);
+        setStatus(JOBCRASHED);
+	delete m_consumer;
+	delete prod;
+	return;
+    }
     list = filterParams.split(' ', QString::SkipEmptyParts);
     foreach(const QString &data, list) {
         if (data.contains('=')) {

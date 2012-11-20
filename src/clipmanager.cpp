@@ -431,12 +431,12 @@ void ClipManager::deleteClip(const QString &clipId)
 {
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
-            if (m_clipList.at(i)->clipType() != COLOR && m_clipList.at(i)->clipType() != SLIDESHOW  && !m_clipList.at(i)->fileURL().isEmpty()) {
+	    DocClipBase *clip = m_clipList.takeAt(i);
+            if (clip->clipType() != COLOR && clip->clipType() != SLIDESHOW  && !clip->fileURL().isEmpty()) {
                 //if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO || (m_clipList.at(i)->clipType() == TEXT && !m_clipList.at(i)->fileURL().isEmpty())) {
                 // listen for file change
-                m_fileWatcher.removeFile(m_clipList.at(i)->fileURL().path());
+                m_fileWatcher.removeFile(clip->fileURL().path());
             }
-            DocClipBase *clip = m_clipList.takeAt(i);
             delete clip;
             clip = NULL;
             break;

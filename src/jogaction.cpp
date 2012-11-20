@@ -24,7 +24,8 @@
 #include <klocalizedstring.h>
 
 // TODO(fleury): this should probably be a user configuration parameter (at least the max speed).
-const double SPEEDS[] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};
+//const double SPEEDS[] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};
+const double SPEEDS[] = {0.0, 1.0, 2.0, 4.0, 5.0, 8.0, 16.0, 60.0};
 const size_t SPEEDS_SIZE = sizeof(SPEEDS) / sizeof(double);
 
 JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringList& actionMap, QObject * parent)

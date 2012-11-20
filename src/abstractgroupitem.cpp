@@ -118,6 +118,11 @@ void AbstractGroupItem::addItem(QGraphicsItem * item)
     item->setFlag(QGraphicsItem::ItemIsMovable, false);
 }
 
+void AbstractGroupItem::removeItem(QGraphicsItem * item)
+{
+    removeFromGroup(item);
+}
+
 void AbstractGroupItem::fixItemRect()
 {
     QPointF start = boundingRect().topLeft();

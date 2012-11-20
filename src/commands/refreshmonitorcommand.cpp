@@ -22,10 +22,11 @@
 #include "customtrackview.h"
 
 
-RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, bool execute, QUndoCommand * parent) :
+RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_exec(execute)
+        m_exec(execute),
+        m_execOnUndo(refreshOnUndo)
 {
 }
 
@@ -33,12 +34,12 @@ RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, bool execute
 // virtual
 void RefreshMonitorCommand::undo()
 {
-    m_view->monitorRefresh();
+    if (m_execOnUndo) m_view->monitorRefresh();
 }
 // virtual
 void RefreshMonitorCommand::redo()
 {
-    if (m_exec)
+    if (m_exec && !m_execOnUndo)
 	m_view->monitorRefresh();
     m_exec = true;
 }
