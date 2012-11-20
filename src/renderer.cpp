@@ -4751,7 +4751,7 @@ void Render::connectSlave()
 	m_mltConsumer->set("audio_off", 1);
 	// connect jackslave to jackd
     if (&JACKSLAVE) {
-    	JACKSLAVE.open("kdenlive", 2, 512);
+    	JACKSLAVE.open("kdenlive", 2, 204800 * 6);
     }
     // if slave is connected attach filter to consumer
     startSlave();

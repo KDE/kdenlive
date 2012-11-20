@@ -125,13 +125,15 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 	jack_on_shutdown(m_client, JackSlave::jack_shutdown, this);
 	jack_set_sync_callback(m_client, JackSlave::jack_sync, this);
 
+	/* store the number of channels */
+	m_channels = channels;
 	// register our output channels which are called ports in jack
-	m_ports = new jack_port_t*[channels];
+	m_ports = new jack_port_t*[m_channels];
 
 //	try
 	{
 		char portname[64];
-		for(int i = 0; i < channels; i++)
+		for(int i = 0; i < m_channels; i++)
 		{
 			sprintf(portname, "out_%d", i+1);
 			m_ports[i] = jack_port_register(m_client, portname,
@@ -155,9 +157,9 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 //	m_specs.rate = (AUD_SampleRate)jack_get_sample_rate(m_client);
 //
 //	buffersize *= sizeof(sample_t);
-//	m_ringbuffers = new jack_ringbuffer_t*[specs.channels];
-//	for(unsigned int i = 0; i < specs.channels; i++)
-//		m_ringbuffers[i] = jack_ringbuffer_create(buffersize);
+	m_ringbuffers = new jack_ringbuffer_t*[m_channels];
+	for(unsigned int i = 0; i < m_channels; i++)
+		m_ringbuffers[i] = jack_ringbuffer_create(buffersize * sizeof(float));
 //	buffersize *= specs.channels;
 //	m_deinterleavebuf.resize(buffersize);
 //	m_buffer.resize(buffersize);
@@ -182,9 +184,9 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 	{
 		jack_client_close(m_client);
 		delete[] m_ports;
-//		for(unsigned int i = 0; i < specs.channels; i++)
-//			jack_ringbuffer_free(m_ringbuffers[i]);
-//		delete[] m_ringbuffers;
+		for(unsigned int i = 0; i < m_channels; i++)
+			jack_ringbuffer_free(m_ringbuffers[i]);
+		delete[] m_ringbuffers;
 //		pthread_mutex_destroy(&m_mixingLock);
 //		pthread_cond_destroy(&m_mixingCondition);
 		pthread_mutex_destroy(&m_transportLock);
@@ -197,15 +199,15 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 		return;
 	}
 
-//	const char** ports = jack_get_ports(m_client, NULL, NULL,
-//										JackPortIsPhysical | JackPortIsInput);
-//	if(ports != NULL)
-//	{
-//		for(int i = 0; i < m_specs.channels && ports[i]; i++)
-//			jack_connect(m_client, jack_port_name(m_ports[i]), ports[i]);
-//
-//		free(ports);
-//	}
+	const char** ports = jack_get_ports(m_client, NULL, NULL,
+										JackPortIsPhysical | JackPortIsInput);
+	if(ports != NULL)
+	{
+		for(int i = 0; i < /*m_specs.*/m_channels && ports[i]; i++)
+			jack_connect(m_client, jack_port_name(m_ports[i]), ports[i]);
+
+		free(ports);
+	}
 
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
@@ -226,17 +228,19 @@ void JackSlave::close()
 		pthread_cond_destroy(&m_transportCondition);
 		pthread_mutex_destroy(&m_transportLock);
 
+		/* close the client if not is done already by jackd */
 		if (!m_shutdown)
 			jack_client_close(m_client);
 		delete[] m_ports;
 
+		/* free and delete ringbuffers */
+		for(unsigned int i = 0; i < m_channels; i++)
+			jack_ringbuffer_free(m_ringbuffers[i]);
+		delete[] m_ringbuffers;
+
 		disconnect(this, SIGNAL(currentPositionChanged(int)),
 				this, SLOT(processLooping()));
 	}
-
-//	for(unsigned int i = 0; i < m_specs.channels; i++)
-//		jack_ringbuffer_free(m_ringbuffers[i]);
-//	delete[] m_ringbuffers;
 }
 
 bool JackSlave::probe()

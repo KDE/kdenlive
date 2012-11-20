@@ -141,6 +141,11 @@ private:
 	jack_ringbuffer_t** m_ringbuffers;
 
 	/**
+	 * Number of audio channels.
+	 */
+	int m_channels;
+
+	/**
 	 * Whether the device is valid.
 	 */
 	volatile bool m_valid;
