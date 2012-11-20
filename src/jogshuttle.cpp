@@ -84,53 +84,54 @@ bool ShuttleThread::isWorking()
 
 void ShuttleThread::run()
 {
-    kDebug() << "-------  STARTING SHUTTLE: " << m_device;
-    /* open file descriptor */
-    const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
-    if (fd < 0) {
-        fprintf(stderr, "Can't open Jog Shuttle FILE DESCRIPTOR\n");
-        return;
-    }
+	kDebug() << "-------  STARTING SHUTTLE: " << m_device;
+	/* open file descriptor */
+	const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
+	if (fd < 0) {
+		fprintf(stderr, "Can't open Jog Shuttle FILE DESCRIPTOR\n");
+		return;
+	}
 
-    EV ev;
-    if (ioctl(fd, EVIOCGRAB, 1) < 0) {
-        fprintf(stderr, "Can't get exclusive access on  Jog Shuttle FILE DESCRIPTOR\n");
-        close(fd);
-        return;
-    }
+	EV ev;
 
-    fd_set         readset;
-    struct timeval timeout;
+	if (ioctl(fd, EVIOCGRAB, 1) < 0) {
+		fprintf(stderr, "Can't get exclusive access on  Jog Shuttle FILE DESCRIPTOR\n");
+		close(fd);
+		return;
+	}
 
-    int num_warnings = 0;
-    int result, iof = -1;
+	fd_set		   readset;
+	struct timeval timeout;
 
-    /* enter thread loop */
-    while (!stop_me) {
-    	/* reset the read set */
-    	FD_ZERO(&readset);
-    	FD_SET(fd, &readset);
+	int num_warnings = 0;
+	int result, iof = -1;
 
-        /* reinit the timeout structure */
-        timeout.tv_sec  = 0;
-        timeout.tv_usec = 300000; /* 300 ms */
+	/* enter thread loop */
+	while (!stop_me) {
+		/* reset the read set */
+		FD_ZERO(&readset);
+		FD_SET(fd, &readset);
 
-        /* do the select */
-    	result = select(fd+1, &readset, NULL, NULL, &timeout);
+		/* reinit the timeout structure */
+		timeout.tv_sec  = 0;
+		timeout.tv_usec = 300000; /* 300 ms */
 
-    	/* see if there was an error or timeout */
-    	if (result < 0) {
-//    	    perror("select failed");
-    	} else if (result == 0) {
-//    	    puts("TIMEOUT");
-    	} else {
-    	    /* we have input */
-    	    if (FD_ISSET(fd, &readset)) {
-    	    	/* get fd settings */
-    	    	if ((iof = fcntl(fd, F_GETFL, 0)) != -1) {
-    	    		/* set fd non blocking */
-    	    		fcntl(fd, F_SETFL, iof | O_NONBLOCK);
-    	    		/* read input */
+		/* do the select */
+		result = select(fd+1, &readset, NULL, NULL, &timeout);
+
+		/* see if there was an error or timeout */
+		if (result < 0) {
+			// perror("select failed");
+		} else if (result == 0) {
+			//puts("TIMEOUT");
+		} else {
+			/* we have input */
+			if (FD_ISSET(fd, &readset)) {
+				/* get fd settings */
+				if ((iof = fcntl(fd, F_GETFL, 0)) != -1) {
+					/* set fd non blocking */
+					fcntl(fd, F_SETFL, iof | O_NONBLOCK);
+					/* read input */
 					if (read(fd, &ev, sizeof(ev)) < 0) {
 						if (num_warnings % 10000 == 0)
 							/* should not happen cause select called before */
@@ -144,16 +145,16 @@ void ShuttleThread::run()
 					}
 					/* process event */
 					handle_event(ev);
-    	        } else {
-    	            fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK\n");
-    	            stop_me = true;
-    	        }
-    	    }
-    	}
-    }
+				} else {
+					fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK\n");
+					stop_me = true;
+				}
+			}
+		}
+	}
 
-    /* close the handle and return thread */
-    close(fd);
+	/* close the handle and return thread */
+	close(fd);
 }
 
 void ShuttleThread::handle_event(EV ev)
@@ -267,7 +268,7 @@ void JogShuttle::initDevice(QString device)
 void JogShuttle::stopDevice()
 {
     if (m_shuttleProcess.isRunning()) {
-    	/* the read fd is in blocking mode => stop_me is broken at the moment */
+    	/* tell thread to stop */
         m_shuttleProcess.stop_me = true;
         m_shuttleProcess.exit();
         /* give the thread some time (ms) to shutdown */
