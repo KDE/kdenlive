@@ -33,8 +33,16 @@ class JackSlave : public QObject
 {
     Q_OBJECT
 public:
+
+    /**
+	 * Singleton.
+	 */
     static JackSlave& singleton(Mlt::Profile * profile = 0);
-	virtual ~JackSlave();
+
+	/**
+	 * Destructor.
+	 */
+    virtual ~JackSlave();
 
 	/**
 	 * Checks if the slave is still valid for processing.
@@ -106,22 +114,17 @@ public:
 	 * \return Whether jack transport plays back.
 	 */
 	bool doesPlayback();
-	/**
-	 * Next Jack Transport state (-1 if not expected to change).
-	 */
-	jack_transport_state_t m_nextState;
 
 	/**
-	 * Current jack transport status.
+	 * Updates the buffers.
 	 */
-	jack_transport_state_t m_state;
+	void updateBuffers(Mlt::Frame& frame);
 
-	/**
-	 * Syncronisation state.
-	 */
-	int m_sync;
 
 protected:
+	/**
+	 * Standard constructor.
+	 */
 	JackSlave(Mlt::Profile * profile);
 
 private:
@@ -199,6 +202,27 @@ private:
 	 * Loop state.
 	 */
 	int m_loopState;
+
+	/**
+	 * Next Jack Transport state (-1 if not expected to change).
+	 */
+	jack_transport_state_t m_nextState;
+
+	/**
+	 * Current jack transport status.
+	 */
+	jack_transport_state_t m_state;
+
+	/**
+	 * Jacks audio frame rate.
+	 */
+	jack_nframes_t m_frameRate;
+
+	/**
+	 * Syncronisation state.
+	 */
+
+	int m_sync;
 
 	/**
 	 * Reset looping.

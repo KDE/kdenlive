@@ -158,7 +158,7 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 //
 //	buffersize *= sizeof(sample_t);
 	m_ringbuffers = new jack_ringbuffer_t*[m_channels];
-	for(unsigned int i = 0; i < m_channels; i++)
+	for(int i = 0; i < m_channels; i++)
 		m_ringbuffers[i] = jack_ringbuffer_create(buffersize * sizeof(float));
 //	buffersize *= specs.channels;
 //	m_deinterleavebuf.resize(buffersize);
@@ -172,7 +172,10 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 	m_valid = true;
 	m_sync = 0;
 //	m_syncFunc = NULL;
+	/* store current transport state */
 	m_nextState = m_state = jack_transport_query(m_client, NULL);
+	/* store jacks audio sample rate */
+	m_frameRate = jack_get_sample_rate(m_client);
 
 //	pthread_mutex_init(&m_mixingLock, NULL);
 //	pthread_cond_init(&m_mixingCondition, NULL);
@@ -184,7 +187,7 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 	{
 		jack_client_close(m_client);
 		delete[] m_ports;
-		for(unsigned int i = 0; i < m_channels; i++)
+		for(int i = 0; i < m_channels; i++)
 			jack_ringbuffer_free(m_ringbuffers[i]);
 		delete[] m_ringbuffers;
 //		pthread_mutex_destroy(&m_mixingLock);
@@ -234,7 +237,7 @@ void JackSlave::close()
 		delete[] m_ports;
 
 		/* free and delete ringbuffers */
-		for(unsigned int i = 0; i < m_channels; i++)
+		for(int i = 0; i < m_channels; i++)
 			jack_ringbuffer_free(m_ringbuffers[i]);
 		delete[] m_ringbuffers;
 
@@ -316,9 +319,33 @@ int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, voi
 	return result;
 }
 
-int JackSlave::jack_process(jack_nframes_t length, void *data)
+int JackSlave::jack_process(jack_nframes_t frames, void *data)
 {
 	JackSlave* device = (JackSlave*)data;
+	int channels = device->m_channels;
+
+	if (device->m_sync) {
+		size_t bufsize = (frames * sizeof(float));
+		/* play silence while syncing */
+		for(int i = 0; i < channels; i++)
+			memset(jack_port_get_buffer(device->m_ports[i], frames), 0, bufsize);
+	} else {
+		/* convert nr of frames to nr of bytes */
+		size_t jacksize = (frames * sizeof(float));
+		/* copy audio data into jack buffers */
+		for (int i = 0; i < channels; i++) {
+			size_t ringsize;
+			char * buffer;
+
+			ringsize = jack_ringbuffer_read_space(device->m_ringbuffers[i]);
+			buffer = (char*)jack_port_get_buffer(device->m_ports[i], frames);
+			jack_ringbuffer_read(device->m_ringbuffers[i], buffer,
+					ringsize < jacksize ? ringsize : jacksize );
+			/* fill the rest with zeros to prevent noise */
+			if(ringsize < jacksize)
+				memset(buffer + ringsize, 0, jacksize - ringsize);
+		}
+	}
 
 	if(device->m_transportEnabled) {
 		if(pthread_mutex_trylock(&(device->m_transportLock)) == 0)	{
@@ -330,13 +357,42 @@ int JackSlave::jack_process(jack_nframes_t length, void *data)
 	return 0;
 }
 
+void JackSlave::updateBuffers(Mlt::Frame& frame)
+{
+	/* FIXME: optimize sync */
+	if (m_sync) {
+		for(int i = 0; i < m_channels; i++)
+			jack_ringbuffer_reset(m_ringbuffers[i]);
+		return;
+	}
+
+	if (!frame.is_valid() || frame.get_int("test_audio") != 0) {
+        return;
+    }
+
+    mlt_audio_format format = mlt_audio_float;
+    int freq = (int)m_frameRate;
+    int samples = 0;
+
+    /* get the audio buffers */
+    float *buffer = (float*)frame.get_audio(format, freq, m_channels, samples);
+
+    if (!buffer) {
+        return;
+    }
+
+	/* process audio */
+	size_t size = samples * sizeof(float);
+	/* write into output ringbuffer */
+	for (int i = 0; i < m_channels; i++)
+	{
+		if (jack_ringbuffer_write_space(m_ringbuffers[i]) >= size)
+			jack_ringbuffer_write(m_ringbuffers[i], (char*)(buffer + i * samples), size);
+	}
+}
+
 void JackSlave::processLooping()
 {
-//	m_loopIn = in;
-//	m_loopOut = out;
-//	m_loopMode = infinite;
-//	m_isLooping = true;
-
 	if (m_loopState == 1) {
 		m_loopState = 2;
 	} else if (m_loopState == 2) {
@@ -385,10 +441,8 @@ void JackSlave::seekPlayback(int time, bool resetLoop)
     		/* reset looping state */
     		if (resetLoop)
     			resetLooping();
-    		/* TODO: replace with local m_framerate set on open */
-    		jack_nframes_t framerate = jack_get_sample_rate(m_client);
-//    		frame *= time / m_mltProfile->fps();
-    		jack_transport_locate(m_client, toAudioPosition(time, framerate));
+    		/* locate jack transport */
+    		jack_transport_locate(m_client, toAudioPosition(time, m_frameRate));
     	}
     }
 }

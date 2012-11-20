@@ -89,9 +89,15 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
         self->emitFrameUpdated(frame);
     }
+
+    if(&JACKSLAVE && JACKSLAVE.isValid()) {
+    	JACKSLAVE.updateBuffers(frame);
+    }
+
     if (self->analyseAudio) {
         self->showAudio(frame);
     }
+
     if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
         self->pause();
         self->emitConsumerStopped();
