@@ -1581,6 +1581,7 @@ void Render::play(double speed)
         return;
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
+    if (speed != 0) m_mltConsumer->set("refresh", 1);
 }
 
 void Render::play(const GenTime & startTime)

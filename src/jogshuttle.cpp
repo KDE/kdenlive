@@ -73,7 +73,7 @@ void ShuttleThread::init(QObject *parent, QString device)
     stop_me = false;
     m_isWorking = false;
     shuttlevalue = 0xffff;
-    shuttlechange = false;
+    shuttlecounter = 0;
     jogvalue = 0xffff;
 }
 
@@ -149,15 +149,17 @@ void ShuttleThread::shuttle(int value)
     //gettimeofday( &last_shuttle, 0 );
     //need_synthetic_shuttle = value != 0;
 
-    if (value == shuttlevalue)
+    if (value == shuttlevalue) {
+	shuttlecounter = 1;
         return;
+    }
 
     if (value > MAX_SHUTTLE_RANGE || value < -MAX_SHUTTLE_RANGE) {
         fprintf(stderr, "Jog Shuttle returned value of %d (should be between -%d ad +%d)", value, MAX_SHUTTLE_RANGE, MAX_SHUTTLE_RANGE);
         return;
     }
     shuttlevalue = value;
-    shuttlechange = true;
+    shuttlecounter = 1;
     QApplication::postEvent(m_parent, new QEvent((QEvent::Type) (JOG_STOP + value)));
 }
 
@@ -184,14 +186,16 @@ void ShuttleThread::jog(unsigned int value)
             QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK1));
         else if ((forward && !wrap) || (rewind && wrap))
             QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD1));
-        else if (!forward && !rewind && !shuttlechange)
+        else if (!forward && !rewind && shuttlecounter > 2) {
             // An event without changing the jog value is sent after each shuttle change.
             // As the shuttle rest position does not get a shuttle event, only a non-position-changing jog event.
             // Hence we stop on this when we see 2 non-position-changing jog events in a row.
+	    shuttlecounter = 0;
             QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_STOP));
+	}
     }
     jogvalue = value;
-    shuttlechange = false;
+    if (shuttlecounter > 0) shuttlecounter++;
 }
 
 

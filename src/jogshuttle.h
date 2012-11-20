@@ -37,7 +37,7 @@ public:
     void init(QObject *parent, QString device);
     QObject *m_parent;
     int shuttlevalue;
-    bool shuttlechange;
+    int shuttlecounter;
     unsigned short jogvalue;
     bool isWorking();
     volatile bool stop_me;
