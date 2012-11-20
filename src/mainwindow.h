@@ -572,14 +572,15 @@ private slots:
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
-#ifdef USE_JACK
+    /* TODO: @eddrog find solution - moc has a problem with #ifdef in slots */
+//#ifdef USE_JACK
     /** @brief Connect slave to jackd */
     void slotConnectJack();
     /** @brief Disconnect slave from jackd */
     void slotDisconnectJack();
     /** @brief Switch jack transport enabled state */
     void slotSwitchJackTransport();
-#endif
+//#endif
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
