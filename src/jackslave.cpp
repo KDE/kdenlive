@@ -127,7 +127,7 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 
 	/* store the number of channels */
 	m_channels = channels;
-	// register our output channels which are called ports in jack
+	/* register our output channels which are called ports in jack */
 	m_ports = new jack_port_t*[m_channels];
 
 //	try
@@ -154,31 +154,21 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 //		throw;
 //	}
 
-//	m_specs.rate = (AUD_SampleRate)jack_get_sample_rate(m_client);
-//
-//	buffersize *= sizeof(sample_t);
 	m_ringbuffers = new jack_ringbuffer_t*[m_channels];
 	for(int i = 0; i < m_channels; i++)
 		m_ringbuffers[i] = jack_ringbuffer_create(buffersize * sizeof(float));
-//	buffersize *= specs.channels;
-//	m_deinterleavebuf.resize(buffersize);
-//	m_buffer.resize(buffersize);
-//
-//	create();
+
 	resetLooping();
 	connect(this, SIGNAL(currentPositionChanged(int)),
 			this, SLOT(processLooping()));
 
 	m_valid = true;
 	m_sync = 0;
-//	m_syncFunc = NULL;
 	/* store current transport state */
 	m_nextState = m_state = jack_transport_query(m_client, NULL);
 	/* store jacks audio sample rate */
 	m_frameRate = jack_get_sample_rate(m_client);
 
-//	pthread_mutex_init(&m_mixingLock, NULL);
-//	pthread_cond_init(&m_mixingCondition, NULL);
 	pthread_mutex_init(&m_transportLock, NULL);
 	pthread_cond_init(&m_transportCondition, NULL);
 
@@ -190,13 +180,9 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 		for(int i = 0; i < m_channels; i++)
 			jack_ringbuffer_free(m_ringbuffers[i]);
 		delete[] m_ringbuffers;
-//		pthread_mutex_destroy(&m_mixingLock);
-//		pthread_cond_destroy(&m_mixingCondition);
 		pthread_mutex_destroy(&m_transportLock);
 		pthread_cond_destroy(&m_transportCondition);
 
-//		destroy();
-//
 //		AUD_THROW(AUD_ERROR_JACK, activate_error);
 		m_valid = false;
 		return;
@@ -376,6 +362,11 @@ int JackSlave::jack_process(jack_nframes_t frames, void *data)
 
 void JackSlave::updateBuffers(Mlt::Frame& frame)
 {
+	/* no job while syncing */
+	if (m_sync) {
+		return;
+	}
+
 	if (!frame.is_valid() || frame.get_int("test_audio") != 0) {
         return;
     }
