@@ -2823,9 +2823,10 @@ void MainWindow::slotSwitchSnap()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
 }
 
-#ifdef USE_JACK
+
 void MainWindow::slotSwitchJackTransport()
 {
+#ifdef USE_JACK
     KdenliveSettings::setJacktransport(!KdenliveSettings::jacktransport());
     m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
 
@@ -2835,8 +2836,9 @@ void MainWindow::slotSwitchJackTransport()
     } else {
     	m_monitorManager->slotDisableSlaveTransport();
     }
-}
 #endif
+}
+
 
 void MainWindow::slotDeleteItem()
 {
@@ -4610,27 +4612,27 @@ void MainWindow::slotSaveTimelineClip()
     }
 }
 
-#ifdef USE_JACK
 void MainWindow::slotConnectJack()
 {
-	Render * rc;
-
+#ifdef USE_JACK
 	if (m_projectMonitor != NULL) {
 		/* get renderer reference */
 		Render * rp = m_projectMonitor->render;
 
 		if ( rp != NULL)
 		{
-			/* disconnect slave */
+			/* connect slave */
 			rp->connectSlave();
 			/* debug */
 			kDebug() << "Slave connected to jack" << "\n";
 		}
 	}
+#endif
 }
 
 void MainWindow::slotDisconnectJack()
 {
+#ifdef USE_JACK
 	if (m_projectMonitor != NULL)
 	{
 		/* get renderer reference */
@@ -4644,8 +4646,8 @@ void MainWindow::slotDisconnectJack()
 			kDebug() << "Slave disconnected from Jack" << "\n";
 		}
 	}
-}
 #endif
+}
 
 void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum)
 {

@@ -453,7 +453,7 @@ void Render::seek(int time, bool slave)
     		JACKSLAVE.seekPlayback(time < 0 ? 0 : time);
     	}
     	/* return */
-//    	return;
+    	return;
     } else if(slave && isSlaveTransportEnabled()) {
     	m_mltProducer->set_speed(0);
     }
@@ -1629,7 +1629,7 @@ void Render::switchPlay(bool play, bool slave)
     	/* return */
     	return;
     } else if (slave && isSlaveTransportEnabled()) {
-		position = JACKSLAVE.getPlaybackPosition();
+//		position = JACKSLAVE.getPlaybackPosition();
     }
 #endif
 
@@ -4847,10 +4847,10 @@ void Render::disableSlaveTransport()
 		kDebug() << "// // // Slave Transport disabled";
 	}
 }
+#endif
 
 void Render::slotOnSlavePlaybackStarted(int position)
 {
-	seek(position, true);
 	switchPlay(true, true);
 }
 
@@ -4864,8 +4864,6 @@ void Render::slotOnSlavePlaybackStopped(int position)
 	switchPlay(false, true);
 	emit rendererStopped(position);
 }
-
-#endif
 
 
 #include "renderer.moc"
