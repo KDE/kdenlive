@@ -90,9 +90,11 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
         self->emitFrameUpdated(frame);
     }
 
+#ifdef USE_JACK
     if(&JACKSLAVE && JACKSLAVE.isValid()) {
     	JACKSLAVE.updateBuffers(frame);
     }
+#endif
 
     if (self->analyseAudio) {
         self->showAudio(frame);
