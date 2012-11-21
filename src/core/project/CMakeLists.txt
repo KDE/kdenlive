@@ -12,6 +12,7 @@ set(project_SRCS
   project/project.cpp
   project/projectfolder.cpp
   project/projectmanager.cpp
+  project/shiftingproducer.cpp
   project/timeline.cpp
   project/timelinebackground.cpp
   project/timelinetrack.cpp

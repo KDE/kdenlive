@@ -11,10 +11,8 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef ABSTRACTTIMELINECLIP_H
 #define ABSTRACTTIMELINECLIP_H
 
-#include <QObject>
-#include <kdemacros.h>
+#include "shiftingproducer.h"
 
-class ProducerWrapper;
 class AbstractProjectClip;
 class TimelineTrack;
 class QUndoCommand;
@@ -28,7 +26,7 @@ class QUndoCommand;
  */
 
 
-class KDE_EXPORT AbstractTimelineClip : public QObject
+class KDE_EXPORT AbstractTimelineClip : public ShiftingProducer
 {
     Q_OBJECT
 
@@ -41,14 +39,6 @@ public:
      */
     AbstractTimelineClip(ProducerWrapper *producer, AbstractProjectClip *projectClip, TimelineTrack *parent);
     virtual ~AbstractTimelineClip();
-
-    /** @brief Returns a pointer to the clip's producer. */
-    ProducerWrapper *producer();
-    /** @brief Sets a new producer.
-     * 
-     * emits producerChanged
-     */
-    virtual void setProducer(ProducerWrapper *producer);
 
     /** @brief Returns the project clip this instance belongs to. */
     AbstractProjectClip *projectClip();
@@ -129,10 +119,8 @@ public slots:
 signals:
     void resized();
     void moved();
-    void producerChanged();
 
 protected:
-    ProducerWrapper *m_producer;
     AbstractProjectClip *m_projectClip;
     TimelineTrack *m_parent;
 };
