@@ -312,6 +312,11 @@ int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, voi
 	}
 
 	if (device->m_sync > 1) {
+		/* FIXME: optimize sync */
+#if 0
+		for(int i = 0; i < device->m_channels; i++)
+			jack_ringbuffer_reset(device->m_ringbuffers[i]);
+#endif
 		device->m_sync = 0;
 		result = 1;
 	}
@@ -324,12 +329,24 @@ int JackSlave::jack_process(jack_nframes_t frames, void *data)
 	JackSlave* device = (JackSlave*)data;
 	int channels = device->m_channels;
 
+	/* TODO: review later */
+#if 0
 	if (device->m_sync) {
 		size_t bufsize = (frames * sizeof(float));
 		/* play silence while syncing */
 		for(int i = 0; i < channels; i++)
 			memset(jack_port_get_buffer(device->m_ports[i], frames), 0, bufsize);
-	} else {
+
+		/* FIXME: optimize sync */
+//		if (device->m_sync > 1) {
+//			for(int i = 0; i < device->m_channels; i++)
+//				jack_ringbuffer_reset(device->m_ringbuffers[i]);
+//			device->m_sync = 3;
+//		}
+
+	} else
+#endif
+	{
 		/* convert nr of frames to nr of bytes */
 		size_t jacksize = (frames * sizeof(float));
 		/* copy audio data into jack buffers */
@@ -359,13 +376,6 @@ int JackSlave::jack_process(jack_nframes_t frames, void *data)
 
 void JackSlave::updateBuffers(Mlt::Frame& frame)
 {
-	/* FIXME: optimize sync */
-	if (m_sync) {
-		for(int i = 0; i < m_channels; i++)
-			jack_ringbuffer_reset(m_ringbuffers[i]);
-		return;
-	}
-
 	if (!frame.is_valid() || frame.get_int("test_audio") != 0) {
         return;
     }
