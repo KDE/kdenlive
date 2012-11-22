@@ -40,7 +40,7 @@ public:
     int shuttlecounter;
     unsigned short jogvalue;
     bool isWorking();
-    bool stop_me;
+    volatile bool stop_me;
     QString m_device;
 
 private:

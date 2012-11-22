@@ -676,6 +676,12 @@ MainWindow::~MainWindow()
     if (m_stopmotion) {
         delete m_stopmotion;
     }
+
+#ifdef USE_JOGSHUTTLE
+    if (m_jogProcess)
+    	delete m_jogProcess;
+#endif
+
     m_effectStack->slotClipItemSelected(NULL);
     m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 
@@ -3957,24 +3963,39 @@ void MainWindow::loadClipActions()
 		Mlt::Profile profile;
 		Mlt::Filter *filter = Mlt::Factory::filter(profile,(char*)"videostab");
 		if (filter) {
-			delete filter;
-			QAction *action=actionMenu->addAction(i18n("Stabilize (vstab)"));
-			action->setData("videostab");
-			connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+			if (!filter->is_valid()) {
+			    delete filter;
+			}
+			else {
+			    delete filter;
+			    QAction *action=actionMenu->addAction(i18n("Stabilize (vstab)"));
+			    action->setData("videostab");
+			    connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+			}
 		}
 		filter = Mlt::Factory::filter(profile,(char*)"videostab2");
 		if (filter) {
-			delete filter;
-			QAction *action=actionMenu->addAction(i18n("Stabilize (transcode)"));
-			action->setData("videostab2");
-			connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+			if (!filter->is_valid()) {
+			    delete filter;
+			}
+			else {
+			    delete filter;
+			    QAction *action=actionMenu->addAction(i18n("Stabilize (transcode)"));
+			    action->setData("videostab2");
+			    connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+			}
 		}
 		filter = Mlt::Factory::filter(profile,(char*)"motion_est");
 		if (filter) {
-			delete filter;
-			QAction *action=actionMenu->addAction(i18n("Automatic scene split"));
-			action->setData("motion_est");
-			connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+			if (!filter->is_valid()) {
+			    delete filter;
+			}
+			else {
+			    delete filter;
+			    QAction *action=actionMenu->addAction(i18n("Automatic scene split"));
+			    action->setData("motion_est");
+			    connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+			}
 		}
 	}
 
