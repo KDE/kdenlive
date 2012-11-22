@@ -90,7 +90,7 @@ void ShuttleThread::run()
 	/* open file descriptor */
 	const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
 	if (fd < 0) {
-		fprintf(stderr, "Can't open Jog Shuttle FILE DESCRIPTOR\n");
+		perror("Can't open Jog Shuttle FILE DESCRIPTOR");
 		return;
 	}
 
@@ -123,9 +123,9 @@ void ShuttleThread::run()
 
 		/* see if there was an error or timeout else process event */
 		if (result < 0) {
-			/* usually this is a condition for exit but EINTR error is thrown
-			 * one time when the playback is started the first time. I think
-			 * its ok to ignore this if its not too often */
+			/* usually this is a condition for exit but EINTR error is sometimes
+			 * thrown under special circumstances. I think its ok to ignore this
+			 * if its not too often */
 			kDebug() << strerror(errno) << "\n";
 		} else if (result == 0) {
 			/* do nothing. reserved for future purposes */
@@ -138,12 +138,22 @@ void ShuttleThread::run()
 					fcntl(fd, F_SETFL, iof | O_NONBLOCK);
 					/* read input */
 					if (read(fd, &ev, sizeof(ev)) < 0) {
-						if (num_warnings % 10000 == 0)
-							/* should not happen cause select called before */
+						if (num_warnings % 10000 == 0) {
+							/* if device is not available anymore - dead or disconnected */
 							fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR (repeated %d times)\n", num_warnings + 1);
+						}
+						/* exit if device is not available or the error occurs to long */
+						if (errno == ENODEV) {
+							perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Stop thread");
+							/* stop thread */
+							stop_me = true;
+						} else if (num_warnings > 1000000) {
+							perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Limit reached. Stop thread");
+							/* stop thread */
+							stop_me = true;
+						}
 						num_warnings++;
 					}
-
 					/* restore settings */
 					if (iof != -1) {
 						fcntl(fd, F_SETFL, iof);
