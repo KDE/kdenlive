@@ -31,6 +31,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
+#include <string.h>
 #include <linux/input.h>
 
 #define DELAY 10
@@ -114,16 +116,19 @@ void ShuttleThread::run()
 
 		/* reinit the timeout structure */
 		timeout.tv_sec  = 0;
-		timeout.tv_usec = 300000; /* 300 ms */
+		timeout.tv_usec = 400000; /* 400 ms */
 
-		/* do the select */
+		/* do select in blocked mode and wake up after timeout for eval stop_me */
 		result = select(fd+1, &readset, NULL, NULL, &timeout);
 
-		/* see if there was an error or timeout */
+		/* see if there was an error or timeout else process event */
 		if (result < 0) {
-			// perror("select failed");
+			/* usually this is a condition for exit but EINTR error is thrown
+			 * one time when the playback is started the first time. I think
+			 * its ok to ignore this if its not too often */
+			kDebug() << strerror(errno) << "\n";
 		} else if (result == 0) {
-			//puts("TIMEOUT");
+			/* do nothing. reserved for future purposes */
 		} else {
 			/* we have input */
 			if (FD_ISSET(fd, &readset)) {
@@ -146,7 +151,7 @@ void ShuttleThread::run()
 					/* process event */
 					handle_event(ev);
 				} else {
-					fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK\n");
+					fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
 					stop_me = true;
 				}
 			}
