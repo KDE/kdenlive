@@ -268,17 +268,19 @@ void MonitorManager::slotSwitchFullscreen()
     if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
 }
 
-#ifdef USE_JACK
-//MonitorManager::slotSetSlaveActive(SlaveType slvType)
-void MonitorManager::slotEnableSlaveTransport()
+void MonitorManager::slotEnableSlave(SlaveType slv)
 {
-	m_projectMonitor->render->enableSlave(JackSlave);
+	m_projectMonitor->render->enableSlave(slv);
 }
 
-void MonitorManager::slotDisableSlaveTransport()
+void MonitorManager::slotOpenDevice(DeviceType dev)
 {
-	m_projectMonitor->render->enableSlave(InternalSlave);
+	m_projectMonitor->render->openDevice(dev);
 }
-#endif
+
+void MonitorManager::slotCloseDevice(DeviceType dev)
+{
+	m_projectMonitor->render->closeDevice(dev);
+}
 
 #include "monitormanager.moc"

@@ -75,12 +75,12 @@ public slots:
     void slotSwitchMonitors(bool activateClip);
     void slotUpdateAudioMonitoring();
 
-#ifdef USE_JACK
-    /** @brief Enable jack transport. */
-    void slotEnableSlaveTransport();
-    /** @brief Disable jack transport. */
-    void slotDisableSlaveTransport();
-#endif
+    /** @brief Enable appropriate transport slave */
+    void slotEnableSlave(SlaveType slv);
+    /** @brief Open defined audio device */
+    void slotOpenDevice(DeviceType dev);
+    /** @brief Close defined audio device */
+    void slotCloseDevice(DeviceType dev);
 
 private slots:
     void slotRefreshCurrentMonitor(const QString &id);

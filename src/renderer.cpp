@@ -160,6 +160,7 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
 Render::~Render()
 {
 #ifdef USE_JACK
+	/* isDeviceActive ()*/
 	closeDevice(JackDevice);
 #endif
 	closeMlt();
@@ -4752,10 +4753,9 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
     }
 }
 
-#ifdef USE_JACK
-
 void Render::openDevice(DeviceType dev)
 {
+#ifdef USE_JACK
 	if (dev == JackDevice) {
 		/* stop consumer */
 		if (!m_mltConsumer->is_stopped())
@@ -4766,11 +4766,17 @@ void Render::openDevice(DeviceType dev)
 		if (&JACKDEV && !JACKDEV.isValid()) {
 			JACKDEV.open("kdenlive", 2, 204800 * 6);
 		}
+	} else
+#endif
+	{
+		/* prevent warnings */
+		dev = dev;
 	}
 }
 
 void Render::closeDevice(DeviceType dev)
 {
+#ifdef USE_JACK
 	if (dev == JackDevice) {
 		if(&JACKDEV && JACKDEV.isValid()) {
 			/* close jack slave */
@@ -4779,9 +4785,14 @@ void Render::closeDevice(DeviceType dev)
 			JACKDEV.close();
 			/* TODO: on jack client shutdown event => close dev */
 		}
+	} else
+#endif
+	{
+		/* prevent warning */
+		dev = dev;
 	}
 }
-#endif
+
 
 void Render::enableSlave(SlaveType slave)
 {

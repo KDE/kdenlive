@@ -1162,12 +1162,15 @@ void MainWindow::setupActions()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
 
+#ifdef USE_JACK
     m_buttonJackTransport = new KAction(/*KIcon("kdenlive-snap"), */i18n("Enable jack transport"), this);
     toolbar->addAction(m_buttonJackTransport);
+    // TODO: add shortcut
+//    m_buttonJackTransport->setShortcut(Qt::Key_Shift + Qt::Key_T);
     m_buttonJackTransport->setCheckable(true);
     m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
     connect(m_buttonJackTransport, SIGNAL(triggered()), this, SLOT(slotSwitchJackTransport()));
-
+#endif
 
     actionWidget = toolbar->widgetForAction(m_buttonAutomaticSplitAudio);
     actionWidget->setMaximumWidth(max);
@@ -1189,9 +1192,11 @@ void MainWindow::setupActions()
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
 
+#ifdef USE_JACK
     actionWidget = toolbar->widgetForAction(m_buttonJackTransport);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
+#endif
 
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
@@ -1215,7 +1220,9 @@ void MainWindow::setupActions()
     collection.addAction("show_audio_thumbs", m_buttonAudioThumbs);
     collection.addAction("show_markers", m_buttonShowMarkers);
     collection.addAction("snap", m_buttonSnap);
+#ifdef USE_JACK
     collection.addAction("jack_transport", m_buttonJackTransport);
+#endif
     collection.addAction("zoom_fit", m_buttonFitZoom);
     collection.addAction("zoom_in", m_zoomIn);
     collection.addAction("zoom_out", m_zoomOut);
@@ -1335,6 +1342,7 @@ void MainWindow::setupActions()
     insertTimeline->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_I);
     connect(insertTimeline, SIGNAL(triggered(bool)), this, SLOT(slotInsertZoneToTimeline()));
 
+#ifdef USE_JACK
     KAction *connectJack = collection.addAction("connect_jack");
     connectJack->setText(i18n("Jack connect"));
     connectJack->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
@@ -1344,6 +1352,7 @@ void MainWindow::setupActions()
     disconnectJack->setText(i18n("Jack disconnect"));
     disconnectJack->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_D);
     connect(disconnectJack, SIGNAL(triggered(bool)), this, SLOT(slotDisconnectJack()));
+#endif
 
     KAction *resizeStart =  new KAction(KIcon(), i18n("Resize Item Start"), this);
     collection.addAction("resize_timeline_clip_start", resizeStart);
@@ -2838,9 +2847,9 @@ void MainWindow::slotSwitchJackTransport()
 
     /* switch transport settings */
     if (KdenliveSettings::jacktransport()) {
-    	m_monitorManager->slotEnableSlaveTransport();
+    	m_monitorManager->slotEnableSlave(JackSlave);
     } else {
-    	m_monitorManager->slotDisableSlaveTransport();
+    	m_monitorManager->slotEnableSlave(InternalSlave);
     }
 #endif
 }
@@ -4635,39 +4644,15 @@ void MainWindow::slotSaveTimelineClip()
 
 void MainWindow::slotConnectJack()
 {
-#ifdef USE_JACK
-	if (m_projectMonitor != NULL) {
-		/* get renderer reference */
-		Render * rp = m_projectMonitor->render;
-
-		if ( rp != NULL)
-		{
-			/* open jack device */
-			rp->openDevice(JackDevice);
-			/* debug */
-			kDebug() << "Slave connected to jack" << "\n";
-		}
-	}
-#endif
+	m_monitorManager->slotOpenDevice(JackDevice);
+    if (KdenliveSettings::jacktransport()) {
+    	m_monitorManager->slotEnableSlave(JackSlave);
+    }
 }
 
 void MainWindow::slotDisconnectJack()
 {
-#ifdef USE_JACK
-	if (m_projectMonitor != NULL)
-	{
-		/* get renderer reference */
-		Render * rp = m_projectMonitor->render;
-
-		if ( rp != NULL)
-		{
-			/* close jack device */
-			rp->closeDevice(JackDevice);
-			/* debug */
-			kDebug() << "Slave disconnected from Jack" << "\n";
-		}
-	}
-#endif
+	m_monitorManager->slotCloseDevice(JackDevice);
 }
 
 void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum)

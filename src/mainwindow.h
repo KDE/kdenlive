@@ -258,7 +258,9 @@ private:
     KAction *m_buttonRazorTool;
     KAction *m_buttonSpacerTool;
     KAction *m_buttonSnap;
+#ifdef USE_JACK
     KAction *m_buttonJackTransport;
+#endif
     KAction *m_saveAction;
     KAction *m_closeAction;
     QSlider *m_zoomSlider;

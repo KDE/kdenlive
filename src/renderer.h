@@ -126,10 +126,12 @@ Q_OBJECT public:
     void seek(int time, bool slave = false);
     void seekToFrameDiff(int diff);
 
-#ifdef USE_JACK
+//#ifdef USE_JACK
+    /** @brief*/
     void openDevice(DeviceType dev);
     void closeDevice(DeviceType dev);
-
+    // isDeviceActive(DeviceType dev)
+    /** @brief */
     inline bool isSlaveActive(SlaveType slave)
     	{return (m_activeSlave == slave);}
 
@@ -140,7 +142,6 @@ Q_OBJECT public:
 
     inline void setSlavePermitted(unsigned int slave)
     	{m_permittedSlave |= slave;}
-#endif
 
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
@@ -399,10 +400,10 @@ private:
     QFuture <void> m_infoThread;
     QList <requestClipInfo> m_requestList;
 
-#ifdef USE_JACK
+//#ifdef USE_JACK
     SlaveType m_activeSlave;
     unsigned int m_permittedSlave;
-#endif
+//#endif
 
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
