@@ -4800,6 +4800,7 @@ void Render::enableSlave(SlaveType slave)
 	if (isSlaveActive(slave))
 		return;
 
+#ifdef USE_JACK
 	/* close current slave */
 	if (isSlaveActive(JackSlave)) {
 		if (&JACKDEV && JACKDEV.isTransportEnabled()) {
@@ -4821,11 +4822,14 @@ void Render::enableSlave(SlaveType slave)
 			/* DEBUG */
 			kDebug() << "// JACK Slave disabled";
 		}
-	} else {
+	} else
+#endif
+	{
 		/* DEBUG */
 		kDebug() << "// INTERNAL Slave disabled";
 	}
 
+#ifdef USE_JACK
 	if ((slave == JackSlave) && isSlavePermitted(SLAVE_PERM_JACK)
 			&& &JACKDEV && JACKDEV.isValid()) {
 		/* connect transport callbacks */
@@ -4847,7 +4851,9 @@ void Render::enableSlave(SlaveType slave)
 		m_activeSlave = slave;
 		/* DEBUG */
 		kDebug() << "// JACK Slave enabled";
-	} else {
+	} else
+#endif
+	{
 		/* default to INTERNAL */
 		m_activeSlave = InternalSlave;
 		/* DEBUG */

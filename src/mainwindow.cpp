@@ -1163,7 +1163,7 @@ void MainWindow::setupActions()
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
 
 #ifdef USE_JACK
-    m_buttonJackTransport = new KAction(/*KIcon("kdenlive-snap"), */i18n("Enable jack transport"), this);
+    m_buttonJackTransport = new KAction(KIcon("kdenlive-spacer-tool"), i18n("Enable jack transport"), this);
     toolbar->addAction(m_buttonJackTransport);
     // TODO: add shortcut
 //    m_buttonJackTransport->setShortcut(Qt::Key_Shift + Qt::Key_T);
