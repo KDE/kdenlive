@@ -45,6 +45,10 @@
 #include <QMutex>
 #include <QFuture>
 
+/* posible transport slaves */
+#define SLAVE_PERM_INTERNAL	(1<<0)
+#define SLAVE_PERM_JACK 	(1<<1)
+
 class QTimer;
 class QPixmap;
 
@@ -89,6 +93,16 @@ private:
     QString m_message;
 };
 
+/* TODO: review */
+enum DeviceType {
+	MltDevice	= 0,
+	JackDevice
+};
+
+enum SlaveType {
+	InternalSlave = 0,
+	JackSlave
+};
 
 class Render: public AbstractRender
 {
@@ -97,7 +111,8 @@ Q_OBJECT public:
     enum FailStates { OK = 0,
                       APP_NOEXIST
                     };
-    /** @brief Build a MLT Renderer
+
+  /** @brief Build a MLT Renderer
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
@@ -112,14 +127,19 @@ Q_OBJECT public:
     void seekToFrameDiff(int diff);
 
 #ifdef USE_JACK
-    void connectSlave();
-    void disconnectSlave();
-    void startSlave();
-    void stopSlave();
+    void openDevice(DeviceType dev);
+    void closeDevice(DeviceType dev);
 
-    bool isSlaveTransportEnabled();
-    void enableSlaveTransport();
-    void disableSlaveTransport();
+    inline bool isSlaveActive(SlaveType slave)
+    	{return (m_activeSlave == slave);}
+
+    void enableSlave(SlaveType slave);
+
+    inline bool isSlavePermitted(unsigned int slave)
+    	{return ((slave & m_permittedSlave) == slave);}
+
+    inline void setSlavePermitted(unsigned int slave)
+    	{m_permittedSlave |= slave;}
 #endif
 
     QPixmap getImageThumbnail(KUrl url, int width, int height);
@@ -380,7 +400,8 @@ private:
     QList <requestClipInfo> m_requestList;
 
 #ifdef USE_JACK
-    bool m_isSlaveTransportEnabled;
+    SlaveType m_activeSlave;
+    unsigned int m_permittedSlave;
 #endif
 
     void closeMlt();

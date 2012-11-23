@@ -35,7 +35,7 @@
 #endif
 
 #ifdef USE_JACK
-#include "jackslave.h"
+#include "jackdevice.h"
 #endif
 
 #include <mlt++/Mlt.h>
@@ -91,8 +91,8 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 
 #ifdef USE_JACK
-    if(&JACKSLAVE && JACKSLAVE.isValid()) {
-    	JACKSLAVE.updateBuffers(frame);
+    if(&JACKDEV && JACKDEV.isValid()) {
+    	JACKDEV.updateBuffers(frame);
     }
 #endif
 
@@ -138,9 +138,6 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_isZoneMode(false),
     m_isLoopMode(false),
     m_isSplitView(false),
-#ifdef USE_JACK
-    m_isSlaveTransportEnabled(false),
-#endif
     m_blackClip(NULL),
     m_winid(winid)
 {
@@ -153,11 +150,6 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);
 
-#ifdef USE_JACK
-//    if(&JACKSLAVE && !JACKSLAVE.isValid())
-//    	connectSlave();
-#endif
-
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(100);
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
@@ -168,7 +160,7 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
 Render::~Render()
 {
 #ifdef USE_JACK
-	disconnectSlave();
+	closeDevice(JackDevice);
 #endif
 	closeMlt();
     delete m_mltProfile;
@@ -327,10 +319,13 @@ void Render::buildConsumer(const QString &profileName)
 	if (!audioDriver.isEmpty()) {
 #ifdef USE_JACK
 		if(audioDriver == "jack") {
-	        // create the jackslave singleton instance
-	    	JackSlave::singleton(m_mltProfile);
-	    	if(&JACKSLAVE && JACKSLAVE.probe())
-	    		connectSlave();
+	        // create the jack device singleton instance
+	    	JackDevice::singleton(m_mltProfile);
+	    	if(&JACKDEV && JACKDEV.probe())
+	    		openDevice(JackDevice);
+	    	/* TODO: error message */
+//	    	else
+//	    		ShowErrorMessage();
         } else
 #endif
         {
@@ -339,10 +334,11 @@ void Render::buildConsumer(const QString &profileName)
     }
 #ifdef USE_JACK
 	else {
-        // create the jackslave singleton instance
-    	JackSlave::singleton(m_mltProfile);
-    	if(&JACKSLAVE && JACKSLAVE.probe())
-    		connectSlave();
+		/* if jackd is running default to jackdev because in most cases the
+		 * audio driver is claimed by jackd */
+    	JackDevice::singleton(m_mltProfile);
+    	if(&JACKDEV && JACKDEV.probe())
+    		openDevice(JackDevice);
     }
 #endif
 
@@ -450,13 +446,13 @@ void Render::seek(int time, bool slave)
         return;
 
 #ifdef USE_JACK
-    if (!slave && isSlaveTransportEnabled()) {
-    	if(&JACKSLAVE) {
-    		JACKSLAVE.seekPlayback(time < 0 ? 0 : time);
+    if (!slave && isSlaveActive(JackSlave)) {
+    	if(&JACKDEV) {
+    		JACKDEV.seekPlayback(time < 0 ? 0 : time);
     	}
     	/* return */
     	return;
-    } else if(slave && isSlaveTransportEnabled()) {
+    } else if(slave && isSlaveActive(JackSlave)) {
     	m_mltProducer->set_speed(0);
     }
 #endif
@@ -1583,6 +1579,11 @@ void Render::stop()
         if (m_isZoneMode) resetZoneMode();
         m_mltProducer->set_speed(0.0);
     }
+
+#ifdef USE_JACK
+    if(isSlaveActive(JackSlave))
+    	JACKDEV.stopPlayback();
+#endif
 }
 
 void Render::stop(const GenTime & startTime)
@@ -1620,18 +1621,18 @@ void Render::switchPlay(bool play, bool slave)
     int position = m_mltConsumer->position();
 
 #ifdef USE_JACK
-    if (!slave && isSlaveTransportEnabled()) {
-    	if(&JACKSLAVE) {
+    if (!slave && isSlaveActive(JackSlave)) {
+    	if(&JACKDEV) {
     		if (play) {
-    			JACKSLAVE.startPlayback();
+    			JACKDEV.startPlayback();
     		} else {
-    			JACKSLAVE.stopPlayback();
+    			JACKDEV.stopPlayback();
     		}
     	}
     	/* return */
     	return;
-    } else if (slave && isSlaveTransportEnabled()) {
-//		position = JACKSLAVE.getPlaybackPosition();
+    } else if (slave && isSlaveActive(JackSlave)) {
+//		position = JACKDEV.getPlaybackPosition();
     }
 #endif
 
@@ -1702,14 +1703,15 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     	m_originalOut = m_mltProducer->get_playtime() - 1;
 
 #ifdef USE_JACK
-	if(&JACKSLAVE && isSlaveTransportEnabled()) {
+    /* TODO: after impl jack shutdown invalid => remove &JACKDEV test */
+	if(isSlaveActive(JackSlave) && &JACKDEV) {
 		/* calc loop in/out */
 		int loopIn = (int)(startTime.frames(m_fps));
 		int loopOut = (int)(stopTime.frames(m_fps));
 		/* internal processing compat */
 		m_isZoneMode = true;
 		/* start looping */
-		JACKSLAVE.loopPlayback(loopIn, loopOut, m_isLoopMode);
+		JACKDEV.loopPlayback(loopIn, loopOut, m_isLoopMode);
 		/* return */
 		return;
     }
@@ -1840,7 +1842,8 @@ void Render::emitConsumerStopped()
 		double pos = m_mltProducer->position();
 
 #ifdef USE_JACK
-	if(&JACKSLAVE && isSlaveTransportEnabled()) {
+	/* TODO: after impl jack shutdown invalid => remove &JACKDEV test */
+	if(isSlaveActive(JackSlave) && &JACKDEV) {
 //		emit rendererStopped((int) pos);
 		return;
 	}
@@ -4750,106 +4753,96 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
 }
 
 #ifdef USE_JACK
-void Render::connectSlave()
-{
-	// stop consumer
-	if (!m_mltConsumer->is_stopped())
-			m_mltConsumer->stop();
-	// disable audio
-	m_mltConsumer->set("audio_off", 1);
-	// connect jackslave to jackd
-    if (&JACKSLAVE) {
-    	JACKSLAVE.open("kdenlive", 2, 204800 * 6);
-    }
-    // if slave is connected attach filter to consumer
-    startSlave();
-}
 
-void Render::disconnectSlave()
+void Render::openDevice(DeviceType dev)
 {
-	// stop slave
-	stopSlave();
-
-	if(&JACKSLAVE) {
-		// disconnect from jackd
-		JACKSLAVE.close();
+	if (dev == JackDevice) {
+		/* stop consumer */
+		if (!m_mltConsumer->is_stopped())
+				m_mltConsumer->stop();
+		/* disable audio */
+		m_mltConsumer->set("audio_off", 1);
+		/* connect to jackd and open device */
+		if (&JACKDEV && !JACKDEV.isValid()) {
+			JACKDEV.open("kdenlive", 2, 204800 * 6);
+		}
 	}
 }
 
-void Render::stopSlave()
+void Render::closeDevice(DeviceType dev)
 {
-//	if(&JACKSLAVE) {
-//		if (!m_mltConsumer->is_stopped())
-//			m_mltConsumer->stop();
-//		// detach filter from consumer
-////		m_mltConsumer->detach(*JACKSLAVE.filter());
-//	}
-}
-
-void Render::startSlave()
-{
-//	if(&JACKSLAVE) {
-//		m_mltConsumer->set("audio_off", 1);
-//		// attach filter to consumer
-////		m_mltConsumer->attach(*JACKSLAVE.filter());
-//	}
-}
-
-bool Render::isSlaveTransportEnabled()
-{
-	return m_isSlaveTransportEnabled;
-}
-
-void Render::enableSlaveTransport()
-{
-	if (&JACKSLAVE && JACKSLAVE.isValid()) {
-		/* connect transport callbacks */
-		connect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
-				this, SLOT(slotOnSlavePlaybackStarted(int)));
-		connect(&JACKSLAVE, SIGNAL(playbackSync(int)),
-				this, SLOT(slotOnSlavePlaybackSync(int)));
-		connect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
-				this, SLOT(slotOnSlavePlaybackStopped(int)));
-		connect(this, SIGNAL(rendererPosition(int)),
-				&JACKSLAVE, SLOT(setCurrentPosition(int)));
-
-		/* enable transport */
-		JACKSLAVE.setTransportEnabled(true);
-		/* stop playback and relocate */
-		JACKSLAVE.stopPlayback();
-		JACKSLAVE.seekPlayback(seekFramePosition());
-		/* set indication flag */
-		m_isSlaveTransportEnabled = true;
-		/* DEBUG */
-		kDebug() << "// // // Slave Transport enabled";
-	}
-}
-
-void Render::disableSlaveTransport()
-{
-	if (&JACKSLAVE && isSlaveTransportEnabled()) {
-		/* disable transport */
-		JACKSLAVE.setTransportEnabled(false);
-		/* disconnect transport callbacks */
-		disconnect(&JACKSLAVE, SIGNAL(playbackStarted(int)),
-				this, SLOT(slotOnSlavePlaybackStarted(int)));
-		disconnect(&JACKSLAVE, SIGNAL(playbackSync(int)),
-				this, SLOT(slotOnSlavePlaybackSync(int)));
-		disconnect(&JACKSLAVE, SIGNAL(playbackStopped(int)),
-				this, SLOT(slotOnSlavePlaybackStopped(int)));
-		disconnect(this, SIGNAL(rendererPosition(int)),
-				&JACKSLAVE, SLOT(setCurrentPosition(int)));
-
-		/* stop playback */
-		switchPlay(false);
-		slotOnSlavePlaybackStopped(seekFramePosition());
-		/* reset flag */
-		m_isSlaveTransportEnabled = false;
-		/* DEBUG */
-		kDebug() << "// // // Slave Transport disabled";
+	if (dev == JackDevice) {
+		if(&JACKDEV && JACKDEV.isValid()) {
+			/* close jack slave */
+			enableSlave(InternalSlave);
+			/* disconnect from jackd and close device */
+			JACKDEV.close();
+			/* TODO: on jack client shutdown event => close dev */
+		}
 	}
 }
 #endif
+
+void Render::enableSlave(SlaveType slave)
+{
+	/* if slave is equal return */
+	if (isSlaveActive(slave))
+		return;
+
+	/* close current slave */
+	if (isSlaveActive(JackSlave)) {
+		if (&JACKDEV && JACKDEV.isTransportEnabled()) {
+			/* disable transport */
+			JACKDEV.setTransportEnabled(false);
+			/* disconnect transport callbacks */
+			disconnect(&JACKDEV, SIGNAL(playbackStarted(int)),
+					this, SLOT(slotOnSlavePlaybackStarted(int)));
+			disconnect(&JACKDEV, SIGNAL(playbackSync(int)),
+					this, SLOT(slotOnSlavePlaybackSync(int)));
+			disconnect(&JACKDEV, SIGNAL(playbackStopped(int)),
+					this, SLOT(slotOnSlavePlaybackStopped(int)));
+			disconnect(this, SIGNAL(rendererPosition(int)),
+					&JACKDEV, SLOT(setCurrentPosition(int)));
+
+			/* stop playback */
+			switchPlay(false);
+			slotOnSlavePlaybackStopped(seekFramePosition());
+			/* DEBUG */
+			kDebug() << "// JACK Slave disabled";
+		}
+	} else {
+		/* DEBUG */
+		kDebug() << "// INTERNAL Slave disabled";
+	}
+
+	if ((slave == JackSlave) && isSlavePermitted(SLAVE_PERM_JACK)
+			&& &JACKDEV && JACKDEV.isValid()) {
+		/* connect transport callbacks */
+		connect(&JACKDEV, SIGNAL(playbackStarted(int)),
+				this, SLOT(slotOnSlavePlaybackStarted(int)));
+		connect(&JACKDEV, SIGNAL(playbackSync(int)),
+				this, SLOT(slotOnSlavePlaybackSync(int)));
+		connect(&JACKDEV, SIGNAL(playbackStopped(int)),
+				this, SLOT(slotOnSlavePlaybackStopped(int)));
+		connect(this, SIGNAL(rendererPosition(int)),
+				&JACKDEV, SLOT(setCurrentPosition(int)));
+
+		/* enable transport */
+		JACKDEV.setTransportEnabled(true);
+		/* stop playback and relocate */
+		JACKDEV.stopPlayback();
+		JACKDEV.seekPlayback(seekFramePosition());
+		/* change slave */
+		m_activeSlave = slave;
+		/* DEBUG */
+		kDebug() << "// JACK Slave enabled";
+	} else {
+		/* default to INTERNAL */
+		m_activeSlave = InternalSlave;
+		/* DEBUG */
+		kDebug() << "// INTERNAL Slave enabled";
+	}
+}
 
 void Render::slotOnSlavePlaybackStarted(int position)
 {

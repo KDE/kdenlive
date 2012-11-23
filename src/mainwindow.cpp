@@ -4642,8 +4642,8 @@ void MainWindow::slotConnectJack()
 
 		if ( rp != NULL)
 		{
-			/* connect slave */
-			rp->connectSlave();
+			/* open jack device */
+			rp->openDevice(JackDevice);
 			/* debug */
 			kDebug() << "Slave connected to jack" << "\n";
 		}
@@ -4661,8 +4661,8 @@ void MainWindow::slotDisconnectJack()
 
 		if ( rp != NULL)
 		{
-			/* disconnect slave */
-			rp->disconnectSlave();
+			/* close jack device */
+			rp->closeDevice(JackDevice);
 			/* debug */
 			kDebug() << "Slave disconnected from Jack" << "\n";
 		}

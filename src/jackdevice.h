@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef JACKSLAVE_H_
-#define JACKSLAVE_H_
+#ifndef JACKDEVICE_H_
+#define JACKDEVICE_H_
 
 #include <jack/jack.h>
 #include <jack/ringbuffer.h>
@@ -29,20 +29,20 @@
 #include <KDebug>
 
 
-class JackSlave : public QObject
+class JackDevice : public QObject
 {
     Q_OBJECT
 public:
 
     /**
-	 * Singleton.
+	 * Singleton constructor.
 	 */
-    static JackSlave& singleton(Mlt::Profile * profile = 0);
+    static JackDevice& singleton(Mlt::Profile * profile = 0);
 
 	/**
 	 * Destructor.
 	 */
-    virtual ~JackSlave();
+    virtual ~JackDevice();
 
 	/**
 	 * Checks if the slave is still valid for processing.
@@ -63,6 +63,11 @@ public:
 	 * Set transport state.
 	 */
 	void setTransportEnabled(bool state);
+
+	/**
+	 * Return transport state.
+	 */
+	inline bool isTransportEnabled() {return m_transportEnabled;}
 
 	/**
 	 * Convert jack audio frame position to kdenlive video position.
@@ -125,7 +130,7 @@ protected:
 	/**
 	 * Standard constructor.
 	 */
-	JackSlave(Mlt::Profile * profile);
+	JackDevice(Mlt::Profile * profile);
 
 private:
 	/**
@@ -273,6 +278,6 @@ signals:
 	void currentPositionChanged(int postition);
 };
 
-#define JACKSLAVE JackSlave::singleton()
+#define JACKDEV JackDevice::singleton()
 
-#endif /* JACKSLAVE_H_ */
+#endif /* JACKDEVICE_H */

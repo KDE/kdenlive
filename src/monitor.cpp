@@ -739,9 +739,6 @@ void Monitor::stop()
 {
     if (render) {
     	render->stop();
-#ifdef USE_JACK
-    	render->stopSlave();
-#endif
     }
 }
 
@@ -750,12 +747,8 @@ void Monitor::start()
     if (!isVisible() || !isActive()) return;
 
     if (render) {
-#ifdef USE_JACK
-    	render->startSlave();
-#endif
     	render->startConsumer();
     }
-
 }
 
 void Monitor::refreshMonitor(bool visible)

@@ -47,10 +47,18 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
 
+    /* default permissions */
+    m_clipMonitor->render->setSlavePermitted(SLAVE_PERM_INTERNAL);
+    m_projectMonitor->render->setSlavePermitted(SLAVE_PERM_INTERNAL);
+
 #ifdef USE_JACK
-    /* MonitorManager knows the monitors logic - do it here */
+    /* special jack enabled permission */
+    m_projectMonitor->render->setSlavePermitted(SLAVE_PERM_INTERNAL |
+    											SLAVE_PERM_JACK);
+
+	/* slave to jack */
     if (KdenliveSettings::jacktransport()) {
-    	slotEnableSlaveTransport();
+    	projectMonitor->render->enableSlave(JackSlave);
     }
 #endif
 
@@ -261,14 +269,15 @@ void MonitorManager::slotSwitchFullscreen()
 }
 
 #ifdef USE_JACK
+//MonitorManager::slotSetSlaveActive(SlaveType slvType)
 void MonitorManager::slotEnableSlaveTransport()
 {
-	m_projectMonitor->render->enableSlaveTransport();
+	m_projectMonitor->render->enableSlave(JackSlave);
 }
 
 void MonitorManager::slotDisableSlaveTransport()
 {
-	m_projectMonitor->render->disableSlaveTransport();
+	m_projectMonitor->render->enableSlave(InternalSlave);
 }
 #endif
 

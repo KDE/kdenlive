@@ -17,9 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "jackslave.h"
+#include "jackdevice.h"
 
-JackSlave::JackSlave(Mlt::Profile * profile) :
+JackDevice::JackDevice(Mlt::Profile * profile) :
 	m_valid(false),
 	m_shutdown(false),
 	m_transportEnabled(false),
@@ -28,31 +28,31 @@ JackSlave::JackSlave(Mlt::Profile * profile) :
 	m_mltProfile = profile;
 }
 
-JackSlave& JackSlave::singleton(Mlt::Profile * profile)
+JackDevice& JackDevice::singleton(Mlt::Profile * profile)
 {
-    static JackSlave* instance = 0;
+    static JackDevice* instance = 0;
 
     if (!instance && profile != 0) {
-    	instance = new JackSlave(profile);
+    	instance = new JackDevice(profile);
     }
 
     return *instance;
 }
 
-JackSlave::~JackSlave()
+JackDevice::~JackDevice()
 {
 	// TODO Auto-generated destructor stub
 
 
 }
 
-void* JackSlave::runTransportThread(void* device)
+void* JackDevice::runTransportThread(void* device)
 {
-	((JackSlave*)device)->updateTransportState();
+	((JackDevice*)device)->updateTransportState();
 	return NULL;
 }
 
-void JackSlave::updateTransportState()
+void JackDevice::updateTransportState()
 {
 	pthread_mutex_lock(&m_transportLock);
 	while (m_valid && !m_shutdown)	{
@@ -89,22 +89,22 @@ void JackSlave::updateTransportState()
 	pthread_mutex_unlock(&m_transportLock);
 }
 
-int JackSlave::toVideoPosition(const jack_position_t &position)
+int JackDevice::toVideoPosition(const jack_position_t &position)
 {
 	return (int)((m_mltProfile->fps() * (double)position.frame) / (double)position.frame_rate /*+ (double)0.5*/);
 }
 
-jack_nframes_t JackSlave::toAudioPosition(const int &position, const jack_nframes_t &framerate)
+jack_nframes_t JackDevice::toAudioPosition(const int &position, const jack_nframes_t &framerate)
 {
 	return (jack_nframes_t)(((double) framerate * (double) position) / (double) m_mltProfile->fps());
 }
 
-bool JackSlave::isValid()
+bool JackDevice::isValid()
 {
 	return m_valid;
 }
 
-void JackSlave::open(const QString &name, int channels, int buffersize)
+void JackDevice::open(const QString &name, int channels, int buffersize)
 {
 	kDebug() << "open client";
 	if (m_valid == true)
@@ -121,9 +121,9 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 		return;
 
 	// set callbacks
-	jack_set_process_callback(m_client, JackSlave::jack_process, this);
-	jack_on_shutdown(m_client, JackSlave::jack_shutdown, this);
-	jack_set_sync_callback(m_client, JackSlave::jack_sync, this);
+	jack_set_process_callback(m_client, JackDevice::jack_process, this);
+	jack_on_shutdown(m_client, JackDevice::jack_shutdown, this);
+	jack_set_sync_callback(m_client, JackDevice::jack_sync, this);
 
 	/* store the number of channels */
 	m_channels = channels;
@@ -205,7 +205,7 @@ void JackSlave::open(const QString &name, int channels, int buffersize)
 	pthread_attr_destroy(&attr);
 }
 
-void JackSlave::close()
+void JackDevice::close()
 {
 	if(m_valid) {
 		m_valid = false;
@@ -232,7 +232,7 @@ void JackSlave::close()
 	}
 }
 
-bool JackSlave::probe()
+bool JackDevice::probe()
 {
 	jack_client_t *client;
 	jack_status_t status;
@@ -250,15 +250,15 @@ bool JackSlave::probe()
 	return (status == 0);
 }
 
-void JackSlave::jack_shutdown(void *data)
+void JackDevice::jack_shutdown(void *data)
 {
-	JackSlave* device = (JackSlave*)data;
+	JackDevice* device = (JackDevice*)data;
 	device->m_shutdown = true;
 }
 
-int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, void* data)
+int JackDevice::jack_sync(jack_transport_state_t state, jack_position_t* pos, void* data)
 {
-	JackSlave* device = (JackSlave*)data;
+	JackDevice* device = (JackDevice*)data;
 	int result = 0;
 
 	/* no job if transport is disabled */
@@ -310,9 +310,9 @@ int JackSlave::jack_sync(jack_transport_state_t state, jack_position_t* pos, voi
 	return result;
 }
 
-int JackSlave::jack_process(jack_nframes_t frames, void *data)
+int JackDevice::jack_process(jack_nframes_t frames, void *data)
 {
-	JackSlave* device = (JackSlave*)data;
+	JackDevice* device = (JackDevice*)data;
 	int channels = device->m_channels;
 
 	/* TODO: review later */
@@ -360,7 +360,7 @@ int JackSlave::jack_process(jack_nframes_t frames, void *data)
 	return 0;
 }
 
-void JackSlave::updateBuffers(Mlt::Frame& frame)
+void JackDevice::updateBuffers(Mlt::Frame& frame)
 {
 	/* no job while syncing */
 	if (m_sync) {
@@ -392,7 +392,7 @@ void JackSlave::updateBuffers(Mlt::Frame& frame)
 	}
 }
 
-void JackSlave::processLooping()
+void JackDevice::processLooping()
 {
 	if (m_loopState == 1) {
 		m_loopState = 2;
@@ -411,7 +411,7 @@ void JackSlave::processLooping()
 
 }
 
-void JackSlave::startPlayback(bool resetLoop)
+void JackDevice::startPlayback(bool resetLoop)
 {
 	if (m_valid) {
 		/* reset looping state */
@@ -423,7 +423,7 @@ void JackSlave::startPlayback(bool resetLoop)
 	}
 }
 
-void JackSlave::stopPlayback(bool resetLoop)
+void JackDevice::stopPlayback(bool resetLoop)
 {
 	if (m_valid) {
 		/* reset looping state */
@@ -435,7 +435,7 @@ void JackSlave::stopPlayback(bool resetLoop)
 	}
 }
 
-void JackSlave::seekPlayback(int time, bool resetLoop)
+void JackDevice::seekPlayback(int time, bool resetLoop)
 {
     if (m_valid) {
     	if(time >= 0) {
@@ -448,7 +448,7 @@ void JackSlave::seekPlayback(int time, bool resetLoop)
     }
 }
 
-void JackSlave::loopPlayback(int in, int out, bool infinite)
+void JackDevice::loopPlayback(int in, int out, bool infinite)
 {
 	m_loopIn = in;
 	m_loopOut = out;
@@ -460,7 +460,7 @@ void JackSlave::loopPlayback(int in, int out, bool infinite)
 	m_loopState = 1;
 }
 
-void JackSlave::resetLooping()
+void JackDevice::resetLooping()
 {
 	m_loopIn = 0;
 	m_loopOut = 0;
@@ -468,27 +468,27 @@ void JackSlave::resetLooping()
 	m_loopState = 0;
 }
 
-int JackSlave::getPlaybackPosition()
+int JackDevice::getPlaybackPosition()
 {
 	jack_position_t position;
 	jack_transport_query(m_client, &position);
 	return toVideoPosition(position);
 }
 
-void JackSlave::setCurrentPosition(int position)
+void JackDevice::setCurrentPosition(int position)
 {
 	m_currentPosition = position;
 	emit currentPositionChanged(position);
 }
 
-void JackSlave::setTransportEnabled(bool state)
+void JackDevice::setTransportEnabled(bool state)
 {
 	m_transportEnabled = state;
 }
 
-bool JackSlave::doesPlayback()
+bool JackDevice::doesPlayback()
 {
 	return (m_nextState != JackTransportStopped);
 }
 
-#include "jackslave.moc"
+#include "jackdevice.moc"

@@ -286,7 +286,7 @@ if(BUILD_JogShuttle)
 endif(BUILD_JogShuttle)
 
 if(BUILD_Jack)
-  list(APPEND kdenlive_SRCS jackslave.cpp)
+  list(APPEND kdenlive_SRCS jackdevice.cpp)
 endif(BUILD_Jack)
 
 kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
