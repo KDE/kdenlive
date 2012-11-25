@@ -76,11 +76,11 @@ public slots:
     void slotUpdateAudioMonitoring();
 
     /** @brief Enable appropriate transport slave */
-    void slotEnableSlave(SlaveType slv);
+    void slotEnableSlave(Slave::Type slv);
     /** @brief Open defined audio device */
-    void slotOpenDevice(DeviceType dev);
+    void slotOpenDevice(Device::Type dev);
     /** @brief Close defined audio device */
-    void slotCloseDevice(DeviceType dev);
+    void slotCloseDevice(Device::Type dev);
 
 private slots:
     void slotRefreshCurrentMonitor(const QString &id);

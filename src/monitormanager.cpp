@@ -48,17 +48,17 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     m_projectMonitor = projectMonitor;
 
     /* default permissions */
-    m_clipMonitor->render->setSlavePermitted(SLAVE_PERM_INTERNAL);
-    m_projectMonitor->render->setSlavePermitted(SLAVE_PERM_INTERNAL);
+    m_clipMonitor->render->setSlavePermitted(Slave::Perm::Internal);
+    m_projectMonitor->render->setSlavePermitted(Slave::Perm::Internal);
 
 #ifdef USE_JACK
     /* special jack enabled permission */
-    m_projectMonitor->render->setSlavePermitted(SLAVE_PERM_INTERNAL |
-    											SLAVE_PERM_JACK);
+    m_projectMonitor->render->setSlavePermitted(Slave::Perm::Internal |
+    											Slave::Perm::Jack);
 
 	/* slave to jack */
     if (KdenliveSettings::jacktransport()) {
-    	projectMonitor->render->enableSlave(JackSlave);
+    	projectMonitor->render->enableSlave(Slave::Jack);
     }
 #endif
 
@@ -268,17 +268,17 @@ void MonitorManager::slotSwitchFullscreen()
     if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
 }
 
-void MonitorManager::slotEnableSlave(SlaveType slv)
+void MonitorManager::slotEnableSlave(Slave::Type slv)
 {
 	m_projectMonitor->render->enableSlave(slv);
 }
 
-void MonitorManager::slotOpenDevice(DeviceType dev)
+void MonitorManager::slotOpenDevice(Device::Type dev)
 {
 	m_projectMonitor->render->openDevice(dev);
 }
 
-void MonitorManager::slotCloseDevice(DeviceType dev)
+void MonitorManager::slotCloseDevice(Device::Type dev)
 {
 	m_projectMonitor->render->closeDevice(dev);
 }

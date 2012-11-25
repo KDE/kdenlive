@@ -1164,9 +1164,9 @@ void MainWindow::setupActions()
 
 #ifdef USE_JACK
     m_buttonJackTransport = new KAction(KIcon("kdenlive-spacer-tool"), i18n("Enable jack transport"), this);
-    toolbar->addAction(m_buttonJackTransport);
-    // TODO: add shortcut
+    /* TODO: add shortcut */
 //    m_buttonJackTransport->setShortcut(Qt::Key_Shift + Qt::Key_T);
+    toolbar->addAction(m_buttonJackTransport);
     m_buttonJackTransport->setCheckable(true);
     m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
     connect(m_buttonJackTransport, SIGNAL(triggered()), this, SLOT(slotSwitchJackTransport()));
@@ -2847,9 +2847,9 @@ void MainWindow::slotSwitchJackTransport()
 
     /* switch transport settings */
     if (KdenliveSettings::jacktransport()) {
-    	m_monitorManager->slotEnableSlave(JackSlave);
+    	m_monitorManager->slotEnableSlave(Slave::Jack);
     } else {
-    	m_monitorManager->slotEnableSlave(InternalSlave);
+    	m_monitorManager->slotEnableSlave(Slave::Internal);
     }
 #endif
 }
@@ -4644,15 +4644,15 @@ void MainWindow::slotSaveTimelineClip()
 
 void MainWindow::slotConnectJack()
 {
-	m_monitorManager->slotOpenDevice(JackDevice);
+	m_monitorManager->slotOpenDevice(Device::Jack);
     if (KdenliveSettings::jacktransport()) {
-    	m_monitorManager->slotEnableSlave(JackSlave);
+    	m_monitorManager->slotEnableSlave(Slave::Jack);
     }
 }
 
 void MainWindow::slotDisconnectJack()
 {
-	m_monitorManager->slotCloseDevice(JackDevice);
+	m_monitorManager->slotCloseDevice(Device::Jack);
 }
 
 void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum)

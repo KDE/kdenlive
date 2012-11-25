@@ -45,9 +45,6 @@
 #include <QMutex>
 #include <QFuture>
 
-/* posible transport slaves */
-#define SLAVE_PERM_INTERNAL	(1<<0)
-#define SLAVE_PERM_JACK 	(1<<1)
 
 class QTimer;
 class QPixmap;
@@ -93,15 +90,30 @@ private:
     QString m_message;
 };
 
-/* TODO: review */
-enum DeviceType {
-	MltDevice	= 0,
-	JackDevice
+/* transport slave namespace */
+namespace Slave
+{
+	namespace Perm
+	{
+		const static unsigned int Internal 	= (1<<0);
+		const static unsigned int Jack 		= (1<<1);
+	};
+
+    enum Type
+    {
+    	Internal = 0,
+    	Jack
+    };
 };
 
-enum SlaveType {
-	InternalSlave = 0,
-	JackSlave
+/* device namespace */
+namespace Device
+{
+	enum Type
+	{
+		Mlt	= 0,
+		Jack
+	};
 };
 
 class Render: public AbstractRender
@@ -128,14 +140,14 @@ Q_OBJECT public:
 
 //#ifdef USE_JACK
     /** @brief*/
-    void openDevice(DeviceType dev);
-    void closeDevice(DeviceType dev);
+    void openDevice(Device::Type dev);
+    void closeDevice(Device::Type dev);
     // isDeviceActive(DeviceType dev)
     /** @brief */
-    inline bool isSlaveActive(SlaveType slave)
+    inline bool isSlaveActive(Slave::Type slave)
     	{return (m_activeSlave == slave);}
 
-    void enableSlave(SlaveType slave);
+    void enableSlave(Slave::Type slave);
 
     inline bool isSlavePermitted(unsigned int slave)
     	{return ((slave & m_permittedSlave) == slave);}
@@ -401,7 +413,7 @@ private:
     QList <requestClipInfo> m_requestList;
 
 //#ifdef USE_JACK
-    SlaveType m_activeSlave;
+    Slave::Type m_activeSlave;
     unsigned int m_permittedSlave;
 //#endif
 

@@ -161,7 +161,7 @@ Render::~Render()
 {
 #ifdef USE_JACK
 	/* isDeviceActive ()*/
-	closeDevice(JackDevice);
+	closeDevice(Device::Jack);
 #endif
 	closeMlt();
     delete m_mltProfile;
@@ -323,7 +323,7 @@ void Render::buildConsumer(const QString &profileName)
 	        // create the jack device singleton instance
 	    	JackDevice::singleton(m_mltProfile);
 	    	if(&JACKDEV && JACKDEV.probe())
-	    		openDevice(JackDevice);
+	    		openDevice(Device::Jack);
 	    	/* TODO: error message */
 //	    	else
 //	    		ShowErrorMessage();
@@ -339,7 +339,7 @@ void Render::buildConsumer(const QString &profileName)
 		 * audio driver is claimed by jackd */
     	JackDevice::singleton(m_mltProfile);
     	if(&JACKDEV && JACKDEV.probe())
-    		openDevice(JackDevice);
+    		openDevice(Device::Jack);
     }
 #endif
 
@@ -447,13 +447,13 @@ void Render::seek(int time, bool slave)
         return;
 
 #ifdef USE_JACK
-    if (!slave && isSlaveActive(JackSlave)) {
+    if (!slave && isSlaveActive(Slave::Jack)) {
     	if(&JACKDEV) {
     		JACKDEV.seekPlayback(time < 0 ? 0 : time);
     	}
     	/* return */
     	return;
-    } else if(slave && isSlaveActive(JackSlave)) {
+    } else if(slave && isSlaveActive(Slave::Jack)) {
     	m_mltProducer->set_speed(0);
     }
 #endif
@@ -1582,7 +1582,7 @@ void Render::stop()
     }
 
 #ifdef USE_JACK
-    if(isSlaveActive(JackSlave))
+    if(isSlaveActive(Slave::Jack))
     	JACKDEV.stopPlayback();
 #endif
 }
@@ -1622,7 +1622,7 @@ void Render::switchPlay(bool play, bool slave)
     int position = m_mltConsumer->position();
 
 #ifdef USE_JACK
-    if (!slave && isSlaveActive(JackSlave)) {
+    if (!slave && isSlaveActive(Slave::Jack)) {
     	if(&JACKDEV) {
     		if (play) {
     			JACKDEV.startPlayback();
@@ -1632,7 +1632,7 @@ void Render::switchPlay(bool play, bool slave)
     	}
     	/* return */
     	return;
-    } else if (slave && isSlaveActive(JackSlave)) {
+    } else if (slave && isSlaveActive(Slave::Jack)) {
 //		position = JACKDEV.getPlaybackPosition();
     }
 #endif
@@ -1705,7 +1705,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
 
 #ifdef USE_JACK
     /* TODO: after impl jack shutdown invalid => remove &JACKDEV test */
-	if(isSlaveActive(JackSlave) && &JACKDEV) {
+	if(isSlaveActive(Slave::Jack) && &JACKDEV) {
 		/* calc loop in/out */
 		int loopIn = (int)(startTime.frames(m_fps));
 		int loopOut = (int)(stopTime.frames(m_fps));
@@ -1844,7 +1844,7 @@ void Render::emitConsumerStopped()
 
 #ifdef USE_JACK
 	/* TODO: after impl jack shutdown invalid => remove &JACKDEV test */
-	if(isSlaveActive(JackSlave) && &JACKDEV) {
+	if(isSlaveActive(Slave::Jack) && &JACKDEV) {
 //		emit rendererStopped((int) pos);
 		return;
 	}
@@ -4753,10 +4753,10 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
     }
 }
 
-void Render::openDevice(DeviceType dev)
+void Render::openDevice(Device::Type dev)
 {
 #ifdef USE_JACK
-	if (dev == JackDevice) {
+	if (dev == Device::Jack) {
 		/* stop consumer */
 		if (!m_mltConsumer->is_stopped())
 				m_mltConsumer->stop();
@@ -4774,13 +4774,13 @@ void Render::openDevice(DeviceType dev)
 	}
 }
 
-void Render::closeDevice(DeviceType dev)
+void Render::closeDevice(Device::Type dev)
 {
 #ifdef USE_JACK
-	if (dev == JackDevice) {
+	if (dev == Device::Jack) {
 		if(&JACKDEV && JACKDEV.isValid()) {
 			/* close jack slave */
-			enableSlave(InternalSlave);
+			enableSlave(Slave::Internal);
 			/* disconnect from jackd and close device */
 			JACKDEV.close();
 			/* TODO: on jack client shutdown event => close dev */
@@ -4794,7 +4794,7 @@ void Render::closeDevice(DeviceType dev)
 }
 
 
-void Render::enableSlave(SlaveType slave)
+void Render::enableSlave(Slave::Type slave)
 {
 	/* if slave is equal return */
 	if (isSlaveActive(slave))
@@ -4802,7 +4802,7 @@ void Render::enableSlave(SlaveType slave)
 
 #ifdef USE_JACK
 	/* close current slave */
-	if (isSlaveActive(JackSlave)) {
+	if (isSlaveActive(Slave::Jack)) {
 		if (&JACKDEV && JACKDEV.isTransportEnabled()) {
 			/* disable transport */
 			JACKDEV.setTransportEnabled(false);
@@ -4830,7 +4830,7 @@ void Render::enableSlave(SlaveType slave)
 	}
 
 #ifdef USE_JACK
-	if ((slave == JackSlave) && isSlavePermitted(SLAVE_PERM_JACK)
+	if ((slave == Slave::Jack) && isSlavePermitted(Slave::Perm::Jack)
 			&& &JACKDEV && JACKDEV.isValid()) {
 		/* connect transport callbacks */
 		connect(&JACKDEV, SIGNAL(playbackStarted(int)),
@@ -4855,7 +4855,7 @@ void Render::enableSlave(SlaveType slave)
 #endif
 	{
 		/* default to INTERNAL */
-		m_activeSlave = InternalSlave;
+		m_activeSlave = Slave::Internal;
 		/* DEBUG */
 		kDebug() << "// INTERNAL Slave enabled";
 	}
