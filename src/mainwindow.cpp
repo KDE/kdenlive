@@ -262,6 +262,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 #endif /* ! Q_WS_MAC */
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
+#ifdef USE_JACK
+    connect (m_monitorManager, SIGNAL(monitorStarted(AbstractMonitor&)),
+    		this, SLOT(slotEnableJackTransportButton(AbstractMonitor&)));
+    connect (m_monitorManager, SIGNAL(monitorStopped(AbstractMonitor&)),
+    		this, SLOT(slotDisableJackTransportButton(AbstractMonitor&)));
+#endif
+
     m_notesDock = new QDockWidget(i18n("Project Notes"), this);
     m_notesDock->setObjectName("notes_widget");
     m_notesWidget = new NotesWidget();
@@ -1169,6 +1176,7 @@ void MainWindow::setupActions()
     toolbar->addAction(m_buttonJackTransport);
     m_buttonJackTransport->setCheckable(true);
     m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
+//    m_buttonJackTransport->setDisabled(!m_monitorManager->isActive(Kdenlive::projectMonitor));
     connect(m_buttonJackTransport, SIGNAL(triggered()), this, SLOT(slotSwitchJackTransport()));
 #endif
 
@@ -2854,6 +2862,31 @@ void MainWindow::slotSwitchJackTransport()
 #endif
 }
 
+void MainWindow::slotEnableJackTransportButton(AbstractMonitor &mon)
+{
+#ifdef USE_JACK
+	if (mon.id() == Kdenlive::projectMonitor) {
+		/* enable toggle button */
+		m_buttonJackTransport->setDisabled(false);
+	    /* if jack transport enabled slave to jack */
+		if (KdenliveSettings::jacktransport()) {
+	    	m_monitorManager->slotEnableSlave(Slave::Jack);
+	    }
+	}
+#endif
+}
+
+void MainWindow::slotDisableJackTransportButton(AbstractMonitor &mon)
+{
+#ifdef USE_JACK
+	if (mon.id() == Kdenlive::projectMonitor) {
+		/* disable toggle button */
+		m_buttonJackTransport->setDisabled(true);
+    	/* disable jack slave */
+		m_monitorManager->slotEnableSlave(Slave::Internal);
+	}
+#endif
+}
 
 void MainWindow::slotDeleteItem()
 {

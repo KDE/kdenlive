@@ -98,6 +98,11 @@ signals:
     /** @brief When the active monitor renderer was deleted, reset color scopes */
     void clearScopes();
 
+    /** @brief Inform if monitor is started */
+    void monitorStarted(AbstractMonitor & mon);
+
+    /** @brief Inform if monitor is stopped */
+    void monitorStopped(AbstractMonitor & mon);
 };
 
 #endif

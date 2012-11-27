@@ -54,11 +54,6 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
 #ifdef USE_JACK
     /* special jack enabled permission */
     m_projectMonitor->render->setSlavePerm(Slave::Perm::Internal | Slave::Perm::Jack);
-
-	/* slave to jack */
-    if (KdenliveSettings::jacktransport()) {
-    	projectMonitor->render->enableSlave(Slave::Jack);
-    }
 #endif
 
     m_monitorsList.append(clipMonitor);
@@ -100,14 +95,19 @@ bool MonitorManager::activateMonitor(Kdenlive::MONITORID name, bool forceRefresh
     for (int i = 0; i < m_monitorsList.count(); i++) {
         if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
+        } else {
+        	m_monitorsList.at(i)->stop();
+            /* fire monitor stopped event */
+            emit monitorStopped(*m_monitorsList.at(i));
         }
-        else m_monitorsList.at(i)->stop();
     }
     if (m_activeMonitor) {
         m_activeMonitor->blockSignals(true);
         m_activeMonitor->parentWidget()->raise();
         m_activeMonitor->start();
         m_activeMonitor->blockSignals(false);
+        /* fire monitor started event */
+        emit monitorStarted(*m_activeMonitor);
     }
     emit checkColorScopes();
     return (m_activeMonitor != NULL);

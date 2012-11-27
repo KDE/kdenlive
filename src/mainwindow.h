@@ -581,6 +581,10 @@ private slots:
     void slotDisconnectJack();
     /** @brief Switch jack transport enabled state */
     void slotSwitchJackTransport();
+    /** @brief Enable jack transport button */
+    void slotEnableJackTransportButton(AbstractMonitor &mon);
+    /** @brief Disable jack transport button */
+    void slotDisableJackTransportButton(AbstractMonitor &mon);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
