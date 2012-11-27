@@ -159,7 +159,7 @@ Q_OBJECT public:
     	{m_slavePerm |= perm;}
 
     inline void resetSlavePerm(unsigned int perm)
-    	{m_slavePerm |= perm;}
+    	{m_slavePerm &= ~perm;}
 
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
