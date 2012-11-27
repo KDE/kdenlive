@@ -142,18 +142,24 @@ Q_OBJECT public:
     /** @brief*/
     void openDevice(Device::Type dev);
     void closeDevice(Device::Type dev);
-    // isDeviceActive(DeviceType dev)
+
+    inline bool isDeviceActive(Device::Type dev)
+		{return (m_activeDevice == dev);}
+
     /** @brief */
     inline bool isSlaveActive(Slave::Type slave)
     	{return (m_activeSlave == slave);}
 
     void enableSlave(Slave::Type slave);
 
-    inline bool isSlavePermitted(unsigned int slave)
-    	{return ((slave & m_permittedSlave) == slave);}
+    inline bool isSlavePermSet(unsigned int perm)
+    	{return ((perm & m_slavePerm) == perm);}
 
-    inline void setSlavePermitted(unsigned int slave)
-    	{m_permittedSlave |= slave;}
+    inline void setSlavePerm(unsigned int perm)
+    	{m_slavePerm |= perm;}
+
+    inline void resetSlavePerm(unsigned int perm)
+    	{m_slavePerm |= perm;}
 
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
@@ -414,7 +420,8 @@ private:
 
 //#ifdef USE_JACK
     Slave::Type m_activeSlave;
-    unsigned int m_permittedSlave;
+    Device::Type m_activeDevice;
+    unsigned int m_slavePerm;
 //#endif
 
     void closeMlt();

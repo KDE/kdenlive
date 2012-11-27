@@ -4784,6 +4784,7 @@ void Render::closeDevice(Device::Type dev)
 			/* disconnect from jackd and close device */
 			JACKDEV.close();
 			/* TODO: on jack client shutdown event => close dev */
+
 		}
 	} else
 #endif
@@ -4830,7 +4831,7 @@ void Render::enableSlave(Slave::Type slave)
 	}
 
 #ifdef USE_JACK
-	if ((slave == Slave::Jack) && isSlavePermitted(Slave::Perm::Jack)
+	if ((slave == Slave::Jack) && isSlavePermSet(Slave::Perm::Jack)
 			&& &JACKDEV && JACKDEV.isValid()) {
 		/* connect transport callbacks */
 		connect(&JACKDEV, SIGNAL(playbackStarted(int)),
@@ -4863,6 +4864,7 @@ void Render::enableSlave(Slave::Type slave)
 
 void Render::slotOnSlavePlaybackStarted(int position)
 {
+	position = position;
 	switchPlay(true, true);
 }
 

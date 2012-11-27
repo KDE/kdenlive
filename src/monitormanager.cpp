@@ -48,13 +48,12 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     m_projectMonitor = projectMonitor;
 
     /* default permissions */
-    m_clipMonitor->render->setSlavePermitted(Slave::Perm::Internal);
-    m_projectMonitor->render->setSlavePermitted(Slave::Perm::Internal);
+    m_clipMonitor->render->setSlavePerm(Slave::Perm::Internal);
+    m_projectMonitor->render->setSlavePerm(Slave::Perm::Internal);
 
 #ifdef USE_JACK
     /* special jack enabled permission */
-    m_projectMonitor->render->setSlavePermitted(Slave::Perm::Internal |
-    											Slave::Perm::Jack);
+    m_projectMonitor->render->setSlavePerm(Slave::Perm::Internal | Slave::Perm::Jack);
 
 	/* slave to jack */
     if (KdenliveSettings::jacktransport()) {
