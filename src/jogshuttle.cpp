@@ -31,6 +31,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
+#include <string.h>
 #include <linux/input.h>
 
 #define DELAY 10
@@ -84,32 +86,90 @@ bool ShuttleThread::isWorking()
 
 void ShuttleThread::run()
 {
-    kDebug() << "-------  STARTING SHUTTLE: " << m_device;
+	kDebug() << "-------  STARTING SHUTTLE: " << m_device;
+	/* open file descriptor */
+	const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
+	if (fd < 0) {
+		perror("Can't open Jog Shuttle FILE DESCRIPTOR");
+		return;
+	}
 
-    const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
-    if (fd < 0) {
-        fprintf(stderr, "Can't open Jog Shuttle FILE DESCRIPTOR\n");
-        return;;
-    }
-    EV ev;
+	EV ev;
 
-    if (ioctl(fd, EVIOCGRAB, 1) < 0) {
-        fprintf(stderr, "Can't get exclusive access on  Jog Shuttle FILE DESCRIPTOR\n");
-        close(fd);
-        return;;
-    }
+	if (ioctl(fd, EVIOCGRAB, 1) < 0) {
+		fprintf(stderr, "Can't get exclusive access on  Jog Shuttle FILE DESCRIPTOR\n");
+		close(fd);
+		return;
+	}
 
-    int num_warnings = 0;
-    while (!stop_me) {
-        if (read(fd, &ev, sizeof(ev)) < 0) {
-            if (num_warnings % 10000 == 0)
-                fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR (repeated %d times)\n", num_warnings + 1);
-            num_warnings++;
-        }
-        handle_event(ev);
-    }
-    close(fd);
+	fd_set		   readset;
+	struct timeval timeout;
 
+	int num_warnings = 0;
+	int result, iof = -1;
+
+	/* enter thread loop */
+	while (!stop_me) {
+		/* reset the read set */
+		FD_ZERO(&readset);
+		FD_SET(fd, &readset);
+
+		/* reinit the timeout structure */
+		timeout.tv_sec  = 0;
+		timeout.tv_usec = 400000; /* 400 ms */
+
+		/* do select in blocked mode and wake up after timeout for eval stop_me */
+		result = select(fd+1, &readset, NULL, NULL, &timeout);
+
+		/* see if there was an error or timeout else process event */
+		if (result < 0) {
+			/* usually this is a condition for exit but EINTR error is sometimes
+			 * thrown under special circumstances. I think its ok to ignore this
+			 * if its not too often */
+			kDebug() << strerror(errno) << "\n";
+		} else if (result == 0) {
+			/* do nothing. reserved for future purposes */
+		} else {
+			/* we have input */
+			if (FD_ISSET(fd, &readset)) {
+				/* get fd settings */
+				if ((iof = fcntl(fd, F_GETFL, 0)) != -1) {
+					/* set fd non blocking */
+					fcntl(fd, F_SETFL, iof | O_NONBLOCK);
+					/* read input */
+					if (read(fd, &ev, sizeof(ev)) < 0) {
+						if (num_warnings % 10000 == 0) {
+							/* if device is not available anymore - dead or disconnected */
+							fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR (repeated %d times)\n", num_warnings + 1);
+						}
+						/* exit if device is not available or the error occurs to long */
+						if (errno == ENODEV) {
+							perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Stop thread");
+							/* stop thread */
+							stop_me = true;
+						} else if (num_warnings > 1000000) {
+							perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Limit reached. Stop thread");
+							/* stop thread */
+							stop_me = true;
+						}
+						num_warnings++;
+					}
+					/* restore settings */
+					if (iof != -1) {
+						fcntl(fd, F_SETFL, iof);
+					}
+					/* process event */
+					handle_event(ev);
+				} else {
+					fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
+					stop_me = true;
+				}
+			}
+		}
+	}
+
+	/* close the handle and return thread */
+	close(fd);
 }
 
 void ShuttleThread::handle_event(EV ev)
@@ -207,7 +267,7 @@ JogShuttle::JogShuttle(QString device, QObject *parent) :
 
 JogShuttle::~JogShuttle()
 {
-    if (m_shuttleProcess.isRunning()) m_shuttleProcess.exit();
+	stopDevice();
 }
 
 void JogShuttle::initDevice(QString device)
@@ -222,8 +282,19 @@ void JogShuttle::initDevice(QString device)
 
 void JogShuttle::stopDevice()
 {
-    if (m_shuttleProcess.isRunning())
+    if (m_shuttleProcess.isRunning()) {
+    	/* tell thread to stop */
         m_shuttleProcess.stop_me = true;
+        m_shuttleProcess.exit();
+        /* give the thread some time (ms) to shutdown */
+        m_shuttleProcess.wait(600);
+
+        /* if still running - do it in the hardcore way */
+        if (m_shuttleProcess.isRunning()) {
+        	m_shuttleProcess.terminate();
+            kDebug() << "/// terminate jogshuttle process\n";
+        }
+    }
 }
 
 void JogShuttle::customEvent(QEvent* e)
