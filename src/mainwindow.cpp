@@ -2108,7 +2108,7 @@ void MainWindow::openLastFile()
         newFile(false);
         return;
     }
-    QAction *firstUrlAction = m_fileOpenRecent->selectableActionGroup()->actions().first();
+    QAction *firstUrlAction = m_fileOpenRecent->selectableActionGroup()->actions().last();
     if (firstUrlAction) firstUrlAction->trigger();
     else newFile(false);
 }
