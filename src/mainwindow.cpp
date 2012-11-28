@@ -2885,10 +2885,8 @@ void MainWindow::slotDisableJackTransportButton(AbstractMonitor& monitor)
 		m_monitorManager->slotEnableSlave(Slave::Internal);
 	}
 
-	if (m_buttonJackTransport->isEnabled()) {
-		/* disable toggle button */
-		m_buttonJackTransport->setDisabled(true);
-	}
+	/* disable toggle button */
+	m_buttonJackTransport->setDisabled(true);
 #endif
 }
 
