@@ -576,6 +576,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
+    connect(m_recMonitorDock, SIGNAL(visibilityChanged(bool)), m_recMonitor, SLOT(refreshRecMonitor(bool)));
     connect(m_effectList, SIGNAL(addEffect(const QDomElement)), this, SLOT(slotAddEffect(const QDomElement)));
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
@@ -2862,10 +2863,10 @@ void MainWindow::slotSwitchJackTransport()
 #endif
 }
 
-void MainWindow::slotEnableJackTransportButton(AbstractMonitor &mon)
+void MainWindow::slotEnableJackTransportButton(AbstractMonitor& monitor)
 {
 #ifdef USE_JACK
-	if (mon.id() == Kdenlive::projectMonitor) {
+	if (monitor.id() == Kdenlive::projectMonitor) {
 		/* enable toggle button */
 		m_buttonJackTransport->setDisabled(false);
 	    /* if jack transport enabled slave to jack */
@@ -2876,15 +2877,16 @@ void MainWindow::slotEnableJackTransportButton(AbstractMonitor &mon)
 #endif
 }
 
-void MainWindow::slotDisableJackTransportButton(AbstractMonitor &mon)
+void MainWindow::slotDisableJackTransportButton(AbstractMonitor& monitor)
 {
 #ifdef USE_JACK
-	if (mon.id() == Kdenlive::projectMonitor) {
-		/* disable toggle button */
-		m_buttonJackTransport->setDisabled(true);
+	if (monitor.id() == Kdenlive::projectMonitor) {
     	/* disable jack slave */
 		m_monitorManager->slotEnableSlave(Slave::Internal);
 	}
+
+	/* disable toggle button */
+	m_buttonJackTransport->setDisabled(true);
 #endif
 }
 

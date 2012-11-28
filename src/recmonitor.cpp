@@ -913,7 +913,7 @@ void RecMonitor::refreshRecMonitor(bool visible)
 {
     if (visible) {
         //if (!m_isActive) activateMonitor();
-
+    	slotActivateMonitor();
     }
 }
 
