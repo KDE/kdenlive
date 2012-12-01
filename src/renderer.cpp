@@ -26,6 +26,7 @@
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
+#include "kapplication.h"
 #include "definitions.h"
 #include "slideshowclip.h"
 #include "profilesdialog.h"
@@ -4765,6 +4766,9 @@ void Render::openDevice(Device::Type dev)
 		/* connect to jackd and open device */
 		if (&JACKDEV && !JACKDEV.isValid()) {
 			JACKDEV.open("kdenlive", 2, 204800 * 6);
+			/* connect shutdown event handler */
+			connect(&JACKDEV, SIGNAL(shutdown()),
+					this, SLOT(slotOnDeviceShutdown()));
 		}
 	} else
 #endif
@@ -4781,10 +4785,12 @@ void Render::closeDevice(Device::Type dev)
 		if(&JACKDEV && JACKDEV.isValid()) {
 			/* close jack slave */
 			enableSlave(Slave::Internal);
+			/* disconnect shutdown event handler */
+			disconnect(&JACKDEV, SIGNAL(shutdown()),
+					this, SLOT(slotOnDeviceShutdown()));
 			/* disconnect from jackd and close device */
 			JACKDEV.close();
 			/* TODO: on jack client shutdown event => close dev */
-
 		}
 	} else
 #endif
@@ -4877,6 +4883,11 @@ void Render::slotOnSlavePlaybackStopped(int position)
 {
 	switchPlay(false, true);
 	emit rendererStopped(position);
+}
+
+void Render::slotOnDeviceShutdown()
+{
+	closeDevice(Device::Jack);
 }
 
 

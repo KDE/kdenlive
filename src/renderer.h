@@ -524,13 +524,14 @@ public slots:
     /** @brief Starts a timer to query for a refresh. */
     void doRefresh();
 
-    /* TODO: @eddrog find solution - moc has a problem with #ifdef in slots */
-    /** @brief */
+    /** @brief Slave playback started event handler */
     void slotOnSlavePlaybackStarted(int position);
-    /** @brief */
+    /** @brief Slave playback sync event handler */
     void slotOnSlavePlaybackSync(int position);
-    /** @brief */
+    /** @brief Slave playback stopped event handler */
     void slotOnSlavePlaybackStopped(int position);
+    /** @brief Audio device shutdown event handler */
+    void slotOnDeviceShutdown();
 };
 
 #endif

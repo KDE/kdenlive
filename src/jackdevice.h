@@ -276,6 +276,7 @@ signals:
 	void playbackSync(int position);
 	void playbackStopped(int position);
 	void currentPositionChanged(int postition);
+	void shutdown();
 };
 
 #define JACKDEV JackDevice::singleton()

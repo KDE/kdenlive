@@ -192,7 +192,7 @@ void JackDevice::open(const QString &name, int channels, int buffersize)
 										JackPortIsPhysical | JackPortIsInput);
 	if(ports != NULL)
 	{
-		for(int i = 0; i < /*m_specs.*/m_channels && ports[i]; i++)
+		for(int i = 0; i < m_channels && ports[i]; i++)
 			jack_connect(m_client, jack_port_name(m_ports[i]), ports[i]);
 
 		free(ports);
@@ -203,13 +203,15 @@ void JackDevice::open(const QString &name, int channels, int buffersize)
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 	pthread_create(&m_transportThread, &attr, runTransportThread, this);
 	pthread_attr_destroy(&attr);
+
+	/* debug */
+	kDebug()<< "// jack device open ..." << endl;
 }
 
 void JackDevice::close()
 {
 	if(m_valid) {
 		m_valid = false;
-		/* TODO: find a better solution - don't call close 2 times (two monitor problem)*/
 		pthread_mutex_lock(&m_transportLock);
 		pthread_cond_signal(&m_transportCondition);
 		pthread_mutex_unlock(&m_transportLock);
@@ -218,8 +220,9 @@ void JackDevice::close()
 		pthread_mutex_destroy(&m_transportLock);
 
 		/* close the client if not is done already by jackd */
-		if (!m_shutdown)
+		if (!m_shutdown) {
 			jack_client_close(m_client);
+		}
 		delete[] m_ports;
 
 		/* free and delete ringbuffers */
@@ -229,6 +232,9 @@ void JackDevice::close()
 
 		disconnect(this, SIGNAL(currentPositionChanged(int)),
 				this, SLOT(processLooping()));
+
+		/* debug */
+		kDebug()<< "// jack device closed ..." << endl;
 	}
 }
 
@@ -254,6 +260,7 @@ void JackDevice::jack_shutdown(void *data)
 {
 	JackDevice* device = (JackDevice*)data;
 	device->m_shutdown = true;
+	emit device->shutdown();
 }
 
 int JackDevice::jack_sync(jack_transport_state_t state, jack_position_t* pos, void* data)
