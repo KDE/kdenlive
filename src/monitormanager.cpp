@@ -47,10 +47,6 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
 
-    /* default permissions */
-    m_clipMonitor->render->setSlavePerm(Slave::Perm::Internal);
-    m_projectMonitor->render->setSlavePerm(Slave::Perm::Internal);
-
 #ifdef USE_JACK
     /* special jack enabled permission */
     m_projectMonitor->render->setSlavePerm(Slave::Perm::Internal | Slave::Perm::Jack);
@@ -265,11 +261,6 @@ AbstractRender *MonitorManager::activeRenderer()
 void MonitorManager::slotSwitchFullscreen()
 {
     if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
-}
-
-void MonitorManager::slotEnableSlave(Slave::Type slv)
-{
-	m_projectMonitor->render->enableSlave(slv);
 }
 
 void MonitorManager::slotOpenDevice(Device::Type dev)

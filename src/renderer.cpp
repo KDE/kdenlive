@@ -1581,11 +1581,6 @@ void Render::stop()
         if (m_isZoneMode) resetZoneMode();
         m_mltProducer->set_speed(0.0);
     }
-
-#ifdef USE_JACK
-    if(isSlaveActive(Slave::Jack))
-    	JACKDEV.stopPlayback();
-#endif
 }
 
 void Render::stop(const GenTime & startTime)

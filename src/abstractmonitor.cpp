@@ -29,6 +29,20 @@
 #include <QVBoxLayout>
 
 
+bool AbstractRender::isDeviceActive(Device::Type dev)
+{
+	if (dev == Device::Jack)
+		if (&JACKDEV && JACKDEV.isValid())
+			return true;
+
+	if (dev == Device::Mlt)
+		if (!&JACKDEV || (&JACKDEV && !JACKDEV.isValid()))
+			return true;
+
+	return false;
+}
+
+
 AbstractMonitor::AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager, QWidget *parent): 
     QWidget(parent),
     videoSurface(NULL),

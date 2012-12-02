@@ -1177,7 +1177,7 @@ void MainWindow::setupActions()
     toolbar->addAction(m_buttonJackTransport);
     m_buttonJackTransport->setCheckable(true);
     m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
-//    m_buttonJackTransport->setDisabled(!m_monitorManager->isActive(Kdenlive::projectMonitor));
+    m_buttonJackTransport->setDisabled(true);
     connect(m_buttonJackTransport, SIGNAL(triggered()), this, SLOT(slotSwitchJackTransport()));
 #endif
 
@@ -2851,28 +2851,40 @@ void MainWindow::slotSwitchSnap()
 void MainWindow::slotSwitchJackTransport()
 {
 #ifdef USE_JACK
-    KdenliveSettings::setJacktransport(!KdenliveSettings::jacktransport());
+    AbstractRender* abstrRender = m_monitorManager->activeRenderer();
+    bool jacktransport = KdenliveSettings::jacktransport();
+
+    if (abstrRender) {
+		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
+			abstrRender->isDeviceActive(Device::Jack) && !jacktransport) {
+		    KdenliveSettings::setJacktransport(true);
+			abstrRender->enableSlave(Slave::Jack);
+		} else {
+		    KdenliveSettings::setJacktransport(false);
+			abstrRender->enableSlave(Slave::Internal);
+		}
+    }
+
     m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
 
-    /* switch transport settings */
-    if (KdenliveSettings::jacktransport()) {
-    	m_monitorManager->slotEnableSlave(Slave::Jack);
-    } else {
-    	m_monitorManager->slotEnableSlave(Slave::Internal);
-    }
 #endif
 }
 
 void MainWindow::slotEnableJackTransportButton(AbstractMonitor& monitor)
 {
 #ifdef USE_JACK
-	if (monitor.id() == Kdenlive::projectMonitor) {
-		/* enable toggle button */
-		m_buttonJackTransport->setDisabled(false);
-	    /* if jack transport enabled slave to jack */
-		if (KdenliveSettings::jacktransport()) {
-	    	m_monitorManager->slotEnableSlave(Slave::Jack);
-	    }
+	AbstractRender* abstrRender = monitor.abstractRender();
+	if (abstrRender) {
+		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
+			abstrRender->isDeviceActive(Device::Jack)) {
+			/* if jack transport enabled slave to jack */
+			if (KdenliveSettings::jacktransport()) {
+
+				abstrRender->enableSlave(Slave::Jack);
+			}
+			/* enable toggle button */
+			m_buttonJackTransport->setDisabled(false);
+		}
 	}
 #endif
 }
@@ -2880,13 +2892,15 @@ void MainWindow::slotEnableJackTransportButton(AbstractMonitor& monitor)
 void MainWindow::slotDisableJackTransportButton(AbstractMonitor& monitor)
 {
 #ifdef USE_JACK
-	if (monitor.id() == Kdenlive::projectMonitor) {
-    	/* disable jack slave */
-		m_monitorManager->slotEnableSlave(Slave::Internal);
+	AbstractRender* abstrRender = monitor.abstractRender();
+	if (abstrRender) {
+		if (abstrRender->isSlaveActive(Slave::Jack)) {
+			/* disable jack slave */
+			abstrRender->enableSlave(Slave::Internal);
+		}
+		/* disable toggle button */
+		m_buttonJackTransport->setDisabled(true);
 	}
-
-	/* disable toggle button */
-	m_buttonJackTransport->setDisabled(true);
 #endif
 }
 
@@ -4680,9 +4694,13 @@ void MainWindow::slotSaveTimelineClip()
 void MainWindow::slotConnectJack()
 {
 	m_monitorManager->slotOpenDevice(Device::Jack);
-    if (KdenliveSettings::jacktransport()) {
-    	m_monitorManager->slotEnableSlave(Slave::Jack);
-    }
+	AbstractRender* abstrRender = m_monitorManager->activeRenderer();
+
+	if (abstrRender && abstrRender->isSlavePermSet(Slave::Perm::Jack)) {
+		if(abstrRender->isDeviceActive(Device::Jack)) {
+			abstrRender->enableSlave(Slave::Jack);
+		}
+	}
 }
 
 void MainWindow::slotDisconnectJack()

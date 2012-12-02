@@ -219,10 +219,8 @@ void JackDevice::close()
 		pthread_cond_destroy(&m_transportCondition);
 		pthread_mutex_destroy(&m_transportLock);
 
-		/* close the client if not is done already by jackd */
-		if (!m_shutdown) {
-			jack_client_close(m_client);
-		}
+		/* close the client */
+		jack_client_close(m_client);
 		delete[] m_ports;
 
 		/* free and delete ringbuffers */

@@ -90,31 +90,7 @@ private:
     QString m_message;
 };
 
-/* transport slave namespace */
-namespace Slave
-{
-	namespace Perm
-	{
-		const static unsigned int Internal 	= (1<<0);
-		const static unsigned int Jack 		= (1<<1);
-	};
 
-    enum Type
-    {
-    	Internal = 0,
-    	Jack
-    };
-};
-
-/* device namespace */
-namespace Device
-{
-	enum Type
-	{
-		Mlt	= 0,
-		Jack
-	};
-};
 
 class Render: public AbstractRender
 {
@@ -138,28 +114,12 @@ Q_OBJECT public:
     void seek(int time, bool slave = false);
     void seekToFrameDiff(int diff);
 
-//#ifdef USE_JACK
-    /** @brief*/
+    /** @brief Open appropriate audio device */
     void openDevice(Device::Type dev);
+    /** @brief Close appropriate audio device */
     void closeDevice(Device::Type dev);
-
-    inline bool isDeviceActive(Device::Type dev)
-		{return (m_activeDevice == dev);}
-
-    /** @brief */
-    inline bool isSlaveActive(Slave::Type slave)
-    	{return (m_activeSlave == slave);}
-
+    /** @brief Enable appropriate transport slave */
     void enableSlave(Slave::Type slave);
-
-    inline bool isSlavePermSet(unsigned int perm)
-    	{return ((perm & m_slavePerm) == perm);}
-
-    inline void setSlavePerm(unsigned int perm)
-    	{m_slavePerm |= perm;}
-
-    inline void resetSlavePerm(unsigned int perm)
-    	{m_slavePerm &= ~perm;}
 
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
@@ -417,12 +377,6 @@ private:
     QLocale m_locale;
     QFuture <void> m_infoThread;
     QList <requestClipInfo> m_requestList;
-
-//#ifdef USE_JACK
-    Slave::Type m_activeSlave;
-    Device::Type m_activeDevice;
-    unsigned int m_slavePerm;
-//#endif
 
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);

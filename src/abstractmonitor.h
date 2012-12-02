@@ -32,8 +32,38 @@
 
 #include <stdint.h>
 
+#ifdef USE_JACK
+#include "jackdevice.h"
+#endif
+
 class MonitorManager;
 class VideoContainer;
+
+/* transport slave namespace */
+namespace Slave
+{
+	namespace Perm
+	{
+		const static unsigned int Internal 	= (1<<0);
+		const static unsigned int Jack 		= (1<<1);
+	};
+
+    enum Type
+    {
+    	Internal = 0,
+    	Jack
+    };
+};
+
+/* device namespace */
+namespace Device
+{
+	enum Type
+	{
+		Mlt	= 0,
+		Jack
+	};
+};
 
 class AbstractRender: public QObject
 {
@@ -43,7 +73,7 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), analyseAudio(false), m_name(name) {};
+    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), analyseAudio(false), m_name(name), m_slavePerm(Slave::Perm::Internal) {};
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~AbstractRender() {};
@@ -59,9 +89,31 @@ Q_OBJECT public:
     /** @brief Someone needs us to send again a frame. */
     virtual void sendFrameUpdate() = 0;
 
+    /** @brief Checks if appropriate slave permission is set. */
+    virtual bool isSlavePermSet(unsigned int perm) {return ((perm & m_slavePerm) == perm);}
+
+    /** @brief Set appropriate slave permission. */
+    virtual void setSlavePerm(unsigned int perm) {m_slavePerm |= perm;}
+
+    /** @brief Reset appropriate slave permission. */
+    virtual void resetSlavePerm(unsigned int perm) {m_slavePerm &= ~perm;}
+
+    /** @brief Checks if appropriate slave is active.*/
+    virtual bool isSlaveActive(Slave::Type slave) {return (m_activeSlave == slave);}
+
+    /** @brief Enable appropriate slave.*/
+    virtual void enableSlave(Slave::Type slave) {slave = slave;}
+
+    /** @brief Checks if appropriate device is active.*/
+    virtual bool isDeviceActive(Device::Type dev);
+
 private:
     QString m_name;
     
+protected:
+    unsigned int m_slavePerm;
+    Slave::Type m_activeSlave;
+
 signals:
     /** @brief The renderer refreshed the current frame. */
     void frameUpdated(QImage);

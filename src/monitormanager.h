@@ -75,8 +75,6 @@ public slots:
     void slotSwitchMonitors(bool activateClip);
     void slotUpdateAudioMonitoring();
 
-    /** @brief Enable appropriate transport slave */
-    void slotEnableSlave(Slave::Type slv);
     /** @brief Open defined audio device */
     void slotOpenDevice(Device::Type dev);
     /** @brief Close defined audio device */
