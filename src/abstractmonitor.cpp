@@ -31,6 +31,7 @@
 
 bool AbstractRender::isDeviceActive(Device::Type dev)
 {
+#ifdef USE_JACK
 	if (dev == Device::Jack)
 		if (&JACKDEV && JACKDEV.isValid())
 			return true;
@@ -38,6 +39,10 @@ bool AbstractRender::isDeviceActive(Device::Type dev)
 	if (dev == Device::Mlt)
 		if (!&JACKDEV || (&JACKDEV && !JACKDEV.isValid()))
 			return true;
+#else
+	if (dev == Device::Mlt)
+		return true;
+#endif
 
 	return false;
 }
