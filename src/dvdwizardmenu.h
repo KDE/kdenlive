@@ -144,7 +144,7 @@ public:
     int menuMovieLength() const;
     void changeProfile(DVDFORMAT format);
     QDomElement toXml() const;
-    void loadXml(QDomElement xml);
+    void loadXml(DVDFORMAT format, QDomElement xml);
     void prepareUnderLines();
     void resetUnderLines();
 

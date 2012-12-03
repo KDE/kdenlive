@@ -985,5 +985,5 @@ void DvdWizard::slotLoad()
         QDomElement e = vobs.at(i).toElement();
         m_pageVob->slotAddVobFile(KUrl(e.attribute("file")), e.attribute("chapters"));
     }
-    m_pageMenu->loadXml(dvdproject.firstChildElement("menu"));
+    m_pageMenu->loadXml(m_pageVob->dvdFormat(), dvdproject.firstChildElement("menu"));
 }

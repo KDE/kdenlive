@@ -122,7 +122,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     connect(m_view.background_image, SIGNAL(textChanged(const QString &)), this, SLOT(buildImage()));
     connect(m_view.background_color, SIGNAL(changed(const QColor &)), this, SLOT(buildColor()));
 
-    connect(m_view.background_list, SIGNAL(activated(int)), this, SLOT(checkBackgroundType(int)));
+    connect(m_view.background_list, SIGNAL(currentIndexChanged(int)), this, SLOT(checkBackgroundType(int)));
 
     connect(m_view.target_list, SIGNAL(activated(int)), this, SLOT(setButtonTarget(int)));
     connect(m_view.back_to_menu, SIGNAL(toggled(bool)), this, SLOT(setBackToMenu(bool)));
@@ -810,11 +810,12 @@ QDomElement DvdWizardMenu::toXml() const
 }
 
 
-void DvdWizardMenu::loadXml(QDomElement xml)
+void DvdWizardMenu::loadXml(DVDFORMAT format, QDomElement xml)
 {
     kDebug() << "// LOADING MENU";
     if (xml.isNull()) return;
     kDebug() << "// LOADING MENU 1";
+    changeProfile(format);
     m_view.create_menu->setChecked(xml.attribute("enabled").toInt());
     if (xml.hasAttribute("background_color")) {
         m_view.background_list->setCurrentIndex(0);
