@@ -51,6 +51,7 @@ frei0r_cluster.xml
 frei0r_colgate.xml
 frei0r_coloradj_rgb.xml
 frei0r_colordistance.xml
+frei0r_colortap.xml
 frei0r_contrast0r.xml
 frei0r_c0rners.xml
 frei0r_curves.xml
