@@ -61,6 +61,18 @@ private:
     int m_height;
 };
 
+class DvdButtonUnderline : public QGraphicsRectItem
+{
+
+public:
+    DvdButtonUnderline( const QRectF & rect, QGraphicsItem * parent = 0 ) : QGraphicsRectItem(rect, parent) {}
+
+    int type() const {
+        // Enable the use of qgraphicsitem_cast with this item.
+        return UserType + 2;
+    }
+};
+
 class DvdButton : public QGraphicsTextItem
 {
 
@@ -134,8 +146,8 @@ public:
     virtual ~DvdWizardMenu();
     virtual bool isComplete() const;
     bool createMenu() const;
-    void createBackgroundImage(const QString &overlayMenu, const QString &img1);
-    void createButtonImages(const QString &img1, const QString &img2, const QString &img3, bool letterbox = false);
+    void createBackgroundImage(const QString &img1, bool letterbox);
+    void createButtonImages(const QString &selected_image, const QString &highlighted_image, bool letterbox);
     void setTargets(QStringList list, QStringList targetlist);
     QMap <QString, QRect> buttonsInfo(bool letterbox = false);
     bool loopMovie() const;
@@ -144,7 +156,7 @@ public:
     int menuMovieLength() const;
     void changeProfile(DVDFORMAT format);
     QDomElement toXml() const;
-    void loadXml(QDomElement xml);
+    void loadXml(DVDFORMAT format, QDomElement xml);
     void prepareUnderLines();
     void resetUnderLines();
 

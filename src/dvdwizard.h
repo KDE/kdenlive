@@ -43,6 +43,7 @@ class DvdWizard : public QWizard
 public:
     explicit DvdWizard(const QString &url = QString(), QWidget * parent = 0);
     virtual ~DvdWizard();
+    void processSpumux();
 
 private:
     DvdWizardVob *m_pageVob;
@@ -60,7 +61,14 @@ private:
     KTemporaryFile m_letterboxMovie;
     QProcess *m_dvdauthor;
     QProcess *m_mkiso;
+    QProcess m_menuJob;
     QString m_creationLog;
+    QListWidgetItem *m_vobitem;
+    KTemporaryFile m_selectedImage;
+    KTemporaryFile m_highlightedImage;
+    KTemporaryFile m_menuVideo;
+    KTemporaryFile m_menuFinalVideo;
+    KTemporaryFile m_menuImageBackground;
     void cleanup();
     QMenu *m_burnMenu;
     void errorMessage(const QString &text);
@@ -79,6 +87,7 @@ private slots:
     void slotSave();
     void slotShowRenderInfo();
     void slotShowIsoInfo();
+    void slotProcessMenuStatus(int, QProcess::ExitStatus status);
 };
 
 #endif
