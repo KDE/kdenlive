@@ -1521,7 +1521,7 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, Abs
             //build go to marker menu
             if (item->baseClip()) {
                 QList <CommentedTime> markers = item->baseClip()->commentedSnapMarkers();
-                int offset = item->startPos().frames(m_document->fps());
+                int offset = (item->startPos()- item->cropStart()).frames(m_document->fps());
                 if (!markers.isEmpty()) {
                     for (int i = 0; i < markers.count(); i++) {
                         int pos = (int) markers.at(i).time().frames(m_document->timecode().fps());
