@@ -7569,7 +7569,7 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
 {
     QMap<int, QDomElement> effects = item->adjustEffectsToDuration(m_document->width(), m_document->height(), oldInfo);
 
-    if (effects.count()) {
+    if (!effects.isEmpty()) {
         QMap<int, QDomElement>::const_iterator i = effects.constBegin();
         while (i != effects.constEnd()) {
             new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), i.value(), item->effect(i.key()), i.value().attribute("kdenlive_ix").toInt(), true, true, command);
