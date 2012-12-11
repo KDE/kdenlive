@@ -1944,8 +1944,9 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                         effects[i] = effect.cloneNode().toElement();
                     EffectsList::setParameter(effect, "out", QString::number(clipEnd));
                 }
-                if (effects.contains(i))
+                if (effects.contains(i)) {
                     setFadeIn(out - in);
+		}
             } else {
                 if (out != clipEnd) {
                     effects[i] = effect.cloneNode().toElement();

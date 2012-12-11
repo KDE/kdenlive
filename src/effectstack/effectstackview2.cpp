@@ -96,8 +96,7 @@ void EffectStackView2::slotRenderPos(int pos)
 void EffectStackView2::slotClipItemUpdate()
 {
     int inPoint = m_clipref->cropStart().frames(KdenliveSettings::project_fps());
-    int outPoint = m_clipref->cropDuration().frames(KdenliveSettings::project_fps()) - inPoint;
-    CollapsibleEffect *effectToMove = NULL;
+    int outPoint = m_clipref->cropDuration().frames(KdenliveSettings::project_fps()) + inPoint;
     for (int i = 0; i < m_effects.count(); i++) {
         m_effects.at(i)->setRange(inPoint, outPoint);
     }

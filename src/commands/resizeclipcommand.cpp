@@ -42,7 +42,9 @@ void ResizeClipCommand::undo()
 // virtual
 void ResizeClipCommand::redo()
 {
-    if (m_doIt) m_view->resizeClip(m_startPos, m_endPos, m_dontWorry);
+    if (m_doIt) {
+	m_view->resizeClip(m_startPos, m_endPos, m_dontWorry);
+    }
     m_doIt = true;
 }
 
