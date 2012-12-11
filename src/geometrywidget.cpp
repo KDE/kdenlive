@@ -385,7 +385,6 @@ void GeometryWidget::addParameter(const QDomElement elem)
     m_timeline->addGeometry(geometry);
     m_extraFactors.append(elem.attribute("factor", "1"));
     m_extraGeometryNames.append(elem.attribute("name"));
-    //kDebug()<<"ADDED PARAM: "<<elem.attribute("value");
 }
 
 void GeometryWidget::slotSyncPosition(int relTimelinePos)
@@ -827,6 +826,14 @@ void GeometryWidget::slotResetKeyframes()
 	m_geometry->remove(item.frame());
     }
 
+    // Delete extra geometry keyframes too
+    for (int i = 0; i < m_extraGeometries.count(); i++) {
+        Mlt::Geometry *geom = m_extraGeometries.at(i);
+	while (!geom->next_key(&item, 1)) {
+	    geom->remove(item.frame());
+	}
+    }
+
     // Create neutral first keyframe
     item.frame(0);
     item.x(0);
@@ -852,6 +859,14 @@ void GeometryWidget::slotResetNextKeyframes()
     int pos = m_timePos->getValue();
     while (!m_geometry->next_key(&item, pos)) {
 	m_geometry->remove(item.frame());
+    }
+
+    // Delete extra geometry keyframes too
+    for (int i = 0; i < m_extraGeometries.count(); i++) {
+        Mlt::Geometry *geom = m_extraGeometries.at(i);
+	while (!geom->next_key(&item, pos)) {
+	    geom->remove(item.frame());
+	}
     }
 
     // Make sure we have at least one keyframe
@@ -882,6 +897,16 @@ void GeometryWidget::slotResetPreviousKeyframes()
     while (!m_geometry->next_key(&item, pos) && pos < m_timePos->getValue()) {
 	pos = item.frame() + 1;
 	m_geometry->remove(item.frame());
+    }
+
+    // Delete extra geometry keyframes too
+    for (int i = 0; i < m_extraGeometries.count(); i++) {
+        Mlt::Geometry *geom = m_extraGeometries.at(i);
+	pos = 0;
+	while (!geom->next_key(&item, pos) && pos < m_timePos->getValue()) {
+	    pos = item.frame() + 1;
+	    geom->remove(item.frame());
+	}
     }
 
     // Make sure we have at least one keyframe

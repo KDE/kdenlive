@@ -324,10 +324,6 @@ void KeyframeHelper::setKeyGeometry(Mlt::Geometry *geom, const int length)
 {
     m_geom = geom;
     frameLength = length;
-    while (!m_extraGeometries.isEmpty()) {
-        Mlt::Geometry *geom = m_extraGeometries.takeFirst();
-        delete geom;
-    }
     update();
 }
 
