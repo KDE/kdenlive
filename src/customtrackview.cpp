@@ -2376,8 +2376,12 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         m_document->updateClip(item->baseClip()->getId());
         setDocumentModified();
         KdenliveSettings::setSnaptopoints(snap);
-        if (execute && item->isSelected())
-            emit clipItemSelected(item);
+        if (execute && item->isSelected()) {
+	    m_scene->clearSelection();
+	    dup->setSelected(true);
+	    m_dragItem = dup;
+            emit clipItemSelected(dup);
+	}
         return dup;
     } else {
         // uncut clip
