@@ -229,8 +229,14 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         } else {
             image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }
-        p.fill(QColor(100, 100, 100, 70).rgba());
+#if QT_VERSION >= 0x040800
+	p.fill(QColor(100, 100, 100, 70));
         QPainter painter(&p);
+#else
+	p.fill(Qt::transparent);
+	QPainter painter(&p);
+	painter.fillRect(p.rect(), QColor(100, 100, 100, 70));
+#endif
         painter.drawImage(p.rect(), image);
         painter.end();
     } else
