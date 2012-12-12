@@ -673,8 +673,20 @@ void Monitor::slotRewind(double speed)
     slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
-        if (currentspeed >= 0) render->play(-2);
-        else render->play(currentspeed * 2);
+	if (currentspeed >= 0) render->play(-1);
+	else switch((int) currentspeed) {
+	    case -1:
+		render->play(-2);
+		break;
+	    case -2:
+		render->play(-3);
+		break;
+	    case -3:
+		render->play(-5);
+		break;
+	    default:
+		render->play(-8);
+	}
     } else render->play(speed);
     //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
@@ -685,8 +697,20 @@ void Monitor::slotForward(double speed)
     slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
-        if (currentspeed <= 1) render->play(2);
-        else render->play(currentspeed * 2);
+	if (currentspeed <= 0) render->play(1);
+        else switch((int) currentspeed) {
+	    case 1:
+		render->play(2);
+		break;
+	    case 2:
+		render->play(3);
+		break;
+	    case 3:
+		render->play(5);
+		break;
+	    default:
+		render->play(8);
+	}
     } else render->play(speed);
     //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);

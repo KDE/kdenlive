@@ -1254,14 +1254,12 @@ void MainWindow::setupActions()
     connect(projectAdjust, SIGNAL(triggered(bool)), m_projectList, SLOT(adjustProjectProfileToItem()));
 
     KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
-    KShortcut playShortcut;
-    playShortcut.setPrimary(Qt::Key_Space);
-    playShortcut.setAlternate(Qt::Key_K);
-    monitorPlay->setShortcut(playShortcut);
+    monitorPlay->setShortcut(Qt::Key_Space);
     collection.addAction("monitor_play", monitorPlay);
     connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
 
     KAction* monitorPause = new KAction(KIcon("media-playback-stop"), i18n("Pause"), this);
+    monitorPause->setShortcut(Qt::Key_K);
     collection.addAction("monitor_pause", monitorPause);
     connect(monitorPause, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPause()));
 
