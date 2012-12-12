@@ -1577,11 +1577,15 @@ void Render::switchPlay(bool play)
 void Render::play(double speed)
 {
     requestedSeekPosition = SEEK_INACTIVE;
-    if (!m_mltProducer || m_mltProducer->get_speed() == speed)
-        return;
+    if (!m_mltProducer) return;
+    double current_speed = m_mltProducer->get_speed(); 
+    if (current_speed == speed) return;
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
-    if (speed != 0) m_mltConsumer->set("refresh", 1);
+    if (m_mltConsumer->is_stopped()) {
+	m_mltConsumer->start();
+    }
+    if (current_speed == 0 && speed != 0) m_mltConsumer->set("refresh", 1);
 }
 
 void Render::play(const GenTime & startTime)
@@ -1922,6 +1926,7 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
 
 int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite, bool push)
 {
+    m_refreshTimer.stop();
     if (m_mltProducer == NULL) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
         return -1;
@@ -2151,6 +2156,7 @@ bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement ele
 
 bool Render::mltRemoveClip(int track, GenTime position)
 {
+    m_refreshTimer.stop();
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
