@@ -442,8 +442,8 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             kval->comboboxwidget->model()->setData( kval->comboboxwidget->model()->index(0,0), QVariant(Qt::NoItemFlags), Qt::UserRole -1);
             kval->comboboxwidget->setCurrentIndex(0);
             m_valueItems[paramName] = kval;
-            connect(kval->lineeditwidget, SIGNAL(editingFinished()) , this, SLOT(collectAllParameters()));
-            connect(kval->comboboxwidget, SIGNAL(activated (const QString&)), this, SLOT(collectAllParameters()));
+            connect(kval->lineeditwidget, SIGNAL(editingFinished()) , this, SLOT(slotCollectAllParameters()));
+            connect(kval->comboboxwidget, SIGNAL(activated (const QString&)), this, SLOT(slotCollectAllParameters()));
             m_uiItems.append(kval);
         } else if (type == "fontfamily") {
             Fontval* fval = new Fontval;
@@ -451,7 +451,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             fval->name->setText(paramName);
             fval->fontfamilywidget->setCurrentFont(QFont(value));
             m_valueItems[paramName] = fval;
-            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(collectAllParameters())) ;
+            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotCollectAllParameters())) ;
             m_uiItems.append(fval);
         } else if (type == "filterjob") {
 	    QVBoxLayout *l= new QVBoxLayout(toFillin);
