@@ -159,6 +159,9 @@ Q_OBJECT public:
     /** @brief Save a clip in timeline to an xml playlist. */
     bool saveClip(int track, GenTime position, KUrl url, QString desc = QString());
 
+    /** @brief Return true if we are currently playing */
+    bool isPlaying() const;
+
     /** @brief Returns the speed at which the renderer is currently playing.
      *
      * It returns 0.0 when the renderer is not playing anything. */
@@ -367,6 +370,7 @@ private:
     QLocale m_locale;
     QFuture <void> m_infoThread;
     QList <requestClipInfo> m_requestList;
+    bool m_paused;
 
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);

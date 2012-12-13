@@ -804,12 +804,13 @@ void Monitor::slotPlay()
 {
     if (render == NULL) return;
     slotActivateMonitor();
-    if (render->playSpeed() == 0.0) {
+    if (render->isPlaying()) {
+	m_playAction->setIcon(m_playIcon);
+        render->switchPlay(false);
+    }
+    else {
         m_playAction->setIcon(m_pauseIcon);
         render->switchPlay(true);
-    } else {
-        m_playAction->setIcon(m_playIcon);
-        render->switchPlay(false);
     }
     m_ruler->refreshRuler();
 }

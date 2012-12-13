@@ -116,7 +116,8 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_isLoopMode(false),
     m_isSplitView(false),
     m_blackClip(NULL),
-    m_winid(winid)
+    m_winid(winid),
+    m_paused(true)
 {
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
@@ -397,7 +398,7 @@ void Render::seek(int time)
 	requestedSeekPosition = time;
 	m_mltProducer->seek(time);
 	//m_mltConsumer->purge();
-	if (m_mltProducer->get_speed() == 0) {
+	if (m_paused) {
 	    refresh();
 	}
     }
@@ -1162,7 +1163,9 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     }
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);
-    if (monitorIsActive) startConsumer();
+    if (monitorIsActive) {
+	startConsumer();
+    }
     emit durationChanged(m_mltProducer->get_playtime());
     position = m_mltProducer->position();
     emit rendererPosition(position);
@@ -1535,11 +1538,11 @@ void Render::pause()
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer)
         return;
-    if (m_mltProducer->get_speed() == 0.0) return;
-    if (m_isZoneMode) resetZoneMode();
-    m_mltConsumer->set("refresh", 0);
+    m_paused = true;
     m_mltProducer->set_speed(0.0);
-    m_mltConsumer->purge();
+    m_mltConsumer->set("refresh", 0);
+    m_mltProducer->seek(m_mltConsumer->position());
+    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
 }
 
 void Render::switchPlay(bool play)
@@ -1549,14 +1552,16 @@ void Render::switchPlay(bool play)
     if (!m_mltProducer || !m_mltConsumer)
         return;
     if (m_isZoneMode) resetZoneMode();
-    if (play && m_mltProducer->get_speed() == 0.0) {
+    if (play && m_paused) {
         if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
+	m_paused = false;
         if (m_mltConsumer->is_stopped()) {
             m_mltConsumer->start();
         }
         m_mltProducer->set_speed(1.0);
         m_mltConsumer->set("refresh", 1);
     } else if (!play) {
+	m_paused = true;
         m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("refresh", 0);
         m_mltProducer->seek(m_mltConsumer->position());
@@ -1582,9 +1587,10 @@ void Render::play(double speed)
     if (current_speed == speed) return;
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
-    if (m_mltConsumer->is_stopped()) {
+    if (m_mltConsumer->is_stopped() && speed != 0) {
 	m_mltConsumer->start();
     }
+    m_paused = speed == 0;
     if (current_speed == 0 && speed != 0) m_mltConsumer->set("refresh", 1);
 }
 
@@ -1648,12 +1654,12 @@ void Render::seekToFrameDiff(int diff)
 
 void Render::refreshIfActive()
 {
-    if (!m_mltConsumer->is_stopped() && m_mltProducer && m_mltProducer->get_speed() == 0) m_refreshTimer.start();
+    if (!m_mltConsumer->is_stopped() && m_mltProducer && m_paused) m_refreshTimer.start();
 }
 
 void Render::doRefresh()
 {
-    if (m_mltProducer && m_mltProducer->get_speed() == 0) m_refreshTimer.start();
+    if (m_mltProducer && m_paused) m_refreshTimer.start();
 }
 
 void Render::refresh()
@@ -1663,6 +1669,7 @@ void Render::refresh()
         return;
     if (m_mltConsumer) {
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+	m_paused = false;
         //m_mltConsumer->purge();
         m_mltConsumer->set("refresh", 1);
     }
@@ -1685,6 +1692,12 @@ void Render::setDropFrames(bool show)
         }
 
     }
+}
+
+bool Render::isPlaying() const
+{
+    if (!m_mltConsumer || m_mltConsumer->is_stopped()) return false;
+    return !m_paused;
 }
 
 double Render::playSpeed() const
@@ -1725,7 +1738,7 @@ void Render::emitFrameNumber()
     emit rendererPosition(currentPos);
     if (requestedSeekPosition != SEEK_INACTIVE) {
 	m_mltProducer->seek(requestedSeekPosition);
-	if (m_mltProducer->get_speed() == 0) {
+	if (m_paused) {
 	    refresh();
 	}
 	requestedSeekPosition = SEEK_INACTIVE;
@@ -1737,6 +1750,7 @@ void Render::emitConsumerStopped()
     // This is used to know when the playing stopped
     if (m_mltProducer) {
         double pos = m_mltProducer->position();
+	m_paused = true;
         if (m_isLoopMode) play(m_loopStart);
         //else if (m_isZoneMode) resetZoneMode();
         emit rendererStopped((int) pos);
@@ -1800,7 +1814,7 @@ void Render::slotCheckSeeking()
 {
       if (requestedSeekPosition != SEEK_INACTIVE) {
 	m_mltProducer->seek(requestedSeekPosition);
-	if (m_mltProducer->get_speed() == 0) {
+	if (m_paused) {
 	    refresh();
 	}
     }

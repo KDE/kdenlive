@@ -774,7 +774,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     m_dragGuide = NULL;
 
     if (m_tool != RAZORTOOL) activateMonitor();
-    else if (m_document->renderer()->playSpeed() != 0.0) {
+    else if (m_document->renderer()->isPlaying()) {
         m_document->renderer()->pause();
         return;
     }
