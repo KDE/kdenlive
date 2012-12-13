@@ -1542,7 +1542,6 @@ void Render::pause()
     m_mltProducer->set_speed(0.0);
     m_mltConsumer->set("refresh", 0);
     m_mltProducer->seek(m_mltConsumer->position());
-    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
 }
 
 void Render::switchPlay(bool play)
