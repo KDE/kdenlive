@@ -40,7 +40,7 @@
     </parameter>
     <parameter type="keywords" name="argument" default="#timecode#">
         <name>Text</name>
-        <keywords>#timecode#;#frame#;#filedate#;#meta.media.0.stream.frame_rate#;#meta.media.0.codec.name#;#meta.media.0.codec.bit_rate#;#meta.media.width#;#meta.media.height#;#meta.attr.comment.markup#</keywords>
-        <keywordsdisplay>timecode;frame;file date;source frame rate;source codec;source bit rate;source width;source height;source comment</keywordsdisplay>
+        <keywords>#timecode#;#frame#;#filedate#;#localfiledate#;#meta.media.0.stream.frame_rate#;#meta.media.0.codec.name#;#meta.media.0.codec.bit_rate#;#meta.media.width#;#meta.media.height#;#meta.attr.comment.markup#</keywords>
+        <keywordsdisplay>timecode;frame;file date;local file date;source frame rate;source codec;source bit rate;source width;source height;source comment</keywordsdisplay>
     </parameter>
 </effect>
