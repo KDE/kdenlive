@@ -1541,6 +1541,7 @@ void Render::pause()
     m_paused = true;
     m_mltProducer->set_speed(0.0);
     m_mltConsumer->set("refresh", 0);
+    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltProducer->seek(m_mltConsumer->position());
 }
 
@@ -1563,18 +1564,8 @@ void Render::switchPlay(bool play)
 	m_paused = true;
         m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("refresh", 0);
+	if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         m_mltProducer->seek(m_mltConsumer->position());
-        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-        if (m_isZoneMode) resetZoneMode();
-
-        //emitConsumerStopped();
-        /*m_mltConsumer->set("refresh", 0);
-        m_mltConsumer->stop();
-        m_mltConsumer->purge();
-        m_mltProducer->set_speed(0.0);
-        //m_framePosition = m_mltProducer->position();
-        m_mltProducer->seek(m_framePosition);
-        emit rendererPosition(m_framePosition);*/
     }
 }
 
@@ -1584,6 +1575,7 @@ void Render::play(double speed)
     if (!m_mltProducer) return;
     double current_speed = m_mltProducer->get_speed(); 
     if (current_speed == speed) return;
+    if (m_isZoneMode) resetZoneMode();
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
     if (m_mltConsumer->is_stopped() && speed != 0) {
@@ -1598,6 +1590,7 @@ void Render::play(const GenTime & startTime)
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer)
         return;
+    m_paused = false;
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
     m_mltConsumer->set("refresh", 1);
@@ -1622,6 +1615,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     if (!m_isZoneMode) m_originalOut = m_mltProducer->get_playtime() - 1;
     m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
+    m_paused = false;
     m_mltProducer->set_speed(1.0);
     m_mltConsumer->set("refresh", 1);
     if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
