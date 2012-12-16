@@ -1267,6 +1267,7 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
     QSet <QGraphicsItem *> itemsList;
 
     for (int i = 0; i < selection.count(); i++) {
+	if (selectNewGroup) selection.at(i)->setSelected(true);
 	if (selection.at(i)->type() == GROUPWIDGET) {
 	    groupsList.insert(static_cast<AbstractGroupItem*> (selection.at(i)));
 	}
