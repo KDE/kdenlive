@@ -370,6 +370,8 @@ private:
     QAction *m_ungroupAction;
     QAction *m_editGuide;
     QAction *m_deleteGuide;
+    QList <QAction*> m_audioActions;
+    QList <QAction*> m_avActions;
     QActionGroup *m_clipTypeGroup;
     QTimer m_scrollTimer;
     QTimer m_thumbsTimer;

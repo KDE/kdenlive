@@ -1514,14 +1514,20 @@ void MainWindow::setupActions()
 
     KAction* splitAudio = new KAction(KIcon("document-new"), i18n("Split Audio"), this);
     collection.addAction("split_audio", splitAudio);
+    // "A+V" as data means this action should only be available for clips with audio AND video
+    splitAudio->setData("A+V");
     connect(splitAudio, SIGNAL(triggered(bool)), this, SLOT(slotSplitAudio()));
 
     KAction* setAudioAlignReference = new KAction(i18n("Set Audio Reference"), this);
     collection.addAction("set_audio_align_ref", setAudioAlignReference);
+    // "A" as data means this action should only be available for clips with audio
+    setAudioAlignReference->setData("A");
     connect(setAudioAlignReference, SIGNAL(triggered()), this, SLOT(slotSetAudioAlignReference()));
 
     KAction* alignAudio = new KAction(i18n("Align Audio to Reference"), this);
     collection.addAction("align_audio", alignAudio);
+    // "A" as data means this action should only be available for clips with audio
+    alignAudio->setData("A");
     connect(alignAudio, SIGNAL(triggered()), this, SLOT(slotAlignAudio()));
 
     KAction* audioOnly = new KAction(KIcon("document-new"), i18n("Audio Only"), this);
