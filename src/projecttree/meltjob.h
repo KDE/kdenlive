@@ -48,16 +48,15 @@ public:
     stringMap cancelProperties();
     bool addClipToProject;
     const QString statusMessage();
+    void setStatus(CLIPJOBSTATUS status);
     void setProducer(Mlt::Producer *producer, KUrl url);
-    void emitFrameNumber();
+    void emitFrameNumber(int pos);
     /** Make the job work on a project tree clip. */
     bool isProjectFilter() const;
     
 private:
-    Mlt::Producer *m_producer;
-    Mlt::Profile *m_profile;
     Mlt::Consumer *m_consumer;
-    Mlt::Event *m_showFrameEvent;
+    Mlt::Profile *m_profile;
     QStringList m_params;
     QString m_dest;
     QString m_url;

@@ -36,13 +36,13 @@ public:
     AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList parameters);    virtual ~ AbstractClipJob();
     CLIPTYPE clipType;
     JOBTYPE jobType;
-    CLIPJOBSTATUS jobStatus;
     QString description;
     bool replaceClip;
     const QString clipId() const;
     const QString errorMessage() const;
     const QString logDetails() const;
-    void setStatus(CLIPJOBSTATUS status);
+    CLIPJOBSTATUS status();
+    virtual void setStatus(CLIPJOBSTATUS status);
     virtual const QString destination() const;
     virtual void startJob();
     virtual stringMap cancelProperties();
@@ -54,6 +54,7 @@ public:
     void setAddClipToProject(bool add);
     
 protected:
+    CLIPJOBSTATUS m_jobStatus;
     QString m_clipId;
     QString m_errorMessage;
     QString m_logDetails;

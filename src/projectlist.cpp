@@ -2947,12 +2947,12 @@ void ProjectList::slotCheckJobProcess()
     int count = 0;
     m_jobMutex.lock();
     for (int i = 0; i < m_jobList.count(); i++) {
-        if (m_jobList.at(i)->jobStatus == JOBWORKING || m_jobList.at(i)->jobStatus == JOBWAITING)
+        if (m_jobList.at(i)->status() == JOBWORKING || m_jobList.at(i)->status() == JOBWAITING)
             count ++;
         else {
             // remove finished jobs
             AbstractClipJob *job = m_jobList.takeAt(i);
-            delete job;
+            job->deleteLater();
             i--;
         }
     }
@@ -2982,14 +2982,14 @@ void ProjectList::slotProcessJobs()
         int count = 0;
         m_jobMutex.lock();
         for (int i = 0; i < m_jobList.count(); i++) {
-            if (m_jobList.at(i)->jobStatus == JOBWAITING) {
+            if (m_jobList.at(i)->status() == JOBWAITING) {
                 if (job == NULL) {
-                    m_jobList.at(i)->jobStatus = JOBWORKING;
+                    m_jobList.at(i)->setStatus(JOBWORKING);
                     job = m_jobList.at(i);
                 }
                 count++;
             }
-            else if (m_jobList.at(i)->jobStatus == JOBWORKING)
+            else if (m_jobList.at(i)->status() == JOBWORKING)
                 count ++;
         }
         // Set jobs count
@@ -3033,15 +3033,15 @@ void ProjectList::slotProcessJobs()
 		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int,stringMap,stringMap)));
         }
         job->startJob();
-        if (job->jobStatus == JOBDONE) {
+        if (job->status() == JOBDONE) {
             emit updateJobStatus(job->clipId(), job->jobType, JOBDONE);
             //TODO: replace with more generic clip replacement framework
             if (job->jobType == PROXYJOB) emit gotProxy(job->clipId());
             if (job->addClipToProject()) {
                 emit addClip(destination, QString(), QString());
             }
-        } else if (job->jobStatus == JOBCRASHED || job->jobStatus == JOBABORTED) {
-            emit updateJobStatus(job->clipId(), job->jobType, job->jobStatus, job->errorMessage(), QString(), job->logDetails());
+        } else if (job->status() == JOBCRASHED || job->status() == JOBABORTED) {
+            emit updateJobStatus(job->clipId(), job->jobType, job->status(), job->errorMessage(), QString(), job->logDetails());
         }
     }
     // Thread finished, cleanup & update count
@@ -3345,7 +3345,7 @@ bool ProjectList::hasPendingJob(ProjectItem *item, JOBTYPE type)
     for (int i = 0; i < m_jobList.count(); i++) {
         if (m_abortAllJobs) break;
         job = m_jobList.at(i);
-        if (job->clipId() == item->clipId() && job->jobType == type && (job->jobStatus == JOBWAITING || job->jobStatus == JOBWORKING)) return true;
+        if (job->clipId() == item->clipId() && job->jobType == type && (job->status() == JOBWAITING || job->status() == JOBWORKING)) return true;
     }
     
     return false;
@@ -3437,7 +3437,7 @@ QStringList ProjectList::getPendingJobs(const QString &id)
     QStringList result;
     QMutexLocker lock(&m_jobMutex);
     for (int i = 0; i < m_jobList.count(); i++) {
-        if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->jobStatus == JOBWAITING || m_jobList.at(i)->jobStatus == JOBWORKING)) {
+        if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->status() == JOBWAITING || m_jobList.at(i)->status() == JOBWORKING)) {
             // discard this job
             result << m_jobList.at(i)->description;
         }
@@ -3652,7 +3652,7 @@ void ProjectList::slotClosePopup()
 void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap results, stringMap filterInfo)
 {
     // Currently, only the first value of results is used
-    kDebug()<<"// FILTER RES:\n"<<filterInfo<<"\n--------------\n"<<results;
+    //kDebug()<<"// FILTER RES:\n"<<filterInfo<<"\n--------------\n"<<results;
     ProjectItem *clip = getItemById(id);
     if (!clip) return;
     // Check for return value
