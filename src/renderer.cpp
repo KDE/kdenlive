@@ -386,14 +386,15 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
 
 void Render::seek(GenTime time)
 {
+    if (!m_mltProducer)
+        return;
     int pos = time.frames(m_fps);
     seek(pos);
 }
 
 void Render::seek(int time)
 {
-    if (!m_mltProducer)
-        return;
+    resetZoneMode();
     if (requestedSeekPosition == SEEK_INACTIVE) {
 	requestedSeekPosition = time;
 	m_mltProducer->seek(time);
@@ -1624,7 +1625,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
 
 void Render::resetZoneMode()
 {
-    if (!m_mltProducer || (!m_isZoneMode && !m_isLoopMode)) return;
+    if (!m_isZoneMode && !m_isLoopMode) return;
     m_mltProducer->set("out", m_originalOut);
     //m_mltProducer->set("eof", "pause");
     m_isZoneMode = false;
@@ -1633,12 +1634,16 @@ void Render::resetZoneMode()
 
 void Render::seekToFrame(int pos)
 {
+    if (!m_mltProducer)
+        return;
     resetZoneMode();
     seek(pos);
 }
 
 void Render::seekToFrameDiff(int diff)
 {
+    if (!m_mltProducer)
+        return;
     resetZoneMode();
     if (requestedSeekPosition == SEEK_INACTIVE)
 	seek(m_mltProducer->position() + diff);
