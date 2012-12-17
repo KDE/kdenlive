@@ -1612,8 +1612,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
 {
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer)
-        return;
-    if (!m_isZoneMode) m_originalOut = m_mltProducer->get_playtime() - 1;
+        return; 
     m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_paused = false;
@@ -1626,7 +1625,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
 void Render::resetZoneMode()
 {
     if (!m_isZoneMode && !m_isLoopMode) return;
-    m_mltProducer->set("out", m_originalOut);
+    m_mltProducer->set("out", m_mltProducer->get_length());
     //m_mltProducer->set("eof", "pause");
     m_isZoneMode = false;
     m_isLoopMode = false;
@@ -1865,6 +1864,7 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
     int trackNb = tractor->count();
     int duration = 0;
     int trackDuration;
+    if (m_isZoneMode) resetZoneMode();
     if (trackNb == 1) {
         Mlt::Producer trackProducer(tractor->track(0));
         duration = trackProducer.get_playtime() - 1;

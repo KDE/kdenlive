@@ -351,7 +351,6 @@ private:
     bool m_isZoneMode;
     bool m_isLoopMode;
     GenTime m_loopStart;
-    int m_originalOut;
 
     /** @brief True when the monitor is in split view. */
     bool m_isSplitView;
