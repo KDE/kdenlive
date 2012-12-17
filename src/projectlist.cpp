@@ -948,13 +948,12 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index")) {
+        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index") || properties.contains("full_luma")) {
             slotReloadClip(id);
         } else if (properties.contains("colour") ||
                    properties.contains("xmldata") ||
                    properties.contains("force_aspect_num") ||
                    properties.contains("force_aspect_den") ||
-                   properties.contains("full_luma") ||
                    properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip(id, true);
