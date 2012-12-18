@@ -169,7 +169,7 @@ VideoSurface::VideoSurface(QWidget* parent) :
     setAttribute(Qt::WA_OpaquePaintEvent);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setAttribute(Qt::WA_NoSystemBackground);
-    setUpdatesEnabled(false);
+    //setUpdatesEnabled(false);
 }
 
 void VideoSurface::paintEvent(QPaintEvent *event)

@@ -418,24 +418,24 @@ GenTime Monitor::getSnapForPos(bool previous)
 void Monitor::slotZoneMoved(int start, int end)
 {
     m_ruler->setZone(start, end);
-    checkOverlay();
     setClipZone(m_ruler->zone());
+    checkOverlay();
 }
 
 void Monitor::slotSetZoneStart()
 {
     m_ruler->setZoneStart();
     emit zoneUpdated(m_ruler->zone());
-    checkOverlay();
     setClipZone(m_ruler->zone());
+    checkOverlay();
 }
 
 void Monitor::slotSetZoneEnd()
 {
     m_ruler->setZoneEnd();
     emit zoneUpdated(m_ruler->zone());
-    checkOverlay();
     setClipZone(m_ruler->zone());
+    checkOverlay();
 }
 
 // virtual
@@ -621,7 +621,7 @@ void Monitor::checkOverlay()
 {
     if (m_overlay == NULL) return;
     QString overlayText;
-    int pos = render->seekFramePosition();
+    int pos = m_timePos->getValue();//render->seekFramePosition();
     QPoint zone = m_ruler->zone();
     if (pos == zone.x())
         overlayText = i18n("In Point");
@@ -735,16 +735,16 @@ void Monitor::slotForwardOneFrame(int diff)
 void Monitor::seekCursor(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
-        checkOverlay();
         m_timePos->setValue(pos);
+	checkOverlay();
     }
 }
 
 void Monitor::rendererStopped(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
-        checkOverlay();
         m_timePos->setValue(pos);
+	checkOverlay();
     }
     m_playAction->setIcon(m_playIcon);
 }
@@ -1127,6 +1127,7 @@ Overlay::Overlay(QWidget* parent) :
     setBackgroundRole(QPalette::Base);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     setCursor(Qt::PointingHandCursor);
+
 }
 
 // virtual
@@ -1151,11 +1152,11 @@ void Overlay::mouseDoubleClickEvent ( QMouseEvent * event )
 void Overlay::setOverlayText(const QString &text, bool isZone)
 {
     if (text.isEmpty()) {
-	QPalette p;
+	/*QPalette p;
 	p.setColor(QPalette::Base, KdenliveSettings::window_background());
 	setPalette(p);
 	setText(QString());
-	repaint();
+	repaint();*/
 	setHidden(true);
 	return;
     }
