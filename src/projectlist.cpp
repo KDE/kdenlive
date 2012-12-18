@@ -842,6 +842,7 @@ void ProjectList::slotClipSelected()
                 clip = static_cast <ProjectItem*>(item->parent());
                 if (clip == NULL) kDebug() << "-----------ERROR";
                 SubProjectItem *sub = static_cast <SubProjectItem*>(item);
+		if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
                 emit clipSelected(clip->referencedClip(), sub->zone());
                 m_extractAudioAction->setEnabled(false);
                 m_transcodeAction->setEnabled(false);
@@ -853,6 +854,7 @@ void ProjectList::slotClipSelected()
             clip = static_cast <ProjectItem*>(item);
             if (clip && clip->referencedClip())
                 emit clipSelected(clip->referencedClip());
+	    if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
             m_editButton->defaultAction()->setEnabled(true);
             m_deleteButton->defaultAction()->setEnabled(true);
             m_reloadAction->setEnabled(true);
@@ -1457,7 +1459,9 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
 {
     if (!item) return;
     DocClipBase *clip = item->referencedClip();
-    if (!clip) return;
+    if (!clip) {
+	return;
+    }
     QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
     if (QFile::exists(cachedPixmap)) {
         QPixmap pix(cachedPixmap);
@@ -1577,6 +1581,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                 }
                 if (clip->isPlaceHolder() == false && !hasPendingJob(item, PROXYJOB)) {
                     QDomElement xml = clip->toXML();
+		    getCachedThumbnail(item);
                     if (fpsChanged) {
                         xml.removeAttribute("out");
                         xml.removeAttribute("file_hash");
@@ -1586,8 +1591,8 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                     xml.removeAttribute("_replaceproxy");
                     if (replace) {
                         resetThumbsProducer(clip);
+			m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                     }
-                    m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                 }
                 else if (clip->isPlaceHolder()) {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
