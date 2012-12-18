@@ -134,7 +134,15 @@ void SmallRuler::mousePressEvent(QMouseEvent * event)
 	m_lastSeekPosition = pos;
 	update();
     }
+    event->accept();
 }
+
+// virtual
+void SmallRuler::mouseReleaseEvent(QMouseEvent * event)
+{
+    event->accept();
+}
+
 
 // virtual
 void SmallRuler::leaveEvent(QEvent * event)
@@ -149,7 +157,6 @@ void SmallRuler::leaveEvent(QEvent * event)
 // virtual
 void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
-    QWidget::mouseMoveEvent(event);
     const int pos = event->x() / m_scale;
     if (event->buttons() & Qt::LeftButton) {
 	m_render->seekToFrame(pos);
@@ -174,6 +181,7 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
             setToolTip(i18n("Zone duration: %1", m_manager->timecode().getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
         } else setToolTip(i18n("Position: %1", m_manager->timecode().getTimecodeFromFrames(pos)));
     }
+    event->accept();
 }
 
 void SmallRuler::refreshRuler()

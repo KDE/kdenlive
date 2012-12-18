@@ -106,6 +106,7 @@ protected:
     virtual void wheelEvent(QWheelEvent * event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual QStringList mimeTypes() const;
+   
     /*virtual void dragMoveEvent(QDragMoveEvent * event);
     virtual Qt::DropActions supportedDropActions() const;*/
 

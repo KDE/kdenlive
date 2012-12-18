@@ -470,8 +470,9 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
             if (isActive()) slotPlay();
             else slotActivateMonitor();
         } //else event->ignore(); //QWidget::mouseReleaseEvent(event);
-        m_dragStarted = false;
     }
+    m_dragStarted = false;
+    event->accept();
 }
 
 // virtual
@@ -500,15 +501,16 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         drag->setPixmap(pix);
         drag->setHotSpot(QPoint(0, 50));*/
         drag->start(Qt::MoveAction);
-
-        //Qt::DropAction dropAction;
-        //dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);
+	/*Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
+        Qt::DropAction dropAction;
+        dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);*/
 
         //Qt::DropAction dropAction = drag->exec();
 
     }
     //event->accept();
 }
+
 
 /*void Monitor::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
