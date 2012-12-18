@@ -99,6 +99,7 @@ static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_
 	self->pause();
 	self->emitConsumerStopped();
     }
+    else if (frame.get_double("_speed") == 0) self->emitConsumerStopped();
     self->showFrame(frame);
 }
 
@@ -263,8 +264,8 @@ void Render::buildConsumer(const QString &profileName)
     } else {
         if (!m_mltConsumer) {
 	    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
-	  m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-	  m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
+	    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+	    m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
 	}
 	m_mltConsumer->set("window_id", m_winid);
     }
@@ -1814,6 +1815,7 @@ void Render::slotCheckSeeking()
 	if (m_paused) {
 	    refresh();
 	}
+	requestedSeekPosition = SEEK_INACTIVE;
     }
 }
 
