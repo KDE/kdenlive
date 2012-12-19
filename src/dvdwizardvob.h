@@ -122,7 +122,6 @@ public:
 private:
     Ui::DvdWizardVob_UI m_view;
     DvdTreeWidget *m_vobList;
-    QString m_errorMessage;
     KCapacityBar *m_capacityBar;
     QAction *m_transcodeAction;
     bool m_installCheck;

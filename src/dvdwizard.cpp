@@ -219,7 +219,6 @@ void DvdWizard::generateDvd()
     QListWidgetItem *images =  m_status.job_progress->item(0);
     m_status.job_progress->setCurrentRow(0);
     images->setIcon(KIcon("system-run"));
-    qApp->processEvents();
     m_status.error_log->clear();
     // initialize html content
     m_status.error_log->setText("<html></html>");
@@ -269,6 +268,7 @@ void DvdWizard::generateDvd()
 	    //kDebug()<<"// STARTING MENU JOB, image: "<<m_menuImageBackground.fileName()<<"\n-------------";
 	}
     }
+    else processDvdauthor();
 }
 
 void DvdWizard::processSpumux()
@@ -463,7 +463,11 @@ void DvdWizard::processSpumux()
 
     spuitem->setIcon(KIcon("dialog-ok"));
     kDebug() << "/// DONE: " << menuMovieUrl;
+    processDvdauthor(menuMovieUrl, buttons, buttonsTarget);
+}
 
+void DvdWizard::processDvdauthor(QString menuMovieUrl, QMap <QString, QRect> buttons, QStringList buttonsTarget)
+{
     // create dvdauthor xml
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     m_status.job_progress->setCurrentRow(3);
@@ -604,7 +608,7 @@ void DvdWizard::processSpumux()
     kDebug() << dvddoc.toString();
     kDebug() << "------------------";*/
 
-    args.clear();
+    QStringList args;
     args << "-x" << m_authorFile.fileName();
     kDebug() << "// DVDAUTH ARGS: " << args;
     if (m_dvdauthor) {
@@ -617,7 +621,7 @@ void DvdWizard::processSpumux()
     m_dvdauthor = new QProcess(this);
     // Set VIDEO_FORMAT variable (required by dvdauthor 0.7)
 #if QT_VERSION >= 0x040600
-    env = QProcessEnvironment::systemEnvironment();
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("VIDEO_FORMAT", m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC"); 
     m_dvdauthor->setProcessEnvironment(env);
 #else

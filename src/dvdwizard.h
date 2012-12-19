@@ -73,6 +73,7 @@ private:
     QMenu *m_burnMenu;
     void errorMessage(const QString &text);
     void infoMessage(const QString &text);
+    void processDvdauthor(QString menuMovieUrl = QString(), QMap <QString, QRect> buttons = QMap <QString, QRect>(), QStringList buttonsTarget = QStringList());
 
 private slots:
     void slotPageChanged(int page);
