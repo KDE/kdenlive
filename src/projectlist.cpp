@@ -2948,8 +2948,9 @@ void ProjectList::slotCheckJobProcess()
             }
     }
     if (m_jobList.isEmpty()) return;
-    int count = 0;
+
     m_jobMutex.lock();
+    int count = 0;
     for (int i = 0; i < m_jobList.count(); i++) {
         if (m_jobList.at(i)->status() == JOBWORKING || m_jobList.at(i)->status() == JOBWAITING)
             count ++;
@@ -2960,10 +2961,8 @@ void ProjectList::slotCheckJobProcess()
             i--;
         }
     }
-
-    emit jobCount(count);
+    emit jobCount(count);    
     m_jobMutex.unlock();
-    
     if (m_jobThreads.futures().isEmpty() || m_jobThreads.futures().count() < KdenliveSettings::proxythreads()) m_jobThreads.addFuture(QtConcurrent::run(this, &ProjectList::slotProcessJobs));
 }
 
@@ -3032,7 +3031,7 @@ void ProjectList::slotProcessJobs()
             MeltJob *jb = static_cast<MeltJob *> (job);
             jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
 	    if (jb->isProjectFilter())
-	      connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int, int,stringMap,stringMap)));
+		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int, int,stringMap,stringMap)));
 	    else
 		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int,stringMap,stringMap)));
         }
@@ -3600,9 +3599,10 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
         job->description = description;
         m_jobList.append(job);
         setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
+	slotCheckJobProcess();
     }
-    slotCheckJobProcess();
 }
+   
 
 void ProjectList::slotPrepareJobsMenu()
 {
@@ -3659,6 +3659,7 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     //kDebug()<<"// FILTER RES:\n"<<filterInfo<<"\n--------------\n"<<results;
     ProjectItem *clip = getItemById(id);
     if (!clip) return;
+
     // Check for return value
     int markersType = -1;
     if (filterInfo.contains("addmarkers")) markersType = filterInfo.value("addmarkers").toInt();

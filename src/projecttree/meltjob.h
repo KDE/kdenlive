@@ -56,7 +56,10 @@ public:
     
 private:
     Mlt::Consumer *m_consumer;
+    Mlt::Producer *m_producer;
     Mlt::Profile *m_profile;
+    Mlt::Filter *m_filter;
+    Mlt::Event *m_showFrameEvent;
     QStringList m_params;
     QString m_dest;
     QString m_url;
