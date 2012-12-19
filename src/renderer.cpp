@@ -257,6 +257,7 @@ void Render::buildConsumer(const QString &profileName)
         // OpenGL monitor
         if (!m_mltConsumer) {
 	    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
+	    m_mltConsumer->set("scrub_audio", 1);
 	    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
 	}
         m_mltConsumer->set("preview_off", 1);
