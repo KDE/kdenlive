@@ -764,8 +764,8 @@ QDomElement DvdWizardMenu::toXml() const
             xmlbutton.setAttribute("target", button->target());
             xmlbutton.setAttribute("command", button->command());
             xmlbutton.setAttribute("backtomenu", button->backMenu());
-            xmlbutton.setAttribute("posx", button->pos().x());
-            xmlbutton.setAttribute("posy", button->pos().y());
+            xmlbutton.setAttribute("posx", (int) button->pos().x());
+            xmlbutton.setAttribute("posy", (int) button->pos().y());
             xmlbutton.setAttribute("text", button->toPlainText());
             QFont font = button->font();
             xmlbutton.setAttribute("font_size", font.pixelSize());
@@ -838,7 +838,7 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, QDomElement xml)
         button->setDefaultTextColor(m_view.text_color->color());
         button->setZValue(4);
         m_scene->addItem(button);
-        button->setPos(e.attribute("posx").toDouble(), e.attribute("posy").toDouble());
+        button->setPos(e.attribute("posx").toInt(), e.attribute("posy").toInt());
 
     }
 }
