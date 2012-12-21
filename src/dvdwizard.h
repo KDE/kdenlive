@@ -65,7 +65,9 @@ private:
     QString m_creationLog;
     QListWidgetItem *m_vobitem;
     KTemporaryFile m_selectedImage;
+    KTemporaryFile m_selectedLetterImage;
     KTemporaryFile m_highlightedImage;
+    KTemporaryFile m_highlightedLetterImage;
     KTemporaryFile m_menuVideo;
     KTemporaryFile m_menuFinalVideo;
     KTemporaryFile m_menuImageBackground;
