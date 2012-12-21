@@ -1581,7 +1581,8 @@ void Render::switchPlay(bool play)
         m_mltConsumer->set("refresh", 1);
     } else if (!play) {
 	m_paused = true;
-	m_mltProducer->pause();
+	m_mltProducer->set_speed(0.0);
+	//m_mltProducer->pause();
     }
 }
 
