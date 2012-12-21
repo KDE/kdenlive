@@ -265,7 +265,6 @@ void Render::buildConsumer(const QString &profileName)
 		    if (m_mltConsumer) {
 			m_mltConsumer->set("terminate_on_pause", 0);
 			m_mltConsumer->set("deinterlace_method", "onefield");
-			m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
 			m_externalConsumer = true;
 		    }
 		}
@@ -274,6 +273,7 @@ void Render::buildConsumer(const QString &profileName)
 		m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
 		m_mltConsumer->set("scrub_audio", 1);
 		m_mltConsumer->set("preview_off", 1);
+		m_mltConsumer->set("audio_buffer", 512);
 		m_mltConsumer->set("preview_format", mlt_image_rgb24a);
 	    }
 	    m_mltConsumer->set("buffer", "1");
@@ -288,7 +288,7 @@ void Render::buildConsumer(const QString &profileName)
 	}
 	m_mltConsumer->set("window_id", m_winid);
     }
-    m_mltConsumer->set("resize", 1);
+    //m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
     m_mltConsumer->set("rescale", "nearest");
     mlt_log_set_callback(kdenlive_callback);
@@ -311,7 +311,6 @@ void Render::buildConsumer(const QString &profileName)
     if (!audioDriver.isEmpty())
         m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
 
-    m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
     m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
 }
