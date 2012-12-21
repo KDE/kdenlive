@@ -173,7 +173,7 @@ Q_OBJECT public:
 
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber();
-    void emitConsumerStopped();
+    void emitConsumerStopped(bool forcePause = false);
 
     /** @brief Returns the aspect ratio of the consumer. */
     double consumerRatio() const;
@@ -323,8 +323,8 @@ Q_OBJECT public:
     void unlockService(Mlt::Tractor *tractor);
     const QString activeClipId();
     /** @brief Fill a combobox with the found blackmagic devices */
-    static bool getBlackMagicDeviceList(KComboBox *devicelist);
-    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist);
+    static bool getBlackMagicDeviceList(KComboBox *devicelist, bool force = false);
+    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
     /** @brief Frame rendering is handeled by Kdenlive, don't show video through SDL display */
     void disablePreview(bool disable);
     int requestedSeekPosition;

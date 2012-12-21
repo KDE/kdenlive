@@ -30,10 +30,6 @@
 #include "slideshowclip.h"
 #include "profilesdialog.h"
 
-#ifdef USE_BLACKMAGIC
-#include "blackmagic/devices.h"
-#endif
-
 #include <mlt++/Mlt.h>
 
 #include <KDebug>
@@ -77,29 +73,36 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     if (self->analyseAudio) {
         self->showAudio(frame);
     }
-    if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
+    if (frame.get_double("_speed") == 0) self->emitConsumerStopped();
+    else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
         self->pause();
-        self->emitConsumerStopped();
+        self->emitConsumerStopped(true);
     }
 }
 
-
-static void consumer_paused(mlt_consumer, Render * self, mlt_frame /*frame_ptr*/)
+/*
+static void consumer_paused(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
-    self->emitConsumerStopped();
-}
+    Mlt::Frame frame(frame_ptr);
+    if (!frame.is_valid()) return;
+    if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
+        self->pause();
+        self->emitConsumerStopped(true);
+    }
+    else self->emitConsumerStopped();
+}*/
 
 
 static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
     Mlt::Frame frame(frame_ptr);
-    if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
+    if (frame.get_double("_speed") == 0) self->emitConsumerStopped();
+    else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
 	self->pause();
-	self->emitConsumerStopped();
+	self->emitConsumerStopped(true);
     }
-    else if (frame.get_double("_speed") == 0) self->emitConsumerStopped();
     self->showFrame(frame);
 }
 
@@ -215,30 +218,27 @@ void Render::buildConsumer(const QString &profileName)
     m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");
     m_blackClip->set("id", "black");
     m_blackClip->set("mlt_type", "producer");
-
-    if (KdenliveSettings::external_display() && m_name != Kdenlive::clipMonitor) {
-#ifdef USE_BLACKMAGIC
+    if (KdenliveSettings::external_display() && m_name != Kdenlive::clipMonitor && m_winid != 0) {
         // Use blackmagic card for video output
-        QMap< QString, QString > profileProperties = ProfilesDialog::getSettingsFromFile(profileName);
         int device = KdenliveSettings::blackmagic_output_device();
         if (device >= 0) {
-            if (BMInterface::isSupportedProfile(device, profileProperties)) {
-                QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
-                if (!m_mltConsumer) {
-		    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
-		    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-		    mlt_log_set_callback(kdenlive_callback);
-		}
-                if (m_mltConsumer->is_valid()) {
-                    m_externalConsumer = true;
-                    m_mltConsumer->set("terminate_on_pause", 0);
-                    m_mltConsumer->set("deinterlace_method", "onefield");
-                    m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
-                }
-                if (m_mltConsumer && m_mltConsumer->is_valid()) return;
-            } else KMessageBox::informationList(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()), BMInterface::supportedModes(KdenliveSettings::blackmagic_output_device()));
+            QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
+            if (!m_mltConsumer) {
+		m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
+		m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+		mlt_log_set_callback(kdenlive_callback);
+	    }
+            if (m_mltConsumer->is_valid()) {
+		m_externalConsumer = true;
+                m_mltConsumer->set("terminate_on_pause", 0);
+                m_mltConsumer->set("deinterlace_method", "onefield");
+		m_mltConsumer->set("rescale", "nearest");
+		m_mltConsumer->set("buffer", "1");
+                m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
+            }
+            if (m_mltConsumer && m_mltConsumer->is_valid()) return;
+            KMessageBox::information(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()));
         }
-#endif
     }
     m_externalConsumer = false;
     QString videoDriver = KdenliveSettings::videodrivername();
@@ -256,22 +256,39 @@ void Render::buildConsumer(const QString &profileName)
     if (m_winid == 0) {
         // OpenGL monitor
         if (!m_mltConsumer) {
-	    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
-	    m_mltConsumer->set("scrub_audio", 1);
+	    if (KdenliveSettings::external_display() && m_name != Kdenlive::clipMonitor) {
+		int device = KdenliveSettings::blackmagic_output_device();
+		if (device >= 0) {
+		    QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
+		    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
+		    // Set defaults for decklink consumer
+		    if (m_mltConsumer) {
+			m_mltConsumer->set("terminate_on_pause", 0);
+			m_mltConsumer->set("deinterlace_method", "onefield");
+			m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
+			m_externalConsumer = true;
+		    }
+		}
+	    }
+	    if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
+		m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
+		m_mltConsumer->set("scrub_audio", 1);
+		m_mltConsumer->set("preview_off", 1);
+		m_mltConsumer->set("preview_format", mlt_image_rgb24a);
+	    }
+	    m_mltConsumer->set("buffer", "1");
 	    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
 	}
-        m_mltConsumer->set("preview_off", 1);
-        m_mltConsumer->set("preview_format", mlt_image_rgb24a);
     } else {
         if (!m_mltConsumer) {
 	    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
 	    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-	    m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
+	    //m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
+	    m_mltConsumer->set("progressive", 1);
 	}
 	m_mltConsumer->set("window_id", m_winid);
     }
     m_mltConsumer->set("resize", 1);
-    m_mltConsumer->set("terminate_on_pause", 1);
     m_mltConsumer->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
     m_mltConsumer->set("rescale", "nearest");
     mlt_log_set_callback(kdenlive_callback);
@@ -294,7 +311,6 @@ void Render::buildConsumer(const QString &profileName)
     if (!audioDriver.isEmpty())
         m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
 
-    m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
     m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
@@ -401,7 +417,7 @@ void Render::seek(int time)
 	requestedSeekPosition = time;
 	m_mltProducer->seek(time);
 	//m_mltConsumer->purge();
-	if (m_paused) {
+	if (m_paused && !m_externalConsumer) {
 	    refresh();
 	}
     }
@@ -1543,9 +1559,9 @@ void Render::pause()
         return;
     m_paused = true;
     m_mltProducer->set_speed(0.0);
-    m_mltConsumer->set("refresh", 0);
-    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-    m_mltProducer->seek(m_mltConsumer->position());
+    /*m_mltConsumer->set("refresh", 0);
+    //if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+    m_mltProducer->seek(m_mltConsumer->position());*/
 }
 
 void Render::switchPlay(bool play)
@@ -1558,17 +1574,14 @@ void Render::switchPlay(bool play)
     if (play && m_paused) {
         if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
 	m_paused = false;
+	m_mltProducer->set_speed(1.0);
         if (m_mltConsumer->is_stopped()) {
             m_mltConsumer->start();
         }
-        m_mltProducer->set_speed(1.0);
         m_mltConsumer->set("refresh", 1);
     } else if (!play) {
 	m_paused = true;
-        m_mltProducer->set_speed(0.0);
-        m_mltConsumer->set("refresh", 0);
-	if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-        m_mltProducer->seek(m_mltConsumer->position());
+	m_mltProducer->pause();
     }
 }
 
@@ -1576,7 +1589,7 @@ void Render::play(double speed)
 {
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer) return;
-    double current_speed = m_mltProducer->get_speed(); 
+    double current_speed = m_mltProducer->get_speed();
     if (current_speed == speed) return;
     if (m_isZoneMode) resetZoneMode();
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
@@ -1668,7 +1681,6 @@ void Render::refresh()
         return;
     if (m_mltConsumer) {
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
-	m_paused = false;
         //m_mltConsumer->purge();
         m_mltConsumer->set("refresh", 1);
     }
@@ -1744,10 +1756,10 @@ void Render::emitFrameNumber()
     }
 }
 
-void Render::emitConsumerStopped()
+void Render::emitConsumerStopped(bool forcePause)
 {
     // This is used to know when the playing stopped
-    if (m_mltProducer) {
+    if (m_mltProducer && (forcePause || (!m_paused && m_mltProducer->get_speed() == 0))) {
         double pos = m_mltProducer->position();
 	m_paused = true;
         if (m_isLoopMode) play(m_loopStart);
@@ -4538,9 +4550,9 @@ const QString Render::activeClipId()
 }
 
 //static 
-bool Render::getBlackMagicDeviceList(KComboBox *devicelist)
+bool Render::getBlackMagicDeviceList(KComboBox *devicelist, bool force)
 {
-    if (!KdenliveSettings::decklink_device_found()) return false;
+    if (!force && !KdenliveSettings::decklink_device_found()) return false;
     Mlt::Profile profile;
     Mlt::Producer bm(profile, "decklink");
     int found_devices = 0;
@@ -4553,6 +4565,7 @@ bool Render::getBlackMagicDeviceList(KComboBox *devicelist)
 	devicelist->setEnabled(false);
 	return false;
     }
+    KdenliveSettings::setDecklink_device_found(true);
     for (int i = 0; i < found_devices; i++) {
 	char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
 	devicelist->addItem(bm.get(tmp));
@@ -4561,14 +4574,14 @@ bool Render::getBlackMagicDeviceList(KComboBox *devicelist)
     return true;
 }
 
-bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist)
+bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force)
 {
-    if (!KdenliveSettings::decklink_device_found()) return false;
+    if (!force && !KdenliveSettings::decklink_device_found()) return false;
     Mlt::Profile profile;
     Mlt::Consumer bm(profile, "decklink");
     int found_devices = 0;
     if (bm.is_valid()) {
-	bm.set("list_devices", 1);
+	bm.set("list_devices", 1);;
 	found_devices = bm.get_int("devices");
     }
     else KdenliveSettings::setDecklink_device_found(false);
@@ -4576,6 +4589,7 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist)
 	devicelist->setEnabled(false);
 	return false;
     }
+    KdenliveSettings::setDecklink_device_found(true);
     for (int i = 0; i < found_devices; i++) {
 	char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
 	devicelist->addItem(bm.get(tmp));

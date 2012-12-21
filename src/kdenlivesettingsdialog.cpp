@@ -189,6 +189,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
+    m_configSdl.reload_blackmagic->setIcon(KIcon("view-refresh"));
+    connect(m_configSdl.reload_blackmagic, SIGNAL(clicked(bool)), this, SLOT(slotReloadBlackMagic()));
 
 #ifndef USE_OPENGL
     m_configSdl.kcfg_openglmonitors->setHidden(true);
@@ -1109,7 +1111,15 @@ void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
     delete w;
 }
 
-
+void KdenliveSettingsDialog::slotReloadBlackMagic()
+{
+    Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice, true);
+    if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device), true) {
+        // No blackmagic card found
+	m_configSdl.kcfg_external_display->setEnabled(false);
+    }
+    m_configSdl.kcfg_external_display->setEnabled(KdenliveSettings::decklink_device_found());
+}
 #include "kdenlivesettingsdialog.moc"
 
 
