@@ -574,7 +574,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, QMap <QString, QString>
             if (type->name().startsWith("image/")) {
                 prod.setAttribute("type", (int) IMAGE);
                 prod.setAttribute("in", 0);
-                prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()));
+                prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
                 if (KdenliveSettings::autoimagetransparency()) prod.setAttribute("transparency", 1);
                 // Read EXIF metadata for JPEG
                 if (type->is("image/jpeg")) {
@@ -612,7 +612,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, QMap <QString, QString>
                     if (out > 0)
                         prod.setAttribute("out", out);
                     else
-                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()));
+                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
                 } else
                     txtfile.close();
             }
@@ -659,7 +659,7 @@ void ClipManager::slotAddColorClipFile(const QString &name, const QString &color
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(duration));
+    prod.setAttribute("out", m_doc->getFramePos(duration) - 1);
     prod.setAttribute("name", name);
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);

@@ -90,7 +90,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     } else {
         int out = xml.attribute("out").toInt();
         int in = xml.attribute("in").toInt();
-        setDuration(GenTime(out - in, KdenliveSettings::project_fps()));
+        setDuration(GenTime(out - in + 1, KdenliveSettings::project_fps()));
     }
 
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
@@ -1084,8 +1084,10 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     if (key == "resource") {
         getFileHash(value);
         if (m_thumbProd) m_thumbProd->updateClipUrl(KUrl(value), m_properties.value("file_hash"));
-    } else if (key == "out") setDuration(GenTime(value.toInt(), KdenliveSettings::project_fps()));
     //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
+    } else if (key == "out") {
+	setDuration(GenTime(value.toInt() + 1, KdenliveSettings::project_fps()));
+    }
     else if (key == "colour") {
         setProducerProperty("colour", value.toUtf8().data());
     } else if (key == "templatetext") {
@@ -1317,7 +1319,7 @@ const QString DocClipBase::geometryWithOffset(QString data, int offset)
     if (offset == 0) return data;
     Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
     Mlt::Geometry geometry(data.toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
-    Mlt::Geometry newgeometry("", m_properties.value("duration").toInt(), profile->width(), profile->height());
+    Mlt::Geometry newgeometry(NULL, m_properties.value("duration").toInt(), profile->width(), profile->height());
     Mlt::GeometryItem item;
     int pos = 0;
     while (!geometry.next_key(&item, pos)) {

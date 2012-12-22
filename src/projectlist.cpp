@@ -715,10 +715,11 @@ void ProjectList::slotReloadClip(const QString &id)
             QDomElement e = item->toXml();
             // Make sure we get the correct producer length if it was adjusted in timeline
             if (t == COLOR || t == IMAGE || t == SLIDESHOW || t == TEXT) {
-                int length = QString(clip->producerProperty("length")).toInt();
-                if (length > 0 && !e.hasAttribute("length")) {
-                    e.setAttribute("length", length);
-                }
+		int length = QString(clip->producerProperty("length")).toInt();
+		if (length > 0 && !e.hasAttribute("length")) {
+		    e.setAttribute("length", length);
+		}
+		e.setAttribute("duration", clip->getProperty("duration"));
             }
             resetThumbsProducer(clip);
             m_render->getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);

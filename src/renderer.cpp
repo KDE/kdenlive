@@ -815,9 +815,17 @@ void Render::processFileProperties()
                 length = info.xml.attribute("length").toInt();
                 clipOut = length - 1;
             }
-            else length = info.xml.attribute("out").toInt() - info.xml.attribute("in").toInt();
-            producer->set("length", length);
-	    duration = length;
+            else length = info.xml.attribute("out").toInt() - info.xml.attribute("in").toInt() + 1;
+	    // Pass duration if it was forced
+	    if (info.xml.hasAttribute("duration")) {
+		duration = info.xml.attribute("duration").toInt();
+		if (length < duration) {
+		    length = duration;
+		    if (clipOut > 0) clipOut = length - 1;
+		}
+	    }
+	    if (duration == 0) duration = length;
+	    producer->set("length", length);
         }
 
         if (clipOut > 0) producer->set_in_and_out(info.xml.attribute("in").toInt(), clipOut);
@@ -1590,7 +1598,6 @@ void Render::switchPlay(bool play)
     } else if (!play) {
 	m_paused = true;
 	m_mltProducer->set_speed(0.0);
-	//m_mltProducer->pause();
     }
 }
 

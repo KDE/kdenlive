@@ -74,6 +74,7 @@ void ProjectItem::buildItem(QSize pixmapSize)
 	default:
 	    setData(0, Qt::DecorationRole, KIcon("video-x-generic").pixmap(pixmapSize));
     }
+    if (m_clipType != UNKNOWN) slotSetToolTip();
     
     setText(0, name);
     setText(1, m_clip->description());
