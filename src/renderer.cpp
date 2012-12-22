@@ -61,7 +61,8 @@ static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list
 }
 
 
-static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
+//static 
+void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
     self->emitFrameNumber();
@@ -93,29 +94,34 @@ static void consumer_paused(mlt_consumer, Render * self, mlt_frame frame_ptr)
     else self->emitConsumerStopped();
 }*/
 
-
-static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
+// static
+void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
+    if (self->externalConsumer && !self->analyseAudio && !self->sendFrameForAnalysis) {
+	emit self->rendererPosition((int) mlt_consumer_position(consumer));
+	return;
+    }
     Mlt::Frame frame(frame_ptr);
     if (frame.get_double("_speed") == 0) self->emitConsumerStopped();
     else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
 	self->pause();
 	self->emitConsumerStopped(true);
     }
-    self->showFrame(frame);
+    emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
 }
 
 Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWidget *parent) :
     AbstractRender(rendererName, parent),
     requestedSeekPosition(SEEK_INACTIVE),
+    showFrameSemaphore(1),
+    externalConsumer(false),
     m_name(rendererName),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
     m_mltProfile(NULL),
     m_showFrameEvent(NULL),
     m_pauseEvent(NULL),
-    m_externalConsumer(false),
     m_isZoneMode(false),
     m_isLoopMode(false),
     m_isSplitView(false),
@@ -135,6 +141,7 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(this, SIGNAL(multiStreamFound(const QString &,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(const QString &,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
+    connect(this, SIGNAL(mltFrameReceived(Mlt::Frame *)), this, SLOT(showFrame(Mlt::Frame *)), Qt::UniqueConnection);
 }
 
 Render::~Render()
@@ -229,18 +236,20 @@ void Render::buildConsumer(const QString &profileName)
 		mlt_log_set_callback(kdenlive_callback);
 	    }
             if (m_mltConsumer->is_valid()) {
-		m_externalConsumer = true;
+		externalConsumer = true;
                 m_mltConsumer->set("terminate_on_pause", 0);
                 m_mltConsumer->set("deinterlace_method", "onefield");
 		m_mltConsumer->set("rescale", "nearest");
 		m_mltConsumer->set("buffer", "1");
                 m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
             }
-            if (m_mltConsumer && m_mltConsumer->is_valid()) return;
+            if (m_mltConsumer && m_mltConsumer->is_valid()) {
+		return;
+	    }
             KMessageBox::information(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()));
         }
     }
-    m_externalConsumer = false;
+    externalConsumer = false;
     QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
         if (videoDriver == "x11_noaccel") {
@@ -265,7 +274,7 @@ void Render::buildConsumer(const QString &profileName)
 		    if (m_mltConsumer) {
 			m_mltConsumer->set("terminate_on_pause", 0);
 			m_mltConsumer->set("deinterlace_method", "onefield");
-			m_externalConsumer = true;
+			externalConsumer = true;
 		    }
 		}
 	    }
@@ -341,7 +350,7 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
 {
     m_refreshTimer.stop();
     if (m_mltConsumer) {
-        if (m_externalConsumer == KdenliveSettings::external_display()) {
+        if (externalConsumer == KdenliveSettings::external_display()) {
             if (KdenliveSettings::external_display() && m_activeProfile == profileName) return 1;
             QString videoDriver = KdenliveSettings::videodrivername();
             QString currentDriver = m_mltConsumer->get("video_driver");
@@ -416,7 +425,7 @@ void Render::seek(int time)
 	requestedSeekPosition = time;
 	m_mltProducer->seek(time);
 	//m_mltConsumer->purge();
-	if (m_paused && !m_externalConsumer) {
+	if (m_paused && !externalConsumer) {
 	    refresh();
 	}
     }
@@ -1800,24 +1809,26 @@ void Render::exportCurrentFrame(KUrl url, bool /*notify*/)
 }
 
 
-void Render::showFrame(Mlt::Frame& frame)
+void Render::showFrame(Mlt::Frame* frame)
 {
     int currentPos = m_mltConsumer->position();
     if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
     emit rendererPosition(currentPos);
-    if (frame.is_valid()) {
+    if (frame->is_valid()) {
 	mlt_image_format format = mlt_image_rgb24a;
 	int width = 0;
 	int height = 0;
-	const uchar* image = frame.get_image(format, width, height);
+	const uchar* image = frame->get_image(format, width, height);
 	QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
 	memcpy(qimage.scanLine(0), image, width * height * 4);
+	if (analyseAudio) showAudio(*frame);
+	delete frame;
 	emit showImageSignal(qimage);
-	if (analyseAudio) showAudio(frame);
-	if (sendFrameForAnalysis && frame.get_frame()->convert_image) {
+	if (sendFrameForAnalysis) {
 	    emit frameUpdated(qimage.rgbSwapped());
 	}
-    }
+    } else delete frame;
+    showFrameSemaphore.release();
     emit checkSeeking();
 }
 
@@ -1847,6 +1858,7 @@ void Render::showAudio(Mlt::Frame& frame)
     if (!frame.is_valid() || frame.get_int("test_audio") != 0) {
         return;
     }
+
     mlt_audio_format audio_format = mlt_audio_s16;
     //FIXME: should not be hardcoded..
     int freq = 48000;

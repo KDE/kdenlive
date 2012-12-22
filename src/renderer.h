@@ -44,6 +44,7 @@
 #include <QEvent>
 #include <QMutex>
 #include <QFuture>
+#include <QSemaphore>
 
 class QTimer;
 class QPixmap;
@@ -294,7 +295,6 @@ Q_OBJECT public:
     void updatePreviewSettings();
     void setDropFrames(bool show);
     QString updateSceneListFps(double current_fps, double new_fps, QString scene);
-    void showFrame(Mlt::Frame&);
 
     void showAudio(Mlt::Frame&);
     
@@ -328,7 +328,13 @@ Q_OBJECT public:
     /** @brief Frame rendering is handeled by Kdenlive, don't show video through SDL display */
     void disablePreview(bool disable);
     int requestedSeekPosition;
+    QSemaphore showFrameSemaphore;
+    bool externalConsumer;
 
+protected:
+    static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    
 private:
 
     /** @brief The name of this renderer.
@@ -342,7 +348,6 @@ private:
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
     double m_fps;
-    bool m_externalConsumer;
 
     /** @brief True if we are playing a zone.
      *
@@ -402,7 +407,7 @@ private slots:
     void processFileProperties();
     /** @brief A clip with multiple video streams was found, ask what to do. */
     void slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data);
-
+    void showFrame(Mlt::Frame *);
     void slotCheckSeeking();
 
 signals:
@@ -446,9 +451,10 @@ signals:
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
-    void showAudioSignal(const QByteArray &);
+    void showAudioSignal(const QVector<double> &);
     void addClip(const KUrl &, stringMap);
     void checkSeeking();
+    void mltFrameReceived(Mlt::Frame *);
 
 public slots:
 
