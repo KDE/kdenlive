@@ -91,12 +91,12 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     
     m_vobList->setIconSize(QSize(60, 45));
 
-    if (KStandardDirs::findExe("dvdauthor").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
-    if (KStandardDirs::findExe("mkisofs").isEmpty() && KStandardDirs::findExe("genisoimage").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
-    if (m_errorMessage.isEmpty()) m_view.error_message->setVisible(false);
-    else {
-	m_view.error_message->setText(m_errorMessage);
-	m_installCheck = false;
+    QString errorMessage;
+    if (KStandardDirs::findExe("dvdauthor").isEmpty()) errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
+    if (KStandardDirs::findExe("mkisofs").isEmpty() && KStandardDirs::findExe("genisoimage").isEmpty()) errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
+    if (!errorMessage.isEmpty()) {
+	m_view.button_add->setEnabled(false);
+	m_view.dvd_profile->setEnabled(false);
     }
 
     m_view.dvd_profile->addItems(QStringList() << i18n("PAL 4:3") << i18n("PAL 16:9") << i18n("NTSC 4:3") << i18n("NTSC 16:9"));
@@ -118,17 +118,27 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
 
 #if KDE_IS_VERSION(4,7,0)
     m_warnMessage = new KMessageWidget;
-    m_warnMessage->setMessageType(KMessageWidget::Warning);
-    m_warnMessage->setText(i18n("Your clips do not match selected DVD format, transcoding required."));
     m_warnMessage->setCloseButtonVisible(false);
-    m_warnMessage->addAction(m_transcodeAction);
     QGridLayout *s =  static_cast <QGridLayout*> (layout());
     s->addWidget(m_warnMessage, 2, 0, 1, -1);
-    m_warnMessage->hide();
+    if (!errorMessage.isEmpty()) {
+	m_warnMessage->setMessageType(KMessageWidget::Error);
+	m_warnMessage->setText(errorMessage);
+	m_installCheck = false;
+    }else {
+	m_warnMessage->setMessageType(KMessageWidget::Warning);
+	m_warnMessage->setText(i18n("Your clips do not match selected DVD format, transcoding required."));
+	m_warnMessage->addAction(m_transcodeAction);
+	m_warnMessage->hide();
+    }
     m_view.button_transcode->setHidden(true);
 #else
     m_view.button_transcode->setDefaultAction(m_transcodeAction);
     m_view.button_transcode->setEnabled(false);
+    if (!errorMessage.isEmpty()) {
+	m_view.error_message->setText(errorMessage);
+	m_installCheck = false;
+    }
 #endif
     
     slotCheckVobList();

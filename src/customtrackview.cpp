@@ -236,6 +236,8 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
     for (int i = 0; i < list.count(); i++) {
         if (list.at(i)->data().toString() == "paste_effects") m_pasteEffectsAction = list.at(i);
         else if (list.at(i)->data().toString() == "ungroup_clip") m_ungroupAction = list.at(i);
+	else if (list.at(i)->data().toString() == "A") m_audioActions.append(list.at(i));
+	else if (list.at(i)->data().toString() == "A+V") m_avActions.append(list.at(i));
     }
 
     m_timelineContextTransitionMenu = transition;
@@ -774,7 +776,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     m_dragGuide = NULL;
 
     if (m_tool != RAZORTOOL) activateMonitor();
-    else if (m_document->renderer()->playSpeed() != 0.0) {
+    else if (m_document->renderer()->isPlaying()) {
         m_document->renderer()->pause();
         return;
     }
@@ -1265,6 +1267,7 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
     QSet <QGraphicsItem *> itemsList;
 
     for (int i = 0; i < selection.count(); i++) {
+	if (selectNewGroup) selection.at(i)->setSelected(true);
 	if (selection.at(i)->type() == GROUPWIDGET) {
 	    groupsList.insert(static_cast<AbstractGroupItem*> (selection.at(i)));
 	}
@@ -2376,8 +2379,12 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
         m_document->updateClip(item->baseClip()->getId());
         setDocumentModified();
         KdenliveSettings::setSnaptopoints(snap);
-        if (execute && item->isSelected())
-            emit clipItemSelected(item);
+        if (execute && item->isSelected()) {
+	    m_scene->clearSelection();
+	    dup->setSelected(true);
+	    m_dragItem = dup;
+            emit clipItemSelected(dup);
+	}
         return dup;
     } else {
         // uncut clip
@@ -2698,7 +2705,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
 
             if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition
-                QDomElement trans = MainWindow::transitions.getEffectByTag("composite", "composite").cloneNode().toElement();
+                QDomElement trans = MainWindow::transitions.getEffectByTag("affine", QString()).cloneNode().toElement();
                 new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), trans, false, true, addCommand);
             }
             item->setSelected(true);
@@ -6913,9 +6920,27 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
 
 void CustomTrackView::updateClipTypeActions(ClipItem *clip)
 {
+    bool hasAudio;
+    bool hasAV;
     if (clip == NULL || (clip->clipType() != AV && clip->clipType() != PLAYLIST)) {
         m_clipTypeGroup->setEnabled(false);
+	hasAudio = clip != NULL && clip->clipType() == AUDIO;
+	hasAV = false;
     } else {
+	switch (clip->clipType()) {
+	  case AV:
+	  case PLAYLIST:
+	      hasAudio = true;
+	      hasAV = true;
+	      break;
+	  case AUDIO:
+	      hasAudio = true;
+	      hasAV = false;
+	      break;
+	  default:
+	      hasAudio = false;
+	      hasAV = false;
+	}
         m_clipTypeGroup->setEnabled(true);
         QList <QAction *> actions = m_clipTypeGroup->actions();
         QString lookup;
@@ -6928,6 +6953,13 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
                 break;
             }
         }
+    }
+    
+    for (int i = 0; i < m_audioActions.count(); i++) {
+	m_audioActions.at(i)->setEnabled(hasAudio);
+    }
+    for (int i = 0; i < m_avActions.count(); i++) {
+	m_avActions.at(i)->setEnabled(hasAV);
     }
 }
 

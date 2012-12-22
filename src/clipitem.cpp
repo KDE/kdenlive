@@ -794,7 +794,7 @@ void ClipItem::paint(QPainter *painter,
     QPainterPath p;
     p.addRect(mappedExposed);
     QPainterPath q;
-    q.addRoundedRect(mapped.adjusted(0, 0, -0.5, 0), 3, 3);
+    q.addRoundedRect(mapped, 3, 3);
     painter->setClipPath(p.intersected(q));
     painter->setPen(Qt::NoPen);
     painter->fillRect(mappedExposed, paintColor);
@@ -1016,7 +1016,7 @@ void ClipItem::paint(QPainter *painter,
     painter->setRenderHint(QPainter::Antialiasing, true);
     framePen.setWidthF(1.5);
     painter->setPen(framePen);
-    painter->drawRoundedRect(mapped.adjusted(0, 0, -0.5, -0.5), 3, 3);
+    painter->drawRoundedRect(mapped.adjusted(0.5, 0, -0.5, 0), 3, 3);
 }
 
 

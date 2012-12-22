@@ -933,7 +933,6 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QString &, int, int)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QString &, int, int)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QImage &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QImage &)));
 
-    kDebug()<<"  - - - - - -\n CONNECTED REPLY";
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const stringMap &, const stringMap &, bool)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &, bool)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &, bool)));
@@ -1282,14 +1281,12 @@ void MainWindow::setupActions()
     connect(projectAdjust, SIGNAL(triggered(bool)), m_projectList, SLOT(adjustProjectProfileToItem()));
 
     KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
-    KShortcut playShortcut;
-    playShortcut.setPrimary(Qt::Key_Space);
-    playShortcut.setAlternate(Qt::Key_K);
-    monitorPlay->setShortcut(playShortcut);
+    monitorPlay->setShortcut(Qt::Key_Space);
     collection.addAction("monitor_play", monitorPlay);
     connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
 
     KAction* monitorPause = new KAction(KIcon("media-playback-stop"), i18n("Pause"), this);
+    monitorPause->setShortcut(Qt::Key_K);
     collection.addAction("monitor_pause", monitorPause);
     connect(monitorPause, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPause()));
 
@@ -1556,14 +1553,20 @@ void MainWindow::setupActions()
 
     KAction* splitAudio = new KAction(KIcon("document-new"), i18n("Split Audio"), this);
     collection.addAction("split_audio", splitAudio);
+    // "A+V" as data means this action should only be available for clips with audio AND video
+    splitAudio->setData("A+V");
     connect(splitAudio, SIGNAL(triggered(bool)), this, SLOT(slotSplitAudio()));
 
     KAction* setAudioAlignReference = new KAction(i18n("Set Audio Reference"), this);
     collection.addAction("set_audio_align_ref", setAudioAlignReference);
+    // "A" as data means this action should only be available for clips with audio
+    setAudioAlignReference->setData("A");
     connect(setAudioAlignReference, SIGNAL(triggered()), this, SLOT(slotSetAudioAlignReference()));
 
     KAction* alignAudio = new KAction(i18n("Align Audio to Reference"), this);
     collection.addAction("align_audio", alignAudio);
+    // "A" as data means this action should only be available for clips with audio
+    alignAudio->setData("A");
     connect(alignAudio, SIGNAL(triggered()), this, SLOT(slotAlignAudio()));
 
     KAction* audioOnly = new KAction(KIcon("document-new"), i18n("Audio Only"), this);

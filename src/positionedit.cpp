@@ -81,10 +81,15 @@ void PositionEdit::slotUpdatePosition()
     emit parameterChanged(m_display->getValue());
 }
 
-void PositionEdit::setRange(int min, int max)
+void PositionEdit::setRange(int min, int max, bool absolute)
 {
-    m_slider->setRange(0, max - min);
-    m_display->setRange(0, max - min);
+    if (absolute) {
+	m_slider->setRange(min, max);
+	m_display->setRange(min, max);
+    } else {
+	m_slider->setRange(0, max - min);
+	m_display->setRange(0, max - min);
+    }
 }
 
 #include "positionedit.moc"

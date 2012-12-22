@@ -334,7 +334,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
         max = getPos(below->row()) - 1;
 
     m_position->blockSignals(true);
-    m_position->setRange(min, max);
+    m_position->setRange(min, max, true);
     m_position->setPosition(getPos(item->row()));
     m_position->blockSignals(false);
 

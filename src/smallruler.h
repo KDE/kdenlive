@@ -35,6 +35,7 @@ public:
     explicit SmallRuler(MonitorManager *manager, Render *render, QWidget *parent = 0);
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
+    virtual void mouseReleaseEvent(QMouseEvent * event);
     void adjustScale(int maximum);
     void setZone(int start, int end);
     void setZoneStart();

@@ -842,6 +842,7 @@ void ProjectList::slotClipSelected()
                 clip = static_cast <ProjectItem*>(item->parent());
                 if (clip == NULL) kDebug() << "-----------ERROR";
                 SubProjectItem *sub = static_cast <SubProjectItem*>(item);
+		if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
                 emit clipSelected(clip->referencedClip(), sub->zone());
                 m_extractAudioAction->setEnabled(false);
                 m_transcodeAction->setEnabled(false);
@@ -853,6 +854,7 @@ void ProjectList::slotClipSelected()
             clip = static_cast <ProjectItem*>(item);
             if (clip && clip->referencedClip())
                 emit clipSelected(clip->referencedClip());
+	    if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
             m_editButton->defaultAction()->setEnabled(true);
             m_deleteButton->defaultAction()->setEnabled(true);
             m_reloadAction->setEnabled(true);
@@ -948,13 +950,12 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index")) {
+        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index") || properties.contains("full_luma")) {
             slotReloadClip(id);
         } else if (properties.contains("colour") ||
                    properties.contains("xmldata") ||
                    properties.contains("force_aspect_num") ||
                    properties.contains("force_aspect_den") ||
-                   properties.contains("full_luma") ||
                    properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip(id, true);
@@ -1458,7 +1459,9 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
 {
     if (!item) return;
     DocClipBase *clip = item->referencedClip();
-    if (!clip) return;
+    if (!clip) {
+	return;
+    }
     QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
     if (QFile::exists(cachedPixmap)) {
         QPixmap pix(cachedPixmap);
@@ -1578,6 +1581,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                 }
                 if (clip->isPlaceHolder() == false && !hasPendingJob(item, PROXYJOB)) {
                     QDomElement xml = clip->toXML();
+		    getCachedThumbnail(item);
                     if (fpsChanged) {
                         xml.removeAttribute("out");
                         xml.removeAttribute("file_hash");
@@ -1587,8 +1591,8 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                     xml.removeAttribute("_replaceproxy");
                     if (replace) {
                         resetThumbsProducer(clip);
+			m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                     }
-                    m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                 }
                 else if (clip->isPlaceHolder()) {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
@@ -2944,22 +2948,21 @@ void ProjectList::slotCheckJobProcess()
             }
     }
     if (m_jobList.isEmpty()) return;
-    int count = 0;
+
     m_jobMutex.lock();
+    int count = 0;
     for (int i = 0; i < m_jobList.count(); i++) {
-        if (m_jobList.at(i)->jobStatus == JOBWORKING || m_jobList.at(i)->jobStatus == JOBWAITING)
+        if (m_jobList.at(i)->status() == JOBWORKING || m_jobList.at(i)->status() == JOBWAITING)
             count ++;
         else {
             // remove finished jobs
             AbstractClipJob *job = m_jobList.takeAt(i);
-            delete job;
+            job->deleteLater();
             i--;
         }
     }
-
-    emit jobCount(count);
+    emit jobCount(count);    
     m_jobMutex.unlock();
-    
     if (m_jobThreads.futures().isEmpty() || m_jobThreads.futures().count() < KdenliveSettings::proxythreads()) m_jobThreads.addFuture(QtConcurrent::run(this, &ProjectList::slotProcessJobs));
 }
 
@@ -2982,14 +2985,14 @@ void ProjectList::slotProcessJobs()
         int count = 0;
         m_jobMutex.lock();
         for (int i = 0; i < m_jobList.count(); i++) {
-            if (m_jobList.at(i)->jobStatus == JOBWAITING) {
+            if (m_jobList.at(i)->status() == JOBWAITING) {
                 if (job == NULL) {
-                    m_jobList.at(i)->jobStatus = JOBWORKING;
+                    m_jobList.at(i)->setStatus(JOBWORKING);
                     job = m_jobList.at(i);
                 }
                 count++;
             }
-            else if (m_jobList.at(i)->jobStatus == JOBWORKING)
+            else if (m_jobList.at(i)->status() == JOBWORKING)
                 count ++;
         }
         // Set jobs count
@@ -3028,20 +3031,20 @@ void ProjectList::slotProcessJobs()
             MeltJob *jb = static_cast<MeltJob *> (job);
             jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
 	    if (jb->isProjectFilter())
-	      connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int, int,stringMap,stringMap)));
+		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int, int,stringMap,stringMap)));
 	    else
 		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int,stringMap,stringMap)));
         }
         job->startJob();
-        if (job->jobStatus == JOBDONE) {
+        if (job->status() == JOBDONE) {
             emit updateJobStatus(job->clipId(), job->jobType, JOBDONE);
             //TODO: replace with more generic clip replacement framework
             if (job->jobType == PROXYJOB) emit gotProxy(job->clipId());
             if (job->addClipToProject()) {
                 emit addClip(destination, QString(), QString());
             }
-        } else if (job->jobStatus == JOBCRASHED || job->jobStatus == JOBABORTED) {
-            emit updateJobStatus(job->clipId(), job->jobType, job->jobStatus, job->errorMessage(), QString(), job->logDetails());
+        } else if (job->status() == JOBCRASHED || job->status() == JOBABORTED) {
+            emit updateJobStatus(job->clipId(), job->jobType, job->status(), job->errorMessage(), QString(), job->logDetails());
         }
     }
     // Thread finished, cleanup & update count
@@ -3345,7 +3348,7 @@ bool ProjectList::hasPendingJob(ProjectItem *item, JOBTYPE type)
     for (int i = 0; i < m_jobList.count(); i++) {
         if (m_abortAllJobs) break;
         job = m_jobList.at(i);
-        if (job->clipId() == item->clipId() && job->jobType == type && (job->jobStatus == JOBWAITING || job->jobStatus == JOBWORKING)) return true;
+        if (job->clipId() == item->clipId() && job->jobType == type && (job->status() == JOBWAITING || job->status() == JOBWORKING)) return true;
     }
     
     return false;
@@ -3437,7 +3440,7 @@ QStringList ProjectList::getPendingJobs(const QString &id)
     QStringList result;
     QMutexLocker lock(&m_jobMutex);
     for (int i = 0; i < m_jobList.count(); i++) {
-        if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->jobStatus == JOBWAITING || m_jobList.at(i)->jobStatus == JOBWORKING)) {
+        if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->status() == JOBWAITING || m_jobList.at(i)->status() == JOBWORKING)) {
             // discard this job
             result << m_jobList.at(i)->description;
         }
@@ -3596,9 +3599,10 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
         job->description = description;
         m_jobList.append(job);
         setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
+	slotCheckJobProcess();
     }
-    slotCheckJobProcess();
 }
+   
 
 void ProjectList::slotPrepareJobsMenu()
 {
@@ -3652,9 +3656,10 @@ void ProjectList::slotClosePopup()
 void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap results, stringMap filterInfo)
 {
     // Currently, only the first value of results is used
-    kDebug()<<"// FILTER RES:\n"<<filterInfo<<"\n--------------\n"<<results;
+    //kDebug()<<"// FILTER RES:\n"<<filterInfo<<"\n--------------\n"<<results;
     ProjectItem *clip = getItemById(id);
     if (!clip) return;
+
     // Check for return value
     int markersType = -1;
     if (filterInfo.contains("addmarkers")) markersType = filterInfo.value("addmarkers").toInt();

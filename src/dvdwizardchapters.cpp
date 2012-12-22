@@ -75,7 +75,7 @@ void DvdWizardChapters::slotUpdateChaptersList()
     // insert chapters
     QStringList chaptersString;
     for (int i = 0; i < currentChaps.count(); i++) {
-        chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps()));
+        chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps(), true));
     }
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
@@ -98,7 +98,7 @@ void DvdWizardChapters::slotAddChapter()
     QStringList chaptersString;
     currentChaps.clear();
     for (int i = 0; i < chapterTimes.count(); i++) {
-        chaptersString.append(Timecode::getStringTimecode(chapterTimes.at(i), m_tc.fps()));
+        chaptersString.append(Timecode::getStringTimecode(chapterTimes.at(i), m_tc.fps(), true));
         currentChaps.append(QString::number(chapterTimes.at(i)));
     }
     // Save item chapters
@@ -123,7 +123,7 @@ void DvdWizardChapters::slotRemoveChapter()
     // rebuild chapters
     QStringList chaptersString;
     for (int i = 0; i < currentChaps.count(); i++) {
-        chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps()));
+        chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps(), true));
     }
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
@@ -131,7 +131,7 @@ void DvdWizardChapters::slotRemoveChapter()
 
 void DvdWizardChapters::slotGoToChapter()
 {
-    if (m_view.chapters_list->currentItem()) m_monitor->setTimePos(m_tc.reformatSeparators(m_view.chapters_list->currentItem()->text() + ":00"));
+    if (m_view.chapters_list->currentItem()) m_monitor->setTimePos(m_tc.reformatSeparators(m_view.chapters_list->currentItem()->text()));
 }
 
 void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies, const QStringList &durations, const QStringList &chapters)
@@ -183,7 +183,7 @@ QStringList DvdWizardChapters::selectedTitles() const
         result.append(m_view.vob_list->itemText(i));
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
         for (int j = 0; j < chapters.count(); j++) {
-            result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps()));
+            result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps(), true));
         }
     }
     return result;
@@ -194,7 +194,7 @@ QStringList DvdWizardChapters::chapters(int ix) const
     QStringList result;
     QStringList chapters = m_view.vob_list->itemData(ix, Qt::UserRole + 1).toStringList();
     for (int j = 0; j < chapters.count(); j++) {
-        result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps()));
+        result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps(), true));
     }
     return result;
 }

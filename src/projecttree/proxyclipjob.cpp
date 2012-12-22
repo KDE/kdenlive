@@ -29,7 +29,7 @@ ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, QStringList parameters) : 
     m_jobDuration(0),
     m_isFfmpegJob(true)
 {
-    jobStatus = JOBWAITING;
+    m_jobStatus = JOBWAITING;
     description = i18n("proxy");
     m_dest = parameters.at(0);
     m_src = parameters.at(1);
@@ -145,7 +145,7 @@ void ProxyJob::startJob()
     }
     while (m_jobProcess->state() != QProcess::NotRunning) {
         processLogInfo();
-        if (jobStatus == JOBABORTED) {
+        if (m_jobStatus == JOBABORTED) {
             emit cancelRunningJob(m_clipId, cancelProperties());
             m_jobProcess->close();
             m_jobProcess->waitForFinished();
@@ -154,7 +154,7 @@ void ProxyJob::startJob()
         m_jobProcess->waitForFinished(400);
     }
     
-    if (jobStatus != JOBABORTED) {
+    if (m_jobStatus != JOBABORTED) {
         int result = m_jobProcess->exitStatus();
         if (result == QProcess::NormalExit) {
             if (QFileInfo(m_dest).size() == 0) {
@@ -178,7 +178,7 @@ void ProxyJob::startJob()
 
 void ProxyJob::processLogInfo()
 {
-    if (!m_jobProcess || jobStatus == JOBABORTED) return;
+    if (!m_jobProcess || m_jobStatus == JOBABORTED) return;
     QString log = m_jobProcess->readAll();
     if (!log.isEmpty()) m_logDetails.append(log + '\n');
     else return;
@@ -230,7 +230,7 @@ stringMap ProxyJob::cancelProperties()
 const QString ProxyJob::statusMessage()
 {
     QString statusInfo;
-    switch (jobStatus) {
+    switch (m_jobStatus) {
         case JOBWORKING:
             statusInfo = i18n("Creating proxy");
             break;

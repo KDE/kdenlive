@@ -29,22 +29,23 @@
 #include <mlt++/Mlt.h>
 
 
-static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame /*frame_ptr*/)
+static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame frame_ptr)
 {
-    // detect if the producer has finished playing. Is there a better way to do it?
-    self->emitFrameNumber();
+    Mlt::Frame frame(frame_ptr);
+    self->emitFrameNumber((int) frame.get_position());
 }
 
 MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters,  QMap <QString, QString>extraParams) : AbstractClipJob(MLTJOB, cType, id, parameters),
     addClipToProject(0),
+    m_consumer(NULL),
     m_producer(NULL),
     m_profile(NULL),
-    m_consumer(NULL),
+    m_filter(NULL),
     m_showFrameEvent(NULL),
     m_length(0),
     m_extra(extraParams)
 {
-    jobStatus = JOBWAITING;
+    m_jobStatus = JOBWAITING;
     m_params = parameters;
     description = i18n("Process clip");
     QString consum = m_params.at(5);
@@ -53,15 +54,14 @@ MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters,  QMa
 
 void MeltJob::setProducer(Mlt::Producer *producer, KUrl url)
 {
-    m_producer = producer;
-    m_url = QString::fromUtf8(m_producer->get("resource"));
+    m_url = QString::fromUtf8(producer->get("resource"));
     if (m_url == "<playlist>" || m_url == "<tractor>" || m_url == "<producer>")
 	m_url == url.path();
 }
 
 void MeltJob::startJob()
 {
-    if (!m_producer) {
+    if (m_url.isEmpty()) {
         m_errorMessage.append(i18n("No producer for this clip."));
         setStatus(JOBCRASHED);
         return;
@@ -88,7 +88,6 @@ void MeltJob::startJob()
         setStatus(JOBCRASHED);
         return;
     }
-    Mlt::Producer *prod ;
     if (m_extra.contains("producer_profile")) {
 	m_profile = new Mlt::Profile;
 	m_profile->set_explicit(false);
@@ -101,23 +100,28 @@ void MeltJob::startJob()
 	m_profile->set_width(m_profile->height() * m_profile->sar());
     }
     if (out == -1) {
-	prod = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-	m_length = prod->get_length();
+	m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+	if (m_producer) m_length = m_producer->get_length();
     }
     else {
 	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-        prod = tmp->cut(in, out);
+        if (tmp) m_producer = tmp->cut(in, out);
 	delete tmp;
-	m_length = prod->get_playtime();
+	if (m_producer) m_length = m_producer->get_playtime();
+    }
+    if (!m_producer || !m_producer->is_valid()) {
+	return;
+	m_errorMessage.append(i18n("Invalid clip"));
+        setStatus(JOBCRASHED);
     }
     if (m_extra.contains("producer_profile")) {
-	m_profile->from_producer(*prod);
+	m_profile->from_producer(*m_producer);
 	m_profile->set_explicit(true);
     }
     QStringList list = producerParams.split(' ', QString::SkipEmptyParts);
     foreach(const QString &data, list) {
         if (data.contains('=')) {
-            prod->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
+            m_producer->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
         }
     }
     if (consumer.contains(":")) {
@@ -145,49 +149,51 @@ void MeltJob::startJob()
         }
     }
     
-    Mlt::Filter mltFilter(*m_profile, filter.toUtf8().data());
-    if (!mltFilter.is_valid()) {
+    m_filter = new Mlt::Filter(*m_profile, filter.toUtf8().data());
+    if (!m_filter || !m_filter->is_valid()) {
 	m_errorMessage = i18n("Filter %1 crashed", filter);
         setStatus(JOBCRASHED);
-	delete m_consumer;
-	delete prod;
 	return;
     }
     list = filterParams.split(' ', QString::SkipEmptyParts);
     foreach(const QString &data, list) {
         if (data.contains('=')) {
             kDebug()<<"// filter p: "<<data;
-            mltFilter.set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
+            m_filter->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
         }
     }
     Mlt::Tractor tractor;
     Mlt::Playlist playlist;
-    playlist.append(*prod);
+    playlist.append(*m_producer);
     tractor.set_track(playlist, 0);
     m_consumer->connect(tractor);
-    prod->set_speed(0);
-    prod->seek(0);
-    prod->attach(mltFilter);
+    m_producer->set_speed(0);
+    m_producer->seek(0);
+    m_producer->attach(*m_filter);
     m_showFrameEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_render);
-    m_consumer->start();
-    prod->set_speed(1);
-    while (jobStatus != JOBABORTED && !m_consumer->is_stopped()) {
-        
-    }
-    m_consumer->stop();
+    m_producer->set_speed(1);
+    m_consumer->run();
+    
     QMap <QString, QString> jobResults;
-    if (m_extra.contains("key"))
-	jobResults.insert(m_extra.value("key"), mltFilter.get(m_extra.value("key").toUtf8().constData()));
-    if (!jobResults.isEmpty() && jobStatus != JOBABORTED) emit gotFilterJobResults(m_clipId, startPos, track, jobResults, m_extra);
-    setStatus(JOBDONE);
-    delete m_consumer;
-    delete prod;
-    return;
+    if (m_jobStatus != JOBABORTED && m_extra.contains("key")) {
+	QString result = m_filter->get(m_extra.value("key").toUtf8().constData());
+	jobResults.insert(m_extra.value("key"), result);
+    }
+    if (!jobResults.isEmpty() && m_jobStatus != JOBABORTED) {
+	m_jobStatus = JOBDONE;
+	emit gotFilterJobResults(m_clipId, startPos, track, jobResults, m_extra);
+    }
+    if (m_jobStatus == JOBABORTED) m_jobStatus = JOBDONE;
 }
 
 
 MeltJob::~MeltJob()
 {
+    if (m_showFrameEvent) delete m_showFrameEvent;
+    if (m_filter) delete m_filter;
+    if (m_producer) delete m_producer;
+    if (m_consumer) delete m_consumer;
+    if (m_profile) delete m_profile;
 }
 
 const QString MeltJob::destination() const
@@ -204,7 +210,7 @@ stringMap MeltJob::cancelProperties()
 const QString MeltJob::statusMessage()
 {
     QString statusInfo;
-    switch (jobStatus) {
+    switch (m_jobStatus) {
         case JOBWORKING:
             statusInfo = description;
             break;
@@ -217,10 +223,10 @@ const QString MeltJob::statusMessage()
     return statusInfo;
 }
 
-void MeltJob::emitFrameNumber()
+void MeltJob::emitFrameNumber(int pos)
 {
-    if (m_consumer && m_length > 0) {
-        emit jobProgress(m_clipId, (int) (100 * m_consumer->position() / m_length), jobType);
+    if (m_length > 0) {
+        emit jobProgress(m_clipId, (int) (100 * pos / m_length), jobType);
     }
 }
 
@@ -229,5 +235,9 @@ bool MeltJob::isProjectFilter() const
     return m_extra.contains("projecttreefilter");
 }
 
-
+void MeltJob::setStatus(CLIPJOBSTATUS status)
+{
+    m_jobStatus = status;
+    if (status == JOBABORTED && m_consumer) m_consumer->stop();
+}
 

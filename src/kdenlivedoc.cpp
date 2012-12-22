@@ -284,7 +284,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                         e = markerslist.at(k).toElement();
                                         if (e.tagName() == "marker") {
 					    CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
-                                            m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(marker);
+					    DocClipBase *baseClip = m_clipManager->getClipById(e.attribute("id"));
+                                            if (baseClip) baseClip->addSnapMarker(marker);
+					    else kDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
 					}
                                     }
                                     infoXml.removeChild(markers);

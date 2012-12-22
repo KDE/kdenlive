@@ -44,6 +44,7 @@
 #include <QEvent>
 #include <QMutex>
 #include <QFuture>
+#include <QSemaphore>
 
 
 class QTimer;
@@ -53,7 +54,7 @@ class KComboBox;
 
 namespace Mlt
 {
-class FilteredConsumer;
+class Consumer;
 class Playlist;
 class Tractor;
 class Transition;
@@ -169,6 +170,9 @@ Q_OBJECT public:
     /** @brief Save a clip in timeline to an xml playlist. */
     bool saveClip(int track, GenTime position, KUrl url, QString desc = QString());
 
+    /** @brief Return true if we are currently playing */
+    bool isPlaying() const;
+
     /** @brief Returns the speed at which the renderer is currently playing.
      *
      * It returns 0.0 when the renderer is not playing anything. */
@@ -180,7 +184,7 @@ Q_OBJECT public:
 
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber();
-    void emitConsumerStopped();
+    void emitConsumerStopped(bool forcePause = false);
 
     /** @brief Returns the aspect ratio of the consumer. */
     double consumerRatio() const;
@@ -301,7 +305,6 @@ Q_OBJECT public:
     void updatePreviewSettings();
     void setDropFrames(bool show);
     QString updateSceneListFps(double current_fps, double new_fps, QString scene);
-    void showFrame(Mlt::Frame&);
 
     void showAudio(Mlt::Frame&);
     
@@ -330,12 +333,18 @@ Q_OBJECT public:
     void unlockService(Mlt::Tractor *tractor);
     const QString activeClipId();
     /** @brief Fill a combobox with the found blackmagic devices */
-    static bool getBlackMagicDeviceList(KComboBox *devicelist);
-    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist);
+    static bool getBlackMagicDeviceList(KComboBox *devicelist, bool force = false);
+    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
     /** @brief Frame rendering is handeled by Kdenlive, don't show video through SDL display */
     void disablePreview(bool disable);
     int requestedSeekPosition;
+    QSemaphore showFrameSemaphore;
+    bool externalConsumer;
 
+protected:
+    static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    
 private:
 
     /** @brief The name of this renderer.
@@ -343,13 +352,12 @@ private:
      * Useful to identify the renderers by what they do - e.g. background
      * rendering, workspace monitor, etc. */
     Kdenlive::MONITORID m_name;
-    Mlt::FilteredConsumer * m_mltConsumer;
+    Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
     double m_fps;
-    bool m_externalConsumer;
 
     /** @brief True if we are playing a zone.
      *
@@ -358,7 +366,6 @@ private:
     bool m_isZoneMode;
     bool m_isLoopMode;
     GenTime m_loopStart;
-    int m_originalOut;
 
     /** @brief True when the monitor is in split view. */
     bool m_isSplitView;
@@ -377,6 +384,7 @@ private:
     QLocale m_locale;
     QFuture <void> m_infoThread;
     QList <requestClipInfo> m_requestList;
+    bool m_paused;
 
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
@@ -409,7 +417,7 @@ private slots:
     void processFileProperties();
     /** @brief A clip with multiple video streams was found, ask what to do. */
     void slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data);
-
+    void showFrame(Mlt::Frame *);
     void slotCheckSeeking();
 
 signals:
@@ -453,9 +461,10 @@ signals:
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
-    void showAudioSignal(const QByteArray &);
+    void showAudioSignal(const QVector<double> &);
     void addClip(const KUrl &, stringMap);
     void checkSeeking();
+    void mltFrameReceived(Mlt::Frame *);
 
 public slots:
 

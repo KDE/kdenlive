@@ -418,24 +418,24 @@ GenTime Monitor::getSnapForPos(bool previous)
 void Monitor::slotZoneMoved(int start, int end)
 {
     m_ruler->setZone(start, end);
-    checkOverlay();
     setClipZone(m_ruler->zone());
+    checkOverlay();
 }
 
 void Monitor::slotSetZoneStart()
 {
     m_ruler->setZoneStart();
     emit zoneUpdated(m_ruler->zone());
-    checkOverlay();
     setClipZone(m_ruler->zone());
+    checkOverlay();
 }
 
 void Monitor::slotSetZoneEnd()
 {
     m_ruler->setZoneEnd();
     emit zoneUpdated(m_ruler->zone());
-    checkOverlay();
     setClipZone(m_ruler->zone());
+    checkOverlay();
 }
 
 // virtual
@@ -470,8 +470,9 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
             if (isActive()) slotPlay();
             else slotActivateMonitor();
         } //else event->ignore(); //QWidget::mouseReleaseEvent(event);
-        m_dragStarted = false;
     }
+    m_dragStarted = false;
+    event->accept();
 }
 
 // virtual
@@ -500,15 +501,16 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         drag->setPixmap(pix);
         drag->setHotSpot(QPoint(0, 50));*/
         drag->start(Qt::MoveAction);
-
-        //Qt::DropAction dropAction;
-        //dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);
+	/*Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
+        Qt::DropAction dropAction;
+        dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);*/
 
         //Qt::DropAction dropAction = drag->exec();
 
     }
     //event->accept();
 }
+
 
 /*void Monitor::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
@@ -621,7 +623,7 @@ void Monitor::checkOverlay()
 {
     if (m_overlay == NULL) return;
     QString overlayText;
-    int pos = render->seekFramePosition();
+    int pos = m_timePos->getValue();//render->seekFramePosition();
     QPoint zone = m_ruler->zone();
     if (pos == zone.x())
         overlayText = i18n("In Point");
@@ -673,8 +675,20 @@ void Monitor::slotRewind(double speed)
     slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
-        if (currentspeed >= 0) render->play(-2);
-        else render->play(currentspeed * 2);
+	if (currentspeed >= 0) render->play(-1);
+	else switch((int) currentspeed) {
+	    case -1:
+		render->play(-2);
+		break;
+	    case -2:
+		render->play(-3);
+		break;
+	    case -3:
+		render->play(-5);
+		break;
+	    default:
+		render->play(-8);
+	}
     } else render->play(speed);
     //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
@@ -685,8 +699,20 @@ void Monitor::slotForward(double speed)
     slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
-        if (currentspeed <= 1) render->play(2);
-        else render->play(currentspeed * 2);
+	if (currentspeed <= 0) render->play(1);
+        else switch((int) currentspeed) {
+	    case 1:
+		render->play(2);
+		break;
+	    case 2:
+		render->play(3);
+		break;
+	    case 3:
+		render->play(5);
+		break;
+	    default:
+		render->play(8);
+	}
     } else render->play(speed);
     //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
@@ -711,16 +737,16 @@ void Monitor::slotForwardOneFrame(int diff)
 void Monitor::seekCursor(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
-        checkOverlay();
         m_timePos->setValue(pos);
+	checkOverlay();
     }
 }
 
 void Monitor::rendererStopped(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
-        checkOverlay();
         m_timePos->setValue(pos);
+	checkOverlay();
     }
     m_playAction->setIcon(m_playIcon);
 }
@@ -785,12 +811,13 @@ void Monitor::slotPlay()
 {
     if (render == NULL) return;
     slotActivateMonitor();
-    if (render->playSpeed() == 0.0) {
+    if (render->isPlaying()) {
+	m_playAction->setIcon(m_playIcon);
+        render->switchPlay(false);
+    }
+    else {
         m_playAction->setIcon(m_pauseIcon);
         render->switchPlay(true);
-    } else {
-        m_playAction->setIcon(m_playIcon);
-        render->switchPlay(false);
     }
     m_ruler->refreshRuler();
 }
@@ -1107,6 +1134,7 @@ Overlay::Overlay(QWidget* parent) :
     setBackgroundRole(QPalette::Base);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     setCursor(Qt::PointingHandCursor);
+
 }
 
 // virtual
@@ -1131,11 +1159,11 @@ void Overlay::mouseDoubleClickEvent ( QMouseEvent * event )
 void Overlay::setOverlayText(const QString &text, bool isZone)
 {
     if (text.isEmpty()) {
-	QPalette p;
+	/*QPalette p;
 	p.setColor(QPalette::Base, KdenliveSettings::window_background());
 	setPalette(p);
 	setText(QString());
-	repaint();
+	repaint();*/
 	setHidden(true);
 	return;
     }

@@ -65,7 +65,9 @@ private:
     QString m_creationLog;
     QListWidgetItem *m_vobitem;
     KTemporaryFile m_selectedImage;
+    KTemporaryFile m_selectedLetterImage;
     KTemporaryFile m_highlightedImage;
+    KTemporaryFile m_highlightedLetterImage;
     KTemporaryFile m_menuVideo;
     KTemporaryFile m_menuFinalVideo;
     KTemporaryFile m_menuImageBackground;
@@ -73,6 +75,7 @@ private:
     QMenu *m_burnMenu;
     void errorMessage(const QString &text);
     void infoMessage(const QString &text);
+    void processDvdauthor(QString menuMovieUrl = QString(), QMap <QString, QRect> buttons = QMap <QString, QRect>(), QStringList buttonsTarget = QStringList());
 
 private slots:
     void slotPageChanged(int page);
