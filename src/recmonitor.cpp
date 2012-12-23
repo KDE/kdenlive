@@ -225,8 +225,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     QString capturefile;
     QString capturename;
     m_previewSettings->setEnabled(ix == VIDEO4LINUX || ix == BLACKMAGIC);
-    rec_audio->setVisible(ix == VIDEO4LINUX);
-    rec_video->setVisible(ix == VIDEO4LINUX);
+    control_frame->setVisible(ix == VIDEO4LINUX);
     m_fwdAction->setVisible(ix == FIREWIRE);
     m_discAction->setVisible(ix == FIREWIRE);
     m_rewAction->setVisible(ix == FIREWIRE);
@@ -340,10 +339,11 @@ QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString &txt)
 void RecMonitor::checkDeviceAvailability()
 {
     if (!KIO::NetAccess::exists(KUrl(KdenliveSettings::video4vdevice()), KIO::NetAccess::SourceSide , this)) {
-        m_playAction->setEnabled(false);
-        m_recAction->setEnabled(false);
+        rec_video->setChecked(false);
+	rec_video->setEnabled(false);
         video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice())));
     } else {
+	rec_video->setEnabled(true);
         video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Press play or record button\nto start video capture\nFiles will be saved in:\n%1", m_capturePath)));
     }
 }
@@ -385,8 +385,7 @@ void RecMonitor::slotStopCapture()
     // stop capture
     if (!m_isCapturing && !m_isPlaying) return;
     videoBox->setHidden(true);
-    rec_audio->setEnabled(true);
-    rec_video->setEnabled(true);
+    control_frame->setEnabled(true);
     switch (device_selector->currentIndex()) {
     case FIREWIRE:
         m_captureProcess->write("\e", 2);
@@ -535,8 +534,7 @@ void RecMonitor::slotStartPreview(bool play)
         break;
     }
 
-    rec_audio->setEnabled(false);
-    rec_video->setEnabled(false);
+    control_frame->setEnabled(false);
 
     if (device_selector->currentIndex() == FIREWIRE) {
         kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
@@ -549,8 +547,7 @@ void RecMonitor::slotStartPreview(bool play)
 
 void RecMonitor::slotRecord()
 {
-    rec_audio->setEnabled(false);
-    rec_video->setEnabled(false);
+    control_frame->setEnabled(false);
 
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartPreview();

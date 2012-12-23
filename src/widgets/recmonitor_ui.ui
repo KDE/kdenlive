@@ -6,47 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>285</width>
-    <height>157</height>
+    <width>298</width>
+    <height>163</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
     <number>0</number>
    </property>
-   <item row="0" column="0" colspan="6">
-    <widget class="QLabel" name="video_frame">
-     <property name="text">
-      <string>Not connected</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="6">
-    <widget class="QFrame" name="control_frame_firewire">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>15</height>
-      </size>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="5">
+   <item row="2" column="4">
     <widget class="KComboBox" name="device_selector">
      <item>
       <property name="text">
@@ -70,7 +38,17 @@
      </item>
     </widget>
    </item>
-   <item row="2" column="4">
+   <item row="0" column="0" colspan="5">
+    <widget class="QLabel" name="video_frame">
+     <property name="text">
+      <string>Not connected</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -83,17 +61,25 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="1">
-    <widget class="QCheckBox" name="rec_video">
-     <property name="text">
-      <string>Video</string>
+   <item row="1" column="0" colspan="5">
+    <widget class="QFrame" name="control_frame_firewire">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QCheckBox" name="rec_audio">
-     <property name="text">
-      <string>Audio</string>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>15</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
      </property>
     </widget>
    </item>
@@ -108,6 +94,39 @@
      <property name="autoRaise">
       <bool>true</bool>
      </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QFrame" name="control_frame">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="rec_video">
+        <property name="text">
+         <string>Video</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="rec_audio">
+        <property name="text">
+         <string>Audio</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+     <zorder>rec_video</zorder>
+     <zorder>rec_audio</zorder>
+     <zorder>rec_video</zorder>
+     <zorder>rec_audio</zorder>
     </widget>
    </item>
   </layout>
