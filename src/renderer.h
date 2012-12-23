@@ -399,6 +399,8 @@ private:
     void fixAudioMixing(Mlt::Tractor tractor);
     /** @brief Make sure we inform MLT if we need a lot of threads for avformat producer */
     void checkMaxThreads();
+    /** @brief Refresh consumer and wait until frame is displayed */
+    void refreshConsumerDisplay();
 
 private slots:
 
