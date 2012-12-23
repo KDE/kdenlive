@@ -2196,7 +2196,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
 {
     QString toReload;
     ProjectItem *item = getItemById(clipId);
-    int queue = m_render->processingItems();
     if (item && producer) {
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
@@ -2209,6 +2208,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         item->setProperties(properties, metadata);
         clip->setProducer(producer, replace);
+	m_render->processingDone(clipId);
 
         // Proxy stuff
         QString size = properties.value("frame_size");
@@ -2248,7 +2248,11 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         if (!toReload.isEmpty())
             item->slotSetToolTip();
-    } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
+    } else {
+	kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
+	m_render->processingDone(clipId);
+    }
+    int queue = m_render->processingItems();
     if (queue == 0) {
         monitorItemEditing(true);
         if (item && m_thumbnailQueue.isEmpty()) {

@@ -618,14 +618,24 @@ void Render::slotSplitView(bool doit)
 
 void Render::getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer)
 {
+    // Make sure we don't request the info for same clip twice
+    m_infoMutex.lock();
+    if (m_processingClipId.contains(clipId)) {
+	m_infoMutex.unlock();
+	return;
+    }
+    for (int i = 0; i < m_requestList.count(); i++) {
+	if (m_requestList.at(i).clipId == clipId) {
+	    // Clip is already queued
+	    m_infoMutex.unlock();
+	    return;
+	}
+    }
     requestClipInfo info;
     info.xml = xml;
     info.clipId = clipId;
     info.imageHeight = imageHeight;
     info.replaceProducer = replaceProducer;
-    // Make sure we don't request the info for same clip twice
-    m_infoMutex.lock();
-    m_requestList.removeAll(info);
     m_requestList.append(info);
     m_infoMutex.unlock();
     if (!m_infoThread.isRunning()) {
@@ -635,7 +645,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
 
 void Render::forceProcessing(const QString &id)
 {
-    if (m_processingClipId == id) return;
+    if (m_processingClipId.contains(id)) return;
     QMutexLocker lock(&m_infoMutex);
     for (int i = 0; i < m_requestList.count(); i++) {
         requestClipInfo info = m_requestList.at(i);
@@ -653,21 +663,22 @@ void Render::forceProcessing(const QString &id)
 int Render::processingItems()
 {
     QMutexLocker lock(&m_infoMutex);
-    int count = m_requestList.count();
-    if (!m_processingClipId.isEmpty()) {
-        // one clip is currently processed
-        count++;
-    }
+    int count = m_requestList.count() + m_processingClipId.count();
     return count;
+}
+
+void Render::processingDone(const QString &id)
+{
+    QMutexLocker lock(&m_infoMutex);
+    m_processingClipId.removeAll(id);
 }
 
 bool Render::isProcessing(const QString &id)
 {
-    if (m_processingClipId == id) return true;
+    if (m_processingClipId.contains(id)) return true;
     QMutexLocker lock(&m_infoMutex);
     for (int i = 0; i < m_requestList.count(); i++) {
-        requestClipInfo info = m_requestList.at(i);
-        if (info.clipId == id) {
+        if (m_requestList.at(i).clipId == id) {
             return true;
         }
     }
@@ -681,7 +692,7 @@ void Render::processFileProperties()
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
-        m_processingClipId = info.clipId;
+        m_processingClipId.append(info.clipId);
         m_infoMutex.unlock();
 
         QString path;
@@ -732,7 +743,7 @@ void Render::processFileProperties()
 
         if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
             kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
-            m_processingClipId.clear();
+            m_processingClipId.removeAll(info.clipId);
             if (proxyProducer) {
                 // Proxy file is corrupted
                 emit removeInvalidProxy(info.clipId, false);
@@ -747,7 +758,7 @@ void Render::processFileProperties()
             producer->set("out", info.xml.attribute("proxy_out").toInt());
             if (producer->get_out() != info.xml.attribute("proxy_out").toInt()) {
                 // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
-                m_processingClipId.clear();
+                m_processingClipId.removeAll(info.clipId);
                 emit removeInvalidProxy(info.clipId, true);
                 delete producer;
                 continue;
@@ -851,7 +862,6 @@ void Render::processFileProperties()
                 }
                 if (frame) delete frame;
             }
-            m_processingClipId.clear();
             emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer);
             continue;
         }
@@ -1074,10 +1084,8 @@ void Render::processFileProperties()
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
-        m_processingClipId.clear();
         emit replyGetFileProperties(info.clipId, producer, filePropertyMap, metadataPropertyMap, info.replaceProducer);
     }
-    m_processingClipId.clear();
 }
 
 

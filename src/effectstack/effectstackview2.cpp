@@ -106,7 +106,6 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c)
 {
     if (c && !c->isEnabled()) return;
     if (c && c == m_clipref) {
-
     } else {
 	if (m_clipref) disconnect(m_clipref, SIGNAL(updateRange()), this, SLOT(slotClipItemUpdate()));
         m_clipref = c;
