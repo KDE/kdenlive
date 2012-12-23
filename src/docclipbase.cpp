@@ -90,7 +90,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     } else {
         int out = xml.attribute("out").toInt();
         int in = xml.attribute("in").toInt();
-        setDuration(GenTime(out - in + 1, KdenliveSettings::project_fps()));
+	if (out > in) setDuration(GenTime(out - in + 1, KdenliveSettings::project_fps()));
     }
 
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
