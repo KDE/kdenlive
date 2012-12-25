@@ -425,11 +425,10 @@ void Render::seek(int time)
     time = qMin(m_mltProducer->get_playtime(), time);
     if (requestedSeekPosition == SEEK_INACTIVE) {
 	requestedSeekPosition = time;
+	m_mltConsumer->purge();
 	m_mltProducer->seek(time);
-	//m_mltConsumer->purge();
 	if (m_paused && !externalConsumer) {
 	    m_mltConsumer->set("refresh", 1);
-	    //refresh();
 	}
     }
     else requestedSeekPosition = time;
@@ -593,7 +592,7 @@ void Render::slotSplitView(bool doit)
                 screen++;
             }
         }
-        refreshConsumerDisplay();
+        m_mltConsumer->set("refresh", 1);
     } else {
         mlt_service serv = m_mltProducer->parent().get_service();
         mlt_service nextservice = mlt_service_get_producer(serv);
@@ -614,7 +613,7 @@ void Render::slotSplitView(bool doit)
             properties = MLT_SERVICE_PROPERTIES(nextservice);
             mlt_type = mlt_properties_get(properties, "mlt_type");
             resource = mlt_properties_get(properties, "mlt_service");
-            refreshConsumerDisplay();
+            m_mltConsumer->set("refresh", 1);
         }
     }
 }
@@ -1230,15 +1229,7 @@ void Render::startConsumer() {
         m_mltConsumer = NULL;
         return;
     }
-    refreshConsumerDisplay();
-}
-
-void Render::refreshConsumerDisplay()
-{
     m_mltConsumer->set("refresh", 1);
-    // Make sure the first frame is displayed, otherwise if we change producer too fast
-    // We can crash the avformat producer
-    m_mltConsumer->wait_for("consumer-frame-show");
 }
 
 int Render::setSceneList(QDomDocument list, int position)
@@ -1548,7 +1539,7 @@ void Render::start()
             kDebug(QtWarningMsg) << "/ / / / CANNOT START MONITOR";
         } else {
             m_mltConsumer->purge();
-            refreshConsumerDisplay();
+            m_mltConsumer->set("refresh", 1);
         }
     }
 }
@@ -1609,7 +1600,7 @@ void Render::switchPlay(bool play)
         if (m_mltConsumer->is_stopped()) {
             m_mltConsumer->start();
         }
-        refreshConsumerDisplay();
+        m_mltConsumer->set("refresh", 1);
     } else if (!play) {
 	m_paused = true;
 	m_mltProducer->set_speed(0.0);
@@ -1629,7 +1620,7 @@ void Render::play(double speed)
 	m_mltConsumer->start();
     }
     m_paused = speed == 0;
-    if (current_speed == 0 && speed != 0) refreshConsumerDisplay();
+    if (current_speed == 0 && speed != 0) m_mltConsumer->set("refresh", 1);
 }
 
 void Render::play(const GenTime & startTime)
@@ -1640,7 +1631,7 @@ void Render::play(const GenTime & startTime)
     m_paused = false;
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
-    refreshConsumerDisplay();
+    m_mltConsumer->set("refresh", 1);
 }
 
 void Render::loopZone(const GenTime & startTime, const GenTime & stopTime)
@@ -1664,7 +1655,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     m_paused = false;
     m_mltProducer->set_speed(1.0);
     if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
-    refreshConsumerDisplay();
+    m_mltConsumer->set("refresh", 1);
     m_isZoneMode = true;
 }
 
@@ -1672,7 +1663,6 @@ void Render::resetZoneMode()
 {
     if (!m_isZoneMode && !m_isLoopMode) return;
     m_mltProducer->set("out", m_mltProducer->get_length());
-    //m_mltProducer->set("eof", "pause");
     m_isZoneMode = false;
     m_isLoopMode = false;
 }
@@ -1707,12 +1697,13 @@ void Render::doRefresh()
 
 void Render::refresh()
 {
+    m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (!m_mltProducer)
         return;
     if (m_mltConsumer) {
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
-	refreshConsumerDisplay();
+	m_mltConsumer->set("refresh", 1);
         //m_mltConsumer->purge();
     }
 }
@@ -1779,7 +1770,9 @@ void Render::emitFrameNumber()
     if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
     emit rendererPosition(currentPos);
     if (requestedSeekPosition != SEEK_INACTIVE) {
+	m_mltConsumer->purge();
 	m_mltProducer->seek(requestedSeekPosition);
+	if (m_mltProducer->get_speed() == 0) m_mltConsumer->set("refresh", 1);
 	requestedSeekPosition = SEEK_INACTIVE;
     }
 }
@@ -1953,6 +1946,10 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
         }
 
         delete blackclip;
+	if (m_mltConsumer->position() > duration) {
+	    m_mltConsumer->purge();
+	    m_mltProducer->seek(duration);
+	}
         m_mltProducer->set("out", duration);
         emit durationChanged(duration);
     }
@@ -2215,7 +2212,6 @@ bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement ele
 bool Render::mltRemoveClip(int track, GenTime position)
 {
     m_refreshTimer.stop();
-    
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
@@ -2433,7 +2429,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
     }
     service.unlock();
     mltCheckLength(&tractor);
-    refreshConsumerDisplay();
+    m_mltConsumer->set("refresh", 1);
 }
 
 
@@ -3302,7 +3298,7 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     refresh();
 }
 
-bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
+bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -3380,7 +3376,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
         transpinfo.track = info.track;
         mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
     }*/
-    refreshConsumerDisplay();
+    if (refresh) m_mltConsumer->set("refresh", 1);
     return true;
 }
 
@@ -3497,7 +3493,7 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime newCropStart)
     int frameOffset = newCropFrame - previousStart;
     trackPlaylist.resize_clip(clipIndex, newCropFrame, previousOut + frameOffset);
     service.unlock();
-    refreshConsumerDisplay();
+    m_mltConsumer->set("refresh", 1);
     return true;
 }
 
@@ -3569,7 +3565,7 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
     }*/
     //m_mltConsumer->set("refresh", 1);
     service.unlock();
-    refreshConsumerDisplay();
+    m_mltConsumer->set("refresh", 1);
     return true;
 }
 

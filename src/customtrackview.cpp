@@ -1577,9 +1577,15 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
         return;
     }
 
-    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, true, false);
-    updateTrackDuration(pasteInfo.track, command);
-    m_commandStack->push(command);
+    // Add refresh command for undo
+    QUndoCommand *addCommand = new QUndoCommand();
+    addCommand->setText(i18n("Add timeline clip"));
+    new RefreshMonitorCommand(this, false, true, addCommand);
+    new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, true, false, addCommand);
+    new RefreshMonitorCommand(this, true, false, addCommand);
+    updateTrackDuration(pasteInfo.track, addCommand);
+    
+    m_commandStack->push(addCommand);
 
     selectClip(true, false);
     // Automatic audio split
@@ -2432,7 +2438,7 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
 
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
-        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos);
+        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos, false);
         if (success) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()));
             setDocumentModified();
@@ -2670,6 +2676,9 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         QUndoCommand *addCommand = new QUndoCommand();
         addCommand->setText(i18n("Add timeline clip"));
         QList <ClipItem *> brokenClips;
+	
+	// Add refresh command for undo
+	new RefreshMonitorCommand(this, false, true, addCommand);
 
         for (int i = 0; i < items.count(); i++) {
             ClipItem *item = static_cast <ClipItem *>(items.at(i));
@@ -2710,6 +2719,9 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
             item->setSelected(true);
         }
+        // Add refresh command for redo
+	new RefreshMonitorCommand(this, false, false, addCommand);
+	
         qDeleteAll(brokenClips);
         brokenClips.clear();
         if (addCommand->childCount() > 0) m_commandStack->push(addCommand);
@@ -6422,6 +6434,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     QList<QGraphicsItem *> selection = m_scene->items(r);
     QUndoCommand *deleteTrack = new QUndoCommand();
     deleteTrack->setText("Delete track");
+    new RefreshMonitorCommand(this, false, true, deleteTrack);
 
     // Delete all clips in selected track
     for (int i = 0; i < selection.count(); i++) {
@@ -6442,6 +6455,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     }
 
     new AddTrackCommand(this, ix, trackinfo, false, deleteTrack);
+    new RefreshMonitorCommand(this, true, false, deleteTrack);
     m_commandStack->push(deleteTrack);
 }
 

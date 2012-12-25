@@ -221,7 +221,7 @@ Q_OBJECT public:
     /** @brief Returns the duration/length of @param track as reported by the track producer. */
     int mltTrackDuration(int track);
 
-    bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration);
+    bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh = true);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
@@ -399,8 +399,6 @@ private:
     void fixAudioMixing(Mlt::Tractor tractor);
     /** @brief Make sure we inform MLT if we need a lot of threads for avformat producer */
     void checkMaxThreads();
-    /** @brief Refresh consumer and wait until frame is displayed */
-    void refreshConsumerDisplay();
 
 private slots:
 
