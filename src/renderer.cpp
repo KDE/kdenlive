@@ -430,6 +430,12 @@ void Render::seek(int time)
 	if (m_paused && !externalConsumer) {
 	    m_mltConsumer->set("refresh", 1);
 	}
+	else if (m_mltProducer->get_speed() == 0) {
+	    // workaround specific bug in MLT's SDL consumer
+	    m_mltConsumer->stop();
+	    m_mltConsumer->start();
+	    m_mltConsumer->set("refresh", 1);
+	}
     }
     else requestedSeekPosition = time;
 }
