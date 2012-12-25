@@ -691,7 +691,7 @@ void ClipManager::slotAddSlideshowClipFile(QMap <QString, QString> properties, c
 
 
 
-void ClipManager::slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId)
+void ClipManager::slotAddTextClipFile(const QString &titleName, int duration, const QString &xml, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
@@ -708,7 +708,7 @@ void ClipManager::slotAddTextClipFile(const QString &titleName, int out, const Q
     prod.setAttribute("type", (int) TEXT);
     prod.setAttribute("transparency", "1");
     prod.setAttribute("in", "0");
-    prod.setAttribute("out", out);
+    prod.setAttribute("out", duration - 1);
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
 }

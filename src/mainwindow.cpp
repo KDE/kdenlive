@@ -3306,12 +3306,12 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         if (dia_ui->exec() == QDialog::Accepted) {
             QMap <QString, QString> newprops;
             newprops.insert("xmldata", dia_ui->xml().toString());
-            if (dia_ui->outPoint() != clip->duration().frames(m_activeDocument->fps())) {
+            if (dia_ui->duration() != clip->duration().frames(m_activeDocument->fps())) {
                 // duration changed, we need to update duration
-                newprops.insert("out", QString::number(dia_ui->outPoint()));
+                newprops.insert("out", QString::number(dia_ui->duration() - 1));
                 int currentLength = QString(clip->producerProperty("length")).toInt();
-                if (currentLength <= dia_ui->outPoint())
-                        newprops.insert("length", QString::number(dia_ui->outPoint() + 1));
+                if (currentLength <= dia_ui->duration())
+                        newprops.insert("length", QString::number(dia_ui->duration()));
                 else newprops.insert("length", clip->producerProperty("length"));
             }
             if (!path.isEmpty()) {
