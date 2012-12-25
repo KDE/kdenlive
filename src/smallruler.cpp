@@ -34,8 +34,7 @@
 SmallRuler::SmallRuler(MonitorManager *manager, Render *render, QWidget *parent) :
         QWidget(parent)
         ,m_cursorFramePosition(0)
-        ,m_scale(1)
-        ,m_maxval(25)
+        ,m_maxval(2)
         ,m_manager(manager)
 	,m_render(render)
 	,m_lastSeekPosition(SEEK_INACTIVE)
@@ -48,6 +47,7 @@ SmallRuler::SmallRuler(MonitorManager *manager, Render *render, QWidget *parent)
 
     setMouseTracking(true);
     setMinimumHeight(10);
+    adjustScale(m_maxval);
 }
 
 

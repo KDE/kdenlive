@@ -421,12 +421,15 @@ void Render::seek(GenTime time)
 void Render::seek(int time)
 {
     resetZoneMode();
+    time = qMax(0, time);
+    time = qMin(m_mltProducer->get_playtime(), time);
     if (requestedSeekPosition == SEEK_INACTIVE) {
 	requestedSeekPosition = time;
 	m_mltProducer->seek(time);
 	//m_mltConsumer->purge();
 	if (m_paused && !externalConsumer) {
-	    refresh();
+	    m_mltConsumer->set("refresh", 1);
+	    //refresh();
 	}
     }
     else requestedSeekPosition = time;
@@ -1235,9 +1238,7 @@ void Render::refreshConsumerDisplay()
     m_mltConsumer->set("refresh", 1);
     // Make sure the first frame is displayed, otherwise if we change producer too fast
     // We can crash the avformat producer
-    Mlt::Event *ev = m_mltConsumer->setup_wait_for("consumer-frame-show");
-    m_mltConsumer->wait_for(ev);
-    delete ev;
+    m_mltConsumer->wait_for("consumer-frame-show");
 }
 
 int Render::setSceneList(QDomDocument list, int position)
@@ -1326,6 +1327,7 @@ int Render::setSceneList(QString playlist, int position)
         m_mltProducer = m_blackClip->cut(0, 1);
         error = -1;
     }
+    m_mltProducer->set("eof", "pause");
     checkMaxThreads();
     int volume = KdenliveSettings::volume();
     m_mltProducer->set("meta.volume", (double)volume / 100);
@@ -1710,8 +1712,8 @@ void Render::refresh()
         return;
     if (m_mltConsumer) {
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
-        //m_mltConsumer->purge();
 	refreshConsumerDisplay();
+        //m_mltConsumer->purge();
     }
 }
 
@@ -1778,9 +1780,6 @@ void Render::emitFrameNumber()
     emit rendererPosition(currentPos);
     if (requestedSeekPosition != SEEK_INACTIVE) {
 	m_mltProducer->seek(requestedSeekPosition);
-	if (m_paused) {
-	    refresh();
-	}
 	requestedSeekPosition = SEEK_INACTIVE;
     }
 }
