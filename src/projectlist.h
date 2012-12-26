@@ -348,7 +348,7 @@ private:
     QAction *m_discardCurrentClipJobs;
     QMenu *m_extractAudioAction;
     QMenu *m_transcodeAction;
-    QMenu *m_stabilizeAction;
+    QMenu *m_clipsActionsMenu;
     KdenliveDoc *m_doc;
     ItemDelegate *m_listViewDelegate;
     /** @brief False if we have not yet finished opening the document. */
