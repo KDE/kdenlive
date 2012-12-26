@@ -180,10 +180,9 @@ void MeltJob::startJob()
 	jobResults.insert(m_extra.value("key"), result);
     }
     if (!jobResults.isEmpty() && m_jobStatus != JOBABORTED) {
-	m_jobStatus = JOBDONE;
 	emit gotFilterJobResults(m_clipId, startPos, track, jobResults, m_extra);
     }
-    if (m_jobStatus == JOBABORTED) m_jobStatus = JOBDONE;
+    if (m_jobStatus == JOBABORTED || m_jobStatus == JOBWORKING) m_jobStatus = JOBDONE;
 }
 
 
