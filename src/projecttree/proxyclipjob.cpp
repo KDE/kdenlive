@@ -207,7 +207,7 @@ void ProxyJob::processLogInfo()
     else {
         // Parse MLT output
         if (log.contains("percentage:")) {
-            progress = log.section(':', -1).simplified().toInt();
+            progress = log.section("percentage:", 1).simplified().section(' ', 0, 0).toInt();
             emit jobProgress(m_clipId, progress, jobType);
         }
     }
