@@ -5186,7 +5186,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool 
         if (effectPos != -1) {
             QDomElement effect = item->getEffectAtIndex(effectPos);
             int max = item->cropDuration().frames(m_document->fps());
-            int end = max + item->cropStart().frames(m_document->fps());
+            int end = max + item->cropStart().frames(m_document->fps()) - 1;
             if (start > max) {
                 // Make sure the fade effect is not longer than the clip
                 item->setFadeOut(max);
@@ -5207,7 +5207,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool 
         if (effectPos != -1) {
             QDomElement effect = item->getEffectAtIndex(effectPos);
             int max = item->cropDuration().frames(m_document->fps());
-            int end = max + item->cropStart().frames(m_document->fps());
+            int end = max + item->cropStart().frames(m_document->fps()) - 1;
             if (start > max) {
                 // Make sure the fade effect is not longer than the clip
                 item->setFadeOut(max);
