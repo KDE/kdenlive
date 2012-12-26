@@ -37,25 +37,21 @@ AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElemen
 {
     if (!m_remove) setText(i18n("Add timeline clip"));
     else setText(i18n("Delete timeline clip"));
-    if (parent) {
-        // command has a parent, so there are several operations ongoing, do not refresh monitor
-        m_refresh = false;
-    } else m_refresh = true;
 }
 
 
 // virtual
 void AddTimelineClipCommand::undo()
 {
-    if (!m_remove) m_view->deleteClip(m_clipInfo, m_refresh);
-    else m_view->addClip(m_xml, m_clipId, m_clipInfo, m_effects, m_overwrite, m_push, m_refresh);
+    if (!m_remove) m_view->deleteClip(m_clipInfo);
+    else m_view->addClip(m_xml, m_clipId, m_clipInfo, m_effects, m_overwrite, m_push);
 }
 // virtual
 void AddTimelineClipCommand::redo()
 {
     if (m_doIt) {
-        if (!m_remove) m_view->addClip(m_xml, m_clipId, m_clipInfo, m_effects, m_overwrite, m_push, m_refresh);
-        else m_view->deleteClip(m_clipInfo, m_refresh);
+        if (!m_remove) m_view->addClip(m_xml, m_clipId, m_clipInfo, m_effects, m_overwrite, m_push);
+        else m_view->deleteClip(m_clipInfo);
     }
     m_doIt = true;
 }

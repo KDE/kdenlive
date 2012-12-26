@@ -171,8 +171,9 @@ void Transition::paint(QPainter *painter,
     painter->setWorldMatrixEnabled(false);
     QPainterPath p;
     p.addRect(exposed);
+    
     QPainterPath q;
-    q.addRoundedRect(mapped.adjusted(0, 0, -1, -1), 3, 3);
+    q.addRoundedRect(mapped, 3, 3);
     painter->setClipPath(p.intersected(q));
     painter->fillRect(exposed, brush());
     const QString text = m_name + (m_forceTransitionTrack ? "|>" : QString());
@@ -188,7 +189,7 @@ void Transition::paint(QPainter *painter,
 
     const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
     painter->setBrush(framePen.color());
-    painter->setPen(Qt::NoPen);
+    painter->setPen(framePen.color());
     painter->drawRoundedRect(txtBounding, 3, 3);
     painter->setBrush(QBrush(Qt::NoBrush));
 

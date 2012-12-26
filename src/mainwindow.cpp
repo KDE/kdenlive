@@ -474,12 +474,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     QMenu *clipInTimeline = static_cast<QMenu*>(factory()->container("clip_in_timeline", this));
     clipInTimeline->setIcon(KIcon("go-jump"));
-	QHash<QString,QMenu*> menus;
-	menus.insert("addMenu",static_cast<QMenu*>(factory()->container("generators", this)));
-        menus.insert("extractAudioMenu",static_cast<QMenu*>(factory()->container("extract_audio", this)));
-	menus.insert("transcodeMenu",static_cast<QMenu*>(factory()->container("transcoders", this)));
-	menus.insert("clipActionsMenu",static_cast<QMenu*>(factory()->container("clip_actions", this)));
-	menus.insert("inTimelineMenu",clipInTimeline);
+    QHash<QString,QMenu*> menus;
+    menus.insert("addMenu",static_cast<QMenu*>(factory()->container("generators", this)));
+    menus.insert("extractAudioMenu",static_cast<QMenu*>(factory()->container("extract_audio", this)));
+    menus.insert("transcodeMenu",static_cast<QMenu*>(factory()->container("transcoders", this)));
+    menus.insert("clipActionsMenu",static_cast<QMenu*>(factory()->container("clip_actions", this)));
+    menus.insert("inTimelineMenu",clipInTimeline);
     m_projectList->setupGeneratorMenu(menus);
 
     // build themes menus
@@ -3402,12 +3402,12 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         if (dia_ui->exec() == QDialog::Accepted) {
             QMap <QString, QString> newprops;
             newprops.insert("xmldata", dia_ui->xml().toString());
-            if (dia_ui->outPoint() != clip->duration().frames(m_activeDocument->fps())) {
+            if (dia_ui->duration() != clip->duration().frames(m_activeDocument->fps())) {
                 // duration changed, we need to update duration
-                newprops.insert("out", QString::number(dia_ui->outPoint()));
+                newprops.insert("out", QString::number(dia_ui->duration() - 1));
                 int currentLength = QString(clip->producerProperty("length")).toInt();
-                if (currentLength <= dia_ui->outPoint())
-                        newprops.insert("length", QString::number(dia_ui->outPoint() + 1));
+                if (currentLength <= dia_ui->duration())
+                        newprops.insert("length", QString::number(dia_ui->duration()));
                 else newprops.insert("length", clip->producerProperty("length"));
             }
             if (!path.isEmpty()) {

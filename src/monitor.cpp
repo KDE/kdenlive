@@ -52,7 +52,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     m_currentClip(NULL),
     m_overlay(NULL),
     m_scale(1),
-    m_length(0),
+    m_length(2),
     m_dragStarted(false),
     m_contextMenu(NULL),
     m_effectWidget(NULL),

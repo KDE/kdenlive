@@ -227,7 +227,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_reloadAction(NULL),
     m_extractAudioAction(NULL),
     m_transcodeAction(NULL),
-    m_stabilizeAction(NULL),
+    m_clipsActionsMenu(NULL),
     m_doc(NULL),
     m_refreshed(false),
     m_allClipsProcessed(false),
@@ -431,7 +431,7 @@ void ProjectList::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
 		m_menu->addMenu(stabilizeMenu);
 		if (stabilizeMenu->isEmpty())
 			stabilizeMenu->setEnabled(false);
-		m_stabilizeAction=stabilizeMenu;
+		m_clipsActionsMenu = stabilizeMenu;
 
 	}
     m_menu->addAction(m_reloadAction);
@@ -715,10 +715,11 @@ void ProjectList::slotReloadClip(const QString &id)
             QDomElement e = item->toXml();
             // Make sure we get the correct producer length if it was adjusted in timeline
             if (t == COLOR || t == IMAGE || t == SLIDESHOW || t == TEXT) {
-                int length = QString(clip->producerProperty("length")).toInt();
-                if (length > 0 && !e.hasAttribute("length")) {
-                    e.setAttribute("length", length);
-                }
+		int length = QString(clip->producerProperty("length")).toInt();
+		if (length > 0 && !e.hasAttribute("length")) {
+		    e.setAttribute("length", length);
+		}
+		e.setAttribute("duration", clip->getProperty("duration"));
             }
             resetThumbsProducer(clip);
             m_render->getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
@@ -834,7 +835,7 @@ void ProjectList::slotClipSelected()
             m_reloadAction->setEnabled(false);
             m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
-            m_stabilizeAction->setEnabled(false);
+            m_clipsActionsMenu->setEnabled(false);
         } else {
             if (item->type() == PROJECTSUBCLIPTYPE) {
                 // this is a sub item, use base clip
@@ -846,7 +847,7 @@ void ProjectList::slotClipSelected()
                 emit clipSelected(clip->referencedClip(), sub->zone());
                 m_extractAudioAction->setEnabled(false);
                 m_transcodeAction->setEnabled(false);
-                m_stabilizeAction->setEnabled(false);
+                m_clipsActionsMenu->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 adjustProxyActions(clip);
                 return;
@@ -860,7 +861,7 @@ void ProjectList::slotClipSelected()
             m_reloadAction->setEnabled(true);
             m_extractAudioAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
-            m_stabilizeAction->setEnabled(true);
+            m_clipsActionsMenu->setEnabled(true);
             if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
                 m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
                 m_openAction->setEnabled(true);
@@ -884,7 +885,7 @@ void ProjectList::slotClipSelected()
         m_reloadAction->setEnabled(false);
         m_extractAudioAction->setEnabled(true);
         m_transcodeAction->setEnabled(false);
-        m_stabilizeAction->setEnabled(false);
+        m_clipsActionsMenu->setEnabled(false);
     }
     adjustProxyActions(clip);
 }
@@ -907,10 +908,10 @@ void ProjectList::adjustStabilizeActions(ProjectItem *clip) const
 {
 
     if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == SLIDESHOW) {
-        m_stabilizeAction->setEnabled(false);
+        m_clipsActionsMenu->setEnabled(false);
         return;
     }
-	m_stabilizeAction->setEnabled(true);
+	m_clipsActionsMenu->setEnabled(true);
 
 }
 
@@ -1075,14 +1076,14 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
     m_reloadAction->setEnabled(enable);
     m_extractAudioAction->setEnabled(enable);
     m_transcodeAction->setEnabled(enable);
-    m_stabilizeAction->setEnabled(enable);
+    m_clipsActionsMenu->setEnabled(enable);
     if (enable) {
         ProjectItem *clip = NULL;
         if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item->parent());
             m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
-            m_stabilizeAction->setEnabled(false);
+            m_clipsActionsMenu->setEnabled(false);
             adjustProxyActions(clip);
         } else if (m_listView->currentItem()->type() == PROJECTCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item);
@@ -1095,7 +1096,7 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
         } else {
             m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
-            m_stabilizeAction->setEnabled(false);
+            m_clipsActionsMenu->setEnabled(false);
         }
         if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
@@ -1173,7 +1174,7 @@ void ProjectList::updateButtons() const
             m_openAction->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
-            m_stabilizeAction->setEnabled(true);
+            m_clipsActionsMenu->setEnabled(true);
             return;
         }
         else if (item && item->type() == PROJECTFOLDERTYPE && item->childCount() > 0) {
@@ -1184,7 +1185,7 @@ void ProjectList::updateButtons() const
     m_openAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
     m_transcodeAction->setEnabled(false);
-    m_stabilizeAction->setEnabled(false);
+    m_clipsActionsMenu->setEnabled(false);
     m_proxyAction->setEnabled(false);
 }
 
@@ -2195,7 +2196,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
 {
     QString toReload;
     ProjectItem *item = getItemById(clipId);
-    int queue = m_render->processingItems();
     if (item && producer) {
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
@@ -2208,6 +2208,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         item->setProperties(properties, metadata);
         clip->setProducer(producer, replace);
+	m_render->processingDone(clipId);
 
         // Proxy stuff
         QString size = properties.value("frame_size");
@@ -2247,7 +2248,11 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         if (!toReload.isEmpty())
             item->slotSetToolTip();
-    } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
+    } else {
+	kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
+	m_render->processingDone(clipId);
+    }
+    int queue = m_render->processingItems();
     if (queue == 0) {
         monitorItemEditing(true);
         if (item && m_thumbnailQueue.isEmpty()) {
@@ -2479,7 +2484,7 @@ void ProjectList::slotSelectClip(const QString &ix)
         m_reloadAction->setEnabled(true);
         m_extractAudioAction->setEnabled(true);
         m_transcodeAction->setEnabled(true);
-        m_stabilizeAction->setEnabled(true);
+        m_clipsActionsMenu->setEnabled(true);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);

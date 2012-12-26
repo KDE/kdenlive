@@ -231,7 +231,7 @@ Q_OBJECT public:
     /** @brief Returns the duration/length of @param track as reported by the track producer. */
     int mltTrackDuration(int track);
 
-    bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration);
+    bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh = true);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
@@ -315,6 +315,8 @@ Q_OBJECT public:
     Mlt::Producer *getProducer();
     /** @brief Returns the number of clips to process (When requesting clip info). */
     int processingItems();
+    /** @brief Processing of this clip is over, producer was set on clip, remove from list. */
+    void processingDone(const QString &id);
     /** @brief Force processing of clip with selected id. */
     void forceProcessing(const QString &id);
     /** @brief Are we currently processing clip with selected id. */
@@ -391,8 +393,8 @@ private:
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
-    /** @brief The id of the clip that is currently being loaded for info query */
-    QString m_processingClipId;
+    /** @brief The ids of the clips that are currently being loaded for info query */
+    QStringList m_processingClipId;
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */

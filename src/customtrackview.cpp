@@ -1577,9 +1577,15 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
         return;
     }
 
-    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, true, false);
-    updateTrackDuration(pasteInfo.track, command);
-    m_commandStack->push(command);
+    // Add refresh command for undo
+    QUndoCommand *addCommand = new QUndoCommand();
+    addCommand->setText(i18n("Add timeline clip"));
+    new RefreshMonitorCommand(this, false, true, addCommand);
+    new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, true, false, addCommand);
+    new RefreshMonitorCommand(this, true, false, addCommand);
+    updateTrackDuration(pasteInfo.track, addCommand);
+    
+    m_commandStack->push(addCommand);
 
     selectClip(true, false);
     // Automatic audio split
@@ -2432,7 +2438,7 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, boo
 
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
-        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos);
+        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos, false);
         if (success) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()));
             setDocumentModified();
@@ -2670,6 +2676,9 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         QUndoCommand *addCommand = new QUndoCommand();
         addCommand->setText(i18n("Add timeline clip"));
         QList <ClipItem *> brokenClips;
+	
+	// Add refresh command for undo
+	new RefreshMonitorCommand(this, false, true, addCommand);
 
         for (int i = 0; i < items.count(); i++) {
             ClipItem *item = static_cast <ClipItem *>(items.at(i));
@@ -2710,6 +2719,9 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
             item->setSelected(true);
         }
+        // Add refresh command for redo
+	new RefreshMonitorCommand(this, false, false, addCommand);
+	
         qDeleteAll(brokenClips);
         brokenClips.clear();
         if (addCommand->childCount() > 0) m_commandStack->push(addCommand);
@@ -4260,7 +4272,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependant
         item->updateRectGeometry();
         if (item->cropDuration().frames(m_document->fps()) != endPos)
             item->resizeEnd((int) info.startPos.frames(m_document->fps()) + endPos - 1);
-        updatePositionEffects(item, info);
+        updatePositionEffects(item, info, false);
         setDocumentModified();
     } else {
         emit displayMessage(i18n("Invalid clip"), ErrorMessage);
@@ -5174,7 +5186,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool 
         if (effectPos != -1) {
             QDomElement effect = item->getEffectAtIndex(effectPos);
             int max = item->cropDuration().frames(m_document->fps());
-            int end = max + item->cropStart().frames(m_document->fps());
+            int end = max + item->cropStart().frames(m_document->fps()) - 1;
             if (start > max) {
                 // Make sure the fade effect is not longer than the clip
                 item->setFadeOut(max);
@@ -5195,7 +5207,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool 
         if (effectPos != -1) {
             QDomElement effect = item->getEffectAtIndex(effectPos);
             int max = item->cropDuration().frames(m_document->fps());
-            int end = max + item->cropStart().frames(m_document->fps());
+            int end = max + item->cropStart().frames(m_document->fps()) - 1;
             if (start > max) {
                 // Make sure the fade effect is not longer than the clip
                 item->setFadeOut(max);
@@ -6422,6 +6434,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     QList<QGraphicsItem *> selection = m_scene->items(r);
     QUndoCommand *deleteTrack = new QUndoCommand();
     deleteTrack->setText("Delete track");
+    new RefreshMonitorCommand(this, false, true, deleteTrack);
 
     // Delete all clips in selected track
     for (int i = 0; i < selection.count(); i++) {
@@ -6442,6 +6455,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     }
 
     new AddTrackCommand(this, ix, trackinfo, false, deleteTrack);
+    new RefreshMonitorCommand(this, true, false, deleteTrack);
     m_commandStack->push(deleteTrack);
 }
 

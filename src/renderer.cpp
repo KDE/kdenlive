@@ -485,12 +485,20 @@ void Render::seek(int time, bool slave)
 #endif
 
     resetZoneMode();
+    time = qMax(0, time);
+    time = qMin(m_mltProducer->get_playtime(), time);
     if (requestedSeekPosition == SEEK_INACTIVE) {
 	requestedSeekPosition = time;
+	m_mltConsumer->purge();
 	m_mltProducer->seek(time);
-	//m_mltConsumer->purge();
 	if (m_paused && !externalConsumer) {
-	    refresh();
+	    m_mltConsumer->set("refresh", 1);
+	}
+	else if (m_mltProducer->get_speed() == 0) {
+	    // workaround specific bug in MLT's SDL consumer
+	    m_mltConsumer->stop();
+	    m_mltConsumer->start();
+	    m_mltConsumer->set("refresh", 1);
 	}
     }
     else requestedSeekPosition = time;
@@ -682,14 +690,24 @@ void Render::slotSplitView(bool doit)
 
 void Render::getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer)
 {
+    // Make sure we don't request the info for same clip twice
+    m_infoMutex.lock();
+    if (m_processingClipId.contains(clipId)) {
+	m_infoMutex.unlock();
+	return;
+    }
+    for (int i = 0; i < m_requestList.count(); i++) {
+	if (m_requestList.at(i).clipId == clipId) {
+	    // Clip is already queued
+	    m_infoMutex.unlock();
+	    return;
+	}
+    }
     requestClipInfo info;
     info.xml = xml;
     info.clipId = clipId;
     info.imageHeight = imageHeight;
     info.replaceProducer = replaceProducer;
-    // Make sure we don't request the info for same clip twice
-    m_infoMutex.lock();
-    m_requestList.removeAll(info);
     m_requestList.append(info);
     m_infoMutex.unlock();
     if (!m_infoThread.isRunning()) {
@@ -699,7 +717,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
 
 void Render::forceProcessing(const QString &id)
 {
-    if (m_processingClipId == id) return;
+    if (m_processingClipId.contains(id)) return;
     QMutexLocker lock(&m_infoMutex);
     for (int i = 0; i < m_requestList.count(); i++) {
         requestClipInfo info = m_requestList.at(i);
@@ -717,21 +735,22 @@ void Render::forceProcessing(const QString &id)
 int Render::processingItems()
 {
     QMutexLocker lock(&m_infoMutex);
-    int count = m_requestList.count();
-    if (!m_processingClipId.isEmpty()) {
-        // one clip is currently processed
-        count++;
-    }
+    int count = m_requestList.count() + m_processingClipId.count();
     return count;
+}
+
+void Render::processingDone(const QString &id)
+{
+    QMutexLocker lock(&m_infoMutex);
+    m_processingClipId.removeAll(id);
 }
 
 bool Render::isProcessing(const QString &id)
 {
-    if (m_processingClipId == id) return true;
+    if (m_processingClipId.contains(id)) return true;
     QMutexLocker lock(&m_infoMutex);
     for (int i = 0; i < m_requestList.count(); i++) {
-        requestClipInfo info = m_requestList.at(i);
-        if (info.clipId == id) {
+        if (m_requestList.at(i).clipId == id) {
             return true;
         }
     }
@@ -745,7 +764,7 @@ void Render::processFileProperties()
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
-        m_processingClipId = info.clipId;
+        m_processingClipId.append(info.clipId);
         m_infoMutex.unlock();
 
         QString path;
@@ -796,7 +815,7 @@ void Render::processFileProperties()
 
         if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
             kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
-            m_processingClipId.clear();
+            m_processingClipId.removeAll(info.clipId);
             if (proxyProducer) {
                 // Proxy file is corrupted
                 emit removeInvalidProxy(info.clipId, false);
@@ -811,7 +830,7 @@ void Render::processFileProperties()
             producer->set("out", info.xml.attribute("proxy_out").toInt());
             if (producer->get_out() != info.xml.attribute("proxy_out").toInt()) {
                 // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
-                m_processingClipId.clear();
+                m_processingClipId.removeAll(info.clipId);
                 emit removeInvalidProxy(info.clipId, true);
                 delete producer;
                 continue;
@@ -879,9 +898,17 @@ void Render::processFileProperties()
                 length = info.xml.attribute("length").toInt();
                 clipOut = length - 1;
             }
-            else length = info.xml.attribute("out").toInt() - info.xml.attribute("in").toInt();
-            producer->set("length", length);
-	    duration = length;
+            else length = info.xml.attribute("out").toInt() - info.xml.attribute("in").toInt() + 1;
+	    // Pass duration if it was forced
+	    if (info.xml.hasAttribute("duration")) {
+		duration = info.xml.attribute("duration").toInt();
+		if (length < duration) {
+		    length = duration;
+		    if (clipOut > 0) clipOut = length - 1;
+		}
+	    }
+	    if (duration == 0) duration = length;
+	    producer->set("length", length);
         }
 
         if (clipOut > 0) producer->set_in_and_out(info.xml.attribute("in").toInt(), clipOut);
@@ -907,7 +934,6 @@ void Render::processFileProperties()
                 }
                 if (frame) delete frame;
             }
-            m_processingClipId.clear();
             emit replyGetFileProperties(info.clipId, producer, stringMap(), stringMap(), info.replaceProducer);
             continue;
         }
@@ -1022,8 +1048,13 @@ void Render::processFileProperties()
         Mlt::Frame *frame = producer->get_frame();
         if (frame && frame->is_valid()) {
             filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
-            filePropertyMap["frequency"] = QString::number(frame->get_int("frequency"));
-            filePropertyMap["channels"] = QString::number(frame->get_int("channels"));
+	    int af = frame->get_int("audio_frequency");
+	    int ac = frame->get_int("audio_channels");
+	    // keep for compatibility with MLT <= 0.8.6
+	    if (af == 0) af = frame->get_int("frequency");
+	    if (ac == 0) ac = frame->get_int("channels");
+            filePropertyMap["frequency"] = QString::number(af);
+            filePropertyMap["channels"] = QString::number(ac);
             if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
 
             if (frame->get_int("test_image") == 0) {
@@ -1130,10 +1161,8 @@ void Render::processFileProperties()
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
-        m_processingClipId.clear();
         emit replyGetFileProperties(info.clipId, producer, filePropertyMap, metadataPropertyMap, info.replaceProducer);
     }
-    m_processingClipId.clear();
 }
 
 
@@ -1276,11 +1305,6 @@ void Render::startConsumer() {
         return;
     }
     m_mltConsumer->set("refresh", 1);
-    // Make sure the first frame is displayed, otherwise if we change producer too fast
-    // We can crash the avformat producer
-    Mlt::Event *ev = m_mltConsumer->setup_wait_for("consumer-frame-show");
-    m_mltConsumer->wait_for(ev);
-    delete ev;
 }
 
 int Render::setSceneList(QDomDocument list, int position)
@@ -1369,6 +1393,7 @@ int Render::setSceneList(QString playlist, int position)
         m_mltProducer = m_blackClip->cut(0, 1);
         error = -1;
     }
+    m_mltProducer->set("eof", "pause");
     checkMaxThreads();
     int volume = KdenliveSettings::volume();
     m_mltProducer->set("meta.volume", (double)volume / 100);
@@ -1671,7 +1696,6 @@ void Render::switchPlay(bool play, bool slave)
     } else if (!play) {
 	m_paused = true;
 	m_mltProducer->set_speed(0.0);
-	//m_mltProducer->pause();
     }
 }
 
@@ -1738,8 +1762,8 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_paused = false;
     m_mltProducer->set_speed(1.0);
-    m_mltConsumer->set("refresh", 1);
     if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+    m_mltConsumer->set("refresh", 1);
     m_isZoneMode = true;
 }
 
@@ -1747,7 +1771,6 @@ void Render::resetZoneMode()
 {
     if (!m_isZoneMode && !m_isLoopMode) return;
     m_mltProducer->set("out", m_mltProducer->get_length());
-    //m_mltProducer->set("eof", "pause");
     m_isZoneMode = false;
     m_isLoopMode = false;
 }
@@ -1783,13 +1806,14 @@ void Render::doRefresh()
 
 void Render::refresh()
 {
+    m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (!m_mltProducer)
         return;
     if (m_mltConsumer) {
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
+	m_mltConsumer->set("refresh", 1);
         //m_mltConsumer->purge();
-        m_mltConsumer->set("refresh", 1);
     }
 }
 
@@ -1855,10 +1879,9 @@ void Render::emitFrameNumber()
     if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
     emit rendererPosition(currentPos);
     if (requestedSeekPosition != SEEK_INACTIVE) {
+	m_mltConsumer->purge();
 	m_mltProducer->seek(requestedSeekPosition);
-	if (m_paused) {
-	    refresh();
-	}
+	if (m_mltProducer->get_speed() == 0) m_mltConsumer->set("refresh", 1);
 	requestedSeekPosition = SEEK_INACTIVE;
     }
 }
@@ -2040,6 +2063,10 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
         }
 
         delete blackclip;
+	if (m_mltConsumer->position() > duration) {
+	    m_mltConsumer->purge();
+	    m_mltProducer->seek(duration);
+	}
         m_mltProducer->set("out", duration);
         emit durationChanged(duration);
     }
@@ -3388,7 +3415,7 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     refresh();
 }
 
-bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
+bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -3466,7 +3493,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
         transpinfo.track = info.track;
         mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
     }*/
-    m_mltConsumer->set("refresh", 1);
+    if (refresh) m_mltConsumer->set("refresh", 1);
     return true;
 }
 

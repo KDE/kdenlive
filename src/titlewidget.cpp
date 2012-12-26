@@ -1883,21 +1883,21 @@ void TitleWidget::saveTitle(KUrl url)
 QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
-    doc.documentElement().setAttribute("out", m_tc.getFrameCount(title_duration->text()));
+    doc.documentElement().setAttribute("duration", m_tc.getFrameCount(title_duration->text()));
     return doc;
 }
 
-int TitleWidget::outPoint() const
+int TitleWidget::duration() const
 {
     return m_tc.getFrameCount(title_duration->text());
 }
 
 void TitleWidget::setXml(QDomDocument doc)
 {
-    int out;
-    m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &out, m_projectTitlePath);
+    int duration;
+    m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
     adjustFrameSize();
-    title_duration->setText(m_tc.getTimecode(GenTime(out, m_render->fps())));
+    title_duration->setText(m_tc.getTimecode(GenTime(duration, m_render->fps())));
     /*if (doc.documentElement().hasAttribute("out")) {
     GenTime duration = GenTime(doc.documentElement().attribute("out").toDouble() / 1000.0);
     title_duration->setText(m_tc.getTimecode(duration));
