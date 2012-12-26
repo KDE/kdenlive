@@ -984,8 +984,13 @@ void Render::processFileProperties()
         Mlt::Frame *frame = producer->get_frame();
         if (frame && frame->is_valid()) {
             filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
-            filePropertyMap["frequency"] = QString::number(frame->get_int("frequency"));
-            filePropertyMap["channels"] = QString::number(frame->get_int("channels"));
+	    int af = frame->get_int("audio_frequency");
+	    int ac = frame->get_int("audio_channels");
+	    // keep for compatibility with MLT <= 0.8.6
+	    if (af == 0) af = frame->get_int("frequency");
+	    if (ac == 0) ac = frame->get_int("channels");
+            filePropertyMap["frequency"] = QString::number(af);
+            filePropertyMap["channels"] = QString::number(ac);
             if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
 
             if (frame->get_int("test_image") == 0) {
