@@ -604,15 +604,23 @@ void ClipManager::slotAddClipList(const KUrl::List urls, QMap <QString, QString>
                             }
                         }
                     }
-                    QString titleData = txtdoc.toString();
-                    prod.setAttribute("xmldata", titleData);
                     prod.setAttribute("transparency", 1);
                     prod.setAttribute("in", 0);
-                    int out = txtdoc.documentElement().attribute("out").toInt();
-                    if (out > 0)
-                        prod.setAttribute("out", out);
-                    else
-                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+		    if (!txtdoc.documentElement().hasAttribute("out")) {
+			prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+			txtdoc.documentElement().setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+		    }
+		    else {
+			int out = txtdoc.documentElement().attribute("out").toInt();
+			if (out >= 0)
+			    prod.setAttribute("out", out);
+			else {
+			    prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+			    txtdoc.documentElement().setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+			}
+		    }
+		    QString titleData = txtdoc.toString();
+                    prod.setAttribute("xmldata", titleData);
                 } else
                     txtfile.close();
             }
