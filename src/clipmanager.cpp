@@ -738,16 +738,22 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const KUrl &path, c
     prod.setAttribute("transparency", "1");
     prod.setAttribute("in", "0");
 
-    int out = 0;
+    int duration = 0;
     QDomDocument titledoc;
     QFile txtfile(path.path());
     if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
         txtfile.close();
-        out = titledoc.documentElement().attribute("out").toInt();
+	if (titledoc.documentElement().hasAttribute("duration")) {
+	    duration = titledoc.documentElement().attribute("duration").toInt();
+	}
+        else {
+	    // keep some time for backwards compatibility - 26/12/12
+	    duration = titledoc.documentElement().attribute("out").toInt();
+	}
     } else txtfile.close();
 
-    if (out == 0) out = m_doc->getFramePos(KdenliveSettings::image_duration());
-    prod.setAttribute("out", out);
+    if (duration == 0) duration = m_doc->getFramePos(KdenliveSettings::title_duration());
+    prod.setAttribute("out", duration - 1);
 
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);

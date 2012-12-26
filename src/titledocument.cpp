@@ -284,13 +284,15 @@ QColor TitleDocument::getBackgroundColor()
 }
 
 
-bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int out, bool embed)
+bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed)
 {
     if (!m_scene)
         return false;
 
     QDomDocument doc = xml(startv, endv, embed);
-    doc.documentElement().setAttribute("out", out);
+    doc.documentElement().setAttribute("duration", duration);
+    // keep some time for backwards compatibility (opening projects with older versions) - 26/12/12
+    doc.documentElement().setAttribute("out", duration);
     KTemporaryFile tmpfile;
     if (!tmpfile.open()) {
         kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
@@ -308,7 +310,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGr
     return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *out, const QString& projectpath)
+int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath)
 {
     m_projectPath = projectpath;
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
@@ -334,10 +336,12 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
         }
     }
     //TODO: get default title duration instead of hardcoded one
+    if (doc.documentElement().hasAttribute("duration"))
+        *duration = doc.documentElement().attribute("duration").toInt();
     if (doc.documentElement().hasAttribute("out"))
-        *out = doc.documentElement().attribute("out").toInt();
+        *duration = doc.documentElement().attribute("out").toInt();
     else
-        *out = 125;
+        *duration = 125;
 
     int maxZValue = 0;
     if (titles.size()) {
