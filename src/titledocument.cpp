@@ -338,7 +338,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
     //TODO: get default title duration instead of hardcoded one
     if (doc.documentElement().hasAttribute("duration"))
         *duration = doc.documentElement().attribute("duration").toInt();
-    if (doc.documentElement().hasAttribute("out"))
+    else if (doc.documentElement().hasAttribute("out"))
         *duration = doc.documentElement().attribute("out").toInt();
     else
         *duration = 125;
