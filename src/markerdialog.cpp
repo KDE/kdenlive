@@ -96,6 +96,8 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         connect(m_in, SIGNAL(timeCodeEditingFinished()), this, SIGNAL(updateThumb()));
     } else {
         clip_thumb->setHidden(true);
+	label_category->setHidden(true);
+	marker_type->setHidden(true);
     }
 
     marker_comment->setText(t.comment());

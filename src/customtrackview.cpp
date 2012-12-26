@@ -5591,19 +5591,9 @@ void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
 
 void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const QString &comment)
 {
-    if (oldPos > GenTime() && pos > GenTime()) {
-        // move guide
-        for (int i = 0; i < m_guides.count(); i++) {
-            if (m_guides.at(i)->position() == oldPos) {
-                Guide *item = m_guides.at(i);
-                item->updateGuide(pos, comment);
-                break;
-            }
-        }
-    } else if (pos > GenTime()) addGuide(pos, comment);
-    else {
-        // remove guide
-        bool found = false;
+    if (comment.isEmpty() && pos < GenTime()) {
+	// Delete guide
+	bool found = false;
         for (int i = 0; i < m_guides.count(); i++) {
             if (m_guides.at(i)->position() == oldPos) {
                 delete m_guides.takeAt(i);
@@ -5613,6 +5603,17 @@ void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const
         }
         if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
     }
+    
+    else if (oldPos >= GenTime()) {
+        // move guide
+        for (int i = 0; i < m_guides.count(); i++) {
+            if (m_guides.at(i)->position() == oldPos) {
+                Guide *item = m_guides.at(i);
+                item->updateGuide(pos, comment);
+                break;
+            }
+        }
+    } else addGuide(pos, comment);
     qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
     m_document->syncGuides(m_guides);
 }
@@ -5702,7 +5703,7 @@ void CustomTrackView::slotDeleteGuide(int guidePos)
     bool found = false;
     for (int i = 0; i < m_guides.count(); i++) {
         if (m_guides.at(i)->position() == pos) {
-            EditGuideCommand *command = new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true);
+            EditGuideCommand *command = new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(-1), QString(), true);
             m_commandStack->push(command);
             found = true;
             break;
@@ -5715,7 +5716,7 @@ void CustomTrackView::slotDeleteGuide(int guidePos)
 void CustomTrackView::slotDeleteTimeLineGuide()
 {
     if (m_dragGuide == NULL) return;
-    EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), GenTime(), QString(), true);
+    EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), GenTime(-1), QString(), true);
     m_commandStack->push(command);
 }
 
@@ -5725,7 +5726,7 @@ void CustomTrackView::slotDeleteAllGuides()
     QUndoCommand *deleteAll = new QUndoCommand();
     deleteAll->setText("Delete all guides");
     for (int i = 0; i < m_guides.count(); i++) {
-        new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true, deleteAll);
+        new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(-1), QString(), true, deleteAll);
     }
     m_commandStack->push(deleteAll);
 }

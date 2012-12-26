@@ -170,12 +170,15 @@ void TimecodeDisplay::setValue(int value)
         value = m_minimum;
     if (m_maximum > m_minimum && value > m_maximum)
         value = m_maximum;
-    if (value == m_value && !lineEdit()->text().isEmpty()) return;
-    m_value = value;
 
-    if (m_frametimecode)
+    if (m_frametimecode) {
+	if (value == m_value && !lineEdit()->text().isEmpty()) return;
+	m_value = value;
         lineEdit()->setText(QString::number(value));
+    }
     else {
+	if (value == m_value && lineEdit()->text() != ":::") return;
+	m_value = value;
         QString v = m_timecode.getTimecodeFromFrames(value);
         lineEdit()->setText(v);
     }

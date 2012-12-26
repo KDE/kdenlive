@@ -64,7 +64,9 @@ void ProxyJob::startJob()
         mltParameters.append(QString("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
         //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
-        double display_ratio = KdenliveDoc::getDisplayRatio(m_src);
+        double display_ratio;
+	if (m_src.startsWith("consumer:")) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(":", 1));
+	else display_ratio = KdenliveDoc::getDisplayRatio(m_src);
         mltParameters << "aspect=" + QString::number(display_ratio);
             
         // Ask for progress reporting
@@ -205,7 +207,7 @@ void ProxyJob::processLogInfo()
     else {
         // Parse MLT output
         if (log.contains("percentage:")) {
-            progress = log.section(':', -1).simplified().toInt();
+            progress = log.section("percentage:", 1).simplified().section(' ', 0, 0).toInt();
             emit jobProgress(m_clipId, progress, jobType);
         }
     }

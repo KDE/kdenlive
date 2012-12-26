@@ -1061,7 +1061,7 @@ void Render::processFileProperties()
                 if (mltService == "xml" || mltService == "consumer") {
                     filePropertyMap["type"] = "playlist";
                     metadataPropertyMap["comment"] = QString::fromUtf8(producer->get("title"));
-                } else if (frame->get_int("test_audio") == 0)
+                } else if (!mlt_frame_is_test_audio(frame->get_frame()))
                     filePropertyMap["type"] = "av";
                 else
                     filePropertyMap["type"] = "video";
