@@ -385,9 +385,10 @@ void KdenliveSettingsDialog::initDevices()
     m_configSdl.kcfg_video_driver->addItem(i18n("Ascii art library"), "aalib");
 #endif
 
-    // Fill the list of audio playback devices
+    // Fill the list of audio playback / recording devices
     m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
     m_configCapture.kcfg_rmd_alsa_device->addItem(i18n("Default"), QString());
+    m_configCapture.kcfg_v4l_alsadevice->addItem(i18n("Default"), "default");
     if (!KStandardDirs::findExe("aplay").isEmpty()) {
         m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
         m_readProcess.setProgram("aplay", QStringList() << "-l");
@@ -396,12 +397,11 @@ void KdenliveSettingsDialog::initDevices()
     } else {
         // If aplay is not installed on the system, parse the /proc/asound/pcm file
         QFile file("/proc/asound/pcm");
-        if (file.open(QIODevice::ReadOnly)) {
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream stream(&file);
-            QString line;
+            QString line = stream.readLine();
             QString deviceId;
-            while (!stream.atEnd()) {
-                line = stream.readLine();
+	    while (!line.isNull()) {
                 if (line.contains("playback")) {
                     deviceId = line.section(':', 0, 0);
                     m_configSdl.kcfg_audio_device->addItem(line.section(':', 1, 1), "plughw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
@@ -411,9 +411,10 @@ void KdenliveSettingsDialog::initDevices()
                     m_configCapture.kcfg_rmd_alsa_device->addItem(line.section(':', 1, 1).simplified(), "plughw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
                     m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(':', 1, 1).simplified(), "hw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
                 }
+                line = stream.readLine();
             }
             file.close();
-        }
+        } else kDebug()<<" / / / /CANNOT READ PCM";
     }
     
     // Add pulseaudio capture option

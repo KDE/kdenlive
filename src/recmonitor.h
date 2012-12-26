@@ -108,7 +108,7 @@ private:
     /** @brief Build MLT producer for device, using path as profile. */
     void buildMltDevice(const QString &path);
     /** @brief Create string containing an XML playlist for v4l capture. */
-    const QString getV4lXmlPlaylist(MltVideoProfile profile);
+    const QString getV4lXmlPlaylist(MltVideoProfile profile, bool *isXml);
 
 private slots:
     void slotStartPreview(bool play = true);

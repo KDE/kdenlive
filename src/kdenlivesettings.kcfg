@@ -356,10 +356,15 @@
       <label>Audio device for v4l capture.</label>
       <default></default>
     </entry>
+    
+    <entry name="alsachannels" type="UInt">
+      <label>Number of audio channels.</label>
+      <default>2</default>
+    </entry>
 
     <entry name="v4l_alsadevicename" type="String">
       <label>Audio device for v4l capture.</label>
-      <default>hw:0,0</default>
+      <default>default</default>
     </entry>
 
     <entry name="v4l_parameters" type="String">

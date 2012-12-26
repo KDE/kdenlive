@@ -451,6 +451,7 @@ void RecMonitor::slotStartPreview(bool play)
     QString producer;
     QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(' ', QString::SkipEmptyParts);
     int ix = device_selector->currentIndex();
+    bool isXml;
     videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC && ix != FIREWIRE);
     switch (ix) {
     case FIREWIRE:
@@ -499,10 +500,10 @@ void RecMonitor::slotStartPreview(bool play)
         path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
-        producer = getV4lXmlPlaylist(profile);
+        producer = getV4lXmlPlaylist(profile, &isXml);
 
         //producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
-        if (!m_captureDevice->slotStartPreview(producer, true)) {
+        if (!m_captureDevice->slotStartPreview(producer, isXml)) {
             // v4l capture failed to start
             video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
             videoBox->setHidden(true);
@@ -590,6 +591,7 @@ void RecMonitor::slotRecord()
         QString v4lparameters;
         MltVideoProfile profile;
         bool showPreview;
+	bool isXml;
         QString capturename = KdenliveSettings::dvgrabfilename();
         if (capturename.isEmpty()) capturename = "capture";
 
@@ -600,7 +602,7 @@ void RecMonitor::slotRecord()
             profile = ProfilesDialog::getVideoProfile(path);
             //m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
-            playlist = getV4lXmlPlaylist(profile);
+            playlist = getV4lXmlPlaylist(profile, &isXml);
 
             v4lparameters = KdenliveSettings::v4l_parameters();
 
@@ -639,7 +641,7 @@ void RecMonitor::slotRecord()
             showPreview = m_previewSettings->isChecked();
             if (!rec_video->isChecked()) showPreview = false;
 
-            if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, showPreview)) {
+            if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, showPreview, isXml)) {
                 videoBox->setHidden(false);
                 m_isCapturing = true;
                 m_recAction->setEnabled(false);
@@ -649,6 +651,9 @@ void RecMonitor::slotRecord()
             else {
                 video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
                 videoBox->setHidden(true);
+		m_recAction->blockSignals(true);
+		m_recAction->setChecked(false);
+		m_recAction->blockSignals(false);
                 m_isCapturing = false;
             }
             break;
@@ -742,22 +747,34 @@ void RecMonitor::slotRecord()
     }
 }
 
-const QString RecMonitor::getV4lXmlPlaylist(MltVideoProfile profile) {
+const QString RecMonitor::getV4lXmlPlaylist(MltVideoProfile profile, bool *isXml) 
+{
+    QString playlist;
+    if (rec_video->isChecked() && rec_audio->isChecked()) {
+	// We want to capture audio and video, use xml playlist
+	*isXml = true;
+	playlist = QString("<mlt title=\"capture\" LC_NUMERIC=\"C\"><profile description=\"v4l\" width=\"%1\" height=\"%2\" progressive=\"%3\" sample_aspect_num=\"%4\" sample_aspect_den=\"%5\" display_aspect_num=\"%6\" display_aspect_den=\"%7\" frame_rate_num=\"%8\" frame_rate_den=\"%9\" colorspace=\"%10\"/>").arg(profile.width).arg(profile.height).arg(profile.progressive).arg(profile.sample_aspect_num).arg(profile.sample_aspect_den).arg(profile.display_aspect_num).arg(profile.display_aspect_den).arg(profile.frame_rate_num).arg(profile.frame_rate_den).arg(profile.colorspace);
 
-    QString playlist = QString("<mlt title=\"capture\" LC_NUMERIC=\"C\"><profile description=\"v4l\" width=\"%1\" height=\"%2\" progressive=\"%3\" sample_aspect_num=\"%4\" sample_aspect_den=\"%5\" display_aspect_num=\"%6\" display_aspect_den=\"%7\" frame_rate_num=\"%8\" frame_rate_den=\"%9\" colorspace=\"%10\"/>").arg(profile.width).arg(profile.height).arg(profile.progressive).arg(profile.sample_aspect_num).arg(profile.sample_aspect_den).arg(profile.display_aspect_num).arg(profile.display_aspect_den).arg(profile.frame_rate_num).arg(profile.frame_rate_den).arg(profile.colorspace);
-
-    if (rec_video->isChecked()) {
         playlist.append(QString("<producer id=\"producer0\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"eof\">loop</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den));
-    }
+    
+        playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"resource\">alsa:%1?channels=%2</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()));
 
-    if (rec_audio->isChecked()) {
-        playlist.append(QString("<producer id=\"producer1\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"eof\">loop</property><property name=\"resource\">alsa:%5</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()));
+	playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"999999\">");
+	playlist.append("<track producer=\"playlist0\"/><track producer=\"playlist1\"/>");
+	playlist.append("</tractor></mlt>");
     }
-    playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"999999\">");
-    if (rec_video->isChecked()) playlist.append("<track producer=\"playlist0\"/>");
-    if (rec_audio->isChecked()) playlist.append("<track producer=\"playlist1\"/>");
-    playlist.append("</tractor></mlt>");
-
+    else if (rec_audio->isChecked()) {
+	// Audio only recording
+	*isXml = false;
+	playlist =QString("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels());
+    }
+    else {
+	// Video only recording
+	*isXml = false;
+	playlist =QString("video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
+	
+    }
+    
     return playlist;
 }
 

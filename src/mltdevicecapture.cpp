@@ -184,7 +184,8 @@ void MltDeviceCapture::stop()
     
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 0);
-        m_mltConsumer->stop();
+        m_mltConsumer->purge();
+	m_mltConsumer->stop();
         //if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     }
     if (m_mltProducer) {
@@ -449,7 +450,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     renderProps->set("mlt_service", "avformat");
     renderProps->set("target", path.toUtf8().constData());
     renderProps->set("real_time", -KdenliveSettings::mltthreads());
-    renderProps->set("terminate_on_pause", 0);
+    //renderProps->set("terminate_on_pause", 0);
     renderProps->set("mlt_profile", m_activeProfile.toUtf8().constData());
     
 
@@ -518,19 +519,25 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         
     }
     
-    tmp = qstrdup(playlist.toUtf8().constData());
     if (xmlPlaylist) {
         // create an xml producer
-        m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
+        m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
     }
     else {
         // create a producer based on mltproducer parameter
-        m_mltProducer = new Mlt::Producer(*m_mltProfile, tmp);
+        m_mltProducer = new Mlt::Producer(*m_mltProfile, playlist.toUtf8().constData());
     }
-    delete[] tmp;
 
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) {
         kDebug()<<"//// ERROR CREATRING PROD";
+	if (m_mltConsumer) {
+            delete m_mltConsumer;
+            m_mltConsumer = NULL;
+        }
+	if (m_mltProducer) {
+	    delete m_mltProducer;
+	    m_mltProducer = NULL;
+	}
         return false;
     }
     
