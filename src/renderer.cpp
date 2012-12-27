@@ -472,6 +472,10 @@ void Render::seek(GenTime time)
 
 void Render::seek(int time, bool slave)
 {
+	/* limit time */
+	time = qMax(0, time);
+	time = qMin(m_mltProducer->get_playtime(), time);
+
 #ifdef USE_JACK
     if (!slave && isSlaveActive(Slave::Jack)) {
     	if(&JACKDEV) {
@@ -484,24 +488,23 @@ void Render::seek(int time, bool slave)
     }
 #endif
 
-    resetZoneMode();
-    time = qMax(0, time);
-    time = qMin(m_mltProducer->get_playtime(), time);
-    if (requestedSeekPosition == SEEK_INACTIVE) {
-	requestedSeekPosition = time;
-	m_mltConsumer->purge();
-	m_mltProducer->seek(time);
-	if (m_paused && !externalConsumer) {
-	    m_mltConsumer->set("refresh", 1);
+	resetZoneMode();
+	if (requestedSeekPosition == SEEK_INACTIVE) {
+		requestedSeekPosition = time;
+		m_mltConsumer->purge();
+		m_mltProducer->seek(time);
+
+		if (m_paused && !externalConsumer) {
+			m_mltConsumer->set("refresh", 1);
+		} else if (m_mltProducer->get_speed() == 0) {
+			// workaround specific bug in MLT's SDL consumer
+			m_mltConsumer->stop();
+			m_mltConsumer->start();
+			m_mltConsumer->set("refresh", 1);
+		}
+	} else {
+		requestedSeekPosition = time;
 	}
-	else if (m_mltProducer->get_speed() == 0) {
-	    // workaround specific bug in MLT's SDL consumer
-	    m_mltConsumer->stop();
-	    m_mltConsumer->start();
-	    m_mltConsumer->set("refresh", 1);
-	}
-    }
-    else requestedSeekPosition = time;
 }
 
 //static
@@ -1684,19 +1687,20 @@ void Render::switchPlay(bool play, bool slave)
     }
 #endif
 
-    if (m_isZoneMode) resetZoneMode();
-    if (play && m_paused) {
-        if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
-	m_paused = false;
-	m_mltProducer->set_speed(1.0);
-        if (m_mltConsumer->is_stopped()) {
-            m_mltConsumer->start();
-        }
-        m_mltConsumer->set("refresh", 1);
-    } else if (!play) {
-	m_paused = true;
-	m_mltProducer->set_speed(0.0);
-    }
+	if (m_isZoneMode)
+		resetZoneMode();
+	if (play && m_paused) {
+		if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
+		m_paused = false;
+		m_mltProducer->set_speed(1.0);
+		if (m_mltConsumer->is_stopped()) {
+			m_mltConsumer->start();
+		}
+		m_mltConsumer->set("refresh", 1);
+	} else if (!play) {
+		m_paused = true;
+		m_mltProducer->set_speed(0.0);
+	}
 }
 
 void Render::play(double speed)
@@ -4938,6 +4942,7 @@ void Render::slotOnSlavePlaybackStarted(int position)
 void Render::slotOnSlavePlaybackSync(int position)
 {
 	seek(position, true);
+	m_paused = true;
 }
 
 void Render::slotOnSlavePlaybackStopped(int position)
