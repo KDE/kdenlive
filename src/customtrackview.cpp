@@ -731,8 +731,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
             QGraphicsView::mouseMoveEvent(event);
             m_moveOpMode = SEEK;
-            seekCursorPos(mappedXPos);
-            slotCheckPositionScrolling();
+	    if (mappedXPos != m_document->renderer()->getCurrentSeekPosition() && mappedXPos != cursorPos()) {
+		seekCursorPos(mappedXPos);
+		slotCheckPositionScrolling();
+	    }
             return;
         } else m_moveOpMode = NONE;
     }
