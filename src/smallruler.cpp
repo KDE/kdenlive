@@ -129,7 +129,7 @@ void SmallRuler::mousePressEvent(QMouseEvent * event)
         emit zoneChanged(QPoint(m_zoneStart, m_zoneEnd));
         updatePixmap();
 
-    } else {
+    } else if (pos != m_lastSeekPosition && pos != m_cursorFramePosition) {
 	m_render->seekToFrame(pos);
 	m_lastSeekPosition = pos;
 	update();
@@ -159,9 +159,11 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 {
     const int pos = event->x() / m_scale;
     if (event->buttons() & Qt::LeftButton) {
-	m_render->seekToFrame(pos);
-	m_lastSeekPosition = pos;
-	update();
+	if (pos != m_lastSeekPosition && pos != m_cursorFramePosition) {
+	    m_render->seekToFrame(pos);
+	    m_lastSeekPosition = pos;
+	    update();
+	}
     }
     else {
 	if (m_cursorColor == palette().text() && qAbs(pos - m_cursorFramePosition) * m_scale < 7) {

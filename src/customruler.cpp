@@ -190,15 +190,17 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
         if (m_moveCursor == RULER_CURSOR) {
             QPoint diff = event->pos() - m_clickPoint;
             if (m_mouseMove == NO_MOVE) {
-                if (!KdenliveSettings::verticalzoom() || qAbs(diff.x()) >= QApplication::startDragDistance()) {
+                if (qAbs(diff.x()) >= QApplication::startDragDistance()) {
                     m_mouseMove = HORIZONTAL_MOVE;
-                } else if (qAbs(diff.y()) >= QApplication::startDragDistance()) {
+                } else if (KdenliveSettings::verticalzoom() && qAbs(diff.y()) >= QApplication::startDragDistance()) {
                     m_mouseMove = VERTICAL_MOVE;
                 } else return;
             }
             if (m_mouseMove == HORIZONTAL_MOVE) {
-                m_view->seekCursorPos(pos);
-                m_view->slotCheckPositionScrolling();
+		if (pos != m_lastSeekPosition && pos != m_view->cursorPos()) {
+		    m_view->seekCursorPos(pos);
+		    m_view->slotCheckPositionScrolling();
+		}
             } else {
                 int verticalDiff = m_startRate - (diff.y()) / 7;
                 if (verticalDiff != m_rate) emit adjustZoom(verticalDiff);

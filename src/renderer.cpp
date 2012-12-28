@@ -69,8 +69,8 @@ public:
 
 static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list vl)
 {
-//     kDebug() << "log level" << level << QString().vsprintf(fmt, vl).simplified();
     if (level > MLT_LOG_ERROR) return;
+    //kDebug() << "log level" << level << QString().vsprintf(fmt, vl).simplified();
     QString error;
     QApplication::postEvent(qApp->activeWindow(), new MltErrorEvent(error.vsprintf(fmt, vl).simplified()));
     va_end(vl);
@@ -496,6 +496,7 @@ void Render::seek(int time, bool slave)
 
 		if (m_paused && !externalConsumer) {
 			m_mltConsumer->set("refresh", 1);
+			m_paused = false;
 		} else if (m_mltProducer->get_speed() == 0) {
 			// workaround specific bug in MLT's SDL consumer
 			m_mltConsumer->stop();
@@ -1877,6 +1878,12 @@ void Render::emitFrameUpdated(Mlt::Frame& frame)
     emit frameUpdated(qimage.rgbSwapped());
 }
 
+int Render::getCurrentSeekPosition() const
+{
+    if (requestedSeekPosition != SEEK_INACTIVE) return requestedSeekPosition;
+    return (int) m_mltProducer->position();
+}
+
 void Render::emitFrameNumber()
 {
     int currentPos = m_mltConsumer->position();
@@ -1885,7 +1892,10 @@ void Render::emitFrameNumber()
     if (requestedSeekPosition != SEEK_INACTIVE) {
 	m_mltConsumer->purge();
 	m_mltProducer->seek(requestedSeekPosition);
-	if (m_mltProducer->get_speed() == 0) m_mltConsumer->set("refresh", 1);
+	if (m_mltProducer->get_speed() == 0 && m_paused) {
+	    m_paused = false;
+	    m_mltConsumer->set("refresh", 1);
+	}
 	requestedSeekPosition = SEEK_INACTIVE;
     }
 }

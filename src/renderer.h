@@ -339,7 +339,10 @@ Q_OBJECT public:
     static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
     /** @brief Frame rendering is handeled by Kdenlive, don't show video through SDL display */
     void disablePreview(bool disable);
+    /** @brief Get current seek pos requested of SEEK_INACTIVE if we are not currently seeking */
     int requestedSeekPosition;
+    /** @brief Get current seek pos requested of current producer pos if not seeking */
+    int getCurrentSeekPosition() const;
     QSemaphore showFrameSemaphore;
     bool externalConsumer;
 
