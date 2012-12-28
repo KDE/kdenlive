@@ -142,6 +142,11 @@ EffectsList MainWindow::transitions;
 
 QMap <QString,QImage> MainWindow::m_lumacache;
 
+static bool sortByNames(const QPair<QString, KAction*> &a, const QPair<QString, KAction*> &b)
+{
+    return a.first < b.first;
+}
+
 MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
     m_activeDocument(NULL),
@@ -582,32 +587,40 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     actionCollection()->addAssociatedWidget(m_clipMonitor->container());
     actionCollection()->addAssociatedWidget(m_projectMonitor->container());
 
-    QMap <QString, KAction *> viewActions;
+    QList<QPair<QString, KAction *> > viewActions;
+    QPair <QString, KAction *> pair;
     KAction *showTimeline = new KAction(i18n("Timeline"), this);
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
     connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
-    viewActions.insert(showTimeline->text(), showTimeline);
+    
+    KMenu *viewMenu = static_cast<KMenu*>(factory()->container("dockwindows", this));
+    pair.first = showTimeline->text();
+    pair.second = showTimeline;
+    viewActions.append(pair);
     
     QList <QDockWidget *> docks = findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); i++) {
         QDockWidget* dock = docks.at(i);
+	QAction * a = dock->toggleViewAction();
+	if (!a) continue;
 	KAction* dockInformations = new KAction(this);
-	dockInformations->setText(dock->windowTitle());
+	dockInformations->setText(a->text());
 	dockInformations->setCheckable(true);
 	dockInformations->setChecked(!dock->isHidden());
-	connect(dockInformations,SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
-	viewActions.insert(dockInformations->text(), dockInformations);
+	// HACK: since QActions cannot be used in KActionCategory to allow shortcut, we create a duplicate KAction of the dock QAction and link them
+	connect(a,SIGNAL(toggled(bool)), dockInformations, SLOT(setChecked(bool)));
+	connect(dockInformations,SIGNAL(triggered(bool)), a, SLOT(trigger()));
+	pair.first = dockInformations->text();
+	pair.second = dockInformations;
+	viewActions.append(pair);
     }
-
-
-    KMenu *viewMenu = static_cast<KMenu*>(factory()->container("dockwindows", this));
-    //const QList<QAction *> viewActions = createPopupMenu()->actions();
-    QMap<QString, KAction *>::const_iterator i = viewActions.constBegin();
-    while (i != viewActions.constEnd()) {
-	viewMenu->addAction(guiActions->addAction(i.key(), i.value()));
-	++i;
-    }
+    
+    // Sort dock view action by name
+    qSort(viewActions.begin(), viewActions.end(), sortByNames);
+    // Populate view menu
+    for (int i = 0; i < viewActions.count(); i++)
+	viewMenu->addAction(guiActions->addAction(viewActions.at(i).first, viewActions.at(i).second));
     
     // Populate encoding profiles
     KConfig conf("encodingprofiles.rc", KConfig::FullConfig, "appdata");
