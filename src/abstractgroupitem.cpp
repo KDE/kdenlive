@@ -53,7 +53,20 @@ int AbstractGroupItem::type() const
 
 int AbstractGroupItem::track() const
 {
-    return (int)(scenePos().y() / KdenliveSettings::trackheight());
+    //return (int)(scenePos().y() / KdenliveSettings::trackheight());
+    int topTrack = -1;
+    QList<QGraphicsItem *> children = childItems();
+    for (int i = 0; i < children.count(); ++i) {
+	if (children.at(i)->type() == GROUPWIDGET) {
+	    children.append(children.at(i)->childItems());
+	    continue;
+	}
+        AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
+        if (item && (topTrack == -1 || topTrack > item->track())) {
+	    topTrack = item->track();
+	}
+    }
+    return topTrack;
 }
 
 void AbstractGroupItem::setItemLocked(bool locked)
@@ -186,7 +199,9 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 		currentTrack = static_cast <AbstractClipItem*> (children.at(i))->track();
 		if (!groupTracks.contains(currentTrack)) groupTracks.append(currentTrack);
 	    }
-	    else if (children.at(i)->type() == GROUPWIDGET) currentTrack = static_cast <AbstractGroupItem*> (children.at(i))->track();
+	    else if (children.at(i)->type() == GROUPWIDGET) {
+		currentTrack = static_cast <AbstractGroupItem*> (children.at(i))->track();
+	}
 	    else continue;
             if (children.at(i)->type() == AVWIDGET) {
                 if (topTrack == -1 || currentTrack <= topTrack) {
@@ -202,7 +217,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
                 bool clipGroup = false;
                 for (int j = 0; j < subchildren.count(); j++) {
-                    if (subchildren.at(j)->type() == AVWIDGET) {
+                    if (subchildren.at(j)->type() == AVWIDGET || subchildren.at(j)->type() == TRANSITIONWIDGET) {
 			int subTrack = static_cast <AbstractClipItem*> (subchildren.at(j))->track();
 			if (!groupTracks.contains(subTrack)) groupTracks.append(subTrack);
                         clipGroup = true;
