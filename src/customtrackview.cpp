@@ -1705,7 +1705,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         if (!canBePastedTo(infoList, AVWIDGET)) {
             return true;
         }
-        m_selectionGroup = new AbstractGroupItem(m_document->fps());
+        if (ids.size() > 1) m_selectionGroup = new AbstractGroupItem(m_document->fps());
         start = GenTime();
         for (int i = 0; i < ids.size(); ++i) {
             QString clipData = ids.at(i);
@@ -1727,13 +1727,21 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             start += info.cropDuration;
             offsetList.append(start);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth(), false);
-            m_selectionGroup->addItem(item);
+            if (ids.size() > 1) m_selectionGroup->addItem(item);
+	    else m_dragItem = item;
+	    item->setSelected(true);
             if (!clip->isPlaceHolder()) m_waitingThumbs.append(item);
         }
 
         updateSnapPoints(NULL, offsetList);
-        m_selectionGroup->setPos(framePos);
-        scene()->addItem(m_selectionGroup);
+        if (m_selectionGroup) {
+	    m_selectionGroup->setPos(framePos);
+	    scene()->addItem(m_selectionGroup);
+	}
+	else if (m_dragItem) {
+	    m_dragItem->setPos(framePos);
+	    scene()->addItem(m_dragItem);
+	}
         //m_selectionGroup->setZValue(10);
         m_thumbsTimer.start();
         return true;
@@ -2664,7 +2672,11 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
             m_selectionGroup->setPos(pos);
             emit mousePosition((int)(m_selectionGroup->scenePos().x() + 0.5));
             event->acceptProposedAction();
-        } else {
+        } else if (m_dragItem) {
+	    m_dragItem->setPos(pos);
+            emit mousePosition((int)(m_dragItem->scenePos().x() + 0.5));
+            event->acceptProposedAction();
+	} else {
             // Drag enter was not possible, try again at mouse position
             insertDropClips(event->mimeData(), event->pos());
             event->accept();
@@ -2676,20 +2688,26 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
 
 void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event)
 {
-    if (m_selectionGroup && m_clipDrag) {
+    if ((m_selectionGroup || m_dragItem) && m_clipDrag) {
         m_thumbsTimer.stop();
         m_waitingThumbs.clear();
-        QList<QGraphicsItem *> items = m_selectionGroup->childItems();
+        QList<QGraphicsItem *> items;
+	if (m_selectionGroup) items = m_selectionGroup->childItems();
+	else if (m_dragItem) items.append(m_dragItem);
         qDeleteAll(items);
-        scene()->destroyItemGroup(m_selectionGroup);
+        if (m_selectionGroup) scene()->destroyItemGroup(m_selectionGroup);
         m_selectionGroup = NULL;
+	m_dragItem = NULL;
+	event->accept();
     } else QGraphicsView::dragLeaveEvent(event);
 }
 
 void CustomTrackView::dropEvent(QDropEvent * event)
 {
-    if (m_selectionGroup && m_clipDrag) {
-        QList<QGraphicsItem *> items = m_selectionGroup->childItems();
+    if ((m_selectionGroup || m_dragItem) && m_clipDrag) {
+        QList<QGraphicsItem *> items;
+	if (m_selectionGroup) items = m_selectionGroup->childItems();
+	else if (m_dragItem) items.append(m_dragItem);
         resetSelectionGroup();
 	m_dragItem = NULL;
         m_scene->clearSelection();
