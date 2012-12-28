@@ -199,7 +199,7 @@ void ShuttleThread::key(unsigned short code, unsigned int value)
     if (code > 16)
         return;
 
-    kDebug() << "Button PRESSED: " << code;
+    //kDebug() << "Button PRESSED: " << code;
     QApplication::postEvent(m_parent, new QEvent((QEvent::Type)(KEY_EVENT_OFFSET + code)));
 
 }
