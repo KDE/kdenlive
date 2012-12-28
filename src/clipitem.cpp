@@ -893,6 +893,11 @@ void ClipItem::paint(QPainter *painter,
                 painter->drawPixmap(clipStart + startCache - cropLeft, mappedRect.y(),  m_audioThumbCachePic.value(startCache));
         }
     }
+    
+    if (m_isMainSelectedClip) {
+	framePen.setColor(Qt::red);
+	textBgColor = Qt::red;
+    }
 
     // only paint details if clip is big enough
     if (mapped.width() > 20) {
@@ -919,10 +924,6 @@ void ClipItem::paint(QPainter *painter,
         // Draw clip name
         const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignRight | Qt::AlignTop, m_clipName + ' ').adjusted(0, -1, 0, -1);
 	painter->setPen(Qt::NoPen);
-	if (m_isMainSelectedClip) {
-	    framePen.setColor(Qt::red);
-	    textBgColor = Qt::red;
-	}
         painter->fillRect(txtBounding2.adjusted(-3, 0, 0, 0), textBgColor);
         painter->setBrush(QBrush(Qt::NoBrush));
 	painter->setPen(textColor);
@@ -1343,6 +1344,11 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         int newTrack = yOffset / KdenliveSettings::trackheight();
         newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
+	QStringList lockedTracks = property("locked_tracks").toStringList();
+	if (lockedTracks.contains(QString::number(newTrack))) {
+	    // Trying to move to a locked track
+	    return pos();
+	}
         newPos.setY((int)(newTrack  * KdenliveSettings::trackheight() + 1));
         // Only one clip is moving
         QRectF sceneShape = rect();

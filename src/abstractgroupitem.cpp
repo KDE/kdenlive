@@ -173,17 +173,19 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         xpos = qMax(xpos, 0);
         //kDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
         newPos.setX((int)(pos().x() + xpos - (int) start.x()));
-
-	int yOffset = property("y_absolute").toInt() + newPos.y();
-        int proposedTrack = yOffset / trackHeight;
-
+	QStringList lockedTracks = property("locked_tracks").toStringList();
+        int proposedTrack = (property("y_absolute").toInt() + newPos.y()) / trackHeight;
         // Check if top item is a clip or a transition
         int offset = 0;
         int topTrack = -1;
+	QList<int> groupTracks;
         QList<QGraphicsItem *> children = childItems();
         for (int i = 0; i < children.count(); i++) {
             int currentTrack = 0;
-	    if (children.at(i)->type() == AVWIDGET || children.at(i)->type() == TRANSITIONWIDGET) currentTrack = static_cast <AbstractClipItem*> (children.at(i))->track();
+	    if (children.at(i)->type() == AVWIDGET || children.at(i)->type() == TRANSITIONWIDGET) {
+		currentTrack = static_cast <AbstractClipItem*> (children.at(i))->track();
+		if (!groupTracks.contains(currentTrack)) groupTracks.append(currentTrack);
+	    }
 	    else if (children.at(i)->type() == GROUPWIDGET) currentTrack = static_cast <AbstractGroupItem*> (children.at(i))->track();
 	    else continue;
             if (children.at(i)->type() == AVWIDGET) {
@@ -201,8 +203,9 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 bool clipGroup = false;
                 for (int j = 0; j < subchildren.count(); j++) {
                     if (subchildren.at(j)->type() == AVWIDGET) {
+			int subTrack = static_cast <AbstractClipItem*> (subchildren.at(j))->track();
+			if (!groupTracks.contains(subTrack)) groupTracks.append(subTrack);
                         clipGroup = true;
-                        break;
                     }
                 }
                 if (clipGroup) {
@@ -218,6 +221,24 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 }
             }
         }
+        // Check no clip in the group goes outside of existing tracks
+        int maximumTrack = projectScene()->tracksCount() - 1;
+	int groupHeight = 0;
+	for (int i = 0; i < groupTracks.count(); i++) {
+	    int offset = groupTracks.at(i) - topTrack;
+	    if (offset > groupHeight) groupHeight = offset; 
+	}
+	maximumTrack -= groupHeight;
+        proposedTrack = qMin(proposedTrack, maximumTrack);
+        proposedTrack = qMax(proposedTrack, 0);
+	int groupOffset = proposedTrack - topTrack;
+	if (!lockedTracks.isEmpty()) {
+	    for (int i = 0; i < groupTracks.count(); i++) {
+		if (lockedTracks.contains(QString::number(groupTracks.at(i) + groupOffset))) {
+		    return pos();
+		}
+	    }
+	}
         newPos.setY((int)((proposedTrack) * trackHeight) + offset);
         //if (newPos == start) return start;
 

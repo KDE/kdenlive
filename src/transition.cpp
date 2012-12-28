@@ -224,6 +224,11 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         int newTrack = newPos.y() / KdenliveSettings::trackheight();
         newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
+	QStringList lockedTracks = property("locked_tracks").toStringList();
+	if (lockedTracks.contains(QString::number(newTrack))) {
+	    // Trying to move to a locked track
+	    return pos();
+	}
         newPos.setY((int)(newTrack * KdenliveSettings::trackheight() + itemOffset() + 1));
         // Only one clip is moving
         QRectF sceneShape = rect();
