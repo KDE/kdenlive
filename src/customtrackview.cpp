@@ -817,6 +817,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     AbstractGroupItem *dragGroup = NULL;
     AbstractClipItem *collisionClip = NULL;
     bool found = false;
+    QStringList lockedTracks;
+    double yOffset = 0;
     while (!m_dragGuide && ct < collisionList.count()) {
         if (collisionList.at(ct)->type() == AVWIDGET || collisionList.at(ct)->type() == TRANSITIONWIDGET) {
             collisionClip = static_cast <AbstractClipItem *>(collisionList.at(ct));
@@ -831,20 +833,20 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_dragItem = collisionClip;
 	    }
             found = true;
-	    QStringList lockedTracks;
 	    for (int i = 0; i < m_document->tracksCount(); i++) {
 		if (m_document->trackInfoAt(i).isLocked) lockedTracks << QString::number(m_document->tracksCount() - i - 1);
 	    }
-	    m_dragItem->setProperty("y_absolute", mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y());
+	    yOffset = mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y();
+	    m_dragItem->setProperty("y_absolute", yOffset);
 	    m_dragItem->setProperty("locked_tracks", lockedTracks);
             m_dragItemInfo = m_dragItem->info();
 	    if (m_selectionGroup) {
-		m_selectionGroup->setProperty("y_absolute", mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y());
+		m_selectionGroup->setProperty("y_absolute", yOffset);
 		m_selectionGroup->setProperty("locked_tracks", lockedTracks);
 	    }
-            if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET && m_dragItem->parentItem() != m_selectionGroup) {
+            if (dragGroup) {
                 dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
-		dragGroup->setProperty("y_absolute", mapToScene(m_clickEvent).y() - m_dragItem->scenePos().y());
+		dragGroup->setProperty("y_absolute", yOffset);
 		dragGroup->setProperty("locked_tracks", lockedTracks);
             }
             break;
@@ -1039,11 +1041,15 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
         bool selected = !m_dragItem->isSelected();
 	QGraphicsView::mousePressEvent(event);
-	  
         if (dragGroup) {
             dragGroup->setSelected(selected);
-	    if (dragGroup->parentItem())
+	    QList<QGraphicsItem *> children = dragGroup->childItems();
+	    for (int i = 0; i < children.count(); i++) {
+		children.at(i)->setSelected(selected);
+	    }
+	    if (dragGroup->parentItem()) {
 		dragGroup->parentItem()->setSelected(selected);
+	    }
 	}
         else
             m_dragItem->setSelected(selected);
@@ -1051,6 +1057,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	    m_dragItem = NULL;
 	}
         groupSelectedItems(QList <QGraphicsItem*>(), false, true);
+	if (m_selectionGroup) {
+	    m_selectionGroup->setProperty("y_absolute", yOffset);
+	    m_selectionGroup->setProperty("locked_tracks", lockedTracks);
+	}
+	
 	if (m_dragItem) { 
 	    ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
 	    updateClipTypeActions(dragGroup == NULL ? clip : NULL);
