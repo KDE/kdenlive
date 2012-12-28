@@ -176,7 +176,6 @@
       <Action name="load_layouts" />
       <Action name="show_titlebars" />
       <Separator />
-      <Action name="maximize_current" />
     </Menu>
     <Menu name="settings" >
       <Action name="manage_profiles" />
