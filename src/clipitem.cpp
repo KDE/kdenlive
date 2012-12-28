@@ -1547,7 +1547,6 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
             else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
         }*/
     } else if (effectId == "fade_from_black") {
-	kDebug()<<"// FOUND FTB:"<<effectOut<<" - "<<effectIn;
 	needRepaint = true;
         if (m_effectList.hasEffect(QString(), "fadein") == -1) {
 	    fade = effectOut - effectIn;

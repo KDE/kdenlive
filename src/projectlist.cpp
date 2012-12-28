@@ -1594,6 +1594,10 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                         resetThumbsProducer(clip);
 			m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                     }
+                    else if (item->numReferences() > 0) {
+			// In some cases, like slowmotion clips, the producer is not loaded automatically be MLT
+			m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
+		    }
                 }
                 else if (clip->isPlaceHolder()) {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
