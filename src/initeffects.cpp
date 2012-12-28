@@ -229,8 +229,7 @@ void initEffects::parseEffectFiles(const QString &locale)
     MainWindow::transitions.clearList();
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::transitions.append(effect);
-    effectsMap.clear();
-
+    effectsMap.clear();    
     // Create effects from MLT
     foreach(const QString & filtername, mltFiltersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);

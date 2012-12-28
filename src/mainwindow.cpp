@@ -582,29 +582,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     slotConnectMonitors();
 
-    // Open or create a file.  Command line argument passed in Url has
-    // precedence, then "openlastproject", then just a plain empty file.
-    // If opening Url fails, openlastproject will _not_ be used.
-    if (!Url.isEmpty()) {
-        // delay loading so that the window shows up
-        m_startUrl = Url;
-        QTimer::singleShot(500, this, SLOT(openFile()));
-    } else if (KdenliveSettings::openlastproject()) {
-        QTimer::singleShot(500, this, SLOT(openLastFile()));
-    } else { //if (m_timelineArea->count() == 0) {
-        newFile(false);
-    }
-
-    if (!clipsToLoad.isEmpty() && m_activeDocument) {
-        QStringList list = clipsToLoad.split(',');
-        QList <QUrl> urls;
-        foreach(const QString &path, list) {
-            kDebug() << QDir::current().absoluteFilePath(path);
-            urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
-        }
-        m_projectList->slotAddClip(urls);
-    }
-
 #ifdef USE_JOGSHUTTLE
     activateShuttleDevice();
 #endif
@@ -677,6 +654,30 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     }
     
     connect (KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(slotChangePalette()));
+
+    // Open or create a file.  Command line argument passed in Url has
+    // precedence, then "openlastproject", then just a plain empty file.
+    // If opening Url fails, openlastproject will _not_ be used.
+    if (!Url.isEmpty()) {
+        // delay loading so that the window shows up
+        m_startUrl = Url;
+        QTimer::singleShot(500, this, SLOT(openFile()));
+    } else if (KdenliveSettings::openlastproject()) {
+        QTimer::singleShot(500, this, SLOT(openLastFile()));
+    } else { //if (m_timelineArea->count() == 0) {
+        newFile(false);
+    }
+
+    if (!clipsToLoad.isEmpty() && m_activeDocument) {
+        QStringList list = clipsToLoad.split(',');
+        QList <QUrl> urls;
+        foreach(const QString &path, list) {
+            kDebug() << QDir::current().absoluteFilePath(path);
+            urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+        }
+        m_projectList->slotAddClip(urls);
+    }
+    
 }
 
 MainWindow::~MainWindow()
