@@ -1734,12 +1734,19 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         }
 
         updateSnapPoints(NULL, offsetList);
+	QStringList lockedTracks;
+	for (int i = 0; i < m_document->tracksCount(); i++) {
+	    if (m_document->trackInfoAt(i).isLocked) lockedTracks << QString::number(m_document->tracksCount() - i - 1);
+	}   
+	    
         if (m_selectionGroup) {
 	    m_selectionGroup->setPos(framePos);
+	    m_selectionGroup->setProperty("locked_tracks", lockedTracks);
 	    scene()->addItem(m_selectionGroup);
 	}
 	else if (m_dragItem) {
 	    m_dragItem->setPos(framePos);
+	    m_dragItem->setProperty("locked_tracks", lockedTracks);
 	    scene()->addItem(m_dragItem);
 	}
         //m_selectionGroup->setZValue(10);
