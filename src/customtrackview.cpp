@@ -1616,10 +1616,16 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
 
 bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
 {
-    if (data->hasFormat("kdenlive/clip")) {
-        m_clipDrag = true;
-        m_scene->clearSelection();
-        resetSelectionGroup(false);
+    QPointF framePos = mapToScene(pos);
+    int track = framePos.y() / KdenliveSettings::trackheight();
+    m_scene->clearSelection();
+    m_dragItem = NULL;
+    resetSelectionGroup(false);
+    m_clipDrag = data->hasFormat("kdenlive/clip") || data->hasFormat("kdenlive/producerslist");
+    // This is not a clip drag, maybe effect or other...
+    if (!m_clipDrag) return false;
+    if (track < 0 || track > m_document->tracksCount() - 1 || m_document->trackInfoAt(m_document->tracksCount() - track - 1).isLocked) return true;
+    if (data->hasFormat("kdenlive/clip")) {    
         QStringList list = QString(data->data("kdenlive/clip")).split(';');
         DocClipBase *clip = m_document->getBaseClip(list.at(0));
         if (clip == NULL) {
@@ -1630,7 +1636,6 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             emit displayMessage(i18n("Clip not ready"), ErrorMessage);
             return false;
         }
-        QPointF framePos = mapToScene(pos);
         ItemInfo info;
         info.startPos = GenTime();
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
@@ -1655,19 +1660,19 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         QList <GenTime> offsetList;
         offsetList.append(info.endPos);
         updateSnapPoints(NULL, offsetList);
+	QStringList lockedTracks;
+	for (int i = 0; i < m_document->tracksCount(); i++) {
+	    if (m_document->trackInfoAt(i).isLocked) lockedTracks << QString::number(m_document->tracksCount() - i - 1);
+	}
+	m_selectionGroup->setProperty("locked_tracks", lockedTracks);
         m_selectionGroup->setPos(framePos);
         scene()->addItem(m_selectionGroup);
         m_selectionGroup->setSelected(true);
-        return true;
     } else if (data->hasFormat("kdenlive/producerslist")) {
-        m_clipDrag = true;
         QStringList ids = QString(data->data("kdenlive/producerslist")).split(';');
-        m_scene->clearSelection();
-        resetSelectionGroup(false);
 
         QList <GenTime> offsetList;
         QList <ItemInfo> infoList;
-        QPointF framePos = mapToScene(pos);
         GenTime start = GenTime((int)(framePos.x() + 0.5), m_document->fps());
         int track = (int)(framePos.y() / m_tracksHeight);
         framePos.setX((int)(framePos.x() + 0.5));
@@ -1734,23 +1739,25 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         }
 
         updateSnapPoints(NULL, offsetList);
+	QStringList lockedTracks;
+	for (int i = 0; i < m_document->tracksCount(); i++) {
+	    if (m_document->trackInfoAt(i).isLocked) lockedTracks << QString::number(m_document->tracksCount() - i - 1);
+	}   
+	    
         if (m_selectionGroup) {
+	    m_selectionGroup->setProperty("locked_tracks", lockedTracks);
 	    m_selectionGroup->setPos(framePos);
 	    scene()->addItem(m_selectionGroup);
 	}
 	else if (m_dragItem) {
+	    m_dragItem->setProperty("locked_tracks", lockedTracks);
 	    m_dragItem->setPos(framePos);
 	    scene()->addItem(m_dragItem);
 	}
         //m_selectionGroup->setZValue(10);
         m_thumbsTimer.start();
-        return true;
-
-    } else {
-        // the drag is not a clip (may be effect, ...)
-        m_clipDrag = false;
-        return false;
     }
+    return true;
 }
 
 
