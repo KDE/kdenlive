@@ -386,6 +386,7 @@ void RecMonitor::slotStopCapture()
     if (!m_isCapturing && !m_isPlaying) return;
     videoBox->setHidden(true);
     control_frame->setEnabled(true);
+    slotActivateMonitor();
     switch (device_selector->currentIndex()) {
     case FIREWIRE:
         m_captureProcess->write("\e", 2);
@@ -597,7 +598,7 @@ void RecMonitor::slotRecord()
 
         switch (device_selector->currentIndex()) {
         case VIDEO4LINUX:
-            slotActivateMonitor();
+            if (rec_video->isChecked()) slotActivateMonitor();
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
             //m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);

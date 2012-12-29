@@ -1562,8 +1562,9 @@ void Render::stop()
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_mltProducer == NULL) return;
-    if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
-        m_mltConsumer->stop();
+    if (m_mltConsumer) {
+	m_mltConsumer->set("refresh", 0);
+        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         m_mltConsumer->purge();
     }
 
