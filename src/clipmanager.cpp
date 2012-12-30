@@ -264,12 +264,14 @@ void ClipManager::slotGetAudioThumbs()
         if (hash.isEmpty()) continue;
         QString audioPath = projectFolder() + "/thumbs/" + hash + ".thumb";
         double lengthInFrames = clip->duration().frames(m_doc->fps());
-	int frequency = 48000;
-	int channels = 2;
+	int frequency = 0;
+	int channels = 0;
 	QString data = clip->getProperty("frequency");
 	if (!data.isEmpty()) frequency = data.toInt();
+	if (frequency <= 0) frequency = 48000;
 	data = clip->getProperty("channels");
 	if (!data.isEmpty()) channels = data.toInt();
+	if (channels <= 0) channels = 2;
 	int arrayWidth = 20;
         double frame = 0.0;
 	int maxVolume = 0;

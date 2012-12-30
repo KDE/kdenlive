@@ -990,8 +990,8 @@ void Render::processFileProperties()
 	    // keep for compatibility with MLT <= 0.8.6
 	    if (af == 0) af = frame->get_int("frequency");
 	    if (ac == 0) ac = frame->get_int("channels");
-            filePropertyMap["frequency"] = QString::number(af);
-            filePropertyMap["channels"] = QString::number(ac);
+            if (af > 0) filePropertyMap["frequency"] = QString::number(af);
+            if (ac > 0) filePropertyMap["channels"] = QString::number(ac);
             if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
 
             if (frame->get_int("test_image") == 0) {
@@ -1562,8 +1562,9 @@ void Render::stop()
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_mltProducer == NULL) return;
-    if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
-        m_mltConsumer->stop();
+    if (m_mltConsumer) {
+	m_mltConsumer->set("refresh", 0);
+        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         m_mltConsumer->purge();
     }
 
