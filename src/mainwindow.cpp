@@ -2168,7 +2168,6 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setMaximum(4);
     progressDialog.show();
     progressDialog.progressBar()->setValue(0);
-    qApp->processEvents();
 
     bool openBackup;
     KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, &openBackup, this, &progressDialog);
@@ -2176,7 +2175,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);
     progressDialog.setLabelText(i18n("Loading project"));
-    qApp->processEvents();
+    progressDialog.repaint();
 
     if (stale == NULL) {
         QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
@@ -2191,13 +2190,13 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     connectDocumentInfo(doc);
 
     progressDialog.progressBar()->setValue(2);
-    qApp->processEvents();
+    progressDialog.repaint();
 
     bool ok;
     TrackView *trackView = new TrackView(doc, m_tracksActionCollection->actions(), &ok, this);
     connectDocument(trackView, doc);
     progressDialog.progressBar()->setValue(3);
-    qApp->processEvents();
+    progressDialog.repaint();
 
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     if (!ok) {
