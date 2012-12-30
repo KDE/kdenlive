@@ -192,6 +192,8 @@ void RecMonitor::slotSwitchFullScreen()
 
 void RecMonitor::stop()
 {
+    // Special case: when recording audio only, do not stop so that we can do voiceover.
+    if (device_selector->currentIndex() == VIDEO4LINUX && !rec_video->isChecked()) return;
     slotStopCapture();
 }
 
@@ -549,8 +551,6 @@ void RecMonitor::slotStartPreview(bool play)
 
 void RecMonitor::slotRecord()
 {
-    control_frame->setEnabled(false);
-
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartPreview();
     }
@@ -648,6 +648,7 @@ void RecMonitor::slotRecord()
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
                 m_previewSettings->setEnabled(false);
+		control_frame->setEnabled(false);
             }
             else {
                 video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
