@@ -88,11 +88,13 @@ private:
     Ui::WizardCheck_UI m_check;
     QVBoxLayout *m_startLayout;
     bool m_systemCheckIsOk;
+    QLabel *m_welcomeLabel;
     QMap <QString, QString> m_dvProfiles;
     QMap <QString, QString> m_hdvProfiles;
     QMap <QString, QString> m_otherProfiles;
     void slotCheckPrograms();
     void checkMltComponents();
+    void checkMissingCodecs();
     KIcon m_okIcon;
     KIcon m_badIcon;
 
@@ -106,6 +108,7 @@ private slots:
     void slotUpdateCaptureParameters();
     void slotSaveCaptureFormat();
     void slotUpdateDecklinkDevice(int captureCard);
+    void slotOpenManual();
 };
 
 #endif
