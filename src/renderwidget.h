@@ -125,7 +125,7 @@ public:
     void reloadProfiles();
     void setRenderProfile(QMap <QString, QString> props);
     int waitingJobsCount() const;
-    QString getFreeScriptName(const QString &prefix = QString());
+    QString getFreeScriptName(const KUrl &projectName = KUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
     void missingClips(bool hasMissing);
     /** @brief Returns true if the export audio checkbox is set to automatic. */

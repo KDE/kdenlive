@@ -4086,12 +4086,11 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QString scriptPath;
     QString playlistPath;
     if (scriptExport) {
-        bool ok;
         QString scriptsFolder = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) + "scripts/";
-        QString path = m_renderWidget->getFreeScriptName();
-        scriptPath = QInputDialog::getText(this, i18n("Create Render Script"), i18n("Script name (will be saved in: %1)", scriptsFolder), QLineEdit::Normal, KUrl(path).fileName(), &ok);
-        if (!ok || scriptPath.isEmpty()) return;
-        scriptPath.prepend(scriptsFolder);
+        QString path = m_renderWidget->getFreeScriptName(m_activeDocument->url());
+	KUrl finalPath = KUrlRequesterDialog::getUrl(path, m_renderWidget, i18n("Create Render Script"));
+	if (finalPath.isEmpty()) return;
+        scriptPath = finalPath.path();
         QFile f(scriptPath);
         if (f.exists()) {
             if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)

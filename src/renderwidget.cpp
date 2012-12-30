@@ -1551,7 +1551,6 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     bool replaceLibfaacCodec = false;
     if (!acodecsList.contains("aac") && acodecsList.contains("libfaac")) replaceLibfaacCodec = true;
 
-
     if (editable || groups.count() == 0) {
         QDomElement profiles = doc.documentElement();
         if (editable && profiles.attribute("version", 0).toInt() < 1) {
@@ -2077,7 +2076,7 @@ void RenderWidget::setRenderProfile(QMap <QString, QString> props)
 bool RenderWidget::startWaitingRenderJobs()
 {
     m_blockProcessing = true;
-    QString autoscriptFile = getFreeScriptName("auto");
+    QString autoscriptFile = getFreeScriptName(KUrl(), "auto");
     QFile file(autoscriptFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << autoscriptFile;
@@ -2115,15 +2114,18 @@ bool RenderWidget::startWaitingRenderJobs()
     return true;
 }
 
-QString RenderWidget::getFreeScriptName(const QString &prefix)
+QString RenderWidget::getFreeScriptName(const KUrl &projectName, const QString &prefix)
 {
     int ix = 0;
     QString scriptsFolder = m_projectFolder + "scripts/";
     KStandardDirs::makeDir(scriptsFolder);
     QString path;
+    QString fileName;
+    if (projectName.isEmpty()) fileName = i18n("script");
+    else fileName = projectName.fileName().section('.', 0, -2) + "_";
     while (path.isEmpty() || QFile::exists(path)) {
         ix++;
-        path = scriptsFolder + prefix + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+        path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + ".sh";
     }
     return path;
 }
