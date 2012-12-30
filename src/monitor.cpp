@@ -893,14 +893,7 @@ void Monitor::slotOpenFile(const QString &file)
 {
     if (render == NULL) return;
     slotActivateMonitor();
-    QDomDocument doc;
-    QDomElement mlt = doc.createElement("mlt");
-    doc.appendChild(mlt);
-    QDomElement prod = doc.createElement("producer");
-    mlt.appendChild(prod);
-    prod.setAttribute("mlt_service", "avformat");
-    prod.setAttribute("resource", file);
-    render->setSceneList(doc, 0);
+    render->loadUrl(file);
 }
 
 void Monitor::slotSaveZone()

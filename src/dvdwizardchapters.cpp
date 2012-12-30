@@ -23,10 +23,11 @@
 
 #include <QFile>
 
-DvdWizardChapters::DvdWizardChapters(DVDFORMAT format, QWidget *parent) :
+DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :
         QWizardPage(parent),
         m_format(format),
-        m_monitor(NULL)
+        m_monitor(NULL),
+        m_manager(manager)
 
 {
     m_view.setupUi(this);
@@ -39,9 +40,9 @@ DvdWizardChapters::DvdWizardChapters(DVDFORMAT format, QWidget *parent) :
 
     if (m_format == PAL || m_format == PAL_WIDE) m_tc.setFormat(25);
     else m_tc.setFormat(30000.0 / 1001);
+    show();
+    setVobFiles(format, QStringList(), QStringList(), QStringList());
 
-    m_manager = new MonitorManager(this);
-    m_manager->resetProfiles(m_tc);
     //m_view.monitor_frame->setVisible(false);
 }
 
@@ -51,7 +52,6 @@ DvdWizardChapters::~DvdWizardChapters()
         m_monitor->stop();
         delete m_monitor;
     }
-    delete m_manager;
 }
 
 // virtual
@@ -143,16 +143,17 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     } else {
         m_tc.setFormat(30000.0 / 1001);
     }
-    m_manager->resetProfiles(m_tc);
     if (m_monitor == NULL) {
         m_monitor = new Monitor(Kdenlive::dvdMonitor, m_manager, profile, this);
         //m_monitor->start();
-        QVBoxLayout *vbox = new QVBoxLayout;
+        /*QVBoxLayout *vbox = new QVBoxLayout;
         vbox->addWidget(m_monitor);
-        m_view.monitor_frame->setLayout(vbox);
-        /*updateGeometry();
-        m_view.monitor_frame->adjustSize();*/
+        m_view.monitor_frame->setLayout(vbox);*/
+	QVBoxLayout *lay = static_cast<QVBoxLayout *> (layout());
+	m_monitor->setSizePolicy(QSizePolicy ( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
+	lay->insertWidget(0, m_monitor, 10);
     } else m_monitor->resetProfile(profile);
+    m_manager->activateMonitor(Kdenlive::dvdMonitor);
 
     m_view.vob_list->blockSignals(true);
     m_view.vob_list->clear();

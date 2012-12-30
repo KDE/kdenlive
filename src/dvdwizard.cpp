@@ -40,7 +40,7 @@
 #include <QGridLayout>
 
 
-DvdWizard::DvdWizard(const QString &url, QWidget *parent) :
+DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *parent) :
         QWizard(parent),
         m_dvdauthor(NULL),
         m_mkiso(NULL),
@@ -54,7 +54,7 @@ DvdWizard::DvdWizard(const QString &url, QWidget *parent) :
     if (!url.isEmpty()) m_pageVob->setUrl(url);
 
 
-    m_pageChapters = new DvdWizardChapters(m_pageVob->dvdFormat(), this);
+    m_pageChapters = new DvdWizardChapters(manager, m_pageVob->dvdFormat(), this);
     m_pageChapters->setTitle(i18n("DVD Chapters"));
     addPage(m_pageChapters);
 

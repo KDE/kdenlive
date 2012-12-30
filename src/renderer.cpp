@@ -1141,6 +1141,12 @@ void Render::initSceneList()
 }
 #endif
 
+void Render::loadUrl(const QString &url)
+{
+    Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, url.toUtf8().constData());
+    setProducer(producer, 0);
+}
+
 int Render::setProducer(Mlt::Producer *producer, int position)
 {
     m_refreshTimer.stop();

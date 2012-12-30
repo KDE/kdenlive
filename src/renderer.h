@@ -333,6 +333,9 @@ Q_OBJECT public:
     int requestedSeekPosition;
     /** @brief Get current seek pos requested of current producer pos if not seeking */
     int getCurrentSeekPosition() const;
+    /** @brief Create a producer from url and load it in the monitor  */
+    void loadUrl(const QString &url);
+    
     QSemaphore showFrameSemaphore;
     bool externalConsumer;
 

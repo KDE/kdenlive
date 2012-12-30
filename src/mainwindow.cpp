@@ -3903,11 +3903,9 @@ void MainWindow::slotUpdateClipType(QAction *action)
 void MainWindow::slotDvdWizard(const QString &url)
 {
     // We must stop the monitors since we create a new on in the dvd wizard
-    m_clipMonitor->stop();
-    m_projectMonitor->stop();
-    QPointer<DvdWizard> w = new DvdWizard(url, this);
+    m_monitorManager->activateMonitor(Kdenlive::dvdMonitor);
+    QPointer<DvdWizard> w = new DvdWizard(m_monitorManager, url, this);
     w->exec();
-    m_projectMonitor->start();
     delete w;
 }
 
