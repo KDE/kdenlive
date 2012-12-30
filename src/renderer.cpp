@@ -431,7 +431,7 @@ void Render::seek(int time)
 	    m_mltConsumer->set("refresh", 1);
 	    m_paused = false;
 	}
-	else if (m_mltProducer->get_speed() == 0) {
+	else if (m_winid != 0 && m_mltProducer->get_speed() == 0) {
 	    // workaround specific bug in MLT's SDL consumer
 	    m_mltConsumer->stop();
 	    m_mltConsumer->start();
@@ -1616,7 +1616,18 @@ void Render::switchPlay(bool play)
         m_mltConsumer->set("refresh", 1);
     } else if (!play) {
 	m_paused = true;
-	m_mltProducer->set_speed(0.0);
+	if (m_winid == 0) {
+	    // OpenGL consumer
+	    m_mltProducer->set_speed(0.0);
+	}
+	else {
+	    // SDL consumer, hack to allow pausing near the end of the playlist
+	    m_mltConsumer->set("refresh", 0);
+	    m_mltConsumer->stop();
+	    m_mltProducer->set_speed(0.0);
+	    m_mltProducer->seek(m_mltConsumer->position());
+	    m_mltConsumer->start();
+	}
     }
 }
 
