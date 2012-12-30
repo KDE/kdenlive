@@ -2149,7 +2149,10 @@ void RenderWidget::missingClips(bool hasMissing)
 
 void RenderWidget::errorMessage(const QString &message)
 {
+#if KDE_VERSION == KDE_MAKE_VERSION(4,9,4)
+    // Workaround crash in KDE: #311336
     show();
+#endif
     if (!message.isEmpty()) {
 #if KDE_IS_VERSION(4,7,0)
         m_infoMessage->setMessageType(KMessageWidget::Warning);
