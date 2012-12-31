@@ -402,7 +402,7 @@ void RecMonitor::slotStopCapture()
         break;
     case SCREENGRAB:
         m_captureProcess->write("q\n", 3);
-        //m_captureProcess->terminate();
+        m_captureProcess->terminate();
         //video_frame->setText(i18n("Encoding captured video..."));
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
         break;
@@ -846,8 +846,9 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
             if (device_selector->currentIndex() != SCREENGRAB) {
                 video_frame->setText(i18n("Not connected"));
             } else {
-                if (m_captureProcess->exitCode() != 0) {
-                    video_frame->setText(i18n("Capture crashed, please check your parameters\nRecordMyDesktop exit code: %1", QString::number(m_captureProcess->exitCode())));
+		int code = m_captureProcess->exitCode();
+                if (code != 0 && code != 255) {
+                    video_frame->setText(i18n("Capture crashed, please check your parameters.\nExit code: %1", QString::number(m_captureProcess->exitCode())));
                 } else {
                     video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
                 }
