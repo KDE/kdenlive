@@ -646,6 +646,17 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
             KdenliveSettings::setV4l_extension(data.section(';', 1, 1));
         }
     }
+    if (KdenliveSettings::grab_parameters().isEmpty() || KdenliveSettings::grab_extension().isEmpty()) {
+        KConfigGroup group(&conf, "screengrab");
+        QMap< QString, QString > values = group.entryMap();
+        QMapIterator<QString, QString> i(values);
+        if (i.hasNext()) {
+            i.next();
+            QString data = i.value();
+            KdenliveSettings::setGrab_parameters(data.section(';', 0, 0));
+            KdenliveSettings::setGrab_extension(data.section(';', 1, 1));
+        }
+    }
     if (KdenliveSettings::decklink_parameters().isEmpty() || KdenliveSettings::decklink_extension().isEmpty()) {
         KConfigGroup group(&conf, "decklink");
         QMap< QString, QString > values = group.entryMap();

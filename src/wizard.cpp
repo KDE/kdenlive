@@ -497,7 +497,7 @@ void Wizard::slotCheckPrograms()
     m_check.programList->setIconSize(QSize(24, 24));
 
     QTreeWidgetItem *item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("FFmpeg & ffplay"));
-    item->setData(1, Qt::UserRole, i18n("Required for webcam capture"));
+    item->setData(1, Qt::UserRole, i18n("Required for proxy clips, transcoding and screen capture"));
     item->setSizeHint(0, itemSize);
     QString exepath = KStandardDirs::findExe("ffmpeg");
     QString playpath = KStandardDirs::findExe("ffplay");
@@ -516,12 +516,6 @@ void Wizard::slotCheckPrograms()
     if (!playpath.isEmpty()) KdenliveSettings::setFfplaypath(playpath);
 
 #ifndef Q_WS_MAC
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("recordmydesktop"));
-    item->setData(1, Qt::UserRole, i18n("Required for screen capture"));
-    item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("recordmydesktop").isEmpty()) item->setIcon(0, m_badIcon);
-    else item->setIcon(0, m_okIcon);
-
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("dvgrab"));
     item->setData(1, Qt::UserRole, i18n("Required for firewire capture"));
     item->setSizeHint(0, itemSize);

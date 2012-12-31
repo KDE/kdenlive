@@ -39,7 +39,8 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     setWindowTitle(i18n("Manage Encoding Profiles"));
     profile_type->addItem(i18n("Proxy clips"), 0);
     profile_type->addItem(i18n("Video4Linux capture"), 1);
-    profile_type->addItem(i18n("Decklink capture"), 2);
+    profile_type->addItem(i18n("Screen capture"), 2);
+    profile_type->addItem(i18n("Decklink capture"), 3);
     
     button_add->setIcon(KIcon("list-add"));
     button_edit->setIcon(KIcon("document-edit"));
@@ -75,8 +76,11 @@ void EncodingProfilesDialog::slotLoadProfiles()
         case 1: 
             group = "video4linux";
             break;
+	case 2: 
+            group = "screengrab";
+            break;
         default:
-        case 2: 
+        case 3: 
             group = "decklink";
             break;
     }
