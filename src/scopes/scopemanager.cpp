@@ -202,6 +202,8 @@ void ScopeManager::slotUpdateActiveRenderer()
     }
 
     m_lastConnectedRenderer = m_monitorManager->activeRenderer();
+    // DVD monitor shouldn't be monitored or will cause crash on deletion
+    if (m_monitorManager->isActive(Kdenlive::dvdMonitor)) m_lastConnectedRenderer = NULL;
 
     // Connect new renderer
     if (m_lastConnectedRenderer != NULL) {

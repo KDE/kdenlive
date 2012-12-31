@@ -40,7 +40,7 @@
 #include <QGridLayout>
 
 
-DvdWizard::DvdWizard(const QString &url, QWidget *parent) :
+DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *parent) :
         QWizard(parent),
         m_dvdauthor(NULL),
         m_mkiso(NULL),
@@ -51,12 +51,13 @@ DvdWizard::DvdWizard(const QString &url, QWidget *parent) :
     m_pageVob = new DvdWizardVob(this);
     m_pageVob->setTitle(i18n("Select Files For Your DVD"));
     addPage(m_pageVob);
-    if (!url.isEmpty()) m_pageVob->setUrl(url);
 
-
-    m_pageChapters = new DvdWizardChapters(m_pageVob->dvdFormat(), this);
+    m_pageChapters = new DvdWizardChapters(manager, m_pageVob->dvdFormat(), this);
     m_pageChapters->setTitle(i18n("DVD Chapters"));
     addPage(m_pageChapters);
+    
+    if (!url.isEmpty()) m_pageVob->setUrl(url);
+    connect(m_pageVob, SIGNAL(prepareMonitor()), this, SLOT(slotprepareMonitor()));
 
 
 
@@ -154,6 +155,7 @@ void DvdWizard::slotPageChanged(int page)
         m_pageVob->updateChapters(m_pageChapters->chaptersData());
     } else if (page == 1) {
         m_pageChapters->setVobFiles(m_pageVob->dvdFormat(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
+	setTitleFormat(Qt::PlainText);
     } else if (page == 2) {
         m_pageChapters->stopMonitor();
         m_pageVob->updateChapters(m_pageChapters->chaptersData());
@@ -162,7 +164,10 @@ void DvdWizard::slotPageChanged(int page)
     }
 }
 
-
+void DvdWizard::slotprepareMonitor()
+{
+    m_pageChapters->createMonitor(m_pageVob->dvdFormat());
+}
 
 void DvdWizard::generateDvd()
 {

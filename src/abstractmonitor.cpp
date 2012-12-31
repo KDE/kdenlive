@@ -90,7 +90,7 @@ VideoContainer::VideoContainer(AbstractMonitor* monitor, QWidget *parent) :
     setFrameShape(QFrame::NoFrame);
     setFocusPolicy(Qt::ClickFocus);
     //setEnabled(false);
-    setContentsMargins(0, 0, 0, 0);
+    setContentsMargins(2, 2, 2, 2);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 }
 

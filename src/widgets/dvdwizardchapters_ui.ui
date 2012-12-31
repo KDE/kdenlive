@@ -6,23 +6,32 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>254</width>
-    <height>283</height>
+    <width>322</width>
+    <height>238</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
     <number>0</number>
    </property>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Movie file</string>
+   <item row="2" column="0" colspan="4">
+    <widget class="QListWidget" name="chapters_list">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>150</height>
+      </size>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
      </property>
     </widget>
-   </item>
-   <item row="1" column="1" colspan="4">
-    <widget class="KComboBox" name="vob_list"/>
    </item>
    <item row="3" column="0" colspan="2">
     <widget class="QPushButton" name="button_add">
@@ -31,10 +40,10 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
-    <widget class="QPushButton" name="button_delete">
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Remove chapter</string>
+      <string>Movie file</string>
      </property>
     </widget>
    </item>
@@ -45,19 +54,32 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>79</width>
-       <height>22</height>
+       <width>80</width>
+       <height>13</height>
       </size>
      </property>
     </spacer>
    </item>
+   <item row="3" column="2">
+    <widget class="QPushButton" name="button_delete">
+     <property name="text">
+      <string>Remove chapter</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="4">
-    <widget class="QFrame" name="monitor_frame">
+    <widget class="QFrame" name="video_frame">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>100</height>
+      </size>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -67,18 +89,8 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="5">
-    <widget class="QListWidget" name="chapters_list">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-    </widget>
+   <item row="1" column="1" colspan="3">
+    <widget class="KComboBox" name="vob_list"/>
    </item>
   </layout>
  </widget>

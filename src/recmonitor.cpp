@@ -192,6 +192,8 @@ void RecMonitor::slotSwitchFullScreen()
 
 void RecMonitor::stop()
 {
+    // Special case: when recording audio only, do not stop so that we can do voiceover.
+    if (device_selector->currentIndex() == VIDEO4LINUX && !rec_video->isChecked()) return;
     slotStopCapture();
 }
 
@@ -386,6 +388,7 @@ void RecMonitor::slotStopCapture()
     if (!m_isCapturing && !m_isPlaying) return;
     videoBox->setHidden(true);
     control_frame->setEnabled(true);
+    slotActivateMonitor();
     switch (device_selector->currentIndex()) {
     case FIREWIRE:
         m_captureProcess->write("\e", 2);
@@ -548,8 +551,6 @@ void RecMonitor::slotStartPreview(bool play)
 
 void RecMonitor::slotRecord()
 {
-    control_frame->setEnabled(false);
-
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartPreview();
     }
@@ -597,7 +598,7 @@ void RecMonitor::slotRecord()
 
         switch (device_selector->currentIndex()) {
         case VIDEO4LINUX:
-            slotActivateMonitor();
+            if (rec_video->isChecked()) slotActivateMonitor();
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
             //m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
@@ -647,6 +648,7 @@ void RecMonitor::slotRecord()
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
                 m_previewSettings->setEnabled(false);
+		control_frame->setEnabled(false);
             }
             else {
                 video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));

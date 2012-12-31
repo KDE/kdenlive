@@ -908,6 +908,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
 
         m_operationMode = NONE;
+	if (dragGroup == NULL) {
+	    if (m_dragItem && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup)
+		dragGroup = static_cast<AbstractGroupItem*> (m_dragItem->parentItem());
+	}
         displayContextMenu(event->globalPos(), m_dragItem, dragGroup);
         m_menuPosition = m_clickEvent;
     }

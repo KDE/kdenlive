@@ -2208,7 +2208,6 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setMaximum(4);
     progressDialog.show();
     progressDialog.progressBar()->setValue(0);
-    qApp->processEvents();
 
     bool openBackup;
     KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, &openBackup, this, &progressDialog);
@@ -2216,7 +2215,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);
     progressDialog.setLabelText(i18n("Loading project"));
-    qApp->processEvents();
+    progressDialog.repaint();
 
     if (stale == NULL) {
         QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
@@ -2231,13 +2230,13 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     connectDocumentInfo(doc);
 
     progressDialog.progressBar()->setValue(2);
-    qApp->processEvents();
+    progressDialog.repaint();
 
     bool ok;
     TrackView *trackView = new TrackView(doc, m_tracksActionCollection->actions(), &ok, this);
     connectDocument(trackView, doc);
     progressDialog.progressBar()->setValue(3);
-    qApp->processEvents();
+    progressDialog.repaint();
 
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     if (!ok) {
@@ -4000,12 +3999,11 @@ void MainWindow::slotUpdateClipType(QAction *action)
 void MainWindow::slotDvdWizard(const QString &url)
 {
     // We must stop the monitors since we create a new on in the dvd wizard
-    m_clipMonitor->stop();
-    m_projectMonitor->stop();
-    QPointer<DvdWizard> w = new DvdWizard(url, this);
+    m_monitorManager->activateMonitor(Kdenlive::dvdMonitor);
+    QPointer<DvdWizard> w = new DvdWizard(m_monitorManager, url, this);
     w->exec();
-    m_projectMonitor->start();
     delete w;
+    m_monitorManager->activateMonitor(Kdenlive::clipMonitor);
 }
 
 void MainWindow::slotShowTimeline(bool show)
@@ -4183,12 +4181,17 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QString scriptPath;
     QString playlistPath;
     if (scriptExport) {
-        bool ok;
         QString scriptsFolder = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) + "scripts/";
-        QString path = m_renderWidget->getFreeScriptName();
-        scriptPath = QInputDialog::getText(this, i18n("Create Render Script"), i18n("Script name (will be saved in: %1)", scriptsFolder), QLineEdit::Normal, KUrl(path).fileName(), &ok);
-        if (!ok || scriptPath.isEmpty()) return;
-        scriptPath.prepend(scriptsFolder);
+        QString path = m_renderWidget->getFreeScriptName(m_activeDocument->url());
+	QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(path, i18n("Create Render Script"), this);
+	getUrl->fileDialog()->setMode(KFile::File);
+	getUrl->fileDialog()->setOperationMode(KFileDialog::Saving);
+        if (getUrl->exec() == QDialog::Rejected) {
+            delete getUrl;
+            return;
+        }
+        scriptPath = getUrl->selectedUrl().path();
+        delete getUrl;
         QFile f(scriptPath);
         if (f.exists()) {
             if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)

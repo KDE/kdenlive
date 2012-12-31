@@ -41,7 +41,7 @@ class DvdWizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit DvdWizard(const QString &url = QString(), QWidget * parent = 0);
+    explicit DvdWizard(MonitorManager *manager, const QString &url = QString(), QWidget * parent = 0);
     virtual ~DvdWizard();
     void processSpumux();
 
@@ -91,6 +91,7 @@ private slots:
     void slotShowRenderInfo();
     void slotShowIsoInfo();
     void slotProcessMenuStatus(int, QProcess::ExitStatus status);
+    void slotprepareMonitor();
 };
 
 #endif

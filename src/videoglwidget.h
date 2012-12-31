@@ -11,7 +11,7 @@ class VideoGLWidget : public QGLWidget
 public:
     VideoGLWidget(QWidget *parent = 0);
     ~VideoGLWidget();
-
+    void activateMonitor();
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
     void setImageAspectRatio(double ratio) {

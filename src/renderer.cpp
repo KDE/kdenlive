@@ -485,27 +485,26 @@ void Render::seek(int time, bool slave)
     	return;
     } else if(slave && isSlaveActive(Slave::Jack)) {
     	m_mltProducer->set_speed(0);
-    }
+   	}
 #endif
-
-	resetZoneMode();
-	if (requestedSeekPosition == SEEK_INACTIVE) {
-		requestedSeekPosition = time;
-		m_mltConsumer->purge();
-		m_mltProducer->seek(time);
-
-		if (m_paused && !externalConsumer) {
-			m_mltConsumer->set("refresh", 1);
-			m_paused = false;
-		} else if (m_mltProducer->get_speed() == 0) {
-			// workaround specific bug in MLT's SDL consumer
-			m_mltConsumer->stop();
-			m_mltConsumer->start();
-			m_mltConsumer->set("refresh", 1);
-		}
-	} else {
-		requestedSeekPosition = time;
+    	
+    resetZoneMode();
+    if (requestedSeekPosition == SEEK_INACTIVE) {
+	requestedSeekPosition = time;
+	m_mltConsumer->purge();
+	m_mltProducer->seek(time);
+	if (m_paused && !externalConsumer) {
+	    m_mltConsumer->set("refresh", 1);
+	    m_paused = false;
 	}
+	else if (m_winid != 0 && m_mltProducer->get_speed() == 0) {
+	    // workaround specific bug in MLT's SDL consumer
+	    m_mltConsumer->stop();
+	    m_mltConsumer->start();
+	    m_mltConsumer->set("refresh", 1);
+	}
+	}
+    else requestedSeekPosition = time;
 }
 
 //static
@@ -1057,8 +1056,8 @@ void Render::processFileProperties()
 	    // keep for compatibility with MLT <= 0.8.6
 	    if (af == 0) af = frame->get_int("frequency");
 	    if (ac == 0) ac = frame->get_int("channels");
-            filePropertyMap["frequency"] = QString::number(af);
-            filePropertyMap["channels"] = QString::number(ac);
+            if (af > 0) filePropertyMap["frequency"] = QString::number(af);
+            if (ac > 0) filePropertyMap["channels"] = QString::number(ac);
             if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
 
             if (frame->get_int("test_image") == 0) {
@@ -1207,6 +1206,12 @@ void Render::initSceneList()
     setSceneList(doc, 0);
 }
 #endif
+
+void Render::loadUrl(const QString &url)
+{
+    Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, url.toUtf8().constData());
+    setProducer(producer, 0);
+}
 
 int Render::setProducer(Mlt::Producer *producer, int position)
 {
@@ -1629,8 +1634,9 @@ void Render::stop()
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     if (m_mltProducer == NULL) return;
-    if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
-        m_mltConsumer->stop();
+    if (m_mltConsumer) {
+	m_mltConsumer->set("refresh", 0);
+        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         m_mltConsumer->purge();
     }
 
@@ -1688,19 +1694,29 @@ void Render::switchPlay(bool play, bool slave)
     }
 #endif
 
-	if (m_isZoneMode)
-		resetZoneMode();
-	if (play && m_paused) {
-		if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
-		m_paused = false;
-		m_mltProducer->set_speed(1.0);
-		if (m_mltConsumer->is_stopped()) {
-			m_mltConsumer->start();
-		}
-		m_mltConsumer->set("refresh", 1);
-	} else if (!play) {
-		m_paused = true;
-		m_mltProducer->set_speed(0.0);
+    if (m_isZoneMode) resetZoneMode();
+    if (play && m_paused) {
+        if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
+	m_paused = false;
+	m_mltProducer->set_speed(1.0);
+        if (m_mltConsumer->is_stopped()) {
+            m_mltConsumer->start();
+        }
+        m_mltConsumer->set("refresh", 1);
+    } else if (!play) {
+	m_paused = true;
+	if (m_winid == 0) {
+	    // OpenGL consumer
+	    m_mltProducer->set_speed(0.0);
+	}
+	else {
+	    // SDL consumer, hack to allow pausing near the end of the playlist
+	    m_mltConsumer->set("refresh", 0);
+	    m_mltConsumer->stop();
+	    m_mltProducer->set_speed(0.0);
+	    m_mltProducer->seek(m_mltConsumer->position());
+	    m_mltConsumer->start();
+	}
 	}
 }
 
