@@ -58,6 +58,9 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     m_effectWidget(NULL),
     m_selectedClip(NULL),
     m_loopClipTransition(true),
+#ifdef USE_OPENGL
+    m_glWidget(NULL),
+#endif
     m_editMarker(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout;
@@ -226,7 +229,6 @@ QWidget *Monitor::container()
 bool Monitor::createOpenGlWidget(QWidget *parent, const QString profile)
 {
     render = new Render(id(), 0, profile, this);
-    kDebug()<<"+++++++++++++\nCREATED OPENGL WIDG\n++++++++++++++";
     m_glWidget = new VideoGLWidget(parent);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...
@@ -769,6 +771,9 @@ void Monitor::stop()
 void Monitor::start()
 {
     if (!isVisible() || !isActive()) return;
+#ifdef USE_OPENGL    
+    if (m_glWidget) m_glWidget->activateMonitor();
+#endif
     if (render) render->startConsumer();
 }
 
@@ -904,6 +909,19 @@ void Monitor::slotSaveZone()
     //render->setSceneList(doc, 0);
 }
 
+void Monitor::setCustomProfile(const QString &profile, Timecode tc)
+{
+    m_timePos->updateTimeCode(tc);
+    if (render == NULL) return;
+    if (!render->hasProfile(profile)) {
+        slotActivateMonitor();
+        render->resetProfile(profile);
+#ifdef USE_OPENGL    
+	if (m_glWidget) m_glWidget->setImageAspectRatio(render->dar());
+#endif
+    }
+}
+
 void Monitor::resetProfile(const QString &profile)
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
@@ -911,6 +929,9 @@ void Monitor::resetProfile(const QString &profile)
     if (!render->hasProfile(profile)) {
         slotActivateMonitor();
         render->resetProfile(profile);
+#ifdef USE_OPENGL    
+	if (m_glWidget) m_glWidget->setImageAspectRatio(render->dar());
+#endif
     }
     if (m_effectWidget)
         m_effectWidget->resetProfile(render);

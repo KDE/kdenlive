@@ -447,7 +447,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
     connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
-
+    
     // a gradient background
     /*QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
     gradient->setSpread(QGradient::ReflectSpread);

@@ -143,6 +143,9 @@ private slots:
     void slotItemDown();
     void slotTranscodeFiles();
     void slotTranscodedClip(KUrl, KUrl);
+    
+signals:
+    void prepareMonitor();
 };
 
 #endif

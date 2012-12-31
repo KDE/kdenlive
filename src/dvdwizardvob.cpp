@@ -284,6 +284,7 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkF
 	slotCheckVobList();
 	slotCheckProfiles();
     }
+    emit prepareMonitor();
 }
 
 void DvdWizardVob::slotDeleteVobFile()

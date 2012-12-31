@@ -91,6 +91,7 @@ private slots:
     void slotShowRenderInfo();
     void slotShowIsoInfo();
     void slotProcessMenuStatus(int, QProcess::ExitStatus status);
+    void slotprepareMonitor();
 };
 
 #endif

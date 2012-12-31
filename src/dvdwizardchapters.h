@@ -47,6 +47,8 @@ public:
     QDomElement toXml() const;
     QMap <QString, QString> chaptersData() const;
     void stopMonitor();
+    void refreshMonitor();
+    void createMonitor(DVDFORMAT format);
 
 private:
     Ui::DvdWizardChapters_UI m_view;

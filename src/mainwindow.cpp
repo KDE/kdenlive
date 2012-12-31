@@ -3907,6 +3907,7 @@ void MainWindow::slotDvdWizard(const QString &url)
     QPointer<DvdWizard> w = new DvdWizard(m_monitorManager, url, this);
     w->exec();
     delete w;
+    m_monitorManager->activateMonitor(Kdenlive::clipMonitor);
 }
 
 void MainWindow::slotShowTimeline(bool show)
