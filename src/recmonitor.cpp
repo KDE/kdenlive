@@ -229,6 +229,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     QString capturename;
     m_previewSettings->setEnabled(ix == VIDEO4LINUX || ix == BLACKMAGIC);
     control_frame->setVisible(ix == VIDEO4LINUX);
+    m_playAction->setVisible(ix != SCREENGRAB);
     m_fwdAction->setVisible(ix == FIREWIRE);
     m_discAction->setVisible(ix == FIREWIRE);
     m_rewAction->setVisible(ix == FIREWIRE);
@@ -717,6 +718,7 @@ void RecMonitor::slotRecord()
 	    m_captureArgs << path;
 	    
             m_isCapturing = true;
+	    m_recAction->setEnabled(false);
             /*if (KdenliveSettings::rmd_capture_audio()) {
                 m_captureArgs << "--freq" << KdenliveSettings::rmd_freq();
                 m_captureArgs << "--channels" << QString::number(KdenliveSettings::rmd_audio_channels());
@@ -835,6 +837,9 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
             m_fwdAction->setEnabled(false);
             m_recAction->setEnabled(false);
         }
+        else {
+	    m_recAction->setEnabled(true);
+	}
         m_isPlaying = false;
         m_playAction->setIcon(m_playIcon);
         m_recAction->setChecked(false);
@@ -860,7 +865,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
         // update free space info
         slotUpdateFreeSpace();
     } else {
-        if (device_selector->currentIndex() != SCREENGRAB) m_stopAction->setEnabled(true);
+        if (device_selector->currentIndex()) m_stopAction->setEnabled(true);
         device_selector->setEnabled(false);
     }
 }
