@@ -1294,15 +1294,21 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
     for (int i = 0; i < selection.count(); i++) {
 	if (selectNewGroup) selection.at(i)->setSelected(true);
 	if (selection.at(i)->type() == GROUPWIDGET) {
-	    groupsList.insert(static_cast<AbstractGroupItem*> (selection.at(i)));
+	    AbstractGroupItem *it = static_cast <AbstractGroupItem *> (selection.at(i));
+	    if (!it || it->isItemLocked()) continue;
+	    groupsList.insert(it);
 	}
     }
     for (int i = 0; i < selection.count(); i++) {
 	if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
 	    if (selection.at(i)->parentItem() && selection.at(i)->parentItem()->type() == GROUPWIDGET) {
-		groupsList.insert(static_cast <QGraphicsItemGroup *> (selection.at(i)->parentItem()));
+		AbstractGroupItem *it = static_cast <AbstractGroupItem *> (selection.at(i)->parentItem());
+		if (!it || it->isItemLocked()) continue;
+		groupsList.insert(it);
 	    }
 	    else {
+		AbstractClipItem *it = static_cast<AbstractClipItem *> (selection.at(i));
+		if (!it || it->isItemLocked()) continue;
 		itemsList.insert(selection.at(i));
 	    }
 	}

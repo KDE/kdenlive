@@ -41,6 +41,7 @@
 #include <QToolButton>
 #include <QFile>
 #include <QDir>
+#include <QDesktopWidget>
 
 
 RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidget *parent) :
@@ -193,7 +194,7 @@ void RecMonitor::slotSwitchFullScreen()
 void RecMonitor::stop()
 {
     // Special case: when recording audio only, do not stop so that we can do voiceover.
-    if (device_selector->currentIndex() == VIDEO4LINUX && !rec_video->isChecked()) return;
+    if (device_selector->currentIndex() == SCREENGRAB || (device_selector->currentIndex() == VIDEO4LINUX && !rec_video->isChecked())) return;
     slotStopCapture();
 }
 
@@ -251,12 +252,16 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_fwdAction->setEnabled(false);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(false);
-        if (KdenliveSettings::rmd_path().isEmpty()) {
-            QString rmdpath = KStandardDirs::findExe("recordmydesktop");
-            if (rmdpath.isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("Recordmydesktop utility not found,\n please install it for screen grabs")));
-            else KdenliveSettings::setRmd_path(rmdpath);
-        }
-        if (!KdenliveSettings::rmd_path().isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
+	if (KdenliveSettings::ffmpegpath().isEmpty()) {
+	    QString exepath = KStandardDirs::findExe("ffmpeg");
+	    if (exepath.isEmpty()) {
+		// Check for libav version
+		exepath = KStandardDirs::findExe("avconv");
+	    }
+	    if (exepath.isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("ffmpeg or avconv not found,\n please install it for screen grabs")));
+	    else KdenliveSettings::setFfmpegpath(exepath);
+	}
+        if (!KdenliveSettings::ffmpegpath().isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
         //video_frame->setText(i18n("Press record button\nto start screen capture"));
         break;
     case VIDEO4LINUX:
@@ -398,7 +403,7 @@ void RecMonitor::slotStopCapture()
     case SCREENGRAB:
         m_captureProcess->write("q\n", 3);
         m_captureProcess->terminate();
-        video_frame->setText(i18n("Encoding captured video..."));
+        //video_frame->setText(i18n("Encoding captured video..."));
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
         break;
     case VIDEO4LINUX:
@@ -569,7 +574,9 @@ void RecMonitor::slotRecord()
         m_logger.clear();
         m_recAction->setChecked(true);
         QString extension = "mpg";
-        if (device_selector->currentIndex() == SCREENGRAB) extension = "ogv"; //KdenliveSettings::screengrabextension();
+        if (device_selector->currentIndex() == SCREENGRAB) {
+	    extension = KdenliveSettings::grab_extension();
+	}
         else if (device_selector->currentIndex() == VIDEO4LINUX) {
             // TODO: when recording audio only, allow configuration?
             if (!rec_video->isChecked()) extension = "wav";
@@ -590,9 +597,12 @@ void RecMonitor::slotRecord()
         QString args;
         QString playlist;
         QString v4lparameters;
+	QStringList grabParameters;
         MltVideoProfile profile;
         bool showPreview;
 	bool isXml;
+	QString captureSize;
+	QRect screenSize = QApplication::desktop()->screenGeometry();
         QString capturename = KdenliveSettings::dvgrabfilename();
         if (capturename.isEmpty()) capturename = "capture";
 
@@ -686,24 +696,28 @@ void RecMonitor::slotRecord()
             break;
 
         case SCREENGRAB:
-            switch (KdenliveSettings::rmd_capture_type()) {
-            case 0:
-                // Full screen capture, nothing special to do
-                break;
-            default:
+	    m_captureArgs << "-f" << "x11grab";
+	    if (KdenliveSettings::grab_follow_mouse()) m_captureArgs << "-follow_mouse" << "centered";
+	    if (!KdenliveSettings::grab_hide_frame()) m_captureArgs << "-show_region" << "1";
+            if (KdenliveSettings::grab_capture_type() == 0) {
+                // Full screen capture
+                captureSize = ":0.0";
+		m_captureArgs << "-s" << QString::number(screenSize.width()) + "x" + QString::number(screenSize.height());
+	    } else {
                 // Region capture
-                m_captureArgs << "--width" << QString::number(KdenliveSettings::rmd_width()) << "--height" << QString::number(KdenliveSettings::rmd_height());
-                if (!KdenliveSettings::rmd_follow_mouse()) {
-                    m_captureArgs << "-x" << QString::number(KdenliveSettings::rmd_offsetx()) << "-y" << QString::number(KdenliveSettings::rmd_offsety());
-                } else {
-                    m_captureArgs << "--follow-mouse";
-                    if (KdenliveSettings::rmd_hide_frame()) m_captureArgs << "--no-frame";
-                }
-                break;
+                m_captureArgs << "-s" << QString::number(KdenliveSettings::grab_width()) + "x" + QString::number(KdenliveSettings::grab_height());
+                captureSize = ":" + QString::number(KdenliveSettings::grab_offsetx()) + "." + QString::number(KdenliveSettings::grab_offsetx());
             }
-            if (KdenliveSettings::rmd_hide_mouse()) m_captureArgs << "--no-cursor";
+            // fps
+            m_captureArgs << "-r" << QString::number(KdenliveSettings::grab_fps());
+            if (KdenliveSettings::grab_hide_mouse()) captureSize.append("+nomouse");
+	    m_captureArgs << "-i" << captureSize;
+	    grabParameters = KdenliveSettings::grab_parameters().simplified().split(" ");
+	    m_captureArgs << grabParameters;
+	    m_captureArgs << path;
+	    
             m_isCapturing = true;
-            if (KdenliveSettings::rmd_capture_audio()) {
+            /*if (KdenliveSettings::rmd_capture_audio()) {
                 m_captureArgs << "--freq" << KdenliveSettings::rmd_freq();
                 m_captureArgs << "--channels" << QString::number(KdenliveSettings::rmd_audio_channels());
                 if (KdenliveSettings::rmd_use_jack()) {
@@ -720,15 +734,10 @@ void RecMonitor::slotRecord()
                     if (KdenliveSettings::rmd_alsa_buffer() > 0)
                         m_captureArgs << "--buffer-size" << QString::number(KdenliveSettings::rmd_alsa_buffer());
                 }
-            } else m_captureArgs << "--no-sound";
+            } else m_captureArgs << "--no-sound";*/
 
-            if (KdenliveSettings::rmd_fullshots()) m_captureArgs << "--full-shots";
-            m_captureArgs << "--v_bitrate" << QString::number(KdenliveSettings::rmd_bitrate());
-            m_captureArgs << "--v_quality" << QString::number(KdenliveSettings::rmd_quality());
-            m_captureArgs << "--workdir" << KdenliveSettings::currenttmpfolder();
-            m_captureArgs << "--fps" << QString::number(KdenliveSettings::rmd_fps()) << "-o" << m_captureFile.path();
-            m_captureProcess->start(KdenliveSettings::rmd_path(), m_captureArgs);
-            kDebug() << "// RecordMyDesktop params: " << m_captureArgs;
+            m_captureProcess->start(KdenliveSettings::ffmpegpath(), m_captureArgs);
+            //kDebug() << "// Screen grab params: " << m_captureArgs;
             break;
         default:
             break;
@@ -837,8 +846,9 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
             if (device_selector->currentIndex() != SCREENGRAB) {
                 video_frame->setText(i18n("Not connected"));
             } else {
-                if (m_captureProcess->exitCode() != 0) {
-                    video_frame->setText(i18n("Capture crashed, please check your parameters\nRecordMyDesktop exit code: %1", QString::number(m_captureProcess->exitCode())));
+		int code = m_captureProcess->exitCode();
+                if (code != 0 && code != 255) {
+                    video_frame->setText(i18n("Capture crashed, please check your parameters.\nExit code: %1", QString::number(m_captureProcess->exitCode())));
                 } else {
                     video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
                 }
