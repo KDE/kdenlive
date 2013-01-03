@@ -2149,15 +2149,16 @@ void RenderWidget::missingClips(bool hasMissing)
 
 void RenderWidget::errorMessage(const QString &message)
 {
-#if KDE_VERSION == KDE_MAKE_VERSION(4,9,4)
-    // Workaround crash in KDE: #311336
-    show();
-#endif
     if (!message.isEmpty()) {
 #if KDE_IS_VERSION(4,7,0)
         m_infoMessage->setMessageType(KMessageWidget::Warning);
         m_infoMessage->setText(message);
+#if KDE_IS_VERSION(4,10,0)
         m_infoMessage->animatedShow();
+#else
+	// Workaround KDE bug in KMessageWidget
+	QTimer::singleShot(0, m_infoMessage, SLOT(animatedShow()));
+#endif
 #else
         m_view.errorLabel->setText(message);
         m_view.errorBox->setHidden(false);
@@ -2165,7 +2166,11 @@ void RenderWidget::errorMessage(const QString &message)
     }
     else {
 #if KDE_IS_VERSION(4,7,0)
+#if KDE_IS_VERSION(4,10,0)
         m_infoMessage->animatedHide();
+#else
+	QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
+#endif
 #else
         m_view.errorBox->setHidden(true);
         m_view.errorLabel->setText(QString());

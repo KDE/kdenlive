@@ -234,7 +234,11 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     QString capturefile;
     QString capturename;
 #if KDE_IS_VERSION(4,7,0)
+#if KDE_IS_VERSION(4,10,0)
     m_infoMessage->animatedHide();
+#else    
+    QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
+#endif
 #endif
     m_previewSettings->setEnabled(ix == VIDEO4LINUX || ix == BLACKMAGIC);
     control_frame->setVisible(ix == VIDEO4LINUX);
@@ -794,7 +798,11 @@ void RecMonitor::showMessage(const QString &text, const QString &icon, bool logA
 	connect(manualAction, SIGNAL(triggered()), this, SLOT(slotShowLog()));
 	m_infoMessage->addAction(manualAction);
     }
+#if KDE_IS_VERSION(4,10,0)
     m_infoMessage->animatedShow();
+#else
+    QTimer::singleShot(0, m_infoMessage, SLOT(animatedShow()));
+#endif
 #else
     if (!logAction) {
 	video_frame->setPixmap(mergeSideBySide(KIcon(icon).pixmap(QSize(50, 50)), text));
