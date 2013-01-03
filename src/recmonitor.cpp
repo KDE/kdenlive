@@ -262,7 +262,14 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 	    if (exepath.isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("ffmpeg or avconv not found,\n please install it for screen grabs")));
 	    else KdenliveSettings::setFfmpegpath(exepath);
 	}
-        if (!KdenliveSettings::ffmpegpath().isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
+        if (!KdenliveSettings::ffmpegpath().isEmpty()) {
+	    if (!Render::checkX11Grab()) {
+		// FFmpeg does not support screen grab
+		video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("Your FFmpeg / Libav installation\n does not support screen grab")));
+		m_recAction->setEnabled(false);
+	    }
+	    else video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
+	}
         //video_frame->setText(i18n("Press record button\nto start screen capture"));
         break;
     case VIDEO4LINUX:
