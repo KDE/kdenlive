@@ -867,7 +867,6 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
 
 void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
 {
-    kDebug()<<"// STATUS CHANGED: "<<status;
     if (status == QProcess::NotRunning) {
         m_displayProcess->kill();
         if (m_isCapturing && device_selector->currentIndex() != FIREWIRE)

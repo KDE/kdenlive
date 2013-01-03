@@ -2425,7 +2425,6 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     KdenliveSettings::setCurrent_profile(profile);
     KdenliveSettings::setProject_fps(m_activeDocument->fps());
     setCaption(m_activeDocument->description(), m_activeDocument->isModified());
-
     m_activeDocument->clipManager()->clearUnusedProducers();
     m_monitorManager->resetProfiles(m_activeDocument->timecode());
     m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
@@ -2440,6 +2439,7 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     m_commandStack->activeStack()->clear();
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
+    m_projectList->slotReloadClip();
     // We need to desactivate & reactivate monitors to get a refresh
     //m_monitorManager->switchMonitors();
 }

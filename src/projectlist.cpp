@@ -2269,6 +2269,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             } else if (KdenliveSettings::checkfirstprojectclip() &&  m_listView->topLevelItemCount() == 1 && m_refreshed && m_allClipsProcessed) {
                 // this is the first clip loaded in project, check if we want to adjust project settings to the clip
                 updatedProfile = adjustProjectProfileToItem(item);
+		if (updatedProfile == false) {
+		    emit clipSelected(item->referencedClip());
+		}
             }
             if (updatedProfile == false) {
                 //emit clipSelected(item->referencedClip());
