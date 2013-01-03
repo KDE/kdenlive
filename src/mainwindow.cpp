@@ -4155,7 +4155,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 // Always insert a guide in pos 0
                 QDomElement chapter = doc.createElement("chapter");
                 chapters.insertBefore(chapter, QDomNode());
-                chapter.setAttribute("title", i18n("Start"));
+                chapter.setAttribute("title", i18nc("the first in a list of chapters", "Start"));
                 chapter.setAttribute("time", "0");
             }
             // save chapters file
