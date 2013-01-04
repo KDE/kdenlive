@@ -233,15 +233,15 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 {
     QString capturefile;
     QString capturename;
-    if (m_infoMessage->isVisible()) {
 #if KDE_IS_VERSION(4,7,0)
+    if (m_infoMessage->isVisible()) {
 #if KDE_IS_VERSION(4,10,0)
-    m_infoMessage->animatedHide();
+	m_infoMessage->animatedHide();
 #else    
-    QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
-#endif
+	QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
 #endif
     }
+#endif
     m_previewSettings->setEnabled(ix == VIDEO4LINUX || ix == BLACKMAGIC);
     control_frame->setVisible(ix == VIDEO4LINUX);
     m_playAction->setVisible(ix != SCREENGRAB);
