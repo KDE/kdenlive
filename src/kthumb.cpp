@@ -114,7 +114,7 @@ void KThumb::extractImage(QList <int>frames)
 
 void KThumb::getThumb(int frame)
 {
-    const int theight = KdenliveSettings::trackheight();
+    const int theight = 120;//KdenliveSettings::trackheight();
     const int swidth = (int)(theight * m_ratio + 0.5);
     const int dwidth = (int)(theight * m_dar + 0.5);
     QImage img = getProducerFrame(frame, swidth, dwidth, theight);
