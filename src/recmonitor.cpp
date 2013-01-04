@@ -427,7 +427,7 @@ void RecMonitor::slotStopCapture()
         break;
     case SCREENGRAB:
 	m_captureProcess->terminate();
-        QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
+        QTimer::singleShot(1500, m_captureProcess, SLOT(kill()));
         break;
     case VIDEO4LINUX:
     case BLACKMAGIC:
