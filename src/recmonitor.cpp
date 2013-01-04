@@ -233,6 +233,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 {
     QString capturefile;
     QString capturename;
+    if (m_infoMessage->isVisible()) {
 #if KDE_IS_VERSION(4,7,0)
 #if KDE_IS_VERSION(4,10,0)
     m_infoMessage->animatedHide();
@@ -240,6 +241,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
 #endif
 #endif
+    }
     m_previewSettings->setEnabled(ix == VIDEO4LINUX || ix == BLACKMAGIC);
     control_frame->setVisible(ix == VIDEO4LINUX);
     m_playAction->setVisible(ix != SCREENGRAB);
@@ -278,7 +280,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         if (!KdenliveSettings::ffmpegpath().isEmpty()) {
 	    if (!Render::checkX11Grab()) {
 		// FFmpeg does not support screen grab
-		showMessage("dialog-warning", i18n("Your FFmpeg / Libav installation\n does not support screen grab"));
+		showMessage(i18n("Your FFmpeg / Libav installation\n does not support screen grab"), "dialog-warning");
 		m_recAction->setEnabled(false);
 	    }
 	    else video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
@@ -424,9 +426,7 @@ void RecMonitor::slotStopCapture()
         m_isPlaying = false;
         break;
     case SCREENGRAB:
-        m_captureProcess->write("q\n", 3);
-        m_captureProcess->terminate();
-        //video_frame->setText(i18n("Encoding captured video..."));
+	m_captureProcess->terminate();
         QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
         break;
     case VIDEO4LINUX:
