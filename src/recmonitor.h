@@ -119,7 +119,7 @@ private:
     /** @brief Create string containing an XML playlist for v4l capture. */
     const QString getV4lXmlPlaylist(MltVideoProfile profile, bool *isXml);
     /** @brief Display an error message to user. */
-    void showMessage(const QString &text, const QString &icon, bool logAction = false);
+    void showWarningMessage(const QString &text, bool logAction = false);
 
 private slots:
     void slotStartPreview(bool play = true);

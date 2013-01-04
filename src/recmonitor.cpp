@@ -274,13 +274,13 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 		// Check for libav version
 		exepath = KStandardDirs::findExe("avconv");
 	    }
-	    if (exepath.isEmpty()) showMessage(i18n("ffmpeg or avconv not found,\n please install it for screen grabs"), "dialog-warning");
+	    if (exepath.isEmpty()) showWarningMessage(i18n("ffmpeg or avconv not found,\n please install it for screen grabs"));
 	    else KdenliveSettings::setFfmpegpath(exepath);
 	}
         if (!KdenliveSettings::ffmpegpath().isEmpty()) {
 	    if (!Render::checkX11Grab()) {
 		// FFmpeg does not support screen grab
-		showMessage(i18n("Your FFmpeg / Libav installation\n does not support screen grab"), "dialog-warning");
+		showWarningMessage(i18n("Your FFmpeg / Libav installation\n does not support screen grab"), "dialog-warning");
 		m_recAction->setEnabled(false);
 	    }
 	    else video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
@@ -314,7 +314,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         if (KdenliveSettings::dvgrab_path().isEmpty()) {
             QString dvgrabpath = KStandardDirs::findExe("dvgrab");
             if (dvgrabpath.isEmpty()) {
-		showMessage(i18n("dvgrab utility not found,\n please install it for firewire capture"), "dialog-warning");
+		showWarningMessage(i18n("dvgrab utility not found,\n please install it for firewire capture"));
 	    }
             else KdenliveSettings::setDvgrab_path(dvgrabpath);
         } else {
@@ -764,7 +764,7 @@ void RecMonitor::slotRecord()
             m_captureProcess->start(KdenliveSettings::ffmpegpath(), m_captureArgs);
 	    if (!m_captureProcess->waitForStarted()) {
 		// Problem launching capture app
-		showMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()), "dialog-warning");
+		showWarningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
 	    }
             //kDebug() << "// Screen grab params: " << m_captureArgs;
             break;
@@ -788,7 +788,7 @@ void RecMonitor::slotRecord()
 }
 
 
-void RecMonitor::showMessage(const QString &text, const QString &icon, bool logAction)
+void RecMonitor::showWarningMessage(const QString &text, bool logAction)
 {
 #if KDE_IS_VERSION(4,7,0)
     m_infoMessage->setText(text);
@@ -805,7 +805,7 @@ void RecMonitor::showMessage(const QString &text, const QString &icon, bool logA
 #endif
 #else
     if (!logAction) {
-	video_frame->setPixmap(mergeSideBySide(KIcon(icon).pixmap(QSize(50, 50)), text));
+	video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), text));
 	
     }
     else {
@@ -901,14 +901,14 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
         m_stopAction->setEnabled(false);
         device_selector->setEnabled(true);
         if (m_captureProcess && m_captureProcess->exitStatus() == QProcess::CrashExit) {
-	    showMessage(i18n("Capture crashed, please check your parameters"), "dialog-warning", true);
+	    showWarningMessage(i18n("Capture crashed, please check your parameters"), true);
         } else {
             if (device_selector->currentIndex() != SCREENGRAB) {
                 video_frame->setText(i18n("Not connected"));
             } else {
 		int code = m_captureProcess->exitCode();
                 if (code != 0 && code != 255) {
-                    showMessage(i18n("Capture crashed, please check your parameters"), "dialog-warning", true);
+                    showWarningMessage(i18n("Capture crashed, please check your parameters"), true);
                 } else {
                     video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
                 }
