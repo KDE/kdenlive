@@ -1057,10 +1057,32 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
         return FADEIN;
     } else if ((pos.x() <= rect.x() + rect.width() / 2) && pos.x() - rect.x() < maximumOffset && (rect.bottom() - pos.y() > addtransitionOffset)) {
+	// If we are in a group, allow resize only if all clips start at same position
+	if (parentItem()) {
+	    QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
+	    QList<QGraphicsItem *> list = dragGroup->childItems();
+	    for (int i = 0; i < list.count(); i++) {
+		if (list.at(i)->type() == AVWIDGET) {
+		    ClipItem *c = static_cast <ClipItem*>(list.at(i));
+		    if (c->startPos() != startPos()) return MOVE;
+		}
+	    }
+	}
         return RESIZESTART;
     } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y() - rect.y())) < 6) {
         return FADEOUT;
     } else if ((pos.x() >= rect.x() + rect.width() / 2) && (rect.right() - pos.x() < maximumOffset) && (rect.bottom() - pos.y() > addtransitionOffset)) {
+	// If we are in a group, allow resize only if all clips end at same position
+	if (parentItem()) {
+	    QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
+	    QList<QGraphicsItem *> list = dragGroup->childItems();
+	    for (int i = 0; i < list.count(); i++) {
+		if (list.at(i)->type() == AVWIDGET) {
+		    ClipItem *c = static_cast <ClipItem*>(list.at(i));
+		    if (c->endPos() != endPos()) return MOVE;
+		}
+	    }
+	}
         return RESIZEEND;
     } else if ((pos.x() - rect.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
         return TRANSITIONSTART;
