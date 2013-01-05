@@ -846,7 +846,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 		m_selectionGroup->setProperty("y_absolute", yOffset);
 		m_selectionGroup->setProperty("locked_tracks", lockedTracks);
 	    }
-            if (dragGroup) {
+	    if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET && m_dragItem->parentItem() != m_selectionGroup) {
                 dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
 		dragGroup->setProperty("y_absolute", yOffset);
 		dragGroup->setProperty("locked_tracks", lockedTracks);
