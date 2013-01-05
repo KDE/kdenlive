@@ -14,9 +14,7 @@ public:
     void activateMonitor();
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
-    void setImageAspectRatio(double ratio) {
-        m_display_ratio = ratio;
-    }
+    void setImageAspectRatio(double ratio);
     void setBackgroundColor(QColor color) {
         m_backgroundColor = color;
     }

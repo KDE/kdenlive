@@ -207,7 +207,9 @@ void MonitorManager::resetProfiles(Timecode tc)
 
 void MonitorManager::slotResetProfiles()
 {
-    if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
+    if (m_projectMonitor == NULL || m_clipMonitor == NULL) {
+	return;
+    }
     blockSignals(true);
     Kdenlive::MONITORID active = m_activeMonitor ? m_activeMonitor->id() : Kdenlive::noMonitor;
     m_clipMonitor->resetProfile(KdenliveSettings::current_profile());

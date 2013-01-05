@@ -41,6 +41,12 @@ QSize VideoGLWidget::sizeHint() const
     return QSize(400, 300);
 }
 
+void VideoGLWidget::setImageAspectRatio(double ratio)
+{
+    m_display_ratio = ratio;
+    resizeGL(width(), height());
+}
+
 void VideoGLWidget::initializeGL()
 {
     qglClearColor(m_backgroundColor);
@@ -57,6 +63,7 @@ void VideoGLWidget::resizeEvent(QResizeEvent* event)
 {
     resizeGL(event->size().width(),event->size().height());
 }
+
 void VideoGLWidget::resizeGL(int width, int height)
 {
     double this_aspect = (double) width / height;

@@ -345,6 +345,8 @@ Q_OBJECT public:
     int getCurrentSeekPosition() const;
     /** @brief Create a producer from url and load it in the monitor  */
     void loadUrl(const QString &url);
+    /** @brief Check if the installed FFmpeg / Libav supports x11grab */
+    static bool checkX11Grab();
     
     QSemaphore showFrameSemaphore;
     bool externalConsumer;

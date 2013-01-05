@@ -931,7 +931,7 @@ void Monitor::resetProfile(const QString &profile)
     if (!render->hasProfile(profile)) {
         slotActivateMonitor();
         render->resetProfile(profile);
-#ifdef USE_OPENGL    
+#ifdef USE_OPENGL
 	if (m_glWidget) m_glWidget->setImageAspectRatio(render->dar());
 #endif
     }

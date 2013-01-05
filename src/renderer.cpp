@@ -4845,6 +4845,20 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
     }
 }
 
+//static 
+bool Render::checkX11Grab()
+{
+    if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::ffmpegpath().isEmpty()) return false;
+    QProcess p;
+    QStringList args;
+    args << "avformat:f-list";
+    p.start(KdenliveSettings::rendererpath(), args);
+    if (!p.waitForStarted()) return false;
+    if (!p.waitForFinished()) return false;
+    QByteArray result = p.readAllStandardError();
+    return result.contains("x11grab");
+}
+
 void Render::openDevice(Device::Type dev)
 {
 #ifdef USE_JACK
@@ -4981,7 +4995,6 @@ void Render::slotOnDeviceShutdown()
 {
 	closeDevice(Device::Jack);
 }
-
 
 #include "renderer.moc"
 

@@ -90,7 +90,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     setAcceptDrops(true);
     m_audioThumbReady = m_clip->audioThumbCreated();
     //setAcceptsHoverEvents(true);
-    connect(this , SIGNAL(prepareAudioThumb(double, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int)));
+    connect(this , SIGNAL(prepareAudioThumb(double, int, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int, int)));
 
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
         m_baseColor = QColor(141, 166, 215);
@@ -795,27 +795,38 @@ void ClipItem::paint(QPainter *painter,
     p.addRect(mappedExposed);
     QPainterPath q;
     q.addRoundedRect(mapped, 3, 3);
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform, false);
     painter->setClipPath(p.intersected(q));
     painter->setPen(Qt::NoPen);
     painter->fillRect(mappedExposed, paintColor);
     painter->setPen(paintColor.darker());
     // draw thumbnails
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
+	QRectF thumbRect;
         if ((m_clipType == IMAGE || m_clipType == TEXT) && !m_startPix.isNull()) {
-            const QPointF top = mapped.topRight() - QPointF(m_startPix.width() - 1, 0);
-            painter->drawPixmap(top, m_startPix);
-            QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
-            painter->drawLine(l2);
+	    if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
+	    thumbRect.moveTopRight(mapped.topRight());
+	    painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
+	    //const QPointF top = mapped.topRight() - QPointF(m_startPix.width() - 1, 0);
+            //painter->drawPixmap(top, m_startPix);
+            //QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
+            //painter->drawLine(l2);
         } else if (!m_endPix.isNull()) {
-            const QPointF top = mapped.topRight() - QPointF(m_endPix.width() - 1, 0);
-            painter->drawPixmap(top, m_endPix);
-            QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
-            painter->drawLine(l2);
+	    if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_endPix.height() * m_endPix.width(), mapped.height());
+	    thumbRect.moveTopRight(mapped.topRight());
+	    painter->drawPixmap(thumbRect, m_endPix, m_endPix.rect());
+	    //const QPointF top = mapped.topRight() - QPointF(m_endPix.width() - 1, 0);
+            //painter->drawPixmap(top, m_endPix);
+            //QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
+            //painter->drawLine(l2);
         }
         if (!m_startPix.isNull()) {
-            painter->drawPixmap(mapped.topLeft(), m_startPix);
-            QLineF l2(mapped.left() + m_startPix.width(), mapped.top(), mapped.left() + m_startPix.width(), mapped.bottom());
-            painter->drawLine(l2);
+	    if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
+	    thumbRect.moveTopLeft(mapped.topLeft());
+	    painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
+            //painter->drawPixmap(mapped.topLeft(), m_startPix);
+            //QLineF l2(mapped.left() + m_startPix.width(), mapped.top(), mapped.left() + m_startPix.width(), mapped.bottom());
+            //painter->drawLine(l2);
         }
 
         // if we are in full zoom, paint thumbnail for every frame
@@ -842,7 +853,9 @@ void ClipItem::paint(QPainter *painter,
                         img = m_clip->thumbProducer()->findCachedThumb(path + QString::number(i));
                         QPointF xpos = startPos + QPointF(FRAME_SIZE *(i - startOffset), 0);
                         if (img.isNull()) missing << i;
-                        else painter->drawImage(xpos, img);
+                        else {
+			    painter->drawImage(xpos, img);
+			}
                         painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
                     }
                     if (!missing.isEmpty()) {
@@ -854,7 +867,6 @@ void ClipItem::paint(QPainter *painter,
             }
         }
     }
-
     // draw audio thumbnails
     if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || isAudioOnly())) || m_clipType == AUDIO) && m_audioThumbReady) {
 
@@ -885,12 +897,16 @@ void ClipItem::paint(QPainter *painter,
         cropLeft = cropLeft * scale;
 
         if (channels >= 1) {
-            emit prepareAudioThumb(scale, mappedStartPixel, mappedEndPixel, channels);
+            emit prepareAudioThumb(scale, mappedStartPixel, mappedEndPixel, channels, (int) (mappedRect.height() + 0.5));
         }
-
+	QRectF pixmapRect(0, mappedRect.y(), 100, mappedRect.height());
         for (int startCache = mappedStartPixel - (mappedStartPixel) % 100; startCache < mappedEndPixel; startCache += 100) {
-            if (!m_audioThumbCachePic.value(startCache).isNull())
-                painter->drawPixmap(clipStart + startCache - cropLeft, mappedRect.y(),  m_audioThumbCachePic.value(startCache));
+            if (!m_audioThumbCachePic.value(startCache).isNull()) {
+                //painter->drawPixmap(clipStart + startCache - cropLeft, mappedRect.y(),  m_audioThumbCachePic.value(startCache));
+		QPixmap pix(m_audioThumbCachePic.value(startCache));
+		pixmapRect.moveLeft(clipStart + startCache - cropLeft);
+		painter->drawPixmap(pixmapRect,  pix, pix.rect());
+	    }
         }
     }
     
@@ -1100,15 +1116,13 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const
     return snaps;
 }
 
-void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels)
+void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels, int pixelHeight)
 {
     // Bail out, if caller provided invalid data
     if (channels <= 0) {
 	kWarning() << "Unable to draw image with " << channels << "number of channels";
         return;
     }
-    QRectF re =  sceneBoundingRect();
-    if (m_clipType == AV && !isAudioOnly()) re.setTop(re.y() + re.height() / 2);
     int factor = 64;
     if (KdenliveSettings::normaliseaudiothumbs()) {
 	factor = m_clip->getProperty("audio_max").toInt();
@@ -1121,7 +1135,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
     QPen audiopen;
     audiopen.setWidth(0);
     if (simplifiedAudio) channels = 1;
-    int channelHeight = re.height() / channels;
+    int channelHeight = pixelHeight / channels;
     QMap<int, QPainterPath > positiveChannelPaths;
     QMap<int, QPainterPath > negativeChannelPaths;
 
@@ -1129,7 +1143,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
         if (m_framePixelWidth == pixelForOneFrame && m_audioThumbCachePic.contains(startCache))
             continue;
         if (m_audioThumbCachePic.value(startCache).isNull() || m_framePixelWidth != pixelForOneFrame) {
-	    QPixmap pix(100, (int)(re.height()));
+	    QPixmap pix(100, pixelHeight);
 	    pix.fill(QColor(180, 180, 180, 150));
 	    m_audioThumbCachePic[startCache] = pix;
         }
@@ -1195,6 +1209,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
 	    pixpainter.setPen(audiopen);
 	    pixpainter.setBrush(Qt::NoBrush);
 	}
+	pixpainter.setRenderHint(QPainter::Antialiasing, false);
         for (int i = 0; i < channels; i++) {
             if (fullAreaDraw) {
                 pixpainter.drawPath(positiveChannelPaths[i].united(negativeChannelPaths.value(i)));

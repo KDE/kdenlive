@@ -84,7 +84,7 @@
    <item row="11" column="0">
     <widget class="QPushButton" name="button_start">
      <property name="text">
-      <string>Start</string>
+      <string comment="@action:button start transcode">Start</string>
      </property>
     </widget>
    </item>

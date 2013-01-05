@@ -36,6 +36,7 @@
 #include <KMessageBox>
 #include <KApplication>
 #include <KDiskFreeSpaceInfo>
+
 #include <QMouseEvent>
 #include <QMenu>
 #include <QToolButton>
@@ -57,7 +58,6 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     //video_frame->setAttribute(Qt::WA_PaintOnScreen);
     device_selector->setCurrentIndex(KdenliveSettings::defaultcapture());
     connect(device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
-
     // Video widget holder
     QVBoxLayout *l = new QVBoxLayout;
     l->setContentsMargins(0, 0, 0, 0);
@@ -67,8 +67,8 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     createVideoSurface();
 
     QToolBar *toolbar = new QToolBar(this);
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0, 0, 0, 0);
+    QHBoxLayout *hlayout = new QHBoxLayout;
+    hlayout->setContentsMargins(0, 0, 0, 0);
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
@@ -104,7 +104,6 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     m_previewSettings = new QAction(i18n("Recording Preview"), this);
     m_previewSettings->setCheckable(true);
 
-
     rec_options->setMenu(menu);
     menu->addAction(m_previewSettings);
 
@@ -114,30 +113,30 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     connect(configAction, SIGNAL(triggered()), this, SLOT(slotConfigure()));
     configAction->setCheckable(false);
 
-    layout->addWidget(toolbar);
-    layout->addWidget(&m_logger);
-    layout->addWidget(&m_dvinfo);
+    hlayout->addWidget(toolbar);
+    hlayout->addWidget(&m_logger);
+    hlayout->addWidget(&m_dvinfo);
     m_logger.setMaxCount(10);
     m_logger.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_logger.setFrame(false);
     //m_logger.setInsertPolicy(QComboBox::InsertAtTop);
-
+    
     m_freeSpace = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     m_freeSpace->setMaximumWidth(150);
     QFontMetricsF fontMetrics(font());
     m_freeSpace->setMaximumHeight(fontMetrics.height() * 1.2);
     slotUpdateFreeSpace();
-    layout->addWidget(m_freeSpace);
+    hlayout->addWidget(m_freeSpace);
     connect(&m_spaceTimer, SIGNAL(timeout()), this, SLOT(slotUpdateFreeSpace()));
     m_spaceTimer.setInterval(30000);
     m_spaceTimer.setSingleShot(false);
 
-    control_frame_firewire->setLayout(layout);
+    control_frame_firewire->setLayout(hlayout);
     m_displayProcess = new QProcess;
     m_captureProcess = new QProcess;
 
     connect(m_captureProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotProcessStatus(QProcess::ProcessState)));
-    connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadDvgrabInfo()));
+    connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadProcessInfo()));
     
     QString videoDriver = KdenliveSettings::videodrivername();
 #if QT_VERSION >= 0x040600
@@ -165,6 +164,13 @@ RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidge
     setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
     kDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage = new KMessageWidget;
+    QVBoxLayout *s =  static_cast <QVBoxLayout *> (layout());
+    s->insertWidget(1, m_infoMessage);
+    m_infoMessage->hide();
+#endif
+    
     slotVideoDeviceChanged(device_selector->currentIndex());
     m_previewSettings->setChecked(KdenliveSettings::enable_recording_preview());
     connect(m_previewSettings, SIGNAL(triggered(bool)), this, SLOT(slotChangeRecordingPreview(bool)));
@@ -227,8 +233,18 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 {
     QString capturefile;
     QString capturename;
+#if KDE_IS_VERSION(4,7,0)
+    if (m_infoMessage->isVisible()) {
+#if KDE_IS_VERSION(4,10,0)
+	m_infoMessage->animatedHide();
+#else    
+	QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
+#endif
+    }
+#endif
     m_previewSettings->setEnabled(ix == VIDEO4LINUX || ix == BLACKMAGIC);
     control_frame->setVisible(ix == VIDEO4LINUX);
+    m_playAction->setVisible(ix != SCREENGRAB);
     m_fwdAction->setVisible(ix == FIREWIRE);
     m_discAction->setVisible(ix == FIREWIRE);
     m_rewAction->setVisible(ix == FIREWIRE);
@@ -258,10 +274,17 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 		// Check for libav version
 		exepath = KStandardDirs::findExe("avconv");
 	    }
-	    if (exepath.isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("ffmpeg or avconv not found,\n please install it for screen grabs")));
+	    if (exepath.isEmpty()) showWarningMessage(i18n("ffmpeg or avconv not found,\n please install it for screen grabs"));
 	    else KdenliveSettings::setFfmpegpath(exepath);
 	}
-        if (!KdenliveSettings::ffmpegpath().isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
+        if (!KdenliveSettings::ffmpegpath().isEmpty()) {
+	    if (!Render::checkX11Grab()) {
+		// FFmpeg does not support screen grab
+		showWarningMessage(i18n("Your FFmpeg / Libav installation\n does not support screen grab"), "dialog-warning");
+		m_recAction->setEnabled(false);
+	    }
+	    else video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
+	}
         //video_frame->setText(i18n("Press record button\nto start screen capture"));
         break;
     case VIDEO4LINUX:
@@ -290,7 +313,9 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         // Check that dvgab is available
         if (KdenliveSettings::dvgrab_path().isEmpty()) {
             QString dvgrabpath = KStandardDirs::findExe("dvgrab");
-            if (dvgrabpath.isEmpty()) video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("dvgrab utility not found,\n please install it for firewire capture")));
+            if (dvgrabpath.isEmpty()) {
+		showWarningMessage(i18n("dvgrab utility not found,\n please install it for firewire capture"));
+	    }
             else KdenliveSettings::setDvgrab_path(dvgrabpath);
         } else {
             // Show capture info
@@ -401,10 +426,8 @@ void RecMonitor::slotStopCapture()
         m_isPlaying = false;
         break;
     case SCREENGRAB:
-        m_captureProcess->write("q\n", 3);
-        m_captureProcess->terminate();
-        //video_frame->setText(i18n("Encoding captured video..."));
-        QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
+	m_captureProcess->terminate();
+        QTimer::singleShot(1500, m_captureProcess, SLOT(kill()));
         break;
     case VIDEO4LINUX:
     case BLACKMAGIC:
@@ -556,6 +579,7 @@ void RecMonitor::slotStartPreview(bool play)
 
 void RecMonitor::slotRecord()
 {
+    m_error.clear();
     if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
         slotStartPreview();
     }
@@ -717,6 +741,7 @@ void RecMonitor::slotRecord()
 	    m_captureArgs << path;
 	    
             m_isCapturing = true;
+	    m_recAction->setEnabled(false);
             /*if (KdenliveSettings::rmd_capture_audio()) {
                 m_captureArgs << "--freq" << KdenliveSettings::rmd_freq();
                 m_captureArgs << "--channels" << QString::number(KdenliveSettings::rmd_audio_channels());
@@ -737,6 +762,10 @@ void RecMonitor::slotRecord()
             } else m_captureArgs << "--no-sound";*/
 
             m_captureProcess->start(KdenliveSettings::ffmpegpath(), m_captureArgs);
+	    if (!m_captureProcess->waitForStarted()) {
+		// Problem launching capture app
+		showWarningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
+	    }
             //kDebug() << "// Screen grab params: " << m_captureArgs;
             break;
         default:
@@ -756,6 +785,34 @@ void RecMonitor::slotRecord()
         //captureProcess->kill();
         QTimer::singleShot(1000, this, SLOT(slotRecord()));
     }
+}
+
+
+void RecMonitor::showWarningMessage(const QString &text, bool logAction)
+{
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage->setText(text);
+    m_infoMessage->setMessageType(KMessageWidget::Warning);
+    if (logAction) {
+	QAction *manualAction = new QAction(i18n("Show log"), this);
+	connect(manualAction, SIGNAL(triggered()), this, SLOT(slotShowLog()));
+	m_infoMessage->addAction(manualAction);
+    }
+#if KDE_IS_VERSION(4,10,0)
+    m_infoMessage->animatedShow();
+#else
+    QTimer::singleShot(0, m_infoMessage, SLOT(animatedShow()));
+#endif
+#else
+    if (!logAction) {
+	video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), text));
+	
+    }
+    else {
+	video_frame->setText(QString("<qt>" + text + "<br><a href=\"http://kde.org\">" + i18n("Show log") + "</a>"));
+	connect(video_frame, SIGNAL(linkActivated (const QString &)), this, SLOT(slotShowLog()));
+    }
+#endif
 }
 
 const QString RecMonitor::getV4lXmlPlaylist(MltVideoProfile profile, bool *isXml) 
@@ -835,20 +892,23 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
             m_fwdAction->setEnabled(false);
             m_recAction->setEnabled(false);
         }
+        else {
+	    m_recAction->setEnabled(true);
+	}
         m_isPlaying = false;
         m_playAction->setIcon(m_playIcon);
         m_recAction->setChecked(false);
         m_stopAction->setEnabled(false);
         device_selector->setEnabled(true);
         if (m_captureProcess && m_captureProcess->exitStatus() == QProcess::CrashExit) {
-            video_frame->setText(i18n("Capture crashed, please check your parameters"));
+	    showWarningMessage(i18n("Capture crashed, please check your parameters"), true);
         } else {
             if (device_selector->currentIndex() != SCREENGRAB) {
                 video_frame->setText(i18n("Not connected"));
             } else {
 		int code = m_captureProcess->exitCode();
                 if (code != 0 && code != 255) {
-                    video_frame->setText(i18n("Capture crashed, please check your parameters.\nExit code: %1", QString::number(m_captureProcess->exitCode())));
+                    showWarningMessage(i18n("Capture crashed, please check your parameters"), true);
                 } else {
                     video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
                 }
@@ -860,7 +920,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
         // update free space info
         slotUpdateFreeSpace();
     } else {
-        if (device_selector->currentIndex() != SCREENGRAB) m_stopAction->setEnabled(true);
+        if (device_selector->currentIndex()) m_stopAction->setEnabled(true);
         device_selector->setEnabled(false);
     }
 }
@@ -949,12 +1009,22 @@ void RecMonitor::slotPlay()
     else slotStartPreview(true);*/
 }
 
-void RecMonitor::slotReadDvgrabInfo()
+void RecMonitor::slotReadProcessInfo()
 {
     QString data = m_captureProcess->readAllStandardError().simplified();
-    data = data.section('"', 2, 2).simplified();
-    m_dvinfo.setText(data.left(11));
-    m_dvinfo.updateGeometry();
+    if (device_selector->currentIndex() == SCREENGRAB) {
+	m_error.append(data + "\n");
+    }
+    else if (device_selector->currentIndex() == FIREWIRE) {
+	data = data.section('"', 2, 2).simplified();
+	m_dvinfo.setText(data.left(11));
+	m_dvinfo.updateGeometry();
+    }
+}
+
+void RecMonitor::slotShowLog()
+{
+    KMessageBox::information(this, m_error);
 }
 
 AbstractRender *RecMonitor::abstractRender()

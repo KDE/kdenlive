@@ -2154,8 +2154,8 @@ void TitleWidget::slotAnimEnd(bool anim)
 void TitleWidget::addAnimInfoText()
 {
     // add text to anim viewport
-    QGraphicsTextItem *t = new QGraphicsTextItem(i18n("Start"), m_startViewport);
-    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18n("End"), m_endViewport);
+    QGraphicsTextItem *t = new QGraphicsTextItem(i18nc("Indicates the start of an animation", "Start"), m_startViewport);
+    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18nc("Indicates the end of an animation", "End"), m_endViewport);
     QFont font = t->font();
     font.setPixelSize(m_startViewport->rect().width() / 10);
     QColor col = m_startViewport->pen().color();
