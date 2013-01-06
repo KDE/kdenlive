@@ -2195,6 +2195,36 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
     }
 }
 
+void ProjectList::extractMetadata(DocClipBase *clip)
+{
+    QMap <QString, QString> props = clip->properties();
+    if (props.contains("exiftool")) {
+	// metadata was already extracted
+	return;
+    }
+    QString codecid = props.value("videocodecid").simplified();
+    if (codecid == "h264") {
+	QProcess p;
+	QStringList args;
+	args << "-g" << "-args" << clip->fileURL().encodedPathAndQuery();
+	p.start("exiftool", args);
+	p.waitForFinished();
+	QString res = p.readAllStandardOutput();
+	QStringList list = res.split("\n");
+	QMap <QString, QString> meta;
+	foreach(QString tagline, list) {
+	    if (!tagline.startsWith("-H264")) continue;
+	    QString tag = tagline.section(':', 1);
+	    if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
+	    meta.insert(tag.section('=', 0, 0), tag.section('=', 1));
+	}
+	clip->setProperty("exiftool", "1");
+	if (!meta.isEmpty()) {
+	    clip->setMetadata(meta);
+	}
+    }
+}
+
 
 void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace)
 {
@@ -2212,6 +2242,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         item->setProperties(properties, metadata);
         clip->setProducer(producer, replace);
+	if (KdenliveSettings::use_exiftool()) extractMetadata(clip);
 	m_render->processingDone(clipId);
 
         // Proxy stuff

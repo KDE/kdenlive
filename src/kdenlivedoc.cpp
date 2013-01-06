@@ -1192,9 +1192,9 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
         QDomNamedNodeMap attributes = elem.attributes();
         for (int i = 0; i < attributes.count(); i++) {
             QString attrname = attributes.item(i).nodeName();
-            if (attrname != "resource")
+	    if (attrname != "resource")
                 properties.insert(attrname, attributes.item(i).nodeValue());
-            kDebug() << attrname << " = " << attributes.item(i).nodeValue();
+            //kDebug() << attrname << " = " << attributes.item(i).nodeValue();
         }
         clip->setProperties(properties);
         emit addProjectClip(clip, false);
@@ -1204,7 +1204,7 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
         for (QDomNode m = orig.firstChild(); !m.isNull(); m = m.nextSibling()) {
             QString name = m.toElement().attribute("name");
             if (name.startsWith("meta.attr"))
-                meta.insert(name.section('.', 2, 3), m.firstChild().nodeValue());
+                meta.insert(name.section('.', 2, -1), m.firstChild().nodeValue());
         }
         if (!meta.isEmpty()) {
             if (clip == NULL)

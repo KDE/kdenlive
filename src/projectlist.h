@@ -426,6 +426,7 @@ private:
     /** @brief Create rounded shape pixmap for project tree thumb. */
     QPixmap roundedPixmap(QImage img);
     QPixmap roundedPixmap(QPixmap source);
+    void extractMetadata(DocClipBase *clip);
 
 private slots:
     void slotClipSelected();
