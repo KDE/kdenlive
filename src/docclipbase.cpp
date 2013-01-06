@@ -255,6 +255,11 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
         if (hideTemporaryProperties && i.key().startsWith('_')) continue;
         if (!i.value().isEmpty()) clip.setAttribute(i.key(), i.value());
     }
+    QMapIterator<QString, QString> j(m_metadata);
+    while (j.hasNext()) {
+        j.next();
+        if (!j.value().isEmpty()) clip.setAttribute("meta.attr." + j.key(), j.value());
+    }
     doc.appendChild(clip);
     if (!m_cutZones.isEmpty()) {
         QStringList cuts;

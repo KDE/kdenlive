@@ -1128,10 +1128,10 @@ void Render::processFileProperties()
 		snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
 		if (producer->get(property)) {
 		    filePropertyMap["videocodec"] = producer->get(property);
-		} else {
-		    snprintf(property, sizeof(property), "meta.media.%d.codec.name", vindex);
-		    if (producer->get(property))
-			filePropertyMap["videocodec"] = producer->get(property);
+		}
+		snprintf(property, sizeof(property), "meta.media.%d.codec.name", vindex);
+		if (producer->get(property)) {
+		    filePropertyMap["videocodecid"] = producer->get(property);
 		}
 		QString query;
 		query = QString("meta.media.%1.codec.pix_fmt").arg(vindex);
