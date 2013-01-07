@@ -92,7 +92,7 @@ ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filt
         ls << "maxangle,type,int,value,-1,min,-1,max,1000,tooltip,max anglen to rotate (in rad)";
         ls << "crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background";
         ls << "invert,type,bool,value,0,min,0,max,1,tooltip,invert transform";
-        ls << "realtive,type,bool,value,1,min,0,max,1,tooltip,0 = absolute transform  1= relative";
+        ls << "relative,type,bool,value,1,min,0,max,1,tooltip,0 = absolute transform  1= relative";
         ls << "zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform";
         ls << "optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)";
         ls << "sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image";
