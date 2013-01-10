@@ -1,6 +1,7 @@
 [Global]
 IconName=kdenlive
 Comment=Kdenlive
+Comment[bs]=Kdenlive
 Comment[ca]=Kdenlive
 Comment[cs]=Kdenlive
 Comment[da]=Kdenlive
@@ -33,6 +34,7 @@ Comment[zh_TW]=Kdenlive
 
 [Event/RenderFinished]
 Name=Rendering finished
+Name[bs]=Iscrtavanje završeno
 Name[ca]=Ha acabat la renderització
 Name[cs]=Renderování bylo dokončeno
 Name[da]=Rendering gennemført
@@ -60,6 +62,7 @@ Name[x-test]=xxRendering finishedxx
 Name[zh_CN]=渲染结束
 Name[zh_TW]=已完成導出
 Comment=Rendering is over
+Comment[bs]=Iscrtavanje je gotovo
 Comment[ca]=La renderització ja ha acabat
 Comment[cs]=Renderování je hotové
 Comment[da]=Renderingen er slut
@@ -90,6 +93,7 @@ Action=Popup
 
 [Event/RenderStarted]
 Name=Rendering started
+Name[bs]=Iscrtavanje započelo
 Name[ca]=Ha començat la renderització
 Name[cs]=Renderování začalo
 Name[da]=Rendering påbegyndt
@@ -117,6 +121,7 @@ Name[x-test]=xxRendering startedxx
 Name[zh_CN]=渲染开始
 Name[zh_TW]=導出已開始
 Comment=Rendering was started
+Comment[bs]=Iscrtavanje je započelo
 Comment[ca]=La renderització ja ha començat
 Comment[cs]=Renderování bylo začato
 Comment[da]=Renderingen blev startet
@@ -147,6 +152,7 @@ Action=Popup
 
 [Event/FrameCaptured]
 Name=Frame captured
+Name[bs]=Kadar uhvaćen
 Name[ca]=S'ha capturat un fotograma
 Name[cs]=Snímek zachycen
 Name[da]=Billed indfanget
@@ -174,6 +180,7 @@ Name[x-test]=xxFrame capturedxx
 Name[zh_CN]=已抓取帧
 Name[zh_TW]=影格已擷取
 Comment=A frame was captured to disk
+Comment[bs]=Kadar je uhvaćen na disk
 Comment[ca]=S'ha capturat i desat un fotograma al disc
 Comment[cs]=Snímek byl zachycen na disk
 Comment[da]=Et billed blev indfanget til disken
@@ -205,6 +212,7 @@ Action=Sound
 
 [Event/ReadyToCapture]
 Name=Ready to capture
+Name[bs]=Spreman za hvatanje
 Name[ca]=A punt per capturar
 Name[cs]=Připraven zachytávat
 Name[da]=Klar til at indfange
@@ -236,6 +244,7 @@ Action=Sound
 
 [Event/ErrorMessage]
 Name=Error
+Name[bs]=Greška
 Name[ca]=Error
 Name[cs]=Chyba
 Name[da]=Fejl
@@ -266,6 +275,7 @@ Name[x-test]=xxErrorxx
 Name[zh_CN]=错误
 Name[zh_TW]=錯誤
 Comment=An error occurred in Kdenlive
+Comment[bs]=Desila se greška u KDenlive
 Comment[ca]=S'ha produït un error al Kdenlive
 Comment[cs]=V Kdenlive došlo k chybě
 Comment[da]=En fejl opstod i Kdenlive
