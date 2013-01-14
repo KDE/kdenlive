@@ -847,7 +847,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 		m_selectionGroup->setProperty("locked_tracks", lockedTracks);
 	    }
 	    if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET && m_dragItem->parentItem() != m_selectionGroup) {
-                dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
+		QGraphicsItem *topGroup = m_dragItem->parentItem();
+		while (topGroup->parentItem() && topGroup->parentItem()->type() == GROUPWIDGET && topGroup->parentItem() != m_selectionGroup) {
+		    topGroup = topGroup->parentItem();
+		}
+                dragGroup = static_cast <AbstractGroupItem *>(topGroup);
 		dragGroup->setProperty("y_absolute", yOffset);
 		dragGroup->setProperty("locked_tracks", lockedTracks);
             }
@@ -1040,10 +1044,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         } else {
 	    resetSelectionGroup();
 	}
-        dragGroup = NULL;
-        if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET) {
-            dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
-        }
+        /*if () {
+	    dragGroup = NULL;
+	    if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET) {
+		dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
+	    }
+	}*/
 
         bool selected = !m_dragItem->isSelected();
 	QGraphicsView::mousePressEvent(event);
@@ -1085,8 +1091,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_selectionGroup->setSelected(itemSelected);
 	    
 	}
-	if (dragGroup)
+	if (dragGroup) {
             dragGroup->setSelected(itemSelected);
+	}
 	m_dragItem->setSelected(itemSelected);
     }
 
@@ -1247,11 +1254,11 @@ void CustomTrackView::rebuildGroup(AbstractGroupItem *group)
     if (group) {
         QList <QGraphicsItem *> children = group->childItems();
         m_document->clipManager()->removeGroup(group);
-	/*for (int i = 0; i < children.count(); i++) {
+	for (int i = 0; i < children.count(); i++) {
 	    group->removeFromGroup(children.at(i));
-	}*/
+	}
 	scene()->destroyItemGroup(group);
-        groupSelectedItems(children, true, true);
+        groupSelectedItems(children, group != m_selectionGroup, true);
     }
 }
 
@@ -1266,14 +1273,16 @@ void CustomTrackView::resetSelectionGroup(bool selectItems)
         scene()->destroyItemGroup(m_selectionGroup);
 	m_selectionGroup = NULL;
         for (int i = 0; i < children.count(); i++) {
-            if (children.at(i)->parentItem() == 0 && (children.at(i)->type() == AVWIDGET || children.at(i)->type() == TRANSITIONWIDGET)) {
-                if (!static_cast <AbstractClipItem *>(children.at(i))->isItemLocked()) {
-                    children.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
-                    children.at(i)->setSelected(selectItems);
-                }
-            } else if (children.at(i)->type() == GROUPWIDGET) {
-                children.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
-                children.at(i)->setSelected(selectItems);
+            if (children.at(i)->parentItem() == 0) {
+		if ((children.at(i)->type() == AVWIDGET || children.at(i)->type() == TRANSITIONWIDGET)) {
+		    if (!static_cast <AbstractClipItem *>(children.at(i))->isItemLocked()) {
+			children.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
+			children.at(i)->setSelected(selectItems);
+		    }
+		} else if (children.at(i)->type() == GROUPWIDGET) {
+		    children.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
+		    children.at(i)->setSelected(selectItems);
+		}
             }
         }
         KdenliveSettings::setSnaptopoints(snap);
@@ -1295,6 +1304,9 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 	if (selectNewGroup) selection.at(i)->setSelected(true);
 	if (selection.at(i)->type() == GROUPWIDGET) {
 	    AbstractGroupItem *it = static_cast <AbstractGroupItem *> (selection.at(i));
+	    while (it->parentItem() && it->parentItem()->type() == GROUPWIDGET) {
+		it = static_cast <AbstractGroupItem *>(it->parentItem());
+	    }
 	    if (!it || it->isItemLocked()) continue;
 	    groupsList.insert(it);
 	}
@@ -1303,6 +1315,9 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 	if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
 	    if (selection.at(i)->parentItem() && selection.at(i)->parentItem()->type() == GROUPWIDGET) {
 		AbstractGroupItem *it = static_cast <AbstractGroupItem *> (selection.at(i)->parentItem());
+		while (it->parentItem() && it->parentItem()->type() == GROUPWIDGET) {
+		    it = static_cast <AbstractGroupItem *>(it->parentItem());
+		}
 		if (!it || it->isItemLocked()) continue;
 		groupsList.insert(it);
 	    }
@@ -1339,8 +1354,11 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
         newGroup->translate(-diff.x(), -diff.y());
         //newGroup->translate((int) -rectUnion.left(), (int) -rectUnion.top() + 1);
 
-        scene()->addItem(newGroup);
         // Check if we are trying to include a group in a group
+	foreach (QGraphicsItemGroup *value, groupsList) {
+	    newGroup->addItem(value);
+        }
+	
 	foreach (QGraphicsItemGroup *value, groupsList) {
 	    QList<QGraphicsItem *> children = value->childItems();
 	    for (int i = 0; i < children.count(); i++) {
@@ -1355,6 +1373,7 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 	foreach (QGraphicsItem *value, itemsList) {
 	    newGroup->addItem(value);
         }
+        scene()->addItem(newGroup);
         KdenliveSettings::setSnaptopoints(snap);
 	if (selectNewGroup) newGroup->setSelected(true);
     } else {
@@ -4254,7 +4273,7 @@ void CustomTrackView::deleteSelectedClips()
     int groupCount = 0;
     int clipCount = 0;
     int transitionCount = 0;
-    // expand & destroy groups
+    // expand & destroy groups    
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == GROUPWIDGET) {
             groupCount++;
@@ -4281,20 +4300,19 @@ void CustomTrackView::deleteSelectedClips()
         } else if (itemList.at(i)->parentItem() && itemList.at(i)->parentItem()->type() == GROUPWIDGET)
             itemList.insert(i + 1, itemList.at(i)->parentItem());
     }
-
+    emit clipItemSelected(NULL);
+    emit transitionItemSelected(NULL);
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             //kDebug()<<"// DELETE CLP AT: "<<item->info().startPos.frames(25);
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, true, true, deleteSelected);
-            emit clipItemSelected(NULL);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             transitionCount++;
             Transition *item = static_cast <Transition *>(itemList.at(i));
             //kDebug()<<"// DELETE TRANS AT: "<<item->info().startPos.frames(25);
             new AddTransitionCommand(this, item->info(), item->transitionEndTrack(), item->toXML(), true, true, deleteSelected);
-            emit transitionItemSelected(NULL);
         }
     }
     if (groupCount > 0 && clipCount == 0 && transitionCount == 0)
@@ -4475,7 +4493,8 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
     resetSelectionGroup();
     m_scene->clearSelection();
     if (!group) {
-        for (int i = 0; i < clipInfos.count(); i++) {
+	// ungroup, find main group to destroy it...
+	for (int i = 0; i < clipInfos.count(); i++) {
             ClipItem *clip = getClipItemAt(clipInfos.at(i).startPos, clipInfos.at(i).track);
             if (clip == NULL) continue;
             if (clip->parentItem() && clip->parentItem()->type() == GROUPWIDGET) {

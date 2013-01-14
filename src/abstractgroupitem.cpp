@@ -201,7 +201,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 	    }
 	    else if (children.at(i)->type() == GROUPWIDGET) {
 		currentTrack = static_cast <AbstractGroupItem*> (children.at(i))->track();
-	}
+	    }
 	    else continue;
             if (children.at(i)->type() == AVWIDGET) {
                 if (topTrack == -1 || currentTrack <= topTrack) {

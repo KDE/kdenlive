@@ -426,7 +426,10 @@ private:
     /** @brief Create rounded shape pixmap for project tree thumb. */
     QPixmap roundedPixmap(QImage img);
     QPixmap roundedPixmap(QPixmap source);
+    /** @brief Extract a clip's metadata with the exiftool program. */
     void extractMetadata(DocClipBase *clip);
+    /** @brief Add a special FFmpeg tag if clip matches some properties (for example set full_luma for Sony NEX camcorders. */
+    //void checkCamcorderFilters(DocClipBase *clip, QMap <QString, QString> meta);
 
 private slots:
     void slotClipSelected();

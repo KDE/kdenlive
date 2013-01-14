@@ -47,7 +47,7 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     button_delete->setIcon(KIcon("list-remove"));
     button_download->setIcon(KIcon("download"));
     
-    m_configFile = new KConfig("encodingprofiles.rc", KConfig::FullConfig, "appdata");
+    m_configFile = new KConfig("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
     connect(profile_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowParams()));

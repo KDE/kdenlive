@@ -2221,6 +2221,7 @@ void ProjectList::extractMetadata(DocClipBase *clip)
 	clip->setProperty("exiftool", "1");
 	if (!meta.isEmpty()) {
 	    clip->setMetadata(meta);
+	    //checkCamcorderFilters(clip, meta);
 	}
     }
 }
@@ -3766,5 +3767,21 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     }
 }
 
+
+/*
+// Work in progress: apply filter based on clip's camcorder
+void ProjectList::checkCamcorderFilters(DocClipBase *clip, QMap <QString, QString> meta)
+{
+    KConfig conf("camcorderfilters.rc", KConfig::CascadeConfig, "appdata");
+    QStringList groups = conf.groupList();
+    foreach(QString grp, groups) {
+	if (!meta.contains(grp)) continue;
+	KConfigGroup group(&conf, grp);
+	QString value = group.readEntry(meta.value(grp));
+	if (value.isEmpty()) continue;
+	clip->setProperty(value.section(' ', 0, 0), value.section(' ', 1));
+	break;
+    }
+}*/
 
 #include "projectlist.moc"
