@@ -2012,6 +2012,7 @@ bool MainWindow::closeCurrentDocument(bool saveChanges)
     if (docToClose == m_activeDocument) {
         delete m_activeDocument;
         m_activeDocument = NULL;
+	m_monitorManager->setDocument(m_activeDocument);
         m_effectStack->clear();
         m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     } else {
@@ -2694,6 +2695,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_saveAction->setEnabled(doc->isModified());
     m_normalEditTool->setChecked(true);
     m_activeDocument = doc;
+    m_monitorManager->setDocument(m_activeDocument);
     m_activeTimeline->updateProjectFps();
     m_activeDocument->checkProjectClips();
 #ifndef Q_WS_MAC
@@ -2890,8 +2892,11 @@ void MainWindow::slotAddClipMarker()
     CommentedTime marker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
     QPointer<MarkerDialog> d = new MarkerDialog(clip, marker,
                        m_activeDocument->timecode(), i18n("Add Marker"), this);
-    if (d->exec() == QDialog::Accepted)
+    if (d->exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, QList <CommentedTime>() << d->newMarker());
+	QString hash = clip->getClipHash();
+	if (!hash.isEmpty()) m_activeDocument->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(m_activeDocument->fps())), d->markerImage());
+    }
     delete d;
 }
 
@@ -2977,6 +2982,8 @@ void MainWindow::slotEditClipMarker()
                       m_activeDocument->timecode(), i18n("Edit Marker"), this);
     if (d->exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, QList <CommentedTime>() <<d->newMarker());
+	QString hash = clip->getClipHash();
+	if (!hash.isEmpty()) m_activeDocument->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(m_activeDocument->fps())), d->markerImage());
         if (d->newMarker().time() != pos) {
             // remove old marker
             oldMarker.setMarkerType(-1);

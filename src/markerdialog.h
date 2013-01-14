@@ -47,6 +47,7 @@ public:
     MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent = 0);
     ~MarkerDialog();
     CommentedTime newMarker();
+    QImage markerImage() const;
 
 private slots:
     void slotUpdateThumb();
@@ -55,6 +56,7 @@ private:
     Mlt::Producer *m_producer;
     Mlt::Profile *m_profile;
     DocClipBase *m_clip;
+    QImage m_image;
     TimecodeDisplay *m_in;
     double m_dar;
     QTimer *m_previewTimer;

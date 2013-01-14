@@ -32,8 +32,10 @@
 
 const int MAXCLIPDURATION = 15000;
 
+
 namespace Kdenlive {
   enum MONITORID { noMonitor, clipMonitor, projectMonitor, recordMonitor, stopmotionMonitor, dvdMonitor };
+  const int DefaultThumbHeight = 100;
   /*const QString clipMonitor("clipMonitor");
   const QString recordMonitor("recordMonitor");
   const QString projectMonitor("projectMonitor");

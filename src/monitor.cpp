@@ -173,7 +173,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 #endif
 
     // Monitor ruler
-    m_ruler = new SmallRuler(m_monitorManager, render);
+    m_ruler = new SmallRuler(this, render);
     if (id == Kdenlive::dvdMonitor) m_ruler->setZone(-3, -2);
     layout->addWidget(m_ruler);
     
@@ -348,6 +348,16 @@ void Monitor::slotSetSizeOneToTwo()
 void Monitor::resetSize()
 {
     videoBox->setMinimumSize(0, 0);
+}
+
+QString Monitor::getTimecodeFromFrames(int pos)
+{
+    return m_monitorManager->timecode().getTimecodeFromFrames(pos);
+}
+
+double Monitor::fps() const
+{
+    return m_monitorManager->timecode().fps();
 }
 
 DocClipBase *Monitor::activeClip()
@@ -1126,6 +1136,16 @@ void Monitor::reloadProducer(const QString &id)
     if (!m_currentClip) return;
     if (m_currentClip->getId() == id)
         slotSetClipProducer(m_currentClip, m_currentClip->zone(), true);
+}
+
+QString Monitor::getMarkerThumb(GenTime pos)
+{
+    if (!m_currentClip) return QString();
+    if (!m_currentClip->getClipHash().isEmpty()) {
+	QString url = m_monitorManager->getProjectFolder() + "thumbs/" + m_currentClip->getClipHash() + '#' + QString::number(pos.frames(m_monitorManager->timecode().fps())) + ".png";
+        if (QFile::exists(url)) return url;
+    }
+    return QString();
 }
 
 void Monitor::setPalette ( const QPalette & p)

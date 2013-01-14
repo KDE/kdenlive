@@ -31,11 +31,11 @@
 #define SEEK_INACTIVE (-1)
 
 
-SmallRuler::SmallRuler(MonitorManager *manager, Render *render, QWidget *parent) :
+SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
         QWidget(parent)
         ,m_cursorFramePosition(0)
         ,m_maxval(2)
-        ,m_manager(manager)
+        ,m_monitor(monitor)
 	,m_render(render)
 	,m_lastSeekPosition(SEEK_INACTIVE)
 	,m_cursorColor(palette().text())
@@ -46,7 +46,7 @@ SmallRuler::SmallRuler(MonitorManager *manager, Render *render, QWidget *parent)
     m_zoneBrush = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, config);
 
     setMouseTracking(true);
-    setMinimumHeight(10);
+    setMinimumHeight(8);
     adjustScale(m_maxval);
 }
 
@@ -176,12 +176,28 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
 	    update();
 	}
         if (qAbs((pos - m_zoneStart) * m_scale) < 4) {
-            setToolTip(i18n("Zone start: %1", m_manager->timecode().getTimecodeFromFrames(m_zoneStart)));
+            setToolTip(i18n("Zone start: %1", m_monitor->getTimecodeFromFrames(m_zoneStart)));
         } else if (qAbs((pos - m_zoneEnd) * m_scale) < 4) {
-            setToolTip(i18n("Zone end: %1", m_manager->timecode().getTimecodeFromFrames(m_zoneEnd)));
-        } else if (pos > m_zoneStart && pos < m_zoneEnd) {
-            setToolTip(i18n("Zone duration: %1", m_manager->timecode().getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
-        } else setToolTip(i18n("Position: %1", m_manager->timecode().getTimecodeFromFrames(pos)));
+            setToolTip(i18n("Zone end: %1", m_monitor->getTimecodeFromFrames(m_zoneEnd)));
+        } 
+	for (int i = 0; i < m_markers.count(); i++) {
+	    if (qAbs((pos - m_markers.at(i).time().frames(m_monitor->fps())) * m_scale) < 4) {
+		// We are on a marker
+		QString markerxt = m_monitor->getMarkerThumb(m_markers.at(i).time());
+		if (!markerxt.isEmpty()) {
+		    markerxt.prepend("<img src=\"");
+		    markerxt.append("\"><p align=\"center\">");
+		}
+		markerxt.append(m_markers.at(i).comment());
+		setToolTip(markerxt);
+		event->accept();
+		return;
+	    }
+	}
+	if (pos > m_zoneStart && pos < m_zoneEnd) {
+            setToolTip(i18n("Zone duration: %1", m_monitor->getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
+	}
+	else setToolTip(i18n("Position: %1", m_monitor->getTimecodeFromFrames(pos)));
     }
     event->accept();
 }
@@ -226,10 +242,13 @@ void SmallRuler::updatePixmap()
     const int zoneEnd = (int)(m_zoneEnd * m_scale);
     p.setPen(Qt::NoPen);
     p.setBrush(m_zoneBrush.brush(this));
-    p.drawRect(zoneStart, height() / 2 - 1, zoneEnd - zoneStart, height() / 2);
+    p.drawRect(zoneStart, 0, zoneEnd - zoneStart, height());
 
     // draw ruler
-    p.setPen(palette().text().color());
+    p.setPen(palette().midlight().color());
+    //p.drawLine(0, 0, width(), 0);
+    p.drawLine(0, height() - 1, width(), height() - 1);
+    p.setPen(palette().dark().color());
     // draw the little marks
     fend = m_scale * m_small;
     if (fend > 2) for (f = 0; f < width(); f += fend) {
@@ -244,7 +263,7 @@ void SmallRuler::updatePixmap()
     // draw markers
     if (!m_markers.isEmpty()) {
         for (int i = 0; i < m_markers.count(); i++) {
-	    int pos = m_markers.at(i).time().frames(m_manager->timecode().fps()) * m_scale;
+	    int pos = m_markers.at(i).time().frames(m_monitor->fps()) * m_scale;
 	    p.setPen(CommentedTime::markerColor(m_markers.at(i).markerType()));
             p.drawLine(pos, 0, pos, 9);
         }
@@ -261,11 +280,14 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     QRect r = e->rect();
     p.setClipRect(r);
     p.drawPixmap(QPointF(), m_pixmap);
+    p.setPen(palette().shadow().color());
+    //p.setRenderHint(QPainter::Antialiasing, true);
+    //p.drawRoundedRect(rect().adjusted(1,1,-2,-2), 3, 3);
 
     int cursorPos = m_cursorFramePosition * m_scale;
     // draw pointer
     QPolygon pa(3);
-    pa.setPoints(3, cursorPos - 6, 10, cursorPos + 6, 10, cursorPos/*+0*/, 4);
+    pa.setPoints(3, cursorPos - 6, 7, cursorPos + 6, 7, cursorPos/*+0*/, 0);
     p.setBrush(m_cursorColor);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);

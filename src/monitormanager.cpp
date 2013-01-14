@@ -21,6 +21,7 @@
 #include "monitormanager.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"
+#include "kdenlivedoc.h"
 
 #include <mlt++/Mlt.h>
 
@@ -31,6 +32,7 @@
 
 MonitorManager::MonitorManager(QWidget *parent) :
         QObject(parent),
+        m_document(NULL),
         m_clipMonitor(NULL),
         m_projectMonitor(NULL),
         m_activeMonitor(NULL)
@@ -40,6 +42,11 @@ MonitorManager::MonitorManager(QWidget *parent) :
 Timecode MonitorManager::timecode()
 {
     return m_timecode;
+}
+
+void MonitorManager::setDocument(KdenliveDoc *doc)
+{
+    m_document = doc;
 }
 
 void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor)
@@ -254,5 +261,15 @@ void MonitorManager::slotSwitchFullscreen()
 {
     if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
 }
+
+QString MonitorManager::getProjectFolder() const
+{
+    if (m_document == NULL) {
+	kDebug()<<" + + +NULL DOC!!";
+	return QString();
+    }
+    return m_document->projectFolder().path(KUrl::AddTrailingSlash);
+}
+
 
 #include "monitormanager.moc"
