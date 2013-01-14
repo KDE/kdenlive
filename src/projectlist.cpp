@@ -1015,6 +1015,7 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
     if (item->type() == PROJECTFOLDERTYPE) {
         if (column == 0) {
             FolderProjectItem *folder = static_cast <FolderProjectItem*>(item);
+	    if (item->text(0) == folder->groupName()) return;
             editFolder(item->text(0), folder->groupName(), folder->clipId());
             folder->setGroupName(item->text(0));
             m_doc->clipManager()->addFolder(folder->clipId(), item->text(0));
@@ -2229,6 +2230,7 @@ void ProjectList::extractMetadata(DocClipBase *clip)
 
 void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace)
 {
+    QMutexLocker lock(&m_processMutex);
     QString toReload;
     ProjectItem *item = getItemById(clipId);
     if (item && producer) {
