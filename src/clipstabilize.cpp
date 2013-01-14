@@ -77,7 +77,7 @@ ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filt
 
     if (m_filtername=="videostab"){
         QStringList ls;
-        ls << "shutterangle,type,int,value,0,min,0,max,100,tooltip,Angle that Images could be maximum rotated";
+        ls << "shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated";
         fillParameters(ls);
     }else if (m_filtername=="videostab2"){
         QStringList ls;
