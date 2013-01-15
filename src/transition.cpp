@@ -168,7 +168,7 @@ void Transition::paint(QPainter *painter,
     const QRectF mapped = painter->worldTransform().mapRect(br);
 
     QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
-    painter->setWorldMatrixEnabled(false);
+    painter->setWorldTransform(QTransform());
     QPainterPath p;
     p.addRect(exposed);
     

@@ -158,15 +158,13 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
     QColor bgcolor(100, 100, 200, 100);
     QRectF bound = option->exposedRect.adjusted(0, 0, 1, 1);
     p->setClipRect(bound);
-    const QRectF mapped = p->worldTransform().mapRect(option->exposedRect);
-    p->setWorldMatrixEnabled(false);
     p->setBrush(bgcolor);
     QPen pen = p->pen();
     pen.setColor(QColor(200, 90, 90));
     pen.setStyle(Qt::DashLine);
     pen.setWidthF(0.0);
     p->setPen(pen);
-    p->drawRoundedRect(mapped, 3, 3);
+    p->drawRoundedRect(boundingRect().adjusted(0, 0, -1, 0), 3, 3);
 }
 
 //virtual
