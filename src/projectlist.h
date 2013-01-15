@@ -363,6 +363,7 @@ private:
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
     QMutex m_jobMutex;
+    QMutex m_processMutex;
     bool m_abortAllJobs;
     /** @brief We are cleaning up the project list, so stop processing signals. */
     bool m_closing;
