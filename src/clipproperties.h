@@ -79,6 +79,8 @@ private slots:
     void slotGotThumbnail(const QString &id, QImage img);
     void slotSaveAnalysis();
     void slotLoadAnalysis();
+    void slotReloadVideoProperties();
+    void slotReloadVideoThumb();
 
 private:
     Ui::ClipProperties_UI m_view;
@@ -94,6 +96,7 @@ private:
     bool m_clipNeedsReLoad;
     /** Frame with proxy info / delete button */
     QFrame* m_proxyContainer;
+    void loadVideoProperties(QMap <QString, QString> props);
 
 signals:
     void addMarkers(const QString &, QList <CommentedTime>);
@@ -102,6 +105,7 @@ signals:
     void saveMarkers(const QString &id);
     void loadMarkers(const QString &id);
     void editAnalysis(const QString &id, const QString &name, const QString &value);
+    void requestThumb(const QString id, QList <int> frames);
 };
 
 

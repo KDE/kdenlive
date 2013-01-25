@@ -43,7 +43,7 @@ SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
     m_zoneStart = 10;
     m_zoneEnd = 60;
     KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
-    m_zoneBrush = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, config);
+    m_zoneBrush = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, config);
 
     setMouseTracking(true);
     setMinimumHeight(8);
@@ -301,7 +301,7 @@ void SmallRuler::paintEvent(QPaintEvent *e)
 void SmallRuler::updatePalette()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
-    m_zoneBrush = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, config);
+    m_zoneBrush = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, config);
     updatePixmap();
 }
 

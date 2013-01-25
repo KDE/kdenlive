@@ -951,7 +951,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index") || properties.contains("full_luma")) {
+        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index") || properties.contains("full_luma") || properties.contains("force_progressive") || properties.contains("force_tff") || properties.contains("force_colorspace")) {
             slotReloadClip(id);
         } else if (properties.contains("colour") ||
                    properties.contains("xmldata") ||
@@ -960,7 +960,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
                    properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip(id, true);
-        } else if (properties.contains("force_colorspace") || properties.contains("loop")) {
+        } else if (properties.contains("loop")) {
             emit refreshClip(id, false);
         }
     }
@@ -2669,7 +2669,7 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
             m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
-	m_doc->clipManager()->requestThumbs(QString('#' + id), QList <int>() << in);
+	m_doc->clipManager()->slotRequestThumbs(QString('#' + id), QList <int>() << in);
         monitorItemEditing(true);
     }
     emit projectModified();

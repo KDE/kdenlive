@@ -75,7 +75,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     LITTLE_MARK_X = BIG_MARK_X + mark_length / 3;
     updateFrameSize();
     m_scale = 3;
-    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     m_zoneStart = 0;
     m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
@@ -94,7 +94,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
 
 void CustomRuler::updatePalette()
 {
-    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
 }
 
 void CustomRuler::updateProjectFps(Timecode t)

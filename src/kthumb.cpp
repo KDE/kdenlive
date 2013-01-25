@@ -108,7 +108,7 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
 void KThumb::extractImage(QList <int>frames)
 {
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
-    m_clipManager->requestThumbs(m_id, frames);
+    m_clipManager->slotRequestThumbs(m_id, frames);
 }
 
 

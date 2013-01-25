@@ -123,8 +123,6 @@ Q_OBJECT public:
     void removeGroup(AbstractGroupItem *group);
     QDomElement groupsXml() const;
     int clipsCount() const;
-    /** @brief Request creation of a clip thumbnail for specified frames. */
-    void requestThumbs(const QString id, QList <int> frames);
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, QImage img, int type);
@@ -133,6 +131,10 @@ Q_OBJECT public:
     KImageCache* pixmapCache;
 #endif
 
+public slots:
+    /** @brief Request creation of a clip thumbnail for specified frames. */
+    void slotRequestThumbs(const QString id, QList <int> frames);
+    
 private slots:
     /** A clip was externally modified, monitor for more changes and prepare for reload */
     void slotClipModified(const QString &path);
