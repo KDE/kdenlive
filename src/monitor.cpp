@@ -896,6 +896,11 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
             slotActivateMonitor();
             if (position == -1) position = render->seekFramePosition();
             render->seek(position);
+	    if (zone.isNull()) {
+		zone = m_currentClip->zone();
+		m_ruler->setZone(zone.x(), zone.y());
+		return;
+	    }
         }
     }
     if (!zone.isNull()) {
