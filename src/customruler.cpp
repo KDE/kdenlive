@@ -223,11 +223,11 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 	if (m_cursorColor == palette().text() && qAbs(pos - m_view->cursorPos() * m_factor) < 7) {
 	    // Mouse is over cursor
 	    m_cursorColor = palette().highlight();
-	    update(m_view->cursorPos() * m_factor - m_offset - 10, 0, 20, height());
+	    update(m_view->cursorPos() * m_factor - m_offset - 10, LABEL_SIZE + 2, 20, MAX_HEIGHT - LABEL_SIZE - 2);
 	}
 	else if (m_cursorColor == palette().highlight() && qAbs(pos - m_view->cursorPos() * m_factor) >= 7) {
 	    m_cursorColor = palette().text();
-	    update(m_view->cursorPos() * m_factor - m_offset - 10, 0, 20, height());
+	    update(m_view->cursorPos() * m_factor - m_offset - 10, LABEL_SIZE + 2, 20, MAX_HEIGHT - LABEL_SIZE - 2);
 	}
 	
         if (event->y() <= 10) setCursor(Qt::ArrowCursor);
@@ -433,7 +433,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
             p.drawText(f - m_offset + 2, LABEL_SIZE, lab);
         }
     }
-
+    p.setPen(palette().dark().color());
     offsetmin = (paintRect.left() + m_offset) / littleMarkDistance;
     offsetmin = offsetmin * littleMarkDistance;
     // draw the little marks
@@ -483,13 +483,13 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw pointer
     const int value  =  m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
-    pa.setPoints(3, value - 6, BIG_MARK_X, value + 6, BIG_MARK_X, value, MAX_HEIGHT - 1);
+    pa.setPoints(3, value - 6, LABEL_SIZE + 3, value + 6, LABEL_SIZE + 3, value, MAX_HEIGHT);
     p.setBrush(m_cursorColor);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
     
     if (m_lastSeekPosition != SEEK_INACTIVE && m_lastSeekPosition != m_view->cursorPos()) {
-	p.fillRect(m_lastSeekPosition * m_factor - m_offset - 1, BIG_MARK_X, 3, MAX_HEIGHT - 1, palette().highlight());
+	p.fillRect(m_lastSeekPosition * m_factor - m_offset - 1, BIG_MARK_X + 1, 3, MAX_HEIGHT - BIG_MARK_X - 1, palette().highlight());
     }
 
 }
