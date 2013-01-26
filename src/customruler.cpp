@@ -165,7 +165,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
     m_moveCursor = RULER_CURSOR;
     if (event->y() > 10) {
         if (qAbs(pos - m_zoneStart * m_factor) < 4) m_moveCursor = RULER_START;
-        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
+        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2.0) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
         else if (qAbs(pos - m_zoneEnd * m_factor) < 4) m_moveCursor = RULER_END;
         m_view->updateSnapPoints(NULL);
     }
@@ -206,8 +206,8 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
                 if (verticalDiff != m_rate) emit adjustZoom(verticalDiff);
             }
             return;
-        } else if (m_moveCursor == RULER_START) m_zoneStart = pos;
-        else if (m_moveCursor == RULER_END) m_zoneEnd = pos;
+        } else if (m_moveCursor == RULER_START) m_zoneStart = qMin(pos, m_zoneEnd - 1);
+        else if (m_moveCursor == RULER_END) m_zoneEnd = qMax(pos, m_zoneStart + 1);
         else if (m_moveCursor == RULER_MIDDLE) {
             int move = pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2);
             if (move + m_zoneStart < 0) move = - m_zoneStart;
@@ -239,7 +239,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
             setCursor(KCursor("right_side", Qt::SizeHorCursor));
             if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone end: %1", m_zoneEnd));
             else setToolTip(i18n("Zone end: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd)));
-        } else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) {
+        } else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2.0) * m_factor) < 4) {
             setCursor(Qt::SizeHorCursor);
             if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone duration: %1", m_zoneEnd - m_zoneStart));
             else setToolTip(i18n("Zone duration: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
