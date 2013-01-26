@@ -3362,6 +3362,16 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         //m_activeDocument->editTextClip(clip->getProperty("xml"), clip->getId());
         return;
     }
+    
+    // Check if we already have a properties dialog opened for that clip
+    QList <ClipProperties *> list = findChildren<ClipProperties *>();
+    for (int i = 0; i < list.size(); ++i) {
+        if (list.at(i)->clipId() == clip->getId()) {
+	    // We have one dialog, show it
+	    list.at(i)->raise();
+	    return;
+	}
+    }
 
     // any type of clip but a title
     ClipProperties *dia = new ClipProperties(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
