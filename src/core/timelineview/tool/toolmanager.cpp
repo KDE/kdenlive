@@ -25,11 +25,13 @@ ToolManager::ToolManager(QObject* parent) :
 
 void ToolManager::clipEvent(TimelineClipItem* clipItem, QEvent* event)
 {
+    if (!m_activeTool) return;
     m_activeTool->clipEvent(clipItem, event);
 }
 
 void ToolManager::sceneEvent(TimelineScene* scene, QEvent* event)
 {
+    if (!m_activeTool) return;
     m_activeTool->sceneEvent(scene, event);
 }
 
