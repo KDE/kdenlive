@@ -51,6 +51,9 @@ public:
     KUrl url() const;
     /** @brief Returns a short displayable caption describing the project in the format: filename / profile name. */
     QString caption();
+    
+    /** @brief Returns a string with an available clip id. */
+    QString getFreeId();
 
     /** @brief Returns a pointer to the timeline. */
     Timeline *timeline();
@@ -107,6 +110,7 @@ private:
     Timeline *m_timeline;
     TimecodeFormatter *m_timecodeFormatter;
     QHash<QString, QString> m_settings;
+    int m_idCounter;
 
     QUndoStack *m_undoStack;
 };

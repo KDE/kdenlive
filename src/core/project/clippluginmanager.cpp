@@ -67,7 +67,7 @@ void ClipPluginManager::createClip(const KUrl& url, ProjectFolder *folder, QUndo
         if (producer->is_valid()) {
             AbstractClipPlugin *plugin = clipPlugin(producer->get("mlt_service"));
             if (plugin) {
-                AddClipCommand *command = new AddClipCommand(url, plugin, folder, parentCommand);
+                AddClipCommand *command = new AddClipCommand(url, pCore->projectManager()->current()->getFreeId(), plugin, folder, parentCommand);
                 if (!parentCommand) {
                     pCore->projectManager()->current()->undoStack()->push(command);
                 }

@@ -23,12 +23,13 @@ class ImageProjectClip : public AbstractProjectClip
     Q_OBJECT
 
 public:
-    ImageProjectClip(const KUrl& url, ProjectFolder* parent, ImageClipPlugin const *plugin);
+    ImageProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, ImageClipPlugin const *plugin);
     ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent, ImageClipPlugin const *plugin);
     ImageProjectClip(const QDomElement &description, ProjectFolder *parent, ImageClipPlugin const *plugin);
     ~ImageProjectClip();
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
+    void getHash();
 
     QDomElement toXml(QDomDocument &document) const;
 

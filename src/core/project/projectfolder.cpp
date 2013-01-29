@@ -46,7 +46,7 @@ ProjectFolder::~ProjectFolder()
 }
 
 
-AbstractProjectClip* ProjectFolder::clip(int id)
+AbstractProjectClip* ProjectFolder::clip(const QString &id)
 {
     AbstractProjectClip *clip;
     for (int i = 0; i < count(); ++i) {

@@ -50,7 +50,7 @@ ProjectFolder* BinModel::rootFolder()
     return m_rootFolder;
 }
 
-AbstractProjectClip* BinModel::clip(int id)
+AbstractProjectClip* BinModel::clip(const QString &id)
 {
     return m_rootFolder->clip(id);
 }

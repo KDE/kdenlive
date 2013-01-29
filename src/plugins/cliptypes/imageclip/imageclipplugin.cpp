@@ -38,9 +38,9 @@ ImageClipPlugin::~ImageClipPlugin()
     
 }
 
-AbstractProjectClip* ImageClipPlugin::createClip(const KUrl &url, ProjectFolder *parent) const
+AbstractProjectClip* ImageClipPlugin::createClip(const KUrl &url, const QString &id, ProjectFolder *parent) const
 {
-    ImageProjectClip *projectClip = new ImageProjectClip(url, parent, this);
+    ImageProjectClip *projectClip = new ImageProjectClip(url, id, parent, this);
     return projectClip;
 }
 

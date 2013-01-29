@@ -18,10 +18,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDomElement>
 
 
-AbstractProjectClip::AbstractProjectClip(const KUrl& url, ProjectFolder* parent, AbstractClipPlugin const *plugin) :
-    AbstractProjectItem(parent),
-    m_plugin(plugin),
-    m_url(url)
+AbstractProjectClip::AbstractProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, AbstractClipPlugin const *plugin) :
+    AbstractProjectItem(parent)
+    , m_plugin(plugin)
+    , m_url(url)
+    , m_id(id)
 {
     if (url.isValid()) {
         m_name = url.fileName();
@@ -48,7 +49,7 @@ AbstractProjectClip::AbstractProjectClip(const QDomElement& description, Project
 {
     Q_ASSERT(description.hasAttribute("id"));
 
-    m_id = description.attribute("id").toInt();
+    m_id = description.attribute("id");
     m_url = KUrl(description.attribute("url"));
 }
 
@@ -64,7 +65,7 @@ AbstractClipPlugin const *AbstractProjectClip::plugin() const
     return m_plugin;
 }
 
-AbstractProjectClip* AbstractProjectClip::clip(int id)
+AbstractProjectClip* AbstractProjectClip::clip(const QString &id)
 {
     if (id == m_id) {
         return this;
@@ -72,7 +73,7 @@ AbstractProjectClip* AbstractProjectClip::clip(int id)
     return NULL;
 }
 
-int AbstractProjectClip::id() const
+QString AbstractProjectClip::id() const
 {
     return m_id;
 }

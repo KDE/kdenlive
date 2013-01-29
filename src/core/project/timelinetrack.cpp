@@ -32,7 +32,7 @@ TimelineTrack::TimelineTrack(ProducerWrapper* producer, Timeline* parent) :
         ProducerWrapper *clipProducer = new ProducerWrapper(m_playlist->get_clip(i));
         if (!clipProducer->is_blank()) {
             QString id = QString(clipProducer->parent().get("id")).section('_', 0, 0);
-            AbstractProjectClip *projectClip = parent->project()->bin()->clip(id.toInt());
+            AbstractProjectClip *projectClip = parent->project()->bin()->clip(id);
             if (projectClip) {
                 AbstractTimelineClip *clip = projectClip->addInstance(clipProducer, this);
                 m_clips.insert(i, clip);

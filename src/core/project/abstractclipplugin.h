@@ -45,7 +45,7 @@ public:
     virtual ~AbstractClipPlugin();
 
     /** @brief Should return a clip created from @param url. */
-    virtual AbstractProjectClip *createClip(const KUrl &url, ProjectFolder *parent) const = 0;
+    virtual AbstractProjectClip *createClip(const KUrl &url, const QString &id, ProjectFolder *parent) const = 0;
     /**
      * @brief Should return a clip created from @paramd description.
      * 

@@ -16,11 +16,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <KDebug>
 
-AddClipCommand::AddClipCommand(const KUrl &url, AbstractClipPlugin *plugin, ProjectFolder *parentItem, QUndoCommand* parent) :
-    QUndoCommand(parent),
-    m_url(url),
-    m_plugin(plugin),
-    m_parentItem(parentItem)
+AddClipCommand::AddClipCommand(const KUrl &url, const QString &id, AbstractClipPlugin *plugin, ProjectFolder *parentItem, QUndoCommand* parent) :
+    QUndoCommand(parent)
+    , m_url(url)
+    , m_id(id)
+    , m_plugin(plugin)
+    , m_parentItem(parentItem)
 {
     setText(i18n("Add clip"));
 }
@@ -33,6 +34,6 @@ void AddClipCommand::undo()
 
 void AddClipCommand::redo()
 {
-    m_clip = m_plugin->createClip(m_url, m_parentItem);
+    m_clip = m_plugin->createClip(m_url, m_id, m_parentItem);
     m_clip->setParent(m_parentItem);
 }

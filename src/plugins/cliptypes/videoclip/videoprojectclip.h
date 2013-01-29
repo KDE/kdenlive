@@ -23,12 +23,13 @@ class VideoProjectClip : public AbstractProjectClip
     Q_OBJECT
 
 public:
-    VideoProjectClip(const KUrl& url, ProjectFolder* parent, VideoClipPlugin const *plugin);
+    VideoProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, VideoClipPlugin const *plugin);
     VideoProjectClip(ProducerWrapper* producer, ProjectFolder* parent, VideoClipPlugin const *plugin);
     VideoProjectClip(const QDomElement &description, ProjectFolder *parent, VideoClipPlugin const *plugin);
     ~VideoProjectClip();
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
+    void getHash();
 
     QPixmap thumbnail();
 

@@ -36,13 +36,14 @@ public:
      * @param plugin plugin handling the clip type of the file
      * @param parentItem folder to which the clip should be added to
      */
-    explicit AddClipCommand(const KUrl &url, AbstractClipPlugin *plugin, ProjectFolder *parentItem, QUndoCommand* parent = 0);
+    explicit AddClipCommand(const KUrl &url, const QString &id, AbstractClipPlugin *plugin, ProjectFolder *parentItem, QUndoCommand* parent = 0);
 
     void undo();
     void redo();
 
 private:
     KUrl m_url;
+    QString m_id;
     AbstractClipPlugin *m_plugin;
     AbstractProjectClip *m_clip;
     ProjectFolder *m_parentItem;

@@ -79,7 +79,7 @@ public:
     int index() const;
 
     /** @brief Used to search for a clip with a specific id. */
-    virtual AbstractProjectClip *clip(int id) = 0;
+    virtual AbstractProjectClip *clip(const QString &id) = 0;
 
     enum DataType {
         DataName = 0,

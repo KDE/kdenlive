@@ -41,7 +41,7 @@ public:
      * @param parent parent item/folder
      * @param plugin plugin ...
      */
-    AbstractProjectClip(const KUrl &url, ProjectFolder *parent, AbstractClipPlugin const *plugin);
+    AbstractProjectClip(const KUrl &url, const QString &id, ProjectFolder *parent, AbstractClipPlugin const *plugin);
     /**
      * @brief Constructor; tries to get url and name from the producer's resource.
      */
@@ -58,12 +58,15 @@ public:
 
     /** @brief Should return a timeline clip/instance of this clip. */
     virtual AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent) = 0;
+    
+    /** @brief Returns a unique hash identifier used to store clip thumbnails. */
+    virtual void getHash() = 0;
 
     /** @brief Returns this if @param id matches the clip's id or NULL otherwise. */
-    AbstractProjectClip *clip(int id);
+    AbstractProjectClip *clip(const QString &id);
 
     /** @brief Returns the clip's id. */
-    int id() const;
+    QString id() const;
     /** @brief Returns whether this clip has a url (=describes a file) or not. */
     bool hasUrl() const;
     /** @brief Returns the clip's url. */
@@ -82,9 +85,11 @@ public:
 protected:
     AbstractClipPlugin const *m_plugin;
     ProducerWrapper *m_baseProducer;
-    int m_id;
+    QString m_id;
     KUrl m_url;
     bool m_hasLimitedDuration;
+    qint64 m_fileSize;
+    QByteArray m_hash;
 };
 
 #endif

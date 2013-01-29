@@ -58,7 +58,7 @@ public:
      * @brief Returns a pointer to the clip or NULL if not found. 
      * @param id id of the clip which should be searched for
      */
-    AbstractProjectClip *clip(int id);
+    AbstractProjectClip *clip(const QString &id);
     /** @brief Returns a pointer to the current item or NULL if there is no current item. */
     AbstractProjectItem *currentItem();
     /**

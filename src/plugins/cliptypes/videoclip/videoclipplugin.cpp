@@ -36,9 +36,9 @@ VideoClipPlugin::~VideoClipPlugin()
     
 }
 
-AbstractProjectClip* VideoClipPlugin::createClip(const KUrl &url, ProjectFolder *parent) const
+AbstractProjectClip* VideoClipPlugin::createClip(const KUrl &url, const QString &id, ProjectFolder *parent) const
 {
-    VideoProjectClip *projectClip = new VideoProjectClip(url, parent, this);
+    VideoProjectClip *projectClip = new VideoProjectClip(url, id, parent, this);
     return projectClip;
 }
 

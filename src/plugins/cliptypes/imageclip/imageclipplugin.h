@@ -24,7 +24,7 @@ public:
     explicit ImageClipPlugin(QObject *parent, const QVariantList &args);
     ~ImageClipPlugin();
 
-    AbstractProjectClip *createClip(const KUrl &url, ProjectFolder *parent) const;
+    AbstractProjectClip *createClip(const KUrl &url, const QString &id, ProjectFolder *parent) const;
     AbstractProjectClip *loadClip(const QDomElement &description, ProjectFolder *parent) const;
 
     TimelineClipItem *timelineClipView(AbstractTimelineClip *clip, QGraphicsItem* parent) const;

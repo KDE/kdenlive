@@ -22,10 +22,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KUrl>
 #include <KFileMetaInfo>
 #include <QDomElement>
+#include <QFile>
+#include <QCryptographicHash>
 
 
-ImageProjectClip::ImageProjectClip(const KUrl& url, ProjectFolder* parent, ImageClipPlugin const *plugin) :
-    AbstractProjectClip(url, parent, plugin)
+ImageProjectClip::ImageProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+    AbstractProjectClip(url, id, parent, plugin)
 {
     m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url.path());
 
@@ -63,6 +65,30 @@ AbstractTimelineClip* ImageProjectClip::addInstance(ProducerWrapper* producer, T
     return static_cast<AbstractTimelineClip *>(instance);
 }
 
+void ImageProjectClip::getHash()
+{
+    if (m_hash.isEmpty() && hasUrl()) {
+	QFile file(m_url.path());
+	if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
+	    QByteArray fileData;
+	    //kDebug() << "SETTING HASH of" << value;
+	    m_fileSize = file.size();
+	    /*
+               * 1 MB = 1 second per 450 files (or faster)
+               * 10 MB = 9 seconds per 450 files (or faster)
+               */
+	    if (file.size() > 1000000*2) {
+		fileData = file.read(1000000);
+		if (file.seek(file.size() - 1000000))
+		    fileData.append(file.readAll());
+	    } else
+		fileData = file.readAll();
+	    file.close();
+	    m_hash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+	}
+    }
+}
+
 QDomElement ImageProjectClip::toXml(QDomDocument& document) const
 {
     QDomElement clip = AbstractProjectClip::toXml(document);
@@ -84,6 +110,7 @@ void ImageProjectClip::init(int duration)
     Q_ASSERT(m_baseProducer->property("mlt_service") == "qimage" || m_baseProducer->property("mlt_service") == "pixbuf");
 
     m_hasLimitedDuration = false;
+    getHash();
 
     if (duration == 0) {
         duration = bin()->project()->timecodeFormatter()->fromString(KdenliveSettings::image_duration(), TimecodeFormatter::HH_MM_SS_FF).frames();

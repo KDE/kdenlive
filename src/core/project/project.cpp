@@ -30,8 +30,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Project::Project(const KUrl& url, QObject* parent) :
-    QObject(parent),
-    m_url(url)
+    QObject(parent)
+    , m_url(url)
+    , m_idCounter(0)
 {
     if (url.isEmpty()) {
         openNew();
@@ -44,6 +45,7 @@ Project::Project(const KUrl& url, QObject* parent) :
 
 Project::Project(QObject* parent) :
     QObject(parent)
+    , m_idCounter(0)
 {
     openNew();
 
@@ -246,6 +248,11 @@ void Project::saveAs()
             save();
         }
     }
+}
+
+QString Project::getFreeId()
+{
+    return QString::number(m_idCounter++);
 }
 
 #include "project.moc"

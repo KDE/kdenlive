@@ -49,7 +49,7 @@ public:
      * @brief Returns the clip if it is a child (also indirect).
      * @param id id of the child which should be returned
      */
-    AbstractProjectClip *clip(int id);
+    AbstractProjectClip *clip(const QString &id);
     /** @brief Returns a pointer to the bin model this folder belongs to. */
     BinModel *bin();
 
