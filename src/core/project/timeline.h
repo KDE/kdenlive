@@ -44,9 +44,10 @@ public:
      * @param parent project this timeline belongs to
      */
     Timeline(const QString &document, Project* parent);
-    /** @brief Creates an empty timeline */
-    Timeline(Project *parent);
     virtual ~Timeline();
+    
+    /** @brief Create empty xml doc. */
+    QString getBlankDocument() const;
 
     QString toXml() const;
 

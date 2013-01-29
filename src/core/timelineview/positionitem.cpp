@@ -17,7 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 PositionItem::PositionItem(TimelineScene* scene) :
     QGraphicsLineItem()
 {
-    int position = scene->timeline()->monitor()->position();
+    int position = scene->timeline()->monitor() == NULL ? 0 : scene->timeline()->monitor()->position();
     setLine(position, 0, position, scene->height());
 
     connect(scene, SIGNAL(heightChanged(int)), this, SLOT(setHeight(int)));

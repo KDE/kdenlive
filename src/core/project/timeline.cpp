@@ -25,7 +25,15 @@ Timeline::Timeline(const QString& document, Project* parent) :
 {
     // profile we set doesn't matter, it will be overwritten anyways with the info in the profile tag
     m_profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
-    m_producer = new ProducerWrapper(*m_profile, document, "xml-string");
+    if (document.isEmpty()) {
+	// Creating blank project
+	QString blankDocument = getBlankDocument();
+	m_producer = new ProducerWrapper(*m_profile, blankDocument, "xml-string");
+      
+    }
+    else {
+	m_producer = new ProducerWrapper(*m_profile, document, "xml-string");
+    }
 
     // this shouldn't be an assert
     Q_ASSERT(m_producer && m_producer->is_valid());
@@ -43,26 +51,34 @@ Timeline::Timeline(const QString& document, Project* parent) :
     m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
 }
 
-Timeline::Timeline(Project* parent) :
-    QObject(parent),
-    m_parent(parent),
-    m_producerChangeEvent(0)
-{
-    m_profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
-    m_tractor = new Mlt::Tractor();
-    m_producer = 0;
-
-//     m_producer = m_tractor->parent().producer();
-
-//     Q_ASSERT(m_producer && m_producer->is_valid());
-}
-
 Timeline::~Timeline()
 {
     qDeleteAll(m_tracks);
     delete m_producerChangeEvent;
     delete m_producer;
     delete m_profile;
+}
+
+QString Timeline::getBlankDocument() const
+{
+    // Generate an empty project xml
+    QString playlist;
+    Mlt::Consumer xmlConsumer(*m_profile, "xml:kdenlive_playlist");
+    if (!xmlConsumer.is_valid()) return QString();
+    Mlt::Tractor tractor;
+    Mlt::Playlist playlist1(*m_profile);
+    Mlt::Playlist playlist2(*m_profile);
+    
+    //TODO: proper number of tracks, etc...
+    tractor.set_track(playlist1, 0);
+    tractor.set_track(playlist2, 1);
+    xmlConsumer.set("terminate_on_pause", 1);
+    Mlt::Producer prod(tractor.get_producer());
+    if (!prod.is_valid()) return QString();
+    xmlConsumer.connect(prod);
+    xmlConsumer.run();
+    playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
+    return playlist;
 }
 
 QString Timeline::toXml() const

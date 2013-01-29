@@ -141,7 +141,7 @@ void Project::openFile()
 
 void Project::openNew()
 {
-    m_timeline = new Timeline(this);
+    m_timeline = new Timeline(QString(), this);
     m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()));
     m_bin = new BinModel(this);
 }

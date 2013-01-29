@@ -78,7 +78,7 @@ void TimelinePositionBar::setProject(Project* project)
     connect(m_timecodeFormatter, SIGNAL(framerateChanged()), this, SLOT(onFramerateChange()));
     connect(m_timecodeFormatter, SIGNAL(defaultFormatChanged()), this, SLOT(update()));
 
-    m_playbackPosition = project->timelineMonitor()->position();
+    m_playbackPosition = project->timelineMonitor() == NULL ? 0 : project->timelineMonitor()->position();
     connect(project->timelineMonitor(), SIGNAL(positionChanged(int)), this, SLOT(setCursorPosition(int)));
     connect(this, SIGNAL(positionChanged(int)), project->timelineMonitor(), SLOT(setPosition(int)));
 

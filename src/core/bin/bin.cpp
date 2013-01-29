@@ -69,12 +69,14 @@ void Bin::setProject(Project* project)
 {
     if (m_itemView) {
         delete m_itemView;
+	m_itemView = NULL;
     }
     if (m_itemModel) {
         delete m_itemModel;
     }
-
+    
     m_itemModel = new ProjectItemModel(project->bin(), this);
+
     slotInitView(NULL);
 }
 
@@ -96,7 +98,7 @@ void Bin::slotInitView(QAction *action)
     if (m_itemView) {
         delete m_itemView;
     }
-
+    
     switch (m_listType) {
     case BinIconView:
         m_itemView = new QListView(this);
