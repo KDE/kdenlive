@@ -29,7 +29,7 @@ class QGraphicsView;
 class BPointItem : public QAbstractGraphicsShapeItem
 {
 public:
-    BPointItem(BPoint point, QGraphicsItem* parent = 0);
+    explicit BPointItem(BPoint point, QGraphicsItem* parent = 0);
 
     BPoint getPoint();
     void setPoint(BPoint point);

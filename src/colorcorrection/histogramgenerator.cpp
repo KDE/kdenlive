@@ -84,7 +84,10 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
 
     const int d = 20; // Distance for text
     const int partH = (wh-nParts*d)/nParts;
-    const float scaling = (float)partH/(byteCount >> 7);
+    float scaling = 0;
+    int div = byteCount >> 7;
+    if ( div > 0 )
+        scaling = (float)partH/(byteCount >> 7);
     const int dist = 40;
 
     int wy = 0; // Drawing position

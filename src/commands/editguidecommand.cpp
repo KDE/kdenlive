@@ -30,9 +30,12 @@ EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime oldPos, 
         m_pos(pos),
         m_doIt(doIt)
 {
-    if (m_oldcomment.isEmpty()) setText(i18n("Add guide"));
+    if (m_oldcomment.isEmpty()) {
+	setText(i18n("Add guide"));
+	m_oldPos = GenTime(-1);
+    }
     else if (m_oldPos == m_pos) setText(i18n("Edit guide"));
-    else if (m_pos <= GenTime()) setText(i18n("Delete guide"));
+    else if (m_pos < GenTime() && m_comment.isEmpty()) setText(i18n("Delete guide"));
     else setText(i18n("Move guide"));
 }
 

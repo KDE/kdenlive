@@ -184,7 +184,8 @@ void MltDeviceCapture::stop()
     
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 0);
-        m_mltConsumer->stop();
+        m_mltConsumer->purge();
+	m_mltConsumer->stop();
         //if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     }
     if (m_mltProducer) {
@@ -449,15 +450,15 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     renderProps->set("mlt_service", "avformat");
     renderProps->set("target", path.toUtf8().constData());
     renderProps->set("real_time", -KdenliveSettings::mltthreads());
-    renderProps->set("terminate_on_pause", 0);
+    //renderProps->set("terminate_on_pause", 0);
     renderProps->set("mlt_profile", m_activeProfile.toUtf8().constData());
     
 
-    QStringList paramList = params.split(" ", QString::SkipEmptyParts);
+    QStringList paramList = params.split(' ', QString::SkipEmptyParts);
     char *tmp2;
     for (int i = 0; i < paramList.count(); i++) {
-        tmp = qstrdup(paramList.at(i).section("=", 0, 0).toUtf8().constData());
-        QString value = paramList.at(i).section("=", 1, 1);
+        tmp = qstrdup(paramList.at(i).section('=', 0, 0).toUtf8().constData());
+        QString value = paramList.at(i).section('=', 1, 1);
         if (value == "%threads") value = QString::number(QThread::idealThreadCount());
         tmp2 = qstrdup(value.toUtf8().constData());
         renderProps->set(tmp, tmp2);
@@ -518,19 +519,25 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         
     }
     
-    tmp = qstrdup(playlist.toUtf8().constData());
     if (xmlPlaylist) {
         // create an xml producer
-        m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
+        m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
     }
     else {
         // create a producer based on mltproducer parameter
-        m_mltProducer = new Mlt::Producer(*m_mltProfile, tmp);
+        m_mltProducer = new Mlt::Producer(*m_mltProfile, playlist.toUtf8().constData());
     }
-    delete[] tmp;
 
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) {
         kDebug()<<"//// ERROR CREATRING PROD";
+	if (m_mltConsumer) {
+            delete m_mltConsumer;
+            m_mltConsumer = NULL;
+        }
+	if (m_mltProducer) {
+	    delete m_mltProducer;
+	    m_mltProducer = NULL;
+	}
         return false;
     }
     
@@ -642,7 +649,7 @@ void MltDeviceCapture::setOverlayEffect(const QString &tag, QStringList paramete
     delete[] tmp;
     if (filter && filter->is_valid()) {
         for (int j = 0; j < parameters.count(); j++) {
-            filter->set(parameters.at(j).section("=", 0, 0).toUtf8().constData(), parameters.at(j).section("=", 1, 1).toUtf8().constData());
+            filter->set(parameters.at(j).section('=', 0, 0).toUtf8().constData(), parameters.at(j).section('=', 1, 1).toUtf8().constData());
         }
         trackService.attach(*filter);
     }

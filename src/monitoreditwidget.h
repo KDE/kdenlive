@@ -22,6 +22,7 @@
 #include "ui_monitoreditwidget_ui.h"
 
 #include <QWidget>
+#include <QGraphicsView>
 
 class QIcon;
 class MonitorScene;
@@ -31,13 +32,12 @@ class QToolButton;
 class QVBoxLayout;
 
 
-
 class MonitorEditWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    MonitorEditWidget(Render *renderer, QWidget* parent = 0);
+    explicit MonitorEditWidget(Render *renderer, QWidget* parent = 0);
     virtual ~MonitorEditWidget();
 
     /** @brief Updates the necessary settings on a profile change. */

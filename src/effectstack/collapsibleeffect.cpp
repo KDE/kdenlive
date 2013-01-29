@@ -81,7 +81,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     QDomElement namenode = m_effect.firstChildElement("name");
     if (namenode.isNull()) return;
     QString effectname = i18n(namenode.text().toUtf8().data());
-    if (m_regionEffect) effectname.append(":" + KUrl(EffectsList::parameter(m_effect, "resource")).fileName());
+    if (m_regionEffect) effectname.append(':' + KUrl(EffectsList::parameter(m_effect, "resource")).fileName());
     
     QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
     title = new QLabel(this);
@@ -102,8 +102,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
 
     if (!m_regionEffect) {
 	if (m_info.groupIndex == -1) m_menu->addAction(m_groupAction);
-	//TODO: re-enable region effect when the MLT feature is stabilized
-	//m_menu->addAction(KIcon("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
+	m_menu->addAction(KIcon("folder-new"), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
     setupWidget(info, metaInfo);
     setAcceptDrops(true);
@@ -121,7 +120,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     }
 
     connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
-    connect(enabledButton, SIGNAL(toggled(bool)), this, SLOT(slotEnable(bool)));
+    connect(enabledButton, SIGNAL(toggled(bool)), this, SLOT(slotDisable(bool)));
     connect(buttonUp, SIGNAL(clicked()), this, SLOT(slotEffectUp()));
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
     connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteEffect()));
@@ -155,7 +154,7 @@ void CollapsibleEffect::slotCreateRegion()
 {
     QString allExtensions = ProjectList::getExtensions();
     const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
-    KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow());
+    QPointer<KFileDialog> d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow());
     d->setOperationMode(KFileDialog::Opening);
     d->setMode(KFile::File);
     if (d->exec() == QDialog::Accepted) {
@@ -254,7 +253,7 @@ void CollapsibleEffect::mouseReleaseEvent( QMouseEvent *event )
   QWidget::mouseReleaseEvent(event);
 }
 
-void CollapsibleEffect::slotEnable(bool disable, bool emitInfo)
+void CollapsibleEffect::slotDisable(bool disable, bool emitInfo)
 {
     title->setEnabled(!disable);
     enabledButton->blockSignals(true);
@@ -441,6 +440,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
     }
     else {
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
+	connect(m_paramWidget, SIGNAL(disableCurrentFilter(bool)), this, SLOT(slotDisableEffect(bool)));
         if (m_effect.firstChildElement("parameter").isNull()) {
             // Effect has no parameter, don't allow expand
             collapseButton->setEnabled(false);
@@ -455,13 +455,25 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
     }
     connect (m_paramWidget, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)));
     
-    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)));
+    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)));
     
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
     connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
+    connect(m_paramWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
     
     
+}
+
+void CollapsibleEffect::slotDisableEffect(bool disable)
+{
+    title->setEnabled(!disable);
+    enabledButton->blockSignals(true);
+    enabledButton->setChecked(disable);
+    enabledButton->blockSignals(false);
+    enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
+    m_effect.setAttribute("disable", disable ? 1 : 0);
+    emit effectStateChanged(disable, effectIndex(), isActive() && needsMonitorEffectScene());
 }
 
 bool CollapsibleEffect::isGroup() const
@@ -581,4 +593,13 @@ bool CollapsibleEffect::needsMonitorEffectScene() const
     return m_paramWidget->needsMonitorEffectScene();
 }
 
+void CollapsibleEffect::setRange(int inPoint , int outPoint)
+{
+    m_paramWidget->setRange(inPoint, outPoint);
+}
+
+void CollapsibleEffect::setKeyframes(const QString data, int maximum)
+{
+    m_paramWidget->setKeyframes(data, maximum);
+}
 

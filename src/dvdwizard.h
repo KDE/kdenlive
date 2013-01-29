@@ -41,8 +41,9 @@ class DvdWizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit DvdWizard(const QString &url = QString(), const QString &profile = "dv_pal", QWidget * parent = 0);
+    explicit DvdWizard(MonitorManager *manager, const QString &url = QString(), QWidget * parent = 0);
     virtual ~DvdWizard();
+    void processSpumux();
 
 private:
     DvdWizardVob *m_pageVob;
@@ -56,13 +57,25 @@ private:
     DvdWizardChapters *m_pageChapters;
     KTemporaryFile m_authorFile;
     KTemporaryFile m_menuFile;
+    KTemporaryFile m_menuVobFile;
+    KTemporaryFile m_letterboxMovie;
     QProcess *m_dvdauthor;
     QProcess *m_mkiso;
+    QProcess m_menuJob;
     QString m_creationLog;
+    QListWidgetItem *m_vobitem;
+    KTemporaryFile m_selectedImage;
+    KTemporaryFile m_selectedLetterImage;
+    KTemporaryFile m_highlightedImage;
+    KTemporaryFile m_highlightedLetterImage;
+    KTemporaryFile m_menuVideo;
+    KTemporaryFile m_menuFinalVideo;
+    KTemporaryFile m_menuImageBackground;
     void cleanup();
     QMenu *m_burnMenu;
     void errorMessage(const QString &text);
     void infoMessage(const QString &text);
+    void processDvdauthor(QString menuMovieUrl = QString(), QMap <QString, QRect> buttons = QMap <QString, QRect>(), QStringList buttonsTarget = QStringList());
 
 private slots:
     void slotPageChanged(int page);
@@ -77,6 +90,8 @@ private slots:
     void slotSave();
     void slotShowRenderInfo();
     void slotShowIsoInfo();
+    void slotProcessMenuStatus(int, QProcess::ExitStatus status);
+    void slotprepareMonitor();
 };
 
 #endif

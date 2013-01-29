@@ -75,6 +75,7 @@ public:
     Render *render;
     AbstractRender *abstractRender();
     void resetProfile(const QString &profile);
+    void setCustomProfile(const QString &profile, Timecode tc);
     void resetSize();
     void pause();
     void unpause();
@@ -91,6 +92,12 @@ public:
     QFrame *m_volumePopup;
     /** @brief Reimplemented from QWidget, updates the palette colors. */
     void setPalette ( const QPalette & p);
+    /** @brief Returns a hh:mm:ss timecode from a frame number. */
+    QString getTimecodeFromFrames(int pos);
+    /** @brief Returns current project's fps. */
+    double fps() const;
+    /** @brief Get url for the clip's thumbnail */
+    QString getMarkerThumb(GenTime pos);
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -106,6 +113,7 @@ protected:
     virtual void wheelEvent(QWheelEvent * event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual QStringList mimeTypes() const;
+   
     /*virtual void dragMoveEvent(QDragMoveEvent * event);
     virtual Qt::DropActions supportedDropActions() const;*/
 

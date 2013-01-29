@@ -30,7 +30,7 @@ public:
     virtual ~ClipGenerator() {}
 
     virtual QStringList generators(const QStringList  producers = QStringList()) const = 0;
-    virtual KUrl generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height) = 0;
+    virtual KUrl generatedClip(const QString &renderer, const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height) = 0;
 };
 
 Q_DECLARE_INTERFACE(ClipGenerator,

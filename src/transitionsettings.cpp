@@ -1,5 +1,5 @@
 /***************************************************************************
-                          effecstackedit.h  -  description
+                          effecstackedit.cpp  -  description
                              -------------------
     begin                : Mar 15 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -41,6 +41,8 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     vbox1->addWidget(m_effectEdit);
     frame->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SLOT(slotSeekTimeline(int)));
+    connect(m_effectEdit, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
+    
     setEnabled(false);
 
     QList<QStringList> transitionsList;
@@ -94,7 +96,7 @@ void TransitionSettings::updateTrackList()
     for (int i = limit; i < m_tracks.count(); i++) {
         int ix = m_tracks.count() - i - 1;
         transitionTrack->addItem(m_tracks.at(ix).type == VIDEOTRACK ? videoIcon : audioIcon,
-                                 m_tracks.at(ix).trackName.isEmpty() ? QString::number(i) : m_tracks.at(ix).trackName + " (" + QString::number(i) + ")",
+                                 m_tracks.at(ix).trackName.isEmpty() ? QString::number(i) : m_tracks.at(ix).trackName + " (" + QString::number(i) + ')',
                                  m_tracks.count() - i);
     }
     transitionTrack->addItem(i18n("Black"), 0);
@@ -108,18 +110,33 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
         // Reset the transition parameters to the default one
+        disconnect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
         QDomElement newTransition = MainWindow::transitions.getEffectByName(transitionList->currentText()).cloneNode().toElement();
         slotUpdateEffectParams(e, newTransition);
         m_effectEdit->transferParamDesc(newTransition, m_usedTransition->info(), false);
+	if (m_effectEdit->needsMonitorEffectScene())
+	    connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     } else if (!updateCurrent) {
         // Transition changed, update parameters dialog
         //slotUpdateEffectParams(e, e);
         m_effectEdit->transferParamDesc(e, m_usedTransition->info(), false);
     } else {
         // Same transition, we just want to update the parameters value
-        slotUpdateEffectParams(e, e);
-        if (m_usedTransition->hasGeometry())
-            m_effectEdit->transferParamDesc(m_usedTransition->toXML(), m_usedTransition->info(), false);
+        int ix = transitionList->findData(m_usedTransition->transitionInfo(), Qt::UserRole, Qt::MatchExactly);
+        if (ix != transitionList->currentIndex()) {
+	    // Transition type changed, reload params
+	    transitionList->blockSignals(true);
+	    transitionList->setCurrentIndex(ix);
+	    transitionList->blockSignals(false);
+	    m_effectEdit->transferParamDesc(e, m_usedTransition->info(), false);
+	}
+	else {
+	    slotUpdateEffectParams(e, e);
+	    if (m_usedTransition->hasGeometry())
+		m_effectEdit->transferParamDesc(m_usedTransition->toXML(), m_usedTransition->info(), false);
+	}
+	if (m_effectEdit->needsMonitorEffectScene())
+	    connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     }
     slotCheckMonitorPosition(m_effectEdit->monitor()->render->seekFramePosition());
 }
@@ -148,7 +165,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
     m_effectEdit->setFrameSize(p);
     m_autoTrackTransition = nextTrack;
     disconnect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
-    if (t == m_usedTransition) {
+    if (t == m_usedTransition) {	
         if (t == NULL) return;
         if (update) {
             transitionTrack->blockSignals(true);
@@ -241,5 +258,9 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
     }
 }
 
+void TransitionSettings::setKeyframes(const QString data, int maximum)
+{
+    m_effectEdit->setKeyframes(data, maximum);
+}
 
 #include "transitionsettings.moc"

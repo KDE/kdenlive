@@ -38,6 +38,7 @@ class AbstractClipItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
     Q_PROPERTY(QRectF rect READ rect WRITE setRect)
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
 
 public:
     AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps);
@@ -82,19 +83,23 @@ public:
     /** @brief Resizes the clip from the start.
     * @param posx Absolute position of new in point
     * @param hasSizeLimit (optional) Whether the clip has a maximum size */
-    virtual void resizeStart(int posx, bool hasSizeLimit = true);
+    virtual void resizeStart(int posx, bool hasSizeLimit = true, bool emitChange = true);
 
     /** @brief Resizes the clip from the end.
     * @param posx Absolute position of new out point */
-    virtual void resizeEnd(int posx);
+    virtual void resizeEnd(int posx, bool emitChange = true);
     virtual double fps() const;
     virtual void updateFps(double fps);
     virtual GenTime maxDuration() const;
     virtual void setCropStart(GenTime pos);
 
+    /** @brief Set this clip as the main selected clip (or not). */
+    void setMainSelectedClip(bool selected);
+    /** @brief Is this clip selected as the main clip. */
+    bool isMainSelectedClip();
+    
 protected:
     ItemInfo m_info;
-//    int m_track;
     /** The position of the current keyframe when it has moved */
     int m_editedKeyframe;
     /** The position of the current keyframe before it was moved */
@@ -113,6 +118,8 @@ protected:
     /** The (keyframe) parameter that is visible and editable in timeline (on the clip) */
     int m_visibleParam;
     double m_fps;
+    /** @brief True if this is the last clip the user selected */
+    bool m_isMainSelectedClip;
     /** @brief Draw the keyframes of a clip
       * @param painter The painter device for the clip
       * @param limitedKeyFrames The keyframes can be of type "keyframe" or "simplekeyframe". In the

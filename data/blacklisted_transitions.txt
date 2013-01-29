@@ -1,5 +1,8 @@
 # redundant transitions
 frei0r.composition
 
-# unusable transitions
+# unusable transitions (parameters required, not implemented in Kdenlive)
 frei0r.alphainjection
+frei0r.blend
+frei0r.xfade0r
+

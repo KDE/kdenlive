@@ -36,6 +36,13 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
     setupUi(this);
     setWindowTitle(caption);
 
+    // Set  up categories
+    for (int i = 0; i < 5; ++i) {
+         marker_type->insertItem(i, i18n("Category %1", i));
+         marker_type->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
+     }
+    marker_type->setCurrentIndex(t.markerType());
+
     m_in = new TimecodeDisplay(tc, this);
     inputLayout->addWidget(m_in);
     m_in->setValue(t.time());
@@ -57,11 +64,11 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         //char *tmp = doc.toString().toUtf8().data();
         m_producer = new Mlt::Producer(*m_profile, "xml-string", doc.toString().toUtf8().data());
         //delete[] tmp;
-        int width = 100.0 * m_dar;
+        int width = Kdenlive::DefaultThumbHeight * m_dar;
         if (width % 2 == 1) width++;
         QPixmap p(width, 100);
         QString colour = clip->getProperty("colour");
-        int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
+        int swidth = (int) (Kdenlive::DefaultThumbHeight * m_profile->width() / m_profile->height() + 0.5);
 
         switch (m_clip->clipType()) {
         case VIDEO:
@@ -71,7 +78,8 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
         case IMAGE:
         case TEXT:
-            p = QPixmap::fromImage(KThumb::getFrame(m_producer, m_in->getValue(), swidth, width, 100));
+	    m_image = KThumb::getFrame(m_producer, m_in->getValue(), swidth, width, Kdenlive::DefaultThumbHeight);
+            p = QPixmap::fromImage(m_image);
             break;
         case COLOR:
             colour = colour.replace(0, 2, "#");
@@ -86,9 +94,11 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
             clip_thumb->setFixedHeight(p.height());
             clip_thumb->setPixmap(p);
         }
-        connect(m_in, SIGNAL(editingFinished()), this, SIGNAL(updateThumb()));
+        connect(m_in, SIGNAL(timeCodeEditingFinished()), this, SIGNAL(updateThumb()));
     } else {
         clip_thumb->setHidden(true);
+	label_category->setHidden(true);
+	marker_type->setHidden(true);
     }
 
     marker_comment->setText(t.comment());
@@ -112,16 +122,23 @@ void MarkerDialog::slotUpdateThumb()
     int width = 100.0 * m_dar;
     int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
     if (width % 2 == 1) width++;
-    QPixmap p = QPixmap::fromImage(KThumb::getFrame(m_producer, pos, swidth, width, 100));
+    m_image = KThumb::getFrame(m_producer, pos, swidth, width, 100);
+    QPixmap p = QPixmap::fromImage(m_image);
     if (!p.isNull())
         clip_thumb->setPixmap(p);
     else
         kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
 }
 
+QImage MarkerDialog::markerImage() const
+{
+    return m_image;
+}
+
 CommentedTime MarkerDialog::newMarker()
 {
-    return CommentedTime(m_in->gentime(), marker_comment->text());
+    KdenliveSettings::setDefault_marker_type(marker_type->currentIndex());
+    return CommentedTime(m_in->gentime(), marker_comment->text(), marker_type->currentIndex());
 }
 
 #include "markerdialog.moc"

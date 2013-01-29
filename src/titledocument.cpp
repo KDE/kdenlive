@@ -60,6 +60,8 @@ QByteArray fileToByteArray(const QString& filename)
 TitleDocument::TitleDocument()
 {
     m_scene = NULL;
+    m_width = 0;
+    m_height = 0;
 }
 
 void TitleDocument::setScene(QGraphicsScene* _scene, int width, int height)
@@ -180,6 +182,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             if (!t->data(100).isNull()) {
                 QStringList effectParams = t->data(100).toStringList();
                 QString effectName = effectParams.takeFirst();
+		content.setAttribute("textwidth", QString::number(t->sceneBoundingRect().width()));
                 content.setAttribute(effectName, effectParams.join(";"));
             }
 
@@ -282,20 +285,23 @@ QColor TitleDocument::getBackgroundColor()
 }
 
 
-bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int out, bool embed)
+bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed)
 {
     if (!m_scene)
         return false;
 
     QDomDocument doc = xml(startv, endv, embed);
-    doc.documentElement().setAttribute("out", out);
+    doc.documentElement().setAttribute("duration", duration);
+    // keep some time for backwards compatibility (opening projects with older versions) - 26/12/12
+    doc.documentElement().setAttribute("out", duration);
     KTemporaryFile tmpfile;
     if (!tmpfile.open()) {
         kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
         return false;
     }
     QFile xmlf(tmpfile.fileName());
-    xmlf.open(QIODevice::WriteOnly);
+    if (!xmlf.open(QIODevice::WriteOnly))
+        return false;
     xmlf.write(doc.toString().toUtf8());
     if (xmlf.error() != QFile::NoError) {
         xmlf.close();
@@ -305,7 +311,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGr
     return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *out, const QString& projectpath)
+int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath)
 {
     m_projectPath = projectpath;
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
@@ -331,10 +337,12 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
         }
     }
     //TODO: get default title duration instead of hardcoded one
-    if (doc.documentElement().hasAttribute("out"))
-        *out = doc.documentElement().attribute("out").toInt();
+    if (doc.documentElement().hasAttribute("duration"))
+        *duration = doc.documentElement().attribute("duration").toInt();
+    else if (doc.documentElement().hasAttribute("out"))
+        *duration = doc.documentElement().attribute("out").toInt();
     else
-        *out = 125;
+        *duration = 125;
 
     int maxZValue = 0;
     if (titles.size()) {

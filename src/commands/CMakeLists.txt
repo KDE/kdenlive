@@ -5,6 +5,7 @@ set(kdenlive_SRCS
   commands/addeffectcommand.cpp
   commands/addfoldercommand.cpp
   commands/addmarkercommand.cpp
+  commands/addextradatacommand.cpp
   commands/addtimelineclipcommand.cpp
   commands/addtrackcommand.cpp
   commands/addtransitioncommand.cpp
@@ -29,6 +30,7 @@ set(kdenlive_SRCS
   commands/razorclipcommand.cpp
   commands/razorgroupcommand.cpp
   commands/rebuildgroupcommand.cpp
+  commands/refreshmonitorcommand.cpp
   commands/resizeclipcommand.cpp
   commands/splitaudiocommand.cpp
   PARENT_SCOPE

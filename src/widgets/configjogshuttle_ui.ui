@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>287</width>
-    <height>253</height>
+    <width>299</width>
+    <height>548</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -40,6 +40,62 @@
       <string>Device configuration</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="12" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Button 12</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>Button 14</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Button 13</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Button 11</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Button  7</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Button  8</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Button  9</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Button  6</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
@@ -60,7 +116,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Button 1</string>
+         <string>Button  1</string>
         </property>
        </widget>
       </item>
@@ -70,7 +126,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>Button 2</string>
+         <string>Button  2</string>
         </property>
        </widget>
       </item>
@@ -80,32 +136,76 @@
       <item row="3" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Button 3</string>
+         <string>Button  3</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1" colspan="2">
        <widget class="KComboBox" name="shuttle3"/>
       </item>
+      <item row="4" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle4"/>
+      </item>
       <item row="4" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>Button 4</string>
+         <string>Button  4</string>
         </property>
        </widget>
-      </item>
-      <item row="4" column="1" colspan="2">
-       <widget class="KComboBox" name="shuttle4"/>
       </item>
       <item row="5" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>Button 5</string>
+         <string>Button  5</string>
         </property>
        </widget>
       </item>
       <item row="5" column="1" colspan="2">
        <widget class="KComboBox" name="shuttle5"/>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>Button 10</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle6"/>
+      </item>
+      <item row="7" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle7"/>
+      </item>
+      <item row="8" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle8"/>
+      </item>
+      <item row="9" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle9"/>
+      </item>
+      <item row="10" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle10"/>
+      </item>
+      <item row="15" column="0">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>Button 15</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle11"/>
+      </item>
+      <item row="12" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle12"/>
+      </item>
+      <item row="13" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle13"/>
+      </item>
+      <item row="14" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle14"/>
+      </item>
+      <item row="15" column="1" colspan="2">
+       <widget class="KComboBox" name="shuttle15"/>
       </item>
      </layout>
     </widget>
@@ -127,14 +227,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

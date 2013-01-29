@@ -39,7 +39,7 @@ class EffectStackView2 : public QWidget
     Q_OBJECT
 
 public:
-    EffectStackView2(Monitor *monitor, QWidget *parent = 0);
+    explicit EffectStackView2(Monitor *monitor, QWidget *parent = 0);
     virtual ~EffectStackView2();
 
     /** @brief Raises @param dock if a clip is loaded. */
@@ -74,6 +74,9 @@ public:
     
     /** @brief Return the stylesheet required for effect parameters. */
     static const QString getStyleSheet();
+
+    /** @brief Import keyframes from the clip metadata */
+    void setKeyframes(const QString data, int maximum);
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent * event);
@@ -128,6 +131,10 @@ public slots:
     * @param c Clip whose effect list should be managed */
     void slotClipItemSelected(ClipItem* c);
 
+    /** @brief Update the clip range (in-out points)
+    * @param c Clip whose effect list should be managed */
+    void slotClipItemUpdate();
+
     void slotTrackItemSelected(int ix, const TrackInfo info);
    
     /** @brief Check if the mouse wheel events should be used for scrolling the widget view. */
@@ -167,7 +174,7 @@ private slots:
     void slotSetCurrentEffect(int ix);
     
     /** @brief Triggers a filter job on this clip. */
-    void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties);
+    void slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QMap <QString, QString> &extraParams);
     
     /** @brief Reset an effect to its default values. */
     void slotResetEffect(int ix);
@@ -223,8 +230,9 @@ signals:
     void updateClipRegion(ClipItem*, int, QString);
     void displayMessage(const QString&, int);
     void showComments(bool show);
-    void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString&finalFilterName, const QString &consumer, const QString &consumerParams, const QString &properties);
+    void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap<QString, QString> &extraParams);
     void addEffect(ClipItem*,QDomElement);
+    void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
 };
 
 #endif

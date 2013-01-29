@@ -66,6 +66,10 @@ public:
     void updateParameter(const QString &key, const QString &value);
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
     bool needsMonitorEffectScene() const;
+    /** @brief Set keyframes for this param. */
+    void setKeyframes(const QString &data, int maximum);
+    /** @brief Update the in / out for the clip. */
+    void setRange(int inPoint, int outPoint);
 
 private slots:
     void slotCollectAllParameters();
@@ -97,13 +101,17 @@ private:
 signals:
     void parameterChanged(const QDomElement, const QDomElement, int);
     void syncEffectsPos(int);
-    void effectStateChanged(bool);
+    void displayMessage(const QString&, int);
+    void disableCurrentFilter(bool);
     void checkMonitorPosition(int);
     void seekTimeline(int);
     void showComments(bool);    
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QString properties);
-    
+    void startFilterJob(QString filterName, QString filterParams, QString consumer, QString consumerParams, const QMap <QString, QString>extra);
+    /** @brief Request import of keyframes from clip data. */
+    void importClipKeyframes();
+    /** @brief Master clip was resized, update effect. */
+    void updateRange(int inPoint, int outPoint);
 };
 
 #endif

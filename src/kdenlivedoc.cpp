@@ -87,9 +87,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     bool success = false;
 
     // init default document properties
-    m_documentProperties["zoom"] = "7";
-    m_documentProperties["verticalzoom"] = "1";
-    m_documentProperties["zonein"] = "0";
+    m_documentProperties["zoom"] = '7';
+    m_documentProperties["verticalzoom"] = '1';
+    m_documentProperties["zonein"] = '0';
     m_documentProperties["zoneout"] = "100";
     m_documentProperties["enableproxy"] = QString::number((int) KdenliveSettings::enableproxy());
     m_documentProperties["proxyparams"] = KdenliveSettings::proxyparams();
@@ -282,8 +282,12 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                     int maxchild = markerslist.count();
                                     for (int k = 0; k < maxchild; k++) {
                                         e = markerslist.at(k).toElement();
-                                        if (e.tagName() == "marker")
-                                            m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
+                                        if (e.tagName() == "marker") {
+					    CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
+					    DocClipBase *baseClip = m_clipManager->getClipById(e.attribute("id"));
+                                            if (baseClip) baseClip->addSnapMarker(marker);
+					    else kDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
+					}
                                     }
                                     infoXml.removeChild(markers);
                                 }
@@ -342,6 +346,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+    connect(m_render, SIGNAL(addClip(const KUrl &, stringMap)), this, SLOT(slotAddClipFile(const KUrl &, stringMap)));
 }
 
 KdenliveDoc::~KdenliveDoc()
@@ -724,6 +729,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
             marker.setAttribute("time", marks.at(j).time().ms() / 1000);
             marker.setAttribute("comment", marks.at(j).comment());
             marker.setAttribute("id", e.attribute("id"));
+	    marker.setAttribute("type", marks.at(j).markerType());
             markers.appendChild(marker);
         }
     }
@@ -769,7 +775,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
         cleanupBackupFiles();
         QFileInfo info(file);
         QString fileName = KUrl(path).fileName().section('.', 0, -2);   
-        fileName.append("-" + m_documentProperties.value("documentid"));
+        fileName.append('-' + m_documentProperties.value("documentid"));
         fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
         fileName.append(".kdenlive.png");
         KUrl backupFile = m_projectFolder;
@@ -1186,9 +1192,9 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
         QDomNamedNodeMap attributes = elem.attributes();
         for (int i = 0; i < attributes.count(); i++) {
             QString attrname = attributes.item(i).nodeName();
-            if (attrname != "resource")
+	    if (attrname != "resource")
                 properties.insert(attrname, attributes.item(i).nodeValue());
-            kDebug() << attrname << " = " << attributes.item(i).nodeValue();
+            //kDebug() << attrname << " = " << attributes.item(i).nodeValue();
         }
         clip->setProperties(properties);
         emit addProjectClip(clip, false);
@@ -1198,7 +1204,7 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
         for (QDomNode m = orig.firstChild(); !m.isNull(); m = m.nextSibling()) {
             QString name = m.toElement().attribute("name");
             if (name.startsWith("meta.attr"))
-                meta.insert(name.section('.', 2, 3), m.firstChild().nodeValue());
+                meta.insert(name.section('.', 2, -1), m.firstChild().nodeValue());
         }
         if (!meta.isEmpty()) {
             if (clip == NULL)
@@ -1216,17 +1222,17 @@ void KdenliveDoc::deleteClip(const QString &clipId)
     emit signalDeleteProjectClip(clipId);
 }
 
-void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId)
+void KdenliveDoc::slotAddClipList(const KUrl::List urls, stringMap data)
 {
-    m_clipManager->slotAddClipList(urls, group, groupId);
+    m_clipManager->slotAddClipList(urls, data);
     //emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
 }
 
 
-void KdenliveDoc::slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment)
+void KdenliveDoc::slotAddClipFile(const KUrl &url, stringMap data)
 {
-    m_clipManager->slotAddClipFile(url, group, groupId, comment);
+    m_clipManager->slotAddClipFile(url, data);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
 }
@@ -1266,9 +1272,9 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, cons
 {
     QString titlesFolder = projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
     KStandardDirs::makeDir(titlesFolder);
-    TitleWidget *dia_ui = new TitleWidget(templatePath, m_timecode, titlesFolder, m_render, kapp->activeWindow());
+    QPointer<TitleWidget> dia_ui = new TitleWidget(templatePath, m_timecode, titlesFolder, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
-        m_clipManager->slotAddTextClipFile(i18n("Title clip"), dia_ui->outPoint(), dia_ui->xml().toString(), group, groupId);
+        m_clipManager->slotAddTextClipFile(i18n("Title clip"), dia_ui->duration(), dia_ui->xml().toString(), group, groupId);
         setModified(true);
         emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     }
@@ -1693,7 +1699,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     KIO::NetAccess::mkdir(backupFile, kapp->activeWindow());
     QString fileName = KUrl(path).fileName().section('.', 0, -2);
     QFileInfo info(file);
-    fileName.append("-" + m_documentProperties.value("documentid"));
+    fileName.append('-' + m_documentProperties.value("documentid"));
     fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
     fileName.append(".kdenlive");
     backupFile.addPath(fileName);
@@ -1713,7 +1719,7 @@ void KdenliveDoc::cleanupBackupFiles()
     backupFile.addPath(".backup/");
     QDir dir(backupFile.path());
     QString projectFile = url().fileName().section('.', 0, -2);
-    projectFile.append("-" + m_documentProperties.value("documentid"));
+    projectFile.append('-' + m_documentProperties.value("documentid"));
     projectFile.append("-??");
     projectFile.append("??");
     projectFile.append("-??");

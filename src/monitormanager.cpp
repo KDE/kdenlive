@@ -21,6 +21,7 @@
 #include "monitormanager.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"
+#include "kdenlivedoc.h"
 
 #include <mlt++/Mlt.h>
 
@@ -31,6 +32,7 @@
 
 MonitorManager::MonitorManager(QWidget *parent) :
         QObject(parent),
+        m_document(NULL),
         m_clipMonitor(NULL),
         m_projectMonitor(NULL),
         m_activeMonitor(NULL)
@@ -40,6 +42,11 @@ MonitorManager::MonitorManager(QWidget *parent) :
 Timecode MonitorManager::timecode()
 {
     return m_timecode;
+}
+
+void MonitorManager::setDocument(KdenliveDoc *doc)
+{
+    m_document = doc;
 }
 
 void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor)
@@ -74,12 +81,14 @@ AbstractMonitor* MonitorManager::monitor(Kdenlive::MONITORID monitorName)
     return monitor;
 }
 
-bool MonitorManager::activateMonitor(Kdenlive::MONITORID name)
+bool MonitorManager::activateMonitor(Kdenlive::MONITORID name, bool forceRefresh)
 {
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
         return false;
-    if (m_activeMonitor && m_activeMonitor->id() == name)
+    if (m_activeMonitor && m_activeMonitor->id() == name) {
+	if (forceRefresh) m_activeMonitor->start();
         return false;
+    }
     m_activeMonitor = NULL;
     for (int i = 0; i < m_monitorsList.count(); i++) {
         if (m_monitorsList.at(i)->id() == name) {
@@ -195,7 +204,9 @@ void MonitorManager::resetProfiles(Timecode tc)
 
 void MonitorManager::slotResetProfiles()
 {
-    if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
+    if (m_projectMonitor == NULL || m_clipMonitor == NULL) {
+	return;
+    }
     blockSignals(true);
     Kdenlive::MONITORID active = m_activeMonitor ? m_activeMonitor->id() : Kdenlive::noMonitor;
     m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
@@ -250,5 +261,15 @@ void MonitorManager::slotSwitchFullscreen()
 {
     if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
 }
+
+QString MonitorManager::getProjectFolder() const
+{
+    if (m_document == NULL) {
+	kDebug()<<" + + +NULL DOC!!";
+	return QString();
+    }
+    return m_document->projectFolder().path(KUrl::AddTrailingSlash);
+}
+
 
 #include "monitormanager.moc"

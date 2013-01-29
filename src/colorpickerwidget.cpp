@@ -135,12 +135,14 @@ void ColorPickerWidget::slotGetAverageColor()
         emit displayMessage(i18n("Calculated average color for rectangle."), -1);
 
     emit colorPicked(QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel));
+    emit disableCurrentFilter(false);
 }
 
 void ColorPickerWidget::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() != Qt::LeftButton) {
         closeEventFilter();
+	emit disableCurrentFilter(false);
         event->accept();
         return;
     }
@@ -165,12 +167,12 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
         if (m_grabRect.width() * m_grabRect.height() == 0) {
 	    m_grabRectFrame->hide();
             emit colorPicked(grabColor(event->globalPos()));
+	    emit disableCurrentFilter(false);
         } else {
             // delay because m_grabRectFrame does not hide immediately
             connect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
 	    m_grabRectFrame->hide();
         }
-
         return;
     }
     QWidget::mouseReleaseEvent(event);
@@ -188,6 +190,7 @@ void ColorPickerWidget::mouseMoveEvent(QMouseEvent* event)
 
 void ColorPickerWidget::slotSetupEventFilter()
 {
+    emit disableCurrentFilter(true);
     m_filterActive = true;
     setFocus();
     installEventFilter(this);
@@ -208,6 +211,7 @@ bool ColorPickerWidget::eventFilter(QObject *object, QEvent *event)
     // Close color picker on any key press
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::ShortcutOverride) {
         closeEventFilter();
+	emit disableCurrentFilter(false);
         event->setAccepted(true);
         return true;
     }

@@ -3,7 +3,7 @@
 	<name>Scratchlines</name>
 	<description>Scratchlines over the picture</description>
 	<author>Marco Gittler</author>
-	<parameter type="double" name="width" max="100" min="0" default="2">
+	<parameter type="double" name="line_width" max="100" min="0" default="2">
 		<name>Width of line</name>
 	</parameter>
 	<parameter type="double" name="num" max="100" min="0" default="5">

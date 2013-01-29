@@ -40,6 +40,7 @@
 #include <QTextCursor>
 #include <QComboBox>
 #include <QCryptographicHash>
+#include <QKeyEvent>
 
 #if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
@@ -397,25 +398,25 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
     m_toolbar->setIconSize(iconSize);
 
-    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), QString());
+    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + ' ' + m_buttonCursor->shortcut().toString());
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
-    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), QString());
+    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), i18n("Add Text"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
     m_buttonText->setToolTip(i18n("Add Text") + ' ' + m_buttonText->shortcut().toString());
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
-    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), QString());
+    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
     m_buttonRect->setToolTip(i18n("Add Rectangle") + ' ' + m_buttonRect->shortcut().toString());
     connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
 
-    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), QString());
+    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
     m_buttonImage->setToolTip(i18n("Add Image") + ' ' + m_buttonImage->shortcut().toString());
@@ -426,11 +427,13 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_buttonLoad = m_toolbar->addAction(KIcon("document-open"), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
+    m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonImage->shortcut().toString());
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
     m_buttonSave = m_toolbar->addAction(KIcon("document-save-as"), i18n("Save As"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
+    m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonImage->shortcut().toString());
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
     layout->addWidget(m_toolbar);
@@ -444,7 +447,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
     connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
-
+    
     // a gradient background
     /*QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
     gradient->setSpread(QGradient::ReflectSpread);
@@ -477,7 +480,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(m_scene, SIGNAL(newRect(QGraphicsRectItem *)), this , SLOT(slotNewRect(QGraphicsRectItem *)));
     connect(m_scene, SIGNAL(newText(QGraphicsTextItem *)), this , SLOT(slotNewText(QGraphicsTextItem *)));
     connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
-
+    connect(zoom_spin, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateZoom(int)));
 
     // mbd: load saved settings
     readChoices();
@@ -512,7 +515,7 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     //templateBox->setIconSize(QSize(60,60));
     templateBox->clear();
     templateBox->addItem("");
-    foreach(TitleTemplate t, titletemplates) {
+    foreach(const TitleTemplate &t, titletemplates) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
     lastDocumentHash = QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
@@ -635,7 +638,7 @@ void TitleWidget::refreshTitleTemplates()
 void TitleWidget::templateIndexChanged(int index)
 {
     QString item = templateBox->itemData(index).toString();
-    if (item != "") {
+    if (!item.isEmpty()) {
         if (lastDocumentHash != QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex()) {
             if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No) return;
         }
@@ -661,7 +664,10 @@ void TitleWidget::resizeEvent(QResizeEvent * /*event*/)
 {
     //slotAdjustZoom();
 }
-
+//virtual
+void TitleWidget::keyPressEvent(QKeyEvent *e){
+    if(e->key()!=Qt::Key_Escape && e->key()!=Qt::Key_Return && e->key()!=Qt::Key_Enter) QDialog::keyPressEvent(e);
+}
 void TitleWidget::slotTextTool()
 {
     m_scene->setTool(TITLE_TEXT);
@@ -854,8 +860,9 @@ void TitleWidget::initAnimation()
 
 void TitleWidget::slotUpdateZoom(int pos)
 {
+    zoom_spin->setValue(pos);
+    zoom_slider->setValue(pos);
     m_scene->setZoom((double) pos / 100);
-    zoom_label->setText(QString::number(pos) + '%');
 }
 
 void TitleWidget::slotZoom(bool up)
@@ -1842,18 +1849,29 @@ void TitleWidget::saveTitle(KUrl url)
     if (anim_start->isChecked()) slotAnimStart(false);
     if (anim_end->isChecked()) slotAnimEnd(false);
     bool embed_image=false;
-    if (KMessageBox::questionYesNo(this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::No)
+
+    // If we have images in the title, ask for embed
+    QList <QGraphicsItem *> list = graphicsView->scene()->items();
+    QGraphicsPixmapItem pix;
+    int pixmapType = pix.type();
+    foreach(const QGraphicsItem *item, list) {
+	if (item->type() == pixmapType && item != m_frameImage) {
+	    embed_image = true;
+	    break;
+	}
+    }
+    if (embed_image && KMessageBox::questionYesNo(this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes)
     {
-        embed_image=true;	
+        embed_image=false;
     }
     if (url.isEmpty()) {
-        KFileDialog *fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this);
+        QPointer<KFileDialog> fs = new KFileDialog(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this);
         fs->setOperationMode(KFileDialog::Saving);
         fs->setMode(KFile::File);
         fs->setConfirmOverwrite(true);
         fs->setKeepLocation(true);
         fs->exec();
-        url = fs->selectedUrl();
+        if (fs) url = fs->selectedUrl();
         delete fs;
     }
     if (!url.isEmpty()) {
@@ -1865,21 +1883,21 @@ void TitleWidget::saveTitle(KUrl url)
 QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
-    doc.documentElement().setAttribute("out", m_tc.getFrameCount(title_duration->text()));
+    doc.documentElement().setAttribute("duration", m_tc.getFrameCount(title_duration->text()));
     return doc;
 }
 
-int TitleWidget::outPoint() const
+int TitleWidget::duration() const
 {
     return m_tc.getFrameCount(title_duration->text());
 }
 
 void TitleWidget::setXml(QDomDocument doc)
 {
-    int out;
-    m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &out, m_projectTitlePath);
+    int duration;
+    m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
     adjustFrameSize();
-    title_duration->setText(m_tc.getTimecode(GenTime(out, m_render->fps())));
+    title_duration->setText(m_tc.getTimecode(GenTime(duration, m_render->fps())));
     /*if (doc.documentElement().hasAttribute("out")) {
     GenTime duration = GenTime(doc.documentElement().attribute("out").toDouble() / 1000.0);
     title_duration->setText(m_tc.getTimecode(duration));
@@ -2027,7 +2045,7 @@ void TitleWidget::readChoices()
     QColor bgColor = QColor(titleConfig.readEntry("rect_background_color", rectBColor->color()));
 
 #if KDE_IS_VERSION(4,5,0)
-    fgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", fgColor.alpha()));
+    fgColor.setAlpha(titleConfig.readEntry("rect_foreground_alpha", fgColor.alpha()));
     bgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", bgColor.alpha()));
 #else
     rectFAlpha->setValue(titleConfig.readEntry("rect_foreground_alpha", rectFAlpha->value()));
@@ -2136,8 +2154,8 @@ void TitleWidget::slotAnimEnd(bool anim)
 void TitleWidget::addAnimInfoText()
 {
     // add text to anim viewport
-    QGraphicsTextItem *t = new QGraphicsTextItem(i18n("Start"), m_startViewport);
-    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18n("End"), m_endViewport);
+    QGraphicsTextItem *t = new QGraphicsTextItem(i18nc("Indicates the start of an animation", "Start"), m_startViewport);
+    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18nc("Indicates the end of an animation", "End"), m_endViewport);
     QFont font = t->font();
     font.setPixelSize(m_startViewport->rect().width() / 10);
     QColor col = m_startViewport->pen().color();
@@ -2248,7 +2266,7 @@ void TitleWidget::slotAddEffect(int ix)
              * element, but do not add it to non-text elements.
              */
             if (item->type() == TEXTITEM) {
-                QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
+                QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
                 item->setData(100, effdata);
             }
             break;
@@ -2281,7 +2299,7 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ";" + QString::number(typewriter_start->value());
+        QStringList effdata = QStringList() << "typewriter" << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
         l[0]->setData(100, effdata);
     }
 }

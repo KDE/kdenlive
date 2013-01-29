@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
                          ki18n("Kdenlive"), VERSION,
                          ki18n("An open source video editor."),
                          KAboutData::License_GPL,
-                         ki18n("Copyright © 2007–2011 Kdenlive authors"));
+                         ki18n("Copyright © 2007–2012 Kdenlive authors"));
     aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("MLT and KDE SC 4 porting, main developer and maintainer"), "jb@kdenlive.org");
     aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("MLT transitions and effects, timeline, audio thumbs"), "g.marco@freenet.de");
     aboutData.addAuthor(ki18n("Dan Dennedy"), ki18n("Bug fixing, etc."), "dan@dennedy.org");

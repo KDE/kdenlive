@@ -47,7 +47,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
     } else {
         QImage parade(paradeSize, QImage::Format_ARGB32);
-        parade.fill(qRgba(0,0,0,0));
+        parade.fill(Qt::transparent);
 
         QRgb *col;
         QPainter davinci(&parade);
@@ -92,7 +92,6 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         const uint stepsize = 4*accelFactor;
 
         for (uint i = 0, x = 0; i < byteCount; i += stepsize) {
-
             col = (QRgb *)bits;
             r = qRed(*col);
             g = qGreen(*col);

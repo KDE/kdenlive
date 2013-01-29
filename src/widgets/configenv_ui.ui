@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>297</width>
-    <height>244</height>
+    <width>367</width>
+    <height>318</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -34,34 +34,37 @@
        <string>MLT environment</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>MLT profiles folder</string>
+       <item row="5" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
-       <item row="0" column="1" colspan="3">
-        <widget class="KUrlRequester" name="mltpathurl"/>
+       <item row="3" column="1" colspan="3">
+        <widget class="KUrlRequester" name="rendererpathurl"/>
        </item>
-       <item row="1" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Melt path</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="3">
-        <widget class="KUrlRequester" name="rendererpathurl"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_6">
+       <item row="4" column="3">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Processing threads</string>
+          <string>(&gt;1 is experimental)</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2">
+       <item row="4" column="1" colspan="2">
         <widget class="QSpinBox" name="kcfg_mltthreads">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -74,12 +77,42 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="3">
-        <widget class="QLabel" name="label_7">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>(&gt;1 is experimental)</string>
+          <string>Processing threads</string>
          </property>
         </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>FFmpeg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>MLT profiles folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="3">
+        <widget class="KUrlRequester" name="mltpathurl"/>
+       </item>
+       <item row="0" column="1" colspan="3">
+        <widget class="KUrlRequester" name="ffmpegurl"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>FFplay</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="3">
+        <widget class="KUrlRequester" name="ffplayurl"/>
        </item>
       </layout>
      </widget>

@@ -39,14 +39,15 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     setWindowTitle(i18n("Manage Encoding Profiles"));
     profile_type->addItem(i18n("Proxy clips"), 0);
     profile_type->addItem(i18n("Video4Linux capture"), 1);
-    profile_type->addItem(i18n("Decklink capture"), 2);
+    profile_type->addItem(i18n("Screen capture"), 2);
+    profile_type->addItem(i18n("Decklink capture"), 3);
     
     button_add->setIcon(KIcon("list-add"));
     button_edit->setIcon(KIcon("document-edit"));
     button_delete->setIcon(KIcon("list-remove"));
     button_download->setIcon(KIcon("download"));
     
-    m_configFile = new KConfig("encodingprofiles.rc", KConfig::FullConfig, "appdata");
+    m_configFile = new KConfig("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
     connect(profile_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowParams()));
@@ -75,8 +76,11 @@ void EncodingProfilesDialog::slotLoadProfiles()
         case 1: 
             group = "video4linux";
             break;
+	case 2: 
+            group = "screengrab";
+            break;
         default:
-        case 2: 
+        case 3: 
             group = "decklink";
             break;
     }
@@ -102,7 +106,7 @@ void EncodingProfilesDialog::slotShowParams()
     profile_parameters->clear();
     QListWidgetItem *item = profile_list->currentItem();
     if (!item) return;
-    profile_parameters->setPlainText(item->data(Qt::UserRole).toString().section(";", 0, 0));
+    profile_parameters->setPlainText(item->data(Qt::UserRole).toString().section(';', 0, 0));
 }
 
 void EncodingProfilesDialog::slotDeleteProfile()
@@ -136,11 +140,11 @@ void EncodingProfilesDialog::slotAddProfile()
     QListWidgetItem *item = profile_list->currentItem();
     if (item) {
         QString data = item->data(Qt::UserRole).toString();
-        pparams->setPlainText(data.section(";", 0, 0));
-        pext->setText(data.section(";", 1, 1));
+        pparams->setPlainText(data.section(';', 0, 0));
+        pext->setText(data.section(';', 1, 1));
     }
     if (d->exec() == QDialog::Accepted) {
-        m_configGroup->writeEntry(pname->text(), pparams->toPlainText() + ";" + pext->text());
+        m_configGroup->writeEntry(pname->text(), pparams->toPlainText() + ';' + pext->text());
         slotLoadProfiles();
     }
     delete d;
@@ -169,12 +173,12 @@ void EncodingProfilesDialog::slotEditProfile()
     if (item) {
         pname->setText(item->text());
         QString data = item->data(Qt::UserRole).toString();
-        pparams->setPlainText(data.section(";", 0, 0));
-        pext->setText(data.section(";", 1, 1));
+        pparams->setPlainText(data.section(';', 0, 0));
+        pext->setText(data.section(';', 1, 1));
         pparams->setFocus();
     }
     if (d->exec() == QDialog::Accepted) {
-        m_configGroup->writeEntry(pname->text(), pparams->toPlainText() + ";" + pext->text());
+        m_configGroup->writeEntry(pname->text(), pparams->toPlainText() + ';' + pext->text());
         slotLoadProfiles();
     }
     delete d;

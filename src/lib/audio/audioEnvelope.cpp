@@ -11,22 +11,31 @@
 #include "audioEnvelope.h"
 
 #include "audioStreamInfo.h"
+#include <QDebug>
 #include <QImage>
 #include <QTime>
 #include <cmath>
 #include <iostream>
 
-AudioEnvelope::AudioEnvelope(Mlt::Producer *producer, int offset, int length) :
+AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length) :
     m_envelope(NULL),
     m_offset(offset),
     m_length(length),
     m_envelopeSize(producer->get_length()),
     m_envelopeMax(0),
+    m_envelopeMean(0),
+    m_envelopeStdDev(0),
     m_envelopeStdDevCalculated(false),
     m_envelopeIsNormalized(false)
 {
     // make a copy of the producer to avoid audio playback issues
-    m_producer = new Mlt::Producer(*(producer->profile()), producer->get("resource"));
+    QString path = QString::fromUtf8(producer->get("resource"));
+    if (path == "<playlist>" || path == "<tractor>" || path == "<producer>")
+	path = url;
+    m_producer = new Mlt::Producer(*(producer->profile()), path.toUtf8().constData());
+    if (!m_producer || !m_producer->is_valid()) {
+	qDebug()<<"// Cannot create envelope for producer: "<<path;
+    }
     m_info = new AudioInfo(m_producer);
 
     Q_ASSERT(m_offset >= 0);
@@ -182,6 +191,10 @@ QImage AudioEnvelope::drawEnvelope()
 
     QImage img(m_envelopeSize, 400, QImage::Format_ARGB32);
     img.fill(qRgb(255,255,255));
+
+    if (m_envelopeMax == 0)
+        return img;
+
     double fy;
     for (int x = 0; x < img.width(); x++) {
         fy = m_envelope[x]/double(m_envelopeMax) * img.height();

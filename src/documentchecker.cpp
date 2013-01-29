@@ -103,7 +103,7 @@ bool DocumentChecker::hasErrorInClips()
                 prodId = mltProd.attribute("id");
                 // Don't check slowmotion clips for now... (TODO?)
                 if (prodId.startsWith("slowmotion")) continue;
-                if (prodId.contains("_")) prodId = prodId.section("_", 0, 0);
+                if (prodId.contains('_')) prodId = prodId.section('_', 0, 0);
                 if (prodId != id) continue;
                 if (mltDuration > 0 ) {
                     // We have several MLT producers for the same clip (probably track producers)
@@ -176,7 +176,7 @@ bool DocumentChecker::hasErrorInClips()
             filesToCheck.append(luma);
     }
     // Check existence of luma files
-    foreach (const QString lumafile, filesToCheck) {
+    foreach (const QString &lumafile, filesToCheck) {
         filePath = lumafile;
         if (!filePath.startsWith('/')) filePath.prepend(root);
         if (!QFile::exists(filePath)) {
@@ -193,7 +193,7 @@ bool DocumentChecker::hasErrorInClips()
     m_dialog->setFont(KGlobalSettings::toolBarFont());
     m_ui.setupUi(m_dialog);
 
-    foreach(const QString l, missingLumas) {
+    foreach(const QString &l, missingLumas) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << l);
         item->setIcon(0, KIcon("dialog-close"));
         item->setData(0, idRole, l);
@@ -366,7 +366,7 @@ bool DocumentChecker::hasErrorInClips()
                     if (property.attribute("name") == "resource") {
                         QString resource = property.firstChild().nodeValue();                    
                         QString suffix;
-                        if (slowmotion) suffix = "?" + resource.section('?', -1);
+                        if (slowmotion) suffix = '?' + resource.section('?', -1);
                         property.firstChild().setNodeValue(realPath + suffix);
                         break;
                     }
@@ -799,7 +799,7 @@ void DocumentChecker::slotFixDuration()
                 for (int j = 0; j < documentProducers.count(); j++) {
                     QDomElement mltProd = documentProducers.at(j).toElement();
                     QString prodId = mltProd.attribute("id");
-                    if (prodId == id || prodId.startsWith(id + "_")) {
+                    if (prodId == id || prodId.startsWith(id + '_')) {
                         EffectsList::removeProperty(mltProd, "length");
                     }
                 }
@@ -856,7 +856,7 @@ void DocumentChecker::slotDeleteSelected()
     if (!deletedLumas.isEmpty()) {
         QDomElement e;
         QDomNodeList transitions = m_doc.elementsByTagName("transition");
-        foreach (QString lumaPath, deletedLumas) {
+        foreach (const QString &lumaPath, deletedLumas) {
             for (int i = 0; i < transitions.count(); i++) {
                 e = transitions.item(i).toElement();
                 QString resource = EffectsList::property(e, "luma");

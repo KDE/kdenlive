@@ -6,25 +6,34 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>285</width>
-    <height>157</height>
+    <width>312</width>
+    <height>204</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <property name="margin">
     <number>0</number>
    </property>
-   <item row="0" column="0" colspan="6">
+   <item>
     <widget class="QLabel" name="video_frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
       <string>Not connected</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
+     <property name="openExternalLinks">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="6">
+   <item>
     <widget class="QFrame" name="control_frame_firewire">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -46,69 +55,85 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="5">
-    <widget class="KComboBox" name="device_selector">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <property name="text">
-       <string>Firewire</string>
-      </property>
+      <widget class="QToolButton" name="rec_options">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
-      <property name="text">
-       <string>FFmpeg</string>
-      </property>
+      <widget class="QFrame" name="control_frame">
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="rec_video">
+          <property name="text">
+           <string>Video</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="rec_audio">
+          <property name="text">
+           <string>Audio</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
-      <property name="text">
-       <string>Screen grab</string>
-      </property>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
-      <property name="text">
-       <string>Blackmagic card</string>
-      </property>
+      <widget class="KComboBox" name="device_selector">
+       <item>
+        <property name="text">
+         <string>Firewire</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>FFmpeg</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Screen grab</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Blackmagic card</string>
+        </property>
+       </item>
+      </widget>
      </item>
-    </widget>
-   </item>
-   <item row="2" column="4">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="1">
-    <widget class="QCheckBox" name="rec_video">
-     <property name="text">
-      <string>Video</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QCheckBox" name="rec_audio">
-     <property name="text">
-      <string>Audio</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QToolButton" name="rec_options">
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="popupMode">
-      <enum>QToolButton::InstantPopup</enum>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
+    </layout>
    </item>
   </layout>
  </widget>

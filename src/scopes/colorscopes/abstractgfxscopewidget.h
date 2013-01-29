@@ -28,7 +28,7 @@ class AbstractGfxScopeWidget : public AbstractScopeWidget
     Q_OBJECT
 
 public:
-    AbstractGfxScopeWidget(bool trackMouse = false, QWidget *parent = 0);
+    explicit AbstractGfxScopeWidget(bool trackMouse = false, QWidget *parent = 0);
     virtual ~AbstractGfxScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
 protected:
@@ -45,12 +45,13 @@ protected:
 
 private:
     QImage m_scopeImage;
+    QMutex m_mutex;
 
 public slots:
     /** @brief Must be called when the active monitor has shown a new frame.
       This slot must be connected in the implementing class, it is *not*
       done in this abstract class. */
-    void slotRenderZoneUpdated(QImage);
+    void slotRenderZoneUpdated(const QImage);
 
 protected slots:
     virtual void slotAutoRefreshToggled(bool autoRefresh);

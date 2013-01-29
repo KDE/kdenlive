@@ -23,87 +23,109 @@
 #include "kdenlivedoc.h"
 
 #include <KDebug>
+#include <KUrl>
 #include <KLocale>
 
 #include <mlt++/Mlt.h>
 
 
-static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame /*frame_ptr*/)
+static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame frame_ptr)
 {
-    // detect if the producer has finished playing. Is there a better way to do it?
-    self->emitFrameNumber();
+    Mlt::Frame frame(frame_ptr);
+    self->emitFrameNumber((int) frame.get_position());
 }
 
-MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(MLTJOB, cType, id, parameters), 
+MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters,  QMap <QString, QString>extraParams) : AbstractClipJob(MLTJOB, cType, id, parameters),
+    addClipToProject(0),
+    m_consumer(NULL),
     m_producer(NULL),
     m_profile(NULL),
-    m_consumer(NULL),
-    m_length(0)
+    m_filter(NULL),
+    m_showFrameEvent(NULL),
+    m_length(0),
+    m_extra(extraParams)
 {
-    jobStatus = JOBWAITING;
+    m_jobStatus = JOBWAITING;
     m_params = parameters;
     description = i18n("Process clip");
     QString consum = m_params.at(5);
-    if (consum.contains(":")) m_dest = consum.section(":", 1);
+    if (consum.contains(':')) m_dest = consum.section(':', 1);
 }
 
-void MeltJob::setProducer(Mlt::Producer *producer)
+void MeltJob::setProducer(Mlt::Producer *producer, KUrl url)
 {
-    m_producer = producer;
+    m_url = QString::fromUtf8(producer->get("resource"));
+    if (m_url == "<playlist>" || m_url == "<tractor>" || m_url == "<producer>")
+	m_url == url.path();
 }
 
 void MeltJob::startJob()
 {
-    if (!m_producer) {
+    if (m_url.isEmpty()) {
         m_errorMessage.append(i18n("No producer for this clip."));
         setStatus(JOBCRASHED);
         return;
     }
     int in = m_params.takeFirst().toInt();
+    if (in > 0 && !m_extra.contains("offset")) m_extra.insert("offset", QString::number(in));
     int out = m_params.takeFirst().toInt();
     QString producerParams =m_params.takeFirst(); 
     QString filter = m_params.takeFirst();
     QString filterParams = m_params.takeFirst();
     QString consumer = m_params.takeFirst();
-    kDebug()<<"consumer: "<<consumer;
-    if (consumer.contains(":")) m_dest = consumer.section(":", 1);
+    if (consumer.contains(':')) m_dest = consumer.section(':', 1);
     QString consumerParams = m_params.takeFirst();
     
     // optional params
-    QString properties;
-    if (!m_params.isEmpty()) properties = m_params.takeFirst();
     int startPos = -1;
     if (!m_params.isEmpty()) startPos = m_params.takeFirst().toInt();
     int track = -1;
     if (!m_params.isEmpty()) track = m_params.takeFirst().toInt();
-    QString finalFilter;
-    if (!m_params.isEmpty()) finalFilter = m_params.takeFirst();
-    else finalFilter = filter;
+    if (!m_extra.contains("finalfilter")) m_extra.insert("finalfilter", filter);
 
     if (out != -1 && out <= in) {
         m_errorMessage.append(i18n("Clip zone undefined (%1 - %2).", in, out));
         setStatus(JOBCRASHED);
         return;
     }
-    
-    m_profile = m_producer->profile();
-
-    Mlt::Producer *prod;
-    if (out == -1) {
-        QString url = QString::fromUtf8(m_producer->get("resource"));
-        prod = new Mlt::Producer(*m_profile,  url.toUtf8().constData());
+    if (m_extra.contains("producer_profile")) {
+	m_profile = new Mlt::Profile;
+	m_profile->set_explicit(false);
     }
-    else 
-        prod = m_producer->cut(in, out);
+    else {
+	m_profile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
+    }
+    if (m_extra.contains("resize_profile")) {	
+	m_profile->set_height(m_extra.value("resize_profile").toInt());
+	m_profile->set_width(m_profile->height() * m_profile->sar());
+    }
+    if (out == -1) {
+	m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+	if (m_producer) m_length = m_producer->get_length();
+    }
+    else {
+	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+        if (tmp) m_producer = tmp->cut(in, out);
+	delete tmp;
+	if (m_producer) m_length = m_producer->get_playtime();
+    }
+    if (!m_producer || !m_producer->is_valid()) {
+	return;
+	m_errorMessage.append(i18n("Invalid clip"));
+        setStatus(JOBCRASHED);
+    }
+    if (m_extra.contains("producer_profile")) {
+	m_profile->from_producer(*m_producer);
+	m_profile->set_explicit(true);
+    }
     QStringList list = producerParams.split(' ', QString::SkipEmptyParts);
-    foreach(QString data, list) {
+    foreach(const QString &data, list) {
         if (data.contains('=')) {
-            prod->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
+            m_producer->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
         }
     }
-
     if (consumer.contains(":")) {
-        m_consumer = new Mlt::Consumer(*m_profile, consumer.section(":", 0, 0).toUtf8().constData(), consumer.section(":", 1).toUtf8().constData());
+        m_consumer = new Mlt::Consumer(*m_profile, consumer.section(':', 0, 0).toUtf8().constData(), consumer.section(':', 1).toUtf8().constData());
     }
     else {
         m_consumer = new Mlt::Consumer(*m_profile, consumer.toUtf8().constData());
@@ -118,52 +140,59 @@ void MeltJob::startJob()
     //m_consumer->set("eof", "pause" );
     m_consumer->set("real_time", -KdenliveSettings::mltthreads() );
 
+
     list = consumerParams.split(' ', QString::SkipEmptyParts);
-    foreach(QString data, list) {
+    foreach(const QString &data, list) {
         if (data.contains('=')) {
             kDebug()<<"// filter con: "<<data;
             m_consumer->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
         }
     }
     
-    Mlt::Filter mltFilter(*m_profile, filter.toUtf8().data());
+    m_filter = new Mlt::Filter(*m_profile, filter.toUtf8().data());
+    if (!m_filter || !m_filter->is_valid()) {
+	m_errorMessage = i18n("Filter %1 crashed", filter);
+        setStatus(JOBCRASHED);
+	return;
+    }
     list = filterParams.split(' ', QString::SkipEmptyParts);
-    foreach(QString data, list) {
+    foreach(const QString &data, list) {
         if (data.contains('=')) {
             kDebug()<<"// filter p: "<<data;
-            mltFilter.set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
+            m_filter->set(data.section('=', 0, 0).toUtf8().constData(), data.section('=', 1, 1).toUtf8().constData());
         }
     }
+    Mlt::Tractor tractor;
     Mlt::Playlist playlist;
-    playlist.append(*prod);
-    m_length = prod->get_length();
-    m_consumer->connect(playlist);
-    prod->set_speed(0);
-    prod->seek(0);
-    prod->attach(mltFilter);
+    playlist.append(*m_producer);
+    tractor.set_track(playlist, 0);
+    m_consumer->connect(tractor);
+    m_producer->set_speed(0);
+    m_producer->seek(0);
+    m_producer->attach(*m_filter);
     m_showFrameEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_render);
-    m_consumer->start();
-    prod->set_speed(1);
-    while (jobStatus != JOBABORTED && !m_consumer->is_stopped()) {
-        
+    m_producer->set_speed(1);
+    m_consumer->run();
+    
+    QMap <QString, QString> jobResults;
+    if (m_jobStatus != JOBABORTED && m_extra.contains("key")) {
+	QString result = m_filter->get(m_extra.value("key").toUtf8().constData());
+	jobResults.insert(m_extra.value("key"), result);
     }
-    m_consumer->stop();
-    QStringList wanted = properties.split(',', QString::SkipEmptyParts);
-    stringMap jobResults;
-    foreach(const QString key, wanted) {
-        QString value = mltFilter.get(key.toUtf8().constData());
-        jobResults.insert(key, value);
+    if (!jobResults.isEmpty() && m_jobStatus != JOBABORTED) {
+	emit gotFilterJobResults(m_clipId, startPos, track, jobResults, m_extra);
     }
-    if (!jobResults.isEmpty()) emit gotFilterJobResults(m_clipId, startPos, track, finalFilter, jobResults);
-    setStatus(JOBDONE);
-    delete m_consumer;
-    delete prod;
-    return;
+    if (m_jobStatus == JOBABORTED || m_jobStatus == JOBWORKING) m_jobStatus = JOBDONE;
 }
 
 
 MeltJob::~MeltJob()
 {
+    if (m_showFrameEvent) delete m_showFrameEvent;
+    if (m_filter) delete m_filter;
+    if (m_producer) delete m_producer;
+    if (m_consumer) delete m_consumer;
+    if (m_profile) delete m_profile;
 }
 
 const QString MeltJob::destination() const
@@ -180,7 +209,7 @@ stringMap MeltJob::cancelProperties()
 const QString MeltJob::statusMessage()
 {
     QString statusInfo;
-    switch (jobStatus) {
+    switch (m_jobStatus) {
         case JOBWORKING:
             statusInfo = description;
             break;
@@ -193,9 +222,21 @@ const QString MeltJob::statusMessage()
     return statusInfo;
 }
 
-void MeltJob::emitFrameNumber()
+void MeltJob::emitFrameNumber(int pos)
 {
-    if (m_consumer && m_length > 0) {
-        emit jobProgress(m_clipId, (int) (100 * m_consumer->position() / m_length), jobType);
+    if (m_length > 0) {
+        emit jobProgress(m_clipId, (int) (100 * pos / m_length), jobType);
     }
 }
+
+bool MeltJob::isProjectFilter() const
+{
+    return m_extra.contains("projecttreefilter");
+}
+
+void MeltJob::setStatus(CLIPJOBSTATUS status)
+{
+    m_jobStatus = status;
+    if (status == JOBABORTED && m_consumer) m_consumer->stop();
+}
+

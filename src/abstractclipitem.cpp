@@ -29,6 +29,7 @@
 #include <QPainter>
 #include <QToolTip>
 #include <QGraphicsSceneMouseEvent>
+#include <QParallelAnimationGroup>
 
 AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps) :
         QObject(),
@@ -38,7 +39,8 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
         m_selectedKeyframe(0),
         m_keyframeFactor(1),
         m_keyframeOffset(0),
-        m_fps(fps)
+        m_fps(fps),
+        m_isMainSelectedClip(false)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 #if QT_VERSION >= 0x040600
@@ -62,8 +64,9 @@ void AbstractClipItem::closeAnimation()
         return;
     }
     QPropertyAnimation *closeAnimation = new QPropertyAnimation(this, "rect");
-    connect(closeAnimation, SIGNAL(finished()), this, SLOT(deleteLater()));
+    QPropertyAnimation *closeAnimation2 = new QPropertyAnimation(this, "opacity");
     closeAnimation->setDuration(200);
+    closeAnimation2->setDuration(200);
     QRectF r = rect();
     QRectF r2 = r;
     r2.setLeft(r.left() + r.width() / 2);
@@ -73,7 +76,13 @@ void AbstractClipItem::closeAnimation()
     closeAnimation->setStartValue(r);
     closeAnimation->setEndValue(r2);
     closeAnimation->setEasingCurve(QEasingCurve::InQuad);
-    closeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+    closeAnimation2->setStartValue(1.0);
+    closeAnimation2->setEndValue(0.0);
+    QParallelAnimationGroup *group = new QParallelAnimationGroup;
+    connect(group, SIGNAL(finished()), this, SLOT(deleteLater()));
+    group->addAnimation(closeAnimation);
+    group->addAnimation(closeAnimation2);
+    group->start(QAbstractAnimation::DeleteWhenStopped);
 #endif
 }
 
@@ -126,7 +135,7 @@ void AbstractClipItem::updateRectGeometry()
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
 }
 
-void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
+void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChange*/)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - m_info.startPos;
     if (durationDiff == GenTime()) return;
@@ -189,7 +198,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit)
         }*/
 }
 
-void AbstractClipItem::resizeEnd(int posx)
+void AbstractClipItem::resizeEnd(int posx, bool /*emitChange*/)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
@@ -351,7 +360,7 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
             x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
             y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
             if (qAbs(pos.x() - x1) < maxOffset && qAbs(pos.y() - y1) < 10) {
-                setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + "]");
+                setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + ']');
                 return i.key();
             } else if (x1 > pos.x()) {
                 break;
@@ -508,4 +517,15 @@ int AbstractClipItem::itemOffset()
     return 0;
 }
 
+void AbstractClipItem::setMainSelectedClip(bool selected)
+{
+    if (selected == m_isMainSelectedClip) return;
+    m_isMainSelectedClip = selected;
+    update();
+}
+
+bool AbstractClipItem::isMainSelectedClip()
+{
+    return m_isMainSelectedClip;
+}
 

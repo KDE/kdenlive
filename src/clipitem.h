@@ -52,8 +52,8 @@ public:
                        const QStyleOptionGraphicsItem *option,
                        QWidget *);
     virtual int type() const;
-    void resizeStart(int posx, bool size = true);
-    void resizeEnd(int posx);
+    void resizeStart(int posx, bool size = true, bool emitChange = true);
+    void resizeEnd(int posx, bool emitChange = true);
     OPERATIONTYPE operationMode(QPointF pos);
     static int itemHeight();
     const QString clipProducer() const;
@@ -243,7 +243,7 @@ private slots:
     void slotGetStartThumb();
     void slotGetEndThumb();
     void slotGotAudioData();
-    void slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels);
+    void slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels, int pixelHeight);
     void animate(qreal value);
     void slotSetStartThumb(QImage img);
     void slotSetEndThumb(QImage img);
@@ -255,10 +255,11 @@ public slots:
     void slotFetchThumbs();
     void slotSetStartThumb(const QPixmap pix);
     void slotSetEndThumb(const QPixmap pix);
+    void slotUpdateRange();
 
 signals:
-    void getThumb(int, int);
-    void prepareAudioThumb(double, int, int, int);
+    void prepareAudioThumb(double, int, int, int, int);
+    void updateRange();
 };
 
 #endif

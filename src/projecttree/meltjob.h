@@ -26,6 +26,8 @@
 
 #include "abstractclipjob.h"
 
+class KUrl;
+
 namespace Mlt{
         class Profile;
         class Producer;
@@ -39,24 +41,33 @@ class MeltJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters);
+    MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters, QMap <QString, QString> extraParams = QMap <QString, QString>());
     virtual ~ MeltJob();
     const QString destination() const;
     void startJob();
     stringMap cancelProperties();
     bool addClipToProject;
     const QString statusMessage();
-    void setProducer(Mlt::Producer *producer);
-    void emitFrameNumber();
+    void setStatus(CLIPJOBSTATUS status);
+    void setProducer(Mlt::Producer *producer, KUrl url);
+    void emitFrameNumber(int pos);
+    /** Make the job work on a project tree clip. */
+    bool isProjectFilter() const;
     
 private:
+    Mlt::Consumer *m_consumer;
     Mlt::Producer *m_producer;
     Mlt::Profile *m_profile;
-    Mlt::Consumer *m_consumer;
+    Mlt::Filter *m_filter;
     Mlt::Event *m_showFrameEvent;
     QStringList m_params;
     QString m_dest;
+    QString m_url;
     int m_length;
+    QMap <QString, QString> m_extra;
+
+signals:
+    void gotFilterJobResults(const QString &id, int startPos, int track, stringMap result, stringMap extra);
 };
 
 #endif

@@ -27,6 +27,7 @@
 
 #include "ui_dvdwizardchapters_ui.h"
 #include "monitor.h"
+#include "dvdwizardvob.h"
 #include "monitormanager.h"
 
 class DvdWizardChapters : public QWizardPage
@@ -34,24 +35,26 @@ class DvdWizardChapters : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardChapters(bool isPal, QWidget * parent = 0);
+    explicit DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget * parent = 0);
     virtual ~DvdWizardChapters();
     virtual bool isComplete() const;
-    void changeProfile(bool isPal);
+    void changeProfile(DVDFORMAT format);
     void setPal(bool isPal);
-    void setVobFiles(bool isPal, bool isWide, const QStringList &movies, const QStringList &durations, const QStringList &chapters);
+    void setVobFiles(DVDFORMAT format, const QStringList &movies, const QStringList &durations, const QStringList &chapters);
     QStringList selectedTitles() const;
     QStringList selectedTargets() const;
     QStringList chapters(int ix) const;
     QDomElement toXml() const;
     QMap <QString, QString> chaptersData() const;
     void stopMonitor();
+    void refreshMonitor();
+    void createMonitor(DVDFORMAT format);
 
 private:
     Ui::DvdWizardChapters_UI m_view;
-    bool m_isPal;
-    MonitorManager *m_manager;
+    DVDFORMAT m_format;
     Monitor *m_monitor;
+    MonitorManager *m_manager;
     Timecode m_tc;
 
 

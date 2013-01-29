@@ -93,14 +93,24 @@ void EffectStackView2::slotRenderPos(int pos)
         m_effects.at(i)->slotSyncEffectsPos(pos);
 }
 
+void EffectStackView2::slotClipItemUpdate()
+{
+    int inPoint = m_clipref->cropStart().frames(KdenliveSettings::project_fps());
+    int outPoint = m_clipref->cropDuration().frames(KdenliveSettings::project_fps()) + inPoint;
+    for (int i = 0; i < m_effects.count(); i++) {
+        m_effects.at(i)->setRange(inPoint, outPoint);
+    }
+}
+
 void EffectStackView2::slotClipItemSelected(ClipItem* c)
 {
     if (c && !c->isEnabled()) return;
     if (c && c == m_clipref) {
-
     } else {
+	if (m_clipref) disconnect(m_clipref, SIGNAL(updateRange()), this, SLOT(slotClipItemUpdate()));
         m_clipref = c;
         if (c) {
+	    connect(m_clipref, SIGNAL(updateRange()), this, SLOT(slotClipItemUpdate()));
             QString cname = m_clipref->clipName();
             if (cname.length() > 30) {
                 m_ui.checkAll->setToolTip(i18n("Effects for %1", cname));
@@ -271,7 +281,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     // Check drag & drop
     currentEffect->installEventFilter( this );
     connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
-    connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString,QString)));
+    connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)));
     connect(currentEffect, SIGNAL(deleteEffect(const QDomElement)), this , SLOT(slotDeleteEffect(const QDomElement)));
     connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
@@ -284,6 +294,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
     connect(currentEffect, SIGNAL(createRegion(int,KUrl)), this, SLOT(slotCreateRegion(int,KUrl)));
     connect(currentEffect, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
+    connect(currentEffect, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
 }
 
 void EffectStackView2::slotCheckWheelEventFilter()
@@ -501,7 +512,7 @@ void EffectStackView2::slotCheckAll(int state)
     // Disable all effects
     QList <int> indexes;
     for (int i = 0; i < m_effects.count(); i++) {
-        m_effects.at(i)->slotEnable(disabled, false);
+        m_effects.at(i)->slotDisable(disabled, false);
         indexes << m_effects.at(i)->effectIndex();
     }
     // Take care of groups
@@ -643,10 +654,10 @@ void EffectStackView2::slotMoveEffectUp(QList <int> indexes, bool up)
     else emit changeEffectPosition(m_clipref, -1, indexes, endPos);
 }
 
-void EffectStackView2::slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties)
+void EffectStackView2::slotStartFilterJob(const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QMap <QString, QString> &extraParams)
 {
     if (!m_clipref) return;
-    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterName, filterParams, finalFilterName, consumer, consumerParams, properties);
+    emit startFilterJob(m_clipref->info(), m_clipref->clipProducer(), filterName, filterParams, consumer, consumerParams, extraParams);
 }
 
 void EffectStackView2::slotResetEffect(int ix)
@@ -729,7 +740,7 @@ void EffectStackView2::slotCreateRegion(int ix, KUrl url)
         info.startPos = GenTime(-1);
         info.track = 0;
     }
-    else {
+    else if (m_clipref) {
         info = m_clipref->info();
     }
     CollapsibleEffect *current = getEffectByIndex(ix);
@@ -744,7 +755,7 @@ void EffectStackView2::slotCreateRegion(int ix, KUrl url)
     if (m_effectMetaInfo.trackMode) {
         isSelected = currentEffect->effectIndex() == 1;
     }
-    else {
+    else if (m_clipref) {
         isSelected = currentEffect->effectIndex() == m_clipref->selectedEffectIndex();
     }
     if (isSelected) currentEffect->setActive(true);
@@ -802,7 +813,8 @@ void EffectStackView2::slotCreateGroup(int ix)
     connectGroup(group);
     l->insertWidget(groupPos, group);
     group->installEventFilter( this );
-    group->addGroupEffect(effectToMove);
+    if (effectToMove)
+        group->addGroupEffect(effectToMove);
 }
 
 void EffectStackView2::connectGroup(CollapsibleGroup *group)
@@ -938,6 +950,16 @@ void EffectStackView2::dropEvent(QDropEvent *event)
     QDomDocument doc;
     doc.setContent(effects, true);
     processDroppedEffect(doc.documentElement(), event);
+}
+
+void EffectStackView2::setKeyframes(const QString data, int maximum)
+{
+    for (int i = 0; i < m_effects.count(); i++) {
+        if (m_effects.at(i)->isActive()) {
+	    m_effects.at(i)->setKeyframes(data, maximum);
+            break;
+        }
+    }
 }
 
 //static

@@ -35,7 +35,7 @@ class SamplePlugin : public QObject, public ClipGenerator
 
 public:
     QStringList generators(const QStringList producers = QStringList()) const;
-    KUrl generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height);
+    KUrl generatedClip(const QString &renderer, const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height);
 };
 
 

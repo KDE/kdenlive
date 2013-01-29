@@ -76,12 +76,13 @@ public:
     void deleteClip(ItemInfo info, bool refresh = true);
     void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     void slotDeleteAllClipMarkers(const QString &id);
-    void addMarker(const QString &id, const GenTime &pos, const QString &comment);
+    void addMarker(const QString &id, const CommentedTime marker);
+    void addData(const QString &id, const QString &key, const QString &data);
     void setScale(double scaleFactor, double verticalScale);
     void deleteClip(const QString &clipId);
     /** @brief Add effect to current clip */
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
-    void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group);
+    void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = NULL);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false);
@@ -202,9 +203,17 @@ public:
     bool hasAudio(int track) const;
 
     int getFrameWidth();
+    /** @brief Returns last requested seeking pos (or SEEK_INACTIVE if no seek). */
+    int seekPosition() const;
+
+    /** @brief Trigger a monitor refresh. */
+    void monitorRefresh();
     
 public slots:
-    void setCursorPos(int pos, bool seek = true);
+    /** @brief Send seek request to MLT. */
+    void seekCursorPos(int pos);
+    /** @brief Move timeline cursor to new position. */
+    void setCursorPos(int pos);
     void moveCursorPos(int delta);
     void updateCursorPos();
     void slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup = true);
@@ -221,12 +230,16 @@ public slots:
     void slotSwitchTrackVideo(int ix);
     void slotSwitchTrackLock(int ix);
     void slotUpdateClip(const QString &clipId, bool reload = true);
-
+    
+    /** @brief Add extra data to a clip. */
+    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
     /** @brief Creates a AddClipCommand to add, edit or delete a marker.
      * @param id Id of the marker's clip
      * @param t Position of the marker
      * @param c Comment of the marker */
-    void slotAddClipMarker(const QString &id, GenTime t, QString c);
+    void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
+    void slotLoadClipMarkers(const QString &id);
+    void slotSaveClipMarkers(const QString &id);
     bool addGuide(const GenTime &pos, const QString &comment);
 
     /** @brief Shows a dialog for adding a guide.
@@ -290,6 +303,12 @@ public slots:
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     
     void slotAddEffect(ClipItem *clip, QDomElement effect);
+    void slotImportClipKeyframes(GRAPHICSRECTITEM type);
+
+    /** @brief Get effect parameters ready for MLT*/
+    static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
+	/** @brief Move playhead to mouse curser position if defined key is pressed */
+    void slotAlignPlayheadToMousePos();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -351,6 +370,8 @@ private:
     QAction *m_ungroupAction;
     QAction *m_editGuide;
     QAction *m_deleteGuide;
+    QList <QAction*> m_audioActions;
+    QList <QAction*> m_avActions;
     QActionGroup *m_clipTypeGroup;
     QTimer m_scrollTimer;
     QTimer m_thumbsTimer;
@@ -392,7 +413,7 @@ private:
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
     void resetSelectionGroup(bool selectItems = true);
-    void groupSelectedItems(bool force = false, bool createNewGroup = false);
+    void groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     /** Get available space for clip move (min and max free positions) */
     void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     /** Get available space for transition move (min and max free positions) */
@@ -464,9 +485,6 @@ private:
     
     /** @brief Prepare an add clip command for an effect */
     void processEffect(ClipItem *item, QDomElement effect, int offset, QUndoCommand *effectCommand);
-    
-    /** @brief Get effect parameters ready for MLT*/
-    void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const QString &prefix = QString());
 
 private slots:
     void slotRefreshGuides();
@@ -484,7 +502,7 @@ private slots:
      *  @param resetThumbs Should we recreate the timeline thumbnails. */
     void slotRefreshThumbs(const QString &id, bool resetThumbs);
     /** @brief A Filter job producer results. */
-    void slotGotFilterJobResults(const QString &id, int startPos, int track, const QString &filter, stringMap filterParams);
+    void slotGotFilterJobResults(const QString &id, int startPos, int track, stringMap filterParams, stringMap extra);
 
 
 signals:
@@ -504,6 +522,7 @@ signals:
     void showClipFrame(DocClipBase *, QPoint, bool, const int);
     void doTrackLock(int, bool);
     void updateClipMarkers(DocClipBase *);
+    void updateClipExtraData(DocClipBase *);
     void updateTrackHeaders();
     void playMonitor();
     /** @brief Monitor document changes (for example the presence of audio data in timeline for export widget.*/
@@ -512,6 +531,10 @@ signals:
     void showTrackEffects(int, TrackInfo);
     /** @brief Update the track effect button that shows if a track has effects or not.*/
     void updateTrackEffectState(int);
+    /** @brief Cursor position changed, repaint ruler.*/
+    void updateRuler();
+    /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
+    void importKeyframes(GRAPHICSRECTITEM type, const QString&, int maximum);
 };
 
 #endif

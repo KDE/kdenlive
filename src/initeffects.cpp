@@ -229,8 +229,7 @@ void initEffects::parseEffectFiles(const QString &locale)
     MainWindow::transitions.clearList();
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::transitions.append(effect);
-    effectsMap.clear();
-
+    effectsMap.clear();    
     // Create effects from MLT
     foreach(const QString & filtername, mltFiltersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
@@ -341,7 +340,7 @@ void initEffects::parseCustomEffectsFile()
 	    }
 	    effectsMap.insert(groupName.toLower().toUtf8().data(), base);
         } else if (base.tagName() == "effect") {
-            effectsMap.insert(e.firstChildElement("name").text().toLower().toUtf8().data(), base);
+            effectsMap.insert(base.firstChildElement("name").text().toLower().toUtf8().data(), base);
         }
         else kDebug() << "Unsupported effect file: " << itemName;
     }

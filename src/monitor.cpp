@@ -43,19 +43,24 @@
 #include <QVBoxLayout>
 
 
+#define SEEK_INACTIVE (-1)
+
+
 Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile, QWidget *parent) :
     AbstractMonitor(id, manager, parent),
     render(NULL),
     m_currentClip(NULL),
-    m_ruler(new SmallRuler(m_monitorManager)),
     m_overlay(NULL),
     m_scale(1),
-    m_length(0),
+    m_length(2),
     m_dragStarted(false),
     m_contextMenu(NULL),
     m_effectWidget(NULL),
     m_selectedClip(NULL),
     m_loopClipTransition(true),
+#ifdef USE_OPENGL
+    m_glWidget(NULL),
+#endif
     m_editMarker(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout;
@@ -69,8 +74,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     // Get base size for icons
     int s = style()->pixelMetric(QStyle::PM_SmallIconSize);
 
-    // Monitor ruler
-    layout->addWidget(m_ruler);
+
     // Tool bar buttons
     m_toolbar = new QToolBar(this);
     m_toolbar->setIconSize(QSize(s, s));
@@ -78,11 +82,10 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
+
     if (id != Kdenlive::dvdMonitor) {
         m_toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
         m_toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
-    } else {
-        m_ruler->setZone(-3, -2);
     }
 
     m_toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
@@ -169,8 +172,12 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     }
 #endif
 
+    // Monitor ruler
+    m_ruler = new SmallRuler(this, render);
+    if (id == Kdenlive::dvdMonitor) m_ruler->setZone(-3, -2);
+    layout->addWidget(m_ruler);
+    
     connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
-    connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
@@ -198,7 +205,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     m_toolbar->addWidget(spacer);
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
     m_toolbar->addWidget(m_timePos);
-    connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
+    connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     m_toolbar->setMaximumHeight(s * 1.5);
     layout->addWidget(m_toolbar);
 }
@@ -343,6 +350,16 @@ void Monitor::resetSize()
     videoBox->setMinimumSize(0, 0);
 }
 
+QString Monitor::getTimecodeFromFrames(int pos)
+{
+    return m_monitorManager->timecode().getTimecodeFromFrames(pos);
+}
+
+double Monitor::fps() const
+{
+    return m_monitorManager->timecode().fps();
+}
+
 DocClipBase *Monitor::activeClip()
 {
     return m_currentClip;
@@ -362,8 +379,8 @@ void Monitor::updateMarkers(DocClipBase *source)
                 QAction *go = m_markerMenu->addAction(position);
                 go->setData(pos);
             }
-            m_ruler->setMarkers(marks);
-        } else m_ruler->setMarkers(QList <int>());
+        }
+	m_ruler->setMarkers(markers);
         m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
     }
 }
@@ -413,24 +430,24 @@ GenTime Monitor::getSnapForPos(bool previous)
 void Monitor::slotZoneMoved(int start, int end)
 {
     m_ruler->setZone(start, end);
-    checkOverlay();
     setClipZone(m_ruler->zone());
+    checkOverlay();
 }
 
 void Monitor::slotSetZoneStart()
 {
-    m_ruler->setZone(m_ruler->position(), -1);
+    m_ruler->setZoneStart();
     emit zoneUpdated(m_ruler->zone());
-    checkOverlay();
     setClipZone(m_ruler->zone());
+    checkOverlay();
 }
 
 void Monitor::slotSetZoneEnd()
 {
-    m_ruler->setZone(-1, m_ruler->position());
+    m_ruler->setZoneEnd();
     emit zoneUpdated(m_ruler->zone());
-    checkOverlay();
     setClipZone(m_ruler->zone());
+    checkOverlay();
 }
 
 // virtual
@@ -465,8 +482,9 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
             if (isActive()) slotPlay();
             else slotActivateMonitor();
         } //else event->ignore(); //QWidget::mouseReleaseEvent(event);
-        m_dragStarted = false;
     }
+    m_dragStarted = false;
+    event->accept();
 }
 
 // virtual
@@ -495,15 +513,16 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         drag->setPixmap(pix);
         drag->setHotSpot(QPoint(0, 50));*/
         drag->start(Qt::MoveAction);
-
-        //Qt::DropAction dropAction;
-        //dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);
+	/*Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
+        Qt::DropAction dropAction;
+        dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);*/
 
         //Qt::DropAction dropAction = drag->exec();
 
     }
     //event->accept();
 }
+
 
 /*void Monitor::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
@@ -546,7 +565,9 @@ void Monitor::slotMouseSeek(int eventDelta, bool fast)
     if (fast) {
         int delta = m_monitorManager->timecode().fps();
         if (eventDelta > 0) delta = 0 - delta;
-        slotSeek(m_ruler->position() - delta);
+	if (render->requestedSeekPosition != SEEK_INACTIVE)
+	    slotSeek(render->requestedSeekPosition - delta);
+	else slotSeek(render->seekFramePosition() - delta);
     } else {
         if (eventDelta >= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
@@ -577,13 +598,14 @@ void Monitor::slotExtractCurrentFrame()
         frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().path());
     }
     else frame = render->extractFrame(render->seekFramePosition());
-    KFileDialog *fs = new KFileDialog(KUrl(), "image/png", this);
+    QPointer<KFileDialog> fs = new KFileDialog(KUrl(), "image/png", this);
     fs->setOperationMode(KFileDialog::Saving);
     fs->setMode(KFile::File);
     fs->setConfirmOverwrite(true);
     fs->setKeepLocation(true);
     fs->exec();
-    QString path = fs->selectedFile();
+    QString path;
+    if (fs) path = fs->selectedFile();
     delete fs;
     if (!path.isEmpty()) {
         frame.save(path);
@@ -606,13 +628,14 @@ void Monitor::slotSeek(int pos)
     if (render == NULL) return;
     slotActivateMonitor();
     render->seekToFrame(pos);
+    m_ruler->update();
 }
 
 void Monitor::checkOverlay()
 {
     if (m_overlay == NULL) return;
     QString overlayText;
-    int pos = m_ruler->position();
+    int pos = m_timePos->getValue();//render->seekFramePosition();
     QPoint zone = m_ruler->zone();
     if (pos == zone.x())
         overlayText = i18n("In Point");
@@ -664,8 +687,20 @@ void Monitor::slotRewind(double speed)
     slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
-        if (currentspeed >= 0) render->play(-2);
-        else render->play(currentspeed * 2);
+	if (currentspeed >= 0) render->play(-1);
+	else switch((int) currentspeed) {
+	    case -1:
+		render->play(-2);
+		break;
+	    case -2:
+		render->play(-3);
+		break;
+	    case -3:
+		render->play(-5);
+		break;
+	    default:
+		render->play(-8);
+	}
     } else render->play(speed);
     //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
@@ -676,8 +711,20 @@ void Monitor::slotForward(double speed)
     slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
-        if (currentspeed <= 1) render->play(2);
-        else render->play(currentspeed * 2);
+	if (currentspeed <= 0) render->play(1);
+        else switch((int) currentspeed) {
+	    case 1:
+		render->play(2);
+		break;
+	    case 2:
+		render->play(3);
+		break;
+	    case 3:
+		render->play(5);
+		break;
+	    default:
+		render->play(8);
+	}
     } else render->play(speed);
     //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
@@ -688,6 +735,7 @@ void Monitor::slotRewindOneFrame(int diff)
     slotActivateMonitor();
     render->play(0);
     render->seekToFrameDiff(-diff);
+    m_ruler->update();
 }
 
 void Monitor::slotForwardOneFrame(int diff)
@@ -695,22 +743,22 @@ void Monitor::slotForwardOneFrame(int diff)
     slotActivateMonitor();
     render->play(0);
     render->seekToFrameDiff(diff);
+    m_ruler->update();
 }
 
 void Monitor::seekCursor(int pos)
 {
-    //slotActivateMonitor();
     if (m_ruler->slotNewValue(pos)) {
-        checkOverlay();
         m_timePos->setValue(pos);
+	checkOverlay();
     }
 }
 
 void Monitor::rendererStopped(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
-        checkOverlay();
         m_timePos->setValue(pos);
+	checkOverlay();
     }
     m_playAction->setIcon(m_playIcon);
 }
@@ -733,7 +781,10 @@ void Monitor::stop()
 void Monitor::start()
 {
     if (!isVisible() || !isActive()) return;
-    if (render) render->doRefresh();// start();
+#ifdef USE_OPENGL    
+    if (m_glWidget) m_glWidget->activateMonitor();
+#endif
+    if (render) render->startConsumer();
 }
 
 void Monitor::refreshMonitor(bool visible)
@@ -770,13 +821,15 @@ void Monitor::slotPlay()
 {
     if (render == NULL) return;
     slotActivateMonitor();
-    if (render->playSpeed() == 0.0) {
-        m_playAction->setIcon(m_pauseIcon);
-        render->switchPlay(true);
-    } else {
-        m_playAction->setIcon(m_playIcon);
+    if (render->isPlaying()) {
+	m_playAction->setIcon(m_playIcon);
         render->switchPlay(false);
     }
+    else {
+        m_playAction->setIcon(m_pauseIcon);
+        render->switchPlay(true);
+    }
+    m_ruler->refreshRuler();
 }
 
 void Monitor::slotPlayZone()
@@ -819,6 +872,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
 {
     if (render == NULL) return;
     if (clip == NULL && m_currentClip != NULL) {
+	m_currentClip->lastSeekPosition = render->seekFramePosition();
         kDebug()<<"// SETTING NULL CLIP MONITOR";
         m_currentClip = NULL;
         m_length = -1;
@@ -827,8 +881,9 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
     }
 
     if (clip != m_currentClip || forceUpdate) {
+	if (m_currentClip) m_currentClip->lastSeekPosition = render->seekFramePosition();
         m_currentClip = clip;
-        if (m_currentClip) slotActivateMonitor();
+	if (position == -1) position = clip->lastSeekPosition;
         updateMarkers(clip);
         Mlt::Producer *prod = NULL;
         if (clip) prod = clip->getCloneProducer();
@@ -841,6 +896,11 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
             slotActivateMonitor();
             if (position == -1) position = render->seekFramePosition();
             render->seek(position);
+	    if (zone.isNull()) {
+		zone = m_currentClip->zone();
+		m_ruler->setZone(zone.x(), zone.y());
+		return;
+	    }
         }
     }
     if (!zone.isNull()) {
@@ -853,14 +913,7 @@ void Monitor::slotOpenFile(const QString &file)
 {
     if (render == NULL) return;
     slotActivateMonitor();
-    QDomDocument doc;
-    QDomElement mlt = doc.createElement("mlt");
-    doc.appendChild(mlt);
-    QDomElement prod = doc.createElement("producer");
-    mlt.appendChild(prod);
-    prod.setAttribute("mlt_service", "avformat");
-    prod.setAttribute("resource", file);
-    render->setSceneList(doc, 0);
+    render->loadUrl(file);
 }
 
 void Monitor::slotSaveZone()
@@ -871,6 +924,19 @@ void Monitor::slotSaveZone()
     //render->setSceneList(doc, 0);
 }
 
+void Monitor::setCustomProfile(const QString &profile, Timecode tc)
+{
+    m_timePos->updateTimeCode(tc);
+    if (render == NULL) return;
+    if (!render->hasProfile(profile)) {
+        slotActivateMonitor();
+        render->resetProfile(profile);
+#ifdef USE_OPENGL    
+	if (m_glWidget) m_glWidget->setImageAspectRatio(render->dar());
+#endif
+    }
+}
+
 void Monitor::resetProfile(const QString &profile)
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
@@ -878,6 +944,9 @@ void Monitor::resetProfile(const QString &profile)
     if (!render->hasProfile(profile)) {
         slotActivateMonitor();
         render->resetProfile(profile);
+#ifdef USE_OPENGL
+	if (m_glWidget) m_glWidget->setImageAspectRatio(render->dar());
+#endif
     }
     if (m_effectWidget)
         m_effectWidget->resetProfile(render);
@@ -1074,6 +1143,16 @@ void Monitor::reloadProducer(const QString &id)
         slotSetClipProducer(m_currentClip, m_currentClip->zone(), true);
 }
 
+QString Monitor::getMarkerThumb(GenTime pos)
+{
+    if (!m_currentClip) return QString();
+    if (!m_currentClip->getClipHash().isEmpty()) {
+	QString url = m_monitorManager->getProjectFolder() + "thumbs/" + m_currentClip->getClipHash() + '#' + QString::number(pos.frames(m_monitorManager->timecode().fps())) + ".png";
+        if (QFile::exists(url)) return url;
+    }
+    return QString();
+}
+
 void Monitor::setPalette ( const QPalette & p)
 {
     QWidget::setPalette(p);
@@ -1089,6 +1168,7 @@ Overlay::Overlay(QWidget* parent) :
     setBackgroundRole(QPalette::Base);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     setCursor(Qt::PointingHandCursor);
+
 }
 
 // virtual
@@ -1113,11 +1193,11 @@ void Overlay::mouseDoubleClickEvent ( QMouseEvent * event )
 void Overlay::setOverlayText(const QString &text, bool isZone)
 {
     if (text.isEmpty()) {
-	QPalette p;
+	/*QPalette p;
 	p.setColor(QPalette::Base, KdenliveSettings::window_background());
 	setPalette(p);
 	setText(QString());
-	repaint();
+	repaint();*/
 	setHidden(true);
 	return;
     }

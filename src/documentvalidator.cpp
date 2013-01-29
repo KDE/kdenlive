@@ -60,7 +60,7 @@ bool DocumentValidator::validate(const double currentVersion)
     
     QString rootDir = mlt.attribute("root");
     if (rootDir == "$CURRENTPATH") {
-        // The document was extracted from a Kdenlive archived project, fix root directory$
+        // The document was extracted from a Kdenlive archived project, fix root directory
         QString playlist = m_doc.toString();
         playlist.replace("$CURRENTPATH", m_url.directory(KUrl::IgnoreTrailingSlash));
         m_doc.setContent(playlist);
@@ -112,7 +112,13 @@ bool DocumentValidator::validate(const double currentVersion)
 	QLocale tempLocale = QLocale(mlt.attribute("LC_NUMERIC"));
 	version = tempLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
 	if (!ok) version = kdenliveDoc.attribute("version").toDouble(&ok);
-	if (!ok) kDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
+	if (!ok) {
+	    // Last try: replace comma with a dot
+	    QString versionString = kdenliveDoc.attribute("version");
+	    if (versionString.contains(',')) versionString.replace(',', '.');
+	    version = versionString.toDouble(&ok);
+	    if (!ok) kDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
+	}
     }
     
     // Upgrade the document to the latest version

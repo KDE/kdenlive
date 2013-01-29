@@ -43,6 +43,7 @@
 #include "projectlist.h"
 #include "mainwindow.h"
 #include "parametercontainer.h"
+#include "../customtrackview.h"
 
 #include <KUrlRequester>
 #include <KFileDialog>
@@ -163,7 +164,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             QStringList listitems = pa.attribute("paramlist").split(';');
             if (listitems.count() == 1) {
                 // probably custom effect created before change to ';' as separator
-                listitems = pa.attribute("paramlist").split(",");
+                listitems = pa.attribute("paramlist").split(',');
             }
             QDomElement list = pa.firstChildElement("paramlistdisplay");
             QStringList listitemsdisplay;
@@ -219,18 +220,23 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, 0, true, effect.hasAttribute("showrotation"), parent);
                 m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
-                if (minFrame == maxFrame)
+                if (minFrame == maxFrame) {
                     m_geometryWidget->setupParam(pa, m_in, m_out);
+		    connect(this, SIGNAL(updateRange(int,int)), m_geometryWidget, SLOT(slotUpdateRange(int,int)));
+		}
                 else
                     m_geometryWidget->setupParam(pa, minFrame, maxFrame);
                 m_vbox->addWidget(m_geometryWidget);
                 m_valueItems[paramName+"geometry"] = m_geometryWidget;
                 connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+		connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
             } else {
                 Geometryval *geo = new Geometryval(m_metaInfo->profile, m_metaInfo->timecode, m_metaInfo->frameSize, 0);
-                if (minFrame == maxFrame)
+                if (minFrame == maxFrame) {
                     geo->setupParam(pa, m_in, m_out);
+		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
+		}
                 else
                     geo->setupParam(pa, minFrame, maxFrame);
                 m_vbox->addWidget(geo);
@@ -249,11 +255,13 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 if (pa.attribute("widget") == "corners") {
                     // we want a corners-keyframe-widget
                     CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, m_metaInfo->timecode, e.attribute("active_keyframe", "-1").toInt(), parent);
+		    connect(this, SIGNAL(updateRange(int,int)), corners, SLOT(slotUpdateRange(int,int)));
 		    m_needsMonitorEffectScene = true;
                     connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
                     geo = new KeyframeEdit(pa, m_in, m_out, m_metaInfo->timecode, e.attribute("active_keyframe", "-1").toInt());
+		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
                 }
                 m_vbox->addWidget(geo);
                 m_valueItems[paramName+"keyframe"] = geo;
@@ -274,6 +282,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             m_valueItems[paramName] = choosecolor;
             connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
             connect(choosecolor, SIGNAL(modified()) , this, SLOT(slotCollectAllParameters()));
+	    connect(choosecolor, SIGNAL(disableCurrentFilter(bool)) , this, SIGNAL(disableCurrentFilter(bool)));
         } else if (type == "position") {
             int pos = value.toInt();
             if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fade_from_black") {
@@ -283,6 +292,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 pos = m_out - pos;
             }
             PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->timecode);
+	    connect(this, SIGNAL(updateRange(int,int)), posedit, SLOT(setRange(int,int)));
             m_vbox->addWidget(posedit);
             m_valueItems[paramName+"position"] = posedit;
             connect(posedit, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
@@ -432,8 +442,8 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             kval->comboboxwidget->model()->setData( kval->comboboxwidget->model()->index(0,0), QVariant(Qt::NoItemFlags), Qt::UserRole -1);
             kval->comboboxwidget->setCurrentIndex(0);
             m_valueItems[paramName] = kval;
-            connect(kval->lineeditwidget, SIGNAL(editingFinished()) , this, SLOT(collectAllParameters()));
-            connect(kval->comboboxwidget, SIGNAL(activated (const QString&)), this, SLOT(collectAllParameters()));
+            connect(kval->lineeditwidget, SIGNAL(editingFinished()) , this, SLOT(slotCollectAllParameters()));
+            connect(kval->comboboxwidget, SIGNAL(activated (const QString&)), this, SLOT(slotCollectAllParameters()));
             m_uiItems.append(kval);
         } else if (type == "fontfamily") {
             Fontval* fval = new Fontval;
@@ -441,7 +451,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             fval->name->setText(paramName);
             fval->fontfamilywidget->setCurrentFont(QFont(value));
             m_valueItems[paramName] = fval;
-            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(collectAllParameters())) ;
+            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotCollectAllParameters())) ;
             m_uiItems.append(fval);
         } else if (type == "filterjob") {
 	    QVBoxLayout *l= new QVBoxLayout(toFillin);
@@ -806,8 +816,29 @@ void ParameterContainer::slotStartFilterJobAction()
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute("type");
         if (type == "filterjob") {
-            emit startFilterJob(pa.attribute("filtertag"), pa.attribute("filterparams"), pa.attribute("finalfilter"), pa.attribute("consumer"), pa.attribute("consumerparams"), pa.attribute("wantedproperties"));
-            kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< pa.attribute("filterparams")<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("wantedproperties");
+	    QString filterparams = pa.attribute("filterparams");
+	    if (filterparams.contains("%position")) {
+		if (m_geometryWidget) filterparams.replace("%position", QString::number(m_geometryWidget->currentPosition()));
+	    }
+	    if (filterparams.contains("%params")) {
+		// Replace with current geometry
+		EffectsParameterList parameters;
+		QDomNodeList params = m_effect.elementsByTagName("parameter");
+		CustomTrackView::adjustEffectParameters(parameters, params, m_metaInfo->profile);
+		QString paramData;
+		for (int j = 0; j < parameters.count(); j++)
+		    paramData.append(parameters.at(j).name()+"="+parameters.at(j).value()+" ");
+		filterparams.replace("%params", paramData);
+	    }
+	    QMap <QString, QString> extraParams;
+	    QDomNodeList jobparams = pa.elementsByTagName("jobparam");
+	    for (int j = 0; j < jobparams.count(); j++) {
+                QDomElement e = jobparams.item(j).toElement();
+		extraParams.insert(e.attribute("name"), e.text().toUtf8());
+	    }
+	    extraParams.insert("offset", QString::number(m_in));
+            emit startFilterJob(pa.attribute("filtertag"), filterparams, pa.attribute("consumer"), pa.attribute("consumerparams"), extraParams);
+            kDebug()<<" - - -PROPS:\n"<<pa.attribute("filtertag")<<"-"<< filterparams<<"-"<< pa.attribute("consumer")<<"-"<< pa.attribute("consumerparams")<<"-"<< pa.attribute("extraparams");
             break;
         }
     }
@@ -833,3 +864,22 @@ bool ParameterContainer::needsMonitorEffectScene() const
 {
     return m_needsMonitorEffectScene;
 }
+
+void ParameterContainer::setKeyframes(const QString &data, int maximum)
+{
+    if (!m_geometryWidget) {
+	kDebug()<<" / / NO GEOMETRY WIDGET FOUND FOR IMPORTING DATA";
+	return;
+    }
+    m_geometryWidget->importKeyframes(data, maximum);
+    
+}
+
+void ParameterContainer::setRange(int inPoint, int outPoint)
+{
+    m_in = inPoint;
+    m_out = outPoint;
+    emit updateRange(m_in, m_out);
+}
+
+

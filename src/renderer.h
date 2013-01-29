@@ -44,6 +44,7 @@
 #include <QEvent>
 #include <QMutex>
 #include <QFuture>
+#include <QSemaphore>
 
 class QTimer;
 class QPixmap;
@@ -159,6 +160,9 @@ Q_OBJECT public:
     /** @brief Save a clip in timeline to an xml playlist. */
     bool saveClip(int track, GenTime position, KUrl url, QString desc = QString());
 
+    /** @brief Return true if we are currently playing */
+    bool isPlaying() const;
+
     /** @brief Returns the speed at which the renderer is currently playing.
      *
      * It returns 0.0 when the renderer is not playing anything. */
@@ -170,7 +174,7 @@ Q_OBJECT public:
 
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber();
-    void emitConsumerStopped();
+    void emitConsumerStopped(bool forcePause = false);
 
     /** @brief Returns the aspect ratio of the consumer. */
     double consumerRatio() const;
@@ -199,6 +203,10 @@ Q_OBJECT public:
     double dar() const;
     /** @brief Returns sample aspect ratio. */
     double sar() const;
+    /** @brief If monitor is active, refresh it. */
+    void refreshIfActive();
+    /** @brief Start the MLT monitor consumer. */
+    void startConsumer();
 
     /*
      * Playlist manipulation.
@@ -206,14 +214,14 @@ Q_OBJECT public:
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
     int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false);
     bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
-    void mltCutClip(int track, GenTime position);
+    bool mltCutClip(int track, GenTime position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
 
     /** @brief Returns the duration/length of @param track as reported by the track producer. */
     int mltTrackDuration(int track);
 
-    bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration);
+    bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh = true);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod, bool overwrite = false, bool insert = false);
@@ -287,7 +295,6 @@ Q_OBJECT public:
     void updatePreviewSettings();
     void setDropFrames(bool show);
     QString updateSceneListFps(double current_fps, double new_fps, QString scene);
-    void showFrame(Mlt::Frame&);
 
     void showAudio(Mlt::Frame&);
     
@@ -298,6 +305,8 @@ Q_OBJECT public:
     Mlt::Producer *getProducer();
     /** @brief Returns the number of clips to process (When requesting clip info). */
     int processingItems();
+    /** @brief Processing of this clip is over, producer was set on clip, remove from list. */
+    void processingDone(const QString &id);
     /** @brief Force processing of clip with selected id. */
     void forceProcessing(const QString &id);
     /** @brief Are we currently processing clip with selected id. */
@@ -316,11 +325,26 @@ Q_OBJECT public:
     void unlockService(Mlt::Tractor *tractor);
     const QString activeClipId();
     /** @brief Fill a combobox with the found blackmagic devices */
-    static bool getBlackMagicDeviceList(KComboBox *devicelist);
-    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist);
+    static bool getBlackMagicDeviceList(KComboBox *devicelist, bool force = false);
+    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
     /** @brief Frame rendering is handeled by Kdenlive, don't show video through SDL display */
     void disablePreview(bool disable);
+    /** @brief Get current seek pos requested of SEEK_INACTIVE if we are not currently seeking */
+    int requestedSeekPosition;
+    /** @brief Get current seek pos requested of current producer pos if not seeking */
+    int getCurrentSeekPosition() const;
+    /** @brief Create a producer from url and load it in the monitor  */
+    void loadUrl(const QString &url);
+    /** @brief Check if the installed FFmpeg / Libav supports x11grab */
+    static bool checkX11Grab();
+    
+    QSemaphore showFrameSemaphore;
+    bool externalConsumer;
 
+protected:
+    static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    
 private:
 
     /** @brief The name of this renderer.
@@ -334,7 +358,6 @@ private:
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
     double m_fps;
-    bool m_externalConsumer;
 
     /** @brief True if we are playing a zone.
      *
@@ -343,7 +366,6 @@ private:
     bool m_isZoneMode;
     bool m_isLoopMode;
     GenTime m_loopStart;
-    int m_originalOut;
 
     /** @brief True when the monitor is in split view. */
     bool m_isSplitView;
@@ -362,14 +384,15 @@ private:
     QLocale m_locale;
     QFuture <void> m_infoThread;
     QList <requestClipInfo> m_requestList;
+    bool m_paused;
 
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
-    /** @brief The id of the clip that is currently being loaded for info query */
-    QString m_processingClipId;
+    /** @brief The ids of the clips that are currently being loaded for info query */
+    QStringList m_processingClipId;
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
@@ -392,6 +415,10 @@ private slots:
     void slotOsdTimeout();
     /** @brief Process the clip info requests (in a separate thread). */
     void processFileProperties();
+    /** @brief A clip with multiple video streams was found, ask what to do. */
+    void slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data);
+    void showFrame(Mlt::Frame *);
+    void slotCheckSeeking();
 
 signals:
 
@@ -426,13 +453,18 @@ signals:
     void refreshDocumentProducers(bool displayRatioChanged, bool fpsChanged);
     /** @brief A proxy clip is missing, ask for creation. */
     void requestProxy(QString);
+    /** @brief A multiple stream clip was found. */
+    void multiStreamFound(const QString &,QList<int>,QList<int>,stringMap data);
 
 
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
-    void showAudioSignal(const QByteArray &);
+    void showAudioSignal(const QVector<double> &);
+    void addClip(const KUrl &, stringMap);
+    void checkSeeking();
+    void mltFrameReceived(Mlt::Frame *);
 
 public slots:
 

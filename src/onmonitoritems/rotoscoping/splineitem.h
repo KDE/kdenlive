@@ -30,7 +30,7 @@ class SplineItem : public QObject, public QGraphicsPathItem
     Q_OBJECT
 
 public:
-    SplineItem(const QList <BPoint> &points, QGraphicsItem* parent = 0, QGraphicsScene *scene = 0);
+    explicit SplineItem(const QList <BPoint> &points, QGraphicsItem* parent = 0, QGraphicsScene *scene = 0);
 
     enum { Type = UserType + 10 };
 

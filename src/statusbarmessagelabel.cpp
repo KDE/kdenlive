@@ -135,7 +135,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
 
             // If we only have the default message left to show in the queue,
             // keep the current one for a little longer.
-            m_queueTimer.start(m_currentMessage.timeoutMillis + 2000*(m_messageQueue.at(0).type == DefaultMessage));
+            m_queueTimer.start(m_currentMessage.timeoutMillis + 4000*(m_messageQueue.at(0).type == DefaultMessage));
 
         }
     }

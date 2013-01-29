@@ -126,7 +126,7 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
         doubleparam->setInTimelineProperty(true);
     }
 
-    QStringList frames = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+    QStringList frames = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
     for (int i = 0; i < frames.count(); i++) {
         int frame = frames.at(i).section(':', 0, 0).toInt();
         bool found = false;
@@ -334,7 +334,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
         max = getPos(below->row()) - 1;
 
     m_position->blockSignals(true);
-    m_position->setRange(min, max);
+    m_position->setRange(min, max, true);
     m_position->setPosition(getPos(item->row()));
     m_position->blockSignals(false);
 
@@ -463,12 +463,18 @@ void KeyframeEdit::checkVisibleParam()
     if (m_params.count() == 0)
         return;
     
-    foreach(QDomElement elem, m_params) {
+    foreach(const QDomElement &elem, m_params) {
         if (elem.attribute("intimeline") == "1")
             return;
     }
 
     slotUpdateVisibleParameter(0);
+}
+
+void KeyframeEdit::slotUpdateRange(int inPoint, int outPoint)
+{
+    m_min = inPoint;
+    m_max = outPoint;
 }
 
 #include "keyframeedit.moc"

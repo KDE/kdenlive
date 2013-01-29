@@ -276,6 +276,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, MltVi
     m_view.splitter->setStretchFactor(0, 2);
 
     m_view.out_file->setMode(KFile::File);
+    m_view.out_file->setFocusPolicy(Qt::ClickFocus);
 
     m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
     m_jobsDelegate = new RenderViewDelegate(this);
@@ -459,7 +460,7 @@ void RenderWidget::slotSaveProfile()
     if (customGroup.isEmpty()) customGroup = i18nc("Group Name", "Custom");
     ui.group_name->setText(customGroup);
 
-    QStringList arguments = m_view.advanced_params->toPlainText().split(" ", QString::SkipEmptyParts);
+    QStringList arguments = m_view.advanced_params->toPlainText().split(' ', QString::SkipEmptyParts);
     ui.parameters->setText(arguments.join(" "));
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
@@ -843,7 +844,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     QString extension = item->data(ExtensionRole).toString();
     if (!dest.endsWith(extension, Qt::CaseInsensitive)) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", extension)) == KMessageBox::Yes) {
-            dest.append("." + extension);
+            dest.append('.' + extension);
         }
     }
 
@@ -952,7 +953,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         renderArgs.append(subsize);
     }
     bool resizeProfile = (subsize != currentSize);
-    QStringList paramsList = renderArgs.split(" ", QString::SkipEmptyParts);
+    QStringList paramsList = renderArgs.split(' ', QString::SkipEmptyParts);
 
     QScriptEngine sEngine;
     sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText());
@@ -979,6 +980,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         render_process_args << "consumer:" + (scriptExport ? "$SOURCE" : playlistPath);
     else
         render_process_args <<  (scriptExport ? "$SOURCE" : playlistPath);
+
     render_process_args << (scriptExport ? "$TARGET" : KUrl(dest).url());
     render_process_args << paramsList;
 
@@ -1108,7 +1110,7 @@ void RenderWidget::checkRenderStatus()
     item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     bool waitingJob = false;
     
-    // Find first aiting job
+    // Find first waiting job
     while (item) {
         if (item->status() == WAITINGJOB) {
             item->setData(1, TimeRole, QTime::currentTime());
@@ -1240,9 +1242,14 @@ void RenderWidget::refreshView()
     KIcon brokenIcon("dialog-close");
     KIcon warningIcon("dialog-warning");
 
-    const QStringList formatsList = KdenliveSettings::supportedformats();
-    const QStringList vcodecsList = KdenliveSettings::videocodecs();
-    const QStringList acodecsList = KdenliveSettings::audiocodecs();
+    QStringList formatsList;
+    QStringList vcodecsList;
+    QStringList acodecsList;
+    if (!KdenliveSettings::bypasscodeccheck()) {
+	formatsList= KdenliveSettings::supportedformats();
+	vcodecsList = KdenliveSettings::videocodecs();
+	acodecsList = KdenliveSettings::audiocodecs();
+    }
 
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
@@ -1426,7 +1433,7 @@ void RenderWidget::refreshParams()
         m_view.bitrateLabel->setEnabled(true);
         if ( item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(BitratesRole).toStringList();
-            foreach (QString bitrate, bitrates)
+            foreach (const QString &bitrate, bitrates)
                 m_view.comboBitrates->addItem(bitrate);
             if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
                 m_view.comboBitrates->setCurrentIndex(bitrates.indexOf(item->data(DefaultBitrateRole).toString()));
@@ -1443,7 +1450,7 @@ void RenderWidget::refreshParams()
         m_view.audiobitrateLabel->setEnabled(true);
         if ( item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
             QStringList audiobitrates = item->data(AudioBitratesRole).toStringList();
-            foreach (QString bitrate, audiobitrates)
+            foreach (const QString &bitrate, audiobitrates)
                 m_view.comboAudioBitrates->addItem(bitrate);
             if (item->data(DefaultAudioBitrateRole).canConvert(QVariant::String))
                 m_view.comboAudioBitrates->setCurrentIndex(audiobitrates.indexOf(item->data(DefaultAudioBitrateRole).toString()));
@@ -1543,7 +1550,6 @@ void RenderWidget::parseFile(QString exportFile, bool editable)
     if (acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
     bool replaceLibfaacCodec = false;
     if (!acodecsList.contains("aac") && acodecsList.contains("libfaac")) replaceLibfaacCodec = true;
-
 
     if (editable || groups.count() == 0) {
         QDomElement profiles = doc.documentElement();
@@ -1794,7 +1800,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         item->setData(1, Qt::UserRole, t);
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == "dvd") {
-            emit openDvdWizard(item->text(1), item->metadata());
+            emit openDvdWizard(item->text(1));
         } else if (itemGroup == "websites") {
             QString url = item->metadata();
             if (!url.isEmpty()) new KRun(url, this);
@@ -1893,7 +1899,7 @@ void RenderWidget::parseScriptFiles()
             QTextStream stream(&file);
             while (!stream.atEnd()) {
                 QString line = stream.readLine();
-                kDebug()<<"# :"<<line;
+                //kDebug()<<"# :"<<line;
                 if (line.startsWith("TARGET=")) {
                     target = line.section("TARGET=\"", 1);
                     target = target.section('"', 0, 0);
@@ -1908,7 +1914,7 @@ void RenderWidget::parseScriptFiles()
             file.close();
         }
         if (target.isEmpty()) continue;
-        kDebug()<<"ScRIPT RENDERER: "<<renderer<<"\n++++++++++++++++++++++++++";
+        //kDebug()<<"ScRIPT RENDERER: "<<renderer<<"\n++++++++++++++++++++++++++";
         item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
         if (!renderer.isEmpty() && renderer.contains('/') && !QFile::exists(renderer)) {
             item->setIcon(0, KIcon("dialog-cancel"));
@@ -2070,7 +2076,7 @@ void RenderWidget::setRenderProfile(QMap <QString, QString> props)
 bool RenderWidget::startWaitingRenderJobs()
 {
     m_blockProcessing = true;
-    QString autoscriptFile = getFreeScriptName("auto");
+    QString autoscriptFile = getFreeScriptName(KUrl(), "auto");
     QFile file(autoscriptFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << autoscriptFile;
@@ -2108,15 +2114,18 @@ bool RenderWidget::startWaitingRenderJobs()
     return true;
 }
 
-QString RenderWidget::getFreeScriptName(const QString &prefix)
+QString RenderWidget::getFreeScriptName(const KUrl &projectName, const QString &prefix)
 {
     int ix = 0;
     QString scriptsFolder = m_projectFolder + "scripts/";
     KStandardDirs::makeDir(scriptsFolder);
     QString path;
+    QString fileName;
+    if (projectName.isEmpty()) fileName = i18n("script");
+    else fileName = projectName.fileName().section('.', 0, -2) + "_";
     while (path.isEmpty() || QFile::exists(path)) {
         ix++;
-        path = scriptsFolder + prefix + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+        path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + ".sh";
     }
     return path;
 }
@@ -2144,7 +2153,12 @@ void RenderWidget::errorMessage(const QString &message)
 #if KDE_IS_VERSION(4,7,0)
         m_infoMessage->setMessageType(KMessageWidget::Warning);
         m_infoMessage->setText(message);
+#if KDE_IS_VERSION(4,10,0)
         m_infoMessage->animatedShow();
+#else
+	// Workaround KDE bug in KMessageWidget
+	QTimer::singleShot(0, m_infoMessage, SLOT(animatedShow()));
+#endif
 #else
         m_view.errorLabel->setText(message);
         m_view.errorBox->setHidden(false);
@@ -2152,7 +2166,11 @@ void RenderWidget::errorMessage(const QString &message)
     }
     else {
 #if KDE_IS_VERSION(4,7,0)
+#if KDE_IS_VERSION(4,10,0)
         m_infoMessage->animatedHide();
+#else
+	QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
+#endif
 #else
         m_view.errorBox->setHidden(true);
         m_view.errorLabel->setText(QString());
@@ -2226,5 +2244,22 @@ void RenderWidget::setRescaleEnabled(bool enable)
     for (int i = 0; i < m_view.rescale_box->layout()->count(); i++) {
         if (m_view.rescale_box->itemAt(i)->widget()) m_view.rescale_box->itemAt(i)->widget()->setEnabled(enable);
     }   
+}
+
+void RenderWidget::keyPressEvent(QKeyEvent *e) {
+    if(e->key()==Qt::Key_Return || e->key()==Qt::Key_Enter) {
+	switch (m_view.tabWidget->currentIndex()) {
+	  case 1:
+	    if (m_view.start_job->isEnabled()) slotStartCurrentJob();
+	    break;
+	  case 2:
+	    if (m_view.start_script->isEnabled()) slotStartScript();
+	    break;
+	  default:
+	    if (m_view.buttonRender->isEnabled()) slotPrepareExport();
+	    break;
+	}
+    }
+    else QDialog::keyPressEvent(e);
 }
 

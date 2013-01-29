@@ -59,9 +59,9 @@ bool AbstractMonitor::isActive() const
     return m_monitorManager->isActive(m_id);
 }
 
-bool AbstractMonitor::slotActivateMonitor()
+bool AbstractMonitor::slotActivateMonitor(bool forceRefresh)
 {
-    return m_monitorManager->activateMonitor(m_id);
+    return m_monitorManager->activateMonitor(m_id, forceRefresh);
 }
 
 VideoContainer::VideoContainer(AbstractMonitor* monitor, QWidget *parent) :
@@ -169,7 +169,7 @@ VideoSurface::VideoSurface(QWidget* parent) :
     setAttribute(Qt::WA_OpaquePaintEvent);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setAttribute(Qt::WA_NoSystemBackground);
-    setUpdatesEnabled(false);
+    //setUpdatesEnabled(false);
 }
 
 void VideoSurface::paintEvent(QPaintEvent *event)

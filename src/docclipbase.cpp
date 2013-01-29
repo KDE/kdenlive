@@ -32,20 +32,23 @@
 
 #include <KIO/NetAccess>
 #include <KStandardDirs>
+#include <KApplication>
 #include <KDebug>
 
 #include <QCryptographicHash>
 #include <QtConcurrentRun>
 
 #include <cstdio>
+#include <kmessagebox.h>
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id) :
         QObject(),
-        m_audioFrameCache(),
+        lastSeekPosition(0),
+        audioFrameCache(),
         m_refcount(0),
         m_baseTrackProducers(),
+        m_videoTrackProducers(),
         m_audioTrackProducers(),
-        m_videoOnlyProducer(NULL),
         m_snapMarkers(QList < CommentedTime >()),
         m_duration(),
         m_thumbProd(NULL),
@@ -66,11 +69,17 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     }
 
     if (xml.hasAttribute("cutzones")) {
-        QStringList cuts = xml.attribute("cutzones").split(";", QString::SkipEmptyParts);
+        QStringList cuts = xml.attribute("cutzones").split(';', QString::SkipEmptyParts);
         for (int i = 0; i < cuts.count(); i++) {
             QString z = cuts.at(i);
             addCutZone(z.section('-', 0, 0).toInt(), z.section('-', 1, 1).toInt(), z.section('-', 2, 2));
         }
+    }
+
+    if (xml.hasAttribute("analysisdata")) {
+	QStringList adata = xml.attribute("analysisdata").split('#', QString::SkipEmptyParts);
+	for (int i = 0; i < adata.count(); i++)
+	    m_analysisdata.insert(adata.at(i).section('?', 0, 0), adata.at(i).section('?', 1, 1));
     }
 
     KUrl url = KUrl(xml.attribute("resource"));
@@ -81,7 +90,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     } else {
         int out = xml.attribute("out").toInt();
         int in = xml.attribute("in").toInt();
-        setDuration(GenTime(out - in, KdenliveSettings::project_fps()));
+	if (out > in) setDuration(GenTime(out - in + 1, KdenliveSettings::project_fps()));
     }
 
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
@@ -106,8 +115,8 @@ DocClipBase::~DocClipBase()
     m_baseTrackProducers.clear();
     qDeleteAll(m_audioTrackProducers);
     m_audioTrackProducers.clear();
-    delete m_videoOnlyProducer;
-    m_videoOnlyProducer = NULL;
+    qDeleteAll(m_videoTrackProducers);
+    m_videoTrackProducers.clear();
 }
 
 void DocClipBase::setZone(QPoint zone)
@@ -131,7 +140,7 @@ bool DocClipBase::hasAudioThumb() const
 
 void DocClipBase::slotClearAudioCache()
 {
-    m_audioFrameCache.clear();
+    audioFrameCache.clear();
     m_audioThumbCreated = false;
 }
 
@@ -243,8 +252,13 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
     QMapIterator<QString, QString> i(m_properties);
     while (i.hasNext()) {
         i.next();
-        if (hideTemporaryProperties && i.key().startsWith("_")) continue;
+        if (hideTemporaryProperties && i.key().startsWith('_')) continue;
         if (!i.value().isEmpty()) clip.setAttribute(i.key(), i.value());
+    }
+    QMapIterator<QString, QString> j(m_metadata);
+    while (j.hasNext()) {
+        j.next();
+        if (!j.value().isEmpty()) clip.setAttribute("meta.attr." + j.key(), j.value());
     }
     doc.appendChild(clip);
     if (!m_cutZones.isEmpty()) {
@@ -255,6 +269,16 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
         }
         clip.setAttribute("cutzones", cuts.join(";"));
     }
+    QString adata;
+    if (!m_analysisdata.isEmpty()) {
+	QMapIterator<QString, QString> i(m_analysisdata);
+	while (i.hasNext()) {
+	    i.next();
+	    //WARNING: a ? and # separator is not a good idea
+	    adata.append(i.key() + "?" + i.value() + "#");
+	}
+    }
+    clip.setAttribute("analysisdata", adata);
     //kDebug() << "/// CLIP XML: " << doc.toString();
     return doc.documentElement();
 }
@@ -268,7 +292,7 @@ void DocClipBase::setAudioThumbCreated(bool isDone)
 void DocClipBase::updateAudioThumbnail(const audioByteArray& data)
 {
     //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
-    m_audioFrameCache = data;
+    audioFrameCache = data;
     m_audioThumbCreated = true;
     emit gotAudioData();
 }
@@ -276,7 +300,6 @@ void DocClipBase::updateAudioThumbnail(const audioByteArray& data)
 QList < GenTime > DocClipBase::snapMarkers() const
 {
     QList < GenTime > markers;
-
     for (int count = 0; count < m_snapMarkers.count(); ++count) {
         markers.append(m_snapMarkers.at(count).time());
     }
@@ -290,22 +313,21 @@ QList < CommentedTime > DocClipBase::commentedSnapMarkers() const
 }
 
 
-void DocClipBase::addSnapMarker(const GenTime & time, QString comment)
+void DocClipBase::addSnapMarker(const CommentedTime marker)
 {
     QList < CommentedTime >::Iterator it = m_snapMarkers.begin();
     for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {
-        if ((*it).time() >= time)
+        if ((*it).time() >= marker.time())
             break;
     }
 
-    if ((it != m_snapMarkers.end()) && ((*it).time() == time)) {
-        (*it).setComment(comment);
+    if ((it != m_snapMarkers.end()) && ((*it).time() == marker.time())) {
+        (*it).setComment(marker.comment());
+	(*it).setMarkerType(marker.markerType());
         //kError() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
     } else {
-        CommentedTime t(time, comment);
-        m_snapMarkers.insert(it, t);
+        m_snapMarkers.insert(it, marker);
     }
-
 }
 
 void DocClipBase::editSnapMarker(const GenTime & time, QString comment)
@@ -378,16 +400,26 @@ GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime)
     return duration();
 }
 
-QString DocClipBase::markerComment(GenTime t)
+QString DocClipBase::markerComment(GenTime t) const
 {
-    QList < CommentedTime >::Iterator itt = m_snapMarkers.begin();
-
+    QList < CommentedTime >::ConstIterator itt = m_snapMarkers.begin();
     while (itt != m_snapMarkers.end()) {
         if ((*itt).time() == t)
             return (*itt).comment();
         ++itt;
     }
     return QString();
+}
+
+CommentedTime DocClipBase::markerAt(GenTime t) const
+{
+    QList < CommentedTime >::ConstIterator itt = m_snapMarkers.begin();
+    while (itt != m_snapMarkers.end()) {
+        if ((*itt).time() == t)
+            return (*itt);
+        ++itt;
+    }
+    return CommentedTime();
 }
 
 void DocClipBase::clearThumbProducer()
@@ -405,24 +437,26 @@ void DocClipBase::deleteProducers()
 {
     if (m_thumbProd) m_thumbProd->clearProducer();
     
-    if (numReferences() > 0 && (!m_baseTrackProducers.isEmpty() || m_videoOnlyProducer || !m_audioTrackProducers.isEmpty())) {
+    if (numReferences() > 0 && (!m_baseTrackProducers.isEmpty() || !m_videoTrackProducers.isEmpty() || !m_audioTrackProducers.isEmpty())) {
         // Clip is used in timeline, delay producers deletion
-        if (m_videoOnlyProducer) m_toDeleteProducers.append(m_videoOnlyProducer);
         for (int i = 0; i < m_baseTrackProducers.count(); i++) {
             m_toDeleteProducers.append(m_baseTrackProducers.at(i));
+        }
+        for (int i = 0; i < m_videoTrackProducers.count(); i++) {
+            m_toDeleteProducers.append(m_videoTrackProducers.at(i));
         }
         for (int i = 0; i < m_audioTrackProducers.count(); i++) {
             m_toDeleteProducers.append(m_audioTrackProducers.at(i));
         }
     }
     else {
-        delete m_videoOnlyProducer;
         qDeleteAll(m_baseTrackProducers);
+	qDeleteAll(m_videoTrackProducers);
         qDeleteAll(m_audioTrackProducers);
         m_replaceMutex.unlock();
     }
-    m_videoOnlyProducer = NULL;
     m_baseTrackProducers.clear();
+    m_videoTrackProducers.clear();
     m_audioTrackProducers.clear();
 }
 
@@ -501,8 +535,16 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             else delete producer;
             return;
         } else if (id.endsWith("video")) {
-            if (m_videoOnlyProducer == NULL) {
-                m_videoOnlyProducer = producer;
+	    int pos = 0;
+	    // Keep compatibility with older projects where video only producers were not track specific
+	    if (id.contains('_')) pos = id.section('_', 0, 0).toInt();
+            if (pos >= m_videoTrackProducers.count()) {
+                while (m_videoTrackProducers.count() - 1 < pos) {
+                    m_videoTrackProducers.append(NULL);
+                }
+            }
+            if (m_videoTrackProducers.at(pos) == NULL) {
+                m_videoTrackProducers[pos] = producer;
                 updated = true;
             }
             else delete producer;
@@ -598,18 +640,33 @@ void DocClipBase::adjustProducerProperties(Mlt::Producer *prod, const QString &i
 
 }
 
-Mlt::Producer *DocClipBase::videoProducer()
+Mlt::Producer *DocClipBase::videoProducer(int track)
 {
     QMutexLocker locker(&m_producerMutex);
-    if (m_videoOnlyProducer == NULL) {
-        int i;
-        for (i = 0; i < m_baseTrackProducers.count(); i++)
-            if (m_baseTrackProducers.at(i) != NULL) break;
-        if (i >= m_baseTrackProducers.count()) return NULL;
-        m_videoOnlyProducer = cloneProducer(m_baseTrackProducers.at(i));
-        adjustProducerProperties(m_videoOnlyProducer, QString(getId() + "_video"), true, false);
+    if (m_videoTrackProducers.count() <= track) {
+        while (m_videoTrackProducers.count() - 1 < track) {
+            m_videoTrackProducers.append(NULL);
+        }
     }
-    return m_videoOnlyProducer;
+    if (m_videoTrackProducers.at(track) == NULL) {
+        int i;
+        for (i = 0; i < m_videoTrackProducers.count(); i++)
+            if (m_videoTrackProducers.at(i) != NULL) break;
+        Mlt::Producer *base;
+        if (i >= m_videoTrackProducers.count()) {
+            // Could not find a valid producer for that clip
+            locker.unlock();
+            base = getProducer();
+            if (base == NULL) {
+                return NULL;
+            }
+            locker.relock();
+        }
+        else base = m_videoTrackProducers.at(i);
+        m_videoTrackProducers[track] = cloneProducer(base);
+        adjustProducerProperties(m_videoTrackProducers.at(track), QString(getId() + '_' + QString::number(track) + "_video"), true, false);
+    }
+    return m_videoTrackProducers.at(track);
 }
 
 Mlt::Producer *DocClipBase::getCloneProducer()
@@ -647,6 +704,9 @@ Mlt::Producer *DocClipBase::getCloneProducer()
             if (m_properties.contains("duration")) prod->set("length", m_properties.value("duration").toInt());
             if (m_properties.contains("out"))prod->set("out", m_properties.value("out").toInt());
         }
+        if (m_clipType == AUDIO) {
+	    prod->set("_audioclip", 1);
+	}
     }
     return prod;
 }
@@ -692,6 +752,10 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
 {
     Mlt::Producer *result = NULL;
     QString url = QString::fromUtf8(source->get("resource"));
+    if (url == "<playlist>" || url == "<tractor>" || url == "<producer>") {
+	// Xml producer sometimes loses the correct url
+	url = m_properties.value("resource");
+    }
     if (m_clipType == SLIDESHOW || KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
         result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());
     }
@@ -1025,8 +1089,10 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     if (key == "resource") {
         getFileHash(value);
         if (m_thumbProd) m_thumbProd->updateClipUrl(KUrl(value), m_properties.value("file_hash"));
-    } else if (key == "out") setDuration(GenTime(value.toInt(), KdenliveSettings::project_fps()));
     //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
+    } else if (key == "out") {
+	setDuration(GenTime(value.toInt() + 1, KdenliveSettings::project_fps()));
+    }
     else if (key == "colour") {
         setProducerProperty("colour", value.toUtf8().data());
     } else if (key == "templatetext") {
@@ -1218,4 +1284,60 @@ QImage DocClipBase::extractImage(int frame, int width, int height)
     return m_thumbProd->extractImage(frame, width, height);
 }
 
+void DocClipBase::setAnalysisData(const QString &name, const QString &data, int offset)
+{
+    if (data.isEmpty()) m_analysisdata.remove(name);
+    else {
+	if (m_analysisdata.contains(name)) {
+	    if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
+		// Merge data
+		Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
+		Mlt::Geometry geometry(m_analysisdata.value(name).toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
+		Mlt::Geometry newGeometry(data.toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
+		Mlt::GeometryItem item;
+		int pos = 0;
+		while (!newGeometry.next_key(&item, pos)) {
+		    pos = item.frame();
+		    item.frame(pos + offset);
+		    pos++;
+		    geometry.insert(item);
+		}
+		m_analysisdata.insert(name, geometry.serialise());
+	    }
+	    else {
+		// Add data with another name
+		int i = 1;
+		QString newname = name + " " + QString::number(i);
+		while (m_analysisdata.contains(newname)) {
+		    i++;
+		    newname = name + " " + QString::number(i);
+		}
+		m_analysisdata.insert(newname, geometryWithOffset(data, offset));
+	    }
+	}
+	else m_analysisdata.insert(name, geometryWithOffset(data, offset));
+    }
+}
+
+const QString DocClipBase::geometryWithOffset(QString data, int offset)
+{
+    if (offset == 0) return data;
+    Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
+    Mlt::Geometry geometry(data.toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
+    Mlt::Geometry newgeometry(NULL, m_properties.value("duration").toInt(), profile->width(), profile->height());
+    Mlt::GeometryItem item;
+    int pos = 0;
+    while (!geometry.next_key(&item, pos)) {
+	pos = item.frame();
+	item.frame(pos + offset);
+	pos++;
+	newgeometry.insert(item);
+    }
+    return newgeometry.serialise();
+}
+
+QMap <QString, QString> DocClipBase::analysisData() const
+{
+    return m_analysisdata;
+}
 

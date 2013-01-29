@@ -38,6 +38,7 @@
 #include <KDirWatch>
 #include <klocale.h>
 #include <kdeversion.h>
+#include <KIO/CopyJob>
 
 #if KDE_IS_VERSION(4,5,0)
 #include <KImageCache>
@@ -51,6 +52,21 @@
 class KdenliveDoc;
 class DocClipBase;
 class AbstractGroupItem;
+
+
+class SolidVolumeInfo
+{
+
+public:
+
+    QString path; // mount path of volume, with trailing slash
+    QString uuid; // UUID as from Solid
+    QString label; // volume label (think of CDs)
+    bool isRemovable; // may be removed
+    bool isMounted;
+
+    bool isNull() const { return path.isNull(); }
+};
 
 namespace Mlt
 {
@@ -72,14 +88,14 @@ Q_OBJECT public:
      * @param url file to add
      * @param group name of the group to insert the file in (can be empty)
      * @param groupId id of the group (if any) */
-    void slotAddClipFile(const KUrl &url, const QString &group, const QString &groupId, const QString &comment = QString());
+    void slotAddClipFile(const KUrl &url, QMap <QString, QString> data);
 
     /** @brief Adds a list of files to the project.
      * @param urls files to add
      * @param group name of the group to insert the files in (can be empty)
      * @param groupId id of the group (if any)
      * It checks for duplicated items and asks to the user for instructions. */
-    void slotAddClipList(const KUrl::List urls, const QString &group, const QString &groupId, const QString &comment = QString());
+    void slotAddClipList(const KUrl::List urls, QMap <QString, QString> data);
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const KUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
@@ -107,15 +123,18 @@ Q_OBJECT public:
     void removeGroup(AbstractGroupItem *group);
     QDomElement groupsXml() const;
     int clipsCount() const;
-    /** @brief Request creation of a clip thumbnail for specified frames. */
-    void requestThumbs(const QString id, QList <int> frames);
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
+    void projectTreeThumbReady(const QString &id, int frame, QImage img, int type);
 
 #if KDE_IS_VERSION(4,5,0)
     KImageCache* pixmapCache;
 #endif
 
+public slots:
+    /** @brief Request creation of a clip thumbnail for specified frames. */
+    void slotRequestThumbs(const QString id, QList <int> frames);
+    
 private slots:
     /** A clip was externally modified, monitor for more changes and prepare for reload */
     void slotClipModified(const QString &path);
@@ -125,6 +144,8 @@ private slots:
     void slotProcessModifiedClips();
     void slotGetThumbs();
     void slotGetAudioThumbs();
+    /** @brief Clip has been copied, add it now. */
+    void slotAddClip(KIO::Job *job, const KUrl &, const KUrl &dst);
 
 private:   // Private attributes
     /** the list of clips in the document */
@@ -157,6 +178,15 @@ private:   // Private attributes
     bool m_abortAudioThumb;
     /** @brief The id of currently processed clip for audio thumbs creation. */
     QString m_processingAudioThumbId;
+    /** @brief The list of removable drives. */
+    QList<SolidVolumeInfo> m_removableVolumes;
+
+    QPoint m_projectTreeThumbSize;
+    
+    /** @brief Get a list of drives, to check if we have files on removable media. */
+    void listRemovableVolumes();
+    /** @brief Check if added file is on a removable drive. */
+    bool isOnRemovableDevice(const KUrl &url);
 
 signals:
     void reloadClip(const QString &);
@@ -165,6 +195,8 @@ signals:
     void availableClip(const QString &);
     void checkAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
     void displayMessage(const QString &, int);
+    void thumbReady(const QString &id, int, QImage);
+    void gotClipPropertyThumbnail(const QString &id, QImage);
 };
 
 #endif

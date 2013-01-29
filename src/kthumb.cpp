@@ -66,7 +66,7 @@ void KThumb::setProducer(Mlt::Producer *producer)
     if (m_producer) m_clipManager->stopThumbs(m_id);
     m_intraFramesQueue.clear();
     m_intra.waitForFinished();
-    m_mutex.lock();
+    QMutexLocker lock(&m_mutex);
     m_producer = producer;
     // FIXME: the profile() call leaks an object, but trying to free
     // it leads to a double-free in Profile::~Profile()
@@ -75,7 +75,6 @@ void KThumb::setProducer(Mlt::Producer *producer)
         m_dar = profile->dar();
         m_ratio = (double) profile->width() / profile->height();
     }
-    m_mutex.unlock();
 }
 
 void KThumb::clearProducer()
@@ -109,25 +108,32 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
 void KThumb::extractImage(QList <int>frames)
 {
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
-    m_clipManager->requestThumbs(m_id, frames);
+    m_clipManager->slotRequestThumbs(m_id, frames);
 }
 
 
 void KThumb::getThumb(int frame)
 {
-    const int theight = KdenliveSettings::trackheight();
+    const int theight = Kdenlive::DefaultThumbHeight;
     const int swidth = (int)(theight * m_ratio + 0.5);
     const int dwidth = (int)(theight * m_dar + 0.5);
-
     QImage img = getProducerFrame(frame, swidth, dwidth, theight);
     emit thumbReady(frame, img);
+}
+
+void KThumb::getGenericThumb(int frame, int height, int type)
+{
+    const int swidth = (int)(height * m_ratio + 0.5);
+    const int dwidth = (int)(height * m_dar + 0.5);
+    QImage img = getProducerFrame(frame, swidth, dwidth, height);
+    m_clipManager->projectTreeThumbReady(m_id, frame, img, type);
 }
 
 QImage KThumb::extractImage(int frame, int width, int height)
 {
     if (m_producer == NULL) {
         QImage img(width, height, QImage::Format_ARGB32_Premultiplied);
-        img.fill(Qt::black);
+        img.fill(QColor(Qt::black).rgb());
         return img;
     }
     return getProducerFrame(frame, (int) (height * m_ratio + 0.5), width, height);
@@ -139,9 +145,6 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
     if (url.isEmpty()) return pix;
-
-    //"<mlt><playlist><producer resource=\"" + url.path() + "\" /></playlist></mlt>");
-    //Mlt::Producer producer(profile, "xml-string", tmp);
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
     double swidth = (double) profile.width() / profile.height();
     pix = QPixmap::fromImage(getFrame(producer, frame, (int) (height * swidth + 0.5), width, height));
@@ -162,12 +165,14 @@ QImage KThumb::getProducerFrame(int framepos, int frameWidth, int displayWidth, 
         p.fill(QColor(Qt::black).rgb());
         return p;
     }
-    m_mutex.lock();
+    QMutexLocker lock(&m_mutex);
     m_producer->seek(framepos);
     Mlt::Frame *frame = m_producer->get_frame();
+    /*frame->set("rescale.interp", "nearest");
+    frame->set("deinterlace_method", "onefield");
+    frame->set("top_field_first", -1 );*/
     QImage p = getFrame(frame, frameWidth, displayWidth, height);
     delete frame;
-    m_mutex.unlock();
     return p;
 }
 
@@ -187,6 +192,9 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, i
 
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
+    frame->set("rescale.interp", "nearest");
+    frame->set("deinterlace_method", "onefield");
+    frame->set("top_field_first", -1 );
     QImage p = getFrame(frame, frameWidth, displayWidth, height);
     delete frame;
     return p;
@@ -201,13 +209,14 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
-
+    
     int ow = frameWidth;
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
-
-    const uchar* imagedata = frame->get_image(format, ow, oh);
+    //frame->set("progressive", "1");
+    if (ow % 2 == 1) ow++;
     QImage image(ow, oh, QImage::Format_ARGB32_Premultiplied);
+    const uchar* imagedata = frame->get_image(format, ow, oh);
     memcpy(image.bits(), imagedata, ow * oh * 4);//.byteCount());
     
     //const uchar* imagedata = frame->get_image(format, ow, oh);
@@ -220,8 +229,14 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         } else {
             image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }
-        p.fill(QColor(Qt::black).rgb());
+#if QT_VERSION >= 0x040800
+	p.fill(QColor(100, 100, 100, 70));
         QPainter painter(&p);
+#else
+	p.fill(Qt::transparent);
+	QPainter painter(&p);
+	painter.fillRect(p.rect(), QColor(100, 100, 100, 70));
+#endif
         painter.drawImage(p.rect(), image);
         painter.end();
     } else
@@ -247,7 +262,8 @@ uint KThumb::imageVariance(QImage image )
         avg+=pivot[i];
 #endif
     }
-    avg=avg/STEPS;
+    if (STEPS)
+        avg=avg/STEPS;
     // Second Step: calculate delta (average?)
     for (uint i=0; i<STEPS; i++)
     {
@@ -258,7 +274,10 @@ uint KThumb::imageVariance(QImage image )
 #endif
         delta+=curdelta;
     }
-    return delta/STEPS;
+    if (STEPS)
+        return delta/STEPS;
+    else
+        return 0;
 }
 
 /*
@@ -295,7 +314,7 @@ void KThumb::getThumbs(KUrl url, int startframe, int endframe, int width, int he
     if (url.isEmpty()) return;
     QPixmap image(width, height);
     Mlt::Producer m_producer(url.path().toUtf8().constData());
-    image.fill(Qt::black);
+    image.fill(QColor(Qt::black).rgb());
 
     if (m_producer.is_blank()) {
  emit thumbReady(startframe, image);
@@ -355,7 +374,7 @@ void KThumb::slotGetIntraThumbs()
     const int theight = KdenliveSettings::trackheight();
     const int frameWidth = (int)(theight * m_ratio + 0.5);
     const int displayWidth = (int)(theight * m_dar + 0.5);
-    QString path = m_url.path() + "_";
+    QString path = m_url.path() + '_';
     bool addedThumbs = false;
 
     while (!m_intraFramesQueue.isEmpty()) {

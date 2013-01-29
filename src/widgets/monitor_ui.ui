@@ -17,38 +17,7 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0">
-    <widget class="QFrame" name="audio_monitor">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>0</number>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
-    <widget class="QFrame" name="video_frame">
-     <property name="font">
-      <font>
-       <stylestrategy>NoAntialias</stylestrategy>
-      </font>
-     </property>
-     <property name="lineWidth">
-      <number>0</number>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
     <widget class="QFrame" name="ruler_frame">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -59,7 +28,7 @@
      <property name="minimumSize">
       <size>
        <width>16</width>
-       <height>10</height>
+       <height>8</height>
       </size>
      </property>
      <property name="maximumSize">
@@ -73,7 +42,19 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="0" column="0">
+    <widget class="QFrame" name="video_frame">
+     <property name="font">
+      <font>
+       <stylestrategy>NoAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
     <widget class="QFrame" name="button_frame">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">

@@ -66,7 +66,9 @@ void EditEffectCommand::undo()
 // virtual
 void EditEffectCommand::redo()
 {
-    if (m_doIt) m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack);
+    if (m_doIt) {
+	m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack);
+    }
     m_doIt = true;
     m_refreshEffectStack = true;
 }

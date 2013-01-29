@@ -35,6 +35,7 @@
 #include <KMessageWidget>
 #endif
 
+#include "dvdwizardvob.h"
 #include "ui_dvdwizardmenu_ui.h"
 
 class DvdScene : public QGraphicsScene
@@ -58,6 +59,18 @@ public:
 private:
     int m_width;
     int m_height;
+};
+
+class DvdButtonUnderline : public QGraphicsRectItem
+{
+
+public:
+    DvdButtonUnderline( const QRectF & rect, QGraphicsItem * parent = 0 ) : QGraphicsRectItem(rect, parent) {}
+
+    int type() const {
+        // Enable the use of qgraphicsitem_cast with this item.
+        return UserType + 2;
+    }
 };
 
 class DvdButton : public QGraphicsTextItem
@@ -100,11 +113,11 @@ protected:
 
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) {
         if (change == ItemPositionChange && scene()) {
-            QPointF newPos = value.toPointF();
+            QPoint newPos = value.toPoint();
             QRectF sceneShape = sceneBoundingRect();
             DvdScene *sc = static_cast < DvdScene * >(scene());
-            newPos.setX(qMax(newPos.x(), (qreal)0));
-            newPos.setY(qMax(newPos.y(), (qreal)0));
+            newPos.setX(qMax(newPos.x(), 0));
+            newPos.setY(qMax(newPos.y(), 0));
             if (newPos.x() + sceneShape.width() > sc->width()) newPos.setX(sc->width() - sceneShape.width());
             if (newPos.y() + sceneShape.height() > sc->height()) newPos.setY(sc->height() - sceneShape.height());
 
@@ -129,31 +142,35 @@ class DvdWizardMenu : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardMenu(const QString &profile, QWidget * parent = 0);
+    explicit DvdWizardMenu(DVDFORMAT format, QWidget * parent = 0);
     virtual ~DvdWizardMenu();
     virtual bool isComplete() const;
     bool createMenu() const;
-    void createBackgroundImage(const QString &img1);
-    void createButtonImages(const QString &img1, const QString &img2, const QString &img3);
+    void createBackgroundImage(const QString &img1, bool letterbox);
+    void createButtonImages(const QString &selected_image, const QString &highlighted_image, bool letterbox);
     void setTargets(QStringList list, QStringList targetlist);
-    QMap <QString, QRect> buttonsInfo();
+    QMap <QString, QRect> buttonsInfo(bool letterbox = false);
     bool loopMovie() const;
     bool menuMovie() const;
     QString menuMoviePath() const;
-    bool isPalMenu() const;
-    void changeProfile(bool isPal);
+    int menuMovieLength() const;
+    void changeProfile(DVDFORMAT format);
     QDomElement toXml() const;
-    void loadXml(QDomElement xml);
+    void loadXml(DVDFORMAT format, QDomElement xml);
+    void prepareUnderLines();
+    void resetUnderLines();
 
 private:
     Ui::DvdWizardMenu_UI m_view;
-    bool m_isPal;
+    DVDFORMAT m_format;
     DvdScene *m_scene;
     QGraphicsPixmapItem *m_background;
     QGraphicsRectItem *m_color;
     QGraphicsRectItem *m_safeRect;
     int m_width;
     int m_height;
+    QSize m_finalSize;
+    int m_movieLength;
 #if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_menuMessage;
 #endif
@@ -171,9 +188,11 @@ private slots:
     void deleteButton();
     void updateColor();
     void updateColor(QColor c);
+    void updateUnderlineColor(QColor c);
     void setBackToMenu(bool backToMenu);
     void slotZoom();
     void slotUnZoom();
+    void slotEnableShadows(int enable);
 };
 
 #endif

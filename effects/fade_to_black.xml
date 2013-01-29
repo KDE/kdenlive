@@ -3,7 +3,7 @@
 	<name>Fade to Black</name>
 	<description>Fade video to black</description>
 	<author>Charles Yates</author>
-	<parameter type="position" name="in" max="0" min="0" default="75">
+	<parameter type="position" name="in" max="0" min="0" default="-75">
 		<name>Duration</name>
 	</parameter>
 	<parameter type="fixed" name="out" max="99999" min="0" default="0">

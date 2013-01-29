@@ -55,7 +55,7 @@ public:
     * @param doc the kdenlive document whose tracks to use
     * @param selected the track which should be selected by default
     * @param parent the parent widget */
-    TracksConfigDialog(KdenliveDoc * doc, int selected = -1, QWidget * parent = 0);
+    explicit TracksConfigDialog(KdenliveDoc * doc, int selected = -1, QWidget * parent = 0);
 
     /** @brief Returns the new list of tracks created from the table. */
     const QList <TrackInfo> tracksList();

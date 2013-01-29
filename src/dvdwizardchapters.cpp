@@ -23,10 +23,11 @@
 
 #include <QFile>
 
-DvdWizardChapters::DvdWizardChapters(bool isPal, QWidget *parent) :
+DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :
         QWizardPage(parent),
-        m_isPal(isPal),
-        m_monitor(NULL)
+        m_format(format),
+        m_monitor(NULL),
+        m_manager(manager)
 
 {
     m_view.setupUi(this);
@@ -37,21 +38,18 @@ DvdWizardChapters::DvdWizardChapters(bool isPal, QWidget *parent) :
 
     // Build monitor for chapters
 
-    if (m_isPal) m_tc.setFormat(25);
+    if (m_format == PAL || m_format == PAL_WIDE) m_tc.setFormat(25);
     else m_tc.setFormat(30000.0 / 1001);
-
-    m_manager = new MonitorManager(this);
-    m_manager->resetProfiles(m_tc);
     //m_view.monitor_frame->setVisible(false);
 }
 
 DvdWizardChapters::~DvdWizardChapters()
 {
     if (m_monitor) {
+	m_manager->removeMonitor(m_monitor);
         m_monitor->stop();
         delete m_monitor;
     }
-    delete m_manager;
 }
 
 // virtual
@@ -66,6 +64,11 @@ void DvdWizardChapters::stopMonitor()
     if (m_monitor) m_monitor->stop();
 }
 
+void DvdWizardChapters::refreshMonitor()
+{
+    if (m_monitor) m_monitor->refreshMonitor();
+}
+
 void DvdWizardChapters::slotUpdateChaptersList()
 {
     m_monitor->slotOpenFile(m_view.vob_list->currentText());
@@ -75,7 +78,7 @@ void DvdWizardChapters::slotUpdateChaptersList()
     // insert chapters
     QStringList chaptersString;
     for (int i = 0; i < currentChaps.count(); i++) {
-        chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps()));
+        chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps(), true));
     }
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
@@ -98,7 +101,7 @@ void DvdWizardChapters::slotAddChapter()
     QStringList chaptersString;
     currentChaps.clear();
     for (int i = 0; i < chapterTimes.count(); i++) {
-        chaptersString.append(Timecode::getStringTimecode(chapterTimes.at(i), m_tc.fps()));
+        chaptersString.append(Timecode::getStringTimecode(chapterTimes.at(i), m_tc.fps(), true));
         currentChaps.append(QString::number(chapterTimes.at(i)));
     }
     // Save item chapters
@@ -123,7 +126,7 @@ void DvdWizardChapters::slotRemoveChapter()
     // rebuild chapters
     QStringList chaptersString;
     for (int i = 0; i < currentChaps.count(); i++) {
-        chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps()));
+        chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps(), true));
     }
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
@@ -131,31 +134,36 @@ void DvdWizardChapters::slotRemoveChapter()
 
 void DvdWizardChapters::slotGoToChapter()
 {
-    if (m_view.chapters_list->currentItem()) m_monitor->setTimePos(m_tc.reformatSeparators(m_view.chapters_list->currentItem()->text() + ":00"));
+    if (m_view.chapters_list->currentItem()) m_monitor->setTimePos(m_tc.reformatSeparators(m_view.chapters_list->currentItem()->text()));
 }
 
-void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList &movies, const QStringList &durations, const QStringList &chapters)
+void DvdWizardChapters::createMonitor(DVDFORMAT format)
 {
-    m_isPal = isPal;
-    QString profile;
-    if (m_isPal) {
-        m_tc.setFormat(25);
-        profile = "dv_pal";
-    } else {
-        m_tc.setFormat(30000.0 / 1001);
-        profile = "dv_ntsc";
-    }
-    if (isWide) profile.append("_wide");
-    m_manager->resetProfiles(m_tc);
+    QString profile = DvdWizardVob::getDvdProfile(format);
     if (m_monitor == NULL) {
         m_monitor = new Monitor(Kdenlive::dvdMonitor, m_manager, profile, this);
         //m_monitor->start();
         QVBoxLayout *vbox = new QVBoxLayout;
         vbox->addWidget(m_monitor);
-        m_view.monitor_frame->setLayout(vbox);
-        /*updateGeometry();
-        m_view.monitor_frame->adjustSize();*/
-    } else m_monitor->resetProfile(profile);
+        m_view.video_frame->setLayout(vbox);
+	m_monitor->setSizePolicy(QSizePolicy ( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
+	m_manager->appendMonitor(m_monitor);
+	vbox->insertWidget(0, m_monitor, 10);
+    }
+}
+
+void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies, const QStringList &durations, const QStringList &chapters)
+{
+    m_format = format;
+    QString profile = DvdWizardVob::getDvdProfile(format);
+    if (m_format == PAL || m_format == PAL_WIDE) {
+        m_tc.setFormat(25);
+    } else {
+        m_tc.setFormat(30000.0 / 1001);
+    }
+
+    if (m_monitor == NULL) createMonitor(format);
+    m_monitor->setCustomProfile(profile, m_tc);
 
     m_view.vob_list->blockSignals(true);
     m_view.vob_list->clear();
@@ -165,6 +173,11 @@ void DvdWizardChapters::setVobFiles(bool isPal, bool isWide, const QStringList &
     }
     m_view.vob_list->blockSignals(false);
     slotUpdateChaptersList();
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    adjustSize();
+    updateGeometry();
+    m_manager->activateMonitor(Kdenlive::dvdMonitor);
+    m_monitor->refreshMonitor();
 }
 
 QMap <QString, QString> DvdWizardChapters::chaptersData() const
@@ -186,7 +199,7 @@ QStringList DvdWizardChapters::selectedTitles() const
         result.append(m_view.vob_list->itemText(i));
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
         for (int j = 0; j < chapters.count(); j++) {
-            result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps()));
+            result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps(), true));
         }
     }
     return result;
@@ -197,7 +210,7 @@ QStringList DvdWizardChapters::chapters(int ix) const
     QStringList result;
     QStringList chapters = m_view.vob_list->itemData(ix, Qt::UserRole + 1).toStringList();
     for (int j = 0; j < chapters.count(); j++) {
-        result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps()));
+        result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps(), true));
     }
     return result;
 }

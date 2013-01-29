@@ -34,9 +34,9 @@ class TitleDocument
 public:
     TitleDocument();
     void setScene(QGraphicsScene* scene, int width, int height);
-    bool saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int out, bool embed_images = false);
+    bool saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed_images = false);
     QDomDocument xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv, bool embed_images = false);
-    int loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *out, const QString& projectpath = "");
+    int loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath = QString());
     /** \brief Get the background color (incl. alpha) from the document, if possibly
      * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
     QColor getBackgroundColor();

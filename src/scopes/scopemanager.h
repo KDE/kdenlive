@@ -36,14 +36,22 @@ class ScopeManager : QObject
         AbstractGfxScopeWidget *scope;
         QDockWidget *scopeDockWidget;
         bool singleFrameRequested;
-        GfxScopeData() { singleFrameRequested = false; }
+        GfxScopeData() {
+            scope = NULL;
+            scopeDockWidget = NULL;
+            singleFrameRequested = false;
+        }
     };
 
     struct AudioScopeData {
         AbstractAudioScopeWidget *scope;
         QDockWidget *scopeDockWidget;
         bool singleFrameRequested;
-        AudioScopeData() { singleFrameRequested = false; }
+        AudioScopeData() {
+            scope = NULL;
+            scopeDockWidget = NULL;
+            singleFrameRequested = false; 
+        }
     };
 
 public:
@@ -107,7 +115,7 @@ private slots:
       */
     
     void slotCheckActiveScopes();
-    void slotDistributeFrame(QImage image);
+    void slotDistributeFrame(const QImage image);
     void slotDistributeAudio(QVector<int16_t> sampleData, int freq, int num_channels, int num_samples);
     /**
       Allows a scope to explicitly request a new frame, even if the scope's autoRefresh is disabled.

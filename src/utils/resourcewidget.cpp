@@ -221,7 +221,7 @@ void ResourceWidget::slotSaveItem(const QString originalUrl)
     if (!path.endsWith('/')) path.append('/');
     if (!originalUrl.isEmpty()) {
         path.append(KUrl(originalUrl).fileName());
-        ext = "*." + KUrl(originalUrl).fileName().section(".", -1);
+        ext = "*." + KUrl(originalUrl).fileName().section('.', -1);
         m_currentInfo.itemDownload = originalUrl;
     }
     else {
@@ -256,13 +256,12 @@ void ResourceWidget::slotGotFile(KJob *job)
         res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
         res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
         res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
-        res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
         res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
         //res.setDescription(item_description->toPlainText());
         //res.setProperty( Soprano::Vocabulary::NAO::description(), 
 #endif
 #endif
-        emit addClip(filePath, QString());
+        emit addClip(filePath, stringMap());
 }
 
 void ResourceWidget::slotOpenUrl(const QString &url)
@@ -289,7 +288,7 @@ void ResourceWidget::slotChangeService()
 
     connect(m_currentService, SIGNAL(gotMetaInfo(const QString)), this, SLOT(slotSetMetadata(const QString)));
     connect(m_currentService, SIGNAL(gotMetaInfo(QMap <QString, QString>)), this, SLOT(slotDisplayMetaInfo(QMap <QString, QString>)));
-    connect(m_currentService, SIGNAL(maxPages(int)), page_number, SLOT(setMaximum(int)));
+    connect(m_currentService, SIGNAL(maxPages(int)), this, SLOT(slotSetMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
     connect(m_currentService, SIGNAL(gotThumb(const QString)), this, SLOT(slotLoadThumb(const QString)));
 #if KDE_IS_VERSION(4,4,0)
@@ -300,6 +299,11 @@ void ResourceWidget::slotChangeService()
     button_import->setVisible(!m_currentService->inlineDownload);
     search_info->setText(QString());
     if (!search_text->text().isEmpty()) slotStartSearch();
+}
+
+void ResourceWidget::slotSetMaximum(int max)
+{
+    page_number->setMaximum(max);
 }
 
 void ResourceWidget::slotOnline()
@@ -398,3 +402,4 @@ void ResourceWidget::updateLayout()
     if (!m_meta.isEmpty()) content.append(m_meta);
     info_browser->setHtml(content);
 }
+

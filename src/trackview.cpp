@@ -113,6 +113,8 @@ TrackView::TrackView(KdenliveDoc *doc, QList <QAction*> actions, bool *ok, QWidg
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
+    connect(m_trackview, SIGNAL(updateRuler()), m_ruler, SLOT(updateRuler()));
+
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int, int)), this, SLOT(slotUpdateVerticalScroll(int, int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
@@ -413,6 +415,12 @@ void TrackView::parseDocument(QDomDocument doc)
     }
     QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
+    QDomElement propsXml = infoXml.firstChildElement("documentproperties");
+    
+    int currentPos = propsXml.attribute("position").toInt();
+    if (currentPos > 0) m_trackview->initCursorPos(currentPos);
+    
+
     // Add guides
     QDomNodeList guides = infoXml.elementsByTagName("guide");
     for (int i = 0; i < guides.count(); i++) {
@@ -468,7 +476,7 @@ void TrackView::setCursorPos(int pos)
 
 void TrackView::moveCursorPos(int pos)
 {
-    m_trackview->setCursorPos(pos, false);
+    m_trackview->setCursorPos(pos);
 }
 
 void TrackView::slotChangeZoom(int horizontal, int vertical)
@@ -641,7 +649,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                     QString prodId = clip->getId();
                     if (clip->clipType() == PLAYLIST || clip->clipType() == AV || clip->clipType() == AUDIO) {
                         // We need producer for the track
-                        prodId.append("_" + QString::number(ix));
+                        prodId.append('_' + QString::number(ix));
                     }
                     elem.setAttribute("producer", prodId);
                     producerReplacementIds.insert(idString, prodId);
@@ -671,7 +679,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                         for (int i = 0; i < producers.count(); i++) {
                             QDomElement prod = producers.at(i).toElement();
                             QString mltProdId = prod.attribute("id");
-                            if (mltProdId == prodId || mltProdId.startsWith(prodId + "_")) {
+                            if (mltProdId == prodId || mltProdId.startsWith(prodId + '_')) {
                                 // Found parent producer, clone it
                                 QDomElement clone = prod.cloneNode().toElement();
                                 clone.setAttribute("id", prodId);
@@ -972,7 +980,7 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
 		    QString fr = kfrs.at(l).section('=', 0, 0);
                     double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
                     //kfrs[l] = fr + ":" + locale.toString((int)(val * fact));
-                    kfrs[l] = fr + ":" + QString::number((int) (offset + val * fact));
+                    kfrs[l] = fr + ':' + QString::number((int) (offset + val * fact));
                 }
                 e.setAttribute("keyframes", kfrs.join(";"));
             } else if (type == "double" || type == "constant") {

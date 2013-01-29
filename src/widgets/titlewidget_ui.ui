@@ -601,9 +601,18 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="zoom_label">
-       <property name="text">
-        <string>x1</string>
+      <widget class="QSpinBox" name="zoom_spin">
+       <property name="keyboardTracking">
+        <bool>false</bool>
+       </property>
+       <property name="suffix">
+        <string>%</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>200</number>
        </property>
       </widget>
      </item>

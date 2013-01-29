@@ -1,5 +1,5 @@
 /***************************************************************************
-                          geomeytrval.h  -  description
+                          positionedit.h  -  description
                              -------------------
     begin                : 03 Aug 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -35,8 +35,10 @@ public:
     int getPosition() const;
     void setPosition(int pos);
     void updateTimecodeFormat();
-    void setRange(int min, int max);
 
+public slots:
+    void setRange(int min, int max, bool absolute = false);
+    
 private:
     TimecodeDisplay *m_display;
     QSlider *m_slider;

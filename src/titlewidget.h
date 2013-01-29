@@ -97,14 +97,15 @@ public:
      * get the file name. There is no check for the existence of the file. */
     static QString getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName);
 
-    /** @brief Returns clip out position. */
-    int outPoint() const;
+    /** @brief Returns clip duration. */
+    int duration() const;
 
     /** @brief Retrieves a list of all available title templates. */
     static void refreshTitleTemplates();
 
 protected:
     virtual void resizeEvent(QResizeEvent * event);
+    virtual void keyPressEvent(QKeyEvent *e);
     virtual QSize sizeHint() const;
 
 private:

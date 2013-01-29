@@ -19,6 +19,7 @@
 
 
 #include "cliptranscode.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KGlobalSettings>
@@ -26,8 +27,8 @@
 #include <KFileDialog>
 
 
-ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QString &description, QWidget * parent) :
-        QDialog(parent), m_urls(urls), m_duration(0)
+ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
+        QDialog(parent), m_urls(urls), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -41,7 +42,11 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
 #endif
     log_text->setHidden(true);
     setWindowTitle(i18n("Transcode Clip"));
+    if (m_automaticMode) {
+	auto_add->setHidden(true);
+    }
     auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
+    auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     if (m_urls.count() == 1) {
         QString fileName = m_urls.at(0).path(); //.section('.', 0, -1);
@@ -72,14 +77,14 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
         } else transcode_info->setHidden(true);
     } else {
         // load Profiles
-        KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
+        KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc", KConfig::CascadeConfig);
         KConfigGroup transConfig(config, "Transcoding");
         // read the entries
         QMap< QString, QString > profiles = transConfig.entryMap();
         QMapIterator<QString, QString> i(profiles);
         while (i.hasNext()) {
             i.next();
-            QStringList data = i.value().split(";");
+            QStringList data = i.value().split(';');
             profile_list->addItem(i.key(), data.at(0));
             if (data.count() > 1) profile_list->setItemData(profile_list->count() - 1, data.at(1), Qt::UserRole + 1);
         }
@@ -100,6 +105,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
 
 ClipTranscode::~ClipTranscode()
 {
+    KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
     if (m_transcodeProcess.state() != QProcess::NotRunning) {
         m_transcodeProcess.close();
     }
@@ -137,15 +143,34 @@ void ClipTranscode::slotStartTransCode()
     QString s_url = source_url->url().path();
     parameters << "-i" << s_url;
     if (QFile::exists(destination + extension)) {
-        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) return;
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
+	    // Abort operation
+	    if (m_automaticMode) {
+		// inform caller that we aborted
+		emit transcodedClip(source_url->url(), KUrl());
+		close();
+	    }
+	    return;
+	}
         parameters << "-y";
     }
-    foreach(QString s, params.split(' '))
+
+    bool replaceVfParams = false;
+    foreach(QString s, params.split(' ')) {
+	if (replaceVfParams) {
+	    s= m_postParams.at(1);
+	    replaceVfParams = false;
+	}
         parameters << s.replace("%1", destination);
+	if (s == "-vf") {
+	    replaceVfParams = true;
+	}
+    }
+    
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
 
     m_destination = destination + extension;
-    m_transcodeProcess.start("ffmpeg", parameters);
+    m_transcodeProcess.start(KdenliveSettings::ffmpegpath(), parameters);
     source_url->setEnabled(false);
     dest_url->setEnabled(false);
     button_start->setEnabled(false);
@@ -197,14 +222,15 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
     }
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
         log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding finished."));
-        if (auto_add->isChecked()) {
+        if (auto_add->isChecked() || m_automaticMode) {
             KUrl url;
             if (urls_list->count() > 0) {
                 QString params = ffmpeg_params->toPlainText().simplified();
                 QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
                 url = KUrl(dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName() + extension);
             } else url = dest_url->url();
-            emit addClip(url);
+	    if (m_automaticMode) emit transcodedClip(source_url->url(), url);
+            else emit addClip(url);
         }
         if (urls_list->count() > 0 && m_urls.count() > 0) {
             m_transcodeProcess.close();

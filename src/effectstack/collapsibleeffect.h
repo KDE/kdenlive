@@ -73,10 +73,14 @@ public:
     void adjustButtons(int ix, int max);
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
     bool needsMonitorEffectScene() const;
+    /** @brief Set clip in / out points. */
+    void setRange(int inPoint , int outPoint);
+    /** @brief Import keyframes from a clip's data. */
+    void setKeyframes(const QString data, int maximum);
 
 public slots:
     void slotSyncEffectsPos(int pos);
-    void slotEnable(bool enable, bool emitInfo = true);
+    void slotDisable(bool disable, bool emitInfo = true);
     void slotResetEffect();
 
 private slots:
@@ -91,6 +95,8 @@ private slots:
     void slotUnGroup();
     /** @brief A sub effect parameter was changed */
     void slotUpdateRegionEffectParams(const QDomElement /*old*/, const QDomElement /*e*/, int /*ix*/);
+    /** @brief Dis/enable effect before processing an operation (color picker) */
+    void slotDisableEffect(bool disable);
 
 private:
     ParameterContainer *m_paramWidget;
@@ -127,7 +133,7 @@ signals:
     void checkMonitorPosition(int);
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QString filterName, QString filterParams, QString finalFilterName, QString consumer, QString consumerParams, QString properties);
+    void startFilterJob(QString filterName, QString filterParams, QString consumer, QString consumerParams, const QMap <QString, QString>extraParams);
     /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
@@ -135,6 +141,7 @@ signals:
     void unGroup(CollapsibleEffect *);
     void createRegion(int, KUrl);
     void deleteGroup(QDomDocument);
+    void importClipKeyframes();
 };
 
 

@@ -81,20 +81,20 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
         QDomElement pa = namenode.item(i).toElement();
         QDomNode na = pa.firstChildElement("name");
 
-        m_parameterNameList << pa.attribute("namedesc").split(";");
+        m_parameterNameList << pa.attribute("namedesc").split(';');
         emit parameterList(m_parameterNameList);
 
         //max_y=pa.attributes().namedItem("max").nodeValue().toInt();
         //int val=pa.attributes().namedItem("value").nodeValue().toInt();
         QStringList defaults;
-        if (pa.attribute("start").contains(";"))
-            defaults = pa.attribute("start").split(";");
-        else if (pa.attribute("value").contains(";"))
-            defaults = pa.attribute("value").split(";");
-        else if (pa.attribute("default").contains(";"))
-            defaults = pa.attribute("default").split(";");
-        QStringList maxv = pa.attribute("max").split(";");
-        QStringList minv = pa.attribute("min").split(";");
+        if (pa.attribute("start").contains(';'))
+            defaults = pa.attribute("start").split(';');
+        else if (pa.attribute("value").contains(';'))
+            defaults = pa.attribute("value").split(';');
+        else if (pa.attribute("default").contains(';'))
+            defaults = pa.attribute("default").split(';');
+        QStringList maxv = pa.attribute("max").split(';');
+        QStringList minv = pa.attribute("min").split(';');
         for (int i = 0; i < maxv.size() && i < minv.size(); i++) {
             if (m_max_y < maxv[i].toInt()) m_max_y = maxv[i].toInt();
             if (m_min_y > minv[i].toInt()) m_min_y = minv[i].toInt();
@@ -248,7 +248,7 @@ void ParameterPlotter::mousePressEvent(QMouseEvent * event)
                     newpoints.append(QPointF(pt->x(), pt->y()));
                 }
                 p->clearPoints();
-                foreach(const QPointF qf, newpoints) {
+                foreach(const QPointF &qf, newpoints) {
                     p->addPoint(qf);
                 }
                 replacePlotObject(m_activeIndexPlot, p);

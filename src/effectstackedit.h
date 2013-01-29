@@ -38,7 +38,7 @@ class EffectStackEdit : public QScrollArea
 {
     Q_OBJECT
 public:
-    EffectStackEdit(Monitor *monitor, QWidget *parent = 0);
+    explicit EffectStackEdit(Monitor *monitor, QWidget *parent = 0);
     ~EffectStackEdit();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
     static QMap<QString, QImage> iconCache;
@@ -56,6 +56,8 @@ public:
     virtual bool eventFilter( QObject * o, QEvent * e );
     /** @brief Returns true if this transition requires an on monitor scene. */
     bool needsMonitorEffectScene() const;
+    /** @brief Set keyframes for this transition. */
+    void setKeyframes(const QString &data, int maximum);
 
 private:
     Monitor *m_monitor;
@@ -79,7 +81,8 @@ signals:
     void showComments(bool show);
     void effectStateChanged(bool enabled);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &finalFilterName, const QString &consumer, const QString &consumerParams, const QString &properties);
+    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString>);
+    void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
 };
 
 #endif

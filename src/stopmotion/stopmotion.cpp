@@ -16,9 +16,6 @@
  ***************************************************************************/
 
 #include "stopmotion.h"
-#ifdef USE_BLACKMAGIC
-#include "blackmagic/devices.h"
-#endif
 #ifdef USE_V4L
 #include "v4l/v4lcapture.h"
 #endif
@@ -262,11 +259,10 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, 
     m_monitor->videoBox->setLineWidth(4);
     layout->addWidget(m_monitor->videoBox);
 
-#ifdef USE_BLACKMAGIC
-    if (BMInterface::getBlackMagicDeviceList(capture_device)) {
+    if (KdenliveSettings::decklink_device_found()) {
         // Found a BlackMagic device
     }
-#endif
+
     if (QFile::exists(KdenliveSettings::video4vdevice())) {
 #ifdef USE_V4L
         // Video 4 Linux device detection
@@ -438,8 +434,8 @@ void StopmotionWidget::parseExistingSequences()
     //dir.setNameFilters(filters);
     QStringList sequences = dir.entryList(filters, QDir::Files, QDir::Name);
     //kDebug()<<"PF: "<<<<", sm: "<<sequences;
-    foreach(QString sequencename, sequences) {
-        sequence_name->addItem(sequencename.section("_", 0, -2));
+    foreach(const QString &sequencename, sequences) {
+        sequence_name->addItem(sequencename.section('_', 0, -2));
     }
 }
 
@@ -722,7 +718,7 @@ void StopmotionWidget::slotCreateThumbs(QImage img, int ix)
 QString StopmotionWidget::getPathForFrame(int ix, QString seqName)
 {
     if (seqName.isEmpty()) seqName = m_sequenceName;
-    return m_projectFolder.path(KUrl::AddTrailingSlash) + seqName + "_" + QString::number(ix).rightJustified(4, '0', false) + ".png";
+    return m_projectFolder.path(KUrl::AddTrailingSlash) + seqName + '_' + QString::number(ix).rightJustified(4, '0', false) + ".png";
 }
 
 void StopmotionWidget::slotShowFrame(const QString& path)

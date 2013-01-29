@@ -31,7 +31,7 @@ class TrackDialog : public QDialog, public Ui::AddTrack_UI
     Q_OBJECT
 
 public:
-    TrackDialog(KdenliveDoc *doc, QWidget * parent = 0);
+    explicit TrackDialog(KdenliveDoc *doc, QWidget * parent = 0);
 };
 
 

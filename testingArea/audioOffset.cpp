@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     bool useFFT = false;
 
     // Load arguments
-    foreach (QString str, args) {
+    foreach (const QString &str, args) {
 
         if (str.startsWith("--profile=")) {
             QString s = str;
@@ -127,12 +127,12 @@ int main(int argc, char *argv[])
 
 
     // Build the audio envelopes for the correlation
-    AudioEnvelope *envelopeMain = new AudioEnvelope(&prodMain);
+    AudioEnvelope *envelopeMain = new AudioEnvelope(fileMain.c_str(), &prodMain);
     envelopeMain->loadEnvelope();
     envelopeMain->loadStdDev();
     envelopeMain->dumpInfo();
 
-    AudioEnvelope *envelopeSub = new AudioEnvelope(&prodSub);
+    AudioEnvelope *envelopeSub = new AudioEnvelope(fileSub.c_str(), &prodSub);
     envelopeSub->loadEnvelope();
     envelopeSub->loadStdDev();
     envelopeSub->dumpInfo();

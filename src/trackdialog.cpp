@@ -36,7 +36,7 @@ TrackDialog::TrackDialog(KdenliveDoc *doc, QWidget * parent) :
     for (int i = 0; i < doc->tracksCount(); ++i) {
         TrackInfo info = doc->trackInfoAt(doc->tracksCount() - i - 1);
         comboTracks->addItem(info.type == VIDEOTRACK ? videoIcon : audioIcon,
-                             info.trackName.isEmpty() ? QString::number(i) : info.trackName + " (" + QString::number(i) + ")");
+                             info.trackName.isEmpty() ? QString::number(i) : info.trackName + " (" + QString::number(i) + ')');
     }
 }
 

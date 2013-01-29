@@ -43,7 +43,7 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), m_name(name) {};
+    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), analyseAudio(false), m_name(name) {};
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~AbstractRender() {};
@@ -105,7 +105,7 @@ public slots:
     virtual void start() = 0;
     virtual void slotPlay() = 0;
     virtual void slotMouseSeek(int eventDelta, bool fast) = 0;
-    bool slotActivateMonitor();
+    bool slotActivateMonitor(bool forceRefresh = false);
     virtual void slotSwitchFullScreen() = 0;
 
 protected:
@@ -117,7 +117,7 @@ class VideoContainer : public QFrame
 {
     Q_OBJECT
 public:
-    VideoContainer(AbstractMonitor *monitor, QWidget *parent = 0);
+    explicit VideoContainer(AbstractMonitor *monitor, QWidget *parent = 0);
     void switchFullScreen();
 
 protected:

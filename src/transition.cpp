@@ -161,22 +161,27 @@ void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget */*widget*/)
 {
-    const QRectF exposed = option->exposedRect;
-    painter->setClipRect(exposed);
+    const QRectF exposed = painter->worldTransform().mapRect(option->exposedRect);
     const QRectF br = rect();
     QPen framePen;
+    framePen.setWidthF(1.2);
     const QRectF mapped = painter->worldTransform().mapRect(br);
 
-    painter->fillRect(exposed, brush());
-
     QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
-    painter->setWorldMatrixEnabled(false);
+    painter->setWorldTransform(QTransform());
+    QPainterPath p;
+    p.addRect(exposed);
+    
+    QPainterPath q;
+    q.addRoundedRect(mapped, 3, 3);
+    painter->setClipPath(p.intersected(q));
+    painter->fillRect(exposed, brush());
     const QString text = m_name + (m_forceTransitionTrack ? "|>" : QString());
 
     // Draw clip name
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        framePen.setColor(Qt::red);
-        framePen.setWidthF(2.0);
+        framePen.setColor(scene()->palette().highlight().color());
+	framePen.setColor(Qt::red);
     }
     else {
         framePen.setColor(brush().color().darker());
@@ -184,7 +189,7 @@ void Transition::paint(QPainter *painter,
 
     const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
     painter->setBrush(framePen.color());
-    painter->setPen(Qt::NoPen);
+    painter->setPen(framePen.color());
     painter->drawRoundedRect(txtBounding, 3, 3);
     painter->setBrush(QBrush(Qt::NoBrush));
 
@@ -194,7 +199,8 @@ void Transition::paint(QPainter *painter,
     // Draw frame
     painter->setPen(framePen);
     painter->setClipping(false);
-    painter->drawRect(mapped.adjusted(0, 0, -0.5, -0.5));
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->drawRoundedRect(mapped.adjusted(0, 0, -0.5, -0.5), 3, 3);
 }
 
 int Transition::type() const
@@ -218,6 +224,11 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         int newTrack = newPos.y() / KdenliveSettings::trackheight();
         newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
+	QStringList lockedTracks = property("locked_tracks").toStringList();
+	if (lockedTracks.contains(QString::number(newTrack))) {
+	    // Trying to move to a locked track
+	    return pos();
+	}
         newPos.setY((int)(newTrack * KdenliveSettings::trackheight() + itemOffset() + 1));
         // Only one clip is moving
         QRectF sceneShape = rect();
@@ -377,7 +388,7 @@ bool Transition::updateKeyframes()
     }
     if (keyframes.isEmpty()) return false;
     int duration = cropDuration().frames(m_fps) - 1;
-    QStringList values = keyframes.split(";");
+    QStringList values = keyframes.split(';');
     int frame;
     int i = 0;
     foreach(const QString &pos, values) {

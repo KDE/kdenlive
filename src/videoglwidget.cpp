@@ -19,7 +19,7 @@ VideoGLWidget::VideoGLWidget(QWidget *parent)
     , m_texture(0)
     , m_display_ratio(4.0 / 3.0)
     , m_backgroundColor(Qt::gray)
-{
+{  
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
 }
@@ -41,6 +41,12 @@ QSize VideoGLWidget::sizeHint() const
     return QSize(400, 300);
 }
 
+void VideoGLWidget::setImageAspectRatio(double ratio)
+{
+    m_display_ratio = ratio;
+    resizeGL(width(), height());
+}
+
 void VideoGLWidget::initializeGL()
 {
     qglClearColor(m_backgroundColor);
@@ -57,9 +63,9 @@ void VideoGLWidget::resizeEvent(QResizeEvent* event)
 {
     resizeGL(event->size().width(),event->size().height());
 }
+
 void VideoGLWidget::resizeGL(int width, int height)
 {
-
     double this_aspect = (double) width / height;
 
     // Special case optimisation to negate odd effect of sample aspect ratio
@@ -83,6 +89,17 @@ void VideoGLWidget::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, width, height, 0);
+    glMatrixMode(GL_MODELVIEW);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void VideoGLWidget::activateMonitor()
+{
+    makeCurrent();
+    glViewport(0, 0, width(), height());
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, width(), height(), 0);
     glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT);
 }
@@ -112,7 +129,6 @@ void VideoGLWidget::showImage(QImage image)
 {
     m_image_width = image.width();
     m_image_height = image.height();
-
     makeCurrent();
     if (m_texture)
         glDeleteTextures(1, &m_texture);

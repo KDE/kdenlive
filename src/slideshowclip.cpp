@@ -156,51 +156,18 @@ void SlideshowClip::slotEnableLumaFile(int state)
     m_view.label_softness->setEnabled(enable);
 }
 
-// static
-//TODO: sequence begin
-int SlideshowClip::sequenceCount(KUrl file)
-{
-    // find pattern
-    int count = 0;
-    QString filter = file.fileName();
-    QString ext = filter.section('.', -1);
-    filter = filter.section('.', 0, -2);
-    int fullSize = filter.size();
-    bool hasDigit = false;
-    while (filter.at(filter.size() - 1).isDigit()) {
-        hasDigit = true;
-        filter.remove(filter.size() - 1, 1);
-    }
-    if (!hasDigit) return 0;
-
-
-    // Find number of digits in sequence
-    int precision = fullSize - filter.size();
-    int firstFrame = file.fileName().section('.', 0, -2).right(precision).toInt();    
-    QString folder = file.directory(KUrl::AppendTrailingSlash);
-    // Check how many files we have
-    QDir dir(folder);
-    QString path;
-    int gap = 0;
-    for (int i = firstFrame; gap < 100; i++) {
-        path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
-        if (dir.exists(path)) {
-            count ++;
-            gap = 0;
-        } else {
-            gap++;
-        }
-    }
-    return count;
-}
-
 void SlideshowClip::parseFolder()
 {
     m_view.icon_list->clear();
     bool isMime = m_view.method_mime->isChecked();
     QString path = isMime ? m_view.folder_url->url().path() : m_view.pattern_url->url().directory();
     QDir dir(path);
-    if (path.isEmpty() || !dir.exists()) return;
+    if (path.isEmpty() || !dir.exists()) {
+	m_count = 0;
+	m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+	m_view.label_info->setText(QString());
+	return;
+    }
 
     KIcon unknownicon("unknown");
     QStringList result;
@@ -241,9 +208,8 @@ void SlideshowClip::parseFolder()
         item->setData(Qt::UserRole, dir.filePath(path));
         m_view.icon_list->addItem(item);
     }
-    m_count = result.count();
-    if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+    m_count = m_view.icon_list->count();
+    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_count > 0);
     m_view.label_info->setText(i18np("1 image found", "%1 images found", m_count));
     if (m_view.show_thumbs->isChecked()) slotGenerateThumbs();
     m_view.icon_list->setCurrentRow(0);
@@ -357,8 +323,8 @@ QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QS
                 gap++;
             }
         }
-        if (firstFrame > 0) extension = filter + "%" + QString::number(firstFrame).rightJustified(precision, '0', false) + "d" + ext;
-        else extension = filter + "%" + QString::number(precision) + "d" + ext;
+        extension = filter + "%0" + QString::number(precision) + 'd' + ext;
+	if (firstFrame > 0) extension.append(QString("?begin:%1").arg(firstFrame));
     }
     kDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;

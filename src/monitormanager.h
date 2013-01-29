@@ -25,6 +25,7 @@
 #include "recmonitor.h"
 #include "timecode.h"
 
+class KdenliveDoc;
 
 class MonitorManager : public QObject
 {
@@ -45,12 +46,16 @@ public:
     AbstractMonitor *monitor(Kdenlive::MONITORID monitorName);
     void updateScopeSource();
     void clearScopeSource();
+    /** @brief Returns current project's folder. */
+    QString getProjectFolder() const;
+    /** @brief Sets current document for later reference. */
+    void setDocument(KdenliveDoc *doc);
 
 public slots:
 
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */
-    bool activateMonitor(Kdenlive::MONITORID);
+    bool activateMonitor(Kdenlive::MONITORID, bool forceRefresh = false);
     bool isActive(Kdenlive::MONITORID id) const;
     void slotPlay();
     void slotPause();
@@ -79,6 +84,7 @@ private slots:
     void slotRefreshCurrentMonitor(const QString &id);
 
 private:
+    KdenliveDoc *m_document;
     Monitor *m_clipMonitor;
     Monitor *m_projectMonitor;
     Timecode m_timecode;

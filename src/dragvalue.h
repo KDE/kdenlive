@@ -38,7 +38,7 @@ class CustomLabel : public QProgressBar
 {
     Q_OBJECT
 public:
-    CustomLabel(const QString &label, bool showSlider = true, int range = 1000, QWidget *parent = 0);
+    explicit CustomLabel(const QString &label, bool showSlider = true, int range = 1000, QWidget *parent = 0);
     void setProgressValue(double value);
     void setStep(double step);
     

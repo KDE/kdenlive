@@ -56,10 +56,13 @@ rectActions OnMonitorRectItem::getMode(QPointF pos)
     right.lineTo(pol.at(2));
 
     QPainterPath mouseArea;
-    qreal size = 8;
-    if (getView())
-        size /= m_view->matrix().m11();
-    mouseArea.addRect(pos.x() - size / 2, pos.y() - size / 2, size, size);
+    qreal xsize = 12;
+    qreal ysize = 12;
+    if (getView()) {
+        xsize /= m_view->matrix().m11();
+	ysize /= m_view->matrix().m22();
+    }
+    mouseArea.addRect(pos.x() - xsize / 2, pos.y() - ysize / 2, xsize, ysize);
 
     // Check for collisions between the mouse and the borders
     if (mouseArea.contains(pol.at(0)))
@@ -261,16 +264,25 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     Q_UNUSED(widget)
 
     painter->setPen(pen());
-    painter->drawRect(option->rect);
-
+    //painter->setClipRect(option->rect);
+    const QRectF r = rect();
+    painter->drawRect(r);
+    QRectF handle = painter->worldTransform().inverted().mapRect(QRectF(0, 0, 6, 6));
     if (isEnabled()) {
-        double handleSize = 6 / painter->worldTransform().m11();
-        double halfHandleSize = handleSize / 2;
-        painter->fillRect(-halfHandleSize, -halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
-        painter->fillRect(option->rect.width() - halfHandleSize, -halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
-        painter->fillRect(option->rect.width() - halfHandleSize, option->rect.height() - halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
-        painter->fillRect(-halfHandleSize, option->rect.height() - halfHandleSize, handleSize, handleSize, QColor(Qt::yellow));
+	handle.moveTopLeft(r.topLeft());
+        painter->fillRect(handle, QColor(Qt::yellow));
+	handle.moveTopRight(r.topRight());
+        painter->fillRect(handle, QColor(Qt::yellow));
+	handle.moveBottomLeft(r.bottomLeft());
+        painter->fillRect(handle, QColor(Qt::yellow));
+	handle.moveBottomRight(r.bottomRight());
+        painter->fillRect(handle, QColor(Qt::yellow));
     }
+    
+    // Draw cross at center
+    QPointF center = r.center();
+    painter->drawLine(center + QPointF(-handle.width(), 0), center + QPointF(handle.width(), 0));
+    painter->drawLine(center + QPointF(0, handle.height()), center + QPointF(0, -handle.height()));
 }
 
 bool OnMonitorRectItem::getView()

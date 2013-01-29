@@ -29,6 +29,7 @@ class QGraphicsView;
 
 enum rectActions { Move, ResizeTopLeft, ResizeBottomLeft, ResizeTopRight, ResizeBottomRight, ResizeLeft, ResizeRight, ResizeTop, ResizeBottom, NoAction };
 
+
 class OnMonitorRectItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT

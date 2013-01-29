@@ -29,6 +29,7 @@
 #include <QPushButton>
 #include <QPainter>
 #include <QStyledItemDelegate>
+#include <QKeyEvent>
 
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
@@ -124,7 +125,7 @@ public:
     void reloadProfiles();
     void setRenderProfile(QMap <QString, QString> props);
     int waitingJobsCount() const;
-    QString getFreeScriptName(const QString &prefix = QString());
+    QString getFreeScriptName(const KUrl &projectName = KUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
     void missingClips(bool hasMissing);
     /** @brief Returns true if the export audio checkbox is set to automatic. */
@@ -138,6 +139,7 @@ public:
 
 protected:
     virtual QSize sizeHint() const;
+    virtual void keyPressEvent(QKeyEvent *e);
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
@@ -207,7 +209,7 @@ private:
 
 signals:
     void abortProcess(const QString &url);
-    void openDvdWizard(const QString &url, const QString &profile);
+    void openDvdWizard(const QString &url);
     /** Send the infos about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file */
     void selectedRenderProfile(QMap <QString, QString> renderProps);

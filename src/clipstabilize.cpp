@@ -43,6 +43,7 @@ ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filt
     setupUi(this);
     setWindowTitle(i18n("Stabilize Clip"));
     auto_add->setText(i18np("Add clip to project", "Add clips to project", count));
+    auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
@@ -76,22 +77,24 @@ ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filt
 
     if (m_filtername=="videostab"){
         QStringList ls;
-        ls << "shutterangle,type,int,value,0,min,0,max,100,tooltip,Angle that Images could be maximum rotated";
+        ls << "shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated";
         fillParameters(ls);
     }else if (m_filtername=="videostab2"){
+	// Some default params have to be set:
+	m_fixedParams << "algo=1" << "relative=1";
         QStringList ls;
-        ls << "accuracy,type,int,value,4,min,1,max,10,tooltip,Accuracy of Shakiness detection";
+        ls << "accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection";
         ls << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video";
         ls << "stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around";
-        ls << "algo,type,bool,value,1,min,0,max,1,tooltip,0 = Bruteforce 1 = small measurement fields";
+        //ls << "algo,type,bool,value,1,min,0,max,1,tooltip,0 = Bruteforce 1 = small measurement fields";
         ls << "mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded";
-        ls << "show,type,int,value,0,min,0,max,2,tooltip,0 = draw nothing. 1 or 2 show fields and transforms";
+        //ls << "show,type,int,value,0,min,0,max,2,tooltip,0 = draw nothing. 1 or 2 show fields and transforms";
         ls << "smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering";
         ls << "maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift";
         ls << "maxangle,type,int,value,-1,min,-1,max,1000,tooltip,max anglen to rotate (in rad)";
         ls << "crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background";
-        ls << "invert,type,bool,value,0,min,0,max,1,tooltip,invert transform";
-        ls << "realtive,type,bool,value,1,min,0,max,1,tooltip,0 = absolute transform  1= relative";
+        //ls << "invert,type,bool,value,0,min,0,max,1,tooltip,invert transform";
+        //ls << "relative,type,bool,value,1,min,0,max,1,tooltip,0 = absolute transform  1= relative";
         ls << "zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform";
         ls << "optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)";
         ls << "sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image";
@@ -132,6 +135,7 @@ ClipStabilize::~ClipStabilize()
     /*if (m_stabilizeProcess.state() != QProcess::NotRunning) {
         m_stabilizeProcess.close();
     }*/
+    KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
 }
 
 QStringList ClipStabilize::params()
@@ -143,11 +147,11 @@ QStringList ClipStabilize::params()
     params << QString();
     // filter
     params << m_filtername;
-    QStringList filterparamsList;
+    QStringList filterparamsList = m_fixedParams;
     QHashIterator <QString,QHash<QString,QString> > it(m_ui_params);
     while (it.hasNext()){
         it.next();
-        filterparamsList << it.key() + "=" + it.value().value("value");
+        filterparamsList << it.key() + '=' + it.value().value("value");
     }
     params << filterparamsList.join(" ");
     
@@ -164,7 +168,7 @@ QString ClipStabilize::destination() const
     if (m_count == 1)
         return dest_url->url().path();
     else
-        return dest_url->url().directory(KUrl::AppendTrailingSlash);
+        return dest_url->url().path(KUrl::AddTrailingSlash);
 }
 
 QString ClipStabilize::desc() const
@@ -233,7 +237,7 @@ void ClipStabilize::slotUpdateParams()
     for (int i=0;i<vbox->count();i++){
         QWidget* w=vbox->itemAt(i)->widget();
         QString name=w->objectName();
-        if (name !="" && m_ui_params.contains(name)){
+        if (!name.isEmpty() && m_ui_params.contains(name)){
             if (m_ui_params[name]["type"]=="int" || m_ui_params[name]["type"]=="double"){
                 DoubleParameterWidget *dbl=(DoubleParameterWidget*)w;
                 m_ui_params[name]["value"]=QString::number((double)(dbl->getValue()));
@@ -256,7 +260,7 @@ void ClipStabilize::fillParameters(QStringList lst)
     m_ui_params.clear();
     while (!lst.isEmpty()){
         QString vallist=lst.takeFirst();
-        QStringList cont=vallist.split(",");
+        QStringList cont=vallist.split(',');
         QString name=cont.takeFirst();
         while (!cont.isEmpty()){
             QString valname=cont.takeFirst();

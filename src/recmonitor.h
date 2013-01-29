@@ -43,6 +43,10 @@
 #include <KComboBox>
 #include <kcapacitybar.h>
 
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#endif
+
 class MonitorManager;
 class MltDeviceCapture;
 class AbstractRender;
@@ -100,7 +104,12 @@ private:
     VideoContainer *m_videoBox;
     QAction *m_addCapturedClip;
     QAction *m_previewSettings;
-    
+    QString m_error;
+
+#if KDE_IS_VERSION(4,7,0)
+    KMessageWidget *m_infoMessage;
+#endif
+
     bool m_analyse;
     void checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString &txt);
@@ -108,7 +117,9 @@ private:
     /** @brief Build MLT producer for device, using path as profile. */
     void buildMltDevice(const QString &path);
     /** @brief Create string containing an XML playlist for v4l capture. */
-    const QString getV4lXmlPlaylist(MltVideoProfile profile);
+    const QString getV4lXmlPlaylist(MltVideoProfile profile, bool *isXml);
+    /** @brief Display an error message to user. */
+    void showWarningMessage(const QString &text, bool logAction = false);
 
 private slots:
     void slotStartPreview(bool play = true);
@@ -120,12 +131,14 @@ private slots:
     void slotDisconnect();
     //void slotStartGrab(const QRect &rect);
     void slotConfigure();
-    void slotReadDvgrabInfo();
+    void slotReadProcessInfo();
     void slotUpdateFreeSpace();
     void slotSetInfoMessage(const QString &message);
     void slotDroppedFrames(int dropped);
     /** @brief Change setting for preview while recording. */
     void slotChangeRecordingPreview(bool enable);
+    /** @brief Show last jog error log. */
+    void slotShowLog();
 
 public slots:
     void refreshRecMonitor(bool visible);

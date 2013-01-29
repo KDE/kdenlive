@@ -25,6 +25,7 @@
 
 #include "ui_freesound_ui.h"
 #include "abstractservice.h"
+#include "../definitions.h"
 
 #include <QDialog>
 #include <QProcess>
@@ -42,7 +43,7 @@ class ResourceWidget : public QDialog, public Ui::FreeSound_UI
     Q_OBJECT
 
 public:
-    ResourceWidget(const QString & folder, QWidget * parent = 0);
+    explicit ResourceWidget(const QString & folder, QWidget * parent = 0);
     ~ResourceWidget();
 
 
@@ -66,6 +67,7 @@ private slots:
     void slotSetDescription(const QString desc);
     void slotSetImage(const QString desc);
     void slotSetTitle(const QString desc);
+    void slotSetMaximum(int max);
 
 private:
     QString m_folder;
@@ -84,7 +86,7 @@ private:
     void updateLayout();
    
 signals:
-    void addClip(KUrl, const QString &);
+    void addClip(KUrl, stringMap data);
 };
 
 

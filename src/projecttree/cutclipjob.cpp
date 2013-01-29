@@ -27,7 +27,7 @@
 
 CutClipJob::CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(CUTJOB, cType, id, parameters)
 {
-    jobStatus = JOBWAITING;
+    m_jobStatus = JOBWAITING;
     m_dest = parameters.at(0);
     m_src = parameters.at(1);
     m_start = parameters.at(2);
@@ -62,12 +62,11 @@ void CutClipJob::startJob()
         parameters << m_dest;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        // kDebug()<<"// STARTING CUT JOB: "<<parameters;
-        m_jobProcess->start("ffmpeg", parameters);
+        m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters);
         m_jobProcess->waitForStarted();
         while (m_jobProcess->state() != QProcess::NotRunning) {
             processLogInfo();
-            if (jobStatus == JOBABORTED) {
+            if (m_jobStatus == JOBABORTED) {
                 m_jobProcess->close();
                 m_jobProcess->waitForFinished();
                 QFile::remove(m_dest);
@@ -75,7 +74,7 @@ void CutClipJob::startJob()
             m_jobProcess->waitForFinished(400);
         }
         
-        if (jobStatus != JOBABORTED) {
+        if (m_jobStatus != JOBABORTED) {
             int result = m_jobProcess->exitStatus();
             if (result == QProcess::NormalExit) {
                 if (QFileInfo(m_dest).size() == 0) {
@@ -103,7 +102,7 @@ void CutClipJob::startJob()
 
 void CutClipJob::processLogInfo()
 {
-    if (!m_jobProcess || m_jobDuration == 0 || jobStatus == JOBABORTED) return;
+    if (!m_jobProcess || m_jobDuration == 0 || m_jobStatus == JOBABORTED) return;
     QString log = m_jobProcess->readAll();
     if (!log.isEmpty()) m_logDetails.append(log + '\n');
     int progress;
@@ -141,7 +140,7 @@ stringMap CutClipJob::cancelProperties()
 const QString CutClipJob::statusMessage()
 {
     QString statusInfo;
-    switch (jobStatus) {
+    switch (m_jobStatus) {
         case JOBWORKING:
             if (m_start.isEmpty()) statusInfo = i18n("Transcoding clip");
             else statusInfo = i18n("Extracting clip cut");

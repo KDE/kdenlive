@@ -29,7 +29,7 @@ ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, QStringList parameters) : 
     m_jobDuration(0),
     m_isFfmpegJob(true)
 {
-    jobStatus = JOBWAITING;
+    m_jobStatus = JOBWAITING;
     description = i18n("proxy");
     m_dest = parameters.at(0);
     m_src = parameters.at(1);
@@ -52,19 +52,21 @@ void ProxyJob::startJob()
         mltParameters << "-consumer" << "avformat:" + m_dest;
         QStringList params = m_proxyParams.split('-', QString::SkipEmptyParts);
                 
-        foreach(QString s, params) {
-            s = s.simplified();
-            if (s.count(' ') == 0) {
-                s.append("=1");
+        foreach(const QString &s, params) {
+            QString t = s.simplified();
+            if (t.count(' ') == 0) {
+                t.append("=1");
             }
-            else s.replace(' ', '=');
-            mltParameters << s;
+            else t.replace(' ', '=');
+            mltParameters << t;
         }
         
         mltParameters.append(QString("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
         //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
-        double display_ratio = KdenliveDoc::getDisplayRatio(m_src);
+        double display_ratio;
+	if (m_src.startsWith("consumer:")) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(":", 1));
+	else display_ratio = KdenliveDoc::getDisplayRatio(m_src);
         mltParameters << "aspect=" + QString::number(display_ratio);
             
         // Ask for progress reporting
@@ -140,12 +142,12 @@ void ProxyJob::startJob()
         parameters << m_dest;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        m_jobProcess->start("ffmpeg", parameters, QIODevice::ReadOnly);
+        m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         m_jobProcess->waitForStarted();
     }
     while (m_jobProcess->state() != QProcess::NotRunning) {
         processLogInfo();
-        if (jobStatus == JOBABORTED) {
+        if (m_jobStatus == JOBABORTED) {
             emit cancelRunningJob(m_clipId, cancelProperties());
             m_jobProcess->close();
             m_jobProcess->waitForFinished();
@@ -154,7 +156,7 @@ void ProxyJob::startJob()
         m_jobProcess->waitForFinished(400);
     }
     
-    if (jobStatus != JOBABORTED) {
+    if (m_jobStatus != JOBABORTED) {
         int result = m_jobProcess->exitStatus();
         if (result == QProcess::NormalExit) {
             if (QFileInfo(m_dest).size() == 0) {
@@ -178,7 +180,7 @@ void ProxyJob::startJob()
 
 void ProxyJob::processLogInfo()
 {
-    if (!m_jobProcess || jobStatus == JOBABORTED) return;
+    if (!m_jobProcess || m_jobStatus == JOBABORTED) return;
     QString log = m_jobProcess->readAll();
     if (!log.isEmpty()) m_logDetails.append(log + '\n');
     else return;
@@ -205,7 +207,7 @@ void ProxyJob::processLogInfo()
     else {
         // Parse MLT output
         if (log.contains("percentage:")) {
-            progress = log.section(':', -1).simplified().toInt();
+            progress = log.section("percentage:", 1).simplified().section(' ', 0, 0).toInt();
             emit jobProgress(m_clipId, progress, jobType);
         }
     }
@@ -230,7 +232,7 @@ stringMap ProxyJob::cancelProperties()
 const QString ProxyJob::statusMessage()
 {
     QString statusInfo;
-    switch (jobStatus) {
+    switch (m_jobStatus) {
         case JOBWORKING:
             statusInfo = i18n("Creating proxy");
             break;

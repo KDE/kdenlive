@@ -20,6 +20,7 @@
 #include "wizard.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
+#include "renderer.h"
 #ifdef USE_V4L
 #include "v4l/v4lcapture.h"
 #endif
@@ -36,6 +37,10 @@
 #include <KService>
 #include <KMimeTypeTrader>
 
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#endif
+
 #include <QLabel>
 #include <QFile>
 #include <QXmlStreamWriter>
@@ -43,8 +48,8 @@
 
 // Recommended MLT version
 const int mltVersionMajor = 0;
-const int mltVersionMinor = 7;
-const int mltVersionRevision = 6;
+const int mltVersionMinor = 8;
+const int mltVersionRevision = 0;
 
 static const char kdenlive_version[] = VERSION;
 
@@ -57,14 +62,13 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
     QWizardPage *page1 = new QWizardPage;
     page1->setTitle(i18n("Welcome"));
-    QLabel *label;
     if (upgrade)
-        label = new QLabel(i18n("Your Kdenlive version was upgraded to version %1. Please take some time to review the basic settings", QString(kdenlive_version).section(' ', 0, 0)));
+        m_welcomeLabel = new QLabel(i18n("Your Kdenlive version was upgraded to version %1. Please take some time to review the basic settings", QString(kdenlive_version).section(' ', 0, 0)), this);
     else
-        label = new QLabel(i18n("This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."));
-    label->setWordWrap(true);
+        m_welcomeLabel = new QLabel(i18n("This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."), this);
+    m_welcomeLabel->setWordWrap(true);
     m_startLayout = new QVBoxLayout;
-    m_startLayout->addWidget(label);
+    m_startLayout->addWidget(m_welcomeLabel);
     QPushButton *but = new QPushButton(KIcon("help-about"), i18n("Discover the features of this Kdenlive release"), this);
     connect(but, SIGNAL(clicked()), this, SLOT(slotShowWebInfos()));
     m_startLayout->addStretch();
@@ -135,8 +139,13 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
 #ifndef Q_WS_MAC
     QWizardPage *page6 = new QWizardPage;
-    page6->setTitle(i18n("Webcam"));
+    page6->setTitle(i18n("Capture device"));
     m_capture.setupUi(page6);
+    bool found_decklink = Render::getBlackMagicDeviceList(m_capture.decklink_devices);
+    KdenliveSettings::setDecklink_device_found(found_decklink);
+    if (found_decklink) m_capture.decklink_status->setText(i18n("Default Blackmagic Decklink card:"));
+    else m_capture.decklink_status->setText(i18n("No Blackmagic Decklink device found"));
+    connect(m_capture.decklink_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkDevice(int)));
     connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
     connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
     connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
@@ -174,7 +183,7 @@ void Wizard::slotDetectWebcam()
         }
     }
     if (m_capture.v4l_devices->count() > 0) {
-        m_capture.v4l_status->setText(i18n("Select your default video4linux device"));
+        m_capture.v4l_status->setText(i18n("Default video4linux device:"));
         // select default device
         bool found = false;
         for (int i = 0; i < m_capture.v4l_devices->count(); i++) {
@@ -207,19 +216,19 @@ void Wizard::slotUpdateCaptureParameters()
         MltVideoProfile profileInfo = ProfilesDialog::getVideoProfile(vl4ProfilePath);
         m_capture.v4l_formats->addItem(i18n("Current settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QString("unknown") <<QString::number(profileInfo.width)<<QString::number(profileInfo.height)<<QString::number(profileInfo.frame_rate_num)<<QString::number(profileInfo.frame_rate_den));
     }
-    QStringList pixelformats = formats.split(">", QString::SkipEmptyParts);
+    QStringList pixelformats = formats.split('>', QString::SkipEmptyParts);
     QString itemSize;
     QString pixelFormat;
     QStringList itemRates;
     for (int i = 0; i < pixelformats.count(); i++) {
         QString format = pixelformats.at(i).section(':', 0, 0);
-        QStringList sizes = pixelformats.at(i).split(":", QString::SkipEmptyParts);
+        QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); j++) {
-            itemSize = sizes.at(j).section("=", 0, 0);
-            itemRates = sizes.at(j).section("=", 1, 1).split(",", QString::SkipEmptyParts);
+            itemSize = sizes.at(j).section('=', 0, 0);
+            itemRates = sizes.at(j).section('=', 1, 1).split(',', QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); k++) {
-                QString formatDescription = "[" + format + "] " + itemSize + " (" + itemRates.at(k) + ")";
+                QString formatDescription = '[' + format + "] " + itemSize + " (" + itemRates.at(k) + ')';
                 if (m_capture.v4l_formats->findText(formatDescription) == -1)
                     m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
             }
@@ -351,6 +360,7 @@ void Wizard::checkMltComponents()
                 result << QString(formats.get(i));
             m_mltCheck.formats_list->addItems(result);
             KdenliveSettings::setSupportedformats(result);
+	    checkMissingCodecs();
             delete consumer;
         }
 
@@ -399,6 +409,87 @@ void Wizard::checkMltComponents()
     }
 }
 
+void Wizard::checkMissingCodecs()
+{
+    const QStringList acodecsList = KdenliveSettings::audiocodecs();
+    const QStringList vcodecsList = KdenliveSettings::videocodecs();
+    bool replaceVorbisCodec = false;
+    if (acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
+    bool replaceLibfaacCodec = false;
+    if (!acodecsList.contains("aac") && acodecsList.contains("libfaac")) replaceLibfaacCodec = true;
+    
+    QString exportFolder = KStandardDirs::locateLocal("appdata", "export/");
+    QDir directory = QDir(exportFolder);
+    QStringList filter;
+    filter << "*.xml";
+    QStringList fileList = directory.entryList(filter, QDir::Files);
+    // We should parse customprofiles.xml in last position, so that user profiles
+    // can also override profiles installed by KNewStuff
+    QStringList requiredACodecs;
+    QStringList requiredVCodecs;
+    foreach(const QString &filename, fileList) {
+	QDomDocument doc;
+	QFile file(exportFolder + filename);
+	doc.setContent(&file, false);
+	file.close();
+	QString std;
+	QString format;
+	QDomNodeList profiles = doc.elementsByTagName("profile");
+	for (int i = 0; i < profiles.count(); i++) {
+	    std = profiles.at(i).toElement().attribute("args");
+	    format.clear();
+            if (std.startsWith("acodec=")) format = std.section("acodec=", 1, 1);
+	    else if (std.contains(" acodec=")) format = std.section(" acodec=", 1, 1);
+            if (!format.isEmpty()) requiredACodecs << format.section(' ', 0, 0).toLower();
+	    format.clear();
+            if (std.startsWith("vcodec=")) format = std.section("vcodec=", 1, 1);
+	    else if (std.contains(" vcodec=")) format = std.section(" vcodec=", 1, 1);
+            if (!format.isEmpty()) requiredVCodecs << format.section(' ', 0, 0).toLower();
+	}
+    }
+    requiredACodecs.removeDuplicates();
+    requiredVCodecs.removeDuplicates();
+    if (replaceVorbisCodec) requiredACodecs.replaceInStrings("vorbis", "libvorbis");
+    if (replaceLibfaacCodec) requiredACodecs.replaceInStrings("aac", "libfaac");
+
+    for (int i = 0; i < acodecsList.count(); i++)
+	requiredACodecs.removeAll(acodecsList.at(i));
+    for (int i = 0; i < vcodecsList.count(); i++)
+	requiredVCodecs.removeAll(vcodecsList.at(i));
+    if (!requiredACodecs.isEmpty() || !requiredVCodecs.isEmpty()) {
+	QString missing = requiredACodecs.join(",");
+	if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) missing.append(',');
+	missing.append(requiredVCodecs.join(","));
+	missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
+	// Some codecs required for rendering are not present on this system, warn user
+	show();
+#if KDE_IS_VERSION(4,7,0)
+        KMessageWidget *infoMessage = new KMessageWidget(this);
+        m_startLayout->insertWidget(1, infoMessage);
+        infoMessage->setCloseButtonVisible(false);
+        infoMessage->setWordWrap(true);
+	infoMessage->setMessageType(KMessageWidget::Warning);
+#if KDE_IS_VERSION(4,10,0)
+	connect(infoMessage, SIGNAL(linkActivated (const QString &)), this, SLOT(slotOpenManual()));
+	infoMessage->setText(missing);
+#else
+	// clickable text in kmessagewidget only available since KDE 4.10
+	// remove link from text
+	missing.remove(QRegExp("<[^>]*>"));
+        infoMessage->setText(missing);
+	QAction *manualAction = new QAction(i18n("Check online manual"), this);
+	connect(manualAction, SIGNAL(triggered()), this, SLOT(slotOpenManual()));
+	infoMessage->addAction(manualAction);
+#endif
+        infoMessage->animatedShow();
+#else
+	m_welcomeLabel->setText(m_welcomeLabel->text() + "<br><hr />" + missing);
+	connect(m_welcomeLabel, SIGNAL(linkActivated (const QString &)), this, SLOT(slotOpenManual()));
+#endif
+    }
+    
+}
+
 void Wizard::slotCheckPrograms()
 {
     QSize itemSize(20, fontMetrics().height() * 2.5);
@@ -406,20 +497,25 @@ void Wizard::slotCheckPrograms()
     m_check.programList->setIconSize(QSize(24, 24));
 
     QTreeWidgetItem *item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("FFmpeg & ffplay"));
-    item->setData(1, Qt::UserRole, i18n("Required for webcam capture"));
+    item->setData(1, Qt::UserRole, i18n("Required for proxy clips, transcoding and screen capture"));
     item->setSizeHint(0, itemSize);
     QString exepath = KStandardDirs::findExe("ffmpeg");
-    if (exepath.isEmpty()) item->setIcon(0, m_badIcon);
-    else if (KStandardDirs::findExe("ffplay").isEmpty()) item->setIcon(0, m_badIcon);
-    else item->setIcon(0, m_okIcon);
+    QString playpath = KStandardDirs::findExe("ffplay");
+    item->setIcon(0, m_okIcon);
+    if (exepath.isEmpty()) {
+	// Check for libav version
+	exepath = KStandardDirs::findExe("avconv");
+	if (exepath.isEmpty()) item->setIcon(0, m_badIcon);
+    }
+    if (playpath.isEmpty()) {
+	// Check for libav version
+	playpath = KStandardDirs::findExe("avplay");
+	if (playpath.isEmpty()) item->setIcon(0, m_badIcon);
+    }
+    if (!exepath.isEmpty()) KdenliveSettings::setFfmpegpath(exepath);
+    if (!playpath.isEmpty()) KdenliveSettings::setFfplaypath(playpath);
 
 #ifndef Q_WS_MAC
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("recordmydesktop"));
-    item->setData(1, Qt::UserRole, i18n("Required for screen capture"));
-    item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("recordmydesktop").isEmpty()) item->setIcon(0, m_badIcon);
-    else item->setIcon(0, m_okIcon);
-
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("dvgrab"));
     item->setData(1, Qt::UserRole, i18n("Required for firewire capture"));
     item->setSizeHint(0, itemSize);
@@ -447,7 +543,13 @@ void Wizard::slotCheckPrograms()
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("xine"));
     item->setData(1, Qt::UserRole, i18n("Required to preview your DVD"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("xine").isEmpty()) item->setIcon(0, m_badIcon);
+    if (KStandardDirs::findExe("xine").isEmpty()) {
+	if (!KStandardDirs::findExe("vlc").isEmpty()) {
+	    item->setText(1, i18n("vlc"));
+	    item->setIcon(0, m_okIcon);
+	}
+	else item->setIcon(0, m_badIcon);
+    }
     else item->setIcon(0, m_okIcon);
 
     // set up some default applications
@@ -474,12 +576,19 @@ void Wizard::installExtraMimes(QString baseName, QStringList globs)
     QString mimefile = baseName;
     mimefile.replace('/', '-');
     KMimeType::Ptr mime = KMimeType::mimeType(baseName);
+    QStringList missingGlobs;
+    foreach(const QString & glob, globs) {
+	KMimeType::Ptr type = KMimeType::findByPath(glob, 0, true);
+	QString mimeName = type->name();
+        if (!mimeName.contains("audio") && !mimeName.contains("video")) missingGlobs << glob;
+    }
+    if (missingGlobs.isEmpty()) return;
     if (!mime) {
         kDebug() << "KMimeTypeTrader: mimeType " << baseName << " not found";
     } else {
         QStringList extensions = mime->patterns();
         QString comment = mime->comment();
-        foreach(const QString & glob, globs) {
+        foreach(const QString & glob, missingGlobs) {
             if (!extensions.contains(glob)) extensions << glob;
         }
         kDebug() << "EXTS: " << extensions;
@@ -600,7 +709,8 @@ void Wizard::adjustSettings()
 {
     if (m_extra.installmimes->isChecked()) {
         QStringList globs;
-        globs << "*.mts" << "*.m2t" << "*.mod" << "*.ts" << "*.m2ts";
+	
+        globs << "*.mts" << "*.m2t" << "*.mod" << "*.ts" << "*.m2ts" << "*.m2v";
         installExtraMimes("video/mpeg", globs);
         globs.clear();
         globs << "*.dv";
@@ -651,6 +761,11 @@ bool Wizard::isOk() const
     return m_systemCheckIsOk;
 }
 
+void Wizard::slotOpenManual()
+{
+    KRun::runUrl(KUrl("http://kdenlive.org/troubleshooting"), "text/html", this);
+}
+
 void Wizard::slotShowWebInfos()
 {
     KRun::runUrl(KUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(' ', 0, 0)), "text/html", this);
@@ -674,6 +789,11 @@ void Wizard::slotSaveCaptureFormat()
     profile.progressive = 1;
     QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
     ProfilesDialog::saveProfile(profile, vl4ProfilePath);
+}
+
+void Wizard::slotUpdateDecklinkDevice(int captureCard)
+{
+    KdenliveSettings::setDecklink_capturedevice(captureCard);
 }
 
 #include "wizard.moc"

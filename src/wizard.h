@@ -42,18 +42,17 @@ public:
     }
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
         if (index.column() == 1) {
-            const bool hover = option.state & (QStyle::State_Selected);
-            QRect r1 = option.rect;
             painter->save();
-            if (hover) {
-                painter->setPen(option.palette.color(QPalette::HighlightedText));
-                QColor backgroundColor = option.palette.color(QPalette::Highlight);
-                painter->setBrush(QBrush(backgroundColor));
-                painter->fillRect(r1, backgroundColor);
-            }
+	    QStyleOptionViewItemV4 opt(option);
+            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+	    
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
+	    QRect r1 = option.rect;
+            r1.adjust(0, textMargin, 0, - textMargin);
             int mid = (int)((r1.height() / 2));
             r1.setBottom(r1.y() + mid);
             QRect r2 = option.rect;
@@ -62,7 +61,6 @@ public:
             font.setBold(false);
             painter->setFont(font);
             QString subText = index.data(Qt::UserRole).toString();
-            painter->setPen(option.palette.color(QPalette::Mid));
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
             painter->restore();
         } else {
@@ -76,7 +74,7 @@ class Wizard : public QWizard
 {
     Q_OBJECT
 public:
-    Wizard(bool upgrade, QWidget * parent = 0);
+    explicit Wizard(bool upgrade, QWidget * parent = 0);
     void installExtraMimes(QString baseName, QStringList globs);
     void runUpdateMimeDatabase();
     void adjustSettings();
@@ -90,11 +88,13 @@ private:
     Ui::WizardCheck_UI m_check;
     QVBoxLayout *m_startLayout;
     bool m_systemCheckIsOk;
+    QLabel *m_welcomeLabel;
     QMap <QString, QString> m_dvProfiles;
     QMap <QString, QString> m_hdvProfiles;
     QMap <QString, QString> m_otherProfiles;
     void slotCheckPrograms();
     void checkMltComponents();
+    void checkMissingCodecs();
     KIcon m_okIcon;
     KIcon m_badIcon;
 
@@ -107,6 +107,8 @@ private slots:
     void slotDetectWebcam();
     void slotUpdateCaptureParameters();
     void slotSaveCaptureFormat();
+    void slotUpdateDecklinkDevice(int captureCard);
+    void slotOpenManual();
 };
 
 #endif

@@ -42,10 +42,6 @@
 #include <KIcon>
 #include <kdeversion.h>
 
-#if KDE_IS_VERSION(4,7,0)
-#include <KMessageWidget>
-#endif
-
 #ifdef NEPOMUK
 #include <nepomuk/kratingpainter.h>
 #include <nepomuk/resource.h>
@@ -58,6 +54,34 @@
 #include "subprojectitem.h"
 #include "projecttree/abstractclipjob.h"
 #include <kdialog.h>
+
+#if KDE_IS_VERSION(4,7,0)
+#include <KMessageWidget>
+#else
+// Dummy KMessageWidget to allow compilation of MyMessageWidget class since Qt's moc doesn work inside #ifdef
+#include <QLabel>
+class KMessageWidget: public QLabel
+{
+public:
+    KMessageWidget(QWidget * = 0) {};
+    KMessageWidget(const QString &, QWidget * = 0) {};
+    virtual ~KMessageWidget(){};
+};
+#endif
+
+class MyMessageWidget: public KMessageWidget
+{
+    Q_OBJECT
+public:
+    MyMessageWidget(QWidget *parent = 0);
+    MyMessageWidget(const QString &text, QWidget *parent = 0);
+
+protected:
+    bool event(QEvent* ev);
+
+signals:
+    void messageClosing();
+};
 
 namespace Mlt
 {
@@ -144,31 +168,28 @@ public:
             QString subText = index.data(DurationRole).toString();
             int usage = index.data(UsageRole).toInt();
             if (usage != 0) subText.append(QString(" (%1)").arg(usage));
-            if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
             QRectF bounding;
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
-            
             int jobProgress = index.data(Qt::UserRole + 5).toInt();
             if (jobProgress != 0 && jobProgress != JOBDONE && jobProgress != JOBABORTED) {
                 if (jobProgress != JOBCRASHED) {
                     // Draw job progress bar
                     QColor color = option.palette.alternateBase().color();
-                    painter->setPen(Qt::NoPen);
-                    color.setAlpha(180);
-                    painter->setBrush(QBrush(color));
-                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 2, 8);
-                    painter->drawRect(progress);
-                    painter->setBrush(option.palette.text());
-                    if (jobProgress > 0) {
-                        progress.adjust(1, 1, 0, -1);
-                        progress.setWidth((pixmap.width() - 4) * jobProgress / 100);
-                        painter->drawRect(progress);
-                    } else if (jobProgress == JOBWAITING) {
-                        // Draw kind of a pause icon
-                        progress.adjust(1, 1, 0, -1);
-                        progress.setWidth(2);
-                        painter->drawRect(progress);
-                        progress.moveLeft(progress.right() + 2);
+		    color.setAlpha(150);
+                    painter->setPen(option.palette.link().color());
+                    QRect progress(pixmapPoint.x() + 2, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 4, 7);
+		    painter->setBrush(QBrush(color));
+		    painter->drawRect(progress);
+		    painter->setBrush(option.palette.link());
+		    progress.adjust(2, 2, -2, -2);
+		    if (jobProgress == JOBWAITING) {
+			progress.setLeft(progress.right() - 2);
+			painter->drawRect(progress);
+			progress.moveLeft(progress.left() - 5);
+			painter->drawRect(progress);
+		    }
+		    else if (jobProgress > 0) {
+                        progress.setWidth(progress.width() * jobProgress / 100);
                         painter->drawRect(progress);
                     }
                 } else if (jobProgress == JOBCRASHED) {
@@ -306,7 +327,8 @@ public slots:
     /** @brief Start transcoding selected clips. */
     void slotTranscodeClipJob(const QString &condition, QString params, QString desc);
     /** @brief Start an MLT process job. */
-    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QString&,const QString&);
+    void slotStartFilterJob(ItemInfo, const QString&,const QString&,const QString&,const QString&,const QString&,const QMap <QString, QString>&);
+    void slotSetThumbnail(const QString &id, int framePos, QImage img);
     
 
 private:
@@ -326,7 +348,7 @@ private:
     QAction *m_discardCurrentClipJobs;
     QMenu *m_extractAudioAction;
     QMenu *m_transcodeAction;
-    QMenu *m_stabilizeAction;
+    QMenu *m_clipsActionsMenu;
     KdenliveDoc *m_doc;
     ItemDelegate *m_listViewDelegate;
     /** @brief False if we have not yet finished opening the document. */
@@ -341,6 +363,7 @@ private:
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
     QMutex m_jobMutex;
+    QMutex m_processMutex;
     bool m_abortAllJobs;
     /** @brief We are cleaning up the project list, so stop processing signals. */
     bool m_closing;
@@ -349,10 +372,11 @@ private:
     InvalidDialog *m_invalidClipDialog;
     QMenu *m_jobsMenu;
     SmallInfoLabel *m_infoLabel;
+    /** @brief A list of strings containing the last error logs for clip jobs. */
+    QStringList m_errorLog;
+
 #if KDE_IS_VERSION(4,7,0)
-    KMessageWidget *m_infoMessage;
-    /** @brief A string containing the last error log for a clip job. */
-    QString m_errorLog;
+    MyMessageWidget *m_infoMessage;
     /** @brief The action that will trigger the log dialog. */
     QAction *m_logAction;
 #endif
@@ -399,7 +423,14 @@ private:
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description);
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QMap <QString, QString>extraParams = QMap <QString, QString>());
+    /** @brief Create rounded shape pixmap for project tree thumb. */
+    QPixmap roundedPixmap(QImage img);
+    QPixmap roundedPixmap(QPixmap source);
+    /** @brief Extract a clip's metadata with the exiftool program. */
+    void extractMetadata(DocClipBase *clip);
+    /** @brief Add a special FFmpeg tag if clip matches some properties (for example set full_luma for Sony NEX camcorders. */
+    //void checkCamcorderFilters(DocClipBase *clip, QMap <QString, QString> meta);
 
 private slots:
     void slotClipSelected();
@@ -461,6 +492,12 @@ private slots:
     void slotDiscardClipJobs();
     /** @brief Make sure current clip is visible in project tree. */
     void slotCheckScrolling();
+    /** @brief Reset all text and log data from info message widget. */
+    void slotResetInfoMessage();
+    /** @brief close warning info passive popup. */
+    void slotClosePopup();
+    /** @brief process clip job result. */
+    void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
 
 signals:
     void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
@@ -469,7 +506,7 @@ signals:
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
     void projectModified();
     void loadingIsOver();
-    void displayMessage(const QString, int progress);
+    void displayMessage(const QString, int progress, MessageType type = DefaultMessage);
     void clipNameChanged(const QString, const QString);
     void clipNeedsReload(const QString&);
     /** @brief A property affecting display was changed, so we need to update monitors and thumbnails
@@ -483,7 +520,7 @@ signals:
     void updateProfile(const QString &);
     void processNextThumbnail();
     /** @brief Activate the clip monitor. */
-    void raiseClipMonitor();
+    void raiseClipMonitor(bool forceRefresh);
     /** @brief Set number of running jobs. */
     void jobCount(int);
     void cancelRunningJob(const QString, stringMap);
@@ -493,8 +530,12 @@ signals:
     void gotProxy(const QString);
     void checkJobProcess();
     /** @brief A Filter Job produced results, send them back to the clip. */
-    void gotFilterJobResults(const QString &id, int startPos, int track, const QString &filterName, stringMap params);
+    void gotFilterJobResults(const QString &id, int startPos, int track, stringMap params, stringMap extra);
+    void pauseMonitor();
+    void updateAnalysisData(DocClipBase *);
+    void addMarkers(const QString &, QList <CommentedTime>);
 };
 
 #endif
+
 

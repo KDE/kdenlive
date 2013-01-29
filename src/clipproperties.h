@@ -55,13 +55,16 @@ public:
     bool needsTimelineRefresh() const;
     bool needsTimelineReload() const;
     void disableClipId(const QString &id);
+
+public slots:
+    void slotFillMarkersList(DocClipBase *clip);
+    void slotUpdateAnalysisData(DocClipBase *clip);
     
 private slots:
-    void parseFolder();
+    void parseFolder(bool reloadThumb = true);
     void slotAddMarker();
     void slotEditMarker();
     void slotDeleteMarker();
-    void slotFillMarkersList();
     void slotCheckMaxLength();
     void slotEnableLuma(int state);
     void slotEnableLumaFile(int state);
@@ -70,6 +73,14 @@ private slots:
     void slotModified();
     void slotDeleteProxy();
     void slotOpenUrl(const QString &url);
+    void slotSaveMarkers();
+    void slotLoadMarkers();
+    void slotDeleteAnalysis();
+    void slotGotThumbnail(const QString &id, QImage img);
+    void slotSaveAnalysis();
+    void slotLoadAnalysis();
+    void slotReloadVideoProperties();
+    void slotReloadVideoThumb();
 
 private:
     Ui::ClipProperties_UI m_view;
@@ -85,11 +96,16 @@ private:
     bool m_clipNeedsReLoad;
     /** Frame with proxy info / delete button */
     QFrame* m_proxyContainer;
+    void loadVideoProperties(QMap <QString, QString> props);
 
 signals:
-    void addMarker(const QString &, GenTime, QString);
+    void addMarkers(const QString &, QList <CommentedTime>);
     void deleteProxy(const QString);
     void applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool);
+    void saveMarkers(const QString &id);
+    void loadMarkers(const QString &id);
+    void editAnalysis(const QString &id, const QString &name, const QString &value);
+    void requestThumb(const QString id, QList <int> frames);
 };
 
 

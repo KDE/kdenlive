@@ -305,7 +305,7 @@ private:
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void loadTranscoders();
-    void loadStabilize();
+    void loadClipActions();
     QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config);
 
     /** @brief Checks that the Kdenlive mime type is correctly installed.
@@ -318,7 +318,8 @@ private:
 
     StopmotionWidget *m_stopmotion;
     QTime m_timer;
-    
+    /** @brief The last selected clip in timeline. */
+    ClipItem *m_mainClip;
     /** @brief Update statusbar stylesheet (in case of color theme change). */
     void setStatusBarStyleSheet(const QPalette &p);
 
@@ -327,7 +328,7 @@ public slots:
     *
     * Checks if already open and whether backup exists */
     void openFile(const KUrl &url);
-    void slotGotProgressInfo(const QString &message, int progress);
+    void slotGotProgressInfo(const QString &message, int progress, MessageType type = DefaultMessage);
     void slotReloadEffects();
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
@@ -425,7 +426,7 @@ private slots:
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
-    void slotAddProjectClip(KUrl url, const QString &comment = QString());
+    void slotAddProjectClip(KUrl url, stringMap data = stringMap());
     void slotAddProjectClipList(KUrl::List urls);
     void slotShowClipProperties(DocClipBase *clip);
     void slotShowClipProperties(QList <DocClipBase *>cliplist, QMap<QString, QString> commonproperties);
@@ -485,7 +486,7 @@ private slots:
     /** @brief Lets the sampleplugin create a generator.  */
     void generateClip();
     void slotZoneMoved(int start, int end);
-    void slotDvdWizard(const QString &url = QString(), const QString &profile = "dv_pal");
+    void slotDvdWizard(const QString &url = QString());
     void slotGroupClips();
     void slotUnGroupClips();
     void slotEditItemDuration();
@@ -498,7 +499,7 @@ private slots:
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
     void slotTranscode(KUrl::List urls = KUrl::List());
-    void slotStabilize();
+    void slotStartClipAction();
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();
@@ -565,6 +566,10 @@ private slots:
     void slotChangePalette();
     /** @brief Save current timeline clip as mlt playlist. */
     void slotSaveTimelineClip();
+    /** @brief Process keyframe data sent from a clip to effect / transition stack. */
+    void slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum);
+    /** @brief Move playhead to mouse curser position if defined key is pressed */
+    void slotAlignPlayheadToMousePos();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

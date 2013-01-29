@@ -35,24 +35,26 @@ const int JobTypeRole = Qt::UserRole + 6;
 const int JobStatusMessage = Qt::UserRole + 7;
 const int itemHeight = 38;
 
-ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
+ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, QSize pixmapSize) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE),
         m_clip(clip),
-        m_clipId(clip->getId())
+        m_clipId(clip->getId()),
+        m_pixmapSet(false)
 {
-    buildItem();
+    buildItem(pixmapSize);
 }
 
-ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
+ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, QSize pixmapSize) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE),
         m_clip(clip),
-        m_clipId(clip->getId())
+        m_clipId(clip->getId()),
+        m_pixmapSet(false)
         
 {
-    buildItem();
+    buildItem(pixmapSize);
 }
 
-void ProjectItem::buildItem()
+void ProjectItem::buildItem(QSize pixmapSize)
 {
     setSizeHint(0, QSize(itemHeight * 3, itemHeight));
     if (m_clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
@@ -60,6 +62,20 @@ void ProjectItem::buildItem()
     QString name = m_clip->getProperty("name");
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
+    switch(m_clipType) {
+	case AUDIO:
+	    setData(0, Qt::DecorationRole, KIcon("audio-x-generic").pixmap(pixmapSize));
+	    m_pixmapSet = true;
+	    break;
+	case IMAGE:
+	case SLIDESHOW:
+	    setData(0, Qt::DecorationRole, KIcon("image-x-generic").pixmap(pixmapSize));
+	    break;
+	default:
+	    setData(0, Qt::DecorationRole, KIcon("video-x-generic").pixmap(pixmapSize));
+    }
+    if (m_clipType != UNKNOWN) slotSetToolTip();
+    
     setText(0, name);
     setText(1, m_clip->description());
     GenTime duration = m_clip->duration();
@@ -78,6 +94,17 @@ void ProjectItem::buildItem()
 
 ProjectItem::~ProjectItem()
 {
+}
+
+bool ProjectItem::hasPixmap() const
+{
+    return m_pixmapSet;
+}
+
+void ProjectItem::setPixmap(const QPixmap p)
+{
+    m_pixmapSet = true;
+    setData(0, Qt::DecorationRole, p);
 }
 
 //static
@@ -256,7 +283,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 void ProjectItem::setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progress, const QString &statusMessage)
 {
     setData(0, JobTypeRole, jobType);
-    if (progress > 0) setData(0, JobProgressRole, progress);
+    if (progress > 0) setData(0, JobProgressRole, qMin(100, progress));
     else {
         setData(0, JobProgressRole, status);
         if ((status == JOBABORTED || status == JOBCRASHED  || status == JOBDONE) || !statusMessage.isEmpty())

@@ -57,6 +57,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
+    virtual void leaveEvent(QEvent * event);
 
 private:
     Timecode m_timecode;
@@ -64,13 +65,12 @@ private:
     int m_zoneStart;
     int m_zoneEnd;
     int m_duration;
-    QColor m_bgColor;
-    QColor m_cursorColor;
     QColor m_zoneColor;
     double m_textSpacing;
     double m_factor;
     double m_scale;
     int m_offset;
+    int m_lastSeekPosition;
     RULER_MOVE m_moveCursor;
     QMenu *m_contextMenu;
     QAction *m_editGuide;
@@ -82,11 +82,13 @@ private:
     int m_startRate;
     MOUSE_MOVE m_mouseMove;
     QMenu *m_goMenu;
+    QBrush m_cursorColor;
 
 
 public slots:
     void slotMoveRuler(int newPos);
     void slotCursorMoved(int oldpos, int newpos);
+    void updateRuler();
 
 private slots:
     void slotEditGuide();

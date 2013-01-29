@@ -30,8 +30,8 @@ AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id
         QObject(),
         clipType(cType),
         jobType(type),
-        jobStatus(NOJOB),
         replaceClip(false),
+        m_jobStatus(NOJOB),
         m_clipId(id),
         m_addClipToProject(false),
         m_jobProcess(NULL)
@@ -55,7 +55,12 @@ void AbstractClipJob::setAddClipToProject(bool add)
 
 void AbstractClipJob::setStatus(CLIPJOBSTATUS status)
 {
-    jobStatus = status;
+    m_jobStatus = status;
+}
+
+CLIPJOBSTATUS AbstractClipJob::status()
+{
+    return m_jobStatus;
 }
 
 const QString AbstractClipJob::clipId() const
@@ -100,4 +105,5 @@ bool AbstractClipJob::isExclusive()
 {
     return true;
 }
+
 

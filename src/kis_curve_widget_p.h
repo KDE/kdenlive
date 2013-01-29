@@ -131,6 +131,23 @@ public:
 KisCurveWidget::Private::Private(KisCurveWidget *parent)
 {
     m_curveWidget = parent;
+    m_grab_point_index = 0;
+    m_grabOffsetX = 0;
+    m_grabOffsetY = 0;
+    m_grabOriginalX = 0;
+    m_grabOriginalY = 0;
+    m_draggedAwayPointIndex = 0;
+    m_readOnlyMode = 0;
+    m_guideVisible = 0;
+    m_splineDirty = 0;
+    m_pixmapDirty = 0;
+    m_pixmapCache = NULL;
+    m_intIn = NULL;
+    m_intOut = NULL;
+    m_inOutMin = 0;
+    m_inOutMax = 0;
+    m_state = ST_NORMAL;
+    m_maxPoints = 0;
 }
 
 KisCurveWidget::Private::~Private()

@@ -44,6 +44,7 @@
 
 #include "ui_templateclip_ui.h"
 #include "ui_cutjobdialog_ui.h"
+#include "ui_scenecutdialog_ui.h"
 
 #include <KDebug>
 #include <KAction>
@@ -58,6 +59,8 @@
 #include <KColorScheme>
 #include <KActionCollection>
 #include <KUrlRequester>
+#include <KVBox>
+#include <KHBox>
 
 #ifdef USE_NEPOMUK
 #include <nepomuk/global.h>
@@ -77,6 +80,17 @@
 #include <QInputDialog>
 #include <QtConcurrentRun>
 #include <QVBoxLayout>
+#include <KPassivePopup>
+
+
+MyMessageWidget::MyMessageWidget(QWidget *parent) : KMessageWidget(parent) {}
+MyMessageWidget::MyMessageWidget(const QString &text, QWidget *parent) : KMessageWidget(text, parent) {}
+
+
+bool MyMessageWidget::event(QEvent* ev) {
+    if (ev->type() == QEvent::Hide || ev->type() == QEvent::Close) emit messageClosing();
+    return KMessageWidget::event(ev);
+}
 
 SmallInfoLabel::SmallInfoLabel(QWidget *parent) : QPushButton(parent)
 {
@@ -213,7 +227,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_reloadAction(NULL),
     m_extractAudioAction(NULL),
     m_transcodeAction(NULL),
-    m_stabilizeAction(NULL),
+    m_clipsActionsMenu(NULL),
     m_doc(NULL),
     m_refreshed(false),
     m_allClipsProcessed(false),
@@ -278,10 +292,11 @@ ProjectList::ProjectList(QWidget *parent) :
     m_listView = new ProjectListView(this);
     layout->addWidget(m_listView);
     
-#if KDE_IS_VERSION(4,7,0)    
-    m_infoMessage = new KMessageWidget;
+#if KDE_IS_VERSION(4,7,0)
+    m_infoMessage = new MyMessageWidget;
     layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(true);
+    connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
     m_logAction = new QAction(i18n("Show Log"), this);
@@ -295,9 +310,10 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(this, SIGNAL(processNextThumbnail()), this, SLOT(slotProcessNextThumbnail()));
     connect(m_listView, SIGNAL(projectModified()), this, SIGNAL(projectModified()));
     connect(m_listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
-    connect(m_listView, SIGNAL(focusMonitor()), this, SIGNAL(raiseClipMonitor()));
-    connect(m_listView, SIGNAL(pauseMonitor()), this, SLOT(slotPauseMonitor()));
+    connect(m_listView, SIGNAL(focusMonitor(bool)), this, SIGNAL(raiseClipMonitor(bool)));
+    connect(m_listView, SIGNAL(pauseMonitor()), this, SIGNAL(pauseMonitor()));
     connect(m_listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
+    connect(m_listView, SIGNAL(addClip()), this, SIGNAL(pauseMonitor()));
     connect(m_listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
     connect(m_listView, SIGNAL(addClip(const QList <QUrl>, const QString &, const QString &)), this, SLOT(slotAddClip(const QList <QUrl>, const QString &, const QString &)));
     connect(this, SIGNAL(addClip(const QString, const QString &, const QString &)), this, SLOT(slotAddClip(const QString, const QString &, const QString &)));
@@ -410,12 +426,12 @@ void ProjectList::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
                         transcodeMenu->setEnabled(false);
                 m_transcodeAction = transcodeMenu;
         }
-	if (menus.contains("stabilizeMenu") && menus.value("stabilizeMenu") ){
-		QMenu* stabilizeMenu=menus.value("stabilizeMenu");
+	if (menus.contains("clipActionsMenu") && menus.value("clipActionsMenu") ){
+		QMenu* stabilizeMenu=menus.value("clipActionsMenu");
 		m_menu->addMenu(stabilizeMenu);
 		if (stabilizeMenu->isEmpty())
 			stabilizeMenu->setEnabled(false);
-		m_stabilizeAction=stabilizeMenu;
+		m_clipsActionsMenu = stabilizeMenu;
 
 	}
     m_menu->addAction(m_reloadAction);
@@ -518,7 +534,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
                 if (clip->getProperty("transparency").isEmpty() || clip->getProperty("transparency").toInt() == 0) {
                     if (transparency == "-") {
                         // first non transparent image
-                        transparency = "0";
+                        transparency = '0';
                     }
                     else if (transparency == "1") {
                         // we have transparent and non transparent clips
@@ -528,7 +544,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
                 else {
                     if (transparency == "-") {
                         // first transparent image
-                        transparency = "1";
+                        transparency = '1';
                     }
                     else if (transparency == "0") {
                         // we have transparent and non transparent clips
@@ -571,7 +587,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
         kDebug() << "Result: " << p.key() << " = " << p.value();
     }*/
     if (clipList.isEmpty()) {
-        emit displayMessage(i18n("No available clip selected"), -2);        
+        emit displayMessage(i18n("No available clip selected"), -2, ErrorMessage);
     }
     else emit showClipProperties(clipList, commonproperties);
 }
@@ -699,10 +715,11 @@ void ProjectList::slotReloadClip(const QString &id)
             QDomElement e = item->toXml();
             // Make sure we get the correct producer length if it was adjusted in timeline
             if (t == COLOR || t == IMAGE || t == SLIDESHOW || t == TEXT) {
-                int length = QString(clip->producerProperty("length")).toInt();
-                if (length > 0 && !e.hasAttribute("length")) {
-                    e.setAttribute("length", length);
-                }
+		int length = QString(clip->producerProperty("length")).toInt();
+		if (length > 0 && !e.hasAttribute("length")) {
+		    e.setAttribute("length", length);
+		}
+		e.setAttribute("duration", clip->getProperty("duration"));
             }
             resetThumbsProducer(clip);
             m_render->getFileProperties(e, item->clipId(), m_listView->iconSize().height(), true);
@@ -723,7 +740,7 @@ void ProjectList::slotModifiedClip(const QString &id)
         } else {
             pixmap = KIcon("view-refresh").pixmap(m_listView->iconSize());
         }
-        item->setData(0, Qt::DecorationRole, pixmap);
+        item->setPixmap(pixmap);
     }
 }
 
@@ -733,6 +750,10 @@ void ProjectList::slotMissingClip(const QString &id)
     if (item) {
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
         int height = m_listView->iconSize().height();
+        if (m_render == NULL) {
+            kDebug() << "*********  ERROR, NULL RENDR";
+            return;
+        }
         int width = (int)(height  * m_render->dar());
         QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
         if (pixmap.isNull()) {
@@ -743,13 +764,9 @@ void ProjectList::slotMissingClip(const QString &id)
         QPainter p(&pixmap);
         p.drawPixmap(3, 3, icon.pixmap(width - 6, height - 6));
         p.end();
-        item->setData(0, Qt::DecorationRole, pixmap);
+        item->setPixmap(pixmap);
         if (item->referencedClip()) {
             item->referencedClip()->setPlaceHolder(true);
-            if (m_render == NULL) {
-                kDebug() << "*********  ERROR, NULL RENDR";
-                return;
-            }
             Mlt::Producer *newProd = m_render->invalidProducer(id);
             if (item->referencedClip()->getProducer()) {
                 Mlt::Properties props(newProd->get_properties());
@@ -762,7 +779,7 @@ void ProjectList::slotMissingClip(const QString &id)
         }
     }
     update();
-    emit displayMessage(i18n("Check missing clips"), -2);
+    emit displayMessage(i18n("Check missing clips"), -2, ErrorMessage);
     emit updateRenderStatus();
 }
 
@@ -818,7 +835,7 @@ void ProjectList::slotClipSelected()
             m_reloadAction->setEnabled(false);
             m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
-            m_stabilizeAction->setEnabled(false);
+            m_clipsActionsMenu->setEnabled(false);
         } else {
             if (item->type() == PROJECTSUBCLIPTYPE) {
                 // this is a sub item, use base clip
@@ -826,10 +843,11 @@ void ProjectList::slotClipSelected()
                 clip = static_cast <ProjectItem*>(item->parent());
                 if (clip == NULL) kDebug() << "-----------ERROR";
                 SubProjectItem *sub = static_cast <SubProjectItem*>(item);
+		if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
                 emit clipSelected(clip->referencedClip(), sub->zone());
                 m_extractAudioAction->setEnabled(false);
                 m_transcodeAction->setEnabled(false);
-                m_stabilizeAction->setEnabled(false);
+                m_clipsActionsMenu->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 adjustProxyActions(clip);
                 return;
@@ -837,12 +855,13 @@ void ProjectList::slotClipSelected()
             clip = static_cast <ProjectItem*>(item);
             if (clip && clip->referencedClip())
                 emit clipSelected(clip->referencedClip());
+	    if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
             m_editButton->defaultAction()->setEnabled(true);
             m_deleteButton->defaultAction()->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_extractAudioAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
-            m_stabilizeAction->setEnabled(true);
+            m_clipsActionsMenu->setEnabled(true);
             if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
                 m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
                 m_openAction->setEnabled(true);
@@ -866,7 +885,7 @@ void ProjectList::slotClipSelected()
         m_reloadAction->setEnabled(false);
         m_extractAudioAction->setEnabled(true);
         m_transcodeAction->setEnabled(false);
-        m_stabilizeAction->setEnabled(false);
+        m_clipsActionsMenu->setEnabled(false);
     }
     adjustProxyActions(clip);
 }
@@ -888,11 +907,11 @@ void ProjectList::adjustProxyActions(ProjectItem *clip) const
 void ProjectList::adjustStabilizeActions(ProjectItem *clip) const
 {
 
-    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW) {
-        m_stabilizeAction->setEnabled(false);
+    if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == SLIDESHOW) {
+        m_clipsActionsMenu->setEnabled(false);
         return;
     }
-	m_stabilizeAction->setEnabled(true);
+	m_clipsActionsMenu->setEnabled(true);
 
 }
 
@@ -932,7 +951,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource")) {
+        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index") || properties.contains("full_luma") || properties.contains("force_progressive") || properties.contains("force_tff") || properties.contains("force_colorspace")) {
             slotReloadClip(id);
         } else if (properties.contains("colour") ||
                    properties.contains("xmldata") ||
@@ -941,7 +960,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
                    properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip(id, true);
-        } else if (properties.contains("full_luma") || properties.contains("force_colorspace") || properties.contains("loop")) {
+        } else if (properties.contains("loop")) {
             emit refreshClip(id, false);
         }
     }
@@ -996,6 +1015,7 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
     if (item->type() == PROJECTFOLDERTYPE) {
         if (column == 0) {
             FolderProjectItem *folder = static_cast <FolderProjectItem*>(item);
+	    if (item->text(0) == folder->groupName()) return;
             editFolder(item->text(0), folder->groupName(), folder->clipId());
             folder->setGroupName(item->text(0));
             m_doc->clipManager()->addFolder(folder->clipId(), item->text(0));
@@ -1057,14 +1077,14 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
     m_reloadAction->setEnabled(enable);
     m_extractAudioAction->setEnabled(enable);
     m_transcodeAction->setEnabled(enable);
-    m_stabilizeAction->setEnabled(enable);
+    m_clipsActionsMenu->setEnabled(enable);
     if (enable) {
         ProjectItem *clip = NULL;
         if (m_listView->currentItem()->type() == PROJECTSUBCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item->parent());
             m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
-            m_stabilizeAction->setEnabled(false);
+            m_clipsActionsMenu->setEnabled(false);
             adjustProxyActions(clip);
         } else if (m_listView->currentItem()->type() == PROJECTCLIPTYPE) {
             clip = static_cast <ProjectItem*>(item);
@@ -1077,7 +1097,7 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
         } else {
             m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
-            m_stabilizeAction->setEnabled(false);
+            m_clipsActionsMenu->setEnabled(false);
         }
         if (clip && clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
@@ -1155,7 +1175,7 @@ void ProjectList::updateButtons() const
             m_openAction->setEnabled(true);
             m_reloadAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
-            m_stabilizeAction->setEnabled(true);
+            m_clipsActionsMenu->setEnabled(true);
             return;
         }
         else if (item && item->type() == PROJECTFOLDERTYPE && item->childCount() > 0) {
@@ -1166,7 +1186,7 @@ void ProjectList::updateButtons() const
     m_openAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
     m_transcodeAction->setEnabled(false);
-    m_stabilizeAction->setEnabled(false);
+    m_clipsActionsMenu->setEnabled(false);
     m_proxyAction->setEnabled(false);
 }
 
@@ -1277,13 +1297,14 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 {
     //m_listView->setEnabled(false);
     const QString parent = clip->getProperty("groupid");
+    QString groupName = clip->getProperty("groupname");
+    QSize pixelSize((int)(m_listView->iconSize().height()  * m_render->dar()), m_listView->iconSize().height());
     ProjectItem *item = NULL;
     monitorItemEditing(false);
     if (!parent.isEmpty()) {
         FolderProjectItem *parentitem = getFolderItemById(parent);
         if (!parentitem) {
             QStringList text;
-            QString groupName = clip->getProperty("groupname");
             //kDebug() << "Adding clip to new group: " << groupName;
             if (groupName.isEmpty()) groupName = i18n("Folder");
             text << groupName;
@@ -1291,22 +1312,23 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         }
 
         if (parentitem)
-            item = new ProjectItem(parentitem, clip);
+            item = new ProjectItem(parentitem, clip, pixelSize);
     }
     if (item == NULL) {
-        item = new ProjectItem(m_listView, clip);
+        item = new ProjectItem(m_listView, clip, pixelSize);
     }
     if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
     connect(clip, SIGNAL(createProxy(const QString &)), this, SLOT(slotCreateProxy(const QString &)));
     connect(clip, SIGNAL(abortProxy(const QString &, const QString &)), this, SLOT(slotAbortProxy(const QString, const QString)));
+      
     if (getProperties) {
-        int height = m_listView->iconSize().height();
-        int width = (int)(height  * m_render->dar());
-        QPixmap pix =  KIcon("video-x-generic").pixmap(QSize(width, height));
-        item->setData(0, Qt::DecorationRole, pix);
         //item->setFlags(Qt::ItemIsSelectable);
         m_listView->processLayout();
         QDomElement e = clip->toXML().cloneNode().toElement();
+	if (!groupName.isEmpty()) {
+	    e.setAttribute("groupId", parent);
+	    e.setAttribute("group", groupName);
+	}
         e.removeAttribute("file_hash");
         resetThumbsProducer(clip);
         m_render->getFileProperties(e, clip->getId(), m_listView->iconSize().height(), true);
@@ -1340,7 +1362,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     QList <CutZoneInfo> cuts = clip->cutZones();
     if (!cuts.isEmpty()) {
         for (int i = 0; i < cuts.count(); i++) {
-            SubProjectItem *sub = new SubProjectItem(item, cuts.at(i).zone.x(), cuts.at(i).zone.y(), cuts.at(i).description);
+            SubProjectItem *sub = new SubProjectItem(m_render->dar(), item, cuts.at(i).zone.x(), cuts.at(i).zone.y(), cuts.at(i).description);
             if (!clip->getClipHash().isEmpty()) {
                 QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).zone.x()) + ".png";
                 if (QFile::exists(cachedPixmap)) {
@@ -1439,7 +1461,9 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
 {
     if (!item) return;
     DocClipBase *clip = item->referencedClip();
-    if (!clip) return;
+    if (!clip) {
+	return;
+    }
     QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + ".png";
     if (QFile::exists(cachedPixmap)) {
         QPixmap pix(cachedPixmap);
@@ -1448,13 +1472,42 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
             requestClipThumbnail(item->clipId());
         }
         else {
-            processThumbOverlays(item, pix);
-            item->setData(0, Qt::DecorationRole, pix);
+	    QPixmap result = roundedPixmap(pix);
+            processThumbOverlays(item, result);
+            item->setPixmap(result);
         }
     }
     else {
         requestClipThumbnail(item->clipId());
     }
+}
+
+QPixmap ProjectList::roundedPixmap(QImage img)
+{
+    QPixmap pix(img.width(), img.height());
+    pix.fill(Qt::transparent);
+    QPainter p(&pix);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPainterPath path;
+    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 2, 2);
+    p.setClipPath(path);
+    p.drawImage(0, 0, img);
+    p.end();
+    return pix;
+}
+
+QPixmap ProjectList::roundedPixmap(QPixmap source)
+{
+    QPixmap pix(source.width(), source.height());
+    pix.fill(Qt::transparent);
+    QPainter p(&pix);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPainterPath path;
+    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 2, 2);
+    p.setClipPath(path);
+    p.drawPixmap(0, 0, source);
+    p.end();
+    return pix;
 }
 
 void ProjectList::getCachedThumbnail(SubProjectItem *item)
@@ -1465,7 +1518,7 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
     DocClipBase *clip = parentItem->referencedClip();
     if (!clip) return;
     int pos = item->zone().x();
-    QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + "#" + QString::number(pos) + ".png";
+    QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(pos) + ".png";
     if (QFile::exists(cachedPixmap)) {
         QPixmap pix(cachedPixmap);
         if (pix.isNull()) {
@@ -1530,6 +1583,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                 }
                 if (clip->isPlaceHolder() == false && !hasPendingJob(item, PROXYJOB)) {
                     QDomElement xml = clip->toXML();
+		    getCachedThumbnail(item);
                     if (fpsChanged) {
                         xml.removeAttribute("out");
                         xml.removeAttribute("file_hash");
@@ -1539,27 +1593,31 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                     xml.removeAttribute("_replaceproxy");
                     if (replace) {
                         resetThumbsProducer(clip);
+			m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
                     }
-                    m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
+                    else if (item->numReferences() > 0) {
+			// In some cases, like slowmotion clips, the producer is not loaded automatically be MLT
+			m_render->getFileProperties(xml, clip->getId(), m_listView->iconSize().height(), replace);
+		    }
                 }
                 else if (clip->isPlaceHolder()) {
                     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
-                    if (item->data(0, Qt::DecorationRole).isNull()) {
-                        item->setData(0, Qt::DecorationRole, missingPixmap);
+                    if (!item->hasPixmap()) {
+                        item->setPixmap(missingPixmap);
                     }
                     else {
                         QPixmap pixmap = qVariantValue<QPixmap>(item->data(0, Qt::DecorationRole));
                         QPainter p(&pixmap);
                         p.drawPixmap(3, 3, KIcon("dialog-close").pixmap(pixmap.width() - 6, pixmap.height() - 6));
                         p.end();
-                        item->setData(0, Qt::DecorationRole, pixmap);
+                        item->setPixmap(pixmap);
                     }
                 }
             } else {              
                 if (displayRatioChanged) {
                     requestClipThumbnail(clip->getId());
                 }
-                else if (item->data(0, Qt::DecorationRole).isNull()) {
+                else if (!item->hasPixmap()) {
                     getCachedThumbnail(item);
                 }
                 if (item->data(0, DurationRole).toString().isEmpty()) {
@@ -1574,7 +1632,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
                     QPainter p(&pixmap);
                     p.drawPixmap(3, 3, KIcon("dialog-close").pixmap(pixmap.width() - 6, pixmap.height() - 6));
                     p.end();
-                    item->setData(0, Qt::DecorationRole, pixmap);
+                    item->setPixmap(pixmap);
                 }
                 else if (clip->getProperty("_replaceproxy") == "1") {
                     clip->setProperty("_replaceproxy", QString());
@@ -1598,10 +1656,16 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStr
 QString ProjectList::getExtensions()
 {
     // Build list of mime types
-    QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "application/x-kdenlivetitle" << "video/mlt-playlist" << "text/plain"
-                            << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "video/mp4" << "video/quicktime" << "video/webm"
-                            << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "audio/x-aiff" << "audio/aiff" << "application/ogg" << "application/mxf" << "application/x-shockwave-flash"
-                            << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr";
+    QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "application/x-kdenlivetitle" << "video/mlt-playlist" << "text/plain";
+
+    // Video mimes
+    mimeTypes <<  "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "video/mp4" << "video/quicktime" << "video/webm" << "video/3gpp" << "video/mp2t";
+
+    // Audio mimes
+    mimeTypes << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "audio/x-aiff" << "audio/aiff" << "application/ogg" << "application/mxf" << "application/x-shockwave-flash" << "audio/ac3";
+
+    // Image mimes
+    mimeTypes << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr";
 
     QString allExtensions;
     foreach(const QString & mimeType, mimeTypes) {
@@ -1642,7 +1706,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
         l->addWidget(c);
         l->addStretch(5);
         f->setLayout(l);
-        KFileDialog *d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow(), f);
+        QPointer<KFileDialog> d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow(), f);
         d->setOperationMode(KFileDialog::Opening);
         d->setMode(KFile::Files);
         if (d->exec() == QDialog::Accepted) {
@@ -1713,9 +1777,15 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
 
     if (givenList.isEmpty() && !list.isEmpty()) {
         QStringList groupInfo = getGroup();
-        m_doc->slotAddClipList(list, groupInfo.at(0), groupInfo.at(1));
+	QMap <QString, QString> data;
+	data.insert("group", groupInfo.at(0));
+	data.insert("groupId", groupInfo.at(1));
+        m_doc->slotAddClipList(list, data);
     } else if (!list.isEmpty()) {
-        m_doc->slotAddClipList(list, groupName, groupId);
+	QMap <QString, QString> data;
+	data.insert("group", groupName);
+	data.insert("groupId", groupId);
+        m_doc->slotAddClipList(list, data);
     }
     
     if (!foldersList.isEmpty()) {
@@ -1732,8 +1802,12 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
                     folder = getFolderItemByName(folderName);
                 }
             }
-            if (folder)
-                m_doc->slotAddClipList(urls, folder->groupName(), folder->clipId());
+            if (folder) {
+		QMap <QString, QString> data;
+		data.insert("group", folder->groupName());
+		data.insert("groupId", folder->clipId());
+                m_doc->slotAddClipList(urls, data);
+	    }
             else m_doc->slotAddClipList(urls);
         }
     }
@@ -1781,7 +1855,7 @@ void ProjectList::slotRemoveInvalidProxy(const QString &id, bool durationError)
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
         if (durationError) {
             kDebug() << "Proxy duration is wrong, try changing transcoding parameters.";
-            emit displayMessage(i18n("Proxy clip unusable (duration is different from original)."), -2);
+            emit displayMessage(i18n("Proxy clip unusable (duration is different from original)."), -2, ErrorMessage);
         }
         slotUpdateJobStatus(item, PROXYJOB, JOBCRASHED, i18n("Failed to create proxy for %1. check parameters", item->text(0)), "project_settings");
         QString path = item->referencedClip()->getProperty("proxy");
@@ -1808,7 +1882,7 @@ void ProjectList::slotAddColorClip()
     if (!m_commandStack)
         kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
-    QDialog *dia = new QDialog(this);
+    QPointer<QDialog> dia = new QDialog(this);
     Ui::ColorClip_UI dia_ui;
     dia_ui.setupUi(dia);
     dia->setWindowTitle(i18n("Color Clip"));
@@ -1879,7 +1953,7 @@ void ProjectList::slotAddTitleTemplateClip()
     const QString path = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
     QStringList templateFiles = QDir(path).entryList(filter, QDir::Files);
 
-    QDialog *dia = new QDialog(this);
+    QPointer<QDialog> dia = new QDialog(this);
     Ui::TemplateClip_UI dia_ui;
     dia_ui.setupUi(dia);
     for (int i = 0; i < templateFiles.size(); ++i)
@@ -1965,6 +2039,26 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(availableClip(const QString &)), this, SLOT(slotAvailableClip(const QString &)));
     connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool, bool, QStringList)), this, SLOT(updateAllClips(bool, bool, QStringList)));
+    connect(m_doc->clipManager(), SIGNAL(thumbReady(const QString &, int, QImage)), this, SLOT(slotSetThumbnail(const QString &, int, QImage)));
+}
+
+void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)
+{
+    QString fullid = id + '#' + QString::number(framePos);
+    ProjectItem *pItem = NULL;
+    QTreeWidgetItem *item = getAnyItemById(fullid);
+    if (item && item->parent()) pItem = static_cast <ProjectItem *>(item->parent());
+    if (!item && framePos == 0) pItem = getItemById(id);
+    if (!item && !pItem) return;
+    if (item) {
+	if (item->type() == PROJECTCLIPTYPE) static_cast<ProjectItem*>(item)->setPixmap(QPixmap::fromImage(img));
+	else item->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
+    }
+    else if (pItem) pItem->setPixmap(QPixmap::fromImage(img));
+    if (pItem) {
+	QString hash = pItem->getClipHash();
+	if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(framePos), img);
+    }
 }
 
 QList <DocClipBase*> ProjectList::documentClipList() const
@@ -2070,26 +2164,22 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
             slotProcessNextThumbnail();
             return;
         }
-        QPixmap pix;
         QImage img;
         int height = m_listView->iconSize().height();
         int swidth = (int)(height  * m_render->frameRenderWidth() / m_render->renderHeight()+ 0.5);
         int dwidth = (int)(height  * m_render->dar() + 0.5);
-        if (clip->clipType() == AUDIO)
-            pix = KIcon("audio-x-generic").pixmap(QSize(dwidth, height));
-        else if (clip->clipType() == IMAGE)
+        if (clip->clipType() == IMAGE) {
             img = KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height);
-        else {
+	}
+        else if (clip->clipType() != AUDIO) {
             img = item->referencedClip()->extractImage(frame, dwidth, height);
         }
-
-        if (!pix.isNull() || !img.isNull()) {
+        if (!img.isNull()) {
             monitorItemEditing(false);
-            if (!img.isNull()) {
-                pix = QPixmap::fromImage(img);
-                processThumbOverlays(item, pix);
-            }
-            it->setData(0, Qt::DecorationRole, pix);
+	    QPixmap pix = roundedPixmap(img);
+	    processThumbOverlays(item, pix);
+            if (isSubItem) it->setData(0, Qt::DecorationRole, pix);
+	    else item->setPixmap(pix);
             monitorItemEditing(true);
             
             QString hash = item->getClipHash();
@@ -2106,12 +2196,43 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
     }
 }
 
+void ProjectList::extractMetadata(DocClipBase *clip)
+{
+    QMap <QString, QString> props = clip->properties();
+    if (props.contains("exiftool")) {
+	// metadata was already extracted
+	return;
+    }
+    QString codecid = props.value("videocodecid").simplified();
+    if (codecid == "h264") {
+	QProcess p;
+	QStringList args;
+	args << "-g" << "-args" << clip->fileURL().encodedPathAndQuery();
+	p.start("exiftool", args);
+	p.waitForFinished();
+	QString res = p.readAllStandardOutput();
+	QStringList list = res.split("\n");
+	QMap <QString, QString> meta;
+	foreach(QString tagline, list) {
+	    if (!tagline.startsWith("-H264")) continue;
+	    QString tag = tagline.section(':', 1);
+	    if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
+	    meta.insert(tag.section('=', 0, 0), tag.section('=', 1));
+	}
+	clip->setProperty("exiftool", "1");
+	if (!meta.isEmpty()) {
+	    clip->setMetadata(meta);
+	    //checkCamcorderFilters(clip, meta);
+	}
+    }
+}
+
 
 void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace)
 {
+    QMutexLocker lock(&m_processMutex);
     QString toReload;
     ProjectItem *item = getItemById(clipId);
-    int queue = m_render->processingItems();
     if (item && producer) {
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
@@ -2124,6 +2245,8 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         item->setProperties(properties, metadata);
         clip->setProducer(producer, replace);
+	if (KdenliveSettings::use_exiftool()) extractMetadata(clip);
+	m_render->processingDone(clipId);
 
         // Proxy stuff
         QString size = properties.value("frame_size");
@@ -2145,7 +2268,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 if (clip->getProperty("proxy").isEmpty()) {
                     KUrl proxyPath = m_doc->projectFolder();
                     proxyPath.addPath("proxy/");
-                    proxyPath.addPath(clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension")));
+                    proxyPath.addPath(clip->getClipHash() + '.' + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension")));
                     QMap <QString, QString> newProps;
                     // insert required duration for proxy
                     if (t != IMAGE) newProps.insert("proxy_out", clip->producerProperty("out"));
@@ -2158,12 +2281,16 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             }
         }
 
-        if (!replace && m_allClipsProcessed && item->data(0, Qt::DecorationRole).isNull()) {
+        if (!replace && m_allClipsProcessed && !item->hasPixmap()) {
             getCachedThumbnail(item);
         }
         if (!toReload.isEmpty())
             item->slotSetToolTip();
-    } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
+    } else {
+	kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
+	m_render->processingDone(clipId);
+    }
+    int queue = m_render->processingItems();
     if (queue == 0) {
         monitorItemEditing(true);
         if (item && m_thumbnailQueue.isEmpty()) {
@@ -2176,6 +2303,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
             } else if (KdenliveSettings::checkfirstprojectclip() &&  m_listView->topLevelItemCount() == 1 && m_refreshed && m_allClipsProcessed) {
                 // this is the first clip loaded in project, check if we want to adjust project settings to the clip
                 updatedProfile = adjustProjectProfileToItem(item);
+		if (updatedProfile == false) {
+		    emit clipSelected(item->referencedClip());
+		}
             }
             if (updatedProfile == false) {
                 //emit clipSelected(item->referencedClip());
@@ -2281,10 +2411,10 @@ void ProjectList::slotReplyGetImage(const QString &clipId, const QImage &img)
 {
     ProjectItem *item = getItemById(clipId);
     if (item && !img.isNull()) {
-        QPixmap pix = QPixmap::fromImage(img);
+	QPixmap pix = roundedPixmap(img);
         processThumbOverlays(item, pix);
         monitorItemEditing(false);
-        item->setData(0, Qt::DecorationRole, pix);
+        item->setPixmap(pix);
         monitorItemEditing(true);
         QString hash = item->getClipHash();
         if (!hash.isEmpty()) m_doc->cacheImage(hash, img);
@@ -2395,7 +2525,7 @@ void ProjectList::slotSelectClip(const QString &ix)
         m_reloadAction->setEnabled(true);
         m_extractAudioAction->setEnabled(true);
         m_transcodeAction->setEnabled(true);
-        m_stabilizeAction->setEnabled(true);
+        m_clipsActionsMenu->setEnabled(true);
         if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
             m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
             m_openAction->setEnabled(true);
@@ -2532,17 +2662,14 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
         DocClipBase *base = clip->referencedClip();
         base->addCutZone(in, out);
         monitorItemEditing(false);
-        SubProjectItem *sub = new SubProjectItem(clip, in, out, desc);
+        SubProjectItem *sub = new SubProjectItem(m_render->dar(), clip, in, out, desc);
         if (newItem && desc.isEmpty() && !m_listView->isColumnHidden(1)) {
             if (!clip->isExpanded())
                 clip->setExpanded(true);
             m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
-        QImage img = clip->referencedClip()->extractImage(in, (int)(sub->sizeHint(0).height()  * m_render->dar()), sub->sizeHint(0).height() - 2);
-        sub->setData(0, Qt::DecorationRole, QPixmap::fromImage(img));
-        QString hash = clip->getClipHash();
-        if (!hash.isEmpty()) m_doc->cacheImage(hash + '#' + QString::number(in), img);
+	m_doc->clipManager()->slotRequestThumbs(QString('#' + id), QList <int>() << in);
         monitorItemEditing(true);
     }
     emit projectModified();
@@ -2649,7 +2776,7 @@ void ProjectList::slotAddOrUpdateSequence(const QString frameName)
                         
             m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
         }
-    } else emit displayMessage(i18n("Sequence not found"), -2);
+    } else emit displayMessage(i18n("Sequence not found"), -2, ErrorMessage);
 }
 
 QMap <QString, QString> ProjectList::getProxies()
@@ -2690,8 +2817,12 @@ void ProjectList::slotCreateProxy(const QString id)
         slotGotProxy(path);
         return;
     }
-
-    ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << item->clipUrl().path() << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
+    QString sourcePath = item->clipUrl().path();
+    if (item->clipType() == PLAYLIST) {
+	// Special case: playlists use the special 'consumer' producer to support resizing
+	sourcePath.prepend("consumer:");
+    }
+    ProxyJob *job = new ProxyJob(item->clipType(), id, QStringList() << path << sourcePath << item->referencedClip()->producerProperty("_exif_orientation") << m_doc->getDocumentProperty("proxyparams").simplified() << QString::number(m_render->frameRenderWidth()) << QString::number(m_render->renderHeight()));
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
         return;
@@ -2708,7 +2839,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     if (!item|| item->referencedClip()->isPlaceHolder()) return;
     QString source = item->clipUrl().path();
     QString ext = source.section('.', -1);
-    QString dest = source.section('.', 0, -2) + "_" + QString::number(zone.x()) + "." + ext;
+    QString dest = source.section('.', 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
     
     double clipFps = item->referencedClip()->getProperty("fps").toDouble();
     if (clipFps == 0) clipFps = m_fps;
@@ -2722,11 +2853,11 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     QString timeIn = Timecode::getStringTimecode(in, clipFps, true);
     QString timeOut = Timecode::getStringTimecode(duration, clipFps, true);
     
-    QDialog *d = new QDialog(this);
+    QPointer<QDialog> d = new QDialog(this);
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
     ui.extra_params->setVisible(false);
-    ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
+    ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
     ui.file_url->fileDialog()->setOperationMode(KFileDialog::Saving);
     ui.extra_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     ui.file_url->setUrl(KUrl(dest));
@@ -2759,11 +2890,11 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
         }
     }
     QString extraParams = ui.extra_params->toPlainText().simplified();
-    KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
+    KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
     delete d;
 
     QStringList jobParams;
-    jobParams << dest << item->clipUrl().path() << timeIn << timeOut << QString::number(duration) << QString::number(KdenliveSettings::add_clip_cut());
+    jobParams << dest << item->clipUrl().path() << timeIn << timeOut << QString::number(duration) << QString::number(KdenliveSettings::add_new_clip());
     if (!extraParams.isEmpty()) jobParams << extraParams;
     CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
@@ -2807,24 +2938,27 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
     ui.extra_params->setVisible(false);
     d->adjustSize();
     ui.button_more->setIcon(KIcon("configure"));
-    ui.add_clip->setChecked(KdenliveSettings::add_clip_cut());
-    ui.extra_params->setPlainText(params.simplified().section(" ", 0, -2));
+    ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
+    ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
     QString mess = desc;
-    mess.append(" " + i18np("(%1 clip)", "(%1 clips)", ids.count()));
+    mess.append(' ' + i18np("(%1 clip)", "(%1 clips)", ids.count()));
     ui.info_label->setText(mess);
     if (d->exec() != QDialog::Accepted) {
         delete d;
         return;
     }
     params = ui.extra_params->toPlainText().simplified();
-    KdenliveSettings::setAdd_clip_cut(ui.add_clip->isChecked());
-    
+    KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
+    int index = 0;
     foreach(const QString &id, ids) {
         ProjectItem *item = getItemById(id);
         if (!item || !item->referencedClip()) continue;
         QString src = item->clipUrl().path();
         QString dest;
-        if (ids.count() > 1) dest = params.section(' ', -1).replace("%1", src);
+        if (ids.count() > 1) {
+	    dest = destinations.at(index);
+	    index++;
+	}
         else dest = ui.file_url->url().path();
         QStringList jobParams;
         jobParams << dest << src << QString() << QString();
@@ -2833,7 +2967,7 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
         int max = item->clipMaxDuration();
         QString duration = QString::number(max);
         jobParams << duration;
-        jobParams << QString::number(KdenliveSettings::add_clip_cut());
+        jobParams << QString::number(KdenliveSettings::add_new_clip());
         jobParams << params;
         CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
         if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
@@ -2860,22 +2994,21 @@ void ProjectList::slotCheckJobProcess()
             }
     }
     if (m_jobList.isEmpty()) return;
-    int count = 0;
+
     m_jobMutex.lock();
+    int count = 0;
     for (int i = 0; i < m_jobList.count(); i++) {
-        if (m_jobList.at(i)->jobStatus == JOBWORKING || m_jobList.at(i)->jobStatus == JOBWAITING)
+        if (m_jobList.at(i)->status() == JOBWORKING || m_jobList.at(i)->status() == JOBWAITING)
             count ++;
         else {
             // remove finished jobs
             AbstractClipJob *job = m_jobList.takeAt(i);
-            delete job;
+            job->deleteLater();
             i--;
         }
     }
-
-    emit jobCount(count);
+    emit jobCount(count);    
     m_jobMutex.unlock();
-    
     if (m_jobThreads.futures().isEmpty() || m_jobThreads.futures().count() < KdenliveSettings::proxythreads()) m_jobThreads.addFuture(QtConcurrent::run(this, &ProjectList::slotProcessJobs));
 }
 
@@ -2898,14 +3031,14 @@ void ProjectList::slotProcessJobs()
         int count = 0;
         m_jobMutex.lock();
         for (int i = 0; i < m_jobList.count(); i++) {
-            if (m_jobList.at(i)->jobStatus == JOBWAITING) {
+            if (m_jobList.at(i)->status() == JOBWAITING) {
                 if (job == NULL) {
-                    m_jobList.at(i)->jobStatus = JOBWORKING;
+                    m_jobList.at(i)->setStatus(JOBWORKING);
                     job = m_jobList.at(i);
                 }
                 count++;
             }
-            else if (m_jobList.at(i)->jobStatus == JOBWORKING)
+            else if (m_jobList.at(i)->status() == JOBWORKING)
                 count ++;
         }
         // Set jobs count
@@ -2939,22 +3072,25 @@ void ProjectList::slotProcessJobs()
         }
         connect(job, SIGNAL(jobProgress(QString, int, int)), this, SIGNAL(processLog(QString, int, int)));
         connect(job, SIGNAL(cancelRunningJob(const QString, stringMap)), this, SIGNAL(cancelRunningJob(const QString, stringMap)));
-        connect(job, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int, QString,stringMap)));
 
         if (job->jobType == MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
-            jb->setProducer(currentClip->getProducer());
+            jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
+	    if (jb->isProjectFilter())
+		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int, int,stringMap,stringMap)));
+	    else
+		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int,stringMap,stringMap)));
         }
         job->startJob();
-        if (job->jobStatus == JOBDONE) {
+        if (job->status() == JOBDONE) {
             emit updateJobStatus(job->clipId(), job->jobType, JOBDONE);
             //TODO: replace with more generic clip replacement framework
             if (job->jobType == PROXYJOB) emit gotProxy(job->clipId());
             if (job->addClipToProject()) {
                 emit addClip(destination, QString(), QString());
             }
-        } else if (job->jobStatus == JOBCRASHED || job->jobStatus == JOBABORTED) {
-            emit updateJobStatus(job->clipId(), job->jobType, job->jobStatus, job->errorMessage(), QString(), job->logDetails());
+        } else if (job->status() == JOBCRASHED || job->status() == JOBABORTED) {
+            emit updateJobStatus(job->clipId(), job->jobType, job->status(), job->errorMessage(), QString(), job->logDetails());
         }
     }
     // Thread finished, cleanup & update count
@@ -2989,7 +3125,7 @@ void ProjectList::updateProxyConfig()
                         QMap <QString, QString> oldProps;// = clip->properties();
                         oldProps.insert("proxy", QString());
                         QMap <QString, QString> newProps;
-                        newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + "." + m_doc->getDocumentProperty("proxyextension"));
+                        newProps.insert("proxy", proxydir + item->referencedClip()->getClipHash() + '.' + m_doc->getDocumentProperty("proxyextension"));
                         new EditClipCommand(this, clip->getId(), oldProps, newProps, true, command);
                     }
                 }
@@ -3093,7 +3229,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
             //oldProps = clip->properties();
             if (doProxy) {
                 newProps.clear();
-                QString path = proxydir + clip->getClipHash() + "." + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
+                QString path = proxydir + clip->getClipHash() + '.' + (t == IMAGE ? "png" : m_doc->getDocumentProperty("proxyextension"));
                 // insert required duration for proxy
                 newProps.insert("proxy_out", clip->producerProperty("out"));
                 newProps.insert("proxy", path);
@@ -3258,7 +3394,7 @@ bool ProjectList::hasPendingJob(ProjectItem *item, JOBTYPE type)
     for (int i = 0; i < m_jobList.count(); i++) {
         if (m_abortAllJobs) break;
         job = m_jobList.at(i);
-        if (job->clipId() == item->clipId() && job->jobType == type && (job->jobStatus == JOBWAITING || job->jobStatus == JOBWORKING)) return true;
+        if (job->clipId() == item->clipId() && job->jobType == type && (job->status() == JOBWAITING || job->status() == JOBWORKING)) return true;
     }
     
     return false;
@@ -3287,14 +3423,11 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
     item->setJobStatus((JOBTYPE) type, (CLIPJOBSTATUS) status);
     if (status != JOBCRASHED) return;
 #if KDE_IS_VERSION(4,7,0)
-    m_infoMessage->animatedHide();
-    m_errorLog.clear();
-    m_infoMessage->setText(label);
-    m_infoMessage->setWordWrap(label.length() > 35);
-    m_infoMessage->setMessageType(KMessageWidget::Warning);
     QList<QAction *> actions = m_infoMessage->actions();
-    for (int i = 0; i < actions.count(); i++) {
-        m_infoMessage->removeAction(actions.at(i));
+    if (m_infoMessage->isHidden()) {
+	m_infoMessage->setText(label);
+	m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+	m_infoMessage->setMessageType(KMessageWidget::Warning);
     }
     
     if (!actionName.isEmpty()) {
@@ -3305,27 +3438,47 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
             action = coll->action(actionName);
             if (action) break;
         }
-        if (action) m_infoMessage->addAction(action);
+        if (action && !actions.contains(action)) m_infoMessage->addAction(action);
     }
     if (!details.isEmpty()) {
-        m_errorLog = details;
-        m_infoMessage->addAction(m_logAction);
+        m_errorLog.append(details);
+        if (!actions.contains(m_logAction)) m_infoMessage->addAction(m_logAction);
     }
     m_infoMessage->animatedShow();
+#else
+    // warning for KDE < 4.7
+    KPassivePopup *passivePop = new KPassivePopup( this );
+    passivePop->setAutoDelete(true);
+    connect(passivePop, SIGNAL(clicked()), this, SLOT(slotClosePopup()));
+    m_errorLog.append(details);
+    KVBox *vb = new KVBox( passivePop );
+    KHBox *vh1 = new KHBox( vb );
+    KIcon icon("dialog-warning");
+    QLabel *iconLabel = new QLabel(vh1);
+    iconLabel->setPixmap(icon.pixmap(m_listView->iconSize()));
+    (void) new QLabel( label, vh1);
+    KHBox *box = new KHBox( vb );
+    QPushButton *but = new QPushButton( "Show log", box );
+    connect(but, SIGNAL(clicked(bool)), this, SLOT(slotShowJobLog()));
+
+    passivePop->setView( vb );
+    passivePop->show();
+    
 #endif
 }
 
 void ProjectList::slotShowJobLog()
 {
-#if KDE_IS_VERSION(4,7,0)
     KDialog d(this);
     d.setButtons(KDialog::Close);
     QTextEdit t(&d);
-    t.setPlainText(m_errorLog);
+    for (int i = 0; i < m_errorLog.count(); i++) {
+	if (i > 0) t.insertHtml("<br><hr /><br>");
+	t.insertPlainText(m_errorLog.at(i));
+    }
     t.setReadOnly(true);
     d.setMainWidget(&t);
     d.exec();
-#endif
 }
 
 QStringList ProjectList::getPendingJobs(const QString &id)
@@ -3333,7 +3486,7 @@ QStringList ProjectList::getPendingJobs(const QString &id)
     QStringList result;
     QMutexLocker lock(&m_jobMutex);
     for (int i = 0; i < m_jobList.count(); i++) {
-        if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->jobStatus == JOBWAITING || m_jobList.at(i)->jobStatus == JOBWORKING)) {
+        if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->status() == JOBWAITING || m_jobList.at(i)->status() == JOBWORKING)) {
             // discard this job
             result << m_jobList.at(i)->description;
         }
@@ -3351,19 +3504,19 @@ void ProjectList::discardJobs(const QString &id, JOBTYPE type) {
     }
 }
 
-void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QString&filterName, const QString&filterParams, const QString&finalFilterName, const QString&consumer, const QString&consumerParams, const QString&properties)
+void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QString&filterName, const QString&filterParams, const QString&consumer, const QString&consumerParams, const QMap <QString, QString> &extraParams)
 {
     ProjectItem *item = getItemById(id);
     if (!item) return;
     QStringList jobParams;
     jobParams << QString::number(info.cropStart.frames(m_fps)) << QString::number((info.cropStart + info.cropDuration).frames(m_fps));
-    jobParams << QString() << filterName << filterParams << consumer << consumerParams << properties << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track) << finalFilterName;
-    MeltJob *job = new MeltJob(item->clipType(), id, jobParams);
+    jobParams << QString() << filterName << filterParams << consumer << consumerParams << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track);
+    MeltJob *job = new MeltJob(item->clipType(), id, jobParams, extraParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
         return;
     }
-    job->description = i18n("Filter %1", finalFilterName);
+    job->description = i18n("Filter %1", extraParams.value("finalfilter"));
     m_jobList.append(job);
     setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
     slotCheckJobProcess();
@@ -3375,7 +3528,7 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
     QString destination;
     ProjectItem *item = getItemById(ids.at(0));
     if (!item) {
-        emit displayMessage(i18n("Cannot find clip to process filter %1", filterName), -2);
+        emit displayMessage(i18n("Cannot find clip to process filter %1", filterName), -2, ErrorMessage);
         return;
     }
     if (ids.count() == 1) {
@@ -3384,14 +3537,67 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
     else {
         destination = item->clipUrl().directory();
     }
-    ClipStabilize *d = new ClipStabilize(destination, ids.count(), filterName);
-    if (d->exec() == QDialog::Accepted) {
-        processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc());
+    if (filterName == "motion_est") {
+	// Show config dialog
+	QPointer<QDialog> d = new QDialog(this);
+	Ui::SceneCutDialog_UI ui;
+	ui.setupUi(d);
+	// Set  up categories
+	for (int i = 0; i < 5; ++i) {
+	    ui.marker_type->insertItem(i, i18n("Category %1", i));
+	    ui.marker_type->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
+	}
+	ui.marker_type->setCurrentIndex(KdenliveSettings::default_marker_type());
+	if (d->exec() != QDialog::Accepted) {
+	    delete d;
+	    return;
+	}
+	// Autosplit filter
+	QStringList jobParams;
+	// Producer params
+	jobParams << QString();
+	// Filter params, use a smaller region of the image to speed up operation
+	// In fact, it's faster to rescale whole image than using part of it (bounding=\"25%x25%:15%x15\")
+	jobParams << filterName << "shot_change_list=0 denoise=0";
+	// Consumer
+	jobParams << "null" << "all=1 terminate_on_pause=1 real_time=-1 rescale=nearest deinterlace_method=onefield top_field_first=-1";
+	QMap <QString, QString> extraParams;
+	extraParams.insert("key", "shot_change_list");
+	extraParams.insert("projecttreefilter", "1");
+	QString keyword("%count");
+	extraParams.insert("resultmessage", i18n("Found %1 scenes.", keyword));
+	extraParams.insert("resize_profile", "160");
+	if (ui.store_data->isChecked()) {
+	    // We want to save result as clip metadata
+	    extraParams.insert("storedata", "1");
+	}
+	if (ui.zone_only->isChecked()) {
+	    // We want to analyze only clip zone
+	    extraParams.insert("zoneonly", "1");
+	}
+	if (ui.add_markers->isChecked()) {
+	    // We want to create markers
+	    extraParams.insert("addmarkers", QString::number(ui.marker_type->currentIndex()));
+	}
+	if (ui.cut_scenes->isChecked()) {
+	    // We want to cut scenes
+	    extraParams.insert("cutscenes", "1");
+	}
+	delete d;
+	processClipJob(ids, QString(), false, jobParams, i18n("Auto split"), extraParams);
     }
-    delete d;
+    else {
+	QPointer<ClipStabilize> d = new ClipStabilize(destination, ids.count(), filterName);
+	if (d->exec() == QDialog::Accepted) {
+	    QMap <QString, QString> extraParams;
+	    extraParams.insert("producer_profile", "1");
+	    processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc(), extraParams);
+	}
+	delete d;
+    }
 }
 
-void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description)
+void ProjectList::processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QMap <QString, QString> extraParams)
 {
     QStringList preParams;
     // in and out
@@ -3408,20 +3614,30 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
     foreach(const QString&id, ids) {
         ProjectItem *item = getItemById(id);
         if (!item) continue;
+	QStringList jobArgs;
+	if (extraParams.contains("zoneonly")) {
+	    // Analyse clip zone only, remove in / out and replace with zone
+	    preParams.takeFirst();
+	    preParams.takeFirst();
+	    QPoint zone = item->referencedClip()->zone();
+	    jobArgs << QString::number(zone.x()) << QString::number(zone.y());
+	}
+	jobArgs << preParams;
         if (ids.count() == 1) {
-            consumer += ":" + destination;
+            jobArgs << consumer + ':' + destination;
         }
         else {
-            consumer += ":" + destination + item->clipUrl().fileName() + ".mlt";
+            jobArgs << consumer + ':' + destination + item->clipUrl().fileName() + ".mlt";
         }
-        preParams << consumer << jobParams;
+        jobArgs << jobParams;
         
-        MeltJob *job = new MeltJob(item->clipType(), id, preParams);
+        MeltJob *job = new MeltJob(item->clipType(), id, jobArgs, extraParams);
         if (autoAdd) {
             job->setAddClipToProject(true);
             kDebug()<<"// ADDING TRUE";
         }
         else kDebug()<<"// ADDING FALSE!!!";
+	  
         if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
             delete job;
             return;
@@ -3429,9 +3645,10 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
         job->description = description;
         m_jobList.append(job);
         setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
+	slotCheckJobProcess();
     }
-    slotCheckJobProcess();
 }
+   
 
 void ProjectList::slotPrepareJobsMenu()
 {
@@ -3465,5 +3682,108 @@ void ProjectList::updatePalette()
     m_infoLabel->setStyleSheet(SmallInfoLabel::getStyleSheet(QApplication::palette()));
     m_listView->updateStyleSheet();
 }
+
+void ProjectList::slotResetInfoMessage()
+{
+#if KDE_IS_VERSION(4,7,0)
+    m_errorLog.clear();
+    QList<QAction *> actions = m_infoMessage->actions();
+    for (int i = 0; i < actions.count(); i++) {
+	m_infoMessage->removeAction(actions.at(i));
+    }
+#endif
+}
+
+void ProjectList::slotClosePopup()
+{
+    m_errorLog.clear();
+}
+
+void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap results, stringMap filterInfo)
+{
+    // Currently, only the first value of results is used
+    //kDebug()<<"// FILTER RES:\n"<<filterInfo<<"\n--------------\n"<<results;
+    ProjectItem *clip = getItemById(id);
+    if (!clip) return;
+
+    // Check for return value
+    int markersType = -1;
+    if (filterInfo.contains("addmarkers")) markersType = filterInfo.value("addmarkers").toInt();
+    if (results.isEmpty()) {
+	emit displayMessage(i18n("No data returned from clip analysis"), 0, ErrorMessage);
+	return;
+    }
+    bool dataProcessed = false;
+    QString key = filterInfo.value("key");
+    int offset = filterInfo.value("offset").toInt();
+    QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
+    kDebug()<<"// RESULT; "<<key<<" = "<<value;
+    if (filterInfo.contains("resultmessage")) {
+	QString mess = filterInfo.value("resultmessage");
+	mess.replace("%count", QString::number(value.count()));
+	emit displayMessage(mess, 0, InformationMessage);
+    }
+    else emit displayMessage(i18n("Processing data analysis"), 0, InformationMessage);
+    if (filterInfo.contains("cutscenes")) {
+	// Check if we want to cut scenes from returned data
+	dataProcessed = true;
+	int cutPos = 0;
+	QUndoCommand *command = new QUndoCommand();
+	command->setText(i18n("Auto Split Clip"));
+	foreach (QString pos, value) {
+	    if (!pos.contains("=")) continue;
+	    int newPos = pos.section("=", 0, 0).toInt();
+	    // Don't use scenes shorter than 1 second
+	    if (newPos - cutPos < 24) continue;
+	    (void) new AddClipCutCommand(this, id, cutPos + offset, newPos + offset, QString(), true, false, command);
+	    cutPos = newPos;
+	}
+	if (command->childCount() == 0)
+	    delete command;
+	else m_commandStack->push(command);
+    }
+    if (markersType >= 0) {
+	// Add markers from returned data
+	dataProcessed = true;
+	int cutPos = 0;
+	QUndoCommand *command = new QUndoCommand();
+	command->setText(i18n("Add Markers"));
+	QList <CommentedTime> markersList;
+	int index = 1;
+	foreach (QString pos, value) {
+	    if (!pos.contains("=")) continue;
+	    int newPos = pos.section("=", 0, 0).toInt();
+	    // Don't use scenes shorter than 1 second
+	    if (newPos - cutPos < 24) continue;
+	    CommentedTime m(GenTime(newPos + offset, m_fps), QString::number(index), markersType);
+	    markersList << m;
+	    index++;
+	    cutPos = newPos;
+	}
+	emit addMarkers(id, markersList);
+    }
+    if (!dataProcessed || filterInfo.contains("storedata")) {
+	// Store returned data as clip extra data
+	clip->referencedClip()->setAnalysisData(filterInfo.contains("displaydataname") ? filterInfo.value("displaydataname") : key, results.value(key), filterInfo.value("offset").toInt());
+	emit updateAnalysisData(clip->referencedClip());
+    }
+}
+
+
+/*
+// Work in progress: apply filter based on clip's camcorder
+void ProjectList::checkCamcorderFilters(DocClipBase *clip, QMap <QString, QString> meta)
+{
+    KConfig conf("camcorderfilters.rc", KConfig::CascadeConfig, "appdata");
+    QStringList groups = conf.groupList();
+    foreach(QString grp, groups) {
+	if (!meta.contains(grp)) continue;
+	KConfigGroup group(&conf, grp);
+	QString value = group.readEntry(meta.value(grp));
+	if (value.isEmpty()) continue;
+	clip->setProperty(value.section(' ', 0, 0), value.section(' ', 1));
+	break;
+    }
+}*/
 
 #include "projectlist.moc"

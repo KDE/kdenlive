@@ -80,6 +80,9 @@ QImage AudioCorrelationInfo::toImage(int height) const
     QImage img(width, height, QImage::Format_ARGB32);
     img.fill(qRgb(255,255,255));
 
+    if (maxVal == 0)
+	return img;
+
     int val;
 
     for (int x = 0; x < width; x++) {
