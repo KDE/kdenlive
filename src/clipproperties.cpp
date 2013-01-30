@@ -499,6 +499,10 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(this, SIGNAL(accepted()), this, SLOT(slotApplyProperties()));
     connect(m_view.buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApplyProperties()));
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+    
+    m_view.metadata_list->resizeColumnToContents(0);
+    m_view.clip_vproperties->resizeColumnToContents(0);
+    m_view.clip_aproperties->resizeColumnToContents(0);
     adjustSize();
 }
 
