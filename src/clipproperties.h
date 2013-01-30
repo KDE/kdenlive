@@ -33,10 +33,10 @@ class PropertiesViewDelegate : public QStyledItemDelegate
     Q_OBJECT
 public:
     PropertiesViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {
-        m_height = parent->fontMetrics().height() * 1.5;
+        m_height = parent->fontMetrics().height() * 1.2;
     }
-    virtual QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const {
-        return QSize(10, m_height);
+    virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+        return QSize(QStyledItemDelegate::sizeHint(option, index).width(), m_height);
     }
 private:
     int m_height;
