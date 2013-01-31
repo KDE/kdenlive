@@ -3,6 +3,7 @@ Type=Service
 Name=MLT Playlist
 Name[bs]=MLT lista izvođenja
 Name[ca]=Llista de reproducció del MLT
+Name[ca@valencia]=Llista de reproducció del MLT
 Name[cs]=Seznam skladeb MLT
 Name[da]=MLT-spilleliste
 Name[de]=MLT-Wiedergabeliste
