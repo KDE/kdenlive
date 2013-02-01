@@ -83,7 +83,7 @@ Q_OBJECT public:
      *
      * If the clip wasn't added before, it tries to add it to the project. */
     bool addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
-    void slotAddClipList(const KUrl::List urls, stringMap data = QMap <QString, QString>());
+    void slotAddClipList(const KUrl::List urls, stringMap data = stringMap());
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(const QString &clipId);
