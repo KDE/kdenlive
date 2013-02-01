@@ -423,7 +423,7 @@ private:
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QMap <QString, QString>extraParams = QMap <QString, QString>());
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, stringMap extraParams = stringMap());
     /** @brief Create rounded shape pixmap for project tree thumb. */
     QPixmap roundedPixmap(QImage img);
     QPixmap roundedPixmap(QPixmap source);
