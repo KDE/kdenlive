@@ -17,6 +17,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractprojectpart.h"
 #include "projectmanager.h"
 #include "monitor/monitormodel.h"
+#include "kdenlivesettings.h"
+
 #include <mlt++/Mlt.h>
 #include <KIO/NetAccess>
 #include <QFile>
@@ -61,6 +63,11 @@ KUrl Project::url() const
     return m_url;
 }
 
+double Project::displayRatio() const
+{
+    return profile()->dar();
+}
+
 QString Project::caption()
 {
     if (m_url.isEmpty())
@@ -79,7 +86,7 @@ BinModel* Project::bin()
     return m_bin;
 }
 
-Mlt::Profile* Project::profile()
+Mlt::Profile* Project::profile() const
 {
     return m_timeline->profile();
 }
@@ -129,6 +136,7 @@ void Project::openFile()
         if (success) {
             loadTimeline(document.toString());
             QDomElement kdenliveDoc = document.documentElement().firstChildElement("kdenlivedoc");
+	    m_projectFolder = KUrl(kdenliveDoc.attribute("projectfolder"));
             m_bin = new BinModel(kdenliveDoc.firstChildElement("bin"), this);
             loadParts(kdenliveDoc);
             loadSettings(kdenliveDoc);
@@ -146,6 +154,7 @@ void Project::openNew()
     m_timeline = new Timeline(QString(), this);
     m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()));
     m_bin = new BinModel(this);
+    m_projectFolder = KdenliveSettings::defaultprojectfolder();
 }
 
 void Project::loadTimeline(const QString& content)
@@ -248,6 +257,11 @@ void Project::saveAs()
             save();
         }
     }
+}
+
+const KUrl &Project::projectFolder() const
+{
+    return m_projectFolder;
 }
 
 QString Project::getFreeId()

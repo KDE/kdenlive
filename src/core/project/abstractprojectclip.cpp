@@ -102,6 +102,7 @@ void AbstractProjectClip::setCurrent(bool current)
 {
     AbstractProjectItem::setCurrent(current);
     if (current) {
+	initProducer();
         bin()->monitor()->setProducer(m_baseProducer);
     }
 }

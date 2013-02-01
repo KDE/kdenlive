@@ -59,6 +59,9 @@ public:
     /** @brief Should return a timeline clip/instance of this clip. */
     virtual AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent) = 0;
     
+    /** @brief Create the producer on demand if it was not already loaded. */
+    virtual void initProducer() = 0;
+    
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
     virtual void getHash() = 0;
 

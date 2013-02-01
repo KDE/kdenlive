@@ -29,6 +29,7 @@ public:
     ~VideoProjectClip();
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
+    void initProducer();
     void getHash();
 
     QPixmap thumbnail();

@@ -29,6 +29,7 @@ public:
     ~ImageProjectClip();
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
+    void initProducer();
     void getHash();
 
     QDomElement toXml(QDomDocument &document) const;
