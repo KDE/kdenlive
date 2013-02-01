@@ -12,14 +12,48 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectitemmodel.h"
 #include "project/project.h"
 #include "project/projectmanager.h"
+#include "project/clippluginmanager.h"
 #include "core.h"
 #include <QVBoxLayout>
+#include <QEvent>
+#include <QMouseEvent>
 #include <QTreeView>
 #include <QListView>
 #include <QHeaderView>
 #include <KToolBar>
 #include <KSelectAction>
 #include <KLocale>
+#include <KDebug>
+
+
+EventEater::EventEater(QObject *parent) : QObject(parent)
+{
+}
+
+bool EventEater::eventFilter(QObject *obj, QEvent *event)
+ {
+     if (event->type() == QEvent::MouseButtonDblClick) {
+	  QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+	  QAbstractItemView *view = qobject_cast<QAbstractItemView*>(obj->parent());
+	  if (view) {
+	      QModelIndex idx = view->indexAt(mouseEvent->pos());
+	      if (idx == QModelIndex()) {
+		  // User double clicked on empty area
+		  emit addClip();
+	      }
+	      else {
+		  // User double clicked on a clip
+		  //TODO: show clip properties
+	      }
+	  }
+	 else {
+	    kDebug()<<" +++++++ NO VIEW-------!!";
+	 }
+         return true;
+     } else {
+         return QObject::eventFilter(obj, event);
+     }
+ }    
 
 
 Bin::Bin(QWidget* parent) :
@@ -57,12 +91,18 @@ Bin::Bin(QWidget* parent) :
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction *)));
     toolbar->addAction(listType);
-
+    m_eventEater = new EventEater(this);
+    connect(m_eventEater, SIGNAL(addClip()), this, SLOT(slotAddClip()));
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 }
 
 Bin::~Bin()
 {
+}
+
+void Bin::slotAddClip()
+{
+    pCore->clipPluginManager()->execAddClipDialog();
 }
 
 void Bin::setProject(Project* project)
@@ -108,7 +148,8 @@ void Bin::slotInitView(QAction *action)
         m_itemView = new QTreeView(this);
         break;
     }
-
+    m_itemView->setMouseTracking(true);
+    m_itemView->viewport()->installEventFilter(m_eventEater);
     m_itemView->setIconSize(QSize(m_iconSize, m_iconSize));
     m_itemView->setModel(m_itemModel);
     m_itemView->setSelectionModel(m_itemModel->selectionModel());

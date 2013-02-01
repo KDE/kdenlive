@@ -18,6 +18,22 @@ class Project;
 class QAbstractItemView;
 class ProjectItemModel;
 
+
+
+class EventEater : public QObject
+ {
+     Q_OBJECT
+ public:
+     EventEater(QObject *parent = 0);
+
+ protected:
+     bool eventFilter(QObject *obj, QEvent *event);
+     
+ signals:
+     void addClip();
+ };
+
+
 /**
  * @class Bin
  * @brief The bin widget takes care of both item model and view upon project opening.
@@ -37,6 +53,7 @@ public:
 
 private slots:
     void setProject(Project *project);
+    void slotAddClip();
 
 private slots:
     /** @brief Setup the bin view type (icon view, tree view, ...).
@@ -53,6 +70,8 @@ private:
     int m_iconSize;
     /** @brief Keeps the column width info of the tree view. */
     QByteArray m_headerInfo;
+    EventEater *m_eventEater;
+
 };
 
 #endif
