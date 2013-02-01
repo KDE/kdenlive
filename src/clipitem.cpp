@@ -1025,7 +1025,7 @@ void ClipItem::paint(QPainter *painter,
 
         painter->setPen(QPen(Qt::lightGray));
         // draw effect or transition keyframes
-        drawKeyFrames(painter, m_limitedKeyFrames);
+        drawKeyFrames(painter, transformation, m_limitedKeyFrames);
     }
     
     // draw clip border
