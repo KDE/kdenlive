@@ -47,8 +47,7 @@ void Timecode::setFormatter(TimecodeFormatter const* formatter)
         if (pCore->projectManager()->current()) {
             m_formatter = pCore->projectManager()->current()->timecodeFormatter();
         } else {
-            // very unclean. Some UI elements (monitor) need timecodes before project is created. How to treat?
-            m_formatter = new TimecodeFormatter(25, TimecodeFormatter::DefaultFormat, pCore);
+            m_formatter = 0;
         }
     }
 }

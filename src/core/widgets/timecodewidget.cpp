@@ -42,7 +42,9 @@ TimecodeWidget::TimecodeWidget(QWidget* parent) :
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     setAccelerated(true);
 
-    setValue(m_value);
+    if (pCore->projectManager()->current()) {
+        updateMask();
+    }
 
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 
@@ -90,6 +92,9 @@ void TimecodeWidget::stepBy(int steps)
 void TimecodeWidget::setProject(Project* project)
 {
     m_timecodeFormatter = project->timecodeFormatter();
+    if (!m_value.formatter()) {
+        m_value.setFormatter(m_timecodeFormatter);
+    }
     connect(m_timecodeFormatter, SIGNAL(framerateChanged()), this, SLOT(updateMask()));
     connect(m_timecodeFormatter, SIGNAL(defaultFormatChanged()), this, SLOT(updateMask()));
 

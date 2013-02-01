@@ -32,9 +32,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Project::Project(const KUrl& url, QObject* parent) :
-    QObject(parent)
-    , m_url(url)
-    , m_idCounter(0)
+    QObject(parent),
+    m_url(url),
+    m_timecodeFormatter(0),
+    m_idCounter(0)
 {
     if (url.isEmpty()) {
         openNew();
@@ -152,7 +153,7 @@ void Project::openFile()
 void Project::openNew()
 {
     m_timeline = new Timeline(QString(), this);
-    m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()));
+    m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()), TimecodeFormatter::DefaultFormat, this);
     m_bin = new BinModel(this);
     m_projectFolder = KdenliveSettings::defaultprojectfolder();
     loadParts();
@@ -161,7 +162,7 @@ void Project::openNew()
 void Project::loadTimeline(const QString& content)
 {
     m_timeline = new Timeline(content, this);
-    m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()));
+    m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()), TimecodeFormatter::DefaultFormat, this);
 }
 
 void Project::loadParts(const QDomElement& element)
