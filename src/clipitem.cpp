@@ -467,7 +467,7 @@ void ClipItem::setSelectedEffect(const int ix)
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int i = 0; i < params.count(); i++) {
             QDomElement e = params.item(i).toElement();
-            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("intimeline") == "1") {
+            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
                 m_keyframes.clear();
                 m_limitedKeyFrames = e.attribute("type") == "keyframe";
                 m_visibleParam = i;
