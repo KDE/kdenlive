@@ -24,6 +24,7 @@ class NotesPlugin : public AbstractProjectPart
 public:
     explicit NotesPlugin(QObject* parent, const QVariantList &args);
 
+    void init();
     void save(QDomDocument &document, QDomElement &element) const;
     void load(const QDomElement &element);
 

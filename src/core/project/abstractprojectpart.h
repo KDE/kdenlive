@@ -42,9 +42,11 @@ public:
     /** @brief Returns the (tag) name of the element this part stores its information in. */
     QString name() const;
 
+    /** @brief Called upon opening/creating a document. */
+    virtual void init() = 0;
     /** @brief Called by the project to request the current data. */
     virtual void save(QDomDocument &document, QDomElement &element) const = 0;
-    /** @brief Called upon project creation. */
+    /** @brief Called upon opening a project when data of the part exists. */
     virtual void load(const QDomElement &element) = 0;
 
     /** 

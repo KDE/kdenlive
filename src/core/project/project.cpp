@@ -155,6 +155,7 @@ void Project::openNew()
     m_timecodeFormatter = new TimecodeFormatter(Fraction(profile()->frame_rate_num(), profile()->frame_rate_den()));
     m_bin = new BinModel(this);
     m_projectFolder = KdenliveSettings::defaultprojectfolder();
+    loadParts();
 }
 
 void Project::loadTimeline(const QString& content)
@@ -166,8 +167,11 @@ void Project::loadTimeline(const QString& content)
 void Project::loadParts(const QDomElement& element)
 {
     QList<AbstractProjectPart*> parts = pCore->projectManager()->parts();
-    for (int i = 0; i < parts.count(); ++i) {
-        parts.at(i)->load(element.firstChildElement(parts.at(i)->name()));
+    foreach (AbstractProjectPart* part, parts) {
+        part->init();
+        if (!element.isNull()) {
+            part->load(element.firstChildElement(part->name()));
+        }
     }
 }
 

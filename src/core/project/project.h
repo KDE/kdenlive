@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define KDENLIVE_PROJECT_H
 
 #include <KUrl>
+#include <QDomDocument>
 #include <kdemacros.h>
 
 class TimecodeFormatter;
@@ -107,7 +108,7 @@ private:
     void openFile();
     void openNew();
     void loadTimeline(const QString &content);
-    void loadParts(const QDomElement &element);
+    void loadParts(const QDomElement &element = QDomElement());
     QList<QDomElement> saveParts(QDomDocument &document) const;
     void loadSettings(const QDomElement &kdenliveDoc);
     QDomElement saveSettings(QDomDocument &document) const;
