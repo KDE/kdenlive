@@ -63,7 +63,7 @@ public:
      */
     QList<TimelineTrack *> tracks();
     /** @brief Returns a pointer to the profile used. */
-    Mlt::Profile *profile();
+    Mlt::Profile *profile() const;
     /** @brief Returns a pointer to the main producer used. */
     ProducerWrapper *producer();
     /** @brief Returns a pointer to the monitor model used for this timeline. */

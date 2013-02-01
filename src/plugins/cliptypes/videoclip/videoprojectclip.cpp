@@ -29,8 +29,8 @@ the Free Software Foundation, either version 3 of the License, or
 VideoProjectClip::VideoProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, VideoClipPlugin const *plugin) :
     AbstractProjectClip(url, id, parent, plugin)
 {
-    //m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url.path());
-
+    m_baseProducer = NULL;
+    initProducer();
     init();
 }
 
@@ -68,9 +68,10 @@ AbstractTimelineClip* VideoProjectClip::addInstance(ProducerWrapper* producer, T
 
 QPixmap VideoProjectClip::thumbnail()
 {
-    if (m_thumbnail.isNull()) {
-        m_thumbnail = m_baseProducer->pixmap().scaledToHeight(100, Qt::SmoothTransformation);
+    if (m_thumbnail.isNull() && m_baseProducer) {
+        m_thumbnail = m_baseProducer->pixmap(0, 80 * bin()->project()->displayRatio(), 80);
     }
+    
     return m_thumbnail;
 }
 
@@ -98,13 +99,19 @@ void VideoProjectClip::getHash()
     }
 }
 
+void VideoProjectClip::initProducer()
+{
+    if (!m_baseProducer)
+	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
+}
+
 void VideoProjectClip::init()
 {
     //Q_ASSERT(m_baseProducer && m_baseProducer->is_valid());
     //Q_ASSERT(m_baseProducer->property("mlt_service") == "avformat");
     getHash();
     m_hasLimitedDuration = true;
-    //thumbnail();
+    thumbnail();
 
     //kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
 }

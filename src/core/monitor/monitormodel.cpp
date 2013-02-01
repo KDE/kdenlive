@@ -71,18 +71,22 @@ void MonitorModel::setProducer(ProducerWrapper* producer)
     pause();
     m_consumer->stop();
 
-    if (producer) {
+    if (m_producerChangeEvent) {
         delete m_producerChangeEvent;
     }
-
-    m_producer = producer;
+    
+    if (!producer || !producer->is_valid()) {
+	m_producer = new ProducerWrapper(new Mlt::Producer(*m_consumer->profile(), "color:red"));
+    } else {
+	m_producer = producer;
+    }
     m_producer->set_speed(0.);
     m_position = -1;
 
     m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
 
     // should we mlt_service_disconnect ?
-    m_consumer->connect(*static_cast<Mlt::Service *>(producer));
+    m_consumer->connect(*static_cast<Mlt::Service *>(m_producer));
     int success = m_consumer->start();
     Q_ASSERT(success != -1);
     refresh();

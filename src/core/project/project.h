@@ -50,6 +50,10 @@ public:
 
     /** @brief Returns the url of the project file. */
     KUrl url() const;
+    
+    /** @brief Returns the display ratio for this project file, useful for creating thumbs. */
+    double displayRatio() const;
+    
     /** @brief Returns a short displayable caption describing the project in the format: filename / profile name. */
     QString caption();
     
@@ -65,7 +69,7 @@ public:
     /** @brief Returns a pointer to the timeline monitor model. */
     MonitorModel *timelineMonitor();
     /** @brief Returns a pointer to the used profile. */
-    Mlt::Profile *profile();
+    Mlt::Profile *profile() const;
     /** @brief Returns a pointer to the used timecode formatter. */
     TimecodeFormatter *timecodeFormatter();
 
@@ -90,6 +94,9 @@ public:
 
     /** @brief Returns a DomDocument that describes this project. */
     QDomDocument toXml() const;
+    
+    /** @brief Returns current project's folder that will be used to store various data (thumbnails, etc). */
+    const KUrl &projectFolder() const;
 
 public slots:
     /** @brief Saves to the current project file. */
@@ -107,6 +114,7 @@ private:
     QDomElement saveSettings(QDomDocument &document) const;
 
     KUrl m_url;
+    KUrl m_projectFolder;
     BinModel *m_bin;
     Timeline *m_timeline;
     TimecodeFormatter *m_timecodeFormatter;

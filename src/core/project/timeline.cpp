@@ -116,7 +116,7 @@ QList< TimelineTrack* > Timeline::tracks()
     return m_tracks;
 }
 
-Mlt::Profile* Timeline::profile()
+Mlt::Profile* Timeline::profile() const
 {
     return m_profile;
 }

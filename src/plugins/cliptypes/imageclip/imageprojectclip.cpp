@@ -29,8 +29,8 @@ the Free Software Foundation, either version 3 of the License, or
 ImageProjectClip::ImageProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, ImageClipPlugin const *plugin) :
     AbstractProjectClip(url, id, parent, plugin)
 {
-    m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url.path());
-
+    m_baseProducer = NULL;
+    initProducer();
     init();
 }
 
@@ -98,7 +98,7 @@ QDomElement ImageProjectClip::toXml(QDomDocument& document) const
 
 QPixmap ImageProjectClip::thumbnail()
 {
-    if (m_thumbnail.isNull()) {
+    if (m_thumbnail.isNull() && m_baseProducer) {
         m_thumbnail = m_baseProducer->pixmap().scaledToHeight(100, Qt::SmoothTransformation);
     }
     return m_thumbnail;
@@ -122,7 +122,11 @@ void ImageProjectClip::init(int duration)
     kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
 }
 
-
+void ImageProjectClip::initProducer()
+{
+    if (!m_baseProducer)
+	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
+}
 
 
 #include "imageprojectclip.moc"

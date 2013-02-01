@@ -10,17 +10,20 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "producerwrapper.h"
 #include <KUrl>
+#include <KDebug>
 #include <QPixmap>
 
 
 ProducerWrapper::ProducerWrapper(Mlt::Producer* producer) :
     Mlt::Producer(producer)
 {
+    if (!is_valid()) kDebug()<<"// WARNING, USING INVALID PRODUCER";
 }
 
 ProducerWrapper::ProducerWrapper(Mlt::Profile& profile, const QString&input, const QString &service) :
     Mlt::Producer(profile, service == QString() ? NULL : service.toUtf8().constData(), input.toUtf8().constData())
 {
+    if (!is_valid()) kDebug()<<"// WARNING, USING INVALID PRODUCER 2";
 }
 
 ProducerWrapper::~ProducerWrapper()
@@ -38,8 +41,7 @@ void ProducerWrapper::setProperty(const QString& name, const QString& value)
 
 QPixmap ProducerWrapper::pixmap(int framePosition, int width, int height)
 {
-    int currentPosition = position();
-
+    //int currentPosition = position();
     seek(framePosition);
     Mlt::Frame *frame = get_frame();
 
@@ -70,7 +72,7 @@ QPixmap ProducerWrapper::pixmap(int framePosition, int width, int height)
     QImage image(width, height, QImage::Format_ARGB32_Premultiplied);
     memcpy(image.bits(), imagedata, width * height * 4);
 
-    seek(currentPosition);
+    //seek(currentPosition);
 
     image = image.rgbSwapped();
 
