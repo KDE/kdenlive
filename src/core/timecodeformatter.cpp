@@ -11,8 +11,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timecodeformatter.h"
 #include "core.h"
 #include "timecode.h"
-#include "project/projectmanager.h"
-#include "project/project.h"
 #include "kdenlivesettings.h"
 #include <KLocale>
 #include <math.h>
@@ -27,11 +25,7 @@ TimecodeFormatter::TimecodeFormatter(const Fraction& framerate, TimecodeFormatte
 
 void TimecodeFormatter::setFramerate(const Fraction& framerate)
 {
-    if (framerate == Fraction()) {
-        m_framerate = pCore->projectManager()->current()->timecodeFormatter()->framerate();
-    } else {
-        m_framerate = framerate;
-    }
+    m_framerate = framerate;
 
     m_isDropFrame = m_framerate.numerator % m_framerate.denominator;
     if (m_isDropFrame) {

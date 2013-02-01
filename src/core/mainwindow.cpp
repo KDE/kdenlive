@@ -52,10 +52,9 @@ MainWindow::MainWindow(const QString &mltPath, const KUrl &url, const QString & 
 
     if (!url.isEmpty() && url.isValid()) {
         pCore->projectManager()->openProject(url);
-    }
-    else {
-	// Start with new project
-	pCore->projectManager()->openProject(KUrl());
+    } else {
+        // Start with new project
+        pCore->projectManager()->openProject(KUrl());
     }
 }
 

@@ -35,7 +35,7 @@ public:
      * @param framerate @see setFramerate
      * @param defaultFormat @see setDefaultFormat
      */
-    TimecodeFormatter(const Fraction &framerate = Fraction(), Formats defaultFormat = DefaultFormat, QObject *parent = 0);
+    TimecodeFormatter(const Fraction &framerate, Formats defaultFormat = DefaultFormat, QObject *parent = 0);
 
     /**
      * @brief Sets the formatters framerate and performs drop frame checks.

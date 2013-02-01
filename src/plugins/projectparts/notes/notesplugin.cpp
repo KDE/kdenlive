@@ -34,9 +34,13 @@ NotesPlugin::NotesPlugin(QObject* parent, const QVariantList& args) :
     pCore->window()->addDock(i18n("Project Notes"), "notes_widget", m_widget);
 }
 
-void NotesPlugin::load(const QDomElement& element)
+void NotesPlugin::init()
 {
     m_widget->clear();
+}
+
+void NotesPlugin::load(const QDomElement& element)
+{
     if (!element.isNull()) {
         m_widget->setText(element.firstChild().nodeValue());
     }

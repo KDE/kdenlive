@@ -36,8 +36,6 @@ ProjectManager::ProjectManager(QObject* parent) :
     m_redoAction->setPriority(QAction::LowPriority);
     m_undoAction->setEnabled(false);
     m_redoAction->setEnabled(false);
-
-    openProject(KUrl());
 }
 
 ProjectManager::~ProjectManager()
