@@ -11,14 +11,135 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef KDENLIVE_BIN_H
 #define KDENLIVE_BIN_H
 
+#include "project/abstractprojectitem.h"
 #include <QWidget>
+#include <QApplication>
+#include <QStyledItemDelegate>
+#include <QPainter>
 #include <kdemacros.h>
 
 class Project;
 class QAbstractItemView;
 class ProjectItemModel;
 
+class ItemDelegate: public QStyledItemDelegate
+{
+public:
+    ItemDelegate(QObject* parent = 0): QStyledItemDelegate(parent) {
+    }
+    
+    /*void drawFocus(QPainter *, const QStyleOptionViewItem &, const QRect &) const {
+    }*/
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+    {
+	QSize hint = QStyledItemDelegate::sizeHint(option, index);
+	return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, hint.height()));
+	
+	QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
+	QString line1 = index.data(Qt::DisplayRole).toString();
+	QString line2 = index.data(Qt::UserRole).toString();
 
+	int textW = qMax(option.fontMetrics.width(line1), option.fontMetrics.width(line2));
+	QSize iconSize = icon.actualSize(option.decorationSize);
+
+	return QSize(qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4);
+    }
+
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+        if (index.column() == 0 && !index.data().isNull()) {
+            QRect r1 = option.rect;
+            painter->save();
+            QStyleOptionViewItemV4 opt(option);
+	    initStyleOption(&opt, index);
+    
+            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+
+            if (option.state & QStyle::State_Selected) {
+                painter->setPen(option.palette.highlightedText().color());
+            }
+            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+	    
+	    QRect r = QStyle::alignedRect(opt.direction, Qt::AlignTop | Qt::AlignLeft,
+                                  opt.decorationSize, r1);
+	    opt.icon.paint(painter, r);
+            int decoWidth = r.width() + 2 * textMargin;
+
+            QFont font = painter->font();
+            font.setBold(true);
+            painter->setFont(font);
+            int mid = (int)((r1.height() / 2));
+            r1.adjust(decoWidth, 0, 0, -mid);
+            QRect r2 = option.rect;
+            r2.adjust(decoWidth, mid, 0, 0);
+	    QRectF bounding;
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);
+            font.setBold(false);
+            painter->setFont(font);
+            QString subText = index.data(Qt::UserRole).toString();
+            //int usage = index.data(UsageRole).toInt();
+            //if (usage != 0) subText.append(QString(" (%1)").arg(usage));
+            //if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
+	    r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
+	    QColor subTextColor = painter->pen().color();
+	    subTextColor.setAlphaF(.5);
+	    painter->setPen(subTextColor);
+            painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
+            
+            /*int jobProgress = index.data(Qt::UserRole + 5).toInt();
+            if (jobProgress != 0 && jobProgress != JOBDONE && jobProgress != JOBABORTED) {
+                if (jobProgress != JOBCRASHED) {
+                    // Draw job progress bar
+                    QColor color = option.palette.alternateBase().color();
+                    painter->setPen(Qt::NoPen);
+                    color.setAlpha(180);
+                    painter->setBrush(QBrush(color));
+                    QRect progress(pixmapPoint.x() + 1, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 2, 8);
+                    painter->drawRect(progress);
+                    painter->setBrush(option.palette.text());
+                    if (jobProgress > 0) {
+                        progress.adjust(1, 1, 0, -1);
+                        progress.setWidth((pixmap.width() - 4) * jobProgress / 100);
+                        painter->drawRect(progress);
+                    } else if (jobProgress == JOBWAITING) {
+                        // Draw kind of a pause icon
+                        progress.adjust(1, 1, 0, -1);
+                        progress.setWidth(2);
+                        painter->drawRect(progress);
+                        progress.moveLeft(progress.right() + 2);
+                        painter->drawRect(progress);
+                    }
+                } else if (jobProgress == JOBCRASHED) {
+                    QString jobText = index.data(Qt::UserRole + 7).toString();
+                    if (!jobText.isEmpty()) {
+                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                        painter->setPen(Qt::NoPen);
+                        painter->setBrush(option.palette.highlight());
+                        painter->drawRoundedRect(txtBounding, 2, 2);
+                        painter->setPen(option.palette.highlightedText().color());
+                        painter->drawText(txtBounding, Qt::AlignCenter, jobText);
+                    }
+                }*/
+            //}
+            
+            painter->restore();
+        } /*else if (index.column() == 2 && KdenliveSettings::activate_nepomuk()) {
+            if (index.data().toString().isEmpty()) {
+                QStyledItemDelegate::paint(painter, option, index);
+                return;
+            }
+            QRect r1 = option.rect;
+            if (option.state & (QStyle::State_Selected)) {
+                painter->fillRect(r1, option.palette.highlight());
+            }
+#ifdef NEPOMUK
+            KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
+#endif
+        }*/ else {
+            QStyledItemDelegate::paint(painter, option, index);
+        }
+    }
+};
 
 class EventEater : public QObject
  {
@@ -64,6 +185,7 @@ private slots:
 private:
     ProjectItemModel *m_itemModel;
     QAbstractItemView *m_itemView;
+    ItemDelegate *m_binTreeViewDelegate;
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
     /** @brief Default icon size for the views. */

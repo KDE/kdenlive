@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitor/monitormodel.h"
 #include <mlt++/Mlt.h>
 #include <QDomElement>
-
+#include <QPainter>
 
 AbstractProjectClip::AbstractProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, AbstractClipPlugin const *plugin) :
     AbstractProjectItem(parent)
@@ -120,6 +120,20 @@ QDomElement AbstractProjectClip::toXml(QDomDocument& document) const
         clip.setAttribute("url", m_url.path());
     }
     return clip;
+}
+
+QPixmap AbstractProjectClip::roundedPixmap(QPixmap source)
+{
+    QPixmap pix(source.width(), source.height());
+    pix.fill(Qt::transparent);
+    QPainter p(&pix);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPainterPath path;
+    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 4, 4);
+    p.setClipPath(path);
+    p.drawPixmap(0, 0, source);
+    p.end();
+    return pix;
 }
 
 #include "abstractprojectclip.moc"

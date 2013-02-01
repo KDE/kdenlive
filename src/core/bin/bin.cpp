@@ -93,6 +93,7 @@ Bin::Bin(QWidget* parent) :
     toolbar->addAction(listType);
     m_eventEater = new EventEater(this);
     connect(m_eventEater, SIGNAL(addClip()), this, SLOT(slotAddClip()));
+    m_binTreeViewDelegate = new ItemDelegate(m_itemView);
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 }
 
@@ -157,6 +158,7 @@ void Bin::slotInitView(QAction *action)
 
     // setup some default view specific parameters
     if (m_listType == BinTreeView) {
+	m_itemView->setItemDelegate(m_binTreeViewDelegate);
         QTreeView *view = static_cast<QTreeView*>(m_itemView);
         if (!m_headerInfo.isEmpty())
             view->header()->restoreState(m_headerInfo);

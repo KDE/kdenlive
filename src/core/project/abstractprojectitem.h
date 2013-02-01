@@ -85,7 +85,8 @@ public:
         DataName = 0,
         DataDescription,
         DataDate,
-        DataThumbnail
+        DataThumbnail,
+	DataDuration
     };
 
     /** @brief Returns the data that describes this item.
@@ -128,6 +129,7 @@ protected:
     QString m_name;
     QString m_description;
     QPixmap m_thumbnail;
+    QString m_duration;
 
 private:
     bool m_isCurrent;

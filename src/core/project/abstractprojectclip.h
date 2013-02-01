@@ -84,7 +84,7 @@ public:
     virtual void setCurrent(bool current);
 
     virtual QDomElement toXml(QDomDocument &document) const;
-
+    
 protected:
     AbstractClipPlugin const *m_plugin;
     ProducerWrapper *m_baseProducer;
@@ -93,6 +93,9 @@ protected:
     bool m_hasLimitedDuration;
     qint64 m_fileSize;
     QByteArray m_hash;
+    
+    /** @brief Returns a rounded border pixmap from the @param source pixmap. */
+    QPixmap roundedPixmap(QPixmap source);
 };
 
 #endif

@@ -69,7 +69,7 @@ AbstractTimelineClip* VideoProjectClip::addInstance(ProducerWrapper* producer, T
 QPixmap VideoProjectClip::thumbnail()
 {
     if (m_thumbnail.isNull() && m_baseProducer) {
-        m_thumbnail = m_baseProducer->pixmap(0, 80 * bin()->project()->displayRatio(), 80);
+        m_thumbnail = roundedPixmap(m_baseProducer->pixmap(0, 80 * bin()->project()->displayRatio(), 80));
     }
     
     return m_thumbnail;
@@ -111,6 +111,7 @@ void VideoProjectClip::init()
     //Q_ASSERT(m_baseProducer->property("mlt_service") == "avformat");
     getHash();
     m_hasLimitedDuration = true;
+    m_duration = Timecode(m_baseProducer->get_length()).formatted();
     thumbnail();
 
     //kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();

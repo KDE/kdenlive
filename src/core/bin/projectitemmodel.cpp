@@ -57,6 +57,11 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
         QIcon icon = QIcon(item->data(AbstractProjectItem::DataThumbnail).value<QPixmap>());
         return icon;
     }
+    
+    if (role == Qt::UserRole) {
+        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+        return item->data(AbstractProjectItem::DataDuration);
+    }
 
     return QVariant();
 }
