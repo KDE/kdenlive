@@ -75,10 +75,11 @@ int TimelineTrack::index() const
     return m_parent->tracks().indexOf(const_cast<TimelineTrack*>(this));
 }
 
-// int TimelineTrack::mltIndex() const
-// {
-//     return 0;
-// }
+int TimelineTrack::mltIndex() const
+{
+    // WARNING this relies on the existance of a background track
+    return m_parent->tracks().count() - index();
+}
 
 QList< AbstractTimelineClip* > TimelineTrack::clips()
 {
@@ -156,13 +157,15 @@ void TimelineTrack::adjustIndices(AbstractTimelineClip* after, int by)
 
 void TimelineTrack::setClipIndex(AbstractTimelineClip* clip, int index)
 {
-    int oldIndex = m_clips.key(clip);
+    int oldIndex = m_clips.key(clip, -1);
 
     if (index == oldIndex) {
         return;
     }
 
-    m_clips.remove(oldIndex);
+    if (oldIndex != -1) {
+        m_clips.remove(oldIndex);
+    }
 
     QMap<int, AbstractTimelineClip*> adjusted;
     QMap<int, AbstractTimelineClip*>::iterator it = m_clips.begin();

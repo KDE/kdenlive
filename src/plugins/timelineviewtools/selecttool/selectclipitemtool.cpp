@@ -114,9 +114,9 @@ void SelectClipItemTool::mouseRelease(QGraphicsSceneMouseEvent* event)
             command->setText(i18n("Resize Clip"));
             if (position > m_original) {
                 m_clip->clip()->setIn(m_clip->clip()->in() + position - m_original, command);
-                m_clip->clip()->setPosition(position, command);
+                m_clip->clip()->setPosition(position, -1, command);
             } else {
-                m_clip->clip()->setPosition(position, command);
+                m_clip->clip()->setPosition(position, -1, command);
                 m_clip->clip()->setIn(m_clip->clip()->in() + position - m_original, command);
             }
             pCore->projectManager()->current()->undoStack()->push(command);

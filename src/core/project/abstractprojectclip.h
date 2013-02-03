@@ -84,6 +84,16 @@ public:
     virtual void setCurrent(bool current);
 
     virtual QDomElement toXml(QDomDocument &document) const;
+
+    /** @brief Returns the "base" producer from which the entries / "cut" producers in the timeline are created. */
+    virtual ProducerWrapper *timelineBaseProducer();
+    /**
+     * @brief Sets the "base" producer from which the entries / "cut" producers in the timeline are created.
+     * @param producer pointer to the producer
+     * 
+     * This is supposed to be called only by timeline instances when opening the project to inform this object about an already existing base producer.
+     */
+    virtual void setTimelineBaseProducer(ProducerWrapper *producer);
     
 protected:
     AbstractClipPlugin const *m_plugin;
@@ -96,6 +106,9 @@ protected:
     
     /** @brief Returns a rounded border pixmap from the @param source pixmap. */
     QPixmap roundedPixmap(QPixmap source);
+
+private:
+    ProducerWrapper *m_timelineBaseProducer;
 };
 
 #endif

@@ -22,7 +22,8 @@ AbstractProjectClip::AbstractProjectClip(const KUrl& url, const QString &id, Pro
     AbstractProjectItem(parent)
     , m_plugin(plugin)
     , m_url(url)
-    , m_id(id)
+    , m_id(id),
+    m_timelineBaseProducer(0)
 {
     if (url.isValid()) {
         m_name = url.fileName();
@@ -58,6 +59,9 @@ AbstractProjectClip::~AbstractProjectClip()
 {
     // ?
     delete m_baseProducer;
+    if (m_timelineBaseProducer) {
+        delete m_timelineBaseProducer;
+    }
 }
 
 AbstractClipPlugin const *AbstractProjectClip::plugin() const
@@ -120,6 +124,23 @@ QDomElement AbstractProjectClip::toXml(QDomDocument& document) const
         clip.setAttribute("url", m_url.path());
     }
     return clip;
+}
+
+ProducerWrapper* AbstractProjectClip::timelineBaseProducer()
+{
+    if (!m_timelineBaseProducer) {
+        if (!m_baseProducer) {
+            initProducer();
+            m_timelineBaseProducer = new ProducerWrapper(*m_baseProducer->profile(), m_baseProducer->property("resource"));
+            // copy/set properties? if yes then pass_list and/or pass_values should be used
+        }
+    }
+    return m_timelineBaseProducer;
+}
+
+void AbstractProjectClip::setTimelineBaseProducer(ProducerWrapper* producer)
+{
+    m_timelineBaseProducer = producer;
 }
 
 QPixmap AbstractProjectClip::roundedPixmap(QPixmap source)

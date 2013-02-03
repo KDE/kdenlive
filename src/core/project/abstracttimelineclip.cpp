@@ -24,7 +24,7 @@ AbstractTimelineClip::AbstractTimelineClip(ProducerWrapper* producer, AbstractPr
     m_projectClip(projectClip),
     m_parent(parent)
 {
-    
+    m_projectClip->setTimelineBaseProducer(new ProducerWrapper(&m_producer->parent()));
 }
 
 AbstractTimelineClip::~AbstractTimelineClip()
@@ -91,9 +91,9 @@ void AbstractTimelineClip::emitMoved()
     emit moved();
 }
 
-void AbstractTimelineClip::setPosition(int position, QUndoCommand* parentCommand)
+void AbstractTimelineClip::setPosition(int position, int track, QUndoCommand* parentCommand)
 {
-    MoveClipCommand *command = new MoveClipCommand(m_parent->index(), position, this->position(), parentCommand);
+    MoveClipCommand *command = new MoveClipCommand(track >= 0 ? track : m_parent->index(), m_parent->index(), position, this->position(), parentCommand);
     if (!parentCommand) {
         m_parent->timeline()->project()->undoStack()->push(command);
     }
@@ -117,5 +117,11 @@ void AbstractTimelineClip::setInOut(int in, int out, QUndoCommand* parentCommand
     }
 }
 
+ProducerWrapper* AbstractTimelineClip::receiveBaseProducer(int track) const
+{
+    Q_UNUSED(track)
+
+    return m_projectClip->timelineBaseProducer();
+}
 
 #include "abstracttimelineclip.moc"

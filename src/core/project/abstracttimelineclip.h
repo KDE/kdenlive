@@ -22,7 +22,7 @@ class QUndoCommand;
  * @class AbstractTimelineClip
  * @brief Base class for timeline clips (layer on top of cut producers).
  * 
- * 
+ * TODO Rename? This class is actually not abstract at all
  */
 
 
@@ -69,10 +69,18 @@ public:
     /** @brief Emits moved. */
     void emitMoved();
 
+    /** @brief Returns a base producer of this (project) clip.
+     * @param track a track for which the base producer should be valid (parameter not used in the base class)
+     * 
+     * The returned base producer is not necessarily the one used by this instance but one who matches the parameter(s).
+     */
+    virtual ProducerWrapper *receiveBaseProducer(int track) const;
+
 public slots:
     /**
      * @brief Moves the clip.
      * @param position new position
+     * @param track new track (use a negative value to keep current track)
      * @param parentCommand command the MoveClipCommand should be parented to
      * 
      * If parentCommand is not supplied, the created command is pushed to the undo stack.
@@ -81,7 +89,7 @@ public slots:
      * 
      * @see MoveClipCommand
      */
-    void setPosition(int position, QUndoCommand *parentCommand = 0);
+    void setPosition(int position, int track = -1, QUndoCommand *parentCommand = 0);
 
     /**
      * @brief Sets a new in point.

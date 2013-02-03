@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 /**
  * @class MoveClipCommand
- * @brief Handles changing a clips position inside a track.
+ * @brief Handles changing a clips positions and moving it between tracks
  * 
  * WARNING: No safety checks are performed. Make sure there is sufficient white space at the new position.
  */
@@ -27,19 +27,21 @@ class MoveClipCommand : public QUndoCommand
 public:
     /**
      * @brief Constructor; if no parent command is supplied redo is called (it won't be called again when pushing to the stack).
-     * @param track index of the track containing the clip
+     * @param track index of the new track
+     * @param oldTrack track currently containing the clip
      * @param position new position
      * @param oldPosition current/old position
      */
-    explicit MoveClipCommand(int track, int position, int oldPosition, QUndoCommand* parent = 0);
+    explicit MoveClipCommand(int track, int oldTrack, int position, int oldPosition, QUndoCommand* parent = 0);
 
     void redo();
     void undo();
 
 private:
-    void move(int position, int oldPosition);
+    void move(int track, int oldTrack, int position, int oldPosition);
 
     int m_track;
+    int m_oldTrack;
     int m_position;
     int m_oldPosition;
     bool m_firstTime;

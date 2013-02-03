@@ -56,7 +56,7 @@ public:
      * Kdenlive is reversed.
      */
     int index() const;
-//     int mltIndex() const;
+    int mltIndex() const;
 
     /** @brief Returns a list of pointers to the clips of this track in the order of their position. */
     QList<AbstractTimelineClip*> clips();
@@ -87,16 +87,18 @@ public:
      * @param by amount to move indices by; if 0 the clips are automatically aligned with the entries in the playlist
      * 
      * Does not consider changes to the order! Only useful when blanks were inserted or removed.
+     * Does not modify the actual playlist.
      * @see adjustIndices
      */
     void adjustIndices(AbstractTimelineClip *after = 0, int by = 0);
     /**
-     * @brief Assigns a new index to the clip
+     * @brief Updates the stored clip index or inserts or removes it to match the one used in the playlist again.
      * @param clip clip whose index should be changed
-     * @param index new index for the clip
+     * @param index new index for the clip (use a negative value when clip was removed from playlist)
      * 
      * Indices of other clips are also adjusted in the process (but no changes to the order are
      * considered there).
+     * Does not modify the actual playlist.
      */
     void setClipIndex(AbstractTimelineClip *clip, int index);
 
