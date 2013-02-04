@@ -324,12 +324,9 @@ bool CustomTrackView::checkTrackHeight()
         }
     }
     double newHeight = m_tracksHeight * m_document->tracksCount() * matrix().m22();
-    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), newHeight - 1);
-
+    m_cursorLine->setLine(0, 0, 0, newHeight - 1);
     for (int i = 0; i < m_guides.count(); i++) {
-        QLineF l = m_guides.at(i)->line();
-        l.setP2(QPointF(l.x2(), newHeight));
-        m_guides.at(i)->setLine(l);
+        m_guides.at(i)->setLine(0, 0, 0, newHeight - 1);
     }
 
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
@@ -3076,12 +3073,10 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
 
     int maxHeight = m_tracksHeight * m_document->tracksCount() * matrix().m22();
     for (int i = 0; i < m_guides.count(); i++) {
-        QLineF l = m_guides.at(i)->line();
-        l.setP2(QPointF(l.x2(), maxHeight));
-        m_guides.at(i)->setLine(l);
+        m_guides.at(i)->setLine(0, 0, 0, maxHeight - 1);
     }
 
-    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight - 1);
+    m_cursorLine->setLine(0, 0, 0, maxHeight - 1);
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
     viewport()->update();
     //QTimer::singleShot(500, this, SIGNAL(trackHeightChanged()));
@@ -3151,11 +3146,9 @@ void CustomTrackView::removeTrack(int ix)
 
     int maxHeight = m_tracksHeight * m_document->tracksCount() * matrix().m22();
     for (int i = 0; i < m_guides.count(); i++) {
-        QLineF l = m_guides.at(i)->line();
-        l.setP2(QPointF(l.x2(), maxHeight));
-        m_guides.at(i)->setLine(l);
+        m_guides.at(i)->setLine(0, 0, 0, maxHeight - 1);
     }
-    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight - 1);
+    m_cursorLine->setLine(0, 0, 0, maxHeight - 1);
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
 
     m_selectedTrack = qMin(m_selectedTrack, m_document->tracksCount() - 1);
@@ -3658,6 +3651,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
         m_dragGuide = NULL;
         m_dragItem = NULL;
+	QGraphicsView::mouseReleaseEvent(event);
         return;
     } else if (m_operationMode == SPACER && m_selectionGroup) {
         int track;
@@ -5834,11 +5828,9 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     setMatrix(newmatrix);
     if (adjust) {
         double newHeight = m_tracksHeight * m_document->tracksCount() * matrix().m22();
-        m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), newHeight - 1);
+	m_cursorLine->setLine(0, 0, 0, newHeight - 1);
         for (int i = 0; i < m_guides.count(); i++) {
-            QLineF l = m_guides.at(i)->line();
-            l.setP2(QPointF(l.x2(), newHeight));
-            m_guides.at(i)->setLine(l);
+            m_guides.at(i)->setLine(0, 0, 0, newHeight - 1);
         }
         setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
     }
