@@ -3092,6 +3092,10 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
 
 void CustomTrackView::removeTrack(int ix)
 {
+    // Clear effect stack
+    clearSelection();
+    emit transitionItemSelected(NULL);
+
     // Delete track in MLT playlist
     m_document->renderer()->mltDeleteTrack(m_document->tracksCount() - ix);
     m_document->deleteTrack(m_document->tracksCount() - ix - 1);
@@ -3100,12 +3104,10 @@ void CustomTrackView::removeTrack(int ix)
     QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
     QList<QGraphicsItem *> selection = m_scene->items(r);
 
-    resetSelectionGroup();
-
     m_selectionGroup = new AbstractGroupItem(m_document->fps());
     scene()->addItem(m_selectionGroup);
     for (int i = 0; i < selection.count(); i++) {
-        if ((!selection.at(i)->parentItem()) && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET)) {
+        if ((selection.at(i) && !selection.at(i)->parentItem() && selection.at(i)->isEnabled()) && (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET)) {
             m_selectionGroup->addItem(selection.at(i));
         }
     }
@@ -6505,7 +6507,11 @@ void CustomTrackView::slotConfigTracks(int ix)
 void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
 {
     if (m_document->tracksCount() < 2) return;
-    double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
+    // Clear effect stack
+    clearSelection();
+    emit transitionItemSelected(NULL);
+    
+    double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;    
     QRectF r(0, startY, sceneRect().width(), m_tracksHeight / 2 - 1);
     QList<QGraphicsItem *> selection = m_scene->items(r);
     QUndoCommand *deleteTrack = new QUndoCommand();
@@ -7347,6 +7353,7 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
 
 void CustomTrackView::clearSelection(bool emitInfo)
 {
+    if (m_dragItem) m_dragItem->setSelected(false);
     resetSelectionGroup();
     scene()->clearSelection();
     m_dragItem = NULL;
