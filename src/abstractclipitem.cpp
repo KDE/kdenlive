@@ -58,6 +58,7 @@ void AbstractClipItem::closeAnimation()
 #if QT_VERSION >= 0x040600
     if (!isEnabled()) return;
     setEnabled(false);
+    setFlag(QGraphicsItem::ItemIsSelectable, false);
     if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
         // animation disabled
         deleteLater();
