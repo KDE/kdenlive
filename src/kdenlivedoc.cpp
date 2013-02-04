@@ -143,14 +143,16 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         else {
             QFile file(tmpFile);
             QString errorMsg;
+	    int line;
+	    int col;
             QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
-            success = m_document.setContent(&file, false, &errorMsg);
+            success = m_document.setContent(&file, false, &errorMsg, &line, &col);
             file.close();
             KIO::NetAccess::removeTempFile(tmpFile);
 
             if (!success) {
                 // It is corrupted
-                if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file, error is:\n%1\nDo you want to open a backup file?", errorMsg), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
+                if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file, error is:\n%1 (line %2, col %3)\nDo you want to open a backup file?", errorMsg, line, col), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
                 *openBackup = true;
             }
                 //KMessageBox::error(parent, errorMsg);
@@ -1203,8 +1205,10 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
         QMap<QString, QString> meta;
         for (QDomNode m = orig.firstChild(); !m.isNull(); m = m.nextSibling()) {
             QString name = m.toElement().attribute("name");
-            if (name.startsWith("meta.attr"))
+            if (name.startsWith("meta.attr")) {
+		if (name.endsWith(".markup")) name = name.section('.', 0, -2);
                 meta.insert(name.section('.', 2, -1), m.firstChild().nodeValue());
+	    }
         }
         if (!meta.isEmpty()) {
             if (clip == NULL)
