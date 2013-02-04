@@ -1094,7 +1094,7 @@ void Render::processFileProperties()
         for (int i = 0; i < count; i ++) {
             QString name = metadata.get_name(i);
             QString value = QString::fromUtf8(metadata.get(i));
-            if (name.endsWith("markup") && !value.isEmpty())
+            if (name.endsWith(".markup") && !value.isEmpty())
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
