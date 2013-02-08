@@ -212,7 +212,7 @@ void ClipItem::setEffectList(const EffectsList effectList)
             else if (fade < 0)
                 m_endFade = -fade;
         }
-        setSelectedEffect(0);
+        setSelectedEffect(1);
     }
 }
 
@@ -1668,7 +1668,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
     else if (fade < 0) m_endFade = -fade;
 
     if (m_selectedEffect == -1) {
-        setSelectedEffect(0);
+        setSelectedEffect(1);
     } else if (m_selectedEffect == ix - 1) setSelectedEffect(m_selectedEffect);
     if (needRepaint) update(boundingRect());
     /*if (animate) {
