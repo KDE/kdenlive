@@ -206,7 +206,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
     m_toolbar->addWidget(m_timePos);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
-    m_toolbar->setMaximumHeight(s * 1.5);
+    m_toolbar->setMaximumHeight(m_timePos->height());
     layout->addWidget(m_toolbar);
 }
 
