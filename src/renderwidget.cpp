@@ -2116,7 +2116,6 @@ void RenderWidget::missingClips(bool hasMissing)
 void RenderWidget::errorMessage(const QString &message)
 {
     if (!message.isEmpty()) {
-	kDebug()<<"// ERROR MESS: "<<message;
 #if KDE_IS_VERSION(4,7,0)
         m_infoMessage->setMessageType(KMessageWidget::Warning);
         m_infoMessage->setText(message);
