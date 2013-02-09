@@ -59,7 +59,7 @@ private:
     int m_maxval;
     int m_zoneStart;
     int m_zoneEnd;
-    KStatefulBrush m_zoneBrush;
+    QColor m_zoneColor;
     QList <CommentedTime> m_markers;
     QPixmap m_pixmap;
     Monitor *m_monitor;
