@@ -43,7 +43,8 @@ SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
     m_zoneStart = 10;
     m_zoneEnd = 60;
     KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
-    m_zoneBrush = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, config);
+    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, config).brush(this).color();
+    m_zoneColor.setAlpha(180);
 
     setMouseTracking(true);
     setMinimumHeight(8);
@@ -148,7 +149,7 @@ void SmallRuler::mouseReleaseEvent(QMouseEvent * event)
 void SmallRuler::leaveEvent(QEvent * event)
 {
     QWidget::leaveEvent(event);
-    if (m_cursorColor == palette().highlight()) {
+    if (m_cursorColor == palette().link()) {
 	m_cursorColor = palette().text();
 	update();
     }
@@ -168,10 +169,10 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
     else {
 	if (m_cursorColor == palette().text() && qAbs(pos - m_cursorFramePosition) * m_scale < 7) {
 	    // Mouse is over cursor
-	    m_cursorColor = palette().highlight();
+	    m_cursorColor = palette().link();
 	    update();
 	}
-	else if (m_cursorColor == palette().highlight() && qAbs(pos - m_cursorFramePosition) * m_scale >= 7) {
+	else if (m_cursorColor == palette().link() && qAbs(pos - m_cursorFramePosition) * m_scale >= 7) {
 	    m_cursorColor = palette().text();
 	    update();
 	}
@@ -240,9 +241,7 @@ void SmallRuler::updatePixmap()
 
     const int zoneStart = (int)(m_zoneStart * m_scale);
     const int zoneEnd = (int)(m_zoneEnd * m_scale);
-    p.setPen(Qt::NoPen);
-    p.setBrush(m_zoneBrush.brush(this));
-    p.drawRect(zoneStart, 0, zoneEnd - zoneStart, height());
+    p.fillRect(zoneStart, 0, zoneEnd - zoneStart, height(), QBrush(m_zoneColor));
 
     // draw ruler
     p.setPen(palette().midlight().color());
@@ -294,14 +293,15 @@ void SmallRuler::paintEvent(QPaintEvent *e)
 
     // Draw seeking pointer
     if (m_lastSeekPosition != SEEK_INACTIVE && m_lastSeekPosition != m_cursorFramePosition) {
-	p.fillRect(m_lastSeekPosition * m_scale - 1, 0, 3, height(), palette().highlight());
+	p.fillRect(m_lastSeekPosition * m_scale - 1, 0, 3, height(), palette().linkVisited());
     }
 }
 
 void SmallRuler::updatePalette()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
-    m_zoneBrush = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, config);
+    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, config).brush(this).color();
+    m_zoneColor.setAlpha(180);
     updatePixmap();
 }
 

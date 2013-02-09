@@ -76,6 +76,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     updateFrameSize();
     m_scale = 3;
     m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    m_zoneColor.setAlpha(180);
     m_zoneStart = 0;
     m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
@@ -95,6 +96,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
 void CustomRuler::updatePalette()
 {
     m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    m_zoneColor.setAlpha(180);
 }
 
 void CustomRuler::updateProjectFps(Timecode t)
@@ -222,10 +224,10 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
         int pos = (int)((event->x() + m_offset));
 	if (m_cursorColor == palette().text() && qAbs(pos - m_view->cursorPos() * m_factor) < 7) {
 	    // Mouse is over cursor
-	    m_cursorColor = palette().highlight();
+	    m_cursorColor = palette().link();
 	    update(m_view->cursorPos() * m_factor - m_offset - 10, LABEL_SIZE + 2, 20, MAX_HEIGHT - LABEL_SIZE - 2);
 	}
-	else if (m_cursorColor == palette().highlight() && qAbs(pos - m_view->cursorPos() * m_factor) >= 7) {
+	else if (m_cursorColor == palette().link() && qAbs(pos - m_view->cursorPos() * m_factor) >= 7) {
 	    m_cursorColor = palette().text();
 	    update(m_view->cursorPos() * m_factor - m_offset - 10, LABEL_SIZE + 2, 20, MAX_HEIGHT - LABEL_SIZE - 2);
 	}
@@ -256,7 +258,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 void CustomRuler::leaveEvent(QEvent * event)
 {
     QWidget::leaveEvent(event);
-    if (m_cursorColor == palette().highlight()) {
+    if (m_cursorColor == palette().link()) {
 	m_cursorColor = palette().text();
 	update();
     }
@@ -489,7 +491,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     p.drawPolygon(pa);
     
     if (m_lastSeekPosition != SEEK_INACTIVE && m_lastSeekPosition != m_view->cursorPos()) {
-	p.fillRect(m_lastSeekPosition * m_factor - m_offset - 1, BIG_MARK_X + 1, 3, MAX_HEIGHT - BIG_MARK_X - 1, palette().highlight());
+	p.fillRect(m_lastSeekPosition * m_factor - m_offset - 1, BIG_MARK_X + 1, 3, MAX_HEIGHT - BIG_MARK_X - 1, palette().linkVisited());
     }
 
 }

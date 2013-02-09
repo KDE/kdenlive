@@ -1803,13 +1803,15 @@ int Render::getCurrentSeekPosition() const
 void Render::emitFrameNumber()
 {
     int currentPos = m_mltConsumer->position();
-    if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
+    if (currentPos == requestedSeekPosition) {
+	requestedSeekPosition = SEEK_INACTIVE;
+	m_paused = true;
+    }
     emit rendererPosition(currentPos);
     if (requestedSeekPosition != SEEK_INACTIVE) {
 	m_mltConsumer->purge();
 	m_mltProducer->seek(requestedSeekPosition);
-	if (m_mltProducer->get_speed() == 0 && m_paused) {
-	    m_paused = false;
+	if (m_mltProducer->get_speed() == 0 && !m_paused) {
 	    m_mltConsumer->set("refresh", 1);
 	}
 	requestedSeekPosition = SEEK_INACTIVE;
