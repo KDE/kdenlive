@@ -196,12 +196,42 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.clip_full_luma, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
 
     // Check for Metadata
-    QMap<QString, QString> meta = m_clip->metadata();
-    QMap<QString, QString>::const_iterator i = meta.constBegin();
+    QMap<QString, QStringList> meta = m_clip->metadata();
+    QMap<QString, QStringList>::const_iterator i = meta.constBegin();
     while (i != meta.constEnd()) {
-        QTreeWidgetItem *metaitem = new QTreeWidgetItem(m_view.metadata_list);
+	QStringList values = i.value();
+	QString parentName;
+	QString iconName;
+	if (values.count() > 1 && !values.at(1).isEmpty()) parentName = values.at(1);
+	else {
+	    if (KdenliveSettings::ffmpegpath().endsWith("avconv")) {
+		parentName = i18n("Libav");
+		iconName = "meta_libav.png";
+	    }
+	    else {
+		parentName = i18n("FFmpeg");
+		iconName = "meta_ffmpeg.png";
+	    }
+	}
+	QTreeWidgetItem *parent = NULL;
+	QList <QTreeWidgetItem *> matches = m_view.metadata_list->findItems(parentName, Qt::MatchExactly);
+	if (!matches.isEmpty()) parent = matches.at(0);
+	else {
+	    if (parentName == "Magic Lantern") iconName = "meta_magiclantern.png";
+	    parent = new QTreeWidgetItem(m_view.metadata_list, QStringList() << parentName);
+	    if (!iconName.isEmpty()) {
+		KIcon icon(KStandardDirs::locate("appdata", iconName));
+		parent->setIcon(0, icon);
+	    }
+	}
+	QTreeWidgetItem *metaitem = NULL;
+        if (parent) {
+	    metaitem = new QTreeWidgetItem(parent);
+	    parent->setExpanded(true);
+	}
+	else metaitem = new QTreeWidgetItem(m_view.metadata_list);
         metaitem->setText(0, i.key()); //i18n(i.key().section('.', 2, 3).toUtf8().data()));
-        metaitem->setText(1, i.value());
+        metaitem->setText(1, values.at(0));
         ++i;
     }
 

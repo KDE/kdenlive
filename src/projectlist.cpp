@@ -2199,31 +2199,67 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
 void ProjectList::extractMetadata(DocClipBase *clip)
 {
     QMap <QString, QString> props = clip->properties();
-    if (props.contains("exiftool")) {
-	// metadata was already extracted
-	return;
+    if (KdenliveSettings::use_exiftool() && !props.contains("exiftool")) {
+	QString codecid = props.value("videocodecid").simplified();
+	if (codecid == "h264") {
+	    QProcess p;
+	    QStringList args;
+	    args << "-g" << "-args" << clip->fileURL().encodedPathAndQuery();
+	    p.start("exiftool", args);
+	    p.waitForFinished();
+	    QString res = p.readAllStandardOutput();
+	    QStringList list = res.split("\n");
+	    QMap <QString, QString> meta;
+	    foreach(QString tagline, list) {
+		if (!tagline.startsWith("-H264")) continue;
+		QString tag = tagline.section(':', 1);
+		if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
+		meta.insert(tag.section('=', 0, 0), tag.section('=', 1));
+	    }
+	    clip->setProperty("exiftool", "1");
+	    if (!meta.isEmpty()) {
+		clip->setMetadata(meta, "ExifTool");
+		//checkCamcorderFilters(clip, meta);
+	    }
+	}
     }
-    QString codecid = props.value("videocodecid").simplified();
-    if (codecid == "h264") {
-	QProcess p;
-	QStringList args;
-	args << "-g" << "-args" << clip->fileURL().encodedPathAndQuery();
-	p.start("exiftool", args);
-	p.waitForFinished();
-	QString res = p.readAllStandardOutput();
-	QStringList list = res.split("\n");
+    if (KdenliveSettings::use_magicLantern() && !props.contains("magiclantern")) {
 	QMap <QString, QString> meta;
-	foreach(QString tagline, list) {
-	    if (!tagline.startsWith("-H264")) continue;
-	    QString tag = tagline.section(':', 1);
-	    if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
-	    meta.insert(tag.section('=', 0, 0), tag.section('=', 1));
+	QString url = clip->fileURL().path();
+	url = url.section('.', 0, -2) + ".LOG";
+	if (QFile::exists(url)) {
+	    QFile file(url);
+	    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		while (!file.atEnd()) {
+		    QString line = file.readLine().simplified();
+		    if (line.startsWith('#') || line.isEmpty() || !line.contains(':')) continue;
+		    if (line.startsWith("CSV data")) break;
+		    meta.insert(line.section(':', 0, 0).simplified(), line.section(':', 1).simplified());
+		}
+	    }
 	}
-	clip->setProperty("exiftool", "1");
-	if (!meta.isEmpty()) {
-	    clip->setMetadata(meta);
-	    //checkCamcorderFilters(clip, meta);
+	url = url.section('.', 0, -2) + ".THM";
+	if (QFile::exists(url) && KdenliveSettings::use_exiftool()) {
+	    // Read the exif metadata embeded in the THM file
+	    QProcess p;
+	    QStringList args;
+	    args << "-g" << "-args" << url;
+	    p.start("exiftool", args);
+	    p.waitForFinished();
+	    QString res = p.readAllStandardOutput();
+	    QStringList list = res.split("\n");
+	    foreach(QString tagline, list) {
+		if (tagline.startsWith("-File") || tagline.startsWith("-ExifTool")) continue;
+		QString tag = tagline.section(':', 1).simplified();
+		if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
+		if (!tag.section('=', 0, 0).isEmpty() && !tag.section('=', 1).simplified().isEmpty())
+		    meta.insert(tag.section('=', 0, 0), tag.section('=', 1).simplified());
+	    }
 	}
+	
+	if (!meta.isEmpty())
+	    clip->setMetadata(meta, "Magic Lantern");
+	clip->setProperty("magiclantern", "1");
     }
 }
 
@@ -2245,7 +2281,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         item->setProperties(properties, metadata);
         clip->setProducer(producer, replace);
-	if (KdenliveSettings::use_exiftool()) extractMetadata(clip);
+	extractMetadata(clip);
 	m_render->processingDone(clipId);
 
         // Proxy stuff

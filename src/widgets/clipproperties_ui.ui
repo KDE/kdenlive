@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>323</width>
-    <height>556</height>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -528,7 +528,7 @@
           <bool>false</bool>
          </property>
          <property name="itemsExpandable">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="sortingEnabled">
           <bool>false</bool>
