@@ -117,7 +117,7 @@ public:
     explicit RenderWidget(const QString &projectfolder, bool enableProxy, MltVideoProfile profile, QWidget * parent = 0);
     virtual ~RenderWidget();
     void setGuides(QDomElement guidesxml, double duration);
-    void focusFirstVisibleItem();
+    void focusFirstVisibleItem(const QString &profile = QString());
     void setProfile(MltVideoProfile profile);
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
@@ -147,8 +147,8 @@ public slots:
 private slots:
     void slotUpdateButtons(KUrl url);
     void slotUpdateButtons();
-    void refreshView();
-    void refreshCategory();
+    void refreshView(const QString &profile = QString());
+    void refreshCategory(const QString &group = QString(), const QString &profile = QString());
 
     /** @brief Updates available options when a new format has been selected. */
     void refreshParams();
