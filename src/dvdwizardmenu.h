@@ -40,7 +40,7 @@
 
 class DvdScene : public QGraphicsScene
 {
-
+Q_OBJECT
 public:
     DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
         m_width = 0; m_height = 0;
@@ -59,6 +59,14 @@ public:
 private:
     int m_width;
     int m_height;
+    
+protected:
+    void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) {
+	QGraphicsScene::mouseReleaseEvent(mouseEvent);
+	emit sceneChanged();
+    }
+signals:
+    void sceneChanged();
 };
 
 class DvdButtonUnderline : public QGraphicsRectItem

@@ -46,14 +46,6 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     m_view.menu_preview->setMouseTracking(true);
     connect(m_view.create_menu, SIGNAL(toggled(bool)), m_view.menu_box, SLOT(setEnabled(bool)));
     connect(m_view.create_menu, SIGNAL(toggled(bool)), this, SIGNAL(completeChanged()));
-    
-#if KDE_IS_VERSION(4,7,0)
-    m_menuMessage = new KMessageWidget;
-    QGridLayout *s =  static_cast <QGridLayout*> (layout());
-    s->addWidget(m_menuMessage, 7, 0, 1, -1);
-    m_menuMessage->hide();
-    m_view.error_message->hide();
-#endif
 
     m_view.add_button->setIcon(KIcon("document-new"));
     m_view.delete_button->setIcon(KIcon("trash-empty"));
@@ -134,7 +126,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     connect(m_view.zoom_button, SIGNAL(pressed()), this, SLOT(slotZoom()));
     connect(m_view.unzoom_button, SIGNAL(pressed()), this, SLOT(slotUnZoom()));
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(buttonChanged()));
-    connect(m_scene, SIGNAL(changed(const QList<QRectF> &)), this, SIGNAL(completeChanged()));
+    connect(m_scene, SIGNAL(sceneChanged()), this, SIGNAL(completeChanged()));
 
     // red background for error message
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
@@ -142,8 +134,15 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     p.setColor(QPalette::Background, scheme.background(KColorScheme::NegativeBackground).color());
     m_view.error_message->setAutoFillBackground(true);
     m_view.error_message->setPalette(p);
-
     m_view.menu_box->setEnabled(false);
+
+#if KDE_IS_VERSION(4,7,0)
+    m_menuMessage = new KMessageWidget;
+    QGridLayout *s =  static_cast <QGridLayout*> (layout());
+    s->addWidget(m_menuMessage, 7, 0, 1, -1);
+    m_menuMessage->hide();
+    m_view.error_message->hide();
+#endif
 
 }
 
@@ -191,9 +190,9 @@ bool DvdWizardMenu::isComplete() const
                 for (int j = 0; j < collisions.count(); j++) {
                     if (collisions.at(j)->type() == button->type()) {
 #if KDE_IS_VERSION(4,7,0)
-                        m_menuMessage->setText(i18n("Buttons overlapping"));
-                        m_menuMessage->setMessageType(KMessageWidget::Warning);
-                        m_menuMessage->animatedShow();
+			m_menuMessage->setText(i18n("Buttons overlapping"));
+			m_menuMessage->setMessageType(KMessageWidget::Warning);
+			m_menuMessage->show();
 #else
                         m_view.error_message->setText(i18n("Buttons overlapping"));
                         m_view.error_message->setHidden(false);
@@ -210,7 +209,7 @@ bool DvdWizardMenu::isComplete() const
 #if KDE_IS_VERSION(4,7,0)
         m_menuMessage->setText(i18n("No button in menu"));
         m_menuMessage->setMessageType(KMessageWidget::Warning);
-        m_menuMessage->animatedShow();
+        m_menuMessage->show();
 #else
         m_view.error_message->setText(i18n("No button in menu"));
         m_view.error_message->setHidden(false);
@@ -224,7 +223,7 @@ bool DvdWizardMenu::isComplete() const
 #if KDE_IS_VERSION(4,7,0)
             m_menuMessage->setText(i18n("Missing background image"));
             m_menuMessage->setMessageType(KMessageWidget::Warning);
-            m_menuMessage->animatedShow();
+            m_menuMessage->show();
 #else
             m_view.error_message->setText(i18n("Missing background image"));
             m_view.error_message->setHidden(false);
@@ -234,7 +233,7 @@ bool DvdWizardMenu::isComplete() const
     }
     
 #if KDE_IS_VERSION(4,7,0)
-    m_menuMessage->animatedHide();
+    m_menuMessage->hide();
 #endif
 
     // check that we have a "Play all" entry
@@ -246,7 +245,7 @@ bool DvdWizardMenu::isComplete() const
 #if KDE_IS_VERSION(4,7,0)
             m_menuMessage->setText(i18n("No menu entry for %1", m_view.target_list->itemText(i)));
             m_menuMessage->setMessageType(KMessageWidget::Warning);
-            m_menuMessage->animatedShow();
+            m_menuMessage->show();
 #else
             m_view.error_message->setText(i18n("No menu entry for %1", m_view.target_list->itemText(i)));
             m_view.error_message->setHidden(false);
@@ -429,6 +428,7 @@ void DvdWizardMenu::checkBackgroundType(int ix)
             m_view.loop_movie->setVisible(true);
         }
     }
+    emit completeChanged();
 }
 
 void DvdWizardMenu::buildColor()
@@ -495,6 +495,8 @@ void DvdWizardMenu::buildButton()
     //font.setStyleStrategy(QFont::NoAntialias);
     button->setFont(font);
     button->setDefaultTextColor(m_view.text_color->color());
+    // Check for button overlapping in case we changed text / size
+    emit completeChanged();
 }
 
 void DvdWizardMenu::updateColor()
