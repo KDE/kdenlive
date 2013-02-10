@@ -56,7 +56,7 @@ private:
     Monitor *m_monitor;
     MonitorManager *m_manager;
     Timecode m_tc;
-
+    void updateMonitorMarkers();
 
 private slots:
     void slotUpdateChaptersList();

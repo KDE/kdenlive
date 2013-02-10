@@ -86,6 +86,7 @@ public:
     void checkOverlay();
     void updateTimecodeFormat();
     void updateMarkers(DocClipBase *source);
+    void setMarkers(QList <CommentedTime> markers);
     MonitorEditWidget *getEffectEdit();
     QWidget *container();
     void reloadProducer(const QString &id);
