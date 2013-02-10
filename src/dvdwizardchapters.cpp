@@ -82,6 +82,7 @@ void DvdWizardChapters::slotUpdateChaptersList()
     }
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
+    updateMonitorMarkers();
 
     //bool modified = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 2).toInt();
 }
@@ -110,6 +111,17 @@ void DvdWizardChapters::slotAddChapter()
     m_view.vob_list->setItemData(m_view.vob_list->currentIndex(), 1, Qt::UserRole + 2);
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
+    updateMonitorMarkers();
+}
+
+void DvdWizardChapters::updateMonitorMarkers()
+{
+    QStringList chapters = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
+    QList <CommentedTime> markers;
+    foreach(const QString &frame, chapters) {
+	markers << CommentedTime(GenTime(frame.toInt(), m_tc.fps()), QString());
+    }
+    m_monitor->setMarkers(markers);
 }
 
 void DvdWizardChapters::slotRemoveChapter()
@@ -130,6 +142,7 @@ void DvdWizardChapters::slotRemoveChapter()
     }
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
+    updateMonitorMarkers();
 }
 
 void DvdWizardChapters::slotGoToChapter()

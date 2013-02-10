@@ -385,6 +385,11 @@ void Monitor::updateMarkers(DocClipBase *source)
     }
 }
 
+void Monitor::setMarkers(QList <CommentedTime> markers)
+{
+    m_ruler->setMarkers(markers);
+}
+
 void Monitor::slotSeekToPreviousSnap()
 {
     if (m_currentClip) slotSeek(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
