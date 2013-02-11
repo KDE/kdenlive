@@ -14,6 +14,10 @@
 
 VideoGLWidget::VideoGLWidget(QWidget *parent)
     : QGLWidget(parent)
+    , x(0)
+    , y(0)
+    , w(width())
+    , h(height())
     , m_image_width(0)
     , m_image_height(0)
     , m_texture(0)
