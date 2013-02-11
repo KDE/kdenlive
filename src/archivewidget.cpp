@@ -285,6 +285,7 @@ void ArchiveWidget::openArchiveForExtraction()
     if (!isProjectArchive) {
         emit showMessage("dialog-close", i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.path()));
         groupBox->setEnabled(false);
+	buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
         return;
     }
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
