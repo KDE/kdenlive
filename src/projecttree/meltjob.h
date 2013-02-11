@@ -41,7 +41,7 @@ class MeltJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters, QMap <QString, QString> extraParams = QMap <QString, QString>());
+    MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters, stringMap extraParams = stringMap());
     virtual ~ MeltJob();
     const QString destination() const;
     void startJob();

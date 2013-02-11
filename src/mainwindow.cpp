@@ -631,7 +631,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 	viewMenu->addAction(guiActions->addAction(viewActions.at(i).first, viewActions.at(i).second));
     
     // Populate encoding profiles
-    KConfig conf("encodingprofiles.rc", KConfig::FullConfig, "appdata");
+    KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
     if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {
         KConfigGroup group(&conf, "proxy");
         QMap< QString, QString > values = group.entryMap();
@@ -2052,6 +2052,7 @@ bool MainWindow::closeCurrentDocument(bool saveChanges)
     if (docToClose == m_activeDocument) {
         delete m_activeDocument;
         m_activeDocument = NULL;
+	m_monitorManager->setDocument(m_activeDocument);
         m_effectStack->clear();
         m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     } else {
@@ -2734,6 +2735,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_saveAction->setEnabled(doc->isModified());
     m_normalEditTool->setChecked(true);
     m_activeDocument = doc;
+    m_monitorManager->setDocument(m_activeDocument);
     m_activeTimeline->updateProjectFps();
     m_activeDocument->checkProjectClips();
 #ifndef Q_WS_MAC
@@ -2986,8 +2988,11 @@ void MainWindow::slotAddClipMarker()
     CommentedTime marker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
     QPointer<MarkerDialog> d = new MarkerDialog(clip, marker,
                        m_activeDocument->timecode(), i18n("Add Marker"), this);
-    if (d->exec() == QDialog::Accepted)
+    if (d->exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, QList <CommentedTime>() << d->newMarker());
+	QString hash = clip->getClipHash();
+	if (!hash.isEmpty()) m_activeDocument->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(m_activeDocument->fps())), d->markerImage());
+    }
     delete d;
 }
 
@@ -3073,6 +3078,8 @@ void MainWindow::slotEditClipMarker()
                       m_activeDocument->timecode(), i18n("Edit Marker"), this);
     if (d->exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, QList <CommentedTime>() <<d->newMarker());
+	QString hash = clip->getClipHash();
+	if (!hash.isEmpty()) m_activeDocument->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(m_activeDocument->fps())), d->markerImage());
         if (d->newMarker().time() != pos) {
             // remove old marker
             oldMarker.setMarkerType(-1);
@@ -3451,14 +3458,25 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         //m_activeDocument->editTextClip(clip->getProperty("xml"), clip->getId());
         return;
     }
+    
+    // Check if we already have a properties dialog opened for that clip
+    QList <ClipProperties *> list = findChildren<ClipProperties *>();
+    for (int i = 0; i < list.size(); ++i) {
+        if (list.at(i)->clipId() == clip->getId()) {
+	    // We have one dialog, show it
+	    list.at(i)->raise();
+	    return;
+	}
+    }
 
     // any type of clip but a title
     ClipProperties *dia = new ClipProperties(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
 
     if (clip->clipType() == AV || clip->clipType() == VIDEO || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW) {
 	// request clip thumbnails
-	m_activeDocument->clipManager()->requestThumbs(QString('?' + clip->getId()), QList<int>() << clip->getClipThumbFrame());
 	connect(m_activeDocument->clipManager(), SIGNAL(gotClipPropertyThumbnail(const QString&,QImage)), dia, SLOT(slotGotThumbnail(const QString&,QImage)));
+	connect(dia, SIGNAL(requestThumb(const QString, QList <int>)), m_activeDocument->clipManager(), SLOT(slotRequestThumbs(QString,QList<int>)));
+	m_activeDocument->clipManager()->slotRequestThumbs(QString('?' + clip->getId()), QList<int>() << clip->getClipThumbFrame());
     }
     
     connect(dia, SIGNAL(addMarkers(const QString &, QList <CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, QList <CommentedTime>)));

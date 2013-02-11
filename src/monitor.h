@@ -86,12 +86,19 @@ public:
     void checkOverlay();
     void updateTimecodeFormat();
     void updateMarkers(DocClipBase *source);
+    void setMarkers(QList <CommentedTime> markers);
     MonitorEditWidget *getEffectEdit();
     QWidget *container();
     void reloadProducer(const QString &id);
     QFrame *m_volumePopup;
     /** @brief Reimplemented from QWidget, updates the palette colors. */
     void setPalette ( const QPalette & p);
+    /** @brief Returns a hh:mm:ss timecode from a frame number. */
+    QString getTimecodeFromFrames(int pos);
+    /** @brief Returns current project's fps. */
+    double fps() const;
+    /** @brief Get url for the clip's thumbnail */
+    QString getMarkerThumb(GenTime pos);
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);

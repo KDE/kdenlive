@@ -124,14 +124,16 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     }
     connect(m_view.clip_force_framerate, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
     connect(m_view.clip_framerate, SIGNAL(valueChanged(double)), this, SLOT(slotModified()));
+    m_view.clip_progressive->addItem(i18n("Interlaced"), 0);
+    m_view.clip_progressive->addItem(i18n("Progressive"), 1);
 
     if (props.contains("force_progressive")) {
         m_view.clip_force_progressive->setChecked(true);
         m_view.clip_progressive->setEnabled(true);
-        m_view.clip_progressive->setValue(props.value("force_progressive").toInt());
+        m_view.clip_progressive->setCurrentIndex(props.value("force_progressive").toInt());
     }
     connect(m_view.clip_force_progressive, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
-    connect(m_view.clip_progressive, SIGNAL(valueChanged(int)), this, SLOT(slotModified()));
+    connect(m_view.clip_progressive, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModified()));
 
     m_view.clip_fieldorder->addItem(i18n("Bottom first"), 0);
     m_view.clip_fieldorder->addItem(i18n("Top first"), 1);
@@ -194,12 +196,42 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.clip_full_luma, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
 
     // Check for Metadata
-    QMap<QString, QString> meta = m_clip->metadata();
-    QMap<QString, QString>::const_iterator i = meta.constBegin();
+    QMap<QString, QStringList> meta = m_clip->metadata();
+    QMap<QString, QStringList>::const_iterator i = meta.constBegin();
     while (i != meta.constEnd()) {
-        QTreeWidgetItem *metaitem = new QTreeWidgetItem(m_view.metadata_list);
+	QStringList values = i.value();
+	QString parentName;
+	QString iconName;
+	if (values.count() > 1 && !values.at(1).isEmpty()) parentName = values.at(1);
+	else {
+	    if (KdenliveSettings::ffmpegpath().endsWith("avconv")) {
+		parentName = i18n("Libav");
+		iconName = "meta_libav.png";
+	    }
+	    else {
+		parentName = i18n("FFmpeg");
+		iconName = "meta_ffmpeg.png";
+	    }
+	}
+	QTreeWidgetItem *parent = NULL;
+	QList <QTreeWidgetItem *> matches = m_view.metadata_list->findItems(parentName, Qt::MatchExactly);
+	if (!matches.isEmpty()) parent = matches.at(0);
+	else {
+	    if (parentName == "Magic Lantern") iconName = "meta_magiclantern.png";
+	    parent = new QTreeWidgetItem(m_view.metadata_list, QStringList() << parentName);
+	    if (!iconName.isEmpty()) {
+		KIcon icon(KStandardDirs::locate("appdata", iconName));
+		parent->setIcon(0, icon);
+	    }
+	}
+	QTreeWidgetItem *metaitem = NULL;
+        if (parent) {
+	    metaitem = new QTreeWidgetItem(parent);
+	    parent->setExpanded(true);
+	}
+	else metaitem = new QTreeWidgetItem(m_view.metadata_list);
         metaitem->setText(0, i.key()); //i18n(i.key().section('.', 2, 3).toUtf8().data()));
-        metaitem->setText(1, i.value());
+        metaitem->setText(1, values.at(0));
         ++i;
     }
 
@@ -409,34 +441,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_aproperties->setItemDelegate(del2);
         m_view.clip_aproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
         m_view.clip_vproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
-
-        if (props.contains("videocodec"))
-            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodec"));
-	else if (props.contains("videocodecid"))
-            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodecid"));
-
-        if (props.contains("frame_size"))
-            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame size") << props.value("frame_size"));
-
-        if (props.contains("fps")) {
-            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame rate") << props.value("fps"));
-            if (!m_view.clip_framerate->isEnabled()) m_view.clip_framerate->setValue(props.value("fps").toDouble());
-        }
-
-        if (props.contains("progressive")) {
-            int scanning = props.value("progressive").toInt();
-            QString txt = scanning == 1 ? i18n("Progressive") : i18n("Interlaced");
-            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Scanning") << txt);
-        }
-        
-        if (props.contains("aspect_ratio"))
-            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel aspect ratio") << props.value("aspect_ratio"));
-
-        if (props.contains("pix_fmt"))
-            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel format") << props.value("pix_fmt"));
-
-        if (props.contains("colorspace"))
-            new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
+	loadVideoProperties(props);      
         
 	m_view.clip_thumb->setMinimumSize(180 * KdenliveSettings::project_display_ratio(), 180);
         
@@ -524,6 +529,10 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(this, SIGNAL(accepted()), this, SLOT(slotApplyProperties()));
     connect(m_view.buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApplyProperties()));
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+    
+    m_view.metadata_list->resizeColumnToContents(0);
+    m_view.clip_vproperties->resizeColumnToContents(0);
+    m_view.clip_aproperties->resizeColumnToContents(0);
     adjustSize();
 }
 
@@ -563,7 +572,7 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap 
     if (commonproperties.contains("force_progressive") && !commonproperties.value("force_progressive").isEmpty()) {
         m_view.clip_force_progressive->setChecked(true);
         m_view.clip_progressive->setEnabled(true);
-        m_view.clip_progressive->setValue(commonproperties.value("force_progressive").toInt());
+        m_view.clip_progressive->setCurrentIndex(commonproperties.value("force_progressive").toInt());
     }
 
     if (commonproperties.contains("force_tff") && !commonproperties.value("force_tff").isEmpty()) {
@@ -678,6 +687,39 @@ ClipProperties::~ClipProperties()
     if (del2) delete del2;
 }
 
+
+void ClipProperties::loadVideoProperties(QMap <QString, QString> props)
+{
+    m_view.clip_vproperties->clear();
+    if (props.contains("videocodec"))
+	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodec"));
+    else if (props.contains("videocodecid"))
+	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodecid"));
+
+    if (props.contains("frame_size"))
+	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame size") << props.value("frame_size"));
+
+    if (props.contains("fps")) {
+	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame rate") << props.value("fps"));
+        if (!m_view.clip_framerate->isEnabled()) m_view.clip_framerate->setValue(props.value("fps").toDouble());
+    }
+
+    if (props.contains("progressive")) {
+	int scanning = props.value("progressive").toInt();
+        QString txt = scanning == 1 ? i18n("Progressive") : i18n("Interlaced");
+        new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Scanning") << txt);
+    }
+        
+    if (props.contains("aspect_ratio"))
+	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel aspect ratio") << props.value("aspect_ratio"));
+
+    if (props.contains("pix_fmt"))
+	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel format") << props.value("pix_fmt"));
+
+    if (props.contains("colorspace"))
+	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
+}
+
 void ClipProperties::slotGotThumbnail(const QString &id, QImage img)
 {
     if (id != m_clip->getId()) return;
@@ -698,8 +740,22 @@ void ClipProperties::slotApplyProperties()
     if (m_clip != NULL) {
         QMap <QString, QString> props = properties();
         emit applyNewClipProperties(m_clip->getId(), m_clip->currentProperties(props), props, needsTimelineRefresh(), needsTimelineReload());
+	QTimer::singleShot(1000, this, SLOT(slotReloadVideoProperties()));
+	if (props.contains("force_aspect_num")) QTimer::singleShot(1000, this, SLOT(slotReloadVideoThumb()));
     }
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+}
+
+void ClipProperties::slotReloadVideoProperties()
+{
+    if (m_clip == NULL) return;
+    loadVideoProperties(m_clip->properties());
+}
+
+void ClipProperties::slotReloadVideoThumb()
+{
+    if (m_clip == NULL) return;
+    emit requestThumb(QString('?' + m_clip->getId()), QList<int>() << m_clip->getClipThumbFrame());
 }
 
 void ClipProperties::disableClipId(const QString &id)
@@ -899,9 +955,9 @@ QMap <QString, QString> ClipProperties::properties()
         m_clipNeedsRefresh = true;
     }
 
-    int progressive = m_view.clip_progressive->value();
+    int progressive = m_view.clip_progressive->currentIndex();
     if (m_view.clip_force_progressive->isChecked()) {
-        if (progressive != m_old_props.value("force_progressive").toInt()) {
+        if (!m_old_props.contains("force_progressive") || progressive != m_old_props.value("force_progressive").toInt()) {
             props["force_progressive"] = QString::number(progressive);
         }
     } else if (m_old_props.contains("force_progressive") && !m_old_props.value("force_progressive").isEmpty()) {
@@ -910,7 +966,7 @@ QMap <QString, QString> ClipProperties::properties()
 
     int fieldOrder = m_view.clip_fieldorder->currentIndex();
     if (m_view.clip_force_fieldorder->isChecked()) {
-        if (fieldOrder != m_old_props.value("force_tff").toInt()) {
+        if (!m_old_props.contains("force_tff") || fieldOrder != m_old_props.value("force_tff").toInt()) {
             props["force_tff"] = QString::number(fieldOrder);
         }
     } else if (m_old_props.contains("force_tff") && !m_old_props.value("force_tff").isEmpty()) {

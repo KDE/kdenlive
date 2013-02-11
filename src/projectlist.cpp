@@ -951,7 +951,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index") || properties.contains("full_luma")) {
+        if (properties.contains("out") || properties.contains("force_fps") || properties.contains("resource") || properties.contains("video_index") || properties.contains("audio_index") || properties.contains("full_luma") || properties.contains("force_progressive") || properties.contains("force_tff") || properties.contains("force_colorspace")) {
             slotReloadClip(id);
         } else if (properties.contains("colour") ||
                    properties.contains("xmldata") ||
@@ -960,7 +960,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
                    properties.contains("templatetext")) {
             slotRefreshClipThumbnail(item);
             emit refreshClip(id, true);
-        } else if (properties.contains("force_colorspace") || properties.contains("loop")) {
+        } else if (properties.contains("loop")) {
             emit refreshClip(id, false);
         }
     }
@@ -1015,6 +1015,7 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
     if (item->type() == PROJECTFOLDERTYPE) {
         if (column == 0) {
             FolderProjectItem *folder = static_cast <FolderProjectItem*>(item);
+	    if (item->text(0) == folder->groupName()) return;
             editFolder(item->text(0), folder->groupName(), folder->clipId());
             folder->setGroupName(item->text(0));
             m_doc->clipManager()->addFolder(folder->clipId(), item->text(0));
@@ -2197,37 +2198,83 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
 
 void ProjectList::extractMetadata(DocClipBase *clip)
 {
-    QMap <QString, QString> props = clip->properties();
-    if (props.contains("exiftool")) {
-	// metadata was already extracted
+    CLIPTYPE t = clip->clipType();
+    if (t != AV && t != VIDEO) {
+	// Currently, we only use exiftool on video files
 	return;
     }
-    QString codecid = props.value("videocodecid").simplified();
-    if (codecid == "h264") {
-	QProcess p;
-	QStringList args;
-	args << "-g" << "-args" << clip->fileURL().encodedPathAndQuery();
-	p.start("exiftool", args);
-	p.waitForFinished();
-	QString res = p.readAllStandardOutput();
-	QStringList list = res.split("\n");
+    QMap <QString, QString> props = clip->properties();
+    if (KdenliveSettings::use_exiftool() && !props.contains("exiftool")) {
 	QMap <QString, QString> meta;
-	foreach(QString tagline, list) {
-	    if (!tagline.startsWith("-H264")) continue;
-	    QString tag = tagline.section(':', 1);
-	    if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
-	    meta.insert(tag.section('=', 0, 0), tag.section('=', 1));
+	QString url = clip->fileURL().path();
+	//Check for Canon THM file
+	url = url.section('.', 0, -2) + ".THM";
+	if (QFile::exists(url)) {
+	    // Read the exif metadata embeded in the THM file
+	    QProcess p;
+	    QStringList args;
+	    args << "-g" << "-args" << url;
+	    p.start("exiftool", args);
+	    p.waitForFinished();
+	    QString res = p.readAllStandardOutput();
+	    QStringList list = res.split("\n");
+	    foreach(QString tagline, list) {
+		if (tagline.startsWith("-File") || tagline.startsWith("-ExifTool")) continue;
+		QString tag = tagline.section(':', 1).simplified();
+		if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
+		if (!tag.section('=', 0, 0).isEmpty() && !tag.section('=', 1).simplified().isEmpty())
+		    meta.insert(tag.section('=', 0, 0), tag.section('=', 1).simplified());
+	    }
+	} else {
+	    QString codecid = props.value("videocodecid").simplified();
+	    if (codecid == "h264") {
+		QProcess p;
+		QStringList args;
+		args << "-g" << "-args" << clip->fileURL().encodedPathAndQuery();
+		p.start("exiftool", args);
+		p.waitForFinished();
+		QString res = p.readAllStandardOutput();
+		QStringList list = res.split("\n");
+		foreach(QString tagline, list) {
+		    if (!tagline.startsWith("-H264")) continue;
+		    QString tag = tagline.section(':', 1);
+		    if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
+		    meta.insert(tag.section('=', 0, 0), tag.section('=', 1));
+		}
+	    }
 	}
 	clip->setProperty("exiftool", "1");
 	if (!meta.isEmpty()) {
-	    clip->setMetadata(meta);
+	    clip->setMetadata(meta, "ExifTool");
+	    //checkCamcorderFilters(clip, meta);
 	}
+    }
+    if (KdenliveSettings::use_magicLantern() && !props.contains("magiclantern")) {
+	QMap <QString, QString> meta;
+	QString url = clip->fileURL().path();
+	url = url.section('.', 0, -2) + ".LOG";
+	if (QFile::exists(url)) {
+	    QFile file(url);
+	    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		while (!file.atEnd()) {
+		    QString line = file.readLine().simplified();
+		    if (line.startsWith('#') || line.isEmpty() || !line.contains(':')) continue;
+		    if (line.startsWith("CSV data")) break;
+		    meta.insert(line.section(':', 0, 0).simplified(), line.section(':', 1).simplified());
+		}
+	    }
+	}
+	
+	if (!meta.isEmpty())
+	    clip->setMetadata(meta, "Magic Lantern");
+	clip->setProperty("magiclantern", "1");
     }
 }
 
 
 void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace)
 {
+    QMutexLocker lock(&m_processMutex);
     QString toReload;
     ProjectItem *item = getItemById(clipId);
     if (item && producer) {
@@ -2242,7 +2289,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         }
         item->setProperties(properties, metadata);
         clip->setProducer(producer, replace);
-	if (KdenliveSettings::use_exiftool()) extractMetadata(clip);
+	extractMetadata(clip);
 	m_render->processingDone(clipId);
 
         // Proxy stuff
@@ -2666,7 +2713,7 @@ void ProjectList::addClipCut(const QString &id, int in, int out, const QString d
             m_listView->scrollToItem(sub);
             m_listView->editItem(sub, 1);
         }
-	m_doc->clipManager()->requestThumbs(QString('#' + id), QList <int>() << in);
+	m_doc->clipManager()->slotRequestThumbs(QString('#' + id), QList <int>() << in);
         monitorItemEditing(true);
     }
     emit projectModified();
@@ -3766,5 +3813,21 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
     }
 }
 
+
+/*
+// Work in progress: apply filter based on clip's camcorder
+void ProjectList::checkCamcorderFilters(DocClipBase *clip, QMap <QString, QString> meta)
+{
+    KConfig conf("camcorderfilters.rc", KConfig::CascadeConfig, "appdata");
+    QStringList groups = conf.groupList();
+    foreach(QString grp, groups) {
+	if (!meta.contains(grp)) continue;
+	KConfigGroup group(&conf, grp);
+	QString value = group.readEntry(meta.value(grp));
+	if (value.isEmpty()) continue;
+	clip->setProperty(value.section(' ', 0, 0), value.section(' ', 1));
+	break;
+    }
+}*/
 
 #include "projectlist.moc"

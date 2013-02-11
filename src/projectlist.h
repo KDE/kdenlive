@@ -363,6 +363,7 @@ private:
     QList <QString> m_thumbnailQueue;
     QAction *m_proxyAction;
     QMutex m_jobMutex;
+    QMutex m_processMutex;
     bool m_abortAllJobs;
     /** @brief We are cleaning up the project list, so stop processing signals. */
     bool m_closing;
@@ -422,11 +423,14 @@ private:
     /** @brief Get the list of job names for current clip. */
     QStringList getPendingJobs(const QString &id);
     /** @brief Start an MLT process job. */
-    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, QMap <QString, QString>extraParams = QMap <QString, QString>());
+    void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, stringMap extraParams = stringMap());
     /** @brief Create rounded shape pixmap for project tree thumb. */
     QPixmap roundedPixmap(QImage img);
     QPixmap roundedPixmap(QPixmap source);
+    /** @brief Extract a clip's metadata with the exiftool program. */
     void extractMetadata(DocClipBase *clip);
+    /** @brief Add a special FFmpeg tag if clip matches some properties (for example set full_luma for Sony NEX camcorders. */
+    //void checkCamcorderFilters(DocClipBase *clip, QMap <QString, QString> meta);
 
 private slots:
     void slotClipSelected();

@@ -94,7 +94,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
 
 
     // load proxy profiles
-    KConfig conf("encodingprofiles.rc", KConfig::FullConfig, "appdata");
+    KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
     KConfigGroup group(&conf, "proxy");
     QMap <QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);

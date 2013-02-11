@@ -734,7 +734,7 @@ void ParameterContainer::slotCollectAllParameters()
                 pa.setAttribute("intimeline", "1");
 	    }
             else if (pa.hasAttribute("intimeline"))
-                pa.removeAttribute("intimeline");
+                pa.setAttribute("intimeline", "0");
         } else if (type == "url") {
             KUrlRequester *req = ((Urlval*)m_valueItems.value(paramName))->urlwidget;
             setValue = req->url().path();

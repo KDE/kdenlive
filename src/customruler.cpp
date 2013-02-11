@@ -75,7 +75,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     LITTLE_MARK_X = BIG_MARK_X + mark_length / 3;
     updateFrameSize();
     m_scale = 3;
-    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    m_zoneColor.setAlpha(180);
     m_zoneStart = 0;
     m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
@@ -94,7 +95,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
 
 void CustomRuler::updatePalette()
 {
-    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::PositiveBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    m_zoneColor = KStatefulBrush(KColorScheme::View, KColorScheme::FocusColor, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    m_zoneColor.setAlpha(180);
 }
 
 void CustomRuler::updateProjectFps(Timecode t)
@@ -165,7 +167,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
     m_moveCursor = RULER_CURSOR;
     if (event->y() > 10) {
         if (qAbs(pos - m_zoneStart * m_factor) < 4) m_moveCursor = RULER_START;
-        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
+        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2.0) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
         else if (qAbs(pos - m_zoneEnd * m_factor) < 4) m_moveCursor = RULER_END;
         m_view->updateSnapPoints(NULL);
     }
@@ -206,8 +208,8 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
                 if (verticalDiff != m_rate) emit adjustZoom(verticalDiff);
             }
             return;
-        } else if (m_moveCursor == RULER_START) m_zoneStart = pos;
-        else if (m_moveCursor == RULER_END) m_zoneEnd = pos;
+        } else if (m_moveCursor == RULER_START) m_zoneStart = qMin(pos, m_zoneEnd - 1);
+        else if (m_moveCursor == RULER_END) m_zoneEnd = qMax(pos, m_zoneStart + 1);
         else if (m_moveCursor == RULER_MIDDLE) {
             int move = pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2);
             if (move + m_zoneStart < 0) move = - m_zoneStart;
@@ -222,12 +224,12 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
         int pos = (int)((event->x() + m_offset));
 	if (m_cursorColor == palette().text() && qAbs(pos - m_view->cursorPos() * m_factor) < 7) {
 	    // Mouse is over cursor
-	    m_cursorColor = palette().highlight();
-	    update(m_view->cursorPos() * m_factor - m_offset - 10, 0, 20, height());
+	    m_cursorColor = palette().link();
+	    update(m_view->cursorPos() * m_factor - m_offset - 10, LABEL_SIZE + 2, 20, MAX_HEIGHT - LABEL_SIZE - 2);
 	}
-	else if (m_cursorColor == palette().highlight() && qAbs(pos - m_view->cursorPos() * m_factor) >= 7) {
+	else if (m_cursorColor == palette().link() && qAbs(pos - m_view->cursorPos() * m_factor) >= 7) {
 	    m_cursorColor = palette().text();
-	    update(m_view->cursorPos() * m_factor - m_offset - 10, 0, 20, height());
+	    update(m_view->cursorPos() * m_factor - m_offset - 10, LABEL_SIZE + 2, 20, MAX_HEIGHT - LABEL_SIZE - 2);
 	}
 	
         if (event->y() <= 10) setCursor(Qt::ArrowCursor);
@@ -239,7 +241,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
             setCursor(KCursor("right_side", Qt::SizeHorCursor));
             if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone end: %1", m_zoneEnd));
             else setToolTip(i18n("Zone end: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd)));
-        } else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) {
+        } else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2.0) * m_factor) < 4) {
             setCursor(Qt::SizeHorCursor);
             if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone duration: %1", m_zoneEnd - m_zoneStart));
             else setToolTip(i18n("Zone duration: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd - m_zoneStart)));
@@ -256,7 +258,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 void CustomRuler::leaveEvent(QEvent * event)
 {
     QWidget::leaveEvent(event);
-    if (m_cursorColor == palette().highlight()) {
+    if (m_cursorColor == palette().link()) {
 	m_cursorColor = palette().text();
 	update();
     }
@@ -433,7 +435,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
             p.drawText(f - m_offset + 2, LABEL_SIZE, lab);
         }
     }
-
+    p.setPen(palette().dark().color());
     offsetmin = (paintRect.left() + m_offset) / littleMarkDistance;
     offsetmin = offsetmin * littleMarkDistance;
     // draw the little marks
@@ -483,13 +485,13 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw pointer
     const int value  =  m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
-    pa.setPoints(3, value - 6, BIG_MARK_X, value + 6, BIG_MARK_X, value, MAX_HEIGHT - 1);
+    pa.setPoints(3, value - 6, LABEL_SIZE + 3, value + 6, LABEL_SIZE + 3, value, MAX_HEIGHT);
     p.setBrush(m_cursorColor);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
     
     if (m_lastSeekPosition != SEEK_INACTIVE && m_lastSeekPosition != m_view->cursorPos()) {
-	p.fillRect(m_lastSeekPosition * m_factor - m_offset - 1, BIG_MARK_X, 3, MAX_HEIGHT - 1, palette().highlight());
+	p.fillRect(m_lastSeekPosition * m_factor - m_offset - 1, BIG_MARK_X + 1, 3, MAX_HEIGHT - BIG_MARK_X - 1, palette().linkVisited());
     }
 
 }

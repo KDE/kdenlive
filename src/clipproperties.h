@@ -33,10 +33,10 @@ class PropertiesViewDelegate : public QStyledItemDelegate
     Q_OBJECT
 public:
     PropertiesViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {
-        m_height = parent->fontMetrics().height() * 1.5;
+        m_height = parent->fontMetrics().height() * 1.2;
     }
-    virtual QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const {
-        return QSize(10, m_height);
+    virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+        return QSize(QStyledItemDelegate::sizeHint(option, index).width(), m_height);
     }
 private:
     int m_height;
@@ -79,6 +79,8 @@ private slots:
     void slotGotThumbnail(const QString &id, QImage img);
     void slotSaveAnalysis();
     void slotLoadAnalysis();
+    void slotReloadVideoProperties();
+    void slotReloadVideoThumb();
 
 private:
     Ui::ClipProperties_UI m_view;
@@ -94,6 +96,7 @@ private:
     bool m_clipNeedsReLoad;
     /** Frame with proxy info / delete button */
     QFrame* m_proxyContainer;
+    void loadVideoProperties(QMap <QString, QString> props);
 
 signals:
     void addMarkers(const QString &, QList <CommentedTime>);
@@ -102,6 +105,7 @@ signals:
     void saveMarkers(const QString &id);
     void loadMarkers(const QString &id);
     void editAnalysis(const QString &id, const QString &name, const QString &value);
+    void requestThumb(const QString id, QList <int> frames);
 };
 
 

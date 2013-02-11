@@ -126,7 +126,7 @@ protected:
       *        "simplekeyframe" type, the effect always starts on clip start and ends on clip end. With the
       *        "keyframe" type, the effect starts on the first keyframe and ends on the last keyframe
       */
-    void drawKeyFrames(QPainter *painter, bool limitedKeyFrames);
+    void drawKeyFrames(QPainter *painter, const QTransform transformation, bool limitedKeyFrames);
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
 

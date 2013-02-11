@@ -333,7 +333,12 @@ QStringList DvdWizardVob::durations() const
     QStringList result;
     QString path;
     int max = m_vobList->topLevelItemCount();
-    for (int i = 0; i < max; i++) {
+    int i = 0;
+    if (m_view.use_intro->isChecked()) {
+	// First movie is only for intro
+	i = 1;
+    }
+    for (; i < max; i++) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (item) result.append(QString::number(item->data(1, Qt::UserRole).toInt()));
     }
@@ -345,7 +350,12 @@ QStringList DvdWizardVob::chapters() const
     QStringList result;
     QString path;
     int max = m_vobList->topLevelItemCount();
-    for (int i = 0; i < max; i++) {
+    int i = 0;
+    if (m_view.use_intro->isChecked()) {
+	// First movie is only for intro
+	i = 1;
+    }
+    for (; i < max; i++) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (item) {
             result.append(item->data(1, Qt::UserRole + 1).toString());
@@ -357,7 +367,12 @@ QStringList DvdWizardVob::chapters() const
 void DvdWizardVob::updateChapters(QMap <QString, QString> chaptersdata)
 {
     int max = m_vobList->topLevelItemCount();
-    for (int i = 0; i < max; i++) {
+    int i = 0;
+    if (m_view.use_intro->isChecked()) {
+	// First movie is only for intro
+	i = 1;
+    }
+    for (; i < max; i++) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (chaptersdata.contains(item->text(0))) item->setData(1, Qt::UserRole + 1, chaptersdata.value(item->text(0)));
     }

@@ -264,11 +264,11 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     Q_UNUSED(widget)
 
     painter->setPen(pen());
-    painter->drawRect(option->rect);
-    const QRectF r = painter->worldTransform().mapRect(option->rect);
-    painter->setWorldMatrixEnabled(false);
+    //painter->setClipRect(option->rect);
+    const QRectF r = rect();
+    painter->drawRect(r);
+    QRectF handle = painter->worldTransform().inverted().mapRect(QRectF(0, 0, 6, 6));
     if (isEnabled()) {
-	QRectF handle(0, 0, 6, 6);
 	handle.moveTopLeft(r.topLeft());
         painter->fillRect(handle, QColor(Qt::yellow));
 	handle.moveTopRight(r.topRight());
@@ -281,8 +281,8 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     
     // Draw cross at center
     QPointF center = r.center();
-    painter->drawLine(center + QPointF(-6, 0), center + QPointF(6, 0));
-    painter->drawLine(center + QPointF(0, 6), center + QPointF(0, -6));
+    painter->drawLine(center + QPointF(-handle.width(), 0), center + QPointF(handle.width(), 0));
+    painter->drawLine(center + QPointF(0, handle.height()), center + QPointF(0, -handle.height()));
 }
 
 bool OnMonitorRectItem::getView()

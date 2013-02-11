@@ -70,6 +70,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="use_magicLantern" type="Bool">
+      <label>Get h264 metadata using exiftool.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="title_duration" type="String">
       <label>Default title clip duration.</label>
       <default>00:00:05:00</default>

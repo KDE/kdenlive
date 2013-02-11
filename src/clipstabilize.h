@@ -64,6 +64,7 @@ private:
     QHash<QString,QHash<QString,QString> > m_ui_params;
     QVBoxLayout *vbox;
     void fillParameters(QStringList);
+    QStringList m_fixedParams;
 
 signals:
     void addClip(KUrl url);

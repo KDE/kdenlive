@@ -799,8 +799,12 @@ void RenderWidget::updateButtons()
 }
 
 
-void RenderWidget::focusFirstVisibleItem()
+void RenderWidget::focusFirstVisibleItem(const QString &profile)
 {
+    if (!profile.isEmpty()) {
+	QList <QListWidgetItem *> child = m_view.size_list->findItems(profile, Qt::MatchExactly);
+	if (!child.isEmpty()) m_view.size_list->setCurrentItem(child.at(0));
+    }
     if (m_view.size_list->currentItem()) {
         updateButtons();
         return;
@@ -1169,16 +1173,17 @@ void RenderWidget::setProfile(MltVideoProfile profile)
     }
 }
 
-void RenderWidget::refreshCategory()
+
+
+void RenderWidget::refreshCategory(const QString &group, const QString &profile)
 {
     m_view.format_list->blockSignals(true);
     m_view.format_list->clear();
     QListWidgetItem *sizeItem;
-
+    
     QString destination;
     if (m_view.destination_list->currentIndex() > 0)
         destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
-
 
     if (destination == "dvd") {
         m_view.open_dvd->setVisible(true);
@@ -1202,12 +1207,15 @@ void RenderWidget::refreshCategory()
         }
     }
 
-    // activate first visible item
+    // activate requested item or first visible
+    QList<QListWidgetItem *> child;
+    if (!group.isEmpty()) child = m_view.format_list->findItems(group, Qt::MatchExactly);
+    if (!child.isEmpty()) {
+	m_view.format_list->setCurrentItem(child.at(0));
+	child.clear();
+    } else m_view.format_list->setCurrentRow(0);
     QListWidgetItem * item = m_view.format_list->currentItem();
-    if (!item) {
-        m_view.format_list->setCurrentRow(0);
-        item = m_view.format_list->currentItem();
-    }
+    m_view.format_list->blockSignals(false);
     if (!item) {
         m_view.format_list->setEnabled(false);
         m_view.format_list->clear();
@@ -1225,10 +1233,11 @@ void RenderWidget::refreshCategory()
         m_view.format_list->setVisible(true);
     else
         m_view.format_list->setVisible(false);
-    refreshView();
+
+    refreshView(profile);
 }
 
-void RenderWidget::refreshView()
+void RenderWidget::refreshView(const QString &profile)
 {
     if (!m_view.format_list->currentItem()) return;
     m_view.size_list->blockSignals(true);
@@ -1345,9 +1354,8 @@ void RenderWidget::refreshView()
             }
         }
     }
-    focusFirstVisibleItem();
+    focusFirstVisibleItem(profile);
     m_view.size_list->blockSignals(false);
-    m_view.format_list->blockSignals(false);
     if (m_view.size_list->count() > 0) {
         refreshParams();
     }
@@ -1475,10 +1483,7 @@ void RenderWidget::reloadProfiles()
 
 void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
 {
-    m_view.size_list->blockSignals(true);
-    m_view.format_list->blockSignals(true);
-    m_view.size_list->clear();
-    m_view.format_list->clear();
+    m_view.destination_list->blockSignals(true);
     m_view.destination_list->clear();
     qDeleteAll(m_renderItems);
     qDeleteAll(m_renderCategory);
@@ -1509,27 +1514,11 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
         parseFile(exportFolder + filename, true);
     if (QFile::exists(exportFolder + "customprofiles.xml")) parseFile(exportFolder + "customprofiles.xml", true);
 
-    if (!meta.isEmpty()) {
-        m_view.destination_list->blockSignals(true);
-        m_view.destination_list->setCurrentIndex(m_view.destination_list->findData(meta));
-        m_view.destination_list->blockSignals(false);
-    }
-    refreshCategory();
-    QList<QListWidgetItem *> child;
-    if (!group.isEmpty()) child = m_view.format_list->findItems(group, Qt::MatchExactly);
-    if (!child.isEmpty()) {
-        for (int i = 0; i < child.count(); i++) {
-            if (child.at(i)->data(MetaGroupRole).toString() == meta) {
-                m_view.format_list->setCurrentItem(child.at(i));
-                break;
-            }
-        }
-    }
-    child.clear();
-    m_view.size_list->blockSignals(false);
-    m_view.format_list->blockSignals(false);
-    if (!profile.isEmpty()) child = m_view.size_list->findItems(profile, Qt::MatchExactly);
-    if (!child.isEmpty()) m_view.size_list->setCurrentItem(child.at(0));
+    int categoryIndex = m_view.destination_list->findData(meta);
+    if (categoryIndex == -1) categoryIndex = 0;
+    m_view.destination_list->setCurrentIndex(categoryIndex);
+    m_view.destination_list->blockSignals(false);
+    refreshCategory(group, profile);
 }
 
 void RenderWidget::parseFile(QString exportFile, bool editable)
@@ -2007,8 +1996,6 @@ void RenderWidget::slotHideLog()
 
 void RenderWidget::setRenderProfile(QMap <QString, QString> props)
 {
-    m_view.destination_list->blockSignals(true);
-    m_view.format_list->blockSignals(true);
     m_view.scanning_list->setCurrentIndex(props.value("renderscanning").toInt());
     int exportAudio = props.value("renderexportaudio").toInt();
     switch (exportAudio) {
@@ -2042,35 +2029,14 @@ void RenderWidget::setRenderProfile(QMap <QString, QString> props)
     if (!url.isEmpty()) m_view.out_file->setUrl(KUrl(url));
 
     // set destination
-    for (int i = 0; i < m_view.destination_list->count(); i++) {
-        if (m_view.destination_list->itemData(i, Qt::UserRole) == props.value("renderdestination")) {
-            m_view.destination_list->setCurrentIndex(i);
-            break;
-        }
-    }
-    refreshCategory();
-
-    // set category
-    QString group = props.value("rendercategory");
-    if (!group.isEmpty()) {
-        QList<QListWidgetItem *> childs = m_view.format_list->findItems(group, Qt::MatchExactly);
-        if (!childs.isEmpty()) {
-            m_view.format_list->setCurrentItem(childs.at(0));
-            m_view.format_list->scrollToItem(childs.at(0));
-        }
-        refreshView();
-    }
-
-    // set profile
-    QList<QListWidgetItem *> childs = m_view.size_list->findItems(props.value("renderprofile"), Qt::MatchExactly);
-    if (!childs.isEmpty()) {
-        m_view.size_list->setCurrentItem(childs.at(0));
-        m_view.size_list->scrollToItem(childs.at(0));
-    }
-    //refreshView();
+    int categoryIndex = m_view.destination_list->findData(props.value("renderdestination"));
+    if (categoryIndex == -1) categoryIndex = 0;
+    m_view.destination_list->blockSignals(true);
+    m_view.destination_list->setCurrentIndex(categoryIndex);
     m_view.destination_list->blockSignals(false);
-    m_view.format_list->blockSignals(false);
-
+    
+    // Clear previous error messages
+    refreshCategory(props.value("rendercategory"), props.value("renderprofile"));
 }
 
 bool RenderWidget::startWaitingRenderJobs()
@@ -2166,14 +2132,19 @@ void RenderWidget::errorMessage(const QString &message)
     }
     else {
 #if KDE_IS_VERSION(4,7,0)
+	if (m_view.tabWidget->currentIndex() == 0 && m_infoMessage->isVisible())  {
 #if KDE_IS_VERSION(4,10,0)
-        m_infoMessage->animatedHide();
+	    m_infoMessage->animatedHide();
 #else
-	QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
+	    QTimer::singleShot(0, m_infoMessage, SLOT(animatedHide()));
 #endif
+	} else {
+	    // Seems like animated hide does not work when page is not visible
+	    m_infoMessage->hide();
+	}
 #else
-        m_view.errorBox->setHidden(true);
-        m_view.errorLabel->setText(QString());
+	m_view.errorBox->setHidden(true);
+	m_view.errorLabel->setText(QString());
 #endif
 
     }

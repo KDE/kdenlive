@@ -64,10 +64,16 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     for (int i = 0; i < attributes.count(); i++) {
         QString name = attributes.item(i).nodeName();
         if (name.startsWith("meta.attr.")) {
-            m_metadata.insert(name.section('.', 2, 3), attributes.item(i).nodeValue());
+            m_metadata.insert(name.section('.', 2), QStringList() << attributes.item(i).nodeValue());
         } else m_properties.insert(name, attributes.item(i).nodeValue());
     }
-
+    QDomNodeList metas = xml.elementsByTagName("metaproperty");
+    for (int i = 0; i < metas.count(); i++) {
+        QDomElement e = metas.item(i).toElement();
+        if (!e.isNull()) {
+	    m_metadata.insert(e.attribute("name").section('.', 2), QStringList() << e.firstChild().nodeValue() << e.attribute("tool"));
+	}
+    }
     if (xml.hasAttribute("cutzones")) {
         QStringList cuts = xml.attribute("cutzones").split(';', QString::SkipEmptyParts);
         for (int i = 0; i < cuts.count(); i++) {
@@ -255,10 +261,20 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
         if (hideTemporaryProperties && i.key().startsWith('_')) continue;
         if (!i.value().isEmpty()) clip.setAttribute(i.key(), i.value());
     }
-    QMapIterator<QString, QString> j(m_metadata);
+
+    QMapIterator<QString, QStringList> j(m_metadata);
+    // Metadata name can have special chars so we cannot pass it as simple attribute
     while (j.hasNext()) {
         j.next();
-        if (!j.value().isEmpty()) clip.setAttribute("meta.attr." + j.key(), j.value());
+        if (!j.value().isEmpty()) {
+	    QDomElement property = doc.createElement("metaproperty");
+	    property.setAttribute("name", "meta.attr." + j.key());
+	    QStringList values = j.value();
+	    QDomText value = doc.createTextNode(values.at(0));
+	    if (values.count() > 1) property.setAttribute("tool", values.at(1));
+            property.appendChild(value);
+	    clip.appendChild(property);
+	}
     }
     doc.appendChild(clip);
     if (!m_cutZones.isEmpty()) {
@@ -981,7 +997,7 @@ void DocClipBase::setProperties(QMap <QString, QString> properties)
     if (refreshProducer) slotRefreshProducer();
 }
 
-void DocClipBase::setMetadata(QMap <QString, QString> properties)
+void DocClipBase::setMetadata(QMap <QString, QString> properties, QString tool)
 {
     QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
@@ -989,12 +1005,12 @@ void DocClipBase::setMetadata(QMap <QString, QString> properties)
         if (i.value().isEmpty() && m_metadata.contains(i.key())) {
             m_metadata.remove(i.key());
         } else {
-            m_metadata.insert(i.key(), i.value());
+            m_metadata.insert(i.key(), QStringList() << i.value() << tool);
         }
     }
 }
 
-QMap <QString, QString> DocClipBase::metadata() const
+QMap <QString, QStringList> DocClipBase::metadata() const
 {
     return m_metadata;
 }

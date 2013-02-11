@@ -37,6 +37,8 @@
 #include "ui_dvdwizardstatus_ui.h"
 #include "ui_dvdwizardchapters_ui.h"
 
+typedef QMap <QString, QRect> stringRectMap;
+
 class DvdWizard : public QWizard
 {
     Q_OBJECT
@@ -75,7 +77,7 @@ private:
     QMenu *m_burnMenu;
     void errorMessage(const QString &text);
     void infoMessage(const QString &text);
-    void processDvdauthor(QString menuMovieUrl = QString(), QMap <QString, QRect> buttons = QMap <QString, QRect>(), QStringList buttonsTarget = QStringList());
+    void processDvdauthor(QString menuMovieUrl = QString(), stringRectMap buttons = stringRectMap(), QStringList buttonsTarget = QStringList());
 
 private slots:
     void slotPageChanged(int page);

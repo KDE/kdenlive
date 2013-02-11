@@ -206,6 +206,11 @@ Q_OBJECT public:
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
     QMap<int, QMap<int, QByteArray> > audioFrameCache;
+    /** Returns all current properties for this clip */
+    QMap <QString, QString> properties() const;
+    /** Return the current values for a set of properties */
+    QMap <QString, QString> currentProperties(QMap <QString, QString> props);
+    QMap <QString, QStringList> metadata() const;
 
 private:   // Private attributes
     /** The number of times this clip is used in the project - the number of references to this clip
@@ -236,7 +241,7 @@ private:   // Private attributes
     /** Holds clip infos like fps, size,... */
     QMap <QString, QString> m_properties;
     /** Holds clip metadata like author, copyright,... */
-    QMap <QString, QString> m_metadata;
+    QMap <QString, QStringList> m_metadata;
     /** Holds clip analysis data that can be used later to create markers or keyframes */
     QMap <QString, QString> m_analysisdata;
     
@@ -275,12 +280,7 @@ public slots:
     void setClipThumbFrame(const uint &ix);
     uint getClipThumbFrame() const;
     void setProperties(QMap <QString, QString> properties);
-    void setMetadata(QMap <QString, QString> properties);
-    /** Returns all current properties for this clip */
-    QMap <QString, QString> properties() const;
-    /** Return the current values for a set of properties */
-    QMap <QString, QString> currentProperties(QMap <QString, QString> props);
-    QMap <QString, QString> metadata() const;
+    void setMetadata(QMap <QString, QString> properties, QString tool = QString());
     void slotExtractImage(QList <int> frames);
 
 signals:

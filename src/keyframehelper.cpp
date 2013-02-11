@@ -100,10 +100,13 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
         }
     }
     if (event->y() >= m_lineHeight && event->y() < height()) {
-        m_drag = true;
-        m_seekPosition = xPos / m_scale;
-        emit requestSeek(m_seekPosition);
-        update();
+	int seekRequest = xPos / m_scale; 
+	m_drag = true;
+	if (seekRequest != m_position) {
+	    m_seekPosition = seekRequest;
+	    emit requestSeek(m_seekPosition);
+	    update();
+	}
     }
 }
 
@@ -289,7 +292,7 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
     p.setPen(palette().dark().color());
     p.drawLine(margin, m_lineHeight, width() - margin - 1, m_lineHeight);
     p.drawLine(margin, m_lineHeight - 3, margin, m_lineHeight + 3);
-    p.drawLine(width() - margin - 1, m_lineHeight - 3, width() - margin - 1, m_lineHeight + 3);
+    p.drawLine(width() - margin, m_lineHeight - 3, width() - margin, m_lineHeight + 3);
 
     // draw pointer
     if (m_seekPosition != SEEK_INACTIVE) {

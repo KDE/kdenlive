@@ -182,7 +182,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             if (!t->data(100).isNull()) {
                 QStringList effectParams = t->data(100).toStringList();
                 QString effectName = effectParams.takeFirst();
-		content.setAttribute("textwidth", QString::number(t->sceneBoundingRect().width()));
+		content.setAttribute("textwidth", t->sceneBoundingRect().width());
                 content.setAttribute(effectName, effectParams.join(";"));
             }
 

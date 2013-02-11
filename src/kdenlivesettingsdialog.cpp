@@ -1012,7 +1012,7 @@ void KdenliveSettingsDialog::slotManageEncodingProfile()
 
 void KdenliveSettingsDialog::loadEncodingProfiles()
 {
-    KConfig conf("encodingprofiles.rc", KConfig::FullConfig, "appdata");
+    KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
 
     // Load v4l profiles
     m_configCapture.kcfg_v4l_profile->blockSignals(true);

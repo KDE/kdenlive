@@ -173,7 +173,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 #endif
 
     // Monitor ruler
-    m_ruler = new SmallRuler(m_monitorManager, render);
+    m_ruler = new SmallRuler(this, render);
     if (id == Kdenlive::dvdMonitor) m_ruler->setZone(-3, -2);
     layout->addWidget(m_ruler);
     
@@ -206,7 +206,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
     m_toolbar->addWidget(m_timePos);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
-    m_toolbar->setMaximumHeight(s * 1.5);
+    m_toolbar->setMaximumHeight(m_timePos->height());
     layout->addWidget(m_toolbar);
 }
 
@@ -350,6 +350,16 @@ void Monitor::resetSize()
     videoBox->setMinimumSize(0, 0);
 }
 
+QString Monitor::getTimecodeFromFrames(int pos)
+{
+    return m_monitorManager->timecode().getTimecodeFromFrames(pos);
+}
+
+double Monitor::fps() const
+{
+    return m_monitorManager->timecode().fps();
+}
+
 DocClipBase *Monitor::activeClip()
 {
     return m_currentClip;
@@ -373,6 +383,11 @@ void Monitor::updateMarkers(DocClipBase *source)
 	m_ruler->setMarkers(markers);
         m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
     }
+}
+
+void Monitor::setMarkers(QList <CommentedTime> markers)
+{
+    m_ruler->setMarkers(markers);
 }
 
 void Monitor::slotSeekToPreviousSnap()
@@ -888,6 +903,11 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
             slotActivateMonitor();
             if (position == -1) position = render->seekFramePosition();
             render->seek(position);
+	    if (zone.isNull()) {
+		zone = m_currentClip->zone();
+		m_ruler->setZone(zone.x(), zone.y());
+		return;
+	    }
         }
     }
     if (!zone.isNull()) {
@@ -1128,6 +1148,16 @@ void Monitor::reloadProducer(const QString &id)
     if (!m_currentClip) return;
     if (m_currentClip->getId() == id)
         slotSetClipProducer(m_currentClip, m_currentClip->zone(), true);
+}
+
+QString Monitor::getMarkerThumb(GenTime pos)
+{
+    if (!m_currentClip) return QString();
+    if (!m_currentClip->getClipHash().isEmpty()) {
+	QString url = m_monitorManager->getProjectFolder() + "thumbs/" + m_currentClip->getClipHash() + '#' + QString::number(pos.frames(m_monitorManager->timecode().fps())) + ".png";
+        if (QFile::exists(url)) return url;
+    }
+    return QString();
 }
 
 void Monitor::setPalette ( const QPalette & p)

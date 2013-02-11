@@ -1160,7 +1160,7 @@ void Render::processFileProperties()
         for (int i = 0; i < count; i ++) {
             QString name = metadata.get_name(i);
             QString value = QString::fromUtf8(metadata.get(i));
-            if (name.endsWith("markup") && !value.isEmpty())
+            if (name.endsWith(".markup") && !value.isEmpty())
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
@@ -1903,13 +1903,15 @@ int Render::getCurrentSeekPosition() const
 void Render::emitFrameNumber()
 {
     int currentPos = m_mltConsumer->position();
-    if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
+    if (currentPos == requestedSeekPosition) {
+	requestedSeekPosition = SEEK_INACTIVE;
+	m_paused = true;
+    }
     emit rendererPosition(currentPos);
     if (requestedSeekPosition != SEEK_INACTIVE) {
 	m_mltConsumer->purge();
 	m_mltProducer->seek(requestedSeekPosition);
-	if (m_mltProducer->get_speed() == 0 && m_paused) {
-	    m_paused = false;
+	if (m_mltProducer->get_speed() == 0 && !m_paused) {
 	    m_mltConsumer->set("refresh", 1);
 	}
 	requestedSeekPosition = SEEK_INACTIVE;
@@ -2359,12 +2361,13 @@ bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement ele
 bool Render::mltRemoveClip(int track, GenTime position)
 {
     m_refreshTimer.stop();
+    
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
         return false;
     }
-    //service.lock();
+    service.lock();
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -2372,7 +2375,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
 
     if (trackPlaylist.is_blank(clipIndex)) {
         kDebug() << "// WARNING, TRYING TO REMOVE A BLANK: " << position.frames(m_fps);
-        //service.unlock();
+        service.unlock();
         return false;
     }
     Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
@@ -2388,7 +2391,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
     if (trackPlaylist.is_blank(i)) blk = "(blank)";
     kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
-    //service.unlock();
+    service.unlock();
     if (track != 0 && trackPlaylist.count() <= clipIndex) mltCheckLength(&tractor);
     return true;
 }

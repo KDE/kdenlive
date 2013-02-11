@@ -64,11 +64,11 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         //char *tmp = doc.toString().toUtf8().data();
         m_producer = new Mlt::Producer(*m_profile, "xml-string", doc.toString().toUtf8().data());
         //delete[] tmp;
-        int width = 100.0 * m_dar;
+        int width = Kdenlive::DefaultThumbHeight * m_dar;
         if (width % 2 == 1) width++;
         QPixmap p(width, 100);
         QString colour = clip->getProperty("colour");
-        int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
+        int swidth = (int) (Kdenlive::DefaultThumbHeight * m_profile->width() / m_profile->height() + 0.5);
 
         switch (m_clip->clipType()) {
         case VIDEO:
@@ -78,7 +78,8 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
         case IMAGE:
         case TEXT:
-            p = QPixmap::fromImage(KThumb::getFrame(m_producer, m_in->getValue(), swidth, width, 100));
+	    m_image = KThumb::getFrame(m_producer, m_in->getValue(), swidth, width, Kdenlive::DefaultThumbHeight);
+            p = QPixmap::fromImage(m_image);
             break;
         case COLOR:
             colour = colour.replace(0, 2, "#");
@@ -121,11 +122,17 @@ void MarkerDialog::slotUpdateThumb()
     int width = 100.0 * m_dar;
     int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
     if (width % 2 == 1) width++;
-    QPixmap p = QPixmap::fromImage(KThumb::getFrame(m_producer, pos, swidth, width, 100));
+    m_image = KThumb::getFrame(m_producer, pos, swidth, width, 100);
+    QPixmap p = QPixmap::fromImage(m_image);
     if (!p.isNull())
         clip_thumb->setPixmap(p);
     else
         kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
+}
+
+QImage MarkerDialog::markerImage() const
+{
+    return m_image;
 }
 
 CommentedTime MarkerDialog::newMarker()

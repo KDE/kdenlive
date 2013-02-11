@@ -32,7 +32,7 @@ class SmallRuler : public QWidget
     Q_OBJECT
 
 public:
-    explicit SmallRuler(MonitorManager *manager, Render *render, QWidget *parent = 0);
+    explicit SmallRuler(Monitor *manager, Render *render, QWidget *parent = 0);
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
@@ -59,10 +59,10 @@ private:
     int m_maxval;
     int m_zoneStart;
     int m_zoneEnd;
-    KStatefulBrush m_zoneBrush;
+    QColor m_zoneColor;
     QList <CommentedTime> m_markers;
     QPixmap m_pixmap;
-    MonitorManager *m_manager;
+    Monitor *m_monitor;
     Render *m_render;
     int m_lastSeekPosition;
     QBrush m_cursorColor;

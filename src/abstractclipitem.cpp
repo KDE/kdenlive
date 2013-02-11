@@ -58,6 +58,7 @@ void AbstractClipItem::closeAnimation()
 #if QT_VERSION >= 0x040600
     if (!isEnabled()) return;
     setEnabled(false);
+    setFlag(QGraphicsItem::ItemIsSelectable, false);
     if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
         // animation disabled
         deleteLater();
@@ -258,7 +259,7 @@ GenTime AbstractClipItem::maxDuration() const
     return m_maxDuration;
 }
 
-void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
+void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform transformation, bool limitedKeyFrames)
 {
     if (m_keyframes.count() < 1)
         return;
@@ -282,7 +283,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
         }
         y1 = br.bottom() - (m_keyframeDefault - m_keyframeOffset) * maxh;
         QLineF l(x1, y1, x2, y1);
-        QLineF l2 = painter->worldTransform().map(l);
+	QLineF l2 = transformation.map(l);
         painter->setPen(QColor(168, 168, 168, 180));
         painter->drawLine(l2);
         painter->setPen(QColor(108, 108, 108, 180));
@@ -303,7 +304,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
     // make sure line begins with clip beginning
     if (!limitedKeyFrames && i.key() != start) {
         QLineF l(br.x(), y1, x1, y1);
-        l2 = painter->worldTransform().map(l);
+        l2 = transformation.map(l);
         painter->drawLine(l2);
     }
     while (i != m_keyframes.constEnd()) {
@@ -323,7 +324,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
             y2 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
         }
         QLineF l(x1, y1, x2, y2);
-        l2 = painter->worldTransform().map(l);
+        l2 = transformation.map(l);
         painter->drawLine(l2);
         if (active) {
             const QRectF frame(l2.x1() - 3, l2.y1() - 3, 6, 6);
@@ -336,7 +337,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, bool limitedKeyFrames)
     // make sure line ends at clip end
     if (!limitedKeyFrames && x1 != br.right()) {
         QLineF l(x1, y1, br.right(), y1);
-        painter->drawLine(painter->worldTransform().map(l));
+        painter->drawLine(transformation.map(l));
     }
 
     if (active && m_keyframes.count() > 1) {

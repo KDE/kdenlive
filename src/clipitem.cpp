@@ -212,7 +212,7 @@ void ClipItem::setEffectList(const EffectsList effectList)
             else if (fade < 0)
                 m_endFade = -fade;
         }
-        setSelectedEffect(0);
+        setSelectedEffect(1);
     }
 }
 
@@ -467,7 +467,7 @@ void ClipItem::setSelectedEffect(const int ix)
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int i = 0; i < params.count(); i++) {
             QDomElement e = params.item(i).toElement();
-            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("intimeline") == "1") {
+            if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
                 m_keyframes.clear();
                 m_limitedKeyFrames = e.attribute("type") == "keyframe";
                 m_visibleParam = i;
@@ -788,9 +788,10 @@ void ClipItem::paint(QPainter *painter,
         framePen.setColor(paintColor.darker());
     }
     const QRectF exposed = option->exposedRect;
-    const QRectF mappedExposed = painter->worldTransform().mapRect(exposed);
-    const QRectF mapped = painter->worldTransform().mapRect(rect());
-    painter->setWorldMatrixEnabled(false);
+    const QTransform transformation = painter->worldTransform();
+    const QRectF mappedExposed = transformation.mapRect(exposed);
+    const QRectF mapped = transformation.mapRect(rect());
+    painter->setWorldTransform(QTransform());
     QPainterPath p;
     p.addRect(mappedExposed);
     QPainterPath q;
@@ -830,7 +831,7 @@ void ClipItem::paint(QPainter *painter,
         }
 
         // if we are in full zoom, paint thumbnail for every frame
-        if (m_clip->thumbProducer() && clipType() != COLOR && clipType() != AUDIO && !m_audioOnly && painter->worldTransform().m11() == FRAME_SIZE) {
+        if (m_clip->thumbProducer() && clipType() != COLOR && clipType() != AUDIO && !m_audioOnly && transformation.m11() == FRAME_SIZE) {
             int offset = (m_info.startPos - m_info.cropStart).frames(m_fps);
             int left = qMax((int) m_info.cropStart.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x() - offset);
             int right = qMin((int)(m_info.cropStart + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x() - offset);
@@ -885,15 +886,15 @@ void ClipItem::paint(QPainter *painter,
             mappedRect.setTop(mappedRect.bottom() - mapped.height() / 2);
         } else mappedRect = mapped;
 
-        double scale = painter->worldTransform().m11();
+        double scale = transformation.m11();
         int channels = 0;
         if (isEnabled() && m_clip) channels = m_clip->getProperty("channels").toInt();
         if (scale != m_framePixelWidth)
             m_audioThumbCachePic.clear();
         double cropLeft = m_info.cropStart.frames(m_fps);
         const int clipStart = mappedRect.x();
-        const int mappedStartPixel =  painter->worldTransform().map(QPointF(startpixel + cropLeft, 0)).x() - clipStart;
-        const int mappedEndPixel =  painter->worldTransform().map(QPointF(endpixel + cropLeft, 0)).x() - clipStart;
+        const int mappedStartPixel =  transformation.map(QPointF(startpixel + cropLeft, 0)).x() - clipStart;
+        const int mappedEndPixel =  transformation.map(QPointF(endpixel + cropLeft, 0)).x() - clipStart;
         cropLeft = cropLeft * scale;
 
         if (channels >= 1) {
@@ -965,7 +966,7 @@ void ClipItem::paint(QPainter *painter,
                 if (pos > GenTime()) {
                     if (pos > cropDuration()) break;
                     QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
-                    QLineF l2 = painter->worldTransform().map(l);
+                    QLineF l2 = transformation.map(l);
 		    pen.setColor(CommentedTime::markerColor((*it).markerType()));
 		    pen.setStyle(Qt::DotLine);
                     painter->setPen(pen);
@@ -973,7 +974,7 @@ void ClipItem::paint(QPainter *painter,
                     if (KdenliveSettings::showmarkers()) {
                         framepos = rect().x() + pos.frames(m_fps);
                         const QRectF r1(framepos + 0.04, rect().height()/3, rect().width() - framepos - 2, rect().height() / 2);
-                        const QRectF r2 = painter->worldTransform().mapRect(r1);
+                        const QRectF r2 = transformation.mapRect(r1);
                         const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
                         painter->setBrush(markerBrush);
 			pen.setStyle(Qt::SolidLine);
@@ -1000,7 +1001,7 @@ void ClipItem::paint(QPainter *painter,
             fadeInPath.lineTo(0, rect().height());
             fadeInPath.lineTo(m_startFade, 0);
             fadeInPath.closeSubpath();
-            QPainterPath f1 = painter->worldTransform().map(fadeInPath);
+            QPainterPath f1 = transformation.map(fadeInPath);
             painter->fillPath(f1/*.intersected(resultClipPath)*/, fades);
             /*if (isSelected()) {
                 QLineF l(m_startFade * scale, 0, 0, itemHeight);
@@ -1013,7 +1014,7 @@ void ClipItem::paint(QPainter *painter,
             fadeOutPath.lineTo(rect().width(), rect().height());
             fadeOutPath.lineTo(rect().width() - m_endFade, 0);
             fadeOutPath.closeSubpath();
-            QPainterPath f1 = painter->worldTransform().map(fadeOutPath);
+            QPainterPath f1 = transformation.map(fadeOutPath);
             painter->fillPath(f1/*.intersected(resultClipPath)*/, fades);
             /*if (isSelected()) {
                 QLineF l(itemWidth - m_endFade * scale, 0, itemWidth, itemHeight);
@@ -1024,7 +1025,7 @@ void ClipItem::paint(QPainter *painter,
 
         painter->setPen(QPen(Qt::lightGray));
         // draw effect or transition keyframes
-        drawKeyFrames(painter, m_limitedKeyFrames);
+        drawKeyFrames(painter, transformation, m_limitedKeyFrames);
     }
     
     // draw clip border
@@ -1667,7 +1668,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
     else if (fade < 0) m_endFade = -fade;
 
     if (m_selectedEffect == -1) {
-        setSelectedEffect(0);
+        setSelectedEffect(1);
     } else if (m_selectedEffect == ix - 1) setSelectedEffect(m_selectedEffect);
     if (needRepaint) update(boundingRect());
     /*if (animate) {

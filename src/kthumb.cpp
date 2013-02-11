@@ -108,13 +108,13 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
 void KThumb::extractImage(QList <int>frames)
 {
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
-    m_clipManager->requestThumbs(m_id, frames);
+    m_clipManager->slotRequestThumbs(m_id, frames);
 }
 
 
 void KThumb::getThumb(int frame)
 {
-    const int theight = 120;//KdenliveSettings::trackheight();
+    const int theight = Kdenlive::DefaultThumbHeight;
     const int swidth = (int)(theight * m_ratio + 0.5);
     const int dwidth = (int)(theight * m_dar + 0.5);
     QImage img = getProducerFrame(frame, swidth, dwidth, theight);
