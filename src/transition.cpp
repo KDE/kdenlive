@@ -37,7 +37,6 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, QD
         AbstractClipItem(info, QRectF(), fps),
         m_forceTransitionTrack(false),
         m_automaticTransition(automaticTransition),
-        m_secondClip(NULL),
         m_transitionTrack(transitiontrack)
 {
     setZValue(3);
@@ -79,9 +78,6 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, QD
     else if (m_parameters.attribute("automatic") == "1") m_automaticTransition = true;
     if (m_parameters.attribute("force_track") == "1") m_forceTransitionTrack = true;
     m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
-    m_secondClip = 0;
-
-    //m_referenceClip->addTransition(this);
 }
 
 Transition::~Transition()
@@ -318,27 +314,6 @@ int Transition::itemOffset()
     return (int) (KdenliveSettings::trackheight() / 3 * 2);
 }
 
-bool Transition::hasClip(const ClipItem * clip) const
-{
-    if (clip == m_secondClip) return true;
-    return false;
-}
-
-bool Transition::belongsToClip(const ClipItem * clip) const
-{
-    if (clip == m_referenceClip) return true;
-    return false;
-}
-
-/*
-Transition *Transition::clone() {
-    return new Transition::Transition(rect(), m_referenceClip, toXML() , m_fps);
-}*/
-
-const ClipItem *Transition::referencedClip() const
-{
-    return m_referenceClip;
-}
 
 QDomElement Transition::toXML()
 {
@@ -350,11 +325,6 @@ QDomElement Transition::toXML()
     m_parameters.setAttribute("end", endPos().frames(m_fps));
     m_parameters.setAttribute("force_track", m_forceTransitionTrack);
     m_parameters.setAttribute("automatic", m_automaticTransition);
-
-    if (m_secondClip) {
-        m_parameters.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));
-        m_parameters.setAttribute("clipb_track", transitionEndTrack());
-    }
     return m_parameters.cloneNode().toElement();
 }
 
