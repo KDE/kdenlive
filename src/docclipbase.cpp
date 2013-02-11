@@ -299,6 +299,57 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
     return doc.documentElement();
 }
 
+const QString DocClipBase::shortInfo() const
+{
+  
+    QString info;
+    if (m_clipType == AV || m_clipType == VIDEO || m_clipType == IMAGE || m_clipType == PLAYLIST) {
+	info = m_properties.value("frame_size") + " ";
+	if (m_properties.contains("fps")) {
+	    info.append(i18n("%1 fps", m_properties.value("fps").left(5)));
+	}
+	if (!info.simplified().isEmpty()) info.prepend(" - ");
+    }
+    else if (m_clipType == AUDIO) {
+	info = " - " + m_properties.value("frequency") + i18n("Hz");
+    }
+    QString tip = "<b>";
+    switch (m_clipType) {
+    case AUDIO:
+        tip.append(i18n("Audio clip") + "</b>" + info + "<br />" + fileURL().path());
+        break;
+    case VIDEO:
+        tip.append(i18n("Mute video clip") + "</b>" + info + "<br />" + fileURL().path());
+        break;
+    case AV:
+        tip.append(i18n("Video clip") + "</b>" + info + "<br />" + fileURL().path());
+        break;
+    case COLOR:
+        tip.append(i18n("Color clip"));
+        break;
+    case IMAGE:
+        tip.append(i18n("Image clip") + "</b>" + info + "<br />" + fileURL().path());
+        break;
+    case TEXT:
+        if (!fileURL().isEmpty() && getProperty("xmldata").isEmpty()) tip.append(i18n("Template text clip") + "</b><br />" + fileURL().path());
+        else tip.append(i18n("Text clip") + "</b><br />" + fileURL().path());
+        break;
+    case SLIDESHOW:
+        tip.append(i18n("Slideshow clip") + "</b><br />" + fileURL().directory());
+        break;
+    case VIRTUAL:
+        tip.append(i18n("Virtual clip"));
+        break;
+    case PLAYLIST:
+        tip.append(i18n("Playlist clip") + "</b>" + info + "<br />" + fileURL().path());
+        break;
+    default:
+        tip.append(i18n("Unknown clip"));
+        break;
+    }
+    return tip;
+}
+
 
 void DocClipBase::setAudioThumbCreated(bool isDone)
 {

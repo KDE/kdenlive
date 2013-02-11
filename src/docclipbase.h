@@ -211,6 +211,8 @@ Q_OBJECT public:
     /** Return the current values for a set of properties */
     QMap <QString, QString> currentProperties(QMap <QString, QString> props);
     QMap <QString, QStringList> metadata() const;
+    /** @brief Returns a short info string about the clip to display in tooltip */
+    const QString shortInfo() const;
 
 private:   // Private attributes
     /** The number of times this clip is used in the project - the number of references to this clip
