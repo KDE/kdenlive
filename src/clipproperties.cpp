@@ -57,13 +57,14 @@ static const int ADVANCEDTAB = 7;
 
 
 ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent) :
-    QDialog(parent),
-    m_clip(clip),
-    m_tc(tc),
-    m_fps(fps),
-    m_count(0),
-    m_clipNeedsRefresh(false),
-    m_clipNeedsReLoad(false)
+    QDialog(parent)
+    , m_clip(clip)
+    , m_tc(tc)
+    , m_fps(fps)
+    , m_count(0)
+    , m_clipNeedsRefresh(false)
+    , m_clipNeedsReLoad(false)
+    , m_proxyContainer(NULL)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFont(KGlobalSettings::toolBarFont());
