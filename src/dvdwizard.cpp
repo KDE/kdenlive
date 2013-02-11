@@ -41,10 +41,11 @@
 
 
 DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *parent) :
-        QWizard(parent),
-        m_dvdauthor(NULL),
-        m_mkiso(NULL),
-        m_burnMenu(new QMenu(this))
+        QWizard(parent)
+        , m_dvdauthor(NULL)
+        , m_mkiso(NULL)
+        , m_vobitem(NULL)
+        , m_burnMenu(new QMenu(this))
 {
     setWindowTitle(i18n("DVD Wizard"));
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
@@ -687,14 +688,14 @@ void DvdWizard::slotProcessMenuStatus(int, QProcess::ExitStatus status)
 	kDebug() << "/// RENDERING MENU vob crashed";
         errorMessage(i18n("Rendering menu crashed"));
         QByteArray result = m_menuJob.readAllStandardError();
-        m_vobitem->setIcon(KIcon("dialog-close"));
+        if (m_vobitem) m_vobitem->setIcon(KIcon("dialog-close"));
         m_status.error_log->append(result);
         m_status.error_box->setHidden(false);
         m_status.button_start->setEnabled(true);
         m_status.button_abort->setEnabled(false);
         return;
     }
-    m_vobitem->setIcon(KIcon("dialog-ok"));
+    if (m_vobitem) m_vobitem->setIcon(KIcon("dialog-ok"));
     processSpumux();
 }
 
