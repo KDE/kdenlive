@@ -443,16 +443,6 @@ void StopmotionWidget::slotSwitchLive()
 {
     setUpdatesEnabled(false);
     slotLive(!live_button->isChecked());
-    /*if (m_frame_preview->isHidden()) {
-        //if (m_bmCapture) m_bmCapture->hidePreview(true);
-        m_videoBox->setHidden(true);
-        m_frame_preview->setHidden(false);
-    } else {
-        m_frame_preview->setHidden(true);
-        //if (m_bmCapture) m_bmCapture->hidePreview(false);
-        m_videoBox->setHidden(false);
-        capture_button->setEnabled(true);
-    }*/
     setUpdatesEnabled(true);
 }
 
@@ -728,8 +718,6 @@ void StopmotionWidget::slotShowFrame(const QString& path)
     capture_button->setEnabled(false);
     slotLive(false);
     if (!img.isNull()) {
-        //m_videoBox->setHidden(true);
-
         m_frame_preview->setImage(img);
         m_frame_preview->setHidden(false);
         m_frame_preview->update();

@@ -106,8 +106,6 @@ private:
     /** @brief Capture holder that will handle all video operation. */
     MltDeviceCapture *m_captureDevice;
 
-    VideoContainer *m_videoBox;
-
     /** @brief Holds the name of the current sequence.
      * Files will be saved in project folder with name: sequence001.png */
     QString m_sequenceName;
