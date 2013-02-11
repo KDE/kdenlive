@@ -2111,13 +2111,23 @@ void MainWindow::openFile(const KUrl &url)
         // Opening a compressed project file, we need to process it
         kDebug()<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
-        if (ar->exec() == QDialog::Accepted) openFile(KUrl(ar->extractedProjectFile()));
+        if (ar->exec() == QDialog::Accepted) {
+	    openFile(KUrl(ar->extractedProjectFile()));
+	}
+	else if (!m_startUrl.isEmpty()) {
+	    // we tried to open an invalid file from command line, init new project
+	    newFile(false);
+	}
         delete ar;
         return;
     }
     if (!url.fileName().endsWith(".kdenlive")) {
         // This is not a Kdenlive project file, abort loading
         KMessageBox::sorry(this, i18n("File %1 is not a Kdenlive project file", url.path()));
+	if (!m_startUrl.isEmpty()) {
+	    // we tried to open an invalid file from command line, init new project
+	    newFile(false);
+	}
         return;
     }
 
