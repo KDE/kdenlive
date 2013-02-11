@@ -78,15 +78,21 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     m_menu->addAction(KIcon("view-refresh"), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
     m_menu->addAction(KIcon("document-save"), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
     
-    QDomElement namenode = m_effect.firstChildElement("name");
-    if (namenode.isNull()) return;
-    QString effectname = i18n(namenode.text().toUtf8().data());
-    if (m_regionEffect) effectname.append(':' + KUrl(EffectsList::parameter(m_effect, "resource")).fileName());
-    
     QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
     title = new QLabel(this);
     l->insertWidget(2, title);
     
+    m_groupAction = new QAction(KIcon("folder-new"), i18n("Create Group"), this);
+    connect(m_groupAction, SIGNAL(triggered(bool)), this, SLOT(slotCreateGroup()));
+    
+    QDomElement namenode = m_effect.firstChildElement("name");
+    if (namenode.isNull()) {
+	// Warning, broken effect?
+	kDebug()<<"// Could not create effect";
+	return;
+    }
+    QString effectname = i18n(namenode.text().toUtf8().data());
+    if (m_regionEffect) effectname.append(':' + KUrl(EffectsList::parameter(m_effect, "resource")).fileName());    
     title->setText(effectname);
     /*
      * Do not show icon, makes too much visual noise
@@ -97,8 +103,6 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
     else if (type == "custom") icon = KIcon("kdenlive-custom-effect");
     else icon = KIcon("kdenlive-show-video");
     effecticon->setPixmap(icon.pixmap(16,16));*/
-    m_groupAction = new QAction(KIcon("folder-new"), i18n("Create Group"), this);
-    connect(m_groupAction, SIGNAL(triggered(bool)), this, SLOT(slotCreateGroup()));
 
     if (!m_regionEffect) {
 	if (m_info.groupIndex == -1) m_menu->addAction(m_groupAction);
