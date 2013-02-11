@@ -74,7 +74,6 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 	    m_metadata.insert(e.attribute("name").section('.', 2), QStringList() << e.firstChild().nodeValue() << e.attribute("tool"));
 	}
     }
-
     if (xml.hasAttribute("cutzones")) {
         QStringList cuts = xml.attribute("cutzones").split(';', QString::SkipEmptyParts);
         for (int i = 0; i < cuts.count(); i++) {

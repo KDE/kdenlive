@@ -2198,6 +2198,11 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
 
 void ProjectList::extractMetadata(DocClipBase *clip)
 {
+    CLIPTYPE t = clip->clipType();
+    if (t != AV && t != VIDEO) {
+	// Currently, we only use exiftool on video files
+	return;
+    }
     QMap <QString, QString> props = clip->properties();
     if (KdenliveSettings::use_exiftool() && !props.contains("exiftool")) {
 	QMap <QString, QString> meta;

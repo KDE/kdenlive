@@ -583,7 +583,12 @@ void ClipManager::slotAddClipList(const KUrl::List urls, QMap <QString, QString>
                     KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
                     const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
                     foreach(const KFileMetaInfoItem & metaInfoItem, metaInfoItems) {
-                        prod.setAttribute("meta.attr." + metaInfoItem.name().section('#', 1), metaInfoItem.value().toString());
+			QDomElement meta = doc.createElement("metaproperty");
+			meta.setAttribute("name", "meta.attr." + metaInfoItem.name().section('#', 1));
+			QDomText value = doc.createTextNode(metaInfoItem.value().toString());
+			meta.setAttribute("tool", "KDE Metadata");
+			meta.appendChild(value);
+			prod.appendChild(meta);
                     }
                 }
             } else if (type->is("application/x-kdenlivetitle")) {
