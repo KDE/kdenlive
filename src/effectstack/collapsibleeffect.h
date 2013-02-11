@@ -105,8 +105,6 @@ private:
     QDomElement m_original_effect;
     QList <QDomElement> m_subEffects;
     bool m_lastEffect;
-    int m_in;
-    int m_out;
     QMenu *m_menu;
     QPoint m_clickPoint;
     EffectInfo m_info;
