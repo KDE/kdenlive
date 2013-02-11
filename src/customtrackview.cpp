@@ -110,35 +110,44 @@ bool sortGuidesList(const Guide *g1 , const Guide *g2)
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
-    QGraphicsView(projectscene, parent),
-    m_tracksHeight(KdenliveSettings::trackheight()),
-    m_projectDuration(0),
-    m_cursorPos(0),
-    m_document(doc),
-    m_scene(projectscene),
-    m_cursorLine(NULL),
-    m_operationMode(NONE),
-    m_moveOpMode(NONE),
-    m_dragItem(NULL),
-    m_dragGuide(NULL),
-    m_visualTip(NULL),
-    m_animation(NULL),
-    m_clickPoint(),
-    m_autoScroll(KdenliveSettings::autoscroll()),
-    m_pasteEffectsAction(NULL),
-    m_ungroupAction(NULL),
-    m_scrollOffset(0),
-    m_clipDrag(false),
-    m_findIndex(0),
-    m_tool(SELECTTOOL),
-    m_copiedItems(),
-    m_menuPosition(),
-    m_blockRefresh(false),
-    m_selectionGroup(NULL),
-    m_selectedTrack(0),
-    m_audioCorrelator(NULL),
-    m_audioAlignmentReference(NULL),
-    m_controlModifier(false)
+    QGraphicsView(projectscene, parent)
+    , m_tracksHeight(KdenliveSettings::trackheight())
+    , m_projectDuration(0)
+    , m_cursorPos(0)
+    , m_document(doc)
+    , m_scene(projectscene)
+    , m_cursorLine(NULL)
+    , m_operationMode(NONE)
+    , m_moveOpMode(NONE)
+    , m_dragItem(NULL)
+    , m_dragGuide(NULL)
+    , m_visualTip(NULL)
+    , m_animation(NULL)
+    , m_clickPoint()
+    , m_autoScroll(KdenliveSettings::autoscroll())
+    , m_timelineContextMenu(NULL)
+    , m_timelineContextClipMenu(NULL)
+    , m_timelineContextTransitionMenu(NULL)
+    , m_markerMenu(NULL)
+    , m_autoTransition(NULL)
+    , m_pasteEffectsAction(NULL)
+    , m_ungroupAction(NULL)
+    , m_editGuide(NULL)
+    , m_deleteGuide(NULL)
+    , m_clipTypeGroup(NULL)
+    , m_scrollOffset(0)
+    , m_clipDrag(false)
+    , m_findIndex(0)
+    , m_tool(SELECTTOOL)
+    , m_copiedItems()
+    , m_menuPosition()
+    , m_blockRefresh(false)
+    , m_selectionGroup(NULL)
+    , m_selectedTrack(0)
+    , m_spacerOffset(0)
+    , m_audioCorrelator(NULL)
+    , m_audioAlignmentReference(NULL)
+    , m_controlModifier(false)
 {
     if (doc) {
         m_commandStack = doc->commandStack();
