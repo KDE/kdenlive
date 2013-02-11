@@ -373,7 +373,7 @@ int Transition::defaultZValue() const
     return 3;
 }
 
-bool Transition::updateKeyframes()
+bool Transition::updateKeyframes(int oldEnd)
 {
     QString keyframes;
     QDomElement pa;
@@ -391,17 +391,38 @@ bool Transition::updateKeyframes()
     QStringList values = keyframes.split(';');
     int frame;
     int i = 0;
-    foreach(const QString &pos, values) {
-        if (!pos.contains('=')) {
-            i++;
-            continue;
-        }
-        frame = pos.section('=', 0, 0).toInt();
-        if (frame > duration) {
-            modified = true;
-            break;
-        }
-        i++;
+    if (oldEnd < duration) {
+	// Transition was expanded, check if we had a keyframe at end position
+	foreach(QString pos, values) {
+	    if (!pos.contains('=')) {
+		i++;
+		continue;
+	    }
+	    frame = pos.section('=', 0, 0).toInt();
+	    if (frame == oldEnd) {
+		// Move that keyframe to new end
+                values[i] = QString::number(duration) + '=' + pos.section('=', 1);
+		pa.setAttribute("value", values.join(";"));
+		return true;
+	    }
+	    i++;
+	}
+	return false;
+    }
+    else {
+	// Transition was shortened, check for out of bounds keyframes
+	foreach(const QString &pos, values) {
+	    if (!pos.contains('=')) {
+		i++;
+		continue;
+	    }
+	    frame = pos.section('=', 0, 0).toInt();
+	    if (frame > duration) {
+		modified = true;
+		break;
+	    }
+	    i++;
+	}
     }
     if (modified) {
         if (i > 0) {

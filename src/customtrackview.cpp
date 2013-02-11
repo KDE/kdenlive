@@ -5184,10 +5184,21 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
         } else {
             // Check transition keyframes
             QDomElement old = transition->toXML();
-            if (transition->updateKeyframes()) {
+            if (transition->updateKeyframes(oldInfo.cropDuration.frames(m_document->fps()) - 1)) {
                 QDomElement xml = transition->toXML();
                 m_document->renderer()->mltUpdateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), m_document->tracksCount() - xml.attribute("transition_atrack").toInt(), transition->startPos(), transition->endPos(), xml);
                 new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
+		ItemInfo info = transition->info();
+		QPoint p;
+		ClipItem *transitionClip = getClipItemAt(info.startPos, info.track);
+		if (transitionClip && transitionClip->baseClip()) {
+		    QString size = transitionClip->baseClip()->getProperty("frame_size");
+		    double factor = transitionClip->baseClip()->getProperty("aspect_ratio").toDouble();
+		    if (factor == 0) factor = 1.0;
+		    p.setX((int)(size.section('x', 0, 0).toInt() * factor + 0.5));
+		    p.setY(size.section('x', 1, 1).toInt());
+		}
+		emit transitionItemSelected(transition, getPreviousVideoTrack(info.track), p, true);
             }
             new MoveTransitionCommand(this, oldInfo, info, false, command);
         }
