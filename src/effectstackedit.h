@@ -60,7 +60,6 @@ public:
     void setKeyframes(const QString &data, int maximum);
 
 private:
-    Monitor *m_monitor;
     EffectMetaInfo m_metaInfo;
     QWidget *m_baseWidget;
     ParameterContainer *m_paramWidget;
