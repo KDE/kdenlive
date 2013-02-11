@@ -36,15 +36,17 @@ const int cursorWidth = 6;
 #define SEEK_INACTIVE (-1)
 
 KeyframeHelper::KeyframeHelper(QWidget *parent) :
-        QWidget(parent),
-        m_geom(NULL),
-        m_position(0),
-        m_scale(0),
-        m_movingKeyframe(false),
-        m_lineHeight(9),
-        m_drag(false),
-        m_hoverKeyframe(-1),
-        m_seekPosition(SEEK_INACTIVE)
+        QWidget(parent)
+	, frameLength(1)
+        , m_geom(NULL)
+        , m_position(0)
+        , m_scale(0)
+        , m_movingKeyframe(false)
+	, m_movingItem()
+        , m_lineHeight(9)
+        , m_drag(false)
+        , m_hoverKeyframe(-1)
+        , m_seekPosition(SEEK_INACTIVE)
 {
     setFont(KGlobalSettings::toolBarFont());
     setMouseTracking(true);
@@ -326,7 +328,7 @@ void KeyframeHelper::setValue(const int pos)
 void KeyframeHelper::setKeyGeometry(Mlt::Geometry *geom, const int length)
 {
     m_geom = geom;
-    frameLength = length;
+    frameLength = qMax(1, length);
     update();
 }
 
