@@ -38,6 +38,8 @@ ParameterPlotter::ParameterPlotter(QWidget *parent) :
     m_moveTimeline = true;
     m_newPoints = false;
     m_activeIndexPlot = -1;
+    m_max_y = 0;
+    m_min_y = 0;
 }
 /*
     <name>Lines</name>
