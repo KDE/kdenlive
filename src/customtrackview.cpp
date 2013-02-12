@@ -5578,7 +5578,7 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
     KFileDialog fd(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
     fd.setMode(KFile::File);
     fd.setOperationMode(KFileDialog::Opening);
-    fd.exec();
+    if (fd.exec() != QDialog::Accepted) return;
     QString url = fd.selectedFile();
 	
     //KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
