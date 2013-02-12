@@ -5461,13 +5461,15 @@ void CustomTrackView::slotAddClipExtraData(const QString &id, const QString &key
 
 void CustomTrackView::slotAddClipMarker(const QString &id, QList <CommentedTime> newMarkers, QUndoCommand *groupCommand)
 {
-    QUndoCommand *subCommand = NULL;
+    DocClipBase *base = m_document->clipManager()->getClipById(id);
+    if (!base) return;
+    QUndoCommand *subCommand = NULL;    
     if (newMarkers.count() > 1 && groupCommand == NULL) {
 	subCommand = new QUndoCommand;
 	subCommand->setText("Add markers");
     }
     for (int i = 0; i < newMarkers.count(); i++) {
-	CommentedTime oldMarker = m_document->clipManager()->getClipById(id)->markerAt(newMarkers.at(i).time());
+	CommentedTime oldMarker = base->markerAt(newMarkers.at(i).time());
 	if (oldMarker == CommentedTime()) {
 	    oldMarker = newMarkers.at(i);
 	    oldMarker.setMarkerType(-1);
