@@ -280,7 +280,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         if (!KdenliveSettings::ffmpegpath().isEmpty()) {
 	    if (!Render::checkX11Grab()) {
 		// FFmpeg does not support screen grab
-		showWarningMessage(i18n("Your FFmpeg / Libav installation\n does not support screen grab"), "dialog-warning");
+		showWarningMessage(i18n("Your FFmpeg / Libav installation\n does not support screen grab"));
 		m_recAction->setEnabled(false);
 	    }
 	    else video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
