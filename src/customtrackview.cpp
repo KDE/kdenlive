@@ -5498,6 +5498,7 @@ void CustomTrackView::slotDeleteClipMarker(const QString &comment, const QString
 void CustomTrackView::slotDeleteAllClipMarkers(const QString &id)
 {
     DocClipBase *base = m_document->clipManager()->getClipById(id);
+    if (!base) return;
     QList <CommentedTime> markers = base->commentedSnapMarkers();
 
     if (markers.isEmpty()) {
