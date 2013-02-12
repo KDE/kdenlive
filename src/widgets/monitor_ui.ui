@@ -34,7 +34,7 @@
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>10</height>
+       <height>12</height>
       </size>
      </property>
      <property name="lineWidth">
