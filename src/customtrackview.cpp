@@ -5536,7 +5536,7 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
 	KFileDialog fd(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
 	fd.setMode(KFile::File);
 	fd.setOperationMode(KFileDialog::Saving);
-	fd.exec();
+	if (fd.exec() != QDialog::Accepted) return;
 	QString url = fd.selectedFile();
 	//QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
 	if (url.isEmpty()) return;
