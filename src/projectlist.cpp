@@ -847,7 +847,10 @@ void ProjectList::slotClipSelected()
                 // this is a sub item, use base clip
                 m_deleteButton->defaultAction()->setEnabled(true);
                 clip = static_cast <ProjectItem*>(item->parent());
-                if (clip == NULL) kDebug() << "-----------ERROR";
+                if (clip == NULL) {
+		    kDebug() << "-----------ERROR";
+		    return;
+		}
                 SubProjectItem *sub = static_cast <SubProjectItem*>(item);
 		if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
                 emit clipSelected(clip->referencedClip(), sub->zone());
