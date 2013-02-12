@@ -5520,6 +5520,7 @@ void CustomTrackView::slotDeleteAllClipMarkers(const QString &id)
 void CustomTrackView::slotSaveClipMarkers(const QString &id)
 {
     DocClipBase *base = m_document->clipManager()->getClipById(id);
+    if (!base) return;
     QList < CommentedTime > markers = base->commentedSnapMarkers();
     if (!markers.isEmpty()) {
 	// Set  up categories
