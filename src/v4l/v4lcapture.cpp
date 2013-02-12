@@ -122,7 +122,7 @@ QStringList V4lCaptureHandler::getDeviceName(QString input)
         }
     }
     close(fd);
-    delete[] src;
+    free(src);
 
     QStringList result;
     if (devName == NULL) return result; 
