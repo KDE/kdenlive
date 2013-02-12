@@ -155,7 +155,6 @@ void FreeSound::slotParseResults(KJob* job)
     KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     QJson::Parser parser;
     bool ok;
-    int ct = 0;
     QString html = QString("<style type=\"text/css\">tr.cellone {background-color: %1;}</style>").arg(qApp->palette().alternateBase().color().name());
     
     QVariant data = parser.parse(storedQueryJob->data(), &ok);
@@ -166,37 +165,21 @@ void FreeSound::slotParseResults(KJob* job)
         html += "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">";
     
         if (m_metaInfo.contains(i18n("Duration"))) {
-            ct++;
-            if (ct %2 == 0) {
-                html += "<tr class=\"cellone\">";
-            }
-            else html += "<tr>";
+	    html += "<tr>";
             html += "<td>" + i18n("Duration") + "</td><td>" + m_metaInfo.value(i18n("Duration")) + "</td></tr>";
             m_metaInfo.remove(i18n("Duration"));
         }
         
         if (infos.contains("samplerate")) {
-            ct++;
-            if (ct %2 == 0) {
-                html += "<tr class=\"cellone\">";
-            }
-            else html += "<tr>";
+            html += "<tr class=\"cellone\">";
             html += "<td>" + i18n("Samplerate") + "</td><td>" + QString::number(infos.value("samplerate").toDouble()) + "</td></tr>";
         }
         if (infos.contains("channels")) {
-            ct++;
-            if (ct %2 == 0) {
-                html += "<tr class=\"cellone\">";
-            }
-            else html += "<tr>";
+            html += "<tr>";
             html += "<td>" + i18n("Channels") + "</td><td>" + QString::number(infos.value("channels").toInt()) + "</td></tr>";
         }
         if (infos.contains("filesize")) {
-            ct++;
-            if (ct %2 == 0) {
-                html += "<tr class=\"cellone\">";
-            }
-            else html += "<tr>";
+            html += "<tr class=\"cellone\">";
             KIO::filesize_t fSize = infos.value("filesize").toDouble();
             html += "<td>" + i18n("File size") + "</td><td>" + KIO::convertSize(fSize) + "</td></tr>";
         }
