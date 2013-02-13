@@ -4933,9 +4933,11 @@ void Render::enableSlave(Slave::Type slave)
 			disconnect(this, SIGNAL(rendererPosition(int)),
 					&JACKDEV, SLOT(setCurrentPosition(int)));
 
-			/* stop playback */
-			switchPlay(false);
-			slotOnSlavePlaybackStopped(seekFramePosition());
+			/* stop jack playback */
+			JACKDEV.stopPlayback();
+			/* stop mlt playback and relocate to stopped jack pos */
+			if (m_mltProducer->get_speed() != 0)
+				slotOnSlavePlaybackStopped(JACKDEV.getPlaybackPosition());
 			/* DEBUG */
 			kDebug() << "// JACK Slave disabled";
 		}
@@ -4993,6 +4995,8 @@ void Render::slotOnSlavePlaybackSync(int position)
 void Render::slotOnSlavePlaybackStopped(int position)
 {
 	switchPlay(false, true);
+	seek(position, true);
+	m_paused = true;
 	emit rendererStopped(position);
 }
 
