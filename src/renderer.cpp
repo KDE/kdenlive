@@ -346,34 +346,48 @@ void Render::buildConsumer(const QString &profileName)
         audioDriver = KdenliveSettings::autoaudiodrivername();
     */
 
-	if (!audioDriver.isEmpty()) {
-#ifdef USE_JACK
-		if(audioDriver == "jack") {
-	        // create the jack device singleton instance
-	    	JackDevice::singleton(m_mltProfile);
-	    	if(&JACKDEV && JACKDEV.probe())
-	    		openDevice(Device::Jack);
-	    	/* TODO: error message */
-//	    	else
-//	    		ShowErrorMessage();
-        } else
-#endif
-        {
-            m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
-        }
-    }
-#ifdef USE_JACK
-	else {
-		/* if jackd is running default to jackdev because in most cases the
-		 * audio driver is claimed by jackd */
-    	JackDevice::singleton(m_mltProfile);
-    	if(&JACKDEV && JACKDEV.probe())
-    		openDevice(Device::Jack);
-    }
-#endif
+    if (!audioDriver.isEmpty())
+        m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
 
     m_mltConsumer->set("frequency", 48000);
     m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
+
+#ifdef USE_JACK
+	if (!audioDriver.isEmpty()) {
+		if(audioDriver == "jack") {
+			/* I hate the enumeration shit here */
+	        if(m_name == Kdenlive::projectMonitor) {
+				/* create the jack device singleton instance */
+				JackDevice::singleton(m_mltProfile);
+				if(&JACKDEV && JACKDEV.probe())
+					openDevice(Device::Jack);
+		    	/* TODO: error message */
+//				else
+//		    		ShowErrorMessage();
+	        } else if (m_name == Kdenlive::clipMonitor) {
+	    		/* stop consumer */
+	    		if (!m_mltConsumer->is_stopped())
+	    				m_mltConsumer->stop();
+	    		/* disable audio */
+	    		m_mltConsumer->set("audio_off", 1);
+	        }
+        }
+    } else {
+		if(m_name == Kdenlive::projectMonitor) {
+			/* if jackd is running default to jackdev because in most cases the
+			 * audio driver is claimed by jackd */
+			JackDevice::singleton(m_mltProfile);
+			if(&JACKDEV && JACKDEV.probe())
+				openDevice(Device::Jack);
+		} else if (m_name == Kdenlive::clipMonitor) {
+    		/* stop consumer */
+    		if (!m_mltConsumer->is_stopped())
+    				m_mltConsumer->stop();
+    		/* disable audio */
+    		m_mltConsumer->set("audio_off", 1);
+        }
+    }
+#endif
 }
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
