@@ -634,7 +634,7 @@ void ParameterContainer::slotCollectAllParameters()
                 namenode.item(i).toElement().setAttribute("value", geom->getValue());
             }
         } else if (type == "addedgeometry") {
-            namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute("name")));
+            if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute("name")));
         } else if (type == "position") {
             PositionEdit *pedit = ((PositionEdit*)m_valueItems.value(paramName));
             int pos = pedit->getPosition();

@@ -47,21 +47,23 @@
 
 
 Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile, QWidget *parent) :
-    AbstractMonitor(id, manager, parent),
-    render(NULL),
-    m_currentClip(NULL),
-    m_overlay(NULL),
-    m_scale(1),
-    m_length(2),
-    m_dragStarted(false),
-    m_contextMenu(NULL),
-    m_effectWidget(NULL),
-    m_selectedClip(NULL),
-    m_loopClipTransition(true),
+    AbstractMonitor(id, manager, parent)
+    , render(NULL)
+    , m_name(Kdenlive::noMonitor)
+    , m_currentClip(NULL)
+    , m_overlay(NULL)
+    , m_scale(1)
+    , m_length(2)
+    , m_dragStarted(false)
+    , m_loopClipAction(NULL)
+    , m_contextMenu(NULL)
+    , m_effectWidget(NULL)
+    , m_selectedClip(NULL)
+    , m_loopClipTransition(true)
 #ifdef USE_OPENGL
-    m_glWidget(NULL),
+    , m_glWidget(NULL)
 #endif
-    m_editMarker(NULL)
+    , m_editMarker(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -1039,10 +1041,10 @@ QStringList Monitor::getZoneInfo() const
 void Monitor::slotSetSelectedClip(AbstractClipItem* item)
 {
     if (item) {
-        m_loopClipAction->setEnabled(true);
+        if (m_loopClipAction) m_loopClipAction->setEnabled(true);
         m_selectedClip = item;
     } else {
-        m_loopClipAction->setEnabled(false);
+        if (m_loopClipAction) m_loopClipAction->setEnabled(false);
     }
 }
 

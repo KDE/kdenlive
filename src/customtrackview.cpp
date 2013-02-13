@@ -110,35 +110,44 @@ bool sortGuidesList(const Guide *g1 , const Guide *g2)
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
-    QGraphicsView(projectscene, parent),
-    m_tracksHeight(KdenliveSettings::trackheight()),
-    m_projectDuration(0),
-    m_cursorPos(0),
-    m_document(doc),
-    m_scene(projectscene),
-    m_cursorLine(NULL),
-    m_operationMode(NONE),
-    m_moveOpMode(NONE),
-    m_dragItem(NULL),
-    m_dragGuide(NULL),
-    m_visualTip(NULL),
-    m_animation(NULL),
-    m_clickPoint(),
-    m_autoScroll(KdenliveSettings::autoscroll()),
-    m_pasteEffectsAction(NULL),
-    m_ungroupAction(NULL),
-    m_scrollOffset(0),
-    m_clipDrag(false),
-    m_findIndex(0),
-    m_tool(SELECTTOOL),
-    m_copiedItems(),
-    m_menuPosition(),
-    m_blockRefresh(false),
-    m_selectionGroup(NULL),
-    m_selectedTrack(0),
-    m_audioCorrelator(NULL),
-    m_audioAlignmentReference(NULL),
-    m_controlModifier(false)
+    QGraphicsView(projectscene, parent)
+    , m_tracksHeight(KdenliveSettings::trackheight())
+    , m_projectDuration(0)
+    , m_cursorPos(0)
+    , m_document(doc)
+    , m_scene(projectscene)
+    , m_cursorLine(NULL)
+    , m_operationMode(NONE)
+    , m_moveOpMode(NONE)
+    , m_dragItem(NULL)
+    , m_dragGuide(NULL)
+    , m_visualTip(NULL)
+    , m_animation(NULL)
+    , m_clickPoint()
+    , m_autoScroll(KdenliveSettings::autoscroll())
+    , m_timelineContextMenu(NULL)
+    , m_timelineContextClipMenu(NULL)
+    , m_timelineContextTransitionMenu(NULL)
+    , m_markerMenu(NULL)
+    , m_autoTransition(NULL)
+    , m_pasteEffectsAction(NULL)
+    , m_ungroupAction(NULL)
+    , m_editGuide(NULL)
+    , m_deleteGuide(NULL)
+    , m_clipTypeGroup(NULL)
+    , m_scrollOffset(0)
+    , m_clipDrag(false)
+    , m_findIndex(0)
+    , m_tool(SELECTTOOL)
+    , m_copiedItems()
+    , m_menuPosition()
+    , m_blockRefresh(false)
+    , m_selectionGroup(NULL)
+    , m_selectedTrack(0)
+    , m_spacerOffset(0)
+    , m_audioCorrelator(NULL)
+    , m_audioAlignmentReference(NULL)
+    , m_controlModifier(false)
 {
     if (doc) {
         m_commandStack = doc->commandStack();
@@ -5452,13 +5461,15 @@ void CustomTrackView::slotAddClipExtraData(const QString &id, const QString &key
 
 void CustomTrackView::slotAddClipMarker(const QString &id, QList <CommentedTime> newMarkers, QUndoCommand *groupCommand)
 {
-    QUndoCommand *subCommand = NULL;
+    DocClipBase *base = m_document->clipManager()->getClipById(id);
+    if (!base) return;
+    QUndoCommand *subCommand = NULL;    
     if (newMarkers.count() > 1 && groupCommand == NULL) {
 	subCommand = new QUndoCommand;
 	subCommand->setText("Add markers");
     }
     for (int i = 0; i < newMarkers.count(); i++) {
-	CommentedTime oldMarker = m_document->clipManager()->getClipById(id)->markerAt(newMarkers.at(i).time());
+	CommentedTime oldMarker = base->markerAt(newMarkers.at(i).time());
 	if (oldMarker == CommentedTime()) {
 	    oldMarker = newMarkers.at(i);
 	    oldMarker.setMarkerType(-1);
@@ -5489,6 +5500,7 @@ void CustomTrackView::slotDeleteClipMarker(const QString &comment, const QString
 void CustomTrackView::slotDeleteAllClipMarkers(const QString &id)
 {
     DocClipBase *base = m_document->clipManager()->getClipById(id);
+    if (!base) return;
     QList <CommentedTime> markers = base->commentedSnapMarkers();
 
     if (markers.isEmpty()) {
@@ -5510,6 +5522,7 @@ void CustomTrackView::slotDeleteAllClipMarkers(const QString &id)
 void CustomTrackView::slotSaveClipMarkers(const QString &id)
 {
     DocClipBase *base = m_document->clipManager()->getClipById(id);
+    if (!base) return;
     QList < CommentedTime > markers = base->commentedSnapMarkers();
     if (!markers.isEmpty()) {
 	// Set  up categories
@@ -5523,7 +5536,7 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
 	KFileDialog fd(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
 	fd.setMode(KFile::File);
 	fd.setOperationMode(KFileDialog::Saving);
-	fd.exec();
+	if (fd.exec() != QDialog::Accepted) return;
 	QString url = fd.selectedFile();
 	//QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
 	if (url.isEmpty()) return;
@@ -5565,7 +5578,7 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
     KFileDialog fd(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
     fd.setMode(KFile::File);
     fd.setOperationMode(KFileDialog::Opening);
-    fd.exec();
+    if (fd.exec() != QDialog::Accepted) return;
     QString url = fd.selectedFile();
 	
     //KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));

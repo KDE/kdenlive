@@ -110,9 +110,10 @@ void MeltJob::startJob()
 	if (m_producer) m_length = m_producer->get_playtime();
     }
     if (!m_producer || !m_producer->is_valid()) {
-	return;
-	m_errorMessage.append(i18n("Invalid clip"));
+	// Clip was removed or something went wrong, Notify user?
+	//m_errorMessage.append(i18n("Invalid clip"));
         setStatus(JOBCRASHED);
+	return;
     }
     if (m_extra.contains("producer_profile")) {
 	m_profile->from_producer(*m_producer);

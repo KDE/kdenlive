@@ -53,8 +53,6 @@ public:
 
     /** @brief Returns the track number of the transition in the playlist. */
     int transitionEndTrack() const;
-    bool hasClip(const ClipItem * clip) const;
-    bool belongsToClip(const ClipItem * clip) const;
     QString transitionTag() const;
     QStringList transitionInfo() const;
     OPERATIONTYPE operationMode(QPointF pos);
@@ -70,7 +68,6 @@ public:
     void updateTransitionEndTrack(int newtrack);
     void setForcedTrack(bool force, int track);
     bool forcedTrack() const;
-    const ClipItem *referencedClip() const;
     Transition *clone();
     bool isAutomatic() const;
     void setAutomatic(bool automatic);
@@ -94,11 +91,6 @@ private:
     /** @brief Contains the transition parameters. */
     QDomElement m_parameters;
 
-    /** @brief The clip to which the transition is attached. */
-    ClipItem *m_referenceClip;
-
-    /** @brief The second clip to which the transition is attached. */
-    ClipItem *m_secondClip;
     int m_transitionTrack;
 
     /** @brief Returns the display name for a transition type. */

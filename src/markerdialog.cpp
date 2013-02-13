@@ -27,10 +27,11 @@
 
 
 MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent) :
-        QDialog(parent),
-        m_producer(NULL),
-        m_profile(NULL),
-        m_clip(clip)
+        QDialog(parent)
+        , m_producer(NULL)
+        , m_profile(NULL)
+        , m_clip(clip)
+	, m_dar(4.0 / 3.0)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);

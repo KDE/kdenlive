@@ -231,7 +231,8 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             if (blur) {
                 effect.setAttribute("type", "blur");
                 effect.setAttribute("blurradius", blur->blurRadius());
-            } else {
+            } /*else {
+		//WARNING:those effects are anyways broken because they use QPixmaps which are not safe for MLT's threaded workflow
                 QGraphicsDropShadowEffect *shadow = static_cast <QGraphicsDropShadowEffect *>(eff);
                 if (shadow) {
                     effect.setAttribute("type", "shadow");
@@ -239,7 +240,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                     effect.setAttribute("xoffset", shadow->xOffset());
                     effect.setAttribute("yoffset", shadow->yOffset());
                 }
-            }
+            }*/
             e.appendChild(effect);
         }
 #endif

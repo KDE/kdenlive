@@ -42,15 +42,17 @@
 
 
 ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocClipBase*> list, QStringList luma_list, QWidget * parent) :
-        QDialog(parent),
-        m_requestedSize(0),
-        m_copyJob(NULL),
-        m_name(projectName.section('.', 0, -2)),
-        m_doc(doc),
-        m_abortArchive(false),
-        m_extractMode(false),
-        m_extractArchive(NULL),
-        m_missingClips(0)
+        QDialog(parent)
+        , m_requestedSize(0)
+        , m_copyJob(NULL)
+        , m_name(projectName.section('.', 0, -2))
+        , m_doc(doc)
+	, m_temp(NULL)
+        , m_abortArchive(false)
+        , m_extractMode(false)
+	, m_progressTimer(NULL)
+        , m_extractArchive(NULL)
+        , m_missingClips(0)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
@@ -206,7 +208,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartArchiving()));
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-
+    
     slotCheckSpace();
 }
 
@@ -219,6 +221,10 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
     //setAttribute(Qt::WA_DeleteOnClose);
 
     setupUi(this);
+    m_progressTimer = new QTimer;
+    m_progressTimer->setInterval(800);
+    m_progressTimer->setSingleShot(false);
+    connect(m_progressTimer, SIGNAL(timeout()), this, SLOT(slotExtractProgress()));
     connect(this, SIGNAL(extractingFinished()), this, SLOT(slotExtractingFinished()));
     connect(this, SIGNAL(showMessage(const QString &, const QString &)), this, SLOT(slotDisplayMessage(const QString &, const QString &)));
     
@@ -240,6 +246,7 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
 ArchiveWidget::~ArchiveWidget()
 {
     if (m_extractArchive) delete m_extractArchive;
+    if (m_progressTimer) delete m_progressTimer;
 }
 
 void ArchiveWidget::slotDisplayMessage(const QString &icon, const QString &text)
@@ -285,6 +292,7 @@ void ArchiveWidget::openArchiveForExtraction()
     if (!isProjectArchive) {
         emit showMessage("dialog-close", i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.path()));
         groupBox->setEnabled(false);
+	buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
         return;
     }
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
@@ -824,9 +832,12 @@ void ArchiveWidget::createArchive()
     }
 
     // Add project file
-    archive.addLocalFile(m_temp->fileName(), m_name + ".kdenlive");
-    bool result = archive.close();
-    delete m_temp;
+    bool result = false;
+    if (m_temp) {
+	archive.addLocalFile(m_temp->fileName(), m_name + ".kdenlive");
+	result = archive.close();
+	delete m_temp;
+    }
     emit archivingFinished(result);
 }
 
@@ -867,10 +878,6 @@ void ArchiveWidget::slotStartExtracting()
     KIO::NetAccess::mkdir(archive_url->url().path(KUrl::RemoveTrailingSlash), this);
     slotDisplayMessage("system-run", i18n("Extracting..."));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
-    m_progressTimer = new QTimer;
-    m_progressTimer->setInterval(800);
-    m_progressTimer->setSingleShot(false);
-    connect(m_progressTimer, SIGNAL(timeout()), this, SLOT(slotExtractProgress()));
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
     m_progressTimer->start();
 }
@@ -905,7 +912,6 @@ QString ArchiveWidget::extractedProjectFile()
 void ArchiveWidget::slotExtractingFinished()
 {
     m_progressTimer->stop();
-    delete m_progressTimer;
     // Process project file
     QFile file(extractedProjectFile());
     bool error = false;

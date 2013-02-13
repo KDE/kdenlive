@@ -285,7 +285,6 @@ private:
     bool m_rescaleActive;
     bool m_rescalePropertiesLocked;
     bool m_rescaleFirstRescaleDone;
-    short m_rescaleScale;
     Qt::KeyboardModifiers m_rescaleModifiers;
     RescaleDirection m_rescaleDirection;
     QPoint m_rescaleStartPoint;

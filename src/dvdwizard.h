@@ -73,8 +73,8 @@ private:
     KTemporaryFile m_menuVideo;
     KTemporaryFile m_menuFinalVideo;
     KTemporaryFile m_menuImageBackground;
-    void cleanup();
     QMenu *m_burnMenu;
+    void cleanup();
     void errorMessage(const QString &text);
     void infoMessage(const QString &text);
     void processDvdauthor(QString menuMovieUrl = QString(), stringRectMap buttons = stringRectMap(), QStringList buttonsTarget = QStringList());

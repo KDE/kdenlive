@@ -141,7 +141,6 @@ private:
     QMenu *m_markerMenu;
     QPoint m_DragStartPosition;
     MonitorEditWidget *m_effectWidget;
-    VideoContainer *m_videoBox;
     /** Selected clip/transition in timeline. Used for looping it. */
     AbstractClipItem *m_selectedClip;
     /** true if selected clip is transition, false = selected clip is clip.

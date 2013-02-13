@@ -194,40 +194,7 @@ void ProjectItem::slotSetToolTip()
     if (hasProxy() && data(0, JobTypeRole).toInt() != PROXYJOB) {
         tip.append(i18n("Proxy clip") + " | ");
     }
-    tip.append("<b>");
-    switch (m_clipType) {
-    case AUDIO:
-        tip.append(i18n("Audio clip") + "</b><br />" + clipUrl().path());
-        break;
-    case VIDEO:
-        tip.append(i18n("Mute video clip") + "</b><br />" + clipUrl().path());
-        break;
-    case AV:
-        tip.append(i18n("Video clip") + "</b><br />" + clipUrl().path());
-        break;
-    case COLOR:
-        tip.append(i18n("Color clip"));
-        break;
-    case IMAGE:
-        tip.append(i18n("Image clip") + "</b><br />" + clipUrl().path());
-        break;
-    case TEXT:
-        if (!clipUrl().isEmpty() && m_clip->getProperty("xmldata").isEmpty()) tip.append(i18n("Template text clip") + "</b><br />" + clipUrl().path());
-        else tip.append(i18n("Text clip") + "</b><br />" + clipUrl().path());
-        break;
-    case SLIDESHOW:
-        tip.append(i18n("Slideshow clip") + "</b><br />" + clipUrl().directory());
-        break;
-    case VIRTUAL:
-        tip.append(i18n("Virtual clip"));
-        break;
-    case PLAYLIST:
-        tip.append(i18n("Playlist clip") + "</b><br />" + clipUrl().path());
-        break;
-    default:
-        tip.append(i18n("Unknown clip"));
-        break;
-    }
+    tip.append(m_clip->shortInfo());
     setToolTip(0, tip);
 }
 
@@ -237,6 +204,10 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     if (m_clip == NULL) return;
 
     QString prefix;
+
+    m_clip->setProperties(attributes);
+    m_clip->setMetadata(metadata);
+    
     if (m_clipType == UNKNOWN) {
         QString cliptype = attributes.value("type");
         if (cliptype == "audio") m_clipType = AUDIO;
@@ -254,6 +225,8 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
             }
         }
     }
+    else if (attributes.contains("frame_size")) slotSetToolTip();
+    
     if (attributes.contains("duration")) {
         GenTime duration = GenTime(attributes.value("duration").toInt(), KdenliveSettings::project_fps());
         QString itemdata = data(0, DurationRole).toString();
@@ -265,9 +238,6 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     } else  {
         // No duration known, use an arbitrary one until it is.
     }
-
-    m_clip->setProperties(attributes);
-    m_clip->setMetadata(metadata);
 
     if (m_clip->description().isEmpty()) {
         if (metadata.contains("description")) {

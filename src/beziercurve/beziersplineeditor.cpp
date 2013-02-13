@@ -24,14 +24,17 @@
 
 
 BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
-        QWidget(parent),
-        m_mode(ModeNormal),
-        m_zoomLevel(0),
-        m_gridLines(3),
-        m_showAllHandles(true),
-        m_pixmapCache(NULL),
-        m_pixmapIsDirty(true),
-        m_currentPointIndex(-1)
+        QWidget(parent)
+        , m_mode(ModeNormal)
+        , m_zoomLevel(0)
+        , m_gridLines(3)
+        , m_showAllHandles(true)
+        , m_pixmapCache(NULL)
+        , m_pixmapIsDirty(true)
+        , m_currentPointIndex(-1)
+	, m_currentPointType(PTypeP)
+	, m_grabOffsetX(0)
+	, m_grabOffsetY(0)
 {
     setMouseTracking(true);
     setAutoFillBackground(false);

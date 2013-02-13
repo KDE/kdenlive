@@ -219,22 +219,24 @@ QStringList InvalidDialog::getIds() const
 
 
 ProjectList::ProjectList(QWidget *parent) :
-    QWidget(parent),
-    m_render(NULL),
-    m_fps(-1),
-    m_commandStack(NULL),
-    m_openAction(NULL),
-    m_reloadAction(NULL),
-    m_extractAudioAction(NULL),
-    m_transcodeAction(NULL),
-    m_clipsActionsMenu(NULL),
-    m_doc(NULL),
-    m_refreshed(false),
-    m_allClipsProcessed(false),
-    m_thumbnailQueue(),
-    m_abortAllJobs(false),
-    m_closing(false),
-    m_invalidClipDialog(NULL)
+    QWidget(parent)
+    , m_render(NULL)
+    , m_fps(-1)
+    , m_menu(NULL)
+    , m_commandStack(NULL)
+    , m_openAction(NULL)
+    , m_reloadAction(NULL)
+    , m_extractAudioAction(NULL)
+    , m_transcodeAction(NULL)
+    , m_clipsActionsMenu(NULL)
+    , m_doc(NULL)
+    , m_refreshed(false)
+    , m_allClipsProcessed(false)
+    , m_thumbnailQueue()
+    , m_proxyAction(NULL)
+    , m_abortAllJobs(false)
+    , m_closing(false)
+    , m_invalidClipDialog(NULL)
 {
     qRegisterMetaType<stringMap> ("stringMap");
     QVBoxLayout *layout = new QVBoxLayout;
@@ -353,7 +355,7 @@ ProjectList::~ProjectList()
     m_jobThreads.clearFutures();
     if (!m_jobList.isEmpty()) qDeleteAll(m_jobList);
     m_jobList.clear();
-    delete m_menu;
+    if (m_menu) delete m_menu;
     m_listView->blockSignals(true);
     m_listView->clear();
     delete m_listViewDelegate;
@@ -404,6 +406,10 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
 
 void ProjectList::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
 {
+    if (!m_menu) {
+	kDebug()<<"Warning, menu was not created, something is wrong";
+	return;
+    }
     if (!menus.contains("addMenu") && ! menus.value("addMenu") )
         return;
     QMenu *menu = m_addButton->menu();
@@ -434,8 +440,8 @@ void ProjectList::setupGeneratorMenu(const QHash<QString,QMenu*>& menus)
 		m_clipsActionsMenu = stabilizeMenu;
 
 	}
-    m_menu->addAction(m_reloadAction);
-    m_menu->addAction(m_proxyAction);
+    if (m_reloadAction) m_menu->addAction(m_reloadAction);
+    if (m_proxyAction) m_menu->addAction(m_proxyAction);
 	if (menus.contains("inTimelineMenu") && menus.value("inTimelineMenu")){
 		QMenu* inTimelineMenu=menus.value("inTimelineMenu");
 		m_menu->addMenu(inTimelineMenu);
@@ -841,7 +847,10 @@ void ProjectList::slotClipSelected()
                 // this is a sub item, use base clip
                 m_deleteButton->defaultAction()->setEnabled(true);
                 clip = static_cast <ProjectItem*>(item->parent());
-                if (clip == NULL) kDebug() << "-----------ERROR";
+                if (clip == NULL) {
+		    kDebug() << "-----------ERROR";
+		    return;
+		}
                 SubProjectItem *sub = static_cast <SubProjectItem*>(item);
 		if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
                 emit clipSelected(clip->referencedClip(), sub->zone());
@@ -892,6 +901,7 @@ void ProjectList::slotClipSelected()
 
 void ProjectList::adjustProxyActions(ProjectItem *clip) const
 {
+    if (!m_proxyAction) return;
     if (clip == NULL || clip->type() != PROJECTCLIPTYPE || clip->clipType() == COLOR || clip->clipType() == TEXT || clip->clipType() == SLIDESHOW || clip->clipType() == AUDIO) {
         m_proxyAction->setEnabled(false);
         return;
@@ -1071,6 +1081,10 @@ void ProjectList::slotCheckScrolling()
 
 void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item)
 {
+    if (!m_menu) {
+	kDebug()<<"Warning, menu was not created, something is wrong";
+	return;
+    }
     bool enable = item ? true : false;
     m_editButton->defaultAction()->setEnabled(enable);
     m_deleteButton->defaultAction()->setEnabled(enable);
@@ -1184,10 +1198,10 @@ void ProjectList::updateButtons() const
         else m_editButton->defaultAction()->setEnabled(false);
     }
     m_openAction->setEnabled(false);
-    m_reloadAction->setEnabled(false);
+    if (m_reloadAction) m_reloadAction->setEnabled(false);
     m_transcodeAction->setEnabled(false);
     m_clipsActionsMenu->setEnabled(false);
-    m_proxyAction->setEnabled(false);
+    if (m_proxyAction) m_proxyAction->setEnabled(false);
 }
 
 void ProjectList::selectItemById(const QString &clipId)
