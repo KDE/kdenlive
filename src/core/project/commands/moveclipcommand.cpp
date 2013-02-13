@@ -68,6 +68,8 @@ void MoveClipCommand::move(int trackIndex, int oldTrackIndex, int position, int 
         track->setClipIndex(clip, -1);
 
         track = pCore->projectManager()->current()->timeline()->track(trackIndex);
+        clip->setParent(track);
+
         playlist = track->playlist();
 
         delete producer;

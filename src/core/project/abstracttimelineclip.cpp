@@ -20,7 +20,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 AbstractTimelineClip::AbstractTimelineClip(ProducerWrapper* producer, AbstractProjectClip* projectClip, TimelineTrack* parent) :
-    ShiftingProducer(producer),
+    ShiftingProducer(producer, parent),
     m_projectClip(projectClip),
     m_parent(parent)
 {
@@ -122,6 +122,12 @@ ProducerWrapper* AbstractTimelineClip::receiveBaseProducer(int track) const
     Q_UNUSED(track)
 
     return m_projectClip->timelineBaseProducer();
+}
+
+void AbstractTimelineClip::setParent(TimelineTrack* track)
+{
+    QObject::setParent(track);
+    m_parent = track;
 }
 
 #include "abstracttimelineclip.moc"

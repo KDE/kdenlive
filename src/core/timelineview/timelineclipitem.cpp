@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timelinescene.h"
 #include "tool/toolmanager.h"
 #include "project/abstracttimelineclip.h"
+#include "project/timelinetrack.h"
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
@@ -22,7 +23,7 @@ TimelineClipItem::TimelineClipItem(AbstractTimelineClip* clip, QGraphicsItem* pa
     QGraphicsRectItem(parent),
     m_clip(clip)
 {
-    updateGeometry();
+    updateGeometry(false);
 
     connect(m_clip, SIGNAL(resized()), this, SLOT(updateGeometry()));
     connect(m_clip, SIGNAL(moved()), this, SLOT(updateGeometry()));
@@ -102,8 +103,11 @@ void TimelineClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     static_cast<TimelineScene*>(scene())->toolManager()->clipEvent(this, event);
 }
 
-void TimelineClipItem::updateGeometry()
+void TimelineClipItem::updateGeometry(bool updateTrack)
 {
+    if (updateTrack) {
+        setParentItem(static_cast<TimelineScene*>(scene())->trackItem(m_clip->track()->index()));
+    }
     setGeometry(m_clip->position(), m_clip->duration());
 }
 

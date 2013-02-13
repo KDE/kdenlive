@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core/project/project.h"
 #include "core/project/abstracttimelineclip.h"
 #include "core/project/abstractprojectclip.h"
+#include "core/project/timelinetrack.h"
 #include <KLocalizedString>
 #include <QGraphicsSceneMouseEvent>
 #include <QUndoCommand>
@@ -44,6 +45,14 @@ void SelectClipItemTool::mouseMove(QGraphicsSceneMouseEvent* event)
         m_boundLeft = 0;
         m_boundRight = 0;
         int lastPosition = m_clip->rect().x();
+        QGraphicsItem * lastTrack = m_clip->parentItem();
+
+        QList<QGraphicsItem*> itemsUnderMouse = m_clip->scene()->items(0, event->scenePos().y(), 1, 1, Qt::IntersectsItemShape, Qt::DescendingOrder);
+        foreach (QGraphicsItem * const &item, itemsUnderMouse) {
+            if (item->type() == TimelineTrackItem::Type) {
+                m_clip->setParentItem(item);
+            }
+        }
 
         m_clip->setGeometry(qMax(0, qRound(event->scenePos().x()) - m_original + m_clip->clip()->position()), m_clip->rect().width());
 
@@ -75,6 +84,7 @@ void SelectClipItemTool::mouseMove(QGraphicsSceneMouseEvent* event)
                 && item->parentItem() == m_clip->parentItem()
                 && item != m_clip
                 && m_clip->rect().intersected(item->boundingRect()).width() > 1) {
+                m_clip->setParentItem(lastTrack);
                 m_clip->setGeometry(lastPosition, m_clip->rect().width());
                 break;
             }
@@ -142,7 +152,7 @@ void SelectClipItemTool::mouseRelease(QGraphicsSceneMouseEvent* event)
             break;
         case SetPosition:
             position = m_clip->rect().x();
-            m_clip->clip()->setPosition(position);
+            m_clip->clip()->setPosition(position, static_cast<TimelineTrackItem*>(m_clip->parentItem())->track()->index());
             break;
     }
     m_editMode = NoEditing;

@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "timelinescene.h"
 #include <QGraphicsRectItem>
+#include <kdemacros.h>
 
 class TimelineTrack;
 class TimelineClipItem;
@@ -23,7 +24,7 @@ class TimelineClipItem;
  */
 
 
-class TimelineTrackItem : public QObject, public QGraphicsRectItem
+class KDE_EXPORT TimelineTrackItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 

@@ -54,8 +54,11 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 public slots:
-    /** @brief Synchronizes the item's geometry with the clip's position and duration. */
-    void updateGeometry();
+    /**
+     * @brief Synchronizes the item's geometry with the clip's position and duration and track.
+     * @param updateTrack @c true also synchronize the parent item/track
+     */
+    void updateGeometry(bool updateTrack = true);
 
 protected:
     /** @brief Subclass this function for painting in the background on top of the background color.

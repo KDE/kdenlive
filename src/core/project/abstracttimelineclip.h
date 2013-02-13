@@ -76,6 +76,13 @@ public:
      */
     virtual ProducerWrapper *receiveBaseProducer(int track) const;
 
+    /**
+     * @brief Sets @param track as new parent.
+     * 
+     * The clip is not actually moved, only the internal parent variable is updated. This function should only be used by MoveClipCommand.
+     */
+    void setParent(TimelineTrack *track);
+
 public slots:
     /**
      * @brief Moves the clip.
