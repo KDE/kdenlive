@@ -59,7 +59,7 @@ void TimelineClipItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     paintBackgroundLayer(painter, exposed);
 
-    painter->setWorldMatrixEnabled(false);;
+    painter->setWorldMatrixEnabled(false);
     const QRectF mapped = painter->worldTransform().mapRect(rect());
 
     // only paint details if clip is big enough

@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "selectclipitemtool.h"
 #include "core/core.h"
 #include "core/timelineview/timelineclipitem.h"
+#include "core/timelineview/timelinetrackitem.h"
 #include "core/project/projectmanager.h"
 #include "core/project/project.h"
 #include "core/project/abstracttimelineclip.h"
@@ -30,43 +31,54 @@ SelectClipItemTool::SelectClipItemTool(QObject* parent) :
 void SelectClipItemTool::mouseMove(QGraphicsSceneMouseEvent* event)
 {
     int position;
-    switch (m_editMode) {
-        case TrimStart:
-            position = qBound(m_boundLeft, qRound(event->scenePos().x()), m_boundRight);
-            m_clip->setGeometry(position, m_clip->clip()->duration() + m_original - position);
-            break;
-        case TrimEnd:
+    if (m_editMode == TrimStart) {
+        position = qBound(m_boundLeft, qRound(event->scenePos().x()), m_boundRight);
+        m_clip->setGeometry(position, m_clip->clip()->duration() + m_original - position);
+    } else if (m_editMode == TrimEnd) {
             position = qMax(m_boundLeft, qRound(event->scenePos().x()));
             if (m_boundRight > m_boundLeft) {
                 position = qMin(m_boundRight, position);
             }
             m_clip->setGeometry(m_clip->clip()->position(), position - m_clip->clip()->position());
-            break;
-        case SetPosition:
-            m_boundLeft = 0;
-            m_boundRight = -1;
-            m_clip->setGeometry(qMax(0, qRound(event->scenePos().x()) - m_original + m_clip->clip()->position()), m_clip->rect().width());
+    } else if (m_editMode == SetPosition) {
+        m_boundLeft = 0;
+        m_boundRight = 0;
+        int lastPosition = m_clip->rect().x();
 
-            QList<QGraphicsItem *> collisions = m_clip->collidingItems();
-            foreach (QGraphicsItem * const &item, collisions) {
-                if (item->type() == TimelineClipItem::Type
-                    && item->parentItem() == m_clip->parentItem()
-                    && item != m_clip) {
-                    TimelineClipItem *clip = static_cast<TimelineClipItem *>(item);
-                    if (clip->rect().x() < m_clip->rect().x()) {
-                        m_boundLeft = clip->clip()->position() + clip->clip()->duration();
-                    } else {
-                        m_boundRight = clip->clip()->position() - m_clip->clip()->duration();
-                    }
+        m_clip->setGeometry(qMax(0, qRound(event->scenePos().x()) - m_original + m_clip->clip()->position()), m_clip->rect().width());
+
+        QList<QGraphicsItem *> collisions = m_clip->collidingItems();
+        foreach (QGraphicsItem * const &item, collisions) {
+            if (item->type() == TimelineClipItem::Type
+                && item->parentItem() == m_clip->parentItem()
+                && item != m_clip) {
+                TimelineClipItem *clip = static_cast<TimelineClipItem *>(item);
+                if (clip->rect().x() < m_clip->rect().x()) {
+                    m_boundLeft = clip->clip()->position() + clip->clip()->duration();
+                } else {
+                    m_boundRight = clip->clip()->position() - m_clip->clip()->duration();
                 }
             }
+        }
 
-            position = qMax(m_boundLeft, qRound(m_clip->rect().x()));
-            if (m_boundRight >= m_boundLeft) {
-                position = qMin(m_boundRight, position);
+        position = qMax(m_boundLeft, qRound(m_clip->rect().x()));
+        if (m_boundRight > m_boundLeft) {
+            position = qMin(m_boundRight, position);
+        }
+
+        m_clip->setGeometry(position, m_clip->rect().width());
+
+        // make sure we did not end up in a gap too small
+        collisions = m_clip->collidingItems();
+        foreach (QGraphicsItem * const &item, collisions) {
+            if (item->type() == TimelineClipItem::Type
+                && item->parentItem() == m_clip->parentItem()
+                && item != m_clip
+                && m_clip->rect().intersected(item->boundingRect()).width() > 1) {
+                m_clip->setGeometry(lastPosition, m_clip->rect().width());
+                break;
             }
-            m_clip->setGeometry(position, m_clip->rect().width());
-            break;
+        }
     }
 }
 
