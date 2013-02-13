@@ -1926,7 +1926,9 @@ void Render::emitConsumerStopped(bool forcePause)
 #ifdef USE_JACK
 	/* TODO: after impl jack shutdown invalid => remove &JACKDEV test */
 	if(isSlaveActive(Slave::Jack) && &JACKDEV) {
-//		emit rendererStopped((int) pos);
+		if(m_mltConsumer->position() == m_mltProducer->get_out()) {
+			JACKDEV.stopPlayback();
+		}
 		return;
 	}
 #endif
