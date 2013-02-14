@@ -355,37 +355,39 @@ void Render::buildConsumer(const QString &profileName)
 #ifdef USE_JACK
 	if (!audioDriver.isEmpty()) {
 		if(audioDriver == "jack") {
-			/* I hate the enumeration shit here */
-	        if(m_name == Kdenlive::projectMonitor) {
-				/* create the jack device singleton instance */
-				JackDevice::singleton(m_mltProfile);
-				if(&JACKDEV && JACKDEV.probe())
+			/* create the jack device singleton instance */
+			JackDevice::singleton(m_mltProfile);
+			if(&JACKDEV && JACKDEV.probe()) {
+				/* I hate the enumeration shit here */
+				if(m_name == Kdenlive::projectMonitor) {
 					openDevice(Device::Jack);
-		    	/* TODO: error message */
-//				else
-//		    		ShowErrorMessage();
-	        } else if (m_name == Kdenlive::clipMonitor) {
-	    		/* stop consumer */
-	    		if (!m_mltConsumer->is_stopped())
-	    				m_mltConsumer->stop();
-	    		/* disable audio */
-	    		m_mltConsumer->set("audio_off", 1);
-	        }
+				} else if (m_name == Kdenlive::clipMonitor) {
+					/* stop consumer */
+					if (!m_mltConsumer->is_stopped())
+						m_mltConsumer->stop();
+					/* disable audio */
+					m_mltConsumer->set("audio_off", 1);
+				}
+			}
+			/* TODO: error message */
+//			else
+//		    	ShowErrorMessage();
         }
     } else {
-		if(m_name == Kdenlive::projectMonitor) {
-			/* if jackd is running default to jackdev because in most cases the
-			 * audio driver is claimed by jackd */
-			JackDevice::singleton(m_mltProfile);
-			if(&JACKDEV && JACKDEV.probe())
+		/* if jackd is running default to jackdev because in most cases the
+		 * audio driver is claimed by jackd */
+		JackDevice::singleton(m_mltProfile);
+		if(&JACKDEV && JACKDEV.probe()) {
+			if(m_name == Kdenlive::projectMonitor) {
 				openDevice(Device::Jack);
-		} else if (m_name == Kdenlive::clipMonitor) {
-    		/* stop consumer */
-    		if (!m_mltConsumer->is_stopped())
-    				m_mltConsumer->stop();
-    		/* disable audio */
-    		m_mltConsumer->set("audio_off", 1);
-        }
+			} else if (m_name == Kdenlive::clipMonitor) {
+				/* stop consumer */
+				if (!m_mltConsumer->is_stopped())
+					m_mltConsumer->stop();
+				/* disable audio */
+				m_mltConsumer->set("audio_off", 1);
+			}
+		}
     }
 #endif
 }
