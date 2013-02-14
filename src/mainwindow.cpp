@@ -1196,9 +1196,8 @@ void MainWindow::setupActions()
 
 #ifdef USE_JACK
     m_buttonJackTransport = new KAction(KIcon("kdenlive-spacer-tool"), i18n("Enable jack transport"), this);
-    /* TODO: add shortcut */
-//    m_buttonJackTransport->setShortcut(Qt::Key_Shift + Qt::Key_T);
     toolbar->addAction(m_buttonJackTransport);
+    m_buttonJackTransport->setShortcut(Qt::SHIFT + Qt::Key_T);
     m_buttonJackTransport->setCheckable(true);
     m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
     m_buttonJackTransport->setDisabled(true);
