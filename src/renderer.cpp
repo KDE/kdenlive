@@ -120,18 +120,27 @@ static void consumer_paused(mlt_consumer, Render * self, mlt_frame frame_ptr)
 // static
 void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_frame frame_ptr)
 {
-    // detect if the producer has finished playing. Is there a better way to do it?
-    if (self->externalConsumer && !self->analyseAudio && !self->sendFrameForAnalysis) {
-	emit self->rendererPosition((int) mlt_consumer_position(consumer));
-	return;
+	// detect if the producer has finished playing. Is there a better way to do it?
+	if (self->externalConsumer && !self->analyseAudio && !self->sendFrameForAnalysis) {
+		emit self->rendererPosition((int) mlt_consumer_position(consumer));
+		return;
+	}
+
+	Mlt::Frame frame(frame_ptr);
+	if (frame.get_double("_speed") == 0) {
+		self->emitConsumerStopped();
+	} else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
+		self->pause();
+		self->emitConsumerStopped(true);
+	}
+
+#ifdef USE_JACK
+    if(&JACKDEV && JACKDEV.isValid()) {
+    	JACKDEV.updateBuffers(frame);
     }
-    Mlt::Frame frame(frame_ptr);
-    if (frame.get_double("_speed") == 0) self->emitConsumerStopped();
-    else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
-	self->pause();
-	self->emitConsumerStopped(true);
-    }
-    emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
+#endif
+
+	emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
 }
 
 Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWidget *parent) :
