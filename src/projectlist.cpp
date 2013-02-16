@@ -3567,8 +3567,8 @@ void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QStr
     ProjectItem *item = getItemById(id);
     if (!item) return;
     QStringList jobParams;
-    jobParams << QString::number(info.cropStart.frames(m_fps)) << QString::number((info.cropStart + info.cropDuration).frames(m_fps));
-    jobParams << QString() << filterName << filterParams << consumer << consumerParams << QString::number(info.startPos.frames(m_fps)) << QString::number(info.track);
+    jobParams << QString::number((int) info.cropStart.frames(m_fps)) << QString::number((int) (info.cropStart + info.cropDuration).frames(m_fps));
+    jobParams << QString() << filterName << filterParams << consumer << consumerParams << QString::number((int) info.startPos.frames(m_fps)) << QString::number(info.track);
     MeltJob *job = new MeltJob(item->clipType(), id, jobParams, extraParams);
     if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
         delete job;
