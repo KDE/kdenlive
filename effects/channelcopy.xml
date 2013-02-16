@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
- <effect tag="channelcopy" id="channelcopy" type="audio">
+ <effect tag="channelcopy" id="stereocopy" type="audio">
          <name>Mono to stereo</name>
          <description>Copy one channel to another</description>
          <author>Dan Dennedy</author>
