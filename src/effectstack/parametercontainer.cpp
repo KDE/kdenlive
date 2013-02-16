@@ -189,6 +189,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             }
             if (!value.isEmpty()) lsval->list->setCurrentIndex(listitems.indexOf(value));
             lsval->name->setText(paramName);
+	    lsval->setToolTip(comment);
             lsval->labelComment->setText(comment);
             lsval->widgetComment->setHidden(true);
             m_valueItems[paramName] = lsval;
@@ -201,6 +202,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             bval->setupUi(toFillin);
             bval->checkBox->setCheckState(value == "0" ? Qt::Unchecked : Qt::Checked);
             bval->name->setText(paramName);
+	    bval->name->setToolTip(comment);
             bval->labelComment->setText(comment);
             bval->widgetComment->setHidden(true);
             m_valueItems[paramName] = bval;
@@ -278,6 +280,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             if (value.startsWith('#'))
                 value = value.replace('#', "0x");
             ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, pa.hasAttribute("alpha"), parent);
+	    choosecolor->setToolTip(comment);
             m_vbox->addWidget(choosecolor);
             m_valueItems[paramName] = choosecolor;
             connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
@@ -292,6 +295,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
                 pos = m_out - pos;
             }
             PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->timecode);
+	    posedit->setToolTip(comment);
 	    connect(this, SIGNAL(updateRange(int,int)), posedit, SLOT(setRange(int,int)));
             m_vbox->addWidget(posedit);
             m_valueItems[paramName+"position"] = posedit;
@@ -412,6 +416,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             Urlval *cval = new Urlval;
             cval->setupUi(toFillin);
             cval->label->setText(paramName);
+	    cval->setToolTip(comment);
             cval->urlwidget->fileDialog()->setFilter(ProjectList::getExtensions());
             m_valueItems[paramName] = cval;
             cval->urlwidget->setUrl(KUrl(value));
@@ -423,6 +428,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             kval->setupUi(toFillin);
             kval->label->setText(paramName);
             kval->lineeditwidget->setText(value);
+	    kval->setToolTip(comment);
             QDomElement klistelem = pa.firstChildElement("keywords");
             QDomElement kdisplaylistelem = pa.firstChildElement("keywordsdisplay");
             QStringList keywordlist;

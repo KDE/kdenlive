@@ -32,8 +32,7 @@
 
 
 DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString suffix, int decimals, QWidget *parent) :
-        QWidget(parent),
-        m_commentLabel(NULL)
+        QWidget(parent)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     QGridLayout *layout = new QGridLayout(this);
@@ -44,14 +43,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
     layout->addWidget(m_dragVal, 0, 1);
 
     if (!comment.isEmpty()) {
-        m_commentLabel = new QLabel(comment, this);
-        m_commentLabel->setWordWrap(true);
-        m_commentLabel->setTextFormat(Qt::RichText);
-        m_commentLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        m_commentLabel->setFrameShape(QFrame::StyledPanel);
-        m_commentLabel->setFrameShadow(QFrame::Raised);
-        m_commentLabel->setHidden(true);
-        layout->addWidget(m_commentLabel, 1, 0, 1, -1);
+	setToolTip(comment);
     }
     m_dragVal->setValue(value, false);
     connect(m_dragVal, SIGNAL(valueChanged(double, bool)), this, SLOT(slotSetValue(double, bool)));
@@ -61,7 +53,6 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
 DoubleParameterWidget::~DoubleParameterWidget()
 {
     delete m_dragVal;
-    if (m_commentLabel) delete m_commentLabel;
 }
 
 int DoubleParameterWidget::spinSize()
@@ -105,13 +96,6 @@ void DoubleParameterWidget::setInTimelineProperty(bool intimeline)
 
 void DoubleParameterWidget::slotShowComment( bool show)
 {
-    if (m_commentLabel) {
-        m_commentLabel->setVisible(show);
-        if (show)
-            layout()->setContentsMargins(0, 0, 0, 15);
-        else
-            layout()->setContentsMargins(0, 0, 0, 0);
-    }
 }
 
 #include "doubleparameterwidget.moc"
