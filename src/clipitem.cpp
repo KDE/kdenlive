@@ -1800,7 +1800,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 	    e.removeAttribute("kdenlive_ix");
 	}
         CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
-        if (view) view->slotAddEffect(e, m_info.startPos, track());
+        if (view) view->slotDropEffect(this, e, m_info.startPos, track());
     }
     else return;
 }

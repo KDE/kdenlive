@@ -526,6 +526,12 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                 QDomElement pname = ret.createElement("name");
                 pname.appendChild(ret.createTextNode(paramdesc.get("title")));
                 params.appendChild(pname);
+		
+		if (paramdesc.get("description")) {
+		    QDomElement desc = ret.createElement("comment");
+		    desc.appendChild(ret.createTextNode(paramdesc.get("description")));
+		    params.appendChild(desc);
+		}
 
                 eff.appendChild(params);
             }
