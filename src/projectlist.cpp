@@ -3008,10 +3008,11 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
     params = ui.extra_params->toPlainText().simplified();
     KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
     int index = 0;
-    foreach(const QString &id, ids) {
-        ProjectItem *item = getItemById(id);
+    i = ids.constBegin();
+    while (i != ids.constEnd()) {
+        ProjectItem *item = getItemById(i.key());
         if (!item || !item->referencedClip()) continue;
-        QString src = item->clipUrl().path();
+        QString src = i.value();
         QString dest;
         if (ids.count() > 1) {
 	    dest = destinations.at(index);
@@ -3027,13 +3028,14 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
         jobParams << duration;
         jobParams << QString::number(KdenliveSettings::add_new_clip());
         jobParams << params;
-        CutClipJob *job = new CutClipJob(item->clipType(), id, jobParams);
+        CutClipJob *job = new CutClipJob(item->clipType(), i.key(), jobParams);
         if (job->isExclusive() && hasPendingJob(item, job->jobType)) {
             delete job;
             continue;
         }
         m_jobList.append(job);
         setJobStatus(item, job->jobType, JOBWAITING, 0, job->statusMessage());
+	++i;
     }
     delete d;
     slotCheckJobProcess();
