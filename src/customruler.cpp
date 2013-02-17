@@ -268,6 +268,7 @@ void CustomRuler::leaveEvent(QEvent * event)
 void CustomRuler::wheelEvent(QWheelEvent * e)
 {
     int delta = 1;
+    m_view->activateMonitor();
     if (e->modifiers() == Qt::ControlModifier) delta = m_timecode.fps();
     if (e->delta() < 0) delta = 0 - delta;
     m_view->moveCursorPos(delta);
