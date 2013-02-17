@@ -348,6 +348,9 @@ Q_OBJECT public:
     /** @brief Check if the installed FFmpeg / Libav supports x11grab */
     static bool checkX11Grab();
     
+    /** @brief Ask to set this monitor as active */
+    void setActiveMonitor();
+    
     QSemaphore showFrameSemaphore;
     bool externalConsumer;
 
@@ -395,6 +398,8 @@ private:
     QFuture <void> m_infoThread;
     QList <requestClipInfo> m_requestList;
     bool m_paused;
+    /** @brief True if this monitor is active. */
+    bool m_isActive;
 
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
@@ -474,6 +479,8 @@ signals:
     void showAudioSignal(const QVector<double> &);
     void addClip(const KUrl &, stringMap);
     void checkSeeking();
+    /** @brief Activate current monitor. */
+    void activateMonitor(Kdenlive::MONITORID);
     void mltFrameReceived(Mlt::Frame *);
 
 public slots:

@@ -47,7 +47,7 @@ SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
     m_zoneColor.setAlpha(180);
 
     setMouseTracking(true);
-    setMinimumHeight(8);
+    setMinimumHeight(QFontInfo(font()).pixelSize());
     adjustScale(m_maxval);
 }
 
@@ -122,6 +122,7 @@ QPoint SmallRuler::zone()
 // virtual
 void SmallRuler::mousePressEvent(QMouseEvent * event)
 {
+    m_render->setActiveMonitor();
     const int pos = event->x() / m_scale;
     if (event->button() == Qt::RightButton) {
         // Right button clicked, move selection zone
@@ -286,7 +287,7 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     int cursorPos = m_cursorFramePosition * m_scale;
     // draw pointer
     QPolygon pa(3);
-    pa.setPoints(3, cursorPos - 6, 7, cursorPos + 6, 7, cursorPos/*+0*/, 0);
+    pa.setPoints(3, cursorPos - 6, height() - 1, cursorPos + 6, height() - 1, cursorPos/*+0*/, height() - 8);
     p.setBrush(m_cursorColor);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);

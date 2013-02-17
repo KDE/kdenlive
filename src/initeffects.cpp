@@ -200,8 +200,10 @@ void initEffects::parseEffectFiles(const QString &locale)
         while (!in.atEnd()) {
             QString black = in.readLine().simplified();
             if (!black.isEmpty() && !black.startsWith('#') &&
-                    mltFiltersList.contains(black))
+                    mltFiltersList.contains(black)) {
                 mltFiltersList.removeAll(black);
+	    }
+	    
         }
         file2.close();
     }
@@ -242,7 +244,9 @@ void initEffects::parseEffectFiles(const QString &locale)
                     if (desc.startsWith("Process audio using a SoX")) {
                         // Remove MLT's SOX generated effects since the parameters properties are unusable for us
                     }
-                    else audioEffectsMap.insert(doc.documentElement().firstChildElement("name").text().toLower().toUtf8().data(), doc.documentElement());
+                    else {
+			audioEffectsMap.insert(doc.documentElement().firstChildElement("name").text().toLower().toUtf8().data(), doc.documentElement());
+		    }
                 }
             }
             else
@@ -481,16 +485,23 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                 QDomElement params = ret.createElement("parameter");
 
                 Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(j)));
-
                 params.setAttribute("name", paramdesc.get("identifier"));
+		if (params.attribute("name") == "argument") {
+		    // This parameter has to be given as attribute when using command line, do not show it in Kdenlive
+		    continue;
+		}
 
                 if (paramdesc.get("maximum")) params.setAttribute("max", paramdesc.get("maximum"));
                 if (paramdesc.get("minimum")) params.setAttribute("min", paramdesc.get("minimum"));
 
                 QString paramType = paramdesc.get("type");
                 
-                if (paramType == "integer")
-                    params.setAttribute("type", "constant");
+                if (paramType == "integer") {
+		    if (params.attribute("min") == "0" && params.attribute("max") == "1")
+			params.setAttribute("type", "bool");
+                    else params.setAttribute("type", "constant");
+		    
+		}
                 else if (paramType == "float") {
                     params.setAttribute("type", "constant");
                     // param type is float, set default decimals to 3
@@ -515,6 +526,12 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                 QDomElement pname = ret.createElement("name");
                 pname.appendChild(ret.createTextNode(paramdesc.get("title")));
                 params.appendChild(pname);
+		
+		if (paramdesc.get("description")) {
+		    QDomElement desc = ret.createElement("comment");
+		    desc.appendChild(ret.createTextNode(paramdesc.get("description")));
+		    params.appendChild(desc);
+		}
 
                 eff.appendChild(params);
             }

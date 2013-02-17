@@ -261,7 +261,7 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
         if (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") {
 	    if (e.attribute("keyframes").isEmpty()) {
 		// Effect has a keyframe type parameter, we need to set the values
-		e.setAttribute("keyframes", QString::number(cropStart().frames(m_fps)) + ':' + e.attribute("default"));
+		e.setAttribute("keyframes", QString::number((int) cropStart().frames(m_fps)) + ':' + e.attribute("default"));
 	    }
 	    else if (offset != 0) {
 		// adjust keyframes to this clip
@@ -272,8 +272,8 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
 
         if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
             // Effects with a geometry parameter need to sync in / out with parent clip
-	    effect.setAttribute("in", QString::number(cropStart().frames(m_fps)));
-	    effect.setAttribute("out", QString::number((cropStart() + cropDuration()).frames(m_fps) - 1));
+	    effect.setAttribute("in", QString::number((int) cropStart().frames(m_fps)));
+	    effect.setAttribute("out", QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
 	    effect.setAttribute("_sync_in_out", "1");
 	}
     }
@@ -1659,8 +1659,8 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
         }
     }
     if (needInOutSync) {
-        parameters.addParam("in", QString::number(cropStart().frames(m_fps)));
-        parameters.addParam("out", QString::number((cropStart() + cropDuration()).frames(m_fps) - 1));
+        parameters.addParam("in", QString::number((int) cropStart().frames(m_fps)));
+        parameters.addParam("out", QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
         parameters.addParam("_sync_in_out", "1");
     }
     m_effectNames = m_effectList.effectNames().join(" / ");
@@ -1800,7 +1800,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 	    e.removeAttribute("kdenlive_ix");
 	}
         CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
-        if (view) view->slotAddEffect(e, m_info.startPos, track());
+        if (view) view->slotDropEffect(this, e, m_info.startPos, track());
     }
     else return;
 }
@@ -2002,7 +2002,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                 if (in < cropStart().frames(m_fps)) {
                     if (!effects.contains(i))
                         effects[i] = effect.cloneNode().toElement();
-                    EffectsList::setParameter(effect, "in", QString::number(cropStart().frames(m_fps)));
+                    EffectsList::setParameter(effect, "in", QString::number((int) cropStart().frames(m_fps)));
                 }
                 if (effects.contains(i))
                     setFadeOut(out - in);

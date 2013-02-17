@@ -80,6 +80,8 @@ public:
     void addData(const QString &id, const QString &key, const QString &data);
     void setScale(double scaleFactor, double verticalScale);
     void deleteClip(const QString &clipId);
+    /** @brief An effect was dropped on @param clip */
+    void slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track);
     /** @brief Add effect to current clip */
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = NULL);

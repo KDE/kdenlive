@@ -4153,22 +4153,6 @@ void MainWindow::slotStartClipAction()
         filtername=action->data().toString();
     }
     m_projectList->startClipFilterJob(filtername, condition);
-    /*
-    if (ids.isEmpty()) {
-        m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
-        return;
-    }
-    QString destination;
-    ProjectItem *item = m_projectList->getClipById(ids.at(0));
-    if (ids.count() == 1) {
-
-    }
-    ClipStabilize *d = new ClipStabilize(destination, ids.count(), filtername);
-    //connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
-    if (d->exec() == QDialog::Accepted) {
-        m_projectList->slotStabilizeClipJob(ids, d->autoAddClip(), d->params(), d->desc());
-    }
-    delete d;*/
 }
 
 void MainWindow::slotTranscode(KUrl::List urls)

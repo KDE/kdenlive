@@ -75,6 +75,8 @@ frei0r.vignette
 
 
 #MLT effects with XML UI
+channelcopy
+crop
 dust
 grain
 lines
@@ -82,10 +84,8 @@ oldfilm
 tcolor
 rotoscoping
 wave
-volume
 vignette
-crop
-
+volume
 
 #Effects not usable with a simple GUI
 sox
