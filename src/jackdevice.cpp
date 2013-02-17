@@ -482,8 +482,14 @@ int JackDevice::getPlaybackPosition()
 
 void JackDevice::setCurrentPosition(int position)
 {
+	static int diff = 0;
 	m_currentPosition = position;
 	emit currentPositionChanged(position);
+
+	diff = qAbs(m_currentPosition - getPlaybackPosition());
+	if (diff > 1 && m_nextState == JackTransportRolling)
+//		stopPlayback();
+		seekPlayback(getPlaybackPosition());
 }
 
 void JackDevice::setTransportEnabled(bool state)

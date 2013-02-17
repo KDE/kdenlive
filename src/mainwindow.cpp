@@ -1236,6 +1236,7 @@ void MainWindow::setupActions()
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addWidget(m_statusProgressBar, 0);
     statusBar()->addPermanentWidget(toolbar);
+    statusBar()->insertPermanentFixedItem("00", 1);
     statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
     statusBar()->addPermanentWidget(m_timecodeFormat);
     //statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 3);
