@@ -42,7 +42,7 @@ class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
     Q_OBJECT
 
 public:
-    ClipStabilize(const QString &dest, int count, const QString &filterName,QWidget * parent = 0);
+    ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent = 0);
     ~ClipStabilize();
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
@@ -57,10 +57,11 @@ public:
 private slots:
     void slotStartStabilize();
     void slotUpdateParams();
+    void slotValidate();
 
 private:
     QString m_filtername;
-    int m_count;
+    QStringList m_urls;
     QHash<QString,QHash<QString,QString> > m_ui_params;
     QVBoxLayout *vbox;
     void fillParameters(QStringList);

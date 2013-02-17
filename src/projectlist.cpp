@@ -2639,9 +2639,9 @@ KUrl::List ProjectList::getConditionalUrls(const QString &condition) const
     return result;
 }
 
-QStringList ProjectList::getConditionalIds(const QString &condition) const
+QMap <QString, QString> ProjectList::getConditionalIds(const QString &condition) const
 {
-    QStringList result;
+    QMap <QString, QString> result;
     ProjectItem *item;
     QList<QTreeWidgetItem *> list = m_listView->selectedItems();
     for (int i = 0; i < list.count(); i++) {
@@ -2662,7 +2662,7 @@ QStringList ProjectList::getConditionalIds(const QString &condition) const
             else if (condition.startsWith("acodec") && !clip->hasAudioCodec(condition.section('=', 1, 1)))
                 continue;
         }
-        result.append(item->clipId());
+        result.insert(item->clipId(), item->clipUrl().path());
     }
     return result;
 }
@@ -2968,14 +2968,14 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
 void ProjectList::slotTranscodeClipJob(const QString &condition, QString params, QString desc)
 {
     QStringList existingFiles;
-    QStringList ids = getConditionalIds(condition);
+    QMap <QString, QString> ids = getConditionalIds(condition);
+    QMap<QString, QString>::const_iterator i = ids.constBegin();
     QStringList destinations;
-    foreach(const QString &id, ids) {
-        ProjectItem *item = getItemById(id);
-        if (!item) continue;
-        QString newFile = params.section(' ', -1).replace("%1", item->clipUrl().path());
-        destinations << newFile;
+    while (i != ids.constEnd()) {
+	QString newFile = params.section(' ', -1).replace("%1", i.value());
+	destinations << newFile;
         if (QFile::exists(newFile)) existingFiles << newFile;
+	++i;
     }
     if (!existingFiles.isEmpty()) {
         if (KMessageBox::warningContinueCancelList(this, i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;
@@ -3582,19 +3582,25 @@ void ProjectList::slotStartFilterJob(ItemInfo info, const QString&id, const QStr
 
 void ProjectList::startClipFilterJob(const QString &filterName, const QString &condition)
 {
-    QStringList ids = getConditionalIds(condition);
-    QString destination;
-    ProjectItem *item = getItemById(ids.at(0));
+    QMap <QString, QString> ids = getConditionalIds(condition);
+    QStringList destination;
+    QMap<QString, QString>::const_iterator first = ids.constBegin();
+    if (first == ids.constEnd()) {
+	emit displayMessage(i18n("Cannot find clip to process filter %1", filterName), -2, ErrorMessage);
+        return;
+    }
+    ProjectItem *item = getItemById(first.key());
     if (!item) {
         emit displayMessage(i18n("Cannot find clip to process filter %1", filterName), -2, ErrorMessage);
         return;
     }
     if (ids.count() == 1) {
-        destination = item->clipUrl().path();
+        destination << item->clipUrl().path();
     }
     else {
-        destination = item->clipUrl().directory();
+        destination = ids.values();
     }
+    
     if (filterName == "motion_est") {
 	// Show config dialog
 	QPointer<QDialog> d = new QDialog(this);
@@ -3642,14 +3648,14 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
 	    extraParams.insert("cutscenes", "1");
 	}
 	delete d;
-	processClipJob(ids, QString(), false, jobParams, i18n("Auto split"), extraParams);
+	processClipJob(ids.keys(), QString(), false, jobParams, i18n("Auto split"), extraParams);
     }
     else {
-	QPointer<ClipStabilize> d = new ClipStabilize(destination, ids.count(), filterName);
+	QPointer<ClipStabilize> d = new ClipStabilize(destination, filterName);
 	if (d->exec() == QDialog::Accepted) {
 	    QMap <QString, QString> extraParams;
 	    extraParams.insert("producer_profile", "1");
-	    processClipJob(ids, d->destination(), d->autoAddClip(), d->params(), d->desc(), extraParams);
+	    processClipJob(ids.keys(), d->destination(), d->autoAddClip(), d->params(), d->desc(), extraParams);
 	}
 	delete d;
     }
