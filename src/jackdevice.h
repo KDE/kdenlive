@@ -226,8 +226,12 @@ private:
 	/**
 	 * Syncronisation state.
 	 */
-
 	int m_sync;
+
+	/**
+	 * Playback sync difference.
+	 */
+	int m_playbackSyncDiff;
 
 	/**
 	 * Reset looping.
@@ -270,11 +274,13 @@ public slots:
 
 private slots:
 	void processLooping();
+	void monitorPlaybackSync(int position);
 
 signals:
 	void playbackStarted(int position);
 	void playbackSync(int position);
 	void playbackStopped(int position);
+	void playbackSyncDiffChanged(int diff);
 	void currentPositionChanged(int postition);
 	void shutdown();
 };

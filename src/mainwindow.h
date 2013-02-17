@@ -260,6 +260,7 @@ private:
     KAction *m_buttonSnap;
 #ifdef USE_JACK
     KAction *m_buttonJackTransport;
+    KAction *m_buttonJackTransportMon;
 #endif
     KAction *m_saveAction;
     KAction *m_closeAction;
@@ -368,6 +369,7 @@ private slots:
     void slotConnectMonitors();
     void slotUpdateClip(const QString &id);
     void slotUpdateMousePosition(int pos);
+    void slotUpdateJackSyncDiff(int diff);
     void slotAddEffect(const QDomElement effect);
     void slotEditProfiles();
     void slotDetectAudioDriver();

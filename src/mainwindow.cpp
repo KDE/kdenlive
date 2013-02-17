@@ -66,6 +66,9 @@
 #include "databackup/backupwidget.h"
 #include "utils/resourcewidget.h"
 
+#ifdef USE_JACK
+#include "jackdevice.h"
+#endif
 
 #include <KApplication>
 #include <KAction>
@@ -127,6 +130,9 @@
 static const char version[] = VERSION;
 
 static const int ID_TIMELINE_POS = 0;
+static const int STS_BAR_JACK_MON_ID = 1;
+
+
 namespace Mlt
 {
 class Producer;
@@ -272,6 +278,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     		this, SLOT(slotEnableJackTransportButton(AbstractMonitor&)));
     connect (m_monitorManager, SIGNAL(monitorStopped(AbstractMonitor&)),
     		this, SLOT(slotDisableJackTransportButton(AbstractMonitor&)));
+
+    connect (&JACKDEV, SIGNAL(playbackSyncDiffChanged(int)),
+    		this, SLOT(slotUpdateJackSyncDiff(int)));
 #endif
 
     m_notesDock = new QDockWidget(i18n("Project Notes"), this);
@@ -1202,6 +1211,14 @@ void MainWindow::setupActions()
     m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
     m_buttonJackTransport->setDisabled(true);
     connect(m_buttonJackTransport, SIGNAL(triggered()), this, SLOT(slotSwitchJackTransport()));
+
+    m_buttonJackTransportMon = new KAction(KIcon("kdenlive-toggle-jack-mon"), i18n("Enable jack transport monitoring"), this);
+    toolbar->addAction(m_buttonJackTransportMon);
+    m_buttonJackTransportMon->setShortcut(Qt::SHIFT + Qt::Key_E);
+    m_buttonJackTransportMon->setCheckable(true);
+    m_buttonJackTransportMon->setChecked(KdenliveSettings::jacktransport());
+    m_buttonJackTransportMon->setDisabled(true);
+//    connect(m_buttonJackTransport, SIGNAL(triggered()), this, SLOT(slotSwitchJackTransport()));
 #endif
 
     actionWidget = toolbar->widgetForAction(m_buttonAutomaticSplitAudio);
@@ -1228,6 +1245,10 @@ void MainWindow::setupActions()
     actionWidget = toolbar->widgetForAction(m_buttonJackTransport);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
+
+    actionWidget = toolbar->widgetForAction(m_buttonJackTransportMon);
+    actionWidget->setMaximumWidth(max);
+    actionWidget->setMaximumHeight(max - 4);
 #endif
 
     m_messageLabel = new StatusBarMessageLabel(this);
@@ -1236,7 +1257,7 @@ void MainWindow::setupActions()
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addWidget(m_statusProgressBar, 0);
     statusBar()->addPermanentWidget(toolbar);
-    statusBar()->insertPermanentFixedItem("00", 1);
+    statusBar()->insertPermanentFixedItem("    0", STS_BAR_JACK_MON_ID);
     statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
     statusBar()->addPermanentWidget(m_timecodeFormat);
     //statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 3);
@@ -2560,6 +2581,11 @@ void MainWindow::slotUpdateMousePosition(int pos)
         default:
             statusBar()->changeItem(QString::number(pos), ID_TIMELINE_POS);
         }
+}
+
+void MainWindow::slotUpdateJackSyncDiff(int diff)
+{
+    statusBar()->changeItem(QString::number(diff), STS_BAR_JACK_MON_ID);
 }
 
 void MainWindow::slotUpdateDocumentState(bool modified)

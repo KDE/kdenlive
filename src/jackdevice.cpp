@@ -23,7 +23,8 @@ JackDevice::JackDevice(Mlt::Profile * profile) :
 	m_valid(false),
 	m_shutdown(false),
 	m_transportEnabled(false),
-	m_loopState(0)
+	m_loopState(0),
+	m_playbackSyncDiff(0)
 {
 	m_mltProfile = profile;
 }
@@ -159,8 +160,13 @@ void JackDevice::open(const QString &name, int channels, int buffersize)
 		m_ringbuffers[i] = jack_ringbuffer_create(buffersize * sizeof(float));
 
 	resetLooping();
+
+	/* connect signals */
 	connect(this, SIGNAL(currentPositionChanged(int)),
 			this, SLOT(processLooping()));
+	connect(this, SIGNAL(currentPositionChanged(int)),
+			this, SLOT(monitorPlaybackSync(int)));
+
 
 	m_valid = true;
 	m_sync = 0;
@@ -228,8 +234,11 @@ void JackDevice::close()
 			jack_ringbuffer_free(m_ringbuffers[i]);
 		delete[] m_ringbuffers;
 
+		/* disconnect signals */
 		disconnect(this, SIGNAL(currentPositionChanged(int)),
 				this, SLOT(processLooping()));
+		disconnect(this, SIGNAL(currentPositionChanged(int)),
+				this, SLOT(monitorPlaybackSync(int)));
 
 		/* debug */
 		kDebug()<< "// jack device closed ..." << endl;
@@ -482,14 +491,26 @@ int JackDevice::getPlaybackPosition()
 
 void JackDevice::setCurrentPosition(int position)
 {
-	static int diff = 0;
 	m_currentPosition = position;
 	emit currentPositionChanged(position);
+}
 
-	diff = qAbs(m_currentPosition - getPlaybackPosition());
-	if (diff > 1 && m_nextState == JackTransportRolling)
+void JackDevice::monitorPlaybackSync(int position)
+{
+	/* get playback sync difference */
+	int diff = position - getPlaybackPosition();
+	if(m_playbackSyncDiff != diff) {
+		/* save diff */
+		m_playbackSyncDiff = diff;
+		/* fire diff event */
+		emit playbackSyncDiffChanged(diff);
+	}
+
+	/* if action defined */
+	if (qAbs(diff) > 1 && m_nextState == JackTransportRolling)
 //		stopPlayback();
 		seekPlayback(getPlaybackPosition());
+
 }
 
 void JackDevice::setTransportEnabled(bool state)
