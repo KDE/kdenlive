@@ -53,6 +53,9 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
 {
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
+    
+    connect(m_clipMonitor->render, SIGNAL(activateMonitor(Kdenlive::MONITORID)), this, SLOT(activateMonitor(Kdenlive::MONITORID)));
+    connect(m_projectMonitor->render, SIGNAL(activateMonitor(Kdenlive::MONITORID)), this, SLOT(activateMonitor(Kdenlive::MONITORID)));
 
     m_monitorsList.append(clipMonitor);
     m_monitorsList.append(projectMonitor);
@@ -99,8 +102,9 @@ bool MonitorManager::activateMonitor(Kdenlive::MONITORID name, bool forceRefresh
     if (m_activeMonitor) {
         m_activeMonitor->blockSignals(true);
         m_activeMonitor->parentWidget()->raise();
+	m_activeMonitor->blockSignals(false);
         m_activeMonitor->start();
-        m_activeMonitor->blockSignals(false);
+        
     }
     emit checkColorScopes();
     return (m_activeMonitor != NULL);

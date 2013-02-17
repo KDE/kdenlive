@@ -460,6 +460,7 @@ void Monitor::slotSetZoneEnd()
 // virtual
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
+    if (render) render->setActiveMonitor();
     if (event->button() != Qt::RightButton) {
         if (videoBox->geometry().contains(event->pos()) && (!m_overlay || !m_overlay->underMouse())) {
             m_dragStarted = true;
