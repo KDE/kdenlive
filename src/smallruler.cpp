@@ -122,6 +122,7 @@ QPoint SmallRuler::zone()
 // virtual
 void SmallRuler::mousePressEvent(QMouseEvent * event)
 {
+    m_render->setActiveMonitor();
     const int pos = event->x() / m_scale;
     if (event->button() == Qt::RightButton) {
         // Right button clicked, move selection zone
