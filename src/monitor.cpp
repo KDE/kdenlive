@@ -460,6 +460,7 @@ void Monitor::slotSetZoneEnd()
 // virtual
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
+    if (render) render->setActiveMonitor();
     if (event->button() != Qt::RightButton) {
         if (videoBox->geometry().contains(event->pos()) && (!m_overlay || !m_overlay->underMouse())) {
             m_dragStarted = true;
@@ -1156,7 +1157,7 @@ QString Monitor::getMarkerThumb(GenTime pos)
 {
     if (!m_currentClip) return QString();
     if (!m_currentClip->getClipHash().isEmpty()) {
-	QString url = m_monitorManager->getProjectFolder() + "thumbs/" + m_currentClip->getClipHash() + '#' + QString::number(pos.frames(m_monitorManager->timecode().fps())) + ".png";
+	QString url = m_monitorManager->getProjectFolder() + "thumbs/" + m_currentClip->getClipHash() + '#' + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + ".png";
         if (QFile::exists(url)) return url;
     }
     return QString();

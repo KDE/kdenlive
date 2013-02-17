@@ -67,7 +67,7 @@ void ProxyJob::startJob()
         double display_ratio;
 	if (m_src.startsWith("consumer:")) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(":", 1));
 	else display_ratio = KdenliveDoc::getDisplayRatio(m_src);
-        mltParameters << "aspect=" + QString::number(display_ratio);
+        mltParameters << "aspect=" + QLocale().toString(display_ratio);
             
         // Ask for progress reporting
         mltParameters << "progress=1";

@@ -1653,12 +1653,12 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
 {
     QPointF framePos = mapToScene(pos);
     int track = framePos.y() / KdenliveSettings::trackheight();
-    m_scene->clearSelection();
-    m_dragItem = NULL;
-    resetSelectionGroup(false);
     m_clipDrag = data->hasFormat("kdenlive/clip") || data->hasFormat("kdenlive/producerslist");
     // This is not a clip drag, maybe effect or other...
     if (!m_clipDrag) return false;
+    m_scene->clearSelection();
+    m_dragItem = NULL;
+    resetSelectionGroup(false);
     if (track < 0 || track > m_document->tracksCount() - 1 || m_document->trackInfoAt(m_document->tracksCount() - track - 1).isLocked) return true;
     if (data->hasFormat("kdenlive/clip")) {    
         QStringList list = QString(data->data("kdenlive/clip")).split(';');
@@ -1882,7 +1882,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
         if (!m_document->renderer()->mltAddEffect(track, pos, params))
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
 	clip->setSelectedEffect(params.paramValue("kdenlive_ix").toInt());
-        if (clip->isSelected()) emit clipItemSelected(clip);
+        if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
     } else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
 }
 
@@ -1917,8 +1917,8 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
     }
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), m_document->tracksCount() - track);
     if (clip) {
-        clip->deleteEffect(index);
-        emit clipItemSelected(clip);
+	clip->deleteEffect(index);
+        if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
     }
 }
 
@@ -1933,6 +1933,9 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     else effectName = i18n("effect");
     effectCommand->setText(i18n("Add %1", effectName));
     for (int i = 0; i < itemList.count(); i++) {
+	if (itemList.at(i)->type() == GROUPWIDGET) {
+	    itemList << itemList.at(i)->childItems();
+	}
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (effect.tagName() == "effectgroup") {
@@ -1974,12 +1977,27 @@ void CustomTrackView::slotAddEffect(ClipItem *clip, QDomElement effect)
     if (clip) slotAddEffect(effect, clip->startPos(), clip->track());
 }
 
+void CustomTrackView::slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track)
+{
+    if (clip == NULL) return;
+    slotAddEffect(effect, pos, track);
+    if (clip->parentItem()) {
+	// Clip is in a group, should not happen
+	kDebug()<<"/// DROPPED ON ITEM IN GRP";
+    }
+    else if (clip != m_dragItem) {
+	clearSelection(false);
+	m_dragItem = clip;
+	clip->setSelected(true);
+	emit clipItemSelected(clip);
+    }
+}
+
 void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 {
     QList<QGraphicsItem *> itemList;
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
-    
     int offset = effect.attribute("clipstart").toInt();
     if (effect.tagName() == "effectgroup") {
 	effectName = effect.attribute("name");
@@ -2033,19 +2051,20 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     if (effectCommand->childCount() > 0) {
         m_commandStack->push(effectCommand);
         setDocumentModified();
-	if (effectCommand->childCount() == 1) {
+	/*if (effectCommand->childCount() == 1) {
 	    // Display newly added clip effect
 	    for (int i = 0; i < itemList.count(); i++) {
 		if (itemList.at(i)->type() == AVWIDGET) {
 		    ClipItem *clip = static_cast<ClipItem *>(itemList.at(i));
 		    clip->setSelectedEffect(clip->effectsCount());
-		    if (!clip->isSelected()) {
+		    if (!clip->isSelected() && (!m_dragItem || !itemList.contains(m_dragItem))) {
+			kDebug()<<"// CLIP WAS NO SELECTED, DRG: "<<(m_dragItem == NULL);
 			clearSelection(false);
 			clip->setSelected(true);
 			m_dragItem = clip;
+			emit clipItemSelected(clip);
+			break;
 		    }
-		    emit clipItemSelected(clip);
-		    break;
 		}
 	    }
 	}
@@ -2059,7 +2078,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 		    }
 		}
 	    }
-	}
+	}*/
     } else delete effectCommand;
 }
 

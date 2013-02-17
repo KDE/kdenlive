@@ -33,16 +33,16 @@
 #include <QSlider>
 #include <KFileDialog>
 
-ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filterName,QWidget * parent) :
+ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent) :
         QDialog(parent), 
         m_filtername(filterName),
-        m_count(count),
+        m_urls(urls),
         vbox(NULL)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
     setWindowTitle(i18n("Stabilize Clip"));
-    auto_add->setText(i18np("Add clip to project", "Add clips to project", count));
+    auto_add->setText(i18np("Add clip to project", "Add clips to project", urls.count()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     QPalette p = palette();
@@ -61,8 +61,8 @@ ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filt
             .arg(dark_bg.name()).arg(selected_bg.name()).arg(hover_bg.name()).arg(light_bg.name()));
     setStyleSheet(stylesheet);
 
-    if (m_count == 1) {
-        QString newFile = dest;
+    if (m_urls.count() == 1) {
+        QString newFile = m_urls.first();
         newFile.append(".mlt");
         KUrl dest(newFile);
         dest_url->setMode(KFile::File);
@@ -71,7 +71,7 @@ ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filt
     } else {
         label_dest->setText(i18n("Destination folder"));
         dest_url->setMode(KFile::Directory);
-        dest_url->setUrl(KUrl(dest));
+        dest_url->setUrl(KUrl(KUrl(m_urls.first()).directory()));
         dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
     }
 
@@ -102,7 +102,7 @@ ClipStabilize::ClipStabilize(const QString &dest, int count, const QString &filt
 
     }
 
-    //connect(buttonBox,SIGNAL(rejected()), this, SLOT(slotAbortStabilize()));
+    connect(buttonBox->button(QDialogButtonBox::Ok),SIGNAL(clicked()), this, SLOT(slotValidate()));
 
     vbox=new QVBoxLayout(optionsbox);
     QHashIterator<QString,QHash<QString,QString> > hi(m_ui_params);
@@ -165,7 +165,7 @@ QStringList ClipStabilize::params()
 
 QString ClipStabilize::destination() const
 {
-    if (m_count == 1)
+    if (m_urls.count() == 1)
         return dest_url->url().path();
     else
         return dest_url->url().path(KUrl::AddTrailingSlash);
@@ -274,6 +274,27 @@ void ClipStabilize::fillParameters(QStringList lst)
 
 }
 
+void ClipStabilize::slotValidate()
+{
+    if (m_urls.count() == 1) {
+	if (QFile::exists(dest_url->url().path())) {
+	    if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", dest_url->url().path() )) == KMessageBox::No) return;
+	}
+    }
+    else {
+	KUrl folder(dest_url->url());
+	QStringList existingFiles;
+	foreach(const QString &path, m_urls) {
+	    KUrl dest = folder;
+	    dest.addPath(KUrl(path).fileName());
+	    if (QFile::exists(dest.path() + ".mlt")) existingFiles.append(dest.path() + ".mlt");
+	}
+	if (!existingFiles.isEmpty()) {
+	    if (KMessageBox::warningContinueCancelList(this, i18n("The stabilize job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;
+	}
+    }
+    accept();
+}
 
 #include "clipstabilize.moc"
 
