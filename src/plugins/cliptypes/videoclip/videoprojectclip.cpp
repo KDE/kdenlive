@@ -75,7 +75,7 @@ QPixmap VideoProjectClip::thumbnail()
     return m_thumbnail;
 }
 
-void VideoProjectClip::getHash()
+void VideoProjectClip::hash()
 {
     if (m_hash.isEmpty() && hasUrl()) {
 	QFile file(m_url.path());
@@ -109,7 +109,7 @@ void VideoProjectClip::init()
 {
     //Q_ASSERT(m_baseProducer && m_baseProducer->is_valid());
     //Q_ASSERT(m_baseProducer->property("mlt_service") == "avformat");
-    getHash();
+    hash();
     m_hasLimitedDuration = true;
     m_duration = Timecode(m_baseProducer->get_length()).formatted();
     thumbnail();

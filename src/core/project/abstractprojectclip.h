@@ -63,7 +63,7 @@ public:
     virtual void initProducer() = 0;
     
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
-    virtual void getHash() = 0;
+    virtual void hash() = 0;
 
     /** @brief Returns this if @param id matches the clip's id or NULL otherwise. */
     AbstractProjectClip *clip(const QString &id);

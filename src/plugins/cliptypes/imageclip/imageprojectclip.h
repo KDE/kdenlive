@@ -30,7 +30,7 @@ public:
 
     AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
     void initProducer();
-    void getHash();
+    void hash();
 
     QDomElement toXml(QDomDocument &document) const;
 

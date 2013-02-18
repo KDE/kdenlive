@@ -65,7 +65,7 @@ AbstractTimelineClip* ImageProjectClip::addInstance(ProducerWrapper* producer, T
     return static_cast<AbstractTimelineClip *>(instance);
 }
 
-void ImageProjectClip::getHash()
+void ImageProjectClip::hash()
 {
     if (m_hash.isEmpty() && hasUrl()) {
 	QFile file(m_url.path());
@@ -110,7 +110,7 @@ void ImageProjectClip::init(int duration)
     Q_ASSERT(m_baseProducer->property("mlt_service") == "qimage" || m_baseProducer->property("mlt_service") == "pixbuf");
 
     m_hasLimitedDuration = false;
-    getHash();
+    hash();
 
     if (duration == 0) {
         duration = bin()->project()->timecodeFormatter()->fromString(KdenliveSettings::image_duration(), TimecodeFormatter::HH_MM_SS_FF).frames();
