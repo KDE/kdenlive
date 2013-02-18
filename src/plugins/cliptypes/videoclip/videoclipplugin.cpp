@@ -28,7 +28,10 @@ VideoClipPlugin::VideoClipPlugin(QObject* parent, const QVariantList& args) :
 
     ClipPluginManager *clipPluginManager = static_cast<ClipPluginManager*>(parent);
 
-    clipPluginManager->addSupportedMimetypes(QStringList() << "video/mpeg" << "video/mp4" << "video/mp2t");
+    clipPluginManager->addSupportedMimetypes(QStringList() << "video/mp2t" << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo"
+                                                           << "video/x-matroska" << "video/mpeg" << "video/ogg" << "video/x-ms-wmv" << "video/mp4" << "video/quicktime" << "video/webm"
+                                                           << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav"
+                                                           << "audio/x-aiff" << "audio/aiff" << "application/ogg" << "application/mxf" << "application/x-shockwave-flash");
 }
 
 VideoClipPlugin::~VideoClipPlugin()
