@@ -49,6 +49,7 @@ public:
     * @param pos new Position
     * @param value new Value */
     void updateKeyFramePos(const GenTime &pos, const double value);
+    int checkForSingleKeyframe();
     int addKeyFrame(const GenTime &pos, const double value);
     bool hasKeyFrames() const;
     int editedKeyFramePos() const;

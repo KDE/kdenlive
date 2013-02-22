@@ -201,7 +201,7 @@ void TrackView::parseDocument(QDomDocument doc)
     QDomElement tractor = mlt.firstChildElement("tractor");
     QDomNodeList tracks = tractor.elementsByTagName("track");
     QDomNodeList playlists = doc.elementsByTagName("playlist");
-    int duration = 300;
+    int duration = 1;
     m_projectTracks = tracks.count();
     int trackduration = 0;
     QDomElement e;
