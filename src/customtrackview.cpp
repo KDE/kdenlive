@@ -1433,10 +1433,14 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         } else*/  {
             // add keyframe
             GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
+	    int single = m_dragItem->checkForSingleKeyframe();
             int val = m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
             ClipItem * item = static_cast <ClipItem *>(m_dragItem);
+	    QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
+	    if (single > -1) {
+		item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, single);
+	    }
             //QString previous = item->keyframes(item->selectedEffectIndex());
-            QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
             item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
             //item->updateKeyframeEffect();
             //QString next = item->keyframes(item->selectedEffectIndex());
@@ -3014,6 +3018,7 @@ Qt::DropActions CustomTrackView::supportedDropActions() const
 
 void CustomTrackView::setDuration(int duration)
 {
+    if (m_projectDuration == duration) return;
     int diff = qAbs(duration - sceneRect().width());
     if (diff * matrix().m11() > -50) {
         if (matrix().m11() < 0.4) setSceneRect(0, 0, (duration + 100 / matrix().m11()), sceneRect().height());

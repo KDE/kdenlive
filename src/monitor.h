@@ -122,7 +122,6 @@ protected:
     //virtual void paintEvent(QPaintEvent * event);
 
 private:
-    Kdenlive::MONITORID m_name;
     DocClipBase *m_currentClip;
     SmallRuler *m_ruler;
     Overlay *m_overlay;
