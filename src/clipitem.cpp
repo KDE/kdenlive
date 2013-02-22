@@ -368,7 +368,7 @@ bool ClipItem::checkKeyFrames()
             int lastPos = -1;
             double lastValue = -1;
             int start = cropStart().frames(m_fps);
-            int end = (cropStart() + cropDuration()).frames(m_fps);
+            int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
 
             // go through all keyframes for one param
             foreach(const QString &str, keyframes) {
@@ -382,8 +382,8 @@ bool ClipItem::checkKeyFrames()
                     if (pos > start) {
                         int diff = pos - lastPos;
                         double ratio = (double)(start - lastPos) / diff;
-                        double newValue = lastValue + (val - lastValue) * ratio;
-                        newKeyFrames.append(QString::number(start) + ':' + locale.toString(newValue));
+                        int newValue = lastValue + (val - lastValue) * ratio;
+                        newKeyFrames.append(QString::number(start) + ':' + QString::number(newValue));
                         modified = true;
                     }
                     cutKeyFrame = false;
@@ -394,13 +394,13 @@ bool ClipItem::checkKeyFrames()
                         int diff = pos - lastPos;
                         if (diff != 0) {
                             double ratio = (double)(end - lastPos) / diff;
-                            double newValue = lastValue + (val - lastValue) * ratio;
-                            newKeyFrames.append(QString::number(end) + ':' + locale.toString(newValue));
+                            int newValue = lastValue + (val - lastValue) * ratio;
+                            newKeyFrames.append(QString::number(end) + ':' + QString::number(newValue));
                             modified = true;
                         }
                         break;
                     } else {
-                        newKeyFrames.append(QString::number(pos) + ':' + locale.toString(val));
+                        newKeyFrames.append(QString::number(pos) + ':' + QString::number(val));
                     }
                 }
                 lastPos = pos;
@@ -430,9 +430,9 @@ void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
     int keyframeParams = 0;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("intimeline") == "1") {
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
             e.setAttribute("keyframes", keyframes.at(keyframeParams));
-            if (ix == m_selectedEffect && keyframeParams == 0) {
+            if (ix + 1 == m_selectedEffect && keyframeParams == 0) {
                 m_keyframes.clear();
                 m_visibleParam = i;
                 double max = locale.toDouble(e.attribute("max"));
