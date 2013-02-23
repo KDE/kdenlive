@@ -34,6 +34,7 @@
 #include <errno.h>
 #include <string.h>
 #include <linux/input.h>
+#include <signal.h>
 
 #define DELAY 10
 
@@ -84,6 +85,11 @@ bool ShuttleThread::isWorking()
     return m_isWorking;
 }
 
+void catcher(int sig)
+{
+   printf("   Signal catcher called for signal %d\n", sig);
+}
+
 void ShuttleThread::run()
 {
 	kDebug() << "-------  STARTING SHUTTLE: " << m_device;
@@ -105,8 +111,17 @@ void ShuttleThread::run()
 	fd_set		   readset;
 	struct timeval timeout;
 
-	int num_warnings = 0;
+	int num_warnings, readResult = 0;
 	int result, iof = -1;
+
+	/* get fd settings */
+	if ((iof = fcntl(fd, F_GETFL, 0)) != -1) {
+		/* set fd non blocking */
+		fcntl(fd, F_SETFL, iof | O_NONBLOCK);
+	} else {
+		fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
+		return;
+	}
 
 	/* enter thread loop */
 	while (!stop_me) {
@@ -122,52 +137,49 @@ void ShuttleThread::run()
 		result = select(fd+1, &readset, NULL, NULL, &timeout);
 
 		/* see if there was an error or timeout else process event */
-		if (result < 0) {
-			/* usually this is a condition for exit but EINTR error is sometimes
-			 * thrown under special circumstances. I think its ok to ignore this
-			 * if its not too often */
+		if (result < 0 && errno == EINTR) {
+			/* EINTR event catched. This is not a problem - continue processing */
+			kDebug() << strerror(errno) << "\n";
+			/* continue processing */
+			continue;
+		} else if (result < 0) {
+			/* stop thread */
+			stop_me = true;
 			kDebug() << strerror(errno) << "\n";
 		} else if (result == 0) {
 			/* do nothing. reserved for future purposes */
 		} else {
 			/* we have input */
 			if (FD_ISSET(fd, &readset)) {
-				/* get fd settings */
-				if ((iof = fcntl(fd, F_GETFL, 0)) != -1) {
-					/* set fd non blocking */
-					fcntl(fd, F_SETFL, iof | O_NONBLOCK);
-					/* read input */
-					if (read(fd, &ev, sizeof(ev)) < 0) {
-						if (num_warnings % 10000 == 0) {
-							/* if device is not available anymore - dead or disconnected */
-							fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR (repeated %d times)\n", num_warnings + 1);
-						}
-						/* exit if device is not available or the error occurs to long */
-						if (errno == ENODEV) {
-							perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Stop thread");
-							/* stop thread */
-							stop_me = true;
-						} else if (num_warnings > 1000000) {
-							perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Limit reached. Stop thread");
-							/* stop thread */
-							stop_me = true;
-						}
-						num_warnings++;
+				/* read input */
+				readResult = read(fd, &ev, sizeof(ev));
+				if (readResult < 0) {
+					if (num_warnings % 10000 == 0) {
+						/* if device is not available anymore - dead or disconnected */
+						fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR (repeated %d times)\n", num_warnings + 1);
 					}
-					/* restore settings */
-					if (iof != -1) {
-						fcntl(fd, F_SETFL, iof);
+					/* exit if device is not available or the error occurs to long */
+					if (errno == ENODEV) {
+						perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Stop thread");
+						/* stop thread */
+						stop_me = true;
+					} else if (num_warnings > 1000000) {
+						perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Limit reached. Stop thread");
+						/* stop thread */
+						stop_me = true;
 					}
+					num_warnings++;
+				} else if (readResult == sizeof(ev)) {
 					/* process event */
 					handle_event(ev);
 				} else {
-					fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
-					stop_me = true;
+					fprintf(stderr, "Read nr of bytes != sizeof(ev)\n");
 				}
 			}
 		}
 	}
 
+//	kDebug() << "Close thread" << "\n";
 	/* close the handle and return thread */
 	close(fd);
 }
