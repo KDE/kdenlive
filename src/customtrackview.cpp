@@ -2470,10 +2470,10 @@ ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, Eff
         item->resizeEnd(cutPos);
         scene()->addItem(dup);
 	    
-        if (item->checkKeyFrames())
+        if (item->checkKeyFrames(m_document->width(), m_document->height(), info.cropDuration.frames(m_document->fps())))
             slotRefreshEffects(item);
 
-        if (dup->checkKeyFrames())
+        if (dup->checkKeyFrames(m_document->width(), m_document->height(), info.cropDuration.frames(m_document->fps()), cutTime.frames(m_document->fps())))
             slotRefreshEffects(dup);
 
         item->baseClip()->addReference();
