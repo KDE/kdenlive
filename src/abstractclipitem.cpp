@@ -449,6 +449,21 @@ int AbstractClipItem::keyFrameNumber() const
     return m_keyframes.count();
 }
 
+int AbstractClipItem::checkForSingleKeyframe()
+{
+    // Check if we have only one keyframe
+    if (!m_keyframes.isEmpty() && m_keyframes.count() == 1) {
+	int min = (int) cropStart().frames(m_fps);
+	int max = (int)(cropStart() + cropDuration()).frames(m_fps) - 1;
+	if (m_keyframes.contains(min)) {
+	    // Add keyframe at end of clip to allow inserting a new keframe in between
+	    m_keyframes[max] = m_keyframes.value(min);
+	    return m_keyframes.value(min);
+	}
+    }
+    return -1;
+}
+
 int AbstractClipItem::addKeyFrame(const GenTime &pos, const double value)
 {
     QRectF br = sceneBoundingRect();

@@ -138,9 +138,13 @@ public:
     void initEffect(QDomElement effect, int diff = 0, int offset = 0);
 
     /** @brief Gets all keyframes.
-    * @param index Number of the effect
+    * @param index Index of the effect
     * @return a list of strings of keyframes (one string per param) */
     QStringList keyframes(const int index);
+
+    /** @brief Adjust all geometry keyframes.
+    * @param index Index of the effect */
+    void resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration);
 
     /** @brief Sets params with keyframes and updates the visible keyframes.
     * @param ix Number of the effect
@@ -159,8 +163,9 @@ public:
     /** @brief Adjust keyframes to the new clip. */
     const QString adjustKeyframes(QString keyframes, int offset);
     /** @brief Makes sure all keyframes are in the clip's cropped duration.
+     * @param cutPos the frame number where the new clip starts
     * @return Whether or not changes were made */
-    bool checkKeyFrames();
+    bool checkKeyFrames(int width, int height, int previousDuration, int cutPos = -1);
     QPixmap startThumb() const;
     QPixmap endThumb() const;
     void setVideoOnly(bool force);

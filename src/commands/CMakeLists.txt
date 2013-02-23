@@ -28,7 +28,6 @@ set(kdenlive_SRCS
   commands/movegroupcommand.cpp
   commands/movetransitioncommand.cpp
   commands/razorclipcommand.cpp
-  commands/razorgroupcommand.cpp
   commands/rebuildgroupcommand.cpp
   commands/refreshmonitorcommand.cpp
   commands/resizeclipcommand.cpp

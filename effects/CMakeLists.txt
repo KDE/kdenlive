@@ -74,6 +74,7 @@ frei0r_levels.xml
 frei0r_lightgraffiti.xml
 frei0r_luminance.xml
 frei0r_mask0mate.xml
+frei0r_medians.xml
 frei0r_nervous.xml
 frei0r_nosync0r.xml
 frei0r_pixeliz0r.xml
