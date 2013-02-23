@@ -63,6 +63,10 @@ private slots:
     void slotExportToText();
     /** @brief Update the displayed proxy parameters when user changes selection. */
     void slotUpdateProxyParams();
+    /** @brief Insert a new metadata field. */
+    void slotAddMetadataField();
+    /** @brief Delete current metadata field. */
+    void slotDeleteMetadataField();
 
 private:
     QPushButton *m_buttonOk;

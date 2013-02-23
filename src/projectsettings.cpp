@@ -135,20 +135,58 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
     // Metadata list
     QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Title"));
     item->setData(0, Qt::UserRole, QString("meta.attr.title.markup"));
-    if (metadata.contains("meta.attr.title.markup")) item->setText(1, metadata.value("meta.attr.title.markup"));
+    if (metadata.contains("meta.attr.title.markup")) {
+	item->setText(1, metadata.value("meta.attr.title.markup"));
+	metadata.remove("meta.attr.title.markup");
+    }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Author"));
     item->setData(0, Qt::UserRole, QString("meta.attr.author.markup"));
-    if (metadata.contains("meta.attr.author.markup")) item->setText(1, metadata.value("meta.attr.author.markup"));
+    if (metadata.contains("meta.attr.author.markup")) {
+	item->setText(1, metadata.value("meta.attr.author.markup"));
+	metadata.remove("meta.attr.author.markup");
+    }
+    else if (metadata.contains("meta.attr.artist.markup")) {
+	item->setText(0, i18n("Artist"));
+	item->setData(0, Qt::UserRole, QString("meta.attr.artist.markup"));
+	item->setText(1, metadata.value("meta.attr.artist.markup"));
+	metadata.remove("meta.attr.artist.markup");
+    }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Copyright"));
     item->setData(0, Qt::UserRole, QString("meta.attr.copyright.markup"));
-    if (metadata.contains("meta.attr.copyright.markup")) item->setText(1, metadata.value("meta.attr.copyright.markup"));
+    if (metadata.contains("meta.attr.copyright.markup")) {
+	item->setText(1, metadata.value("meta.attr.copyright.markup"));
+	metadata.remove("meta.attr.copyright.markup");
+    }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Year"));
     item->setData(0, Qt::UserRole, QString("meta.attr.year.markup"));
-    if (metadata.contains("meta.attr.year.markup")) item->setText(1, metadata.value("meta.attr.year.markup"));
+    if (metadata.contains("meta.attr.year.markup")) {
+	item->setText(1, metadata.value("meta.attr.year.markup"));
+	metadata.remove("meta.attr.year.markup");
+    }
+    else if (metadata.contains("meta.attr.date.markup")) {
+	item->setText(0, i18n("Date"));
+	item->setData(0, Qt::UserRole, QString("meta.attr.date.markup"));
+	item->setText(1, metadata.value("meta.attr.date.markup"));
+	metadata.remove("meta.attr.date.markup");
+    }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    
+    QMap<QString, QString>::const_iterator meta = metadata.constBegin();
+    while (meta != metadata.constEnd()) {
+	item = new QTreeWidgetItem(metadata_list, QStringList() << meta.key().section('.', 2,2));
+	item->setData(0, Qt::UserRole, meta.key());
+	item->setText(1, meta.value());
+	item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+	++meta;
+    }
+    
+    connect(add_metadata, SIGNAL(clicked()), this, SLOT(slotAddMetadataField()));
+    connect(delete_metadata, SIGNAL(clicked()), this, SLOT(slotDeleteMetadataField()));
+    add_metadata->setIcon(KIcon("list-add"));
+    delete_metadata->setIcon(KIcon("list-remove"));
     
     slotUpdateDisplay();
     if (m_projectList != NULL) {
@@ -575,11 +613,24 @@ const QMap <QString, QString> ProjectSettings::metadata() const
         if (!item->text(1).simplified().isEmpty()) {
             // Insert metadata entry
             QString key = item->data(0, Qt::UserRole).toString();
+	    if (key.isEmpty()) key = "meta.attr." + item->text(0).simplified() + ".markup";
             QString value = item->text(1);
-            metadata.insert(key, value);
+            if (!key.contains(' ')) metadata.insert(key, value);
         }
     }
     return metadata;
+}
+
+void ProjectSettings::slotAddMetadataField()
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("field_name"));
+    item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+}
+
+void ProjectSettings::slotDeleteMetadataField()
+{
+    QTreeWidgetItem *item = metadata_list->currentItem();
+    if (item) delete item;
 }
 
 #include "projectsettings.moc"
