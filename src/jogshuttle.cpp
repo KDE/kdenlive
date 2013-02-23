@@ -146,7 +146,7 @@ void ShuttleThread::run()
 						if (errno == ENODEV) {
 							perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Stop thread");
 							/* stop thread */
-//							stop_me = true;
+							stop_me = true;
 						} else if (num_warnings > 1000000) {
 							perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Limit reached. Stop thread");
 							/* stop thread */
