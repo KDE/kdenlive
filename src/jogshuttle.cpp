@@ -34,7 +34,6 @@
 #include <errno.h>
 #include <string.h>
 #include <linux/input.h>
-#include <signal.h>
 
 #define DELAY 10
 
@@ -83,11 +82,6 @@ void ShuttleThread::init(QObject *parent, QString device)
 bool ShuttleThread::isWorking()
 {
     return m_isWorking;
-}
-
-void catcher(int sig)
-{
-   printf("   Signal catcher called for signal %d\n", sig);
 }
 
 void ShuttleThread::run()
