@@ -99,6 +99,14 @@ int main(int argc, char **argv)
             args.removeAll("pass=1");
             doerase = erase;
         }
+        
+        // Decode metadata
+        for (int i = 0; i < args.count(); i++) {
+	    if (args.at(i).startsWith("meta.attr")) {
+		QString data = args.at(i);
+		args.replace(i, data.section('=', 0, 0) + "=\"" + QUrl::fromPercentEncoding(data.section('=', 1).toUtf8()) + "\"");
+	    }
+	}
 
         qDebug() << "//STARTING RENDERING: " << erase << "," << usekuiserver << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out ;
         RenderJob *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
