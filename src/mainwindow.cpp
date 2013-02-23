@@ -3670,12 +3670,13 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
 void MainWindow::slotClipInProjectTree()
 {
     if (m_activeTimeline) {
-        const QStringList &clipIds = m_activeTimeline->projectView()->selectedClips();
+	QStringList clipIds;
+	if (m_mainClip) clipIds << m_mainClip->clipProducer();
+	else clipIds = m_activeTimeline->projectView()->selectedClips();
         if (clipIds.isEmpty())
             return;
         m_projectListDock->raise();
-        for (int i = 0; i < clipIds.count(); i++)
-            m_projectList->selectItemById(clipIds.at(i));
+        m_projectList->selectItemById(clipIds.at(0));
         if (m_projectMonitor->isActive())
             slotSwitchMonitors();
     }
