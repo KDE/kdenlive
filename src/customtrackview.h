@@ -105,7 +105,7 @@ public:
     void updateSceneFrameWidth();
     //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
-    ClipItem *cutClip(ItemInfo info, GenTime cutTime, bool cut, bool execute = true);
+    ClipItem *cutClip(ItemInfo info, GenTime cutTime, bool cut, EffectsList oldStack = EffectsList(), bool execute = true);
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
@@ -144,7 +144,7 @@ public:
     *
     * Makes sure no clip on track to lock is selected. */
     void lockTrack(int ix, bool lock, bool requestUpdate = true);
-    void groupClips(bool group = true);
+    void groupClips(bool group = true, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), QUndoCommand *command = NULL);
     void doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group);
     void loadGroups(const QDomNodeList &groups);
 
@@ -277,17 +277,6 @@ public slots:
     /** @brief Rebuilds a group to fit again after children changed.
     * @param group The group to rebuild */
     void rebuildGroup(AbstractGroupItem *group);
-
-    /** @brief Cuts a group into two parts.
-    * @param clips1 Clips before the cut
-    * @param transitions1 Transitions before the cut
-    * @param clipsCut Clips that need to be cut
-    * @param transitionsCut Transitions that need to be cut
-    * @param clips2 Clips behind the cut
-    * @param transitions2 Transitions behind the cut
-    * @param cutPos Absolute position of the cut
-    * @param cut true = cut, false = "uncut" */
-    void slotRazorGroup(QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, bool cut);
 
     /** @brief Add en effect to a track.
     * @param effect The new effect xml

@@ -76,6 +76,7 @@ void OnMonitorPathItem::rebuildShape() {
 	    shape.addRect(r);
 	}
     }
+    prepareGeometryChange();
     m_shape = shape;
     setPath(p);
 }

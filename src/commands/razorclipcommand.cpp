@@ -23,13 +23,14 @@
 
 #include <KLocale>
 
-RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, bool doIt, QUndoCommand * parent) :
+RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, EffectsList stack, const GenTime cutTime, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_info(info),
         m_cutTime(cutTime),
         m_doIt(doIt)
 {
+    m_originalStack.clone(stack);
     setText(i18n("Razor clip"));
 }
 
@@ -37,13 +38,15 @@ RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, c
 void RazorClipCommand::undo()
 {
     // kDebug()<<"----  undoing action";
-    m_view->cutClip(m_info, m_cutTime, false);
+    m_view->cutClip(m_info, m_cutTime, false, m_originalStack);
 }
 // virtual
 void RazorClipCommand::redo()
 {
     // kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
-    if (m_doIt) m_view->cutClip(m_info, m_cutTime, true);
+    if (m_doIt) {
+	m_view->cutClip(m_info, m_cutTime, true);
+    }
     m_doIt = true;
 }
 

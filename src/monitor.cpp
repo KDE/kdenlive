@@ -49,7 +49,6 @@
 Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile, QWidget *parent) :
     AbstractMonitor(id, manager, parent)
     , render(NULL)
-    , m_name(Kdenlive::noMonitor)
     , m_currentClip(NULL)
     , m_overlay(NULL)
     , m_scale(1)

@@ -26,19 +26,21 @@
 
 #include <KDebug>
 #include "definitions.h"
+#include "effectslist.h"
 
 class CustomTrackView;
 
 class RazorClipCommand : public QUndoCommand
 {
 public:
-    RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, bool doIt = true, QUndoCommand * parent = 0);
+    RazorClipCommand(CustomTrackView *view, const ItemInfo info, EffectsList stack, const GenTime cutTime, bool doIt = true, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
     ItemInfo m_info;
+    EffectsList m_originalStack;
     GenTime m_cutTime;
     bool m_doIt;
 };

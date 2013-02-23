@@ -349,12 +349,16 @@ const QString ClipItem::adjustKeyframes(QString keyframes, int offset)
     return result.join(";");
 }
 
-bool ClipItem::checkKeyFrames()
+bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int cutPos)
 {
     bool clipEffectsModified = false;
     QLocale locale;
     // go through all effects this clip has
     for (int ix = 0; ix < m_effectList.count(); ++ix) {
+	// Check geometry params
+	resizeGeometries(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1);
+
+	// Check keyframe params
         QStringList keyframeParams = keyframes(ix);
         QStringList newKeyFrameParams;
         bool effModified = false;
@@ -368,7 +372,7 @@ bool ClipItem::checkKeyFrames()
             int lastPos = -1;
             double lastValue = -1;
             int start = cropStart().frames(m_fps);
-            int end = (cropStart() + cropDuration()).frames(m_fps);
+            int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
 
             // go through all keyframes for one param
             foreach(const QString &str, keyframes) {
@@ -382,8 +386,8 @@ bool ClipItem::checkKeyFrames()
                     if (pos > start) {
                         int diff = pos - lastPos;
                         double ratio = (double)(start - lastPos) / diff;
-                        double newValue = lastValue + (val - lastValue) * ratio;
-                        newKeyFrames.append(QString::number(start) + ':' + locale.toString(newValue));
+                        int newValue = lastValue + (val - lastValue) * ratio;
+                        newKeyFrames.append(QString::number(start) + ':' + QString::number(newValue));
                         modified = true;
                     }
                     cutKeyFrame = false;
@@ -394,13 +398,13 @@ bool ClipItem::checkKeyFrames()
                         int diff = pos - lastPos;
                         if (diff != 0) {
                             double ratio = (double)(end - lastPos) / diff;
-                            double newValue = lastValue + (val - lastValue) * ratio;
-                            newKeyFrames.append(QString::number(end) + ':' + locale.toString(newValue));
+                            int newValue = lastValue + (val - lastValue) * ratio;
+                            newKeyFrames.append(QString::number(end) + ':' + QString::number(newValue));
                             modified = true;
                         }
                         break;
                     } else {
-                        newKeyFrames.append(QString::number(pos) + ':' + locale.toString(val));
+                        newKeyFrames.append(QString::number(pos) + ':' + QString::number(val));
                     }
                 }
                 lastPos = pos;
@@ -430,9 +434,9 @@ void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
     int keyframeParams = 0;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && e.attribute("intimeline") == "1") {
+        if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
             e.setAttribute("keyframes", keyframes.at(keyframeParams));
-            if (ix == m_selectedEffect && keyframeParams == 0) {
+            if (ix + 1 == m_selectedEffect && keyframeParams == 0) {
                 m_keyframes.clear();
                 m_visibleParam = i;
                 double max = locale.toDouble(e.attribute("max"));
@@ -496,6 +500,22 @@ void ClipItem::setSelectedEffect(const int ix)
     if (!m_keyframes.isEmpty()) {
         m_keyframes.clear();
         update();
+    }
+}
+
+void ClipItem::resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration)
+{
+    QString geom;
+    QDomElement effect = m_effectList.at(index);
+    QDomNodeList params = effect.elementsByTagName("parameter");
+
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && e.attribute("type") == "geometry") {
+            geom = e.attribute("value");
+	    Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
+	    e.setAttribute("value", geometry.serialise(start, start + duration));
+	}
     }
 }
 
