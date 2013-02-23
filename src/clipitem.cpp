@@ -349,12 +349,16 @@ const QString ClipItem::adjustKeyframes(QString keyframes, int offset)
     return result.join(";");
 }
 
-bool ClipItem::checkKeyFrames()
+bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int cutPos)
 {
     bool clipEffectsModified = false;
     QLocale locale;
     // go through all effects this clip has
     for (int ix = 0; ix < m_effectList.count(); ++ix) {
+	// Check geometry params
+	resizeGeometries(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1);
+
+	// Check keyframe params
         QStringList keyframeParams = keyframes(ix);
         QStringList newKeyFrameParams;
         bool effModified = false;
@@ -496,6 +500,22 @@ void ClipItem::setSelectedEffect(const int ix)
     if (!m_keyframes.isEmpty()) {
         m_keyframes.clear();
         update();
+    }
+}
+
+void ClipItem::resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration)
+{
+    QString geom;
+    QDomElement effect = m_effectList.at(index);
+    QDomNodeList params = effect.elementsByTagName("parameter");
+
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && e.attribute("type") == "geometry") {
+            geom = e.attribute("value");
+	    Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
+	    e.setAttribute("value", geometry.serialise(start, start + duration));
+	}
     }
 }
 
