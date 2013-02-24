@@ -2380,8 +2380,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         return;
     }
     if (replace) toReload = clipId;
-    if (!toReload.isEmpty())
+    if (!toReload.isEmpty()) {
         emit clipNeedsReload(toReload);
+    }
 }
 
 bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
