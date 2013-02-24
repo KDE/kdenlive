@@ -2779,7 +2779,10 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 #endif
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
-    m_monitorManager->activateMonitor(Kdenlive::clipMonitor);
+
+    // Make sure monitor is visible so that it is painted black on startup
+    show();
+    m_monitorManager->activateMonitor(Kdenlive::clipMonitor, true);
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
 }
