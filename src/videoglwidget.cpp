@@ -129,7 +129,7 @@ void VideoGLWidget::paintGL()
     }
 }
 
-void VideoGLWidget::showImage(QImage image)
+void VideoGLWidget::showImage(const QImage image)
 {
     m_image_width = image.width();
     m_image_height = image.height();
@@ -142,7 +142,7 @@ void VideoGLWidget::showImage(QImage image)
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, m_texture);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, m_image_width, m_image_height, 0, GL_RGBA,
+    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, m_image_width, m_image_height, 0, GL_RGB,
                  GL_UNSIGNED_BYTE, image.bits());
     updateGL();
 }

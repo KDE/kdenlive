@@ -223,7 +223,7 @@ void Render::buildConsumer(const QString &profileName)
     setenv("MLT_PROFILE", m_activeProfile.toUtf8().constData(), 1);
     m_mltProfile->set_explicit(true);
 
-    m_blackClip = new Mlt::Producer(*m_mltProfile, "colour", "black");
+    m_blackClip = new Mlt::Producer(*m_mltProfile, "colour:black");
     m_blackClip->set("id", "black");
     m_blackClip->set("mlt_type", "producer");
     if (KdenliveSettings::external_display() && m_name != Kdenlive::clipMonitor && m_winid != 0) {
@@ -1797,13 +1797,13 @@ int Render::seekFramePosition() const
 
 void Render::emitFrameUpdated(Mlt::Frame& frame)
 {
-    mlt_image_format format = mlt_image_rgb24a;
+    mlt_image_format format = mlt_image_rgb24;
     int width = 0;
     int height = 0;
     const uchar* image = frame.get_image(format, width, height);
-    QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
-    memcpy(qimage.scanLine(0), image, width * height * 4);
-    emit frameUpdated(qimage.rgbSwapped());
+    QImage qimage(width, height, QImage::Format_RGB888);  //Format_ARGB32_Premultiplied);
+    memcpy(qimage.scanLine(0), image, width * height * 3);
+    emit frameUpdated(qimage);
 }
 
 int Render::getCurrentSeekPosition() const
@@ -1880,17 +1880,17 @@ void Render::showFrame(Mlt::Frame* frame)
     if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
     emit rendererPosition(currentPos);
     if (frame->is_valid()) {
-	mlt_image_format format = mlt_image_rgb24a;
+	mlt_image_format format = mlt_image_rgb24;
 	int width = 0;
 	int height = 0;
 	const uchar* image = frame->get_image(format, width, height);
-	QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
-	memcpy(qimage.scanLine(0), image, width * height * 4);
+	QImage qimage(width, height, QImage::Format_RGB888); //Format_ARGB32_Premultiplied);
+	memcpy(qimage.scanLine(0), image, width * height * 3);
 	if (analyseAudio) showAudio(*frame);
 	delete frame;
 	emit showImageSignal(qimage);
 	if (sendFrameForAnalysis) {
-	    emit frameUpdated(qimage.rgbSwapped());
+	    emit frameUpdated(qimage);//.rgbSwapped());
 	}
     } else delete frame;
     showFrameSemaphore.release();
