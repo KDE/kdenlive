@@ -28,7 +28,7 @@ private:
     Qt::WindowFlags m_baseFlags;
 
 public slots:
-    void showImage(QImage image);
+    void showImage(const QImage image);
 
 protected:
     void initializeGL();
