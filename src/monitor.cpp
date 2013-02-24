@@ -872,7 +872,7 @@ void Monitor::slotLoopClip()
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
     if (render == NULL) return;
-   render->setProducer(prod, render->seekFramePosition());
+    render->setProducer(prod, render->seekFramePosition());
 }
 
 void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpdate, int position)
@@ -880,7 +880,6 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
     if (render == NULL) return;
     if (clip == NULL && m_currentClip != NULL) {
 	m_currentClip->lastSeekPosition = render->seekFramePosition();
-        kDebug()<<"// SETTING NULL CLIP MONITOR";
         m_currentClip = NULL;
         m_length = -1;
         render->setProducer(NULL, -1);
@@ -897,7 +896,7 @@ void Monitor::slotSetClipProducer(DocClipBase *clip, QPoint zone, bool forceUpda
         if (render->setProducer(prod, position) == -1) {
             // MLT CONSUMER is broken
             kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
-        }
+        } else start();
     } else {
         if (m_currentClip) {
             slotActivateMonitor();
