@@ -50,7 +50,6 @@
 #include <QFile>
 #include <QInputDialog>
 #include <QDomImplementation>
-#include <QTextBoundaryFinder>
 
 #include <mlt++/Mlt.h>
 
