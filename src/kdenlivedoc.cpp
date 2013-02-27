@@ -50,6 +50,7 @@
 #include <QFile>
 #include <QInputDialog>
 #include <QDomImplementation>
+#include <QTextBoundaryFinder>
 
 #include <mlt++/Mlt.h>
 
@@ -147,17 +148,48 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 	    int col;
             QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
             success = m_document.setContent(&file, false, &errorMsg, &line, &col);
-            file.close();
-            KIO::NetAccess::removeTempFile(tmpFile);
+	    file.close();
 
             if (!success) {
                 // It is corrupted
-                if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file, error is:\n%1 (line %2, col %3)\nDo you want to open a backup file?", errorMsg, line, col), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
-                *openBackup = true;
+		int answer = KMessageBox::warningYesNoCancel (parent, i18n("Cannot open the project file, error is:\n%1 (line %2, col %3)\nDo you want to open a backup file?", errorMsg, line, col), i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
+                if (answer == KMessageBox::Yes) {
+		    *openBackup = true;
+		}
+		else if (answer == KMessageBox::No) {
+		    // Try to recover broken file produced by Kdenlive 0.9.4
+		    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			int correction = 0;
+			QString playlist = file.readAll();
+			while (!success && correction < 2) {
+			    int errorPos = 0;
+			    line--;
+			    col = col - 2;
+			    for (int j = 0; j < line && errorPos < playlist.length(); j++) {
+				errorPos = playlist.indexOf("\n", errorPos);
+				errorPos++;
+			    }
+			    errorPos += col;
+			    if (errorPos >= playlist.length()) break;
+			    playlist.remove(errorPos, 1);
+			    line = 0;
+			    col = 0;
+			    success = m_document.setContent(playlist, false, &errorMsg, &line, &col);
+			    correction++;
+			}
+			if (!success) {
+			    KMessageBox::sorry(parent, i18n("Cannot recover this project file"));
+			}
+			else {
+			    // Document was modified, ask for backup
+			    QDomElement mlt = m_document.documentElement();
+			    QDomElement info = mlt.firstChildElement("kdenlivedoc");
+			    if (!info.isNull()) info.setAttribute("modified", 1);
+			}
+		    }
+		}
             }
-                //KMessageBox::error(parent, errorMsg);
-            }
-            else {
+            if (success) {
                 parent->slotGotProgressInfo(i18n("Validating"), 0);
                 qApp->processEvents();
                 DocumentValidator validator(m_document, url);
@@ -311,6 +343,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     }
                 }
             }
+            KIO::NetAccess::removeTempFile(tmpFile);
         }
     }
     
@@ -1820,6 +1853,7 @@ const QMap <QString, QString> KdenliveDoc::metadata() const
 
 void KdenliveDoc::setMetadata(const QMap <QString, QString> meta)
 {
+    setModified(true);
     m_documentMetadata = meta;
 }
 
