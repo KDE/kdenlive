@@ -207,6 +207,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
         m_usedTransition = NULL;
         ItemInfo info;
         m_effectEdit->transferParamDesc(QDomElement(), info, false);
+	m_effectEdit->monitor()->slotShowEffectScene(false);
     }
 }
 
