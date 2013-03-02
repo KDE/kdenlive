@@ -2807,9 +2807,11 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             updateTrackDuration(info.track, addCommand);
 
             if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
-                // add transparency transition
-                QDomElement trans = MainWindow::transitions.getEffectByTag("affine", QString()).cloneNode().toElement();
-                new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), trans, false, true, addCommand);
+                // add transparency transition if space is available
+		if (canBePastedTo(info, TRANSITIONWIDGET)) {
+		    QDomElement trans = MainWindow::transitions.getEffectByTag("affine", QString()).cloneNode().toElement();
+		    new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), trans, false, true, addCommand);
+		}
             }
             item->setSelected(true);
         }

@@ -615,7 +615,7 @@ const QMap <QString, QString> ProjectSettings::metadata() const
             QString key = item->data(0, Qt::UserRole).toString();
 	    if (key.isEmpty()) key = "meta.attr." + item->text(0).simplified() + ".markup";
             QString value = item->text(1);
-            if (!key.contains(' ')) metadata.insert(key, value);
+            metadata.insert(key, value);
         }
     }
     return metadata;

@@ -2447,7 +2447,7 @@ void MainWindow::slotEditProjectSettings()
             m_activeDocument->setModified();
             slotUpdateProxySettings();
         }
-        m_activeDocument->setMetadata(w->metadata());
+        if (w->metadata() != m_activeDocument->metadata()) m_activeDocument->setMetadata(w->metadata());
     }
     delete w;
 }
