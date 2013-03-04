@@ -799,7 +799,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	QGraphicsView::mousePressEvent(event);
         return;
     }
-
     // if a guide and a clip were pressed, just select the guide
     for (int i = 0; i < collisionList.count(); ++i) {
         if (collisionList.at(i)->type() == GUIDEITEM) {
@@ -1057,7 +1056,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	}*/
 
         bool selected = !m_dragItem->isSelected();
+	m_dragItem->setZValue(99);
+	if (m_dragItem->parentItem()) m_dragItem->parentItem()->setZValue(99);
 	QGraphicsView::mousePressEvent(event);
+	
         if (dragGroup) {
             dragGroup->setSelected(selected);
 	    QList<QGraphicsItem *> children = dragGroup->childItems();

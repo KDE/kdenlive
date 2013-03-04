@@ -119,6 +119,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
         m_baseColor = QColor(141, 215, 166);
         connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
+    m_paintColor = m_baseColor;
 }
 
 
@@ -789,23 +790,21 @@ void ClipItem::paint(QPainter *painter,
                      QWidget *)
 {
     QPalette palette = scene()->palette();
-    QColor paintColor;
+    QColor paintColor = m_paintColor;
     QColor textColor;
     QColor textBgColor;
     QPen framePen;
-    if (parentItem()) paintColor = QColor(255, 248, 149);
-    else paintColor = m_baseColor;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
 	textColor = palette.highlightedText().color();
 	textBgColor = palette.highlight().color();
-        paintColor = paintColor.darker();
         framePen.setColor(textBgColor);
+	paintColor.setRed(qMin(paintColor.red() * 2, 255));
     }
     else {
 	textColor = palette.text().color();
 	textBgColor = palette.window().color();
 	textBgColor.setAlpha(200);
-        framePen.setColor(paintColor.darker());
+        framePen.setColor(m_paintColor.darker());
     }
     const QRectF exposed = option->exposedRect;
     const QTransform transformation = painter->worldTransform();
@@ -820,7 +819,7 @@ void ClipItem::paint(QPainter *painter,
     painter->setClipPath(p.intersected(q));
     painter->setPen(Qt::NoPen);
     painter->fillRect(mappedExposed, paintColor);
-    painter->setPen(paintColor.darker());
+    painter->setPen(m_paintColor.darker());
     // draw thumbnails
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
 	QRectF thumbRect;
@@ -1386,8 +1385,10 @@ void ClipItem::resizeEnd(int posx, bool emitChange)
 QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedChange) {
-        if (value.toBool()) setZValue(10);
-        else setZValue(2);
+        if (value.toBool())
+	    setZValue(10);
+        else
+	    setZValue(2);
     }
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
@@ -1463,6 +1464,11 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
         //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;
+    }
+    if (change == ItemParentChange) {
+	QGraphicsItem* parent = value.value<QGraphicsItem*>();
+	if (parent) m_paintColor = m_baseColor.lighter(135);
+	else m_paintColor = m_baseColor;
     }
     return QGraphicsItem::itemChange(change, value);
 }
@@ -1865,6 +1871,10 @@ void ClipItem::setAudioOnly(bool force)
         } else if (m_clipType == AUDIO) m_baseColor = QColor(141, 215, 166);
         else m_baseColor = QColor(141, 166, 215);
     }
+    if (parentItem())
+	m_paintColor = m_baseColor.lighter(135);
+    else
+	m_paintColor = m_baseColor;
     m_audioThumbCachePic.clear();
 }
 
