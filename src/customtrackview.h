@@ -383,6 +383,7 @@ private:
     int m_selectedTrack;
     int m_spacerOffset;
 
+    QMutex m_selectionMutex;
     QMutex m_mutex;
     QWaitCondition m_producerNotReady;
     KStatefulBrush m_activeTrackBrush;
