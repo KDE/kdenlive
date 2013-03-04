@@ -45,6 +45,8 @@ public:
     TimelineView *view();
     /** @brief Returns a pointer to the track item at @param index. */
     TimelineTrackItem *trackItem(int index);
+    /** @brief Returns a pointer to the track item at @param yPos. */
+    TimelineTrackItem *trackItemAt(int yPos);
     /** @brief Returns a pointer to the tool manager used by this scene. */
     ToolManager *toolManager();
 

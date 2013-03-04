@@ -47,6 +47,18 @@ TimelineTrackItem* TimelineScene::trackItem(int index)
     return m_trackItems.at(index);
 }
 
+TimelineTrackItem* TimelineScene::trackItemAt(int yPos)
+{
+    QList<QGraphicsItem*> itemsAtPos = items(0, yPos, 1, 1, Qt::IntersectsItemShape, Qt::DescendingOrder);
+    foreach (QGraphicsItem * const &item, itemsAtPos) {
+        if (item->type() == TimelineTrackItem::Type) {
+            return qgraphicsitem_cast<TimelineTrackItem*>(item);
+        }
+    }
+
+    return 0;
+}
+
 ToolManager* TimelineScene::toolManager()
 {
     return m_toolManager;

@@ -154,6 +154,9 @@ void Bin::slotInitView(QAction *action)
     m_itemView->setIconSize(QSize(m_iconSize, m_iconSize));
     m_itemView->setModel(m_itemModel);
     m_itemView->setSelectionModel(m_itemModel->selectionModel());
+
+    m_itemView->setDragDropMode(QAbstractItemView::DragDrop);
+
     layout()->addWidget(m_itemView);
 
     // setup some default view specific parameters

@@ -16,8 +16,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KDebug>
 
 
-ImageTimelineClip::ImageTimelineClip(ProducerWrapper* producer, ImageProjectClip* projectClip, TimelineTrack* parent) :
-    AbstractTimelineClip(producer, projectClip, parent)
+ImageTimelineClip::ImageTimelineClip(ImageProjectClip* projectClip, TimelineTrack* parent, ProducerWrapper* producer) :
+    AbstractTimelineClip(projectClip, parent, producer)
 {
     kDebug() << "image timelineclip created";
 }

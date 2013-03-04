@@ -58,10 +58,15 @@ ImageProjectClip::~ImageProjectClip()
 {
 }
 
-AbstractTimelineClip* ImageProjectClip::addInstance(ProducerWrapper* producer, TimelineTrack* parent)
+AbstractTimelineClip* ImageProjectClip::createInstance(TimelineTrack* parent, ProducerWrapper* producer)
 {
-    ImageTimelineClip *instance = new ImageTimelineClip(producer, this, parent);
+    ImageTimelineClip *instance = new ImageTimelineClip(this, parent, producer);
     m_instances.append(instance);
+
+    if (producer) {
+        setTimelineBaseProducer(new ProducerWrapper(&producer->parent()));
+    }
+
     return static_cast<AbstractTimelineClip *>(instance);
 }
 

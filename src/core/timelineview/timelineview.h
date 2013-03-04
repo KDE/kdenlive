@@ -56,6 +56,8 @@ signals:
 protected:
     void wheelEvent(QWheelEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
 
 private slots:
     void setHeight(int height);

@@ -21,7 +21,7 @@ class ImageTimelineClip : public AbstractTimelineClip
     Q_OBJECT
 
 public:
-    ImageTimelineClip(ProducerWrapper* producer, ImageProjectClip* projectClip, TimelineTrack* parent);
+    ImageTimelineClip(ImageProjectClip* projectClip, TimelineTrack* parent, ProducerWrapper* producer = 0);
     ~ImageTimelineClip();
 };
 

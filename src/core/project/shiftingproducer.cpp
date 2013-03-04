@@ -33,12 +33,14 @@ void ShiftingProducer::setProducer(ProducerWrapper* newProducer)
     ProducerWrapper *oldProducer = m_producer;
     m_producer = newProducer;
 
-    emit producerShifted();
+    if (oldProducer) {
+        emit producerShifted();
 
-    m_producer->pass_values(*oldProducer, "kdenlive");
-    m_producer->pass_list(*oldProducer, m_registeredProperties.join(",").toUtf8().constData());
+        m_producer->pass_values(*oldProducer, "kdenlive");
+        m_producer->pass_list(*oldProducer, m_registeredProperties.join(",").toUtf8().constData());
 
-    delete oldProducer;
+        delete oldProducer;
+    }
 }
 
 void ShiftingProducer::registerProperty(QString name, QString value)

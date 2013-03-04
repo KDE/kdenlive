@@ -47,11 +47,9 @@ void SelectClipItemTool::mouseMove(QGraphicsSceneMouseEvent* event)
         int lastPosition = m_clip->rect().x();
         QGraphicsItem * lastTrack = m_clip->parentItem();
 
-        QList<QGraphicsItem*> itemsUnderMouse = m_clip->scene()->items(0, event->scenePos().y(), 1, 1, Qt::IntersectsItemShape, Qt::DescendingOrder);
-        foreach (QGraphicsItem * const &item, itemsUnderMouse) {
-            if (item->type() == TimelineTrackItem::Type) {
-                m_clip->setParentItem(item);
-            }
+        TimelineTrackItem *newTrack = static_cast<TimelineScene*>(m_clip->scene())->trackItemAt(event->scenePos().y());
+        if (newTrack) {
+            m_clip->setParentItem(newTrack);
         }
 
         m_clip->setGeometry(qMax(0, qRound(event->scenePos().x()) - m_original + m_clip->clip()->position()), m_clip->rect().width());

@@ -57,7 +57,7 @@ public:
     AbstractClipPlugin const *plugin() const;
 
     /** @brief Should return a timeline clip/instance of this clip. */
-    virtual AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent) = 0;
+    virtual AbstractTimelineClip *createInstance(TimelineTrack *parent, ProducerWrapper *producer = 0) = 0;
     
     /** @brief Create the producer on demand if it was not already loaded. */
     virtual void initProducer() = 0;
@@ -87,13 +87,6 @@ public:
 
     /** @brief Returns the "base" producer from which the entries / "cut" producers in the timeline are created. */
     virtual ProducerWrapper *timelineBaseProducer();
-    /**
-     * @brief Sets the "base" producer from which the entries / "cut" producers in the timeline are created.
-     * @param producer pointer to the producer
-     * 
-     * This is supposed to be called only by timeline instances when opening the project to inform this object about an already existing base producer.
-     */
-    virtual void setTimelineBaseProducer(ProducerWrapper *producer);
     
 protected:
     AbstractClipPlugin const *m_plugin;
@@ -106,6 +99,14 @@ protected:
     
     /** @brief Returns a rounded border pixmap from the @param source pixmap. */
     QPixmap roundedPixmap(QPixmap source);
+
+    /**
+     * @brief Sets the "base" producer from which the entries / "cut" producers in the timeline are created.
+     * @param producer pointer to the producer
+     * 
+     * Should be called in from a subclasses' createInstance function to so that we know about an already existing base producer.
+     */
+    virtual void setTimelineBaseProducer(ProducerWrapper *producer);
 
 private:
     ProducerWrapper *m_timelineBaseProducer;

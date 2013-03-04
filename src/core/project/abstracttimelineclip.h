@@ -33,11 +33,12 @@ class KDE_EXPORT AbstractTimelineClip : public ShiftingProducer
 public:
     /** 
      * @brief Creates a new timeline clip.
-     * @param producer producer this timeline clip should handle (the cut producer/playlist entry, not the parent)
      * @param projectClip project clip this instance belongs to
      * @param parent track this clip is inside of; the constructor does not add the clip to the track, you have to do this manually
+     * @param producer producer this timeline clip should handle (the cut producer/playlist entry, not the parent);
+     *                 if 0 (should be done only by @class AddRemoveTimlineClip) a temporary producer will be created
      */
-    AbstractTimelineClip(ProducerWrapper *producer, AbstractProjectClip *projectClip, TimelineTrack *parent);
+    AbstractTimelineClip(AbstractProjectClip *projectClip, TimelineTrack *parent, ProducerWrapper *producer = 0);
     virtual ~AbstractTimelineClip();
 
     /** @brief Returns the project clip this instance belongs to. */

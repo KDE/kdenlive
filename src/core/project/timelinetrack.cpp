@@ -34,7 +34,7 @@ TimelineTrack::TimelineTrack(ProducerWrapper* producer, Timeline* parent) :
             QString id = QString(clipProducer->parent().get("id")).section('_', 0, 0);
             AbstractProjectClip *projectClip = parent->project()->bin()->clip(id);
             if (projectClip) {
-                AbstractTimelineClip *clip = projectClip->addInstance(clipProducer, this);
+                AbstractTimelineClip *clip = projectClip->createInstance(this, clipProducer);
                 m_clips.insert(i, clip);
             } else {
                 kDebug() << "project clip not found" << id;

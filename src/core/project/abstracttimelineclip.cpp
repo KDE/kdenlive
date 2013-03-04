@@ -19,12 +19,15 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUndoStack>
 
 
-AbstractTimelineClip::AbstractTimelineClip(ProducerWrapper* producer, AbstractProjectClip* projectClip, TimelineTrack* parent) :
+AbstractTimelineClip::AbstractTimelineClip(AbstractProjectClip* projectClip, TimelineTrack* parent, ProducerWrapper* producer) :
     ShiftingProducer(producer, parent),
     m_projectClip(projectClip),
     m_parent(parent)
 {
-    m_projectClip->setTimelineBaseProducer(new ProducerWrapper(&m_producer->parent()));
+    if (!producer) {
+        ProducerWrapper *baseProducer = receiveBaseProducer(parent->index());
+        setProducer(new ProducerWrapper(baseProducer->cut()));
+    }
 }
 
 AbstractTimelineClip::~AbstractTimelineClip()

@@ -40,6 +40,9 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
+    QStringList mimeTypes() const;
+    QMimeData *mimeData(const QModelIndexList &indices) const;
+
 private slots:
     void onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous);
 

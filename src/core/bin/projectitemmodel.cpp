@@ -11,9 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectitemmodel.h"
 #include "project/binmodel.h"
 #include "project/projectfolder.h"
+#include "project/abstractprojectclip.h"
 #include <KLocale>
 #include <QItemSelectionModel>
 #include <QIcon>
+#include <QMimeData>
 
 #include <KDebug>
 
@@ -73,7 +75,7 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
         return 0;
     }
 
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled;
 }
 
 QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -154,6 +156,34 @@ int ProjectItemModel::columnCount(const QModelIndex& parent) const
     } else {
         return m_binModel->rootFolder()->supportedDataCount();
     }
+}
+
+QStringList ProjectItemModel::mimeTypes() const
+{
+    QStringList types;
+    types << "kdenlive/clip";
+    return types;
+}
+
+QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
+{
+    QMimeData *mimeData = new QMimeData();
+
+    if (indices.count() >= 1 && indices.at(0).isValid()) {
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(indices.at(0).internalPointer());
+        AbstractProjectClip *clip = qobject_cast<AbstractProjectClip*>(item);
+        if (clip) {
+            QStringList list;
+            list << clip->id();
+            QByteArray data;
+            data.append(list.join(";").toUtf8());
+            mimeData->setData("kdenlive/clip",  data);
+            return mimeData;
+        }
+    }
+
+    return 0;
+    
 }
 
 void ProjectItemModel::onCurrentRowChanged(const QModelIndex& current, const QModelIndex& previous)

@@ -28,7 +28,7 @@ public:
     ImageProjectClip(const QDomElement &description, ProjectFolder *parent, ImageClipPlugin const *plugin);
     ~ImageProjectClip();
 
-    AbstractTimelineClip *addInstance(ProducerWrapper *producer, TimelineTrack *parent);
+    AbstractTimelineClip *createInstance(TimelineTrack *parent, ProducerWrapper *producer = 0);
     void initProducer();
     void hash();
 

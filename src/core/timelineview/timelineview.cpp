@@ -135,4 +135,16 @@ void TimelineView::mousePressEvent(QMouseEvent* event)
 //     m_scene->timeline()->monitor()->setProducer(m_scene->timeline()->producer());
 }
 
+void TimelineView::dragEnterEvent(QDragEnterEvent* event)
+{
+    if (event->mimeData()->hasFormat("kdenlive/clip")) {
+        event->accept();
+    }
+}
+
+void TimelineView::dragMoveEvent(QDragMoveEvent* event)
+{
+    event->accept();
+}
+
 #include "timelineview.moc"

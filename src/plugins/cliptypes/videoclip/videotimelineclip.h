@@ -21,7 +21,7 @@ class VideoTimelineClip : public AbstractTimelineClip
     Q_OBJECT
 
 public:
-    VideoTimelineClip(ProducerWrapper* producer, VideoProjectClip* projectClip, TimelineTrack* parent);
+    VideoTimelineClip(VideoProjectClip* projectClip, TimelineTrack* parent, ProducerWrapper* producer);
     ~VideoTimelineClip();
 };
 
