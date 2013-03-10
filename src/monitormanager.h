@@ -50,6 +50,8 @@ public:
     QString getProjectFolder() const;
     /** @brief Sets current document for later reference. */
     void setDocument(KdenliveDoc *doc);
+    /** @brief Change an MLT consumer property for both monitors. */
+    void setConsumerProperty(const QString &name, const QString &value);
 
 public slots:
 
