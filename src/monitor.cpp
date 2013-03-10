@@ -31,6 +31,7 @@
 #include <KFileDialog>
 #include <KApplication>
 #include <KMessageBox>
+#include <KSelectAction>
 
 #include <QMouseEvent>
 #include <QStylePainter>
@@ -289,14 +290,38 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     showTips->setCheckable(true);
     connect(showTips, SIGNAL(toggled(bool)), this, SLOT(slotSwitchMonitorInfo(bool)));
     showTips->setChecked(KdenliveSettings::displayMonitorInfo());
+    
+    KSelectAction *interlace = new KSelectAction(i18n("Deinterlacer"), this);
+    interlace->addAction(i18n("One Field (fast)"));
+    interlace->addAction(i18n("Linear Blend (fast)"));
+    interlace->addAction(i18n("YADIF - temporal only (good)"));
+    interlace->addAction(i18n("YADIF - temporal + spacial (best)"));
+    if (KdenliveSettings::mltdeinterlacer() == "linearblend") interlace->setCurrentItem(1);
+    else if (KdenliveSettings::mltdeinterlacer() == "yadif-temporal") interlace->setCurrentItem(2);
+    else if (KdenliveSettings::mltdeinterlacer() == "yadif") interlace->setCurrentItem(3);
+    else interlace->setCurrentItem(0);
+    connect(interlace, SIGNAL(triggered(int)), this, SLOT(slotSetDeinterlacer(int)));
+    
+    KSelectAction *interpol = new KSelectAction(i18n("Interpolation"), this);
+    interpol->addAction(i18n("Nearest Neighbor (fast)"));
+    interpol->addAction(i18n("Bilinear (good)"));
+    interpol->addAction(i18n("Bicubic (better)"));
+    interpol->addAction(i18n("Hyper/Lanczos (best)"));
+    if (KdenliveSettings::mltinterpolation() == "bilinear") interpol->setCurrentItem(1);
+    else if (KdenliveSettings::mltinterpolation() == "bicubic") interpol->setCurrentItem(2);
+    else if (KdenliveSettings::mltinterpolation() == "hyper") interpol->setCurrentItem(3);
+    else interpol->setCurrentItem(0);
+    connect(interpol, SIGNAL(triggered(int)), this, SLOT(slotSetInterpolation(int)));
 
     QAction *dropFrames = m_contextMenu->addAction(KIcon(), i18n("Real time (drop frames)"));
     dropFrames->setCheckable(true);
     dropFrames->setChecked(true);
     connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
-
+    
     m_configMenu->addAction(showTips);
     m_configMenu->addAction(dropFrames);
+    m_configMenu->addAction(interlace);
+    m_configMenu->addAction(interpol);
 
 }
 
@@ -980,6 +1005,48 @@ void Monitor::slotSwitchDropFrames(bool show)
 {
     render->setDropFrames(show);
 }
+
+void Monitor::slotSetDeinterlacer(int ix)
+{
+    QString value;
+    switch (ix) {
+      
+      case 1:
+	value = "linearblend";
+	break;
+      case 2:
+	value = "yadif-nospatial";
+	break;
+      case 3:
+	value = "yadif";
+	break;
+      default:
+	value = "onefield";
+    }
+    KdenliveSettings::setMltdeinterlacer(value);
+    m_monitorManager->setConsumerProperty("deinterlace_method", value);
+}
+
+void Monitor::slotSetInterpolation(int ix)
+{
+    QString value;
+    switch (ix) {
+      case 1:
+	value = "bilinear";
+	break;
+      case 2:
+	value = "bicubic";
+	break;
+      case 3:
+	value = "hyper";
+	break;
+      default:
+	value = "nearest";
+    }
+    KdenliveSettings::setMltinterpolation(value);
+    m_monitorManager->setConsumerProperty("rescale", value);
+}
+
 
 void Monitor::slotSwitchMonitorInfo(bool show)
 {

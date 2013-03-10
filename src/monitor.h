@@ -170,6 +170,8 @@ private slots:
     void setClipZone(QPoint pos);
     void slotSwitchMonitorInfo(bool show);
     void slotSwitchDropFrames(bool show);
+    void slotSetDeinterlacer(int ix);
+    void slotSetInterpolation(int ix);
     void slotGoToMarker(QAction *action);
     void slotSetVolume(int volume);
     void slotShowVolume();

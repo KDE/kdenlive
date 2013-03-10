@@ -84,6 +84,12 @@ AbstractMonitor* MonitorManager::monitor(Kdenlive::MONITORID monitorName)
     return monitor;
 }
 
+void MonitorManager::setConsumerProperty(const QString &name, const QString &value)
+{
+    if (m_clipMonitor) m_clipMonitor->render->setConsumerProperty(name, value);
+    if (m_projectMonitor) m_projectMonitor->render->setConsumerProperty(name, value);
+}
+
 bool MonitorManager::activateMonitor(Kdenlive::MONITORID name, bool forceRefresh)
 {
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
