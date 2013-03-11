@@ -31,7 +31,7 @@ class QPaintEvent;
 class QResizeEvent;
 class QMouseEvent;
 
-class RegionGrabber : public QWidget
+class RegionGrabber : public QObject, public QWidget
 {
     Q_OBJECT
 public:

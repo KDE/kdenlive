@@ -278,6 +278,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     		this, SLOT(slotEnableJackTransportButton(AbstractMonitor&)));
     connect (m_monitorManager, SIGNAL(monitorStopped(AbstractMonitor&)),
     		this, SLOT(slotDisableJackTransportButton(AbstractMonitor&)));
+    connect (m_monitorManager, SIGNAL(monitorStarted(AbstractMonitor&)),
+    		this, SLOT(slotEnableJackTransportMonButton(AbstractMonitor&)));
+    connect (m_monitorManager, SIGNAL(monitorStopped(AbstractMonitor&)),
+    		this, SLOT(slotDisableJackTransportMonButton(AbstractMonitor&)));
 
     connect (&JACKDEV, SIGNAL(playbackSyncDiffChanged(int)),
     		this, SLOT(slotUpdateJackSyncDiff(int)));
@@ -1216,9 +1220,9 @@ void MainWindow::setupActions()
     toolbar->addAction(m_buttonJackTransportMon);
     m_buttonJackTransportMon->setShortcut(Qt::SHIFT + Qt::Key_E);
     m_buttonJackTransportMon->setCheckable(true);
-    m_buttonJackTransportMon->setChecked(KdenliveSettings::jacktransport());
+    m_buttonJackTransportMon->setChecked(KdenliveSettings::jacktransportmon());
     m_buttonJackTransportMon->setDisabled(true);
-//    connect(m_buttonJackTransport, SIGNAL(triggered()), this, SLOT(slotSwitchJackTransport()));
+    connect(m_buttonJackTransportMon, SIGNAL(triggered()), this, SLOT(slotSwitchJackTransportMon()));
 #endif
 
     actionWidget = toolbar->widgetForAction(m_buttonAutomaticSplitAudio);
@@ -2938,6 +2942,27 @@ void MainWindow::slotSwitchJackTransport()
 #endif
 }
 
+void MainWindow::slotSwitchJackTransportMon()
+{
+#ifdef USE_JACK
+    AbstractRender* abstrRender = m_monitorManager->activeRenderer();
+    bool monEnabled = KdenliveSettings::jacktransportmon();
+
+    if (abstrRender) {
+		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
+			abstrRender->isDeviceActive(Device::Jack) && !monEnabled) {
+		    KdenliveSettings::setJacktransportmon(true);
+		} else {
+		    KdenliveSettings::setJacktransportmon(false);
+		}
+    }
+
+    m_buttonJackTransportMon->setChecked(KdenliveSettings::jacktransportmon());
+
+#endif
+}
+
+
 void MainWindow::slotEnableJackTransportButton(AbstractMonitor& monitor)
 {
 #ifdef USE_JACK
@@ -2968,6 +2993,31 @@ void MainWindow::slotDisableJackTransportButton(AbstractMonitor& monitor)
 		}
 		/* disable toggle button */
 		m_buttonJackTransport->setDisabled(true);
+	}
+#endif
+}
+
+void MainWindow::slotEnableJackTransportMonButton(AbstractMonitor& monitor)
+{
+#ifdef USE_JACK
+	AbstractRender* abstrRender = monitor.abstractRender();
+	if (abstrRender) {
+		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
+			abstrRender->isDeviceActive(Device::Jack)) {
+			/* enable toggle button */
+			m_buttonJackTransportMon->setDisabled(false);
+		}
+	}
+#endif
+}
+
+void MainWindow::slotDisableJackTransportMonButton(AbstractMonitor& monitor)
+{
+#ifdef USE_JACK
+	AbstractRender* abstrRender = monitor.abstractRender();
+	if (abstrRender) {
+		/* disable toggle button */
+		m_buttonJackTransportMon->setDisabled(true);
 	}
 #endif
 }

@@ -606,6 +606,11 @@
       <label>Enable jack transport in timeline.</label>
       <default>true</default>
     </entry>
+    
+    <entry name="jacktransportmon" type="Bool">
+      <label>Enable jack transport monitoring.</label>
+      <default>true</default>
+    </entry>
 
     <entry name="transitionfollowcursor" type="Bool">
       <label>When editing a composite transition, move timeline cursor for better preview.</label>

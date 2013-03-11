@@ -73,7 +73,13 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), analyseAudio(false), m_name(name), m_slavePerm(Slave::Perm::Internal) {};
+    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0) :
+    	QObject(parent),
+    	sendFrameForAnalysis(false),
+    	analyseAudio(false),
+    	m_name(name),
+    	m_slavePerm(Slave::Perm::Internal)
+    {};
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~AbstractRender() {};
