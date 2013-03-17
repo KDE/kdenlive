@@ -121,6 +121,8 @@ Q_OBJECT public:
     void closeDevice(Device::Type dev);
     /** @brief Enable appropriate transport slave */
     void enableSlave(Slave::Type slave);
+    /** @brief Set playback sync monitoring state */
+    void setPlaybackSyncMonEnabled(bool state);
 
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 

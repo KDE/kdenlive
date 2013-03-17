@@ -2949,11 +2949,12 @@ void MainWindow::slotSwitchJackTransportMon()
     bool monEnabled = KdenliveSettings::jacktransportmon();
 
     if (abstrRender) {
-		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
-			abstrRender->isDeviceActive(Device::Jack) && !monEnabled) {
+		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) && !monEnabled) {
 		    KdenliveSettings::setJacktransportmon(true);
+		    abstrRender->setPlaybackSyncMonEnabled(true);
 		} else {
 		    KdenliveSettings::setJacktransportmon(false);
+		    abstrRender->setPlaybackSyncMonEnabled(false);
 		}
     }
 

@@ -4916,6 +4916,8 @@ void Render::openDevice(Device::Type dev)
 			/* connect shutdown event handler */
 			connect(&JACKDEV, SIGNAL(shutdown()),
 					this, SLOT(slotOnDeviceShutdown()));
+			/* set sync diff monitoring action */
+			JACKDEV.setPlaybackSyncMonAction(KdenliveSettings::syncdiffmonaction());
 		}
 	} else
 #endif
@@ -5015,6 +5017,15 @@ void Render::enableSlave(Slave::Type slave)
 		/* DEBUG */
 		kDebug() << "// INTERNAL Slave enabled";
 	}
+}
+
+void Render::setPlaybackSyncMonEnabled(bool state)
+{
+#ifdef USE_JACK
+	if (isDeviceActive(Device::Jack)) {
+		JACKDEV.setPlaybackSyncMonEnabled(state);
+	}
+#endif
 }
 
 void Render::slotOnSlavePlaybackStarted(int position)

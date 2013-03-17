@@ -194,6 +194,11 @@
       <label>Automatically split audio and video.</label>
       <default>false</default>
     </entry>
+    
+    <entry name="syncdiffmonaction" type="Int">
+      <label>Playback sync diff monitor action.</label>
+      <default>0</default>
+    </entry>
     </group>
 
     <group name="sdl">

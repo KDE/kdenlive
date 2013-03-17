@@ -24,9 +24,12 @@ JackDevice::JackDevice(Mlt::Profile * profile) :
 	m_shutdown(false),
 	m_transportEnabled(false),
 	m_loopState(0),
-	m_playbackSyncDiff(0)
+	m_playbackSyncDiff(0),
+	m_playbackSyncMonEnabled(true),
+	m_playbackSyncMonAction(0)
 {
 	m_mltProfile = profile;
+//	m_playbackSyncMonAction = QString("resync");
 }
 
 JackDevice& JackDevice::singleton(Mlt::Profile * profile)
@@ -497,9 +500,12 @@ void JackDevice::setCurrentPosition(int position)
 
 void JackDevice::monitorPlaybackSync(int position)
 {
+	if (!m_playbackSyncMonEnabled)
+		return;
+
 	/* get playback sync difference */
 	int diff = position - getPlaybackPosition();
-	if(m_playbackSyncDiff != diff) {
+	if (m_playbackSyncDiff != diff) {
 		/* save diff */
 		m_playbackSyncDiff = diff;
 		/* fire diff event */
@@ -507,9 +513,15 @@ void JackDevice::monitorPlaybackSync(int position)
 	}
 
 	/* if action defined */
-	if (qAbs(diff) > 1 && m_nextState == JackTransportRolling)
-//		stopPlayback();
-		seekPlayback(getPlaybackPosition());
+	if (m_playbackSyncMonAction != 0) {
+		if (qAbs(diff) > 1 && m_nextState == JackTransportRolling) {
+			if (m_playbackSyncMonAction == 1) {
+				stopPlayback();
+			} else if (m_playbackSyncMonAction == 2) {
+				seekPlayback(getPlaybackPosition());
+			}
+		}
+	}
 
 }
 
@@ -521,6 +533,16 @@ void JackDevice::setTransportEnabled(bool state)
 bool JackDevice::doesPlayback()
 {
 	return (m_nextState != JackTransportStopped);
+}
+
+void JackDevice::setPlaybackSyncMonEnabled(bool state)
+{
+	m_playbackSyncMonEnabled = state;
+}
+
+void JackDevice::setPlaybackSyncMonAction(int action)
+{
+	m_playbackSyncMonAction = action;
 }
 
 #include "jackdevice.moc"

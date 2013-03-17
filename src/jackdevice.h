@@ -121,6 +121,17 @@ public:
 	bool doesPlayback();
 
 	/**
+	 * Set playback sync monitoring state.
+	 */
+	void setPlaybackSyncMonEnabled(bool state);
+
+	/**
+	 * Set playback sync monitoring action.
+	 */
+	void setPlaybackSyncMonAction(int action);
+
+
+	/**
 	 * Updates the buffers.
 	 */
 	void updateBuffers(Mlt::Frame& frame);
@@ -232,6 +243,16 @@ private:
 	 * Playback sync difference.
 	 */
 	int m_playbackSyncDiff;
+
+	/**
+	 * Playback sync monitoring status.
+	 */
+	bool m_playbackSyncMonEnabled;
+
+	/**
+	 * Playback sync monitoring Action.
+	 */
+	int m_playbackSyncMonAction;
 
 	/**
 	 * Reset looping.
