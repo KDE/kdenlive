@@ -139,6 +139,10 @@ public:
 	 */
 	void setPlaybackSyncMonAction(SyncAction action);
 
+	/**
+	 * Set playback sync diff max value.
+	 */
+	void setPlaybackSyncDiffMaxValue(int value);
 
 	/**
 	 * Updates the buffers.
@@ -252,6 +256,11 @@ private:
 	 * Playback sync difference.
 	 */
 	int m_playbackSyncDiff;
+
+	/**
+	 * Playback sync difference max value.
+	 */
+	int m_playbackSyncDiffMaxValue;
 
 	/**
 	 * Playback sync monitoring status.

@@ -25,6 +25,7 @@ JackDevice::JackDevice(Mlt::Profile * profile) :
 	m_transportEnabled(false),
 	m_loopState(0),
 	m_playbackSyncDiff(0),
+	m_playbackSyncDiffMaxValue(1),
 	m_playbackSyncMonEnabled(true),
 	m_playbackSyncMonAction(None)
 {
@@ -513,7 +514,8 @@ void JackDevice::monitorPlaybackSync(int position)
 
 	/* if action defined */
 	if (m_playbackSyncMonAction != None) {
-		if (qAbs(diff) > 1 && m_nextState == JackTransportRolling) {
+		bool flag = qAbs(diff) > m_playbackSyncDiffMaxValue;
+		if (flag && m_nextState == JackTransportRolling) {
 			if (m_playbackSyncMonAction == Stop) {
 				stopPlayback();
 			} else if (m_playbackSyncMonAction == Resync) {
@@ -541,6 +543,11 @@ void JackDevice::setPlaybackSyncMonEnabled(bool state)
 void JackDevice::setPlaybackSyncMonAction(SyncAction action)
 {
 	m_playbackSyncMonAction = action;
+}
+
+void JackDevice::setPlaybackSyncDiffMaxValue(int value)
+{
+	m_playbackSyncDiffMaxValue = value;
 }
 
 #include "jackdevice.moc"

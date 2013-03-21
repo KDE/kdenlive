@@ -197,7 +197,12 @@
     
     <entry name="syncdiffmonaction" type="Int">
       <label>Playback sync diff monitor action.</label>
-      <default>0</default>
+      <default>2</default>
+    </entry>
+    
+    <entry name="syncdiffmaxvalue" type="Int">
+      <label>Playback sync diff max value.</label>
+      <default>1</default>
     </entry>
     </group>
 

@@ -4916,10 +4916,14 @@ void Render::openDevice(Device::Type dev)
 			/* connect shutdown event handler */
 			connect(&JACKDEV, SIGNAL(shutdown()),
 					this, SLOT(slotOnDeviceShutdown()));
+
 			/* set sync diff monitoring action */
 			JackDevice::SyncAction syncAction =
 				(JackDevice::SyncAction)KdenliveSettings::syncdiffmonaction();
 			JACKDEV.setPlaybackSyncMonAction(syncAction);
+			/* set sync diff max value */
+			int syncDiffMax = KdenliveSettings::syncdiffmaxvalue();
+			JACKDEV.setPlaybackSyncDiffMaxValue(syncDiffMax);
 		}
 	} else
 #endif
