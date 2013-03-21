@@ -45,6 +45,15 @@ public:
     virtual ~JackDevice();
 
 	/**
+	 * Sync action enum.
+	 */
+    enum SyncAction {
+    	None = 0,
+    	Stop,
+    	Resync
+    };
+
+	/**
 	 * Checks if the slave is still valid for processing.
 	 */
 	bool isValid();
@@ -128,7 +137,7 @@ public:
 	/**
 	 * Set playback sync monitoring action.
 	 */
-	void setPlaybackSyncMonAction(int action);
+	void setPlaybackSyncMonAction(SyncAction action);
 
 
 	/**
@@ -252,7 +261,7 @@ private:
 	/**
 	 * Playback sync monitoring Action.
 	 */
-	int m_playbackSyncMonAction;
+	SyncAction m_playbackSyncMonAction;
 
 	/**
 	 * Reset looping.

@@ -4917,7 +4917,9 @@ void Render::openDevice(Device::Type dev)
 			connect(&JACKDEV, SIGNAL(shutdown()),
 					this, SLOT(slotOnDeviceShutdown()));
 			/* set sync diff monitoring action */
-			JACKDEV.setPlaybackSyncMonAction(KdenliveSettings::syncdiffmonaction());
+			JackDevice::SyncAction syncAction =
+				(JackDevice::SyncAction)KdenliveSettings::syncdiffmonaction();
+			JACKDEV.setPlaybackSyncMonAction(syncAction);
 		}
 	} else
 #endif
