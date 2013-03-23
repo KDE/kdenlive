@@ -5034,6 +5034,21 @@ void Render::setPlaybackSyncMonEnabled(bool state)
 #endif
 }
 
+void Render::updateConfiguration()
+{
+#ifdef USE_JACK
+	if (isDeviceActive(Device::Jack)) {
+		/* set sync diff monitoring action */
+		JackDevice::SyncAction syncAction =
+			(JackDevice::SyncAction)KdenliveSettings::syncdiffmonaction();
+		JACKDEV.setPlaybackSyncMonAction(syncAction);
+		/* set sync diff max value */
+		int syncDiffMax = KdenliveSettings::syncdiffmaxvalue();
+		JACKDEV.setPlaybackSyncDiffMaxValue(syncDiffMax);
+	}
+#endif
+}
+
 void Render::slotOnSlavePlaybackStarted(int position)
 {
 	position = position;

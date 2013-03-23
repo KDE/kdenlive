@@ -50,6 +50,8 @@ public:
     QString getProjectFolder() const;
     /** @brief Sets current document for later reference. */
     void setDocument(KdenliveDoc *doc);
+    /** @brief Update configuration for available monitors. */
+    void updateConfiguration();
 
 public slots:
 

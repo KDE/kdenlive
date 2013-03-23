@@ -117,12 +117,18 @@ Q_OBJECT public:
 
     /** @brief Open appropriate audio device */
     void openDevice(Device::Type dev);
+
     /** @brief Close appropriate audio device */
     void closeDevice(Device::Type dev);
+
     /** @brief Enable appropriate transport slave */
     void enableSlave(Slave::Type slave);
+
     /** @brief Set playback sync monitoring state */
     void setPlaybackSyncMonEnabled(bool state);
+
+    /** @brief Update configuration */
+    void updateConfiguration();
 
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 

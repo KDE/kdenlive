@@ -294,5 +294,15 @@ void MonitorManager::slotCloseDevice(Device::Type dev)
 	m_projectMonitor->render->closeDevice(dev);
 }
 
+void MonitorManager::updateConfiguration()
+{
+	AbstractRender *abstrRender = NULL;
+
+	for (int i = 0; i < m_monitorsList.size(); i++) {
+		abstrRender = m_monitorsList[i]->abstractRender();
+		if (abstrRender)
+			abstrRender->updateConfiguration();
+	}
+}
 
 #include "monitormanager.moc"

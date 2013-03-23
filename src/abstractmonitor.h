@@ -112,8 +112,12 @@ Q_OBJECT public:
 
     /** @brief Checks if appropriate device is active.*/
     virtual bool isDeviceActive(Device::Type dev);
+
     /** @brief Set playback sync monitoring state */
     virtual void setPlaybackSyncMonEnabled(bool state) {state = state;}
+
+    /** @brief Update configuration */
+    virtual void updateConfiguration() {}
 
 private:
     QString m_name;

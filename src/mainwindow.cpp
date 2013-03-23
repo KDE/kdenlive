@@ -2865,6 +2865,11 @@ void MainWindow::updateConfiguration()
         if (m_activeDocument)
             m_activeDocument->clipManager()->checkAudioThumbs();
     }
+
+    if (m_monitorManager) {
+    	m_monitorManager->updateConfiguration();
+    }
+
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
