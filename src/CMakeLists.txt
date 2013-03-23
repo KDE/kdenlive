@@ -10,6 +10,7 @@ if(APPLE)
 endif(APPLE)
 macro_optional_find_package(Nepomuk)
 macro_optional_find_package(QJSON)
+macro_optional_find_package(Jack)
 
 option(WITH_V4L "Build capture support with Video4Linux" ON)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
@@ -35,10 +36,9 @@ if(WITH_JogShuttle)
 endif(WITH_JogShuttle)
 
 if(WITH_Jack)
-  check_include_files(jack/jack.h HAVE_JACK)
-  if(HAVE_JACK)
+  if(JACK_FOUND)
     set(BUILD_Jack TRUE)
-  endif(HAVE_JACK)
+  endif(JACK_FOUND)
 endif(WITH_Jack)
 
 macro_log_feature(QT_QTOPENGL_FOUND
@@ -379,7 +379,8 @@ endif(BUILD_JogShuttle)
 
 if(BUILD_Jack)
   add_definitions(-DUSE_JACK)
-  target_link_libraries(kdenlive jack)
+  include_directories(${JACK_INCLUDE_DIRS})
+  target_link_libraries(kdenlive ${JACK_LIBRARIES})
 endif(BUILD_Jack)
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
