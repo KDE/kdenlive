@@ -1,4 +1,4 @@
-0.9.3
+0.9.4
     * Fix color parameter in some effects not working correctly (#2644)
     * Fix V4l licensing issue (#2632)
     * Fix keyframes lost / broken when pasting an effect
