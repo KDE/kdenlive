@@ -31,6 +31,7 @@
 #include <KFileDialog>
 #include <KApplication>
 #include <KMessageBox>
+#include <KSelectAction>
 
 #include <QMouseEvent>
 #include <QStylePainter>
@@ -294,10 +295,9 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     dropFrames->setCheckable(true);
     dropFrames->setChecked(true);
     connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
-
+    
     m_configMenu->addAction(showTips);
     m_configMenu->addAction(dropFrames);
-
 }
 
 void Monitor::slotGoToMarker(QAction *action)

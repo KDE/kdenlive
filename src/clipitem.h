@@ -216,6 +216,7 @@ private:
     bool m_audioOnly;
     bool m_videoOnly;
     QColor m_baseColor;
+    QColor m_paintColor;
 
     QPixmap m_startPix;
     QPixmap m_endPix;

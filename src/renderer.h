@@ -312,6 +312,8 @@ Q_OBJECT public:
     const QList <Mlt::Producer *> producersList();
     void updatePreviewSettings();
     void setDropFrames(bool show);
+    /** @brief Sets an MLT consumer property. */
+    void setConsumerProperty(const QString &name, const QString &value);
     QString updateSceneListFps(double current_fps, double new_fps, QString scene);
 
     void showAudio(Mlt::Frame&);

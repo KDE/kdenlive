@@ -277,8 +277,8 @@ void Render::buildConsumer(const QString &profileName)
             if (m_mltConsumer->is_valid()) {
 		externalConsumer = true;
                 m_mltConsumer->set("terminate_on_pause", 0);
-                m_mltConsumer->set("deinterlace_method", "onefield");
-		m_mltConsumer->set("rescale", "nearest");
+                m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
+		m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
 		m_mltConsumer->set("buffer", "1");
                 m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
             }
@@ -312,7 +312,7 @@ void Render::buildConsumer(const QString &profileName)
 		    // Set defaults for decklink consumer
 		    if (m_mltConsumer) {
 			m_mltConsumer->set("terminate_on_pause", 0);
-			m_mltConsumer->set("deinterlace_method", "onefield");
+			m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
 			externalConsumer = true;
 		    }
 		}
@@ -338,7 +338,7 @@ void Render::buildConsumer(const QString &profileName)
     }
     //m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
-    m_mltConsumer->set("rescale", "nearest");
+    m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
     mlt_log_set_callback(kdenlive_callback);
 
     QString audioDevice = KdenliveSettings::audiodevicename();
@@ -1882,12 +1882,21 @@ void Render::setDropFrames(bool show)
         int dropFrames = KdenliveSettings::mltthreads();
         if (show == false) dropFrames = -dropFrames;
         m_mltConsumer->stop();
-        if (m_winid == 0)
-            m_mltConsumer->set("real_time", dropFrames);
-        else
-            m_mltConsumer->set("play.real_time", dropFrames);
-
+        m_mltConsumer->set("real_time", dropFrames);
         if (m_mltConsumer->start() == -1) {
+            kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
+        }
+
+    }
+}
+
+void Render::setConsumerProperty(const QString &name, const QString &value)
+{
+    QMutexLocker locker(&m_mutex);
+    if (m_mltConsumer) {
+        m_mltConsumer->stop();
+        m_mltConsumer->set(name.toUtf8().constData(), value.toUtf8().constData());
+        if (m_isActive && m_mltConsumer->start() == -1) {
             kDebug(QtWarningMsg) << "ERROR, Cannot start monitor";
         }
 

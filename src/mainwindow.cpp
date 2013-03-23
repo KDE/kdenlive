@@ -1387,6 +1387,30 @@ void MainWindow::setupActions()
     fullMon->setText(i18n("Switch monitor fullscreen"));
     fullMon->setIcon(KIcon("view-fullscreen"));
     connect(fullMon, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotSwitchFullscreen()));
+    
+    KSelectAction *interlace = new KSelectAction(i18n("Deinterlacer"), this);
+    interlace->addAction(i18n("One Field (fast)"));
+    interlace->addAction(i18n("Linear Blend (fast)"));
+    interlace->addAction(i18n("YADIF - temporal only (good)"));
+    interlace->addAction(i18n("YADIF - temporal + spacial (best)"));
+    if (KdenliveSettings::mltdeinterlacer() == "linearblend") interlace->setCurrentItem(1);
+    else if (KdenliveSettings::mltdeinterlacer() == "yadif-temporal") interlace->setCurrentItem(2);
+    else if (KdenliveSettings::mltdeinterlacer() == "yadif") interlace->setCurrentItem(3);
+    else interlace->setCurrentItem(0);
+    collection.addAction("mlt_interlace", interlace);
+    connect(interlace, SIGNAL(triggered(int)), this, SLOT(slotSetDeinterlacer(int)));
+    
+    KSelectAction *interpol = new KSelectAction(i18n("Interpolation"), this);
+    interpol->addAction(i18n("Nearest Neighbor (fast)"));
+    interpol->addAction(i18n("Bilinear (good)"));
+    interpol->addAction(i18n("Bicubic (better)"));
+    interpol->addAction(i18n("Hyper/Lanczos (best)"));
+    if (KdenliveSettings::mltinterpolation() == "bilinear") interpol->setCurrentItem(1);
+    else if (KdenliveSettings::mltinterpolation() == "bicubic") interpol->setCurrentItem(2);
+    else if (KdenliveSettings::mltinterpolation() == "hyper") interpol->setCurrentItem(3);
+    else interpol->setCurrentItem(0);
+    collection.addAction("mlt_interpolation", interpol);
+    connect(interpol, SIGNAL(triggered(int)), this, SLOT(slotSetInterpolation(int)));
 
     KAction *insertTree = collection.addAction("insert_project_tree");
     insertTree->setText(i18n("Insert zone in project tree"));
@@ -4856,6 +4880,47 @@ void MainWindow::slotAlignPlayheadToMousePos()
 {
     m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
     m_activeTimeline->projectView()->slotAlignPlayheadToMousePos();
+}
+
+void MainWindow::slotSetDeinterlacer(int ix)
+{
+    QString value;
+    switch (ix) {
+      
+      case 1:
+	value = "linearblend";
+	break;
+      case 2:
+	value = "yadif-nospatial";
+	break;
+      case 3:
+	value = "yadif";
+	break;
+      default:
+	value = "onefield";
+    }
+    KdenliveSettings::setMltdeinterlacer(value);
+    m_monitorManager->setConsumerProperty("deinterlace_method", value);
+}
+
+void MainWindow::slotSetInterpolation(int ix)
+{
+    QString value;
+    switch (ix) {
+      case 1:
+	value = "bilinear";
+	break;
+      case 2:
+	value = "bicubic";
+	break;
+      case 3:
+	value = "hyper";
+	break;
+      default:
+	value = "nearest";
+    }
+    KdenliveSettings::setMltinterpolation(value);
+    m_monitorManager->setConsumerProperty("rescale", value);
 }
 
 #include "mainwindow.moc"
