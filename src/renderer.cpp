@@ -5037,7 +5037,7 @@ void Render::enableSlave(Slave::Type slave)
 void Render::setPlaybackSyncMonEnabled(bool state)
 {
 #ifdef USE_JACK
-	if (isDeviceActive(Device::Jack)) {
+	if (isAudioEngineActive(AudioEngine::Jack)) {
 		JACKDEV.setPlaybackSyncMonEnabled(state);
 	}
 #endif
@@ -5046,7 +5046,7 @@ void Render::setPlaybackSyncMonEnabled(bool state)
 void Render::updateConfiguration()
 {
 #ifdef USE_JACK
-	if (isDeviceActive(Device::Jack)) {
+	if (isAudioEngineActive(AudioEngine::Jack)) {
 		/* set sync diff monitoring action */
 		JackDevice::SyncAction syncAction =
 			(JackDevice::SyncAction)KdenliveSettings::syncdiffmonaction();

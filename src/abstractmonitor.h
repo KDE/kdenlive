@@ -55,7 +55,16 @@ namespace Slave
     };
 };
 
-/* device namespace */
+/* audio engine namespace */
+namespace AudioEngine
+{
+	enum Type
+	{
+		Mlt	= 0,
+		Jack
+	};
+};
+
 namespace Device
 {
 	enum Type
@@ -64,6 +73,14 @@ namespace Device
 		Jack
 	};
 };
+
+namespace Mon
+{
+	const static unsigned int NoRole				= (1<<0);
+	const static unsigned int OpenCloseEngineRole	= (1<<1);
+	const static unsigned int OpenCloseSlaveRole	= (1<<2);
+};
+
 
 class AbstractRender: public QObject
 {
@@ -110,9 +127,9 @@ Q_OBJECT public:
     /** @brief Enable appropriate slave.*/
     virtual void enableSlave(Slave::Type slave) {slave = slave;}
 
-    /** @brief Checks if appropriate device is active.*/
-    virtual bool isDeviceActive(Device::Type dev);
-
+    /** @brief Checks if appropriate audio engine is active.*/
+    virtual bool isAudioEngineActive(AudioEngine::Type engine);
+    
     /** @brief Set playback sync monitoring state */
     virtual void setPlaybackSyncMonEnabled(bool state) {state = state;}
 

@@ -2957,7 +2957,7 @@ void MainWindow::slotSwitchJackTransport()
 
     if (abstrRender) {
 		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
-			abstrRender->isDeviceActive(Device::Jack) && !jacktransport) {
+			abstrRender->isAudioEngineActive(AudioEngine::Jack) && !jacktransport) {
 		    KdenliveSettings::setJacktransport(true);
 			abstrRender->enableSlave(Slave::Jack);
 		} else {
@@ -2999,7 +2999,7 @@ void MainWindow::slotEnableJackTransportButton(AbstractMonitor& monitor)
 	AbstractRender* abstrRender = monitor.abstractRender();
 	if (abstrRender) {
 		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
-			abstrRender->isDeviceActive(Device::Jack)) {
+			abstrRender->isAudioEngineActive(AudioEngine::Jack)) {
 			/* if jack transport enabled slave to jack */
 			if (KdenliveSettings::jacktransport()) {
 
@@ -3033,7 +3033,7 @@ void MainWindow::slotEnableJackTransportMonButton(AbstractMonitor& monitor)
 	AbstractRender* abstrRender = monitor.abstractRender();
 	if (abstrRender) {
 		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
-			abstrRender->isDeviceActive(Device::Jack)) {
+			abstrRender->isAudioEngineActive(AudioEngine::Jack)) {
 			/* enable toggle button */
 			m_buttonJackTransportMon->setDisabled(false);
 		}
@@ -4850,7 +4850,7 @@ void MainWindow::slotConnectJack()
 	AbstractRender* abstrRender = m_monitorManager->activeRenderer();
 
 	if (abstrRender && abstrRender->isSlavePermSet(Slave::Perm::Jack)) {
-		if(abstrRender->isDeviceActive(Device::Jack)) {
+		if(abstrRender->isAudioEngineActive(AudioEngine::Jack)) {
 			abstrRender->enableSlave(Slave::Jack);
 		}
 	}

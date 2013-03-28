@@ -29,18 +29,18 @@
 #include <QVBoxLayout>
 
 
-bool AbstractRender::isDeviceActive(Device::Type dev)
+bool AbstractRender::isAudioEngineActive(AudioEngine::Type engine)
 {
 #ifdef USE_JACK
-	if (dev == Device::Jack)
+	if (engine == AudioEngine::Jack)
 		if (&JACKDEV && JACKDEV.isValid())
 			return true;
 
-	if (dev == Device::Mlt)
+	if (engine == AudioEngine::Mlt)
 		if (!&JACKDEV || (&JACKDEV && !JACKDEV.isValid()))
 			return true;
 #else
-	if (dev == Device::Mlt)
+	if (engine == AudioEngine::Mlt)
 		return true;
 #endif
 
