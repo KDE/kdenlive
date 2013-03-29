@@ -105,14 +105,14 @@ Q_OBJECT public:
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(Kdenlive::MONITORID rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
+    Render(Kdenlive::MONITORID rendererName, int winid, RndrRole role, QString profile = QString(), QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
 
     /** @brief Seeks the renderer clip to the given time. */
     void seek(GenTime time);
-    void seek(int time, bool slave = false);
+    void seek(int time, bool fromSlave = false);
     void seekToFrameDiff(int diff);
 
     /** @brief Open appropriate audio engine */
@@ -157,7 +157,7 @@ Q_OBJECT public:
      * The speed is relative to normal playback, e.g. 1.0 is normal speed, 0.0
      * is paused, -1.0 means play backwards. It does not specify start/stop */
     void play(double speed);
-    void switchPlay(bool play, bool slave = false);
+    void switchPlay(bool play, bool fromSlave = false);
     void pause();
 
     /** @brief Stops playing.

@@ -57,11 +57,6 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     connect(m_clipMonitor->render, SIGNAL(activateMonitor(Kdenlive::MONITORID)), this, SLOT(activateMonitor(Kdenlive::MONITORID)));
     connect(m_projectMonitor->render, SIGNAL(activateMonitor(Kdenlive::MONITORID)), this, SLOT(activateMonitor(Kdenlive::MONITORID)));
 
-#ifdef USE_JACK
-    /* special jack enabled permission */
-    m_projectMonitor->render->setSlavePerm(Slave::Perm::Internal | Slave::Perm::Jack);
-#endif
-
     m_monitorsList.append(clipMonitor);
     m_monitorsList.append(projectMonitor);
     if (recMonitor)

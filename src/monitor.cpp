@@ -47,7 +47,7 @@
 #define SEEK_INACTIVE (-1)
 
 
-Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile, QWidget *parent) :
+Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, RndrRole role, QString profile, QWidget *parent) :
     AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_currentClip(NULL)
@@ -152,17 +152,17 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 
     bool monitorCreated = false;
 #ifdef Q_WS_MAC
-    createOpenGlWidget(videoBox, profile);
+    createOpenGlWidget(videoBox, profile, role);
     monitorCreated = true;
     //m_glWidget->setFixedSize(width, height);
 #elif defined(USE_OPENGL)
     if (KdenliveSettings::openglmonitors()) {
-        monitorCreated = createOpenGlWidget(videoBox, profile);
+        monitorCreated = createOpenGlWidget(videoBox, profile, role);
     }
 #endif
     if (!monitorCreated) {
 	createVideoSurface();
-        render = new Render(m_id, (int) videoSurface->winId(), profile, this);
+        render = new Render(m_id, (int) videoSurface->winId(), role, profile, this);
 	connect(videoSurface, SIGNAL(refreshMonitor()), render, SLOT(doRefresh()));
     }
 #ifdef USE_OPENGL
@@ -228,9 +228,9 @@ QWidget *Monitor::container()
 }
 
 #ifdef USE_OPENGL
-bool Monitor::createOpenGlWidget(QWidget *parent, const QString profile)
+bool Monitor::createOpenGlWidget(QWidget *parent, const QString profile, RndrRole role)
 {
-    render = new Render(id(), 0, profile, this);
+    render = new Render(id(), 0, role, profile, this);
     m_glWidget = new VideoGLWidget(parent);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...

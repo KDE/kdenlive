@@ -42,12 +42,6 @@ class VideoContainer;
 /* transport slave namespace */
 namespace Slave
 {
-	namespace Perm
-	{
-		const static unsigned int Internal 	= (1<<0);
-		const static unsigned int Jack 		= (1<<1);
-	};
-
     enum Type
     {
     	Internal = 0,
@@ -65,12 +59,20 @@ namespace AudioEngine
 	};
 };
 
-namespace Mon
+/* render role namespace */
+namespace Rndr
 {
-	const static unsigned int NoRole				= (1<<0);
-	const static unsigned int OpenCloseEngineRole	= (1<<1);
-	const static unsigned int OpenCloseSlaveRole	= (1<<2);
+	enum Role
+	{
+		NoRole				= (1<<0),
+		OpenCloseEngineRole	= (1<<1),
+		OpenCloseSlaveRole	= (1<<2)
+	};
 };
+
+Q_DECLARE_FLAGS(RndrRole, Rndr::Role);
+Q_DECLARE_OPERATORS_FOR_FLAGS(RndrRole);
+
 
 
 class AbstractRender: public QObject
@@ -81,12 +83,12 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0) :
+    explicit AbstractRender(Kdenlive::MONITORID name, RndrRole role, QWidget *parent = 0) :
     	QObject(parent),
     	sendFrameForAnalysis(false),
     	analyseAudio(false),
     	m_name(name),
-    	m_slavePerm(Slave::Perm::Internal)
+    	m_role(role)
     {};
 
     /** @brief Destroy the MLT Renderer. */
@@ -103,14 +105,8 @@ Q_OBJECT public:
     /** @brief Someone needs us to send again a frame. */
     virtual void sendFrameUpdate() = 0;
 
-    /** @brief Checks if appropriate slave permission is set. */
-    virtual bool isSlavePermSet(unsigned int perm) {return ((perm & m_slavePerm) == perm);}
-
-    /** @brief Set appropriate slave permission. */
-    virtual void setSlavePerm(unsigned int perm) {m_slavePerm |= perm;}
-
-    /** @brief Reset appropriate slave permission. */
-    virtual void resetSlavePerm(unsigned int perm) {m_slavePerm &= ~perm;}
+    /** @brief Checks if appropriate role is set. */
+    virtual bool hasRole(Rndr::Role role) {return m_role.testFlag(role);}
 
     /** @brief Checks if appropriate slave is active.*/
     virtual bool isSlaveActive(Slave::Type slave) {return (m_activeSlave == slave);}
@@ -131,7 +127,7 @@ private:
     QString m_name;
     
 protected:
-    unsigned int m_slavePerm;
+    RndrRole m_role;
     Slave::Type m_activeSlave;
 
 signals:

@@ -240,7 +240,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
-    m_clipMonitor = new Monitor(Kdenlive::clipMonitor, m_monitorManager, QString(), m_timelineArea);
+    m_clipMonitor = new Monitor(Kdenlive::clipMonitor, m_monitorManager, Rndr::NoRole, QString(), m_timelineArea);
     m_clipMonitorDock->setWidget(m_clipMonitor);
 
     // Connect the project list
@@ -258,7 +258,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
-    m_projectMonitor = new Monitor(Kdenlive::projectMonitor, m_monitorManager, QString());
+    m_projectMonitor = new Monitor(Kdenlive::projectMonitor, m_monitorManager, Rndr::OpenCloseEngineRole | Rndr::OpenCloseSlaveRole, QString());
     m_projectMonitorDock->setWidget(m_projectMonitor);
 
 #ifndef Q_WS_MAC
@@ -2956,7 +2956,7 @@ void MainWindow::slotSwitchJackTransport()
     bool jacktransport = KdenliveSettings::jacktransport();
 
     if (abstrRender) {
-		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
+		if(abstrRender->hasRole(Rndr::OpenCloseSlaveRole) &&
 			abstrRender->isAudioEngineActive(AudioEngine::Jack) && !jacktransport) {
 		    KdenliveSettings::setJacktransport(true);
 			abstrRender->enableSlave(Slave::Jack);
@@ -2978,7 +2978,7 @@ void MainWindow::slotSwitchJackTransportMon()
     bool monEnabled = KdenliveSettings::jacktransportmon();
 
     if (abstrRender) {
-		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) && !monEnabled) {
+		if(abstrRender->hasRole(Rndr::OpenCloseSlaveRole) && !monEnabled) {
 		    KdenliveSettings::setJacktransportmon(true);
 		    abstrRender->setPlaybackSyncMonEnabled(true);
 		} else {
@@ -2998,7 +2998,7 @@ void MainWindow::slotEnableJackTransportButton(AbstractMonitor& monitor)
 #ifdef USE_JACK
 	AbstractRender* abstrRender = monitor.abstractRender();
 	if (abstrRender) {
-		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
+		if(abstrRender->hasRole(Rndr::OpenCloseSlaveRole) &&
 			abstrRender->isAudioEngineActive(AudioEngine::Jack)) {
 			/* if jack transport enabled slave to jack */
 			if (KdenliveSettings::jacktransport()) {
@@ -3032,7 +3032,7 @@ void MainWindow::slotEnableJackTransportMonButton(AbstractMonitor& monitor)
 #ifdef USE_JACK
 	AbstractRender* abstrRender = monitor.abstractRender();
 	if (abstrRender) {
-		if(abstrRender->isSlavePermSet(Slave::Perm::Jack) &&
+		if(abstrRender->hasRole(Rndr::OpenCloseSlaveRole) &&
 			abstrRender->isAudioEngineActive(AudioEngine::Jack)) {
 			/* enable toggle button */
 			m_buttonJackTransportMon->setDisabled(false);
@@ -4849,7 +4849,7 @@ void MainWindow::slotConnectJack()
 	m_monitorManager->slotOpenAudioEngine(AudioEngine::Jack);
 	AbstractRender* abstrRender = m_monitorManager->activeRenderer();
 
-	if (abstrRender && abstrRender->isSlavePermSet(Slave::Perm::Jack)) {
+	if (abstrRender && abstrRender->hasRole(Rndr::OpenCloseSlaveRole)) {
 		if(abstrRender->isAudioEngineActive(AudioEngine::Jack)) {
 			abstrRender->enableSlave(Slave::Jack);
 		}

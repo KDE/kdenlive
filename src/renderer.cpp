@@ -89,7 +89,7 @@ void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_pt
     }
 
 #ifdef USE_JACK
-    if(&JACKDEV && JACKDEV.isValid()) {
+    if (self->isAudioEngineActive(AudioEngine::Jack)) {
     	JACKDEV.updateBuffers(frame);
     }
 #endif
@@ -135,7 +135,7 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
 	}
 
 #ifdef USE_JACK
-    if(&JACKDEV && JACKDEV.isValid()) {
+    if (self->isAudioEngineActive(AudioEngine::Jack)) {
     	JACKDEV.updateBuffers(frame);
     }
 #endif
@@ -143,8 +143,8 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
 	emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
 }
 
-Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWidget *parent) :
-    AbstractRender(rendererName, parent),
+Render::Render(Kdenlive::MONITORID rendererName, int winid, RndrRole role, QString profile, QWidget *parent) :
+    AbstractRender(rendererName, role, parent),
     requestedSeekPosition(SEEK_INACTIVE),
     showFrameSemaphore(1),
     externalConsumer(false),
@@ -183,7 +183,9 @@ Render::~Render()
 {
 #ifdef USE_JACK
 	/* isDeviceActive ()*/
-	closeAudioEngine(AudioEngine::Jack);
+	if (hasRole(Rndr::OpenCloseEngineRole)) {
+		closeAudioEngine(AudioEngine::Jack);
+	}
 #endif
 	closeMlt();
     delete m_mltProfile;
@@ -364,14 +366,13 @@ void Render::buildConsumer(const QString &profileName)
 
 #ifdef USE_JACK
 	if (!audioDriver.isEmpty()) {
-		if(audioDriver == "jack") {
+		if (audioDriver == "jack") {
 			/* create the jack device singleton instance */
 			JackDevice::singleton(m_mltProfile);
-			if(&JACKDEV && JACKDEV.probe()) {
-				/* I hate the enumeration shit here */
-				if(m_name == Kdenlive::projectMonitor) {
+			if (&JACKDEV && JACKDEV.probe()) {
+				if (hasRole(Rndr::OpenCloseEngineRole)) {
 					openAudioEngine(AudioEngine::Jack);
-				} else if (m_name == Kdenlive::clipMonitor) {
+				} else {
 					/* stop consumer */
 					if (!m_mltConsumer->is_stopped())
 						m_mltConsumer->stop();
@@ -387,10 +388,10 @@ void Render::buildConsumer(const QString &profileName)
 		/* if jackd is running default to jackdev because in most cases the
 		 * audio driver is claimed by jackd */
 		JackDevice::singleton(m_mltProfile);
-		if(&JACKDEV && JACKDEV.probe()) {
-			if(m_name == Kdenlive::projectMonitor) {
+		if (&JACKDEV && JACKDEV.probe()) {
+			if (hasRole(Rndr::OpenCloseEngineRole)) {
 				openAudioEngine(AudioEngine::Jack);
-			} else if (m_name == Kdenlive::clipMonitor) {
+			} else {
 				/* stop consumer */
 				if (!m_mltConsumer->is_stopped())
 					m_mltConsumer->stop();
@@ -496,20 +497,20 @@ void Render::seek(GenTime time)
     seek(pos);
 }
 
-void Render::seek(int time, bool slave)
+void Render::seek(int time, bool fromSlave)
 {
 	/* limit time */
 	time = qMax(0, time);
 	time = qMin(m_mltProducer->get_playtime(), time);
 
 #ifdef USE_JACK
-    if (!slave && isSlaveActive(Slave::Jack)) {
-    	if(&JACKDEV) {
+    if (!fromSlave && isSlaveActive(Slave::Jack)) {
+    	if (isAudioEngineActive(AudioEngine::Jack)) {
     		JACKDEV.seekPlayback(time < 0 ? 0 : time);
     	}
     	/* return */
     	return;
-    } else if(slave && isSlaveActive(Slave::Jack)) {
+    } else if (fromSlave && isSlaveActive(Slave::Jack)) {
     	m_mltProducer->set_speed(0);
    	}
 #endif
@@ -1708,7 +1709,7 @@ void Render::setActiveMonitor()
      if (!m_isActive) emit activateMonitor(m_name);
 }
 
-void Render::switchPlay(bool play, bool slave)
+void Render::switchPlay(bool play, bool fromSlave)
 {
     QMutexLocker locker(&m_mutex);
     requestedSeekPosition = SEEK_INACTIVE;
@@ -1716,8 +1717,8 @@ void Render::switchPlay(bool play, bool slave)
         return;
 
 #ifdef USE_JACK
-    if (!slave && isSlaveActive(Slave::Jack)) {
-    	if(&JACKDEV) {
+    if (!fromSlave && isSlaveActive(Slave::Jack)) {
+    	if (isAudioEngineActive(AudioEngine::Jack)) {
     		if (play) {
     			JACKDEV.startPlayback();
     		} else {
@@ -1726,7 +1727,7 @@ void Render::switchPlay(bool play, bool slave)
     	}
     	/* return */
     	return;
-    } else if (slave && isSlaveActive(Slave::Jack)) {
+    } else if (fromSlave && isSlaveActive(Slave::Jack)) {
 //		position = JACKDEV.getPlaybackPosition();
     }
 #endif
@@ -1802,8 +1803,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
         return;
          
 #ifdef USE_JACK
-    /* TODO: after impl jack shutdown invalid => remove &JACKDEV test */
-	if(isSlaveActive(Slave::Jack) && &JACKDEV) {
+	if (isSlaveActive(Slave::Jack) && isAudioEngineActive(AudioEngine::Jack)) {
 		/* calc loop in/out */
 		int loopIn = (int)(startTime.frames(m_fps));
 		int loopOut = (int)(stopTime.frames(m_fps));
@@ -1970,9 +1970,8 @@ void Render::emitConsumerStopped(bool forcePause)
     if (m_mltProducer && (forcePause || (!m_paused && m_mltProducer->get_speed() == 0))) {
 
 #ifdef USE_JACK
-	/* TODO: after impl jack shutdown invalid => remove &JACKDEV test */
-	if(isSlaveActive(Slave::Jack) && &JACKDEV) {
-		if(m_mltConsumer->position() == m_mltProducer->get_out()) {
+	if (isSlaveActive(Slave::Jack) && isAudioEngineActive(AudioEngine::Jack)) {
+		if (m_mltConsumer->position() == m_mltProducer->get_out()) {
 			JACKDEV.stopPlayback();
 		}
 		return;
@@ -4946,7 +4945,7 @@ void Render::closeAudioEngine(AudioEngine::Type engine)
 {
 #ifdef USE_JACK
 	if (engine == AudioEngine::Jack) {
-		if(isAudioEngineActive(AudioEngine::Jack)) {
+		if (isAudioEngineActive(AudioEngine::Jack)) {
 			/* close jack slave */
 			enableSlave(Slave::Internal);
 			/* disconnect shutdown event handler */
@@ -5003,8 +5002,8 @@ void Render::enableSlave(Slave::Type slave)
 	}
 
 #ifdef USE_JACK
-	if ((slave == Slave::Jack) && isSlavePermSet(Slave::Perm::Jack)
-			&& &JACKDEV && JACKDEV.isValid()) {
+	if ((slave == Slave::Jack) && hasRole(Rndr::OpenCloseSlaveRole)
+			&& isAudioEngineActive(AudioEngine::Jack)) {
 		/* connect transport callbacks */
 		connect(&JACKDEV, SIGNAL(playbackStarted(int)),
 				this, SLOT(slotOnSlavePlaybackStarted(int)));
