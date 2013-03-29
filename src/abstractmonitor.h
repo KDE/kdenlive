@@ -65,15 +65,6 @@ namespace AudioEngine
 	};
 };
 
-namespace Device
-{
-	enum Type
-	{
-		Mlt	= 0,
-		Jack
-	};
-};
-
 namespace Mon
 {
 	const static unsigned int NoRole				= (1<<0);

@@ -115,11 +115,11 @@ Q_OBJECT public:
     void seek(int time, bool slave = false);
     void seekToFrameDiff(int diff);
 
-    /** @brief Open appropriate audio device */
-    void openDevice(Device::Type dev);
+    /** @brief Open appropriate audio engine */
+    void openAudioEngine(AudioEngine::Type engine);
 
-    /** @brief Close appropriate audio device */
-    void closeDevice(Device::Type dev);
+    /** @brief Close appropriate audio engine */
+    void closeAudioEngine(AudioEngine::Type engine);
 
     /** @brief Enable appropriate transport slave */
     void enableSlave(Slave::Type slave);

@@ -84,10 +84,10 @@ public slots:
     void slotSwitchMonitors(bool activateClip);
     void slotUpdateAudioMonitoring();
 
-    /** @brief Open defined audio device */
-    void slotOpenDevice(Device::Type dev);
-    /** @brief Close defined audio device */
-    void slotCloseDevice(Device::Type dev);
+    /** @brief Open defined audio engine */
+    void slotOpenAudioEngine(AudioEngine::Type engine);
+    /** @brief Close defined audio engine */
+    void slotCloseAudioEngine(AudioEngine::Type engine);
 
 private slots:
     void slotRefreshCurrentMonitor(const QString &id);

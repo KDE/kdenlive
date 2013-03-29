@@ -183,7 +183,7 @@ Render::~Render()
 {
 #ifdef USE_JACK
 	/* isDeviceActive ()*/
-	closeDevice(Device::Jack);
+	closeAudioEngine(AudioEngine::Jack);
 #endif
 	closeMlt();
     delete m_mltProfile;
@@ -370,7 +370,7 @@ void Render::buildConsumer(const QString &profileName)
 			if(&JACKDEV && JACKDEV.probe()) {
 				/* I hate the enumeration shit here */
 				if(m_name == Kdenlive::projectMonitor) {
-					openDevice(Device::Jack);
+					openAudioEngine(AudioEngine::Jack);
 				} else if (m_name == Kdenlive::clipMonitor) {
 					/* stop consumer */
 					if (!m_mltConsumer->is_stopped())
@@ -389,7 +389,7 @@ void Render::buildConsumer(const QString &profileName)
 		JackDevice::singleton(m_mltProfile);
 		if(&JACKDEV && JACKDEV.probe()) {
 			if(m_name == Kdenlive::projectMonitor) {
-				openDevice(Device::Jack);
+				openAudioEngine(AudioEngine::Jack);
 			} else if (m_name == Kdenlive::clipMonitor) {
 				/* stop consumer */
 				if (!m_mltConsumer->is_stopped())
@@ -4910,10 +4910,10 @@ bool Render::checkX11Grab()
     return result.contains("x11grab");
 }
 
-void Render::openDevice(Device::Type dev)
+void Render::openAudioEngine(AudioEngine::Type engine)
 {
 #ifdef USE_JACK
-	if (dev == Device::Jack) {
+	if (engine == AudioEngine::Jack) {
 		/* stop consumer */
 		if (!m_mltConsumer->is_stopped())
 				m_mltConsumer->stop();
@@ -4938,15 +4938,15 @@ void Render::openDevice(Device::Type dev)
 #endif
 	{
 		/* prevent warnings */
-		dev = dev;
+		engine = engine;
 	}
 }
 
-void Render::closeDevice(Device::Type dev)
+void Render::closeAudioEngine(AudioEngine::Type engine)
 {
 #ifdef USE_JACK
-	if (dev == Device::Jack) {
-		if(&JACKDEV && JACKDEV.isValid()) {
+	if (engine == AudioEngine::Jack) {
+		if(isAudioEngineActive(AudioEngine::Jack)) {
 			/* close jack slave */
 			enableSlave(Slave::Internal);
 			/* disconnect shutdown event handler */
@@ -4960,7 +4960,7 @@ void Render::closeDevice(Device::Type dev)
 #endif
 	{
 		/* prevent warning */
-		dev = dev;
+		engine = engine;
 	}
 }
 
@@ -5080,7 +5080,7 @@ void Render::slotOnSlavePlaybackStopped(int position)
 
 void Render::slotOnDeviceShutdown()
 {
-	closeDevice(Device::Jack);
+	closeAudioEngine(AudioEngine::Jack);
 }
 
 #include "renderer.moc"

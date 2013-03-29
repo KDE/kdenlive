@@ -4846,7 +4846,7 @@ void MainWindow::slotSaveTimelineClip()
 
 void MainWindow::slotConnectJack()
 {
-	m_monitorManager->slotOpenDevice(Device::Jack);
+	m_monitorManager->slotOpenAudioEngine(AudioEngine::Jack);
 	AbstractRender* abstrRender = m_monitorManager->activeRenderer();
 
 	if (abstrRender && abstrRender->isSlavePermSet(Slave::Perm::Jack)) {
@@ -4858,7 +4858,7 @@ void MainWindow::slotConnectJack()
 
 void MainWindow::slotDisconnectJack()
 {
-	m_monitorManager->slotCloseDevice(Device::Jack);
+	m_monitorManager->slotCloseAudioEngine(AudioEngine::Jack);
 }
 
 void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum)

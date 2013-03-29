@@ -290,14 +290,14 @@ QString MonitorManager::getProjectFolder() const
     return m_document->projectFolder().path(KUrl::AddTrailingSlash);
 }
 
-void MonitorManager::slotOpenDevice(Device::Type dev)
+void MonitorManager::slotOpenAudioEngine(AudioEngine::Type engine)
 {
-	m_projectMonitor->render->openDevice(dev);
+	m_projectMonitor->render->openAudioEngine(engine);
 }
 
-void MonitorManager::slotCloseDevice(Device::Type dev)
+void MonitorManager::slotCloseAudioEngine(AudioEngine::Type engine)
 {
-	m_projectMonitor->render->closeDevice(dev);
+	m_projectMonitor->render->closeAudioEngine(engine);
 }
 
 void MonitorManager::updateConfiguration()
