@@ -108,8 +108,9 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
         foreach (QGraphicsItem *qgi, selectedItems()) {
-            removeItem(qgi);
-            delete qgi;
+	    if (qgi->data(-1).toInt() == -1) continue;
+	    removeItem(qgi);
+	    delete qgi;
         }
         m_selectedItem = NULL;
         emit selectionChanged();

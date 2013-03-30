@@ -492,7 +492,10 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
     //toolBox->setItemEnabled(2, false);
     m_startViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
+    // Setting data at -1 so that the item is recognized as undeletable by graphicsscenerectmove
+    m_startViewport->setData(-1, -1);
     m_endViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
+    m_endViewport->setData(-1, -1);
     m_startViewport->setData(0, m_frameWidth);
     m_startViewport->setData(1, m_frameHeight);
     m_endViewport->setData(0, m_frameWidth);
