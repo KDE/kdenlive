@@ -54,7 +54,9 @@
 </group>
 
 <group name="MPEG-4" renderer="avformat" extension="mp4" type="av">
-  <profile name="MPEG-4" bitrates="200,400,600,800,1000,2000,4000,6000,8000,10000,12000,18000,25000" defaultbitrate="12000" audiobitrates="64,128,192,256,384" defaultaudiobitrate="128"
+  <profile name="MPEG-4/AAC" bitrates="200,400,600,800,1000,2000,4000,6000,8000,10000,12000,18000,25000" defaultbitrate="12000" audiobitrates="64,128,192,256,384" defaultaudiobitrate="128"
+           args="f=mp4 acodec=aac ab=%audiobitrate+'k' ar=44100 vcodec=mpeg4 minrate=0 vb=%bitrate+'k' aspect=%dar mbd=2 trellis=1 mv4=1 pass=%passes" />
+  <profile name="MPEG-4/MP3" bitrates="200,400,600,800,1000,2000,4000,6000,8000,10000,12000,18000,25000" defaultbitrate="12000" audiobitrates="64,128,192,256,384" defaultaudiobitrate="128"
            args="f=mp4 acodec=libmp3lame ab=%audiobitrate+'k' ar=44100 vcodec=mpeg4 minrate=0 vb=%bitrate+'k' aspect=%dar mbd=2 trellis=1 mv4=1 pass=%passes" />
 </group>
 
