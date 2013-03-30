@@ -3866,11 +3866,11 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
                 Mlt::Properties trans_props(transition.get_properties());
                 Mlt::Transition new_transition(*m_mltProfile, transition.get("mlt_service"));
                 Mlt::Properties new_trans_props(new_transition.get_properties());
-                new_trans_props.inherit(trans_props);
-                new_transition.set_in_and_out(new_in, new_out);
+		// We cannot use MLT's property inherit because it also clones internal values like _unique_id which messes up the playlist
+		cloneProperties(new_trans_props, trans_props);
+		new_transition.set_in_and_out(new_in, new_out);
                 field->disconnect_service(transition);
                 mltPlantTransition(field, new_transition, newTransitionTrack, newTrack);
-                //field->plant_transition(new_transition, newTransitionTrack, newTrack);
             } else transition.set_in_and_out(new_in, new_out);
             break;
         }
@@ -3885,6 +3885,20 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     return found;
 }
 
+void Render::cloneProperties(Mlt::Properties &dest, Mlt::Properties &source)
+{
+    	int count = source.count();
+	int i = 0;
+	for ( i = 0; i < count; i ++ )
+	{
+		char *value = source.get(i);
+		if ( value != NULL )
+		{
+			char *name = source.get_name( i );
+			if (name != NULL && name[0] != '_') dest.set(name, value);
+		}
+	}
+}
 
 void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track)
 {
@@ -3906,7 +3920,8 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
             Mlt::Properties trans_props(transition.get_properties());
             Mlt::Transition *cp = new Mlt::Transition(*m_mltProfile, transition.get("mlt_service"));
             Mlt::Properties new_trans_props(cp->get_properties());
-            new_trans_props.inherit(trans_props);
+            //new_trans_props.inherit(trans_props);
+	    cloneProperties(new_trans_props, trans_props);
             trList.append(cp);
             field->disconnect_service(transition);
         }
@@ -4408,7 +4423,8 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, bool videoTrack)
 	    Mlt::Properties trans_props(transition.get_properties());
 	    Mlt::Transition *cp = new Mlt::Transition(*m_mltProfile, transition.get("mlt_service"));
 	    Mlt::Properties new_trans_props(cp->get_properties());
-	    new_trans_props.inherit(trans_props);
+	    cloneProperties(new_trans_props, trans_props);
+	    //new_trans_props.inherit(trans_props);
 	    
 	    if (trackChanged) {
 		// Transition track needs to be adjusted
