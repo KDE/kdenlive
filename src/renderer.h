@@ -55,6 +55,7 @@ namespace Mlt
 {
 class Consumer;
 class Playlist;
+class Properties;
 class Tractor;
 class Transition;
 class Frame;
@@ -414,6 +415,8 @@ private:
     void fixAudioMixing(Mlt::Tractor tractor);
     /** @brief Make sure we inform MLT if we need a lot of threads for avformat producer */
     void checkMaxThreads();
+    /** @brief Clone serialisable properties only */
+    void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
 
 private slots:
 
