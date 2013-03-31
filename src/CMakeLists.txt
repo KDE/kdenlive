@@ -14,7 +14,7 @@ macro_optional_find_package(Jack)
 
 option(WITH_V4L "Build capture support with Video4Linux" ON)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
-option(WITH_Jack "Build Jack support" ON)
+option(WITH_JACK "Build Jack support" ON)
 
 
 
@@ -35,11 +35,11 @@ if(WITH_JogShuttle)
   endif(HAVE_LINUX_INPUT_H)
 endif(WITH_JogShuttle)
 
-if(WITH_Jack)
+if(WITH_JACK)
   if(JACK_FOUND)
     set(BUILD_Jack TRUE)
   endif(JACK_FOUND)
-endif(WITH_Jack)
+endif(WITH_JACK)
 
 macro_log_feature(QT_QTOPENGL_FOUND
   "QtOpenGL"
