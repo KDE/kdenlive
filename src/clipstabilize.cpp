@@ -91,7 +91,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
         //ls << "show,type,int,value,0,min,0,max,2,tooltip,0 = draw nothing. 1 or 2 show fields and transforms";
         ls << "smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering";
         ls << "maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift";
-        ls << "maxangle,type,int,value,-1,min,-1,max,1000,tooltip,max anglen to rotate (in rad)";
+        ls << "maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)";
         ls << "crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background";
         //ls << "invert,type,bool,value,0,min,0,max,1,tooltip,invert transform";
         //ls << "relative,type,bool,value,1,min,0,max,1,tooltip,0 = absolute transform  1= relative";
