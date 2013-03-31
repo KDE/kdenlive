@@ -2229,6 +2229,7 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
         int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
         trackPlaylist.insert_blank(clipIndex, cutDuration);
     }
+    trackPlaylist.consolidate_blanks(0);
     int newIndex = trackPlaylist.insert_at(insertPos, clip, 1);
     delete clip;
     /*if (QString(prod->get("transparency")).toInt() == 1)
@@ -3819,6 +3820,12 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     bool checkLength = false;
     if (endTrack == startTrack) {
         Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
+	if (!clipProducer) {
+            kDebug() << "// Cannot get clip at index: "<<clipIndex<<" / "<< moveStart;
+            service.unlock();
+            return false;
+        }
+        trackPlaylist.consolidate_blanks(0);
         if (!overwrite) {
             bool success = true;
             if (!trackPlaylist.is_blank_at(moveEnd) || !clipProducer || !clipProducer->is_valid() || clipProducer->is_blank()) {
@@ -3844,12 +3851,12 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 service.unlock();
                 return false;
             }
-        }
-        
-        if (overwrite) {
+        } else {
+	    // Overwrite mode
             trackPlaylist.remove_region(moveEnd, clipProducer->get_playtime());
-            int clipIndex = trackPlaylist.get_clip_index_at(moveEnd);
-            trackPlaylist.insert_blank(clipIndex, clipProducer->get_playtime() - 1);
+            int ix = trackPlaylist.get_clip_index_at(moveEnd);
+            trackPlaylist.insert_blank(ix, clipProducer->get_playtime() - 1);
+	    trackPlaylist.consolidate_blanks(0);
         }
         int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
         if (newIndex == -1) {
@@ -3859,9 +3866,9 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             service.unlock();
             return false;
         }
-        trackPlaylist.consolidate_blanks(1);
+        trackPlaylist.consolidate_blanks(0);
         delete clipProducer;
-        if (newIndex + 1 == trackPlaylist.count()) checkLength = true;
+        if (newIndex + 1 >= trackPlaylist.count()) checkLength = true;
     } else {
         Mlt::Producer destTrackProducer(tractor.track(endTrack));
         Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
@@ -3905,6 +3912,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 destTrackPlaylist.remove_region(moveEnd, clip->get_playtime());
                 int clipIndex = destTrackPlaylist.get_clip_index_at(moveEnd);
                 destTrackPlaylist.insert_blank(clipIndex, clip->get_playtime() - 1);
+		destTrackPlaylist.consolidate_blanks(0);
             }
 
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);
