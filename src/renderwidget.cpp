@@ -866,7 +866,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;
 
-    QString dest = m_view.out_file->url().path();
+    QString dest = m_view.out_file->url().path().trimmed();
     if (dest.isEmpty()) return;
 
     // Check whether target file has an extension.
