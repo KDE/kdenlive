@@ -511,7 +511,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 
             // Make sure there is no collision
             QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-            QPainterPath shape = m_selectionGroup->clipGroupShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
+            QPainterPath shape = m_selectionGroup->clipGroupSpacerShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
             QList<QGraphicsItem*> collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
             collidingItems.removeAll(m_selectionGroup);
             for (int i = 0; i < children.count(); i++) {
@@ -537,7 +537,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             }
             snappedPos += offset;
             // make sure we have no collision
-            shape = m_selectionGroup->clipGroupShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
+            shape = m_selectionGroup->clipGroupSpacerShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
             collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
             collidingItems.removeAll(m_selectionGroup);
             for (int i = 0; i < children.count(); i++) {

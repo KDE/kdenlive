@@ -41,6 +41,7 @@ public:
     void removeItem(QGraphicsItem * item);
     int track() const;
     QPainterPath clipGroupShape(QPointF offset) const;
+    QPainterPath clipGroupSpacerShape(QPointF offset) const;
     QPainterPath transitionGroupShape(QPointF offset) const;
     void setItemLocked(bool locked);
     bool isItemLocked() const;
@@ -71,6 +72,7 @@ protected:
 private:
     void fixItemRect();
     QPainterPath groupShape(GRAPHICSRECTITEM type, QPointF offset) const;
+    QPainterPath spacerGroupShape(GRAPHICSRECTITEM type, QPointF offset) const;
     /** Stores the original info of the items beeing resized. */
     QList <ItemInfo> m_resizeInfos;
 };
