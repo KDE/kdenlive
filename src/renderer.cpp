@@ -2976,7 +2976,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
         filter = service.filter(ct);
     }
 
-    addFilterToService(service, params, duration);
+    bool success = addFilterToService(service, params, duration);
 
     // re-add following filters
     for (int i = 0; i < filtersList.count(); i++) {
@@ -2987,7 +2987,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     }
     service.unlock();
     if (doRefresh) refresh();
-    return true;
+    return success;
 }
 
 
@@ -2996,10 +2996,8 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
       // create filter
     QString tag =  params.paramValue("tag");
     //kDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
-    char *filterTag = qstrdup(tag.toUtf8().constData());
-    char *filterId = qstrdup(params.paramValue("id").toUtf8().constData());
     QString kfr = params.paramValue("keyframes");
-  if (!kfr.isEmpty()) {
+    if (!kfr.isEmpty()) {
         QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
         //kDebug() << "// ADDING KEYFRAME EFFECT: " << params.paramValue("keyframes");
         char *starttag = qstrdup(params.paramValue("starttag", "start").toUtf8().constData());
@@ -3019,9 +3017,9 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         int offset = 0;
         // Special case, only one keyframe, means we want a constant value
         if (keyFrames.count() == 1) {
-            Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
+            Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
-                filter->set("kdenlive_id", filterId);
+                filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
                 int x1 = keyFrames.at(0).section(':', 0, 0).toInt();
                 double y1 = keyFrames.at(0).section(':', 1, 1).toDouble();
                 for (int j = 0; j < params.count(); j++) {
@@ -3031,11 +3029,17 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
                 filter->set(starttag, m_locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
                 service.attach(*filter);
-            }
+            } else {
+		delete[] starttag;
+		delete[] endtag;
+		kDebug() << "filter is NULL";
+		service.unlock();
+		return false;
+	    }
         } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
-                Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
+                Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
                 if (filter && filter->is_valid()) {
-                    filter->set("kdenlive_id", filterId);
+                    filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
                     int x1 = keyFrames.at(i).section(':', 0, 0).toInt() + offset;
                     double y1 = keyFrames.at(i).section(':', 1, 1).toDouble();
                     int x2 = keyFrames.at(i + 1).section(':', 0, 0).toInt();
@@ -3053,16 +3057,22 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                     filter->set(endtag, m_locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
                     service.attach(*filter);
                     offset = 1;
-                }
+                } else {
+		    delete[] starttag;
+		    delete[] endtag;
+		    kDebug() << "filter is NULL";
+		    service.unlock();
+		    return false;
+		}
             }
         delete[] starttag;
         delete[] endtag;
     } else {
         Mlt::Filter *filter;
         QString prefix;
-        filter = new Mlt::Filter(*m_mltProfile, filterTag);
+        filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
         if (filter && filter->is_valid()) {
-            filter->set("kdenlive_id", filterId);
+            filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
         } else {
             kDebug() << "filter is NULL";
             service.unlock();
@@ -3097,9 +3107,6 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         // attach filter to the clip
         service.attach(*filter);
     }
-	
-    delete[] filterId;
-    delete[] filterTag;
     return true;
 }
 

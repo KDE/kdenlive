@@ -92,6 +92,11 @@ CustomTrackScene* AbstractGroupItem::projectScene()
     return NULL;
 }
 
+QPainterPath AbstractGroupItem::clipGroupSpacerShape(QPointF offset) const
+{
+    return spacerGroupShape(AVWIDGET, offset);
+}
+
 QPainterPath AbstractGroupItem::clipGroupShape(QPointF offset) const
 {
     return groupShape(AVWIDGET, offset);
@@ -117,6 +122,31 @@ QPainterPath AbstractGroupItem::groupShape(GRAPHICSRECTITEM type, QPointF offset
                 if (subchildren.at(j)->type() == (int)type) {
                     QRectF r(subchildren.at(j)->sceneBoundingRect());
                     r.translate(offset);
+                    path.addRect(r);
+                }
+            }
+        }
+    }
+    return path;
+}
+
+QPainterPath AbstractGroupItem::spacerGroupShape(GRAPHICSRECTITEM type, QPointF offset) const
+{
+    QPainterPath path;
+    QList<QGraphicsItem *> children = childItems();
+    for (int i = 0; i < children.count(); i++) {
+        if (children.at(i)->type() == (int)type) {
+            QRectF r(children.at(i)->sceneBoundingRect());
+            r.translate(offset);
+	    r.setRight(scene()->width());
+            path.addRect(r);
+        } else if (children.at(i)->type() == GROUPWIDGET) {
+            QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
+            for (int j = 0; j < subchildren.count(); j++) {
+                if (subchildren.at(j)->type() == (int)type) {
+                    QRectF r(subchildren.at(j)->sceneBoundingRect());
+                    r.translate(offset);
+		    r.setRight(scene()->width());
                     path.addRect(r);
                 }
             }

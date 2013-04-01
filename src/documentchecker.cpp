@@ -465,7 +465,8 @@ void DocumentChecker::slotSearchClips()
     if (newpath.isEmpty()) return;
     int ix = 0;
     bool fixed = false;
-    m_ui.recursiveSearch->setEnabled(false);
+    m_ui.recursiveSearch->setChecked(true);
+    qApp->processEvents();
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     QDir searchDir(newpath);
     while (child) {
@@ -514,6 +515,7 @@ void DocumentChecker::slotSearchClips()
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
     }
+    m_ui.recursiveSearch->setChecked(false);
     m_ui.recursiveSearch->setEnabled(true);
     if (fixed) {
         // original doc was modified

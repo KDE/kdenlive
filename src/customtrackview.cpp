@@ -511,7 +511,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 
             // Make sure there is no collision
             QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-            QPainterPath shape = m_selectionGroup->clipGroupShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
+            QPainterPath shape = m_selectionGroup->clipGroupSpacerShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
             QList<QGraphicsItem*> collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
             collidingItems.removeAll(m_selectionGroup);
             for (int i = 0; i < children.count(); i++) {
@@ -537,7 +537,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             }
             snappedPos += offset;
             // make sure we have no collision
-            shape = m_selectionGroup->clipGroupShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
+            shape = m_selectionGroup->clipGroupSpacerShape(QPointF(snappedPos - m_selectionGroup->sceneBoundingRect().left(), 0));
             collidingItems = scene()->items(shape, Qt::IntersectsItemShape);
             collidingItems.removeAll(m_selectionGroup);
             for (int i = 0; i < children.count(); i++) {
@@ -1899,9 +1899,11 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             return;
         }
         EffectsParameterList params = clip->addEffect(effect);
-        if (!m_document->renderer()->mltAddEffect(track, pos, params))
+        if (!m_document->renderer()->mltAddEffect(track, pos, params)) {
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
-	clip->setSelectedEffect(params.paramValue("kdenlive_ix").toInt());
+	    clip->deleteEffect(params.paramValue("kdenlive_ix"));
+	}
+	else clip->setSelectedEffect(params.paramValue("kdenlive_ix").toInt());
         if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
     } else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
 }
