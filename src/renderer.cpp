@@ -2724,6 +2724,10 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         newLength = trackPlaylist.clip_length(clipIndex);
         service.unlock();
     } else if (speed == 1.0 && strobe < 2) {
+	if (!prod || !prod->is_valid()) {
+	    kDebug()<<"// Something is wrong with producer";
+	    return -1;
+	}
         service.lock();
 
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
