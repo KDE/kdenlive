@@ -365,41 +365,27 @@ void Render::buildConsumer(const QString &profileName)
     m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
 
 #ifdef USE_JACK
-	if (!audioDriver.isEmpty()) {
-		if (audioDriver == "jack") {
-			/* create the jack device singleton instance */
-			JackDevice::singleton(m_mltProfile);
-			if (&JACKDEV && JACKDEV.probe()) {
-				if (hasRole(Rndr::OpenCloseEngineRole)) {
-					openAudioEngine(AudioEngine::Jack);
-				} else {
-					/* stop consumer */
-					if (!m_mltConsumer->is_stopped())
-						m_mltConsumer->stop();
-					/* disable audio */
-					m_mltConsumer->set("audio_off", 1);
-				}
-			}
-			/* TODO: error message */
-//			else
-//		    	ShowErrorMessage();
-        }
-    } else {
-		/* if jackd is running default to jackdev because in most cases the
-		 * audio driver is claimed by jackd */
-		JackDevice::singleton(m_mltProfile);
-		if (&JACKDEV && JACKDEV.probe()) {
-			if (hasRole(Rndr::OpenCloseEngineRole)) {
-				openAudioEngine(AudioEngine::Jack);
-			} else {
-				/* stop consumer */
-				if (!m_mltConsumer->is_stopped())
-					m_mltConsumer->stop();
-				/* disable audio */
-				m_mltConsumer->set("audio_off", 1);
-			}
+	/* create the jack device singleton instance */
+	JackDevice::singleton(m_mltProfile);
+	bool jackdStarted = &JACKDEV && JACKDEV.probe();
+	bool rolesValid = hasRole(Rndr::OpenCloseEngineRole);
+
+	if (jackdStarted && rolesValid) {
+		/* open jack audio engine */
+		openAudioEngine(AudioEngine::Jack);
+	} else if (!jackdStarted && rolesValid) {
+		/* show error message in explicite jack mode */
+		if (!audioDriver.isEmpty() && audioDriver == "jack") {
+			KMessageBox::error(qApp->activeWindow(),
+				i18n("Can't connect to jackd. Please start jackd and restart kdenlive!"));
 		}
-    }
+	} else if (jackdStarted && !rolesValid) {
+		/* stop consumer */
+		if (!m_mltConsumer->is_stopped())
+			m_mltConsumer->stop();
+		/* disable audio */
+		m_mltConsumer->set("audio_off", 1);
+	}
 #endif
 }
 
