@@ -1899,9 +1899,11 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             return;
         }
         EffectsParameterList params = clip->addEffect(effect);
-        if (!m_document->renderer()->mltAddEffect(track, pos, params))
+        if (!m_document->renderer()->mltAddEffect(track, pos, params)) {
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
-	clip->setSelectedEffect(params.paramValue("kdenlive_ix").toInt());
+	    clip->deleteEffect(params.paramValue("kdenlive_ix"));
+	}
+	else clip->setSelectedEffect(params.paramValue("kdenlive_ix").toInt());
         if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
     } else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
 }
