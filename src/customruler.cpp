@@ -181,11 +181,13 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
 // virtual
 void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 {
+    int mappedXPos = (int)((event->x() + offset()) / m_factor);
+    emit mousePosition(mappedXPos);
     if (event->buttons() == Qt::LeftButton) {
         int pos;
         if (m_moveCursor == RULER_START || m_moveCursor == RULER_END) {
-            pos = m_view->getSnapPointForPos((int)((event->x() + offset()) / m_factor));
-        } else pos = (int)((event->x() + offset()) / m_factor);
+            pos = m_view->getSnapPointForPos(mappedXPos);
+        } else pos = mappedXPos;
         int zoneStart = m_zoneStart;
         int zoneEnd = m_zoneEnd;
         if (pos < 0) pos = 0;

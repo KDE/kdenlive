@@ -98,6 +98,7 @@ private slots:
 signals:
     void zoneMoved(int, int);
     void adjustZoom(int);
+    void mousePosition(int);
 };
 
 #endif

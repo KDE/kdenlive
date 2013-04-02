@@ -126,7 +126,6 @@
 
 static const char version[] = VERSION;
 
-static const int ID_TIMELINE_POS = 0;
 namespace Mlt
 {
 class Producer;
@@ -1005,14 +1004,7 @@ private:
 
 void MainWindow::setupActions()
 {
-
     NameGrabbingKActionCollection collection(actionCollection(), m_action_names);
-    m_timecodeFormat = new KComboBox(this);
-    m_timecodeFormat->addItem(i18n("hh:mm:ss:ff"));
-    m_timecodeFormat->addItem(i18n("Frames"));
-    if (KdenliveSettings::frametimecode()) m_timecodeFormat->setCurrentIndex(1);
-    connect(m_timecodeFormat, SIGNAL(activated(int)), this, SLOT(slotUpdateTimecodeFormat(int)));
-
     m_statusProgressBar = new QProgressBar(this);
     m_statusProgressBar->setMinimum(0);
     m_statusProgressBar->setMaximum(100);
@@ -1024,7 +1016,7 @@ void MainWindow::setupActions()
     
     setStatusBarStyleSheet(palette());
     QString styleBorderless = "QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}";
-
+    
     //create edit mode buttons
     m_normalEditTool = new KAction(KIcon("kdenlive-normal-edit"), i18n("Normal mode"), this);
     m_normalEditTool->setShortcut(i18nc("Normal editing", "n"));
@@ -1212,9 +1204,20 @@ void MainWindow::setupActions()
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addWidget(m_statusProgressBar, 0);
     statusBar()->addPermanentWidget(toolbar);
-    statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
-    statusBar()->addPermanentWidget(m_timecodeFormat);
-    //statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 3);
+    
+    m_timeFormatButton = new KSelectAction("00:00:00:00 / 00:00:00:00", this);
+    m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
+    m_timeFormatButton->addAction(i18n("Frames"));
+    if (KdenliveSettings::frametimecode()) m_timeFormatButton->setCurrentItem(1);
+    else m_timeFormatButton->setCurrentItem(0);
+    connect(m_timeFormatButton, SIGNAL(triggered(int)), this, SLOT(slotUpdateTimecodeFormat(int)));
+    m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
+    toolbar->addAction(m_timeFormatButton);
+    actionWidget = toolbar->widgetForAction(m_timeFormatButton);
+    const QFontMetrics metric = toolbar->fontMetrics();
+    actionWidget->setFixedWidth(metric.width("000:00:00:00 / 00:00:00:000") + 10);
+    actionWidget->setObjectName("timecode");
+
 
     collection.addAction("normal_mode", m_normalEditTool);
     collection.addAction("overwrite_mode", m_overwriteEditTool);
@@ -1796,7 +1799,7 @@ void MainWindow::setStatusBarStyleSheet(const QPalette &p)
     QColor buttonBord = scheme.foreground(KColorScheme::LinkText).color();
     QColor buttonBord2 = scheme.shade(KColorScheme::LightShade);
     statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
-    QString style1 = QString("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:hover { background: %3;border-style: inset; border:1px solid %3;border-radius: 3px;} QToolButton:checked { background-color: %1; border-style: inset; border:1px solid %2;border-radius: 3px;}").arg(buttonBg.name()).arg(buttonBord.name()).arg(buttonBord2.name());
+    QString style1 = QString("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton#timecode {padding-right:8px} QToolButton:hover { background: %3;border-style: inset; border:1px solid %3;border-radius: 3px;} QToolButton:checked { background-color: %1; border-style: inset; border:1px solid %2;border-radius: 3px;}").arg(buttonBg.name()).arg(buttonBord.name()).arg(buttonBord2.name());
     statusBar()->setStyleSheet(style1);
 }
 
@@ -2537,13 +2540,21 @@ void MainWindow::slotCleanProject()
 void MainWindow::slotUpdateMousePosition(int pos)
 {
     if (m_activeDocument)
-        switch (m_timecodeFormat->currentIndex()) {
+        switch (m_timeFormatButton->currentItem()) {
         case 0:
-            statusBar()->changeItem(m_activeDocument->timecode().getTimecodeFromFrames(pos), ID_TIMELINE_POS);
+	    m_timeFormatButton->setText(m_activeDocument->timecode().getTimecodeFromFrames(pos) + " / " + m_activeDocument->timecode().getTimecodeFromFrames(m_activeTimeline->duration()));
             break;
         default:
-            statusBar()->changeItem(QString::number(pos), ID_TIMELINE_POS);
+	    m_timeFormatButton->setText(QString::number(pos) + " / " + QString::number(m_activeTimeline->duration()));
         }
+}
+
+void MainWindow::slotUpdateProjectDuration(int pos)
+{
+    if (m_activeDocument) {
+	m_activeTimeline->setDuration(pos);
+	slotUpdateMousePosition(m_activeTimeline->projectView()->getMousePos());
+    }
 }
 
 void MainWindow::slotUpdateDocumentState(bool modified)
@@ -2649,7 +2660,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), doc, SLOT(setModified()));
-    connect(m_projectMonitor, SIGNAL(durationChanged(int)), trackView, SLOT(setDuration(int)));
     connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool, bool)), doc, SLOT(checkProjectClips(bool, bool)));
 
     connect(doc, SIGNAL(addProjectClip(DocClipBase *, bool)), m_projectList, SLOT(slotAddClip(DocClipBase *, bool)));
@@ -2729,6 +2739,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_saveAction->setEnabled(doc->isModified());
     m_normalEditTool->setChecked(true);
     m_activeDocument = doc;
+    connect(m_projectMonitor, SIGNAL(durationChanged(int)), this, SLOT(slotUpdateProjectDuration(int)));
     m_monitorManager->setDocument(m_activeDocument);
     m_activeTimeline->updateProjectFps();
     m_activeDocument->checkProjectClips();
@@ -4304,6 +4315,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     m_effectStack->updateTimecodeFormat();
     //m_activeTimeline->projectView()->clearSelection();
     m_activeTimeline->updateRuler();
+    slotUpdateMousePosition(m_activeTimeline->projectView()->getMousePos());
 }
 
 void MainWindow::slotRemoveFocus()
