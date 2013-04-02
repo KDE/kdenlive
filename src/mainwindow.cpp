@@ -692,7 +692,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         }
         m_projectList->slotAddClip(urls);
     }
-    
 }
 
 MainWindow::~MainWindow()
@@ -1204,7 +1203,7 @@ void MainWindow::setupActions()
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addWidget(m_statusProgressBar, 0);
     statusBar()->addPermanentWidget(toolbar);
-    
+
     m_timeFormatButton = new KSelectAction("00:00:00:00 / 00:00:00:00", this);
     m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
     m_timeFormatButton->addAction(i18n("Frames"));
@@ -1213,11 +1212,12 @@ void MainWindow::setupActions()
     connect(m_timeFormatButton, SIGNAL(triggered(int)), this, SLOT(slotUpdateTimecodeFormat(int)));
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     toolbar->addAction(m_timeFormatButton);
-    actionWidget = toolbar->widgetForAction(m_timeFormatButton);
-    const QFontMetrics metric = toolbar->fontMetrics();
-    actionWidget->setFixedWidth(metric.width("000:00:00:00 / 00:00:00:000") + 10);
-    actionWidget->setObjectName("timecode");
 
+    const QFontMetrics metric(statusBar()->font());
+    int requiredWidth = metric.boundingRect("00:00:00:00 / 00:00:00:00").width() + 20;
+    actionWidget = toolbar->widgetForAction(m_timeFormatButton);
+    actionWidget->setObjectName("timecode");
+    actionWidget->setMinimumWidth(requiredWidth);
 
     collection.addAction("normal_mode", m_normalEditTool);
     collection.addAction("overwrite_mode", m_overwriteEditTool);
@@ -1799,7 +1799,7 @@ void MainWindow::setStatusBarStyleSheet(const QPalette &p)
     QColor buttonBord = scheme.foreground(KColorScheme::LinkText).color();
     QColor buttonBord2 = scheme.shade(KColorScheme::LightShade);
     statusBar()->setStyleSheet(QString("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
-    QString style1 = QString("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton#timecode {padding-right:8px} QToolButton:hover { background: %3;border-style: inset; border:1px solid %3;border-radius: 3px;} QToolButton:checked { background-color: %1; border-style: inset; border:1px solid %2;border-radius: 3px;}").arg(buttonBg.name()).arg(buttonBord.name()).arg(buttonBord2.name());
+    QString style1 = QString("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton#timecode {padding-right:10px;} QToolButton:hover { background: %3;border-style: inset; border:1px solid %3;border-radius: 3px;} QToolButton:checked { background-color: %1; border-style: inset; border:1px solid %2;border-radius: 3px;}").arg(buttonBg.name()).arg(buttonBord.name()).arg(buttonBord2.name());
     statusBar()->setStyleSheet(style1);
 }
 
