@@ -211,6 +211,9 @@ public:
     /** @brief Trigger a monitor refresh. */
     void monitorRefresh();
     
+    /** @brief Returns frame number of current mouse position. */
+    int getMousePos() const;
+    
 public slots:
     /** @brief Send seek request to MLT. */
     void seekCursorPos(int pos);

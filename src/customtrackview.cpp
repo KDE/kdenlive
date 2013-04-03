@@ -422,6 +422,11 @@ void CustomTrackView::slotAlignPlayheadToMousePos()
 	seekCursorPos(mappedXPos);
 }
 
+int CustomTrackView::getMousePos() const
+{
+    return qMax((int)(mapToScene(mapFromGlobal(QCursor::pos())).x() + 0.5), 0);
+}
+
 // virtual
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 {

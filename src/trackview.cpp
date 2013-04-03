@@ -58,6 +58,7 @@ TrackView::TrackView(KdenliveDoc *doc, QList <QAction*> actions, bool *ok, QWidg
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int, int)), this, SIGNAL(zoneMoved(int, int)));
     connect(m_ruler, SIGNAL(adjustZoom(int)), this, SIGNAL(setZoom(int)));
+    connect(m_ruler, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(m_trackview->frameWidth(), 0, 0, 0);
     layout->setSpacing(0);

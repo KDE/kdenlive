@@ -204,7 +204,7 @@ private:
     QUndoView *m_undoView;
     QUndoGroup *m_commandStack;
 
-    KComboBox *m_timecodeFormat;
+    KSelectAction *m_timeFormatButton;
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList <QDockWidget *> m_gfxScopesList;
@@ -370,6 +370,7 @@ private slots:
     void slotUpdateClip(const QString &id);
     void slotUpdateMousePosition(int pos);
     void slotUpdateJackSyncDiff(int diff);
+    void slotUpdateProjectDuration(int pos);
     void slotAddEffect(const QDomElement effect);
     void slotEditProfiles();
     void slotDetectAudioDriver();
