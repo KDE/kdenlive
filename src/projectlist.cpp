@@ -3603,6 +3603,44 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
     else {
         destination = ids.values();
     }
+    if (filterName == "framebuffer") {
+	Mlt::Profile profile;
+	QStringList keys = ids.keys();
+	int ix = 0;
+	foreach(const QString &url, destination) {
+	    QString prodstring = QString("framebuffer:" + url + "?-1");
+	    Mlt::Producer *reversed = new Mlt::Producer(profile, prodstring.toUtf8().constData());
+	    if (!reversed || !reversed->is_valid()) {
+		emit displayMessage(i18n("Cannot reverse clip"), -2, ErrorMessage);
+		continue;
+	    }
+	    QString dest = url + ".mlt";
+	    if (QFile::exists(dest)) {
+		if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", dest)) == KMessageBox::No) continue;
+	    }
+	    Mlt::Consumer *cons = new Mlt::Consumer(profile, "xml", dest.toUtf8().constData());
+	    if (cons == NULL || !cons->is_valid()) {
+		emit displayMessage(i18n("Cannot render reversed clip"), -2, ErrorMessage);
+		continue;
+	    }
+	    Mlt::Playlist list;
+	    list.insert_at(0, reversed, 0);
+	    delete reversed;
+	    cons->connect(list);
+	    cons->run();
+	    delete cons;
+	    QString groupId;
+	    QString groupName;
+	    DocClipBase *base = m_doc->clipManager()->getClipById(keys.at(ix));
+	    if (base) {
+		groupId = base->getProperty("groupid");
+		groupName = base->getProperty("groupname");
+	    }
+	    emit addClip(dest, groupId, groupName);
+	    ix++;
+	}
+	return;
+    }
     
     if (filterName == "motion_est") {
 	// Show config dialog
