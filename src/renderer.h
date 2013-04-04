@@ -471,6 +471,7 @@ signals:
     void durationChanged(int);
     void rendererPosition(int);
     void rendererStopped(int);
+    void rendererStarted();
     /** @brief The clip is not valid, should be removed from project. */
     void removeInvalidClip(const QString &, bool replaceProducer);
     /** @brief The proxy is not valid, should be deleted.

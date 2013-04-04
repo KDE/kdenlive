@@ -182,6 +182,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, RndrRole role,
     connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
+    connect(render, SIGNAL(rendererStarted()), this, SLOT(rendererStarted()));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 
     if (id != Kdenlive::clipMonitor) {
@@ -769,6 +770,12 @@ void Monitor::rendererStopped(int pos)
     }
     m_playAction->setIcon(m_playIcon);
 }
+
+void Monitor::rendererStarted()
+{
+    m_playAction->setIcon(m_pauseIcon);
+}
+
 
 void Monitor::adjustRulerSize(int length)
 {

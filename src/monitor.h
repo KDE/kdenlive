@@ -161,6 +161,7 @@ private:
 private slots:
     void seekCursor(int pos);
     void rendererStopped(int pos);
+    void rendererStarted();
     void slotExtractCurrentFrame();
     void slotSetThumbFrame();
     void slotSetSizeOneToOne();

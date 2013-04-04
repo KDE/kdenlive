@@ -5082,6 +5082,7 @@ void Render::slotOnSlavePlaybackStarted(int position)
 {
 	position = position;
 	switchPlay(true, true);
+	rendererStarted();
 }
 
 void Render::slotOnSlavePlaybackSync(int position)
