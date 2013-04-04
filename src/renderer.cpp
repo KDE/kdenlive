@@ -483,20 +483,20 @@ void Render::seek(GenTime time)
     seek(pos);
 }
 
-void Render::seek(int time, bool fromSlave)
+void Render::seek(int time, bool fromMaster)
 {
 	/* limit time */
 	time = qMax(0, time);
 	time = qMin(m_mltProducer->get_playtime(), time);
 
 #ifdef USE_JACK
-    if (!fromSlave && isSlaveActive(Slave::Jack)) {
+    if (!fromMaster && isSlaveActive(Slave::Jack)) {
     	if (isAudioEngineActive(AudioEngine::Jack)) {
     		JACKDEV.seekPlayback(time < 0 ? 0 : time);
     	}
     	/* return */
     	return;
-    } else if (fromSlave && isSlaveActive(Slave::Jack)) {
+    } else if (fromMaster && isSlaveActive(Slave::Jack)) {
     	m_mltProducer->set_speed(0);
    	}
 #endif
@@ -1695,7 +1695,7 @@ void Render::setActiveMonitor()
      if (!m_isActive) emit activateMonitor(m_name);
 }
 
-void Render::switchPlay(bool play, bool fromSlave)
+void Render::switchPlay(bool play, bool fromMaster)
 {
     QMutexLocker locker(&m_mutex);
     requestedSeekPosition = SEEK_INACTIVE;
@@ -1703,7 +1703,7 @@ void Render::switchPlay(bool play, bool fromSlave)
         return;
 
 #ifdef USE_JACK
-    if (!fromSlave && isSlaveActive(Slave::Jack)) {
+    if (!fromMaster && isSlaveActive(Slave::Jack)) {
     	if (isAudioEngineActive(AudioEngine::Jack)) {
     		if (play) {
     			JACKDEV.startPlayback();
@@ -1713,7 +1713,7 @@ void Render::switchPlay(bool play, bool fromSlave)
     	}
     	/* return */
     	return;
-    } else if (fromSlave && isSlaveActive(Slave::Jack)) {
+    } else if (fromMaster && isSlaveActive(Slave::Jack)) {
 //		position = JACKDEV.getPlaybackPosition();
     }
 #endif
