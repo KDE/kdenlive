@@ -4052,6 +4052,11 @@ void MainWindow::loadClipActions()
 			    connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
 			}
 		}
+		if (KdenliveSettings::producerslist().contains("framebuffer")) {
+			QAction *action=actionMenu->addAction(i18n("Reverse clip"));
+			action->setData("framebuffer");
+			connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+		}
 	}
 
 }
