@@ -60,6 +60,7 @@
 #else
 // Dummy KMessageWidget to allow compilation of MyMessageWidget class since Qt's moc doesn work inside #ifdef
 #include <QLabel>
+
 class KMessageWidget: public QLabel
 {
 public:
