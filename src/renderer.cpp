@@ -183,7 +183,7 @@ Render::~Render()
 {
 #ifdef USE_JACK
 	/* isDeviceActive ()*/
-	if (hasRole(Rndr::OpenCloseEngineRole)) {
+	if (hasRole(Rndr::OpenCloseJackEngineRole)) {
 		closeAudioEngine(AudioEngine::Jack);
 	}
 #endif
@@ -368,7 +368,7 @@ void Render::buildConsumer(const QString &profileName)
 	/* create the jack device singleton instance */
 	JackDevice::singleton(m_mltProfile);
 	bool jackdStarted = &JACKDEV && JACKDEV.probe();
-	bool rolesValid = hasRole(Rndr::OpenCloseEngineRole);
+	bool rolesValid = hasRole(Rndr::OpenCloseJackEngineRole);
 
 	if (jackdStarted && rolesValid) {
 		/* open jack audio engine */

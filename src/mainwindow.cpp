@@ -256,7 +256,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
-    m_projectMonitor = new Monitor(Kdenlive::projectMonitor, m_monitorManager, Rndr::OpenCloseEngineRole | Rndr::OpenCloseSlaveRole, QString());
+    m_projectMonitor = new Monitor(Kdenlive::projectMonitor, m_monitorManager, Rndr::OpenCloseJackEngineRole | Rndr::OpenCloseSlaveRole, QString());
     m_projectMonitorDock->setWidget(m_projectMonitor);
 
 #ifndef Q_WS_MAC

@@ -64,9 +64,9 @@ namespace Rndr
 {
 	enum Role
 	{
-		NoRole				= (1<<0),
-		OpenCloseEngineRole	= (1<<1),
-		OpenCloseSlaveRole	= (1<<2)
+		NoRole					= (1<<0),
+		OpenCloseJackEngineRole	= (1<<1),
+		OpenCloseSlaveRole		= (1<<2)
 	};
 };
 
