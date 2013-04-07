@@ -91,16 +91,19 @@ void TimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF exposed)
 void TimelineClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     static_cast<TimelineScene*>(scene())->toolManager()->clipEvent(this, event);
+    emit signalEvent(event);
 }
 
 void TimelineClipItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     static_cast<TimelineScene*>(scene())->toolManager()->clipEvent(this, event);
+    emit signalEvent(event);
 }
 
 void TimelineClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     static_cast<TimelineScene*>(scene())->toolManager()->clipEvent(this, event);
+    emit signalEvent(event);
 }
 
 void TimelineClipItem::updateGeometry(bool updateTrack)

@@ -15,9 +15,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QPointF>
 #include <kdemacros.h>
 
+class AbstractClipItemAction;
 class TimelineClipItem;
 class TimelineScene;
-class QEvent;
 class QGraphicsSceneMouseEvent;
 
 
@@ -30,16 +30,14 @@ public:
 
     explicit AbstractClipItemTool(QObject* parent = 0);
 
-    virtual void clipEvent(TimelineClipItem *clipItem, QEvent *event);
-//     virtual void mouseOverClip(TimelineScene *scene, TimelineClipItem *clip, QGraphicsSceneMouseEvent *event);
+    virtual void clipEvent(TimelineClipItem *clipItem, QEvent *event) = 0;
 
     virtual void hover(TimelineScene *scene, TimelineClipItem *clip, QGraphicsSceneMouseEvent *event);
 
-protected:
-    virtual void mouseMove(QGraphicsSceneMouseEvent *event);
-    virtual void mousePress(QGraphicsSceneMouseEvent *event);
-    virtual void mouseRelease(QGraphicsSceneMouseEvent *event);
+public slots:
+    void slotActionFinished();
 
+protected:
     virtual void hoverIn(QGraphicsSceneMouseEvent *event);
     virtual void hoverOut(QGraphicsSceneMouseEvent *event);
     virtual void hoverPosition(QGraphicsSceneMouseEvent *event);
@@ -47,6 +45,7 @@ protected:
     EditingTypes m_editMode;
     TimelineScene *m_scene;
     TimelineClipItem *m_clip;
+    AbstractClipItemAction *m_editAction;
 
 private:
     EditingTypes editMode(QPointF position);

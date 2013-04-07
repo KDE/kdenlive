@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/timeline.h"
 #include "project/timelinetrack.h"
 #include <QGraphicsSceneMouseEvent>
+#include <QMimeData>
 
 
 TimelineScene::TimelineScene(Timeline* timeline, ToolManager *toolManager, TimelineView *view, QObject* parent) :
@@ -115,6 +116,26 @@ void TimelineScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     if (!event->isAccepted()) {
         m_toolManager->sceneEvent(this, event);
     }
+}
+
+void TimelineScene::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
+{
+    event->setAccepted(event->mimeData()->hasFormat("kdenlive/clip"));
+}
+
+void TimelineScene::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
+{
+    m_toolManager->sceneEvent(this, event);
+}
+
+void TimelineScene::dragLeaveEvent(QGraphicsSceneDragDropEvent* event)
+{
+
+}
+
+void TimelineScene::dropEvent(QGraphicsSceneDragDropEvent* event)
+{
+
 }
 
 #include "timelinescene.moc"

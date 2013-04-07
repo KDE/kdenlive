@@ -60,6 +60,9 @@ public slots:
      */
     void updateGeometry(bool updateTrack = true);
 
+signals:
+    void signalEvent(QEvent *event);
+
 protected:
     /** @brief Subclass this function for painting in the background on top of the background color.
      * @param painter painter to be used

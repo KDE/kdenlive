@@ -2,6 +2,9 @@
 SET(selecttool_SRCS
   selectclipitemtool.cpp
   selecttoolplugin.cpp
+  setclippositionitemaction.cpp
+  trimclipenditemaction.cpp
+  trimclipstartitemaction.cpp
 )
 
 kde4_add_plugin(kdenliveselecttool ${selecttool_SRCS})

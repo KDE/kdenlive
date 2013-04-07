@@ -21,15 +21,7 @@ class SelectClipItemTool : public AbstractClipItemTool
 public:
     explicit SelectClipItemTool(QObject* parent = 0);
 
-protected:
-    void mouseMove(QGraphicsSceneMouseEvent *event);
-    void mousePress(QGraphicsSceneMouseEvent *event);
-    void mouseRelease(QGraphicsSceneMouseEvent *event);
-
-private:
-    int m_boundLeft;
-    int m_boundRight;
-    int m_original;
+    virtual void clipEvent(TimelineClipItem *clipItem, QEvent *event);
 };
 
 #endif

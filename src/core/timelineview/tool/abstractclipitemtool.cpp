@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "abstractclipitemtool.h"
+#include "abstractclipitemaction.h"
 #include "timelineview/timelineview.h"
 #include "timelineview/timelineclipitem.h"
 #include "project/abstracttimelineclip.h"
@@ -20,29 +21,10 @@ AbstractClipItemTool::AbstractClipItemTool(QObject* parent) :
     QObject(parent),
     m_editMode(NoEditing),
     m_scene(NULL),
-    m_clip(NULL)
+    m_clip(NULL),
+    m_editAction(NULL)
 {
 
-}
-
-void AbstractClipItemTool::clipEvent(TimelineClipItem* clipItem, QEvent* event)
-{
-    m_clip = clipItem;
-
-    switch (event->type()) {
-        case QEvent::GraphicsSceneMouseMove:
-            mouseMove(static_cast<QGraphicsSceneMouseEvent*>(event));
-            break;
-        case QEvent::GraphicsSceneMousePress:
-            mousePress(static_cast<QGraphicsSceneMouseEvent*>(event));
-            break;
-        case QEvent::GraphicsSceneMouseRelease:
-            mouseRelease(static_cast<QGraphicsSceneMouseEvent*>(event));
-            break;
-        default:
-            ;
-    }
-    event->accept();
 }
 
 void AbstractClipItemTool::hover(TimelineScene* scene, TimelineClipItem* clip, QGraphicsSceneMouseEvent* event)
@@ -70,31 +52,24 @@ void AbstractClipItemTool::hover(TimelineScene* scene, TimelineClipItem* clip, Q
     }
 }
 
-void AbstractClipItemTool::mouseMove(QGraphicsSceneMouseEvent* event)
-{
-}
-
-void AbstractClipItemTool::mousePress(QGraphicsSceneMouseEvent* event)
-{
-}
-
-void AbstractClipItemTool::mouseRelease(QGraphicsSceneMouseEvent* event)
-{
-}
-
-
 void AbstractClipItemTool::hoverIn(QGraphicsSceneMouseEvent* event)
 {
+    Q_UNUSED(event)
+
     m_scene->view()->setCursor(KCursor("left_side", Qt::SizeHorCursor));
 }
 
 void AbstractClipItemTool::hoverOut(QGraphicsSceneMouseEvent* event)
 {
+    Q_UNUSED(event)
+
     m_scene->view()->setCursor(KCursor("right_side", Qt::SizeHorCursor));
 }
 
 void AbstractClipItemTool::hoverPosition(QGraphicsSceneMouseEvent* event)
 {
+    Q_UNUSED(event)
+
     m_scene->view()->setCursor(Qt::OpenHandCursor);
 }
 
@@ -112,4 +87,11 @@ AbstractClipItemTool::EditingTypes AbstractClipItemTool::editMode(QPointF positi
     } else {
         return SetPosition;
     }
+}
+
+void AbstractClipItemTool::slotActionFinished()
+{
+    delete m_editAction;
+    m_editAction = 0;
+    m_editMode = NoEditing;
 }

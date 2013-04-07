@@ -40,6 +40,8 @@ void SceneTool::sceneEvent(TimelineScene* scene, QEvent* event)
         case QEvent::GraphicsSceneMouseMove:
             sceneMouseMove(scene, static_cast<QGraphicsSceneMouseEvent*>(event));
             break;
+        case QEvent::GraphicsSceneDragEnter:
+            break;
         default:
             ;
     }
