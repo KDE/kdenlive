@@ -1899,7 +1899,7 @@ void Render::showFrame(Mlt::Frame* frame)
 	delete frame;
 	emit showImageSignal(qimage);
 	if (sendFrameForAnalysis) {
-	    emit frameUpdated(qimage);//.rgbSwapped());
+	    emit frameUpdated(qimage);
 	}
     } else delete frame;
     showFrameSemaphore.release();
