@@ -76,8 +76,9 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         const float wPrediv = (float)(ww-1)/(iw-1);
 
         const uchar *bits = image.bits();
+	const int bpp = image.depth() / 8;
 
-        for (uint i = 0, x = 0; i < byteCount; i += 4) {
+        for (uint i = 0, x = 0; i < byteCount; i += bpp) {
 
             Q_ASSERT(bits < image.bits() + byteCount);
 
@@ -96,13 +97,13 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
             dx = x*wPrediv;
             waveValues[(int)dx][(int)dy]++;
 
-            bits += 4;
-            x += 4;
+            bits += bpp;
+            x += bpp;
             if (x > iw) {
                 x -= iw;
                 if (accelFactor > 1) {
-                    bits += 4*iw*(accelFactor-1);
-                    i += 4*iw*(accelFactor-1);
+                    bits += bpp*iw*(accelFactor-1);
+                    i += bpp*iw*(accelFactor-1);
                 }
             }
         }
