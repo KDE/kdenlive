@@ -44,7 +44,7 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     const uint ww = paradeSize.width();
     const uint wh = paradeSize.height();
     const uint byteCount = iw*ih;
-    const uint stepsize = 4*accelFactor;
+    const uint stepsize = image.depth() / 8 *accelFactor;
 
     const uchar *bits = image.bits();
     QRgb *col;

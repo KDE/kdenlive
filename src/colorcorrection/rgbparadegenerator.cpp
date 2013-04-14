@@ -89,7 +89,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         }
 
         const uchar *bits = image.bits();
-        const uint stepsize = 4*accelFactor;
+        const uint stepsize = image.depth() / 8 *accelFactor;
 
         for (uint i = 0, x = 0; i < byteCount; i += stepsize) {
             col = (QRgb *)bits;
