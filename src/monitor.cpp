@@ -692,6 +692,15 @@ void Monitor::slotZoneEnd()
 
 void Monitor::slotRewind(double speed)
 {
+#ifdef USE_JACK
+	bool jacktransport = KdenliveSettings::jacktransport();
+	bool variSpeedNotSupported = render->hasRole(Rndr::NoJackVariSpeedRole);
+
+	/* in jack mode only speed 1 and forward direction is possible */
+	if (jacktransport && variSpeedNotSupported) {
+		return;
+	}
+#endif
     slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
@@ -716,7 +725,17 @@ void Monitor::slotRewind(double speed)
 
 void Monitor::slotForward(double speed)
 {
-    slotActivateMonitor();
+#ifdef USE_JACK
+	bool jacktransport = KdenliveSettings::jacktransport();
+	bool variSpeedNotSupported = render->hasRole(Rndr::NoJackVariSpeedRole);
+
+	/* in jack mode only speed 1 and forward direction is possible */
+	if (jacktransport && variSpeedNotSupported) {
+		return;
+	}
+#endif
+
+	slotActivateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
 	if (currentspeed <= 0) render->play(1);
