@@ -1,3 +1,25 @@
+0.9.6
+    * Fix keyframes when cutting a clip / undoing a clip cut
+    * Warn before overwriting .mlt stabilized file
+    * Fix monitor confusion (clip monitor sometimes playing timeline,...)
+    * Fix the Mono to Stereo effect UI
+    * Fix proxy of playlist having wrong aspect ratio in some locales
+    * Fix transition widget not correctly updated when resizing a transition
+    * Fix DVD chapters broken when using an intro movie
+    * Fix error message (No matching profile) poping up in render widget when everything was ok
+    * Fix clip keyframes not showing on project load
+    * Fix bug when moving guide (was not moving to the correct place)
+    * Fix project corruption (wrong character) caused by some clip's metadata
+    * Fix possible crash on track deletion
+    * Fix timeline corruption when using spacer tool or overwrite edit mode
+    * Fix possible crash when editing speed effect
+    * Fix transition losing all its properties when moved
+    * Fix crash when pressing del when editing animation in title widget
+    * Fix crash when doing quick clip resize
+    * Fix corruption when groups where overlapping
+    * Fix corruption when adding a title clip where a transition already existed
+    * Fix timeline preview corruption with some transitions
+
 0.9.4
     * Fix color parameter in some effects not working correctly (#2644)
     * Fix V4l licensing issue (#2632)
