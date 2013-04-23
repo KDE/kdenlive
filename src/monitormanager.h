@@ -88,6 +88,8 @@ public slots:
     void slotOpenAudioEngine(AudioEngine::Type engine);
     /** @brief Close defined audio engine */
     void slotCloseAudioEngine(AudioEngine::Type engine);
+    /** @brief Action handler for JackTransportStateChanged event */
+    void slotOnJackTransportStateChanged(bool enabled);
 
 private slots:
     void slotRefreshCurrentMonitor(const QString &id);

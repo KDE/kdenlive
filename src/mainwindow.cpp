@@ -256,7 +256,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
-    m_projectMonitor = new Monitor(Kdenlive::projectMonitor, m_monitorManager, Rndr::OpenCloseJackEngineRole | Rndr::OpenCloseSlaveRole | Rndr::NoJackVariSpeedRole, QString());
+    m_projectMonitor = new Monitor(Kdenlive::projectMonitor, m_monitorManager, Rndr::OpenCloseJackEngineRole | Rndr::OpenCloseSlaveRole, QString());
     m_projectMonitorDock->setWidget(m_projectMonitor);
 
 #ifndef Q_WS_MAC
@@ -272,17 +272,20 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
 #ifdef USE_JACK
-    connect (m_monitorManager, SIGNAL(monitorStarted(AbstractMonitor&)),
+    connect(m_monitorManager, SIGNAL(monitorStarted(AbstractMonitor&)),
     		this, SLOT(slotEnableJackTransportButton(AbstractMonitor&)));
-    connect (m_monitorManager, SIGNAL(monitorStopped(AbstractMonitor&)),
+    connect(m_monitorManager, SIGNAL(monitorStopped(AbstractMonitor&)),
     		this, SLOT(slotDisableJackTransportButton(AbstractMonitor&)));
-    connect (m_monitorManager, SIGNAL(monitorStarted(AbstractMonitor&)),
+    connect(m_monitorManager, SIGNAL(monitorStarted(AbstractMonitor&)),
     		this, SLOT(slotEnableJackTransportMonButton(AbstractMonitor&)));
-    connect (m_monitorManager, SIGNAL(monitorStopped(AbstractMonitor&)),
+    connect(m_monitorManager, SIGNAL(monitorStopped(AbstractMonitor&)),
     		this, SLOT(slotDisableJackTransportMonButton(AbstractMonitor&)));
-
-    connect (&JACKDEV, SIGNAL(playbackSyncDiffChanged(int)),
+    connect(&JACKDEV, SIGNAL(playbackSyncDiffChanged(int)),
     		this, SLOT(slotUpdateJackSyncDiff(int)));
+    connect(this, SIGNAL(jackTransportStateChanged(bool)),
+    		m_monitorManager, SLOT(slotOnJackTransportStateChanged(bool)));
+    /* fire startup event for proper init */
+    jackTransportStateChanged(KdenliveSettings::jacktransport());
 #endif
 
     m_notesDock = new QDockWidget(i18n("Project Notes"), this);
@@ -2977,6 +2980,8 @@ void MainWindow::slotSwitchJackTransport()
     }
 
     m_buttonJackTransport->setChecked(KdenliveSettings::jacktransport());
+    /* fire event on state change */
+    jackTransportStateChanged(KdenliveSettings::jacktransport());
 
 #endif
 }
@@ -3012,7 +3017,6 @@ void MainWindow::slotEnableJackTransportButton(AbstractMonitor& monitor)
 			abstrRender->isAudioEngineActive(AudioEngine::Jack)) {
 			/* if jack transport enabled slave to jack */
 			if (KdenliveSettings::jacktransport()) {
-
 				abstrRender->enableSlave(Slave::Jack);
 			}
 			/* enable toggle button */

@@ -295,6 +295,11 @@ void MonitorManager::slotCloseAudioEngine(AudioEngine::Type engine)
 	m_projectMonitor->render->closeAudioEngine(engine);
 }
 
+void MonitorManager::slotOnJackTransportStateChanged(bool enabled)
+{
+	m_projectMonitor->slotOnJackTransportStateChanged(enabled);
+}
+
 void MonitorManager::updateConfiguration()
 {
 	AbstractRender *abstrRender = NULL;

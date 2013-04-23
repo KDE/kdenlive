@@ -132,6 +132,8 @@ private:
     KIcon m_pauseIcon;
     TimecodeDisplay *m_timePos;
     QAction *m_playAction;
+    QAction *m_rewindAction;
+    QAction *m_forwardAction;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QMenu *m_contextMenu;
@@ -218,6 +220,7 @@ public slots:
     void slotSetSelectedClip(Transition *item);
     void slotMouseSeek(int eventDelta, bool fast);
     void slotSwitchFullScreen();
+    void slotOnJackTransportStateChanged(bool enabled);
 
 signals:
     void renderPosition(int);

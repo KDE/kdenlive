@@ -66,8 +66,7 @@ namespace Rndr
 	{
 		NoRole					= (1<<0),
 		OpenCloseJackEngineRole	= (1<<1),
-		OpenCloseSlaveRole		= (1<<2),
-		NoJackVariSpeedRole		= (1<<3)
+		OpenCloseSlaveRole		= (1<<2)
 	};
 };
 

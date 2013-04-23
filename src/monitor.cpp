@@ -90,7 +90,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, RndrRole role,
         m_toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
     }
 
-    m_toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
+    m_rewindAction = m_toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
     //m_toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
 
     QToolButton *playButton = new QToolButton(m_toolbar);
@@ -104,7 +104,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, RndrRole role,
     m_toolbar->addWidget(playButton);
 
     //m_toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
-    m_toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
+    m_forwardAction = m_toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
 
     playButton->setDefaultAction(m_playAction);
 
@@ -482,6 +482,22 @@ void Monitor::slotSwitchFullScreen()
     videoBox->switchFullScreen();
 }
 
+void Monitor::slotOnJackTransportStateChanged(bool enabled)
+{
+	/* no action if not connected to jack */
+	if (!render->isAudioEngineActive(AudioEngine::Jack)) {
+		return;
+	}
+
+	if (enabled) {
+		m_forwardAction->setDisabled(true);
+		m_rewindAction->setDisabled(true);
+	} else {
+		m_forwardAction->setDisabled(false);
+		m_rewindAction->setDisabled(false);
+	}
+}
+
 // virtual
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
@@ -693,11 +709,8 @@ void Monitor::slotZoneEnd()
 void Monitor::slotRewind(double speed)
 {
 #ifdef USE_JACK
-	bool jacktransport = KdenliveSettings::jacktransport();
-	bool variSpeedNotSupported = render->hasRole(Rndr::NoJackVariSpeedRole);
-
 	/* in jack mode only speed 1 and forward direction is possible */
-	if (jacktransport && variSpeedNotSupported) {
+	if (render->isSlaveActive(Slave::Jack)) {
 		return;
 	}
 #endif
@@ -726,11 +739,8 @@ void Monitor::slotRewind(double speed)
 void Monitor::slotForward(double speed)
 {
 #ifdef USE_JACK
-	bool jacktransport = KdenliveSettings::jacktransport();
-	bool variSpeedNotSupported = render->hasRole(Rndr::NoJackVariSpeedRole);
-
 	/* in jack mode only speed 1 and forward direction is possible */
-	if (jacktransport && variSpeedNotSupported) {
+	if (render->isSlaveActive(Slave::Jack)) {
 		return;
 	}
 #endif
@@ -811,6 +821,8 @@ void Monitor::stop()
     if (render) {
     	render->stop();
     }
+    /* on stopping monitor reset icon */
+    m_playAction->setIcon(m_playIcon);
 }
 
 void Monitor::start()

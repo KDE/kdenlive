@@ -601,6 +601,7 @@ private slots:
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
+    void jackTransportStateChanged(bool enabled);
 };
 
 
