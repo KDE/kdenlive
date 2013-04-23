@@ -129,7 +129,9 @@
 
 static const char version[] = VERSION;
 
+#ifdef USE_JACK
 static const int STS_BAR_JACK_MON_ID = 0;
+#endif
 
 namespace Mlt
 {
@@ -1254,8 +1256,9 @@ void MainWindow::setupActions()
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addWidget(m_statusProgressBar, 0);
     statusBar()->addPermanentWidget(toolbar);
+#ifdef USE_JACK
     statusBar()->insertPermanentFixedItem("    0", STS_BAR_JACK_MON_ID);
-
+#endif
     m_timeFormatButton = new KSelectAction("00:00:00:00 / 00:00:00:00", this);
     m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
     m_timeFormatButton->addAction(i18n("Frames"));
@@ -2626,7 +2629,12 @@ void MainWindow::slotUpdateProjectDuration(int pos)
 
 void MainWindow::slotUpdateJackSyncDiff(int diff)
 {
+#ifdef USE_JACK
     statusBar()->changeItem(QString::number(diff), STS_BAR_JACK_MON_ID);
+#else
+    /* prevent warning */
+    diff = diff;
+#endif
 }
 
 void MainWindow::slotUpdateDocumentState(bool modified)
