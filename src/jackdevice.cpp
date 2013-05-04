@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include "jackdevice.h"
+#include "qmath.h"
+
 
 JackDevice::JackDevice(Mlt::Profile * profile) :
 	m_valid(false),
@@ -95,7 +97,14 @@ void JackDevice::updateTransportState()
 
 int JackDevice::toVideoPosition(const jack_position_t &position)
 {
-	return (int)((m_mltProfile->fps() * (double)position.frame) / (double)position.frame_rate /*+ (double)0.5*/);
+	double jacktime = 0;
+	int frame = 0;
+	double framerate = m_mltProfile->fps();
+
+	jacktime = (double) position.frame / (double) position.frame_rate;
+	frame = qFloor(framerate * jacktime);
+	/* return video frame number */
+	return frame;
 }
 
 jack_nframes_t JackDevice::toAudioPosition(const int &position, const jack_nframes_t &framerate)
