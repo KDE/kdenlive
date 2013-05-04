@@ -497,7 +497,7 @@ void Render::seek(int time, bool fromMaster)
     	/* return */
     	return;
     } else if (fromMaster && isSlaveActive(Slave::Jack)) {
-    	m_mltProducer->set_speed(0);
+//    	m_mltProducer->set_speed(0);
    	}
 #endif
     	
@@ -5087,6 +5087,8 @@ void Render::slotOnSlavePlaybackStarted(int position)
 
 void Render::slotOnSlavePlaybackSync(int position)
 {
+	if (m_mltProducer->get_speed() != 0)
+		switchPlay(false, true);
 	seek(position, true);
 	m_paused = true;
 }
