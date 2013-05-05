@@ -165,7 +165,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
     m_effectEdit->setFrameSize(p);
     m_autoTrackTransition = nextTrack;
     disconnect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
-    if (t == m_usedTransition) {	
+    if (t == m_usedTransition) {
         if (t == NULL) return;
         if (update) {
             transitionTrack->blockSignals(true);
@@ -246,7 +246,7 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
 {
     if (!isEnabled()) return;
     if (m_effectEdit->needsMonitorEffectScene()) {
-	if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
+	if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
 	    if (!m_effectEdit->monitor()->effectSceneDisplayed()) {
 		m_effectEdit->monitor()->slotShowEffectScene(true);
 	    }

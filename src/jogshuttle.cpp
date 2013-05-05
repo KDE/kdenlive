@@ -105,7 +105,7 @@ void ShuttleThread::run()
 	fd_set		   readset;
 	struct timeval timeout;
 
-	int num_warnings, readResult = 0;
+	int num_warnings = 0, readResult = 0;
 	int result, iof = -1;
 
 	/* get fd settings */
