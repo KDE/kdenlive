@@ -61,7 +61,7 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
     connect(m_view.button_default, SIGNAL(clicked()), this, SLOT(slotSetDefaultProfile()));
 
-    connect(m_view.description, SIGNAL(textChanged(const QString &)), this, SLOT(slotProfileEdited()));
+    connect(m_view.description, SIGNAL(textChanged(QString)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
@@ -102,7 +102,7 @@ ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
     slotUpdateDisplay(profilePath);
     connect(m_view.button_save, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
 
-    connect(m_view.description, SIGNAL(textChanged(const QString &)), this, SLOT(slotProfileEdited()));
+    connect(m_view.description, SIGNAL(textChanged(QString)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));

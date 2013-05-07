@@ -48,7 +48,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     buttonResetKeyframe->setIcon(KIcon("edit-undo"));
     buttonSeek->setIcon(KIcon("insert-link"));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
-    connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotGenerateParams(int, int)));
+    connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotGenerateParams(int,int)));
 
     m_position = new PositionEdit(i18n("Position"), 0, 0, 1, tc, widgetTable);
     ((QGridLayout*)widgetTable->layout())->addWidget(m_position, 3, 0, 1, -1);
@@ -70,7 +70,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     connect(buttonResetKeyframe, SIGNAL(clicked()), this, SLOT(slotResetKeyframe()));
     connect(m_position, SIGNAL(parameterChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
 
-    //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
+    //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem*,int)));
 
     if (!keyframe_list->currentItem()) {
         keyframe_list->setCurrentCell(0, 0);

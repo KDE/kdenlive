@@ -302,8 +302,8 @@ void RenderJob::initKdenliveDbusInterface()
         m_dbusargs.append((int) 0);
         if (!m_args.contains("pass=2"))
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
-        connect(m_kdenliveinterface, SIGNAL(abortRenderJob(const QString&)),
-                this, SLOT(slotAbort(const QString&)));
+        connect(m_kdenliveinterface, SIGNAL(abortRenderJob(QString)),
+                this, SLOT(slotAbort(QString)));
     }
 }
 

@@ -120,7 +120,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
             m_markerMenu = new QMenu(i18n("Go to marker..."), this);
             m_markerMenu->setEnabled(false);
             m_configMenu->addMenu(m_markerMenu);
-            connect(m_markerMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotGoToMarker(QAction *)));
+            connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
         }
         m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
         m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
@@ -196,7 +196,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 
     if (id == Kdenlive::projectMonitor) {
         m_effectWidget = new MonitorEditWidget(render, videoBox);
-	connect(m_effectWidget, SIGNAL(showEdit(bool, bool)), this, SLOT(slotShowEffectScene(bool, bool)));
+	connect(m_effectWidget, SIGNAL(showEdit(bool,bool)), this, SLOT(slotShowEffectScene(bool,bool)));
         m_toolbar->addAction(m_effectWidget->getVisibilityAction());
         videoBox->layout()->addWidget(m_effectWidget);
         m_effectWidget->hide();

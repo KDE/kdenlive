@@ -57,7 +57,7 @@ EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
     QPalette p = palette();
     p.setBrush(QPalette::Base, Qt::NoBrush);
     setPalette(p);
-    connect(this, SIGNAL(activated(const QModelIndex &)), this, SLOT(slotExpandItem(const QModelIndex &)));
+    connect(this, SIGNAL(activated(QModelIndex)), this, SLOT(slotExpandItem(QModelIndex)));
 }
 
 EffectsListWidget::~EffectsListWidget()

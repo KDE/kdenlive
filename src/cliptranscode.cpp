@@ -57,7 +57,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
         dest_url->setUrl(dest);
         dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
         urls_list->setHidden(true);
-        connect(source_url, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateParams()));
+        connect(source_url, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateParams()));
     } else {
         label_source->setHidden(true);
         source_url->setHidden(true);
@@ -96,7 +96,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
 
     m_transcodeProcess.setProcessChannelMode(QProcess::MergedChannels);
     connect(&m_transcodeProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowTranscodeInfo()));
-    connect(&m_transcodeProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotTranscodeFinished(int, QProcess::ExitStatus)));
+    connect(&m_transcodeProcess, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotTranscodeFinished(int,QProcess::ExitStatus)));
     
     ffmpeg_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 

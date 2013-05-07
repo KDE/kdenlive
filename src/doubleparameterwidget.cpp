@@ -46,7 +46,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
 	setToolTip(comment);
     }
     m_dragVal->setValue(value, false);
-    connect(m_dragVal, SIGNAL(valueChanged(double, bool)), this, SLOT(slotSetValue(double, bool)));
+    connect(m_dragVal, SIGNAL(valueChanged(double,bool)), this, SLOT(slotSetValue(double,bool)));
     connect(m_dragVal, SIGNAL(inTimeline(int)), this, SIGNAL(setInTimeline(int)));
 }
 

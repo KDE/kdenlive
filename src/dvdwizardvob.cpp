@@ -557,7 +557,7 @@ void DvdWizardVob::slotTranscodeFiles()
 		postParams << "-vf" << QString("scale=%1:%2,pad=%3:%4:%5:0,setdar=%6").arg(finalSize.width() - 2 * conv_pad).arg(destSize.height()).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
 	    }
 	    ClipTranscode *d = new ClipTranscode(KUrl::List () << KUrl(item->text(0)), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
-	    connect(d, SIGNAL(transcodedClip(KUrl,KUrl)), this, SLOT(slotTranscodedClip(KUrl, KUrl)));
+	    connect(d, SIGNAL(transcodedClip(KUrl,KUrl)), this, SLOT(slotTranscodedClip(KUrl,KUrl)));
 	    d->slotStartTransCode();
 	    d->show();
 	    
@@ -669,3 +669,4 @@ void DvdWizardVob::showError(const QString error)
     m_view.error_message->setVisible(true);
 #endif    
 }
+

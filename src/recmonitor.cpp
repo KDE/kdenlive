@@ -810,7 +810,7 @@ void RecMonitor::showWarningMessage(const QString &text, bool logAction)
     }
     else {
 	video_frame->setText(QString("<qt>" + text + "<br><a href=\"http://kde.org\">" + i18n("Show log") + "</a>"));
-	connect(video_frame, SIGNAL(linkActivated (const QString &)), this, SLOT(slotShowLog()));
+	connect(video_frame, SIGNAL(linkActivated(QString)), this, SLOT(slotShowLog()));
     }
 #endif
 }

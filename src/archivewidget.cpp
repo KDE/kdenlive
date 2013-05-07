@@ -58,7 +58,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     setupUi(this);
     setWindowTitle(i18n("Archive Project"));
     archive_url->setUrl(KUrl(QDir::homePath()));
-    connect(archive_url, SIGNAL(textChanged (const QString &)), this, SLOT(slotCheckSpace()));
+    connect(archive_url, SIGNAL(textChanged(QString)), this, SLOT(slotCheckSpace()));
     connect(this, SIGNAL(archivingFinished(bool)), this, SLOT(slotArchivingFinished(bool)));
     connect(this, SIGNAL(archiveProgress(int)), this, SLOT(slotArchivingProgress(int)));
     connect(proxy_only, SIGNAL(stateChanged(int)), this, SLOT(slotProxyOnly(int)));
@@ -226,7 +226,7 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
     m_progressTimer->setSingleShot(false);
     connect(m_progressTimer, SIGNAL(timeout()), this, SLOT(slotExtractProgress()));
     connect(this, SIGNAL(extractingFinished()), this, SLOT(slotExtractingFinished()));
-    connect(this, SIGNAL(showMessage(const QString &, const QString &)), this, SLOT(slotDisplayMessage(const QString &, const QString &)));
+    connect(this, SIGNAL(showMessage(QString,QString)), this, SLOT(slotDisplayMessage(QString,QString)));
     
     compressed_archive->setHidden(true);
     proxy_only->setHidden(true);
@@ -610,8 +610,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             KUrl startJobDst = i.value();
             m_duplicateFiles.remove(startJobSrc);
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
-            connect(job, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
-            connect(job, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
+            connect(job, SIGNAL(result(KJob*)), this, SLOT(slotArchivingFinished(KJob*)));
+            connect(job, SIGNAL(processedSize(KJob*,qulonglong)), this, SLOT(slotArchivingProgress(KJob*,qulonglong)));
         }
         return true;
     }
@@ -629,8 +629,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     else {
         KIO::NetAccess::mkdir(destUrl, this);
         m_copyJob = KIO::copy (files, destUrl, KIO::HideProgressInfo);
-        connect(m_copyJob, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
-        connect(m_copyJob, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
+        connect(m_copyJob, SIGNAL(result(KJob*)), this, SLOT(slotArchivingFinished(KJob*)));
+        connect(m_copyJob, SIGNAL(processedSize(KJob*,qulonglong)), this, SLOT(slotArchivingProgress(KJob*,qulonglong)));
     }
     if (firstPass) {
         progressBar->setValue(0);

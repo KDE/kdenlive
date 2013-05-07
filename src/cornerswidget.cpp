@@ -59,7 +59,7 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
     connect(m_item, SIGNAL(changed()), this, SLOT(slotUpdateProperties()));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotInsertKeyframe()));
 
-    connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotUpdateItem()));
+    connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotUpdateItem()));
     m_scene->centerView();
 }
 

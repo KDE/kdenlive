@@ -59,7 +59,7 @@ void FreeSound::slotStartSearch(const QString searchText, int page)
     uri.append("&api_key=a1772c8236e945a4bee30a64058dabf8");
 
     KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
-    connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotShowResults( KJob* ) ) );
+    connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
 }
 
 
@@ -142,7 +142,7 @@ OnlineItemInfo FreeSound::displayItemDetails(QListWidgetItem *item)
     QString extraInfoUrl = item->data(infoData).toString();
     if (!extraInfoUrl.isEmpty()) {
         KJob* resolveJob = KIO::storedGet( KUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
-        connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseResults( KJob* ) ) );
+        connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotParseResults(KJob*)) );
     }
     emit gotThumb(item->data(imageRole).toString());
     return info;

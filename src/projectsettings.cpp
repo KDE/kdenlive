@@ -196,7 +196,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
         connect(delete_proxies, SIGNAL(clicked()), this, SLOT(slotDeleteProxies()));
     } else tabWidget->widget(1)->setEnabled(false);
     connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
-    connect(project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
+    connect(project_folder, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButton(QString)));
     connect(button_export, SIGNAL(clicked()), this, SLOT(slotExportToText()));
 }
 

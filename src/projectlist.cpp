@@ -314,21 +314,21 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(m_listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
     connect(m_listView, SIGNAL(focusMonitor(bool)), this, SIGNAL(raiseClipMonitor(bool)));
     connect(m_listView, SIGNAL(pauseMonitor()), this, SIGNAL(pauseMonitor()));
-    connect(m_listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
+    connect(m_listView, SIGNAL(requestMenu(QPoint,QTreeWidgetItem*)), this, SLOT(slotContextMenu(QPoint,QTreeWidgetItem*)));
     connect(m_listView, SIGNAL(addClip()), this, SIGNAL(pauseMonitor()));
     connect(m_listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
-    connect(m_listView, SIGNAL(addClip(const QList <QUrl>, const QString &, const QString &)), this, SLOT(slotAddClip(const QList <QUrl>, const QString &, const QString &)));
-    connect(this, SIGNAL(addClip(const QString, const QString &, const QString &)), this, SLOT(slotAddClip(const QString, const QString &, const QString &)));
-    connect(m_listView, SIGNAL(addClipCut(const QString &, int, int)), this, SLOT(slotAddClipCut(const QString &, int, int)));
-    connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
-    connect(m_listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
+    connect(m_listView, SIGNAL(addClip(QList<QUrl>,QString,QString)), this, SLOT(slotAddClip(QList<QUrl>,QString,QString)));
+    connect(this, SIGNAL(addClip(QString,QString,QString)), this, SLOT(slotAddClip(QString,QString,QString)));
+    connect(m_listView, SIGNAL(addClipCut(QString,int,int)), this, SLOT(slotAddClipCut(QString,int,int)));
+    connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotItemEdited(QTreeWidgetItem*,int)));
+    connect(m_listView, SIGNAL(showProperties(DocClipBase*)), this, SIGNAL(showClipProperties(DocClipBase*)));
     
-    connect(this, SIGNAL(cancelRunningJob(const QString, stringMap )), this, SLOT(slotCancelRunningJob(const QString, stringMap)));
-    connect(this, SIGNAL(processLog(const QString, int , int, const QString)), this, SLOT(slotProcessLog(const QString, int , int, const QString)));
+    connect(this, SIGNAL(cancelRunningJob(QString,stringMap)), this, SLOT(slotCancelRunningJob(QString,stringMap)));
+    connect(this, SIGNAL(processLog(QString,int,int,QString)), this, SLOT(slotProcessLog(QString,int,int,QString)));
     
-    connect(this, SIGNAL(updateJobStatus(const QString, int, int, const QString, const QString, const QString)), this, SLOT(slotUpdateJobStatus(const QString, int, int, const QString, const QString, const QString)));
+    connect(this, SIGNAL(updateJobStatus(QString,int,int,QString,QString,QString)), this, SLOT(slotUpdateJobStatus(QString,int,int,QString,QString,QString)));
     
-    connect(this, SIGNAL(gotProxy(const QString)), this, SLOT(slotGotProxyForId(const QString)));
+    connect(this, SIGNAL(gotProxy(QString)), this, SLOT(slotGotProxyForId(QString)));
     
     m_listViewDelegate = new ItemDelegate(m_listView);
     m_listView->setItemDelegate(m_listViewDelegate);
@@ -1332,8 +1332,8 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         item = new ProjectItem(m_listView, clip, pixelSize);
     }
     if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
-    connect(clip, SIGNAL(createProxy(const QString &)), this, SLOT(slotCreateProxy(const QString &)));
-    connect(clip, SIGNAL(abortProxy(const QString &, const QString &)), this, SLOT(slotAbortProxy(const QString, const QString)));
+    connect(clip, SIGNAL(createProxy(QString)), this, SLOT(slotCreateProxy(QString)));
+    connect(clip, SIGNAL(abortProxy(QString,QString)), this, SLOT(slotAbortProxy(QString,QString)));
       
     if (getProperties) {
         //item->setFlags(Qt::ItemIsSelectable);
@@ -2048,12 +2048,12 @@ void ProjectList::setDocument(KdenliveDoc *doc)
         slotAddClip(list.at(i), false);
 
     m_listView->blockSignals(false);
-    connect(m_doc->clipManager(), SIGNAL(reloadClip(const QString &)), this, SLOT(slotReloadClip(const QString &)));
-    connect(m_doc->clipManager(), SIGNAL(modifiedClip(const QString &)), this, SLOT(slotModifiedClip(const QString &)));
-    connect(m_doc->clipManager(), SIGNAL(missingClip(const QString &)), this, SLOT(slotMissingClip(const QString &)));
-    connect(m_doc->clipManager(), SIGNAL(availableClip(const QString &)), this, SLOT(slotAvailableClip(const QString &)));
-    connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool, bool, QStringList)), this, SLOT(updateAllClips(bool, bool, QStringList)));
-    connect(m_doc->clipManager(), SIGNAL(thumbReady(const QString &, int, QImage)), this, SLOT(slotSetThumbnail(const QString &, int, QImage)));
+    connect(m_doc->clipManager(), SIGNAL(reloadClip(QString)), this, SLOT(slotReloadClip(QString)));
+    connect(m_doc->clipManager(), SIGNAL(modifiedClip(QString)), this, SLOT(slotModifiedClip(QString)));
+    connect(m_doc->clipManager(), SIGNAL(missingClip(QString)), this, SLOT(slotMissingClip(QString)));
+    connect(m_doc->clipManager(), SIGNAL(availableClip(QString)), this, SLOT(slotAvailableClip(QString)));
+    connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool,bool,QStringList)), this, SLOT(updateAllClips(bool,bool,QStringList)));
+    connect(m_doc->clipManager(), SIGNAL(thumbReady(QString,int,QImage)), this, SLOT(slotSetThumbnail(QString,int,QImage)));
 }
 
 void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)
@@ -3131,16 +3131,16 @@ void ProjectList::slotProcessJobs()
             file.close();
             QFile::remove(destination);
         }
-        connect(job, SIGNAL(jobProgress(QString, int, int)), this, SIGNAL(processLog(QString, int, int)));
-        connect(job, SIGNAL(cancelRunningJob(const QString, stringMap)), this, SIGNAL(cancelRunningJob(const QString, stringMap)));
+        connect(job, SIGNAL(jobProgress(QString,int,int)), this, SIGNAL(processLog(QString,int,int)));
+        connect(job, SIGNAL(cancelRunningJob(QString,stringMap)), this, SIGNAL(cancelRunningJob(QString,stringMap)));
 
         if (job->jobType == MLTJOB) {
             MeltJob *jb = static_cast<MeltJob *> (job);
             jb->setProducer(currentClip->getProducer(), currentClip->fileURL());
 	    if (jb->isProjectFilter())
-		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int, int,stringMap,stringMap)));
+		connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
 	    else
-		connect(job, SIGNAL(gotFilterJobResults(QString,int, int, stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int, int,stringMap,stringMap)));
+		connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)));
         }
         job->startJob();
         if (job->status() == JOBDONE) {
@@ -3367,8 +3367,8 @@ void ProjectList::setJobStatus(ProjectItem *item, JOBTYPE jobType, CLIPJOBSTATUS
 
 void ProjectList::monitorItemEditing(bool enable)
 {
-    if (enable) connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));     
-    else disconnect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));     
+    if (enable) connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotItemEdited(QTreeWidgetItem*,int)));     
+    else disconnect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotItemEdited(QTreeWidgetItem*,int)));     
 }
 
 QStringList ProjectList::expandedFolders() const

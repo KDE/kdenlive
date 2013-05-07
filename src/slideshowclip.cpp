@@ -42,9 +42,9 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
     m_view.icon_list->setIconSize(QSize(50, 50));
     m_view.show_thumbs->setChecked(KdenliveSettings::showslideshowthumbs());
 
-    connect(m_view.folder_url, SIGNAL(textChanged(const QString &)), this, SLOT(parseFolder()));
+    connect(m_view.folder_url, SIGNAL(textChanged(QString)), this, SLOT(parseFolder()));
     connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
-    connect(m_view.pattern_url, SIGNAL(textChanged(const QString &)), this, SLOT(parseFolder()));
+    connect(m_view.pattern_url, SIGNAL(textChanged(QString)), this, SLOT(parseFolder()));
 
     connect(m_view.show_thumbs, SIGNAL(stateChanged(int)), this, SLOT(slotEnableThumbs(int)));
     connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
@@ -139,7 +139,7 @@ void SlideshowClip::slotEnableThumbs(int state)
     } else {
         KdenliveSettings::setShowslideshowthumbs(false);
         if (m_thumbJob) {
-            disconnect(m_thumbJob, SIGNAL(gotPreview(const KFileItem &, const QPixmap &)), this, SLOT(slotSetPixmap(const KFileItem &, const QPixmap &)));
+            disconnect(m_thumbJob, SIGNAL(gotPreview(KFileItem,QPixmap)), this, SLOT(slotSetPixmap(KFileItem,QPixmap)));
             m_thumbJob->kill();
             m_thumbJob = NULL;
         }
@@ -238,7 +238,7 @@ void SlideshowClip::slotGenerateThumbs()
 #endif
 
     m_thumbJob->setAutoDelete(false);
-    connect(m_thumbJob, SIGNAL(gotPreview(const KFileItem &, const QPixmap &)), this, SLOT(slotSetPixmap(const KFileItem &, const QPixmap &)));
+    connect(m_thumbJob, SIGNAL(gotPreview(KFileItem,QPixmap)), this, SLOT(slotSetPixmap(KFileItem,QPixmap)));
     m_thumbJob->start();
 }
 

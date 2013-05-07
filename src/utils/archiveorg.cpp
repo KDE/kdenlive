@@ -64,7 +64,7 @@ void ArchiveOrg::slotStartSearch(const QString searchText, int page)
     uri.append("&output=json"); //&callback=callback&save=yes#raw");
 
     KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
-    connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotShowResults( KJob* ) ) );
+    connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
 }
 
 
@@ -145,7 +145,7 @@ OnlineItemInfo ArchiveOrg::displayItemDetails(QListWidgetItem *item)
     if (!extraInfoUrl.isEmpty()) {
         KJob* resolveJob = KIO::storedGet( KUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
         resolveJob->setProperty("id", info.itemId);
-        connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseResults( KJob* ) ) );
+        connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotParseResults(KJob*)) );
     }
     return info;
 }
@@ -169,7 +169,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
             m_thumbsPath = m_metaInfo.value("url") + '/' + href;
             KJob* thumbJob = KIO::storedGet( KUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
             thumbJob->setProperty("id", m_metaInfo.value("id"));
-            connect( thumbJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseThumbs( KJob* ) ) );
+            connect( thumbJob, SIGNAL(result(KJob*)), this, SLOT(slotParseThumbs(KJob*)) );
         }
         else if (!href.contains('/') && !href.endsWith(".xml")) {
             link = m_metaInfo.value("url") + '/' + href;

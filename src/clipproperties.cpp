@@ -500,7 +500,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk::Vocabulary::NIE::license()).toString()));
             if (ltype.startsWith("http")) {
                 m_view.clip_license->setUrl(ltype);
-                connect(m_view.clip_license, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
+                connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
             }
         }
         else m_view.clip_license->setHidden(true);
@@ -521,7 +521,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.marker_delete, SIGNAL(clicked()), this, SLOT(slotDeleteMarker()));
     connect(m_view.marker_save, SIGNAL(clicked()), this, SLOT(slotSaveMarkers()));
     connect(m_view.marker_load, SIGNAL(clicked()), this, SLOT(slotLoadMarkers()));
-    connect(m_view.markers_list, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotEditMarker()));
+    connect(m_view.markers_list, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEditMarker()));
     
     connect(m_view.analysis_delete, SIGNAL(clicked()), this, SLOT(slotDeleteAnalysis()));
     connect(m_view.analysis_save, SIGNAL(clicked()), this, SLOT(slotSaveAnalysis()));

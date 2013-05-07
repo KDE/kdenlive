@@ -470,7 +470,7 @@ void Wizard::checkMissingCodecs()
         infoMessage->setWordWrap(true);
 	infoMessage->setMessageType(KMessageWidget::Warning);
 #if KDE_IS_VERSION(4,10,0)
-	connect(infoMessage, SIGNAL(linkActivated (const QString &)), this, SLOT(slotOpenManual()));
+	connect(infoMessage, SIGNAL(linkActivated(QString)), this, SLOT(slotOpenManual()));
 	infoMessage->setText(missing);
 #else
 	// clickable text in kmessagewidget only available since KDE 4.10
@@ -484,7 +484,7 @@ void Wizard::checkMissingCodecs()
         infoMessage->animatedShow();
 #else
 	m_welcomeLabel->setText(m_welcomeLabel->text() + "<br><hr />" + missing);
-	connect(m_welcomeLabel, SIGNAL(linkActivated (const QString &)), this, SLOT(slotOpenManual()));
+	connect(m_welcomeLabel, SIGNAL(linkActivated(QString)), this, SLOT(slotOpenManual()));
 #endif
     }
     
