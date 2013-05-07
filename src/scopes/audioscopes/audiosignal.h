@@ -26,7 +26,6 @@
 #include <QList>
 #include <QColor>
 #include <QTimer>
-class QLabel;
 
 #include  <QWidget>
 

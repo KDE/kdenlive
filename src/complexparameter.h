@@ -22,7 +22,6 @@
 
 #include "ui_keyframewidget_ui.h"
 
-class EffectsList;
 class ClipItem;
 
 class ComplexParameter : public QWidget

@@ -40,7 +40,6 @@
 #include "definitions.h"
 
 class ClipItem;
-class Transition;
 class CustomTrackView;
 class KdenliveDoc;
 class CustomRuler;

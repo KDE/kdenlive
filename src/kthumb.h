@@ -40,11 +40,8 @@ relevant signal that get's emitted once the call completes.
 
 namespace Mlt
 {
-class Miracle;
-class Consumer;
 class Producer;
 class Frame;
-class Profile;
 };
 
 class ClipManager;

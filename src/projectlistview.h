@@ -27,7 +27,6 @@
 
 class DocClipBase;
 
-class KUrl;
 
 class ProjectListView : public QTreeWidget
 {

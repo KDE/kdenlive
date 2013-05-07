@@ -61,7 +61,6 @@ class EffectStackView2;
 class TransitionSettings;
 class Monitor;
 class RecMonitor;
-class CustomTrackView;
 class RenderWidget;
 #ifdef USE_JOGSHUTTLE
 class JogShuttle;
@@ -77,7 +76,6 @@ class Waveform;
 class RGBParade;
 class KActionCollection;
 class AudioSignal;
-class AbstractAudioScopeWidget;
 class AudioSpectrum;
 class Spectrogram;
 

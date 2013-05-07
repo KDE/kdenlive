@@ -25,7 +25,6 @@
 #include <QAbstractItemView>
 #include <QSpinBox>
 
-class QButtonGroup;
 class PositionEdit;
 
 #include "ui_keyframeeditor_ui.h"

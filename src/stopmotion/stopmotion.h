@@ -30,7 +30,6 @@
 
 class MltDeviceCapture;
 class MonitorManager;
-class VideoPreviewContainer;
 class MltVideoProfile;
 
 class MyLabel : public QLabel

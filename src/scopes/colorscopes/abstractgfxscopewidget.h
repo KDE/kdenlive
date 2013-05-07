@@ -17,7 +17,6 @@
 
 #include "../abstractscopewidget.h"
 
-class QMenu;
 
 
 /**

@@ -25,7 +25,6 @@
 #include <QWidget>
 #include <QFrame>
 
-class QSpinBox;
 class QFrame;
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>

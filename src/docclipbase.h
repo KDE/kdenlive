@@ -35,12 +35,8 @@
 #include "definitions.h"
 
 /*
-class DocTrackBase;
 class DocClipAVFile;
-class DocClipTextFile;
-class DocClipVirtual;
 class EffectDescriptionList;*/
-class KdenliveDoc;
 class KThumb;
 class ClipManager;
 
