@@ -116,7 +116,7 @@ ChooseColorWidget::ChooseColorWidget(QString text, QString color, bool alphaEnab
     rightSideLayout->addWidget(picker, 0, Qt::AlignRight);
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
-    connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
+    connect(picker, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
     connect(picker, SIGNAL(disableCurrentFilter(bool)), this, SIGNAL(disableCurrentFilter(bool)));
     connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified()));
 }

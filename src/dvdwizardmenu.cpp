@@ -109,12 +109,12 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
 
     //m_view.menu_preview->resizefitInView(0, 0, m_width, m_height);
 
-    connect(m_view.play_text, SIGNAL(textChanged(const QString &)), this, SLOT(buildButton()));
-    connect(m_view.text_color, SIGNAL(changed(const QColor &)), this, SLOT(updateColor()));
+    connect(m_view.play_text, SIGNAL(textChanged(QString)), this, SLOT(buildButton()));
+    connect(m_view.text_color, SIGNAL(changed(QColor)), this, SLOT(updateColor()));
     connect(m_view.font_size, SIGNAL(valueChanged(int)), this, SLOT(buildButton()));
-    connect(m_view.font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(buildButton()));
-    connect(m_view.background_image, SIGNAL(textChanged(const QString &)), this, SLOT(buildImage()));
-    connect(m_view.background_color, SIGNAL(changed(const QColor &)), this, SLOT(buildColor()));
+    connect(m_view.font_family, SIGNAL(currentFontChanged(QFont)), this, SLOT(buildButton()));
+    connect(m_view.background_image, SIGNAL(textChanged(QString)), this, SLOT(buildImage()));
+    connect(m_view.background_color, SIGNAL(changed(QColor)), this, SLOT(buildColor()));
 
     connect(m_view.background_list, SIGNAL(currentIndexChanged(int)), this, SLOT(checkBackgroundType(int)));
 

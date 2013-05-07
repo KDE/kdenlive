@@ -76,7 +76,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(search_results, SIGNAL(currentRowChanged(int)), this, SLOT(slotUpdateCurrentSound()));
     connect(button_preview, SIGNAL(clicked()), this, SLOT(slotPlaySound()));
     connect(button_import, SIGNAL(clicked()), this, SLOT(slotSaveItem()));
-    connect(item_license, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
+    connect(item_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
     if (Solid::Networking::status() == Solid::Networking::Unconnected) {
         slotOffline();
@@ -86,7 +86,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(page_next, SIGNAL(clicked()), this, SLOT(slotNextPage()));
     connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
-    connect(info_browser, SIGNAL(anchorClicked(const QUrl &)), this, SLOT(slotOpenLink(const QUrl &)));
+    connect(info_browser, SIGNAL(anchorClicked(QUrl)), this, SLOT(slotOpenLink(QUrl)));
     
     m_autoPlay = new QAction(i18n("Auto Play"), this);
     m_autoPlay->setCheckable(true);
@@ -286,11 +286,11 @@ void ResourceWidget::slotChangeService()
         m_currentService = new ArchiveOrg(search_results);
     }
 
-    connect(m_currentService, SIGNAL(gotMetaInfo(const QString)), this, SLOT(slotSetMetadata(const QString)));
-    connect(m_currentService, SIGNAL(gotMetaInfo(QMap <QString, QString>)), this, SLOT(slotDisplayMetaInfo(QMap <QString, QString>)));
+    connect(m_currentService, SIGNAL(gotMetaInfo(QString)), this, SLOT(slotSetMetadata(QString)));
+    connect(m_currentService, SIGNAL(gotMetaInfo(QMap<QString,QString>)), this, SLOT(slotDisplayMetaInfo(QMap<QString,QString>)));
     connect(m_currentService, SIGNAL(maxPages(int)), this, SLOT(slotSetMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
-    connect(m_currentService, SIGNAL(gotThumb(const QString)), this, SLOT(slotLoadThumb(const QString)));
+    connect(m_currentService, SIGNAL(gotThumb(QString)), this, SLOT(slotLoadThumb(QString)));
 #if KDE_IS_VERSION(4,4,0)
     connect(m_currentService, SIGNAL(searchDone()), m_busyWidget, SLOT(stop()));
 #endif

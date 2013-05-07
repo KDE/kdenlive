@@ -104,8 +104,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     rectFAlpha->setDecimals(0);
     rectFAlpha->setValue(255);
     rectFAlpha->setToolTip(i18n("Border opacity"));
-    connect(rectFAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
-    connect(rectBAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
+    connect(rectFAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
+    connect(rectBAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
 
     // Set combo sliders values
     textAlpha->setMinimum(0);
@@ -119,8 +119,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     textOutlineAlpha->setDecimals(0);
     textOutlineAlpha->setValue(255);
     textOutlineAlpha->setToolTip(i18n("Outline color opacity"));
-    connect(textAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
-    connect(textOutlineAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
+    connect(textAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
+    connect(textOutlineAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
 #endif
 
     textOutline->setMinimum(0);
@@ -170,21 +170,21 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     title_duration->setInputMask(m_tc.mask());
     title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
 
-    connect(backgroundColor, SIGNAL(changed(const QColor &)), this, SLOT(slotChangeBackground())) ;
-    connect(backgroundAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundColor, SIGNAL(changed(QColor)), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotChangeBackground())) ;
 
-    connect(fontColorButton, SIGNAL(changed(const QColor &)), this, SLOT(slotUpdateText())) ;
-    connect(textOutlineColor, SIGNAL(changed(const QColor &)), this, SLOT(slotUpdateText())) ;
-    connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
+    connect(fontColorButton, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
+    connect(textOutlineColor, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
+    connect(font_family, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
-    connect(textOutline, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
+    connect(textOutline, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
-    connect(font_family, SIGNAL(editTextChanged(const QString &)), this, SLOT(slotFontText(const QString&)));
+    connect(font_family, SIGNAL(editTextChanged(QString)), this, SLOT(slotFontText(QString)));
 
-    connect(rectFColor, SIGNAL(changed(const QColor &)), this, SLOT(rectChanged()));
-    connect(rectBColor, SIGNAL(changed(const QColor &)), this, SLOT(rectChanged()));
-    connect(rectLineWidth, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
+    connect(rectFColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
+    connect(rectBColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
+    connect(rectLineWidth, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
 
     /*connect(startViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(startViewportY, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
@@ -201,9 +201,9 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
-    connect(itemrotatex, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotateX(qreal)));
-    connect(itemrotatey, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotateY(qreal)));
-    connect(itemrotatez, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotateZ(qreal)));
+    connect(itemrotatex, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateX(qreal)));
+    connect(itemrotatey, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateY(qreal)));
+    connect(itemrotatez, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateZ(qreal)));
     connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
     connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
     connect(itemtop, SIGNAL(clicked()), this, SLOT(itemTop()));
@@ -477,8 +477,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(m_scene, SIGNAL(sceneZoom(bool)), this , SLOT(slotZoom(bool)));
     connect(m_scene, SIGNAL(actionFinished()), this , SLOT(slotSelectTool()));
     //connect(m_scene, SIGNAL(actionFinished()), this , SLOT(selectionChanged()));
-    connect(m_scene, SIGNAL(newRect(QGraphicsRectItem *)), this , SLOT(slotNewRect(QGraphicsRectItem *)));
-    connect(m_scene, SIGNAL(newText(QGraphicsTextItem *)), this , SLOT(slotNewText(QGraphicsTextItem *)));
+    connect(m_scene, SIGNAL(newRect(QGraphicsRectItem*)), this , SLOT(slotNewRect(QGraphicsRectItem*)));
+    connect(m_scene, SIGNAL(newText(QGraphicsTextItem*)), this , SLOT(slotNewText(QGraphicsTextItem*)));
     connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
     connect(zoom_spin, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateZoom(int)));
 

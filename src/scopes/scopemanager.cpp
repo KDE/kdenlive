@@ -207,8 +207,8 @@ void ScopeManager::slotUpdateActiveRenderer()
 
     // Connect new renderer
     if (m_lastConnectedRenderer != NULL) {
-        b &= connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(const QImage)),
-                this, SLOT(slotDistributeFrame(const QImage)), Qt::UniqueConnection);
+        b &= connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(QImage)),
+                this, SLOT(slotDistributeFrame(QImage)), Qt::UniqueConnection);
         b &= connect(m_lastConnectedRenderer, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
                 this, SLOT(slotDistributeAudio(QVector<int16_t>,int,int,int)), Qt::UniqueConnection);
         Q_ASSERT(b);

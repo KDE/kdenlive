@@ -89,7 +89,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     QAction *delAllGuides = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete All Guides"));
     connect(delAllGuides, SIGNAL(triggered()), m_view, SLOT(slotDeleteAllGuides()));
     m_goMenu = m_contextMenu->addMenu(i18n("Go To"));
-    connect(m_goMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotGoToGuide(QAction *)));
+    connect(m_goMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToGuide(QAction*)));
     setMouseTracking(true);
 }
 

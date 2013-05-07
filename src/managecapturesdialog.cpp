@@ -53,7 +53,7 @@ ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent) :
         item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         item->setCheckState(0, Qt::Checked);
     }
-    connect(m_view.treeWidget, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotRefreshButtons()));
+    connect(m_view.treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotRefreshButtons()));
     connect(m_view.deleteButton, SIGNAL(pressed()), this, SLOT(slotDeleteCurrent()));
     connect(m_view.toggleButton, SIGNAL(pressed()), this, SLOT(slotToggle()));
     QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(0);

@@ -280,12 +280,12 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
 {
     // Check drag & drop
     currentEffect->installEventFilter( this );
-    connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
-    connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)));
-    connect(currentEffect, SIGNAL(deleteEffect(const QDomElement)), this , SLOT(slotDeleteEffect(const QDomElement)));
+    connect(currentEffect, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement,int)));
+    connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QMap<QString,QString>)));
+    connect(currentEffect, SIGNAL(deleteEffect(QDomElement)), this , SLOT(slotDeleteEffect(QDomElement)));
     connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
-    connect(currentEffect, SIGNAL(changeEffectPosition(QList <int>,bool)), this , SLOT(slotMoveEffectUp(QList <int>,bool)));
+    connect(currentEffect, SIGNAL(changeEffectPosition(QList<int>,bool)), this , SLOT(slotMoveEffectUp(QList<int>,bool)));
     connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
     connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
     connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
@@ -822,10 +822,10 @@ void EffectStackView2::connectGroup(CollapsibleGroup *group)
     connect(group, SIGNAL(moveEffect(QList<int>,int,int,QString)), this , SLOT(slotMoveEffect(QList<int>,int,int,QString)));
     connect(group, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
     connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
-    connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
+    connect(group, SIGNAL(groupRenamed(CollapsibleGroup*)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
     connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(group, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
-    connect(group, SIGNAL(changeEffectPosition(QList <int>,bool)), this , SLOT(slotMoveEffectUp(QList <int>,bool)));
+    connect(group, SIGNAL(changeEffectPosition(QList<int>,bool)), this , SLOT(slotMoveEffectUp(QList<int>,bool)));
 }
 
 void EffectStackView2::slotMoveEffect(QList <int> currentIndexes, int newIndex, int groupIndex, QString groupName)

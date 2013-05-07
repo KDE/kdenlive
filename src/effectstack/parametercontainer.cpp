@@ -283,7 +283,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 	    choosecolor->setToolTip(comment);
             m_vbox->addWidget(choosecolor);
             m_valueItems[paramName] = choosecolor;
-            connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
+            connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
             connect(choosecolor, SIGNAL(modified()) , this, SLOT(slotCollectAllParameters()));
 	    connect(choosecolor, SIGNAL(disableCurrentFilter(bool)) , this, SIGNAL(disableCurrentFilter(bool)));
         } else if (type == "position") {
@@ -421,7 +421,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             m_valueItems[paramName] = cval;
             cval->urlwidget->setUrl(KUrl(value));
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(slotCollectAllParameters()));
-            connect(cval->urlwidget, SIGNAL(urlSelected(const KUrl&)) , this, SLOT(slotCollectAllParameters()));
+            connect(cval->urlwidget, SIGNAL(urlSelected(KUrl)) , this, SLOT(slotCollectAllParameters()));
             m_uiItems.append(cval);
 	} else if (type == "keywords") {
             Keywordval* kval = new Keywordval;
@@ -449,7 +449,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             kval->comboboxwidget->setCurrentIndex(0);
             m_valueItems[paramName] = kval;
             connect(kval->lineeditwidget, SIGNAL(editingFinished()) , this, SLOT(slotCollectAllParameters()));
-            connect(kval->comboboxwidget, SIGNAL(activated (const QString&)), this, SLOT(slotCollectAllParameters()));
+            connect(kval->comboboxwidget, SIGNAL(activated(QString)), this, SLOT(slotCollectAllParameters()));
             m_uiItems.append(kval);
         } else if (type == "fontfamily") {
             Fontval* fval = new Fontval;
@@ -457,7 +457,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             fval->name->setText(paramName);
             fval->fontfamilywidget->setCurrentFont(QFont(value));
             m_valueItems[paramName] = fval;
-            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotCollectAllParameters())) ;
+            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotCollectAllParameters())) ;
             m_uiItems.append(fval);
         } else if (type == "filterjob") {
 	    QVBoxLayout *l= new QVBoxLayout(toFillin);

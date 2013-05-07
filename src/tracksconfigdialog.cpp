@@ -99,7 +99,7 @@ TracksConfigDialog::TracksConfigDialog(KdenliveDoc * doc, int selected, QWidget*
     buttonDown->setEnabled(false);
 
     setupOriginal(selected);
-    connect(table, SIGNAL(itemChanged(QTableWidgetItem *)), this, SLOT(slotUpdateRow(QTableWidgetItem *)));
+    connect(table, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(slotUpdateRow(QTableWidgetItem*)));
 }
 
 const QList <TrackInfo> TracksConfigDialog::tracksList()

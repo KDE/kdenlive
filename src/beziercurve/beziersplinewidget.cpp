@@ -74,14 +74,14 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_edit.setSpline(s);
 
     connect(&m_edit, SIGNAL(modified()), this, SIGNAL(modified()));
-    connect(&m_edit, SIGNAL(currentPoint(const BPoint&)), this, SLOT(slotUpdatePointEntries(const BPoint&)));
+    connect(&m_edit, SIGNAL(currentPoint(BPoint)), this, SLOT(slotUpdatePointEntries(BPoint)));
 
-    connect(m_pX, SIGNAL(valueChanged(double, bool)), this, SLOT(slotUpdatePointP(double, bool)));
-    connect(m_pY, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP(double, bool)));
-    connect(m_h1X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double, bool)));
-    connect(m_h1Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double, bool)));
-    connect(m_h2X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double, bool)));
-    connect(m_h2Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double, bool)));
+    connect(m_pX, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP(double,bool)));
+    connect(m_pY, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP(double,bool)));
+    connect(m_h1X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double,bool)));
+    connect(m_h1Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double,bool)));
+    connect(m_h2X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double,bool)));
+    connect(m_h2Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double,bool)));
 
     connect(m_ui.buttonLinkHandles, SIGNAL(toggled(bool)), this, SLOT(slotSetHandlesLinked(bool)));
     connect(m_ui.buttonZoomIn, SIGNAL(clicked()), &m_edit, SLOT(slotZoomIn()));

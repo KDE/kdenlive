@@ -435,7 +435,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
         for (int i = 0; i < effects.count(); i++) {
             CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, container);
             m_subParamWidgets.append(coll);
-	    connect(coll, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateRegionEffectParams(const QDomElement, const QDomElement, int)));
+	    connect(coll, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateRegionEffectParams(QDomElement,QDomElement,int)));
             //container = new QWidget(widgetFrame);
             vbox->addWidget(coll);
             //p = new ParameterContainer(effects.at(i).toElement(), info, isEffect, container);
@@ -457,9 +457,9 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
 	collapseButton->setArrowType(Qt::RightArrow);
 	
     }
-    connect (m_paramWidget, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)));
+    connect (m_paramWidget, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this, SIGNAL(parameterChanged(QDomElement,QDomElement,int)));
     
-    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)));
+    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)));
     
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));

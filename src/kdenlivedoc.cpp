@@ -83,7 +83,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
     m_autoSaveTimer->setSingleShot(true);
-    connect(m_clipManager, SIGNAL(displayMessage(QString, int)), parent, SLOT(slotGotProgressInfo(QString,int)));
+    connect(m_clipManager, SIGNAL(displayMessage(QString,int)), parent, SLOT(slotGotProgressInfo(QString,int)));
     bool success = false;
 
     // init default document properties
@@ -380,7 +380,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
-    connect(m_render, SIGNAL(addClip(const KUrl &, stringMap)), this, SLOT(slotAddClipFile(const KUrl &, stringMap)));
+    connect(m_render, SIGNAL(addClip(KUrl,stringMap)), this, SLOT(slotAddClipFile(KUrl,stringMap)));
 }
 
 KdenliveDoc::~KdenliveDoc()

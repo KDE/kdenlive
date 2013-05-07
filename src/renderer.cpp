@@ -140,9 +140,9 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(100);
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
-    connect(this, SIGNAL(multiStreamFound(const QString &,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(const QString &,QList<int>,QList<int>,stringMap)));
+    connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
-    connect(this, SIGNAL(mltFrameReceived(Mlt::Frame *)), this, SLOT(showFrame(Mlt::Frame *)), Qt::UniqueConnection);
+    connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
 }
 
 Render::~Render()

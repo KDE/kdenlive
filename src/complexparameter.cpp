@@ -48,7 +48,7 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
     connect(m_ui.buttonShowInTimeline, SIGNAL(clicked()), this , SLOT(slotShowInTimeline()));
     connect(m_ui.buttonNewPoints, SIGNAL(clicked()), this , SLOT(slotSetNew()));
     connect(m_ui.buttonHelp, SIGNAL(clicked()), this , SLOT(slotSetHelp()));
-    connect(m_ui.parameterList, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotParameterChanged(const QString&)));
+    connect(m_ui.parameterList, SIGNAL(currentIndexChanged(QString)), this, SLOT(slotParameterChanged(QString)));
     connect(m_ui.kplotwidget, SIGNAL(parameterChanged(QDomElement)), this , SLOT(slotUpdateEffectParams(QDomElement)));
     connect(m_ui.kplotwidget, SIGNAL(parameterList(QStringList)), this , SLOT(slotUpdateParameterList(QStringList)));
     /*ÜeffectLists["audio"]=audioEffectList;

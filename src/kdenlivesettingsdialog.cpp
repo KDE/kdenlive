@@ -205,12 +205,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_page7 = addPage(p7, i18n("Transcode"), "edit-copy");
     connect(m_configTranscode.button_add, SIGNAL(clicked()), this, SLOT(slotAddTranscode()));
     connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
-    connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QListWidgetItem *)), this, SLOT(slotDialogModified()));
+    connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QListWidgetItem*)), this, SLOT(slotDialogModified()));
     connect(m_configTranscode.profiles_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotSetTranscodeProfile()));
     
-    connect(m_configTranscode.profile_name, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableTranscodeUpdate()));
-    connect(m_configTranscode.profile_description, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableTranscodeUpdate()));
-    connect(m_configTranscode.profile_extension, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_name, SIGNAL(textChanged(QString)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_description, SIGNAL(textChanged(QString)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_extension, SIGNAL(textChanged(QString)), this, SLOT(slotEnableTranscodeUpdate()));
     connect(m_configTranscode.profile_parameters, SIGNAL(textChanged()), this, SLOT(slotEnableTranscodeUpdate()));
     connect(m_configTranscode.profile_audioonly, SIGNAL(stateChanged(int)), this, SLOT(slotEnableTranscodeUpdate()));
     

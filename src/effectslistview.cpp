@@ -72,7 +72,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
     connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
     connect(m_effectsList, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotEffectSelected()));
-    connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem *, bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem *, bool)));
+    connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
     connect(m_effectsList, SIGNAL(applyEffect(QDomElement)), this, SIGNAL(addEffect(QDomElement)));
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
     //m_effectsList->setCurrentRow(0);

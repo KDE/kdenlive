@@ -60,11 +60,11 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
     m_modifiedTimer.setInterval(1500);
-    connect(&m_fileWatcher, SIGNAL(dirty(const QString &)), this, SLOT(slotClipModified(const QString &)));
-    connect(&m_fileWatcher, SIGNAL(deleted(const QString &)), this, SLOT(slotClipMissing(const QString &)));
+    connect(&m_fileWatcher, SIGNAL(dirty(QString)), this, SLOT(slotClipModified(QString)));
+    connect(&m_fileWatcher, SIGNAL(deleted(QString)), this, SLOT(slotClipMissing(QString)));
 
     // Seems like a dirty signal is emitted anyways when a watched file is created, so don't react twice.
-    //connect(&m_fileWatcher, SIGNAL(created(const QString &)), this, SLOT(slotClipAvailable(const QString &)));
+    //connect(&m_fileWatcher, SIGNAL(created(QString)), this, SLOT(slotClipAvailable(QString)));
     connect(&m_modifiedTimer, SIGNAL(timeout()), this, SLOT(slotProcessModifiedClips()));
 
 #if KDE_IS_VERSION(4,5,0)
@@ -553,7 +553,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, QMap <QString, QString>
 		    copyjob->addMetaData("groupId", data.value("groupId"));
 		    copyjob->addMetaData("comment", data.value("comment"));
 		    copyjob->ui()->setWindow(kapp->activeWindow());
-		    connect(copyjob, SIGNAL(copyingDone(KIO::Job *, const KUrl &, const KUrl &, time_t, bool, bool)), this, SLOT(slotAddClip(KIO::Job *, const KUrl &, const KUrl &)));
+		    connect(copyjob, SIGNAL(copyingDone(KIO::Job*,KUrl,KUrl,time_t,bool,bool)), this, SLOT(slotAddClip(KIO::Job*,KUrl,KUrl)));
 		    continue;
 		}
 	    }
