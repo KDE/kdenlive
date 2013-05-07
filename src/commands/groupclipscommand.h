@@ -28,7 +28,6 @@
 #include <KDebug>
 #include "definitions.h"
 
-class GenTime;
 class CustomTrackView;
 
 class GroupClipsCommand : public QUndoCommand

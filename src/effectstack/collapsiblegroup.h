@@ -32,7 +32,6 @@
 #include <QLineEdit>
 #include <QMutex>
 
-class QFrame;
 
 class MyEditableLabel : public QLineEdit
 {

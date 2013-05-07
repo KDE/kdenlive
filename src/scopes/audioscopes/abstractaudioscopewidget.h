@@ -19,9 +19,7 @@
 
 #include "../abstractscopewidget.h"
 
-class QMenu;
 
-class Monitor;
 class Render;
 
 /**

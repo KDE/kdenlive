@@ -24,7 +24,6 @@
 
 class Timecode;
 class Transition;
-class EffectsList;
 class EffectStackEdit;
 class Monitor;
 

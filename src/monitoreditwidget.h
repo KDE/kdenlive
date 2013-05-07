@@ -28,7 +28,6 @@ class QIcon;
 class MonitorScene;
 class Render;
 class QGraphicsView;
-class QToolButton;
 class QVBoxLayout;
 
 

@@ -26,9 +26,6 @@
 #include <QLabel>
 #include <QProgressBar>
 
-class QValidator;
-class QToolButton;
-class QLineEdit;
 class QAction;
 class QMenu;
 class KSelectAction;

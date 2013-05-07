@@ -29,7 +29,6 @@
 #include <QDomElement>
 #include <QToolButton>
 
-class QFrame;
 class QLabel;
 
 

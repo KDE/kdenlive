@@ -34,7 +34,6 @@
 //class QGraphicsScene;
 class GraphicsSceneRectMove;
 class QGraphicsRectItem;
-class QMouseEvent;
 
 
 class Geometryval : public QWidget, public Ui::Geometryval

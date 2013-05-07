@@ -30,9 +30,7 @@
 #include <QMap>
 #include <QScrollArea>
 
-class QFrame;
 class Monitor;
-class GeometryWidget;
 
 class EffectStackEdit : public QScrollArea
 {
