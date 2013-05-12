@@ -26,7 +26,7 @@ class ParameterPlotter : public KPlotWidget
 {
     Q_OBJECT
 public:
-    ParameterPlotter(QWidget *parent = 0);
+    explicit ParameterPlotter(QWidget *parent = 0);
     virtual ~ParameterPlotter() {}
     void setMoveX(bool);
     void setMoveY(bool);
@@ -36,7 +36,7 @@ public:
     bool isMoveY();
     bool isMoveTimeline();
     bool isNewPoints();
-    void replot(const QString& name = "");
+    void replot(const QString& name = QString());
 private:
     KPlotPoint* m_movepoint;
     int m_activeIndexPlot;

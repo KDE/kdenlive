@@ -53,7 +53,7 @@ class KThumb: public QObject
    Q_OBJECT 
 public:
 
-    KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent = 0);
+    explicit KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent = 0);
     ~KThumb();
     void setProducer(Mlt::Producer *producer);
     bool hasProducer() const;

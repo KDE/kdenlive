@@ -265,7 +265,7 @@ class CommentedTime
 {
 public:
     CommentedTime(): t(GenTime(0)), type(0) {}
-    CommentedTime(const GenTime &time, QString comment, int markerType = 0)
+    CommentedTime(const GenTime &time, const QString& comment, int markerType = 0)
         : t(time), c(comment), type(markerType) { }
 
     QString comment()   const          {

@@ -32,7 +32,7 @@ class MonitorManager : public QObject
     Q_OBJECT
 
 public:
-    MonitorManager(QWidget *parent = 0);
+    explicit MonitorManager(QWidget *parent = 0);
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor);
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);

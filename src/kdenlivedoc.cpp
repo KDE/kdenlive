@@ -1850,7 +1850,7 @@ const QMap <QString, QString> KdenliveDoc::metadata() const
     return m_documentMetadata;
 }
 
-void KdenliveDoc::setMetadata(const QMap <QString, QString> meta)
+void KdenliveDoc::setMetadata(const QMap<QString, QString> &meta)
 {
     setModified(true);
     m_documentMetadata = meta;
