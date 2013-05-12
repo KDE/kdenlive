@@ -22,7 +22,7 @@
 
 #include <KLocale>
 
-EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint oldZone, const QPoint newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent) :
+EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_list(list),
         m_id(id),

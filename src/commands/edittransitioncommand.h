@@ -28,7 +28,7 @@ class CustomTrackView;
 class EditTransitionCommand : public QUndoCommand
 {
 public:
-    EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt, QUndoCommand * parent = NULL);
+    EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand * parent = NULL);
 
     virtual int id() const;
     virtual bool mergeWith(const QUndoCommand * command);

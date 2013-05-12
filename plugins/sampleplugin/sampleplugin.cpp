@@ -32,7 +32,7 @@
 #include <QInputDialog>
 #include <QProcess>
 
-QStringList SamplePlugin::generators(const QStringList producers) const
+QStringList SamplePlugin::generators(const QStringList &producers) const
 {
     QStringList result;
     if (producers.contains("pango")) result << i18n("Countdown");

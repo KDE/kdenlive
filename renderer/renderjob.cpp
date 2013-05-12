@@ -32,7 +32,7 @@
 class SleepThread : QThread
 {
 public:
-    virtual void run() {};
+    virtual void run() {}
     static void msleep(unsigned long msecs) {
         QThread::msleep(msecs);
     }
@@ -118,7 +118,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
 
 RenderJob::~RenderJob()
 {
-    if (m_renderProcess) delete m_renderProcess;
+    delete m_renderProcess;
     if (m_enablelog) {
         m_logfile.close();
     }

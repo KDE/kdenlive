@@ -97,7 +97,7 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.buttonShowAllHandles->setChecked(KdenliveSettings::bezier_showallhandles());
 }
 
-QString BezierSplineWidget::spline()
+QString BezierSplineWidget::spline() const
 {
     return m_edit.spline().toString();
 }

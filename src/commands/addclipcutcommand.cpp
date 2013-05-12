@@ -22,7 +22,7 @@
 
 #include <KLocale>
 
-AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString desc, bool newItem, bool remove, QUndoCommand * parent) :
+AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString& desc, bool newItem, bool remove, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_list(list),
         m_id(id),

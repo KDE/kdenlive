@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent) :
+InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_clipsToMove(clipsToMove),

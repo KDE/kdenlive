@@ -32,7 +32,7 @@ public:
     BezierSplineEditor(QWidget* parent = 0);
     virtual ~BezierSplineEditor();
 
-    CubicBezierSpline spline();
+    CubicBezierSpline spline() const;
     void setSpline(const CubicBezierSpline &spline);
 
     /** @brief Returns the selected point or else BPoint. */

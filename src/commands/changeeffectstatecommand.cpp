@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, GenTime pos, QList <int> effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
+ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, GenTime pos, const QList <int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),

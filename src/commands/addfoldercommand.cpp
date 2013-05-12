@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
+AddFolderCommand::AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_view(view),
         m_name(folderName),

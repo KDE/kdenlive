@@ -45,11 +45,10 @@ BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
 
 BezierSplineEditor::~BezierSplineEditor()
 {
-    if (m_pixmapCache)
-        delete m_pixmapCache;
+    delete m_pixmapCache;
 }
 
-CubicBezierSpline BezierSplineEditor::spline()
+CubicBezierSpline BezierSplineEditor::spline() const
 {
     return m_spline;
 }

@@ -31,7 +31,7 @@ class ProjectList;
 class EditClipCutCommand : public QUndoCommand
 {
 public:
-    EditClipCutCommand(ProjectList *list, const QString &id, const QPoint oldZone, const QPoint newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent = 0);
+    EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent = 0);
 
     virtual void undo();
     virtual void redo();

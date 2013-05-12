@@ -22,7 +22,7 @@
 #include "customtrackview.h"
 
 
-ConfigTracksCommand::ConfigTracksCommand(CustomTrackView* view, QList< TrackInfo > oldInfos, QList< TrackInfo > newInfos, QUndoCommand* parent) :
+ConfigTracksCommand::ConfigTracksCommand(CustomTrackView* view, const QList<TrackInfo> &oldInfos, const QList<TrackInfo> &newInfos, QUndoCommand* parent) :
         QUndoCommand(parent),
         m_view(view),
         m_oldInfos(oldInfos),
