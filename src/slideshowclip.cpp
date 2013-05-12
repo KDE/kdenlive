@@ -28,7 +28,7 @@
 #include <QDir>
 
 
-SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
+SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     QDialog(parent),
     m_count(0),
     m_timecode(tc),
