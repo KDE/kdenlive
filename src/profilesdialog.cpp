@@ -119,7 +119,7 @@ void ProfilesDialog::slotProfileEdited()
     m_profileIsModified = true;
 }
 
-void ProfilesDialog::fillList(const QString selectedProfile)
+void ProfilesDialog::fillList(const QString &selectedProfile)
 {
     // List the Mlt profiles
     m_view.profiles_list->clear();
@@ -212,7 +212,7 @@ bool ProfilesDialog::slotSaveProfile()
     return true;
 }
 
-void ProfilesDialog::saveProfile(const QString path)
+void ProfilesDialog::saveProfile(QString path)
 {
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
@@ -237,7 +237,7 @@ void ProfilesDialog::slotDeleteProfile()
 }
 
 // static
-MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
+MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
 {
     MltVideoProfile result;
     QStringList profilesNames;
@@ -283,7 +283,7 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
 }
 
 // static
-double ProfilesDialog::getStringEval(const MltVideoProfile &profile, QString eval, QPoint frameSize)
+double ProfilesDialog::getStringEval(const MltVideoProfile &profile, QString eval, const QPoint& frameSize)
 {
     QScriptEngine sEngine;
     sEngine.globalObject().setProperty("maxWidth", profile.width > frameSize.x() ? profile.width : frameSize.x());
@@ -394,7 +394,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
 }
 
 // static
-QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path)
+QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString& path)
 {
     QStringList profilesNames;
     QStringList profilesFiles;
@@ -413,7 +413,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path)
 }
 
 // static
-QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString profileName)
+QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString& profileName)
 {
     QStringList profilesNames;
     QStringList profilesFiles;
@@ -505,7 +505,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
 }
 
 // static
-QString ProfilesDialog::getPathFromDescription(const QString profileDesc)
+QString ProfilesDialog::getPathFromDescription(const QString& profileDesc)
 {
     QStringList profilesNames;
     QStringList profilesFiles;
