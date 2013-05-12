@@ -30,7 +30,8 @@
 #include <mlt/framework/mlt_types.h>
 
 #include <QtConcurrentRun>
-
+#include <QTimer>
+ 
 namespace Mlt
 {
 class Consumer;

@@ -45,8 +45,8 @@
 #include <QMutex>
 #include <QFuture>
 #include <QSemaphore>
+#include <QTimer>
 
-class QTimer;
 class QPixmap;
 
 class KComboBox;

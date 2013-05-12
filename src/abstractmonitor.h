@@ -26,9 +26,7 @@
 #include <QVector>
 #include <QWidget>
 #include <QImage>
-#include <QPainter>
 #include <QFrame>
-#include <QTimer>
 
 #include <stdint.h>
 
@@ -43,10 +41,10 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), analyseAudio(false), m_name(name) {};
+    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), analyseAudio(false), m_name(name) {}
 
     /** @brief Destroy the MLT Renderer. */
-    virtual ~AbstractRender() {};
+    virtual ~AbstractRender() {}
 
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
@@ -54,7 +52,7 @@ Q_OBJECT public:
     /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
     bool analyseAudio;
     
-    const QString &name() const {return m_name;};
+    const QString &name() const {return m_name;}
 
     /** @brief Someone needs us to send again a frame. */
     virtual void sendFrameUpdate() = 0;

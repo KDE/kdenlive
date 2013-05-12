@@ -41,8 +41,7 @@ AbstractMonitor::AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager
 
 AbstractMonitor::~AbstractMonitor()
 {
-    if (videoSurface)
-	delete videoSurface;
+    delete videoSurface;
 }
 
 void AbstractMonitor::createVideoSurface()

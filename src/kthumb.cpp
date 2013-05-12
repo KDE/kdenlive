@@ -39,8 +39,9 @@
 #include <QApplication>
 #include <QtConcurrentRun>
 #include <QVarLengthArray>
+#include <QPainter>
 
-KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent) :
+KThumb::KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent) :
     QObject(parent),
     m_url(url),
     m_thumbFile(),

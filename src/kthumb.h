@@ -50,10 +50,10 @@ typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
 
 class KThumb: public QObject
 {
-Q_OBJECT public:
+   Q_OBJECT 
+public:
 
-
-    KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent = 0);
+    KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent = 0);
     ~KThumb();
     void setProducer(Mlt::Producer *producer);
     bool hasProducer() const;
