@@ -26,7 +26,7 @@
 #include <KDebug>
 
 
-SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, const QList<TrackInfo> &tracks, QWidget * parent) :
+SpacerDialog::SpacerDialog(const GenTime &duration, Timecode tc, int track, const QList<TrackInfo> &tracks, QWidget * parent) :
         QDialog(parent),
         m_in(tc)
 {
