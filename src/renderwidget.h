@@ -145,7 +145,7 @@ public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
 
 private slots:
-    void slotUpdateButtons(KUrl url);
+    void slotUpdateButtons(const KUrl &url);
     void slotUpdateButtons();
     void refreshView(const QString &profile = QString());
     void refreshCategory(const QString &group = QString(), const QString &profile = QString());
