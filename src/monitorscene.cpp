@@ -78,7 +78,7 @@ void MonitorScene::cleanup()
 
 void MonitorScene::setUp()
 {
-    if (views().count() > 0) {
+    if (!views().isEmpty()) {
         m_view = views().at(0);
         m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     } else {
