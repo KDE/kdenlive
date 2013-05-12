@@ -1506,7 +1506,7 @@ void RenderWidget::reloadProfiles()
     parseProfiles();
 }
 
-void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
+void RenderWidget::parseProfiles(const QString &meta, const QString &group, const QString &profile)
 {
     m_view.destination_list->blockSignals(true);
     m_view.destination_list->clear();
@@ -1546,7 +1546,7 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
     refreshCategory(group, profile);
 }
 
-void RenderWidget::parseFile(QString exportFile, bool editable)
+void RenderWidget::parseFile(const QString &exportFile, bool editable)
 {
     kDebug() << "// Parsing file: " << exportFile;
     kDebug() << "------------------------------";
