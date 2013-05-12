@@ -102,7 +102,7 @@ void MonitorEditWidget::resetProfile(Render* renderer)
     m_scene->resetProfile();
 }
 
-MonitorScene* MonitorEditWidget::getScene()
+MonitorScene* MonitorEditWidget::getScene() const
 {
     return m_scene;
 }

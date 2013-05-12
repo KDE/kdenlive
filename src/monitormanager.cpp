@@ -39,7 +39,7 @@ MonitorManager::MonitorManager(QWidget *parent) :
 {
 }
 
-Timecode MonitorManager::timecode()
+Timecode MonitorManager::timecode() const
 {
     return m_timecode;
 }
@@ -76,9 +76,9 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
 AbstractMonitor* MonitorManager::monitor(Kdenlive::MONITORID monitorName)
 {
     AbstractMonitor *monitor = NULL;
-    for (int i = 0; i < m_monitorsList.size(); i++) {
+    for (int i = 0; i < m_monitorsList.size(); ++i) {
         if (m_monitorsList[i]->id() == monitorName) {
-	    monitor = m_monitorsList[i];
+        monitor = m_monitorsList.at(i);
 	}
     }
     return monitor;

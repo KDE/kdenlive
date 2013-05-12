@@ -43,7 +43,7 @@ public:
     void resetProfile(Render *renderer);
 
     /** @brief Returns the on-monitor scene. */
-    MonitorScene *getScene();
+    MonitorScene *getScene() const;
 
     /** @brief Returns the action toggling between the normal monitor and the editor. */
     QAction *getVisibilityAction();

@@ -36,7 +36,7 @@ public:
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor);
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);
-    Timecode timecode();
+    Timecode timecode() const;
     void resetProfiles(Timecode tc);
     void stopActiveMonitor();
     AbstractRender *activeRenderer();
