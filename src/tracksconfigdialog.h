@@ -61,7 +61,7 @@ public:
     const QList <TrackInfo> tracksList();
 
     /** @brief A list of tracks, which sould be deleted. */
-    QList <int> deletedTracks();
+    QList <int> deletedTracks() const;
 
 private slots:
     /** @brief Updates the "hidden" checkbox if type was changed. */
