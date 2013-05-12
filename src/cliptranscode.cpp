@@ -27,7 +27,7 @@
 #include <KFileDialog>
 
 
-ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
+ClipTranscode::ClipTranscode(const KUrl::List &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
         QDialog(parent), m_urls(urls), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
 {
     setFont(KGlobalSettings::toolBarFont());

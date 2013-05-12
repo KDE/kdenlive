@@ -45,7 +45,7 @@ class EffectsListView : public QWidget, public Ui::EffectList_UI
     Q_OBJECT
 
 public:
-    EffectsListView(QWidget *parent = 0);
+    explicit EffectsListView(QWidget *parent = 0);
 
     /** @brief Re-initializes the list of effects. */
     void reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions);

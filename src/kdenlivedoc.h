@@ -167,7 +167,7 @@ Q_OBJECT public:
     /** @brief Returns the document metadata (author, copyright, ...) */
     const QMap <QString, QString> metadata() const;
     /** @brief Set the document metadata (author, copyright, ...) */
-    void setMetadata(const QMap <QString, QString> meta);
+    void setMetadata(const QMap <QString, QString>& meta);
     
 private:
     KUrl m_url;

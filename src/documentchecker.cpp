@@ -432,7 +432,7 @@ bool DocumentChecker::hasErrorInClips()
 
 DocumentChecker::~DocumentChecker()
 {
-    if (m_dialog) delete m_dialog;
+    delete m_dialog;
 }
 
 

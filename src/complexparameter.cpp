@@ -131,12 +131,12 @@ void ComplexParameter::slotUpdateEffectParams(QDomElement e)
     emit parameterChanged();
 }
 
-QDomElement ComplexParameter::getParamDesc()
+QDomElement ComplexParameter::getParamDesc() const
 {
     return m_param;
 }
 
-void ComplexParameter::slotUpdateParameterList(QStringList l)
+void ComplexParameter::slotUpdateParameterList(const QStringList &l)
 {
     kDebug() << l ;
     m_ui.parameterList->clear();
