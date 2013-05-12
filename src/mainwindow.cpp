@@ -696,13 +696,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
 MainWindow::~MainWindow()
 {
-    if (m_stopmotion) {
-        delete m_stopmotion;
-    }
+    delete m_stopmotion;
 
 #ifdef USE_JOGSHUTTLE
-    if (m_jogProcess)
-    	delete m_jogProcess;
+    delete m_jogProcess;
 #endif
 
     m_effectStack->slotClipItemSelected(NULL);
@@ -3830,6 +3827,7 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone, DocClipBase *baseClip
         if (QFile::exists(url->url().path())) {
             if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", url->url().path())) == KMessageBox::No) {
                 slotSaveZone(render, zone, baseClip, url->url());
+                delete dialog;
                 return;
             }
         }
@@ -3855,6 +3853,7 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone, DocClipBase *baseClip
         }
         else render->saveZone(url->url(), edit->text(), zone);
     }
+    delete dialog;
 
 }
 
