@@ -105,7 +105,7 @@ private:
     QString m_documentErrors;
     QList <QAction *> m_trackActions;
     
-    void parseDocument(QDomDocument doc);
+    void parseDocument(const QDomDocument &doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers);
     DocClipBase *getMissingProducer(const QString id) const;
     void adjustTrackHeaders();
