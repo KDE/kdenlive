@@ -32,7 +32,7 @@ class CutClipJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    CutClipJob(CLIPTYPE cType, const QString &id, QStringList parameters);
+    CutClipJob(CLIPTYPE cType, const QString &id, const QStringList &parameters);
     virtual ~ CutClipJob();
     const QString destination() const;
     void startJob();

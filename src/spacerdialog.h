@@ -38,7 +38,7 @@ class SpacerDialog : public QDialog, public Ui::SpacerDialog_UI
     Q_OBJECT
 
 public:
-    SpacerDialog(const GenTime duration, Timecode tc, int track, QList <TrackInfo> tracks, QWidget * parent = 0);
+    SpacerDialog(const GenTime duration, Timecode tc, int track, const QList <TrackInfo>& tracks, QWidget * parent = 0);
     GenTime selectedDuration();
     int selectedTrack();
 

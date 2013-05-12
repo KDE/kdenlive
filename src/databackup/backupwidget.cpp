@@ -24,13 +24,11 @@
 #include <KUrl>
 
 
-BackupWidget::BackupWidget(KUrl projectUrl, KUrl projectFolder, const QString &projectId, QWidget * parent) :
+BackupWidget::BackupWidget(const KUrl &projectUrl, const KUrl &projectFolder, const QString &projectId, QWidget * parent) :
         QDialog(parent)
 {
     setupUi(this);
     setWindowTitle(i18n("Restore Backup File"));
-
-    KUrl backupFile;
 
     if (projectUrl.isEmpty()) {
         // No url, means we opened the backup dialog from an empty project
@@ -106,7 +104,7 @@ void BackupWidget::slotDisplayBackupPreview()
     backup_preview->setPixmap(pix);
 }
 
-QString BackupWidget::selectedFile()
+QString BackupWidget::selectedFile() const
 {
     if (!backup_list->currentItem()) return QString();
     return backup_list->currentItem()->data(Qt::UserRole).toString();

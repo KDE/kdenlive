@@ -26,7 +26,7 @@
 #include <KLocale>
 
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList) :
+AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, const QStringList &) :
         QObject(),
         clipType(cType),
         jobType(type),

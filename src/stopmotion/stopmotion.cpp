@@ -50,7 +50,7 @@ MyLabel::MyLabel(QWidget* parent) :
 {
 }
 
-void MyLabel::setImage(QImage img)
+void MyLabel::setImage(const QImage& img)
 {
     m_img = img;
 }
@@ -139,7 +139,7 @@ void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 {
 }
 
-StopmotionWidget::StopmotionWidget(MonitorManager *manager, KUrl projectFolder, QList< QAction* > actions, QWidget* parent) :
+StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectFolder, QList< QAction* > actions, QWidget* parent) :
     QDialog(parent)
     , Ui::Stopmotion_UI()
     , m_projectFolder(projectFolder)

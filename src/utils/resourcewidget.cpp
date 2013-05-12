@@ -113,7 +113,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
 
 ResourceWidget::~ResourceWidget()
 {
-    if (m_currentService) delete m_currentService;
+    delete m_currentService;
     KIO::NetAccess::removeTempFile(m_tmpThumbFile);
 }
 

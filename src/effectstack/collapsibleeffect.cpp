@@ -41,7 +41,7 @@
 #include <KApplication>
 
 
-CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
+CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, ItemInfo info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent) :
         AbstractCollapsibleWidget(parent),
         m_paramWidget(NULL),
         m_effect(effect),
@@ -145,7 +145,7 @@ CollapsibleEffect::CollapsibleEffect(QDomElement effect, QDomElement original_ef
 
 CollapsibleEffect::~CollapsibleEffect()
 {
-    if (m_paramWidget) delete m_paramWidget;
+    delete m_paramWidget;
     delete m_menu;
 }
 

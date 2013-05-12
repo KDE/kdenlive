@@ -37,7 +37,7 @@ class MyLabel : public QLabel
     Q_OBJECT
 public:
     MyLabel(QWidget* parent = 0);
-    void setImage(QImage img);
+    void setImage(const QImage &img);
 
 protected:
     virtual void paintEvent(QPaintEvent* event);
@@ -92,7 +92,7 @@ public:
      * @param projectFolder The current project folder, where captured files will be stored.
      * @param actions The actions for this widget that can have a keyboard shortcut.
      * @param parent (optional) parent widget */
-    StopmotionWidget(MonitorManager *manager, KUrl projectFolder, QList< QAction* > actions, QWidget* parent = 0);
+    StopmotionWidget(MonitorManager *manager, const KUrl &projectFolder, QList< QAction* > actions, QWidget* parent = 0);
     virtual ~StopmotionWidget();
 
 protected:

@@ -112,9 +112,7 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
 
 SlideshowClip::~SlideshowClip()
 {
-    if (m_thumbJob) {
-        delete m_thumbJob;
-    }
+    delete m_thumbJob;
 }
 
 void SlideshowClip::slotEnableLuma(int state)

@@ -49,7 +49,7 @@ ArchiveOrg::ArchiveOrg(QListWidget *listWidget, QObject *parent) :
 
 ArchiveOrg::~ArchiveOrg()
 {
-    if (m_previewProcess) delete m_previewProcess;
+    delete m_previewProcess;
 }
 
 void ArchiveOrg::slotStartSearch(const QString searchText, int page)
