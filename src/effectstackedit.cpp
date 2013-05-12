@@ -75,7 +75,7 @@ void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
     m_metaInfo.timecode = t;
 }
 
-void EffectStackEdit::setFrameSize(QPoint p)
+void EffectStackEdit::setFrameSize(const QPoint &p)
 {
     m_metaInfo.frameSize = p;
 }

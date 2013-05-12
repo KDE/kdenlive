@@ -1,4 +1,4 @@
-/***************************************************************************
+ /***************************************************************************
                          mltdevicecapture.h  -  description
                             -------------------
    begin                : Sun May 21 2011
@@ -62,7 +62,7 @@ Q_OBJECT public:
     bool sendFrameForAnalysis;
 
     /** @brief Someone needs us to send again a frame. */
-    void sendFrameUpdate() {};
+    void sendFrameUpdate() {}
     
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber(double position);

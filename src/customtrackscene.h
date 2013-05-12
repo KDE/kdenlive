@@ -44,7 +44,7 @@ class CustomTrackScene : public QGraphicsScene
 public:
     explicit CustomTrackScene(KdenliveDoc *doc, QObject *parent = 0);
     virtual ~ CustomTrackScene();
-    void setSnapList(QList <GenTime> snaps);
+    void setSnapList(const QList <GenTime>& snaps);
     GenTime previousSnapPoint(GenTime pos) const;
     GenTime nextSnapPoint(GenTime pos) const;
     double getSnapPointForPos(double pos, bool doSnap = true);

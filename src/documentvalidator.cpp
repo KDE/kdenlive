@@ -40,7 +40,7 @@
 #include <locale>
 
 
-DocumentValidator::DocumentValidator(QDomDocument doc, KUrl documentUrl):
+DocumentValidator::DocumentValidator(const QDomDocument &doc, const KUrl &documentUrl):
         m_doc(doc),
         m_url(documentUrl),
         m_modified(false)
@@ -1174,7 +1174,7 @@ void DocumentValidator::updateEffects()
     }
 }
 
-bool DocumentValidator::updateEffectParameters(QDomNodeList parameters, const QScriptValue* updateRules, const double serviceVersion, const double effectVersion)
+bool DocumentValidator::updateEffectParameters(const QDomNodeList &parameters, const QScriptValue* updateRules, const double serviceVersion, const double effectVersion)
 {
     bool updated = false;
     bool isDowngrade = serviceVersion < effectVersion;

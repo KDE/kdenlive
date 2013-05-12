@@ -25,7 +25,7 @@
 
 #include <QHeaderView>
 
-KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
+KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
         QWidget(parent),
         m_min(minFrame),
         m_max(maxFrame),

@@ -44,7 +44,7 @@ class DvdTreeWidget : public QTreeWidget
 {
     Q_OBJECT
 public:
-    DvdTreeWidget(QWidget *parent);
+    explicit DvdTreeWidget(QWidget *parent);
 
 protected:
     virtual void dragEnterEvent(QDragEnterEvent * event );

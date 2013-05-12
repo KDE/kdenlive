@@ -34,7 +34,7 @@ class DocumentChecker: public QObject
     Q_OBJECT
 
 public:
-    explicit DocumentChecker(QDomNodeList infoproducers, QDomDocument doc);
+    explicit DocumentChecker(const QDomNodeList &infoproducers, const QDomDocument &doc);
     ~DocumentChecker();
     bool hasErrorInClips();
 

@@ -50,7 +50,7 @@ double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap)
     return GenTime(pos, m_document->fps()).frames(m_document->fps());
 }
 
-void CustomTrackScene::setSnapList(QList <GenTime> snaps)
+void CustomTrackScene::setSnapList(const QList <GenTime>& snaps)
 {
     m_snapPoints = snaps;
 }

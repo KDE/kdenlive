@@ -68,7 +68,7 @@
 #define JOG_STOP 10020
 #define MAX_SHUTTLE_RANGE 7
 
-void ShuttleThread::init(QObject *parent, QString device)
+void ShuttleThread::init(QObject *parent, const QString &device)
 {
     m_parent = parent;
     m_device = device;

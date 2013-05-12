@@ -80,7 +80,7 @@ class KeyframeEdit : public QWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent = 0);
+    explicit KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent = 0);
     virtual ~KeyframeEdit();
     virtual void addParameter(QDomElement e, int activeKeyframe = -1);
     const QString getValue(const QString &name);

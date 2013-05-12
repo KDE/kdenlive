@@ -36,7 +36,7 @@ inline int lerp( const int a, const int b, double t )
     return a + (b - a) * t;
 }
 
-CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
+CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
         KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent),
         m_monitor(monitor),
         m_showScene(true),
