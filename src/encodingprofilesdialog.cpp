@@ -85,7 +85,7 @@ void EncodingProfilesDialog::slotLoadProfiles()
             break;
     }
 
-
+    delete m_configGroup;
     m_configGroup = new KConfigGroup(m_configFile, group);
     QMap< QString, QString > values = m_configGroup->entryMap();
     QMapIterator<QString, QString> i(values);
