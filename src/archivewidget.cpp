@@ -325,7 +325,7 @@ bool ArchiveWidget::closeAccepted()
 }
 
 
-void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items)
+void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList& items)
 {
     QStringList filesList;
     QString fileName;
@@ -343,7 +343,6 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
             if (slideUrl.fileName().startsWith(".all.")) {
                 // mimetype slideshow (for example *.png)
                     QStringList filters;
-                    QString extension;
                     // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
                     filters << "*." + slideUrl.fileName().section('.', -1);
                     dir.setNameFilters(filters);
