@@ -51,8 +51,8 @@ QStringList V4lCaptureHandler::getDeviceName(QString input)
     QString pixelformatdescription;
     int fd = open(src, O_RDWR | O_NONBLOCK);
     if(fd < 0) {
-	free(src);
-	return QStringList();
+        free(src);
+        return QStringList();
     }
     struct v4l2_capability cap;
 

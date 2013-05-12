@@ -259,7 +259,7 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
     }
 }
 
-void TransitionSettings::setKeyframes(const QString data, int maximum)
+void TransitionSettings::setKeyframes(const QString &data, int maximum)
 {
     m_effectEdit->setKeyframes(data, maximum);
 }

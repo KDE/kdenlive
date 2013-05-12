@@ -9,13 +9,13 @@ class VideoGLWidget : public QGLWidget
     Q_OBJECT
 
 public:
-    VideoGLWidget(QWidget *parent = 0);
+    explicit VideoGLWidget(QWidget *parent = 0);
     ~VideoGLWidget();
     void activateMonitor();
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
     void setImageAspectRatio(double ratio);
-    void setBackgroundColor(QColor color) {
+    void setBackgroundColor(const QColor &color) {
         m_backgroundColor = color;
     }
 

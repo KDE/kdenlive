@@ -47,7 +47,7 @@ FreeSound::FreeSound(QListWidget *listWidget, QObject *parent) :
 
 FreeSound::~FreeSound()
 {
-    if (m_previewProcess) delete m_previewProcess;
+    delete m_previewProcess;
 }
 
 void FreeSound::slotStartSearch(const QString searchText, int page)

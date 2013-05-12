@@ -64,7 +64,7 @@ const int BLUREFFECT = 1;
 const int SHADOWEFFECT = 2;
 const int TYPEWRITEREFFECT = 3;
 
-TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render *render, QWidget *parent) :
+TitleWidget::TitleWidget(const KUrl &url, Timecode tc, const QString &projectTitlePath, Render *render, QWidget *parent) :
         QDialog(parent),
         Ui::TitleWidget_UI(),
         m_startViewport(NULL),

@@ -47,7 +47,7 @@ SimpleTimelineWidget::SimpleTimelineWidget(QWidget* parent) :
     m_colKeyframeBg = scheme.shade(KColorScheme::MidShade);
 }
 
-void SimpleTimelineWidget::setKeyframes(QList <int> keyframes)
+void SimpleTimelineWidget::setKeyframes(const QList<int> &keyframes)
 {
     m_keyframes = keyframes;
     qSort(m_keyframes);
