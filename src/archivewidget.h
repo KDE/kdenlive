@@ -107,7 +107,7 @@ private:
 #endif
 
     /** @brief Generate tree widget subitems from a string list of urls. */
-    void generateItems(QTreeWidgetItem *parentItem, QStringList items);
+    void generateItems(QTreeWidgetItem *parentItem, const QStringList &items);
     /** @brief Generate tree widget subitems from a map of clip ids / urls. */
     void generateItems(QTreeWidgetItem *parentItem, const QMap<QString, QString> &items);
     /** @brief Replace urls in project file. */

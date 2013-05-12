@@ -48,7 +48,7 @@ private:
     /** \brief Removes all leading zeros */
     QString trimmedUnicodeNumber(QString text);
     /** \brief Checks whether the given string is a control character */
-    bool controlCharacter(QString text);
+    bool controlCharacter(const QString& text);
     /** \brief Checks whether the given uint is a control character */
     bool controlCharacter(uint value);
 

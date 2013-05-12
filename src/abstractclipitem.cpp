@@ -261,7 +261,7 @@ GenTime AbstractClipItem::maxDuration() const
     return m_maxDuration;
 }
 
-void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform transformation, bool limitedKeyFrames)
+void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transformation, bool limitedKeyFrames)
 {
     if (m_keyframes.count() < 1)
         return;

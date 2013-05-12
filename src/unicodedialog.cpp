@@ -73,7 +73,7 @@ void UnicodeDialog::showLastUnicode()
     slotTextChanged(m_lastUnicodeNumber);
 }
 
-bool UnicodeDialog::controlCharacter(QString text)
+bool UnicodeDialog::controlCharacter(const QString &text)
 {
     bool isControlCharacter = false;
     QString t = text.toLower();
