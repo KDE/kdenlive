@@ -41,7 +41,7 @@
 #include "projectsettings.h"
 
 
-ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocClipBase*> list, QStringList luma_list, QWidget * parent) :
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <DocClipBase*> &list, const QStringList &luma_list, QWidget * parent) :
         QDialog(parent)
         , m_requestedSize(0)
         , m_copyJob(NULL)
@@ -117,7 +117,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     QMap <QString, QString>playlistUrls;
     QMap <QString, QString>proxyUrls;
 
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         CLIPTYPE t = clip->clipType();
         QString id = clip->getId();
@@ -184,7 +184,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
 
     // Hide unused categories, add item count
     int total = 0;
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         int items = parentItem->childCount();
         if (items == 0) {
@@ -245,8 +245,8 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
 
 ArchiveWidget::~ArchiveWidget()
 {
-    if (m_extractArchive) delete m_extractArchive;
-    if (m_progressTimer) delete m_progressTimer;
+    delete m_extractArchive;
+    delete m_progressTimer;
 }
 
 void ArchiveWidget::slotDisplayMessage(const QString &icon, const QString &text)
@@ -407,7 +407,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
     }
 }
 
-void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QMap <QString, QString> items)
+void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QString, QString>& items)
 {
     QStringList filesList;
     QString fileName;
@@ -429,7 +429,6 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QMap <QString, QS
             if (slideUrl.fileName().startsWith(".all.")) {
                 // mimetype slideshow (for example *.png)
                     QStringList filters;
-                    QString extension;
                     // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
                     filters << "*." + slideUrl.fileName().section('.', -1);
                     dir.setNameFilters(filters);
