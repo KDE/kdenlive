@@ -40,17 +40,17 @@ public:
     * @param text (optional) What the color will be used for
     * @param color (optional) initial color 
     * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit ChooseColorWidget(QString text = QString(), QString color = "0xffffffff", bool alphaEnabled = false, QWidget* parent = 0);
+    explicit ChooseColorWidget(const QString &text = QString(), const QString &color = "0xffffffff", bool alphaEnabled = false, QWidget* parent = 0);
 
     /** @brief Gets the choosen color. */
-    QString getColor();
+    QString getColor() const;
 
 private:
     KColorButton *m_button;
 
 private slots:
     /** @brief Updates the different color choosing options to have all selected @param color. */
-    void setColor(QColor color);
+    void setColor(const QColor &color);
 
 signals:
     /** @brief Emitted whenever a different color was choosen. */
