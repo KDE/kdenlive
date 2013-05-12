@@ -32,7 +32,7 @@ class CustomTrackView;
 class AddTransitionCommand : public QUndoCommand
 {
 public:
-    AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, QDomElement params, bool remove, bool doIt, QUndoCommand * parent = 0);
+    AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, const QDomElement &params, bool remove, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 

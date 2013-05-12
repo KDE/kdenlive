@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt, QUndoCommand * parent) :
+AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, const QDomElement &effect, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),

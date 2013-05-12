@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent) :
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QDomElement &xml, const QString &clipId, ItemInfo info, EffectsList effects, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_clipInfo(info),

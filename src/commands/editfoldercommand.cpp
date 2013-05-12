@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-EditFolderCommand::EditFolderCommand(ProjectList *view, const QString newfolderName, const QString oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
+EditFolderCommand::EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_view(view),
         m_name(newfolderName),

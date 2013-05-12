@@ -30,7 +30,7 @@ class ProjectList;
 class EditClipCommand : public QUndoCommand
 {
 public:
-    EditClipCommand(ProjectList *list, const QString &id, QMap <QString, QString> oldparams, QMap <QString, QString> newparams, bool doIt, QUndoCommand * parent = 0);
+    EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent = 0);
 
     virtual void undo();
     virtual void redo();

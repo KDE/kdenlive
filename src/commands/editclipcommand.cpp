@@ -22,7 +22,7 @@
 
 #include <KLocale>
 
-EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, QMap <QString, QString> oldparams, QMap <QString, QString> newparams, bool doIt, QUndoCommand * parent) :
+EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_list(list),
         m_oldparams(oldparams),

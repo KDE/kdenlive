@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, QUndoCommand * parent) :
+GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo>& transitionInfos, bool group, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_clips(clipInfos),
