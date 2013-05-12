@@ -198,7 +198,7 @@ private:
     void parseProfiles(const QString &meta = QString(), const QString &group = QString(), const QString &profile = QString());
     void parseFile(const QString &exportFile, bool editable);
     void updateButtons();
-    KUrl filenameWithExtension(KUrl url, QString extension);
+    KUrl filenameWithExtension(KUrl url, const QString &extension);
     /** @brief Check if a job needs to be started. */
     void checkRenderStatus();
     void startRendering(RenderJobItem *item);

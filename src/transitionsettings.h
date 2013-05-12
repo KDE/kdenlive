@@ -34,7 +34,7 @@ class TransitionSettings : public QWidget, public Ui::TransitionSettings_UI
 public:
     explicit TransitionSettings(Monitor *monitor, QWidget* parent = 0);
     void raiseWindow(QWidget*);
-    void updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info);
+    void updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo>& info);
     void updateTimecodeFormat();
     void setKeyframes(const QString &data, int maximum);
 

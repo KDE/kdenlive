@@ -1391,7 +1391,7 @@ void RenderWidget::refreshView(const QString &profile)
     }
 }
 
-KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension)
+KUrl RenderWidget::filenameWithExtension(KUrl url, const QString &extension)
 {
     if (url.isEmpty()) url = KUrl(m_projectFolder);
     QString directory = url.directory(KUrl::AppendTrailingSlash | KUrl::ObeyTrailingSlash);

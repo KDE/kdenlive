@@ -69,7 +69,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     connect(m_effectEdit, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
 }
 
-void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info)
+void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const QList<TrackInfo> &info)
 {
     m_effectEdit->updateProjectFormat(profile, t);
     m_tracks = info;

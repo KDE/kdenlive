@@ -50,7 +50,7 @@ class TrackView : public QWidget, public Ui::TimeLine_UI
     Q_OBJECT
 
 public:
-    explicit TrackView(KdenliveDoc *doc, QList <QAction *> actions, bool *ok, QWidget *parent = 0);
+    explicit TrackView(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
     virtual ~ TrackView();
     void setEditMode(const QString & editMode);
     const QString & editMode() const;

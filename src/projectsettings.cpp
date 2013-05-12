@@ -35,7 +35,7 @@
 #include <QDir>
 #include <kmessagebox.h>
 
-ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
     QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist), m_lumas(lumas)
 {
     setupUi(this);

@@ -77,7 +77,7 @@ QPoint SubProjectItem::zone() const
     return z;
 }
 
-void SubProjectItem::setZone(QPoint p)
+void SubProjectItem::setZone(const QPoint& p)
 {
     m_in = p.x();
     m_out = p.y();

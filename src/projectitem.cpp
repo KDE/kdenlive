@@ -35,7 +35,7 @@ const int JobTypeRole = Qt::UserRole + 6;
 const int JobStatusMessage = Qt::UserRole + 7;
 const int itemHeight = 38;
 
-ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, QSize pixmapSize) :
+ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, const QSize &pixmapSize) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE),
         m_clip(clip),
         m_clipId(clip->getId()),
@@ -44,7 +44,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, QSize pixmapSi
     buildItem(pixmapSize);
 }
 
-ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, QSize pixmapSize) :
+ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, const QSize &pixmapSize) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE),
         m_clip(clip),
         m_clipId(clip->getId()),
@@ -101,7 +101,7 @@ bool ProjectItem::hasPixmap() const
     return m_pixmapSet;
 }
 
-void ProjectItem::setPixmap(const QPixmap p)
+void ProjectItem::setPixmap(const QPixmap& p)
 {
     m_pixmapSet = true;
     setData(0, Qt::DecorationRole, p);
@@ -295,7 +295,7 @@ bool ProjectItem::isProxyRunning() const
     return false;
 }
 
-bool ProjectItem::playlistHasProxies(const QString path)
+bool ProjectItem::playlistHasProxies(const QString& path)
 {
     kDebug()<<"// CHECKING FOR PROXIES";
     QFile file(path);

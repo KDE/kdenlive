@@ -87,7 +87,7 @@ signals:
 namespace Mlt
 {
 class Producer;
-};
+}
 
 class ProjectItem;
 class ProjectListView;
@@ -426,8 +426,8 @@ private:
     /** @brief Start an MLT process job. */
     void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, stringMap extraParams = stringMap());
     /** @brief Create rounded shape pixmap for project tree thumb. */
-    QPixmap roundedPixmap(QImage img);
-    QPixmap roundedPixmap(QPixmap source);
+    QPixmap roundedPixmap(const QImage &img);
+    QPixmap roundedPixmap(const QPixmap &source);
     /** @brief Extract a clip's metadata with the exiftool program. */
     void extractMetadata(DocClipBase *clip);
     /** @brief Add a special FFmpeg tag if clip matches some properties (for example set full_luma for Sony NEX camcorders. */
