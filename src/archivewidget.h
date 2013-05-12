@@ -53,7 +53,7 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(QString projectName, QDomDocument doc, QList <DocClipBase*> list, QStringList luma_list, QWidget * parent = 0);
+    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <DocClipBase*> &list, const QStringList &luma_list, QWidget * parent = 0);
     // Constructor for extracting widget
     explicit ArchiveWidget(const KUrl &url, QWidget * parent = 0);
     ~ArchiveWidget();
@@ -109,7 +109,7 @@ private:
     /** @brief Generate tree widget subitems from a string list of urls. */
     void generateItems(QTreeWidgetItem *parentItem, QStringList items);
     /** @brief Generate tree widget subitems from a map of clip ids / urls. */
-    void generateItems(QTreeWidgetItem *parentItem, QMap <QString, QString> items);
+    void generateItems(QTreeWidgetItem *parentItem, const QMap<QString, QString> &items);
     /** @brief Replace urls in project file. */
     bool processProjectFile();
 
