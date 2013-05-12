@@ -191,7 +191,7 @@ void TrackView::setDuration(int dur)
     m_ruler->setDuration(dur);
 }
 
-void TrackView::parseDocument(QDomDocument doc)
+void TrackView::parseDocument(const QDomDocument &doc)
 {
     //int cursorPos = 0;
     m_documentErrors.clear();

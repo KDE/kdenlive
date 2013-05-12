@@ -588,7 +588,7 @@ QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QStr
 }
 
 // static
-QStringList TitleWidget::extractImageList(QString xml)
+QStringList TitleWidget::extractImageList(const QString& xml)
 {
     QStringList result;
     if (xml.isEmpty()) return result;
@@ -603,7 +603,7 @@ QStringList TitleWidget::extractImageList(QString xml)
 }
 
 // static
-QStringList TitleWidget::extractFontList(QString xml)
+QStringList TitleWidget::extractFontList(const QString& xml)
 {
     QStringList result;
     if (xml.isEmpty()) return result;
@@ -1900,7 +1900,7 @@ int TitleWidget::duration() const
     return m_tc.getFrameCount(title_duration->text());
 }
 
-void TitleWidget::setXml(QDomDocument doc)
+void TitleWidget::setXml(const QDomDocument &doc)
 {
     int duration;
     m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
