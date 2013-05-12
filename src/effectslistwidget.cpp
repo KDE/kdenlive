@@ -260,7 +260,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
     }
 }
 
-QTreeWidgetItem *EffectsListWidget::findFolder(const QString name)
+QTreeWidgetItem *EffectsListWidget::findFolder(const QString &name)
 {
     QTreeWidgetItem *item = NULL;
     QList<QTreeWidgetItem *> result = findItems(name, Qt::MatchExactly);

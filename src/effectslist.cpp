@@ -55,7 +55,7 @@ QDomElement EffectsList::getEffectByName(const QString & name) const
 }
 
 
-void EffectsList::initEffect(QDomElement effect) const
+void EffectsList::initEffect(const QDomElement &effect) const
 {
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {

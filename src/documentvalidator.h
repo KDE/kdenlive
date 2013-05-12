@@ -42,7 +42,7 @@ private:
     KUrl m_url;
     bool m_modified;
     bool upgrade(double version, const double currentVersion);
-    QStringList getInfoFromEffectName(const QString oldName);
+    QStringList getInfoFromEffectName(const QString &oldName);
     QString colorToString(const QColor& c);
     /** @brief Updates effects that were created using a different version of the underlaying filter than the one installed. */
     void updateEffects();

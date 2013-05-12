@@ -100,7 +100,7 @@ private:
     bool m_useIndex;
     
     /** @brief Init effect default parameter values. */
-    void initEffect(QDomElement effect) const;
+    void initEffect(const QDomElement &effect) const;
 
 };
 
