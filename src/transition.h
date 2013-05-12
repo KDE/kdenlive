@@ -41,7 +41,7 @@ class Transition : public AbstractClipItem
     Q_OBJECT
 public:
 
-    Transition(const ItemInfo &info, int transitiontrack, double fps, QDomElement params = QDomElement(), bool automaticTransition = false);
+    Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params = QDomElement(), bool automaticTransition = false);
     virtual ~Transition();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,

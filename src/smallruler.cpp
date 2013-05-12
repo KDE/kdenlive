@@ -108,7 +108,7 @@ void SmallRuler::setZone(int start, int end)
     updatePixmap();
 }
 
-void SmallRuler::setMarkers(QList < CommentedTime > list)
+void SmallRuler::setMarkers(const QList<CommentedTime> &list)
 {
     m_markers = list;
     updatePixmap();

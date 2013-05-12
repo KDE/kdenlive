@@ -44,7 +44,7 @@ public:
     int numReferences() const;
     DocClipBase *referencedClip();
     QPoint zone() const;
-    void setZone(QPoint p);
+    void setZone(const QPoint &p);
     QString description() const;
     void setDescription(QString desc);
     static int itemDefaultHeight();

@@ -41,8 +41,8 @@ class DocClipBase;
 class ProjectItem : public QTreeWidgetItem
 {
 public:
-    ProjectItem(QTreeWidget * parent, DocClipBase *clip, QSize pixmapSize);
-    ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, QSize pixmapSize);
+    ProjectItem(QTreeWidget * parent, DocClipBase *clip, const QSize &pixmapSize);
+    ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, const QSize &pixmapSize);
     virtual ~ProjectItem();
     QDomElement toXml() const;
     int numReferences() const;
@@ -79,7 +79,7 @@ public:
     /** \brief Returns true if the thumbnail for this clip has been loaded. */
     bool hasPixmap() const;
     /** \brief Sets the thumbnail for this clip. */
-    void setPixmap(const QPixmap p);
+    void setPixmap(const QPixmap& p);
 
     virtual bool operator<(const QTreeWidgetItem &other)const {
         int column = treeWidget()->sortColumn();
@@ -96,7 +96,7 @@ private:
     /** @brief Setup basic properties */
     void buildItem(QSize pixmapSize);
     /** @brief Check if an xml project file has proxies */
-    bool playlistHasProxies(const QString path);
+    bool playlistHasProxies(const QString& path);
 };
 
 #endif

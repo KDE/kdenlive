@@ -39,7 +39,7 @@
 #include <QScrollBar>
 #include <QInputDialog>
 
-TrackView::TrackView(KdenliveDoc *doc, QList <QAction*> actions, bool *ok, QWidget *parent) :
+TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
     m_scale(1.0),
     m_projectTracks(0),

@@ -41,7 +41,7 @@ public:
     void setZoneStart();
     void setZoneEnd();
     QPoint zone();
-    void setMarkers(QList < CommentedTime > list);
+    void setMarkers(const QList < CommentedTime >& list);
     void updatePalette();
     void refreshRuler();
 

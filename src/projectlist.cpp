@@ -1496,7 +1496,7 @@ void ProjectList::getCachedThumbnail(ProjectItem *item)
     }
 }
 
-QPixmap ProjectList::roundedPixmap(QImage img)
+QPixmap ProjectList::roundedPixmap(const QImage &img)
 {
     QPixmap pix(img.width(), img.height());
     pix.fill(Qt::transparent);
@@ -1510,7 +1510,7 @@ QPixmap ProjectList::roundedPixmap(QImage img)
     return pix;
 }
 
-QPixmap ProjectList::roundedPixmap(QPixmap source)
+QPixmap ProjectList::roundedPixmap(const QPixmap &source)
 {
     QPixmap pix(source.width(), source.height());
     pix.fill(Qt::transparent);
