@@ -195,8 +195,8 @@ private:
     KMessageWidget *m_infoMessage;
 #endif
 
-    void parseProfiles(QString meta = QString(), QString group = QString(), QString profile = QString());
-    void parseFile(QString exportFile, bool editable);
+    void parseProfiles(const QString &meta = QString(), const QString &group = QString(), const QString &profile = QString());
+    void parseFile(const QString &exportFile, bool editable);
     void updateButtons();
     KUrl filenameWithExtension(KUrl url, QString extension);
     /** @brief Check if a job needs to be started. */
