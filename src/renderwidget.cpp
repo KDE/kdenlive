@@ -382,7 +382,7 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
     m_view.guide_start->clear();
     m_view.guide_end->clear();
     QDomNodeList nodes = guidesxml.elementsByTagName("guide");
-    if (nodes.count() > 0) {
+    if (!nodes.isEmpty()) {
         m_view.guide_start->addItem(i18n("Beginning"), "0");
         m_view.render_guide->setEnabled(true);
         m_view.create_chapter->setEnabled(true);
@@ -400,7 +400,7 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
             m_view.guide_end->addItem(e.attribute("comment") + '/' + guidePos, e.attribute("time").toDouble());
         }
     }
-    if (nodes.count() > 0)
+    if (!nodes.isEmpty())
         m_view.guide_end->addItem(i18n("End"), QString::number(duration));
 }
 
@@ -408,7 +408,7 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
  * Will be called when the user selects an output file via the file dialog.
  * File extension will be added automatically.
  */
-void RenderWidget::slotUpdateButtons(KUrl url)
+void RenderWidget::slotUpdateButtons(const KUrl &url)
 {
     if (m_view.out_file->url().isEmpty()) {
         m_view.buttonGenerateScript->setEnabled(false);
@@ -423,9 +423,8 @@ void RenderWidget::slotUpdateButtons(KUrl url)
             m_view.buttonGenerateScript->setEnabled(false);
             return;
         }
-        QString extension = item->data(ExtensionRole).toString();
-        url = filenameWithExtension(url, extension);
-        m_view.out_file->setUrl(url);
+        const QString extension = item->data(ExtensionRole).toString();
+        m_view.out_file->setUrl(filenameWithExtension(url, extension));
     }
 }
 
