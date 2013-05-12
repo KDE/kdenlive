@@ -33,6 +33,7 @@
 #include <QString>
 #include <QApplication>
 #include <QThread>
+#include <QTimer>
 
 #include <cstdlib>
 #include <cstdarg>
