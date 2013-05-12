@@ -95,7 +95,7 @@ class Fontval: public QWidget, public Ui::Fontval_UI
 };
 
 
-ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent) :
+ParameterContainer::ParameterContainer(const QDomElement &effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent) :
         m_keyframeEditor(NULL),
         m_geometryWidget(NULL),
         m_metaInfo(metaInfo),

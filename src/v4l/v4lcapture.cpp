@@ -44,7 +44,7 @@ V4lCaptureHandler::V4lCaptureHandler()
 
 //static
 
-QStringList V4lCaptureHandler::getDeviceName(QString input)
+QStringList V4lCaptureHandler::getDeviceName(const QString &input)
 {
 
     char *src = strdup(input.toUtf8().constData());

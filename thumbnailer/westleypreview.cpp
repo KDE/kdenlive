@@ -117,7 +117,7 @@ QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int /*width*/
 }
 
 
-uint MltPreview::imageVariance(QImage image)
+uint MltPreview::imageVariance(const QImage &image)
 {
     if (image.isNull()) return 0;
     uint delta = 0;

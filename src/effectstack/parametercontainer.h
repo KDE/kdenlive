@@ -47,7 +47,7 @@ class MySpinBox : public QSpinBox
     Q_OBJECT
 
 public:
-    MySpinBox(QWidget * parent = 0);
+    explicit MySpinBox(QWidget * parent = 0);
     
 protected:
     virtual void focusInEvent(QFocusEvent*);
@@ -59,7 +59,7 @@ class ParameterContainer : public QObject
     Q_OBJECT
 
 public:
-    ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent = 0);
+    ParameterContainer(const QDomElement &effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent = 0);
     ~ParameterContainer();
     void updateTimecodeFormat();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
