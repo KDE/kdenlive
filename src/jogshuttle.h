@@ -34,7 +34,7 @@ class ShuttleThread : public QThread
 
 public:
     virtual void run();
-    void init(QObject *parent, QString device);
+    void init(QObject *parent, const QString &device);
     QObject *m_parent;
     int shuttlevalue;
     int shuttlecounter;

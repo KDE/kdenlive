@@ -33,7 +33,7 @@
 #include <QTimer>
 #include <QDomDocument>
 
-HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QList <QAction *> actions, QWidget *parent) :
+HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAction *> &actions, QWidget *parent) :
         QWidget(parent),
         m_index(index),
         m_type(info.type),

@@ -86,7 +86,7 @@ public:
         isMute(0),
         isBlind(0),
         isLocked(0),
-        duration(0) {};
+        duration(0) {}
 };
 
 typedef QMap<QString, QString> stringMap;
@@ -103,7 +103,7 @@ public:
     /** cropDuration is the duration of the clip */
     GenTime cropDuration;
     int track;
-    ItemInfo() : track(0) {};
+    ItemInfo() : track(0) {}
 };
 
 class TransitionInfo {
@@ -121,7 +121,7 @@ public:
     TransitionInfo() :
         b_track(0),
         a_track(0),
-        forceTrack(0) {};
+        forceTrack(0) {}
 };
 
 class MltVideoProfile {
@@ -148,7 +148,7 @@ public:
         sample_aspect_den(0),
         display_aspect_num(0),
         display_aspect_den(0),
-        colorspace(0) {};
+        colorspace(0) {}
     bool operator==(const MltVideoProfile& point) const
     {
         if (!description.isEmpty() && point.description  == description) return true;
@@ -233,7 +233,7 @@ public:
     }
     void setParamValue(const QString &name, const QString &value) {
 	bool found = false;
-        for (int i = 0; i < size(); i++)
+        for (int i = 0; i < size(); ++i)
             if (at(i).name() == name) {
 		// update value
 		replace(i, EffectParameter(name, value));
@@ -243,7 +243,7 @@ public:
     }
         
     QString paramValue(const QString &name, QString defaultValue = QString()) const {
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size(); ++i) {
             if (at(i).name() == name) return at(i).value();
         }
         return defaultValue;
@@ -253,7 +253,7 @@ public:
         append(EffectParameter(name, value));
     }
     void removeParam(const QString &name) {
-        for (int i = 0; i < size(); i++)
+        for (int i = 0; i < size(); ++i)
             if (at(i).name() == name) {
                 removeAt(i);
                 break;

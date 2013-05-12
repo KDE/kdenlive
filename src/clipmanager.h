@@ -71,7 +71,7 @@ public:
 namespace Mlt
 {
 class Producer;
-};
+}
 
 class ClipManager: public QObject
 {

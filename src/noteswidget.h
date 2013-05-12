@@ -34,7 +34,7 @@ class NotesWidget : public KTextEdit
     Q_OBJECT
 
 public:
-    NotesWidget(QWidget * parent = 0);
+    explicit NotesWidget(QWidget * parent = 0);
     ~NotesWidget();
 
 protected:

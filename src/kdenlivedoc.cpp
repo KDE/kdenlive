@@ -58,7 +58,7 @@
 
 const double DOCUMENTVERSION = 0.88;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, QMap <QString, QString> properties, QMap <QString, QString> metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, QMap <QString, QString> properties, QMap <QString, QString> metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),

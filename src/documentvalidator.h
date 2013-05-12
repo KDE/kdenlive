@@ -32,7 +32,7 @@ class DocumentValidator
 {
 
 public:
-    DocumentValidator(QDomDocument doc, KUrl documentUrl);
+    DocumentValidator(const QDomDocument &doc, const KUrl &documentUrl);
     bool isProject() const;
     bool validate(const double currentVersion);
     bool isModified() const;
@@ -48,7 +48,7 @@ private:
     void updateEffects();
     /** @brief Updates the parameters according to the updateRules.
      * @see the related in README in effects/update */
-    bool updateEffectParameters(QDomNodeList parameters, const QScriptValue *updateRules, const double serviceVersion, const double effectVersion);
+    bool updateEffectParameters(const QDomNodeList &parameters, const QScriptValue *updateRules, const double serviceVersion, const double effectVersion);
 };
 
 #endif

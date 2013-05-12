@@ -139,8 +139,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
 
 DragValue::~DragValue()
 {
-    if (m_intEdit) delete m_intEdit;
-    if (m_doubleEdit) delete m_doubleEdit;
+    delete m_intEdit;
+    delete m_doubleEdit;
     delete m_menu;
     //delete m_scale;
     //delete m_directUpdate;

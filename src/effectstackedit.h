@@ -44,7 +44,7 @@ public:
     *
     * Used to disable the effect, by setting disabled="1" */
     void updateParameter(const QString &name, const QString &value);
-    void setFrameSize(QPoint p);
+    void setFrameSize(const QPoint &p);
     /** @brief Tells the parameters to update their timecode format according to KdenliveSettings. */
     void updateTimecodeFormat();
     /** @brief Returns true if this effect wants to keep track of current position in clip. */
@@ -63,7 +63,7 @@ private:
     ParameterContainer *m_paramWidget;
 
 public slots:
-    /** @brief Called when an effect is selected, builds the UI for this effect. */
+    /** @brief Called when an effect is selected, builds the UI for this effect. */
     void transferParamDesc(const QDomElement &d, ItemInfo info, bool isEffect = true);
 
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
