@@ -276,7 +276,7 @@ GeometryWidget::~GeometryWidget()
 	m_scene->removeItem(m_geomPath);
 	delete m_geomPath;
     }
-    if (m_previous) delete m_previous;
+    delete m_previous;
     delete m_geometry;
     m_extraGeometryNames.clear();
     m_extraFactors.clear();
