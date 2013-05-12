@@ -50,7 +50,7 @@ protected:
 private:
     QMenu *m_menu;
     /** @brief Returns the folder item whose name == @param name. */
-    QTreeWidgetItem *findFolder(const QString name);
+    QTreeWidgetItem *findFolder(const QString &name);
 
     /** @brief Loads the effects from the given effectlist as item of this widget.
      * @param effectlist effectlist containing the effects that should be loaded

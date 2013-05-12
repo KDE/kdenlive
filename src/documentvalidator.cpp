@@ -975,7 +975,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     return true;
 }
 
-QStringList DocumentValidator::getInfoFromEffectName(const QString oldName)
+QStringList DocumentValidator::getInfoFromEffectName(const QString &oldName)
 {
     QStringList info;
     // Returns a list to convert old Kdenlive ladspa effects
