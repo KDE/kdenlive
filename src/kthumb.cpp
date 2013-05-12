@@ -100,7 +100,7 @@ void KThumb::updateClipUrl(KUrl url, const QString &hash)
 }
 
 //static
-QPixmap KThumb::getImage(KUrl url, int width, int height)
+QPixmap KThumb::getImage(const KUrl& url, int width, int height)
 {
     if (url.isEmpty()) return QPixmap();
     return getImage(url, 0, width, height);
@@ -141,7 +141,7 @@ QImage KThumb::extractImage(int frame, int width, int height)
 }
 
 //static
-QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
+QPixmap KThumb::getImage(const KUrl& url, int frame, int width, int height)
 {
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
