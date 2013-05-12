@@ -89,7 +89,7 @@ static QString colorToString(QColor color, bool alpha)
     return colorStr;
 }
 
-ChooseColorWidget::ChooseColorWidget(QString text, QString color, bool alphaEnabled, QWidget *parent) :
+ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, bool alphaEnabled, QWidget *parent) :
         QWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -121,7 +121,7 @@ ChooseColorWidget::ChooseColorWidget(QString text, QString color, bool alphaEnab
     connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified()));
 }
 
-QString ChooseColorWidget::getColor()
+QString ChooseColorWidget::getColor() const
 {
     bool alphaChannel = false;
 #if KDE_IS_VERSION(4,5,0)
@@ -130,7 +130,7 @@ QString ChooseColorWidget::getColor()
     return colorToString(m_button->color(), alphaChannel);
 }
 
-void ChooseColorWidget::setColor(QColor color)
+void ChooseColorWidget::setColor(const QColor& color)
 {
     m_button->setColor(color);
 }
