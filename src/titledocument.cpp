@@ -270,7 +270,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
 
 /** \brief Get the background color (incl. alpha) from the document, if possibly
   * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
-QColor TitleDocument::getBackgroundColor()
+QColor TitleDocument::getBackgroundColor() const
 {
     QColor color(0, 0, 0, 0);
     if (m_scene) {
@@ -312,7 +312,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGr
     return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath)
+int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath)
 {
     m_projectPath = projectpath;
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
