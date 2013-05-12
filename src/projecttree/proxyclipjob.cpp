@@ -25,7 +25,7 @@
 #include <KDebug>
 #include <KLocale>
 
-ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(PROXYJOB, cType, id, parameters),
+ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, const QStringList& parameters) : AbstractClipJob(PROXYJOB, cType, id, parameters),
     m_jobDuration(0),
     m_isFfmpegJob(true)
 {

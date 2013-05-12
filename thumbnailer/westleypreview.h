@@ -41,7 +41,7 @@ public:
     virtual Flags flags() const;
 
 protected:
-    static uint imageVariance(QImage image);
+    static uint imageVariance(const QImage &image);
     QImage getFrame(Mlt::Producer* producer, int framepos, int width, int height);
 };
 

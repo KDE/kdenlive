@@ -35,7 +35,7 @@ static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame frame_
     self->emitFrameNumber((int) frame.get_position());
 }
 
-MeltJob::MeltJob(CLIPTYPE cType, const QString &id, QStringList parameters,  QMap <QString, QString>extraParams) : AbstractClipJob(MLTJOB, cType, id, parameters),
+MeltJob::MeltJob(CLIPTYPE cType, const QString &id, const QStringList &parameters,  const QMap <QString, QString>&extraParams) : AbstractClipJob(MLTJOB, cType, id, parameters),
     addClipToProject(0),
     m_consumer(NULL),
     m_producer(NULL),

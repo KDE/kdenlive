@@ -76,7 +76,7 @@ public:
     static const QString getStyleSheet();
 
     /** @brief Import keyframes from the clip metadata */
-    void setKeyframes(const QString data, int maximum);
+    void setKeyframes(const QString &data, int maximum);
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent * event);

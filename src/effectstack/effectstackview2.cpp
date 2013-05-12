@@ -952,7 +952,7 @@ void EffectStackView2::dropEvent(QDropEvent *event)
     processDroppedEffect(doc.documentElement(), event);
 }
 
-void EffectStackView2::setKeyframes(const QString data, int maximum)
+void EffectStackView2::setKeyframes(const QString &data, int maximum)
 {
     for (int i = 0; i < m_effects.count(); i++) {
         if (m_effects.at(i)->isActive()) {
