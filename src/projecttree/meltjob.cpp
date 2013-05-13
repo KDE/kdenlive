@@ -35,7 +35,8 @@ static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame frame_
     self->emitFrameNumber((int) frame.get_position());
 }
 
-MeltJob::MeltJob(CLIPTYPE cType, const QString &id, const QStringList &parameters,  const QMap <QString, QString>&extraParams) : AbstractClipJob(MLTJOB, cType, id, parameters),
+MeltJob::MeltJob(CLIPTYPE cType, const QString &id, const QStringList &parameters,  const QMap <QString, QString>&extraParams)
+    : AbstractClipJob(MLTJOB, cType, id, parameters),
     addClipToProject(0),
     m_consumer(NULL),
     m_producer(NULL),
@@ -52,7 +53,7 @@ MeltJob::MeltJob(CLIPTYPE cType, const QString &id, const QStringList &parameter
     if (consum.contains(':')) m_dest = consum.section(':', 1);
 }
 
-void MeltJob::setProducer(Mlt::Producer *producer, KUrl url)
+void MeltJob::setProducer(Mlt::Producer *producer, const KUrl &url)
 {
     m_url = QString::fromUtf8(producer->get("resource"));
     if (m_url == "<playlist>" || m_url == "<tractor>" || m_url == "<producer>")
@@ -189,11 +190,11 @@ void MeltJob::startJob()
 
 MeltJob::~MeltJob()
 {
-    if (m_showFrameEvent) delete m_showFrameEvent;
-    if (m_filter) delete m_filter;
-    if (m_producer) delete m_producer;
-    if (m_consumer) delete m_consumer;
-    if (m_profile) delete m_profile;
+    delete m_showFrameEvent;
+    delete m_filter;
+    delete m_producer;
+    delete m_consumer;
+    delete m_profile;
 }
 
 const QString MeltJob::destination() const

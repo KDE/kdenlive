@@ -44,7 +44,7 @@ OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem* parent) :
     setAcceptHoverEvents(true);
 }
 
-OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(QPointF pos, int *corner)
+OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(const QPointF &pos, int *corner)
 {
     *corner = -1;
     if (polygon().count() != 4)

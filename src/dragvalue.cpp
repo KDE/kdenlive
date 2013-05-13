@@ -43,7 +43,7 @@
 #include <KGlobalSettings>
 
 
-DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString suffix, bool showSlider, QWidget* parent) :
+DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider, QWidget* parent) :
         QWidget(parent),
         m_maximum(max),
         m_minimum(min),

@@ -218,7 +218,7 @@ const QString DocClipBase::getProperty(const QString &prop) const
     return m_properties.value(prop);
 }
 
-void DocClipBase::setDuration(GenTime dur)
+void DocClipBase::setDuration(const GenTime &dur)
 {
     m_duration = dur;
     m_properties.insert("duration", QString::number((int) dur.frames(KdenliveSettings::project_fps())));
@@ -380,7 +380,7 @@ QList < CommentedTime > DocClipBase::commentedSnapMarkers() const
 }
 
 
-void DocClipBase::addSnapMarker(const CommentedTime marker)
+void DocClipBase::addSnapMarker(const CommentedTime &marker)
 {
     QList < CommentedTime >::Iterator it = m_snapMarkers.begin();
     for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {
@@ -397,7 +397,7 @@ void DocClipBase::addSnapMarker(const CommentedTime marker)
     }
 }
 
-void DocClipBase::editSnapMarker(const GenTime & time, QString comment)
+void DocClipBase::editSnapMarker(const GenTime & time, const QString &comment)
 {
     QList < CommentedTime >::Iterator it;
     for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {

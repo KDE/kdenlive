@@ -72,11 +72,11 @@ public:
     QDomElement itemFromIndex(int ix) const;
     QDomElement insert(QDomElement effect);
     void updateEffect(QDomElement effect);
-    static bool hasKeyFrames(QDomElement effect);
-    static bool hasSimpleKeyFrames(QDomElement effect);
-    static bool hasGeometryKeyFrames(QDomElement effect);
+    static bool hasKeyFrames(const QDomElement &effect);
+    static bool hasSimpleKeyFrames(const QDomElement &effect);
+    static bool hasGeometryKeyFrames(const QDomElement &effect);
     static void setParameter(QDomElement effect, const QString &name, const QString &value);
-    static QString parameter(QDomElement effect, const QString &name);
+    static QString parameter(const QDomElement &effect, const QString &name);
     /** @brief Change the value of a 'property' element from the effect node. */
     static void setProperty(QDomElement effect, const QString &name, const QString &value);
     /** @brief Rename a 'property' element from the effect node. */
@@ -93,7 +93,7 @@ public:
     /** @brief Update all effects indexes to make sure they are 1, 2, 3, ... */
     void updateIndexes(QDomNodeList effects, int startIndex);
     /** @brief Enable / disable a list of effects */
-    void enableEffects(QList <int> indexes, bool disable);
+    void enableEffects(const QList<int> &indexes, bool disable);
 
 private:
     QDomElement m_baseElement;

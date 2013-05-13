@@ -89,7 +89,7 @@ public:
     const GenTime & duration() const;
     const GenTime maxDuration() const;
     /** returns the duration of this clip */
-    void setDuration(GenTime dur);
+    void setDuration(const GenTime &dur);
 
     /** returns clip type (audio, text, image,...) */
     const CLIPTYPE & clipType() const;
@@ -271,8 +271,8 @@ public slots:
     GenTime findPreviousSnapMarker(const GenTime & currTime);
     GenTime hasSnapMarkers(const GenTime & time);
     QString deleteSnapMarker(const GenTime & time);
-    void editSnapMarker(const GenTime & time, QString comment);
-    void addSnapMarker(const CommentedTime marker);
+    void editSnapMarker(const GenTime & time, const QString &comment);
+    void addSnapMarker(const CommentedTime &marker);
     QList < GenTime > snapMarkers() const;
     QString markerComment(GenTime t) const;
     CommentedTime markerAt(GenTime t) const;

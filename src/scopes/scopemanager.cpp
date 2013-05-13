@@ -129,7 +129,7 @@ void ScopeManager::slotDistributeAudio(QVector<int16_t> sampleData, int freq, in
 
     checkActiveAudioScopes();
 }
-void ScopeManager::slotDistributeFrame(const QImage image)
+void ScopeManager::slotDistributeFrame(const QImage &image)
 {
 #ifdef DEBUG_SM
     qDebug() << "ScopeManager: Starting to distribute frame.";
@@ -158,7 +158,7 @@ void ScopeManager::slotDistributeFrame(const QImage image)
 }
 
 
-void ScopeManager::slotRequestFrame(const QString widgetName)
+void ScopeManager::slotRequestFrame(const QString &widgetName)
 {
 #ifdef DEBUG_SM
     qDebug() << "ScopeManager: New frame was requested by " << widgetName;

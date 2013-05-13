@@ -27,7 +27,7 @@
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenTime min, GenTime max, QWidget * parent):
+ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget * parent):
         QDialog(parent),
         m_clip(clip),
         m_min(min),

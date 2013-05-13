@@ -99,7 +99,7 @@ void BackupWidget::slotDisplayBackupPreview()
         backup_preview->setPixmap(QPixmap());
         return;
     }
-    QString path = backup_list->currentItem()->data(Qt::UserRole).toString();
+    const QString path = backup_list->currentItem()->data(Qt::UserRole).toString();
     QPixmap pix(path + ".png");
     backup_preview->setPixmap(pix);
 }

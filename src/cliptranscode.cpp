@@ -127,7 +127,7 @@ void ClipTranscode::slotStartTransCode()
     QStringList parameters;
     QString destination;
     QString params = ffmpeg_params->toPlainText().simplified();
-    if (m_urls.count() > 0 && urls_list->count() > 0) {
+    if (!m_urls.isEmpty() && urls_list->count() > 0) {
         // We are processing multiple clips
         source_url->setUrl(m_urls.takeFirst());
         destination = dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName();

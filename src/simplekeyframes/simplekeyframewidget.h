@@ -34,7 +34,7 @@ class SimpleKeyframeWidget : public QWidget
     Q_OBJECT
 
 public:
-    SimpleKeyframeWidget(Timecode t, int duration, QWidget* parent = 0);
+    SimpleKeyframeWidget(const Timecode &t, int duration, QWidget* parent = 0);
     virtual ~SimpleKeyframeWidget();
 
     int getPosition();

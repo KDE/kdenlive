@@ -59,7 +59,7 @@ class ParameterContainer : public QObject
     Q_OBJECT
 
 public:
-    ParameterContainer(const QDomElement &effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent = 0);
+    explicit ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent = 0);
     ~ParameterContainer();
     void updateTimecodeFormat();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);

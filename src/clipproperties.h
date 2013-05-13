@@ -47,7 +47,7 @@ class ClipProperties : public QDialog
     Q_OBJECT
 
 public:
-    ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent = 0);
+    ClipProperties(DocClipBase *clip, const Timecode &tc, double fps, QWidget * parent = 0);
     ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap <QString, QString> commonproperties, QWidget * parent);
     virtual ~ClipProperties();
     QMap <QString, QString> properties();

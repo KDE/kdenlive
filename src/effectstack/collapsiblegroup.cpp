@@ -53,7 +53,7 @@ void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
 }
 
 
-CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, EffectInfo info, QWidget * parent) :
+CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget * parent) :
         AbstractCollapsibleWidget(parent)
 {
     m_info.groupIndex = ix;

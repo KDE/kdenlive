@@ -26,7 +26,7 @@
 #include <KIcon>
 #include <KLocale>
 
-SimpleKeyframeWidget::SimpleKeyframeWidget(Timecode t, int duration, QWidget *parent) :
+SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent) :
         QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);

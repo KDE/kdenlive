@@ -51,8 +51,8 @@ private slots:
     void slotStartSearch(int page = 0);
     void slotUpdateCurrentSound();
     void slotPlaySound();
-    void slotDisplayMetaInfo(QMap <QString, QString> metaInfo);
-    void slotSaveItem(const QString originalUrl = QString());
+    void slotDisplayMetaInfo(const QMap <QString, QString>& metaInfo);
+    void slotSaveItem(const QString &originalUrl = QString());
     void slotOpenUrl(const QString &url);
     void slotChangeService();
     void slotOnline();
@@ -63,10 +63,10 @@ private slots:
     void slotLoadThumb(const QString url);
     /** @brief A file download is finished */
     void slotGotFile(KJob *job);
-    void slotSetMetadata(const QString desc);
-    void slotSetDescription(const QString desc);
-    void slotSetImage(const QString desc);
-    void slotSetTitle(const QString desc);
+    void slotSetMetadata(const QString &desc);
+    void slotSetDescription(const QString &desc);
+    void slotSetImage(const QString &desc);
+    void slotSetTitle(const QString &desc);
     void slotSetMaximum(int max);
 
 private:

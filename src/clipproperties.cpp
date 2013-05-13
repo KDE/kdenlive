@@ -56,7 +56,7 @@ static const int METATAB = 6;
 static const int ADVANCEDTAB = 7;
 
 
-ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent) :
+ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps, QWidget * parent) :
     QDialog(parent)
     , m_clip(clip)
     , m_tc(tc)

@@ -191,7 +191,7 @@ void ResourceWidget::slotLoadThumb(const QString url)
 }
 
 
-void ResourceWidget::slotDisplayMetaInfo(QMap <QString, QString> metaInfo)
+void ResourceWidget::slotDisplayMetaInfo(const QMap<QString, QString> &metaInfo)
 {
     if (metaInfo.contains("license")) {
         parseLicense(metaInfo.value("license"));
@@ -211,7 +211,7 @@ void ResourceWidget::slotPlaySound()
 }
 
 
-void ResourceWidget::slotSaveItem(const QString originalUrl)
+void ResourceWidget::slotSaveItem(const QString &originalUrl)
 {
     //if (m_currentUrl.isEmpty()) return;
     QListWidgetItem *item = search_results->currentItem();
@@ -370,25 +370,25 @@ void ResourceWidget::slotOpenLink(const QUrl &url)
     }
 }
 
-void ResourceWidget::slotSetDescription(const QString desc)
+void ResourceWidget::slotSetDescription(const QString &desc)
 {
     m_desc = desc;
     updateLayout();
 }
 
-void ResourceWidget::slotSetMetadata(const QString desc)
+void ResourceWidget::slotSetMetadata(const QString &desc)
 {
     m_meta = desc;
     updateLayout();
 }
 
-void ResourceWidget::slotSetImage(const QString desc)
+void ResourceWidget::slotSetImage(const QString &desc)
 {
     m_image = QString("<img src=\"%1\" style=\"max-height:150px\" max-width=\"%2px\" />").arg(desc).arg((int) (info_browser->width() * 0.9));
     updateLayout();
 }
 
-void ResourceWidget::slotSetTitle(const QString desc)
+void ResourceWidget::slotSetTitle(const QString &desc)
 {
     m_title = desc;
     updateLayout();

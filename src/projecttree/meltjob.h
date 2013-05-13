@@ -49,7 +49,7 @@ public:
     bool addClipToProject;
     const QString statusMessage();
     void setStatus(CLIPJOBSTATUS status);
-    void setProducer(Mlt::Producer *producer, KUrl url);
+    void setProducer(Mlt::Producer *producer, const KUrl &url);
     void emitFrameNumber(int pos);
     /** Make the job work on a project tree clip. */
     bool isProjectFilter() const;
