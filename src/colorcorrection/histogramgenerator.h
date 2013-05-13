@@ -22,7 +22,7 @@ class QSize;
 class HistogramGenerator : public QObject
 {
 public:
-    HistogramGenerator();
+    explicit HistogramGenerator();
 
     /** Recommendation to use.
         See http://www.poynton.com/ColorFAQ.html for details. */

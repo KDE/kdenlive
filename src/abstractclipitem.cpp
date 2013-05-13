@@ -122,7 +122,7 @@ GenTime AbstractClipItem::cropDuration() const
     return m_info.cropDuration;
 }
 
-void AbstractClipItem::setCropStart(GenTime pos)
+void AbstractClipItem::setCropStart(const GenTime &pos)
 {
     m_info.cropStart = pos;
 }

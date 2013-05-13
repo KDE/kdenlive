@@ -35,7 +35,7 @@ class AudioSignal : public AbstractAudioScopeWidget
 {
     Q_OBJECT
 public:
-    AudioSignal(QWidget *parent = 0);
+    explicit AudioSignal(QWidget *parent = 0);
     ~AudioSignal();
     /** @brief Used for checking whether audio data needs to be delivered */
     bool monitoringEnabled() const;

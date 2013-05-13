@@ -27,7 +27,7 @@ class SimpleTimelineWidget : public QWidget
     Q_OBJECT
 
 public:
-    SimpleTimelineWidget(QWidget* parent = 0);
+    explicit SimpleTimelineWidget(QWidget* parent = 0);
     void setKeyframes(const QList <int>& keyframes);
     void setDuration(int dur);
 

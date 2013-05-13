@@ -32,7 +32,7 @@ class CustomTrackView;
 class EditKeyFrameCommand : public QUndoCommand
 {
 public:
-    EditKeyFrameCommand(CustomTrackView *view, const int track, GenTime pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt);
+    EditKeyFrameCommand(CustomTrackView *view, const int track, const GenTime &pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt);
     virtual void undo();
     virtual void redo();
 

@@ -39,7 +39,7 @@ class CustomRuler : public QWidget
     Q_OBJECT
 
 public:
-    CustomRuler(Timecode tc, CustomTrackView *parent);
+    CustomRuler(const Timecode &tc, CustomTrackView *parent);
     void setPixelPerMark(int rate);
     static const int comboScale[];
     int outPoint() const;

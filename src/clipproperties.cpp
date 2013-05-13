@@ -539,7 +539,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
 
 
 // Used for multiple clips editing
-ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap <QString, QString> commonproperties, QWidget * parent) :
+ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, const Timecode &tc, QMap <QString, QString> commonproperties, QWidget * parent) :
     QDialog(parent),
     m_clip(NULL),
     m_tc(tc),

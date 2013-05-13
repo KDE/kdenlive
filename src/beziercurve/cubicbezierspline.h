@@ -29,7 +29,7 @@ class CubicBezierSpline : public QObject
     Q_OBJECT
 
 public:
-    CubicBezierSpline(QObject* parent = 0);
+    explicit CubicBezierSpline(QObject* parent = 0);
     CubicBezierSpline(const CubicBezierSpline &spline, QObject* parent = 0);
     CubicBezierSpline& operator=(const CubicBezierSpline &spline);
 

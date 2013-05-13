@@ -92,7 +92,7 @@ public:
     virtual double fps() const;
     virtual void updateFps(double fps);
     virtual GenTime maxDuration() const;
-    virtual void setCropStart(GenTime pos);
+    virtual void setCropStart(const GenTime &pos);
 
     /** @brief Set this clip as the main selected clip (or not). */
     void setMainSelectedClip(bool selected);

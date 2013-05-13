@@ -34,8 +34,8 @@ class SimpleKeyframeWidget : public QWidget
     Q_OBJECT
 
 public:
-    SimpleKeyframeWidget(const Timecode &t, int duration, QWidget* parent = 0);
-    virtual ~SimpleKeyframeWidget();
+    explicit SimpleKeyframeWidget(const Timecode &t, int duration, QWidget* parent = 0);
+    ~SimpleKeyframeWidget();
 
     int getPosition();
     void setKeyframes(const QList <int> &keyframes);
