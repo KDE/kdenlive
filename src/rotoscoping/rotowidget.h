@@ -42,7 +42,7 @@ class RotoWidget : public QWidget
     Q_OBJECT
 
 public:
-    RotoWidget(const QString &data, Monitor *monitor, ItemInfo info, Timecode t, QWidget* parent = 0);
+    RotoWidget(const QString &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent = 0);
     virtual ~RotoWidget();
 
     /** @brief Returns the spline(s) in the JSON format used by filter_rotoscoping (MLT). */

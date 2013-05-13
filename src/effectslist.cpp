@@ -163,7 +163,7 @@ QString EffectsList::getEffectInfo(const QDomElement effect) const
 }
 
 // static
-bool EffectsList::hasKeyFrames(QDomElement effect)
+bool EffectsList::hasKeyFrames(const QDomElement &effect)
 {
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
@@ -174,7 +174,7 @@ bool EffectsList::hasKeyFrames(QDomElement effect)
 }
 
 // static
-bool EffectsList::hasSimpleKeyFrames(QDomElement effect)
+bool EffectsList::hasSimpleKeyFrames(const QDomElement &effect)
 {
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
@@ -185,7 +185,7 @@ bool EffectsList::hasSimpleKeyFrames(QDomElement effect)
 }
 
 // static
-bool EffectsList::hasGeometryKeyFrames(QDomElement effect)
+bool EffectsList::hasGeometryKeyFrames(const QDomElement &effect)
 {
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); ++i) {
@@ -233,7 +233,7 @@ void EffectsList::setParameter(QDomElement effect, const QString &name, const QS
 }
 
 // static
-QString EffectsList::parameter(QDomElement effect, const QString &name)
+QString EffectsList::parameter(const QDomElement &effect, const QString &name)
 {
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
@@ -393,7 +393,7 @@ void EffectsList::updateIndexes(QDomNodeList effects, int startIndex)
     }
 }
 
-void EffectsList::enableEffects(QList <int> indexes, bool disable)
+void EffectsList::enableEffects(const QList <int>& indexes, bool disable)
 {
     QDomNodeList effects = m_baseElement.childNodes();
     QDomElement effect;

@@ -464,7 +464,7 @@ DocClipBase *ClipManager::getClipById(QString clipId)
     return NULL;
 }
 
-const QList <DocClipBase *> ClipManager::getClipByResource(QString resource)
+const QList <DocClipBase *> ClipManager::getClipByResource(const QString &resource)
 {
     QList <DocClipBase *> list;
     QString clipResource;
@@ -663,7 +663,7 @@ void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddColorClipFile(const QString &name, const QString &color, QString duration, const QString &group, const QString &groupId)
+void ClipManager::slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
@@ -982,7 +982,7 @@ bool ClipManager::isOnRemovableDevice(const KUrl &url)
     return volumeMatch;
 }
 
-void ClipManager::projectTreeThumbReady(const QString &id, int frame, QImage img, int type)
+void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type)
 {
     switch (type) {
       case 2:

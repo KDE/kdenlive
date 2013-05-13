@@ -211,7 +211,7 @@ private slots:
     void slotGotHDMIMessage(const QString& message);
 
     /** @brief Create thumbnails for existing sequence frames. */
-    void slotCreateThumbs(QImage img, int ix);
+    void slotCreateThumbs(const QImage &img, int ix);
 
     /** @brief Prepare thumbnails creation. */
     void slotPrepareThumbs();

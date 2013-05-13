@@ -114,7 +114,7 @@ void ComplexParameter::slotParameterChanged(const QString& text)
     updateButtonStatus();
 }
 
-void ComplexParameter::setupParam(const QDomElement d, const QString& paramName, int from, int to)
+void ComplexParameter::setupParam(const QDomElement &d, const QString& paramName, int from, int to)
 {
     m_param = d;
     m_ui.kplotwidget->setPointLists(d, paramName, from, to);
@@ -125,7 +125,7 @@ void ComplexParameter::itemSelectionChanged()
     //kDebug() << "drop";
 }
 
-void ComplexParameter::slotUpdateEffectParams(QDomElement e)
+void ComplexParameter::slotUpdateEffectParams(const QDomElement &e)
 {
     m_param = e;
     emit parameterChanged();

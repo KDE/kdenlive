@@ -43,7 +43,7 @@ class CollapsibleEffect : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, ItemInfo info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
+    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
     ~CollapsibleEffect();
     QLabel *title;
 	

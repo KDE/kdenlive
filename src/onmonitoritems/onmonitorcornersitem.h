@@ -35,7 +35,7 @@ public:
 
     enum cornersActions { Corner, Move, MoveSide, NoAction };
     /** @brief Gets The action mode for the area @param pos +- 4. */
-    cornersActions getMode(QPointF pos, int *corner);
+    cornersActions getMode(const QPointF &pos, int *corner);
 
     /** @brief Reimplemented to draw the handles. */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );

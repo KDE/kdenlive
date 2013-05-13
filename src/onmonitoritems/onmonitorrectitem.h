@@ -38,7 +38,7 @@ public:
 
     /** @brief Gets The action mode for the area @param pos +- 4.
      * e.g. pos(0,0) returns ResizeTopLeft */
-    rectActions getMode(QPointF pos);
+    rectActions getMode(const QPointF &pos);
 
     /** @brief Reimplemented to draw the handles. */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );

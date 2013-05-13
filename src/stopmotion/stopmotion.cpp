@@ -678,7 +678,7 @@ void StopmotionWidget::slotPrepareThumbs()
 
 }
 
-void StopmotionWidget::slotCreateThumbs(QImage img, int ix)
+void StopmotionWidget::slotCreateThumbs(const QImage &img, int ix)
 {
     if (img.isNull()) {
         m_future = QtConcurrent::run(this, &StopmotionWidget::slotPrepareThumbs);

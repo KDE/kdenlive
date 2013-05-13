@@ -45,8 +45,8 @@ public slots:
     void slotShowInTimeline();
     void slotParameterChanged(const QString&);
     void itemSelectionChanged();
-    void setupParam(const QDomElement, const QString& paramName, int, int);
-    void slotUpdateEffectParams(QDomElement e);
+    void setupParam(const QDomElement &, const QString& paramName, int, int);
+    void slotUpdateEffectParams(const QDomElement &e);
     void slotUpdateParameterList(const QStringList &);
 signals:
     void removeEffect(ClipItem*, QDomElement);

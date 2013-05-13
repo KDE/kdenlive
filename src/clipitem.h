@@ -46,7 +46,7 @@ class ClipItem : public AbstractClipItem
     Q_OBJECT
 
 public:
-    ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
+    ClipItem(DocClipBase *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,

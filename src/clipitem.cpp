@@ -42,7 +42,7 @@
 
 static int FRAME_SIZE;
 
-ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, int frame_width, bool generateThumbs) :
+ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double speed, int strobe, int frame_width, bool generateThumbs) :
         AbstractClipItem(info, QRectF(), fps),
         m_clip(clip),
         m_startFade(0),

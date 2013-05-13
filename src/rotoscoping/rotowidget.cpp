@@ -44,7 +44,7 @@ void tracking_finished(mlt_service *owner, RotoWidget *self, char *data)
         self->setSpline(QString(data));
 }
 
-RotoWidget::RotoWidget(const QString &data, Monitor *monitor, ItemInfo info, Timecode t, QWidget* parent) :
+RotoWidget::RotoWidget(const QString &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent) :
         QWidget(parent),
         m_monitor(monitor),
         m_showScene(true),

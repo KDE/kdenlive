@@ -42,7 +42,7 @@ OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsIt
     setAcceptHoverEvents(true);
 }
 
-rectActions OnMonitorRectItem::getMode(QPointF pos)
+rectActions OnMonitorRectItem::getMode(const QPointF &pos)
 {
     // Item mapped coordinates
     QPolygonF pol(rect().normalized());

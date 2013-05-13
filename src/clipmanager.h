@@ -99,10 +99,10 @@ Q_OBJECT public:
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const KUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
-    void slotAddColorClipFile(const QString &name, const QString &color, QString duration, const QString &group, const QString &groupId);
+    void slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
     void slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId);
     DocClipBase *getClipById(QString clipId);
-    const QList <DocClipBase *> getClipByResource(QString resource);
+    const QList <DocClipBase *> getClipByResource(const QString &resource);
     void slotDeleteClips(QStringList ids);
     void setThumbsProgress(const QString &message, int progress);
     void checkAudioThumbs();
@@ -125,7 +125,7 @@ Q_OBJECT public:
     int clipsCount() const;
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
-    void projectTreeThumbReady(const QString &id, int frame, QImage img, int type);
+    void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);
 
 #if KDE_IS_VERSION(4,5,0)
     KImageCache* pixmapCache;
