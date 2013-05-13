@@ -57,11 +57,11 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
     Ui::CountDown_UI view;
     view.setupUi(d);
     if (generator == i18n("Noise")) {
-        d->setWindowTitle(tr("Create Noise Clip"));
+        d->setWindowTitle(i18n("Create Noise Clip"));
         view.font_label->setHidden(true);
         view.font->setHidden(true);
     } else {
-        d->setWindowTitle(tr("Create Countdown Clip"));
+        d->setWindowTitle(i18n("Create Countdown Clip"));
         view.font->setValue(height);
     }
 
