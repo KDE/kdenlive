@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, QUndoCommand * parent) :
+AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_ix(ix),

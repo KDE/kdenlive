@@ -27,7 +27,7 @@ BPoint::BPoint() :
 {
 }
 
-BPoint::BPoint(QPointF handle1, QPointF point, QPointF handle2) :
+BPoint::BPoint(const QPointF &handle1, const QPointF &point, const QPointF &handle2) :
         h1(handle1),
         p(point),
         h2(handle2)
@@ -52,7 +52,7 @@ bool BPoint::operator==(const BPoint& point) const
                 point.h2 == h2;
 }
 
-void BPoint::setP(QPointF point, bool updateHandles)
+void BPoint::setP(const QPointF &point, bool updateHandles)
 {
     QPointF offset = point - p;
     p = point;
@@ -62,7 +62,7 @@ void BPoint::setP(QPointF point, bool updateHandles)
     }
 }
 
-void BPoint::setH1(QPointF handle1)
+void BPoint::setH1(const QPointF &handle1)
 {
     h1 = handle1;
     if (handlesLinked) {
@@ -73,7 +73,7 @@ void BPoint::setH1(QPointF handle1)
     }    
 }
 
-void BPoint::setH2(QPointF handle2)
+void BPoint::setH2(const QPointF &handle2)
 {
     h2 = handle2;
     if (handlesLinked) {

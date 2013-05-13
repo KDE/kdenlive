@@ -20,7 +20,7 @@
 
 #include <KLocale>
 
-MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) :
+MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_startPos(start),

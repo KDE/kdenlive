@@ -20,7 +20,7 @@
 
 #include <KLocale>
 
-EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand * parent) :
+EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),

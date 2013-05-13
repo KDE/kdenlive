@@ -34,7 +34,7 @@ class CustomTrackView;
 class SplitAudioCommand : public QUndoCommand
 {
 public:
-    SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, EffectsList effects, QUndoCommand * parent = 0);
+    SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, const EffectsList &effects, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
