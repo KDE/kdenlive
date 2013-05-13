@@ -31,7 +31,7 @@ class CustomTrackView;
 class MoveClipCommand : public QUndoCommand
 {
 public:
-    MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent = 0);
+    MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 

@@ -29,7 +29,7 @@ class CustomTrackView;
 class RebuildGroupCommand : public QUndoCommand
 {
 public:
-    RebuildGroupCommand(CustomTrackView *view, int childTrack, GenTime childPos, QUndoCommand* parent = 0);
+    RebuildGroupCommand(CustomTrackView *view, int childTrack, const GenTime &childPos, QUndoCommand* parent = 0);
     virtual void undo();
     virtual void redo();
 

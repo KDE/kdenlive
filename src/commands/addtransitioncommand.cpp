@@ -21,7 +21,7 @@
 
 #include <KLocale>
 
-AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, const QDomElement &params, bool remove, bool doIt, QUndoCommand * parent) :
+AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, const ItemInfo &info, int transitiontrack, const QDomElement &params, bool remove, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_info(info),

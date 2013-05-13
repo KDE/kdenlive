@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, EffectsList effects, QUndoCommand * parent) :
+SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, const EffectsList &effects, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_pos(pos),

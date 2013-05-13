@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, const QList<int> &oldPos, int newPos, QUndoCommand * parent) :
+MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &oldPos, int newPos, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),

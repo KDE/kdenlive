@@ -21,7 +21,7 @@
 
 #include <KLocale>
 
-AddMarkerCommand::AddMarkerCommand(CustomTrackView *view, const CommentedTime oldMarker, const CommentedTime newMarker, const QString &id, QUndoCommand * parent) :
+AddMarkerCommand::AddMarkerCommand(CustomTrackView *view, const CommentedTime &oldMarker, const CommentedTime &newMarker, const QString &id, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_oldMarker(oldMarker),
