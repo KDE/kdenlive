@@ -50,7 +50,7 @@ static int bigMarkDistance;
 
 const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
-CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
+CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
         QWidget(parent),
         m_timecode(tc),
         m_view(parent),

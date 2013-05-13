@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo &info, EffectsList stack, const GenTime cutTime, bool doIt, QUndoCommand * parent) :
+RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo &info, EffectsList stack, const GenTime &cutTime, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_info(info),

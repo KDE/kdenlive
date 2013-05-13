@@ -55,7 +55,7 @@ void CustomTrackScene::setSnapList(const QList <GenTime>& snaps)
     m_snapPoints = snaps;
 }
 
-GenTime CustomTrackScene::previousSnapPoint(GenTime pos) const
+GenTime CustomTrackScene::previousSnapPoint(const GenTime &pos) const
 {
     for (int i = 0; i < m_snapPoints.size(); ++i) {
         if (m_snapPoints.at(i) >= pos) {
@@ -66,7 +66,7 @@ GenTime CustomTrackScene::previousSnapPoint(GenTime pos) const
     return GenTime();
 }
 
-GenTime CustomTrackScene::nextSnapPoint(GenTime pos) const
+GenTime CustomTrackScene::nextSnapPoint(const GenTime &pos) const
 {
     for (int i = 0; i < m_snapPoints.size(); ++i) {
         if (m_snapPoints.at(i) > pos) {

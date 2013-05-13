@@ -23,7 +23,7 @@ class Histogram : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Histogram(QWidget *parent = 0);
+    explicit Histogram(QWidget *parent = 0);
     ~Histogram();
     QString widgetName() const;
 

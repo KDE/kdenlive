@@ -29,8 +29,8 @@ class BezierSplineEditor : public QWidget
     Q_OBJECT
 
 public:
-    BezierSplineEditor(QWidget* parent = 0);
-    virtual ~BezierSplineEditor();
+    explicit BezierSplineEditor(QWidget* parent = 0);
+    ~BezierSplineEditor();
 
     CubicBezierSpline spline() const;
     void setSpline(const CubicBezierSpline &spline);
@@ -43,7 +43,7 @@ public:
     void updateCurrentPoint(const BPoint &p, bool final = true);
 
     /** @brief Number of lines used in grid. */
-    int gridLines();
+    int gridLines() const;
 
     /** @brief Sets the number of grid lines to draw (in one direction) to @param lines. */
     void setGridLines(int lines);
@@ -100,7 +100,7 @@ private:
      * @param sel Is filled with the type of the closest point (h1, p, h2)
      *
      * If no point is near enough -1 is returned. */
-    int nearestPointInRange(QPointF p, int wWidth, int wHeight, point_types *sel);
+    int nearestPointInRange(const QPointF &p, int wWidth, int wHeight, point_types *sel);
 
 signals:
     void modified();

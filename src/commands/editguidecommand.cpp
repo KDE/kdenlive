@@ -21,7 +21,7 @@
 
 #include <KLocale>
 
-EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime oldPos, const QString &oldcomment, const GenTime pos, const QString &comment, bool doIt, QUndoCommand * parent) :
+EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_oldcomment(oldcomment),
