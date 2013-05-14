@@ -427,13 +427,13 @@ TitleWidget::TitleWidget(const KUrl &url, Timecode tc, const QString &projectTit
     m_buttonLoad = m_toolbar->addAction(KIcon("document-open"), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
-    m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonImage->shortcut().toString());
+    m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonLoad->shortcut().toString());
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
     m_buttonSave = m_toolbar->addAction(KIcon("document-save-as"), i18n("Save As"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
-    m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonImage->shortcut().toString());
+    m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonSave->shortcut().toString());
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
     layout->addWidget(m_toolbar);
