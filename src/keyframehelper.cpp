@@ -84,7 +84,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
                     Mlt::GeometryItem *gitem = m_extraMovingItems.takeFirst();
                     if (gitem) delete gitem;
                 }
-                for (int i = 0; i < m_extraGeometries.count(); i++) {
+                for (int i = 0; i < m_extraGeometries.count(); ++i) {
                     if (m_extraGeometries.at(i)->next_key(item, mousePos) == 0) {
 			Mlt::GeometryItem *item2 = new Mlt::GeometryItem();
                         item2->x(item.x());
@@ -163,13 +163,13 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
             if ((QPoint(xPos, event->y()) - m_dragStart).manhattanLength() < QApplication::startDragDistance()) return;
             m_dragStart = QPoint();
             m_geom->remove(m_movingItem.frame());
-            for (int i = 0; i < m_extraGeometries.count(); i++)
+            for (int i = 0; i < m_extraGeometries.count(); ++i)
                 m_extraGeometries[i]->remove(m_movingItem.frame());
         }
         int pos = qBound(0, (int)(xPos / m_scale), frameLength);
         if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < 5) pos = m_position;
         m_movingItem.frame(pos);
-        for (int i = 0; i < m_extraMovingItems.count(); i++) {
+        for (int i = 0; i < m_extraMovingItems.count(); ++i) {
             if (m_extraMovingItems.at(i)) m_extraMovingItems[i]->frame(pos);
         }
         update();
@@ -210,7 +210,7 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
         m_geom->insert(m_movingItem);
         m_movingKeyframe = false;
 
-        for (int i = 0; i < m_extraGeometries.count(); i++) {
+        for (int i = 0; i < m_extraGeometries.count(); ++i) {
             if (m_extraMovingItems.at(i)) m_extraGeometries[i]->insert(m_extraMovingItems.at(i));
         }
         

@@ -222,14 +222,14 @@ void UnicodeWidget::updateOverviewChars(uint unicode)
     QString right;
     uint i;
 
-    for (i = 1; i <= 4; i++) {
+    for (i = 1; i <= 4; ++i) {
         if (unicode > i && !controlCharacter(unicode - i)) {
             left = ' ' + left;
             left = QChar(unicode - i) + left;
         }
     }
 
-    for (i = 1; i <= 8; i++) {
+    for (i = 1; i <= 8; ++i) {
         if (unicode + i <= MAX_UNICODE_V1 && !controlCharacter(unicode + i)) {
             right += QChar(unicode + i);
             right += ' ';

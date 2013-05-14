@@ -309,7 +309,7 @@ bool ProjectItem::playlistHasProxies(const QString& path)
     file.close();
     QString root = doc.documentElement().attribute("root");
     QDomNodeList kdenliveProducers = doc.elementsByTagName("kdenlive_producer");
-    for (int i = 0; i < kdenliveProducers.count(); i++) {
+    for (int i = 0; i < kdenliveProducers.count(); ++i) {
         QString proxy = kdenliveProducers.at(i).toElement().attribute("proxy");
         if (!proxy.isEmpty() && proxy != "-") return true;
     }

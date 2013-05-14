@@ -52,7 +52,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
     project_folder->setUrl(KUrl(projectPath));
     QString currentProf = KdenliveSettings::current_profile();
 
-    for (int i = 0; i < profiles_list->count(); i++) {
+    for (int i = 0; i < profiles_list->count(); ++i) {
         if (profiles_list->itemData(i).toString() == currentProf) {
             profiles_list->setCurrentIndex(i);
             break;
@@ -204,7 +204,7 @@ void ProjectSettings::slotDeleteUnused()
 {
     QStringList toDelete;
     QList <DocClipBase*> list = m_projectList->documentClipList();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() == 0 && clip->clipType() != SLIDESHOW) {
             KUrl url = clip->fileURL();
@@ -213,7 +213,7 @@ void ProjectSettings::slotDeleteUnused()
     }
 
     // make sure our urls are not used in another clip
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() > 0) {
             KUrl url = clip->fileURL();
@@ -306,7 +306,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         new QTreeWidgetItem(images, QStringList() << file);
     }
 
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->clipType() == SLIDESHOW) {
             QStringList subfiles = extractSlideshowUrls(clip->fileURL());
@@ -364,7 +364,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     }
     allFonts.removeDuplicates();
     // Hide unused categories
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() == 0) {
             files_list->topLevelItem(i)->setHidden(true);
         }
@@ -497,7 +497,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     QString root = doc.documentElement().attribute("root");
     if (!root.isEmpty() && !root.endsWith('/')) root.append('/');
     QDomNodeList files = doc.elementsByTagName("producer");
-    for (int i = 0; i < files.count(); i++) {
+    for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
         QString type = EffectsList::property(e, "mlt_service");
         if (type != "colour") {
@@ -521,7 +521,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
 
     // luma files for transitions
     files = doc.elementsByTagName("transition");
-    for (int i = 0; i < files.count(); i++) {
+    for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
         QString url = EffectsList::property(e, "luma");
         if (!url.isEmpty()) {
@@ -573,7 +573,7 @@ void ProjectSettings::slotExportToText()
     data.append(i18n("Project folder: %1",  project_folder->url().path()) + '\n');
     data.append(i18n("Project profile: %1",  profiles_list->currentText()) + '\n');
     data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() > 0) {
             data.append('\n' + files_list->topLevelItem(i)->text(0) + ":\n\n");
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++) {
@@ -607,7 +607,7 @@ void ProjectSettings::slotUpdateProxyParams()
 const QMap <QString, QString> ProjectSettings::metadata() const
 {
     QMap <QString, QString> metadata;
-    for (int i = 0; i < metadata_list->topLevelItemCount(); i++)
+    for (int i = 0; i < metadata_list->topLevelItemCount(); ++i)
     {
         QTreeWidgetItem *item = metadata_list->topLevelItem(i);
         if (!item->text(1).simplified().isEmpty()) {

@@ -53,7 +53,7 @@ QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> audioFrame,
     int num_samples = samples > 200 ? 200 : samples;
 
     QByteArray channels;
-    for (int i = 0; i < num_channels; i++) {
+    for (int i = 0; i < num_channels; ++i) {
         long val = 0;
         for (int s = 0; s < num_samples; s ++) {
             val += abs(audioFrame[i+s*num_channels] / 128);
@@ -87,7 +87,7 @@ QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> audioFrame,
     int dbsize=20;
     bool showdb=width()>(dbsize+40);
     //valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
-    for (int i = 0; i < numchan; i++) {
+    for (int i = 0; i < numchan; ++i) {
         //int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
         double valpixel=valueToPixel((double)(unsigned char)channels[i]/127.0);
         int maxx=  height()  * valpixel;
@@ -159,7 +159,7 @@ void AudioSignal::slotReceiveAudio(QVector<int16_t> data, int, int num_channels,
 
     QByteArray channels;
     int num_oversample=0;
-    for (int i = 0; i < num_channels; i++) {
+    for (int i = 0; i < num_channels; ++i) {
         long val = 0;
         double over1=0.0;
         double over2=0.0;

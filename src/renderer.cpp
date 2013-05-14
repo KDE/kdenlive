@@ -566,7 +566,7 @@ void Render::slotSplitView(bool doit)
     if (service.type() != tractor_type || tractor.count() < 2) return;
     Mlt::Field *field = tractor.field();
     if (doit) {
-        for (int i = 1, screen = 0; i < tractor.count() && screen < 4; i++) {
+        for (int i = 1, screen = 0; i < tractor.count() && screen < 4; ++i) {
             Mlt::Producer trackProducer(tractor.track(i));
             kDebug() << "// TRACK: " << i << ", HIDE: " << trackProducer.get("hide");
             if (QString(trackProducer.get("hide")).toInt() != 1) {
@@ -634,7 +634,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
 	m_infoMutex.unlock();
 	return;
     }
-    for (int i = 0; i < m_requestList.count(); i++) {
+    for (int i = 0; i < m_requestList.count(); ++i) {
 	if (m_requestList.at(i).clipId == clipId) {
 	    // Clip is already queued
 	    m_infoMutex.unlock();
@@ -657,7 +657,7 @@ void Render::forceProcessing(const QString &id)
 {
     if (m_processingClipId.contains(id)) return;
     QMutexLocker lock(&m_infoMutex);
-    for (int i = 0; i < m_requestList.count(); i++) {
+    for (int i = 0; i < m_requestList.count(); ++i) {
         requestClipInfo info = m_requestList.at(i);
         if (info.clipId == id) {
             if (i == 0) break;
@@ -687,7 +687,7 @@ bool Render::isProcessing(const QString &id)
 {
     if (m_processingClipId.contains(id)) return true;
     QMutexLocker lock(&m_infoMutex);
-    for (int i = 0; i < m_requestList.count(); i++) {
+    for (int i = 0; i < m_requestList.count(); ++i) {
         if (m_requestList.at(i).clipId == id) {
             return true;
         }
@@ -953,7 +953,7 @@ void Render::processFileProperties()
 	    int streams = producer->get_int("meta.media.nb_streams");
 	    QList <int> audio_list;
 	    QList <int> video_list;
-	    for (int i = 0; i < streams; i++) {
+	    for (int i = 0; i < streams; ++i) {
 		QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
 		QString type = producer->get(propertyName.data());
 		if (type == "audio") audio_list.append(i);
@@ -2124,7 +2124,7 @@ bool Render::mltCutClip(int track, GenTime position)
 
     /* // Display playlist info
     kDebug()<<"////////////  BEFORE";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
+    for (int i = 0; i < trackPlaylist.count(); ++i) {
     int blankStart = trackPlaylist.clip_start(i);
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
@@ -2169,7 +2169,7 @@ bool Render::mltCutClip(int track, GenTime position)
             Mlt::Filter *dup = new Mlt::Filter(*m_mltProfile, filter->get("mlt_service"));
             if (dup && dup->is_valid()) {
                 Mlt::Properties entries(filter->get_properties());
-                for (int i = 0; i < entries.count(); i++) {
+                for (int i = 0; i < entries.count(); ++i) {
                     dup->set(entries.get_name(i), entries.get(i));
                 }
                 dupService.attach(*dup);
@@ -2181,7 +2181,7 @@ bool Render::mltCutClip(int track, GenTime position)
     return true;
     /* // Display playlist info
     kDebug()<<"////////////  AFTER";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
+    for (int i = 0; i < trackPlaylist.count(); ++i) {
     int blankStart = trackPlaylist.clip_start(i);
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
@@ -2265,7 +2265,7 @@ bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement ele
     delete clip2;
 
     if (!filtersList.isEmpty()) {
-        for (int i = 0; i < filtersList.count(); i++)
+        for (int i = 0; i < filtersList.count(); ++i)
             destService.attach(*(filtersList.at(i)));
     }
     return true;
@@ -2298,7 +2298,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
 
     /* // Display playlist info
     kDebug()<<"////  AFTER";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
+    for (int i = 0; i < trackPlaylist.count(); ++i) {
     int blankStart = trackPlaylist.clip_start(i);
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
@@ -2438,7 +2438,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
 
                 /* kDebug()<<"-------------\nTRACK "<<trackNb<<" HAS "<<clipNb<<" CLPIS";
                  kDebug() << "INSERT SPACE AT: "<<insertPos<<", DIFF: "<<diff<<", TK: "<<trackNb;
-                        for (int i = 0; i < clipNb; i++) {
+                        for (int i = 0; i < clipNb; ++i) {
                             kDebug()<<"CLIP "<<i<<", START: "<<trackPlaylist.clip_start(i)<<", END: "<<trackPlaylist.clip_start(i) + trackPlaylist.clip_length(i);
                      if (trackPlaylist.is_blank(i)) kDebug()<<"++ BLANK ++ ";
                      kDebug()<<"-------------";
@@ -2859,7 +2859,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     bool success = addFilterToService(service, params, duration);
 
     // re-add following filters
-    for (int i = 0; i < filtersList.count(); i++) {
+    for (int i = 0; i < filtersList.count(); ++i) {
         Mlt::Filter *filter = filtersList.at(i);
         if (updateIndex)
             filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
@@ -3306,7 +3306,7 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
         }
     }
 
-    for (int i = 0; i < filtersList.count(); i++) {
+    for (int i = 0; i < filtersList.count(); ++i) {
         clipService.attach(*(filtersList.at(i)));
     }
 
@@ -3367,7 +3367,7 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
         }
     }
 
-    for (int i = 0; i < filtersList.count(); i++) {
+    for (int i = 0; i < filtersList.count(); ++i) {
         clipService.attach(*(filtersList.at(i)));
     }
     refresh();
@@ -3382,7 +3382,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh)
 
     /* // Display playlist info
     kDebug()<<"////////////  BEFORE RESIZE";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
+    for (int i = 0; i < trackPlaylist.count(); ++i) {
     int blankStart = trackPlaylist.clip_start(i);
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
@@ -3491,7 +3491,7 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind)
 
 int Render::getLowestNonMutedAudioTrack(Mlt::Tractor tractor)
 {
-    for (int i = 1; i < tractor.count(); i++) {
+    for (int i = 1; i < tractor.count(); ++i) {
         Mlt::Producer trackProducer(tractor.track(i));
         if (trackProducer.get_int("hide") < 2) return i;
     }
@@ -3528,7 +3528,7 @@ void Render::fixAudioMixing(Mlt::Tractor tractor)
     }
 
     // Re-add correct audio transitions
-    for (int i = lowestTrack + 1; i < tractor.count(); i++) {
+    for (int i = lowestTrack + 1; i < tractor.count(); ++i) {
         Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "mix");
         transition->set("always_active", 1);
         transition->set("combine", 1);
@@ -3832,7 +3832,7 @@ QList <int> Render::checkTrackSequence(int track)
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipNb = trackPlaylist.count();
     //kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
-    for (int i = 0; i < clipNb; i++) {
+    for (int i = 0; i < clipNb; ++i) {
         Mlt::Producer *c = trackPlaylist.get_clip(i);
         int pos = trackPlaylist.clip_start(i);
         if (!list.contains(pos)) list.append(pos);
@@ -4007,7 +4007,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
                 QStringList permanentProps;
                 permanentProps << "factory" << "kdenlive_id" << "mlt_service" << "mlt_type" << "in";
                 permanentProps << "out" << "a_track" << "b_track";
-                for (int i = 0; i < mlt_properties_count(transproperties); i++) {
+                for (int i = 0; i < mlt_properties_count(transproperties); ++i) {
                     QString propName = mlt_properties_get_name(transproperties, i);
                     if (!propName.startsWith('_') && ! permanentProps.contains(propName)) {
                         mlt_properties_set(transproperties, propName.toUtf8().constData(), "");
@@ -4085,7 +4085,7 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
 {
     QDomNodeList attribs = xml.elementsByTagName("parameter");
     QMap<QString, QString> map;
-    for (int i = 0; i < attribs.count(); i++) {
+    for (int i = 0; i < attribs.count(); ++i) {
         QDomElement e = attribs.item(i).toElement();
         QString name = e.attribute("name");
         //kDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
@@ -4107,7 +4107,7 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
             if (values.size() > 0)
                 txtNeu << (int)values[0].toDouble();
             int i = 0;
-            for (i = 0; i < separators.size() && i + 1 < values.size(); i++) {
+            for (i = 0; i < separators.size() && i + 1 < values.size(); ++i) {
                 txtNeu << separators[i];
                 txtNeu << (int)(values[i+1].toDouble());
             }
@@ -4320,7 +4320,7 @@ const QList <Mlt::Producer *> Render::producersList()
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 	if (!trackPlaylist.is_valid()) continue;
         int clipNb = trackPlaylist.count();
-        for (int i = 0; i < clipNb; i++) {
+        for (int i = 0; i < clipNb; ++i) {
             Mlt::Producer *c = trackPlaylist.get_clip(i);
             if (c == NULL) continue;
             QString prodId = c->parent().get("id");
@@ -4353,7 +4353,7 @@ void Render::fillSlowMotionProducers()
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 	if (!trackPlaylist.is_valid()) continue;
         int clipNb = trackPlaylist.count();
-        for (int i = 0; i < clipNb; i++) {
+        for (int i = 0; i < clipNb; ++i) {
             Mlt::Producer *c = trackPlaylist.get_clip(i);
             Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
             if (nprod) {
@@ -4497,7 +4497,7 @@ void Render::mltDeleteTrack(int ix)
     QDomNode track = doc.elementsByTagName("track").at(ix);
     QDomNode tractor = doc.elementsByTagName("tractor").at(0);
     QDomNodeList transitions = doc.elementsByTagName("transition");
-    for (int i = 0; i < transitions.count(); i++) {
+    for (int i = 0; i < transitions.count(); ++i) {
         QDomElement e = transitions.at(i).toElement();
         QDomNodeList props = e.elementsByTagName("property");
         QMap <QString, QString> mappedProps;
@@ -4567,7 +4567,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
 
     double factor = new_fps / current_fps;
     QDomNodeList producers = doc.elementsByTagName("producer");
-    for (int i = 0; i < producers.count(); i++) {
+    for (int i = 0; i < producers.count(); ++i) {
         QDomElement prod = producers.at(i).toElement();
         prod.removeAttribute("in");
         prod.removeAttribute("out");
@@ -4584,7 +4584,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     }
 
     QDomNodeList entries = doc.elementsByTagName("entry");
-    for (int i = 0; i < entries.count(); i++) {
+    for (int i = 0; i < entries.count(); ++i) {
         QDomElement entry = entries.at(i).toElement();
         int in = entry.attribute("in").toInt();
         int out = entry.attribute("out").toInt();
@@ -4595,7 +4595,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     }
 
     QDomNodeList blanks = doc.elementsByTagName("blank");
-    for (int i = 0; i < blanks.count(); i++) {
+    for (int i = 0; i < blanks.count(); ++i) {
         QDomElement blank = blanks.at(i).toElement();
         int length = blank.attribute("length").toInt();
         length = factor * length + 0.5;
@@ -4603,7 +4603,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     }
 
     QDomNodeList filters = doc.elementsByTagName("filter");
-    for (int i = 0; i < filters.count(); i++) {
+    for (int i = 0; i < filters.count(); ++i) {
         QDomElement filter = filters.at(i).toElement();
         int in = filter.attribute("in").toInt();
         int out = filter.attribute("out").toInt();
@@ -4614,7 +4614,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     }
 
     QDomNodeList transitions = doc.elementsByTagName("transition");
-    for (int i = 0; i < transitions.count(); i++) {
+    for (int i = 0; i < transitions.count(); ++i) {
         QDomElement transition = transitions.at(i).toElement();
         int in = transition.attribute("in").toInt();
         int out = transition.attribute("out").toInt();
@@ -4692,7 +4692,7 @@ bool Render::getBlackMagicDeviceList(KComboBox *devicelist, bool force)
 	return false;
     }
     KdenliveSettings::setDecklink_device_found(true);
-    for (int i = 0; i < found_devices; i++) {
+    for (int i = 0; i < found_devices; ++i) {
 	char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
 	devicelist->addItem(bm.get(tmp));
 	delete[] tmp;
@@ -4716,7 +4716,7 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force)
 	return false;
     }
     KdenliveSettings::setDecklink_device_found(true);
-    for (int i = 0; i < found_devices; i++) {
+    for (int i = 0; i < found_devices; ++i) {
 	char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
 	devicelist->addItem(bm.get(tmp));
 	delete[] tmp;
@@ -4727,7 +4727,7 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force)
 void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data)
 { 
     if (KdenliveSettings::automultistreams()) {
-	for (int i = 1; i < video_list.count(); i++) {
+	for (int i = 1; i < video_list.count(); ++i) {
 	    int vindex = video_list.at(i);
 	    int aindex = 0;
 	    if (i <= audio_list.count() -1) {
@@ -4783,7 +4783,7 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
     }
     if (dialog.exec() == QDialog::Accepted) {
 	// import selected streams
-	for (int i = 0; i < groupList.count(); i++) {
+	for (int i = 0; i < groupList.count(); ++i) {
 	    if (groupList.at(i)->isChecked()) {
 		int vindex = groupList.at(i)->property("vindex").toInt();
 		int aindex = comboList.at(i)->itemData(comboList.at(i)->currentIndex()).toInt();

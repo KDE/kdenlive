@@ -39,7 +39,7 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
     connect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
     connect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
     connect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
-    //for (int i = 0; i < actionMap.size(); i++) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].toAscii().constData());  //DBG
+    //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].toAscii().constData());  //DBG
 }
 
 JogShuttleAction::~JogShuttleAction()

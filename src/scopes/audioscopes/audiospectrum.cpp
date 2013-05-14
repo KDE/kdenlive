@@ -175,7 +175,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         bool overmodulated = false;
         int overmodulateCount = 0;
 
-        for (int i = 0; i < audioFrame.size(); i++) {
+        for (int i = 0; i < audioFrame.size(); ++i) {
             if (
                     audioFrame[i] == std::numeric_limits<int16_t>::max()
                     || audioFrame[i] == std::numeric_limits<int16_t>::min()) {
@@ -271,7 +271,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         davinci.setPen(QPen(QBrush(spectrumColor.rgba()), 1, Qt::SolidLine));
 #endif
 
-        for (uint i = 0; i < w; i++) {
+        for (uint i = 0; i < w; ++i) {
             yMax = (dbMap[i] - m_dBmin) / (m_dBmax-m_dBmin) * (h-1);
             if (yMax < 0) {
                 yMax = 0;
@@ -294,7 +294,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
             if (m_peaks.size() != fftWindow/2) {
                 m_peaks = QVector<float>(m_lastFFT);
             } else {
-                for (int i = 0; i < fftWindow/2; i++) {
+                for (int i = 0; i < fftWindow/2; ++i) {
                     if (m_lastFFT[i] > m_peaks[i]) {
                         m_peaks[i] = m_lastFFT[i];
                     } else {
@@ -304,7 +304,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
             }
             int prev = 0;
             m_peakMap = FFTTools::interpolatePeakPreserving(m_peaks, m_innerScopeRect.width(), 0, right, -180);
-            for (uint i = 0; i < w; i++) {
+            for (uint i = 0; i < w; ++i) {
                 yMax = (m_peakMap[i] - m_dBmin) / (m_dBmax-m_dBmin) * (h-1);
                 if (yMax < 0) {
                     yMax = 0;

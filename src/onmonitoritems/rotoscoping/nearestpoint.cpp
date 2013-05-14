@@ -114,7 +114,7 @@ Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut)
                 t = 0.0;
 
         /* Find distances for candidate points  */
-        for (i = 0; i < n_solutions; i++) {
+        for (i = 0; i < n_solutions; ++i) {
                 p = Bezier(V, DEGREE, t_candidate[i],
                         (Point2 *)NULL, (Point2 *)NULL);
                 new_dist = V2SquaredLength(V2Sub(&P, &p, &v));
@@ -164,12 +164,12 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
 
     /*Determine the c's -- these are vectors created by subtracting*/
     /* point P from each of the control points                          */
-    for (i = 0; i <= DEGREE; i++) {
+    for (i = 0; i <= DEGREE; ++i) {
                 V2Sub(&V[i], &P, &c[i]);
     }
     /* Determine the d's -- these are vectors created by subtracting*/
     /* each control point from the next                                 */
-    for (i = 0; i <= DEGREE - 1; i++) { 
+    for (i = 0; i <= DEGREE - 1; ++i) { 
                 d[i] = V2ScaleII(V2Sub(&V[i+1], &V[i], &d[i]), 3.0);
     }
 
@@ -184,7 +184,7 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
     /* Now, apply the z's to the dot products, on the skew diagonal*/
     /* Also, set up the x-values, making these "points"         */
     w = (Point2 *)malloc((unsigned)(W_DEGREE+1) * sizeof(Point2));
-    for (i = 0; i <= W_DEGREE; i++) {
+    for (i = 0; i <= W_DEGREE; ++i) {
                 w[i].y = 0.0;
                 w[i].x = (double)(i) / W_DEGREE;
     }
@@ -194,7 +194,7 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
     for (k = 0; k <= n + m; k++) {
                 lb = MAX(0, k - m);
                 ub = MIN(k, n);
-                for (i = lb; i <= ub; i++) {
+                for (i = lb; i <= ub; ++i) {
                 j = k - i;
                 w[i+j].y += cdTable[j][i] * z[j][i];
                 }
@@ -251,10 +251,10 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
 
 
     /* Gather solutions together        */
-    for (i = 0; i < left_count; i++) {
+    for (i = 0; i < left_count; ++i) {
         t[i] = left_t[i];
     }
-    for (i = 0; i < right_count; i++) {
+    for (i = 0; i < right_count; ++i) {
                 t[i+left_count] = right_t[i];
     }
 
@@ -278,7 +278,7 @@ static int CrossingCount(Point2 *V, int degree)
     int         sign, old_sign;         /*  Sign of coefficients        */
 
     sign = old_sign = SGN(V[0].y);
-    for (i = 1; i <= degree; i++) {
+    for (i = 1; i <= degree; ++i) {
                 sign = SGN(V[i].y);
                 if (sign != old_sign) n_crossings++;
                 old_sign = sign;
@@ -360,7 +360,7 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
 
     max_distance_above = max_distance_below = 0.0;
     
-    for (i = 1; i < degree; i++)
+    for (i = 1; i < degree; ++i)
     {
         value = a * V[i].x + b * V[i].y + c;
        
@@ -471,7 +471,7 @@ static Point2 Bezier(Point2 *V, int degree, double t, Point2 *Left, Point2 *Righ
     }
 
     /* Triangle computation     */
-    for (i = 1; i <= degree; i++) {     
+    for (i = 1; i <= degree; ++i) {     
                 for (j =0 ; j <= degree - i; j++) {
                 Vtemp[i][j].x =
                         (1.0 - t) * Vtemp[i-1][j].x + t * Vtemp[i-1][j+1].x;

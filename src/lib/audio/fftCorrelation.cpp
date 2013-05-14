@@ -29,7 +29,7 @@ void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
     // The correlation vector will have entries up to N (number of entries
     // of the vector), so converting to integers will not lose that much
     // of precision.
-    for (int i = 0; i < leftSize+rightSize+1; i++) {
+    for (int i = 0; i < leftSize+rightSize+1; ++i) {
         out_correlated[i] = correlatedFloat[i];
     }
 }
@@ -50,12 +50,12 @@ void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
     // vector since each value should be at most 1
     int64_t maxLeft = 0;
     int64_t maxRight = 0;
-    for (int i = 0; i < leftSize; i++) {
+    for (int i = 0; i < leftSize; ++i) {
         if (labs(left[i]) > maxLeft) {
             maxLeft = labs(left[i]);
         }
     }
-    for (int i = 0; i < rightSize; i++) {
+    for (int i = 0; i < rightSize; ++i) {
         if (labs(right[i]) > maxRight) {
             maxRight = labs(right[i]);
         }
@@ -64,10 +64,10 @@ void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
 
     // One side needs to be reverted, since multiplication in frequency domain (fourier space)
     // calculates the convolution: \sum l[x]r[N-x] and not the correlation: \sum l[x]r[x]
-    for (int i = 0; i < leftSize; i++) {
+    for (int i = 0; i < leftSize; ++i) {
         leftF[i] = double(left[i])/maxLeft;
     }
-    for (int i = 0; i < rightSize; i++) {
+    for (int i = 0; i < rightSize; ++i) {
         rightF[rightSize-1 - i] = double(right[i])/maxRight;
     }
 
@@ -123,7 +123,7 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
     kiss_fftr(fftConfig, rightData, rightFFT);
 
     // Convolution in spacial domain is a multiplication in fourier domain. O(n).
-    for (int i = 0; i < size/2; i++) {
+    for (int i = 0; i < size/2; ++i) {
         correlatedFFT[i].r = leftFFT[i].r*rightFFT[i].r - leftFFT[i].i*rightFFT[i].i;
         correlatedFFT[i].i = leftFFT[i].r*rightFFT[i].i + leftFFT[i].i*rightFFT[i].r;
     }

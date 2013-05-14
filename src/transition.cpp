@@ -238,7 +238,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         bool forwardMove = newPos.x() > pos().x();
         int offset = 0;
         if (!items.isEmpty()) {
-            for (int i = 0; i < items.count(); i++) {
+            for (int i = 0; i < items.count(); ++i) {
                 if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
                     // Collision!
@@ -331,7 +331,7 @@ QDomElement Transition::toXML()
 bool Transition::hasGeometry()
 {
     QDomNodeList namenode = m_parameters.elementsByTagName("parameter");
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         if (pa.attribute("type") == "geometry") return true;
     }
@@ -349,7 +349,7 @@ bool Transition::updateKeyframes(int oldEnd)
     QDomElement pa;
     bool modified = false;
     QDomNodeList namenode = m_parameters.elementsByTagName("parameter");
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         pa = namenode.item(i).toElement();
         if (pa.attribute("type") == "geometry") {
             keyframes = pa.attribute("value");
@@ -365,7 +365,7 @@ bool Transition::updateKeyframes(int oldEnd)
 	// Transition was expanded, check if we had a keyframe at end position
 	foreach(QString pos, values) {
 	    if (!pos.contains('=')) {
-		i++;
+		++i;
 		continue;
 	    }
 	    frame = pos.section('=', 0, 0).toInt();
@@ -375,7 +375,7 @@ bool Transition::updateKeyframes(int oldEnd)
 		pa.setAttribute("value", values.join(";"));
 		return true;
 	    }
-	    i++;
+	    ++i;
 	}
 	return false;
     }
@@ -383,7 +383,7 @@ bool Transition::updateKeyframes(int oldEnd)
 	// Transition was shortened, check for out of bounds keyframes
 	foreach(const QString &pos, values) {
 	    if (!pos.contains('=')) {
-		i++;
+		++i;
 		continue;
 	    }
 	    frame = pos.section('=', 0, 0).toInt();
@@ -391,7 +391,7 @@ bool Transition::updateKeyframes(int oldEnd)
 		modified = true;
 		break;
 	    }
-	    i++;
+	    ++i;
 	}
     }
     if (modified) {

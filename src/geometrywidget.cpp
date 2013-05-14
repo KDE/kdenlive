@@ -470,7 +470,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     m_opacity->setValue(item.mix());
     m_opacity->blockSignals(false);
 
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         QString name = m_extraGeometryNames.at(i);
         if (!geom->fetch(&item, pos)) {
@@ -511,7 +511,7 @@ void GeometryWidget::slotAddKeyframe(int pos)
     item.mix(m_opacity->value());
     m_geometry->insert(item);
 
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         QString name = m_extraGeometryNames.at(i);
         DragValue *widget = findChild<DragValue *>(name);
@@ -540,7 +540,7 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
     }
     m_geometry->remove(pos);
 
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         geom->remove(pos);
     }
@@ -625,7 +625,7 @@ void GeometryWidget::slotUpdateGeometry()
     item.h(rectSize.height());
     m_geometry->insert(item);
 
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         QString name = m_extraGeometryNames.at(i);
         Mlt::GeometryItem item2;
@@ -827,7 +827,7 @@ void GeometryWidget::slotResetKeyframes()
     }
 
     // Delete extra geometry keyframes too
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
 	while (!geom->next_key(&item, 1)) {
 	    geom->remove(item.frame());
@@ -862,7 +862,7 @@ void GeometryWidget::slotResetNextKeyframes()
     }
 
     // Delete extra geometry keyframes too
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
 	while (!geom->next_key(&item, pos)) {
 	    geom->remove(item.frame());
@@ -900,7 +900,7 @@ void GeometryWidget::slotResetPreviousKeyframes()
     }
 
     // Delete extra geometry keyframes too
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
 	pos = 0;
 	while (!geom->next_key(&item, pos) && pos < m_timePos->getValue()) {

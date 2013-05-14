@@ -94,7 +94,7 @@ void initEffects::refreshLumas()
     }
     QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", "luma");
     QDomNodeList params = lumaTransition.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute("tag") == "resource") {
             e.setAttribute("paramlistdisplay", imagenamelist.join(","));
@@ -105,7 +105,7 @@ void initEffects::refreshLumas()
 
     QDomElement compositeTransition = MainWindow::transitions.getEffectByTag("composite", "composite");
     params = compositeTransition.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute("tag") == "luma") {
             e.setAttribute("paramlistdisplay", imagenamelist.join(","));
@@ -477,7 +477,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 
             Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
             if (QString(tags.get(0)) == "Audio") eff.setAttribute("type", "audio");
-            /*for (int i = 0; i < tags.count(); i++)
+            /*for (int i = 0; i < tags.count(); ++i)
                 kDebug()<<tags.get_name(i)<<"="<<tags.get(i);*/
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));

@@ -40,7 +40,7 @@ int64_t AudioCorrelationInfo::max() const
     if (m_max <= 0) {
         int width = size();
         int64_t max = 0;
-        for (int i = 0; i < width; i++) {
+        for (int i = 0; i < width; ++i) {
             if (m_correlationVector[i] > max) {
                 max = m_correlationVector[i];
             }
@@ -57,7 +57,7 @@ int AudioCorrelationInfo::maxIndex() const
     int index = 0;
     int width = size();
 
-    for (int i = 0; i < width; i++) {
+    for (int i = 0; i < width; ++i) {
         if (m_correlationVector[i] > max) {
             max = m_correlationVector[i];
             index = i;

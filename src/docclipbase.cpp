@@ -61,14 +61,14 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     m_clipType = (CLIPTYPE) type;
     if (m_placeHolder) xml.removeAttribute("placeholder");
     QDomNamedNodeMap attributes = xml.attributes();
-    for (int i = 0; i < attributes.count(); i++) {
+    for (int i = 0; i < attributes.count(); ++i) {
         QString name = attributes.item(i).nodeName();
         if (name.startsWith("meta.attr.")) {
             m_metadata.insert(name.section('.', 2), QStringList() << attributes.item(i).nodeValue());
         } else m_properties.insert(name, attributes.item(i).nodeValue());
     }
     QDomNodeList metas = xml.elementsByTagName("metaproperty");
-    for (int i = 0; i < metas.count(); i++) {
+    for (int i = 0; i < metas.count(); ++i) {
         QDomElement e = metas.item(i).toElement();
         if (!e.isNull()) {
 	    m_metadata.insert(e.attribute("name").section('.', 2), QStringList() << e.firstChild().nodeValue() << e.attribute("tool"));
@@ -76,7 +76,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     }
     if (xml.hasAttribute("cutzones")) {
         QStringList cuts = xml.attribute("cutzones").split(';', QString::SkipEmptyParts);
-        for (int i = 0; i < cuts.count(); i++) {
+        for (int i = 0; i < cuts.count(); ++i) {
             QString z = cuts.at(i);
             addCutZone(z.section('-', 0, 0).toInt(), z.section('-', 1, 1).toInt(), z.section('-', 2, 2));
         }
@@ -84,7 +84,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 
     if (xml.hasAttribute("analysisdata")) {
 	QStringList adata = xml.attribute("analysisdata").split('#', QString::SkipEmptyParts);
-	for (int i = 0; i < adata.count(); i++)
+	for (int i = 0; i < adata.count(); ++i)
 	    m_analysisdata.insert(adata.at(i).section('?', 0, 0), adata.at(i).section('?', 1, 1));
     }
 
@@ -279,7 +279,7 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
     doc.appendChild(clip);
     if (!m_cutZones.isEmpty()) {
         QStringList cuts;
-        for (int i = 0; i < m_cutZones.size(); i++) {
+        for (int i = 0; i < m_cutZones.size(); ++i) {
             CutZoneInfo info = m_cutZones.at(i);
             cuts << QString::number(info.zone.x()) + "-" + QString::number(info.zone.y()) + "-" + info.description;
         }
@@ -506,13 +506,13 @@ void DocClipBase::deleteProducers()
     
     if (numReferences() > 0 && (!m_baseTrackProducers.isEmpty() || !m_videoTrackProducers.isEmpty() || !m_audioTrackProducers.isEmpty())) {
         // Clip is used in timeline, delay producers deletion
-        for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+        for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
             m_toDeleteProducers.append(m_baseTrackProducers.at(i));
         }
-        for (int i = 0; i < m_videoTrackProducers.count(); i++) {
+        for (int i = 0; i < m_videoTrackProducers.count(); ++i) {
             m_toDeleteProducers.append(m_videoTrackProducers.at(i));
         }
-        for (int i = 0; i < m_audioTrackProducers.count(); i++) {
+        for (int i = 0; i < m_audioTrackProducers.count(); ++i) {
             m_toDeleteProducers.append(m_audioTrackProducers.at(i));
         }
     }
@@ -532,7 +532,7 @@ void DocClipBase::cleanupProducers()
     /*
     int ct = 0;
     kDebug()<<"----------------------------------------------------------------------------------";
-    for (int i = 0; i < m_toDeleteProducers.count(); i++) {
+    for (int i = 0; i < m_toDeleteProducers.count(); ++i) {
         if (m_toDeleteProducers.at(i) != NULL) {
             Mlt::Properties props(m_toDeleteProducers.at(i)->get_properties());
             if (props.ref_count() > 2) {
@@ -664,7 +664,7 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
     }
     if (m_audioTrackProducers.at(track) == NULL) {
         int i;
-        for (i = 0; i < m_audioTrackProducers.count(); i++)
+        for (i = 0; i < m_audioTrackProducers.count(); ++i)
             if (m_audioTrackProducers.at(i) != NULL) break;
         Mlt::Producer *base;
         if (i >= m_audioTrackProducers.count()) {
@@ -717,7 +717,7 @@ Mlt::Producer *DocClipBase::videoProducer(int track)
     }
     if (m_videoTrackProducers.at(track) == NULL) {
         int i;
-        for (i = 0; i < m_videoTrackProducers.count(); i++)
+        for (i = 0; i < m_videoTrackProducers.count(); ++i)
             if (m_videoTrackProducers.at(i) != NULL) break;
         Mlt::Producer *base;
         if (i >= m_videoTrackProducers.count()) {
@@ -754,7 +754,7 @@ Mlt::Producer *DocClipBase::getCloneProducer()
     if (!prod) {
         if (!source) {
             QMutexLocker locker(&m_producerMutex);
-            for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+            for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
                 if (m_baseTrackProducers.at(i) != NULL) {
                     source = m_baseTrackProducers.at(i);
                     break;
@@ -786,7 +786,7 @@ Mlt::Producer *DocClipBase::getProducer(int track)
         if (m_baseTrackProducers.count() == 0) {
             return NULL;
         }
-        for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+        for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
             if (m_baseTrackProducers.at(i) != NULL) {
                 return m_baseTrackProducers.at(i);
             }
@@ -800,7 +800,7 @@ Mlt::Producer *DocClipBase::getProducer(int track)
     }
     if (m_baseTrackProducers.at(track) == NULL) {
         int i;
-        for (i = 0; i < m_baseTrackProducers.count(); i++)
+        for (i = 0; i < m_baseTrackProducers.count(); ++i)
             if (m_baseTrackProducers.at(i) != NULL) break;
 
         if (i >= m_baseTrackProducers.count()) {
@@ -849,7 +849,7 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
 void DocClipBase::setProducerProperty(const char *name, int data)
 {
     QMutexLocker locker(&m_producerMutex);
-    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, data);
     }
@@ -858,7 +858,7 @@ void DocClipBase::setProducerProperty(const char *name, int data)
 void DocClipBase::setProducerProperty(const char *name, double data)
 {
     QMutexLocker locker(&m_producerMutex);
-    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, data);
     }
@@ -867,7 +867,7 @@ void DocClipBase::setProducerProperty(const char *name, double data)
 void DocClipBase::setProducerProperty(const char *name, const char *data)
 {
     QMutexLocker locker(&m_producerMutex);
-    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, data);
     }
@@ -876,7 +876,7 @@ void DocClipBase::setProducerProperty(const char *name, const char *data)
 void DocClipBase::resetProducerProperty(const char *name)
 {
     QMutexLocker locker(&m_producerMutex);
-    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, (const char*) NULL);
     }
@@ -884,7 +884,7 @@ void DocClipBase::resetProducerProperty(const char *name)
 
 const char *DocClipBase::producerProperty(const char *name) const
 {
-    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
         if (m_baseTrackProducers.at(i) != NULL) {
             return m_baseTrackProducers.at(i)->get(name);
         }
@@ -1257,7 +1257,7 @@ void DocClipBase::addCutZone(int in, int out, QString desc)
     CutZoneInfo info;
     info.zone = QPoint(in, out);
     info.description = desc;
-    for (int i = 0; i < m_cutZones.count(); i++)
+    for (int i = 0; i < m_cutZones.count(); ++i)
         if (m_cutZones.at(i).zone == info.zone) {
             return;
         }
@@ -1266,7 +1266,7 @@ void DocClipBase::addCutZone(int in, int out, QString desc)
 
 bool DocClipBase::hasCutZone(QPoint p) const
 {
-    for (int i = 0; i < m_cutZones.count(); i++)
+    for (int i = 0; i < m_cutZones.count(); ++i)
         if (m_cutZones.at(i).zone == p) return true;
     return false;
 }
@@ -1275,7 +1275,7 @@ bool DocClipBase::hasCutZone(QPoint p) const
 void DocClipBase::removeCutZone(int in, int out)
 {
     QPoint p(in, out);
-    for (int i = 0; i < m_cutZones.count(); i++) {
+    for (int i = 0; i < m_cutZones.count(); ++i) {
         if (m_cutZones.at(i).zone == p) {
             m_cutZones.removeAt(i);
             i--;
@@ -1306,7 +1306,7 @@ bool DocClipBase::hasVideoCodec(const QString &codec) const
 {
     Mlt::Producer *prod = NULL;
     if (m_baseTrackProducers.count() == 0) return false;
-    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
         if (m_baseTrackProducers.at(i) != NULL) {
             prod = m_baseTrackProducers.at(i);
             break;
@@ -1324,7 +1324,7 @@ bool DocClipBase::hasAudioCodec(const QString &codec) const
 {
     Mlt::Producer *prod = NULL;
     if (m_baseTrackProducers.count() == 0) return false;
-    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+    for (int i = 0; i < m_baseTrackProducers.count(); ++i) {
         if (m_baseTrackProducers.at(i) != NULL) {
             prod = m_baseTrackProducers.at(i);
             break;
@@ -1376,7 +1376,7 @@ void DocClipBase::setAnalysisData(const QString &name, const QString &data, int 
 		int i = 1;
 		QString newname = name + " " + QString::number(i);
 		while (m_analysisdata.contains(newname)) {
-		    i++;
+		    ++i;
 		    newname = name + " " + QString::number(i);
 		}
 		m_analysisdata.insert(newname, geometryWithOffset(data, offset));

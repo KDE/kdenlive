@@ -99,7 +99,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MONITORID name, bool forceRefresh
         return false;
     }
     m_activeMonitor = NULL;
-    for (int i = 0; i < m_monitorsList.count(); i++) {
+    for (int i = 0; i < m_monitorsList.count(); ++i) {
         if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
         }
@@ -244,7 +244,7 @@ void MonitorManager::slotUpdateAudioMonitoring()
     if (m_projectMonitor) {
         m_projectMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
     }*/
-    for (int i = 0; i < m_monitorsList.count(); i++) {
+    for (int i = 0; i < m_monitorsList.count(); ++i) {
         if (m_monitorsList.at(i)->abstractRender()) m_monitorsList.at(i)->abstractRender()->analyseAudio = KdenliveSettings::monitor_audio();
     }
 }

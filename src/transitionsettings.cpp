@@ -93,7 +93,7 @@ void TransitionSettings::updateTrackList()
     //kDebug() << "/ / TRANS TRK: " << limit;
     KIcon videoIcon("kdenlive-show-video");
     KIcon audioIcon("kdenlive-show-audio");
-    for (int i = limit; i < m_tracks.count(); i++) {
+    for (int i = limit; i < m_tracks.count(); ++i) {
         int ix = m_tracks.count() - i - 1;
         transitionTrack->addItem(m_tracks.at(ix).type == VIDEOTRACK ? videoIcon : audioIcon,
                                  m_tracks.at(ix).trackName.isEmpty() ? QString::number(i) : m_tracks.at(ix).trackName + " (" + QString::number(i) + ')',

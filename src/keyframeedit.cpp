@@ -127,7 +127,7 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     }
 
     QStringList frames = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
-    for (int i = 0; i < frames.count(); i++) {
+    for (int i = 0; i < frames.count(); ++i) {
         int frame = frames.at(i).section(':', 0, 0).toInt();
         bool found = false;
         int j;
@@ -210,7 +210,7 @@ void KeyframeEdit::slotAddKeyframe()
 
     keyframe_list->insertRow(newrow);
     keyframe_list->setVerticalHeaderItem(newrow, new QTableWidgetItem(getPosString(result)));
-    for (int i = 0; i < keyframe_list->columnCount(); i++)
+    for (int i = 0; i < keyframe_list->columnCount(); ++i)
         keyframe_list->setItem(newrow, i, new QTableWidgetItem(keyframe_list->item(item->row(), i)->text()));
 
     keyframe_list->resizeRowsToContents();
@@ -249,7 +249,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             if (v <= m_params.at(col).attribute("min").toInt())
                 item->setText(m_params.at(col).attribute("min"));
             QString keyframes;
-            for (int i = 0; i < keyframe_list->rowCount(); i++) {
+            for (int i = 0; i < keyframe_list->rowCount(); ++i) {
                 if (keyframe_list->item(i, col))
                     keyframes.append(QString::number(getPos(i)) + ':' + keyframe_list->item(i, col)->text() + ';');
             }
@@ -287,7 +287,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
     slotAdjustKeyframeInfo(false);
 
     QString keyframes;
-    for (int i = 0; i < keyframe_list->rowCount(); i++) {
+    for (int i = 0; i < keyframe_list->rowCount(); ++i) {
         if (keyframe_list->item(i, column))
             keyframes.append(QString::number(getPos(i)) + ':' + keyframe_list->item(i, column)->text() + ';');
     }
@@ -299,7 +299,7 @@ void KeyframeEdit::generateAllParams()
 {
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         QString keyframes;
-        for (int i = 0; i < keyframe_list->rowCount(); i++) {
+        for (int i = 0; i < keyframe_list->rowCount(); ++i) {
             if (keyframe_list->item(i, col))
                 keyframes.append(QString::number(getPos(i)) + ':' + keyframe_list->item(i, col)->text() + ';');
         }

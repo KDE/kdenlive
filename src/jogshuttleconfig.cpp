@@ -56,7 +56,7 @@ QStringList JogShuttleConfig::actionMap(const QString& actionsConfig)
     actionMap[button_id] = parts[1];
   }
   
-  //for (int i = 0; i < actionMap.size(); i++) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].data().toAscii());  //DBG
+  //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].data().toAscii());  //DBG
   return actionMap;
 }
 

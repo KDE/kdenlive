@@ -190,7 +190,7 @@ void SlideshowClip::parseFolder()
         int firstFrame = m_view.pattern_url->url().fileName().section('.', 0, -2).right(precision).toInt();
         QString path;
         int gap = 0;
-        for (int i = firstFrame; gap < 100; i++) {
+        for (int i = firstFrame; gap < 100; ++i) {
             path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
             if (dir.exists(path)) {
                 result.append(path);
@@ -219,7 +219,7 @@ void SlideshowClip::slotGenerateThumbs()
         delete m_thumbJob;
     };
     KFileItemList fileList;
-    for (int i = 0; i < m_view.icon_list->count(); i++) {
+    for (int i = 0; i < m_view.icon_list->count(); ++i) {
         QListWidgetItem* item = m_view.icon_list->item(i);
         if (item) {
             QString path = item->data(Qt::UserRole).toString();
@@ -242,7 +242,7 @@ void SlideshowClip::slotGenerateThumbs()
 
 void SlideshowClip::slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix)
 {
-    for (int i = 0; i < m_view.icon_list->count(); i++) {
+    for (int i = 0; i < m_view.icon_list->count(); ++i) {
         QListWidgetItem* item = m_view.icon_list->item(i);
         if (item) {
             QString path = item->data(Qt::UserRole).toString();
@@ -312,7 +312,7 @@ QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extens
         QDir dir(folder);
         QString path;
         int gap = 0;
-        for (int i = firstFrame; gap < 100; i++) {
+        for (int i = firstFrame; gap < 100; ++i) {
             path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
             if (dir.exists(path)) {
                 (*list).append(folder + path);

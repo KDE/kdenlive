@@ -134,7 +134,7 @@ void AudioCorrelation::correlate(const int64_t *envMain, int sizeMain,
         }
 
         sum = 0;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; ++i) {
             sum += (*left) * (*right);
             left++;
             right++;

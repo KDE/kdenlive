@@ -194,7 +194,7 @@ void TracksConfigDialog::slotDelete()
             return;
         if (m_deletedRows.at(i) > row)
             break;
-        i++;
+        ++i;
     }
     m_deletedRows.insert(i, row);
     for (i = 0; i < table->columnCount(); ++i) {

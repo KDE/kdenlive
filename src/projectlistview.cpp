@@ -356,7 +356,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
         foreach(const QTreeWidgetItem *item, list) {
 	    if (item->type() == PROJECTFOLDERTYPE) {
 		const int children = item->childCount();
-                for (int i = 0; i < children; i++) {
+                for (int i = 0; i < children; ++i) {
 		    ids.append(static_cast <ProjectItem *>(item->child(i))->clipId());
                 }
 	    } else if (item->type() == PROJECTSUBCLIPTYPE) {

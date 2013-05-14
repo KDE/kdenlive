@@ -60,7 +60,7 @@ void OpenClipArt::slotShowResults(KJob* job)
     QDomDocument doc;
     doc.setContent(QString::fromAscii(storedQueryJob->data()));
     QDomNodeList items = doc.documentElement().elementsByTagName("item");
-    for (int i = 0; i < items.count(); i++) {
+    for (int i = 0; i < items.count(); ++i) {
         QDomElement currentClip = items.at(i).toElement();
         QDomElement title = currentClip.firstChildElement("title");
         QListWidgetItem *item = new QListWidgetItem(title.firstChild().nodeValue(), m_listWidget);

@@ -458,7 +458,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
 
     QStringList paramList = params.split(' ', QString::SkipEmptyParts);
     char *tmp2;
-    for (int i = 0; i < paramList.count(); i++) {
+    for (int i = 0; i < paramList.count(); ++i) {
         tmp = qstrdup(paramList.at(i).section('=', 0, 0).toUtf8().constData());
         QString value = paramList.at(i).section('=', 1, 1);
         if (value == "%threads") value = QString::number(QThread::idealThreadCount());

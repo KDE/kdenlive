@@ -70,7 +70,7 @@ void OnMonitorPathItem::rebuildShape() {
 	shape.addRect(r);
 	
 	p.moveTo(m_points.at(0));
-	for (int i = 1; i < m_points.count(); i++) {
+	for (int i = 1; i < m_points.count(); ++i) {
 	    p.lineTo(m_points.at(i));
 	    r.moveCenter(m_points.at(i));
 	    shape.addRect(r);
@@ -88,7 +88,7 @@ void OnMonitorPathItem::getMode(QPointF pos)
         dist /= m_view->matrix().m11();
     }
     // Item mapped coordinates
-    for (int i = 0; i < m_points.count(); i++) {
+    for (int i = 0; i < m_points.count(); ++i) {
 	if ((pos - m_points.at(i)).manhattanLength() <= dist) {
 	    m_activePoint = i;
 	    return;
@@ -182,7 +182,7 @@ void OnMonitorPathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     }
 
     QRectF handle(0, 0, w, h);
-    for (int i = 0; i < m_points.count(); i++) {
+    for (int i = 0; i < m_points.count(); ++i) {
 	handle.moveCenter(m_points.at(i));
         painter->fillRect(handle, m_activePoint == i ? Qt::blue : pen().color());
     }

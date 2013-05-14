@@ -98,7 +98,7 @@ void AudioEnvelope::loadEnvelope()
     int count = 0;
     m_producer->seek(m_offset);
     m_producer->set_speed(1.0); // This is necessary, otherwise we don't get any new frames in the 2nd run.
-    for (int i = 0; i < m_envelopeSize; i++) {
+    for (int i = 0; i < m_envelopeSize; ++i) {
 
         frame = m_producer->get_frame(i);
         position = mlt_frame_get_position(frame->get_frame());
@@ -143,7 +143,7 @@ int64_t AudioEnvelope::loadStdDev()
         }
 
         m_envelopeStdDev = 0;
-        for (int i = 0; i < m_envelopeSize; i++) {
+        for (int i = 0; i < m_envelopeSize; ++i) {
             m_envelopeStdDev += sqrt((m_envelope[i]-m_envelopeMean)*(m_envelope[i]-m_envelopeMean)/m_envelopeSize);
         }
         m_envelopeStdDevCalculated = true;
@@ -162,7 +162,7 @@ void AudioEnvelope::normalizeEnvelope(bool clampTo0)
 
         m_envelopeMax = 0;
         int64_t newMean = 0;
-        for (int i = 0; i < m_envelopeSize; i++) {
+        for (int i = 0; i < m_envelopeSize; ++i) {
 
             m_envelope[i] -= m_envelopeMean;
 

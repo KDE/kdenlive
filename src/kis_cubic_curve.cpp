@@ -81,7 +81,7 @@ public:
         alpha[1] = -c[0] / b[0];
         beta[1] =  f[0] / b[0];
 
-        for (i = 1; i < size - 1; i++) {
+        for (i = 1; i < size - 1; ++i) {
             alpha[i+1] = -c[i] /
                          (a[i-1] * alpha[i] + b[i]);
 
@@ -150,7 +150,7 @@ public:
         m_d.resize(intervals);
         m_h.resize(intervals);
 
-        for (i = 0; i < intervals; i++) {
+        for (i = 0; i < intervals; ++i) {
             m_h[i] = a[i+1].x() - a[i].x();
             m_a.append(a[i].y());
         }
@@ -161,12 +161,12 @@ public:
         QList<T> tri_f;
         QList<T> tri_a; /* equals to @tri_c */
 
-        for (i = 0; i < intervals - 1; i++) {
+        for (i = 0; i < intervals - 1; ++i) {
             tri_b.append(2.*(m_h[i] + m_h[i+1]));
 
             tri_f.append(6.*((m_a[i+2] - m_a[i+1]) / m_h[i+1] - (m_a[i+1] - m_a[i]) / m_h[i]));
         }
-        for (i = 1; i < intervals - 1; i++)
+        for (i = 1; i < intervals - 1; ++i)
             tri_a.append(m_h[i]);
 
         if (intervals > 1) {
@@ -176,10 +176,10 @@ public:
         m_c.prepend(0);
         m_c.append(0);
 
-        for (i = 0; i < intervals; i++)
+        for (i = 0; i < intervals; ++i)
             m_d[i] = (m_c[i+1] - m_c[i]) / m_h[i];
 
-        for (i = 0; i < intervals; i++)
+        for (i = 0; i < intervals; ++i)
             m_b[i] = -0.5 * (m_c[i] * m_h[i])  - (1 / 6.0) * (m_d[i] * m_h[i] * m_h[i]) + (m_a[i+1] - m_a[i]) / m_h[i];
     }
 
@@ -214,7 +214,7 @@ protected:
     int findRegion(T x, T &x0) const {
         int i;
         x0 = m_begin;
-        for (i = 0; i < m_intervals; i++) {
+        for (i = 0; i < m_intervals; ++i) {
             if (x >= x0 && x < x0 + m_h[i])
                 return i;
             x0 += m_h[i];

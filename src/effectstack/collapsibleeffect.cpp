@@ -432,7 +432,7 @@ void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
 	QVBoxLayout *vbox = static_cast<QVBoxLayout *> (widgetFrame->layout());
         vbox->addWidget(container);
        // m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, container);
-        for (int i = 0; i < effects.count(); i++) {
+        for (int i = 0; i < effects.count(); ++i) {
             CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, container);
             m_subParamWidgets.append(coll);
 	    connect(coll, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateRegionEffectParams(QDomElement,QDomElement,int)));
@@ -490,7 +490,7 @@ void CollapsibleEffect::updateTimecodeFormat()
     m_paramWidget->updateTimecodeFormat();
     if (!m_subParamWidgets.isEmpty()) {
         // we have a group
-        for (int i = 0; i < m_subParamWidgets.count(); i++)
+        for (int i = 0; i < m_subParamWidgets.count(); ++i)
             m_subParamWidgets.at(i)->updateTimecodeFormat();
     }
 }
@@ -553,7 +553,7 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
 		// Moving group
 		QList <int> effectsIds;
 		// Collect moved effects ids
-		for (int i = 0; i < subeffects.count(); i++) {
+		for (int i = 0; i < subeffects.count(); ++i) {
 		    QDomElement effect = subeffects.at(i).toElement();
 		    effectsIds << effect.attribute("kdenlive_ix").toInt();
 		}

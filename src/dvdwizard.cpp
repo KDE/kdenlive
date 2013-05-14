@@ -335,7 +335,7 @@ void DvdWizard::processSpumux()
         but.setAttribute("x1", QString::number(r.right()));
         but.setAttribute("y1", QString::number(y1));
         spu.appendChild(but);
-	i++;
+	++i;
     }
 
     QFile data(m_menuFile.fileName());
@@ -435,7 +435,7 @@ void DvdWizard::processSpumux()
 	    but.setAttribute("x1", QString::number(r.right()));
 	    but.setAttribute("y1", QString::number(y1));
 	    spuLetter.appendChild(but);
-	    i++;
+	    ++i;
 	}
 
 	//kDebug() << " SPUMUX DATA: " << doc.toString();
@@ -573,7 +573,7 @@ void DvdWizard::processDvdauthor(QString menuMovieUrl, QMap <QString, QRect> but
 	QDomElement menuvob = dvddoc.createElement("vob");
         menuvob.setAttribute("file", menuMovieUrl);
         pgc.appendChild(menuvob);
-        for (int i = 0; i < buttons.count(); i++) {
+        for (int i = 0; i < buttons.count(); ++i) {
             QDomElement button = dvddoc.createElement("button");
             button.setAttribute("name", 'b' + QString::number(i));
             nametext = dvddoc.createTextNode('{' + buttonsTarget.at(i) + ";}");
@@ -617,7 +617,7 @@ void DvdWizard::processDvdauthor(QString menuMovieUrl, QMap <QString, QRect> but
     // Get list of clips
     QStringList voburls = m_pageVob->selectedUrls();
 
-    for (int i = 0; i < voburls.count(); i++) {
+    for (int i = 0; i < voburls.count(); ++i) {
         if (!voburls.at(i).isEmpty()) {
             // Add vob entry
             pgc2 = dvddoc.createElement("pgc");
@@ -902,7 +902,7 @@ void DvdWizard::slotGenerate()
 {
     // clear job icons
     if ((m_dvdauthor && m_dvdauthor->state() != QProcess::NotRunning) || (m_mkiso && m_mkiso->state() != QProcess::NotRunning)) return;
-    for (int i = 0; i < m_status.job_progress->count(); i++)
+    for (int i = 0; i < m_status.job_progress->count(); ++i)
         m_status.job_progress->item(i)->setIcon(KIcon());
     QString warnMessage;
     if (KIO::NetAccess::exists(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), KIO::NetAccess::SourceSide, this))
@@ -988,7 +988,7 @@ void DvdWizard::slotLoad()
     }
 
     QDomNodeList vobs = doc.elementsByTagName("vob");
-    for (int i = 0; i < vobs.count(); i++) {
+    for (int i = 0; i < vobs.count(); ++i) {
         QDomElement e = vobs.at(i).toElement();
         m_pageVob->slotAddVobFile(KUrl(e.attribute("file")), e.attribute("chapters"));
     }
