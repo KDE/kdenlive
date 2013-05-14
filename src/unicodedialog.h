@@ -44,7 +44,7 @@ private:
     InputMethod inputMethod;
 
     /** \brief Validates text and removes all invalid characters (non-hex e.g.) */
-    QString validateText(QString text);
+    QString validateText(const QString &text);
     /** \brief Removes all leading zeros */
     QString trimmedUnicodeNumber(QString text);
     /** \brief Checks whether the given string is a control character */
@@ -53,7 +53,7 @@ private:
     bool controlCharacter(uint value);
 
     /** \brief Returns the next available unicode. */
-    QString nextUnicode(QString text, Direction direction);
+    QString nextUnicode(const QString &text, Direction direction);
 
     /** \brief Paints previous and next characters around current char */
     void updateOverviewChars(uint unicode);
