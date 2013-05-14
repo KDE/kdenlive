@@ -179,10 +179,10 @@ QString UnicodeDialog::unicodeInfo(const QString &unicode)
     return infoText;
 }
 
-QString UnicodeDialog::validateText(QString text)
+QString UnicodeDialog::validateText(const QString &text)
 {
     QRegExp regex("([0-9]|[a-f])", Qt::CaseInsensitive, QRegExp::RegExp2);
-    QString newText = "";
+    QString newText;
     int pos = 0;
 
     switch (inputMethod) {
@@ -204,8 +204,8 @@ QString UnicodeDialog::validateText(QString text)
 
 void UnicodeDialog::updateOverviewChars(uint unicode)
 {
-    QString left = "";
-    QString right = "";
+    QString left;
+    QString right;
     uint i;
 
     for (i = 1; i <= 4; i++) {
@@ -233,7 +233,7 @@ void UnicodeDialog::clearOverviewChars()
     rightChars->setText("");
 }
 
-QString UnicodeDialog::nextUnicode(QString text, Direction direction)
+QString UnicodeDialog::nextUnicode(const QString &text, Direction direction)
 {
     uint value = 0;
     QString newText = "";
