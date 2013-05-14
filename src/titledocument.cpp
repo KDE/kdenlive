@@ -275,7 +275,7 @@ QColor TitleDocument::getBackgroundColor() const
     QColor color(0, 0, 0, 0);
     if (m_scene) {
         QList<QGraphicsItem *> items = m_scene->items();
-        for (int i = 0; i < items.size(); i++) {
+        for (int i = 0; i < items.size(); ++i) {
             if (items.at(i)->zValue() == -1100) {
                 color = ((QGraphicsRectItem *)items.at(i))->brush().color();
                 return color;
@@ -349,7 +349,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
     if (titles.size()) {
 
         QDomNodeList items = titles.item(0).childNodes();
-        for (int i = 0; i < items.count(); i++) {
+        for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *gitem = NULL;
             kDebug() << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
@@ -507,7 +507,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 QColor color = QColor(stringToColor(items.item(i).attributes().namedItem("color").nodeValue()));
                 //color.setAlpha(items.item(i).attributes().namedItem("alpha").nodeValue().toInt());
                 QList<QGraphicsItem *> items = m_scene->items();
-                for (int i = 0; i < items.size(); i++) {
+                for (int i = 0; i < items.size(); ++i) {
                     if (items.at(i)->zValue() == -1100) {
                         ((QGraphicsRectItem *)items.at(i))->setBrush(QBrush(color));
                         break;

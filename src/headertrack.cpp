@@ -139,7 +139,7 @@ void HeaderTrack::dropEvent(QDropEvent * event)
     if (e.tagName() == "effectgroup") {
         // dropped an effect group
         QDomNodeList effectlist = e.elementsByTagName("effect");
-        for (int i = 0; i < effectlist.count(); i++) {
+        for (int i = 0; i < effectlist.count(); ++i) {
             effectlist.at(i).toElement().removeAttribute("kdenlive_ix");
         }
     } else {

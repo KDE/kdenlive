@@ -93,10 +93,10 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QList <QTreeWidgetItem *> folders;
     QStringList folderNames;
     QDomNodeList groups = doc.documentElement().elementsByTagName("group");
-    for (int i = 0; i < groups.count(); i++) {
+    for (int i = 0; i < groups.count(); ++i) {
         folderNames << i18n(groups.at(i).firstChild().firstChild().nodeValue().toUtf8().constData());
     }
-    for (int i = 0; i < topLevelItemCount(); i++) {
+    for (int i = 0; i < topLevelItemCount(); ++i) {
         topLevelItem(i)->takeChildren();
         QString currentName = topLevelItem(i)->text(0);
         if (currentName != i18n("Misc") && currentName != i18n("Audio") && currentName != i18nc("Folder Name", "Custom") && !folderNames.contains(currentName)) {
@@ -105,7 +105,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         }
     }
 
-    for (int i = 0; i < groups.count(); i++) {
+    for (int i = 0; i < groups.count(); ++i) {
         item = findFolder(folderNames.at(i));
         if (item) {
             item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
@@ -152,7 +152,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
     if (!found && !currentFolder.isEmpty()) {
         // previously selected effect was removed, focus on its parent folder
-        for (int i = 0; i < topLevelItemCount(); i++) {
+        for (int i = 0; i < topLevelItemCount(); ++i) {
             if (topLevelItem(i)->text(0) == currentFolder) {
                 setCurrentItem(topLevelItem(i));
                 break;
@@ -168,7 +168,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QMenu *sub2 = NULL;
     QMenu *sub3 = NULL;
     QMenu *sub4 = NULL;
-    for (int i = 0; i < topLevelItemCount(); i++) {
+    for (int i = 0; i < topLevelItemCount(); ++i) {
         if (!topLevelItem(i)->childCount())
             continue;
         QMenu *sub = new QMenu(topLevelItem(i)->text(0), effectsMenu);
@@ -234,7 +234,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
         parentItem = NULL;
 
         if (folders) {
-            for (int i = 0; i < folders->count(); i++) {
+            for (int i = 0; i < folders->count(); ++i) {
                 l = folders->at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
                 if (l.contains(effectInfo.at(2))) {
                     parentItem = folders->at(i);

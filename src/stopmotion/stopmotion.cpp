@@ -220,7 +220,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     effectsMenu->addAction(invertEffect);
     effectsMenu->addAction(thresEffect);
     QList <QAction*> list = effectsMenu->actions();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         list.at(i)->setCheckable(true);
         if (list.at(i)->data().toInt() == m_effectIndex) {
             list.at(i)->setChecked(true);
@@ -266,7 +266,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     if (QFile::exists(KdenliveSettings::video4vdevice())) {
 #ifdef USE_V4L
         // Video 4 Linux device detection
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; ++i) {
             QString path = "/dev/video" + QString::number(i);
             if (QFile::exists(path)) {
                 QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path);

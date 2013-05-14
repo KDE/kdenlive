@@ -234,7 +234,7 @@ void ClipStabilize::slotStartStabilize()
 
 void ClipStabilize::slotUpdateParams()
 {
-    for (int i=0;i<vbox->count();i++){
+    for (int i=0;i<vbox->count();++i){
         QWidget* w=vbox->itemAt(i)->widget();
         QString name=w->objectName();
         if (!name.isEmpty() && m_ui_params.contains(name)){

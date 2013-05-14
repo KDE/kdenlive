@@ -255,7 +255,7 @@ uint KThumb::imageVariance(QImage image )
     QVarLengthArray<uchar> pivot(STEPS);
     const uchar *bits=image.bits();
     // First pass: get pivots and taking average
-    for( uint i=0; i<STEPS ; i++ ){
+    for( uint i=0; i<STEPS ; ++i ){
         pivot[i] = bits[2 * i];
 #if QT_VERSION >= 0x040700
         avg+=pivot.at(i);
@@ -266,7 +266,7 @@ uint KThumb::imageVariance(QImage image )
     if (STEPS)
         avg=avg/STEPS;
     // Second Step: calculate delta (average?)
-    for (uint i=0; i<STEPS; i++)
+    for (uint i=0; i<STEPS; ++i)
     {
 #if QT_VERSION >= 0x040700
         int curdelta=abs(int(avg - pivot.at(i)));

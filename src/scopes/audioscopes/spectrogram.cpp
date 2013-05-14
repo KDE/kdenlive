@@ -395,7 +395,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
                 right = ((float) m_freqMax)/(m_freq/2) * (windowSize - 1);
                 dbMap = FFTTools::interpolatePeakPreserving((*it), m_innerScopeRect.width(), 0, right, -180);
 
-                for (int i = 0; i < dbMap.size(); i++) {
+                for (int i = 0; i < dbMap.size(); ++i) {
                     val = dbMap[i];
                     peak = val > m_dBmax;
 

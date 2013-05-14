@@ -391,7 +391,7 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
         m_view.create_chapter->setEnabled(false);
     }
     double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
-    for (int i = 0; i < nodes.count(); i++) {
+    for (int i = 0; i < nodes.count(); ++i) {
         QDomElement e = nodes.item(i).toElement();
         if (!e.isNull()) {
             GenTime pos = GenTime(e.attribute("time").toDouble());
@@ -449,7 +449,7 @@ void RenderWidget::slotSaveProfile()
     QDialog *d = new QDialog(this);
     ui.setupUi(d);
 
-    for (int i = 0; i < m_view.destination_list->count(); i++)
+    for (int i = 0; i < m_view.destination_list->count(); ++i)
         ui.destination_list->addItem(m_view.destination_list->itemIcon(i), m_view.destination_list->itemText(i), m_view.destination_list->itemData(i, Qt::UserRole));
 
     ui.destination_list->setCurrentIndex(m_view.destination_list->currentIndex());
@@ -557,7 +557,7 @@ void RenderWidget::saveProfile(QDomElement newprofile)
                 break;
             }
         }
-        i++;
+        ++i;
     }
 
     profiles.appendChild(newprofile);
@@ -617,7 +617,7 @@ void RenderWidget::slotEditProfile()
     QDialog *d = new QDialog(this);
     ui.setupUi(d);
 
-    for (int i = 0; i < m_view.destination_list->count(); i++)
+    for (int i = 0; i < m_view.destination_list->count(); ++i)
         ui.destination_list->addItem(m_view.destination_list->itemIcon(i), m_view.destination_list->itemText(i), m_view.destination_list->itemData(i, Qt::UserRole));
 
     ui.destination_list->setCurrentIndex(m_view.destination_list->currentIndex());
@@ -697,7 +697,7 @@ void RenderWidget::slotEditProfile()
                     break;
                 }
             }
-            i++;
+            ++i;
         }
 
         QDomElement profileElement = doc.createElement("profile");
@@ -779,7 +779,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
             doc.documentElement().removeChild(profiles.item(i));
             break;
         }
-        i++;
+        ++i;
     }
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -1224,7 +1224,7 @@ void RenderWidget::refreshCategory(const QString &group, const QString &profile)
         m_view.open_browser->setVisible(false);
 
     // hide groups that are not in the correct destination
-    for (int i = 0; i < m_renderCategory.count(); i++) {
+    for (int i = 0; i < m_renderCategory.count(); ++i) {
         sizeItem = m_renderCategory.at(i);
         if (sizeItem->data(MetaGroupRole).toString() == destination) {
             m_view.format_list->addItem(sizeItem->clone());
@@ -1290,7 +1290,7 @@ void RenderWidget::refreshView(const QString &profile)
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
 
     double project_framerate = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
-    for (int i = 0; i < m_renderItems.count(); i++) {
+    for (int i = 0; i < m_renderItems.count(); ++i) {
         sizeItem = m_renderItems.at(i);
         QListWidgetItem *dupItem = NULL;
         if ((sizeItem->data(GroupRole).toString() == group || sizeItem->data(GroupRole).toString().isEmpty()) && sizeItem->data(MetaGroupRole).toString() == destination) {
@@ -1575,7 +1575,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             newprofiles.setAttribute("version", 1);
             newdoc.appendChild(newprofiles);
             QDomNodeList profilelist = doc.elementsByTagName("profile");
-            for (int i = 0; i < profilelist.count(); i++) {
+            for (int i = 0; i < profilelist.count(); ++i) {
                 QString category = i18nc("Category Name", "Custom");
                 QString extension;
                 QDomNode parent = profilelist.at(i).parentNode();
@@ -1765,7 +1765,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             n = n.nextSibling();
         }
 
-        i++;
+        ++i;
     }
 }
 
@@ -1872,7 +1872,7 @@ void RenderWidget::slotCheckJob()
     }
     m_view.abort_job->setEnabled(activate);
     /*
-    for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); i++) {
+    for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); ++i) {
         current = static_cast<RenderJobItem*>(m_view.running_jobs->topLevelItem(i));
         if (current == static_cast<RenderJobItem*> (m_view.running_jobs->currentItem())) {
             current->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 3));
@@ -1956,7 +1956,7 @@ void RenderWidget::slotCheckScript()
     if (current == NULL) return;
     m_view.start_script->setEnabled(current->data(0, Qt::UserRole).toString().isEmpty());
     m_view.delete_script->setEnabled(true);
-    for (int i = 0; i < m_view.scripts_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < m_view.scripts_list->topLevelItemCount(); ++i) {
         current = m_view.scripts_list->topLevelItem(i);
         if (current == m_view.scripts_list->currentItem()) {
             current->setSizeHint(1, QSize(m_view.scripts_list->columnWidth(1), fontMetrics().height() * 3));
@@ -2237,7 +2237,7 @@ bool RenderWidget::proxyRendering()
 
 void RenderWidget::setRescaleEnabled(bool enable)
 {
-    for (int i = 0; i < m_view.rescale_box->layout()->count(); i++) {
+    for (int i = 0; i < m_view.rescale_box->layout()->count(); ++i) {
         if (m_view.rescale_box->itemAt(i)->widget()) m_view.rescale_box->itemAt(i)->widget()->setEnabled(enable);
     }   
 }

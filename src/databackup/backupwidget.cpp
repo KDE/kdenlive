@@ -81,7 +81,7 @@ void BackupWidget::slotParseBackupFiles()
     backup_list->clear();
     QListWidgetItem *item;
     QString label;
-    for (int i = 0; i < resultList.count(); i++) {
+    for (int i = 0; i < resultList.count(); ++i) {
         label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
         if (m_projectWildcard.startsWith('*')) {
             // Displaying all backup files, so add project name in the entries

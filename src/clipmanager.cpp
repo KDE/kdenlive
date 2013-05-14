@@ -227,7 +227,7 @@ void ClipManager::checkAudioThumbs()
     }
 
     m_thumbsMutex.lock();
-    for (int i = 0; i < m_clipList.count(); i++) {
+    for (int i = 0; i < m_clipList.count(); ++i) {
         DocClipBase *clip = m_clipList.at(i);
         if (clip->hasAudioThumb() && !clip->audioThumbCreated())
             m_audioThumbsQueue.append(m_clipList.at(i)->getId());
@@ -294,7 +294,7 @@ void ClipManager::slotGetAudioThumbs()
                 h3 = 0;
                 for (int c = 0; c < channels; c++) {
                     QByteArray audioArray(arrayWidth, '\x00');
-                    for (int i = 0; i < arrayWidth; i++) {
+                    for (int i = 0; i < arrayWidth; ++i) {
                         audioArray[i] = channelarray.at(h2 + h3 + i);
 			if (audioArray.at(i) > maxVolume) maxVolume = audioArray.at(i);
                     }
@@ -353,7 +353,7 @@ void ClipManager::slotGetAudioThumbs()
                 for (int c = 0; c < channels; c++) {
                     QByteArray audioArray;
                     audioArray.resize(arrayWidth);
-                    for (int i = 0; i < audioArray.size(); i++) {
+                    for (int i = 0; i < audioArray.size(); ++i) {
 			double pcmval = *(pcm + c + i * samples / audioArray.size());
 			if (pcmval >= 0) {
 			    pcmval = sqrt(pcmval) / 2.83 + 64;
@@ -420,7 +420,7 @@ void ClipManager::slotDeleteClips(QStringList ids)
     QUndoCommand *delClips = new QUndoCommand();
     delClips->setText(i18np("Delete clip", "Delete clips", ids.size()));
 
-    for (int i = 0; i < ids.size(); i++) {
+    for (int i = 0; i < ids.size(); ++i) {
         DocClipBase *clip = getClipById(ids.at(i));
         if (clip) {
             new AddClipCommand(m_doc, clip->toXML(), ids.at(i), false, delClips);
@@ -431,7 +431,7 @@ void ClipManager::slotDeleteClips(QStringList ids)
 
 void ClipManager::deleteClip(const QString &clipId)
 {
-    for (int i = 0; i < m_clipList.count(); i++) {
+    for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->getId() == clipId) {
 	    DocClipBase *clip = m_clipList.takeAt(i);
             if (clip->clipType() != COLOR && clip->clipType() != SLIDESHOW  && !clip->fileURL().isEmpty()) {
@@ -455,7 +455,7 @@ DocClipBase *ClipManager::getClipById(QString clipId)
 {
     //kDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
     clipId = clipId.section('_', 0, 0);
-    for (int i = 0; i < m_clipList.count(); i++) {
+    for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->getId() == clipId) {
             //kDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;
             return m_clipList.at(i);
@@ -469,7 +469,7 @@ const QList <DocClipBase *> ClipManager::getClipByResource(const QString &resour
     QList <DocClipBase *> list;
     QString clipResource;
     QString proxyResource;
-    for (int i = 0; i < m_clipList.count(); i++) {
+    for (int i = 0; i < m_clipList.count(); ++i) {
         clipResource = m_clipList.at(i)->getProperty("resource");
         proxyResource = m_clipList.at(i)->getProperty("proxy");
         if (clipResource.isEmpty()) clipResource = m_clipList.at(i)->getProperty("colour");
@@ -483,14 +483,14 @@ const QList <DocClipBase *> ClipManager::getClipByResource(const QString &resour
 
 void ClipManager::clearUnusedProducers()
 {
-    for (int i = 0; i < m_clipList.count(); i++) {
+    for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->numReferences() == 0) m_clipList.at(i)->deleteProducers();
     }
 }
 
 void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool displayRatioChanged, bool fpsChanged)
 {
-    for (int i = 0; i < m_clipList.count(); i++) {
+    for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->numReferences() > 0 || displayRatioChanged || fpsChanged) {
             m_clipList.at(i)->deleteProducers();
         }
@@ -498,7 +498,7 @@ void ClipManager::resetProducersList(const QList <Mlt::Producer *> prods, bool d
     QString id;
     Mlt::Producer *prod;
     QStringList brokenClips;
-    for (int i = 0; i < prods.count(); i++) {
+    for (int i = 0; i < prods.count(); ++i) {
         prod = prods.at(i);
         id = prod->get("id");
         if (id.contains('_')) id = id.section('_', 0, 0);
@@ -600,7 +600,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, QMap <QString, QString>
                     prod.setAttribute("type", (int) TEXT);
                     // extract embeded images
                     QDomNodeList items = txtdoc.elementsByTagName("content");
-                    for (int i = 0; i < items.count() ; i++) {
+                    for (int i = 0; i < items.count() ; ++i) {
                         QDomElement content = items.item(i).toElement();
                         if (content.hasAttribute("base64")) {
                             QString titlesFolder = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
@@ -813,7 +813,7 @@ QDomElement ClipManager::groupsXml() const
     QDomDocument doc;
     QDomElement groups = doc.createElement("groups");
     doc.appendChild(groups);
-    for (int i = 0; i < m_groupsList.count(); i++) {
+    for (int i = 0; i < m_groupsList.count(); ++i) {
         QDomElement group = doc.createElement("group");
         groups.appendChild(group);
         QList <QGraphicsItem *> children = m_groupsList.at(i)->childItems();
@@ -843,7 +843,7 @@ void ClipManager::slotClipModified(const QString &path)
 {
     //kDebug() << "// CLIP: " << path << " WAS MODIFIED";
     const QList <DocClipBase *> list = getClipByResource(path);
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != NULL) {
             QString id = clip->getId();
@@ -875,7 +875,7 @@ void ClipManager::slotClipMissing(const QString &path)
 {
     // kDebug() << "// CLIP: " << path << " WAS MISSING";
     const QList <DocClipBase *> list = getClipByResource(path);
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != NULL) emit missingClip(clip->getId());
     }
@@ -885,7 +885,7 @@ void ClipManager::slotClipAvailable(const QString &path)
 {
     // kDebug() << "// CLIP: " << path << " WAS ADDED";
     const QList <DocClipBase *> list = getClipByResource(path);
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != NULL) emit availableClip(clip->getId());
     }

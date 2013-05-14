@@ -281,7 +281,7 @@ void ArchiveWidget::openArchiveForExtraction()
     // Check that it is a kdenlive project archive
     bool isProjectArchive = false;
     QStringList files = m_extractArchive->directory()->entries();
-    for (int i = 0; i < files.count(); i++) {
+    for (int i = 0; i < files.count(); ++i) {
         if (files.at(i).endsWith(".kdenlive")) {
             m_projectName = files.at(i);
             isProjectArchive = true;
@@ -349,7 +349,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                     QFileInfoList resultList = dir.entryInfoList(QDir::Files);
                     QStringList slideImages;
                     qint64 totalSize = 0;
-                    for (int i = 0; i < resultList.count(); i++) {
+                    for (int i = 0; i < resultList.count(); ++i) {
                         totalSize += resultList.at(i).size();
                         slideImages << resultList.at(i).absoluteFilePath();
                     }
@@ -434,7 +434,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QStri
                     QFileInfoList resultList = dir.entryInfoList(QDir::Files);
                     QStringList slideImages;
                     qint64 totalSize = 0;
-                    for (int i = 0; i < resultList.count(); i++) {
+                    for (int i = 0; i < resultList.count(); ++i) {
                         totalSize += resultList.at(i).size();
                         slideImages << resultList.at(i).absoluteFilePath();
                     }
@@ -538,7 +538,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     int items = 0;
     
     // We parse all files going into one folder, then start the copy job
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         parentItem = files_list->topLevelItem(i);
         if (parentItem->isDisabled()) {
             parentItem->setExpanded(false);
@@ -616,7 +616,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
 
     if (isArchive) {
         m_foldersList.append(destPath);
-        for (int i = 0; i < files.count(); i++) {
+        for (int i = 0; i < files.count(); ++i) {
             m_filesList.insert(files.at(i).path(), destPath + files.at(i).fileName());
         }
         slotArchivingFinished();
@@ -664,7 +664,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         archive_url->setEnabled(true);
         proxy_only->setEnabled(true);
         compressed_archive->setEnabled(true);
-        for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+        for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++)
                 files_list->topLevelItem(i)->child(j)->setDisabled(false);        
@@ -684,7 +684,7 @@ bool ArchiveWidget::processProjectFile()
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
 
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
             destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + parentItem->data(0, Qt::UserRole).toString());
@@ -720,7 +720,7 @@ bool ArchiveWidget::processProjectFile()
 
     // process kdenlive producers
     QDomNodeList prods = mlt.elementsByTagName("kdenlive_producer");
-    for (int i = 0; i < prods.count(); i++) {
+    for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
         if (e.hasAttribute("resource")) {
@@ -737,7 +737,7 @@ bool ArchiveWidget::processProjectFile()
 
     // process mlt producers
     prods = mlt.elementsByTagName("producer");
-    for (int i = 0; i < prods.count(); i++) {
+    for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
         QString src = EffectsList::property(e, "resource");
@@ -752,7 +752,7 @@ bool ArchiveWidget::processProjectFile()
     // process mlt transitions (for luma files)
     prods = mlt.elementsByTagName("transition");
     QString attribute;
-    for (int i = 0; i < prods.count(); i++) {
+    for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
         attribute = "resource";
@@ -853,7 +853,7 @@ void ArchiveWidget::slotArchivingFinished(bool result)
     archive_url->setEnabled(true);
     proxy_only->setEnabled(true);
     compressed_archive->setEnabled(true);
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         files_list->topLevelItem(i)->setDisabled(false);
         for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++)
             files_list->topLevelItem(i)->child(j)->setDisabled(false);
@@ -953,7 +953,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         QTreeWidgetItem *parentItem = NULL;
 
         // Build list of existing proxy ids
-        for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+        for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             parentItem = files_list->topLevelItem(i);
             if (parentItem->data(0, Qt::UserRole).toString() == "proxy") break;
         }
@@ -964,7 +964,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         }
         
         // Parse all items to disable original clips for existing proxies
-        for (int i = 0; i < proxyIdList.count(); i++) {
+        for (int i = 0; i < proxyIdList.count(); ++i) {
             QString id = proxyIdList.at(i);
             if (id.isEmpty()) continue;
             for (int j = 0; j < files_list->topLevelItemCount(); j++) {
@@ -983,7 +983,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
     }
     else {
         // Archive all clips
-        for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+        for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
             int items = parentItem->childCount();
             for (int j = 0; j < items; j++) {
@@ -994,7 +994,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
     
     // Calculate requested size
     int total = 0;
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         int items = parentItem->childCount();
         int itemsCount = 0;

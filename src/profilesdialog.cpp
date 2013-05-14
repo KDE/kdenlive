@@ -131,7 +131,7 @@ void ProfilesDialog::fillList(const QString &selectedProfile)
     }
 
     if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_view.profiles_list->count(); i++) {
+        for (int i = 0; i < m_view.profiles_list->count(); ++i) {
             if (m_view.profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
                 m_view.profiles_list->setCurrentIndex(i);
                 break;
@@ -201,7 +201,7 @@ bool ProfilesDialog::slotSaveProfile()
         QString profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         kDebug() << " TYING PROFILE FILE: " << profilePath;
         while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, this)) {
-            i++;
+            ++i;
             profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         }
         saveProfile(profilePath);
@@ -542,7 +542,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
         profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         kDebug() << " TYING PROFILE FILE: " << profilePath;
         while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, 0)) {
-            i++;
+            ++i;
             profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         }
     }

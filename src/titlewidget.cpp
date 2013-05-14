@@ -595,7 +595,7 @@ QStringList TitleWidget::extractImageList(const QString& xml)
     QDomDocument doc;
     doc.setContent(xml);
     QDomNodeList images = doc.elementsByTagName("content");
-    for (int i = 0; i < images.count(); i++) {
+    for (int i = 0; i < images.count(); ++i) {
         if (images.at(i).toElement().hasAttribute("url"))
             result.append(images.at(i).toElement().attribute("url"));
     }
@@ -610,7 +610,7 @@ QStringList TitleWidget::extractFontList(const QString& xml)
     QDomDocument doc;
     doc.setContent(xml);
     QDomNodeList images = doc.elementsByTagName("content");
-    for (int i = 0; i < images.count(); i++) {
+    for (int i = 0; i < images.count(); ++i) {
         if (images.at(i).toElement().hasAttribute("font"))
             result.append(images.at(i).toElement().attribute("font"));
     }
@@ -977,7 +977,7 @@ void TitleWidget::setCurrentItem(QGraphicsItem *item)
 void TitleWidget::zIndexChanged(int v)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         l[i]->setZValue(v);
     }
 }
@@ -1035,7 +1035,7 @@ void TitleWidget::selectionChanged()
         */
         int firstType = l.at(0)->type();
         bool allEqual = true;
-        for (int i = 0; i < l.size(); i++) {
+        for (int i = 0; i < l.size(); ++i) {
             if (l.at(i)->type() != firstType) {
                 allEqual = false;
                 break;
@@ -1053,7 +1053,7 @@ void TitleWidget::selectionChanged()
             value_x->setEnabled(true);
             value_y->setEnabled(true);
             bool containsTextitem = false;
-            for (int i = 0; i < l.size(); i++) {
+            for (int i = 0; i < l.size(); ++i) {
                 if (l.at(i)->type() == TEXTITEM) {
                     containsTextitem = true;
                     break;
@@ -1068,7 +1068,7 @@ void TitleWidget::selectionChanged()
         // Disable z index buttons if they don't make sense for the current selection
         int firstZindex = l.at(0)->zValue();
         allEqual = true;
-        for (int i = 0; i < l.size(); i++) {
+        for (int i = 0; i < l.size(); ++i) {
             if (l[i]->zValue() != firstZindex) {
                 allEqual = false;
                 break;
@@ -1572,7 +1572,7 @@ void TitleWidget::slotUpdateText()
     double outlineWidth = textOutline->value() / 10.0;
 
     int i;
-    for (i = 0; i < graphicsView->scene()->selectedItems().length(); i++) {
+    for (i = 0; i < graphicsView->scene()->selectedItems().length(); ++i) {
         QGraphicsTextItem* item = NULL;
         QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
         if (l.at(i)->type() == TEXTITEM) {
@@ -1619,7 +1619,7 @@ void TitleWidget::rectChanged()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     int i;
-    for (i = 0; i < l.length(); i++) {
+    for (i = 0; i < l.length(); ++i) {
         if (l.at(i)->type() == RECTITEM && !settingUp) {
             QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(i));
             QColor f = rectFColor->color();
@@ -1817,7 +1817,7 @@ void TitleWidget::loadTitle(KUrl url)
     if (url.isEmpty()) url = KFileDialog::getOpenUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Load Title"));
     if (!url.isEmpty()) {
         QList<QGraphicsItem *> items = m_scene->items();
-        for (int i = 0; i < items.size(); i++) {
+        for (int i = 0; i < items.size(); ++i) {
             if (items.at(i)->zValue() > -1000) delete items.at(i);
         }
         m_scene->clearTextSelection();
@@ -1916,7 +1916,7 @@ void TitleWidget::setXml(const QDomDocument &doc)
     m_transformations.clear();
     QList <QGraphicsItem *> items = graphicsView->scene()->items();
     const double PI = 4.0 * atan(1.0);
-    for (int i = 0; i < items.count(); i++) {
+    for (int i = 0; i < items.count(); ++i) {
         QTransform t = items.at(i)->transform();
         Transform x;
         x.scalex = t.m11();
@@ -2085,7 +2085,7 @@ void TitleWidget::slotAnimStart(bool anim)
     }
     slotSelectTool();
     QList<QGraphicsItem *> list = m_scene->items();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->zValue() > -1000) {
             list.at(i)->setFlag(QGraphicsItem::ItemIsMovable, !anim);
             list.at(i)->setFlag(QGraphicsItem::ItemIsSelectable, !anim);
@@ -2127,7 +2127,7 @@ void TitleWidget::slotAnimEnd(bool anim)
     }
     slotSelectTool();
     QList<QGraphicsItem *> list = m_scene->items();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->zValue() > -1000) {
             list.at(i)->setFlag(QGraphicsItem::ItemIsMovable, !anim);
             list.at(i)->setFlag(QGraphicsItem::ItemIsSelectable, !anim);
@@ -2359,7 +2359,7 @@ qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
             int n = lItems.size();
             qreal z;
             if (maxBound) {
-                for (int i = 0; i < n; i++) {
+                for (int i = 0; i < n; ++i) {
                     z = lItems[i]->zValue();
                     if (z > bound && !lItems[i]->isSelected()) {
                         bound = z;
@@ -2372,7 +2372,7 @@ qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
                 }
             } else {
                 // Get minimum z index.
-                for (int i = 0; i < n; i++) {
+                for (int i = 0; i < n; ++i) {
                     z = lItems[i]->zValue();
                     if (z < bound && !lItems[i]->isSelected() && z > -999) {
                         // There are items at the very bottom (background e.g.) with z-index < -1000.
@@ -2405,7 +2405,7 @@ void TitleWidget::slotZIndexTop()
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     qreal max = zIndexBounds(true, false);
     std::cout << "Max z-index is " << max << ".\n";
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         qreal currentZ = l[i]->zValue();
         if (currentZ <= max) {
             std::cout << "Updating item " << i << ", is " << currentZ << ".\n";
@@ -2437,7 +2437,7 @@ void TitleWidget::slotZIndexBottom()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     qreal min = zIndexBounds(false, false);
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         qreal currentZ = l[i]->zValue();
         if (currentZ >= min) {
             l[i]->setZValue(min - 1);
@@ -2452,7 +2452,7 @@ void TitleWidget::slotZIndexBottom()
 void TitleWidget::slotSelectAll()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->items();
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         l.at(i)->setSelected(true);
     }
 }
@@ -2462,14 +2462,14 @@ void TitleWidget::selectItems(int itemType)
     QList<QGraphicsItem*> l;
     if (graphicsView->scene()->selectedItems().size() > 0) {
         l = graphicsView->scene()->selectedItems();
-        for (int i = 0; i < l.size(); i++) {
+        for (int i = 0; i < l.size(); ++i) {
             if (l.at(i)->type() != itemType) {
                 l.at(i)->setSelected(false);
             }
         }
     } else {
         l = graphicsView->scene()->items();
-        for (int i = 0; i < l.size(); i++) {
+        for (int i = 0; i < l.size(); ++i) {
             if (l.at(i)->type() == itemType) {
                 l.at(i)->setSelected(true);
             }
@@ -2496,7 +2496,7 @@ void TitleWidget::slotSelectNone()
 {
     graphicsView->blockSignals(true);
     QList<QGraphicsItem*> l = graphicsView->scene()->items();
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         l.at(i)->setSelected(false);
     }
     graphicsView->blockSignals(false);

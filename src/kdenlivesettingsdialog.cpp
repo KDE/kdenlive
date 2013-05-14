@@ -167,7 +167,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     QMap<QString, int> action_pos;
     foreach (const QString& action_id, actions_map) {
       // This loop find out at what index is the string that would map to the action_id.
-      for (int i = 0; i < action_names.size(); i++) {
+      for (int i = 0; i < action_names.size(); ++i) {
           if (mappable_actions[action_names[i]] == action_id) {
               action_pos[action_id] = i;
               break;
@@ -340,7 +340,7 @@ void KdenliveSettingsDialog::checkProfile()
     }
 
     if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_configProject.kcfg_profiles_list->count(); i++) {
+        for (int i = 0; i < m_configProject.kcfg_profiles_list->count(); ++i) {
             if (m_configProject.kcfg_profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
                 m_configProject.kcfg_profiles_list->setCurrentIndex(i);
                 KdenliveSettings::setProfiles_list(i);
@@ -364,7 +364,7 @@ void KdenliveSettingsDialog::initDevices()
 #endif
 
     if (!KdenliveSettings::audiodrivername().isEmpty())
-        for (int i = 1; i < m_configSdl.kcfg_audio_driver->count(); i++) {
+        for (int i = 1; i < m_configSdl.kcfg_audio_driver->count(); ++i) {
             if (m_configSdl.kcfg_audio_driver->itemData(i).toString() == KdenliveSettings::audiodrivername()) {
                 m_configSdl.kcfg_audio_driver->setCurrentIndex(i);
                 KdenliveSettings::setAudio_driver((uint) i);
@@ -535,7 +535,7 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
         // parse devices
         QString baseName = "/dev/input/event";
         int fd;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 30; ++i) {
             QString filename = baseName + QString::number(i);
             kDebug() << "/// CHECKING device: " << filename;
 
@@ -567,7 +567,7 @@ void KdenliveSettingsDialog::updateWidgets()
 #ifdef USE_JOGSHUTTLE
     // revert jog shuttle device
     if (m_configShuttle.shuttledevicelist->count() > 0) {
-	for (int i = 0; i < m_configShuttle.shuttledevicelist->count(); i++) {
+	for (int i = 0; i < m_configShuttle.shuttledevicelist->count(); ++i) {
 	    if (m_configShuttle.shuttledevicelist->itemData(i) == KdenliveSettings::shuttledevice()) {
 		m_configShuttle.shuttledevicelist->setCurrentIndex(i);
 		break;
@@ -582,7 +582,7 @@ void KdenliveSettingsDialog::updateWidgets()
     QMap<QString, int> action_pos;
     foreach (const QString& action_id, actions_map) {
       // This loop find out at what index is the string that would map to the action_id.
-      for (int i = 0; i < action_names.size(); i++) {
+      for (int i = 0; i < action_names.size(); ++i) {
           if (m_mappable_actions[action_names[i]] == action_id) {
               action_pos[action_id] = i;
               break;
@@ -789,7 +789,7 @@ void KdenliveSettingsDialog::saveTranscodeProfiles()
     // read the entries
     transConfig.deleteGroup();
     int max = m_configTranscode.profiles_list->count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         QListWidgetItem *item = m_configTranscode.profiles_list->item(i);
         transConfig.writeEntry(item->text(), item->data(Qt::UserRole).toString());
     }
@@ -917,7 +917,7 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
     QString itemSize;
     QString pixelFormat;
     QStringList itemRates;
-    for (int i = 0; i < pixelformats.count(); i++) {
+    for (int i = 0; i < pixelformats.count(); ++i) {
         QString format = pixelformats.at(i).section(':', 0, 0);
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();

@@ -80,7 +80,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         const float wPrediv = (float)(partW-1)/(iw-1);
 
         StructRGB paradeVals[partW][256];
-        for (uint i = 0; i < partW; i++) {
+        for (uint i = 0; i < partW; ++i) {
             for (uint j = 0; j < 256; j++) {
                 paradeVals[i][j].r = 0;
                 paradeVals[i][j].g = 0;
@@ -121,7 +121,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         const uint offset2 = 2*partW + 2*offset;
         switch(paintMode) {
         case PaintMode_RGB:
-            for (uint i = 0; i < partW; i++) {
+            for (uint i = 0; i < partW; ++i) {
                 for (uint j = 0; j < 256; j++) {
                     unscaled.setPixel(i,         j, qRgba(255,10,10, CHOP255(gain*paradeVals[i][j].r)));
                     unscaled.setPixel(i+offset1, j, qRgba(10,255,10, CHOP255(gain*paradeVals[i][j].g)));
@@ -130,7 +130,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
             }
             break;
         default:
-            for (uint i = 0; i < partW; i++) {
+            for (uint i = 0; i < partW; ++i) {
                 for (uint j = 0; j < 256; j++) {
                     unscaled.setPixel(i,         j, qRgba(255,255,255, CHOP255(gain*paradeVals[i][j].r)));
                     unscaled.setPixel(i+offset1, j, qRgba(255,255,255, CHOP255(gain*paradeVals[i][j].g)));
@@ -147,7 +147,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
         if (drawAxis) {
             QRgb opx;
-            for (uint i = 0; i <= 10; i++) {
+            for (uint i = 0; i <= 10; ++i) {
                 dy = (float)i/10 * (partH-1);
                 for (uint x = 0; x < ww-distRight; x++) {
                     opx = parade.pixel(x, dy);

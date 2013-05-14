@@ -160,7 +160,7 @@ void ClipItem::setEffectList(const EffectsList effectList)
     m_effectList.clone(effectList);
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (!m_effectList.isEmpty()) {
-        for (int i = 0; i < m_effectList.count(); i++) {
+        for (int i = 0; i < m_effectList.count(); ++i) {
 	    QDomElement effect = m_effectList.at(i);
             QString effectId = effect.attribute("id");
             // check if it is a fade effect
@@ -238,7 +238,7 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
 
     // Init parameter value & keyframes if required
     QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
 
         if (e.isNull())
@@ -433,7 +433,7 @@ void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
     QLocale locale;
     QDomNodeList params = effect.elementsByTagName("parameter");
     int keyframeParams = 0;
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
             e.setAttribute("keyframes", keyframes.at(keyframeParams));
@@ -470,7 +470,7 @@ void ClipItem::setSelectedEffect(const int ix)
     QDomElement effect = effectAtIndex(m_selectedEffect);
     if (!effect.isNull() && effect.attribute("disable") != "1") {
         QDomNodeList params = effect.elementsByTagName("parameter");
-        for (int i = 0; i < params.count(); i++) {
+        for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
             if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
                 m_keyframes.clear();
@@ -510,7 +510,7 @@ void ClipItem::resizeGeometries(const int index, int width, int height, int prev
     QDomElement effect = m_effectList.at(index);
     QDomNodeList params = effect.elementsByTagName("parameter");
 
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && e.attribute("type") == "geometry") {
             geom = e.attribute("value");
@@ -526,7 +526,7 @@ QStringList ClipItem::keyframes(const int index)
     QDomElement effect = m_effectList.at(index);
     QDomNodeList params = effect.elementsByTagName("parameter");
 
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe"))
             result.append(e.attribute("keyframes"));
@@ -857,7 +857,7 @@ void ClipItem::paint(QPainter *painter,
             QPointF startPos = mapped.topLeft();
             int startOffset = m_info.cropStart.frames(m_fps);
             if (clipType() == IMAGE || clipType() == TEXT) {
-                for (int i = left; i <= right; i++) {
+                for (int i = left; i <= right; ++i) {
                     painter->drawPixmap(startPos + QPointF(FRAME_SIZE *(i - startOffset), 0), m_startPix);
                 }
             }
@@ -869,7 +869,7 @@ void ClipItem::paint(QPainter *painter,
                     QPen pen(Qt::white);
                     pen.setStyle(Qt::DotLine);
                     QList <int> missing;
-                    for (int i = left; i <= right; i++) {
+                    for (int i = left; i <= right; ++i) {
                         img = m_clip->thumbProducer()->findCachedThumb(path + QString::number(i));
                         QPointF xpos = startPos + QPointF(FRAME_SIZE *(i - startOffset), 0);
                         if (img.isNull()) missing << i;
@@ -1081,7 +1081,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 	if (parentItem()) {
 	    QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
 	    QList<QGraphicsItem *> list = dragGroup->childItems();
-	    for (int i = 0; i < list.count(); i++) {
+	    for (int i = 0; i < list.count(); ++i) {
 		if (list.at(i)->type() == AVWIDGET) {
 		    ClipItem *c = static_cast <ClipItem*>(list.at(i));
 		    if (c->startPos() != startPos()) return MOVE;
@@ -1096,7 +1096,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 	if (parentItem()) {
 	    QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
 	    QList<QGraphicsItem *> list = dragGroup->childItems();
-	    for (int i = 0; i < list.count(); i++) {
+	    for (int i = 0; i < list.count(); ++i) {
 		if (list.at(i)->type() == AVWIDGET) {
 		    ClipItem *c = static_cast <ClipItem*>(list.at(i));
 		    if (c->endPos() != endPos()) return MOVE;
@@ -1131,7 +1131,7 @@ QList <GenTime> ClipItem::snapMarkers() const
     QList < GenTime > markers = m_clip->snapMarkers();
     GenTime pos;
 
-    for (int i = 0; i < markers.size(); i++) {
+    for (int i = 0; i < markers.size(); ++i) {
         pos = GenTime((int)(markers.at(i).frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
@@ -1148,7 +1148,7 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const
     QList < CommentedTime > markers = m_clip->commentedSnapMarkers();
     GenTime pos;
 
-    for (int i = 0; i < markers.size(); i++) {
+    for (int i = 0; i < markers.size(); ++i) {
         pos = GenTime((int)(markers.at(i).time().frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
@@ -1194,7 +1194,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
         
         QPainter pixpainter(&m_audioThumbCachePic[startCache]);
 
-	for (int i = 0; i < channels; i++) {
+	for (int i = 0; i < channels; ++i) {
 	    if (simplifiedAudio) {
 		positiveChannelPaths[i].moveTo(-1, channelHeight);
 	    }
@@ -1252,7 +1252,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
 	    pixpainter.setBrush(Qt::NoBrush);
 	}
 	pixpainter.setRenderHint(QPainter::Antialiasing, false);
-        for (int i = 0; i < channels; i++) {
+        for (int i = 0; i < channels; ++i) {
             if (fullAreaDraw) {
                 pixpainter.drawPath(positiveChannelPaths[i].united(negativeChannelPaths.value(i)));
             } else
@@ -1419,7 +1419,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         bool forwardMove = newPos.x() > pos().x();
         int offset = 0;
         if (!items.isEmpty()) {
-            for (int i = 0; i < items.count(); i++) {
+            for (int i = 0; i < items.count(); ++i) {
                 if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
                     // Collision!
@@ -1639,7 +1639,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
         }*/
     }
 
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
             if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
@@ -1789,7 +1789,7 @@ const ItemInfo ClipItem::speedIndependantInfo() const
 int ClipItem::nextFreeEffectGroupIndex() const
 {
     int freeGroupIndex = 0;
-    for (int i = 0; i < m_effectList.count(); i++) {
+    for (int i = 0; i < m_effectList.count(); ++i) {
         QDomElement effect = m_effectList.at(i);
 	EffectInfo effectInfo;
 	effectInfo.fromString(effect.attribute("kdenlive_info"));
@@ -1814,7 +1814,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 	    QDomNodeList effectlist = e.elementsByTagName("effect");
 	    int freeGroupIndex = nextFreeEffectGroupIndex();
 	    EffectInfo effectInfo;
-	    for (int i = 0; i < effectlist.count(); i++) {
+	    for (int i = 0; i < effectlist.count(); ++i) {
 		QDomElement effect = effectlist.at(i).toElement();
 		effectInfo.fromString(effect.attribute("kdenlive_info"));
 		effectInfo.groupIndex = freeGroupIndex;
@@ -1895,7 +1895,7 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
     effect.setAttribute("active_keyframe", pos);
     m_editedKeyframe = pos;
     QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             QString kfr = e.attribute("keyframes");
@@ -1935,7 +1935,7 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
     QDomNodeList params = effect.elementsByTagName("parameter");
     int start = cropStart().frames(m_fps);
     int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             QString kfr = e.attribute("keyframes");
@@ -1995,7 +1995,7 @@ Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
 QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, ItemInfo oldInfo)
 {
     QMap<int, QDomElement> effects;
-    for (int i = 0; i < m_effectList.count(); i++) {
+    for (int i = 0; i < m_effectList.count(); ++i) {
         QDomElement effect = m_effectList.at(i);
 
         if (effect.attribute("id").startsWith("fade")) {

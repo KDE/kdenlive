@@ -153,7 +153,7 @@ void DvdWizardVob::slotCheckProfiles()
 {
     bool conflict = false;
     int comboProfile = m_view.dvd_profile->currentIndex();
-    for (int i = 0; i < m_vobList->topLevelItemCount(); i++) {
+    for (int i = 0; i < m_vobList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (item->data(0, Qt::UserRole + 1).toInt() != comboProfile) {
 	    conflict = true;
@@ -320,7 +320,7 @@ QStringList DvdWizardVob::selectedUrls() const
 	// First movie is only for intro
 	i = 1;
     }
-    for (; i < max; i++) {
+    for (; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (item) result.append(item->text(0));
     }
@@ -338,7 +338,7 @@ QStringList DvdWizardVob::durations() const
 	// First movie is only for intro
 	i = 1;
     }
-    for (; i < max; i++) {
+    for (; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (item) result.append(QString::number(item->data(1, Qt::UserRole).toInt()));
     }
@@ -355,7 +355,7 @@ QStringList DvdWizardVob::chapters() const
 	// First movie is only for intro
 	i = 1;
     }
-    for (; i < max; i++) {
+    for (; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (item) {
             result.append(item->data(1, Qt::UserRole + 1).toString());
@@ -372,7 +372,7 @@ void DvdWizardVob::updateChapters(QMap <QString, QString> chaptersdata)
 	// First movie is only for intro
 	i = 1;
     }
-    for (; i < max; i++) {
+    for (; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
         if (chaptersdata.contains(item->text(0))) item->setData(1, Qt::UserRole + 1, chaptersdata.value(item->text(0)));
     }
@@ -414,7 +414,7 @@ void DvdWizardVob::slotCheckVobList()
     else m_view.button_down->setEnabled(hasItem);
 
     qint64 totalSize = 0;
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         item = m_vobList->topLevelItem(i);
         if (item) totalSize += (qint64) item->data(2, Qt::UserRole).toInt();
     }
@@ -535,7 +535,7 @@ void DvdWizardVob::slotTranscodeFiles()
     // Transcode files that do not match selected profile
     int max = m_vobList->topLevelItemCount();
     int format = m_view.dvd_profile->currentIndex();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
 	if (item->data(0, Qt::UserRole + 1).toInt() != format) {
 	    // File needs to be transcoded
@@ -573,7 +573,7 @@ void DvdWizardVob::slotTranscodedClip(KUrl src, KUrl transcoded)
 	return;
     }
     int max = m_vobList->topLevelItemCount();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
 	if (KUrl(item->text(0)).path() == src.path()) {
 	    // Replace movie with transcoded version

@@ -158,7 +158,7 @@ void DvdWizardMenu::slotEnableShadows(int enable)
 {
 #if KDE_IS_VERSION(4,6,0)
     QList<QGraphicsItem *> list = m_scene->items();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             if (enable) {
 		QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
@@ -181,7 +181,7 @@ bool DvdWizardMenu::isComplete() const
     QList<QGraphicsItem *> list = m_scene->items();
     int buttonCount = 0;
     // check that the menu buttons don't collide
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             buttonCount++;
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
@@ -259,7 +259,7 @@ bool DvdWizardMenu::isComplete() const
 void DvdWizardMenu::setButtonTarget(int ix)
 {
     QList<QGraphicsItem *> list = m_scene->selectedItems();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
             button->setTarget(ix, m_view.target_list->itemData(ix).toString());
@@ -272,7 +272,7 @@ void DvdWizardMenu::setButtonTarget(int ix)
 void DvdWizardMenu::setBackToMenu(bool backToMenu)
 {
     QList<QGraphicsItem *> list = m_scene->selectedItems();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
             button->setBackMenu(backToMenu);
@@ -286,7 +286,7 @@ void DvdWizardMenu::buttonChanged()
 {
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     bool foundButton = false;
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             m_view.play_text->blockSignals(true);
             m_view.font_size->blockSignals(true);
@@ -340,7 +340,7 @@ void DvdWizardMenu::addButton()
 void DvdWizardMenu::deleteButton()
 {
     QList<QGraphicsItem *> list = m_scene->selectedItems();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             delete list.at(i);
             break;
@@ -395,7 +395,7 @@ void DvdWizardMenu::setTargets(QStringList list, QStringList targetlist)
     m_view.target_list->clear();
     m_view.target_list->addItem(i18n("Play All"), "jump title 1");
     int movieCount = 0;
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (targetlist.at(i).contains("chapter"))
             m_view.target_list->addItem(list.at(i), targetlist.at(i));
         else {
@@ -482,7 +482,7 @@ void DvdWizardMenu::buildButton()
 {
     DvdButton *button = NULL;
     QList<QGraphicsItem *> list = m_scene->selectedItems();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             button = static_cast < DvdButton* >(list.at(i));
             break;
@@ -508,7 +508,7 @@ void DvdWizardMenu::updateColor()
 void DvdWizardMenu::prepareUnderLines()
 {
     QList<QGraphicsItem *> list = m_scene->items();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
 	    QRectF r = list.at(i)->sceneBoundingRect();
 	    int bottom = r.bottom() - 1;
@@ -531,7 +531,7 @@ void DvdWizardMenu::resetUnderLines()
 {
     QList<QGraphicsItem *> list = m_scene->items();
     QList<QGraphicsItem *> toDelete;
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
 	if (list.at(i)->type() == DvdButtonUnderlineItem) {
 	    toDelete.append(list.at(i));
 	}
@@ -548,7 +548,7 @@ void DvdWizardMenu::resetUnderLines()
 void DvdWizardMenu::updateUnderlineColor(QColor c)
 {
     QList<QGraphicsItem *> list = m_scene->items();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonUnderlineItem) {
             DvdButtonUnderline *underline = static_cast < DvdButtonUnderline* >(list.at(i));
 	    underline->setPen(Qt::NoPen);
@@ -563,7 +563,7 @@ void DvdWizardMenu::updateColor(QColor c)
 {
     DvdButton *button = NULL;
     QList<QGraphicsItem *> list = m_scene->items();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             button = static_cast < DvdButton* >(list.at(i));
             button->setDefaultTextColor(c);
@@ -718,7 +718,7 @@ QMap <QString, QRect> DvdWizardMenu::buttonsInfo(bool letterbox)
 	ratioy = (double) letterboxHeight / m_finalSize.height();
 	offset = (m_finalSize.height() - letterboxHeight) / 2;
     }
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
 	    QRectF r = button->sceneBoundingRect();
@@ -758,7 +758,7 @@ QDomElement DvdWizardMenu::toXml() const
     QList<QGraphicsItem *> list = m_scene->items();
     int buttonCount = 0;
 
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             buttonCount++;
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
@@ -810,7 +810,7 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, QDomElement xml)
         // Clear existing buttons
         QList<QGraphicsItem *> list = m_scene->items();
 
-        for (int i = 0; i < list.count(); i++) {
+        for (int i = 0; i < list.count(); ++i) {
             if (list.at(i)->type() == DvdButtonItem) {
                 delete list.at(i);
                 i--;
@@ -818,7 +818,7 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, QDomElement xml)
         }
     }
 
-    for (int i = 0; i < buttons.count(); i++) {
+    for (int i = 0; i < buttons.count(); ++i) {
         QDomElement e = buttons.at(i).toElement();
         // create menu button
         DvdButton *button = new DvdButton(e.attribute("text"));

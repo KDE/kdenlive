@@ -65,7 +65,7 @@ ClipTranscode::ClipTranscode(const KUrl::List &urls, const QString &params, cons
         dest_url->setMode(KFile::Directory);
         dest_url->setUrl(KUrl(m_urls.at(0).directory()));
         dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
-        for (int i = 0; i < m_urls.count(); i++)
+        for (int i = 0; i < m_urls.count(); ++i)
             urls_list->addItem(m_urls.at(i).path());
     }
     if (!params.isEmpty()) {
@@ -261,7 +261,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
     //Refill url list in case user wants to transcode to another format
     if (urls_list->count() > 0) {
         m_urls.clear();
-        for (int i = 0; i < urls_list->count(); i++)
+        for (int i = 0; i < urls_list->count(); ++i)
             m_urls << urls_list->item(i)->text();
     }
 }

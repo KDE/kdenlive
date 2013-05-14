@@ -252,7 +252,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     if (markerMenu) {
         m_contextMenu->addMenu(markerMenu);
         QList <QAction *>list = markerMenu->actions();
-        for (int i = 0; i < list.count(); i++) {
+        for (int i = 0; i < list.count(); ++i) {
             if (list.at(i)->data().toString() == "edit_marker") {
                 m_editMarker = list.at(i);
                 break;
@@ -373,7 +373,7 @@ void Monitor::updateMarkers(DocClipBase *source)
         QList <CommentedTime> markers = m_currentClip->commentedSnapMarkers();
         if (!markers.isEmpty()) {
             QList <int> marks;
-            for (int i = 0; i < markers.count(); i++) {
+            for (int i = 0; i < markers.count(); ++i) {
                 int pos = (int) markers.at(i).time().frames(m_monitorManager->timecode().fps());
                 marks.append(pos);
                 QString position = m_monitorManager->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();

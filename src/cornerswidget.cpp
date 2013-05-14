@@ -223,7 +223,7 @@ void CornersWidget::slotInsertKeyframe()
 
     QPolygonF pol = m_item->polygon();
     double val;
-    for (int i = 0; i < keyframe_list->columnCount(); i++) {
+    for (int i = 0; i < keyframe_list->columnCount(); ++i) {
         if (i < 8) {
             if (i % 2 == 0)
                 val = pol.at(i / 2).x() / (double)m_monitor->render->frameRenderWidth();

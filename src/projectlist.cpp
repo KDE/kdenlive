@@ -211,7 +211,7 @@ void InvalidDialog::addClip(const QString &id, const QString &path)
 QStringList InvalidDialog::getIds() const
 {
     QStringList ids;
-    for (int i = 0; i < m_clipList->count(); i++) {
+    for (int i = 0; i < m_clipList->count(); ++i) {
         ids << m_clipList->item(i)->data(Qt::UserRole).toString();
     }
     return ids;
@@ -346,7 +346,7 @@ ProjectList::ProjectList(QWidget *parent) :
 ProjectList::~ProjectList()
 {
     m_abortAllJobs = true;
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         m_jobList.at(i)->setStatus(JOBABORTED);
     }
     m_closing = true;
@@ -372,7 +372,7 @@ void ProjectList::focusTree() const
 void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
 {
     QList <QAction *> actions = addMenu->actions();
-    for (int i = 0; i < actions.count(); i++) {
+    for (int i = 0; i < actions.count(); ++i) {
         if (actions.at(i)->data().toString() == "clip_properties") {
             m_editButton->setDefaultAction(actions.at(i));
             actions.removeAt(i);
@@ -515,7 +515,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     int commonDuration = -1;
     bool hasImages = false;;
     ProjectItem *item;
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         item = NULL;
         if (list.at(i)->type() == PROJECTFOLDERTYPE) {
             // Add folder items to the list
@@ -678,7 +678,7 @@ void ProjectList::trashUnusedClips()
     }
 
     emit deleteProjectClips(ids, QMap <QString, QString>());
-    for (int i = 0; i < urls.count(); i++)
+    for (int i = 0; i < urls.count(); ++i)
         KIO::NetAccess::del(KUrl(urls.at(i)), this);
 }
 
@@ -692,7 +692,7 @@ void ProjectList::slotReloadClip(const QString &id)
         if (itemToReLoad) selected.append(itemToReLoad);
     }
     ProjectItem *item;
-    for (int i = 0; i < selected.count(); i++) {
+    for (int i = 0; i < selected.count(); ++i) {
         if (selected.at(i)->type() != PROJECTCLIPTYPE) {
             if (selected.at(i)->type() == PROJECTFOLDERTYPE) {
                 for (int j = 0; j < selected.at(i)->childCount(); j++)
@@ -937,7 +937,7 @@ void ProjectList::adjustTranscodeActions(ProjectItem *clip) const
     QList<QAction *> transcodeActions = m_transcodeAction->actions();
     QStringList data;
     QString condition;
-    for (int i = 0; i < transcodeActions.count(); i++) {
+    for (int i = 0; i < transcodeActions.count(); ++i) {
         data = transcodeActions.at(i)->data().toStringList();
         if (data.count() > 2) {
             condition = data.at(2);
@@ -1030,7 +1030,7 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
             folder->setGroupName(item->text(0));
             m_doc->clipManager()->addFolder(folder->clipId(), item->text(0));
             const int children = item->childCount();
-            for (int i = 0; i < children; i++) {
+            for (int i = 0; i < children; ++i) {
                 ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
                 child->setProperty("groupname", item->text(0));
             }
@@ -1139,7 +1139,7 @@ void ProjectList::slotRemoveClip()
 
     QUndoCommand *delCommand = new QUndoCommand();
     delCommand->setText(i18n("Delete Clip Zone"));
-    for (int i = 0; i < selected.count(); i++) {
+    for (int i = 0; i < selected.count(); ++i) {
         if (selected.at(i)->type() == PROJECTSUBCLIPTYPE) {
             // subitem
             SubProjectItem *sub = static_cast <SubProjectItem *>(selected.at(i));
@@ -1275,7 +1275,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
                 m_listView->blockSignals(false);
                 m_doc->clipManager()->addFolder(clipId, foldername);
                 const int children = item->childCount();
-                for (int i = 0; i < children; i++) {
+                for (int i = 0; i < children; ++i) {
                     ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
                     child->setProperty("groupname", foldername);
                 }
@@ -1375,7 +1375,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     // Add cut zones
     QList <CutZoneInfo> cuts = clip->cutZones();
     if (!cuts.isEmpty()) {
-        for (int i = 0; i < cuts.count(); i++) {
+        for (int i = 0; i < cuts.count(); ++i) {
             SubProjectItem *sub = new SubProjectItem(m_render->dar(), item, cuts.at(i).zone.x(), cuts.at(i).zone.y(), cuts.at(i).description);
             if (!clip->getClipHash().isEmpty()) {
                 QString cachedPixmap = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + clip->getClipHash() + '#' + QString::number(cuts.at(i).zone.x()) + ".png";
@@ -1444,7 +1444,7 @@ void ProjectList::slotResetProjectList()
 {
     m_listView->blockSignals(true);
     m_abortAllJobs = true;
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         m_jobList.at(i)->setStatus(JOBABORTED);
     }
     m_closing = true;
@@ -1765,7 +1765,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
         }
         delete d;
     } else {
-        for (int i = 0; i < givenList.count(); i++)
+        for (int i = 0; i < givenList.count(); ++i)
             list << givenList.at(i);
     }
     QList <KUrl::List> foldersList;
@@ -1804,7 +1804,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
     
     if (!foldersList.isEmpty()) {
         // create folders 
-        for (int i = 0; i < foldersList.count(); i++) {
+        for (int i = 0; i < foldersList.count(); ++i) {
             KUrl::List urls = foldersList.at(i);
             KUrl folderUrl = urls.takeFirst();
             QString folderName = folderUrl.fileName();
@@ -2009,7 +2009,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
 {
     m_listView->blockSignals(true);
     m_abortAllJobs = true;
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         m_jobList.at(i)->setStatus(JOBABORTED);
     }
     m_closing = true;
@@ -2044,7 +2044,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
         m_refreshed = true;
         m_allClipsProcessed = true;
     }
-    for (int i = 0; i < list.count(); i++)
+    for (int i = 0; i < list.count(); ++i)
         slotAddClip(list.at(i), false);
 
     m_listView->blockSignals(false);
@@ -2516,7 +2516,7 @@ QTreeWidgetItem *ProjectList::getAnyItemById(const QString &id)
     if (result == NULL || !id.contains('#')) {
         return result;
     } else {
-        for (int i = 0; i < result->childCount(); i++) {
+        for (int i = 0; i < result->childCount(); ++i) {
             SubProjectItem *sub = static_cast <SubProjectItem *>(result->child(i));
             if (sub && sub->zone().x() == id.section('#', 1, 1).toInt())
                 return sub;
@@ -2549,7 +2549,7 @@ FolderProjectItem *ProjectList::getFolderItemByName(const QString &name)
 {
     FolderProjectItem *item = NULL;
     QList <QTreeWidgetItem *> hits = m_listView->findItems(name, Qt::MatchExactly, 0);
-    for (int i = 0; i < hits.count(); i++) {
+    for (int i = 0; i < hits.count(); ++i) {
         if (hits.at(i)->type() == PROJECTFOLDERTYPE) {
             item = static_cast<FolderProjectItem *>(hits.at(i));
             break;
@@ -2617,7 +2617,7 @@ KUrl::List ProjectList::getConditionalUrls(const QString &condition) const
     KUrl::List result;
     ProjectItem *item;
     QList<QTreeWidgetItem *> list = m_listView->selectedItems();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == PROJECTFOLDERTYPE)
             continue;
         if (list.at(i)->type() == PROJECTSUBCLIPTYPE) {
@@ -2645,7 +2645,7 @@ QMap <QString, QString> ProjectList::getConditionalIds(const QString &condition)
     QMap <QString, QString> result;
     ProjectItem *item;
     QList<QTreeWidgetItem *> list = m_listView->selectedItems();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == PROJECTFOLDERTYPE)
             continue;
         if (list.at(i)->type() == PROJECTSUBCLIPTYPE) {
@@ -2696,7 +2696,7 @@ QDomDocument ProjectList::generateTemplateXml(QString path, const QString &repla
     }
     file.close();
     QDomNodeList texts = doc.elementsByTagName("content");
-    for (int i = 0; i < texts.count(); i++) {
+    for (int i = 0; i < texts.count(); ++i) {
         QString data = texts.item(i).firstChild().nodeValue();
         data.replace("%s", replaceString);
         texts.item(i).firstChild().setNodeValue(data);
@@ -2754,7 +2754,7 @@ SubProjectItem *ProjectList::getSubItem(ProjectItem *clip, const QPoint &zone)
 {
     SubProjectItem *sub = NULL;
     if (clip) {
-        for (int i = 0; i < clip->childCount(); i++) {
+        for (int i = 0; i < clip->childCount(); ++i) {
             QTreeWidgetItem *it = clip->child(i);
             if (it->type() == PROJECTSUBCLIPTYPE) {
                 sub = static_cast <SubProjectItem*>(it);
@@ -3049,7 +3049,7 @@ void ProjectList::slotCheckJobProcess()
         // Remove inactive threads
         QList <QFuture<void> > futures = m_jobThreads.futures();
         m_jobThreads.clearFutures();
-        for (int i = 0; i < futures.count(); i++)
+        for (int i = 0; i < futures.count(); ++i)
             if (!futures.at(i).isFinished()) {
                 m_jobThreads.addFuture(futures.at(i));
             }
@@ -3058,7 +3058,7 @@ void ProjectList::slotCheckJobProcess()
 
     m_jobMutex.lock();
     int count = 0;
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         if (m_jobList.at(i)->status() == JOBWORKING || m_jobList.at(i)->status() == JOBWAITING)
             count ++;
         else {
@@ -3091,7 +3091,7 @@ void ProjectList::slotProcessJobs()
         AbstractClipJob *job = NULL;
         int count = 0;
         m_jobMutex.lock();
-        for (int i = 0; i < m_jobList.count(); i++) {
+        for (int i = 0; i < m_jobList.count(); ++i) {
             if (m_jobList.at(i)->status() == JOBWAITING) {
                 if (job == NULL) {
                     m_jobList.at(i)->setStatus(JOBWORKING);
@@ -3243,7 +3243,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
     // expand list (folders, subclips) to get real clips
     QTreeWidgetItem *listItem;
     QList<ProjectItem *> clipList;
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         listItem = list.at(i);
         if (listItem->type() == PROJECTFOLDERTYPE) {
             for (int j = 0; j < listItem->childCount(); j++) {
@@ -3276,7 +3276,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
     QMap <QString, QString> newProps;
     QMap <QString, QString> oldProps;
     if (!doProxy) newProps.insert("proxy", "-");
-    for (int i = 0; i < clipList.count(); i++) {
+    for (int i = 0; i < clipList.count(); ++i) {
         ProjectItem *item = clipList.at(i);
         CLIPTYPE t = item->clipType();
         if ((t == VIDEO || t == AV || t == UNKNOWN || t == IMAGE || t == PLAYLIST) && item->referencedClip()) {
@@ -3408,7 +3408,7 @@ void ProjectList::processThumbOverlays(ProjectItem *item, QPixmap &pix)
 void ProjectList::slotCancelJobs()
 {
     m_abortAllJobs = true;
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         m_jobList.at(i)->setStatus(JOBABORTED);
     }
     m_jobThreads.waitForFinished();
@@ -3416,7 +3416,7 @@ void ProjectList::slotCancelJobs()
     QUndoCommand *command = new QUndoCommand();
     command->setText(i18np("Cancel job", "Cancel jobs", m_jobList.count()));
     m_jobMutex.lock();
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         DocClipBase *currentClip = m_doc->clipManager()->getClipById(m_jobList.at(i)->clipId());
         if (!currentClip) continue;
         QMap <QString, QString> newProps = m_jobList.at(i)->cancelProperties();
@@ -3452,7 +3452,7 @@ bool ProjectList::hasPendingJob(ProjectItem *item, JOBTYPE type)
     if (!item || !item->referencedClip() || m_abortAllJobs) return false;
     AbstractClipJob *job;
     QMutexLocker lock(&m_jobMutex);
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         if (m_abortAllJobs) break;
         job = m_jobList.at(i);
         if (job->clipId() == item->clipId() && job->jobType == type && (job->status() == JOBWAITING || job->status() == JOBWORKING)) return true;
@@ -3464,7 +3464,7 @@ bool ProjectList::hasPendingJob(ProjectItem *item, JOBTYPE type)
 void ProjectList::deleteJobsForClip(const QString &clipId)
 {
     QMutexLocker lock(&m_jobMutex);
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         if (m_jobList.at(i)->clipId() == clipId) {
             m_jobList.at(i)->setStatus(JOBABORTED);
         }
@@ -3494,7 +3494,7 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
     if (!actionName.isEmpty()) {
         QAction *action = NULL;
         QList< KActionCollection * > collections = KActionCollection::allCollections();
-        for (int i = 0; i < collections.count(); i++) {
+        for (int i = 0; i < collections.count(); ++i) {
             KActionCollection *coll = collections.at(i);
             action = coll->action(actionName);
             if (action) break;
@@ -3533,7 +3533,7 @@ void ProjectList::slotShowJobLog()
     KDialog d(this);
     d.setButtons(KDialog::Close);
     QTextEdit t(&d);
-    for (int i = 0; i < m_errorLog.count(); i++) {
+    for (int i = 0; i < m_errorLog.count(); ++i) {
 	if (i > 0) t.insertHtml("<br><hr /><br>");
 	t.insertPlainText(m_errorLog.at(i));
     }
@@ -3546,7 +3546,7 @@ QStringList ProjectList::getPendingJobs(const QString &id)
 {
     QStringList result;
     QMutexLocker lock(&m_jobMutex);
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->status() == JOBWAITING || m_jobList.at(i)->status() == JOBWORKING)) {
             // discard this job
             result << m_jobList.at(i)->description;
@@ -3557,7 +3557,7 @@ QStringList ProjectList::getPendingJobs(const QString &id)
 
 void ProjectList::discardJobs(const QString &id, JOBTYPE type) {
     QMutexLocker lock(&m_jobMutex);
-    for (int i = 0; i < m_jobList.count(); i++) {
+    for (int i = 0; i < m_jobList.count(); ++i) {
         if (m_jobList.at(i)->clipId() == id && (m_jobList.at(i)->jobType == type || type == NOJOBTYPE)) {
             // discard this job
             m_jobList.at(i)->setStatus(JOBABORTED);
@@ -3793,7 +3793,7 @@ void ProjectList::slotResetInfoMessage()
 #if KDE_IS_VERSION(4,7,0)
     m_errorLog.clear();
     QList<QAction *> actions = m_infoMessage->actions();
-    for (int i = 0; i < actions.count(); i++) {
+    for (int i = 0; i < actions.count(); ++i) {
 	m_infoMessage->removeAction(actions.at(i));
     }
 #endif

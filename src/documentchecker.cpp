@@ -86,7 +86,7 @@ bool DocumentChecker::hasErrorInClips()
     m_safeImages.clear();
     m_safeFonts.clear();
     max = m_info.count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         e = m_info.item(i).toElement();
         clipType = e.attribute("type").toInt();
         if (clipType == COLOR) continue;
@@ -170,7 +170,7 @@ bool DocumentChecker::hasErrorInClips()
     if (!root.isEmpty()) root = KUrl(root).path(KUrl::AddTrailingSlash);
     QDomNodeList trans = m_doc.elementsByTagName("transition");
     max = trans.count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         QString luma = getProperty(trans.at(i).toElement(), "luma");
         if (!luma.isEmpty() && !filesToCheck.contains(luma))
             filesToCheck.append(luma);
@@ -202,7 +202,7 @@ bool DocumentChecker::hasErrorInClips()
 
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     max = m_missingClips.count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         e = m_missingClips.at(i).toElement();
         QString clipType;
         int t = e.attribute("type").toInt();
@@ -286,7 +286,7 @@ bool DocumentChecker::hasErrorInClips()
     m_ui.fixDuration->setEnabled(!wrongDurationClips.isEmpty());
 
     max = wrongDurationClips.count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         e = wrongDurationClips.at(i).toElement();
         QString clipType;
         int t = e.attribute("type").toInt();
@@ -337,7 +337,7 @@ bool DocumentChecker::hasErrorInClips()
         item->setToolTip(0, i18n("Missing proxy"));
     }
 
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         e = missingProxies.at(i).toElement();
         QString realPath = e.attribute("resource");
         QString id = e.attribute("id");
@@ -389,7 +389,7 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, SOURCEMISSING);
         item->setToolTip(0, i18n("Missing source clip"));
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             e = missingSources.at(i).toElement();
             QString clipType;
             QString realPath = e.attribute("resource");
@@ -438,7 +438,7 @@ DocumentChecker::~DocumentChecker()
 QString DocumentChecker::getProperty(QDomElement effect, const QString &name)
 {
     QDomNodeList params = effect.elementsByTagName("property");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute("name") == name) {
             return e.firstChild().nodeValue();
@@ -450,7 +450,7 @@ QString DocumentChecker::getProperty(QDomElement effect, const QString &name)
 void DocumentChecker::setProperty(QDomElement effect, const QString &name, const QString &value)
 {
     QDomNodeList params = effect.elementsByTagName("property");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute("name") == name) {
             e.firstChild().setNodeValue(value);
@@ -561,7 +561,7 @@ QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &f
     if (!filesAndDirs.isEmpty()) return searchDir.absoluteFilePath(filesAndDirs.at(0));
     searchDir.setNameFilters(QStringList());
     filesAndDirs = searchDir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
-    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
         foundFileName = searchPathRecursively(searchDir.absoluteFilePath(filesAndDirs.at(i)), fileName);
         if (!foundFileName.isEmpty())
             break;
@@ -575,7 +575,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
     QByteArray fileData;
     QByteArray fileHash;
     QStringList filesAndDirs = dir.entryList(QDir::Files | QDir::Readable);
-    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
         QFile file(dir.absoluteFilePath(filesAndDirs.at(i)));
         if (QString::number(file.size()) == matchSize) {
             if (file.open(QIODevice::ReadOnly)) {
@@ -598,7 +598,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
         //kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
-    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
         foundFileName = searchFileRecursively(dir.absoluteFilePath(filesAndDirs.at(i)), matchSize, matchHash);
         if (!foundFileName.isEmpty())
             break;
@@ -666,7 +666,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
         QString id = child->data(0, idRole).toString();
         if (t == TITLE_IMAGE_ELEMENT) {
             // edit images embedded in titles
-            for (int i = 0; i < infoproducers.count(); i++) {
+            for (int i = 0; i < infoproducers.count(); ++i) {
                 e = infoproducers.item(i).toElement();
                 if (e.attribute("id") == id) {
                     // Fix clip
@@ -676,7 +676,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
                     break;
                 }
             }
-            for (int i = 0; i < producers.count(); i++) {
+            for (int i = 0; i < producers.count(); ++i) {
                 e = producers.item(i).toElement();
                 if (e.attribute("id").section('_', 0, 0) == id) {
                     // Fix clip
@@ -694,7 +694,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
             }
         } else {
             // edit clip url
-            for (int i = 0; i < infoproducers.count(); i++) {
+            for (int i = 0; i < infoproducers.count(); ++i) {
                 e = infoproducers.item(i).toElement();
                 if (e.attribute("id") == id) {
                     // Fix clip
@@ -704,7 +704,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
                     break;
                 }
             }
-            for (int i = 0; i < producers.count(); i++) {
+            for (int i = 0; i < producers.count(); ++i) {
                 e = producers.item(i).toElement();
                 if (e.attribute("id").section('_', 0, 0) == id || e.attribute("id").section(':', 1, 1) == id) {
                     // Fix clip
@@ -725,7 +725,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
         }
     } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER && t != TITLE_FONT_ELEMENT && t != TITLE_IMAGE_ELEMENT) {
         QString id = child->data(0, idRole).toString();
-        for (int i = 0; i < infoproducers.count(); i++) {
+        for (int i = 0; i < infoproducers.count(); ++i) {
             e = infoproducers.item(i).toElement();
             if (e.attribute("id") == id) {
                 // Fix clip
@@ -734,7 +734,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAOK) {
-        for (int i = 0; i < trans.count(); i++) {
+        for (int i = 0; i < trans.count(); ++i) {
             QString luma = getProperty(trans.at(i).toElement(), "luma");
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
                 setProperty(trans.at(i).toElement(), "luma", child->text(1));
@@ -742,7 +742,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
-        for (int i = 0; i < trans.count(); i++) {
+        for (int i = 0; i < trans.count(); ++i) {
             QString luma = getProperty(trans.at(i).toElement(), "luma");
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
                 setProperty(trans.at(i).toElement(), "luma", QString());
@@ -779,7 +779,7 @@ void DocumentChecker::slotFixDuration()
             QString id = child->data(0, idRole).toString();
             bool resetDuration = child->data(0, resetDurationRole).toInt();
 
-            for (int i = 0; i < m_info.count(); i++) {
+            for (int i = 0; i < m_info.count(); ++i) {
                 QDomElement e = m_info.at(i).toElement();
                 if (e.attribute("id") == id) {
                     if (m_missingClips.contains(e)) {
@@ -858,7 +858,7 @@ void DocumentChecker::slotDeleteSelected()
         QDomElement e;
         QDomNodeList transitions = m_doc.elementsByTagName("transition");
         foreach (const QString &lumaPath, deletedLumas) {
-            for (int i = 0; i < transitions.count(); i++) {
+            for (int i = 0; i < transitions.count(); ++i) {
                 e = transitions.item(i).toElement();
                 QString resource = EffectsList::property(e, "luma");
                 if (resource == lumaPath) EffectsList::removeProperty(e, "luma");
@@ -874,7 +874,7 @@ void DocumentChecker::slotDeleteSelected()
         QDomNode mlt = m_doc.elementsByTagName("mlt").at(0);
         QDomNode kdenlivedoc = m_doc.elementsByTagName("kdenlivedoc").at(0);
 
-        for (int i = 0, j = 0; i < infoproducers.count() && j < deletedIds.count(); i++) {
+        for (int i = 0, j = 0; i < infoproducers.count() && j < deletedIds.count(); ++i) {
             e = infoproducers.item(i).toElement();
             if (deletedIds.contains(e.attribute("id"))) {
                 // Remove clip
@@ -884,7 +884,7 @@ void DocumentChecker::slotDeleteSelected()
             }
         }
 
-        for (int i = 0; i < producers.count(); i++) {
+        for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();
             if (deletedIds.contains(e.attribute("id").section('_', 0, 0)) || deletedIds.contains(e.attribute("id").section(':', 1, 1).section('_', 0, 0))) {
                 // Remove clip
@@ -893,7 +893,7 @@ void DocumentChecker::slotDeleteSelected()
             }
         }
 
-        for (int i = 0; i < playlists.count(); i++) {
+        for (int i = 0; i < playlists.count(); ++i) {
             QDomNodeList entries = playlists.at(i).toElement().elementsByTagName("entry");
             for (int j = 0; j < entries.count(); j++) {
                 e = entries.item(j).toElement();

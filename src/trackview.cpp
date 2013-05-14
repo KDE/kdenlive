@@ -159,7 +159,7 @@ bool TrackView::checkProjectAudio() const
     bool hasAudio = false;
     const QList <TrackInfo> list = m_doc->tracksList();
     int max = list.count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         TrackInfo info = list.at(max - i - 1);
         if (!info.isMute && m_trackview->hasAudio(i)) {
             hasAudio = true;
@@ -211,7 +211,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
     int pos = m_projectTracks - 1;
     m_invalidProducers.clear();
     QDomNodeList producers = doc.elementsByTagName("producer");
-    for (int i = 0; i < producers.count(); i++) {
+    for (int i = 0; i < producers.count(); ++i) {
         // Check for invalid producers
         QDomNode n = producers.item(i);
         e = n.toElement();
@@ -230,7 +230,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
     }
 
     int trackIndex = 0;
-    for (int i = 0; i < m_projectTracks; i++) {
+    for (int i = 0; i < m_projectTracks; ++i) {
         e = tracks.item(i).toElement();
         QString playlist_name = e.attribute("producer");
         if (playlist_name != "black_track" && playlist_name != "playlistmain") {
@@ -275,7 +275,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
     QDomNodeList transitions = tractor.elementsByTagName("transition");
 
     //kDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
-    for (int i = 0; i < transitions.count(); i++) {
+    for (int i = 0; i < transitions.count(); ++i) {
         e = transitions.item(i).toElement();
         QDomNodeList transitionparams = e.childNodes();
         bool transitionAdd = true;
@@ -361,7 +361,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
                         QString paramValue = p.text();
 
                         QDomNodeList params = base.elementsByTagName("parameter");
-                        if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); i++) {
+                        if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); ++i) {
                                 QDomElement e = params.item(i).toElement();
                                 if (!e.isNull() && e.attribute("tag") == paramName) {
                                     if (e.attribute("type") == "double") {
@@ -424,7 +424,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
 
     // Add guides
     QDomNodeList guides = infoXml.elementsByTagName("guide");
-    for (int i = 0; i < guides.count(); i++) {
+    for (int i = 0; i < guides.count(); ++i) {
         e = guides.item(i).toElement();
         const QString comment = e.attribute("comment");
         const GenTime pos = GenTime(e.attribute("time").toDouble());
@@ -503,7 +503,7 @@ int TrackView::fitZoom() const
 {
     int zoom = (int)((duration() + 20 / m_scale) * m_trackview->getFrameWidth() / m_trackview->width());
     int i;
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < 13; ++i)
         if (m_ruler->comboScale[i] > zoom) break;
     return i;
 }
@@ -521,7 +521,7 @@ void TrackView::refresh()
 void TrackView::slotRepaintTracks()
 {
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    for (int i = 0; i < widgets.count(); i++) {
+    for (int i = 0; i < widgets.count(); ++i) {
         if (widgets.at(i)) widgets.at(i)->setSelectedIndex(m_trackview->selectedTrack());
     }
 }
@@ -548,7 +548,7 @@ void TrackView::slotRebuildTrackHeaders()
 
     updatePalette();
     
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         frame = new QFrame(headers_container);
         frame->setFrameStyle(QFrame::HLine);
         frame->setFixedHeight(1);
@@ -591,7 +591,7 @@ void TrackView::adjustTrackHeaders()
 {
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    for (int i = 0; i < widgets.count(); i++) {
+    for (int i = 0; i < widgets.count(); ++i) {
         if (widgets.at(i)) widgets.at(i)->adjustSize(height);
     }
 }
@@ -656,7 +656,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                     producerReplacementIds.insert(idString, prodId);
                     // now adjust the mlt producer
                     bool found = false;
-                    for (int i = 0; i < producers.count(); i++) {
+                    for (int i = 0; i < producers.count(); ++i) {
                         QDomElement prod = producers.at(i).toElement();
                         if (prod.attribute("id") == prodId) {
                             // ok, producer already exists
@@ -665,7 +665,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                         }
                     }
                     if (!found) {
-                        for (int i = 0; i < producers.count(); i++) {
+                        for (int i = 0; i < producers.count(); ++i) {
                             QDomElement prod = producers.at(i).toElement();
                             if (prod.attribute("id") == idString) {
                                 prod.setAttribute("id", prodId);
@@ -677,7 +677,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                     }
                     if (!found) {
                         // We didn't find the producer for this track, find producer for another track and duplicate
-                        for (int i = 0; i < producers.count(); i++) {
+                        for (int i = 0; i < producers.count(); ++i) {
                             QDomElement prod = producers.at(i).toElement();
                             QString mltProdId = prod.attribute("id");
                             if (mltProdId == prodId || mltProdId.startsWith(prodId + '_')) {
@@ -697,7 +697,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                     QDomElement producerXml = doc.createElement("producer");
                     doc.appendChild(producerXml);
                     bool foundMltProd = false;
-                    for (int i = 0; i < producers.count(); i++) {
+                    for (int i = 0; i < producers.count(); ++i) {
                         QDomElement prod = producers.at(i).toElement();
                         if (prod.attribute("id") == id) {
                             QString service = EffectsList::property(prod, "mlt_service");
@@ -822,7 +822,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 QString endtag;
                 double offset = 0;
                 QDomNodeList params = currenteffect.elementsByTagName("parameter");
-                for (int i = 0; i < params.count(); i++) {
+                for (int i = 0; i < params.count(); ++i) {
                     QDomElement e = params.item(i).toElement();
                     if (e.attribute("type") == "keyframe") {
                         starttag = e.attribute("starttag", "start");
@@ -886,7 +886,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 }
 
                 params = currenteffect.elementsByTagName("parameter");
-                for (int i = 0; i < params.count(); i++) {
+                for (int i = 0; i < params.count(); ++i) {
                     QDomElement e = params.item(i).toElement();
                     if (e.attribute("type") == "keyframe") e.setAttribute("keyframes", keyframes);
                 }
@@ -945,7 +945,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
 			++j;
 		    }
 		    currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
-		    i++;
+		    ++i;
 		}
 	    }
             
@@ -1020,7 +1020,7 @@ DocClipBase *TrackView::getMissingProducer(const QString &id) const
     QDomNodeList prods = doc.elementsByTagName("producer");
     int maxprod = prods.count();
     bool slowmotionClip = false;
-    for (int i = 0; i < maxprod; i++) {
+    for (int i = 0; i < maxprod; ++i) {
         QDomNode m = prods.at(i);
         QString prodId = m.toElement().attribute("id");
         if (prodId.startsWith("slowmotion")) {
@@ -1038,7 +1038,7 @@ DocClipBase *TrackView::getMissingProducer(const QString &id) const
         if (m_replacementProducerIds.contains(id)) {
             QString newId = m_replacementProducerIds.value(id);
             slowmotionClip = false;
-            for (int i = 0; i < maxprod; i++) {
+            for (int i = 0; i < maxprod; ++i) {
                 QDomNode m = prods.at(i);
                 QString prodId = m.toElement().attribute("id");
                 if (prodId.startsWith("slowmotion")) {

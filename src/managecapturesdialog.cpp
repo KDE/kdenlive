@@ -90,7 +90,7 @@ void ManageCapturesDialog::slotRefreshButtons()
 {
     int count = m_view.treeWidget->topLevelItemCount();
     bool enabled = false;
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; ++i) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(i);
         if (item && item->checkState(0) == Qt::Checked) {
             enabled = true;
@@ -117,7 +117,7 @@ void ManageCapturesDialog::slotDeleteCurrent()
 void ManageCapturesDialog::slotToggle()
 {
     int count = m_view.treeWidget->topLevelItemCount();
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; ++i) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(i);
         if (item) {
             if (item->checkState(0) == Qt::Checked) item->setCheckState(0, Qt::Unchecked);
@@ -131,7 +131,7 @@ KUrl::List ManageCapturesDialog::importFiles()
     KUrl::List result;
 
     int count = m_view.treeWidget->topLevelItemCount();
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; ++i) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(i);
         if (item && item->checkState(0) == Qt::Checked)
             result.append(KUrl(item->data(0, Qt::UserRole).toString()));

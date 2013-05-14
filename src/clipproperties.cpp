@@ -365,7 +365,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
             m_view.animation->setCurrentIndex(0);
         QString path = props.value("resource");
         QString ext = path.section('.', -1);
-        for (int i = 0; i < m_view.image_type->count(); i++) {
+        for (int i = 0; i < m_view.image_type->count(); ++i) {
             if (m_view.image_type->itemData(i).toString() == ext) {
                 m_view.image_type->setCurrentIndex(i);
                 break;
@@ -867,7 +867,7 @@ void ClipProperties::slotDeleteMarker()
 {
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     QList < CommentedTime > toDelete;
-    for (int i = 0; i < marks.count(); i++) {
+    for (int i = 0; i < marks.count(); ++i) {
 	if (m_view.markers_list->topLevelItem(i)->isSelected()) {
 	    CommentedTime marker = marks.at(i);
 	    marker.setMarkerType(-1);

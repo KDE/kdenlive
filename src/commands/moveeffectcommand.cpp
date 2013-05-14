@@ -30,7 +30,7 @@ MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, con
         m_oldindex(oldPos),
         m_pos(pos)
 {
-    for (int i = 0; i < m_oldindex.count(); i++) {
+    for (int i = 0; i < m_oldindex.count(); ++i) {
 	m_newindex << newPos + i;
     }
     /*    QString effectName;

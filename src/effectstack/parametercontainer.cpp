@@ -121,7 +121,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     m_vbox->setContentsMargins(4, 0, 4, 0);
     m_vbox->setSpacing(2);
 
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         if (pa.tagName() != "parameter") continue;
         QDomElement na = pa.firstChildElement("name");
@@ -176,7 +176,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             if (listitemsdisplay.count() != listitems.count())
                 listitemsdisplay = listitems;
             lsval->list->setIconSize(QSize(30, 30));
-            for (int i = 0; i < listitems.count(); i++) {
+            for (int i = 0; i < listitems.count(); ++i) {
                 lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
                 QString entry = listitems.at(i);
                 if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
@@ -440,7 +440,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             if (keyworddisplaylist.count() != keywordlist.count()) {
                 keyworddisplaylist = keywordlist;
             }
-            for (int i = 0; i < keywordlist.count(); i++) {
+            for (int i = 0; i < keywordlist.count(); ++i) {
                 kval->comboboxwidget->addItem(keyworddisplaylist.at(i), keywordlist.at(i));
             }
             // Add disabled user prompt at index 0
@@ -483,10 +483,10 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     // Make sure all doubleparam spinboxes have the same width, looks much better
     QList<DoubleParameterWidget *> allWidgets = findChildren<DoubleParameterWidget *>();
     int minSize = 0;
-    for (int i = 0; i < allWidgets.count(); i++) {
+    for (int i = 0; i < allWidgets.count(); ++i) {
         if (minSize < allWidgets.at(i)->spinSize()) minSize = allWidgets.at(i)->spinSize();
     }
-    for (int i = 0; i < allWidgets.count(); i++) {
+    for (int i = 0; i < allWidgets.count(); ++i) {
         allWidgets.at(i)->setSpinSize(minSize);
     }
 }
@@ -561,7 +561,7 @@ void ParameterContainer::updateTimecodeFormat()
         m_keyframeEditor->updateTimecodeFormat();
 
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         QDomNode pa = namenode.item(i);
         QDomElement na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
@@ -597,7 +597,7 @@ void ParameterContainer::slotCollectAllParameters()
     //QDomElement newparam = oldparam.cloneNode().toElement();
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");
 
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QDomElement na = pa.firstChildElement("name");
         QString type = pa.attribute("type");
@@ -818,7 +818,7 @@ void ParameterContainer::updateParameter(const QString &key, const QString &valu
 void ParameterContainer::slotStartFilterJobAction()
 {
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute("type");
         if (type == "filterjob") {

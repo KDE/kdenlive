@@ -113,7 +113,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
     // select default profile
     if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_standard.profiles_list->count(); i++) {
+        for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
             if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
                 m_standard.profiles_list->setCurrentRow(i);
                 m_standard.profiles_list->scrollToItem(m_standard.profiles_list->currentItem());
@@ -172,7 +172,7 @@ void Wizard::slotDetectWebcam()
     m_capture.v4l_devices->clear();
 
     // Video 4 Linux device detection
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; ++i) {
         QString path = "/dev/video" + QString::number(i);
         if (QFile::exists(path)) {
             QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path.toUtf8().constData());
@@ -186,7 +186,7 @@ void Wizard::slotDetectWebcam()
         m_capture.v4l_status->setText(i18n("Default video4linux device:"));
         // select default device
         bool found = false;
-        for (int i = 0; i < m_capture.v4l_devices->count(); i++) {
+        for (int i = 0; i < m_capture.v4l_devices->count(); ++i) {
             QString device = m_capture.v4l_devices->itemData(i).toString();
             if (device == KdenliveSettings::video4vdevice()) {
                 m_capture.v4l_devices->setCurrentIndex(i);
@@ -220,7 +220,7 @@ void Wizard::slotUpdateCaptureParameters()
     QString itemSize;
     QString pixelFormat;
     QStringList itemRates;
-    for (int i = 0; i < pixelformats.count(); i++) {
+    for (int i = 0; i < pixelformats.count(); ++i) {
         QString format = pixelformats.at(i).section(':', 0, 0);
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
@@ -344,19 +344,19 @@ void Wizard::checkMltComponents()
             consumer->start();
             QStringList result;
             Mlt::Properties vcodecs((mlt_properties) consumer->get_data("vcodec"));
-            for (int i = 0; i < vcodecs.count(); i++)
+            for (int i = 0; i < vcodecs.count(); ++i)
                 result << QString(vcodecs.get(i));
             m_mltCheck.vcodecs_list->addItems(result);
             KdenliveSettings::setVideocodecs(result);
             result.clear();
             Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
-            for (int i = 0; i < acodecs.count(); i++)
+            for (int i = 0; i < acodecs.count(); ++i)
                 result << QString(acodecs.get(i));
             m_mltCheck.acodecs_list->addItems(result);
             KdenliveSettings::setAudiocodecs(result);
             result.clear();
             Mlt::Properties formats((mlt_properties) consumer->get_data("f"));
-            for (int i = 0; i < formats.count(); i++)
+            for (int i = 0; i < formats.count(); ++i)
                 result << QString(formats.get(i));
             m_mltCheck.formats_list->addItems(result);
             KdenliveSettings::setSupportedformats(result);
@@ -435,7 +435,7 @@ void Wizard::checkMissingCodecs()
 	QString std;
 	QString format;
 	QDomNodeList profiles = doc.elementsByTagName("profile");
-	for (int i = 0; i < profiles.count(); i++) {
+	for (int i = 0; i < profiles.count(); ++i) {
 	    std = profiles.at(i).toElement().attribute("args");
 	    format.clear();
             if (std.startsWith("acodec=")) format = std.section("acodec=", 1, 1);
@@ -452,9 +452,9 @@ void Wizard::checkMissingCodecs()
     if (replaceVorbisCodec) requiredACodecs.replaceInStrings("vorbis", "libvorbis");
     if (replaceLibfaacCodec) requiredACodecs.replaceInStrings("aac", "libfaac");
 
-    for (int i = 0; i < acodecsList.count(); i++)
+    for (int i = 0; i < acodecsList.count(); ++i)
 	requiredACodecs.removeAll(acodecsList.at(i));
-    for (int i = 0; i < vcodecsList.count(); i++)
+    for (int i = 0; i < vcodecsList.count(); ++i)
 	requiredVCodecs.removeAll(vcodecsList.at(i));
     if (!requiredACodecs.isEmpty() || !requiredVCodecs.isEmpty()) {
 	QString missing = requiredACodecs.join(",");
@@ -686,7 +686,7 @@ void Wizard::slotCheckStandard()
         //m_standard.profiles_list->sortItems();
     }
 
-    for (int i = 0; i < m_standard.profiles_list->count(); i++) {
+    for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
         QListWidgetItem *item = m_standard.profiles_list->item(i);
 
         QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(item->data(Qt::UserRole).toString());

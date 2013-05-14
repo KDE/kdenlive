@@ -403,7 +403,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // Prepare layout actions
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), actionCollection());
     m_loadLayout = new KSelectAction(i18n("Load Layout"), actionCollection());
-    for (int i = 1; i < 5; i++) {
+    for (int i = 1; i < 5; ++i) {
         KAction *load = new KAction(KIcon(), i18n("Layout %1", i), this);
         load->setData('_' + QString::number(i));
 	layoutActions->addAction("load_layout" + QString::number(i), load);
@@ -443,7 +443,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     // Find QDockWidget tab bars and show / hide widget title bars on right click
     QList <QTabBar *> tabs = findChildren<QTabBar *>();
-    for (int i = 0; i < tabs.count(); i++) {
+    for (int i = 0; i < tabs.count(); ++i) {
         tabs.at(i)->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(tabs.at(i), SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotSwitchTitles()));
     }
@@ -599,7 +599,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     viewActions.append(pair);
     
     QList <QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (int i = 0; i < docks.count(); i++) {
+    for (int i = 0; i < docks.count(); ++i) {
         QDockWidget* dock = docks.at(i);
 	QAction * a = dock->toggleViewAction();
 	if (!a) continue;
@@ -618,7 +618,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // Sort dock view action by name
     qSort(viewActions.begin(), viewActions.end(), sortByNames);
     // Populate view menu
-    for (int i = 0; i < viewActions.count(); i++)
+    for (int i = 0; i < viewActions.count(); ++i)
 	viewMenu->addAction(guiActions->addAction(viewActions.at(i).first, viewActions.at(i).second));
     
     // Populate encoding profiles
@@ -1771,7 +1771,7 @@ void MainWindow::setupActions()
     //KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), m_effectsActionCollection);
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), collection);
     m_transitions = new KAction*[transitions.count()];
-    for (int i = 0; i < transitions.count(); i++) {
+    for (int i = 0; i < transitions.count(); ++i) {
         QStringList effectInfo = transitions.effectIdInfo(i);
         m_transitions[i] = new KAction(effectInfo.at(0), this);
         m_transitions[i]->setData(effectInfo);
@@ -1809,7 +1809,7 @@ void MainWindow::loadLayouts()
     QStringList entries = layoutGroup.keyList();
     QList<QAction *> loadActions = m_loadLayout->actions();
     QList<QAction *> saveActions = saveLayout->actions();
-    for (int i = 1; i < 5; i++) {
+    for (int i = 1; i < 5; ++i) {
         // Rename the layouts actions
         foreach(const QString & key, entries) {
             if (key.endsWith(QString("_%1").arg(i))) {
@@ -2159,7 +2159,7 @@ void MainWindow::openFile(const KUrl &url)
     const int ct = m_timelineArea->count();
     bool isOpened = false;
     int i;
-    for (i = 0; i < ct; i++) {
+    for (i = 0; i < ct; ++i) {
         TrackView *tab = (TrackView *) m_timelineArea->widget(i);
         KdenliveDoc *doc = tab->document();
         if (doc->url() == url) {
@@ -3467,7 +3467,7 @@ void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QSt
         QMap <QString, QString> newProps = newImageProps;
         newProps.remove("transparency");
 
-        for (int i = 0; i < cliplist.count(); i++) {
+        for (int i = 0; i < cliplist.count(); ++i) {
             DocClipBase *clip = cliplist.at(i);
             if (clip->clipType() == IMAGE)
                 new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newImageProps), newImageProps, true, command);
@@ -3475,7 +3475,7 @@ void MainWindow::slotShowClipProperties(QList <DocClipBase *> cliplist, QMap<QSt
                 new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newProps), newProps, true, command);
         }
         m_activeDocument->commandStack()->push(command);
-        for (int i = 0; i < cliplist.count(); i++)
+        for (int i = 0; i < cliplist.count(); ++i)
             m_activeTimeline->projectView()->slotUpdateClip(cliplist.at(i)->getId(), dia->needsTimelineReload());
     }
     delete dia;
@@ -3722,7 +3722,7 @@ void MainWindow::slotClipInProjectTree()
     if (m_activeTimeline) {
     const QList<ClipItem *> clips =  m_activeTimeline->projectView()->selectedClipItems();
         if (clips.isEmpty()) return;
-        for (int i = 0; i < clips.count(); i++) {
+        for (int i = 0; i < clips.count(); ++i) {
         m_projectList->slotAddXmlClip(clips.at(i)->itemXml());
         }
         //m_projectList->selectItemById(clipIds.at(i));
@@ -4191,7 +4191,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         QDomElement guidesxml = m_activeDocument->guidesXml();
         QDomNodeList nodes = guidesxml.elementsByTagName("guide");
-        for (int i = 0; i < nodes.count(); i++) {
+        for (int i = 0; i < nodes.count(); ++i) {
             QDomElement e = nodes.item(i).toElement();
             if (!e.isNull()) {
                 QString comment = e.attribute("comment");
@@ -4237,7 +4237,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QDomElement tractor = doc.documentElement().firstChildElement("tractor");
     if (!tractor.isNull()) {
         QDomNodeList props = tractor.elementsByTagName("property");
-        for (int i = 0; i < props.count(); i++) {
+        for (int i = 0; i < props.count(); ++i) {
             if (props.at(i).toElement().attribute("name") == "meta.volume") {
                 props.at(i).firstChild().setNodeValue("1");
                 break;
@@ -4381,7 +4381,7 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
         // TT thinks tooltips shouldn't use active, so we use our active colors for all states
         KColorScheme schemeTooltip(QPalette::Active, KColorScheme::Tooltip, config);
 
-        for ( int i = 0; i < 3 ; i++ ) {
+        for ( int i = 0; i < 3 ; ++i ) {
             QPalette::ColorGroup state = states[i];
             KColorScheme schemeView(state, KColorScheme::View, config);
             KColorScheme schemeWindow(state, KColorScheme::Window, config);
@@ -4507,7 +4507,7 @@ void MainWindow::slotDeleteProjectClips(QStringList ids, QMap<QString, QString> 
 void MainWindow::slotShowTitleBars(bool show)
 {
     QList <QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (int i = 0; i < docks.count(); i++) {
+    for (int i = 0; i < docks.count(); ++i) {
         QDockWidget* dock = docks.at(i);
         if (show) {
             dock->setTitleBarWidget(0);
@@ -4543,7 +4543,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
         m_projectMonitor->render->sendFrameForAnalysis = true;
         return;
     } else {
-        for (int i = 0; i < m_gfxScopesList.count(); i++) {
+        for (int i = 0; i < m_gfxScopesList.count(); ++i) {
             if (m_gfxScopesList.at(i)->isVisible() && tabifiedDockWidgets(m_gfxScopesList.at(i)).isEmpty() && static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->autoRefreshEnabled()) {
                 request = true;
                 break;
@@ -4564,7 +4564,7 @@ void MainWindow::slotOpenStopmotion()
     if (m_stopmotion == NULL) {
         m_stopmotion = new StopmotionWidget(m_monitorManager, m_activeDocument->projectFolder(), m_stopmotion_actions->actions(), this);
         connect(m_stopmotion, SIGNAL(addOrUpdateSequence(QString)), m_projectList, SLOT(slotAddOrUpdateSequence(QString)));
-        //for (int i = 0; i < m_gfxScopesList.count(); i++) {
+        //for (int i = 0; i < m_gfxScopesList.count(); ++i) {
             // Check if we need the renderer to send a new frame for update
             /*if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;*/
             //connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget()), SLOT(slotRenderZoneUpdated(QImage)));

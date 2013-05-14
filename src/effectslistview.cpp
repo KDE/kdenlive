@@ -80,7 +80,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
 
 void EffectsListView::filterList(int pos)
 {
-    for (int i = 0; i < m_effectsList->topLevelItemCount(); i++) {
+    for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
         bool hideFolder = true;
         for (int j = 0; j < folder->childCount(); j++) {
@@ -105,7 +105,7 @@ void EffectsListView::filterList(int pos)
     if (item) {
         if (item->isHidden()) {
             int i;
-            for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++); //do nothing
+            for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); ++i); //do nothing
             m_effectsList->setCurrentRow(i);
         } else m_effectsList->scrollToItem(item);
     }*/

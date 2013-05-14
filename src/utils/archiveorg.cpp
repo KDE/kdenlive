@@ -162,7 +162,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
     QString link;
     int ct = 0;
     m_thumbsPath.clear();
-    for (int i = 0; i < links.count(); i++) {
+    for (int i = 0; i < links.count(); ++i) {
         QString href = links.at(i).toElement().attribute("href");
         if (href.endsWith(".thumbs/")) {
             // sub folder contains image thumbs, display one.
@@ -226,7 +226,7 @@ void ArchiveOrg::slotParseThumbs(KJob* job)
     doc.setContent(QString::fromUtf8(storedQueryJob->data()));
     QDomNodeList links = doc.elementsByTagName("a");
     if (links.isEmpty()) return;
-    for (int i = 0; i < links.count(); i++) {
+    for (int i = 0; i < links.count(); ++i) {
         QString href = links.at(i).toElement().attribute("href");
         if (!href.contains('/') && i >= links.count() / 2) {
             QString thumbUrl = m_thumbsPath + href;

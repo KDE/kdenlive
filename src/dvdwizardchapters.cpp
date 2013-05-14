@@ -77,7 +77,7 @@ void DvdWizardChapters::slotUpdateChaptersList()
 
     // insert chapters
     QStringList chaptersString;
-    for (int i = 0; i < currentChaps.count(); i++) {
+    for (int i = 0; i < currentChaps.count(); ++i) {
         chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps(), true));
     }
     m_view.chapters_list->clear();
@@ -94,14 +94,14 @@ void DvdWizardChapters::slotAddChapter()
     if (currentChaps.contains(QString::number(pos))) return;
     else currentChaps.append(QString::number(pos));
     QList <int> chapterTimes;
-    for (int i = 0; i < currentChaps.count(); i++)
+    for (int i = 0; i < currentChaps.count(); ++i)
         chapterTimes.append(currentChaps.at(i).toInt());
     qSort(chapterTimes);
 
     // rebuild chapters
     QStringList chaptersString;
     currentChaps.clear();
-    for (int i = 0; i < chapterTimes.count(); i++) {
+    for (int i = 0; i < chapterTimes.count(); ++i) {
         chaptersString.append(Timecode::getStringTimecode(chapterTimes.at(i), m_tc.fps(), true));
         currentChaps.append(QString::number(chapterTimes.at(i)));
     }
@@ -137,7 +137,7 @@ void DvdWizardChapters::slotRemoveChapter()
 
     // rebuild chapters
     QStringList chaptersString;
-    for (int i = 0; i < currentChaps.count(); i++) {
+    for (int i = 0; i < currentChaps.count(); ++i) {
         chaptersString.append(Timecode::getStringTimecode(currentChaps.at(i).toInt(), m_tc.fps(), true));
     }
     m_view.chapters_list->clear();
@@ -180,7 +180,7 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
 
     m_view.vob_list->blockSignals(true);
     m_view.vob_list->clear();
-    for (int i = 0; i < movies.count(); i++) {
+    for (int i = 0; i < movies.count(); ++i) {
         m_view.vob_list->addItem(movies.at(i), durations.at(i));
         m_view.vob_list->setItemData(i, chapters.at(i).split(';'), Qt::UserRole + 1);
     }
@@ -197,7 +197,7 @@ QMap <QString, QString> DvdWizardChapters::chaptersData() const
 {
     QMap <QString, QString> result;
     int max = m_view.vob_list->count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         QString chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList().join(";");
         result.insert(m_view.vob_list->itemText(i), chapters);
     }
@@ -208,7 +208,7 @@ QStringList DvdWizardChapters::selectedTitles() const
 {
     QStringList result;
     int max = m_view.vob_list->count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         result.append(m_view.vob_list->itemText(i));
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
         for (int j = 0; j < chapters.count(); j++) {
@@ -232,7 +232,7 @@ QStringList DvdWizardChapters::selectedTargets() const
 {
     QStringList result;
     int max = m_view.vob_list->count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         // rightJustified: fill with 0s to make menus with more than 9 buttons work (now up to 99 buttons possible)
         result.append("jump title " + QString::number(i + 1).rightJustified(2, '0'));
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
@@ -249,7 +249,7 @@ QDomElement DvdWizardChapters::toXml() const
     QDomDocument doc;
     QDomElement xml = doc.createElement("xml");
     doc.appendChild(xml);
-    for (int i = 0; i < m_view.vob_list->count(); i++) {
+    for (int i = 0; i < m_view.vob_list->count(); ++i) {
         QDomElement vob = doc.createElement("vob");
         vob.setAttribute("file", m_view.vob_list->itemText(i));
         vob.setAttribute("chapters", m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList().join(";"));

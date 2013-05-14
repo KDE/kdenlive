@@ -227,7 +227,7 @@ class EffectsParameterList: public QList < EffectParameter >
 public:
     EffectsParameterList(): QList < EffectParameter >() {}
     bool hasParam(const QString &name) const {
-        for (int i = 0; i < size(); i++)
+        for (int i = 0; i < size(); ++i)
             if (at(i).name() == name) return true;
         return false;
     }

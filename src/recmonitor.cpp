@@ -612,7 +612,7 @@ void RecMonitor::slotRecord()
         while (QFile::exists(path)) {
             QString num = QString::number(i).rightJustified(4, '0', false);
             path = KUrl(m_capturePath).path(KUrl::AddTrailingSlash) + "capture" + num + '.' + extension;
-            i++;
+            ++i;
         }
         m_captureFile = KUrl(path);
 
