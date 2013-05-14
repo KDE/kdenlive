@@ -17,9 +17,32 @@ const int MAX_LENGTH_HEX = 4;
 const uint MAX_UNICODE_V1 = 65535;
 
 
+UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent)
+    : KDialog(parent)
+{
+    setCaption( i18n("Details") );
+    setButtons( Ok|Cancel );
+    mUnicodeWidget = new UnicodeWidget(inputMeth);
+    connect(mUnicodeWidget, SIGNAL(charSelected(QString)), SIGNAL(charSelected(QString)));
+    setMainWidget(mUnicodeWidget);
+    connect(this, SIGNAL(okClicked()), SLOT(slotAccept()));
+}
+
+UnicodeDialog::~UnicodeDialog()
+{
+}
+
+void UnicodeDialog::slotAccept()
+{
+    mUnicodeWidget->slotReturnPressed();
+    accept();
+}
+
+
 /// CONSTRUCTORS/DECONSTRUCTORS
 
-UnicodeDialog::UnicodeDialog(InputMethod inputMeth) :
+UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent)
+    : QWidget(parent),
         inputMethod(inputMeth),
         m_lastCursorPos(0)
 {
@@ -32,11 +55,11 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth) :
     connect(arrowDown, SIGNAL(clicked()), this, SLOT(slotNextUnicode()));
 
     switch (inputMethod) {
-    case InputHex:
+    case UnicodeDialog::InputHex:
         unicodeNumber->setMaxLength(MAX_LENGTH_HEX);
         break;
 
-    case InputDec:
+    case UnicodeDialog::InputDec:
         break;
     }
 
@@ -50,36 +73,27 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth) :
 
 }
 
-UnicodeDialog::~UnicodeDialog()
+UnicodeWidget::~UnicodeWidget()
 {
-}
-
-
-/// PUBLIC SLOTS
-
-int UnicodeDialog::exec()
-{
-    unicodeNumber->setFocus();
-    return QDialog::exec();
 }
 
 
 /// METHODS
 
-void UnicodeDialog::showLastUnicode()
+void UnicodeWidget::showLastUnicode()
 {
     unicodeNumber->setText(m_lastUnicodeNumber);
     unicodeNumber->selectAll();
     slotTextChanged(m_lastUnicodeNumber);
 }
 
-bool UnicodeDialog::controlCharacter(const QString &text)
+bool UnicodeWidget::controlCharacter(const QString &text)
 {
     bool isControlCharacter = false;
     QString t = text.toLower();
 
     switch (inputMethod) {
-    case InputHex:
+    case UnicodeDialog::InputHex:
         if (t.isEmpty()
                 || (t.length() == 1 && !(t == "9" || t == "a" || t == "d"))
                 || (t.length() == 2 && t.at(0) == QChar('1'))) {
@@ -87,7 +101,7 @@ bool UnicodeDialog::controlCharacter(const QString &text)
         }
         break;
 
-    case InputDec:
+    case UnicodeDialog::InputDec:
         bool ok;
         isControlCharacter = controlCharacter(text.toUInt(&ok, 16));
         break;
@@ -96,7 +110,7 @@ bool UnicodeDialog::controlCharacter(const QString &text)
     return isControlCharacter;
 }
 
-bool UnicodeDialog::controlCharacter(uint value)
+bool UnicodeWidget::controlCharacter(uint value)
 {
     bool isControlCharacter = false;
 
@@ -107,7 +121,7 @@ bool UnicodeDialog::controlCharacter(uint value)
 
 }
 
-QString UnicodeDialog::trimmedUnicodeNumber(QString text)
+QString UnicodeWidget::trimmedUnicodeNumber(QString text)
 {
     while (text.length() > 0 && text.at(0) == QChar('0')) {
         text = text.remove(0, 1);
@@ -115,7 +129,7 @@ QString UnicodeDialog::trimmedUnicodeNumber(QString text)
     return text;
 }
 
-QString UnicodeDialog::unicodeInfo(const QString &unicode)
+QString UnicodeWidget::unicodeInfo(const QString &unicode)
 {
     QString infoText(i18n("<small>(no character selected)</small>"));
     if (unicode.length() == 0) return infoText;
@@ -179,14 +193,14 @@ QString UnicodeDialog::unicodeInfo(const QString &unicode)
     return infoText;
 }
 
-QString UnicodeDialog::validateText(const QString &text)
+QString UnicodeWidget::validateText(const QString &text)
 {
     QRegExp regex("([0-9]|[a-f])", Qt::CaseInsensitive, QRegExp::RegExp2);
     QString newText;
     int pos = 0;
 
     switch (inputMethod) {
-    case InputHex:
+    case UnicodeDialog::InputHex:
         // Remove all characters we don't want
         while ((pos = regex.indexIn(text, pos)) != -1) {
             newText += regex.cap(1);
@@ -194,7 +208,7 @@ QString UnicodeDialog::validateText(const QString &text)
         }
         break;
 
-    case InputDec:
+    case UnicodeDialog::InputDec:
         // TODO
         break;
     }
@@ -202,7 +216,7 @@ QString UnicodeDialog::validateText(const QString &text)
     return newText;
 }
 
-void UnicodeDialog::updateOverviewChars(uint unicode)
+void UnicodeWidget::updateOverviewChars(uint unicode)
 {
     QString left;
     QString right;
@@ -227,20 +241,20 @@ void UnicodeDialog::updateOverviewChars(uint unicode)
 
 }
 
-void UnicodeDialog::clearOverviewChars()
+void UnicodeWidget::clearOverviewChars()
 {
     leftChars->setText("");
     rightChars->setText("");
 }
 
-QString UnicodeDialog::nextUnicode(const QString &text, Direction direction)
+QString UnicodeWidget::nextUnicode(const QString &text, Direction direction)
 {
     uint value = 0;
-    QString newText = "";
+    QString newText;
     bool ok;
 
     switch (inputMethod) {
-    case InputHex:
+    case UnicodeDialog::InputHex:
         value = text.toUInt(&ok, 16);
         switch (direction) {
         case Backward:
@@ -257,14 +271,14 @@ QString UnicodeDialog::nextUnicode(const QString &text, Direction direction)
         newText.setNum(value, 16);
         break;
 
-    case InputDec:
+    case UnicodeDialog::InputDec:
         break;
     }
 
     return newText;
 }
 
-void UnicodeDialog::readChoices()
+void UnicodeWidget::readChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
     KSharedConfigPtr config = KGlobal::config();
@@ -274,7 +288,7 @@ void UnicodeDialog::readChoices()
     m_lastUnicodeNumber = titleConfig.readEntry("unicode_number", QString("2013"));
 }
 
-void UnicodeDialog::writeChoices()
+void UnicodeWidget::writeChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
     KSharedConfigPtr config = KGlobal::config();
@@ -289,7 +303,7 @@ void UnicodeDialog::writeChoices()
 /**
  * \brief Validates the entered Unicode number and displays its Unicode character.
  */
-void UnicodeDialog::slotTextChanged(const QString &text)
+void UnicodeWidget::slotTextChanged(const QString &text)
 {
     unicodeNumber->blockSignals(true);
 
@@ -313,10 +327,10 @@ void UnicodeDialog::slotTextChanged(const QString &text)
         bool ok;
         uint value = 0;
         switch (inputMethod) {
-        case InputHex:
+        case UnicodeDialog::InputHex:
             value = newText.toUInt(&ok, 16);
             break;
-        case InputDec:
+        case UnicodeDialog::InputDec:
             value = newText.toUInt(&ok, 10);
             break;
         }
@@ -346,33 +360,35 @@ void UnicodeDialog::slotTextChanged(const QString &text)
  * When return pressed, we return the selected unicode character
  * if it was not a control character.
  */
-void UnicodeDialog::slotReturnPressed()
+void UnicodeWidget::slotReturnPressed()
 {
-    QString text = trimmedUnicodeNumber(unicodeNumber->text());
+    unicodeNumber->setFocus();
+    const QString text = trimmedUnicodeNumber(unicodeNumber->text());
     if (!controlCharacter(text)) {
         emit charSelected(unicodeChar->text());
         writeChoices();
     }
-    emit accept();
 }
 
-void UnicodeDialog::slotNextUnicode()
+void UnicodeWidget::slotNextUnicode()
 {
-    QString text = unicodeNumber->text();
+    const QString text = unicodeNumber->text();
     unicodeNumber->setText(nextUnicode(text, Forward));
 }
 
-void UnicodeDialog::slotPrevUnicode()
+void UnicodeWidget::slotPrevUnicode()
 {
-    QString text = unicodeNumber->text();
+    const QString text = unicodeNumber->text();
     unicodeNumber->setText(nextUnicode(text, Backward));
 }
 
-void UnicodeDialog::wheelEvent(QWheelEvent * event)
+void UnicodeWidget::wheelEvent(QWheelEvent * event)
 {
     if (frame->underMouse()) {
-        if (event->delta() > 0) slotNextUnicode();
-        else slotPrevUnicode();
+        if (event->delta() > 0)
+            slotNextUnicode();
+        else
+            slotPrevUnicode();
     }
 }
 
