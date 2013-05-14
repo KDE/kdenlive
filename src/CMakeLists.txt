@@ -249,7 +249,7 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/trackheader_ui.ui
   widgets/tracksconfigdialog_ui.ui
   widgets/transitionsettings_ui.ui
-  widgets/unicodedialog_ui.ui
+  widgets/unicodewidget_ui.ui
   widgets/urlval_ui.ui
   widgets/vectorscope_ui.ui
   widgets/waveform_ui.ui
