@@ -24,7 +24,7 @@ public:
     ~UnicodeDialog();
 
     /** \brief Returns infos about a unicode number. Extendable/improvable ;) */
-    QString unicodeInfo(QString unicode);
+    QString unicodeInfo(const QString &unicode);
 
     void showLastUnicode();
 

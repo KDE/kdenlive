@@ -115,7 +115,7 @@ QString UnicodeDialog::trimmedUnicodeNumber(QString text)
     return text;
 }
 
-QString UnicodeDialog::unicodeInfo(QString unicode)
+QString UnicodeDialog::unicodeInfo(const QString &unicode)
 {
     QString infoText(i18n("<small>(no character selected)</small>"));
     if (unicode.length() == 0) return infoText;
