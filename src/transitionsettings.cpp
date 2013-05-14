@@ -69,7 +69,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     connect(m_effectEdit, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
 }
 
-void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const QList<TrackInfo> &info)
+void TransitionSettings::updateProjectFormat(const MltVideoProfile &profile, const Timecode &t, const QList<TrackInfo> &info)
 {
     m_effectEdit->updateProjectFormat(profile, t);
     m_tracks = info;
@@ -159,7 +159,7 @@ void TransitionSettings::slotTransitionTrackChanged()
     m_effectEdit->updateParameter("transition_btrack", QString::number(ix));
 }
 
-void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack, QPoint p, bool update)
+void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update)
 {
     setEnabled(t != NULL);
     m_effectEdit->setFrameSize(p);

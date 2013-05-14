@@ -38,7 +38,7 @@ public:
     void adjustSize(int height);
     void setSelectedIndex(int ix);
     /** @brief Update the track label to show if current track has effects or not.*/
-    void updateEffectLabel(QStringList effects);
+    void updateEffectLabel(const QStringList &effects);
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);

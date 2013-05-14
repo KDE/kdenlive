@@ -82,7 +82,7 @@ bool operator==(const requestClipInfo &a)
 class MltErrorEvent : public QEvent
 {
 public:
-    MltErrorEvent(QString message) : QEvent(QEvent::User), m_message(message) {}
+    MltErrorEvent(const QString &message) : QEvent(QEvent::User), m_message(message) {}
     QString message() const {
         return m_message;
     }

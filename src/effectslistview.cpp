@@ -184,7 +184,7 @@ void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
     }
 }
 
-void EffectsListView::slotAutoExpand(QString text)
+void EffectsListView::slotAutoExpand(const QString &text)
 {
     search_effect->updateSearch();
     bool selected = false;

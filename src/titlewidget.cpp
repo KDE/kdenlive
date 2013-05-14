@@ -64,7 +64,7 @@ const int BLUREFFECT = 1;
 const int SHADOWEFFECT = 2;
 const int TYPEWRITEREFFECT = 3;
 
-TitleWidget::TitleWidget(const KUrl &url, Timecode tc, const QString &projectTitlePath, Render *render, QWidget *parent) :
+TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent) :
         QDialog(parent),
         Ui::TitleWidget_UI(),
         m_startViewport(NULL),
@@ -1544,7 +1544,7 @@ void TitleWidget::slotInsertUnicode()
     m_unicodeDialog->exec();
 }
 
-void TitleWidget::slotInsertUnicodeString(QString text)
+void TitleWidget::slotInsertUnicodeString(const QString &text)
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() > 0) {

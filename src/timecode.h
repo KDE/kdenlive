@@ -55,7 +55,7 @@ public:
     const QString getTimecodeFromFrames(int frames) const;
     double fps() const;
     bool df() const;
-    const QString mask(GenTime t = GenTime()) const;
+    const QString mask(const GenTime &t = GenTime()) const;
     QString reformatSeparators(QString duration) const;
 
 private:

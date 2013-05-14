@@ -269,7 +269,7 @@ QString SlideshowClip::selectedPath()
 }
 
 // static
-int SlideshowClip::getFrameNumberFromPath(KUrl path)
+int SlideshowClip::getFrameNumberFromPath(const KUrl &path)
 {
     QString filter = path.fileName();
     filter = filter.section('.', 0, -2);
@@ -281,7 +281,7 @@ int SlideshowClip::getFrameNumberFromPath(KUrl path)
 }
 
 // static
-QString SlideshowClip::selectedPath(KUrl url, bool isMime, QString extension, QStringList *list)
+QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extension, QStringList *list)
 {
     QString folder;
     if (isMime) {

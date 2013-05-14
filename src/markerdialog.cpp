@@ -26,7 +26,7 @@
 #include <KDebug>
 
 
-MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent) :
+MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent) :
         QDialog(parent)
         , m_producer(NULL)
         , m_profile(NULL)

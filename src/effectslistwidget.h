@@ -37,7 +37,7 @@ public:
     explicit EffectsListWidget(QMenu *contextMenu, QWidget *parent = 0);
     virtual ~EffectsListWidget();
     const QDomElement currentEffect() const;
-    QString currentInfo();
+    QString currentInfo() const;
     const QDomElement itemEffect(QTreeWidgetItem *item) const;
     void initList(QMenu *effectsMenu, KActionCategory *effectActions);
 

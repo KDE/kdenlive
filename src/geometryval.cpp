@@ -29,7 +29,7 @@
 #include <QTimer>
 
 
-Geometryval::Geometryval(const MltVideoProfile &profile, Timecode t, const QPoint &frame_size, int startPoint, QWidget* parent) :
+Geometryval::Geometryval(const MltVideoProfile &profile, const Timecode &t, const QPoint &frame_size, int startPoint, QWidget* parent) :
         QWidget(parent),
         m_profile(profile),
         m_paramRect(NULL),

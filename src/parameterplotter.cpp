@@ -282,22 +282,22 @@ void ParameterPlotter::setNewPoints(bool b)
     m_newPoints = b;
 }
 
-bool ParameterPlotter::isMoveX()
+bool ParameterPlotter::isMoveX() const
 {
     return m_moveX;
 }
 
-bool ParameterPlotter::isMoveY()
+bool ParameterPlotter::isMoveY() const
 {
     return m_moveY;
 }
 
-bool ParameterPlotter::isMoveTimeline()
+bool ParameterPlotter::isMoveTimeline() const
 {
     return m_moveTimeline;
 }
 
-bool ParameterPlotter::isNewPoints()
+bool ParameterPlotter::isNewPoints() const
 {
     return m_newPoints;
 }

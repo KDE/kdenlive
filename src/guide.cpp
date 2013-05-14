@@ -29,7 +29,7 @@
 #include <QGraphicsView>
 #include <QScrollBar>
 
-Guide::Guide(CustomTrackView *view, GenTime pos, const QString &label, double height) :
+Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, double height) :
         QGraphicsLineItem(),
         m_position(pos),
         m_label(label),

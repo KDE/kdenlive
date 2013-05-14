@@ -87,7 +87,7 @@ private slots:
 
     /** @brief Expands folders that match our search.
     * @param text Current search string */
-    void slotAutoExpand(QString text);
+    void slotAutoExpand(const QString &text);
 
 signals:
     void addEffect(const QDomElement);

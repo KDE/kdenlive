@@ -38,7 +38,7 @@
 
 
 
-GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent):
+GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent):
     QWidget(parent),
     m_monitor(monitor),
     m_timePos(new TimecodeDisplay(timecode)),
@@ -378,7 +378,7 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     slotPositionChanged(0, false);
 }
 
-void GeometryWidget::addParameter(const QDomElement elem)
+void GeometryWidget::addParameter(const QDomElement &elem)
 {
     Mlt::Geometry *geometry = new Mlt::Geometry(elem.attribute("value").toUtf8().data(), m_outPoint - m_inPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     m_extraGeometries.append(geometry);

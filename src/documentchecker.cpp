@@ -339,7 +339,6 @@ bool DocumentChecker::hasErrorInClips()
 
     for (int i = 0; i < max; i++) {
         e = missingProxies.at(i).toElement();
-        QString clipType;
         QString realPath = e.attribute("resource");
         QString id = e.attribute("id");
         // Tell Kdenlive to recreate proxy
@@ -448,7 +447,7 @@ QString DocumentChecker::getProperty(QDomElement effect, const QString &name)
     return QString();
 }
 
-void DocumentChecker::setProperty(QDomElement effect, const QString &name, const QString value)
+void DocumentChecker::setProperty(QDomElement effect, const QString &name, const QString &value)
 {
     QDomNodeList params = effect.elementsByTagName("property");
     for (int i = 0; i < params.count(); i++) {
@@ -916,7 +915,7 @@ void DocumentChecker::slotDeleteSelected()
     }
 }
 
-void DocumentChecker::checkMissingImagesAndFonts(QStringList images, QStringList fonts, const QString &id, const QString &baseClip)
+void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id, const QString &baseClip)
 {
     QDomDocument doc;
     foreach(const QString &img, images) {

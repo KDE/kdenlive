@@ -289,7 +289,7 @@ void UnicodeDialog::writeChoices()
 /**
  * \brief Validates the entered Unicode number and displays its Unicode character.
  */
-void UnicodeDialog::slotTextChanged(QString text)
+void UnicodeDialog::slotTextChanged(const QString &text)
 {
     unicodeNumber->blockSignals(true);
 

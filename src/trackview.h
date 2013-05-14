@@ -86,9 +86,9 @@ public slots:
     void slotDeleteClip(const QString &clipId);
     void slotChangeZoom(int horizontal, int vertical = -1);
     void setDuration(int dur);
-    void slotSetZone(QPoint p, bool updateDocumentProperties = true);
+    void slotSetZone(const QPoint &p, bool updateDocumentProperties = true);
     /** @brief Save a snapshot image of current timeline view */
-    void slotSaveTimelinePreview(const QString path);
+    void slotSaveTimelinePreview(const QString &path);
 private:
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
@@ -107,7 +107,7 @@ private:
     
     void parseDocument(const QDomDocument &doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers);
-    DocClipBase *getMissingProducer(const QString id) const;
+    DocClipBase *getMissingProducer(const QString &id) const;
     void adjustTrackHeaders();
     /** @brief Add effects from the xml. Returns true if some effect was upgraded, false if everything went fine.*/
     void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);
@@ -132,7 +132,7 @@ private slots:
     /** @brief Changes the name of a track.
     * @param ix Number of the track
     * @param name New name */
-    void slotRenameTrack(int ix, QString name);
+    void slotRenameTrack(int ix, const QString &name);
     void slotRepaintTracks();
 
     /** @brief Adjusts the margins of the header area.

@@ -2750,7 +2750,7 @@ void ProjectList::removeClipCut(const QString &id, int in, int out)
     emit projectModified();
 }
 
-SubProjectItem *ProjectList::getSubItem(ProjectItem *clip, QPoint zone)
+SubProjectItem *ProjectList::getSubItem(ProjectItem *clip, const QPoint &zone)
 {
     SubProjectItem *sub = NULL;
     if (clip) {
@@ -2778,7 +2778,7 @@ void ProjectList::slotUpdateClipCut(QPoint p)
     m_commandStack->push(command);
 }
 
-void ProjectList::doUpdateClipCut(const QString &id, const QPoint oldzone, const QPoint zone, const QString &comment)
+void ProjectList::doUpdateClipCut(const QString &id, const QPoint &oldzone, const QPoint &zone, const QString &comment)
 {
     ProjectItem *clip = getItemById(id);
     SubProjectItem *sub = getSubItem(clip, oldzone);
@@ -2798,7 +2798,7 @@ void ProjectList::slotForceProcessing(const QString &id)
     m_render->forceProcessing(id);
 }
 
-void ProjectList::slotAddOrUpdateSequence(const QString frameName)
+void ProjectList::slotAddOrUpdateSequence(const QString &frameName)
 {
     QString fileName = KUrl(frameName).fileName().section('_', 0, -2);
     QStringList list;
@@ -2860,7 +2860,7 @@ QMap <QString, QString> ProjectList::getProxies()
     return list;
 }
 
-void ProjectList::slotCreateProxy(const QString id)
+void ProjectList::slotCreateProxy(const QString &id)
 {
     ProjectItem *item = getItemById(id);
     if (!item || hasPendingJob(item, PROXYJOB) || item->referencedClip()->isPlaceHolder()) return;
@@ -3073,7 +3073,7 @@ void ProjectList::slotCheckJobProcess()
     if (m_jobThreads.futures().isEmpty() || m_jobThreads.futures().count() < KdenliveSettings::proxythreads()) m_jobThreads.addFuture(QtConcurrent::run(this, &ProjectList::slotProcessJobs));
 }
 
-void ProjectList::slotAbortProxy(const QString id, const QString path)
+void ProjectList::slotAbortProxy(const QString &id, const QString &path)
 {
     Q_UNUSED(path)
 
@@ -3228,7 +3228,7 @@ void ProjectList::updateProxyConfig()
     else delete command;
 }
 
-void ProjectList::slotProcessLog(const QString id, int progress, int type, const QString message)
+void ProjectList::slotProcessLog(const QString &id, int progress, int type, const QString &message)
 {
     ProjectItem *item = getItemById(id);
     setJobStatus(item, (JOBTYPE) type, JOBWORKING, progress, message);

@@ -300,7 +300,7 @@ const QDomElement EffectsListWidget::itemEffect(QTreeWidgetItem *item) const
 }
 
 
-QString EffectsListWidget::currentInfo()
+QString EffectsListWidget::currentInfo() const
 {
     QTreeWidgetItem *item = currentItem();
     if (!item || item->data(0, TypeRole).toInt() == (int)EFFECT_FOLDER) return QString();

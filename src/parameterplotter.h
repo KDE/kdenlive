@@ -32,10 +32,10 @@ public:
     void setMoveY(bool);
     void setMoveTimeLine(bool);
     void setNewPoints(bool);
-    bool isMoveX();
-    bool isMoveY();
-    bool isMoveTimeline();
-    bool isNewPoints();
+    bool isMoveX() const;
+    bool isMoveY() const;
+    bool isMoveTimeline() const;
+    bool isNewPoints() const;
     void replot(const QString& name = QString());
 private:
     KPlotPoint* m_movepoint;

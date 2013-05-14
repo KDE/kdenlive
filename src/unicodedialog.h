@@ -72,7 +72,7 @@ signals:
     void charSelected(const QString&);
 
 private slots:
-    void slotTextChanged(QString text);
+    void slotTextChanged(const QString &text);
     void slotReturnPressed();
     void slotNextUnicode();
     void slotPrevUnicode();

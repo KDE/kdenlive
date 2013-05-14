@@ -96,7 +96,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
 {
 }*/
 
-void HeaderTrack::updateEffectLabel(QStringList effects)
+void HeaderTrack::updateEffectLabel(const QStringList &effects)
 {
     if (!effects.isEmpty()) {
         effect_label->setHidden(false);

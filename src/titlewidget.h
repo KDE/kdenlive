@@ -63,7 +63,7 @@ public:
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    explicit TitleWidget(const KUrl &url, Timecode tc, const QString &projectTitlePath, Render *render, QWidget *parent = 0);
+    explicit TitleWidget(const KUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent = 0);
     virtual ~TitleWidget();
     QDomDocument xml();
     void setXml(const QDomDocument& doc);
@@ -312,7 +312,7 @@ private slots:
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
     void slotInsertUnicode();
-    void slotInsertUnicodeString(QString);
+    void slotInsertUnicodeString(const QString&);
 
     void displayBackgroundFrame();
 
