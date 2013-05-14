@@ -134,7 +134,7 @@ const QString RenderJobItem::metadata() const
 }
 
 
-RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, MltVideoProfile profile, QWidget * parent) :
+RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget * parent) :
         QDialog(parent),
         m_projectFolder(projectfolder),
         m_profile(profile),
@@ -1183,7 +1183,7 @@ int RenderWidget::waitingJobsCount() const
     return count;
 }
 
-void RenderWidget::setProfile(MltVideoProfile profile)
+void RenderWidget::setProfile(const MltVideoProfile &profile)
 {
     m_view.scanning_list->setCurrentIndex(0);
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
@@ -2019,7 +2019,7 @@ void RenderWidget::slotHideLog()
     m_view.error_box->setVisible(false);
 }
 
-void RenderWidget::setRenderProfile(QMap <QString, QString> props)
+void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 {
     m_view.scanning_list->setCurrentIndex(props.value("renderscanning").toInt());
     int exportAudio = props.value("renderexportaudio").toInt();

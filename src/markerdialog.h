@@ -44,7 +44,7 @@ class MarkerDialog : public QDialog, public Ui::MarkerDialog_UI
     Q_OBJECT
 
 public:
-    MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent = 0);
+    MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent = 0);
     ~MarkerDialog();
     CommentedTime newMarker();
     QImage markerImage() const;

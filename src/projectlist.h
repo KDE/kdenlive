@@ -252,8 +252,8 @@ public:
     void addClipCut(const QString &id, int in, int out, const QString desc, bool newItem);
     void removeClipCut(const QString &id, int in, int out);
     void focusTree() const;
-    SubProjectItem *getSubItem(ProjectItem *clip, QPoint zone);
-    void doUpdateClipCut(const QString &id, const QPoint oldzone, const QPoint zone, const QString &comment);
+    SubProjectItem *getSubItem(ProjectItem *clip, const QPoint &zone);
+    void doUpdateClipCut(const QString &id, const QPoint &oldzone, const QPoint &zone, const QString &comment);
     bool hasMissingClips();
     void deleteProjectFolder(QMap <QString, QString> map);
     void selectItemById(const QString &clipId);
@@ -460,16 +460,16 @@ private slots:
     /** @brief Try to find a matching profile for given item. */
     bool adjustProjectProfileToItem(ProjectItem *item = NULL);
     /** @brief Add a sequence from the stopmotion widget. */
-    void slotAddOrUpdateSequence(const QString frameName);
+    void slotAddOrUpdateSequence(const QString &frameName);
     /** @brief A proxy clip was created, update display. */
     void slotGotProxy(const QString &proxyPath);
     void slotGotProxy(ProjectItem *item);
     /** @brief Enable / disable proxy for current clip. */
     void slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy = NULL);
     /** @brief Put clip in the proxy waiting list. */
-    void slotCreateProxy(const QString id);
+    void slotCreateProxy(const QString &id);
     /** @brief Stop creation of this clip's proxy. */
-    void slotAbortProxy(const QString id, const QString path);
+    void slotAbortProxy(const QString &id, const QString& path);
     /** @brief Start creation of clip jobs. */
     void slotProcessJobs();
     /** @brief Discard running and pending clip jobs. */
@@ -477,7 +477,7 @@ private slots:
     /** @brief Discard a running clip jobs. */
     void slotCancelRunningJob(const QString id, stringMap);
     /** @brief Update a clip's job status. */
-    void slotProcessLog(const QString, int progress, int, const QString = QString());
+    void slotProcessLog(const QString&, int progress, int, const QString & tmp= QString());
     /** @brief A clip job crashed, inform user. */
     void slotUpdateJobStatus(const QString id, int type, int status, const QString label, const QString actionName, const QString details);
     void slotUpdateJobStatus(ProjectItem *item, int type, int status, const QString &label, const QString &actionName = QString(), const QString details = QString());

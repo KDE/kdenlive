@@ -32,7 +32,7 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
     Q_OBJECT
 
 public:
-    ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, const QString& projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
+    ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString& projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
     QString selectedProfile() const;
     KUrl selectedFolder() const;
     QPoint tracks();
@@ -46,8 +46,8 @@ public:
     QString proxyParams() const;
     QString proxyExtension() const;
     const QMap <QString, QString> metadata() const;
-    static QStringList extractPlaylistUrls(QString path);
-    static QStringList extractSlideshowUrls(KUrl url);
+    static QStringList extractPlaylistUrls(const QString &path);
+    static QStringList extractSlideshowUrls(const KUrl &url);
 
 public slots:
     virtual void accept();

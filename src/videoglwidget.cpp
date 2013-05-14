@@ -129,7 +129,7 @@ void VideoGLWidget::paintGL()
     }
 }
 
-void VideoGLWidget::showImage(const QImage image)
+void VideoGLWidget::showImage(const QImage &image)
 {
     m_image_width = image.width();
     m_image_height = image.height();

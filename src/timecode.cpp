@@ -117,7 +117,7 @@ bool Timecode::df() const
     return m_dropFrameTimecode;
 }
 
-const QString Timecode::mask(GenTime t) const
+const QString Timecode::mask(const GenTime& t) const
 {
     if (t < GenTime()) {
         if (m_dropFrameTimecode) return "#99:99:99,99";

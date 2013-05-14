@@ -35,7 +35,7 @@
 #include <QDir>
 #include <kmessagebox.h>
 
-ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
     QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist), m_lumas(lumas)
 {
     setupUi(this);
@@ -482,7 +482,7 @@ QString ProjectSettings::proxyExtension() const
 }
 
 //static
-QStringList ProjectSettings::extractPlaylistUrls(QString path)
+QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
 {
     QStringList urls;
     QDomDocument doc;
@@ -535,7 +535,7 @@ QStringList ProjectSettings::extractPlaylistUrls(QString path)
 
 
 //static
-QStringList ProjectSettings::extractSlideshowUrls(KUrl url)
+QStringList ProjectSettings::extractSlideshowUrls(const KUrl &url)
 {
     QStringList urls;
     QString path = url.directory(KUrl::AppendTrailingSlash);

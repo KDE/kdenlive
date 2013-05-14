@@ -265,7 +265,7 @@ void ShuttleThread::jog(unsigned int value)
 }
 
 
-JogShuttle::JogShuttle(QString device, QObject *parent) :
+JogShuttle::JogShuttle(const QString &device, QObject *parent) :
         QObject(parent)
 {
     initDevice(device);
@@ -276,7 +276,7 @@ JogShuttle::~JogShuttle()
 	stopDevice();
 }
 
-void JogShuttle::initDevice(QString device)
+void JogShuttle::initDevice(const QString &device)
 {
     if (m_shuttleProcess.isRunning()) {
         if (device == m_shuttleProcess.m_device) return;

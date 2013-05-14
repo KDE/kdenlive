@@ -69,7 +69,7 @@ Monitor *EffectStackEdit::monitor()
     return m_metaInfo.monitor;
 }
 
-void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
+void EffectStackEdit::updateProjectFormat(const MltVideoProfile &profile, const Timecode &t)
 {
     m_metaInfo.profile = profile;
     m_metaInfo.timecode = t;

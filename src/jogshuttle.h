@@ -55,10 +55,10 @@ private:
 class JogShuttle: public QObject
 {
 Q_OBJECT public:
-    explicit JogShuttle(QString device, QObject * parent = 0);
+    explicit JogShuttle(const QString &device, QObject * parent = 0);
     ~JogShuttle();
     void stopDevice();
-    void initDevice(QString device);
+    void initDevice(const QString &device);
 
 protected:
     virtual void customEvent(QEvent * e);

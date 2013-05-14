@@ -179,7 +179,7 @@ int TrackView::outPoint() const
     return m_ruler->outPoint();
 }
 
-void TrackView::slotSetZone(QPoint p, bool updateDocumentProperties)
+void TrackView::slotSetZone(const QPoint &p, bool updateDocumentProperties)
 {
     m_ruler->setZone(p);
     if (updateDocumentProperties) m_doc->setZone(p.x(), p.y());
@@ -1011,7 +1011,7 @@ QDomElement TrackView::getEffectByTag(const QString &effecttag, const QString &e
 }
 
 
-DocClipBase *TrackView::getMissingProducer(const QString id) const
+DocClipBase *TrackView::getMissingProducer(const QString &id) const
 {
     QDomElement missingXml;
     QDomDocument doc = m_doc->toXml();
@@ -1130,7 +1130,7 @@ void TrackView::updateProjectFps()
     m_trackview->updateProjectFps();
 }
 
-void TrackView::slotRenameTrack(int ix, QString name)
+void TrackView::slotRenameTrack(int ix, const QString &name)
 {
     int tracknumber = m_doc->tracksCount() - ix;
     QList <TrackInfo> tracks = m_doc->tracksList();
@@ -1168,7 +1168,7 @@ void TrackView::slotUpdateTrackEffectState(int ix)
     widgets.at(m_doc->tracksCount() - ix - 1)->updateEffectLabel(m_doc->trackInfoAt(ix).effectsList.effectNames());
 }
 
-void TrackView::slotSaveTimelinePreview(const QString path)
+void TrackView::slotSaveTimelinePreview(const QString &path)
 {
     QImage img(width(), height(), QImage::Format_ARGB32_Premultiplied);
     img.fill(palette().base().color().rgb());
