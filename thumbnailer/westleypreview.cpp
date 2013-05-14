@@ -67,6 +67,7 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 
     if (producer->is_blank()) {
         delete producer;
+        delete profile;
         return false;
     }
     int frame = 75;
