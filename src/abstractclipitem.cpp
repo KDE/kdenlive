@@ -279,7 +279,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
         x2 = br.right();
         if (limitedKeyFrames) {
             QMap<int, int>::const_iterator end = m_keyframes.constEnd();
-            end--;
+            --end;
             x2 = x1 + maxw * (end.key() - start);
             x1 += maxw * (m_keyframes.constBegin().key() - start);
         }

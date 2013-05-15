@@ -51,8 +51,6 @@ private slots:
 
 private:
     QString m_projectWildcard;
-    
-signals:
 };
 
 

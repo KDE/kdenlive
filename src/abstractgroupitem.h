@@ -71,8 +71,8 @@ protected:
 
 private:
     void fixItemRect();
-    QPainterPath groupShape(GRAPHICSRECTITEM type, QPointF offset) const;
-    QPainterPath spacerGroupShape(GRAPHICSRECTITEM type, QPointF offset) const;
+    QPainterPath groupShape(GRAPHICSRECTITEM type, const QPointF &offset) const;
+    QPainterPath spacerGroupShape(GRAPHICSRECTITEM type, const QPointF &offset) const;
     /** Stores the original info of the items beeing resized. */
     QList <ItemInfo> m_resizeInfos;
 };

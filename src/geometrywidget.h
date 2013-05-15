@@ -66,7 +66,7 @@ public slots:
     * @param elem DomElement representing this effect parameter
     * @param minframe In point of the clip
     * @param maxframe Out point of the clip */
-    void setupParam(const QDomElement elem, int minframe, int maxframe);
+    void setupParam(const QDomElement &elem, int minframe, int maxframe);
     /** @brief Updates position of the local timeline to @param relTimelinePos.  */
     void slotSyncPosition(int relTimelinePos);
     void slotResetKeyframes();

@@ -107,7 +107,7 @@ QPainterPath AbstractGroupItem::transitionGroupShape(QPointF offset) const
     return groupShape(TRANSITIONWIDGET, offset);
 }
 
-QPainterPath AbstractGroupItem::groupShape(GRAPHICSRECTITEM type, QPointF offset) const
+QPainterPath AbstractGroupItem::groupShape(GRAPHICSRECTITEM type, const QPointF &offset) const
 {
     QPainterPath path;
     QList<QGraphicsItem *> children = childItems();
@@ -130,7 +130,7 @@ QPainterPath AbstractGroupItem::groupShape(GRAPHICSRECTITEM type, QPointF offset
     return path;
 }
 
-QPainterPath AbstractGroupItem::spacerGroupShape(GRAPHICSRECTITEM type, QPointF offset) const
+QPainterPath AbstractGroupItem::spacerGroupShape(GRAPHICSRECTITEM type, const QPointF &offset) const
 {
     QPainterPath path;
     QList<QGraphicsItem *> children = childItems();
@@ -212,7 +212,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         int xpos = projectScene()->getSnapPointForPos((int)(start.x() + newPos.x() - pos().x()), KdenliveSettings::snaptopoints());
 
         xpos = qMax(xpos, 0);
-        //kDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
+        //kDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
         newPos.setX((int)(pos().x() + xpos - (int) start.x()));
 	QStringList lockedTracks = property("locked_tracks").toStringList();
         int proposedTrack = (property("y_absolute").toInt() + newPos.y()) / trackHeight;

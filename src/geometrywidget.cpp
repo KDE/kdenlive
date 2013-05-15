@@ -328,7 +328,7 @@ QString GeometryWidget::getExtraValue(const QString &name) const
     return val;
 }
 
-void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxframe)
+void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxframe)
 {
     m_inPoint = minframe;
     m_outPoint = maxframe;

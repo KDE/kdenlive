@@ -98,7 +98,7 @@ void SimpleKeyframeWidget::slotSetPosition(int pos, bool update)
         emit positionChanged(pos);
 }
 
-int SimpleKeyframeWidget::getPosition()
+int SimpleKeyframeWidget::getPosition() const
 {
     return m_time->getValue();
 }
