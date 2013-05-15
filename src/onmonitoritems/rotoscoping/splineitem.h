@@ -51,7 +51,7 @@ protected:
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 
 private:
-    int getClosestPointOnCurve(QPointF point, double *tFinal);
+    int getClosestPointOnCurve(const QPointF &point, double *tFinal);
 
     bool m_closed;
     bool m_editing;

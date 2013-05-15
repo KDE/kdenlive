@@ -252,7 +252,7 @@ void SplineItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
         unsetCursor();
 }
 
-int SplineItem::getClosestPointOnCurve(QPointF point, double *tFinal)
+int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
 {
     // TODO: proper minDiff
     qreal diff = 10000, param = 0;

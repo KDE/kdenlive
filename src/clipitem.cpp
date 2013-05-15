@@ -648,7 +648,7 @@ void ClipItem::slotGetEndThumb()
 }
 
 
-void ClipItem::slotSetStartThumb(QImage img)
+void ClipItem::slotSetStartThumb(const QImage &img)
 {
     if (!img.isNull() && img.format() == QImage::Format_ARGB32) {
         QPixmap pix = QPixmap::fromImage(img);
@@ -659,7 +659,7 @@ void ClipItem::slotSetStartThumb(QImage img)
     }
 }
 
-void ClipItem::slotSetEndThumb(QImage img)
+void ClipItem::slotSetEndThumb(const QImage &img)
 {
     if (!img.isNull() && img.format() == QImage::Format_ARGB32) {
         QPixmap pix = QPixmap::fromImage(img);
@@ -690,12 +690,12 @@ void ClipItem::slotThumbReady(int frame, QImage img)
     }
 }
 
-void ClipItem::slotSetStartThumb(const QPixmap pix)
+void ClipItem::slotSetStartThumb(const QPixmap &pix)
 {
     m_startPix = pix;
 }
 
-void ClipItem::slotSetEndThumb(const QPixmap pix)
+void ClipItem::slotSetEndThumb(const QPixmap &pix)
 {
     m_endPix = pix;
 }

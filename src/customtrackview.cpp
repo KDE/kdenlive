@@ -5669,7 +5669,7 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
     else delete command;
 }
 
-void CustomTrackView::addMarker(const QString &id, const CommentedTime marker)
+void CustomTrackView::addMarker(const QString &id, const CommentedTime &marker)
 {
     DocClipBase *base = m_document->clipManager()->getClipById(id);
     if (base == NULL) return;
