@@ -367,7 +367,7 @@ int CustomTrackView::getPreviousVideoTrack(int track)
 {
     track = m_document->tracksCount() - track - 1;
     track --;
-    for (int i = track; i > -1; i--) {
+    for (int i = track; i > -1; --i) {
         if (m_document->trackInfoAt(i).type == VIDEOTRACK) return i + 1;
     }
     return 0;
@@ -4895,7 +4895,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
 		AbstractGroupItem *group = (AbstractGroupItem*) children.at(i);
 		if (!groupList.contains(group)) groupList.append(group);
                 children.removeAll(children.at(i));
-                i--;
+                --i;
             }
         }
 

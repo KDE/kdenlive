@@ -1797,28 +1797,28 @@ void KdenliveDoc::cleanupBackupFiles()
         for (int i = 0; i < hourList.count(); i += step) {
             kDebug()<<"REMOVE AT: "<<i<<", COUNT: "<<hourList.count();
             hourList.removeAt(i);
-            i--;
+            --i;
         }
     } else hourList.clear();
     if (dayList.count() > 20) {
         int step = dayList.count() / 10;
         for (int i = 0; i < dayList.count(); i += step) {
             dayList.removeAt(i);
-            i--;
+            --i;
         }
     } else dayList.clear();
     if (weekList.count() > 20) {
         int step = weekList.count() / 10;
         for (int i = 0; i < weekList.count(); i += step) {
             weekList.removeAt(i);
-            i--;
+            --i;
         }
     } else weekList.clear();
     if (oldList.count() > 20) {
         int step = oldList.count() / 10;
         for (int i = 0; i < oldList.count(); i += step) {
             oldList.removeAt(i);
-            i--;
+            --i;
         }
     } else oldList.clear();
     

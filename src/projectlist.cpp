@@ -376,23 +376,23 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
         if (actions.at(i)->data().toString() == "clip_properties") {
             m_editButton->setDefaultAction(actions.at(i));
             actions.removeAt(i);
-            i--;
+            --i;
         } else if (actions.at(i)->data().toString() == "delete_clip") {
             m_deleteButton->setDefaultAction(actions.at(i));
             actions.removeAt(i);
-            i--;
+            --i;
         } else if (actions.at(i)->data().toString() == "edit_clip") {
             m_openAction = actions.at(i);
             actions.removeAt(i);
-            i--;
+            --i;
         } else if (actions.at(i)->data().toString() == "reload_clip") {
             m_reloadAction = actions.at(i);
             actions.removeAt(i);
-            i--;
+            --i;
         } else if (actions.at(i)->data().toString() == "proxy_clip") {
             m_proxyAction = actions.at(i);
             actions.removeAt(i);
-            i--;
+            --i;
         }
     }
 
@@ -3065,7 +3065,7 @@ void ProjectList::slotCheckJobProcess()
             // remove finished jobs
             AbstractClipJob *job = m_jobList.takeAt(i);
             job->deleteLater();
-            i--;
+            --i;
         }
     }
     emit jobCount(count);    

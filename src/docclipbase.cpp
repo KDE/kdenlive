@@ -1278,7 +1278,7 @@ void DocClipBase::removeCutZone(int in, int out)
     for (int i = 0; i < m_cutZones.count(); ++i) {
         if (m_cutZones.at(i).zone == p) {
             m_cutZones.removeAt(i);
-            i--;
+            --i;
         }
     }
 }

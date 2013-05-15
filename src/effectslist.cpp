@@ -318,7 +318,7 @@ void EffectsList::removeMetaProperties(QDomElement producer)
         QDomElement e = params.item(i).toElement();
         if (e.attribute("name").startsWith("meta")) {
             producer.removeChild(params.item(i));
-            i--;
+            --i;
         }
     }
 }
