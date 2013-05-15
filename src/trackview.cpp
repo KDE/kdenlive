@@ -225,7 +225,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
             m_invalidProducers.append(id);
             m_documentErrors.append(i18n("Invalid clip producer %1\n", id));
             doc.documentElement().removeChild(producers.at(i));
-            i--;
+            --i;
         }
     }
 
@@ -322,7 +322,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
             // invalid transition, remove it
             m_documentErrors.append(i18n("Removed invalid transition: %1", e.attribute("id")) + '\n');
             tractor.removeChild(transitions.item(i));
-            i--;
+            --i;
             continue;
         }
         if (transitionAdd || mlt_service != "mix") {
@@ -398,7 +398,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
                 m_documentErrors.append(i18n("Removed invalid transition: (%1, %2, %3)", e.attribute("id"), mlt_service, transitionId) + '\n');
                 kDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
                 tractor.removeChild(transitions.item(i));
-                i--;
+                --i;
             } else if (m_trackview->canBePastedTo(transitionInfo, TRANSITIONWIDGET)) {
                 Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
                 if (forceTrack) tr->setForcedTrack(true, a_track);
@@ -410,7 +410,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
             else {
                 m_documentErrors.append(i18n("Removed overlapping transition: (%1, %2, %3)", e.attribute("id"), mlt_service, transitionId) + '\n');
                 tractor.removeChild(transitions.item(i));
-                i--;
+                --i;
             }
         }
     }

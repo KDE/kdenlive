@@ -144,7 +144,7 @@ void CollapsibleGroup::slotDeleteGroup()
     QDomDocument doc;
     // delete effects from the last one to the first, otherwise each deletion would trigger an update
     // in other effects's kdenlive_ix index.
-    for (int i = m_subWidgets.count() - 1; i >= 0; i--)
+    for (int i = m_subWidgets.count() - 1; i >= 0; --i)
         doc.appendChild(doc.importNode(m_subWidgets.at(i)->effect(), true));
     emit deleteGroup(doc);
 }
@@ -261,7 +261,7 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
     QMutexLocker lock(&m_mutex);
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
     if (vbox == NULL) return;
-    for (int i = m_subWidgets.count() - 1; i >= 0 ; i--) {
+    for (int i = m_subWidgets.count() - 1; i >= 0 ; --i) {
 	vbox->removeWidget(m_subWidgets.at(i));
 	layout->insertWidget(ix, m_subWidgets.at(i));
 	m_subWidgets.at(i)->decoframe->setObjectName("decoframe");

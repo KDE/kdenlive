@@ -94,7 +94,7 @@ public:
                    /
                    (b.last() + a.last() * alpha.last());
 
-        for (i = size - 2; i >= 0; i--)
+        for (i = size - 2; i >= 0; --i)
             x[i] = alpha[i+1] * x[i+1] + beta[i+1];
 
         return x;

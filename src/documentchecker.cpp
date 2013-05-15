@@ -879,7 +879,7 @@ void DocumentChecker::slotDeleteSelected()
             if (deletedIds.contains(e.attribute("id"))) {
                 // Remove clip
                 kdenlivedoc.removeChild(e);
-                i--;
+                --i;
                 j++;
             }
         }
@@ -889,7 +889,7 @@ void DocumentChecker::slotDeleteSelected()
             if (deletedIds.contains(e.attribute("id").section('_', 0, 0)) || deletedIds.contains(e.attribute("id").section(':', 1, 1).section('_', 0, 0))) {
                 // Remove clip
                 mlt.removeChild(e);
-                i--;
+                --i;
             }
         }
 

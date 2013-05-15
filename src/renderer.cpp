@@ -3954,7 +3954,7 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
     field->plant_transition(tr, a_track, b_track);
 
     // re-add upper transitions
-    for (int i = trList.count() - 1; i >= 0; i--) {
+    for (int i = trList.count() - 1; i >= 0; --i) {
         //kDebug()<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
@@ -4478,7 +4478,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, bool videoTrack)
     mltPlantTransition(field, transition, 1, ct);
     
     // re-add transitions
-    for (int i = trList.count() - 1; i >= 0; i--) {
+    for (int i = trList.count() - 1; i >= 0; --i) {
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
     qDeleteAll(trList);
@@ -4507,7 +4507,7 @@ void Render::mltDeleteTrack(int ix)
         }
         if (mappedProps.value("mlt_service") == "mix" && mappedProps.value("b_track").toInt() == tracksCount) {
             tractor.removeChild(transitions.at(i));
-            i--;
+            --i;
         } else if (mappedProps.value("mlt_service") != "mix" && (mappedProps.value("b_track").toInt() >= ix || mappedProps.value("a_track").toInt() >= ix)) {
             // Transition needs to be moved
             int a_track = mappedProps.value("a_track").toInt();
@@ -4516,7 +4516,7 @@ void Render::mltDeleteTrack(int ix)
             if (b_track == ix) {
                 // transition was on the deleted track, so remove it
                 tractor.removeChild(transitions.at(i));
-                i--;
+                --i;
                 continue;
             }
             if (b_track > 0 && b_track > ix) b_track --;

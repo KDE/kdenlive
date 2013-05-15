@@ -239,7 +239,7 @@ bool DvdWizardMenu::isComplete() const
     // check that we have a "Play all" entry
     if (targets.contains(0)) return true;
     // ... or that each video file has a button
-    for (int i = m_view.target_list->count() - 1; i > 0; i--) {
+    for (int i = m_view.target_list->count() - 1; i > 0; --i) {
         // If there is a vob file entry and it has no button assigned, don't allow to go further
         if (m_view.target_list->itemIcon(i).isNull() == false && !targets.contains(i)) {
 #if KDE_IS_VERSION(4,7,0)
@@ -813,7 +813,7 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, QDomElement xml)
         for (int i = 0; i < list.count(); ++i) {
             if (list.at(i)->type() == DvdButtonItem) {
                 delete list.at(i);
-                i--;
+                --i;
             }
         }
     }

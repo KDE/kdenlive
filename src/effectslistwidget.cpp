@@ -101,7 +101,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         QString currentName = topLevelItem(i)->text(0);
         if (currentName != i18n("Misc") && currentName != i18n("Audio") && currentName != i18nc("Folder Name", "Custom") && !folderNames.contains(currentName)) {
             takeTopLevelItem(i);
-            i--;
+            --i;
         }
     }
 
