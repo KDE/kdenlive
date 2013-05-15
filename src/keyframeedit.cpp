@@ -383,6 +383,8 @@ void KeyframeEdit::slotAdjustKeyframeValue(double value)
 
 int KeyframeEdit::getPos(int row)
 {
+    if (!keyframe_list->verticalHeaderItem(row))
+       return 0;
     if (KdenliveSettings::frametimecode())
         return keyframe_list->verticalHeaderItem(row)->text().toInt();
     else
