@@ -189,3 +189,5 @@ QImage Waveform::renderBackground(uint)
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }
+
+#include "waveform.moc"

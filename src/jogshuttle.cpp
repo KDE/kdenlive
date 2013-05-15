@@ -332,3 +332,5 @@ void JogShuttle::customEvent(QEvent* e)
 
 // #include "jogshuttle.moc"
 
+
+#include "jogshuttle.moc"

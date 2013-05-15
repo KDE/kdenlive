@@ -63,3 +63,5 @@ QImage AbstractAudioScopeWidget::renderScope(uint accelerationFactor)
 #ifdef DEBUG_AASW
 #undef DEBUG_AASW
 #endif
+
+#include "abstractaudioscopewidget.moc"

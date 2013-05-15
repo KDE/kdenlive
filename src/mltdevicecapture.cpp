@@ -772,3 +772,5 @@ void MltDeviceCapture::slotAllowPreview()
 }
 
 
+
+#include "mltdevicecapture.moc"

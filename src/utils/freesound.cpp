@@ -229,3 +229,5 @@ QString FreeSound::getDefaultDownloadName(QListWidgetItem *item)
     if (!item) return QString();
     return item->text();
 }
+
+#include "freesound.moc"

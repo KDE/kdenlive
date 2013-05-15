@@ -69,3 +69,5 @@ void AbstractGfxScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 #ifdef DEBUG_AGSW
 #undef DEBUG_AGSW
 #endif
+
+#include "abstractgfxscopewidget.moc"

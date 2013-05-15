@@ -559,3 +559,5 @@ void Vectorscope::slotColorSpaceChanged()
     }
     forceUpdate();
 }
+
+#include "vectorscope.moc"

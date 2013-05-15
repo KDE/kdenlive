@@ -855,3 +855,5 @@ void DvdWizardMenu::slotUnZoom()
     m_view.menu_preview->scale(0.5, 0.5);
 }
 
+
+#include "dvdwizardmenu.moc"

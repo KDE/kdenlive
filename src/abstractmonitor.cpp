@@ -179,3 +179,5 @@ void VideoSurface::paintEvent(QPaintEvent *event)
     emit refreshMonitor();
 }
 
+
+#include "abstractmonitor.moc"

@@ -302,3 +302,5 @@ void ScopeManager::checkActiveColourScopes()
     if (recMonitor != NULL) { recMonitor->analyseFrames(imageStillRequested); }
 }
 
+
+#include "scopemanager.moc"

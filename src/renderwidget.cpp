@@ -2259,3 +2259,5 @@ void RenderWidget::keyPressEvent(QKeyEvent *e) {
     else QDialog::keyPressEvent(e);
 }
 
+
+#include "renderwidget.moc"

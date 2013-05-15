@@ -565,3 +565,5 @@ void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection
 #ifdef DEBUG_ASW
 #undef DEBUG_ASW
 #endif
+
+#include "abstractscopewidget.moc"

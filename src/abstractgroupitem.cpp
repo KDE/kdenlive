@@ -554,3 +554,5 @@ GenTime AbstractGroupItem::duration()
     }
     return end - start;
 }
+
+#include "abstractgroupitem.moc"

@@ -1014,3 +1014,5 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
     slotCheckSpace();
 }
 
+
+#include "archivewidget.moc"
