@@ -119,14 +119,16 @@ void BezierSplineWidget::slotGridChange()
 
 void BezierSplineWidget::slotShowPixmap(bool show)
 {
-    m_showPixmap = show;
-    KdenliveSettings::setBezier_showpixmap(show);
-    if (show && (int)m_mode < 6)
-        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)m_mode), 1, palette().background().color().rgb())));
-     else if (show && m_mode == ModeHue)
-         m_edit.setPixmap(QPixmap::fromImage(ColorTools::hsvCurvePlane(m_edit.size(), QColor::fromHsv(200, 200, 200), ColorTools::COM_H, ColorTools::COM_H)));
-    else
-        m_edit.setPixmap(QPixmap());
+    if (m_showPixmap != show) {
+        m_showPixmap = show;
+        KdenliveSettings::setBezier_showpixmap(show);
+        if (show && (int)m_mode < 6)
+            m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)m_mode), 1, palette().background().color().rgb())));
+        else if (show && m_mode == ModeHue)
+            m_edit.setPixmap(QPixmap::fromImage(ColorTools::hsvCurvePlane(m_edit.size(), QColor::fromHsv(200, 200, 200), ColorTools::COM_H, ColorTools::COM_H)));
+        else
+            m_edit.setPixmap(QPixmap());
+    }
 }
 
 void BezierSplineWidget::slotUpdatePointEntries(const BPoint &p)

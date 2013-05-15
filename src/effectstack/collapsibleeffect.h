@@ -47,13 +47,13 @@ public:
     ~CollapsibleEffect();
     QLabel *title;
 	
-    void setupWidget(ItemInfo info, EffectMetaInfo *metaInfo);
+    void setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
     void setActive(bool activate);
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     virtual bool eventFilter( QObject * o, QEvent * e );
     /** @brief Update effect GUI to reflect parameted changes. */
-    void updateWidget(ItemInfo info, QDomElement effect, EffectMetaInfo *metaInfo);
+    void updateWidget(const ItemInfo &info, const QDomElement &effect, EffectMetaInfo *metaInfo);
     QDomElement effect() const;
     int groupIndex() const;
     bool isGroup() const;
@@ -75,7 +75,7 @@ public:
     /** @brief Set clip in / out points. */
     void setRange(int inPoint , int outPoint);
     /** @brief Import keyframes from a clip's data. */
-    void setKeyframes(const QString data, int maximum);
+    void setKeyframes(const QString &data, int maximum);
 
 public slots:
     void slotSyncEffectsPos(int pos);

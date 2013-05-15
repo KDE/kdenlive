@@ -405,18 +405,16 @@ int CollapsibleEffect::effectIndex() const
     return m_effect.attribute("kdenlive_ix").toInt();
 }
 
-void CollapsibleEffect::updateWidget(ItemInfo info, QDomElement effect, EffectMetaInfo *metaInfo)
+void CollapsibleEffect::updateWidget(const ItemInfo &info, const QDomElement &effect, EffectMetaInfo *metaInfo)
 {
-    if (m_paramWidget) {
-        // cleanup
-        delete m_paramWidget;
-        m_paramWidget = NULL;
-    }
+    // cleanup
+    delete m_paramWidget;
+    m_paramWidget = NULL;
     m_effect = effect;
     setupWidget(info, metaInfo);
 }
 
-void CollapsibleEffect::setupWidget(ItemInfo info, EffectMetaInfo *metaInfo)
+void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo)
 {
     if (m_effect.isNull()) {
 //         kDebug() << "// EMPTY EFFECT STACK";
@@ -602,7 +600,7 @@ void CollapsibleEffect::setRange(int inPoint , int outPoint)
     m_paramWidget->setRange(inPoint, outPoint);
 }
 
-void CollapsibleEffect::setKeyframes(const QString data, int maximum)
+void CollapsibleEffect::setKeyframes(const QString &data, int maximum)
 {
     m_paramWidget->setKeyframes(data, maximum);
 }

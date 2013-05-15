@@ -23,7 +23,6 @@
 #include "beziersplineeditor.h"
 #include "ui_bezierspline_ui.h"
 
-#include <QtCore>
 #include <QWidget>
 
 class DragValue;
