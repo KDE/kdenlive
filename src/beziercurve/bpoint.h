@@ -46,7 +46,7 @@ public:
     /** @brief Sets h1 to @param handle1.
      *
      * If handlesLinked is true h2 is updated. */
-    void setH1(const QPointF  &handle1);
+    void setH1(const QPointF &handle1);
 
     /** @brief Sets h2 to @param handle2.
      * 
