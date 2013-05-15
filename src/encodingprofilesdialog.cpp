@@ -184,3 +184,5 @@ void EncodingProfilesDialog::slotEditProfile()
     delete d;
 }
 
+
+#include "encodingprofilesdialog.moc"

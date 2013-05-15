@@ -159,3 +159,5 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
     return wave;
 }
 #undef CHOP255
+
+#include "waveformgenerator.moc"

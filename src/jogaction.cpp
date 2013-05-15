@@ -83,3 +83,5 @@ void JogShuttleAction::slotButton(int button_id)
     //fprintf(stderr, "Button #%d maps to action '%s'\n", button_id, m_actionMap[button_id].toAscii().constData()); //DBG
     emit action(m_actionMap[button_id]);
 }
+
+#include "jogaction.moc"

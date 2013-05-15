@@ -403,3 +403,5 @@ void ResourceWidget::updateLayout()
     info_browser->setHtml(content);
 }
 
+
+#include "resourcewidget.moc"

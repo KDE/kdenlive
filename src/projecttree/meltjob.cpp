@@ -242,3 +242,5 @@ void MeltJob::setStatus(CLIPJOBSTATUS status)
     if (status == JOBABORTED && m_consumer) m_consumer->stop();
 }
 
+
+#include "meltjob.moc"

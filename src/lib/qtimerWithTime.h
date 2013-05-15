@@ -1,3 +1,5 @@
+#ifndef QTIMERWITHTIME_H
+#define QTIMERWITHTIME_H
 
 #include <QTimer>
 #include <QTime>
@@ -11,3 +13,4 @@ public:
  private:
     QTime m_time;
 };
+#endif

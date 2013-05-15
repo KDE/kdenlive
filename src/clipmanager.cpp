@@ -993,3 +993,5 @@ void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QIma
     }
 }
 
+
+#include "clipmanager.moc"

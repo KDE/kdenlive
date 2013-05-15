@@ -257,3 +257,5 @@ QDomElement DvdWizardChapters::toXml() const
     }
     return doc.documentElement();
 }
+
+#include "dvdwizardchapters.moc"

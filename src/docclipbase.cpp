@@ -1408,3 +1408,5 @@ QMap <QString, QString> DocClipBase::analysisData() const
     return m_analysisdata;
 }
 
+
+#include "docclipbase.moc"

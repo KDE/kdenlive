@@ -547,3 +547,5 @@ bool AbstractClipItem::isMainSelectedClip()
     return m_isMainSelectedClip;
 }
 
+
+#include "abstractclipitem.moc"

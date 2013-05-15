@@ -260,3 +260,5 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     }
     return scope;
 }
+
+#include "vectorscopegenerator.moc"

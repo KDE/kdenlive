@@ -607,3 +607,5 @@ void CollapsibleEffect::setKeyframes(const QString data, int maximum)
     m_paramWidget->setKeyframes(data, maximum);
 }
 
+
+#include "collapsibleeffect.moc"

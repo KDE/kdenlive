@@ -275,3 +275,5 @@ void ColorPlaneExport::slotColormodeChanged()
     this->update();
     slotUpdateDisplays();
 }
+
+#include "colorplaneexport.moc"

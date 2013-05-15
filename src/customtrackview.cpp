@@ -7872,3 +7872,5 @@ void CustomTrackView::slotImportClipKeyframes(GRAPHICSRECTITEM type)
     delete d;
 }
 
+
+#include "customtrackview.moc"
