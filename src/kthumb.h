@@ -72,13 +72,13 @@ public:
 
 public slots:
     void updateClipUrl(KUrl url, const QString &hash);
+    void slotCreateAudioThumbs();
 
 public:
     static QPixmap getImage(const KUrl &url, int width, int height);
 //    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
     /* void getImage(KUrl url, int frame, int width, int height);
      void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
-    void slotCreateAudioThumbs();
     static QPixmap getImage(const KUrl& url, int frame, int width, int height);
     static QImage getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height);
     static QImage getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height);
