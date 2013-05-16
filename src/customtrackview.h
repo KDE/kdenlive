@@ -204,7 +204,7 @@ public:
     * Check whether given track has a clip with audio in it. */
     bool hasAudio(int track) const;
 
-    int getFrameWidth();
+    int getFrameWidth() const;
     /** @brief Returns last requested seeking pos (or SEEK_INACTIVE if no seek). */
     int seekPosition() const;
 
@@ -276,7 +276,7 @@ public slots:
     /** @brief Rebuilds a group to fit again after children changed.
     * @param childTrack the track of one of the groups children
     * @param childPos The position of the same child */
-    void rebuildGroup(int childTrack, GenTime childPos);
+    void rebuildGroup(int childTrack, const GenTime &childPos);
     /** @brief Rebuilds a group to fit again after children changed.
     * @param group The group to rebuild */
     void rebuildGroup(AbstractGroupItem *group);

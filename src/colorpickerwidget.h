@@ -95,7 +95,7 @@ private slots:
     void slotGetAverageColor();
 
 signals:
-    void colorPicked(QColor);
+    void colorPicked(const QColor&);
     void displayMessage(const QString&, int);
     /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
     void disableCurrentFilter(bool);

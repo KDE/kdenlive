@@ -45,9 +45,9 @@ public:
     int outPoint() const;
     int inPoint() const;
     void setDuration(int d);
-    void setZone(QPoint p);
+    void setZone(const QPoint &p);
     int offset() const;
-    void updateProjectFps(Timecode t);
+    void updateProjectFps(const Timecode &t);
     void updateFrameSize();
     void updatePalette();
     

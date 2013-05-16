@@ -99,7 +99,7 @@ void CustomRuler::updatePalette()
     m_zoneColor.setAlpha(180);
 }
 
-void CustomRuler::updateProjectFps(Timecode t)
+void CustomRuler::updateProjectFps(const Timecode &t)
 {
     m_timecode = t;
     mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
@@ -133,7 +133,7 @@ void CustomRuler::slotGoToGuide(QAction *act)
     m_view->initCursorPos(act->data().toInt());
 }
 
-void CustomRuler::setZone(QPoint p)
+void CustomRuler::setZone(const QPoint &p)
 {
     m_zoneStart = p.x();
     m_zoneEnd = p.y();
@@ -261,8 +261,8 @@ void CustomRuler::leaveEvent(QEvent * event)
 {
     QWidget::leaveEvent(event);
     if (m_cursorColor == palette().link()) {
-	m_cursorColor = palette().text();
-	update();
+        m_cursorColor = palette().text();
+        update();
     }
 }
 
@@ -288,8 +288,10 @@ int CustomRuler::outPoint() const
 
 void CustomRuler::slotMoveRuler(int newPos)
 {
-    m_offset = newPos;
-    update();
+    if (m_offset != newPos) {
+        m_offset = newPos;
+        update();
+    }
 }
 
 int CustomRuler::offset() const
