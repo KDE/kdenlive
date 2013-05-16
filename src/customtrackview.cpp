@@ -288,7 +288,7 @@ void CustomTrackView::checkAutoScroll()
 }*/
 
 
-int CustomTrackView::getFrameWidth()
+int CustomTrackView::getFrameWidth() const
 {
     return (int) (m_tracksHeight * m_document->mltProfile().display_aspect_num / m_document->mltProfile().display_aspect_den + 0.5);
 }
@@ -1254,7 +1254,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     m_blockRefresh = false;
 }
 
-void CustomTrackView::rebuildGroup(int childTrack, GenTime childPos)
+void CustomTrackView::rebuildGroup(int childTrack, const GenTime &childPos)
 {
     const QPointF p((int)childPos.frames(m_document->fps()), childTrack * m_tracksHeight + m_tracksHeight / 2);
     QList<QGraphicsItem *> list = scene()->items(p);
