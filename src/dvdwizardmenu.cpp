@@ -218,7 +218,7 @@ bool DvdWizardMenu::isComplete() const
     }
 
     if (!m_view.background_image->isHidden()) {
-        // Make sure user selected a valid image / video file
+        // Make sure user selected a valid image / video file
         if (!QFile::exists(m_view.background_image->url().path())) {
 #if KDE_IS_VERSION(4,7,0)
             m_menuMessage->setText(i18n("Missing background image"));
@@ -779,7 +779,7 @@ QDomElement DvdWizardMenu::toXml() const
 }
 
 
-void DvdWizardMenu::loadXml(DVDFORMAT format, QDomElement xml)
+void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
 {
     kDebug() << "// LOADING MENU";
     if (xml.isNull()) return;

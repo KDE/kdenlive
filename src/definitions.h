@@ -242,7 +242,7 @@ public:
 	if (!found) addParam(name, value);
     }
         
-    QString paramValue(const QString &name, QString defaultValue = QString()) const {
+    QString paramValue(const QString &name, const QString &defaultValue = QString()) const {
         for (int i = 0; i < size(); ++i) {
             if (at(i).name() == name) return at(i).value();
         }
@@ -274,7 +274,7 @@ public:
     GenTime time() const          {
         return t;
     }
-    void    setComment(QString comm) {
+    void    setComment(const QString &comm) {
         c = comm;
     }
     void setMarkerType(int t) {
@@ -301,7 +301,7 @@ public:
 	      return Qt::cyan;
 	      break;
 	}
-    };
+    }
 
     /* Implementation of > operator; Works identically as with basic types. */
     bool operator>(CommentedTime op) const {
@@ -332,9 +332,6 @@ private:
     GenTime t;
     QString c;
     int type;
-
-
-
 };
 
 QDebug operator << (QDebug qd, const ItemInfo &info);

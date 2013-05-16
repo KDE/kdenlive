@@ -832,9 +832,10 @@ void ArchiveWidget::createArchive()
     // Add project file
     bool result = false;
     if (m_temp) {
-	archive.addLocalFile(m_temp->fileName(), m_name + ".kdenlive");
-	result = archive.close();
-	delete m_temp;
+        archive.addLocalFile(m_temp->fileName(), m_name + ".kdenlive");
+        result = archive.close();
+        delete m_temp;
+        m_temp = 0;
     }
     emit archivingFinished(result);
 }

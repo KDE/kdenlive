@@ -40,9 +40,9 @@ public:
     void setImage(const QImage &img);
 
 protected:
-    virtual void paintEvent(QPaintEvent* event);
-    virtual void wheelEvent(QWheelEvent* event);
-    virtual void mousePressEvent(QMouseEvent*);
+    void paintEvent(QPaintEvent* event);
+    void wheelEvent(QWheelEvent* event);
+    void mousePressEvent(QMouseEvent*);
 
 private:
     QImage m_img;
@@ -250,8 +250,8 @@ signals:
     /** @brief Ask to add sequence to current project. */
     void addOrUpdateSequence(const QString &);
 
-    void doCreateThumbs(QImage, int);
-    void gotFrame(QImage);
+    void doCreateThumbs(const QImage&, int);
+    void gotFrame(const QImage&);
 };
 
 #endif
