@@ -128,7 +128,8 @@ ClipItem::~ClipItem()
     blockSignals(true);
     m_endThumbTimer.stop();
     m_startThumbTimer.stop();
-    if (scene()) scene()->removeItem(this);
+    if (scene())
+        scene()->removeItem(this);
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
         //disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
         //disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
@@ -337,15 +338,15 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
     }
 }
 
-const QString ClipItem::adjustKeyframes(QString keyframes, int offset)
+const QString ClipItem::adjustKeyframes(const QString &keyframes, int offset)
 {
     QStringList result;
     // Simple keyframes
     const QStringList list = keyframes.split(';', QString::SkipEmptyParts);
     foreach(const QString &keyframe, list) {
-	int pos = keyframe.section(':', 0, 0).toInt() - offset;
-	QString newKey = QString::number(pos) + ":" + keyframe.section(':', 1);
-	result.append(newKey);
+        int pos = keyframe.section(':', 0, 0).toInt() - offset;
+        QString newKey = QString::number(pos) + ":" + keyframe.section(':', 1);
+        result.append(newKey);
     }
     return result.join(";");
 }
@@ -426,7 +427,7 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
     return clipEffectsModified;
 }
 
-void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
+void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
 {
     QDomElement effect = m_effectList.at(ix);
     if (effect.attribute("disable") == "1") return;
@@ -670,7 +671,7 @@ void ClipItem::slotSetEndThumb(const QImage &img)
     }
 }
 
-void ClipItem::slotThumbReady(int frame, QImage img)
+void ClipItem::slotThumbReady(int frame, const QImage &img)
 {
     if (scene() == NULL) return;
     QRectF r = boundingRect();
@@ -931,8 +932,8 @@ void ClipItem::paint(QPainter *painter,
     }
     
     if (m_isMainSelectedClip) {
-	framePen.setColor(Qt::red);
-	textBgColor = Qt::red;
+        framePen.setColor(Qt::red);
+        textBgColor = Qt::red;
     }
 
     // only paint details if clip is big enough
@@ -1057,7 +1058,7 @@ void ClipItem::paint(QPainter *painter,
 }
 
 
-OPERATIONTYPE ClipItem::operationMode(QPointF pos)
+OPERATIONTYPE ClipItem::operationMode(const QPointF &pos)
 {
     if (isItemLocked()) return NONE;
     const double scale = projectScene()->scale().x();

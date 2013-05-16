@@ -289,7 +289,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 }
 
 
-OPERATIONTYPE Transition::operationMode(QPointF pos)
+OPERATIONTYPE Transition::operationMode(const QPointF &pos)
 {
     if (isItemLocked()) return NONE;
 

@@ -54,7 +54,7 @@ public:
     virtual int type() const;
     void resizeStart(int posx, bool size = true, bool emitChange = true);
     void resizeEnd(int posx, bool emitChange = true);
-    OPERATIONTYPE operationMode(QPointF pos);
+    OPERATIONTYPE operationMode(const QPointF &pos);
     static int itemHeight();
     const QString clipProducer() const;
     int clipType() const;
@@ -149,7 +149,7 @@ public:
     /** @brief Sets params with keyframes and updates the visible keyframes.
     * @param ix Number of the effect
     * @param keyframes a list of strings of keyframes (one string per param), which should be used */
-    void setKeyframes(const int ix, const QStringList keyframes);
+    void setKeyframes(const int ix, const QStringList &keyframes);
     void setEffectList(const EffectsList effectList);
     void setSpeed(const double speed, int strobe);
     double speed() const;
@@ -161,7 +161,7 @@ public:
     int hasEffect(const QString &tag, const QString &id) const;
 
     /** @brief Adjust keyframes to the new clip. */
-    const QString adjustKeyframes(QString keyframes, int offset);
+    const QString adjustKeyframes(const QString &keyframes, int offset);
     /** @brief Makes sure all keyframes are in the clip's cropped duration.
      * @param cutPos the frame number where the new clip starts
     * @return Whether or not changes were made */
@@ -253,7 +253,7 @@ private slots:
     void animate(qreal value);
     void slotSetStartThumb(const QImage &img);
     void slotSetEndThumb(const QImage &img);
-    void slotThumbReady(int frame, QImage img);
+    void slotThumbReady(int frame, const QImage &img);
     /** @brief The thumbnailer has finished to cache all required thumbs. */
     void slotGotThumbsCache();
 

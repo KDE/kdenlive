@@ -55,7 +55,7 @@ public:
     int transitionEndTrack() const;
     QString transitionTag() const;
     QStringList transitionInfo() const;
-    OPERATIONTYPE operationMode(QPointF pos);
+    OPERATIONTYPE operationMode(const QPointF &pos);
     static int itemHeight();
     static int itemOffset();
     //const QMap < QString, QString > transitionParameters() const;
