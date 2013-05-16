@@ -57,10 +57,7 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     m_ui.infoBox->hide();
     updateButtonStatus();
-
 }
-
-
 
 void ComplexParameter::slotSetMoveX()
 {
@@ -91,7 +88,6 @@ void ComplexParameter::slotShowInTimeline()
 
     m_ui.kplotwidget->setMoveTimeLine(!m_ui.kplotwidget->isMoveTimeline());
     updateButtonStatus();
-
 }
 
 void ComplexParameter::updateButtonStatus()
@@ -108,7 +104,6 @@ void ComplexParameter::updateButtonStatus()
 
 void ComplexParameter::slotParameterChanged(const QString& text)
 {
-
     //m_ui.buttonNewPoints->setEnabled(text!="all");
     m_ui.kplotwidget->replot(text);
     updateButtonStatus();
