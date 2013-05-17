@@ -89,7 +89,7 @@ class AbstractMonitor : public QWidget
     Q_OBJECT
 public:
     AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager, QWidget *parent = 0);
-    Kdenlive::MONITORID id() {return m_id;};
+    Kdenlive::MONITORID id() {return m_id;}
     virtual ~AbstractMonitor();
     virtual AbstractRender *abstractRender() = 0;
     bool isActive() const;
