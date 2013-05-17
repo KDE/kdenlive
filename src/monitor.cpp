@@ -386,7 +386,7 @@ void Monitor::updateMarkers(DocClipBase *source)
     }
 }
 
-void Monitor::setMarkers(QList <CommentedTime> markers)
+void Monitor::setMarkers(const QList<CommentedTime> &markers)
 {
     m_ruler->setMarkers(markers);
 }
