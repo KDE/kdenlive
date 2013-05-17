@@ -4103,7 +4103,7 @@ void MainWindow::slotStartClipAction()
     m_projectList->startClipFilterJob(filtername, condition);
 }
 
-void MainWindow::slotTranscode(KUrl::List urls)
+void MainWindow::slotTranscode(const KUrl::List &urls)
 {
     QString params;
     QString desc;
@@ -4133,7 +4133,7 @@ void MainWindow::slotTranscodeClip()
     slotTranscode(urls);
 }
 
-void MainWindow::slotSetDocumentRenderProfile(QMap <QString, QString> props)
+void MainWindow::slotSetDocumentRenderProfile(const QMap <QString, QString> &props)
 {
     if (m_activeDocument == NULL) return;
     QMapIterator<QString, QString> i(props);
@@ -4607,7 +4607,7 @@ void MainWindow::slotArchiveProject()
 }
 
 
-void MainWindow::slotOpenBackupDialog(const KUrl url)
+void MainWindow::slotOpenBackupDialog(const KUrl &url)
 {
     KUrl projectFile;
     KUrl projectFolder;

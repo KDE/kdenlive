@@ -497,12 +497,12 @@ private slots:
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
-    void slotTranscode(KUrl::List urls = KUrl::List());
+    void slotTranscode(const KUrl::List &urls = KUrl::List());
     void slotStartClipAction();
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();
-    void slotSetDocumentRenderProfile(QMap <QString, QString> props);
+    void slotSetDocumentRenderProfile(const QMap<QString, QString> &props);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
 
     /** @brief Switches between displaying frames or timecode.
@@ -554,7 +554,7 @@ private slots:
     /** @brief Insert current project's timecode into the notes widget. */
     void slotInsertNotesTimecode();
     /** @brief Open the project's backupdialog. */
-    void slotOpenBackupDialog(const KUrl url = KUrl());
+    void slotOpenBackupDialog(const KUrl &url = KUrl());
     /** @brief Disable proxies for this project. */
     void slotDisableProxies();
 
