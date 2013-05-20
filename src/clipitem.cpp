@@ -137,7 +137,7 @@ ClipItem::~ClipItem()
     delete m_timeLine;
 }
 
-ClipItem *ClipItem::clone(ItemInfo info) const
+ClipItem *ClipItem::clone(const ItemInfo &info) const
 {
     ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
     if (m_clipType == IMAGE || m_clipType == TEXT) duplicate->slotSetStartThumb(m_startPix);
@@ -156,7 +156,7 @@ ClipItem *ClipItem::clone(ItemInfo info) const
     return duplicate;
 }
 
-void ClipItem::setEffectList(const EffectsList effectList)
+void ClipItem::setEffectList(const EffectsList &effectList)
 {
     m_effectList.clone(effectList);
     m_effectNames = m_effectList.effectNames().join(" / ");

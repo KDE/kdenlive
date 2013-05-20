@@ -63,7 +63,7 @@ public:
     void setClipName(const QString &name);
     QDomElement xml() const;
     QDomElement itemXml() const;
-    ClipItem *clone(ItemInfo info) const;
+    ClipItem *clone(const ItemInfo &info) const;
     const EffectsList effectList() const;
     void setFadeOut(int pos);
     void setFadeIn(int pos);
@@ -150,7 +150,7 @@ public:
     * @param ix Number of the effect
     * @param keyframes a list of strings of keyframes (one string per param), which should be used */
     void setKeyframes(const int ix, const QStringList &keyframes);
-    void setEffectList(const EffectsList effectList);
+    void setEffectList(const EffectsList &effectList);
     void setSpeed(const double speed, int strobe);
     double speed() const;
     int strobe() const;
