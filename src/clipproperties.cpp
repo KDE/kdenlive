@@ -58,13 +58,13 @@ static const int ADVANCEDTAB = 7;
 
 ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps, QWidget * parent) :
     QDialog(parent)
-    , m_clip(clip)
-    , m_tc(tc)
-    , m_fps(fps)
-    , m_count(0)
-    , m_clipNeedsRefresh(false)
-    , m_clipNeedsReLoad(false)
-    , m_proxyContainer(NULL)
+  , m_clip(clip)
+  , m_tc(tc)
+  , m_fps(fps)
+  , m_count(0)
+  , m_clipNeedsRefresh(false)
+  , m_clipNeedsReLoad(false)
+  , m_proxyContainer(NULL)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFont(KGlobalSettings::toolBarFont());
@@ -85,7 +85,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     
     // New display aspect ratio support
     if (props.contains("force_aspect_num") && props.value("force_aspect_num").toInt() > 0 &&
-        props.contains("force_aspect_den") && props.value("force_aspect_den").toInt() > 0) {
+            props.contains("force_aspect_den") && props.value("force_aspect_den").toInt() > 0) {
         m_view.clip_force_ar->setChecked(true);
         m_view.clip_ar_num->setEnabled(true);
         m_view.clip_ar_den->setEnabled(true);
@@ -200,37 +200,37 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     QMap<QString, QStringList> meta = m_clip->metadata();
     QMap<QString, QStringList>::const_iterator i = meta.constBegin();
     while (i != meta.constEnd()) {
-	QStringList values = i.value();
-	QString parentName;
-	QString iconName;
-	if (values.count() > 1 && !values.at(1).isEmpty()) parentName = values.at(1);
-	else {
-	    if (KdenliveSettings::ffmpegpath().endsWith("avconv")) {
-		parentName = i18n("Libav");
-		iconName = "meta_libav.png";
-	    }
-	    else {
-		parentName = i18n("FFmpeg");
-		iconName = "meta_ffmpeg.png";
-	    }
-	}
-	QTreeWidgetItem *parent = NULL;
-	QList <QTreeWidgetItem *> matches = m_view.metadata_list->findItems(parentName, Qt::MatchExactly);
-	if (!matches.isEmpty()) parent = matches.at(0);
-	else {
-	    if (parentName == "Magic Lantern") iconName = "meta_magiclantern.png";
-	    parent = new QTreeWidgetItem(m_view.metadata_list, QStringList() << parentName);
-	    if (!iconName.isEmpty()) {
-		KIcon icon(KStandardDirs::locate("appdata", iconName));
-		parent->setIcon(0, icon);
-	    }
-	}
-	QTreeWidgetItem *metaitem = NULL;
+        QStringList values = i.value();
+        QString parentName;
+        QString iconName;
+        if (values.count() > 1 && !values.at(1).isEmpty()) parentName = values.at(1);
+        else {
+            if (KdenliveSettings::ffmpegpath().endsWith("avconv")) {
+                parentName = i18n("Libav");
+                iconName = "meta_libav.png";
+            }
+            else {
+                parentName = i18n("FFmpeg");
+                iconName = "meta_ffmpeg.png";
+            }
+        }
+        QTreeWidgetItem *parent = NULL;
+        QList <QTreeWidgetItem *> matches = m_view.metadata_list->findItems(parentName, Qt::MatchExactly);
+        if (!matches.isEmpty()) parent = matches.at(0);
+        else {
+            if (parentName == "Magic Lantern") iconName = "meta_magiclantern.png";
+            parent = new QTreeWidgetItem(m_view.metadata_list, QStringList() << parentName);
+            if (!iconName.isEmpty()) {
+                KIcon icon(KStandardDirs::locate("appdata", iconName));
+                parent->setIcon(0, icon);
+            }
+        }
+        QTreeWidgetItem *metaitem = NULL;
         if (parent) {
-	    metaitem = new QTreeWidgetItem(parent);
-	    parent->setExpanded(true);
-	}
-	else metaitem = new QTreeWidgetItem(m_view.metadata_list);
+            metaitem = new QTreeWidgetItem(parent);
+            parent->setExpanded(true);
+        }
+        else metaitem = new QTreeWidgetItem(m_view.metadata_list);
         metaitem->setText(0, i.key()); //i18n(i.key().section('.', 2, 3).toUtf8().data()));
         metaitem->setText(1, values.at(0));
         ++i;
@@ -295,7 +295,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
 
     if (t == PLAYLIST)
-	m_view.tabWidget->setTabText(VIDEOTAB, i18n("Playlist"));
+        m_view.tabWidget->setTabText(VIDEOTAB, i18n("Playlist"));
 
     if (t == IMAGE) {
         m_view.tabWidget->removeTab(SLIDETAB);
@@ -442,9 +442,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         m_view.clip_aproperties->setItemDelegate(del2);
         m_view.clip_aproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
         m_view.clip_vproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
-	loadVideoProperties(props);      
+        loadVideoProperties(props);
         
-	m_view.clip_thumb->setMinimumSize(180 * KdenliveSettings::project_display_ratio(), 180);
+        m_view.clip_thumb->setMinimumSize(180 * KdenliveSettings::project_display_ratio(), 180);
         
         if (t == IMAGE || t == VIDEO || t == PLAYLIST) m_view.tabWidget->removeTab(AUDIOTAB);
     } else {
@@ -488,7 +488,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     m_view.analysis_save->setIcon(KIcon("document-save-as"));
     m_view.analysis_save->setToolTip(i18n("Save analysis data"));
 
-        // Check for Nepomuk metadata
+    // Check for Nepomuk metadata
 #ifdef USE_NEPOMUK
 #if KDE_IS_VERSION(4,6,0)
     if (!url.isEmpty()) {
@@ -539,7 +539,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
 
 
 // Used for multiple clips editing
-ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, const Timecode &tc, QMap <QString, QString> commonproperties, QWidget * parent) :
+ClipProperties::ClipProperties(const QList <DocClipBase *> &cliplist, const Timecode &tc, const QMap <QString, QString> &commonproperties, QWidget * parent) :
     QDialog(parent),
     m_clip(NULL),
     m_tc(tc),
@@ -683,45 +683,45 @@ ClipProperties::ClipProperties(QList <DocClipBase *>cliplist, const Timecode &tc
 ClipProperties::~ClipProperties()
 {
     QAbstractItemDelegate *del1 = m_view.clip_vproperties->itemDelegate();
-    if (del1) delete del1;
+    delete del1;
     QAbstractItemDelegate *del2 = m_view.clip_aproperties->itemDelegate();
-    if (del2) delete del2;
+    delete del2;
 }
 
 
-void ClipProperties::loadVideoProperties(QMap <QString, QString> props)
+void ClipProperties::loadVideoProperties(const QMap <QString, QString> &props)
 {
     m_view.clip_vproperties->clear();
     if (props.contains("videocodec"))
-	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodec"));
+        new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodec"));
     else if (props.contains("videocodecid"))
-	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodecid"));
+        new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Video codec") << props.value("videocodecid"));
 
     if (props.contains("frame_size"))
-	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame size") << props.value("frame_size"));
+        new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame size") << props.value("frame_size"));
 
     if (props.contains("fps")) {
-	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame rate") << props.value("fps"));
+        new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Frame rate") << props.value("fps"));
         if (!m_view.clip_framerate->isEnabled()) m_view.clip_framerate->setValue(props.value("fps").toDouble());
     }
 
     if (props.contains("progressive")) {
-	int scanning = props.value("progressive").toInt();
+        int scanning = props.value("progressive").toInt();
         QString txt = scanning == 1 ? i18n("Progressive") : i18n("Interlaced");
         new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Scanning") << txt);
     }
-        
+
     if (props.contains("aspect_ratio"))
-	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel aspect ratio") << props.value("aspect_ratio"));
+        new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel aspect ratio") << props.value("aspect_ratio"));
 
     if (props.contains("pix_fmt"))
-	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel format") << props.value("pix_fmt"));
+        new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Pixel format") << props.value("pix_fmt"));
 
     if (props.contains("colorspace"))
-	new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
+        new QTreeWidgetItem(m_view.clip_vproperties, QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(props.value("colorspace").toInt()));
 }
 
-void ClipProperties::slotGotThumbnail(const QString &id, QImage img)
+void ClipProperties::slotGotThumbnail(const QString &id, const QImage &img)
 {
     if (id != m_clip->getId()) return;
     QPixmap framedPix(img.width(), img.height());
@@ -741,8 +741,9 @@ void ClipProperties::slotApplyProperties()
     if (m_clip != NULL) {
         QMap <QString, QString> props = properties();
         emit applyNewClipProperties(m_clip->getId(), m_clip->currentProperties(props), props, needsTimelineRefresh(), needsTimelineReload());
-	QTimer::singleShot(1000, this, SLOT(slotReloadVideoProperties()));
-	if (props.contains("force_aspect_num")) QTimer::singleShot(1000, this, SLOT(slotReloadVideoThumb()));
+        QTimer::singleShot(1000, this, SLOT(slotReloadVideoProperties()));
+        if (props.contains("force_aspect_num"))
+            QTimer::singleShot(1000, this, SLOT(slotReloadVideoThumb()));
     }
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
 }
@@ -806,10 +807,10 @@ void ClipProperties::slotUpdateAnalysisData(DocClipBase *clip)
     m_view.analysis_box->setHidden(analysis.isEmpty());
     QMap<QString, QString>::const_iterator i = analysis.constBegin();
     while (i != analysis.constEnd()) {
-	QStringList itemtext;
-	itemtext << i.key() << i.value();
-	(void) new QTreeWidgetItem(m_view.analysis_list, itemtext);
-	++i;
+        QStringList itemtext;
+        itemtext << i.key() << i.value();
+        (void) new QTreeWidgetItem(m_view.analysis_list, itemtext);
+        ++i;
     }
 }
 
@@ -823,7 +824,7 @@ void ClipProperties::slotFillMarkersList(DocClipBase *clip)
         QStringList itemtext;
         itemtext << time << marks.at(count).comment();
         QTreeWidgetItem *item = new QTreeWidgetItem(m_view.markers_list, itemtext);
-	item->setData(0, Qt::DecorationRole, CommentedTime::markerColor(marks.at(count).markerType()));
+        item->setData(0, Qt::DecorationRole, CommentedTime::markerColor(marks.at(count).markerType()));
     }
 }
 
@@ -831,10 +832,10 @@ void ClipProperties::slotAddMarker()
 {
     CommentedTime marker(GenTime(), i18n("Marker"));
     QPointer<MarkerDialog> d = new MarkerDialog(m_clip, marker,
-                                          m_tc, i18n("Add Marker"), this);
+                                                m_tc, i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-	QList <CommentedTime> markers;
-	markers << d->newMarker();
+        QList <CommentedTime> markers;
+        markers << d->newMarker();
         emit addMarkers(m_clip->getId(), markers);
     }
     delete d;
@@ -857,8 +858,8 @@ void ClipProperties::slotEditMarker()
     if (pos < 0 || pos > marks.count() - 1) return;
     MarkerDialog d(m_clip, marks.at(pos), m_tc, i18n("Edit Marker"), this);
     if (d.exec() == QDialog::Accepted) {
-	QList <CommentedTime> markers;
-	markers << d.newMarker();
+        QList <CommentedTime> markers;
+        markers << d.newMarker();
         emit addMarkers(m_clip->getId(), markers);
     }
 }
@@ -868,11 +869,11 @@ void ClipProperties::slotDeleteMarker()
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     QList < CommentedTime > toDelete;
     for (int i = 0; i < marks.count(); ++i) {
-	if (m_view.markers_list->topLevelItem(i)->isSelected()) {
-	    CommentedTime marker = marks.at(i);
-	    marker.setMarkerType(-1);
-	    toDelete << marker;
-	}
+        if (m_view.markers_list->topLevelItem(i)->isSelected()) {
+            CommentedTime marker = marks.at(i);
+            marker.setMarkerType(-1);
+            toDelete << marker;
+        }
     }
     emit addMarkers(m_clip->getId(), toDelete);
 }
@@ -903,8 +904,8 @@ void ClipProperties::slotLoadAnalysis()
     QMap< QString, QString > profiles = transConfig.entryMap();
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
-	i.next();
-	emit editAnalysis(m_clip->getId(), i.key(), i.value());
+        i.next();
+        emit editAnalysis(m_clip->getId(), i.key(), i.value());
     }
 }
 
@@ -912,7 +913,6 @@ const QString &ClipProperties::clipId() const
 {
     return m_clip->getId();
 }
-
 
 QMap <QString, QString> ClipProperties::properties()
 {
@@ -928,7 +928,7 @@ QMap <QString, QString> ClipProperties::properties()
     int aspectDenominator = m_view.clip_ar_den->value();
     if (m_view.clip_force_ar->isChecked()) {
         if (aspectNumerator != m_old_props.value("force_aspect_num").toInt() ||
-            aspectDenominator != m_old_props.value("force_aspect_den").toInt()) {
+                aspectDenominator != m_old_props.value("force_aspect_den").toInt()) {
             props["force_aspect_num"] = QString::number(aspectNumerator);
             props["force_aspect_den"] = QString::number(aspectDenominator);
             props["force_aspect_ratio"].clear();
@@ -1160,31 +1160,31 @@ void ClipProperties::parseFolder(bool reloadThumb)
     QStringList result = dir.entryList(QDir::Files);
 
     if (!isMime) {
-	int offset = 0;
-	QString path = m_view.clip_path->text();
-	if (path.contains('?')) {
-	    // New MLT syntax
-	    offset = m_view.clip_path->text().section(':', -1).toInt();
-	    path = path.section('?', 0, 0);
-	}
-	QString filter = KUrl(path).fileName();
-	QString ext = filter.section('.', -1);
-	filter = filter.section('%', 0, -2);
-	QString regexp = '^' + filter + "\\d+\\." + ext + '$';
-	QRegExp rx(regexp);
-	QStringList entries;
-	int ix;
-	foreach(const QString & path, result) {
-	    if (rx.exactMatch(path)) {
-		if (offset > 0) {
-		    // make sure our image is in the range we want (> begin)
-		    ix = path.section(filter, 1).section('.', 0, 0).toInt();
-		    if (ix < offset) continue;
-		}
-		entries << path;
-	    }
-	}
-	result = entries;
+        int offset = 0;
+        QString path = m_view.clip_path->text();
+        if (path.contains('?')) {
+            // New MLT syntax
+            offset = m_view.clip_path->text().section(':', -1).toInt();
+            path = path.section('?', 0, 0);
+        }
+        QString filter = KUrl(path).fileName();
+        QString ext = filter.section('.', -1);
+        filter = filter.section('%', 0, -2);
+        QString regexp = '^' + filter + "\\d+\\." + ext + '$';
+        QRegExp rx(regexp);
+        QStringList entries;
+        int ix;
+        foreach(const QString & path, result) {
+            if (rx.exactMatch(path)) {
+                if (offset > 0) {
+                    // make sure our image is in the range we want (> begin)
+                    ix = path.section(filter, 1).section('.', 0, 0).toInt();
+                    if (ix < offset) continue;
+                }
+                entries << path;
+            }
+        }
+        result = entries;
     }
 
     m_count = result.count();
@@ -1200,12 +1200,12 @@ void ClipProperties::parseFolder(bool reloadThumb)
     QMap <QString, QString> props = m_clip->properties();
     m_view.clip_duration->setText(m_tc.getTimecodeFromFrames(props.value("ttl").toInt() * m_count));
     if (reloadThumb) {
-	int width = 180.0 * KdenliveSettings::project_display_ratio();
-	if (width % 2 == 1) width++;
-	QString filePath = m_view.clip_path->text();
-	if (isMime) filePath.append(extension);
-	QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(filePath), 1, width, 180);
-	m_view.clip_thumb->setPixmap(pix);
+        int width = 180.0 * KdenliveSettings::project_display_ratio();
+        if (width % 2 == 1) width++;
+        QString filePath = m_view.clip_path->text();
+        if (isMime) filePath.append(extension);
+        QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(filePath), 1, width, 180);
+        m_view.clip_thumb->setPixmap(pix);
     }
 }
 
@@ -1242,10 +1242,10 @@ void ClipProperties::slotUpdateDurationFormat(int ix)
 
 void ClipProperties::slotDeleteProxy()
 {
-      QString proxy = m_clip->getProperty("proxy");
-      if (proxy.isEmpty()) return;
-      emit deleteProxy(proxy);
-      if (m_proxyContainer) delete m_proxyContainer;
+    QString proxy = m_clip->getProperty("proxy");
+    if (proxy.isEmpty()) return;
+    emit deleteProxy(proxy);
+    if (m_proxyContainer) delete m_proxyContainer;
 }
 
 void ClipProperties::slotOpenUrl(const QString &url)

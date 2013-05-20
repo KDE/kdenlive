@@ -48,7 +48,7 @@ class ClipProperties : public QDialog
 
 public:
     ClipProperties(DocClipBase *clip, const Timecode &tc, double fps, QWidget * parent = 0);
-    ClipProperties(QList <DocClipBase *>cliplist, const Timecode &tc, QMap <QString, QString> commonproperties, QWidget * parent);
+    ClipProperties(const QList<DocClipBase *> &cliplist, const Timecode &tc, const QMap<QString, QString> &commonproperties, QWidget * parent);
     virtual ~ClipProperties();
     QMap <QString, QString> properties();
     const QString &clipId() const;
@@ -76,7 +76,7 @@ private slots:
     void slotSaveMarkers();
     void slotLoadMarkers();
     void slotDeleteAnalysis();
-    void slotGotThumbnail(const QString &id, QImage img);
+    void slotGotThumbnail(const QString &id, const QImage &img);
     void slotSaveAnalysis();
     void slotLoadAnalysis();
     void slotReloadVideoProperties();
@@ -96,7 +96,7 @@ private:
     bool m_clipNeedsReLoad;
     /** Frame with proxy info / delete button */
     QFrame* m_proxyContainer;
-    void loadVideoProperties(QMap <QString, QString> props);
+    void loadVideoProperties(const QMap<QString, QString> &props);
 
 signals:
     void addMarkers(const QString &, QList <CommentedTime>);
