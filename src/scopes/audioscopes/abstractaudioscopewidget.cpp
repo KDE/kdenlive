@@ -36,7 +36,7 @@ AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *par
 {
 }
 
-void AbstractAudioScopeWidget::slotReceiveAudio(QVector<int16_t> sampleData, int freq, int num_channels, int num_samples)
+void AbstractAudioScopeWidget::slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_AASW
     qDebug() << "Received audio for " << widgetName() << ".";
@@ -51,11 +51,13 @@ void AbstractAudioScopeWidget::slotReceiveAudio(QVector<int16_t> sampleData, int
     AbstractScopeWidget::slotRenderZoneUpdated();
 }
 
-AbstractAudioScopeWidget::~AbstractAudioScopeWidget() {}
+AbstractAudioScopeWidget::~AbstractAudioScopeWidget()
+{
+}
 
 QImage AbstractAudioScopeWidget::renderScope(uint accelerationFactor)
 {
-    int newData = m_newData.fetchAndStoreAcquire(0);
+    const int newData = m_newData.fetchAndStoreAcquire(0);
 
     return renderAudioScope(accelerationFactor, m_audioFrame, m_freq, m_nChannels, m_nSamples, newData);
 }
