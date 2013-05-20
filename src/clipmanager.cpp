@@ -123,7 +123,7 @@ void ClipManager::clearCache()
 #endif
 }
 
-void ClipManager::slotRequestThumbs(const QString id, QList <int> frames)
+void ClipManager::slotRequestThumbs(const QString &id, const QList <int>& frames)
 {
     m_thumbsMutex.lock();
     foreach (int frame, frames) {
@@ -527,7 +527,7 @@ void ClipManager::slotAddClip(KIO::Job *job, const KUrl &, const KUrl &dst)
     slotAddClipList(KUrl::List () << dst, data);
 }
 
-void ClipManager::slotAddClipList(const KUrl::List &urls, QMap <QString, QString> data)
+void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, QString> &data)
 {
     QUndoCommand *addClips = new QUndoCommand();
     // Update list of removable volumes

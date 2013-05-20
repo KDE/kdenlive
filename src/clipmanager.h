@@ -95,7 +95,7 @@ Q_OBJECT public:
      * @param group name of the group to insert the files in (can be empty)
      * @param groupId id of the group (if any)
      * It checks for duplicated items and asks to the user for instructions. */
-    void slotAddClipList(const KUrl::List &urls, QMap <QString, QString> data);
+    void slotAddClipList(const KUrl::List &urls, const QMap<QString, QString> &data);
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const KUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
@@ -133,7 +133,7 @@ Q_OBJECT public:
 
 public slots:
     /** @brief Request creation of a clip thumbnail for specified frames. */
-    void slotRequestThumbs(const QString id, QList <int> frames);
+    void slotRequestThumbs(const QString &id, const QList<int> &frames);
     
 private slots:
     /** A clip was externally modified, monitor for more changes and prepare for reload */
