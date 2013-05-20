@@ -150,14 +150,32 @@ void AudioSpectrum::writeConfig()
     scopeConfig.sync();
 }
 
-QString AudioSpectrum::widgetName() const { return QString("AudioSpectrum"); }
-bool AudioSpectrum::isBackgroundDependingOnInput() const { return false; }
-bool AudioSpectrum::isScopeDependingOnInput() const { return true; }
-bool AudioSpectrum::isHUDDependingOnInput() const { return false; }
+QString AudioSpectrum::widgetName() const
+{
+    return QLatin1String("AudioSpectrum");
+}
 
-QImage AudioSpectrum::renderBackground(uint) { return QImage(); }
+bool AudioSpectrum::isBackgroundDependingOnInput() const
+{
+    return false;
+}
 
-QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels,
+bool AudioSpectrum::isScopeDependingOnInput() const
+{
+    return true;
+}
+
+bool AudioSpectrum::isHUDDependingOnInput() const
+{
+    return false;
+}
+
+QImage AudioSpectrum::renderBackground(uint)
+{
+    return QImage();
+}
+
+QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> &audioFrame, const int freq, const int num_channels,
                                        const int num_samples, const int)
 {
     if (

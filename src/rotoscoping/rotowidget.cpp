@@ -324,7 +324,7 @@ void RotoWidget::keyframeTimelineFullUpdate()
     }
 }
 
-void RotoWidget::setupTrackingListen(ItemInfo info)
+void RotoWidget::setupTrackingListen(const ItemInfo &info)
 {
     if (info.startPos < GenTime()) {
         // TODO: track effects

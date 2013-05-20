@@ -45,7 +45,7 @@ AudioSignal::~AudioSignal()
 {
 }
 
-QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> audioFrame,
+QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> &audioFrame,
                                      const int, const int num_channels, const int samples, const int)
 {
     QTime start = QTime::currentTime();

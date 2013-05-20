@@ -81,7 +81,7 @@ private:
     QList <BPoint> getPoints(int keyframe);
 
     /** @brief Adds tracking_finished as listener for "tracking-finished" event in MLT rotoscoping filter. */
-    void setupTrackingListen(ItemInfo info);
+    void setupTrackingListen(const ItemInfo &info);
 
     /** @brief Passes list of keyframe positions to keyframe timeline widget. */
     void keyframeTimelineFullUpdate();
