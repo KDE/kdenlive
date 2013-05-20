@@ -176,34 +176,34 @@ void ClipManager::slotGetThumbs()
         m_processingThumbId = i.key();
         QList<int> values = m_requestedThumbs.values(m_processingThumbId);
         m_requestedThumbs.remove(m_processingThumbId);
-	if (m_processingThumbId.startsWith("?")) {
-	    // if id starts with ?, it means the request comes from a clip property widget
-	    thumbType = 2;
-	    m_processingThumbId.remove(0, 1);
-	}
-	if (m_processingThumbId.startsWith("#")) {
-	    // if id starts with #, it means the request comes from project tree
-	    thumbType = 1;
-	    m_processingThumbId.remove(0, 1);
-	}
+        if (m_processingThumbId.startsWith("?")) {
+            // if id starts with ?, it means the request comes from a clip property widget
+            thumbType = 2;
+            m_processingThumbId.remove(0, 1);
+        }
+        if (m_processingThumbId.startsWith("#")) {
+            // if id starts with #, it means the request comes from project tree
+            thumbType = 1;
+            m_processingThumbId.remove(0, 1);
+        }
         m_thumbsMutex.unlock();
         qSort(values);
         DocClipBase *clip = getClipById(m_processingThumbId);
         if (!clip) continue;
         max = m_requestedThumbs.size() + values.count();
-	int pos;
+        int pos;
         while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
-	    pos = values.takeFirst();
-	    switch (thumbType) {
-	      case 1:
-		  clip->thumbProducer()->getGenericThumb(pos, SubProjectItem::itemDefaultHeight(), thumbType);
-		  break;
-	      case 2:
-		  clip->thumbProducer()->getGenericThumb(pos, 180, thumbType);
-		  break;
-	      default:
-		  clip->thumbProducer()->getThumb(pos);
-	    }
+            pos = values.takeFirst();
+            switch (thumbType) {
+            case 1:
+                clip->thumbProducer()->getGenericThumb(pos, SubProjectItem::itemDefaultHeight(), thumbType);
+                break;
+            case 2:
+                clip->thumbProducer()->getGenericThumb(pos, 180, thumbType);
+                break;
+            default:
+                clip->thumbProducer()->getThumb(pos);
+            }
             done++;
             if (max > 3) emit displayMessage(i18n("Loading thumbnails"), 100 * done / max);
         }
@@ -264,17 +264,17 @@ void ClipManager::slotGetAudioThumbs()
         if (hash.isEmpty()) continue;
         QString audioPath = projectFolder() + "/thumbs/" + hash + ".thumb";
         double lengthInFrames = clip->duration().frames(m_doc->fps());
-	int frequency = 0;
-	int channels = 0;
-	QString data = clip->getProperty("frequency");
-	if (!data.isEmpty()) frequency = data.toInt();
-	if (frequency <= 0) frequency = 48000;
-	data = clip->getProperty("channels");
-	if (!data.isEmpty()) channels = data.toInt();
-	if (channels <= 0) channels = 2;
-	int arrayWidth = 20;
+        int frequency = 0;
+        int channels = 0;
+        QString data = clip->getProperty("frequency");
+        if (!data.isEmpty()) frequency = data.toInt();
+        if (frequency <= 0) frequency = 48000;
+        data = clip->getProperty("channels");
+        if (!data.isEmpty()) channels = data.toInt();
+        if (channels <= 0) channels = 2;
+        int arrayWidth = 20;
         double frame = 0.0;
-	int maxVolume = 0;
+        int maxVolume = 0;
         audioByteArray storeIn;
         QFile f(audioPath);
         if (QFileInfo(audioPath).size() > 0 && f.open(QIODevice::ReadOnly)) {
@@ -296,7 +296,7 @@ void ClipManager::slotGetAudioThumbs()
                     QByteArray audioArray(arrayWidth, '\x00');
                     for (int i = 0; i < arrayWidth; ++i) {
                         audioArray[i] = channelarray.at(h2 + h3 + i);
-			if (audioArray.at(i) > maxVolume) maxVolume = audioArray.at(i);
+                        if (audioArray.at(i) > maxVolume) maxVolume = audioArray.at(i);
                     }
                     h3 += arrayWidth;
                     storeIn[z][c] = audioArray;
@@ -304,11 +304,11 @@ void ClipManager::slotGetAudioThumbs()
                 h2 += h1;
             }
             if (!m_abortAudioThumb) {
-		clip->setProperty("audio_max", QString::number(maxVolume - 64));
-		clip->updateAudioThumbnail(storeIn);
-	    }
+                clip->setProperty("audio_max", QString::number(maxVolume - 64));
+                clip->updateAudioThumbnail(storeIn);
+            }
             continue;
-        } 
+        }
         
         if (!f.open(QIODevice::WriteOnly)) {
             kDebug() << "++++++++  ERROR WRITING TO FILE: " << audioPath;
@@ -354,17 +354,17 @@ void ClipManager::slotGetAudioThumbs()
                     QByteArray audioArray;
                     audioArray.resize(arrayWidth);
                     for (int i = 0; i < audioArray.size(); ++i) {
-			double pcmval = *(pcm + c + i * samples / audioArray.size());
-			if (pcmval >= 0) {
-			    pcmval = sqrt(pcmval) / 2.83 + 64;
-			    audioArray[i] = pcmval;
-			    if (pcmval > maxVolume) maxVolume = pcmval;
-			}
-			else {
-			    pcmval = -sqrt(-pcmval) / 2.83 + 64;
-			    audioArray[i] = pcmval;
-			    if (-pcmval > maxVolume) maxVolume = -pcmval;
-			}
+                        double pcmval = *(pcm + c + i * samples / audioArray.size());
+                        if (pcmval >= 0) {
+                            pcmval = sqrt(pcmval) / 2.83 + 64;
+                            audioArray[i] = pcmval;
+                            if (pcmval > maxVolume) maxVolume = pcmval;
+                        }
+                        else {
+                            pcmval = -sqrt(-pcmval) / 2.83 + 64;
+                            audioArray[i] = pcmval;
+                            if (-pcmval > maxVolume) maxVolume = -pcmval;
+                        }
                     }
                     f.write(audioArray);
                     storeIn[z][c] = audioArray;
@@ -380,7 +380,7 @@ void ClipManager::slotGetAudioThumbs()
             f.remove();
         } else {
             clip->updateAudioThumbnail(storeIn);
-	    clip->setProperty("audio_max", QString::number(maxVolume - 64));
+            clip->setProperty("audio_max", QString::number(maxVolume - 64));
         }
     }
     m_processingAudioThumbId.clear();
@@ -433,7 +433,7 @@ void ClipManager::deleteClip(const QString &clipId)
 {
     for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->getId() == clipId) {
-	    DocClipBase *clip = m_clipList.takeAt(i);
+            DocClipBase *clip = m_clipList.takeAt(i);
             if (clip->clipType() != COLOR && clip->clipType() != SLIDESHOW  && !clip->fileURL().isEmpty()) {
                 //if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO || (m_clipList.at(i)->clipType() == TEXT && !m_clipList.at(i)->fileURL().isEmpty())) {
                 // listen for file change
@@ -540,23 +540,23 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
                     continue;
             }
             if (isOnRemovableDevice(file)) {
-		int answer = KMessageBox::warningYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")), KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
-		if (answer == KMessageBox::Cancel) continue;
-		else if (answer == KMessageBox::Yes) {
-		    // Copy files to project folder
-		    QString sourcesFolder = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "clips/";
-		    KIO::NetAccess::mkdir(sourcesFolder, kapp->activeWindow());
-		    //KIO::filesize_t m_requestedSize;
-		    KIO::CopyJob *copyjob = KIO::copy (file, KUrl(sourcesFolder));
-		    //TODO: for some reason, passing metadata does not work...
-		    copyjob->addMetaData("group", data.value("group"));
-		    copyjob->addMetaData("groupId", data.value("groupId"));
-		    copyjob->addMetaData("comment", data.value("comment"));
-		    copyjob->ui()->setWindow(kapp->activeWindow());
-		    connect(copyjob, SIGNAL(copyingDone(KIO::Job*,KUrl,KUrl,time_t,bool,bool)), this, SLOT(slotAddClip(KIO::Job*,KUrl,KUrl)));
-		    continue;
-		}
-	    }
+                int answer = KMessageBox::warningYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")), KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
+                if (answer == KMessageBox::Cancel) continue;
+                else if (answer == KMessageBox::Yes) {
+                    // Copy files to project folder
+                    QString sourcesFolder = m_doc->projectFolder().path(KUrl::AddTrailingSlash) + "clips/";
+                    KIO::NetAccess::mkdir(sourcesFolder, kapp->activeWindow());
+                    //KIO::filesize_t m_requestedSize;
+                    KIO::CopyJob *copyjob = KIO::copy (file, KUrl(sourcesFolder));
+                    //TODO: for some reason, passing metadata does not work...
+                    copyjob->addMetaData("group", data.value("group"));
+                    copyjob->addMetaData("groupId", data.value("groupId"));
+                    copyjob->addMetaData("comment", data.value("comment"));
+                    copyjob->ui()->setWindow(kapp->activeWindow());
+                    connect(copyjob, SIGNAL(copyingDone(KIO::Job*,KUrl,KUrl,time_t,bool,bool)), this, SLOT(slotAddClip(KIO::Job*,KUrl,KUrl)));
+                    continue;
+                }
+            }
             kDebug() << "Adding clip: " << file.path();
             QDomDocument doc;
             QDomElement prod = doc.createElement("producer");
@@ -570,8 +570,8 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
                 prod.setAttribute("groupid", data.value("groupId"));
             }
             if (data.contains("video_index")) prod.setAttribute("video_index", data.value("video_index"));
-	    if (data.contains("audio_index")) prod.setAttribute("audio_index", data.value("audio_index"));
-	    
+            if (data.contains("audio_index")) prod.setAttribute("audio_index", data.value("audio_index"));
+
             KMimeType::Ptr type = KMimeType::findByUrl(file);
             if (type->name().startsWith("image/")) {
                 prod.setAttribute("type", (int) IMAGE);
@@ -583,12 +583,12 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
                     KFileMetaInfo metaInfo(file.path(), QString("image/jpeg"), KFileMetaInfo::TechnicalInfo);
                     const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
                     foreach(const KFileMetaInfoItem & metaInfoItem, metaInfoItems) {
-			QDomElement meta = doc.createElement("metaproperty");
-			meta.setAttribute("name", "meta.attr." + metaInfoItem.name().section('#', 1));
-			QDomText value = doc.createTextNode(metaInfoItem.value().toString());
-			meta.setAttribute("tool", "KDE Metadata");
-			meta.appendChild(value);
-			prod.appendChild(meta);
+                        QDomElement meta = doc.createElement("metaproperty");
+                        meta.setAttribute("name", "meta.attr." + metaInfoItem.name().section('#', 1));
+                        QDomText value = doc.createTextNode(metaInfoItem.value().toString());
+                        meta.setAttribute("tool", "KDE Metadata");
+                        meta.appendChild(value);
+                        prod.appendChild(meta);
                     }
                 }
             } else if (type->is("application/x-kdenlivetitle")) {
@@ -613,20 +613,20 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
                     }
                     prod.setAttribute("transparency", 1);
                     prod.setAttribute("in", 0);
-		    if (!txtdoc.documentElement().hasAttribute("out")) {
-			prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
-			txtdoc.documentElement().setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
-		    }
-		    else {
-			int out = txtdoc.documentElement().attribute("out").toInt();
-			if (out >= 0)
-			    prod.setAttribute("out", out);
-			else {
-			    prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
-			    txtdoc.documentElement().setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
-			}
-		    }
-		    QString titleData = txtdoc.toString();
+                    if (!txtdoc.documentElement().hasAttribute("out")) {
+                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+                        txtdoc.documentElement().setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+                    }
+                    else {
+                        int out = txtdoc.documentElement().attribute("out").toInt();
+                        if (out >= 0)
+                            prod.setAttribute("out", out);
+                        else {
+                            prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+                            txtdoc.documentElement().setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+                        }
+                    }
+                    QString titleData = txtdoc.toString();
                     prod.setAttribute("xmldata", titleData);
                 } else
                     txtfile.close();
@@ -750,13 +750,13 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const KUrl &path, c
     QFile txtfile(path.path());
     if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
         txtfile.close();
-	if (titledoc.documentElement().hasAttribute("duration")) {
-	    duration = titledoc.documentElement().attribute("duration").toInt();
-	}
+        if (titledoc.documentElement().hasAttribute("duration")) {
+            duration = titledoc.documentElement().attribute("duration").toInt();
+        }
         else {
-	    // keep some time for backwards compatibility - 26/12/12
-	    duration = titledoc.documentElement().attribute("out").toInt();
-	}
+            // keep some time for backwards compatibility - 26/12/12
+            duration = titledoc.documentElement().attribute("out").toInt();
+        }
     } else txtfile.close();
 
     if (duration == 0) duration = m_doc->getFramePos(KdenliveSettings::title_duration());
@@ -929,7 +929,7 @@ void ClipManager::listRemovableVolumes()
             continue;
 
         Solid::StorageDrive *drive = driveDevice.as<Solid::StorageDrive>();
-	if (!drive->isRemovable()) continue;
+        if (!drive->isRemovable()) continue;
 
         // check for StorageVolume
         Solid::Device volumeDevice;
@@ -985,11 +985,11 @@ bool ClipManager::isOnRemovableDevice(const KUrl &url)
 void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type)
 {
     switch (type) {
-      case 2:
-	  emit gotClipPropertyThumbnail(id, img);
-	  break;
-      default:
-	emit thumbReady(id, frame, img);
+    case 2:
+        emit gotClipPropertyThumbnail(id, img);
+        break;
+    default:
+        emit thumbReady(id, frame, img);
     }
 }
 
