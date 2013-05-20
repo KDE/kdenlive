@@ -63,8 +63,8 @@ private:
 #endif
     
 signals:
-    void addClip(KUrl url);
-    void transcodedClip(KUrl source, KUrl result);
+    void addClip(const KUrl &url);
+    void transcodedClip(const KUrl &source, const KUrl &result);
 };
 
 
