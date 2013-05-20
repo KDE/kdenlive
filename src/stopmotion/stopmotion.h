@@ -153,7 +153,7 @@ private:
     StopmotionMonitor *m_monitor;
 
     /** @brief Create the XML playlist. */
-    const QString createProducer(MltVideoProfile profile, const QString &service, const QString &resource);
+    const QString createProducer(const MltVideoProfile &profile, const QString &service, const QString &resource);
 
     /** @brief A new frame arrived, reload overlay. */
     void reloadOverlay();

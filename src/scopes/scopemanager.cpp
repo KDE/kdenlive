@@ -110,7 +110,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
 }
 
 
-void ScopeManager::slotDistributeAudio(QVector<int16_t> sampleData, int freq, int num_channels, int num_samples)
+void ScopeManager::slotDistributeAudio(const QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_SM
     qDebug() << "ScopeManager: Starting to distribute audio.";
