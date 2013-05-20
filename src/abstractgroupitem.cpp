@@ -92,17 +92,17 @@ CustomTrackScene* AbstractGroupItem::projectScene()
     return NULL;
 }
 
-QPainterPath AbstractGroupItem::clipGroupSpacerShape(QPointF offset) const
+QPainterPath AbstractGroupItem::clipGroupSpacerShape(const QPointF &offset) const
 {
     return spacerGroupShape(AVWIDGET, offset);
 }
 
-QPainterPath AbstractGroupItem::clipGroupShape(QPointF offset) const
+QPainterPath AbstractGroupItem::clipGroupShape(const QPointF &offset) const
 {
     return groupShape(AVWIDGET, offset);
 }
 
-QPainterPath AbstractGroupItem::transitionGroupShape(QPointF offset) const
+QPainterPath AbstractGroupItem::transitionGroupShape(const QPointF &offset) const
 {
     return groupShape(TRANSITIONWIDGET, offset);
 }

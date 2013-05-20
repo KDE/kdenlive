@@ -68,7 +68,7 @@ static QColor stringToColor(QString strColor)
     return color;
 }
 
-static QString colorToString(QColor color, bool alpha)
+static QString colorToString(const QColor &color, bool alpha)
 {
     QString colorStr;
     QTextStream stream(&colorStr);

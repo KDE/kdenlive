@@ -40,9 +40,9 @@ public:
     void addItem(QGraphicsItem * item);
     void removeItem(QGraphicsItem * item);
     int track() const;
-    QPainterPath clipGroupShape(QPointF offset) const;
-    QPainterPath clipGroupSpacerShape(QPointF offset) const;
-    QPainterPath transitionGroupShape(QPointF offset) const;
+    QPainterPath clipGroupShape(const QPointF &offset) const;
+    QPainterPath clipGroupSpacerShape(const QPointF &offset) const;
+    QPainterPath transitionGroupShape(const QPointF &offset) const;
     void setItemLocked(bool locked);
     bool isItemLocked() const;
     //    ItemInfo info() const;

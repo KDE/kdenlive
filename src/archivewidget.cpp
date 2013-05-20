@@ -903,7 +903,7 @@ void ArchiveWidget::doExtracting()
     emit extractingFinished();    
 }
 
-QString ArchiveWidget::extractedProjectFile()
+QString ArchiveWidget::extractedProjectFile() const
 {
     return archive_url->url().path(KUrl::AddTrailingSlash) + m_projectName;
 }
