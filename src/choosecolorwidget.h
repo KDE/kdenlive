@@ -21,7 +21,6 @@
 #ifndef CHOOSECOLORWIDGET_H
 #define CHOOSECOLORWIDGET_H
 
-#include <QtCore>
 #include <QWidget>
 
 class KColorButton;

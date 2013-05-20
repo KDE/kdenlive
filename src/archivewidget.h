@@ -58,7 +58,7 @@ public:
     explicit ArchiveWidget(const KUrl &url, QWidget * parent = 0);
     ~ArchiveWidget();
 
-    QString extractedProjectFile();
+    QString extractedProjectFile() const;
     
 private slots:
     void slotCheckSpace();
