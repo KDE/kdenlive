@@ -35,14 +35,14 @@ namespace Mlt{
 	class Playlist;
 	class Consumer;
 	class Filter;
-};
+}
 
 class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
 {
     Q_OBJECT
 
 public:
-    ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent = 0);
+    explicit ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent = 0);
     ~ClipStabilize();
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
