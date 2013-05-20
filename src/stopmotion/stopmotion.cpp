@@ -890,7 +890,7 @@ void StopmotionWidget::slotSwitchMirror(bool isOn)
 }
 
 
-const QString StopmotionWidget::createProducer(MltVideoProfile profile, const QString &service, const QString &resource)
+const QString StopmotionWidget::createProducer(const MltVideoProfile &profile, const QString &service, const QString &resource)
 {
     Q_UNUSED(profile)
 
