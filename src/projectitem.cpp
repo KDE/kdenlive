@@ -54,7 +54,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, const QSiz
     buildItem(pixmapSize);
 }
 
-void ProjectItem::buildItem(QSize pixmapSize)
+void ProjectItem::buildItem(const QSize &pixmapSize)
 {
     setSizeHint(0, QSize(itemHeight * 3, itemHeight));
     if (m_clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
@@ -154,7 +154,7 @@ void ProjectItem::changeDuration(int frames)
     setData(0, DurationRole, itemdata + Timecode::getEasyTimecode(GenTime(frames, KdenliveSettings::project_fps()), KdenliveSettings::project_fps()));
 }
 
-void ProjectItem::setProperties(QMap <QString, QString> props)
+void ProjectItem::setProperties(const QMap<QString, QString> &props)
 {
     if (m_clip == NULL) return;
     m_clip->setProperties(props);

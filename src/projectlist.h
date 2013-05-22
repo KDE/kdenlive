@@ -116,13 +116,13 @@ private slots:
     void slotTimeLineChanged(qreal value);
     void slotTimeLineFinished();
 };
-    
+
 class InvalidDialog: public KDialog
 {
     Q_OBJECT
 public:
-    InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent = 0);
-    virtual ~InvalidDialog();
+    explicit InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent = 0);
+    ~InvalidDialog();
     void addClip(const QString &id, const QString &path);
     QStringList getIds() const;
 private:
@@ -176,20 +176,20 @@ public:
                 if (jobProgress != JOBCRASHED) {
                     // Draw job progress bar
                     QColor color = option.palette.alternateBase().color();
-		    color.setAlpha(150);
+                    color.setAlpha(150);
                     painter->setPen(option.palette.link().color());
                     QRect progress(pixmapPoint.x() + 2, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 4, 7);
-		    painter->setBrush(QBrush(color));
-		    painter->drawRect(progress);
-		    painter->setBrush(option.palette.link());
-		    progress.adjust(2, 2, -2, -2);
-		    if (jobProgress == JOBWAITING) {
-			progress.setLeft(progress.right() - 2);
-			painter->drawRect(progress);
-			progress.moveLeft(progress.left() - 5);
-			painter->drawRect(progress);
-		    }
-		    else if (jobProgress > 0) {
+                    painter->setBrush(QBrush(color));
+                    painter->drawRect(progress);
+                    painter->setBrush(option.palette.link());
+                    progress.adjust(2, 2, -2, -2);
+                    if (jobProgress == JOBWAITING) {
+                        progress.setLeft(progress.right() - 2);
+                        painter->drawRect(progress);
+                        progress.moveLeft(progress.left() - 5);
+                        painter->drawRect(progress);
+                    }
+                    else if (jobProgress > 0) {
                         progress.setWidth(progress.width() * jobProgress / 100);
                         painter->drawRect(progress);
                     }
@@ -382,7 +382,7 @@ private:
     QAction *m_logAction;
 #endif
     
-    void requestClipThumbnail(const QString id);
+    void requestClipThumbnail(const QString &id);
 
     /** @brief Creates an EditFolderCommand to change the name of an folder item. */
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
@@ -402,9 +402,9 @@ private:
     /** @brief Sets the buttons enabled/disabled according to selected item. */
     void updateButtons() const;
 
-    /** @brief Set the Proxy status on a clip. 
+    /** @brief Set the Proxy status on a clip.
      * @param item The clip item to set status
-     * @param jobType The job type 
+     * @param jobType The job type
      * @param status The job status (see definitions.h)
      * @param progress The job progress (in percents)
      * @param statusMessage The job info message */
@@ -501,21 +501,21 @@ private slots:
     void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
 
 signals:
-    void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
+    void clipSelected(DocClipBase *, const QPoint &zone = QPoint(), bool forceUpdate = false);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
     void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
     void projectModified();
     void loadingIsOver();
-    void displayMessage(const QString, int progress, MessageType type = DefaultMessage);
-    void clipNameChanged(const QString, const QString);
+    void displayMessage(const QString&, int progress, MessageType type = DefaultMessage);
+    void clipNameChanged(const QString&, const QString&);
     void clipNeedsReload(const QString&);
     /** @brief A property affecting display was changed, so we need to update monitors and thumbnails
      *  @param id: The clip's id string
      *  @param resetThumbs Should we recreate the timeline thumbnails. */
     void refreshClip(const QString &id, bool resetThumbs);
     void updateRenderStatus();
-    void deleteProjectClips(QStringList ids, QMap <QString, QString> folderids);
+    void deleteProjectClips(const QStringList &ids, const QMap <QString, QString> &folderids);
     void findInTimeline(const QString &clipId);
     /** @brief Request a profile change for current document. */
     void updateProfile(const QString &);

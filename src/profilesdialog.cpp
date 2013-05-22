@@ -448,7 +448,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString& pr
 }
 
 // static
-bool ProfilesDialog::matchProfile(int width, int height, double fps, double par, bool isImage, MltVideoProfile profile)
+bool ProfilesDialog::matchProfile(int width, int height, double fps, double par, bool isImage, const MltVideoProfile &profile)
 {
     int profileWidth;
     if (isImage) {

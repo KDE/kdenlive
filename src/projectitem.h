@@ -58,7 +58,7 @@ public:
     CLIPTYPE clipType() const;
     void changeDuration(int frames);
     DocClipBase *referencedClip();
-    void setProperties(QMap <QString, QString> props);
+    void setProperties(const QMap <QString, QString> &props);
     void setProperty(const QString &key, const QString &value);
     void clearProperty(const QString &key);
     QString getClipHash() const;
@@ -94,7 +94,7 @@ private:
     QString m_clipId;
     bool m_pixmapSet;
     /** @brief Setup basic properties */
-    void buildItem(QSize pixmapSize);
+    void buildItem(const QSize &pixmapSize);
     /** @brief Check if an xml project file has proxies */
     bool playlistHasProxies(const QString& path);
 };
