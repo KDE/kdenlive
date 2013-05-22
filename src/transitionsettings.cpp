@@ -29,9 +29,9 @@
 #include <KDebug>
 
 TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
-        QWidget(parent),
-        m_usedTransition(NULL),
-        m_autoTrackTransition(0)
+    QWidget(parent),
+    m_usedTransition(NULL),
+    m_autoTrackTransition(0)
 {
     setupUi(this);
     QVBoxLayout *vbox1 = new QVBoxLayout(frame);
@@ -114,8 +114,8 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
         QDomElement newTransition = MainWindow::transitions.getEffectByName(transitionList->currentText()).cloneNode().toElement();
         slotUpdateEffectParams(e, newTransition);
         m_effectEdit->transferParamDesc(newTransition, m_usedTransition->info(), false);
-	if (m_effectEdit->needsMonitorEffectScene())
-	    connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+        if (m_effectEdit->needsMonitorEffectScene())
+            connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     } else if (!updateCurrent) {
         // Transition changed, update parameters dialog
         //slotUpdateEffectParams(e, e);
@@ -124,19 +124,19 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
         // Same transition, we just want to update the parameters value
         int ix = transitionList->findData(m_usedTransition->transitionInfo(), Qt::UserRole, Qt::MatchExactly);
         if (ix != transitionList->currentIndex()) {
-	    // Transition type changed, reload params
-	    transitionList->blockSignals(true);
-	    transitionList->setCurrentIndex(ix);
-	    transitionList->blockSignals(false);
-	    m_effectEdit->transferParamDesc(e, m_usedTransition->info(), false);
-	}
-	else {
-	    slotUpdateEffectParams(e, e);
-	    if (m_usedTransition->hasGeometry())
-		m_effectEdit->transferParamDesc(m_usedTransition->toXML(), m_usedTransition->info(), false);
-	}
-	if (m_effectEdit->needsMonitorEffectScene())
-	    connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+            // Transition type changed, reload params
+            transitionList->blockSignals(true);
+            transitionList->setCurrentIndex(ix);
+            transitionList->blockSignals(false);
+            m_effectEdit->transferParamDesc(e, m_usedTransition->info(), false);
+        }
+        else {
+            slotUpdateEffectParams(e, e);
+            if (m_usedTransition->hasGeometry())
+                m_effectEdit->transferParamDesc(m_usedTransition->toXML(), m_usedTransition->info(), false);
+        }
+        if (m_effectEdit->needsMonitorEffectScene())
+            connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     }
     slotCheckMonitorPosition(m_effectEdit->monitor()->render->seekFramePosition());
 }
@@ -200,14 +200,14 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
             transitionList->blockSignals(false);
         }
         if (m_effectEdit->needsMonitorEffectScene()) {
-	    connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
-	}
+            connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+        }
     } else {
         // null transition selected
         m_usedTransition = NULL;
         ItemInfo info;
         m_effectEdit->transferParamDesc(QDomElement(), info, false);
-	m_effectEdit->monitor()->slotShowEffectScene(false);
+        m_effectEdit->monitor()->slotShowEffectScene(false);
     }
 }
 
@@ -232,30 +232,30 @@ void TransitionSettings::slotRenderPos(int pos)
 {
     if (m_usedTransition) {
         m_effectEdit->slotSyncEffectsPos(pos - m_usedTransition->startPos().frames(KdenliveSettings::project_fps()));
-	if (isEnabled()) slotCheckMonitorPosition(pos);
+        if (isEnabled()) slotCheckMonitorPosition(pos);
     }
 }
 
 void TransitionSettings::slotSeekTimeline(int pos)
 {
     if (m_usedTransition)
-	emit seekTimeline(m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) + pos);
+        emit seekTimeline(m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) + pos);
 }
 
 void TransitionSettings::slotCheckMonitorPosition(int renderPos)
 {
     if (!isEnabled()) return;
     if (m_effectEdit->needsMonitorEffectScene()) {
-	if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
-	    if (!m_effectEdit->monitor()->effectSceneDisplayed()) {
-		m_effectEdit->monitor()->slotShowEffectScene(true);
-	    }
-	} else {
-	    m_effectEdit->monitor()->slotShowEffectScene(false);
-	}
+        if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
+            if (!m_effectEdit->monitor()->effectSceneDisplayed()) {
+                m_effectEdit->monitor()->slotShowEffectScene(true);
+            }
+        } else {
+            m_effectEdit->monitor()->slotShowEffectScene(false);
+        }
     }
     else {
-	m_effectEdit->monitor()->slotShowEffectScene(false);
+        m_effectEdit->monitor()->slotShowEffectScene(false);
     }
 }
 

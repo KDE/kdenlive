@@ -34,10 +34,10 @@
 #endif
 
 Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params, bool automaticTransition) :
-        AbstractClipItem(info, QRectF(), fps),
-        m_forceTransitionTrack(false),
-        m_automaticTransition(automaticTransition),
-        m_transitionTrack(transitiontrack)
+    AbstractClipItem(info, QRectF(), fps),
+    m_forceTransitionTrack(false),
+    m_automaticTransition(automaticTransition),
+    m_transitionTrack(transitiontrack)
 {
     setZValue(3);
     m_info.cropDuration = info.endPos - info.startPos;
@@ -88,7 +88,7 @@ Transition::~Transition()
 
 Transition *Transition::clone()
 {
-    QDomElement xml = toXML().cloneNode().toElement();
+    const QDomElement xml = toXML().cloneNode().toElement();
     Transition *tr = new Transition(info(), transitionEndTrack(), m_fps, xml);
     return tr;
 }
@@ -123,13 +123,15 @@ void Transition::setAutomatic(bool automatic)
     update();
 }
 
-void Transition::setTransitionParameters(const QDomElement params)
+void Transition::setTransitionParameters(const QDomElement &params)
 {
-    m_parameters = params;
-    if (m_parameters.attribute("force_track") == "1") setForcedTrack(true, m_parameters.attribute("transition_btrack").toInt());
-    else if (m_parameters.attribute("force_track") == "0") setForcedTrack(false, m_parameters.attribute("transition_btrack").toInt());
-    m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
-    update();
+    if (m_parameters != params) {
+        m_parameters = params;
+        if (m_parameters.attribute("force_track") == "1") setForcedTrack(true, m_parameters.attribute("transition_btrack").toInt());
+        else if (m_parameters.attribute("force_track") == "0") setForcedTrack(false, m_parameters.attribute("transition_btrack").toInt());
+        m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
+        update();
+    }
 }
 
 int Transition::transitionEndTrack() const
@@ -177,7 +179,7 @@ void Transition::paint(QPainter *painter,
     // Draw clip name
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
         framePen.setColor(scene()->palette().highlight().color());
-	framePen.setColor(Qt::red);
+        framePen.setColor(Qt::red);
     }
     else {
         framePen.setColor(brush().color().darker());
@@ -220,11 +222,11 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         int newTrack = newPos.y() / KdenliveSettings::trackheight();
         newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
-	QStringList lockedTracks = property("locked_tracks").toStringList();
-	if (lockedTracks.contains(QString::number(newTrack))) {
-	    // Trying to move to a locked track
-	    return pos();
-	}
+        QStringList lockedTracks = property("locked_tracks").toStringList();
+        if (lockedTracks.contains(QString::number(newTrack))) {
+            // Trying to move to a locked track
+            return pos();
+        }
         newPos.setY((int)(newTrack * KdenliveSettings::trackheight() + itemOffset() + 1));
         // Only one clip is moving
         QRectF sceneShape = rect();
@@ -279,7 +281,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
                 }
             }
         }
-       
+
         m_info.track = newTrack;
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
         //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
@@ -362,37 +364,37 @@ bool Transition::updateKeyframes(int oldEnd)
     int frame;
     int i = 0;
     if (oldEnd < duration) {
-	// Transition was expanded, check if we had a keyframe at end position
-	foreach(QString pos, values) {
-	    if (!pos.contains('=')) {
-		++i;
-		continue;
-	    }
-	    frame = pos.section('=', 0, 0).toInt();
-	    if (frame == oldEnd) {
-		// Move that keyframe to new end
+        // Transition was expanded, check if we had a keyframe at end position
+        foreach(QString pos, values) {
+            if (!pos.contains('=')) {
+                ++i;
+                continue;
+            }
+            frame = pos.section('=', 0, 0).toInt();
+            if (frame == oldEnd) {
+                // Move that keyframe to new end
                 values[i] = QString::number(duration) + '=' + pos.section('=', 1);
-		pa.setAttribute("value", values.join(";"));
-		return true;
-	    }
-	    ++i;
-	}
-	return false;
+                pa.setAttribute("value", values.join(";"));
+                return true;
+            }
+            ++i;
+        }
+        return false;
     }
     else {
-	// Transition was shortened, check for out of bounds keyframes
-	foreach(const QString &pos, values) {
-	    if (!pos.contains('=')) {
-		++i;
-		continue;
-	    }
-	    frame = pos.section('=', 0, 0).toInt();
-	    if (frame > duration) {
-		modified = true;
-		break;
-	    }
-	    ++i;
-	}
+        // Transition was shortened, check for out of bounds keyframes
+        foreach(const QString &pos, values) {
+            if (!pos.contains('=')) {
+                ++i;
+                continue;
+            }
+            frame = pos.section('=', 0, 0).toInt();
+            if (frame > duration) {
+                modified = true;
+                break;
+            }
+            ++i;
+        }
     }
     if (modified) {
         if (i > 0) {

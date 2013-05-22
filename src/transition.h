@@ -59,7 +59,7 @@ public:
     static int itemHeight();
     static int itemOffset();
     //const QMap < QString, QString > transitionParameters() const;
-    void setTransitionParameters(const QDomElement params);
+    void setTransitionParameters(const QDomElement &params);
     void setTransitionTrack(int track);
 
     /** @brief Links the transition to another track.

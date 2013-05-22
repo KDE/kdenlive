@@ -61,7 +61,7 @@ private slots:
     void slotCheckMonitorPosition(int renderPos);
 
 signals:
-    void transitionUpdated(Transition *, QDomElement);
+    void transitionUpdated(Transition *, const QDomElement&);
     void seekTimeline(int);
     void importClipKeyframes(GRAPHICSRECTITEM = TRANSITIONWIDGET);
 };
