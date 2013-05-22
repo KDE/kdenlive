@@ -52,7 +52,7 @@ public:
      *  @param isImage If true, compare width with profile's display width ( = dar * height)
      *  @param profile The profile to match
      *  @return true if properties match profile */
-    static bool matchProfile(int width, int height, double fps, double par, bool isImage, MltVideoProfile profile);
+    static bool matchProfile(int width, int height, double fps, double par, bool isImage, const MltVideoProfile &profile);
 
     /** @brief Find profiles that match parameter properties:
      *  @param width The profile frame width
