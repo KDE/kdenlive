@@ -47,6 +47,12 @@
 #include <nepomuk/resource.h>
 #endif
 
+#ifdef NEPOMUKCORE
+#include <nepomuk2/kratingpainter.h>
+#include <nepomuk2/resource.h>
+#endif
+
+
 #include "definitions.h"
 #include "timecode.h"
 #include "kdenlivesettings.h"
@@ -219,6 +225,10 @@ public:
 #ifdef NEPOMUK
             KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
 #endif
+#ifdef NEPOMUKCORE
+	   KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
+#endif
+
         } else {
             QStyledItemDelegate::paint(painter, option, index);
         }
