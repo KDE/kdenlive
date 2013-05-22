@@ -66,6 +66,10 @@ macro_log_feature(Nepomuk_FOUND
   "http://nepomuk.semanticdesktop.org"
 )
 
+find_package(NepomukCore QUIET CONFIG)
+set_package_properties(NepomukCore PROPERTIES DESCRIPTION "The Nepomuk Core libraries" URL "http://www.kde.org" TYPE RECOMMENDED PURPOSE "Support for the Nepomuk semantic desktop system")
+
+
 macro_log_feature(QJSON_FOUND
   "QJson"
   "Qt-based library that maps JSON data to QVariant objects"
@@ -344,11 +348,17 @@ if(SDL_FOUND)
   target_link_libraries(kdenlive ${SDL_LIBRARY})
 endif(SDL_FOUND)
 
-if(Nepomuk_FOUND)
-  add_definitions(-DUSE_NEPOMUK)
-  include_directories(${NEPOMUK_INCLUDES})
-  target_link_libraries(kdenlive ${NEPOMUK_LIBRARIES})
-endif(Nepomuk_FOUND)
+if(NepomukCore_FOUND)
+    add_definitions(-DUSE_NEPOMUKCORE)
+    include_directories(${NEPOMUK_CORE_INCLUDE_DIR})
+    target_link_libraries(kdenlive ${NEPOMUK_CORE_LIBRARY})
+else(NepomukWidgets_FOUND)
+  if(Nepomuk_FOUND)
+    add_definitions(-DUSE_NEPOMUK)
+    include_directories(${NEPOMUK_INCLUDES})
+    target_link_libraries(kdenlive ${NEPOMUK_LIBRARIES})
+  endif(Nepomuk_FOUND)
+endif()
 
 if(QJSON_FOUND)
   add_definitions(-DUSE_QJSON)

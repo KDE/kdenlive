@@ -57,6 +57,15 @@
 #endif
 #endif
 
+#ifdef USE_NEPOMUKCORE
+#include <Nepomuk2/Variant>
+#include <Nepomuk2/Resource>
+#include <Nepomuk2/ResourceManager>
+#include <Nepomuk2/Vocabulary/NIE>
+#include <Nepomuk2/Vocabulary/NCO>
+#include <Nepomuk2/Vocabulary/NDO>
+#endif
+
 ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
         QDialog(parent),
         m_folder(folder),
@@ -261,6 +270,17 @@ void ResourceWidget::slotGotFile(KJob *job)
         //res.setProperty( Soprano::Vocabulary::NAO::description(), 
 #endif
 #endif
+
+#ifdef USE_NEPOMUKCORE
+        Nepomuk2::Resource res( filePath );
+        res.setProperty( Nepomuk2::Vocabulary::NIE::license(), (Nepomuk2::Variant) job->property("license") );
+        res.setProperty( Nepomuk2::Vocabulary::NIE::licenseType(), (Nepomuk2::Variant) job->property("licenseurl") );
+        res.setProperty( Nepomuk2::Vocabulary::NDO::copiedFrom(), (Nepomuk2::Variant) job->property("originurl") );
+        res.setProperty( Nepomuk2::Vocabulary::NCO::creator(), (Nepomuk2::Variant) job->property("author") );
+        //res.setDescription(item_description->toPlainText());
+        //res.setProperty( Soprano::Vocabulary::NAO::description(), 
+#endif
+
         emit addClip(filePath, stringMap());
 }
 

@@ -69,6 +69,11 @@
 //#include <nepomuk/tag.h>
 #endif
 
+#ifdef USE_NEPOMUKCORE
+#include <nepomuk2/resourcemanager.h>
+#include <Nepomuk2/Resource>
+#endif
+
 #include <QMouseEvent>
 #include <QStylePainter>
 #include <QPixmap>
@@ -341,6 +346,16 @@ ProjectList::ProjectList(QWidget *parent) :
         }
     }
 #endif
+#ifdef USE_NEPOMUKCORE
+    if (KdenliveSettings::activate_nepomuk()) {
+        Nepomuk2::ResourceManager::instance()->init();
+        if (!Nepomuk2::ResourceManager::instance()->initialized()) {
+            kDebug() << "Cannot communicate with Nepomuk, DISABLING it";
+            KdenliveSettings::setActivate_nepomuk(false);
+        }
+    }
+#endif
+
 }
 
 ProjectList::~ProjectList()

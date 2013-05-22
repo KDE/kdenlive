@@ -40,6 +40,12 @@
 #include <Nepomuk/Vocabulary/NIE>
 #endif
 #endif
+#ifdef USE_NEPOMUKCORE
+#include <Nepomuk2/Variant>
+#include <Nepomuk2/Resource>
+#include <Nepomuk2/ResourceManager>
+#include <Nepomuk2/Vocabulary/NIE>
+#endif
 
 
 #include <QDir>
@@ -490,6 +496,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
 
     // Check for Nepomuk metadata
 #ifdef USE_NEPOMUK
+
 #if KDE_IS_VERSION(4,6,0)
     if (!url.isEmpty()) {
         Nepomuk::ResourceManager::instance()->init();
@@ -509,10 +516,32 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
 #else
     m_view.clip_license->setHidden(true);
 #endif
+
+#else
+
+#ifdef USE_NEPOMUKCORE
+
+    if (!url.isEmpty()) {
+        Nepomuk2::ResourceManager::instance()->init();
+        Nepomuk2::Resource res( url.path() );
+        // Check if file has a license
+        if (res.hasProperty(Nepomuk2::Vocabulary::NIE::license())) {
+            QString ltype = res.property(Nepomuk2::Vocabulary::NIE::licenseType()).toString();
+            m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk2::Vocabulary::NIE::license()).toString()));
+            if (ltype.startsWith("http")) {
+                m_view.clip_license->setUrl(ltype);
+                connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
+            }
+        }
+        else m_view.clip_license->setHidden(true);
+    }
+    else m_view.clip_license->setHidden(true);
 #else
     m_view.clip_license->setHidden(true);
 #endif
-    
+
+#endif
+
     slotFillMarkersList(m_clip);
     slotUpdateAnalysisData(m_clip);
     
