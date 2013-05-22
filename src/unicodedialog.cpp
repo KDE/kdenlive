@@ -70,7 +70,6 @@ UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *pare
     arrowDown->setToolTip(i18n("Next Unicode character (Arrow Down)"));
     unicodeNumber->setToolTip(i18n("Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."));
     unicodeNumber->selectAll(); // Selection will be reset by setToolTip and similar, so set it here
-
 }
 
 UnicodeWidget::~UnicodeWidget()
@@ -123,7 +122,7 @@ bool UnicodeWidget::controlCharacter(uint value)
 
 QString UnicodeWidget::trimmedUnicodeNumber(QString text)
 {
-    while (text.length() > 0 && text.at(0) == QChar('0')) {
+    while (!text.isEmpty() && text.at(0) == QChar('0')) {
         text = text.remove(0, 1);
     }
     return text;

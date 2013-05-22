@@ -38,20 +38,22 @@
 class WizardDelegate: public QItemDelegate
 {
 public:
-    WizardDelegate(QAbstractItemView* parent = 0): QItemDelegate(parent) {
+    explicit WizardDelegate(QAbstractItemView* parent = 0)
+        : QItemDelegate(parent)
+    {
     }
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
         if (index.column() == 1) {
             painter->save();
-	    QStyleOptionViewItemV4 opt(option);
+            QStyleOptionViewItemV4 opt(option);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
-	    
+
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-	    QRect r1 = option.rect;
+            QRect r1 = option.rect;
             r1.adjust(0, textMargin, 0, - textMargin);
             int mid = (int)((r1.height() / 2));
             r1.setBottom(r1.y() + mid);
@@ -75,7 +77,7 @@ class Wizard : public QWizard
     Q_OBJECT
 public:
     explicit Wizard(bool upgrade, QWidget * parent = 0);
-    void installExtraMimes(QString baseName, QStringList globs);
+    void installExtraMimes(const QString &baseName, const QStringList &globs);
     void runUpdateMimeDatabase();
     void adjustSettings();
     bool isOk() const;
