@@ -48,8 +48,8 @@ TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok
 {
     m_trackActions << actions;
     setupUi(this);
-//    ruler_frame->setMaximumHeight();
-//    size_frame->setMaximumHeight();
+    //    ruler_frame->setMaximumHeight();
+    //    size_frame->setMaximumHeight();
     m_scene = new CustomTrackScene(doc);
     m_trackview = new CustomTrackView(doc, m_scene, parent);
     m_trackview->scale(1, 1);
@@ -355,34 +355,34 @@ void TrackView::parseDocument(const QDomDocument &doc)
             QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, transitionId).cloneNode().toElement();
 
             if (!base.isNull()) for (int k = 0; k < transitionparams.count(); k++) {
-                    p = transitionparams.item(k).toElement();
-                    if (!p.isNull()) {
-                        QString paramName = p.attribute("name");
-                        QString paramValue = p.text();
+                p = transitionparams.item(k).toElement();
+                if (!p.isNull()) {
+                    QString paramName = p.attribute("name");
+                    QString paramValue = p.text();
 
-                        QDomNodeList params = base.elementsByTagName("parameter");
-                        if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); ++i) {
-                                QDomElement e = params.item(i).toElement();
-                                if (!e.isNull() && e.attribute("tag") == paramName) {
-                                    if (e.attribute("type") == "double") {
-                                        QString factor = e.attribute("factor", "1");
-                                        double offset = e.attribute("offset", "0").toDouble();
-                                        if (factor != "1" || offset != 0) {
-                                            double fact;
-                                            if (factor.contains('%')) {
-                                                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-                                            } else {
-                                                fact = factor.toDouble();
-                                            }
-                                            paramValue = QLocale().toString(offset + paramValue.toDouble() * fact);
-                                        }
+                    QDomNodeList params = base.elementsByTagName("parameter");
+                    if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); ++i) {
+                        QDomElement e = params.item(i).toElement();
+                        if (!e.isNull() && e.attribute("tag") == paramName) {
+                            if (e.attribute("type") == "double") {
+                                QString factor = e.attribute("factor", "1");
+                                double offset = e.attribute("offset", "0").toDouble();
+                                if (factor != "1" || offset != 0) {
+                                    double fact;
+                                    if (factor.contains('%')) {
+                                        fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                                    } else {
+                                        fact = factor.toDouble();
                                     }
-                                    e.setAttribute("value", paramValue);
-                                    break;
+                                    paramValue = QLocale().toString(offset + paramValue.toDouble() * fact);
                                 }
                             }
+                            e.setAttribute("value", paramValue);
+                            break;
+                        }
                     }
                 }
+            }
 
             /*QDomDocument doc;
             doc.appendChild(doc.importNode(base, true));
@@ -596,7 +596,7 @@ void TrackView::adjustTrackHeaders()
     }
 }
 
-int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers)
+int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers)
 {
     // parse track
     int position = 0;
@@ -688,7 +688,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                                 break;
                             }
                         }
-                    }                    
+                    }
                 }
                 else {
                     // We cannot find the producer, something is really wrong, add
@@ -780,7 +780,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         // add effect to clip
         QString effecttag;
         QString effectid;
-	QString effectinfo;
+        QString effectinfo;
         QString effectindex = QString::number(effectNb);
         // Get effect tag & index
         for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
@@ -790,7 +790,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 effecttag = effectparam.text();
             } else if (effectparam.attribute("name") == "kdenlive_id") {
                 effectid = effectparam.text();
-	    } else if (effectparam.attribute("name") == "kdenlive_info") {
+            } else if (effectparam.attribute("name") == "kdenlive_info") {
                 effectinfo = effectparam.text();
             } else if (effectparam.attribute("name") == "disable" && effectparam.text().toInt() == 1) {
                 // Fix effects index
@@ -811,7 +811,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         } else {
             QDomElement currenteffect = clipeffect.cloneNode().toElement();
             currenteffect.setAttribute("kdenlive_ix", effectindex);
-	    currenteffect.setAttribute("kdenlive_info", effectinfo);
+            currenteffect.setAttribute("kdenlive_info", effectinfo);
             QDomNodeList clipeffectparams = currenteffect.childNodes();
 
             if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
@@ -896,31 +896,31 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
             } else {
                 // Check if effect has in/out points
                 if (effect.hasAttribute("in")) {
-		    EffectsList::setParameter(currenteffect, "in",  effect.attribute("in"));
-		    currenteffect.setAttribute("in", effect.attribute("in"));
-		    currenteffect.setAttribute("_sync_in_out", "1");
+                    EffectsList::setParameter(currenteffect, "in",  effect.attribute("in"));
+                    currenteffect.setAttribute("in", effect.attribute("in"));
+                    currenteffect.setAttribute("_sync_in_out", "1");
                 }
                 if (effect.hasAttribute("out")) {
-		    EffectsList::setParameter(currenteffect, "out",  effect.attribute("out"));
-		    currenteffect.setAttribute("out", effect.attribute("out"));
+                    EffectsList::setParameter(currenteffect, "out",  effect.attribute("out"));
+                    currenteffect.setAttribute("out", effect.attribute("out"));
                 }
             }
             
             // Special case, region filter embeds other effects
-	    bool regionFilter = effecttag == "region";
-	    QMap <QString, QString> regionEffects;
-	    
+            bool regionFilter = effecttag == "region";
+            QMap <QString, QString> regionEffects;
+
             // adjust effect parameters
             for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
                 // parse effect parameters
                 QDomElement effectparam = n3.toElement();
                 QString paramname = effectparam.attribute("name");
                 QString paramvalue = effectparam.text();
-		
-		if (regionFilter && paramname.startsWith("filter")) {
-		    regionEffects.insert(paramname, paramvalue);
-		    continue;
-		}
+
+                if (regionFilter && paramname.startsWith("filter")) {
+                    regionEffects.insert(paramname, paramvalue);
+                    continue;
+                }
 
                 // try to find this parameter in the effect xml and set its value
                 adjustparameterValue(clipeffectparams, paramname, paramvalue);
@@ -928,26 +928,26 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
             }
             
             if (regionFilter && !regionEffects.isEmpty()) {
-		// insert region sub-effects
-		int i = 0;
-		while (regionEffects.contains(QString("filter%1").arg(i))) {
-		    QString filterid = regionEffects.value(QString("filter%1.kdenlive_id").arg(i));
-		    QString filtertag = regionEffects.value(QString("filter%1.tag").arg(i));
-		    QDomElement subclipeffect = getEffectByTag(filtertag, filterid).cloneNode().toElement();
-		    QDomNodeList subclipeffectparams = subclipeffect.childNodes();
-		    subclipeffect.setAttribute("region_ix", i);
-		    QMap<QString, QString>::const_iterator j = regionEffects.constBegin();
-		    while (j != regionEffects.constEnd()) {
-			if (j.key().startsWith(QString("filter%1.").arg(i))) {
-			    QString pname = j.key().section('.', 1, -1);
-			    adjustparameterValue(subclipeffectparams, pname, j.value());
-			}
-			++j;
-		    }
-		    currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
-		    ++i;
-		}
-	    }
+                // insert region sub-effects
+                int i = 0;
+                while (regionEffects.contains(QString("filter%1").arg(i))) {
+                    QString filterid = regionEffects.value(QString("filter%1.kdenlive_id").arg(i));
+                    QString filtertag = regionEffects.value(QString("filter%1.tag").arg(i));
+                    QDomElement subclipeffect = getEffectByTag(filtertag, filterid).cloneNode().toElement();
+                    QDomNodeList subclipeffectparams = subclipeffect.childNodes();
+                    subclipeffect.setAttribute("region_ix", i);
+                    QMap<QString, QString>::const_iterator j = regionEffects.constBegin();
+                    while (j != regionEffects.constEnd()) {
+                        if (j.key().startsWith(QString("filter%1.").arg(i))) {
+                            QString pname = j.key().section('.', 1, -1);
+                            adjustparameterValue(subclipeffectparams, pname, j.value());
+                        }
+                        ++j;
+                    }
+                    currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
+                    ++i;
+                }
+            }
             
             if (disableeffect) currenteffect.setAttribute("disable", "1");
             if (clip)
@@ -964,37 +964,37 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
     QDomElement e;
     QLocale locale;
     for (int k = 0; k < clipeffectparams.count(); k++) {
-	e = clipeffectparams.item(k).toElement();
+        e = clipeffectparams.item(k).toElement();
         if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
-	    QString type = e.attribute("type");
+            QString type = e.attribute("type");
             QString factor = e.attribute("factor", "1");
             double fact;
             if (factor.contains('%')) {
-		fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
             } else {
-		fact = factor.toDouble();
+                fact = factor.toDouble();
             }
             double offset = e.attribute("offset", "0").toDouble();
             if (type == "simplekeyframe") {
-		QStringList kfrs = paramvalue.split(";");
+                QStringList kfrs = paramvalue.split(";");
                 for (int l = 0; l < kfrs.count(); l++) {
-		    QString fr = kfrs.at(l).section('=', 0, 0);
+                    QString fr = kfrs.at(l).section('=', 0, 0);
                     double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
                     //kfrs[l] = fr + ":" + locale.toString((int)(val * fact));
                     kfrs[l] = fr + ':' + QString::number((int) (offset + val * fact));
                 }
                 e.setAttribute("keyframes", kfrs.join(";"));
             } else if (type == "double" || type == "constant") {
-		bool ok;
+                bool ok;
                 e.setAttribute("value", offset + locale.toDouble(paramvalue, &ok) * fact);
                 if (!ok)
-		    e.setAttribute("value", paramvalue);
+                    e.setAttribute("value", paramvalue);
             } else {
-		e.setAttribute("value", paramvalue);
+                e.setAttribute("value", paramvalue);
             }
             break;
         }
-    }  
+    }
 }
 
 
@@ -1002,10 +1002,10 @@ QDomElement TrackView::getEffectByTag(const QString &effecttag, const QString &e
 {
     QDomElement clipeffect = MainWindow::customEffects.getEffectByTag(QString(), effectid);
     if (clipeffect.isNull()) {
-	clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
+        clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
     }
     if (clipeffect.isNull()) {
-	clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
+        clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
     }
     return clipeffect;
 }
@@ -1050,7 +1050,7 @@ DocClipBase *TrackView::getMissingProducer(const QString &id) const
                     missingXml =  m.toElement();
                     break;
                 }
-            }       
+            }
         }
     }
     if (missingXml == QDomElement()) return NULL;

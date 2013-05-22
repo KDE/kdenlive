@@ -106,7 +106,7 @@ private:
     QList <QAction *> m_trackActions;
     
     void parseDocument(const QDomDocument &doc);
-    int slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers);
+    int slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers);
     DocClipBase *getMissingProducer(const QString &id) const;
     void adjustTrackHeaders();
     /** @brief Add effects from the xml. Returns true if some effect was upgraded, false if everything went fine.*/
@@ -152,7 +152,7 @@ signals:
     void configTrack(int);
     void updateTracksInfo();
     void setZoom(int);
-    void showTrackEffects(int, TrackInfo);
+    void showTrackEffects(int, const TrackInfo&);
 };
 
 #endif
