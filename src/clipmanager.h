@@ -58,7 +58,6 @@ class SolidVolumeInfo
 {
 
 public:
-
     QString path; // mount path of volume, with trailing slash
     QString uuid; // UUID as from Solid
     QString label; // volume label (think of CDs)
@@ -193,10 +192,10 @@ signals:
     void modifiedClip(const QString &);
     void missingClip(const QString &);
     void availableClip(const QString &);
-    void checkAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
+    void checkAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips);
     void displayMessage(const QString &, int);
-    void thumbReady(const QString &id, int, QImage);
-    void gotClipPropertyThumbnail(const QString &id, QImage);
+    void thumbReady(const QString &id, int, const QImage&);
+    void gotClipPropertyThumbnail(const QString &id, const QImage&);
 };
 
 #endif

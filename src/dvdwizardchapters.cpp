@@ -24,10 +24,10 @@
 #include <QFile>
 
 DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :
-        QWizardPage(parent),
-        m_format(format),
-        m_monitor(NULL),
-        m_manager(manager)
+    QWizardPage(parent),
+    m_format(format),
+    m_monitor(NULL),
+    m_manager(manager)
 
 {
     m_view.setupUi(this);
@@ -46,7 +46,7 @@ DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, 
 DvdWizardChapters::~DvdWizardChapters()
 {
     if (m_monitor) {
-	m_manager->removeMonitor(m_monitor);
+        m_manager->removeMonitor(m_monitor);
         m_monitor->stop();
         delete m_monitor;
     }
@@ -119,7 +119,7 @@ void DvdWizardChapters::updateMonitorMarkers()
     QStringList chapters = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
     QList <CommentedTime> markers;
     foreach(const QString &frame, chapters) {
-	markers << CommentedTime(GenTime(frame.toInt(), m_tc.fps()), QString());
+        markers << CommentedTime(GenTime(frame.toInt(), m_tc.fps()), QString());
     }
     m_monitor->setMarkers(markers);
 }
@@ -159,9 +159,9 @@ void DvdWizardChapters::createMonitor(DVDFORMAT format)
         QVBoxLayout *vbox = new QVBoxLayout;
         vbox->addWidget(m_monitor);
         m_view.video_frame->setLayout(vbox);
-	m_monitor->setSizePolicy(QSizePolicy ( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
-	m_manager->appendMonitor(m_monitor);
-	vbox->insertWidget(0, m_monitor, 10);
+        m_monitor->setSizePolicy(QSizePolicy ( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
+        m_manager->appendMonitor(m_monitor);
+        vbox->insertWidget(0, m_monitor, 10);
     }
 }
 

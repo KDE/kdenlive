@@ -58,8 +58,8 @@ public:
     void addTrack(TrackInfo type, int ix = -1);
     void removeTrack(int ix);
     /** @brief Makes the document use new track infos (name, type, ...). */
-    void configTracks(QList <TrackInfo> trackInfos);
-    int cursorPos();
+    void configTracks(const QList<TrackInfo> &trackInfos);
+    int cursorPos() const;
     void checkAutoScroll();
     /**
       Move the clip at \c start to \c end.
@@ -250,7 +250,7 @@ public slots:
     /** @brief Shows a dialog for adding a guide.
      * @param dialog (default = true) false = do not show the dialog but use current position as position and comment */
     void slotAddGuide(bool dialog = true);
-    void slotEditGuide(CommentedTime guide);
+    void slotEditGuide(const CommentedTime &guide);
     void slotEditGuide(int guidePos = -1);
     void slotDeleteGuide(int guidePos = -1);
     void slotDeleteAllGuides();

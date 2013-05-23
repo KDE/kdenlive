@@ -35,7 +35,8 @@ public:
     PropertiesViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {
         m_height = parent->fontMetrics().height() * 1.2;
     }
-    virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+protected:
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
         return QSize(QStyledItemDelegate::sizeHint(option, index).width(), m_height);
     }
 private:
@@ -100,12 +101,12 @@ private:
 
 signals:
     void addMarkers(const QString &, QList <CommentedTime>);
-    void deleteProxy(const QString);
-    void applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool);
+    void deleteProxy(const QString&);
+    void applyNewClipProperties(const QString&, const QMap <QString, QString> &, const QMap <QString, QString> &, bool, bool);
     void saveMarkers(const QString &id);
     void loadMarkers(const QString &id);
     void editAnalysis(const QString &id, const QString &name, const QString &value);
-    void requestThumb(const QString id, QList <int> frames);
+    void requestThumb(const QString &id, const QList <int>& frames);
 };
 
 
