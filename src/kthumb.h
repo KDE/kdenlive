@@ -59,11 +59,11 @@ public:
     bool hasProducer() const;
     void clearProducer();
     void updateThumbUrl(const QString &hash);
-    void extractImage(QList <int> frames);
+    void extractImage(const QList<int> &frames);
     QImage extractImage(int frame, int width, int height);
 #if KDE_IS_VERSION(4,5,0)
     /** @brief Request thumbnails for the frame range. */
-    void queryIntraThumbs(QList <int> missingFrames);
+    void queryIntraThumbs(const QList <int> &missingFrames);
     /** @brief Query cached thumbnail. */
     QImage findCachedThumb(const QString &path);
 #endif
@@ -85,7 +85,7 @@ public:
     /** @brief Calculates image variance, useful to know if a thumbnail is interesting. 
      *  @return an integer between 0 and 100. 0 means no variance, eg. black image while bigger values mean contrasted image
      * */
-    static uint imageVariance(QImage image);
+    static uint imageVariance(const QImage &image);
 
 private slots:
 #if KDE_IS_VERSION(4,5,0)

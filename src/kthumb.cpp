@@ -106,7 +106,7 @@ QPixmap KThumb::getImage(const KUrl& url, int width, int height)
     return getImage(url, 0, width, height);
 }
 
-void KThumb::extractImage(QList <int>frames)
+void KThumb::extractImage(const QList<int> &frames)
 {
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
     m_clipManager->slotRequestThumbs(m_id, frames);
@@ -196,7 +196,7 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, i
     frame->set("rescale.interp", "nearest");
     frame->set("deinterlace_method", "onefield");
     frame->set("top_field_first", -1 );
-    QImage p = getFrame(frame, frameWidth, displayWidth, height);
+    const QImage p = getFrame(frame, frameWidth, displayWidth, height);
     delete frame;
     return p;
 }
@@ -246,7 +246,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
 }
 
 //static
-uint KThumb::imageVariance(QImage image )
+uint KThumb::imageVariance(const QImage &image )
 {
     uint delta = 0;
     uint avg = 0;
@@ -359,7 +359,7 @@ void KThumb::slotCreateAudioThumbs()
 }
 
 #if KDE_IS_VERSION(4,5,0)
-void KThumb::queryIntraThumbs(QList <int> missingFrames)
+void KThumb::queryIntraThumbs(const QList <int> &missingFrames)
 {
     foreach (int i, missingFrames) {
         if (!m_intraFramesQueue.contains(i)) m_intraFramesQueue.append(i);

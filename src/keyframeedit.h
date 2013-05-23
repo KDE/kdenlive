@@ -35,7 +35,8 @@ class KeyItemDelegate: public QItemDelegate
 {
     Q_OBJECT
 public:
-    KeyItemDelegate(int min, int max, QAbstractItemView* parent = 0): QItemDelegate(parent), m_min(min), m_max(max) {
+    KeyItemDelegate(int min, int max, QAbstractItemView* parent = 0)
+        : QItemDelegate(parent), m_min(min), m_max(max) {
     }
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
@@ -80,7 +81,7 @@ class KeyframeEdit : public QWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent = 0);
+    explicit KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent = 0);
     virtual ~KeyframeEdit();
     virtual void addParameter(QDomElement e, int activeKeyframe = -1);
     const QString getValue(const QString &name);
