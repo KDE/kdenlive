@@ -77,7 +77,7 @@ private:
     void cleanup();
     void errorMessage(const QString &text);
     void infoMessage(const QString &text);
-    void processDvdauthor(QString menuMovieUrl = QString(), stringRectMap buttons = stringRectMap(), QStringList buttonsTarget = QStringList());
+    void processDvdauthor(const QString &menuMovieUrl = QString(), const stringRectMap &buttons = stringRectMap(), const QStringList &buttonsTarget = QStringList());
 
 private slots:
     void slotPageChanged(int page);

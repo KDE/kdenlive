@@ -487,7 +487,7 @@ void DvdWizard::processSpumux()
     processDvdauthor(menuMovieUrl, buttons, buttonsTarget);
 }
 
-void DvdWizard::processDvdauthor(QString menuMovieUrl, QMap <QString, QRect> buttons, QStringList buttonsTarget)
+void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QString, QRect> &buttons, const QStringList &buttonsTarget)
 {
     // create dvdauthor xml
     QListWidgetItem *authitem =  m_status.job_progress->item(3);

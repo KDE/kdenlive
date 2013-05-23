@@ -44,14 +44,14 @@
 
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider, QWidget* parent) :
-        QWidget(parent),
-        m_maximum(max),
-        m_minimum(min),
-        m_decimals(decimals),
-        m_default(defaultValue),
-        m_id(id),
-        m_intEdit(NULL),
-        m_doubleEdit(NULL)
+    QWidget(parent),
+    m_maximum(max),
+    m_minimum(min),
+    m_decimals(decimals),
+    m_default(defaultValue),
+    m_id(id),
+    m_intEdit(NULL),
+    m_doubleEdit(NULL)
 {
     if (showSlider) setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     else setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
@@ -69,7 +69,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_label->setStep(1);
         m_intEdit = new QSpinBox(this);
         m_intEdit->setObjectName("dragBox");
-	m_intEdit->setFocusPolicy(Qt::StrongFocus);
+        m_intEdit->setFocusPolicy(Qt::StrongFocus);
         if (!suffix.isEmpty()) m_intEdit->setSuffix(suffix);
         m_intEdit->setKeyboardTracking(false);
         m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
@@ -83,7 +83,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     else {
         m_doubleEdit = new QDoubleSpinBox(this);
         m_doubleEdit->setDecimals(decimals);
-	m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
+        m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
         m_doubleEdit->setObjectName("dragBox");
         if (!suffix.isEmpty()) m_doubleEdit->setSuffix(suffix);
         m_doubleEdit->setKeyboardTracking(false);
@@ -107,7 +107,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     else m_label->setMaximumHeight(m_doubleEdit->sizeHint().height());
 
     m_menu = new QMenu(this);
-  
+
     m_scale = new KSelectAction(i18n("Scaling"), this);
     m_scale->addAction(i18n("Normal scale"));
     m_scale->addAction(i18n("Pixel scale"));
@@ -243,7 +243,7 @@ void DragValue::slotReset()
 
 void DragValue::slotSetValue(int value)
 {
-   setValue(value, true);
+    setValue(value, true);
 }
 
 void DragValue::slotSetValue(double value)
@@ -358,7 +358,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     m_dragMode(false),
     m_showSlider(showSlider),
     m_step(10.0)
-    //m_precision(pow(10, precision)),
+  //m_precision(pow(10, precision)),
 {
     setFont(KGlobalSettings::toolBarFont());
     setFormat(' ' + label);
@@ -491,12 +491,12 @@ void CustomLabel::setStep(double step)
 
 void CustomLabel::focusInEvent(QFocusEvent*)
 {
-     setFocusPolicy(Qt::WheelFocus);
+    setFocusPolicy(Qt::WheelFocus);
 }
 
 void CustomLabel::focusOutEvent(QFocusEvent*)
 {
-     setFocusPolicy(Qt::StrongFocus);
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 #include "dragvalue.moc"

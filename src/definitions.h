@@ -28,15 +28,15 @@
 #include <QDebug>
 
 #include <QTreeWidgetItem>
- #include <QtCore/QString>
+#include <QtCore/QString>
 
 const int MAXCLIPDURATION = 15000;
 
 
 namespace Kdenlive {
-  enum MONITORID { noMonitor, clipMonitor, projectMonitor, recordMonitor, stopmotionMonitor, dvdMonitor };
-  const int DefaultThumbHeight = 100;
-  /*const QString clipMonitor("clipMonitor");
+enum MONITORID { noMonitor, clipMonitor, projectMonitor, recordMonitor, stopmotionMonitor, dvdMonitor };
+const int DefaultThumbHeight = 100;
+/*const QString clipMonitor("clipMonitor");
   const QString recordMonitor("recordMonitor");
   const QString projectMonitor("projectMonitor");
   const QString stopmotionMonitor("stopmotionMonitor");*/
@@ -108,7 +108,7 @@ public:
 
 class TransitionInfo {
 public:
-/** startPos is the position where the clip starts on the track */
+    /** startPos is the position where the clip starts on the track */
     GenTime startPos;
     /** endPos is the duration where the clip ends on the track */
     GenTime endPos;
@@ -153,14 +153,14 @@ public:
     {
         if (!description.isEmpty() && point.description  == description) return true;
         return      point.frame_rate_num == frame_rate_num &&
-                    point.frame_rate_den  == frame_rate_den  &&
-                    point.width == width &&
-                    point.height == height &&
-                    point.progressive == progressive &&
-                    point.sample_aspect_num == sample_aspect_num &&
-                    point.sample_aspect_den == sample_aspect_den &&
-                    point.display_aspect_den == display_aspect_den &&
-                    point.colorspace == colorspace;
+                point.frame_rate_den  == frame_rate_den  &&
+                point.width == width &&
+                point.height == height &&
+                point.progressive == progressive &&
+                point.sample_aspect_num == sample_aspect_num &&
+                point.sample_aspect_den == sample_aspect_den &&
+                point.display_aspect_den == display_aspect_den &&
+                point.colorspace == colorspace;
     }
     bool operator!=(const MltVideoProfile &other) const {
         return !(*this == other);
@@ -183,20 +183,20 @@ public:
     QString groupName;
     QString toString() const {
         QStringList data;
-	// effect collapsed state: 0 = effect not collapsed, 1 = effect collapsed, 
-	// 2 = group collapsed - effect not, 3 = group and effect collapsed
-	int collapsedState = (int) isCollapsed;
-	if (groupIsCollapsed) collapsedState += 2;
-	data << QString::number(collapsedState) << QString::number(groupIndex) << groupName;
-	return data.join("/");
+        // effect collapsed state: 0 = effect not collapsed, 1 = effect collapsed,
+        // 2 = group collapsed - effect not, 3 = group and effect collapsed
+        int collapsedState = (int) isCollapsed;
+        if (groupIsCollapsed) collapsedState += 2;
+        data << QString::number(collapsedState) << QString::number(groupIndex) << groupName;
+        return data.join("/");
     }
     void fromString(QString value) {
-	if (value.isEmpty()) return;
-	QStringList data = value.split("/");
-	isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
-	groupIsCollapsed = data.at(0).toInt() >= 2;
-	if (data.count() > 1) groupIndex = data.at(1).toInt();
-	if (data.count() > 2) groupName = data.at(2);
+        if (value.isEmpty()) return;
+        QStringList data = value.split("/");
+        isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
+        groupIsCollapsed = data.at(0).toInt() >= 2;
+        if (data.count() > 1) groupIndex = data.at(1).toInt();
+        if (data.count() > 2) groupName = data.at(2);
     }
 };
 
@@ -232,16 +232,16 @@ public:
         return false;
     }
     void setParamValue(const QString &name, const QString &value) {
-	bool found = false;
+        bool found = false;
         for (int i = 0; i < size(); ++i)
             if (at(i).name() == name) {
-		// update value
-		replace(i, EffectParameter(name, value));
-		found = true;
-	    }
-	if (!found) addParam(name, value);
+                // update value
+                replace(i, EffectParameter(name, value));
+                found = true;
+            }
+        if (!found) addParam(name, value);
     }
-        
+
     QString paramValue(const QString &name, const QString &defaultValue = QString()) const {
         for (int i = 0; i < size(); ++i) {
             if (at(i).name() == name) return at(i).value();
@@ -278,29 +278,29 @@ public:
         c = comm;
     }
     void setMarkerType(int t) {
-	type = t;
+        type = t;
     }
     int markerType() const {
-	return type;
+        return type;
     }
     static QColor markerColor(int type) {
-	switch (type) {
-	  case 0:
-	      return Qt::red;
-	      break;
-	  case 1:
-	      return Qt::blue;
-	      break;
-	  case 2:
-	      return Qt::green;
-	      break;
-	  case 3:
-	      return Qt::yellow;
-	      break;
-	  default:
-	      return Qt::cyan;
-	      break;
-	}
+        switch (type) {
+        case 0:
+            return Qt::red;
+            break;
+        case 1:
+            return Qt::blue;
+            break;
+        case 2:
+            return Qt::green;
+            break;
+        case 3:
+            return Qt::yellow;
+            break;
+        default:
+            return Qt::cyan;
+            break;
+        }
     }
 
     /* Implementation of > operator; Works identically as with basic types. */
