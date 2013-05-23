@@ -25,11 +25,11 @@
 
 #include <QHeaderView>
 
-KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
-        QWidget(parent),
-        m_min(minFrame),
-        m_max(maxFrame),
-        m_timecode(tc)
+KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent) :
+    QWidget(parent),
+    m_min(minFrame),
+    m_max(maxFrame),
+    m_timecode(tc)
 {
     setupUi(this);
     if (m_max == -1) {
@@ -116,8 +116,8 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
 
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
-            m_params.at(columnId).attribute("min").toDouble(), m_params.at(columnId).attribute("max").toDouble(),
-            m_params.at(columnId).attribute("default").toDouble(), comment, columnId, m_params.at(columnId).attribute("suffix"), m_params.at(columnId).attribute("decimals").toInt(), this);
+                                                                   m_params.at(columnId).attribute("min").toDouble(), m_params.at(columnId).attribute("max").toDouble(),
+                                                                   m_params.at(columnId).attribute("default").toDouble(), comment, columnId, m_params.at(columnId).attribute("suffix"), m_params.at(columnId).attribute("decimals").toInt(), this);
     connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
     connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
@@ -242,7 +242,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
 
         for (int col = 0; col < keyframe_list->horizontalHeader()->count(); col++) {
             item = keyframe_list->item(row, col);
-	    if (!item) continue;
+            if (!item) continue;
             int v = item->text().toInt();
             if (v >= m_params.at(col).attribute("max").toInt())
                 item->setText(m_params.at(col).attribute("max"));
@@ -384,7 +384,7 @@ void KeyframeEdit::slotAdjustKeyframeValue(double value)
 int KeyframeEdit::getPos(int row)
 {
     if (!keyframe_list->verticalHeaderItem(row))
-       return 0;
+        return 0;
     if (KdenliveSettings::frametimecode())
         return keyframe_list->verticalHeaderItem(row)->text().toInt();
     else
@@ -436,7 +436,7 @@ void KeyframeEdit::slotResetKeyframe()
 void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
 {
     for (int i = 0; i < m_params.count(); ++i) {
-        m_params[i].setAttribute("intimeline", (i == id ? "1" : "0"));        
+        m_params[i].setAttribute("intimeline", (i == id ? "1" : "0"));
     }
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
