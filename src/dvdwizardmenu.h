@@ -40,7 +40,7 @@
 
 class DvdScene : public QGraphicsScene
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
         m_width = 0; m_height = 0;
@@ -62,8 +62,8 @@ private:
     
 protected:
     void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) {
-	QGraphicsScene::mouseReleaseEvent(mouseEvent);
-	emit sceneChanged();
+        QGraphicsScene::mouseReleaseEvent(mouseEvent);
+        emit sceneChanged();
     }
 signals:
     void sceneChanged();
@@ -91,7 +91,7 @@ public:
         setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 #endif
     }
-    void setTarget(int t, QString c) {
+    void setTarget(int t, const QString &c) {
         m_target = t;
         m_command = c;
     }
@@ -156,7 +156,7 @@ public:
     bool createMenu() const;
     void createBackgroundImage(const QString &img1, bool letterbox);
     void createButtonImages(const QString &selected_image, const QString &highlighted_image, bool letterbox);
-    void setTargets(QStringList list, QStringList targetlist);
+    void setTargets(const QStringList &list, const QStringList &targetlist);
     QMap <QString, QRect> buttonsInfo(bool letterbox = false);
     bool loopMovie() const;
     bool menuMovie() const;
@@ -195,7 +195,7 @@ private slots:
     void setButtonTarget(int ix);
     void deleteButton();
     void updateColor();
-    void updateColor(QColor c);
+    void updateColor(const QColor &c);
     void updateUnderlineColor(QColor c);
     void setBackToMenu(bool backToMenu);
     void slotZoom();

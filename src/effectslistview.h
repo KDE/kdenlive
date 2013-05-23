@@ -90,7 +90,7 @@ private slots:
     void slotAutoExpand(const QString &text);
 
 signals:
-    void addEffect(const QDomElement);
+    void addEffect(const QDomElement&);
     void reloadEffects();
 };
 

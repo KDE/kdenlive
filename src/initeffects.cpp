@@ -741,7 +741,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     transitions->append(ret.documentElement());*/
 }
 
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format, QString opacity)
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &name, const QString &tag, const QString &type, const QString &def, const QString &min, const QString &max, const QString &list, const QString &listdisplaynames, const QString &factor, const QString &namedesc, const QString &format, const QString &opacity)
 {
     QDomElement parameter = doc.createElement("parameter");
     parameter.setAttribute("tag", tag);
