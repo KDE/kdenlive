@@ -34,10 +34,10 @@
 
 
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
-        QGraphicsScene(parent),
-        m_selectedItem(NULL),
-        m_resizeMode(NoResize),
-        m_tool(TITLE_RECTANGLE)
+    QGraphicsScene(parent),
+    m_selectedItem(NULL),
+    m_resizeMode(NoResize),
+    m_tool(TITLE_RECTANGLE)
 {
     //grabMouse();
     m_zoom = 1.0;
@@ -53,7 +53,7 @@ void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item)
     update();
 }
 
-TITLETOOL GraphicsSceneRectMove::tool()
+TITLETOOL GraphicsSceneRectMove::tool() const
 {
     return m_tool;
 }
@@ -108,9 +108,9 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
         foreach (QGraphicsItem *qgi, selectedItems()) {
-	    if (qgi->data(-1).toInt() == -1) continue;
-	    removeItem(qgi);
-	    delete qgi;
+            if (qgi->data(-1).toInt() == -1) continue;
+            removeItem(qgi);
+            delete qgi;
         }
         m_selectedItem = NULL;
         emit selectionChanged();
@@ -168,7 +168,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         }
         if (item == NULL  || !(item->flags() & QGraphicsItem::ItemIsSelectable)) {
             if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
-                // disable text editing
+                // disable text editing
                 QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
                 t->textCursor().setPosition(0);
                 QTextBlock cur = t->textCursor().block();
@@ -257,7 +257,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
 void GraphicsSceneRectMove::clearTextSelection()
 {
     if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
-        // disable text editing
+        // disable text editing
         QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
         t->textCursor().setPosition(0);
         QTextBlock cur = t->textCursor().block();
@@ -421,7 +421,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             if (resizeMode == Left || resizeMode == Right ) s = m_selectedItem->boundingRect().width() / newrect.width();
             else s = m_selectedItem->boundingRect().height() / newrect.height();
             m_selectedItem->scale( 1 / s, 1 / s );
-            kDebug()<<"/// SCALING SVG, RESIZE MODE: "<<resizeMode<<", RECT:"<<m_selectedItem->boundingRect();
+            kDebug()<<"/// SCALING SVG, RESIZE MODE: "<<resizeMode<<", RECT:"<<m_selectedItem->boundingRect();
             }*/
             //gi->setPos(m_selectedItem->scenePos());
             /*if (resizeMode == NoResize) {

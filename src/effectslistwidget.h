@@ -61,7 +61,7 @@ private:
      * @param current name of selected effect before reload; if an effect name matches this one it will become selected
      * @param found will be set to true if an effect name matches current
      */
-    void loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString current, bool *found);
+    void loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found);
 
 private slots:
     void slotExpandItem(const QModelIndex & index);

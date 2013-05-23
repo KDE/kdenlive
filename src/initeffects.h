@@ -77,17 +77,19 @@ public:
      * @param tag parameter tag
      * @param type parameter type (string, double, bool, etc.)
      * @return element with the parameter information */
-    static QDomElement quickParameterFill(QDomDocument & doc, QString name,
-                                          QString tag, QString type,
-                                          QString def = QString(),
-                                          QString min = QString(),
-                                          QString max = QString(),
-                                          QString list = QString(),
-                                          QString listdisplaynames = QString(),
-                                          QString factor = QString(),
-                                          QString namedesc = QString(),
-                                          QString format = QString(),
-                                          QString opacity = QString());
+    static QDomElement quickParameterFill(QDomDocument & doc,
+                                          const QString &name,
+                                          const QString &tag,
+                                          const QString &type,
+                                          const QString &def = QString(),
+                                          const QString &min = QString(),
+                                          const QString &max = QString(),
+                                          const QString &list = QString(),
+                                          const QString &listdisplaynames = QString(),
+                                          const QString &factor = QString(),
+                                          const QString &namedesc = QString(),
+                                          const QString &format = QString(),
+                                          const QString &opacity = QString());
 
     /** @brief Parses a file to record information about one or more effects.
      * @param customEffectList list of custom effect

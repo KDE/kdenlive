@@ -44,7 +44,7 @@ public:
     virtual ~Geometryval();
     QDomElement getParamDesc();
     QString getValue() const;
-    void setFrameSize(QPoint p);
+    void setFrameSize(const QPoint &p);
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
     void slotUpdateRange(int inPoint, int outPoint);

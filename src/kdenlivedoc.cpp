@@ -125,7 +125,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
         QLocale::setDefault(systemLocale);
         // locale conversion might need to be redone
-	initEffects::parseEffectFiles(setlocale(LC_NUMERIC, NULL));
+        initEffects::parseEffectFiles(setlocale(LC_NUMERIC, NULL));
     }
 
     *openBackup = false;
@@ -143,50 +143,50 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         else {
             QFile file(tmpFile);
             QString errorMsg;
-	    int line;
-	    int col;
+            int line;
+            int col;
             QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
             success = m_document.setContent(&file, false, &errorMsg, &line, &col);
-	    file.close();
+            file.close();
 
             if (!success) {
                 // It is corrupted
-		int answer = KMessageBox::warningYesNoCancel (parent, i18n("Cannot open the project file, error is:\n%1 (line %2, col %3)\nDo you want to open a backup file?", errorMsg, line, col), i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
+                int answer = KMessageBox::warningYesNoCancel (parent, i18n("Cannot open the project file, error is:\n%1 (line %2, col %3)\nDo you want to open a backup file?", errorMsg, line, col), i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
                 if (answer == KMessageBox::Yes) {
-		    *openBackup = true;
-		}
-		else if (answer == KMessageBox::No) {
-		    // Try to recover broken file produced by Kdenlive 0.9.4
-		    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			int correction = 0;
-			QString playlist = file.readAll();
-			while (!success && correction < 2) {
-			    int errorPos = 0;
-			    line--;
-			    col = col - 2;
-			    for (int j = 0; j < line && errorPos < playlist.length(); j++) {
-				errorPos = playlist.indexOf("\n", errorPos);
-				errorPos++;
-			    }
-			    errorPos += col;
-			    if (errorPos >= playlist.length()) break;
-			    playlist.remove(errorPos, 1);
-			    line = 0;
-			    col = 0;
-			    success = m_document.setContent(playlist, false, &errorMsg, &line, &col);
-			    correction++;
-			}
-			if (!success) {
-			    KMessageBox::sorry(parent, i18n("Cannot recover this project file"));
-			}
-			else {
-			    // Document was modified, ask for backup
-			    QDomElement mlt = m_document.documentElement();
-			    QDomElement info = mlt.firstChildElement("kdenlivedoc");
-			    if (!info.isNull()) info.setAttribute("modified", 1);
-			}
-		    }
-		}
+                    *openBackup = true;
+                }
+                else if (answer == KMessageBox::No) {
+                    // Try to recover broken file produced by Kdenlive 0.9.4
+                    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                        int correction = 0;
+                        QString playlist = file.readAll();
+                        while (!success && correction < 2) {
+                            int errorPos = 0;
+                            line--;
+                            col = col - 2;
+                            for (int j = 0; j < line && errorPos < playlist.length(); j++) {
+                                errorPos = playlist.indexOf("\n", errorPos);
+                                errorPos++;
+                            }
+                            errorPos += col;
+                            if (errorPos >= playlist.length()) break;
+                            playlist.remove(errorPos, 1);
+                            line = 0;
+                            col = 0;
+                            success = m_document.setContent(playlist, false, &errorMsg, &line, &col);
+                            correction++;
+                        }
+                        if (!success) {
+                            KMessageBox::sorry(parent, i18n("Cannot recover this project file"));
+                        }
+                        else {
+                            // Document was modified, ask for backup
+                            QDomElement mlt = m_document.documentElement();
+                            QDomElement info = mlt.firstChildElement("kdenlivedoc");
+                            if (!info.isNull()) info.setAttribute("modified", 1);
+                        }
+                    }
+                }
             }
             if (success) {
                 parent->slotGotProgressInfo(i18n("Validating"), 0);
@@ -250,7 +250,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                         projectTrack.isBlind = e.attribute("blind").toInt();
                                         projectTrack.isLocked = e.attribute("locked").toInt();
                                         projectTrack.trackName = e.attribute("trackname");
-					projectTrack.effectsList = EffectsList(true);
+                                        projectTrack.effectsList = EffectsList(true);
                                         m_tracksList.append(projectTrack);
                                     }
                                 }
@@ -316,11 +316,11 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                     for (int k = 0; k < maxchild; k++) {
                                         e = markerslist.at(k).toElement();
                                         if (e.tagName() == "marker") {
-					    CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
-					    DocClipBase *baseClip = m_clipManager->getClipById(e.attribute("id"));
+                                            CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
+                                            DocClipBase *baseClip = m_clipManager->getClipById(e.attribute("id"));
                                             if (baseClip) baseClip->addSnapMarker(marker);
-					    else kDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
-					}
+                                            else kDebug()<< " / / Warning, missing clip: "<< e.attribute("id");
+                                        }
                                     }
                                     infoXml.removeChild(markers);
                                 }
@@ -425,7 +425,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         audioTrack.isLocked = false;
         audioTrack.trackName = QString("Audio ") + QString::number(audiotracks - i);
         audioTrack.duration = 0;
-	audioTrack.effectsList = EffectsList(true);
+        audioTrack.effectsList = EffectsList(true);
         m_tracksList.append(audioTrack);
 
     }
@@ -437,7 +437,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.isLocked = false;
         videoTrack.trackName = QString("Video ") + QString::number(videotracks - i);
         videoTrack.duration = 0;
-	videoTrack.effectsList = EffectsList(true);
+        videoTrack.effectsList = EffectsList(true);
         m_tracksList.append(videoTrack);
     }
     return createEmptyDocument(m_tracksList);
@@ -763,7 +763,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
             marker.setAttribute("time", marks.at(j).time().ms() / 1000);
             marker.setAttribute("comment", marks.at(j).comment());
             marker.setAttribute("id", e.attribute("id"));
-	    marker.setAttribute("type", marks.at(j).markerType());
+            marker.setAttribute("type", marks.at(j).markerType());
             markers.appendChild(marker);
         }
     }
@@ -808,7 +808,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
     if (!autosave) {
         cleanupBackupFiles();
         QFileInfo info(file);
-        QString fileName = KUrl(path).fileName().section('.', 0, -2);   
+        QString fileName = KUrl(path).fileName().section('.', 0, -2);
         fileName.append('-' + m_documentProperties.value("documentid"));
         fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
         fileName.append(".kdenlive.png");
@@ -1054,7 +1054,7 @@ KUrl KdenliveDoc::url() const
     return m_url;
 }
 
-void KdenliveDoc::setUrl(KUrl url)
+void KdenliveDoc::setUrl(const KUrl &url)
 {
     m_url = url;
 }
@@ -1082,7 +1082,7 @@ const QString KdenliveDoc::description() const
         return m_url.fileName() + " / " + m_profile.description;
 }
 
-bool KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
+bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createClipItem)
 {
     const QString producerId = clipId.section('_', 0, 0);
     DocClipBase *clip = m_clipManager->getClipById(producerId);
@@ -1215,7 +1215,7 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
     return foundFileName;
 }
 
-bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId)
+bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId)
 {
     DocClipBase *clip = m_clipManager->getClipById(clipId);
     if (clip == NULL) {
@@ -1226,7 +1226,7 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
         QDomNamedNodeMap attributes = elem.attributes();
         for (int i = 0; i < attributes.count(); ++i) {
             QString attrname = attributes.item(i).nodeName();
-	    if (attrname != "resource")
+            if (attrname != "resource")
                 properties.insert(attrname, attributes.item(i).nodeValue());
             //kDebug() << attrname << " = " << attributes.item(i).nodeValue();
         }
@@ -1238,9 +1238,9 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
         for (QDomNode m = orig.firstChild(); !m.isNull(); m = m.nextSibling()) {
             QString name = m.toElement().attribute("name");
             if (name.startsWith("meta.attr")) {
-		if (name.endsWith(".markup")) name = name.section('.', 0, -2);
+                if (name.endsWith(".markup")) name = name.section('.', 0, -2);
                 meta.insert(name.section('.', 2, -1), m.firstChild().nodeValue());
-	    }
+            }
         }
         if (!meta.isEmpty()) {
             if (clip == NULL)
@@ -1283,21 +1283,21 @@ DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId)
     return m_clipManager->getClipById(clipId);
 }
 
-void KdenliveDoc::slotCreateXmlClip(const QString &name, const QDomElement xml, QString group, const QString &groupId)
+void KdenliveDoc::slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId)
 {
     m_clipManager->slotAddXmlClipFile(name, xml, group, groupId);
     setModified(true);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
-void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color, const QString &duration, QString group, const QString &groupId)
+void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId)
 {
     m_clipManager->slotAddColorClipFile(name, color, duration, group, groupId);
     setModified(true);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
-void KdenliveDoc::slotCreateSlideshowClipFile(QMap <QString, QString> properties, QString group, const QString &groupId)
+void KdenliveDoc::slotCreateSlideshowClipFile(const QMap <QString, QString> &properties, const QString &group, const QString &groupId)
 {
     m_clipManager->slotAddSlideshowClipFile(properties, group, groupId);
     setModified(true);
@@ -1317,7 +1317,7 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, cons
     delete dia_ui;
 }
 
-void KdenliveDoc::slotCreateTextTemplateClip(QString group, const QString &groupId, KUrl path)
+void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, KUrl path)
 {
     QString titlesFolder = projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
     if (path.isEmpty()) {
@@ -1384,7 +1384,7 @@ void KdenliveDoc::switchTrackVideo(int ix, bool hide)
 
 int KdenliveDoc::trackDuration(int ix)
 {
-    return m_tracksList.at(ix).duration; 
+    return m_tracksList.at(ix).duration;
 }
 
 void KdenliveDoc::setTrackDuration(int ix, int duration)
@@ -1392,7 +1392,7 @@ void KdenliveDoc::setTrackDuration(int ix, int duration)
     m_tracksList[ix].duration = duration;
 }
 
-void KdenliveDoc::insertTrack(int ix, TrackInfo type)
+void KdenliveDoc::insertTrack(int ix, const TrackInfo &type)
 {
     if (ix == -1) m_tracksList << type;
     else m_tracksList.insert(ix, type);
@@ -1407,7 +1407,7 @@ void KdenliveDoc::deleteTrack(int ix)
     m_tracksList.removeAt(ix);
 }
 
-void KdenliveDoc::setTrackType(int ix, TrackInfo type)
+void KdenliveDoc::setTrackType(int ix, const TrackInfo &type)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
         kWarning() << "SET Track Type outisde of range";
@@ -1541,7 +1541,7 @@ void KdenliveDoc::addTrackEffect(int ix, QDomElement effect)
     m_tracksList[ix].effectsList.append(effect);
 }
 
-void KdenliveDoc::removeTrackEffect(int ix, QDomElement effect)
+void KdenliveDoc::removeTrackEffect(int ix, const QDomElement &effect)
 {
     if (ix < 0 || ix >= m_tracksList.count()) {
         kWarning() << "Remove Track effect outisde of range";
@@ -1574,7 +1574,7 @@ void KdenliveDoc::setTrackEffect(int trackIndex, int effectIndex, QDomElement ef
     //m_tracksList[trackIndex].effectsList.updateEffect(effect);
 }
 
-void KdenliveDoc::enableTrackEffects(int trackIndex, QList <int> effectIndexes, bool disable)
+void KdenliveDoc::enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable)
 {
     if (trackIndex < 0 || trackIndex >= m_tracksList.count()) {
         kWarning() << "Set Track effect outisde of range";
@@ -1583,8 +1583,8 @@ void KdenliveDoc::enableTrackEffects(int trackIndex, QList <int> effectIndexes, 
     EffectsList list = m_tracksList.at(trackIndex).effectsList;
     QDomElement effect;
     for (int i = 0; i < effectIndexes.count(); ++i) {
-	effect = list.itemFromIndex(effectIndexes.at(i));
-	if (!effect.isNull()) effect.setAttribute("disable", (int) disable);
+        effect = list.itemFromIndex(effectIndexes.at(i));
+        if (!effect.isNull()) effect.setAttribute("disable", (int) disable);
     }
 }
 
@@ -1618,15 +1618,15 @@ int KdenliveDoc::hasTrackEffect(int trackIndex, const QString &tag, const QStrin
     return list.hasEffect(tag, id);
 }
 
-bool KdenliveDoc::saveCustomEffects(QDomNodeList customeffects)
+bool KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
 {
     QDomElement e;
     QStringList importedEffects;
     int maxchild = customeffects.count();
     for (int i = 0; i < maxchild; ++i) {
         e = customeffects.at(i).toElement();
-        QString id = e.attribute("id");
-        QString tag = e.attribute("tag");
+        const QString id = e.attribute("id");
+        const QString tag = e.attribute("tag");
         if (!id.isEmpty()) {
             // Check if effect exists or save it
             if (MainWindow::customEffects.hasEffect(tag, id) == -1) {
@@ -1645,7 +1645,8 @@ bool KdenliveDoc::saveCustomEffects(QDomNodeList customeffects)
             }
         }
     }
-    if (!importedEffects.isEmpty()) KMessageBox::informationList(kapp->activeWindow(), i18n("The following effects were imported from the project:"), importedEffects);
+    if (!importedEffects.isEmpty())
+        KMessageBox::informationList(kapp->activeWindow(), i18n("The following effects were imported from the project:"), importedEffects);
     return (!importedEffects.isEmpty());
 }
 
@@ -1746,7 +1747,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
         if (!QFile::copy(path, backupFile.path())) {
             KMessageBox::information(kapp->activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile.path()));
         }
-    }    
+    }
 }
 
 void KdenliveDoc::cleanupBackupFiles()

@@ -36,7 +36,7 @@ public:
     void setScale(double s);
     void setZoom(double s);
     void setTool(TITLETOOL tool);
-    TITLETOOL tool();
+    TITLETOOL tool() const;
     void clearTextSelection();
 
 public slots:

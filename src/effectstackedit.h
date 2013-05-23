@@ -70,7 +70,7 @@ public slots:
     void slotSyncEffectsPos(int pos);
 
 signals:
-    void parameterChanged(const QDomElement, const QDomElement, int);
+    void parameterChanged(const QDomElement&, const QDomElement&, int);
     void seekTimeline(int);
     void displayMessage(const QString&, int);
     void checkMonitorPosition(int);
@@ -78,7 +78,7 @@ signals:
     void showComments(bool show);
     void effectStateChanged(bool enabled);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString>);
+    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString>&);
     void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
 };
 

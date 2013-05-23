@@ -489,7 +489,7 @@ void Geometryval::slotResetPosition()
     }
 }
 
-void Geometryval::setFrameSize(QPoint p)
+void Geometryval::setFrameSize(const QPoint &p)
 {
     m_frameSize = p;
 }

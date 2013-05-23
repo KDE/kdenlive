@@ -70,19 +70,19 @@ void EncodingProfilesDialog::slotLoadProfiles()
     profile_list->clear();
     QString group;
     switch (profile_type->currentIndex()) {
-        case 0: 
-            group = "proxy";
-            break;          
-        case 1: 
-            group = "video4linux";
-            break;
-	case 2: 
-            group = "screengrab";
-            break;
-        default:
-        case 3: 
-            group = "decklink";
-            break;
+    case 0:
+        group = "proxy";
+        break;
+    case 1:
+        group = "video4linux";
+        break;
+    case 2:
+        group = "screengrab";
+        break;
+    default:
+    case 3:
+        group = "decklink";
+        break;
     }
 
     delete m_configGroup;

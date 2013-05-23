@@ -66,7 +66,7 @@ QString JogShuttleConfig::actionMap(const QStringList& actionMap)
   for (int i=0; i < actionMap.size(); ++i) {
       if (actionMap[i].isEmpty())
           continue;
-      mappings << QString("%1%2%3%4").arg(BUTTON_PREFIX).arg(i).arg(KEY_VALUE_SEP).arg(actionMap[i]);
+      mappings << QString::fromLatin1("%1%2%3%4").arg(BUTTON_PREFIX).arg(i).arg(KEY_VALUE_SEP).arg(actionMap[i]);
   }
 
   return mappings.join(DELIMITER);

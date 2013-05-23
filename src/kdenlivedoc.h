@@ -50,7 +50,8 @@ class KProgressDialog;
 
 class KdenliveDoc: public QObject
 {
-Q_OBJECT public:
+    Q_OBJECT
+public:
 
     KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
     ~KdenliveDoc();
@@ -72,7 +73,7 @@ Q_OBJECT public:
 
     /** @brief Adds a clip to the project tree.
      * @return false if the user aborted the operation, true otherwise */
-    bool addClip(QDomElement elem, QString clipId, bool createClipItem = true);
+    bool addClip(QDomElement elem, const QString &clipId, bool createClipItem = true);
 
     /** @brief Updates information about a clip.
      * @param elem the <kdenlive_producer />
@@ -82,7 +83,7 @@ Q_OBJECT public:
      *     there yet), true otherwise
      *
      * If the clip wasn't added before, it tries to add it to the project. */
-    bool addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
+    bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
     void slotAddClipList(const KUrl::List urls, stringMap data = stringMap());
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
@@ -94,7 +95,7 @@ Q_OBJECT public:
     const QString &profilePath() const;
     MltVideoProfile mltProfile() const;
     const QString description() const;
-    void setUrl(KUrl url);
+    void setUrl(const KUrl &url);
 
     /** @brief Updates the project profile.
      * @return true if frame rate was changed */
@@ -117,9 +118,9 @@ Q_OBJECT public:
     bool saveSceneList(const QString &path, const QString &scene, const QStringList &expandedFolders, bool autosave = false);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
-    void insertTrack(int ix, TrackInfo type);
+    void insertTrack(int ix, const TrackInfo &type);
     void deleteTrack(int ix);
-    void setTrackType(int ix, TrackInfo type);
+    void setTrackType(int ix, const TrackInfo &type);
     const QList <TrackInfo> tracksList() const;
 
     /** @brief Gets the number of audio and video tracks and returns them as a QPoint with x = video, y = audio. */
@@ -150,11 +151,11 @@ Q_OBJECT public:
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap <QString, QString> getRenderProperties() const;
     void addTrackEffect(int ix, QDomElement effect);
-    void removeTrackEffect(int ix, QDomElement effect);
+    void removeTrackEffect(int ix, const QDomElement &effect);
     void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
     const EffectsList getTrackEffects(int ix);
     /** @brief Enable / disable an effect in Kdenlive's xml list. */
-    void enableTrackEffects(int trackIndex, QList <int> effectIndexes, bool disable);
+    void enableTrackEffects(int trackIndex, const QList<int> &effectIndexes, bool disable);
     QDomElement getTrackEffect(int trackIndex, int effectIndex) const;
     /** @brief Check if a track already contains a specific effect. */
     int hasTrackEffect(int trackIndex, const QString &tag, const QString &id) const;
@@ -203,7 +204,7 @@ private:
     QDomDocument createEmptyDocument(QList <TrackInfo> tracks);
     /** @brief Saves effects embedded in project file.
     *   @return True if effects were imported.  */
-    bool saveCustomEffects(QDomNodeList customeffects);
+    bool saveCustomEffects(const QDomNodeList &customeffects);
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();
@@ -211,11 +212,11 @@ private:
     void cleanupBackupFiles();
 
 public slots:
-    void slotCreateXmlClip(const QString &name, const QDomElement xml, QString group, const QString &groupId);
-    void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, QString group, const QString &groupId);
-    void slotCreateSlideshowClipFile(QMap <QString, QString> properties, QString group, const QString &groupId);
+    void slotCreateXmlClip(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
+    void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
+    void slotCreateSlideshowClipFile(const QMap<QString, QString> &properties, const QString &group, const QString &groupId);
     void slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath = QString());
-    void slotCreateTextTemplateClip(QString group, const QString &groupId, KUrl path);
+    void slotCreateTextTemplateClip(const QString &group, const QString &groupId, KUrl path);
 
     /** @brief Sets the document as modified or up to date.
      * @param mod (optional) true if the document has to be saved */

@@ -48,7 +48,7 @@ public:
     * @param isEffect true if used in an effect, false if used in a transition
     * @param showRotation Should we show or hide the rotation sliders
     * @param parent (optional) Parent widget */
-    GeometryWidget(Monitor *monitor, const Timecode &timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent = 0);
+    explicit GeometryWidget(Monitor *monitor, const Timecode &timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent = 0);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;
@@ -56,7 +56,7 @@ public:
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
     /** @brief Sets the size of the original clip. */
-    void setFrameSize(QPoint size);
+    void setFrameSize(const QPoint &size);
     void addParameter(const QDomElement &elem);
     void importKeyframes(const QString &data, int maximum);
     int currentPosition() const;
