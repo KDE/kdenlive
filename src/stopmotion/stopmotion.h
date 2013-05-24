@@ -36,7 +36,7 @@ class MyLabel : public QLabel
 {
     Q_OBJECT
 public:
-    MyLabel(QWidget* parent = 0);
+    explicit MyLabel(QWidget* parent = 0);
     void setImage(const QImage &img);
 
 protected:
