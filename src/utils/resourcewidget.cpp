@@ -67,9 +67,9 @@
 #endif
 
 ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
-        QDialog(parent),
-        m_folder(folder),
-        m_currentService(NULL)
+    QDialog(parent),
+    m_folder(folder),
+    m_currentService(NULL)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -176,7 +176,7 @@ void ResourceWidget::slotUpdateCurrentSound()
 }
 
 
-void ResourceWidget::slotLoadThumb(const QString url)
+void ResourceWidget::slotLoadThumb(const QString &url)
 {
     KUrl img(url);
     if (img.isEmpty()) return;
@@ -184,7 +184,7 @@ void ResourceWidget::slotLoadThumb(const QString url)
         if (KIO::NetAccess::download(img, m_tmpThumbFile, this)) {
             slotSetImage(m_tmpThumbFile);
             /*QPixmap pix(tmpFile);
-            
+
             int newHeight = pix.height() * item_image->width() / pix.width();
             if (newHeight > 200) {
                 item_image->setScaledContents(false);
@@ -243,7 +243,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     if (saveUrl.isEmpty() || !KIO::NetAccess::stat(srcUrl, entry, this)) return;
     KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, KUrl(saveUrl), -1, KIO::Overwrite);
     
-    KFileItem info(entry, srcUrl); 
+    KFileItem info(entry, srcUrl);
     getJob->setSourceSize(info.size());
     getJob->setProperty("license", item_license->text());
     getJob->setProperty("licenseurl", item_license->url());
@@ -261,27 +261,27 @@ void ResourceWidget::slotGotFile(KJob *job)
     const KUrl filePath = copyJob->destUrl();
 #ifdef USE_NEPOMUK
 #if KDE_IS_VERSION(4,6,0)
-        Nepomuk::Resource res( filePath );
-        res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
-        res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
-        res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
-        res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
-        //res.setDescription(item_description->toPlainText());
-        //res.setProperty( Soprano::Vocabulary::NAO::description(), 
+    Nepomuk::Resource res( filePath );
+    res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
+    res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
+    res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
+    res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
+    //res.setDescription(item_description->toPlainText());
+    //res.setProperty( Soprano::Vocabulary::NAO::description(),
 #endif
 #endif
 
 #ifdef USE_NEPOMUKCORE
-        Nepomuk2::Resource res( filePath );
-        res.setProperty( Nepomuk2::Vocabulary::NIE::license(), (Nepomuk2::Variant) job->property("license") );
-        res.setProperty( Nepomuk2::Vocabulary::NIE::licenseType(), (Nepomuk2::Variant) job->property("licenseurl") );
-        res.setProperty( Nepomuk2::Vocabulary::NDO::copiedFrom(), (Nepomuk2::Variant) job->property("originurl") );
-        res.setProperty( Nepomuk2::Vocabulary::NCO::creator(), (Nepomuk2::Variant) job->property("author") );
-        //res.setDescription(item_description->toPlainText());
-        //res.setProperty( Soprano::Vocabulary::NAO::description(), 
+    Nepomuk2::Resource res( filePath );
+    res.setProperty( Nepomuk2::Vocabulary::NIE::license(), (Nepomuk2::Variant) job->property("license") );
+    res.setProperty( Nepomuk2::Vocabulary::NIE::licenseType(), (Nepomuk2::Variant) job->property("licenseurl") );
+    res.setProperty( Nepomuk2::Vocabulary::NDO::copiedFrom(), (Nepomuk2::Variant) job->property("originurl") );
+    res.setProperty( Nepomuk2::Vocabulary::NCO::creator(), (Nepomuk2::Variant) job->property("author") );
+    //res.setDescription(item_description->toPlainText());
+    //res.setProperty( Soprano::Vocabulary::NAO::description(),
 #endif
 
-        emit addClip(filePath, stringMap());
+    emit addClip(filePath, stringMap());
 }
 
 void ResourceWidget::slotOpenUrl(const QString &url)

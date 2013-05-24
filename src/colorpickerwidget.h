@@ -35,10 +35,10 @@ class MyFrame : public QFrame
 {
     Q_OBJECT
 public:
-    MyFrame(QWidget* parent = 0);
+    explicit MyFrame(QWidget* parent = 0);
 
 protected:
-    virtual void hideEvent ( QHideEvent * event );
+    void hideEvent ( QHideEvent * event );
 
 signals:
     void getColor();

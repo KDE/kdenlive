@@ -123,7 +123,7 @@ void ColorPlaneExport::slotUpdateDisplays()
         break;
     }
 
-    lblSize->setText(i18n("%1 px", QVariant(tResX->text()).toInt()*QVariant(tResY->text()).toInt()));
+    lblSize->setText(i18n("%1 px", tResX->text().toInt()*tResY->text().toInt()));
 }
 
 void ColorPlaneExport::slotValidate()

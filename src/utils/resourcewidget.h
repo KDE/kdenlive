@@ -60,7 +60,7 @@ private slots:
     void slotNextPage();
     void slotPreviousPage();
     void slotOpenLink(const QUrl &url);
-    void slotLoadThumb(const QString url);
+    void slotLoadThumb(const QString& url);
     /** @brief A file download is finished */
     void slotGotFile(KJob *job);
     void slotSetMetadata(const QString &desc);
@@ -86,7 +86,7 @@ private:
     void updateLayout();
    
 signals:
-    void addClip(KUrl, stringMap data);
+    void addClip(const KUrl &, const stringMap &data);
 };
 
 
