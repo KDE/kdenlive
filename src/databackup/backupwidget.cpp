@@ -110,3 +110,5 @@ QString BackupWidget::selectedFile() const
     return backup_list->currentItem()->data(Qt::UserRole).toString();
 }
 
+
+#include "backupwidget.moc"
