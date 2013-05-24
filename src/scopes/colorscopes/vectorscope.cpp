@@ -138,7 +138,10 @@ Vectorscope::~Vectorscope()
     delete ui;
 }
 
-QString Vectorscope::widgetName() const { return QString("Vectorscope"); }
+QString Vectorscope::widgetName() const
+{
+    return QLatin1String("Vectorscope");
+}
 
 void Vectorscope::readConfig()
 {
@@ -259,7 +262,7 @@ QImage Vectorscope::renderHUD(uint)
     return hud;
 }
 
-QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage qimage)
+QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage)
 {
     QTime start = QTime::currentTime();
     QImage scope;

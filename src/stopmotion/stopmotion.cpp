@@ -58,8 +58,10 @@ void MyLabel::setImage(const QImage& img)
 //virtual
 void MyLabel::wheelEvent(QWheelEvent* event)
 {
-    if (event->delta() > 0) emit seek(true);
-    else emit seek(false);
+    if (event->delta() > 0)
+        emit seek(true);
+    else
+        emit seek(false);
 }
 
 //virtual
@@ -141,14 +143,14 @@ void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 
 StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectFolder, const QList<QAction *> &actions, QWidget* parent) :
     QDialog(parent)
-    , Ui::Stopmotion_UI()
-    , m_projectFolder(projectFolder)
-    , m_captureDevice(NULL)
-    , m_sequenceFrame(0)
-    , m_animatedIndex(-1)
-    , m_animate(false)
-    , m_manager(manager)
-    , m_monitor(new StopmotionMonitor(manager, this))
+  , Ui::Stopmotion_UI()
+  , m_projectFolder(projectFolder)
+  , m_captureDevice(NULL)
+  , m_sequenceFrame(0)
+  , m_animatedIndex(-1)
+  , m_animate(false)
+  , m_manager(manager)
+  , m_monitor(new StopmotionMonitor(manager, this))
 {
     //setAttribute(Qt::WA_DeleteOnClose);
     //HACK: the monitor widget is hidden, it is just used to control the capturedevice from monitormanager
@@ -707,8 +709,9 @@ void StopmotionWidget::slotCreateThumbs(const QImage &img, int ix)
 
 QString StopmotionWidget::getPathForFrame(int ix, QString seqName)
 {
-    if (seqName.isEmpty()) seqName = m_sequenceName;
-    return m_projectFolder.path(KUrl::AddTrailingSlash) + seqName + '_' + QString::number(ix).rightJustified(4, '0', false) + ".png";
+    if (seqName.isEmpty())
+        seqName = m_sequenceName;
+    return m_projectFolder.path(KUrl::AddTrailingSlash) + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QLatin1String(".png");
 }
 
 void StopmotionWidget::slotShowFrame(const QString& path)
@@ -835,7 +838,8 @@ void StopmotionWidget::selectFrame(int ix)
 {
     frame_list->blockSignals(true);
     QListWidgetItem* item = getFrameFromIndex(ix);
-    if (!item) return;
+    if (!item)
+        return;
     frame_list->setCurrentItem(item);
     frame_list->blockSignals(false);
 }
@@ -852,7 +856,9 @@ void StopmotionWidget::slotRemoveFrame()
 {
     if (frame_list->currentItem() == NULL) return;
     QString path = frame_list->currentItem()->toolTip();
-    if (KMessageBox::questionYesNo(this, i18n("Delete frame %1 from disk?", path), i18n("Delete Frame")) != KMessageBox::Yes) return;
+    if (KMessageBox::questionYesNo(this, i18n("Delete frame %1 from disk?", path), i18n("Delete Frame")) != KMessageBox::Yes)
+        return;
+
     QFile f(path);
     if (f.remove()) {
         QListWidgetItem* item = frame_list->takeItem(frame_list->currentRow());
@@ -875,7 +881,8 @@ void StopmotionWidget::slotSwitchAnalyse(bool isOn)
 void StopmotionWidget::slotSwitchMirror(bool isOn)
 {
     //KdenliveSettings::setAnalyse_stopmotion(isOn);
-    if (m_captureDevice) m_captureDevice->mirror(isOn);
+    if (m_captureDevice)
+        m_captureDevice->mirror(isOn);
 }
 
 
