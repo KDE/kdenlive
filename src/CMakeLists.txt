@@ -66,7 +66,7 @@ macro_log_feature(Nepomuk_FOUND
   "http://nepomuk.semanticdesktop.org"
 )
 
-find_package(NepomukCore QUIET CONFIG)
+find_package(NepomukCore QUIET)
 set_package_properties(NepomukCore PROPERTIES DESCRIPTION "The Nepomuk Core libraries" URL "http://www.kde.org" TYPE RECOMMENDED PURPOSE "Support for the Nepomuk semantic desktop system")
 
 
