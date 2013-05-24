@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "binmodel.h"
 #include "abstractprojectpart.h"
 #include "projectmanager.h"
-#include "monitor/monitormodel.h"
+#include "monitor/monitorview.h"
 #include "kdenlivesettings.h"
 
 #include <mlt++/Mlt.h>
@@ -92,12 +92,12 @@ Mlt::Profile* Project::profile() const
     return m_timeline->profile();
 }
 
-MonitorModel* Project::binMonitor()
+MonitorView* Project::binMonitor()
 {
     return m_bin->monitor();
 }
 
-MonitorModel* Project::timelineMonitor()
+MonitorView* Project::timelineMonitor()
 {
     return m_timeline->monitor();
 }

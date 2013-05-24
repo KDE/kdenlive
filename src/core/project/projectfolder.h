@@ -50,6 +50,7 @@ public:
      * @param id id of the child which should be returned
      */
     AbstractProjectClip *clip(const QString &id);
+    AbstractProjectClip* clipAt(int index);
     /** @brief Returns a pointer to the bin model this folder belongs to. */
     BinModel *bin();
 

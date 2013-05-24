@@ -43,11 +43,11 @@ MainWindow::MainWindow(const QString &mltPath, const KUrl &url, const QString & 
 
     m_timeline = new TimelineWidget(this);
     setCentralWidget(m_timeline);
+    setDockNestingEnabled(true);
 
     KStandardAction::quit(this, SLOT(close()), actionCollection());
 
     pCore->pluginManager()->load();
-
     setupGUI();
 
     if (!url.isEmpty() && url.isValid()) {

@@ -46,6 +46,8 @@ public:
 
     /** @brief Returns the currently displayed position. */
     int position() const;
+    int duration() const;
+    void setSeekPos(int position);
 
 public slots:
     /** @brief Updates the length in frames to show. */
@@ -55,9 +57,11 @@ public slots:
      * positionChanged is not emitted
      */
     void setPosition(int position);
+    void slotSetThumbnail(int position, QImage img);
 
 signals:
     void positionChanged(int position);
+    void requestThumb(int position);
 
 protected:
     void mousePressEvent(QMouseEvent *event);

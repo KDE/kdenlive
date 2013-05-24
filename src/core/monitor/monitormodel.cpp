@@ -145,6 +145,7 @@ int MonitorModel::position() const
 
 void MonitorModel::setSpeed(double speed)
 {
+    return;
     if (m_producer) {
         m_producer->set_speed(speed);
         emit speedChanged(speed);

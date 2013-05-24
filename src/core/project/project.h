@@ -16,12 +16,13 @@ the Free Software Foundation, either version 3 of the License, or
 #include <kdemacros.h>
 
 class TimecodeFormatter;
-class MonitorModel;
+class MonitorView;
 class Timeline;
 class BinModel;
 class QDomElement;
 class QDomDocument;
 class QUndoStack;
+class MltController;
 namespace Mlt
 {
     class Profile;
@@ -65,9 +66,9 @@ public:
     /** @brief Returns a pointer to the bin model. */
     BinModel *bin();
     /** @brief Returns a pointer to the bin monitor model. */
-    MonitorModel *binMonitor();
+    MonitorView *binMonitor();
     /** @brief Returns a pointer to the timeline monitor model. */
-    MonitorModel *timelineMonitor();
+    MonitorView *timelineMonitor();
     /** @brief Returns a pointer to the used profile. */
     Mlt::Profile *profile() const;
     /** @brief Returns a pointer to the used timecode formatter. */

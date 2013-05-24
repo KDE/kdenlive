@@ -5,6 +5,9 @@ set(QT_USE_QTSVG 1)
 set(QT_USE_QTXML 1)
 
 find_package(OpenGL REQUIRED)
+
+find_package(GLEW REQUIRED)
+
 if(APPLE)
   find_package(SDL REQUIRED)
 endif(APPLE)
@@ -29,6 +32,13 @@ if(WITH_JogShuttle)
     set(BUILD_JogShuttle TRUE)
   endif(HAVE_LINUX_INPUT_H)
 endif(WITH_JogShuttle)
+
+macro_log_feature(GLEW_FOUND
+  "GLEW"
+  "OpenGL Extension Wrangler Library (GLEW)"
+  ""
+  TRUE
+)
 
 macro_log_feature(QT_QTOPENGL_FOUND
   "QtOpenGL"

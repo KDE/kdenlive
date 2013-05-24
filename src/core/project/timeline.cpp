@@ -13,18 +13,23 @@ the Free Software Foundation, either version 3 of the License, or
 #include "producerwrapper.h"
 #include "timelinetrack.h"
 #include "timelinebackground.h"
+#include <src/monitor.h>
 #include "monitor/monitormodel.h"
 #include "kdenlivesettings.h"
 #include <mlt++/Mlt.h>
 #include <KLocale>
+#include <KDebug>
 
 
 Timeline::Timeline(const QString& document, Project* parent) :
     QObject(parent),
-    m_parent(parent)
+    m_parent(parent),
+    m_monitor(NULL)
 {
     // profile we set doesn't matter, it will be overwritten anyways with the info in the profile tag
     m_profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
+    m_profile->set_explicit(1);
+    kDebug()<<"// SETTING PROJECT PROFILE: "<<KdenliveSettings::default_profile();
     if (document.isEmpty()) {
 	// Creating blank project
 	QString blankDocument = getBlankDocument();
@@ -44,8 +49,10 @@ Timeline::Timeline(const QString& document, Project* parent) :
 
     m_tractor = new Mlt::Tractor(service);
 
-    m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
-    m_monitor->setProducer(m_producer);
+    //TODO: create mon
+    //m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
+    //m_monitor->setProducer(m_producer);
+    
 //     m_producer->optimise();
 
     m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
@@ -57,6 +64,11 @@ Timeline::~Timeline()
     delete m_producerChangeEvent;
     delete m_producer;
     delete m_profile;
+}
+
+void Timeline::setMonitor(MonitorView *monitor)
+{
+    m_monitor = monitor;
 }
 
 QString Timeline::getBlankDocument() const
@@ -126,7 +138,7 @@ ProducerWrapper* Timeline::producer()
     return m_producer;
 }
 
-MonitorModel* Timeline::monitor()
+MonitorView* Timeline::monitor()
 {
     return m_monitor;
 //     return m_parent->binMonitor();

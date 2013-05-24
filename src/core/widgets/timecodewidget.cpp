@@ -118,6 +118,7 @@ void TimecodeWidget::setValue(Timecode value)
 
 void TimecodeWidget::onEditingFinished()
 {
+    if (!m_timecodeFormatter) return;
     lineEdit()->deselect();
     setValue(m_timecodeFormatter->fromString(lineEdit()->text()));
     emit editingFinished();
@@ -157,6 +158,7 @@ QAbstractSpinBox::StepEnabled TimecodeWidget::stepEnabled() const
 void TimecodeWidget::updateMask()
 {
     lineEdit()->clear();
+    if (!m_timecodeFormatter) return;
     if (m_timecodeFormatter->defaultFormat() == TimecodeFormatter::Frames) {
         QIntValidator *validator = new QIntValidator(lineEdit());
         validator->setBottom(0);

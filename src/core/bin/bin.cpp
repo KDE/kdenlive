@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "bin.h"
+#include "project/binmodel.h"
 #include "projectitemmodel.h"
 #include "project/project.h"
 #include "project/projectmanager.h"
@@ -20,6 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTreeView>
 #include <QListView>
 #include <QHeaderView>
+#include <QTimer>
 #include <KToolBar>
 #include <KSelectAction>
 #include <KLocale>
@@ -73,9 +75,11 @@ Bin::Bin(QWidget* parent) :
 
     QSlider *slider = new QSlider(Qt::Horizontal, this);
     slider->setMaximumWidth(100);
+    slider->setRange(0, 80);
     slider->setValue(m_iconSize / 2);
     connect(slider, SIGNAL(valueChanged(int)), this, SLOT(slotSetIconSize(int)));
     toolbar->addWidget(slider);
+    
 
     KSelectAction *listType = new KSelectAction(KIcon("view-list-tree"), i18n("View Mode"), this);
     KAction *treeViewAction = listType->addAction(KIcon("view-list-tree"), i18n("Tree View"));
@@ -97,7 +101,7 @@ Bin::Bin(QWidget* parent) :
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 }
 
-Bin::~Bin()
+Bin::~Bin()	
 {
 }
 
@@ -117,8 +121,50 @@ void Bin::setProject(Project* project)
     }
     
     m_itemModel = new ProjectItemModel(project->bin(), this);
-
+    m_itemModel->setIconSize(m_iconSize);
+    connect(m_itemModel, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(rowsInserted(const QModelIndex &, int , int)));
+    connect(m_itemModel, SIGNAL(selectModel(const QModelIndex&)), this, SLOT(selectModel(const QModelIndex&)));
+    //connect(m_itemModel, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), m_itemView
+    //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
+    
     slotInitView(NULL);
+}
+
+void Bin::rowsInserted(const QModelIndex &parent, int start, int end)
+{
+    kDebug()<<" * * * * *RWS INST: "<<end;
+    QModelIndex id = m_itemModel->index(end, 0, QModelIndex());
+    selectModel(id);
+    if (id.isValid()) {
+        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(id.internalPointer());
+        currentItem->setCurrent(true);
+    }
+    else {
+	kDebug()<<" * * * * *CURRENT IS INVALID!!!";
+    }
+    
+    /*QModelIndex id = m_itemModel->index(end, 0, QModelIndex());
+    m_itemView->setCurrentIndex(id);
+    /*AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(id.internalPointer());
+    currentItem->setCurrent(true);*/
+    
+    /*QModelIndex parent2 = m_itemModel->selectionModel()->currentIndex();
+    AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(parent2.internalPointer());
+    if (currentItem) currentItem->setCurrent(true);*/
+}
+
+void Bin::selectModel(const QModelIndex &parent)
+{
+    //QTimer::singleShot(100, this, SLOT(autoSelect()));
+    kDebug()<<"// SELECTING ITEM: "<<parent.row();
+    m_itemView->setCurrentIndex(parent);
+}
+
+void Bin::autoSelect()
+{
+    QModelIndex parent2 = m_itemModel->selectionModel()->currentIndex();
+    AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(parent2.internalPointer());
+    currentItem->setCurrent(true);
 }
 
 void Bin::slotInitView(QAction *action)
@@ -175,6 +221,7 @@ void Bin::slotSetIconSize(int size)
     }
     m_iconSize = size * 2;
     m_itemView->setIconSize(QSize(m_iconSize, m_iconSize));
+    m_itemModel->setIconSize(m_iconSize);
 }
 
 #include "bin.moc"

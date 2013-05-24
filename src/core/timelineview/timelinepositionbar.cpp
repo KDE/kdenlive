@@ -25,7 +25,7 @@
 #include "timecode.h"
 #include "project/timeline.h"
 #include "project/producerwrapper.h"
-#include "monitor/monitormodel.h"
+#include "monitor/monitorview.h"
 #include <KGlobalSettings>
 #include <KLocale>
 #include <QMouseEvent>
@@ -79,8 +79,8 @@ void TimelinePositionBar::setProject(Project* project)
     connect(m_timecodeFormatter, SIGNAL(defaultFormatChanged()), this, SLOT(update()));
 
     m_playbackPosition = project->timelineMonitor() == NULL ? 0 : project->timelineMonitor()->position();
-    connect(project->timelineMonitor(), SIGNAL(positionChanged(int)), this, SLOT(setCursorPosition(int)));
-    connect(this, SIGNAL(positionChanged(int)), project->timelineMonitor(), SLOT(setPosition(int)));
+    connect(project->timelineMonitor()->controller()->videoWidget(), SIGNAL(positionChanged(int)), this, SLOT(setCursorPosition(int)));
+    connect(this, SIGNAL(positionChanged(int)), project->timelineMonitor()->controller()->transportControl(), SLOT(seek(int)));
 
     setDuration(project->timeline()->duration());
 

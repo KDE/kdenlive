@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QFile>
 #include <QDir>
 #include <QTextStream>
+#include <QGLFormat>
 #include <QDomElement>
 #include <KStandardDirs>
 #include <KUrl>
@@ -36,6 +37,47 @@ EffectRepository::EffectRepository()
 EffectRepository::~EffectRepository()
 {
     qDeleteAll(m_effects);
+    //delete m_repository;
+}
+
+Mlt::Repository *EffectRepository::repository()
+{
+    return m_repository;
+}
+
+void EffectRepository::checkConsumers()
+{
+  // Check what is available on the system
+    Mlt::Properties *consumers = m_repository->consumers();
+    int max = consumers->count();
+    for (int i = 0; i < max; ++i) {
+	QString cons = consumers->get_name(i);
+        if (cons == "sdl_preview") {
+	    m_availableDisplayModes << MLTSDL;
+	    break;
+	}
+    }
+    delete consumers;
+    
+    if (QGLFormat::hasOpenGL()) {
+	m_availableDisplayModes << MLTOPENGL;
+	m_availableDisplayModes << MLTSCENE;
+	consumers = m_repository->filters();
+	max = consumers->count();
+	for (int i = 0; i < max; ++i) {
+	    QString cons = consumers->get_name(i);
+	    if (cons == "glsl.manager") {
+		m_availableDisplayModes << MLTGLSL;
+		break;
+	    }
+	}
+	delete consumers;
+    }
+}
+
+QList <DISPLAYMODE> EffectRepository::availableDisplayModes() const
+{
+    return m_availableDisplayModes;
 }
 
 // TODO: comment on repository->filters()->get_name() vs. metadata identifier
@@ -43,15 +85,15 @@ void EffectRepository::initRepository()
 {
     loadParameterPlugins();
 
-    Mlt::Repository *repository = Mlt::Factory::init();
-    if (!repository) {
+    m_repository = Mlt::Factory::init();
+    if (!m_repository) {
         kWarning() << "MLT repository could not be loaded!!!";
         // TODO: error msg
         return;
     }
-
+    checkConsumers();
     QStringList availableFilters;
-    getNamesFromProperties(repository->filters(), availableFilters);
+    getNamesFromProperties(m_repository->filters(), availableFilters);
     applyBlacklist("blacklisted_effects.txt", availableFilters);
 
     QMultiHash<QString, QDomElement> availableEffectDescriptions;
@@ -107,7 +149,7 @@ void EffectRepository::initRepository()
 
         // if no description for the filter could be created from the Kdenlive XML create it from MLT metadata
         if (!filterHasDescription) {
-            effectDescription = new EffectDescription(filterName, repository, this);
+            effectDescription = new EffectDescription(filterName, m_repository, this);
             if (effectDescription->isValid()) {
                 m_effects.insert(effectDescription->getId(), effectDescription);
             } else {
@@ -116,7 +158,7 @@ void EffectRepository::initRepository()
         }
     }
 
-    if (repository) {
+    if (m_repository) {
 //         delete repository;
     }
 }

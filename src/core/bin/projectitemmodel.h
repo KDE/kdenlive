@@ -42,6 +42,8 @@ public:
 
     QStringList mimeTypes() const;
     QMimeData *mimeData(const QModelIndexList &indices) const;
+    void setIconSize(int s);
+    
 
 private slots:
     void onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous);
@@ -50,10 +52,16 @@ private slots:
     void onItemAdded(AbstractProjectItem *item);
     void onAboutToRemoveItem(AbstractProjectItem *item);
     void onItemRemoved(AbstractProjectItem *item);
+    void onItemUpdated(AbstractProjectItem* item);
 
 private:
     BinModel *m_binModel;
     QItemSelectionModel *m_selection;
+    int m_iconSize;
+    
+signals:
+    void selectModel(const QModelIndex&);
+    void updateCurrentItem();
 };
 
 #endif

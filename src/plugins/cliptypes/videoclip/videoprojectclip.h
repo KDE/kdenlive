@@ -32,6 +32,7 @@ public:
     void initProducer();
     void hash();
 
+public slots:
     QPixmap thumbnail();
 
 private:

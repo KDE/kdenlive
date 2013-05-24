@@ -9,8 +9,11 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "projectitemmodel.h"
+#include <qt4/QtCore/qvarlengtharray.h>
 #include "project/binmodel.h"
+#include "monitor/mltcontroller.h"
 #include "project/projectfolder.h"
+#include "project/project.h"
 #include "project/abstractprojectclip.h"
 #include <KLocale>
 #include <QItemSelectionModel>
@@ -21,16 +24,19 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 ProjectItemModel::ProjectItemModel(BinModel* binModel, QObject* parent) :
-    QAbstractItemModel(parent),
-    m_binModel(binModel)
+    QAbstractItemModel(parent)
+    , m_binModel(binModel)
+    , m_iconSize(60)
 {
     m_selection = new QItemSelectionModel(this);
-    connect(m_selection, SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex, QModelIndex)));
+    //connect(m_selection, SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex, QModelIndex)));
+    connect(m_selection, SIGNAL(currentChanged(QModelIndex, QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex, QModelIndex)));
 
     connect(m_binModel, SIGNAL(aboutToAddItem(AbstractProjectItem*)), this, SLOT(onAboutToAddItem(AbstractProjectItem*)));
     connect(m_binModel, SIGNAL(itemAdded(AbstractProjectItem*)), this, SLOT(onItemAdded(AbstractProjectItem*)));
     connect(m_binModel, SIGNAL(aboutToRemoveItem(AbstractProjectItem*)), this, SLOT(onAboutToRemoveItem(AbstractProjectItem*)));
     connect(m_binModel, SIGNAL(itemRemoved(AbstractProjectItem*)), this, SLOT(onItemRemoved(AbstractProjectItem*)));
+    connect(m_binModel, SIGNAL(itemUpdated(AbstractProjectItem*)), this, SLOT(onItemUpdated(AbstractProjectItem*)));
 }
 
 ProjectItemModel::~ProjectItemModel()
@@ -40,6 +46,11 @@ ProjectItemModel::~ProjectItemModel()
 QItemSelectionModel* ProjectItemModel::selectionModel()
 {
     return m_selection;
+}
+
+void ProjectItemModel::setIconSize(int s)
+{
+    m_iconSize = s;
 }
 
 QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
@@ -57,6 +68,13 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
 	// Data has to be returned as icon to allow the view to scale it
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         QIcon icon = QIcon(item->data(AbstractProjectItem::DataThumbnail).value<QPixmap>());
+	if (icon.isNull()) {
+	      int h = m_iconSize;
+	      int w = h * m_binModel->project()->profile()->dar();
+	      QPixmap pix(w, h);
+	      pix.fill(Qt::lightGray);
+	      icon = QIcon(pix);
+	}
         return icon;
     }
     
@@ -189,10 +207,15 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
 void ProjectItemModel::onCurrentRowChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     Q_UNUSED(previous)
-
+    kDebug()<<" + + + + + + + ++ ROW CHANGED + + + +: "<<current.row();
+    QModelIndex id = index(current.row(), 0, QModelIndex());
+    emit selectModel(id);
     if (current.isValid()) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(current.internalPointer());
         currentItem->setCurrent(true);
+    }
+    else {
+	kDebug()<<" * * * * *CURRENT IS INVALID!!!";
     }
 }
 
@@ -210,8 +233,8 @@ void ProjectItemModel::onAboutToAddItem(AbstractProjectItem* item)
 void ProjectItemModel::onItemAdded(AbstractProjectItem* item)
 {
     Q_UNUSED(item)
-
     endInsertRows();
+    //emit updateCurrentItem();
 }
 
 void ProjectItemModel::onAboutToRemoveItem(AbstractProjectItem* item)
@@ -230,6 +253,17 @@ void ProjectItemModel::onItemRemoved(AbstractProjectItem* item)
     Q_UNUSED(item)
 
     endRemoveRows();
+}
+
+
+void ProjectItemModel::onItemUpdated(AbstractProjectItem* item)
+{
+    AbstractProjectItem *parentItem = item->parent();
+    QModelIndex parentIndex;
+    if (parentItem != m_binModel->rootFolder()) {
+        parentIndex = createIndex(parentItem->index(), 0, parentItem);
+    }
+    emit dataChanged(parentIndex, parentIndex);
 }
 
 #include "projectitemmodel.moc"

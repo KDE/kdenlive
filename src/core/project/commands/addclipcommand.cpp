@@ -35,5 +35,5 @@ void AddClipCommand::undo()
 void AddClipCommand::redo()
 {
     m_clip = m_plugin->createClip(m_url, m_id, m_parentItem);
-    m_clip->setParent(m_parentItem);
+    m_clip->finishInsert(m_parentItem);
 }

@@ -17,7 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "binmodel.h"
 #include "commands/configuretrackcommand.h"
 #include "effectsystem/effectdevice.h"
-#include "monitor/monitormodel.h"
+#include "monitor/monitorview.h"
 
 #include <KDebug>
 

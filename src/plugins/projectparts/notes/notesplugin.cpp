@@ -14,7 +14,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core/mainwindow.h"
 #include "core/project/projectmanager.h"
 #include "core/project/project.h"
-#include "core/monitor/monitormodel.h"
+#include "core/monitor/mltcontroller.h"
+#include "core/monitor/monitorview.h"
 #include "core/timecode.h"
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -54,11 +55,11 @@ void NotesPlugin::save(QDomDocument &document, QDomElement &element) const
 
 void NotesPlugin::insertTimecode()
 {
-    Timecode position = Timecode(pCore->projectManager()->current()->timelineMonitor()->position());
+    Timecode position = Timecode(pCore->projectManager()->current()->timelineMonitor()->controller()->transportControl()->position());
     m_widget->insertHtml("<a href=\"" + position.formatted(TimecodeFormatter::Frames) + "\">" + position.formatted(TimecodeFormatter::HH_MM_SS_FF) + "</a> ");
 }
 
 void NotesPlugin::seekProject(int position)
 {
-    pCore->projectManager()->current()->timelineMonitor()->setPosition(position);
+    pCore->projectManager()->current()->timelineMonitor()->controller()->transportControl()->seek(position);
 }

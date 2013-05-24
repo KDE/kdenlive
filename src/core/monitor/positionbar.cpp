@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "positionbar.h"
 #include "timecode.h"
 #include <KLocale>
+#include <QBuffer>
 #include <QPainter>
 #include <QPaintEvent>
 
@@ -34,6 +35,12 @@ int PositionBar::position() const
     return m_head;
 }
 
+void PositionBar::setSeekPos(int position)
+{
+    m_head = position;
+    update();
+}
+
 void PositionBar::setPosition(int position)
 {
     if (m_activeControl != CONTROL_HEAD) {
@@ -42,6 +49,11 @@ void PositionBar::setPosition(int position)
     m_position = position;
     m_pixelPosition = position * m_scale;
     update();
+}
+
+int PositionBar::duration() const
+{
+    return m_duration;
 }
 
 void PositionBar::setDuration(int duration)
@@ -56,11 +68,25 @@ void PositionBar::mousePressEvent(QMouseEvent* event)
     m_head = framePosition;
     m_activeControl = CONTROL_HEAD;
     emit positionChanged(framePosition);
+    update();
 }
 
 void PositionBar::mouseReleaseEvent(QMouseEvent* event)
 {
     m_activeControl = CONTROL_NONE;
+}
+
+void PositionBar::slotSetThumbnail(int position, QImage img)
+{
+    if (img.isNull()) {
+	setToolTip(Timecode(position).formatted());
+	return;
+    }
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    buffer.open(QIODevice::WriteOnly);
+    img.save(&buffer, "PNG");
+    setToolTip(QString("<p align=\"center\"><img src=\"data:image/png;base64,%1\"><br>%2").arg(QString(buffer.data().toBase64())).arg(Timecode(position).formatted()));
 }
 
 void PositionBar::mouseMoveEvent(QMouseEvent* event)
@@ -83,7 +109,8 @@ void PositionBar::mouseMoveEvent(QMouseEvent* event)
 	m_head = framePosition;
         emit positionChanged(framePosition);
     } else {
-        setToolTip(i18n("Position: %1", Timecode(framePosition).formatted()));
+	if (m_head == m_position) emit requestThumb(framePosition);
+        //setToolTip(i18n("Position: %1", Timecode(framePosition).formatted()));
     }
 }
 

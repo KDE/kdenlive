@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/timelinetrack.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QMimeData>
+#include <KDebug>
 
 
 TimelineScene::TimelineScene(Timeline* timeline, ToolManager *toolManager, TimelineView *view, QObject* parent) :
@@ -125,6 +126,7 @@ void TimelineScene::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
 
 void TimelineScene::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
 {
+    kDebug()<<" + + + ++ + LOL POP EVENT";
     m_toolManager->sceneEvent(this, event);
 }
 
@@ -135,7 +137,7 @@ void TimelineScene::dragLeaveEvent(QGraphicsSceneDragDropEvent* event)
 
 void TimelineScene::dropEvent(QGraphicsSceneDragDropEvent* event)
 {
-
+    
 }
 
 #include "timelinescene.moc"

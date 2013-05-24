@@ -80,12 +80,13 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
                     delete gitem;
                 }
                 for (int i = 0; i < m_extraGeometries.count(); i++) {
-                    Mlt::GeometryItem *item2 = new Mlt::GeometryItem();
                     if (m_extraGeometries.at(i)->next_key(item, mousePos) == 0) {
+			Mlt::GeometryItem *item2 = new Mlt::GeometryItem();
                         item2->x(item.x());
                         item2->frame(item.frame());
                         m_extraMovingItems.append(item2);
                     }
+                    else m_extraMovingItems.append(NULL);
                 }
                 
                 m_dragStart = event->pos();
@@ -201,7 +202,7 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
         m_movingKeyframe = false;
 
         for (int i = 0; i < m_extraGeometries.count(); i++) {
-            m_extraGeometries[i]->insert(m_extraMovingItems.at(i));
+            if (m_extraMovingItems.at(i)) m_extraGeometries[i]->insert(m_extraMovingItems.at(i));
         }
         
         emit keyframeMoved(m_position);

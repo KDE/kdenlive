@@ -13,12 +13,14 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QPixmap>
+#include <KUrl>
 #include <kdemacros.h>
 
 class AbstractProjectClip;
 class BinModel;
 class QDomElement;
 class QDomDocument;
+
 
 
 /**
@@ -38,7 +40,7 @@ public:
      * @brief Constructor.
      * @param parent parent this item should be added to
      */
-    AbstractProjectItem(AbstractProjectItem *parent = 0);
+    AbstractProjectItem(KUrl url = KUrl(), AbstractProjectItem *parent = 0);
     /** 
      * @brief Creates a project item upon project load.
      * @param description element for this item.
@@ -55,6 +57,7 @@ public:
     AbstractProjectItem *parent() const;
     /** @brief Removes the item from its current parent and adds it as a child to @param parent. */
     virtual void setParent(AbstractProjectItem *parent);
+    void finishInsert(AbstractProjectItem* parent);
 
     /**
      * @brief Adds a new child item and notifies the bin model about it (before and after). 
@@ -80,6 +83,7 @@ public:
 
     /** @brief Used to search for a clip with a specific id. */
     virtual AbstractProjectClip *clip(const QString &id) = 0;
+    virtual AbstractProjectClip *clipAt(int ix) = 0;
 
     enum DataType {
         DataName = 0,
@@ -116,7 +120,6 @@ public:
 
     /** @brief Flags this item as being current (or not) and notifies the bin model about it. */
     virtual void setCurrent(bool current);
-//     virtual bool isSelected();
 
     virtual QDomElement toXml(QDomDocument &document) const = 0;
 
@@ -130,6 +133,9 @@ protected:
     QString m_description;
     QPixmap m_thumbnail;
     QString m_duration;
+
+    /** @brief Returns a rounded border pixmap from the @param source pixmap. */
+    QPixmap roundedPixmap(QPixmap source);
 
 private:
     bool m_isCurrent;

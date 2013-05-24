@@ -12,9 +12,11 @@ the Free Software Foundation, either version 3 of the License, or
 #define MONITORGRAPHICSSCENE_H
 
 #include <QGraphicsScene>
-
+#include <QMutex>
+#include "mltcontroller.h"
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
+#include <qt4/QtGui/qgraphicsitem.h>
 
 #include <QElapsedTimer>
 
@@ -24,6 +26,15 @@ namespace Mlt
     class Frame;
 }
 typedef QAtomicPointer<Mlt::Frame> AtomicFramePointer;
+
+class MyTextItem : public QGraphicsSimpleTextItem
+{
+public:
+    MyTextItem(QGraphicsItem * parent = 0);
+protected:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+  
+};
 
 
 /**
@@ -42,7 +53,7 @@ class MonitorGraphicsScene : public QGraphicsScene
 
 public:
     /** @brief Constructor. */
-    MonitorGraphicsScene(QObject* parent = 0);
+    MonitorGraphicsScene(int width, int height, QObject* parent = 0);
     virtual ~MonitorGraphicsScene();
 
     /** @brief Returns the current zoom level. */
@@ -54,13 +65,7 @@ public:
      */
     void initializeGL(QGLWidget *glWidget);
 
-    /**
-     * @brief Sets a new frame pointer.
-     * @param frame pointer to atomic pointer which should be updated to always point to the curent frame.
-     * 
-     * The atomic pointer is set to 0 when receiving the frame.
-     */
-    void setFramePointer(AtomicFramePointer *frame);
+    void showFrame(mlt_frame frame_ptr);
 
 public slots:
     /** 
@@ -70,6 +75,7 @@ public slots:
     void setZoom(qreal level = 1);
     /** @brief Sets the zoom to fit the dimensions of the viewport. */
     void zoomFit();
+    void zoomProfileFit();
     /**
      * @brief Zooms in.
      * @param by amount to zoom in by
@@ -80,6 +86,7 @@ public slots:
      * @param by amount to zoom out by
      */
     void zoomOut(qreal by = .05);
+    void slotResized();
 
 signals:
     void zoomChanged(qreal level);
@@ -87,20 +94,25 @@ signals:
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect);
     void wheelEvent(QGraphicsSceneWheelEvent *event);
-    bool eventFilter(QObject *object, QEvent *event);
+    //bool eventFilter(QObject *object, QEvent *event);
 
 private:
     GLuint m_texture;
     GLubyte *m_textureBuffer;
     GLuint m_pbo;
-    AtomicFramePointer *m_frame;
+    //Mlt::QFrame *m_frame;
     bool m_imageSizeChanged;
     uint8_t *m_image;
     int m_imageSize;
     bool m_hasNewImage;
     QGraphicsRectItem *m_imageRect;
+    QGraphicsRectItem *m_profileRect;
     qreal m_zoom;
     bool m_needsResize;
+    QMutex m_mutex;
+    AtomicFramePointer m_frame;
+    QGLWidget* m_glWidget;
+    MyTextItem *m_overlayItem;
 
     QElapsedTimer m_timer;
     int m_frameCount;

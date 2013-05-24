@@ -13,16 +13,21 @@ the Free Software Foundation, either version 3 of the License, or
 #include "videotimelineclip.h"
 #include "core/project/projectfolder.h"
 #include "core/project/producerwrapper.h"
+#include "core/monitor/monitorview.h"
+#include "core/monitor/monitormanager.h"
+#include "core/monitor/mltcontroller.h"
 #include "core/project/project.h"
 #include "core/project/binmodel.h"
 #include "core/timecodeformatter.h"
 #include "core/timecode.h"
+#include "core/core.h"
 #include "src/core/kdenlivesettings.h"
 #include <mlt++/Mlt.h>
 #include <KUrl>
 #include <KFileMetaInfo>
 #include <QDomElement>
 #include <QFile>
+#include <QTimer>
 #include <QCryptographicHash>
 
 
@@ -74,7 +79,11 @@ AbstractTimelineClip* VideoProjectClip::createInstance(TimelineTrack* parent, Pr
 QPixmap VideoProjectClip::thumbnail()
 {
     if (m_thumbnail.isNull() && m_baseProducer) {
-        m_thumbnail = roundedPixmap(m_baseProducer->pixmap(0, 80 * bin()->project()->displayRatio(), 80));
+	int width = 80 * bin()->project()->displayRatio();
+	if (width % 2 == 1) width++;
+	pCore->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
+	//bin()->monitor()->controller()->renderImage(m_id, m_baseProducer, QList <int>() << 0);
+        //m_thumbnail = roundedPixmap();
     }
     
     return m_thumbnail;
@@ -117,9 +126,9 @@ void VideoProjectClip::init()
     hash();
     m_hasLimitedDuration = true;
     m_duration = Timecode(m_baseProducer->get_length()).formatted();
-    thumbnail();
+    QTimer::singleShot(0, this, SLOT(thumbnail()));
 
-    //kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
+    kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
 }
 
 

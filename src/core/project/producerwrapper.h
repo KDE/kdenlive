@@ -61,6 +61,13 @@ public:
      * @param height height of the pixmap (only a guidance)
      */
     QPixmap pixmap(int position = 0, int width = 0, int height = 0);
+    
+    QString resourceName() const;
+    QString serviceName() const;
+    
+private:
+    QString m_resource;
+    QString m_service;
 };
 
 #endif

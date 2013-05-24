@@ -13,12 +13,18 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QHash>
+#include <QMap>
+#include <kdemacros.h>
+#include "mltcontroller.h"
 
 class MonitorView;
 class MonitorModel;
 class Project;
 class QSignalMapper;
+class MltController;
 
+
+enum MONITORID {AutoMonitor, ClipMonitor, ProjectMonitor};
 
 /**
  * @class MonitorManager
@@ -26,7 +32,7 @@ class QSignalMapper;
  */
 
 
-class MonitorManager : public QObject
+class KDE_EXPORT MonitorManager : public QObject
 {
     Q_OBJECT
 
@@ -45,17 +51,25 @@ public:
      * The two default project models (bin, timeline) do not need to be added manually, they are registerd
      * internally once a project is openend.
      */
-    void registerModel(const QString &id, MonitorModel *model, bool needsOwnView = false);
-
+    //void registerModel(MONITORID id, MonitorModel*model, bool needsOwnView = false);
+    void requestThumbnails(const QString &id, QList <int> positions);
+    void requestActivation(MONITORID id);
+    bool isSupported(DISPLAYMODE mode);
+    bool isAvailable(DISPLAYMODE mode);
+    
+    static bool requiresUniqueDisplay(DISPLAYMODE mode);
+    
 private slots:
     void setProject(Project *project);
-    void onModelActivated(const QString &id);
+    void onModelActivated(MONITORID id);
+    void updateController(MONITORID id, MltController *controller);
 
 private:
-    QHash<QString, MonitorView*> m_views;
-    QHash<QString, MonitorModel*> m_models;
+    QHash<MONITORID, MltController*> m_controllers;
+    QHash<MONITORID, MonitorView*> m_monitors;
     MonitorModel *m_active;
     QSignalMapper *m_modelSignalMapper;
+    QMap <QString, QList<int> > m_thumbRequests;
 };
 
 #endif

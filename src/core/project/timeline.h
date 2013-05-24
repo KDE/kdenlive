@@ -18,7 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 class Project;
 class ProducerWrapper;
 class TimelineTrack;
-class MonitorModel;
+class MonitorView;
 namespace Mlt
 {
     class Tractor;
@@ -31,6 +31,9 @@ namespace Mlt
  * @class Timeline
  * @brief Entry point for anything timeline related. Manages a Mlt::Tractor.
  */
+
+class MltController;
+
 
 
 class KDE_EXPORT Timeline : public QObject
@@ -67,7 +70,7 @@ public:
     /** @brief Returns a pointer to the main producer used. */
     ProducerWrapper *producer();
     /** @brief Returns a pointer to the monitor model used for this timeline. */
-    MonitorModel *monitor();
+    MonitorView *monitor();
 
     /** @brief Returns a pointer to the track with the given index. */
     TimelineTrack *track(int index);
@@ -87,6 +90,8 @@ public:
 
     /** @brief Callback for the "producer-changed" event of the main producer to find out about timeline duration changes. */
     static void producer_change(mlt_producer producer, Timeline *self);
+    
+    void setMonitor(MonitorView *monitor);
 
 signals:
     void durationChanged(int duration);
@@ -98,7 +103,7 @@ private:
     Mlt::Event *m_producerChangeEvent;
     Mlt::Profile *m_profile;
     QList <TimelineTrack *> m_tracks;
-    MonitorModel *m_monitor;
+    MonitorView *m_monitor;
     
 };
 

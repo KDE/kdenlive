@@ -13,25 +13,22 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectfolder.h"
 #include "project.h"
 #include "binmodel.h"
-#include "monitor/monitormodel.h"
+#include "monitor/monitorview.h"
 #include <mlt++/Mlt.h>
 #include <QDomElement>
-#include <QPainter>
+#include <KDebug>
 
 AbstractProjectClip::AbstractProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, AbstractClipPlugin const *plugin) :
-    AbstractProjectItem(parent)
+    AbstractProjectItem(url, parent)
     , m_plugin(plugin)
     , m_url(url)
     , m_id(id),
     m_timelineBaseProducer(0)
 {
-    if (url.isValid()) {
-        m_name = url.fileName();
-    }
 }
 
 AbstractProjectClip::AbstractProjectClip(ProducerWrapper* producer, ProjectFolder* parent, AbstractClipPlugin const *plugin) :
-    AbstractProjectItem(parent),
+    AbstractProjectItem(KUrl(producer->get("resource")), parent),
     m_plugin(plugin),
     m_baseProducer(producer)
 {
@@ -77,6 +74,14 @@ AbstractProjectClip* AbstractProjectClip::clip(const QString &id)
     return NULL;
 }
 
+AbstractProjectClip* AbstractProjectClip::clipAt(int ix)
+{
+    if (ix == index()) {
+        return this;
+    }
+    return NULL;
+}
+
 QString AbstractProjectClip::id() const
 {
     return m_id;
@@ -104,10 +109,11 @@ int AbstractProjectClip::duration() const
 
 void AbstractProjectClip::setCurrent(bool current)
 {
+    kDebug()<<"// SETTING CURRENT: "<<m_name<<", "<<current<<", IX: "<<index();
     AbstractProjectItem::setCurrent(current);
     if (current) {
 	initProducer();
-        bin()->monitor()->setProducer(m_baseProducer);
+        bin()->monitor()->open(m_baseProducer);
     }
 }
 
@@ -143,18 +149,18 @@ void AbstractProjectClip::setTimelineBaseProducer(ProducerWrapper* producer)
     m_timelineBaseProducer = producer;
 }
 
-QPixmap AbstractProjectClip::roundedPixmap(QPixmap source)
+ProducerWrapper* AbstractProjectClip::baseProducer()
 {
-    QPixmap pix(source.width(), source.height());
-    pix.fill(Qt::transparent);
-    QPainter p(&pix);
-    p.setRenderHint(QPainter::Antialiasing, true);
-    QPainterPath path;
-    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 4, 4);
-    p.setClipPath(path);
-    p.drawPixmap(0, 0, source);
-    p.end();
-    return pix;
+    if (!m_baseProducer)
+	initProducer();
+    return m_baseProducer;
 }
+
+void AbstractProjectClip::setThumbnail(QImage img)
+{
+    m_thumbnail = roundedPixmap(QPixmap::fromImage(img)); //QPixmap::fromImage(img);
+    bin()->emitItemUpdated(this);
+}
+
 
 #include "abstractprojectclip.moc"

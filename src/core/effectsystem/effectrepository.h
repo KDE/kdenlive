@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QMap>
 #include <QHash>
+#include "monitor/mltcontroller.h"
 
 class AbstractEffectRepositoryItem;
 class AbstractParameterDescription;
@@ -20,6 +21,7 @@ class QStringList;
 class KPluginFactory;
 namespace Mlt {
     class Properties;
+    class Repository;
 }
 
 enum EffectTypes { AudioEffect, VideoEffect, CustomEffect };
@@ -54,17 +56,22 @@ public:
      * @param id name/kdenlive internal id of the effect whose description should be received
      */
     AbstractEffectRepositoryItem *effectDescription(const QString &id);
+    QList <DISPLAYMODE> availableDisplayModes() const;
+    Mlt::Repository *repository();
 
 private:
     void initRepository();
+    void checkConsumers();
     void getNamesFromProperties(Mlt::Properties *properties, QStringList &names) const;
     void applyBlacklist(const QString &filename, QStringList &list) const;
     void loadParameterPlugins();
+    Mlt::Repository *m_repository;
 
     /** key: id of the effect */
     QMap <QString, AbstractEffectRepositoryItem*> m_effects;
     /** key: parameter types supported by the parameter; value: factory to create parameter description */
     QHash <QString, KPluginFactory*> m_parameterPlugins;
+    QList <DISPLAYMODE> m_availableDisplayModes;
 };
 
 #endif

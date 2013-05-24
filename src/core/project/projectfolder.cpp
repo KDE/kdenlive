@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractprojectclip.h"
 #include "binmodel.h"
 #include <QDomElement>
+#include <KDebug>
 
 
 ProjectFolder::ProjectFolder(const QDomElement& description, ProjectFolder* parent) :
@@ -31,7 +32,7 @@ ProjectFolder::ProjectFolder(const QDomElement& description, BinModel* bin) :
 }
 
 ProjectFolder::ProjectFolder(ProjectFolder* parent) :
-    AbstractProjectItem(parent)
+    AbstractProjectItem(KUrl(), parent)
 {
 }
 
@@ -51,6 +52,19 @@ AbstractProjectClip* ProjectFolder::clip(const QString &id)
     AbstractProjectClip *clip;
     for (int i = 0; i < count(); ++i) {
         clip = at(i)->clip(id);
+        if (clip) {
+            return clip;
+        }
+    }
+    return NULL;
+}
+
+AbstractProjectClip* ProjectFolder::clipAt(int index)
+{
+    AbstractProjectClip *clip;
+    if (isEmpty()) return NULL;
+    for (int i = 0; i < count(); ++i) {
+        clip = at(i)->clipAt(index);
         if (clip) {
             return clip;
         }

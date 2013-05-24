@@ -12,15 +12,18 @@ the Free Software Foundation, either version 3 of the License, or
 #define BINMODEL_H
 
 #include <QObject>
+#include <QImage>
 #include <kdemacros.h>
 
 class Project;
-class MonitorModel;
+class MonitorView;
 class ProjectFolder;
 class AbstractProjectClip;
 class AbstractProjectItem;
 class QDomElement;
 class QDomDocument;
+class MltController;
+class ProducerWrapper;
 
 
 /**
@@ -50,7 +53,7 @@ public:
     /** @brief Returns a pointer to the project this bin belongs to. */
     Project *project();
     /** @brief Returns a pointer to the bin's monitor model. */
-    MonitorModel *monitor();
+    MonitorView *monitor();
 
     /** @brief Returns a pointer to the root folder. */
     ProjectFolder *rootFolder();
@@ -68,8 +71,10 @@ public:
      * emits currentItemChanged
      */
     void setCurrentItem(AbstractProjectItem *item);
+    ProducerWrapper *clipProducer(const QString &id);
 
     QDomElement toXml(QDomDocument &document) const;
+    void setMonitor(MonitorView* m);
 
 public slots:
     /** @brief emits aboutToAddItem. */
@@ -80,6 +85,9 @@ public slots:
     void emitAboutToRemoveItem(AbstractProjectItem *item);
     /** @brief emits itemRemoved. */
     void emitItemRemoved(AbstractProjectItem *item);
+    void emitItemUpdated(AbstractProjectItem* item);
+    void emitItemReady(AbstractProjectItem* item);
+    void slotGotImage(const QString &id, int pos, QImage img);
 
 signals:
     void aboutToAddItem(AbstractProjectItem *item);
@@ -87,10 +95,11 @@ signals:
     void aboutToRemoveItem(AbstractProjectItem *item);
     void itemRemoved(AbstractProjectItem *item);
     void currentItemChanged(AbstractProjectItem *item);
+    void itemUpdated(AbstractProjectItem* item);
 
 private:
     Project *m_project;
-    MonitorModel *m_monitor;
+    MonitorView *m_monitor;
     ProjectFolder *m_rootFolder;
     AbstractProjectItem *m_currentItem;
 };

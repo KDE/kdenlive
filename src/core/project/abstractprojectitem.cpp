@@ -12,21 +12,26 @@ the Free Software Foundation, either version 3 of the License, or
 #include "binmodel.h"
 #include <QDomElement>
 #include <QVariant>
-
+#include <QPainter>
 #include <KDebug>
 
 
-AbstractProjectItem::AbstractProjectItem(AbstractProjectItem* parent) :
-    QObject(parent),
-    m_parent(parent),
-    m_isCurrent(false)
+AbstractProjectItem::AbstractProjectItem(KUrl url, AbstractProjectItem* parent) :
+    QObject(parent)
+    , m_parent(NULL)
+    , m_isCurrent(false)
+    , m_name("loading")
 {
+    if (url.isValid()) {
+        m_name = url.fileName();
+    }
+    setParent(parent);
 }
 
 AbstractProjectItem::AbstractProjectItem(const QDomElement& description, AbstractProjectItem* parent) :
-    QObject(parent),
-    m_parent(NULL),
-    m_isCurrent(false)
+    QObject(parent)
+    , m_parent(NULL)
+    , m_isCurrent(false)
 {
     m_name = description.attribute("name");
     m_description = description.attribute("description");
@@ -71,12 +76,34 @@ void AbstractProjectItem::setParent(AbstractProjectItem* parent)
     }
 }
 
+QPixmap AbstractProjectItem::roundedPixmap(QPixmap source)
+{
+    QPixmap pix(source.width(), source.height());
+    pix.fill(Qt::transparent);
+    QPainter p(&pix);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPainterPath path;
+    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 4, 4);
+    p.setClipPath(path);
+    p.drawPixmap(0, 0, source);
+    p.end();
+    return pix;
+}
+
+void AbstractProjectItem::finishInsert(AbstractProjectItem* parent)
+{
+    /*if (m_parent && !m_parent->contains(this)) {
+        m_parent->addChild(this);
+    }*/
+    bin()->emitItemReady(this);
+}
+
 void AbstractProjectItem::addChild(AbstractProjectItem* child)
 {
     if (child && !contains(child)) {
         bin()->emitAboutToAddItem(child);
         append(child);
-        bin()->emitItemAdded(child);
+	bin()->emitItemAdded(this);
     }
 }
 
@@ -155,7 +182,8 @@ void AbstractProjectItem::setDescription(const QString& description)
 
 void AbstractProjectItem::setCurrent(bool current)
 {
-    if (m_isCurrent != current) {
+    if (m_isCurrent != current) 
+    {
         m_isCurrent = current;
         if (current) {
             bin()->setCurrentItem(this);

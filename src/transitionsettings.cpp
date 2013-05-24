@@ -229,7 +229,7 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
 {
     if (!isEnabled()) return;
     if (m_effectEdit->needsMonitorEffectScene()) {
-	if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos <= m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
+	if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
 	    if (!m_effectEdit->monitor()->effectSceneDisplayed()) {
 		m_effectEdit->monitor()->slotShowEffectScene(true);
 	    }

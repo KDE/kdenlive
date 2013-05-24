@@ -31,7 +31,10 @@ void ToolManager::clipEvent(TimelineClipItem* clipItem, QEvent* event)
 
 void ToolManager::sceneEvent(TimelineScene* scene, QEvent* event)
 {
-    if (!m_activeTool) return;
+    if (!m_activeTool) {
+	
+	return;
+    }
     m_activeTool->sceneEvent(scene, event);
 }
 

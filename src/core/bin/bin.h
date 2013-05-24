@@ -52,18 +52,24 @@ public:
             QStyleOptionViewItemV4 opt(option);
 	    initStyleOption(&opt, index);
     
-            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
-            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+	    QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+	    const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+	    QRect r = QStyle::alignedRect(opt.direction, Qt::AlignTop | Qt::AlignLeft,
+                                  opt.decorationSize, r1);
+	    if (!(option.state & QStyle::State_Selected)) opt.icon.paint(painter, r);
+            int decoWidth = r.width() + 2 * textMargin;
+	    
+	    style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 
             if (option.state & QStyle::State_Selected) {
                 painter->setPen(option.palette.highlightedText().color());
-            }
-            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+		opt.icon.paint(painter, r);
+            }// else opt.icon.paint(painter, r);
 	    
-	    QRect r = QStyle::alignedRect(opt.direction, Qt::AlignTop | Qt::AlignLeft,
-                                  opt.decorationSize, r1);
-	    opt.icon.paint(painter, r);
-            int decoWidth = r.width() + 2 * textMargin;
+	    /*QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
+            QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
+            painter->drawPixmap(pixmapPoint, opt.icon.pixmap(r.width(), r.height()));
+            int decoWidth = pixmap.width() + 2 * textMargin;*/
 
             QFont font = painter->font();
             font.setBold(true);
@@ -181,6 +187,9 @@ private slots:
     * @param action The action whose data defines the view type or NULL to keep default view */
     void slotInitView(QAction *action);
     void slotSetIconSize(int size);
+    void rowsInserted(const QModelIndex &parent, int start, int end);
+    void selectModel(const QModelIndex &parent);
+    void autoSelect();
 
 private:
     ProjectItemModel *m_itemModel;

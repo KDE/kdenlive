@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "positionitem.h"
 #include "timelinescene.h"
 #include "project/timeline.h"
-#include "monitor/monitormodel.h"
+#include "monitor/monitorview.h"
 
 
 PositionItem::PositionItem(TimelineScene* scene) :
@@ -21,7 +21,7 @@ PositionItem::PositionItem(TimelineScene* scene) :
     setLine(position, 0, position, scene->height());
 
     connect(scene, SIGNAL(heightChanged(int)), this, SLOT(setHeight(int)));
-    connect(scene->timeline()->monitor(), SIGNAL(positionChanged(int)), this, SLOT(setPosition(int)));
+    connect(scene->timeline()->monitor()->controller()->videoWidget(), SIGNAL(positionChanged(int)), this, SLOT(setPosition(int)));
 }
 
 void PositionItem::setPosition(int position)

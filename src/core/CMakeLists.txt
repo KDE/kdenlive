@@ -61,6 +61,7 @@ target_link_libraries(kdenlivecore
   ${LIBMLT_LIBRARY}
   ${LIBMLTPLUS_LIBRARY}
   ${OPENGL_LIBRARIES}
+  ${GLEW_LIBRARIES}
 )
 
 if(Q_WS_X11)
