@@ -79,7 +79,7 @@ private:
     * @param name Name of the parameter which will be updated
     * @param type Type of the parameter which will be updated
     * @param value Value of the dependency parameter */
-    void meetDependency(const QString& name, QString type, QString value);
+    void meetDependency(const QString& name, const QString &type, const QString &value);
     wipeInfo getWipeInfo(QString value);
     QString getWipeString(wipeInfo info);
     /** @brief Delete all child widgets */
@@ -98,7 +98,7 @@ private:
     bool m_needsMonitorEffectScene;
 
 signals:
-    void parameterChanged(const QDomElement, const QDomElement, int);
+    void parameterChanged(const QDomElement &, const QDomElement&, int);
     void syncEffectsPos(int);
     void displayMessage(const QString&, int);
     void disableCurrentFilter(bool);

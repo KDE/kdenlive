@@ -497,12 +497,12 @@ ParameterContainer::~ParameterContainer()
     delete m_vbox;
 }
 
-void ParameterContainer::meetDependency(const QString& name, QString type, QString value)
+void ParameterContainer::meetDependency(const QString& name, const QString &type, const QString &value)
 {
     if (type == "curve") {
         KisCurveWidget *curve = (KisCurveWidget*)m_valueItems[name];
         if (curve) {
-            int color = value.toInt();
+            const int color = value.toInt();
             curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)(color == 3 ? 4 : color), 0.8)));
         }
     } else if (type == "bezier_spline") {
