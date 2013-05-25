@@ -557,7 +557,7 @@ void EffectStackView2::deleteCurrentEffect()
     }
 }
 
-void EffectStackView2::updateProjectFormat(MltVideoProfile profile, Timecode t)
+void EffectStackView2::updateProjectFormat(const MltVideoProfile &profile, const Timecode &t)
 {
     m_effectMetaInfo.profile = profile;
     m_effectMetaInfo.timecode = t;

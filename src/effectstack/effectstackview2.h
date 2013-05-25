@@ -53,7 +53,7 @@ public:
     void clear();
 
     /** @brief Passes updates on @param profile and @param t on to the effect editor. */
-    void updateProjectFormat(MltVideoProfile profile, Timecode t);
+    void updateProjectFormat(const MltVideoProfile &profile, const Timecode &t);
 
     /** @brief Tells the effect editor to update its timecode format. */
     void updateTimecodeFormat();
