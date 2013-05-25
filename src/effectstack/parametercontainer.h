@@ -62,7 +62,6 @@ public:
     explicit ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent = 0);
     ~ParameterContainer();
     void updateTimecodeFormat();
-    void updateProjectFormat(MltVideoProfile profile, Timecode t);
     void updateParameter(const QString &key, const QString &value);
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
     bool needsMonitorEffectScene() const;
