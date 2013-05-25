@@ -69,11 +69,12 @@ int main(int argc, char **argv)
         QString profile = args.takeFirst();
         QString rendermodule = args.takeFirst();
         QString player = args.takeFirst();
-	QByteArray srcString = args.takeFirst().toUtf8();
-	QUrl srcurl = QUrl::fromEncoded(srcString);
+        QByteArray srcString = args.takeFirst().toUtf8();
+        QUrl srcurl = QUrl::fromEncoded(srcString);
         QString src = srcurl.path();
-	// The QUrl path() strips the consumer: protocol, so re-add it if necessary
-	if (srcString.startsWith("consumer:")) src.prepend("consumer:");
+        // The QUrl path() strips the consumer: protocol, so re-add it if necessary
+        if (srcString.startsWith("consumer:"))
+            src.prepend("consumer:");
         QUrl desturl = QUrl::fromEncoded(args.takeFirst().toUtf8());
         QString dest = desturl.path();
         bool dualpass = false;
@@ -101,12 +102,12 @@ int main(int argc, char **argv)
         }
         
         // Decode metadata
-        for (int i = 0; i < args.count(); i++) {
-	    if (args.at(i).startsWith("meta.attr")) {
-		QString data = args.at(i);
-		args.replace(i, data.section('=', 0, 0) + "=\"" + QUrl::fromPercentEncoding(data.section('=', 1).toUtf8()) + "\"");
-	    }
-	}
+        for (int i = 0; i < args.count(); ++i) {
+            if (args.at(i).startsWith("meta.attr")) {
+                QString data = args.at(i);
+                args.replace(i, data.section('=', 0, 0) + "=\"" + QUrl::fromPercentEncoding(data.section('=', 1).toUtf8()) + "\"");
+            }
+        }
 
         qDebug() << "//STARTING RENDERING: " << erase << "," << usekuiserver << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out ;
         RenderJob *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
