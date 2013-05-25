@@ -799,7 +799,8 @@ void RecMonitor::showWarningMessage(const QString &text, bool logAction)
 	m_infoMessage->addAction(manualAction);
     }
 #if KDE_IS_VERSION(4,10,0)
-    m_infoMessage->animatedShow();
+    if (isVisible())
+       m_infoMessage->animatedShow();
 #else
     QTimer::singleShot(0, m_infoMessage, SLOT(animatedShow()));
 #endif
