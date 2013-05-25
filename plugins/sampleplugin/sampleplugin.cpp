@@ -73,47 +73,47 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
     KUrl result;
     
     if (d->exec() == QDialog::Accepted) {
-	QProcess generatorProcess;
+        QProcess generatorProcess;
 
-	// Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
+        // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
 #if QT_VERSION >= 0x040600
-	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	env.insert("MLT_NO_VDPAU", "1");
-	generatorProcess.setProcessEnvironment(env);
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        env.insert("MLT_NO_VDPAU", "1");
+        generatorProcess.setProcessEnvironment(env);
 #else
-	QStringList env = QProcess::systemEnvironment();
-	env << "MLT_NO_VDPAU=1";
-	generatorProcess.setEnvironment(env);
+        QStringList env = QProcess::systemEnvironment();
+        env << "MLT_NO_VDPAU=1";
+        generatorProcess.setEnvironment(env);
 #endif
-	QStringList args;
-	if (generator == i18n("Noise")) {
-	    args << "noise:" << "in=0" << QString("out=" + QString::number((int) fps * view.duration->value()));
-	}
-	else {
-	    // Countdown producer
-	    for (int i = 0; i < view.duration->value(); i++) {
+        QStringList args;
+        if (generator == i18n("Noise")) {
+            args << "noise:" << "in=0" << QString("out=" + QString::number((int) fps * view.duration->value()));
+        }
+        else {
+            // Countdown producer
+            for (int i = 0; i < view.duration->value(); i++) {
                 // Create the producers
                 args << "pango:" << "in=0" << QString("out=" + QString::number((int) fps * view.duration->value()));
-		args << QString("text=" + QString::number(view.duration->value() - i));
-		args << QString("font=" + QString::number(view.font->value()) + "px");
-	    }
-	}
-	
-	args << "-consumer"<<QString("xml:%1").arg(view.path->url().path());
-	generatorProcess.start(renderer, args);
+                args << QString("text=" + QString::number(view.duration->value() - i));
+                args << QString("font=" + QString::number(view.font->value()) + "px");
+            }
+        }
+
+        args << "-consumer"<<QString("xml:%1").arg(view.path->url().path());
+        generatorProcess.start(renderer, args);
         if (generatorProcess.waitForFinished()) {
-	    if (generatorProcess.exitStatus() == QProcess::CrashExit) {
+            if (generatorProcess.exitStatus() == QProcess::CrashExit) {
                 kDebug() << "/// Generator failed: ";
-		QString error = generatorProcess.readAllStandardError();
-		KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
-	    }
-	    else {
-		result = view.path->url();
-	    }
+                QString error = generatorProcess.readAllStandardError();
+                KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
+            }
+            else {
+                result = view.path->url();
+            }
         } else {
-	    kDebug() << "/// Generator failed: ";
-	    QString error = generatorProcess.readAllStandardError();
-	    KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
+            kDebug() << "/// Generator failed: ";
+            QString error = generatorProcess.readAllStandardError();
+            KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
         }
     }
     delete d;
