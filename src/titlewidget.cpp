@@ -639,6 +639,7 @@ void TitleWidget::refreshTitleTemplates()
     }
     kDebug()  << titlenamelist << titlefiles;
 }
+
 void TitleWidget::templateIndexChanged(int index)
 {
     QString item = templateBox->itemData(index).toString();
@@ -669,9 +670,11 @@ void TitleWidget::resizeEvent(QResizeEvent * /*event*/)
     //slotAdjustZoom();
 }
 //virtual
-void TitleWidget::keyPressEvent(QKeyEvent *e){
+void TitleWidget::keyPressEvent(QKeyEvent *e)
+{
     if(e->key()!=Qt::Key_Escape && e->key()!=Qt::Key_Return && e->key()!=Qt::Key_Enter) QDialog::keyPressEvent(e);
 }
+
 void TitleWidget::slotTextTool()
 {
     m_scene->setTool(TITLE_TEXT);
@@ -1110,7 +1113,7 @@ void TitleWidget::slotValueChanged(int type)
         break;
     }
 
-    for (int k = 0; k < l.size(); k++) {
+    for (int k = 0; k < l.size(); ++k) {
         std::cout << "Type of item " << k << ": " << l.at(k)->type() << "\n";
 
         if (l.at(k)->type() == TEXTITEM) {
