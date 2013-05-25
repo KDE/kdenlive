@@ -140,7 +140,8 @@ void ResourceWidget::slotStartSearch(int page)
 void ResourceWidget::slotUpdateCurrentSound()
 {
     KIO::NetAccess::removeTempFile(m_tmpThumbFile);
-    if (!m_autoPlay->isChecked()) m_currentService->stopItemPreview(NULL);
+    if (!m_autoPlay->isChecked())
+        m_currentService->stopItemPreview(NULL);
     item_license->clear();
     m_title.clear();
     m_image.clear();
@@ -156,7 +157,8 @@ void ResourceWidget::slotUpdateCurrentSound()
     if (m_autoPlay->isChecked() && m_currentService->hasPreview) m_currentService->startItemPreview(item);
     sound_box->setEnabled(true);
     QString title = "<h3>" + m_currentInfo.itemName;
-    if (!m_currentInfo.infoUrl.isEmpty()) title += QString(" (<a href=\"%1\">%2</a>)").arg(m_currentInfo.infoUrl).arg(i18nc("the url link pointing to a web page", "link"));
+    if (!m_currentInfo.infoUrl.isEmpty())
+        title += QString(" (<a href=\"%1\">%2</a>)").arg(m_currentInfo.infoUrl).arg(i18nc("the url link pointing to a web page", "link"));
     title.append("</h3>");
     
     if (!m_currentInfo.authorUrl.isEmpty()) {
@@ -168,7 +170,8 @@ void ResourceWidget::slotUpdateCurrentSound()
     }
     else if (!m_currentInfo.author.isEmpty())
         title.append(m_currentInfo.author + "<br />");
-    else title.append("<br />");
+    else
+        title.append("<br />");
     
     slotSetTitle(title);
     if (!m_currentInfo.description.isEmpty()) slotSetDescription(m_currentInfo.description);
@@ -392,14 +395,18 @@ void ResourceWidget::slotOpenLink(const QUrl &url)
 
 void ResourceWidget::slotSetDescription(const QString &desc)
 {
-    m_desc = desc;
-    updateLayout();
+    if(m_desc != desc) {
+        m_desc = desc;
+        updateLayout();
+    }
 }
 
 void ResourceWidget::slotSetMetadata(const QString &desc)
 {
-    m_meta = desc;
-    updateLayout();
+    if (m_meta != desc) {
+        m_meta = desc;
+        updateLayout();
+    }
 }
 
 void ResourceWidget::slotSetImage(const QString &desc)
@@ -410,8 +417,10 @@ void ResourceWidget::slotSetImage(const QString &desc)
 
 void ResourceWidget::slotSetTitle(const QString &desc)
 {
-    m_title = desc;
-    updateLayout();
+    if (m_title != desc) {
+        m_title = desc;
+        updateLayout();
+    }
 }
 
 void ResourceWidget::updateLayout()
