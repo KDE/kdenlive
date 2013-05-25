@@ -181,7 +181,7 @@ RecMonitor::~RecMonitor()
     m_spaceTimer.stop();
     delete m_captureProcess;
     delete m_displayProcess;
-    if (m_captureDevice) delete m_captureDevice;
+    delete m_captureDevice;
 }
 
 void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
