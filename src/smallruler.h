@@ -46,9 +46,9 @@ public:
     void refreshRuler();
 
 protected:
-    virtual void paintEvent(QPaintEvent *e);
-    virtual void resizeEvent(QResizeEvent *);
-    virtual void leaveEvent(QEvent * event);
+    void paintEvent(QPaintEvent *e);
+    void resizeEvent(QResizeEvent *);
+    void leaveEvent(QEvent * event);
 
 private:
     int m_cursorPosition;

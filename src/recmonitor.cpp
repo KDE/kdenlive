@@ -816,7 +816,7 @@ void RecMonitor::showWarningMessage(const QString &text, bool logAction)
 #endif
 }
 
-const QString RecMonitor::getV4lXmlPlaylist(MltVideoProfile profile, bool *isXml) 
+const QString RecMonitor::getV4lXmlPlaylist(const MltVideoProfile &profile, bool *isXml)
 {
     QString playlist;
     if (rec_video->isChecked() && rec_audio->isChecked()) {
