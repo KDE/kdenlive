@@ -87,10 +87,10 @@ public:
 
 protected:
     /** @see QWidget::paintEvent() */
-    virtual void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event);
 
     /** @see QWidget::resizeEvent() */
-    virtual void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent* event);
 
 public slots:
     void setMessage(const QString& text, MessageType type, int timeoutMS = 0);
