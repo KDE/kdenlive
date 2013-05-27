@@ -152,15 +152,15 @@ private slots:
     /** @brief Checks whether the monitor scene has to be displayed. */
     void slotCheckMonitorPosition(int renderPos);
 
-    void slotUpdateEffectParams(const QDomElement old, const QDomElement e, int ix);
+    void slotUpdateEffectParams(const QDomElement &old, const QDomElement& e, int ix);
 
     /** @brief Move an effect in the stack.
      * @param indexes The list of effect index in the stack
      * @param up true if we want to move effect up, false for down */
-    void slotMoveEffectUp(QList <int> indexes, bool up);
+    void slotMoveEffectUp(const QList <int> &indexes, bool up);
 
     /** @brief Delete an effect in the stack. */
-    void slotDeleteEffect(const QDomElement effect);
+    void slotDeleteEffect(const QDomElement &effect);
     
     /** @brief Delete all effect in a group. */
     void slotDeleteGroup(QDomDocument doc);
@@ -197,7 +197,7 @@ private slots:
     void slotUnGroup(CollapsibleGroup* group);
     
     /** @brief Add en effect to selected clip */
-    void slotAddEffect(QDomElement effect);
+    void slotAddEffect(const QDomElement &effect);
     
     /** @brief Enable / disable all effects for the clip */
     void slotCheckAll(int state);
@@ -212,26 +212,26 @@ private slots:
     void slotRenameGroup(CollapsibleGroup *group);
 
 signals:
-    void removeEffect(ClipItem*, int, QDomElement);
+    void removeEffect(ClipItem*, int, const QDomElement&);
     /**  Parameters for an effect changed, update the filter in playlist */
-    void updateEffect(ClipItem*, int, QDomElement, QDomElement, int,bool);
+    void updateEffect(ClipItem*, int, const QDomElement&, const QDomElement &, int,bool);
     /** An effect in stack was moved, we need to regenerate
         all effects for this clip in the playlist */
     void refreshEffectStack(ClipItem *);
     /** Enable or disable an effect */
-    void changeEffectState(ClipItem*, int, QList <int>, bool);
+    void changeEffectState(ClipItem*, int, const QList <int>&, bool);
     /** An effect in stack was moved */
-    void changeEffectPosition(ClipItem*, int, QList <int>, int);
+    void changeEffectPosition(ClipItem*, int, const QList <int>&, int);
     /** an effect was saved, reload list */
     void reloadEffects();
     /** An effect with position parameter was changed, seek */
     void seekTimeline(int);
     /** The region effect for current effect was changed */
-    void updateClipRegion(ClipItem*, int, QString);
+    void updateClipRegion(ClipItem*, int, const QString&);
     void displayMessage(const QString&, int);
     void showComments(bool show);
-    void startFilterJob(ItemInfo info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap<QString, QString> &extraParams);
-    void addEffect(ClipItem*,QDomElement);
+    void startFilterJob(const ItemInfo &info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap<QString, QString> &extraParams);
+    void addEffect(ClipItem*,const QDomElement &);
     void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
 };
 

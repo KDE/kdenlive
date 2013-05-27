@@ -201,7 +201,7 @@ void AudioSignal::slotNoAudioTimeout(){
     m_timer.stop();
 }
 
-void AudioSignal::showAudio(const QByteArray arr)
+void AudioSignal::showAudio(const QByteArray &arr)
 {
     channels = arr;
     if (peeks.count()!=channels.count()){

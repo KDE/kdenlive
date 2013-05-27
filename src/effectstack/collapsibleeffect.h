@@ -122,22 +122,22 @@ protected:
     virtual void dropEvent(QDropEvent *event);
     
 signals:
-    void parameterChanged(const QDomElement, const QDomElement, int);
+    void parameterChanged(const QDomElement &, const QDomElement&, int);
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix, bool effectNeedsMonitorScene);
-    void deleteEffect(const QDomElement);
+    void deleteEffect(const QDomElement &);
     void activateEffect(int);
     void checkMonitorPosition(int);
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QString filterName, QString filterParams, QString consumer, QString consumerParams, const QMap <QString, QString>extraParams);
+    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString> &extraParams);
     /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
     void unGroup(CollapsibleEffect *);
-    void createRegion(int, KUrl);
-    void deleteGroup(QDomDocument);
+    void createRegion(int, const KUrl&);
+    void deleteGroup(const QDomDocument&);
     void importClipKeyframes();
 };
 

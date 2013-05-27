@@ -118,7 +118,7 @@ QPoint VectorscopeGenerator::mapToCircle(const QSize &targetSize, const QPointF 
 QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain,
                                                   const VectorscopeGenerator::PaintMode &paintMode,
                                                   const VectorscopeGenerator::ColorSpace &colorSpace,
-                                                  const bool &, const uint &accelFactor) const
+                                                  bool, uint accelFactor) const
 {
     if (vectorscopeSize.width() <= 0 || vectorscopeSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
         // Invalid size

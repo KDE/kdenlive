@@ -579,7 +579,7 @@ CollapsibleEffect *EffectStackView2::getEffectByIndex(int ix)
     return NULL;
 }
 
-void EffectStackView2::slotUpdateEffectParams(const QDomElement old, const QDomElement e, int ix)
+void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDomElement &e, int ix)
 {
     if (m_effectMetaInfo.trackMode)
         emit updateEffect(NULL, m_trackindex, old, e, ix,false);
@@ -626,7 +626,7 @@ void EffectStackView2::slotDeleteGroup(QDomDocument doc)
         emit removeEffect(clip, ix, effects.at(i).toElement());
 }
 
-void EffectStackView2::slotDeleteEffect(const QDomElement effect)
+void EffectStackView2::slotDeleteEffect(const QDomElement &effect)
 {
     if (m_effectMetaInfo.trackMode)
         emit removeEffect(NULL, m_trackindex, effect);
@@ -634,12 +634,12 @@ void EffectStackView2::slotDeleteEffect(const QDomElement effect)
         emit removeEffect(m_clipref, -1, effect);
 }
 
-void EffectStackView2::slotAddEffect(QDomElement effect)
+void EffectStackView2::slotAddEffect(const QDomElement &effect)
 {
     emit addEffect(m_clipref, effect);
 }
 
-void EffectStackView2::slotMoveEffectUp(QList <int> indexes, bool up)
+void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
 {
     if (up && indexes.first() <= 1) return;
     if (!up && indexes.last() >= m_currentEffectList.count()) return;

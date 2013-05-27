@@ -50,8 +50,8 @@ public:
     explicit MySpinBox(QWidget * parent = 0);
     
 protected:
-    virtual void focusInEvent(QFocusEvent*);
-    virtual void focusOutEvent(QFocusEvent*);
+    void focusInEvent(QFocusEvent*);
+    void focusOutEvent(QFocusEvent*);
 };
 
 class ParameterContainer : public QObject
@@ -106,7 +106,7 @@ signals:
     void seekTimeline(int);
     void showComments(bool);    
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QString filterName, QString filterParams, QString consumer, QString consumerParams, const QMap <QString, QString>extra);
+    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString> &extra);
     /** @brief Request import of keyframes from clip data. */
     void importClipKeyframes();
     /** @brief Master clip was resized, update effect. */

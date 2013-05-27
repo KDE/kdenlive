@@ -17,7 +17,6 @@ the Free Software Foundation, either version 3 of the License, or
 AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) :
     m_audioStreamIndex(audioStreamIndex)
 {
-
     QByteArray key;
 
     key = QString("meta.media.%1.codec.sample_fmt").arg(audioStreamIndex).toLocal8Bit();
@@ -38,6 +37,7 @@ AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) 
     key = QString("meta.media.%1.codec.long_name").arg(audioStreamIndex).toLocal8Bit();
     m_codecLongName = QString(producer->get(key.data()));
 }
+
 AudioStreamInfo::~AudioStreamInfo()
 {
 }

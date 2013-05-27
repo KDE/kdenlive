@@ -30,13 +30,13 @@ public:
     QImage calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain,
                                 const VectorscopeGenerator::PaintMode &paintMode,
                                 const VectorscopeGenerator::ColorSpace &colorSpace,
-                                const bool&, const uint &accelFactor = 1) const;
+                                bool, uint accelFactor = 1) const;
 
     QPoint mapToCircle(const QSize &targetSize, const QPointF &point) const;
     static const float scaling;
 
 signals:
-    void signalCalculationFinished(QImage image, const uint &ms);
+    void signalCalculationFinished(const QImage &image, uint ms);
 
 };
 

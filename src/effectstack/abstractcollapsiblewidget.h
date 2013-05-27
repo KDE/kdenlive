@@ -36,11 +36,11 @@ public:
     virtual bool isGroup() const = 0;
     
 signals:
-    void addEffect(QDomElement e);
+    void addEffect(const QDomElement &e);
     /** @brief Move effects in the stack one step up or down. */
-    void changeEffectPosition(QList <int>, bool upwards);
+    void changeEffectPosition(const QList <int>&, bool upwards);
     /** @brief Move effects in the stack. */
-    void moveEffect(QList <int> current_pos, int new_pos, int groupIndex, QString groupName);
+    void moveEffect(const QList <int> &current_pos, int new_pos, int groupIndex, const QString &groupName);
     /** @brief An effect was saved, trigger effect list reload. */
     void reloadEffects();
   

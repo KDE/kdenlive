@@ -291,8 +291,8 @@ bool OnMonitorRectItem::getView()
     if (m_view)
         return true;
 
-    if (scene() && scene()->views().count()) {
-        m_view = scene()->views()[0];
+    if (scene() && !scene()->views().isEmpty()) {
+        m_view = scene()->views().first();
         return true;
     } else {
         return false;
