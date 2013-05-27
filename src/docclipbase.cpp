@@ -42,20 +42,20 @@
 #include <kmessagebox.h>
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id) :
-        QObject(),
-        lastSeekPosition(0),
-        audioFrameCache(),
-        m_refcount(0),
-        m_baseTrackProducers(),
-        m_videoTrackProducers(),
-        m_audioTrackProducers(),
-        m_snapMarkers(QList < CommentedTime >()),
-        m_duration(),
-        m_thumbProd(NULL),
-        m_audioThumbCreated(false),
-        m_id(id),
-        m_placeHolder(xml.hasAttribute("placeholder")),
-        m_properties()
+    QObject(),
+    lastSeekPosition(0),
+    audioFrameCache(),
+    m_refcount(0),
+    m_baseTrackProducers(),
+    m_videoTrackProducers(),
+    m_audioTrackProducers(),
+    m_snapMarkers(QList < CommentedTime >()),
+    m_duration(),
+    m_thumbProd(NULL),
+    m_audioThumbCreated(false),
+    m_id(id),
+    m_placeHolder(xml.hasAttribute("placeholder")),
+    m_properties()
 {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
@@ -71,8 +71,8 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     for (int i = 0; i < metas.count(); ++i) {
         QDomElement e = metas.item(i).toElement();
         if (!e.isNull()) {
-	    m_metadata.insert(e.attribute("name").section('.', 2), QStringList() << e.firstChild().nodeValue() << e.attribute("tool"));
-	}
+            m_metadata.insert(e.attribute("name").section('.', 2), QStringList() << e.firstChild().nodeValue() << e.attribute("tool"));
+        }
     }
     if (xml.hasAttribute("cutzones")) {
         QStringList cuts = xml.attribute("cutzones").split(';', QString::SkipEmptyParts);
@@ -83,9 +83,9 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     }
 
     if (xml.hasAttribute("analysisdata")) {
-	QStringList adata = xml.attribute("analysisdata").split('#', QString::SkipEmptyParts);
-	for (int i = 0; i < adata.count(); ++i)
-	    m_analysisdata.insert(adata.at(i).section('?', 0, 0), adata.at(i).section('?', 1, 1));
+        QStringList adata = xml.attribute("analysisdata").split('#', QString::SkipEmptyParts);
+        for (int i = 0; i < adata.count(); ++i)
+            m_analysisdata.insert(adata.at(i).section('?', 0, 0), adata.at(i).section('?', 1, 1));
     }
 
     KUrl url = KUrl(xml.attribute("resource"));
@@ -96,7 +96,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     } else {
         int out = xml.attribute("out").toInt();
         int in = xml.attribute("in").toInt();
-	if (out > in) setDuration(GenTime(out - in + 1, KdenliveSettings::project_fps()));
+        if (out > in) setDuration(GenTime(out - in + 1, KdenliveSettings::project_fps()));
     }
 
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
@@ -125,7 +125,7 @@ DocClipBase::~DocClipBase()
     m_videoTrackProducers.clear();
 }
 
-void DocClipBase::setZone(QPoint zone)
+void DocClipBase::setZone(const QPoint &zone)
 {
     m_properties.insert("zone_in", QString::number(zone.x()));
     m_properties.insert("zone_out", QString::number(zone.y()));
@@ -267,14 +267,14 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
     while (j.hasNext()) {
         j.next();
         if (!j.value().isEmpty()) {
-	    QDomElement property = doc.createElement("metaproperty");
-	    property.setAttribute("name", "meta.attr." + j.key());
-	    QStringList values = j.value();
-	    QDomText value = doc.createTextNode(values.at(0));
-	    if (values.count() > 1) property.setAttribute("tool", values.at(1));
+            QDomElement property = doc.createElement("metaproperty");
+            property.setAttribute("name", "meta.attr." + j.key());
+            QStringList values = j.value();
+            QDomText value = doc.createTextNode(values.at(0));
+            if (values.count() > 1) property.setAttribute("tool", values.at(1));
             property.appendChild(value);
-	    clip.appendChild(property);
-	}
+            clip.appendChild(property);
+        }
     }
     doc.appendChild(clip);
     if (!m_cutZones.isEmpty()) {
@@ -287,12 +287,12 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
     }
     QString adata;
     if (!m_analysisdata.isEmpty()) {
-	QMapIterator<QString, QString> i(m_analysisdata);
-	while (i.hasNext()) {
-	    i.next();
-	    //WARNING: a ? and # separator is not a good idea
-	    adata.append(i.key() + "?" + i.value() + "#");
-	}
+        QMapIterator<QString, QString> i(m_analysisdata);
+        while (i.hasNext()) {
+            i.next();
+            //WARNING: a ? and # separator is not a good idea
+            adata.append(i.key() + "?" + i.value() + "#");
+        }
     }
     clip.setAttribute("analysisdata", adata);
     //kDebug() << "/// CLIP XML: " << doc.toString();
@@ -301,17 +301,17 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
 
 const QString DocClipBase::shortInfo() const
 {
-  
+
     QString info;
     if (m_clipType == AV || m_clipType == VIDEO || m_clipType == IMAGE || m_clipType == PLAYLIST) {
-	info = m_properties.value("frame_size") + " ";
-	if (m_properties.contains("fps")) {
-	    info.append(i18n("%1 fps", m_properties.value("fps").left(5)));
-	}
-	if (!info.simplified().isEmpty()) info.prepend(" - ");
+        info = m_properties.value("frame_size") + " ";
+        if (m_properties.contains("fps")) {
+            info.append(i18n("%1 fps", m_properties.value("fps").left(5)));
+        }
+        if (!info.simplified().isEmpty()) info.prepend(" - ");
     }
     else if (m_clipType == AUDIO) {
-	info = " - " + m_properties.value("frequency") + i18n("Hz");
+        info = " - " + m_properties.value("frequency") + i18n("Hz");
     }
     QString tip = "<b>";
     switch (m_clipType) {
@@ -390,7 +390,7 @@ void DocClipBase::addSnapMarker(const CommentedTime &marker)
 
     if ((it != m_snapMarkers.end()) && ((*it).time() == marker.time())) {
         (*it).setComment(marker.comment());
-	(*it).setMarkerType(marker.markerType());
+        (*it).setMarkerType(marker.markerType());
         //kError() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
     } else {
         m_snapMarkers.insert(it, marker);
@@ -467,7 +467,7 @@ GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime)
     return duration();
 }
 
-QString DocClipBase::markerComment(GenTime t) const
+QString DocClipBase::markerComment(const GenTime &t) const
 {
     QList < CommentedTime >::ConstIterator itt = m_snapMarkers.begin();
     while (itt != m_snapMarkers.end()) {
@@ -518,7 +518,7 @@ void DocClipBase::deleteProducers()
     }
     else {
         qDeleteAll(m_baseTrackProducers);
-	qDeleteAll(m_videoTrackProducers);
+        qDeleteAll(m_videoTrackProducers);
         qDeleteAll(m_audioTrackProducers);
         m_replaceMutex.unlock();
     }
@@ -544,9 +544,9 @@ void DocClipBase::cleanupProducers()
     }*/
 
     if (!isClean()) {
-      qDeleteAll(m_toDeleteProducers);
-      m_toDeleteProducers.clear();
-      m_replaceMutex.unlock();
+        qDeleteAll(m_toDeleteProducers);
+        m_toDeleteProducers.clear();
+        m_replaceMutex.unlock();
     }
 }
 
@@ -602,9 +602,9 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             else delete producer;
             return;
         } else if (id.endsWith("video")) {
-	    int pos = 0;
-	    // Keep compatibility with older projects where video only producers were not track specific
-	    if (id.contains('_')) pos = id.section('_', 0, 0).toInt();
+            int pos = 0;
+            // Keep compatibility with older projects where video only producers were not track specific
+            if (id.contains('_')) pos = id.section('_', 0, 0).toInt();
             if (pos >= m_videoTrackProducers.count()) {
                 while (m_videoTrackProducers.count() - 1 < pos) {
                     m_videoTrackProducers.append(NULL);
@@ -649,7 +649,7 @@ static double getPixelAspect(QMap<QString, QString>& props) {
     int aspectNumerator = props.value("force_aspect_num").toInt();
     int aspectDenominator = props.value("force_aspect_den").toInt();
     if (aspectDenominator != 0 && width != 0)
-        return double(height) * aspectNumerator / aspectDenominator / width;    
+        return double(height) * aspectNumerator / aspectDenominator / width;
     else
         return 1.0;
 }
@@ -686,24 +686,24 @@ Mlt::Producer *DocClipBase::audioProducer(int track)
 
 void DocClipBase::adjustProducerProperties(Mlt::Producer *prod, const QString &id, bool mute, bool blind)
 {
-        if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
-            prod->set("force_aspect_ratio", getPixelAspect(m_properties));
-        if (m_properties.contains("force_fps")) prod->set("force_fps", m_properties.value("force_fps").toDouble());
-        if (m_properties.contains("force_progressive")) prod->set("force_progressive", m_properties.value("force_progressive").toInt());
-        if (m_properties.contains("force_tff")) prod->set("force_tff", m_properties.value("force_tff").toInt());
-        if (m_properties.contains("threads")) prod->set("threads", m_properties.value("threads").toInt());
-        if (mute) prod->set("audio_index", -1);
-        else if (m_properties.contains("audio_index")) prod->set("audio_index", m_properties.value("audio_index").toInt());
-        if (blind) prod->set("video_index", -1);
-        else if (m_properties.contains("video_index")) prod->set("video_index", m_properties.value("video_index").toInt());
-        prod->set("id", id.toUtf8().constData());
-        if (m_properties.contains("force_colorspace")) prod->set("force_colorspace", m_properties.value("force_colorspace").toInt());
-        if (m_properties.contains("full_luma")) prod->set("set.force_full_luma", m_properties.value("full_luma").toInt());
-        if (m_properties.contains("proxy_out")) {
-            // We have a proxy clip, make sure the proxy has same duration as original
-            prod->set("length", m_properties.value("duration").toInt());
-            prod->set("out", m_properties.value("proxy_out").toInt());
-        }
+    if (m_properties.contains("force_aspect_num") && m_properties.contains("force_aspect_den") && m_properties.contains("frame_size"))
+        prod->set("force_aspect_ratio", getPixelAspect(m_properties));
+    if (m_properties.contains("force_fps")) prod->set("force_fps", m_properties.value("force_fps").toDouble());
+    if (m_properties.contains("force_progressive")) prod->set("force_progressive", m_properties.value("force_progressive").toInt());
+    if (m_properties.contains("force_tff")) prod->set("force_tff", m_properties.value("force_tff").toInt());
+    if (m_properties.contains("threads")) prod->set("threads", m_properties.value("threads").toInt());
+    if (mute) prod->set("audio_index", -1);
+    else if (m_properties.contains("audio_index")) prod->set("audio_index", m_properties.value("audio_index").toInt());
+    if (blind) prod->set("video_index", -1);
+    else if (m_properties.contains("video_index")) prod->set("video_index", m_properties.value("video_index").toInt());
+    prod->set("id", id.toUtf8().constData());
+    if (m_properties.contains("force_colorspace")) prod->set("force_colorspace", m_properties.value("force_colorspace").toInt());
+    if (m_properties.contains("full_luma")) prod->set("set.force_full_luma", m_properties.value("full_luma").toInt());
+    if (m_properties.contains("proxy_out")) {
+        // We have a proxy clip, make sure the proxy has same duration as original
+        prod->set("length", m_properties.value("duration").toInt());
+        prod->set("out", m_properties.value("proxy_out").toInt());
+    }
 
 }
 
@@ -772,8 +772,8 @@ Mlt::Producer *DocClipBase::getCloneProducer()
             if (m_properties.contains("out"))prod->set("out", m_properties.value("out").toInt());
         }
         if (m_clipType == AUDIO) {
-	    prod->set("_audioclip", 1);
-	}
+            prod->set("_audioclip", 1);
+        }
     }
     return prod;
 }
@@ -804,7 +804,7 @@ Mlt::Producer *DocClipBase::getProducer(int track)
             if (m_baseTrackProducers.at(i) != NULL) break;
 
         if (i >= m_baseTrackProducers.count()) {
-            // Could not find a valid producer for that clip, check in 
+            // Could not find a valid producer for that clip, check in
             return NULL;
         }
         Mlt::Producer *prod = cloneProducer(m_baseTrackProducers.at(i));
@@ -820,8 +820,8 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
     Mlt::Producer *result = NULL;
     QString url = QString::fromUtf8(source->get("resource"));
     if (url == "<playlist>" || url == "<tractor>" || url == "<producer>") {
-	// Xml producer sometimes loses the correct url
-	url = m_properties.value("resource");
+        // Xml producer sometimes loses the correct url
+        url = m_properties.value("resource");
     }
     if (m_clipType == SLIDESHOW || KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
         result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());
@@ -1156,9 +1156,9 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     if (key == "resource") {
         getFileHash(value);
         if (m_thumbProd) m_thumbProd->updateClipUrl(KUrl(value), m_properties.value("file_hash"));
-    //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
+        //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
     } else if (key == "out") {
-	setDuration(GenTime(value.toInt() + 1, KdenliveSettings::project_fps()));
+        setDuration(GenTime(value.toInt() + 1, KdenliveSettings::project_fps()));
     }
     else if (key == "colour") {
         setProducerProperty("colour", value.toUtf8().data());
@@ -1252,22 +1252,24 @@ bool DocClipBase::isPlaceHolder() const
     return m_placeHolder;
 }
 
-void DocClipBase::addCutZone(int in, int out, QString desc)
+void DocClipBase::addCutZone(int in, int out, const QString &desc)
 {
     CutZoneInfo info;
     info.zone = QPoint(in, out);
     info.description = desc;
-    for (int i = 0; i < m_cutZones.count(); ++i)
+    for (int i = 0; i < m_cutZones.count(); ++i) {
         if (m_cutZones.at(i).zone == info.zone) {
             return;
         }
+    }
     m_cutZones.append(info);
 }
 
-bool DocClipBase::hasCutZone(QPoint p) const
+bool DocClipBase::hasCutZone(const QPoint &p) const
 {
     for (int i = 0; i < m_cutZones.count(); ++i)
-        if (m_cutZones.at(i).zone == p) return true;
+        if (m_cutZones.at(i).zone == p)
+            return true;
     return false;
 }
 
@@ -1355,38 +1357,38 @@ void DocClipBase::setAnalysisData(const QString &name, const QString &data, int 
 {
     if (data.isEmpty()) m_analysisdata.remove(name);
     else {
-	if (m_analysisdata.contains(name)) {
-	    if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
-		// Merge data
-		Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
-		Mlt::Geometry geometry(m_analysisdata.value(name).toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
-		Mlt::Geometry newGeometry(data.toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
-		Mlt::GeometryItem item;
-		int pos = 0;
-		while (!newGeometry.next_key(&item, pos)) {
-		    pos = item.frame();
-		    item.frame(pos + offset);
-		    pos++;
-		    geometry.insert(item);
-		}
-		m_analysisdata.insert(name, geometry.serialise());
-	    }
-	    else {
-		// Add data with another name
-		int i = 1;
-		QString newname = name + " " + QString::number(i);
-		while (m_analysisdata.contains(newname)) {
-		    ++i;
-		    newname = name + " " + QString::number(i);
-		}
-		m_analysisdata.insert(newname, geometryWithOffset(data, offset));
-	    }
-	}
-	else m_analysisdata.insert(name, geometryWithOffset(data, offset));
+        if (m_analysisdata.contains(name)) {
+            if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
+                // Merge data
+                Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
+                Mlt::Geometry geometry(m_analysisdata.value(name).toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
+                Mlt::Geometry newGeometry(data.toUtf8().data(), m_properties.value("duration").toInt(), profile->width(), profile->height());
+                Mlt::GeometryItem item;
+                int pos = 0;
+                while (!newGeometry.next_key(&item, pos)) {
+                    pos = item.frame();
+                    item.frame(pos + offset);
+                    pos++;
+                    geometry.insert(item);
+                }
+                m_analysisdata.insert(name, geometry.serialise());
+            }
+            else {
+                // Add data with another name
+                int i = 1;
+                QString newname = name + " " + QString::number(i);
+                while (m_analysisdata.contains(newname)) {
+                    ++i;
+                    newname = name + " " + QString::number(i);
+                }
+                m_analysisdata.insert(newname, geometryWithOffset(data, offset));
+            }
+        }
+        else m_analysisdata.insert(name, geometryWithOffset(data, offset));
     }
 }
 
-const QString DocClipBase::geometryWithOffset(QString data, int offset)
+const QString DocClipBase::geometryWithOffset(const QString &data, int offset)
 {
     if (offset == 0) return data;
     Mlt::Profile *profile = m_baseTrackProducers.at(0)->profile();
@@ -1395,10 +1397,10 @@ const QString DocClipBase::geometryWithOffset(QString data, int offset)
     Mlt::GeometryItem item;
     int pos = 0;
     while (!geometry.next_key(&item, pos)) {
-	pos = item.frame();
-	item.frame(pos + offset);
-	pos++;
-	newgeometry.insert(item);
+        pos = item.frame();
+        item.frame(pos + offset);
+        pos++;
+        newgeometry.insert(item);
     }
     return newgeometry.serialise();
 }

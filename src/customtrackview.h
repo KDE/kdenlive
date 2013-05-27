@@ -55,7 +55,7 @@ public:
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void mouseDoubleClickEvent(QMouseEvent *event);
-    void addTrack(TrackInfo type, int ix = -1);
+    void addTrack(const TrackInfo &type, int ix = -1);
     void removeTrack(int ix);
     /** @brief Makes the document use new track infos (name, type, ...). */
     void configTracks(const QList<TrackInfo> &trackInfos);
@@ -68,7 +68,7 @@ public:
       For example, attempting to move a clip to t = -1 s will actually move it to t = 0 s.
       */
     bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, ItemInfo *out_actualEnd = NULL);
-    void moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove = false);
+    void moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove = false);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
@@ -83,7 +83,7 @@ public:
     /** @brief An effect was dropped on @param clip */
     void slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track);
     /** @brief Add effect to current clip */
-    void slotAddEffect(QDomElement effect, GenTime pos, int track);
+    void slotAddEffect(QDomElement effect, const GenTime &pos, int track);
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = NULL);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
@@ -91,10 +91,9 @@ public:
     /** @brief Enable / disable a list of effects */
     void updateEffectState(int track, GenTime pos, QList <int> effectIndexes, bool disable, bool updateEffectStack);
     void moveEffect(int track, GenTime pos, QList <int> oldPos, QList <int> newPos);
-    void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);
-    void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);
+    void addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh);
+    void deleteTransition(const ItemInfo &transitionInfo, int endTrack, QDomElement params, bool refresh);
     void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition, bool updateTransitionWidget);
-    void moveTransition(GenTime oldpos, GenTime newpos);
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();
@@ -105,7 +104,7 @@ public:
     void updateSceneFrameWidth();
     //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
-    ClipItem *cutClip(ItemInfo info, GenTime cutTime, bool cut, EffectsList oldStack = EffectsList(), bool execute = true);
+    ClipItem *cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);

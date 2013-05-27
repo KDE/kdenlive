@@ -68,7 +68,7 @@ private:
     QStringList m_fixedParams;
 
 signals:
-    void addClip(KUrl url);
+    void addClip(const KUrl &url);
 };
 
 

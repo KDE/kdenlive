@@ -2020,7 +2020,7 @@ void CustomTrackView::slotDropEffect(ClipItem *clip, QDomElement effect, GenTime
     }
 }
 
-void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
+void CustomTrackView::slotAddEffect(QDomElement effect, const GenTime &pos, int track)
 {
     QList<QGraphicsItem *> itemList;
     QUndoCommand *effectCommand = new QUndoCommand();
@@ -2432,7 +2432,7 @@ void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, QString regio
     m_commandStack->push(command);
 }
 
-ClipItem *CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut, EffectsList oldStack, bool execute)
+ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack, bool execute)
 {
     if (cut) {
         // cut clip
@@ -2666,7 +2666,7 @@ void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, ItemInfo transitionI
     setDocumentModified();
 }
 
-void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh)
+void CustomTrackView::addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh)
 {
     Transition *tr = new Transition(transitionInfo, endTrack, m_document->fps(), params, true);
     //kDebug() << "---- ADDING transition " << params.attribute("value");
@@ -2679,7 +2679,7 @@ void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomE
     }
 }
 
-void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement /*params*/, bool refresh)
+void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTrack, QDomElement /*params*/, bool refresh)
 {
     Transition *item = getTransitionItemAt(transitionInfo.startPos, transitionInfo.track);
     if (!item) {
@@ -3049,7 +3049,7 @@ int CustomTrackView::duration() const
     return m_projectDuration;
 }
 
-void CustomTrackView::addTrack(TrackInfo type, int ix)
+void CustomTrackView::addTrack(const TrackInfo &type, int ix)
 {
     QList <TransitionInfo> transitionInfos;
     if (ix == -1 || ix == m_document->tracksCount()) {
@@ -4830,7 +4830,7 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     return success;
 }
 
-void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove)
+void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove)
 {
     // Group Items
     resetSelectionGroup();

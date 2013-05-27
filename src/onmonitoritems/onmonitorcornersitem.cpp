@@ -29,11 +29,11 @@
 #include <QGraphicsView>
 
 OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem* parent) :
-        QGraphicsPolygonItem(parent)
-        , m_mode(NoAction)
-        , m_selectedCorner(-1)
-        , m_modified(false)
-        , m_view(NULL)
+    QGraphicsPolygonItem(parent)
+  , m_mode(NoAction)
+  , m_selectedCorner(-1)
+  , m_modified(false)
+  , m_view(NULL)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -264,8 +264,8 @@ bool OnMonitorCornersItem::getView()
     if (m_view)
         return true;
 
-    if (scene() && scene()->views().count()) {
-        m_view = scene()->views()[0];
+    if (scene() && !scene()->views().isEmpty()) {
+        m_view = scene()->views().first();
         return true;
     } else {
         return false;

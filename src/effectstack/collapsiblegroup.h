@@ -36,12 +36,11 @@
 class MyEditableLabel : public QLineEdit
 {
     Q_OBJECT
-
 public:
-    MyEditableLabel(QWidget * parent = 0);
+    explicit MyEditableLabel(QWidget * parent = 0);
     
 protected:
-    virtual void mouseDoubleClickEvent( QMouseEvent *e);
+    void mouseDoubleClickEvent( QMouseEvent *e);
 };
 
 
@@ -103,7 +102,7 @@ protected:
     virtual void dropEvent(QDropEvent *event);
     
 signals:
-    void deleteGroup(QDomDocument);
+    void deleteGroup(const QDomDocument&);
     void unGroup(CollapsibleGroup *);
     void groupRenamed(CollapsibleGroup *);
 

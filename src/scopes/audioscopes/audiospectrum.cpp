@@ -43,19 +43,19 @@
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
     AbstractAudioScopeWidget(true, parent)
-    , m_fftTools()
-    , m_lastFFT()
-    , m_lastFFTLock(1)
-    , m_peaks()
+  , m_fftTools()
+  , m_lastFFT()
+  , m_lastFFTLock(1)
+  , m_peaks()
   #ifdef DEBUG_AUDIOSPEC
-    , m_timeTotal(0)
-    , m_showTotal(0)
+  , m_timeTotal(0)
+  , m_showTotal(0)
   #endif
-    , m_dBmin(-70)
-    , m_dBmax(0)
-    , m_freqMax(0)
-    , m_customFreq(false)
-    ,colorizeFactor(0)
+  , m_dBmin(-70)
+  , m_dBmax(0)
+  , m_freqMax(0)
+  , m_customFreq(false)
+  ,colorizeFactor(0)
 {
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);
@@ -181,7 +181,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> &audioFrame,
     if (
             audioFrame.size() > 63
             && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0    // <= 0 if widget is too small (resized by user)
-    ) {
+            ) {
         if (!m_customFreq) {
             m_freqMax = freq / 2;
         }
@@ -503,21 +503,21 @@ QImage AudioSpectrum::renderHUD(uint)
 QRect AudioSpectrum::scopeRect()
 {
     m_scopeRect = QRect(
-            QPoint(
+                QPoint(
                     10,                                     // Left
                     ui->verticalSpacer->geometry().top()+6  // Top
-            ),
-            AbstractAudioScopeWidget::rect().bottomRight()
-    );
+                    ),
+                AbstractAudioScopeWidget::rect().bottomRight()
+                );
     m_innerScopeRect = QRect(
-            QPoint(
+                QPoint(
                     m_scopeRect.left()+6,                   // Left
                     m_scopeRect.top()+6                     // Top
-            ), QPoint(
+                    ), QPoint(
                     ui->verticalSpacer->geometry().right()-70,
                     ui->verticalSpacer->geometry().bottom()-40
-            )
-    );
+                    )
+                );
     return m_scopeRect;
 }
 

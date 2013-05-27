@@ -37,8 +37,8 @@ RGBParadeGenerator::RGBParadeGenerator()
 }
 
 QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QImage &image,
-                                              const RGBParadeGenerator::PaintMode paintMode, const bool &drawAxis, 
-                                              const bool &drawGradientRef, const uint &accelFactor)
+                                              const RGBParadeGenerator::PaintMode paintMode, bool drawAxis,
+                                              bool drawGradientRef, uint accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 

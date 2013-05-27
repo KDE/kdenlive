@@ -59,7 +59,8 @@ void OnMonitorPathItem::setPoints(Mlt::Geometry *geometry)
     rebuildShape();
 }
 
-void OnMonitorPathItem::rebuildShape() {
+void OnMonitorPathItem::rebuildShape()
+{
     if (m_activePoint > m_points.count()) m_activePoint = -1;
     QPainterPath p;
     QPainterPath shape;
@@ -81,7 +82,7 @@ void OnMonitorPathItem::rebuildShape() {
     setPath(p);
 }
 
-void OnMonitorPathItem::getMode(QPointF pos)
+void OnMonitorPathItem::getMode(const QPointF &pos)
 {
     double dist  = 8;
     if (getView()) {
@@ -193,8 +194,8 @@ bool OnMonitorPathItem::getView()
     if (m_view)
         return true;
 
-    if (scene() && scene()->views().count()) {
-        m_view = scene()->views()[0];
+    if (scene() && !scene()->views().isEmpty()) {
+        m_view = scene()->views().first();
         return true;
     } else {
         return false;

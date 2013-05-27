@@ -34,8 +34,7 @@ BackupWidget::BackupWidget(const KUrl &projectUrl, const KUrl &projectFolder, co
         // No url, means we opened the backup dialog from an empty project
         info_label->setText(i18n("Showing all backup files in folder"));
         m_projectWildcard = '*';
-    }
-    else {
+    } else {
         info_label->setText(i18n("Showing backup files for %1", projectUrl.fileName()));
         m_projectWildcard = projectUrl.fileName().section('.', 0, -2);
         if (!projectId.isEmpty()) m_projectWildcard.append('-' + projectId);
@@ -83,7 +82,7 @@ void BackupWidget::slotParseBackupFiles()
     QString label;
     for (int i = 0; i < resultList.count(); ++i) {
         label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
-        if (m_projectWildcard.startsWith('*')) {
+        if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
             // Displaying all backup files, so add project name in the entries
             label.prepend(resultList.at(i).fileName().section('-', 0, -7) + ".kdenlive - ");
         }
@@ -106,7 +105,8 @@ void BackupWidget::slotDisplayBackupPreview()
 
 QString BackupWidget::selectedFile() const
 {
-    if (!backup_list->currentItem()) return QString();
+    if (!backup_list->currentItem())
+        return QString();
     return backup_list->currentItem()->data(Qt::UserRole).toString();
 }
 

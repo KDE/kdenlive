@@ -172,7 +172,7 @@ public:
     void deleteProducers();
 
     /** Set default play zone for clip monitor */
-    void setZone(QPoint zone);
+    void setZone(const QPoint &zone);
     /** Get default play zone for clip monitor */
     QPoint zone() const;
 
@@ -181,8 +181,8 @@ public:
     void setValid();
     static QString getHash(const QString &path);
 
-    void addCutZone(int in, int out, QString desc = QString());
-    bool hasCutZone(QPoint p) const;
+    void addCutZone(int in, int out, const QString &desc = QString());
+    bool hasCutZone(const QPoint &p) const;
     void removeCutZone(int in, int out);
     QList <CutZoneInfo> cutZones() const;
     void updateCutZone(int oldin, int oldout, int in, int out, QString desc = QString());
@@ -261,7 +261,7 @@ private:   // Private attributes
     /** @brief Create another instance of a producer. */
     Mlt::Producer *cloneProducer(Mlt::Producer *source);
     /** @brief Offset all keyframes of a geometry. */
-    const QString geometryWithOffset(QString data, int offset);
+    const QString geometryWithOffset(const QString &data, int offset);
 
    
 public slots:
@@ -274,11 +274,11 @@ public slots:
     void editSnapMarker(const GenTime & time, const QString &comment);
     void addSnapMarker(const CommentedTime &marker);
     QList < GenTime > snapMarkers() const;
-    QString markerComment(GenTime t) const;
+    QString markerComment(const GenTime &t) const;
     CommentedTime markerAt(GenTime t) const;
     void setClipThumbFrame(const uint &ix);
     uint getClipThumbFrame() const;
-    void setProperties(QMap <QString, QString> properties);
+    void setProperties(QMap<QString, QString> properties);
     void setMetadata(QMap <QString, QString> properties, QString tool = QString());
     void slotExtractImage(QList <int> frames);
 

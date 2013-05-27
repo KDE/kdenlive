@@ -16,7 +16,7 @@
 #include <cstdlib>
 
 AudioInfo::AudioInfo(Mlt::Producer *producer) :
-m_producer(NULL)
+    m_producer(NULL)
 {
     // Since we already receive an MLT producer, we do not need to initialize MLT:
     // Mlt::Factory::init(NULL);
@@ -25,7 +25,7 @@ m_producer(NULL)
     int streams = producer->get_int("meta.media.nb_streams");
     for (int i = 0; i < streams; ++i) {
         QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
-	const char* streamtype = producer->get(propertyName.data());
+        const char* streamtype = producer->get(propertyName.data());
         if (streamtype && strcmp("audio", streamtype) == 0) {
             m_list << new AudioStreamInfo(producer, i);
         }

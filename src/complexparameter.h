@@ -49,8 +49,8 @@ public slots:
     void slotUpdateEffectParams(const QDomElement &e);
     void slotUpdateParameterList(const QStringList &);
 signals:
-    void removeEffect(ClipItem*, QDomElement);
-    void updateClipEffect(ClipItem*, QDomElement);
+    void removeEffect(ClipItem*, const QDomElement &);
+    void updateClipEffect(ClipItem*, const QDomElement &);
     void parameterChanged();
 
 };

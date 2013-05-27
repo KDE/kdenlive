@@ -57,7 +57,7 @@ private:
     QList<int> dbscale;
 
 public slots:
-    void showAudio(const QByteArray);
+    void showAudio(const QByteArray &);
     void slotReceiveAudio(QVector<int16_t>,int,int,int);
 private slots:
      void slotNoAudioTimeout();

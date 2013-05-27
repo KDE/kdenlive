@@ -29,7 +29,6 @@ public:
 private:
     Mlt::Producer *m_producer;
     QList<AudioStreamInfo*> m_list;
-
 };
 
 #endif // AUDIOINFO_H
