@@ -478,7 +478,7 @@ QString DocClipBase::markerComment(const GenTime &t) const
     return QString();
 }
 
-CommentedTime DocClipBase::markerAt(GenTime t) const
+CommentedTime DocClipBase::markerAt(const GenTime &t) const
 {
     QList < CommentedTime >::ConstIterator itt = m_snapMarkers.begin();
     while (itt != m_snapMarkers.end()) {
@@ -1048,7 +1048,7 @@ void DocClipBase::setProperties(QMap <QString, QString> properties)
     if (refreshProducer) slotRefreshProducer();
 }
 
-void DocClipBase::setMetadata(QMap <QString, QString> properties, QString tool)
+void DocClipBase::setMetadata(const QMap <QString, QString> &properties, const QString &tool)
 {
     QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
@@ -1340,7 +1340,7 @@ bool DocClipBase::hasAudioCodec(const QString &codec) const
 }
 
 
-void DocClipBase::slotExtractImage(QList <int> frames)
+void DocClipBase::slotExtractImage(const QList <int> &frames)
 {
     if (m_thumbProd == NULL) return;
     m_thumbProd->extractImage(frames);
