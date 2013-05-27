@@ -275,12 +275,12 @@ public slots:
     void addSnapMarker(const CommentedTime &marker);
     QList < GenTime > snapMarkers() const;
     QString markerComment(const GenTime &t) const;
-    CommentedTime markerAt(GenTime t) const;
+    CommentedTime markerAt(const GenTime &t) const;
     void setClipThumbFrame(const uint &ix);
     uint getClipThumbFrame() const;
     void setProperties(QMap<QString, QString> properties);
-    void setMetadata(QMap <QString, QString> properties, QString tool = QString());
-    void slotExtractImage(QList <int> frames);
+    void setMetadata(const QMap <QString, QString> &properties, const QString &tool = QString());
+    void slotExtractImage(const QList <int> &frames);
 
 signals:
     void gotAudioData();
