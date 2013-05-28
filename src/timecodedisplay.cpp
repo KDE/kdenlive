@@ -96,7 +96,7 @@ void TimecodeDisplay::slotUpdateTimeCodeFormat()
     setTimeCodeFormat(KdenliveSettings::frametimecode());
 }
 
-void TimecodeDisplay::updateTimeCode(Timecode t)
+void TimecodeDisplay::updateTimeCode(const Timecode &t)
 {
     m_timecode = t;
     setTimeCodeFormat(KdenliveSettings::frametimecode());

@@ -72,7 +72,7 @@ public:
 
     /** @brief Sets timecode for current project.
      * @param t the new timecode */
-    void updateTimeCode(Timecode t);
+    void updateTimeCode(const Timecode &t);
 
     virtual void stepBy(int steps);
 

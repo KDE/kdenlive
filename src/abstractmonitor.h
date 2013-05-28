@@ -41,7 +41,13 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0):QObject(parent), sendFrameForAnalysis(false), analyseAudio(false), m_name(name) {}
+    explicit AbstractRender(Kdenlive::MONITORID name, QWidget *parent = 0)
+        : QObject(parent),
+          sendFrameForAnalysis(false),
+          analyseAudio(false),
+          m_name(name)
+    {
+    }
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~AbstractRender() {}
@@ -62,10 +68,10 @@ private:
     
 signals:
     /** @brief The renderer refreshed the current frame. */
-    void frameUpdated(QImage);
+    void frameUpdated(const QImage &);
 
     /** @brief This signal contains the audio of the current frame. */
-    void audioSamplesSignal(QVector<int16_t>,int,int,int);
+    void audioSamplesSignal(const QVector<int16_t>&,int,int,int);
 };
 
 

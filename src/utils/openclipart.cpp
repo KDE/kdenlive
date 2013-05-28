@@ -39,12 +39,13 @@ OpenClipArt::~OpenClipArt()
 {
 }
 
-void OpenClipArt::slotStartSearch(const QString searchText, int page)
+void OpenClipArt::slotStartSearch(const QString &searchText, int page)
 {
     m_listWidget->clear();
     QString uri = "http://openclipart.org/api/search/?query=";
     uri.append(searchText);
-    if (page > 1) uri.append("&page=" + QString::number(page));
+    if (page > 1)
+        uri.append("&page=" + QString::number(page));
         
     KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
     connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );

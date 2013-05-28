@@ -116,7 +116,7 @@ void initEffects::refreshLumas()
 }
 
 // static
-QDomDocument initEffects::getUsedCustomEffects(QMap <QString, QString> effectids)
+QDomDocument initEffects::getUsedCustomEffects(const QMap <QString, QString>& effectids)
 {
     QMapIterator<QString, QString> i(effectids);
     int ix;

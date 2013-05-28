@@ -1707,7 +1707,7 @@ QString ProjectList::getExtensions()
     return allExtensions.simplified();
 }
 
-void ProjectList::slotAddClip(const QString url, const QString &groupName, const QString &groupId)
+void ProjectList::slotAddClip(const QString &url, const QString &groupName, const QString &groupId)
 {
     kDebug()<<"// Adding clip: "<<url;
     QList <QUrl> list;
@@ -1715,7 +1715,7 @@ void ProjectList::slotAddClip(const QString url, const QString &groupName, const
     slotAddClip(list, groupName, groupId);
 }
 
-void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &groupName, const QString &groupId)
+void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &groupName, const QString &groupId)
 {
     if (!m_commandStack)
         kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
@@ -1735,45 +1735,46 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &group
         l->addWidget(c);
         l->addStretch(5);
         f->setLayout(l);
+
         QPointer<KFileDialog> d = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, kapp->activeWindow(), f);
         d->setOperationMode(KFileDialog::Opening);
         d->setMode(KFile::Files);
         if (d->exec() == QDialog::Accepted) {
             KdenliveSettings::setAutoimagetransparency(c->isChecked());
-        }
-        list = d->selectedUrls();
-        if (b->isChecked() && list.count() == 1) {
-            // Check for image sequence
-            KUrl url = list.at(0);
-            QString fileName = url.fileName().section('.', 0, -2);
-            if (fileName.at(fileName.size() - 1).isDigit()) {
-                KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
-                if (item.mimetype().startsWith("image")) {
-                    // import as sequence if we found more than one image in the sequence
-                    QStringList list;
-                    QString pattern = SlideshowClip::selectedPath(url.path(), false, QString(), &list);
-                    int count = list.count();
-                    if (count > 1) {
-                        delete d;
-                        QStringList groupInfo = getGroup();
+            list = d->selectedUrls();
+            if (b->isChecked() && list.count() == 1) {
+                // Check for image sequence
+                KUrl url = list.at(0);
+                QString fileName = url.fileName().section('.', 0, -2);
+                if (fileName.at(fileName.size() - 1).isDigit()) {
+                    KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+                    if (item.mimetype().startsWith("image")) {
+                        // import as sequence if we found more than one image in the sequence
+                        QStringList list;
+                        QString pattern = SlideshowClip::selectedPath(url.path(), false, QString(), &list);
+                        int count = list.count();
+                        if (count > 1) {
+                            delete d;
+                            QStringList groupInfo = getGroup();
 
-                        // get image sequence base name
-                        while (fileName.at(fileName.size() - 1).isDigit()) {
-                            fileName.chop(1);
+                            // get image sequence base name
+                            while (fileName.at(fileName.size() - 1).isDigit()) {
+                                fileName.chop(1);
+                            }
+                            QMap <QString, QString> properties;
+                            properties.insert("name", fileName);
+                            properties.insert("resource", pattern);
+                            properties.insert("in", "0");
+                            QString duration = m_timecode.reformatSeparators(KdenliveSettings::sequence_duration());
+                            properties.insert("out", QString::number(m_doc->getFramePos(duration) * count));
+                            properties.insert("ttl", QString::number(m_doc->getFramePos(duration)));
+                            properties.insert("loop", QString::number(false));
+                            properties.insert("crop", QString::number(false));
+                            properties.insert("fade", QString::number(false));
+                            properties.insert("luma_duration", QString::number(m_doc->getFramePos(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))))));
+                            m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
+                            return;
                         }
-                        QMap <QString, QString> properties;
-                        properties.insert("name", fileName);
-                        properties.insert("resource", pattern);
-                        properties.insert("in", "0");
-                        QString duration = m_timecode.reformatSeparators(KdenliveSettings::sequence_duration());
-                        properties.insert("out", QString::number(m_doc->getFramePos(duration) * count));
-                        properties.insert("ttl", QString::number(m_doc->getFramePos(duration)));
-                        properties.insert("loop", QString::number(false));
-                        properties.insert("crop", QString::number(false));
-                        properties.insert("fade", QString::number(false));
-                        properties.insert("luma_duration", QString::number(m_doc->getFramePos(m_timecode.getTimecodeFromFrames(int(ceil(m_timecode.fps()))))));
-                        m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
-                        return;
                     }
                 }
             }

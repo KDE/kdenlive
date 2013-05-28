@@ -50,7 +50,7 @@ private:
 public slots:
     void slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update);
     void slotTransitionChanged(bool reinit = true, bool updateCurrent = false);
-    void slotUpdateEffectParams(const QDomElement, const QDomElement);
+    void slotUpdateEffectParams(const QDomElement &, const QDomElement&);
 
 private slots:
     /** @brief Sets the new B track for the transition (automatic or forced). */

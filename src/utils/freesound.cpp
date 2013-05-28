@@ -50,12 +50,13 @@ FreeSound::~FreeSound()
     delete m_previewProcess;
 }
 
-void FreeSound::slotStartSearch(const QString searchText, int page)
+void FreeSound::slotStartSearch(const QString &searchText, int page)
 {
     m_listWidget->clear();
     QString uri = "http://www.freesound.org/api/sounds/search/?q=";
     uri.append(searchText);
-    if (page > 1) uri.append("&p=" + QString::number(page));
+    if (page > 1)
+        uri.append("&p=" + QString::number(page));
     uri.append("&api_key=a1772c8236e945a4bee30a64058dabf8");
 
     KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );

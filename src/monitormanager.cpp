@@ -205,7 +205,7 @@ void MonitorManager::slotEnd()
     else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotEnd();
 }
 
-void MonitorManager::resetProfiles(Timecode tc)
+void MonitorManager::resetProfiles(const Timecode &tc)
 {
     m_timecode = tc;
     slotResetProfiles();

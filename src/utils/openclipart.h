@@ -36,13 +36,13 @@ class OpenClipArt : public AbstractService
 public:
     explicit OpenClipArt(QListWidget *listWidget, QObject * parent = 0);
     ~OpenClipArt();
-    virtual QString getExtension(QListWidgetItem *item);
-    virtual QString getDefaultDownloadName(QListWidgetItem *item);
+    QString getExtension(QListWidgetItem *item);
+    QString getDefaultDownloadName(QListWidgetItem *item);
 
 
 public slots:
-    virtual void slotStartSearch(const QString searchText, int page = 0);
-    virtual OnlineItemInfo displayItemDetails(QListWidgetItem *item);
+    void slotStartSearch(const QString &searchText, int page = 0);
+    OnlineItemInfo displayItemDetails(QListWidgetItem *item);
  
 
 private slots:

@@ -228,7 +228,7 @@ QWidget *Monitor::container()
 }
 
 #ifdef USE_OPENGL
-bool Monitor::createOpenGlWidget(QWidget *parent, const QString profile)
+bool Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
 {
     render = new Render(id(), 0, profile, this);
     m_glWidget = new VideoGLWidget(parent);
@@ -610,13 +610,13 @@ void Monitor::slotExtractCurrentFrame()
     fs->setMode(KFile::File);
     fs->setConfirmOverwrite(true);
     fs->setKeepLocation(true);
-    fs->exec();
-    QString path;
-    if (fs) path = fs->selectedFile();
-    delete fs;
-    if (!path.isEmpty()) {
-        frame.save(path);
+    if (fs->exec()) {
+        QString path = fs->selectedFile();
+        if (!path.isEmpty()) {
+            frame.save(path);
+        }
     }
+    delete fs;
 }
 
 void Monitor::setTimePos(const QString &pos)
@@ -958,7 +958,7 @@ void Monitor::resetProfile(const QString &profile)
         m_effectWidget->resetProfile(render);
 }
 
-void Monitor::saveSceneList(QString path, QDomElement info)
+void Monitor::saveSceneList(const QString &path, const QDomElement &info)
 {
     if (render == NULL) return;
     render->saveSceneList(path, info);
@@ -970,7 +970,7 @@ const QString Monitor::sceneList()
     return render->sceneList();
 }
 
-void Monitor::setClipZone(QPoint pos)
+void Monitor::setClipZone(const QPoint &pos)
 {
     if (m_currentClip == NULL) return;
     m_currentClip->setZone(pos);

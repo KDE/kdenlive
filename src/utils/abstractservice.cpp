@@ -38,7 +38,7 @@ AbstractService::~AbstractService()
 {
 }
 
-void AbstractService::slotStartSearch(const QString , int )
+void AbstractService::slotStartSearch(const QString & , int )
 {
 }
 

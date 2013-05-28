@@ -516,7 +516,7 @@ void RenderWidget::slotSaveProfile()
 }
 
 
-void RenderWidget::saveProfile(QDomElement newprofile)
+void RenderWidget::saveProfile(const QDomElement &newprofile)
 {
     QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
     QDomDocument doc;
@@ -860,7 +860,7 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
 }
 
 
-void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio)
+void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio)
 {
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;

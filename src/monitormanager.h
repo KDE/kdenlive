@@ -37,7 +37,7 @@ public:
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);
     Timecode timecode() const;
-    void resetProfiles(Timecode tc);
+    void resetProfiles(const Timecode &tc);
     void stopActiveMonitor();
     AbstractRender *activeRenderer();
     /** Searches for a monitor with the given name.

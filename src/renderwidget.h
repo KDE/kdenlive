@@ -142,7 +142,7 @@ protected:
     virtual void keyPressEvent(QKeyEvent *e);
 
 public slots:
-    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
+    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
 
 private slots:
     void slotUpdateButtons(const KUrl &url);
@@ -202,7 +202,7 @@ private:
     /** @brief Check if a job needs to be started. */
     void checkRenderStatus();
     void startRendering(RenderJobItem *item);
-    void saveProfile(QDomElement newprofile);
+    void saveProfile(const QDomElement &newprofile);
     QList <QListWidgetItem *> m_renderItems;
     QList <QListWidgetItem *> m_renderCategory;
     void errorMessage(const QString &message);
@@ -212,7 +212,7 @@ signals:
     void openDvdWizard(const QString &url);
     /** Send the infos about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file */
-    void selectedRenderProfile(QMap <QString, QString> renderProps);
+    void selectedRenderProfile(const QMap <QString, QString> &renderProps);
     void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile);
     void shutdown();
 };

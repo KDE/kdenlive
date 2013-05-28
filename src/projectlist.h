@@ -313,8 +313,8 @@ public slots:
 
     /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
-    void slotAddClip(const QString url, const QString &groupName, const QString &groupId);
-    void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
+    void slotAddClip(const QString &url, const QString &groupName, const QString &groupId);
+    void slotAddClip(const QList <QUrl> &givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
 
     /** @brief Adds, edits or deletes a folder item.
     *

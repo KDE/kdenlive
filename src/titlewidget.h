@@ -104,9 +104,9 @@ public:
     static void refreshTitleTemplates();
 
 protected:
-    virtual void resizeEvent(QResizeEvent * event);
-    virtual void keyPressEvent(QKeyEvent *e);
-    virtual QSize sizeHint() const;
+    void resizeEvent(QResizeEvent * event);
+    void keyPressEvent(QKeyEvent *e);
+    QSize sizeHint() const;
 
 private:
 
