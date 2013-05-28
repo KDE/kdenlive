@@ -93,7 +93,7 @@ void KThumb::updateThumbUrl(const QString &hash)
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
-void KThumb::updateClipUrl(KUrl url, const QString &hash)
+void KThumb::updateClipUrl(const KUrl &url, const QString &hash)
 {
     m_url = url;
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";

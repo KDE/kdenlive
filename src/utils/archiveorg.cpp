@@ -52,7 +52,7 @@ ArchiveOrg::~ArchiveOrg()
     delete m_previewProcess;
 }
 
-void ArchiveOrg::slotStartSearch(const QString searchText, int page)
+void ArchiveOrg::slotStartSearch(const QString &searchText, int page)
 {
     m_listWidget->clear();
     QString uri = "http://www.archive.org/advancedsearch.php?q=";

@@ -41,10 +41,10 @@ public:
     void updateEffectLabel(const QStringList &effects);
 
 protected:
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void dropEvent(QDropEvent * event);
-    virtual void dragEnterEvent(QDragEnterEvent *event);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
+    void dropEvent(QDropEvent * event);
+    void dragEnterEvent(QDragEnterEvent *event);
 
 private:
     int m_index;
@@ -63,10 +63,10 @@ signals:
     void switchTrackAudio(int);
     void switchTrackVideo(int);
     void switchTrackLock(int);
-    void renameTrack(int, QString);
+    void renameTrack(int, const QString&);
     void selectTrack(int);
     void configTrack(int);
-    void addTrackEffect(const QDomElement, int);
+    void addTrackEffect(const QDomElement &, int);
     void showTrackEffects(int);
 };
 

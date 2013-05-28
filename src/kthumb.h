@@ -71,7 +71,7 @@ public:
     void getGenericThumb(int frame, int height, int type);
 
 public slots:
-    void updateClipUrl(KUrl url, const QString &hash);
+    void updateClipUrl(const KUrl &url, const QString &hash);
     void slotCreateAudioThumbs();
 
 public:
@@ -109,8 +109,8 @@ private:
     QImage getProducerFrame(int framepos, int frameWidth, int displayWidth, int height);
 
 signals:
-    void thumbReady(int, QImage);
-    void mainThumbReady(const QString &, QPixmap);
+    void thumbReady(int, const QImage&);
+    void mainThumbReady(const QString &, const QPixmap&);
     void audioThumbReady(const audioByteArray&);
     /** @brief We have finished caching all requested thumbs. */
     void thumbsCached();

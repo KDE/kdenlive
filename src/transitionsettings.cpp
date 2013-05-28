@@ -211,7 +211,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
     }
 }
 
-void TransitionSettings::slotUpdateEffectParams(const QDomElement oldparam, const QDomElement param)
+void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, const QDomElement &param)
 {
     if (m_usedTransition) {
         m_usedTransition->setTransitionParameters(param);

@@ -33,9 +33,6 @@ class SmallRuler : public QWidget
 
 public:
     explicit SmallRuler(Monitor *manager, Render *render, QWidget *parent = 0);
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseMoveEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent * event);
     void adjustScale(int maximum);
     void setZone(int start, int end);
     void setZoneStart();
@@ -49,6 +46,9 @@ protected:
     void paintEvent(QPaintEvent *e);
     void resizeEvent(QResizeEvent *);
     void leaveEvent(QEvent * event);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseMoveEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
 
 private:
     int m_cursorPosition;

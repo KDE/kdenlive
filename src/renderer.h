@@ -65,7 +65,7 @@ class Filter;
 class Profile;
 class Service;
 class Event;
-};
+}
 
 struct requestClipInfo {
     QDomElement xml;
@@ -73,10 +73,10 @@ struct requestClipInfo {
     int imageHeight;
     bool replaceProducer;
 
-bool operator==(const requestClipInfo &a)
-{
-    return clipId == a.clipId;
-}
+    bool operator==(const requestClipInfo &a)
+    {
+        return clipId == a.clipId;
+    }
 };
 
 class MltErrorEvent : public QEvent
@@ -94,7 +94,7 @@ private:
 
 class Render: public AbstractRender
 {
-Q_OBJECT public:
+    Q_OBJECT public:
 
     enum FailStates { OK = 0,
                       APP_NOEXIST
@@ -159,7 +159,7 @@ Q_OBJECT public:
     void saveZone(KUrl url, QString desc, QPoint zone);
     
     /** @brief Save a clip in timeline to an xml playlist. */
-    bool saveClip(int track, GenTime position, KUrl url, QString desc = QString());
+    bool saveClip(int track, const GenTime &position, const KUrl &url, const QString &desc = QString());
 
     /** @brief Return true if we are currently playing */
     bool isPlaying() const;
@@ -181,7 +181,7 @@ Q_OBJECT public:
     double consumerRatio() const;
 
     /** @brief Saves current producer frame as an image. */
-    void exportCurrentFrame(KUrl url, bool notify);
+    void exportCurrentFrame(const KUrl &url, bool notify);
 
     /** @brief Change the Mlt PROFILE
      * @param profileName The MLT profile name
@@ -215,7 +215,7 @@ Q_OBJECT public:
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
     int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false);
     bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
-    bool mltCutClip(int track, GenTime position);
+    bool mltCutClip(int track, const GenTime &position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
 
@@ -239,7 +239,7 @@ Q_OBJECT public:
     bool mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh);
     bool mltAddTrackEffect(int track, EffectsParameterList params);
     
-    /** @brief Enable / disable clip effects. 
+    /** @brief Enable / disable clip effects.
      * @param track The track where the clip is
      * @param position The start position of the clip
      * @param effectIndexes The list of effect indexes to enable / disable

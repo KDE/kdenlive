@@ -364,7 +364,7 @@ private slots:
     void slotUpdateClip(const QString &id);
     void slotUpdateMousePosition(int pos);
     void slotUpdateProjectDuration(int pos);
-    void slotAddEffect(const QDomElement effect);
+    void slotAddEffect(const QDomElement &effect);
     void slotEditProfiles();
     void slotDetectAudioDriver();
     void slotEditProjectSettings();
@@ -428,7 +428,7 @@ private slots:
     void slotAddProjectClip(KUrl url, stringMap data = stringMap());
     void slotAddProjectClipList(KUrl::List urls);
     void slotShowClipProperties(DocClipBase *clip);
-    void slotShowClipProperties(QList <DocClipBase *>cliplist, QMap<QString, QString> commonproperties);
+    void slotShowClipProperties(const QList<DocClipBase *> &cliplist, const QMap<QString, QString> &commonproperties);
     void slotTimelineClipSelected(ClipItem* item, bool raise = true);
     void slotTrackSelected(int index, TrackInfo info, bool raise = true);
     void slotActivateTransitionView(Transition *);
@@ -461,7 +461,7 @@ private slots:
 
     void slotAdjustClipMonitor();
     void slotAdjustProjectMonitor();
-    void slotSaveZone(Render *render, QPoint zone, DocClipBase *baseClip = NULL, KUrl path = KUrl());
+    void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, KUrl path = KUrl());
 
     void slotSetInPoint();
     void slotSetOutPoint();
@@ -527,7 +527,7 @@ private slots:
     /** @brief Deletes items from timeline and document.
     * @param ids The ids of the clips to delete.
     * @param folderids The names and ids of the folders to delete. */
-    void slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids);
+    void slotDeleteProjectClips(const QStringList &ids, const QMap<QString, QString> &folderids);
     void slotShowTitleBars(bool show);
     void slotSwitchTitles();
     /** @brief Update the capture folder if user asked a change. */

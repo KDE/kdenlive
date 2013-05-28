@@ -74,7 +74,7 @@ public:
     SERVICETYPE serviceType;
 
 public slots:
-    virtual void slotStartSearch(const QString searchText, int page = 0);
+    virtual void slotStartSearch(const QString &searchText, int page = 0);
     virtual OnlineItemInfo displayItemDetails(QListWidgetItem *item);
     virtual bool startItemPreview(QListWidgetItem *item);
     virtual void stopItemPreview(QListWidgetItem *item);

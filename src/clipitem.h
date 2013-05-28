@@ -78,7 +78,7 @@ public:
     EffectsParameterList addEffect(QDomElement effect, bool animate = true);
 
     /** @brief Deletes the effect with id @param index. */
-    void deleteEffect(QString index);
+    void deleteEffect(const QString &index);
 
     /** @brief Gets the number of effects in this clip. */
     int effectsCount();
@@ -180,7 +180,7 @@ public:
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
 
     /** @brief Adjusts effects after a clip duration change. */
-    QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, ItemInfo oldInfo);
+    QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo);
 
     /** Returns the necessary (audio, video, general) producer.
      * @param track Track of the requested producer

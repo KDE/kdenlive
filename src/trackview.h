@@ -80,7 +80,7 @@ public:
     void updatePalette();
 
 protected:
-    virtual void keyPressEvent(QKeyEvent * event);
+    void keyPressEvent(QKeyEvent * event);
 
 public slots:
     void slotDeleteClip(const QString &clipId);

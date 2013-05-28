@@ -39,7 +39,7 @@ class Frame;
 class Event;
 class Producer;
 class Profile;
-};
+}
 
 class MltDeviceCapture: public AbstractRender
 {

@@ -150,9 +150,9 @@ void ParameterPlotter::createParametersNew()
     QString paramlist;
     QTextStream txtstr(&paramlist);
     QDomNode pa = namenode.item(0);
-    if (namenode.count() > 0) {
+    if (!namenode.isEmpty()) {
         for (int i = 0; i < plotobjs.count(); ++i) {
-            QList<KPlotPoint*> points = plotobjs[i]->points();
+            QList<KPlotPoint*> points = plotobjs.at(i)->points();
             foreach(const KPlotPoint *o, points) {
                 txtstr << (int)o->y() ;
                 break;//first no keyframes

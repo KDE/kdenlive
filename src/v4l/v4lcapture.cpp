@@ -59,11 +59,11 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     char *devName = NULL;
     int captureEnabled = 1;
     if (ioctl(fd, VIDIOC_QUERYCAP, &cap) < 0) {
-            fprintf(stderr, "Cannot get capabilities.");
-            //return NULL;
+        fprintf(stderr, "Cannot get capabilities.");
+        //return NULL;
     }
     else {
-	devName = strdup((char*) cap.card);
+        devName = strdup((char*) cap.card);
         if(!cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) {
             // Device cannot capture
             captureEnabled = 0;
@@ -71,7 +71,7 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     }
 
     if (captureEnabled) {
-	struct v4l2_format format;
+        struct v4l2_format format;
         memset(&format,0,sizeof(format));
         format.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
@@ -85,20 +85,20 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
 
         struct v4l2_frmivalenum rates;
         memset(&rates,0,sizeof(rates));
-	char value[200];
+        char value[200];
 
         while (ioctl(fd, VIDIOC_ENUM_FMT, &fmt) != -1)
         {
-	    if (pixelformatdescription.length() > 2000) break;
+            if (pixelformatdescription.length() > 2000) break;
             if (snprintf( value, sizeof(value), ">%c%c%c%c", fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24 ) > 0)
-		pixelformatdescription.append(value);
+                pixelformatdescription.append(value);
             fprintf(stderr, "detected format: %s: %c%c%c%c\n", fmt.description, fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24);
 
             sizes.pixel_format = fmt.pixelformat;
             sizes.index = 0;
             // Query supported frame size
             while (ioctl(fd, VIDIOC_ENUM_FRAMESIZES, &sizes) != -1) {
-		struct v4l2_frmsize_discrete image_size = sizes.discrete;
+                struct v4l2_frmsize_discrete image_size = sizes.discrete;
                 // Query supported frame rates
                 rates.index = 0;
                 rates.pixel_format = fmt.pixelformat;
@@ -106,14 +106,14 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
                 rates.height = image_size.height;
                 if (pixelformatdescription.length() > 2000) break;
                 if (snprintf( value, sizeof(value), ":%dx%d=", image_size.width, image_size.height ) > 0)
-		    pixelformatdescription.append(value);
+                    pixelformatdescription.append(value);
                 fprintf(stderr, "Size: %dx%d: ", image_size.width, image_size.height);
                 while (ioctl(fd, VIDIOC_ENUM_FRAMEINTERVALS, &rates) != -1) {
-		    if (pixelformatdescription.length() > 2000) break;
+                    if (pixelformatdescription.length() > 2000) break;
                     if (snprintf( value, sizeof(value), "%d/%d,", rates.discrete.denominator, rates.discrete.numerator ) > 0)
-			pixelformatdescription.append(value);
+                        pixelformatdescription.append(value);
                     fprintf(stderr, "%d/%d, ", rates.discrete.numerator, rates.discrete.denominator);
-		    rates.index ++;
+                    rates.index ++;
                 }
                 fprintf(stderr, "\n");
                 sizes.index++;
@@ -125,7 +125,8 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     free(src);
 
     QStringList result;
-    if (devName == NULL) return result; 
+    if (devName == NULL)
+        return result;
     QString deviceName(devName);
     result << (deviceName.isEmpty() ? input : deviceName) << pixelformatdescription;
     return result;

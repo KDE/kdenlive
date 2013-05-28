@@ -1881,8 +1881,9 @@ void TitleWidget::saveTitle(KUrl url)
         fs->setMode(KFile::File);
         fs->setConfirmOverwrite(true);
         fs->setKeepLocation(true);
-        fs->exec();
-        if (fs) url = fs->selectedUrl();
+        if (fs->exec()) {
+            url = fs->selectedUrl();
+        }
         delete fs;
     }
     if (!url.isEmpty()) {

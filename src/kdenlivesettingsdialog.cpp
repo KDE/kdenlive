@@ -487,14 +487,11 @@ void KdenliveSettingsDialog::slotEditVideoApplication()
 {
     KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
-    if (dlg->exec() != QDialog::Accepted)
-    {
-        delete dlg;
-        return;
+    if (dlg->exec() == QDialog::Accepted) {
+        service = dlg->service();
+        m_configEnv.kcfg_defaultplayerapp->setText(service->exec());
     }
 
-    service = dlg->service();
-    m_configEnv.kcfg_defaultplayerapp->setText(service->exec());
     delete dlg;
 }
 
@@ -502,14 +499,11 @@ void KdenliveSettingsDialog::slotEditAudioApplication()
 {
     KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
-    if (dlg->exec() != QDialog::Accepted)
-    {
-        delete dlg;
-        return;
+    if (dlg->exec() == QDialog::Accepted) {
+        service = dlg->service();
+        m_configEnv.kcfg_defaultaudioapp->setText(service->exec());
     }
 
-    service = dlg->service();
-    m_configEnv.kcfg_defaultaudioapp->setText(service->exec());
     delete dlg;
 }
 
@@ -517,13 +511,10 @@ void KdenliveSettingsDialog::slotEditImageApplication()
 {
     KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
-    if (dlg->exec() != QDialog::Accepted)
-    {
-        delete dlg;
-        return;
+    if (dlg->exec() == QDialog::Accepted) {
+        service = dlg->service();
+        m_configEnv.kcfg_defaultimageapp->setText(service->exec());
     }
-    service = dlg->service();
-    m_configEnv.kcfg_defaultimageapp->setText(service->exec());
     delete dlg;
 }
 

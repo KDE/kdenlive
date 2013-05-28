@@ -1475,7 +1475,7 @@ void Render::saveZone(KUrl url, QString desc, QPoint zone)
 }
 
 
-bool Render::saveClip(int track, GenTime position, KUrl url, QString desc)
+bool Render::saveClip(int track, const GenTime &position, const KUrl &url, const QString &desc)
 {
     // find clip
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -1856,7 +1856,7 @@ void Render::exportFileToFirewire(QString /*srcFileName*/, int /*port*/, GenTime
     KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please install Libiec61883 and recompile Kdenlive"));
 }
 
-void Render::exportCurrentFrame(KUrl url, bool /*notify*/)
+void Render::exportCurrentFrame(const KUrl &url, bool /*notify*/)
 {
     if (!m_mltProducer) {
         KMessageBox::sorry(qApp->activeWindow(), i18n("There is no clip, cannot extract frame."));
@@ -2109,7 +2109,7 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
 }
 
 
-bool Render::mltCutClip(int track, GenTime position)
+bool Render::mltCutClip(int track, const GenTime &position)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
