@@ -35,16 +35,18 @@ NotesWidget::NotesWidget(QWidget * parent) :
 
 void NotesWidget::slotFillNotesMenu(QMenu *menu)
 {
-    QAction *a = new QAction(i18n("Insert current timecode"), this);
+    QAction *a = new QAction(i18n("Insert current timecode"), menu);
     connect(a, SIGNAL(triggered(bool)), this, SIGNAL(insertNotesTimecode()));
     menu->insertAction(menu->actions().at(0), a);
 }
 
 void NotesWidget::mouseMoveEvent( QMouseEvent * e )
 {
-    QString anchor = anchorAt(e->pos());
-    if (anchor.isEmpty()) viewport()->setCursor(Qt::IBeamCursor);
-    else viewport()->setCursor(Qt::PointingHandCursor);
+    const QString anchor = anchorAt(e->pos());
+    if (anchor.isEmpty())
+        viewport()->setCursor(Qt::IBeamCursor);
+    else
+        viewport()->setCursor(Qt::PointingHandCursor);
     KTextEdit::mouseMoveEvent(e);
 }
 

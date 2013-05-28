@@ -38,8 +38,8 @@ public:
     ~NotesWidget();
 
 protected:
-    virtual void mouseMoveEvent ( QMouseEvent * e );
-    virtual void mousePressEvent ( QMouseEvent * e );
+    void mouseMoveEvent ( QMouseEvent * e );
+    void mousePressEvent ( QMouseEvent * e );
     
 private slots:
     void slotFillNotesMenu(QMenu *menu);
