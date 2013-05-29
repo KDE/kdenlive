@@ -62,8 +62,8 @@ protected:
     QProcess *m_jobProcess;
     
 signals:
-    void jobProgress(QString, int, int);
-    void cancelRunningJob(const QString, stringMap);
+    void jobProgress(const QString&, int, int);
+    void cancelRunningJob(const QString &, const stringMap&);
 };
 
 

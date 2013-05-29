@@ -26,7 +26,7 @@
 #include <QGraphicsView>
 
 
-BPointItem::BPointItem(BPoint point, QGraphicsItem* parent) :
+BPointItem::BPointItem(const BPoint &point, QGraphicsItem* parent) :
         QAbstractGraphicsShapeItem(parent),
         m_selection(-1)
 {
@@ -43,12 +43,12 @@ BPointItem::BPointItem(BPoint point, QGraphicsItem* parent) :
     m_view = scene()->views()[0];
 }
 
-BPoint BPointItem::getPoint()
+BPoint BPointItem::getPoint() const
 {
     return BPoint(mapToScene(m_point.h1), mapToScene(m_point.p), mapToScene(m_point.h2));
 }
 
-void BPointItem::setPoint(BPoint point)
+void BPointItem::setPoint(const BPoint &point)
 {
     setPos(point.p);
     prepareGeometryChange();
@@ -107,7 +107,7 @@ void BPointItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
                                 m_point.p.y() - handleSizeHalf, handleSize, handleSize));
 }
 
-int BPointItem::getSelection(QPointF pos)
+int BPointItem::getSelection(const QPointF &pos)
 {
     QList <qreal> d;
     d << QLineF(pos, m_point.h1).length() << QLineF(pos, m_point.p).length() << QLineF(pos, m_point.h2).length();

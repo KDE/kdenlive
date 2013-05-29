@@ -22,8 +22,6 @@
 #define PROXYCLIPJOB
 
 #include <QObject>
-#include <QProcess>
-
 #include "abstractclipjob.h"
 
 

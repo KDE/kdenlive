@@ -67,7 +67,7 @@ private:
     QMap <QString, QString> m_extra;
 
 signals:
-    void gotFilterJobResults(const QString &id, int startPos, int track, stringMap result, stringMap extra);
+    void gotFilterJobResults(const QString &id, int startPos, int track, const stringMap &result, const stringMap &extra);
 };
 
 #endif

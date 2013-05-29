@@ -30,7 +30,7 @@ public:
     explicit Waveform(QWidget *parent = 0);
     ~Waveform();
 
-    virtual QString widgetName() const;
+    QString widgetName() const;
 
 protected:
     virtual void readConfig();
