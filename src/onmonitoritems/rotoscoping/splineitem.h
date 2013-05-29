@@ -36,19 +36,19 @@ public:
 
     virtual int type() const;
 
-    bool editing();
+    bool editing() const;
 
     void updateSpline(bool editing = false);
-    QList <BPoint> getPoints();
+    QList <BPoint> getPoints() const;
     void setPoints(const QList <BPoint> &points);
 
     void removeChild(QGraphicsItem *child);
 
 protected:
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 
 private:
     int getClosestPointOnCurve(const QPointF &point, double *tFinal);

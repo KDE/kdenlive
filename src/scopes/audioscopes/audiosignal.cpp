@@ -222,8 +222,8 @@ void AudioSignal::showAudio(const QByteArray &arr)
 
 double AudioSignal::valueToPixel(double in)
 {
-	//in=0 -> return 0 (null length from max), in=127/127 return 1 (max length )
-	return 1.0- log10( in)/log10(1.0/127.0);
+    //in=0 -> return 0 (null length from max), in=127/127 return 1 (max length )
+    return 1.0- log10( in)/log10(1.0/127.0);
 }
 
 #include "audiosignal.moc"

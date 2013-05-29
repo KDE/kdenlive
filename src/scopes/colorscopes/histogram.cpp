@@ -91,7 +91,10 @@ void Histogram::writeConfig()
     scopeConfig.sync();
 }
 
-QString Histogram::widgetName() const { return QString("Histogram"); }
+QString Histogram::widgetName() const
+{
+    return QString::fromLatin1("Histogram");
+}
 
 bool Histogram::isHUDDependingOnInput() const { return false; }
 bool Histogram::isScopeDependingOnInput() const { return true; }
