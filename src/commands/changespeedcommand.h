@@ -22,8 +22,6 @@
 #define CHANGESPEEDCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <KDebug>
 
 #include "gentime.h"
 #include "definitions.h"
@@ -34,8 +32,8 @@ class ChangeSpeedCommand : public QUndoCommand
 {
 public:
     ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, double old_speed, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

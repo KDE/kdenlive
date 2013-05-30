@@ -22,7 +22,7 @@
 #include "customtrackview.h"
 
 #include <KLocale>
-
+#include <KDebug>
 AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
@@ -30,8 +30,10 @@ AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo 
         m_addTrack(addTrack),
         m_info(info)
 {
-    if (addTrack) setText(i18n("Add track"));
-    else setText(i18n("Delete track"));
+    if (addTrack)
+        setText(i18n("Add track"));
+    else
+        setText(i18n("Delete track"));
 }
 
 
@@ -39,14 +41,18 @@ AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo 
 void AddTrackCommand::undo()
 {
 // kDebug()<<"----  undoing action";
-    if (m_addTrack) m_view->removeTrack(m_ix);
-    else m_view->addTrack(m_info, m_ix);
+    if (m_addTrack)
+        m_view->removeTrack(m_ix);
+    else
+        m_view->addTrack(m_info, m_ix);
 }
 // virtual
 void AddTrackCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_addTrack) m_view->addTrack(m_info, m_ix);
-    else m_view->removeTrack(m_ix);
+    if (m_addTrack)
+        m_view->addTrack(m_info, m_ix);
+    else
+        m_view->removeTrack(m_ix);
 }
 

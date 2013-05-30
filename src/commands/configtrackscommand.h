@@ -21,8 +21,6 @@
 #define CONFIGTRACKSCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
 
 #include "definitions.h"
 
@@ -32,8 +30,8 @@ class ConfigTracksCommand : public QUndoCommand
 {
 public:
     ConfigTracksCommand(CustomTrackView *view, const QList <TrackInfo> &oldInfos, const QList <TrackInfo> &newInfos, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

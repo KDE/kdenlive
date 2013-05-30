@@ -30,27 +30,36 @@ AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, const ItemInfo
         m_doIt(doIt),
         m_remove(remove)
 {
-    if (m_remove) setText(i18n("Delete transition from clip"));
-    else setText(i18n("Add transition to clip"));
+    if (m_remove)
+        setText(i18n("Delete transition from clip"));
+    else
+        setText(i18n("Add transition to clip"));
+
     if (parent) {
         // command has a parent, so there are several operations ongoing, do not refresh monitor
         m_refresh = false;
-    } else m_refresh = true;
+    } else {
+        m_refresh = true;
+    }
 }
 
 
 // virtual
 void AddTransitionCommand::undo()
 {
-    if (m_remove) m_view->addTransition(m_info, m_track, m_params, m_refresh);
-    else m_view->deleteTransition(m_info, m_track, m_params, m_refresh);
+    if (m_remove)
+        m_view->addTransition(m_info, m_track, m_params, m_refresh);
+    else
+        m_view->deleteTransition(m_info, m_track, m_params, m_refresh);
 }
 // virtual
 void AddTransitionCommand::redo()
 {
     if (m_doIt) {
-        if (m_remove) m_view->deleteTransition(m_info, m_track, m_params, m_refresh);
-        else m_view->addTransition(m_info, m_track, m_params, m_refresh);
+        if (m_remove)
+            m_view->deleteTransition(m_info, m_track, m_params, m_refresh);
+        else
+            m_view->addTransition(m_info, m_track, m_params, m_refresh);
     }
     m_doIt = true;
 }

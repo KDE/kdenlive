@@ -22,8 +22,7 @@
 #define EDITCLIPCOMMAND_H
 
 #include <QUndoCommand>
-#include <KDebug>
-#include <QDomElement>
+#include <QMap>
 
 class ProjectList;
 
@@ -32,8 +31,8 @@ class EditClipCommand : public QUndoCommand
 public:
     EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent = 0);
 
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     ProjectList *m_list;

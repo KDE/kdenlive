@@ -19,10 +19,7 @@
 #define ADDTRANSITIONCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
 #include <QDomElement>
-#include <KDebug>
 
 #include "gentime.h"
 #include "definitions.h"
@@ -33,8 +30,8 @@ class AddTransitionCommand : public QUndoCommand
 {
 public:
     AddTransitionCommand(CustomTrackView *view, const ItemInfo &info, int transitiontrack, const QDomElement &params, bool remove, bool doIt, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

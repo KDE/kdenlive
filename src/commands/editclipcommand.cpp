@@ -21,6 +21,7 @@
 #include "projectlist.h"
 
 #include <KLocale>
+#include <KDebug>
 
 EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
@@ -44,7 +45,8 @@ void EditClipCommand::undo()
 void EditClipCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_doIt) m_list->slotUpdateClipProperties(m_id, m_newparams);
+    if (m_doIt)
+        m_list->slotUpdateClipProperties(m_id, m_newparams);
     m_doIt = true;
 }
 
