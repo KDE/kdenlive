@@ -24,19 +24,19 @@
 #include <KLocale>
 
 ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime& pos, const QList <int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_track(track),
-        m_effectIndexes(effectIndexes),
-        m_pos(pos),
-        m_disable(disable),
-        m_doIt(doIt),
-        m_refreshEffectStack(refreshEffectStack)
+    QUndoCommand(parent),
+    m_view(view),
+    m_track(track),
+    m_effectIndexes(effectIndexes),
+    m_pos(pos),
+    m_disable(disable),
+    m_doIt(doIt),
+    m_refreshEffectStack(refreshEffectStack)
 {
-    if (disable) 
-	setText(i18np("Disable effect", "Disable effects", effectIndexes.count()));
+    if (disable)
+        setText(i18np("Disable effect", "Disable effects", effectIndexes.count()));
     else
-	setText(i18np("Enable effect", "Enable effects", effectIndexes.count()));
+        setText(i18np("Enable effect", "Enable effects", effectIndexes.count()));
 }
 
 // virtual
@@ -47,7 +47,8 @@ void ChangeEffectStateCommand::undo()
 // virtual
 void ChangeEffectStateCommand::redo()
 {
-    if (m_doIt) m_view->updateEffectState(m_track, m_pos, m_effectIndexes, m_disable, m_refreshEffectStack);
+    if (m_doIt)
+        m_view->updateEffectState(m_track, m_pos, m_effectIndexes, m_disable, m_refreshEffectStack);
     m_doIt = true;
     m_refreshEffectStack = true;
 }
