@@ -22,16 +22,17 @@
 #include "customtrackview.h"
 
 #include <KLocale>
+#include <KDebug>
 
 MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &oldPos, int newPos, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_track(track),
-        m_oldindex(oldPos),
-        m_pos(pos)
+    QUndoCommand(parent),
+    m_view(view),
+    m_track(track),
+    m_oldindex(oldPos),
+    m_pos(pos)
 {
     for (int i = 0; i < m_oldindex.count(); ++i) {
-	m_newindex << newPos + i;
+        m_newindex << newPos + i;
     }
     /*    QString effectName;
         QDomElement namenode = effect.firstChildElement("name");

@@ -29,8 +29,8 @@ class RefreshMonitorCommand : public QUndoCommand
 {
 public:
     RefreshMonitorCommand(CustomTrackView *view, bool execute, bool refreshOnUndo, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

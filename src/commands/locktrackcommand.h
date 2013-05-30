@@ -22,7 +22,6 @@
 #define LOCKTRACKCOMMAND_H
 
 #include <QUndoCommand>
-#include <KDebug>
 
 class CustomTrackView;
 
@@ -30,8 +29,8 @@ class LockTrackCommand : public QUndoCommand
 {
 public:
     LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

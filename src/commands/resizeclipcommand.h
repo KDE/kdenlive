@@ -22,10 +22,6 @@
 #define RESIZECLIPCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
-
-#include <KDebug>
 
 #include "definitions.h"
 
@@ -35,8 +31,8 @@ class ResizeClipCommand : public QUndoCommand
 {
 public:
     ResizeClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool dontWorry, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;
