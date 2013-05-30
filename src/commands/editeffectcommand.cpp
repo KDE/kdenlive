@@ -20,24 +20,26 @@
 
 #include "editeffectcommand.h"
 #include "customtrackview.h"
-
+#include <KDebug>
 #include <KLocale>
 
 EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_track(track),
-        m_oldeffect(oldeffect),
-        m_effect(effect),
-        m_pos(pos),
-        m_stackPos(stackPos),
-        m_doIt(doIt),
-        m_refreshEffectStack(refreshEffectStack)
+    QUndoCommand(parent),
+    m_view(view),
+    m_track(track),
+    m_oldeffect(oldeffect),
+    m_effect(effect),
+    m_pos(pos),
+    m_stackPos(stackPos),
+    m_doIt(doIt),
+    m_refreshEffectStack(refreshEffectStack)
 {
     QString effectName;
     QDomElement namenode = effect.firstChildElement("name");
-    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
-    else effectName = i18n("effect");
+    if (!namenode.isNull())
+        effectName = i18n(namenode.text().toUtf8().data());
+    else
+        effectName = i18n("effect");
     setText(i18n("Edit effect %1", effectName));
 }
 
@@ -50,10 +52,14 @@ int EditEffectCommand::id() const
 // virtual
 bool EditEffectCommand::mergeWith(const QUndoCommand * other)
 {
-    if (other->id() != id()) return false;
-    if (m_track != static_cast<const EditEffectCommand*>(other)->m_track) return false;
-    if (m_stackPos != static_cast<const EditEffectCommand*>(other)->m_stackPos) return false;
-    if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos) return false;
+    if (other->id() != id())
+        return false;
+    if (m_track != static_cast<const EditEffectCommand*>(other)->m_track)
+        return false;
+    if (m_stackPos != static_cast<const EditEffectCommand*>(other)->m_stackPos)
+        return false;
+    if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos)
+        return false;
     m_effect = static_cast<const EditEffectCommand*>(other)->m_effect.cloneNode().toElement();
     return true;
 }
@@ -67,7 +73,7 @@ void EditEffectCommand::undo()
 void EditEffectCommand::redo()
 {
     if (m_doIt) {
-	m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack);
+        m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack);
     }
     m_doIt = true;
     m_refreshEffectStack = true;

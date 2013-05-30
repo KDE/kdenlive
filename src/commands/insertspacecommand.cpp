@@ -24,16 +24,18 @@
 #include <KLocale>
 
 InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_clipsToMove(clipsToMove),
-        m_transToMove(transToMove),
-        m_duration(duration),
-        m_track(track),
-        m_doIt(doIt)
+    QUndoCommand(parent),
+    m_view(view),
+    m_clipsToMove(clipsToMove),
+    m_transToMove(transToMove),
+    m_duration(duration),
+    m_track(track),
+    m_doIt(doIt)
 {
-    if (duration > GenTime()) setText(i18n("Insert space"));
-    else setText(i18n("Remove space"));
+    if (duration > GenTime())
+        setText(i18n("Insert space"));
+    else
+        setText(i18n("Remove space"));
 }
 
 // virtual
