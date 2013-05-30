@@ -96,10 +96,10 @@ private:
     QMutex m_mutex;
     
 protected:
-    virtual void mouseDoubleClickEvent ( QMouseEvent * event );
-    virtual void dragEnterEvent(QDragEnterEvent *event);
-    virtual void dragLeaveEvent(QDragLeaveEvent *event);
-    virtual void dropEvent(QDropEvent *event);
+    void mouseDoubleClickEvent ( QMouseEvent * event );
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragLeaveEvent(QDragLeaveEvent *event);
+    void dropEvent(QDropEvent *event);
     
 signals:
     void deleteGroup(const QDomDocument&);
