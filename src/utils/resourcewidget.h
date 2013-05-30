@@ -70,9 +70,12 @@ private slots:
     void slotSetMaximum(int max);
 
 private:
+    void loadConfig();
+    void saveConfig();
+    void parseLicense(const QString &);
+
     QString m_folder;
     AbstractService *m_currentService;
-    void parseLicense(const QString &);
     OnlineItemInfo m_currentInfo;
 #if KDE_IS_VERSION(4,4,0)
     KPixmapSequenceOverlayPainter *m_busyWidget;
