@@ -22,20 +22,23 @@
 #include <KLocale>
 
 EditKeyFrameCommand::EditKeyFrameCommand(CustomTrackView *view, const int track, const GenTime &pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt) :
-        QUndoCommand(),
-        m_view(view),
-        m_oldkfr(oldkeyframes),
-        m_newkfr(newkeyframes),
-        m_track(track),
-        m_index(effectIndex),
-        m_pos(pos),
-        m_doIt(doIt)
+    QUndoCommand(),
+    m_view(view),
+    m_oldkfr(oldkeyframes),
+    m_newkfr(newkeyframes),
+    m_track(track),
+    m_index(effectIndex),
+    m_pos(pos),
+    m_doIt(doIt)
 {
-    int prev = m_oldkfr.split(';', QString::SkipEmptyParts).count();
-    int next = m_newkfr.split(';', QString::SkipEmptyParts).count();
-    if (prev == next) setText(i18n("Edit keyframe"));
-    else if (prev > next) setText(i18n("Delete keyframe"));
-    else setText(i18n("Add keyframe"));
+    int prev = m_oldkfr.split(QLatin1Char(';'), QString::SkipEmptyParts).count();
+    int next = m_newkfr.split(QLatin1Char(';'), QString::SkipEmptyParts).count();
+    if (prev == next)
+        setText(i18n("Edit keyframe"));
+    else if (prev > next)
+        setText(i18n("Delete keyframe"));
+    else
+        setText(i18n("Add keyframe"));
     //kDebug() << "///  CREATE GUIDE COMMAND, TIMES: " << m_oldPos.frames(25) << "x" << m_pos.frames(25);
 }
 

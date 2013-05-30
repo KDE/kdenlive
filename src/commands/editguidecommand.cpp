@@ -22,23 +22,25 @@
 #include <KLocale>
 
 EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment, bool doIt, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_oldcomment(oldcomment),
-        m_comment(comment),
-        m_oldPos(oldPos),
-        m_pos(pos),
-        m_doIt(doIt)
+    QUndoCommand(parent),
+    m_view(view),
+    m_oldcomment(oldcomment),
+    m_comment(comment),
+    m_oldPos(oldPos),
+    m_pos(pos),
+    m_doIt(doIt)
 {
     if (m_oldcomment.isEmpty()) {
-	setText(i18n("Add guide"));
-	m_oldPos = GenTime(-1);
+        setText(i18n("Add guide"));
+        m_oldPos = GenTime(-1);
     }
-    else if (m_oldPos == m_pos) setText(i18n("Edit guide"));
-    else if (m_pos < GenTime() && m_comment.isEmpty()) setText(i18n("Delete guide"));
-    else setText(i18n("Move guide"));
+    else if (m_oldPos == m_pos)
+        setText(i18n("Edit guide"));
+    else if (m_pos < GenTime() && m_comment.isEmpty())
+        setText(i18n("Delete guide"));
+    else
+        setText(i18n("Move guide"));
 }
-
 
 // virtual
 void EditGuideCommand::undo()

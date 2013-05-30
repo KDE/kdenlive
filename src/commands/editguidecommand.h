@@ -19,10 +19,6 @@
 #define GUIDECOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
-#include <QDomElement>
-#include <KDebug>
 
 #include "gentime.h"
 #include "definitions.h"
@@ -33,8 +29,8 @@ class EditGuideCommand : public QUndoCommand
 {
 public:
     EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment, bool doIt, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

@@ -22,10 +22,7 @@
 #define GROUPCLIPSCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
 
-#include <KDebug>
 #include "definitions.h"
 
 class CustomTrackView;
@@ -34,8 +31,8 @@ class GroupClipsCommand : public QUndoCommand
 {
 public:
     GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo> &transitionInfos, bool group, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

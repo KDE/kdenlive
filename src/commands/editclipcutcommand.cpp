@@ -21,6 +21,7 @@
 #include "projectlist.h"
 
 #include <KLocale>
+#include <KDebug>
 
 EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
@@ -46,7 +47,8 @@ void EditClipCutCommand::undo()
 void EditClipCutCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_doIt) m_list->doUpdateClipCut(m_id, m_oldZone, m_newZone, m_newComment);
+    if (m_doIt)
+        m_list->doUpdateClipCut(m_id, m_oldZone, m_newZone, m_newComment);
     m_doIt = true;
 }
 
