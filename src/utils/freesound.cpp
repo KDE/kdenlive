@@ -200,9 +200,11 @@ void FreeSound::slotParseResults(KJob* job)
 
 bool FreeSound::startItemPreview(QListWidgetItem *item)
 {    
-    if (!item) return false;
-    QString url = item->data(previewRole).toString();
-    if (url.isEmpty()) return false;
+    if (!item)
+        return false;
+    const QString url = item->data(previewRole).toString();
+    if (url.isEmpty())
+        return false;
     if (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning) {
         m_previewProcess->close();
     }
@@ -220,14 +222,16 @@ void FreeSound::stopItemPreview(QListWidgetItem */*item*/)
 
 QString FreeSound::getExtension(QListWidgetItem *item)
 {
-    if (!item) return QString();
+    if (!item)
+        return QString();
     return QString("*.") + item->text().section('.', -1);
 }
 
 
 QString FreeSound::getDefaultDownloadName(QListWidgetItem *item)
 {
-    if (!item) return QString();
+    if (!item)
+        return QString();
     return item->text();
 }
 

@@ -22,7 +22,6 @@
 #define CUTCLIPJOB
 
 #include <QObject>
-#include <QProcess>
 
 #include "abstractclipjob.h"
 

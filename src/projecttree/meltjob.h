@@ -22,19 +22,18 @@
 #define MELTJOB
 
 #include <QObject>
-#include <QProcess>
 
 #include "abstractclipjob.h"
 
 class KUrl;
 
 namespace Mlt{
-        class Profile;
-        class Producer;
-        class Consumer;
-        class Filter;
-        class Event;
-};
+class Profile;
+class Producer;
+class Consumer;
+class Filter;
+class Event;
+}
 
 class MeltJob : public AbstractClipJob
 {
