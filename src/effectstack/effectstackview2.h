@@ -79,11 +79,11 @@ public:
     void setKeyframes(const QString &data, int maximum);
 
 protected:
-    virtual void mouseMoveEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent * event);
-    virtual void resizeEvent ( QResizeEvent * event );
-    virtual void dragEnterEvent(QDragEnterEvent *event);
-    virtual void dropEvent(QDropEvent *event);
+    void mouseMoveEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
+    void resizeEvent ( QResizeEvent * event );
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
   
 private:
     Ui::EffectStack2_UI m_ui;

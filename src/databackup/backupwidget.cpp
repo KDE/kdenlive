@@ -56,14 +56,10 @@ BackupWidget::BackupWidget(const KUrl &projectUrl, const KUrl &projectFolder, co
     connect(project_url, SIGNAL(textChanged(QString)), this, SLOT(slotParseBackupFiles()));
     backup_list->setCurrentRow(0);
     backup_list->setMinimumHeight(QFontMetrics(font()).lineSpacing() * 12);
-    
 }
-
-
 
 BackupWidget::~BackupWidget()
 {
-
 }
 
 void BackupWidget::slotParseBackupFiles()
