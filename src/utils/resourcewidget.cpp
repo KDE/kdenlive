@@ -23,6 +23,7 @@
 #include "freesound.h"
 #include "openclipart.h"
 #include "archiveorg.h"
+#include "kdenlivesettings.h"
 
 #include <QPushButton>
 #include <QSpinBox>
@@ -32,7 +33,6 @@
 
 #include <KDebug>
 #include <kdeversion.h>
-#include "kdenlivesettings.h"
 #include <KGlobalSettings>
 #include <KMessageBox>
 #include <KFileDialog>
@@ -40,6 +40,8 @@
 #include <KIO/NetAccess>
 #include <Solid/Networking>
 #include <KRun>
+#include <KConfigGroup>
+
 #if KDE_IS_VERSION(4,4,0)
 #include <KPixmapSequence>
 #include <KPixmapSequenceOverlayPainter>
@@ -118,12 +120,31 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
 #endif
 #endif
     slotChangeService();
+    loadConfig();
 }
 
 ResourceWidget::~ResourceWidget()
 {
     delete m_currentService;
     KIO::NetAccess::removeTempFile(m_tmpThumbFile);
+    saveConfig();
+}
+
+void ResourceWidget::loadConfig()
+{
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup resourceConfig(config, "ResourceWidget");
+    QList<int> size;
+    size << 100 << 400;
+    splitter->setSizes(resourceConfig.readEntry( "mainSplitter", size));
+}
+
+void ResourceWidget::saveConfig()
+{
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup resourceConfig(config, "ResourceWidget");
+    resourceConfig.writeEntry(QLatin1String("mainsplitter"), splitter->size());
+    config->sync();
 }
 
 void ResourceWidget::slotStartSearch(int page)
@@ -154,7 +175,8 @@ void ResourceWidget::slotUpdateCurrentSound()
     }
     m_currentInfo = m_currentService->displayItemDetails(item);
     
-    if (m_autoPlay->isChecked() && m_currentService->hasPreview) m_currentService->startItemPreview(item);
+    if (m_autoPlay->isChecked() && m_currentService->hasPreview)
+        m_currentService->startItemPreview(item);
     sound_box->setEnabled(true);
     QString title = "<h3>" + m_currentInfo.itemName;
     if (!m_currentInfo.infoUrl.isEmpty())
@@ -205,21 +227,24 @@ void ResourceWidget::slotLoadThumb(const QString &url)
 
 void ResourceWidget::slotDisplayMetaInfo(const QMap<QString, QString> &metaInfo)
 {
-    if (metaInfo.contains("license")) {
-        parseLicense(metaInfo.value("license"));
+    if (metaInfo.contains(QLatin1String("license"))) {
+        parseLicense(metaInfo.value(QLatin1String("license")));
     }
-    if (metaInfo.contains("description")) {
-        slotSetDescription(metaInfo.value("description"));
+    if (metaInfo.contains(QLatin1String("description"))) {
+        slotSetDescription(metaInfo.value(QLatin1String("description")));
     }
 }
 
 
 void ResourceWidget::slotPlaySound()
 {
-    if (!m_currentService) return;
-    bool started = m_currentService->startItemPreview(search_results->currentItem());
-    if (started) button_preview->setText(i18n("Preview"));
-    else button_preview->setText(i18n("Stop"));
+    if (!m_currentService)
+        return;
+    const bool started = m_currentService->startItemPreview(search_results->currentItem());
+    if (started)
+        button_preview->setText(i18n("Preview"));
+    else
+        button_preview->setText(i18n("Stop"));
 }
 
 
@@ -243,7 +268,8 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     QString saveUrl = KFileDialog::getSaveFileName(KUrl(path), ext);
     KIO::UDSEntry entry;
     KUrl srcUrl(m_currentInfo.itemDownload);
-    if (saveUrl.isEmpty() || !KIO::NetAccess::stat(srcUrl, entry, this)) return;
+    if (saveUrl.isEmpty() || !KIO::NetAccess::stat(srcUrl, entry, this))
+        return;
     KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, KUrl(saveUrl), -1, KIO::Overwrite);
     
     KFileItem info(entry, srcUrl);
@@ -294,18 +320,14 @@ void ResourceWidget::slotOpenUrl(const QString &url)
 
 void ResourceWidget::slotChangeService()
 {
-    if (m_currentService) {
-        delete m_currentService;
-        m_currentService = NULL;
-    }
+    delete m_currentService;
+    m_currentService = NULL;
     SERVICETYPE service = (SERVICETYPE) service_list->itemData(service_list->currentIndex()).toInt();
     if (service == FREESOUND) {
         m_currentService = new FreeSound(search_results);
-    }
-    else if (service == OPENCLIPART) {
+    } else if (service == OPENCLIPART) {
         m_currentService = new OpenClipArt(search_results);
-    }
-    else if (service == ARCHIVEORG) {
+    } else if (service == ARCHIVEORG) {
         m_currentService = new ArchiveOrg(search_results);
     }
 
@@ -321,7 +343,8 @@ void ResourceWidget::slotChangeService()
     button_preview->setVisible(m_currentService->hasPreview);
     button_import->setVisible(!m_currentService->inlineDownload);
     search_info->setText(QString());
-    if (!search_text->text().isEmpty()) slotStartSearch();
+    if (!search_text->text().isEmpty())
+        slotStartSearch();
 }
 
 void ResourceWidget::slotSetMaximum(int max)
@@ -343,14 +366,16 @@ void ResourceWidget::slotOffline()
 
 void ResourceWidget::slotNextPage()
 {
-    int ix = page_number->value();
-    if (search_results->count() > 0) page_number->setValue(ix + 1);
+    const int ix = page_number->value();
+    if (search_results->count() > 0)
+        page_number->setValue(ix + 1);
 }
 
 void ResourceWidget::slotPreviousPage()
 {
-    int ix = page_number->value();
-    if (ix > 1) page_number->setValue(ix - 1);
+    const int ix = page_number->value();
+    if (ix > 1)
+        page_number->setValue(ix - 1);
 }
 
 void ResourceWidget::parseLicense(const QString &licenseUrl)
@@ -411,7 +436,7 @@ void ResourceWidget::slotSetMetadata(const QString &desc)
 
 void ResourceWidget::slotSetImage(const QString &desc)
 {
-    m_image = QString("<img src=\"%1\" style=\"max-height:150px\" max-width=\"%2px\" />").arg(desc).arg((int) (info_browser->width() * 0.9));
+    m_image = QString::fromLatin1("<img src=\"%1\" style=\"max-height:150px\" max-width=\"%2px\" />").arg(desc).arg((int) (info_browser->width() * 0.9));
     updateLayout();
 }
 
@@ -426,9 +451,12 @@ void ResourceWidget::slotSetTitle(const QString &desc)
 void ResourceWidget::updateLayout()
 {
     QString content = m_title;
-    if (!m_image.isEmpty()) content.append(m_image + "<br clear=\"all\" />");
-    if (!m_desc.isEmpty()) content.append(m_desc);
-    if (!m_meta.isEmpty()) content.append(m_meta);
+    if (!m_image.isEmpty())
+        content.append(m_image + "<br clear=\"all\" />");
+    if (!m_desc.isEmpty())
+        content.append(m_desc);
+    if (!m_meta.isEmpty())
+        content.append(m_meta);
     info_browser->setHtml(content);
 }
 
