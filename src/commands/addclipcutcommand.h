@@ -31,8 +31,8 @@ class AddClipCutCommand : public QUndoCommand
 public:
     AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove, QUndoCommand * parent = 0);
 
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     ProjectList *m_list;

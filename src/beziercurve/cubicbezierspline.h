@@ -49,7 +49,7 @@ public:
     QString toString() const;
 
     /** @brief Returns a list of the points defining the spline. */
-    QList <BPoint> points();
+    QList <BPoint> points() const;
 
     /** @brief Sets the point at index @param ix to @param point and returns its index (it might have changed during validation). */
     int setPoint(int ix, const BPoint &point);

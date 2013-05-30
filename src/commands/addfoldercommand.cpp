@@ -30,21 +30,27 @@ AddFolderCommand::AddFolderCommand(ProjectList *view, const QString &folderName,
         m_id(clipId),
         m_doIt(doIt)
 {
-    if (doIt) setText(i18n("Add folder"));
-    else setText(i18n("Delete folder"));
+    if (doIt)
+        setText(i18n("Add folder"));
+    else
+        setText(i18n("Delete folder"));
 }
 
 // virtual
 void AddFolderCommand::undo()
 {
-    if (m_doIt) m_view->slotAddFolder(m_name, m_id, true);
-    else m_view->slotAddFolder(m_name, m_id, false);
+    if (m_doIt)
+        m_view->slotAddFolder(m_name, m_id, true);
+    else
+        m_view->slotAddFolder(m_name, m_id, false);
 }
 // virtual
 void AddFolderCommand::redo()
 {
-    if (m_doIt) m_view->slotAddFolder(m_name, m_id, false);
-    else m_view->slotAddFolder(m_name, m_id, true);
+    if (m_doIt)
+        m_view->slotAddFolder(m_name, m_id, false);
+    else
+        m_view->slotAddFolder(m_name, m_id, true);
 }
 
 

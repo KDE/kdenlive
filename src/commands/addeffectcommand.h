@@ -33,8 +33,8 @@ class AddEffectCommand : public QUndoCommand
 public:
     AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand * parent = 0);
 
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

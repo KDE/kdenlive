@@ -22,7 +22,6 @@
 #define TIMELINECLIPCOMMAND_H
 
 #include <QUndoCommand>
-#include <QDomElement>
 #include <KDebug>
 
 #include "gentime.h"
@@ -34,9 +33,9 @@ class CustomTrackView;
 class AddTimelineClipCommand : public QUndoCommand
 {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, const QDomElement &xml, const QString &clipId, ItemInfo info, EffectsList effects, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    AddTimelineClipCommand(CustomTrackView *view, const QDomElement &xml, const QString &clipId, const ItemInfo &info, const EffectsList &effects, bool overwrite, bool push, bool doIt, bool doRemove, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

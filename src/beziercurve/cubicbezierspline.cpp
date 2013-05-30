@@ -48,12 +48,12 @@ void CubicBezierSpline::fromString(const QString& spline)
 {
     m_points.clear();
 
-    QStringList bpoints = spline.split('|');
+    const QStringList bpoints = spline.split(QLatin1Char('|'));
     foreach(const QString &bpoint, bpoints) {
-        QStringList points = bpoint.split('#');
+        const QStringList points = bpoint.split(QLatin1Char('#'));
         QList <QPointF> values;
         foreach(const QString &point, points) {
-            QStringList xy = point.split(';');
+            QStringList xy = point.split(QLatin1Char(';'));
             if (xy.count() == 2)
                 values.append(QPointF(xy.at(0).toDouble(), xy.at(1).toDouble()));
         }
@@ -86,7 +86,7 @@ int CubicBezierSpline::setPoint(int ix, const BPoint& point)
     return indexOf(point); // in case it changed
 }
 
-QList <BPoint> CubicBezierSpline::points()
+QList <BPoint> CubicBezierSpline::points() const
 {
     return m_points;
 }
