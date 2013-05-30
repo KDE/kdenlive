@@ -38,7 +38,7 @@ public:
     cornersActions getMode(const QPointF &pos, int *corner);
 
     /** @brief Reimplemented to draw the handles. */
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

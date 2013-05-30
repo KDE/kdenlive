@@ -1835,13 +1835,14 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
     } else QGraphicsView::dragEnterEvent(event);
 }
 
-bool CustomTrackView::itemCollision(AbstractClipItem *item, ItemInfo newPos)
+bool CustomTrackView::itemCollision(AbstractClipItem *item, const ItemInfo &newPos)
 {
     QRectF shape = QRectF(newPos.startPos.frames(m_document->fps()), newPos.track * m_tracksHeight + 1, (newPos.endPos - newPos.startPos).frames(m_document->fps()) - 0.02, m_tracksHeight - 1);
     QList<QGraphicsItem*> collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
     collindingItems.removeAll(item);
-    if (collindingItems.isEmpty()) return false;
-    else {
+    if (collindingItems.isEmpty()) {
+        return false;
+    } else {
         for (int i = 0; i < collindingItems.count(); ++i) {
             QGraphicsItem *collision = collindingItems.at(i);
             if (collision->type() == item->type()) {
@@ -1913,7 +1914,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
     } else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
 }
 
-void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
+void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElement &effect)
 {
     QString index = effect.attribute("kdenlive_ix");
     if (pos < GenTime()) {
@@ -1999,7 +2000,7 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     }
 }
 
-void CustomTrackView::slotAddEffect(ClipItem *clip, QDomElement effect)
+void CustomTrackView::slotAddEffect(ClipItem *clip, const QDomElement &effect)
 {
     if (clip) slotAddEffect(effect, clip->startPos(), clip->track());
 }
@@ -5249,7 +5250,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
     }
 }
 
-void CustomTrackView::updatePositionEffects(ClipItem* item, ItemInfo info, bool standalone)
+void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info, bool standalone)
 {
     int end = item->fadeIn();
     if (end != 0) {

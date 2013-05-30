@@ -40,7 +40,7 @@ BPointItem::BPointItem(const BPoint &point, QGraphicsItem* parent) :
     m_point.h2 = mapFromScene(point.h2);
     m_point.handlesLinked = false;
 
-    m_view = scene()->views()[0];
+    m_view = scene()->views().first();
 }
 
 BPoint BPointItem::getPoint() const

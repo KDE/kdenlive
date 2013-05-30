@@ -68,6 +68,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                                dest_url->setMode(KFile::File);
                                dest_url->setUrl(KUrl(newFile));
                                dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
+
 } else {
                                label_dest->setText(i18n("Destination folder"));
                                dest_url->setMode(KFile::Directory);

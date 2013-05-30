@@ -31,11 +31,6 @@ class ComplexParameter : public QWidget
 public:
     explicit ComplexParameter(QWidget *parent = 0);
     QDomElement getParamDesc() const;
-private:
-    Ui::KeyframeWidget_UI m_ui;
-    QDomElement m_param;
-    void setupListView();
-    void updateButtonStatus();
 
 public slots:
     void slotSetMoveX();
@@ -48,11 +43,17 @@ public slots:
     void setupParam(const QDomElement &, const QString& paramName, int, int);
     void slotUpdateEffectParams(const QDomElement &e);
     void slotUpdateParameterList(const QStringList &);
+
 signals:
     void removeEffect(ClipItem*, const QDomElement &);
     void updateClipEffect(ClipItem*, const QDomElement &);
     void parameterChanged();
 
+private:
+    Ui::KeyframeWidget_UI m_ui;
+    QDomElement m_param;
+    void setupListView();
+    void updateButtonStatus();
 };
 
 #endif

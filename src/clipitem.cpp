@@ -342,10 +342,10 @@ const QString ClipItem::adjustKeyframes(const QString &keyframes, int offset)
 {
     QStringList result;
     // Simple keyframes
-    const QStringList list = keyframes.split(';', QString::SkipEmptyParts);
+    const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
     foreach(const QString &keyframe, list) {
-        int pos = keyframe.section(':', 0, 0).toInt() - offset;
-        QString newKey = QString::number(pos) + ":" + keyframe.section(':', 1);
+        const int pos = keyframe.section(':', 0, 0).toInt() - offset;
+        const QString newKey = QString::number(pos) + ":" + keyframe.section(':', 1);
         result.append(newKey);
     }
     return result.join(";");
@@ -559,7 +559,8 @@ void ClipItem::updateKeyframeEffect()
 
 QDomElement ClipItem::selectedEffect()
 {
-    if (m_selectedEffect == -1 || m_effectList.isEmpty()) return QDomElement();
+    if (m_selectedEffect == -1 || m_effectList.isEmpty())
+        return QDomElement();
     return effectAtIndex(m_selectedEffect);
 }
 

@@ -78,11 +78,9 @@ static QString colorToString(const QColor &color, bool alpha)
     stream.setFieldAlignment(QTextStream::AlignRight);
     stream.setPadChar('0');
     stream <<  color.red() << color.green() << color.blue();
-    if(alpha)
-    {
+    if (alpha) {
         stream << color.alpha();
-    }
-    else {
+    } else {
 	// MLT always wants 0xRRGGBBAA format
 	stream << "ff";
     }

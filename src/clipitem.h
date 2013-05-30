@@ -197,12 +197,12 @@ public:
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
-    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+    void dropEvent(QGraphicsSceneDragDropEvent *event);
     //virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
     //virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
     DocClipBase *m_clip;

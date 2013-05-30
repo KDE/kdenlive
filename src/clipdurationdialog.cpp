@@ -49,7 +49,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &t
     bool allowCrop = true;
     if (clip->type() == AVWIDGET) {
         ClipItem *item = static_cast <ClipItem *>(clip);
-        int t = item->clipType();
+        const int t = item->clipType();
         if (t == COLOR || t == IMAGE || t == TEXT)
             allowCrop = false;
     }
