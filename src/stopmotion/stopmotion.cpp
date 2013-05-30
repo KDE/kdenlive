@@ -347,7 +347,8 @@ StopmotionWidget::~StopmotionWidget()
 
 void StopmotionWidget::slotUpdateOverlayEffect(QAction* act)
 {
-    if (act) m_effectIndex = act->data().toInt();
+    if (act)
+        m_effectIndex = act->data().toInt();
     KdenliveSettings::setStopmotioneffect(m_effectIndex);
     slotUpdateOverlay();
 }
@@ -552,7 +553,7 @@ void StopmotionWidget::slotShowOverlay(bool isOn)
 
 void StopmotionWidget::reloadOverlay()
 {
-    QString path = getPathForFrame(m_sequenceFrame - 1);
+    const QString path = getPathForFrame(m_sequenceFrame - 1);
     if (!QFile::exists(path)) {
         log_box->insertItem(-1, i18n("No previous frame found"));
         log_box->setCurrentIndex(0);
@@ -651,10 +652,12 @@ void StopmotionWidget::slotCaptureFrame()
     m_sequenceFrame++;
     button_addsequence->setEnabled(true);
     if (capture_interval->isChecked()) {
-        if (KdenliveSettings::sm_prenotify()) QTimer::singleShot((KdenliveSettings::captureinterval() - KdenliveSettings::sm_notifytime()) * 1000, this, SLOT(slotPreNotify()));
+        if (KdenliveSettings::sm_prenotify())
+            QTimer::singleShot((KdenliveSettings::captureinterval() - KdenliveSettings::sm_notifytime()) * 1000, this, SLOT(slotPreNotify()));
         m_intervalTimer.start();
     }
-    else m_captureAction->setChecked(false);
+    else
+        m_captureAction->setChecked(false);
 }
 
 void StopmotionWidget::slotPreNotify()
@@ -674,7 +677,8 @@ void StopmotionWidget::slotNewThumb(const QString &path)
 
 void StopmotionWidget::slotPrepareThumbs()
 {
-    if (m_filesList.isEmpty()) return;
+    if (m_filesList.isEmpty())
+        return;
     QString path = m_filesList.takeFirst();
     emit doCreateThumbs(QImage(path), SlideshowClip::getFrameNumberFromPath(path));
 

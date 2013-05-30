@@ -52,12 +52,12 @@ public:
     void updatePalette();
     
 protected:
-    virtual void paintEvent(QPaintEvent * /*e*/);
-    virtual void wheelEvent(QWheelEvent * e);
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent * event);
-    virtual void mouseMoveEvent(QMouseEvent * event);
-    virtual void leaveEvent(QEvent * event);
+    void paintEvent(QPaintEvent * /*e*/);
+    void wheelEvent(QWheelEvent * e);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
+    void mouseMoveEvent(QMouseEvent * event);
+    void leaveEvent(QEvent * event);
 
 private:
     Timecode m_timecode;

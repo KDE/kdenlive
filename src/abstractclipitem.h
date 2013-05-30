@@ -129,7 +129,7 @@ protected:
       */
     void drawKeyFrames(QPainter *painter, const QTransform &transformation, bool limitedKeyFrames);
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mousePressEvent(QGraphicsSceneMouseEvent * event);
 
 };
 

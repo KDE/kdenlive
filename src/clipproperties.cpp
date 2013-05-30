@@ -209,8 +209,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         QStringList values = i.value();
         QString parentName;
         QString iconName;
-        if (values.count() > 1 && !values.at(1).isEmpty()) parentName = values.at(1);
-        else {
+        if (values.count() > 1 && !values.at(1).isEmpty()) {
+            parentName = values.at(1);
+        } else {
             if (KdenliveSettings::ffmpegpath().endsWith("avconv")) {
                 parentName = i18n("Libav");
                 iconName = "meta_libav.png";
@@ -222,9 +223,11 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         }
         QTreeWidgetItem *parent = NULL;
         QList <QTreeWidgetItem *> matches = m_view.metadata_list->findItems(parentName, Qt::MatchExactly);
-        if (!matches.isEmpty()) parent = matches.at(0);
-        else {
-            if (parentName == "Magic Lantern") iconName = "meta_magiclantern.png";
+        if (!matches.isEmpty()) {
+            parent = matches.at(0);
+        } else {
+            if (parentName == "Magic Lantern")
+                iconName = "meta_magiclantern.png";
             parent = new QTreeWidgetItem(m_view.metadata_list, QStringList() << parentName);
             if (!iconName.isEmpty()) {
                 KIcon icon(KStandardDirs::locate("appdata", iconName));
@@ -314,7 +317,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
             m_view.image_transparency->setChecked(props.value("transparency").toInt());
         connect(m_view.image_transparency, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
         int width = 180.0 * KdenliveSettings::project_display_ratio();
-        if (width % 2 == 1) width++;
+        if (width % 2 == 1)
+            width++;
         m_view.clip_thumb->setPixmap(QPixmap(url.path()).scaled(QSize(width, 180), Qt::KeepAspectRatio));
     } else if (t == COLOR) {
         m_view.clip_path->setEnabled(false);
@@ -327,7 +331,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         m_view.clip_color->setColor(QColor('#' + props.value("colour").right(8).left(6)));
         connect(m_view.clip_color, SIGNAL(changed(QColor)), this, SLOT(slotModified()));
     } else if (t == SLIDESHOW) {
-        if (url.fileName().startsWith(".all.")) {
+        if (url.fileName().startsWith(QLatin1String(".all."))) {
             // the image sequence is defined by mimetype
             m_view.clip_path->setText(url.directory());
         } else {
@@ -452,7 +456,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         
         m_view.clip_thumb->setMinimumSize(180 * KdenliveSettings::project_display_ratio(), 180);
         
-        if (t == IMAGE || t == VIDEO || t == PLAYLIST) m_view.tabWidget->removeTab(AUDIOTAB);
+        if (t == IMAGE || t == VIDEO || t == PLAYLIST)
+            m_view.tabWidget->removeTab(AUDIOTAB);
     } else {
         m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(SLIDETAB);
@@ -470,8 +475,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
     m_view.clip_duration->setInputMask(tc.mask());
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration()));
-    if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
-    else {
+    if (t != IMAGE && t != COLOR && t != TEXT) {
+        m_view.clip_duration->setReadOnly(true);
+    } else {
         connect(m_view.clip_duration, SIGNAL(editingFinished()), this, SLOT(slotCheckMaxLength()));
         connect(m_view.clip_duration, SIGNAL(textChanged(QString)), this, SLOT(slotModified()));
     }
@@ -702,7 +708,9 @@ ClipProperties::ClipProperties(const QList <DocClipBase *> &cliplist, const Time
         if (commonproperties.value("out").toInt() > 0) {
             m_view.clip_force_out->setChecked(true);
             m_view.clip_out->setText(m_tc.getTimecodeFromFrames(commonproperties.value("out").toInt()));
-        } else m_view.clip_out->setText(KdenliveSettings::image_duration());
+        } else {
+            m_view.clip_out->setText(KdenliveSettings::image_duration());
+        }
     } else {
         m_view.clip_force_out->setHidden(true);
         m_view.clip_out->setHidden(true);
@@ -752,7 +760,8 @@ void ClipProperties::loadVideoProperties(const QMap <QString, QString> &props)
 
 void ClipProperties::slotGotThumbnail(const QString &id, const QImage &img)
 {
-    if (id != m_clip->getId()) return;
+    if (id != m_clip->getId())
+        return;
     QPixmap framedPix(img.width(), img.height());
     framedPix.fill(Qt::transparent);
     QPainter p(&framedPix);
@@ -779,13 +788,15 @@ void ClipProperties::slotApplyProperties()
 
 void ClipProperties::slotReloadVideoProperties()
 {
-    if (m_clip == NULL) return;
+    if (m_clip == NULL)
+        return;
     loadVideoProperties(m_clip->properties());
 }
 
 void ClipProperties::slotReloadVideoThumb()
 {
-    if (m_clip == NULL) return;
+    if (m_clip == NULL)
+        return;
     emit requestThumb(QString('?' + m_clip->getId()), QList<int>() << m_clip->getClipThumbFrame());
 }
 
@@ -915,8 +926,9 @@ void ClipProperties::slotDeleteAnalysis()
 
 void ClipProperties::slotSaveAnalysis()
 {
-    QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save Analysis Data"));
-    if (url.isEmpty()) return;
+    const QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save Analysis Data"));
+    if (url.isEmpty())
+        return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
     KConfigGroup analysisConfig(config, "Analysis");
     QTreeWidgetItem *current = m_view.analysis_list->currentItem();
@@ -925,8 +937,9 @@ void ClipProperties::slotSaveAnalysis()
 
 void ClipProperties::slotLoadAnalysis()
 {
-    QString url = KFileDialog::getOpenFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Open Analysis Data"));
-    if (url.isEmpty()) return;
+    const QString url = KFileDialog::getOpenFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Open Analysis Data"));
+    if (url.isEmpty())
+        return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
     KConfigGroup transConfig(config, "Analysis");
     // read the entries
@@ -1240,8 +1253,9 @@ void ClipProperties::parseFolder(bool reloadThumb)
 
 void ClipProperties::slotCheckMaxLength()
 {
-    if (m_clip->maxDuration() == GenTime()) return;
-    int duration = m_tc.getFrameCount(m_view.clip_duration->text());
+    if (m_clip->maxDuration() == GenTime())
+        return;
+    const int duration = m_tc.getFrameCount(m_view.clip_duration->text());
     if (duration > m_clip->maxDuration().frames(m_fps)) {
         m_view.clip_duration->setText(m_tc.getTimecode(m_clip->maxDuration()));
     }
@@ -1249,7 +1263,7 @@ void ClipProperties::slotCheckMaxLength()
 
 void ClipProperties::slotUpdateDurationFormat(int ix)
 {
-    bool framesFormat = ix == 1;
+    bool framesFormat = (ix == 1);
     if (framesFormat) {
         // switching to frames count, update widget
         m_view.slide_duration_frames->setValue(m_tc.getFrameCount(m_view.slide_duration->text()));
@@ -1271,10 +1285,11 @@ void ClipProperties::slotUpdateDurationFormat(int ix)
 
 void ClipProperties::slotDeleteProxy()
 {
-    QString proxy = m_clip->getProperty("proxy");
-    if (proxy.isEmpty()) return;
+    const QString proxy = m_clip->getProperty("proxy");
+    if (proxy.isEmpty())
+        return;
     emit deleteProxy(proxy);
-    if (m_proxyContainer) delete m_proxyContainer;
+    delete m_proxyContainer;
 }
 
 void ClipProperties::slotOpenUrl(const QString &url)

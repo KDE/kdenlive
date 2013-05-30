@@ -86,7 +86,7 @@ public:
     void slotAddEffect(QDomElement effect, const GenTime &pos, int track);
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = NULL);
     void addEffect(int track, GenTime pos, QDomElement effect);
-    void deleteEffect(int track, GenTime pos, QDomElement effect);
+    void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
     void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false);
     /** @brief Enable / disable a list of effects */
     void updateEffectState(int track, GenTime pos, QList <int> effectIndexes, bool disable, bool updateEffectStack);
@@ -295,7 +295,7 @@ public slots:
     * @param skipSelectedItems if true, the selected item start and end points will not be added to snap list */
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     
-    void slotAddEffect(ClipItem *clip, QDomElement effect);
+    void slotAddEffect(ClipItem *clip, const QDomElement &effect);
     void slotImportClipKeyframes(GRAPHICSRECTITEM type);
 
     /** @brief Get effect parameters ready for MLT*/
@@ -399,7 +399,7 @@ private:
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
-    void updatePositionEffects(ClipItem * item, ItemInfo info, bool standalone = true);
+    void updatePositionEffects(ClipItem * item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
     bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
@@ -414,7 +414,7 @@ private:
     void getTransitionAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     void updateClipTypeActions(ClipItem *clip);
     /** Whether an item can be moved to a new position without colliding with similar items */
-    bool itemCollision(AbstractClipItem *item, ItemInfo newPos);
+    bool itemCollision(AbstractClipItem *item, const ItemInfo &newPos);
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
     /** Adjust clips under another one when working in overwrite mode */
