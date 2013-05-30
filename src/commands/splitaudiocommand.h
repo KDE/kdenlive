@@ -22,10 +22,7 @@
 #define SPLITAUDIOCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
 
-#include <KDebug>
 #include "definitions.h"
 
 class GenTime;
@@ -35,8 +32,8 @@ class SplitAudioCommand : public QUndoCommand
 {
 public:
     SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, const EffectsList &effects, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

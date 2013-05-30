@@ -24,11 +24,11 @@
 #include <KLocale>
 
 SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, const EffectsList &effects, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_pos(pos),
-        m_track(track),
-        m_effects(effects)
+    QUndoCommand(parent),
+    m_view(view),
+    m_pos(pos),
+    m_track(track),
+    m_effects(effects)
 {
     setText(i18n("Split audio"));
 }

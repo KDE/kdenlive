@@ -22,9 +22,7 @@
 #define MOVEEFFECTCOMMAND_H
 
 #include <QUndoCommand>
-#include <KDebug>
 #include <gentime.h>
-#include <QDomElement>
 
 class CustomTrackView;
 
@@ -35,8 +33,8 @@ public:
 
     virtual int id() const;
     virtual bool mergeWith(const QUndoCommand * command);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;
