@@ -137,11 +137,6 @@ int main(int argc, char *argv[])
     envelopeSub->loadStdDev();
     envelopeSub->dumpInfo();
 
-
-
-
-
-
     // Calculate the correlation and hereby the audio shift
     AudioCorrelation corr(envelopeMain);
     int index = corr.addChild(envelopeSub, useFFT);
@@ -149,25 +144,23 @@ int main(int argc, char *argv[])
     int shift = corr.getShift(index);
     std::cout << " Should be shifted by " << shift << " frames: " << fileSub << std::endl
               << "\trelative to " << fileMain << std::endl
-              << "\tin a " << prodMain.get_fps() << " fps profile (" << profile << ")." << std::endl
-                 ;
+              << "\tin a " << prodMain.get_fps() << " fps profile (" << profile << ")." << std::endl;
 
 
     if (saveImages) {
-        QString outImg;
-        outImg = QString("envelope-main-%1.png")
+        QString outImg = QString::fromLatin1("envelope-main-%1.png")
                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
         envelopeMain->drawEnvelope().save(outImg);
         std::cout << "Saved volume envelope as "
                   << QFileInfo(outImg).absoluteFilePath().toStdString()
                   << std::endl;
-        outImg = QString("envelope-sub-%1.png")
+        outImg = QString::fromLatin1("envelope-sub-%1.png")
                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
         envelopeSub->drawEnvelope().save(outImg);
         std::cout << "Saved volume envelope as "
                   << QFileInfo(outImg).absoluteFilePath().toStdString()
                   << std::endl;
-        outImg = QString("correlation-%1.png")
+        outImg = QString::fromLatin1("correlation-%1.png")
                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
         corr.info(index)->toImage().save(outImg);
         std::cout << "Saved correlation image as "
@@ -176,7 +169,7 @@ int main(int argc, char *argv[])
     }
 
 
-//    Mlt::Factory::close();
+    //    Mlt::Factory::close();
 
 
     return 0;

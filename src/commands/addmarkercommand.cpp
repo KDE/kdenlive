@@ -28,11 +28,13 @@ AddMarkerCommand::AddMarkerCommand(CustomTrackView *view, const CommentedTime &o
         m_newMarker(newMarker),
         m_id(id)
 {
-    if (m_newMarker.markerType() < 0) setText(i18n("Delete marker"));
-    else if (m_oldMarker.comment().isEmpty()) setText(i18n("Add marker"));
-    else setText(i18n("Edit marker"));
+    if (m_newMarker.markerType() < 0)
+        setText(i18n("Delete marker"));
+    else if (m_oldMarker.comment().isEmpty())
+        setText(i18n("Add marker"));
+    else
+        setText(i18n("Edit marker"));
 }
-
 
 // virtual
 void AddMarkerCommand::undo()

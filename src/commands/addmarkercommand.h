@@ -19,10 +19,6 @@
 #define MARKERCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
-#include <QDomElement>
-#include <KDebug>
 
 #include "gentime.h"
 #include "definitions.h"
@@ -33,8 +29,8 @@ class AddMarkerCommand : public QUndoCommand
 {
 public:
     AddMarkerCommand(CustomTrackView *view, const CommentedTime &oldMarker, const CommentedTime &newMarker, const QString &id, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;
