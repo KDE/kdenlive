@@ -49,9 +49,6 @@ protected:
 private:
     Ui::ManageCaptures_UI m_view;
     QPushButton *m_importButton;
-
-signals:
-    //void updateThumb();
 };
 
 
