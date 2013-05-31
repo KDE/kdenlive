@@ -426,7 +426,7 @@ KUrl ProjectSettings::selectedFolder() const
     return project_folder->url();
 }
 
-QPoint ProjectSettings::tracks()
+QPoint ProjectSettings::tracks() const
 {
     QPoint p;
     p.setX(video_tracks->value());

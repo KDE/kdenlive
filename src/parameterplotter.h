@@ -56,9 +56,9 @@ protected:
 public slots:
     void setPointLists(const QDomElement&, const QString& paramName, int , int);
 signals:
-    void parameterChanged(QDomElement);
+    void parameterChanged(const QDomElement&);
     void updateFrame(int);
-    void parameterList(QStringList);
+    void parameterList(const QStringList&);
 
 };
 
