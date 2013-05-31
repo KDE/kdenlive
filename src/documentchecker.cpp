@@ -822,8 +822,8 @@ void DocumentChecker::checkStatus()
     int ix = 0;
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     while (child) {
-        int status = child->data(0, statusRole).toInt();
-        if (status == CLIPMISSING || status == LUMAMISSING || status == CLIPWRONGDURATION) {
+        int childStatus = child->data(0, statusRole).toInt();
+        if (childStatus == CLIPMISSING || childStatus == LUMAMISSING || childStatus == CLIPWRONGDURATION) {
             status = false;
             break;
         }

@@ -41,11 +41,11 @@
 
 
 DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *parent) :
-        QWizard(parent)
-        , m_dvdauthor(NULL)
-        , m_mkiso(NULL)
-        , m_vobitem(NULL)
-        , m_burnMenu(new QMenu(this))
+    QWizard(parent)
+  , m_dvdauthor(NULL)
+  , m_mkiso(NULL)
+  , m_vobitem(NULL)
+  , m_burnMenu(new QMenu(this))
 {
     setWindowTitle(i18n("DVD Wizard"));
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
@@ -156,7 +156,7 @@ void DvdWizard::slotPageChanged(int page)
         m_pageVob->updateChapters(m_pageChapters->chaptersData());
     } else if (page == 1) {
         m_pageChapters->setVobFiles(m_pageVob->dvdFormat(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
-	setTitleFormat(Qt::PlainText);
+        setTitleFormat(Qt::PlainText);
     } else if (page == 2) {
         m_pageChapters->stopMonitor();
         m_pageVob->updateChapters(m_pageChapters->chaptersData());
@@ -241,7 +241,7 @@ void DvdWizard::generateDvd()
         m_pageMenu->createButtonImages(m_selectedImage.fileName(), m_highlightedImage.fileName(), false);
         m_pageMenu->createBackgroundImage(m_menuImageBackground.fileName(), false);
         images->setIcon(KIcon("dialog-ok"));
-	connect(&m_menuJob, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotProcessMenuStatus(int,QProcess::ExitStatus)));
+        connect(&m_menuJob, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotProcessMenuStatus(int,QProcess::ExitStatus)));
         //kDebug() << "/// STARTING MLT VOB CREATION: "<<m_selectedImage.fileName()<<m_menuImageBackground.fileName();
         if (!m_pageMenu->menuMovie()) {
             // create menu vob file
@@ -257,30 +257,30 @@ void DvdWizard::generateDvd()
             args << "-consumer" << "avformat:" + m_menuVideo.fileName()<<"properties=DVD";
             m_menuJob.start(KdenliveSettings::rendererpath(), args);
         } else {
-	    // Movie as menu background, do the compositing
-	    m_vobitem =  m_status.job_progress->item(1);
+            // Movie as menu background, do the compositing
+            m_vobitem =  m_status.job_progress->item(1);
             m_status.job_progress->setCurrentRow(1);
             m_vobitem->setIcon(KIcon("system-run"));
 
-	    int menuLength = m_pageMenu->menuMovieLength();
-	    if (menuLength == -1) {
-		// menu movie is invalid
-		errorMessage(i18n("Menu movie is invalid"));
-		m_status.button_start->setEnabled(true);
+            int menuLength = m_pageMenu->menuMovieLength();
+            if (menuLength == -1) {
+                // menu movie is invalid
+                errorMessage(i18n("Menu movie is invalid"));
+                m_status.button_start->setEnabled(true);
                 m_status.button_abort->setEnabled(false);
                 return;
-	    }
+            }
             QStringList args;
             args.append("-profile");
             args.append(m_pageVob->dvdProfile());
             args.append(m_pageMenu->menuMoviePath());
-	    args << "-track" << m_menuImageBackground.fileName();
-	    args << "out=" + QString::number(menuLength);
-	    args << "-transition" << "composite" << "always_active=1";
+            args << "-track" << m_menuImageBackground.fileName();
+            args << "out=" + QString::number(menuLength);
+            args << "-transition" << "composite" << "always_active=1";
             args << "-consumer" << "avformat:" + m_menuFinalVideo.fileName()<<"properties=DVD";
-	    m_menuJob.start(KdenliveSettings::rendererpath(), args);
-	    //kDebug()<<"// STARTING MENU JOB, image: "<<m_menuImageBackground.fileName()<<"\n-------------";
-	}
+            m_menuJob.start(KdenliveSettings::rendererpath(), args);
+            //kDebug()<<"// STARTING MENU JOB, image: "<<m_menuImageBackground.fileName()<<"\n-------------";
+        }
     }
     else processDvdauthor();
 }
@@ -326,21 +326,21 @@ void DvdWizard::processSpumux()
 
         // We need to make sure that the y coordinate is a multiple of 2, otherwise button may not be displayed
         buttonsTarget.append(it.key());
-	int y0 = r.y();
-	if (y0 % 2 == 1) y0++;
-	int y1 = r.bottom();
-	if (y1 % 2 == 1) y1--;
+        int y0 = r.y();
+        if (y0 % 2 == 1) y0++;
+        int y1 = r.bottom();
+        if (y1 % 2 == 1) y1--;
         but.setAttribute("x0", QString::number(r.x()));
         but.setAttribute("y0", QString::number(y0));
         but.setAttribute("x1", QString::number(r.right()));
         but.setAttribute("y1", QString::number(y1));
         spu.appendChild(but);
-	++i;
+        ++i;
     }
 
     QFile data(m_menuFile.fileName());
     if (data.open(QFile::WriteOnly)) {
-	data.write(doc.toString().toUtf8());
+        data.write(doc.toString().toUtf8());
     }
     data.close();
 
@@ -380,8 +380,8 @@ void DvdWizard::processSpumux()
             m_status.dvd_file->setPlainText(m_authorFile.readAll());
             m_status.button_start->setEnabled(true);
             kDebug() << "/// RENDERING SPUMUX MENU crashed";
-	    return;
-	}
+            return;
+        }
     } else {
         kDebug() << "/// RENDERING SPUMUX MENU timed out";
         errorMessage(i18n("Rendering job timed out"));
@@ -393,92 +393,92 @@ void DvdWizard::processSpumux()
         m_status.menu_file->setPlainText(m_menuFile.readAll());
         m_status.dvd_file->setPlainText(m_authorFile.readAll());
         m_status.button_start->setEnabled(true);
-	return;
+        return;
     }
     if (m_pageVob->dvdFormat() == PAL_WIDE || m_pageVob->dvdFormat() == NTSC_WIDE) {
-	// Second step processing for 16:9 DVD, add letterbox stream
-	m_pageMenu->createButtonImages(m_selectedLetterImage.fileName(), m_highlightedLetterImage.fileName(), true);
-	buttons = m_pageMenu->buttonsInfo(true);
-	
-	QDomDocument docLetter;
-	QDomElement subLetter = docLetter.createElement("subpictures");
-	docLetter.appendChild(subLetter);
-	QDomElement streamLetter = docLetter.createElement("stream");
-	subLetter.appendChild(streamLetter);
-	QDomElement spuLetter = docLetter.createElement("spu");
-	streamLetter.appendChild(spuLetter);
-	spuLetter.setAttribute("force", "yes");
-	spuLetter.setAttribute("start", "00:00:00.00");
-	spuLetter.setAttribute("select", m_selectedLetterImage.fileName());
-	spuLetter.setAttribute("highlight", m_highlightedLetterImage.fileName());
+        // Second step processing for 16:9 DVD, add letterbox stream
+        m_pageMenu->createButtonImages(m_selectedLetterImage.fileName(), m_highlightedLetterImage.fileName(), true);
+        buttons = m_pageMenu->buttonsInfo(true);
 
-	max = buttons.count() - 1;
-	i = 0;
-	QMapIterator<QString, QRect> it2(buttons);
-	while (it2.hasNext()) {
-	    it2.next();
-	    QDomElement but = docLetter.createElement("button");
-	    but.setAttribute("name", 'b' + QString::number(i));
-	    if (i < max) but.setAttribute("down", 'b' + QString::number(i + 1));
-	    else but.setAttribute("down", "b0");
-	    if (i > 0) but.setAttribute("up", 'b' + QString::number(i - 1));
-	    else but.setAttribute("up", 'b' + QString::number(max));
-	    QRect r = it2.value();
-	    // We need to make sure that the y coordinate is a multiple of 2, otherwise button may not be displayed
-	    buttonsTarget.append(it2.key());
-	    int y0 = r.y();
-	    if (y0 % 2 == 1) y0++;
-	    int y1 = r.bottom();
-	    if (y1 % 2 == 1) y1--;
-	    but.setAttribute("x0", QString::number(r.x()));
-	    but.setAttribute("y0", QString::number(y0));
-	    but.setAttribute("x1", QString::number(r.right()));
-	    but.setAttribute("y1", QString::number(y1));
-	    spuLetter.appendChild(but);
-	    ++i;
-	}
+        QDomDocument docLetter;
+        QDomElement subLetter = docLetter.createElement("subpictures");
+        docLetter.appendChild(subLetter);
+        QDomElement streamLetter = docLetter.createElement("stream");
+        subLetter.appendChild(streamLetter);
+        QDomElement spuLetter = docLetter.createElement("spu");
+        streamLetter.appendChild(spuLetter);
+        spuLetter.setAttribute("force", "yes");
+        spuLetter.setAttribute("start", "00:00:00.00");
+        spuLetter.setAttribute("select", m_selectedLetterImage.fileName());
+        spuLetter.setAttribute("highlight", m_highlightedLetterImage.fileName());
 
-	//kDebug() << " SPUMUX DATA: " << doc.toString();
-    
-	if (data.open(QFile::WriteOnly)) {
-	    data.write(docLetter.toString().toUtf8());
-	}
-	data.close();
-	spumux.setStandardInputFile(m_menuVobFile.fileName());
-	spumux.setStandardOutputFile(m_letterboxMovie.fileName());
-	args.clear();
-	args << "-s" << "1" << m_menuFile.fileName();
-	spumux.start("spumux", args);
-	//kDebug() << "SPM ARGS LETTERBOX: " << args << m_menuVideo.fileName() << m_letterboxMovie.fileName();
-	if (spumux.waitForFinished()) {
-	    m_status.error_log->append(spumux.readAllStandardError());
-	    if (spumux.exitStatus() == QProcess::CrashExit) {
-		//TODO: inform user via messagewidget after string freeze
-		QByteArray result = spumux.readAllStandardError();
-		spuitem->setIcon(KIcon("dialog-close"));
-		m_status.error_log->append(result);
-		m_status.error_box->setHidden(false);
-		m_status.error_box->setTabBarHidden(false);
-		m_status.menu_file->setPlainText(m_menuFile.readAll());
-		m_status.dvd_file->setPlainText(m_authorFile.readAll());
-		m_status.button_start->setEnabled(true);
-		kDebug() << "/// RENDERING SPUMUX MENU crashed";
-		return;
-	    }
-	} else {
-	    kDebug() << "/// RENDERING SPUMUX MENU timed out";
-	    errorMessage(i18n("Rendering job timed out"));
-	    spuitem->setIcon(KIcon("dialog-close"));
-	    m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Menu job timed out"));
-	    m_status.error_log->scrollToAnchor("result");
-	    m_status.error_box->setHidden(false);
-	    m_status.error_box->setTabBarHidden(false);
-	    m_status.menu_file->setPlainText(m_menuFile.readAll());
-	    m_status.dvd_file->setPlainText(m_authorFile.readAll());
-	    m_status.button_start->setEnabled(true);
-	    return;
-	}
-	menuMovieUrl = m_letterboxMovie.fileName();
+        max = buttons.count() - 1;
+        i = 0;
+        QMapIterator<QString, QRect> it2(buttons);
+        while (it2.hasNext()) {
+            it2.next();
+            QDomElement but = docLetter.createElement("button");
+            but.setAttribute("name", 'b' + QString::number(i));
+            if (i < max) but.setAttribute("down", 'b' + QString::number(i + 1));
+            else but.setAttribute("down", "b0");
+            if (i > 0) but.setAttribute("up", 'b' + QString::number(i - 1));
+            else but.setAttribute("up", 'b' + QString::number(max));
+            QRect r = it2.value();
+            // We need to make sure that the y coordinate is a multiple of 2, otherwise button may not be displayed
+            buttonsTarget.append(it2.key());
+            int y0 = r.y();
+            if (y0 % 2 == 1) y0++;
+            int y1 = r.bottom();
+            if (y1 % 2 == 1) y1--;
+            but.setAttribute("x0", QString::number(r.x()));
+            but.setAttribute("y0", QString::number(y0));
+            but.setAttribute("x1", QString::number(r.right()));
+            but.setAttribute("y1", QString::number(y1));
+            spuLetter.appendChild(but);
+            ++i;
+        }
+
+        //kDebug() << " SPUMUX DATA: " << doc.toString();
+
+        if (data.open(QFile::WriteOnly)) {
+            data.write(docLetter.toString().toUtf8());
+        }
+        data.close();
+        spumux.setStandardInputFile(m_menuVobFile.fileName());
+        spumux.setStandardOutputFile(m_letterboxMovie.fileName());
+        args.clear();
+        args << "-s" << "1" << m_menuFile.fileName();
+        spumux.start("spumux", args);
+        //kDebug() << "SPM ARGS LETTERBOX: " << args << m_menuVideo.fileName() << m_letterboxMovie.fileName();
+        if (spumux.waitForFinished()) {
+            m_status.error_log->append(spumux.readAllStandardError());
+            if (spumux.exitStatus() == QProcess::CrashExit) {
+                //TODO: inform user via messagewidget after string freeze
+                QByteArray result = spumux.readAllStandardError();
+                spuitem->setIcon(KIcon("dialog-close"));
+                m_status.error_log->append(result);
+                m_status.error_box->setHidden(false);
+                m_status.error_box->setTabBarHidden(false);
+                m_status.menu_file->setPlainText(m_menuFile.readAll());
+                m_status.dvd_file->setPlainText(m_authorFile.readAll());
+                m_status.button_start->setEnabled(true);
+                kDebug() << "/// RENDERING SPUMUX MENU crashed";
+                return;
+            }
+        } else {
+            kDebug() << "/// RENDERING SPUMUX MENU timed out";
+            errorMessage(i18n("Rendering job timed out"));
+            spuitem->setIcon(KIcon("dialog-close"));
+            m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Menu job timed out"));
+            m_status.error_log->scrollToAnchor("result");
+            m_status.error_box->setHidden(false);
+            m_status.error_box->setTabBarHidden(false);
+            m_status.menu_file->setPlainText(m_menuFile.readAll());
+            m_status.dvd_file->setPlainText(m_authorFile.readAll());
+            m_status.button_start->setEnabled(true);
+            return;
+        }
+        menuMovieUrl = m_letterboxMovie.fileName();
     }
     else menuMovieUrl = m_menuVobFile.fileName();
 
@@ -525,44 +525,44 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
         // DVD main menu
         QDomElement menus = dvddoc.createElement("menus");
         titleset.appendChild(menus);
-	
-	QDomElement menuvideo = dvddoc.createElement("video");
-	menus.appendChild(menuvideo);
-	switch (m_pageVob->dvdFormat()) {
-	    case PAL_WIDE:
-		menuvideo.setAttribute("format", "pal");
-		menuvideo.setAttribute("aspect", "16:9");
-		menuvideo.setAttribute("widescreen", "nopanscan");
-		break;
-	    case NTSC_WIDE:
-		menuvideo.setAttribute("format", "ntsc");
-		menuvideo.setAttribute("aspect", "16:9");
-		menuvideo.setAttribute("widescreen", "nopanscan");
-		break;
-	    case NTSC:
-		menuvideo.setAttribute("format", "ntsc");
-		menuvideo.setAttribute("aspect", "4:3");
-		break;
-	    default:
-		menuvideo.setAttribute("format", "pal");
-		menuvideo.setAttribute("aspect", "4:3");
-		break;
-	}
 
-	
-	if (m_pageVob->dvdFormat() == PAL_WIDE || m_pageVob->dvdFormat() == NTSC_WIDE) {
-	    // Add letterbox stream info
-	    QDomElement subpict = dvddoc.createElement("subpicture");
-	    QDomElement stream = dvddoc.createElement("stream");
-	    stream.setAttribute("id", "0");
-	    stream.setAttribute("mode", "widescreen");
-	    subpict.appendChild(stream);
-	    QDomElement stream2 = dvddoc.createElement("stream");
-	    stream2.setAttribute("id", "1");
-	    stream2.setAttribute("mode", "letterbox");
-	    subpict.appendChild(stream2);
-	    menus.appendChild(subpict);
-	}
+        QDomElement menuvideo = dvddoc.createElement("video");
+        menus.appendChild(menuvideo);
+        switch (m_pageVob->dvdFormat()) {
+        case PAL_WIDE:
+            menuvideo.setAttribute("format", "pal");
+            menuvideo.setAttribute("aspect", "16:9");
+            menuvideo.setAttribute("widescreen", "nopanscan");
+            break;
+        case NTSC_WIDE:
+            menuvideo.setAttribute("format", "ntsc");
+            menuvideo.setAttribute("aspect", "16:9");
+            menuvideo.setAttribute("widescreen", "nopanscan");
+            break;
+        case NTSC:
+            menuvideo.setAttribute("format", "ntsc");
+            menuvideo.setAttribute("aspect", "4:3");
+            break;
+        default:
+            menuvideo.setAttribute("format", "pal");
+            menuvideo.setAttribute("aspect", "4:3");
+            break;
+        }
+
+
+        if (m_pageVob->dvdFormat() == PAL_WIDE || m_pageVob->dvdFormat() == NTSC_WIDE) {
+            // Add letterbox stream info
+            QDomElement subpict = dvddoc.createElement("subpicture");
+            QDomElement stream = dvddoc.createElement("stream");
+            stream.setAttribute("id", "0");
+            stream.setAttribute("mode", "widescreen");
+            subpict.appendChild(stream);
+            QDomElement stream2 = dvddoc.createElement("stream");
+            stream2.setAttribute("id", "1");
+            stream2.setAttribute("mode", "letterbox");
+            subpict.appendChild(stream2);
+            menus.appendChild(subpict);
+        }
         QDomElement pgc = dvddoc.createElement("pgc");
         pgc.setAttribute("entry", "root");
         menus.appendChild(pgc);
@@ -570,7 +570,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
         pgc.appendChild(pre);
         QDomText nametext = dvddoc.createTextNode("{g1 = 0;}");
         pre.appendChild(nametext);
-	QDomElement menuvob = dvddoc.createElement("vob");
+        QDomElement menuvob = dvddoc.createElement("vob");
         menuvob.setAttribute("file", menuMovieUrl);
         pgc.appendChild(menuvob);
         for (int i = 0; i < buttons.count(); ++i) {
@@ -595,22 +595,22 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
     QDomElement video = dvddoc.createElement("video");
     titles.appendChild(video);
     switch (m_pageVob->dvdFormat()) {
-	case PAL_WIDE:
-	    video.setAttribute("format", "pal");
-	    video.setAttribute("aspect", "16:9");
-	    break;
-	case NTSC_WIDE:
-	    video.setAttribute("format", "ntsc");
-	    video.setAttribute("aspect", "16:9");
-	    break;
-	case NTSC:
-	    video.setAttribute("format", "ntsc");
-	    video.setAttribute("aspect", "4:3");
-	    break;
-	default:
-	    video.setAttribute("format", "pal");
-	    video.setAttribute("aspect", "4:3");
-	    break;
+    case PAL_WIDE:
+        video.setAttribute("format", "pal");
+        video.setAttribute("aspect", "16:9");
+        break;
+    case NTSC_WIDE:
+        video.setAttribute("format", "ntsc");
+        video.setAttribute("aspect", "16:9");
+        break;
+    case NTSC:
+        video.setAttribute("format", "ntsc");
+        video.setAttribute("aspect", "4:3");
+        break;
+    default:
+        video.setAttribute("format", "pal");
+        video.setAttribute("aspect", "4:3");
+        break;
     }
 
     QDomElement pgc2;
@@ -667,7 +667,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
     // Set VIDEO_FORMAT variable (required by dvdauthor 0.7)
 #if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("VIDEO_FORMAT", m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC"); 
+    env.insert("VIDEO_FORMAT", m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
     m_dvdauthor->setProcessEnvironment(env);
 #else
     QStringList env = QProcess::systemEnvironment();
@@ -685,7 +685,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
 void DvdWizard::slotProcessMenuStatus(int, QProcess::ExitStatus status)
 {
     if (status == QProcess::CrashExit) {
-	kDebug() << "/// RENDERING MENU vob crashed";
+        kDebug() << "/// RENDERING MENU vob crashed";
         errorMessage(i18n("Rendering menu crashed"));
         QByteArray result = m_menuJob.readAllStandardError();
         if (m_vobitem) m_vobitem->setIcon(KIcon("dialog-close"));
@@ -876,13 +876,13 @@ void DvdWizard::slotPreview()
     programNames << "xine" << "vlc";
     QString exec;
     foreach(const QString &prog, programNames) {
-	exec = KStandardDirs::findExe(prog);
-	if (!exec.isEmpty()) {
-	    break;
-	}
+        exec = KStandardDirs::findExe(prog);
+        if (!exec.isEmpty()) {
+            break;
+        }
     }
     if (exec.isEmpty()) {
-	KMessageBox::sorry(this, i18n("Previewing requires one of these applications (%1)", programNames.join(",")));
+        KMessageBox::sorry(this, i18n("Previewing requires one of these applications (%1)", programNames.join(",")));
     }
     else QProcess::startDetached(exec, QStringList() << "dvd://" + m_status.iso_image->url().path());
 }
@@ -930,9 +930,11 @@ void DvdWizard::slotAbort()
 void DvdWizard::slotSave()
 {
     KUrl url = KFileDialog::getSaveUrl(KUrl("kfiledialog:///projectfolder"), "*.kdvd", this, i18n("Save DVD Project"));
-    if (url.isEmpty()) return;
+    if (url.isEmpty())
+        return;
 
-    if (currentId() == 0) m_pageChapters->setVobFiles(m_pageVob->dvdFormat(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
+    if (currentId() == 0)
+        m_pageChapters->setVobFiles(m_pageVob->dvdFormat(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
 
     QDomDocument doc;
     QDomElement dvdproject = doc.createElement("dvdproject");
@@ -964,8 +966,9 @@ void DvdWizard::slotSave()
 
 void DvdWizard::slotLoad()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "*.kdvd");
-    if (url.isEmpty()) return;
+    const KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "*.kdvd");
+    if (url.isEmpty())
+        return;
     QDomDocument doc;
     QFile file(url.path());
     doc.setContent(&file, false);
@@ -983,8 +986,8 @@ void DvdWizard::slotLoad()
     m_status.iso_image->setUrl(KUrl(dvdproject.attribute("iso_image")));
     QString intro = dvdproject.attribute("intro_movie");
     if (!intro.isEmpty()) {
-	m_pageVob->slotAddVobFile(KUrl(intro));
-	m_pageVob->setUseIntroMovie(true);
+        m_pageVob->slotAddVobFile(KUrl(intro));
+        m_pageVob->setUseIntroMovie(true);
     }
 
     QDomNodeList vobs = doc.elementsByTagName("vob");

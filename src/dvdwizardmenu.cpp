@@ -187,7 +187,7 @@ bool DvdWizardMenu::isComplete() const
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
             QList<QGraphicsItem *> collisions = button->collidingItems();
             if (!collisions.isEmpty()) {
-                for (int j = 0; j < collisions.count(); j++) {
+                for (int j = 0; j < collisions.count(); ++j) {
                     if (collisions.at(j)->type() == button->type()) {
 #if KDE_IS_VERSION(4,7,0)
                         m_menuMessage->setText(i18n("Buttons overlapping"));
