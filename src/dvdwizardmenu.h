@@ -126,8 +126,10 @@ protected:
             DvdScene *sc = static_cast < DvdScene * >(scene());
             newPos.setX(qMax(newPos.x(), 0));
             newPos.setY(qMax(newPos.y(), 0));
-            if (newPos.x() + sceneShape.width() > sc->width()) newPos.setX(sc->width() - sceneShape.width());
-            if (newPos.y() + sceneShape.height() > sc->height()) newPos.setY(sc->height() - sceneShape.height());
+            if (newPos.x() + sceneShape.width() > sc->width())
+                newPos.setX(sc->width() - sceneShape.width());
+            if (newPos.y() + sceneShape.height() > sc->height())
+                newPos.setY(sc->height() - sceneShape.height());
 
             sceneShape.translate(newPos - pos());
             QList<QGraphicsItem*> list = scene()->items(sceneShape, Qt::IntersectsItemShape);

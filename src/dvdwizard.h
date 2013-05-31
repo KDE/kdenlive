@@ -22,8 +22,6 @@
 #define DVDWIZARD_H
 
 #include <QWizard>
-#include <QVBoxLayout>
-#include <QItemDelegate>
 #include <QPainter>
 #include <QProcess>
 

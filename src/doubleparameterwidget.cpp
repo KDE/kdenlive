@@ -32,7 +32,7 @@
 
 
 DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, QWidget *parent) :
-        QWidget(parent)
+    QWidget(parent)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     QGridLayout *layout = new QGridLayout(this);
@@ -43,7 +43,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
     layout->addWidget(m_dragVal, 0, 1);
 
     if (!comment.isEmpty()) {
-	setToolTip(comment);
+        setToolTip(comment);
     }
     m_dragVal->setValue(value, false);
     connect(m_dragVal, SIGNAL(valueChanged(double,bool)), this, SLOT(slotSetValue(double,bool)));

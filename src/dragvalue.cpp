@@ -79,8 +79,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         l->addWidget(m_intEdit);
         connect(m_intEdit, SIGNAL(valueChanged(int)), this, SLOT(slotSetValue(int)));
         connect(m_intEdit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
-    }
-    else {
+    } else {
         m_doubleEdit = new QDoubleSpinBox(this);
         m_doubleEdit->setDecimals(decimals);
         m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
@@ -103,8 +102,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     connect(m_label, SIGNAL(valueChanged(double,bool)), this, SLOT(setValueFromProgress(double,bool)));
     connect(m_label, SIGNAL(resetValue()), this, SLOT(slotReset()));
     setLayout(l);
-    if (m_intEdit) m_label->setMaximumHeight(m_intEdit->sizeHint().height());
-    else m_label->setMaximumHeight(m_doubleEdit->sizeHint().height());
+    if (m_intEdit)
+        m_label->setMaximumHeight(m_intEdit->sizeHint().height());
+    else
+        m_label->setMaximumHeight(m_doubleEdit->sizeHint().height());
 
     m_menu = new QMenu(this);
 
@@ -148,14 +149,18 @@ DragValue::~DragValue()
 
 int DragValue::spinSize()
 {
-    if (m_intEdit) return m_intEdit->sizeHint().width();
-    else return m_doubleEdit->sizeHint().width();
+    if (m_intEdit)
+        return m_intEdit->sizeHint().width();
+    else
+        return m_doubleEdit->sizeHint().width();
 }
 
 void DragValue::setSpinSize(int width)
 {
-    if (m_intEdit) m_intEdit->setMinimumWidth(width);
-    else m_doubleEdit->setMinimumWidth(width);
+    if (m_intEdit)
+        m_intEdit->setMinimumWidth(width);
+    else
+        m_doubleEdit->setMinimumWidth(width);
 }
 
 void DragValue::slotSetInTimeline()
@@ -186,24 +191,34 @@ qreal DragValue::value() const
 
 void DragValue::setMaximum(qreal max)
 {
-    m_maximum = max;
-    if (m_intEdit) m_intEdit->setRange(m_minimum, m_maximum);
-    else m_doubleEdit->setRange(m_minimum, m_maximum);
+    if (m_maximum != max) {
+        m_maximum = max;
+        if (m_intEdit)
+            m_intEdit->setRange(m_minimum, m_maximum);
+        else
+            m_doubleEdit->setRange(m_minimum, m_maximum);
+    }
 }
 
 void DragValue::setMinimum(qreal min)
 {
-    m_minimum = min;
-    if (m_intEdit) m_intEdit->setRange(m_minimum, m_maximum);
-    else m_doubleEdit->setRange(m_minimum, m_maximum);
+    if (m_minimum != min) {
+        m_minimum = min;
+        if (m_intEdit)
+            m_intEdit->setRange(m_minimum, m_maximum);
+        else
+            m_doubleEdit->setRange(m_minimum, m_maximum);
+    }
 }
 
 void DragValue::setRange(qreal min, qreal max)
 {
     m_maximum = max;
     m_minimum = min;
-    if (m_intEdit) m_intEdit->setRange(m_minimum, m_maximum);
-    else m_doubleEdit->setRange(m_minimum, m_maximum);
+    if (m_intEdit)
+        m_intEdit->setRange(m_minimum, m_maximum);
+    else
+        m_doubleEdit->setRange(m_minimum, m_maximum);
 }
 
 void DragValue::setPrecision(int /*precision*/)
@@ -254,8 +269,10 @@ void DragValue::slotSetValue(double value)
 void DragValue::setValueFromProgress(double value, bool final)
 {
     value = m_minimum + value * (m_maximum - m_minimum) / m_label->maximum();
-    if (m_decimals == 0) setValue(qRound(value), final);
-    else setValue(value, final);
+    if (m_decimals == 0)
+        setValue(qRound(value), final);
+    else
+        setValue(value, final);
 }
 
 void DragValue::setValue(double value, bool final)
@@ -285,8 +302,11 @@ void DragValue::focusOutEvent(QFocusEvent*)
 
 void DragValue::focusInEvent(QFocusEvent* e)
 {
-    if (m_intEdit) m_intEdit->setFocusPolicy(Qt::WheelFocus);
-    else m_doubleEdit->setFocusPolicy(Qt::WheelFocus);
+    if (m_intEdit)
+        m_intEdit->setFocusPolicy(Qt::WheelFocus);
+    else
+        m_doubleEdit->setFocusPolicy(Qt::WheelFocus);
+
     if (e->reason() == Qt::TabFocusReason || e->reason() == Qt::BacktabFocusReason) {
         if (m_intEdit) m_intEdit->setFocus(e->reason());
         else m_doubleEdit->setFocus(e->reason());
