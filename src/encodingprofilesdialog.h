@@ -33,8 +33,6 @@ public:
     explicit EncodingProfilesDialog(int profileType, QWidget * parent = 0);
     ~EncodingProfilesDialog();
 
-protected:
-
 private slots:
     void slotLoadProfiles();
     void slotShowParams();

@@ -22,7 +22,6 @@
 #include <QWidget>
 #include <QDomElement>
 #include <QGraphicsPathItem>
-#include <QGraphicsView>
 
 #include <mlt++/Mlt.h>
 
@@ -31,9 +30,9 @@
 #include "keyframehelper.h"
 #include "timecodedisplay.h"
 
-//class QGraphicsScene;
 class GraphicsSceneRectMove;
 class QGraphicsRectItem;
+class QGraphicsView;
 
 
 class Geometryval : public QWidget, public Ui::Geometryval

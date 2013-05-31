@@ -52,7 +52,7 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
     
     setStyleSheet(EffectStackView2::getStyleSheet());
-    setWidget(m_baseWidget);   
+    setWidget(m_baseWidget);
     /*m_vbox = new QVBoxLayout(m_baseWidget);
     m_vbox->setContentsMargins(0, 0, 0, 0);
     m_vbox->setSpacing(2);    */
@@ -100,48 +100,48 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 bool EffectStackEdit::eventFilter( QObject * o, QEvent * e ) 
 {
     if (e->type() == QEvent::Wheel) {
-	QWheelEvent *we = static_cast<QWheelEvent *>(e);
-	bool filterWheel = verticalScrollBar() && verticalScrollBar()->isVisible();
-	if (!filterWheel || we->modifiers() != Qt::NoModifier) {
-	    e->accept();
-	    return false;
-	}
-	if (qobject_cast<QAbstractSpinBox*>(o)) {
-	    if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
-	    {
-		e->accept();
-		return false;
-	    }
-	    else
-	    {
-		e->ignore();
-		return true;
-	    }
-	}
-	if (qobject_cast<KComboBox*>(o)) {
-	    if(qobject_cast<KComboBox*>(o)->focusPolicy() == Qt::WheelFocus)
-	    {
-		e->accept();
-		return false;
-	    }
-	    else
-	    {
-		e->ignore();
-		return true;
-	    }
-	}
-	if (qobject_cast<QProgressBar*>(o)) {
-	    if(qobject_cast<QProgressBar*>(o)->focusPolicy() == Qt::WheelFocus)
-	    {
-		e->accept();
-		return false;
-	    }
-	    else
-	    {
-		e->ignore();
-		return true;
-	    }
-	}
+        QWheelEvent *we = static_cast<QWheelEvent *>(e);
+        bool filterWheel = verticalScrollBar() && verticalScrollBar()->isVisible();
+        if (!filterWheel || we->modifiers() != Qt::NoModifier) {
+            e->accept();
+            return false;
+        }
+        if (qobject_cast<QAbstractSpinBox*>(o)) {
+            if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
+            {
+                e->accept();
+                return false;
+            }
+            else
+            {
+                e->ignore();
+                return true;
+            }
+        }
+        if (qobject_cast<KComboBox*>(o)) {
+            if(qobject_cast<KComboBox*>(o)->focusPolicy() == Qt::WheelFocus)
+            {
+                e->accept();
+                return false;
+            }
+            else
+            {
+                e->ignore();
+                return true;
+            }
+        }
+        if (qobject_cast<QProgressBar*>(o)) {
+            if(qobject_cast<QProgressBar*>(o)->focusPolicy() == Qt::WheelFocus)
+            {
+                e->accept();
+                return false;
+            }
+            else
+            {
+                e->ignore();
+                return true;
+            }
+        }
     }
     return QWidget::eventFilter(o, e);
 }
@@ -164,11 +164,11 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
         sp->setFocusPolicy( Qt::StrongFocus );
     }
     Q_FOREACH( KComboBox * cb, m_baseWidget->findChildren<KComboBox*>() ) {
-	cb->installEventFilter( this );
+        cb->installEventFilter( this );
         cb->setFocusPolicy( Qt::StrongFocus );
     }
     Q_FOREACH( QProgressBar * cb, m_baseWidget->findChildren<QProgressBar*>() ) {
-	cb->installEventFilter( this );
+        cb->installEventFilter( this );
         cb->setFocusPolicy( Qt::StrongFocus );
     }
 }

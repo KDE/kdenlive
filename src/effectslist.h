@@ -71,7 +71,7 @@ public:
     void removeAt(int ix);
     QDomElement itemFromIndex(int ix) const;
     QDomElement insert(QDomElement effect);
-    void updateEffect(QDomElement effect);
+    void updateEffect(const QDomElement &effect);
     static bool hasKeyFrames(const QDomElement &effect);
     static bool hasSimpleKeyFrames(const QDomElement &effect);
     static bool hasGeometryKeyFrames(const QDomElement &effect);
@@ -89,7 +89,7 @@ public:
     static void removeMetaProperties(QDomElement producer);
     void clearList();
     /** @brief Get am effect with effect index equal to ix. */
-    QDomElement effectFromIndex(QDomNodeList effects, int ix);
+    QDomElement effectFromIndex(const QDomNodeList &effects, int ix);
     /** @brief Update all effects indexes to make sure they are 1, 2, 3, ... */
     void updateIndexes(QDomNodeList effects, int startIndex);
     /** @brief Enable / disable a list of effects */
