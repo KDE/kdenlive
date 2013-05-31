@@ -35,7 +35,7 @@ public:
     ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString& projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
     QString selectedProfile() const;
     KUrl selectedFolder() const;
-    QPoint tracks();
+    QPoint tracks() const;
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
     bool useProxy() const;
