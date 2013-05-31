@@ -240,9 +240,6 @@ private:
     KAction *m_projectSearch;
     KAction *m_projectSearchNext;
 
-    KAction **m_videoEffects;
-    KAction **m_audioEffects;
-    KAction **m_customEffects;
     KAction **m_transitions;
     KAction *m_buttonAudioThumbs;
     KAction *m_buttonVideoThumbs;
