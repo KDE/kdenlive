@@ -105,14 +105,16 @@ void EncodingProfilesDialog::slotShowParams()
 {
     profile_parameters->clear();
     QListWidgetItem *item = profile_list->currentItem();
-    if (!item) return;
+    if (!item)
+        return;
     profile_parameters->setPlainText(item->data(Qt::UserRole).toString().section(';', 0, 0));
 }
 
 void EncodingProfilesDialog::slotDeleteProfile()
 {
     QListWidgetItem *item = profile_list->currentItem();
-    if (!item) return;
+    if (!item)
+        return;
     QString profile = item->text();
     m_configGroup->deleteEntry(profile);
     slotLoadProfiles();

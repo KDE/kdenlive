@@ -33,11 +33,8 @@
 #include <QLabel>
 #include <QDomElement>
 #include <QToolBar>
-#include <QSlider>
 
 #include <KIcon>
-#include <KAction>
-#include <KRestrictedLine>
 
 class SmallRuler;
 class DocClipBase;
@@ -47,6 +44,7 @@ class ClipItem;
 class MonitorEditWidget;
 class Monitor;
 class MonitorManager;
+class QSlider;
 
 
 class Overlay : public QLabel
