@@ -21,6 +21,7 @@
 #include <QPainter>
 
 #include <KConfigGroup>
+#include <KGlobal>
 
 // Uncomment for Scope debugging.
 //#define DEBUG_ASW

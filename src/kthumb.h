@@ -42,7 +42,7 @@ namespace Mlt
 {
 class Producer;
 class Frame;
-};
+}
 
 class ClipManager;
 

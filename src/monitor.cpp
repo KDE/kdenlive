@@ -42,6 +42,7 @@
 #include <QLabel>
 #include <QIntValidator>
 #include <QVBoxLayout>
+#include <QSlider>
 
 
 #define SEEK_INACTIVE (-1)

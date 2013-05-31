@@ -25,7 +25,6 @@
 
 #include <KUrl>
 
-//#include "docclipbase.h"
 #include "ui_managecaptures_ui.h"
 
 class ManageCapturesDialog : public QDialog
