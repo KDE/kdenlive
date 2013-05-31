@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         }
     } else {
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
-	QString clipsToLoad = args->getOption("i");
+        QString clipsToLoad = args->getOption("i");
         QString mltPath = args->getOption("mlt-path");
         KUrl url;
         if (args->count()) {
