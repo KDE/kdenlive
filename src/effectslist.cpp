@@ -389,7 +389,7 @@ void EffectsList::updateIndexes(QDomNodeList effects, int startIndex)
 {
     for (int i = startIndex; i < effects.count(); ++i) {
         QDomElement listeffect =  effects.at(i).toElement();
-        listeffect.setAttribute("kdenlive_ix", i + 1);
+        listeffect.setAttribute(QLatin1String("kdenlive_ix"), i + 1);
     }
 }
 
@@ -403,13 +403,13 @@ void EffectsList::enableEffects(const QList <int>& indexes, bool disable)
     }
 }
 
-QDomElement EffectsList::effectFromIndex(QDomNodeList effects, int ix)
+QDomElement EffectsList::effectFromIndex(const QDomNodeList &effects, int ix)
 {
     if (ix <= 0 || ix > effects.count()) return QDomElement();
     return effects.at(ix - 1).toElement();
 }
 
-void EffectsList::updateEffect(QDomElement effect)
+void EffectsList::updateEffect(const QDomElement &effect)
 {
     QDomNodeList effects = m_baseElement.childNodes();
     int ix = effect.attribute("kdenlive_ix").toInt();

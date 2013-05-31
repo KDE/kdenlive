@@ -228,14 +228,14 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
     int ct = effectlist->count();
 
     
-    for (int ix = 0; ix < ct; ix ++) {
+    for (int ix = 0; ix < ct; ++ix) {
         effectInfo = effectlist->effectIdInfo(ix);
         effectInfo.append(QString::number(type));
         parentItem = NULL;
 
         if (folders) {
             for (int i = 0; i < folders->count(); ++i) {
-                l = folders->at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
+                l = folders->at(i)->data(0, IdRole).toString().split(QLatin1Char(','), QString::SkipEmptyParts);
                 if (l.contains(effectInfo.at(2))) {
                     parentItem = folders->at(i);
                     break;
@@ -265,7 +265,7 @@ QTreeWidgetItem *EffectsListWidget::findFolder(const QString &name)
     QTreeWidgetItem *item = NULL;
     QList<QTreeWidgetItem *> result = findItems(name, Qt::MatchExactly);
     if (!result.isEmpty()) {
-        for (int j = 0; j < result.count(); j++) {
+        for (int j = 0; j < result.count(); ++j) {
             if (result.at(j)->data(0, TypeRole) ==  EFFECT_FOLDER) {
                 item = result.at(j);
                 break;
@@ -363,7 +363,8 @@ void EffectsListWidget::dragMoveEvent(QDragMoveEvent *event)
 void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event)
 {
     QTreeWidgetItem *item = itemAt(event->pos());
-    if (item && item->data(0, TypeRole).toInt() == EFFECT_CUSTOM) m_menu->popup(event->globalPos());
+    if (item && item->data(0, TypeRole).toInt() == EFFECT_CUSTOM)
+        m_menu->popup(event->globalPos());
 }
 
 #include "effectslistwidget.moc"

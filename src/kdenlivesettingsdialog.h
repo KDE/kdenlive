@@ -21,8 +21,6 @@
 #ifndef KDENLIVESETTINGSDIALOG_H
 #define KDENLIVESETTINGSDIALOG_H
 
-#include <QDialog>
-
 #include <QMap>
 #include <KConfigDialog>
 #include <KProcess>
