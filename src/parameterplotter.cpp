@@ -77,11 +77,10 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
     int i = 0;
     while (!namenode.item(i).isNull() && namenode.item(i).toElement().attribute("name") != m_paramName)
         ++i;
+
     if (namenode.count()) {
-
-
         QDomElement pa = namenode.item(i).toElement();
-        QDomNode na = pa.firstChildElement("name");
+        //QDomNode na = pa.firstChildElement("name");
 
         m_parameterNameList << pa.attribute("namedesc").split(';');
         emit parameterList(m_parameterNameList);

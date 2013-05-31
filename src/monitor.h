@@ -57,9 +57,9 @@ public:
     void setOverlayText(const QString &, bool isZone = true);
 
 protected:
-    virtual void mouseDoubleClickEvent ( QMouseEvent * event );
-    virtual void mousePressEvent ( QMouseEvent * event );
-    virtual void mouseReleaseEvent ( QMouseEvent * event );
+    void mouseDoubleClickEvent ( QMouseEvent * event );
+    void mousePressEvent ( QMouseEvent * event );
+    void mouseReleaseEvent ( QMouseEvent * event );
     
 signals:
     void editMarker();

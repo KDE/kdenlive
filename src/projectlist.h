@@ -226,7 +226,7 @@ public:
             KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
 #endif
 #ifdef NEPOMUKCORE
-	   KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
+            KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
 #endif
 
         } else {
@@ -514,7 +514,7 @@ signals:
     void clipSelected(DocClipBase *, const QPoint &zone = QPoint(), bool forceUpdate = false);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
-    void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
+    void showClipProperties(const QList <DocClipBase *>&, const QMap<QString, QString> &commonproperties);
     void projectModified();
     void loadingIsOver();
     void displayMessage(const QString&, int progress, MessageType type = DefaultMessage);
@@ -534,17 +534,17 @@ signals:
     void raiseClipMonitor(bool forceRefresh);
     /** @brief Set number of running jobs. */
     void jobCount(int);
-    void cancelRunningJob(const QString, stringMap);
-    void processLog(const QString, int , int, const QString = QString());
+    void cancelRunningJob(const QString&, const stringMap&);
+    void processLog(const QString&, int , int, const QString & = QString());
     void addClip(const QString, const QString &, const QString &);
-    void updateJobStatus(const QString, int, int, const QString label = QString(), const QString actionName = QString(), const QString details = QString());
-    void gotProxy(const QString);
+    void updateJobStatus(const QString&, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
+    void gotProxy(const QString&);
     void checkJobProcess();
     /** @brief A Filter Job produced results, send them back to the clip. */
-    void gotFilterJobResults(const QString &id, int startPos, int track, stringMap params, stringMap extra);
+    void gotFilterJobResults(const QString &id, int startPos, int track, const stringMap &params, const stringMap &extra);
     void pauseMonitor();
     void updateAnalysisData(DocClipBase *);
-    void addMarkers(const QString &, QList <CommentedTime>);
+    void addMarkers(const QString &, const QList <CommentedTime>&);
 };
 
 #endif

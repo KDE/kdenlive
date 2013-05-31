@@ -19,14 +19,6 @@ public:
         m_backgroundColor = color;
     }
 
-private:
-    int x, y, w, h;
-    int m_image_width, m_image_height;
-    GLuint m_texture;
-    double m_display_ratio;
-    QColor m_backgroundColor;
-    Qt::WindowFlags m_baseFlags;
-
 public slots:
     void showImage(const QImage &image);
 
@@ -36,6 +28,14 @@ protected:
     void resizeEvent(QResizeEvent* event);
     void paintGL();
     void mouseDoubleClickEvent(QMouseEvent * event);
+
+private:
+    int x, y, w, h;
+    int m_image_width, m_image_height;
+    GLuint m_texture;
+    double m_display_ratio;
+    QColor m_backgroundColor;
+    Qt::WindowFlags m_baseFlags;
 };
 
 #endif

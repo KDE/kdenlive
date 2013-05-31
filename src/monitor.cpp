@@ -148,7 +148,8 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     setLayout(layout);
     setMinimumHeight(200);
 
-    if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
+    if (profile.isEmpty())
+        profile = KdenliveSettings::current_profile();
 
     bool monitorCreated = false;
 #ifdef Q_WS_MAC

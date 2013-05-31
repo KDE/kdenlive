@@ -185,7 +185,7 @@ public:
     bool hasCutZone(const QPoint &p) const;
     void removeCutZone(int in, int out);
     QList <CutZoneInfo> cutZones() const;
-    void updateCutZone(int oldin, int oldout, int in, int out, QString desc = QString());
+    void updateCutZone(int oldin, int oldout, int in, int out, const QString &desc = QString());
 
     bool hasVideoCodec(const QString &codec) const;
     bool hasAudioCodec(const QString &codec) const;
@@ -206,7 +206,7 @@ public:
     /** Returns all current properties for this clip */
     QMap <QString, QString> properties() const;
     /** Return the current values for a set of properties */
-    QMap <QString, QString> currentProperties(QMap <QString, QString> props);
+    QMap <QString, QString> currentProperties(const QMap<QString, QString> &props);
     QMap <QString, QStringList> metadata() const;
     /** @brief Returns a short info string about the clip to display in tooltip */
     const QString shortInfo() const;

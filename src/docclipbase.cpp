@@ -1226,7 +1226,7 @@ QMap <QString, QString> DocClipBase::properties() const
     return m_properties;
 }
 
-QMap <QString, QString> DocClipBase::currentProperties(QMap <QString, QString> props)
+QMap <QString, QString> DocClipBase::currentProperties(const QMap <QString, QString> &props)
 {
     QMap <QString, QString> currentProps;
     QMap<QString, QString>::const_iterator i = props.constBegin();
@@ -1285,7 +1285,7 @@ void DocClipBase::removeCutZone(int in, int out)
     }
 }
 
-void DocClipBase::updateCutZone(int oldin, int oldout, int in, int out, QString desc)
+void DocClipBase::updateCutZone(int oldin, int oldout, int in, int out, const QString &desc)
 {
     QPoint old(oldin, oldout);
     for (int i = 0; i < m_cutZones.size(); ++i) {
