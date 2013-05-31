@@ -57,7 +57,7 @@ class RecMonitor : public AbstractMonitor, public Ui::RecMonitor_UI
 
 public:
     explicit RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidget *parent = 0);
-    virtual ~RecMonitor();
+    ~RecMonitor();
 
     AbstractRender *abstractRender();
     void analyseFrames(bool analyse);

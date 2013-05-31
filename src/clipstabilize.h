@@ -26,7 +26,6 @@
 #include "ui_clipstabilize_ui.h"
 
 #include <KUrl>
-#include <QProcess>
 #include <QFuture>
 
 class QTimer;

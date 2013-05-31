@@ -92,7 +92,8 @@ MltDeviceCapture::MltDeviceCapture(QString profile, VideoSurface *surface, QWidg
 {
     m_captureDisplayWidget = surface;
     analyseAudio = KdenliveSettings::monitor_audio();
-    if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
+    if (profile.isEmpty())
+        profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
     connect(this, SIGNAL(unblockPreview()), this, SLOT(slotPreparePreview()));
     m_droppedFramesTimer.setSingleShot(false);

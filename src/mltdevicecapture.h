@@ -137,14 +137,14 @@ signals:
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
-    void showImageSignal(QImage);
+    void showImageSignal(const QImage&);
 
     void frameSaved(const QString &);
     
     void droppedFrames(int);
     
     void unblockPreview();
-    void imageReady(QImage);
+    void imageReady(const QImage &);
 
 
 public slots:

@@ -44,7 +44,8 @@ double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap)
             if (qAbs((int)(pos - m_snapPoints.at(i).frames(m_document->fps()))) < maximumOffset) {
                 return m_snapPoints.at(i).frames(m_document->fps());
             }
-            if (m_snapPoints.at(i).frames(m_document->fps()) > pos) break;
+            if (m_snapPoints.at(i).frames(m_document->fps()) > pos)
+                break;
         }
     }
     return GenTime(pos, m_document->fps()).frames(m_document->fps());

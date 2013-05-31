@@ -3443,9 +3443,10 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
 }
 
 
-void MainWindow::slotApplyNewClipProperties(const QString id, QMap <QString, QString> props, QMap <QString, QString> newprops, bool refresh, bool reload)
+void MainWindow::slotApplyNewClipProperties(const QString &id, const QMap <QString, QString> &props, const QMap <QString, QString> &newprops, bool refresh, bool reload)
 {
-    if (newprops.isEmpty()) return;
+    if (newprops.isEmpty())
+        return;
     EditClipCommand *command = new EditClipCommand(m_projectList, id, props, newprops, true);
     m_activeDocument->commandStack()->push(command);
     m_activeDocument->setModified();
@@ -3811,8 +3812,9 @@ void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *b
     QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
     if (path.isEmpty()) {
         QString tmppath = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash);
-        if (baseClip == NULL) tmppath.append("untitled.mlt");
-        else {
+        if (baseClip == NULL) {
+            tmppath.append("untitled.mlt");
+        } else {
             tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + '-' + QString::number(zone.x()).rightJustified(4, '0') + ".mlt");
         }
         path = KUrl(tmppath);
@@ -4114,8 +4116,10 @@ void MainWindow::slotTranscode(const KUrl::List &urls)
         QAction *action = qobject_cast<QAction *>(sender());
         QStringList data = action->data().toStringList();
         params = data.at(0);
-        if (data.count() > 1) desc = data.at(1);
-        if (data.count() > 3) condition = data.at(3);
+        if (data.count() > 1)
+            desc = data.at(1);
+        if (data.count() > 3)
+            condition = data.at(3);
         m_projectList->slotTranscodeClipJob(condition, params, desc);
         return;
     }

@@ -82,7 +82,13 @@ struct requestClipInfo {
 class MltErrorEvent : public QEvent
 {
 public:
-    MltErrorEvent(const QString &message) : QEvent(QEvent::User), m_message(message) {}
+    MltErrorEvent(const QString &message)
+        : QEvent(QEvent::User),
+          m_message(message)
+    {
+
+    }
+
     QString message() const {
         return m_message;
     }
@@ -109,16 +115,16 @@ class Render: public AbstractRender
     virtual ~Render();
 
     /** @brief Seeks the renderer clip to the given time. */
-    void seek(GenTime time);
+    void seek(const GenTime &time);
     void seek(int time);
     void seekToFrameDiff(int diff);
 
-    QPixmap getImageThumbnail(KUrl url, int width, int height);
+    QPixmap getImageThumbnail(const KUrl &url, int width, int height);
 
     /** @brief Sets the current MLT producer playlist.
      * @param list The xml describing the playlist
      * @param position (optional) time to seek to */
-    int setSceneList(QDomDocument list, int position = 0);
+    int setSceneList(const QDomDocument &list, int position = 0);
 
     /** @brief Sets the current MLT producer playlist.
      * @param list new playlist
@@ -488,7 +494,7 @@ public slots:
     int getLength();
 
     /** @brief Checks if the file is readable by MLT. */
-    bool isValid(KUrl url);
+    bool isValid(const KUrl &url);
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     void mltSavePlaylist();

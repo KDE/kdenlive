@@ -30,6 +30,7 @@
 #include <QAction>
 #include <QToolButton>
 #include <QMouseEvent>
+#include <QGraphicsView>
 
 #include <KIcon>
 

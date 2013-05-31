@@ -27,7 +27,6 @@ class ClipItem;
 class ComplexParameter : public QWidget
 {
     Q_OBJECT
-
 public:
     explicit ComplexParameter(QWidget *parent = 0);
     QDomElement getParamDesc() const;

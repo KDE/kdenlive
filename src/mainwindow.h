@@ -531,7 +531,7 @@ private slots:
     void slotUpdateCaptureFolder();
 
     /** @brief Apply new properties to a clip */
-    void slotApplyNewClipProperties(const QString id, QMap <QString, QString> props, QMap <QString, QString> newprops, bool refresh, bool reload);
+    void slotApplyNewClipProperties(const QString &id, const QMap <QString, QString> &props, const QMap <QString, QString> &newprops, bool refresh, bool reload);
 
     /** @brief Delete a clip from current project */
     void slotDeleteClip(const QString &id);
