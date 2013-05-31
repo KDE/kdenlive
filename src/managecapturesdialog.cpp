@@ -34,8 +34,8 @@
 #include <QTimer>
 
 
-ManageCapturesDialog::ManageCapturesDialog(const KUrl::List &files, QWidget * parent) :
-        QDialog(parent)
+ManageCapturesDialog::ManageCapturesDialog(const KUrl::List &files, QWidget * parent)
+    : QDialog(parent)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
@@ -122,8 +122,10 @@ void ManageCapturesDialog::slotToggle()
     for (int i = 0; i < count; ++i) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(i);
         if (item) {
-            if (item->checkState(0) == Qt::Checked) item->setCheckState(0, Qt::Unchecked);
-            else item->setCheckState(0, Qt::Checked);
+            if (item->checkState(0) == Qt::Checked)
+                item->setCheckState(0, Qt::Unchecked);
+            else
+                item->setCheckState(0, Qt::Checked);
         }
     }
 }
