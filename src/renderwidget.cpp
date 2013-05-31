@@ -82,7 +82,8 @@ const int FAILEDJOB = 3;
 const int ABORTEDJOB = 4;
 
 
-RenderJobItem::RenderJobItem(QTreeWidget * parent, const QStringList & strings, int type) : QTreeWidgetItem(parent, strings, type),
+RenderJobItem::RenderJobItem(QTreeWidget * parent, const QStringList & strings, int type)
+    : QTreeWidgetItem(parent, strings, type),
     m_status(-1)
 {
     setSizeHint(1, QSize(parent->columnWidth(1), parent->fontMetrics().height() * 3));
@@ -91,7 +92,8 @@ RenderJobItem::RenderJobItem(QTreeWidget * parent, const QStringList & strings, 
 
 void RenderJobItem::setStatus(int status)
 {
-    if (m_status == status) return;
+    if (m_status == status)
+        return;
     m_status = status;
     switch (status) {
         case WAITINGJOB:
@@ -185,7 +187,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     
     if (KdenliveSettings::showrenderparams()) {
         m_view.buttonInfo->setDown(true);
-    } else m_view.advanced_params->hide();
+    } else {
+        m_view.advanced_params->hide();
+    }
     
     m_view.proxy_render->setHidden(!enableProxy);
 
@@ -298,8 +302,10 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
     if (!QFile::exists(m_renderer)) {
         m_renderer = KStandardDirs::findExe("kdenlive_render");
-        if (m_renderer.isEmpty()) m_renderer = KStandardDirs::locate("exe", "kdenlive_render");
-        if (m_renderer.isEmpty()) m_renderer = "kdenlive_render";
+        if (m_renderer.isEmpty())
+            m_renderer = KStandardDirs::locate("exe", "kdenlive_render");
+        if (m_renderer.isEmpty())
+            m_renderer = "kdenlive_render";
     }
 
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
@@ -331,8 +337,9 @@ RenderWidget::~RenderWidget()
 
 void RenderWidget::slotEditItem(QListWidgetItem *item)
 {
-    QString edit = item->data(EditableRole).toString();
-    if (edit.isEmpty() || !edit.endsWith("customprofiles.xml")) slotSaveProfile();
+    const QString edit = item->data(EditableRole).toString();
+    if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml")))
+        slotSaveProfile();
     else slotEditProfile();
 }
 
@@ -581,7 +588,8 @@ void RenderWidget::saveProfile(const QDomElement &newprofile)
 void RenderWidget::slotCopyToFavorites()
 {
     QListWidgetItem *item = m_view.size_list->currentItem();
-    if (!item) return;
+    if (!item)
+        return;
     QString currentGroup = m_view.format_list->currentItem()->text();
 
     QString params = item->data(ParamsRole).toString();
@@ -638,8 +646,10 @@ void RenderWidget::slotEditProfile()
             if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
                 ui.default_vbitrate->setValue(item->data(DefaultBitrateRole).toInt());
         }
+    } else {
+        ui.vbitrates->setHidden(true);
     }
-    else ui.vbitrates->setHidden(true);
+
     if (ui.parameters->toPlainText().contains("%audiobitrate")) {
       if ( item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(AudioBitratesRole).toStringList();
@@ -827,8 +837,9 @@ void RenderWidget::updateButtons()
 void RenderWidget::focusFirstVisibleItem(const QString &profile)
 {
     if (!profile.isEmpty()) {
-	QList <QListWidgetItem *> child = m_view.size_list->findItems(profile, Qt::MatchExactly);
-	if (!child.isEmpty()) m_view.size_list->setCurrentItem(child.at(0));
+        QList <QListWidgetItem *> child = m_view.size_list->findItems(profile, Qt::MatchExactly);
+        if (!child.isEmpty())
+            m_view.size_list->setCurrentItem(child.at(0));
     }
     if (m_view.size_list->currentItem()) {
         updateButtons();
@@ -863,10 +874,12 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
 void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio)
 {
     QListWidgetItem *item = m_view.size_list->currentItem();
-    if (!item) return;
+    if (!item)
+        return;
 
     QString dest = m_view.out_file->url().path().trimmed();
-    if (dest.isEmpty()) return;
+    if (dest.isEmpty())
+        return;
 
     // Check whether target file has an extension.
     // If not, ask whether extension should be added or not.
@@ -1015,7 +1028,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
 
-    QString scriptName;
+    //QString scriptName;
     if (scriptExport) {
         // Generate script file
         QFile file(scriptPath);
@@ -1057,8 +1070,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     renderProps.insert("renderendguide", QString::number(m_view.guide_end->currentIndex()));
     renderProps.insert("renderscanning", QString::number(m_view.scanning_list->currentIndex()));
     int export_audio = 0;
-    if (m_view.export_audio->checkState() == Qt::Checked) export_audio = 2;
-    else if (m_view.export_audio->checkState() == Qt::Unchecked) export_audio = 1;
+    if (m_view.export_audio->checkState() == Qt::Checked)
+        export_audio = 2;
+    else if (m_view.export_audio->checkState() == Qt::Unchecked)
+        export_audio = 1;
     renderProps.insert("renderexportaudio", QString::number(export_audio));
     renderProps.insert("renderrescale", QString::number(m_view.rescale->isChecked()));
     renderProps.insert("renderrescalewidth", QString::number(m_view.rescale_width->value()));
@@ -1118,8 +1133,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     }
 
     renderItem->setData(1, ParametersRole, render_process_args);
-    if (exportAudio == false) renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
-    else  renderItem->setData(1, ExtraInfoRole, QString());
+    if (exportAudio == false)
+        renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
+    else
+        renderItem->setData(1, ExtraInfoRole, QString());
     m_view.running_jobs->setCurrentItem(renderItem);
     m_view.tabWidget->setCurrentIndex(1);
     checkRenderStatus();
@@ -1419,7 +1436,8 @@ void RenderWidget::refreshParams()
     // Format not available (e.g. codec not installed); Disable start button
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item || item->isHidden()) {
-        if (!item) errorMessage(i18n("No matching profile"));
+        if (!item)
+            errorMessage(i18n("No matching profile"));
         m_view.advanced_params->clear();
         m_view.buttonRender->setEnabled(false);
         m_view.buttonGenerateScript->setEnabled(false);
@@ -1626,7 +1644,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             QString prof_extension = profile.attribute("extension");
             if (!prof_extension.isEmpty()) extension = prof_extension;
             bool exists = false;
-            for (int j = 0; j < m_renderCategory.count(); j++) {
+            for (int j = 0; j < m_renderCategory.count(); ++j) {
                 if (m_renderCategory.at(j)->text() == category && m_renderCategory.at(j)->data(MetaGroupRole) == dest) {
                     exists = true;
                     break;
@@ -1643,7 +1661,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             // allowing to override default profiles
 
 
-            for (int j = 0; j < m_renderItems.count(); j++) {
+            for (int j = 0; j < m_renderItems.count(); ++j) {
                 if (m_renderItems.at(j)->text() == profileName && m_renderItems.at(j)->data(MetaGroupRole) == dest) {
                     QListWidgetItem *duplicate = m_renderItems.takeAt(j);
                     delete duplicate;
@@ -1710,7 +1728,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
         extension = documentElement.attribute("extension", QString());
         renderer = documentElement.attribute("renderer", QString());
         bool exists = false;
-        for (int j = 0; j < m_renderCategory.count(); j++) {
+        for (int j = 0; j < m_renderCategory.count(); ++j) {
             if (m_renderCategory.at(j)->text() == groupName && m_renderCategory.at(j)->data(MetaGroupRole) == metagroupId) {
                 exists = true;
                 break;
@@ -1775,8 +1793,9 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
 {
     RenderJobItem *item;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
-    if (!existing.isEmpty()) item = static_cast<RenderJobItem*> (existing.at(0));
-    else {
+    if (!existing.isEmpty()) {
+        item = static_cast<RenderJobItem*> (existing.at(0));
+    } else {
         item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
         if (progress == 0) {
             item->setStatus(WAITINGJOB);
@@ -1953,7 +1972,8 @@ void RenderWidget::parseScriptFiles()
 void RenderWidget::slotCheckScript()
 {
     QTreeWidgetItem *current = m_view.scripts_list->currentItem();
-    if (current == NULL) return;
+    if (current == NULL)
+        return;
     m_view.start_script->setEnabled(current->data(0, Qt::UserRole).toString().isEmpty());
     m_view.delete_script->setEnabled(true);
     for (int i = 0; i < m_view.scripts_list->topLevelItemCount(); ++i) {
@@ -2051,7 +2071,8 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     slotUpdateGuideBox();
 
     QString url = props.value("renderurl");
-    if (!url.isEmpty()) m_view.out_file->setUrl(KUrl(url));
+    if (!url.isEmpty())
+        m_view.out_file->setUrl(KUrl(url));
 
     // set destination
     int categoryIndex = m_view.destination_list->findData(props.value("renderdestination"));
@@ -2115,7 +2136,7 @@ QString RenderWidget::getFreeScriptName(const KUrl &projectName, const QString &
     if (projectName.isEmpty()) fileName = i18n("script");
     else fileName = projectName.fileName().section('.', 0, -2) + "_";
     while (path.isEmpty() || QFile::exists(path)) {
-        ix++;
+        ++ix;
         path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + ".sh";
     }
     return path;
@@ -2238,7 +2259,8 @@ bool RenderWidget::proxyRendering()
 void RenderWidget::setRescaleEnabled(bool enable)
 {
     for (int i = 0; i < m_view.rescale_box->layout()->count(); ++i) {
-        if (m_view.rescale_box->itemAt(i)->widget()) m_view.rescale_box->itemAt(i)->widget()->setEnabled(enable);
+        if (m_view.rescale_box->itemAt(i)->widget())
+            m_view.rescale_box->itemAt(i)->widget()->setEnabled(enable);
     }   
 }
 

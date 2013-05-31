@@ -132,7 +132,8 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWi
 {
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
-    if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
+    if (profile.isEmpty())
+        profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
     m_mltProducer = m_blackClip->cut(0, 1);
     m_mltConsumer->connect(*m_mltProducer);
@@ -157,10 +158,10 @@ void Render::closeMlt()
     //delete m_osdTimer;
     m_requestList.clear();
     m_infoThread.waitForFinished();
-    if (m_showFrameEvent) delete m_showFrameEvent;
-    if (m_pauseEvent) delete m_pauseEvent;
-    if (m_mltConsumer) delete m_mltConsumer;
-    if (m_mltProducer) delete m_mltProducer;
+    delete m_showFrameEvent;
+    delete m_pauseEvent;
+    delete m_mltConsumer;
+    delete m_mltProducer;
     /*if (m_mltProducer) {
         Mlt::Service service(m_mltProducer->parent().get_service());
         service.lock();
@@ -191,13 +192,14 @@ void Render::closeMlt()
     }*/
 
     //kDebug() << "// // // CLOSE RENDERER " << m_name;
-    if (m_blackClip) delete m_blackClip;
+    delete m_blackClip;
     //delete m_osdInfo;
 }
 
 void Render::slotSwitchFullscreen()
 {
-    if (m_mltConsumer) m_mltConsumer->set("full_screen", 1);
+    if (m_mltConsumer)
+        m_mltConsumer->set("full_screen", 1);
 }
 
 void Render::buildConsumer(const QString &profileName)
@@ -216,8 +218,7 @@ void Render::buildConsumer(const QString &profileName)
         m_mltProfile->set_sample_aspect(tmpProfile.sample_aspect_num(), tmpProfile.sample_aspect_den());
         m_mltProfile->get_profile()->display_aspect_num = tmpProfile.display_aspect_num();
         m_mltProfile->get_profile()->display_aspect_den = tmpProfile.display_aspect_den();
-    }
-    else {
+    } else {
         m_mltProfile = new Mlt::Profile(m_activeProfile.toUtf8().constData());
     }
     setenv("MLT_PROFILE", m_activeProfile.toUtf8().constData(), 1);
@@ -332,8 +333,9 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
     char *tmp = qstrdup(txt.toUtf8().constData());
     clip = new Mlt::Producer(*m_mltProfile, tmp);
     delete[] tmp;
-    if (clip == NULL) clip = new Mlt::Producer(*m_mltProfile, "colour", "red");
-    else {
+    if (clip == NULL) {
+        clip = new Mlt::Producer(*m_mltProfile, "colour", "red");
+    } else {
         clip->set("bgcolour", "0xff0000ff");
         clip->set("pad", "10");
     }
@@ -364,12 +366,15 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
             }
         }
 
-        if (m_isSplitView) slotSplitView(false);
-        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+        if (m_isSplitView)
+            slotSplitView(false);
+        if (!m_mltConsumer->is_stopped())
+            m_mltConsumer->stop();
         m_mltConsumer->purge();
     }
     QString scene;
-    if (!dropSceneList) scene = sceneList();
+    if (!dropSceneList)
+        scene = sceneList();
     int pos = 0;
     double current_fps = m_mltProfile->fps();
     double current_dar = m_mltProfile->dar();
@@ -475,7 +480,7 @@ int Render::renderHeight() const
     return m_mltProfile->height();
 }
 
-QImage Render::extractFrame(int frame_position, QString path, int width, int height)
+QImage Render::extractFrame(int frame_position, const QString &path, int width, int height)
 {
     if (width == -1) {
         width = frameRenderWidth();

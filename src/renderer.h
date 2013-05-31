@@ -154,7 +154,7 @@ class Render: public AbstractRender
     void stop(const GenTime &startTime);
     int volume() const;
 
-    QImage extractFrame(int frame_position, QString path = QString(), int width = -1, int height = -1);
+    QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1);
 
     /** @brief Plays the scene starting from a specific time.
      * @param startTime time to start playing the scene from */
