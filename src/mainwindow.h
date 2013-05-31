@@ -422,12 +422,12 @@ private slots:
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
-    void slotAddProjectClip(KUrl url, stringMap data = stringMap());
-    void slotAddProjectClipList(KUrl::List urls);
+    void slotAddProjectClip(const KUrl &url, const stringMap &data = stringMap());
+    void slotAddProjectClipList(const KUrl::List &urls);
     void slotShowClipProperties(DocClipBase *clip);
     void slotShowClipProperties(const QList<DocClipBase *> &cliplist, const QMap<QString, QString> &commonproperties);
     void slotTimelineClipSelected(ClipItem* item, bool raise = true);
-    void slotTrackSelected(int index, TrackInfo info, bool raise = true);
+    void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *);
     void slotChangeTool(QAction * action);
     void slotChangeEdit(QAction * action);

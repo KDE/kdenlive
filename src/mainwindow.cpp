@@ -3208,14 +3208,14 @@ void MainWindow::slotEditItemDuration()
         m_activeTimeline->projectView()->editItemDuration();
 }
 
-void MainWindow::slotAddProjectClip(KUrl url, stringMap data)
+void MainWindow::slotAddProjectClip(const KUrl &url, const stringMap &data)
 {
     if (m_activeDocument) {
         m_activeDocument->slotAddClipFile(url, data);
     }
 }
 
-void MainWindow::slotAddProjectClipList(KUrl::List urls)
+void MainWindow::slotAddProjectClipList(const KUrl::List &urls)
 {
     if (m_activeDocument)
         m_activeDocument->slotAddClipList(urls);
@@ -3502,7 +3502,7 @@ void MainWindow::slotTimelineClipSelected(ClipItem* item, bool raise)
         m_effectStack->raiseWindow(m_effectStackDock);
 }
 
-void MainWindow::slotTrackSelected(int index, TrackInfo info, bool raise)
+void MainWindow::slotTrackSelected(int index, const TrackInfo &info, bool raise)
 {
     m_effectStack->slotTrackItemSelected(index, info);
     if (raise)
