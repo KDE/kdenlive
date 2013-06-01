@@ -443,7 +443,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
     return createEmptyDocument(m_tracksList);
 }
 
-QDomDocument KdenliveDoc::createEmptyDocument(QList <TrackInfo> tracks)
+QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 {
     // Creating new document
     QDomDocument doc;
@@ -500,7 +500,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(QList <TrackInfo> tracks)
 
     QDomElement tractor = doc.createElement("tractor");
     tractor.setAttribute("id", "maintractor");
-    QDomElement multitrack = doc.createElement("multitrack");
+    //QDomElement multitrack = doc.createElement("multitrack");
     QDomElement playlist = doc.createElement("playlist");
     playlist.setAttribute("id", "black_track");
     mlt.appendChild(playlist);
