@@ -102,7 +102,7 @@ public:
     static void parseEffectFile(EffectsList *customEffectList,
                                 EffectsList *audioEffectList,
                                 EffectsList *videoEffectList,
-                                QString name, QStringList filtersList,
+                                const QString &name, QStringList filtersList,
                                 QStringList producersList,
                                 Mlt::Repository *repository);
 

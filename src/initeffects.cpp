@@ -353,7 +353,7 @@ void initEffects::parseCustomEffectsFile()
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository)
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository)
 {
     QDomDocument doc;
     QFile file(name);
@@ -391,8 +391,8 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             for (int j = 0; j < params.count(); j++) {
                 QDomNamedNodeMap attrs = params.at(j).attributes();
                 for (int k = 0; k < attrs.count(); k++) {
-                    QString name = attrs.item(k).nodeName();
-                    if (name != "type" && name != "name") {
+                    QString nodeName = attrs.item(k).nodeName();
+                    if (nodeName != "type" && nodeName != "name") {
                             QString val = attrs.item(k).nodeValue();
                             if (val.contains(oldSeparator)) {
                                 QString newVal = val.replace(oldSeparator, separator);
