@@ -250,25 +250,25 @@ class Render: public AbstractRender
      * @param position The start position of the clip
      * @param effectIndexes The list of effect indexes to enable / disable
      * @param disable True if effects should be disabled, false otherwise */
-    bool mltEnableEffects(int track, GenTime position, QList <int> effectIndexes, bool disable);
+    bool mltEnableEffects(int track, const GenTime &position, const QList<int> &effectIndexes, bool disable);
     /** @brief Enable / disable track effects.
      * @param track The track where the effect is
      * @param effectIndexes The list of effect indexes to enable / disable
      * @param disable True if effects should be disabled, false otherwise */
-    bool mltEnableTrackEffects(int track, QList <int> effectIndexes, bool disable);
+    bool mltEnableTrackEffects(int track, const QList<int> &effectIndexes, bool disable);
 
     /** @brief Edits an effect parameters in MLT's playlist. */
-    bool mltEditEffect(int track, GenTime position, EffectsParameterList params);
+    bool mltEditEffect(int track, const GenTime &position, EffectsParameterList params);
     bool mltEditTrackEffect(int track, EffectsParameterList params);
 
     /** @brief Updates the "kdenlive_ix" (index) value of an effect. */
-    void mltUpdateEffectPosition(int track, GenTime position, int oldPos, int newPos);
+    void mltUpdateEffectPosition(int track, const GenTime &position, int oldPos, int newPos);
 
     /** @brief Changes the order of effects in MLT's playlist.
      *
      * It switches effects from oldPos and newPos, updating the "kdenlive_ix"
      * (index) value. */
-    void mltMoveEffect(int track, GenTime position, int oldPos, int newPos);
+    void mltMoveEffect(int track, const GenTime &position, int oldPos, int newPos);
     void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
     /** @brief Enables/disables audio/video in a track. */

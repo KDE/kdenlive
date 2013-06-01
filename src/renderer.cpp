@@ -3037,7 +3037,7 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
     return true;
 }
 
-bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList params)
+bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterList params)
 {
     int index = params.paramValue("kdenlive_ix").toInt();
     QString tag =  params.paramValue("tag");
@@ -3117,7 +3117,8 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         delete clip;
         service.unlock();
 
-        if (doRefresh) refresh();
+        if (doRefresh)
+            refresh();
         return true;
     }
     if (params.hasParam("_sync_in_out")) {
@@ -3126,22 +3127,23 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         filter->set_in_and_out(clip->get_in(), clip->get_out());
     }
 
-    for (int j = 0; j < params.count(); j++) {
+    for (int j = 0; j < params.count(); ++j) {
         filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
     
-    for (int j = 0; j < filtersList.count(); j++) {
+    for (int j = 0; j < filtersList.count(); ++j) {
         clip->attach(*(filtersList.at(j)));
     }
 
     delete clip;
     service.unlock();
 
-    if (doRefresh) refresh();
+    if (doRefresh)
+        refresh();
     return true;
 }
 
-bool Render::mltEnableEffects(int track, GenTime position, QList <int> effectIndexes, bool disable)
+bool Render::mltEnableEffects(int track, const GenTime &position, const QList <int> &effectIndexes, bool disable)
 {
     if (position < GenTime()) {
         return mltEnableTrackEffects(track, effectIndexes, disable);
@@ -3183,7 +3185,7 @@ bool Render::mltEnableEffects(int track, GenTime position, QList <int> effectInd
     return true;
 }
 
-bool Render::mltEnableTrackEffects(int track, QList <int> effectIndexes, bool disable)
+bool Render::mltEnableTrackEffects(int track, const QList <int> &effectIndexes, bool disable)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -3206,7 +3208,7 @@ bool Render::mltEnableTrackEffects(int track, QList <int> effectIndexes, bool di
     return true;
 }
 
-void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, int newPos)
+void Render::mltUpdateEffectPosition(int track, const GenTime &position, int oldPos, int newPos)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -3240,7 +3242,7 @@ void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, in
     if (doRefresh) refresh();
 }
 
-void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
+void Render::mltMoveEffect(int track, const GenTime &position, int oldPos, int newPos)
 {
     if (position < GenTime()) {
         mltMoveTrackEffect(track, oldPos, newPos);
