@@ -844,7 +844,7 @@ void KdenliveDoc::setProjectFolder(KUrl url)
     updateProjectFolderPlacesEntry();
 }
 
-void KdenliveDoc::moveProjectData(KUrl url)
+void KdenliveDoc::moveProjectData(const KUrl &url)
 {
     QList <DocClipBase*> list = m_clipManager->documentClipList();
     KUrl::List cacheUrls;
@@ -1258,7 +1258,7 @@ void KdenliveDoc::deleteClip(const QString &clipId)
     emit signalDeleteProjectClip(clipId);
 }
 
-void KdenliveDoc::slotAddClipList(const KUrl::List urls, stringMap data)
+void KdenliveDoc::slotAddClipList(const KUrl::List &urls, const stringMap &data)
 {
     m_clipManager->slotAddClipList(urls, data);
     //emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
@@ -1266,7 +1266,7 @@ void KdenliveDoc::slotAddClipList(const KUrl::List urls, stringMap data)
 }
 
 
-void KdenliveDoc::slotAddClipFile(const KUrl &url, stringMap data)
+void KdenliveDoc::slotAddClipFile(const KUrl &url, const stringMap &data)
 {
     m_clipManager->slotAddClipFile(url, data);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));

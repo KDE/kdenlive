@@ -167,10 +167,12 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
                 m_extraGeometries[i]->remove(m_movingItem.frame());
         }
         int pos = qBound(0, (int)(xPos / m_scale), frameLength);
-        if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < 5) pos = m_position;
+        if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < 5)
+            pos = m_position;
         m_movingItem.frame(pos);
         for (int i = 0; i < m_extraMovingItems.count(); ++i) {
-            if (m_extraMovingItems.at(i)) m_extraMovingItems[i]->frame(pos);
+            if (m_extraMovingItems.at(i))
+                m_extraMovingItems[i]->frame(pos);
         }
         update();
         return;
@@ -211,7 +213,8 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
         m_movingKeyframe = false;
 
         for (int i = 0; i < m_extraGeometries.count(); ++i) {
-            if (m_extraMovingItems.at(i)) m_extraGeometries[i]->insert(m_extraMovingItems.at(i));
+            if (m_extraMovingItems.at(i))
+                m_extraGeometries[i]->insert(m_extraMovingItems.at(i));
         }
         
         emit keyframeMoved(m_position);
@@ -317,7 +320,8 @@ int KeyframeHelper::value() const
 
 void KeyframeHelper::setValue(const int pos)
 {
-    if (pos == m_position || m_geom == NULL) return;
+    if (pos == m_position || m_geom == NULL)
+        return;
     if (pos == m_seekPosition) {
         m_seekPosition = SEEK_INACTIVE;
     }

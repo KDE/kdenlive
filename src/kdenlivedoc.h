@@ -84,7 +84,7 @@ public:
      *
      * If the clip wasn't added before, it tries to add it to the project. */
     bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
-    void slotAddClipList(const KUrl::List urls, stringMap data = stringMap());
+    void slotAddClipList(const KUrl::List &urls, const stringMap &data = stringMap());
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(const QString &clipId);
@@ -196,7 +196,7 @@ private:
     QList <TrackInfo> m_tracksList;
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
-    void moveProjectData(KUrl url);
+    void moveProjectData(const KUrl &url);
     bool checkDocumentClips(QDomNodeList infoproducers);
 
     /** @brief Creates a new project. */
@@ -222,7 +222,7 @@ public slots:
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
-    void slotAddClipFile(const KUrl &url, stringMap data);
+    void slotAddClipFile(const KUrl &url, const stringMap &data);
 
 private slots:
     void slotAutoSave();
