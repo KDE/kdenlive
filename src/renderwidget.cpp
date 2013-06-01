@@ -46,6 +46,7 @@
 #include <QDBusInterface>
 #include <QThread>
 #include <QScriptEngine>
+#include <QKeyEvent>
 
 #include "locale.h"
 

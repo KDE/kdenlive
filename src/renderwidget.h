@@ -29,12 +29,12 @@
 #include <QPushButton>
 #include <QPainter>
 #include <QStyledItemDelegate>
-#include <QKeyEvent>
 
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
 
 class QDomElement;
+class QKeyEvent;
 
 
 // RenderViewDelegate is used to draw the progress bars.
