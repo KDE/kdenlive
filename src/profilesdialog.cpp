@@ -571,7 +571,8 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     }
     QLocale locale;
     m_selectedProfileIndex = m_view.profiles_list->currentIndex();
-    if (currentProfile.isEmpty()) currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    if (currentProfile.isEmpty())
+        currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     m_isCustomProfile = currentProfile.contains('/');
     m_view.button_create->setEnabled(true);
     m_view.button_delete->setEnabled(m_isCustomProfile);
