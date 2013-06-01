@@ -4090,7 +4090,7 @@ void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenT
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
 
-QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
+QMap<QString, QString> Render::mltGetTransitionParamsFromXml(const QDomElement &xml)
 {
     QDomNodeList attribs = xml.elementsByTagName("parameter");
     QMap<QString, QString> map;
@@ -4566,7 +4566,7 @@ void Render::updatePreviewSettings()
 }
 
 
-QString Render::updateSceneListFps(double current_fps, double new_fps, QString scene)
+QString Render::updateSceneListFps(double current_fps, double new_fps, const QString &scene)
 {
     // Update all frame positions to the new fps value
     //WARNING: there are probably some effects or other that hold a frame value
@@ -4733,7 +4733,7 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force)
     return true;
 }
 
-void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data)
+void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data)
 { 
     if (KdenliveSettings::automultistreams()) {
         for (int i = 1; i < video_list.count(); ++i) {

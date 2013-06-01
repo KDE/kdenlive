@@ -303,7 +303,7 @@ class Render: public AbstractRender
     void setDropFrames(bool show);
     /** @brief Sets an MLT consumer property. */
     void setConsumerProperty(const QString &name, const QString &value);
-    QString updateSceneListFps(double current_fps, double new_fps, QString scene);
+    QString updateSceneListFps(double current_fps, double new_fps, const QString &scene);
 
     void showAudio(Mlt::Frame&);
     
@@ -403,7 +403,7 @@ private:
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
-    QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
+    QMap<QString, QString> mltGetTransitionParamsFromXml(const QDomElement &xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
     /** @brief The ids of the clips that are currently being loaded for info query */
     QStringList m_processingClipId;
@@ -432,7 +432,7 @@ private slots:
     /** @brief Process the clip info requests (in a separate thread). */
     void processFileProperties();
     /** @brief A clip with multiple video streams was found, ask what to do. */
-    void slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data);
+    void slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data);
     void showFrame(Mlt::Frame *);
     void slotCheckSeeking();
 
