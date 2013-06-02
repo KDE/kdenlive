@@ -136,7 +136,8 @@ protected:
             list.removeAll(this);
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.count(); ++i) {
-                    if (list.at(i)->type() == Type) return pos();
+                    if (list.at(i)->type() == Type)
+                        return pos();
                 }
             }
             return newPos;

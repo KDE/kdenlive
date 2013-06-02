@@ -47,10 +47,10 @@ public:
     explicit DvdTreeWidget(QWidget *parent);
 
 protected:
-    virtual void dragEnterEvent(QDragEnterEvent * event );
-    virtual void dropEvent(QDropEvent * event );
-    virtual void mouseDoubleClickEvent( QMouseEvent * );
-    virtual void dragMoveEvent(QDragMoveEvent * event);
+    void dragEnterEvent(QDragEnterEvent * event );
+    void dropEvent(QDropEvent * event );
+    void mouseDoubleClickEvent( QMouseEvent * );
+    void dragMoveEvent(QDragMoveEvent * event);
 
 signals:
     void addNewClip();
@@ -92,7 +92,9 @@ public:
             QRectF bounding;
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
             painter->restore();
-        } else QStyledItemDelegate::paint(painter, option, index);
+        } else {
+            QStyledItemDelegate::paint(painter, option, index);
+        }
     }
 };
 
@@ -116,7 +118,7 @@ public:
     void clear();
     const QString introMovie() const;
     void setUseIntroMovie(bool use);
-    void updateChapters(QMap <QString, QString> chaptersdata);
+    void updateChapters(const QMap<QString, QString> &chaptersdata);
     static QString getDvdProfile(DVDFORMAT format);
 
 private:
