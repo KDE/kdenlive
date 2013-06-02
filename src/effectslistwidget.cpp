@@ -41,8 +41,8 @@ const int IdRole = TypeRole + 1;
 
 
 EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
-        QTreeWidget(parent),
-        m_menu(contextMenu)
+    QTreeWidget(parent),
+    m_menu(contextMenu)
 {
     setColumnCount(1);
     setDragEnabled(true);
@@ -188,34 +188,34 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             sub->addMenu(sub4);
         }
         for (int j = 0; j < effectsInCategory; j++) {
-                QTreeWidgetItem *item = topLevelItem(i)->child(j);
-                KAction *a = new KAction(KIcon(item->icon(0)), item->text(0), sub);
-                QStringList data = item->data(0, IdRole).toStringList();
-                QString id = data.at(1);
-                if (id.isEmpty()) id = data.at(0);
-                a->setData(data);
-                a->setIconVisibleInMenu(false);
-                if (hasSubCategories) {
-                    // put action in sub category
-                    QRegExp rx("^[s-z].+");
+            QTreeWidgetItem *item = topLevelItem(i)->child(j);
+            KAction *a = new KAction(KIcon(item->icon(0)), item->text(0), sub);
+            QStringList data = item->data(0, IdRole).toStringList();
+            QString id = data.at(1);
+            if (id.isEmpty()) id = data.at(0);
+            a->setData(data);
+            a->setIconVisibleInMenu(false);
+            if (hasSubCategories) {
+                // put action in sub category
+                QRegExp rx("^[s-z].+");
+                if (rx.exactMatch(item->text(0).toLower())) {
+                    sub4->addAction(a);
+                } else {
+                    rx.setPattern("^[m-r].+");
                     if (rx.exactMatch(item->text(0).toLower())) {
-                        sub4->addAction(a);
-                    } else {
-                        rx.setPattern("^[m-r].+");
+                        sub3->addAction(a);
+                    }
+                    else {
+                        rx.setPattern("^[g-l].+");
                         if (rx.exactMatch(item->text(0).toLower())) {
-                            sub3->addAction(a);
+                            sub2->addAction(a);
                         }
-                        else {
-                            rx.setPattern("^[g-l].+");
-                            if (rx.exactMatch(item->text(0).toLower())) {
-                                sub2->addAction(a);
-                            }
-                            else sub1->addAction(a);
-                        }
+                        else sub1->addAction(a);
                     }
                 }
-                else sub->addAction(a);
-                effectActions->addAction("video_effect_" + id, a);
+            }
+            else sub->addAction(a);
+            effectActions->addAction("video_effect_" + id, a);
         }
     }
 }
@@ -247,7 +247,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
 
         if (!effectInfo.isEmpty()) {
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
-	    if (effectInfo.count() == 4) item->setIcon(0, KIcon("folder"));
+            if (effectInfo.count() == 4) item->setIcon(0, KIcon("folder"));
             else item->setIcon(0, icon);
             item->setData(0, TypeRole, type);
             item->setData(0, IdRole, effectInfo);
@@ -324,9 +324,9 @@ QString EffectsListWidget::currentInfo() const
 void EffectsListWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
-	emit applyEffect(currentEffect());
-	e->accept();
-	return;
+        emit applyEffect(currentEffect());
+        e->accept();
+        return;
     }
     QTreeWidget::keyPressEvent(e);
 }
@@ -338,7 +338,8 @@ QMimeData * EffectsListWidget::mimeData(const QList<QTreeWidgetItem *> list) con
     foreach(QTreeWidgetItem *item, list) {
         if (item->flags() & Qt::ItemIsDragEnabled) {
             const QDomElement e = itemEffect(item);
-            if (!e.isNull()) doc.appendChild(doc.importNode(e, true));
+            if (!e.isNull())
+                doc.appendChild(doc.importNode(e, true));
         }
     }
     QMimeData *mime = new QMimeData;
