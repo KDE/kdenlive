@@ -22,14 +22,10 @@
 #define KDENLIVEDOC_H
 
 #include <qdom.h>
-#include <QString>
 #include <QMap>
 #include <QList>
 #include <QDir>
 #include <QObject>
-#include <QUndoGroup>
-#include <QUndoStack>
-#include <QTimer>
 
 #include <KUrl>
 #include <kautosavefile.h>
@@ -47,6 +43,9 @@ class TrackInfo;
 
 class KTextEdit;
 class KProgressDialog;
+class QUndoGroup;
+class QTimer;
+class QUndoStack;
 
 class KdenliveDoc: public QObject
 {
@@ -107,7 +106,7 @@ public:
 
     /** @brief Returns the project folder, used to store project files. */
     KUrl projectFolder() const;
-    void syncGuides(QList <Guide *> guides);
+    void syncGuides(const QList <Guide *> &guides);
     void setZoom(int horizontal, int vertical);
     QPoint zoom() const;
     double dar() const;

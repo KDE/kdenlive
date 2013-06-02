@@ -113,6 +113,7 @@
 #include <QInputDialog>
 #include <QDesktopWidget>
 #include <QBitmap>
+#include <QUndoGroup>
 
 #include <stdlib.h>
 #include <locale.h>
