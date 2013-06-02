@@ -364,7 +364,7 @@ QStringList DvdWizardVob::chapters() const
     return result;
 }
 
-void DvdWizardVob::updateChapters(QMap <QString, QString> chaptersdata)
+void DvdWizardVob::updateChapters(const QMap <QString, QString> &chaptersdata)
 {
     int max = m_vobList->topLevelItemCount();
     int i = 0;
@@ -374,7 +374,8 @@ void DvdWizardVob::updateChapters(QMap <QString, QString> chaptersdata)
     }
     for (; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
-        if (chaptersdata.contains(item->text(0))) item->setData(1, Qt::UserRole + 1, chaptersdata.value(item->text(0)));
+        if (chaptersdata.contains(item->text(0)))
+            item->setData(1, Qt::UserRole + 1, chaptersdata.value(item->text(0)));
     }
 }
 
@@ -391,7 +392,8 @@ int DvdWizardVob::duration(int ix) const
 const QString DvdWizardVob::introMovie() const
 {
     QString url;
-    if (m_view.use_intro->isChecked() && m_vobList->topLevelItemCount() > 0) url = m_vobList->topLevelItem(0)->text(0);
+    if (m_view.use_intro->isChecked() && m_vobList->topLevelItemCount() > 0)
+        url = m_vobList->topLevelItem(0)->text(0);
     return url;
 }
 
@@ -416,7 +418,8 @@ void DvdWizardVob::slotCheckVobList()
     qint64 totalSize = 0;
     for (int i = 0; i < max; ++i) {
         item = m_vobList->topLevelItem(i);
-        if (item) totalSize += (qint64) item->data(2, Qt::UserRole).toInt();
+        if (item)
+            totalSize += (qint64) item->data(2, Qt::UserRole).toInt();
     }
 
     qint64 maxSize = (qint64) 47000 * 100000;
@@ -437,9 +440,11 @@ void DvdWizardVob::slotItemDown()
 {
     int max = m_vobList->topLevelItemCount();
     QTreeWidgetItem *item = m_vobList->currentItem();
-    if (item == NULL) return;
+    if (item == NULL)
+        return;
     int index = m_vobList->indexOfTopLevelItem(item);
-    if (index == max - 1) return;
+    if (index == max - 1)
+        return;
     m_vobList->insertTopLevelItem(index + 1, m_vobList->takeTopLevelItem(index));
 }
 
@@ -489,10 +494,14 @@ QString DvdWizardVob::getDvdProfile(DVDFORMAT format)
 
 void DvdWizardVob::setProfile(const QString& profile)
 {
-    if (profile == "dv_pal_wide") m_view.dvd_profile->setCurrentIndex(PAL_WIDE);
-    else if (profile == "dv_ntsc") m_view.dvd_profile->setCurrentIndex(NTSC);
-    else if (profile == "dv_ntsc_wide") m_view.dvd_profile->setCurrentIndex(NTSC_WIDE);
-    else m_view.dvd_profile->setCurrentIndex(PAL);
+    if (profile == "dv_pal_wide")
+        m_view.dvd_profile->setCurrentIndex(PAL_WIDE);
+    else if (profile == "dv_ntsc")
+        m_view.dvd_profile->setCurrentIndex(NTSC);
+    else if (profile == "dv_ntsc_wide")
+        m_view.dvd_profile->setCurrentIndex(NTSC_WIDE);
+    else
+        m_view.dvd_profile->setCurrentIndex(PAL);
 }
 
 void DvdWizardVob::clear()
