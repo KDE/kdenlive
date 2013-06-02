@@ -50,6 +50,9 @@
 #include <QFile>
 #include <QInputDialog>
 #include <QDomImplementation>
+#include <QUndoGroup>
+#include <QTimer>
+#include <QUndoStack>
 
 #include <mlt++/Mlt.h>
 
@@ -577,7 +580,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 }
 
 
-void KdenliveDoc::syncGuides(QList <Guide *> guides)
+void KdenliveDoc::syncGuides(const QList <Guide *> &guides)
 {
     m_guidesXml.clear();
     QDomElement guideNode = m_guidesXml.createElement("guides");
@@ -886,8 +889,10 @@ MltVideoProfile KdenliveDoc::mltProfile() const
 
 bool KdenliveDoc::setProfilePath(QString path)
 {
-    if (path.isEmpty()) path = KdenliveSettings::default_profile();
-    if (path.isEmpty()) path = "dv_pal";
+    if (path.isEmpty())
+        path = KdenliveSettings::default_profile();
+    if (path.isEmpty())
+        path = QLatin1String("dv_pal");
     m_profile = ProfilesDialog::getVideoProfile(path);
     double current_fps = m_fps;
     if (m_profile.path.isEmpty()) {
