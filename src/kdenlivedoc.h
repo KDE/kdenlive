@@ -86,7 +86,7 @@ public:
     bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
     void slotAddClipList(const KUrl::List &urls, const stringMap &data = stringMap());
     void deleteClip(const QString &clipId);
-    int getFramePos(QString duration);
+    int getFramePos(const QString &duration);
     DocClipBase *getBaseClip(const QString &clipId);
     void updateClip(const QString &id);
 
