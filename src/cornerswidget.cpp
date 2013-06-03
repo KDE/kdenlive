@@ -73,7 +73,7 @@ CornersWidget::~CornersWidget()
     }
 }
 
-void CornersWidget::addParameter(QDomElement e, int activeKeyframe)
+void CornersWidget::addParameter(const QDomElement &e, int activeKeyframe)
 {
     KeyframeEdit::addParameter(e, activeKeyframe);
 

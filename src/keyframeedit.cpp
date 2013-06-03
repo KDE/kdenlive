@@ -99,7 +99,7 @@ KeyframeEdit::~KeyframeEdit()
     }
 }
 
-void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
+void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
 {
     keyframe_list->blockSignals(true);
     m_params.append(e.cloneNode().toElement());

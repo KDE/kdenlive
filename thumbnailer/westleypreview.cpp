@@ -41,14 +41,14 @@
 
 //#include "config.h"
 extern "C" {
-    KDE_EXPORT ThumbCreator *new_creator() {
-        return new MltPreview;
-    }
+KDE_EXPORT ThumbCreator *new_creator() {
+    return new MltPreview;
+}
 }
 
 MltPreview::MltPreview() :
-        QObject(),
-        ThumbCreator()
+    QObject(),
+    ThumbCreator()
 {
     Mlt::Factory::init();
 }
