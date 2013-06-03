@@ -86,7 +86,7 @@ Q_OBJECT public:
     void setOverlay(const QString &path);
 
     /** @brief This will add an MLT video effect to the overlay track. */
-    void setOverlayEffect(const QString &tag, QStringList parameters);
+    void setOverlayEffect(const QString &tag, const QStringList &parameters);
 
     /** @brief This will add a horizontal flip effect, easier to work when filming yourself. */
     void mirror(bool activate);
