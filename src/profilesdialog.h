@@ -41,7 +41,7 @@ public:
     static MltVideoProfile getVideoProfile(const QString &name);
     static QMap <QString, QString> getProfilesInfo();
     static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
-    static QString existingProfile(MltVideoProfile profile);
+    static QString existingProfile(const MltVideoProfile &profile);
     static bool existingProfileDescription(const QString &desc);
 
     /** @brief Check if a given profile matches passed properties:
