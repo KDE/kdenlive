@@ -50,7 +50,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     QStringList transitionInfo;
     int ix = 0;
 
-    for (; ix < max; ix++) {
+    for (; ix < max; ++ix) {
         transitionInfo = MainWindow::transitions.effectIdInfo(ix);
         transitionInfo << QString::number(ix);
         transitionsList.append(transitionInfo);
@@ -61,7 +61,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
         if (!data.isEmpty()) data.removeLast();
         transitionList->addItem(value.at(0), data);
         transitionList->setItemData(ix, MainWindow::transitions.getInfoFromIndex(value.last().toInt()), Qt::ToolTipRole);
-        ix++;
+        ++ix;
     }
 
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
@@ -129,8 +129,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
             transitionList->setCurrentIndex(ix);
             transitionList->blockSignals(false);
             m_effectEdit->transferParamDesc(e, m_usedTransition->info(), false);
-        }
-        else {
+        } else {
             slotUpdateEffectParams(e, e);
             if (m_usedTransition->hasGeometry())
                 m_effectEdit->transferParamDesc(m_usedTransition->toXML(), m_usedTransition->info(), false);

@@ -75,8 +75,6 @@ UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *pare
 UnicodeWidget::~UnicodeWidget()
 {
 }
-
-
 /// METHODS
 
 void UnicodeWidget::showLastUnicode()
