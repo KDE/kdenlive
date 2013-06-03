@@ -320,7 +320,7 @@ bool ProfilesDialog::existingProfileDescription(const QString &desc)
 }
 
 // static
-QString ProfilesDialog::existingProfile(MltVideoProfile profile)
+QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
 {
     // Check if the profile has a matching entry in existing ones
     QStringList profilesFilter;
