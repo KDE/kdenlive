@@ -12,6 +12,7 @@
 
 #include "ui_unicodewidget_ui.h"
 #include <KDialog>
+
 class UnicodeWidget;
 class UnicodeDialog : public KDialog
 {
