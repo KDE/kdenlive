@@ -298,7 +298,7 @@ public:
     void updatePalette();
 
 public slots:
-    void updateAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
+    void updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
     void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
     void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace);
@@ -319,7 +319,7 @@ public slots:
     /** @brief Adds, edits or deletes a folder item.
     *
     * This is triggered by AddFolderCommand and EditFolderCommand. */
-    void slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit = false);
+    void slotAddFolder(const QString &foldername, const QString &clipId, bool remove, bool edit = false);
     void slotResetProjectList();
     void slotOpenClip();
     void slotEditClip();
