@@ -114,7 +114,7 @@ void SmallRuler::setMarkers(const QList<CommentedTime> &list)
     updatePixmap();
 }
 
-QPoint SmallRuler::zone()
+QPoint SmallRuler::zone() const
 {
     return QPoint(m_zoneStart, m_zoneEnd);
 }
