@@ -112,7 +112,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     bool newMessage = false;
 
     // Get the next message from the queue, unless the current one needs to be confirmed
-    if (m_messageQueue.size() > 0) {
+    if (!m_messageQueue.isEmpty()) {
 
         if (!m_currentMessage.needsConfirmation()) {
 
@@ -124,12 +124,12 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     }
 
     // If the queue is empty, add a default (empty) message
-    if (m_messageQueue.size() == 0 && m_currentMessage.type != DefaultMessage) {
+    if (m_messageQueue.isEmpty() && m_currentMessage.type != DefaultMessage) {
         m_messageQueue.push_back(StatusBarMessageItem());
     }
 
     // Start a new timer, unless the current message still needs to be confirmed
-    if (m_messageQueue.size() > 0) {
+    if (!m_messageQueue.isEmpty()) {
 
         if (!m_currentMessage.needsConfirmation()) {
 

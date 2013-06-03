@@ -503,8 +503,9 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
 
     // scale the view so that the title widget is not too big at startup
     graphicsView->scale(.5, .5);
-    if (!url.isEmpty()) loadTitle(url);
-    else {
+    if (!url.isEmpty()) {
+        loadTitle(url);
+    } else {
         prepareTools(NULL);
         slotTextTool();
         QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
@@ -645,7 +646,8 @@ void TitleWidget::templateIndexChanged(int index)
     QString item = templateBox->itemData(index).toString();
     if (!item.isEmpty()) {
         if (lastDocumentHash != QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex()) {
-            if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No) return;
+            if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No)
+                return;
         }
         loadTitle(item);
 
@@ -1081,10 +1083,7 @@ void TitleWidget::selectionChanged()
             zUp->setEnabled(false);
             zDown->setEnabled(false);
         }
-
-
     }
-
 }
 
 void TitleWidget::slotValueChanged(int type)
@@ -1621,8 +1620,7 @@ void TitleWidget::slotUpdateText()
 void TitleWidget::rectChanged()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    int i;
-    for (i = 0; i < l.length(); ++i) {
+    for (int i = 0; i < l.length(); ++i) {
         if (l.at(i)->type() == RECTITEM && !settingUp) {
             QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(i));
             QColor f = rectFColor->color();

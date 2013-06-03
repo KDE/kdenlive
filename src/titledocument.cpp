@@ -562,7 +562,7 @@ QColor TitleDocument::stringToColor(const QString & s)
 
 QTransform TitleDocument::stringToTransform(const QString& s)
 {
-    QStringList l = s.split(',');
+    QStringList l = s.split(QLatin1Char(','));
     if (l.size() < 9)
         return QTransform();
     return QTransform(
