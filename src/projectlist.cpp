@@ -1266,7 +1266,7 @@ void ProjectList::slotAddFolder(const QString &name)
     m_commandStack->push(command);
 }
 
-void ProjectList::slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit)
+void ProjectList::slotAddFolder(const QString &foldername, const QString &clipId, bool remove, bool edit)
 {
     if (remove) {
         FolderProjectItem *item = getFolderItemById(clipId);
@@ -1559,7 +1559,7 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
     else requestClipThumbnail(parentItem->clipId() + '#' + QString::number(pos));
 }
 
-void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips)
+void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips)
 {
     if (!m_allClipsProcessed) m_listView->setEnabled(false);
     m_listView->setSortingEnabled(false);
