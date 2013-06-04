@@ -932,7 +932,7 @@ void Monitor::slotSaveZone()
     //render->setSceneList(doc, 0);
 }
 
-void Monitor::setCustomProfile(const QString &profile, Timecode tc)
+void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 {
     m_timePos->updateTimeCode(tc);
     if (render == NULL) return;
