@@ -2264,7 +2264,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     if (openBackup) slotOpenBackupDialog(url);
 }
 
-void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles, const KUrl &originUrl)
+void MainWindow::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KUrl &originUrl)
 {
     foreach(KAutoSaveFile * stale, staleFiles) {
         /*if (!stale->open(QIODevice::QIODevice::ReadOnly)) {
