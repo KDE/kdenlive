@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Clip
+Name=Generic Clip
+X-KDE-PluginInfo-Name=kdenlivegenericclip
+X-KDE-Library=kdenlivegenericclip
+X-Kdenlive-ProvidedProducers=generic
