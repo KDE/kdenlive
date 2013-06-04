@@ -20,9 +20,16 @@ class AbstractClipPlugin;
 class AbstractProjectClip;
 class AbstractProjectItem;
 class ProjectFolder;
+class ProducerDescription;
 class KUrl;
 class QDomElement;
 class QUndoCommand;
+class QAction;
+
+namespace Mlt
+{
+    class Properties;
+}
 
 
 /**
@@ -49,7 +56,7 @@ public:
      * If no parent command is provided the created command will be pushed to the undo stack.
      */
     void createClip(const KUrl &url, ProjectFolder *folder, QUndoCommand *parentCommand = 0) const;
-
+    const QString createClip(const QString &service, Mlt::Properties props, ProjectFolder *folder, QUndoCommand *parentCommand) const;
     /**
      * @brief Loads the clip described (only used when opening a project).
      * @param clipDescription element describing the clip
@@ -66,13 +73,15 @@ public:
 
     /** @brief Returns the clip plugin that is associated with the supplied producer type or NULL is no such plugin exists. */
     AbstractClipPlugin *clipPlugin(const QString &producerType) const;
+    
+    void filterDescription(Mlt::Properties props, ProducerDescription *description);
 
 public slots:
     /**
      * @brief Allows to add clips through the add clip dialog.
      * @param folder folder the created clips should be parented to
      */
-    void execAddClipDialog(ProjectFolder *folder = 0) const;
+    void execAddClipDialog(QAction *action = NULL, ProjectFolder *folder = 0) const;
 
 private:
     QHash<QString, AbstractClipPlugin*> m_clipPlugins;

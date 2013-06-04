@@ -25,9 +25,12 @@ public:
     ~ImageClipPlugin();
 
     AbstractProjectClip *createClip(const KUrl &url, const QString &id, ProjectFolder *parent) const;
+    AbstractProjectClip *createClip(const QString &service, Mlt::Properties props, const QString &id, ProjectFolder *parent) const;
     AbstractProjectClip *loadClip(const QDomElement &description, ProjectFolder *parent) const;
 
     TimelineClipItem *timelineClipView(AbstractTimelineClip *clip, QGraphicsItem* parent) const;
+    QString nameForService(const QString &) const;
+    void fillDescription(Mlt::Properties properties, ProducerDescription *description);
 };
 
 #endif

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>200</width>
-    <height>60</height>
+    <height>51</height>
    </rect>
   </property>
   <layout class="QGridLayout">
@@ -31,25 +31,19 @@
     <widget class="QWidget" name="widgetComment" native="true">
      <layout class="QGridLayout" name="_2">
       <property name="leftMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="topMargin">
        <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="bottomMargin">
-       <number>15</number>
+       <number>5</number>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="labelComment">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
         </property>

@@ -110,11 +110,14 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
             case AbstractProjectItem::DataDate:
                 columnName = i18n("Date");
                 break;
+	    default:
+	        columnName = i18n("Unknown");
+                break;
         }
         return columnName;
     }
 
-    return QVariant();
+    return QAbstractItemModel::headerData(section, orientation, role);
 }
 
 QModelIndex ProjectItemModel::index(int row, int column, const QModelIndex& parent) const

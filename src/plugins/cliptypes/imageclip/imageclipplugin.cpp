@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core/project/projectfolder.h"
 #include "core/project/abstracttimelineclip.h"
 #include <KPluginFactory>
+#include <KLocale>
 #include <QDomElement>
 
 K_PLUGIN_FACTORY( ImageClipFactory, registerPlugin<ImageClipPlugin>(); )
@@ -44,10 +45,25 @@ AbstractProjectClip* ImageClipPlugin::createClip(const KUrl &url, const QString 
     return projectClip;
 }
 
+AbstractProjectClip* ImageClipPlugin::createClip(const QString &service, Mlt::Properties props, const QString &id, ProjectFolder *parent) const
+{
+    ImageProjectClip *projectClip = new ImageProjectClip(service, props, id, parent, this);
+    return projectClip;
+}
+
 AbstractProjectClip* ImageClipPlugin::loadClip(const QDomElement& description, ProjectFolder *parent) const
 {
     ImageProjectClip *projectClip = new ImageProjectClip(description, parent, this);
     return projectClip;
+}
+
+QString ImageClipPlugin::nameForService(const QString &) const
+{
+    return i18n("Image Clip");
+}
+
+void ImageClipPlugin::fillDescription(Mlt::Properties properties, ProducerDescription *description)
+{
 }
 
 TimelineClipItem* ImageClipPlugin::timelineClipView(AbstractTimelineClip* clip, QGraphicsItem* parent) const

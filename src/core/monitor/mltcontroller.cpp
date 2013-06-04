@@ -78,15 +78,16 @@ QImage QFrame::image()
 } // namespace
 
 MltController::MltController(Mlt::Profile *profile)
-    : m_repo(Mlt::Factory::init())
+    : displayPosition(0)
+    , m_repo(Mlt::Factory::init())
     , m_producer(0)
     , m_consumer(0)
     , m_profile(profile)
     , m_volumeFilter(0)
     , m_jackFilter(0)
-    , m_volume(1.0)
-    , displayPosition(0)
     , m_isActive(false)
+    , m_isLive(false)
+    , m_volume(1.0)
 {
     m_transportControl = new TransportControl(this);
 }
@@ -101,7 +102,7 @@ DISPLAYMODE MltController::displayType() const
     return m_type;
 }
 
-MltController& MltController::singleton(QWidget* parent)
+MltController& MltController::singleton(QWidget* /*parent*/)
 {
     static MltController* instance = 0;
     if (!instance) {
@@ -124,10 +125,10 @@ MltController::~MltController()
 //    Mlt::Factory::close();
 }
 
-int MltController::open(ProducerWrapper *producer, bool)
+int MltController::open(ProducerWrapper *producer, bool isMulti, bool isLive)
 {
     int error = 0;
-
+    m_isLive = isLive;
     if (producer != m_producer)
         close();
     if (producer && producer->is_valid()) {
@@ -138,8 +139,9 @@ int MltController::open(ProducerWrapper *producer, bool)
         // but the Mlt::Producer(Service&) constructor will fail unless it detects
         // the type as playlist, and mlt_service_identify() needs the resource
         // property to say "<playlist>" to identify it as playlist type.
-        if (isPlaylist())
-            m_producer->set("resource", "<playlist>");
+	//TODO: the following seems to create crashes when dealing with timeline producer, should it only be enabled on xml clips?
+        /*if (isPlaylist())
+            m_producer->set("resource", "<playlist>");*/
     }
     else {
         // Cleanup on error
@@ -150,7 +152,7 @@ int MltController::open(ProducerWrapper *producer, bool)
     return error;
 }
 
-int MltController::open(const char* url)
+/*int MltController::open(const char* url)
 {
     int error = 0;
 
@@ -177,12 +179,11 @@ int MltController::open(const char* url)
         error = 1;
     }
     return error;
-}
+}*/
 
 void MltController::close()
 {
-    if (m_consumer && !m_consumer->is_stopped())
-        m_consumer->stop();
+    if (m_consumer && !m_consumer->is_stopped()) m_consumer->stop();
     m_url.clear();
 }
 
@@ -212,6 +213,10 @@ void MltController::closeConsumer()
 	delete m_consumer;
     }
     m_consumer = 0;
+    if (m_isLive) {
+	delete m_producer;
+	m_producer = 0;
+    }
     if (m_volumeFilter) {
 	delete m_volumeFilter;
     }
@@ -222,13 +227,14 @@ void MltController::closeConsumer()
     m_jackFilter = 0;
 }
 
+
 void MltController::play(double speed)
 {
     if (m_producer)
         m_producer->set_speed(speed);
     // If we are paused, then we need to "unlock" sdl_still.
     if (m_consumer) {
-        m_consumer->start();
+        if (m_consumer->is_stopped()) m_consumer->start();
 	kDebug()<<"// RESTARTING CONSUMER *******\n***************\n*****************";
         refreshConsumer();
     }
@@ -250,7 +256,10 @@ void MltController::pause()
 	int result = m_producer->set_speed(0);
         //Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
         m_consumer->purge();
-	m_producer->seek(displayPosition);
+	if (m_isLive) {
+	    m_consumer->stop();
+	}
+	else m_producer->seek(displayPosition);
 	//m_consumer->start();
         /*if (result == 0 && m_consumer->is_valid() && !m_consumer->is_stopped())
             m_consumer->wait_for(event);
@@ -264,8 +273,8 @@ void MltController::stop()
 {
     if (m_consumer && !m_consumer->is_stopped())
         m_consumer->stop();
-    if (m_producer)
-        m_producer->seek(0);
+    /*if (m_producer)
+        m_producer->seek(0);*/
     if (m_jackFilter)
         m_jackFilter->fire_event("jack-stop");
 }
@@ -421,16 +430,18 @@ int MltController::consumerChanged()
         if (m_consumer) {
             enableJack(jackEnabled);
             setVolume(gain);
-            m_consumer->start();
+            if (m_consumer->is_stopped()) m_consumer->start();
         }
+        kDebug()<<" / / / /CONSUMER CHANGED * * * ** ";
     }
     return error;
 }
 
-/*int MltController::setProfile(const QString& profile_name)
+int MltController::setProfile(Mlt::Profile *profile)
 {
     int error = 0;
-    bool reopen = m_consumer != 0;
+    m_display_ratio = profile->dar();
+    /*bool reopen = m_consumer != 0;
     double speed = m_producer? m_producer->get_speed(): 0;
     const char* position = m_producer? m_producer->frame_time() : 0;
 
@@ -452,10 +463,10 @@ int MltController::consumerChanged()
         if (!open(new ProducerWrapper(m_producer)))
             m_producer->seek(position);
         play(speed);
-    }
+    }*/
 
     return error;
-}*/
+}
 
 QString MltController::resource() const
 {

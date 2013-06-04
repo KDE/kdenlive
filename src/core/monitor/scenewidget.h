@@ -76,7 +76,7 @@ public:
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
     /** @brief Open requested producer and get ready for playback. */
-    int open(ProducerWrapper*, bool isMulti = false);
+    int open(ProducerWrapper*, bool isMulti = false, bool isLive = false);
     /** @brief Configure the MLT consumer. */
     int reconfigure(bool isMulti);
     /** @brief Rebuild consumer if it was closed. */
@@ -127,7 +127,6 @@ private:
     int x, y, w, h;
     int m_image_width, m_image_height;
     GLuint m_texture[3];
-    double m_display_ratio;
     QGLShaderProgram* m_shader;
     QPoint m_dragStart;
     Mlt::Filter* m_glslManager;

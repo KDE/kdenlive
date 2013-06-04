@@ -20,7 +20,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core/project/binmodel.h"
 #include "core/timecodeformatter.h"
 #include "core/timecode.h"
-#include "core/core.h"
 #include "src/core/kdenlivesettings.h"
 #include <mlt++/Mlt.h>
 #include <KUrl>
@@ -42,6 +41,15 @@ VideoProjectClip::VideoProjectClip(const KUrl& url, const QString &id, ProjectFo
 VideoProjectClip::VideoProjectClip(ProducerWrapper* producer, ProjectFolder* parent, VideoClipPlugin const *plugin) :
     AbstractProjectClip(producer, parent, plugin)
 {
+    init();
+}
+
+VideoProjectClip::VideoProjectClip(const QString& service, Mlt::Properties props, const QString &id, ProjectFolder* parent, VideoClipPlugin const *plugin) :
+    AbstractProjectClip(KUrl(props.get("resource")), id, parent, plugin)
+{
+    Q_ASSERT(service == "avformat");
+    m_baseProducer = NULL;
+    initProducer(service, props);
     init();
 }
 
@@ -75,20 +83,6 @@ AbstractTimelineClip* VideoProjectClip::createInstance(TimelineTrack* parent, Pr
     return static_cast<AbstractTimelineClip *>(instance);
 }
 
-
-QPixmap VideoProjectClip::thumbnail()
-{
-    if (m_thumbnail.isNull() && m_baseProducer) {
-	int width = 80 * bin()->project()->displayRatio();
-	if (width % 2 == 1) width++;
-	pCore->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
-	//bin()->monitor()->controller()->renderImage(m_id, m_baseProducer, QList <int>() << 0);
-        //m_thumbnail = roundedPixmap();
-    }
-    
-    return m_thumbnail;
-}
-
 void VideoProjectClip::hash()
 {
     if (m_hash.isEmpty() && hasUrl()) {
@@ -115,8 +109,10 @@ void VideoProjectClip::hash()
 
 void VideoProjectClip::initProducer()
 {
-    if (!m_baseProducer)
+    if (!m_baseProducer) {
 	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
+	m_baseProducer->set("id", id().toUtf8().constData());
+    }
 }
 
 void VideoProjectClip::init()
@@ -125,13 +121,21 @@ void VideoProjectClip::init()
     //Q_ASSERT(m_baseProducer->property("mlt_service") == "avformat");
     hash();
     m_hasLimitedDuration = true;
-    m_duration = Timecode(m_baseProducer->get_length()).formatted();
+    Timecode t(m_baseProducer->get_length(), bin()->project()->timecodeFormatter());
+    m_duration = t.formatted();
     QTimer::singleShot(0, this, SLOT(thumbnail()));
 
     kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
 }
 
-
+void VideoProjectClip::initProducer(const QString &service, Mlt::Properties props)
+{
+    if (!m_baseProducer) {
+	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), props.get("resource"), service);
+	//TODO: pass all properties to producer
+	m_baseProducer->set("id", id().toUtf8().constData());
+    }
+}
 
 
 #include "videoprojectclip.moc"

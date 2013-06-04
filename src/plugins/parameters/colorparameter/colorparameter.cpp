@@ -14,17 +14,17 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QColor>
 #include <QTextStream>
 
-ColorParameter::ColorParameter(const ColorParameterDescription* parameterDescription, AbstractParameterList* parent) :
+ColorParameter::ColorParameter(const ColorParameterDescription* parameterDescription, AbstractParameterList* parent, const QString &value) :
     AbstractParameter(parameterDescription, parent),
     m_description(parameterDescription)
 {
-    set(m_description->defaultValue());
+    if (value.isEmpty()) set(m_description->defaultValue());
 }
 
 void ColorParameter::set(const char* data)
 {
     QString string = QString(data).remove(m_description->prefix());
-    QColor value = stringToColor(data);
+    QColor value = stringToColor(string);
     emit valueUpdated(value);
 }
 
@@ -83,9 +83,9 @@ QString ColorParameter::colorToString(const QColor &color, bool hasAlpha)
     stream.setFieldAlignment(QTextStream::AlignRight);
     stream.setPadChar('0');
     stream <<  color.red() << color.green() << color.blue();
-    if(hasAlpha) {
+    //if(hasAlpha) {
         stream << color.alpha();
-    }
+    //}
     return colorStr;
 }
 

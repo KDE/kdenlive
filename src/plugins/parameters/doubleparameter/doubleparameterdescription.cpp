@@ -51,7 +51,8 @@ void DoubleParameterDescription::init(Mlt::Properties& properties, QLocale local
     m_factor = 1;
     m_offset = 0;
     m_decimals = 0;
-    m_suffix = QString();
+    m_suffix = properties.get("unit");
+    // Should we use properties.get_double ??
     m_default = locale.toDouble(properties.get("default"));
     m_min = locale.toDouble(properties.get("minimum"));
     m_max = locale.toDouble(properties.get("maximum"));
@@ -61,9 +62,9 @@ void DoubleParameterDescription::init(Mlt::Properties& properties, QLocale local
     }
 }
 
-AbstractParameter *DoubleParameterDescription::createParameter(AbstractParameterList* parent) const
+AbstractParameter *DoubleParameterDescription::createParameter(AbstractParameterList* parent, const QString &value) const
 {
-    DoubleParameter *parameter = new DoubleParameter(this, parent);
+    DoubleParameter *parameter = new DoubleParameter(this, parent, value);
     return static_cast<AbstractParameter*>(parameter);
 }
 

@@ -14,6 +14,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/projectmanager.h"
 #include "project/project.h"
 
+#include <KDebug>
+
 
 Timecode::Timecode(TimecodeFormatter const* formatter) :
     m_frames(0)
@@ -47,6 +49,7 @@ void Timecode::setFormatter(TimecodeFormatter const* formatter)
         if (pCore->projectManager()->current()) {
             m_formatter = pCore->projectManager()->current()->timecodeFormatter();
         } else {
+	    kDebug()<<" // / CRASHING TOTOTO";
             m_formatter = 0;
         }
     }

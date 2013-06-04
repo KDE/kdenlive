@@ -12,7 +12,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "pluginmanager.h"
 #include "project/clippluginmanager.h"
+#include "effectsystem/mltcore.h"
 #include "effectsystem/effectrepository.h"
+#include "producersystem/producerrepository.h"
 #include "bin/bin.h"
 #include "timelineview/timelinewidget.h"
 #include "monitor/monitormanager.h"
@@ -31,8 +33,9 @@ Core::Core(MainWindow *mainWindow) :
 
 Core::~Core()
 {
+    delete m_producerRepository;
     delete m_effectRepository;
-
+    //delete m_mltCore;
     m_self = 0;
 }
 
@@ -44,7 +47,9 @@ void Core::initialize(MainWindow* mainWindow)
 
 void Core::init()
 {
-    m_effectRepository = new EffectRepository();
+    m_mltCore = new MltCore();
+    m_effectRepository = new EffectRepository(m_mltCore);
+    m_producerRepository = new ProducerRepository(m_mltCore);
     m_clipPluginManager = new ClipPluginManager(this);
     m_projectManager = new ProjectManager(this);
     m_monitorManager = new MonitorManager(this);
@@ -71,9 +76,19 @@ ProjectManager* Core::projectManager()
     return m_projectManager;
 }
 
+MltCore* Core::mltCore()
+{
+    return m_mltCore;
+}
+
 EffectRepository* Core::effectRepository()
 {
     return m_effectRepository;
+}
+
+ProducerRepository* Core::producerRepository()
+{
+    return m_producerRepository;
 }
 
 ClipPluginManager* Core::clipPluginManager()

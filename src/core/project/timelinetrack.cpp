@@ -28,6 +28,7 @@ TimelineTrack::TimelineTrack(ProducerWrapper* producer, Timeline* parent) :
     m_producer(producer),
     m_playlist(new Mlt::Playlist((mlt_playlist)producer->get_service()))
 {
+    kDebug()<<"// /PLALIST HAS "<<m_playlist->count()<<" CLIPS";
     for (int i = 0; i < m_playlist->count(); ++i) {
         ProducerWrapper *clipProducer = new ProducerWrapper(m_playlist->get_clip(i));
         if (!clipProducer->is_blank()) {
@@ -292,7 +293,7 @@ void TimelineTrack::emitDurationChanged()
     emit durationChanged(producer()->get_playtime());
 }
 
-void TimelineTrack::producer_change(mlt_producer producer, TimelineTrack* self)
+void TimelineTrack::producer_change(mlt_producer /*producer*/, TimelineTrack* self)
 {
     self->emitDurationChanged();
 }

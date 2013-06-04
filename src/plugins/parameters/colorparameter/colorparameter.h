@@ -21,7 +21,7 @@ class ColorParameter : public AbstractParameter
     Q_OBJECT
 
 public:
-    ColorParameter(const ColorParameterDescription *parameterDescription, AbstractParameterList *parent);
+    ColorParameter(const ColorParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
     ~ColorParameter() {};
 
     void set(const char*data);

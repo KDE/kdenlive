@@ -28,6 +28,7 @@
 #include "monitor/monitorview.h"
 #include <KGlobalSettings>
 #include <KLocale>
+#include <KDebug>
 #include <QMouseEvent>
 #include <QPainter>
 
@@ -42,6 +43,7 @@ TimelinePositionBar::TimelinePositionBar(QWidget *parent) :
     m_offset(0),
     m_playbackPosition(0),
     m_zoomLevel(0)
+    , m_monitorId(ProjectMonitor)
 {
     setFont(KGlobalSettings::toolBarFont());
     QFontMetricsF fontMetrics(font());
@@ -72,15 +74,17 @@ int TimelinePositionBar::offset() const
     return m_offset;
 }
 
-void TimelinePositionBar::setProject(Project* project)
+void TimelinePositionBar::setProject(Project* project, MONITORID id)
 {
+    m_monitorId = id;
     m_timecodeFormatter = project->timecodeFormatter();
     connect(m_timecodeFormatter, SIGNAL(framerateChanged()), this, SLOT(onFramerateChange()));
     connect(m_timecodeFormatter, SIGNAL(defaultFormatChanged()), this, SLOT(update()));
 
     m_playbackPosition = project->timelineMonitor() == NULL ? 0 : project->timelineMonitor()->position();
-    connect(project->timelineMonitor()->controller()->videoWidget(), SIGNAL(positionChanged(int)), this, SLOT(setCursorPosition(int)));
-    connect(this, SIGNAL(positionChanged(int)), project->timelineMonitor()->controller()->transportControl(), SLOT(seek(int)));
+    connect(project->timelineMonitor(), SIGNAL(positionChanged(int, bool)), this, SLOT(setCursorPosition(int, bool)));
+    if (id != ClipMonitor) connect(this, SIGNAL(positionChanged(int, MONITORID)), project->timelineMonitor(), SLOT(seek(int, MONITORID)));
+    else connect(this, SIGNAL(positionChanged(int, MONITORID)), pCore->projectManager()->current()->binMonitor(), SLOT(seek(int, MONITORID)));
 
     setDuration(project->timeline()->duration());
 
@@ -93,15 +97,16 @@ void TimelinePositionBar::setOffset(int offset)
     update();
 }
 
-void TimelinePositionBar::setCursorPosition(int position)
+void TimelinePositionBar::setCursorPosition(int position, bool seeking)
 {
+    if (seeking) return;
     int oldPosition = m_playbackPosition;
     m_playbackPosition = position;
-    update();
+    //update();
     if (qAbs(oldPosition - m_playbackPosition) * m_factor > m_textSpacing) {
-        update(oldPosition * m_factor - offset() - 6, m_bigMarkX, 14, height() - m_bigMarkX);
+        update(oldPosition * m_factor - offset() - 6, m_bigMarkX - 1, 14, height() - m_bigMarkX);
     } else {
-        update(qMin(oldPosition, m_playbackPosition) * m_factor - offset() - 6, m_bigMarkX,
+        update(qMin(oldPosition, m_playbackPosition) * m_factor - offset() - 6, m_bigMarkX - 1,
                qAbs(oldPosition - m_playbackPosition) * m_factor + 14, height() - m_bigMarkX);
     }
 }
@@ -185,7 +190,9 @@ void TimelinePositionBar::mousePressEvent(QMouseEvent* event)
     setFocus(Qt::MouseFocusReason);
 //     m_view->activateMonitor();
 
-    emit positionChanged(framePosition);
+    emit positionChanged(framePosition, m_monitorId);
+    setCursorPosition(framePosition);
+    kDebug()<<"/ // REQUEST POS: "<<framePosition<<" / "<<event->x()<<" / "<<m_factor;
 
     // update ?
 }
@@ -195,7 +202,8 @@ void TimelinePositionBar::mouseMoveEvent(QMouseEvent* event)
     int framePosition = qRound((event->x() + m_offset) / m_factor);
 
     if (event->buttons() & Qt::LeftButton) {
-        emit positionChanged(framePosition);
+        emit positionChanged(framePosition, m_monitorId);
+	setCursorPosition(framePosition);
     } else {
         if (m_timecodeFormatter) {
             setToolTip(i18n("Position: %1", Timecode(framePosition, m_timecodeFormatter).formatted()));

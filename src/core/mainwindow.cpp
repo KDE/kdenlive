@@ -14,6 +14,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "pluginmanager.h"
 #include "kdenlivesettings.h"
 #include "project/project.h"
+#include "effectsystem/effectrepository.h"
+#include "producersystem/producerrepository.h"
+#include "project/clippluginmanager.h"
 #include "project/projectmanager.h"
 #include "bin/bin.h"
 #include "monitor/monitorview.h"
@@ -22,13 +25,16 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDockWidget>
 #include <QGraphicsView>
 #include <QLocale>
+#include <QMenu>
 #include <locale.h>
 #include <KActionCollection>
+#include <KTabWidget>
+#include <KXMLGUIFactory>
 
 #include <KDebug>
 
 
-MainWindow::MainWindow(const QString &mltPath, const KUrl &url, const QString & clipsToLoad, QWidget* parent) :
+MainWindow::MainWindow(const QString &/*mltPath*/, const KUrl &url, const QString &/*clipsToLoad*/, QWidget* parent) :
     KXmlGuiWindow(parent)
 {
     initLocale();
@@ -40,15 +46,19 @@ MainWindow::MainWindow(const QString &mltPath, const KUrl &url, const QString & 
 
     UndoView *undoView = new UndoView(this);
     addDock(i18n("Undo History"), "undo_history", undoView);
-
+    m_container = new KTabWidget(this);
+    m_container->setTabsClosable(true);
     m_timeline = new TimelineWidget(this);
-    setCentralWidget(m_timeline);
+    m_container->addTab(m_timeline, i18n("Timeline"));
+    setCentralWidget(m_container);
     setDockNestingEnabled(true);
 
     KStandardAction::quit(this, SLOT(close()), actionCollection());
 
     pCore->pluginManager()->load();
     setupGUI();
+    
+    createActions();
 
     if (!url.isEmpty() && url.isValid()) {
         pCore->projectManager()->openProject(url);
@@ -60,9 +70,17 @@ MainWindow::MainWindow(const QString &mltPath, const KUrl &url, const QString & 
 
 MainWindow::~MainWindow()
 {
+    delete m_bin;
 }
 
-QDockWidget *MainWindow::addDock(const QString& title, const QString& objectName, QWidget* widget, Qt::DockWidgetArea area)
+TimelineWidget *MainWindow::addTimeline(const QString &/*id*/, const QString &title)
+{
+    TimelineWidget *timeline = new TimelineWidget(this);
+    m_container->addTab(timeline, title);
+    return timeline;
+}
+
+QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget* widget, Qt::DockWidgetArea area)
 {
     QDockWidget *dockWidget = new QDockWidget(title, this);
     dockWidget->setObjectName(objectName);
@@ -99,5 +117,18 @@ TimelineWidget* MainWindow::timelineWidget()
 {
     return m_timeline;
 }
+
+void MainWindow::createActions()
+{
+    QMenu *addClipMenu = static_cast<QMenu*>(factory()->container("clip_producer_menu", this));
+    QList <QAction *> producerActions = pCore->producerRepository()->producerActions(this);
+    for (int i = 0; i < producerActions.count(); i++) {
+	addClipMenu->addAction(producerActions.at(i));
+    }
+    producerActions.clear();
+    connect(addClipMenu, SIGNAL(triggered(QAction*)), pCore->clipPluginManager(), SLOT(execAddClipDialog(QAction*)));
+    m_bin->setActionMenus(addClipMenu);
+}
+
 
 #include "mainwindow.moc"

@@ -84,6 +84,7 @@ public:
     /** @brief Used to search for a clip with a specific id. */
     virtual AbstractProjectClip *clip(const QString &id) = 0;
     virtual AbstractProjectClip *clipAt(int ix) = 0;
+    virtual QString clipId() const = 0;
 
     enum DataType {
         DataName = 0,

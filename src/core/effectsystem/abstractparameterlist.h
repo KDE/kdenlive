@@ -13,12 +13,18 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "effectsystemitem.h"
 #include "abstractparameter.h"
+#include "abstractparameterdescription.h"
 #include <QObject>
 #include <QList>
 #include <kdemacros.h>
 
 class MultiViewHandler;
+class AbstractProducerList;
 
+namespace Mlt
+{
+    class Properties;
+}
 
 /**
  * @class AbstractParameterList
@@ -40,7 +46,7 @@ public:
      * @brief Creates and stores parameters from a list of descriptions.
      * @param parameters list of parameters to load
      */
-    void createParameters(const QList<AbstractParameterDescription *> &parameters);
+    void createParameters(const QList<AbstractParameterDescription *> &parameters, Mlt::Properties currentProperties);
 
     /**
      * @brief Should set the value of a parameter to its MLT property.

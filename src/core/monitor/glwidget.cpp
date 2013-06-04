@@ -38,16 +38,13 @@ GLWidget::GLWidget(Mlt::Profile *profile, QWidget *parent)
     , showFrameSemaphore(3)
     , m_image_width(0)
     , m_image_height(0)
-    , m_display_ratio(4.0/3.0)
     , m_shader(0)
     , m_fbo(0)
     , m_isInitialized(false)
-    , m_threadStartEvent(0)
-    , m_threadStopEvent(0)
     , m_image_format(mlt_image_yuv422)
     , m_showPlay(false)
-    , m_refreshed(false)
 {
+    m_display_ratio = 4.0/3.0;
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
@@ -68,8 +65,6 @@ GLWidget::~GLWidget()
     makeCurrent();
     if (m_texture[0]) glDeleteTextures(3, m_texture);
     delete m_fbo;
-    delete m_threadStartEvent;
-    delete m_threadStopEvent;
 }
 
 
@@ -160,8 +155,8 @@ void GLWidget::resizeGL(int width, int height)
     }
     x = (width - w) / 2;
     y = (height - h) / 2;
-    makeCurrent();
     if (isValid()) {
+	makeCurrent();
         glViewport(0, 0, width, height);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -174,17 +169,21 @@ void GLWidget::resizeGL(int width, int height)
 
 void GLWidget::resizeEvent(QResizeEvent* event)
 {
+    setUpdatesEnabled(true);
     resizeGL(event->size().width(), event->size().height());
+    QGLWidget::resizeEvent(event);
+    event->accept();
 }
 
 void GLWidget::showEvent(QShowEvent* event)
 {
+    event->accept();
     initializeGL();
     resizeGL(width(), height());
 }
 
 //void GLWidget::paintGL()
-void GLWidget::paintEvent(QPaintEvent *event)
+void GLWidget::paintEvent(QPaintEvent */*event*/)
 {
     makeCurrent();
     if (m_texture[0]) {
@@ -209,12 +208,11 @@ void GLWidget::paintEvent(QPaintEvent *event)
 	    p.drawText(x + 15, y + 10 + f.lineSpacing(), m_overlay);
 	    glPixelStorei  (GL_UNPACK_ROW_LENGTH, m_image_width);
 	    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	    if (!m_refreshed) glBindTexture  (GL_TEXTURE_2D, m_texture[1]);
-	    m_refreshed = false;
+	    glBindTexture  (GL_TEXTURE_2D, m_texture[1]);
 	}
 	p.end();
     }
-    doneCurrent();
+    //doneCurrent();
     /*glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
@@ -452,6 +450,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* event)
     m_showPlay = !m_showPlay;
     switchPlay();
     emit stateChanged();
+    event->accept();
 }
 
 void GLWidget::wheelEvent(QWheelEvent* event)
@@ -460,6 +459,7 @@ void GLWidget::wheelEvent(QWheelEvent* event)
     if (event->modifiers() & Qt::ControlModifier) factor = (int) profile().fps();
     if (event->delta() > 0) nextFrame(factor);
     else previousFrame(factor);
+    event->accept();
 }
 
 void GLWidget::mousePressEvent(QMouseEvent* event)
@@ -468,6 +468,7 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
     if (event->button() == Qt::LeftButton)
         m_dragStart = event->pos();
     emit dragStarted();
+    event->accept();
 }
 
 void GLWidget::mouseDoubleClickEvent(QMouseEvent * event)
@@ -491,7 +492,7 @@ void GLWidget::switchFullScreen()
     Qt::WindowFlags flags = windowFlags();
     if (!isFullScreen()) {
         // Check if we ahave a multiple monitor setup
-        setUpdatesEnabled(false);
+        //setUpdatesEnabled(false);
 #if QT_VERSION >= 0x040600
         int monitors = QApplication::desktop()->screenCount();
 #else
@@ -521,17 +522,17 @@ void GLWidget::switchFullScreen()
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
 #else
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
-        setUpdatesEnabled(true);
+        //setUpdatesEnabled(true);
         show();
 #endif
         setEnabled(true);
     } else {
-        setUpdatesEnabled(false);
+        //setUpdatesEnabled(false);
         flags ^= (Qt::Window | Qt::SubWindow); //clear the flags...
         flags |= m_baseFlags; //then we reset the flags (window and subwindow)
         setWindowFlags(flags);
         setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
-        setUpdatesEnabled(true);
+        //setUpdatesEnabled(true);
         //setEnabled(false);
         show();
     }
@@ -543,6 +544,9 @@ void GLWidget::leaveEvent( QEvent * event )
     if (m_showPlay) {
 	m_showPlay = false;
     }
+    /*if (m_producer->get_speed() == 0) {
+	doneCurrent();
+    }*/
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent* event)
@@ -628,7 +632,7 @@ glPushMatrix();*/
             makeCurrent();
             if (m_texture[0])
                 glDeleteTextures(3, m_texture);
-	    m_shader->bind();
+	    //m_shader->bind();
             glPixelStorei  (GL_UNPACK_ROW_LENGTH, m_image_width);
             glGenTextures  (3, m_texture);
             glActiveTexture(GL_TEXTURE0);
@@ -655,8 +659,8 @@ glPushMatrix();*/
             glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, m_image_width/2, m_image_height/4, 0,
                             GL_LUMINANCE, GL_UNSIGNED_BYTE, image + m_image_width * m_image_height + m_image_width/2 * m_image_height/2);
 	    //m_shader->release();
-	m_refreshed = true;
         //glDraw();
+	doneCurrent();
         update();
     }
     showFrameSemaphore.release();
@@ -671,6 +675,7 @@ void GLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList <
 	height = 100;
 	width = height * profile().dar();
     }
+    int current = producer->position();
     while (!positions.isEmpty()) {
 	int position = positions.takeFirst();
 	producer->seek(qAbs(position));
@@ -679,6 +684,7 @@ void GLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList <
 	emit imageRendered(id, position, image);
 	delete frame;
     }
+    producer->seek(current);
     setUpdatesEnabled(true);
 }
 
@@ -714,10 +720,11 @@ void GLWidget::slotGetThumb(ProducerWrapper *producer, int position)
     //setUpdatesEnabled(true);
 }
 
-int GLWidget::open(ProducerWrapper* producer, bool isMulti)
+int GLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
 {
     //QMutexLocker lock(&m_mutex);
-    int error = MltController::open(producer);//new ProducerWrapper(profile(), producer->property("resource")), isMulti); //producer, isMulti);
+    //setFixedSize(producer->get_profile()->height * producer->get_profile()->display_aspect_num / producer->get_profile()->display_aspect_den / 2.0, producer->get_profile()->height / 2.0);
+    int error = MltController::open(producer, isMulti, isLive);//new ProducerWrapper(profile(), producer->property("resource")), isMulti); //producer, isMulti);
     if (!error) {
         bool reconnect = !m_consumer || !m_consumer->is_valid();
         error = reconfigure(isMulti);
@@ -738,7 +745,7 @@ int GLWidget::reconfigure(bool isMulti)
 {
     int error = 0;
     // use SDL for audio, OpenGL for video
-    QString serviceName = property("mlt_service").toString();
+    QString serviceName = "rtaudio";
     if (!m_consumer || !m_consumer->is_valid()) {
         if (serviceName.isEmpty()) {
             m_consumer = new Mlt::FilteredConsumer(profile(), "sdl_audio");
@@ -749,20 +756,17 @@ int GLWidget::reconfigure(bool isMulti)
             delete m_consumer;
         }
         // Warning: Only rtaudio allows simultaneous consumers, SDL freezes.
-        serviceName = "rtaudio";
+        
         if (isMulti)
             m_consumer = new Mlt::FilteredConsumer(profile(), "multi");
-        else
+        else {
             m_consumer = new Mlt::FilteredConsumer(profile(), serviceName.toAscii().constData());
+	}
 
         Mlt::Filter* filter = new Mlt::Filter(profile(), "audiolevel");
         if (filter->is_valid())
             m_consumer->attach(*filter);
         delete filter;
-        delete m_threadStartEvent;
-        m_threadStartEvent = 0;
-        delete m_threadStopEvent;
-        m_threadStopEvent = 0;
     }
     if (m_consumer->is_valid()) {
         // Connect the producer to the consumer - tell it to "run" later
@@ -790,19 +794,24 @@ int GLWidget::reconfigure(bool isMulti)
             if (serviceName == "sdl_audio")
                 m_consumer->set("audio_buffer", 512);
 
-            if (!profile().progressive())
+            /*if (!profile().progressive())
                 m_consumer->set("progressive", property("progressive").toBool());
             m_consumer->set("rescale", property("rescale").toString().toAscii().constData());
-            m_consumer->set("deinterlace_method", property("deinterlace_method").toString().toAscii().constData());
+            m_consumer->set("deinterlace_method", property("deinterlace_method").toString().toAscii().constData());*/
             m_consumer->set("buffer", 25);
 	    m_consumer->set("prefill", 1);
+	    m_consumer->set("terminate_on_pause", 1);
             m_consumer->set("scrub_audio", 1);
         }
         m_image_format = mlt_image_yuv420p;
 	createShader();
 	emit started();
-        m_consumer->start();
-	m_producer->set_speed(0.0);
+	if (m_isLive) {
+	    //switchPlay();
+	    emit stateChanged();
+	}
+	else m_producer->set_speed(0.0);
+	m_consumer->start();
     }
     else {
         // Cleanup on error

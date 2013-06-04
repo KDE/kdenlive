@@ -22,6 +22,8 @@
 
 #include <QWidget>
 
+#include "monitor/monitormanager.h"
+
 class Project;
 class TimecodeFormatter;
 
@@ -49,9 +51,9 @@ public:
 
 public slots:
     /** @brief Connects to @param project and sets position, duration and timecode format. */
-    void setProject(Project *project);
+    void setProject(Project *project, MONITORID role = ProjectMonitor);
     /** @brief Redraws the cursor indicator. */
-    void setCursorPosition(int position);
+    void setCursorPosition(int position, bool seeking = false);
     /** @brief Sets the offset. */
     void setOffset(int offset);
     /** @brief Sets the duration / timeline length. */
@@ -60,7 +62,7 @@ public slots:
     void setZoomLevel(int level);
 
 signals:
-    void positionChanged(int position);
+    void positionChanged(int position, MONITORID role = ProjectMonitor);
     
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -81,6 +83,7 @@ private:
     double m_factor;
     double m_scale;
     int m_zoomLevel;
+    MONITORID m_monitorId;
 
     int m_labelSize;
     int m_bigMarkX;

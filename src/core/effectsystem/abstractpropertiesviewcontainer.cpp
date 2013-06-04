@@ -19,12 +19,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 AbstractPropertiesViewContainer::AbstractPropertiesViewContainer(QWidget* parent) :
-    QWidget(parent),
+    AbstractViewContainer(parent),
     m_ui(new Ui::PropertiesViewContainer_UI)
 {
     m_ui->setupUi(this);
-
-    QVBoxLayout *layout = new QVBoxLayout(m_ui->frameContainer);
+    // Create layout that will be used by children
+    new QVBoxLayout(m_ui->frameContainer);
 }
 
 AbstractPropertiesViewContainer::~AbstractPropertiesViewContainer()
@@ -63,7 +63,6 @@ void AbstractPropertiesViewContainer::setCollapsed()
 
 void AbstractPropertiesViewContainer::setUpHeader(const AbstractPropertiesViewContainer::HeaderButtons& buttons)
 {
-    QToolButton *button;
     if (buttons & CollapseButton) {
         if (m_ui->frameContainer->layout()->count() == 0) {
             m_ui->buttonCollapse->setEnabled(false);

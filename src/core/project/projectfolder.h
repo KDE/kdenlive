@@ -51,6 +51,7 @@ public:
      */
     AbstractProjectClip *clip(const QString &id);
     AbstractProjectClip* clipAt(int index);
+    QString clipId() const;
     /** @brief Returns a pointer to the bin model this folder belongs to. */
     BinModel *bin();
 

@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define ABSTRACTPROJECTCLIPPLUGIN_H
 
 #include <kdemacros.h>
+#include <mlt++/MltConsumer.h>
 #include <QObject>
 
 class TimelineClipItem;
@@ -22,7 +23,12 @@ class AbstractTimelineClip;
 class KUrl;
 class QDomElement;
 class QGraphicsItem;
+class ProducerDescription;
 
+namespace Mlt
+{
+    class Properties;
+}
 
 /**
  * @class AbstractClipPlugin
@@ -46,6 +52,7 @@ public:
 
     /** @brief Should return a clip created from @param url. */
     virtual AbstractProjectClip *createClip(const KUrl &url, const QString &id, ProjectFolder *parent) const = 0;
+    virtual AbstractProjectClip *createClip(const QString &service, Mlt::Properties props, const QString &id, ProjectFolder *parent) const = 0;
     /**
      * @brief Should return a clip created from @paramd description.
      * 
@@ -59,6 +66,10 @@ public:
      */
     // change to QObject *timelineClipView(TimelineViewType type, AbstractTimelineClip *clip, QObject *parent) once we have different timeline views
     virtual TimelineClipItem *timelineClipView(AbstractTimelineClip *clip, QGraphicsItem* parent) const;
+    
+    virtual QString nameForService(const QString &service) const = 0;
+    
+    virtual void fillDescription(Mlt::Properties properties, ProducerDescription *description) = 0;
 
 protected:
     ClipPluginManager *m_parent;

@@ -21,6 +21,8 @@ the Free Software Foundation, either version 3 of the License, or
 class Project;
 class QAbstractItemView;
 class ProjectItemModel;
+class ProducerWrapper;
+class QSplitter;
 
 class ItemDelegate: public QStyledItemDelegate
 {
@@ -49,6 +51,7 @@ public:
         if (index.column() == 0 && !index.data().isNull()) {
             QRect r1 = option.rect;
             painter->save();
+	    painter->setClipRect(r1);
             QStyleOptionViewItemV4 opt(option);
 	    initStyleOption(&opt, index);
     
@@ -157,10 +160,17 @@ class EventEater : public QObject
      bool eventFilter(QObject *obj, QEvent *event);
      
  signals:
+     void focusClipMonitor();
      void addClip();
+     void editItem(QString);
+     void editItemInTimeline(QString, QString, ProducerWrapper*);
  };
 
 
+class Producer;
+class KToolBar;
+class QMenu;
+ 
 /**
  * @class Bin
  * @brief The bin widget takes care of both item model and view upon project opening.
@@ -177,12 +187,11 @@ class KDE_EXPORT Bin : public QWidget
 public:
     Bin(QWidget* parent = 0);
     ~Bin();
+    void setActionMenus(QMenu *producerMenu);
 
 private slots:
     void setProject(Project *project);
     void slotAddClip();
-
-private slots:
     /** @brief Setup the bin view type (icon view, tree view, ...).
     * @param action The action whose data defines the view type or NULL to keep default view */
     void slotInitView(QAction *action);
@@ -190,11 +199,19 @@ private slots:
     void rowsInserted(const QModelIndex &parent, int start, int end);
     void selectModel(const QModelIndex &parent);
     void autoSelect();
+    void slotOpenClipTimeline(QString id, QString name, ProducerWrapper *prod);
+    void closeEditing();
+    void refreshEditedClip();
+    
+public slots:
+    void showClipProperties(const QString &id);
 
 private:
     ProjectItemModel *m_itemModel;
     QAbstractItemView *m_itemView;
     ItemDelegate *m_binTreeViewDelegate;
+    KToolBar *m_toolbar;
+    QSplitter *m_splitter;
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
     /** @brief Default icon size for the views. */
@@ -202,6 +219,9 @@ private:
     /** @brief Keeps the column width info of the tree view. */
     QByteArray m_headerInfo;
     EventEater *m_eventEater;
+    QWidget *m_propertiesPanel;
+    Producer *m_editedProducer;
+    const QString getStyleSheet();
 
 };
 

@@ -62,7 +62,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     QHBoxLayout *l = new QHBoxLayout;
     l->setSpacing(0);
     l->setContentsMargins(0, 0, 0, 0);
-    m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
+    if (suffix.isEmpty())
+	m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
+    else
+	m_label = new CustomLabel(label + " (" + suffix + ")", showSlider, m_maximum - m_minimum, this);
     l->addWidget(m_label);
     if (decimals == 0) {
         m_label->setMaximum(max - min);
@@ -70,7 +73,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit = new QSpinBox(this);
         m_intEdit->setObjectName("dragBox");
 	m_intEdit->setFocusPolicy(Qt::StrongFocus);
-        if (!suffix.isEmpty()) m_intEdit->setSuffix(suffix);
+        //if (!suffix.isEmpty()) m_intEdit->setSuffix(suffix);
         m_intEdit->setKeyboardTracking(false);
         m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
         m_intEdit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -85,7 +88,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_doubleEdit->setDecimals(decimals);
 	m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
         m_doubleEdit->setObjectName("dragBox");
-        if (!suffix.isEmpty()) m_doubleEdit->setSuffix(suffix);
+        //if (!suffix.isEmpty()) m_doubleEdit->setSuffix(suffix);
         m_doubleEdit->setKeyboardTracking(false);
         m_doubleEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
         m_doubleEdit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);

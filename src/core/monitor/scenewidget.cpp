@@ -33,6 +33,8 @@
 
 MyGraphicsView::MyGraphicsView(QWidget *parent) : QGraphicsView(parent)
 {
+    setAttribute(Qt::WA_PaintOnScreen);
+    setAttribute(Qt::WA_OpaquePaintEvent);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);//Qt::ScrollBarAlwaysOn);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     //setViewport(static_cast<QGLWidget*>(parent));
@@ -40,6 +42,8 @@ MyGraphicsView::MyGraphicsView(QWidget *parent) : QGraphicsView(parent)
 
 MyGraphicsView::MyGraphicsView(QGraphicsScene *scene, QWidget *parent) : QGraphicsView(scene, parent)
 {
+    setAttribute(Qt::WA_PaintOnScreen);
+    setAttribute(Qt::WA_OpaquePaintEvent);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);//Qt::ScrollBarAlwaysOn);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     //setViewport(static_cast<QGLWidget*>(parent));
@@ -95,7 +99,7 @@ void MyGraphicsView::switchFullScreen()
     Qt::WindowFlags flags = windowFlags();
     if (!isFullScreen()) {
         // Check if we ahave a multiple monitor setup
-        setUpdatesEnabled(false);
+        //setUpdatesEnabled(false);
 #if QT_VERSION >= 0x040600
         int monitors = QApplication::desktop()->screenCount();
 #else
@@ -123,20 +127,20 @@ void MyGraphicsView::switchFullScreen()
         show();
         raise();
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
-	setUpdatesEnabled(true);
+	//setUpdatesEnabled(true);
 #else
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
-        setUpdatesEnabled(true);
+        //setUpdatesEnabled(true);
         show();
 #endif
         setEnabled(true);
     } else {
-        setUpdatesEnabled(false);
+        //setUpdatesEnabled(false);
         flags ^= (Qt::Window | Qt::SubWindow); //clear the flags...
         flags |= m_baseFlags; //then we reset the flags (window and subwindow)
         setWindowFlags(flags);
         setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
-        setUpdatesEnabled(true);
+        //setUpdatesEnabled(true);
         //setEnabled(false);
         show();
     }
@@ -148,7 +152,6 @@ SceneWidget::SceneWidget(Mlt::Profile *profile, QWidget *parent)
     , MltController(profile)
     , m_image_width(0)
     , m_image_height(0)
-    , m_display_ratio(4.0/3.0)
     , m_shader(0)
     , m_fbo(0)
     , m_image_format(mlt_image_rgb24a)
@@ -157,6 +160,7 @@ SceneWidget::SceneWidget(Mlt::Profile *profile, QWidget *parent)
 {
     /*setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);*/
+    m_display_ratio = 4.0/3.0;
     setMouseTracking(true);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     //QGLWidget *glWidget = new QGLWidget(this);
@@ -219,6 +223,7 @@ void SceneWidget::slotSwitchPlay()
 void SceneWidget::mouseReleaseEvent(QMouseEvent* event)
 {
     m_showPlay = !m_showPlay;
+    event->accept();
 }
 
 void SceneWidget::slotWheelEvent(QWheelEvent* event)
@@ -227,6 +232,7 @@ void SceneWidget::slotWheelEvent(QWheelEvent* event)
     if (event->modifiers() & Qt::ControlModifier) factor = (int) profile().fps();
     if (event->delta() > 0) nextFrame(factor);
     else previousFrame(factor);
+    event->accept();
 }
 
 void SceneWidget::mousePressEvent(QMouseEvent* event)
@@ -234,6 +240,7 @@ void SceneWidget::mousePressEvent(QMouseEvent* event)
     if (event->button() == Qt::LeftButton)
         m_dragStart = event->pos();
     emit dragStarted();
+    event->accept();
 }
 
 
@@ -241,6 +248,7 @@ void SceneWidget::enterEvent( QEvent * event )
 {
     if (m_producer && m_producer->get_speed() == 0) m_showPlay = true;
     else m_showPlay = false;
+    event->accept();
     //glDraw();
 }
 
@@ -250,6 +258,7 @@ void SceneWidget::leaveEvent( QEvent * event )
 	m_showPlay = false;
 	//glDraw();
     }
+    event->accept();
 }
 
 void SceneWidget::slotSeekTo(double percentage)
@@ -320,11 +329,10 @@ int SceneWidget::reOpen(bool isMulti)
     return error;
 }
 
-int SceneWidget::open(ProducerWrapper* producer, bool isMulti)
+int SceneWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
 {
-    QMutexLocker lock(&m_mutex);
     //m_originalProducer = producer;
-    int error = MltController::open(new ProducerWrapper(profile(), producer->property("resource")), isMulti); //producer, isMulti);
+    int error = MltController::open(producer, isMulti, isLive); //producer, isMulti);
     //int error = MltController::open(producer, isMulti);
     fprintf(stderr, " +OPENING PRODUCER + + +\n");
     if (!error) {
@@ -335,7 +343,8 @@ int SceneWidget::open(ProducerWrapper* producer, bool isMulti)
                 connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
                         this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
 	    resizeGL(width(), height());
-	    //refreshConsumer();
+	    refreshConsumer();
+	    update();
         }
     }
     emit producerChanged();
@@ -403,7 +412,7 @@ int SceneWidget::reconfigure(bool isMulti)
 	m_image_format = mlt_image_rgb24a;
 	emit started();
         m_consumer->start();
-	m_producer->set_speed(0.0);
+	if (!m_isLive) m_producer->set_speed(0.0);
     }
     else {
         // Cleanup on error

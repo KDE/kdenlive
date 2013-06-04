@@ -38,7 +38,7 @@ public:
      * @param mltRepository MLT repository containing the metadata
      * @param repository remove?
      */
-    EffectDescription(const QString &filterName, Mlt::Repository *mltRepository, EffectRepository *repository);
+    EffectDescription(const QString &filterName, EffectRepository *repository);
 
     /**
      * @brief Constructs a description from Kdenlive effect XML.

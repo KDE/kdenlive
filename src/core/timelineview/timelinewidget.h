@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 class Project;
 class ToolManager;
 class TimelineView;
+class Timeline;
 class TimelineScene;
 class TimelinePositionBar;
 class TrackHeaderContainer;
@@ -42,6 +43,7 @@ public:
     TimelineScene *scene();
     /** @brief Returns a pointer to the tool manager. */
     ToolManager *toolManager();
+    void setClipTimeline(Timeline *timeline);
 
 private slots:
     /** @brief Creates a new timeline scene and triggers the creation of new track headers. */

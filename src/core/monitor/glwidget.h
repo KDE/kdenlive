@@ -39,7 +39,7 @@ public:
 
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
-    int open(ProducerWrapper*, bool isMulti = false);
+    int open(ProducerWrapper*, bool isMulti = false, bool isLive = false);
     void closeConsumer();
     void activate();
     int reOpen(bool isMulti = false);
@@ -73,7 +73,6 @@ private:
     int x, y, w, h;
     int m_image_width, m_image_height;
     GLuint m_texture[3];
-    double m_display_ratio;
     QGLShaderProgram* m_shader;
     QPoint m_dragStart;
     QGLFramebufferObject* m_fbo;
@@ -81,13 +80,10 @@ private:
     QMutex m_mutex;
     QWaitCondition m_condition;
     bool m_isInitialized;
-    Mlt::Event* m_threadStartEvent;
-    Mlt::Event* m_threadStopEvent;
     mlt_image_format m_image_format;
     bool m_showPlay;
     QString m_overlay;
     Qt::WindowFlags m_baseFlags;
-    bool m_refreshed;
     GLuint cubeTexture[1];
     void resizeViewPort();
     void switchFullScreen();

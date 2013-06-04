@@ -13,14 +13,15 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QMap>
 #include <QHash>
-#include "monitor/mltcontroller.h"
+#include <QAction>
+#include "../monitor/mltcontroller.h"
 
 class AbstractEffectRepositoryItem;
 class AbstractParameterDescription;
 class QStringList;
-class KPluginFactory;
+class MltCore;
+
 namespace Mlt {
-    class Properties;
     class Repository;
 }
 
@@ -36,42 +37,35 @@ enum EffectTypes { AudioEffect, VideoEffect, CustomEffect };
  * metadata provided by MLT is used.
  */
 
-class EffectRepository
+class KDE_EXPORT EffectRepository
 {
 public:
     /**
      * @brief Constructs the repository.
      */
-    EffectRepository();
+    EffectRepository(MltCore *core);
     ~EffectRepository();
-
-    /**
-     * @brief Returns an empty parameter description as received from the factory of its plugin.
-     * @param type type of the parameter for which the description should be received
-     */
-    AbstractParameterDescription *newParameterDescription(const QString &type);
 
     /**
      * @brief Returns a pointer to the requested effect description.
      * @param id name/kdenlive internal id of the effect whose description should be received
      */
     AbstractEffectRepositoryItem *effectDescription(const QString &id);
-    QList <DISPLAYMODE> availableDisplayModes() const;
+    /**
+     * @brief Returns an empty parameter description as received from the factory of its plugin.
+     * @param type type of the parameter for which the description should be received
+     */
+    AbstractParameterDescription* newParameterDescription(const QString &type);
+    /**
+     * @brief Returns a pointer to the main MLT repository
+     */
     Mlt::Repository *repository();
 
 private:
     void initRepository();
-    void checkConsumers();
-    void getNamesFromProperties(Mlt::Properties *properties, QStringList &names) const;
-    void applyBlacklist(const QString &filename, QStringList &list) const;
-    void loadParameterPlugins();
-    Mlt::Repository *m_repository;
-
+    MltCore *m_core;
     /** key: id of the effect */
     QMap <QString, AbstractEffectRepositoryItem*> m_effects;
-    /** key: parameter types supported by the parameter; value: factory to create parameter description */
-    QHash <QString, KPluginFactory*> m_parameterPlugins;
-    QList <DISPLAYMODE> m_availableDisplayModes;
 };
 
 #endif

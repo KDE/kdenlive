@@ -3,6 +3,13 @@
 <kcfg>
 
   <kcfgfile/>
+  
+  <group name="bin">
+    <entry name="treeViewHeaders" type="String">
+      <label>Bin treeview headers state.</label>
+      <default></default>
+    </entry>
+  </group>
 
   <group name="misc">
     <entry name="openlastproject" type="Bool">

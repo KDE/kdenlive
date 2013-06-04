@@ -65,7 +65,7 @@ class SDLWidget : public QWidget, public MltController
     Q_OBJECT
 public:
     explicit SDLWidget(Mlt::Profile *profile, QWidget *parent = 0);
-    int open(ProducerWrapper*, bool isMulti = false);
+    int open(ProducerWrapper*, bool isMulti = false, bool isLive = false);
     void pause();
     void reStart();
     void seek(int position);

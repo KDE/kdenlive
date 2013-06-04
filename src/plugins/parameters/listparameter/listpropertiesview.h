@@ -25,6 +25,9 @@ public:
 
 public slots:
     void setCurrentIndex(int index);
+    
+private slots:
+    void showInfo();
 
 private:
     Ui::ListPropertiesView_UI m_ui;

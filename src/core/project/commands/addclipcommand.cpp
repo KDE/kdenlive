@@ -26,6 +26,18 @@ AddClipCommand::AddClipCommand(const KUrl &url, const QString &id, AbstractClipP
     setText(i18n("Add clip"));
 }
 
+AddClipCommand::AddClipCommand(const QString &displayName, const QString &service, Mlt::Properties &properties, const QString &id, AbstractClipPlugin *plugin, ProjectFolder *parentItem, QUndoCommand* parent) :
+    QUndoCommand(parent)
+    , m_displayName(displayName)
+    , m_service(service)
+    , m_properties(properties)
+    , m_id(id)
+    , m_plugin(plugin)
+    , m_parentItem(parentItem)
+{
+    setText(i18n("Add clip"));
+}
+
 void AddClipCommand::undo()
 {
     m_clip->setParent(NULL);
@@ -34,6 +46,10 @@ void AddClipCommand::undo()
 
 void AddClipCommand::redo()
 {
-    m_clip = m_plugin->createClip(m_url, m_id, m_parentItem);
+    if (!m_service.isEmpty()) {
+	m_clip = m_plugin->createClip(m_service, m_properties, m_id, m_parentItem);
+	m_clip->setName(m_displayName);
+    }
+    else m_clip = m_plugin->createClip(m_url, m_id, m_parentItem);
     m_clip->finishInsert(m_parentItem);
 }

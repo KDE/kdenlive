@@ -38,7 +38,6 @@ GLSLWidget::GLSLWidget(Mlt::Profile *profile, QWidget *parent)
     , showFrameSemaphore(3)
     , m_image_width(0)
     , m_image_height(0)
-    , m_display_ratio(4.0/3.0)
     , m_glslManager(0)
     , m_fbo(0)
     , m_isInitialized(false)
@@ -48,6 +47,7 @@ GLSLWidget::GLSLWidget(Mlt::Profile *profile, QWidget *parent)
     , m_showPlay(false)
     , m_renderContext(0)
 {
+    m_display_ratio = 4.0/3.0;
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
@@ -174,12 +174,14 @@ void GLSLWidget::resizeGL(int width, int height)
 void GLSLWidget::resizeEvent(QResizeEvent* event)
 {
     resizeGL(event->size().width(), event->size().height());
+    event->accept();
 }
 
 void GLSLWidget::showEvent(QShowEvent* event)
 {
     initializeGL();
     resizeGL(width(), height());
+    event->accept();
 }
 
 void GLSLWidget::paintGL()
@@ -335,7 +337,7 @@ void GLSLWidget::startGlsl()
     }
 }
 
-static void onThreadStarted(mlt_properties owner, GLSLWidget* self)
+static void onThreadStarted(mlt_properties /*owner*/, GLSLWidget* self)
 {
     self->startGlsl();
 }
@@ -347,7 +349,7 @@ void GLSLWidget::stopGlsl()
     m_renderContext->doneCurrent();
 }
 
-static void onThreadStopped(mlt_properties owner, GLSLWidget* self)
+static void onThreadStopped(mlt_properties /*owner*/, GLSLWidget* self)
 {
     self->stopGlsl();
 }
@@ -486,24 +488,22 @@ void GLSLWidget::slotGetThumb(ProducerWrapper *producer, int position)
 	emit gotThumb(position, QImage());
 	return;
     }
-    if (m_glslManager) {
-        if (m_consumer) m_consumer->stop();
-        m_renderContext->makeCurrent();
-    }
+    if (m_consumer) m_consumer->stop();
+    m_renderContext->makeCurrent();
+    
     QImage result = MltController::thumb(producer, position);
-    if (m_glslManager) {
-	this->makeCurrent();
-        if (m_consumer) m_consumer->start();
-    }
+    
+    this->makeCurrent();
+    if (m_consumer) m_consumer->start();
     emit gotThumb(position, result);
     //setUpdatesEnabled(true);
 }
 
-int GLSLWidget::open(ProducerWrapper* producer, bool isMulti)
+int GLSLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
 {
     //QMutexLocker lock(&m_mutex);
     //m_originalProducer = producer;
-    int error = MltController::open(producer);
+    int error = MltController::open(producer, isMulti, isLive);
     if (!error) {
         bool reconnect = !m_consumer || !m_consumer->is_valid();
         error = reconfigure(isMulti);
@@ -524,7 +524,9 @@ int GLSLWidget::reconfigure(bool isMulti)
 {
     int error = 0;
     // use SDL for audio, OpenGL for video
-    QString serviceName = property("mlt_service").toString();
+    //QString serviceName = property("mlt_service").toString();
+    // Warning: Only rtaudio allows simultaneous consumers, SDL freezes.
+    QString serviceName = "rtaudio";
     if (!m_consumer || !m_consumer->is_valid()) {
         if (serviceName.isEmpty()) {
             m_consumer = new Mlt::FilteredConsumer(profile(), "sdl_audio");
@@ -534,8 +536,6 @@ int GLSLWidget::reconfigure(bool isMulti)
                 serviceName = "rtaudio";
             delete m_consumer;
         }
-        // Warning: Only rtaudio allows simultaneous consumers, SDL freezes.
-        serviceName = "rtaudio";
         if (isMulti)
             m_consumer = new Mlt::FilteredConsumer(profile(), "multi");
         else
@@ -594,7 +594,7 @@ int GLSLWidget::reconfigure(bool isMulti)
             m_image_format = mlt_image_glsl_texture;
         }
         m_consumer->start();
-	m_producer->set_speed(0.0);
+	if (!m_isLive) m_producer->set_speed(0.0);
     }
     else {
         // Cleanup on error
@@ -622,7 +622,7 @@ void GLSLWidget::switchFullScreen()
     Qt::WindowFlags flags = windowFlags();
     if (!isFullScreen()) {
         // Check if we ahave a multiple monitor setup
-        setUpdatesEnabled(false);
+        //setUpdatesEnabled(false);
 #if QT_VERSION >= 0x040600
         int monitors = QApplication::desktop()->screenCount();
 #else
@@ -652,17 +652,17 @@ void GLSLWidget::switchFullScreen()
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
 #else
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
-        setUpdatesEnabled(true);
+        //setUpdatesEnabled(true);
         show();
 #endif
         setEnabled(true);
     } else {
-        setUpdatesEnabled(false);
+        //setUpdatesEnabled(false);
         flags ^= (Qt::Window | Qt::SubWindow); //clear the flags...
         flags |= m_baseFlags; //then we reset the flags (window and subwindow)
         setWindowFlags(flags);
         setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
-        setUpdatesEnabled(true);
+        //setUpdatesEnabled(true);
         //setEnabled(false);
         show();
     }

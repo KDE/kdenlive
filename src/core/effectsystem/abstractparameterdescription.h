@@ -66,7 +66,7 @@ public:
      * @brief Should create and return a parameter object based on this description.
      * @param parent the parameter list that will contain the constructed parameter
      */
-    virtual AbstractParameter *createParameter(AbstractParameterList *parent) const = 0;
+    virtual AbstractParameter *createParameter(AbstractParameterList *parent, const QString &value = QString()) const = 0;
 
     /**
      * @brief Returns the internal name/identifier of the parameter.

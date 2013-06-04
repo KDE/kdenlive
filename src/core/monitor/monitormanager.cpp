@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "mainwindow.h"
 #include "project/project.h"
-#include "effectsystem/effectrepository.h"
+#include "effectsystem/mltcore.h"
 #include "project/binmodel.h"
 #include "project/timeline.h"
 #include "project/projectmanager.h"
@@ -48,34 +48,38 @@ public:
 };
 
 MonitorManager::MonitorManager(QObject* parent) :
-    QObject(parent),
-    m_active(0)
+    QObject(parent)
 {
-    m_modelSignalMapper = new QSignalMapper(this);
+    //m_modelSignalMapper = new QSignalMapper(this);
     qRegisterMetaType<Mlt::QFrame>("Mlt::QFrame");
-    
-    /*MonitorView *autoView = new MonitorView(new Mlt::Profile(), AutoMonitor, pCore->window());
-    pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);
-    m_monitors.insert(autoView->id(), autoView);
-    connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));*/
-        
 
-    MonitorView *autoView = new MonitorView(new Mlt::Profile(), ClipMonitor, pCore->window());
-    pCore->window()->addDock(i18n("Clip Monitor"), "clip_monitor", autoView);
-    m_monitors.insert(autoView->id(), autoView);
-    connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+    //TODO: make it configurable
+    DISPLAYMODE mode;
+    if (isSupported(MLTOPENGL)) mode = MLTOPENGL;
+    else mode = MLTSDL;
 
-    MonitorView *autoView2 = new MonitorView(new Mlt::Profile(), ProjectMonitor, pCore->window());
-    pCore->window()->addDock(i18n("Project Monitor"), "project_monitor", autoView2);
-    m_monitors.insert(autoView2->id(), autoView2);
-    connect(autoView2, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+    //TODO: User setting to select between 1 and 2 monitors mode
     
-    /*MonitorView *projectView = new MonitorView(1, pCore->window());
-    pCore->window()->addDock(i18n("Monitor"), "project_monitor", projectView);
-    m_controllers.insert("project", projectView);*/
-    
+    if (mode == MLTSDL) {
+	// SDL only supports one display
+	MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), AutoMonitor, ClipMonitor, pCore->window());
+	pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);
+	m_monitors.insert(autoView->id(), autoView);
+	connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+    }
+    else {
+	MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), ClipMonitor, ClipMonitor, pCore->window());
+	pCore->window()->addDock(i18n("Clip Monitor"), "clip_monitor", autoView);
+	m_monitors.insert(autoView->id(), autoView);
+	connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
 
-    connect(m_modelSignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(onModelActivated(const QString &)));
+	MonitorView *autoView2 = new MonitorView(mode, new Mlt::Profile(), ProjectMonitor, ProjectMonitor, pCore->window());
+	pCore->window()->addDock(i18n("Project Monitor"), "project_monitor", autoView2);
+	m_monitors.insert(autoView2->id(), autoView2);
+	connect(autoView2, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+    }
+    
+    //connect(m_modelSignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(onModelActivated(const QString &)));
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 }
 
@@ -83,7 +87,7 @@ MonitorManager::MonitorManager(QObject* parent) :
 bool MonitorManager::isSupported(DISPLAYMODE mode)
 {
     // TODO: check 
-    QList <DISPLAYMODE> modes = pCore->effectRepository()->availableDisplayModes();
+    QList <DISPLAYMODE> modes = pCore->mltCore()->availableDisplayModes();
     if (modes.isEmpty() || !modes.contains(mode)) return false;
     return true;
 }
@@ -243,10 +247,9 @@ void MonitorManager::requestThumbnails(const QString &id, QList <int> positions)
     else kDebug()<<" FINISHED THUMBS!!!!!!!!!";
 }
 
-void MonitorManager::onModelActivated(MONITORID id)
+/*void MonitorManager::onModelActivated(MONITORID id)
 {
-    return;
-    /*MonitorModel *model = m_models.value(id);
+    MonitorModel *model = m_models.value(id);
 
     if (model == m_active) {
         return;
@@ -262,7 +265,7 @@ void MonitorManager::onModelActivated(MONITORID id)
         view->setModel(model);
     }
 
-    view->parentWidget()->raise();*/
-}
+    view->parentWidget()->raise();
+}*/
 
 #include "monitormanager.moc"

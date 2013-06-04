@@ -31,7 +31,7 @@ DoublePropertiesView::DoublePropertiesView(const QString& name, double value, do
     m_dragValue->setValue(value);
     connect(m_dragValue, SIGNAL(valueChanged(double, bool)), this, SLOT(valueChanged(double,bool)));
 
-    static_cast<AbstractPropertiesViewContainer*>(parent)->addChild(this);
+    static_cast<AbstractViewContainer*>(parent)->addChild(this);
 }
 
 void DoublePropertiesView::setValue(double value)

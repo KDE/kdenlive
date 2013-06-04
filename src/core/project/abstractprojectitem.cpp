@@ -19,8 +19,8 @@ the Free Software Foundation, either version 3 of the License, or
 AbstractProjectItem::AbstractProjectItem(KUrl url, AbstractProjectItem* parent) :
     QObject(parent)
     , m_parent(NULL)
-    , m_isCurrent(false)
     , m_name("loading")
+    , m_isCurrent(false)
 {
     if (url.isValid()) {
         m_name = url.fileName();
@@ -90,7 +90,7 @@ QPixmap AbstractProjectItem::roundedPixmap(QPixmap source)
     return pix;
 }
 
-void AbstractProjectItem::finishInsert(AbstractProjectItem* parent)
+void AbstractProjectItem::finishInsert(AbstractProjectItem* /*parent*/)
 {
     /*if (m_parent && !m_parent->contains(this)) {
         m_parent->addChild(this);

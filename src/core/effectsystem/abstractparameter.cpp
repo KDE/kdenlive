@@ -14,9 +14,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 AbstractParameter::AbstractParameter(const AbstractParameterDescription *parameterDescription, AbstractParameterList* parent) : 
-    EffectSystemItem(parent),
-    m_description(static_cast<const AbstractParameterDescription*>(parameterDescription)),
-    m_parent(parent)
+    EffectSystemItem(parent)
+    , m_parent(parent)
+    , m_description(static_cast<const AbstractParameterDescription*>(parameterDescription))
 {
     connect(this, SIGNAL(reset()), this, SLOT(resetValue()));
 }

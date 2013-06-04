@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core/project/projectfolder.h"
 #include "core/project/producerwrapper.h"
 #include "core/project/project.h"
+#include "core/monitor/monitormanager.h"
 #include "core/project/binmodel.h"
 #include "core/timecodeformatter.h"
 #include "core/timecode.h"
@@ -23,6 +24,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KFileMetaInfo>
 #include <QDomElement>
 #include <QFile>
+#include <QTimer>
 #include <QCryptographicHash>
 
 
@@ -37,6 +39,15 @@ ImageProjectClip::ImageProjectClip(const KUrl& url, const QString &id, ProjectFo
 ImageProjectClip::ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent, ImageClipPlugin const *plugin) :
     AbstractProjectClip(producer, parent, plugin)
 {
+    init();
+}
+
+ImageProjectClip::ImageProjectClip(const QString& service, Mlt::Properties props, const QString &id, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+    AbstractProjectClip(KUrl(props.get("resource")), id, parent, plugin)
+{
+    Q_ASSERT(service == "pixbuf" || service == "qimage");
+    m_baseProducer = NULL;
+    initProducer(service, props);
     init();
 }
 
@@ -104,8 +115,11 @@ QDomElement ImageProjectClip::toXml(QDomDocument& document) const
 QPixmap ImageProjectClip::thumbnail()
 {
     if (m_thumbnail.isNull() && m_baseProducer) {
-        m_thumbnail = m_baseProducer->pixmap().scaledToHeight(100, Qt::SmoothTransformation);
+	int width = 80 * bin()->project()->displayRatio();
+	if (width % 2 == 1) width++;
+	bin()->project()->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
     }
+    
     return m_thumbnail;
 }
 
@@ -125,13 +139,24 @@ void ImageProjectClip::init(int duration)
     thumbnail();
 
     kDebug() << "new project clip created " << m_baseProducer->get("resource") << m_baseProducer->get_length();
+    QTimer::singleShot(0, this, SLOT(thumbnail()));
 }
 
 void ImageProjectClip::initProducer()
 {
-    if (!m_baseProducer)
+    if (!m_baseProducer) {
 	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
+	m_baseProducer->set("id", id().toUtf8().constData());
+    }
 }
 
+void ImageProjectClip::initProducer(const QString &service, Mlt::Properties props)
+{
+    if (!m_baseProducer) {
+	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), props.get("resource"), service);
+	//TODO: pass all properties to producer
+	m_baseProducer->set("id", id().toUtf8().constData());
+    }
+}
 
 #include "imageprojectclip.moc"

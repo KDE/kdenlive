@@ -53,7 +53,7 @@ void SceneTool::sceneEvent(TimelineScene* scene, QEvent* event)
 
 void SceneTool::sceneMouseMove(TimelineScene* scene, QGraphicsSceneMouseEvent* event)
 {
-    if (event->button() == Qt::NoModifier) {
+    if (event->button() == Qt::NoButton) {
         TimelineClipItem *clip = qgraphicsitem_cast<TimelineClipItem*>(scene->itemAt(event->scenePos(), scene->view()->transform()));
         if (clip) {
             m_clipTool->hover(scene, clip, event);

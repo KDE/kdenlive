@@ -110,10 +110,8 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
         kWarning() << "not used with a OpenGL viewport";
         return;
     }
-    kDebug()<<"// PAINT 1";
     if (!m_glWidget) return;
     m_glWidget->makeCurrent();
-    kDebug()<<"// PAINT 2";
     glClearColor(KdenliveSettings::window_background().redF(),
                  KdenliveSettings::window_background().greenF(),
                  KdenliveSettings::window_background().blueF(),

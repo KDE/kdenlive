@@ -21,7 +21,7 @@ class FixedParameter : public AbstractParameter
     Q_OBJECT
 
 public:
-    FixedParameter(const FixedParameterDescription *parameterDescription, AbstractParameterList *parent);
+    FixedParameter(const FixedParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
     ~FixedParameter() {};
 
     void set(const char *data);

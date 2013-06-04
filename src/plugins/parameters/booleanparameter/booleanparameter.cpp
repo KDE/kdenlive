@@ -16,11 +16,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QWidget>
 
 
-BooleanParameter::BooleanParameter(const BooleanParameterDescription *parameterDescription, AbstractParameterList* parent) :
+BooleanParameter::BooleanParameter(const BooleanParameterDescription *parameterDescription, AbstractParameterList* parent, const QString &value) :
     AbstractParameter(parameterDescription, parent),
     m_description(parameterDescription)
 {
-    set(m_description->defaultValue());
+    if (value.isEmpty()) set(m_description->defaultValue());
+    //else set(value);
 }
 
 void BooleanParameter::set(const char* data)

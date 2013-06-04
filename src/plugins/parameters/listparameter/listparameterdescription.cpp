@@ -42,7 +42,7 @@ void ListParameterDescription::init(QDomElement parameter, QLocale locale)
         m_items = itemsString.split(',');
     }
 
-    m_defaultIndex = m_items.indexOf(parameter.attribute("default"));
+    m_defaultIndex = qMax(0, m_items.indexOf(parameter.attribute("default")));
 
     QLocale systemLocale;
     systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -73,15 +73,41 @@ void ListParameterDescription::init(QDomElement parameter, QLocale locale)
 void ListParameterDescription::init(Mlt::Properties& properties, QLocale locale)
 {
     AbstractParameterDescription::init(properties, locale);
+    QString itemsString = properties.get("paramlist");
+    m_items = itemsString.split(';');
+    if (m_items.count() == 1) {
+        // previously ',' was used as a separator. support old custom effects
+        m_items = itemsString.split(',');
+    }
 
+    m_defaultIndex = qMax(0, m_items.indexOf(properties.get("default")));
+
+    QLocale systemLocale;
+    systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
+    QString listItemType = properties.get("listitemtype");
+    if (listItemType == "double" && locale != systemLocale) {
+        for (int i = 0; i < m_items.count(); ++i) {
+            m_items[i] = systemLocale.toString(locale.toDouble(m_items.at(i)));
+        }
+    }
+
+    QString displayItemsString = properties.get("paramlistdisplay");
+    m_displayItemsOrig = displayItemsString.split(',');
+
+    if (m_items.count() != m_displayItemsOrig.count()) {
+        m_displayItemsOrig = m_items;
+        m_displayItems = i18n(itemsString.toUtf8().constData()).split(',');
+    } else {
+        m_displayItems = i18n(displayItemsString.toUtf8().constData()).split(',');
+    }
     // construct for widget type dropdown?
 
-    m_valid = false;
+    m_valid = true;
 }
 
-AbstractParameter *ListParameterDescription::createParameter(AbstractParameterList* parent) const
+AbstractParameter *ListParameterDescription::createParameter(AbstractParameterList* parent, const QString &value) const
 {
-    ListParameter *parameter = new ListParameter(this, parent);
+    ListParameter *parameter = new ListParameter(this, parent, value);
     return static_cast<AbstractParameter*>(parameter);
 }
 

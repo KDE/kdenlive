@@ -14,13 +14,14 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core/effectsystem/multiviewhandler.h"
 #include <QLocale>
 #include <QWidget>
+#include <KDebug>
 
 
-ListParameter::ListParameter(const ListParameterDescription *parameterDescription, AbstractParameterList* parent) :
+ListParameter::ListParameter(const ListParameterDescription *parameterDescription, AbstractParameterList* parent, const QString &value) :
     AbstractParameter(parameterDescription, parent),
     m_description(parameterDescription)
 {
-    setCurrentIndex(m_description->defaultIndex());
+    if (value.isEmpty()) setCurrentIndex(m_description->defaultIndex());
 }
 
 void ListParameter::set(const char* data)
@@ -34,9 +35,8 @@ void ListParameter::set(const char* data)
 void ListParameter::setCurrentIndex(int index)
 {
     QLocale locale;
-
     emit currentIndexUpdated(index);
-
+    kDebug()<<"// INDEX: "<<index;
     QString value = m_description->items().at(index);
     m_parent->setParameterValue(name(), value);
 }

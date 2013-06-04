@@ -30,8 +30,9 @@ Effect::Effect(EffectDescription *effectDescription, AbstractEffectList* parent)
 
     // TODO: do this properly
     parent->appendFilter(m_filter);
+    Mlt::Properties props;
 
-    createParameters(effectDescription->parameters());
+    createParameters(effectDescription->parameters(), props);
 }
 
 Effect::~Effect()

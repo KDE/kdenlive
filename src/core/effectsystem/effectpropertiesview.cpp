@@ -20,6 +20,7 @@ EffectPropertiesView::EffectPropertiesView(const QString& name, const QString& c
 
     QLabel *labelName = new QLabel(name, frameHeader());
     static_cast<QHBoxLayout *>(frameHeader()->layout())->insertWidget(2, labelName);
+    labelName->setToolTip(comment);
 
     QFont font;
     font.setBold(true);

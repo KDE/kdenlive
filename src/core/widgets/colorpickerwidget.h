@@ -51,9 +51,9 @@ public:
     virtual ~ColorPickerWidget();
 
 protected:
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     bool eventFilter(QObject *object, QEvent *event);
 
 private:

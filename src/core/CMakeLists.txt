@@ -2,6 +2,7 @@ set(QT_USE_QTOPENGL 1)
 
 add_subdirectory(bin)
 add_subdirectory(effectsystem)
+add_subdirectory(producersystem)
 add_subdirectory(monitor)
 add_subdirectory(project)
 add_subdirectory(timelineview)
@@ -18,6 +19,7 @@ set(kdenlivecore_LIB_SRCS
 
   ${bin_SRCS}
   ${effectsystem_SRCS}
+  ${producersystem_SRCS}
   ${monitor_SRCS}
   ${project_SRCS}
   ${timelineview_SRCS}
@@ -26,6 +28,7 @@ set(kdenlivecore_LIB_SRCS
 
 kde4_add_ui_files(kdenlivecore_UIS
   ${effectsystem_UIS}
+  ${producersystem_UIS}
   ${timelineview_UIS}
 )
 

@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 class TimecodeFormatter;
 class MonitorView;
+class MonitorManager;
 class Timeline;
 class BinModel;
 class QDomElement;
@@ -69,6 +70,7 @@ public:
     MonitorView *binMonitor();
     /** @brief Returns a pointer to the timeline monitor model. */
     MonitorView *timelineMonitor();
+    MonitorManager *monitorManager();
     /** @brief Returns a pointer to the used profile. */
     Mlt::Profile *profile() const;
     /** @brief Returns a pointer to the used timecode formatter. */
@@ -113,6 +115,9 @@ private:
     QList<QDomElement> saveParts(QDomDocument &document) const;
     void loadSettings(const QDomElement &kdenliveDoc);
     QDomElement saveSettings(QDomDocument &document) const;
+    QDomElement convertMltPlaylist(QDomDocument &document);
+    QString getXmlProperty(QDomElement producer, QString propertyName);
+    void updateClipCounter(const QDomNodeList clips);
 
     KUrl m_url;
     KUrl m_projectFolder;

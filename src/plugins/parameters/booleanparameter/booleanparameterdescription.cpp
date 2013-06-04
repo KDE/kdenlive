@@ -40,9 +40,9 @@ void BooleanParameterDescription::init(Mlt::Properties& properties, QLocale loca
     m_default = QString(properties.get("default")).toInt();
 }
 
-AbstractParameter *BooleanParameterDescription::createParameter(AbstractParameterList* parent) const
+AbstractParameter *BooleanParameterDescription::createParameter(AbstractParameterList* parent, const QString &value) const
 {
-    BooleanParameter *parameter = new BooleanParameter(this, parent);
+    BooleanParameter *parameter = new BooleanParameter(this, parent, value);
     return static_cast<AbstractParameter*>(parameter);
 }
 

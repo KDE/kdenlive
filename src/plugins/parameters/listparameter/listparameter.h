@@ -21,7 +21,7 @@ class ListParameter : public AbstractParameter
     Q_OBJECT
 
 public:
-    ListParameter(const ListParameterDescription *parameterDescription, AbstractParameterList *parent);
+    ListParameter(const ListParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
     ~ListParameter() {};
 
     void set(const char*data);

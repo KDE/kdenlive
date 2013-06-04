@@ -68,6 +68,7 @@ public:
     /** @brief Returns this if @param id matches the clip's id or NULL otherwise. */
     AbstractProjectClip *clip(const QString &id);
     AbstractProjectClip* clipAt(int ix);
+    QString clipId() const;
 
     /** @brief Returns the clip's id. */
     QString id() const;
@@ -89,14 +90,16 @@ public:
     /** @brief Returns the "base" producer from which the entries / "cut" producers in the timeline are created. */
     virtual ProducerWrapper *timelineBaseProducer();
     virtual ProducerWrapper *baseProducer();
-    
     void setThumbnail(QImage);
+    
+public slots:
+    QPixmap thumbnail(bool force = false);
     
 protected:
     AbstractClipPlugin const *m_plugin;
-    ProducerWrapper *m_baseProducer;
-    QString m_id;
     KUrl m_url;
+    QString m_id;
+    ProducerWrapper *m_baseProducer;
     bool m_hasLimitedDuration;
     qint64 m_fileSize;
     QByteArray m_hash;

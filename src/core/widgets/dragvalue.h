@@ -44,14 +44,14 @@ public:
     void setStep(double step);
     
 protected:
-    //virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    //virtual void paintEvent(QPaintEvent *event);
-    virtual void wheelEvent(QWheelEvent * event);
-    virtual void focusInEvent(QFocusEvent *e);
-    virtual void focusOutEvent(QFocusEvent *e);
+    //void mouseDoubleClickEvent(QMouseEvent * event);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    //void paintEvent(QPaintEvent *event);
+    void wheelEvent(QWheelEvent * event);
+    void focusInEvent(QFocusEvent *e);
+    void focusOutEvent(QFocusEvent *e);
 
 private:
     QPoint m_dragStartPosition;

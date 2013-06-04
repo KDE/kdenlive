@@ -59,6 +59,11 @@ AbstractProjectClip* ProjectFolder::clip(const QString &id)
     return NULL;
 }
 
+QString ProjectFolder::clipId() const
+{
+    return QString();
+}
+
 AbstractProjectClip* ProjectFolder::clipAt(int index)
 {
     AbstractProjectClip *clip;

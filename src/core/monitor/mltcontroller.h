@@ -82,11 +82,11 @@ public:
 
     virtual QWidget* displayWidget() = 0;
     virtual QWidget* videoWidget() = 0;
-    virtual int open(ProducerWrapper *, bool isMulti = false);
+    virtual int open(ProducerWrapper *, bool isMulti = false, bool isLive = false);
     virtual void closeConsumer();
     virtual void activate();
     virtual int reOpen(bool isMulti = false);
-    virtual int open(const char* url);
+    //virtual int open(const char* url);
     virtual void close();
     virtual void pause();
     virtual void reStart();
@@ -105,7 +105,7 @@ public:
     void onWindowResize();
     QString saveXML(const QString& filename, Mlt::Service* service = 0);
     int consumerChanged();
-    //int setProfile(const QString& profile_name);
+    int setProfile(Mlt::Profile *profile);
     QString resource() const;
     bool isSeekable();
     bool isPlaylist() const;
@@ -149,10 +149,12 @@ protected:
     ProducerWrapper* m_producer;
     Mlt::FilteredConsumer* m_consumer;
     DISPLAYMODE m_type;
+    double m_display_ratio;
     /**
      * @brief Useful in configurations where only one monitor can be active at a time (glsl / sdl).
      */
     bool m_isActive;
+    bool m_isLive;
     QMutex m_mutex;
 
 private:

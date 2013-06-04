@@ -97,21 +97,21 @@ protected:
     //bool eventFilter(QObject *object, QEvent *event);
 
 private:
-    GLuint m_texture;
-    GLubyte *m_textureBuffer;
-    GLuint m_pbo;
-    //Mlt::QFrame *m_frame;
+    AtomicFramePointer m_frame;
     bool m_imageSizeChanged;
+    GLubyte *m_textureBuffer;
+    GLuint m_texture;
+    qreal m_zoom;
+    bool m_needsResize;
+    GLuint m_pbo;
+    QGLWidget* m_glWidget;
+    //Mlt::QFrame *m_frame;
     uint8_t *m_image;
     int m_imageSize;
     bool m_hasNewImage;
     QGraphicsRectItem *m_imageRect;
     QGraphicsRectItem *m_profileRect;
-    qreal m_zoom;
-    bool m_needsResize;
     QMutex m_mutex;
-    AtomicFramePointer m_frame;
-    QGLWidget* m_glWidget;
     MyTextItem *m_overlayItem;
 
     QElapsedTimer m_timer;

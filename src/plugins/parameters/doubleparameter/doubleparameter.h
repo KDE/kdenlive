@@ -21,7 +21,7 @@ class DoubleParameter : public AbstractParameter
     Q_OBJECT
 
 public:
-    DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList *parent);
+    DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
     ~DoubleParameter() {};
 
     void set(const char*data);

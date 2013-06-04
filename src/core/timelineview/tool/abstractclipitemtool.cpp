@@ -49,6 +49,9 @@ void AbstractClipItemTool::hover(TimelineScene* scene, TimelineClipItem* clip, Q
         case SetPosition:
             hoverPosition(event);
             break;
+	default:
+	    // Should we do something?
+	    break;
     }
 }
 

@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "timelinewidget.h"
 #include "timelineview.h"
+#include "project/timeline.h"
 #include "timelinescene.h"
 #include "timelinepositionbar.h"
 #include "trackheadercontainer.h"
@@ -66,6 +67,21 @@ void TimelineWidget::setProject(Project* project)
     m_view->setScene(m_scene);
 
     m_headerContainer->setTimeline(project->timeline());
+}
+
+void TimelineWidget::setClipTimeline(Timeline *timeline)
+{
+    if (m_scene) {
+        delete m_scene;
+        m_scene = NULL;
+    }
+    if (timeline) {
+	m_positionBar->setProject(timeline->project(), ClipMonitor);
+        m_scene = new TimelineScene(timeline, m_toolManager, m_view, this);
+    }
+    m_view->setScene(m_scene);
+
+    m_headerContainer->setTimeline(timeline);
 }
 
 TimelineScene* TimelineWidget::scene()

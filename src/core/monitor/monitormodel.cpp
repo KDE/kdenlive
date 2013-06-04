@@ -204,7 +204,7 @@ void MonitorModel::consumer_frame_show(mlt_consumer , MonitorModel* self, mlt_fr
     self->updateFrame(frame_ptr);
 }
 
-void MonitorModel::producer_change(mlt_producer producer, MonitorModel* self)
+void MonitorModel::producer_change(mlt_producer /*producer*/, MonitorModel* self)
 {
     self->emitDurationChanged();
 }

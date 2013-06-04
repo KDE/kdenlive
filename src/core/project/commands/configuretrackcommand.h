@@ -44,8 +44,8 @@ public:
 private:
     int m_trackIndex;
     QString m_setting;
-    QString m_oldValue;
     QString m_value;
+    QString m_oldValue;
     TrackNotifier m_notifier;
 };
 

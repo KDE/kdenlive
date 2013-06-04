@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timelinetrack.h"
 #include "timelinebackground.h"
 #include <src/monitor.h>
-#include "monitor/monitormodel.h"
+#include "monitor/monitorview.h"
 #include "kdenlivesettings.h"
 #include <mlt++/Mlt.h>
 #include <KLocale>
@@ -27,18 +27,61 @@ Timeline::Timeline(const QString& document, Project* parent) :
     m_monitor(NULL)
 {
     // profile we set doesn't matter, it will be overwritten anyways with the info in the profile tag
-    m_profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
-    m_profile->set_explicit(1);
+    Mlt::Profile *profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
+    profile->set_explicit(0);
     kDebug()<<"// SETTING PROJECT PROFILE: "<<KdenliveSettings::default_profile();
     if (document.isEmpty()) {
 	// Creating blank project
-	QString blankDocument = getBlankDocument();
-	m_producer = new ProducerWrapper(*m_profile, blankDocument, "xml-string");
+	QString blankDocument = getBlankDocument(profile);
+	m_producer = new ProducerWrapper(*profile, blankDocument, "xml-string");
       
     }
     else {
-	m_producer = new ProducerWrapper(*m_profile, document, "xml-string");
+	m_producer = new ProducerWrapper(*profile, document, "xml-string");
     }
+
+    // this shouldn't be an assert
+    Q_ASSERT(m_producer && m_producer->is_valid());
+
+    Mlt::Service service(m_producer->parent().get_service());
+
+    Q_ASSERT(service.type() == tractor_type);
+
+    m_tractor = new Mlt::Tractor(service);
+
+    //kDebug()<<"// loading prod: \n"<<document<<"\n-------------------";
+    //TODO: create mon
+    //m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
+    //m_monitor->setProducer(m_producer);
+    
+//     m_producer->optimise();
+
+    m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
+}
+
+Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
+    QObject(parent),
+    m_parent(parent),
+    m_monitor(NULL)
+    , m_tractor(NULL)
+{
+    // profile we set doesn't matter, it will be overwritten anyways with the info in the profile tag
+    //m_producer = producer;
+    Mlt::Tractor *tractor = new Mlt::Tractor();
+    Mlt::Playlist *playlist1 = new Mlt::Playlist(*producer->profile());
+    playlist1->insert_at(10, producer, 1);
+    //Mlt::Playlist *playlist2 = new Mlt::Playlist(*producer->profile());
+    //Mlt::Playlist playlist2(*producer->profile());
+    
+    //TODO: proper number of tracks, etc...
+    tractor->set_track(*playlist1, 0);
+    //tractor->set_track(*playlist2, 1);
+    
+    Mlt::Producer *prod = new Mlt::Producer(tractor->get_producer());
+    m_producer = new ProducerWrapper(prod);
+    
+    //producer;
+
 
     // this shouldn't be an assert
     Q_ASSERT(m_producer && m_producer->is_valid());
@@ -54,6 +97,8 @@ Timeline::Timeline(const QString& document, Project* parent) :
     //m_monitor->setProducer(m_producer);
     
 //     m_producer->optimise();
+    m_monitor = m_parent->binMonitor();
+    //m_monitor->open(m_producer, ClipMonitor);
 
     m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
 }
@@ -63,23 +108,23 @@ Timeline::~Timeline()
     qDeleteAll(m_tracks);
     delete m_producerChangeEvent;
     delete m_producer;
-    delete m_profile;
 }
 
 void Timeline::setMonitor(MonitorView *monitor)
 {
     m_monitor = monitor;
+    m_monitor->open(m_producer, ProjectMonitor);
 }
 
-QString Timeline::getBlankDocument() const
+QString Timeline::getBlankDocument(Mlt::Profile *profile) const
 {
     // Generate an empty project xml
     QString playlist;
-    Mlt::Consumer xmlConsumer(*m_profile, "xml:kdenlive_playlist");
+    Mlt::Consumer xmlConsumer(*profile, "xml:kdenlive_playlist");
     if (!xmlConsumer.is_valid()) return QString();
     Mlt::Tractor tractor;
-    Mlt::Playlist playlist1(*m_profile);
-    Mlt::Playlist playlist2(*m_profile);
+    Mlt::Playlist playlist1(*profile);
+    Mlt::Playlist playlist2(*profile);
     
     //TODO: proper number of tracks, etc...
     tractor.set_track(playlist1, 0);
@@ -95,7 +140,9 @@ QString Timeline::getBlankDocument() const
 
 QString Timeline::toXml() const
 {
-    Mlt::Consumer xmlConsumer(*m_profile, "xml:kdenlive_playlist");
+  
+    Mlt::Profile profile((mlt_profile) 0); //*m_producer->profile()
+    Mlt::Consumer xmlConsumer(profile, "xml:kdenlive_playlist");
 
     Q_ASSERT(xmlConsumer.is_valid());
 
@@ -115,7 +162,8 @@ QString Timeline::toXml() const
 
 int Timeline::duration() const
 {
-    return m_tractor->get_playtime();
+    if (m_tractor) return m_tractor->get_playtime();
+    return m_producer->get_playtime();
 }
 
 Project* Timeline::project()
@@ -130,7 +178,7 @@ QList< TimelineTrack* > Timeline::tracks()
 
 Mlt::Profile* Timeline::profile() const
 {
-    return m_profile;
+    return m_producer->profile();
 }
 
 ProducerWrapper* Timeline::producer()
@@ -154,6 +202,7 @@ void Timeline::loadTracks()
     Q_ASSERT(m_tracks.count() == 0);
 
     Mlt::Multitrack *multitrack = m_tractor->multitrack();
+    kDebug() << "PROJECT TRACKS: "<<m_tracks.count()<< " / "<<multitrack->count();
     int min = 0;
     if (multitrack->track(0)->get("id") == QString("black_track")) {
         new TimelineBackground(new ProducerWrapper(multitrack->track(0)), this);
@@ -167,12 +216,22 @@ void Timeline::loadTracks()
     }
 }
 
+void Timeline::loadClip()
+{
+    Mlt::Multitrack *multitrack = m_tractor->multitrack();
+    kDebug() << "PROJECT TRACKS: "<<m_tracks.count()<< " / "<<multitrack->count();
+    TimelineTrack *track = new TimelineTrack(new ProducerWrapper(multitrack->track(0)), this);
+        if (track) {
+            m_tracks.append(track);
+        }
+}
+
 void Timeline::emitDurationChanged()
 {
     emit durationChanged(duration());
 }
 
-void Timeline::producer_change(mlt_producer producer, Timeline* self)
+void Timeline::producer_change(mlt_producer /*producer*/, Timeline* self)
 {
     self->emitDurationChanged();
 }

@@ -10,26 +10,23 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "effectrepository.h"
 #include "abstracteffectrepositoryitem.h"
+#include "abstractparameterdescription.h"
 #include "effectdescription.h"
+#include "mltcore.h"
 #include <mlt++/Mlt.h>
 #include <QString>
 #include <QStringList>
 #include <QFile>
 #include <QDir>
-#include <QTextStream>
-#include <QGLFormat>
 #include <QDomElement>
 #include <KStandardDirs>
 #include <KUrl>
 #include <KDebug>
-#include <KServiceTypeTrader>
-
-#include <KPluginInfo>
-
-#include "abstractparameterdescription.h"
 
 
-EffectRepository::EffectRepository()
+
+EffectRepository::EffectRepository(MltCore *core) :
+      m_core(core)
 {
     initRepository();
 }
@@ -42,59 +39,20 @@ EffectRepository::~EffectRepository()
 
 Mlt::Repository *EffectRepository::repository()
 {
-    return m_repository;
-}
-
-void EffectRepository::checkConsumers()
-{
-  // Check what is available on the system
-    Mlt::Properties *consumers = m_repository->consumers();
-    int max = consumers->count();
-    for (int i = 0; i < max; ++i) {
-	QString cons = consumers->get_name(i);
-        if (cons == "sdl_preview") {
-	    m_availableDisplayModes << MLTSDL;
-	    break;
-	}
-    }
-    delete consumers;
-    
-    if (QGLFormat::hasOpenGL()) {
-	m_availableDisplayModes << MLTOPENGL;
-	m_availableDisplayModes << MLTSCENE;
-	consumers = m_repository->filters();
-	max = consumers->count();
-	for (int i = 0; i < max; ++i) {
-	    QString cons = consumers->get_name(i);
-	    if (cons == "glsl.manager") {
-		m_availableDisplayModes << MLTGLSL;
-		break;
-	    }
-	}
-	delete consumers;
-    }
-}
-
-QList <DISPLAYMODE> EffectRepository::availableDisplayModes() const
-{
-    return m_availableDisplayModes;
+    return m_core->repository();
 }
 
 // TODO: comment on repository->filters()->get_name() vs. metadata identifier
 void EffectRepository::initRepository()
 {
-    loadParameterPlugins();
-
-    m_repository = Mlt::Factory::init();
-    if (!m_repository) {
+    if (!m_core->repository()) {
         kWarning() << "MLT repository could not be loaded!!!";
         // TODO: error msg
         return;
     }
-    checkConsumers();
     QStringList availableFilters;
-    getNamesFromProperties(m_repository->filters(), availableFilters);
-    applyBlacklist("blacklisted_effects.txt", availableFilters);
+    MltCore::getNamesFromProperties(m_core->repository()->filters(), availableFilters);
+    MltCore::applyBlacklist("blacklisted_effects.txt", availableFilters);
 
     QMultiHash<QString, QDomElement> availableEffectDescriptions;
 
@@ -149,7 +107,7 @@ void EffectRepository::initRepository()
 
         // if no description for the filter could be created from the Kdenlive XML create it from MLT metadata
         if (!filterHasDescription) {
-            effectDescription = new EffectDescription(filterName, m_repository, this);
+            effectDescription = new EffectDescription(filterName, this);
             if (effectDescription->isValid()) {
                 m_effects.insert(effectDescription->getId(), effectDescription);
             } else {
@@ -157,18 +115,6 @@ void EffectRepository::initRepository()
             }
         }
     }
-
-    if (m_repository) {
-//         delete repository;
-    }
-}
-
-AbstractParameterDescription* EffectRepository::newParameterDescription(const QString &type)
-{
-    if(m_parameterPlugins.contains(type)) {
-        return m_parameterPlugins.value(type)->create<AbstractParameterDescription>();
-    }
-    return NULL;
 }
 
 AbstractEffectRepositoryItem* EffectRepository::effectDescription(const QString &id)
@@ -179,43 +125,8 @@ AbstractEffectRepositoryItem* EffectRepository::effectDescription(const QString 
     return NULL;
 }
 
-
-
-void EffectRepository::getNamesFromProperties(Mlt::Properties* properties, QStringList& names) const
+AbstractParameterDescription* EffectRepository::newParameterDescription(const QString &type)
 {
-    for (int i = 0; i < properties->count(); ++i) {
-        names << properties->get_name(i);
-    }
-    // ?
-    delete properties;
+    return m_core->newParameterDescription(type);
 }
 
-void EffectRepository::applyBlacklist(const QString &filename, QStringList& list) const
-{
-    QFile file(KStandardDirs::locate("appdata", filename));
-    if (file.open(QIODevice::ReadOnly)) {
-        QTextStream in(&file);
-        while (!in.atEnd()) {
-            QString line = in.readLine().simplified();
-            if (!line.isEmpty() && !line.startsWith('#')) {
-                list.removeAll(line);
-            }
-        }
-        file.close();
-    }
-}
-
-void EffectRepository::loadParameterPlugins()
-{
-    KService::List availableParameterServices = KServiceTypeTrader::self()->query("Kdenlive/Parameter");
-    for (int i = 0; i < availableParameterServices.count(); ++i) {
-        KPluginFactory *factory = KPluginLoader(availableParameterServices.at(i)->library()).factory();
-        KPluginInfo info = KPluginInfo(availableParameterServices.at(i));
-        if (factory && info.isValid()) {
-            QStringList types = info.property("X-Kdenlive-ParameterType").toStringList();
-            foreach(QString type, types) {
-                m_parameterPlugins.insert(type, factory);
-            }
-        }
-    }
-}

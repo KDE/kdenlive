@@ -14,11 +14,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QWidget>
 
 
-FixedParameter::FixedParameter(const FixedParameterDescription *parameterDescription, AbstractParameterList* parent) :
+FixedParameter::FixedParameter(const FixedParameterDescription *parameterDescription, AbstractParameterList* parent, const QString &value) :
     AbstractParameter(parameterDescription, parent),
     m_description(parameterDescription)
 {
-    m_parent->setParameterValue(name(), m_description->value());
+    if (value.isEmpty()) m_parent->setParameterValue(name(), m_description->value());
 }
 
 void FixedParameter::set(const char* data)

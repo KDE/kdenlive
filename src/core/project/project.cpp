@@ -135,8 +135,13 @@ void Project::openFile()
         KIO::NetAccess::removeTempFile(temporaryFileName);
 
         if (success) {
-            loadTimeline(document.toString());
             QDomElement kdenliveDoc = document.documentElement().firstChildElement("kdenlivedoc");
+	    // Remove the kdenlivedoc info before passing playlist to MLT
+	    document.documentElement().removeChild(kdenliveDoc);
+	    loadTimeline(document.toString());
+	    if (kdenliveDoc.isNull()) 
+		kdenliveDoc = convertMltPlaylist(document);
+	    updateClipCounter(kdenliveDoc.elementsByTagName("clip"));
 	    m_projectFolder = KUrl(kdenliveDoc.attribute("projectfolder"));
             m_bin = new BinModel(kdenliveDoc.firstChildElement("bin"), this);
             loadParts(kdenliveDoc);
@@ -148,6 +153,60 @@ void Project::openFile()
     } else {
         kWarning() << "not able to access " << m_url.path();
     }
+}
+
+
+QDomElement Project::convertMltPlaylist(QDomDocument &document)
+{
+    // Project has no kdenlive info, might be an MLT playlist, create bin clips
+    QDomElement kdenliveDoc = document.createElement("kdenlivedoc");
+    document.documentElement().appendChild(kdenliveDoc);
+    QDomNodeList producers = document.documentElement().elementsByTagName("producer");
+    QDomElement binxml = document.createElement("bin");
+    QDomElement folder = document.createElement("folder");
+    kdenliveDoc.appendChild(binxml);
+    binxml.appendChild(folder);
+    folder.setAttribute("name", "loading");
+    QString root = document.documentElement().attribute("root");
+    root.append('/');
+    for (int i = 0; i < producers.count(); i++) {
+	QDomElement clip = document.createElement("clip");
+	QDomElement prod = producers.at(i).toElement();
+	clip.setAttribute("id", prod.attribute("id"));
+	clip.setAttribute("in", prod.attribute("in"));
+	clip.setAttribute("out", prod.attribute("out"));
+	clip.setAttribute("duration", getXmlProperty(prod, "length"));
+	// Set service
+	QString service = getXmlProperty(prod, "mlt_service");
+	clip.setAttribute("producer_type", service);
+	QString resource = getXmlProperty(prod, "resource");
+	if (service != "color" && !resource.startsWith('/')) {
+	    // append root
+	    resource.prepend(root);
+	}
+	KUrl url(resource);
+	clip.setAttribute("url", url.path());
+	QString clipName = url.fileName();
+	if (clipName == "<producer>") 
+	    clipName = service;
+	clip.setAttribute("name", clipName);
+	folder.appendChild(clip);
+    }
+    //kDebug()<<"// RESULT: "<<document.toString();
+    return kdenliveDoc;
+}
+
+QString Project::getXmlProperty(QDomElement producer, QString propertyName)
+{
+    QString value;
+    QDomNodeList props = producer.elementsByTagName("property");
+    for (int i = 0; i < props.count(); i++) {
+	if (props.at(i).toElement().attribute("name") == propertyName) {
+	    value = props.at(i).firstChild().nodeValue();
+	    break;
+	}
+    }
+    return value;
 }
 
 void Project::openNew()
@@ -176,6 +235,11 @@ void Project::loadParts(const QDomElement& element)
     }
 }
 
+MonitorManager *Project::monitorManager()
+{
+    return pCore->monitorManager();
+}
+
 QList<QDomElement> Project::saveParts(QDomDocument& document) const
 {
     QList<QDomElement> partElements;
@@ -192,7 +256,7 @@ QList<QDomElement> Project::saveParts(QDomDocument& document) const
 void Project::loadSettings(const QDomElement& kdenliveDoc)
 {
     QDomNamedNodeMap attributes = kdenliveDoc.firstChildElement("settings").attributes();
-    for (int i = 0; i < attributes.length(); ++i) {
+    for (uint i = 0; i < attributes.length(); ++i) {
         QDomNode attribute = attributes.item(i);
         m_settings.insert(attribute.nodeName(), attribute.nodeValue());
     }
@@ -272,6 +336,16 @@ const KUrl &Project::projectFolder() const
 QString Project::getFreeId()
 {
     return QString::number(m_idCounter++);
+}
+
+void Project::updateClipCounter(const QDomNodeList clips)
+{
+    for (int i = 0; i < clips.count(); i++) {
+	bool ok;
+	int id = clips.at(i).toElement().attribute("id").toInt(&ok);
+	if (ok && id >= m_idCounter)
+	    m_idCounter = id + 1;
+    }
 }
 
 #include "project.moc"

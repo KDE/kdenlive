@@ -17,11 +17,15 @@ the Free Software Foundation, either version 3 of the License, or
 PositionItem::PositionItem(TimelineScene* scene) :
     QGraphicsLineItem()
 {
+    setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
     int position = scene->timeline()->monitor() == NULL ? 0 : scene->timeline()->monitor()->position();
+    QPen pen;
+    pen.setWidth(3);
+    setPen(pen);
     setLine(position, 0, position, scene->height());
 
     connect(scene, SIGNAL(heightChanged(int)), this, SLOT(setHeight(int)));
-    connect(scene->timeline()->monitor()->controller()->videoWidget(), SIGNAL(positionChanged(int)), this, SLOT(setPosition(int)));
+    connect(scene->timeline()->monitor(), SIGNAL(positionChanged(int, bool)), this, SLOT(setPosition(int)));
 }
 
 void PositionItem::setPosition(int position)

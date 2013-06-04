@@ -75,6 +75,7 @@ public:
 
     QDomElement toXml(QDomDocument &document) const;
     void setMonitor(MonitorView* m);
+    void refreshThumnbail(const QString &id);
 
 public slots:
     /** @brief emits aboutToAddItem. */
@@ -99,9 +100,9 @@ signals:
 
 private:
     Project *m_project;
+    AbstractProjectItem *m_currentItem;
     MonitorView *m_monitor;
     ProjectFolder *m_rootFolder;
-    AbstractProjectItem *m_currentItem;
 };
 
 #endif

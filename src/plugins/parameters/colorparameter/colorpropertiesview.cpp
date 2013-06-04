@@ -46,7 +46,7 @@ ColorPropertiesView::ColorPropertiesView(const QString &name, const QColor &colo
 //     connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
     connect(m_button, SIGNAL(changed(const QColor&)), this, SIGNAL(valueChanged(const QColor&)));
 
-    static_cast<AbstractPropertiesViewContainer*>(parent)->addChild(this);
+    static_cast<AbstractViewContainer*>(parent)->addChild(this);
 }
 void ColorPropertiesView::setValue(const QColor &color)
 {

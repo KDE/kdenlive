@@ -13,10 +13,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QUndoCommand>
 #include <KUrl>
+#include <mlt++/Mlt.h>
 
 class AbstractClipPlugin;
 class ProjectFolder;
 class AbstractProjectClip;
+
 
 
 /**
@@ -37,12 +39,16 @@ public:
      * @param parentItem folder to which the clip should be added to
      */
     explicit AddClipCommand(const KUrl &url, const QString &id, AbstractClipPlugin *plugin, ProjectFolder *parentItem, QUndoCommand* parent = 0);
+    explicit AddClipCommand(const QString &displayName, const QString &service, Mlt::Properties &properties, const QString &id, AbstractClipPlugin *plugin, ProjectFolder *parentItem, QUndoCommand* parent = 0);
 
     void undo();
     void redo();
 
 private:
     KUrl m_url;
+    QString m_displayName;
+    QString m_service;
+    Mlt::Properties m_properties;
     QString m_id;
     AbstractClipPlugin *m_plugin;
     AbstractProjectClip *m_clip;

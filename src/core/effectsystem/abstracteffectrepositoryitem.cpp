@@ -31,7 +31,7 @@ EffectTypes AbstractEffectRepositoryItem::getType() const
     return m_type;
 }
 
-EffectTypes AbstractEffectRepositoryItem::getType(QString type) const
+EffectTypes AbstractEffectRepositoryItem::getType(QString type)
 {
     if (type == "audio")
         return AudioEffect;

@@ -17,6 +17,10 @@ the Free Software Foundation, either version 3 of the License, or
 class VideoClipPlugin;
 class VideoTimelineClip;
 
+namespace Mlt
+{
+    class Properties;
+}
 
 class VideoProjectClip : public AbstractProjectClip
 {
@@ -24,16 +28,15 @@ class VideoProjectClip : public AbstractProjectClip
 
 public:
     VideoProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, VideoClipPlugin const *plugin);
+    VideoProjectClip(const QString& service, Mlt::Properties props, const QString &id, ProjectFolder* parent, VideoClipPlugin const *plugin);
     VideoProjectClip(ProducerWrapper* producer, ProjectFolder* parent, VideoClipPlugin const *plugin);
     VideoProjectClip(const QDomElement &description, ProjectFolder *parent, VideoClipPlugin const *plugin);
     ~VideoProjectClip();
 
     AbstractTimelineClip *createInstance(TimelineTrack *parent, ProducerWrapper *producer = 0);
     void initProducer();
+    void initProducer(const QString &service, Mlt::Properties props);
     void hash();
-
-public slots:
-    QPixmap thumbnail();
 
 private:
     void init();

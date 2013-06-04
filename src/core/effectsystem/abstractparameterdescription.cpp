@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QString>
 #include <QLocale>
 #include <KLocale>
+#include <KDebug>
 
 
 AbstractParameterDescription::AbstractParameterDescription() :
@@ -21,7 +22,7 @@ AbstractParameterDescription::AbstractParameterDescription() :
 {
 }
 
-void AbstractParameterDescription::init(QDomElement parameter, QLocale locale)
+void AbstractParameterDescription::init(QDomElement parameter, QLocale /*locale*/)
 {
     m_valid = true;
 
@@ -42,14 +43,15 @@ void AbstractParameterDescription::init(QDomElement parameter, QLocale locale)
     m_comment = i18n(m_commentOrig.toUtf8());
 }
 
-void AbstractParameterDescription::init(Mlt::Properties& properties, QLocale locale)
+void AbstractParameterDescription::init(Mlt::Properties& properties, QLocale /*locale*/)
 {
     m_valid = true;
-
     m_name = properties.get("identifier");
     m_displayNameOrig = properties.get("title");
-    m_displayName = i18n(m_displayNameOrig.toUtf8());
-
+    if (m_displayNameOrig.isEmpty()) 
+	m_displayName = m_name;
+    else 
+	m_displayName = i18n(m_displayNameOrig.toUtf8());
     m_commentOrig = properties.get("description");
     m_comment = i18n(m_commentOrig.toUtf8());
 }

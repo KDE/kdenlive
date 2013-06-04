@@ -26,10 +26,16 @@ void ImageTimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF expos
 {
     painter->setWorldMatrixEnabled(false);
     const QRectF mapped = painter->worldTransform().mapRect(rect());
+    
+    QPixmap thumbnail = m_projectClip->thumbnail();
+    if (!thumbnail.isNull()) {
+	thumbnail = thumbnail.scaledToHeight(mapped.height());
 
-    QPixmap thumbnail = m_projectClip->thumbnail().scaledToHeight(mapped.height());
-
-    for (int i = mapped.left(); i < mapped.right(); i += thumbnail.width()) {
-        painter->drawPixmap(i, mapped.top(), thumbnail);
+	for (int i = mapped.left(); i < mapped.right(); i += thumbnail.width()) {
+	    painter->drawPixmap(i, mapped.top(), thumbnail);
+	}
+    }
+    else {
+	painter->drawRect(exposed);
     }
 }

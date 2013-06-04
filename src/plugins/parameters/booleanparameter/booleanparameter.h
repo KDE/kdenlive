@@ -21,7 +21,7 @@ class BooleanParameter : public AbstractParameter
     Q_OBJECT
 
 public:
-    BooleanParameter(const BooleanParameterDescription *parameterDescription, AbstractParameterList *parent);
+    BooleanParameter(const BooleanParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
     ~BooleanParameter() {};
 
     void set(const char*data);

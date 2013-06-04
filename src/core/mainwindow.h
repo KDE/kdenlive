@@ -19,6 +19,7 @@ class TimelineWidget;
 class Bin;
 class MonitorView;
 class QUndoView;
+class KTabWidget;
 
 
 /**
@@ -56,12 +57,17 @@ public:
      * @returns the created dock widget
      */
     QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
+    TimelineWidget *addTimeline(const QString &id, const QString &title);
 
 private:
     void initLocale();
 
     Bin *m_bin;
     TimelineWidget *m_timeline;
+    KTabWidget *m_container;
+    
+    /** @brief Creates the GUI actions, that needs to be done after calling setupGUI(). */
+    void createActions();
 };
 
 #endif

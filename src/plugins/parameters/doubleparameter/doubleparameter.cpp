@@ -16,11 +16,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QWidget>
 
 
-DoubleParameter::DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList* parent) :
+DoubleParameter::DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList* parent, const QString &value) :
     AbstractParameter(parameterDescription, parent),
     m_description(parameterDescription)
 {
-    set(m_description->defaultValue());
+    if (value.isEmpty()) set(m_description->defaultValue());
 }
 
 void DoubleParameter::set(const char* data)

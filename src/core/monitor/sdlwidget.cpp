@@ -194,23 +194,28 @@ void SDLWidget::slotWheel(int factor)
     else previousFrame(-factor);
 }
 
-int SDLWidget::open(ProducerWrapper* producer, bool isMulti)
+int SDLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
 {
-    //show();
-    int error = MltController::open(producer, isMulti);
+    show();
+    int error = MltController::open(producer, isMulti, isLive);
     if (!error)
         error = reconfigure(isMulti);
     m_producer->set_speed(0);
-    m_consumer->start();
-    refreshConsumer();
+    //m_consumer->start();
+    //refreshConsumer();
     emit producerChanged();
     return error;
 }
 
 void SDLWidget::reStart2()
 {
-    m_consumer->stop();
-    m_consumer->purge();
+    //Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
+    if (!m_consumer->is_stopped()) {
+	m_consumer->stop();
+	//m_consumer->wait_for(event);
+	m_consumer->purge();
+    }
+    //delete event;
     m_consumer->start();
     refreshConsumer();
 }
@@ -228,7 +233,8 @@ void SDLWidget::seek(int position)
 
 void SDLWidget::pause()
 {
-    m_consumer->stop();
+    if (!m_consumer->is_stopped()) 
+	m_consumer->stop();
     MltController::pause();
 }
 
@@ -275,8 +281,6 @@ int SDLWidget::reconfigure(bool isMulti)
         delete filter;
     }
     if (m_consumer->is_valid()) {
-        // Connect the producer to the consumer - tell it to "run" later
-        m_consumer->connect(*m_producer);
         // Make an event handler for when a frame's image should be displayed
         m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
         //m_consumer->set("real_time", property("realtime").toBool()? 1 : -1);
@@ -309,6 +313,8 @@ int SDLWidget::reconfigure(bool isMulti)
 	    m_consumer->set("rescale", "nearest");
             m_consumer->set("scrub_audio", 1);
         }
+        // Connect the producer to the consumer - tell it to "run" later
+        m_consumer->connect(*m_producer);
     }
     else {
         // Cleanup on error

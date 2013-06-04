@@ -20,12 +20,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KDebug>
 
 
-EffectDescription::EffectDescription(const QString &filterName, Mlt::Repository* mltRepository, EffectRepository *repository) :
+EffectDescription::EffectDescription(const QString &filterName, EffectRepository *repository) :
     AbstractEffectRepositoryItem()
 {
     m_valid = false;
 
-    Mlt::Properties *metadata = mltRepository->metadata(filter_type, filterName.toUtf8().constData());
+    Mlt::Properties *metadata = repository->repository()->metadata(filter_type, filterName.toUtf8().constData());
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier")) {
             QLocale locale;

@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDomElement>
 #include <QLocale>
 #include <KPluginFactory>
+#include <mlt++/Mlt.h>
 
 K_PLUGIN_FACTORY( ColorParameterFactory, registerPlugin<ColorParameterDescription>(); )
 K_EXPORT_PLUGIN( ColorParameterFactory( "kdenlivecolorparameter" ) )
@@ -40,13 +41,17 @@ void ColorParameterDescription::init(Mlt::Properties& properties, QLocale locale
 {
     AbstractParameterDescription::init(properties, locale);
 
-    /* tbd */
-    m_valid = false;
+    QString itemsString = properties.get("paramlist");
+    
+    m_prefix = properties.get("paramprefix");
+    m_default = ColorParameter::stringToColor(QString(properties.get("default")).remove(m_prefix));
+    m_supportsAlpha = properties.get_int("alpha");
+    m_valid = true;
 }
 
-AbstractParameter *ColorParameterDescription::createParameter(AbstractParameterList* parent) const
+AbstractParameter *ColorParameterDescription::createParameter(AbstractParameterList* parent, const QString &value) const
 {
-    ColorParameter *parameter = new ColorParameter(this, parent);
+    ColorParameter *parameter = new ColorParameter(this, parent, value);
     return static_cast<AbstractParameter*>(parameter);
 }
 

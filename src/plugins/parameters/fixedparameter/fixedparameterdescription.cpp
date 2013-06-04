@@ -44,9 +44,9 @@ void FixedParameterDescription::init(Mlt::Properties& properties, QLocale locale
     m_value = QString(properties.get("default"));
 }
 
-AbstractParameter *FixedParameterDescription::createParameter(AbstractParameterList* parent) const
+AbstractParameter *FixedParameterDescription::createParameter(AbstractParameterList* parent, const QString &value) const
 {
-    FixedParameter *parameter = new FixedParameter(this, parent);
+    FixedParameter *parameter = new FixedParameter(this, parent, value);
     return static_cast<AbstractParameter*>(parameter);
 }
 

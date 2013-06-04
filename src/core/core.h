@@ -18,9 +18,11 @@ class MainWindow;
 class ProjectManager;
 class ClipPluginManager;
 class EffectRepository;
+class ProducerRepository;
 class Project;
 class PluginManager;
 class MonitorManager;
+class MltCore;
 class KUrl;
 
 #define pCore Core::self()
@@ -57,8 +59,12 @@ public:
     MainWindow *window();
     /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
+    /** @brief Returns a pointer to the mlt core. */
+    MltCore* mltCore();
     /** @brief Returns a pointer to the effect repository. */
     EffectRepository *effectRepository();
+    /** @brief Returns a pointer to the producer repository. */
+    ProducerRepository* producerRepository();
     /** @brief Returns a pointer to the clip plugin manager. */
     ClipPluginManager *clipPluginManager();
     /** @brief Returns a pointer to the monitor manager. */
@@ -73,7 +79,9 @@ private:
 
     MainWindow *m_mainWindow;
     ProjectManager *m_projectManager;
+    MltCore *m_mltCore;
     EffectRepository *m_effectRepository;
+    ProducerRepository *m_producerRepository;
     ClipPluginManager *m_clipPluginManager;
     MonitorManager *m_monitorManager;
     PluginManager *m_pluginManager;

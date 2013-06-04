@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project.h"
 #include "binmodel.h"
 #include "monitor/monitorview.h"
+#include "monitor/monitormanager.h"
 #include <mlt++/Mlt.h>
 #include <QDomElement>
 #include <KDebug>
@@ -66,6 +67,11 @@ AbstractClipPlugin const *AbstractProjectClip::plugin() const
     return m_plugin;
 }
 
+QString AbstractProjectClip::clipId() const
+{
+    return m_id;
+}
+
 AbstractProjectClip* AbstractProjectClip::clip(const QString &id)
 {
     if (id == m_id) {
@@ -113,7 +119,7 @@ void AbstractProjectClip::setCurrent(bool current)
     AbstractProjectItem::setCurrent(current);
     if (current) {
 	initProducer();
-        bin()->monitor()->open(m_baseProducer);
+        bin()->monitor()->open(m_baseProducer, ClipMonitor);
     }
 }
 
@@ -154,6 +160,16 @@ ProducerWrapper* AbstractProjectClip::baseProducer()
     if (!m_baseProducer)
 	initProducer();
     return m_baseProducer;
+}
+
+QPixmap AbstractProjectClip::thumbnail(bool force)
+{
+    if ((force || m_thumbnail.isNull()) && m_baseProducer) {
+	int width = 80 * bin()->project()->displayRatio();
+	if (width % 2 == 1) width++;
+	bin()->project()->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
+    }
+    return m_thumbnail;
 }
 
 void AbstractProjectClip::setThumbnail(QImage img)

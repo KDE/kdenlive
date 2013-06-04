@@ -47,10 +47,11 @@ public:
      * @param parent project this timeline belongs to
      */
     Timeline(const QString &document, Project* parent);
+    Timeline(ProducerWrapper *producer, Project* parent);
     virtual ~Timeline();
     
     /** @brief Create empty xml doc. */
-    QString getBlankDocument() const;
+    QString getBlankDocument(Mlt::Profile *profile) const;
 
     QString toXml() const;
 
@@ -84,6 +85,7 @@ public:
      * anywhere else!
      */
     void loadTracks();
+    void loadClip();
 
     /** @brief Emits durationChanged. */
     void emitDurationChanged();
@@ -98,12 +100,11 @@ signals:
 
 private:
     Project *m_parent;
+    MonitorView *m_monitor;
     Mlt::Tractor *m_tractor;
     ProducerWrapper *m_producer;
     Mlt::Event *m_producerChangeEvent;
-    Mlt::Profile *m_profile;
     QList <TimelineTrack *> m_tracks;
-    MonitorView *m_monitor;
     
 };
 

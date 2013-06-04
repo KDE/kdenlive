@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef ABSTRACTPROPERTIESVIEWCONTAINER_H
 #define ABSTRACTPROPERTIESVIEWCONTAINER_H
 
+#include "abstractviewcontainer.h"
 #include <QWidget>
 #include <kdemacros.h>
 
@@ -22,7 +23,7 @@ namespace Ui
 }
 
 
-class KDE_EXPORT AbstractPropertiesViewContainer : public QWidget
+class KDE_EXPORT AbstractPropertiesViewContainer : public AbstractViewContainer
 {
     Q_OBJECT
 
