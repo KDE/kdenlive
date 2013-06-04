@@ -73,7 +73,7 @@ public:
     Render *render;
     AbstractRender *abstractRender();
     void resetProfile(const QString &profile);
-    void setCustomProfile(const QString &profile, Timecode tc);
+    void setCustomProfile(const QString &profile, const Timecode &tc);
     void resetSize();
     void pause();
     void unpause();
