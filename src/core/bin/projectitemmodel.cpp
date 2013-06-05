@@ -9,7 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "projectitemmodel.h"
-#include <qt4/QtCore/qvarlengtharray.h>
+#include <qvarlengtharray.h>
 #include "project/binmodel.h"
 #include "monitor/mltcontroller.h"
 #include "project/projectfolder.h"
