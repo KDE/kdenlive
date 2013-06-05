@@ -218,6 +218,11 @@ void MonitorManager::updateController(MONITORID id, MltController *controller)
 
 void MonitorManager::requestThumbnails(const QString &id, QList <int> positions)
 {
+    Project *project = pCore->projectManager()->current();
+    if (!project) {
+	kDebug()<<" + + + Project not ready for thumbnails";
+	return;
+    }
     if (m_thumbRequests.contains(id)) {
 	QList <int> existingPositions = m_thumbRequests.value(id);
 	positions << existingPositions;
@@ -231,7 +236,7 @@ void MonitorManager::requestThumbnails(const QString &id, QList <int> positions)
     while (i != m_thumbRequests.constEnd()) {
 	QString firstId = i.key();
 	QList <int>pos = i.value();
-	ProducerWrapper *producer = pCore->projectManager()->current()->bin()->clipProducer(firstId);
+	ProducerWrapper *producer = project->bin()->clipProducer(firstId);
 	if (producer && producer->is_valid()) {
 	    // clear current request and process it
 	    m_thumbRequests.insert(firstId, QList <int>());
