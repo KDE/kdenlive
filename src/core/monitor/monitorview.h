@@ -171,7 +171,7 @@ private:
 signals:
     /** @brief Controller for this view has changed, inform other widgets. */
     void controllerChanged(MONITORID, MltController *);
-    void audioLevels(QVector<double>);
+    void audioLevels(const QVector<double>&);
     void requestThumb(ProducerWrapper *, int);
     void positionChanged(int, bool);
 };
