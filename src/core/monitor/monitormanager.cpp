@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitormodel.h"
 #include "mltcontroller.h"
 #include "monitorview.h"
-#include <qt4/QtCore/qtextstream.h>
+#include <qtextstream.h>
 #include "core.h"
 #include "mainwindow.h"
 #include "project/project.h"

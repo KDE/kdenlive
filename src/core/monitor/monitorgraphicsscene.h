@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mltcontroller.h"
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
-#include <qt4/QtGui/qgraphicsitem.h>
+#include <qgraphicsitem.h>
 
 #include <QElapsedTimer>
 
