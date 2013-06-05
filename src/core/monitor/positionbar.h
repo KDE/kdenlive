@@ -85,6 +85,10 @@ signals:
      *  @param position the frame for which we want a thumbnail
      * */
     void requestThumb(int position);
+    /** @brief Inform monitor that the zone or markers changed
+     *  @param marks the list of frames with info text
+     * */
+    void marksChanged(QMap <int, QString> marks);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -130,6 +134,8 @@ private:
     void adjustScale();
     /** @brief Repaint the background pixmap (containing the ruler time marks) */
     void updateBackground();
+    /** @brief Zone or markers changed, inform monitor */
+    void prepareMarks();
 };
 
 #endif

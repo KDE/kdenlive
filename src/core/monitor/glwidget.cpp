@@ -183,12 +183,13 @@ void GLWidget::showEvent(QShowEvent* event)
 }
 
 //void GLWidget::paintGL()
-void GLWidget::paintEvent(QPaintEvent */*event*/)
+void GLWidget::paintEvent(QPaintEvent *event)
 {
     makeCurrent();
     if (m_texture[0]) {
 	QPainter p;
 	p.begin(this);
+	p.setClipRect(event->rect());
 	p.beginNativePainting();
 	m_shader->bind();
         glBegin(GL_QUADS);
@@ -199,13 +200,23 @@ void GLWidget::paintEvent(QPaintEvent */*event*/)
         glEnd();
         p.endNativePainting();
     
-	if (!m_overlay.isEmpty()) {
+	if (!m_overlayText.isEmpty()) {
 	    glPixelStorei(GL_UNPACK_ROW_LENGTH,   0);
 	    glPixelStorei(GL_UNPACK_ALIGNMENT,    4);
 	    QFontMetrics f(font());
-	    p.setPen(Qt::white);
-	    p.fillRect(x + 10, y + 10, 130, 25, QColor(255, 200, 200, 150));
-	    p.drawText(x + 15, y + 10 + f.lineSpacing(), m_overlay);
+	    QRectF textRect = p.boundingRect(x, y , w - 15, h - 10, Qt::AlignRight | Qt::AlignBottom, m_overlayText);
+	    QRectF bgRect = textRect.adjusted(-(5 + textRect.height()) , -2, 5, 2);
+	    QColor c(Qt::white);
+	    c.setAlpha(100);
+	    p.setBrush(c);
+	    p.setPen(Qt::NoPen);
+	    m_overlayZone = bgRect;
+	    p.drawRoundedRect(bgRect, 3, 3);
+	    bgRect.setWidth(textRect.height());
+	    p.setBrush(m_overlayColor);
+	    p.drawEllipse(bgRect.adjusted(2, 2, 0, -2));
+	    p.setPen(Qt::black);
+	    p.drawText(textRect, m_overlayText);
 	    glPixelStorei  (GL_UNPACK_ROW_LENGTH, m_image_width);
 	    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	    glBindTexture  (GL_TEXTURE_2D, m_texture[1]);
@@ -338,7 +349,7 @@ glDisable(GL_TEXTURE_2D);
     return;
     
     //return;
-    if (!m_overlay.isEmpty()) {
+    if (!m_overlayText.isEmpty()) {
       glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 glDisable(GL_DEPTH_TEST);
 glMatrixMode(GL_PROJECTION);
@@ -486,6 +497,12 @@ void GLWidget::enterEvent( QEvent * event )
     else m_showPlay = false;
 }
 
+void GLWidget::slotSetMarks(QMap <int,QString> marks)
+{
+    m_markers = marks;
+    if (m_producer->get_speed() == 0) refreshConsumer();
+}
+
 void GLWidget::switchFullScreen()
 {
     // TODO: disable screensaver?
@@ -555,8 +572,12 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event)
         emit seekTo(m_producer->get_length() * event->x() / width());
         return;
     }
-    if (!(event->buttons() & Qt::LeftButton))
-        return;
+    if (event->buttons() == Qt::NoButton) {
+	if (m_overlayZone.contains(event->pos())) setCursor(Qt::PointingHandCursor);
+	else setCursor(Qt::ArrowCursor);
+    }
+    //TODO: handle drag
+    return;
     if ((event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance())
         return;
     QDrag *drag = new QDrag(this);
@@ -620,7 +641,21 @@ void GLWidget::showFrame(Mlt::QFrame frame)
         m_image_width = 0;
         m_image_height = 0;
         //makeCurrent();
-	m_overlay = QString("Overlay test: %1").arg(frame.frame()->get_position());
+	int position = frame.frame()->get_position();
+	if (m_markers.contains(-position)) {
+	    // Zone in or out
+	    m_overlayText = m_markers.value(-position);
+	    m_overlayColor = QColor(255, 90, 90);
+	}
+	else if (m_markers.contains(position)) {
+	    // Marker
+	    m_overlayText = m_markers.value(position);
+	    m_overlayColor = QColor(60, 60, 255);
+	}
+	else {
+	    m_overlayText.clear();
+	    m_overlayZone = QRectF();
+	}
         
             const uint8_t* image = frame.frame()->get_image(m_image_format, m_image_width, m_image_height);
 /*glPushAttrib(GL_ALL_ATTRIB_BITS);

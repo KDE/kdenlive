@@ -277,6 +277,7 @@ void MonitorView::connectController(bool doConnect)
 	connect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
 	connect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
 	connect(this, SIGNAL(requestThumb(ProducerWrapper *, int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper *, int)));
+	connect(m_positionBar, SIGNAL(marksChanged(QMap <int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap <int,QString>)));
     }
     else {
 	disconnect(m_controller->videoWidget(), SIGNAL(producerChanged()), this, SLOT(onProducerChanged()));
@@ -286,6 +287,7 @@ void MonitorView::connectController(bool doConnect)
 	disconnect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
 	disconnect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
 	disconnect(this, SIGNAL(requestThumb(ProducerWrapper *, int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper *, int)));
+	disconnect(m_positionBar, SIGNAL(marksChanged(QMap <int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap <int,QString>)));
     }
 }
 
