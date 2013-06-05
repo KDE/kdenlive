@@ -128,7 +128,7 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
     const int h = IEC_Scale(-dbscale[0]) * height() - 2;
 
     //valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
-    for (int i = 0; i < numchan; i++) {
+    for (int i = 0; i < numchan; ++i) {
         int maxx =  h  * channels[i];
         int xdelta = h / 42 ;
         int y2 = (showdb? width() - dbsize : width()) / numchan - 1;

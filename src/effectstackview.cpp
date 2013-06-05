@@ -268,7 +268,7 @@ void EffectStackView::setupListView(int ix)
     KIcon customIcon("kdenlive-custom-effect");
     QListWidgetItem* item;
 
-    for (int i = 0; i < m_currentEffectList.count(); i++) {
+    for (int i = 0; i < m_currentEffectList.count(); ++i) {
         const QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
         if (d.isNull()) {
             kDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";

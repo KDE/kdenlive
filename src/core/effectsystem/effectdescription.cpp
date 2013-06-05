@@ -49,7 +49,7 @@ EffectDescription::EffectDescription(const QString &filterName, EffectRepository
 
             Mlt::Properties parameters(metadata->get_data("parameters"));
             int size = 0;
-            for (int i = 0; parameters.is_valid() && i < parameters.count(); i++) {
+            for (int i = 0; parameters.is_valid() && i < parameters.count(); ++i) {
                 Mlt::Properties parameterProperties(parameters.get_data(i, size));
                 QString parameterType = parameterProperties.get("type");
 

@@ -122,7 +122,7 @@ void MainWindow::createActions()
 {
     QMenu *addClipMenu = static_cast<QMenu*>(factory()->container("clip_producer_menu", this));
     QList <QAction *> producerActions = pCore->producerRepository()->producerActions(this);
-    for (int i = 0; i < producerActions.count(); i++) {
+    for (int i = 0; i < producerActions.count(); ++i) {
 	addClipMenu->addAction(producerActions.at(i));
     }
     producerActions.clear();

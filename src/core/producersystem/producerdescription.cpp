@@ -50,7 +50,7 @@ ProducerDescription::ProducerDescription(const QString &producerName, ProducerRe
 
             Mlt::Properties parameters(metadata->get_data("parameters"));
             int size = 0;
-            for (int i = 0; parameters.is_valid() && i < parameters.count(); i++) {
+            for (int i = 0; parameters.is_valid() && i < parameters.count(); ++i) {
 		size = 0;
                 Mlt::Properties parameterProperties(parameters.get_data(i, size));
 		// Convert mlt param type to kdenlive paramtype, in progress
@@ -136,7 +136,7 @@ QList< AbstractParameterDescription* > ProducerDescription::parameters()
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     
-    for (int i = 0; i < count(); i++) {
+    for (int i = 0; i < count(); ++i) {
 	if (at(i)->name() == paramName) {
 	    at(i)->init(props);
 	}
@@ -206,7 +206,7 @@ void ProducerDescription::convertMltParameterType(Mlt::Properties &properties)
 	    properties.set("type", "list");
 	    Mlt::Properties values(properties.get_data("values"));
 	    QStringList stringValues;
-	    for (int i = 0; i < values.count(); i++) {
+	    for (int i = 0; i < values.count(); ++i) {
 		stringValues << values.get(i);
 	    }
 	    properties.set("paramlist", stringValues.join(";").toUtf8().constData());

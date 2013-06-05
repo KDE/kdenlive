@@ -345,7 +345,7 @@ const QString MonitorView::nameForRole(MONITORID role)
 void MonitorView::addMonitorRole(MONITORID role)
 {
     QList <QAction *> actions = m_monitorRole->actions();
-    for (int i = 0; i < actions.count(); i++)
+    for (int i = 0; i < actions.count(); ++i)
 	if ((MONITORID) (actions.at(i)->data().toInt()) ==  role) return;
     KAction *mRole = m_monitorRole->addAction(nameForRole(role));    
     mRole->setData(role);
@@ -522,7 +522,7 @@ void MonitorView::toggleMonitorRole(MONITORID role, bool setAction)
 	// switch to required role
 	if (setAction) {
 	    QList <QAction *> actions = m_monitorRole->actions();
-	    for (int i = 0; i < actions.count(); i++)
+	    for (int i = 0; i < actions.count(); ++i)
 		if ((MONITORID) (actions.at(i)->data().toInt()) ==  role) {
 		    m_monitorRole->setCurrentAction(actions.at(i));
 		    break;

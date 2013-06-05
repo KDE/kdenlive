@@ -169,7 +169,7 @@ QDomElement Project::convertMltPlaylist(QDomDocument &document)
     folder.setAttribute("name", "loading");
     QString root = document.documentElement().attribute("root");
     root.append('/');
-    for (int i = 0; i < producers.count(); i++) {
+    for (int i = 0; i < producers.count(); ++i) {
 	QDomElement clip = document.createElement("clip");
 	QDomElement prod = producers.at(i).toElement();
 	clip.setAttribute("id", prod.attribute("id"));
@@ -200,7 +200,7 @@ QString Project::getXmlProperty(QDomElement producer, QString propertyName)
 {
     QString value;
     QDomNodeList props = producer.elementsByTagName("property");
-    for (int i = 0; i < props.count(); i++) {
+    for (int i = 0; i < props.count(); ++i) {
 	if (props.at(i).toElement().attribute("name") == propertyName) {
 	    value = props.at(i).firstChild().nodeValue();
 	    break;
@@ -340,7 +340,7 @@ QString Project::getFreeId()
 
 void Project::updateClipCounter(const QDomNodeList clips)
 {
-    for (int i = 0; i < clips.count(); i++) {
+    for (int i = 0; i < clips.count(); ++i) {
 	bool ok;
 	int id = clips.at(i).toElement().attribute("id").toInt(&ok);
 	if (ok && id >= m_idCounter)

@@ -137,7 +137,7 @@ QList <QAction *> ProducerRepository::producerActions(QWidget *parent) const
 {
     QList <QAction *> actions;
     QList <ProducerDescription *>prods = m_producers.values();
-    for (int i = 0; i < prods.count(); i++) {
+    for (int i = 0; i < prods.count(); ++i) {
 	QAction *a = new QAction(prods.at(i)->displayName(), parent);
 	a->setData(prods.at(i)->tag());
 	actions.append(a);
@@ -167,7 +167,7 @@ QStringList ProducerRepository::producerProperties(const QString &id)
     QStringList values;
     if (m_producers.contains(id)) {
 	QList< AbstractParameterDescription* > params = m_producers.value(id)->parameters();
-	for (int i = 0; i < params.count(); i++) {
+	for (int i = 0; i < params.count(); ++i) {
 	    values.append(params.at(i)->name());
 	}
     }
