@@ -162,8 +162,8 @@ class EventEater : public QObject
  signals:
      void focusClipMonitor();
      void addClip();
-     void editItem(QString);
-     void editItemInTimeline(QString, QString, ProducerWrapper*);
+     void editItem(const QString&);
+     void editItemInTimeline(const QString&, const QString&, ProducerWrapper*);
  };
 
 
@@ -199,7 +199,7 @@ private slots:
     void rowsInserted(const QModelIndex &parent, int start, int end);
     void selectModel(const QModelIndex &parent);
     void autoSelect();
-    void slotOpenClipTimeline(QString id, QString name, ProducerWrapper *prod);
+    void slotOpenClipTimeline(const QString &id, const QString &name, ProducerWrapper *prod);
     void closeEditing();
     void refreshEditedClip();
     

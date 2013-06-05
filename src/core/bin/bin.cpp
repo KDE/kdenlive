@@ -282,7 +282,7 @@ void Bin::slotSetIconSize(int size)
 }
 
 
-void Bin::slotOpenClipTimeline(QString id, QString name, ProducerWrapper *prod)
+void Bin::slotOpenClipTimeline(const QString &id, const QString &name, ProducerWrapper *prod)
 {
     TimelineWidget *tml = pCore->window()->addTimeline(id, name);
     Timeline *tl = new Timeline(prod, pCore->projectManager()->current());
