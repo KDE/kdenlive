@@ -108,7 +108,7 @@ void PositionBar::prepareMarks()
     emit marksChanged(marks);
 }
 
-void PositionBar::slotSetThumbnail(int position, QImage img)
+void PositionBar::slotSetThumbnail(int position, const QImage &img)
 {
     if (img.isNull()) {
 	setToolTip(Timecode(position).formatted());
@@ -287,11 +287,13 @@ void PositionBar::updateBackground()
     update();
 }
 
-void PositionBar::setZone(QPoint zone)
+void PositionBar::setZone(const QPoint &zone)
 {
-    m_zone = zone;
-    prepareMarks();
-    update();
+    if (m_zone != zone) {
+        m_zone = zone;
+	prepareMarks();
+        update();
+    }
 }
 
 void PositionBar::adjustScale()
