@@ -21,7 +21,7 @@ class ListPropertiesView : public QWidget
 
 public:
     ListPropertiesView(const QString &name, const QStringList &items, int initialIndex, const QString &comment, QWidget *parent);
-    ~ListPropertiesView() {};
+    ~ListPropertiesView() {}
 
 public slots:
     void setCurrentIndex(int index);

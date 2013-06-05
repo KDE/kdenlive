@@ -28,7 +28,7 @@ ColorParameterDescription::~ColorParameterDescription()
 {
 }
 
-void ColorParameterDescription::init(QDomElement parameter, QLocale locale)
+void ColorParameterDescription::init(const QDomElement &parameter, const QLocale &locale)
 {
     AbstractParameterDescription::init(parameter, locale);
 
@@ -37,11 +37,11 @@ void ColorParameterDescription::init(QDomElement parameter, QLocale locale)
     m_supportsAlpha = parameter.attribute("alpha", "0").toInt();
 }
 
-void ColorParameterDescription::init(Mlt::Properties& properties, QLocale locale)
+void ColorParameterDescription::init(Mlt::Properties& properties, const QLocale &locale)
 {
     AbstractParameterDescription::init(properties, locale);
 
-    QString itemsString = properties.get("paramlist");
+    //QString itemsString = properties.get("paramlist");
     
     m_prefix = properties.get("paramprefix");
     m_default = ColorParameter::stringToColor(QString(properties.get("default")).remove(m_prefix));

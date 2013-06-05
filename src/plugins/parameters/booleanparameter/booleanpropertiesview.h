@@ -21,7 +21,7 @@ class BooleanPropertiesView : public QWidget
 
 public:
     BooleanPropertiesView(const QString &name, bool value, const QString &comment, QWidget *parent);
-    ~BooleanPropertiesView() {};
+    ~BooleanPropertiesView() {}
 
 public slots:
     /** @brief Sets the value to @param value. */

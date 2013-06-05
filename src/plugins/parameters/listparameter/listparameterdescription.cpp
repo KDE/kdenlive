@@ -31,7 +31,7 @@ ListParameterDescription::~ListParameterDescription()
 {
 }
 
-void ListParameterDescription::init(QDomElement parameter, QLocale locale)
+void ListParameterDescription::init(const QDomElement &parameter, const QLocale &locale)
 {
     AbstractParameterDescription::init(parameter, locale);
 
@@ -70,7 +70,7 @@ void ListParameterDescription::init(QDomElement parameter, QLocale locale)
     }
 }
 
-void ListParameterDescription::init(Mlt::Properties& properties, QLocale locale)
+void ListParameterDescription::init(Mlt::Properties& properties, const QLocale &locale)
 {
     AbstractParameterDescription::init(properties, locale);
     QString itemsString = properties.get("paramlist");

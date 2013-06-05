@@ -53,14 +53,14 @@ public:
      * In most cases you want call this version from your reimplementation since it sets name,
      * displayed name and comment. It also flags the description as valid.
      */
-    virtual void init(QDomElement parameter, QLocale locale);
+    virtual void init(const QDomElement &parameter, const QLocale &locale);
     /**
      * @brief Initializes the description based on MLT metadata.
      * @param properties the properties containing the metadata
      * @param locale the current locale in use
      * @see init(QDomElement parameter, QLocale locale)
      */
-    virtual void init(Mlt::Properties &properties, QLocale locale);
+    virtual void init(Mlt::Properties &properties, const QLocale &locale);
 
     /**
      * @brief Should create and return a parameter object based on this description.

@@ -21,8 +21,8 @@ class DoublePropertiesView : public QWidget
     Q_OBJECT
 
 public:
-    DoublePropertiesView(const QString &name, double value, double min, double max, const QString &comment, int id, const QString suffix = QString(), int decimals = 0, QWidget* parent = 0);
-    ~DoublePropertiesView() {};
+    DoublePropertiesView(const QString &name, double value, double min, double max, const QString &comment, int id, const QString &suffix = QString(), int decimals = 0, QWidget* parent = 0);
+    ~DoublePropertiesView() {}
 
 public slots:
     /** @brief Sets the value to @param value. */

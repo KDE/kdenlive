@@ -26,14 +26,14 @@ BooleanParameterDescription::BooleanParameterDescription(QObject *, const QVaria
 {
 }
 
-void BooleanParameterDescription::init(QDomElement parameter, QLocale locale)
+void BooleanParameterDescription::init(const QDomElement &parameter, const QLocale &locale)
 {
     AbstractParameterDescription::init(parameter, locale);
 
     m_default = parameter.attribute("default").toInt();
 }
 
-void BooleanParameterDescription::init(Mlt::Properties& properties, QLocale locale)
+void BooleanParameterDescription::init(Mlt::Properties& properties, const QLocale &locale)
 {
     AbstractParameterDescription::init(properties, locale);
 

@@ -22,7 +22,7 @@ class DoubleParameter : public AbstractParameter
 
 public:
     DoubleParameter(const DoubleParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
-    ~DoubleParameter() {};
+    ~DoubleParameter() {}
 
     void set(const char*data);
     double value() const;

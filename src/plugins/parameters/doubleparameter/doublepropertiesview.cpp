@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QGridLayout>
 
 
-DoublePropertiesView::DoublePropertiesView(const QString& name, double value, double min, double max, const QString& comment, int id, const QString suffix, int decimals, QWidget* parent) :
+DoublePropertiesView::DoublePropertiesView(const QString& name, double value, double min, double max, const QString& comment, int id, const QString &suffix, int decimals, QWidget* parent) :
     QWidget(parent)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);

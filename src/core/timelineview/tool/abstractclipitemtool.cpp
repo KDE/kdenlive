@@ -76,7 +76,7 @@ void AbstractClipItemTool::hoverPosition(QGraphicsSceneMouseEvent* event)
     m_scene->view()->setCursor(Qt::OpenHandCursor);
 }
 
-AbstractClipItemTool::EditingTypes AbstractClipItemTool::editMode(QPointF position)
+AbstractClipItemTool::EditingTypes AbstractClipItemTool::editMode(const QPointF &position)
 {
     double scale = m_scene->view()->scale();
     double maximumOffset = 6 / scale;

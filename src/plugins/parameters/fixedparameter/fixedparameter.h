@@ -22,7 +22,7 @@ class FixedParameter : public AbstractParameter
 
 public:
     FixedParameter(const FixedParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
-    ~FixedParameter() {};
+    ~FixedParameter() {}
 
     void set(const char *data);
     QString value() const;

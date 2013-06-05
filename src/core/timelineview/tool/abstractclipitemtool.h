@@ -48,7 +48,7 @@ protected:
     AbstractClipItemAction *m_editAction;
 
 private:
-    EditingTypes editMode(QPointF position);
+    EditingTypes editMode(const QPointF &position);
 };
 
 #endif

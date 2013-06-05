@@ -22,7 +22,7 @@ class ListParameter : public AbstractParameter
 
 public:
     ListParameter(const ListParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
-    ~ListParameter() {};
+    ~ListParameter() {}
 
     void set(const char*data);
     int currentIndex() const;

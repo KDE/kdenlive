@@ -22,7 +22,7 @@ AbstractParameterDescription::AbstractParameterDescription() :
 {
 }
 
-void AbstractParameterDescription::init(QDomElement parameter, QLocale /*locale*/)
+void AbstractParameterDescription::init(const QDomElement &parameter, const QLocale &/*locale*/)
 {
     m_valid = true;
 
@@ -43,7 +43,7 @@ void AbstractParameterDescription::init(QDomElement parameter, QLocale /*locale*
     m_comment = i18n(m_commentOrig.toUtf8());
 }
 
-void AbstractParameterDescription::init(Mlt::Properties& properties, QLocale /*locale*/)
+void AbstractParameterDescription::init(Mlt::Properties& properties, const QLocale &/*locale*/)
 {
     m_valid = true;
     m_name = properties.get("identifier");

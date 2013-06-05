@@ -22,10 +22,10 @@ class KDE_EXPORT BooleanParameterDescription : public AbstractParameterDescripti
 
 public:
     BooleanParameterDescription(QObject *, const QVariantList&);
-    ~BooleanParameterDescription() {};
+    ~BooleanParameterDescription() {}
 
-    void init(QDomElement parameter, QLocale locale);
-    void init(Mlt::Properties &properties, QLocale locale);
+    void init(const QDomElement &parameter, const QLocale &locale);
+    void init(Mlt::Properties &properties, const QLocale &locale);
 
     AbstractParameter *createParameter(AbstractParameterList *parent, const QString &value = QString()) const;
 

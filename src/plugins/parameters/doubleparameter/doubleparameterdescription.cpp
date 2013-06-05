@@ -31,7 +31,7 @@ DoubleParameterDescription::~DoubleParameterDescription()
 {
 }
 
-void DoubleParameterDescription::init(QDomElement parameter, QLocale locale)
+void DoubleParameterDescription::init(const QDomElement &parameter, const QLocale &locale)
 {
     AbstractParameterDescription::init(parameter, locale);
 
@@ -44,7 +44,7 @@ void DoubleParameterDescription::init(QDomElement parameter, QLocale locale)
     m_suffix = parameter.attribute("suffix");
 }
 
-void DoubleParameterDescription::init(Mlt::Properties& properties, QLocale locale)
+void DoubleParameterDescription::init(Mlt::Properties& properties, const QLocale &locale)
 {
     AbstractParameterDescription::init(properties, locale);
 

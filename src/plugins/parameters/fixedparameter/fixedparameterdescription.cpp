@@ -30,14 +30,14 @@ FixedParameterDescription::~FixedParameterDescription()
 }
 
 
-void FixedParameterDescription::init(QDomElement parameter, QLocale locale)
+void FixedParameterDescription::init(const QDomElement &parameter, const QLocale &locale)
 {
     AbstractParameterDescription::init(parameter, locale);
 
     m_value = parameter.attribute("value");
 }
 
-void FixedParameterDescription::init(Mlt::Properties& properties, QLocale locale)
+void FixedParameterDescription::init(Mlt::Properties& properties, const QLocale &locale)
 {
     AbstractParameterDescription::init(properties, locale);
 
