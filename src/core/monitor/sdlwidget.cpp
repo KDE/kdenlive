@@ -377,3 +377,5 @@ void SDLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList 
         delete frame;
     }
 }
+
+#include "sdlwidget.moc"
