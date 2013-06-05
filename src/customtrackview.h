@@ -90,10 +90,10 @@ public:
     void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false);
     /** @brief Enable / disable a list of effects */
     void updateEffectState(int track, GenTime pos, QList <int> effectIndexes, bool disable, bool updateEffectStack);
-    void moveEffect(int track, GenTime pos, QList <int> oldPos, QList <int> newPos);
+    void moveEffect(int track, const GenTime &pos, const QList<int> &oldPos, const QList<int> &newPos);
     void addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh);
     void deleteTransition(const ItemInfo &transitionInfo, int endTrack, QDomElement params, bool refresh);
-    void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition, bool updateTransitionWidget);
+    void updateTransition(int track, const GenTime &pos,  const QDomElement &oldTransition, const QDomElement &transition, bool updateTransitionWidget);
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();
@@ -117,7 +117,7 @@ public:
     QList<ItemInfo> findId(const QString &clipId);
     void clipStart();
     void clipEnd();
-    void doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
+    void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
     /** @brief Sets the document as modified. */
     void setDocumentModified();
     void setInPoint();
