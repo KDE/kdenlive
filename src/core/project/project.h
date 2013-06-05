@@ -118,6 +118,7 @@ private:
     QDomElement convertMltPlaylist(QDomDocument &document);
     QString getXmlProperty(QDomElement producer, QString propertyName);
     void updateClipCounter(const QDomNodeList clips);
+    bool upgradeDocument(QDomElement &kdenliveDoc);
 
     KUrl m_url;
     KUrl m_projectFolder;

@@ -26,6 +26,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUndoStack>
 #include <KLocale>
 #include <KFileDialog>
+#include <KApplication>
 #include <KMessageBox>
 
 #include <KDebug>
@@ -136,6 +137,12 @@ void Project::openFile()
 
         if (success) {
             QDomElement kdenliveDoc = document.documentElement().firstChildElement("kdenlivedoc");
+	    // Make some compatibility checks
+	    if (!upgradeDocument(kdenliveDoc)) {
+		KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to open project %1").arg(m_url.path()));
+		openNew();
+		return;
+	    }
 	    // Remove the kdenlivedoc info before passing playlist to MLT
 	    document.documentElement().removeChild(kdenliveDoc);
 	    loadTimeline(document.toString());
@@ -153,6 +160,17 @@ void Project::openFile()
     } else {
         kWarning() << "not able to access " << m_url.path();
     }
+}
+
+bool Project::upgradeDocument(QDomElement &kdenliveDoc)
+{
+    if (kdenliveDoc.isNull()) {
+	// Probably an MLT playlist, allow direct opening
+	return true;
+    }
+    double version = kdenliveDoc.attribute("version").toDouble();
+    if (version < 0.90) return false;
+    return true;
 }
 
 
@@ -282,7 +300,7 @@ QDomDocument Project::toXml() const
     document.setContent(m_timeline->toXml(), false);
 
     QDomElement kdenliveDoc = document.createElement("kdenlivedoc");
-
+    kdenliveDoc.setAttribute("version", "0.90");
     kdenliveDoc.appendChild(m_bin->toXml(document));
     kdenliveDoc.appendChild(saveSettings(document));
 
