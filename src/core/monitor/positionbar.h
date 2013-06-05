@@ -55,7 +55,7 @@ public:
     /** @brief Sets the ruler zone
      *. @param zone the new zone
      */
-    void setZone(QPoint zone);
+    void setZone(const QPoint &zone);
 
 public slots:
     /** @brief Updates the length in frames to show. 
@@ -74,7 +74,7 @@ public slots:
      *  @param img the thumbnail image
      * 
      */
-    void slotSetThumbnail(int position, QImage img);
+    void slotSetThumbnail(int position, const QImage &img);
 
 signals:
     /** @brief Playhead position was changed, inform others.

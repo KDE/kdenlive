@@ -27,7 +27,7 @@
 
 VideoContainer::VideoContainer(QWidget *parent) :
     QFrame(parent)
-    //, m_monitor(monitor)
+  //, m_monitor(monitor)
 {
     setFrameShape(QFrame::NoFrame);
     //setFocusPolicy(Qt::ClickFocus);
@@ -41,8 +41,8 @@ VideoContainer::VideoContainer(QWidget *parent) :
 void VideoContainer::mouseReleaseEvent(QMouseEvent * event)
 {
     if (event->button() != Qt::RightButton) {
-	emit switchPlay();
-	kDebug()<<"/ / / //  /AAAARGH / // / / / / /";
+        emit switchPlay();
+        kDebug()<<"/ / / //  /AAAARGH / // / / / / /";
         /*if (m_monitor->isActive()) {
             m_monitor->slotPlay();
         }*/
@@ -79,7 +79,7 @@ void VideoContainer::mouseMoveEvent(QMouseEvent* event)
 {
     if (event->modifiers() == Qt::ShiftModifier) {
         emit seekTo((double) event->x() / width());
-	event->accept();
+        event->accept();
         return;
     }
     QFrame::mouseMoveEvent(event);
@@ -210,11 +210,11 @@ int SDLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
 void SDLWidget::reStart2()
 {
     if (!m_consumer->is_stopped()) {
-	m_consumer->stop();
-	Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
-	m_consumer->wait_for(event);
-	m_consumer->purge();
-	delete event;
+        m_consumer->stop();
+        Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
+        m_consumer->wait_for(event);
+        m_consumer->purge();
+        delete event;
     }
     m_consumer->start();
     refreshConsumer();
@@ -234,10 +234,10 @@ void SDLWidget::seek(int position)
 void SDLWidget::pause()
 {
     if (!m_consumer->is_stopped()) {
-	m_consumer->stop();
-	Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
-	m_consumer->wait_for(event);
-	m_consumer->purge();
+        m_consumer->stop();
+        Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
+        m_consumer->wait_for(event);
+        m_consumer->purge();
     }
     MltController::pause();
 }
@@ -246,9 +246,9 @@ void SDLWidget::slotGetThumb(ProducerWrapper *producer, int position)
 {
     //setUpdatesEnabled(false);
     if (!m_producer || m_producer->get_speed() != 0) {
-	// No thumbnail when playing
-	emit gotThumb(position, QImage());
-	return;
+        // No thumbnail when playing
+        emit gotThumb(position, QImage());
+        return;
     }
 
     QImage result = MltController::thumb(producer, position);
@@ -271,7 +271,7 @@ int SDLWidget::reconfigure(bool isMulti)
     QString serviceName = "sdl_preview";
     //QString serviceName = property("mlt_service").toString();
     if (!m_consumer || !m_consumer->is_valid()) {
-	if (!m_videoSurface) createVideoSurface();
+        if (!m_videoSurface) createVideoSurface();
         if (serviceName.isEmpty())
             serviceName = "sdl_preview";
         if (isMulti)
@@ -303,7 +303,7 @@ int SDLWidget::reconfigure(bool isMulti)
         }
         else {
             // Embed the SDL window in our GUI.
-	  //kDebug()<<"// SURFACE ID: "<<this->winId();
+            //kDebug()<<"// SURFACE ID: "<<this->winId();
             m_consumer->set("window_id", (int) m_videoSurface->winId());
             // Set the background color
             m_consumer->set("window_background", KdenliveSettings::window_background().name().toAscii().constData());
@@ -311,10 +311,10 @@ int SDLWidget::reconfigure(bool isMulti)
             //    m_consumer->set("progressive", property("progressive").toBool());
             //m_consumer->set("rescale", property("rescale").toString().toAscii().constData());
             //m_consumer->set("deinterlace_method", property("deinterlace_method").toString().toAscii().constData());
-	    m_consumer->set("progressive", 1);
-	    m_consumer->set("resize", 1);
-	    m_consumer->set("terminate_on_pause", 1);
-	    m_consumer->set("rescale", "nearest");
+            m_consumer->set("progressive", 1);
+            m_consumer->set("resize", 1);
+            m_consumer->set("terminate_on_pause", 1);
+            m_consumer->set("rescale", "nearest");
             m_consumer->set("scrub_audio", 1);
         }
         // Connect the producer to the consumer - tell it to "run" later
@@ -365,15 +365,15 @@ void SDLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList 
 {
     // Position might be negative to indicate the in point on the imageRendered signal.
     if (width == -1) {
-	height = 100;
-	width = height * profile().dar();
+        height = 100;
+        width = height * profile().dar();
     }
     while (!positions.isEmpty()) {
-	int position = positions.takeFirst();
-	producer->seek(qAbs(position));
-	Mlt::Frame* frame = producer->get_frame();
-	QImage image = MltController::image(frame, width, height);
-	emit imageRendered(id, position, image);
-	delete frame;
+        int position = positions.takeFirst();
+        producer->seek(qAbs(position));
+        Mlt::Frame* frame = producer->get_frame();
+        QImage image = MltController::image(frame, width, height);
+        emit imageRendered(id, position, image);
+        delete frame;
     }
 }

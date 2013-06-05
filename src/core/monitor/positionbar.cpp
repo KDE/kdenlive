@@ -95,7 +95,7 @@ void PositionBar::mouseReleaseEvent(QMouseEvent* event)
     m_hoverMarker = -1;
 }
 
-void PositionBar::slotSetThumbnail(int position, QImage img)
+void PositionBar::slotSetThumbnail(int position, const QImage &img)
 {
     if (img.isNull()) {
 	setToolTip(Timecode(position).formatted());
@@ -274,10 +274,12 @@ void PositionBar::updateBackground()
     update();
 }
 
-void PositionBar::setZone(QPoint zone)
+void PositionBar::setZone(const QPoint &zone)
 {
-    m_zone = zone;
-    update();
+    if (m_zone != zone) {
+        m_zone = zone;
+        update();
+    }
 }
 
 void PositionBar::adjustScale()
