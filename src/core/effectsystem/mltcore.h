@@ -50,6 +50,11 @@ public:
      */
     QList <DISPLAYMODE> availableDisplayModes() const;
     /**
+     * @brief returns the display name of requested DISPLAYMODE.
+     * @param mode the mode for which we want a name
+     */
+    const QString &getDisplayName(DISPLAYMODE mode) const;
+    /**
      * @brief returns the global MLT repository
      */
     Mlt::Repository *repository();

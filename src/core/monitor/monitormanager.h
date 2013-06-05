@@ -49,10 +49,16 @@ public:
      *  @param id the requested MONITORID (ClipMonitor, ProjectMonitor,..)
      */
     void requestActivation(MONITORID id);
-    /** @brief Is this DISPLAYMODE supported on the system.
-     *  @param mode the requested DISPLAYMODE
+    /** @brief Returns a list of supported DISPLAYMODES (MLTOPENGL, MLTSDL,...)
      */
-    bool isSupported(DISPLAYMODE mode);
+    QList <DISPLAYMODE> supportedDisplayModes();
+    /** @brief Is this DISPLAYMODE supported on the system
+     *  @param mode the mode we want to test
+     */
+    bool isSupported(DISPLAYMODE mode) const;
+    /** @brief Returns the display name of a DISPLAYMODE.
+     */
+    const QString &getDisplayName(DISPLAYMODE mode) const;
     /** @brief Is this DISPLAYMODE available on the system. For example in a 2 monitors config, only one GLSL display is allowed
      *  @param mode the requested DISPLAYMODE
      */

@@ -84,12 +84,20 @@ MonitorManager::MonitorManager(QObject* parent) :
 }
 
 
-bool MonitorManager::isSupported(DISPLAYMODE mode)
+QList <DISPLAYMODE> MonitorManager::supportedDisplayModes()
 {
-    // TODO: check 
+    return pCore->mltCore()->availableDisplayModes();
+}
+
+bool MonitorManager::isSupported(DISPLAYMODE mode) const
+{
     QList <DISPLAYMODE> modes = pCore->mltCore()->availableDisplayModes();
-    if (modes.isEmpty() || !modes.contains(mode)) return false;
-    return true;
+    return modes.contains(mode);
+}
+
+const QString &MonitorManager::getDisplayName(DISPLAYMODE mode) const
+{
+    return pCore->mltCore()->getDisplayName(mode);
 }
 
 bool MonitorManager::isAvailable(DISPLAYMODE mode)

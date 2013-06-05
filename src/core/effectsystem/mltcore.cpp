@@ -75,6 +75,29 @@ QList <DISPLAYMODE> MltCore::availableDisplayModes() const
     return m_availableDisplayModes;
 }
 
+const QString &MltCore::getDisplayName(DISPLAYMODE mode) const
+{
+    QString result;
+    switch (mode) {
+      case MLTOPENGL:
+	  result = i18n("OpenGL");
+	  break;
+      case MLTGLSL:
+	  result = i18n("Accelerated GLSL");
+	  break;
+      case MLTSDL:
+	  result = i18n("SDL");
+	  break;
+      case MLTSCENE:
+	  result = i18n("Graphic Scene");
+	  break;
+      default:
+	  result = i18n("Unknown");
+	  break;
+    }
+    return result;
+}
+
 // TODO: comment on repository->filters()->get_name() vs. metadata identifier
 void MltCore::initRepository()
 {

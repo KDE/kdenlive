@@ -56,25 +56,11 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
     // Setup monitor modes
     m_monitorMode = new KSelectAction(this);
     KAction *monitorType;
-    if (pCore->monitorManager()->isSupported(MLTOPENGL)) {
-	monitorType = m_monitorMode->addAction(i18n("OpenGL"));
-	monitorType->setData(MLTOPENGL);
-	if (mode == MLTOPENGL) m_monitorMode->setCurrentAction(monitorType);
-    }
-    if (pCore->monitorManager()->isSupported(MLTSDL)) {
-	monitorType = m_monitorMode->addAction(i18n("SDL"));
-	monitorType->setData(MLTSDL);
-	if (mode == MLTSDL) m_monitorMode->setCurrentAction(monitorType);
-    }
-    if (pCore->monitorManager()->isSupported(MLTGLSL)) {
-	monitorType = m_monitorMode->addAction(i18n("GLSL"));
-	monitorType->setData(MLTGLSL);
-	if (mode == MLTGLSL) m_monitorMode->setCurrentAction(monitorType);
-    }
-    if (pCore->monitorManager()->isSupported(MLTSCENE)) {
-	monitorType = m_monitorMode->addAction(i18n("Scene Mode"));
-	monitorType->setData(MLTSCENE);
-	if (mode == MLTSCENE) m_monitorMode->setCurrentAction(monitorType);
+    QList <DISPLAYMODE> modes = pCore->monitorManager()->supportedDisplayModes();
+    for(int i = 0; i < modes.count(); ++i) {
+	monitorType = m_monitorMode->addAction(pCore->monitorManager()->getDisplayName(modes.at(i)));
+	monitorType->setData(modes.at(i));
+	if (mode == modes.at(i)) m_monitorMode->setCurrentAction(monitorType);
     }
     
     m_infoMessage = new KMessageWidget(this);
@@ -592,43 +578,13 @@ void MonitorView::toggleMonitorMode(DISPLAYMODE mode, bool checkAvailability)
     if (checkAvailability) {
 	m_infoMessage->hide();
 	if (!pCore->monitorManager()->isSupported((DISPLAYMODE) mode)) {
-	    QString message;
-	    switch (mode) {
-	      case MLTSDL:
-		  message = "SDL";
-		  break;
-	      case MLTGLSL:
-		  message = "GPU accelerated GLSL";
-		  break;
-	      case MLTOPENGL:
-	      case MLTSCENE:
-		  message = "OpenGL";
-		  break;
-	      default:
-		  message = "unknown";
-	    }
-	    m_infoMessage->setText(i18n("The video mode <b>%1</b> is not available on your system", message));
+	    m_infoMessage->setText(i18n("The video mode <b>%1</b> is not available on your system", pCore->monitorManager()->getDisplayName(mode)));
 	    m_infoMessage->show();
 	    m_monitorMode->setCurrentItem(m_controller->displayType());
 	    return;
 	}
 	if (!pCore->monitorManager()->isAvailable((DISPLAYMODE) mode)) {
-	    QString message;
-	    switch (mode) {
-	      case MLTSDL:
-		  message = "SDL";
-		  break;
-	      case MLTGLSL:
-		  message = "GPU accelerated GLSL";
-		  break;
-	      case MLTOPENGL:
-	      case MLTSCENE:
-		  message = "OpenGL";
-		  break;
-	      default:
-		  message = "unknown";
-	    }
-	    m_infoMessage->setText(i18n("Only one <b>%1</b> monitor can be used", message));
+	    m_infoMessage->setText(i18n("Only one <b>%1</b> monitor can be used", pCore->monitorManager()->getDisplayName(mode)));
 	    m_infoMessage->show();
 	    m_monitorMode->setCurrentItem(m_controller->displayType());
 	    return;

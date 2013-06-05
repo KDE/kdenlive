@@ -209,13 +209,13 @@ int SDLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
 
 void SDLWidget::reStart2()
 {
-    //Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
     if (!m_consumer->is_stopped()) {
 	m_consumer->stop();
-	//m_consumer->wait_for(event);
+	Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
+	m_consumer->wait_for(event);
 	m_consumer->purge();
+	delete event;
     }
-    //delete event;
     m_consumer->start();
     refreshConsumer();
 }
@@ -233,8 +233,12 @@ void SDLWidget::seek(int position)
 
 void SDLWidget::pause()
 {
-    if (!m_consumer->is_stopped()) 
+    if (!m_consumer->is_stopped()) {
 	m_consumer->stop();
+	Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
+	m_consumer->wait_for(event);
+	m_consumer->purge();
+    }
     MltController::pause();
 }
 
