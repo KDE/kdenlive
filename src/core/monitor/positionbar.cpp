@@ -91,8 +91,21 @@ void PositionBar::mousePressEvent(QMouseEvent* event)
 void PositionBar::mouseReleaseEvent(QMouseEvent* event)
 {
     event->accept();
+    if (m_activeControl == CONTROL_IN || m_activeControl == CONTROL_OUT) {
+	prepareMarks();
+    }
     m_activeControl = CONTROL_NONE;
     m_hoverMarker = -1;
+}
+
+void PositionBar::prepareMarks()
+{
+    QMap <int, QString> marks;
+    if (!m_zone.isNull()) {
+	marks.insert(-m_zone.x(), i18n("Zone In"));
+	marks.insert(-m_zone.y(), i18n("Zone Out"));
+    }
+    emit marksChanged(marks);
 }
 
 void PositionBar::slotSetThumbnail(int position, const QImage &img)
@@ -278,6 +291,7 @@ void PositionBar::setZone(const QPoint &zone)
 {
     if (m_zone != zone) {
         m_zone = zone;
+	prepareMarks();
         update();
     }
 }

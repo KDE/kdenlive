@@ -53,6 +53,7 @@ public:
 public slots:
     void showFrame(Mlt::QFrame);
     void slotGetThumb(ProducerWrapper *producer, int position);
+    void slotSetMarks(QMap <int,QString> marks);
 
 signals:
     /** This method will be called each time a new frame is available.
@@ -82,8 +83,10 @@ private:
     bool m_isInitialized;
     mlt_image_format m_image_format;
     bool m_showPlay;
-    QString m_overlay;
+    QString m_overlayText;
+    QColor m_overlayColor;
     Qt::WindowFlags m_baseFlags;
+    QRectF m_overlayZone;
     GLuint cubeTexture[1];
     void resizeViewPort();
     void switchFullScreen();

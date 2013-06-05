@@ -21,6 +21,7 @@
 
 #include <QImage>
 #include <QMutex>
+#include <QMap>
 #include <mlt++/Mlt.h>
 #include <kdemacros.h>
 //#include "transportcontrol.h"
@@ -155,6 +156,7 @@ protected:
      */
     bool m_isActive;
     bool m_isLive;
+    QMap <int,QString> m_markers;
     QMutex m_mutex;
 
 private:
