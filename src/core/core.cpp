@@ -106,3 +106,5 @@ PluginManager* Core::pluginManager()
     return m_pluginManager;
 }
 
+
+#include "core.moc"

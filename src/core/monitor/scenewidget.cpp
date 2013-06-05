@@ -430,3 +430,5 @@ void SceneWidget::on_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr)
     Mlt::Frame frame(frame_ptr);
     emit widget->frameReceived(Mlt::QFrame(frame));
 }
+
+#include "scenewidget.moc"

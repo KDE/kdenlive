@@ -35,3 +35,5 @@ void PluginManager::load()
         }
     }
 }
+
+#include "pluginmanager.moc"

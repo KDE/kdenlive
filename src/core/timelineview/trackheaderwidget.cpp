@@ -92,3 +92,5 @@ void TrackHeaderWidget::setButtonState(QToolButton* button, bool isChecked, cons
     }
     button->blockSignals(false);
 }
+
+#include "trackheaderwidget.moc"

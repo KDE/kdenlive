@@ -192,3 +192,5 @@ void AudioSignal::slotSwitchAudioMonitoring(bool)
 {
     emit updateAudioMonitoring();
 }
+
+#include "audiosignal.moc"

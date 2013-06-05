@@ -687,3 +687,5 @@ void TransportControl::setOut(int out)
 }
 
 
+
+#include "mltcontroller.moc"

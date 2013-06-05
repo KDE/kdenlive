@@ -53,3 +53,5 @@ void AbstractClipItemAction::mousePress(QGraphicsSceneMouseEvent* event)
 void AbstractClipItemAction::mouseRelease(QGraphicsSceneMouseEvent* event)
 {
 }
+
+#include "abstractclipitemaction.moc"

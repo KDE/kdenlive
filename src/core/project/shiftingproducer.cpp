@@ -55,3 +55,5 @@ QStringList ShiftingProducer::registeredProperties() const
 {
     return m_registeredProperties;
 }
+
+#include "shiftingproducer.moc"

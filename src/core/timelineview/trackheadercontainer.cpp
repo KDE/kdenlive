@@ -57,3 +57,5 @@ void TrackHeaderContainer::adjustHeight(int min, int max)
 {
     m_container->layout()->setContentsMargins(0, 0, 0, (max > 0) * QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent));
 }
+
+#include "trackheadercontainer.moc"

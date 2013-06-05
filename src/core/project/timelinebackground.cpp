@@ -51,3 +51,5 @@ void TimelineBackground::onTimelineDurationChange()
     m_playlist->resize_clip(0, 0, timelineDuration - 1);
     delete clip;
 }
+
+#include "timelinebackground.moc"

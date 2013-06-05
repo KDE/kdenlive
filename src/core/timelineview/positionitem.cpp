@@ -37,3 +37,5 @@ void PositionItem::setHeight(int height)
 {
     setLine(x(), 0, x(), height);
 }
+
+#include "positionitem.moc"

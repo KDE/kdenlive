@@ -324,3 +324,5 @@ QString TimecodeFormatter::fillMask(int hours, int minutes, int seconds, int las
     return timecode;
 }
 
+
+#include "timecodeformatter.moc"

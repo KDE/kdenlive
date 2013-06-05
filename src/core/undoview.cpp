@@ -29,3 +29,5 @@ void UndoView::setProject(Project* project)
 {
     setStack(project->undoStack());
 }
+
+#include "undoview.moc"

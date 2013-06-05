@@ -42,3 +42,5 @@ void ToolManager::setActiveTool(SceneTool* tool)
 {
     m_activeTool = tool;
 }
+
+#include "toolmanager.moc"

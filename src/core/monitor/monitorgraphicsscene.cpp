@@ -369,3 +369,5 @@ void MonitorGraphicsScene::slotResized()
     return QObject::eventFilter(object, event);
     
 }*/
+
+#include "monitorgraphicsscene.moc"

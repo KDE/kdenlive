@@ -158,3 +158,5 @@ void BinModel::emitItemUpdated(AbstractProjectItem* item)
     emit itemUpdated(item);
 }
 
+
+#include "binmodel.moc"

@@ -39,3 +39,5 @@ void ImageTimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF expos
 	painter->drawRect(exposed);
     }
 }
+
+#include "imagetimelineclipitem.moc"

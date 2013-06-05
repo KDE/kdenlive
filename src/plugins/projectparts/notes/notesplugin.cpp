@@ -63,3 +63,5 @@ void NotesPlugin::seekProject(int position)
 {
     pCore->projectManager()->current()->timelineMonitor()->controller()->transportControl()->seek(position);
 }
+
+#include "notesplugin.moc"

@@ -337,3 +337,5 @@ void PositionBar::adjustScale()
 
     updateBackground();
 }
+
+#include "positionbar.moc"

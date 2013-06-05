@@ -98,3 +98,5 @@ void AbstractClipItemTool::slotActionFinished()
     m_editAction = 0;
     m_editMode = NoEditing;
 }
+
+#include "abstractclipitemtool.moc"

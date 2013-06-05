@@ -29,3 +29,5 @@ void AbstractProjectPart::setModified()
 {
     emit modified();
 }
+
+#include "abstractprojectpart.moc"
