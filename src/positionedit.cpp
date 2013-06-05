@@ -17,7 +17,7 @@
 
 #include "positionedit.h"
 #include "timecodedisplay.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 

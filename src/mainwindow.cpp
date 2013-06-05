@@ -20,7 +20,7 @@
 
 #include "mainwindow.h"
 #include "mainwindowadaptor.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "kdenlivesettingsdialog.h"
 #include "initeffects.h"
 #include "profilesdialog.h"
@@ -166,6 +166,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_stopmotion(NULL),
     m_mainClip(NULL)
 {
+//     m_effectRepository = new EffectRepository();
+
     qRegisterMetaType<QVector<int16_t> > ();
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
@@ -217,7 +219,27 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // FIXME: the next call returns a newly allocated object, which leaks
     initEffects::parseEffectFiles();
     //initEffects::parseCustomEffectsFile();
+
+//     eventInit();
+
     
+
+    m_cpm = new ClipPluginManager();
+    QDockWidget *binDock = new QDockWidget(i18n("Bin"), this);
+    binDock->setObjectName("bin");
+    m_bin = new Bin();
+    binDock->setWidget(m_bin);
+    addDockWidget(Qt::TopDockWidgetArea, binDock);
+
+    m_project = new Project(Url, m_cpm);
+    m_bin->setProject(m_project);
+
+    QDockWidget *timelineTest = new QDockWidget(i18n("Timeline"), this);
+    timelineTest->setObjectName("timeline_test");
+    TimelineScene *scene = new TimelineScene(m_project->timeline(), this);//static_cast<QObject*>(this));
+    QGraphicsView *viewT = new QGraphicsView(scene, timelineTest);
+    timelineTest->setWidget(viewT);
+    addDockWidget(Qt::BottomDockWidgetArea, timelineTest);
     m_monitorManager = new MonitorManager();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
@@ -225,6 +247,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
 
     /// Add Widgets ///
+
+    QDockWidget *effDock = new QDockWidget(i18n("EffStack3"), this);
+    effDock->setObjectName("effDoc");
+    m_eff = new QWidget();
+    QVBoxLayout *l = new QVBoxLayout(m_eff);
+    effDock->setWidget(m_eff);
+    addDockWidget(Qt::TopDockWidgetArea, effDock);
 
     m_projectListDock = new QDockWidget(i18n("Project Tree"), this);
     m_projectListDock->setObjectName("project_tree");
@@ -719,6 +748,11 @@ MainWindow::~MainWindow()
     delete[] m_transitions;
     delete m_monitorManager;
     delete m_scopeManager;
+
+    delete m_project;
+    delete m_cpm;
+    delete m_eff;
+//     delete m_effectRepository;
     Mlt::Factory::close();
 }
 
@@ -2630,6 +2664,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(refreshClip(QString)), m_activeTimeline->projectView(), SLOT(slotRefreshThumbs(QString)));
             disconnect(m_projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
             m_effectStack->clear();
+
+//             disconnect(m_activeTimeline->projectView(), SIGNAL(getDevNeeded(EffectRepository*&, QWidget*&)), this, SLOT(slotGetDevNeeded(EffectRepository*&, QWidget*&)));
         }
         //m_activeDocument->setRenderer(NULL);
         m_clipMonitor->stop();
@@ -2751,6 +2787,12 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_monitorManager->activateMonitor(Kdenlive::clipMonitor, true);
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
+}
+
+void MainWindow::slotGetDevNeeded(EffectRepository *&repository, QWidget *&widget)
+{
+//     repository = m_effectRepository;
+//     widget = m_eff;
 }
 
 void MainWindow::slotZoneMoved(int start, int end)

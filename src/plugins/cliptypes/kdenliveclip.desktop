@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=ServiceType
+X-KDE-ServiceType=Kdenlive/Clip
+Name=Kdenlive Clip
+
+[PropertyDef::X-Kdenlive-ProvidedProducers]
+Type=QStringList

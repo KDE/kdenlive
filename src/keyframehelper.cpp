@@ -19,7 +19,7 @@
 
 
 #include "keyframehelper.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "definitions.h"
 
 #include <KDebug>
@@ -93,6 +93,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
                     } else {
                         m_extraMovingItems.append(NULL);
                     }
+                    else m_extraMovingItems.append(NULL);
                 }
                 
                 m_dragStart = event->pos();

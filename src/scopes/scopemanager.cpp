@@ -14,7 +14,7 @@
 
 #include "definitions.h"
 #include "monitormanager.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 //#define DEBUG_SM
 #ifdef DEBUG_SM

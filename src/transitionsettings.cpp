@@ -21,7 +21,7 @@
 #include "transition.h"
 #include "effectslist.h"
 #include "effectstackedit.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitoreditwidget.h"
 #include "monitorscene.h"
@@ -245,13 +245,13 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
 {
     if (!isEnabled()) return;
     if (m_effectEdit->needsMonitorEffectScene()) {
-        if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
-            if (!m_effectEdit->monitor()->effectSceneDisplayed()) {
-                m_effectEdit->monitor()->slotShowEffectScene(true);
-            }
-        } else {
-            m_effectEdit->monitor()->slotShowEffectScene(false);
-        }
+	if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
+	    if (!m_effectEdit->monitor()->effectSceneDisplayed()) {
+		m_effectEdit->monitor()->slotShowEffectScene(true);
+	    }
+	} else {
+	    m_effectEdit->monitor()->slotShowEffectScene(false);
+	}
     }
     else {
         m_effectEdit->monitor()->slotShowEffectScene(false);

@@ -17,7 +17,7 @@
 
 #include "geometryval.h"
 #include "graphicsscenerectmove.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 

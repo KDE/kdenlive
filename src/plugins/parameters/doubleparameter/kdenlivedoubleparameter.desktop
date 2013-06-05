@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Parameter
+Name=Double Parameter
+X-KDE-PluginInfo-Name=kdenlivedoubleparameter
+X-KDE-Library=kdenlivedoubleparameter
+X-Kdenlive-ParameterType=double,constant,integer,float

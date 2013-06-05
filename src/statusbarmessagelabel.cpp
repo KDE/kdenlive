@@ -22,7 +22,7 @@
  ***************************************************************************/
 
 #include "statusbarmessagelabel.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <kcolorscheme.h>
 #include <kiconloader.h>

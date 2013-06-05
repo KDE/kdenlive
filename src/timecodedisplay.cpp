@@ -18,7 +18,7 @@
 */
 
 #include "timecodedisplay.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <QLineEdit>
 #include <QValidator>

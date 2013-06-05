@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="selecttool" version="2"
+     xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
+                         http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd" >
+ 
+  <MenuBar>
+    <Menu name="tools">
+      <Action name="select_tool" />
+    </Menu>
+  </MenuBar>
+
+</gui>

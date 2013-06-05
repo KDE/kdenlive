@@ -19,7 +19,7 @@
 
 
 #include "choosecolorwidget.h"
-#include "colorpickerwidget.h"
+#include "core/widgets/colorpickerwidget.h"
 
 #include <QLabel>
 #include <QHBoxLayout>

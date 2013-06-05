@@ -19,7 +19,7 @@
 #include "splineitem.h"
 #include "bpointitem.h"
 #include "nearestpoint.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <QGraphicsScene>
 #include <QCursor>

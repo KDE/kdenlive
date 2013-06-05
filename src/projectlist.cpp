@@ -23,7 +23,7 @@
 #include "projecttree/proxyclipjob.h"
 #include "projecttree/cutclipjob.h"
 #include "projecttree/meltjob.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "slideshowclip.h"
 #include "ui_colorclip_ui.h"
 #include "titlewidget.h"

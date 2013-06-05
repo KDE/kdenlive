@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Parameter
+Name=List Parameter
+X-KDE-PluginInfo-Name=kdenlivelistparameter
+X-KDE-Library=kdenlivelistparameter
+X-Kdenlive-ParameterType=list

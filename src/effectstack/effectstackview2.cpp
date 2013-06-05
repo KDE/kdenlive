@@ -25,7 +25,7 @@
 #include "kthumb.h"
 #include "monitoreditwidget.h"
 #include "monitorscene.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "collapsibleeffect.h"
 #include "collapsiblegroup.h"
 

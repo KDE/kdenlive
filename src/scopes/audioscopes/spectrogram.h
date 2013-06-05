@@ -29,7 +29,7 @@
 
 #include "abstractaudioscopewidget.h"
 #include "ui_spectrogram_ui.h"
-#include "lib/audio/fftTools.h"
+#include "nolib/audio/fftTools.h"
 
 class Spectrogram_UI;
 class Spectrogram : public AbstractAudioScopeWidget {

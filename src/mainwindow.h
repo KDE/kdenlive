@@ -51,6 +51,9 @@
 #include "noteswidget.h"
 #include "ui_backupdialog_ui.h"
 
+class Bin;
+class ClipPluginManager;
+class Project;
 class KdenliveDoc;
 class TrackView;
 class MonitorManager;
@@ -78,6 +81,8 @@ class KActionCollection;
 class AudioSignal;
 class AudioSpectrum;
 class Spectrogram;
+
+class EffectRepository;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -114,6 +119,9 @@ public:
     /** @brief Cache for luma files thumbnails. */
     static QMap <QString,QImage> m_lumacache;
 
+    QWidget *m_eff;
+    EffectRepository *m_effectRepository;
+
 protected:
 
     /** @brief Closes the window.
@@ -141,6 +149,13 @@ protected:
     virtual void readProperties(const KConfigGroup &config);
 
 private:
+    Project *m_project;
+    ClipPluginManager *m_cpm;
+    Bin *m_bin;
+    
+    
+    
+    
     KTabWidget* m_timelineArea;
     QProgressBar *m_statusProgressBar;
 
@@ -570,6 +585,9 @@ private slots:
     void slotSetDeinterlacer(int ix);
     /** @brief Set MLT's consumer interpolation method */
     void slotSetInterpolation(int ix);
+
+
+    void slotGetDevNeeded(EffectRepository *&repository, QWidget *&widget);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

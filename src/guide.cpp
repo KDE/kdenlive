@@ -19,7 +19,7 @@
 
 #include "guide.h"
 #include "customtrackview.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 

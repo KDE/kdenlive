@@ -21,7 +21,7 @@
 #include "recmonitor.h"
 #include "gentime.h"
 #include "mltdevicecapture.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "managecapturesdialog.h"
 #include "monitormanager.h"
 #include "monitor.h"

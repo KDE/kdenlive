@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<producer tag="ladspa.1047" library="" id="ladspa.1047" ladspaid="1047" type="audio">
+	<name>Sine Oscillator</name>
+	<description>LADSPA audio effect</description>
+	<author>Richard Furse (LADSPA example plugins)</author>
+	<parameter type="float" name="0" max="15000" min="0" default="2400" suffix="Hz">
+		<name>Frequency</name>
+	</parameter>
+	<parameter type="float" name="1" max="100" min="0" default="1">
+		<name>Amplitude</name>
+	</parameter>
+</effect>

@@ -20,7 +20,7 @@
 
 #include "markerdialog.h"
 #include "kthumb.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <QWheelEvent>
 #include <KDebug>

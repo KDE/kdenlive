@@ -37,7 +37,7 @@
 #include "commands/changespeedcommand.h"
 #include "commands/addmarkercommand.h"
 #include "commands/razorclipcommand.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "transition.h"
 #include "clipmanager.h"
 #include "renderer.h"
@@ -65,8 +65,8 @@
 #include "commands/refreshmonitorcommand.h"
 #include "profilesdialog.h"
 
-#include "lib/audio/audioEnvelope.h"
-#include "lib/audio/audioCorrelation.h"
+#include "nolib/audio/audioEnvelope.h"
+#include "nolib/audio/audioCorrelation.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -4917,6 +4917,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 int trackProducer = info.track;
                 info.track = m_document->tracksCount() - info.track;
+//                 Mlt::Service service;
                 m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer));
                 for (int i = 0; i < clip->effectsCount(); ++i) {
                     m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effect(i)), false);

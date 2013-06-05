@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Plugin
+Name=Project Notes
+X-KDE-PluginInfo-Name=kdenlivenotes
+X-KDE-Library=kdenlivenotes
+X-Kdenlive-Autoload=true

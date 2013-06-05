@@ -1,0 +1,5 @@
+File=kdenlivesettings.kcfg
+ClassName=KdenliveSettings
+Singleton=true
+Mutators=true
+Visibility=KDE_EXPORT

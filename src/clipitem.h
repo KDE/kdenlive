@@ -33,6 +33,8 @@
 #include "effectslist.h"
 #include "abstractclipitem.h"
 
+#include "core/effectsystem/effectdevice.h"
+
 class DocClipBase;
 class Transition;
 
@@ -195,6 +197,9 @@ public:
     /** @brief Get a free index value for effect group. */
     int nextFreeEffectGroupIndex() const;
 
+
+    void setupEffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *widget);
+
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
@@ -205,6 +210,11 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
+
+
+    EffectDevice *m_effectDevice;
+
+
     DocClipBase *m_clip;
     ItemInfo m_speedIndependantInfo;
     QString m_producer;

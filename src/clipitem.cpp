@@ -24,7 +24,7 @@
 #include "renderer.h"
 #include "docclipbase.h"
 #include "transition.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "kthumb.h"
 #include "profilesdialog.h"
 #ifdef USE_QJSON
@@ -123,6 +123,17 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
 }
 
 
+void ClipItem::setupEffectDevice(Mlt::Service service, EffectRepository *repository, QWidget *widget)
+{
+//     m_effectDevice = new EffectDevice(service, repository, widget);
+//     m_effectDevice->appendEffect("mute");
+//     m_effectDevice->appendEffect("frei0r.letterb0xed");
+//     m_effectDevice->appendEffect("frei0r.pr0be");
+//     m_effectDevice->appendEffect("dynamictext");
+}
+
+
+
 ClipItem::~ClipItem()
 {
     blockSignals(true);
@@ -135,6 +146,8 @@ ClipItem::~ClipItem()
         //disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
     delete m_timeLine;
+    if (m_effectDevice)
+        delete m_effectDevice;
 }
 
 ClipItem *ClipItem::clone(const ItemInfo &info) const

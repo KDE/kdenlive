@@ -19,13 +19,15 @@
  ***************************************************************************/
 
 #include "config-kdenlive.h"
-#include "mainwindow.h"
+#include "core/mainwindow.h"
 
 #include <KApplication>
 #include <KAboutData>
 #include <KDebug>
 #include <KCmdLineArgs>
-#include <KUrl> //new
+#include <KUrl>
+#include <qgl.h>
+#include <X11/Xlib.h>
 
 
 int main(int argc, char *argv[])
@@ -54,9 +56,11 @@ int main(int argc, char *argv[])
 
     KCmdLineOptions options;
     options.add("mlt-path <path>", ki18n("Set the path for MLT environment"));
-    options.add("+[file]", ki18n("Document to open")); //new
-    options.add("i <clips>", ki18n("Comma separated list of clips to add")); //new
-    KCmdLineArgs::addCmdLineOptions(options); //new
+    options.add("+[file]", ki18n("Document to open"));
+    options.add("i <clips>", ki18n("Comma separated list of clips to add"));
+    KCmdLineArgs::addCmdLineOptions(options);
+    QCoreApplication::setAttribute(Qt::AA_X11InitThreads, true);
+    //QGL::setPreferredPaintEngine( QPaintEngine::OpenGL2 );
 
     KApplication app;
     MainWindow* window = 0;
@@ -75,7 +79,7 @@ int main(int argc, char *argv[])
             ++n;
         }
     } else {
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
+        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
         QString clipsToLoad = args->getOption("i");
         QString mltPath = args->getOption("mlt-path");
         KUrl url;

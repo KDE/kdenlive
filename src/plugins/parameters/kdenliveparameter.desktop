@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=ServiceType
+X-KDE-ServiceType=Kdenlive/Parameter
+Name=Kdenlive Parameter
+
+[PropertyDef::X-Kdenlive-ParameterType]
+Type=QStringList

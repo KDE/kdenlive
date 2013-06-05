@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "wizard.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "profilesdialog.h"
 #include "renderer.h"
 #ifdef USE_V4L

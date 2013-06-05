@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Parameter
+Name=Boolean Parameter
+X-KDE-PluginInfo-Name=kdenlivebooleanparameter
+X-KDE-Library=kdenlivebooleanparameter
+X-Kdenlive-ParameterType=bool

@@ -21,6 +21,6 @@
 	<parameter type="color" name="background" default="colour:0x00000000" alpha="1" paramprefix="colour:">
 		<name>Background Color</name>
 	</parameter>
-        <parameter type="fixed" name="transition.keyed" max="1" min="1" default="1" />
-	<parameter type="fixed" name="transition.always_active" max="1" min="1" default="1" />
+        <parameter type="fixed" name="transition.keyed" value="1" />
+	<parameter type="fixed" name="transition.always_active" value="1" />
 </effect>

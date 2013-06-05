@@ -24,7 +24,7 @@
 #include "abstractclipitem.h"
 #include "monitorscene.h"
 #include "monitoreditwidget.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 #include <KLocale>

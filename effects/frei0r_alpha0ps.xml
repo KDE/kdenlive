@@ -31,7 +31,6 @@
 		    <name>Invert</name>
 	    </parameter>
     </effect>
-
     <effect LC_NUMERIC="C" tag="frei0r.alpha0ps" id="frei0r.alpha0ps" version="0.3">
 	    <name>Alpha operations</name>
 	    <description>Display and manipulation of the alpha channel</description>

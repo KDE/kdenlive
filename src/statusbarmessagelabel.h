@@ -33,7 +33,7 @@
 
 #include <definitions.h>
 
-#include "lib/qtimerWithTime.h"
+#include "nolib/qtimerWithTime.h"
 
 class QPaintEvent;
 class QResizeEvent;

@@ -25,7 +25,7 @@
 #include "recmonitor.h"
 #include "monitormanager.h"
 #include "ui_smconfig_ui.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KDebug>
 #include <KGlobalSettings>

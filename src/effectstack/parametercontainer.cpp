@@ -33,12 +33,12 @@
 #include "colortools.h"
 #include "doubleparameterwidget.h"
 #include "cornerswidget.h"
-#include "dragvalue.h"
+#include "core/widgets/dragvalue.h"
 #include "beziercurve/beziersplinewidget.h"
 #ifdef USE_QJSON
 #include "rotoscoping/rotowidget.h"
 #endif
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "profilesdialog.h"
 #include "projectlist.h"
 #include "mainwindow.h"

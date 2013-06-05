@@ -4,7 +4,7 @@
         <description>Color curves adjustment</description>
         <author>Till Theato, Maksim Golovkin</author>
 
-        <parameter type="list" name="Channel" default="0.5" paramlist="0.5;0;0.1;0.2;0.3;0.4;0.6;0.71">
+        <parameter type="list" name="Channel" default="0.5" paramlist="0.5;0;0.1;0.2;0.3;0.4;0.6;0.71" listitemtype="double">
                 <paramlistdisplay>RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation</paramlistdisplay>
                 <name>Channel</name>
         </parameter>

@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "projectsettings.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "profilesdialog.h"
 #include "docclipbase.h"
 #include "titlewidget.h"

@@ -14,7 +14,7 @@
 #include <QPoint>
 
 // For reading out the project resolution
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "profilesdialog.h"
 
 #include "waveform.h"

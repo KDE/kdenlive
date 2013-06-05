@@ -5,6 +5,9 @@ set(QT_USE_QTSVG 1)
 set(QT_USE_QTXML 1)
 
 find_package(OpenGL REQUIRED)
+
+find_package(GLEW REQUIRED)
+
 if(APPLE)
   find_package(SDL REQUIRED)
 endif(APPLE)
@@ -32,6 +35,13 @@ if(WITH_JogShuttle)
     set(BUILD_JogShuttle TRUE)
   endif(HAVE_LINUX_INPUT_H)
 endif(WITH_JogShuttle)
+
+macro_log_feature(GLEW_FOUND
+  "GLEW"
+  "OpenGL Extension Wrangler Library (GLEW)"
+  ""
+  TRUE
+)
 
 macro_log_feature(QT_QTOPENGL_FOUND
   "QtOpenGL"
@@ -79,118 +89,119 @@ macro_log_feature(QJSON_FOUND
   "Required to build the rotoscoping filter and for Freesound.org queries"
 )
 
-
-add_subdirectory(beziercurve)
-add_subdirectory(colorcorrection)
-add_subdirectory(commands)
-add_subdirectory(lib)
-add_subdirectory(projecttree)
-add_subdirectory(utils)
-add_subdirectory(databackup)
-add_subdirectory(effectstack)
-add_subdirectory(mimetypes)
-add_subdirectory(onmonitoritems)
-add_subdirectory(scopes)
-add_subdirectory(simplekeyframes)
-add_subdirectory(stopmotion)
+add_subdirectory(core)
+add_subdirectory(plugins)
+# 
+# add_subdirectory(beziercurve)
+# add_subdirectory(colorcorrection)
+# add_subdirectory(commands)
+# add_subdirectory(nolib)
+# add_subdirectory(projecttree)
+# add_subdirectory(utils)
+# add_subdirectory(databackup)
+# add_subdirectory(effectstack)
+# add_subdirectory(mimetypes)
+# add_subdirectory(onmonitoritems)
+# add_subdirectory(scopes)
+# add_subdirectory(simplekeyframes)
+# add_subdirectory(stopmotion)
 
 if(QJSON_FOUND)
-  add_subdirectory(onmonitoritems/rotoscoping)
-  add_subdirectory(rotoscoping)
+#   add_subdirectory(onmonitoritems/rotoscoping)
+#   add_subdirectory(rotoscoping)
 endif(QJSON_FOUND)
 
 if(BUILD_V4L)
-  add_subdirectory(v4l)
+#   add_subdirectory(v4l)
 endif(BUILD_V4L)
 
 list(APPEND kdenlive_SRCS
   main.cpp
-  mainwindow.cpp
-
-  KoSliderCombo.cpp
-  abstractclipitem.cpp
-  abstractgroupitem.cpp
-  abstractmonitor.cpp
-  archivewidget.cpp
-  choosecolorwidget.cpp
-  clipdurationdialog.cpp
-  clipitem.cpp
-  clipmanager.cpp
-  clipproperties.cpp
-  cliptranscode.cpp
-  clipstabilize.cpp
-  colorpickerwidget.cpp
-  colorplaneexport.cpp
-  colortools.cpp
-  complexparameter.cpp
-  cornerswidget.cpp
-  customruler.cpp
-  customtrackscene.cpp
-  customtrackview.cpp
-  definitions.cpp
-  docclipbase.cpp
-  documentchecker.cpp
-  documentvalidator.cpp
-  doubleparameterwidget.cpp
-  dragvalue.cpp
-  dvdwizard.cpp
-  dvdwizardchapters.cpp
-  dvdwizardmenu.cpp
-  dvdwizardvob.cpp
-  effectslist.cpp
-  effectslistview.cpp
-  effectslistwidget.cpp
-  effectstackedit.cpp
-  encodingprofilesdialog.cpp
-  folderprojectitem.cpp
-  gentime.cpp
-  geometryval.cpp
-  geometrywidget.cpp
-  graphicsscenerectmove.cpp
-  guide.cpp
-  headertrack.cpp
-  initeffects.cpp
-  kdenlivedoc.cpp
-  kdenlivesettingsdialog.cpp
-  keyframeedit.cpp
-  keyframehelper.cpp
-  kis_cubic_curve.cpp
-  kis_curve_widget.cpp
-  kthumb.cpp
-  managecapturesdialog.cpp
-  markerdialog.cpp
-  mltdevicecapture.cpp
-  monitor.cpp
-  monitoreditwidget.cpp
-  monitormanager.cpp
-  monitorscene.cpp
-  noteswidget.cpp
-  parameterplotter.cpp
-  positionedit.cpp
-  profilesdialog.cpp
-  projectitem.cpp
-  projectlist.cpp
-  projectlistview.cpp
-  projectsettings.cpp
-  recmonitor.cpp
-  renderer.cpp
-  renderwidget.cpp
-  slideshowclip.cpp
-  smallruler.cpp
-  spacerdialog.cpp
-  statusbarmessagelabel.cpp
-  subprojectitem.cpp
-  timecode.cpp
-  timecodedisplay.cpp
-  titledocument.cpp
-  titlewidget.cpp
-  trackdialog.cpp
-  tracksconfigdialog.cpp
-  trackview.cpp
-  transition.cpp
-  transitionsettings.cpp
-  unicodedialog.cpp
-  wizard.cpp
+#   mainwindow.cpp
+# 
+#   KoSliderCombo.cpp
+#   abstractclipitem.cpp
+#   abstractgroupitem.cpp
+#   abstractmonitor.cpp
+#   archivewidget.cpp
+#   choosecolorwidget.cpp
+#   clipdurationdialog.cpp
+#   clipitem.cpp
+#   clipmanager.cpp
+#   clipproperties.cpp
+#   cliptranscode.cpp
+#   clipstabilize.cpp
+#   colorplaneexport.cpp
+#   colortools.cpp
+#   complexparameter.cpp
+#   cornerswidget.cpp
+#   customruler.cpp
+#   customtrackscene.cpp
+#   customtrackview.cpp
+#   definitions.cpp
+#   docclipbase.cpp
+#   documentchecker.cpp
+#   documentvalidator.cpp
+#   doubleparameterwidget.cpp
+#   dvdwizard.cpp
+#   dvdwizardchapters.cpp
+#   dvdwizardmenu.cpp
+#   dvdwizardvob.cpp
+#   effectslist.cpp
+#   effectslistview.cpp
+#   effectslistwidget.cpp
+#   effectstackedit.cpp
+#   effectstackview.cpp
+#   encodingprofilesdialog.cpp
+#   folderprojectitem.cpp
+#   gentime.cpp
+#   geometryval.cpp
+#   geometrywidget.cpp
+#   graphicsscenerectmove.cpp
+#   guide.cpp
+#   headertrack.cpp
+#   initeffects.cpp
+#   kdenlivedoc.cpp
+#   kdenlivesettingsdialog.cpp
+#   keyframeedit.cpp
+#   keyframehelper.cpp
+#   kis_cubic_curve.cpp
+#   kis_curve_widget.cpp
+#   kthumb.cpp
+#   managecapturesdialog.cpp
+#   markerdialog.cpp
+#   mltdevicecapture.cpp
+#   monitor.cpp
+#   monitoreditwidget.cpp
+#   monitormanager.cpp
+#   monitorscene.cpp
+#   noteswidget.cpp
+#   parameterplotter.cpp
+#   positionedit.cpp
+#   profilesdialog.cpp
+#   projectitem.cpp
+#   projectlist.cpp
+#   projectlistview.cpp
+#   projectsettings.cpp
+#   recmonitor.cpp
+#   renderer.cpp
+#   renderwidget.cpp
+#   slideshowclip.cpp
+#   smallruler.cpp
+#   spacerdialog.cpp
+#   statusbarmessagelabel.cpp
+#   subprojectitem.cpp
+#   timecode.cpp
+#   timecodedisplay.cpp
+#   titledocument.cpp
+#   titlewidget.cpp
+#   trackdialog.cpp
+#   tracksconfigdialog.cpp
+#   trackview.cpp
+#   transition.cpp
+#   transitionsettings.cpp
+#   unicodedialog.cpp
+#   wizard.cpp
 )
 
 kde4_add_ui_files(kdenlive_UIS
@@ -282,12 +293,31 @@ if(BUILD_JogShuttle)
   )
 endif(BUILD_JogShuttle)
 
-kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
-qt4_add_dbus_adaptor(kdenlive_SRCS
-  org.kdenlive.MainWindow.xml
-  mainwindow.h
-  MainWindow
+# KDE definitions and include directories *must* always come first, Qt follows
+# (to avoid breaking builds when KDE and/or Qt are installed to different
+# prefixes).
+add_definitions(${KDE4_DEFINITIONS})
+
+include_directories(
+  ${CMAKE_SOURCE_DIR}
+  ${CMAKE_BINARY_DIR}
+  ${KDE4_INCLUDES} # Adds Qt include directories too.
+  ${LIBMLT_INCLUDE_DIR}
+  ${LIBMLTPLUS_INCLUDE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
 )
+
+
+# Adds Qt definitions and include directories, and sets QT_LIBRARIES according
+# to the components requested in find_package().
+include(${QT_USE_FILE})
+
+
+# qt4_add_dbus_adaptor(kdenlive_SRCS
+#   org.kdenlive.MainWindow.xml
+#   mainwindow.h
+#   MainWindow
+# )
 qt4_add_resources(kdenlive_SRCS widgets/resources.qrc)
 kde4_add_executable(kdenlive
   ${kdenlive_SRCS}
@@ -297,23 +327,6 @@ kde4_add_executable(kdenlive
 # To compile kiss_fft.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99")
 
-# KDE definitions and include directories *must* always come first, Qt follows
-# (to avoid breaking builds when KDE and/or Qt are installed to different
-# prefixes).
-add_definitions(${KDE4_DEFINITIONS})
-
-include_directories(
-  ${CMAKE_BINARY_DIR}
-  ${KDE4_INCLUDES} # Adds Qt include directories too.
-  ${LIBMLT_INCLUDE_DIR}
-  ${LIBMLTPLUS_INCLUDE_DIR}
-)
-
-
-# Adds Qt definitions and include directories, and sets QT_LIBRARIES according
-# to the components requested in find_package().
-include(${QT_USE_FILE})
-
 if(${KDE_VERSION} VERSION_LESS 4.3.80)
   set(KDE4_KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
 else(${KDE_VERSION} VERSION_LESS 4.3.80)
@@ -321,6 +334,7 @@ else(${KDE_VERSION} VERSION_LESS 4.3.80)
 endif(${KDE_VERSION} VERSION_LESS 4.3.80)
 
 target_link_libraries(kdenlive
+  kdenlivecore
   ${KDE4_KDEUI_LIBS}
   ${KDE4_KIO_LIBS}
   ${KDE4_KNEWSTUFF_LIBS}
@@ -377,12 +391,12 @@ if(BUILD_JogShuttle)
 endif(BUILD_JogShuttle)
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
-install(FILES
-  kdenliveui.rc
-  kdenlive.notifyrc
-  DESTINATION ${DATA_INSTALL_DIR}/kdenlive
-)
-install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+# install(FILES
+#   kdenliveui.rc
+#   kdenlive.notifyrc
+#   DESTINATION ${DATA_INSTALL_DIR}/kdenlive
+# )
+
 install(FILES
   kdenlive_projectprofiles.knsrc
   kdenlive_renderprofiles.knsrc

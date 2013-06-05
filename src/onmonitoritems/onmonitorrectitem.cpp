@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "onmonitorrectitem.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>

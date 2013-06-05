@@ -24,7 +24,7 @@
 
 #include <KDebug>
 #include <mlt++/Mlt.h>
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include <KGlobalSettings>
 #include <KMessageBox>
 #include <KColorScheme>

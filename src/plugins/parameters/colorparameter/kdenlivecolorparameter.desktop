@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Parameter
+Name=Color Parameter
+X-KDE-PluginInfo-Name=kdenlivecolorparameter
+X-KDE-Library=kdenlivecolorparameter
+X-Kdenlive-ParameterType=color

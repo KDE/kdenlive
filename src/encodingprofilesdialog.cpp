@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "encodingprofilesdialog.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KStandardDirs>
 #include <KDebug>

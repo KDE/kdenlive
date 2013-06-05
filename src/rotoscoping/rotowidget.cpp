@@ -24,7 +24,7 @@
 #include "onmonitoritems/rotoscoping/bpointitem.h"
 #include "onmonitoritems/rotoscoping/splineitem.h"
 #include "simplekeyframes/simplekeyframewidget.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <mlt++/Mlt.h>
 

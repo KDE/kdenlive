@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="kdenlive" version="91"
+     xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
+                         http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd" >
+
+  <MenuBar>
+    <Menu name="project" ><text>Project</text>
+    <Menu name="clip_producer_menu"><text>Add Clip</text></Menu>
+    </Menu>
+
+   <Menu name="tools"><text>Tools</text>
+   <Seperator/>
+   </Menu>
+
+  </MenuBar>
+</gui>

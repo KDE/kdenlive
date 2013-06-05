@@ -20,7 +20,7 @@
 
 #include "headertrack.h"
 #include "effectslist.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 
 #include <KIcon>
 #include <KLocale>

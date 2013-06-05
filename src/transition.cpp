@@ -17,7 +17,7 @@
 
 #include "transition.h"
 #include "clipitem.h"
-#include "kdenlivesettings.h"
+#include "core/kdenlivesettings.h"
 #include "customtrackscene.h"
 #include "mainwindow.h"
 
