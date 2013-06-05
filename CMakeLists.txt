@@ -5,7 +5,7 @@ project(kdenlive)
 set(KDENLIVE_VERSION 0.9.7)
 
 # Minimum versions of main dependencies.
-set(LIBMLT_MIN_VERSION 0.8.8)
+set(LIBMLT_MIN_VERSION 0.9.0)
 set(QT_MIN_VERSION 4.5.0)
 set(KDE_MIN_VERSION 4.3.0)
 
