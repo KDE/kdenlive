@@ -2316,7 +2316,7 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
     else emit displayMessage(i18n("Cannot find clip to update effect"), ErrorMessage);
 }
 
-void CustomTrackView::moveEffect(int track, GenTime pos, QList <int> oldPos, QList <int> newPos)
+void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int> &oldPos, const QList <int> &newPos)
 {
     if (pos < GenTime()) {
         // Moving track effect
@@ -2714,7 +2714,7 @@ void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
     setDocumentModified();
 }
 
-void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition, bool updateTransitionWidget)
+void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDomElement &oldTransition, const QDomElement &transition, bool updateTransitionWidget)
 {
     Transition *item = getTransitionItemAt(pos, track);
     if (!item) {
@@ -4378,7 +4378,7 @@ void CustomTrackView::deleteSelectedClips()
 }
 
 
-void CustomTrackView::doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
+void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id)
 {
     Q_UNUSED(id)
     //DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
