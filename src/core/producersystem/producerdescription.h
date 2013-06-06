@@ -52,7 +52,7 @@ public:
      * @param version version of the producer
      * @param repository remove?
      */
-    ProducerDescription(QDomElement description, double version, ProducerRepository *repository);
+    ProducerDescription(const QDomElement &description, double version, ProducerRepository *repository);
     virtual ~ProducerDescription();
 
     /**
@@ -96,7 +96,7 @@ public:
     void convertMltParameterType(Mlt::Properties &properties);
 
 private:
-    QString getTextFromElement(QDomElement element);
+    QString getTextFromElement(const QDomElement &element);
 
     QString m_tag;
     QString m_name;

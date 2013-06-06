@@ -15,7 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "producer.h"
 
 
-AbstractProducerList::AbstractProducerList(ProducerRepository *repository, AbstractProducerList */*parent*/) :
+AbstractProducerList::AbstractProducerList(ProducerRepository *repository, AbstractProducerList * /*parent*/) :
     m_repository(repository)
 {
 }

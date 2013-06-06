@@ -83,7 +83,7 @@ ProducerDescription::ProducerDescription(const QString &producerName, ProducerRe
     }
 }
 
-ProducerDescription::ProducerDescription(QDomElement description, double version, ProducerRepository *repository) :
+ProducerDescription::ProducerDescription(const QDomElement &description, double version, ProducerRepository *repository) :
     m_version(version)
 {
     m_id = description.attribute("id");
@@ -188,7 +188,7 @@ int ProducerDescription::paramCount() const
     return count();
 }
 
-QString ProducerDescription::getTextFromElement(QDomElement element)
+QString ProducerDescription::getTextFromElement(const QDomElement &element)
 {
     if (!element.isNull()) {
         return element.text().simplified().toUtf8().constData();
