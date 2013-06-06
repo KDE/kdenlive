@@ -62,3 +62,5 @@ void TrimClipStartItemAction::mouseRelease(QGraphicsSceneMouseEvent* event)
     pCore->projectManager()->current()->undoStack()->push(command);
     emit finished();
 }
+
+#include "trimclipstartitemaction.moc"

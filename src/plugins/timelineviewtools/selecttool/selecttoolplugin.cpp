@@ -43,3 +43,5 @@ SelectToolPlugin::SelectToolPlugin(QObject* parent, const QVariantList &args) :
     // temporary HACK
     pCore->window()->timelineWidget()->toolManager()->setActiveTool(m_tool);
 }
+
+#include "selecttoolplugin.moc"

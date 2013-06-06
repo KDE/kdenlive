@@ -39,3 +39,5 @@ void VideoTimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF expos
 	painter->drawRect(exposed);
     }
 }
+
+#include "videotimelineclipitem.moc"

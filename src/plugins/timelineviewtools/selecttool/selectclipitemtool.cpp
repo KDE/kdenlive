@@ -49,3 +49,5 @@ void SelectClipItemTool::clipEvent(TimelineClipItem* clipItem, QEvent* event)
         }
     }
 }
+
+#include "selectclipitemtool.moc"

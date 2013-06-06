@@ -58,3 +58,5 @@ void TrimClipEndItemAction::mouseRelease(QGraphicsSceneMouseEvent* event)
 
     emit finished();
 }
+
+#include "trimclipenditemaction.moc"
