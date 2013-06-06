@@ -25,7 +25,7 @@ MonitorModel::MonitorModel(Mlt::Profile* profile, const QString &name, QObject *
     m_position(-1)
 {
     // do this in Project
-//     setenv("MLT_PROFILE", KdenliveSettings::current_profile().toUtf8().constData(), 1);
+    //     setenv("MLT_PROFILE", KdenliveSettings::current_profile().toUtf8().constData(), 1);
 
     // use Mlt::FilteredConsumer for splitview?
     m_consumer = new Mlt::Consumer(*profile, "rtaudio");
@@ -52,9 +52,7 @@ MonitorModel::~MonitorModel()
     delete m_producerChangeEvent;
     delete m_consumer;
     Mlt::Frame *frame = m_frame.fetchAndStoreAcquire(0);
-    if (frame) {
-        delete frame;
-    }
+    delete frame;
 }
 
 QString MonitorModel::name() const
@@ -76,9 +74,9 @@ void MonitorModel::setProducer(ProducerWrapper* producer)
     }
     
     if (!producer || !producer->is_valid()) {
-	m_producer = new ProducerWrapper(new Mlt::Producer(*m_consumer->profile(), "color:red"));
+        m_producer = new ProducerWrapper(new Mlt::Producer(*m_consumer->profile(), "color:red"));
     } else {
-	m_producer = producer;
+        m_producer = producer;
     }
     m_producer->set_speed(0.);
     m_position = -1;
@@ -172,7 +170,7 @@ int MonitorModel::duration() const
 
 void MonitorModel::activate()
 {
-//     refreshConsumer();
+    //     refreshConsumer();
     emit activated();
 }
 
@@ -184,9 +182,7 @@ AtomicFramePointer* MonitorModel::framePointer()
 void MonitorModel::updateFrame(mlt_frame frame_ptr)
 {
     Mlt::Frame *frame = m_frame.fetchAndStoreAcquire(new Mlt::Frame(frame_ptr));
-    if (frame) {
-        delete frame;
-    }
+    delete frame;
     emit frameUpdated();
     if (m_position != m_consumer->position()) {
         m_position = m_consumer->position();

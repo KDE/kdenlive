@@ -38,8 +38,8 @@ public:
     UpdateThumbnailTask(MltController* controller, ProducerWrapper *producer, const QString &id, QList<int> frames)
         : QRunnable()
         , m_controller(controller)
-	, m_producer(producer)
-	, m_id(id)
+        , m_producer(producer)
+        , m_id(id)
         , m_frames(frames)
     {}
     void run() {
@@ -61,22 +61,22 @@ MonitorManager::MonitorManager(QObject* parent) :
     //TODO: User setting to select between 1 and 2 monitors mode
     
     if (mode == MLTSDL) {
-	// SDL only supports one display
-	MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), AutoMonitor, ClipMonitor, pCore->window());
-	pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);
-	m_monitors.insert(autoView->id(), autoView);
-	connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+        // SDL only supports one display
+        MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), AutoMonitor, ClipMonitor, pCore->window());
+        pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);
+        m_monitors.insert(autoView->id(), autoView);
+        connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
     }
     else {
-	MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), ClipMonitor, ClipMonitor, pCore->window());
-	pCore->window()->addDock(i18n("Clip Monitor"), "clip_monitor", autoView);
-	m_monitors.insert(autoView->id(), autoView);
-	connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+        MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), ClipMonitor, ClipMonitor, pCore->window());
+        pCore->window()->addDock(i18n("Clip Monitor"), "clip_monitor", autoView);
+        m_monitors.insert(autoView->id(), autoView);
+        connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
 
-	MonitorView *autoView2 = new MonitorView(mode, new Mlt::Profile(), ProjectMonitor, ProjectMonitor, pCore->window());
-	pCore->window()->addDock(i18n("Project Monitor"), "project_monitor", autoView2);
-	m_monitors.insert(autoView2->id(), autoView2);
-	connect(autoView2, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+        MonitorView *autoView2 = new MonitorView(mode, new Mlt::Profile(), ProjectMonitor, ProjectMonitor, pCore->window());
+        pCore->window()->addDock(i18n("Project Monitor"), "project_monitor", autoView2);
+        m_monitors.insert(autoView2->id(), autoView2);
+        connect(autoView2, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
     }
     
     //connect(m_modelSignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(onModelActivated(const QString &)));
@@ -104,22 +104,22 @@ bool MonitorManager::isAvailable(DISPLAYMODE mode)
 {
     bool singleMonitorOnly = false;
     switch (mode) {
-      case MLTGLSL:
-      case MLTSDL:
-	  singleMonitorOnly = true;
-	  break;
-      default:
-	  singleMonitorOnly = false;
-	  break;
+    case MLTGLSL:
+    case MLTSDL:
+        singleMonitorOnly = true;
+        break;
+    default:
+        singleMonitorOnly = false;
+        break;
     }
     if (!singleMonitorOnly) return true;
     // We can only have one monitorof that type
     QHashIterator<MONITORID, MonitorView*> i(m_monitors);
     while (i.hasNext()) {
-	i.next();
-	if (i.value()->displayType() == mode) {
-	    return false;
-	}
+        i.next();
+        if (i.value()->displayType() == mode) {
+            return false;
+        }
     }
     return true;
 }
@@ -128,11 +128,11 @@ void MonitorManager::requestActivation(MONITORID id)
 {
     QHashIterator<MONITORID, MonitorView*> i(m_monitors);
     while (i.hasNext()) {
-	i.next();
-	if (i.key() != id && i.value()->isActive()) {
-	    kDebug()<<"CLOSING monitor: "<<i.key() <<" NOT: "<<id;
-	    i.value()->close();
-	}
+        i.next();
+        if (i.key() != id && i.value()->isActive()) {
+            kDebug()<<"CLOSING monitor: "<<i.key() <<" NOT: "<<id;
+            i.value()->close();
+        }
     }
     if (!m_monitors.value(id)->isActive()) m_monitors.value(id)->activate();
 }
@@ -166,16 +166,16 @@ void MonitorManager::setProject(Project* project)
     pCore->window()->addDock(id, id + "_monitor", view);*/
 
     if (m_monitors.contains(ClipMonitor)) {
-	project->bin()->setMonitor(m_monitors.value(ClipMonitor));
-	connect(m_monitors.value(ClipMonitor)->controller()->videoWidget(), SIGNAL(imageRendered(QString,int,QImage)), project->bin(), SLOT(slotGotImage(QString,int,QImage)));
-	m_monitors.value(ClipMonitor)->setProfile(project->profile());
-	m_monitors.value(ClipMonitor)->activate();
+        project->bin()->setMonitor(m_monitors.value(ClipMonitor));
+        connect(m_monitors.value(ClipMonitor)->controller()->videoWidget(), SIGNAL(imageRendered(QString,int,QImage)), project->bin(), SLOT(slotGotImage(QString,int,QImage)));
+        m_monitors.value(ClipMonitor)->setProfile(project->profile());
+        m_monitors.value(ClipMonitor)->activate();
     }
     else {
-	project->bin()->setMonitor(m_monitors.value(AutoMonitor));
-	connect(m_monitors.value(AutoMonitor)->controller()->videoWidget(), SIGNAL(imageRendered(QString,int,QImage)), project->bin(), SLOT(slotGotImage(QString,int,QImage)));
-	m_monitors.value(AutoMonitor)->setProfile(project->profile());
-	m_monitors.value(AutoMonitor)->activate();
+        project->bin()->setMonitor(m_monitors.value(AutoMonitor));
+        connect(m_monitors.value(AutoMonitor)->controller()->videoWidget(), SIGNAL(imageRendered(QString,int,QImage)), project->bin(), SLOT(slotGotImage(QString,int,QImage)));
+        m_monitors.value(AutoMonitor)->setProfile(project->profile());
+        m_monitors.value(AutoMonitor)->activate();
     }
     /*id = "timeline";
     view = new MonitorView(project->profile(), pCore->window());
@@ -183,11 +183,11 @@ void MonitorManager::setProject(Project* project)
     m_controllers.insert(id, view);
     pCore->window()->addDock(id, id + "_monitor", view);*/
     if (m_monitors.contains(ProjectMonitor)) {
-	project->timeline()->setMonitor(m_monitors.value(ProjectMonitor));
-	m_monitors.value(ProjectMonitor)->setProfile(project->profile());
+        project->timeline()->setMonitor(m_monitors.value(ProjectMonitor));
+        m_monitors.value(ProjectMonitor)->setProfile(project->profile());
     }
     else {
-	project->timeline()->setMonitor(m_monitors.value(AutoMonitor));
+        project->timeline()->setMonitor(m_monitors.value(AutoMonitor));
     }
     //registerModel("bin", project->binMonitor());
     //registerModel("timeline", project->timelineMonitor());
@@ -198,17 +198,17 @@ void MonitorManager::updateController(MONITORID id, MltController *controller)
     Project *proj = pCore->projectManager()->current();
     if (!proj) return;
     if (id == ClipMonitor) {
-	//proj->bin()->setMonitor(controller);
-	kDebug()<<"/ // / /UPDATING CLIP MON CTRL";
+        //proj->bin()->setMonitor(controller);
+        kDebug()<<"/ // / /UPDATING CLIP MON CTRL";
     }
     else if (id == ProjectMonitor) {
-	//proj->timeline()->setMonitor(controller);
-	kDebug()<<"/ // / /UPDATING PROJECT MON CTRL";
+        //proj->timeline()->setMonitor(controller);
+        kDebug()<<"/ // / /UPDATING PROJECT MON CTRL";
     }
     else if (id == AutoMonitor) {
-	kDebug()<<"/ // / /UPDATING AUTO MON CTRL";
-	//proj->bin()->setMonitor(controller);
-	//proj->timeline()->setMonitor(controller);
+        kDebug()<<"/ // / /UPDATING AUTO MON CTRL";
+        //proj->bin()->setMonitor(controller);
+        //proj->timeline()->setMonitor(controller);
     }
     
     //disconnect(m_monitors.value(id)->controller()->videoWidget(), SIGNAL(imageRendered(QString,int,QImage)), proj->bin(), SLOT(slotGotImage(QString,int,QImage)));
@@ -220,13 +220,13 @@ void MonitorManager::requestThumbnails(const QString &id, QList <int> positions)
 {
     Project *project = pCore->projectManager()->current();
     if (!project) {
-	kDebug()<<" + + + Project not ready for thumbnails";
-	return;
+        kDebug()<<" + + + Project not ready for thumbnails";
+        return;
     }
     if (m_thumbRequests.contains(id)) {
-	QList <int> existingPositions = m_thumbRequests.value(id);
-	positions << existingPositions;
-	qSort(existingPositions);
+        QList <int> existingPositions = m_thumbRequests.value(id);
+        positions << existingPositions;
+        qSort(existingPositions);
     }
     m_thumbRequests.insert(id, positions);
     QMap<QString, QList<int> >::const_iterator i = m_thumbRequests.constBegin();
@@ -234,28 +234,28 @@ void MonitorManager::requestThumbnails(const QString &id, QList <int> positions)
     if (m_monitors.contains(AutoMonitor)) thumbcontroller = m_monitors.value(AutoMonitor)->controller();
     else thumbcontroller = m_monitors.value(ClipMonitor)->controller();
     while (i != m_thumbRequests.constEnd()) {
-	QString firstId = i.key();
-	QList <int>pos = i.value();
-	ProducerWrapper *producer = project->bin()->clipProducer(firstId);
-	if (producer && producer->is_valid()) {
-	    // clear current request and process it
-	    m_thumbRequests.insert(firstId, QList <int>());
-	    QThreadPool::globalInstance()->start(
-                    new UpdateThumbnailTask(thumbcontroller, producer, firstId, pos));
-	}
-	++i;
+        QString firstId = i.key();
+        QList <int>pos = i.value();
+        ProducerWrapper *producer = project->bin()->clipProducer(firstId);
+        if (producer && producer->is_valid()) {
+            // clear current request and process it
+            m_thumbRequests.insert(firstId, QList <int>());
+            QThreadPool::globalInstance()->start(
+                        new UpdateThumbnailTask(thumbcontroller, producer, firstId, pos));
+        }
+        ++i;
     }
     // Cleanup
     QMap<QString, QList<int> > toDo;
     QMap<QString, QList<int> >::const_iterator j = m_thumbRequests.constBegin();
     while (j != m_thumbRequests.constEnd()) {
-	if (!j.value().isEmpty()) toDo.insert(j.key(), j.value());
-	j++;
+        if (!j.value().isEmpty()) toDo.insert(j.key(), j.value());
+        j++;
     }
     m_thumbRequests.clear();
     if (!toDo.isEmpty()) {
-	m_thumbRequests = toDo;
-	kDebug()<<" STILL NEED THUMBS: "<<m_thumbRequests.count();
+        m_thumbRequests = toDo;
+        kDebug()<<" STILL NEED THUMBS: "<<m_thumbRequests.count();
     }
     else kDebug()<<" FINISHED THUMBS!!!!!!!!!";
 }

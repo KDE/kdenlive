@@ -23,7 +23,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 ProducerRepository::ProducerRepository(MltCore *core) :
-      m_core(core)
+    m_core(core)
 {
     initRepository();
 }
@@ -57,11 +57,11 @@ void ProducerRepository::initRepository()
     
     /*ProducerDescription *producerDescription;
     foreach (QString producerName, availableProducers) {
-	producerDescription = new ProducerDescription(producerName, this);
+    producerDescription = new ProducerDescription(producerName, this);
         if (producerDescription->isValid()) {
-	    m_producers.insert(producerDescription->tag(), producerDescription);
+        m_producers.insert(producerDescription->tag(), producerDescription);
         } else {
-	    delete producerDescription;
+        delete producerDescription;
         }
     }*/
     QMultiHash<QString, QDomElement> availableProducerDescriptions;
@@ -79,9 +79,9 @@ void ProducerRepository::initRepository()
             QDomNodeList producerDescriptions = document.elementsByTagName("producer");
             for (int i = 0; i < producerDescriptions.count(); ++i) {
                 QDomElement producerDescriptionElement = producerDescriptions.at(i).toElement();
-		QString producerId = producerDescriptionElement.attribute("tag");
-		if (producerId == "ladspa") producerId.append("." + producerDescriptionElement.attribute("ladspaid"));
-		kDebug()<<" / // FOUND PROD DESC: "<<producerId;
+                QString producerId = producerDescriptionElement.attribute("tag");
+                if (producerId == "ladspa") producerId.append("." + producerDescriptionElement.attribute("ladspaid"));
+                kDebug()<<" / // FOUND PROD DESC: "<<producerId;
                 availableProducerDescriptions.insert(producerId, producerDescriptionElement);
             }
         }
@@ -97,7 +97,7 @@ void ProducerRepository::initRepository()
         producerHasDescription = false;
 
         // try to create the description from Kdenlive XML first
-	kDebug()<<" / // CHKING PROD DESC: "<<producerName;
+        kDebug()<<" / // CHKING PROD DESC: "<<producerName;
         if (availableProducerDescriptions.contains(producerName)) {
             producerDescriptionIterator = availableProducerDescriptions.constFind(producerName);
 
@@ -138,9 +138,9 @@ QList <QAction *> ProducerRepository::producerActions(QWidget *parent) const
     QList <QAction *> actions;
     QList <ProducerDescription *>prods = m_producers.values();
     for (int i = 0; i < prods.count(); ++i) {
-	QAction *a = new QAction(prods.at(i)->displayName(), parent);
-	a->setData(prods.at(i)->tag());
-	actions.append(a);
+        QAction *a = new QAction(prods.at(i)->displayName(), parent);
+        a->setData(prods.at(i)->tag());
+        actions.append(a);
     }
     return actions;
 }
@@ -166,10 +166,10 @@ QStringList ProducerRepository::producerProperties(const QString &id)
 {
     QStringList values;
     if (m_producers.contains(id)) {
-	QList< AbstractParameterDescription* > params = m_producers.value(id)->parameters();
-	for (int i = 0; i < params.count(); ++i) {
-	    values.append(params.at(i)->name());
-	}
+        QList< AbstractParameterDescription* > params = m_producers.value(id)->parameters();
+        for (int i = 0; i < params.count(); ++i) {
+            values.append(params.at(i)->name());
+        }
     }
     return values;
 }

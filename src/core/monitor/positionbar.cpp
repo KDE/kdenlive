@@ -19,11 +19,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 PositionBar::PositionBar(QWidget* parent) :
     QWidget(parent)
-    , m_duration(0)
-    , m_fps(25)
-    , m_position(0)
-    , m_hoverMarker(-1)
-    , m_activeControl(CONTROL_NONE)
+  , m_duration(0)
+  , m_fps(25)
+  , m_position(0)
+  , m_hoverMarker(-1)
+  , m_activeControl(CONTROL_NONE)
 {
     setMouseTracking(true);
     m_rulerHeight = 11;
@@ -43,14 +43,16 @@ int PositionBar::position() const
 
 void PositionBar::setSeekPos(int position)
 {
-    m_head = position;
-    update();
+    if (m_head != position) {
+        m_head = position;
+        update();
+    }
 }
 
 void PositionBar::setPosition(int position)
 {
     if (m_activeControl != CONTROL_HEAD) {
-	m_head = position;
+        m_head = position;
     }
     m_position = position;
     m_pixelPosition = position * m_scale;
@@ -72,17 +74,17 @@ void PositionBar::setDuration(int duration, double fps)
 void PositionBar::mousePressEvent(QMouseEvent* event)
 {
     if (event->y() <= m_rulerHeight) {
-	const int framePosition = event->x() / m_scale;
-	event->accept();
-	m_head = framePosition;
-	m_activeControl = CONTROL_HEAD;
-	emit positionChanged(framePosition);
+        const int framePosition = event->x() / m_scale;
+        event->accept();
+        m_head = framePosition;
+        m_activeControl = CONTROL_HEAD;
+        emit positionChanged(framePosition);
     }
     else if (m_hoverMarker != -1) {
-	if (m_hoverMarker == m_zone.x())
-	    m_activeControl = CONTROL_IN;
-	else if (m_hoverMarker == m_zone.y())
-	    m_activeControl = CONTROL_OUT;
+        if (m_hoverMarker == m_zone.x())
+            m_activeControl = CONTROL_IN;
+        else if (m_hoverMarker == m_zone.y())
+            m_activeControl = CONTROL_OUT;
     }
     else m_activeControl = CONTROL_NONE;
     update();
@@ -92,7 +94,7 @@ void PositionBar::mouseReleaseEvent(QMouseEvent* event)
 {
     event->accept();
     if (m_activeControl == CONTROL_IN || m_activeControl == CONTROL_OUT) {
-	prepareMarks();
+        prepareMarks();
     }
     m_activeControl = CONTROL_NONE;
     m_hoverMarker = -1;
@@ -102,8 +104,8 @@ void PositionBar::prepareMarks()
 {
     QMap <int, QString> marks;
     if (!m_zone.isNull()) {
-	marks.insert(-m_zone.x(), i18n("Zone In"));
-	marks.insert(-m_zone.y(), i18n("Zone Out"));
+        marks.insert(-m_zone.x(), i18n("Zone In"));
+        marks.insert(-m_zone.y(), i18n("Zone Out"));
     }
     emit marksChanged(marks);
 }
@@ -111,8 +113,8 @@ void PositionBar::prepareMarks()
 void PositionBar::slotSetThumbnail(int position, const QImage &img)
 {
     if (img.isNull()) {
-	setToolTip(Timecode(position).formatted());
-	return;
+        setToolTip(Timecode(position).formatted());
+        return;
     }
     QByteArray ba;
     QBuffer buffer(&ba);
@@ -126,47 +128,47 @@ void PositionBar::mouseMoveEvent(QMouseEvent* event)
     event->accept();
     const int framePosition = qBound(0, event->x(), rect().width()) / m_scale;
     if (event->buttons() & Qt::LeftButton) {
-	if (m_activeControl == CONTROL_NONE) return;
+        if (m_activeControl == CONTROL_NONE) return;
         m_mouseOverCursor = true;
-	m_head = framePosition;
-	if (m_activeControl == CONTROL_IN) {
-	    m_zone.setX(framePosition);
-	}
-	else if (m_activeControl == CONTROL_OUT) {
-	    m_zone.setY(framePosition);
-	}
+        m_head = framePosition;
+        if (m_activeControl == CONTROL_IN) {
+            m_zone.setX(framePosition);
+        }
+        else if (m_activeControl == CONTROL_OUT) {
+            m_zone.setY(framePosition);
+        }
         emit positionChanged(framePosition);
-	update();
+        update();
     }
     else {
-	if (!m_zone.isNull() && event->y() > m_rulerHeight && event->y() < height()) {
-		int hoverMarker = -1;
-		if (qAbs(event->x() - m_zone.x() * m_scale) < 6) {
-			hoverMarker = m_zone.x();
-		}
-		else if (qAbs(event->x() - m_zone.y() * m_scale) < 6) {
-			hoverMarker = m_zone.y();
-		}
-		if (m_hoverMarker != hoverMarker) {
-		    setCursor(hoverMarker == -1 ? Qt::ArrowCursor : Qt::PointingHandCursor);
-		    if (hoverMarker != -1) 
-			emit requestThumb(hoverMarker);
-		    else {
-			// How can we clear tooltip properly?
-			setToolTip(QString(" "));
-		    }
-		    m_hoverMarker = hoverMarker;
-		    update();
-		}
-		return;
-	}
-	else {
-	    if (m_hoverMarker != -1) {
-		setCursor(Qt::ArrowCursor);
-		m_hoverMarker = -1;
-		update();
-	    }
-	}
+        if (!m_zone.isNull() && event->y() > m_rulerHeight && event->y() < height()) {
+            int hoverMarker = -1;
+            if (qAbs(event->x() - m_zone.x() * m_scale) < 6) {
+                hoverMarker = m_zone.x();
+            }
+            else if (qAbs(event->x() - m_zone.y() * m_scale) < 6) {
+                hoverMarker = m_zone.y();
+            }
+            if (m_hoverMarker != hoverMarker) {
+                setCursor(hoverMarker == -1 ? Qt::ArrowCursor : Qt::PointingHandCursor);
+                if (hoverMarker != -1)
+                    emit requestThumb(hoverMarker);
+                else {
+                    // How can we clear tooltip properly?
+                    setToolTip(QString(" "));
+                }
+                m_hoverMarker = hoverMarker;
+                update();
+            }
+            return;
+        }
+        else {
+            if (m_hoverMarker != -1) {
+                setCursor(Qt::ArrowCursor);
+                m_hoverMarker = -1;
+                update();
+            }
+        }
         if (qAbs(event->x() - m_pixelPosition) < 6) {
             if (!m_mouseOverCursor) {
                 m_mouseOverCursor = true;
@@ -191,7 +193,7 @@ void PositionBar::leaveEvent(QEvent* event)
     event->accept();
     if (m_mouseOverCursor || m_hoverMarker != -1) {
         m_mouseOverCursor = false;
-	m_hoverMarker = -1;
+        m_hoverMarker = -1;
     }
     update();
 }
@@ -216,31 +218,31 @@ void PositionBar::paintEvent(QPaintEvent* event)
     
     // Draw zone
     if (!m_zone.isNull()) {
-	QPen pen;
-	pen.setBrush(QColor(255, 90, 0));
-	pen.setWidth(2);
-	QPen activePen;
-	activePen.setBrush(palette().highlight());
-	activePen.setWidth(2);
-	p.setPen(pen);
-	p.fillRect(m_zone.x() * m_scale, 1, (m_zone.y() - m_zone.x()) * m_scale, m_rulerHeight, QColor(255, 90, 0, 100));
-	
-	if (QWidget::underMouse()) {
-	    QRectF rect(0, 0, 6, 6);
-	    QLineF line;
-	    line.setLine(m_zone.x() * m_scale, 1, m_zone.x() * m_scale, 15);
-	    if (m_hoverMarker == m_zone.x())
-		p.setPen(activePen);
-	    p.drawLine(line);
-	    rect.moveTo(m_zone.x() * m_scale - 3, 15);
-	    p.drawArc(rect, 0, 5760);
-    
-	    p.setPen(m_hoverMarker == m_zone.y() ? activePen : pen);
-	    line.translate((m_zone.y() - m_zone.x()) * m_scale, 0);
-	    p.drawLine(line);
-	    rect.moveTo(m_zone.y() * m_scale - 3, 15);
-	    p.drawArc(rect, 0, 5760);
-	}
+        QPen pen;
+        pen.setBrush(QColor(255, 90, 0));
+        pen.setWidth(2);
+        QPen activePen;
+        activePen.setBrush(palette().highlight());
+        activePen.setWidth(2);
+        p.setPen(pen);
+        p.fillRect(m_zone.x() * m_scale, 1, (m_zone.y() - m_zone.x()) * m_scale, m_rulerHeight, QColor(255, 90, 0, 100));
+
+        if (QWidget::underMouse()) {
+            QRectF rect(0, 0, 6, 6);
+            QLineF line;
+            line.setLine(m_zone.x() * m_scale, 1, m_zone.x() * m_scale, 15);
+            if (m_hoverMarker == m_zone.x())
+                p.setPen(activePen);
+            p.drawLine(line);
+            rect.moveTo(m_zone.x() * m_scale - 3, 15);
+            p.drawArc(rect, 0, 5760);
+
+            p.setPen(m_hoverMarker == m_zone.y() ? activePen : pen);
+            line.translate((m_zone.y() - m_zone.x()) * m_scale, 0);
+            p.drawLine(line);
+            rect.moveTo(m_zone.y() * m_scale - 3, 15);
+            p.drawArc(rect, 0, 5760);
+        }
     }
     
     p.setRenderHint(QPainter::Antialiasing);
@@ -270,7 +272,7 @@ void PositionBar::updateBackground()
     QLineF line(0, 1, 0, 4);
     if (m_smallMarkSteps > 2) {
         for (f = 0; f < width(); f += m_smallMarkSteps) {
-	    line.translate(m_smallMarkSteps, 0);
+            line.translate(m_smallMarkSteps, 0);
             p.drawLine(line);
         }
     }
@@ -291,7 +293,7 @@ void PositionBar::setZone(const QPoint &zone)
 {
     if (m_zone != zone) {
         m_zone = zone;
-	prepareMarks();
+        prepareMarks();
         update();
     }
 }
@@ -304,16 +306,16 @@ void PositionBar::adjustScale()
     }
 
     QList<double> levels = QList<double>() << 1
-				     << m_fps
-                                     << 5 * m_fps
-                                     << 30 * m_fps
-                                     << 60 * m_fps;
+                                           << m_fps
+                                           << 5 * m_fps
+                                           << 30 * m_fps
+                                           << 60 * m_fps;
     int offset;
     if (m_scale > 5) {
-	offset = 0;
+        offset = 0;
     }
     else if (m_scale > 1) {
-	offset = -1;
+        offset = -1;
     }
     else if (m_scale > 0.5) {
         offset = 1;
@@ -325,12 +327,12 @@ void PositionBar::adjustScale()
 
     // Don't show small marks when zooming a lot
     if (offset < 0) {
-	m_smallMarkSteps = -1;
-	m_mediumMarkSteps = levels.at(-offset) * m_scale;
+        m_smallMarkSteps = -1;
+        m_mediumMarkSteps = levels.at(-offset) * m_scale;
     }
     else {
-	m_smallMarkSteps = levels.at(offset) * m_scale;
-	m_mediumMarkSteps = levels.at(offset + 1) * m_scale;
+        m_smallMarkSteps = levels.at(offset) * m_scale;
+        m_mediumMarkSteps = levels.at(offset + 1) * m_scale;
     }
 
     m_pixelPosition = m_position * m_scale;

@@ -39,22 +39,22 @@ MyTextItem::MyTextItem(QGraphicsItem * parent): QGraphicsSimpleTextItem(parent)
 
 void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-        painter->setBrush(QColor(200, 100, 100, 100));
-	painter->setPen(Qt::NoPen);
-        painter->drawRect(boundingRect());
-        QGraphicsSimpleTextItem::paint(painter,option,widget); 
+    painter->setBrush(QColor(200, 100, 100, 100));
+    painter->setPen(Qt::NoPen);
+    painter->drawRect(boundingRect());
+    QGraphicsSimpleTextItem::paint(painter,option,widget);
 }
 
 MonitorGraphicsScene::MonitorGraphicsScene(int width, int height, QObject* parent) :
     QGraphicsScene(parent)
-    , m_frame(NULL)
-    , m_imageSizeChanged(true)
-    , m_textureBuffer(0)
-    , m_texture(0)
-    , m_zoom(1)
-    , m_needsResize(true)
-    , m_pbo(0)
-    , m_glWidget(NULL)
+  , m_frame(NULL)
+  , m_imageSizeChanged(true)
+  , m_textureBuffer(0)
+  , m_texture(0)
+  , m_zoom(1)
+  , m_needsResize(true)
+  , m_pbo(0)
+  , m_glWidget(NULL)
 {
     m_imageRect = addRect(QRectF(0, 0, 0, 0));
     m_profileRect = addRect(QRectF(0, 0, width, height));
@@ -98,7 +98,7 @@ void MonitorGraphicsScene::showFrame(mlt_frame frame_ptr)
     Mlt::Frame *frm = new Mlt::Frame(frame_ptr);
     m_frame.fetchAndStoreAcquire(frm);
     if (m_imageRect->rect().height() == 0) {
-	zoomProfileFit();
+        zoomProfileFit();
     }
     update();
 }
@@ -142,9 +142,9 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
     if (frame) {
         int width = 0;
         int height = 0;
-	m_overlayItem->setText(QString("Overlay test: %1").arg(frame->get_position()));
+        m_overlayItem->setText(QString("Overlay test: %1").arg(frame->get_position()));
         mlt_image_format format = mlt_image_rgb24a;
-	frame->set("rescale.interp", "bilinear");
+        frame->set("rescale.interp", "bilinear");
         frame->set("deinterlace_method", "onefield");
         frame->set("top_field_first", -1);
         const uint8_t *image = frame->get_image(format, width, height);
@@ -152,7 +152,7 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
 
         if (KDE_ISUNLIKELY(size != m_imageRect->rect().width() * m_imageRect->rect().height() * 4)) {
             // The frame dimensions have changed. We need to update the gl buffer sizes.
-	    
+
             m_imageRect->setRect(0, 0, width, height);
 
 #ifdef USE_PBO
@@ -255,23 +255,23 @@ void MonitorGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
     glDisable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, 0);
 
-//     ++m_frameCount;
-//     if (m_timer.elapsed() / 1000 >= 1) {
-//         kDebug() << "fps" << m_frameCount;
-//         m_frameCount = 0;
-//         m_timer.restart();
-//     }
+    //     ++m_frameCount;
+    //     if (m_timer.elapsed() / 1000 >= 1) {
+    //         kDebug() << "fps" << m_frameCount;
+    //         m_frameCount = 0;
+    //         m_timer.restart();
+    //     }
 }
 
 void MonitorGraphicsScene::setZoom(qreal level)
 {
     if(views()[0]) {
         m_zoom = level;
-	QMatrix scaleMatrix;
-	scaleMatrix = scaleMatrix.scale(m_zoom, m_zoom);
-	views()[0]->setMatrix(scaleMatrix);
-	m_needsResize = true;
-	//update();
+        QMatrix scaleMatrix;
+        scaleMatrix = scaleMatrix.scale(m_zoom, m_zoom);
+        views()[0]->setMatrix(scaleMatrix);
+        m_needsResize = true;
+        //update();
         emit zoomChanged(level);
     }
 }
@@ -296,15 +296,15 @@ void MonitorGraphicsScene::zoomProfileFit()
     if (views()[0]) {
         qreal levelX = views()[0]->viewport()->height() / m_profileRect->rect().height();
         qreal levelY = views()[0]->viewport()->width() / m_profileRect->rect().width();
-	m_zoom = qMin(levelX, levelY);
-	QMatrix scaleMatrix;
-	//views()[0]->fitInView(0, 0, m_profileRect->sceneBoundingRect().width(), m_profileRect->sceneBoundingRect().height(), Qt::KeepAspectRatio);
-	scaleMatrix = scaleMatrix.scale(m_zoom, m_zoom);
-	views()[0]->setMatrix(scaleMatrix);
-	m_needsResize = true;
-	//views()[0]->ensureVisible(0, 0, m_profileRect->sceneBoundingRect().width(), m_profileRect->sceneBoundingRect().height(), 0, 0);
-	views()[0]->centerOn(m_profileRect);
-	update();
+        m_zoom = qMin(levelX, levelY);
+        QMatrix scaleMatrix;
+        //views()[0]->fitInView(0, 0, m_profileRect->sceneBoundingRect().width(), m_profileRect->sceneBoundingRect().height(), Qt::KeepAspectRatio);
+        scaleMatrix = scaleMatrix.scale(m_zoom, m_zoom);
+        views()[0]->setMatrix(scaleMatrix);
+        m_needsResize = true;
+        //views()[0]->ensureVisible(0, 0, m_profileRect->sceneBoundingRect().width(), m_profileRect->sceneBoundingRect().height(), 0, 0);
+        views()[0]->centerOn(m_profileRect);
+        update();
     }
 }
 
@@ -357,10 +357,10 @@ void MonitorGraphicsScene::slotResized()
     QGraphicsScene::eventFilter(object, event);
     if (views().count() && object == views()[0]) {
         if (event->type() == QEvent::Resize) {
-	    kDebug()<<"// GoT SCENR RESIZ";
+        kDebug()<<"// GoT SCENR RESIZ";
             m_needsResize = true;
-	    m_glWidget->makeCurrent();
-	    update();
+        m_glWidget->makeCurrent();
+        update();
         }
         //return false;
     } else {

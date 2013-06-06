@@ -40,12 +40,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, MONITORID role, QWidget* parent) :
     QWidget(parent)
-    , m_id(id)
-    , m_currentRole(role)
-    , m_profile(new Mlt::Profile(profile->get_profile()))
-    , m_seekPosition(SEEK_INACTIVE)
-    , m_monitorProducer(NULL)
-    , m_infoMessage(NULL)
+  , m_id(id)
+  , m_currentRole(role)
+  , m_profile(new Mlt::Profile(profile->get_profile()))
+  , m_seekPosition(SEEK_INACTIVE)
+  , m_monitorProducer(NULL)
+  , m_infoMessage(NULL)
 {
     m_layout = new QGridLayout(this);
     m_layout->setVerticalSpacing(0);
@@ -58,9 +58,9 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
     KAction *monitorType;
     QList <DISPLAYMODE> modes = pCore->monitorManager()->supportedDisplayModes();
     for(int i = 0; i < modes.count(); ++i) {
-	monitorType = m_monitorMode->addAction(pCore->monitorManager()->getDisplayName(modes.at(i)));
-	monitorType->setData(modes.at(i));
-	if (mode == modes.at(i)) m_monitorMode->setCurrentAction(monitorType);
+        monitorType = m_monitorMode->addAction(pCore->monitorManager()->getDisplayName(modes.at(i)));
+        monitorType->setData(modes.at(i));
+        if (mode == modes.at(i)) m_monitorMode->setCurrentAction(monitorType);
     }
     
     m_infoMessage = new KMessageWidget(this);
@@ -71,14 +71,14 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
     m_infoMessage->hide();
     
     if (m_monitorMode->actions().isEmpty()) {
-	m_infoMessage->setText(i18n("Your MLT config does not support OpenGL nor SDL, Kdenlive will not be usable"));
-	m_infoMessage->show();
-	//TODO: build dummy controller
+        m_infoMessage->setText(i18n("Your MLT config does not support OpenGL nor SDL, Kdenlive will not be usable"));
+        m_infoMessage->show();
+        //TODO: build dummy controller
     }
     else {
-	if (pCore->monitorManager()->isAvailable(mode)) {
-	    m_controller = buildController(mode);
-	}
+        if (pCore->monitorManager()->isAvailable(mode)) {
+            m_controller = buildController(mode);
+        }
     }
     m_layout->addWidget(m_controller->displayWidget(), 0, 0, 1, 1);
 
@@ -105,8 +105,8 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
     mRole->setData(role);
     m_monitorRole->setCurrentAction(mRole);
     if (id == AutoMonitor || id == ClipMonitor) {
-	mRole = m_monitorRole->addAction(nameForRole(RecordMonitor));
-	mRole->setData(RecordMonitor);
+        mRole = m_monitorRole->addAction(nameForRole(RecordMonitor));
+        mRole->setData(RecordMonitor);
     }
     m_toolbar->addAction(m_monitorRole);
     m_monitorRole->setVisible(m_monitorRole->actions().count() > 1);
@@ -128,9 +128,9 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
     
     m_layout->addWidget(m_toolbar, 3, 0, 1, -1);
 
-//     playButton->setMenu(m_playMenu);
-//     playButton->setPopupMode(QToolButton::MenuButtonPopup);
-//     m_toolbar->addWidget(playButton);
+    //     playButton->setMenu(m_playMenu);
+    //     playButton->setPopupMode(QToolButton::MenuButtonPopup);
+    //     m_toolbar->addWidget(playButton);
 
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
@@ -156,18 +156,18 @@ MltController *MonitorView::buildController(DISPLAYMODE mode)
 {
     MltController *cont = NULL;
     switch (mode) {
-      case MLTOPENGL:
-	  cont = new GLWidget(m_profile, this);
-	  break;
-      case MLTGLSL:
-	  cont = new GLSLWidget(m_profile, this);
-	  break;
-      case MLTSCENE:
-	  cont = new SceneWidget(m_profile, this);
-	  break;
-      default:
-	  cont = new SDLWidget(m_profile, this);
-	  break;
+    case MLTOPENGL:
+        cont = new GLWidget(m_profile, this);
+        break;
+    case MLTGLSL:
+        cont = new GLSLWidget(m_profile, this);
+        break;
+    case MLTSCENE:
+        cont = new SceneWidget(m_profile, this);
+        break;
+    default:
+        cont = new SDLWidget(m_profile, this);
+        break;
     }
     return cont;
 }
@@ -218,30 +218,30 @@ void MonitorView::setProfile(Mlt::Profile *profile, bool reset)
     m_blackProducer = new ProducerWrapper(*profile, "blipflash");
     m_blackProducer->set_in_and_out(0, 1);
     if (reset) {
-	m_monitorProducer = m_blackProducer;
-	open(m_blackProducer);
+        m_monitorProducer = m_blackProducer;
+        open(m_blackProducer);
     }
     else m_monitorProducer = NULL;
     //seek(position);
     //m_controller->play(speed);
     return;
-  
+
     m_controller->closeConsumer();
     //m_normalProducer = NULL;
     QList <MONITORID> roles;
     QHash<MONITORID, ProducerWrapper*>::iterator i = m_GPUProducer.begin();
     while (i != m_GPUProducer.end()) {
-	roles.append(i.key());
-	ProducerWrapper *p = m_GPUProducer.take(i.key());
-	delete p;
-	i = m_GPUProducer.begin();
+        roles.append(i.key());
+        ProducerWrapper *p = m_GPUProducer.take(i.key());
+        delete p;
+        i = m_GPUProducer.begin();
     }
- 
+
     delete m_blackProducer;
     m_blackProducer = new ProducerWrapper(*profile, "blipflash"); //color:black");
     m_normalProducer.insert(m_currentRole, m_blackProducer);
     m_monitorProducer = m_normalProducer.value(m_currentRole);
-  
+
     /*bool wasBlack = m_monitorProducer->resourceName() == m_blackProducer->resourceName();
     m_controller->closeConsumer();
     ProducerWrapper *newBlack = new ProducerWrapper(*profile, "blipflash"); //color:black");
@@ -249,18 +249,18 @@ void MonitorView::setProfile(Mlt::Profile *profile, bool reset)
     delete m_blackProducer;
     m_blackProducer = newBlack;
     if (wasBlack) {
-	//m_controller->open(newBlack);
-	m_monitorProducer = m_blackProducer;
-	m_normalProducer = m_blackProducer;
+    //m_controller->open(newBlack);
+    m_monitorProducer = m_blackProducer;
+    m_normalProducer = m_blackProducer;
     }
     else {
-	delete m_normalProducer;
-	delete m_GPUProducer;
-	m_normalProducer = NULL;
-	m_GPUProducer = NULL;
-	m_monitorProducer = NULL;
+    delete m_normalProducer;
+    delete m_GPUProducer;
+    m_normalProducer = NULL;
+    m_GPUProducer = NULL;
+    m_monitorProducer = NULL;
     }*/
-      
+
     delete m_profile;
     m_profile = profile;
     toggleMonitorMode((DISPLAYMODE) m_monitorMode->currentAction()->data().toInt(), false);
@@ -271,23 +271,23 @@ void MonitorView::connectController(bool doConnect)
 {
     if (doConnect) {
         connect(m_controller->videoWidget(), SIGNAL(producerChanged()), this, SLOT(onProducerChanged()));
-	connect(m_controller->videoWidget(), SIGNAL(frameReceived(Mlt::QFrame)), this, SLOT(onShowFrame(Mlt::QFrame)));
-	connect(m_controller->videoWidget(), SIGNAL(gotThumb(int, QImage)), m_positionBar, SLOT(slotSetThumbnail(int, QImage)));
-	connect(m_controller->videoWidget(), SIGNAL(requestPlayPause()), this, SLOT(togglePlaybackState()));
-	connect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
-	connect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
-	connect(this, SIGNAL(requestThumb(ProducerWrapper *, int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper *, int)));
-	connect(m_positionBar, SIGNAL(marksChanged(QMap <int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap <int,QString>)));
+        connect(m_controller->videoWidget(), SIGNAL(frameReceived(Mlt::QFrame)), this, SLOT(onShowFrame(Mlt::QFrame)));
+        connect(m_controller->videoWidget(), SIGNAL(gotThumb(int, QImage)), m_positionBar, SLOT(slotSetThumbnail(int, QImage)));
+        connect(m_controller->videoWidget(), SIGNAL(requestPlayPause()), this, SLOT(togglePlaybackState()));
+        connect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
+        connect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
+        connect(this, SIGNAL(requestThumb(ProducerWrapper *, int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper *, int)));
+        connect(m_positionBar, SIGNAL(marksChanged(QMap <int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap <int,QString>)));
     }
     else {
-	disconnect(m_controller->videoWidget(), SIGNAL(producerChanged()), this, SLOT(onProducerChanged()));
-	disconnect(m_controller->videoWidget(), SIGNAL(frameReceived(Mlt::QFrame)), this, SLOT(onShowFrame(Mlt::QFrame)));
-	disconnect(m_controller->videoWidget(), SIGNAL(gotThumb(int, QImage)), m_positionBar, SLOT(slotSetThumbnail(int, QImage)));
-	disconnect(m_controller->videoWidget(), SIGNAL(requestPlayPause()), this, SLOT(togglePlaybackState()));
-	disconnect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
-	disconnect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
-	disconnect(this, SIGNAL(requestThumb(ProducerWrapper *, int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper *, int)));
-	disconnect(m_positionBar, SIGNAL(marksChanged(QMap <int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap <int,QString>)));
+        disconnect(m_controller->videoWidget(), SIGNAL(producerChanged()), this, SLOT(onProducerChanged()));
+        disconnect(m_controller->videoWidget(), SIGNAL(frameReceived(Mlt::QFrame)), this, SLOT(onShowFrame(Mlt::QFrame)));
+        disconnect(m_controller->videoWidget(), SIGNAL(gotThumb(int, QImage)), m_positionBar, SLOT(slotSetThumbnail(int, QImage)));
+        disconnect(m_controller->videoWidget(), SIGNAL(requestPlayPause()), this, SLOT(togglePlaybackState()));
+        disconnect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
+        disconnect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
+        disconnect(this, SIGNAL(requestThumb(ProducerWrapper *, int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper *, int)));
+        disconnect(m_positionBar, SIGNAL(marksChanged(QMap <int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap <int,QString>)));
     }
 }
 
@@ -330,16 +330,16 @@ const QString MonitorView::nameForRole(MONITORID role)
 {
     QString roleName;
     switch (role) {
-      case ProjectMonitor:
-	  roleName = i18n("Project Monitor");
-	  break;
-      case RecordMonitor:
-	  roleName = i18n("Record Monitor");
-	  break;
-      default:
-	  roleName = i18n("Clip Monitor");
-	  break;
-	  
+    case ProjectMonitor:
+        roleName = i18n("Project Monitor");
+        break;
+    case RecordMonitor:
+        roleName = i18n("Record Monitor");
+        break;
+    default:
+        roleName = i18n("Clip Monitor");
+        break;
+
     }
     return roleName;
 }
@@ -348,8 +348,8 @@ void MonitorView::addMonitorRole(MONITORID role)
 {
     QList <QAction *> actions = m_monitorRole->actions();
     for (int i = 0; i < actions.count(); ++i)
-	if ((MONITORID) (actions.at(i)->data().toInt()) ==  role) return;
-    KAction *mRole = m_monitorRole->addAction(nameForRole(role));    
+        if ((MONITORID) (actions.at(i)->data().toInt()) ==  role) return;
+    KAction *mRole = m_monitorRole->addAction(nameForRole(role));
     mRole->setData(role);
     m_monitorRole->setVisible(m_monitorRole->actions().count() > 1);
 }
@@ -358,14 +358,14 @@ void MonitorView::seek(int pos, MONITORID role)
 {
     toggleMonitorRole(role);
     if (role == RecordMonitor) {
-	// No seeking allowed on live sources
-	return;
+        // No seeking allowed on live sources
+        return;
     }
     if (pos >= 0) {
-	if (m_seekPosition == SEEK_INACTIVE)
-	      m_controller->seek(pos);
-	m_seekPosition = pos;
-	m_positionBar->setSeekPos(pos);
+        if (m_seekPosition == SEEK_INACTIVE)
+            m_controller->seek(pos);
+        m_seekPosition = pos;
+        m_positionBar->setSeekPos(pos);
     }
 }
 
@@ -381,8 +381,8 @@ void MonitorView::togglePlaybackState()
 void MonitorView::checkPlaybackState()
 {
     if (!m_controller->isActive()) {
-	pCore->monitorManager()->requestActivation(m_id);
-	//m_controller->reOpen();
+        pCore->monitorManager()->requestActivation(m_id);
+        //m_controller->reOpen();
     }
     if (m_playAction->isActive()) m_controller->play(1.0);
     else m_controller->pause();
@@ -391,31 +391,31 @@ void MonitorView::checkPlaybackState()
 void MonitorView::toggleAudioMonitor(bool active)
 {
     if (true) {
-	pCore->monitorManager()->requestActivation(m_id);
-	//ProducerWrapper *tester = new ProducerWrapper(m_controller->profile(), QString("/tmp/00110.MTS"));
-	//open(tester);
+        pCore->monitorManager()->requestActivation(m_id);
+        //ProducerWrapper *tester = new ProducerWrapper(m_controller->profile(), QString("/tmp/00110.MTS"));
+        //open(tester);
     }
     if (active) {
-	connect(this, SIGNAL(audioLevels(QVector<double>)), m_audioSignal, SLOT(slotAudioLevels(QVector<double>)));
-	m_audioSignal->setHidden(false);
+        connect(this, SIGNAL(audioLevels(QVector<double>)), m_audioSignal, SLOT(slotAudioLevels(QVector<double>)));
+        m_audioSignal->setHidden(false);
     }
     else {
-	disconnect(this, SIGNAL(audioLevels(QVector<double>)), m_audioSignal, SLOT(slotAudioLevels(QVector<double>)));
-	m_audioSignal->setHidden(true);
+        disconnect(this, SIGNAL(audioLevels(QVector<double>)), m_audioSignal, SLOT(slotAudioLevels(QVector<double>)));
+        m_audioSignal->setHidden(true);
     }
 }
 
 void MonitorView::toggleZone(bool active)
 {
     if (active) {
-	int inPoint = m_positionBar->position();
-	if (inPoint >= m_positionBar->duration() - 5) inPoint = 0;
-	int outPoint = (m_positionBar->duration() - 1);
-	if (outPoint > 50) outPoint = outPoint / 5;
-	m_positionBar->setZone(QPoint(inPoint, inPoint + outPoint));
+        int inPoint = m_positionBar->position();
+        if (inPoint >= m_positionBar->duration() - 5) inPoint = 0;
+        int outPoint = (m_positionBar->duration() - 1);
+        if (outPoint > 50) outPoint = outPoint / 5;
+        m_positionBar->setZone(QPoint(inPoint, inPoint + outPoint));
     }
     else {
-	m_positionBar->setZone(QPoint());
+        m_positionBar->setZone(QPoint());
     }
 }
 
@@ -428,38 +428,38 @@ void MonitorView::toggleSceneState()
     //m_controller->close();
     connectController(false);
     if (m_sceneAction->isChecked()) {
-	// Switch to graphicsscene controller
-	m_controller = m_scenecontroller;
-	if (m_glcontroller->usesGpu()) {
-	    ProducerWrapper *prod2 = new ProducerWrapper(m_controller->profile(), m_glcontroller->resource());
-	    m_controller->open(prod2);
-	}
-	else if (m_glcontroller->resource() != m_scenecontroller->resource()) {
-	    m_controller->open(m_glcontroller->producer());
-	}
-	else m_controller->reOpen();
-	m_controller->seek(pos);
-	m_glcontroller->displayWidget()->setHidden(true);
-	m_scenecontroller->displayWidget()->setHidden(false);
+    // Switch to graphicsscene controller
+    m_controller = m_scenecontroller;
+    if (m_glcontroller->usesGpu()) {
+        ProducerWrapper *prod2 = new ProducerWrapper(m_controller->profile(), m_glcontroller->resource());
+        m_controller->open(prod2);
+    }
+    else if (m_glcontroller->resource() != m_scenecontroller->resource()) {
+        m_controller->open(m_glcontroller->producer());
+    }
+    else m_controller->reOpen();
+    m_controller->seek(pos);
+    m_glcontroller->displayWidget()->setHidden(true);
+    m_scenecontroller->displayWidget()->setHidden(false);
     }
     else {
-	// Switch to OpenGL controller
-	m_controller = m_glcontroller;
-	if (m_glcontroller->usesGpu()) {
-	    if (m_glcontroller->resource() == m_scenecontroller->resource()) m_controller->reOpen();
-	    else {
-		ProducerWrapper *prod2 = new ProducerWrapper(m_controller->profile(), m_scenecontroller->resource());
-		m_controller->open(prod2);
-	    }
-	}
-	else if (m_glcontroller->resource() != m_scenecontroller->resource()) {
-	    kDebug()<<"// GL WIDGET RE-OPENING";
-	    m_controller->open(m_scenecontroller->producer());
-	}
-	else m_controller->reOpen();
-	m_controller->seek(pos);
-	m_scenecontroller->displayWidget()->setHidden(true);
-	m_glcontroller->displayWidget()->setHidden(false);
+    // Switch to OpenGL controller
+    m_controller = m_glcontroller;
+    if (m_glcontroller->usesGpu()) {
+        if (m_glcontroller->resource() == m_scenecontroller->resource()) m_controller->reOpen();
+        else {
+        ProducerWrapper *prod2 = new ProducerWrapper(m_controller->profile(), m_scenecontroller->resource());
+        m_controller->open(prod2);
+        }
+    }
+    else if (m_glcontroller->resource() != m_scenecontroller->resource()) {
+        kDebug()<<"// GL WIDGET RE-OPENING";
+        m_controller->open(m_scenecontroller->producer());
+    }
+    else m_controller->reOpen();
+    m_controller->seek(pos);
+    m_scenecontroller->displayWidget()->setHidden(true);
+    m_glcontroller->displayWidget()->setHidden(false);
     }
     connectController();
     emit controllerChanged(m_id, m_controller);
@@ -474,26 +474,26 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, bool isMulti)
     //kDebug()<<"MONITOR: "<<m_id<<"\n + + + ++ + + + + + +\nOPENING PRODUCeR: "<<producer->resourceName()<<" = "<<producer->get_length()<<" \n + + + + ++ + + + + ++ + +\n";
     setProfile(producer->profile(), false);
     if (role != KeepMonitor && role != m_currentRole) {
-	// Switching monitor role
-	m_currentRole = role;
-	addMonitorRole(role);
+        // Switching monitor role
+        m_currentRole = role;
+        addMonitorRole(role);
     }
     if (m_monitorProducer == producer) return 0;
     if (m_GPUProducer.contains(m_currentRole)) {
-	if (m_controller->displayType() == MLTGLSL) m_normalProducer.value(m_currentRole)->seek(m_GPUProducer.value(m_currentRole)->position());
-	m_controller->stop();
-	delete m_GPUProducer.take(m_currentRole);
+        if (m_controller->displayType() == MLTGLSL) m_normalProducer.value(m_currentRole)->seek(m_GPUProducer.value(m_currentRole)->position());
+        m_controller->stop();
+        delete m_GPUProducer.take(m_currentRole);
     }
     if (producer != m_blackProducer) m_normalProducer.insert(m_currentRole, producer);
     if (m_controller->displayType() == MLTGLSL) {
-	QString resource = producer->resourceName();
-	ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, resource);
-	GPUProducer->seek(producer->position());
-	if (producer != m_blackProducer) m_GPUProducer.insert(m_currentRole, GPUProducer);
-	m_monitorProducer = GPUProducer;
+        QString resource = producer->resourceName();
+        ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, resource);
+        GPUProducer->seek(producer->position());
+        if (producer != m_blackProducer) m_GPUProducer.insert(m_currentRole, GPUProducer);
+        m_monitorProducer = GPUProducer;
     }
     else {
-	m_monitorProducer = producer;
+        m_monitorProducer = producer;
     }
     int result = m_controller->open(m_monitorProducer, isMulti, m_currentRole == RecordMonitor);
     return result;
@@ -503,7 +503,7 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, bool isMulti)
 bool MonitorView::requiresProfileUpdate(Mlt::Profile *base, Mlt::Profile *newProfile) const
 {
     if (newProfile->width() == base->width() && newProfile->height() == base->height() && newProfile->dar() == base->dar() && newProfile->progressive() == base->progressive())
-	return false;
+        return false;
     return true;
 }
 
@@ -521,51 +521,51 @@ void MonitorView::slotToggleMonitorRole(QAction *a)
 void MonitorView::toggleMonitorRole(MONITORID role, bool setAction)
 {
     if (role != KeepMonitor && role != m_currentRole) {
-	// switch to required role
-	if (setAction) {
-	    QList <QAction *> actions = m_monitorRole->actions();
-	    for (int i = 0; i < actions.count(); ++i)
-		if ((MONITORID) (actions.at(i)->data().toInt()) ==  role) {
-		    m_monitorRole->setCurrentAction(actions.at(i));
-		    break;
-		}
-	}
-	if (m_currentRole == RecordMonitor) {
-	    m_normalProducer.remove(RecordMonitor);
-	    m_GPUProducer.remove(RecordMonitor);
-	    m_controller->closeConsumer();
-	}
-	m_currentRole = role;
-	addMonitorRole(role);
-	if (m_controller->displayType() == MLTGLSL) {
-	    if (m_GPUProducer.contains(m_currentRole)) m_monitorProducer = m_GPUProducer.value(m_currentRole);
-	    else if (m_normalProducer.contains(m_currentRole)) {
-		ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, m_normalProducer.value(m_currentRole)->get("resource"));
-		if (role != RecordMonitor) GPUProducer->seek(m_monitorProducer->position());
-		m_GPUProducer.insert(m_currentRole, GPUProducer);
-		m_monitorProducer = GPUProducer;
-	    }
-	    else {
-		if (role == RecordMonitor) {
-		    m_monitorProducer = new ProducerWrapper(*m_profile, "decklink:");
-		    m_normalProducer.insert(role, m_monitorProducer);
-		}
-		else m_monitorProducer = m_blackProducer;
-	    }
-	}
-	else {
-	    if (m_normalProducer.contains(m_currentRole)) m_monitorProducer = m_normalProducer.value(m_currentRole);
-	    else {
-		if (role == RecordMonitor) {
-		    m_monitorProducer = new ProducerWrapper(*m_profile, "decklink:");
-		    m_normalProducer.insert(role, m_monitorProducer);
-		}
-		else m_monitorProducer = m_blackProducer;
-	    }
-	}
-	m_positionBar->setVisible(role != RecordMonitor);
-	m_playAction->setVisible(role != RecordMonitor);
-	m_controller->open(m_monitorProducer, false, m_currentRole == RecordMonitor);
+        // switch to required role
+        if (setAction) {
+            QList <QAction *> actions = m_monitorRole->actions();
+            for (int i = 0; i < actions.count(); ++i)
+                if ((MONITORID) (actions.at(i)->data().toInt()) ==  role) {
+                    m_monitorRole->setCurrentAction(actions.at(i));
+                    break;
+                }
+        }
+        if (m_currentRole == RecordMonitor) {
+            m_normalProducer.remove(RecordMonitor);
+            m_GPUProducer.remove(RecordMonitor);
+            m_controller->closeConsumer();
+        }
+        m_currentRole = role;
+        addMonitorRole(role);
+        if (m_controller->displayType() == MLTGLSL) {
+            if (m_GPUProducer.contains(m_currentRole)) m_monitorProducer = m_GPUProducer.value(m_currentRole);
+            else if (m_normalProducer.contains(m_currentRole)) {
+                ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, m_normalProducer.value(m_currentRole)->get("resource"));
+                if (role != RecordMonitor) GPUProducer->seek(m_monitorProducer->position());
+                m_GPUProducer.insert(m_currentRole, GPUProducer);
+                m_monitorProducer = GPUProducer;
+            }
+            else {
+                if (role == RecordMonitor) {
+                    m_monitorProducer = new ProducerWrapper(*m_profile, "decklink:");
+                    m_normalProducer.insert(role, m_monitorProducer);
+                }
+                else m_monitorProducer = m_blackProducer;
+            }
+        }
+        else {
+            if (m_normalProducer.contains(m_currentRole)) m_monitorProducer = m_normalProducer.value(m_currentRole);
+            else {
+                if (role == RecordMonitor) {
+                    m_monitorProducer = new ProducerWrapper(*m_profile, "decklink:");
+                    m_normalProducer.insert(role, m_monitorProducer);
+                }
+                else m_monitorProducer = m_blackProducer;
+            }
+        }
+        m_positionBar->setVisible(role != RecordMonitor);
+        m_playAction->setVisible(role != RecordMonitor);
+        m_controller->open(m_monitorProducer, false, m_currentRole == RecordMonitor);
     }
 }
 
@@ -578,19 +578,19 @@ void MonitorView::slotToggleMonitorMode(QAction *a)
 void MonitorView::toggleMonitorMode(DISPLAYMODE mode, bool checkAvailability)
 {
     if (checkAvailability) {
-	m_infoMessage->hide();
-	if (!pCore->monitorManager()->isSupported((DISPLAYMODE) mode)) {
-	    m_infoMessage->setText(i18n("The video mode <b>%1</b> is not available on your system", pCore->monitorManager()->getDisplayName(mode)));
-	    m_infoMessage->show();
-	    m_monitorMode->setCurrentItem(m_controller->displayType());
-	    return;
-	}
-	if (!pCore->monitorManager()->isAvailable((DISPLAYMODE) mode)) {
-	    m_infoMessage->setText(i18n("Only one <b>%1</b> monitor can be used", pCore->monitorManager()->getDisplayName(mode)));
-	    m_infoMessage->show();
-	    m_monitorMode->setCurrentItem(m_controller->displayType());
-	    return;
-	}
+        m_infoMessage->hide();
+        if (!pCore->monitorManager()->isSupported((DISPLAYMODE) mode)) {
+            m_infoMessage->setText(i18n("The video mode <b>%1</b> is not available on your system", pCore->monitorManager()->getDisplayName(mode)));
+            m_infoMessage->show();
+            m_monitorMode->setCurrentItem(m_controller->displayType());
+            return;
+        }
+        if (!pCore->monitorManager()->isAvailable((DISPLAYMODE) mode)) {
+            m_infoMessage->setText(i18n("Only one <b>%1</b> monitor can be used", pCore->monitorManager()->getDisplayName(mode)));
+            m_infoMessage->show();
+            m_monitorMode->setCurrentItem(m_controller->displayType());
+            return;
+        }
     }
     setUpdatesEnabled(false);
     int pos = m_controller->position();
@@ -605,21 +605,21 @@ void MonitorView::toggleMonitorMode(DISPLAYMODE mode, bool checkAvailability)
     m_controller = buildController(mode);
 
     if (previousMode != MLTGLSL && mode == MLTGLSL) {
-	// Switching to GPU acclerated
-	// Special case: glsl uses different normalizers, we must recreate the producer
-	if (!m_GPUProducer.contains(m_currentRole)) {
-	    ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, resource);
-	    GPUProducer->seek(m_monitorProducer->position());
-	    m_GPUProducer.insert(m_currentRole, GPUProducer);
-	    //m_normalProducer = m_monitorProducer;
-	}
-	m_monitorProducer = m_GPUProducer.value(m_currentRole);
+        // Switching to GPU acclerated
+        // Special case: glsl uses different normalizers, we must recreate the producer
+        if (!m_GPUProducer.contains(m_currentRole)) {
+            ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, resource);
+            GPUProducer->seek(m_monitorProducer->position());
+            m_GPUProducer.insert(m_currentRole, GPUProducer);
+            //m_normalProducer = m_monitorProducer;
+        }
+        m_monitorProducer = m_GPUProducer.value(m_currentRole);
     }
     if (previousMode == MLTGLSL && mode != MLTGLSL) {
-	// Switching back to normal producer
-	// Special case: glsl uses different normalizers, we must recreate the producer
-	if (m_normalProducer.contains(m_currentRole)) m_monitorProducer = m_normalProducer.value(m_currentRole);
-	else m_monitorProducer = m_blackProducer;
+        // Switching back to normal producer
+        // Special case: glsl uses different normalizers, we must recreate the producer
+        if (m_normalProducer.contains(m_currentRole)) m_monitorProducer = m_normalProducer.value(m_currentRole);
+        else m_monitorProducer = m_blackProducer;
     }
     
     connectController();
@@ -651,8 +651,8 @@ void MonitorView::close()
 void MonitorView::setPosition(int position)
 {
     if (position >= m_positionBar->duration() - 1) {
-	m_controller->pause();
-	m_playAction->setActive(false);
+        m_controller->pause();
+        m_playAction->setActive(false);
     }
     m_positionBar->setPosition(position);
     m_timecodeWiget->setValue(position);
@@ -662,8 +662,8 @@ void MonitorView::setPosition(int position)
 void MonitorView::onProducerChanged()
 {
     int producerDuration = 0;
-    if (m_monitorProducer) {// controller->producer()) 
-	producerDuration = m_monitorProducer->get_length();
+    if (m_monitorProducer) {// controller->producer())
+        producerDuration = m_monitorProducer->get_length();
     }
     m_positionBar->setDuration(producerDuration, m_profile->fps());
     m_timecodeWiget->setMaximum(producerDuration);
