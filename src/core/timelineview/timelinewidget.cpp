@@ -76,7 +76,7 @@ void TimelineWidget::setClipTimeline(Timeline *timeline)
         m_scene = NULL;
     }
     if (timeline) {
-	m_positionBar->setProject(timeline->project(), ClipMonitor);
+        m_positionBar->setProject(timeline->project(), ClipMonitor);
         m_scene = new TimelineScene(timeline, m_toolManager, m_view, this);
     }
     m_view->setScene(m_scene);

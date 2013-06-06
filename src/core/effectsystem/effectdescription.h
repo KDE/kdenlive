@@ -46,7 +46,7 @@ public:
      * @param version version of the effect
      * @param repository remove?
      */
-    EffectDescription(QDomElement description, double version, EffectRepository *repository);
+    EffectDescription(const QDomElement &description, double version, EffectRepository *repository);
     virtual ~EffectDescription();
 
     /**
@@ -91,7 +91,7 @@ public:
     bool isUnique() const;
 
 private:
-    QString getTextFromElement(QDomElement element);
+    QString getTextFromElement(const QDomElement &element);
 
     QString m_tag;
     QString m_name;

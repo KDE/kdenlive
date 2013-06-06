@@ -69,8 +69,8 @@ GenericProjectClip::GenericProjectClip(const QDomElement& description, ProjectFo
     for (int i = 0; i < props.count(); i++) {
         QDomElement e = props.item(i).toElement();
         if (!e.isNull()) {
-	    m_baseProducer->setProperty(e.attribute("name"), e.firstChild().nodeValue());
-	}
+            m_baseProducer->setProperty(e.attribute("name"), e.firstChild().nodeValue());
+        }
     }
 }
 
@@ -93,24 +93,24 @@ AbstractTimelineClip* GenericProjectClip::createInstance(TimelineTrack* parent, 
 void GenericProjectClip::hash()
 {
     if (m_hash.isEmpty() && hasUrl()) {
-	QFile file(m_url.path());
-	if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
-	    QByteArray fileData;
-	    //kDebug() << "SETTING HASH of" << value;
-	    m_fileSize = file.size();
-	    /*
+        QFile file(m_url.path());
+        if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
+            QByteArray fileData;
+            //kDebug() << "SETTING HASH of" << value;
+            m_fileSize = file.size();
+            /*
                * 1 MB = 1 second per 450 files (or faster)
                * 10 MB = 9 seconds per 450 files (or faster)
                */
-	    if (file.size() > 1000000*2) {
-		fileData = file.read(1000000);
-		if (file.seek(file.size() - 1000000))
-		    fileData.append(file.readAll());
-	    } else
-		fileData = file.readAll();
-	    file.close();
-	    m_hash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-	}
+            if (file.size() > 1000000*2) {
+                fileData = file.read(1000000);
+                if (file.seek(file.size() - 1000000))
+                    fileData.append(file.readAll());
+            } else
+                fileData = file.readAll();
+            file.close();
+            m_hash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+        }
     }
 }
 
@@ -120,14 +120,14 @@ QDomElement GenericProjectClip::toXml(QDomDocument& document) const
     clip.setAttribute("duration", m_baseProducer->get_length());
     QStringList producerProperties = pCore->producerRepository()->producerProperties(clip.attribute("producer_type"));
     foreach(const QString &key, producerProperties) {
-	QString value = m_baseProducer->property(key);
-	if (!value.isEmpty()) {
-	    QDomElement property = document.createElement("property");
-	    property.setAttribute("name", key);
-	    QDomText val = document.createTextNode(value);
-	    property.appendChild(val);
-	    clip.appendChild(property);
-	}
+        QString value = m_baseProducer->property(key);
+        if (!value.isEmpty()) {
+            QDomElement property = document.createElement("property");
+            property.setAttribute("name", key);
+            QDomText val = document.createTextNode(value);
+            property.appendChild(val);
+            clip.appendChild(property);
+        }
     }
     return clip;
 }
@@ -138,9 +138,9 @@ QPixmap GenericProjectClip::thumbnail()
         m_thumbnail = m_baseProducer->pixmap().scaledToHeight(100, Qt::SmoothTransformation);
     }*/
     if (m_thumbnail.isNull() && m_baseProducer) {
-	int width = 80 * bin()->project()->displayRatio();
-	if (width % 2 == 1) width++;
-	bin()->project()->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
+        int width = 80 * bin()->project()->displayRatio();
+        if (width % 2 == 1) width++;
+        bin()->project()->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
     }
     return m_thumbnail;
 }
@@ -153,11 +153,11 @@ void GenericProjectClip::init(int duration, int in , int out)
     m_hasLimitedDuration = false;
     hash();
     if (duration == 0) {
-	duration = m_baseProducer->get_length();
+        duration = m_baseProducer->get_length();
     }
     if (duration == 0) {
-	//TODO: replace color_duration with generic_duration
-	duration = bin()->project()->timecodeFormatter()->fromString(KdenliveSettings::color_duration(), TimecodeFormatter::HH_MM_SS_FF).frames();
+        //TODO: replace color_duration with generic_duration
+        duration = bin()->project()->timecodeFormatter()->fromString(KdenliveSettings::color_duration(), TimecodeFormatter::HH_MM_SS_FF).frames();
     }
     kDebug()<<" * * * *\nGENERIC CLIP: "<<duration<<", "<<in<<", "<<out;
     if (out == 0) out = duration - 1;
@@ -171,17 +171,17 @@ void GenericProjectClip::init(int duration, int in , int out)
 void GenericProjectClip::initProducer()
 {
     if (!m_baseProducer) {
-	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
-	m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
+        m_baseProducer->set("id", id().toUtf8().constData());
     }
 }
 
 void GenericProjectClip::initProducer(const QString &service, Mlt::Properties props)
 {
     if (!m_baseProducer) {
-	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), QString(service + ":" + props.get("resource")));
-	//TODO: pass all properties to producer
-	m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), QString(service + ":" + props.get("resource")));
+        //TODO: pass all properties to producer
+        m_baseProducer->set("id", id().toUtf8().constData());
     }
 }
 

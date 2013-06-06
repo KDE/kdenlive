@@ -34,42 +34,42 @@ public:
     }*/
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
     {
-	QSize hint = QStyledItemDelegate::sizeHint(option, index);
-	return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, hint.height()));
-	
-	QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
-	QString line1 = index.data(Qt::DisplayRole).toString();
-	QString line2 = index.data(Qt::UserRole).toString();
+        QSize hint = QStyledItemDelegate::sizeHint(option, index);
+        return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, hint.height()));
 
-	int textW = qMax(option.fontMetrics.width(line1), option.fontMetrics.width(line2));
-	QSize iconSize = icon.actualSize(option.decorationSize);
+        QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
+        QString line1 = index.data(Qt::DisplayRole).toString();
+        QString line2 = index.data(Qt::UserRole).toString();
 
-	return QSize(qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4);
+        int textW = qMax(option.fontMetrics.width(line1), option.fontMetrics.width(line2));
+        QSize iconSize = icon.actualSize(option.decorationSize);
+
+        return QSize(qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4);
     }
 
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
         if (index.column() == 0 && !index.data().isNull()) {
             QRect r1 = option.rect;
             painter->save();
-	    painter->setClipRect(r1);
+            painter->setClipRect(r1);
             QStyleOptionViewItemV4 opt(option);
-	    initStyleOption(&opt, index);
-    
-	    QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
-	    const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-	    QRect r = QStyle::alignedRect(opt.direction, Qt::AlignTop | Qt::AlignLeft,
-                                  opt.decorationSize, r1);
-	    if (!(option.state & QStyle::State_Selected)) opt.icon.paint(painter, r);
+            initStyleOption(&opt, index);
+
+            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+            QRect r = QStyle::alignedRect(opt.direction, Qt::AlignTop | Qt::AlignLeft,
+                                          opt.decorationSize, r1);
+            if (!(option.state & QStyle::State_Selected)) opt.icon.paint(painter, r);
             int decoWidth = r.width() + 2 * textMargin;
-	    
-	    style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+
+            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 
             if (option.state & QStyle::State_Selected) {
                 painter->setPen(option.palette.highlightedText().color());
-		opt.icon.paint(painter, r);
+                opt.icon.paint(painter, r);
             }// else opt.icon.paint(painter, r);
-	    
-	    /*QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
+
+            /*QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
             QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
             painter->drawPixmap(pixmapPoint, opt.icon.pixmap(r.width(), r.height()));
             int decoWidth = pixmap.width() + 2 * textMargin;*/
@@ -81,7 +81,7 @@ public:
             r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
-	    QRectF bounding;
+            QRectF bounding;
             painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);
             font.setBold(false);
             painter->setFont(font);
@@ -89,10 +89,10 @@ public:
             //int usage = index.data(UsageRole).toInt();
             //if (usage != 0) subText.append(QString(" (%1)").arg(usage));
             //if (option.state & (QStyle::State_Selected)) painter->setPen(option.palette.color(QPalette::Mid));
-	    r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
-	    QColor subTextColor = painter->pen().color();
-	    subTextColor.setAlphaF(.5);
-	    painter->setPen(subTextColor);
+            r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
+            QColor subTextColor = painter->pen().color();
+            subTextColor.setAlphaF(.5);
+            painter->setPen(subTextColor);
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
             
             /*int jobProgress = index.data(Qt::UserRole + 5).toInt();
@@ -151,26 +151,26 @@ public:
 };
 
 class EventEater : public QObject
- {
-     Q_OBJECT
- public:
-     EventEater(QObject *parent = 0);
+{
+    Q_OBJECT
+public:
+    EventEater(QObject *parent = 0);
 
- protected:
-     bool eventFilter(QObject *obj, QEvent *event);
-     
- signals:
-     void focusClipMonitor();
-     void addClip();
-     void editItem(const QString&);
-     void editItemInTimeline(const QString&, const QString&, ProducerWrapper*);
- };
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+
+signals:
+    void focusClipMonitor();
+    void addClip();
+    void editItem(const QString&);
+    void editItemInTimeline(const QString&, const QString&, ProducerWrapper*);
+};
 
 
 class Producer;
 class KToolBar;
 class QMenu;
- 
+
 /**
  * @class Bin
  * @brief The bin widget takes care of both item model and view upon project opening.
@@ -183,7 +183,7 @@ class KDE_EXPORT Bin : public QWidget
 
     /** @brief Defines the view types (icon view, tree view,...)  */
     enum BinViewType {BinTreeView, BinIconView };
-      
+
 public:
     Bin(QWidget* parent = 0);
     ~Bin();

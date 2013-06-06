@@ -22,7 +22,7 @@ class ColorParameter : public AbstractParameter
 
 public:
     ColorParameter(const ColorParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
-    ~ColorParameter() {};
+    ~ColorParameter() {}
 
     void set(const char*data);
     QColor value() const;

@@ -31,13 +31,12 @@ Timeline::Timeline(const QString& document, Project* parent) :
     profile->set_explicit(0);
     kDebug()<<"// SETTING PROJECT PROFILE: "<<KdenliveSettings::default_profile();
     if (document.isEmpty()) {
-	// Creating blank project
-	QString blankDocument = getBlankDocument(profile);
-	m_producer = new ProducerWrapper(*profile, blankDocument, "xml-string");
-      
-    }
-    else {
-	m_producer = new ProducerWrapper(*profile, document, "xml-string");
+        // Creating blank project
+        QString blankDocument = getBlankDocument(profile);
+        m_producer = new ProducerWrapper(*profile, blankDocument, "xml-string");
+
+    } else {
+        m_producer = new ProducerWrapper(*profile, document, "xml-string");
     }
 
     // this shouldn't be an assert
@@ -54,7 +53,7 @@ Timeline::Timeline(const QString& document, Project* parent) :
     //m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
     //m_monitor->setProducer(m_producer);
     
-//     m_producer->optimise();
+    //     m_producer->optimise();
 
     m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
 }
@@ -63,7 +62,7 @@ Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
     QObject(parent),
     m_parent(parent),
     m_monitor(NULL)
-    , m_tractor(NULL)
+  , m_tractor(NULL)
 {
     // profile we set doesn't matter, it will be overwritten anyways with the info in the profile tag
     //m_producer = producer;
@@ -96,7 +95,7 @@ Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
     //m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
     //m_monitor->setProducer(m_producer);
     
-//     m_producer->optimise();
+    //     m_producer->optimise();
     m_monitor = m_parent->binMonitor();
     //m_monitor->open(m_producer, ClipMonitor);
 
@@ -140,13 +139,13 @@ QString Timeline::getBlankDocument(Mlt::Profile *profile) const
 
 QString Timeline::toXml() const
 {
-  
+
     Mlt::Profile profile((mlt_profile) 0); //*m_producer->profile()
     Mlt::Consumer xmlConsumer(profile, "xml:kdenlive_playlist");
 
     Q_ASSERT(xmlConsumer.is_valid());
 
-//     m_producer->optimise();
+    //     m_producer->optimise();
 
     xmlConsumer.set("terminate_on_pause", 1);
     // makes the consumer also store properties we added (with the prefix "kdenlive")
@@ -189,7 +188,7 @@ ProducerWrapper* Timeline::producer()
 MonitorView* Timeline::monitor()
 {
     return m_monitor;
-//     return m_parent->binMonitor();
+    //     return m_parent->binMonitor();
 }
 
 TimelineTrack* Timeline::track(int index)
@@ -221,9 +220,9 @@ void Timeline::loadClip()
     Mlt::Multitrack *multitrack = m_tractor->multitrack();
     kDebug() << "PROJECT TRACKS: "<<m_tracks.count()<< " / "<<multitrack->count();
     TimelineTrack *track = new TimelineTrack(new ProducerWrapper(multitrack->track(0)), this);
-        if (track) {
-            m_tracks.append(track);
-        }
+    if (track) {
+        m_tracks.append(track);
+    }
 }
 
 void Timeline::emitDurationChanged()

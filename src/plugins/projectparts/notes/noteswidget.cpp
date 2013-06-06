@@ -61,7 +61,7 @@ void NotesWidget::mousePressEvent(QMouseEvent * e)
     const QString anchor = anchorAt(e->pos());
     if (anchor.isEmpty()) {
         KTextEdit::mousePressEvent(e);
-	return;
+        return;
     }
     emit seekProject(anchor.toInt());
     e->setAccepted(true);

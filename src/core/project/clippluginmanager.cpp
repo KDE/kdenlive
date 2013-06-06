@@ -57,29 +57,29 @@ ClipPluginManager::ClipPluginManager(QObject* parent) :
             AbstractClipPlugin *clipPlugin = factory->create<AbstractClipPlugin>(this);
             if (clipPlugin) {
                 foreach (const QString &producer, providedProducers) {
-		    QString producerTag = producer;
-		    if (producer == "generic") {
-			m_clipPlugins.insert(producerTag, clipPlugin);
-			continue;
-		    }
-		    kDebug()<<"// CHECKING prod: "<<producer;
-		    QString producerName = clipPlugin->nameForService(producer);
-		    if (producerName.isEmpty()) {
-			ProducerDescription *prod = pCore->producerRepository()->producerDescription(producer);
-			if (prod) {
-			    producerName = prod->displayName();
-			    producerTag = prod->tag();
-			}
-		    }
-		    if (!producerName.isEmpty()) {
-			kDebug()<<"// OK FOR: "<<producerName;
-			/*KAction *addClipAction = new KAction(KIcon("kdenlive-add-clip"), producerName, this);
-			actions.append(addClipAction);*/
-			//addClipMenu->addAction(addClipAction);
-			//pCore->window()->actionCollection()->addAction(QString("add_%1").arg(producerTag), addClipAction);
-			m_clipPlugins.insert(producerTag, clipPlugin);
-		    }
-		    //addClipMenu->addAction(addClipAction);
+                    QString producerTag = producer;
+                    if (producer == "generic") {
+                        m_clipPlugins.insert(producerTag, clipPlugin);
+                        continue;
+                    }
+                    kDebug()<<"// CHECKING prod: "<<producer;
+                    QString producerName = clipPlugin->nameForService(producer);
+                    if (producerName.isEmpty()) {
+                        ProducerDescription *prod = pCore->producerRepository()->producerDescription(producer);
+                        if (prod) {
+                            producerName = prod->displayName();
+                            producerTag = prod->tag();
+                        }
+                    }
+                    if (!producerName.isEmpty()) {
+                        kDebug()<<"// OK FOR: "<<producerName;
+                        /*KAction *addClipAction = new KAction(KIcon("kdenlive-add-clip"), producerName, this);
+            actions.append(addClipAction);*/
+                        //addClipMenu->addAction(addClipAction);
+                        //pCore->window()->actionCollection()->addAction(QString("add_%1").arg(producerTag), addClipAction);
+                        m_clipPlugins.insert(producerTag, clipPlugin);
+                    }
+                    //addClipMenu->addAction(addClipAction);
                     
                 }
             }
@@ -120,15 +120,15 @@ const QString ClipPluginManager::createClip(const QString &service, Mlt::Propert
     QString clipId;
     AbstractClipPlugin *plugin = clipPlugin(service);
     if (plugin) {
-	clipId = pCore->projectManager()->current()->getFreeId();
-	QString displayName = props.get("resource");
-	if (displayName.isEmpty()) displayName = pCore->producerRepository()->getProducerDisplayName(service);
-	AddClipCommand *command = new AddClipCommand(displayName, service, props, clipId, plugin, folder, parentCommand);
+        clipId = pCore->projectManager()->current()->getFreeId();
+        QString displayName = props.get("resource");
+        if (displayName.isEmpty()) displayName = pCore->producerRepository()->getProducerDisplayName(service);
+        AddClipCommand *command = new AddClipCommand(displayName, service, props, clipId, plugin, folder, parentCommand);
         if (!parentCommand) {
-	    pCore->projectManager()->current()->undoStack()->push(command);
+            pCore->projectManager()->current()->undoStack()->push(command);
         }
     } else {
-	kWarning() << "no clip plugin available for mlt service " << service;
+        kWarning() << "no clip plugin available for mlt service " << service;
     }
     return clipId;
 }
@@ -141,7 +141,7 @@ AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescript
         return clip;
     } else {
         kWarning() << "no clip plugin available for mlt service " << producerType;
-	AbstractProjectClip *clip = m_clipPlugins.value("generic")->loadClip(clipDescription, folder);
+        AbstractProjectClip *clip = m_clipPlugins.value("generic")->loadClip(clipDescription, folder);
         return clip;
         return NULL;
     }
@@ -152,7 +152,7 @@ AbstractClipPlugin* ClipPluginManager::clipPlugin(const QString& producerType) c
     if (m_clipPlugins.contains(producerType)) {
         return m_clipPlugins.value(producerType);
     } else {
-	// No specific producer found, use generic producer
+        // No specific producer found, use generic producer
         return m_clipPlugins.value("generic");
     }
 }
@@ -163,72 +163,72 @@ void ClipPluginManager::filterDescription(Mlt::Properties props, ProducerDescrip
     kDebug()<<"* * * * *EDITING CLIP: "<<props.get("mlt_service");
     AbstractClipPlugin* plugin = clipPlugin(props.get("mlt_service"));
     if (plugin) {
-	//TODO, currently not working
-	plugin->fillDescription(props, description);
+        //TODO, currently not working
+        plugin->fillDescription(props, description);
     }
 }
 
 void ClipPluginManager::execAddClipDialog(QAction *action, ProjectFolder* folder) const
 {
     if (action) {
-	// Find which plugin is responsible for this clip type and build appropriate dialog
-	//AbstractClipPlugin *plugin = clipPlugin(action->data().toString());
-	const QString service = action->data().toString();
-	Mlt::Properties props;
-	if (!folder) {
-	    folder = pCore->projectManager()->current()->bin()->rootFolder();
-	}
-	const QString id = createClip(service, props, folder, NULL);
-	if (id.isEmpty()) {
-	    kDebug()<<" / / / / CAnnot create clip for: "<<service;
-	}
-	else pCore->window()->bin()->showClipProperties(id);
+        // Find which plugin is responsible for this clip type and build appropriate dialog
+        //AbstractClipPlugin *plugin = clipPlugin(action->data().toString());
+        const QString service = action->data().toString();
+        Mlt::Properties props;
+        if (!folder) {
+            folder = pCore->projectManager()->current()->bin()->rootFolder();
+        }
+        const QString id = createClip(service, props, folder, NULL);
+        if (id.isEmpty()) {
+            kDebug()<<" / / / / CAnnot create clip for: "<<service;
+        }
+        else pCore->window()->bin()->showClipProperties(id);
 
-	
-	return;
+
+        return;
     }
-  
+
     QString allExtensions = m_supportedFileExtensions.join(" ");
     const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
 
-//         QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
-//         b->setChecked(KdenliveSettings::autoimagesequence());
-//         QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
-//         c->setChecked(KdenliveSettings::autoimagetransparency());
-//         QFrame *f = new QFrame;
-//         f->setFrameShape(QFrame::NoFrame);
-//         QHBoxLayout *l = new QHBoxLayout;
-//         l->addWidget(b);
-//         l->addWidget(c);
-//         l->addStretch(5);
-//         f->setLayout(l);
+    //         QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
+    //         b->setChecked(KdenliveSettings::autoimagesequence());
+    //         QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
+    //         c->setChecked(KdenliveSettings::autoimagetransparency());
+    //         QFrame *f = new QFrame;
+    //         f->setFrameShape(QFrame::NoFrame);
+    //         QHBoxLayout *l = new QHBoxLayout;
+    //         l->addWidget(b);
+    //         l->addWidget(c);
+    //         l->addStretch(5);
+    //         f->setLayout(l);
 
     KFileDialog *dialog = new KFileDialog(KUrl("kfiledialog:///clipfolder"), dialogFilter, pCore->window()/*, f*/);
     dialog->setOperationMode(KFileDialog::Opening);
     dialog->setMode(KFile::Files);
-    dialog->exec();
+    if (dialog->exec() ) {
 
-//         if (dialog->exec() == QDialog::Accepted) {
-//             KdenliveSettings::setAutoimagetransparency(c->isChecked());
-//         }
+        //         if (dialog->exec() == QDialog::Accepted) {
+        //             KdenliveSettings::setAutoimagetransparency(c->isChecked());
+        //         }
 
-    KUrl::List urlList = dialog->selectedUrls();
-    // TODO: retrieve current position + parent
-    if (!folder) {
-        folder = pCore->projectManager()->current()->bin()->rootFolder();
+        KUrl::List urlList = dialog->selectedUrls();
+        // TODO: retrieve current position + parent
+        if (!folder) {
+            folder = pCore->projectManager()->current()->bin()->rootFolder();
+        }
+
+        QUndoCommand *addClipsCommand = new QUndoCommand();
+
+        foreach (const KUrl &url, urlList) {
+            createClip(url, folder, addClipsCommand);
+        }
+
+        if (addClipsCommand->childCount()) {
+            addClipsCommand->setText(i18np("Add clip", "Add clips", addClipsCommand->childCount()));
+            pCore->projectManager()->current()->undoStack()->push(addClipsCommand);
+        }
     }
-
-    QUndoCommand *addClipsCommand = new QUndoCommand();
-
-    foreach (const KUrl &url, urlList) {
-        createClip(url, folder, addClipsCommand);
-    }
-
-    if (addClipsCommand->childCount()) {
-        addClipsCommand->setText(i18np("Add clip", "Add clips", addClipsCommand->childCount()));
-        pCore->projectManager()->current()->undoStack()->push(addClipsCommand);
-    }
-
     delete dialog;
 }
 

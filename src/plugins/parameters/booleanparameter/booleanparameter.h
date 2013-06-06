@@ -22,7 +22,7 @@ class BooleanParameter : public AbstractParameter
 
 public:
     BooleanParameter(const BooleanParameterDescription *parameterDescription, AbstractParameterList *parent, const QString &value = QString());
-    ~BooleanParameter() {};
+    ~BooleanParameter() {}
 
     void set(const char*data);
     bool value() const;

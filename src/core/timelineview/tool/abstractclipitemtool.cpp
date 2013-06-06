@@ -40,18 +40,18 @@ void AbstractClipItemTool::hover(TimelineScene* scene, TimelineClipItem* clip, Q
     m_editMode = editMode(event->scenePos());
 
     switch (m_editMode) {
-        case TrimStart:
-            hoverIn(event);
-            break;
-        case TrimEnd:
-            hoverOut(event);
-            break;
-        case SetPosition:
-            hoverPosition(event);
-            break;
-	default:
-	    // Should we do something?
-	    break;
+    case TrimStart:
+        hoverIn(event);
+        break;
+    case TrimEnd:
+        hoverOut(event);
+        break;
+    case SetPosition:
+        hoverPosition(event);
+        break;
+    default:
+        // Should we do something?
+        break;
     }
 }
 

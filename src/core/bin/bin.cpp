@@ -51,49 +51,49 @@ EventEater::EventEater(QObject *parent) : QObject(parent)
 }
 
 bool EventEater::eventFilter(QObject *obj, QEvent *event)
- {
-     if (event->type() == QEvent::MouseButtonPress) {
-	  emit focusClipMonitor();
-	  return QObject::eventFilter(obj, event);
-     }
-     if (event->type() == QEvent::MouseButtonDblClick) {
-	  QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
-	  QAbstractItemView *view = qobject_cast<QAbstractItemView*>(obj->parent());
-	  if (view) {
-	      QModelIndex idx = view->indexAt(mouseEvent->pos());
-	      if (idx == QModelIndex()) {
-		  // User double clicked on empty area
-		  emit addClip();
-	      }
-	      else {
-		  // User double clicked on a clip
-		  //TODO: show clip properties
-		  QModelIndex idx = view->indexAt(mouseEvent->pos());
-		  AbstractProjectClip *currentItem = static_cast<AbstractProjectClip *>(idx.internalPointer());
-		  if (mouseEvent->modifiers() & Qt::ShiftModifier) 
-		      emit editItemInTimeline(currentItem->clipId(), currentItem->name(), currentItem->baseProducer());
-		  else 
-		      emit editItem(currentItem->clipId());
-	      }
-	  }
-	 else {
-	    kDebug()<<" +++++++ NO VIEW-------!!";
-	 }
-         return true;
-     } else {
-         return QObject::eventFilter(obj, event);
-     }
- }    
+{
+    if (event->type() == QEvent::MouseButtonPress) {
+        emit focusClipMonitor();
+        return QObject::eventFilter(obj, event);
+    }
+    if (event->type() == QEvent::MouseButtonDblClick) {
+        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+        QAbstractItemView *view = qobject_cast<QAbstractItemView*>(obj->parent());
+        if (view) {
+            QModelIndex idx = view->indexAt(mouseEvent->pos());
+            if (idx == QModelIndex()) {
+                // User double clicked on empty area
+                emit addClip();
+            }
+            else {
+                // User double clicked on a clip
+                //TODO: show clip properties
+                QModelIndex idx = view->indexAt(mouseEvent->pos());
+                AbstractProjectClip *currentItem = static_cast<AbstractProjectClip *>(idx.internalPointer());
+                if (mouseEvent->modifiers() & Qt::ShiftModifier)
+                    emit editItemInTimeline(currentItem->clipId(), currentItem->name(), currentItem->baseProducer());
+                else
+                    emit editItem(currentItem->clipId());
+            }
+        }
+        else {
+            kDebug()<<" +++++++ NO VIEW-------!!";
+        }
+        return true;
+    } else {
+        return QObject::eventFilter(obj, event);
+    }
+}
 
 
 Bin::Bin(QWidget* parent) :
     QWidget(parent)
-    , m_itemModel(NULL)
-    , m_itemView(NULL)
-    , m_listType(BinTreeView)
-    , m_iconSize(60)
-    , m_propertiesPanel(NULL)
-    , m_editedProducer(NULL)
+  , m_itemModel(NULL)
+  , m_itemView(NULL)
+  , m_listType(BinTreeView)
+  , m_iconSize(60)
+  , m_propertiesPanel(NULL)
+  , m_editedProducer(NULL)
 {
     // TODO: proper ui, search line, add menu, ...
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -140,8 +140,8 @@ Bin::~Bin()
     if (m_itemView && m_listType == BinTreeView) {
         // save current treeview state (column width)
         QTreeView *view = static_cast<QTreeView*>(m_itemView);
-	m_headerInfo = view->header()->saveState();
-	KdenliveSettings::setTreeViewHeaders(QString(m_headerInfo));
+        m_headerInfo = view->header()->saveState();
+        KdenliveSettings::setTreeViewHeaders(QString(m_headerInfo));
     }
 }
 
@@ -167,7 +167,7 @@ void Bin::setProject(Project* project)
     closeEditing();
     if (m_itemView) {
         delete m_itemView;
-	m_itemView = NULL;
+        m_itemView = NULL;
     }
     if (m_itemModel) {
         delete m_itemModel;
@@ -195,7 +195,7 @@ void Bin::rowsInserted(const QModelIndex &/*parent*/, int /*start*/, int end)
         currentItem->setCurrent(true);
     }
     else {
-	kDebug()<<" * * * * *CURRENT IS INVALID!!!";
+        kDebug()<<" * * * * *CURRENT IS INVALID!!!";
     }
 }
 
@@ -210,14 +210,14 @@ void Bin::autoSelect()
     QModelIndex parent2 = m_itemModel->selectionModel()->currentIndex();
     AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(parent2.internalPointer());
     if (!currentItem) {
-	QModelIndex id = m_itemModel->index(0, 0, QModelIndex());
-	selectModel(id);
-	if (id.isValid()) {
-	    currentItem = static_cast<AbstractProjectItem *>(id.internalPointer());
-	}
+        QModelIndex id = m_itemModel->index(0, 0, QModelIndex());
+        selectModel(id);
+        if (id.isValid()) {
+            currentItem = static_cast<AbstractProjectItem *>(id.internalPointer());
+        }
     }
     if (currentItem) {
-	currentItem->setCurrent(true);
+        currentItem->setCurrent(true);
     }
 }
 
@@ -261,13 +261,13 @@ void Bin::slotInitView(QAction *action)
 
     // setup some default view specific parameters
     if (m_listType == BinTreeView) {
-	m_itemView->setItemDelegate(m_binTreeViewDelegate);
+        m_itemView->setItemDelegate(m_binTreeViewDelegate);
         QTreeView *view = static_cast<QTreeView*>(m_itemView);
-	kDebug()<<"/ / / BUILD HEADERS: "<<m_headerInfo;
+        kDebug()<<"/ / / BUILD HEADERS: "<<m_headerInfo;
         if (!m_headerInfo.isEmpty())
             view->header()->restoreState(m_headerInfo);
-	else 
-	    view->header()->resizeSections(QHeaderView::ResizeToContents);
+        else
+            view->header()->resizeSections(QHeaderView::ResizeToContents);
     }
 }
 
@@ -292,8 +292,8 @@ void Bin::slotOpenClipTimeline(const QString &id, const QString &name, ProducerW
 
 void Bin::closeEditing()
 {
-    if (!m_editedProducer) 
-	return;
+    if (!m_editedProducer)
+        return;
     delete m_editedProducer;
     delete m_propertiesPanel;
     m_editedProducer = NULL;
@@ -305,13 +305,13 @@ void Bin::showClipProperties(const QString &id)
     closeEditing();
     ProducerWrapper *producer = pCore->projectManager()->current()->bin()->clipProducer(id);
     if (!producer) {
-	// Cannot find producer to edit
-	return;
+        // Cannot find producer to edit
+        return;
     }
     ProducerDescription *desc = pCore->producerRepository()->producerDescription(producer->get("mlt_service"));
     if (!desc || desc->parameters().count() == 0) {
-	// Don't show properties panel of producer has no parameter
-	return;
+        // Don't show properties panel of producer has no parameter
+        return;
     }
     Mlt::Properties props(producer->get_properties());
     pCore->clipPluginManager()->filterDescription(props, desc);

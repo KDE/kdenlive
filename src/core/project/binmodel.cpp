@@ -67,7 +67,7 @@ void BinModel::slotGotImage(const QString &id, int pos, QImage img)
 {
     AbstractProjectClip* c = clip(id);
     if (c) {
-	c->setThumbnail(img);
+        c->setThumbnail(img);
     }
 }
 
@@ -75,7 +75,7 @@ ProducerWrapper *BinModel::clipProducer(const QString &id)
 {
     AbstractProjectClip* c = clip(id);
     if (c) {
-	return c->baseProducer();
+        return c->baseProducer();
     }
     return NULL;
 }
@@ -84,7 +84,7 @@ void BinModel::refreshThumnbail(const QString &id)
 {
     AbstractProjectClip* c = clip(id);
     if (c) {
-	c->thumbnail(true);
+        c->thumbnail(true);
     }
 }
 
@@ -103,10 +103,10 @@ void BinModel::setCurrentItem(AbstractProjectItem* item)
             oldItem->setCurrent(false);
         }
         if (m_currentItem) {
-	    m_currentItem->setCurrent(true);
-	    /*AbstractProjectClip *pclip = static_cast <AbstractProjectClip*>(m_currentItem);
-	    pclip->setCurrent(true);*/
-	}
+            m_currentItem->setCurrent(true);
+            /*AbstractProjectClip *pclip = static_cast <AbstractProjectClip*>(m_currentItem);
+        pclip->setCurrent(true);*/
+        }
 
         emit currentItemChanged(item);
     }
@@ -135,8 +135,8 @@ void BinModel::emitItemAdded(AbstractProjectItem* item)
     /*AbstractProjectItem* c = m_rootFolder->clipAt(item->index());
     kDebug()<<"// ++ ++ ++ ++ ADDED item: "<<item->index();
     if (c) {
-	kDebug()<<" // / /ITEM NAME: "<<c->name();
-	setCurrentItem(c);
+    kDebug()<<" // / /ITEM NAME: "<<c->name();
+    setCurrentItem(c);
     }*/
     kDebug()<<"------------------------------------";
     

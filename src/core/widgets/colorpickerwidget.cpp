@@ -57,8 +57,8 @@ void MyFrame::hideEvent ( QHideEvent * event )
 
 
 ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
-        QWidget(parent),
-        m_filterActive(false)
+    QWidget(parent),
+    m_filterActive(false)
 {
 #ifdef Q_WS_X11
     m_image = NULL;
@@ -142,7 +142,7 @@ void ColorPickerWidget::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() != Qt::LeftButton) {
         closeEventFilter();
-	emit disableCurrentFilter(false);
+        emit disableCurrentFilter(false);
         event->accept();
         return;
     }
@@ -165,13 +165,13 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
         m_grabRect.setHeight(event->globalY() - m_grabRect.y());
 
         if (m_grabRect.width() * m_grabRect.height() == 0) {
-	    m_grabRectFrame->hide();
+            m_grabRectFrame->hide();
             emit colorPicked(grabColor(event->globalPos()));
-	    emit disableCurrentFilter(false);
+            emit disableCurrentFilter(false);
         } else {
             // delay because m_grabRectFrame does not hide immediately
             connect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
-	    m_grabRectFrame->hide();
+            m_grabRectFrame->hide();
         }
         return;
     }
@@ -211,7 +211,7 @@ bool ColorPickerWidget::eventFilter(QObject *object, QEvent *event)
     // Close color picker on any key press
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::ShortcutOverride) {
         closeEventFilter();
-	emit disableCurrentFilter(false);
+        emit disableCurrentFilter(false);
         event->setAccepted(true);
         return true;
     }

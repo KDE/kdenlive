@@ -73,7 +73,7 @@ EffectDescription::EffectDescription(const QString &filterName, EffectRepository
     }
 }
 
-EffectDescription::EffectDescription(QDomElement description, double version, EffectRepository *repository) :
+EffectDescription::EffectDescription(const QDomElement &description, double version, EffectRepository *repository) :
     AbstractEffectRepositoryItem(),
     m_version(version)
 {
@@ -158,7 +158,7 @@ bool EffectDescription::isUnique() const
     return m_unique;
 }
 
-QString EffectDescription::getTextFromElement(QDomElement element)
+QString EffectDescription::getTextFromElement(const QDomElement &element)
 {
     if (!element.isNull()) {
         return element.text().simplified().toUtf8().constData();

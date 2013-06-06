@@ -63,16 +63,16 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     l->setSpacing(0);
     l->setContentsMargins(0, 0, 0, 0);
     if (suffix.isEmpty())
-	m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
+        m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
     else
-	m_label = new CustomLabel(label + " (" + suffix + ")", showSlider, m_maximum - m_minimum, this);
+        m_label = new CustomLabel(label + " (" + suffix + ")", showSlider, m_maximum - m_minimum, this);
     l->addWidget(m_label);
     if (decimals == 0) {
         m_label->setMaximum(max - min);
         m_label->setStep(1);
         m_intEdit = new QSpinBox(this);
         m_intEdit->setObjectName("dragBox");
-	m_intEdit->setFocusPolicy(Qt::StrongFocus);
+        m_intEdit->setFocusPolicy(Qt::StrongFocus);
         //if (!suffix.isEmpty()) m_intEdit->setSuffix(suffix);
         m_intEdit->setKeyboardTracking(false);
         m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);

@@ -26,7 +26,7 @@ class QDomDocument;
 /**
  * @class AbstractProjectItem
  * @brief Base class for all project items (clips, folders, ...).
- * 
+ *
  * Project items are stored in a tree like structure ...
  */
 
@@ -40,13 +40,13 @@ public:
      * @brief Constructor.
      * @param parent parent this item should be added to
      */
-    AbstractProjectItem(KUrl url = KUrl(), AbstractProjectItem *parent = 0);
-    /** 
+    AbstractProjectItem(const KUrl &url = KUrl(), AbstractProjectItem *parent = 0);
+    /**
      * @brief Creates a project item upon project load.
      * @param description element for this item.
      * @param parent parent this item should be added to
      *
-     * We try to read the attributes "name" and "description" 
+     * We try to read the attributes "name" and "description"
      */
     AbstractProjectItem(const QDomElement &description, AbstractProjectItem* parent = 0);
     virtual ~AbstractProjectItem();
@@ -60,9 +60,9 @@ public:
     void finishInsert(AbstractProjectItem* parent);
 
     /**
-     * @brief Adds a new child item and notifies the bin model about it (before and after). 
+     * @brief Adds a new child item and notifies the bin model about it (before and after).
      * @param child project item which should be added as a child
-     * 
+     *
      * This function is called by setParent.
      */
     virtual void addChild(AbstractProjectItem *child);
@@ -70,7 +70,7 @@ public:
     /**
      * @brief Removes a child item and notifies the bin model about it (before and after).
      * @param child project which sould be removed from the child list
-     * 
+     *
      * This function is called when a child's parent is changed through setParent
      */
     virtual void removeChild(AbstractProjectItem *child);
@@ -91,7 +91,7 @@ public:
         DataDescription,
         DataDate,
         DataThumbnail,
-	DataDuration
+        DataDuration
     };
 
     /** @brief Returns the data that describes this item.
@@ -101,9 +101,9 @@ public:
      */
     virtual QVariant data(DataType type) const;
 
-    /** 
+    /**
      * @brief Returns the amount of different types of data this item supports.
-     * 
+     *
      * This base class supports only DataName and DataDescription, so the return value is always 2.
      * This function is necessary for interaction with ProjectItemModel.
      */
@@ -136,7 +136,7 @@ protected:
     QString m_duration;
 
     /** @brief Returns a rounded border pixmap from the @param source pixmap. */
-    QPixmap roundedPixmap(QPixmap source);
+    QPixmap roundedPixmap(const QPixmap &source);
 
 private:
     bool m_isCurrent;

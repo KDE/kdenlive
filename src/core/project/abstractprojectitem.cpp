@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KDebug>
 
 
-AbstractProjectItem::AbstractProjectItem(KUrl url, AbstractProjectItem* parent) :
+AbstractProjectItem::AbstractProjectItem(const KUrl &url, AbstractProjectItem* parent) :
     QObject(parent)
     , m_parent(NULL)
     , m_name("loading")
@@ -76,7 +76,7 @@ void AbstractProjectItem::setParent(AbstractProjectItem* parent)
     }
 }
 
-QPixmap AbstractProjectItem::roundedPixmap(QPixmap source)
+QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
 {
     QPixmap pix(source.width(), source.height());
     pix.fill(Qt::transparent);

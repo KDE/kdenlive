@@ -62,7 +62,7 @@ public:
      * 
      * Kdenlive specific properties (prefix "kdenlive") do not need to be registered. 
      */
-    void registerProperty(QString name, QString value = QString());
+    void registerProperty(const QString &name, const QString &value = QString());
 
     /** @brief Returns a list of all registered properties. */
     QStringList registeredProperties() const;

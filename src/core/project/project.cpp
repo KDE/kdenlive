@@ -49,7 +49,7 @@ Project::Project(const KUrl& url, QObject* parent) :
 
 Project::Project(QObject* parent) :
     QObject(parent)
-    , m_idCounter(0)
+  , m_idCounter(0)
 {
     openNew();
 
@@ -137,19 +137,19 @@ void Project::openFile()
 
         if (success) {
             QDomElement kdenliveDoc = document.documentElement().firstChildElement("kdenlivedoc");
-	    // Make some compatibility checks
-	    if (!upgradeDocument(kdenliveDoc)) {
-		KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to open project %1").arg(m_url.path()));
-		openNew();
-		return;
-	    }
-	    // Remove the kdenlivedoc info before passing playlist to MLT
-	    document.documentElement().removeChild(kdenliveDoc);
-	    loadTimeline(document.toString());
-	    if (kdenliveDoc.isNull()) 
-		kdenliveDoc = convertMltPlaylist(document);
-	    updateClipCounter(kdenliveDoc.elementsByTagName("clip"));
-	    m_projectFolder = KUrl(kdenliveDoc.attribute("projectfolder"));
+            // Make some compatibility checks
+            if (!upgradeDocument(kdenliveDoc)) {
+                KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to open project %1").arg(m_url.path()));
+                openNew();
+                return;
+            }
+            // Remove the kdenlivedoc info before passing playlist to MLT
+            document.documentElement().removeChild(kdenliveDoc);
+            loadTimeline(document.toString());
+            if (kdenliveDoc.isNull())
+                kdenliveDoc = convertMltPlaylist(document);
+            updateClipCounter(kdenliveDoc.elementsByTagName("clip"));
+            m_projectFolder = KUrl(kdenliveDoc.attribute("projectfolder"));
             m_bin = new BinModel(kdenliveDoc.firstChildElement("bin"), this);
             loadParts(kdenliveDoc);
             loadSettings(kdenliveDoc);
@@ -165,8 +165,8 @@ void Project::openFile()
 bool Project::upgradeDocument(QDomElement &kdenliveDoc)
 {
     if (kdenliveDoc.isNull()) {
-	// Probably an MLT playlist, allow direct opening
-	return true;
+        // Probably an MLT playlist, allow direct opening
+        return true;
     }
     double version = kdenliveDoc.attribute("version").toDouble();
     if (version < 0.90) return false;
@@ -188,41 +188,41 @@ QDomElement Project::convertMltPlaylist(QDomDocument &document)
     QString root = document.documentElement().attribute("root");
     root.append('/');
     for (int i = 0; i < producers.count(); ++i) {
-	QDomElement clip = document.createElement("clip");
-	QDomElement prod = producers.at(i).toElement();
-	clip.setAttribute("id", prod.attribute("id"));
-	clip.setAttribute("in", prod.attribute("in"));
-	clip.setAttribute("out", prod.attribute("out"));
-	clip.setAttribute("duration", getXmlProperty(prod, "length"));
-	// Set service
-	QString service = getXmlProperty(prod, "mlt_service");
-	clip.setAttribute("producer_type", service);
-	QString resource = getXmlProperty(prod, "resource");
-	if (service != "color" && !resource.startsWith('/')) {
-	    // append root
-	    resource.prepend(root);
-	}
-	KUrl url(resource);
-	clip.setAttribute("url", url.path());
-	QString clipName = url.fileName();
-	if (clipName == "<producer>") 
-	    clipName = service;
-	clip.setAttribute("name", clipName);
-	folder.appendChild(clip);
+        QDomElement clip = document.createElement("clip");
+        QDomElement prod = producers.at(i).toElement();
+        clip.setAttribute("id", prod.attribute("id"));
+        clip.setAttribute("in", prod.attribute("in"));
+        clip.setAttribute("out", prod.attribute("out"));
+        clip.setAttribute("duration", getXmlProperty(prod, "length"));
+        // Set service
+        QString service = getXmlProperty(prod, "mlt_service");
+        clip.setAttribute("producer_type", service);
+        QString resource = getXmlProperty(prod, "resource");
+        if (service != "color" && !resource.startsWith('/')) {
+            // append root
+            resource.prepend(root);
+        }
+        KUrl url(resource);
+        clip.setAttribute("url", url.path());
+        QString clipName = url.fileName();
+        if (clipName == "<producer>")
+            clipName = service;
+        clip.setAttribute("name", clipName);
+        folder.appendChild(clip);
     }
     //kDebug()<<"// RESULT: "<<document.toString();
     return kdenliveDoc;
 }
 
-QString Project::getXmlProperty(QDomElement producer, QString propertyName)
+QString Project::getXmlProperty(const QDomElement &producer, const QString &propertyName)
 {
     QString value;
     QDomNodeList props = producer.elementsByTagName("property");
     for (int i = 0; i < props.count(); ++i) {
-	if (props.at(i).toElement().attribute("name") == propertyName) {
-	    value = props.at(i).firstChild().nodeValue();
-	    break;
-	}
+        if (props.at(i).toElement().attribute("name") == propertyName) {
+            value = props.at(i).firstChild().nodeValue();
+            break;
+        }
     }
     return value;
 }
@@ -335,7 +335,7 @@ void Project::saveAs()
 
     if (!outputFile.isEmpty()) {
         if (QFile::exists(outputFile) &&
-            KMessageBox::questionYesNo(pCore->window(), i18n("File %1 already exists.\nDo you want to overwrite it?", outputFile)) == KMessageBox::No) {
+                KMessageBox::questionYesNo(pCore->window(), i18n("File %1 already exists.\nDo you want to overwrite it?", outputFile)) == KMessageBox::No) {
             // Show the file dialog again if the user does not want to overwrite the file
             saveAs();
         } else {
@@ -359,10 +359,10 @@ QString Project::getFreeId()
 void Project::updateClipCounter(const QDomNodeList clips)
 {
     for (int i = 0; i < clips.count(); ++i) {
-	bool ok;
-	int id = clips.at(i).toElement().attribute("id").toInt(&ok);
-	if (ok && id >= m_idCounter)
-	    m_idCounter = id + 1;
+        bool ok;
+        int id = clips.at(i).toElement().attribute("id").toInt(&ok);
+        if (ok && id >= m_idCounter)
+            m_idCounter = id + 1;
     }
 }
 

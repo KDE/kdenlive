@@ -30,8 +30,8 @@ ImageClipPlugin::ImageClipPlugin(QObject* parent, const QVariantList& args) :
     ClipPluginManager *clipPluginManager = static_cast<ClipPluginManager*>(parent);
 
     clipPluginManager->addSupportedMimetypes(QStringList() << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp"
-                                                           << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp"
-                                                           << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr");
+                                             << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp"
+                                             << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr");
 }
 
 ImageClipPlugin::~ImageClipPlugin()

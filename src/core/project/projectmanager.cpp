@@ -67,9 +67,7 @@ void ProjectManager::saveProjectAs()
 
 void ProjectManager::openProject(const KUrl& url)
 {
-    if (m_project) {
-        delete m_project;
-    }
+    delete m_project;
     m_project = new Project(url, this);
 
     pCore->window()->setCaption(m_project->caption());

@@ -29,14 +29,13 @@ void ImageTimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF expos
     
     QPixmap thumbnail = m_projectClip->thumbnail();
     if (!thumbnail.isNull()) {
-	thumbnail = thumbnail.scaledToHeight(mapped.height());
+        thumbnail = thumbnail.scaledToHeight(mapped.height());
 
-	for (int i = mapped.left(); i < mapped.right(); i += thumbnail.width()) {
-	    painter->drawPixmap(i, mapped.top(), thumbnail);
-	}
-    }
-    else {
-	painter->drawRect(exposed);
+        for (int i = mapped.left(); i < mapped.right(); i += thumbnail.width()) {
+            painter->drawPixmap(i, mapped.top(), thumbnail);
+        }
+    } else {
+        painter->drawRect(exposed);
     }
 }
 

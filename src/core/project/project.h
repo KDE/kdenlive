@@ -116,7 +116,7 @@ private:
     void loadSettings(const QDomElement &kdenliveDoc);
     QDomElement saveSettings(QDomDocument &document) const;
     QDomElement convertMltPlaylist(QDomDocument &document);
-    QString getXmlProperty(QDomElement producer, QString propertyName);
+    QString getXmlProperty(const QDomElement &producer, const QString &propertyName);
     void updateClipCounter(const QDomNodeList clips);
     bool upgradeDocument(QDomElement &kdenliveDoc);
 

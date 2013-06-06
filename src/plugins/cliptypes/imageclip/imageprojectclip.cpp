@@ -84,24 +84,24 @@ AbstractTimelineClip* ImageProjectClip::createInstance(TimelineTrack* parent, Pr
 void ImageProjectClip::hash()
 {
     if (m_hash.isEmpty() && hasUrl()) {
-	QFile file(m_url.path());
-	if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
-	    QByteArray fileData;
-	    //kDebug() << "SETTING HASH of" << value;
-	    m_fileSize = file.size();
-	    /*
+        QFile file(m_url.path());
+        if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
+            QByteArray fileData;
+            //kDebug() << "SETTING HASH of" << value;
+            m_fileSize = file.size();
+            /*
                * 1 MB = 1 second per 450 files (or faster)
                * 10 MB = 9 seconds per 450 files (or faster)
                */
-	    if (file.size() > 1000000*2) {
-		fileData = file.read(1000000);
-		if (file.seek(file.size() - 1000000))
-		    fileData.append(file.readAll());
-	    } else
-		fileData = file.readAll();
-	    file.close();
-	    m_hash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-	}
+            if (file.size() > 1000000*2) {
+                fileData = file.read(1000000);
+                if (file.seek(file.size() - 1000000))
+                    fileData.append(file.readAll());
+            } else
+                fileData = file.readAll();
+            file.close();
+            m_hash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+        }
     }
 }
 
@@ -115,9 +115,9 @@ QDomElement ImageProjectClip::toXml(QDomDocument& document) const
 QPixmap ImageProjectClip::thumbnail()
 {
     if (m_thumbnail.isNull() && m_baseProducer) {
-	int width = 80 * bin()->project()->displayRatio();
-	if (width % 2 == 1) width++;
-	bin()->project()->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
+        int width = 80 * bin()->project()->displayRatio();
+        if (width % 2 == 1) width++;
+        bin()->project()->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
     }
     
     return m_thumbnail;
@@ -145,17 +145,17 @@ void ImageProjectClip::init(int duration)
 void ImageProjectClip::initProducer()
 {
     if (!m_baseProducer) {
-	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
-	m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
+        m_baseProducer->set("id", id().toUtf8().constData());
     }
 }
 
 void ImageProjectClip::initProducer(const QString &service, Mlt::Properties props)
 {
     if (!m_baseProducer) {
-	m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), props.get("resource"), service);
-	//TODO: pass all properties to producer
-	m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), props.get("resource"), service);
+        //TODO: pass all properties to producer
+        m_baseProducer->set("id", id().toUtf8().constData());
     }
 }
 

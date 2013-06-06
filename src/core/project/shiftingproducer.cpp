@@ -43,7 +43,7 @@ void ShiftingProducer::setProducer(ProducerWrapper* newProducer)
     }
 }
 
-void ShiftingProducer::registerProperty(QString name, QString value)
+void ShiftingProducer::registerProperty(const QString &name, const QString &value)
 {
     m_registeredProperties.append(name);
     if (!value.isEmpty()) {

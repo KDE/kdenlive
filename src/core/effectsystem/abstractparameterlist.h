@@ -40,7 +40,7 @@ public:
      * @brief Constructs an empty parameter list.
      */
     AbstractParameterList(EffectSystemItem *parent = 0);
-    virtual ~AbstractParameterList() {};
+    virtual ~AbstractParameterList() {}
 
     /**
      * @brief Creates and stores parameters from a list of descriptions.
