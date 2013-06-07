@@ -42,31 +42,31 @@ Mlt::Repository *MltCore::repository()
 
 void MltCore::checkConsumers()
 {
-  // Check what is available on the system
+    // Check what is available on the system
     Mlt::Properties *consumers = m_repository->consumers();
     int max = consumers->count();
     for (int i = 0; i < max; ++i) {
-	QString cons = consumers->get_name(i);
+        QString cons = consumers->get_name(i);
         if (cons == "sdl_preview") {
-	    m_availableDisplayModes << MLTSDL;
-	    break;
-	}
+            m_availableDisplayModes << MLTSDL;
+            break;
+        }
     }
     delete consumers;
     
     if (QGLFormat::hasOpenGL()) {
-	m_availableDisplayModes << MLTOPENGL;
-	m_availableDisplayModes << MLTSCENE;
-	consumers = m_repository->filters();
-	max = consumers->count();
-	for (int i = 0; i < max; ++i) {
-	    QString cons = consumers->get_name(i);
-	    if (cons == "glsl.manager") {
-		m_availableDisplayModes << MLTGLSL;
-		break;
-	    }
-	}
-	delete consumers;
+        m_availableDisplayModes << MLTOPENGL;
+        m_availableDisplayModes << MLTSCENE;
+        consumers = m_repository->filters();
+        max = consumers->count();
+        for (int i = 0; i < max; ++i) {
+            const QString cons = consumers->get_name(i);
+            if (cons == QLatin1String("glsl.manager")) {
+                m_availableDisplayModes << MLTGLSL;
+                break;
+            }
+        }
+        delete consumers;
     }
 }
 
@@ -79,21 +79,21 @@ const QString MltCore::getDisplayName(DISPLAYMODE mode) const
 {
     QString result;
     switch (mode) {
-      case MLTOPENGL:
-	  result = i18n("OpenGL");
-	  break;
-      case MLTGLSL:
-	  result = i18n("Accelerated GLSL");
-	  break;
-      case MLTSDL:
-	  result = i18n("SDL");
-	  break;
-      case MLTSCENE:
-	  result = i18n("Graphic Scene");
-	  break;
-      default:
-	  result = i18n("Unknown");
-	  break;
+    case MLTOPENGL:
+        result = i18n("OpenGL");
+        break;
+    case MLTGLSL:
+        result = i18n("Accelerated GLSL");
+        break;
+    case MLTSDL:
+        result = i18n("SDL");
+        break;
+    case MLTSCENE:
+        result = i18n("Graphic Scene");
+        break;
+    default:
+        result = i18n("Unknown");
+        break;
     }
     return result;
 }
@@ -136,7 +136,7 @@ void MltCore::applyBlacklist(const QString &filename, QStringList& list)
         QTextStream in(&file);
         while (!in.atEnd()) {
             QString line = in.readLine().simplified();
-            if (!line.isEmpty() && !line.startsWith('#')) {
+            if (!line.isEmpty() && !line.startsWith(QLatin1Char('#'))) {
                 list.removeAll(line);
             }
         }

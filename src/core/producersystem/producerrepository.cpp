@@ -70,8 +70,8 @@ void ProducerRepository::initRepository()
     QStringList producerDirectories = KGlobal::dirs()->findDirs("appdata", "producers");
     foreach(QString directoryName, producerDirectories) {
         QDir directory(directoryName);
-        QStringList fileList = directory.entryList(QStringList() << "*.xml", QDir::Files);
-        foreach (QString filename, fileList) {
+        const QStringList fileList = directory.entryList(QStringList() << "*.xml", QDir::Files);
+        foreach (const QString &filename, fileList) {
             QFile file(KUrl(directoryName + filename).path());
             QDomDocument document;
             document.setContent(&file, false);

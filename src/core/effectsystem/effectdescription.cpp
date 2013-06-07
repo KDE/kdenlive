@@ -68,9 +68,7 @@ EffectDescription::EffectDescription(const QString &filterName, EffectRepository
             m_valid = true;
         }
     }
-    if (metadata) {
-        delete metadata;
-    }
+    delete metadata;
 }
 
 EffectDescription::EffectDescription(const QDomElement &description, double version, EffectRepository *repository) :

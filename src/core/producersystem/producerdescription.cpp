@@ -43,7 +43,7 @@ ProducerDescription::ProducerDescription(const QString &producerName, ProducerRe
             m_version = locale.toDouble(QString(metadata->get("version")));
 
             Mlt::Properties tags(metadata->get_data("tags"));
-            if (QString(tags.get(0)) == "Audio")
+            if (QString(tags.get(0)) == QLatin1String("Audio"))
                 m_type = AudioEffect;
             else
                 m_type = VideoEffect;
@@ -51,19 +51,19 @@ ProducerDescription::ProducerDescription(const QString &producerName, ProducerRe
             Mlt::Properties parameters(metadata->get_data("parameters"));
             int size = 0;
             for (int i = 0; parameters.is_valid() && i < parameters.count(); ++i) {
-		size = 0;
+                size = 0;
                 Mlt::Properties parameterProperties(parameters.get_data(i, size));
-		// Convert mlt param type to kdenlive paramtype, in progress
-		convertMltParameterType(parameterProperties);
+                // Convert mlt param type to kdenlive paramtype, in progress
+                convertMltParameterType(parameterProperties);
                 QString parameterType = parameterProperties.get("type");
-		if (parameterType.isEmpty()) {
-		    //kDebug()<<"// Parameter: "<<parameterProperties.get("identifier")<<" has NO TYPE";
-		    continue;
-		}
-		if (parameterType == "integer" && parameterProperties.get_int("minimum") == 0 && parameterProperties.get_int("maximum") == 0) {
-		    //kDebug()<<"// Parameter: "<<parameterProperties.get("identifier")<<" has NO RANGE, cannot use";
-		    continue;
-		}
+                if (parameterType.isEmpty()) {
+                    //kDebug()<<"// Parameter: "<<parameterProperties.get("identifier")<<" has NO TYPE";
+                    continue;
+                }
+                if (parameterType == "integer" && parameterProperties.get_int("minimum") == 0 && parameterProperties.get_int("maximum") == 0) {
+                    //kDebug()<<"// Parameter: "<<parameterProperties.get("identifier")<<" has NO RANGE, cannot use";
+                    continue;
+                }
                 AbstractParameterDescription *parameter = repository->newParameterDescription(parameterType);
                 if (parameter) {
                     parameter->init(parameterProperties, locale);
@@ -78,9 +78,7 @@ ProducerDescription::ProducerDescription(const QString &producerName, ProducerRe
             m_valid = true;
         }
     }
-    if (metadata) {
-        delete metadata;
-    }
+    delete metadata;
 }
 
 ProducerDescription::ProducerDescription(const QDomElement &description, double version, ProducerRepository *repository) :
@@ -106,7 +104,7 @@ ProducerDescription::ProducerDescription(const QDomElement &description, double 
     for (int i = 0; i < parameters.count(); ++i) {
         QDomElement parameterElement = parameters.at(i).toElement();
         QString parameterType = parameterElement.attribute("type");
-	//kDebug() << "+ + + "<<parameterType;
+        //kDebug() << "+ + + "<<parameterType;
         AbstractParameterDescription *parameter = repository->newParameterDescription(parameterType);
         if (parameter) {
             parameter->init(parameterElement, locale);
@@ -137,9 +135,9 @@ QList< AbstractParameterDescription* > ProducerDescription::parameters()
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     
     for (int i = 0; i < count(); ++i) {
-	if (at(i)->name() == paramName) {
-	    at(i)->init(props);
-	}
+    if (at(i)->name() == paramName) {
+        at(i)->init(props);
+    }
     }
 }*/
 
@@ -202,19 +200,19 @@ void ProducerDescription::convertMltParameterType(Mlt::Properties &properties)
     if (QString(properties.get("identifier")) == "argument") properties.set("identifier", "resource");
     QString widgetType = properties.get("widget");
     if (type == "string") {
-	if (widgetType == "combo") {
-	    properties.set("type", "list");
-	    Mlt::Properties values(properties.get_data("values"));
-	    QStringList stringValues;
-	    for (int i = 0; i < values.count(); ++i) {
-		stringValues << values.get(i);
-	    }
-	    properties.set("paramlist", stringValues.join(";").toUtf8().constData());
-	    properties.set("paramlistdisplay", stringValues.join(",").toUtf8().constData());
-	}
-	else if (widgetType == "color") {
-	    properties.set("type", "color");
-	}
+        if (widgetType == "combo") {
+            properties.set("type", "list");
+            Mlt::Properties values(properties.get_data("values"));
+            QStringList stringValues;
+            for (int i = 0; i < values.count(); ++i) {
+                stringValues << values.get(i);
+            }
+            properties.set("paramlist", stringValues.join(";").toUtf8().constData());
+            properties.set("paramlistdisplay", stringValues.join(",").toUtf8().constData());
+        }
+        else if (widgetType == "color") {
+            properties.set("type", "color");
+        }
     }
 }
 
