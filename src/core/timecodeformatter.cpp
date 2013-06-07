@@ -245,7 +245,7 @@ Timecode TimecodeFormatter::fromHH_MM_SS_FF(const QString& timecode) const
 
     int hours;
     int offset = 0;
-    if (timecode.at(0) == '-') {
+    if (timecode.at(0) == QLatin1Char('-')) {
         // FIXME: preserve "-"
         offset = 1;
         hours = timecode.mid(1, 2).toInt();

@@ -57,10 +57,8 @@ TimelineWidget::~TimelineWidget()
 
 void TimelineWidget::setProject(Project* project)
 {
-    if (m_scene) {
-        delete m_scene;
-        m_scene = NULL;
-    }
+    delete m_scene;
+    m_scene = NULL;
     if (project) {
         m_scene = new TimelineScene(project->timeline(), m_toolManager, m_view, this);
     }
@@ -71,10 +69,8 @@ void TimelineWidget::setProject(Project* project)
 
 void TimelineWidget::setClipTimeline(Timeline *timeline)
 {
-    if (m_scene) {
-        delete m_scene;
-        m_scene = NULL;
-    }
+    delete m_scene;
+    m_scene = NULL;
     if (timeline) {
         m_positionBar->setProject(timeline->project(), ClipMonitor);
         m_scene = new TimelineScene(timeline, m_toolManager, m_view, this);
