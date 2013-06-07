@@ -2,6 +2,11 @@
 Type=Service
 ServiceTypes=Kdenlive/Plugin
 Name=Project Notes
+Name[pt]=Notas do Projecto
+Name[sl]=Opombe projekta
+Name[sv]=Projektanteckningar
+Name[uk]=Нотатки щодо проекту
+Name[x-test]=xxProject Notesxx
 X-KDE-PluginInfo-Name=kdenlivenotes
 X-KDE-Library=kdenlivenotes
 X-Kdenlive-Autoload=true

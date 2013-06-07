@@ -2,6 +2,12 @@
 Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Video Clip
+Name[cs]=Videoklip
+Name[pt]='Clip' de Vídeo
+Name[sl]=Video posnetek
+Name[sv]=Videoklipp
+Name[uk]=Відеокліп
+Name[x-test]=xxVideo Clipxx
 X-KDE-PluginInfo-Name=kdenlivevideoclip
 X-KDE-Library=kdenlivevideoclip
 X-Kdenlive-ProvidedProducers=avformat

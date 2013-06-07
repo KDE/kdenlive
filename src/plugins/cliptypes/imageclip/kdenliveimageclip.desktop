@@ -2,6 +2,11 @@
 Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Image Clip
+Name[pt]='Clip' de Imagem
+Name[sl]=Posnetek iz slike
+Name[sv]=Bildklipp
+Name[uk]=Кліп-зображення
+Name[x-test]=xxImage Clipxx
 X-KDE-PluginInfo-Name=kdenliveimageclip
 X-KDE-Library=kdenliveimageclip
 X-Kdenlive-ProvidedProducers=qimage,pixbuf

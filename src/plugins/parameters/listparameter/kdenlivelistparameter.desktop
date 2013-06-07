@@ -2,6 +2,11 @@
 Type=Service
 ServiceTypes=Kdenlive/Parameter
 Name=List Parameter
+Name[pt]=Parâmetro de Lista
+Name[sl]=Parameter seznama
+Name[sv]=Listparameter
+Name[uk]=Параметр списку
+Name[x-test]=xxList Parameterxx
 X-KDE-PluginInfo-Name=kdenlivelistparameter
 X-KDE-Library=kdenlivelistparameter
 X-Kdenlive-ParameterType=list

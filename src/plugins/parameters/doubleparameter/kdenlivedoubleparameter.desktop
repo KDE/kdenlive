@@ -2,6 +2,11 @@
 Type=Service
 ServiceTypes=Kdenlive/Parameter
 Name=Double Parameter
+Name[pt]=Parâmetro de Vírgula Flutuante
+Name[sl]=Dvojni parameter
+Name[sv]=Dubbel parameter
+Name[uk]=Параметр з подвійною точністю
+Name[x-test]=xxDouble Parameterxx
 X-KDE-PluginInfo-Name=kdenlivedoubleparameter
 X-KDE-Library=kdenlivedoubleparameter
 X-Kdenlive-ParameterType=double,constant,integer,float

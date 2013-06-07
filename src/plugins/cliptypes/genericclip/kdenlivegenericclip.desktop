@@ -2,6 +2,12 @@
 Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Generic Clip
+Name[cs]=Obecný klip
+Name[pt]='Clip' Genérico
+Name[sl]=Splošen video posnetek
+Name[sv]=Generellt klipp
+Name[uk]=Типовий кліп
+Name[x-test]=xxGeneric Clipxx
 X-KDE-PluginInfo-Name=kdenlivegenericclip
 X-KDE-Library=kdenlivegenericclip
 X-Kdenlive-ProvidedProducers=generic

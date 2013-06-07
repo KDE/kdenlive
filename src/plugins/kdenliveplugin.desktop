@@ -2,6 +2,12 @@
 Type=ServiceType
 X-KDE-ServiceType=Kdenlive/Plugin
 Name=Kdenlive Plugin
+Name[cs]=Modul Kdenlive
+Name[pt]='Plugin' do Kdenlive
+Name[sl]=Vstavek za Kdenlive
+Name[sv]=Kdenlive-insticksprogram
+Name[uk]=Додаток Kdenlive
+Name[x-test]=xxKdenlive Pluginxx
 
 # @c true: plugin will be loaded at application start by the plugin manager,
 # @c false: plugins needs to be created manually

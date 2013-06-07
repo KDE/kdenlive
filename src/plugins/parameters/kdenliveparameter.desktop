@@ -2,6 +2,12 @@
 Type=ServiceType
 X-KDE-ServiceType=Kdenlive/Parameter
 Name=Kdenlive Parameter
+Name[cs]=Parametr Kdenlive
+Name[pt]=Parâmetro do Kdenlive
+Name[sl]=Parameter Kdenlive
+Name[sv]=Kdenlive-parameter
+Name[uk]=Параметр Kdenlive
+Name[x-test]=xxKdenlive Parameterxx
 
 [PropertyDef::X-Kdenlive-ParameterType]
 Type=QStringList

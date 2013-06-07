@@ -2,6 +2,12 @@
 Type=ServiceType
 X-KDE-ServiceType=Kdenlive/Clip
 Name=Kdenlive Clip
+Name[cs]=Klip Kdenlive
+Name[pt]='Clip' do Kdenlive
+Name[sl]=Posnetek Kdenlive
+Name[sv]=Kdenlive-klipp
+Name[uk]=Кліп Kdenlive
+Name[x-test]=xxKdenlive Clipxx
 
 [PropertyDef::X-Kdenlive-ProvidedProducers]
 Type=QStringList

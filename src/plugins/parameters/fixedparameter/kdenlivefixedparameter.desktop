@@ -2,6 +2,11 @@
 Type=Service
 ServiceTypes=Kdenlive/Parameter
 Name=Fixed Parameter
+Name[pt]=Parâmetro de Vírgula Fixa
+Name[sl]=Nespremenljiv parameter
+Name[sv]=Fast parameter
+Name[uk]=Фіксований параметр
+Name[x-test]=xxFixed Parameterxx
 X-KDE-PluginInfo-Name=kdenlivefixedparameter
 X-KDE-Library=kdenlivefixedparameter
 X-Kdenlive-ParameterType=fixed
