@@ -25,7 +25,7 @@ public:
     VideoTimelineClipItem(VideoTimelineClip* clip, QGraphicsItem* parent);
 
 protected:
-    void paintBackgroundLayer(QPainter *painter, QRectF exposed);
+    void paintBackgroundLayer(QPainter *painter, const QRectF &exposed);
 
 private:
     VideoProjectClip *m_projectClip;

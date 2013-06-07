@@ -71,7 +71,7 @@ protected:
      * No flags are set before calling this function so you might have to disable the world matrix in there.
      * When subclassing use this function to paint thumbnails.
      */
-    virtual void paintBackgroundLayer(QPainter *painter, QRectF exposed);
+    virtual void paintBackgroundLayer(QPainter *painter, const QRectF &exposed);
 
     /** @brief Passes the event on the tool manager. */
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

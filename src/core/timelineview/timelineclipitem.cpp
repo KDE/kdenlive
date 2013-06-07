@@ -84,7 +84,7 @@ void TimelineClipItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->drawRect(mapped.adjusted(0, 0, -0.5, 0));
 }
 
-void TimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF exposed)
+void TimelineClipItem::paintBackgroundLayer(QPainter* painter, const QRectF &exposed)
 {
 }
 

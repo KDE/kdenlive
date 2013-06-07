@@ -35,11 +35,11 @@ void ListParameterDescription::init(const QDomElement &parameter, const QLocale 
 {
     AbstractParameterDescription::init(parameter, locale);
 
-    QString itemsString = parameter.attribute("paramlist");
-    m_items = itemsString.split(';');
+    const QString itemsString = parameter.attribute("paramlist");
+    m_items = itemsString.split(QLatin1Char(';'));
     if (m_items.count() == 1) {
         // previously ',' was used as a separator. support old custom effects
-        m_items = itemsString.split(',');
+        m_items = itemsString.split(QLatin1Char(','));
     }
 
     m_defaultIndex = qMax(0, m_items.indexOf(parameter.attribute("default")));
@@ -60,13 +60,13 @@ void ListParameterDescription::init(const QDomElement &parameter, const QLocale 
     } else {
         displayItemsString = parameter.attribute("paramlistdisplay");
     }
-    m_displayItemsOrig = displayItemsString.split(',');
+    m_displayItemsOrig = displayItemsString.split(QLatin1Char(','));
 
     if (m_items.count() != m_displayItemsOrig.count()) {
         m_displayItemsOrig = m_items;
-        m_displayItems = i18n(itemsString.toUtf8().constData()).split(',');
+        m_displayItems = i18n(itemsString.toUtf8().constData()).split(QLatin1Char(','));
     } else {
-        m_displayItems = i18n(displayItemsString.toUtf8().constData()).split(',');
+        m_displayItems = i18n(displayItemsString.toUtf8().constData()).split(QLatin1Char(','));
     }
 }
 
@@ -77,7 +77,7 @@ void ListParameterDescription::init(Mlt::Properties& properties, const QLocale &
     m_items = itemsString.split(';');
     if (m_items.count() == 1) {
         // previously ',' was used as a separator. support old custom effects
-        m_items = itemsString.split(',');
+        m_items = itemsString.split(QLatin1Char(','));
     }
 
     m_defaultIndex = qMax(0, m_items.indexOf(properties.get("default")));
@@ -92,13 +92,13 @@ void ListParameterDescription::init(Mlt::Properties& properties, const QLocale &
     }
 
     QString displayItemsString = properties.get("paramlistdisplay");
-    m_displayItemsOrig = displayItemsString.split(',');
+    m_displayItemsOrig = displayItemsString.split(QLatin1Char(','));
 
     if (m_items.count() != m_displayItemsOrig.count()) {
         m_displayItemsOrig = m_items;
-        m_displayItems = i18n(itemsString.toUtf8().constData()).split(',');
+        m_displayItems = i18n(itemsString.toUtf8().constData()).split(QLatin1Char(','));
     } else {
-        m_displayItems = i18n(displayItemsString.toUtf8().constData()).split(',');
+        m_displayItems = i18n(displayItemsString.toUtf8().constData()).split(QLatin1Char(','));
     }
     // construct for widget type dropdown?
 

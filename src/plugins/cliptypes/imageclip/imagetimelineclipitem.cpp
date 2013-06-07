@@ -22,7 +22,7 @@ ImageTimelineClipItem::ImageTimelineClipItem(ImageTimelineClip* clip, QGraphicsI
     setBrush(QColor(141, 166, 215));
 }
 
-void ImageTimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF exposed)
+void ImageTimelineClipItem::paintBackgroundLayer(QPainter* painter, const QRectF &exposed)
 {
     painter->setWorldMatrixEnabled(false);
     const QRectF mapped = painter->worldTransform().mapRect(rect());

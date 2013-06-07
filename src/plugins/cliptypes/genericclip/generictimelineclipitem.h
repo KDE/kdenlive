@@ -25,7 +25,7 @@ public:
     GenericTimelineClipItem(GenericTimelineClip* clip, QGraphicsItem* parent);
 
 protected:
-    void paintBackgroundLayer(QPainter *painter, QRectF exposed);
+    void paintBackgroundLayer(QPainter *painter, const QRectF &exposed);
 
 private:
     GenericProjectClip *m_projectClip;

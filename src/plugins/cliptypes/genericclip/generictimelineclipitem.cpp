@@ -22,7 +22,7 @@ GenericTimelineClipItem::GenericTimelineClipItem(GenericTimelineClip* clip, QGra
     setBrush(QColor(clip->projectClip()->url().fileName()));
 }
 
-void GenericTimelineClipItem::paintBackgroundLayer(QPainter* painter, QRectF exposed)
+void GenericTimelineClipItem::paintBackgroundLayer(QPainter* painter, const QRectF &exposed)
 {
     painter->drawRect(exposed);
 }
