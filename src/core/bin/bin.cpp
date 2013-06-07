@@ -165,13 +165,10 @@ void Bin::setActionMenus(QMenu *producerMenu)
 void Bin::setProject(Project* project)
 {
     closeEditing();
-    if (m_itemView) {
-        delete m_itemView;
-        m_itemView = NULL;
-    }
-    if (m_itemModel) {
-        delete m_itemModel;
-    }
+    delete m_itemView;
+    m_itemView = NULL;
+    delete m_itemModel;
+
     m_itemModel = new ProjectItemModel(project->bin(), this);
     m_itemModel->setIconSize(m_iconSize);
     connect(m_itemModel, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(rowsInserted(const QModelIndex &, int , int)));

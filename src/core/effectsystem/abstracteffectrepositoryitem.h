@@ -31,7 +31,7 @@ public:
     virtual ~AbstractEffectRepositoryItem();
 
     EffectTypes getType() const;
-    static EffectTypes getType(QString type);
+    static EffectTypes getType(const QString &type);
     QString getId() const;
     bool isValid() const;
 

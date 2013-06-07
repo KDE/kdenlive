@@ -18,6 +18,7 @@ AbstractEffectStackItem::AbstractEffectStackItem(AbstractEffectStackItem* parent
 
 AbstractEffectStackItem::~AbstractEffectStackItem()
 {
+    delete m_ui;
 }
 
 QWidget* AbstractEffectStackItem::getWidget()

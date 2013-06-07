@@ -31,11 +31,11 @@ EffectTypes AbstractEffectRepositoryItem::getType() const
     return m_type;
 }
 
-EffectTypes AbstractEffectRepositoryItem::getType(QString type)
+EffectTypes AbstractEffectRepositoryItem::getType(const QString &type)
 {
-    if (type == "audio")
+    if (type == QLatin1String("audio"))
         return AudioEffect;
-    else if (type == "custom")
+    else if (type == QLatin1String("custom"))
         return CustomEffect;
     else
         return VideoEffect;
