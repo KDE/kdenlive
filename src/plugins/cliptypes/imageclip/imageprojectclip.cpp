@@ -116,7 +116,8 @@ QPixmap ImageProjectClip::thumbnail()
 {
     if (m_thumbnail.isNull() && m_baseProducer) {
         int width = 80 * bin()->project()->displayRatio();
-        if (width % 2 == 1) width++;
+        if (width % 2 == 1)
+            width++;
         bin()->project()->monitorManager()->requestThumbnails(m_id, QList <int>() << 0);
     }
     
