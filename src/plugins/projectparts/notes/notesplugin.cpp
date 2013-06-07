@@ -28,7 +28,7 @@ NotesPlugin::NotesPlugin(QObject* parent, const QVariantList& args) :
     AbstractProjectPart("notes", parent)
 {
     m_widget = new NotesWidget(pCore->window());
-    connect(m_widget, SIGNAL(insertTimecode()), this, SLOT(insertTimecode()));
+    connect(m_widget, SIGNAL(insertNotesTimecode()), this, SLOT(insertTimecode()));
     connect(m_widget, SIGNAL(seekProject(int)), this, SLOT(seekProject(int)));
     connect(m_widget, SIGNAL(textChanged()), this, SIGNAL(modified()));
 
