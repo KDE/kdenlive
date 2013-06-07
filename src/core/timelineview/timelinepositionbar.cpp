@@ -82,9 +82,9 @@ void TimelinePositionBar::setProject(Project* project, MONITORID id)
     connect(m_timecodeFormatter, SIGNAL(defaultFormatChanged()), this, SLOT(update()));
 
     m_playbackPosition = project->timelineMonitor() == NULL ? 0 : project->timelineMonitor()->position();
-    connect(project->timelineMonitor(), SIGNAL(positionChanged(int, bool)), this, SLOT(setCursorPosition(int, bool)));
-    if (id != ClipMonitor) connect(this, SIGNAL(positionChanged(int, MONITORID)), project->timelineMonitor(), SLOT(seek(int, MONITORID)));
-    else connect(this, SIGNAL(positionChanged(int, MONITORID)), pCore->projectManager()->current()->binMonitor(), SLOT(seek(int, MONITORID)));
+    connect(project->timelineMonitor(), SIGNAL(positionChanged(int,bool)), this, SLOT(setCursorPosition(int,bool)));
+    if (id != ClipMonitor) connect(this, SIGNAL(positionChanged(int,MONITORID)), project->timelineMonitor(), SLOT(seek(int,MONITORID)));
+    else connect(this, SIGNAL(positionChanged(int,MONITORID)), pCore->projectManager()->current()->binMonitor(), SLOT(seek(int,MONITORID)));
 
     setDuration(project->timeline()->duration());
 

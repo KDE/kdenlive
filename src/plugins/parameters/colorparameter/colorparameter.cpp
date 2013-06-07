@@ -101,8 +101,8 @@ void ColorParameter::checkPropertiesViewState()
                                                                 m_description->supportsAlpha(),
                                                                 static_cast<QWidget*>(m_viewHandler->parentView(MultiViewHandler::propertiesView))
                                                                 );
-            connect(this, SIGNAL(valueUpdated(const QColor&)), view, SLOT(setValue(const QColor &)));
-            connect(view, SIGNAL(valueChanged(const QColor&)), this, SLOT(set(const QColor&)));
+            connect(this, SIGNAL(valueUpdated(QColor)), view, SLOT(setValue(QColor)));
+            connect(view, SIGNAL(valueChanged(QColor)), this, SLOT(set(QColor)));
             m_viewHandler->setView(MultiViewHandler::propertiesView, view);
         } else {
             m_viewHandler->deleteView(MultiViewHandler::propertiesView);

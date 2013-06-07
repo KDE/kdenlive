@@ -31,3 +31,4 @@ TimelineClipItem* AbstractClipPlugin::timelineClipView(AbstractTimelineClip *cli
 }
 
 #include "abstractclipplugin.moc"
+

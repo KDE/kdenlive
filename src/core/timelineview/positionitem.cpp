@@ -25,7 +25,7 @@ PositionItem::PositionItem(TimelineScene* scene) :
     setLine(position, 0, position, scene->height());
 
     connect(scene, SIGNAL(heightChanged(int)), this, SLOT(setHeight(int)));
-    connect(scene->timeline()->monitor(), SIGNAL(positionChanged(int, bool)), this, SLOT(setPosition(int)));
+    connect(scene->timeline()->monitor(), SIGNAL(positionChanged(int,bool)), this, SLOT(setPosition(int)));
 }
 
 void PositionItem::setPosition(int position)

@@ -2665,7 +2665,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
             m_effectStack->clear();
 
-//             disconnect(m_activeTimeline->projectView(), SIGNAL(getDevNeeded(EffectRepository*&, QWidget*&)), this, SLOT(slotGetDevNeeded(EffectRepository*&, QWidget*&)));
+//             disconnect(m_activeTimeline->projectView(), SIGNAL(getDevNeeded(EffectRepository*&,QWidget*&)), this, SLOT(slotGetDevNeeded(EffectRepository*&,QWidget*&)));
         }
         //m_activeDocument->setRenderer(NULL);
         m_clipMonitor->stop();

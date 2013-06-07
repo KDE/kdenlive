@@ -29,7 +29,7 @@ DoublePropertiesView::DoublePropertiesView(const QString& name, double value, do
     layout->addWidget(m_dragValue, 0, 1);
 
     m_dragValue->setValue(value);
-    connect(m_dragValue, SIGNAL(valueChanged(double, bool)), this, SLOT(valueChanged(double,bool)));
+    connect(m_dragValue, SIGNAL(valueChanged(double,bool)), this, SLOT(valueChanged(double,bool)));
 
     static_cast<AbstractViewContainer*>(parent)->addChild(this);
 }

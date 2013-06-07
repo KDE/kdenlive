@@ -23,7 +23,7 @@ TrackHeaderWidget::TrackHeaderWidget(TimelineTrack* track, QWidget* parent) :
 
     editName->setText(track->name());
     connect(editName, SIGNAL(editingFinished()), this, SLOT(rename()));
-    connect(m_track, SIGNAL(nameChanged(const QString&)), this, SLOT(onNameChanged(const QString&)));
+    connect(m_track, SIGNAL(nameChanged(QString)), this, SLOT(onNameChanged(QString)));
 
     setupButton(buttonVideo, "Hide track", track->isHidden(), &TrackHeaderWidget::onVisibilityChanged, SLOT(hide(bool)));
     connect(m_track, SIGNAL(visibilityChanged(bool)), this, SLOT(onVisibilityChanged(bool)));

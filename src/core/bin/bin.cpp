@@ -123,7 +123,7 @@ Bin::Bin(QWidget* parent) :
         listType->setCurrentAction(iconViewAction);
     }
     listType->setToolBarMode(KSelectAction::MenuMode);
-    connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction *)));
+    connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction*)));
     m_toolbar->addAction(listType);
     m_eventEater = new EventEater(this);
     connect(m_eventEater, SIGNAL(addClip()), this, SLOT(slotAddClip()));
@@ -171,12 +171,12 @@ void Bin::setProject(Project* project)
 
     m_itemModel = new ProjectItemModel(project->bin(), this);
     m_itemModel->setIconSize(m_iconSize);
-    connect(m_itemModel, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(rowsInserted(const QModelIndex &, int , int)));
-    connect(m_itemModel, SIGNAL(selectModel(const QModelIndex&)), this, SLOT(selectModel(const QModelIndex&)));
+    connect(m_itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
+    connect(m_itemModel, SIGNAL(selectModel(QModelIndex)), this, SLOT(selectModel(QModelIndex)));
     connect(m_eventEater, SIGNAL(focusClipMonitor()), project->bin()->monitor(), SLOT(slotFocusClipMonitor()), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(editItemInTimeline(QString,QString,ProducerWrapper*)), this, SLOT(slotOpenClipTimeline(QString,QString,ProducerWrapper*)), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(editItem(QString)), this, SLOT(showClipProperties(QString)), Qt::UniqueConnection);
-    //connect(m_itemModel, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), m_itemView
+    //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     
     slotInitView(NULL);

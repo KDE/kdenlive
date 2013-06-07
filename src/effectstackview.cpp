@@ -88,10 +88,10 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
 
     m_ui.labelComment->setHidden(true);
 
-    //connect(m_ui.region_url, SIGNAL(urlSelected(const KUrl &)), this , SLOT(slotRegionChanged()));
+    //connect(m_ui.region_url, SIGNAL(urlSelected(KUrl)), this , SLOT(slotRegionChanged()));
     //connect(m_ui.region_url, SIGNAL(returnPressed()), this , SLOT(slotRegionChanged()));
     connect(m_ui.effectlist, SIGNAL(itemSelectionChanged()), this , SLOT(slotItemSelectionChanged()));
-    connect(m_ui.effectlist, SIGNAL(itemChanged(QListWidgetItem *)), this , SLOT(slotItemChanged(QListWidgetItem *)));
+    connect(m_ui.effectlist, SIGNAL(itemChanged(QListWidgetItem*)), this , SLOT(slotItemChanged(QListWidgetItem*)));
     connect(m_ui.buttonUp, SIGNAL(clicked()), this, SLOT(slotItemUp()));
     connect(m_ui.buttonDown, SIGNAL(clicked()), this, SLOT(slotItemDown()));
     connect(m_ui.buttonDel, SIGNAL(clicked()), this, SLOT(slotItemDel()));
@@ -99,10 +99,10 @@ EffectStackView::EffectStackView(Monitor *monitor, QWidget *parent) :
     connect(m_ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
     connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SLOT(slotShowComments()));
-    connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement &, const QDomElement &)), this , SLOT(slotUpdateEffectParams(const QDomElement &, const QDomElement &)));
+    connect(m_effectedit, SIGNAL(parameterChanged(QDomElement,QDomElement)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
     connect(m_effectedit, SIGNAL(startFilterJob(QString,QString,QString,QString,QString,QString)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QString,QString)));
     connect(m_effectedit, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
-    connect(m_effectedit, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
+    connect(m_effectedit, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
     connect(m_effectedit, SIGNAL(checkMonitorPosition(int)), this, SLOT(slotCheckMonitorPosition(int)));
     
     connect(monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));

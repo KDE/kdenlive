@@ -43,8 +43,8 @@ ColorPropertiesView::ColorPropertiesView(const QString &name, const QColor &colo
     layout->addWidget(rightSide);
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SIGNAL(valueChanged(QColor)));
-//     connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
-    connect(m_button, SIGNAL(changed(const QColor&)), this, SIGNAL(valueChanged(const QColor&)));
+//     connect(picker, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
+    connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(valueChanged(QColor)));
 
     static_cast<AbstractViewContainer*>(parent)->addChild(this);
 }

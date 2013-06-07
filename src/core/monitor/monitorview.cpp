@@ -272,22 +272,22 @@ void MonitorView::connectController(bool doConnect)
     if (doConnect) {
         connect(m_controller->videoWidget(), SIGNAL(producerChanged()), this, SLOT(onProducerChanged()));
         connect(m_controller->videoWidget(), SIGNAL(frameReceived(Mlt::QFrame)), this, SLOT(onShowFrame(Mlt::QFrame)));
-        connect(m_controller->videoWidget(), SIGNAL(gotThumb(int, QImage)), m_positionBar, SLOT(slotSetThumbnail(int, QImage)));
+        connect(m_controller->videoWidget(), SIGNAL(gotThumb(int,QImage)), m_positionBar, SLOT(slotSetThumbnail(int,QImage)));
         connect(m_controller->videoWidget(), SIGNAL(requestPlayPause()), this, SLOT(togglePlaybackState()));
         connect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
         connect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
-        connect(this, SIGNAL(requestThumb(ProducerWrapper *, int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper *, int)));
-        connect(m_positionBar, SIGNAL(marksChanged(QMap <int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap <int,QString>)));
+        connect(this, SIGNAL(requestThumb(ProducerWrapper*,int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper*,int)));
+        connect(m_positionBar, SIGNAL(marksChanged(QMap<int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap<int,QString>)));
     }
     else {
         disconnect(m_controller->videoWidget(), SIGNAL(producerChanged()), this, SLOT(onProducerChanged()));
         disconnect(m_controller->videoWidget(), SIGNAL(frameReceived(Mlt::QFrame)), this, SLOT(onShowFrame(Mlt::QFrame)));
-        disconnect(m_controller->videoWidget(), SIGNAL(gotThumb(int, QImage)), m_positionBar, SLOT(slotSetThumbnail(int, QImage)));
+        disconnect(m_controller->videoWidget(), SIGNAL(gotThumb(int,QImage)), m_positionBar, SLOT(slotSetThumbnail(int,QImage)));
         disconnect(m_controller->videoWidget(), SIGNAL(requestPlayPause()), this, SLOT(togglePlaybackState()));
         disconnect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
         disconnect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
-        disconnect(this, SIGNAL(requestThumb(ProducerWrapper *, int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper *, int)));
-        disconnect(m_positionBar, SIGNAL(marksChanged(QMap <int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap <int,QString>)));
+        disconnect(this, SIGNAL(requestThumb(ProducerWrapper*,int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper*,int)));
+        disconnect(m_positionBar, SIGNAL(marksChanged(QMap<int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap<int,QString>)));
     }
 }
 

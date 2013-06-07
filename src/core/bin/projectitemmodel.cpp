@@ -29,8 +29,8 @@ ProjectItemModel::ProjectItemModel(BinModel* binModel, QObject* parent) :
     , m_iconSize(60)
 {
     m_selection = new QItemSelectionModel(this);
-    //connect(m_selection, SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex, QModelIndex)));
-    connect(m_selection, SIGNAL(currentChanged(QModelIndex, QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex, QModelIndex)));
+    //connect(m_selection, SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
+    connect(m_selection, SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
 
     connect(m_binModel, SIGNAL(aboutToAddItem(AbstractProjectItem*)), this, SLOT(onAboutToAddItem(AbstractProjectItem*)));
     connect(m_binModel, SIGNAL(itemAdded(AbstractProjectItem*)), this, SLOT(onItemAdded(AbstractProjectItem*)));

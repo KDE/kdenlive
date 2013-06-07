@@ -65,21 +65,21 @@ MonitorManager::MonitorManager(QObject* parent) :
         MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), AutoMonitor, ClipMonitor, pCore->window());
         pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);
         m_monitors.insert(autoView->id(), autoView);
-        connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+        connect(autoView, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
     }
     else {
         MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), ClipMonitor, ClipMonitor, pCore->window());
         pCore->window()->addDock(i18n("Clip Monitor"), "clip_monitor", autoView);
         m_monitors.insert(autoView->id(), autoView);
-        connect(autoView, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+        connect(autoView, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
 
         MonitorView *autoView2 = new MonitorView(mode, new Mlt::Profile(), ProjectMonitor, ProjectMonitor, pCore->window());
         pCore->window()->addDock(i18n("Project Monitor"), "project_monitor", autoView2);
         m_monitors.insert(autoView2->id(), autoView2);
-        connect(autoView2, SIGNAL(controllerChanged(MONITORID, MltController *)), this, SLOT(updateController(MONITORID, MltController *)));
+        connect(autoView2, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
     }
     
-    //connect(m_modelSignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(onModelActivated(const QString &)));
+    //connect(m_modelSignalMapper, SIGNAL(mapped(QString)), this, SLOT(onModelActivated(QString)));
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
 }
 
