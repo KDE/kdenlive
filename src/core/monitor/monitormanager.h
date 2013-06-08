@@ -18,7 +18,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mltcontroller.h"
 
 class MonitorView;
-class MonitorModel;
 class Project;
 class QSignalMapper;
 class MltController;

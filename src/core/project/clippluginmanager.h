@@ -18,7 +18,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 class AbstractClipPlugin;
 class AbstractProjectClip;
-class AbstractProjectItem;
 class ProjectFolder;
 class ProducerDescription;
 class KUrl;

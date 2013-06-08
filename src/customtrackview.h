@@ -44,7 +44,6 @@ class AbstractGroupItem;
 class Transition;
 class AudioCorrelation;
 
-class EffectRepository;
 
 class CustomTrackView : public QGraphicsView
 {

@@ -14,7 +14,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effectrepository.h"
 #include <QString>
 
-class QDomElement;
 namespace Mlt
 {
     class Repository;

@@ -14,8 +14,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QWidget>
 #include "kdenlivecore_export.h"
 
-class QToolButton;
-class QFrame;
 
 
 class KDENLIVECORE_EXPORT AbstractViewContainer : public QWidget

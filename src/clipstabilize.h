@@ -28,12 +28,7 @@
 #include <KUrl>
 #include <QFuture>
 
-class QTimer;
 namespace Mlt{
-	class Profile;
-	class Playlist;
-	class Consumer;
-	class Filter;
 }
 
 class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI

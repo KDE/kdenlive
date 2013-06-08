@@ -14,7 +14,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QScrollArea>
 
 class Timeline;
-class TrackHeaderWidget;
 
 
 /**

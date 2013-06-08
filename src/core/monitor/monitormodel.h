@@ -23,7 +23,6 @@ namespace Mlt
     class Event;
     class Profile;
 }
-class QImage;
 
 typedef QAtomicPointer<Mlt::Frame> AtomicFramePointer;
 

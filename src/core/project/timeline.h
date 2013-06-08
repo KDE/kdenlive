@@ -32,7 +32,6 @@ namespace Mlt
  * @brief Entry point for anything timeline related. Manages a Mlt::Tractor.
  */
 
-class MltController;
 
 
 

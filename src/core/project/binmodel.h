@@ -22,7 +22,6 @@ class AbstractProjectClip;
 class AbstractProjectItem;
 class QDomElement;
 class QDomDocument;
-class MltController;
 class ProducerWrapper;
 
 

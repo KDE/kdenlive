@@ -17,7 +17,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 class AbstractParameterDescription;
 class AbstractParameterList;
-class MultiViewHandler;
 
 
 /**

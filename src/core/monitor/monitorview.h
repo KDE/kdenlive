@@ -22,7 +22,6 @@ class PositionBar;
 class TimecodeWidget;
 class AudioSignal;
 class KDualAction;
-class KUrl;
 class KAction;
 class KSelectAction;
 class KMessageWidget;

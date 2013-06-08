@@ -18,7 +18,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 class AbstractEffectRepositoryItem;
 class AbstractParameterDescription;
-class QStringList;
 class MltCore;
 
 namespace Mlt {

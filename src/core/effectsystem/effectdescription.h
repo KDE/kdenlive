@@ -19,6 +19,7 @@ class QString;
 class AbstractParameterDescription;
 class Effect;
 class AbstractEffectList;
+class QDomElement;
 
 /**
  * @class EffectDescription

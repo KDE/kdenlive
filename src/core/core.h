@@ -23,7 +23,6 @@ class Project;
 class PluginManager;
 class MonitorManager;
 class MltCore;
-class KUrl;
 
 #define pCore Core::self()
 

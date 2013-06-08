@@ -18,8 +18,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QList>
 #include "kdenlivecore_export.h"
 
-class MultiViewHandler;
-class AbstractProducerList;
 
 namespace Mlt
 {

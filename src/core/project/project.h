@@ -23,7 +23,6 @@ class BinModel;
 class QDomElement;
 class QDomDocument;
 class QUndoStack;
-class MltController;
 namespace Mlt
 {
     class Profile;

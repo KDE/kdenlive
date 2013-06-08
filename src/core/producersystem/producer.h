@@ -20,7 +20,6 @@ class ProducerWrapper;
 namespace Mlt
 {
     class Producer;
-    class Profile;
 }
 
 
