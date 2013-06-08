@@ -10,6 +10,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "abstracteffectstackitem.h"
 
+#include <QWidget>
+
 AbstractEffectStackItem::AbstractEffectStackItem(AbstractEffectStackItem* parent) :
     m_parent(parent),
     m_ui(NULL)
