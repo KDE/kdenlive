@@ -14,8 +14,6 @@ macro_optional_find_package(QJSON)
 option(WITH_V4L "Build capture support with Video4Linux" ON)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
-
-
 if(WITH_V4L)
   # This can be changed to support FreeBSD as soon as we move to a newer V4L2
   # header.
@@ -69,7 +67,6 @@ macro_log_feature(Nepomuk_FOUND
 find_package(NepomukCore QUIET)
 set_package_properties(NepomukCore PROPERTIES DESCRIPTION "The Nepomuk Core libraries" URL "http://www.kde.org" TYPE RECOMMENDED PURPOSE "Support for the Nepomuk semantic desktop system")
 
-
 macro_log_feature(QJSON_FOUND
   "QJson"
   "Qt-based library that maps JSON data to QVariant objects"
@@ -78,7 +75,6 @@ macro_log_feature(QJSON_FOUND
   ""
   "Required to build the rotoscoping filter and for Freesound.org queries"
 )
-
 
 add_subdirectory(beziercurve)
 add_subdirectory(colorcorrection)
@@ -309,7 +305,6 @@ include_directories(
   ${LIBMLTPLUS_INCLUDE_DIR}
 )
 
-
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
 # to the components requested in find_package().
 include(${QT_USE_FILE})
@@ -368,7 +363,7 @@ endif(QJSON_FOUND)
 
 if(BUILD_V4L)
   include_directories(${LIBV4L2_INCLUDE_DIR})
-  target_link_libraries(kdenlive ${LIBV4L2_LIBRARY})  
+  target_link_libraries(kdenlive ${LIBV4L2_LIBRARY})
   add_definitions(-DUSE_V4L)
 endif(BUILD_V4L)
 
