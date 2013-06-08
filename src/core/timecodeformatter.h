@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "fraction.h"
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class Timecode;
 
@@ -23,7 +23,7 @@ class Timecode;
  */
 
 
-class KDE_EXPORT TimecodeFormatter : public QObject
+class KDENLIVECORE_EXPORT TimecodeFormatter : public QObject
 {
     Q_OBJECT
     

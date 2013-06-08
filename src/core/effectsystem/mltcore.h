@@ -31,7 +31,7 @@ namespace Mlt {
  * @brief Initialize some core parameters
  */
 
-class KDE_EXPORT MltCore
+class KDENLIVECORE_EXPORT MltCore
 {
 public:
     /**

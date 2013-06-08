@@ -37,7 +37,7 @@ enum EffectTypes { AudioEffect, VideoEffect, CustomEffect };
  * metadata provided by MLT is used.
  */
 
-class KDE_EXPORT EffectRepository
+class KDENLIVECORE_EXPORT EffectRepository
 {
 public:
     /**

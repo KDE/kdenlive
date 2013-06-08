@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <mlt/framework/mlt_producer.h>
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class Project;
 class ProducerWrapper;
@@ -36,7 +36,7 @@ class MltController;
 
 
 
-class KDE_EXPORT Timeline : public QObject
+class KDENLIVECORE_EXPORT Timeline : public QObject
 {
     Q_OBJECT
 

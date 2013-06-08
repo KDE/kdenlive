@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QImage>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class Project;
 class MonitorView;
@@ -32,7 +32,7 @@ class ProducerWrapper;
  */
 
 
-class KDE_EXPORT BinModel : public QObject
+class KDENLIVECORE_EXPORT BinModel : public QObject
 {
     Q_OBJECT
 

@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define CORE_H
 
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class MainWindow;
 class ProjectManager;
@@ -36,7 +36,7 @@ class KUrl;
  * Plugins should be loaded after the widget setup.
  */
 
-class KDE_EXPORT Core : public QObject
+class KDENLIVECORE_EXPORT Core : public QObject
 {
     Q_OBJECT
 

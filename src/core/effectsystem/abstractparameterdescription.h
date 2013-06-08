@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QString>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class AbstractParameterList;
 class AbstractParameter;
@@ -34,7 +34,7 @@ namespace Mlt
  * also created through their description object.
  */
 
-class KDE_EXPORT AbstractParameterDescription : public QObject
+class KDENLIVECORE_EXPORT AbstractParameterDescription : public QObject
 {
     Q_OBJECT
 

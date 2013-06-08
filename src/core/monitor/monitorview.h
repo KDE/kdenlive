@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <KIcon>
 #include <QWidget>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 #include "monitormanager.h"
 #include "mltcontroller.h"
 
@@ -38,7 +38,7 @@ class ProducerWrapper;
  */
 
 
-class KDE_EXPORT MonitorView : public QWidget
+class KDENLIVECORE_EXPORT MonitorView : public QWidget
 {
     Q_OBJECT
 

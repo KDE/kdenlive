@@ -2,4 +2,5 @@ File=kdenlivesettings.kcfg
 ClassName=KdenliveSettings
 Singleton=true
 Mutators=true
-Visibility=KDE_EXPORT
+Visibility=KDENLIVECORE_EXPORT
+IncludeFiles=kdenlivecore_export.h

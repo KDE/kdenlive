@@ -12,13 +12,13 @@ the Free Software Foundation, either version 3 of the License, or
 #define ABSTRACTCLIPITEMACTION_H
 
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class TimelineClipItem;
 class QGraphicsSceneMouseEvent;
 
 
-class KDE_EXPORT AbstractClipItemAction : public QObject
+class KDENLIVECORE_EXPORT AbstractClipItemAction : public QObject
 {
     Q_OBJECT
 

@@ -25,7 +25,7 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <kselectaction.h>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class QAction;
 class QMenu;
@@ -70,7 +70,7 @@ signals:
  * @brief A widget for modifing numbers by dragging, using the mouse wheel or entering them with the keyboard.
  */
 
-class KDE_EXPORT DragValue : public QWidget
+class KDENLIVECORE_EXPORT DragValue : public QWidget
 {
     Q_OBJECT
 

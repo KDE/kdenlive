@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QPointF>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class AbstractClipItemAction;
 class TimelineClipItem;
@@ -21,7 +21,7 @@ class TimelineScene;
 class QGraphicsSceneMouseEvent;
 
 
-class KDE_EXPORT AbstractClipItemTool : public QObject
+class KDENLIVECORE_EXPORT AbstractClipItemTool : public QObject
 {
     Q_OBJECT
 

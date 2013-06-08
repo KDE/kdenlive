@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractparameterdescription.h"
 #include <QObject>
 #include <QList>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class MultiViewHandler;
 class AbstractProducerList;
@@ -31,7 +31,7 @@ namespace Mlt
  * @brief Abstract base class for parameter containers.
  */
 
-class KDE_EXPORT AbstractParameterList : public EffectSystemItem, protected QList<AbstractParameter*>
+class KDENLIVECORE_EXPORT AbstractParameterList : public EffectSystemItem, protected QList<AbstractParameter*>
 {
     Q_OBJECT
 

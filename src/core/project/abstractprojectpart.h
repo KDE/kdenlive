@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QDomElement>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 
 /**
@@ -28,7 +28,7 @@ the Free Software Foundation, either version 3 of the License, or
  */
 
 
-class KDE_EXPORT AbstractProjectPart : public QObject
+class KDENLIVECORE_EXPORT AbstractProjectPart : public QObject
 {
     Q_OBJECT
 

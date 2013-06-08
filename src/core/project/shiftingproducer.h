@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QStringList>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class ProducerWrapper;
 
@@ -30,7 +30,7 @@ class ProducerWrapper;
  */
 
 
-class KDE_EXPORT ShiftingProducer : public QObject
+class KDENLIVECORE_EXPORT ShiftingProducer : public QObject
 {
     Q_OBJECT
 

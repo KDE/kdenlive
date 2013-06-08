@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define TIMELINEWIDGET_H
 
 #include <QWidget>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class Project;
 class ToolManager;
@@ -28,7 +28,7 @@ class TrackHeaderContainer;
  */
 
 
-class KDE_EXPORT TimelineWidget : public QWidget
+class KDENLIVECORE_EXPORT TimelineWidget : public QWidget
 {
     Q_OBJECT
 

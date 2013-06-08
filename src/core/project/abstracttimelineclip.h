@@ -26,7 +26,7 @@ class QUndoCommand;
  */
 
 
-class KDE_EXPORT AbstractTimelineClip : public ShiftingProducer
+class KDENLIVECORE_EXPORT AbstractTimelineClip : public ShiftingProducer
 {
     Q_OBJECT
 

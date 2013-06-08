@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <KXmlGuiWindow>
 #include <KUrl>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class TimelineWidget;
 class Bin;
@@ -27,7 +27,7 @@ class KTabWidget;
  * @brief Kdenlive's main window.
  */
 
-class KDE_EXPORT MainWindow : public KXmlGuiWindow
+class KDENLIVECORE_EXPORT MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
 

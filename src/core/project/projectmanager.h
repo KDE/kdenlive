@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define PROJECTMANAGER_H
 
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class Project;
 class AbstractProjectPart;
@@ -26,7 +26,7 @@ class KUrl;
  */
 
 
-class KDE_EXPORT ProjectManager : public QObject
+class KDENLIVECORE_EXPORT ProjectManager : public QObject
 {
     Q_OBJECT
 

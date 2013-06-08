@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef ABSTRACTPROJECTCLIPPLUGIN_H
 #define ABSTRACTPROJECTCLIPPLUGIN_H
 
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 #include <mlt++/MltConsumer.h>
 #include <QObject>
 
@@ -41,7 +41,7 @@ namespace Mlt
  */
 
 
-class KDE_EXPORT AbstractClipPlugin : public QObject
+class KDENLIVECORE_EXPORT AbstractClipPlugin : public QObject
 {
     Q_OBJECT
 

@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <KUrl>
 #include <QDomDocument>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class TimecodeFormatter;
 class MonitorView;
@@ -36,7 +36,7 @@ namespace Mlt
  */
 
 
-class KDE_EXPORT Project : public QObject
+class KDENLIVECORE_EXPORT Project : public QObject
 {
     Q_OBJECT
 

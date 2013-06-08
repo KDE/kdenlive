@@ -12,13 +12,13 @@ the Free Software Foundation, either version 3 of the License, or
 #define ABSTRACTEFFECTSTACKITEM_H
 
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class QWidget;
 
 /** currently not used... */
 
-class KDE_EXPORT AbstractEffectStackItem : public QObject
+class KDENLIVECORE_EXPORT AbstractEffectStackItem : public QObject
 {
     Q_OBJECT
 

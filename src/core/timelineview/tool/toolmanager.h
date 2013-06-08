@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define TOOLMANAGER_H
 
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class SceneTool;
 class TimelineClipItem;
@@ -20,7 +20,7 @@ class TimelineScene;
 class QEvent;
 
 
-class KDE_EXPORT ToolManager : public QObject
+class KDENLIVECORE_EXPORT ToolManager : public QObject
 {
     Q_OBJECT
 

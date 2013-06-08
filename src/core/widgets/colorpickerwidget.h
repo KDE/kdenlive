@@ -24,7 +24,7 @@
 #include <QtCore>
 #include <QWidget>
 #include <QFrame>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #endif
@@ -51,7 +51,7 @@ signals:
  * The code is partially based on the color picker in KColorDialog. 
  */
 
-class KDE_EXPORT ColorPickerWidget : public QWidget
+class KDENLIVECORE_EXPORT ColorPickerWidget : public QWidget
 {
     Q_OBJECT
 

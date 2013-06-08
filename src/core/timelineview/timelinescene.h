@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QGraphicsScene>
 #include <QGraphicsItem>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class Timeline;
 class TimelineTrackItem;
@@ -28,7 +28,7 @@ class TimelineView;
  */
 
 
-class KDE_EXPORT TimelineScene : public QGraphicsScene
+class KDENLIVECORE_EXPORT TimelineScene : public QGraphicsScene
 {
     Q_OBJECT
 

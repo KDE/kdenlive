@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 #include <QHash>
 #include <QStringList>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class AbstractClipPlugin;
 class AbstractProjectClip;
@@ -38,7 +38,7 @@ namespace Mlt
  */
 
 
-class KDE_EXPORT ClipPluginManager : public QObject
+class KDENLIVECORE_EXPORT ClipPluginManager : public QObject
 {
     Q_OBJECT
 

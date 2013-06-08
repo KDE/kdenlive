@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "abstractviewcontainer.h"
 #include <QWidget>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class QToolButton;
 class QFrame;
@@ -23,7 +23,7 @@ namespace Ui
 }
 
 
-class KDE_EXPORT AbstractPropertiesViewContainer : public AbstractViewContainer
+class KDENLIVECORE_EXPORT AbstractPropertiesViewContainer : public AbstractViewContainer
 {
     Q_OBJECT
 

@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 #include <QHash>
 #include <QMap>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 #include "mltcontroller.h"
 
 class MonitorView;
@@ -32,7 +32,7 @@ enum MONITORID {KeepMonitor, AutoMonitor, ClipMonitor, ProjectMonitor, RecordMon
  */
 
 
-class KDE_EXPORT MonitorManager : public QObject
+class KDENLIVECORE_EXPORT MonitorManager : public QObject
 {
     Q_OBJECT
 

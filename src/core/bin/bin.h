@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QApplication>
 #include <QStyledItemDelegate>
 #include <QPainter>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class Project;
 class QAbstractItemView;
@@ -177,7 +177,7 @@ class QMenu;
  */
 
 
-class KDE_EXPORT Bin : public QWidget
+class KDENLIVECORE_EXPORT Bin : public QWidget
 {
     Q_OBJECT
 

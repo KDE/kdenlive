@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 #include <QPixmap>
 #include <KUrl>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class AbstractProjectClip;
 class BinModel;
@@ -31,7 +31,7 @@ class QDomDocument;
  */
 
 
-class KDE_EXPORT AbstractProjectItem : public QObject, public QList<AbstractProjectItem *>
+class KDENLIVECORE_EXPORT AbstractProjectItem : public QObject, public QList<AbstractProjectItem *>
 {
     Q_OBJECT
 

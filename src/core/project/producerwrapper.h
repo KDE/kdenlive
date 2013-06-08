@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <mlt++/Mlt.h>
 #include <QString>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class QPixmap;
 
@@ -24,7 +24,7 @@ class QPixmap;
  */
 
 
-class KDE_EXPORT ProducerWrapper : public Mlt::Producer
+class KDENLIVECORE_EXPORT ProducerWrapper : public Mlt::Producer
 {
 public:
     /**

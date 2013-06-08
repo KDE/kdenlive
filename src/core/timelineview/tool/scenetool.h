@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define SCENETOOL_H
 
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class AbstractClipItemTool;
 class TimelineClipItem;
@@ -21,7 +21,7 @@ class QEvent;
 class QGraphicsSceneMouseEvent;
 
 
-class KDE_EXPORT SceneTool : public QObject
+class KDENLIVECORE_EXPORT SceneTool : public QObject
 {
     Q_OBJECT
 

@@ -23,7 +23,7 @@
 #include <QMutex>
 #include <QMap>
 #include <mlt++/Mlt.h>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 //#include "transportcontrol.h"
 
 // forward declarations
@@ -50,7 +50,7 @@ private:
 };
 
 }
-class KDE_EXPORT TransportControl : public QObject
+class KDENLIVECORE_EXPORT TransportControl : public QObject
 {
     Q_OBJECT
 public:

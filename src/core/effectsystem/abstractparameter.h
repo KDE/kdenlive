@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "effectsystemitem.h"
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class AbstractParameterDescription;
 class AbstractParameterList;
@@ -29,7 +29,7 @@ class MultiViewHandler;
  * there should be used directly.
  */
 
-class KDE_EXPORT AbstractParameter : public EffectSystemItem
+class KDENLIVECORE_EXPORT AbstractParameter : public EffectSystemItem
 {
     Q_OBJECT
 

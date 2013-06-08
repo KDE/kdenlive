@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <mlt/framework/mlt_consumer.h>
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class ProducerWrapper;
 namespace Mlt
@@ -33,7 +33,7 @@ typedef QAtomicPointer<Mlt::Frame> AtomicFramePointer;
  * @brief Wrapper around Mlt::Consumer
  */
 
-class KDE_EXPORT MonitorModel : public QObject
+class KDENLIVECORE_EXPORT MonitorModel : public QObject
 {
     Q_OBJECT
 

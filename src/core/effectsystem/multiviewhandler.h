@@ -13,14 +13,14 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 #include <QHash>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 /**
  * @class MultiViewHandler
  * @brief Stores the multiple views an item in the effect system has.
  */
 
-class KDE_EXPORT MultiViewHandler : public QObject, private QHash<int, QObject*>
+class KDENLIVECORE_EXPORT MultiViewHandler : public QObject, private QHash<int, QObject*>
 {
     Q_OBJECT
 

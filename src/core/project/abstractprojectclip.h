@@ -31,7 +31,7 @@ class QDomElement;
  */
 
 
-class KDE_EXPORT AbstractProjectClip : public AbstractProjectItem
+class KDENLIVECORE_EXPORT AbstractProjectClip : public AbstractProjectItem
 {
     Q_OBJECT
 

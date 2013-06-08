@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "multiviewhandler.h"
 #include <QObject>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 
 /**
@@ -25,7 +25,7 @@ the Free Software Foundation, either version 3 of the License, or
  * parameter to the device and vice versa)
  */
 
-class KDE_EXPORT EffectSystemItem : public QObject
+class KDENLIVECORE_EXPORT EffectSystemItem : public QObject
 {
     Q_OBJECT
 

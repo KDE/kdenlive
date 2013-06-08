@@ -299,6 +299,7 @@ endif(BUILD_JogShuttle)
 add_definitions(${KDE4_DEFINITIONS})
 
 include_directories(
+  ${CMAKE_SOURCE_DIR}/src/core
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
   ${KDE4_INCLUDES} # Adds Qt include directories too.

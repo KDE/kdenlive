@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effectsystemitem.h"
 #include <mlt++/Mlt.h>
 #include <QList>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class EffectRepository;
 class Effect;
@@ -26,7 +26,7 @@ class EffectDescription;
  * @brief Abstract base class for effect containers.
  */
 
-class KDE_EXPORT AbstractEffectList : public EffectSystemItem, protected QList<Effect *>
+class KDENLIVECORE_EXPORT AbstractEffectList : public EffectSystemItem, protected QList<Effect *>
 {
     Q_OBJECT
 public:

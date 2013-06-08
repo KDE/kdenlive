@@ -38,7 +38,7 @@ enum ProducerTypes { AudioProducer, VideoProducer };
  * metadata provided by MLT is used.
  */
 
-class KDE_EXPORT ProducerRepository
+class KDENLIVECORE_EXPORT ProducerRepository
 {
 public:
     /**

@@ -12,13 +12,13 @@ the Free Software Foundation, either version 3 of the License, or
 #define ABSTRACTVIEWCONTAINER_H
 
 #include <QWidget>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 class QToolButton;
 class QFrame;
 
 
-class KDE_EXPORT AbstractViewContainer : public QWidget
+class KDENLIVECORE_EXPORT AbstractViewContainer : public QWidget
 {
     Q_OBJECT
 

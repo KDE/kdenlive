@@ -13,7 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "timecodeformatter.h"
 #include <QString>
-#include <kdemacros.h>
+#include "kdenlivecore_export.h"
 
 /**
  * @class Timecode
@@ -21,7 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
  */
 
 
-class KDE_EXPORT Timecode
+class KDENLIVECORE_EXPORT Timecode
 {
 public:
     /**
