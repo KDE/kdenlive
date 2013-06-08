@@ -2,7 +2,9 @@
 Type=Service
 ServiceTypes=Kdenlive/Parameter
 Name=List Parameter
+Name[nl]=Lijstparameter
 Name[pt]=Parâmetro de Lista
+Name[pt_BR]=Parâmetro de lista
 Name[sl]=Parameter seznama
 Name[sv]=Listparameter
 Name[uk]=Параметр списку

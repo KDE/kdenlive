@@ -2,7 +2,9 @@
 Type=Service
 ServiceTypes=Kdenlive/Parameter
 Name=Fixed Parameter
+Name[nl]=Vaste parameter
 Name[pt]=Parâmetro de Vírgula Fixa
+Name[pt_BR]=Parâmetro de vírgula fixa
 Name[sl]=Nespremenljiv parameter
 Name[sv]=Fast parameter
 Name[uk]=Фіксований параметр

@@ -2,7 +2,9 @@
 Type=Service
 ServiceTypes=Kdenlive/Parameter
 Name=Color Parameter
+Name[nl]=Kleurparameter
 Name[pt]=Parâmetro de Cor
+Name[pt_BR]=Parâmetro de cores
 Name[sl]=Barvni parameter
 Name[sv]=Färgparameter
 Name[uk]=Параметр кольору

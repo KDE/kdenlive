@@ -2,7 +2,9 @@
 Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Image Clip
+Name[nl]=Afbeeldingsclip
 Name[pt]='Clip' de Imagem
+Name[pt_BR]=Clipe de imagem
 Name[sl]=Posnetek iz slike
 Name[sv]=Bildklipp
 Name[uk]=Кліп-зображення

@@ -2,7 +2,9 @@
 Type=Service
 ServiceTypes=Kdenlive/Parameter
 Name=Double Parameter
+Name[nl]=Dubbele parameter
 Name[pt]=Parâmetro de Vírgula Flutuante
+Name[pt_BR]=Parâmetro de vírgula flutuante
 Name[sl]=Dvojni parameter
 Name[sv]=Dubbel parameter
 Name[uk]=Параметр з подвійною точністю
