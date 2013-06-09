@@ -69,6 +69,8 @@ public:
     AbstractProjectClip *clip(const QString &id);
     AbstractProjectClip* clipAt(int ix);
     QString clipId() const;
+    void setZone(const QPoint &zone);
+    QPoint zone() const;
 
     /** @brief Returns the clip's id. */
     QString id() const;
@@ -83,7 +85,7 @@ public:
     virtual int duration() const;
 
     /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
-    virtual void setCurrent(bool current);
+    virtual void setCurrent(bool current, bool notify = true);
 
     virtual QDomElement toXml(QDomDocument &document) const;
 

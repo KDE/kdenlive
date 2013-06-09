@@ -66,17 +66,20 @@ MonitorManager::MonitorManager(QObject* parent) :
         pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);
         m_monitors.insert(autoView->id(), autoView);
         connect(autoView, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
+	connect(autoView, SIGNAL(zoneChanged(MONITORID, QPoint)), this, SLOT(slotManageZoneChange(MONITORID, QPoint)));
     }
     else {
         MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), ClipMonitor, ClipMonitor, pCore->window());
         pCore->window()->addDock(i18n("Clip Monitor"), "clip_monitor", autoView);
         m_monitors.insert(autoView->id(), autoView);
         connect(autoView, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
+	connect(autoView, SIGNAL(zoneChanged(MONITORID, QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
 
         MonitorView *autoView2 = new MonitorView(mode, new Mlt::Profile(), ProjectMonitor, ProjectMonitor, pCore->window());
         pCore->window()->addDock(i18n("Project Monitor"), "project_monitor", autoView2);
         m_monitors.insert(autoView2->id(), autoView2);
         connect(autoView2, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
+	connect(autoView2, SIGNAL(zoneChanged(MONITORID,QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
     }
     
     //connect(m_modelSignalMapper, SIGNAL(mapped(QString)), this, SLOT(onModelActivated(QString)));
@@ -214,6 +217,18 @@ void MonitorManager::updateController(MONITORID id, MltController *controller)
     //disconnect(m_monitors.value(id)->controller()->videoWidget(), SIGNAL(imageRendered(QString,int,QImage)), proj->bin(), SLOT(slotGotImage(QString,int,QImage)));
     //m_monitors.insert(id, controller);
     connect(controller->videoWidget(), SIGNAL(imageRendered(QString,int,QImage)), proj->bin(), SLOT(slotGotImage(QString,int,QImage)));
+}
+
+void MonitorManager::slotManageZoneChange(MONITORID id,const QPoint zone)
+{
+    Project *project = pCore->projectManager()->current();
+    if (!project) {
+        kDebug()<<" + + + Project not ready for thumbnails";
+        return;
+    }
+    if (id == ClipMonitor) {
+	project->bin()->setCurrentClipZone(zone);
+    }
 }
 
 void MonitorManager::requestThumbnails(const QString &id, QList <int> positions)

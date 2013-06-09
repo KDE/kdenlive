@@ -75,6 +75,7 @@ private slots:
      *  @param controller The new controller for this monitor.
      */
     void updateController(MONITORID id, MltController *controller);
+    void slotManageZoneChange(MONITORID id,const QPoint zone);
 
 private:
     QHash<MONITORID, MonitorView*> m_monitors;

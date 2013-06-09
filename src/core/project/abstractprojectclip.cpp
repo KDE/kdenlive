@@ -50,6 +50,8 @@ AbstractProjectClip::AbstractProjectClip(const QDomElement& description, Project
 
     m_id = description.attribute("id");
     m_url = KUrl(description.attribute("url"));
+    if (description.hasAttribute("zone"))
+	m_zone = QPoint(description.attribute("zone").section(':', 0, 0).toInt(), description.attribute("zone").section(':', 1, 1).toInt());
 }
 
 
@@ -113,13 +115,12 @@ int AbstractProjectClip::duration() const
     return m_baseProducer->get_playtime();
 }
 
-void AbstractProjectClip::setCurrent(bool current)
+void AbstractProjectClip::setCurrent(bool current, bool notify)
 {
-    kDebug()<<"// SETTING CURRENT: "<<m_name<<", "<<current<<", IX: "<<index();
-    AbstractProjectItem::setCurrent(current);
+    AbstractProjectItem::setCurrent(current, notify);
     if (current) {
 	initProducer();
-        bin()->monitor()->open(m_baseProducer, ClipMonitor);
+        bin()->monitor()->open(m_baseProducer, ClipMonitor, m_zone);
     }
 }
 
@@ -129,6 +130,9 @@ QDomElement AbstractProjectClip::toXml(QDomDocument& document) const
     clip.setAttribute("id", id());
     clip.setAttribute("producer_type",m_baseProducer->get("mlt_service"));
     clip.setAttribute("name", name());
+    if (!m_zone.isNull()) {
+	clip.setAttribute("zone", QString::number(m_zone.x()) + ":" + QString::number(m_zone.y()));
+    }
     if (!description().isEmpty()) {
         clip.setAttribute("description", description());
     }
@@ -178,5 +182,14 @@ void AbstractProjectClip::setThumbnail(QImage img)
     bin()->emitItemUpdated(this);
 }
 
+void AbstractProjectClip::setZone(const QPoint &zone)
+{
+    m_zone = zone;
+}
+
+QPoint AbstractProjectClip::zone() const
+{
+    return m_zone;
+}
 
 #include "abstractprojectclip.moc"

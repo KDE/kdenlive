@@ -54,7 +54,7 @@ public:
     bool isActive() const;
     void activate();
     void close();
-    int open(ProducerWrapper*, MONITORID role = KeepMonitor, bool isMulti = false);
+    int open(ProducerWrapper*, MONITORID role = KeepMonitor, const QPoint &zone = QPoint(), bool isMulti = false);
     int position() const;
     void setProfile(Mlt::Profile *profile, bool reset = true);
     DISPLAYMODE displayType() const;
@@ -91,6 +91,7 @@ private slots:
      *  @param a the action containing the requested MONITORID as data
      */
     void slotToggleMonitorRole(QAction *a);
+    void slotZoneChanged(const QPoint &zone);
     
 public slots:
     /** @brief Seek to wanted pos. */
@@ -123,6 +124,8 @@ private:
     KSelectAction *m_monitorMode;
     /** @brief The action allowing to toggle between roles (Clip, Project, Record monitor, ... */
     KSelectAction *m_monitorRole;
+    /** @brief The action allowing to enable / disable zone on this clip */
+    KAction *m_zoneAction;
     KAction *m_sceneAction;
     /** @brief The editable timecode widget. */
     TimecodeWidget *m_timecodeWiget;
@@ -173,6 +176,7 @@ signals:
     void audioLevels(const QVector<double>&);
     void requestThumb(ProducerWrapper *, int);
     void positionChanged(int, bool);
+    void zoneChanged(MONITORID,QPoint);
 };
 
 #endif

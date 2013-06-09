@@ -180,17 +180,28 @@ void AbstractProjectItem::setDescription(const QString& description)
     m_description = description;
 }
 
-void AbstractProjectItem::setCurrent(bool current)
+void AbstractProjectItem::setCurrent(bool current, bool notify)
 {
     if (m_isCurrent != current) 
     {
         m_isCurrent = current;
+	if (!notify) 
+	    return;
         if (current) {
             bin()->setCurrentItem(this);
         } else {
             bin()->setCurrentItem(NULL);
         }
     }
+}
+
+void AbstractProjectItem::setZone(const QPoint &/*zone*/)
+{
+}
+
+QPoint AbstractProjectItem::zone() const
+{
+    return QPoint();
 }
 
 #include "abstractprojectitem.moc"

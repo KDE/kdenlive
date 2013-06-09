@@ -89,6 +89,7 @@ signals:
      *  @param marks the list of frames with info text
      * */
     void marksChanged(const QMap <int, QString> &marks);
+    void zoneChanged(const QPoint &zone);
 
 protected:
     void mousePressEvent(QMouseEvent *event);

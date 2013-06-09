@@ -197,7 +197,7 @@ private slots:
     void slotInitView(QAction *action);
     void slotSetIconSize(int size);
     void rowsInserted(const QModelIndex &parent, int start, int end);
-    void selectModel(const QModelIndex &parent);
+    void selectModel(const QModelIndex &id);
     void autoSelect();
     void slotOpenClipTimeline(const QString &id, const QString &name, ProducerWrapper *prod);
     void closeEditing();

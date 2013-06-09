@@ -85,6 +85,8 @@ public:
     virtual AbstractProjectClip *clip(const QString &id) = 0;
     virtual AbstractProjectClip *clipAt(int ix) = 0;
     virtual QString clipId() const = 0;
+    virtual void setZone(const QPoint &zone);
+    virtual QPoint zone() const;
 
     enum DataType {
         DataName = 0,
@@ -120,7 +122,7 @@ public:
     virtual void setDescription(const QString &description);
 
     /** @brief Flags this item as being current (or not) and notifies the bin model about it. */
-    virtual void setCurrent(bool current);
+    virtual void setCurrent(bool current, bool notify = true);
 
     virtual QDomElement toXml(QDomDocument &document) const = 0;
 
@@ -134,6 +136,7 @@ protected:
     QString m_description;
     QPixmap m_thumbnail;
     QString m_duration;
+    QPoint m_zone;
 
     /** @brief Returns a rounded border pixmap from the @param source pixmap. */
     QPixmap roundedPixmap(const QPixmap &source);

@@ -75,6 +75,7 @@ public:
     QDomElement toXml(QDomDocument &document) const;
     void setMonitor(MonitorView* m);
     void refreshThumnbail(const QString &id);
+    void setCurrentClipZone(const QPoint &zone);
 
 public slots:
     /** @brief emits aboutToAddItem. */

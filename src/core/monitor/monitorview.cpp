@@ -121,10 +121,10 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
     audioAction->setChecked(false);
     m_toolbar->addAction(audioAction);
     
-    KAction *zoneAction = new KAction(KIcon("go-top"), i18n("Use Zone"), this);
-    zoneAction->setCheckable(true);
-    zoneAction->setChecked(false);
-    m_toolbar->addAction(zoneAction);
+    m_zoneAction = new KAction(KIcon("go-top"), i18n("Use Zone"), this);
+    m_zoneAction->setCheckable(true);
+    m_zoneAction->setChecked(false);
+    m_toolbar->addAction(m_zoneAction);
     
     m_layout->addWidget(m_toolbar, 3, 0, 1, -1);
 
@@ -144,14 +144,19 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
     connect(m_monitorMode, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleMonitorMode(QAction*)));
     connect(m_monitorRole, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleMonitorRole(QAction*)));
     connect(audioAction, SIGNAL(triggered(bool)), this, SLOT(toggleAudioMonitor(bool)));
-    connect(zoneAction, SIGNAL(triggered(bool)), this, SLOT(toggleZone(bool)));
+    connect(m_zoneAction, SIGNAL(triggered(bool)), this, SLOT(toggleZone(bool)));
     connect(m_positionBar, SIGNAL(positionChanged(int)), this, SLOT(seek(int)));
+    connect(m_positionBar, SIGNAL(zoneChanged(QPoint)), this, SLOT(slotZoneChanged(QPoint)));
     connect(m_timecodeWiget, SIGNAL(valueChanged(int)), this, SLOT(seek(int)));
     connect(m_positionBar, SIGNAL(requestThumb(int)), this, SLOT(slotGetThumb(int)));
     connectController();
     
 }
 
+void MonitorView::slotZoneChanged(const QPoint &zone)
+{
+    emit zoneChanged(m_currentRole, zone);
+}
 MltController *MonitorView::buildController(DISPLAYMODE mode)
 {
     MltController *cont = NULL;
@@ -277,6 +282,7 @@ void MonitorView::connectController(bool doConnect)
         connect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
         connect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
         connect(this, SIGNAL(requestThumb(ProducerWrapper*,int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper*,int)));
+	connect(m_positionBar, SIGNAL(zoneChanged(QPoint)), m_controller->videoWidget(), SLOT(slotSetZone(QPoint)));
         connect(m_positionBar, SIGNAL(marksChanged(QMap<int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap<int,QString>)));
     }
     else {
@@ -287,6 +293,7 @@ void MonitorView::connectController(bool doConnect)
         disconnect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
         disconnect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
         disconnect(this, SIGNAL(requestThumb(ProducerWrapper*,int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper*,int)));
+	disconnect(m_positionBar, SIGNAL(zoneChanged(QPoint)), m_controller->videoWidget(), SLOT(slotSetZone(QPoint)));
         disconnect(m_positionBar, SIGNAL(marksChanged(QMap<int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap<int,QString>)));
     }
 }
@@ -407,16 +414,16 @@ void MonitorView::toggleAudioMonitor(bool active)
 
 void MonitorView::toggleZone(bool active)
 {
+    QPoint zone;
     if (active) {
         int inPoint = m_positionBar->position();
         if (inPoint >= m_positionBar->duration() - 5) inPoint = 0;
         int outPoint = (m_positionBar->duration() - 1);
         if (outPoint > 50) outPoint = outPoint / 5;
-        m_positionBar->setZone(QPoint(inPoint, inPoint + outPoint));
+        zone = QPoint(inPoint, inPoint + outPoint);
     }
-    else {
-        m_positionBar->setZone(QPoint());
-    }
+    m_positionBar->setZone(zone);
+    slotZoneChanged(zone);
 }
 
 /*
@@ -469,7 +476,7 @@ void MonitorView::toggleSceneState()
 }
 */
 
-int MonitorView::open(ProducerWrapper* producer, MONITORID role, bool isMulti)
+int MonitorView::open(ProducerWrapper* producer, MONITORID role, const QPoint &zone, bool isMulti)
 {
     //kDebug()<<"MONITOR: "<<m_id<<"\n + + + ++ + + + + + +\nOPENING PRODUCeR: "<<producer->resourceName()<<" = "<<producer->get_length()<<" \n + + + + ++ + + + + ++ + +\n";
     setProfile(producer->profile(), false);
@@ -478,7 +485,7 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, bool isMulti)
         m_currentRole = role;
         addMonitorRole(role);
     }
-    if (m_monitorProducer == producer) return 0;
+    if (m_monitorProducer == producer) return 0;    
     if (m_GPUProducer.contains(m_currentRole)) {
         if (m_controller->displayType() == MLTGLSL) m_normalProducer.value(m_currentRole)->seek(m_GPUProducer.value(m_currentRole)->position());
         m_controller->stop();
@@ -495,8 +502,13 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, bool isMulti)
     else {
         m_monitorProducer = producer;
     }
-    int result = m_controller->open(m_monitorProducer, isMulti, m_currentRole == RecordMonitor);
-    return result;
+    int error = m_controller->open(m_monitorProducer, isMulti, m_currentRole == RecordMonitor);
+    if (!error) {
+	onProducerChanged();
+	m_zoneAction->setChecked(!zone.isNull());
+	m_positionBar->setZone(zone);
+    }
+    return error;
 }
 
 

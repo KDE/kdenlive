@@ -93,17 +93,25 @@ AbstractProjectItem* BinModel::currentItem()
     return m_currentItem;
 }
 
+void BinModel::setCurrentClipZone(const QPoint &zone)
+{
+    if (!m_currentItem) {
+	kDebug()<<"  ------ NO CURR ITEM -";
+	return;
+    }
+    m_currentItem->setZone(zone);
+}
+
 void BinModel::setCurrentItem(AbstractProjectItem* item)
 {
     if (item) kDebug()<<" + + + + + + + ++ BIN MODEL SET CURR + + + : "<<item->name();
     if (m_currentItem != item) {
-        AbstractProjectItem *oldItem = m_currentItem;
-        m_currentItem = item;
-        if (oldItem) {
-            oldItem->setCurrent(false);
-        }
         if (m_currentItem) {
-            m_currentItem->setCurrent(true);
+            m_currentItem->setCurrent(false, false);
+        }
+        m_currentItem = item;
+        if (m_currentItem) {
+            m_currentItem->setCurrent(true, false);
             /*AbstractProjectClip *pclip = static_cast <AbstractProjectClip*>(m_currentItem);
         pclip->setCurrent(true);*/
         }

@@ -497,6 +497,12 @@ void GLWidget::enterEvent( QEvent * event )
     else m_showPlay = false;
 }
 
+void GLWidget::slotSetZone(const QPoint &zone)
+{
+    m_zone = zone;
+    if (m_producer->get_speed() == 0) refreshConsumer();
+}
+
 void GLWidget::slotSetMarks(QMap <int,QString> marks)
 {
     m_markers = marks;
@@ -772,7 +778,7 @@ int GLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
 	    update();
         }
     }
-    emit producerChanged();
+    //emit producerChanged();
     return error;
 }
 

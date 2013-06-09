@@ -210,16 +210,13 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
 void ProjectItemModel::onCurrentRowChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     Q_UNUSED(previous)
-    kDebug()<<" + + + + + + + ++ ROW CHANGED + + + +: "<<current.row();
+    kDebug()<<" + + + + + + + ++ ROW CHANGED+: "<<current.row()<<", PREVIOUS: "<<previous.row();
+    if (previous.row() == current.row()) {
+	// User clicked on already selected item, don't react?
+	return;
+    }
     QModelIndex id = index(current.row(), 0, QModelIndex());
     emit selectModel(id);
-    if (current.isValid()) {
-        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(current.internalPointer());
-        currentItem->setCurrent(true);
-    }
-    else {
-	kDebug()<<" * * * * *CURRENT IS INVALID!!!";
-    }
 }
 
 void ProjectItemModel::onAboutToAddItem(AbstractProjectItem* item)

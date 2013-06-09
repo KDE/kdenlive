@@ -156,6 +156,7 @@ protected:
      */
     bool m_isActive;
     bool m_isLive;
+    QPoint m_zone;
     QMap <int,QString> m_markers;
     QMutex m_mutex;
 

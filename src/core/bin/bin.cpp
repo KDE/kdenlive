@@ -187,6 +187,11 @@ void Bin::rowsInserted(const QModelIndex &/*parent*/, int /*start*/, int end)
 {
     QModelIndex id = m_itemModel->index(end, 0, QModelIndex());
     selectModel(id);
+}
+
+void Bin::selectModel(const QModelIndex &id)
+{
+    m_itemView->setCurrentIndex(id);
     if (id.isValid()) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(id.internalPointer());
         currentItem->setCurrent(true);
@@ -196,12 +201,6 @@ void Bin::rowsInserted(const QModelIndex &/*parent*/, int /*start*/, int end)
     }
 }
 
-void Bin::selectModel(const QModelIndex &parent)
-{
-    //QTimer::singleShot(100, this, SLOT(autoSelect()));
-    m_itemView->setCurrentIndex(parent);
-}
-
 void Bin::autoSelect()
 {
     QModelIndex parent2 = m_itemModel->selectionModel()->currentIndex();
@@ -209,12 +208,6 @@ void Bin::autoSelect()
     if (!currentItem) {
         QModelIndex id = m_itemModel->index(0, 0, QModelIndex());
         selectModel(id);
-        if (id.isValid()) {
-            currentItem = static_cast<AbstractProjectItem *>(id.internalPointer());
-        }
-    }
-    if (currentItem) {
-        currentItem->setCurrent(true);
     }
 }
 
