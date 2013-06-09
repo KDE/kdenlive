@@ -82,7 +82,6 @@ void TimelinePositionBar::setProject(Project* project, MONITORID id)
     connect(m_timecodeFormatter, SIGNAL(defaultFormatChanged()), this, SLOT(update()));
 
     m_playbackPosition = project->timelineMonitor() == NULL ? 0 : project->timelineMonitor()->position();
-    connect(project->timelineMonitor(), SIGNAL(positionChanged(int,bool)), this, SLOT(setCursorPosition(int,bool)));
     if (id != ClipMonitor) connect(this, SIGNAL(positionChanged(int,MONITORID)), project->timelineMonitor(), SLOT(seek(int,MONITORID)));
     else connect(this, SIGNAL(positionChanged(int,MONITORID)), pCore->projectManager()->current()->binMonitor(), SLOT(seek(int,MONITORID)));
 
@@ -104,9 +103,9 @@ void TimelinePositionBar::setCursorPosition(int position, bool seeking)
     m_playbackPosition = position;
     //update();
     if (qAbs(oldPosition - m_playbackPosition) * m_factor > m_textSpacing) {
-        update(oldPosition * m_factor - offset() - 6, m_bigMarkX - 1, 14, height() - m_bigMarkX);
+        update(oldPosition * m_factor - offset() - 7, m_bigMarkX - 1, 14, height() - m_bigMarkX);
     } else {
-        update(qMin(oldPosition, m_playbackPosition) * m_factor - offset() - 6, m_bigMarkX - 1,
+        update(qMin(oldPosition, m_playbackPosition) * m_factor - offset() - 7, m_bigMarkX - 1,
                qAbs(oldPosition - m_playbackPosition) * m_factor + 14, height() - m_bigMarkX);
     }
 }

@@ -42,6 +42,8 @@ void TimelineView::setScene(TimelineScene* scene)
 
     m_scene->positionTracks();
     setZoom(m_scene->timeline()->producer()->get_int("kdenlive.timelineview_zoom"));
+    int position = m_scene->timeline()->producer()->position();
+    centerOn(position, 0);
 }
 
 double TimelineView::scale() const
@@ -62,7 +64,6 @@ void TimelineView::setZoom(int level)
     if (level == m_zoomLevel) {
         return;
     }
-
     m_zoomLevel = level;
     if (m_scene) {
         m_scene->timeline()->producer()->set("kdenlive.timelineview_zoom", m_zoomLevel);
@@ -83,7 +84,7 @@ void TimelineView::setZoom(int level)
             setSceneRect(0, 0, (m_scene->timeline()->duration() + 300), sceneRect().height());
         }
     }
-
+    
     emit zoomChanged(level);
 
 //     double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();

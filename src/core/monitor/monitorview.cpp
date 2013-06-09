@@ -668,7 +668,7 @@ void MonitorView::setPosition(int position)
     }
     m_positionBar->setPosition(position);
     m_timecodeWiget->setValue(position);
-    if (m_currentRole == ProjectMonitor) emit positionChanged(position, m_seekPosition != SEEK_INACTIVE);
+    emit positionChanged(position, m_seekPosition != SEEK_INACTIVE);
 }
 
 void MonitorView::onProducerChanged()

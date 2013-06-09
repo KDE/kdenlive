@@ -79,12 +79,13 @@ Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
     Mlt::Producer *prod = new Mlt::Producer(tractor->get_producer());
     m_producer = new ProducerWrapper(prod);
     
+    
     //producer;
 
 
     // this shouldn't be an assert
     Q_ASSERT(m_producer && m_producer->is_valid());
-
+    m_producer->seek(producer->position());
     Mlt::Service service(m_producer->parent().get_service());
 
     Q_ASSERT(service.type() == tractor_type);
@@ -183,6 +184,13 @@ Mlt::Profile* Timeline::profile() const
 ProducerWrapper* Timeline::producer()
 {
     return m_producer;
+}
+
+int Timeline::position() const
+{
+    if (!m_producer)
+	return 0;
+    return m_producer->position();
 }
 
 MonitorView* Timeline::monitor()

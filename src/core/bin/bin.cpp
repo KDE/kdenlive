@@ -71,9 +71,9 @@ bool EventEater::eventFilter(QObject *obj, QEvent *event)
                 QModelIndex idx = view->indexAt(mouseEvent->pos());
                 AbstractProjectClip *currentItem = static_cast<AbstractProjectClip *>(idx.internalPointer());
                 if (mouseEvent->modifiers() & Qt::ShiftModifier)
-                    emit editItemInTimeline(currentItem->clipId(), currentItem->name(), currentItem->baseProducer());
-                else
                     emit editItem(currentItem->clipId());
+                else
+		    emit editItemInTimeline(currentItem->clipId(), currentItem->name(), currentItem->baseProducer());
             }
         }
         else {

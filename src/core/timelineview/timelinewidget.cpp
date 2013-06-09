@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "tool/toolmanager.h"
 #include "project/project.h"
 #include "project/projectmanager.h"
+#include "monitor/monitorview.h"
 #include "core.h"
 #include <QGridLayout>
 #include <QScrollBar>
@@ -59,25 +60,30 @@ void TimelineWidget::setProject(Project* project)
 {
     delete m_scene;
     m_scene = NULL;
-    if (project) {
-        m_scene = new TimelineScene(project->timeline(), m_toolManager, m_view, this);
+    if (!project) {
+	m_view->setScene(NULL);
+	return;
     }
+    m_scene = new TimelineScene(project->timeline(), m_toolManager, m_view, this);
     m_view->setScene(m_scene);
-
     m_headerContainer->setTimeline(project->timeline());
+    connect(project->timelineMonitor(), SIGNAL(positionChanged(int,bool)), m_positionBar, SLOT(setCursorPosition(int,bool)));
 }
 
 void TimelineWidget::setClipTimeline(Timeline *timeline)
 {
     delete m_scene;
     m_scene = NULL;
-    if (timeline) {
-        m_positionBar->setProject(timeline->project(), ClipMonitor);
-        m_scene = new TimelineScene(timeline, m_toolManager, m_view, this);
+    if (!timeline) {
+	m_view->setScene(NULL);
+	return;
     }
+    m_positionBar->setProject(timeline->project(), ClipMonitor);
+    m_scene = new TimelineScene(timeline, m_toolManager, m_view, this);
     m_view->setScene(m_scene);
-
     m_headerContainer->setTimeline(timeline);
+    m_positionBar->setCursorPosition(timeline->position());
+    connect(pCore->projectManager()->current()->binMonitor(), SIGNAL(positionChanged(int,bool)), m_positionBar, SLOT(setCursorPosition(int,bool)));
 }
 
 TimelineScene* TimelineWidget::scene()

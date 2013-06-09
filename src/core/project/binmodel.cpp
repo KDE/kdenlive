@@ -146,7 +146,6 @@ void BinModel::emitItemAdded(AbstractProjectItem* item)
     kDebug()<<" // / /ITEM NAME: "<<c->name();
     setCurrentItem(c);
     }*/
-    kDebug()<<"------------------------------------";
     
     //if (item) setCurrentItem(item);
 }

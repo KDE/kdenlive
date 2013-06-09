@@ -50,7 +50,10 @@ MainWindow::MainWindow(const QString &/*mltPath*/, const KUrl &url, const QStrin
     m_container->setTabsClosable(true);
     m_timeline = new TimelineWidget(this);
     m_container->addTab(m_timeline, i18n("Timeline"));
+    m_container->tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
+    m_container->setTabBarHidden(true);
     setCentralWidget(m_container);
+    connect(m_container, SIGNAL(tabCloseRequested(int)), this, SLOT(slotCloseTimeline(int)));
     setDockNestingEnabled(true);
 
     KStandardAction::quit(this, SLOT(close()), actionCollection());
@@ -76,8 +79,22 @@ MainWindow::~MainWindow()
 TimelineWidget *MainWindow::addTimeline(const QString &/*id*/, const QString &title)
 {
     TimelineWidget *timeline = new TimelineWidget(this);
-    m_container->addTab(timeline, title);
+    int index = m_container->addTab(timeline, title);
+    m_container->setCurrentIndex(index);
+    m_container->setTabBarHidden(false);
     return timeline;
+}
+
+void MainWindow::slotCloseTimeline(int index)
+{
+    TimelineWidget *timeline = static_cast <TimelineWidget *> (m_container->widget(index));
+    if (!timeline) {
+	kDebug()<<"// Error cannot find timeline: "<<index;
+	return;
+    }
+    m_container->removeTab(index);
+    delete timeline;
+    m_container->setTabBarHidden(m_container->count());
 }
 
 QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget* widget, Qt::DockWidgetArea area)
