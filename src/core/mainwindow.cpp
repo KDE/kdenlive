@@ -59,9 +59,9 @@ MainWindow::MainWindow(const QString &/*mltPath*/, const KUrl &url, const QStrin
     setDockNestingEnabled(true);
 
     pCore->pluginManager()->load();
-    setupGUI();
-    
     createActions();
+    setupGUI();
+    createClipMenu();
 
     if (!url.isEmpty() && url.isValid()) {
         pCore->projectManager()->openProject(url);
@@ -80,9 +80,9 @@ TimelineWidget *MainWindow::addTimeline(const QString &id, const QString &title)
 {
     TimelineWidget *timeline = getTimeline(id);
     if (timeline) {
-	// A tab already exists for this clip, focus it
-	m_container->setCurrentWidget(timeline);
-	return NULL;
+        // A tab already exists for this clip, focus it
+        m_container->setCurrentWidget(timeline);
+        return NULL;
     }
     timeline = new TimelineWidget(this);
     timeline->setProperty("clipId", id);
@@ -95,11 +95,11 @@ TimelineWidget *MainWindow::addTimeline(const QString &id, const QString &title)
 TimelineWidget *MainWindow::getTimeline(const QString &id)
 {
     TimelineWidget *timeline = NULL;
-    for (int i = 0; i < m_container->count(); i++) {
-	if (m_container->widget(i)->property("clipId").toString() == id) {
-	    timeline = static_cast<TimelineWidget *>(m_container->widget(i));
-	    break;
-	}
+    for (int i = 0; i < m_container->count(); ++i) {
+        if (m_container->widget(i)->property("clipId").toString() == id) {
+            timeline = static_cast<TimelineWidget *>(m_container->widget(i));
+            break;
+        }
     }
     return timeline;
 }
@@ -108,8 +108,8 @@ void MainWindow::slotCloseTimeline(int index)
 {
     TimelineWidget *timeline = static_cast <TimelineWidget *> (m_container->widget(index));
     if (!timeline) {
-	kDebug()<<"// Error cannot find timeline: "<<index;
-	return;
+        kDebug()<<"// Error cannot find timeline: "<<index;
+        return;
     }
     m_container->removeTab(index);
     delete timeline;
@@ -155,16 +155,7 @@ TimelineWidget* MainWindow::timelineWidget()
 }
 
 void MainWindow::createActions()
-{
-    QMenu *addClipMenu = static_cast<QMenu*>(factory()->container("clip_producer_menu", this));
-    QList <QAction *> producerActions = pCore->producerRepository()->producerActions(this);
-    for (int i = 0; i < producerActions.count(); ++i) {
-        addClipMenu->addAction(producerActions.at(i));
-    }
-    producerActions.clear();
-    connect(addClipMenu, SIGNAL(triggered(QAction*)), pCore->clipPluginManager(), SLOT(execAddClipDialog(QAction*)));
-    m_bin->setActionMenus(addClipMenu);
-    
+{    
     KStandardAction::quit(this, SLOT(close()), actionCollection());
     QShortcut *sh = new QShortcut(QKeySequence(Qt::Key_Space),this);
     sh->setContext(Qt::ApplicationShortcut);
@@ -179,5 +170,16 @@ void MainWindow::createActions()
     connect(sh, SIGNAL(activated()), pCore->monitorManager(), SLOT(slotForwards()));
 }
 
+void MainWindow::createClipMenu()
+{
+    QMenu *addClipMenu = static_cast<QMenu*>(factory()->container("clip_producer_menu", this));
+    QList <QAction *> producerActions = pCore->producerRepository()->producerActions(this);
+    for (int i = 0; i < producerActions.count(); ++i) {
+        addClipMenu->addAction(producerActions.at(i));
+    }
+    producerActions.clear();
+    connect(addClipMenu, SIGNAL(triggered(QAction*)), pCore->clipPluginManager(), SLOT(execAddClipDialog(QAction*)));
+    m_bin->setActionMenus(addClipMenu);
+}
 
 #include "mainwindow.moc"

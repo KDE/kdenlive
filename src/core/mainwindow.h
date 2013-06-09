@@ -58,8 +58,12 @@ public:
     TimelineWidget *addTimeline(const QString &id, const QString &title);
     TimelineWidget *getTimeline(const QString &id);
 
+private slots:
+    void slotCloseTimeline(int index);
+
 private:
     void initLocale();
+    void createClipMenu();
 
     Bin *m_bin;
     TimelineWidget *m_timeline;
@@ -68,8 +72,6 @@ private:
     /** @brief Creates the GUI actions, that needs to be done after calling setupGUI(). */
     void createActions();
     
-private slots:
-    void slotCloseTimeline(int index);
 };
 
 #endif
