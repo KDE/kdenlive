@@ -82,11 +82,11 @@ MltController::MltController(Mlt::Profile *profile)
     , m_repo(Mlt::Factory::init())
     , m_producer(0)
     , m_consumer(0)
+    , m_isActive(false)
+    , m_isLive(false)
     , m_profile(profile)
     , m_volumeFilter(0)
     , m_jackFilter(0)
-    , m_isActive(false)
-    , m_isLive(false)
     , m_volume(1.0)
 {
     m_transportControl = new TransportControl(this);
