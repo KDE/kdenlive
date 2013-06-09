@@ -3,8 +3,8 @@ message(STATUS "Building experimental executables")
 
 include_directories(
   ${CMAKE_BINARY_DIR}
-  ${LIBMLT_INCLUDE_DIR}
-  ${LIBMLTPLUS_INCLUDE_DIR}
+  ${MLT_INCLUDE_DIR}
+  ${MLTPP_INCLUDE_DIR}
   ${PROJECT_SOURCE_DIR}/src/lib/extern/kiss_fft
   ${PROJECT_SOURCE_DIR}/src/lib/extern/kiss_fft/tools
 )
@@ -21,7 +21,7 @@ add_executable(audioOffset
 )
 target_link_libraries(audioOffset 
   ${QT_LIBRARIES}
-  ${LIBMLT_LIBRARY}
-  ${LIBMLTPLUS_LIBRARY}
+  ${MLT_LIBRARIES}
+  ${MLTPP_LIBRARIES}
   kiss_fft
 )

@@ -301,8 +301,8 @@ add_definitions(${KDE4_DEFINITIONS})
 include_directories(
   ${CMAKE_BINARY_DIR}
   ${KDE4_INCLUDES} # Adds Qt include directories too.
-  ${LIBMLT_INCLUDE_DIR}
-  ${LIBMLTPLUS_INCLUDE_DIR}
+  ${MLT_INCLUDE_DIR}
+  ${MLTPP_INCLUDE_DIR}
 )
 
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
@@ -323,8 +323,8 @@ target_link_libraries(kdenlive
   ${KDE4_KROSSUI_LIBS}
   ${KDE4_SOLID_LIBS}
   ${QT_LIBRARIES}
-  ${LIBMLT_LIBRARY}
-  ${LIBMLTPLUS_LIBRARY}
+  ${MLT_LIBRARIES}
+  ${MLTPP_LIBRARIES}
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
 )
