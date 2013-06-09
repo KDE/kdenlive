@@ -47,9 +47,9 @@
 #include <QTimer>
 
 // Recommended MLT version
-const int mltVersionMajor = 0;
-const int mltVersionMinor = 8;
-const int mltVersionRevision = 8;
+const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
+const int mltVersionMinor = MLT_MIN_MINOR_VERSION;
+const int mltVersionRevision = MLT_MIN_PATCH_VERSION;
 
 static const char kdenlive_version[] = KDENLIVE_VERSION;
 
