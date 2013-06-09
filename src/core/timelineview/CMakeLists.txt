@@ -12,6 +12,7 @@ set(timelineview_SRCS
   timelineview/timelinewidget.cpp
   timelineview/trackheadercontainer.cpp
   timelineview/trackheaderwidget.cpp
+  timelineview/markerswidget.cpp
   PARENT_SCOPE
 )
 

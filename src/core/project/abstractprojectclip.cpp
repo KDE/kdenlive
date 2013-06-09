@@ -192,4 +192,16 @@ QPoint AbstractProjectClip::zone() const
     return m_zone;
 }
 
+void AbstractProjectClip::addMarker(int position)
+{
+    m_markers << position;
+    bin()->markersUpdated(m_id, m_markers);
+}
+
+void AbstractProjectClip::removeMarker(int position)
+{
+    m_markers.removeAll(position);
+    bin()->markersUpdated(m_id, m_markers);
+}
+
 #include "abstractprojectclip.moc"

@@ -56,6 +56,7 @@ public:
      */
     QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
     TimelineWidget *addTimeline(const QString &id, const QString &title);
+    TimelineWidget *getTimeline(const QString &id);
 
 private:
     void initLocale();

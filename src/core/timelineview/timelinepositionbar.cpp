@@ -110,6 +110,11 @@ void TimelinePositionBar::setCursorPosition(int position, bool seeking)
     }
 }
 
+int TimelinePositionBar::position() const
+{
+    return m_playbackPosition;
+}
+
 void TimelinePositionBar::setZoomLevel(int level)
 {
     m_zoomLevel = level;
@@ -188,12 +193,14 @@ void TimelinePositionBar::mousePressEvent(QMouseEvent* event)
 
     setFocus(Qt::MouseFocusReason);
 //     m_view->activateMonitor();
-
-    emit positionChanged(framePosition, m_monitorId);
-    setCursorPosition(framePosition);
-    kDebug()<<"/ // REQUEST POS: "<<framePosition<<" / "<<event->x()<<" / "<<m_factor;
-
+    slotSeek(framePosition);
     // update ?
+}
+
+void TimelinePositionBar::slotSeek(int position)
+{
+    emit positionChanged(position, m_monitorId);
+    setCursorPosition(position);
 }
 
 void TimelinePositionBar::mouseMoveEvent(QMouseEvent* event)
@@ -201,8 +208,7 @@ void TimelinePositionBar::mouseMoveEvent(QMouseEvent* event)
     int framePosition = qRound((event->x() + m_offset) / m_factor);
 
     if (event->buttons() & Qt::LeftButton) {
-        emit positionChanged(framePosition, m_monitorId);
-	setCursorPosition(framePosition);
+        slotSeek(framePosition);
     } else {
         if (m_timecodeFormatter) {
             setToolTip(i18n("Position: %1", Timecode(framePosition, m_timecodeFormatter).formatted()));

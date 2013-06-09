@@ -63,6 +63,27 @@ AbstractProjectClip* BinModel::clip(const QString &id)
     return m_rootFolder->clip(id);
 }
 
+void BinModel::addMarker(const QString &id, int position)
+{
+    AbstractProjectClip* c = clip(id);
+    if (c) {
+	c->addMarker(position);
+    }
+}
+
+void BinModel::removeMarker(const QString &id, int position)
+{
+    AbstractProjectClip* c = clip(id);
+    if (c) {
+	c->removeMarker(position);
+    }
+}
+
+void BinModel::markersUpdated(const QString &id, const QList <int> markers)
+{
+    emit markersNeedUpdate(id, markers);
+}
+
 void BinModel::slotGotImage(const QString &id, int pos, QImage img)
 {
     AbstractProjectClip* c = clip(id);

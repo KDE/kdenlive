@@ -45,6 +45,9 @@ public:
 
     /** @brief Returns the offset (number of frames in the beginning not shown) in frames. */
     int offset() const;
+    
+    /** @brief Returns the position of playhead. */
+    int position() const;
 
     /** @brief A list of scaling factors for the different zoom levels (currently 13). */
     static const int comboScale[];
@@ -60,6 +63,8 @@ public slots:
     void setDuration(int duration);
     /** @brief Sets the zoom level. */
     void setZoomLevel(int level);
+    /** @brief Request a producer seek. */
+    void slotSeek(int position);
 
 signals:
     void positionChanged(int position, MONITORID role = ProjectMonitor);

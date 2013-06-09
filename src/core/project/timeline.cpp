@@ -59,16 +59,16 @@ Timeline::Timeline(const QString& document, Project* parent) :
 }
 
 Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
-    QObject(parent),
-    m_parent(parent),
-    m_monitor(NULL)
-  , m_tractor(NULL)
+    QObject(parent)
+    , m_parent(parent)
+    , m_monitor(NULL)
+    , m_tractor(NULL)
 {
     // profile we set doesn't matter, it will be overwritten anyways with the info in the profile tag
     //m_producer = producer;
     Mlt::Tractor *tractor = new Mlt::Tractor();
     Mlt::Playlist *playlist1 = new Mlt::Playlist(*producer->profile());
-    playlist1->insert_at(10, producer, 1);
+    playlist1->insert_at(0, producer, 1);
     //Mlt::Playlist *playlist2 = new Mlt::Playlist(*producer->profile());
     //Mlt::Playlist playlist2(*producer->profile());
     
@@ -78,10 +78,6 @@ Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
     
     Mlt::Producer *prod = new Mlt::Producer(tractor->get_producer());
     m_producer = new ProducerWrapper(prod);
-    
-    
-    //producer;
-
 
     // this shouldn't be an assert
     Q_ASSERT(m_producer && m_producer->is_valid());
@@ -91,14 +87,7 @@ Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
     Q_ASSERT(service.type() == tractor_type);
 
     m_tractor = new Mlt::Tractor(service);
-
-    //TODO: create mon
-    //m_monitor = new MonitorModel(m_profile, i18n("Timeline"), this);
-    //m_monitor->setProducer(m_producer);
-    
-    //     m_producer->optimise();
     m_monitor = m_parent->binMonitor();
-    //m_monitor->open(m_producer, ClipMonitor);
 
     m_producerChangeEvent = m_producer->listen("producer-changed", this, (mlt_listener)producer_change);
 }
@@ -242,5 +231,6 @@ void Timeline::producer_change(mlt_producer /*producer*/, Timeline* self)
 {
     self->emitDurationChanged();
 }
+
 
 #include "timeline.moc"

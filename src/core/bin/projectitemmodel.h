@@ -62,6 +62,7 @@ private:
 signals:
     void selectModel(const QModelIndex&);
     void updateCurrentItem();
+    void markersNeedUpdate(const QString &id,const QList <int>);
 };
 
 #endif

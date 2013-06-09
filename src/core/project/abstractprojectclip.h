@@ -71,6 +71,8 @@ public:
     QString clipId() const;
     void setZone(const QPoint &zone);
     QPoint zone() const;
+    void addMarker(int position);
+    void removeMarker(int position);
 
     /** @brief Returns the clip's id. */
     QString id() const;
@@ -117,6 +119,7 @@ protected:
 
 private:
     ProducerWrapper *m_timelineBaseProducer;
+    QList <int> m_markers;
 };
 
 #endif

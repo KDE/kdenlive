@@ -37,6 +37,7 @@ ProjectItemModel::ProjectItemModel(BinModel* binModel, QObject* parent) :
     connect(m_binModel, SIGNAL(aboutToRemoveItem(AbstractProjectItem*)), this, SLOT(onAboutToRemoveItem(AbstractProjectItem*)));
     connect(m_binModel, SIGNAL(itemRemoved(AbstractProjectItem*)), this, SLOT(onItemRemoved(AbstractProjectItem*)));
     connect(m_binModel, SIGNAL(itemUpdated(AbstractProjectItem*)), this, SLOT(onItemUpdated(AbstractProjectItem*)));
+    connect(m_binModel, SIGNAL(markersNeedUpdate(const QString&,const QList <int>)), this, SIGNAL(markersNeedUpdate(const QString&,const QList <int>)));
 }
 
 ProjectItemModel::~ProjectItemModel()

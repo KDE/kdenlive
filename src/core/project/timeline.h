@@ -46,6 +46,12 @@ public:
      * @param parent project this timeline belongs to
      */
     Timeline(const QString &document, Project* parent);
+    /**
+     * @brief Creates a new timeline for a bin clip
+     * @param id The clip's bin id
+     * @param producer The clip's producer
+     * @param parent project this timeline belongs to
+     */
     Timeline(ProducerWrapper *producer, Project* parent);
     virtual ~Timeline();
     
@@ -95,6 +101,7 @@ public:
     static void producer_change(mlt_producer producer, Timeline *self);
     
     void setMonitor(MonitorView *monitor);
+    
 
 signals:
     void durationChanged(int duration);

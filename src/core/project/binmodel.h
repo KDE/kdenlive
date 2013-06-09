@@ -76,6 +76,9 @@ public:
     void setMonitor(MonitorView* m);
     void refreshThumnbail(const QString &id);
     void setCurrentClipZone(const QPoint &zone);
+    void addMarker(const QString &id, int position);
+    void removeMarker(const QString &id, int position);
+    void markersUpdated(const QString &id, const QList <int> markers);
 
 public slots:
     /** @brief emits aboutToAddItem. */
@@ -97,6 +100,7 @@ signals:
     void itemRemoved(AbstractProjectItem *item);
     void currentItemChanged(AbstractProjectItem *item);
     void itemUpdated(AbstractProjectItem* item);
+    void markersNeedUpdate(const QString &id, const QList <int> );
 
 private:
     Project *m_project;

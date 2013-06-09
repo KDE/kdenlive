@@ -76,12 +76,25 @@ MainWindow::~MainWindow()
     delete m_bin;
 }
 
-TimelineWidget *MainWindow::addTimeline(const QString &/*id*/, const QString &title)
+TimelineWidget *MainWindow::addTimeline(const QString &id, const QString &title)
 {
     TimelineWidget *timeline = new TimelineWidget(this);
+    timeline->setProperty("clipId", id);
     int index = m_container->addTab(timeline, title);
     m_container->setCurrentIndex(index);
     m_container->setTabBarHidden(false);
+    return timeline;
+}
+
+TimelineWidget *MainWindow::getTimeline(const QString &id)
+{
+    TimelineWidget *timeline = NULL;
+    for (int i = 0; i < m_container->count(); i++) {
+	if (m_container->widget(i)->property("clipId").toString() == id) {
+	    timeline = static_cast<TimelineWidget *>(m_container->widget(i));
+	    break;
+	}
+    }
     return timeline;
 }
 

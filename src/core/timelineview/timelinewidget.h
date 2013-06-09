@@ -21,6 +21,11 @@ class Timeline;
 class TimelineScene;
 class TimelinePositionBar;
 class TrackHeaderContainer;
+class KToolBar;
+class QStackedWidget;
+class MarkersWidget;
+class KComboBox;
+class QFrame;
 
 /**
  * @class TimelineWidget
@@ -44,10 +49,13 @@ public:
     /** @brief Returns a pointer to the tool manager. */
     ToolManager *toolManager();
     void setClipTimeline(Timeline *timeline);
+    void updateMarkers(const QList <int> markers);
 
 private slots:
     /** @brief Creates a new timeline scene and triggers the creation of new track headers. */
     void setProject(Project *project);
+    void slotAddMarker();
+    void slotRemoveMarker(int pos);
 
 private:
     TimelineScene *m_scene;
@@ -55,6 +63,12 @@ private:
     TimelinePositionBar *m_positionBar;
     TrackHeaderContainer *m_headerContainer;
     ToolManager *m_toolManager;
+    KToolBar *m_toolbar;
+    QFrame *m_toolContainer;
+    QStackedWidget *m_toolPanel;
+    MarkersWidget *m_markersWidget;
+    Timeline *m_clipTimeline;
+    KComboBox *m_toolPanelSelector;
 };
 
 #endif

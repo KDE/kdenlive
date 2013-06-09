@@ -173,6 +173,7 @@ void Bin::setProject(Project* project)
     m_itemModel->setIconSize(m_iconSize);
     connect(m_itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
     connect(m_itemModel, SIGNAL(selectModel(QModelIndex)), this, SLOT(selectModel(QModelIndex)));
+    connect(m_itemModel, SIGNAL(markersNeedUpdate(const QString&,const QList <int>)), this, SLOT(slotMarkersNeedUpdate(const QString&,const QList <int>)));
     connect(m_eventEater, SIGNAL(focusClipMonitor()), project->bin()->monitor(), SLOT(slotFocusClipMonitor()), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(editItemInTimeline(QString,QString,ProducerWrapper*)), this, SLOT(slotOpenClipTimeline(QString,QString,ProducerWrapper*)), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(editItem(QString)), this, SLOT(showClipProperties(QString)), Qt::UniqueConnection);
@@ -278,6 +279,16 @@ void Bin::slotOpenClipTimeline(const QString &id, const QString &name, ProducerW
     Timeline *tl = new Timeline(prod, pCore->projectManager()->current());
     tl->loadClip();
     tml->setClipTimeline(tl);
+}
+
+void Bin::slotMarkersNeedUpdate(const QString &id, const QList <int> markers)
+{
+    // Check if we have a clip timeline that needs update
+    TimelineWidget *tml = pCore->window()->getTimeline(id);
+    if (tml) {
+	tml->updateMarkers(markers);
+    }
+    // Update clip monitor
 }
 
 void Bin::closeEditing()
