@@ -682,7 +682,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
 
     QDomElement markers = sceneList.createElement("markers");
     addedXml.setAttribute("version", DOCUMENTVERSION);
-    addedXml.setAttribute("kdenliveversion", VERSION);
+    addedXml.setAttribute("kdenliveversion", KDENLIVE_VERSION);
     addedXml.setAttribute("profile", profilePath());
     addedXml.setAttribute("projectfolder", m_projectFolder.path());
 

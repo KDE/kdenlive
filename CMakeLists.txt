@@ -15,33 +15,31 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" OFF)
 
 # Get current version.
-set(VERSION "\"${KDENLIVE_VERSION}\"")
-if(NOT RELEASE_BUILD)
-  if(EXISTS ${PROJECT_SOURCE_DIR}/.git)
-    # Probably a Git workspace: determine the revision.
-    find_package(Git)
-    if(GIT_FOUND)
+set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION}")
+if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
+  # Probably a Git workspace; determine the revision.
+  find_package(Git QUIET)
+  if(GIT_FOUND)
+    exec_program(${GIT_EXECUTABLE}
+      ${CMAKE_SOURCE_DIR}
+      ARGS "describe --tags"
+      OUTPUT_VARIABLE KDENLIVE_GIT_REVISION
+      RETURN_VALUE TAG_RESULT
+    )
+    # git describe --tags failed; maybe the repository was checked with depth=1.
+    if(NOT ${TAG_RESULT} EQUAL 0)
       exec_program(${GIT_EXECUTABLE}
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ARGS "describe --tags"
+        ${CMAKE_SOURCE_DIR}
+        ARGS "describe --always"
         OUTPUT_VARIABLE KDENLIVE_GIT_REVISION
-        RETURN_VALUE TAG_RESULT
       )
-      # git describe --tags failed, for example it fails if repo was checked with depth=1
-      if(NOT ${TAG_RESULT} EQUAL 0)
-        exec_program(${GIT_EXECUTABLE}
-          ${CMAKE_CURRENT_SOURCE_DIR}
-          ARGS "describe --always"
-          OUTPUT_VARIABLE KDENLIVE_GIT_REVISION
-        )
-      endif(NOT ${TAG_RESULT} EQUAL 0)
-      message("Current Kdenlive Git revision is ${KDENLIVE_GIT_REVISION}")
-      set(VERSION "\"${KDENLIVE_VERSION} (rev. ${KDENLIVE_GIT_REVISION})\"")
-    else(GIT_FOUND)
-      message("Could not determine the Git revision")
-    endif(GIT_FOUND)
-  endif(EXISTS ${PROJECT_SOURCE_DIR}/.git)
-endif(NOT RELEASE_BUILD)
+    endif()
+    message(STATUS "Kdenlive Git revision: ${KDENLIVE_GIT_REVISION}")
+    set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION} (rev. ${KDENLIVE_GIT_REVISION})")
+  else()
+    message(STATUS "Kdenlive Git revision could not be determined")
+  endif()
+endif()
 
 include(CheckIncludeFiles)
 check_include_files(malloc.h HAVE_MALLOC_H)
