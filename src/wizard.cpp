@@ -51,7 +51,7 @@ const int mltVersionMajor = 0;
 const int mltVersionMinor = 8;
 const int mltVersionRevision = 8;
 
-static const char kdenlive_version[] = VERSION;
+static const char kdenlive_version[] = KDENLIVE_VERSION;
 
 Wizard::Wizard(bool upgrade, QWidget *parent) :
     QWizard(parent),

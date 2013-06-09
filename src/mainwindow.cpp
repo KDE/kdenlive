@@ -118,14 +118,7 @@
 #include <stdlib.h>
 #include <locale.h>
 
-// Uncomment for deeper debugging
-//#define DEBUG_MAINW
-
-#ifdef DEBUG_MAINW
-#include <QDebug>
-#endif
-
-static const char version[] = VERSION;
+static const char version[] = KDENLIVE_VERSION;
 
 namespace Mlt
 {
