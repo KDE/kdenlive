@@ -67,6 +67,7 @@ MonitorManager::MonitorManager(QObject* parent) :
         m_monitors.insert(autoView->id(), autoView);
         connect(autoView, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
 	connect(autoView, SIGNAL(zoneChanged(MONITORID, QPoint)), this, SLOT(slotManageZoneChange(MONITORID, QPoint)));
+	m_lastActiveMonitor = autoView;
     }
     else {
         MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), ClipMonitor, ClipMonitor, pCore->window());
@@ -80,6 +81,7 @@ MonitorManager::MonitorManager(QObject* parent) :
         m_monitors.insert(autoView2->id(), autoView2);
         connect(autoView2, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
 	connect(autoView2, SIGNAL(zoneChanged(MONITORID,QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
+	m_lastActiveMonitor = autoView2;
     }
     
     //connect(m_modelSignalMapper, SIGNAL(mapped(QString)), this, SLOT(onModelActivated(QString)));
@@ -137,7 +139,10 @@ void MonitorManager::requestActivation(MONITORID id)
             i.value()->close();
         }
     }
-    if (!m_monitors.value(id)->isActive()) m_monitors.value(id)->activate();
+    if (!m_monitors.value(id)->isActive()) {
+	m_monitors.value(id)->activate();
+	m_lastActiveMonitor = m_monitors.value(id);
+    }
 }
 
 /*void MonitorManager::registerModel(const QString &id, MonitorModel* model, bool needsOwnView)
@@ -273,6 +278,24 @@ void MonitorManager::requestThumbnails(const QString &id, QList <int> positions)
         kDebug()<<" STILL NEED THUMBS: "<<m_thumbRequests.count();
     }
     else kDebug()<<" FINISHED THUMBS!!!!!!!!!";
+}
+
+void MonitorManager::slotSwitchPlay()
+{
+    if (!m_lastActiveMonitor) return;
+    m_lastActiveMonitor->togglePlaybackState();
+}
+
+void MonitorManager::slotForwards()
+{
+    if (!m_lastActiveMonitor) return;
+    m_lastActiveMonitor->relativeSeek(1);
+}
+
+void MonitorManager::slotBackwards()
+{
+    if (!m_lastActiveMonitor) return;
+    m_lastActiveMonitor->relativeSeek(-1);
 }
 
 /*void MonitorManager::onModelActivated(MONITORID id)

@@ -24,6 +24,7 @@ class TrackHeaderContainer;
 class KToolBar;
 class QStackedWidget;
 class MarkersWidget;
+class MonitorView;
 class KComboBox;
 class QFrame;
 
@@ -46,6 +47,8 @@ public:
     TimelineView *view();
     /** @brief Returns a pointer to the currently used timeline scene. */
     TimelineScene *scene();
+    /** @brief Returns a pointer to this timeline's monitor. */
+    MonitorView *monitor();
     /** @brief Returns a pointer to the tool manager. */
     ToolManager *toolManager();
     void setClipTimeline(Timeline *timeline);
@@ -65,6 +68,7 @@ private:
     ToolManager *m_toolManager;
     KToolBar *m_toolbar;
     QFrame *m_toolContainer;
+    MonitorView *m_monitor;
     QStackedWidget *m_toolPanel;
     MarkersWidget *m_markersWidget;
     Timeline *m_clipTimeline;

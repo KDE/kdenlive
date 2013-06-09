@@ -59,10 +59,9 @@ public:
     void setProfile(Mlt::Profile *profile, bool reset = true);
     DISPLAYMODE displayType() const;
     static const QString nameForRole(MONITORID role);
+    void relativeSeek(int pos, MONITORID role = KeepMonitor);
 
 private slots:
-    /** @brief Toggles between play and pause. */
-    void togglePlaybackState();
     /** @brief Check playback state and update play icon status. */
     void checkPlaybackState();
     /** @brief Toggles between direct QGLwidget rendering and embedded QGraphicsscene rendering. */
@@ -94,6 +93,8 @@ private slots:
     void slotZoneChanged(const QPoint &zone);
     
 public slots:
+    /** @brief Toggles between play and pause. */
+    void togglePlaybackState();
     /** @brief Seek to wanted pos. */
     void seek(int pos, MONITORID role = KeepMonitor);
     /** @brief Activate clip monitor if it is contained in current roles. */

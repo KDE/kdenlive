@@ -185,6 +185,7 @@ void MltController::close()
 {
     if (m_consumer && !m_consumer->is_stopped()) m_consumer->stop();
     m_url.clear();
+    m_isActive = false;
 }
 
 ProducerWrapper *MltController::producer()

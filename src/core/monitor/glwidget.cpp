@@ -58,6 +58,7 @@ GLWidget::GLWidget(Mlt::Profile *profile, QWidget *parent)
 
 void GLWidget::activate()
 {
+    m_isActive = true;
 }
 
 GLWidget::~GLWidget()

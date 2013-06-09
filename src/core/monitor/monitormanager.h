@@ -77,8 +77,14 @@ private slots:
     void updateController(MONITORID id, MltController *controller);
     void slotManageZoneChange(MONITORID id,const QPoint &zone);
 
+public slots:
+    void slotSwitchPlay();
+    void slotForwards();
+    void slotBackwards();
+
 private:
     QHash<MONITORID, MonitorView*> m_monitors;
+    MonitorView *m_lastActiveMonitor;
     //QSignalMapper *m_modelSignalMapper;
     QMap <QString, QList<int> > m_thumbRequests;
 };

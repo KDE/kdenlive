@@ -363,6 +363,7 @@ void MonitorView::addMonitorRole(MONITORID role)
 
 void MonitorView::seek(int pos, MONITORID role)
 {
+    if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
     toggleMonitorRole(role);
     if (role == RecordMonitor) {
         // No seeking allowed on live sources
@@ -376,10 +377,27 @@ void MonitorView::seek(int pos, MONITORID role)
     }
 }
 
+void MonitorView::relativeSeek(int pos, MONITORID role)
+{
+    if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
+    toggleMonitorRole(role);
+    if (role == RecordMonitor) {
+        // No seeking allowed on live sources
+        return;
+    }
+    pos += m_controller->position();
+    if (pos >= 0) {
+        if (m_seekPosition == SEEK_INACTIVE)
+            m_controller->seek(pos);
+        m_seekPosition = pos;
+        m_positionBar->setSeekPos(pos);
+    }
+}
+
 void MonitorView::togglePlaybackState()
 {
-    /*if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
-    if (m_playAction->isActive()) m_controller->play(1.0);
+    if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
+    /*if (m_playAction->isActive()) m_controller->play(1.0);
     else m_controller->pause();*/
     m_playAction->setActive(!m_playAction->isActive());
     checkPlaybackState();
@@ -508,6 +526,7 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, const QPoint &z
 	m_zoneAction->setChecked(!zone.isNull());
 	m_positionBar->setZone(zone);
     }
+    if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
     return error;
 }
 

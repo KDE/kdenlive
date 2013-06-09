@@ -35,6 +35,7 @@ TimelineWidget::TimelineWidget(QWidget* parent) :
     QWidget(parent)
     , m_scene(NULL)
     , m_clipTimeline(NULL)
+    , m_monitor(NULL)
 {
     QGridLayout *layout = new QGridLayout(this);
     layout->setSpacing(0);
@@ -99,7 +100,8 @@ void TimelineWidget::setProject(Project* project)
     m_scene = new TimelineScene(project->timeline(), m_toolManager, m_view, this);
     m_view->setScene(m_scene);
     m_headerContainer->setTimeline(project->timeline());
-    connect(project->timelineMonitor(), SIGNAL(positionChanged(int,bool)), m_positionBar, SLOT(setCursorPosition(int,bool)));
+    m_monitor = project->timelineMonitor();
+    connect(m_monitor, SIGNAL(positionChanged(int,bool)), m_positionBar, SLOT(setCursorPosition(int,bool)));
 }
 
 void TimelineWidget::setClipTimeline(Timeline *timeline)
@@ -116,7 +118,8 @@ void TimelineWidget::setClipTimeline(Timeline *timeline)
     m_view->setScene(m_scene);
     m_headerContainer->setTimeline(timeline);
     m_positionBar->setCursorPosition(timeline->position());
-    connect(pCore->projectManager()->current()->binMonitor(), SIGNAL(positionChanged(int,bool)), m_positionBar, SLOT(setCursorPosition(int,bool)));
+    m_monitor = pCore->projectManager()->current()->binMonitor();
+    connect(m_monitor, SIGNAL(positionChanged(int,bool)), m_positionBar, SLOT(setCursorPosition(int,bool)));
     connect(m_markersWidget, SIGNAL(addMarker()), this, SLOT(slotAddMarker()));
     connect(m_markersWidget, SIGNAL(removeMarker(int)), this, SLOT(slotRemoveMarker(int)));
     
@@ -131,6 +134,11 @@ TimelineScene* TimelineWidget::scene()
 TimelineView* TimelineWidget::view()
 {
     return m_view;
+}
+
+MonitorView *TimelineWidget::monitor()
+{
+    return m_monitor;
 }
 
 ToolManager* TimelineWidget::toolManager()

@@ -26,9 +26,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QGraphicsView>
 #include <QLocale>
 #include <QMenu>
+#include <QShortcut>
 #include <locale.h>
 #include <KActionCollection>
 #include <KTabWidget>
+#include <KAction>
 #include <KXMLGUIFactory>
 
 #include <KDebug>
@@ -55,8 +57,6 @@ MainWindow::MainWindow(const QString &/*mltPath*/, const KUrl &url, const QStrin
     setCentralWidget(m_container);
     connect(m_container, SIGNAL(tabCloseRequested(int)), this, SLOT(slotCloseTimeline(int)));
     setDockNestingEnabled(true);
-
-    KStandardAction::quit(this, SLOT(close()), actionCollection());
 
     pCore->pluginManager()->load();
     setupGUI();
@@ -164,6 +164,19 @@ void MainWindow::createActions()
     producerActions.clear();
     connect(addClipMenu, SIGNAL(triggered(QAction*)), pCore->clipPluginManager(), SLOT(execAddClipDialog(QAction*)));
     m_bin->setActionMenus(addClipMenu);
+    
+    KStandardAction::quit(this, SLOT(close()), actionCollection());
+    QShortcut *sh = new QShortcut(QKeySequence(Qt::Key_Space),this);
+    sh->setContext(Qt::ApplicationShortcut);
+    connect(sh, SIGNAL(activated()), pCore->monitorManager(), SLOT(slotSwitchPlay()));
+    
+    sh = new QShortcut(QKeySequence(Qt::Key_Left),this);
+    sh->setContext(Qt::ApplicationShortcut);
+    connect(sh, SIGNAL(activated()), pCore->monitorManager(), SLOT(slotBackwards()));
+    
+    sh = new QShortcut(QKeySequence(Qt::Key_Right),this);
+    sh->setContext(Qt::ApplicationShortcut);
+    connect(sh, SIGNAL(activated()), pCore->monitorManager(), SLOT(slotForwards()));
 }
 
 
