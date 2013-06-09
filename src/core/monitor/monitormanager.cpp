@@ -219,7 +219,7 @@ void MonitorManager::updateController(MONITORID id, MltController *controller)
     connect(controller->videoWidget(), SIGNAL(imageRendered(QString,int,QImage)), proj->bin(), SLOT(slotGotImage(QString,int,QImage)));
 }
 
-void MonitorManager::slotManageZoneChange(MONITORID id,const QPoint zone)
+void MonitorManager::slotManageZoneChange(MONITORID id,const QPoint &zone)
 {
     Project *project = pCore->projectManager()->current();
     if (!project) {
