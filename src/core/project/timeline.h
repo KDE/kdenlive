@@ -111,6 +111,7 @@ private:
     MonitorView *m_monitor;
     Mlt::Tractor *m_tractor;
     ProducerWrapper *m_producer;
+    ProducerWrapper *m_clipBinProducer;
     Mlt::Event *m_producerChangeEvent;
     QList <TimelineTrack *> m_tracks;
     

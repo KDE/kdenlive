@@ -22,9 +22,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Timeline::Timeline(const QString& document, Project* parent) :
-    QObject(parent),
-    m_parent(parent),
-    m_monitor(NULL)
+    QObject(parent)
+    , m_parent(parent)
+    , m_monitor(NULL)
+    , m_clipBinProducer(NULL)
 {
     // profile we set doesn't matter, it will be overwritten anyways with the info in the profile tag
     Mlt::Profile *profile = new Mlt::Profile(KdenliveSettings::default_profile().toUtf8().constData());
@@ -63,6 +64,7 @@ Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
     , m_parent(parent)
     , m_monitor(NULL)
     , m_tractor(NULL)
+    , m_clipBinProducer(producer)
 {
     // profile we set doesn't matter, it will be overwritten anyways with the info in the profile tag
     //m_producer = producer;
@@ -82,6 +84,10 @@ Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
     // this shouldn't be an assert
     Q_ASSERT(m_producer && m_producer->is_valid());
     m_producer->seek(producer->position());
+    
+    Mlt::Properties clipData(m_producer->get_properties());
+    clipData.pass_list(*m_clipBinProducer, "kdenlive.timelineview_zoom");
+    
     Mlt::Service service(m_producer->parent().get_service());
 
     Q_ASSERT(service.type() == tractor_type);
@@ -94,6 +100,17 @@ Timeline::Timeline(ProducerWrapper *producer, Project* parent) :
 
 Timeline::~Timeline()
 {
+    if (m_clipBinProducer) {
+	Mlt::Properties clipData(m_clipBinProducer->get_properties());
+        clipData.pass_list(*m_producer, "kdenlive.timelineview_zoom");
+	/*int count = clipData.count();
+        for (int i = 0; i < count; i ++) {
+            QString name = clipData.get_name(i);
+            QString value = QString::fromUtf8(clipData.get(i));
+	    kDebug()<<"/ / /PASSING VALUES : "<<name<<" = "<<value;
+	}*/
+	
+    }
     qDeleteAll(m_tracks);
     delete m_producerChangeEvent;
     delete m_producer;

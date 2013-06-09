@@ -78,7 +78,13 @@ MainWindow::~MainWindow()
 
 TimelineWidget *MainWindow::addTimeline(const QString &id, const QString &title)
 {
-    TimelineWidget *timeline = new TimelineWidget(this);
+    TimelineWidget *timeline = getTimeline(id);
+    if (timeline) {
+	// A tab already exists for this clip, focus it
+	m_container->setCurrentWidget(timeline);
+	return NULL;
+    }
+    timeline = new TimelineWidget(this);
     timeline->setProperty("clipId", id);
     int index = m_container->addTab(timeline, title);
     m_container->setCurrentIndex(index);
@@ -107,7 +113,7 @@ void MainWindow::slotCloseTimeline(int index)
     }
     m_container->removeTab(index);
     delete timeline;
-    m_container->setTabBarHidden(m_container->count());
+    m_container->setTabBarHidden(m_container->count() == 1);
 }
 
 QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget* widget, Qt::DockWidgetArea area)
