@@ -125,7 +125,7 @@
 #include <QDebug>
 #endif
 
-static const char version[] = VERSION;
+static const char version[] = KDENLIVE_VERSION;
 
 namespace Mlt
 {
