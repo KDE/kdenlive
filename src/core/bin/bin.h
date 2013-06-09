@@ -202,7 +202,7 @@ private slots:
     void slotOpenClipTimeline(const QString &id, const QString &name, ProducerWrapper *prod);
     void closeEditing();
     void refreshEditedClip();
-    void slotMarkersNeedUpdate(const QString &id, const QList <int> markers);
+    void slotMarkersNeedUpdate(const QString &id, const QList <int> &markers);
     
 public slots:
     void showClipProperties(const QString &id);

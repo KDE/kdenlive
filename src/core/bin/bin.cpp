@@ -73,7 +73,7 @@ bool EventEater::eventFilter(QObject *obj, QEvent *event)
                 if (mouseEvent->modifiers() & Qt::ShiftModifier)
                     emit editItem(currentItem->clipId());
                 else
-		    emit editItemInTimeline(currentItem->clipId(), currentItem->name(), currentItem->baseProducer());
+                    emit editItemInTimeline(currentItem->clipId(), currentItem->name(), currentItem->baseProducer());
             }
         }
         else {
@@ -277,18 +277,18 @@ void Bin::slotOpenClipTimeline(const QString &id, const QString &name, ProducerW
 {
     TimelineWidget *tml = pCore->window()->addTimeline(id, name);
     if (tml == NULL)
-	return;
+        return;
     Timeline *tl = new Timeline(prod, pCore->projectManager()->current());
     tl->loadClip();
     tml->setClipTimeline(tl);
 }
 
-void Bin::slotMarkersNeedUpdate(const QString &id, const QList <int> markers)
+void Bin::slotMarkersNeedUpdate(const QString &id, const QList<int> &markers)
 {
     // Check if we have a clip timeline that needs update
     TimelineWidget *tml = pCore->window()->getTimeline(id);
     if (tml) {
-	tml->updateMarkers(markers);
+        tml->updateMarkers(markers);
     }
     // Update clip monitor
 }
