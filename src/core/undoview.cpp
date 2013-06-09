@@ -19,7 +19,7 @@ the Free Software Foundation, either version 3 of the License, or
 UndoView::UndoView(QWidget* parent) :
     QUndoView(parent)
 {
-    setCleanIcon(KIcon("edit-clear"));
+    setCleanIcon(KIcon(QLatin1String("edit-clear")));
     setEmptyLabel(i18n("Clean"));
 
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));

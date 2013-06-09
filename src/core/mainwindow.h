@@ -71,7 +71,6 @@ private:
     
     /** @brief Creates the GUI actions, that needs to be done after calling setupGUI(). */
     void createActions();
-    
 };
 
 #endif
