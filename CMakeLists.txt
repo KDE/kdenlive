@@ -5,7 +5,7 @@ project(kdenlive)
 set(KDENLIVE_VERSION 0.9.7)
 
 # Minimum versions of main dependencies.
-set(LIBMLT_MIN_VERSION 0.8.8)
+set(MLT_MIN_VERSION 0.8.8)
 set(QT_MIN_VERSION 4.5.0)
 set(KDE_MIN_VERSION 4.3.0)
 
@@ -63,17 +63,15 @@ macro_log_feature(KDE4_FOUND
 find_package(Qt4 ${QT_MIN_VERSION} REQUIRED)
 
 # Search MLT package.
-find_package(LIBMLT ${LIBMLT_MIN_VERSION} REQUIRED)
-if(LIBMLT_VERSION VERSION_LESS ${LIBMLT_MIN_VERSION})
-  set(LIBMLT_FOUND FALSE)
-endif(LIBMLT_VERSION VERSION_LESS ${LIBMLT_MIN_VERSION})
-macro_log_feature(LIBMLT_FOUND
+find_package(MLT ${MLT_MIN_VERSION} REQUIRED)
+macro_log_feature(MLT_FOUND
   "MLT"
   "Multimedia framework and video playout server for TV broadcasting"
   "http://mltframework.org"
   TRUE
-  ${LIBMLT_MIN_VERSION}
+  ${MLT_MIN_VERSION}
 )
+set(MLT_PREFIX ${MLT_ROOT_DIR})
 
 add_subdirectory(data)
 macro_optional_add_subdirectory(doc)
