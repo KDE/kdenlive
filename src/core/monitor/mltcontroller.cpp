@@ -68,8 +68,7 @@ QImage QFrame::image()
         QImage qimage(width, height, QImage::Format_ARGB32);
         memcpy(qimage.scanLine(0), image, width * height * 4);
         return qimage;
-    }
-    else {
+    } else {
         return QImage();
     }
 }
@@ -108,7 +107,7 @@ MltController& MltController::singleton(QWidget* /*parent*/)
     if (!instance) {
         qRegisterMetaType<Mlt::QFrame>("Mlt::QFrame");
         QSettings settings;
-	/*
+        /*
         if (true)//settings.value("player/opengl", true).toBool())
             instance = new GLWidget(parent);
         else
@@ -122,7 +121,7 @@ MltController::~MltController()
     close();
     closeConsumer();
     // TODO: this is commented out because it causes crash on closing queued QFrames.
-//    Mlt::Factory::close();
+    //    Mlt::Factory::close();
 }
 
 int MltController::open(ProducerWrapper *producer, bool isMulti, bool isLive)
@@ -132,14 +131,14 @@ int MltController::open(ProducerWrapper *producer, bool isMulti, bool isLive)
     if (producer != m_producer)
         close();
     if (producer && producer->is_valid()) {
-	//ProducerWrapper *prod2 = new ProducerWrapper(profile(), producer->property("resource"));
+        //ProducerWrapper *prod2 = new ProducerWrapper(profile(), producer->property("resource"));
         m_producer = producer;
-	displayPosition = 0;
+        displayPosition = 0;
         // In some versions of MLT, the resource property is the XML filename,
         // but the Mlt::Producer(Service&) constructor will fail unless it detects
         // the type as playlist, and mlt_service_identify() needs the resource
         // property to say "<playlist>" to identify it as playlist type.
-	//TODO: the following seems to create crashes when dealing with timeline producer, should it only be enabled on xml clips?
+        //TODO: the following seems to create crashes when dealing with timeline producer, should it only be enabled on xml clips?
         /*if (isPlaylist())
             m_producer->set("resource", "<playlist>");*/
     }
@@ -147,7 +146,7 @@ int MltController::open(ProducerWrapper *producer, bool isMulti, bool isLive)
         // Cleanup on error
         error = 1;
         delete producer;
-	producer = 0;
+        producer = 0;
     }
     return error;
 }
@@ -159,7 +158,7 @@ int MltController::open(ProducerWrapper *producer, bool isMulti, bool isLive)
     close();
     m_producer = new ProducerWrapper(profile(), url);
     if (m_producer->is_valid()) {
-	displayPosition = 0;
+    displayPosition = 0;
         double fps = profile().fps();
         if (!profile().is_explicit())
             profile().from_producer(*m_producer);
@@ -183,7 +182,8 @@ int MltController::open(ProducerWrapper *producer, bool isMulti, bool isLive)
 
 void MltController::close()
 {
-    if (m_consumer && !m_consumer->is_stopped()) m_consumer->stop();
+    if (m_consumer && !m_consumer->is_stopped())
+        m_consumer->stop();
     m_url.clear();
     m_isActive = false;
 }
@@ -211,20 +211,16 @@ void MltController::closeConsumer()
 {
     if (m_consumer) {
         m_consumer->stop();
-	delete m_consumer;
+        delete m_consumer;
     }
     m_consumer = 0;
     if (m_isLive) {
-	delete m_producer;
-	m_producer = 0;
+        delete m_producer;
+        m_producer = 0;
     }
-    if (m_volumeFilter) {
-	delete m_volumeFilter;
-    }
+    delete m_volumeFilter;
     m_volumeFilter = 0;
-    if (m_jackFilter) {
-	delete m_jackFilter;
-    }
+    delete m_jackFilter;
     m_jackFilter = 0;
 }
 
@@ -236,7 +232,7 @@ void MltController::play(double speed)
     // If we are paused, then we need to "unlock" sdl_still.
     if (m_consumer) {
         if (m_consumer->is_stopped()) m_consumer->start();
-	kDebug()<<"// RESTARTING CONSUMER *******\n***************\n*****************";
+        kDebug()<<"// RESTARTING CONSUMER *******\n***************\n*****************";
         refreshConsumer();
     }
     else kDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  DEAD CONSUMER !!!!!!!!!!!!!!!";
@@ -246,22 +242,25 @@ void MltController::play(double speed)
 
 void MltController::switchPlay()
 {
-    if (!m_producer) return;
-    if (m_producer->get_speed() == 0) play(1.0);
-    else pause();
+    if (!m_producer)
+        return;
+    if (m_producer->get_speed() == 0)
+        play(1.0);
+    else
+        pause();
 }
 
 void MltController::pause()
 {
     if (m_producer && m_producer->get_speed() != 0) {
-	int result = m_producer->set_speed(0);
+        int result = m_producer->set_speed(0);
         //Mlt::Event *event = m_consumer->setup_wait_for("consumer-sdl-paused");
         m_consumer->purge();
-	if (m_isLive) {
-	    m_consumer->stop();
-	}
-	else m_producer->seek(displayPosition);
-	//m_consumer->start();
+        if (m_isLive) {
+            m_consumer->stop();
+        }
+        else m_producer->seek(displayPosition);
+        //m_consumer->start();
         /*if (result == 0 && m_consumer->is_valid() && !m_consumer->is_stopped())
             m_consumer->wait_for(event);
         delete event;*/
@@ -320,33 +319,33 @@ void MltController::onJackStopped(int position)
 
 bool MltController::enableJack(bool enable)
 {
-	if (!m_consumer)
-		return true;
-	if (enable && !m_jackFilter) {
-		m_jackFilter = new Mlt::Filter(profile(), "jackrack");
-		if (m_jackFilter->is_valid()) {
-			m_consumer->attach(*m_jackFilter);
-			m_consumer->set("audio_off", 1);
-			if (isSeekable()) {
-				m_jackFilter->listen("jack-started", this, (mlt_listener) on_jack_started);
-				m_jackFilter->listen("jack-stopped", this, (mlt_listener) on_jack_stopped);
-			}
-		}
-		else {
-			delete m_jackFilter;
-			m_jackFilter = 0;
-			return false;
-		}
-	}
-	else if (!enable && m_jackFilter) {
-		m_consumer->detach(*m_jackFilter);
-		delete m_jackFilter;
-		m_jackFilter = 0;
-		m_consumer->set("audio_off", 0);
-		m_consumer->stop();
-		m_consumer->start();
-	}
-	return true;
+    if (!m_consumer)
+        return true;
+    if (enable && !m_jackFilter) {
+        m_jackFilter = new Mlt::Filter(profile(), "jackrack");
+        if (m_jackFilter->is_valid()) {
+            m_consumer->attach(*m_jackFilter);
+            m_consumer->set("audio_off", 1);
+            if (isSeekable()) {
+                m_jackFilter->listen("jack-started", this, (mlt_listener) on_jack_started);
+                m_jackFilter->listen("jack-stopped", this, (mlt_listener) on_jack_stopped);
+            }
+        }
+        else {
+            delete m_jackFilter;
+            m_jackFilter = 0;
+            return false;
+        }
+    }
+    else if (!enable && m_jackFilter) {
+        m_consumer->detach(*m_jackFilter);
+        delete m_jackFilter;
+        m_jackFilter = 0;
+        m_consumer->set("audio_off", 0);
+        m_consumer->stop();
+        m_consumer->start();
+    }
+    return true;
 }
 
 
@@ -613,14 +612,14 @@ QImage MltController::image(Mlt::Frame* frame, int width, int height)
         }
         mlt_image_format format = mlt_image_rgb24a;
         const uchar *image = frame->get_image(format, width, height);
-	kDebug()<<"// GOT THMB: "<<width<<"x"<<height;
-	 if (image && width > 0) {
-	    QImage result(width, height, QImage::Format_ARGB32);
+        kDebug()<<"// GOT THMB: "<<width<<"x"<<height;
+        if (image && width > 0) {
+            QImage result(width, height, QImage::Format_ARGB32);
             QImage temp(width, height, QImage::Format_ARGB32);//QImage::Format_ARGB32_Premultiplied);
             memcpy(temp.scanLine(0), image, width * height * 4);
             result = temp.rgbSwapped();
-	    return result;
-	 }
+            return result;
+        }
     }
     QImage result(width, height, QImage::Format_ARGB32);
     result.fill(QColor(Qt::red).rgb());
