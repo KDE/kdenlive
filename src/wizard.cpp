@@ -499,8 +499,8 @@ void Wizard::slotCheckPrograms()
     QTreeWidgetItem *item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("FFmpeg & ffplay"));
     item->setData(1, Qt::UserRole, i18n("Required for proxy clips, transcoding and screen capture"));
     item->setSizeHint(0, itemSize);
-    QString exepath = KStandardDirs::findExe("ffmpeg");
-    QString playpath = KStandardDirs::findExe("ffplay");
+    QString exepath = KStandardDirs::findExe(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
+    QString playpath = KStandardDirs::findExe(QString("ffplay%1").arg(FFMPEG_SUFFIX));
     item->setIcon(0, m_okIcon);
     if (exepath.isEmpty()) {
         // Check for libav version

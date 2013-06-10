@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "recmonitor.h"
 #include "gentime.h"
 #include "mltdevicecapture.h"
@@ -26,6 +25,7 @@
 #include "monitormanager.h"
 #include "monitor.h"
 #include "profilesdialog.h"
+#include "config-kdenlive.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -269,7 +269,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(false);
 	if (KdenliveSettings::ffmpegpath().isEmpty()) {
-	    QString exepath = KStandardDirs::findExe("ffmpeg");
+	    QString exepath = KStandardDirs::findExe(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
 	    if (exepath.isEmpty()) {
 		// Check for libav version
 		exepath = KStandardDirs::findExe("avconv");
