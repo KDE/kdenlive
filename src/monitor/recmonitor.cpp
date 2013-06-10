@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "monitor/recmonitor.h"
 #include "core.h"
 #include "gentime.h"
@@ -28,6 +27,7 @@
 #include "monitor/monitor.h"
 #include "profilesdialog.h"
 #include "widgets/videosurface.h"
+#include "config-kdenlive.h"
 
 #include <KDebug>
 #include <KLocalizedString>
@@ -251,15 +251,15 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_fwdAction->setEnabled(false);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(false);
-    if (KdenliveSettings::ffmpegpath().isEmpty()) {
-        QString exepath = KStandardDirs::findExe("ffmpeg");
-        if (exepath.isEmpty()) {
-        // Check for libav version
-        exepath = KStandardDirs::findExe("avconv");
-        }
-        if (exepath.isEmpty()) showWarningMessage(i18n("ffmpeg or avconv not found,\n please install it for screen grabs"));
-        else KdenliveSettings::setFfmpegpath(exepath);
-    }
+	if (KdenliveSettings::ffmpegpath().isEmpty()) {
+	    QString exepath = KStandardDirs::findExe(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
+	    if (exepath.isEmpty()) {
+		// Check for libav version
+		exepath = KStandardDirs::findExe("avconv");
+	    }
+	    if (exepath.isEmpty()) showWarningMessage(i18n("ffmpeg or avconv not found,\n please install it for screen grabs"));
+	    else KdenliveSettings::setFfmpegpath(exepath);
+	}
         if (!KdenliveSettings::ffmpegpath().isEmpty()) {
         if (!Render::checkX11Grab()) {
         // FFmpeg does not support screen grab
