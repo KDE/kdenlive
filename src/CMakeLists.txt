@@ -11,20 +11,17 @@ endif(APPLE)
 macro_optional_find_package(Nepomuk)
 macro_optional_find_package(QJSON)
 
-option(WITH_V4L "Build capture support with Video4Linux" ON)
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
-
-
-if(WITH_V4L)
-  # This can be changed to support FreeBSD as soon as we move to a newer V4L2
-  # header.
-  find_package(LibV4L2)
-  macro_log_feature(LIBV4L2_FOUND "libv4l" "Collection of video4linux support libraries" "http://hansdegoede.livejournal.com, http://linuxtv.org/hg/~hgoede/libv4l/" FALSE "" "Required for better webcam support")
-  if(LIBV4L2_FOUND)
-    set(BUILD_V4L TRUE)
-  endif(LIBV4L2_FOUND)
-endif(WITH_V4L)
+macro_optional_find_package(LibV4L2)
+macro_log_feature(LIBV4L2_FOUND
+  "libv4l"
+  "Collection of video4linux support libraries"
+  "http://freecode.com/projects/libv4l"
+  FALSE
+  ""
+  "Required for better webcam support"
+)
 
 if(WITH_JogShuttle)
   check_include_files(linux/input.h HAVE_LINUX_INPUT_H)
@@ -100,9 +97,9 @@ if(QJSON_FOUND)
   add_subdirectory(rotoscoping)
 endif(QJSON_FOUND)
 
-if(BUILD_V4L)
+if(LIBV4L2_FOUND)
   add_subdirectory(v4l)
-endif(BUILD_V4L)
+endif()
 
 list(APPEND kdenlive_SRCS
   main.cpp
@@ -357,11 +354,11 @@ if(QJSON_FOUND)
   target_link_libraries(kdenlive ${QJSON_LIBRARIES})
 endif(QJSON_FOUND)
 
-if(BUILD_V4L)
+if(LIBV4L2_FOUND)
   include_directories(${LIBV4L2_INCLUDE_DIR})
   target_link_libraries(kdenlive ${LIBV4L2_LIBRARY})  
   add_definitions(-DUSE_V4L)
-endif(BUILD_V4L)
+endif()
 
 if(BUILD_JogShuttle)
   add_definitions(-DUSE_JOGSHUTTLE)
