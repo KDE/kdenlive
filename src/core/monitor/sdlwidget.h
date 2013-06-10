@@ -82,7 +82,7 @@ signals:
     void frameReceived(Mlt::QFrame);
     void dragStarted();
     void seekTo(int x);
-    void imageRendered(const QString &id, int position, QImage image);
+    void imageRendered(const QString &id, int position, const QImage &image);
     void started();
     void producerChanged();
     void gotThumb(int, QImage);

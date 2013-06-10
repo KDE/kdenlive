@@ -36,7 +36,7 @@ class MyGraphicsView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    MyGraphicsView(QWidget *parent = 0);
+    explicit MyGraphicsView(QWidget *parent = 0);
     MyGraphicsView(QGraphicsScene *scene, QWidget *parent = 0);
     
 protected:

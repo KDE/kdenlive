@@ -177,7 +177,7 @@ signals:
     void audioLevels(const QVector<double>&);
     void requestThumb(ProducerWrapper *, int);
     void positionChanged(int, bool);
-    void zoneChanged(MONITORID,QPoint);
+    void zoneChanged(MONITORID,const QPoint&);
 };
 
 #endif
