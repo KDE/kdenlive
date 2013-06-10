@@ -1,3 +1,6 @@
+0.9.7
+    * Add support for a custom suffix for FFmpeg binaries (mostly for packagers)
+
 0.9.6
     * Fix keyframes when cutting a clip / undoing a clip cut
     * Warn before overwriting .mlt stabilized file

@@ -13,6 +13,8 @@ macro_optional_find_package(QJSON)
 
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
+set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
+
 macro_optional_find_package(LibV4L2)
 macro_log_feature(LIBV4L2_FOUND
   "libv4l"
