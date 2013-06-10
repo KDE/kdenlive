@@ -3,6 +3,7 @@ Type=ServiceType
 X-KDE-ServiceType=Kdenlive/Parameter
 Name=Kdenlive Parameter
 Name[cs]=Parametr Kdenlive
+Name[de]=Kdenlive-Parameter
 Name[nl]=Kdenlive-parameter
 Name[pt]=Parâmetro do Kdenlive
 Name[pt_BR]=Parâmetro do Kdenlive

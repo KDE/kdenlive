@@ -3,6 +3,7 @@ Type=ServiceType
 X-KDE-ServiceType=Kdenlive/Plugin
 Name=Kdenlive Plugin
 Name[cs]=Modul Kdenlive
+Name[de]=Kdenlive-Modul
 Name[nl]=Kdenlive-plug-in
 Name[pt]='Plugin' do Kdenlive
 Name[pt_BR]=Plugin do Kdenlive
