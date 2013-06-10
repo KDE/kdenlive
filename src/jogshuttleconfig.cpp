@@ -33,8 +33,8 @@ using std::stringstream;
 // these 2 functions will convert the action maps to and from a string representation not unlike this:
 // button1=rewind_one_frame;button2=forward_one_frame;button15=play
 
-static const QChar DELIMITER = ';';
-static const QChar KEY_VALUE_SEP = '=';
+static const QChar DELIMITER = QLatin1Char(';');
+static const QChar KEY_VALUE_SEP = QLatin1Char('=');
 static const QString BUTTON_PREFIX("button");
 
 QStringList JogShuttleConfig::actionMap(const QString& actionsConfig)
@@ -64,9 +64,9 @@ QString JogShuttleConfig::actionMap(const QStringList& actionMap)
 {
   QStringList mappings;
   for (int i=0; i < actionMap.size(); ++i) {
-      if (actionMap[i].isEmpty())
+      if (actionMap.at(i).isEmpty())
           continue;
-      mappings << QString::fromLatin1("%1%2%3%4").arg(BUTTON_PREFIX).arg(i).arg(KEY_VALUE_SEP).arg(actionMap[i]);
+      mappings << QString::fromLatin1("%1%2%3%4").arg(BUTTON_PREFIX).arg(i).arg(KEY_VALUE_SEP).arg(actionMap.at(i));
   }
 
   return mappings.join(DELIMITER);

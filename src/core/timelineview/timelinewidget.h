@@ -52,7 +52,7 @@ public:
     /** @brief Returns a pointer to the tool manager. */
     ToolManager *toolManager();
     void setClipTimeline(Timeline *timeline);
-    void updateMarkers(const QList <int> markers);
+    void updateMarkers(const QList <int> &markers);
 
 private slots:
     /** @brief Creates a new timeline scene and triggers the creation of new track headers. */

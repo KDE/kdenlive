@@ -40,7 +40,7 @@ public:
      * @brief Creates an empty root folder and a monitor model.
      * @param parent project this bin belongs to
      */
-    BinModel(Project *parent = 0);
+    explicit BinModel(Project *parent = 0);
     /**
      * @brief Creates monitor model and root folder and passes the supplied information on to it.
      * @param element element describing the bin contents
@@ -78,7 +78,7 @@ public:
     void setCurrentClipZone(const QPoint &zone);
     void addMarker(const QString &id, int position);
     void removeMarker(const QString &id, int position);
-    void markersUpdated(const QString &id, const QList <int> markers);
+    void markersUpdated(const QString &id, const QList <int> &markers);
 
 public slots:
     /** @brief emits aboutToAddItem. */
@@ -100,7 +100,7 @@ signals:
     void itemRemoved(AbstractProjectItem *item);
     void currentItemChanged(AbstractProjectItem *item);
     void itemUpdated(AbstractProjectItem* item);
-    void markersNeedUpdate(const QString &id, const QList <int> );
+    void markersNeedUpdate(const QString &id, const QList <int> &);
 
 private:
     Project *m_project;

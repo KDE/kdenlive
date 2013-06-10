@@ -159,7 +159,7 @@ void TimelineWidget::slotRemoveMarker(int pos)
     pCore->projectManager()->current()->bin()->removeMarker(property("clipId").toString(), pos);
 }
 
-void TimelineWidget::updateMarkers(const QList <int> markers)
+void TimelineWidget::updateMarkers(const QList<int> &markers)
 {
     m_markersWidget->setMarkers(markers);
     //m_positionBar->setMarkers(markers);

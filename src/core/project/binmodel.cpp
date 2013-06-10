@@ -79,7 +79,7 @@ void BinModel::removeMarker(const QString &id, int position)
     }
 }
 
-void BinModel::markersUpdated(const QString &id, const QList <int> markers)
+void BinModel::markersUpdated(const QString &id, const QList <int> &markers)
 {
     emit markersNeedUpdate(id, markers);
 }

@@ -31,7 +31,7 @@ public:
     explicit MarkersWidget(QWidget* parent = 0);
     virtual ~MarkersWidget();
     
-    void setMarkers(const QList <int> markers);
+    void setMarkers(const QList <int> &markers);
 
 private slots:
     /** @brief Creates a new timeline scene and triggers the creation of new track headers. */

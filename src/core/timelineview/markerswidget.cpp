@@ -53,12 +53,12 @@ void MarkersWidget::setProject()
     
 }
 
-void MarkersWidget::setMarkers(const QList <int> markers)
+void MarkersWidget::setMarkers(const QList <int> &markers)
 {
     m_list->clear();
     for (int i = 0; i < markers.count(); ++i) {
-	QListWidgetItem *m = new QListWidgetItem(i18n("Marker %1", i), m_list);
-	m->setData(0, markers.at(i));
+        QListWidgetItem *m = new QListWidgetItem(i18n("Marker %1", i), m_list);
+        m->setData(0, markers.at(i));
     }
 }
 
@@ -66,13 +66,13 @@ void MarkersWidget::slotActivateMarker(int ix)
 {
     QListWidgetItem *it = m_list->item(ix);
     if (it) {
-	emit seek(it->data(0).toInt());
-	m_removeAction->setEnabled(true);
-	m_editAction->setEnabled(true);
+        emit seek(it->data(0).toInt());
+        m_removeAction->setEnabled(true);
+        m_editAction->setEnabled(true);
     }
     else {
-	m_removeAction->setEnabled(false);
-	m_editAction->setEnabled(false);
+        m_removeAction->setEnabled(false);
+        m_editAction->setEnabled(false);
     }
 }
 
@@ -80,7 +80,7 @@ void MarkersWidget::slotRemoveMarker()
 {
     QListWidgetItem *it = m_list->currentItem();
     if (it) {
-	emit removeMarker(it->data(0).toInt());
+        emit removeMarker(it->data(0).toInt());
     }
 }
 
