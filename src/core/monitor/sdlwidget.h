@@ -32,11 +32,11 @@ public:
     void switchFullScreen();
 
 protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent* event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent* event);
     void keyPressEvent(QKeyEvent *event);
-    virtual void wheelEvent(QWheelEvent * event);
+    void wheelEvent(QWheelEvent * event);
 
 private:
     Qt::WindowFlags m_baseFlags;
@@ -57,7 +57,7 @@ signals:
     void refreshMonitor();
 
 protected:
-    virtual void paintEvent ( QPaintEvent * event );
+    void paintEvent ( QPaintEvent * event );
 };
 
 class SDLWidget : public QWidget, public MltController

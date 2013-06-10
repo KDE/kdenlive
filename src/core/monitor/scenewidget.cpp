@@ -64,8 +64,8 @@ void MyGraphicsView::resizeEvent(QResizeEvent* event)
 void MyGraphicsView::wheelEvent(QWheelEvent* event)
 {
     if (horizontalScrollBar()->isVisible() || event->modifiers() & Qt::ControlModifier) {
-	QGraphicsView::wheelEvent(event);
-	return;
+        QGraphicsView::wheelEvent(event);
+        return;
     }
     emit gotWheelEvent(event);
 }
@@ -127,7 +127,7 @@ void MyGraphicsView::switchFullScreen()
         show();
         raise();
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
-	//setUpdatesEnabled(true);
+        //setUpdatesEnabled(true);
 #else
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
         //setUpdatesEnabled(true);
@@ -255,8 +255,8 @@ void SceneWidget::enterEvent( QEvent * event )
 void SceneWidget::leaveEvent( QEvent * event )
 {
     if (m_showPlay) {
-	m_showPlay = false;
-	//glDraw();
+        m_showPlay = false;
+        //glDraw();
     }
     event->accept();
 }
@@ -291,25 +291,25 @@ void SceneWidget::showFrame(Mlt::QFrame frame)
 void SceneWidget::renderImage(const QString &id, ProducerWrapper *producer, QList <int> positions, int width, int height)
 {
     if (width == -1) {
-	height = 100;
-	width = height * profile().dar();
+        height = 100;
+        width = height * profile().dar();
     }
     while (!positions.isEmpty()) {
-	int position = positions.takeFirst();
-	producer->seek(qAbs(position));
-	Mlt::Frame* frame = producer->get_frame();
-	QImage img = MltController::image(frame, width, height);
-	emit imageRendered(id, position, img);
-	delete frame;
+        int position = positions.takeFirst();
+        producer->seek(qAbs(position));
+        Mlt::Frame* frame = producer->get_frame();
+        QImage img = MltController::image(frame, width, height);
+        emit imageRendered(id, position, img);
+        delete frame;
     }
 }
 
 void SceneWidget::slotGetThumb(ProducerWrapper *prod, int position)
 {
     if (!m_producer || m_producer->get_speed() != 0) {
-	// No thumbnail when playing
-	emit gotThumb(position, QImage());
-	return;
+        // No thumbnail when playing
+        emit gotThumb(position, QImage());
+        return;
     }
     emit gotThumb(position, MltController::thumb(prod, position));
 }
@@ -320,11 +320,11 @@ int SceneWidget::reOpen(bool isMulti)
     bool reconnect = !m_consumer || !m_consumer->is_valid();
     error = reconfigure(isMulti);
     if (!error) {
-	if (reconnect)
-	    connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
-                        this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
-	resizeGL(width(), height());
-	refreshConsumer();
+        if (reconnect)
+            connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
+                    this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
+        resizeGL(width(), height());
+        refreshConsumer();
     }
     return error;
 }
@@ -342,9 +342,9 @@ int SceneWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
             if (reconnect)
                 connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
                         this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
-	    resizeGL(width(), height());
-	    refreshConsumer();
-	    update();
+            resizeGL(width(), height());
+            refreshConsumer();
+            update();
         }
     }
     emit producerChanged();
@@ -409,10 +409,10 @@ int SceneWidget::reconfigure(bool isMulti)
             m_consumer->set("buffer", 1);
             m_consumer->set("scrub_audio", 1);
         }
-	m_image_format = mlt_image_rgb24a;
-	emit started();
+        m_image_format = mlt_image_rgb24a;
+        emit started();
         m_consumer->start();
-	if (!m_isLive) m_producer->set_speed(0.0);
+        if (!m_isLive) m_producer->set_speed(0.0);
     }
     else {
         // Cleanup on error

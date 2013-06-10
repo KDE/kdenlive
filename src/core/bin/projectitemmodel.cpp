@@ -25,8 +25,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 ProjectItemModel::ProjectItemModel(BinModel* binModel, QObject* parent) :
     QAbstractItemModel(parent)
-    , m_binModel(binModel)
-    , m_iconSize(60)
+  , m_binModel(binModel)
+  , m_iconSize(60)
 {
     m_selection = new QItemSelectionModel(this);
     //connect(m_selection, SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
@@ -63,23 +63,19 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
     if (role == Qt::DisplayRole) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->data(static_cast<AbstractProjectItem::DataType>(index.column()));
-    }
-
-    if (role == Qt::DecorationRole && index.column() == 0) {
-	// Data has to be returned as icon to allow the view to scale it
+    } else if (role == Qt::DecorationRole && index.column() == 0) {
+        // Data has to be returned as icon to allow the view to scale it
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         QIcon icon = QIcon(item->data(AbstractProjectItem::DataThumbnail).value<QPixmap>());
-	if (icon.isNull()) {
-	      int h = m_iconSize;
-	      int w = h * m_binModel->project()->profile()->dar();
-	      QPixmap pix(w, h);
-	      pix.fill(Qt::lightGray);
-	      icon = QIcon(pix);
-	}
+        if (icon.isNull()) {
+            int h = m_iconSize;
+            int w = h * m_binModel->project()->profile()->dar();
+            QPixmap pix(w, h);
+            pix.fill(Qt::lightGray);
+            icon = QIcon(pix);
+        }
         return icon;
-    }
-    
-    if (role == Qt::UserRole) {
+    } else if (role == Qt::UserRole) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->data(AbstractProjectItem::DataDuration);
     }
@@ -102,18 +98,18 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         QVariant columnName;
         switch ((AbstractProjectItem::DataType)section) {
-            case AbstractProjectItem::DataName:
-                columnName = i18n("Name");
-                break;
-            case AbstractProjectItem::DataDescription:
-                columnName = i18n("Description");
-                break;
-            case AbstractProjectItem::DataDate:
-                columnName = i18n("Date");
-                break;
-	    default:
-	        columnName = i18n("Unknown");
-                break;
+        case AbstractProjectItem::DataName:
+            columnName = i18n("Name");
+            break;
+        case AbstractProjectItem::DataDescription:
+            columnName = i18n("Description");
+            break;
+        case AbstractProjectItem::DataDate:
+            columnName = i18n("Date");
+            break;
+        default:
+            columnName = i18n("Unknown");
+            break;
         }
         return columnName;
     }
@@ -213,8 +209,8 @@ void ProjectItemModel::onCurrentRowChanged(const QModelIndex& current, const QMo
     Q_UNUSED(previous)
     kDebug()<<" + + + + + + + ++ ROW CHANGED+: "<<current.row()<<", PREVIOUS: "<<previous.row();
     if (previous.row() == current.row()) {
-	// User clicked on already selected item, don't react?
-	return;
+        // User clicked on already selected item, don't react?
+        return;
     }
     QModelIndex id = index(current.row(), 0, QModelIndex());
     emit selectModel(id);

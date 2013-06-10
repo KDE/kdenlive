@@ -86,16 +86,16 @@ void GLSLWidget::closeConsumer()
 {
     MltController::closeConsumer();
     if (m_glslManager) {
-	//Mlt::Service service(m_producer->get_service());
-	//service.set("disable", "1");
-	stopGlsl();
-	delete m_renderContext;
-	m_renderContext = 0;
-	makeCurrent();
-	delete m_glslManager;
-	 m_glslManager = 0;
-         // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-         mlt_properties_set_data(mlt_global_properties(), "glslManager", NULL, 0, NULL, NULL);
+        //Mlt::Service service(m_producer->get_service());
+        //service.set("disable", "1");
+        stopGlsl();
+        delete m_renderContext;
+        m_renderContext = 0;
+        makeCurrent();
+        delete m_glslManager;
+        m_glslManager = 0;
+        // Need to destroy MLT global reference to prevent filters from trying to use GPU.
+        mlt_properties_set_data(mlt_global_properties(), "glslManager", NULL, 0, NULL, NULL);
     }
     m_isActive = false;
 }
@@ -129,7 +129,7 @@ void GLSLWidget::initializeGL()
     glDisable(GL_DITHER);
     glDisable(GL_BLEND);
     //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-   
+
     m_condition.wakeAll();
     m_isInitialized = true;
 }
@@ -189,61 +189,61 @@ void GLSLWidget::paintGL()
     makeCurrent();
     if (m_texture[0]) {
         if (m_glslManager && m_fbo && m_image_format == mlt_image_glsl_texture) {
-	    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glBindTexture(GL_TEXTURE_2D, m_fbo->texture());
             check_error();
         }
         glBegin(GL_QUADS);
-            glTexCoord2i(0, 0); glVertex2i(x, y);
-            glTexCoord2i(1, 0); glVertex2i(x + w, y);
-            glTexCoord2i(1, 1); glVertex2i(x + w, y + h);
-            glTexCoord2i(0, 1); glVertex2i(x, y + h);
+        glTexCoord2i(0, 0); glVertex2i(x, y);
+        glTexCoord2i(1, 0); glVertex2i(x + w, y);
+        glTexCoord2i(1, 1); glVertex2i(x + w, y + h);
+        glTexCoord2i(0, 1); glVertex2i(x, y + h);
         glEnd();
     }
     //glBindFramebuffer( GL_FRAMEBUFFER, 0 );
     //return;
     
     if (m_showPlay) {
-	    //glColor4f(1,1,1, 0.5);
-	    glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	    glBlendEquation(GL_FUNC_ADD); 
-	    glBlendFunc( GL_ONE, GL_ONE);
-	    //glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
-	    //glBlendFunc( GL_SRC_ALPHA, GL_ONE);    
-	    glColor4f(0.2,0.2,0.2, 0.6);
-	    //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA); 
-	    float x1,y1,x2,y2;
-	    double radius = 0.15;
-	    x1=0.49;
-	    y1=0.5;
-	    glBegin(GL_TRIANGLE_FAN);
-	    glTexCoord2f(x1,y1);
-	    glVertex2f(x + x1 * w,y + y1 * h);
-	    const float PI = 3.1415926535897932;
-	    for (float angle = 0.0; angle < 2.0*PI; angle += 2.0*PI/30.0) {
-		x2 = x1+sin(angle)*radius / w * h;
-		y2 = y1+cos(angle)*radius;
-		glTexCoord2f(x2, y2);
-		glVertex2f(x + x2 * w,y + y2 * h);
-	    }
-	    glEnd();
-	    //glDisable(GL_BLEND);
-	    //glBlendFunc( GL_SRC_ALPHA, GL_ONE);
-	    glColor4f(0.5,0.5,0.5, 0.7);
-	    glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
-	    //glBlendFunc( GL_ONE, GL_DST_ALPHA);
-	    //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA); 
-	    glBegin(GL_TRIANGLES);
-	    glTexCoord2f(0.45, 0.4);glVertex2f( x + 0.45 * w, y + 0.4 * h);
-	    glTexCoord2f(0.56, 0.5);glVertex2f( x + 0.56 * w, y + 0.5 * h);
-	    glTexCoord2f(0.45, 0.6);glVertex2f( x + 0.45 * w, y + 0.6 * h);
-	    glEnd();
-	    glBlendEquation(GL_FUNC_ADD);
-	    glDisable(GL_BLEND);
-	    
-	    glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
-	}
+        //glColor4f(1,1,1, 0.5);
+        glEnable(GL_BLEND);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendEquation(GL_FUNC_ADD);
+        glBlendFunc( GL_ONE, GL_ONE);
+        //glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
+        //glBlendFunc( GL_SRC_ALPHA, GL_ONE);
+        glColor4f(0.2,0.2,0.2, 0.6);
+        //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
+        float x1,y1,x2,y2;
+        double radius = 0.15;
+        x1=0.49;
+        y1=0.5;
+        glBegin(GL_TRIANGLE_FAN);
+        glTexCoord2f(x1,y1);
+        glVertex2f(x + x1 * w,y + y1 * h);
+        const float PI = 3.1415926535897932;
+        for (float angle = 0.0; angle < 2.0*PI; angle += 2.0*PI/30.0) {
+            x2 = x1+sin(angle)*radius / w * h;
+            y2 = y1+cos(angle)*radius;
+            glTexCoord2f(x2, y2);
+            glVertex2f(x + x2 * w,y + y2 * h);
+        }
+        glEnd();
+        //glDisable(GL_BLEND);
+        //glBlendFunc( GL_SRC_ALPHA, GL_ONE);
+        glColor4f(0.5,0.5,0.5, 0.7);
+        glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+        //glBlendFunc( GL_ONE, GL_DST_ALPHA);
+        //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
+        glBegin(GL_TRIANGLES);
+        glTexCoord2f(0.45, 0.4);glVertex2f( x + 0.45 * w, y + 0.4 * h);
+        glTexCoord2f(0.56, 0.5);glVertex2f( x + 0.56 * w, y + 0.5 * h);
+        glTexCoord2f(0.45, 0.6);glVertex2f( x + 0.45 * w, y + 0.6 * h);
+        glEnd();
+        glBlendEquation(GL_FUNC_ADD);
+        glDisable(GL_BLEND);
+
+        glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+    }
 }
 
 void GLSLWidget::mouseDoubleClickEvent(QMouseEvent * event)
@@ -278,9 +278,9 @@ void GLSLWidget::mousePressEvent(QMouseEvent* event)
 void GLSLWidget::enterEvent( QEvent * event )
 {
     if (m_producer && m_producer->get_speed() == 0) {
-	m_showPlay = true;
-	if (m_isActive) glDraw();
-	//update();
+        m_showPlay = true;
+        if (m_isActive) glDraw();
+        //update();
     }
     else m_showPlay = false;
     QGLWidget::enterEvent(event);
@@ -289,9 +289,9 @@ void GLSLWidget::enterEvent( QEvent * event )
 void GLSLWidget::leaveEvent( QEvent * event )
 {
     if (m_showPlay) {
-	m_showPlay = false;
-	if (m_isActive) glDraw();
-	//update();
+        m_showPlay = false;
+        if (m_isActive) glDraw();
+        //update();
     }
     event->setAccepted(true);
     //QGLWidget::leaveEvent(event);
@@ -371,10 +371,10 @@ void GLSLWidget::showFrame(Mlt::QFrame frame)
         m_image_width = 0;
         m_image_height = 0;
         makeCurrent();
-	if (frame.frame()->get_position() > 50) m_overlay = "Out Point";
-	else m_overlay.clear();
+        if (frame.frame()->get_position() > 50) m_overlay = "Out Point";
+        else m_overlay.clear();
         if (m_glslManager && m_image_format == mlt_image_glsl_texture) {
-	    frame.frame()->set("movit.convert.use_texture", 1);
+            frame.frame()->set("movit.convert.use_texture", 1);
             const GLuint* textureId = (GLuint*) frame.frame()->get_image(m_image_format, m_image_width, m_image_height);
             m_texture[0] = *textureId;
             if (!m_fbo || m_fbo->width() != m_image_width || m_fbo->height() != m_image_height) {
@@ -401,27 +401,27 @@ void GLSLWidget::showFrame(Mlt::QFrame frame)
             check_error();
 
             glBegin( GL_QUADS );
-                glTexCoord2i( 0, 0 ); glVertex2i( 0, 0 );
-                glTexCoord2i( 0, 1 ); glVertex2i( 0, m_image_height );
-                glTexCoord2i( 1, 1 ); glVertex2i( m_image_width, m_image_height );
-                glTexCoord2i( 1, 0 ); glVertex2i( m_image_width, 0 );
+            glTexCoord2i( 0, 0 ); glVertex2i( 0, 0 );
+            glTexCoord2i( 0, 1 ); glVertex2i( 0, m_image_height );
+            glTexCoord2i( 1, 1 ); glVertex2i( m_image_width, m_image_height );
+            glTexCoord2i( 1, 0 ); glVertex2i( m_image_width, 0 );
             glEnd();
             check_error();
-	    glEnable(GL_BLEND);
-	    QPainter p(m_fbo);
-	    p.setRenderHints(QPainter::TextAntialiasing, true);
-	    QFont f = font();
-	    f.setPixelSize(18 * m_image_height / h);
-	    f.setStyleStrategy(QFont::PreferAntialias);
-	    p.setFont(f);
-	    p.scale(1, -1);
-	    //p.setLayoutDirection(Qt::RightToLeft);
-	    p.fillRect(15, -180, 600, -120, QColor(200, 100, 100, 120));
-	    p.setPen(Qt::white);
-	    QString overlay = QString("Overlay test: %1").arg(frame.frame()->get_position());
-	    p.drawText(20, -200, overlay);
-	    p.end();
-	    glDisable(GL_BLEND);
+            glEnable(GL_BLEND);
+            QPainter p(m_fbo);
+            p.setRenderHints(QPainter::TextAntialiasing, true);
+            QFont f = font();
+            f.setPixelSize(18 * m_image_height / h);
+            f.setStyleStrategy(QFont::PreferAntialias);
+            p.setFont(f);
+            p.scale(1, -1);
+            //p.setLayoutDirection(Qt::RightToLeft);
+            p.fillRect(15, -180, 600, -120, QColor(200, 100, 100, 120));
+            p.setPen(Qt::white);
+            QString overlay = QString("Overlay test: %1").arg(frame.frame()->get_position());
+            p.drawText(20, -200, overlay);
+            p.end();
+            glDisable(GL_BLEND);
             glBindFramebuffer( GL_FRAMEBUFFER, 0 );
             check_error();
             glMatrixMode(GL_PROJECTION);
@@ -443,16 +443,16 @@ void GLSLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList
     }
     // Position might be negative to indicate the in point on the imageRendered signal.
     if (width == -1) {
-	height = 100;
-	width = height * profile().dar();
+        height = 100;
+        width = height * profile().dar();
     }
     while (!positions.isEmpty()) {
-	int position = positions.takeFirst();
-	producer->seek(qAbs(position));
-	Mlt::Frame* frame = producer->get_frame();
-	QImage image = MltController::image(frame, width, height);
-	emit imageRendered(id, position, image);
-	delete frame;
+        int position = positions.takeFirst();
+        producer->seek(qAbs(position));
+        Mlt::Frame* frame = producer->get_frame();
+        QImage image = MltController::image(frame, width, height);
+        emit imageRendered(id, position, image);
+        delete frame;
     }
 
     if (m_glslManager) {
@@ -470,11 +470,11 @@ int GLSLWidget::reOpen(bool isMulti)
     bool reconnect = !m_consumer || !m_consumer->is_valid();
     error = reconfigure(isMulti);
     if (!error) {
-	if (reconnect)
-	    connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
-                        this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
+        if (reconnect)
+            connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
+                    this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
         resizeGL(width(), height());
-	//refreshConsumer();
+        //refreshConsumer();
     }
     return error;
 }
@@ -484,9 +484,9 @@ void GLSLWidget::slotGetThumb(ProducerWrapper *producer, int position)
     //setUpdatesEnabled(false);
     if (!m_isActive) return;
     if (!m_producer || m_producer->get_speed() != 0) {
-	// No thumbnail when playing
-	emit gotThumb(position, QImage());
-	return;
+        // No thumbnail when playing
+        emit gotThumb(position, QImage());
+        return;
     }
     if (m_consumer) m_consumer->stop();
     m_renderContext->makeCurrent();
@@ -512,8 +512,8 @@ int GLSLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
                 connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
                         this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
             resizeGL(width(), height());
-	    refreshConsumer();
-	    update();
+            refreshConsumer();
+            update();
         }
     }
     emit producerChanged();
@@ -570,7 +570,7 @@ int GLSLWidget::reconfigure(bool isMulti)
             m_consumer->set("0.rescale", property("rescale").toString().toAscii().constData());
             m_consumer->set("0.deinterlace_method", property("deinterlace_method").toString().toAscii().constData());
             m_consumer->set("0.buffer", 25);
-	    m_consumer->set("0.prefill", 1);
+            m_consumer->set("0.prefill", 1);
         }
         else {
             if (serviceName == "sdl_audio")
@@ -581,7 +581,7 @@ int GLSLWidget::reconfigure(bool isMulti)
             m_consumer->set("rescale", property("rescale").toString().toAscii().constData());
             m_consumer->set("deinterlace_method", property("deinterlace_method").toString().toAscii().constData());
             m_consumer->set("buffer", 25);
-	    m_consumer->set("prefill", 1);
+            m_consumer->set("prefill", 1);
             m_consumer->set("scrub_audio", 1);
         }
         if (m_glslManager) {
@@ -594,7 +594,7 @@ int GLSLWidget::reconfigure(bool isMulti)
             m_image_format = mlt_image_glsl_texture;
         }
         m_consumer->start();
-	if (!m_isLive) m_producer->set_speed(0.0);
+        if (!m_isLive) m_producer->set_speed(0.0);
     }
     else {
         // Cleanup on error

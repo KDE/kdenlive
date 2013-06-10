@@ -21,8 +21,6 @@ class EffectPropertiesView : public AbstractPropertiesViewContainer
 public:
     explicit EffectPropertiesView(const QString &name, const QString &comment, QWidget* parent = 0);
     ~EffectPropertiesView();
-
-    
 };
 
 #endif
