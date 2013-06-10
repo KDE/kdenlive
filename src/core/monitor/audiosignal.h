@@ -40,13 +40,6 @@ public:
     /** @brief Used for checking whether audio data needs to be delivered */
     bool monitoringEnabled() const;
 
-private:
-    double valueToPixel(double in);
-    QTimer m_timer;
-    QLabel* label;
-    QVector<double> channels, peeks, peekage;
-    QVector<int> dbscale;
-    QAction *m_aMonitoringEnabled;
 
 protected:
     void paintEvent(QPaintEvent*);
@@ -62,6 +55,13 @@ private slots:
 signals:
     void updateAudioMonitoring();
 
+private:
+    double valueToPixel(double in);
+    QTimer m_timer;
+    QLabel* label;
+    QVector<double> channels, peeks, peekage;
+    QVector<int> dbscale;
+    QAction *m_aMonitoringEnabled;
 };
 
 #endif

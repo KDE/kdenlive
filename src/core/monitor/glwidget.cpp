@@ -106,17 +106,17 @@ void GLWidget::initializeGL()
     //makeCurrent();
     /*m_big.setPixelSize(80);
     m_fbo2 = new QGLFramebufferObject(500, 150);
-		m_fbo2->bind();
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		QPainter painter;
-		painter.begin(m_fbo2);
-		painter.setFont(m_big);
-		painter.setPen(QColor(255, 100, 100, 150));
-		painter.drawText(QRect(0, 0, 500, 150), "Test Text");
-		painter.end();
-		m_fbo2->release();*/
-		
+        m_fbo2->bind();
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        QPainter painter;
+        painter.begin(m_fbo2);
+        painter.setFont(m_big);
+        painter.setPen(QColor(255, 100, 100, 150));
+        painter.drawText(QRect(0, 0, 500, 150), "Test Text");
+        painter.end();
+        m_fbo2->release();*/
+
     
     /*QImage img("/home/two/Pictures/frame.png");
     QImage t = QGLWidget::convertToGLFormat(img);
@@ -157,7 +157,7 @@ void GLWidget::resizeGL(int width, int height)
     x = (width - w) / 2;
     y = (height - h) / 2;
     if (isValid()) {
-	makeCurrent();
+        makeCurrent();
         glViewport(0, 0, width, height);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -188,41 +188,41 @@ void GLWidget::paintEvent(QPaintEvent *event)
 {
     makeCurrent();
     if (m_texture[0]) {
-	QPainter p;
-	p.begin(this);
-	p.setClipRect(event->rect());
-	p.beginNativePainting();
-	m_shader->bind();
+        QPainter p;
+        p.begin(this);
+        p.setClipRect(event->rect());
+        p.beginNativePainting();
+        m_shader->bind();
         glBegin(GL_QUADS);
-            glTexCoord2i(0, 0); glVertex2i(x, y);
-            glTexCoord2i(1, 0); glVertex2i(x + w, y);
-            glTexCoord2i(1, 1); glVertex2i(x + w, y + h);
-            glTexCoord2i(0, 1); glVertex2i(x, y + h);
+        glTexCoord2i(0, 0); glVertex2i(x, y);
+        glTexCoord2i(1, 0); glVertex2i(x + w, y);
+        glTexCoord2i(1, 1); glVertex2i(x + w, y + h);
+        glTexCoord2i(0, 1); glVertex2i(x, y + h);
         glEnd();
         p.endNativePainting();
-    
-	if (!m_overlayText.isEmpty()) {
-	    glPixelStorei(GL_UNPACK_ROW_LENGTH,   0);
-	    glPixelStorei(GL_UNPACK_ALIGNMENT,    4);
-	    QFontMetrics f(font());
-	    QRectF textRect = p.boundingRect(x, y , w - 15, h - 10, Qt::AlignRight | Qt::AlignBottom, m_overlayText);
-	    QRectF bgRect = textRect.adjusted(-(5 + textRect.height()) , -2, 5, 2);
-	    QColor c(Qt::white);
-	    c.setAlpha(100);
-	    p.setBrush(c);
-	    p.setPen(Qt::NoPen);
-	    m_overlayZone = bgRect;
-	    p.drawRoundedRect(bgRect, 3, 3);
-	    bgRect.setWidth(textRect.height());
-	    p.setBrush(m_overlayColor);
-	    p.drawEllipse(bgRect.adjusted(2, 2, 0, -2));
-	    p.setPen(Qt::black);
-	    p.drawText(textRect, m_overlayText);
-	    glPixelStorei  (GL_UNPACK_ROW_LENGTH, m_image_width);
-	    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	    glBindTexture  (GL_TEXTURE_2D, m_texture[1]);
-	}
-	p.end();
+
+        if (!m_overlayText.isEmpty()) {
+            glPixelStorei(GL_UNPACK_ROW_LENGTH,   0);
+            glPixelStorei(GL_UNPACK_ALIGNMENT,    4);
+            QFontMetrics f(font());
+            QRectF textRect = p.boundingRect(x, y , w - 15, h - 10, Qt::AlignRight | Qt::AlignBottom, m_overlayText);
+            QRectF bgRect = textRect.adjusted(-(5 + textRect.height()) , -2, 5, 2);
+            QColor c(Qt::white);
+            c.setAlpha(100);
+            p.setBrush(c);
+            p.setPen(Qt::NoPen);
+            m_overlayZone = bgRect;
+            p.drawRoundedRect(bgRect, 3, 3);
+            bgRect.setWidth(textRect.height());
+            p.setBrush(m_overlayColor);
+            p.drawEllipse(bgRect.adjusted(2, 2, 0, -2));
+            p.setPen(Qt::black);
+            p.drawText(textRect, m_overlayText);
+            glPixelStorei  (GL_UNPACK_ROW_LENGTH, m_image_width);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glBindTexture  (GL_TEXTURE_2D, m_texture[1]);
+        }
+        p.end();
     }
     //doneCurrent();
     /*glMatrixMode(GL_PROJECTION);
@@ -241,10 +241,10 @@ void GLWidget::paintEvent(QPaintEvent *event)
     //p.fillRect(105, 5, 100, 20, QColor(200, 100, 100, 100));
     //p.end();
     /*glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glClearColor(0, 0, 0, 0);
-	glClearDepth(1.0f);
-	glDisable(GL_BLEND);
-    swapBuffers(); 
+    glClearColor(0, 0, 0, 0);
+    glClearDepth(1.0f);
+    glDisable(GL_BLEND);
+    swapBuffers();
     glFlush();*/
     return;
     
@@ -274,139 +274,139 @@ glDisable(GL_LIGHTING);*/
     fmt.setInternalTextureFormat(GL_RGBA32I);
     m_fbo2 = new QGLFramebufferObject(500, 150);
     
-		m_fbo2->bind();
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		QPainter painter;
-		painter.begin(m_fbo2);
-		painter.setFont(m_big);
-		painter.setPen(QColor(255, 100, 100, 150));
-		painter.drawText(QRect(0, 0, 500, 150), "Test Text");
-		painter.end();
-		m_fbo2->release();
-		
-		
+    m_fbo2->bind();
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    QPainter painter;
+    painter.begin(m_fbo2);
+    painter.setFont(m_big);
+    painter.setPen(QColor(255, 100, 100, 150));
+    painter.drawText(QRect(0, 0, 500, 150), "Test Text");
+    painter.end();
+    m_fbo2->release();
+
+
     glBindTexture(GL_TEXTURE_2D, m_fbo2->texture());
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glColor3f(1.0f, 1.0f, 1.0f);
     glBegin(GL_QUADS);
-            /*glTexCoord2i(1, 0); glVertex2i(x + w, y);
+    /*glTexCoord2i(1, 0); glVertex2i(x + w, y);
             glTexCoord2i(1, 1); glVertex2i(x + w, y + h);
             glTexCoord2i(0, 1); glVertex2i(x, y + h);*/
-	    
-            glTexCoord2i(1, 0); glVertex2i(x + w, y);
-            glTexCoord2i(1, 1); glVertex2i(x + w, y + h);
-            glTexCoord2i(0, 1); glVertex2i(0, y + h);
-	    glTexCoord2i(0, 0); glVertex2i(0, y);
-        glEnd();
+
+    glTexCoord2i(1, 0); glVertex2i(x + w, y);
+    glTexCoord2i(1, 1); glVertex2i(x + w, y + h);
+    glTexCoord2i(0, 1); glVertex2i(0, y + h);
+    glTexCoord2i(0, 0); glVertex2i(0, y);
+    glEnd();
     //drawTexture(QPointF(20.0, 20.0), m_fbo2->texture());
     //p.endNativePainting();
     //glClearColor(0, 0, 0, 0);
-     //glClearDepth(1.0f);
-     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glClearDepth(1.0f);
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //p.drawText(20, 20, "Hello Guys!");
     //p.end();
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_BLEND);
     return;
-//int textureID;
-//m_shader->release();
+    //int textureID;
+    //m_shader->release();
 
-      
-glEnable(GL_TEXTURE_2D);
-glEnable(GL_BLEND);
-//glBlendEquation(GL_FUNC_ADD); 
-//glBlendFunc( GL_ONE, GL_ONE);
-/*QImage img("/home/two/Pictures/frame.png");
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    //glBlendEquation(GL_FUNC_ADD);
+    //glBlendFunc( GL_ONE, GL_ONE);
+    /*QImage img("/home/two/Pictures/frame.png");
 QImage newimg = QGLWidget::convertToGLFormat(img);
 if (cubeTexture[0])
 glDeleteTextures(1, cubeTexture);
 glGenTextures(1, cubeTexture);*/
-//glBindTexture(GL_TEXTURE_2D, cubeTexture[0]);
-//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-/*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, newimg.width(), newimg.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, newimg.bits());
+    //glBindTexture(GL_TEXTURE_2D, cubeTexture[0]);
+    //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    /*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, newimg.width(), newimg.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, newimg.bits());
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
-//glPushMatrix();
-//glBegin(GL_QUADS);   // in theory triangles are better
+    //glPushMatrix();
+    //glBegin(GL_QUADS);   // in theory triangles are better
 
-/*glTexCoord2i(0,0); glVertex2i(0,0);
+    /*glTexCoord2i(0,0); glVertex2i(0,0);
 glTexCoord2i(1,0); glVertex2i(width(), 0);
 glTexCoord2i(1,1); glVertex2i(width(), height());
 glTexCoord2i(0,1); glVertex2i(0,height());*/
 
-/*glTexCoord2i(0, 0); glVertex2i(x, y);
+    /*glTexCoord2i(0, 0); glVertex2i(x, y);
             glTexCoord2i(1, 0); glVertex2i(x + w, y);
             glTexCoord2i(1, 1); glVertex2i(x + w, y + h);
             glTexCoord2i(0, 1); glVertex2i(x, y + h);
 */
-//glEnd();
-glDisable(GL_BLEND);
-glDisable(GL_TEXTURE_2D);
-  return;  
+    //glEnd();
+    glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_2D);
+    return;
     //QPainter p(this);
-//    p.endNativePainting();
+    //    p.endNativePainting();
     //p.end();
     return;
     
     //return;
     if (!m_overlayText.isEmpty()) {
-      glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-glDisable(GL_DEPTH_TEST);
-glMatrixMode(GL_PROJECTION);
-glLoadIdentity();
-gluOrtho2D(0,width(),0,height());
-glMatrixMode(GL_MODELVIEW);
-glLoadIdentity();     
-	glEnable(GL_BLEND);
-	glEnable(GL_TEXTURE_2D);
-	glBlendEquation(GL_FUNC_ADD);
-	glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA); 
-	    //glBlendFunc( GL_ONE, GL_ONE);
-	/*QFontMetrics fm(font());
-	QRect r = fm.boundingRect(m_overlay);
-	p.fillRect(5, 5, r.width() + 8, r.height() + 4, QColor(255, 150, 100, 140));*/
-	QImage img("/home/two/Pictures/frame.png");
-	QImage newimg = QGLWidget::convertToGLFormat(img);
-	//cubeTexture = bindTexture(newimg);
-	//glBindTexture(GL_TEXTURE_2D, cubeTexture);
-	/*drawTexture(QRectF(-frame_resolution.width()/2,
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glDisable(GL_DEPTH_TEST);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluOrtho2D(0,width(),0,height());
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glEnable(GL_BLEND);
+        glEnable(GL_TEXTURE_2D);
+        glBlendEquation(GL_FUNC_ADD);
+        glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
+        //glBlendFunc( GL_ONE, GL_ONE);
+        /*QFontMetrics fm(font());
+    QRect r = fm.boundingRect(m_overlay);
+    p.fillRect(5, 5, r.width() + 8, r.height() + 4, QColor(255, 150, 100, 140));*/
+        QImage img("/home/two/Pictures/frame.png");
+        QImage newimg = QGLWidget::convertToGLFormat(img);
+        //cubeTexture = bindTexture(newimg);
+        //glBindTexture(GL_TEXTURE_2D, cubeTexture);
+        /*drawTexture(QRectF(-frame_resolution.width()/2,
           -frame_resolution.height()/2,
           frame_resolution.width(),
           frame_resolution.height()),
       texture);*/
-	//QImage newimg = QGLWidget::convertToGLFormat(img);
-	
+        //QImage newimg = QGLWidget::convertToGLFormat(img);
 
-	/*glBindTexture(GL_TEXTURE_2D,texture[0]);
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-	glBindTexture(GL_TEXTURE_2D,texture[0]);*/
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.width(), img.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, img.bits() );       
-	//glTexSubImage2D(GL_TEXTURE_2D, 0, 0,0 , newimg.width(), newimg.height(),  GL_RGBA, GL_UNSIGNED_BYTE, newimg.bits() );       
-glBegin(GL_QUADS);   // in theory triangles are better
-glTexCoord2i(0,0); glVertex2i(0,height() / 2);
-glTexCoord2i(0,1); glVertex2i(0,0);
-glTexCoord2i(1,1); glVertex2i(width() / 2,0);
-glTexCoord2i(1,0); glVertex2i(width() / 2,height() / 2);
-	
-	
-	/*glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, newimg.width(), newimg.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, newimg.bits() );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-	glPushMatrix();
-	glBegin(GL_QUADS);
+
+        /*glBindTexture(GL_TEXTURE_2D,texture[0]);
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+    glBindTexture(GL_TEXTURE_2D,texture[0]);*/
+        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.width(), img.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, img.bits() );
+        //glTexSubImage2D(GL_TEXTURE_2D, 0, 0,0 , newimg.width(), newimg.height(),  GL_RGBA, GL_UNSIGNED_BYTE, newimg.bits() );
+        glBegin(GL_QUADS);   // in theory triangles are better
+        glTexCoord2i(0,0); glVertex2i(0,height() / 2);
+        glTexCoord2i(0,1); glVertex2i(0,0);
+        glTexCoord2i(1,1); glVertex2i(width() / 2,0);
+        glTexCoord2i(1,0); glVertex2i(width() / 2,height() / 2);
+
+
+        /*glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, newimg.width(), newimg.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, newimg.bits() );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+    glPushMatrix();
+    glBegin(GL_QUADS);
             glTexCoord2i(0, 0); glVertex2i(x, y);
             glTexCoord2i(1, 0); glVertex2i(x + w, y);
             glTexCoord2i(1, 1); glVertex2i(x + w, y + h);
             glTexCoord2i(0, 1); glVertex2i(x, y + h);*/
         glEnd();
-	glDisable(GL_BLEND);
-	//glPopMatrix();
-	//p.drawImage(0, 0, newimg);
-	//p.setPen(Qt::white);
-	//p.drawText(r, m_overlay);
-	
+        glDisable(GL_BLEND);
+        //glPopMatrix();
+        //p.drawImage(0, 0, newimg);
+        //p.setPen(Qt::white);
+        //p.drawText(r, m_overlay);
+
     }
     
     //p.end();
@@ -415,45 +415,45 @@ glTexCoord2i(1,0); glVertex2i(width() / 2,height() / 2);
     
     return;
     if (m_showPlay) {
-	    //glColor4f(1,1,1, 0.5);
-	    glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	    glBlendEquation(GL_FUNC_ADD); 
-	    glBlendFunc( GL_ONE, GL_ONE);
-	    //glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
-	    //glBlendFunc( GL_SRC_ALPHA, GL_ONE);    
-	    glColor4f(0.2,0.2,0.2, 0.6);
-	    //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA); 
-	    float x1,y1,x2,y2;
-	    double radius = 0.15;
-	    x1=0.49;
-	    y1=0.5;
-	    glBegin(GL_TRIANGLE_FAN);
-	    glTexCoord2f(x1,y1);
-	    glVertex2f(x + x1 * w,y + y1 * h);
-	    const float PI = 3.1415926535897932;
-	    for (float angle = 0.0; angle < 2.0*PI; angle += 2.0*PI/30.0) {
-		x2 = x1+sin(angle)*radius / w * h;
-		y2 = y1+cos(angle)*radius;
-		glTexCoord2f(x2, y2);
-		glVertex2f(x + x2 * w,y + y2 * h);
-	    }
-	    glEnd();
-	    //glDisable(GL_BLEND);
-	    //glBlendFunc( GL_SRC_ALPHA, GL_ONE);
-	    glColor4f(0.5,0.5,0.5, 0.7);
-	    glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
-	    //glBlendFunc( GL_ONE, GL_DST_ALPHA);
-	    //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA); 
-	    glBegin(GL_TRIANGLES);
-	    glTexCoord2f(0.45, 0.4);glVertex2f( x + 0.45 * w, y + 0.4 * h);
-	    glTexCoord2f(0.56, 0.5);glVertex2f( x + 0.56 * w, y + 0.5 * h);
-	    glTexCoord2f(0.45, 0.6);glVertex2f( x + 0.45 * w, y + 0.6 * h);
-	    glEnd();
-	    glDisable(GL_BLEND);
-	    
-	    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	}
+        //glColor4f(1,1,1, 0.5);
+        glEnable(GL_BLEND);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendEquation(GL_FUNC_ADD);
+        glBlendFunc( GL_ONE, GL_ONE);
+        //glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
+        //glBlendFunc( GL_SRC_ALPHA, GL_ONE);
+        glColor4f(0.2,0.2,0.2, 0.6);
+        //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
+        float x1,y1,x2,y2;
+        double radius = 0.15;
+        x1=0.49;
+        y1=0.5;
+        glBegin(GL_TRIANGLE_FAN);
+        glTexCoord2f(x1,y1);
+        glVertex2f(x + x1 * w,y + y1 * h);
+        const float PI = 3.1415926535897932;
+        for (float angle = 0.0; angle < 2.0*PI; angle += 2.0*PI/30.0) {
+            x2 = x1+sin(angle)*radius / w * h;
+            y2 = y1+cos(angle)*radius;
+            glTexCoord2f(x2, y2);
+            glVertex2f(x + x2 * w,y + y2 * h);
+        }
+        glEnd();
+        //glDisable(GL_BLEND);
+        //glBlendFunc( GL_SRC_ALPHA, GL_ONE);
+        glColor4f(0.5,0.5,0.5, 0.7);
+        glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+        //glBlendFunc( GL_ONE, GL_DST_ALPHA);
+        //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
+        glBegin(GL_TRIANGLES);
+        glTexCoord2f(0.45, 0.4);glVertex2f( x + 0.45 * w, y + 0.4 * h);
+        glTexCoord2f(0.56, 0.5);glVertex2f( x + 0.56 * w, y + 0.5 * h);
+        glTexCoord2f(0.45, 0.6);glVertex2f( x + 0.45 * w, y + 0.6 * h);
+        glEnd();
+        glDisable(GL_BLEND);
+
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    }
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent* event)
@@ -493,21 +493,27 @@ void GLWidget::enterEvent( QEvent * event )
 {
     QGLWidget::enterEvent(event);
     if (m_producer && m_producer->get_speed() == 0) {
-	m_showPlay = true;
+        m_showPlay = true;
     }
     else m_showPlay = false;
 }
 
 void GLWidget::slotSetZone(const QPoint &zone)
 {
-    m_zone = zone;
-    if (m_producer->get_speed() == 0) refreshConsumer();
+    if (m_zone != zone) {
+        m_zone = zone;
+        if (m_producer->get_speed() == 0)
+            refreshConsumer();
+    }
 }
 
-void GLWidget::slotSetMarks(QMap <int,QString> marks)
+void GLWidget::slotSetMarks(const QMap <int,QString> &marks)
 {
-    m_markers = marks;
-    if (m_producer->get_speed() == 0) refreshConsumer();
+    if (m_markers != marks) {
+        m_markers = marks;
+        if (m_producer->get_speed() == 0)
+            refreshConsumer();
+    }
 }
 
 void GLWidget::switchFullScreen()
@@ -566,10 +572,10 @@ void GLWidget::leaveEvent( QEvent * event )
 {
     QGLWidget::leaveEvent(event);
     if (m_showPlay) {
-	m_showPlay = false;
+        m_showPlay = false;
     }
     /*if (m_producer->get_speed() == 0) {
-	doneCurrent();
+    doneCurrent();
     }*/
 }
 
@@ -580,8 +586,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event)
         return;
     }
     if (event->buttons() == Qt::NoButton) {
-	if (m_overlayZone.contains(event->pos())) setCursor(Qt::PointingHandCursor);
-	else setCursor(Qt::ArrowCursor);
+        if (m_overlayZone.contains(event->pos())) setCursor(Qt::PointingHandCursor);
+        else setCursor(Qt::ArrowCursor);
     }
     //TODO: handle drag
     return;
@@ -600,26 +606,26 @@ void GLWidget::createShader()
         makeCurrent();
         m_shader = new QGLShaderProgram(this);
         m_shader->addShaderFromSourceCode(QGLShader::Fragment,
-        "uniform sampler2D Ytex, Utex, Vtex;"
-        "void main(void) {"
-        "  float r, g, b;"
-        "  vec4 txl, ux, vx;"
-        "  float nx = gl_TexCoord[0].x;"
-        "  float ny = gl_TexCoord[0].y;"
-        "  float y = texture2D(Ytex, vec2(nx, ny)).r;"
-        "  float u = texture2D(Utex, vec2(nx, ny)).r;"
-        "  float v = texture2D(Vtex, vec2(nx, ny)).r;"
+                                          "uniform sampler2D Ytex, Utex, Vtex;"
+                                          "void main(void) {"
+                                          "  float r, g, b;"
+                                          "  vec4 txl, ux, vx;"
+                                          "  float nx = gl_TexCoord[0].x;"
+                                          "  float ny = gl_TexCoord[0].y;"
+                                          "  float y = texture2D(Ytex, vec2(nx, ny)).r;"
+                                          "  float u = texture2D(Utex, vec2(nx, ny)).r;"
+                                          "  float v = texture2D(Vtex, vec2(nx, ny)).r;"
 
-        "  y = 1.1643 * (y - 0.0625);"
-        "  u = u - 0.5;"
-        "  v = v - 0.5;"
+                                          "  y = 1.1643 * (y - 0.0625);"
+                                          "  u = u - 0.5;"
+                                          "  v = v - 0.5;"
 
-        "  r = y + 1.5958  * v;"
-        "  g = y - 0.39173 * u - 0.81290 * v;"
-        "  b = y + 2.017   * u;"
+                                          "  r = y + 1.5958  * v;"
+                                          "  g = y - 0.39173 * u - 0.81290 * v;"
+                                          "  b = y + 2.017   * u;"
 
-        "  gl_FragColor = vec4(r, g, b, 1.0);"
-        "}");
+                                          "  gl_FragColor = vec4(r, g, b, 1.0);"
+                                          "}");
         m_shader->bind();
         doneCurrent();
     }
@@ -648,61 +654,61 @@ void GLWidget::showFrame(Mlt::QFrame frame)
         m_image_width = 0;
         m_image_height = 0;
         //makeCurrent();
-	int position = frame.frame()->get_position();
-	if (m_markers.contains(-position)) {
-	    // Zone in or out
-	    m_overlayText = m_markers.value(-position);
-	    m_overlayColor = QColor(255, 90, 90);
-	}
-	else if (m_markers.contains(position)) {
-	    // Marker
-	    m_overlayText = m_markers.value(position);
-	    m_overlayColor = QColor(60, 60, 255);
-	}
-	else {
-	    m_overlayText.clear();
-	    m_overlayZone = QRectF();
-	}
+        int position = frame.frame()->get_position();
+        if (m_markers.contains(-position)) {
+            // Zone in or out
+            m_overlayText = m_markers.value(-position);
+            m_overlayColor = QColor(255, 90, 90);
+        }
+        else if (m_markers.contains(position)) {
+            // Marker
+            m_overlayText = m_markers.value(position);
+            m_overlayColor = QColor(60, 60, 255);
+        }
+        else {
+            m_overlayText.clear();
+            m_overlayZone = QRectF();
+        }
         
-            const uint8_t* image = frame.frame()->get_image(m_image_format, m_image_width, m_image_height);
-/*glPushAttrib(GL_ALL_ATTRIB_BITS);
+        const uint8_t* image = frame.frame()->get_image(m_image_format, m_image_width, m_image_height);
+        /*glPushAttrib(GL_ALL_ATTRIB_BITS);
 glMatrixMode(GL_PROJECTION);
 glPushMatrix();
 glMatrixMode(GL_MODELVIEW);
 glPushMatrix();*/
-            // Copy each plane of YUV to a texture bound to shader program˙.
-            makeCurrent();
-            if (m_texture[0])
-                glDeleteTextures(3, m_texture);
-	    //m_shader->bind();
-            glPixelStorei  (GL_UNPACK_ROW_LENGTH, m_image_width);
-            glGenTextures  (3, m_texture);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture  (GL_TEXTURE_2D, m_texture[0]);
-            m_shader->setUniformValue(m_shader->uniformLocation("Ytex"), 0);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, m_image_width, m_image_height, 0,
-                            GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
+        // Copy each plane of YUV to a texture bound to shader program˙.
+        makeCurrent();
+        if (m_texture[0])
+            glDeleteTextures(3, m_texture);
+        //m_shader->bind();
+        glPixelStorei  (GL_UNPACK_ROW_LENGTH, m_image_width);
+        glGenTextures  (3, m_texture);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture  (GL_TEXTURE_2D, m_texture[0]);
+        m_shader->setUniformValue(m_shader->uniformLocation("Ytex"), 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, m_image_width, m_image_height, 0,
+                        GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
 
-            glActiveTexture(GL_TEXTURE1);
-            glBindTexture  (GL_TEXTURE_2D, m_texture[1]);
-            m_shader->setUniformValue(m_shader->uniformLocation("Utex"), 1);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, m_image_width/2, m_image_height/4, 0,
-                            GL_LUMINANCE, GL_UNSIGNED_BYTE, image + m_image_width * m_image_height);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture  (GL_TEXTURE_2D, m_texture[1]);
+        m_shader->setUniformValue(m_shader->uniformLocation("Utex"), 1);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, m_image_width/2, m_image_height/4, 0,
+                        GL_LUMINANCE, GL_UNSIGNED_BYTE, image + m_image_width * m_image_height);
 
-            glActiveTexture(GL_TEXTURE2);
-            glBindTexture  (GL_TEXTURE_2D, m_texture[2]);
-            m_shader->setUniformValue(m_shader->uniformLocation("Vtex"), 2);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, m_image_width/2, m_image_height/4, 0,
-                            GL_LUMINANCE, GL_UNSIGNED_BYTE, image + m_image_width * m_image_height + m_image_width/2 * m_image_height/2);
-	    //m_shader->release();
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture  (GL_TEXTURE_2D, m_texture[2]);
+        m_shader->setUniformValue(m_shader->uniformLocation("Vtex"), 2);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D   (GL_TEXTURE_2D, 0, GL_LUMINANCE, m_image_width/2, m_image_height/4, 0,
+                        GL_LUMINANCE, GL_UNSIGNED_BYTE, image + m_image_width * m_image_height + m_image_width/2 * m_image_height/2);
+        //m_shader->release();
         //glDraw();
-	doneCurrent();
+        doneCurrent();
         update();
     }
     showFrameSemaphore.release();
@@ -714,17 +720,17 @@ void GLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList <
 
     // Position might be negative to indicate the in point on the imageRendered signal.
     if (width == -1) {
-	height = 100;
-	width = height * profile().dar();
+        height = 100;
+        width = height * profile().dar();
     }
     int current = producer->position();
     while (!positions.isEmpty()) {
-	int position = positions.takeFirst();
-	producer->seek(qAbs(position));
-	Mlt::Frame* frame = producer->get_frame();
-	QImage image = MltController::image(frame, width, height);
-	emit imageRendered(id, position, image);
-	delete frame;
+        int position = positions.takeFirst();
+        producer->seek(qAbs(position));
+        Mlt::Frame* frame = producer->get_frame();
+        QImage image = MltController::image(frame, width, height);
+        emit imageRendered(id, position, image);
+        delete frame;
     }
     producer->seek(current);
     setUpdatesEnabled(true);
@@ -739,11 +745,11 @@ int GLWidget::reOpen(bool isMulti)
     bool reconnect = !m_consumer || !m_consumer->is_valid();
     error = reconfigure(isMulti);
     if (!error) {
-	if (reconnect)
-	    connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
-                        this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
+        if (reconnect)
+            connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
+                    this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
         resizeGL(width(), height());
-	//refreshConsumer();
+        //refreshConsumer();
     }
     return error;
 }
@@ -752,9 +758,9 @@ void GLWidget::slotGetThumb(ProducerWrapper *producer, int position)
 {
     //setUpdatesEnabled(false);
     if (!m_producer || m_producer->get_speed() != 0) {
-	// No thumbnail when playing
-	emit gotThumb(position, QImage());
-	return;
+        // No thumbnail when playing
+        emit gotThumb(position, QImage());
+        return;
     }
 
     QImage result = MltController::thumb(producer, position);
@@ -775,8 +781,8 @@ int GLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
                 connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
                         this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
             resizeGL(width(), height());
-	    refreshConsumer();
-	    update();
+            refreshConsumer();
+            update();
         }
     }
     //emit producerChanged();
@@ -803,7 +809,7 @@ int GLWidget::reconfigure(bool isMulti)
             m_consumer = new Mlt::FilteredConsumer(profile(), "multi");
         else {
             m_consumer = new Mlt::FilteredConsumer(profile(), serviceName.toAscii().constData());
-	}
+        }
 
         Mlt::Filter* filter = new Mlt::Filter(profile(), "audiolevel");
         if (filter->is_valid())
@@ -830,7 +836,7 @@ int GLWidget::reconfigure(bool isMulti)
             m_consumer->set("0.rescale", property("rescale").toString().toAscii().constData());
             m_consumer->set("0.deinterlace_method", property("deinterlace_method").toString().toAscii().constData());
             m_consumer->set("0.buffer", 25);
-	    m_consumer->set("0.prefill", 1);
+            m_consumer->set("0.prefill", 1);
         }
         else {
             if (serviceName == "sdl_audio")
@@ -841,19 +847,19 @@ int GLWidget::reconfigure(bool isMulti)
             m_consumer->set("rescale", property("rescale").toString().toAscii().constData());
             m_consumer->set("deinterlace_method", property("deinterlace_method").toString().toAscii().constData());*/
             m_consumer->set("buffer", 25);
-	    m_consumer->set("prefill", 1);
-	    m_consumer->set("terminate_on_pause", 1);
+            m_consumer->set("prefill", 1);
+            m_consumer->set("terminate_on_pause", 1);
             m_consumer->set("scrub_audio", 1);
         }
         m_image_format = mlt_image_yuv420p;
-	createShader();
-	emit started();
-	if (m_isLive) {
-	    //switchPlay();
-	    emit stateChanged();
-	}
-	else m_producer->set_speed(0.0);
-	m_consumer->start();
+        createShader();
+        emit started();
+        if (m_isLive) {
+            //switchPlay();
+            emit stateChanged();
+        }
+        else m_producer->set_speed(0.0);
+        m_consumer->start();
     }
     else {
         // Cleanup on error

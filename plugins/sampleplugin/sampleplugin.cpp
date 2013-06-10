@@ -99,7 +99,7 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
             }
         }
 
-        args << "-consumer"<<QString("xml:%1").arg(view.path->url().path());
+        args << "-consumer"<<QString::fromLatin1("xml:%1").arg(view.path->url().path());
         generatorProcess.start(renderer, args);
         if (generatorProcess.waitForFinished()) {
             if (generatorProcess.exitStatus() == QProcess::CrashExit) {

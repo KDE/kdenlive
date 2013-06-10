@@ -63,24 +63,24 @@ bool AudioSignal::monitoringEnabled() const
 
 static inline double IEC_Scale(double dB)
 {
-	double fScale = 1.0f;
+    double fScale = 1.0f;
 
-	if (dB < -70.0f)
-		fScale = 0.0f;
-	else if (dB < -60.0f)
-		fScale = (dB + 70.0f) * 0.0025f;
-	else if (dB < -50.0f)
-		fScale = (dB + 60.0f) * 0.005f + 0.025f;
-	else if (dB < -40.0)
-		fScale = (dB + 50.0f) * 0.0075f + 0.075f;
-	else if (dB < -30.0f)
-		fScale = (dB + 40.0f) * 0.015f + 0.15f;
-	else if (dB < -20.0f)
-		fScale = (dB + 30.0f) * 0.02f + 0.3f;
-	else if (dB < -0.001f || dB > 0.001f)  /* if (dB < 0.0f) */
-		fScale = (dB + 20.0f) * 0.025f + 0.5f;
+    if (dB < -70.0f)
+        fScale = 0.0f;
+    else if (dB < -60.0f)
+        fScale = (dB + 70.0f) * 0.0025f;
+    else if (dB < -50.0f)
+        fScale = (dB + 60.0f) * 0.005f + 0.025f;
+    else if (dB < -40.0)
+        fScale = (dB + 50.0f) * 0.0075f + 0.075f;
+    else if (dB < -30.0f)
+        fScale = (dB + 40.0f) * 0.015f + 0.15f;
+    else if (dB < -20.0f)
+        fScale = (dB + 30.0f) * 0.02f + 0.3f;
+    else if (dB < -0.001f || dB > 0.001f)  /* if (dB < 0.0f) */
+        fScale = (dB + 20.0f) * 0.025f + 0.5f;
 
-	return fScale;
+    return fScale;
 }
 
 void AudioSignal::slotAudioLevels(const QVector<double>& channels)
@@ -96,7 +96,7 @@ void AudioSignal::slotNoAudioTimeout()
     m_timer.stop();
 }
 
-void AudioSignal::showAudio(const QVector<double>& arr)
+void AudioSignal::showAudio(const QVector<double> &arr)
 {
     channels = arr;
     if (peeks.size() != channels.size()) {
@@ -169,15 +169,15 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
     }
     if (!horiz) {
         //draw db value at related pixel
-	QPen pen(QPalette().dark().color());
-	pen.setStyle(Qt::DotLine);
-	p.setPen(pen);
+        QPen pen(QPalette().dark().color());
+        pen.setStyle(Qt::DotLine);
+        p.setPen(pen);
         for (int l = 0; l < dbscale.size(); l++) {
             if (!horiz) {
                 double xf = IEC_Scale(dbscale[l]) * h;
                 if (showdb) p.drawText(0, height() - xf + 2,
-                           QString().sprintf("%s%d", dbscale[l] >= 0? "  " : "", dbscale[l]));
-		p.drawLine(dbsize, height() - xf, width(), height() - xf);
+                                       QString().sprintf("%s%d", dbscale[l] >= 0? "  " : "", dbscale[l]));
+                p.drawLine(dbsize, height() - xf, width(), height() - xf);
             } else {
                 double xf = IEC_Scale(dbscale[l]) * (double) width();
                 p.drawText(xf * 40.0/42.0 - 10, height() - 2,

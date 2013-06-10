@@ -23,6 +23,11 @@ class QAbstractItemView;
 class ProjectItemModel;
 class ProducerWrapper;
 class QSplitter;
+class Producer;
+class KToolBar;
+class QMenu;
+
+
 
 class ItemDelegate: public QStyledItemDelegate
 {
@@ -167,10 +172,6 @@ signals:
 };
 
 
-class Producer;
-class KToolBar;
-class QMenu;
-
 /**
  * @class Bin
  * @brief The bin widget takes care of both item model and view upon project opening.
@@ -223,7 +224,6 @@ private:
     QWidget *m_propertiesPanel;
     Producer *m_editedProducer;
     const QString getStyleSheet();
-
 };
 
 #endif

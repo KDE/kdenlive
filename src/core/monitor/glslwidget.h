@@ -65,9 +65,9 @@ signals:
     void positionChanged(int pos);
     void gpuNotSupported();
     void started();
-    void imageRendered(const QString &id, int position, QImage image);
+    void imageRendered(const QString &id, int position, const QImage &image);
     void producerChanged();
-    void gotThumb(int, QImage);
+    void gotThumb(int, const QImage&);
     void requestPlayPause();
 
 private:

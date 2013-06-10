@@ -54,7 +54,7 @@ public slots:
     void showFrame(Mlt::QFrame);
     void slotGetThumb(ProducerWrapper *producer, int position);
     void slotSetZone(const QPoint &zone);
-    void slotSetMarks(QMap <int,QString> marks);
+    void slotSetMarks(const QMap <int,QString> &marks);
 
 signals:
     /** This method will be called each time a new frame is available.
