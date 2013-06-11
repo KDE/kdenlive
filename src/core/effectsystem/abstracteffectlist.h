@@ -47,6 +47,8 @@ public:
      * @brief Should return the service this object or its parent represent.
      */
     virtual Mlt::Service service() = 0;
+    
+    void requestUpdateClip();
 
 public slots:
     /**
@@ -60,7 +62,10 @@ public slots:
      * @param description effect description for the effect to create
      */
     virtual void appendEffect(EffectDescription *description);
-
+    
+signals:
+    void updateClip();
+    
 protected:
     /** change! */
     EffectRepository *m_repository;

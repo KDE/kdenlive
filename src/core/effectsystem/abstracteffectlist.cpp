@@ -24,6 +24,11 @@ AbstractEffectList::~AbstractEffectList()
 {
 }
 
+void AbstractEffectList::requestUpdateClip()
+{
+    emit updateClip();
+}
+
 void AbstractEffectList::appendEffect(const QString& id)
 {
     AbstractEffectRepositoryItem *item = m_repository->effectDescription(id);

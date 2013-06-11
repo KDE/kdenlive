@@ -59,6 +59,8 @@ public:
      * @brief Returns a pointer to the main MLT repository
      */
     Mlt::Repository *repository();
+    
+    QMap<QString, QString> getEffectsList();
 
 private:
     void initRepository();

@@ -231,7 +231,7 @@ void TimelinePositionBar::paintEvent(QPaintEvent* event)
     const int offsetmax = maxval * m_smallMarkDistance;
     int offsetmin;
 
-    painter.setPen(palette().text().color());
+    painter.setPen(palette().dark().color());
 
     // draw time labels
     if (event->rect().y() < m_labelSize) {

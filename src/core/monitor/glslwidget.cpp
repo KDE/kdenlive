@@ -269,7 +269,7 @@ void GLSLWidget::wheelEvent(QWheelEvent* event)
 
 void GLSLWidget::mousePressEvent(QMouseEvent* event)
 {
-    //QGLWidget::mousePressEvent(event);
+    QGLWidget::mousePressEvent(event);
     if (event->button() == Qt::LeftButton)
         m_dragStart = event->pos();
     emit dragStarted();
@@ -293,8 +293,8 @@ void GLSLWidget::leaveEvent( QEvent * event )
         if (m_isActive) glDraw();
         //update();
     }
-    event->setAccepted(true);
-    //QGLWidget::leaveEvent(event);
+    //event->setAccepted(true);
+    QGLWidget::leaveEvent(event);
 }
 
 void GLSLWidget::mouseMoveEvent(QMouseEvent* event)
@@ -356,7 +356,7 @@ static void onThreadStopped(mlt_properties /*owner*/, GLSLWidget* self)
 
 void GLSLWidget::refreshConsumer()
 {
-    if (!m_isActive) return;
+    //if (!m_isActive) return;
     if (m_glslManager && m_consumer->is_stopped()) {
         this->makeCurrent();
         if (m_consumer) m_consumer->start();
@@ -376,6 +376,7 @@ void GLSLWidget::showFrame(Mlt::QFrame frame)
         if (m_glslManager && m_image_format == mlt_image_glsl_texture) {
             frame.frame()->set("movit.convert.use_texture", 1);
             const GLuint* textureId = (GLuint*) frame.frame()->get_image(m_image_format, m_image_width, m_image_height);
+	    if (!textureId) return;
             m_texture[0] = *textureId;
             if (!m_fbo || m_fbo->width() != m_image_width || m_fbo->height() != m_image_height) {
                 delete m_fbo;
@@ -516,7 +517,7 @@ int GLSLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
             update();
         }
     }
-    emit producerChanged();
+    //emit producerChanged();
     return error;
 }
 

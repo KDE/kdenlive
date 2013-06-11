@@ -117,8 +117,9 @@ bool MonitorManager::isAvailable(DISPLAYMODE mode)
         singleMonitorOnly = false;
         break;
     }
-    if (!singleMonitorOnly) return true;
-    // We can only have one monitorof that type
+    if (!singleMonitorOnly) 
+	return true;
+    // We can only have one monitor of that type
     QHashIterator<MONITORID, MonitorView*> i(m_monitors);
     while (i.hasNext()) {
         i.next();
@@ -131,6 +132,12 @@ bool MonitorManager::isAvailable(DISPLAYMODE mode)
 
 void MonitorManager::requestActivation(MONITORID id)
 {
+    m_lastActiveMonitor = m_monitors.value(id);
+    /*MonitorView newMonitor = m_monitors.value(id);
+    if (newMonitor == m_lastActiveMonitor)
+	return;*/
+    
+    /*if (m_lastActiveMonitor-> = m_monitors.value(id);
     QHashIterator<MONITORID, MonitorView*> i(m_monitors);
     while (i.hasNext()) {
         i.next();
@@ -141,8 +148,7 @@ void MonitorManager::requestActivation(MONITORID id)
     }
     if (!m_monitors.value(id)->isActive()) {
 	m_monitors.value(id)->activate();
-	m_lastActiveMonitor = m_monitors.value(id);
-    }
+    }*/
 }
 
 /*void MonitorManager::registerModel(const QString &id, MonitorModel* model, bool needsOwnView)

@@ -49,7 +49,7 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
 {
     m_layout = new QGridLayout(this);
     m_layout->setVerticalSpacing(0);
-    m_blackProducer = new ProducerWrapper(*m_profile, "blipflash");//color:black");
+    m_blackProducer = new ProducerWrapper(*m_profile, "color:black");
     m_blackProducer->set_in_and_out(0, 1);
     m_monitorProducer= m_blackProducer;
     
@@ -76,7 +76,7 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
         //TODO: build dummy controller
     }
     else {
-        if (pCore->monitorManager()->isAvailable(mode)) {
+        if (id == AutoMonitor || pCore->monitorManager()->isAvailable(mode)) {
             m_controller = buildController(mode);
         }
     }
@@ -220,7 +220,7 @@ void MonitorView::setProfile(Mlt::Profile *profile, bool reset)
     m_profile->get_profile()->display_aspect_den = profile->display_aspect_den();
     m_profile->set_explicit(1);
     delete m_blackProducer;
-    m_blackProducer = new ProducerWrapper(*profile, "blipflash");
+    m_blackProducer = new ProducerWrapper(*profile, "color:black");
     m_blackProducer->set_in_and_out(0, 1);
     if (reset) {
         m_monitorProducer = m_blackProducer;
@@ -363,7 +363,7 @@ void MonitorView::addMonitorRole(MONITORID role)
 
 void MonitorView::seek(int pos, MONITORID role)
 {
-    if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
+    //if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
     toggleMonitorRole(role);
     if (role == RecordMonitor) {
         // No seeking allowed on live sources
@@ -379,7 +379,7 @@ void MonitorView::seek(int pos, MONITORID role)
 
 void MonitorView::relativeSeek(int pos, MONITORID role)
 {
-    if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
+    //if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
     toggleMonitorRole(role);
     if (role == RecordMonitor) {
         // No seeking allowed on live sources
@@ -396,7 +396,7 @@ void MonitorView::relativeSeek(int pos, MONITORID role)
 
 void MonitorView::togglePlaybackState()
 {
-    if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
+    //if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
     /*if (m_playAction->isActive()) m_controller->play(1.0);
     else m_controller->pause();*/
     m_playAction->setActive(!m_playAction->isActive());
@@ -405,10 +405,10 @@ void MonitorView::togglePlaybackState()
 
 void MonitorView::checkPlaybackState()
 {
-    if (!m_controller->isActive()) {
+    /*if (!m_controller->isActive()) {
         pCore->monitorManager()->requestActivation(m_id);
         //m_controller->reOpen();
-    }
+    }*/
     if (m_playAction->isActive()) m_controller->play(1.0);
     else m_controller->pause();
 }
@@ -512,7 +512,7 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, const QPoint &z
     if (producer != m_blackProducer) m_normalProducer.insert(m_currentRole, producer);
     if (m_controller->displayType() == MLTGLSL) {
         QString resource = producer->resourceName();
-        ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, resource);
+        ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, resource, producer->serviceName());
         GPUProducer->seek(producer->position());
         if (producer != m_blackProducer) m_GPUProducer.insert(m_currentRole, GPUProducer);
         m_monitorProducer = GPUProducer;
@@ -627,6 +627,7 @@ void MonitorView::toggleMonitorMode(DISPLAYMODE mode, bool checkAvailability)
     int pos = m_controller->position();
     m_controller->stop();
     QString resource = m_monitorProducer->resourceName();
+    QString service = m_monitorProducer->serviceName();
     DISPLAYMODE previousMode = m_controller->displayType();
     m_controller->closeConsumer();
     //m_controller->close();
@@ -639,7 +640,7 @@ void MonitorView::toggleMonitorMode(DISPLAYMODE mode, bool checkAvailability)
         // Switching to GPU acclerated
         // Special case: glsl uses different normalizers, we must recreate the producer
         if (!m_GPUProducer.contains(m_currentRole)) {
-            ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, resource);
+            ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, resource, service);
             GPUProducer->seek(m_monitorProducer->position());
             m_GPUProducer.insert(m_currentRole, GPUProducer);
             //m_normalProducer = m_monitorProducer;

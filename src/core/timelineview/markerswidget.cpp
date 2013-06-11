@@ -17,8 +17,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KAction>
 #include <QStyle>
 
-MarkersWidget::MarkersWidget(QWidget* parent) :
-    QWidget(parent)
+MarkersWidget::MarkersWidget(KToolBar *toolbar, QWidget* parent) :
+    ToolPanel(parent)
+    , m_toolbar(toolbar)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
@@ -26,26 +27,27 @@ MarkersWidget::MarkersWidget(QWidget* parent) :
     m_list->setFrameShape(QFrame::NoFrame);
     m_list->setStyleSheet(QString("QListWidget { background-color: transparent;}"));
     layout->addWidget(m_list);
-    KToolBar *toolbar = new KToolBar(this);
-    toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    toolbar->setIconDimensions(style()->pixelMetric(QStyle::PM_SmallIconSize));
-    KAction *addAction = new KAction(KIcon("list-add"), i18n("Add Marker"), this);
-    toolbar->addAction(addAction);
+    m_addAction = new KAction(KIcon("list-add"), i18n("Add Marker"), this);
     m_removeAction = new KAction(KIcon("list-remove"), i18n("Delete Marker"), this);
-    toolbar->addAction(m_removeAction);
     m_editAction = new KAction(KIcon("document-edit"), i18n("Edit Marker"), this);
-    toolbar->addAction(m_editAction);
-    connect(addAction, SIGNAL(triggered ()), this, SIGNAL(addMarker()));
+    connect(m_addAction, SIGNAL(triggered ()), this, SIGNAL(addMarker()));
     connect(m_removeAction, SIGNAL(triggered ()), this, SLOT(slotRemoveMarker()));
     m_removeAction->setEnabled(false);
     m_editAction->setEnabled(false);
-    layout->addWidget(toolbar);
     
     connect(m_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotActivateMarker(int)));
 }
 
 MarkersWidget::~MarkersWidget()
 {
+}
+
+void MarkersWidget::fillToolBar()
+{
+    m_toolbar->clear();
+    m_toolbar->addAction(m_addAction);
+    m_toolbar->addAction(m_removeAction);
+    m_toolbar->addAction(m_editAction);
 }
 
 void MarkersWidget::setProject()

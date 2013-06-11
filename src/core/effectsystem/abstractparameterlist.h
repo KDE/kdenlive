@@ -61,6 +61,7 @@ public:
      * @param name name/id of the parameter
      */
     virtual QString parameterValue(const QString &name) const = 0;
+
 };
 
 #endif

@@ -189,6 +189,7 @@ public:
     Bin(QWidget* parent = 0);
     ~Bin();
     void setActionMenus(QMenu *producerMenu);
+    static const QString getStyleSheet();
 
 private slots:
     void setProject(Project *project);
@@ -223,7 +224,7 @@ private:
     EventEater *m_eventEater;
     QWidget *m_propertiesPanel;
     Producer *m_editedProducer;
-    const QString getStyleSheet();
+    
 };
 
 #endif

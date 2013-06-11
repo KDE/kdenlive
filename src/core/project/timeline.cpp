@@ -189,6 +189,7 @@ Mlt::Profile* Timeline::profile() const
 
 ProducerWrapper* Timeline::producer()
 {
+    if (m_clipBinProducer) return m_clipBinProducer;
     return m_producer;
 }
 

@@ -20,14 +20,17 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/binmodel.h"
 #include "project/projectmanager.h"
 #include "monitor/monitorview.h"
+#include "effectsystem/effectswidget.h"
 #include "core.h"
 #include <QGridLayout>
 #include <QScrollBar>
 #include <QStyle>
+#include <QSplitter>
 #include <QStackedWidget>
 #include <KToolBar>
 #include <KAction>
 #include <KLocale>
+#include <KDebug>
 #include <KComboBox>
 
 
@@ -55,23 +58,39 @@ TimelineWidget::TimelineWidget(QWidget* parent) :
 
     m_headerContainer = new TrackHeaderContainer(this);
     layout->addWidget(m_headerContainer, 1, 0);
-
-    m_view = new TimelineView(this);
-    layout->addWidget(m_view, 1, 1);
     
+    m_splitter = new QSplitter(this);
+    layout->addWidget(m_splitter, 1,1);
+
+    m_view = new TimelineView(m_splitter);
+    m_splitter->addWidget(m_view);
+    
+    // Create tool panel for markers, effects, etc
     m_toolContainer = new QFrame(this);
     m_toolContainer->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-    QVBoxLayout *l = new QVBoxLayout;
+    QGridLayout *l = new QGridLayout;
     m_toolPanelSelector = new KComboBox(m_toolContainer);
+    m_toolPanelSelector->addItem(i18n("Effects"));
     m_toolPanelSelector->addItem(i18n("Markers"));
-    l->addWidget(m_toolPanelSelector);
+    l->addWidget(m_toolPanelSelector, 0, 0);
+    
+    KToolBar *toolbar = new KToolBar(this);
+    toolbar->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    toolbar->setIconDimensions(style()->pixelMetric(QStyle::PM_SmallIconSize));
+    l->addWidget(toolbar, 0, 1);
+    
+    
     m_toolPanel = new QStackedWidget(m_toolContainer);
-    m_markersWidget = new MarkersWidget(this);
+    m_markersWidget = new MarkersWidget(toolbar, this);
+    m_effectContainer = new EffectsWidget(toolbar, pCore->effectRepository(), this);
+    m_toolPanel->addWidget(m_effectContainer);
+    m_effectContainer->fillToolBar();
     m_toolPanel->addWidget(m_markersWidget);
-    l->addWidget(m_toolPanel);
+    l->addWidget(m_toolPanel, 1, 0, 1, 2);
     m_toolContainer->setLayout(l);
-    layout->addWidget(m_toolContainer, 0, 2, -1, 1);
-    m_toolContainer->setVisible(false);
+    m_splitter->addWidget(m_toolContainer);
+    //m_toolContainer->setVisible(false);
     m_toolManager = new ToolManager(this);
 
 
@@ -82,11 +101,26 @@ TimelineWidget::TimelineWidget(QWidget* parent) :
     connect(m_view->verticalScrollBar(), SIGNAL(valueChanged(int)), m_headerContainer->verticalScrollBar(), SLOT(setValue(int)));
     connect(m_headerContainer->verticalScrollBar(), SIGNAL(valueChanged(int)), m_view->verticalScrollBar(), SLOT(setValue(int)));
     connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
+    connect(m_toolPanelSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSwitchToolPanel(int)));
 }
 
 TimelineWidget::~TimelineWidget()
 {
     delete m_clipTimeline;
+}
+
+void TimelineWidget::slotSwitchToolPanel(int ix)
+{
+    m_toolPanel->setCurrentIndex(ix);
+    ToolPanel *panel = static_cast <ToolPanel *>(m_toolPanel->widget(ix));
+    panel->fillToolBar();
+}
+
+void TimelineWidget::createEffectWidget()
+{
+    if (m_clipTimeline) {
+	m_effectContainer->setTimeline(m_clipTimeline);
+    }
 }
 
 void TimelineWidget::setProject(Project* project)
@@ -122,8 +156,9 @@ void TimelineWidget::setClipTimeline(Timeline *timeline)
     connect(m_monitor, SIGNAL(positionChanged(int,bool)), m_positionBar, SLOT(setCursorPosition(int,bool)));
     connect(m_markersWidget, SIGNAL(addMarker()), this, SLOT(slotAddMarker()));
     connect(m_markersWidget, SIGNAL(removeMarker(int)), this, SLOT(slotRemoveMarker(int)));
-    
+    connect(m_effectContainer, SIGNAL(refreshMonitor()), m_monitor, SLOT(refresh()));
     connect(m_markersWidget, SIGNAL(seek(int)), m_positionBar, SLOT(slotSeek(int)));
+    createEffectWidget();
 }
 
 TimelineScene* TimelineWidget::scene()

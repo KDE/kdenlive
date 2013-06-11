@@ -12,9 +12,11 @@ the Free Software Foundation, either version 3 of the License, or
 #define MARKERSWIDGET_H
 
 #include <QWidget>
+#include <effectsystem/effectswidget.h>
 
 class KAction;
 class QListWidget;
+class KToolBar;
 
 /**
  * @class MarkersWidget
@@ -22,15 +24,15 @@ class QListWidget;
  */
 
 
-class MarkersWidget : public QWidget
+class MarkersWidget : public ToolPanel
 {
     Q_OBJECT
 
 public:
     /** @brief Creates the sub widgets and a tool manager. */
-    explicit MarkersWidget(QWidget* parent = 0);
+    explicit MarkersWidget(KToolBar *toolbar, QWidget* parent = 0);
     virtual ~MarkersWidget();
-    
+    void fillToolBar();
     void setMarkers(const QList <int> &markers);
 
 private slots:
@@ -38,11 +40,13 @@ private slots:
     void setProject();
     void slotActivateMarker(int ix);
     void slotRemoveMarker();
-
+    
 private:
     QListWidget *m_list;
+    KAction *m_addAction;
     KAction *m_removeAction;
     KAction *m_editAction;
+    KToolBar *m_toolbar;
 
 signals:
     void addMarker();

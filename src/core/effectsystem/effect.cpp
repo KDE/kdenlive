@@ -22,8 +22,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Effect::Effect(EffectDescription *effectDescription, AbstractEffectList* parent) :
-    AbstractParameterList(parent),
-    m_description(effectDescription)
+    AbstractParameterList(parent)
+    , m_parent(parent)
+    , m_description(effectDescription)
 {
     m_filter = new Mlt::Filter(*parent->service().profile(), effectDescription->tag().toUtf8().constData());
     setProperty("kdenlive_id", m_description->getId());
@@ -54,6 +55,7 @@ QString Effect::parameterValue(const QString &name) const
 void Effect::setProperty(const QString &name, const QString &value)
 {
     m_filter->set(name.toUtf8().constData(), value.toUtf8().constData());
+    m_parent->requestUpdateClip();
 }
 
 QString Effect::property(const QString &name) const

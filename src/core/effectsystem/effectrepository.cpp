@@ -130,3 +130,16 @@ AbstractParameterDescription* EffectRepository::newParameterDescription(const QS
     return m_core->newParameterDescription(type);
 }
 
+QMap<QString, QString> EffectRepository::getEffectsList()
+{
+    QMap<QString, QString> effects;
+    QMap<QString, AbstractEffectRepositoryItem*>::const_iterator i = m_effects.constBegin();
+    while (i != m_effects.constEnd()) {
+	EffectDescription *desc = static_cast<EffectDescription *>(i.value());
+	effects.insert(desc->displayName(), i.key());
+	++i;
+    }
+    return effects;
+}
+
+

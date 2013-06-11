@@ -24,9 +24,11 @@ class TrackHeaderContainer;
 class KToolBar;
 class QStackedWidget;
 class MarkersWidget;
+class EffectsWidget;
 class MonitorView;
 class KComboBox;
 class QFrame;
+class QSplitter;
 
 /**
  * @class TimelineWidget
@@ -59,6 +61,7 @@ private slots:
     void setProject(Project *project);
     void slotAddMarker();
     void slotRemoveMarker(int pos);
+    void slotSwitchToolPanel(int ix);
 
 private:
     TimelineScene *m_scene;
@@ -72,7 +75,14 @@ private:
     MonitorView *m_monitor;
     QStackedWidget *m_toolPanel;
     MarkersWidget *m_markersWidget;
+    EffectsWidget *m_effectContainer;
     KComboBox *m_toolPanelSelector;
+    QSplitter *m_splitter;
+    
+    void createEffectWidget();
+    
+signals:
+    
 };
 
 #endif

@@ -90,9 +90,10 @@ public:
 private slots:
     void setDisabled(bool disabled);
     void setPropertiesViewCollapsed(bool collapsed);
-
+    
 private:
     Mlt::Filter *m_filter;
+    AbstractEffectList* m_parent;
     EffectDescription *m_description;
 };
 

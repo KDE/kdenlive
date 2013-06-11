@@ -16,6 +16,7 @@ set(effectsystem_SRCS
   effectsystem/effectrepository.cpp
   effectsystem/effectsystemitem.cpp
   effectsystem/multiviewhandler.cpp
+  effectsystem/effectswidget.cpp
   PARENT_SCOPE
 )
 
