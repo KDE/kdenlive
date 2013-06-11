@@ -48,7 +48,7 @@ GLSLWidget::GLSLWidget(Mlt::Profile *profile, QWidget *parent)
     , m_renderContext(0)
 {
     m_display_ratio = 4.0/3.0;
-    m_texture[0] = m_texture[1] = m_texture[2] = 0;
+    m_texture[0] = 0;
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

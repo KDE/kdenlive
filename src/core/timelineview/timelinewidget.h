@@ -68,10 +68,10 @@ private:
     ToolManager *m_toolManager;
     KToolBar *m_toolbar;
     QFrame *m_toolContainer;
+    Timeline *m_clipTimeline;
     MonitorView *m_monitor;
     QStackedWidget *m_toolPanel;
     MarkersWidget *m_markersWidget;
-    Timeline *m_clipTimeline;
     KComboBox *m_toolPanelSelector;
 };
 
