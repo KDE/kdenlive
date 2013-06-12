@@ -83,7 +83,6 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-
 Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
 {
     if (!index.isValid()) {
@@ -179,7 +178,7 @@ int ProjectItemModel::columnCount(const QModelIndex& parent) const
 QStringList ProjectItemModel::mimeTypes() const
 {
     QStringList types;
-    types << "kdenlive/clip";
+    types << QLatin1String("kdenlive/clip");
     return types;
 }
 
@@ -194,8 +193,8 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
             QStringList list;
             list << clip->id();
             QByteArray data;
-            data.append(list.join(";").toUtf8());
-            mimeData->setData("kdenlive/clip",  data);
+            data.append(list.join(QLatin1String(";")).toUtf8());
+            mimeData->setData(QLatin1String("kdenlive/clip"),  data);
             return mimeData;
         }
     }
