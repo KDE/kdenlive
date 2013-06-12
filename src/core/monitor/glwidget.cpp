@@ -64,7 +64,8 @@ void GLWidget::activate()
 GLWidget::~GLWidget()
 {
     makeCurrent();
-    if (m_texture[0]) glDeleteTextures(3, m_texture);
+    if (m_texture[0])
+        glDeleteTextures(3, m_texture);
     delete m_fbo;
 }
 

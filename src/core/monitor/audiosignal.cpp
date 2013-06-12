@@ -172,7 +172,7 @@ void AudioSignal::paintEvent(QPaintEvent* /*e*/)
         QPen pen(QPalette().dark().color());
         pen.setStyle(Qt::DotLine);
         p.setPen(pen);
-        for (int l = 0; l < dbscale.size(); l++) {
+        for (int l = 0; l < dbscale.size(); ++l) {
             if (!horiz) {
                 double xf = IEC_Scale(dbscale[l]) * h;
                 if (showdb) p.drawText(0, height() - xf + 2,
