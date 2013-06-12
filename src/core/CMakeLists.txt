@@ -32,9 +32,9 @@ kde4_add_ui_files(kdenlivecore_UIS
   ${timelineview_UIS}
 )
 
-message(${kdenlivecore_UIS})
-message(${CMAKE_CURRENT_BINARY_DIR})
-message(${CMAKE_BINARY_DIR})
+#message(${kdenlivecore_UIS})
+#message(${CMAKE_CURRENT_BINARY_DIR})
+#message(${CMAKE_BINARY_DIR})
 
 # KDE definitions and include directories *must* always come first, Qt follows
 # (to avoid breaking builds when KDE and/or Qt are installed to different
