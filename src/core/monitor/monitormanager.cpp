@@ -66,7 +66,7 @@ MonitorManager::MonitorManager(QObject* parent) :
         pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);
         m_monitors.insert(autoView->id(), autoView);
         connect(autoView, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
-        connect(autoView, SIGNAL(zoneChanged(MONITORID, QPoint)), this, SLOT(slotManageZoneChange(MONITORID, QPoint)));
+        connect(autoView, SIGNAL(zoneChanged(MONITORID,QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
         m_lastActiveMonitor = autoView;
     }
     else {
@@ -74,7 +74,7 @@ MonitorManager::MonitorManager(QObject* parent) :
         pCore->window()->addDock(i18n("Clip Monitor"), "clip_monitor", autoView);
         m_monitors.insert(autoView->id(), autoView);
         connect(autoView, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
-        connect(autoView, SIGNAL(zoneChanged(MONITORID, QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
+        connect(autoView, SIGNAL(zoneChanged(MONITORID,QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
 
         MonitorView *autoView2 = new MonitorView(mode, new Mlt::Profile(), ProjectMonitor, ProjectMonitor, pCore->window());
         pCore->window()->addDock(i18n("Project Monitor"), "project_monitor", autoView2);

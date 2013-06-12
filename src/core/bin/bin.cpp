@@ -173,7 +173,7 @@ void Bin::setProject(Project* project)
     m_itemModel->setIconSize(m_iconSize);
     connect(m_itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
     connect(m_itemModel, SIGNAL(selectModel(QModelIndex)), this, SLOT(selectModel(QModelIndex)));
-    connect(m_itemModel, SIGNAL(markersNeedUpdate(const QString&,const QList <int>)), this, SLOT(slotMarkersNeedUpdate(const QString&,const QList <int>)));
+    connect(m_itemModel, SIGNAL(markersNeedUpdate(QString,QList<int>)), this, SLOT(slotMarkersNeedUpdate(QString,QList<int>)));
     connect(m_eventEater, SIGNAL(focusClipMonitor()), project->bin()->monitor(), SLOT(slotFocusClipMonitor()), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(editItemInTimeline(QString,QString,ProducerWrapper*)), this, SLOT(slotOpenClipTimeline(QString,QString,ProducerWrapper*)), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(editItem(QString)), this, SLOT(showClipProperties(QString)), Qt::UniqueConnection);

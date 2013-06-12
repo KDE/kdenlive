@@ -30,8 +30,8 @@ MarkersWidget::MarkersWidget(KToolBar *toolbar, QWidget* parent) :
     m_addAction = new KAction(KIcon("list-add"), i18n("Add Marker"), this);
     m_removeAction = new KAction(KIcon("list-remove"), i18n("Delete Marker"), this);
     m_editAction = new KAction(KIcon("document-edit"), i18n("Edit Marker"), this);
-    connect(m_addAction, SIGNAL(triggered ()), this, SIGNAL(addMarker()));
-    connect(m_removeAction, SIGNAL(triggered ()), this, SLOT(slotRemoveMarker()));
+    connect(m_addAction, SIGNAL(triggered()), this, SIGNAL(addMarker()));
+    connect(m_removeAction, SIGNAL(triggered()), this, SLOT(slotRemoveMarker()));
     m_removeAction->setEnabled(false);
     m_editAction->setEnabled(false);
     
