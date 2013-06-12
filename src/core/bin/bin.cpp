@@ -186,7 +186,7 @@ void Bin::setProject(Project* project)
 
 void Bin::rowsInserted(const QModelIndex &/*parent*/, int /*start*/, int end)
 {
-    QModelIndex id = m_itemModel->index(end, 0, QModelIndex());
+    const QModelIndex id = m_itemModel->index(end, 0, QModelIndex());
     selectModel(id);
 }
 

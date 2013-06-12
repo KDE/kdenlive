@@ -186,7 +186,7 @@ class KDENLIVECORE_EXPORT Bin : public QWidget
     enum BinViewType {BinTreeView, BinIconView };
 
 public:
-    Bin(QWidget* parent = 0);
+    explicit Bin(QWidget* parent = 0);
     ~Bin();
     void setActionMenus(QMenu *producerMenu);
     static const QString getStyleSheet();

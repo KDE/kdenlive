@@ -157,6 +157,7 @@ void MonitorView::slotZoneChanged(const QPoint &zone)
 {
     emit zoneChanged(m_currentRole, zone);
 }
+
 MltController *MonitorView::buildController(DISPLAYMODE mode)
 {
     MltController *cont = NULL;
@@ -282,7 +283,7 @@ void MonitorView::connectController(bool doConnect)
         connect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
         connect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
         connect(this, SIGNAL(requestThumb(ProducerWrapper*,int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper*,int)));
-	connect(m_positionBar, SIGNAL(zoneChanged(QPoint)), m_controller->videoWidget(), SLOT(slotSetZone(QPoint)));
+        connect(m_positionBar, SIGNAL(zoneChanged(QPoint)), m_controller->videoWidget(), SLOT(slotSetZone(QPoint)));
         connect(m_positionBar, SIGNAL(marksChanged(QMap<int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap<int,QString>)));
     }
     else {
@@ -293,7 +294,7 @@ void MonitorView::connectController(bool doConnect)
         disconnect(m_controller->videoWidget(), SIGNAL(seekTo(int)), this, SLOT(seek(int)));
         disconnect(m_controller->videoWidget(), SIGNAL(stateChanged()), this, SLOT(slotCheckPlayState()));
         disconnect(this, SIGNAL(requestThumb(ProducerWrapper*,int)), m_controller->videoWidget(), SLOT(slotGetThumb(ProducerWrapper*,int)));
-	disconnect(m_positionBar, SIGNAL(zoneChanged(QPoint)), m_controller->videoWidget(), SLOT(slotSetZone(QPoint)));
+        disconnect(m_positionBar, SIGNAL(zoneChanged(QPoint)), m_controller->videoWidget(), SLOT(slotSetZone(QPoint)));
         disconnect(m_positionBar, SIGNAL(marksChanged(QMap<int,QString>)), m_controller->videoWidget(), SLOT(slotSetMarks(QMap<int,QString>)));
     }
 }
@@ -503,7 +504,7 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, const QPoint &z
         m_currentRole = role;
         addMonitorRole(role);
     }
-    if (m_monitorProducer == producer) return 0;    
+    if (m_monitorProducer == producer) return 0;
     if (m_GPUProducer.contains(m_currentRole)) {
         if (m_controller->displayType() == MLTGLSL) m_normalProducer.value(m_currentRole)->seek(m_GPUProducer.value(m_currentRole)->position());
         m_controller->stop();
@@ -522,9 +523,9 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, const QPoint &z
     }
     int error = m_controller->open(m_monitorProducer, isMulti, m_currentRole == RecordMonitor);
     if (!error) {
-	onProducerChanged();
-	m_zoneAction->setChecked(!zone.isNull());
-	m_positionBar->setZone(zone);
+        onProducerChanged();
+        m_zoneAction->setChecked(!zone.isNull());
+        m_positionBar->setZone(zone);
     }
     if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
     return error;

@@ -151,8 +151,8 @@ void MltCore::loadParameterPlugins()
         KPluginFactory *factory = KPluginLoader(availableParameterServices.at(i)->library()).factory();
         KPluginInfo info = KPluginInfo(availableParameterServices.at(i));
         if (factory && info.isValid()) {
-            QStringList types = info.property("X-Kdenlive-ParameterType").toStringList();
-            foreach(QString type, types) {
+            const QStringList types = info.property("X-Kdenlive-ParameterType").toStringList();
+            foreach(const QString &type, types) {
                 m_parameterPlugins.insert(type, factory);
             }
         }

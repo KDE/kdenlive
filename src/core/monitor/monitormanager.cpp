@@ -66,22 +66,22 @@ MonitorManager::MonitorManager(QObject* parent) :
         pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);
         m_monitors.insert(autoView->id(), autoView);
         connect(autoView, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
-	connect(autoView, SIGNAL(zoneChanged(MONITORID, QPoint)), this, SLOT(slotManageZoneChange(MONITORID, QPoint)));
-	m_lastActiveMonitor = autoView;
+        connect(autoView, SIGNAL(zoneChanged(MONITORID, QPoint)), this, SLOT(slotManageZoneChange(MONITORID, QPoint)));
+        m_lastActiveMonitor = autoView;
     }
     else {
         MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), ClipMonitor, ClipMonitor, pCore->window());
         pCore->window()->addDock(i18n("Clip Monitor"), "clip_monitor", autoView);
         m_monitors.insert(autoView->id(), autoView);
         connect(autoView, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
-	connect(autoView, SIGNAL(zoneChanged(MONITORID, QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
+        connect(autoView, SIGNAL(zoneChanged(MONITORID, QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
 
         MonitorView *autoView2 = new MonitorView(mode, new Mlt::Profile(), ProjectMonitor, ProjectMonitor, pCore->window());
         pCore->window()->addDock(i18n("Project Monitor"), "project_monitor", autoView2);
         m_monitors.insert(autoView2->id(), autoView2);
         connect(autoView2, SIGNAL(controllerChanged(MONITORID,MltController*)), this, SLOT(updateController(MONITORID,MltController*)));
-	connect(autoView2, SIGNAL(zoneChanged(MONITORID,QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
-	m_lastActiveMonitor = autoView2;
+        connect(autoView2, SIGNAL(zoneChanged(MONITORID,QPoint)), this, SLOT(slotManageZoneChange(MONITORID,QPoint)));
+        m_lastActiveMonitor = autoView2;
     }
     
     //connect(m_modelSignalMapper, SIGNAL(mapped(QString)), this, SLOT(onModelActivated(QString)));
@@ -117,8 +117,8 @@ bool MonitorManager::isAvailable(DISPLAYMODE mode)
         singleMonitorOnly = false;
         break;
     }
-    if (!singleMonitorOnly) 
-	return true;
+    if (!singleMonitorOnly)
+        return true;
     // We can only have one monitor of that type
     QHashIterator<MONITORID, MonitorView*> i(m_monitors);
     while (i.hasNext()) {
@@ -135,7 +135,7 @@ void MonitorManager::requestActivation(MONITORID id)
     m_lastActiveMonitor = m_monitors.value(id);
     /*MonitorView newMonitor = m_monitors.value(id);
     if (newMonitor == m_lastActiveMonitor)
-	return;*/
+    return;*/
     
     /*if (m_lastActiveMonitor-> = m_monitors.value(id);
     QHashIterator<MONITORID, MonitorView*> i(m_monitors);
@@ -147,7 +147,7 @@ void MonitorManager::requestActivation(MONITORID id)
         }
     }
     if (!m_monitors.value(id)->isActive()) {
-	m_monitors.value(id)->activate();
+    m_monitors.value(id)->activate();
     }*/
 }
 
@@ -238,7 +238,7 @@ void MonitorManager::slotManageZoneChange(MONITORID id,const QPoint &zone)
         return;
     }
     if (id == ClipMonitor) {
-	project->bin()->setCurrentClipZone(zone);
+        project->bin()->setCurrentClipZone(zone);
     }
 }
 

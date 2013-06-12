@@ -26,7 +26,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 EffectRepository::EffectRepository(MltCore *core) :
-      m_core(core)
+    m_core(core)
 {
     initRepository();
 }
@@ -135,9 +135,9 @@ QMap<QString, QString> EffectRepository::getEffectsList()
     QMap<QString, QString> effects;
     QMap<QString, AbstractEffectRepositoryItem*>::const_iterator i = m_effects.constBegin();
     while (i != m_effects.constEnd()) {
-	EffectDescription *desc = static_cast<EffectDescription *>(i.value());
-	effects.insert(desc->displayName(), i.key());
-	++i;
+        EffectDescription *desc = static_cast<EffectDescription *>(i.value());
+        effects.insert(desc->displayName(), i.key());
+        ++i;
     }
     return effects;
 }
