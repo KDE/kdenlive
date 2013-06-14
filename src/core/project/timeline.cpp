@@ -131,10 +131,15 @@ QString Timeline::getBlankDocument(Mlt::Profile *profile) const
     Mlt::Tractor tractor;
     Mlt::Playlist playlist1(*profile);
     Mlt::Playlist playlist2(*profile);
+    Mlt::Playlist playlist3(*profile);
+    playlist1.set("id", "black_track");
+    Mlt::Producer prod1(*profile, "color:black");
+    playlist1.insert_at(0, prod1);
     
     //TODO: proper number of tracks, etc...
     tractor.set_track(playlist1, 0);
     tractor.set_track(playlist2, 1);
+    tractor.set_track(playlist3, 2);
     xmlConsumer.set("terminate_on_pause", 1);
     Mlt::Producer prod(tractor.get_producer());
     if (!prod.is_valid()) return QString();
