@@ -51,7 +51,7 @@ MonitorView::MonitorView(DISPLAYMODE mode, Mlt::Profile *profile, MONITORID id, 
     m_layout->setVerticalSpacing(0);
     m_blackProducer = new ProducerWrapper(*m_profile, "color:black");
     m_blackProducer->set_in_and_out(0, 1);
-    m_monitorProducer= m_blackProducer;
+    m_monitorProducer= NULL;
     
     // Setup monitor modes
     m_monitorMode = new KSelectAction(this);
@@ -223,13 +223,10 @@ void MonitorView::setProfile(Mlt::Profile *profile, bool reset)
     delete m_blackProducer;
     m_blackProducer = new ProducerWrapper(*profile, "color:black");
     m_blackProducer->set_in_and_out(0, 1);
+    m_monitorProducer = NULL;
     if (reset) {
-        m_monitorProducer = m_blackProducer;
-        open(m_blackProducer);
+        open(NULL);
     }
-    else m_monitorProducer = NULL;
-    //seek(position);
-    //m_controller->play(speed);
     return;
 
     m_controller->closeConsumer();
@@ -497,7 +494,8 @@ void MonitorView::toggleSceneState()
 
 int MonitorView::open(ProducerWrapper* producer, MONITORID role, const QPoint &zone, bool isMulti)
 {
-    //kDebug()<<"MONITOR: "<<m_id<<"\n + + + ++ + + + + + +\nOPENING PRODUCeR: "<<producer->resourceName()<<" = "<<producer->get_length()<<" \n + + + + ++ + + + + ++ + +\n";
+    if (producer == NULL) producer = m_blackProducer;
+    //kDebug()<<"MONITOR: "<<m_id<<"\n OPENING PRODUCeR: "<<producer->resourceName()<<" = "<<producer->get_length()<<" \n + + + + ++ + + + + ++ + +\n";
     setProfile(producer->profile(), false);
     if (role != KeepMonitor && role != m_currentRole) {
         // Switching monitor role

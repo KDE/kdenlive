@@ -198,7 +198,9 @@ void Bin::selectModel(const QModelIndex &id)
         currentItem->setCurrent(true);
     }
     else {
-        kDebug()<<" * * * * *CURRENT IS INVALID!!!";
+	// Display black bg in clip monitor
+	pCore->projectManager()->current()->bin()->monitor()->open(NULL, ClipMonitor);
+	
     }
 }
 
