@@ -36,9 +36,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 TimelineWidget::TimelineWidget(QWidget* parent) :
     QWidget(parent)
-    , m_scene(NULL)
-    , m_clipTimeline(NULL)
-    , m_monitor(NULL)
+  , m_scene(NULL)
+  , m_clipTimeline(NULL)
+  , m_monitor(NULL)
 {
     QGridLayout *layout = new QGridLayout(this);
     layout->setSpacing(0);
@@ -119,7 +119,7 @@ void TimelineWidget::slotSwitchToolPanel(int ix)
 void TimelineWidget::createEffectWidget()
 {
     if (m_clipTimeline) {
-	m_effectContainer->setTimeline(m_clipTimeline);
+        m_effectContainer->setTimeline(m_clipTimeline);
     }
 }
 
@@ -128,8 +128,8 @@ void TimelineWidget::setProject(Project* project)
     delete m_scene;
     m_scene = NULL;
     if (!project) {
-	m_view->setScene(NULL);
-	return;
+        m_view->setScene(NULL);
+        return;
     }
     m_scene = new TimelineScene(project->timeline(), m_toolManager, m_view, this);
     m_view->setScene(m_scene);
@@ -143,8 +143,8 @@ void TimelineWidget::setClipTimeline(Timeline *timeline)
     delete m_scene;
     m_scene = NULL;
     if (!timeline) {
-	m_view->setScene(NULL);
-	return;
+        m_view->setScene(NULL);
+        return;
     }
     m_clipTimeline = timeline;
     m_positionBar->setProject(timeline->project(), ClipMonitor);
@@ -184,7 +184,7 @@ ToolManager* TimelineWidget::toolManager()
 void TimelineWidget::slotAddMarker()
 {
     int markerPosition = m_positionBar->position();
-	//TODO: use markercommand for undo / redo
+    //TODO: use markercommand for undo / redo
     pCore->projectManager()->current()->bin()->addMarker(property("clipId").toString(), markerPosition);
 }
 

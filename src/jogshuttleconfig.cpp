@@ -53,7 +53,7 @@ QStringList JogShuttleConfig::actionMap(const QString& actionsConfig)
     //fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toAscii(), button_id, parts[1].data().toAscii()); // DBG
     while (actionMap.size() <= button_id)
         actionMap << QString();
-    actionMap[button_id] = parts[1];
+    actionMap[button_id] = parts.at(1);
   }
   
   //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].data().toAscii());  //DBG

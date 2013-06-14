@@ -57,7 +57,7 @@ void DoubleParameterDescription::init(Mlt::Properties& properties, const QLocale
     m_min = locale.toDouble(properties.get("minimum"));
     m_max = locale.toDouble(properties.get("maximum"));
 
-    if(QString(properties.get("type")) == "float") {
+    if(QString(properties.get("type")) == QLatin1String("float")) {
         m_decimals = 3;
     }
 }

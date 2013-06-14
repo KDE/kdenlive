@@ -20,7 +20,7 @@ class TrimClipStartItemAction : public AbstractClipItemAction
 
 public:
     TrimClipStartItemAction(TimelineClipItem *clipItem, QEvent *initialEvent, QObject *parent = 0);
-    virtual ~TrimClipStartItemAction();
+    ~TrimClipStartItemAction();
 
 protected:
     void mouseMove(QGraphicsSceneMouseEvent *event);

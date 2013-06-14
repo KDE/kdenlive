@@ -24,9 +24,9 @@ the Free Software Foundation, either version 3 of the License, or
 K_PLUGIN_FACTORY( SelectToolPluginFactory, registerPlugin<SelectToolPlugin>(); )
 K_EXPORT_PLUGIN( SelectToolPluginFactory( "kdenliveselecttool" ) )
 
-SelectToolPlugin::SelectToolPlugin(QObject* parent, const QVariantList &args) :
-    QObject(parent),
-    KXMLGUIClient(pCore->window())
+SelectToolPlugin::SelectToolPlugin(QObject* parent, const QVariantList &args)
+    : QObject(parent),
+      KXMLGUIClient(pCore->window())
 {
     setXMLFile("selecttool_ui.rc");
 

@@ -19,8 +19,10 @@ ListPropertiesView::ListPropertiesView(const QString& name, const QStringList& i
     QWidget(parent)
 {
     m_ui.setupUi(this);
-    if (comment.isEmpty()) m_ui.labelName->setText(name);
-    else m_ui.labelName->setText("<a href=\"#\">" + name + "</a>");
+    if (comment.isEmpty())
+        m_ui.labelName->setText(name);
+    else
+        m_ui.labelName->setText("<a href=\"#\">" + name + "</a>");
     m_ui.comboList->addItems(items);
     m_ui.comboList->setCurrentIndex(initialIndex);
     QString replaced = comment;

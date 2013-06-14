@@ -20,7 +20,8 @@ DoubleParameter::DoubleParameter(const DoubleParameterDescription *parameterDesc
     AbstractParameter(parameterDescription, parent),
     m_description(parameterDescription)
 {
-    if (value.isEmpty()) set(m_description->defaultValue());
+    if (value.isEmpty())
+        set(m_description->defaultValue());
 }
 
 void DoubleParameter::set(const char* data)
