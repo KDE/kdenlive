@@ -42,6 +42,7 @@ public:
      * the MLT DOM. Afterwards parameters are created.
      */
     Effect(EffectDescription *effectDescription, AbstractEffectList* parent);
+    Effect(EffectDescription *effectDescription, Mlt::Filter *filter, AbstractEffectList* parent);
     virtual ~Effect();
 
     /**

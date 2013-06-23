@@ -36,6 +36,21 @@ Effect::Effect(EffectDescription *effectDescription, AbstractEffectList* parent)
     createParameters(effectDescription->parameters(), props);
 }
 
+Effect::Effect(EffectDescription *effectDescription, Mlt::Filter *filter, AbstractEffectList* parent) :
+    AbstractParameterList(parent)
+    , m_filter(filter)
+    , m_parent(parent)
+    , m_description(effectDescription)
+{
+    Mlt::Properties props(m_filter->get_properties());
+    
+    /*for (int i = 0; i < props.count(); ++i) {
+        kDebug()<<"FILTER: "<<filter->get("mlt_service")<<", "<<props.get_name(i)<<" = "<<props.get(i);
+    }*/
+    
+    createParameters(effectDescription->parameters(), props);
+}
+
 Effect::~Effect()
 {
     // ?

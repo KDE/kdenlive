@@ -62,7 +62,7 @@ public slots:
      * @param description effect description for the effect to create
      */
     virtual void appendEffect(EffectDescription *description);
-    
+
 signals:
     void updateClip();
     

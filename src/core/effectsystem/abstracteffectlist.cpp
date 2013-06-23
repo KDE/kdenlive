@@ -43,4 +43,5 @@ void AbstractEffectList::appendEffect(EffectDescription* description)
     orderedChildViewUpdate(MultiViewHandler::propertiesView, begin(), end());
 }
 
+
 #include "abstracteffectlist.moc"

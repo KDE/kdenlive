@@ -613,7 +613,12 @@ int GLSLWidget::reconfigure(bool isMulti)
     }
     if (m_consumer->is_valid()) {
         // Connect the producer to the consumer - tell it to "run" later
+        QString producer_service = m_producer->get("mlt_service");
         m_consumer->connect(*m_producer);
+        if (producer_service == "webvfx") {
+            Mlt::Service srv(m_producer->get_service());
+            srv.set("consumer", m_consumer->get_consumer(), 0, NULL, NULL);
+        }
         // Make an event handler for when a frame's image should be displayed
         m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
         m_consumer->set("real_time", property("realtime").toBool()? 1 : -1);

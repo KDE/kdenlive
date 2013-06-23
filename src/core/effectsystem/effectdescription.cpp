@@ -109,7 +109,6 @@ EffectDescription::EffectDescription(const QDomElement &description, double vers
     }
 }
 
-
 EffectDescription::~EffectDescription()
 {
     qDeleteAll(begin(), end());
@@ -118,6 +117,12 @@ EffectDescription::~EffectDescription()
 Effect* EffectDescription::createEffect(AbstractEffectList* parent)
 {
     Effect *effect = new Effect(this, parent);
+    return effect;
+}
+
+Effect* EffectDescription::loadEffect(Mlt::Filter *filter, AbstractEffectList* parent)
+{
+    Effect *effect = new Effect(this, filter, parent);
     return effect;
 }
 

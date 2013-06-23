@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KLocale>
 #include <KToolBar>
 #include <KAction>
+#include <KDebug>
 #include <QStyle>
 #include <QFrame>
 #include <QScrollArea>
@@ -82,6 +83,31 @@ void EffectsWidget::setTimeline(Timeline *time)
     m_service = time->producer()->get_service();
     m_toolButton->setMenu(menu);
     m_device = new EffectDevice(m_service, m_repository, m_frame);
+    
+    // Load current effects
+    int ct = 0;
+    Mlt::Filter *filter = m_service.filter(ct);
+    while (filter) {
+        // Load existing effects
+        if (filter->is_valid()) {
+            if (filter->get_int("_loader")) {
+                // Discard normalisers
+                ct++;
+                filter = m_service.filter(ct);
+                continue;
+            }
+            EffectDescription *desc = new EffectDescription(filter->get("mlt_service"), m_repository);
+            if (desc) {
+                Effect *e = desc->loadEffect(filter, m_device);
+                e->checkPropertiesViewState();
+            }
+            
+        }
+        ct++;
+        filter = m_service.filter(ct);
+    }
+    
+    
     connect(m_device, SIGNAL(updateClip()), this, SIGNAL(refreshMonitor()));
 }
 

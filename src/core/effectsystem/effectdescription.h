@@ -90,6 +90,7 @@ public:
      * @brief Returns true if this effect can be added only once to a effect device; otherwise false.
      */
     bool isUnique() const;
+    Effect* loadEffect(Mlt::Filter *filter, AbstractEffectList* parent);
 
 private:
     QString getTextFromElement(const QDomElement &element);
