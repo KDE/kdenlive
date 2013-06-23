@@ -21,6 +21,7 @@ PositionItem::PositionItem(TimelineScene* scene) :
     int position = scene->timeline()->monitor() == NULL ? 0 : scene->timeline()->monitor()->position();
     QPen pen;
     pen.setWidth(3);
+    pen.setColor(Qt::red);
     setPen(pen);
     setLine(position, 0, position, scene->height());
 

@@ -157,15 +157,26 @@ AbstractClipPlugin* ClipPluginManager::clipPlugin(const QString& producerType) c
     }
 }
 
-void ClipPluginManager::filterDescription(Mlt::Properties props, ProducerDescription *description)
+bool ClipPluginManager::requiresClipReload(const QString &service, const QString &property)
+{
+    AbstractClipPlugin* plugin = clipPlugin(service);
+    if (plugin && plugin->requiresClipReload(property)) return true;
+    return false;
+}
+
+ProducerDescription *ClipPluginManager::filterDescription(Mlt::Properties props, ProducerDescription *description)
 {
     // Set producer specific values for this clip type (for exemple number of audio / video channels
-    kDebug()<<"* * * * *EDITING CLIP: "<<props.get("mlt_service");
     AbstractClipPlugin* plugin = clipPlugin(props.get("mlt_service"));
     if (plugin) {
         //TODO, currently not working
-        plugin->fillDescription(props, description);
+        if (description) {
+	    plugin->fillDescription(props, description);
+	    return NULL;
+	}
+	return plugin->fillDescription(props, description);
     }
+    return NULL;
 }
 
 void ClipPluginManager::execAddClipDialog(QAction *action, ProjectFolder* folder) const

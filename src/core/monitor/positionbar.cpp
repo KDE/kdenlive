@@ -164,6 +164,7 @@ void PositionBar::mouseMoveEvent(QMouseEvent* event)
             return;
         }
         else {
+	    //emit requestThumb(event->x() / m_scale);
             if (m_hoverMarker != -1) {
                 setCursor(Qt::ArrowCursor);
                 m_hoverMarker = -1;
@@ -290,11 +291,12 @@ void PositionBar::updateBackground()
     update();
 }
 
-void PositionBar::setZone(const QPoint &zone)
+void PositionBar::setZone(const QPoint &zone, bool emitUpdate)
 {
     if (m_zone != zone) {
         m_zone = zone;
         update();
+	if (emitUpdate) emit zoneChanged(m_zone);
     }
 }
 

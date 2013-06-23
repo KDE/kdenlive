@@ -20,6 +20,7 @@
 #define MLTCONTROLLER_H
 
 #include <QImage>
+#include <QColor>
 #include <QMutex>
 #include <QMap>
 #include <mlt++/Mlt.h>
@@ -159,6 +160,10 @@ protected:
     QPoint m_zone;
     QMap <int,QString> m_markers;
     QMutex m_mutex;
+    
+    QString m_overlayText;
+    QColor m_overlayColor;
+    QRectF m_overlayZone;
 
 private:
     Mlt::Profile* m_profile;

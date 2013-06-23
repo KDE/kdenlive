@@ -55,7 +55,7 @@ public:
     /** @brief Returns a pointer to the bin model this folder belongs to. */
     BinModel *bin();
 
-    QDomElement toXml(QDomDocument &document) const;
+    QDomElement toXml(QDomDocument &document);
 
 private:
     void loadChildren(const QDomElement &description);

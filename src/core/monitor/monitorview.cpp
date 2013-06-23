@@ -438,7 +438,7 @@ void MonitorView::toggleZone(bool active)
         if (outPoint > 50) outPoint = outPoint / 5;
         zone = QPoint(inPoint, inPoint + outPoint);
     }
-    m_positionBar->setZone(zone);
+    m_positionBar->setZone(zone, true);
     slotZoneChanged(zone);
 }
 
@@ -499,24 +499,27 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, const QPoint &z
     setProfile(producer->profile(), false);
     if (role != KeepMonitor && role != m_currentRole) {
         // Switching monitor role
+      return 0;
         m_currentRole = role;
         addMonitorRole(role);
     }
-    if (m_monitorProducer == producer) return 0;
-    if (m_GPUProducer.contains(m_currentRole)) {
+    if (m_monitorProducer == producer) {
+	return 0;
+    }
+    /*if (m_GPUProducer.contains(m_currentRole)) {
         if (m_controller->displayType() == MLTGLSL) m_normalProducer.value(m_currentRole)->seek(m_GPUProducer.value(m_currentRole)->position());
         m_controller->stop();
         delete m_GPUProducer.take(m_currentRole);
-    }
+    }*/
     if (producer != m_blackProducer) m_normalProducer.insert(m_currentRole, producer);
-    if (m_controller->displayType() == MLTGLSL) {
+    /*if (m_controller->displayType() == MLTGLSL) {
         QString resource = producer->resourceName();
         ProducerWrapper *GPUProducer = new ProducerWrapper(*m_profile, resource, producer->serviceName());
         GPUProducer->seek(producer->position());
         if (producer != m_blackProducer) m_GPUProducer.insert(m_currentRole, GPUProducer);
         m_monitorProducer = GPUProducer;
     }
-    else {
+    else*/ {
         m_monitorProducer = producer;
     }
     int error = m_controller->open(m_monitorProducer, isMulti, m_currentRole == RecordMonitor);
@@ -525,7 +528,7 @@ int MonitorView::open(ProducerWrapper* producer, MONITORID role, const QPoint &z
         m_zoneAction->setChecked(!zone.isNull());
         m_positionBar->setZone(zone);
     }
-    if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
+    //if (!m_controller->isActive()) pCore->monitorManager()->requestActivation(m_id);
     return error;
 }
 
@@ -635,7 +638,7 @@ void MonitorView::toggleMonitorMode(DISPLAYMODE mode, bool checkAvailability)
     delete m_controller;
     m_controller = buildController(mode);
 
-    if (previousMode != MLTGLSL && mode == MLTGLSL) {
+    /*if (previousMode != MLTGLSL && mode == MLTGLSL) {
         // Switching to GPU acclerated
         // Special case: glsl uses different normalizers, we must recreate the producer
         if (!m_GPUProducer.contains(m_currentRole)) {
@@ -651,7 +654,7 @@ void MonitorView::toggleMonitorMode(DISPLAYMODE mode, bool checkAvailability)
         // Special case: glsl uses different normalizers, we must recreate the producer
         if (m_normalProducer.contains(m_currentRole)) m_monitorProducer = m_normalProducer.value(m_currentRole);
         else m_monitorProducer = m_blackProducer;
-    }
+    }*/
     
     connectController();
     emit controllerChanged(m_id, m_controller);
@@ -688,6 +691,14 @@ void MonitorView::setPosition(int position)
     m_positionBar->setPosition(position);
     m_timecodeWiget->setValue(position);
     emit positionChanged(position, m_seekPosition != SEEK_INACTIVE);
+}
+
+void MonitorView::prepareReload(const QString &id)
+{
+    if (!m_monitorProducer) return;
+    if (QString(m_monitorProducer->get("id")) == id) {
+	m_controller->stop();
+    }
 }
 
 void MonitorView::onProducerChanged()

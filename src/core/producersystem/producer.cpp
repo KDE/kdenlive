@@ -11,9 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "producer.h"
 #include "project/producerwrapper.h"
+#include "project/clippluginmanager.h"
 #include "producerdescription.h"
 #include "producerpropertiesview.h"
 #include "effectsystem/multiviewhandler.h"
+
 #include <mlt++/Mlt.h>
 #include <QWidget>
 #include <QVBoxLayout>
@@ -23,10 +25,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KPushButton>
 
 
-Producer::Producer(Mlt::Producer *producer, ProducerDescription *producerDescription) :
+Producer::Producer(Mlt::Producer *producer, ProducerDescription *producerDescription, ClipPluginManager *manager) :
     AbstractParameterList()
     , m_description(producerDescription)
     , m_view(NULL)
+    , m_manager(manager)
 {
     m_producer = producer;
     //new Mlt::Producer(*profile, producerDescription->tag().toUtf8().constData());
@@ -44,6 +47,11 @@ Producer::~Producer()
     delete m_view;
     // ?
     //delete m_producer;
+}
+
+void Producer::setProducer(Mlt::Producer *producer)
+{
+    m_producer = producer;
 }
 
 void Producer::loadCurrentParameters()
@@ -73,8 +81,12 @@ QString Producer::parameterValue(const QString &name) const
 void Producer::setProperty(const QString &name, const QString &value)
 {
     m_producer->set(name.toUtf8().constData(), value.toUtf8().constData());
-    //kDebug()<<"// Changed producer prop: "<<name<<" = "<<value;
-    emit updateClip();
+    kDebug()<<"// Changed producer prop: "<<name<<" = "<<value;
+    if (m_manager->requiresClipReload(m_producer->get("mlt_service"), name)) {
+	QString dt = m_producer->get("id");
+	emit reloadClip(dt);
+    }
+    else emit updateClip();
     //updatePreview();
 }
 

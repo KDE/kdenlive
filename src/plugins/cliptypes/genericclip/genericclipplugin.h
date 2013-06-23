@@ -30,7 +30,6 @@ public:
 
     TimelineClipItem *timelineClipView(AbstractTimelineClip *clip, QGraphicsItem* parent) const;
     QString nameForService(const QString &) const;
-    void fillDescription(Mlt::Properties properties, ProducerDescription *description);
 };
 
 #endif

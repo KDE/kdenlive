@@ -47,9 +47,15 @@ AbstractProjectClip::AbstractProjectClip(const QDomElement& description, Project
     m_plugin(plugin)
 {
     Q_ASSERT(description.hasAttribute("id"));
-
     m_id = description.attribute("id");
-    m_url = KUrl(description.attribute("url"));
+    
+    QString str;
+    QTextStream stream(&str);
+    description.save(stream, 4);
+    m_baseProducer = new ProducerWrapper(*(bin()->project()->profile()), str, "xml-string");
+    
+    //m_url = KUrl(description.attribute("url"));
+    m_url = KUrl(getXmlProperty(description, "resource"));
     if (description.hasAttribute("zone"))
 	m_zone = QPoint(description.attribute("zone").section(':', 0, 0).toInt(), description.attribute("zone").section(':', 1, 1).toInt());
 }
@@ -62,6 +68,19 @@ AbstractProjectClip::~AbstractProjectClip()
     if (m_timelineBaseProducer) {
         delete m_timelineBaseProducer;
     }
+}
+
+QString AbstractProjectClip::getXmlProperty(const QDomElement &producer, const QString &propertyName)
+{
+    QString value;
+    QDomNodeList props = producer.elementsByTagName("property");
+    for (int i = 0; i < props.count(); ++i) {
+        if (props.at(i).toElement().attribute("name") == propertyName) {
+            value = props.at(i).firstChild().nodeValue();
+            break;
+        }
+    }
+    return value;
 }
 
 AbstractClipPlugin const *AbstractProjectClip::plugin() const
@@ -115,19 +134,44 @@ int AbstractProjectClip::duration() const
     return m_baseProducer->get_playtime();
 }
 
+QString AbstractProjectClip::serializeClip()
+{
+    Mlt::Consumer *consumer = bin()->project()->xmlConsumer();
+    consumer->connect(*m_baseProducer);
+    consumer->run();
+    return QString::fromUtf8(consumer->get("kdenlive_clip"));
+}
+
+void AbstractProjectClip::reloadProducer()
+{
+    if (!m_baseProducer) {
+	initProducer();
+	return;
+    }
+    QString playlist = serializeClip();
+    if (playlist.isEmpty()) return;
+    ProducerWrapper *copy = new ProducerWrapper(*(m_baseProducer->profile()), playlist, "xml-string");
+    delete m_baseProducer;
+    m_baseProducer = copy;
+}
+
 void AbstractProjectClip::setCurrent(bool current, bool notify)
 {
     AbstractProjectItem::setCurrent(current, notify);
     if (current) {
 	initProducer();
+	kDebug()<< " * * *SET CURRENT CLP: "<<m_name;
         bin()->monitor()->open(m_baseProducer, ClipMonitor, m_zone);
     }
 }
 
-QDomElement AbstractProjectClip::toXml(QDomDocument& document) const
+QDomElement AbstractProjectClip::toXml(QDomDocument& document)
 {
-    QDomElement clip = document.createElement("clip");
-    clip.setAttribute("id", id());
+    QDomDocument mltData;
+    QString playlist = serializeClip();
+    mltData.setContent(playlist);
+    QDomElement clip = document.importNode(mltData.documentElement().firstChildElement("producer"), true).toElement();
+    clip.setAttribute("duration", m_baseProducer->get_length());
     clip.setAttribute("producer_type",m_baseProducer->get("mlt_service"));
     clip.setAttribute("name", name());
     if (!m_zone.isNull()) {
@@ -136,9 +180,10 @@ QDomElement AbstractProjectClip::toXml(QDomDocument& document) const
     if (!description().isEmpty()) {
         clip.setAttribute("description", description());
     }
-    if (!m_url.isEmpty()) {
-        clip.setAttribute("url", m_url.path());
-    }
+    //clip.setAttribute("url", m_url.path());
+    
+    // We change the tag so that MLT is not confused when trying to play the .kdenlive project file
+    clip.setTagName("clip");
     return clip;
 }
 

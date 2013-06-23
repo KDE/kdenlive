@@ -59,10 +59,6 @@ QString GenericClipPlugin::nameForService(const QString &service) const
     return service;
 }
 
-void GenericClipPlugin::fillDescription(Mlt::Properties properties, ProducerDescription *description)
-{
-}
-
 TimelineClipItem* GenericClipPlugin::timelineClipView(AbstractTimelineClip* clip, QGraphicsItem* parent) const
 {
     return new GenericTimelineClipItem(static_cast<GenericTimelineClip*>(clip), parent);

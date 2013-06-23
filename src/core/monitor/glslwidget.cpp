@@ -28,6 +28,7 @@
 #include "kdenlivesettings.h"
 #include <QGLPixelBuffer>
 #include <QDesktopWidget>
+#include <KLocale>
 
 #define check_error() { int err = glGetError(); if (err != GL_NO_ERROR) { fprintf(stderr, "GL error 0x%x at %s:%d\n", err, __FILE__, __LINE__); exit(1); } }
 
@@ -46,6 +47,7 @@ GLSLWidget::GLSLWidget(Mlt::Profile *profile, QWidget *parent)
     , m_image_format(mlt_image_glsl_texture)
     , m_showPlay(false)
     , m_renderContext(0)
+    , m_createThumb(false)
 {
     m_display_ratio = 4.0/3.0;
     m_texture[0] = 0;
@@ -186,7 +188,7 @@ void GLSLWidget::showEvent(QShowEvent* event)
 
 void GLSLWidget::paintGL()
 {
-    makeCurrent();
+    //makeCurrent();
     if (m_texture[0]) {
         if (m_glslManager && m_fbo && m_image_format == mlt_image_glsl_texture) {
             //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -303,6 +305,12 @@ void GLSLWidget::mouseMoveEvent(QMouseEvent* event)
         emit seekTo(m_producer->get_length() * event->x() / width());
         return;
     }
+    if (event->buttons() == Qt::NoButton) {
+        if (m_overlayZone.contains(event->pos())) setCursor(Qt::PointingHandCursor);
+        else setCursor(Qt::ArrowCursor);
+    }
+    
+    
     if (!(event->buttons() & Qt::LeftButton))
         return;
     if ((event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance())
@@ -362,6 +370,7 @@ void GLSLWidget::refreshConsumer()
         if (m_consumer) m_consumer->start();
     }
     MltController::refreshConsumer();
+    glDraw();
 }
 
 void GLSLWidget::showFrame(Mlt::QFrame frame)
@@ -370,13 +379,41 @@ void GLSLWidget::showFrame(Mlt::QFrame frame)
     if (frame.frame()->get_int("rendered")) {
         m_image_width = 0;
         m_image_height = 0;
-        makeCurrent();
-        if (frame.frame()->get_position() > 50) m_overlay = "Out Point";
-        else m_overlay.clear();
+
+	int position = frame.frame()->get_position();
+	if (!m_zone.isNull()) {
+	    if (m_zone.x() == position) {
+		// Zone in or out
+		m_overlayText = i18n("Zone in");
+		m_overlayColor = QColor(255, 90, 90);
+	    }
+	    else if (m_zone.y() == position) {
+		// Zone in or out
+		m_overlayText = i18n("Zone out");
+		m_overlayColor = QColor(255, 90, 90);
+	    }
+	    else {
+		m_overlayText.clear();
+		m_overlayZone = QRectF();
+	    }
+        }
+        else if (m_markers.contains(position)) {
+            // Marker
+            m_overlayText = m_markers.value(position);
+            m_overlayColor = QColor(60, 60, 255);
+        }
+        else {
+            m_overlayText.clear();
+            m_overlayZone = QRectF();
+        }
+        //makeCurrent();
         if (m_glslManager && m_image_format == mlt_image_glsl_texture) {
             frame.frame()->set("movit.convert.use_texture", 1);
             const GLuint* textureId = (GLuint*) frame.frame()->get_image(m_image_format, m_image_width, m_image_height);
-	    if (!textureId) return;
+	    if (!textureId) {
+		kDebug()<<" * * *CANNOT GET GLU TEXTURE * * ** \n";
+		return;
+	    }
             m_texture[0] = *textureId;
             if (!m_fbo || m_fbo->width() != m_image_width || m_fbo->height() != m_image_height) {
                 delete m_fbo;
@@ -408,22 +445,41 @@ void GLSLWidget::showFrame(Mlt::QFrame frame)
             glTexCoord2i( 1, 0 ); glVertex2i( m_image_width, 0 );
             glEnd();
             check_error();
-            glEnable(GL_BLEND);
-            QPainter p(m_fbo);
-            p.setRenderHints(QPainter::TextAntialiasing, true);
-            QFont f = font();
-            f.setPixelSize(18 * m_image_height / h);
-            f.setStyleStrategy(QFont::PreferAntialias);
-            p.setFont(f);
-            p.scale(1, -1);
-            //p.setLayoutDirection(Qt::RightToLeft);
-            p.fillRect(15, -180, 600, -120, QColor(200, 100, 100, 120));
-            p.setPen(Qt::white);
-            QString overlay = QString("Overlay test: %1").arg(frame.frame()->get_position());
-            p.drawText(20, -200, overlay);
-            p.end();
-            glDisable(GL_BLEND);
-            glBindFramebuffer( GL_FRAMEBUFFER, 0 );
+	    if (!m_overlayText.isEmpty()) {
+		glEnable(GL_BLEND);
+		QPainter p(m_fbo);
+		p.setRenderHints(QPainter::TextAntialiasing, true);
+		QFont f = font();
+		f.setPixelSize(18 * m_image_height / h);
+		f.setStyleStrategy(QFont::PreferAntialias);
+		p.setFont(f);
+		p.scale(1, -1);
+		//p.setLayoutDirection(Qt::RightToLeft);
+		
+		QRectF textRect = p.boundingRect(0, -20 - f.pixelSize(), m_image_width - 15, -m_image_height / 2 + 10, Qt::AlignRight | Qt::AlignTop, m_overlayText);
+		QRectF bgRect = textRect.adjusted(-(5 + textRect.height()) , -2, 5, 2);
+		
+		QColor c(Qt::white);
+		c.setAlpha(100);
+		p.setBrush(c);
+		p.setPen(Qt::NoPen);
+		// TODO: calculate transform to get correct zone
+		m_overlayZone = bgRect;
+		p.drawRoundedRect(bgRect, 3, 3);
+		bgRect.setWidth(textRect.height());
+		p.setBrush(m_overlayColor);
+		p.drawEllipse(bgRect.adjusted(2, 2, 0, -2));
+		p.setPen(Qt::black);
+		p.drawText(textRect, m_overlayText);
+		
+		/*p.fillRect(15, -180, 600, -120, QColor(200, 100, 100, 120));
+		p.setPen(Qt::white);
+		//QString overlay = QString("Overlay test: %1").arg(frame.frame()->get_position());
+		p.drawText(20, -200, m_overlayText);*/
+		p.end();
+		glDisable(GL_BLEND);
+	    }
+	    glBindFramebuffer( GL_FRAMEBUFFER, 0 );
             check_error();
             glMatrixMode(GL_PROJECTION);
             glPopMatrix();
@@ -439,7 +495,7 @@ void GLSLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList
 {
     //setUpdatesEnabled(false);
     if (m_glslManager) {
-        if (m_consumer) m_consumer->stop();
+        //if (m_consumer && !m_consumer->is_stopped()) m_consumer->stop();
         m_renderContext->makeCurrent();
     }
     // Position might be negative to indicate the in point on the imageRendered signal.
@@ -450,6 +506,7 @@ void GLSLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList
     while (!positions.isEmpty()) {
         int position = positions.takeFirst();
         producer->seek(qAbs(position));
+	
         Mlt::Frame* frame = producer->get_frame();
         QImage image = MltController::image(frame, width, height);
         emit imageRendered(id, position, image);
@@ -458,7 +515,7 @@ void GLSLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList
 
     if (m_glslManager) {
         this->makeCurrent();
-        if (m_consumer) m_consumer->start();
+        //if (m_consumer) m_consumer->start();
     }
     //setUpdatesEnabled(true);
 }
@@ -483,19 +540,23 @@ int GLSLWidget::reOpen(bool isMulti)
 void GLSLWidget::slotGetThumb(ProducerWrapper *producer, int position)
 {
     //setUpdatesEnabled(false);
-    if (!m_isActive) return;
-    if (!m_producer || m_producer->get_speed() != 0) {
+    //if (!m_isActive) return;
+    if (!m_producer/* || m_producer->get_speed() != 0*/) {
         // No thumbnail when playing
         emit gotThumb(position, QImage());
         return;
     }
-    if (m_consumer) m_consumer->stop();
+    //if (m_consumer && !m_consumer->is_stopped()) m_consumer->stop();
     m_renderContext->makeCurrent();
+    
+    //QPixmap pix = this->renderPixmap(300, 200);
+    //pix.save("/tmp/mypix.png");
+    //m_createThumb = false;
     
     QImage result = MltController::thumb(producer, position);
     
     this->makeCurrent();
-    if (m_consumer) m_consumer->start();
+    //if (m_consumer) m_consumer->start();
     emit gotThumb(position, result);
     //setUpdatesEnabled(true);
 }
@@ -514,7 +575,6 @@ int GLSLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
                         this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
             resizeGL(width(), height());
             refreshConsumer();
-            update();
         }
     }
     //emit producerChanged();
@@ -666,6 +726,24 @@ void GLSLWidget::switchFullScreen()
         //setUpdatesEnabled(true);
         //setEnabled(false);
         show();
+    }
+}
+
+void GLSLWidget::slotSetZone(const QPoint &zone)
+{
+    if (m_zone != zone) {
+        m_zone = zone;
+        if (m_producer->get_speed() == 0)
+            refreshConsumer();
+    }
+}
+
+void GLSLWidget::slotSetMarks(const QMap <int,QString> &marks)
+{
+    if (m_markers != marks) {
+        m_markers = marks;
+        if (m_producer->get_speed() == 0)
+            refreshConsumer();
     }
 }
 

@@ -88,7 +88,8 @@ ProducerDescription::ProducerDescription(const QDomElement &description, double 
     m_tag = description.attribute("tag");
     m_type = AbstractEffectRepositoryItem::getType(description.attribute("type"));
     m_unique = description.attribute("unique", "0").toInt();
-    m_nameOrig = getTextFromElement(description.firstChildElement("name"));
+    if (description.hasAttribute("name")) m_nameOrig = description.attribute("name");
+    else m_nameOrig = getTextFromElement(description.firstChildElement("name"));
     m_name = i18n(m_nameOrig.toUtf8());
     m_descriptionOrig = getTextFromElement(description.firstChildElement("description"));
     m_description = i18n(m_descriptionOrig.toUtf8());
@@ -216,4 +217,25 @@ void ProducerDescription::convertMltParameterType(Mlt::Properties &properties)
     }
 }
 
+void ProducerDescription::updateParameters(const QDomNodeList &parameters, ProducerRepository *repository)
+{
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    
+    for (int i = 0; i < parameters.count(); ++i) {
+        QDomElement parameterElement = parameters.at(i).toElement();
+        QString parameterType = parameterElement.attribute("type");
+        kDebug() << "+ + + "<<parameterType;
+        AbstractParameterDescription *parameter = repository->newParameterDescription(parameterType);
+        if (parameter) {
+            parameter->init(parameterElement, locale);
+            if (parameter->isValid()) {
+                append(parameter);
+            } else {
+                delete parameter;
+            }
+        }
+    }
+    m_valid = true;
+}
 

@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core/producersystem/producerdescription.h"
 #include <KPluginFactory>
 #include <KLocale>
+#include <KDebug>
 #include <QDomElement>
 
 K_PLUGIN_FACTORY( VideoClipFactory, registerPlugin<VideoClipPlugin>(); )
@@ -64,11 +65,21 @@ QString VideoClipPlugin::nameForService(const QString &) const
     return i18n("Video Clip");
 }
 
-void VideoClipPlugin::fillDescription(Mlt::Properties properties, ProducerDescription *description)
+ProducerDescription *VideoClipPlugin::fillDescription(Mlt::Properties properties, ProducerDescription *description)
 {
     int streams = properties.get_int("meta.media.nb_streams");
+    kDebug()<<"File has: "<<streams<<" streams";
+    return NULL;
     //description->setParameterValue("audio_index", "maximum", streams);
     //description->setParameterValue("video_index", "maximum", streams);
+}
+
+bool VideoClipPlugin::requiresClipReload(const QString &property)
+{
+    // Which properties require a clip reload?
+    QStringList nonDynamicProperties;
+    nonDynamicProperties << "aspect_ratio";
+    return nonDynamicProperties.contains(property);
 }
 
 TimelineClipItem* VideoClipPlugin::timelineClipView(AbstractTimelineClip* clip, QGraphicsItem* parent) const

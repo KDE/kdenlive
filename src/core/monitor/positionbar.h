@@ -55,7 +55,7 @@ public:
     /** @brief Sets the ruler zone
      *. @param zone the new zone
      */
-    void setZone(const QPoint &zone);
+    void setZone(const QPoint &zone, bool emitUpdate = false);
 
 public slots:
     /** @brief Updates the length in frames to show. 

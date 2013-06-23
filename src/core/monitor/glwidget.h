@@ -42,7 +42,6 @@ public:
     int open(ProducerWrapper*, bool isMulti = false, bool isLive = false);
     void closeConsumer();
     void activate();
-    int reOpen(bool isMulti = false);
     int reconfigure(bool isMulti);
     QWidget* displayWidget() { return this; }
     QWidget* videoWidget() { return this; }
@@ -84,10 +83,7 @@ private:
     bool m_isInitialized;
     mlt_image_format m_image_format;
     bool m_showPlay;
-    QString m_overlayText;
-    QColor m_overlayColor;
     Qt::WindowFlags m_baseFlags;
-    QRectF m_overlayZone;
     GLuint cubeTexture[1];
     void resizeViewPort();
     void switchFullScreen();

@@ -101,6 +101,14 @@ ProducerWrapper *BinModel::clipProducer(const QString &id)
     return NULL;
 }
 
+void BinModel::reloadClip(const QString &id)
+{
+    AbstractProjectClip* c = clip(id);
+    if (c) {
+        c->reloadProducer();
+    }
+}
+
 void BinModel::refreshThumnbail(const QString &id)
 {
     AbstractProjectClip* c = clip(id);

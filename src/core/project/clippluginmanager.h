@@ -72,8 +72,12 @@ public:
 
     /** @brief Returns the clip plugin that is associated with the supplied producer type or NULL is no such plugin exists. */
     AbstractClipPlugin *clipPlugin(const QString &producerType) const;
-    
-    void filterDescription(Mlt::Properties props, ProducerDescription *description);
+
+    /** @brief Set some producer specific data. */
+    ProducerDescription *filterDescription(Mlt::Properties props, ProducerDescription *description);
+
+    /** @brief Returns true if this clip's plugin provider needs a clip reload when changing this property. */
+    bool requiresClipReload(const QString &service, const QString &property);
 
 public slots:
     /**

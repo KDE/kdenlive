@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2012  Till Theato <root@ttill.de>
+Copyright (C) 2013  Jean-Baptiste Mardelle <jb.kdenlive.org>
 This file is part of kdenlive. See www.kdenlive.org.
 
 This program is free software: you can redistribute it and/or modify
@@ -8,9 +8,9 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#include "imageprojectclip.h"
-#include "imageclipplugin.h"
-#include "imagetimelineclip.h"
+#include "webvfxprojectclip.h"
+#include "webvfxclipplugin.h"
+#include "webvfxtimelineclip.h"
 #include "core/project/projectfolder.h"
 #include "core/project/producerwrapper.h"
 #include "core/project/project.h"
@@ -28,50 +28,64 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QCryptographicHash>
 
 
-ImageProjectClip::ImageProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+WebvfxProjectClip::WebvfxProjectClip(const KUrl& url, const QString &id, ProjectFolder* parent, WebvfxClipPlugin const *plugin) :
     AbstractProjectClip(url, id, parent, plugin)
 {
     m_baseProducer = NULL;
+    
     initProducer();
-    init();
+    parseScriptFile(url.path());
 }
 
-ImageProjectClip::ImageProjectClip(ProducerWrapper* producer, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+WebvfxProjectClip::WebvfxProjectClip(ProducerWrapper* producer, ProjectFolder* parent, WebvfxClipPlugin const *plugin) :
     AbstractProjectClip(producer, parent, plugin)
 {
     init();
 }
 
-ImageProjectClip::ImageProjectClip(const QString& service, Mlt::Properties props, const QString &id, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+WebvfxProjectClip::WebvfxProjectClip(const QString& service, Mlt::Properties props, const QString &id, ProjectFolder* parent, WebvfxClipPlugin const *plugin) :
     AbstractProjectClip(KUrl(props.get("resource")), id, parent, plugin)
 {
-    Q_ASSERT(service == "pixbuf" || service == "qimage");
+    Q_ASSERT(service == "webvfx");
     m_baseProducer = NULL;
     initProducer(service, props);
-    init();
+    parseScriptFile(props.get("resource"));
 }
 
-ImageProjectClip::ImageProjectClip(const QDomElement& description, ProjectFolder* parent, ImageClipPlugin const *plugin) :
+WebvfxProjectClip::WebvfxProjectClip(const QDomElement& description, ProjectFolder* parent, WebvfxClipPlugin const *plugin) :
     AbstractProjectClip(description, parent, plugin)
 {
-    Q_ASSERT(description.attribute("producer_type") == "pixbuf" || description.attribute("producer_type") == "qimage");
-
+    Q_ASSERT(description.attribute("producer_type") == "webvfx");
     //m_baseProducer = new ProducerWrapper(*(bin()->project()->profile()), m_url.path());
-
     Q_ASSERT(m_baseProducer->property("mlt_service") == description.attribute("producer_type"));
 
-    kDebug() << "image project clip created" << id();
+    kDebug() << "webvfx project clip created" << id();
 
     init(description.attribute("duration", "0").toInt());
 }
 
-ImageProjectClip::~ImageProjectClip()
+WebvfxProjectClip::~WebvfxProjectClip()
 {
 }
 
-AbstractTimelineClip* ImageProjectClip::createInstance(TimelineTrack* parent, ProducerWrapper* producer)
+void WebvfxProjectClip::parseScriptFile(const QString &url)
 {
-    ImageTimelineClip *instance = new ImageTimelineClip(this, parent, producer);
+    QDomDocument doc;
+    QFile file(url);
+    doc.setContent(&file, false);
+    file.close();
+    int duration = 0;
+    QDomNodeList params = doc.elementsByTagName("meta");
+    for (int i = 0; i < params.count(); ++i) {
+	if (params.at(i).toElement().attribute("name") == "duration")
+	    duration = params.at(i).toElement().attribute("value").toInt();
+    }
+    init(duration);
+}
+
+AbstractTimelineClip* WebvfxProjectClip::createInstance(TimelineTrack* parent, ProducerWrapper* producer)
+{
+    WebvfxTimelineClip *instance = new WebvfxTimelineClip(this, parent, producer);
     m_instances.append(instance);
 
     if (producer) {
@@ -81,7 +95,7 @@ AbstractTimelineClip* ImageProjectClip::createInstance(TimelineTrack* parent, Pr
     return static_cast<AbstractTimelineClip *>(instance);
 }
 
-void ImageProjectClip::hash()
+void WebvfxProjectClip::hash()
 {
     if (m_hash.isEmpty() && hasUrl()) {
         QFile file(m_url.path());
@@ -105,8 +119,7 @@ void ImageProjectClip::hash()
     }
 }
 
-
-QPixmap ImageProjectClip::thumbnail()
+QPixmap WebvfxProjectClip::thumbnail()
 {
     if (m_thumbnail.isNull() && m_baseProducer) {
         int width = 80 * bin()->project()->displayRatio();
@@ -118,10 +131,10 @@ QPixmap ImageProjectClip::thumbnail()
     return m_thumbnail;
 }
 
-void ImageProjectClip::init(int duration)
+void WebvfxProjectClip::init(int duration)
 {
     Q_ASSERT(m_baseProducer && m_baseProducer->is_valid());
-    Q_ASSERT(m_baseProducer->property("mlt_service") == "qimage" || m_baseProducer->property("mlt_service") == "pixbuf");
+    Q_ASSERT(m_baseProducer->property("mlt_service") == "webvfx");
 
     m_hasLimitedDuration = false;
     hash();
@@ -136,7 +149,7 @@ void ImageProjectClip::init(int duration)
     QTimer::singleShot(0, this, SLOT(thumbnail()));
 }
 
-void ImageProjectClip::initProducer()
+void WebvfxProjectClip::initProducer()
 {
     if (!m_baseProducer) {
         m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
@@ -144,7 +157,7 @@ void ImageProjectClip::initProducer()
     }
 }
 
-void ImageProjectClip::initProducer(const QString &service, Mlt::Properties props)
+void WebvfxProjectClip::initProducer(const QString &service, Mlt::Properties props)
 {
     if (!m_baseProducer) {
         m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), props.get("resource"), service);
@@ -153,4 +166,4 @@ void ImageProjectClip::initProducer(const QString &service, Mlt::Properties prop
     }
 }
 
-#include "imageprojectclip.moc"
+#include "webvfxprojectclip.moc"

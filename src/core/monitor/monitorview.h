@@ -60,6 +60,7 @@ public:
     DISPLAYMODE displayType() const;
     static const QString nameForRole(MONITORID role);
     void relativeSeek(int pos, MONITORID role = KeepMonitor);
+    void prepareReload(const QString &id);
 
 private slots:
     /** @brief Check playback state and update play icon status. */

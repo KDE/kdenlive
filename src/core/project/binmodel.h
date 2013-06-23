@@ -71,6 +71,7 @@ public:
      */
     void setCurrentItem(AbstractProjectItem *item);
     ProducerWrapper *clipProducer(const QString &id);
+    void reloadClip(const QString &id);
 
     QDomElement toXml(QDomDocument &document) const;
     void setMonitor(MonitorView* m);

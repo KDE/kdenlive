@@ -128,8 +128,9 @@ int MltController::open(ProducerWrapper *producer, bool isMulti, bool isLive)
 {
     int error = 0;
     m_isLive = isLive;
+    if (m_consumer) m_consumer->set("refresh", 0);
     if (producer != m_producer)
-        close();
+	close();
     if (producer && producer->is_valid()) {
         //ProducerWrapper *prod2 = new ProducerWrapper(profile(), producer->property("resource"));
         m_producer = producer;
@@ -182,8 +183,11 @@ int MltController::open(ProducerWrapper *producer, bool isMulti, bool isLive)
 
 void MltController::close()
 {
-    if (m_consumer && !m_consumer->is_stopped())
+    /*if (m_consumer && !m_consumer->is_stopped()) {
+	m_consumer->purge();
         m_consumer->stop();
+    }*/
+
     m_url.clear();
     m_isActive = false;
 }
@@ -231,8 +235,10 @@ void MltController::play(double speed)
         m_producer->set_speed(speed);
     // If we are paused, then we need to "unlock" sdl_still.
     if (m_consumer) {
-        if (m_consumer->is_stopped()) m_consumer->start();
-        kDebug()<<"// RESTARTING CONSUMER *******\n***************\n*****************";
+        if (m_consumer->is_stopped()) {
+	    m_consumer->start();
+	    kDebug()<<"// RESTARTING CONSUMER *******\n***************\n*****************";
+	}
         refreshConsumer();
     }
     else kDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  DEAD CONSUMER !!!!!!!!!!!!!!!";
@@ -611,8 +617,7 @@ QImage MltController::image(Mlt::Frame* frame, int width, int height)
             frame->set("top_field_first", -1);
         }
         mlt_image_format format = mlt_image_rgb24a;
-        const uchar *image = frame->get_image(format, width, height);
-        kDebug()<<"// GOT THMB: "<<width<<"x"<<height;
+        const uchar *image = frame->get_image(format, width, height);       
         if (image && width > 0) {
             QImage result(width, height, QImage::Format_ARGB32);
             QImage temp(width, height, QImage::Format_ARGB32);//QImage::Format_ARGB32_Premultiplied);

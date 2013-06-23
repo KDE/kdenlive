@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "../effectsystem/effectrepository.h"
 
 class QString;
+class QDomNodeList;
 class AbstractParameterDescription;
 class Producer;
 class ProducerRepository;
@@ -34,7 +35,7 @@ namespace Mlt
  * through their description object.
  */
 
-class ProducerDescription : protected QList<AbstractParameterDescription*>
+class KDENLIVECORE_EXPORT ProducerDescription : protected QList<AbstractParameterDescription*>
 {
 public:
     /**
@@ -93,6 +94,7 @@ public:
     QString getId() const;
     int paramCount() const;
     void convertMltParameterType(Mlt::Properties &properties);
+    void updateParameters(const QDomNodeList &parameters, ProducerRepository *repository);
 
 private:
     QString getTextFromElement(const QDomElement &element);

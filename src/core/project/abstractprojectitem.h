@@ -124,7 +124,7 @@ public:
     /** @brief Flags this item as being current (or not) and notifies the bin model about it. */
     virtual void setCurrent(bool current, bool notify = true);
 
-    virtual QDomElement toXml(QDomDocument &document) const = 0;
+    virtual QDomElement toXml(QDomDocument &document) = 0;
 
 signals:
     void childAdded(AbstractProjectItem *child);

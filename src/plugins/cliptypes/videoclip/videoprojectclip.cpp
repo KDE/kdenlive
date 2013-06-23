@@ -58,7 +58,7 @@ VideoProjectClip::VideoProjectClip(const QDomElement& description, ProjectFolder
 {
     Q_ASSERT(description.attribute("producer_type") == "avformat");
 
-    m_baseProducer = new ProducerWrapper(*(bin()->project()->profile()), m_url.path());
+    //m_baseProducer = new ProducerWrapper(*(bin()->project()->profile()), m_url.path());
 
     Q_ASSERT(m_baseProducer->property("mlt_service") == description.attribute("producer_type"));
 

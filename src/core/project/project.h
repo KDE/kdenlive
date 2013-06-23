@@ -26,6 +26,7 @@ class QUndoStack;
 namespace Mlt
 {
     class Profile;
+    class Consumer;
 }
 
 
@@ -99,6 +100,8 @@ public:
     
     /** @brief Returns current project's folder that will be used to store various data (thumbnails, etc). */
     const KUrl &projectFolder() const;
+    
+    Mlt::Consumer *xmlConsumer();
 
 public slots:
     /** @brief Saves to the current project file. */
@@ -115,7 +118,6 @@ private:
     void loadSettings(const QDomElement &kdenliveDoc);
     QDomElement saveSettings(QDomDocument &document) const;
     QDomElement convertMltPlaylist(QDomDocument &document);
-    QString getXmlProperty(const QDomElement &producer, const QString &propertyName);
     void updateClipCounter(const QDomNodeList clips);
     bool upgradeDocument(QDomElement &kdenliveDoc);
 
@@ -126,7 +128,7 @@ private:
     TimecodeFormatter *m_timecodeFormatter;
     QHash<QString, QString> m_settings;
     int m_idCounter;
-
+    Mlt::Consumer *m_xmlConsumer;
     QUndoStack *m_undoStack;
 };
 

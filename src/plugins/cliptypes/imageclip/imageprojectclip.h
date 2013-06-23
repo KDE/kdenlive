@@ -38,8 +38,6 @@ public:
     void initProducer(const QString &service, Mlt::Properties props);
     void hash();
 
-    QDomElement toXml(QDomDocument &document) const;
-
 public slots:
     QPixmap thumbnail();
 

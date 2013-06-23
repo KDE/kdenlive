@@ -55,6 +55,8 @@ public:
 
     /** @brief Returns a pointer to the clip's plugin. */
     AbstractClipPlugin const *plugin() const;
+    
+    void reloadProducer();
 
     /** @brief Should return a timeline clip/instance of this clip. */
     virtual AbstractTimelineClip *createInstance(TimelineTrack *parent, ProducerWrapper *producer = 0) = 0;
@@ -80,6 +82,9 @@ public:
     bool hasUrl() const;
     /** @brief Returns the clip's url. */
     KUrl url() const;
+    
+    /** @brief Returns the clip's xml data by using MLT's XML consumer. */
+    QString serializeClip();
 
     /** @brief Returns whether this clip has a limited duration or whether it is resizable ad infinitum. */
     virtual bool hasLimitedDuration() const;
@@ -89,12 +94,13 @@ public:
     /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
     virtual void setCurrent(bool current, bool notify = true);
 
-    virtual QDomElement toXml(QDomDocument &document) const;
+    virtual QDomElement toXml(QDomDocument &document);
 
     /** @brief Returns the "base" producer from which the entries / "cut" producers in the timeline are created. */
     virtual ProducerWrapper *timelineBaseProducer();
     virtual ProducerWrapper *baseProducer();
     void setThumbnail(QImage);
+    static QString getXmlProperty(const QDomElement &producer, const QString &propertyName);
     
 public slots:
     QPixmap thumbnail(bool force = false);

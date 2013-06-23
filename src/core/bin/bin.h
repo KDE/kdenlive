@@ -205,6 +205,7 @@ private slots:
     void closeEditing();
     void refreshEditedClip();
     void slotMarkersNeedUpdate(const QString &id, const QList <int> &markers);
+    void reloadClip(const QString &id);
     
 public slots:
     void showClipProperties(const QString &id);

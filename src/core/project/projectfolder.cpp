@@ -14,7 +14,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "abstractprojectclip.h"
 #include "binmodel.h"
 #include <QDomElement>
-#include <KDebug>
 
 
 ProjectFolder::ProjectFolder(const QDomElement& description, ProjectFolder* parent) :
@@ -86,15 +85,13 @@ BinModel* ProjectFolder::bin()
     }
 }
 
-QDomElement ProjectFolder::toXml(QDomDocument& document) const
+QDomElement ProjectFolder::toXml(QDomDocument& document)
 {
     QDomElement folder = document.createElement("folder");
     folder.setAttribute("name", name());
-
     for (int i = 0; i < count(); ++i) {
         folder.appendChild(at(i)->toXml(document));
     }
-
     return folder;
 }
 
@@ -106,6 +103,7 @@ void ProjectFolder::loadChildren(const QDomElement& description)
         if (childElement.tagName() == "folder") {
             new ProjectFolder(childElement, this);
         } else {
+            childElement.setTagName("producer");
             pCore->clipPluginManager()->loadClip(childElement, this);
         }
     }

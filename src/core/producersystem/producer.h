@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 class ProducerDescription;
 class ProducerPropertiesView;
 class ProducerWrapper;
+class ClipPluginManager;
 
 namespace Mlt
 {
@@ -43,7 +44,7 @@ public:
      * A new MLT filter gets created and handed over to the parent producer list to be attached to
      * the MLT DOM. Afterwards parameters are created.
      */
-    Producer(Mlt::Producer *producer, ProducerDescription *producerDescription);
+    Producer(Mlt::Producer *producer, ProducerDescription *producerDescription, ClipPluginManager *manager);
     virtual ~Producer();
 
     /**
@@ -92,6 +93,7 @@ public:
     void createView(const QString &id, QWidget *widget);
     
     ProducerWrapper *getProducer();
+    void setProducer(Mlt::Producer *producer);
 
 private slots:
     void setDisabled(bool disabled);
@@ -101,11 +103,13 @@ private:
     Mlt::Producer *m_producer;
     ProducerDescription *m_description;
     ProducerPropertiesView *m_view;
+    ClipPluginManager *m_manager;
     void loadCurrentParameters();
 
 signals:
     void updateClip();
     void editingDone();
+    void reloadClip(const QString&);
 };
 
 #endif

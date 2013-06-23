@@ -28,6 +28,7 @@
 #include "kdenlivesettings.h"
 #include <QGLPixelBuffer>
 #include <QDesktopWidget>
+#include <KLocale>
 
 #define check_error() { int err = glGetError(); if (err != GL_NO_ERROR) { fprintf(stderr, "GL error 0x%x at %s:%d\n", err, __FILE__, __LINE__); exit(1); } }
 
@@ -205,7 +206,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
         if (!m_overlayText.isEmpty()) {
             glPixelStorei(GL_UNPACK_ROW_LENGTH,   0);
             glPixelStorei(GL_UNPACK_ALIGNMENT,    4);
-            QFontMetrics f(font());
             QRectF textRect = p.boundingRect(x, y , w - 15, h - 10, Qt::AlignRight | Qt::AlignBottom, m_overlayText);
             QRectF bgRect = textRect.adjusted(-(5 + textRect.height()) , -2, 5, 2);
             QColor c(Qt::white);
@@ -656,10 +656,21 @@ void GLWidget::showFrame(Mlt::QFrame frame)
         m_image_height = 0;
         //makeCurrent();
         int position = frame.frame()->get_position();
-        if (m_markers.contains(-position)) {
-            // Zone in or out
-            m_overlayText = m_markers.value(-position);
-            m_overlayColor = QColor(255, 90, 90);
+        if (!m_zone.isNull()) {
+	    if (m_zone.x() == position) {
+		// Zone in or out
+		m_overlayText = i18n("Zone in");
+		m_overlayColor = QColor(255, 90, 90);
+	    }
+	    else if (m_zone.y() == position) {
+		// Zone in or out
+		m_overlayText = i18n("Zone out");
+		m_overlayColor = QColor(255, 90, 90);
+	    }
+	    else {
+		m_overlayText.clear();
+		m_overlayZone = QRectF();
+	    }
         }
         else if (m_markers.contains(position)) {
             // Marker
@@ -737,24 +748,6 @@ void GLWidget::renderImage(const QString &id, ProducerWrapper *producer, QList <
     setUpdatesEnabled(true);
 }
 
-int GLWidget::reOpen(bool isMulti)
-{
-    //QMutexLocker lock(&m_mutex);
-    activate();
-    return 0;
-    int error = 0;//MltController::open(new ProducerWrapper(profile(), resource()), isMulti); //producer, isMulti);
-    bool reconnect = !m_consumer || !m_consumer->is_valid();
-    error = reconfigure(isMulti);
-    if (!error) {
-        if (reconnect)
-            connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
-                    this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
-        resizeGL(width(), height());
-        //refreshConsumer();
-    }
-    return error;
-}
-
 void GLWidget::slotGetThumb(ProducerWrapper *producer, int position)
 {
     //setUpdatesEnabled(false);
@@ -773,6 +766,7 @@ int GLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
 {
     //QMutexLocker lock(&m_mutex);
     //setFixedSize(producer->get_profile()->height * producer->get_profile()->display_aspect_num / producer->get_profile()->display_aspect_den / 2.0, producer->get_profile()->height / 2.0);
+    if (m_consumer) m_consumer->set("refresh", 0);
     int error = MltController::open(producer, isMulti, isLive);//new ProducerWrapper(profile(), producer->property("resource")), isMulti); //producer, isMulti);
     if (!error) {
         bool reconnect = !m_consumer || !m_consumer->is_valid();
@@ -782,8 +776,8 @@ int GLWidget::open(ProducerWrapper* producer, bool isMulti, bool isLive)
                 connect(this, SIGNAL(frameReceived(Mlt::QFrame)),
                         this, SLOT(showFrame(Mlt::QFrame)), Qt::UniqueConnection);
             resizeGL(width(), height());
-            refreshConsumer();
-            update();
+            //refreshConsumer();
+            //update();
         }
     }
     //emit producerChanged();
@@ -819,7 +813,12 @@ int GLWidget::reconfigure(bool isMulti)
     }
     if (m_consumer->is_valid()) {
         // Connect the producer to the consumer - tell it to "run" later
-        m_consumer->connect(*m_producer);
+	QString producer_service = m_producer->get("mlt_service");
+	m_consumer->connect(*m_producer);
+	if (producer_service == "webvfx") {
+	    Mlt::Service srv(m_producer->get_service());
+	    srv.set("consumer", m_consumer->get_consumer(), 0, NULL, NULL);
+	}
         // Make an event handler for when a frame's image should be displayed
         m_consumer->listen("consumer-frame-show", this, (mlt_listener) on_frame_show);
         m_consumer->set("real_time", property("realtime").toBool()? 1 : -1);

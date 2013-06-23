@@ -69,7 +69,8 @@ public:
     
     virtual QString nameForService(const QString &service) const = 0;
     
-    virtual void fillDescription(Mlt::Properties properties, ProducerDescription *description) = 0;
+    virtual ProducerDescription *fillDescription(Mlt::Properties properties, ProducerDescription *description);
+    virtual bool requiresClipReload(const QString &property);
 
 protected:
     ClipPluginManager *m_parent;

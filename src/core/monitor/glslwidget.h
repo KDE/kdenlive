@@ -54,6 +54,8 @@ public:
 public slots:
     void showFrame(Mlt::QFrame);
     void slotGetThumb(ProducerWrapper *producer, int position);
+    void slotSetZone(const QPoint &zone);
+    void slotSetMarks(const QMap <int,QString> &marks);
 
 signals:
     /** This method will be called each time a new frame is available.
@@ -85,8 +87,8 @@ private:
     mlt_image_format m_image_format;
     bool m_showPlay;
     QGLWidget* m_renderContext;
-    QString m_overlay;
     Qt::WindowFlags m_baseFlags;
+    bool m_createThumb;
     void switchFullScreen();
 
 

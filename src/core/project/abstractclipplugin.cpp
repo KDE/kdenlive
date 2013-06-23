@@ -30,5 +30,15 @@ TimelineClipItem* AbstractClipPlugin::timelineClipView(AbstractTimelineClip *cli
     return new TimelineClipItem(clip, parent);
 }
 
+ProducerDescription *AbstractClipPlugin::fillDescription(Mlt::Properties properties, ProducerDescription *description)
+{
+    return NULL;
+}
+
+bool AbstractClipPlugin::requiresClipReload(const QString &property)
+{
+    return false;
+}
+
 #include "abstractclipplugin.moc"
 

@@ -313,15 +313,24 @@ void Bin::showClipProperties(const QString &id)
         // Cannot find producer to edit
         return;
     }
-    ProducerDescription *desc = pCore->producerRepository()->producerDescription(producer->get("mlt_service"));
-    if (!desc || desc->parameters().count() == 0) {
-        // Don't show properties panel of producer has no parameter
-        return;
-    }
+    QString clipService = producer->get("mlt_service");
+    ProducerDescription *desc = pCore->producerRepository()->producerDescription(clipService);
     Mlt::Properties props(producer->get_properties());
-    pCore->clipPluginManager()->filterDescription(props, desc);
-    m_editedProducer= new Producer(producer, desc);
+    if (!desc) {
+	desc = pCore->clipPluginManager()->filterDescription(props, NULL);
+	if (!desc) {
+	    // Don't show properties panel of producer with no parameter
+	    return;
+	}
+    }
+    else pCore->clipPluginManager()->filterDescription(props, desc);
+    if (desc->parameters().count() == 0) {
+	delete desc;
+	return;
+    }
+    m_editedProducer= new Producer(producer, desc, pCore->clipPluginManager());
     connect(m_editedProducer, SIGNAL(updateClip()), this, SLOT(refreshEditedClip()));
+    connect(m_editedProducer, SIGNAL(reloadClip(QString)), this, SLOT(reloadClip(QString)));
     connect(m_editedProducer, SIGNAL(editingDone()), this, SLOT(closeEditing()));
 
     // Build edit widget
@@ -335,6 +344,16 @@ void Bin::showClipProperties(const QString &id)
     //TODO: setting stretch does not work, try to fix...
     m_splitter->setStretchFactor(m_splitter->indexOf(m_itemView), 1);
     m_splitter->setStretchFactor(m_splitter->indexOf(m_propertiesPanel), 20);
+}
+
+void Bin::reloadClip(const QString &id)
+{
+    pCore->projectManager()->current()->binMonitor()->prepareReload(id);
+    pCore->projectManager()->current()->bin()->reloadClip(id);
+    if (m_propertiesPanel->property("clipId").toString() == id) {
+	m_editedProducer->setProducer(pCore->projectManager()->current()->bin()->clipProducer(id));
+    }
+    pCore->projectManager()->current()->binMonitor()->open(pCore->projectManager()->current()->bin()->clipProducer(id));
 }
 
 const QString Bin::getStyleSheet()

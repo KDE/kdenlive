@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Kdenlive/Clip
+Name=Webvfx Clip
+X-KDE-PluginInfo-Name=kdenlivewebvfxclip
+X-KDE-Library=kdenlivewebvfxclip
+X-Kdenlive-ProvidedProducers=webvfx

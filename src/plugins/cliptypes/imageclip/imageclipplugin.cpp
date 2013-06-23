@@ -62,10 +62,6 @@ QString ImageClipPlugin::nameForService(const QString &) const
     return i18n("Image Clip");
 }
 
-void ImageClipPlugin::fillDescription(Mlt::Properties properties, ProducerDescription *description)
-{
-}
-
 TimelineClipItem* ImageClipPlugin::timelineClipView(AbstractTimelineClip* clip, QGraphicsItem* parent) const
 {
     return new ImageTimelineClipItem(static_cast<ImageTimelineClip*>(clip), parent);

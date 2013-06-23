@@ -57,21 +57,21 @@ GenericProjectClip::GenericProjectClip(const QDomElement& description, ProjectFo
 {
     //Q_ASSERT(description.attribute("producer_type") == "color" || description.attribute("producer_type") == "count");
 
-    m_baseProducer = new ProducerWrapper(*(bin()->project()->profile()), description.attribute("producer_type") + QString(":%1").arg(url().path()));
+    //m_baseProducer = new ProducerWrapper(*(bin()->project()->profile()), description.attribute("producer_type") + QString(":%1").arg(url().path()));
 
     Q_ASSERT(m_baseProducer->property("mlt_service") == description.attribute("producer_type"));
 
     kDebug() << "generic project clip created" << id()<< " = "<<description.attribute("producer_type") + QString(":%1").arg(url().path());
     
     init(description.attribute("duration", "0").toInt(), description.attribute("in", "0").toInt(), description.attribute("out", "0").toInt());
-    QStringList producerProperties = pCore->producerRepository()->producerProperties(description.attribute("producer_type"));
+    /*QStringList producerProperties = pCore->producerRepository()->producerProperties(description.attribute("producer_type"));
     QDomNodeList props = description.elementsByTagName("property");
     for (int i = 0; i < props.count(); i++) {
         QDomElement e = props.item(i).toElement();
         if (!e.isNull()) {
             m_baseProducer->setProperty(e.attribute("name"), e.firstChild().nodeValue());
         }
-    }
+    }*/
 }
 
 GenericProjectClip::~GenericProjectClip()
@@ -114,23 +114,6 @@ void GenericProjectClip::hash()
     }
 }
 
-QDomElement GenericProjectClip::toXml(QDomDocument& document) const
-{
-    QDomElement clip = AbstractProjectClip::toXml(document);
-    clip.setAttribute("duration", m_baseProducer->get_length());
-    QStringList producerProperties = pCore->producerRepository()->producerProperties(clip.attribute("producer_type"));
-    foreach(const QString &key, producerProperties) {
-        QString value = m_baseProducer->property(key);
-        if (!value.isEmpty()) {
-            QDomElement property = document.createElement("property");
-            property.setAttribute("name", key);
-            QDomText val = document.createTextNode(value);
-            property.appendChild(val);
-            clip.appendChild(property);
-        }
-    }
-    return clip;
-}
 
 QPixmap GenericProjectClip::thumbnail()
 {
