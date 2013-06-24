@@ -752,3 +752,5 @@ void GLSLWidget::slotSetMarks(const QMap <int,QString> &marks)
     }
 }
 
+
+#include "glslwidget.moc"
