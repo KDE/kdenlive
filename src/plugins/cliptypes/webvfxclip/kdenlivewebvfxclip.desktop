@@ -2,6 +2,12 @@
 Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Webvfx Clip
+Name[pt]='Clip' de Webvfx
+Name[pt_BR]=Clipe Webvfx
+Name[sl]=Posnetek Webvfx
+Name[sv]=Webvfx-klipp
+Name[uk]=Кліп Webvfx
+Name[x-test]=xxWebvfx Clipxx
 X-KDE-PluginInfo-Name=kdenlivewebvfxclip
 X-KDE-Library=kdenlivewebvfxclip
 X-Kdenlive-ProvidedProducers=webvfx
