@@ -2,6 +2,7 @@
 Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Webvfx Clip
+Name[da]=Webvfx-klip
 Name[pt]='Clip' de Webvfx
 Name[pt_BR]=Clipe Webvfx
 Name[sl]=Posnetek Webvfx

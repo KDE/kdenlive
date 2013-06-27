@@ -3,6 +3,7 @@ Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Generic Clip
 Name[cs]=Obecný klip
+Name[da]=Generisk klip
 Name[nl]=Algemene clip
 Name[pt]='Clip' Genérico
 Name[pt_BR]=Clipe genérico
