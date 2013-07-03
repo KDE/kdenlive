@@ -70,14 +70,13 @@ public:
     /** @brief Returns this if @param id matches the clip's id or NULL otherwise. */
     AbstractProjectClip *clip(const QString &id);
     AbstractProjectClip* clipAt(int ix);
+    /** @brief Returns the clip's id. */
     QString clipId() const;
     void setZone(const QPoint &zone);
     QPoint zone() const;
     void addMarker(int position);
     void removeMarker(int position);
 
-    /** @brief Returns the clip's id. */
-    QString id() const;
     /** @brief Returns whether this clip has a url (=describes a file) or not. */
     bool hasUrl() const;
     /** @brief Returns the clip's url. */

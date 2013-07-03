@@ -168,6 +168,7 @@ signals:
     void focusClipMonitor();
     void addClip();
     void editItem(const QString&);
+    void showMenu(const QString&);
     void editItemInTimeline(const QString&, const QString&, ProducerWrapper*);
 };
 
@@ -194,6 +195,8 @@ public:
 private slots:
     void setProject(Project *project);
     void slotAddClip();
+    void slotDeleteClip();
+    void slotReloadClip();
     /** @brief Setup the bin view type (icon view, tree view, ...).
     * @param action The action whose data defines the view type or NULL to keep default view */
     void slotInitView(QAction *action);
@@ -209,6 +212,9 @@ private slots:
     
 public slots:
     void showClipProperties(const QString &id);
+    
+protected:
+    void contextMenuEvent(QContextMenuEvent *event);
 
 private:
     ProjectItemModel *m_itemModel;

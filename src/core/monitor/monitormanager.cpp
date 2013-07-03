@@ -61,7 +61,7 @@ MonitorManager::MonitorManager(QObject* parent) :
     //mode = MLTGLSL;
     //TODO: User setting to select between 1 and 2 monitors mode
     
-    if (true || mode == MLTSDL || mode == MLTGLSL) {
+    if (mode == MLTSDL || mode == MLTGLSL) {
         // SDL only supports one display
         MonitorView *autoView = new MonitorView(mode, new Mlt::Profile(), AutoMonitor, ClipMonitor, pCore->window());
         pCore->window()->addDock(i18n("Monitor"), "auto_monitor", autoView);

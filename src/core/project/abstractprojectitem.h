@@ -84,6 +84,7 @@ public:
     /** @brief Used to search for a clip with a specific id. */
     virtual AbstractProjectClip *clip(const QString &id) = 0;
     virtual AbstractProjectClip *clipAt(int ix) = 0;
+    /** @brief Returns the clip's id. */
     virtual QString clipId() const = 0;
     virtual void setZone(const QPoint &zone);
     virtual QPoint zone() const;

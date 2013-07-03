@@ -41,11 +41,6 @@ AbstractProjectItem::AbstractProjectItem(const QDomElement& description, Abstrac
 
 AbstractProjectItem::~AbstractProjectItem()
 {
-    if (m_isCurrent) {
-        if (bin()) {
-            bin()->setCurrentItem(NULL);
-        }
-    }
 }
 
 bool AbstractProjectItem::operator==(const AbstractProjectItem* projectItem) const
@@ -67,6 +62,13 @@ void AbstractProjectItem::setParent(AbstractProjectItem* parent)
         if (m_parent) {
             m_parent->removeChild(this);
         }
+        
+        // Check if we are trying to delete the item
+        if (m_isCurrent && parent == NULL) {
+            if (bin()) {
+                bin()->setCurrentItem(NULL);
+            }
+        }        
         m_parent = parent;
         QObject::setParent(m_parent);
     }

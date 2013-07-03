@@ -141,10 +141,7 @@ void BinModel::setCurrentItem(AbstractProjectItem* item)
         m_currentItem = item;
         if (m_currentItem) {
             m_currentItem->setCurrent(true, false);
-            /*AbstractProjectClip *pclip = static_cast <AbstractProjectClip*>(m_currentItem);
-        pclip->setCurrent(true);*/
         }
-
         emit currentItemChanged(item);
     }
 }

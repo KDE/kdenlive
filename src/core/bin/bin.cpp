@@ -29,6 +29,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "core.h"
 #include <QVBoxLayout>
+#include <QMenu>
 #include <QEvent>
 #include <QSplitter>
 #include <QMouseEvent>
@@ -68,7 +69,6 @@ bool EventEater::eventFilter(QObject *obj, QEvent *event)
             else {
                 // User double clicked on a clip
                 //TODO: show clip properties
-                QModelIndex idx = view->indexAt(mouseEvent->pos());
                 AbstractProjectClip *currentItem = static_cast<AbstractProjectClip *>(idx.internalPointer());
                 if (mouseEvent->modifiers() & Qt::ShiftModifier)
                     emit editItem(currentItem->clipId());
@@ -150,6 +150,28 @@ void Bin::slotAddClip()
     pCore->clipPluginManager()->execAddClipDialog();
 }
 
+void Bin::slotDeleteClip()
+{
+    //TODO: make it work for multiple clip selection
+    QModelIndex parent2 = m_itemModel->selectionModel()->currentIndex();
+    AbstractProjectClip *currentItem = static_cast<AbstractProjectClip *>(parent2.internalPointer());
+    if (currentItem) {
+        ProducerWrapper *prod = currentItem->baseProducer();
+        Mlt::Properties props(prod->get_properties());
+        QString service = prod->get("mlt_service");
+        pCore->clipPluginManager()->deleteClip(currentItem->name(), service, props, currentItem->clipId(), currentItem->plugin(), NULL);
+    }
+}
+
+void Bin::slotReloadClip()
+{
+    QModelIndex parent2 = m_itemModel->selectionModel()->currentIndex();
+    AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(parent2.internalPointer());
+    if (currentItem) {
+        reloadClip(currentItem->clipId());
+    }
+}
+
 void Bin::setActionMenus(QMenu *producerMenu)
 {
     QToolButton *generatorMenu = new QToolButton(this);
@@ -177,6 +199,7 @@ void Bin::setProject(Project* project)
     connect(m_eventEater, SIGNAL(focusClipMonitor()), project->bin()->monitor(), SLOT(slotFocusClipMonitor()), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(editItemInTimeline(QString,QString,ProducerWrapper*)), this, SLOT(slotOpenClipTimeline(QString,QString,ProducerWrapper*)), Qt::UniqueConnection);
     connect(m_eventEater, SIGNAL(editItem(QString)), this, SLOT(showClipProperties(QString)), Qt::UniqueConnection);
+    connect(m_eventEater, SIGNAL(showMenu(QString)), this, SLOT(showClipMenu(QString)), Qt::UniqueConnection);
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     
@@ -195,7 +218,7 @@ void Bin::selectModel(const QModelIndex &id)
     m_itemView->setCurrentIndex(id);
     if (id.isValid()) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(id.internalPointer());
-        currentItem->setCurrent(true);
+        if (currentItem) currentItem->setCurrent(true);
     }
     else {
 	// Display black bg in clip monitor
@@ -305,6 +328,32 @@ void Bin::closeEditing()
     m_propertiesPanel = NULL;
 }
 
+
+void Bin::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu(this);
+    if (m_itemView) {
+            QModelIndex idx = m_itemView->indexAt(m_itemView->viewport()->mapFromGlobal(event->globalPos()));
+            if (idx != QModelIndex()) {
+                // User double clicked on a clip
+                //TODO: show clip properties
+                AbstractProjectClip *currentItem = static_cast<AbstractProjectClip *>(idx.internalPointer());
+                if (currentItem) {
+                    QAction *deleteClip = new QAction(i18n("Delete Clip"), this);
+                    connect(deleteClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteClip()));
+                    menu.addAction(deleteClip);
+                    QAction *reloadClip = new QAction(i18n("Reload Clip"), this);
+                    connect(reloadClip, SIGNAL(triggered(bool)), this, SLOT(slotReloadClip()));
+                    menu.addAction(reloadClip);
+                }
+            }
+        }
+    QAction *addClip = new QAction(i18n("Add Clip"), this);
+    connect(addClip, SIGNAL(triggered(bool)), this, SLOT(slotAddClip()));
+    menu.addAction(addClip);
+    menu.exec(event->globalPos());
+}
+
 void Bin::showClipProperties(const QString &id)
 {
     closeEditing();
@@ -350,7 +399,7 @@ void Bin::reloadClip(const QString &id)
 {
     pCore->projectManager()->current()->binMonitor()->prepareReload(id);
     pCore->projectManager()->current()->bin()->reloadClip(id);
-    if (m_propertiesPanel->property("clipId").toString() == id) {
+    if (m_propertiesPanel && m_propertiesPanel->property("clipId").toString() == id) {
 	m_editedProducer->setProducer(pCore->projectManager()->current()->bin()->clipProducer(id));
     }
     pCore->projectManager()->current()->binMonitor()->open(pCore->projectManager()->current()->bin()->clipProducer(id));

@@ -191,7 +191,7 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
         AbstractProjectClip *clip = qobject_cast<AbstractProjectClip*>(item);
         if (clip) {
             QStringList list;
-            list << clip->id();
+            list << clip->clipId();
             QByteArray data;
             data.append(list.join(QLatin1String(";")).toUtf8());
             mimeData->setData(QLatin1String("kdenlive/clip"),  data);

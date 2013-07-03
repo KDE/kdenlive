@@ -59,7 +59,7 @@ WebvfxProjectClip::WebvfxProjectClip(const QDomElement& description, ProjectFold
     //m_baseProducer = new ProducerWrapper(*(bin()->project()->profile()), m_url.path());
     Q_ASSERT(m_baseProducer->property("mlt_service") == description.attribute("producer_type"));
 
-    kDebug() << "webvfx project clip created" << id();
+    kDebug() << "webvfx project clip created" << clipId();
 
     init(description.attribute("duration", "0").toInt());
 }
@@ -75,10 +75,12 @@ void WebvfxProjectClip::parseScriptFile(const QString &url)
     doc.setContent(&file, false);
     file.close();
     int duration = 0;
-    QDomNodeList params = doc.elementsByTagName("meta");
+    QDomNodeList params = doc.elementsByTagName("metainfo");
     for (int i = 0; i < params.count(); ++i) {
-	if (params.at(i).toElement().attribute("name") == "duration")
-	    duration = params.at(i).toElement().attribute("value").toInt();
+	if (params.at(i).toElement().hasAttribute("duration")) {
+	    duration = params.at(i).toElement().attribute("duration").toInt();
+            break;
+        }
     }
     init(duration);
 }
@@ -153,7 +155,7 @@ void WebvfxProjectClip::initProducer()
 {
     if (!m_baseProducer) {
         m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
-        m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer->set("id", clipId().toUtf8().constData());
     }
 }
 
@@ -162,7 +164,7 @@ void WebvfxProjectClip::initProducer(const QString &service, Mlt::Properties pro
     if (!m_baseProducer) {
         m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), props.get("resource"), service);
         //TODO: pass all properties to producer
-        m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer->set("id", clipId().toUtf8().constData());
     }
 }
 

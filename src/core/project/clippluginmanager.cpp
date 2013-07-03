@@ -101,7 +101,7 @@ void ClipPluginManager::createClip(const KUrl& url, ProjectFolder *folder, QUndo
         if (producer->is_valid()) {
             AbstractClipPlugin *plugin = clipPlugin(producer->get("mlt_service"));
             if (plugin) {
-                AddClipCommand *command = new AddClipCommand(url, pCore->projectManager()->current()->getFreeId(), plugin, folder, parentCommand);
+                AddClipCommand *command = new AddClipCommand(url, pCore->projectManager()->current()->getFreeId(), plugin, folder, true, parentCommand);
                 if (!parentCommand) {
                     pCore->projectManager()->current()->undoStack()->push(command);
                 }
@@ -123,7 +123,7 @@ const QString ClipPluginManager::createClip(const QString &service, Mlt::Propert
         clipId = pCore->projectManager()->current()->getFreeId();
         QString displayName = props.get("resource");
         if (displayName.isEmpty()) displayName = pCore->producerRepository()->getProducerDisplayName(service);
-        AddClipCommand *command = new AddClipCommand(displayName, service, props, clipId, plugin, folder, parentCommand);
+        AddClipCommand *command = new AddClipCommand(displayName, service, props, clipId, plugin, folder, true, parentCommand);
         if (!parentCommand) {
             pCore->projectManager()->current()->undoStack()->push(command);
         }
@@ -131,6 +131,18 @@ const QString ClipPluginManager::createClip(const QString &service, Mlt::Propert
         kWarning() << "no clip plugin available for mlt service " << service;
     }
     return clipId;
+}
+
+void ClipPluginManager::deleteClip(const QString &name, const QString &service, Mlt::Properties props, const QString &clipId, const AbstractClipPlugin *plugin, ProjectFolder *folder, QUndoCommand *parentCommand)
+{  
+    if (!folder) {
+        folder = pCore->projectManager()->current()->bin()->rootFolder();
+    }
+    AddClipCommand *command = new AddClipCommand(name, service, props, clipId, plugin, folder, false, parentCommand);
+        
+    if (!parentCommand) {
+        pCore->projectManager()->current()->undoStack()->push(command);
+    }
 }
 
 AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescription, ProjectFolder *folder) const
@@ -147,7 +159,7 @@ AbstractProjectClip* ClipPluginManager::loadClip(const QDomElement& clipDescript
     }
 }
 
-AbstractClipPlugin* ClipPluginManager::clipPlugin(const QString& producerType) const
+AbstractClipPlugin *ClipPluginManager::clipPlugin(const QString& producerType) const
 {
     if (m_clipPlugins.contains(producerType)) {
         return m_clipPlugins.value(producerType);

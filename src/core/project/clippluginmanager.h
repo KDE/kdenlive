@@ -55,7 +55,8 @@ public:
      * If no parent command is provided the created command will be pushed to the undo stack.
      */
     void createClip(const KUrl &url, ProjectFolder *folder, QUndoCommand *parentCommand = 0) const;
-    const QString createClip(const QString &service, Mlt::Properties props, ProjectFolder *folder, QUndoCommand *parentCommand) const;
+    const QString createClip(const QString &service, Mlt::Properties props, ProjectFolder *folder, QUndoCommand *parentCommand = 0) const;
+    void deleteClip(const QString &name, const QString &service, Mlt::Properties props, const QString &clipId, const AbstractClipPlugin *plugin, ProjectFolder *folder, QUndoCommand *parentCommand = 0);
     /**
      * @brief Loads the clip described (only used when opening a project).
      * @param clipDescription element describing the clip

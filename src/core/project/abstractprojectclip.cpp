@@ -109,11 +109,6 @@ AbstractProjectClip* AbstractProjectClip::clipAt(int ix)
     return NULL;
 }
 
-QString AbstractProjectClip::id() const
-{
-    return m_id;
-}
-
 bool AbstractProjectClip::hasUrl() const
 {
     return m_url.isValid();
@@ -172,7 +167,7 @@ QDomElement AbstractProjectClip::toXml(QDomDocument& document)
     mltData.setContent(playlist);
     QDomElement clip = document.importNode(mltData.documentElement().firstChildElement("producer"), true).toElement();
     clip.setAttribute("duration", m_baseProducer->get_length());
-    clip.setAttribute("producer_type",m_baseProducer->get("mlt_service"));
+    clip.setAttribute("producer_type", m_baseProducer->get("mlt_service"));
     clip.setAttribute("name", name());
     if (!m_zone.isNull()) {
 	clip.setAttribute("zone", QString::number(m_zone.x()) + ":" + QString::number(m_zone.y()));

@@ -61,7 +61,7 @@ GenericProjectClip::GenericProjectClip(const QDomElement& description, ProjectFo
 
     Q_ASSERT(m_baseProducer->property("mlt_service") == description.attribute("producer_type"));
 
-    kDebug() << "generic project clip created" << id()<< " = "<<description.attribute("producer_type") + QString(":%1").arg(url().path());
+    kDebug() << "generic project clip created" << clipId()<< " = "<<description.attribute("producer_type") + QString(":%1").arg(url().path());
     
     init(description.attribute("duration", "0").toInt(), description.attribute("in", "0").toInt(), description.attribute("out", "0").toInt());
     /*QStringList producerProperties = pCore->producerRepository()->producerProperties(description.attribute("producer_type"));
@@ -155,7 +155,7 @@ void GenericProjectClip::initProducer()
 {
     if (!m_baseProducer) {
         m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
-        m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer->set("id", clipId().toUtf8().constData());
     }
 }
 
@@ -164,7 +164,7 @@ void GenericProjectClip::initProducer(const QString &service, Mlt::Properties pr
     if (!m_baseProducer) {
         m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), QString(service + ":" + props.get("resource")));
         //TODO: pass all properties to producer
-        m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer->set("id", clipId().toUtf8().constData());
     }
 }
 

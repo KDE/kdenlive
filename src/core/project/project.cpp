@@ -193,16 +193,11 @@ QDomElement Project::convertMltPlaylist(QDomDocument &document)
     QString root = document.documentElement().attribute("root");
     root.append('/');
     for (int i = 0; i < producers.count(); ++i) {
-        QDomElement clip = document.createElement("clip");
-        QDomElement prod = producers.at(i).toElement();
-        clip.setAttribute("id", prod.attribute("id"));
-        clip.setAttribute("in", prod.attribute("in"));
-        clip.setAttribute("out", prod.attribute("out"));
-        clip.setAttribute("duration", AbstractProjectClip::getXmlProperty(prod, "length"));
-        // Set service
-        QString service = AbstractProjectClip::getXmlProperty(prod, "mlt_service");
+        QDomElement clip = producers.at(i).cloneNode(true).toElement();
+        clip.setTagName("clip");
+        QString service = AbstractProjectClip::getXmlProperty(clip, "mlt_service");
         clip.setAttribute("producer_type", service);
-        QString resource = AbstractProjectClip::getXmlProperty(prod, "resource");
+        QString resource = AbstractProjectClip::getXmlProperty(clip, "resource");
         if (service != "color" && !resource.startsWith('/')) {
             // append root
             resource.prepend(root);
@@ -215,7 +210,6 @@ QDomElement Project::convertMltPlaylist(QDomDocument &document)
         clip.setAttribute("name", clipName);
         folder.appendChild(clip);
     }
-    //kDebug()<<"// RESULT: "<<document.toString();
     return kdenliveDoc;
 }
 

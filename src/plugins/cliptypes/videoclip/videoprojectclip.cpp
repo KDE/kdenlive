@@ -62,7 +62,7 @@ VideoProjectClip::VideoProjectClip(const QDomElement& description, ProjectFolder
 
     Q_ASSERT(m_baseProducer->property("mlt_service") == description.attribute("producer_type"));
 
-    kDebug() << "video project clip created" << id();
+    kDebug() << "video project clip created" << clipId();
 
     init();
 }
@@ -111,7 +111,7 @@ void VideoProjectClip::initProducer()
 {
     if (!m_baseProducer) {
         m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), url().path());
-        m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer->set("id", clipId().toUtf8().constData());
     }
 }
 
@@ -133,7 +133,7 @@ void VideoProjectClip::initProducer(const QString &service, Mlt::Properties prop
     if (!m_baseProducer) {
         m_baseProducer = new ProducerWrapper(*bin()->project()->profile(), props.get("resource"), service);
         //TODO: pass all properties to producer
-        m_baseProducer->set("id", id().toUtf8().constData());
+        m_baseProducer->set("id", clipId().toUtf8().constData());
     }
 }
 
