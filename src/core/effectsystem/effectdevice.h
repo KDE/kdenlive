@@ -44,6 +44,8 @@ public:
      * @param filter pointer to filter to attach
      */
     void appendFilter(Mlt::Filter *filter);
+    
+    void removeFilter(Mlt::Filter* filter);
 
     /**
      * @brief Returns the MLT service of which the device manages the filters.

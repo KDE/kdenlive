@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "mainwindow.h"
 #include "pluginmanager.h"
+#include "project/project.h"
 #include "project/clippluginmanager.h"
 #include "effectsystem/mltcore.h"
 #include "effectsystem/effectrepository.h"
@@ -20,6 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
 #include <QCoreApplication>
+#include <QUndoStack>
 
 
 Core *Core::m_self = NULL;
@@ -104,6 +106,11 @@ MonitorManager* Core::monitorManager()
 PluginManager* Core::pluginManager()
 {
     return m_pluginManager;
+}
+
+void Core::pushCommand(QUndoCommand *command)
+{
+    m_projectManager->current()->undoStack()->push(command);
 }
 
 

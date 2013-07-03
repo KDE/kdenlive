@@ -53,7 +53,9 @@ Effect::Effect(EffectDescription *effectDescription, Mlt::Filter *filter, Abstra
 
 Effect::~Effect()
 {
-    // ?
+    m_viewHandler->setParent(NULL);
+    checkPropertiesViewState();
+    m_parent->removeFilter(m_filter);
     delete m_filter;
 }
 

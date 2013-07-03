@@ -1,4 +1,4 @@
-
+add_subdirectory(commands)
 set(effectsystem_SRCS
   effectsystem/mltcore.cpp
   effectsystem/abstracteffectlist.cpp
@@ -17,6 +17,7 @@ set(effectsystem_SRCS
   effectsystem/effectsystemitem.cpp
   effectsystem/multiviewhandler.cpp
   effectsystem/effectswidget.cpp
+  ${commands_SRCS}
   PARENT_SCOPE
 )
 

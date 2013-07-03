@@ -58,6 +58,7 @@ private:
     QFrame *m_frame;
     Mlt::Service m_service;
     EffectDevice *m_device;
+    QAction *m_effectAction;
     
 private slots:
     void slotAddEffect(QAction *a);

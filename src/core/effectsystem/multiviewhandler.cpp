@@ -12,7 +12,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 MultiViewHandler::MultiViewHandler(MultiViewHandler* parent) :
-    m_parent(parent)
+    QObject(parent)
+    , m_parent(parent)
 {
 }
 
@@ -55,7 +56,7 @@ QObject* MultiViewHandler::popView(const EffectViewTypes type)
 
 QObject* MultiViewHandler::parentView(EffectViewTypes type)
 {
-    if (m_parent) {
+    if (parent()) {
         return m_parent->view(type);
     }
     return NULL;

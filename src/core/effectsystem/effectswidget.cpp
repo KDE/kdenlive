@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "effectswidget.h"
+#include "core.h"
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QListWidget>
@@ -27,6 +28,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effectsystem/effectdescription.h"
 #include "effectsystem/effectdevice.h"
 #include "effectsystem/effect.h"
+#include "effectsystem/commands/addeffectcommand.h"
 #include "project/producerwrapper.h"
 #include "project/timeline.h"
 #include "bin/bin.h"
@@ -54,6 +56,7 @@ EffectsWidget::EffectsWidget(KToolBar *toolbar, EffectRepository *repo, QWidget*
     m_toolButton->setIcon(KIcon("list-add"));
     m_toolButton->setPopupMode(QToolButton::InstantPopup);
     connect(m_toolButton, SIGNAL(triggered(QAction*)), this, SLOT(slotAddEffect(QAction*)));
+    m_effectAction = m_toolbar->addWidget(m_toolButton);
 }
 
 EffectsWidget::~EffectsWidget()
@@ -63,7 +66,7 @@ EffectsWidget::~EffectsWidget()
 void EffectsWidget::fillToolBar()
 {
     m_toolbar->clear();
-    m_toolbar->addWidget(m_toolButton);
+    m_toolbar->addAction(m_effectAction);
 }
 
 
@@ -115,9 +118,8 @@ void EffectsWidget::slotAddEffect(QAction *a)
 {
     QString effectTag = a->data().toString();
     EffectDescription *desc = new EffectDescription(effectTag, m_repository);
-    Effect *e = desc->createEffect(m_device);
-    e->checkPropertiesViewState();
-    emit refreshMonitor();
+    AddEffectCommand *command = new AddEffectCommand(desc, m_device, true);
+    pCore->pushCommand(command);
 }
 
 

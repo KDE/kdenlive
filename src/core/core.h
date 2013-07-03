@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 #include "kdenlivecore_export.h"
 
+class QUndoCommand;
 class MainWindow;
 class ProjectManager;
 class ClipPluginManager;
@@ -70,6 +71,8 @@ public:
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the plugin manager. */
     PluginManager *pluginManager();
+    /** @brief Execute a command. */
+    void pushCommand(QUndoCommand *command);
 
 private:
     Core(MainWindow *mainWindow);

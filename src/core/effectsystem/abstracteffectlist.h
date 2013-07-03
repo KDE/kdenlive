@@ -42,6 +42,7 @@ public:
      * @param filter filter to append
      */
     virtual void appendFilter(Mlt::Filter *filter) = 0;
+    virtual void removeFilter(Mlt::Filter *filter) = 0;
 
     /**
      * @brief Should return the service this object or its parent represent.

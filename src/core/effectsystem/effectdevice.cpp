@@ -33,6 +33,11 @@ void EffectDevice::appendFilter(Mlt::Filter* filter)
     m_service.attach(*filter);
 }
 
+void EffectDevice::removeFilter(Mlt::Filter* filter)
+{
+    m_service.detach(*filter);
+}
+
 Mlt::Service EffectDevice::service()
 {
     return m_service;
