@@ -33,7 +33,7 @@ WebvfxClipPlugin::WebvfxClipPlugin(QObject* parent, const QVariantList& args) :
 
     ClipPluginManager *clipPluginManager = static_cast<ClipPluginManager*>(parent);
 
-    clipPluginManager->addSupportedMimetypes(QStringList() << "text/html" << "text/x-qml");
+    clipPluginManager->addSupportedMimetypes(QStringList() << QLatin1String("text/html") << QLatin1String("text/x-qml"));
 }
 
 WebvfxClipPlugin::~WebvfxClipPlugin()
@@ -74,8 +74,8 @@ ProducerDescription *WebvfxClipPlugin::fillDescription(Mlt::Properties propertie
     QDomNodeList params = doc.documentElement().elementsByTagName("metainfo");
     if (params.isEmpty()) return NULL;
     if (!description) {
-	description = new ProducerDescription(params.at(0).toElement(), 1, pCore->producerRepository());
-	return description;
+        description = new ProducerDescription(params.at(0).toElement(), 1, pCore->producerRepository());
+        return description;
     }
     return NULL;
 }

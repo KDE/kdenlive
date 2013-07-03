@@ -2,11 +2,13 @@
 Type=Service
 ServiceTypes=Kdenlive/Plugin
 Name=Timelineview Standard Tool
+Name[da]=Standardværktøj til tidslinjevisning
 Name[nl]=Standaard hulpmiddel voor bekijken van de tijdlijn
 Name[pt]=Ferramenta-Padrão da Linha Temporal
 Name[pt_BR]=Ferramenta padrão da linha do tempo
 Name[sl]=Standardno orodje Timelineview
 Name[sv]=Standardverktyg för tidslinjevisning
+Name[tr]=Zaman Tüneli Standart Aracı
 Name[uk]=Стандартний інструмент монтажного столу
 Name[x-test]=xxTimelineview Standard Toolxx
 X-KDE-PluginInfo-Name=kdenliveselecttool

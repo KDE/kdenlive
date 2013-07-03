@@ -77,8 +77,8 @@ void WebvfxProjectClip::parseScriptFile(const QString &url)
     int duration = 0;
     QDomNodeList params = doc.elementsByTagName("metainfo");
     for (int i = 0; i < params.count(); ++i) {
-	if (params.at(i).toElement().hasAttribute("duration")) {
-	    duration = params.at(i).toElement().attribute("duration").toInt();
+        if (params.at(i).toElement().hasAttribute("duration")) {
+            duration = params.at(i).toElement().attribute("duration").toInt();
             break;
         }
     }
