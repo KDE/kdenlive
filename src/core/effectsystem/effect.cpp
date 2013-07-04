@@ -56,7 +56,7 @@ Effect::~Effect()
     m_viewHandler->setParent(NULL);
     checkPropertiesViewState();
     m_parent->removeFilter(m_filter);
-    delete m_filter;
+    m_filter = NULL;
 }
 
 void Effect::setParameterValue(const QString &name, const QString &value)

@@ -56,7 +56,6 @@ void AddEffectCommand::addEffect()
 void AddEffectCommand::deleteEffect()
 {
     if (m_effect) {
-        // TODO: sometimes crashes, check why
         delete m_effect;
         m_effect = NULL;
         m_device->requestUpdateClip();
