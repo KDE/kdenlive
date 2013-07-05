@@ -13,6 +13,7 @@ Name[sv]=Videoklipp
 Name[tr]=Video Klibi
 Name[uk]=Відеокліп
 Name[x-test]=xxVideo Clipxx
+Name[zh_TW]=視訊素材
 X-KDE-PluginInfo-Name=kdenlivevideoclip
 X-KDE-Library=kdenlivevideoclip
 X-Kdenlive-ProvidedProducers=avformat

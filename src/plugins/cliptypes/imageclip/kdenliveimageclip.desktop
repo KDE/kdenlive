@@ -11,6 +11,7 @@ Name[sv]=Bildklipp
 Name[tr]=Resim Klibi
 Name[uk]=Кліп-зображення
 Name[x-test]=xxImage Clipxx
+Name[zh_TW]=影像素材
 X-KDE-PluginInfo-Name=kdenliveimageclip
 X-KDE-Library=kdenliveimageclip
 X-Kdenlive-ProvidedProducers=qimage,pixbuf

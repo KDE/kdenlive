@@ -14,6 +14,7 @@ Name[sv]=Kdenlive-insticksprogram
 Name[tr]=Kdenlive Eklentisi
 Name[uk]=Додаток Kdenlive
 Name[x-test]=xxKdenlive Pluginxx
+Name[zh_TW]=Kdenlive 外掛程式
 
 # @c true: plugin will be loaded at application start by the plugin manager,
 # @c false: plugins needs to be created manually

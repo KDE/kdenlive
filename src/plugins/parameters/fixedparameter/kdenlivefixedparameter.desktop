@@ -11,6 +11,7 @@ Name[sv]=Fast parameter
 Name[tr]=Sabit Parametre
 Name[uk]=Фіксований параметр
 Name[x-test]=xxFixed Parameterxx
+Name[zh_TW]=固定參數
 X-KDE-PluginInfo-Name=kdenlivefixedparameter
 X-KDE-Library=kdenlivefixedparameter
 X-Kdenlive-ParameterType=fixed

@@ -12,6 +12,7 @@ Name[sv]=Projektanteckningar
 Name[tr]=Proje Notları
 Name[uk]=Нотатки щодо проекту
 Name[x-test]=xxProject Notesxx
+Name[zh_TW]=專案備註
 X-KDE-PluginInfo-Name=kdenlivenotes
 X-KDE-Library=kdenlivenotes
 X-Kdenlive-Autoload=true

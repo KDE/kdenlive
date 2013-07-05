@@ -11,6 +11,7 @@ Name[sv]=Standardverktyg för tidslinjevisning
 Name[tr]=Zaman Tüneli Standart Aracı
 Name[uk]=Стандартний інструмент монтажного столу
 Name[x-test]=xxTimelineview Standard Toolxx
+Name[zh_TW]=時間線檢視標準工具
 X-KDE-PluginInfo-Name=kdenliveselecttool
 X-KDE-Library=kdenliveselecttool
 X-Kdenlive-Autoload=true

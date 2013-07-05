@@ -11,6 +11,7 @@ Name[sv]=Webvfx-klipp
 Name[tr]=Webvfx Klibi
 Name[uk]=Кліп Webvfx
 Name[x-test]=xxWebvfx Clipxx
+Name[zh_TW]=Webvfx 素材
 X-KDE-PluginInfo-Name=kdenlivewebvfxclip
 X-KDE-Library=kdenlivewebvfxclip
 X-Kdenlive-ProvidedProducers=webvfx

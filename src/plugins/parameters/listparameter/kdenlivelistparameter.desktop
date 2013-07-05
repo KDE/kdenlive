@@ -11,6 +11,7 @@ Name[sv]=Listparameter
 Name[tr]=Liste Parametresi
 Name[uk]=Параметр списку
 Name[x-test]=xxList Parameterxx
+Name[zh_TW]=列表參數
 X-KDE-PluginInfo-Name=kdenlivelistparameter
 X-KDE-Library=kdenlivelistparameter
 X-Kdenlive-ParameterType=list

@@ -12,6 +12,7 @@ Name[sv]=Boolesk parameter
 Name[tr]=Mantıksal Parametre
 Name[uk]=Булевий параметр
 Name[x-test]=xxBoolean Parameterxx
+Name[zh_TW]=布林值參數
 X-KDE-PluginInfo-Name=kdenlivebooleanparameter
 X-KDE-Library=kdenlivebooleanparameter
 X-Kdenlive-ParameterType=bool

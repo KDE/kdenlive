@@ -14,6 +14,7 @@ Name[sv]=Kdenlive-parameter
 Name[tr]=Kdenlive Parametresi
 Name[uk]=Параметр Kdenlive
 Name[x-test]=xxKdenlive Parameterxx
+Name[zh_TW]=Kdenlive 參數
 
 [PropertyDef::X-Kdenlive-ParameterType]
 Type=QStringList

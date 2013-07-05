@@ -11,6 +11,7 @@ Name[sv]=Dubbel parameter
 Name[tr]=Çift Parametre
 Name[uk]=Параметр з подвійною точністю
 Name[x-test]=xxDouble Parameterxx
+Name[zh_TW]=雙精確度參數
 X-KDE-PluginInfo-Name=kdenlivedoubleparameter
 X-KDE-Library=kdenlivedoubleparameter
 X-Kdenlive-ParameterType=double,constant,integer,float

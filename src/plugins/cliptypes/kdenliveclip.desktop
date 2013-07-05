@@ -13,6 +13,7 @@ Name[sv]=Kdenlive-klipp
 Name[tr]=Kdenlive Klibi
 Name[uk]=Кліп Kdenlive
 Name[x-test]=xxKdenlive Clipxx
+Name[zh_TW]=Kdenlive 素材
 
 [PropertyDef::X-Kdenlive-ProvidedProducers]
 Type=QStringList

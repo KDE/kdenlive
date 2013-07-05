@@ -11,6 +11,7 @@ Name[sv]=Färgparameter
 Name[tr]=Renk Parametresi
 Name[uk]=Параметр кольору
 Name[x-test]=xxColor Parameterxx
+Name[zh_TW]=色彩參數
 X-KDE-PluginInfo-Name=kdenlivecolorparameter
 X-KDE-Library=kdenlivecolorparameter
 X-Kdenlive-ParameterType=color
