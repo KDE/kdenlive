@@ -3,6 +3,7 @@ Type=Service
 ServiceTypes=Kdenlive/Parameter
 Name=Boolean Parameter
 Name[da]=Boolesk parameter
+Name[de]=Boolscher Parameter
 Name[nl]=Booleaanse parameter
 Name[pt]=Parâmetro Booleano
 Name[pt_BR]=Parâmetro booleano
