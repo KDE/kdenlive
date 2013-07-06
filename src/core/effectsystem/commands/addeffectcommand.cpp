@@ -19,13 +19,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <KDebug>
 
-
 AddEffectCommand::AddEffectCommand(EffectDescription *description, EffectDevice *device, bool addEffect, QUndoCommand* parent) :
     QUndoCommand(parent)
     , m_description(description)
     , m_device(device)
-    , m_addEffect(addEffect)
     , m_effect(NULL)
+    , m_addEffect(addEffect)
 {
     setText(i18n("Add effect %1", m_description->displayName()));
 }
