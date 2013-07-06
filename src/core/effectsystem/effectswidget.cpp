@@ -35,13 +35,14 @@ the Free Software Foundation, either version 3 of the License, or
 
 ToolPanel::ToolPanel(QWidget *parent) : 
     QWidget(parent)
-{}
+{
+}
 
 
 EffectsWidget::EffectsWidget(KToolBar *toolbar, EffectRepository *repo, QWidget* parent) :
     ToolPanel(parent)
-    , m_toolbar(toolbar)
-    , m_repository(repo)
+  , m_toolbar(toolbar)
+  , m_repository(repo)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
@@ -73,15 +74,16 @@ void EffectsWidget::fillToolBar()
 void EffectsWidget::setTimeline(Timeline *time)
 {
     
-  QMenu *menu = new QMenu();
-  
-  QMap <QString, QString> effects = m_repository->getEffectsList();
+    QMenu *menu = new QMenu();
+
+    QMap <QString, QString> effects = m_repository->getEffectsList();
     
     QMap<QString, QString>::const_iterator i = effects.constBegin();
-    while (i != effects.constEnd()) {
-	QAction *a = menu->addAction(i.key());
-	a->setData(i.value());
-	++i;
+    QMap<QString, QString>::const_iterator end = effects.constEnd();
+    while (i != end) {
+        QAction *a = menu->addAction(i.key());
+        a->setData(i.value());
+        ++i;
     }
     m_service = time->producer()->get_service();
     m_toolButton->setMenu(menu);

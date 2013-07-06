@@ -46,8 +46,8 @@ void MltCore::checkConsumers()
     Mlt::Properties *consumers = m_repository->consumers();
     int max = consumers->count();
     for (int i = 0; i < max; ++i) {
-        QString cons = consumers->get_name(i);
-        if (cons == "sdl_preview") {
+        const QString cons = consumers->get_name(i);
+        if (cons == QLatin1String("sdl_preview")) {
             m_availableDisplayModes << MLTSDL;
             break;
         }

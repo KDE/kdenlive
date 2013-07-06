@@ -40,6 +40,7 @@ void AbstractPropertiesViewContainer::addChild(QWidget* child)
 
 void AbstractPropertiesViewContainer::setContainerDisabled(bool disable)
 {
+    //TODO always true. Correct ? if yes remove this "if"
     if (1) {
         m_ui->frameContainer->setDisabled(disable);
     }
@@ -48,7 +49,7 @@ void AbstractPropertiesViewContainer::setContainerDisabled(bool disable)
 
 void AbstractPropertiesViewContainer::setCollapsed()
 {
-    bool collapse = !m_ui->frameContainer->isHidden();
+    const bool collapse = !m_ui->frameContainer->isHidden();
     m_ui->frameContainer->setHidden(collapse);
 
     if (collapse) {
