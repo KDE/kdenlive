@@ -36,7 +36,7 @@ public:
      * @param oldValue current/old value
      * @param notifier notifier which should be called upon setting change
      */
-    explicit ConfigureTrackCommand(const char *text, int trackIndex, const QString &setting, const QString &value, const QString &oldValue, TrackNotifier notifier, QUndoCommand* parent = 0);
+    explicit ConfigureTrackCommand(const QString &text, int trackIndex, const QString &setting, const QString &value, const QString &oldValue, TrackNotifier notifier, QUndoCommand* parent = 0);
 
     void undo();
     void redo();

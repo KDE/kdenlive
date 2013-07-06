@@ -17,7 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KLocalizedString>
 
 
-ConfigureTrackCommand::ConfigureTrackCommand(const char *text, int trackIndex, const QString& setting, const QString& value, const QString &oldValue, TrackNotifier notifier, QUndoCommand* parent):
+ConfigureTrackCommand::ConfigureTrackCommand(const QString &text, int trackIndex, const QString& setting, const QString& value, const QString &oldValue, TrackNotifier notifier, QUndoCommand* parent):
     QUndoCommand(parent),
     m_trackIndex(trackIndex),
     m_setting(setting),
@@ -25,7 +25,7 @@ ConfigureTrackCommand::ConfigureTrackCommand(const char *text, int trackIndex, c
     m_oldValue(oldValue),
     m_notifier(notifier)
 {
-    setText(i18n(text));
+    setText(text);
 }
 
 void ConfigureTrackCommand::redo()

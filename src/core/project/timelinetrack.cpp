@@ -20,7 +20,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitor/monitorview.h"
 
 #include <KDebug>
-
+#include <KLocale>
 
 TimelineTrack::TimelineTrack(ProducerWrapper* producer, Timeline* parent) :
     QObject(parent),
@@ -192,7 +192,7 @@ QString TimelineTrack::name() const
 void TimelineTrack::setName(const QString& name)
 {
     if (name != this->name()) {
-        m_parent->project()->undoStack()->push(new ConfigureTrackCommand("Change track name",
+        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(i18n("Change track name"),
                                                                          index(),
                                                                          "kdenlive.name",
                                                                          name,
@@ -220,7 +220,7 @@ void TimelineTrack::hide(bool hide)
     QString value = QString::number(muteValue + hideValue);
     QString oldValue = m_producer->property("hide");
     if (value != oldValue) {
-        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(hide ? "Hide Track" : "Show Track",
+        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(hide ? i18n("Hide Track") : i18n("Show Track"),
                                                                          index(),
                                                                          "hide",
                                                                          value,
@@ -250,7 +250,7 @@ void TimelineTrack::mute(bool mute)
     QString value = QString::number(muteValue + hideValue);
     QString oldValue = m_producer->property("hide");
     if (value != oldValue) {
-        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(mute ? "Mute Track" : "Unmute Track",
+        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(mute ? i18n("Mute Track") : i18n("Unmute Track"),
                                                                          index(),
                                                                          "hide",
                                                                          value,
@@ -273,7 +273,7 @@ bool TimelineTrack::isLocked() const
 void TimelineTrack::lock(bool lock)
 {
     if (lock != isLocked()) {
-        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(lock ? "Lock Track" : "Unlock Track",
+        m_parent->project()->undoStack()->push(new ConfigureTrackCommand(lock ? i18n("Lock Track") : i18n("Unlock Track"),
                                                                          index(),
                                                                          "kdenlive.locked",
                                                                          QString::number(lock),
