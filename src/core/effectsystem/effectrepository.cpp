@@ -60,8 +60,8 @@ void EffectRepository::initRepository()
     QStringList effectDirectories = KGlobal::dirs()->findDirs("appdata", "effects");
     foreach(QString directoryName, effectDirectories) {
         QDir directory(directoryName);
-        QStringList fileList = directory.entryList(QStringList() << "*.xml", QDir::Files);
-        foreach (QString filename, fileList) {
+        const QStringList fileList = directory.entryList(QStringList() << "*.xml", QDir::Files);
+        foreach (const QString &filename, fileList) {
             QFile file(KUrl(directoryName + filename).path());
             QDomDocument document;
             document.setContent(&file, false);
