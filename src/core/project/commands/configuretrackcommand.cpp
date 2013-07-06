@@ -31,7 +31,8 @@ ConfigureTrackCommand::ConfigureTrackCommand(const char *text, int trackIndex, c
 void ConfigureTrackCommand::redo()
 {
     TimelineTrack *track = pCore->projectManager()->current()->timeline()->track(m_trackIndex);
-    track->producer()->setProperty(m_setting, m_value);
+    if (track->producer())
+      track->producer()->setProperty(m_setting, m_value);
     (track->*m_notifier)();
 }
 
