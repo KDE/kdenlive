@@ -3,6 +3,7 @@ Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Webvfx Clip
 Name[da]=Webvfx-klip
+Name[lt]=Webvfx iškarpa
 Name[nl]=Webvfx-clip
 Name[pt]='Clip' de Webvfx
 Name[pt_BR]=Clipe Webvfx

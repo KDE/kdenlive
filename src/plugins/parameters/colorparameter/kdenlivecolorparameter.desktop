@@ -4,6 +4,7 @@ ServiceTypes=Kdenlive/Parameter
 Name=Color Parameter
 Name[da]=Farveparameter
 Name[de]=Farbparameter
+Name[lt]=Spalvos parametras
 Name[nl]=Kleurparameter
 Name[pt]=Parâmetro de Cor
 Name[pt_BR]=Parâmetro de cores
