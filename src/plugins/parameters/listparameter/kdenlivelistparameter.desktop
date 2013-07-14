@@ -4,6 +4,7 @@ ServiceTypes=Kdenlive/Parameter
 Name=List Parameter
 Name[da]=Oplist parameter
 Name[de]=Listenparameter
+Name[hu]=Lista paraméter
 Name[nl]=Lijstparameter
 Name[pt]=Parâmetro de Lista
 Name[pt_BR]=Parâmetro de lista

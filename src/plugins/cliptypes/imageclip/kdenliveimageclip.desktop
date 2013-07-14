@@ -3,6 +3,7 @@ Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Image Clip
 Name[da]=Billedeklip
+Name[hu]=Képklip
 Name[lt]=Paveikslėlio iškarpa
 Name[nl]=Afbeeldingsclip
 Name[pt]='Clip' de Imagem
