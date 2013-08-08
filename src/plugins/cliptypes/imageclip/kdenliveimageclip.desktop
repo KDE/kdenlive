@@ -2,6 +2,7 @@
 Type=Service
 ServiceTypes=Kdenlive/Clip
 Name=Image Clip
+Name[cs]=Obrázkový klip
 Name[da]=Billedeklip
 Name[es]=Clip de imagen
 Name[fr]=Clip mage

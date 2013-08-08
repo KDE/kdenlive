@@ -2,6 +2,7 @@
 Type=Service
 ServiceTypes=Kdenlive/Plugin
 Name=Project Notes
+Name[cs]=Poznámky k projektu
 Name[da]=Projektnoter
 Name[de]=Projektnotizen
 Name[es]=Notas del proyecto
