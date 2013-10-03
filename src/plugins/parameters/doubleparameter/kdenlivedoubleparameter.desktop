@@ -3,6 +3,7 @@ Type=Service
 ServiceTypes=Kdenlive/Parameter
 Name=Double Parameter
 Name[da]=Dobbelt parameter
+Name[de]=Doppelter Parameter
 Name[es]=Parámetro de precisión doble
 Name[fr]=Paramètre double
 Name[gl]=Parámetro duplo
