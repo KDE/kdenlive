@@ -3,6 +3,7 @@ Type=Service
 ServiceTypes=Kdenlive/Plugin
 Name=Timelineview Standard Tool
 Name[da]=Standardværktøj til tidslinjevisning
+Name[de]=Standardwerkzeug Zeitleistenansicht
 Name[es]=Herramienta estándar de la línea de tiempo
 Name[fr]=Outil standard de frise chronologique
 Name[gl]=Ferramenta normal de vista da liña temporal
