@@ -26,7 +26,7 @@
 #ifndef CLIPMANAGER_H
 #define CLIPMANAGER_H
 
-#include <qdom.h>
+#include <QtXml/qdom.h>
 #include <QPixmap>
 #include <QObject>
 #include <QTimer>

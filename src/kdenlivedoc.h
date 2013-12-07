@@ -21,7 +21,7 @@
 #ifndef KDENLIVEDOC_H
 #define KDENLIVEDOC_H
 
-#include <qdom.h>
+#include <QtXml/qdom.h>
 #include <QMap>
 #include <QList>
 #include <QDir>

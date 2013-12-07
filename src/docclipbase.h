@@ -22,7 +22,7 @@
   *@author Jason Wood
   */
 
-#include <qdom.h>
+#include <QtXml/qdom.h>
 #include <QPixmap>
 #include <QObject>
 #include <QTimer>

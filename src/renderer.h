@@ -37,7 +37,7 @@
 
 #include <kurl.h>
 
-#include <qdom.h>
+#include <QtXml/qdom.h>
 #include <qstring.h>
 #include <qmap.h>
 #include <QList>
