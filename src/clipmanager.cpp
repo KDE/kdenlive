@@ -335,12 +335,11 @@ void ClipManager::slotGetAudioThumbs()
         }
 
         int last_val = 0;
-        int val = 0;
         double framesPerSecond = mlt_producer_get_fps(producer.get_producer());
         Mlt::Frame *mlt_frame;
 
         for (int z = (int) frame; z < (int)(frame + lengthInFrames) && producer.is_valid() &&  !m_abortAudioThumb; z++) {
-            val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
+            int val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
             if (last_val != val && val > 1) {
                 setThumbsProgress(i18n("Creating audio thumbnail for %1", url.fileName()), val);
                 last_val = val;
@@ -960,7 +959,7 @@ void ClipManager::listRemovableVolumes()
 
 bool ClipManager::isOnRemovableDevice(const KUrl &url)
 {
-    SolidVolumeInfo volume;
+    //SolidVolumeInfo volume;
     QString path = url.path(KUrl::RemoveTrailingSlash);
     int volumeMatch = 0;
 
@@ -974,7 +973,7 @@ bool ClipManager::isOnRemovableDevice(const KUrl &url)
             if (length > volumeMatch)
             {
                 volumeMatch = v.path.length();
-                volume = v;
+                //volume = v;
             }
         }
     }
