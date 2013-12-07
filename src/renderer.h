@@ -38,8 +38,8 @@
 #include <kurl.h>
 
 #include <QtXml/qdom.h>
-#include <qstring.h>
-#include <qmap.h>
+#include <QString>
+#include <QMap>
 #include <QList>
 #include <QEvent>
 #include <QMutex>

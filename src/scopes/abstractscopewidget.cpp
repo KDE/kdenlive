@@ -8,7 +8,7 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include "qtconcurrentrun.h"
+#include "QtCore/qtconcurrentrun.h"
 
 #include "abstractscopewidget.h"
 #include "renderer.h"
