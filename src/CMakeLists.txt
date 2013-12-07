@@ -391,5 +391,5 @@ install(FILES
   kdenlivetranscodingrc
   DESTINATION ${CONFIG_INSTALL_DIR}
 )
-kde4_install_icons(${ICON_INSTALL_DIR})
+add_subdirectory(icons)
 install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
