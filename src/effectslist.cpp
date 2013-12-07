@@ -145,7 +145,7 @@ QString EffectsList::getInfoFromIndex(const int ix) const
     return getEffectInfo(m_baseElement.childNodes().at(ix).toElement());
 }
 
-QString EffectsList::getEffectInfo(const QDomElement effect) const
+QString EffectsList::getEffectInfo(const QDomElement &effect) const
 {
     QString info;
     QDomElement namenode = effect.firstChildElement("description");

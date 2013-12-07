@@ -135,7 +135,7 @@ public slots:
     * @param c Clip whose effect list should be managed */
     void slotClipItemUpdate();
 
-    void slotTrackItemSelected(int ix, const TrackInfo info);
+    void slotTrackItemSelected(int ix, const TrackInfo &info);
    
     /** @brief Check if the mouse wheel events should be used for scrolling the widget view. */
     void slotCheckWheelEventFilter();

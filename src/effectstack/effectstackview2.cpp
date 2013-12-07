@@ -142,7 +142,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c)
     setupListView();
 }
 
-void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
+void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info)
 {
     m_clipref = NULL;
     m_effectMetaInfo.trackMode = true;
