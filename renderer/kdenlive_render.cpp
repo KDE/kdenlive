@@ -22,8 +22,7 @@
 #include <QStringList>
 #include <QString>
 #include <QUrl>
-#include <QtDebug>
-
+#include <QDebug>
 #include "renderjob.h"
 
 int main(int argc, char **argv)
