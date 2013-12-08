@@ -20,19 +20,17 @@
 
 #include "westleypreview.h"
 
-#include <qfile.h>
-#include <qimage.h>
-#include <QtCore/QVarLengthArray>
+#include <QFile>
+#include <QImage>
+#include <QVarLengthArray>
 
 #include <kstandarddirs.h>
 #include <krandomsequence.h>
-#include <qdatetime.h>
-#include <QColor>
+#include <QDateTime>
 #include <kdebug.h>
 #include <ktempdir.h>
 #include <kurl.h>
-#include <qfileinfo.h>
-#include <KTemporaryFile>
+#include <QFileInfo>
 
 #include <unistd.h>
 
