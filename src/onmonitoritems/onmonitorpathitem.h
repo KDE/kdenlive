@@ -22,7 +22,6 @@
 #define ONMONITORPATHITEM_H
 
 
-#include <QtCore>
 #include <QGraphicsPathItem>
 
 class QGraphicsView;

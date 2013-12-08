@@ -10,7 +10,6 @@
 
 #include <cmath>
 
-#include <QColor>
 #include <QImage>
 #include <QPainter>
 #include <QSize>

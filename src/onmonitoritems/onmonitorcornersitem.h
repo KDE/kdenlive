@@ -22,7 +22,6 @@
 #define ONMONITORCORNERSITEM_H
 
 
-#include <QtCore>
 #include <QGraphicsPolygonItem>
 
 class QGraphicsView;

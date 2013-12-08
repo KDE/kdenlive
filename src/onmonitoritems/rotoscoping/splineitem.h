@@ -19,7 +19,6 @@
 #ifndef SPLINEITEM_H
 #define SPLINEITEM_H
 
-#include <QtCore>
 #include <QGraphicsPathItem>
 
 class BPoint;

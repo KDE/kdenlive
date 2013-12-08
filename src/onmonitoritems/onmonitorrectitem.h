@@ -22,7 +22,6 @@
 #define ONMONITORRECTITEM_H
 
 
-#include <QtCore>
 #include <QGraphicsRectItem>
 
 class QGraphicsView;

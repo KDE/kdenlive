@@ -21,7 +21,6 @@
 
 #include "beziercurve/bpoint.h"
 
-#include <QtCore>
 #include <QAbstractGraphicsShapeItem>
 
 class QGraphicsView;
