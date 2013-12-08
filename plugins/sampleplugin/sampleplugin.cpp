@@ -21,15 +21,11 @@
 #include "sampleplugin.h"
 #include "ui_countdown_ui.h"
 
-#include <KUrlRequester>
-#include <KIntSpinBox>
 #include <KDebug>
 #include <KMessageBox>
 #include <KApplication>
 
 #include <QDialog>
-#include <QDomDocument>
-#include <QInputDialog>
 #include <QProcess>
 
 QStringList SamplePlugin::generators(const QStringList &producers) const
