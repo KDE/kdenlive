@@ -723,14 +723,14 @@ void RecMonitor::slotRecord()
 	    m_captureArgs << "-f" << "x11grab";
 	    if (KdenliveSettings::grab_follow_mouse()) m_captureArgs << "-follow_mouse" << "centered";
 	    if (!KdenliveSettings::grab_hide_frame()) m_captureArgs << "-show_region" << "1";
+	    captureSize = ":0.0";
             if (KdenliveSettings::grab_capture_type() == 0) {
                 // Full screen capture
-                captureSize = ":0.0";
 		m_captureArgs << "-s" << QString::number(screenSize.width()) + "x" + QString::number(screenSize.height());
 	    } else {
                 // Region capture
                 m_captureArgs << "-s" << QString::number(KdenliveSettings::grab_width()) + "x" + QString::number(KdenliveSettings::grab_height());
-                captureSize = ":" + QString::number(KdenliveSettings::grab_offsetx()) + "." + QString::number(KdenliveSettings::grab_offsetx());
+                captureSize.append("+" + QString::number(KdenliveSettings::grab_offsetx()) + "." + QString::number(KdenliveSettings::grab_offsetx()));
             }
             // fps
             m_captureArgs << "-r" << QString::number(KdenliveSettings::grab_fps());
