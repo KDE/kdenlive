@@ -11,7 +11,6 @@
 #ifndef VECTORSCOPE_H
 #define VECTORSCOPE_H
 
-#include <QtCore>
 #include "ui_vectorscope_ui.h"
 #include "abstractgfxscopewidget.h"
 

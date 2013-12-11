@@ -12,12 +12,6 @@
 #include "renderer.h"
 #include "monitor.h"
 
-#include <QtConcurrentRun>
-#include <QFuture>
-#include <QColor>
-#include <QMenu>
-#include <QMouseEvent>
-#include <QPainter>
 
 // Uncomment for debugging
 //#define DEBUG_AASW

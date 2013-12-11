@@ -19,15 +19,11 @@
 
 #include "audiosignal.h"
 
-#include <KLocale>
 #include <KDebug>
 
-#include <QVBoxLayout>
-#include <QAction>
-#include <QMenu>
 #include <QPainter>
-#include <QDebug>
-#include <QList>
+#include <QMenu>
+#include <QTime>
 
 #include <math.h>
 

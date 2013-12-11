@@ -11,7 +11,6 @@
 #ifndef RGBPARADE_H
 #define RGBPARADE_H
 
-#include <QObject>
 #include "abstractgfxscopewidget.h"
 #include "ui_rgbparade_ui.h"
 

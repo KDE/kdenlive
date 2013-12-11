@@ -25,7 +25,6 @@
 #ifndef SPECTROGRAM_H
 #define SPECTROGRAM_H
 
-#include <QtCore>
 
 #include "abstractaudioscopewidget.h"
 #include "ui_spectrogram_ui.h"

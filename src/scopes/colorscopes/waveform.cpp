@@ -8,10 +8,9 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include <QMenu>
-#include <QMouseEvent>
 #include <QPainter>
 #include <QPoint>
+#include <QMenu>
 
 // For reading out the project resolution
 #include "kdenlivesettings.h"

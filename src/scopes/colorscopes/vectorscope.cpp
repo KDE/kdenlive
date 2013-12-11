@@ -10,13 +10,11 @@
 
 
 #include <QAction>
-#include <QColor>
 #include <QDebug>
-#include <QMouseEvent>
-#include <QMenu>
 #include <QPainter>
 
 #include <QTime>
+#include <QMenu>
 
 #include "colorplaneexport.h"
 #include "colortools.h"

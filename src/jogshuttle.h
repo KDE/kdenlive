@@ -21,7 +21,7 @@
 #ifndef SHUTTLE_H
 #define SHUTTLE_H
 
-#include <qthread.h>
+#include <QThread>
 #include <QObject>
 
 #include <linux/input.h>

@@ -18,7 +18,6 @@
 // Show overmodulation
 #define DETECT_OVERMODULATION
 
-#include <QtCore>
 #include <QVector>
 #include <QHash>
 

@@ -24,7 +24,6 @@
 
 #include <QByteArray>
 #include <QList>
-#include <QColor>
 #include <QTimer>
 
 #include  <QWidget>

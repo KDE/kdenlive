@@ -12,18 +12,12 @@
 #include "renderer.h"
 #include "monitormanager.h"
 
-#include <QtConcurrentRun>
-#include <QFuture>
-#include <QColor>
-#include <QMenu>
 #include <QMouseEvent>
-#include <QPainter>
 
 // Uncomment for debugging.
 //#define DEBUG_AGSW
 
 #ifdef DEBUG_AGSW
-#include <QDebug>
 #endif
 
 const int REALTIME_FPS = 30;

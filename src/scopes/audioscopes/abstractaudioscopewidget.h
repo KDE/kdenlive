@@ -12,7 +12,6 @@
 #define ABSTRACTAUDIOSCOPEWIDGET_H
 
 
-#include <QtCore>
 #include <QWidget>
 
 #include <stdint.h>
