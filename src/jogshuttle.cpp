@@ -109,13 +109,15 @@ void ShuttleThread::run()
 	int result, iof = -1;
 
 	/* get fd settings */
-	if ((iof = fcntl(fd, F_GETFL, 0)) != -1) {
-		/* set fd non blocking */
-		fcntl(fd, F_SETFL, iof | O_NONBLOCK);
-	} else {
-		fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
-		return;
-	}
+    if ((iof = fcntl(fd, F_GETFL, 0)) == -1) {
+        fprintf(stderr, "Can't get Jog Shuttle file status\n");
+        close(fd);
+        return;
+    } else if (fcntl(fd, F_SETFL, iof | O_NONBLOCK) == -1) {
+        fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
+        close(fd);
+        return;
+    }
 
 	/* enter thread loop */
 	while (!stop_me) {

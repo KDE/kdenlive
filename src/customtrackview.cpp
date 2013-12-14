@@ -1224,8 +1224,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             info.startPos = transitionClip->startPos();
         } else {
             GenTime transitionDuration(65, m_document->fps());
-            if (m_dragItem->cropDuration() < transitionDuration) info.startPos = m_dragItem->startPos();
-            else info.startPos = info.endPos - transitionDuration;
+            if (m_dragItem->cropDuration() < transitionDuration)
+                info.startPos = m_dragItem->startPos();
+            else
+                info.startPos = info.endPos - transitionDuration;
         }
         if (info.endPos == info.startPos) info.startPos = info.endPos - GenTime(65, m_document->fps());
         QDomElement transition = MainWindow::transitions.getEffectByTag("luma", "dissolve").cloneNode().toElement();

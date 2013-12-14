@@ -52,12 +52,14 @@ int MoveEffectCommand::id() const
 bool MoveEffectCommand::mergeWith(const QUndoCommand * other)
 {
     return false;
+    /* dead code (flaged by coverity), was removed to avoid crash when dropping on group
     if (other->id() != id()) return false;
     if (m_track != static_cast<const MoveEffectCommand*>(other)->m_track) return false;
     if (m_pos != static_cast<const MoveEffectCommand*>(other)->m_pos) return false;
     m_oldindex = static_cast<const MoveEffectCommand*>(other)->m_oldindex;
     m_newindex = static_cast<const MoveEffectCommand*>(other)->m_newindex;
     return true;
+    */
 }
 
 // virtual
