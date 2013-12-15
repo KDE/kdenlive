@@ -27,7 +27,7 @@
 #include <KStandardDirs>
 
 #include <QFile>
-#include <qregexp.h>
+#include <QRegExp>
 #include <QDir>
 #include <QIcon>
 

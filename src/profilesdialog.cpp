@@ -26,7 +26,7 @@
 #include <KIO/NetAccess>
 
 #include <QDir>
-#include <qscriptengine.h>
+#include <QScriptEngine>
 #include <QCloseEvent>
 #include <QScriptEngine>
 
