@@ -31,9 +31,9 @@
 #include <KLocalizedString>
 
 
-DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, QWidget *parent) :
-    m_commentLabel(NULL),
-    QWidget(parent)
+DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, QWidget *parent) 
+  : QWidget(parent),
+    m_commentLabel(NULL)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     QGridLayout *layout = new QGridLayout(this);
