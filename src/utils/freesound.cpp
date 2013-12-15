@@ -30,7 +30,7 @@
 #include <KDebug>
 #include "kdenlivesettings.h"
 #include <kio/job.h>
-#include <KLocale>
+#include <KLocalizedString>
 
 #ifdef USE_QJSON
 #include <qjson/parser.h>

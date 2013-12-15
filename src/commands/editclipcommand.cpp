@@ -20,7 +20,7 @@
 #include "editclipcommand.h"
 #include "projectlist.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDebug>
 
 EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :

@@ -30,7 +30,7 @@
 #include "collapsiblegroup.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KStandardDirs>
 #include <KFileDialog>

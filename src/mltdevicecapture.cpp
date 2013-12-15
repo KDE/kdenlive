@@ -25,7 +25,7 @@
 #include <KDebug>
 #include <KStandardDirs>
 #include <KMessageBox>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KTemporaryFile>
 
 #include <QTimer>

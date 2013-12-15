@@ -21,7 +21,7 @@
 #include "addtrackcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDebug>
 AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand * parent) :
         QUndoCommand(parent),

@@ -19,7 +19,7 @@
 #include "effectslist.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 
 EffectsList::EffectsList(bool indexRequired) : m_useIndex(indexRequired)

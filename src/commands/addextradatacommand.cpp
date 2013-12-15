@@ -19,7 +19,7 @@
 #include "addextradatacommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 AddExtraDataCommand::AddExtraDataCommand(CustomTrackView *view, const QString&id, const QString&key, const QString &oldData, const QString &newData, QUndoCommand * parent) :
         QUndoCommand(parent),

@@ -19,7 +19,7 @@
 #include "editguidecommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment, bool doIt, QUndoCommand * parent) :
     QUndoCommand(parent),

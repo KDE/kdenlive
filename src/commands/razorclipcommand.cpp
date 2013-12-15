@@ -21,7 +21,7 @@
 #include "razorclipcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo &info, EffectsList stack, const GenTime &cutTime, bool doIt, QUndoCommand * parent) :
     QUndoCommand(parent),

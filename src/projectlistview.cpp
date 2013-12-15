@@ -26,7 +26,7 @@
 
 #include <KDebug>
 #include <KMenu>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QApplication>
 #include <QHeaderView>

@@ -69,7 +69,7 @@
 #include "lib/audio/audioCorrelation.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KUrl>
 #include <KIcon>
 #include <KCursor>

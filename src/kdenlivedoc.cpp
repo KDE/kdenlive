@@ -35,7 +35,7 @@
 #include <KStandardDirs>
 #include <KMessageBox>
 #include <KProgressDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KFileDialog>
 #include <KIO/NetAccess>
 #include <KIO/CopyJob>

@@ -21,7 +21,7 @@
 #include "folderprojectitem.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIcon>
 
 

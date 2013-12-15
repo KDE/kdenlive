@@ -24,7 +24,7 @@
 #include "docclipbase.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIcon>
 
 #include <QFile>

@@ -30,7 +30,7 @@
 #include <framework/mlt_version.h>
 
 #include <KStandardDirs>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KProcess>
 #include <kmimetype.h>
 #include <KRun>

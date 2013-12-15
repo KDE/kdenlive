@@ -21,7 +21,7 @@
 #include "archivewidget.h"
 #include "titlewidget.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDiskFreeSpaceInfo>
 #include <KUrlRequester>
 #include <KFileDialog>

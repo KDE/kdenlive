@@ -23,7 +23,7 @@
 
 #include <KDebug>
 #include <KColorScheme>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QMouseEvent>
 #include <QStylePainter>

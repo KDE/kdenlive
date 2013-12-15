@@ -28,7 +28,7 @@
 #include "profilesdialog.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStandardDirs>
 #include <KComboBox>
 #include <KIO/NetAccess>

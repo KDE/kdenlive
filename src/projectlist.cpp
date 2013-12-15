@@ -48,7 +48,7 @@
 
 #include <KDebug>
 #include <KAction>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KFileDialog>
 #include <KInputDialog>
 #include <KMessageBox>

@@ -21,7 +21,7 @@
 #include "addclipcommand.h"
 #include "kdenlivedoc.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),

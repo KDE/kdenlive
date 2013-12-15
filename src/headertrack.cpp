@@ -23,7 +23,7 @@
 #include "kdenlivesettings.h"
 
 #include <KIcon>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDebug>
 
 #include <QMouseEvent>

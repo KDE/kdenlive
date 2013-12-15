@@ -19,7 +19,7 @@
 #include "addtransitioncommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, const ItemInfo &info, int transitiontrack, const QDomElement &params, bool remove, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),

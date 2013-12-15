@@ -24,7 +24,7 @@
 
 #include <KDebug>
 #include <KUrl>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <mlt++/Mlt.h>
 

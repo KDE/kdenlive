@@ -22,7 +22,7 @@
 #include <kio/netaccess.h>
 #include <KApplication>
 #include <KStandardDirs>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <QGraphicsScene>

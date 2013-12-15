@@ -23,7 +23,7 @@
 #include "kdenlivedoc.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 
 AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, const QStringList &) :

@@ -20,7 +20,7 @@
 
 #include "noteswidget.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDebug>
 #include <QMenu>
 #include <QMouseEvent>

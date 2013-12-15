@@ -21,6 +21,7 @@
 
 #include <KConfigGroup>
 #include <KGlobal>
+#include <KSharedConfig>
 
 // Uncomment for Scope debugging.
 //#define DEBUG_ASW

@@ -22,7 +22,7 @@
 #include "moveclipcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, QUndoCommand * parent)
     : QUndoCommand(parent),

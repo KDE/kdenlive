@@ -69,7 +69,7 @@
 
 #include <KApplication>
 #include <KAction>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KGlobal>
 #include <KActionCollection>
 #include <KActionCategory>

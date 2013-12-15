@@ -26,7 +26,7 @@
 
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIcon>
 
 const int DurationRole = Qt::UserRole + 1;

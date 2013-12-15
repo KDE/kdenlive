@@ -26,7 +26,7 @@
 #include "monitormanager.h"
 
 #include <KStandardDirs>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KFileDialog>
 #include <kmimetype.h>
 #include <KIO/NetAccess>

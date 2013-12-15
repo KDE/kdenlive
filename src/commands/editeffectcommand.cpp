@@ -21,7 +21,7 @@
 #include "editeffectcommand.h"
 #include "customtrackview.h"
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
     QUndoCommand(parent),

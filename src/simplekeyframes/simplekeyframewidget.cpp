@@ -24,7 +24,7 @@
 #include <QGridLayout>
 
 #include <KIcon>
-#include <KLocale>
+#include <KLocalizedString>
 
 SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent) :
         QWidget(parent)

@@ -24,7 +24,7 @@
 #include <QVBoxLayout>
 
 #include <KIcon>
-#include <KLocale>
+#include <KLocalizedString>
 
 
 BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :

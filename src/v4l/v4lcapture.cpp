@@ -30,7 +30,7 @@
 #include <QPainter>
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "v4lcapture.h"
 #include "kdenlivesettings.h"

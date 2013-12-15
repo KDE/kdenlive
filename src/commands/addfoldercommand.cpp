@@ -21,7 +21,7 @@
 #include "addfoldercommand.h"
 #include "projectlist.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 AddFolderCommand::AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),

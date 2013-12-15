@@ -30,7 +30,7 @@
 
 #include <KDebug>
 #include <KGlobalSettings>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KStandardDirs>
 #include <KFileDialog>

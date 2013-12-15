@@ -20,7 +20,7 @@
 #include "addclipcutcommand.h"
 #include "projectlist.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString& desc, bool newItem, bool remove, QUndoCommand * parent) :
         QUndoCommand(parent),

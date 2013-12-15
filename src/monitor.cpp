@@ -27,7 +27,7 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KFileDialog>
 #include <KApplication>
 #include <KMessageBox>

@@ -82,7 +82,7 @@ return frameNumber;
 
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "timecode.h"
 

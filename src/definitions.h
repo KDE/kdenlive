@@ -24,7 +24,7 @@
 #include "gentime.h"
 #include "effectslist.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <QDebug>
 
 #include <QTreeWidgetItem>

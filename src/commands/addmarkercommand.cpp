@@ -19,7 +19,7 @@
 #include "addmarkercommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 AddMarkerCommand::AddMarkerCommand(CustomTrackView *view, const CommentedTime &oldMarker, const CommentedTime &newMarker, const QString &id, QUndoCommand * parent) :
         QUndoCommand(parent),

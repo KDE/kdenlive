@@ -21,7 +21,7 @@
 #include "groupclipscommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDebug>
 
 GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo>& transitionInfos, bool group, QUndoCommand * parent) :

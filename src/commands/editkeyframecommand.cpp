@@ -19,7 +19,7 @@
 #include "editkeyframecommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 EditKeyFrameCommand::EditKeyFrameCommand(CustomTrackView *view, const int track, const GenTime &pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt) :
     QUndoCommand(),

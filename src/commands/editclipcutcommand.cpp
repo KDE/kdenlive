@@ -20,7 +20,7 @@
 #include "editclipcutcommand.h"
 #include "projectlist.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDebug>
 
 EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent) :

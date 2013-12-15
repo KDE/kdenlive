@@ -26,7 +26,7 @@
 #include <KDebug>
 #include <KMessageBox>
 #include <KApplication>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStandardDirs>
 
 #include <QFile>
