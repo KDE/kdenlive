@@ -30,7 +30,7 @@ AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int of
 {
     // make a copy of the producer to avoid audio playback issues
     QString path = QString::fromUtf8(producer->get("resource"));
-    if (path == "<playlist>" || path == "<tractor>" || path == "<producer>")
+    if (path == QLatin1String("<playlist>") || path == QLatin1String("<tractor>") || path ==QLatin1String( "<producer>"))
 	path = url;
     m_producer = new Mlt::Producer(*(producer->profile()), path.toUtf8().constData());
     if (!m_producer || !m_producer->is_valid()) {

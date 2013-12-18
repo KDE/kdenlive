@@ -38,13 +38,13 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.setupUi(widget);
     layout->addWidget(widget);
 
-    m_ui.buttonLinkHandles->setIcon(KIcon("insert-link"));
-    m_ui.buttonZoomIn->setIcon(KIcon("zoom-in"));
-    m_ui.buttonZoomOut->setIcon(KIcon("zoom-out"));
-    m_ui.buttonGridChange->setIcon(KIcon("view-grid"));
+    m_ui.buttonLinkHandles->setIcon(KIcon(QLatin1String("insert-link")));
+    m_ui.buttonZoomIn->setIcon(KIcon(QLatin1String("zoom-in")));
+    m_ui.buttonZoomOut->setIcon(KIcon(QLatin1String("zoom-out")));
+    m_ui.buttonGridChange->setIcon(KIcon(QLatin1String("view-grid")));
     m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::COL_Luma, 0.8))));
-    m_ui.buttonResetSpline->setIcon(KIcon("view-refresh"));
-    m_ui.buttonShowAllHandles->setIcon(KIcon("draw-bezier-curves"));
+    m_ui.buttonResetSpline->setIcon(KIcon(QLatin1String("view-refresh")));
+    m_ui.buttonShowAllHandles->setIcon(KIcon(QLatin1String("draw-bezier-curves")));
     m_ui.widgetPoint->setEnabled(false);
 
     m_pX = new DragValue(i18n("In"), 0, 3, 0, 1, -1, QString(), false, this);

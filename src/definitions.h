@@ -188,11 +188,11 @@ public:
         int collapsedState = (int) isCollapsed;
         if (groupIsCollapsed) collapsedState += 2;
         data << QString::number(collapsedState) << QString::number(groupIndex) << groupName;
-        return data.join("/");
+        return data.join(QLatin1String("/"));
     }
     void fromString(QString value) {
         if (value.isEmpty()) return;
-        QStringList data = value.split("/");
+        QStringList data = value.split(QLatin1String("/"));
         isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
         groupIsCollapsed = data.at(0).toInt() >= 2;
         if (data.count() > 1) groupIndex = data.at(1).toInt();

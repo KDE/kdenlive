@@ -39,11 +39,11 @@ FFTTools::~FFTTools()
 
 const QString FFTTools::windowSignature(const WindowType windowType, const int size, const float param)
 {
-    return QString("s%1_t%2_p%3").arg(size).arg(windowType).arg(param, 0, 'f', 3);
+    return QString::fromLatin1("s%1_t%2_p%3").arg(size).arg(windowType).arg(param, 0, 'f', 3);
 }
 const QString FFTTools::cfgSignature(const int size)
 {
-    return QString("s%1").arg(size);
+    return QString::fromLatin1("s%1").arg(size);
 }
 
 // http://cplusplus.syntaxerrors.info/index.php?title=Cannot_declare_member_function_%E2%80%98static_int_Foo::bar%28%29%E2%80%99_to_have_static_linkage

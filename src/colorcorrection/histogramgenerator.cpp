@@ -12,6 +12,7 @@
 #include <math.h>
 #include <QImage>
 #include <QPainter>
+#include <KLocale>
 #include "histogramgenerator.h"
 
 HistogramGenerator::HistogramGenerator()
@@ -183,9 +184,9 @@ void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, cons
     const int dist = 40;
     const int cw = component.width();
 
-    davinci->drawText(0,            textY, "min");
+    davinci->drawText(0,            textY, i18n("min"));
     davinci->drawText(dist,         textY, QString::number(min, 'f', 0));
 
-    davinci->drawText(cw-dist-30,   textY, "max");
+    davinci->drawText(cw-dist-30,   textY, i18n("max"));
     davinci->drawText(cw-30,        textY, QString::number(maxVal, 'f', 0));
 }

@@ -32,7 +32,7 @@ AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, const
         m_doIt(doIt)
 {
     QString effectName;
-    QDomElement namenode = m_effect.firstChildElement("name");
+    QDomElement namenode = m_effect.firstChildElement(QLatin1String("name"));
     if (!namenode.isNull())
         effectName = i18n(namenode.text().toUtf8().data());
     else

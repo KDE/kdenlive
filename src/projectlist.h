@@ -174,7 +174,7 @@ public:
             painter->setFont(font);
             QString subText = index.data(DurationRole).toString();
             int usage = index.data(UsageRole).toInt();
-            if (usage != 0) subText.append(QString(" (%1)").arg(usage));
+            if (usage != 0) subText.append(QString::fromLatin1(" (%1)").arg(usage));
             QRectF bounding;
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
             int jobProgress = index.data(Qt::UserRole + 5).toInt();
@@ -202,7 +202,7 @@ public:
                 } else if (jobProgress == JOBCRASHED) {
                     QString jobText = index.data(Qt::UserRole + 7).toString();
                     if (!jobText.isEmpty()) {
-                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, QLatin1Char(' ') + jobText + QLatin1Char(' ') );
                         painter->setPen(Qt::NoPen);
                         painter->setBrush(option.palette.highlight());
                         painter->drawRoundedRect(txtBounding, 2, 2);
