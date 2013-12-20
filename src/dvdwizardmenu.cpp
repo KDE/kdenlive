@@ -642,6 +642,8 @@ void DvdWizardMenu::createButtonImages(const QString &selected_image, const QStr
 
 void DvdWizardMenu::createBackgroundImage(const QString &img1, bool letterbox)
 {
+    Q_UNUSED(letterbox)
+
     m_scene->clearSelection();
     if (m_safeRect->scene() != 0) m_scene->removeItem(m_safeRect);
     bool showBg = false;

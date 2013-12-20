@@ -51,6 +51,7 @@ int MoveEffectCommand::id() const
 // virtual
 bool MoveEffectCommand::mergeWith(const QUndoCommand * other)
 {
+    Q_UNUSED(other)
     return false;
     /* dead code (flaged by coverity), was removed to avoid crash when dropping on group
     if (other->id() != id()) return false;

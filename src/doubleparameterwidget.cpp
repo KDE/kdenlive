@@ -97,6 +97,7 @@ void DoubleParameterWidget::setInTimelineProperty(bool intimeline)
 
 void DoubleParameterWidget::slotShowComment( bool show)
 {
+    Q_UNUSED(show)
 }
 
 #include "doubleparameterwidget.moc"

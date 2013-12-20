@@ -173,7 +173,7 @@ VideoSurface::VideoSurface(QWidget* parent) :
 
 void VideoSurface::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     //WARNING: This might trigger unnecessary refreshes from MLT's producer, but without this,
     // as soon as monitor is covered by a popup menu or another window, image is corrupted.
     emit refreshMonitor();

@@ -474,7 +474,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 
 void Monitor::resizeEvent(QResizeEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     if (render && isVisible() && isActive()) render->doRefresh();
 }
 

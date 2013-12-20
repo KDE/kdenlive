@@ -114,7 +114,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
 
 void KeyframeHelper::leaveEvent( QEvent * event )
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     if (m_hoverKeyframe != -1) {
         m_hoverKeyframe = -1;
         update();

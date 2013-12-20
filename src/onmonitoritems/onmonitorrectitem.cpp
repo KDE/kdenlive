@@ -263,6 +263,7 @@ void OnMonitorRectItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(widget)
+    Q_UNUSED(option)
 
     painter->setPen(pen());
     //painter->setClipRect(option->rect);
