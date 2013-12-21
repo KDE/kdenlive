@@ -3897,8 +3897,7 @@ int MainWindow::getNewStuff(const QString &configFile)
     KNS3::Entry::List entries;
 #if KDE_IS_VERSION(4,3,80)
     QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    dialog->exec();
-    if (dialog) entries = dialog->changedEntries();
+    if (dialog->exec()) entries = dialog->changedEntries();
     foreach(const KNS3::Entry & entry, entries) {
         if (entry.status() == KNS3::Entry::Installed)
             kDebug() << "// Installed files: " << entry.installedFiles();
@@ -4610,7 +4609,9 @@ void MainWindow::slotArchiveProject()
     QList <DocClipBase*> list = m_projectList->documentClipList();
     QDomDocument doc = m_activeDocument->xmlSceneList(m_projectMonitor->sceneList(), m_projectList->expandedFolders());
     ArchiveWidget *d = new ArchiveWidget(m_activeDocument->url().fileName(), doc, list, m_activeTimeline->projectView()->extractTransitionsLumas(), this);
-    d->exec();
+    if (d->exec()) {
+        m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
+    }
 }
 
 

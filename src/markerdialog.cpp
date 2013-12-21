@@ -77,6 +77,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
         case SLIDESHOW:
         case PLAYLIST:
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
+            break;
         case IMAGE:
         case TEXT:
             m_image = KThumb::getFrame(m_producer, m_in->getValue(), swidth, width, Kdenlive::DefaultThumbHeight);
@@ -86,6 +87,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
             colour = colour.replace(0, 2, "#");
             p.fill(QColor(colour.left(7)));
             break;
+        //UNKNOWN, AUDIO, VIRTUAL:
         default:
             p.fill(Qt::black);
         }
