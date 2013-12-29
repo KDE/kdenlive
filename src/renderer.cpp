@@ -1524,7 +1524,7 @@ void Render::slotSetVolume(int volume)
 {
     if (!m_mltConsumer || !m_mltProducer) return;
     m_mltProducer->set("meta.volume", (double)volume / 100.0);
-    return;
+    //return;
     /*osdTimer->stop();
     m_mltConsumer->set("refresh", 0);
     // Attach filter for on screen display of timecode
@@ -1538,7 +1538,7 @@ void Render::slotSetVolume(int volume)
     mlt_properties_set_int( properties, "meta.attr.timecode", 0);
      if (m_mltProducer->attach(*m_osdInfo) == 1) kDebug()<<"////// error attaching filter";
     }*/
-    refresh();
+    //refresh();
     //m_osdTimer->setSingleShot(2500);
 }
 
