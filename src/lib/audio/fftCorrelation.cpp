@@ -48,8 +48,8 @@ void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
     // Dividing by the max value is maybe not the best solution, but the
     // maximum value after correlation should not be larger than the longest
     // vector since each value should be at most 1
-    int64_t maxLeft = 0;
-    int64_t maxRight = 0;
+    int64_t maxLeft = 1;
+    int64_t maxRight = 1;
     for (int i = 0; i < leftSize; ++i) {
         if (labs(left[i]) > maxLeft) {
             maxLeft = labs(left[i]);
