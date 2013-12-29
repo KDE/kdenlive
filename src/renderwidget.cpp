@@ -1779,7 +1779,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(AudioBitratesRole, audioBitrates.split(',', QString::SkipEmptyParts));
             item->setData(DefaultAudioBitrateRole, defaultAudioBitrate);
             if (profileElement.hasAttribute("url")) item->setData(ExtraRole, profileElement.attribute("url"));
-            if (editable) item->setData(EditableRole, exportFile);
+            //if (editable) item->setData(EditableRole, exportFile);
             m_renderItems.append(item);
             n = n.nextSibling();
         }
