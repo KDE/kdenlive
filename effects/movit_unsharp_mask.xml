@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="movit.unsharp_mask" id="movit.unsharp_mask">
+	<name>Movit: Unsharp mask</name>
+	<description>Sharpens the image by subtracting a blurred copy</description>
+	<author>Steinar H. Gunderson</author>
+	<parameter type="simplekeyframe" name="radius" default="150" min="0" max="1000" factor="10">
+		<name>Radius</name>
+	</parameter>
+	<parameter type="simplekeyframe" name="radius" default="50" min="0" max="1000" factor="100">
+		<name>Amount</name>
+	</parameter>
+</effect>

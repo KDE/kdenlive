@@ -73,6 +73,17 @@ frei0r.twolay0r
 frei0r.vectorscope
 frei0r.vertigo
 frei0r.vignette
+movit.white_balance
+movit.vignette
+movit.blur
+movit.glow
+movit.mirror
+movit.saturation
+movit.unsharp_mask
+movit.sharpen
+movit.opacity
+movit.diffusion
+movit.lift_gamma_gain
 
 
 #MLT effects with XML UI

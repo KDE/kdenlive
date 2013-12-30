@@ -112,6 +112,17 @@ swapchannels.xml
 audiobalance.xml
 audiopan.xml
 rotoscoping.xml
+movit_vignette.xml
+movit_white_balance.xml
+movit_blur.xml
+movit_glow.xml
+movit_mirror.xml
+movit_saturation.xml
+movit_unsharp_mask.xml
+movit_deconvolution_sharpen.xml
+movit_opacity.xml
+movit_diffusion.xml
+movit_lift_gamma_gain.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
 
