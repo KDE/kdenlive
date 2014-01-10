@@ -30,7 +30,7 @@
 #include <KDebug>
 #include "kdenlivesettings.h"
 #include <kio/job.h>
-#include <KLocale>
+#include <KLocalizedString>
 
 #ifdef USE_QJSON
 #include <qjson/parser.h>
@@ -47,19 +47,20 @@ FreeSound::FreeSound(QListWidget *listWidget, QObject *parent) :
 
 FreeSound::~FreeSound()
 {
-    if (m_previewProcess) delete m_previewProcess;
+    delete m_previewProcess;
 }
 
-void FreeSound::slotStartSearch(const QString searchText, int page)
+void FreeSound::slotStartSearch(const QString &searchText, int page)
 {
     m_listWidget->clear();
     QString uri = "http://www.freesound.org/api/sounds/search/?q=";
     uri.append(searchText);
-    if (page > 1) uri.append("&p=" + QString::number(page));
+    if (page > 1)
+        uri.append("&p=" + QString::number(page));
     uri.append("&api_key=a1772c8236e945a4bee30a64058dabf8");
 
     KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
-    connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotShowResults( KJob* ) ) );
+    connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
 }
 
 
@@ -142,7 +143,7 @@ OnlineItemInfo FreeSound::displayItemDetails(QListWidgetItem *item)
     QString extraInfoUrl = item->data(infoData).toString();
     if (!extraInfoUrl.isEmpty()) {
         KJob* resolveJob = KIO::storedGet( KUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
-        connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseResults( KJob* ) ) );
+        connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotParseResults(KJob*)) );
     }
     emit gotThumb(item->data(imageRole).toString());
     return info;
@@ -199,9 +200,11 @@ void FreeSound::slotParseResults(KJob* job)
 
 bool FreeSound::startItemPreview(QListWidgetItem *item)
 {    
-    if (!item) return false;
-    QString url = item->data(previewRole).toString();
-    if (url.isEmpty()) return false;
+    if (!item)
+        return false;
+    const QString url = item->data(previewRole).toString();
+    if (url.isEmpty())
+        return false;
     if (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning) {
         m_previewProcess->close();
     }
@@ -219,13 +222,17 @@ void FreeSound::stopItemPreview(QListWidgetItem */*item*/)
 
 QString FreeSound::getExtension(QListWidgetItem *item)
 {
-    if (!item) return QString();
+    if (!item)
+        return QString();
     return QString("*.") + item->text().section('.', -1);
 }
 
 
 QString FreeSound::getDefaultDownloadName(QListWidgetItem *item)
 {
-    if (!item) return QString();
+    if (!item)
+        return QString();
     return item->text();
 }
+
+#include "freesound.moc"

@@ -20,7 +20,7 @@
 
 #include "noteswidget.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDebug>
 #include <QMenu>
 #include <QMouseEvent>
@@ -29,22 +29,24 @@
 NotesWidget::NotesWidget(QWidget * parent) :
         KTextEdit(parent)
 {
-    connect(this, SIGNAL(aboutToShowContextMenu(QMenu *)), this, SLOT(slotFillNotesMenu(QMenu *)));
+    connect(this, SIGNAL(aboutToShowContextMenu(QMenu*)), this, SLOT(slotFillNotesMenu(QMenu*)));
     setMouseTracking(true);
 }
 
 void NotesWidget::slotFillNotesMenu(QMenu *menu)
 {
-    QAction *a = new QAction(i18n("Insert current timecode"), this);
+    QAction *a = new QAction(i18n("Insert current timecode"), menu);
     connect(a, SIGNAL(triggered(bool)), this, SIGNAL(insertNotesTimecode()));
     menu->insertAction(menu->actions().at(0), a);
 }
 
 void NotesWidget::mouseMoveEvent( QMouseEvent * e )
 {
-    QString anchor = anchorAt(e->pos());
-    if (anchor.isEmpty()) viewport()->setCursor(Qt::IBeamCursor);
-    else viewport()->setCursor(Qt::PointingHandCursor);
+    const QString anchor = anchorAt(e->pos());
+    if (anchor.isEmpty())
+        viewport()->setCursor(Qt::IBeamCursor);
+    else
+        viewport()->setCursor(Qt::PointingHandCursor);
     KTextEdit::mouseMoveEvent(e);
 }
 
@@ -66,3 +68,5 @@ NotesWidget::~NotesWidget()
 
 
 
+
+#include "noteswidget.moc"

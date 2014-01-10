@@ -35,7 +35,7 @@
 #include <QDir>
 #include <kmessagebox.h>
 
-ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
     QDialog(parent), m_savedProject(savedProject), m_projectList(projectlist), m_lumas(lumas)
 {
     setupUi(this);
@@ -52,7 +52,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
     project_folder->setUrl(KUrl(projectPath));
     QString currentProf = KdenliveSettings::current_profile();
 
-    for (int i = 0; i < profiles_list->count(); i++) {
+    for (int i = 0; i < profiles_list->count(); ++i) {
         if (profiles_list->itemData(i).toString() == currentProf) {
             profiles_list->setCurrentIndex(i);
             break;
@@ -196,7 +196,7 @@ ProjectSettings::ProjectSettings(ProjectList *projectlist, QMap <QString, QStrin
         connect(delete_proxies, SIGNAL(clicked()), this, SLOT(slotDeleteProxies()));
     } else tabWidget->widget(1)->setEnabled(false);
     connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
-    connect(project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
+    connect(project_folder, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButton(QString)));
     connect(button_export, SIGNAL(clicked()), this, SLOT(slotExportToText()));
 }
 
@@ -204,7 +204,7 @@ void ProjectSettings::slotDeleteUnused()
 {
     QStringList toDelete;
     QList <DocClipBase*> list = m_projectList->documentClipList();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() == 0 && clip->clipType() != SLIDESHOW) {
             KUrl url = clip->fileURL();
@@ -213,7 +213,7 @@ void ProjectSettings::slotDeleteUnused()
     }
 
     // make sure our urls are not used in another clip
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() > 0) {
             KUrl url = clip->fileURL();
@@ -306,7 +306,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         new QTreeWidgetItem(images, QStringList() << file);
     }
 
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->clipType() == SLIDESHOW) {
             QStringList subfiles = extractSlideshowUrls(clip->fileURL());
@@ -364,7 +364,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     }
     allFonts.removeDuplicates();
     // Hide unused categories
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() == 0) {
             files_list->topLevelItem(i)->setHidden(true);
         }
@@ -426,7 +426,7 @@ KUrl ProjectSettings::selectedFolder() const
     return project_folder->url();
 }
 
-QPoint ProjectSettings::tracks()
+QPoint ProjectSettings::tracks() const
 {
     QPoint p;
     p.setX(video_tracks->value());
@@ -482,7 +482,7 @@ QString ProjectSettings::proxyExtension() const
 }
 
 //static
-QStringList ProjectSettings::extractPlaylistUrls(QString path)
+QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
 {
     QStringList urls;
     QDomDocument doc;
@@ -497,7 +497,7 @@ QStringList ProjectSettings::extractPlaylistUrls(QString path)
     QString root = doc.documentElement().attribute("root");
     if (!root.isEmpty() && !root.endsWith('/')) root.append('/');
     QDomNodeList files = doc.elementsByTagName("producer");
-    for (int i = 0; i < files.count(); i++) {
+    for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
         QString type = EffectsList::property(e, "mlt_service");
         if (type != "colour") {
@@ -521,7 +521,7 @@ QStringList ProjectSettings::extractPlaylistUrls(QString path)
 
     // luma files for transitions
     files = doc.elementsByTagName("transition");
-    for (int i = 0; i < files.count(); i++) {
+    for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
         QString url = EffectsList::property(e, "luma");
         if (!url.isEmpty()) {
@@ -535,7 +535,7 @@ QStringList ProjectSettings::extractPlaylistUrls(QString path)
 
 
 //static
-QStringList ProjectSettings::extractSlideshowUrls(KUrl url)
+QStringList ProjectSettings::extractSlideshowUrls(const KUrl &url)
 {
     QStringList urls;
     QString path = url.directory(KUrl::AppendTrailingSlash);
@@ -573,7 +573,7 @@ void ProjectSettings::slotExportToText()
     data.append(i18n("Project folder: %1",  project_folder->url().path()) + '\n');
     data.append(i18n("Project profile: %1",  profiles_list->currentText()) + '\n');
     data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() > 0) {
             data.append('\n' + files_list->topLevelItem(i)->text(0) + ":\n\n");
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++) {
@@ -607,7 +607,7 @@ void ProjectSettings::slotUpdateProxyParams()
 const QMap <QString, QString> ProjectSettings::metadata() const
 {
     QMap <QString, QString> metadata;
-    for (int i = 0; i < metadata_list->topLevelItemCount(); i++)
+    for (int i = 0; i < metadata_list->topLevelItemCount(); ++i)
     {
         QTreeWidgetItem *item = metadata_list->topLevelItem(i);
         if (!item->text(1).simplified().isEmpty()) {

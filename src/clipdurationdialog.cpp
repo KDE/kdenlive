@@ -27,7 +27,7 @@
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenTime min, GenTime max, QWidget * parent):
+ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget * parent):
         QDialog(parent),
         m_clip(clip),
         m_min(min),
@@ -49,7 +49,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, GenT
     bool allowCrop = true;
     if (clip->type() == AVWIDGET) {
         ClipItem *item = static_cast <ClipItem *>(clip);
-        int t = item->clipType();
+        const int t = item->clipType();
         if (t == COLOR || t == IMAGE || t == TEXT)
             allowCrop = false;
     }

@@ -22,9 +22,7 @@
 #define INSERTSPACECOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
 
-#include <KDebug>
 #include "definitions.h"
 
 class CustomTrackView;
@@ -32,9 +30,9 @@ class CustomTrackView;
 class InsertSpaceCommand : public QUndoCommand
 {
 public:
-    InsertSpaceCommand(CustomTrackView *view, QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

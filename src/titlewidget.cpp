@@ -64,16 +64,16 @@ const int BLUREFFECT = 1;
 const int SHADOWEFFECT = 2;
 const int TYPEWRITEREFFECT = 3;
 
-TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render *render, QWidget *parent) :
-        QDialog(parent),
-        Ui::TitleWidget_UI(),
-        m_startViewport(NULL),
-        m_endViewport(NULL),
-        m_render(render),
-        m_count(0),
-        m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
-        m_projectTitlePath(projectTitlePath),
-        m_tc(tc)
+TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent) :
+    QDialog(parent),
+    Ui::TitleWidget_UI(),
+    m_startViewport(NULL),
+    m_endViewport(NULL),
+    m_render(render),
+    m_count(0),
+    m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
+    m_projectTitlePath(projectTitlePath),
+    m_tc(tc)
 {
     setupUi(this);
     setFont(KGlobalSettings::toolBarFont());
@@ -104,8 +104,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     rectFAlpha->setDecimals(0);
     rectFAlpha->setValue(255);
     rectFAlpha->setToolTip(i18n("Border opacity"));
-    connect(rectFAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
-    connect(rectBAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
+    connect(rectFAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
+    connect(rectBAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
 
     // Set combo sliders values
     textAlpha->setMinimum(0);
@@ -119,8 +119,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     textOutlineAlpha->setDecimals(0);
     textOutlineAlpha->setValue(255);
     textOutlineAlpha->setToolTip(i18n("Outline color opacity"));
-    connect(textAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
-    connect(textOutlineAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
+    connect(textAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
+    connect(textOutlineAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
 #endif
 
     textOutline->setMinimum(0);
@@ -170,21 +170,21 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     title_duration->setInputMask(m_tc.mask());
     title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
 
-    connect(backgroundColor, SIGNAL(changed(const QColor &)), this, SLOT(slotChangeBackground())) ;
-    connect(backgroundAlpha, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundColor, SIGNAL(changed(QColor)), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotChangeBackground())) ;
 
-    connect(fontColorButton, SIGNAL(changed(const QColor &)), this, SLOT(slotUpdateText())) ;
-    connect(textOutlineColor, SIGNAL(changed(const QColor &)), this, SLOT(slotUpdateText())) ;
-    connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
+    connect(fontColorButton, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
+    connect(textOutlineColor, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
+    connect(font_family, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
-    connect(textOutline, SIGNAL(valueChanged(qreal, bool)), this, SLOT(slotUpdateText()));
+    connect(textOutline, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
-    connect(font_family, SIGNAL(editTextChanged(const QString &)), this, SLOT(slotFontText(const QString&)));
+    connect(font_family, SIGNAL(editTextChanged(QString)), this, SLOT(slotFontText(QString)));
 
-    connect(rectFColor, SIGNAL(changed(const QColor &)), this, SLOT(rectChanged()));
-    connect(rectBColor, SIGNAL(changed(const QColor &)), this, SLOT(rectChanged()));
-    connect(rectLineWidth, SIGNAL(valueChanged(qreal, bool)), this, SLOT(rectChanged()));
+    connect(rectFColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
+    connect(rectBColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
+    connect(rectLineWidth, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
 
     /*connect(startViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
     connect(startViewportY, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
@@ -201,9 +201,9 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
-    connect(itemrotatex, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotateX(qreal)));
-    connect(itemrotatey, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotateY(qreal)));
-    connect(itemrotatez, SIGNAL(valueChanged(qreal, bool)), this, SLOT(itemRotateZ(qreal)));
+    connect(itemrotatex, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateX(qreal)));
+    connect(itemrotatey, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateY(qreal)));
+    connect(itemrotatez, SIGNAL(valueChanged(qreal,bool)), this, SLOT(itemRotateZ(qreal)));
     connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
     connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
     connect(itemtop, SIGNAL(clicked()), this, SLOT(itemTop()));
@@ -427,13 +427,13 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     m_buttonLoad = m_toolbar->addAction(KIcon("document-open"), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
-    m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonImage->shortcut().toString());
+    m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonLoad->shortcut().toString());
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
     m_buttonSave = m_toolbar->addAction(KIcon("document-save-as"), i18n("Save As"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
-    m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonImage->shortcut().toString());
+    m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonSave->shortcut().toString());
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
     layout->addWidget(m_toolbar);
@@ -477,8 +477,8 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
     connect(m_scene, SIGNAL(sceneZoom(bool)), this , SLOT(slotZoom(bool)));
     connect(m_scene, SIGNAL(actionFinished()), this , SLOT(slotSelectTool()));
     //connect(m_scene, SIGNAL(actionFinished()), this , SLOT(selectionChanged()));
-    connect(m_scene, SIGNAL(newRect(QGraphicsRectItem *)), this , SLOT(slotNewRect(QGraphicsRectItem *)));
-    connect(m_scene, SIGNAL(newText(QGraphicsTextItem *)), this , SLOT(slotNewText(QGraphicsTextItem *)));
+    connect(m_scene, SIGNAL(newRect(QGraphicsRectItem*)), this , SLOT(slotNewRect(QGraphicsRectItem*)));
+    connect(m_scene, SIGNAL(newText(QGraphicsTextItem*)), this , SLOT(slotNewText(QGraphicsTextItem*)));
     connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
     connect(zoom_spin, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateZoom(int)));
 
@@ -503,10 +503,11 @@ TitleWidget::TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render
 
     // scale the view so that the title widget is not too big at startup
     graphicsView->scale(.5, .5);
-    if (!url.isEmpty()) loadTitle(url);
-    else {
-	prepareTools(NULL);
-	slotTextTool();
+    if (!url.isEmpty()) {
+        loadTitle(url);
+    } else {
+        prepareTools(NULL);
+        slotTextTool();
         QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     }
     initAnimation();
@@ -588,14 +589,14 @@ QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QStr
 }
 
 // static
-QStringList TitleWidget::extractImageList(QString xml)
+QStringList TitleWidget::extractImageList(const QString& xml)
 {
     QStringList result;
     if (xml.isEmpty()) return result;
     QDomDocument doc;
     doc.setContent(xml);
     QDomNodeList images = doc.elementsByTagName("content");
-    for (int i = 0; i < images.count(); i++) {
+    for (int i = 0; i < images.count(); ++i) {
         if (images.at(i).toElement().hasAttribute("url"))
             result.append(images.at(i).toElement().attribute("url"));
     }
@@ -603,14 +604,14 @@ QStringList TitleWidget::extractImageList(QString xml)
 }
 
 // static
-QStringList TitleWidget::extractFontList(QString xml)
+QStringList TitleWidget::extractFontList(const QString& xml)
 {
     QStringList result;
     if (xml.isEmpty()) return result;
     QDomDocument doc;
     doc.setContent(xml);
     QDomNodeList images = doc.elementsByTagName("content");
-    for (int i = 0; i < images.count(); i++) {
+    for (int i = 0; i < images.count(); ++i) {
         if (images.at(i).toElement().hasAttribute("font"))
             result.append(images.at(i).toElement().attribute("font"));
     }
@@ -639,12 +640,14 @@ void TitleWidget::refreshTitleTemplates()
     }
     kDebug()  << titlenamelist << titlefiles;
 }
+
 void TitleWidget::templateIndexChanged(int index)
 {
     QString item = templateBox->itemData(index).toString();
     if (!item.isEmpty()) {
         if (lastDocumentHash != QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex()) {
-            if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No) return;
+            if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No)
+                return;
         }
         loadTitle(item);
 
@@ -669,9 +672,11 @@ void TitleWidget::resizeEvent(QResizeEvent * /*event*/)
     //slotAdjustZoom();
 }
 //virtual
-void TitleWidget::keyPressEvent(QKeyEvent *e){
+void TitleWidget::keyPressEvent(QKeyEvent *e)
+{
     if(e->key()!=Qt::Key_Escape && e->key()!=Qt::Key_Return && e->key()!=Qt::Key_Enter) QDialog::keyPressEvent(e);
 }
+
 void TitleWidget::slotTextTool()
 {
     m_scene->setTool(TITLE_TEXT);
@@ -741,7 +746,7 @@ void TitleWidget::slotImageTool()
             svg->setZValue(m_count++);
             svg->setData(Qt::UserRole, url.path());
             graphicsView->scene()->addItem(svg);
-	    prepareTools(svg);
+            prepareTools(svg);
         } else {
             QPixmap pix(url.path());
             QGraphicsPixmapItem *image = new QGraphicsPixmapItem(pix);
@@ -750,7 +755,7 @@ void TitleWidget::slotImageTool()
             image->setData(Qt::UserRole, url.path());
             image->setZValue(m_count++);
             graphicsView->scene()->addItem(image);
-	    prepareTools(image);
+            prepareTools(image);
         }
     }
     m_scene->setTool(TITLE_SELECT);
@@ -977,7 +982,7 @@ void TitleWidget::setCurrentItem(QGraphicsItem *item)
 void TitleWidget::zIndexChanged(int v)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         l[i]->setZValue(v);
     }
 }
@@ -1035,7 +1040,7 @@ void TitleWidget::selectionChanged()
         */
         int firstType = l.at(0)->type();
         bool allEqual = true;
-        for (int i = 0; i < l.size(); i++) {
+        for (int i = 0; i < l.size(); ++i) {
             if (l.at(i)->type() != firstType) {
                 allEqual = false;
                 break;
@@ -1053,7 +1058,7 @@ void TitleWidget::selectionChanged()
             value_x->setEnabled(true);
             value_y->setEnabled(true);
             bool containsTextitem = false;
-            for (int i = 0; i < l.size(); i++) {
+            for (int i = 0; i < l.size(); ++i) {
                 if (l.at(i)->type() == TEXTITEM) {
                     containsTextitem = true;
                     break;
@@ -1068,7 +1073,7 @@ void TitleWidget::selectionChanged()
         // Disable z index buttons if they don't make sense for the current selection
         int firstZindex = l.at(0)->zValue();
         allEqual = true;
-        for (int i = 0; i < l.size(); i++) {
+        for (int i = 0; i < l.size(); ++i) {
             if (l[i]->zValue() != firstZindex) {
                 allEqual = false;
                 break;
@@ -1078,10 +1083,7 @@ void TitleWidget::selectionChanged()
             zUp->setEnabled(false);
             zDown->setEnabled(false);
         }
-
-
     }
-
 }
 
 void TitleWidget::slotValueChanged(int type)
@@ -1110,7 +1112,7 @@ void TitleWidget::slotValueChanged(int type)
         break;
     }
 
-    for (int k = 0; k < l.size(); k++) {
+    for (int k = 0; k < l.size(); ++k) {
         std::cout << "Type of item " << k << ": " << l.at(k)->type() << "\n";
 
         if (l.at(k)->type() == TEXTITEM) {
@@ -1429,7 +1431,7 @@ void TitleWidget::slotOriginXClicked()
 
         // Remember x axis setting
         l.at(0)->setData(TitleDocument::OriginXLeft, origin_x_left->isChecked() ?
-                         TitleDocument::AxisInverted : TitleDocument::AxisDefault);
+                             TitleDocument::AxisInverted : TitleDocument::AxisDefault);
     }
     graphicsView->setFocus();
 }
@@ -1453,7 +1455,7 @@ void TitleWidget::slotOriginYClicked()
         updateCoordinates(l.at(0));
 
         l.at(0)->setData(TitleDocument::OriginYTop, origin_y_top->isChecked() ?
-                         TitleDocument::AxisInverted : TitleDocument::AxisDefault);
+                             TitleDocument::AxisInverted : TitleDocument::AxisDefault);
 
     }
     graphicsView->setFocus();
@@ -1544,7 +1546,7 @@ void TitleWidget::slotInsertUnicode()
     m_unicodeDialog->exec();
 }
 
-void TitleWidget::slotInsertUnicodeString(QString text)
+void TitleWidget::slotInsertUnicodeString(const QString &text)
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() > 0) {
@@ -1572,7 +1574,7 @@ void TitleWidget::slotUpdateText()
     double outlineWidth = textOutline->value() / 10.0;
 
     int i;
-    for (i = 0; i < graphicsView->scene()->selectedItems().length(); i++) {
+    for (i = 0; i < graphicsView->scene()->selectedItems().length(); ++i) {
         QGraphicsTextItem* item = NULL;
         QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
         if (l.at(i)->type() == TEXTITEM) {
@@ -1608,7 +1610,7 @@ void TitleWidget::slotUpdateText()
         cformat.setForeground(QBrush(color));
         cur.setCharFormat(cformat);
         cur.setBlockFormat(format);
-//  item->setTextCursor(cur);
+        //  item->setTextCursor(cur);
         cur.clearSelection();
         item->setTextCursor(cur);
         item->setDefaultTextColor(color);
@@ -1618,8 +1620,7 @@ void TitleWidget::slotUpdateText()
 void TitleWidget::rectChanged()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    int i;
-    for (i = 0; i < l.length(); i++) {
+    for (int i = 0; i < l.length(); ++i) {
         if (l.at(i)->type() == RECTITEM && !settingUp) {
             QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(i));
             QColor f = rectFColor->color();
@@ -1817,7 +1818,7 @@ void TitleWidget::loadTitle(KUrl url)
     if (url.isEmpty()) url = KFileDialog::getOpenUrl(KUrl(m_projectTitlePath), "application/x-kdenlivetitle", this, i18n("Load Title"));
     if (!url.isEmpty()) {
         QList<QGraphicsItem *> items = m_scene->items();
-        for (int i = 0; i < items.size(); i++) {
+        for (int i = 0; i < items.size(); ++i) {
             if (items.at(i)->zValue() > -1000) delete items.at(i);
         }
         m_scene->clearTextSelection();
@@ -1863,10 +1864,10 @@ void TitleWidget::saveTitle(KUrl url)
     QGraphicsPixmapItem pix;
     int pixmapType = pix.type();
     foreach(const QGraphicsItem *item, list) {
-	if (item->type() == pixmapType && item != m_frameImage) {
-	    embed_image = true;
-	    break;
-	}
+        if (item->type() == pixmapType && item != m_frameImage) {
+            embed_image = true;
+            break;
+        }
     }
     if (embed_image && KMessageBox::questionYesNo(this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes)
     {
@@ -1878,8 +1879,9 @@ void TitleWidget::saveTitle(KUrl url)
         fs->setMode(KFile::File);
         fs->setConfirmOverwrite(true);
         fs->setKeepLocation(true);
-        fs->exec();
-        if (fs) url = fs->selectedUrl();
+        if (fs->exec()) {
+            url = fs->selectedUrl();
+        }
         delete fs;
     }
     if (!url.isEmpty()) {
@@ -1900,7 +1902,7 @@ int TitleWidget::duration() const
     return m_tc.getFrameCount(title_duration->text());
 }
 
-void TitleWidget::setXml(QDomDocument doc)
+void TitleWidget::setXml(const QDomDocument &doc)
 {
     int duration;
     m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
@@ -1916,7 +1918,7 @@ void TitleWidget::setXml(QDomDocument doc)
     m_transformations.clear();
     QList <QGraphicsItem *> items = graphicsView->scene()->items();
     const double PI = 4.0 * atan(1.0);
-    for (int i = 0; i < items.count(); i++) {
+    for (int i = 0; i < items.count(); ++i) {
         QTransform t = items.at(i)->transform();
         Transform x;
         x.scalex = t.m11();
@@ -1993,7 +1995,7 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("font_alpha", textAlpha->value());
     titleConfig.writeEntry("font_outline_alpha", textOutlineAlpha->value());
 #endif
-   
+
     titleConfig.writeEntry("font_outline", textOutline->value());
     titleConfig.writeEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());
@@ -2085,7 +2087,7 @@ void TitleWidget::slotAnimStart(bool anim)
     }
     slotSelectTool();
     QList<QGraphicsItem *> list = m_scene->items();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->zValue() > -1000) {
             list.at(i)->setFlag(QGraphicsItem::ItemIsMovable, !anim);
             list.at(i)->setFlag(QGraphicsItem::ItemIsSelectable, !anim);
@@ -2127,7 +2129,7 @@ void TitleWidget::slotAnimEnd(bool anim)
     }
     slotSelectTool();
     QList<QGraphicsItem *> list = m_scene->items();
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->zValue() > -1000) {
             list.at(i)->setFlag(QGraphicsItem::ItemIsMovable, !anim);
             list.at(i)->setFlag(QGraphicsItem::ItemIsSelectable, !anim);
@@ -2359,7 +2361,7 @@ qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
             int n = lItems.size();
             qreal z;
             if (maxBound) {
-                for (int i = 0; i < n; i++) {
+                for (int i = 0; i < n; ++i) {
                     z = lItems[i]->zValue();
                     if (z > bound && !lItems[i]->isSelected()) {
                         bound = z;
@@ -2372,7 +2374,7 @@ qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
                 }
             } else {
                 // Get minimum z index.
-                for (int i = 0; i < n; i++) {
+                for (int i = 0; i < n; ++i) {
                     z = lItems[i]->zValue();
                     if (z < bound && !lItems[i]->isSelected() && z > -999) {
                         // There are items at the very bottom (background e.g.) with z-index < -1000.
@@ -2405,7 +2407,7 @@ void TitleWidget::slotZIndexTop()
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     qreal max = zIndexBounds(true, false);
     std::cout << "Max z-index is " << max << ".\n";
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         qreal currentZ = l[i]->zValue();
         if (currentZ <= max) {
             std::cout << "Updating item " << i << ", is " << currentZ << ".\n";
@@ -2437,7 +2439,7 @@ void TitleWidget::slotZIndexBottom()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     qreal min = zIndexBounds(false, false);
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         qreal currentZ = l[i]->zValue();
         if (currentZ >= min) {
             l[i]->setZValue(min - 1);
@@ -2452,7 +2454,7 @@ void TitleWidget::slotZIndexBottom()
 void TitleWidget::slotSelectAll()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->items();
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         l.at(i)->setSelected(true);
     }
 }
@@ -2462,14 +2464,14 @@ void TitleWidget::selectItems(int itemType)
     QList<QGraphicsItem*> l;
     if (graphicsView->scene()->selectedItems().size() > 0) {
         l = graphicsView->scene()->selectedItems();
-        for (int i = 0; i < l.size(); i++) {
+        for (int i = 0; i < l.size(); ++i) {
             if (l.at(i)->type() != itemType) {
                 l.at(i)->setSelected(false);
             }
         }
     } else {
         l = graphicsView->scene()->items();
-        for (int i = 0; i < l.size(); i++) {
+        for (int i = 0; i < l.size(); ++i) {
             if (l.at(i)->type() == itemType) {
                 l.at(i)->setSelected(true);
             }
@@ -2496,7 +2498,7 @@ void TitleWidget::slotSelectNone()
 {
     graphicsView->blockSignals(true);
     QList<QGraphicsItem*> l = graphicsView->scene()->items();
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size(); ++i) {
         l.at(i)->setSelected(false);
     }
     graphicsView->blockSignals(false);
@@ -2571,127 +2573,127 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         if (referenceItem->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
             QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(referenceItem);
-	    if (!i->toPlainText().isEmpty()) {
-		// We have an existing text item selected
-		if (!i->data(100).isNull()) {
-		    // Item has an effect
-		    QStringList effdata = i->data(100).toStringList();
-		    QString effectName = effdata.takeFirst();
-		    if (effectName == "typewriter") {
-			QStringList params = effdata.at(0).split(';');
-			typewriter_delay->setValue(params.at(0).toInt());
-			typewriter_start->setValue(params.at(1).toInt());
-			effect_list->setCurrentIndex(effect_list->findData((int) TYPEWRITEREFFECT));
-			effect_stack->setHidden(false);
-		    }
-		} else {
+            if (!i->toPlainText().isEmpty()) {
+                // We have an existing text item selected
+                if (!i->data(100).isNull()) {
+                    // Item has an effect
+                    QStringList effdata = i->data(100).toStringList();
+                    QString effectName = effdata.takeFirst();
+                    if (effectName == "typewriter") {
+                        QStringList params = effdata.at(0).split(';');
+                        typewriter_delay->setValue(params.at(0).toInt());
+                        typewriter_start->setValue(params.at(1).toInt());
+                        effect_list->setCurrentIndex(effect_list->findData((int) TYPEWRITEREFFECT));
+                        effect_stack->setHidden(false);
+                    }
+                } else {
 #if QT_VERSION >= 0x040600
-		    if (i->graphicsEffect()) {
-			QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
-			if (blur) {
-			    effect_list->setCurrentIndex(effect_list->findData((int) BLUREFFECT));
-			    int rad = (int) blur->blurRadius();
-			    blur_radius->setValue(rad);
-			    effect_stack->setHidden(false);
-			} else {
-			    QGraphicsDropShadowEffect *shad = static_cast <QGraphicsDropShadowEffect *>(i->graphicsEffect());
-			    if (shad) {
-				effect_list->setCurrentIndex(effect_list->findData((int) SHADOWEFFECT));
-				shadow_radius->setValue(shad->blurRadius());
-				shadow_x->setValue(shad->xOffset());
-				shadow_y->setValue(shad->yOffset());
-				effect_stack->setHidden(false);
-			    }
-			}
-		    } else {
-			effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
-			effect_stack->setHidden(true);
-		    }
+                    if (i->graphicsEffect()) {
+                        QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
+                        if (blur) {
+                            effect_list->setCurrentIndex(effect_list->findData((int) BLUREFFECT));
+                            int rad = (int) blur->blurRadius();
+                            blur_radius->setValue(rad);
+                            effect_stack->setHidden(false);
+                        } else {
+                            QGraphicsDropShadowEffect *shad = static_cast <QGraphicsDropShadowEffect *>(i->graphicsEffect());
+                            if (shad) {
+                                effect_list->setCurrentIndex(effect_list->findData((int) SHADOWEFFECT));
+                                shadow_radius->setValue(shad->blurRadius());
+                                shadow_x->setValue(shad->xOffset());
+                                shadow_y->setValue(shad->yOffset());
+                                effect_stack->setHidden(false);
+                            }
+                        }
+                    } else {
+                        effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
+                        effect_stack->setHidden(true);
+                    }
 #else
-		    effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
-		    effect_stack->setHidden(true);
+                    effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
+                    effect_stack->setHidden(true);
 #endif
-		}
-		font_size->blockSignals(true);
-		font_family->blockSignals(true);
-		font_weight_box->blockSignals(true);
-		buttonItalic->blockSignals(true);
-		buttonUnder->blockSignals(true);
-		fontColorButton->blockSignals(true);
+                }
+                font_size->blockSignals(true);
+                font_family->blockSignals(true);
+                font_weight_box->blockSignals(true);
+                buttonItalic->blockSignals(true);
+                buttonUnder->blockSignals(true);
+                fontColorButton->blockSignals(true);
 #if not KDE_IS_VERSION(4,5,0)
-		textAlpha->blockSignals(true);
+                textAlpha->blockSignals(true);
 #endif
-		buttonAlignLeft->blockSignals(true);
-		buttonAlignRight->blockSignals(true);
-		buttonAlignNone->blockSignals(true);
-		buttonAlignCenter->blockSignals(true);
+                buttonAlignLeft->blockSignals(true);
+                buttonAlignRight->blockSignals(true);
+                buttonAlignNone->blockSignals(true);
+                buttonAlignCenter->blockSignals(true);
 
-		QFont font = i->font();
-		font_family->setCurrentFont(font);
-		font_size->setValue(font.pixelSize());
-		m_scene->slotUpdateFontSize(font.pixelSize());
-		buttonItalic->setChecked(font.italic());
-		buttonUnder->setChecked(font.underline());
-		setFontBoxWeight(font.weight());
+                QFont font = i->font();
+                font_family->setCurrentFont(font);
+                font_size->setValue(font.pixelSize());
+                m_scene->slotUpdateFontSize(font.pixelSize());
+                buttonItalic->setChecked(font.italic());
+                buttonUnder->setChecked(font.underline());
+                setFontBoxWeight(font.weight());
 
-		QTextCursor cursor(i->document());
-		cursor.select(QTextCursor::Document);
-		QColor color = cursor.charFormat().foreground().color();
+                QTextCursor cursor(i->document());
+                cursor.select(QTextCursor::Document);
+                QColor color = cursor.charFormat().foreground().color();
 #if not KDE_IS_VERSION(4,5,0)
-		textAlpha->setValue(color.alpha());
-		color.setAlpha(255);
+                textAlpha->setValue(color.alpha());
+                color.setAlpha(255);
 #endif
-		fontColorButton->setColor(color);
+                fontColorButton->setColor(color);
 
-		if (!i->data(101).isNull()) {
-		    textOutline->blockSignals(true);
-		    textOutline->setValue(i->data(101).toDouble() * 10);
-		    textOutline->blockSignals(false);
-		}
-		if (!i->data(102).isNull()) {
-		    textOutlineColor->blockSignals(true);
-		    QVariant variant = i->data(102);
-		    color = variant.value<QColor>();
+                if (!i->data(101).isNull()) {
+                    textOutline->blockSignals(true);
+                    textOutline->setValue(i->data(101).toDouble() * 10);
+                    textOutline->blockSignals(false);
+                }
+                if (!i->data(102).isNull()) {
+                    textOutlineColor->blockSignals(true);
+                    QVariant variant = i->data(102);
+                    color = variant.value<QColor>();
 #if not KDE_IS_VERSION(4,5,0)
-		    textOutlineAlpha->blockSignals(true);
-		    textOutlineAlpha->setValue(color.alpha());
-		    color.setAlpha(255);
-		    textOutlineAlpha->blockSignals(false);
+                    textOutlineAlpha->blockSignals(true);
+                    textOutlineAlpha->setValue(color.alpha());
+                    color.setAlpha(255);
+                    textOutlineAlpha->blockSignals(false);
 #endif
-		    textOutlineColor->setColor(color);
-		    textOutlineColor->blockSignals(false);
-		}
-		QTextCursor cur = i->textCursor();
-		QTextBlockFormat format = cur.blockFormat();
-		if (i->textWidth() == -1) buttonAlignNone->setChecked(true);
-		else if (format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
-		else if (format.alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
-		else if (format.alignment() == Qt::AlignLeft) buttonAlignLeft->setChecked(true);
+                    textOutlineColor->setColor(color);
+                    textOutlineColor->blockSignals(false);
+                }
+                QTextCursor cur = i->textCursor();
+                QTextBlockFormat format = cur.blockFormat();
+                if (i->textWidth() == -1) buttonAlignNone->setChecked(true);
+                else if (format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
+                else if (format.alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
+                else if (format.alignment() == Qt::AlignLeft) buttonAlignLeft->setChecked(true);
 
-		font_size->blockSignals(false);
-		font_family->blockSignals(false);
-		font_weight_box->blockSignals(false);
-		buttonItalic->blockSignals(false);
-		buttonUnder->blockSignals(false);
-		fontColorButton->blockSignals(false);
+                font_size->blockSignals(false);
+                font_family->blockSignals(false);
+                font_weight_box->blockSignals(false);
+                buttonItalic->blockSignals(false);
+                buttonUnder->blockSignals(false);
+                fontColorButton->blockSignals(false);
 #if not KDE_IS_VERSION(4,5,0)
-		textAlpha->blockSignals(false);
+                textAlpha->blockSignals(false);
 #endif
-		buttonAlignLeft->blockSignals(false);
-		buttonAlignRight->blockSignals(false);
-		buttonAlignNone->blockSignals(false);
-		buttonAlignCenter->blockSignals(false);
+                buttonAlignLeft->blockSignals(false);
+                buttonAlignRight->blockSignals(false);
+                buttonAlignNone->blockSignals(false);
+                buttonAlignCenter->blockSignals(false);
 
-		// mbt 1607: Select text if the text item is an unchanged template item.
-		if (i->property("isTemplate").isValid()) {
-		    cur.setPosition(0, QTextCursor::MoveAnchor);
-		    cur.select(QTextCursor::Document);
-		    i->setTextCursor(cur);
-		    // Make text editable now.
-		    i->grabKeyboard();
-		    i->setTextInteractionFlags(Qt::TextEditorInteraction);
-		}
-	    }
+                // mbt 1607: Select text if the text item is an unchanged template item.
+                if (i->property("isTemplate").isValid()) {
+                    cur.setPosition(0, QTextCursor::MoveAnchor);
+                    cur.select(QTextCursor::Document);
+                    i->setTextCursor(cur);
+                    // Make text editable now.
+                    i->grabKeyboard();
+                    i->setTextInteractionFlags(Qt::TextEditorInteraction);
+                }
+            }
 
             updateAxisButtons(i);
             updateCoordinates(i);
@@ -2767,3 +2769,5 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_w->blockSignals(blockW);
     value_h->blockSignals(blockH);
 }
+
+#include "titlewidget.moc"

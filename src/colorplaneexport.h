@@ -34,10 +34,9 @@ private:
     ColorTools *m_colorTools;
     float m_scaling;
     float m_Y;
-    void enableSliderScaling(const bool &enable);
-    void enableSliderColor(const bool &enable);
-    void enableCbVariant(const bool &enable);
-
+    void enableSliderScaling(bool enable);
+    void enableSliderColor(bool enable);
+    void enableCbVariant(bool enable);
 
 private slots:
     void slotValidate();

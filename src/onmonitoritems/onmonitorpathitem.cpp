@@ -30,11 +30,11 @@
 #include <mlt++/Mlt.h>
 
 OnMonitorPathItem::OnMonitorPathItem(double dar, QGraphicsItem* parent) :
-        QGraphicsPathItem(parent),
-        m_dar(dar),
-        m_modified(false),
-        m_view(NULL),
-        m_activePoint(-1)
+    QGraphicsPathItem(parent),
+    m_dar(dar),
+    m_modified(false),
+    m_view(NULL),
+    m_activePoint(-1)
 {
     setFlags(QGraphicsItem::ItemIsMovable);
 
@@ -52,47 +52,48 @@ void OnMonitorPathItem::setPoints(Mlt::Geometry *geometry)
     int pos = 0;
     Mlt::GeometryItem item;
     while (!geometry->next_key(&item, pos)) {
-	r = QRectF(item.x(), item.y(), item.w(), item.h());
-	m_points << r.center();
-	pos = item.frame() + 1;
+        r = QRectF(item.x(), item.y(), item.w(), item.h());
+        m_points << r.center();
+        pos = item.frame() + 1;
     }
     rebuildShape();
 }
 
-void OnMonitorPathItem::rebuildShape() {
+void OnMonitorPathItem::rebuildShape()
+{
     if (m_activePoint > m_points.count()) m_activePoint = -1;
     QPainterPath p;
     QPainterPath shape;
 
     if (!m_points.isEmpty()) {
-	QRectF r(0, 0, 20, 20);
-	r.moveCenter(m_points.at(0));
-	shape.addRect(r);
-	
-	p.moveTo(m_points.at(0));
-	for (int i = 1; i < m_points.count(); i++) {
-	    p.lineTo(m_points.at(i));
-	    r.moveCenter(m_points.at(i));
-	    shape.addRect(r);
-	}
+        QRectF r(0, 0, 20, 20);
+        r.moveCenter(m_points.at(0));
+        shape.addRect(r);
+
+        p.moveTo(m_points.at(0));
+        for (int i = 1; i < m_points.count(); ++i) {
+            p.lineTo(m_points.at(i));
+            r.moveCenter(m_points.at(i));
+            shape.addRect(r);
+        }
     }
     prepareGeometryChange();
     m_shape = shape;
     setPath(p);
 }
 
-void OnMonitorPathItem::getMode(QPointF pos)
+void OnMonitorPathItem::getMode(const QPointF &pos)
 {
     double dist  = 8;
     if (getView()) {
         dist /= m_view->matrix().m11();
     }
     // Item mapped coordinates
-    for (int i = 0; i < m_points.count(); i++) {
-	if ((pos - m_points.at(i)).manhattanLength() <= dist) {
-	    m_activePoint = i;
-	    return;
-	}
+    for (int i = 0; i < m_points.count(); ++i) {
+        if ((pos - m_points.at(i)).manhattanLength() <= dist) {
+            m_activePoint = i;
+            return;
+        }
     }
     m_activePoint = -1;
 }
@@ -105,11 +106,11 @@ void OnMonitorPathItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }*/
 
     if (m_activePoint >= 0 && event->buttons() & Qt::LeftButton) {
-	QPointF mousePos = event->pos();
-	m_points[m_activePoint] = mousePos;
-	rebuildShape();
-	m_modified = true;
-	update();
+        QPointF mousePos = event->pos();
+        m_points[m_activePoint] = mousePos;
+        rebuildShape();
+        m_modified = true;
+        update();
     }
 
     if (m_modified) {
@@ -150,8 +151,8 @@ QPainterPath OnMonitorPathItem::shape () const
 void OnMonitorPathItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* /*event*/)
 {
     if (m_activePoint != -1) {
-	m_activePoint = -1;
-	update();
+        m_activePoint = -1;
+        update();
     }
     unsetCursor();
 }
@@ -178,12 +179,12 @@ void OnMonitorPathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     double h = 6;
     if (getView()) {
         w /= m_view->matrix().m11();
-	h /= m_view->matrix().m22();
+        h /= m_view->matrix().m22();
     }
 
     QRectF handle(0, 0, w, h);
-    for (int i = 0; i < m_points.count(); i++) {
-	handle.moveCenter(m_points.at(i));
+    for (int i = 0; i < m_points.count(); ++i) {
+        handle.moveCenter(m_points.at(i));
         painter->fillRect(handle, m_activePoint == i ? Qt::blue : pen().color());
     }
 }
@@ -193,8 +194,8 @@ bool OnMonitorPathItem::getView()
     if (m_view)
         return true;
 
-    if (scene() && scene()->views().count()) {
-        m_view = scene()->views()[0];
+    if (scene() && !scene()->views().isEmpty()) {
+        m_view = scene()->views().first();
         return true;
     } else {
         return false;

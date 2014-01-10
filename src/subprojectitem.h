@@ -38,15 +38,15 @@ class DocClipBase;
 class SubProjectItem : public QTreeWidgetItem
 {
 public:
-    SubProjectItem(double display_ratio, QTreeWidgetItem * parent, int in, int out, QString description = QString());
+    SubProjectItem(double display_ratio, QTreeWidgetItem * parent, int in, int out, const QString& description = QString());
     virtual ~SubProjectItem();
     QDomElement toXml() const;
     int numReferences() const;
     DocClipBase *referencedClip();
     QPoint zone() const;
-    void setZone(QPoint p);
+    void setZone(const QPoint &p);
     QString description() const;
-    void setDescription(QString desc);
+    void setDescription(const QString& desc);
     static int itemDefaultHeight();
 
     /** Make sure folders appear on top of the tree widget */

@@ -29,12 +29,12 @@
 #include <QPushButton>
 #include <QPainter>
 #include <QStyledItemDelegate>
-#include <QKeyEvent>
 
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
 
 class QDomElement;
+class QKeyEvent;
 
 
 // RenderViewDelegate is used to draw the progress bars.
@@ -114,16 +114,16 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit RenderWidget(const QString &projectfolder, bool enableProxy, MltVideoProfile profile, QWidget * parent = 0);
+    explicit RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget * parent = 0);
     virtual ~RenderWidget();
     void setGuides(QDomElement guidesxml, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());
-    void setProfile(MltVideoProfile profile);
+    void setProfile(const MltVideoProfile& profile);
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void setDocumentPath(const QString &path);
     void reloadProfiles();
-    void setRenderProfile(QMap <QString, QString> props);
+    void setRenderProfile(const QMap <QString, QString>& props);
     int waitingJobsCount() const;
     QString getFreeScriptName(const KUrl &projectName = KUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
@@ -142,10 +142,10 @@ protected:
     virtual void keyPressEvent(QKeyEvent *e);
 
 public slots:
-    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
+    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
 
 private slots:
-    void slotUpdateButtons(KUrl url);
+    void slotUpdateButtons(const KUrl &url);
     void slotUpdateButtons();
     void refreshView(const QString &profile = QString());
     void refreshCategory(const QString &group = QString(), const QString &profile = QString());
@@ -195,14 +195,14 @@ private:
     KMessageWidget *m_infoMessage;
 #endif
 
-    void parseProfiles(QString meta = QString(), QString group = QString(), QString profile = QString());
-    void parseFile(QString exportFile, bool editable);
+    void parseProfiles(const QString &meta = QString(), const QString &group = QString(), const QString &profile = QString());
+    void parseFile(const QString &exportFile, bool editable);
     void updateButtons();
-    KUrl filenameWithExtension(KUrl url, QString extension);
+    KUrl filenameWithExtension(KUrl url, const QString &extension);
     /** @brief Check if a job needs to be started. */
     void checkRenderStatus();
     void startRendering(RenderJobItem *item);
-    void saveProfile(QDomElement newprofile);
+    void saveProfile(const QDomElement &newprofile);
     QList <QListWidgetItem *> m_renderItems;
     QList <QListWidgetItem *> m_renderCategory;
     void errorMessage(const QString &message);
@@ -212,7 +212,7 @@ signals:
     void openDvdWizard(const QString &url);
     /** Send the infos about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file */
-    void selectedRenderProfile(QMap <QString, QString> renderProps);
+    void selectedRenderProfile(const QMap <QString, QString> &renderProps);
     void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile);
     void shutdown();
 };

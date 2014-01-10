@@ -24,7 +24,7 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStandardDirs>
 
 #include <QMenu>
@@ -72,7 +72,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
     connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
     connect(m_effectsList, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotEffectSelected()));
-    connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem *, bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem *, bool)));
+    connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
     connect(m_effectsList, SIGNAL(applyEffect(QDomElement)), this, SIGNAL(addEffect(QDomElement)));
     connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
     //m_effectsList->setCurrentRow(0);
@@ -80,7 +80,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
 
 void EffectsListView::filterList(int pos)
 {
-    for (int i = 0; i < m_effectsList->topLevelItemCount(); i++) {
+    for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
         bool hideFolder = true;
         for (int j = 0; j < folder->childCount(); j++) {
@@ -105,7 +105,7 @@ void EffectsListView::filterList(int pos)
     if (item) {
         if (item->isHidden()) {
             int i;
-            for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++); //do nothing
+            for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); ++i); //do nothing
             m_effectsList->setCurrentRow(i);
         } else m_effectsList->scrollToItem(item);
     }*/
@@ -184,7 +184,7 @@ void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
     }
 }
 
-void EffectsListView::slotAutoExpand(QString text)
+void EffectsListView::slotAutoExpand(const QString &text)
 {
     search_effect->updateSearch();
     bool selected = false;

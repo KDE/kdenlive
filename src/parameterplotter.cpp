@@ -76,12 +76,11 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
     kDebug() << dat;
     int i = 0;
     while (!namenode.item(i).isNull() && namenode.item(i).toElement().attribute("name") != m_paramName)
-        i++;
+        ++i;
+
     if (namenode.count()) {
-
-
         QDomElement pa = namenode.item(i).toElement();
-        QDomNode na = pa.firstChildElement("name");
+        //QDomNode na = pa.firstChildElement("name");
 
         m_parameterNameList << pa.attribute("namedesc").split(';');
         emit parameterList(m_parameterNameList);
@@ -97,11 +96,11 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
             defaults = pa.attribute("default").split(';');
         QStringList maxv = pa.attribute("max").split(';');
         QStringList minv = pa.attribute("min").split(';');
-        for (int i = 0; i < maxv.size() && i < minv.size(); i++) {
+        for (int i = 0; i < maxv.size() && i < minv.size(); ++i) {
             if (m_max_y < maxv[i].toInt()) m_max_y = maxv[i].toInt();
             if (m_min_y > minv[i].toInt()) m_min_y = minv[i].toInt();
         }
-        for (int i = 0; i < m_parameterNameList.count(); i++) {
+        for (int i = 0; i < m_parameterNameList.count(); ++i) {
             KPlotObject *plot = new KPlotObject(m_colors[m_plotobjects.size()%m_colors.size()]);
             plot->setShowLines(true);
             if (!m_stretchFactors.contains(i) && i < maxv.size()) {
@@ -150,9 +149,9 @@ void ParameterPlotter::createParametersNew()
     QString paramlist;
     QTextStream txtstr(&paramlist);
     QDomNode pa = namenode.item(0);
-    if (namenode.count() > 0) {
-        for (int i = 0; i < plotobjs.count(); i++) {
-            QList<KPlotPoint*> points = plotobjs[i]->points();
+    if (!namenode.isEmpty()) {
+        for (int i = 0; i < plotobjs.count(); ++i) {
+            QList<KPlotPoint*> points = plotobjs.at(i)->points();
             foreach(const KPlotPoint *o, points) {
                 txtstr << (int)o->y() ;
                 break;//first no keyframes
@@ -193,7 +192,7 @@ void ParameterPlotter::mouseMoveEvent(QMouseEvent * event)
                     m_oldmousepoint = event->pos();
                 }
             }
-            i++;
+            ++i;
         }
         createParametersNew();
     }
@@ -219,7 +218,7 @@ void ParameterPlotter::replot(const QString & name)
         p->setLabelPen(pen);
         if (selectedName == name)
             m_activeIndexPlot = i;
-        replacePlotObject(i++, p);
+        replacePlotObject(++i, p);
     }
 }
 
@@ -282,22 +281,24 @@ void ParameterPlotter::setNewPoints(bool b)
     m_newPoints = b;
 }
 
-bool ParameterPlotter::isMoveX()
+bool ParameterPlotter::isMoveX() const
 {
     return m_moveX;
 }
 
-bool ParameterPlotter::isMoveY()
+bool ParameterPlotter::isMoveY() const
 {
     return m_moveY;
 }
 
-bool ParameterPlotter::isMoveTimeline()
+bool ParameterPlotter::isMoveTimeline() const
 {
     return m_moveTimeline;
 }
 
-bool ParameterPlotter::isNewPoints()
+bool ParameterPlotter::isNewPoints() const
 {
     return m_newPoints;
 }
+
+#include "parameterplotter.moc"

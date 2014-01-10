@@ -37,14 +37,15 @@
 
 #include <kurl.h>
 
-#include <qdom.h>
-#include <qstring.h>
-#include <qmap.h>
+#include <QtXml/qdom.h>
+#include <QString>
+#include <QMap>
 #include <QList>
 #include <QEvent>
 #include <QMutex>
 #include <QFuture>
 #include <QSemaphore>
+#include <QTimer>
 
 
 class QTimer;
@@ -66,7 +67,7 @@ class Filter;
 class Profile;
 class Service;
 class Event;
-};
+}
 
 struct requestClipInfo {
     QDomElement xml;
@@ -74,16 +75,22 @@ struct requestClipInfo {
     int imageHeight;
     bool replaceProducer;
 
-bool operator==(const requestClipInfo &a)
-{
-    return clipId == a.clipId;
-}
+    bool operator==(const requestClipInfo &a)
+    {
+        return clipId == a.clipId;
+    }
 };
 
 class MltErrorEvent : public QEvent
 {
 public:
-    MltErrorEvent(QString message) : QEvent(QEvent::User), m_message(message) {}
+    MltErrorEvent(const QString &message)
+        : QEvent(QEvent::User),
+          m_message(message)
+    {
+
+    }
+
     QString message() const {
         return m_message;
     }
@@ -96,7 +103,7 @@ private:
 
 class Render: public AbstractRender
 {
-Q_OBJECT public:
+    Q_OBJECT public:
 
     enum FailStates { OK = 0,
                       APP_NOEXIST
@@ -112,7 +119,7 @@ Q_OBJECT public:
     virtual ~Render();
 
     /** @brief Seeks the renderer clip to the given time. */
-    void seek(GenTime time);
+    void seek(const GenTime &time);
     void seek(int time, bool fromMaster = false);
     void seekToFrameDiff(int diff);
 
@@ -131,12 +138,12 @@ Q_OBJECT public:
     /** @brief Update configuration */
     void updateConfiguration();
 
-    QPixmap getImageThumbnail(KUrl url, int width, int height);
+    QPixmap getImageThumbnail(const KUrl &url, int width, int height);
 
     /** @brief Sets the current MLT producer playlist.
      * @param list The xml describing the playlist
      * @param position (optional) time to seek to */
-    int setSceneList(QDomDocument list, int position = 0);
+    int setSceneList(const QDomDocument &list, int position = 0);
 
     /** @brief Sets the current MLT producer playlist.
      * @param list new playlist
@@ -166,7 +173,7 @@ Q_OBJECT public:
     void stop(const GenTime &startTime);
     int volume() const;
 
-    QImage extractFrame(int frame_position, QString path = QString(), int width = -1, int height = -1);
+    QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1);
 
     /** @brief Plays the scene starting from a specific time.
      * @param startTime time to start playing the scene from */
@@ -177,7 +184,7 @@ Q_OBJECT public:
     void saveZone(KUrl url, QString desc, QPoint zone);
     
     /** @brief Save a clip in timeline to an xml playlist. */
-    bool saveClip(int track, GenTime position, KUrl url, QString desc = QString());
+    bool saveClip(int track, const GenTime &position, const KUrl &url, const QString &desc = QString());
 
     /** @brief Return true if we are currently playing */
     bool isPlaying() const;
@@ -199,7 +206,7 @@ Q_OBJECT public:
     double consumerRatio() const;
 
     /** @brief Saves current producer frame as an image. */
-    void exportCurrentFrame(KUrl url, bool notify);
+    void exportCurrentFrame(const KUrl &url, bool notify);
 
     /** @brief Change the Mlt PROFILE
      * @param profileName The MLT profile name
@@ -233,7 +240,7 @@ Q_OBJECT public:
     Mlt::Producer *checkSlowMotionProducer(Mlt::Producer *prod, QDomElement element);
     int mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod, bool overwrite = false, bool push = false);
     bool mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement element, Mlt::Producer *prod);
-    bool mltCutClip(int track, GenTime position);
+    bool mltCutClip(int track, const GenTime &position);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
 
@@ -257,30 +264,30 @@ Q_OBJECT public:
     bool mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh);
     bool mltAddTrackEffect(int track, EffectsParameterList params);
     
-    /** @brief Enable / disable clip effects. 
+    /** @brief Enable / disable clip effects.
      * @param track The track where the clip is
      * @param position The start position of the clip
      * @param effectIndexes The list of effect indexes to enable / disable
      * @param disable True if effects should be disabled, false otherwise */
-    bool mltEnableEffects(int track, GenTime position, QList <int> effectIndexes, bool disable);
+    bool mltEnableEffects(int track, const GenTime &position, const QList<int> &effectIndexes, bool disable);
     /** @brief Enable / disable track effects.
      * @param track The track where the effect is
      * @param effectIndexes The list of effect indexes to enable / disable
      * @param disable True if effects should be disabled, false otherwise */
-    bool mltEnableTrackEffects(int track, QList <int> effectIndexes, bool disable);
+    bool mltEnableTrackEffects(int track, const QList<int> &effectIndexes, bool disable);
 
     /** @brief Edits an effect parameters in MLT's playlist. */
-    bool mltEditEffect(int track, GenTime position, EffectsParameterList params);
+    bool mltEditEffect(int track, const GenTime &position, EffectsParameterList params);
     bool mltEditTrackEffect(int track, EffectsParameterList params);
 
     /** @brief Updates the "kdenlive_ix" (index) value of an effect. */
-    void mltUpdateEffectPosition(int track, GenTime position, int oldPos, int newPos);
+    void mltUpdateEffectPosition(int track, const GenTime &position, int oldPos, int newPos);
 
     /** @brief Changes the order of effects in MLT's playlist.
      *
      * It switches effects from oldPos and newPos, updating the "kdenlive_ix"
      * (index) value. */
-    void mltMoveEffect(int track, GenTime position, int oldPos, int newPos);
+    void mltMoveEffect(int track, const GenTime &position, int oldPos, int newPos);
     void mltMoveTrackEffect(int track, int oldPos, int newPos);
 
     /** @brief Enables/disables audio/video in a track. */
@@ -315,7 +322,7 @@ Q_OBJECT public:
     void setDropFrames(bool show);
     /** @brief Sets an MLT consumer property. */
     void setConsumerProperty(const QString &name, const QString &value);
-    QString updateSceneListFps(double current_fps, double new_fps, QString scene);
+    QString updateSceneListFps(double current_fps, double new_fps, const QString &scene);
 
     void showAudio(Mlt::Frame&);
     
@@ -415,7 +422,7 @@ private:
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
     void mltPasteEffects(Mlt::Producer *source, Mlt::Producer *dest);
-    QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
+    QMap<QString, QString> mltGetTransitionParamsFromXml(const QDomElement &xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
     /** @brief The ids of the clips that are currently being loaded for info query */
     QStringList m_processingClipId;
@@ -444,7 +451,7 @@ private slots:
     /** @brief Process the clip info requests (in a separate thread). */
     void processFileProperties();
     /** @brief A clip with multiple video streams was found, ask what to do. */
-    void slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data);
+    void slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data);
     void showFrame(Mlt::Frame *);
     void slotCheckSeeking();
 
@@ -507,7 +514,7 @@ public slots:
     int getLength();
 
     /** @brief Checks if the file is readable by MLT. */
-    bool isValid(KUrl url);
+    bool isValid(const KUrl &url);
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     void mltSavePlaylist();

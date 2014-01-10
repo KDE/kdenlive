@@ -46,7 +46,7 @@ class ClipItem : public AbstractClipItem
     Q_OBJECT
 
 public:
-    ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
+    ClipItem(DocClipBase *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
@@ -54,7 +54,7 @@ public:
     virtual int type() const;
     void resizeStart(int posx, bool size = true, bool emitChange = true);
     void resizeEnd(int posx, bool emitChange = true);
-    OPERATIONTYPE operationMode(QPointF pos);
+    OPERATIONTYPE operationMode(const QPointF &pos);
     static int itemHeight();
     const QString clipProducer() const;
     int clipType() const;
@@ -63,7 +63,7 @@ public:
     void setClipName(const QString &name);
     QDomElement xml() const;
     QDomElement itemXml() const;
-    ClipItem *clone(ItemInfo info) const;
+    ClipItem *clone(const ItemInfo &info) const;
     const EffectsList effectList() const;
     void setFadeOut(int pos);
     void setFadeIn(int pos);
@@ -78,7 +78,7 @@ public:
     EffectsParameterList addEffect(QDomElement effect, bool animate = true);
 
     /** @brief Deletes the effect with id @param index. */
-    void deleteEffect(QString index);
+    void deleteEffect(const QString &index);
 
     /** @brief Gets the number of effects in this clip. */
     int effectsCount();
@@ -149,8 +149,8 @@ public:
     /** @brief Sets params with keyframes and updates the visible keyframes.
     * @param ix Number of the effect
     * @param keyframes a list of strings of keyframes (one string per param), which should be used */
-    void setKeyframes(const int ix, const QStringList keyframes);
-    void setEffectList(const EffectsList effectList);
+    void setKeyframes(const int ix, const QStringList &keyframes);
+    void setEffectList(const EffectsList &effectList);
     void setSpeed(const double speed, int strobe);
     double speed() const;
     int strobe() const;
@@ -161,7 +161,7 @@ public:
     int hasEffect(const QString &tag, const QString &id) const;
 
     /** @brief Adjust keyframes to the new clip. */
-    const QString adjustKeyframes(QString keyframes, int offset);
+    const QString adjustKeyframes(const QString &keyframes, int offset);
     /** @brief Makes sure all keyframes are in the clip's cropped duration.
      * @param cutPos the frame number where the new clip starts
     * @return Whether or not changes were made */
@@ -180,7 +180,7 @@ public:
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
 
     /** @brief Adjusts effects after a clip duration change. */
-    QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, ItemInfo oldInfo);
+    QMap<int, QDomElement> adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo);
 
     /** Returns the necessary (audio, video, general) producer.
      * @param track Track of the requested producer
@@ -197,12 +197,12 @@ public:
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
-    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+    void dropEvent(QGraphicsSceneDragDropEvent *event);
     //virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
     //virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
     DocClipBase *m_clip;
@@ -251,16 +251,16 @@ private slots:
     void slotGotAudioData();
     void slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels, int pixelHeight);
     void animate(qreal value);
-    void slotSetStartThumb(QImage img);
-    void slotSetEndThumb(QImage img);
-    void slotThumbReady(int frame, QImage img);
+    void slotSetStartThumb(const QImage &img);
+    void slotSetEndThumb(const QImage &img);
+    void slotThumbReady(int frame, const QImage &img);
     /** @brief The thumbnailer has finished to cache all required thumbs. */
     void slotGotThumbsCache();
 
 public slots:
     void slotFetchThumbs();
-    void slotSetStartThumb(const QPixmap pix);
-    void slotSetEndThumb(const QPixmap pix);
+    void slotSetStartThumb(const QPixmap &pix);
+    void slotSetEndThumb(const QPixmap &pix);
     void slotUpdateRange();
 
 signals:

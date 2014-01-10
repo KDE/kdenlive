@@ -40,7 +40,7 @@
 #include <KDebug>
 #include <KStandardDirs>
 #include <KMessageBox>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KTemporaryFile>
 
 #include <QTimer>
@@ -120,19 +120,18 @@ static void consumer_paused(mlt_consumer, Render * self, mlt_frame frame_ptr)
 // static
 void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_frame frame_ptr)
 {
-	// detect if the producer has finished playing. Is there a better way to do it?
-	if (self->externalConsumer && !self->analyseAudio && !self->sendFrameForAnalysis) {
-		emit self->rendererPosition((int) mlt_consumer_position(consumer));
-		return;
-	}
+    // detect if the producer has finished playing. Is there a better way to do it?
+    if (self->externalConsumer && !self->analyseAudio && !self->sendFrameForAnalysis) {
+        emit self->rendererPosition((int) mlt_consumer_position(consumer));
+        return;
+    }
 
-	Mlt::Frame frame(frame_ptr);
-	if (frame.get_double("_speed") == 0) {
-		self->emitConsumerStopped();
-	} else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
-		self->pause();
-		self->emitConsumerStopped(true);
-	}
+    Mlt::Frame frame(frame_ptr);
+    if (frame.get_double("_speed") == 0) self->emitConsumerStopped();
+    else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
+        self->pause();
+        self->emitConsumerStopped(true);
+    }
 
 #ifdef USE_JACK
     if (self->isAudioEngineActive(AudioEngine::Jack)) {
@@ -140,7 +139,7 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
     }
 #endif
 
-	emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
+    emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
 }
 
 Render::Render(Kdenlive::MONITORID rendererName, int winid, RndrRole role, QString profile, QWidget *parent) :
@@ -164,7 +163,8 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, RndrRole role, QStri
 {
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
-    if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
+    if (profile.isEmpty())
+        profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
 
     m_mltProducer = m_blackClip->cut(0, 1);
@@ -174,9 +174,9 @@ Render::Render(Kdenlive::MONITORID rendererName, int winid, RndrRole role, QStri
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(100);
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
-    connect(this, SIGNAL(multiStreamFound(const QString &,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(const QString &,QList<int>,QList<int>,stringMap)));
+    connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
-    connect(this, SIGNAL(mltFrameReceived(Mlt::Frame *)), this, SLOT(showFrame(Mlt::Frame *)), Qt::UniqueConnection);
+    connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
 }
 
 Render::~Render()
@@ -197,10 +197,10 @@ void Render::closeMlt()
     //delete m_osdTimer;
     m_requestList.clear();
     m_infoThread.waitForFinished();
-    if (m_showFrameEvent) delete m_showFrameEvent;
-    if (m_pauseEvent) delete m_pauseEvent;
-    if (m_mltConsumer) delete m_mltConsumer;
-    if (m_mltProducer) delete m_mltProducer;
+    delete m_showFrameEvent;
+    delete m_pauseEvent;
+    delete m_mltConsumer;
+    delete m_mltProducer;
     /*if (m_mltProducer) {
         Mlt::Service service(m_mltProducer->parent().get_service());
         service.lock();
@@ -231,13 +231,14 @@ void Render::closeMlt()
     }*/
 
     //kDebug() << "// // // CLOSE RENDERER " << m_name;
-    if (m_blackClip) delete m_blackClip;
+    delete m_blackClip;
     //delete m_osdInfo;
 }
 
 void Render::slotSwitchFullscreen()
 {
-    if (m_mltConsumer) m_mltConsumer->set("full_screen", 1);
+    if (m_mltConsumer)
+        m_mltConsumer->set("full_screen", 1);
 }
 
 void Render::buildConsumer(const QString &profileName)
@@ -247,18 +248,17 @@ void Render::buildConsumer(const QString &profileName)
 
     m_activeProfile = profileName;
     if (m_mltProfile) {
-	Mlt::Profile tmpProfile(m_activeProfile.toUtf8().constData());
-	m_mltProfile->set_colorspace(tmpProfile.colorspace());
-	m_mltProfile->set_frame_rate(tmpProfile.frame_rate_num(), tmpProfile.frame_rate_den());
-	m_mltProfile->set_height(tmpProfile.height());
-	m_mltProfile->set_width(tmpProfile.width());
-	m_mltProfile->set_progressive(tmpProfile.progressive());
-	m_mltProfile->set_sample_aspect(tmpProfile.sample_aspect_num(), tmpProfile.sample_aspect_den());
-	m_mltProfile->get_profile()->display_aspect_num = tmpProfile.display_aspect_num();
-	m_mltProfile->get_profile()->display_aspect_den = tmpProfile.display_aspect_den();
-    }
-    else {
-	m_mltProfile = new Mlt::Profile(m_activeProfile.toUtf8().constData());
+        Mlt::Profile tmpProfile(m_activeProfile.toUtf8().constData());
+        m_mltProfile->set_colorspace(tmpProfile.colorspace());
+        m_mltProfile->set_frame_rate(tmpProfile.frame_rate_num(), tmpProfile.frame_rate_den());
+        m_mltProfile->set_height(tmpProfile.height());
+        m_mltProfile->set_width(tmpProfile.width());
+        m_mltProfile->set_progressive(tmpProfile.progressive());
+        m_mltProfile->set_sample_aspect(tmpProfile.sample_aspect_num(), tmpProfile.sample_aspect_den());
+        m_mltProfile->get_profile()->display_aspect_num = tmpProfile.display_aspect_num();
+        m_mltProfile->get_profile()->display_aspect_den = tmpProfile.display_aspect_den();
+    } else {
+        m_mltProfile = new Mlt::Profile(m_activeProfile.toUtf8().constData());
     }
     setenv("MLT_PROFILE", m_activeProfile.toUtf8().constData(), 1);
     m_mltProfile->set_explicit(true);
@@ -272,21 +272,21 @@ void Render::buildConsumer(const QString &profileName)
         if (device >= 0) {
             QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
             if (!m_mltConsumer) {
-		m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
-		m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-		mlt_log_set_callback(kdenlive_callback);
-	    }
+                m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
+                m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+                mlt_log_set_callback(kdenlive_callback);
+            }
             if (m_mltConsumer->is_valid()) {
-		externalConsumer = true;
+                externalConsumer = true;
                 m_mltConsumer->set("terminate_on_pause", 0);
                 m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
-		m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-		m_mltConsumer->set("buffer", "1");
+                m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
+                m_mltConsumer->set("buffer", "1");
                 m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
             }
             if (m_mltConsumer && m_mltConsumer->is_valid()) {
-		return;
-	    }
+                return;
+            }
             KMessageBox::information(qApp->activeWindow(), i18n("Your project's profile %1 is not compatible with the blackmagic output card. Please see supported profiles below. Switching to normal video display.", m_mltProfile->description()));
         }
     }
@@ -306,37 +306,37 @@ void Render::buildConsumer(const QString &profileName)
     if (m_winid == 0) {
         // OpenGL monitor
         if (!m_mltConsumer) {
-	    if (KdenliveSettings::external_display() && m_name != Kdenlive::clipMonitor) {
-		int device = KdenliveSettings::blackmagic_output_device();
-		if (device >= 0) {
-		    QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
-		    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
-		    // Set defaults for decklink consumer
-		    if (m_mltConsumer) {
-			m_mltConsumer->set("terminate_on_pause", 0);
-			m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
-			externalConsumer = true;
-		    }
-		}
-	    }
-	    if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
-		m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
-		m_mltConsumer->set("scrub_audio", 1);
-		m_mltConsumer->set("preview_off", 1);
-		m_mltConsumer->set("audio_buffer", 512);
-		m_mltConsumer->set("preview_format", mlt_image_rgb24a);
-	    }
-	    m_mltConsumer->set("buffer", "1");
-	    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
-	}
+            if (KdenliveSettings::external_display() && m_name != Kdenlive::clipMonitor) {
+                int device = KdenliveSettings::blackmagic_output_device();
+                if (device >= 0) {
+                    QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
+                    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, decklink.toUtf8().constData());
+                    // Set defaults for decklink consumer
+                    if (m_mltConsumer) {
+                        m_mltConsumer->set("terminate_on_pause", 0);
+                        m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
+                        externalConsumer = true;
+                    }
+                }
+            }
+            if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
+                m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
+                m_mltConsumer->set("scrub_audio", 1);
+                m_mltConsumer->set("preview_off", 1);
+                m_mltConsumer->set("audio_buffer", 512);
+                m_mltConsumer->set("preview_format", mlt_image_rgb24a);
+            }
+            m_mltConsumer->set("buffer", "1");
+            m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
+        }
     } else {
         if (!m_mltConsumer) {
-	    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
-	    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-	    //m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
-	    m_mltConsumer->set("progressive", 1);
-	}
-	m_mltConsumer->set("window_id", m_winid);
+            m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_preview");
+            m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+            //m_pauseEvent = m_mltConsumer->listen("consumer-sdl-paused", this, (mlt_listener) consumer_paused);
+            m_mltConsumer->set("progressive", 1);
+        }
+        m_mltConsumer->set("window_id", m_winid);
     }
     //m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
@@ -396,8 +396,9 @@ Mlt::Producer *Render::invalidProducer(const QString &id)
     char *tmp = qstrdup(txt.toUtf8().constData());
     clip = new Mlt::Producer(*m_mltProfile, tmp);
     delete[] tmp;
-    if (clip == NULL) clip = new Mlt::Producer(*m_mltProfile, "colour", "red");
-    else {
+    if (clip == NULL) {
+        clip = new Mlt::Producer(*m_mltProfile, "colour", "red");
+    } else {
         clip->set("bgcolour", "0xff0000ff");
         clip->set("pad", "10");
     }
@@ -428,12 +429,15 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
             }
         }
 
-        if (m_isSplitView) slotSplitView(false);
-        if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+        if (m_isSplitView)
+            slotSplitView(false);
+        if (!m_mltConsumer->is_stopped())
+            m_mltConsumer->stop();
         m_mltConsumer->purge();
     }
     QString scene;
-    if (!dropSceneList) scene = sceneList();
+    if (!dropSceneList)
+        scene = sceneList();
     int pos = 0;
     double current_fps = m_mltProfile->fps();
     double current_dar = m_mltProfile->dar();
@@ -475,7 +479,7 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
     return 1;
 }
 
-void Render::seek(GenTime time)
+void Render::seek(const GenTime &time)
 {
     if (!m_mltProducer || !m_isActive)
         return;
@@ -503,20 +507,20 @@ void Render::seek(int time, bool fromMaster)
     	
     resetZoneMode();
     if (requestedSeekPosition == SEEK_INACTIVE) {
-	requestedSeekPosition = time;
-	m_mltConsumer->purge();
-	m_mltProducer->seek(time);
-	if (m_paused && !externalConsumer) {
-	    m_mltConsumer->set("refresh", 1);
-	    m_paused = false;
-	}
-	else if (m_winid != 0 && m_mltProducer->get_speed() == 0) {
-	    // workaround specific bug in MLT's SDL consumer
-	    m_mltConsumer->stop();
-	    m_mltConsumer->start();
-	    m_mltConsumer->set("refresh", 1);
-	}
-	}
+        requestedSeekPosition = time;
+        m_mltConsumer->purge();
+        m_mltProducer->seek(time);
+        if (m_paused && !externalConsumer) {
+            m_mltConsumer->set("refresh", 1);
+            m_paused = false;
+        }
+        else if (m_winid != 0 && m_mltProducer->get_speed() == 0) {
+            // workaround specific bug in MLT's SDL consumer
+            m_mltConsumer->stop();
+            m_mltConsumer->start();
+            m_mltConsumer->set("refresh", 1);
+        }
+    }
     else requestedSeekPosition = time;
 }
 
@@ -553,7 +557,7 @@ int Render::renderHeight() const
     return m_mltProfile->height();
 }
 
-QImage Render::extractFrame(int frame_position, QString path, int width, int height)
+QImage Render::extractFrame(int frame_position, const QString &path, int width, int height)
 {
     if (width == -1) {
         width = frameRenderWidth();
@@ -580,29 +584,30 @@ QImage Render::extractFrame(int frame_position, QString path, int width, int hei
     return KThumb::getFrame(m_mltProducer, frame_position, dwidth, width, height);
 }
 
-QPixmap Render::getImageThumbnail(KUrl url, int /*width*/, int /*height*/)
+QPixmap Render::getImageThumbnail(const KUrl &url, int /*width*/, int /*height*/)
 {
     QImage im;
     QPixmap pixmap;
     if (url.fileName().startsWith(".all.")) {  //  check for slideshow
         QString fileType = url.fileName().right(3);
         QStringList more;
-        QStringList::Iterator it;
-
         QDir dir(url.directory());
         QStringList filter;
         filter << "*." + fileType;
         filter << "*." + fileType.toUpper();
         more = dir.entryList(filter, QDir::Files);
         im.load(url.directory() + '/' + more.at(0));
-    } else im.load(url.path());
+    } else {
+        im.load(url.path());
+    }
     //pixmap = im.scaled(width, height);
     return pixmap;
 }
 
 double Render::consumerRatio() const
 {
-    if (!m_mltConsumer) return 1.0;
+    if (!m_mltConsumer)
+        return 1.0;
     return (m_mltConsumer->get_double("aspect_ratio_num") / m_mltConsumer->get_double("aspect_ratio_den"));
 }
 
@@ -617,7 +622,7 @@ int Render::getLength()
     return 0;
 }
 
-bool Render::isValid(KUrl url)
+bool Render::isValid(const KUrl &url)
 {
     Mlt::Producer producer(*m_mltProfile, url.path().toUtf8().constData());
     if (producer.is_blank())
@@ -644,7 +649,7 @@ void Render::slotSplitView(bool doit)
     if (service.type() != tractor_type || tractor.count() < 2) return;
     Mlt::Field *field = tractor.field();
     if (doit) {
-        for (int i = 1, screen = 0; i < tractor.count() && screen < 4; i++) {
+        for (int i = 1, screen = 0; i < tractor.count() && screen < 4; ++i) {
             Mlt::Producer trackProducer(tractor.track(i));
             kDebug() << "// TRACK: " << i << ", HIDE: " << trackProducer.get("hide");
             if (QString(trackProducer.get("hide")).toInt() != 1) {
@@ -654,7 +659,7 @@ void Render::slotSplitView(bool doit)
                 transition->set("a_track", 0);
                 transition->set("b_track", i);
                 transition->set("distort", 0);
-		transition->set("aligned", 0);
+                transition->set("aligned", 0);
                 transition->set("internal_added", "200");
                 QString geometry;
                 switch (screen) {
@@ -685,14 +690,14 @@ void Render::slotSplitView(bool doit)
         mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
         QString mlt_type = mlt_properties_get(properties, "mlt_type");
         QString resource = mlt_properties_get(properties, "mlt_service");
-	mlt_service nextservicetodisconnect;
+        mlt_service nextservicetodisconnect;
 
         while (mlt_type == "transition") {
             QString added = mlt_properties_get(MLT_SERVICE_PROPERTIES(nextservice), "internal_added");
             if (added == "200") {
-		nextservicetodisconnect = nextservice;
-		nextservice = mlt_service_producer(nextservice);
-		mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
+                nextservicetodisconnect = nextservice;
+                nextservice = mlt_service_producer(nextservice);
+                mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
             }
             else nextservice = mlt_service_producer(nextservice);
             if (nextservice == NULL) break;
@@ -709,15 +714,15 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
     // Make sure we don't request the info for same clip twice
     m_infoMutex.lock();
     if (m_processingClipId.contains(clipId)) {
-	m_infoMutex.unlock();
-	return;
+        m_infoMutex.unlock();
+        return;
     }
-    for (int i = 0; i < m_requestList.count(); i++) {
-	if (m_requestList.at(i).clipId == clipId) {
-	    // Clip is already queued
-	    m_infoMutex.unlock();
-	    return;
-	}
+    for (int i = 0; i < m_requestList.count(); ++i) {
+        if (m_requestList.at(i).clipId == clipId) {
+            // Clip is already queued
+            m_infoMutex.unlock();
+            return;
+        }
     }
     requestClipInfo info;
     info.xml = xml;
@@ -735,11 +740,12 @@ void Render::forceProcessing(const QString &id)
 {
     if (m_processingClipId.contains(id)) return;
     QMutexLocker lock(&m_infoMutex);
-    for (int i = 0; i < m_requestList.count(); i++) {
+    for (int i = 0; i < m_requestList.count(); ++i) {
         requestClipInfo info = m_requestList.at(i);
         if (info.clipId == id) {
-            if (i == 0) break;
-            else {
+            if (i == 0) {
+                break;
+            } else {
                 m_requestList.removeAt(i);
                 m_requestList.prepend(info);
                 break;
@@ -751,7 +757,7 @@ void Render::forceProcessing(const QString &id)
 int Render::processingItems()
 {
     QMutexLocker lock(&m_infoMutex);
-    int count = m_requestList.count() + m_processingClipId.count();
+    const int count = m_requestList.count() + m_processingClipId.count();
     return count;
 }
 
@@ -765,7 +771,7 @@ bool Render::isProcessing(const QString &id)
 {
     if (m_processingClipId.contains(id)) return true;
     QMutexLocker lock(&m_infoMutex);
-    for (int i = 0; i < m_requestList.count(); i++) {
+    for (int i = 0; i < m_requestList.count(); ++i) {
         if (m_requestList.at(i).clipId == id) {
             return true;
         }
@@ -810,23 +816,23 @@ void Render::processFileProperties()
             if (producer && producer->is_valid() && info.xml.hasAttribute("xmldata"))
                 producer->set("xmldata", info.xml.attribute("xmldata").toUtf8().constData());
         } else if (url.isEmpty()) {
-	    //WARNING: when is this case used? Not sure it is working.. JBM/
+            //WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
             QDomElement mlt = doc.createElement("mlt");
             QDomElement play = doc.createElement("playlist");
-	    play.setAttribute("id", "playlist0");
+            play.setAttribute("id", "playlist0");
             doc.appendChild(mlt);
             mlt.appendChild(play);
             play.appendChild(doc.importNode(info.xml, true));
-	    QDomElement tractor = doc.createElement("tractor");
-	    tractor.setAttribute("id", "tractor0");
-	    QDomElement track = doc.createElement("track");
-	    track.setAttribute("producer", "playlist0");
-	    tractor.appendChild(track);
-	    mlt.appendChild(tractor);
+            QDomElement tractor = doc.createElement("tractor");
+            tractor.setAttribute("id", "tractor0");
+            QDomElement track = doc.createElement("track");
+            track.setAttribute("producer", "playlist0");
+            tractor.appendChild(track);
+            mlt.appendChild(tractor);
             producer = new Mlt::Producer(*m_mltProfile, "xml-string", doc.toString().toUtf8().constData());
         } else {
-	    producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
+            producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
         }
 
         if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
@@ -915,16 +921,16 @@ void Render::processFileProperties()
                 clipOut = length - 1;
             }
             else length = info.xml.attribute("out").toInt() - info.xml.attribute("in").toInt() + 1;
-	    // Pass duration if it was forced
-	    if (info.xml.hasAttribute("duration")) {
-		duration = info.xml.attribute("duration").toInt();
-		if (length < duration) {
-		    length = duration;
-		    if (clipOut > 0) clipOut = length - 1;
-		}
-	    }
-	    if (duration == 0) duration = length;
-	    producer->set("length", length);
+            // Pass duration if it was forced
+            if (info.xml.hasAttribute("duration")) {
+                duration = info.xml.attribute("duration").toInt();
+                if (length < duration) {
+                    length = duration;
+                    if (clipOut > 0) clipOut = length - 1;
+                }
+            }
+            if (duration == 0) duration = length;
+            producer->set("length", length);
         }
 
         if (clipOut > 0) producer->set_in_and_out(info.xml.attribute("in").toInt(), clipOut);
@@ -1009,66 +1015,66 @@ void Render::processFileProperties()
             }
         }
 
-	int vindex = -1;
-	const QString mltService = producer->get("mlt_service");
-	if (mltService == "xml" || mltService == "consumer") {
-	    // MLT playlist, create producer with blank profile to get real profile info
-	    // TODO: is there an easier way to get this info (original source clip profile) from MLT?
-	    Mlt::Profile *original_profile = new Mlt::Profile();
-	    Mlt::Producer *tmpProd = new Mlt::Producer(*original_profile, path.toUtf8().constData());
-	    filePropertyMap["progressive"] = QString::number(original_profile->progressive());
-	    filePropertyMap["colorspace"] = QString::number(original_profile->colorspace());
-	    filePropertyMap["fps"] = QString::number(original_profile->fps());
-	    filePropertyMap["aspect_ratio"] = QString::number(original_profile->sar());
-	    delete tmpProd;
-	    delete original_profile;
-	}
-	else if (mltService == "avformat") {
-	    // Get frame rate
-	    vindex = producer->get_int("video_index");
+        int vindex = -1;
+        const QString mltService = producer->get("mlt_service");
+        if (mltService == "xml" || mltService == "consumer") {
+            // MLT playlist, create producer with blank profile to get real profile info
+            // TODO: is there an easier way to get this info (original source clip profile) from MLT?
+            Mlt::Profile *original_profile = new Mlt::Profile();
+            Mlt::Producer *tmpProd = new Mlt::Producer(*original_profile, path.toUtf8().constData());
+            filePropertyMap["progressive"] = QString::number(original_profile->progressive());
+            filePropertyMap["colorspace"] = QString::number(original_profile->colorspace());
+            filePropertyMap["fps"] = QString::number(original_profile->fps());
+            filePropertyMap["aspect_ratio"] = QString::number(original_profile->sar());
+            delete tmpProd;
+            delete original_profile;
+        }
+        else if (mltService == "avformat") {
+            // Get frame rate
+            vindex = producer->get_int("video_index");
 
-	    // List streams
-	    int streams = producer->get_int("meta.media.nb_streams");
-	    QList <int> audio_list;
-	    QList <int> video_list;
-	    for (int i = 0; i < streams; i++) {
-		QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
-		QString type = producer->get(propertyName.data());
-		if (type == "audio") audio_list.append(i);
-		else if (type == "video") video_list.append(i);
-	    }
+            // List streams
+            int streams = producer->get_int("meta.media.nb_streams");
+            QList <int> audio_list;
+            QList <int> video_list;
+            for (int i = 0; i < streams; ++i) {
+                QByteArray propertyName = QString("meta.media.%1.stream.type").arg(i).toLocal8Bit();
+                QString type = producer->get(propertyName.data());
+                if (type == "audio") audio_list.append(i);
+                else if (type == "video") video_list.append(i);
+            }
 
-	    if (!info.xml.hasAttribute("video_index") && video_list.count() > 1) {
-		// Clip has more than one video stream, ask which one should be used
-		QMap <QString, QString> data;
-		if (info.xml.hasAttribute("group")) data.insert("group", info.xml.attribute("group"));
-		if (info.xml.hasAttribute("groupId")) data.insert("groupId", info.xml.attribute("groupId"));
-		emit multiStreamFound(path, audio_list, video_list, data);
-		// Force video index so that when reloading the clip we don't ask again for other streams
-		filePropertyMap["video_index"] = QString::number(vindex);
-	    }
-	
-	    if (vindex > -1) {
-		snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
-		if (producer->get(property))
-		    filePropertyMap["fps"] = producer->get(property);
-	    }
+            if (!info.xml.hasAttribute("video_index") && video_list.count() > 1) {
+                // Clip has more than one video stream, ask which one should be used
+                QMap <QString, QString> data;
+                if (info.xml.hasAttribute("group")) data.insert("group", info.xml.attribute("group"));
+                if (info.xml.hasAttribute("groupId")) data.insert("groupId", info.xml.attribute("groupId"));
+                emit multiStreamFound(path, audio_list, video_list, data);
+                // Force video index so that when reloading the clip we don't ask again for other streams
+                filePropertyMap["video_index"] = QString::number(vindex);
+            }
 
-	    if (!filePropertyMap.contains("fps")) {
-		if (producer->get_double("meta.media.frame_rate_den") > 0) {
-		    filePropertyMap["fps"] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
-		} else filePropertyMap["fps"] = producer->get("source_fps");
-	    }
-	}
+            if (vindex > -1) {
+                snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
+                if (producer->get(property))
+                    filePropertyMap["fps"] = producer->get(property);
+            }
+
+            if (!filePropertyMap.contains("fps")) {
+                if (producer->get_double("meta.media.frame_rate_den") > 0) {
+                    filePropertyMap["fps"] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
+                } else filePropertyMap["fps"] = producer->get("source_fps");
+            }
+        }
 
         Mlt::Frame *frame = producer->get_frame();
         if (frame && frame->is_valid()) {
             filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
-	    int af = frame->get_int("audio_frequency");
-	    int ac = frame->get_int("audio_channels");
-	    // keep for compatibility with MLT <= 0.8.6
-	    if (af == 0) af = frame->get_int("frequency");
-	    if (ac == 0) ac = frame->get_int("channels");
+            int af = frame->get_int("audio_frequency");
+            int ac = frame->get_int("audio_channels");
+            // keep for compatibility with MLT <= 0.8.6
+            if (af == 0) af = frame->get_int("frequency");
+            if (ac == 0) ac = frame->get_int("channels");
             if (af > 0) filePropertyMap["frequency"] = QString::number(af);
             if (ac > 0) filePropertyMap["channels"] = QString::number(ac);
             if (!filePropertyMap.contains("aspect_ratio")) filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
@@ -1109,62 +1115,62 @@ void Render::processFileProperties()
         // If there is a
 
         if (mltService == "avformat") {
-	    if (vindex > -1) {
-		/*if (context->duration == AV_NOPTS_VALUE) {
-		kDebug() << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
-		    emit removeInvalidClip(clipId);
-		delete producer;
-		return;
-		}*/
-		// Get the video_index
-		int video_max = 0;
-		int default_audio = producer->get_int("audio_index");
-		int audio_max = 0;
+            if (vindex > -1) {
+                /*if (context->duration == AV_NOPTS_VALUE) {
+        kDebug() << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
+            emit removeInvalidClip(clipId);
+        delete producer;
+        return;
+        }*/
+                // Get the video_index
+                int video_max = 0;
+                int default_audio = producer->get_int("audio_index");
+                int audio_max = 0;
 
-		int scan = producer->get_int("meta.media.progressive");
-		filePropertyMap["progressive"] = QString::number(scan);
+                int scan = producer->get_int("meta.media.progressive");
+                filePropertyMap["progressive"] = QString::number(scan);
 
-		// Find maximum stream index values
-		for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ix++) {
-		    snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
-		    QString type = producer->get(property);
-		    if (type == "video")
-			video_max = ix;
-		    else if (type == "audio")
-			audio_max = ix;
-		}
-		filePropertyMap["default_video"] = QString::number(vindex);
-		filePropertyMap["video_max"] = QString::number(video_max);
-		filePropertyMap["default_audio"] = QString::number(default_audio);
-		filePropertyMap["audio_max"] = QString::number(audio_max);
+                // Find maximum stream index values
+                for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ix++) {
+                    snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
+                    QString type = producer->get(property);
+                    if (type == "video")
+                        video_max = ix;
+                    else if (type == "audio")
+                        audio_max = ix;
+                }
+                filePropertyMap["default_video"] = QString::number(vindex);
+                filePropertyMap["video_max"] = QString::number(video_max);
+                filePropertyMap["default_audio"] = QString::number(default_audio);
+                filePropertyMap["audio_max"] = QString::number(audio_max);
 
-		snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
-		if (producer->get(property)) {
-		    filePropertyMap["videocodec"] = producer->get(property);
-		}
-		snprintf(property, sizeof(property), "meta.media.%d.codec.name", vindex);
-		if (producer->get(property)) {
-		    filePropertyMap["videocodecid"] = producer->get(property);
-		}
-		QString query;
-		query = QString("meta.media.%1.codec.pix_fmt").arg(vindex);
-		filePropertyMap["pix_fmt"] = producer->get(query.toUtf8().constData());
-		filePropertyMap["colorspace"] = producer->get("meta.media.colorspace");
+                snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
+                if (producer->get(property)) {
+                    filePropertyMap["videocodec"] = producer->get(property);
+                }
+                snprintf(property, sizeof(property), "meta.media.%d.codec.name", vindex);
+                if (producer->get(property)) {
+                    filePropertyMap["videocodecid"] = producer->get(property);
+                }
+                QString query;
+                query = QString("meta.media.%1.codec.pix_fmt").arg(vindex);
+                filePropertyMap["pix_fmt"] = producer->get(query.toUtf8().constData());
+                filePropertyMap["colorspace"] = producer->get("meta.media.colorspace");
 
-	    } else kDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
-	    if (producer->get_int("audio_index") > -1) {
-		// Get the audio_index
-		int index = producer->get_int("audio_index");
-		snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", index);
-		if (producer->get(property)) {
-		    filePropertyMap["audiocodec"] = producer->get(property);
-		} else {
-		    snprintf(property, sizeof(property), "meta.media.%d.codec.name", index);
-		    if (producer->get(property))
-			filePropertyMap["audiocodec"] = producer->get(property);
-		}
-	    }
-	}
+            } else kDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
+            if (producer->get_int("audio_index") > -1) {
+                // Get the audio_index
+                int index = producer->get_int("audio_index");
+                snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", index);
+                if (producer->get(property)) {
+                    filePropertyMap["audiocodec"] = producer->get(property);
+                } else {
+                    snprintf(property, sizeof(property), "meta.media.%d.codec.name", index);
+                    if (producer->get(property))
+                        filePropertyMap["audiocodec"] = producer->get(property);
+                }
+            }
+        }
 
         // metadata
         Mlt::Properties metadata;
@@ -1241,7 +1247,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     bool monitorIsActive = false;
     m_mltConsumer->set("refresh", 0);
     if (!m_mltConsumer->is_stopped()) {
-	monitorIsActive = true;
+        monitorIsActive = true;
         m_mltConsumer->stop();
     }
     m_mltConsumer->purge();
@@ -1252,7 +1258,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     if (!producer || !producer->is_valid()) {
         if (producer) delete producer;
         producer = m_blackClip->cut(0, 1);
-	producer->set("id", "black");
+        producer->set("id", "black");
     }
 
     if (!producer || !producer->is_valid()) {
@@ -1266,32 +1272,32 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     m_fps = producer->get_fps();
     int volume = KdenliveSettings::volume();
     if (producer->get_int("_audioclip") == 1) {
-	// This is an audio only clip, create fake multitrack to apply audiowave filter
-	Mlt::Tractor *tractor = new Mlt::Tractor();
-	Mlt::Producer *color= new Mlt::Producer(*m_mltProfile, "color:red");
-	color->set_in_and_out(0, producer->get_out());
-	tractor->set_track(*producer, 0);
-	tractor->set_track(*color, 1);
+        // This is an audio only clip, create fake multitrack to apply audiowave filter
+        Mlt::Tractor *tractor = new Mlt::Tractor();
+        Mlt::Producer *color= new Mlt::Producer(*m_mltProfile, "color:red");
+        color->set_in_and_out(0, producer->get_out());
+        tractor->set_track(*producer, 0);
+        tractor->set_track(*color, 1);
 
-	Mlt::Consumer xmlConsumer(*m_mltProfile, "xml:audio_hack");
-	if (!xmlConsumer.is_valid()) return -1;
-	xmlConsumer.set("terminate_on_pause", 1);
-	xmlConsumer.connect(tractor->parent());
-	xmlConsumer.run();
-	delete tractor;
-	delete color;
-	delete producer;
-	QString playlist = QString::fromUtf8(xmlConsumer.get("audio_hack"));
-	
-	Mlt::Producer *result = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
-	Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "audiowave");
-	result->attach(*filter);
-	tractor = new Mlt::Tractor();
-	tractor->set_track(*result, 0);
-	delete result;
-	delete filter;
-	producer = &(tractor->parent());
-	m_mltConsumer->connect(*producer);
+        Mlt::Consumer xmlConsumer(*m_mltProfile, "xml:audio_hack");
+        if (!xmlConsumer.is_valid()) return -1;
+        xmlConsumer.set("terminate_on_pause", 1);
+        xmlConsumer.connect(tractor->parent());
+        xmlConsumer.run();
+        delete tractor;
+        delete color;
+        delete producer;
+        QString playlist = QString::fromUtf8(xmlConsumer.get("audio_hack"));
+
+        Mlt::Producer *result = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
+        Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "audiowave");
+        result->attach(*filter);
+        tractor = new Mlt::Tractor();
+        tractor->set_track(*result, 0);
+        delete result;
+        delete filter;
+        producer = &(tractor->parent());
+        m_mltConsumer->connect(*producer);
     }
     
     producer->set("meta.volume", (double)volume / 100);
@@ -1306,7 +1312,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);
     if (monitorIsActive) {
-	startConsumer();
+        startConsumer();
     }
     emit durationChanged(m_mltProducer->get_playtime());
     position = m_mltProducer->position();
@@ -1315,7 +1321,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
 }
 
 void Render::startConsumer() {
-  if (m_mltConsumer->is_stopped() && m_mltConsumer->start() == -1) {
+    if (m_mltConsumer->is_stopped() && m_mltConsumer->start() == -1) {
         // ARGH CONSUMER BROKEN!!!!
         KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
         if (m_showFrameEvent) delete m_showFrameEvent;
@@ -1330,7 +1336,7 @@ void Render::startConsumer() {
     m_isActive = true;
 }
 
-int Render::setSceneList(QDomDocument list, int position)
+int Render::setSceneList(const QDomDocument &list, int position)
 {
     return setSceneList(list.toString(), position);
 }
@@ -1553,7 +1559,7 @@ void Render::saveZone(KUrl url, QString desc, QPoint zone)
 }
 
 
-bool Render::saveClip(int track, GenTime position, KUrl url, QString desc)
+bool Render::saveClip(int track, const GenTime &position, const KUrl &url, const QString &desc)
 {
     // find clip
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -1595,7 +1601,7 @@ void Render::slotSetVolume(int volume)
 {
     if (!m_mltConsumer || !m_mltProducer) return;
     m_mltProducer->set("meta.volume", (double)volume / 100.0);
-    return;
+    //return;
     /*osdTimer->stop();
     m_mltConsumer->set("refresh", 0);
     // Attach filter for on screen display of timecode
@@ -1609,7 +1615,7 @@ void Render::slotSetVolume(int volume)
     mlt_properties_set_int( properties, "meta.attr.timecode", 0);
      if (m_mltProducer->attach(*m_osdInfo) == 1) kDebug()<<"////// error attaching filter";
     }*/
-    refresh();
+    //refresh();
     //m_osdTimer->setSingleShot(2500);
 }
 
@@ -1631,8 +1637,8 @@ void Render::start()
         return;
     }
     if (!m_mltConsumer) {
-	kDebug()<<" / - - - STARTED BEFORE CONSUMER!!!";
-	return;
+        kDebug()<<" / - - - STARTED BEFORE CONSUMER!!!";
+        return;
     }
     if (m_mltConsumer->is_stopped()) {
         if (m_mltConsumer->start() == -1) {
@@ -1653,7 +1659,7 @@ void Render::stop()
     m_isActive = false;
     if (m_mltProducer == NULL) return;
     if (m_mltConsumer) {
-	m_mltConsumer->set("refresh", 0);
+        m_mltConsumer->set("refresh", 0);
         if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
         m_mltConsumer->purge();
     }
@@ -1692,7 +1698,7 @@ void Render::pause()
 
 void Render::setActiveMonitor()
 {
-     if (!m_isActive) emit activateMonitor(m_name);
+    if (!m_isActive) emit activateMonitor(m_name);
 }
 
 void Render::switchPlay(bool play, bool fromMaster)
@@ -1716,32 +1722,34 @@ void Render::switchPlay(bool play, bool fromMaster)
     } else if (fromMaster && isSlaveActive(Slave::Jack)) {
 //		position = JACKDEV.getPlaybackPosition();
     }
+#else
+    Q_UNUSED(fromMaster)
 #endif
 
     if (m_isZoneMode) resetZoneMode();
     if (play && m_paused) {
         if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
-	m_paused = false;
-	m_mltProducer->set_speed(1.0);
+        m_paused = false;
+        m_mltProducer->set_speed(1.0);
         if (m_mltConsumer->is_stopped()) {
             m_mltConsumer->start();
         }
         m_mltConsumer->set("refresh", 1);
     } else if (!play) {
-	m_paused = true;
-	if (m_winid == 0) {
-	    // OpenGL consumer
-	    m_mltProducer->set_speed(0.0);
-	}
-	else {
-	    // SDL consumer, hack to allow pausing near the end of the playlist
-	    m_mltConsumer->set("refresh", 0);
-	    m_mltConsumer->stop();
-	    m_mltProducer->set_speed(0.0);
-	    m_mltProducer->seek(m_mltConsumer->position());
-	    m_mltConsumer->start();
-	}
-	}
+        m_paused = true;
+        if (m_winid == 0) {
+            // OpenGL consumer
+            m_mltProducer->set_speed(0.0);
+        }
+        else {
+            // SDL consumer, hack to allow pausing near the end of the playlist
+            m_mltConsumer->set("refresh", 0);
+            m_mltConsumer->stop();
+            m_mltProducer->set_speed(0.0);
+            m_mltProducer->seek(m_mltConsumer->position());
+            m_mltConsumer->start();
+        }
+    }
 }
 
 void Render::play(double speed)
@@ -1754,7 +1762,7 @@ void Render::play(double speed)
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
     if (m_mltConsumer->is_stopped() && speed != 0) {
-	m_mltConsumer->start();
+        m_mltConsumer->start();
     }
     m_paused = speed == 0;
     if (current_speed == 0 && speed != 0) m_mltConsumer->set("refresh", 1);
@@ -1833,9 +1841,8 @@ void Render::seekToFrameDiff(int diff)
         return;
     resetZoneMode();
     if (requestedSeekPosition == SEEK_INACTIVE)
-		seek(m_mltProducer->position() + diff);
-    else 
-    	seek(requestedSeekPosition + diff);
+        seek(m_mltProducer->position() + diff);
+    else seek(requestedSeekPosition + diff);
 }
 
 void Render::refreshIfActive()
@@ -1856,7 +1863,7 @@ void Render::refresh()
         return;
     if (m_mltConsumer) {
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
-	m_mltConsumer->set("refresh", 1);
+        m_mltConsumer->set("refresh", 1);
         //m_mltConsumer->purge();
     }
 }
@@ -1936,17 +1943,17 @@ void Render::emitFrameNumber()
 {
     int currentPos = m_mltConsumer->position();
     if (currentPos == requestedSeekPosition) {
-	requestedSeekPosition = SEEK_INACTIVE;
-	m_paused = true;
+        requestedSeekPosition = SEEK_INACTIVE;
+        m_paused = true;
     }
     emit rendererPosition(currentPos);
     if (requestedSeekPosition != SEEK_INACTIVE) {
-	m_mltConsumer->purge();
-	m_mltProducer->seek(requestedSeekPosition);
-	if (m_mltProducer->get_speed() == 0 && !m_paused) {
-	    m_mltConsumer->set("refresh", 1);
-	}
-	requestedSeekPosition = SEEK_INACTIVE;
+        m_mltConsumer->purge();
+        m_mltProducer->seek(requestedSeekPosition);
+        if (m_mltProducer->get_speed() == 0 && !m_paused) {
+            m_mltConsumer->set("refresh", 1);
+        }
+        requestedSeekPosition = SEEK_INACTIVE;
     }
 }
 
@@ -1964,7 +1971,7 @@ void Render::emitConsumerStopped(bool forcePause)
 	}
 #endif
         double pos = m_mltProducer->position();
-		m_paused = true;
+        m_paused = true;
         if (m_isLoopMode) play(m_loopStart);
         //else if (m_isZoneMode) resetZoneMode();
         emit rendererStopped((int) pos);
@@ -1976,7 +1983,7 @@ void Render::exportFileToFirewire(QString /*srcFileName*/, int /*port*/, GenTime
     KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please install Libiec61883 and recompile Kdenlive"));
 }
 
-void Render::exportCurrentFrame(KUrl url, bool /*notify*/)
+void Render::exportCurrentFrame(const KUrl &url, bool /*notify*/)
 {
     if (!m_mltProducer) {
         KMessageBox::sorry(qApp->activeWindow(), i18n("There is no clip, cannot extract frame."));
@@ -2009,18 +2016,18 @@ void Render::showFrame(Mlt::Frame* frame)
     if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
     emit rendererPosition(currentPos);
     if (frame->is_valid()) {
-	mlt_image_format format = mlt_image_rgb24;
-	int width = 0;
-	int height = 0;
-	const uchar* image = frame->get_image(format, width, height);
-	QImage qimage(width, height, QImage::Format_RGB888); //Format_ARGB32_Premultiplied);
-	memcpy(qimage.scanLine(0), image, width * height * 3);
-	if (analyseAudio) showAudio(*frame);
-	delete frame;
-	emit showImageSignal(qimage);
-	if (sendFrameForAnalysis) {
-	    emit frameUpdated(qimage);
-	}
+        mlt_image_format format = mlt_image_rgb24;
+        int width = 0;
+        int height = 0;
+        const uchar* image = frame->get_image(format, width, height);
+        QImage qimage(width, height, QImage::Format_RGB888); //Format_ARGB32_Premultiplied);
+        memcpy(qimage.scanLine(0), image, width * height * 3);
+        if (analyseAudio) showAudio(*frame);
+        delete frame;
+        emit showImageSignal(qimage);
+        if (sendFrameForAnalysis) {
+            emit frameUpdated(qimage);
+        }
     } else delete frame;
     showFrameSemaphore.release();
     emit checkSeeking();
@@ -2028,22 +2035,22 @@ void Render::showFrame(Mlt::Frame* frame)
 
 void Render::slotCheckSeeking()
 {
-      if (requestedSeekPosition != SEEK_INACTIVE) {
-	m_mltProducer->seek(requestedSeekPosition);
-	if (m_paused) {
-	    refresh();
-	}
-	requestedSeekPosition = SEEK_INACTIVE;
+    if (requestedSeekPosition != SEEK_INACTIVE) {
+        m_mltProducer->seek(requestedSeekPosition);
+        if (m_paused) {
+            refresh();
+        }
+        requestedSeekPosition = SEEK_INACTIVE;
     }
 }
 
 void Render::disablePreview(bool disable)
 {
     if (m_mltConsumer) {
-	m_mltConsumer->stop();
-	m_mltConsumer->set("preview_off", (int) disable);
-	m_mltConsumer->set("refresh", 0);
-	m_mltConsumer->start();
+        m_mltConsumer->stop();
+        m_mltConsumer->set("preview_off", (int) disable);
+        m_mltConsumer->set("refresh", 0);
+        m_mltConsumer->start();
     }
 }
 
@@ -2128,10 +2135,10 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
         }
 
         delete blackclip;
-	if (m_mltConsumer->position() > duration) {
-	    m_mltConsumer->purge();
-	    m_mltProducer->seek(duration);
-	}
+        if (m_mltConsumer->position() > duration) {
+            m_mltConsumer->purge();
+            m_mltProducer->seek(duration);
+        }
         m_mltProducer->set("out", duration);
         emit durationChanged(duration);
     }
@@ -2229,7 +2236,7 @@ int Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pro
 }
 
 
-bool Render::mltCutClip(int track, GenTime position)
+bool Render::mltCutClip(int track, const GenTime &position)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
@@ -2244,7 +2251,7 @@ bool Render::mltCutClip(int track, GenTime position)
 
     /* // Display playlist info
     kDebug()<<"////////////  BEFORE";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
+    for (int i = 0; i < trackPlaylist.count(); ++i) {
     int blankStart = trackPlaylist.clip_start(i);
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
@@ -2270,7 +2277,7 @@ bool Render::mltCutClip(int track, GenTime position)
     
     if (original == NULL || clip == NULL) {
         kDebug() << "// ERROR GRABBING CLIP AFTER SPLIT";
-	return false;
+        return false;
     }
 
     Mlt::Service clipService(original->get_service());
@@ -2289,7 +2296,7 @@ bool Render::mltCutClip(int track, GenTime position)
             Mlt::Filter *dup = new Mlt::Filter(*m_mltProfile, filter->get("mlt_service"));
             if (dup && dup->is_valid()) {
                 Mlt::Properties entries(filter->get_properties());
-                for (int i = 0; i < entries.count(); i++) {
+                for (int i = 0; i < entries.count(); ++i) {
                     dup->set(entries.get_name(i), entries.get(i));
                 }
                 dupService.attach(*dup);
@@ -2301,7 +2308,7 @@ bool Render::mltCutClip(int track, GenTime position)
     return true;
     /* // Display playlist info
     kDebug()<<"////////////  AFTER";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
+    for (int i = 0; i < trackPlaylist.count(); ++i) {
     int blankStart = trackPlaylist.clip_start(i);
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
@@ -2385,7 +2392,7 @@ bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement ele
     delete clip2;
 
     if (!filtersList.isEmpty()) {
-        for (int i = 0; i < filtersList.count(); i++)
+        for (int i = 0; i < filtersList.count(); ++i)
             destService.attach(*(filtersList.at(i)));
     }
     return true;
@@ -2418,7 +2425,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
 
     /* // Display playlist info
     kDebug()<<"////  AFTER";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
+    for (int i = 0; i < trackPlaylist.count(); ++i) {
     int blankStart = trackPlaylist.clip_start(i);
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
@@ -2558,7 +2565,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
 
                 /* kDebug()<<"-------------\nTRACK "<<trackNb<<" HAS "<<clipNb<<" CLPIS";
                  kDebug() << "INSERT SPACE AT: "<<insertPos<<", DIFF: "<<diff<<", TK: "<<trackNb;
-                        for (int i = 0; i < clipNb; i++) {
+                        for (int i = 0; i < clipNb; ++i) {
                             kDebug()<<"CLIP "<<i<<", START: "<<trackPlaylist.clip_start(i)<<", END: "<<trackPlaylist.clip_start(i) + trackPlaylist.clip_length(i);
                      if (trackPlaylist.is_blank(i)) kDebug()<<"++ BLANK ++ ";
                      kDebug()<<"-------------";
@@ -2724,10 +2731,10 @@ int Render::mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, dou
         newLength = trackPlaylist.clip_length(clipIndex);
         service.unlock();
     } else if (speed == 1.0 && strobe < 2) {
-	if (!prod || !prod->is_valid()) {
-	    kDebug()<<"// Something is wrong with producer";
-	    return -1;
-	}
+        if (!prod || !prod->is_valid()) {
+            kDebug()<<"// Something is wrong with producer";
+            return -1;
+        }
         service.lock();
 
         Mlt::Producer *clip = trackPlaylist.replace_with_blank(clipIndex);
@@ -2979,7 +2986,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
     bool success = addFilterToService(service, params, duration);
 
     // re-add following filters
-    for (int i = 0; i < filtersList.count(); i++) {
+    for (int i = 0; i < filtersList.count(); ++i) {
         Mlt::Filter *filter = filtersList.at(i);
         if (updateIndex)
             filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
@@ -2993,7 +3000,7 @@ bool Render::mltAddEffect(Mlt::Service service, EffectsParameterList params, int
 
 bool Render::addFilterToService(Mlt::Service service, EffectsParameterList params, int duration)
 {
-      // create filter
+    // create filter
     QString tag =  params.paramValue("tag");
     //kDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     QString kfr = params.paramValue("keyframes");
@@ -3030,41 +3037,41 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 filter->set(starttag, m_locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
                 service.attach(*filter);
             } else {
-		delete[] starttag;
-		delete[] endtag;
-		kDebug() << "filter is NULL";
-		service.unlock();
-		return false;
-	    }
-        } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
-                Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
-                if (filter && filter->is_valid()) {
-                    filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
-                    int x1 = keyFrames.at(i).section(':', 0, 0).toInt() + offset;
-                    double y1 = keyFrames.at(i).section(':', 1, 1).toDouble();
-                    int x2 = keyFrames.at(i + 1).section(':', 0, 0).toInt();
-                    double y2 = keyFrames.at(i + 1).section(':', 1, 1).toDouble();
-                    if (x2 == -1) x2 = duration;
-
-                    for (int j = 0; j < params.count(); j++) {
-                        filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
-                    }
-
-                    filter->set("in", x1);
-                    filter->set("out", x2);
-                    //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-                    filter->set(starttag, m_locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
-                    filter->set(endtag, m_locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
-                    service.attach(*filter);
-                    offset = 1;
-                } else {
-		    delete[] starttag;
-		    delete[] endtag;
-		    kDebug() << "filter is NULL";
-		    service.unlock();
-		    return false;
-		}
+                delete[] starttag;
+                delete[] endtag;
+                kDebug() << "filter is NULL";
+                service.unlock();
+                return false;
             }
+        } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
+            Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
+            if (filter && filter->is_valid()) {
+                filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
+                int x1 = keyFrames.at(i).section(':', 0, 0).toInt() + offset;
+                double y1 = keyFrames.at(i).section(':', 1, 1).toDouble();
+                int x2 = keyFrames.at(i + 1).section(':', 0, 0).toInt();
+                double y2 = keyFrames.at(i + 1).section(':', 1, 1).toDouble();
+                if (x2 == -1) x2 = duration;
+
+                for (int j = 0; j < params.count(); j++) {
+                    filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
+                }
+
+                filter->set("in", x1);
+                filter->set("out", x2);
+                //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
+                filter->set(starttag, m_locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
+                filter->set(endtag, m_locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
+                service.attach(*filter);
+                offset = 1;
+            } else {
+                delete[] starttag;
+                delete[] endtag;
+                kDebug() << "filter is NULL";
+                service.unlock();
+                return false;
+            }
+        }
         delete[] starttag;
         delete[] endtag;
     } else {
@@ -3150,7 +3157,7 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
     return true;
 }
 
-bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList params)
+bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterList params)
 {
     int index = params.paramValue("kdenlive_ix").toInt();
     QString tag =  params.paramValue("tag");
@@ -3158,12 +3165,12 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     if (!params.paramValue("keyframes").isEmpty() || (tag == "affine" && params.hasParam("background")) || tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         bool success = mltRemoveEffect(track, position, index, false);
-//         if (!success) kDebug() << "// ERROR Removing effect : " << index;
+        //         if (!success) kDebug() << "// ERROR Removing effect : " << index;
         if (position < GenTime())
             success = mltAddTrackEffect(track, params);
         else
             success = mltAddEffect(track, position, params);
-//         if (!success) kDebug() << "// ERROR Adding effect : " << index;
+        //         if (!success) kDebug() << "// ERROR Adding effect : " << index;
         return success;
     }
     if (position < GenTime()) {
@@ -3211,27 +3218,28 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
     QList <Mlt::Filter *> filtersList;
     service.lock();
     if (ser != tag) {
-	// Effect service changes, delete effect and re-add it
-	clip->detach(*filter);	
-	
-	// Delete all effects after deleted one
-	filter = clip->filter(ct);
+        // Effect service changes, delete effect and re-add it
+        clip->detach(*filter);
+
+        // Delete all effects after deleted one
+        filter = clip->filter(ct);
         while (filter) {
             if (filter->get_int("kdenlive_ix") > index) {
                 filtersList.append(filter);
                 clip->detach(*filter);
-	    }
-	    else ct++;
+            }
+            else ct++;
             filter = clip->filter(ct);
-	}
-	
-	// re-add filter
-	addFilterToService(*clip, params, clip->get_playtime());
-	delete clip;
-	service.unlock();
+        }
 
-	if (doRefresh) refresh();
-	return true;
+        // re-add filter
+        addFilterToService(*clip, params, clip->get_playtime());
+        delete clip;
+        service.unlock();
+
+        if (doRefresh)
+            refresh();
+        return true;
     }
     if (params.hasParam("_sync_in_out")) {
         // This effect must sync in / out with parent clip
@@ -3239,22 +3247,23 @@ bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList par
         filter->set_in_and_out(clip->get_in(), clip->get_out());
     }
 
-    for (int j = 0; j < params.count(); j++) {
+    for (int j = 0; j < params.count(); ++j) {
         filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
     
-    for (int j = 0; j < filtersList.count(); j++) {
-	clip->attach(*(filtersList.at(j)));
+    for (int j = 0; j < filtersList.count(); ++j) {
+        clip->attach(*(filtersList.at(j)));
     }
 
     delete clip;
     service.unlock();
 
-    if (doRefresh) refresh();
+    if (doRefresh)
+        refresh();
     return true;
 }
 
-bool Render::mltEnableEffects(int track, GenTime position, QList <int> effectIndexes, bool disable)
+bool Render::mltEnableEffects(int track, const GenTime &position, const QList <int> &effectIndexes, bool disable)
 {
     if (position < GenTime()) {
         return mltEnableTrackEffects(track, effectIndexes, disable);
@@ -3296,7 +3305,7 @@ bool Render::mltEnableEffects(int track, GenTime position, QList <int> effectInd
     return true;
 }
 
-bool Render::mltEnableTrackEffects(int track, QList <int> effectIndexes, bool disable)
+bool Render::mltEnableTrackEffects(int track, const QList <int> &effectIndexes, bool disable)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -3319,7 +3328,7 @@ bool Render::mltEnableTrackEffects(int track, QList <int> effectIndexes, bool di
     return true;
 }
 
-void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, int newPos)
+void Render::mltUpdateEffectPosition(int track, const GenTime &position, int oldPos, int newPos)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -3353,7 +3362,7 @@ void Render::mltUpdateEffectPosition(int track, GenTime position, int oldPos, in
     if (doRefresh) refresh();
 }
 
-void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
+void Render::mltMoveEffect(int track, const GenTime &position, int oldPos, int newPos)
 {
     if (position < GenTime()) {
         mltMoveTrackEffect(track, oldPos, newPos);
@@ -3426,7 +3435,7 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
         }
     }
 
-    for (int i = 0; i < filtersList.count(); i++) {
+    for (int i = 0; i < filtersList.count(); ++i) {
         clipService.attach(*(filtersList.at(i)));
     }
 
@@ -3487,7 +3496,7 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
         }
     }
 
-    for (int i = 0; i < filtersList.count(); i++) {
+    for (int i = 0; i < filtersList.count(); ++i) {
         clipService.attach(*(filtersList.at(i)));
     }
     refresh();
@@ -3502,7 +3511,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration, bool refresh)
 
     /* // Display playlist info
     kDebug()<<"////////////  BEFORE RESIZE";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
+    for (int i = 0; i < trackPlaylist.count(); ++i) {
     int blankStart = trackPlaylist.clip_start(i);
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
@@ -3585,13 +3594,13 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind)
     // because audio mixing is done between each track and the lowest one
     bool audioMixingBroken = false;
     if (mute && trackProducer.get_int("hide") < 2 ) {
-            // We mute a track with sound
-            if (track == getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
-            kDebug()<<"Muting track: "<<track <<" / "<<getLowestNonMutedAudioTrack(tractor);
+        // We mute a track with sound
+        if (track == getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
+        kDebug()<<"Muting track: "<<track <<" / "<<getLowestNonMutedAudioTrack(tractor);
     }
     else if (!mute && trackProducer.get_int("hide") > 1 ) {
-            // We un-mute a previously muted track
-            if (track < getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
+        // We un-mute a previously muted track
+        if (track < getLowestNonMutedAudioTrack(tractor)) audioMixingBroken = true;
     }
 
     if (mute) {
@@ -3611,7 +3620,7 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind)
 
 int Render::getLowestNonMutedAudioTrack(Mlt::Tractor tractor)
 {
-    for (int i = 1; i < tractor.count(); i++) {
+    for (int i = 1; i < tractor.count(); ++i) {
         Mlt::Producer trackProducer(tractor.track(i));
         if (trackProducer.get_int("hide") < 2) return i;
     }
@@ -3633,7 +3642,7 @@ void Render::fixAudioMixing(Mlt::Tractor tractor)
     QString resource = mlt_properties_get(properties, "mlt_service");
 
     mlt_service nextservicetodisconnect;
-     // Delete all audio mixing transitions
+    // Delete all audio mixing transitions
     while (mlt_type == "transition") {
         if (resource == "mix") {
             nextservicetodisconnect = nextservice;
@@ -3648,7 +3657,7 @@ void Render::fixAudioMixing(Mlt::Tractor tractor)
     }
 
     // Re-add correct audio transitions
-    for (int i = lowestTrack + 1; i < tractor.count(); i++) {
+    for (int i = lowestTrack + 1; i < tractor.count(); ++i) {
         Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "mix");
         transition->set("always_active", 1);
         transition->set("combine", 1);
@@ -3681,7 +3690,7 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime newCropStart)
     int previousOut = clip->get_out();
     delete clip;
     if (previousStart == newCropFrame) {
-	kDebug() << "////////  No ReSIZING Required";
+        kDebug() << "////////  No ReSIZING Required";
         service.unlock();
         return true;
     }
@@ -3817,7 +3826,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     bool checkLength = false;
     if (endTrack == startTrack) {
         Mlt::Producer *clipProducer = trackPlaylist.replace_with_blank(clipIndex);
-	if (!clipProducer) {
+        if (!clipProducer) {
             kDebug() << "// Cannot get clip at index: "<<clipIndex<<" / "<< moveStart;
             service.unlock();
             return false;
@@ -3826,8 +3835,8 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         if (!overwrite) {
             bool success = true;
             if (!trackPlaylist.is_blank_at(moveEnd) || !clipProducer || !clipProducer->is_valid() || clipProducer->is_blank()) {
-		success = false;
-	    }
+                success = false;
+            }
             else {
                 // Check that the destination region is empty
                 trackPlaylist.consolidate_blanks(0);
@@ -3849,11 +3858,11 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 return false;
             }
         } else {
-	    // Overwrite mode
+            // Overwrite mode
             trackPlaylist.remove_region(moveEnd, clipProducer->get_playtime());
             int ix = trackPlaylist.get_clip_index_at(moveEnd);
             trackPlaylist.insert_blank(ix, clipProducer->get_playtime() - 1);
-	    trackPlaylist.consolidate_blanks(0);
+            trackPlaylist.consolidate_blanks(0);
         }
         int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
         if (newIndex == -1) {
@@ -3909,7 +3918,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 destTrackPlaylist.remove_region(moveEnd, clip->get_playtime());
                 int clipIndex = destTrackPlaylist.get_clip_index_at(moveEnd);
                 destTrackPlaylist.insert_blank(clipIndex, clip->get_playtime() - 1);
-		destTrackPlaylist.consolidate_blanks(0);
+                destTrackPlaylist.consolidate_blanks(0);
             }
 
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);
@@ -3952,7 +3961,7 @@ QList <int> Render::checkTrackSequence(int track)
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipNb = trackPlaylist.count();
     //kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
-    for (int i = 0; i < clipNb; i++) {
+    for (int i = 0; i < clipNb; ++i) {
         Mlt::Producer *c = trackPlaylist.get_clip(i);
         int pos = trackPlaylist.clip_start(i);
         if (!list.contains(pos)) list.append(pos);
@@ -3994,7 +4003,7 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
 
     while (mlt_type == "transition") {
         Mlt::Transition transition((mlt_transition) nextservice);
-	nextservice = mlt_service_producer(nextservice);
+        nextservice = mlt_service_producer(nextservice);
         int currentTrack = transition.get_b_track();
         int currentIn = (int) transition.get_in();
         int currentOut = (int) transition.get_out();
@@ -4005,9 +4014,9 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
                 Mlt::Properties trans_props(transition.get_properties());
                 Mlt::Transition new_transition(*m_mltProfile, transition.get("mlt_service"));
                 Mlt::Properties new_trans_props(new_transition.get_properties());
-		// We cannot use MLT's property inherit because it also clones internal values like _unique_id which messes up the playlist
-		cloneProperties(new_trans_props, trans_props);
-		new_transition.set_in_and_out(new_in, new_out);
+                // We cannot use MLT's property inherit because it also clones internal values like _unique_id which messes up the playlist
+                cloneProperties(new_trans_props, trans_props);
+                new_transition.set_in_and_out(new_in, new_out);
                 field->disconnect_service(transition);
                 mltPlantTransition(field, new_transition, newTransitionTrack, newTrack);
             } else transition.set_in_and_out(new_in, new_out);
@@ -4026,17 +4035,17 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
 
 void Render::cloneProperties(Mlt::Properties &dest, Mlt::Properties &source)
 {
-    	int count = source.count();
-	int i = 0;
-	for ( i = 0; i < count; i ++ )
-	{
-		char *value = source.get(i);
-		if ( value != NULL )
-		{
-			char *name = source.get_name( i );
-			if (name != NULL && name[0] != '_') dest.set(name, value);
-		}
-	}
+    int count = source.count();
+    int i = 0;
+    for ( i = 0; i < count; i ++ )
+    {
+        char *value = source.get(i);
+        if ( value != NULL )
+        {
+            char *name = source.get_name( i );
+            if (name != NULL && name[0] != '_') dest.set(name, value);
+        }
+    }
 }
 
 void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track)
@@ -4052,7 +4061,7 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
 
     while (mlt_type == "transition") {
         Mlt::Transition transition((mlt_transition) nextservice);
-	nextservice = mlt_service_producer(nextservice);
+        nextservice = mlt_service_producer(nextservice);
         int aTrack = transition.get_a_track();
         int bTrack = transition.get_b_track();
         if ((isMixTransition || resource != "mix") && (aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
@@ -4060,7 +4069,7 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
             Mlt::Transition *cp = new Mlt::Transition(*m_mltProfile, transition.get("mlt_service"));
             Mlt::Properties new_trans_props(cp->get_properties());
             //new_trans_props.inherit(trans_props);
-	    cloneProperties(new_trans_props, trans_props);
+            cloneProperties(new_trans_props, trans_props);
             trList.append(cp);
             field->disconnect_service(transition);
         }
@@ -4074,7 +4083,7 @@ void Render::mltPlantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_tr
     field->plant_transition(tr, a_track, b_track);
 
     // re-add upper transitions
-    for (int i = trList.count() - 1; i >= 0; i--) {
+    for (int i = trList.count() - 1; i >= 0; --i) {
         //kDebug()<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
@@ -4127,7 +4136,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
                 QStringList permanentProps;
                 permanentProps << "factory" << "kdenlive_id" << "mlt_service" << "mlt_type" << "in";
                 permanentProps << "out" << "a_track" << "b_track";
-                for (int i = 0; i < mlt_properties_count(transproperties); i++) {
+                for (int i = 0; i < mlt_properties_count(transproperties); ++i) {
                     QString propName = mlt_properties_get_name(transproperties, i);
                     if (!propName.startsWith('_') && ! permanentProps.contains(propName)) {
                         mlt_properties_set(transproperties, propName.toUtf8().constData(), "");
@@ -4201,11 +4210,11 @@ void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenT
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
 
-QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
+QMap<QString, QString> Render::mltGetTransitionParamsFromXml(const QDomElement &xml)
 {
     QDomNodeList attribs = xml.elementsByTagName("parameter");
     QMap<QString, QString> map;
-    for (int i = 0; i < attribs.count(); i++) {
+    for (int i = 0; i < attribs.count(); ++i) {
         QDomElement e = attribs.item(i).toElement();
         QString name = e.attribute("name");
         //kDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
@@ -4227,7 +4236,7 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
             if (values.size() > 0)
                 txtNeu << (int)values[0].toDouble();
             int i = 0;
-            for (i = 0; i < separators.size() && i + 1 < values.size(); i++) {
+            for (i = 0; i < separators.size() && i + 1 < values.size(); ++i) {
                 txtNeu << separators[i];
                 txtNeu << (int)(values[i+1].toDouble());
             }
@@ -4438,9 +4447,9 @@ const QList <Mlt::Producer *> Render::producersList()
         Mlt::Producer trackProducer(tt);
         delete tt;
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-	if (!trackPlaylist.is_valid()) continue;
+        if (!trackPlaylist.is_valid()) continue;
         int clipNb = trackPlaylist.count();
-        for (int i = 0; i < clipNb; i++) {
+        for (int i = 0; i < clipNb; ++i) {
             Mlt::Producer *c = trackPlaylist.get_clip(i);
             if (c == NULL) continue;
             QString prodId = c->parent().get("id");
@@ -4471,9 +4480,9 @@ void Render::fillSlowMotionProducers()
         Mlt::Producer trackProducer(tt);
         delete tt;
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-	if (!trackPlaylist.is_valid()) continue;
+        if (!trackPlaylist.is_valid()) continue;
         int clipNb = trackPlaylist.count();
-        for (int i = 0; i < clipNb; i++) {
+        for (int i = 0; i < clipNb; ++i) {
             Mlt::Producer *c = trackPlaylist.get_clip(i);
             Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
             if (nprod) {
@@ -4541,45 +4550,45 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, bool videoTrack)
 
     while (mlt_type == "transition") {
         if (resource != "mix") {
-	    Mlt::Transition transition((mlt_transition) nextservice);
-	    nextservice = mlt_service_producer(nextservice);
+            Mlt::Transition transition((mlt_transition) nextservice);
+            nextservice = mlt_service_producer(nextservice);
             int currentbTrack = transition.get_b_track();
             int currentaTrack = transition.get_a_track();
-	    bool trackChanged = false;
-	    bool forceTransitionTrack = false;
+            bool trackChanged = false;
+            bool forceTransitionTrack = false;
             if (currentbTrack >= ix) {
-		if (currentbTrack == ix && currentaTrack < ix) forceTransitionTrack = true;
-		currentbTrack++;
-		trackChanged = true;
-	    }
-	    if (currentaTrack >= ix) {
-		currentaTrack++;
-		trackChanged = true;
-	    }
-	    kDebug()<<"// Newtrans: "<<currentaTrack<<"/"<<currentbTrack;
-	    
-	    // disconnect all transitions
-	    Mlt::Properties trans_props(transition.get_properties());
-	    Mlt::Transition *cp = new Mlt::Transition(*m_mltProfile, transition.get("mlt_service"));
-	    Mlt::Properties new_trans_props(cp->get_properties());
-	    cloneProperties(new_trans_props, trans_props);
-	    //new_trans_props.inherit(trans_props);
-	    
-	    if (trackChanged) {
-		// Transition track needs to be adjusted
-		cp->set("a_track", currentaTrack);
-		cp->set("b_track", currentbTrack);
-		// Check if transition track was changed and needs to be forced
-		if (forceTransitionTrack) cp->set("force_track", 1);
-		TransitionInfo trInfo;
-		trInfo.startPos = GenTime(transition.get_in(), m_fps);
-		trInfo.a_track = currentaTrack;
-		trInfo.b_track = currentbTrack;
-		trInfo.forceTrack = cp->get_int("force_track");
-		transitionInfos.append(trInfo);
-	    }
-	    trList.append(cp);
-	    field->disconnect_service(transition);
+                if (currentbTrack == ix && currentaTrack < ix) forceTransitionTrack = true;
+                currentbTrack++;
+                trackChanged = true;
+            }
+            if (currentaTrack >= ix) {
+                currentaTrack++;
+                trackChanged = true;
+            }
+            kDebug()<<"// Newtrans: "<<currentaTrack<<"/"<<currentbTrack;
+
+            // disconnect all transitions
+            Mlt::Properties trans_props(transition.get_properties());
+            Mlt::Transition *cp = new Mlt::Transition(*m_mltProfile, transition.get("mlt_service"));
+            Mlt::Properties new_trans_props(cp->get_properties());
+            cloneProperties(new_trans_props, trans_props);
+            //new_trans_props.inherit(trans_props);
+
+            if (trackChanged) {
+                // Transition track needs to be adjusted
+                cp->set("a_track", currentaTrack);
+                cp->set("b_track", currentbTrack);
+                // Check if transition track was changed and needs to be forced
+                if (forceTransitionTrack) cp->set("force_track", 1);
+                TransitionInfo trInfo;
+                trInfo.startPos = GenTime(transition.get_in(), m_fps);
+                trInfo.a_track = currentaTrack;
+                trInfo.b_track = currentbTrack;
+                trInfo.forceTrack = cp->get_int("force_track");
+                transitionInfos.append(trInfo);
+            }
+            trList.append(cp);
+            field->disconnect_service(transition);
         }
         else nextservice = mlt_service_producer(nextservice);
         if (nextservice == NULL) break;
@@ -4598,7 +4607,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, bool videoTrack)
     mltPlantTransition(field, transition, 1, ct);
     
     // re-add transitions
-    for (int i = trList.count() - 1; i >= 0; i--) {
+    for (int i = trList.count() - 1; i >= 0; --i) {
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
     qDeleteAll(trList);
@@ -4617,7 +4626,7 @@ void Render::mltDeleteTrack(int ix)
     QDomNode track = doc.elementsByTagName("track").at(ix);
     QDomNode tractor = doc.elementsByTagName("tractor").at(0);
     QDomNodeList transitions = doc.elementsByTagName("transition");
-    for (int i = 0; i < transitions.count(); i++) {
+    for (int i = 0; i < transitions.count(); ++i) {
         QDomElement e = transitions.at(i).toElement();
         QDomNodeList props = e.elementsByTagName("property");
         QMap <QString, QString> mappedProps;
@@ -4627,7 +4636,7 @@ void Render::mltDeleteTrack(int ix)
         }
         if (mappedProps.value("mlt_service") == "mix" && mappedProps.value("b_track").toInt() == tracksCount) {
             tractor.removeChild(transitions.at(i));
-            i--;
+            --i;
         } else if (mappedProps.value("mlt_service") != "mix" && (mappedProps.value("b_track").toInt() >= ix || mappedProps.value("a_track").toInt() >= ix)) {
             // Transition needs to be moved
             int a_track = mappedProps.value("a_track").toInt();
@@ -4636,7 +4645,7 @@ void Render::mltDeleteTrack(int ix)
             if (b_track == ix) {
                 // transition was on the deleted track, so remove it
                 tractor.removeChild(transitions.at(i));
-                i--;
+                --i;
                 continue;
             }
             if (b_track > 0 && b_track > ix) b_track --;
@@ -4677,7 +4686,7 @@ void Render::updatePreviewSettings()
 }
 
 
-QString Render::updateSceneListFps(double current_fps, double new_fps, QString scene)
+QString Render::updateSceneListFps(double current_fps, double new_fps, const QString &scene)
 {
     // Update all frame positions to the new fps value
     //WARNING: there are probably some effects or other that hold a frame value
@@ -4687,7 +4696,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
 
     double factor = new_fps / current_fps;
     QDomNodeList producers = doc.elementsByTagName("producer");
-    for (int i = 0; i < producers.count(); i++) {
+    for (int i = 0; i < producers.count(); ++i) {
         QDomElement prod = producers.at(i).toElement();
         prod.removeAttribute("in");
         prod.removeAttribute("out");
@@ -4704,7 +4713,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     }
 
     QDomNodeList entries = doc.elementsByTagName("entry");
-    for (int i = 0; i < entries.count(); i++) {
+    for (int i = 0; i < entries.count(); ++i) {
         QDomElement entry = entries.at(i).toElement();
         int in = entry.attribute("in").toInt();
         int out = entry.attribute("out").toInt();
@@ -4715,7 +4724,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     }
 
     QDomNodeList blanks = doc.elementsByTagName("blank");
-    for (int i = 0; i < blanks.count(); i++) {
+    for (int i = 0; i < blanks.count(); ++i) {
         QDomElement blank = blanks.at(i).toElement();
         int length = blank.attribute("length").toInt();
         length = factor * length + 0.5;
@@ -4723,7 +4732,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     }
 
     QDomNodeList filters = doc.elementsByTagName("filter");
-    for (int i = 0; i < filters.count(); i++) {
+    for (int i = 0; i < filters.count(); ++i) {
         QDomElement filter = filters.at(i).toElement();
         int in = filter.attribute("in").toInt();
         int out = filter.attribute("out").toInt();
@@ -4734,7 +4743,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, QString s
     }
 
     QDomNodeList transitions = doc.elementsByTagName("transition");
-    for (int i = 0; i < transitions.count(); i++) {
+    for (int i = 0; i < transitions.count(); ++i) {
         QDomElement transition = transitions.at(i).toElement();
         int in = transition.attribute("in").toInt();
         int out = transition.attribute("out").toInt();
@@ -4803,19 +4812,19 @@ bool Render::getBlackMagicDeviceList(KComboBox *devicelist, bool force)
     Mlt::Producer bm(profile, "decklink");
     int found_devices = 0;
     if (bm.is_valid()) {
-	bm.set("list_devices", 1);
-	found_devices = bm.get_int("devices");
+        bm.set("list_devices", 1);
+        found_devices = bm.get_int("devices");
     }
     else KdenliveSettings::setDecklink_device_found(false);
     if (found_devices <= 0) {
-	devicelist->setEnabled(false);
-	return false;
+        devicelist->setEnabled(false);
+        return false;
     }
     KdenliveSettings::setDecklink_device_found(true);
-    for (int i = 0; i < found_devices; i++) {
-	char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
-	devicelist->addItem(bm.get(tmp));
-	delete[] tmp;
+    for (int i = 0; i < found_devices; ++i) {
+        char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
+        devicelist->addItem(bm.get(tmp));
+        delete[] tmp;
     }
     return true;
 }
@@ -4827,38 +4836,38 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force)
     Mlt::Consumer bm(profile, "decklink");
     int found_devices = 0;
     if (bm.is_valid()) {
-	bm.set("list_devices", 1);;
-	found_devices = bm.get_int("devices");
+        bm.set("list_devices", 1);;
+        found_devices = bm.get_int("devices");
     }
     else KdenliveSettings::setDecklink_device_found(false);
     if (found_devices <= 0) {
-	devicelist->setEnabled(false);
-	return false;
+        devicelist->setEnabled(false);
+        return false;
     }
     KdenliveSettings::setDecklink_device_found(true);
-    for (int i = 0; i < found_devices; i++) {
-	char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
-	devicelist->addItem(bm.get(tmp));
-	delete[] tmp;
+    for (int i = 0; i < found_devices; ++i) {
+        char *tmp = qstrdup(QString("device.%1").arg(i).toUtf8().constData());
+        devicelist->addItem(bm.get(tmp));
+        delete[] tmp;
     }
     return true;
 }
 
-void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_list, QList<int> video_list, stringMap data)
+void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data)
 { 
     if (KdenliveSettings::automultistreams()) {
-	for (int i = 1; i < video_list.count(); i++) {
-	    int vindex = video_list.at(i);
-	    int aindex = 0;
-	    if (i <= audio_list.count() -1) {
-		aindex = audio_list.at(i);
-	    }
-	    data.insert("video_index", QString::number(vindex));
-	    data.insert("audio_index", QString::number(aindex));
-	    data.insert("bypassDuplicate", "1");
-	    emit addClip(KUrl(path), data);
-	}
-	return;
+        for (int i = 1; i < video_list.count(); ++i) {
+            int vindex = video_list.at(i);
+            int aindex = 0;
+            if (i <= audio_list.count() -1) {
+                aindex = audio_list.at(i);
+            }
+            data.insert("video_index", QString::number(vindex));
+            data.insert("audio_index", QString::number(aindex));
+            data.insert("bypassDuplicate", "1");
+            emit addClip(KUrl(path), data);
+        }
+        return;
     }
     
     int width = 60.0 * m_mltProfile->dar();
@@ -4878,41 +4887,41 @@ void Render::slotMultiStreamProducerFound(const QString path, QList<int> audio_l
     QList <QComboBox*> comboList;
     // We start loading the list at 1, video index 0 should already be loaded
     for (int j = 1; j < video_list.count(); j++) {
-	Mlt::Producer multiprod(* m_mltProfile, path.toUtf8().constData());
-	multiprod.set("video_index", video_list.at(j));
-	QImage thumb = KThumb::getFrame(&multiprod, 0, swidth, width, 60);
-	QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", video_list.at(j)), content);
-	streamFrame->setProperty("vindex", video_list.at(j));
-	groupList << streamFrame;
-	streamFrame->setCheckable(true);
-	streamFrame->setChecked(true);
-	QVBoxLayout *vh = new QVBoxLayout( streamFrame );
-	QLabel *iconLabel = new QLabel(content);
-	iconLabel->setPixmap(QPixmap::fromImage(thumb));
-	vh->addWidget(iconLabel);
-	if (audio_list.count() > 1) {
-	    QComboBox *cb = new QComboBox(content);
-	    for (int k = 0; k < audio_list.count(); k++) {
-		cb->addItem(i18n("Audio stream %1", audio_list.at(k)), audio_list.at(k));
-	    }
-	    comboList << cb;
-	    cb->setCurrentIndex(qMin(j, audio_list.count() - 1));
-	    vh->addWidget(cb);
-	}
-	vbox->addWidget(streamFrame);
+        Mlt::Producer multiprod(* m_mltProfile, path.toUtf8().constData());
+        multiprod.set("video_index", video_list.at(j));
+        QImage thumb = KThumb::getFrame(&multiprod, 0, swidth, width, 60);
+        QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", video_list.at(j)), content);
+        streamFrame->setProperty("vindex", video_list.at(j));
+        groupList << streamFrame;
+        streamFrame->setCheckable(true);
+        streamFrame->setChecked(true);
+        QVBoxLayout *vh = new QVBoxLayout( streamFrame );
+        QLabel *iconLabel = new QLabel(content);
+        iconLabel->setPixmap(QPixmap::fromImage(thumb));
+        vh->addWidget(iconLabel);
+        if (audio_list.count() > 1) {
+            QComboBox *cb = new QComboBox(content);
+            for (int k = 0; k < audio_list.count(); k++) {
+                cb->addItem(i18n("Audio stream %1", audio_list.at(k)), audio_list.at(k));
+            }
+            comboList << cb;
+            cb->setCurrentIndex(qMin(j, audio_list.count() - 1));
+            vh->addWidget(cb);
+        }
+        vbox->addWidget(streamFrame);
     }
     if (dialog.exec() == QDialog::Accepted) {
-	// import selected streams
-	for (int i = 0; i < groupList.count(); i++) {
-	    if (groupList.at(i)->isChecked()) {
-		int vindex = groupList.at(i)->property("vindex").toInt();
-		int aindex = comboList.at(i)->itemData(comboList.at(i)->currentIndex()).toInt();
-		data.insert("video_index", QString::number(vindex));
-		data.insert("audio_index", QString::number(aindex));
-		data.insert("bypassDuplicate", "1");
-		emit addClip(KUrl(path), data);
-	    }
-	}
+        // import selected streams
+        for (int i = 0; i < groupList.count(); ++i) {
+            if (groupList.at(i)->isChecked()) {
+                int vindex = groupList.at(i)->property("vindex").toInt();
+                int aindex = comboList.at(i)->itemData(comboList.at(i)->currentIndex()).toInt();
+                data.insert("video_index", QString::number(vindex));
+                data.insert("audio_index", QString::number(aindex));
+                data.insert("bypassDuplicate", "1");
+                emit addClip(KUrl(path), data);
+            }
+        }
     }
 }
 

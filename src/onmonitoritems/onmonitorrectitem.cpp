@@ -27,11 +27,11 @@
 #include <QGraphicsView>
 
 OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem* parent) :
-        QGraphicsRectItem(rect, parent)
-        , m_dar(dar)
-	, m_mode(NoAction)
-        , m_modified(false)
-        , m_view(NULL)
+    QGraphicsRectItem(rect, parent)
+  , m_dar(dar)
+  , m_mode(NoAction)
+  , m_modified(false)
+  , m_view(NULL)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -42,7 +42,7 @@ OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsIt
     setAcceptHoverEvents(true);
 }
 
-rectActions OnMonitorRectItem::getMode(QPointF pos)
+rectActions OnMonitorRectItem::getMode(const QPointF &pos)
 {
     // Item mapped coordinates
     QPolygonF pol(rect().normalized());
@@ -61,7 +61,7 @@ rectActions OnMonitorRectItem::getMode(QPointF pos)
     qreal ysize = 12;
     if (getView()) {
         xsize /= m_view->matrix().m11();
-	ysize /= m_view->matrix().m22();
+        ysize /= m_view->matrix().m22();
     }
     mouseArea.addRect(pos.x() - xsize / 2, pos.y() - ysize / 2, xsize, ysize);
 
@@ -176,7 +176,7 @@ void OnMonitorRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
         // Keep aspect ratio
         if (event->modifiers() == Qt::ControlModifier) {
-            // compare to rect during mouse press: 
+            // compare to rect during mouse press:
             // if we subtract rect() we'll get a whole lot of flickering
             // because of diffWidth > diffHeight changing all the time
             int diffWidth = qAbs(r.width() - m_oldRect.width());
@@ -263,6 +263,7 @@ void OnMonitorRectItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(widget)
+    Q_UNUSED(option)
 
     painter->setPen(pen());
     //painter->setClipRect(option->rect);
@@ -270,13 +271,13 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     painter->drawRect(r);
     QRectF handle = painter->worldTransform().inverted().mapRect(QRectF(0, 0, 6, 6));
     if (isEnabled()) {
-	handle.moveTopLeft(r.topLeft());
+        handle.moveTopLeft(r.topLeft());
         painter->fillRect(handle, QColor(Qt::yellow));
-	handle.moveTopRight(r.topRight());
+        handle.moveTopRight(r.topRight());
         painter->fillRect(handle, QColor(Qt::yellow));
-	handle.moveBottomLeft(r.bottomLeft());
+        handle.moveBottomLeft(r.bottomLeft());
         painter->fillRect(handle, QColor(Qt::yellow));
-	handle.moveBottomRight(r.bottomRight());
+        handle.moveBottomRight(r.bottomRight());
         painter->fillRect(handle, QColor(Qt::yellow));
     }
     
@@ -291,8 +292,8 @@ bool OnMonitorRectItem::getView()
     if (m_view)
         return true;
 
-    if (scene() && scene()->views().count()) {
-        m_view = scene()->views()[0];
+    if (scene() && !scene()->views().isEmpty()) {
+        m_view = scene()->views().first();
         return true;
     } else {
         return false;

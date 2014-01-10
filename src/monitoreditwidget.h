@@ -22,13 +22,11 @@
 #include "ui_monitoreditwidget_ui.h"
 
 #include <QWidget>
-#include <QGraphicsView>
 
 class QIcon;
 class MonitorScene;
 class Render;
 class QGraphicsView;
-class QToolButton;
 class QVBoxLayout;
 
 
@@ -38,13 +36,13 @@ class MonitorEditWidget : public QWidget
 
 public:
     explicit MonitorEditWidget(Render *renderer, QWidget* parent = 0);
-    virtual ~MonitorEditWidget();
+    ~MonitorEditWidget();
 
     /** @brief Updates the necessary settings on a profile change. */
     void resetProfile(Render *renderer);
 
     /** @brief Returns the on-monitor scene. */
-    MonitorScene *getScene();
+    MonitorScene *getScene() const;
 
     /** @brief Returns the action toggling between the normal monitor and the editor. */
     QAction *getVisibilityAction();

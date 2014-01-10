@@ -21,11 +21,11 @@
 #include "rebuildgroupcommand.h"
 #include "customtrackview.h"
 
-RebuildGroupCommand::RebuildGroupCommand(CustomTrackView* view, int childTrack, GenTime childPos, QUndoCommand* parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_childTrack(childTrack),
-        m_childPos(childPos)
+RebuildGroupCommand::RebuildGroupCommand(CustomTrackView* view, int childTrack, const GenTime &childPos, QUndoCommand* parent) :
+    QUndoCommand(parent),
+    m_view(view),
+    m_childTrack(childTrack),
+    m_childPos(childPos)
 {
     setText(i18n("Rebuild Group"));
 }

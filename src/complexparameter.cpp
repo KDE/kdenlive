@@ -18,7 +18,7 @@
 #include "complexparameter.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 
 #include <QHeaderView>
@@ -48,7 +48,7 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
     connect(m_ui.buttonShowInTimeline, SIGNAL(clicked()), this , SLOT(slotShowInTimeline()));
     connect(m_ui.buttonNewPoints, SIGNAL(clicked()), this , SLOT(slotSetNew()));
     connect(m_ui.buttonHelp, SIGNAL(clicked()), this , SLOT(slotSetHelp()));
-    connect(m_ui.parameterList, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotParameterChanged(const QString&)));
+    connect(m_ui.parameterList, SIGNAL(currentIndexChanged(QString)), this, SLOT(slotParameterChanged(QString)));
     connect(m_ui.kplotwidget, SIGNAL(parameterChanged(QDomElement)), this , SLOT(slotUpdateEffectParams(QDomElement)));
     connect(m_ui.kplotwidget, SIGNAL(parameterList(QStringList)), this , SLOT(slotUpdateParameterList(QStringList)));
     /*ÜeffectLists["audio"]=audioEffectList;
@@ -57,10 +57,7 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     m_ui.infoBox->hide();
     updateButtonStatus();
-
 }
-
-
 
 void ComplexParameter::slotSetMoveX()
 {
@@ -91,7 +88,6 @@ void ComplexParameter::slotShowInTimeline()
 
     m_ui.kplotwidget->setMoveTimeLine(!m_ui.kplotwidget->isMoveTimeline());
     updateButtonStatus();
-
 }
 
 void ComplexParameter::updateButtonStatus()
@@ -108,13 +104,12 @@ void ComplexParameter::updateButtonStatus()
 
 void ComplexParameter::slotParameterChanged(const QString& text)
 {
-
     //m_ui.buttonNewPoints->setEnabled(text!="all");
     m_ui.kplotwidget->replot(text);
     updateButtonStatus();
 }
 
-void ComplexParameter::setupParam(const QDomElement d, const QString& paramName, int from, int to)
+void ComplexParameter::setupParam(const QDomElement &d, const QString& paramName, int from, int to)
 {
     m_param = d;
     m_ui.kplotwidget->setPointLists(d, paramName, from, to);
@@ -125,18 +120,18 @@ void ComplexParameter::itemSelectionChanged()
     //kDebug() << "drop";
 }
 
-void ComplexParameter::slotUpdateEffectParams(QDomElement e)
+void ComplexParameter::slotUpdateEffectParams(const QDomElement &e)
 {
     m_param = e;
     emit parameterChanged();
 }
 
-QDomElement ComplexParameter::getParamDesc()
+QDomElement ComplexParameter::getParamDesc() const
 {
     return m_param;
 }
 
-void ComplexParameter::slotUpdateParameterList(QStringList l)
+void ComplexParameter::slotUpdateParameterList(const QStringList &l)
 {
     kDebug() << l ;
     m_ui.parameterList->clear();

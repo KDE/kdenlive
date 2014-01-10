@@ -32,17 +32,15 @@
 #include <QLineEdit>
 #include <QMutex>
 
-class QFrame;
 
 class MyEditableLabel : public QLineEdit
 {
     Q_OBJECT
-
 public:
-    MyEditableLabel(QWidget * parent = 0);
+    explicit MyEditableLabel(QWidget * parent = 0);
     
 protected:
-    virtual void mouseDoubleClickEvent( QMouseEvent *e);
+    void mouseDoubleClickEvent( QMouseEvent *e);
 };
 
 
@@ -57,7 +55,7 @@ class CollapsibleGroup : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, EffectInfo info, QWidget * parent = 0);
+    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget * parent = 0);
     ~CollapsibleGroup();
     void updateTimecodeFormat();
     void setActive(bool activate);
@@ -98,13 +96,13 @@ private:
     QMutex m_mutex;
     
 protected:
-    virtual void mouseDoubleClickEvent ( QMouseEvent * event );
-    virtual void dragEnterEvent(QDragEnterEvent *event);
-    virtual void dragLeaveEvent(QDragLeaveEvent *event);
-    virtual void dropEvent(QDropEvent *event);
+    void mouseDoubleClickEvent ( QMouseEvent * event );
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragLeaveEvent(QDragLeaveEvent *event);
+    void dropEvent(QDropEvent *event);
     
 signals:
-    void deleteGroup(QDomDocument);
+    void deleteGroup(const QDomDocument&);
     void unGroup(CollapsibleGroup *);
     void groupRenamed(CollapsibleGroup *);
 

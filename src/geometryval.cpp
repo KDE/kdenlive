@@ -29,7 +29,7 @@
 #include <QTimer>
 
 
-Geometryval::Geometryval(const MltVideoProfile &profile, Timecode t, QPoint frame_size, int startPoint, QWidget* parent) :
+Geometryval::Geometryval(const MltVideoProfile &profile, const Timecode &t, const QPoint &frame_size, int startPoint, QWidget* parent) :
         QWidget(parent),
         m_profile(profile),
         m_paramRect(NULL),
@@ -489,7 +489,7 @@ void Geometryval::slotResetPosition()
     }
 }
 
-void Geometryval::setFrameSize(QPoint p)
+void Geometryval::setFrameSize(const QPoint &p)
 {
     m_frameSize = p;
 }
@@ -584,3 +584,5 @@ void Geometryval::slotUpdateRange(int inPoint, int outPoint)
     m_helper->update();
     m_timePos.setRange(0, outPoint - inPoint - 1);
 }
+
+#include "geometryval.moc"

@@ -95,7 +95,7 @@ class Fontval: public QWidget, public Ui::Fontval_UI
 };
 
 
-ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent) :
+ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent) :
         m_keyframeEditor(NULL),
         m_geometryWidget(NULL),
         m_metaInfo(metaInfo),
@@ -121,7 +121,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
     m_vbox->setContentsMargins(4, 0, 4, 0);
     m_vbox->setSpacing(2);
 
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         if (pa.tagName() != "parameter") continue;
         QDomElement na = pa.firstChildElement("name");
@@ -176,7 +176,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             if (listitemsdisplay.count() != listitems.count())
                 listitemsdisplay = listitems;
             lsval->list->setIconSize(QSize(30, 30));
-            for (int i = 0; i < listitems.count(); i++) {
+            for (int i = 0; i < listitems.count(); ++i) {
                 lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
                 QString entry = listitems.at(i);
                 if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
@@ -283,7 +283,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
 	    choosecolor->setToolTip(comment);
             m_vbox->addWidget(choosecolor);
             m_valueItems[paramName] = choosecolor;
-            connect(choosecolor, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
+            connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
             connect(choosecolor, SIGNAL(modified()) , this, SLOT(slotCollectAllParameters()));
 	    connect(choosecolor, SIGNAL(disableCurrentFilter(bool)) , this, SIGNAL(disableCurrentFilter(bool)));
         } else if (type == "position") {
@@ -421,7 +421,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             m_valueItems[paramName] = cval;
             cval->urlwidget->setUrl(KUrl(value));
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(slotCollectAllParameters()));
-            connect(cval->urlwidget, SIGNAL(urlSelected(const KUrl&)) , this, SLOT(slotCollectAllParameters()));
+            connect(cval->urlwidget, SIGNAL(urlSelected(KUrl)) , this, SLOT(slotCollectAllParameters()));
             m_uiItems.append(cval);
 	} else if (type == "keywords") {
             Keywordval* kval = new Keywordval;
@@ -440,7 +440,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             if (keyworddisplaylist.count() != keywordlist.count()) {
                 keyworddisplaylist = keywordlist;
             }
-            for (int i = 0; i < keywordlist.count(); i++) {
+            for (int i = 0; i < keywordlist.count(); ++i) {
                 kval->comboboxwidget->addItem(keyworddisplaylist.at(i), keywordlist.at(i));
             }
             // Add disabled user prompt at index 0
@@ -449,7 +449,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             kval->comboboxwidget->setCurrentIndex(0);
             m_valueItems[paramName] = kval;
             connect(kval->lineeditwidget, SIGNAL(editingFinished()) , this, SLOT(slotCollectAllParameters()));
-            connect(kval->comboboxwidget, SIGNAL(activated (const QString&)), this, SLOT(slotCollectAllParameters()));
+            connect(kval->comboboxwidget, SIGNAL(activated(QString)), this, SLOT(slotCollectAllParameters()));
             m_uiItems.append(kval);
         } else if (type == "fontfamily") {
             Fontval* fval = new Fontval;
@@ -457,7 +457,7 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
             fval->name->setText(paramName);
             fval->fontfamilywidget->setCurrentFont(QFont(value));
             m_valueItems[paramName] = fval;
-            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotCollectAllParameters())) ;
+            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotCollectAllParameters())) ;
             m_uiItems.append(fval);
         } else if (type == "filterjob") {
 	    QVBoxLayout *l= new QVBoxLayout(toFillin);
@@ -483,10 +483,10 @@ ParameterContainer::ParameterContainer(QDomElement effect, ItemInfo info, Effect
     // Make sure all doubleparam spinboxes have the same width, looks much better
     QList<DoubleParameterWidget *> allWidgets = findChildren<DoubleParameterWidget *>();
     int minSize = 0;
-    for (int i = 0; i < allWidgets.count(); i++) {
+    for (int i = 0; i < allWidgets.count(); ++i) {
         if (minSize < allWidgets.at(i)->spinSize()) minSize = allWidgets.at(i)->spinSize();
     }
-    for (int i = 0; i < allWidgets.count(); i++) {
+    for (int i = 0; i < allWidgets.count(); ++i) {
         allWidgets.at(i)->setSpinSize(minSize);
     }
 }
@@ -497,12 +497,12 @@ ParameterContainer::~ParameterContainer()
     delete m_vbox;
 }
 
-void ParameterContainer::meetDependency(const QString& name, QString type, QString value)
+void ParameterContainer::meetDependency(const QString& name, const QString &type, const QString &value)
 {
     if (type == "curve") {
         KisCurveWidget *curve = (KisCurveWidget*)m_valueItems[name];
         if (curve) {
-            int color = value.toInt();
+            const int color = value.toInt();
             curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)(color == 3 ? 4 : color), 0.8)));
         }
     } else if (type == "bezier_spline") {
@@ -561,7 +561,7 @@ void ParameterContainer::updateTimecodeFormat()
         m_keyframeEditor->updateTimecodeFormat();
 
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         QDomNode pa = namenode.item(i);
         QDomElement na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
@@ -597,7 +597,7 @@ void ParameterContainer::slotCollectAllParameters()
     //QDomElement newparam = oldparam.cloneNode().toElement();
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");
 
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QDomElement na = pa.firstChildElement("name");
         QString type = pa.attribute("type");
@@ -818,7 +818,7 @@ void ParameterContainer::updateParameter(const QString &key, const QString &valu
 void ParameterContainer::slotStartFilterJobAction()
 {
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");
-    for (int i = 0; i < namenode.count() ; i++) {
+    for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute("type");
         if (type == "filterjob") {
@@ -889,3 +889,5 @@ void ParameterContainer::setRange(int inPoint, int outPoint)
 }
 
 
+
+#include "parametercontainer.moc"

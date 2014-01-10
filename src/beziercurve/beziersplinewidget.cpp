@@ -24,7 +24,7 @@
 #include <QVBoxLayout>
 
 #include <KIcon>
-#include <KLocale>
+#include <KLocalizedString>
 
 
 BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
@@ -38,13 +38,13 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.setupUi(widget);
     layout->addWidget(widget);
 
-    m_ui.buttonLinkHandles->setIcon(KIcon("insert-link"));
-    m_ui.buttonZoomIn->setIcon(KIcon("zoom-in"));
-    m_ui.buttonZoomOut->setIcon(KIcon("zoom-out"));
-    m_ui.buttonGridChange->setIcon(KIcon("view-grid"));
+    m_ui.buttonLinkHandles->setIcon(KIcon(QLatin1String("insert-link")));
+    m_ui.buttonZoomIn->setIcon(KIcon(QLatin1String("zoom-in")));
+    m_ui.buttonZoomOut->setIcon(KIcon(QLatin1String("zoom-out")));
+    m_ui.buttonGridChange->setIcon(KIcon(QLatin1String("view-grid")));
     m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::COL_Luma, 0.8))));
-    m_ui.buttonResetSpline->setIcon(KIcon("view-refresh"));
-    m_ui.buttonShowAllHandles->setIcon(KIcon("draw-bezier-curves"));
+    m_ui.buttonResetSpline->setIcon(KIcon(QLatin1String("view-refresh")));
+    m_ui.buttonShowAllHandles->setIcon(KIcon(QLatin1String("draw-bezier-curves")));
     m_ui.widgetPoint->setEnabled(false);
 
     m_pX = new DragValue(i18n("In"), 0, 3, 0, 1, -1, QString(), false, this);
@@ -74,14 +74,14 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_edit.setSpline(s);
 
     connect(&m_edit, SIGNAL(modified()), this, SIGNAL(modified()));
-    connect(&m_edit, SIGNAL(currentPoint(const BPoint&)), this, SLOT(slotUpdatePointEntries(const BPoint&)));
+    connect(&m_edit, SIGNAL(currentPoint(BPoint)), this, SLOT(slotUpdatePointEntries(BPoint)));
 
-    connect(m_pX, SIGNAL(valueChanged(double, bool)), this, SLOT(slotUpdatePointP(double, bool)));
-    connect(m_pY, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP(double, bool)));
-    connect(m_h1X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double, bool)));
-    connect(m_h1Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double, bool)));
-    connect(m_h2X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double, bool)));
-    connect(m_h2Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double, bool)));
+    connect(m_pX, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP(double,bool)));
+    connect(m_pY, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP(double,bool)));
+    connect(m_h1X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double,bool)));
+    connect(m_h1Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double,bool)));
+    connect(m_h2X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double,bool)));
+    connect(m_h2Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double,bool)));
 
     connect(m_ui.buttonLinkHandles, SIGNAL(toggled(bool)), this, SLOT(slotSetHandlesLinked(bool)));
     connect(m_ui.buttonZoomIn, SIGNAL(clicked()), &m_edit, SLOT(slotZoomIn()));
@@ -97,7 +97,7 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     m_ui.buttonShowAllHandles->setChecked(KdenliveSettings::bezier_showallhandles());
 }
 
-QString BezierSplineWidget::spline()
+QString BezierSplineWidget::spline() const
 {
     return m_edit.spline().toString();
 }
@@ -119,14 +119,16 @@ void BezierSplineWidget::slotGridChange()
 
 void BezierSplineWidget::slotShowPixmap(bool show)
 {
-    m_showPixmap = show;
-    KdenliveSettings::setBezier_showpixmap(show);
-    if (show && (int)m_mode < 6)
-        m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), (ColorTools::ColorsRGB)((int)m_mode), 1, palette().background().color().rgb())));
-     else if (show && m_mode == ModeHue)
-         m_edit.setPixmap(QPixmap::fromImage(ColorTools::hsvCurvePlane(m_edit.size(), QColor::fromHsv(200, 200, 200), ColorTools::COM_H, ColorTools::COM_H)));
-    else
-        m_edit.setPixmap(QPixmap());
+    if (m_showPixmap != show) {
+        m_showPixmap = show;
+        KdenliveSettings::setBezier_showpixmap(show);
+        if (show && (int)m_mode < 6)
+            m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), static_cast<ColorTools::ColorsRGB>(m_mode), 1, palette().background().color().rgb())));
+        else if (show && m_mode == ModeHue)
+            m_edit.setPixmap(QPixmap::fromImage(ColorTools::hsvCurvePlane(m_edit.size(), QColor::fromHsv(200, 200, 200), ColorTools::COM_H, ColorTools::COM_H)));
+        else
+            m_edit.setPixmap(QPixmap());
+    }
 }
 
 void BezierSplineWidget::slotUpdatePointEntries(const BPoint &p)

@@ -30,9 +30,9 @@ class CustomTrackView;
 class MoveGroupCommand : public QUndoCommand
 {
 public:
-    MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> startClip, const QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool doIt, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> &startClip, const QList <ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool doIt, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

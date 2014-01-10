@@ -41,8 +41,8 @@ const int IdRole = TypeRole + 1;
 
 
 EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
-        QTreeWidget(parent),
-        m_menu(contextMenu)
+    QTreeWidget(parent),
+    m_menu(contextMenu)
 {
     setColumnCount(1);
     setDragEnabled(true);
@@ -57,7 +57,7 @@ EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
     QPalette p = palette();
     p.setBrush(QPalette::Base, Qt::NoBrush);
     setPalette(p);
-    connect(this, SIGNAL(activated(const QModelIndex &)), this, SLOT(slotExpandItem(const QModelIndex &)));
+    connect(this, SIGNAL(activated(QModelIndex)), this, SLOT(slotExpandItem(QModelIndex)));
 }
 
 EffectsListWidget::~EffectsListWidget()
@@ -93,19 +93,19 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QList <QTreeWidgetItem *> folders;
     QStringList folderNames;
     QDomNodeList groups = doc.documentElement().elementsByTagName("group");
-    for (int i = 0; i < groups.count(); i++) {
+    for (int i = 0; i < groups.count(); ++i) {
         folderNames << i18n(groups.at(i).firstChild().firstChild().nodeValue().toUtf8().constData());
     }
-    for (int i = 0; i < topLevelItemCount(); i++) {
+    for (int i = 0; i < topLevelItemCount(); ++i) {
         topLevelItem(i)->takeChildren();
         QString currentName = topLevelItem(i)->text(0);
         if (currentName != i18n("Misc") && currentName != i18n("Audio") && currentName != i18nc("Folder Name", "Custom") && !folderNames.contains(currentName)) {
             takeTopLevelItem(i);
-            i--;
+            --i;
         }
     }
 
-    for (int i = 0; i < groups.count(); i++) {
+    for (int i = 0; i < groups.count(); ++i) {
         item = findFolder(folderNames.at(i));
         if (item) {
             item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
@@ -152,7 +152,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
     if (!found && !currentFolder.isEmpty()) {
         // previously selected effect was removed, focus on its parent folder
-        for (int i = 0; i < topLevelItemCount(); i++) {
+        for (int i = 0; i < topLevelItemCount(); ++i) {
             if (topLevelItem(i)->text(0) == currentFolder) {
                 setCurrentItem(topLevelItem(i));
                 break;
@@ -168,7 +168,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QMenu *sub2 = NULL;
     QMenu *sub3 = NULL;
     QMenu *sub4 = NULL;
-    for (int i = 0; i < topLevelItemCount(); i++) {
+    for (int i = 0; i < topLevelItemCount(); ++i) {
         if (!topLevelItem(i)->childCount())
             continue;
         QMenu *sub = new QMenu(topLevelItem(i)->text(0), effectsMenu);
@@ -188,39 +188,39 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             sub->addMenu(sub4);
         }
         for (int j = 0; j < effectsInCategory; j++) {
-                QTreeWidgetItem *item = topLevelItem(i)->child(j);
-                KAction *a = new KAction(KIcon(item->icon(0)), item->text(0), sub);
-                QStringList data = item->data(0, IdRole).toStringList();
-                QString id = data.at(1);
-                if (id.isEmpty()) id = data.at(0);
-                a->setData(data);
-                a->setIconVisibleInMenu(false);
-                if (hasSubCategories) {
-                    // put action in sub category
-                    QRegExp rx("^[s-z].+");
+            QTreeWidgetItem *item = topLevelItem(i)->child(j);
+            KAction *a = new KAction(KIcon(item->icon(0)), item->text(0), sub);
+            QStringList data = item->data(0, IdRole).toStringList();
+            QString id = data.at(1);
+            if (id.isEmpty()) id = data.at(0);
+            a->setData(data);
+            a->setIconVisibleInMenu(false);
+            if (hasSubCategories) {
+                // put action in sub category
+                QRegExp rx("^[s-z].+");
+                if (rx.exactMatch(item->text(0).toLower())) {
+                    sub4->addAction(a);
+                } else {
+                    rx.setPattern("^[m-r].+");
                     if (rx.exactMatch(item->text(0).toLower())) {
-                        sub4->addAction(a);
-                    } else {
-                        rx.setPattern("^[m-r].+");
+                        sub3->addAction(a);
+                    }
+                    else {
+                        rx.setPattern("^[g-l].+");
                         if (rx.exactMatch(item->text(0).toLower())) {
-                            sub3->addAction(a);
+                            sub2->addAction(a);
                         }
-                        else {
-                            rx.setPattern("^[g-l].+");
-                            if (rx.exactMatch(item->text(0).toLower())) {
-                                sub2->addAction(a);
-                            }
-                            else sub1->addAction(a);
-                        }
+                        else sub1->addAction(a);
                     }
                 }
-                else sub->addAction(a);
-                effectActions->addAction("video_effect_" + id, a);
+            }
+            else sub->addAction(a);
+            effectActions->addAction("video_effect_" + id, a);
         }
     }
 }
 
-void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString current, bool *found)
+void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found)
 {
     QStringList effectInfo, l;
     QTreeWidgetItem *parentItem;
@@ -228,14 +228,14 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
     int ct = effectlist->count();
 
     
-    for (int ix = 0; ix < ct; ix ++) {
+    for (int ix = 0; ix < ct; ++ix) {
         effectInfo = effectlist->effectIdInfo(ix);
         effectInfo.append(QString::number(type));
         parentItem = NULL;
 
         if (folders) {
-            for (int i = 0; i < folders->count(); i++) {
-                l = folders->at(i)->data(0, IdRole).toString().split(',', QString::SkipEmptyParts);
+            for (int i = 0; i < folders->count(); ++i) {
+                l = folders->at(i)->data(0, IdRole).toString().split(QLatin1Char(','), QString::SkipEmptyParts);
                 if (l.contains(effectInfo.at(2))) {
                     parentItem = folders->at(i);
                     break;
@@ -247,7 +247,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
 
         if (!effectInfo.isEmpty()) {
             item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
-	    if (effectInfo.count() == 4) item->setIcon(0, KIcon("folder"));
+            if (effectInfo.count() == 4) item->setIcon(0, KIcon("folder"));
             else item->setIcon(0, icon);
             item->setData(0, TypeRole, type);
             item->setData(0, IdRole, effectInfo);
@@ -260,12 +260,12 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
     }
 }
 
-QTreeWidgetItem *EffectsListWidget::findFolder(const QString name)
+QTreeWidgetItem *EffectsListWidget::findFolder(const QString &name)
 {
     QTreeWidgetItem *item = NULL;
     QList<QTreeWidgetItem *> result = findItems(name, Qt::MatchExactly);
     if (!result.isEmpty()) {
-        for (int j = 0; j < result.count(); j++) {
+        for (int j = 0; j < result.count(); ++j) {
             if (result.at(j)->data(0, TypeRole) ==  EFFECT_FOLDER) {
                 item = result.at(j);
                 break;
@@ -300,7 +300,7 @@ const QDomElement EffectsListWidget::itemEffect(QTreeWidgetItem *item) const
 }
 
 
-QString EffectsListWidget::currentInfo()
+QString EffectsListWidget::currentInfo() const
 {
     QTreeWidgetItem *item = currentItem();
     if (!item || item->data(0, TypeRole).toInt() == (int)EFFECT_FOLDER) return QString();
@@ -324,9 +324,9 @@ QString EffectsListWidget::currentInfo()
 void EffectsListWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
-	emit applyEffect(currentEffect());
-	e->accept();
-	return;
+        emit applyEffect(currentEffect());
+        e->accept();
+        return;
     }
     QTreeWidget::keyPressEvent(e);
 }
@@ -338,7 +338,8 @@ QMimeData * EffectsListWidget::mimeData(const QList<QTreeWidgetItem *> list) con
     foreach(QTreeWidgetItem *item, list) {
         if (item->flags() & Qt::ItemIsDragEnabled) {
             const QDomElement e = itemEffect(item);
-            if (!e.isNull()) doc.appendChild(doc.importNode(e, true));
+            if (!e.isNull())
+                doc.appendChild(doc.importNode(e, true));
         }
     }
     QMimeData *mime = new QMimeData;
@@ -363,7 +364,8 @@ void EffectsListWidget::dragMoveEvent(QDragMoveEvent *event)
 void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event)
 {
     QTreeWidgetItem *item = itemAt(event->pos());
-    if (item && item->data(0, TypeRole).toInt() == EFFECT_CUSTOM) m_menu->popup(event->globalPos());
+    if (item && item->data(0, TypeRole).toInt() == EFFECT_CUSTOM)
+        m_menu->popup(event->globalPos());
 }
 
 #include "effectslistwidget.moc"

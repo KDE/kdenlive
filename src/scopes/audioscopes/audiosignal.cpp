@@ -19,15 +19,11 @@
 
 #include "audiosignal.h"
 
-#include <KLocale>
 #include <KDebug>
 
-#include <QVBoxLayout>
-#include <QAction>
-#include <QMenu>
 #include <QPainter>
-#include <QDebug>
-#include <QList>
+#include <QMenu>
+#include <QTime>
 
 #include <math.h>
 
@@ -45,7 +41,7 @@ AudioSignal::~AudioSignal()
 {
 }
 
-QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> audioFrame,
+QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> &audioFrame,
                                      const int, const int num_channels, const int samples, const int)
 {
     QTime start = QTime::currentTime();
@@ -53,7 +49,7 @@ QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> audioFrame,
     int num_samples = samples > 200 ? 200 : samples;
 
     QByteArray channels;
-    for (int i = 0; i < num_channels; i++) {
+    for (int i = 0; i < num_channels; ++i) {
         long val = 0;
         for (int s = 0; s < num_samples; s ++) {
             val += abs(audioFrame[i+s*num_channels] / 128);
@@ -87,7 +83,7 @@ QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> audioFrame,
     int dbsize=20;
     bool showdb=width()>(dbsize+40);
     //valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
-    for (int i = 0; i < numchan; i++) {
+    for (int i = 0; i < numchan; ++i) {
         //int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
         double valpixel=valueToPixel((double)(unsigned char)channels[i]/127.0);
         int maxx=  height()  * valpixel;
@@ -159,7 +155,7 @@ void AudioSignal::slotReceiveAudio(QVector<int16_t> data, int, int num_channels,
 
     QByteArray channels;
     int num_oversample=0;
-    for (int i = 0; i < num_channels; i++) {
+    for (int i = 0; i < num_channels; ++i) {
         long val = 0;
         double over1=0.0;
         double over2=0.0;
@@ -201,7 +197,7 @@ void AudioSignal::slotNoAudioTimeout(){
     m_timer.stop();
 }
 
-void AudioSignal::showAudio(const QByteArray arr)
+void AudioSignal::showAudio(const QByteArray &arr)
 {
     channels = arr;
     if (peeks.count()!=channels.count()){
@@ -222,8 +218,8 @@ void AudioSignal::showAudio(const QByteArray arr)
 
 double AudioSignal::valueToPixel(double in)
 {
-	//in=0 -> return 0 (null length from max), in=127/127 return 1 (max length )
-	return 1.0- log10( in)/log10(1.0/127.0);
+    //in=0 -> return 0 (null length from max), in=127/127 return 1 (max length )
+    return 1.0- log10( in)/log10(1.0/127.0);
 }
 
 #include "audiosignal.moc"

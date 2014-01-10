@@ -47,11 +47,11 @@ class MySpinBox : public QSpinBox
     Q_OBJECT
 
 public:
-    MySpinBox(QWidget * parent = 0);
+    explicit MySpinBox(QWidget * parent = 0);
     
 protected:
-    virtual void focusInEvent(QFocusEvent*);
-    virtual void focusOutEvent(QFocusEvent*);
+    void focusInEvent(QFocusEvent*);
+    void focusOutEvent(QFocusEvent*);
 };
 
 class ParameterContainer : public QObject
@@ -59,10 +59,9 @@ class ParameterContainer : public QObject
     Q_OBJECT
 
 public:
-    ParameterContainer(QDomElement effect, ItemInfo info, EffectMetaInfo *metaInfo, QWidget * parent = 0);
+    explicit ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent = 0);
     ~ParameterContainer();
     void updateTimecodeFormat();
-    void updateProjectFormat(MltVideoProfile profile, Timecode t);
     void updateParameter(const QString &key, const QString &value);
     /** @brief Returns true of this effect requires an on monitor adjustable effect scene. */
     bool needsMonitorEffectScene() const;
@@ -80,7 +79,7 @@ private:
     * @param name Name of the parameter which will be updated
     * @param type Type of the parameter which will be updated
     * @param value Value of the dependency parameter */
-    void meetDependency(const QString& name, QString type, QString value);
+    void meetDependency(const QString& name, const QString &type, const QString &value);
     wipeInfo getWipeInfo(QString value);
     QString getWipeString(wipeInfo info);
     /** @brief Delete all child widgets */
@@ -99,7 +98,7 @@ private:
     bool m_needsMonitorEffectScene;
 
 signals:
-    void parameterChanged(const QDomElement, const QDomElement, int);
+    void parameterChanged(const QDomElement &, const QDomElement&, int);
     void syncEffectsPos(int);
     void displayMessage(const QString&, int);
     void disableCurrentFilter(bool);
@@ -107,7 +106,7 @@ signals:
     void seekTimeline(int);
     void showComments(bool);    
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QString filterName, QString filterParams, QString consumer, QString consumerParams, const QMap <QString, QString>extra);
+    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString> &extra);
     /** @brief Request import of keyframes from clip data. */
     void importClipKeyframes();
     /** @brief Master clip was resized, update effect. */

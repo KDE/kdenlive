@@ -23,7 +23,7 @@
 
 #include <KDebug>
 #include <KColorScheme>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QMouseEvent>
 #include <QStylePainter>
@@ -108,13 +108,13 @@ void SmallRuler::setZone(int start, int end)
     updatePixmap();
 }
 
-void SmallRuler::setMarkers(QList < CommentedTime > list)
+void SmallRuler::setMarkers(const QList<CommentedTime> &list)
 {
     m_markers = list;
     updatePixmap();
 }
 
-QPoint SmallRuler::zone()
+QPoint SmallRuler::zone() const
 {
     return QPoint(m_zoneStart, m_zoneEnd);
 }
@@ -182,7 +182,7 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event)
         } else if (qAbs((pos - m_zoneEnd) * m_scale) < 4) {
             setToolTip(i18n("Zone end: %1", m_monitor->getTimecodeFromFrames(m_zoneEnd)));
         } 
-	for (int i = 0; i < m_markers.count(); i++) {
+	for (int i = 0; i < m_markers.count(); ++i) {
 	    if (qAbs((pos - m_markers.at(i).time().frames(m_monitor->fps())) * m_scale) < 4) {
 		// We are on a marker
 		QString markerxt = m_monitor->getMarkerThumb(m_markers.at(i).time());
@@ -262,7 +262,7 @@ void SmallRuler::updatePixmap()
     }
     // draw markers
     if (!m_markers.isEmpty()) {
-        for (int i = 0; i < m_markers.count(); i++) {
+        for (int i = 0; i < m_markers.count(); ++i) {
 	    int pos = m_markers.at(i).time().frames(m_monitor->fps()) * m_scale;
 	    p.setPen(CommentedTime::markerColor(m_markers.at(i).markerType()));
             p.drawLine(pos, 0, pos, 9);

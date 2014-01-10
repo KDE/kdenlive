@@ -61,7 +61,6 @@ class EffectStackView2;
 class TransitionSettings;
 class Monitor;
 class RecMonitor;
-class CustomTrackView;
 class RenderWidget;
 #ifdef USE_JOGSHUTTLE
 class JogShuttle;
@@ -77,7 +76,6 @@ class Waveform;
 class RGBParade;
 class KActionCollection;
 class AudioSignal;
-class AbstractAudioScopeWidget;
 class AudioSpectrum;
 class Spectrogram;
 
@@ -242,9 +240,6 @@ private:
     KAction *m_projectSearch;
     KAction *m_projectSearchNext;
 
-    KAction **m_videoEffects;
-    KAction **m_audioEffects;
-    KAction **m_customEffects;
     KAction **m_transitions;
     KAction *m_buttonAudioThumbs;
     KAction *m_buttonVideoThumbs;
@@ -288,7 +283,7 @@ private:
     void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
-    void recoverFiles(QList<KAutoSaveFile *> staleFiles, const KUrl &originUrl);
+    void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KUrl &originUrl);
 
     /** @brief Loads static and dynamic plugins.
      *
@@ -371,7 +366,7 @@ private slots:
     void slotUpdateMousePosition(int pos);
     void slotUpdateJackSyncDiff(int diff);
     void slotUpdateProjectDuration(int pos);
-    void slotAddEffect(const QDomElement effect);
+    void slotAddEffect(const QDomElement &effect);
     void slotEditProfiles();
     void slotDetectAudioDriver();
     void slotEditProjectSettings();
@@ -432,12 +427,12 @@ private slots:
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
-    void slotAddProjectClip(KUrl url, stringMap data = stringMap());
-    void slotAddProjectClipList(KUrl::List urls);
+    void slotAddProjectClip(const KUrl &url, const stringMap &data = stringMap());
+    void slotAddProjectClipList(const KUrl::List &urls);
     void slotShowClipProperties(DocClipBase *clip);
-    void slotShowClipProperties(QList <DocClipBase *>cliplist, QMap<QString, QString> commonproperties);
+    void slotShowClipProperties(const QList<DocClipBase *> &cliplist, const QMap<QString, QString> &commonproperties);
     void slotTimelineClipSelected(ClipItem* item, bool raise = true);
-    void slotTrackSelected(int index, TrackInfo info, bool raise = true);
+    void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *);
     void slotChangeTool(QAction * action);
     void slotChangeEdit(QAction * action);
@@ -468,7 +463,7 @@ private slots:
 
     void slotAdjustClipMonitor();
     void slotAdjustProjectMonitor();
-    void slotSaveZone(Render *render, QPoint zone, DocClipBase *baseClip = NULL, KUrl path = KUrl());
+    void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, KUrl path = KUrl());
 
     void slotSetInPoint();
     void slotSetOutPoint();
@@ -504,12 +499,12 @@ private slots:
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
-    void slotTranscode(KUrl::List urls = KUrl::List());
+    void slotTranscode(const KUrl::List &urls = KUrl::List());
     void slotStartClipAction();
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();
-    void slotSetDocumentRenderProfile(QMap <QString, QString> props);
+    void slotSetDocumentRenderProfile(const QMap<QString, QString> &props);
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
 
     /** @brief Switches between displaying frames or timecode.
@@ -534,14 +529,14 @@ private slots:
     /** @brief Deletes items from timeline and document.
     * @param ids The ids of the clips to delete.
     * @param folderids The names and ids of the folders to delete. */
-    void slotDeleteProjectClips(QStringList ids, QMap<QString, QString> folderids);
+    void slotDeleteProjectClips(const QStringList &ids, const QMap<QString, QString> &folderids);
     void slotShowTitleBars(bool show);
     void slotSwitchTitles();
     /** @brief Update the capture folder if user asked a change. */
     void slotUpdateCaptureFolder();
 
     /** @brief Apply new properties to a clip */
-    void slotApplyNewClipProperties(const QString id, QMap <QString, QString> props, QMap <QString, QString> newprops, bool refresh, bool reload);
+    void slotApplyNewClipProperties(const QString &id, const QMap <QString, QString> &props, const QMap <QString, QString> &newprops, bool refresh, bool reload);
 
     /** @brief Delete a clip from current project */
     void slotDeleteClip(const QString &id);
@@ -561,7 +556,7 @@ private slots:
     /** @brief Insert current project's timecode into the notes widget. */
     void slotInsertNotesTimecode();
     /** @brief Open the project's backupdialog. */
-    void slotOpenBackupDialog(const KUrl url = KUrl());
+    void slotOpenBackupDialog(const KUrl &url = KUrl());
     /** @brief Disable proxies for this project. */
     void slotDisableProxies();
 

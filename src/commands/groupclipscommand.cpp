@@ -21,24 +21,27 @@
 #include "groupclipscommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
+#include <KDebug>
 
-GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_clips(clipInfos),
-        m_transitions(transitionInfos),
-        m_group(group)
+GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo>& transitionInfos, bool group, QUndoCommand * parent) :
+    QUndoCommand(parent),
+    m_view(view),
+    m_clips(clipInfos),
+    m_transitions(transitionInfos),
+    m_group(group)
 {
-    if (m_group) setText(i18n("Group clips"));
-    else setText(i18n("Ungroup clips"));
+    if (m_group)
+        setText(i18n("Group clips"));
+    else
+        setText(i18n("Ungroup clips"));
 }
 
 
 // virtual
 void GroupClipsCommand::undo()
 {
-// kDebug()<<"----  undoing action";
+    // kDebug()<<"----  undoing action";
     m_view->doGroupClips(m_clips, m_transitions, !m_group);
 }
 // virtual

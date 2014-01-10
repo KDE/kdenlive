@@ -38,7 +38,7 @@ AbstractService::~AbstractService()
 {
 }
 
-void AbstractService::slotStartSearch(const QString , int )
+void AbstractService::slotStartSearch(const QString & , int )
 {
 }
 
@@ -68,3 +68,5 @@ QString AbstractService::getDefaultDownloadName(QListWidgetItem *)
     return QString();
 }
 
+
+#include "abstractservice.moc"

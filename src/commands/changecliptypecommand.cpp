@@ -21,7 +21,8 @@
 #include "changecliptypecommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
+#include <KDebug>
 
 ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent) :
         QUndoCommand(parent),

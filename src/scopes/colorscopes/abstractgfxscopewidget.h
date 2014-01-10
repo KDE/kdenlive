@@ -17,7 +17,6 @@
 
 #include "../abstractscopewidget.h"
 
-class QMenu;
 
 
 /**
@@ -37,7 +36,7 @@ protected:
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
         when calculation has finished, to allow multi-threading.
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
-    virtual QImage renderGfxScope(uint accelerationFactor, const QImage) = 0;
+    virtual QImage renderGfxScope(uint accelerationFactor, const QImage &) = 0;
 
     virtual QImage renderScope(uint accelerationFactor);
 
@@ -51,13 +50,13 @@ public slots:
     /** @brief Must be called when the active monitor has shown a new frame.
       This slot must be connected in the implementing class, it is *not*
       done in this abstract class. */
-    void slotRenderZoneUpdated(const QImage);
+    void slotRenderZoneUpdated(const QImage &);
 
 protected slots:
     virtual void slotAutoRefreshToggled(bool autoRefresh);
 
 signals:
-    void signalFrameRequest(const QString widgetName);
+    void signalFrameRequest(const QString &widgetName);
 
 };
 

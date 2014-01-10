@@ -10,50 +10,65 @@
 #ifndef UNICODEDIALOG_H
 #define UNICODEDIALOG_H
 
-#include "ui_unicodedialog_ui.h"
+#include "ui_unicodewidget_ui.h"
+#include <KDialog>
 
-class UnicodeDialog : public QDialog, public Ui::UnicodeDialog_UI
+class UnicodeWidget;
+class UnicodeDialog : public KDialog
 {
     Q_OBJECT
-
 public:
     /** \brief The input method for the dialog. Atm only InputHex supported. */
     enum InputMethod { InputHex, InputDec };
-
-    UnicodeDialog(InputMethod inputMeth);
+    explicit UnicodeDialog(InputMethod inputMeth, QWidget *parent = 0);
     ~UnicodeDialog();
 
+private Q_SLOTS:
+    void slotAccept();
+
+Q_SIGNALS:
+    /** \brief Contains the selected unicode character; emitted when Enter is pressed. */
+    void charSelected(const QString&);
+
+private:
+    UnicodeWidget *mUnicodeWidget;
+};
+
+class UnicodeWidget : public QWidget, public Ui::UnicodeWidget_UI
+{
+    Q_OBJECT
+public:
+
+    explicit UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent = 0);
+    ~UnicodeWidget();
+
     /** \brief Returns infos about a unicode number. Extendable/improvable ;) */
-    QString unicodeInfo(QString unicode);
+    QString unicodeInfo(const QString &unicode);
 
     void showLastUnicode();
 
 protected:
-    virtual void wheelEvent(QWheelEvent * event);
-
-public slots:
-    /** \brief Override QDialog::exec() to assure the focus being on the unicode input field */
-    int exec();
+    void wheelEvent(QWheelEvent * event);
 
 private:
-    Ui::UnicodeDialog_UI m_view;
+    Ui::UnicodeWidget_UI m_view;
 
     enum Direction { Forward, Backward };
 
     /** Selected input method */
-    InputMethod inputMethod;
+    UnicodeDialog::InputMethod inputMethod;
 
     /** \brief Validates text and removes all invalid characters (non-hex e.g.) */
-    QString validateText(QString text);
+    QString validateText(const QString &text);
     /** \brief Removes all leading zeros */
     QString trimmedUnicodeNumber(QString text);
     /** \brief Checks whether the given string is a control character */
-    bool controlCharacter(QString text);
+    bool controlCharacter(const QString& text);
     /** \brief Checks whether the given uint is a control character */
     bool controlCharacter(uint value);
 
     /** \brief Returns the next available unicode. */
-    QString nextUnicode(QString text, Direction direction);
+    QString nextUnicode(const QString &text, Direction direction);
 
     /** \brief Paints previous and next characters around current char */
     void updateOverviewChars(uint unicode);
@@ -71,12 +86,15 @@ signals:
     /** \brief Contains the selected unicode character; emitted when Enter is pressed. */
     void charSelected(const QString&);
 
-private slots:
-    void slotTextChanged(QString text);
+public slots:
     void slotReturnPressed();
+
+private slots:
+    void slotTextChanged(const QString &text);
     void slotNextUnicode();
     void slotPrevUnicode();
-
 };
+
+
 
 #endif

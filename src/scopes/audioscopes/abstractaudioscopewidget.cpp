@@ -12,12 +12,6 @@
 #include "renderer.h"
 #include "monitor.h"
 
-#include <QtConcurrentRun>
-#include <QFuture>
-#include <QColor>
-#include <QMenu>
-#include <QMouseEvent>
-#include <QPainter>
 
 // Uncomment for debugging
 //#define DEBUG_AASW
@@ -27,7 +21,7 @@
 #endif
 
 AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *parent) :
-        AbstractScopeWidget(trackMouse, parent),
+    AbstractScopeWidget(trackMouse, parent),
     m_freq(0),
     m_nChannels(0),
     m_nSamples(0),
@@ -36,7 +30,7 @@ AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *par
 {
 }
 
-void AbstractAudioScopeWidget::slotReceiveAudio(QVector<int16_t> sampleData, int freq, int num_channels, int num_samples)
+void AbstractAudioScopeWidget::slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_AASW
     qDebug() << "Received audio for " << widgetName() << ".";
@@ -51,11 +45,13 @@ void AbstractAudioScopeWidget::slotReceiveAudio(QVector<int16_t> sampleData, int
     AbstractScopeWidget::slotRenderZoneUpdated();
 }
 
-AbstractAudioScopeWidget::~AbstractAudioScopeWidget() {}
+AbstractAudioScopeWidget::~AbstractAudioScopeWidget()
+{
+}
 
 QImage AbstractAudioScopeWidget::renderScope(uint accelerationFactor)
 {
-    int newData = m_newData.fetchAndStoreAcquire(0);
+    const int newData = m_newData.fetchAndStoreAcquire(0);
 
     return renderAudioScope(accelerationFactor, m_audioFrame, m_freq, m_nChannels, m_nSamples, newData);
 }
@@ -63,3 +59,5 @@ QImage AbstractAudioScopeWidget::renderScope(uint accelerationFactor)
 #ifdef DEBUG_AASW
 #undef DEBUG_AASW
 #endif
+
+#include "abstractaudioscopewidget.moc"

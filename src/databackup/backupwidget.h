@@ -37,11 +37,11 @@ class BackupWidget : public QDialog, public Ui::BackupDialog_UI
     Q_OBJECT
 
 public:
-    BackupWidget(KUrl projectUrl, KUrl projectFolder, const QString &projectId, QWidget * parent = 0);
+    BackupWidget(const KUrl &projectUrl, const KUrl &projectFolder, const QString &projectId, QWidget * parent = 0);
     // Constructor for extracting widget
     ~BackupWidget();
     /** @brief Return the path for selected backup file. */
-    QString selectedFile();
+    QString selectedFile() const;
     
 private slots:
     /** @brief Parse the backup files in project folder. */
@@ -51,8 +51,6 @@ private slots:
 
 private:
     QString m_projectWildcard;
-    
-signals:
 };
 
 

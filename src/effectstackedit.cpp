@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KFileDialog>
 #include <KComboBox>
 
@@ -52,7 +52,7 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
     
     setStyleSheet(EffectStackView2::getStyleSheet());
-    setWidget(m_baseWidget);   
+    setWidget(m_baseWidget);
     /*m_vbox = new QVBoxLayout(m_baseWidget);
     m_vbox->setContentsMargins(0, 0, 0, 0);
     m_vbox->setSpacing(2);    */
@@ -69,13 +69,13 @@ Monitor *EffectStackEdit::monitor()
     return m_metaInfo.monitor;
 }
 
-void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
+void EffectStackEdit::updateProjectFormat(const MltVideoProfile &profile, const Timecode &t)
 {
     m_metaInfo.profile = profile;
     m_metaInfo.timecode = t;
 }
 
-void EffectStackEdit::setFrameSize(QPoint p)
+void EffectStackEdit::setFrameSize(const QPoint &p)
 {
     m_metaInfo.frameSize = p;
 }
@@ -100,48 +100,48 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 bool EffectStackEdit::eventFilter( QObject * o, QEvent * e ) 
 {
     if (e->type() == QEvent::Wheel) {
-	QWheelEvent *we = static_cast<QWheelEvent *>(e);
-	bool filterWheel = verticalScrollBar() && verticalScrollBar()->isVisible();
-	if (!filterWheel || we->modifiers() != Qt::NoModifier) {
-	    e->accept();
-	    return false;
-	}
-	if (qobject_cast<QAbstractSpinBox*>(o)) {
-	    if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
-	    {
-		e->accept();
-		return false;
-	    }
-	    else
-	    {
-		e->ignore();
-		return true;
-	    }
-	}
-	if (qobject_cast<KComboBox*>(o)) {
-	    if(qobject_cast<KComboBox*>(o)->focusPolicy() == Qt::WheelFocus)
-	    {
-		e->accept();
-		return false;
-	    }
-	    else
-	    {
-		e->ignore();
-		return true;
-	    }
-	}
-	if (qobject_cast<QProgressBar*>(o)) {
-	    if(qobject_cast<QProgressBar*>(o)->focusPolicy() == Qt::WheelFocus)
-	    {
-		e->accept();
-		return false;
-	    }
-	    else
-	    {
-		e->ignore();
-		return true;
-	    }
-	}
+        QWheelEvent *we = static_cast<QWheelEvent *>(e);
+        bool filterWheel = verticalScrollBar() && verticalScrollBar()->isVisible();
+        if (!filterWheel || we->modifiers() != Qt::NoModifier) {
+            e->accept();
+            return false;
+        }
+        if (qobject_cast<QAbstractSpinBox*>(o)) {
+            if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
+            {
+                e->accept();
+                return false;
+            }
+            else
+            {
+                e->ignore();
+                return true;
+            }
+        }
+        if (qobject_cast<KComboBox*>(o)) {
+            if(qobject_cast<KComboBox*>(o)->focusPolicy() == Qt::WheelFocus)
+            {
+                e->accept();
+                return false;
+            }
+            else
+            {
+                e->ignore();
+                return true;
+            }
+        }
+        if (qobject_cast<QProgressBar*>(o)) {
+            if(qobject_cast<QProgressBar*>(o)->focusPolicy() == Qt::WheelFocus)
+            {
+                e->accept();
+                return false;
+            }
+            else
+            {
+                e->ignore();
+                return true;
+            }
+        }
     }
     return QWidget::eventFilter(o, e);
 }
@@ -150,9 +150,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
 {
     if (m_paramWidget) delete m_paramWidget;
     m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);
-    connect (m_paramWidget, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)));
+    connect (m_paramWidget, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this, SIGNAL(parameterChanged(QDomElement,QDomElement,int)));
     
-    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap<QString, QString>)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap<QString, QString>)));
+    connect(m_paramWidget, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)), this, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)));
     
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
@@ -164,11 +164,11 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
         sp->setFocusPolicy( Qt::StrongFocus );
     }
     Q_FOREACH( KComboBox * cb, m_baseWidget->findChildren<KComboBox*>() ) {
-	cb->installEventFilter( this );
+        cb->installEventFilter( this );
         cb->setFocusPolicy( Qt::StrongFocus );
     }
     Q_FOREACH( QProgressBar * cb, m_baseWidget->findChildren<QProgressBar*>() ) {
-	cb->installEventFilter( this );
+        cb->installEventFilter( this );
         cb->setFocusPolicy( Qt::StrongFocus );
     }
 }
@@ -190,3 +190,5 @@ void EffectStackEdit::setKeyframes(const QString &data, int maximum)
     m_paramWidget->setKeyframes(data, maximum);
 }
 
+
+#include "effectstackedit.moc"

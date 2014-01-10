@@ -47,6 +47,12 @@
 #include <nepomuk/resource.h>
 #endif
 
+#ifdef NEPOMUKCORE
+#include <nepomuk2/kratingpainter.h>
+#include <nepomuk2/resource.h>
+#endif
+
+
 #include "definitions.h"
 #include "timecode.h"
 #include "kdenlivesettings.h"
@@ -87,7 +93,7 @@ signals:
 namespace Mlt
 {
 class Producer;
-};
+}
 
 class ProjectItem;
 class ProjectListView;
@@ -116,13 +122,13 @@ private slots:
     void slotTimeLineChanged(qreal value);
     void slotTimeLineFinished();
 };
-    
+
 class InvalidDialog: public KDialog
 {
     Q_OBJECT
 public:
-    InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent = 0);
-    virtual ~InvalidDialog();
+    explicit InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent = 0);
+    ~InvalidDialog();
     void addClip(const QString &id, const QString &path);
     QStringList getIds() const;
 private:
@@ -168,7 +174,7 @@ public:
             painter->setFont(font);
             QString subText = index.data(DurationRole).toString();
             int usage = index.data(UsageRole).toInt();
-            if (usage != 0) subText.append(QString(" (%1)").arg(usage));
+            if (usage != 0) subText.append(QString::fromLatin1(" (%1)").arg(usage));
             QRectF bounding;
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
             int jobProgress = index.data(Qt::UserRole + 5).toInt();
@@ -176,27 +182,27 @@ public:
                 if (jobProgress != JOBCRASHED) {
                     // Draw job progress bar
                     QColor color = option.palette.alternateBase().color();
-		    color.setAlpha(150);
+                    color.setAlpha(150);
                     painter->setPen(option.palette.link().color());
                     QRect progress(pixmapPoint.x() + 2, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 4, 7);
-		    painter->setBrush(QBrush(color));
-		    painter->drawRect(progress);
-		    painter->setBrush(option.palette.link());
-		    progress.adjust(2, 2, -2, -2);
-		    if (jobProgress == JOBWAITING) {
-			progress.setLeft(progress.right() - 2);
-			painter->drawRect(progress);
-			progress.moveLeft(progress.left() - 5);
-			painter->drawRect(progress);
-		    }
-		    else if (jobProgress > 0) {
+                    painter->setBrush(QBrush(color));
+                    painter->drawRect(progress);
+                    painter->setBrush(option.palette.link());
+                    progress.adjust(2, 2, -2, -2);
+                    if (jobProgress == JOBWAITING) {
+                        progress.setLeft(progress.right() - 2);
+                        painter->drawRect(progress);
+                        progress.moveLeft(progress.left() - 5);
+                        painter->drawRect(progress);
+                    }
+                    else if (jobProgress > 0) {
                         progress.setWidth(progress.width() * jobProgress / 100);
                         painter->drawRect(progress);
                     }
                 } else if (jobProgress == JOBCRASHED) {
                     QString jobText = index.data(Qt::UserRole + 7).toString();
                     if (!jobText.isEmpty()) {
-                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, QLatin1Char(' ') + jobText + QLatin1Char(' ') );
                         painter->setPen(Qt::NoPen);
                         painter->setBrush(option.palette.highlight());
                         painter->drawRoundedRect(txtBounding, 2, 2);
@@ -219,6 +225,10 @@ public:
 #ifdef NEPOMUK
             KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
 #endif
+#ifdef NEPOMUKCORE
+            KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
+#endif
+
         } else {
             QStyledItemDelegate::paint(painter, option, index);
         }
@@ -252,8 +262,8 @@ public:
     void addClipCut(const QString &id, int in, int out, const QString desc, bool newItem);
     void removeClipCut(const QString &id, int in, int out);
     void focusTree() const;
-    SubProjectItem *getSubItem(ProjectItem *clip, QPoint zone);
-    void doUpdateClipCut(const QString &id, const QPoint oldzone, const QPoint zone, const QString &comment);
+    SubProjectItem *getSubItem(ProjectItem *clip, const QPoint &zone);
+    void doUpdateClipCut(const QString &id, const QPoint &oldzone, const QPoint &zone, const QString &comment);
     bool hasMissingClips();
     void deleteProjectFolder(QMap <QString, QString> map);
     void selectItemById(const QString &clipId);
@@ -288,7 +298,7 @@ public:
     void updatePalette();
 
 public slots:
-    void updateAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
+    void updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips);
     void slotReplyGetImage(const QString &clipId, const QImage &img);
     void slotReplyGetImage(const QString &clipId, const QString &name, int width, int height);
     void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const stringMap &properties, const stringMap &metadata, bool replace);
@@ -303,13 +313,13 @@ public slots:
 
     /** @brief Prepares removing the selected items. */
     void slotRemoveClip();
-    void slotAddClip(const QString url, const QString &groupName, const QString &groupId);
-    void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
+    void slotAddClip(const QString &url, const QString &groupName, const QString &groupId);
+    void slotAddClip(const QList <QUrl> &givenList = QList <QUrl> (), const QString &groupName = QString(), const QString &groupId = QString());
 
     /** @brief Adds, edits or deletes a folder item.
     *
     * This is triggered by AddFolderCommand and EditFolderCommand. */
-    void slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit = false);
+    void slotAddFolder(const QString &foldername, const QString &clipId, bool remove, bool edit = false);
     void slotResetProjectList();
     void slotOpenClip();
     void slotEditClip();
@@ -382,7 +392,7 @@ private:
     QAction *m_logAction;
 #endif
     
-    void requestClipThumbnail(const QString id);
+    void requestClipThumbnail(const QString &id);
 
     /** @brief Creates an EditFolderCommand to change the name of an folder item. */
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
@@ -402,9 +412,9 @@ private:
     /** @brief Sets the buttons enabled/disabled according to selected item. */
     void updateButtons() const;
 
-    /** @brief Set the Proxy status on a clip. 
+    /** @brief Set the Proxy status on a clip.
      * @param item The clip item to set status
-     * @param jobType The job type 
+     * @param jobType The job type
      * @param status The job status (see definitions.h)
      * @param progress The job progress (in percents)
      * @param statusMessage The job info message */
@@ -426,8 +436,8 @@ private:
     /** @brief Start an MLT process job. */
     void processClipJob(QStringList ids, const QString&destination, bool autoAdd, QStringList jobParams, const QString &description, stringMap extraParams = stringMap());
     /** @brief Create rounded shape pixmap for project tree thumb. */
-    QPixmap roundedPixmap(QImage img);
-    QPixmap roundedPixmap(QPixmap source);
+    QPixmap roundedPixmap(const QImage &img);
+    QPixmap roundedPixmap(const QPixmap &source);
     /** @brief Extract a clip's metadata with the exiftool program. */
     void extractMetadata(DocClipBase *clip);
     /** @brief Add a special FFmpeg tag if clip matches some properties (for example set full_luma for Sony NEX camcorders. */
@@ -460,16 +470,16 @@ private slots:
     /** @brief Try to find a matching profile for given item. */
     bool adjustProjectProfileToItem(ProjectItem *item = NULL);
     /** @brief Add a sequence from the stopmotion widget. */
-    void slotAddOrUpdateSequence(const QString frameName);
+    void slotAddOrUpdateSequence(const QString &frameName);
     /** @brief A proxy clip was created, update display. */
     void slotGotProxy(const QString &proxyPath);
     void slotGotProxy(ProjectItem *item);
     /** @brief Enable / disable proxy for current clip. */
     void slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy = NULL);
     /** @brief Put clip in the proxy waiting list. */
-    void slotCreateProxy(const QString id);
+    void slotCreateProxy(const QString &id);
     /** @brief Stop creation of this clip's proxy. */
-    void slotAbortProxy(const QString id, const QString path);
+    void slotAbortProxy(const QString &id, const QString& path);
     /** @brief Start creation of clip jobs. */
     void slotProcessJobs();
     /** @brief Discard running and pending clip jobs. */
@@ -477,7 +487,7 @@ private slots:
     /** @brief Discard a running clip jobs. */
     void slotCancelRunningJob(const QString id, stringMap);
     /** @brief Update a clip's job status. */
-    void slotProcessLog(const QString, int progress, int, const QString = QString());
+    void slotProcessLog(const QString&, int progress, int, const QString & tmp= QString());
     /** @brief A clip job crashed, inform user. */
     void slotUpdateJobStatus(const QString id, int type, int status, const QString label, const QString actionName, const QString details);
     void slotUpdateJobStatus(ProjectItem *item, int type, int status, const QString &label, const QString &actionName = QString(), const QString details = QString());
@@ -501,21 +511,21 @@ private slots:
     void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
 
 signals:
-    void clipSelected(DocClipBase *, QPoint zone = QPoint(), bool forceUpdate = false);
+    void clipSelected(DocClipBase *, const QPoint &zone = QPoint(), bool forceUpdate = false);
     void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
-    void showClipProperties(QList <DocClipBase *>, QMap<QString, QString> commonproperties);
+    void showClipProperties(const QList <DocClipBase *>&, const QMap<QString, QString> &commonproperties);
     void projectModified();
     void loadingIsOver();
-    void displayMessage(const QString, int progress, MessageType type = DefaultMessage);
-    void clipNameChanged(const QString, const QString);
+    void displayMessage(const QString&, int progress, MessageType type = DefaultMessage);
+    void clipNameChanged(const QString&, const QString&);
     void clipNeedsReload(const QString&);
     /** @brief A property affecting display was changed, so we need to update monitors and thumbnails
      *  @param id: The clip's id string
      *  @param resetThumbs Should we recreate the timeline thumbnails. */
     void refreshClip(const QString &id, bool resetThumbs);
     void updateRenderStatus();
-    void deleteProjectClips(QStringList ids, QMap <QString, QString> folderids);
+    void deleteProjectClips(const QStringList &ids, const QMap <QString, QString> &folderids);
     void findInTimeline(const QString &clipId);
     /** @brief Request a profile change for current document. */
     void updateProfile(const QString &);
@@ -524,17 +534,17 @@ signals:
     void raiseClipMonitor(bool forceRefresh);
     /** @brief Set number of running jobs. */
     void jobCount(int);
-    void cancelRunningJob(const QString, stringMap);
-    void processLog(const QString, int , int, const QString = QString());
+    void cancelRunningJob(const QString&, const stringMap&);
+    void processLog(const QString&, int , int, const QString & = QString());
     void addClip(const QString, const QString &, const QString &);
-    void updateJobStatus(const QString, int, int, const QString label = QString(), const QString actionName = QString(), const QString details = QString());
-    void gotProxy(const QString);
+    void updateJobStatus(const QString&, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
+    void gotProxy(const QString&);
     void checkJobProcess();
     /** @brief A Filter Job produced results, send them back to the clip. */
-    void gotFilterJobResults(const QString &id, int startPos, int track, stringMap params, stringMap extra);
+    void gotFilterJobResults(const QString &id, int startPos, int track, const stringMap &params, const stringMap &extra);
     void pauseMonitor();
     void updateAnalysisData(DocClipBase *);
-    void addMarkers(const QString &, QList <CommentedTime>);
+    void addMarkers(const QString &, const QList <CommentedTime>&);
 };
 
 #endif

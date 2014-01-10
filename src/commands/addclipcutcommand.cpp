@@ -20,9 +20,9 @@
 #include "addclipcutcommand.h"
 #include "projectlist.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
-AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString desc, bool newItem, bool remove, QUndoCommand * parent) :
+AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString& desc, bool newItem, bool remove, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_list(list),
         m_id(id),
@@ -39,13 +39,17 @@ AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int i
 // virtual
 void AddClipCutCommand::undo()
 {
-    if (m_remove) m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
-    else m_list->removeClipCut(m_id, m_in, m_out);
+    if (m_remove)
+        m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
+    else
+        m_list->removeClipCut(m_id, m_in, m_out);
 }
 // virtual
 void AddClipCutCommand::redo()
 {
-    if (m_remove) m_list->removeClipCut(m_id, m_in, m_out);
-    else m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
+    if (m_remove)
+        m_list->removeClipCut(m_id, m_in, m_out);
+    else
+        m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);
 }
 

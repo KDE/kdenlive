@@ -105,8 +105,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 #ifdef USE_V4L
 
     // Video 4 Linux device detection
-    for (int i = 0; i < 10; i++) {
-        QString path = "/dev/video" + QString::number(i);
+    for (int i = 0; i < 10; ++i) {
+        QString path = QLatin1String("/dev/video") + QString::number(i);
         if (QFile::exists(path)) {
             QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path);
             if (!deviceInfo.isEmpty()) {
@@ -166,22 +166,22 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
     QMap<QString, int> action_pos;
     foreach (const QString& action_id, actions_map) {
-      // This loop find out at what index is the string that would map to the action_id.
-      for (int i = 0; i < action_names.size(); i++) {
-          if (mappable_actions[action_names[i]] == action_id) {
-              action_pos[action_id] = i;
-              break;
-          }
-      }
+        // This loop find out at what index is the string that would map to the action_id.
+        for (int i = 0; i < action_names.size(); ++i) {
+            if (mappable_actions[action_names.at(i)] == action_id) {
+                action_pos[action_id] = i;
+                break;
+            }
+        }
     }
 
     int i = 0;
     foreach (KComboBox* button, m_shuttle_buttons) {
-      button->addItems(action_names);
-      connect(button, SIGNAL(activated(int)), this, SLOT(slotShuttleModified()));
-      ++i;
-      if (i < actions_map.size())
-        button->setCurrentIndex(action_pos[actions_map[i]]);
+        button->addItems(action_names);
+        connect(button, SIGNAL(activated(int)), this, SLOT(slotShuttleModified()));
+        ++i;
+        if (i < actions_map.size())
+            button->setCurrentIndex(action_pos[actions_map[i]]);
     }
 #else /* ! USE_JOGSHUTTLE */
     m_configShuttle.kcfg_enableshuttle->hide();
@@ -205,12 +205,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_page7 = addPage(p7, i18n("Transcode"), "edit-copy");
     connect(m_configTranscode.button_add, SIGNAL(clicked()), this, SLOT(slotAddTranscode()));
     connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
-    connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QListWidgetItem *)), this, SLOT(slotDialogModified()));
+    connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QListWidgetItem*)), this, SLOT(slotDialogModified()));
     connect(m_configTranscode.profiles_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotSetTranscodeProfile()));
     
-    connect(m_configTranscode.profile_name, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableTranscodeUpdate()));
-    connect(m_configTranscode.profile_description, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableTranscodeUpdate()));
-    connect(m_configTranscode.profile_extension, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_name, SIGNAL(textChanged(QString)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_description, SIGNAL(textChanged(QString)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_extension, SIGNAL(textChanged(QString)), this, SLOT(slotEnableTranscodeUpdate()));
     connect(m_configTranscode.profile_parameters, SIGNAL(textChanged()), this, SLOT(slotEnableTranscodeUpdate()));
     connect(m_configTranscode.profile_audioonly, SIGNAL(stateChanged(int)), this, SLOT(slotEnableTranscodeUpdate()));
     
@@ -293,7 +293,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
     if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
         // No blackmagic card found
-	m_configSdl.kcfg_external_display->setEnabled(false);
+        m_configSdl.kcfg_external_display->setEnabled(false);
     }
 
     double dvgrabVersion = 0;
@@ -340,7 +340,7 @@ void KdenliveSettingsDialog::checkProfile()
     }
 
     if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_configProject.kcfg_profiles_list->count(); i++) {
+        for (int i = 0; i < m_configProject.kcfg_profiles_list->count(); ++i) {
             if (m_configProject.kcfg_profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
                 m_configProject.kcfg_profiles_list->setCurrentIndex(i);
                 KdenliveSettings::setProfiles_list(i);
@@ -365,7 +365,7 @@ void KdenliveSettingsDialog::initDevices()
 #endif
 
     if (!KdenliveSettings::audiodrivername().isEmpty())
-        for (int i = 1; i < m_configSdl.kcfg_audio_driver->count(); i++) {
+        for (int i = 1; i < m_configSdl.kcfg_audio_driver->count(); ++i) {
             if (m_configSdl.kcfg_audio_driver->itemData(i).toString() == KdenliveSettings::audiodrivername()) {
                 m_configSdl.kcfg_audio_driver->setCurrentIndex(i);
                 KdenliveSettings::setAudio_driver((uint) i);
@@ -401,7 +401,7 @@ void KdenliveSettingsDialog::initDevices()
             QTextStream stream(&file);
             QString line = stream.readLine();
             QString deviceId;
-	    while (!line.isNull()) {
+            while (!line.isNull()) {
                 if (line.contains("playback")) {
                     deviceId = line.section(':', 0, 0);
                     m_configSdl.kcfg_audio_device->addItem(line.section(':', 1, 1), "plughw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
@@ -488,14 +488,11 @@ void KdenliveSettingsDialog::slotEditVideoApplication()
 {
     KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
-    if (dlg->exec() != QDialog::Accepted)
-    {
-        delete dlg;
-        return;
+    if (dlg->exec() == QDialog::Accepted) {
+        service = dlg->service();
+        m_configEnv.kcfg_defaultplayerapp->setText(service->exec());
     }
 
-    service = dlg->service();
-    m_configEnv.kcfg_defaultplayerapp->setText(service->exec());
     delete dlg;
 }
 
@@ -503,14 +500,11 @@ void KdenliveSettingsDialog::slotEditAudioApplication()
 {
     KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
-    if (dlg->exec() != QDialog::Accepted)
-    {
-        delete dlg;
-        return;
+    if (dlg->exec() == QDialog::Accepted) {
+        service = dlg->service();
+        m_configEnv.kcfg_defaultaudioapp->setText(service->exec());
     }
 
-    service = dlg->service();
-    m_configEnv.kcfg_defaultaudioapp->setText(service->exec());
     delete dlg;
 }
 
@@ -518,25 +512,22 @@ void KdenliveSettingsDialog::slotEditImageApplication()
 {
     KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
-    if (dlg->exec() != QDialog::Accepted)
-    {
-        delete dlg;
-        return;
+    if (dlg->exec() == QDialog::Accepted) {
+        service = dlg->service();
+        m_configEnv.kcfg_defaultimageapp->setText(service->exec());
     }
-    service = dlg->service();
-    m_configEnv.kcfg_defaultimageapp->setText(service->exec());
     delete dlg;
 }
 
 void KdenliveSettingsDialog::slotCheckShuttle(int state)
 {
 #ifdef USE_JOGSHUTTLE
-  m_configShuttle.config_group->setEnabled(state);
+    m_configShuttle.config_group->setEnabled(state);
     if (m_configShuttle.shuttledevicelist->count() == 0) {
         // parse devices
         QString baseName = "/dev/input/event";
         int fd;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 30; ++i) {
             QString filename = baseName + QString::number(i);
             kDebug() << "/// CHECKING device: " << filename;
 
@@ -568,12 +559,12 @@ void KdenliveSettingsDialog::updateWidgets()
 #ifdef USE_JOGSHUTTLE
     // revert jog shuttle device
     if (m_configShuttle.shuttledevicelist->count() > 0) {
-	for (int i = 0; i < m_configShuttle.shuttledevicelist->count(); i++) {
-	    if (m_configShuttle.shuttledevicelist->itemData(i) == KdenliveSettings::shuttledevice()) {
-		m_configShuttle.shuttledevicelist->setCurrentIndex(i);
-		break;
-	    }
-	}
+        for (int i = 0; i < m_configShuttle.shuttledevicelist->count(); ++i) {
+            if (m_configShuttle.shuttledevicelist->itemData(i) == KdenliveSettings::shuttledevice()) {
+                m_configShuttle.shuttledevicelist->setCurrentIndex(i);
+                break;
+            }
+        }
     }
 
     // Revert jog shuttle buttons
@@ -582,19 +573,19 @@ void KdenliveSettingsDialog::updateWidgets()
     QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
     QMap<QString, int> action_pos;
     foreach (const QString& action_id, actions_map) {
-      // This loop find out at what index is the string that would map to the action_id.
-      for (int i = 0; i < action_names.size(); i++) {
-          if (m_mappable_actions[action_names[i]] == action_id) {
-              action_pos[action_id] = i;
-              break;
-          }
-      }
+        // This loop find out at what index is the string that would map to the action_id.
+        for (int i = 0; i < action_names.size(); ++i) {
+            if (m_mappable_actions[action_names[i]] == action_id) {
+                action_pos[action_id] = i;
+                break;
+            }
+        }
     }
     int i = 0;
     foreach (KComboBox* button, m_shuttle_buttons) {
-      ++i;
-      if (i < actions_map.size())
-        button->setCurrentIndex(action_pos[actions_map[i]]);
+        ++i;
+        if (i < actions_map.size())
+            button->setCurrentIndex(action_pos[actions_map[i]]);
     }
 #endif /* USE_JOGSHUTTLE */
 }
@@ -610,8 +601,8 @@ void KdenliveSettingsDialog::updateSettings()
     bool updateCapturePath = false;
 
     /*if (m_configShuttle.shuttledevicelist->count() > 0) {
-	QString device = m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString();
-	if (device != KdenliveSettings::shuttledevice()) KdenliveSettings::setShuttledevice(device);
+    QString device = m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString();
+    if (device != KdenliveSettings::shuttledevice()) KdenliveSettings::setShuttledevice(device);
     }*/
 
     if (m_configEnv.kcfg_capturetoprojectfolder->isChecked() != KdenliveSettings::capturetoprojectfolder()) {
@@ -652,7 +643,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setGrab_parameters(data.section(';', 0, 0));
         KdenliveSettings::setGrab_extension(data.section(';', 1, 1));
     }
-   
+
     // decklink
     data = m_configCapture.kcfg_decklink_profile->itemData(m_configCapture.kcfg_decklink_profile->currentIndex()).toString();
     if (!data.isEmpty() && (data.section(';', 0, 0) != KdenliveSettings::decklink_parameters() || data.section(';', 1, 1) != KdenliveSettings::decklink_extension())) {
@@ -730,7 +721,7 @@ void KdenliveSettingsDialog::updateSettings()
     QString maps = JogShuttleConfig::actionMap(actions);
     //fprintf(stderr, "Shuttle config: %s\n", JogShuttleConfig::actionMap(actions).toAscii().constData());
     if (KdenliveSettings::shuttlebuttons() != maps)
-	KdenliveSettings::setShuttlebuttons(maps);
+        KdenliveSettings::setShuttlebuttons(maps);
 #endif
 
     KConfigDialog::settingsChangedSlot();
@@ -790,7 +781,7 @@ void KdenliveSettingsDialog::saveTranscodeProfiles()
     // read the entries
     transConfig.deleteGroup();
     int max = m_configTranscode.profiles_list->count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         QListWidgetItem *item = m_configTranscode.profiles_list->item(i);
         transConfig.writeEntry(item->text(), item->data(Qt::UserRole).toString());
     }
@@ -807,7 +798,7 @@ void KdenliveSettingsDialog::slotAddTranscode()
     QString data = m_configTranscode.profile_parameters->toPlainText();
     data.append(" %1." + m_configTranscode.profile_extension->text());
     data.append(';');
-    if (!m_configTranscode.profile_description->text().isEmpty()) 
+    if (!m_configTranscode.profile_description->text().isEmpty())
         data.append(m_configTranscode.profile_description->text());
     if (m_configTranscode.profile_audioonly->isChecked()) data.append(";audio");
     item->setData(Qt::UserRole, data);
@@ -918,7 +909,7 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
     QString itemSize;
     QString pixelFormat;
     QStringList itemRates;
-    for (int i = 0; i < pixelformats.count(); i++) {
+    for (int i = 0; i < pixelformats.count(); ++i) {
         QString format = pixelformats.at(i).section(':', 0, 0);
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
@@ -1002,7 +993,7 @@ void KdenliveSettingsDialog::slotManageEncodingProfile()
 {
     int type = 0;
     if (currentPage() == m_page4) {
-	type = m_configCapture.tabWidget->currentIndex();
+        type = m_configCapture.tabWidget->currentIndex();
     }
     QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(type);
     d->exec();
@@ -1129,7 +1120,7 @@ void KdenliveSettingsDialog::slotReloadBlackMagic()
     Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice, true);
     if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device), true) {
         // No blackmagic card found
-	m_configSdl.kcfg_external_display->setEnabled(false);
+        m_configSdl.kcfg_external_display->setEnabled(false);
     }
     m_configSdl.kcfg_external_display->setEnabled(KdenliveSettings::decklink_device_found());
 }

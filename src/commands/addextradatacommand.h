@@ -19,13 +19,7 @@
 #define EXTRADATACOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
-#include <QDomElement>
-#include <KDebug>
 
-#include "gentime.h"
-#include "definitions.h"
 class CustomTrackView;
 
 
@@ -33,8 +27,8 @@ class AddExtraDataCommand : public QUndoCommand
 {
 public:
     AddExtraDataCommand(CustomTrackView *view, const QString&id, const QString&key, const QString &oldData, const QString &newData, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

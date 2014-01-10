@@ -33,11 +33,8 @@
 #include <QLabel>
 #include <QDomElement>
 #include <QToolBar>
-#include <QSlider>
 
 #include <KIcon>
-#include <KAction>
-#include <KRestrictedLine>
 
 class SmallRuler;
 class DocClipBase;
@@ -47,6 +44,7 @@ class ClipItem;
 class MonitorEditWidget;
 class Monitor;
 class MonitorManager;
+class QSlider;
 
 
 class Overlay : public QLabel
@@ -57,9 +55,9 @@ public:
     void setOverlayText(const QString &, bool isZone = true);
 
 protected:
-    virtual void mouseDoubleClickEvent ( QMouseEvent * event );
-    virtual void mousePressEvent ( QMouseEvent * event );
-    virtual void mouseReleaseEvent ( QMouseEvent * event );
+    void mouseDoubleClickEvent ( QMouseEvent * event );
+    void mousePressEvent ( QMouseEvent * event );
+    void mouseReleaseEvent ( QMouseEvent * event );
     
 signals:
     void editMarker();
@@ -75,7 +73,7 @@ public:
     Render *render;
     AbstractRender *abstractRender();
     void resetProfile(const QString &profile);
-    void setCustomProfile(const QString &profile, Timecode tc);
+    void setCustomProfile(const QString &profile, const Timecode &tc);
     void resetSize();
     void pause();
     void unpause();
@@ -86,7 +84,7 @@ public:
     void checkOverlay();
     void updateTimecodeFormat();
     void updateMarkers(DocClipBase *source);
-    void setMarkers(QList <CommentedTime> markers);
+    void setMarkers(const QList <CommentedTime> &markers);
     MonitorEditWidget *getEffectEdit();
     QWidget *container();
     void reloadProducer(const QString &id);
@@ -101,18 +99,18 @@ public:
     QString getMarkerThumb(GenTime pos);
 
 protected:
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void resizeEvent(QResizeEvent *event);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
+    void resizeEvent(QResizeEvent *event);
 
     /** @brief Move to another position on mouse wheel event.
      *
      * Moves towards the end of the clip/timeline on mouse wheel down/back, the
      * opposite on mouse wheel up/forward.
      * Ctrl + wheel moves by a second, without Ctrl it moves by a single frame. */
-    virtual void wheelEvent(QWheelEvent * event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent * event);
+    void mouseMoveEvent(QMouseEvent *event);
     virtual QStringList mimeTypes() const;
    
     /*virtual void dragMoveEvent(QDragMoveEvent * event);
@@ -150,7 +148,7 @@ private:
 
 #ifdef USE_OPENGL
     VideoGLWidget *m_glWidget;
-    bool createOpenGlWidget(QWidget *parent, const QString profile, RndrRole role);
+    bool createOpenGlWidget(QWidget *parent, const QString &profile, RndrRole role);
 #endif
 
     GenTime getSnapForPos(bool previous);
@@ -170,7 +168,7 @@ private slots:
     void slotSetSizeOneToTwo();
     void slotSaveZone();
     void slotSeek();
-    void setClipZone(QPoint pos);
+    void setClipZone(const QPoint &pos);
     void slotSwitchMonitorInfo(bool show);
     void slotSwitchDropFrames(bool show);
     void slotGoToMarker(QAction *action);
@@ -197,7 +195,7 @@ public slots:
     void slotRewind(double speed = 0);
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
-    void saveSceneList(QString path, QDomElement info = QDomElement());
+    void saveSceneList(const QString &path, const QDomElement &info = QDomElement());
     void slotStart();
     void slotEnd();
     void slotSetZoneStart();
@@ -227,13 +225,13 @@ signals:
     void durationChanged(int);
     void refreshClipThumbnail(const QString &, bool);
     void adjustMonitorSize();
-    void zoneUpdated(QPoint);
-    void saveZone(Render *, QPoint, DocClipBase *);
+    void zoneUpdated(const QPoint&);
+    void saveZone(Render *, const QPoint&, DocClipBase *);
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);
     /** @brief Request a zone extraction (ffmpeg transcoding). */
-    void extractZone(const QString &id, QPoint zone);
+    void extractZone(const QString &id, const QPoint &zone);
 };
 
 #endif

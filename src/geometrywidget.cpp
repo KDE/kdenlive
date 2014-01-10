@@ -38,7 +38,7 @@
 
 
 
-GeometryWidget::GeometryWidget(Monitor* monitor, Timecode timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent):
+GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent):
     QWidget(parent),
     m_monitor(monitor),
     m_timePos(new TimecodeDisplay(timecode)),
@@ -269,14 +269,14 @@ GeometryWidget::~GeometryWidget()
     delete m_spinHeight;
     delete m_opacity;
     if (m_rect) {
-	m_scene->removeItem(m_rect);
-	delete m_rect;
+        m_scene->removeItem(m_rect);
+        delete m_rect;
     }
     if (m_geomPath) {
-	m_scene->removeItem(m_geomPath);
-	delete m_geomPath;
+        m_scene->removeItem(m_geomPath);
+        delete m_geomPath;
     }
-    if (m_previous) delete m_previous;
+    delete m_previous;
     delete m_geometry;
     m_extraGeometryNames.clear();
     m_extraFactors.clear();
@@ -296,8 +296,8 @@ void GeometryWidget::slotShowPath(bool show)
 {
     KdenliveSettings::setOnmonitoreffects_geometryshowpath(show);
     if (m_geomPath) {
-	if (show) m_scene->addItem(m_geomPath);
-	else m_scene->removeItem(m_geomPath);
+        if (show) m_scene->addItem(m_geomPath);
+        else m_scene->removeItem(m_geomPath);
     }
     slotPositionChanged(-1, false);
 }
@@ -328,7 +328,7 @@ QString GeometryWidget::getExtraValue(const QString &name) const
     return val;
 }
 
-void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxframe)
+void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxframe)
 {
     m_inPoint = minframe;
     m_outPoint = maxframe;
@@ -356,12 +356,12 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     Mlt::GeometryItem item;
     m_geometry->fetch(&item, 0);
     if (m_rect) {
-	m_scene->removeItem(m_rect);
-	delete m_rect;
+        m_scene->removeItem(m_rect);
+        delete m_rect;
     }
     if (m_geomPath) {
-	m_scene->removeItem(m_geomPath);
-	delete m_geomPath;
+        m_scene->removeItem(m_geomPath);
+        delete m_geomPath;
     }
     m_rect = new OnMonitorRectItem(QRectF(0, 0, item.w(), item.h()), m_monitor->render->dar());
     m_rect->setPos(item.x(), item.y());
@@ -373,12 +373,12 @@ void GeometryWidget::setupParam(const QDomElement elem, int minframe, int maxfra
     m_geomPath->setPen(QPen(Qt::red));
     m_geomPath->setPoints(m_geometry);
     if (KdenliveSettings::onmonitoreffects_geometryshowpath())
-	m_scene->addItem(m_geomPath);
+        m_scene->addItem(m_geomPath);
     m_scene->centerView();
     slotPositionChanged(0, false);
 }
 
-void GeometryWidget::addParameter(const QDomElement elem)
+void GeometryWidget::addParameter(const QDomElement &elem)
 {
     Mlt::Geometry *geometry = new Mlt::Geometry(elem.attribute("value").toUtf8().data(), m_outPoint - m_inPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     m_extraGeometries.append(geometry);
@@ -470,7 +470,7 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     m_opacity->setValue(item.mix());
     m_opacity->blockSignals(false);
 
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         QString name = m_extraGeometryNames.at(i);
         if (!geom->fetch(&item, pos)) {
@@ -511,7 +511,7 @@ void GeometryWidget::slotAddKeyframe(int pos)
     item.mix(m_opacity->value());
     m_geometry->insert(item);
 
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         QString name = m_extraGeometryNames.at(i);
         DragValue *widget = findChild<DragValue *>(name);
@@ -540,16 +540,16 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
     }
     m_geometry->remove(pos);
 
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         geom->remove(pos);
     }
 
     m_timeline->update();
     if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-	m_scene->removeItem(m_geomPath);
-	m_geomPath->setPoints(m_geometry);
-	m_scene->addItem(m_geomPath);
+        m_scene->removeItem(m_geomPath);
+        m_geomPath->setPoints(m_geometry);
+        m_scene->addItem(m_geomPath);
     }
     slotPositionChanged(pos, false);
     emit parameterChanged();
@@ -595,13 +595,13 @@ void GeometryWidget::slotUpdatePath()
     int pos = 0;
     int ix = 0;
     while (ix < points.count() && !m_geometry->next_key(&item, pos)) {
-	QPointF center = points.at(ix);
-	QSizeF size(item.w(), item.h());
-	item.x(center.x() - size.width()/2);
-	item.y(center.y() - size.height()/2);
-	m_geometry->insert(item);
-	pos = item.frame() + 1;
-	ix++;
+        QPointF center = points.at(ix);
+        QSizeF size(item.w(), item.h());
+        item.x(center.x() - size.width()/2);
+        item.y(center.y() - size.height()/2);
+        m_geometry->insert(item);
+        pos = item.frame() + 1;
+        ix++;
     }
     slotPositionChanged(-1, false);
     emit parameterChanged();
@@ -625,7 +625,7 @@ void GeometryWidget::slotUpdateGeometry()
     item.h(rectSize.height());
     m_geometry->insert(item);
 
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
         QString name = m_extraGeometryNames.at(i);
         Mlt::GeometryItem item2;
@@ -636,9 +636,9 @@ void GeometryWidget::slotUpdateGeometry()
         }
     }
     if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-	m_scene->removeItem(m_geomPath);
-	m_geomPath->setPoints(m_geometry);
-	m_scene->addItem(m_geomPath);
+        m_scene->removeItem(m_geomPath);
+        m_geomPath->setPoints(m_geometry);
+        m_scene->addItem(m_geomPath);
     }
     emit parameterChanged();
 }
@@ -769,7 +769,7 @@ void GeometryWidget::slotSetSynchronize(bool sync)
         emit seekToPos(m_clipPos + m_timePos->getValue());
 }
 
-void GeometryWidget::setFrameSize(QPoint size)
+void GeometryWidget::setFrameSize(const QPoint &size)
 {
     m_frameSize = size;
 }
@@ -823,15 +823,15 @@ void GeometryWidget::slotResetKeyframes()
     // Delete existing keyframes
     Mlt::GeometryItem item;
     while (!m_geometry->next_key(&item, 1)) {
-	m_geometry->remove(item.frame());
+        m_geometry->remove(item.frame());
     }
 
     // Delete extra geometry keyframes too
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
-	while (!geom->next_key(&item, 1)) {
-	    geom->remove(item.frame());
-	}
+        while (!geom->next_key(&item, 1)) {
+            geom->remove(item.frame());
+        }
     }
 
     // Create neutral first keyframe
@@ -844,9 +844,9 @@ void GeometryWidget::slotResetKeyframes()
     m_geometry->insert(item);
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
     if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-	m_scene->removeItem(m_geomPath);
-	m_geomPath->setPoints(m_geometry);
-	m_scene->addItem(m_geomPath);
+        m_scene->removeItem(m_geomPath);
+        m_geomPath->setPoints(m_geometry);
+        m_scene->addItem(m_geomPath);
     }
     slotPositionChanged(-1, false);
     emit parameterChanged();
@@ -858,32 +858,32 @@ void GeometryWidget::slotResetNextKeyframes()
     Mlt::GeometryItem item;
     int pos = m_timePos->getValue();
     while (!m_geometry->next_key(&item, pos)) {
-	m_geometry->remove(item.frame());
+        m_geometry->remove(item.frame());
     }
 
     // Delete extra geometry keyframes too
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
-	while (!geom->next_key(&item, pos)) {
-	    geom->remove(item.frame());
-	}
+        while (!geom->next_key(&item, pos)) {
+            geom->remove(item.frame());
+        }
     }
 
     // Make sure we have at least one keyframe
     if (m_geometry->next_key(&item, 0)) {
-	item.frame(0);
-	item.x(0);
-	item.y(0);
-	item.w(m_monitor->render->frameRenderWidth());
-	item.h(m_monitor->render->renderHeight());
-	item.mix(100);
-	m_geometry->insert(item);
+        item.frame(0);
+        item.x(0);
+        item.y(0);
+        item.w(m_monitor->render->frameRenderWidth());
+        item.h(m_monitor->render->renderHeight());
+        item.mix(100);
+        m_geometry->insert(item);
     }
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
     if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-	m_scene->removeItem(m_geomPath);
-	m_geomPath->setPoints(m_geometry);
-	m_scene->addItem(m_geomPath);
+        m_scene->removeItem(m_geomPath);
+        m_geomPath->setPoints(m_geometry);
+        m_scene->addItem(m_geomPath);
     }
     slotPositionChanged(-1, false);
     emit parameterChanged();
@@ -895,44 +895,44 @@ void GeometryWidget::slotResetPreviousKeyframes()
     Mlt::GeometryItem item;
     int pos = 0;
     while (!m_geometry->next_key(&item, pos) && pos < m_timePos->getValue()) {
-	pos = item.frame() + 1;
-	m_geometry->remove(item.frame());
+        pos = item.frame() + 1;
+        m_geometry->remove(item.frame());
     }
 
     // Delete extra geometry keyframes too
-    for (int i = 0; i < m_extraGeometries.count(); i++) {
+    for (int i = 0; i < m_extraGeometries.count(); ++i) {
         Mlt::Geometry *geom = m_extraGeometries.at(i);
-	pos = 0;
-	while (!geom->next_key(&item, pos) && pos < m_timePos->getValue()) {
-	    pos = item.frame() + 1;
-	    geom->remove(item.frame());
-	}
+        pos = 0;
+        while (!geom->next_key(&item, pos) && pos < m_timePos->getValue()) {
+            pos = item.frame() + 1;
+            geom->remove(item.frame());
+        }
     }
 
     // Make sure we have at least one keyframe
     if (!m_geometry->next_key(&item, 0)) {
-	item.frame(0);
-	/*item.x(0);
-	item.y(0);
-	item.w(m_monitor->render->frameRenderWidth());
-	item.h(m_monitor->render->renderHeight());
-	item.mix(100);*/
-	m_geometry->insert(item);
+        item.frame(0);
+        /*item.x(0);
+    item.y(0);
+    item.w(m_monitor->render->frameRenderWidth());
+    item.h(m_monitor->render->renderHeight());
+    item.mix(100);*/
+        m_geometry->insert(item);
     }
     else {
-	item.frame(0);
-	item.x(0);
-	item.y(0);
-	item.w(m_monitor->render->frameRenderWidth());
-	item.h(m_monitor->render->renderHeight());
-	item.mix(100);
-	m_geometry->insert(item);
+        item.frame(0);
+        item.x(0);
+        item.y(0);
+        item.w(m_monitor->render->frameRenderWidth());
+        item.h(m_monitor->render->renderHeight());
+        item.mix(100);
+        m_geometry->insert(item);
     }
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
     if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-	m_scene->removeItem(m_geomPath);
-	m_geomPath->setPoints(m_geometry);
-	m_scene->addItem(m_geomPath);
+        m_scene->removeItem(m_geomPath);
+        m_geomPath->setPoints(m_geometry);
+        m_scene->addItem(m_geomPath);
     }
     slotPositionChanged(-1, false);
     emit parameterChanged();
@@ -950,45 +950,45 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
     Mlt::GeometryItem item;
     
     while (!m_geometry->next_key(&item, 0)) {
-	m_geometry->remove(item.frame());
+        m_geometry->remove(item.frame());
     }
     
     int offset = 1;
     if (maximum > 0 && list.count() > maximum) {
-	offset = list.count() / maximum;
+        offset = list.count() / maximum;
     }
     for (int i = 0; i < list.count(); i += offset) {
-	QString geom = list.at(i);
-	if (geom.contains('=')) {
-	    item.frame(geom.section('=', 0, 0).toInt());
-	    geom = geom.section('=', 1);
-	}
-	else item.frame(0);
-	if (geom.contains('/')) {
-	    item.x(geom.section('/', 0, 0).toDouble());
-	    item.y(geom.section('/', 1, 1).section(':', 0, 0).toDouble());
-	}
-	else {
-	    item.x(0);
-	    item.y(0);
-	}
-	if (geom.contains('x')) {
-	    item.w(geom.section('x', 0, 0).section(':', 1, 1).toDouble());
-	    item.h(geom.section('x', 1, 1).section(':', 0, 0).toDouble());
-	}
-	else {
-	    item.w(screenSize.x());
-	    item.h(screenSize.y());
-	}
-	//TODO: opacity
-	item.mix(100);
-	m_geometry->insert(item);
+        QString geom = list.at(i);
+        if (geom.contains('=')) {
+            item.frame(geom.section('=', 0, 0).toInt());
+            geom = geom.section('=', 1);
+        }
+        else item.frame(0);
+        if (geom.contains('/')) {
+            item.x(geom.section('/', 0, 0).toDouble());
+            item.y(geom.section('/', 1, 1).section(':', 0, 0).toDouble());
+        }
+        else {
+            item.x(0);
+            item.y(0);
+        }
+        if (geom.contains('x')) {
+            item.w(geom.section('x', 0, 0).section(':', 1, 1).toDouble());
+            item.h(geom.section('x', 1, 1).section(':', 0, 0).toDouble());
+        }
+        else {
+            item.w(screenSize.x());
+            item.h(screenSize.y());
+        }
+        //TODO: opacity
+        item.mix(100);
+        m_geometry->insert(item);
     }
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
     if (m_geomPath && KdenliveSettings::onmonitoreffects_geometryshowpath()) {
-	m_scene->removeItem(m_geomPath);
-	m_geomPath->setPoints(m_geometry);
-	m_scene->addItem(m_geomPath);
+        m_scene->removeItem(m_geomPath);
+        m_geomPath->setPoints(m_geometry);
+        m_scene->addItem(m_geomPath);
     }
     slotPositionChanged(-1, false);
     emit parameterChanged();
@@ -999,7 +999,7 @@ void GeometryWidget::slotUpdateRange(int inPoint, int outPoint)
     m_inPoint = inPoint;
     m_outPoint = outPoint;
     m_timeline->setKeyGeometry(m_geometry, m_outPoint - m_inPoint);
-    m_timePos->setRange(0, m_outPoint - m_inPoint);    
+    m_timePos->setRange(0, m_outPoint - m_inPoint);
 }
 
 #include "geometrywidget.moc"

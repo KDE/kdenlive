@@ -25,7 +25,6 @@
 #ifndef SPECTROGRAM_H
 #define SPECTROGRAM_H
 
-#include <QtCore>
 
 #include "abstractaudioscopewidget.h"
 #include "ui_spectrogram_ui.h"
@@ -45,7 +44,7 @@ protected:
     ///// Implemented methods /////
     QRect scopeRect();
     QImage renderHUD(uint accelerationFactor);
-    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples, const int newData);
+    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData);
     QImage renderBackground(uint accelerationFactor);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;

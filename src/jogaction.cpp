@@ -35,19 +35,19 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
     if (m_actionMap.size() == 0)
       m_actionMap.append("monitor_pause");
     
-    connect(m_jogShuttle, SIGNAL( jogBack() ), this, SLOT( slotJogBack() ));
-    connect(m_jogShuttle, SIGNAL( jogForward() ), this, SLOT( slotJogForward() ));
-    connect(m_jogShuttle, SIGNAL( shuttlePos ( int ) ), this, SLOT( slotShuttlePos ( int ) ));
-    connect(m_jogShuttle, SIGNAL( button ( int ) ), this, SLOT( slotButton ( int ) ));
-    //for (int i = 0; i < actionMap.size(); i++) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].toAscii().constData());  //DBG
+    connect(m_jogShuttle, SIGNAL(jogBack()), this, SLOT(slotJogBack()));
+    connect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
+    connect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
+    connect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
+    //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].toAscii().constData());  //DBG
 }
 
 JogShuttleAction::~JogShuttleAction()
 {
-    disconnect(m_jogShuttle, SIGNAL( jogBack() ), this, SLOT( slotJogBack() ));
-    disconnect(m_jogShuttle, SIGNAL( jogForward() ), this, SLOT( slotJogForward() ));
-    disconnect(m_jogShuttle, SIGNAL( shuttlePos ( int ) ), this, SLOT( slotShuttlePos ( int ) ));
-    disconnect(m_jogShuttle, SIGNAL( button ( int ) ), this, SLOT( slotButton ( int ) ));
+    disconnect(m_jogShuttle, SIGNAL(jogBack()), this, SLOT(slotJogBack()));
+    disconnect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
+    disconnect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
+    disconnect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
 }
 
 void JogShuttleAction::slotJogBack()
@@ -83,3 +83,5 @@ void JogShuttleAction::slotButton(int button_id)
     //fprintf(stderr, "Button #%d maps to action '%s'\n", button_id, m_actionMap[button_id].toAscii().constData()); //DBG
     emit action(m_actionMap[button_id]);
 }
+
+#include "jogaction.moc"

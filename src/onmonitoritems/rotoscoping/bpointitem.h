@@ -21,7 +21,6 @@
 
 #include "beziercurve/bpoint.h"
 
-#include <QtCore>
 #include <QAbstractGraphicsShapeItem>
 
 class QGraphicsView;
@@ -29,25 +28,25 @@ class QGraphicsView;
 class BPointItem : public QAbstractGraphicsShapeItem
 {
 public:
-    explicit BPointItem(BPoint point, QGraphicsItem* parent = 0);
+    explicit BPointItem(const BPoint &point, QGraphicsItem* parent = 0);
 
-    BPoint getPoint();
-    void setPoint(BPoint point);
+    BPoint getPoint() const;
+    void setPoint(const BPoint &point);
 
     enum { Type = UserType + 11 };
     virtual int type() const;
 
-    virtual QRectF boundingRect() const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     /** @brief Gets The action mode for the area @param pos +- 4. */
-    int getSelection(QPointF pos);
+    int getSelection(const QPointF &pos);
 
 protected:
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 
 private:
     BPoint m_point;

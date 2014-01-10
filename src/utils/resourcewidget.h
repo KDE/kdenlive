@@ -51,8 +51,8 @@ private slots:
     void slotStartSearch(int page = 0);
     void slotUpdateCurrentSound();
     void slotPlaySound();
-    void slotDisplayMetaInfo(QMap <QString, QString> metaInfo);
-    void slotSaveItem(const QString originalUrl = QString());
+    void slotDisplayMetaInfo(const QMap <QString, QString>& metaInfo);
+    void slotSaveItem(const QString &originalUrl = QString());
     void slotOpenUrl(const QString &url);
     void slotChangeService();
     void slotOnline();
@@ -60,19 +60,22 @@ private slots:
     void slotNextPage();
     void slotPreviousPage();
     void slotOpenLink(const QUrl &url);
-    void slotLoadThumb(const QString url);
+    void slotLoadThumb(const QString& url);
     /** @brief A file download is finished */
     void slotGotFile(KJob *job);
-    void slotSetMetadata(const QString desc);
-    void slotSetDescription(const QString desc);
-    void slotSetImage(const QString desc);
-    void slotSetTitle(const QString desc);
+    void slotSetMetadata(const QString &desc);
+    void slotSetDescription(const QString &desc);
+    void slotSetImage(const QString &desc);
+    void slotSetTitle(const QString &desc);
     void slotSetMaximum(int max);
 
 private:
+    void loadConfig();
+    void saveConfig();
+    void parseLicense(const QString &);
+
     QString m_folder;
     AbstractService *m_currentService;
-    void parseLicense(const QString &);
     OnlineItemInfo m_currentInfo;
 #if KDE_IS_VERSION(4,4,0)
     KPixmapSequenceOverlayPainter *m_busyWidget;
@@ -86,7 +89,7 @@ private:
     void updateLayout();
    
 signals:
-    void addClip(KUrl, stringMap data);
+    void addClip(const KUrl &, const stringMap &data);
 };
 
 

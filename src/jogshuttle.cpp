@@ -68,7 +68,7 @@
 #define JOG_STOP 10020
 #define MAX_SHUTTLE_RANGE 7
 
-void ShuttleThread::init(QObject *parent, QString device)
+void ShuttleThread::init(QObject *parent, const QString &device)
 {
     m_parent = parent;
     m_device = device;
@@ -109,13 +109,15 @@ void ShuttleThread::run()
 	int result, iof = -1;
 
 	/* get fd settings */
-	if ((iof = fcntl(fd, F_GETFL, 0)) != -1) {
-		/* set fd non blocking */
-		fcntl(fd, F_SETFL, iof | O_NONBLOCK);
-	} else {
-		fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
-		return;
-	}
+    if ((iof = fcntl(fd, F_GETFL, 0)) == -1) {
+        fprintf(stderr, "Can't get Jog Shuttle file status\n");
+        close(fd);
+        return;
+    } else if (fcntl(fd, F_SETFL, iof | O_NONBLOCK) == -1) {
+        fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
+        close(fd);
+        return;
+    }
 
 	/* enter thread loop */
 	while (!stop_me) {
@@ -265,7 +267,7 @@ void ShuttleThread::jog(unsigned int value)
 }
 
 
-JogShuttle::JogShuttle(QString device, QObject *parent) :
+JogShuttle::JogShuttle(const QString &device, QObject *parent) :
         QObject(parent)
 {
     initDevice(device);
@@ -276,7 +278,7 @@ JogShuttle::~JogShuttle()
 	stopDevice();
 }
 
-void JogShuttle::initDevice(QString device)
+void JogShuttle::initDevice(const QString &device)
 {
     if (m_shuttleProcess.isRunning()) {
         if (device == m_shuttleProcess.m_device) return;
@@ -332,3 +334,5 @@ void JogShuttle::customEvent(QEvent* e)
 
 // #include "jogshuttle.moc"
 
+
+#include "jogshuttle.moc"

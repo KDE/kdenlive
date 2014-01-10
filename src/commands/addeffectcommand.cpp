@@ -21,9 +21,9 @@
 #include "addeffectcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
-AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt, QUndoCommand * parent) :
+AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),
@@ -32,11 +32,16 @@ AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTi
         m_doIt(doIt)
 {
     QString effectName;
-    QDomElement namenode = m_effect.firstChildElement("name");
-    if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
-    else effectName = i18n("effect");
-    if (doIt) setText(i18n("Add %1", effectName));
-    else setText(i18n("Delete %1", effectName));
+    QDomElement namenode = m_effect.firstChildElement(QLatin1String("name"));
+    if (!namenode.isNull())
+        effectName = i18n(namenode.text().toUtf8().data());
+    else
+        effectName = i18n("effect");
+
+    if (doIt)
+        setText(i18n("Add %1", effectName));
+    else
+        setText(i18n("Delete %1", effectName));
 }
 
 
@@ -44,15 +49,19 @@ AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTi
 void AddEffectCommand::undo()
 {
     kDebug() << "----  undoing action";
-    if (m_doIt) m_view->deleteEffect(m_track, m_pos, m_effect);
-    else m_view->addEffect(m_track, m_pos, m_effect);
+    if (m_doIt)
+        m_view->deleteEffect(m_track, m_pos, m_effect);
+    else
+        m_view->addEffect(m_track, m_pos, m_effect);
 }
 // virtual
 void AddEffectCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_doIt) m_view->addEffect(m_track, m_pos, m_effect);
-    else m_view->deleteEffect(m_track, m_pos, m_effect);
+    if (m_doIt)
+        m_view->addEffect(m_track, m_pos, m_effect);
+    else
+        m_view->deleteEffect(m_track, m_pos, m_effect);
 }
 
 

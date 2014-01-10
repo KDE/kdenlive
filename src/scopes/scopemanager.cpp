@@ -41,7 +41,7 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
     bool added = false;
     int exists = false;
     // Only add the scope if it does not exist yet in the list
-    for (int i = 0; i < m_audioScopes.size(); i++) {
+    for (int i = 0; i < m_audioScopes.size(); ++i) {
         if (m_audioScopes[i].scope == audioScope) {
             exists = true;
             break;
@@ -77,7 +77,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
 {
     bool added = false;
     int exists = false;
-    for (int i = 0; i < m_colorScopes.size(); i++) {
+    for (int i = 0; i < m_colorScopes.size(); ++i) {
         if (m_colorScopes[i].scope == colorScope) {
             exists = true;
             break;
@@ -110,12 +110,12 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
 }
 
 
-void ScopeManager::slotDistributeAudio(QVector<int16_t> sampleData, int freq, int num_channels, int num_samples)
+void ScopeManager::slotDistributeAudio(const QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_SM
     qDebug() << "ScopeManager: Starting to distribute audio.";
 #endif
-    for (int i = 0; i < m_audioScopes.size(); i++) {
+    for (int i = 0; i < m_audioScopes.size(); ++i) {
         // Distribute audio to all scopes that are visible and want to be refreshed
         if (!m_audioScopes[i].scope->visibleRegion().isEmpty()) {
             if (m_audioScopes[i].scope->autoRefreshEnabled()) {
@@ -129,12 +129,12 @@ void ScopeManager::slotDistributeAudio(QVector<int16_t> sampleData, int freq, in
 
     checkActiveAudioScopes();
 }
-void ScopeManager::slotDistributeFrame(const QImage image)
+void ScopeManager::slotDistributeFrame(const QImage &image)
 {
 #ifdef DEBUG_SM
     qDebug() << "ScopeManager: Starting to distribute frame.";
 #endif
-    for (int i = 0; i < m_colorScopes.size(); i++) {
+    for (int i = 0; i < m_colorScopes.size(); ++i) {
         if (!m_colorScopes[i].scope->visibleRegion().isEmpty()) {
             if (m_colorScopes[i].scope->autoRefreshEnabled()) {
                 m_colorScopes[i].scope->slotRenderZoneUpdated(image);
@@ -158,7 +158,7 @@ void ScopeManager::slotDistributeFrame(const QImage image)
 }
 
 
-void ScopeManager::slotRequestFrame(const QString widgetName)
+void ScopeManager::slotRequestFrame(const QString &widgetName)
 {
 #ifdef DEBUG_SM
     qDebug() << "ScopeManager: New frame was requested by " << widgetName;
@@ -166,13 +166,13 @@ void ScopeManager::slotRequestFrame(const QString widgetName)
 
     // Search for the scope in the lists and tag it to trigger a forced update
     // in the distribution slots
-    for (int i = 0; i < m_colorScopes.size(); i++) {
+    for (int i = 0; i < m_colorScopes.size(); ++i) {
         if (m_colorScopes[i].scope->widgetName() == widgetName) {
             m_colorScopes[i].singleFrameRequested = true;
             break;
         }
     }
-    for (int i = 0; i < m_audioScopes.size(); i++) {
+    for (int i = 0; i < m_audioScopes.size(); ++i) {
         if (m_audioScopes[i].scope->widgetName() == widgetName) {
             m_audioScopes[i].singleFrameRequested = true;
             break;
@@ -207,8 +207,8 @@ void ScopeManager::slotUpdateActiveRenderer()
 
     // Connect new renderer
     if (m_lastConnectedRenderer != NULL) {
-        b &= connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(const QImage)),
-                this, SLOT(slotDistributeFrame(const QImage)), Qt::UniqueConnection);
+        b &= connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(QImage)),
+                this, SLOT(slotDistributeFrame(QImage)), Qt::UniqueConnection);
         b &= connect(m_lastConnectedRenderer, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
                 this, SLOT(slotDistributeAudio(QVector<int16_t>,int,int,int)), Qt::UniqueConnection);
         Q_ASSERT(b);
@@ -240,7 +240,7 @@ void ScopeManager::slotCheckActiveScopes()
 bool ScopeManager::audioAcceptedByScopes() const
 {
     bool accepted = false;
-    for (int i = 0; i < m_audioScopes.size(); i++) {
+    for (int i = 0; i < m_audioScopes.size(); ++i) {
         if (!m_audioScopes[i].scope->visibleRegion().isEmpty() && m_audioScopes[i].scope->autoRefreshEnabled()) {
             accepted = true;
             break;
@@ -254,7 +254,7 @@ bool ScopeManager::audioAcceptedByScopes() const
 bool ScopeManager::imagesAcceptedByScopes() const
 {
     bool accepted = false;
-    for (int i = 0; i < m_colorScopes.size(); i++) {
+    for (int i = 0; i < m_colorScopes.size(); ++i) {
         if (!m_colorScopes[i].scope->visibleRegion().isEmpty() && m_colorScopes[i].scope->autoRefreshEnabled()) {
             accepted = true;
             break;
@@ -302,3 +302,5 @@ void ScopeManager::checkActiveColourScopes()
     if (recMonitor != NULL) { recMonitor->analyseFrames(imageStillRequested); }
 }
 
+
+#include "scopemanager.moc"

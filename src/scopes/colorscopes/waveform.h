@@ -27,10 +27,10 @@ class Waveform : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Waveform(QWidget *parent = 0);
+    explicit Waveform(QWidget *parent = 0);
     ~Waveform();
 
-    virtual QString widgetName() const;
+    QString widgetName() const;
 
 protected:
     virtual void readConfig();
@@ -52,7 +52,7 @@ private:
     /// Implemented methods ///
     QRect scopeRect();
     QImage renderHUD(uint);
-    QImage renderGfxScope(uint, const QImage);
+    QImage renderGfxScope(uint, const QImage &);
     QImage renderBackground(uint);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;

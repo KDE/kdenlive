@@ -26,7 +26,7 @@
 
 #include <KDebug>
 #include <KMenu>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QApplication>
 #include <QHeaderView>
@@ -55,10 +55,10 @@ ProjectListView::ProjectListView(QWidget *parent) :
     
     QHeaderView* headerView = header();
     headerView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(headerView, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(configureColumns(const QPoint&)));
-    connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem *)), this, SLOT(slotCollapsed(QTreeWidgetItem *)));
-    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem *)), this, SLOT(slotExpanded(QTreeWidgetItem *)));
+    connect(headerView, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(configureColumns(QPoint)));
+    connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));
+    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
     headerView->setClickable(true);
     headerView->setSortIndicatorShown(true);
     headerView->setMovable(false);
@@ -356,7 +356,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
         foreach(const QTreeWidgetItem *item, list) {
 	    if (item->type() == PROJECTFOLDERTYPE) {
 		const int children = item->childCount();
-                for (int i = 0; i < children; i++) {
+                for (int i = 0; i < children; ++i) {
 		    ids.append(static_cast <ProjectItem *>(item->child(i))->clipId());
                 }
 	    } else if (item->type() == PROJECTSUBCLIPTYPE) {

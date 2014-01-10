@@ -24,7 +24,6 @@
 
 class Timecode;
 class Transition;
-class EffectsList;
 class EffectStackEdit;
 class Monitor;
 
@@ -35,9 +34,9 @@ class TransitionSettings : public QWidget, public Ui::TransitionSettings_UI
 public:
     explicit TransitionSettings(Monitor *monitor, QWidget* parent = 0);
     void raiseWindow(QWidget*);
-    void updateProjectFormat(MltVideoProfile profile, Timecode t, const QList <TrackInfo> info);
+    void updateProjectFormat(const MltVideoProfile &profile, const Timecode &t, const QList <TrackInfo>& info);
     void updateTimecodeFormat();
-    void setKeyframes(const QString data, int maximum);
+    void setKeyframes(const QString &data, int maximum);
 
 private:
     EffectStackEdit *m_effectEdit;
@@ -49,9 +48,9 @@ private:
     void updateTrackList();
 
 public slots:
-    void slotTransitionItemSelected(Transition* t, int nextTrack, QPoint p, bool update);
+    void slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update);
     void slotTransitionChanged(bool reinit = true, bool updateCurrent = false);
-    void slotUpdateEffectParams(const QDomElement, const QDomElement);
+    void slotUpdateEffectParams(const QDomElement &, const QDomElement&);
 
 private slots:
     /** @brief Sets the new B track for the transition (automatic or forced). */
@@ -62,7 +61,7 @@ private slots:
     void slotCheckMonitorPosition(int renderPos);
 
 signals:
-    void transitionUpdated(Transition *, QDomElement);
+    void transitionUpdated(Transition *, const QDomElement&);
     void seekTimeline(int);
     void importClipKeyframes(GRAPHICSRECTITEM = TRANSITIONWIDGET);
 };

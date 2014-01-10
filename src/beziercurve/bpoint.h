@@ -31,7 +31,7 @@ public:
     /** @brief Sets the point to -1, -1 to mark it as unusable (until point + handles have proper values) */
     BPoint();
     /** @brief Sets up according to the params. Linking detecting is done using autoSetLinked(). */
-    BPoint(QPointF handle1, QPointF point, QPointF handle2);
+    BPoint(const QPointF &handle1, const QPointF &point, const QPointF &handle2);
 
     /** @brief Returns h1 if i = 0, p if i = 1, h2 if i = 2. */
     QPointF &operator[](int i);
@@ -41,17 +41,17 @@ public:
 
     /** @brief Sets p to @param point.
      * @param updateHandles (default = true) Whether to make sure the handles keep their position relative to p. */
-    void setP(QPointF point, bool updateHandles = true);
+    void setP(const QPointF &point, bool updateHandles = true);
 
     /** @brief Sets h1 to @param handle1.
      *
      * If handlesLinked is true h2 is updated. */
-    void setH1(QPointF handle1);
+    void setH1(const QPointF &handle1);
 
     /** @brief Sets h2 to @param handle2.
      * 
      * If handlesLinked is true h1 is updated. */
-    void setH2(QPointF handle2);
+    void setH2(const QPointF &handle2);
     void keepInRange(qreal xMin, qreal xMax);
 
     /** @brief Sets handlesLinked to true if the handles are in a linked state (line through h1, p, h2) otherwise to false. */

@@ -31,7 +31,7 @@
 #include <KColorScheme>
 #include <KRestrictedLine>
 
-TimecodeDisplay::TimecodeDisplay(Timecode t, QWidget *parent)
+TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
         : QAbstractSpinBox(parent),
         m_timecode(t),
         m_frametimecode(false),
@@ -96,7 +96,7 @@ void TimecodeDisplay::slotUpdateTimeCodeFormat()
     setTimeCodeFormat(KdenliveSettings::frametimecode());
 }
 
-void TimecodeDisplay::updateTimeCode(Timecode t)
+void TimecodeDisplay::updateTimeCode(const Timecode &t)
 {
     m_timecode = t;
     setTimeCodeFormat(KdenliveSettings::frametimecode());
@@ -184,7 +184,7 @@ void TimecodeDisplay::setValue(int value)
     }
 }
 
-void TimecodeDisplay::setValue(GenTime value)
+void TimecodeDisplay::setValue(const GenTime &value)
 {
     setValue((int) value.frames(m_timecode.fps()));
 }

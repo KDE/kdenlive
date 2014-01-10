@@ -8,19 +8,20 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include "qtconcurrentrun.h"
+#include "QtCore/qtconcurrentrun.h"
 
 #include "abstractscopewidget.h"
 #include "renderer.h"
 #include "monitor.h"
 
-#include <QFuture>
 #include <QColor>
 #include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
 
 #include <KConfigGroup>
+#include <KGlobal>
+#include <KSharedConfig>
 
 // Uncomment for Scope debugging.
 //#define DEBUG_ASW
@@ -96,9 +97,9 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
     bool b = true;
     b &= connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequested(QPoint)));
 
-    b &= connect(this, SIGNAL(signalHUDRenderingFinished(uint, uint)), this, SLOT(slotHUDRenderingFinished(uint, uint)));
-    b &= connect(this, SIGNAL(signalScopeRenderingFinished(uint, uint)), this, SLOT(slotScopeRenderingFinished(uint, uint)));
-    b &= connect(this, SIGNAL(signalBackgroundRenderingFinished(uint, uint)), this, SLOT(slotBackgroundRenderingFinished(uint, uint)));
+    b &= connect(this, SIGNAL(signalHUDRenderingFinished(uint,uint)), this, SLOT(slotHUDRenderingFinished(uint,uint)));
+    b &= connect(this, SIGNAL(signalScopeRenderingFinished(uint,uint)), this, SLOT(slotScopeRenderingFinished(uint,uint)));
+    b &= connect(this, SIGNAL(signalBackgroundRenderingFinished(uint,uint)), this, SLOT(slotBackgroundRenderingFinished(uint,uint)));
     b &= connect(m_aRealtime, SIGNAL(toggled(bool)), this, SLOT(slotResetRealtimeFactor(bool)));
     b &= connect(m_aAutoRefresh, SIGNAL(toggled(bool)), this, SLOT(slotAutoRefreshToggled(bool)));
     Q_ASSERT(b);
@@ -565,3 +566,5 @@ void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection
 #ifdef DEBUG_ASW
 #undef DEBUG_ASW
 #endif
+
+#include "abstractscopewidget.moc"

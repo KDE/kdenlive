@@ -25,7 +25,6 @@
 #include <QWidget>
 #include <QFrame>
 
-class QSpinBox;
 class QFrame;
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -36,10 +35,10 @@ class MyFrame : public QFrame
 {
     Q_OBJECT
 public:
-    MyFrame(QWidget* parent = 0);
+    explicit MyFrame(QWidget* parent = 0);
 
 protected:
-    virtual void hideEvent ( QHideEvent * event );
+    void hideEvent ( QHideEvent * event );
 
 signals:
     void getColor();
@@ -59,14 +58,14 @@ class ColorPickerWidget : public QWidget
 
 public:
     /** @brief Sets up the widget. */
-    ColorPickerWidget(QWidget *parent = 0);
+    explicit ColorPickerWidget(QWidget *parent = 0);
     /** @brief Makes sure the event filter is removed. */
     virtual ~ColorPickerWidget();
 
 protected:
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     bool eventFilter(QObject *object, QEvent *event);
 
 private:
@@ -96,7 +95,7 @@ private slots:
     void slotGetAverageColor();
 
 signals:
-    void colorPicked(QColor);
+    void colorPicked(const QColor&);
     void displayMessage(const QString&, int);
     /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
     void disableCurrentFilter(bool);

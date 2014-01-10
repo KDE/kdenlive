@@ -30,7 +30,7 @@
 #include <framework/mlt_version.h>
 
 #include <KStandardDirs>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KProcess>
 #include <kmimetype.h>
 #include <KRun>
@@ -113,7 +113,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
     // select default profile
     if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_standard.profiles_list->count(); i++) {
+        for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
             if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
                 m_standard.profiles_list->setCurrentRow(i);
                 m_standard.profiles_list->scrollToItem(m_standard.profiles_list->currentItem());
@@ -172,7 +172,7 @@ void Wizard::slotDetectWebcam()
     m_capture.v4l_devices->clear();
 
     // Video 4 Linux device detection
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; ++i) {
         QString path = "/dev/video" + QString::number(i);
         if (QFile::exists(path)) {
             QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path.toUtf8().constData());
@@ -186,7 +186,7 @@ void Wizard::slotDetectWebcam()
         m_capture.v4l_status->setText(i18n("Default video4linux device:"));
         // select default device
         bool found = false;
-        for (int i = 0; i < m_capture.v4l_devices->count(); i++) {
+        for (int i = 0; i < m_capture.v4l_devices->count(); ++i) {
             QString device = m_capture.v4l_devices->itemData(i).toString();
             if (device == KdenliveSettings::video4vdevice()) {
                 m_capture.v4l_devices->setCurrentIndex(i);
@@ -220,7 +220,7 @@ void Wizard::slotUpdateCaptureParameters()
     QString itemSize;
     QString pixelFormat;
     QStringList itemRates;
-    for (int i = 0; i < pixelformats.count(); i++) {
+    for (int i = 0; i < pixelformats.count(); ++i) {
         QString format = pixelformats.at(i).section(':', 0, 0);
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
@@ -344,23 +344,23 @@ void Wizard::checkMltComponents()
             consumer->start();
             QStringList result;
             Mlt::Properties vcodecs((mlt_properties) consumer->get_data("vcodec"));
-            for (int i = 0; i < vcodecs.count(); i++)
+            for (int i = 0; i < vcodecs.count(); ++i)
                 result << QString(vcodecs.get(i));
             m_mltCheck.vcodecs_list->addItems(result);
             KdenliveSettings::setVideocodecs(result);
             result.clear();
             Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
-            for (int i = 0; i < acodecs.count(); i++)
+            for (int i = 0; i < acodecs.count(); ++i)
                 result << QString(acodecs.get(i));
             m_mltCheck.acodecs_list->addItems(result);
             KdenliveSettings::setAudiocodecs(result);
             result.clear();
             Mlt::Properties formats((mlt_properties) consumer->get_data("f"));
-            for (int i = 0; i < formats.count(); i++)
+            for (int i = 0; i < formats.count(); ++i)
                 result << QString(formats.get(i));
             m_mltCheck.formats_list->addItems(result);
             KdenliveSettings::setSupportedformats(result);
-	    checkMissingCodecs();
+            checkMissingCodecs();
             delete consumer;
         }
 
@@ -428,63 +428,63 @@ void Wizard::checkMissingCodecs()
     QStringList requiredACodecs;
     QStringList requiredVCodecs;
     foreach(const QString &filename, fileList) {
-	QDomDocument doc;
-	QFile file(exportFolder + filename);
-	doc.setContent(&file, false);
-	file.close();
-	QString std;
-	QString format;
-	QDomNodeList profiles = doc.elementsByTagName("profile");
-	for (int i = 0; i < profiles.count(); i++) {
-	    std = profiles.at(i).toElement().attribute("args");
-	    format.clear();
+        QDomDocument doc;
+        QFile file(exportFolder + filename);
+        doc.setContent(&file, false);
+        file.close();
+        QString std;
+        QString format;
+        QDomNodeList profiles = doc.elementsByTagName("profile");
+        for (int i = 0; i < profiles.count(); ++i) {
+            std = profiles.at(i).toElement().attribute("args");
+            format.clear();
             if (std.startsWith("acodec=")) format = std.section("acodec=", 1, 1);
-	    else if (std.contains(" acodec=")) format = std.section(" acodec=", 1, 1);
+            else if (std.contains(" acodec=")) format = std.section(" acodec=", 1, 1);
             if (!format.isEmpty()) requiredACodecs << format.section(' ', 0, 0).toLower();
-	    format.clear();
+            format.clear();
             if (std.startsWith("vcodec=")) format = std.section("vcodec=", 1, 1);
-	    else if (std.contains(" vcodec=")) format = std.section(" vcodec=", 1, 1);
+            else if (std.contains(" vcodec=")) format = std.section(" vcodec=", 1, 1);
             if (!format.isEmpty()) requiredVCodecs << format.section(' ', 0, 0).toLower();
-	}
+        }
     }
     requiredACodecs.removeDuplicates();
     requiredVCodecs.removeDuplicates();
     if (replaceVorbisCodec) requiredACodecs.replaceInStrings("vorbis", "libvorbis");
     if (replaceLibfaacCodec) requiredACodecs.replaceInStrings("aac", "libfaac");
 
-    for (int i = 0; i < acodecsList.count(); i++)
-	requiredACodecs.removeAll(acodecsList.at(i));
-    for (int i = 0; i < vcodecsList.count(); i++)
-	requiredVCodecs.removeAll(vcodecsList.at(i));
+    for (int i = 0; i < acodecsList.count(); ++i)
+        requiredACodecs.removeAll(acodecsList.at(i));
+    for (int i = 0; i < vcodecsList.count(); ++i)
+        requiredVCodecs.removeAll(vcodecsList.at(i));
     if (!requiredACodecs.isEmpty() || !requiredVCodecs.isEmpty()) {
-	QString missing = requiredACodecs.join(",");
-	if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) missing.append(',');
-	missing.append(requiredVCodecs.join(","));
-	missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
-	// Some codecs required for rendering are not present on this system, warn user
-	show();
+        QString missing = requiredACodecs.join(",");
+        if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) missing.append(',');
+        missing.append(requiredVCodecs.join(","));
+        missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
+        // Some codecs required for rendering are not present on this system, warn user
+        show();
 #if KDE_IS_VERSION(4,7,0)
         KMessageWidget *infoMessage = new KMessageWidget(this);
         m_startLayout->insertWidget(1, infoMessage);
         infoMessage->setCloseButtonVisible(false);
         infoMessage->setWordWrap(true);
-	infoMessage->setMessageType(KMessageWidget::Warning);
+        infoMessage->setMessageType(KMessageWidget::Warning);
 #if KDE_IS_VERSION(4,10,0)
-	connect(infoMessage, SIGNAL(linkActivated (const QString &)), this, SLOT(slotOpenManual()));
-	infoMessage->setText(missing);
-#else
-	// clickable text in kmessagewidget only available since KDE 4.10
-	// remove link from text
-	missing.remove(QRegExp("<[^>]*>"));
+        connect(infoMessage, SIGNAL(linkActivated(QString)), this, SLOT(slotOpenManual()));
         infoMessage->setText(missing);
-	QAction *manualAction = new QAction(i18n("Check online manual"), this);
-	connect(manualAction, SIGNAL(triggered()), this, SLOT(slotOpenManual()));
-	infoMessage->addAction(manualAction);
+#else
+        // clickable text in kmessagewidget only available since KDE 4.10
+        // remove link from text
+        missing.remove(QRegExp("<[^>]*>"));
+        infoMessage->setText(missing);
+        QAction *manualAction = new QAction(i18n("Check online manual"), this);
+        connect(manualAction, SIGNAL(triggered()), this, SLOT(slotOpenManual()));
+        infoMessage->addAction(manualAction);
 #endif
         infoMessage->animatedShow();
 #else
-	m_welcomeLabel->setText(m_welcomeLabel->text() + "<br><hr />" + missing);
-	connect(m_welcomeLabel, SIGNAL(linkActivated (const QString &)), this, SLOT(slotOpenManual()));
+        m_welcomeLabel->setText(m_welcomeLabel->text() + "<br><hr />" + missing);
+        connect(m_welcomeLabel, SIGNAL(linkActivated(QString)), this, SLOT(slotOpenManual()));
 #endif
     }
     
@@ -503,14 +503,14 @@ void Wizard::slotCheckPrograms()
     QString playpath = KStandardDirs::findExe("ffplay");
     item->setIcon(0, m_okIcon);
     if (exepath.isEmpty()) {
-	// Check for libav version
-	exepath = KStandardDirs::findExe("avconv");
-	if (exepath.isEmpty()) item->setIcon(0, m_badIcon);
+        // Check for libav version
+        exepath = KStandardDirs::findExe("avconv");
+        if (exepath.isEmpty()) item->setIcon(0, m_badIcon);
     }
     if (playpath.isEmpty()) {
-	// Check for libav version
-	playpath = KStandardDirs::findExe("avplay");
-	if (playpath.isEmpty()) item->setIcon(0, m_badIcon);
+        // Check for libav version
+        playpath = KStandardDirs::findExe("avplay");
+        if (playpath.isEmpty()) item->setIcon(0, m_badIcon);
     }
     if (!exepath.isEmpty()) KdenliveSettings::setFfmpegpath(exepath);
     if (!playpath.isEmpty()) KdenliveSettings::setFfplaypath(playpath);
@@ -544,11 +544,11 @@ void Wizard::slotCheckPrograms()
     item->setData(1, Qt::UserRole, i18n("Required to preview your DVD"));
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("xine").isEmpty()) {
-	if (!KStandardDirs::findExe("vlc").isEmpty()) {
-	    item->setText(1, i18n("vlc"));
-	    item->setIcon(0, m_okIcon);
-	}
-	else item->setIcon(0, m_badIcon);
+        if (!KStandardDirs::findExe("vlc").isEmpty()) {
+            item->setText(1, i18n("vlc"));
+            item->setIcon(0, m_okIcon);
+        }
+        else item->setIcon(0, m_badIcon);
     }
     else item->setIcon(0, m_okIcon);
 
@@ -571,15 +571,15 @@ void Wizard::slotCheckPrograms()
     }
 }
 
-void Wizard::installExtraMimes(QString baseName, QStringList globs)
+void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs)
 {
     QString mimefile = baseName;
     mimefile.replace('/', '-');
     KMimeType::Ptr mime = KMimeType::mimeType(baseName);
     QStringList missingGlobs;
     foreach(const QString & glob, globs) {
-	KMimeType::Ptr type = KMimeType::findByPath(glob, 0, true);
-	QString mimeName = type->name();
+        KMimeType::Ptr type = KMimeType::findByPath(glob, 0, true);
+        QString mimeName = type->name();
         if (!mimeName.contains("audio") && !mimeName.contains("video")) missingGlobs << glob;
     }
     if (missingGlobs.isEmpty()) return;
@@ -686,7 +686,7 @@ void Wizard::slotCheckStandard()
         //m_standard.profiles_list->sortItems();
     }
 
-    for (int i = 0; i < m_standard.profiles_list->count(); i++) {
+    for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
         QListWidgetItem *item = m_standard.profiles_list->item(i);
 
         QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(item->data(Qt::UserRole).toString());
@@ -709,7 +709,7 @@ void Wizard::adjustSettings()
 {
     if (m_extra.installmimes->isChecked()) {
         QStringList globs;
-	
+
         globs << "*.mts" << "*.m2t" << "*.mod" << "*.ts" << "*.m2ts" << "*.m2v";
         installExtraMimes("video/mpeg", globs);
         globs.clear();

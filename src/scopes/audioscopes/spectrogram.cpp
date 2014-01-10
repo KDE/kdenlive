@@ -31,15 +31,15 @@
 #define MIN_FREQ_VALUE 1000
 
 Spectrogram::Spectrogram(QWidget *parent) :
-        AbstractAudioScopeWidget(true, parent)
-        , m_fftTools()
-        , m_fftHistory()
-        , m_fftHistoryImg()
-	, m_dBmin(-70)
-        , m_dBmax(0)
-	, m_freqMax(0)
-	, m_customFreq(false)
-	, m_parameterChanged(false)
+    AbstractAudioScopeWidget(true, parent)
+  , m_fftTools()
+  , m_fftHistory()
+  , m_fftHistoryImg()
+  , m_dBmin(-70)
+  , m_dBmax(0)
+  , m_freqMax(0)
+  , m_customFreq(false)
+  , m_parameterChanged(false)
 {
     ui = new Ui::Spectrogram_UI;
     ui->setupUi(this);
@@ -140,26 +140,29 @@ void Spectrogram::writeConfig()
     scopeConfig.sync();
 }
 
-QString Spectrogram::widgetName() const { return QString("Spectrogram"); }
+QString Spectrogram::widgetName() const
+{
+    return QLatin1String("Spectrogram");
+}
 
 QRect Spectrogram::scopeRect()
 {
     m_scopeRect = QRect(
-            QPoint(
+                QPoint(
                     10,                                     // Left
                     ui->verticalSpacer->geometry().top()+6  // Top
-            ),
-            AbstractAudioScopeWidget::rect().bottomRight()
-    );
+                    ),
+                AbstractAudioScopeWidget::rect().bottomRight()
+                );
     m_innerScopeRect = QRect(
-            QPoint(
+                QPoint(
                     m_scopeRect.left()+66,                  // Left
                     m_scopeRect.top()+6                     // Top
-            ), QPoint(
+                    ), QPoint(
                     ui->verticalSpacer->geometry().right()-70,
                     ui->verticalSpacer->geometry().bottom()-40
-            )
-    );
+                    )
+                );
     return m_scopeRect;
 }
 
@@ -274,7 +277,7 @@ QImage Spectrogram::renderHUD(uint)
             x = leftDist + mouseX;
             davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
             davinci.drawText(x-10, y, i18n("%1 kHz", QString("%1")
-                             .arg((double)(m_mousePos.x()-m_innerScopeRect.left())/m_innerScopeRect.width() * m_freqMax/1000, 0, 'f', 2)));
+                                           .arg((double)(m_mousePos.x()-m_innerScopeRect.left())/m_innerScopeRect.width() * m_freqMax/1000, 0, 'f', 2)));
         }
 
         // Draw the dB brightness scale
@@ -301,12 +304,12 @@ QImage Spectrogram::renderHUD(uint)
         return QImage();
     }
 }
-QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq,
+QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> &audioFrame, const int freq,
                                      const int num_channels, const int num_samples, const int newData) {
     if (
             audioFrame.size() > 63
             && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0
-    ) {
+            ) {
         if (!m_customFreq) {
             m_freqMax = freq / 2;
         }
@@ -395,7 +398,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
                 right = ((float) m_freqMax)/(m_freq/2) * (windowSize - 1);
                 dbMap = FFTTools::interpolatePeakPreserving((*it), m_innerScopeRect.width(), 0, right, -180);
 
-                for (int i = 0; i < dbMap.size(); i++) {
+                for (int i = 0; i < dbMap.size(); ++i) {
                     val = dbMap[i];
                     peak = val > m_dBmax;
 
@@ -425,7 +428,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> audioFrame, co
 
 #ifdef DEBUG_SPECTROGRAM
         qDebug() << "Rendered " << y-topDist << "lines from " << m_fftHistory.size() << " available samples in " << start.elapsed() << " ms"
-                << (completeRedraw ? "" : " (re-used old image)");
+                 << (completeRedraw ? "" : " (re-used old image)");
         uint storedBytes = 0;
         for (QList< QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); it++) {
             storedBytes += (*it).size() * sizeof((*it)[0]);
@@ -535,3 +538,5 @@ void Spectrogram::resizeEvent(QResizeEvent *event)
 #ifdef DEBUG_SPECTROGRAM
 #undef DEBUG_SPECTROGRAM
 #endif
+
+#include "spectrogram.moc"

@@ -91,7 +91,10 @@ void Histogram::writeConfig()
     scopeConfig.sync();
 }
 
-QString Histogram::widgetName() const { return QString("Histogram"); }
+QString Histogram::widgetName() const
+{
+    return QString::fromLatin1("Histogram");
+}
 
 bool Histogram::isHUDDependingOnInput() const { return false; }
 bool Histogram::isScopeDependingOnInput() const { return true; }
@@ -109,7 +112,7 @@ QImage Histogram::renderHUD(uint)
     emit signalHUDRenderingFinished(0, 1);
     return QImage();
 }
-QImage Histogram::renderGfxScope(uint accelFactor, const QImage qimage)
+QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
@@ -133,3 +136,5 @@ QImage Histogram::renderBackground(uint)
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }
+
+#include "histogram.moc"

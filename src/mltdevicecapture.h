@@ -1,4 +1,4 @@
-/***************************************************************************
+ /***************************************************************************
                          mltdevicecapture.h  -  description
                             -------------------
    begin                : Sun May 21 2011
@@ -30,7 +30,8 @@
 #include <mlt/framework/mlt_types.h>
 
 #include <QtConcurrentRun>
-
+#include <QTimer>
+ 
 namespace Mlt
 {
 class Consumer;
@@ -38,7 +39,7 @@ class Frame;
 class Event;
 class Producer;
 class Profile;
-};
+}
 
 class MltDeviceCapture: public AbstractRender
 {
@@ -50,7 +51,7 @@ Q_OBJECT public:
     /** @brief Build a MLT Renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the capture (default one will be used if empty). */
-    MltDeviceCapture(QString profile, VideoSurface *surface, QWidget *parent = 0);
+    explicit MltDeviceCapture(QString profile, VideoSurface *surface, QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     ~MltDeviceCapture();
@@ -61,7 +62,7 @@ Q_OBJECT public:
     bool sendFrameForAnalysis;
 
     /** @brief Someone needs us to send again a frame. */
-    void sendFrameUpdate() {};
+    void sendFrameUpdate() {}
     
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber(double position);
@@ -85,7 +86,7 @@ Q_OBJECT public:
     void setOverlay(const QString &path);
 
     /** @brief This will add an MLT video effect to the overlay track. */
-    void setOverlayEffect(const QString &tag, QStringList parameters);
+    void setOverlayEffect(const QString &tag, const QStringList &parameters);
 
     /** @brief This will add a horizontal flip effect, easier to work when filming yourself. */
     void mirror(bool activate);
@@ -136,14 +137,14 @@ signals:
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
-    void showImageSignal(QImage);
+    void showImageSignal(const QImage&);
 
     void frameSaved(const QString &);
     
     void droppedFrames(int);
     
     void unblockPreview();
-    void imageReady(QImage);
+    void imageReady(const QImage &);
 
 
 public slots:

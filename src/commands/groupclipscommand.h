@@ -22,21 +22,17 @@
 #define GROUPCLIPSCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
 
-#include <KDebug>
 #include "definitions.h"
 
-class GenTime;
 class CustomTrackView;
 
 class GroupClipsCommand : public QUndoCommand
 {
 public:
-    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo> &transitionInfos, bool group, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

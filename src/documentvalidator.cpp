@@ -26,7 +26,7 @@
 #include <KDebug>
 #include <KMessageBox>
 #include <KApplication>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStandardDirs>
 
 #include <QFile>
@@ -40,7 +40,7 @@
 #include <locale>
 
 
-DocumentValidator::DocumentValidator(QDomDocument doc, KUrl documentUrl):
+DocumentValidator::DocumentValidator(const QDomDocument &doc, const KUrl &documentUrl):
         m_doc(doc),
         m_url(documentUrl),
         m_modified(false)
@@ -171,7 +171,7 @@ bool DocumentValidator::validate(const double currentVersion)
                         tnode = tinfo.firstChild();
                     }
 
-                    for (int i = 1; i < tracks.count(); i++) {
+                    for (int i = 1; i < tracks.count(); ++i) {
                         QString hide = tracks.at(i).toElement().attribute("hide");
                         QDomElement newTrack = m_doc.createElement("trackinfo");
                         if (hide == "video") {
@@ -289,7 +289,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             blank_tractor.appendChild(blank_track);
 
             QDomNodeList kdenlivetracks = m_doc.elementsByTagName("kdenlivetrack");
-            for (int i = 0; i < kdenlivetracks.count(); i++) {
+            for (int i = 0; i < kdenlivetracks.count(); ++i) {
                 blank_playlist = m_doc.createElement("playlist");
                 blank_playlist.setAttribute("id", "playlist" + QString::number(i));
                 westley.insertBefore(blank_playlist, QDomNode());
@@ -301,7 +301,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     blank_track.setAttribute("hide", "video");
                 }
             }
-        } else for (int i = 0; i < max; i++) {
+        } else for (int i = 0; i < max; ++i) {
                 QDomNode n = playlists.at(i);
                 westley.insertBefore(n, QDomNode());
                 QDomElement pl = n.toElement();
@@ -362,7 +362,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // audio track mixing transitions should not be added to track view, so add required attribute
         QDomNodeList transitions = m_doc.elementsByTagName("transition");
         max = transitions.count();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             QDomElement tr = transitions.at(i).toElement();
             if (tr.attribute("combine") == "1" && tr.attribute("mlt_service") == "mix") {
                 QDomElement property = m_doc.createElement("property");
@@ -392,14 +392,14 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
 
         // move transitions after tracks
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             tractor.insertAfter(transitions.at(0), QDomNode());
         }
 
         // Fix filters format
         QDomNodeList entries = m_doc.elementsByTagName("entry");
         max = entries.count();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             QString last_id;
             int effectix = 0;
             QDomNode m = entries.at(i).firstChild();
@@ -439,7 +439,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             max = filters.count();
             QString last_id;
             int effectix = 0;
-            for (int i = 0; i < max; i++) {
+            for (int i = 0; i < max; ++i) {
                 QDomElement filt = filters.at(i).toElement();
                 QDomNamedNodeMap attrs = filt.attributes();
         QString current_id = filt.attribute("kdenlive_id");
@@ -468,7 +468,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // fix slowmotion
         QDomNodeList producers = westley.toElement().elementsByTagName("producer");
         max = producers.count();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             QDomElement prod = producers.at(i).toElement();
             if (prod.attribute("mlt_service") == "framebuffer") {
                 QString slowmotionprod = prod.attribute("resource");
@@ -482,7 +482,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // This will get the xml producers:
         producers = m_doc.elementsByTagName("producer");
         max = producers.count();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             QDomElement prod = producers.at(0).toElement();
             // add resource also as a property (to allow path correction in setNewResource())
             // TODO: will it work with slowmotion? needs testing
@@ -608,7 +608,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         } else {
             QDomNodeList wproducers = westley_element.elementsByTagName("producer");
             int kmax = wproducers.count();
-            for (int i = 0; i < kmax; i++) {
+            for (int i = 0; i < kmax; ++i) {
                 QDomElement wproducer = wproducers.at(i).toElement();
                 if (wproducer.isNull()) {
                     kWarning() << "Found producer in westley0, that was not a QDomElement";
@@ -697,7 +697,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 #endif
         QDomNodeList elements = westley.childNodes();
         max = elements.count();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             QDomElement prod = elements.at(0).toElement();
             westley0.insertAfter(prod, QDomNode());
         }
@@ -746,7 +746,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QString tracksOrder = infoXml.attribute("tracks");
         if (tracksOrder.isEmpty()) {
             QDomNodeList tracks = m_doc.elementsByTagName("track");
-            for (int i = 0; i < tracks.count(); i++) {
+            for (int i = 0; i < tracks.count(); ++i) {
                 QDomElement track = tracks.at(i).toElement();
                 if (track.attribute("producer") != "black_track") {
                     if (track.attribute("hide") == "video")
@@ -757,7 +757,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
         QDomElement tracksinfo = m_doc.createElement("tracksinfo");
-        for (int i = 0; i < tracksOrder.size(); i++) {
+        for (int i = 0; i < tracksOrder.size(); ++i) {
             QDomElement trackinfo = m_doc.createElement("trackinfo");
             if (tracksOrder.data()[i] == 'a') {
                 trackinfo.setAttribute("type", "audio");
@@ -774,7 +774,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     if (version <= 0.82) {
         // Convert <westley />s in <mlt />s (MLT extreme makeover)
         QDomNodeList westleyNodes = m_doc.elementsByTagName("westley");
-        for (int i = 0; i < westleyNodes.count(); i++) {
+        for (int i = 0; i < westleyNodes.count(); ++i) {
             QDomElement westley = westleyNodes.at(i).toElement();
             westley.setTagName("mlt");
         }
@@ -919,7 +919,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // Make sure we don't have avformat-novalidate producers, since it caused crashes
         QDomNodeList producers = m_doc.elementsByTagName("producer");
         int max = producers.count();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             QDomElement prod = producers.at(i).toElement();
             if (EffectsList::property(prod, "mlt_service") == "avformat-novalidate")
                 EffectsList::setProperty(prod, "mlt_service", "avformat");
@@ -944,7 +944,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList transitions = m_doc.elementsByTagName("transition");
         max = transitions.count();
         int out;
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             QDomElement trans = transitions.at(i).toElement();
             out = trans.attribute("out").toInt() - trans.attribute("in").toInt();
             QString geom = EffectsList::property(trans, "geometry");
@@ -975,7 +975,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     return true;
 }
 
-QStringList DocumentValidator::getInfoFromEffectName(const QString oldName)
+QStringList DocumentValidator::getInfoFromEffectName(const QString &oldName)
 {
     QStringList info;
     // Returns a list to convert old Kdenlive ladspa effects
@@ -1174,7 +1174,7 @@ void DocumentValidator::updateEffects()
     }
 }
 
-bool DocumentValidator::updateEffectParameters(QDomNodeList parameters, const QScriptValue* updateRules, const double serviceVersion, const double effectVersion)
+bool DocumentValidator::updateEffectParameters(const QDomNodeList &parameters, const QScriptValue* updateRules, const double serviceVersion, const double effectVersion)
 {
     bool updated = false;
     bool isDowngrade = serviceVersion < effectVersion;

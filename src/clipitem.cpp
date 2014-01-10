@@ -42,25 +42,25 @@
 
 static int FRAME_SIZE;
 
-ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, int strobe, int frame_width, bool generateThumbs) :
-        AbstractClipItem(info, QRectF(), fps),
-        m_clip(clip),
-        m_startFade(0),
-        m_endFade(0),
-        m_audioOnly(false),
-        m_videoOnly(false),
-        m_startPix(QPixmap()),
-        m_endPix(QPixmap()),
-        m_hasThumbs(false),
-        m_selectedEffect(-1),
-        m_timeLine(0),
-        m_startThumbRequested(false),
-        m_endThumbRequested(false),
-        //m_hover(false),
-        m_speed(speed),
-        m_strobe(strobe),
-        m_framePixelWidth(0),
-        m_limitedKeyFrames(false)
+ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double speed, int strobe, int frame_width, bool generateThumbs) :
+    AbstractClipItem(info, QRectF(), fps),
+    m_clip(clip),
+    m_startFade(0),
+    m_endFade(0),
+    m_audioOnly(false),
+    m_videoOnly(false),
+    m_startPix(QPixmap()),
+    m_endPix(QPixmap()),
+    m_hasThumbs(false),
+    m_selectedEffect(-1),
+    m_timeLine(0),
+    m_startThumbRequested(false),
+    m_endThumbRequested(false),
+    //m_hover(false),
+    m_speed(speed),
+    m_strobe(strobe),
+    m_framePixelWidth(0),
+    m_limitedKeyFrames(false)
 {
     setZValue(2);
     m_effectList = EffectsList(true);
@@ -90,7 +90,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     setAcceptDrops(true);
     m_audioThumbReady = m_clip->audioThumbCreated();
     //setAcceptsHoverEvents(true);
-    connect(this , SIGNAL(prepareAudioThumb(double, int, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int, int)));
+    connect(this , SIGNAL(prepareAudioThumb(double,int,int,int,int)) , this, SLOT(slotPrepareAudioThumb(double,int,int,int,int)));
 
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
         m_baseColor = QColor(141, 166, 215);
@@ -100,7 +100,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
             connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
-            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
+            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
             connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
             if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
         }
@@ -112,7 +112,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, i
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
         m_baseColor = QColor(141, 166, 215);
         if (m_clipType == TEXT) {
-            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
+            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
         }
         //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
     } else if (m_clipType == AUDIO) {
@@ -128,15 +128,16 @@ ClipItem::~ClipItem()
     blockSignals(true);
     m_endThumbTimer.stop();
     m_startThumbTimer.stop();
-    if (scene()) scene()->removeItem(this);
+    if (scene())
+        scene()->removeItem(this);
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
-        //disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
+        //disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
         //disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
     delete m_timeLine;
 }
 
-ClipItem *ClipItem::clone(ItemInfo info) const
+ClipItem *ClipItem::clone(const ItemInfo &info) const
 {
     ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
     if (m_clipType == IMAGE || m_clipType == TEXT) duplicate->slotSetStartThumb(m_startPix);
@@ -155,13 +156,13 @@ ClipItem *ClipItem::clone(ItemInfo info) const
     return duplicate;
 }
 
-void ClipItem::setEffectList(const EffectsList effectList)
+void ClipItem::setEffectList(const EffectsList &effectList)
 {
     m_effectList.clone(effectList);
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (!m_effectList.isEmpty()) {
-        for (int i = 0; i < m_effectList.count(); i++) {
-	    QDomElement effect = m_effectList.at(i);
+        for (int i = 0; i < m_effectList.count(); ++i) {
+            QDomElement effect = m_effectList.at(i);
             QString effectId = effect.attribute("id");
             // check if it is a fade effect
             QDomNodeList params = effect.elementsByTagName("parameter");
@@ -238,7 +239,7 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
 
     // Init parameter value & keyframes if required
     QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
 
         if (e.isNull())
@@ -260,23 +261,23 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
         }
 
         if (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") {
-	    if (e.attribute("keyframes").isEmpty()) {
-		// Effect has a keyframe type parameter, we need to set the values
-		e.setAttribute("keyframes", QString::number((int) cropStart().frames(m_fps)) + ':' + e.attribute("default"));
-	    }
-	    else if (offset != 0) {
-		// adjust keyframes to this clip
-		QString adjusted = adjustKeyframes(e.attribute("keyframes"), offset - cropStart().frames(m_fps));
-		e.setAttribute("keyframes", adjusted);
-	    }
+            if (e.attribute("keyframes").isEmpty()) {
+                // Effect has a keyframe type parameter, we need to set the values
+                e.setAttribute("keyframes", QString::number((int) cropStart().frames(m_fps)) + ':' + e.attribute("default"));
+            }
+            else if (offset != 0) {
+                // adjust keyframes to this clip
+                QString adjusted = adjustKeyframes(e.attribute("keyframes"), offset - cropStart().frames(m_fps));
+                e.setAttribute("keyframes", adjusted);
+            }
         }
 
         if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
             // Effects with a geometry parameter need to sync in / out with parent clip
-	    effect.setAttribute("in", QString::number((int) cropStart().frames(m_fps)));
-	    effect.setAttribute("out", QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
-	    effect.setAttribute("_sync_in_out", "1");
-	}
+            effect.setAttribute("in", QString::number((int) cropStart().frames(m_fps)));
+            effect.setAttribute("out", QString::number((int) (cropStart() + cropDuration()).frames(m_fps) - 1));
+            effect.setAttribute("_sync_in_out", "1");
+        }
     }
     if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
         if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {
@@ -313,7 +314,7 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
             if (effect.attribute("id") == "fadein") {
                 if (m_effectList.hasEffect(QString(), "fade_from_black") == -1) {
                     int effectDuration = EffectsList::parameter(effect, "out").toInt();
-		    if (offset != 0) effectDuration -= offset;
+                    if (offset != 0) effectDuration -= offset;
                     if (effectDuration > cropDuration().frames(m_fps)) {
                         effectDuration = cropDuration().frames(m_fps) / 2;
                     }
@@ -323,7 +324,7 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
             } else if (effect.attribute("id") == "fade_from_black") {
                 if (m_effectList.hasEffect(QString(), "fadein") == -1) {
                     int effectDuration = EffectsList::parameter(effect, "out").toInt();
-		    if (offset != 0) effectDuration -= offset;
+                    if (offset != 0) effectDuration -= offset;
                     if (effectDuration > cropDuration().frames(m_fps)) {
                         effectDuration = cropDuration().frames(m_fps) / 2;
                     }
@@ -337,15 +338,15 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
     }
 }
 
-const QString ClipItem::adjustKeyframes(QString keyframes, int offset)
+const QString ClipItem::adjustKeyframes(const QString &keyframes, int offset)
 {
     QStringList result;
     // Simple keyframes
-    const QStringList list = keyframes.split(';', QString::SkipEmptyParts);
+    const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
     foreach(const QString &keyframe, list) {
-	int pos = keyframe.section(':', 0, 0).toInt() - offset;
-	QString newKey = QString::number(pos) + ":" + keyframe.section(':', 1);
-	result.append(newKey);
+        const int pos = keyframe.section(':', 0, 0).toInt() - offset;
+        const QString newKey = QString::number(pos) + ":" + keyframe.section(':', 1);
+        result.append(newKey);
     }
     return result.join(";");
 }
@@ -356,10 +357,10 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
     QLocale locale;
     // go through all effects this clip has
     for (int ix = 0; ix < m_effectList.count(); ++ix) {
-	// Check geometry params
-	resizeGeometries(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1);
+        // Check geometry params
+        resizeGeometries(ix, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1);
 
-	// Check keyframe params
+        // Check keyframe params
         QStringList keyframeParams = keyframes(ix);
         QStringList newKeyFrameParams;
         bool effModified = false;
@@ -426,14 +427,14 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
     return clipEffectsModified;
 }
 
-void ClipItem::setKeyframes(const int ix, const QStringList keyframes)
+void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
 {
     QDomElement effect = m_effectList.at(ix);
     if (effect.attribute("disable") == "1") return;
     QLocale locale;
     QDomNodeList params = effect.elementsByTagName("parameter");
     int keyframeParams = 0;
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
             e.setAttribute("keyframes", keyframes.at(keyframeParams));
@@ -470,7 +471,7 @@ void ClipItem::setSelectedEffect(const int ix)
     QDomElement effect = effectAtIndex(m_selectedEffect);
     if (!effect.isNull() && effect.attribute("disable") != "1") {
         QDomNodeList params = effect.elementsByTagName("parameter");
-        for (int i = 0; i < params.count(); i++) {
+        for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
             if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") && (!e.hasAttribute("intimeline") || e.attribute("intimeline") == "1")) {
                 m_keyframes.clear();
@@ -504,19 +505,20 @@ void ClipItem::setSelectedEffect(const int ix)
     }
 }
 
+
 void ClipItem::resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration)
 {
     QString geom;
     QDomElement effect = m_effectList.at(index);
     QDomNodeList params = effect.elementsByTagName("parameter");
 
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && e.attribute("type") == "geometry") {
             geom = e.attribute("value");
-	    Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
-	    e.setAttribute("value", geometry.serialise(start, start + duration));
-	}
+            Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
+            e.setAttribute("value", geometry.serialise(start, start + duration));
+        }
     }
 }
 
@@ -526,7 +528,7 @@ QStringList ClipItem::keyframes(const int index)
     QDomElement effect = m_effectList.at(index);
     QDomNodeList params = effect.elementsByTagName("parameter");
 
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe"))
             result.append(e.attribute("keyframes"));
@@ -558,7 +560,8 @@ void ClipItem::updateKeyframeEffect()
 
 QDomElement ClipItem::selectedEffect()
 {
-    if (m_selectedEffect == -1 || m_effectList.isEmpty()) return QDomElement();
+    if (m_selectedEffect == -1 || m_effectList.isEmpty())
+        return QDomElement();
     return effectAtIndex(m_selectedEffect);
 }
 
@@ -648,7 +651,7 @@ void ClipItem::slotGetEndThumb()
 }
 
 
-void ClipItem::slotSetStartThumb(QImage img)
+void ClipItem::slotSetStartThumb(const QImage &img)
 {
     if (!img.isNull() && img.format() == QImage::Format_ARGB32) {
         QPixmap pix = QPixmap::fromImage(img);
@@ -659,7 +662,7 @@ void ClipItem::slotSetStartThumb(QImage img)
     }
 }
 
-void ClipItem::slotSetEndThumb(QImage img)
+void ClipItem::slotSetEndThumb(const QImage &img)
 {
     if (!img.isNull() && img.format() == QImage::Format_ARGB32) {
         QPixmap pix = QPixmap::fromImage(img);
@@ -670,7 +673,7 @@ void ClipItem::slotSetEndThumb(QImage img)
     }
 }
 
-void ClipItem::slotThumbReady(int frame, QImage img)
+void ClipItem::slotThumbReady(int frame, const QImage &img)
 {
     if (scene() == NULL) return;
     QRectF r = boundingRect();
@@ -690,12 +693,12 @@ void ClipItem::slotThumbReady(int frame, QImage img)
     }
 }
 
-void ClipItem::slotSetStartThumb(const QPixmap pix)
+void ClipItem::slotSetStartThumb(const QPixmap &pix)
 {
     m_startPix = pix;
 }
 
-void ClipItem::slotSetEndThumb(const QPixmap pix)
+void ClipItem::slotSetEndThumb(const QPixmap &pix)
 {
     m_endPix = pix;
 }
@@ -795,15 +798,15 @@ void ClipItem::paint(QPainter *painter,
     QColor textBgColor;
     QPen framePen;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-	textColor = palette.highlightedText().color();
-	textBgColor = palette.highlight().color();
+        textColor = palette.highlightedText().color();
+        textBgColor = palette.highlight().color();
         framePen.setColor(textBgColor);
-	paintColor.setRed(qMin(paintColor.red() * 2, 255));
+        paintColor.setRed(qMin(paintColor.red() * 2, 255));
     }
     else {
-	textColor = palette.text().color();
-	textBgColor = palette.window().color();
-	textBgColor.setAlpha(200);
+        textColor = palette.text().color();
+        textBgColor = palette.window().color();
+        textBgColor.setAlpha(200);
         framePen.setColor(m_paintColor.darker());
     }
     const QRectF exposed = option->exposedRect;
@@ -822,28 +825,28 @@ void ClipItem::paint(QPainter *painter,
     painter->setPen(m_paintColor.darker());
     // draw thumbnails
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
-	QRectF thumbRect;
+        QRectF thumbRect;
         if ((m_clipType == IMAGE || m_clipType == TEXT) && !m_startPix.isNull()) {
-	    if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
-	    thumbRect.moveTopRight(mapped.topRight());
-	    painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
-	    //const QPointF top = mapped.topRight() - QPointF(m_startPix.width() - 1, 0);
+            if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
+            thumbRect.moveTopRight(mapped.topRight());
+            painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
+            //const QPointF top = mapped.topRight() - QPointF(m_startPix.width() - 1, 0);
             //painter->drawPixmap(top, m_startPix);
             //QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
             //painter->drawLine(l2);
         } else if (!m_endPix.isNull()) {
-	    if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_endPix.height() * m_endPix.width(), mapped.height());
-	    thumbRect.moveTopRight(mapped.topRight());
-	    painter->drawPixmap(thumbRect, m_endPix, m_endPix.rect());
-	    //const QPointF top = mapped.topRight() - QPointF(m_endPix.width() - 1, 0);
+            if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_endPix.height() * m_endPix.width(), mapped.height());
+            thumbRect.moveTopRight(mapped.topRight());
+            painter->drawPixmap(thumbRect, m_endPix, m_endPix.rect());
+            //const QPointF top = mapped.topRight() - QPointF(m_endPix.width() - 1, 0);
             //painter->drawPixmap(top, m_endPix);
             //QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
             //painter->drawLine(l2);
         }
         if (!m_startPix.isNull()) {
-	    if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
-	    thumbRect.moveTopLeft(mapped.topLeft());
-	    painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
+            if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
+            thumbRect.moveTopLeft(mapped.topLeft());
+            painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
             //painter->drawPixmap(mapped.topLeft(), m_startPix);
             //QLineF l2(mapped.left() + m_startPix.width(), mapped.top(), mapped.left() + m_startPix.width(), mapped.bottom());
             //painter->drawLine(l2);
@@ -857,7 +860,7 @@ void ClipItem::paint(QPainter *painter,
             QPointF startPos = mapped.topLeft();
             int startOffset = m_info.cropStart.frames(m_fps);
             if (clipType() == IMAGE || clipType() == TEXT) {
-                for (int i = left; i <= right; i++) {
+                for (int i = left; i <= right; ++i) {
                     painter->drawPixmap(startPos + QPointF(FRAME_SIZE *(i - startOffset), 0), m_startPix);
                 }
             }
@@ -869,13 +872,13 @@ void ClipItem::paint(QPainter *painter,
                     QPen pen(Qt::white);
                     pen.setStyle(Qt::DotLine);
                     QList <int> missing;
-                    for (int i = left; i <= right; i++) {
+                    for (int i = left; i <= right; ++i) {
                         img = m_clip->thumbProducer()->findCachedThumb(path + QString::number(i));
                         QPointF xpos = startPos + QPointF(FRAME_SIZE *(i - startOffset), 0);
                         if (img.isNull()) missing << i;
                         else {
-			    painter->drawImage(xpos, img);
-			}
+                            painter->drawImage(xpos, img);
+                        }
                         painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
                     }
                     if (!missing.isEmpty()) {
@@ -919,20 +922,20 @@ void ClipItem::paint(QPainter *painter,
         if (channels >= 1) {
             emit prepareAudioThumb(scale, mappedStartPixel, mappedEndPixel, channels, (int) (mappedRect.height() + 0.5));
         }
-	QRectF pixmapRect(0, mappedRect.y(), 100, mappedRect.height());
+        QRectF pixmapRect(0, mappedRect.y(), 100, mappedRect.height());
         for (int startCache = mappedStartPixel - (mappedStartPixel) % 100; startCache < mappedEndPixel; startCache += 100) {
             if (!m_audioThumbCachePic.value(startCache).isNull()) {
                 //painter->drawPixmap(clipStart + startCache - cropLeft, mappedRect.y(),  m_audioThumbCachePic.value(startCache));
-		QPixmap pix(m_audioThumbCachePic.value(startCache));
-		pixmapRect.moveLeft(clipStart + startCache - cropLeft);
-		painter->drawPixmap(pixmapRect,  pix, pix.rect());
-	    }
+                QPixmap pix(m_audioThumbCachePic.value(startCache));
+                pixmapRect.moveLeft(clipStart + startCache - cropLeft);
+                painter->drawPixmap(pixmapRect,  pix, pix.rect());
+            }
         }
     }
     
     if (m_isMainSelectedClip) {
-	framePen.setColor(Qt::red);
-	textBgColor = Qt::red;
+        framePen.setColor(Qt::red);
+        textBgColor = Qt::red;
     }
 
     // only paint details if clip is big enough
@@ -942,27 +945,27 @@ void ClipItem::paint(QPainter *painter,
         if (!m_effectNames.isEmpty() && mapped.width() > 40) {
             QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
             QColor bColor = palette.window().color();
-	    QColor tColor = palette.text().color();
-	    tColor.setAlpha(220);
+            QColor tColor = palette.text().color();
+            tColor.setAlpha(220);
             if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
                 qreal value = m_timeLine->currentValue();
                 txtBounding.setWidth(txtBounding.width() * value);
                 bColor.setAlpha(100 + 50 * value);
             };
 
-	    painter->setBrush(bColor);
-	    painter->setPen(Qt::NoPen);
-	    painter->drawRoundedRect(txtBounding.adjusted(-1, -2, 4, -1), 3, 3);
+            painter->setBrush(bColor);
+            painter->setPen(Qt::NoPen);
+            painter->drawRoundedRect(txtBounding.adjusted(-1, -2, 4, -1), 3, 3);
             painter->setPen(tColor);
             painter->drawText(txtBounding.adjusted(2, 0, 1, -1), Qt::AlignCenter, m_effectNames);
         }
 
         // Draw clip name
         const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignRight | Qt::AlignTop, m_clipName + ' ').adjusted(0, -1, 0, -1);
-	painter->setPen(Qt::NoPen);
+        painter->setPen(Qt::NoPen);
         painter->fillRect(txtBounding2.adjusted(-3, 0, 0, 0), textBgColor);
         painter->setBrush(QBrush(Qt::NoBrush));
-	painter->setPen(textColor);
+        painter->setPen(textColor);
         if (m_videoOnly) {
             painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_videoPix);
         } else if (m_audioOnly) {
@@ -977,7 +980,7 @@ void ClipItem::paint(QPainter *painter,
             QList < CommentedTime >::Iterator it = markers.begin();
             GenTime pos;
             double framepos;
-	    QBrush markerBrush(QColor(120, 120, 0, 140));
+            QBrush markerBrush(QColor(120, 120, 0, 140));
             QPen pen = painter->pen();
 
             for (; it != markers.end(); ++it) {
@@ -986,8 +989,8 @@ void ClipItem::paint(QPainter *painter,
                     if (pos > cropDuration()) break;
                     QLineF l(rect().x() + pos.frames(m_fps), rect().y(), rect().x() + pos.frames(m_fps), rect().bottom());
                     QLineF l2 = transformation.map(l);
-		    pen.setColor(CommentedTime::markerColor((*it).markerType()));
-		    pen.setStyle(Qt::DotLine);
+                    pen.setColor(CommentedTime::markerColor((*it).markerType()));
+                    pen.setStyle(Qt::DotLine);
                     painter->setPen(pen);
                     painter->drawLine(l2);
                     if (KdenliveSettings::showmarkers()) {
@@ -996,7 +999,7 @@ void ClipItem::paint(QPainter *painter,
                         const QRectF r2 = transformation.mapRect(r1);
                         const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
                         painter->setBrush(markerBrush);
-			pen.setStyle(Qt::SolidLine);
+                        pen.setStyle(Qt::SolidLine);
                         painter->setPen(pen);
                         painter->drawRect(txtBounding3);
                         painter->setBrush(Qt::NoBrush);
@@ -1057,7 +1060,7 @@ void ClipItem::paint(QPainter *painter,
 }
 
 
-OPERATIONTYPE ClipItem::operationMode(QPointF pos)
+OPERATIONTYPE ClipItem::operationMode(const QPointF &pos)
 {
     if (isItemLocked()) return NONE;
     const double scale = projectScene()->scale().x();
@@ -1077,32 +1080,32 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
         return FADEIN;
     } else if ((pos.x() <= rect.x() + rect.width() / 2) && pos.x() - rect.x() < maximumOffset && (rect.bottom() - pos.y() > addtransitionOffset)) {
-	// If we are in a group, allow resize only if all clips start at same position
-	if (parentItem()) {
-	    QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
-	    QList<QGraphicsItem *> list = dragGroup->childItems();
-	    for (int i = 0; i < list.count(); i++) {
-		if (list.at(i)->type() == AVWIDGET) {
-		    ClipItem *c = static_cast <ClipItem*>(list.at(i));
-		    if (c->startPos() != startPos()) return MOVE;
-		}
-	    }
-	}
+        // If we are in a group, allow resize only if all clips start at same position
+        if (parentItem()) {
+            QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
+            QList<QGraphicsItem *> list = dragGroup->childItems();
+            for (int i = 0; i < list.count(); ++i) {
+                if (list.at(i)->type() == AVWIDGET) {
+                    ClipItem *c = static_cast <ClipItem*>(list.at(i));
+                    if (c->startPos() != startPos()) return MOVE;
+                }
+            }
+        }
         return RESIZESTART;
     } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y() - rect.y())) < 6) {
         return FADEOUT;
     } else if ((pos.x() >= rect.x() + rect.width() / 2) && (rect.right() - pos.x() < maximumOffset) && (rect.bottom() - pos.y() > addtransitionOffset)) {
-	// If we are in a group, allow resize only if all clips end at same position
-	if (parentItem()) {
-	    QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
-	    QList<QGraphicsItem *> list = dragGroup->childItems();
-	    for (int i = 0; i < list.count(); i++) {
-		if (list.at(i)->type() == AVWIDGET) {
-		    ClipItem *c = static_cast <ClipItem*>(list.at(i));
-		    if (c->endPos() != endPos()) return MOVE;
-		}
-	    }
-	}
+        // If we are in a group, allow resize only if all clips end at same position
+        if (parentItem()) {
+            QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
+            QList<QGraphicsItem *> list = dragGroup->childItems();
+            for (int i = 0; i < list.count(); ++i) {
+                if (list.at(i)->type() == AVWIDGET) {
+                    ClipItem *c = static_cast <ClipItem*>(list.at(i));
+                    if (c->endPos() != endPos()) return MOVE;
+                }
+            }
+        }
         return RESIZEEND;
     } else if ((pos.x() - rect.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
         return TRANSITIONSTART;
@@ -1131,7 +1134,7 @@ QList <GenTime> ClipItem::snapMarkers() const
     QList < GenTime > markers = m_clip->snapMarkers();
     GenTime pos;
 
-    for (int i = 0; i < markers.size(); i++) {
+    for (int i = 0; i < markers.size(); ++i) {
         pos = GenTime((int)(markers.at(i).frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
@@ -1148,7 +1151,7 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const
     QList < CommentedTime > markers = m_clip->commentedSnapMarkers();
     GenTime pos;
 
-    for (int i = 0; i < markers.size(); i++) {
+    for (int i = 0; i < markers.size(); ++i) {
         pos = GenTime((int)(markers.at(i).time().frames(m_fps) / qAbs(m_speed) + 0.5), m_fps) - cropStart();
         if (pos > GenTime()) {
             if (pos > cropDuration()) break;
@@ -1162,12 +1165,12 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
 {
     // Bail out, if caller provided invalid data
     if (channels <= 0) {
-	kWarning() << "Unable to draw image with " << channels << "number of channels";
+        kWarning() << "Unable to draw image with " << channels << "number of channels";
         return;
     }
     int factor = 64;
     if (KdenliveSettings::normaliseaudiothumbs()) {
-	factor = m_clip->getProperty("audio_max").toInt();
+        factor = m_clip->getProperty("audio_max").toInt();
     }
 
     //kDebug() << "// PREP AUDIO THMB FRMO : scale:" << pixelForOneFrame<< ", from: " << startpixel << ", to: " << endpixel;
@@ -1185,30 +1188,30 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
         if (m_framePixelWidth == pixelForOneFrame && m_audioThumbCachePic.contains(startCache))
             continue;
         if (m_audioThumbCachePic.value(startCache).isNull() || m_framePixelWidth != pixelForOneFrame) {
-	    QPixmap pix(100, pixelHeight);
-	    pix.fill(QColor(180, 180, 180, 150));
-	    m_audioThumbCachePic[startCache] = pix;
+            QPixmap pix(100, pixelHeight);
+            pix.fill(QColor(180, 180, 180, 150));
+            m_audioThumbCachePic[startCache] = pix;
         }
         positiveChannelPaths.clear();
         negativeChannelPaths.clear();
         
         QPainter pixpainter(&m_audioThumbCachePic[startCache]);
 
-	for (int i = 0; i < channels; i++) {
-	    if (simplifiedAudio) {
-		positiveChannelPaths[i].moveTo(-1, channelHeight);
-	    }
-	    else if (fullAreaDraw) {
-		positiveChannelPaths[i].moveTo(-1, channelHeight*i + channelHeight / 2);
-		negativeChannelPaths[i].moveTo(-1, channelHeight*i + channelHeight / 2);
-	    }
-	    else {
-		positiveChannelPaths[i].moveTo(-1, channelHeight*i + channelHeight / 2);
-		audiopen.setColor(QColor(60, 60, 60, 50));
-		pixpainter.setPen(audiopen);
-		pixpainter.drawLine(0, channelHeight*i + channelHeight / 2, 100, channelHeight*i + channelHeight / 2);
-	    }
-	}
+        for (int i = 0; i < channels; ++i) {
+            if (simplifiedAudio) {
+                positiveChannelPaths[i].moveTo(-1, channelHeight);
+            }
+            else if (fullAreaDraw) {
+                positiveChannelPaths[i].moveTo(-1, channelHeight*i + channelHeight / 2);
+                negativeChannelPaths[i].moveTo(-1, channelHeight*i + channelHeight / 2);
+            }
+            else {
+                positiveChannelPaths[i].moveTo(-1, channelHeight*i + channelHeight / 2);
+                audiopen.setColor(QColor(60, 60, 60, 50));
+                pixpainter.setPen(audiopen);
+                pixpainter.drawLine(0, channelHeight*i + channelHeight / 2, 100, channelHeight*i + channelHeight / 2);
+            }
+        }
 
         for (int samples = 0; samples <= 100; samples++) {
             double frame = (double)(samples + startCache - 0) / pixelForOneFrame;
@@ -1218,41 +1221,41 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
             const QMap<int, QByteArray> frame_channel_data = baseClip()->audioFrameCache.value((int)frame);
 
             for (int channel = 0; channel < channels && !frame_channel_data.value(channel).isEmpty(); channel++) {
-		int y = channelHeight * channel + channelHeight / 2;
-		if (simplifiedAudio) {
-		    double delta = qAbs((frame_channel_data.value(channel).at(sample) - 63.5)  * channelHeight / factor);
-		    positiveChannelPaths[channel].lineTo(samples, channelHeight - delta);
-		} else if (fullAreaDraw) {
-		    double delta = qAbs((frame_channel_data.value(channel).at(sample) - 63.5)  * channelHeight / (2 * factor));
+                int y = channelHeight * channel + channelHeight / 2;
+                if (simplifiedAudio) {
+                    double delta = qAbs((frame_channel_data.value(channel).at(sample) - 63.5)  * channelHeight / factor);
+                    positiveChannelPaths[channel].lineTo(samples, channelHeight - delta);
+                } else if (fullAreaDraw) {
+                    double delta = qAbs((frame_channel_data.value(channel).at(sample) - 63.5)  * channelHeight / (2 * factor));
                     positiveChannelPaths[channel].lineTo(samples, y + delta);
                     negativeChannelPaths[channel].lineTo(samples, y - delta);
                 } else {
-		    double delta = (frame_channel_data.value(channel).at(sample) - 63.5)  * channelHeight / (2 * factor);
-		    positiveChannelPaths[channel].lineTo(samples, y + delta);
+                    double delta = (frame_channel_data.value(channel).at(sample) - 63.5)  * channelHeight / (2 * factor);
+                    positiveChannelPaths[channel].lineTo(samples, y + delta);
                 }
             }
         }
         for (int channel = 0; channel < channels; channel++) {
-	    if (simplifiedAudio) {
-		positiveChannelPaths[channel].lineTo(101, channelHeight);
-	    } else if (fullAreaDraw) {
-		int y = channelHeight * channel + channelHeight / 2;
-		positiveChannelPaths[channel].lineTo(101, y);
-		negativeChannelPaths[channel].lineTo(101, y);
-	    }
-	}
+            if (simplifiedAudio) {
+                positiveChannelPaths[channel].lineTo(101, channelHeight);
+            } else if (fullAreaDraw) {
+                int y = channelHeight * channel + channelHeight / 2;
+                positiveChannelPaths[channel].lineTo(101, y);
+                negativeChannelPaths[channel].lineTo(101, y);
+            }
+        }
         if (fullAreaDraw || simplifiedAudio) {
-	    audiopen.setColor(QColor(80, 80, 80, 200));
-	    pixpainter.setPen(audiopen);
-	    pixpainter.setBrush(QBrush(QColor(120, 120, 120, 200)));
-	}
-	else {
-	    audiopen.setColor(QColor(60, 60, 60, 100));
-	    pixpainter.setPen(audiopen);
-	    pixpainter.setBrush(Qt::NoBrush);
-	}
-	pixpainter.setRenderHint(QPainter::Antialiasing, false);
-        for (int i = 0; i < channels; i++) {
+            audiopen.setColor(QColor(80, 80, 80, 200));
+            pixpainter.setPen(audiopen);
+            pixpainter.setBrush(QBrush(QColor(120, 120, 120, 200)));
+        }
+        else {
+            audiopen.setColor(QColor(60, 60, 60, 100));
+            pixpainter.setPen(audiopen);
+            pixpainter.setBrush(Qt::NoBrush);
+        }
+        pixpainter.setRenderHint(QPainter::Antialiasing, false);
+        for (int i = 0; i < channels; ++i) {
             if (fullAreaDraw) {
                 pixpainter.drawPath(positiveChannelPaths[i].united(negativeChannelPaths.value(i)));
             } else
@@ -1386,9 +1389,9 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedChange) {
         if (value.toBool())
-	    setZValue(10);
+            setZValue(10);
         else
-	    setZValue(2);
+            setZValue(2);
     }
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
@@ -1398,16 +1401,16 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
-	// Warning: newPos gives a position relative to the click event, so hack to get absolute pos
-	int yOffset = property("y_absolute").toInt() + newPos.y();
+        // Warning: newPos gives a position relative to the click event, so hack to get absolute pos
+        int yOffset = property("y_absolute").toInt() + newPos.y();
         int newTrack = yOffset / KdenliveSettings::trackheight();
         newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
-	QStringList lockedTracks = property("locked_tracks").toStringList();
-	if (lockedTracks.contains(QString::number(newTrack))) {
-	    // Trying to move to a locked track
-	    return pos();
-	}
+        QStringList lockedTracks = property("locked_tracks").toStringList();
+        if (lockedTracks.contains(QString::number(newTrack))) {
+            // Trying to move to a locked track
+            return pos();
+        }
         newPos.setY((int)(newTrack  * KdenliveSettings::trackheight() + 1));
         // Only one clip is moving
         QRectF sceneShape = rect();
@@ -1419,7 +1422,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         bool forwardMove = newPos.x() > pos().x();
         int offset = 0;
         if (!items.isEmpty()) {
-            for (int i = 0; i < items.count(); i++) {
+            for (int i = 0; i < items.count(); ++i) {
                 if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
                     // Collision!
@@ -1466,9 +1469,9 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         return newPos;
     }
     if (change == ItemParentChange) {
-	QGraphicsItem* parent = value.value<QGraphicsItem*>();
-	if (parent) m_paintColor = m_baseColor.lighter(135);
-	else m_paintColor = m_baseColor;
+        QGraphicsItem* parent = value.value<QGraphicsItem*>();
+        if (parent) m_paintColor = m_baseColor.lighter(135);
+        else m_paintColor = m_baseColor;
     }
     return QGraphicsItem::itemChange(change, value);
 }
@@ -1563,7 +1566,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
     int ix;
     QDomElement insertedEffect;
     if (!effect.hasAttribute("kdenlive_ix")) {
-	// effect dropped from effect list
+        // effect dropped from effect list
         ix = effectsCounter();
     } else ix = effect.attribute("kdenlive_ix").toInt();
     if (!m_effectList.isEmpty() && ix <= m_effectList.count()) {
@@ -1577,13 +1580,13 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
     int effectOut;
 
     if (effect.attribute("tag") == "affine") {
-	// special case: the affine effect needs in / out points
-	effectIn = effect.attribute("in").toInt();
-	effectOut = effect.attribute("out").toInt();
+        // special case: the affine effect needs in / out points
+        effectIn = effect.attribute("in").toInt();
+        effectOut = effect.attribute("out").toInt();
     }
     else {
-	effectIn = EffectsList::parameter(effect, "in").toInt();
-	effectOut = EffectsList::parameter(effect, "out").toInt();
+        effectIn = EffectsList::parameter(effect, "in").toInt();
+        effectOut = EffectsList::parameter(effect, "out").toInt();
     }
     
     EffectsParameterList parameters;
@@ -1602,44 +1605,44 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
 
     // check if it is a fade effect
     if (effectId == "fadein") {
-	needRepaint = true;
+        needRepaint = true;
         if (m_effectList.hasEffect(QString(), "fade_from_black") == -1) {
-	    fade = effectOut - effectIn;
+            fade = effectOut - effectIn;
         }/* else {
-	    QDomElement fadein = m_effectList.getEffectByTag(QString(), "fade_from_black");
+        QDomElement fadein = m_effectList.getEffectByTag(QString(), "fade_from_black");
             if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
             else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
         }*/
     } else if (effectId == "fade_from_black") {
-	needRepaint = true;
+        needRepaint = true;
         if (m_effectList.hasEffect(QString(), "fadein") == -1) {
-	    fade = effectOut - effectIn;
+            fade = effectOut - effectIn;
         }/* else {
-	    QDomElement fadein = m_effectList.getEffectByTag(QString(), "fadein");
+        QDomElement fadein = m_effectList.getEffectByTag(QString(), "fadein");
             if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
             else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
         }*/
-     } else if (effectId == "fadeout") {
-	needRepaint = true;
+    } else if (effectId == "fadeout") {
+        needRepaint = true;
         if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
-	    fade = effectIn - effectOut;
+            fade = effectIn - effectOut;
         } /*else {
-	    QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
+        QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
             if (fadeout.attribute("name") == "out") fade -= fadeout.attribute("value").toInt();
             else if (fadeout.attribute("name") == "in") fade += fadeout.attribute("value").toInt();
         }*/
     } else if (effectId == "fade_to_black") {
-	needRepaint = true;
+        needRepaint = true;
         if (m_effectList.hasEffect(QString(), "fadeout") == -1) {
-	    fade = effectIn - effectOut;
+            fade = effectIn - effectOut;
         }/* else {
-	    QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
+        QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
             if (fadeout.attribute("name") == "out") fade -= fadeout.attribute("value").toInt();
             else if (fadeout.attribute("name") == "in") fade += fadeout.attribute("value").toInt();
         }*/
     }
 
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
             if (e.attribute("type") == "geometry" && !e.hasAttribute("fixed")) {
@@ -1708,7 +1711,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
     return parameters;
 }
 
-void ClipItem::deleteEffect(QString index)
+void ClipItem::deleteEffect(const QString &index)
 {
     bool needRepaint = false;
     int ix = index.toInt();
@@ -1716,11 +1719,11 @@ void ClipItem::deleteEffect(QString index)
     QDomElement effect = m_effectList.itemFromIndex(ix);
     QString effectId = effect.attribute("id");
     if ((effectId == "fadein" && hasEffect(QString(), "fade_from_black") == -1) ||
-	(effectId == "fade_from_black" && hasEffect(QString(), "fadein") == -1)) {
+            (effectId == "fade_from_black" && hasEffect(QString(), "fadein") == -1)) {
         m_startFade = 0;
         needRepaint = true;
     } else if ((effectId == "fadeout" && hasEffect(QString(), "fade_to_black") == -1) ||
-	(effectId == "fade_to_black" && hasEffect(QString(), "fadeout") == -1)) {
+               (effectId == "fade_to_black" && hasEffect(QString(), "fadeout") == -1)) {
         m_endFade = 0;
         needRepaint = true;
     } else if (EffectsList::hasKeyFrames(effect)) needRepaint = true;
@@ -1733,8 +1736,9 @@ void ClipItem::deleteEffect(QString index)
             setSelectedEffect(m_effectList.count());
         } else setSelectedEffect(ix);
     }
-    if (needRepaint) update(boundingRect());
-    else {
+    if (needRepaint) {
+        update(boundingRect());
+    } else {
         QRectF r = boundingRect();
         r.setHeight(20);
         update(r);
@@ -1789,13 +1793,13 @@ const ItemInfo ClipItem::speedIndependantInfo() const
 int ClipItem::nextFreeEffectGroupIndex() const
 {
     int freeGroupIndex = 0;
-    for (int i = 0; i < m_effectList.count(); i++) {
+    for (int i = 0; i < m_effectList.count(); ++i) {
         QDomElement effect = m_effectList.at(i);
-	EffectInfo effectInfo;
-	effectInfo.fromString(effect.attribute("kdenlive_info"));
-	if (effectInfo.groupIndex >= freeGroupIndex) {
-	    freeGroupIndex = effectInfo.groupIndex + 1;
-	}
+        EffectInfo effectInfo;
+        effectInfo.fromString(effect.attribute("kdenlive_info"));
+        if (effectInfo.groupIndex >= freeGroupIndex) {
+            freeGroupIndex = effectInfo.groupIndex + 1;
+        }
     }
     return freeGroupIndex;
 }
@@ -1804,28 +1808,28 @@ int ClipItem::nextFreeEffectGroupIndex() const
 void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
     if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
-	const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
-	event->acceptProposedAction();
-	QDomDocument doc;
-	doc.setContent(effects, true);
-	QDomElement e = doc.documentElement();
-	if (e.tagName() == "effectgroup") {
-	    // dropped an effect group
-	    QDomNodeList effectlist = e.elementsByTagName("effect");
-	    int freeGroupIndex = nextFreeEffectGroupIndex();
-	    EffectInfo effectInfo;
-	    for (int i = 0; i < effectlist.count(); i++) {
-		QDomElement effect = effectlist.at(i).toElement();
-		effectInfo.fromString(effect.attribute("kdenlive_info"));
-		effectInfo.groupIndex = freeGroupIndex;
-		effect.setAttribute("kdenlive_info", effectInfo.toString());
-		effect.removeAttribute("kdenlive_ix");
-	    }
-	} else {
-	    // single effect dropped
-	    e.removeAttribute("kdenlive_ix");
-	}
-        CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
+        const QString effects = QString::fromUtf8(event->mimeData()->data("kdenlive/effectslist"));
+        event->acceptProposedAction();
+        QDomDocument doc;
+        doc.setContent(effects, true);
+        QDomElement e = doc.documentElement();
+        if (e.tagName() == "effectgroup") {
+            // dropped an effect group
+            QDomNodeList effectlist = e.elementsByTagName("effect");
+            int freeGroupIndex = nextFreeEffectGroupIndex();
+            EffectInfo effectInfo;
+            for (int i = 0; i < effectlist.count(); ++i) {
+                QDomElement effect = effectlist.at(i).toElement();
+                effectInfo.fromString(effect.attribute("kdenlive_info"));
+                effectInfo.groupIndex = freeGroupIndex;
+                effect.setAttribute("kdenlive_info", effectInfo.toString());
+                effect.removeAttribute("kdenlive_ix");
+            }
+        } else {
+            // single effect dropped
+            e.removeAttribute("kdenlive_ix");
+        }
+        CustomTrackView *view = (CustomTrackView *) scene()->views().first();
         if (view) view->slotDropEffect(this, e, m_info.startPos, track());
     }
     else return;
@@ -1836,7 +1840,7 @@ void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     if (isItemLocked()) event->setAccepted(false);
     else if (event->mimeData()->hasFormat("kdenlive/effectslist")) {
-	event->acceptProposedAction();
+        event->acceptProposedAction();
     } else event->setAccepted(false);
 }
 
@@ -1872,9 +1876,9 @@ void ClipItem::setAudioOnly(bool force)
         else m_baseColor = QColor(141, 166, 215);
     }
     if (parentItem())
-	m_paintColor = m_baseColor.lighter(135);
+        m_paintColor = m_baseColor.lighter(135);
     else
-	m_paintColor = m_baseColor;
+        m_paintColor = m_baseColor;
     m_audioThumbCachePic.clear();
 }
 
@@ -1895,7 +1899,7 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
     effect.setAttribute("active_keyframe", pos);
     m_editedKeyframe = pos;
     QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             QString kfr = e.attribute("keyframes");
@@ -1935,7 +1939,7 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
     QDomNodeList params = effect.elementsByTagName("parameter");
     int start = cropStart().frames(m_fps);
     int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe")) {
             QString kfr = e.attribute("keyframes");
@@ -1992,10 +1996,10 @@ Mlt::Producer *ClipItem::getProducer(int track, bool trackSpecific)
         return m_clip->getProducer(trackSpecific ? track : -1);
 }
 
-QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, ItemInfo oldInfo)
+QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, const ItemInfo &oldInfo)
 {
     QMap<int, QDomElement> effects;
-    for (int i = 0; i < m_effectList.count(); i++) {
+    for (int i = 0; i < m_effectList.count(); ++i) {
         QDomElement effect = m_effectList.at(i);
 
         if (effect.attribute("id").startsWith("fade")) {
@@ -2019,7 +2023,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                 }
                 if (effects.contains(i)) {
                     setFadeIn(out - in);
-		}
+                }
             } else {
                 if (out != clipEnd) {
                     effects[i] = effect.cloneNode().toElement();
@@ -2045,9 +2049,9 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
             EffectsList::setParameter(effect, "frame", QString::number(frame - diff));
             continue;
         } else if (effect.attribute("id") == "pan_zoom") {
-	    effect.setAttribute("in", cropStart().frames(m_fps));
-	    effect.setAttribute("out", (cropStart() + cropDuration()).frames(m_fps) - 1);
-	}
+            effect.setAttribute("in", cropStart().frames(m_fps));
+            effect.setAttribute("out", (cropStart() + cropDuration()).frames(m_fps) - 1);
+        }
 
         QDomNodeList params = effect.elementsByTagName("parameter");
         for (int j = 0; j < params.count(); j++) {
@@ -2087,12 +2091,12 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
     const QStringList data = parameter.attribute("keyframes").split(';', QString::SkipEmptyParts);
     QMap <int, double> keyframes;
     foreach (QString keyframe, data) {
-	int keyframepos = keyframe.section(':', 0, 0).toInt();
-	// if keyframe was at clip start, update it
-	if (keyframepos == oldin) {
-	    keyframepos = in;
-	    keyFrameUpdated = true;
-	}
+        int keyframepos = keyframe.section(':', 0, 0).toInt();
+        // if keyframe was at clip start, update it
+        if (keyframepos == oldin) {
+            keyframepos = in;
+            keyFrameUpdated = true;
+        }
         keyframes[keyframepos] = locale.toDouble(keyframe.section(':', 1, 1));
     }
 
@@ -2137,7 +2141,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
                 relPos = (out - lastPos) / (qreal)(i.key() - lastPos + 1);
                 keyframes[out] = lastValue + (i.value() - lastValue) * relPos;
             }
-         }
+        }
         lastPos = i.key();
         lastValue = i.value();
         if (endFound)

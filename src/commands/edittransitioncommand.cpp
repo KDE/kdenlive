@@ -18,9 +18,9 @@
 #include "edittransitioncommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
-EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt, QUndoCommand * parent) :
+EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_track(track),
@@ -30,7 +30,7 @@ EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int tr
 {
     m_effect = effect.cloneNode().toElement();
     QString effectName;
-    QDomElement namenode = effect.firstChildElement("name");
+    QDomElement namenode = effect.firstChildElement(QLatin1String("name"));
     if (!namenode.isNull()) effectName = i18n(namenode.text().toUtf8().data());
     else effectName = i18n("effect");
     setText(i18n("Edit transition %1", effectName));

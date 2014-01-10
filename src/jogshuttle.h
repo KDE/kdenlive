@@ -21,7 +21,7 @@
 #ifndef SHUTTLE_H
 #define SHUTTLE_H
 
-#include <qthread.h>
+#include <QThread>
 #include <QObject>
 
 #include <linux/input.h>
@@ -34,7 +34,7 @@ class ShuttleThread : public QThread
 
 public:
     virtual void run();
-    void init(QObject *parent, QString device);
+    void init(QObject *parent, const QString &device);
     QObject *m_parent;
     int shuttlevalue;
     int shuttlecounter;
@@ -55,10 +55,10 @@ private:
 class JogShuttle: public QObject
 {
 Q_OBJECT public:
-    explicit JogShuttle(QString device, QObject * parent = 0);
+    explicit JogShuttle(const QString &device, QObject * parent = 0);
     ~JogShuttle();
     void stopDevice();
-    void initDevice(QString device);
+    void initDevice(const QString &device);
 
 protected:
     virtual void customEvent(QEvent * e);

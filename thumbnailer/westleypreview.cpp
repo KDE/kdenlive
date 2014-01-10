@@ -20,19 +20,17 @@
 
 #include "westleypreview.h"
 
-#include <qfile.h>
-#include <qimage.h>
-#include <QtCore/QVarLengthArray>
+#include <QFile>
+#include <QImage>
+#include <QVarLengthArray>
 
 #include <kstandarddirs.h>
 #include <krandomsequence.h>
-#include <qdatetime.h>
-#include <QColor>
+#include <QDateTime>
 #include <kdebug.h>
 #include <ktempdir.h>
 #include <kurl.h>
-#include <qfileinfo.h>
-#include <KTemporaryFile>
+#include <QFileInfo>
 
 #include <unistd.h>
 
@@ -41,14 +39,14 @@
 
 //#include "config.h"
 extern "C" {
-    KDE_EXPORT ThumbCreator *new_creator() {
-        return new MltPreview;
-    }
+KDE_EXPORT ThumbCreator *new_creator() {
+    return new MltPreview;
+}
 }
 
 MltPreview::MltPreview() :
-        QObject(),
-        ThumbCreator()
+    QObject(),
+    ThumbCreator()
 {
     Mlt::Factory::init();
 }
@@ -67,6 +65,7 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 
     if (producer->is_blank()) {
         delete producer;
+        delete profile;
         return false;
     }
     int frame = 75;
@@ -117,7 +116,7 @@ QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int /*width*/
 }
 
 
-uint MltPreview::imageVariance(QImage image)
+uint MltPreview::imageVariance(const QImage &image)
 {
     if (image.isNull()) return 0;
     uint delta = 0;
@@ -157,3 +156,5 @@ ThumbCreator::Flags MltPreview::flags() const
 }
 
 
+
+#include "westleypreview.moc"

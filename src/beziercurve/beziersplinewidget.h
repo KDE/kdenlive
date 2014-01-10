@@ -23,7 +23,6 @@
 #include "beziersplineeditor.h"
 #include "ui_bezierspline_ui.h"
 
-#include <QtCore>
 #include <QWidget>
 
 class DragValue;
@@ -37,7 +36,7 @@ public:
     explicit BezierSplineWidget(const QString &spline, QWidget* parent = 0);
 
     /** @brief Returns the current spline. */
-    QString spline();
+    QString spline() const;
 
     /** The curvemodes refer to the usage of the spline.
      * As this widget is currently only used for frei0r.curves the modes are the channels this filter accepts. */

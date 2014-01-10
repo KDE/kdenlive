@@ -34,7 +34,7 @@ class SlideshowClip : public QDialog
     Q_OBJECT
 
 public:
-    explicit SlideshowClip(Timecode tc, QWidget * parent = 0);
+    explicit SlideshowClip(const Timecode& tc, QWidget * parent = 0);
     virtual ~ SlideshowClip();
     /** return selected path for slideshow in MLT format */
     QString selectedPath();
@@ -49,12 +49,10 @@ public:
     int softness() const;
     QString animation() const;
 
-    /** @brief Check if there are several files with filename pattern, like: image_001.jpg, image_002.jpg,... */
-    static int sequenceCount(KUrl file);
     /** @brief Get the image frame number from a file path, for example image_047.jpg will return 47. */
-    static int getFrameNumberFromPath(KUrl path);
+    static int getFrameNumberFromPath(const KUrl &path);
     /** @brief return the url pattern for selected slideshow. */
-    static QString selectedPath(KUrl url, bool isMime, QString extension, QStringList *list);
+    static QString selectedPath(const KUrl &url, bool isMime, QString extension, QStringList *list);
     /** @brief Convert the selection animation style into an affine geometry string. */
     static QString animationToGeometry(const QString &animation, int &ttl);
 

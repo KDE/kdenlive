@@ -8,10 +8,9 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include <QMenu>
-#include <QMouseEvent>
 #include <QPainter>
 #include <QPoint>
+#include <QMenu>
 
 // For reading out the project resolution
 #include "kdenlivesettings.h"
@@ -170,12 +169,12 @@ QImage Waveform::renderHUD(uint)
     return hud;
 }
 
-QImage Waveform::renderGfxScope(uint accelFactor, const QImage qimage)
+QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
 
-    int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
+    const int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
     WaveformGenerator::Rec rec = m_aRec601->isChecked() ? WaveformGenerator::Rec_601 : WaveformGenerator::Rec_709;
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0,m_paddingBottom), qimage,
                                                          (WaveformGenerator::PaintMode) paintmode, true, rec, accelFactor);
@@ -189,3 +188,5 @@ QImage Waveform::renderBackground(uint)
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }
+
+#include "waveform.moc"

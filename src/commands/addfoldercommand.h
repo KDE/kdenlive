@@ -28,10 +28,10 @@ class ProjectList;
 class AddFolderCommand : public QUndoCommand
 {
 public:
-    AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent = 0);
+    AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent = 0);
 
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     ProjectList *m_view;

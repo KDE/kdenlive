@@ -40,12 +40,9 @@ relevant signal that get's emitted once the call completes.
 
 namespace Mlt
 {
-class Miracle;
-class Consumer;
 class Producer;
 class Frame;
-class Profile;
-};
+}
 
 class ClipManager;
 
@@ -53,20 +50,20 @@ typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
 
 class KThumb: public QObject
 {
-Q_OBJECT public:
+   Q_OBJECT 
+public:
 
-
-    KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent = 0);
+    explicit KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent = 0);
     ~KThumb();
     void setProducer(Mlt::Producer *producer);
     bool hasProducer() const;
     void clearProducer();
     void updateThumbUrl(const QString &hash);
-    void extractImage(QList <int> frames);
+    void extractImage(const QList<int> &frames);
     QImage extractImage(int frame, int width, int height);
 #if KDE_IS_VERSION(4,5,0)
     /** @brief Request thumbnails for the frame range. */
-    void queryIntraThumbs(QList <int> missingFrames);
+    void queryIntraThumbs(const QList <int> &missingFrames);
     /** @brief Query cached thumbnail. */
     QImage findCachedThumb(const QString &path);
 #endif
@@ -74,19 +71,21 @@ Q_OBJECT public:
     void getGenericThumb(int frame, int height, int type);
 
 public slots:
-    void updateClipUrl(KUrl url, const QString &hash);
-    static QPixmap getImage(KUrl url, int width, int height);
+    void updateClipUrl(const KUrl &url, const QString &hash);
+    void slotCreateAudioThumbs();
+
+public:
+    static QPixmap getImage(const KUrl &url, int width, int height);
 //    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
     /* void getImage(KUrl url, int frame, int width, int height);
      void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
-    void slotCreateAudioThumbs();
-    static QPixmap getImage(KUrl url, int frame, int width, int height);
+    static QPixmap getImage(const KUrl& url, int frame, int width, int height);
     static QImage getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height);
     static QImage getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height);
     /** @brief Calculates image variance, useful to know if a thumbnail is interesting. 
      *  @return an integer between 0 and 100. 0 means no variance, eg. black image while bigger values mean contrasted image
      * */
-    static uint imageVariance(QImage image);
+    static uint imageVariance(const QImage &image);
 
 private slots:
 #if KDE_IS_VERSION(4,5,0)
@@ -110,8 +109,8 @@ private:
     QImage getProducerFrame(int framepos, int frameWidth, int displayWidth, int height);
 
 signals:
-    void thumbReady(int, QImage);
-    void mainThumbReady(const QString &, QPixmap);
+    void thumbReady(int, const QImage&);
+    void mainThumbReady(const QString &, const QPixmap&);
     void audioThumbReady(const audioByteArray&);
     /** @brief We have finished caching all requested thumbs. */
     void thumbsCached();

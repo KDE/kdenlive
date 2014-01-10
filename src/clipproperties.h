@@ -32,10 +32,13 @@ class PropertiesViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    PropertiesViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {
+    PropertiesViewDelegate(QWidget *parent)
+        : QStyledItemDelegate(parent)
+    {
         m_height = parent->fontMetrics().height() * 1.2;
     }
-    virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+protected:
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
         return QSize(QStyledItemDelegate::sizeHint(option, index).width(), m_height);
     }
 private:
@@ -47,8 +50,8 @@ class ClipProperties : public QDialog
     Q_OBJECT
 
 public:
-    ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent = 0);
-    ClipProperties(QList <DocClipBase *>cliplist, Timecode tc, QMap <QString, QString> commonproperties, QWidget * parent);
+    ClipProperties(DocClipBase *clip, const Timecode &tc, double fps, QWidget * parent = 0);
+    ClipProperties(const QList<DocClipBase *> &cliplist, const Timecode &tc, const QMap<QString, QString> &commonproperties, QWidget * parent);
     virtual ~ClipProperties();
     QMap <QString, QString> properties();
     const QString &clipId() const;
@@ -76,7 +79,7 @@ private slots:
     void slotSaveMarkers();
     void slotLoadMarkers();
     void slotDeleteAnalysis();
-    void slotGotThumbnail(const QString &id, QImage img);
+    void slotGotThumbnail(const QString &id, const QImage &img);
     void slotSaveAnalysis();
     void slotLoadAnalysis();
     void slotReloadVideoProperties();
@@ -96,16 +99,16 @@ private:
     bool m_clipNeedsReLoad;
     /** Frame with proxy info / delete button */
     QFrame* m_proxyContainer;
-    void loadVideoProperties(QMap <QString, QString> props);
+    void loadVideoProperties(const QMap<QString, QString> &props);
 
 signals:
-    void addMarkers(const QString &, QList <CommentedTime>);
-    void deleteProxy(const QString);
-    void applyNewClipProperties(const QString, QMap <QString, QString> , QMap <QString, QString> , bool, bool);
+    void addMarkers(const QString &, const QList <CommentedTime>&);
+    void deleteProxy(const QString&);
+    void applyNewClipProperties(const QString&, const QMap <QString, QString> &, const QMap <QString, QString> &, bool, bool);
     void saveMarkers(const QString &id);
     void loadMarkers(const QString &id);
     void editAnalysis(const QString &id, const QString &name, const QString &value);
-    void requestThumb(const QString id, QList <int> frames);
+    void requestThumb(const QString &id, const QList <int>& frames);
 };
 
 

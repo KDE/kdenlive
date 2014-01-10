@@ -29,7 +29,6 @@
 #include <QDomElement>
 #include <QToolButton>
 
-class QFrame;
 class QLabel;
 
 
@@ -44,17 +43,17 @@ class CollapsibleEffect : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    CollapsibleEffect(QDomElement effect, QDomElement original_effect, ItemInfo info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
+    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool lastEffect, QWidget * parent = 0);
     ~CollapsibleEffect();
     QLabel *title;
 	
-    void setupWidget(ItemInfo info, EffectMetaInfo *metaInfo);
+    void setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
     void setActive(bool activate);
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     virtual bool eventFilter( QObject * o, QEvent * e );
     /** @brief Update effect GUI to reflect parameted changes. */
-    void updateWidget(ItemInfo info, QDomElement effect, EffectMetaInfo *metaInfo);
+    void updateWidget(const ItemInfo &info, const QDomElement &effect, EffectMetaInfo *metaInfo);
     QDomElement effect() const;
     int groupIndex() const;
     bool isGroup() const;
@@ -76,7 +75,7 @@ public:
     /** @brief Set clip in / out points. */
     void setRange(int inPoint , int outPoint);
     /** @brief Import keyframes from a clip's data. */
-    void setKeyframes(const QString data, int maximum);
+    void setKeyframes(const QString &data, int maximum);
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -123,22 +122,22 @@ protected:
     virtual void dropEvent(QDropEvent *event);
     
 signals:
-    void parameterChanged(const QDomElement, const QDomElement, int);
+    void parameterChanged(const QDomElement &, const QDomElement&, int);
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix, bool effectNeedsMonitorScene);
-    void deleteEffect(const QDomElement);
+    void deleteEffect(const QDomElement &);
     void activateEffect(int);
     void checkMonitorPosition(int);
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QString filterName, QString filterParams, QString consumer, QString consumerParams, const QMap <QString, QString>extraParams);
+    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString> &extraParams);
     /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
     void unGroup(CollapsibleEffect *);
-    void createRegion(int, KUrl);
-    void deleteGroup(QDomDocument);
+    void createRegion(int, const KUrl&);
+    void deleteGroup(const QDomDocument&);
     void importClipKeyframes();
 };
 

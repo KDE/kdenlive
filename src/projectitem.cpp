@@ -24,7 +24,7 @@
 #include "docclipbase.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIcon>
 
 #include <QFile>
@@ -35,7 +35,7 @@ const int JobTypeRole = Qt::UserRole + 6;
 const int JobStatusMessage = Qt::UserRole + 7;
 const int itemHeight = 38;
 
-ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, QSize pixmapSize) :
+ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, const QSize &pixmapSize) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE),
         m_clip(clip),
         m_clipId(clip->getId()),
@@ -44,7 +44,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, QSize pixmapSi
     buildItem(pixmapSize);
 }
 
-ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, QSize pixmapSize) :
+ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, const QSize &pixmapSize) :
         QTreeWidgetItem(parent, PROJECTCLIPTYPE),
         m_clip(clip),
         m_clipId(clip->getId()),
@@ -54,7 +54,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, QSize pixm
     buildItem(pixmapSize);
 }
 
-void ProjectItem::buildItem(QSize pixmapSize)
+void ProjectItem::buildItem(const QSize &pixmapSize)
 {
     setSizeHint(0, QSize(itemHeight * 3, itemHeight));
     if (m_clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
@@ -101,7 +101,7 @@ bool ProjectItem::hasPixmap() const
     return m_pixmapSet;
 }
 
-void ProjectItem::setPixmap(const QPixmap p)
+void ProjectItem::setPixmap(const QPixmap& p)
 {
     m_pixmapSet = true;
     setData(0, Qt::DecorationRole, p);
@@ -154,7 +154,7 @@ void ProjectItem::changeDuration(int frames)
     setData(0, DurationRole, itemdata + Timecode::getEasyTimecode(GenTime(frames, KdenliveSettings::project_fps()), KdenliveSettings::project_fps()));
 }
 
-void ProjectItem::setProperties(QMap <QString, QString> props)
+void ProjectItem::setProperties(const QMap<QString, QString> &props)
 {
     if (m_clip == NULL) return;
     m_clip->setProperties(props);
@@ -295,7 +295,7 @@ bool ProjectItem::isProxyRunning() const
     return false;
 }
 
-bool ProjectItem::playlistHasProxies(const QString path)
+bool ProjectItem::playlistHasProxies(const QString& path)
 {
     kDebug()<<"// CHECKING FOR PROXIES";
     QFile file(path);
@@ -309,7 +309,7 @@ bool ProjectItem::playlistHasProxies(const QString path)
     file.close();
     QString root = doc.documentElement().attribute("root");
     QDomNodeList kdenliveProducers = doc.elementsByTagName("kdenlive_producer");
-    for (int i = 0; i < kdenliveProducers.count(); i++) {
+    for (int i = 0; i < kdenliveProducers.count(); ++i) {
         QString proxy = kdenliveProducers.at(i).toElement().attribute("proxy");
         if (!proxy.isEmpty() && proxy != "-") return true;
     }

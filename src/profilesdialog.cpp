@@ -26,7 +26,7 @@
 #include <KIO/NetAccess>
 
 #include <QDir>
-#include <qscriptengine.h>
+#include <QScriptEngine>
 #include <QCloseEvent>
 #include <QScriptEngine>
 
@@ -61,7 +61,7 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
     connect(m_view.button_default, SIGNAL(clicked()), this, SLOT(slotSetDefaultProfile()));
 
-    connect(m_view.description, SIGNAL(textChanged(const QString &)), this, SLOT(slotProfileEdited()));
+    connect(m_view.description, SIGNAL(textChanged(QString)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
@@ -102,7 +102,7 @@ ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
     slotUpdateDisplay(profilePath);
     connect(m_view.button_save, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
 
-    connect(m_view.description, SIGNAL(textChanged(const QString &)), this, SLOT(slotProfileEdited()));
+    connect(m_view.description, SIGNAL(textChanged(QString)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
@@ -119,7 +119,7 @@ void ProfilesDialog::slotProfileEdited()
     m_profileIsModified = true;
 }
 
-void ProfilesDialog::fillList(const QString selectedProfile)
+void ProfilesDialog::fillList(const QString &selectedProfile)
 {
     // List the Mlt profiles
     m_view.profiles_list->clear();
@@ -131,7 +131,7 @@ void ProfilesDialog::fillList(const QString selectedProfile)
     }
 
     if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_view.profiles_list->count(); i++) {
+        for (int i = 0; i < m_view.profiles_list->count(); ++i) {
             if (m_view.profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
                 m_view.profiles_list->setCurrentIndex(i);
                 break;
@@ -201,7 +201,7 @@ bool ProfilesDialog::slotSaveProfile()
         QString profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         kDebug() << " TYING PROFILE FILE: " << profilePath;
         while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, this)) {
-            i++;
+            ++i;
             profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         }
         saveProfile(profilePath);
@@ -212,7 +212,7 @@ bool ProfilesDialog::slotSaveProfile()
     return true;
 }
 
-void ProfilesDialog::saveProfile(const QString path)
+void ProfilesDialog::saveProfile(QString path)
 {
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
@@ -237,7 +237,7 @@ void ProfilesDialog::slotDeleteProfile()
 }
 
 // static
-MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
+MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
 {
     MltVideoProfile result;
     QStringList profilesNames;
@@ -283,7 +283,7 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
 }
 
 // static
-double ProfilesDialog::getStringEval(const MltVideoProfile &profile, QString eval, QPoint frameSize)
+double ProfilesDialog::getStringEval(const MltVideoProfile &profile, QString eval, const QPoint& frameSize)
 {
     QScriptEngine sEngine;
     sEngine.globalObject().setProperty("maxWidth", profile.width > frameSize.x() ? profile.width : frameSize.x());
@@ -320,7 +320,7 @@ bool ProfilesDialog::existingProfileDescription(const QString &desc)
 }
 
 // static
-QString ProfilesDialog::existingProfile(MltVideoProfile profile)
+QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
 {
     // Check if the profile has a matching entry in existing ones
     QStringList profilesFilter;
@@ -394,7 +394,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
 }
 
 // static
-QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path)
+QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString& path)
 {
     QStringList profilesNames;
     QStringList profilesFiles;
@@ -413,7 +413,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path)
 }
 
 // static
-QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString profileName)
+QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString& profileName)
 {
     QStringList profilesNames;
     QStringList profilesFiles;
@@ -448,7 +448,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString pro
 }
 
 // static
-bool ProfilesDialog::matchProfile(int width, int height, double fps, double par, bool isImage, MltVideoProfile profile)
+bool ProfilesDialog::matchProfile(int width, int height, double fps, double par, bool isImage, const MltVideoProfile &profile)
 {
     int profileWidth;
     if (isImage) {
@@ -505,7 +505,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
 }
 
 // static
-QString ProfilesDialog::getPathFromDescription(const QString profileDesc)
+QString ProfilesDialog::getPathFromDescription(const QString& profileDesc)
 {
     QStringList profilesNames;
     QStringList profilesFiles;
@@ -542,7 +542,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
         profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         kDebug() << " TYING PROFILE FILE: " << profilePath;
         while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, 0)) {
-            i++;
+            ++i;
             profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         }
     }
@@ -571,7 +571,8 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     }
     QLocale locale;
     m_selectedProfileIndex = m_view.profiles_list->currentIndex();
-    if (currentProfile.isEmpty()) currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    if (currentProfile.isEmpty())
+        currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     m_isCustomProfile = currentProfile.contains('/');
     m_view.button_create->setEnabled(true);
     m_view.button_delete->setEnabled(m_isCustomProfile);

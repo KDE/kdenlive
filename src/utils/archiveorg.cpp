@@ -30,7 +30,7 @@
 #include <KDebug>
 #include "kdenlivesettings.h"
 #include <kio/job.h>
-#include <KLocale>
+#include <KLocalizedString>
 
 #ifdef USE_QJSON
 #include <qjson/parser.h>
@@ -49,10 +49,10 @@ ArchiveOrg::ArchiveOrg(QListWidget *listWidget, QObject *parent) :
 
 ArchiveOrg::~ArchiveOrg()
 {
-    if (m_previewProcess) delete m_previewProcess;
+    delete m_previewProcess;
 }
 
-void ArchiveOrg::slotStartSearch(const QString searchText, int page)
+void ArchiveOrg::slotStartSearch(const QString &searchText, int page)
 {
     m_listWidget->clear();
     QString uri = "http://www.archive.org/advancedsearch.php?q=";
@@ -64,7 +64,7 @@ void ArchiveOrg::slotStartSearch(const QString searchText, int page)
     uri.append("&output=json"); //&callback=callback&save=yes#raw");
 
     KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
-    connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotShowResults( KJob* ) ) );
+    connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
 }
 
 
@@ -145,7 +145,7 @@ OnlineItemInfo ArchiveOrg::displayItemDetails(QListWidgetItem *item)
     if (!extraInfoUrl.isEmpty()) {
         KJob* resolveJob = KIO::storedGet( KUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
         resolveJob->setProperty("id", info.itemId);
-        connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseResults( KJob* ) ) );
+        connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotParseResults(KJob*)) );
     }
     return info;
 }
@@ -162,14 +162,14 @@ void ArchiveOrg::slotParseResults(KJob* job)
     QString link;
     int ct = 0;
     m_thumbsPath.clear();
-    for (int i = 0; i < links.count(); i++) {
+    for (int i = 0; i < links.count(); ++i) {
         QString href = links.at(i).toElement().attribute("href");
         if (href.endsWith(".thumbs/")) {
             // sub folder contains image thumbs, display one.
             m_thumbsPath = m_metaInfo.value("url") + '/' + href;
             KJob* thumbJob = KIO::storedGet( KUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
             thumbJob->setProperty("id", m_metaInfo.value("id"));
-            connect( thumbJob, SIGNAL( result( KJob* ) ), this, SLOT( slotParseThumbs( KJob* ) ) );
+            connect( thumbJob, SIGNAL(result(KJob*)), this, SLOT(slotParseThumbs(KJob*)) );
         }
         else if (!href.contains('/') && !href.endsWith(".xml")) {
             link = m_metaInfo.value("url") + '/' + href;
@@ -226,7 +226,7 @@ void ArchiveOrg::slotParseThumbs(KJob* job)
     doc.setContent(QString::fromUtf8(storedQueryJob->data()));
     QDomNodeList links = doc.elementsByTagName("a");
     if (links.isEmpty()) return;
-    for (int i = 0; i < links.count(); i++) {
+    for (int i = 0; i < links.count(); ++i) {
         QString href = links.at(i).toElement().attribute("href");
         if (!href.contains('/') && i >= links.count() / 2) {
             QString thumbUrl = m_thumbsPath + href;
@@ -236,3 +236,5 @@ void ArchiveOrg::slotParseThumbs(KJob* job)
         }
     }
 }
+
+#include "archiveorg.moc"

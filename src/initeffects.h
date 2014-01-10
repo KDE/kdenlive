@@ -57,7 +57,7 @@ public:
     static void parseEffectFiles(const QString &locale = QString());
     static void refreshLumas();
     static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
-    static QDomDocument getUsedCustomEffects(QMap <QString, QString> effectids);
+    static QDomDocument getUsedCustomEffects(const QMap<QString, QString> &effectids);
 
     /** @brief Fills the transitions list.
      * @param repository MLT repository
@@ -77,17 +77,19 @@ public:
      * @param tag parameter tag
      * @param type parameter type (string, double, bool, etc.)
      * @return element with the parameter information */
-    static QDomElement quickParameterFill(QDomDocument & doc, QString name,
-                                          QString tag, QString type,
-                                          QString def = QString(),
-                                          QString min = QString(),
-                                          QString max = QString(),
-                                          QString list = QString(),
-                                          QString listdisplaynames = QString(),
-                                          QString factor = QString(),
-                                          QString namedesc = QString(),
-                                          QString format = QString(),
-                                          QString opacity = QString());
+    static QDomElement quickParameterFill(QDomDocument & doc,
+                                          const QString &name,
+                                          const QString &tag,
+                                          const QString &type,
+                                          const QString &def = QString(),
+                                          const QString &min = QString(),
+                                          const QString &max = QString(),
+                                          const QString &list = QString(),
+                                          const QString &listdisplaynames = QString(),
+                                          const QString &factor = QString(),
+                                          const QString &namedesc = QString(),
+                                          const QString &format = QString(),
+                                          const QString &opacity = QString());
 
     /** @brief Parses a file to record information about one or more effects.
      * @param customEffectList list of custom effect
@@ -100,7 +102,7 @@ public:
     static void parseEffectFile(EffectsList *customEffectList,
                                 EffectsList *audioEffectList,
                                 EffectsList *videoEffectList,
-                                QString name, QStringList filtersList,
+                                const QString &name, QStringList filtersList,
                                 QStringList producersList,
                                 Mlt::Repository *repository);
 

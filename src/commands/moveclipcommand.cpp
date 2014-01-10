@@ -22,21 +22,23 @@
 #include "moveclipcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
-MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_startPos(start),
-    m_endPos(end),
-    m_doIt(doIt),
-    m_success(true)
+MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, QUndoCommand * parent)
+    : QUndoCommand(parent),
+      m_view(view),
+      m_startPos(start),
+      m_endPos(end),
+      m_doIt(doIt),
+      m_success(true)
 {
     setText(i18n("Move clip"));
     if (parent) {
         // command has a parent, so there are several operations ongoing, do not refresh monitor
         m_refresh = false;
-    } else m_refresh = true;
+    } else {
+        m_refresh = true;
+    }
 }
 
 
@@ -52,9 +54,9 @@ void MoveClipCommand::undo()
 void MoveClipCommand::redo()
 {
     if (m_doIt) {
-//        qDebug() << "Executing move clip command. End now:" << m_endPos;
+        //        qDebug() << "Executing move clip command. End now:" << m_endPos;
         m_success = m_view->moveClip(m_startPos, m_endPos, m_refresh, &m_endPos);
-//        qDebug() << "Move clip command executed. End now: " << m_endPos;
+        //        qDebug() << "Move clip command executed. End now: " << m_endPos;
     }
     m_doIt = true;
 }

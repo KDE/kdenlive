@@ -27,7 +27,7 @@
 #include <KStandardDirs>
 
 #include <QFile>
-#include <qregexp.h>
+#include <QRegExp>
 #include <QDir>
 #include <QIcon>
 
@@ -94,7 +94,7 @@ void initEffects::refreshLumas()
     }
     QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", "luma");
     QDomNodeList params = lumaTransition.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute("tag") == "resource") {
             e.setAttribute("paramlistdisplay", imagenamelist.join(","));
@@ -105,7 +105,7 @@ void initEffects::refreshLumas()
 
     QDomElement compositeTransition = MainWindow::transitions.getEffectByTag("composite", "composite");
     params = compositeTransition.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute("tag") == "luma") {
             e.setAttribute("paramlistdisplay", imagenamelist.join(","));
@@ -116,7 +116,7 @@ void initEffects::refreshLumas()
 }
 
 // static
-QDomDocument initEffects::getUsedCustomEffects(QMap <QString, QString> effectids)
+QDomDocument initEffects::getUsedCustomEffects(const QMap <QString, QString>& effectids)
 {
     QMapIterator<QString, QString> i(effectids);
     int ix;
@@ -353,7 +353,7 @@ void initEffects::parseCustomEffectsFile()
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository)
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository)
 {
     QDomDocument doc;
     QFile file(name);
@@ -391,8 +391,8 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             for (int j = 0; j < params.count(); j++) {
                 QDomNamedNodeMap attrs = params.at(j).attributes();
                 for (int k = 0; k < attrs.count(); k++) {
-                    QString name = attrs.item(k).nodeName();
-                    if (name != "type" && name != "name") {
+                    QString nodeName = attrs.item(k).nodeName();
+                    if (nodeName != "type" && nodeName != "name") {
                             QString val = attrs.item(k).nodeValue();
                             if (val.contains(oldSeparator)) {
                                 QString newVal = val.replace(oldSeparator, separator);
@@ -477,7 +477,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 
             Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
             if (QString(tags.get(0)) == "Audio") eff.setAttribute("type", "audio");
-            /*for (int i = 0; i < tags.count(); i++)
+            /*for (int i = 0; i < tags.count(); ++i)
                 kDebug()<<tags.get_name(i)<<"="<<tags.get(i);*/
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
@@ -741,7 +741,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     transitions->append(ret.documentElement());*/
 }
 
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format, QString opacity)
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &name, const QString &tag, const QString &type, const QString &def, const QString &min, const QString &max, const QString &list, const QString &listdisplaynames, const QString &factor, const QString &namedesc, const QString &format, const QString &opacity)
 {
     QDomElement parameter = doc.createElement("parameter");
     parameter.setAttribute("tag", tag);
@@ -768,3 +768,5 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QS
 
     return parameter;
 }
+
+#include "initeffects.moc"

@@ -28,7 +28,7 @@
 #include "profilesdialog.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStandardDirs>
 #include <KComboBox>
 #include <KIO/NetAccess>
@@ -181,7 +181,7 @@ RecMonitor::~RecMonitor()
     m_spaceTimer.stop();
     delete m_captureProcess;
     delete m_displayProcess;
-    if (m_captureDevice) delete m_captureDevice;
+    delete m_captureDevice;
 }
 
 void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
@@ -612,7 +612,7 @@ void RecMonitor::slotRecord()
         while (QFile::exists(path)) {
             QString num = QString::number(i).rightJustified(4, '0', false);
             path = KUrl(m_capturePath).path(KUrl::AddTrailingSlash) + "capture" + num + '.' + extension;
-            i++;
+            ++i;
         }
         m_captureFile = KUrl(path);
 
@@ -723,14 +723,14 @@ void RecMonitor::slotRecord()
 	    m_captureArgs << "-f" << "x11grab";
 	    if (KdenliveSettings::grab_follow_mouse()) m_captureArgs << "-follow_mouse" << "centered";
 	    if (!KdenliveSettings::grab_hide_frame()) m_captureArgs << "-show_region" << "1";
+	    captureSize = ":0.0";
             if (KdenliveSettings::grab_capture_type() == 0) {
                 // Full screen capture
-                captureSize = ":0.0";
 		m_captureArgs << "-s" << QString::number(screenSize.width()) + "x" + QString::number(screenSize.height());
 	    } else {
                 // Region capture
                 m_captureArgs << "-s" << QString::number(KdenliveSettings::grab_width()) + "x" + QString::number(KdenliveSettings::grab_height());
-                captureSize = ":" + QString::number(KdenliveSettings::grab_offsetx()) + "." + QString::number(KdenliveSettings::grab_offsetx());
+                captureSize.append("+" + QString::number(KdenliveSettings::grab_offsetx()) + "." + QString::number(KdenliveSettings::grab_offsetx()));
             }
             // fps
             m_captureArgs << "-r" << QString::number(KdenliveSettings::grab_fps());
@@ -799,7 +799,8 @@ void RecMonitor::showWarningMessage(const QString &text, bool logAction)
 	m_infoMessage->addAction(manualAction);
     }
 #if KDE_IS_VERSION(4,10,0)
-    m_infoMessage->animatedShow();
+    if (isVisible())
+       m_infoMessage->animatedShow();
 #else
     QTimer::singleShot(0, m_infoMessage, SLOT(animatedShow()));
 #endif
@@ -810,12 +811,12 @@ void RecMonitor::showWarningMessage(const QString &text, bool logAction)
     }
     else {
 	video_frame->setText(QString("<qt>" + text + "<br><a href=\"http://kde.org\">" + i18n("Show log") + "</a>"));
-	connect(video_frame, SIGNAL(linkActivated (const QString &)), this, SLOT(slotShowLog()));
+	connect(video_frame, SIGNAL(linkActivated(QString)), this, SLOT(slotShowLog()));
     }
 #endif
 }
 
-const QString RecMonitor::getV4lXmlPlaylist(MltVideoProfile profile, bool *isXml) 
+const QString RecMonitor::getV4lXmlPlaylist(const MltVideoProfile &profile, bool *isXml)
 {
     QString playlist;
     if (rec_video->isChecked() && rec_audio->isChecked()) {
@@ -969,7 +970,7 @@ void RecMonitor::manageCapturedFiles()
     kDebug() << "Found : " << capturedFiles.count() << " new capture files";
     kDebug() << capturedFiles;
 
-    if (capturedFiles.count() > 0) {
+    if (!capturedFiles.isEmpty()) {
         QPointer<ManageCapturesDialog> d = new ManageCapturesDialog(capturedFiles, this);
         if (d->exec() == QDialog::Accepted) {
             emit addProjectClipList(d->importFiles());

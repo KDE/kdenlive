@@ -30,8 +30,8 @@ class PositionEdit : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PositionEdit(const QString name, int pos, int min, int max, const Timecode tc, QWidget* parent = 0);
-    virtual ~PositionEdit();
+    explicit PositionEdit(const QString &name, int pos, int min, int max, const Timecode& tc, QWidget* parent = 0);
+    ~PositionEdit();
     int getPosition() const;
     void setPosition(int pos);
     void updateTimecodeFormat();

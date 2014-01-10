@@ -35,16 +35,16 @@ class ArchiveOrg : public AbstractService
 
 public:
     explicit ArchiveOrg(QListWidget *listWidget, QObject * parent = 0);
-    ~ArchiveOrg();
-    virtual QString getExtension(QListWidgetItem *item);
-    virtual QString getDefaultDownloadName(QListWidgetItem *item);
+    virtual ~ArchiveOrg();
+    QString getExtension(QListWidgetItem *item);
+    QString getDefaultDownloadName(QListWidgetItem *item);
 
 
 public slots:
-    virtual void slotStartSearch(const QString searchText, int page = 0);
-    virtual OnlineItemInfo displayItemDetails(QListWidgetItem *item);
-    virtual bool startItemPreview(QListWidgetItem *item);
-    virtual void stopItemPreview(QListWidgetItem *item);    
+    void slotStartSearch(const QString &searchText, int page = 0);
+    OnlineItemInfo displayItemDetails(QListWidgetItem *item);
+    bool startItemPreview(QListWidgetItem *item);
+    void stopItemPreview(QListWidgetItem *item);
 
 private slots:
     void slotShowResults(KJob* job);
@@ -57,7 +57,7 @@ private:
     QString m_thumbsPath;
 
 signals:
-    void addClip(KUrl, const QString &);
+    void addClip(const KUrl &, const QString &);
 };
 
 

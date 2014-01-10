@@ -10,10 +10,10 @@
 
 #include "rgbparadegenerator.h"
 
+#include <KLocalizedString>
+
 #include <QColor>
 #include <QPainter>
-#include <QPoint>
-#include <QTime>
 
 #define CHOP255(a) ((255) < (a) ? (255) : (a))
 #define CHOP1255(a) ((a) < (1) ? (1) : ((a) > (255) ? (255) : (a)))
@@ -37,8 +37,8 @@ RGBParadeGenerator::RGBParadeGenerator()
 }
 
 QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QImage &image,
-                                              const RGBParadeGenerator::PaintMode paintMode, const bool &drawAxis, 
-                                              const bool &drawGradientRef, const uint &accelFactor)
+                                              const RGBParadeGenerator::PaintMode paintMode, bool drawAxis,
+                                              bool drawGradientRef, uint accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 
@@ -80,7 +80,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         const float wPrediv = (float)(partW-1)/(iw-1);
 
         StructRGB paradeVals[partW][256];
-        for (uint i = 0; i < partW; i++) {
+        for (uint i = 0; i < partW; ++i) {
             for (uint j = 0; j < 256; j++) {
                 paradeVals[i][j].r = 0;
                 paradeVals[i][j].g = 0;
@@ -121,7 +121,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         const uint offset2 = 2*partW + 2*offset;
         switch(paintMode) {
         case PaintMode_RGB:
-            for (uint i = 0; i < partW; i++) {
+            for (uint i = 0; i < partW; ++i) {
                 for (uint j = 0; j < 256; j++) {
                     unscaled.setPixel(i,         j, qRgba(255,10,10, CHOP255(gain*paradeVals[i][j].r)));
                     unscaled.setPixel(i+offset1, j, qRgba(10,255,10, CHOP255(gain*paradeVals[i][j].g)));
@@ -130,7 +130,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
             }
             break;
         default:
-            for (uint i = 0; i < partW; i++) {
+            for (uint i = 0; i < partW; ++i) {
                 for (uint j = 0; j < 256; j++) {
                     unscaled.setPixel(i,         j, qRgba(255,255,255, CHOP255(gain*paradeVals[i][j].r)));
                     unscaled.setPixel(i+offset1, j, qRgba(255,255,255, CHOP255(gain*paradeVals[i][j].g)));
@@ -147,7 +147,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
         if (drawAxis) {
             QRgb opx;
-            for (uint i = 0; i <= 10; i++) {
+            for (uint i = 0; i <= 10; ++i) {
                 dy = (float)i/10 * (partH-1);
                 for (uint x = 0; x < ww-distRight; x++) {
                     opx = parade.pixel(x, dy);
@@ -169,19 +169,19 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
         // Show numerical minimum
         if (minR == 0) { davinci.setPen(colHighlight); } else { davinci.setPen(colSoft); }
-        davinci.drawText(0,                     wh, "min: ");
+        davinci.drawText(0,                     wh, i18n("min: "));
         if (minG == 0) { davinci.setPen(colHighlight); } else { davinci.setPen(colSoft); }
-        davinci.drawText(partW + offset,        wh, "min: ");
+        davinci.drawText(partW + offset,        wh, i18n("min: "));
         if (minB == 0) { davinci.setPen(colHighlight); } else { davinci.setPen(colSoft); }
-        davinci.drawText(2*partW + 2*offset,    wh, "min: ");
+        davinci.drawText(2*partW + 2*offset,    wh, i18n("min: "));
 
         // Show numerical maximum
         if (maxR == 255) { davinci.setPen(colHighlight); } else { davinci.setPen(colSoft); }
-        davinci.drawText(0,                     wh-20, "max: ");
+        davinci.drawText(0,                     wh-20, i18n("max: "));
         if (maxG == 255) { davinci.setPen(colHighlight); } else { davinci.setPen(colSoft); }
-        davinci.drawText(partW + offset,        wh-20, "max: ");
+        davinci.drawText(partW + offset,        wh-20, i18n("max: "));
         if (maxB == 255) { davinci.setPen(colHighlight); } else { davinci.setPen(colSoft); }
-        davinci.drawText(2*partW + 2*offset,    wh-20, "max: ");
+        davinci.drawText(2*partW + 2*offset,    wh-20, i18n("max: "));
 
         davinci.setPen(colLight);
         davinci.drawText(d,                        wh, QString::number(minR, 'f', 0));

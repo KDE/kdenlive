@@ -21,14 +21,14 @@
 #include "splitaudiocommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
-SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, EffectsList effects, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_pos(pos),
-        m_track(track),
-        m_effects(effects)
+SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, const EffectsList &effects, QUndoCommand * parent) :
+    QUndoCommand(parent),
+    m_view(view),
+    m_pos(pos),
+    m_track(track),
+    m_effects(effects)
 {
     setText(i18n("Split audio"));
 }

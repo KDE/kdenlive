@@ -36,15 +36,15 @@ class FreeSound : public AbstractService
 public:
     explicit FreeSound(QListWidget *listWidget, QObject * parent = 0);
     ~FreeSound();
-    virtual QString getExtension(QListWidgetItem *item);
-    virtual QString getDefaultDownloadName(QListWidgetItem *item);
+    QString getExtension(QListWidgetItem *item);
+    QString getDefaultDownloadName(QListWidgetItem *item);
 
 
 public slots:
-    virtual void slotStartSearch(const QString searchText, int page = 0);
-    virtual OnlineItemInfo displayItemDetails(QListWidgetItem *item);
-    virtual bool startItemPreview(QListWidgetItem *item);
-    virtual void stopItemPreview(QListWidgetItem *item);    
+    void slotStartSearch(const QString& searchText, int page = 0);
+    OnlineItemInfo displayItemDetails(QListWidgetItem *item);
+    bool startItemPreview(QListWidgetItem *item);
+    void stopItemPreview(QListWidgetItem *item);
 
 private slots:
     void slotShowResults(KJob* job);
@@ -55,7 +55,7 @@ private:
     QProcess *m_previewProcess;
 
 signals:
-    void addClip(KUrl, const QString &);
+    void addClip(const KUrl &, const QString &);
 };
 
 

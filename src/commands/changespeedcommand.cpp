@@ -21,9 +21,9 @@
 #include "changespeedcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
-ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, ItemInfo speedIndependantInfo, double old_speed, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent) :
+ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, double old_speed, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_clipInfo(info),

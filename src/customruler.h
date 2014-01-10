@@ -39,25 +39,25 @@ class CustomRuler : public QWidget
     Q_OBJECT
 
 public:
-    CustomRuler(Timecode tc, CustomTrackView *parent);
+    CustomRuler(const Timecode &tc, CustomTrackView *parent);
     void setPixelPerMark(int rate);
     static const int comboScale[];
     int outPoint() const;
     int inPoint() const;
     void setDuration(int d);
-    void setZone(QPoint p);
+    void setZone(const QPoint &p);
     int offset() const;
-    void updateProjectFps(Timecode t);
+    void updateProjectFps(const Timecode &t);
     void updateFrameSize();
     void updatePalette();
     
 protected:
-    virtual void paintEvent(QPaintEvent * /*e*/);
-    virtual void wheelEvent(QWheelEvent * e);
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent * event);
-    virtual void mouseMoveEvent(QMouseEvent * event);
-    virtual void leaveEvent(QEvent * event);
+    void paintEvent(QPaintEvent * /*e*/);
+    void wheelEvent(QWheelEvent * e);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
+    void mouseMoveEvent(QMouseEvent * event);
+    void leaveEvent(QEvent * event);
 
 private:
     Timecode m_timecode;

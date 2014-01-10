@@ -41,7 +41,7 @@ public:
     /** @brief Constructor for the widget, sets value to 0.
     * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
     * @param parent parent Widget */
-    explicit TimecodeDisplay(Timecode t, QWidget *parent = 0);
+    explicit TimecodeDisplay(const Timecode& t, QWidget *parent = 0);
 
     /** @brief Returns the minimum value, which can be entered.
     * default is 0 */
@@ -72,14 +72,14 @@ public:
 
     /** @brief Sets timecode for current project.
      * @param t the new timecode */
-    void updateTimeCode(Timecode t);
+    void updateTimeCode(const Timecode &t);
 
     virtual void stepBy(int steps);
 
 private:
     /** timecode for widget */
     Timecode m_timecode;
-    /** Should we display the timecode in frames or in format hh:mm:ss:ff */
+    /** Should we display the timecode in frames or in format hh:mm:ss:ff */
     bool m_frametimecode;
     int m_minimum;
     int m_maximum;
@@ -91,7 +91,7 @@ public slots:
     * The value actually set is forced to be within the legal range: minimum <= value <= maximum */
     void setValue(int value);
     void setValue(const QString &value);
-    void setValue(GenTime value);
+    void setValue(const GenTime &value);
 
     /** @brief Sets value's format according to Kdenlive's settings.
     * @param t (optional, if already existing) Timecode object to use */

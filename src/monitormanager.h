@@ -32,12 +32,12 @@ class MonitorManager : public QObject
     Q_OBJECT
 
 public:
-    MonitorManager(QWidget *parent = 0);
+    explicit MonitorManager(QWidget *parent = 0);
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor);
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);
-    Timecode timecode();
-    void resetProfiles(Timecode tc);
+    Timecode timecode() const;
+    void resetProfiles(const Timecode &tc);
     void stopActiveMonitor();
     AbstractRender *activeRenderer();
     /** Searches for a monitor with the given name.

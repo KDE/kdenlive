@@ -27,8 +27,8 @@ class SimpleTimelineWidget : public QWidget
     Q_OBJECT
 
 public:
-    SimpleTimelineWidget(QWidget* parent = 0);
-    void setKeyframes(QList <int> keyframes);
+    explicit SimpleTimelineWidget(QWidget* parent = 0);
+    void setKeyframes(const QList <int>& keyframes);
     void setDuration(int dur);
 
 public slots:
@@ -40,12 +40,12 @@ public slots:
     void slotGoToPrev();
 
 protected:
-    virtual void paintEvent(QPaintEvent *event);
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void mouseDoubleClickEvent(QMouseEvent *event);
-    virtual void wheelEvent(QWheelEvent *event);
+    void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseDoubleClickEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
 
 private:
     int m_duration;

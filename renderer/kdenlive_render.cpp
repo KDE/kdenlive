@@ -22,8 +22,7 @@
 #include <QStringList>
 #include <QString>
 #include <QUrl>
-#include <QtDebug>
-
+#include <QDebug>
 #include "renderjob.h"
 
 int main(int argc, char **argv)
@@ -40,73 +39,74 @@ int main(int argc, char **argv)
         args.removeFirst();
 
         bool erase = false;
-        if (args.at(0) == "-erase") {
+        if (args.at(0) == QLatin1String("-erase")) {
             erase = true;
             args.removeFirst();
         }
         bool usekuiserver = false;
-        if (args.at(0) == "-kuiserver") {
+        if (args.at(0) == QLatin1String("-kuiserver")) {
             usekuiserver = true;
             args.removeFirst();
         }
-        if (QString(args.at(0)).startsWith("-pid:")) {
-            pid = QString(args.at(0)).section(':', 1).toInt();
+        if (QString(args.at(0)).startsWith(QLatin1String("-pid:"))) {
+            pid = QString(args.at(0)).section(QLatin1Char(':'), 1).toInt();
             args.removeFirst();
         }
 
-        if (QString(args.at(0)).startsWith("-locale:")) {
-            locale = QString(args.at(0)).section(':', 1);
+        if (QString(args.at(0)).startsWith(QLatin1String("-locale:"))) {
+            locale = QString(args.at(0)).section(QLatin1Char(':'), 1);
             args.removeFirst();
         }
-        if (args.at(0).startsWith("in="))
-            in = args.takeFirst().section('=', -1).toInt();
-        if (args.at(0).startsWith("out="))
-            out = args.takeFirst().section('=', -1).toInt();
-        if (args.at(0).startsWith("preargs="))
-            preargs = args.takeFirst().section('=', 1).split(' ', QString::SkipEmptyParts);
+        if (args.at(0).startsWith(QLatin1String("in=")))
+            in = args.takeFirst().section(QLatin1Char('='), -1).toInt();
+        if (args.at(0).startsWith(QLatin1String("out=")))
+            out = args.takeFirst().section(QLatin1Char('='), -1).toInt();
+        if (args.at(0).startsWith(QLatin1String("preargs=")))
+            preargs = args.takeFirst().section(QLatin1Char('='), 1).split(QLatin1Char(' '), QString::SkipEmptyParts);
 
         QString render = args.takeFirst();
         QString profile = args.takeFirst();
         QString rendermodule = args.takeFirst();
         QString player = args.takeFirst();
-	QByteArray srcString = args.takeFirst().toUtf8();
-	QUrl srcurl = QUrl::fromEncoded(srcString);
+        QByteArray srcString = args.takeFirst().toUtf8();
+        QUrl srcurl = QUrl::fromEncoded(srcString);
         QString src = srcurl.path();
-	// The QUrl path() strips the consumer: protocol, so re-add it if necessary
-	if (srcString.startsWith("consumer:")) src.prepend("consumer:");
+        // The QUrl path() strips the consumer: protocol, so re-add it if necessary
+        if (srcString.startsWith("consumer:"))
+            src.prepend(QLatin1String("consumer:"));
         QUrl desturl = QUrl::fromEncoded(args.takeFirst().toUtf8());
         QString dest = desturl.path();
         bool dualpass = false;
         bool doerase;
         QString vpre;
 
-        int vprepos = args.indexOf(QRegExp("vpre=.*"));
+        int vprepos = args.indexOf(QRegExp(QLatin1String("vpre=.*")));
         if (vprepos >= 0) {
             vpre=args.at(vprepos);
         }
-        QStringList vprelist = vpre.replace("vpre=", "").split(',');
+        QStringList vprelist = vpre.replace(QLatin1String("vpre="), QLatin1String("")).split(QLatin1Char(','));
         if (vprelist.size() > 0) {
-            args.replaceInStrings(QRegExp("^vpre=.*"), QString("vpre=").append(vprelist.at(0)));
+            args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")), QString::fromLatin1("vpre=%1").arg(vprelist.at(0)));
         }
 
-        if (args.contains("pass=2")) {
+        if (args.contains(QLatin1String("pass=2"))) {
             // dual pass encoding
             dualpass = true;
             doerase = false;
-            args.replace(args.indexOf("pass=2"), "pass=1");
-            if (args.contains("vcodec=libx264")) args << QString("passlogfile=%1").arg(dest + ".log");
+            args.replace(args.indexOf(QLatin1String("pass=2")), QLatin1String("pass=1"));
+            if (args.contains(QLatin1String("vcodec=libx264"))) args << QString::fromLatin1("passlogfile=%1").arg(dest + QLatin1String(".log"));
         } else {
-            args.removeAll("pass=1");
+            args.removeAll(QLatin1String("pass=1"));
             doerase = erase;
         }
         
         // Decode metadata
-        for (int i = 0; i < args.count(); i++) {
-	    if (args.at(i).startsWith("meta.attr")) {
-		QString data = args.at(i);
-		args.replace(i, data.section('=', 0, 0) + "=\"" + QUrl::fromPercentEncoding(data.section('=', 1).toUtf8()) + "\"");
-	    }
-	}
+        for (int i = 0; i < args.count(); ++i) {
+            if (args.at(i).startsWith(QLatin1String("meta.attr"))) {
+                QString data = args.at(i);
+                args.replace(i, data.section(QLatin1Char('='), 0, 0) + QLatin1String("=\"") + QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1String("\""));
+            }
+        }
 
         qDebug() << "//STARTING RENDERING: " << erase << "," << usekuiserver << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out ;
         RenderJob *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
@@ -114,8 +114,8 @@ int main(int argc, char **argv)
         job->start();
         if (dualpass) {
             if (vprelist.size()>1)
-                args.replaceInStrings(QRegExp("^vpre=.*"),QString("vpre=").append(vprelist.at(1)));
-            args.replace(args.indexOf("pass=1"), "pass=2");
+                args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")),QString::fromLatin1("vpre=%1").arg(vprelist.at(1)));
+            args.replace(args.indexOf(QLatin1String("pass=1")), QLatin1String("pass=2"));
             RenderJob *dualjob = new RenderJob(erase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
             QObject::connect(job, SIGNAL(renderingFinished()), dualjob, SLOT(start()));
         }

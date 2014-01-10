@@ -69,21 +69,21 @@ ColorPlaneExport::~ColorPlaneExport()
 
 ///// Helper functions /////
 
-void ColorPlaneExport::enableSliderScaling(const bool &enable)
+void ColorPlaneExport::enableSliderScaling(bool enable)
 {
     sliderScaling->setEnabled(enable);
     lblScaling->setEnabled(enable);
     lblScaleNr->setEnabled(enable);
 }
 
-void ColorPlaneExport::enableSliderColor(const bool &enable)
+void ColorPlaneExport::enableSliderColor(bool enable)
 {
     sliderColor->setEnabled(enable);
     lblSliderName->setEnabled(enable);
     lblColNr->setEnabled(enable);
 }
 
-void ColorPlaneExport::enableCbVariant(const bool &enable)
+void ColorPlaneExport::enableCbVariant(bool enable)
 {
    cbVariant->setEnabled(enable);
    lblVariant->setEnabled(enable);
@@ -123,7 +123,7 @@ void ColorPlaneExport::slotUpdateDisplays()
         break;
     }
 
-    lblSize->setText(i18n("%1 px", QVariant(tResX->text()).toInt()*QVariant(tResY->text()).toInt()));
+    lblSize->setText(i18n("%1 px", tResX->text().toInt()*tResY->text().toInt()));
 }
 
 void ColorPlaneExport::slotValidate()
@@ -275,3 +275,5 @@ void ColorPlaneExport::slotColormodeChanged()
     this->update();
     slotUpdateDisplays();
 }
+
+#include "colorplaneexport.moc"

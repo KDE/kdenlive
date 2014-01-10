@@ -74,6 +74,10 @@ macro_log_feature(Nepomuk_FOUND
   "http://nepomuk.semanticdesktop.org"
 )
 
+find_package(NepomukCore QUIET)
+set_package_properties(NepomukCore PROPERTIES DESCRIPTION "The Nepomuk Core libraries" URL "http://www.kde.org" TYPE RECOMMENDED PURPOSE "Support for the Nepomuk semantic desktop system")
+
+
 macro_log_feature(QJSON_FOUND
   "QJson"
   "Qt-based library that maps JSON data to QVariant objects"
@@ -256,7 +260,7 @@ kde4_add_ui_files(kdenlive_UIS
   widgets/trackheader_ui.ui
   widgets/tracksconfigdialog_ui.ui
   widgets/transitionsettings_ui.ui
-  widgets/unicodedialog_ui.ui
+  widgets/unicodewidget_ui.ui
   widgets/urlval_ui.ui
   widgets/vectorscope_ui.ui
   widgets/waveform_ui.ui
@@ -355,11 +359,17 @@ if(SDL_FOUND)
   target_link_libraries(kdenlive ${SDL_LIBRARY})
 endif(SDL_FOUND)
 
-if(Nepomuk_FOUND)
-  add_definitions(-DUSE_NEPOMUK)
-  include_directories(${NEPOMUK_INCLUDES})
-  target_link_libraries(kdenlive ${NEPOMUK_LIBRARIES})
-endif(Nepomuk_FOUND)
+if(NepomukCore_FOUND)
+    add_definitions(-DUSE_NEPOMUKCORE)
+    include_directories(${NEPOMUK_CORE_INCLUDE_DIR})
+    target_link_libraries(kdenlive ${NEPOMUK_CORE_LIBRARY})
+else(NepomukWidgets_FOUND)
+  if(Nepomuk_FOUND)
+    add_definitions(-DUSE_NEPOMUK)
+    include_directories(${NEPOMUK_INCLUDES})
+    target_link_libraries(kdenlive ${NEPOMUK_LIBRARIES})
+  endif(Nepomuk_FOUND)
+endif()
 
 if(QJSON_FOUND)
   add_definitions(-DUSE_QJSON)
@@ -398,5 +408,5 @@ install(FILES
   kdenlivetranscodingrc
   DESTINATION ${CONFIG_INSTALL_DIR}
 )
-kde4_install_icons(${ICON_INSTALL_DIR})
+add_subdirectory(icons)
 install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})

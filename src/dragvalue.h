@@ -26,9 +26,6 @@
 #include <QLabel>
 #include <QProgressBar>
 
-class QValidator;
-class QToolButton;
-class QLineEdit;
 class QAction;
 class QMenu;
 class KSelectAction;
@@ -44,13 +41,13 @@ public:
     
 protected:
     //virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     //virtual void paintEvent(QPaintEvent *event);
-    virtual void wheelEvent(QWheelEvent * event);
-    virtual void focusInEvent(QFocusEvent *e);
-    virtual void focusOutEvent(QFocusEvent *e);
+    void wheelEvent(QWheelEvent * event);
+    void focusInEvent(QFocusEvent *e);
+    void focusOutEvent(QFocusEvent *e);
 
 private:
     QPoint m_dragStartPosition;
@@ -88,7 +85,7 @@ public:
     * @param suffix The suffix that will be displayed in the spinbox (for example '%')
     * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
     */    
-    DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1, const QString suffix = QString(), bool showSlider = true, QWidget* parent = 0);
+    explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1, const QString &suffix = QString(), bool showSlider = true, QWidget* parent = 0);
     virtual ~DragValue();
 
     /** @brief Returns the precision = number of decimals */

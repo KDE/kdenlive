@@ -31,8 +31,9 @@
 #include <KLocalizedString>
 
 
-DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString suffix, int decimals, QWidget *parent) :
-        QWidget(parent)
+DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, QWidget *parent) 
+  : QWidget(parent),
+    m_commentLabel(NULL)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     QGridLayout *layout = new QGridLayout(this);
@@ -43,10 +44,10 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
     layout->addWidget(m_dragVal, 0, 1);
 
     if (!comment.isEmpty()) {
-	setToolTip(comment);
+        setToolTip(comment);
     }
     m_dragVal->setValue(value, false);
-    connect(m_dragVal, SIGNAL(valueChanged(double, bool)), this, SLOT(slotSetValue(double, bool)));
+    connect(m_dragVal, SIGNAL(valueChanged(double,bool)), this, SLOT(slotSetValue(double,bool)));
     connect(m_dragVal, SIGNAL(inTimeline(int)), this, SIGNAL(setInTimeline(int)));
 }
 
@@ -96,6 +97,7 @@ void DoubleParameterWidget::setInTimelineProperty(bool intimeline)
 
 void DoubleParameterWidget::slotShowComment( bool show)
 {
+    Q_UNUSED(show)
 }
 
 #include "doubleparameterwidget.moc"

@@ -34,7 +34,7 @@ class DocumentChecker: public QObject
     Q_OBJECT
 
 public:
-    explicit DocumentChecker(QDomNodeList infoproducers, QDomDocument doc);
+    explicit DocumentChecker(const QDomNodeList &infoproducers, const QDomDocument &doc);
     ~DocumentChecker();
     bool hasErrorInClips();
 
@@ -45,10 +45,10 @@ private slots:
     void slotPlaceholders();
     void slotDeleteSelected();
     QString getProperty(QDomElement effect, const QString &name);
-    void setProperty(QDomElement effect, const QString &name, const QString value);
+    void setProperty(QDomElement effect, const QString &name, const QString &value);
     QString searchLuma(const QDir &dir, const QString &file) const;
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
-    void checkMissingImagesAndFonts(QStringList images, QStringList fonts, const QString &id, const QString &baseClip);
+    void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id, const QString &baseClip);
     void slotCheckButtons();
     /** @brief Fix duration mismatch issues. */
     void slotFixDuration();

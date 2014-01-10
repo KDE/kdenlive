@@ -14,9 +14,8 @@
 #include "lib/audio/fftTools.h"
 #include "lib/external/kiss_fft/tools/kiss_fftr.h"
 
-#include <QMenu>
 #include <QPainter>
-#include <QMouseEvent>
+#include <QMenu>
 
 #include <iostream>
 
@@ -43,19 +42,19 @@
 
 AudioSpectrum::AudioSpectrum(QWidget *parent) :
     AbstractAudioScopeWidget(true, parent)
-    , m_fftTools()
-    , m_lastFFT()
-    , m_lastFFTLock(1)
-    , m_peaks()
+  , m_fftTools()
+  , m_lastFFT()
+  , m_lastFFTLock(1)
+  , m_peaks()
   #ifdef DEBUG_AUDIOSPEC
-    , m_timeTotal(0)
-    , m_showTotal(0)
+  , m_timeTotal(0)
+  , m_showTotal(0)
   #endif
-    , m_dBmin(-70)
-    , m_dBmax(0)
-    , m_freqMax(0)
-    , m_customFreq(false)
-    ,colorizeFactor(0)
+  , m_dBmin(-70)
+  , m_dBmax(0)
+  , m_freqMax(0)
+  , m_customFreq(false)
+  ,colorizeFactor(0)
 {
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);
@@ -150,20 +149,38 @@ void AudioSpectrum::writeConfig()
     scopeConfig.sync();
 }
 
-QString AudioSpectrum::widgetName() const { return QString("AudioSpectrum"); }
-bool AudioSpectrum::isBackgroundDependingOnInput() const { return false; }
-bool AudioSpectrum::isScopeDependingOnInput() const { return true; }
-bool AudioSpectrum::isHUDDependingOnInput() const { return false; }
+QString AudioSpectrum::widgetName() const
+{
+    return QLatin1String("AudioSpectrum");
+}
 
-QImage AudioSpectrum::renderBackground(uint) { return QImage(); }
+bool AudioSpectrum::isBackgroundDependingOnInput() const
+{
+    return false;
+}
 
-QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, const int freq, const int num_channels,
+bool AudioSpectrum::isScopeDependingOnInput() const
+{
+    return true;
+}
+
+bool AudioSpectrum::isHUDDependingOnInput() const
+{
+    return false;
+}
+
+QImage AudioSpectrum::renderBackground(uint)
+{
+    return QImage();
+}
+
+QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> &audioFrame, const int freq, const int num_channels,
                                        const int num_samples, const int)
 {
     if (
             audioFrame.size() > 63
             && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0    // <= 0 if widget is too small (resized by user)
-    ) {
+            ) {
         if (!m_customFreq) {
             m_freqMax = freq / 2;
         }
@@ -175,7 +192,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         bool overmodulated = false;
         int overmodulateCount = 0;
 
-        for (int i = 0; i < audioFrame.size(); i++) {
+        for (int i = 0; i < audioFrame.size(); ++i) {
             if (
                     audioFrame[i] == std::numeric_limits<int16_t>::max()
                     || audioFrame[i] == std::numeric_limits<int16_t>::min()) {
@@ -271,7 +288,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
         davinci.setPen(QPen(QBrush(spectrumColor.rgba()), 1, Qt::SolidLine));
 #endif
 
-        for (uint i = 0; i < w; i++) {
+        for (uint i = 0; i < w; ++i) {
             yMax = (dbMap[i] - m_dBmin) / (m_dBmax-m_dBmin) * (h-1);
             if (yMax < 0) {
                 yMax = 0;
@@ -294,7 +311,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
             if (m_peaks.size() != fftWindow/2) {
                 m_peaks = QVector<float>(m_lastFFT);
             } else {
-                for (int i = 0; i < fftWindow/2; i++) {
+                for (int i = 0; i < fftWindow/2; ++i) {
                     if (m_lastFFT[i] > m_peaks[i]) {
                         m_peaks[i] = m_lastFFT[i];
                     } else {
@@ -304,7 +321,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> audioFrame, 
             }
             int prev = 0;
             m_peakMap = FFTTools::interpolatePeakPreserving(m_peaks, m_innerScopeRect.width(), 0, right, -180);
-            for (uint i = 0; i < w; i++) {
+            for (uint i = 0; i < w; ++i) {
                 yMax = (m_peakMap[i] - m_dBmin) / (m_dBmax-m_dBmin) * (h-1);
                 if (yMax < 0) {
                     yMax = 0;
@@ -485,21 +502,21 @@ QImage AudioSpectrum::renderHUD(uint)
 QRect AudioSpectrum::scopeRect()
 {
     m_scopeRect = QRect(
-            QPoint(
+                QPoint(
                     10,                                     // Left
                     ui->verticalSpacer->geometry().top()+6  // Top
-            ),
-            AbstractAudioScopeWidget::rect().bottomRight()
-    );
+                    ),
+                AbstractAudioScopeWidget::rect().bottomRight()
+                );
     m_innerScopeRect = QRect(
-            QPoint(
+                QPoint(
                     m_scopeRect.left()+6,                   // Left
                     m_scopeRect.top()+6                     // Top
-            ), QPoint(
+                    ), QPoint(
                     ui->verticalSpacer->geometry().right()-70,
                     ui->verticalSpacer->geometry().bottom()-40
-            )
-    );
+                    )
+                );
     return m_scopeRect;
 }
 
@@ -577,3 +594,5 @@ void AudioSpectrum::handleMouseDrag(const QPoint &movement, const RescaleDirecti
         forceUpdateScope();
     }
 }
+
+#include "audiospectrum.moc"

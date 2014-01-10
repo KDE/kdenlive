@@ -26,9 +26,7 @@
 #include <QVector>
 #include <QWidget>
 #include <QImage>
-#include <QPainter>
 #include <QFrame>
-#include <QTimer>
 
 #include <stdint.h>
 
@@ -83,16 +81,17 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    explicit AbstractRender(Kdenlive::MONITORID name, RndrRole role, QWidget *parent = 0) :
-    	QObject(parent),
-    	sendFrameForAnalysis(false),
-    	analyseAudio(false),
-    	m_name(name),
-    	m_role(role)
-    {};
+    explicit AbstractRender(Kdenlive::MONITORID name, RndrRole role, QWidget *parent = 0)
+        : QObject(parent),
+          sendFrameForAnalysis(false),
+          analyseAudio(false),
+          m_name(name),
+          m_role(role)
+    {
+    }
 
     /** @brief Destroy the MLT Renderer. */
-    virtual ~AbstractRender() {};
+    virtual ~AbstractRender() {}
 
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
@@ -100,7 +99,7 @@ Q_OBJECT public:
     /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
     bool analyseAudio;
     
-    const QString &name() const {return m_name;};
+    const QString &name() const {return m_name;}
 
     /** @brief Someone needs us to send again a frame. */
     virtual void sendFrameUpdate() = 0;
@@ -132,10 +131,10 @@ protected:
 
 signals:
     /** @brief The renderer refreshed the current frame. */
-    void frameUpdated(QImage);
+    void frameUpdated(const QImage &);
 
     /** @brief This signal contains the audio of the current frame. */
-    void audioSamplesSignal(QVector<int16_t>,int,int,int);
+    void audioSamplesSignal(const QVector<int16_t>&,int,int,int);
 };
 
 
@@ -159,7 +158,7 @@ class AbstractMonitor : public QWidget
     Q_OBJECT
 public:
     AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager, QWidget *parent = 0);
-    Kdenlive::MONITORID id() {return m_id;};
+    Kdenlive::MONITORID id() {return m_id;}
     virtual ~AbstractMonitor();
     virtual AbstractRender *abstractRender() = 0;
     bool isActive() const;

@@ -57,15 +57,15 @@ class RecMonitor : public AbstractMonitor, public Ui::RecMonitor_UI
 
 public:
     explicit RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidget *parent = 0);
-    virtual ~RecMonitor();
+    ~RecMonitor();
 
     AbstractRender *abstractRender();
     void analyseFrames(bool analyse);
     enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2, BLACKMAGIC = 3};
 
 protected:
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
 
 private:
     KDateTime m_captureTime;
@@ -117,7 +117,7 @@ private:
     /** @brief Build MLT producer for device, using path as profile. */
     void buildMltDevice(const QString &path);
     /** @brief Create string containing an XML playlist for v4l capture. */
-    const QString getV4lXmlPlaylist(MltVideoProfile profile, bool *isXml);
+    const QString getV4lXmlPlaylist(const MltVideoProfile &profile, bool *isXml);
     /** @brief Display an error message to user. */
     void showWarningMessage(const QString &text, bool logAction = false);
 

@@ -39,7 +39,7 @@
 #include <QScrollBar>
 #include <QInputDialog>
 
-TrackView::TrackView(KdenliveDoc *doc, QList <QAction*> actions, bool *ok, QWidget *parent) :
+TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
     m_scale(1.0),
     m_projectTracks(0),
@@ -48,15 +48,15 @@ TrackView::TrackView(KdenliveDoc *doc, QList <QAction*> actions, bool *ok, QWidg
 {
     m_trackActions << actions;
     setupUi(this);
-//    ruler_frame->setMaximumHeight();
-//    size_frame->setMaximumHeight();
+    //    ruler_frame->setMaximumHeight();
+    //    size_frame->setMaximumHeight();
     m_scene = new CustomTrackScene(doc);
     m_trackview = new CustomTrackView(doc, m_scene, parent);
     m_trackview->scale(1, 1);
     m_trackview->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
-    connect(m_ruler, SIGNAL(zoneMoved(int, int)), this, SIGNAL(zoneMoved(int, int)));
+    connect(m_ruler, SIGNAL(zoneMoved(int,int)), this, SIGNAL(zoneMoved(int,int)));
     connect(m_ruler, SIGNAL(adjustZoom(int)), this, SIGNAL(setZoom(int)));
     connect(m_ruler, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     QHBoxLayout *layout = new QHBoxLayout;
@@ -106,20 +106,20 @@ TrackView::TrackView(KdenliveDoc *doc, QList <QAction*> actions, bool *ok, QWidg
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
     connect(m_trackview, SIGNAL(tracksChanged()), this, SLOT(slotReloadTracks()));
     connect(m_trackview, SIGNAL(updateTrackHeaders()), this, SLOT(slotRepaintTracks()));
-    connect(m_trackview, SIGNAL(showTrackEffects(int, TrackInfo)), this, SIGNAL(showTrackEffects(int, TrackInfo)));
+    connect(m_trackview, SIGNAL(showTrackEffects(int,TrackInfo)), this, SIGNAL(showTrackEffects(int,TrackInfo)));
     connect(m_trackview, SIGNAL(updateTrackEffectState(int)), this, SLOT(slotUpdateTrackEffectState(int)));
 
 
     parseDocument(m_doc->toXml());
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
-    connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
+    connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
     connect(m_trackview, SIGNAL(updateRuler()), m_ruler, SLOT(updateRuler()));
 
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
-    connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int, int)), this, SLOT(slotUpdateVerticalScroll(int, int)));
+    connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
-    connect(m_trackview, SIGNAL(doTrackLock(int, bool)), this, SLOT(slotChangeTrackLock(int, bool)));
+    connect(m_trackview, SIGNAL(doTrackLock(int,bool)), this, SLOT(slotChangeTrackLock(int,bool)));
 
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone(), false);
@@ -159,7 +159,7 @@ bool TrackView::checkProjectAudio() const
     bool hasAudio = false;
     const QList <TrackInfo> list = m_doc->tracksList();
     int max = list.count();
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         TrackInfo info = list.at(max - i - 1);
         if (!info.isMute && m_trackview->hasAudio(i)) {
             hasAudio = true;
@@ -179,7 +179,7 @@ int TrackView::outPoint() const
     return m_ruler->outPoint();
 }
 
-void TrackView::slotSetZone(QPoint p, bool updateDocumentProperties)
+void TrackView::slotSetZone(const QPoint &p, bool updateDocumentProperties)
 {
     m_ruler->setZone(p);
     if (updateDocumentProperties) m_doc->setZone(p.x(), p.y());
@@ -191,7 +191,7 @@ void TrackView::setDuration(int dur)
     m_ruler->setDuration(dur);
 }
 
-void TrackView::parseDocument(QDomDocument doc)
+void TrackView::parseDocument(const QDomDocument &doc)
 {
     //int cursorPos = 0;
     m_documentErrors.clear();
@@ -211,7 +211,7 @@ void TrackView::parseDocument(QDomDocument doc)
     int pos = m_projectTracks - 1;
     m_invalidProducers.clear();
     QDomNodeList producers = doc.elementsByTagName("producer");
-    for (int i = 0; i < producers.count(); i++) {
+    for (int i = 0; i < producers.count(); ++i) {
         // Check for invalid producers
         QDomNode n = producers.item(i);
         e = n.toElement();
@@ -225,12 +225,12 @@ void TrackView::parseDocument(QDomDocument doc)
             m_invalidProducers.append(id);
             m_documentErrors.append(i18n("Invalid clip producer %1\n", id));
             doc.documentElement().removeChild(producers.at(i));
-            i--;
+            --i;
         }
     }
 
     int trackIndex = 0;
-    for (int i = 0; i < m_projectTracks; i++) {
+    for (int i = 0; i < m_projectTracks; ++i) {
         e = tracks.item(i).toElement();
         QString playlist_name = e.attribute("producer");
         if (playlist_name != "black_track" && playlist_name != "playlistmain") {
@@ -275,7 +275,7 @@ void TrackView::parseDocument(QDomDocument doc)
     QDomNodeList transitions = tractor.elementsByTagName("transition");
 
     //kDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
-    for (int i = 0; i < transitions.count(); i++) {
+    for (int i = 0; i < transitions.count(); ++i) {
         e = transitions.item(i).toElement();
         QDomNodeList transitionparams = e.childNodes();
         bool transitionAdd = true;
@@ -322,7 +322,7 @@ void TrackView::parseDocument(QDomDocument doc)
             // invalid transition, remove it
             m_documentErrors.append(i18n("Removed invalid transition: %1", e.attribute("id")) + '\n');
             tractor.removeChild(transitions.item(i));
-            i--;
+            --i;
             continue;
         }
         if (transitionAdd || mlt_service != "mix") {
@@ -355,34 +355,34 @@ void TrackView::parseDocument(QDomDocument doc)
             QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, transitionId).cloneNode().toElement();
 
             if (!base.isNull()) for (int k = 0; k < transitionparams.count(); k++) {
-                    p = transitionparams.item(k).toElement();
-                    if (!p.isNull()) {
-                        QString paramName = p.attribute("name");
-                        QString paramValue = p.text();
+                p = transitionparams.item(k).toElement();
+                if (!p.isNull()) {
+                    QString paramName = p.attribute("name");
+                    QString paramValue = p.text();
 
-                        QDomNodeList params = base.elementsByTagName("parameter");
-                        if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); i++) {
-                                QDomElement e = params.item(i).toElement();
-                                if (!e.isNull() && e.attribute("tag") == paramName) {
-                                    if (e.attribute("type") == "double") {
-                                        QString factor = e.attribute("factor", "1");
-                                        double offset = e.attribute("offset", "0").toDouble();
-                                        if (factor != "1" || offset != 0) {
-                                            double fact;
-                                            if (factor.contains('%')) {
-                                                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
-                                            } else {
-                                                fact = factor.toDouble();
-                                            }
-                                            paramValue = QLocale().toString(offset + paramValue.toDouble() * fact);
-                                        }
+                    QDomNodeList params = base.elementsByTagName("parameter");
+                    if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); ++i) {
+                        QDomElement e = params.item(i).toElement();
+                        if (!e.isNull() && e.attribute("tag") == paramName) {
+                            if (e.attribute("type") == "double") {
+                                QString factor = e.attribute("factor", "1");
+                                double offset = e.attribute("offset", "0").toDouble();
+                                if (factor != "1" || offset != 0) {
+                                    double fact;
+                                    if (factor.contains('%')) {
+                                        fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                                    } else {
+                                        fact = factor.toDouble();
                                     }
-                                    e.setAttribute("value", paramValue);
-                                    break;
+                                    paramValue = QLocale().toString(offset + paramValue.toDouble() * fact);
                                 }
                             }
+                            e.setAttribute("value", paramValue);
+                            break;
+                        }
                     }
                 }
+            }
 
             /*QDomDocument doc;
             doc.appendChild(doc.importNode(base, true));
@@ -398,7 +398,7 @@ void TrackView::parseDocument(QDomDocument doc)
                 m_documentErrors.append(i18n("Removed invalid transition: (%1, %2, %3)", e.attribute("id"), mlt_service, transitionId) + '\n');
                 kDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
                 tractor.removeChild(transitions.item(i));
-                i--;
+                --i;
             } else if (m_trackview->canBePastedTo(transitionInfo, TRANSITIONWIDGET)) {
                 Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
                 if (forceTrack) tr->setForcedTrack(true, a_track);
@@ -410,7 +410,7 @@ void TrackView::parseDocument(QDomDocument doc)
             else {
                 m_documentErrors.append(i18n("Removed overlapping transition: (%1, %2, %3)", e.attribute("id"), mlt_service, transitionId) + '\n');
                 tractor.removeChild(transitions.item(i));
-                i--;
+                --i;
             }
         }
     }
@@ -424,7 +424,7 @@ void TrackView::parseDocument(QDomDocument doc)
 
     // Add guides
     QDomNodeList guides = infoXml.elementsByTagName("guide");
-    for (int i = 0; i < guides.count(); i++) {
+    for (int i = 0; i < guides.count(); ++i) {
         e = guides.item(i).toElement();
         const QString comment = e.attribute("comment");
         const GenTime pos = GenTime(e.attribute("time").toDouble());
@@ -503,7 +503,7 @@ int TrackView::fitZoom() const
 {
     int zoom = (int)((duration() + 20 / m_scale) * m_trackview->getFrameWidth() / m_trackview->width());
     int i;
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < 13; ++i)
         if (m_ruler->comboScale[i] > zoom) break;
     return i;
 }
@@ -521,7 +521,7 @@ void TrackView::refresh()
 void TrackView::slotRepaintTracks()
 {
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    for (int i = 0; i < widgets.count(); i++) {
+    for (int i = 0; i < widgets.count(); ++i) {
         if (widgets.at(i)) widgets.at(i)->setSelectedIndex(m_trackview->selectedTrack());
     }
 }
@@ -548,7 +548,7 @@ void TrackView::slotRebuildTrackHeaders()
 
     updatePalette();
     
-    for (int i = 0; i < max; i++) {
+    for (int i = 0; i < max; ++i) {
         frame = new QFrame(headers_container);
         frame->setFrameStyle(QFrame::HLine);
         frame->setFixedHeight(1);
@@ -560,9 +560,9 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
         connect(header, SIGNAL(switchTrackLock(int)), m_trackview, SLOT(slotSwitchTrackLock(int)));
         connect(header, SIGNAL(selectTrack(int)), m_trackview, SLOT(slotSelectTrack(int)));
-        connect(header, SIGNAL(renameTrack(int, QString)), this, SLOT(slotRenameTrack(int, QString)));
+        connect(header, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
         connect(header, SIGNAL(configTrack(int)), this, SIGNAL(configTrack(int)));
-        connect(header, SIGNAL(addTrackEffect(const QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(const QDomElement, int)));
+        connect(header, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
         connect(header, SIGNAL(showTrackEffects(int)), this, SLOT(slotShowTrackEffects(int)));
         headers_container->layout()->addWidget(header);
     }
@@ -591,12 +591,12 @@ void TrackView::adjustTrackHeaders()
 {
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    for (int i = 0; i < widgets.count(); i++) {
+    for (int i = 0; i < widgets.count(); ++i) {
         if (widgets.at(i)) widgets.at(i)->adjustSize(height);
     }
 }
 
-int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers)
+int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers)
 {
     // parse track
     int position = 0;
@@ -656,7 +656,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                     producerReplacementIds.insert(idString, prodId);
                     // now adjust the mlt producer
                     bool found = false;
-                    for (int i = 0; i < producers.count(); i++) {
+                    for (int i = 0; i < producers.count(); ++i) {
                         QDomElement prod = producers.at(i).toElement();
                         if (prod.attribute("id") == prodId) {
                             // ok, producer already exists
@@ -665,7 +665,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                         }
                     }
                     if (!found) {
-                        for (int i = 0; i < producers.count(); i++) {
+                        for (int i = 0; i < producers.count(); ++i) {
                             QDomElement prod = producers.at(i).toElement();
                             if (prod.attribute("id") == idString) {
                                 prod.setAttribute("id", prodId);
@@ -677,7 +677,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                     }
                     if (!found) {
                         // We didn't find the producer for this track, find producer for another track and duplicate
-                        for (int i = 0; i < producers.count(); i++) {
+                        for (int i = 0; i < producers.count(); ++i) {
                             QDomElement prod = producers.at(i).toElement();
                             QString mltProdId = prod.attribute("id");
                             if (mltProdId == prodId || mltProdId.startsWith(prodId + '_')) {
@@ -688,7 +688,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                                 break;
                             }
                         }
-                    }                    
+                    }
                 }
                 else {
                     // We cannot find the producer, something is really wrong, add
@@ -697,7 +697,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNod
                     QDomElement producerXml = doc.createElement("producer");
                     doc.appendChild(producerXml);
                     bool foundMltProd = false;
-                    for (int i = 0; i < producers.count(); i++) {
+                    for (int i = 0; i < producers.count(); ++i) {
                         QDomElement prod = producers.at(i).toElement();
                         if (prod.attribute("id") == id) {
                             QString service = EffectsList::property(prod, "mlt_service");
@@ -780,7 +780,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         // add effect to clip
         QString effecttag;
         QString effectid;
-	QString effectinfo;
+        QString effectinfo;
         QString effectindex = QString::number(effectNb);
         // Get effect tag & index
         for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
@@ -790,7 +790,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 effecttag = effectparam.text();
             } else if (effectparam.attribute("name") == "kdenlive_id") {
                 effectid = effectparam.text();
-	    } else if (effectparam.attribute("name") == "kdenlive_info") {
+            } else if (effectparam.attribute("name") == "kdenlive_info") {
                 effectinfo = effectparam.text();
             } else if (effectparam.attribute("name") == "disable" && effectparam.text().toInt() == 1) {
                 // Fix effects index
@@ -811,7 +811,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
         } else {
             QDomElement currenteffect = clipeffect.cloneNode().toElement();
             currenteffect.setAttribute("kdenlive_ix", effectindex);
-	    currenteffect.setAttribute("kdenlive_info", effectinfo);
+            currenteffect.setAttribute("kdenlive_info", effectinfo);
             QDomNodeList clipeffectparams = currenteffect.childNodes();
 
             if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
@@ -822,7 +822,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 QString endtag;
                 double offset = 0;
                 QDomNodeList params = currenteffect.elementsByTagName("parameter");
-                for (int i = 0; i < params.count(); i++) {
+                for (int i = 0; i < params.count(); ++i) {
                     QDomElement e = params.item(i).toElement();
                     if (e.attribute("type") == "keyframe") {
                         starttag = e.attribute("starttag", "start");
@@ -886,7 +886,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 }
 
                 params = currenteffect.elementsByTagName("parameter");
-                for (int i = 0; i < params.count(); i++) {
+                for (int i = 0; i < params.count(); ++i) {
                     QDomElement e = params.item(i).toElement();
                     if (e.attribute("type") == "keyframe") e.setAttribute("keyframes", keyframes);
                 }
@@ -896,31 +896,31 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
             } else {
                 // Check if effect has in/out points
                 if (effect.hasAttribute("in")) {
-		    EffectsList::setParameter(currenteffect, "in",  effect.attribute("in"));
-		    currenteffect.setAttribute("in", effect.attribute("in"));
-		    currenteffect.setAttribute("_sync_in_out", "1");
+                    EffectsList::setParameter(currenteffect, "in",  effect.attribute("in"));
+                    currenteffect.setAttribute("in", effect.attribute("in"));
+                    currenteffect.setAttribute("_sync_in_out", "1");
                 }
                 if (effect.hasAttribute("out")) {
-		    EffectsList::setParameter(currenteffect, "out",  effect.attribute("out"));
-		    currenteffect.setAttribute("out", effect.attribute("out"));
+                    EffectsList::setParameter(currenteffect, "out",  effect.attribute("out"));
+                    currenteffect.setAttribute("out", effect.attribute("out"));
                 }
             }
             
             // Special case, region filter embeds other effects
-	    bool regionFilter = effecttag == "region";
-	    QMap <QString, QString> regionEffects;
-	    
+            bool regionFilter = effecttag == "region";
+            QMap <QString, QString> regionEffects;
+
             // adjust effect parameters
             for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
                 // parse effect parameters
                 QDomElement effectparam = n3.toElement();
                 QString paramname = effectparam.attribute("name");
                 QString paramvalue = effectparam.text();
-		
-		if (regionFilter && paramname.startsWith("filter")) {
-		    regionEffects.insert(paramname, paramvalue);
-		    continue;
-		}
+
+                if (regionFilter && paramname.startsWith("filter")) {
+                    regionEffects.insert(paramname, paramvalue);
+                    continue;
+                }
 
                 // try to find this parameter in the effect xml and set its value
                 adjustparameterValue(clipeffectparams, paramname, paramvalue);
@@ -928,26 +928,26 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
             }
             
             if (regionFilter && !regionEffects.isEmpty()) {
-		// insert region sub-effects
-		int i = 0;
-		while (regionEffects.contains(QString("filter%1").arg(i))) {
-		    QString filterid = regionEffects.value(QString("filter%1.kdenlive_id").arg(i));
-		    QString filtertag = regionEffects.value(QString("filter%1.tag").arg(i));
-		    QDomElement subclipeffect = getEffectByTag(filtertag, filterid).cloneNode().toElement();
-		    QDomNodeList subclipeffectparams = subclipeffect.childNodes();
-		    subclipeffect.setAttribute("region_ix", i);
-		    QMap<QString, QString>::const_iterator j = regionEffects.constBegin();
-		    while (j != regionEffects.constEnd()) {
-			if (j.key().startsWith(QString("filter%1.").arg(i))) {
-			    QString pname = j.key().section('.', 1, -1);
-			    adjustparameterValue(subclipeffectparams, pname, j.value());
-			}
-			++j;
-		    }
-		    currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
-		    i++;
-		}
-	    }
+                // insert region sub-effects
+                int i = 0;
+                while (regionEffects.contains(QString("filter%1").arg(i))) {
+                    QString filterid = regionEffects.value(QString("filter%1.kdenlive_id").arg(i));
+                    QString filtertag = regionEffects.value(QString("filter%1.tag").arg(i));
+                    QDomElement subclipeffect = getEffectByTag(filtertag, filterid).cloneNode().toElement();
+                    QDomNodeList subclipeffectparams = subclipeffect.childNodes();
+                    subclipeffect.setAttribute("region_ix", i);
+                    QMap<QString, QString>::const_iterator j = regionEffects.constBegin();
+                    while (j != regionEffects.constEnd()) {
+                        if (j.key().startsWith(QString("filter%1.").arg(i))) {
+                            QString pname = j.key().section('.', 1, -1);
+                            adjustparameterValue(subclipeffectparams, pname, j.value());
+                        }
+                        ++j;
+                    }
+                    currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
+                    ++i;
+                }
+            }
             
             if (disableeffect) currenteffect.setAttribute("disable", "1");
             if (clip)
@@ -964,37 +964,37 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
     QDomElement e;
     QLocale locale;
     for (int k = 0; k < clipeffectparams.count(); k++) {
-	e = clipeffectparams.item(k).toElement();
+        e = clipeffectparams.item(k).toElement();
         if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
-	    QString type = e.attribute("type");
+            QString type = e.attribute("type");
             QString factor = e.attribute("factor", "1");
             double fact;
             if (factor.contains('%')) {
-		fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
+                fact = ProfilesDialog::getStringEval(m_doc->mltProfile(), factor);
             } else {
-		fact = factor.toDouble();
+                fact = factor.toDouble();
             }
             double offset = e.attribute("offset", "0").toDouble();
             if (type == "simplekeyframe") {
-		QStringList kfrs = paramvalue.split(";");
+                QStringList kfrs = paramvalue.split(";");
                 for (int l = 0; l < kfrs.count(); l++) {
-		    QString fr = kfrs.at(l).section('=', 0, 0);
+                    QString fr = kfrs.at(l).section('=', 0, 0);
                     double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
                     //kfrs[l] = fr + ":" + locale.toString((int)(val * fact));
                     kfrs[l] = fr + ':' + QString::number((int) (offset + val * fact));
                 }
                 e.setAttribute("keyframes", kfrs.join(";"));
             } else if (type == "double" || type == "constant") {
-		bool ok;
+                bool ok;
                 e.setAttribute("value", offset + locale.toDouble(paramvalue, &ok) * fact);
                 if (!ok)
-		    e.setAttribute("value", paramvalue);
+                    e.setAttribute("value", paramvalue);
             } else {
-		e.setAttribute("value", paramvalue);
+                e.setAttribute("value", paramvalue);
             }
             break;
         }
-    }  
+    }
 }
 
 
@@ -1002,16 +1002,16 @@ QDomElement TrackView::getEffectByTag(const QString &effecttag, const QString &e
 {
     QDomElement clipeffect = MainWindow::customEffects.getEffectByTag(QString(), effectid);
     if (clipeffect.isNull()) {
-	clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
+        clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
     }
     if (clipeffect.isNull()) {
-	clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
+        clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
     }
     return clipeffect;
 }
 
 
-DocClipBase *TrackView::getMissingProducer(const QString id) const
+DocClipBase *TrackView::getMissingProducer(const QString &id) const
 {
     QDomElement missingXml;
     QDomDocument doc = m_doc->toXml();
@@ -1020,7 +1020,7 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
     QDomNodeList prods = doc.elementsByTagName("producer");
     int maxprod = prods.count();
     bool slowmotionClip = false;
-    for (int i = 0; i < maxprod; i++) {
+    for (int i = 0; i < maxprod; ++i) {
         QDomNode m = prods.at(i);
         QString prodId = m.toElement().attribute("id");
         if (prodId.startsWith("slowmotion")) {
@@ -1038,7 +1038,7 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
         if (m_replacementProducerIds.contains(id)) {
             QString newId = m_replacementProducerIds.value(id);
             slowmotionClip = false;
-            for (int i = 0; i < maxprod; i++) {
+            for (int i = 0; i < maxprod; ++i) {
                 QDomNode m = prods.at(i);
                 QString prodId = m.toElement().attribute("id");
                 if (prodId.startsWith("slowmotion")) {
@@ -1050,7 +1050,7 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
                     missingXml =  m.toElement();
                     break;
                 }
-            }       
+            }
         }
     }
     if (missingXml == QDomElement()) return NULL;
@@ -1130,7 +1130,7 @@ void TrackView::updateProjectFps()
     m_trackview->updateProjectFps();
 }
 
-void TrackView::slotRenameTrack(int ix, QString name)
+void TrackView::slotRenameTrack(int ix, const QString &name)
 {
     int tracknumber = m_doc->tracksCount() - ix;
     QList <TrackInfo> tracks = m_doc->tracksList();
@@ -1168,7 +1168,7 @@ void TrackView::slotUpdateTrackEffectState(int ix)
     widgets.at(m_doc->tracksCount() - ix - 1)->updateEffectLabel(m_doc->trackInfoAt(ix).effectsList.effectNames());
 }
 
-void TrackView::slotSaveTimelinePreview(const QString path)
+void TrackView::slotSaveTimelinePreview(const QString &path)
 {
     QImage img(width(), height(), QImage::Format_ARGB32_Premultiplied);
     img.fill(palette().base().color().rgb());

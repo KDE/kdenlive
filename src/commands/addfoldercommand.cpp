@@ -21,30 +21,36 @@
 #include "addfoldercommand.h"
 #include "projectlist.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
-AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
+AddFolderCommand::AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_view(view),
         m_name(folderName),
         m_id(clipId),
         m_doIt(doIt)
 {
-    if (doIt) setText(i18n("Add folder"));
-    else setText(i18n("Delete folder"));
+    if (doIt)
+        setText(i18n("Add folder"));
+    else
+        setText(i18n("Delete folder"));
 }
 
 // virtual
 void AddFolderCommand::undo()
 {
-    if (m_doIt) m_view->slotAddFolder(m_name, m_id, true);
-    else m_view->slotAddFolder(m_name, m_id, false);
+    if (m_doIt)
+        m_view->slotAddFolder(m_name, m_id, true);
+    else
+        m_view->slotAddFolder(m_name, m_id, false);
 }
 // virtual
 void AddFolderCommand::redo()
 {
-    if (m_doIt) m_view->slotAddFolder(m_name, m_id, false);
-    else m_view->slotAddFolder(m_name, m_id, true);
+    if (m_doIt)
+        m_view->slotAddFolder(m_name, m_id, false);
+    else
+        m_view->slotAddFolder(m_name, m_id, true);
 }
 
 

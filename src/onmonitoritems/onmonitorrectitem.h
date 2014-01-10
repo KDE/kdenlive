@@ -22,7 +22,6 @@
 #define ONMONITORRECTITEM_H
 
 
-#include <QtCore>
 #include <QGraphicsRectItem>
 
 class QGraphicsView;
@@ -38,16 +37,16 @@ public:
 
     /** @brief Gets The action mode for the area @param pos +- 4.
      * e.g. pos(0,0) returns ResizeTopLeft */
-    rectActions getMode(QPointF pos);
+    rectActions getMode(const QPointF &pos);
 
     /** @brief Reimplemented to draw the handles. */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 );
 
 protected:
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 
 private:
     double m_dar;

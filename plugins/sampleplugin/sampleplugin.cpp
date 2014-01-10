@@ -21,22 +21,18 @@
 #include "sampleplugin.h"
 #include "ui_countdown_ui.h"
 
-#include <KUrlRequester>
-#include <KIntSpinBox>
 #include <KDebug>
 #include <KMessageBox>
 #include <KApplication>
 
 #include <QDialog>
-#include <QDomDocument>
-#include <QInputDialog>
 #include <QProcess>
 
-QStringList SamplePlugin::generators(const QStringList producers) const
+QStringList SamplePlugin::generators(const QStringList &producers) const
 {
     QStringList result;
-    if (producers.contains("pango")) result << i18n("Countdown");
-    if (producers.contains("noise")) result << i18n("Noise");
+    if (producers.contains(QLatin1String("pango"))) result << i18n("Countdown");
+    if (producers.contains(QLatin1String("noise"))) result << i18n("Noise");
     return result;
 }
 
@@ -45,75 +41,75 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
 {
     QString prePath;
     if (generator == i18n("Noise")) {
-        prePath = projectFolder.path() + "/noise";
-    } else prePath = projectFolder.path() + "/counter";
+        prePath = projectFolder.path() + QLatin1String("/noise");
+    } else prePath = projectFolder.path() + QLatin1String("/counter");
     int ct = 0;
-    QString counter = QString::number(ct).rightJustified(5, '0', false);
-    while (QFile::exists(prePath + counter + ".mlt")) {
+    QString counter = QString::number(ct).rightJustified(5, QLatin1Char('0'), false);
+    while (QFile::exists(prePath + counter + QLatin1String(".mlt"))) {
         ct++;
-        counter = QString::number(ct).rightJustified(5, '0', false);
+        counter = QString::number(ct).rightJustified(5, QLatin1Char('0'), false);
     }
     QPointer<QDialog> d = new QDialog;
     Ui::CountDown_UI view;
     view.setupUi(d);
     if (generator == i18n("Noise")) {
-        d->setWindowTitle(tr("Create Noise Clip"));
+        d->setWindowTitle(i18n("Create Noise Clip"));
         view.font_label->setHidden(true);
         view.font->setHidden(true);
     } else {
-        d->setWindowTitle(tr("Create Countdown Clip"));
+        d->setWindowTitle(i18n("Create Countdown Clip"));
         view.font->setValue(height);
     }
 
     // Set single file mode. Default seems to be File::ExistingOnly.
     view.path->setMode(KFile::File);
 
-    QString clipFile = prePath + counter + ".mlt";
+    QString clipFile = prePath + counter + QLatin1String(".mlt");
     view.path->setUrl(KUrl(clipFile));
     KUrl result;
     
     if (d->exec() == QDialog::Accepted) {
-	QProcess generatorProcess;
+        QProcess generatorProcess;
 
-	// Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
+        // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
 #if QT_VERSION >= 0x040600
-	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	env.insert("MLT_NO_VDPAU", "1");
-	generatorProcess.setProcessEnvironment(env);
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        env.insert(QLatin1String("MLT_NO_VDPAU"), QLatin1String("1"));
+        generatorProcess.setProcessEnvironment(env);
 #else
-	QStringList env = QProcess::systemEnvironment();
-	env << "MLT_NO_VDPAU=1";
-	generatorProcess.setEnvironment(env);
+        QStringList env = QProcess::systemEnvironment();
+        env << QLatin1String("MLT_NO_VDPAU=1");
+        generatorProcess.setEnvironment(env);
 #endif
-	QStringList args;
-	if (generator == i18n("Noise")) {
-	    args << "noise:" << "in=0" << QString("out=" + QString::number((int) fps * view.duration->value()));
-	}
-	else {
-	    // Countdown producer
-	    for (int i = 0; i < view.duration->value(); i++) {
+        QStringList args;
+        if (generator == i18n("Noise")) {
+            args << QLatin1String("noise:") << QLatin1String("in=0") << QLatin1String("out=") + QString::number((int) fps * view.duration->value());
+        }
+        else {
+            // Countdown producer
+            for (int i = 0; i < view.duration->value(); i++) {
                 // Create the producers
-                args << "pango:" << "in=0" << QString("out=" + QString::number((int) fps * view.duration->value()));
-		args << QString("text=" + QString::number(view.duration->value() - i));
-		args << QString("font=" + QString::number(view.font->value()) + "px");
-	    }
-	}
-	
-	args << "-consumer"<<QString("xml:%1").arg(view.path->url().path());
-	generatorProcess.start(renderer, args);
+                args << QLatin1String("pango:") << QLatin1String("in=0") << QLatin1String("out=") + QString::number((int) fps * view.duration->value());
+                args << QLatin1String("text=") + QString::number(view.duration->value() - i);
+                args << QLatin1String("font=") + QString::number(view.font->value()) + QLatin1String("px");
+            }
+        }
+
+        args << QLatin1String("-consumer")<<QString::fromLatin1("xml:%1").arg(view.path->url().path());
+        generatorProcess.start(renderer, args);
         if (generatorProcess.waitForFinished()) {
-	    if (generatorProcess.exitStatus() == QProcess::CrashExit) {
+            if (generatorProcess.exitStatus() == QProcess::CrashExit) {
                 kDebug() << "/// Generator failed: ";
-		QString error = generatorProcess.readAllStandardError();
-		KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
-	    }
-	    else {
-		result = view.path->url();
-	    }
+                QString error = QString::fromLocal8Bit(generatorProcess.readAllStandardError());
+                KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
+            }
+            else {
+                result = view.path->url();
+            }
         } else {
-	    kDebug() << "/// Generator failed: ";
-	    QString error = generatorProcess.readAllStandardError();
-	    KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
+            kDebug() << "/// Generator failed: ";
+            QString error = QString::fromLocal8Bit(generatorProcess.readAllStandardError());
+            KMessageBox::sorry(kapp->activeWindow(), i18n("Failed to generate clip:\n%1", error, i18n("Generator Failed")));
         }
     }
     delete d;
@@ -121,3 +117,5 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
 }
 
 Q_EXPORT_PLUGIN2(kdenlive_sampleplugin, SamplePlugin)
+
+#include "sampleplugin.moc"

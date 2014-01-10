@@ -31,18 +31,18 @@ class KeyframeHelper : public QWidget
 {
     Q_OBJECT
 public:
-    KeyframeHelper(QWidget *parent = 0);
+    explicit KeyframeHelper(QWidget *parent = 0);
     int value() const;
     int frameLength;
 
 protected:
-    virtual void paintEvent(QPaintEvent * /*e*/);
-    virtual void wheelEvent(QWheelEvent * e);
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseMoveEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void leaveEvent( QEvent * event );
+    void paintEvent(QPaintEvent * /*e*/);
+    void wheelEvent(QWheelEvent * e);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseMoveEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
+    void leaveEvent( QEvent * event );
 
 private:
     Mlt::Geometry *m_geom;

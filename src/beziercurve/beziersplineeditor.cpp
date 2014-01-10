@@ -45,11 +45,10 @@ BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
 
 BezierSplineEditor::~BezierSplineEditor()
 {
-    if (m_pixmapCache)
-        delete m_pixmapCache;
+    delete m_pixmapCache;
 }
 
-CubicBezierSpline BezierSplineEditor::spline()
+CubicBezierSpline BezierSplineEditor::spline() const
 {
     return m_spline;
 }
@@ -107,11 +106,13 @@ void BezierSplineEditor::slotZoomOut()
 
 void BezierSplineEditor::setShowAllHandles(bool show)
 {
-    m_showAllHandles = show;
-    update();
+    if (m_showAllHandles != show) {
+        m_showAllHandles = show;
+        update();
+    }
 }
 
-int BezierSplineEditor::gridLines()
+int BezierSplineEditor::gridLines() const
 {
     return m_gridLines;
 }
@@ -462,7 +463,7 @@ void BezierSplineEditor::leaveEvent(QEvent* event)
     QWidget::leaveEvent(event);
 }
 
-int BezierSplineEditor::nearestPointInRange(QPointF p, int wWidth, int wHeight, BezierSplineEditor::point_types* sel)
+int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wHeight, BezierSplineEditor::point_types* sel)
 {
     double nearestDistanceSquared = 1000;
     point_types selectedPoint = PTypeP;

@@ -68,7 +68,7 @@ static QColor stringToColor(QString strColor)
     return color;
 }
 
-static QString colorToString(QColor color, bool alpha)
+static QString colorToString(const QColor &color, bool alpha)
 {
     QString colorStr;
     QTextStream stream(&colorStr);
@@ -78,18 +78,16 @@ static QString colorToString(QColor color, bool alpha)
     stream.setFieldAlignment(QTextStream::AlignRight);
     stream.setPadChar('0');
     stream <<  color.red() << color.green() << color.blue();
-    if(alpha)
-    {
+    if (alpha) {
         stream << color.alpha();
-    }
-    else {
+    } else {
 	// MLT always wants 0xRRGGBBAA format
 	stream << "ff";
     }
     return colorStr;
 }
 
-ChooseColorWidget::ChooseColorWidget(QString text, QString color, bool alphaEnabled, QWidget *parent) :
+ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, bool alphaEnabled, QWidget *parent) :
         QWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -116,12 +114,12 @@ ChooseColorWidget::ChooseColorWidget(QString text, QString color, bool alphaEnab
     rightSideLayout->addWidget(picker, 0, Qt::AlignRight);
 
     connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
-    connect(picker, SIGNAL(displayMessage(const QString&, int)), this, SIGNAL(displayMessage(const QString&, int)));
+    connect(picker, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
     connect(picker, SIGNAL(disableCurrentFilter(bool)), this, SIGNAL(disableCurrentFilter(bool)));
     connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified()));
 }
 
-QString ChooseColorWidget::getColor()
+QString ChooseColorWidget::getColor() const
 {
     bool alphaChannel = false;
 #if KDE_IS_VERSION(4,5,0)
@@ -130,7 +128,7 @@ QString ChooseColorWidget::getColor()
     return colorToString(m_button->color(), alphaChannel);
 }
 
-void ChooseColorWidget::setColor(QColor color)
+void ChooseColorWidget::setColor(const QColor& color)
 {
     m_button->setColor(color);
 }

@@ -26,12 +26,12 @@
 #include <KDebug>
 
 
-MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent) :
-        QDialog(parent)
-        , m_producer(NULL)
-        , m_profile(NULL)
-        , m_clip(clip)
-	, m_dar(4.0 / 3.0)
+MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
+    : QDialog(parent)
+    , m_producer(NULL)
+    , m_profile(NULL)
+    , m_clip(clip)
+    , m_dar(4.0 / 3.0)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -39,9 +39,9 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
 
     // Set  up categories
     for (int i = 0; i < 5; ++i) {
-         marker_type->insertItem(i, i18n("Category %1", i));
-         marker_type->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
-     }
+        marker_type->insertItem(i, i18n("Category %1", i));
+        marker_type->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
+    }
     marker_type->setCurrentIndex(t.markerType());
 
     m_in = new TimecodeDisplay(tc, this);
@@ -77,15 +77,17 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         case SLIDESHOW:
         case PLAYLIST:
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
+            break;
         case IMAGE:
         case TEXT:
-	    m_image = KThumb::getFrame(m_producer, m_in->getValue(), swidth, width, Kdenlive::DefaultThumbHeight);
+            m_image = KThumb::getFrame(m_producer, m_in->getValue(), swidth, width, Kdenlive::DefaultThumbHeight);
             p = QPixmap::fromImage(m_image);
             break;
         case COLOR:
             colour = colour.replace(0, 2, "#");
             p.fill(QColor(colour.left(7)));
             break;
+        //UNKNOWN, AUDIO, VIRTUAL:
         default:
             p.fill(Qt::black);
         }
@@ -98,8 +100,8 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         connect(m_in, SIGNAL(timeCodeEditingFinished()), this, SIGNAL(updateThumb()));
     } else {
         clip_thumb->setHidden(true);
-	label_category->setHidden(true);
-	marker_type->setHidden(true);
+        label_category->setHidden(true);
+        marker_type->setHidden(true);
     }
 
     marker_comment->setText(t.comment());
@@ -122,9 +124,11 @@ void MarkerDialog::slotUpdateThumb()
     int pos = m_in->getValue();
     int width = 100.0 * m_dar;
     int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
-    if (width % 2 == 1) width++;
+    if (width % 2 == 1)
+        width++;
+
     m_image = KThumb::getFrame(m_producer, pos, swidth, width, 100);
-    QPixmap p = QPixmap::fromImage(m_image);
+    const QPixmap p = QPixmap::fromImage(m_image);
     if (!p.isNull())
         clip_thumb->setPixmap(p);
     else

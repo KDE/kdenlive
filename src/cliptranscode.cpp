@@ -27,8 +27,8 @@
 #include <KFileDialog>
 
 
-ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
-        QDialog(parent), m_urls(urls), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
+ClipTranscode::ClipTranscode(const KUrl::List &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
+    QDialog(parent), m_urls(urls), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -43,7 +43,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
     log_text->setHidden(true);
     setWindowTitle(i18n("Transcode Clip"));
     if (m_automaticMode) {
-	auto_add->setHidden(true);
+        auto_add->setHidden(true);
     }
     auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
@@ -57,7 +57,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
         dest_url->setUrl(dest);
         dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
         urls_list->setHidden(true);
-        connect(source_url, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateParams()));
+        connect(source_url, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateParams()));
     } else {
         label_source->setHidden(true);
         source_url->setHidden(true);
@@ -65,7 +65,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
         dest_url->setMode(KFile::Directory);
         dest_url->setUrl(KUrl(m_urls.at(0).directory()));
         dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
-        for (int i = 0; i < m_urls.count(); i++)
+        for (int i = 0; i < m_urls.count(); ++i)
             urls_list->addItem(m_urls.at(i).path());
     }
     if (!params.isEmpty()) {
@@ -96,7 +96,7 @@ ClipTranscode::ClipTranscode(KUrl::List urls, const QString &params, const QStri
 
     m_transcodeProcess.setProcessChannelMode(QProcess::MergedChannels);
     connect(&m_transcodeProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowTranscodeInfo()));
-    connect(&m_transcodeProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotTranscodeFinished(int, QProcess::ExitStatus)));
+    connect(&m_transcodeProcess, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotTranscodeFinished(int,QProcess::ExitStatus)));
     
     ffmpeg_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
@@ -127,7 +127,7 @@ void ClipTranscode::slotStartTransCode()
     QStringList parameters;
     QString destination;
     QString params = ffmpeg_params->toPlainText().simplified();
-    if (m_urls.count() > 0 && urls_list->count() > 0) {
+    if (!m_urls.isEmpty() && urls_list->count() > 0) {
         // We are processing multiple clips
         source_url->setUrl(m_urls.takeFirst());
         destination = dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName();
@@ -144,27 +144,27 @@ void ClipTranscode::slotStartTransCode()
     parameters << "-i" << s_url;
     if (QFile::exists(destination + extension)) {
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
-	    // Abort operation
-	    if (m_automaticMode) {
-		// inform caller that we aborted
-		emit transcodedClip(source_url->url(), KUrl());
-		close();
-	    }
-	    return;
-	}
+            // Abort operation
+            if (m_automaticMode) {
+                // inform caller that we aborted
+                emit transcodedClip(source_url->url(), KUrl());
+                close();
+            }
+            return;
+        }
         parameters << "-y";
     }
 
     bool replaceVfParams = false;
     foreach(QString s, params.split(' ')) {
-	if (replaceVfParams) {
-	    s= m_postParams.at(1);
-	    replaceVfParams = false;
-	}
+        if (replaceVfParams) {
+            s= m_postParams.at(1);
+            replaceVfParams = false;
+        }
         parameters << s.replace("%1", destination);
-	if (s == "-vf") {
-	    replaceVfParams = true;
-	}
+        if (s == "-vf") {
+            replaceVfParams = true;
+        }
     }
     
     buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
@@ -229,7 +229,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
                 QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
                 url = KUrl(dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName() + extension);
             } else url = dest_url->url();
-	    if (m_automaticMode) emit transcodedClip(source_url->url(), url);
+            if (m_automaticMode) emit transcodedClip(source_url->url(), url);
             else emit addClip(url);
         }
         if (urls_list->count() > 0 && m_urls.count() > 0) {
@@ -261,7 +261,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
     //Refill url list in case user wants to transcode to another format
     if (urls_list->count() > 0) {
         m_urls.clear();
-        for (int i = 0; i < urls_list->count(); i++)
+        for (int i = 0; i < urls_list->count(); ++i)
             m_urls << urls_list->item(i)->text();
     }
 }

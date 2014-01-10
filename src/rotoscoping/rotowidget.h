@@ -42,14 +42,14 @@ class RotoWidget : public QWidget
     Q_OBJECT
 
 public:
-    RotoWidget(QString data, Monitor *monitor, ItemInfo info, Timecode t, QWidget* parent = 0);
-    virtual ~RotoWidget();
+    RotoWidget(const QString &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent = 0);
+    ~RotoWidget();
 
     /** @brief Returns the spline(s) in the JSON format used by filter_rotoscoping (MLT). */
     QString getSpline();
 
     /** @brief Replaces current data with \param spline (JSON). */
-    void setSpline(QString spline, bool notify = true);
+    void setSpline(const QString &spline, bool notify = true);
 
     /** @brief Passed on to the keyframe timeline. Switches between frames and hh:mm:ss:ff timecode. */
     void updateTimecodeFormat();
@@ -81,7 +81,7 @@ private:
     QList <BPoint> getPoints(int keyframe);
 
     /** @brief Adds tracking_finished as listener for "tracking-finished" event in MLT rotoscoping filter. */
-    void setupTrackingListen(ItemInfo info);
+    void setupTrackingListen(const ItemInfo &info);
 
     /** @brief Passes list of keyframe positions to keyframe timeline widget. */
     void keyframeTimelineFullUpdate();

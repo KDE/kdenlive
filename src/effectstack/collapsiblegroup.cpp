@@ -30,7 +30,7 @@
 
 #include <KDebug>
 #include <KGlobalSettings>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KStandardDirs>
 #include <KFileDialog>
@@ -53,7 +53,7 @@ void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
 }
 
 
-CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, EffectInfo info, QWidget * parent) :
+CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget * parent) :
         AbstractCollapsibleWidget(parent)
 {
     m_info.groupIndex = ix;
@@ -135,7 +135,7 @@ void CollapsibleGroup::slotEnable(bool disable, bool emitInfo)
     enabledButton->setChecked(disable);
     enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
     enabledButton->blockSignals(false);
-    for (int i = 0; i < m_subWidgets.count(); i++)
+    for (int i = 0; i < m_subWidgets.count(); ++i)
 	m_subWidgets.at(i)->slotDisable(disable, emitInfo);
 }
 
@@ -144,7 +144,7 @@ void CollapsibleGroup::slotDeleteGroup()
     QDomDocument doc;
     // delete effects from the last one to the first, otherwise each deletion would trigger an update
     // in other effects's kdenlive_ix index.
-    for (int i = m_subWidgets.count() - 1; i >= 0; i--)
+    for (int i = m_subWidgets.count() - 1; i >= 0; --i)
         doc.appendChild(doc.importNode(m_subWidgets.at(i)->effect(), true));
     emit deleteGroup(doc);
 }
@@ -152,7 +152,7 @@ void CollapsibleGroup::slotDeleteGroup()
 void CollapsibleGroup::slotEffectUp()
 {
     QList <int> indexes;
-    for (int i = 0; i < m_subWidgets.count(); i++)
+    for (int i = 0; i < m_subWidgets.count(); ++i)
         indexes << m_subWidgets.at(i)->effectIndex();
     emit changeEffectPosition(indexes, true);
 }
@@ -160,7 +160,7 @@ void CollapsibleGroup::slotEffectUp()
 void CollapsibleGroup::slotEffectDown()
 {
     QList <int> indexes;
-    for (int i = 0; i < m_subWidgets.count(); i++)
+    for (int i = 0; i < m_subWidgets.count(); ++i)
         indexes << m_subWidgets.at(i)->effectIndex();
     emit changeEffectPosition(indexes, false);
 }
@@ -176,7 +176,7 @@ void CollapsibleGroup::slotSaveGroup()
     QDomDocument doc = effectsData();
     QDomElement base = doc.documentElement();
     QDomNodeList effects = base.elementsByTagName("effect");
-    for (int i = 0; i < effects.count(); i++) {
+    for (int i = 0; i < effects.count(); ++i) {
 	QDomElement eff = effects.at(i).toElement();
         eff.removeAttribute("kdenlive_ix");
 	EffectInfo info;
@@ -205,7 +205,7 @@ void CollapsibleGroup::slotSaveGroup()
 void CollapsibleGroup::slotResetGroup()
 {
     QMutexLocker lock(&m_mutex);
-    for (int i = 0; i < m_subWidgets.count(); i++)
+    for (int i = 0; i < m_subWidgets.count(); ++i)
         m_subWidgets.at(i)->slotResetEffect();
 }
 
@@ -261,7 +261,7 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
     QMutexLocker lock(&m_mutex);
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
     if (vbox == NULL) return;
-    for (int i = m_subWidgets.count() - 1; i >= 0 ; i--) {
+    for (int i = m_subWidgets.count() - 1; i >= 0 ; --i) {
 	vbox->removeWidget(m_subWidgets.at(i));
 	layout->insertWidget(ix, m_subWidgets.at(i));
 	m_subWidgets.at(i)->decoframe->setObjectName("decoframe");
@@ -337,10 +337,10 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 		return;
 	    }
 	    // Moving group
-	    for (int i = 0; i < pastedEffects.count(); i++) {
+	    for (int i = 0; i < pastedEffects.count(); ++i) {
 		pastedEffectIndexes << pastedEffects.at(i).toElement().attribute("kdenlive_ix").toInt();
 	    }
-	    for (int i = 0; i < m_subWidgets.count(); i++) {
+	    for (int i = 0; i < m_subWidgets.count(); ++i) {
 		currentEffectIndexes << m_subWidgets.at(i)->effectIndex();
 	    }
 	    kDebug()<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
@@ -405,8 +405,10 @@ QDomDocument CollapsibleGroup::effectsData()
 
 void CollapsibleGroup::adjustEffects()
 {
-    for (int i = 0; i < m_subWidgets.count(); i++) {
+    for (int i = 0; i < m_subWidgets.count(); ++i) {
 	m_subWidgets.at(i)->adjustButtons(i, m_subWidgets.count());
     }
 }
 
+
+#include "collapsiblegroup.moc"

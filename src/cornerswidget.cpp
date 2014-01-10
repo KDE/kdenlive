@@ -36,7 +36,7 @@ inline int lerp( const int a, const int b, double t )
     return a + (b - a) * t;
 }
 
-CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
+CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent) :
         KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent),
         m_monitor(monitor),
         m_showScene(true),
@@ -59,7 +59,7 @@ CornersWidget::CornersWidget(Monitor *monitor, QDomElement e, int minFrame, int 
     connect(m_item, SIGNAL(changed()), this, SLOT(slotUpdateProperties()));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotInsertKeyframe()));
 
-    connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotUpdateItem()));
+    connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotUpdateItem()));
     m_scene->centerView();
 }
 
@@ -73,7 +73,7 @@ CornersWidget::~CornersWidget()
     }
 }
 
-void CornersWidget::addParameter(QDomElement e, int activeKeyframe)
+void CornersWidget::addParameter(const QDomElement &e, int activeKeyframe)
 {
     KeyframeEdit::addParameter(e, activeKeyframe);
 
@@ -223,7 +223,7 @@ void CornersWidget::slotInsertKeyframe()
 
     QPolygonF pol = m_item->polygon();
     double val;
-    for (int i = 0; i < keyframe_list->columnCount(); i++) {
+    for (int i = 0; i < keyframe_list->columnCount(); ++i) {
         if (i < 8) {
             if (i % 2 == 0)
                 val = pol.at(i / 2).x() / (double)m_monitor->render->frameRenderWidth();

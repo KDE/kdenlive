@@ -12,18 +12,12 @@
 #include "renderer.h"
 #include "monitormanager.h"
 
-#include <QtConcurrentRun>
-#include <QFuture>
-#include <QColor>
-#include <QMenu>
 #include <QMouseEvent>
-#include <QPainter>
 
 // Uncomment for debugging.
 //#define DEBUG_AGSW
 
 #ifdef DEBUG_AGSW
-#include <QDebug>
 #endif
 
 const int REALTIME_FPS = 30;
@@ -51,7 +45,7 @@ void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 ///// Slots /////
 
 
-void AbstractGfxScopeWidget::slotRenderZoneUpdated(const QImage frame)
+void AbstractGfxScopeWidget::slotRenderZoneUpdated(const QImage &frame)
 {
     QMutexLocker lock(&m_mutex);
     m_scopeImage = frame.rgbSwapped();
@@ -69,3 +63,5 @@ void AbstractGfxScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 #ifdef DEBUG_AGSW
 #undef DEBUG_AGSW
 #endif
+
+#include "abstractgfxscopewidget.moc"

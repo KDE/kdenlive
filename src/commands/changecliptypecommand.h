@@ -22,10 +22,6 @@
 #define CHANGECLIPTYPECOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
-
-#include <KDebug>
 #include "definitions.h"
 
 class GenTime;
@@ -35,8 +31,8 @@ class ChangeClipTypeCommand : public QUndoCommand
 {
 public:
     ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

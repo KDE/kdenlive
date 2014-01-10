@@ -22,21 +22,19 @@
 #define MOVEEFFECTCOMMAND_H
 
 #include <QUndoCommand>
-#include <KDebug>
 #include <gentime.h>
-#include <QDomElement>
 
 class CustomTrackView;
 
 class MoveEffectCommand : public QUndoCommand
 {
 public:
-    MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, QList <int> oldPos, int newPos, QUndoCommand * parent = 0);
+    MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList <int> &oldPos, int newPos, QUndoCommand * parent = 0);
 
     virtual int id() const;
     virtual bool mergeWith(const QUndoCommand * command);
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

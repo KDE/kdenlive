@@ -22,8 +22,6 @@
 #define DVDWIZARD_H
 
 #include <QWizard>
-#include <QVBoxLayout>
-#include <QItemDelegate>
 #include <QPainter>
 #include <QProcess>
 
@@ -36,6 +34,8 @@
 #include "dvdwizardchapters.h"
 #include "ui_dvdwizardstatus_ui.h"
 #include "ui_dvdwizardchapters_ui.h"
+
+typedef QMap <QString, QRect> stringRectMap;
 
 typedef QMap <QString, QRect> stringRectMap;
 
@@ -77,7 +77,7 @@ private:
     void cleanup();
     void errorMessage(const QString &text);
     void infoMessage(const QString &text);
-    void processDvdauthor(QString menuMovieUrl = QString(), stringRectMap buttons = stringRectMap(), QStringList buttonsTarget = QStringList());
+    void processDvdauthor(const QString &menuMovieUrl = QString(), const stringRectMap &buttons = stringRectMap(), const QStringList &buttonsTarget = QStringList());
 
 private slots:
     void slotPageChanged(int page);

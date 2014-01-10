@@ -34,8 +34,8 @@
 #include <QTimer>
 
 
-ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent) :
-        QDialog(parent)
+ManageCapturesDialog::ManageCapturesDialog(const KUrl::List &files, QWidget * parent)
+    : QDialog(parent)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
@@ -53,7 +53,7 @@ ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent) :
         item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         item->setCheckState(0, Qt::Checked);
     }
-    connect(m_view.treeWidget, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotRefreshButtons()));
+    connect(m_view.treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotRefreshButtons()));
     connect(m_view.deleteButton, SIGNAL(pressed()), this, SLOT(slotDeleteCurrent()));
     connect(m_view.toggleButton, SIGNAL(pressed()), this, SLOT(slotToggle()));
     QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(0);
@@ -65,12 +65,14 @@ ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent) :
     adjustSize();
 }
 
-ManageCapturesDialog::~ManageCapturesDialog() {}
+ManageCapturesDialog::~ManageCapturesDialog()
+{
+}
 
 void ManageCapturesDialog::slotCheckItemIcon()
 {
     int ct = 0;
-    int count = m_view.treeWidget->topLevelItemCount();
+    const int count = m_view.treeWidget->topLevelItemCount();
     while (ct < count) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(ct);
         //QTreeWidgetItem *item = m_view.treeWidget->currentItem();
@@ -88,9 +90,9 @@ void ManageCapturesDialog::slotCheckItemIcon()
 
 void ManageCapturesDialog::slotRefreshButtons()
 {
-    int count = m_view.treeWidget->topLevelItemCount();
+    const int count = m_view.treeWidget->topLevelItemCount();
     bool enabled = false;
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; ++i) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(i);
         if (item && item->checkState(0) == Qt::Checked) {
             enabled = true;
@@ -104,7 +106,7 @@ void ManageCapturesDialog::slotDeleteCurrent()
 {
     QTreeWidgetItem *item = m_view.treeWidget->currentItem();
     if (!item) return;
-    int i = m_view.treeWidget->indexOfTopLevelItem(item);
+    const int i = m_view.treeWidget->indexOfTopLevelItem(item);
     m_view.treeWidget->takeTopLevelItem(i);
     kDebug() << "DELETING FILE: " << item->text(0);
     //KIO::NetAccess::del(KUrl(item->text(0)), this);
@@ -116,12 +118,14 @@ void ManageCapturesDialog::slotDeleteCurrent()
 
 void ManageCapturesDialog::slotToggle()
 {
-    int count = m_view.treeWidget->topLevelItemCount();
-    for (int i = 0; i < count; i++) {
+    const int count = m_view.treeWidget->topLevelItemCount();
+    for (int i = 0; i < count; ++i) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(i);
         if (item) {
-            if (item->checkState(0) == Qt::Checked) item->setCheckState(0, Qt::Unchecked);
-            else item->setCheckState(0, Qt::Checked);
+            if (item->checkState(0) == Qt::Checked)
+                item->setCheckState(0, Qt::Unchecked);
+            else
+                item->setCheckState(0, Qt::Checked);
         }
     }
 }
@@ -130,8 +134,8 @@ KUrl::List ManageCapturesDialog::importFiles()
 {
     KUrl::List result;
 
-    int count = m_view.treeWidget->topLevelItemCount();
-    for (int i = 0; i < count; i++) {
+    const int count = m_view.treeWidget->topLevelItemCount();
+    for (int i = 0; i < count; ++i) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(i);
         if (item && item->checkState(0) == Qt::Checked)
             result.append(KUrl(item->data(0, Qt::UserRole).toString()));

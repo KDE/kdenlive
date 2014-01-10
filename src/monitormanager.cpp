@@ -39,7 +39,7 @@ MonitorManager::MonitorManager(QWidget *parent) :
 {
 }
 
-Timecode MonitorManager::timecode()
+Timecode MonitorManager::timecode() const
 {
     return m_timecode;
 }
@@ -76,9 +76,9 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
 AbstractMonitor* MonitorManager::monitor(Kdenlive::MONITORID monitorName)
 {
     AbstractMonitor *monitor = NULL;
-    for (int i = 0; i < m_monitorsList.size(); i++) {
+    for (int i = 0; i < m_monitorsList.size(); ++i) {
         if (m_monitorsList[i]->id() == monitorName) {
-	    monitor = m_monitorsList[i];
+        monitor = m_monitorsList.at(i);
 	}
     }
     return monitor;
@@ -99,7 +99,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MONITORID name, bool forceRefresh
         return false;
     }
     m_activeMonitor = NULL;
-    for (int i = 0; i < m_monitorsList.count(); i++) {
+    for (int i = 0; i < m_monitorsList.count(); ++i) {
         if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
         } else {
@@ -209,7 +209,7 @@ void MonitorManager::slotEnd()
     else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotEnd();
 }
 
-void MonitorManager::resetProfiles(Timecode tc)
+void MonitorManager::resetProfiles(const Timecode &tc)
 {
     m_timecode = tc;
     slotResetProfiles();
@@ -248,7 +248,7 @@ void MonitorManager::slotUpdateAudioMonitoring()
     if (m_projectMonitor) {
         m_projectMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
     }*/
-    for (int i = 0; i < m_monitorsList.count(); i++) {
+    for (int i = 0; i < m_monitorsList.count(); ++i) {
         if (m_monitorsList.at(i)->abstractRender()) m_monitorsList.at(i)->abstractRender()->analyseAudio = KdenliveSettings::monitor_audio();
     }
 }

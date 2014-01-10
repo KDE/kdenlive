@@ -63,10 +63,10 @@ public:
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    TitleWidget(KUrl url, Timecode tc, QString projectTitlePath, Render *render, QWidget *parent = 0);
+    explicit TitleWidget(const KUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent = 0);
     virtual ~TitleWidget();
     QDomDocument xml();
-    void setXml(QDomDocument doc);
+    void setXml(const QDomDocument& doc);
 
     /** @brief Finds the first available file name for a title document.
      * @deprecated With the titler module there's no need to save titles as images.
@@ -80,12 +80,12 @@ public:
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title
      * @return list of the image files */
-    static QStringList extractImageList(QString xml);
+    static QStringList extractImageList(const QString &xml);
 
     /** @brief Checks for the fonts referenced by a title clip.
      * @param xml XML data representing the title
      * @return list of the fonts */
-    static QStringList extractFontList(QString xml);
+    static QStringList extractFontList(const QString &xml);
 
     /** @brief Builds a file name for a title document.
      * @deprecated With the titler module there's no need to save titles as images.
@@ -104,9 +104,9 @@ public:
     static void refreshTitleTemplates();
 
 protected:
-    virtual void resizeEvent(QResizeEvent * event);
-    virtual void keyPressEvent(QKeyEvent *e);
-    virtual QSize sizeHint() const;
+    void resizeEvent(QResizeEvent * event);
+    void keyPressEvent(QKeyEvent *e);
+    QSize sizeHint() const;
 
 private:
 
@@ -312,7 +312,7 @@ private slots:
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
     void slotInsertUnicode();
-    void slotInsertUnicodeString(QString);
+    void slotInsertUnicodeString(const QString&);
 
     void displayBackgroundFrame();
 

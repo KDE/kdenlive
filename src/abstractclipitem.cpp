@@ -23,7 +23,7 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KGlobalSettings>
 
 #include <QPainter>
@@ -122,7 +122,7 @@ GenTime AbstractClipItem::cropDuration() const
     return m_info.cropDuration;
 }
 
-void AbstractClipItem::setCropStart(GenTime pos)
+void AbstractClipItem::setCropStart(const GenTime &pos)
 {
     m_info.cropStart = pos;
 }
@@ -261,7 +261,7 @@ GenTime AbstractClipItem::maxDuration() const
     return m_maxDuration;
 }
 
-void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform transformation, bool limitedKeyFrames)
+void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transformation, bool limitedKeyFrames)
 {
     if (m_keyframes.count() < 1)
         return;
@@ -279,7 +279,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform transfo
         x2 = br.right();
         if (limitedKeyFrames) {
             QMap<int, int>::const_iterator end = m_keyframes.constEnd();
-            end--;
+            --end;
             x2 = x1 + maxw * (end.key() - start);
             x1 += maxw * (m_keyframes.constBegin().key() - start);
         }
@@ -357,11 +357,9 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos, double maxOffset)
     double maxh = br.height() / 100.0 * m_keyframeFactor;
     if (m_keyframes.count() > 0) {
         QMap<int, int>::const_iterator i = m_keyframes.constBegin();
-        double x1;
-        double y1;
         while (i != m_keyframes.constEnd()) {
-            x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
-            y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
+            double x1 = br.x() + maxw * (i.key() - cropStart().frames(m_fps));
+            double y1 = br.bottom() - (i.value() - m_keyframeOffset) * maxh;
             if (qAbs(pos.x() - x1) < maxOffset && qAbs(pos.y() - y1) < 10) {
                 setToolTip('[' + QString::number((GenTime(i.key(), m_fps) - cropStart()).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + ']');
                 return i.key();
@@ -547,3 +545,5 @@ bool AbstractClipItem::isMainSelectedClip()
     return m_isMainSelectedClip;
 }
 
+
+#include "abstractclipitem.moc"

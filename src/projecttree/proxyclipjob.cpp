@@ -21,13 +21,16 @@
 #include "proxyclipjob.h"
 #include "kdenlivesettings.h"
 #include "kdenlivedoc.h"
+#include <QProcess>
+
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
-ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, QStringList parameters) : AbstractClipJob(PROXYJOB, cType, id, parameters),
-    m_jobDuration(0),
-    m_isFfmpegJob(true)
+ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, const QStringList& parameters)
+    : AbstractClipJob(PROXYJOB, cType, id, parameters),
+      m_jobDuration(0),
+      m_isFfmpegJob(true)
 {
     m_jobStatus = JOBWAITING;
     description = i18n("proxy");
@@ -51,7 +54,7 @@ void ProxyJob::startJob()
         mltParameters << m_src;
         mltParameters << "-consumer" << "avformat:" + m_dest;
         QStringList params = m_proxyParams.split('-', QString::SkipEmptyParts);
-                
+
         foreach(const QString &s, params) {
             QString t = s.simplified();
             if (t.count(' ') == 0) {
@@ -65,14 +68,14 @@ void ProxyJob::startJob()
 
         //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
         double display_ratio;
-	if (m_src.startsWith("consumer:")) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(":", 1));
-	else display_ratio = KdenliveDoc::getDisplayRatio(m_src);
+        if (m_src.startsWith("consumer:")) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(":", 1));
+        else display_ratio = KdenliveDoc::getDisplayRatio(m_src);
         mltParameters << "aspect=" + QLocale().toString(display_ratio);
-            
+
         // Ask for progress reporting
         mltParameters << "progress=1";
 
-	m_jobProcess = new QProcess;
+        m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
         m_jobProcess->waitForStarted();
@@ -82,13 +85,13 @@ void ProxyJob::startJob()
         // Image proxy
         QImage i(m_src);
         if (i.isNull()) {
-	    m_errorMessage.append(i18n("Cannot load image %1.", m_src));
+            m_errorMessage.append(i18n("Cannot load image %1.", m_src));
             setStatus(JOBCRASHED);
-	    return;
-	}
-	
+            return;
+        }
+
         QImage proxy;
-        // Images are scaled to profile size. 
+        // Images are scaled to profile size.
         //TODO: Make it be configurable?
         if (i.width() > i.height()) proxy = i.scaledToWidth(m_renderWidth);
         else proxy = i.scaledToHeight(m_renderHeight);
@@ -98,40 +101,40 @@ void ProxyJob::startJob()
             QMatrix matrix;
 
             switch ( m_exif ) {
-                case 2:
-		    matrix.scale( -1, 1 );
-                    break;
-                case 3:
-		    matrix.rotate( 180 );
-                    break;
-                case 4:
-		    matrix.scale( 1, -1 );
-                    break;
-                case 5:
-		    matrix.rotate( 270 );
-                    matrix.scale( -1, 1 );
-                    break;
-                case 6:
-		    matrix.rotate( 90 );
-                    break;
-                case 7:
-		    matrix.rotate( 90 );
-                    matrix.scale( -1, 1 );
-                    break;
-                case 8:
-		    matrix.rotate( 270 );
-                    break;
+            case 2:
+                matrix.scale( -1, 1 );
+                break;
+            case 3:
+                matrix.rotate( 180 );
+                break;
+            case 4:
+                matrix.scale( 1, -1 );
+                break;
+            case 5:
+                matrix.rotate( 270 );
+                matrix.scale( -1, 1 );
+                break;
+            case 6:
+                matrix.rotate( 90 );
+                break;
+            case 7:
+                matrix.rotate( 90 );
+                matrix.scale( -1, 1 );
+                break;
+            case 8:
+                matrix.rotate( 270 );
+                break;
             }
             processed = proxy.transformed( matrix );
             processed.save(m_dest);
+        } else {
+            proxy.save(m_dest);
         }
-        else proxy.save(m_dest);
         setStatus(JOBDONE);
-	return;
-    }
-    else {
+        return;
+    } else {
         m_isFfmpegJob = true;
-	QStringList parameters;
+        QStringList parameters;
         parameters << "-i" << m_src;
         QString params = m_proxyParams;
         foreach(const QString &s, params.split(' '))
@@ -182,8 +185,11 @@ void ProxyJob::processLogInfo()
 {
     if (!m_jobProcess || m_jobStatus == JOBABORTED) return;
     QString log = m_jobProcess->readAll();
-    if (!log.isEmpty()) m_logDetails.append(log + '\n');
-    else return;
+    if (!log.isEmpty())
+        m_logDetails.append(log + '\n');
+    else
+        return;
+
     int progress;
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
@@ -233,15 +239,17 @@ const QString ProxyJob::statusMessage()
 {
     QString statusInfo;
     switch (m_jobStatus) {
-        case JOBWORKING:
-            statusInfo = i18n("Creating proxy");
-            break;
-        case JOBWAITING:
-            statusInfo = i18n("Waiting - proxy");
-            break;
-        default:
-            break;
+    case JOBWORKING:
+        statusInfo = i18n("Creating proxy");
+        break;
+    case JOBWAITING:
+        statusInfo = i18n("Waiting - proxy");
+        break;
+    default:
+        break;
     }
     return statusInfo;
 }
 
+
+#include "proxyclipjob.moc"

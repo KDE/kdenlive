@@ -30,9 +30,7 @@
 #include <QMap>
 #include <QScrollArea>
 
-class QFrame;
 class Monitor;
-class GeometryWidget;
 
 class EffectStackEdit : public QScrollArea
 {
@@ -40,13 +38,13 @@ class EffectStackEdit : public QScrollArea
 public:
     explicit EffectStackEdit(Monitor *monitor, QWidget *parent = 0);
     ~EffectStackEdit();
-    void updateProjectFormat(MltVideoProfile profile, Timecode t);
+    void updateProjectFormat(const MltVideoProfile &profile, const Timecode &t);
     static QMap<QString, QImage> iconCache;
     /** @brief Sets attribute @param name to @param value.
     *
     * Used to disable the effect, by setting disabled="1" */
     void updateParameter(const QString &name, const QString &value);
-    void setFrameSize(QPoint p);
+    void setFrameSize(const QPoint &p);
     /** @brief Tells the parameters to update their timecode format according to KdenliveSettings. */
     void updateTimecodeFormat();
     /** @brief Returns true if this effect wants to keep track of current position in clip. */
@@ -65,14 +63,14 @@ private:
     ParameterContainer *m_paramWidget;
 
 public slots:
-    /** @brief Called when an effect is selected, builds the UI for this effect. */
+    /** @brief Called when an effect is selected, builds the UI for this effect. */
     void transferParamDesc(const QDomElement &d, ItemInfo info, bool isEffect = true);
 
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotSyncEffectsPos(int pos);
 
 signals:
-    void parameterChanged(const QDomElement, const QDomElement, int);
+    void parameterChanged(const QDomElement&, const QDomElement&, int);
     void seekTimeline(int);
     void displayMessage(const QString&, int);
     void checkMonitorPosition(int);
@@ -80,7 +78,7 @@ signals:
     void showComments(bool show);
     void effectStateChanged(bool enabled);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString>);
+    void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString>&);
     void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
 };
 

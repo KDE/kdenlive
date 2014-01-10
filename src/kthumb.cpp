@@ -39,8 +39,9 @@
 #include <QApplication>
 #include <QtConcurrentRun>
 #include <QVarLengthArray>
+#include <QPainter>
 
-KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent) :
+KThumb::KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent) :
     QObject(parent),
     m_url(url),
     m_thumbFile(),
@@ -92,20 +93,20 @@ void KThumb::updateThumbUrl(const QString &hash)
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
-void KThumb::updateClipUrl(KUrl url, const QString &hash)
+void KThumb::updateClipUrl(const KUrl &url, const QString &hash)
 {
     m_url = url;
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
 //static
-QPixmap KThumb::getImage(KUrl url, int width, int height)
+QPixmap KThumb::getImage(const KUrl& url, int width, int height)
 {
     if (url.isEmpty()) return QPixmap();
     return getImage(url, 0, width, height);
 }
 
-void KThumb::extractImage(QList <int>frames)
+void KThumb::extractImage(const QList<int> &frames)
 {
     if (!KdenliveSettings::videothumbnails() || m_producer == NULL) return;
     m_clipManager->slotRequestThumbs(m_id, frames);
@@ -140,7 +141,7 @@ QImage KThumb::extractImage(int frame, int width, int height)
 }
 
 //static
-QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
+QPixmap KThumb::getImage(const KUrl& url, int frame, int width, int height)
 {
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
@@ -195,7 +196,7 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, i
     frame->set("rescale.interp", "nearest");
     frame->set("deinterlace_method", "onefield");
     frame->set("top_field_first", -1 );
-    QImage p = getFrame(frame, frameWidth, displayWidth, height);
+    const QImage p = getFrame(frame, frameWidth, displayWidth, height);
     delete frame;
     return p;
 }
@@ -245,7 +246,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
 }
 
 //static
-uint KThumb::imageVariance(QImage image )
+uint KThumb::imageVariance(const QImage &image )
 {
     uint delta = 0;
     uint avg = 0;
@@ -254,7 +255,7 @@ uint KThumb::imageVariance(QImage image )
     QVarLengthArray<uchar> pivot(STEPS);
     const uchar *bits=image.bits();
     // First pass: get pivots and taking average
-    for( uint i=0; i<STEPS ; i++ ){
+    for( uint i=0; i<STEPS ; ++i ){
         pivot[i] = bits[2 * i];
 #if QT_VERSION >= 0x040700
         avg+=pivot.at(i);
@@ -265,7 +266,7 @@ uint KThumb::imageVariance(QImage image )
     if (STEPS)
         avg=avg/STEPS;
     // Second Step: calculate delta (average?)
-    for (uint i=0; i<STEPS; i++)
+    for (uint i=0; i<STEPS; ++i)
     {
 #if QT_VERSION >= 0x040700
         int curdelta=abs(int(avg - pivot.at(i)));
@@ -358,7 +359,7 @@ void KThumb::slotCreateAudioThumbs()
 }
 
 #if KDE_IS_VERSION(4,5,0)
-void KThumb::queryIntraThumbs(QList <int> missingFrames)
+void KThumb::queryIntraThumbs(const QList <int> &missingFrames)
 {
     foreach (int i, missingFrames) {
         if (!m_intraFramesQueue.contains(i)) m_intraFramesQueue.append(i);

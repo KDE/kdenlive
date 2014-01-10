@@ -62,7 +62,7 @@ public:
     QStringList effectNames();
     QString getInfo(const QString & tag, const QString & id) const;
     QString getInfoFromIndex(const int ix) const;
-    QString getEffectInfo(const QDomElement effect) const;
+    QString getEffectInfo(const QDomElement &effect) const;
     void clone(const EffectsList &original);
     QDomElement append(QDomElement e);
     bool isEmpty() const;
@@ -71,12 +71,12 @@ public:
     void removeAt(int ix);
     QDomElement itemFromIndex(int ix) const;
     QDomElement insert(QDomElement effect);
-    void updateEffect(QDomElement effect);
-    static bool hasKeyFrames(QDomElement effect);
-    static bool hasSimpleKeyFrames(QDomElement effect);
-    static bool hasGeometryKeyFrames(QDomElement effect);
+    void updateEffect(const QDomElement &effect);
+    static bool hasKeyFrames(const QDomElement &effect);
+    static bool hasSimpleKeyFrames(const QDomElement &effect);
+    static bool hasGeometryKeyFrames(const QDomElement &effect);
     static void setParameter(QDomElement effect, const QString &name, const QString &value);
-    static QString parameter(QDomElement effect, const QString &name);
+    static QString parameter(const QDomElement &effect, const QString &name);
     /** @brief Change the value of a 'property' element from the effect node. */
     static void setProperty(QDomElement effect, const QString &name, const QString &value);
     /** @brief Rename a 'property' element from the effect node. */
@@ -89,18 +89,18 @@ public:
     static void removeMetaProperties(QDomElement producer);
     void clearList();
     /** @brief Get am effect with effect index equal to ix. */
-    QDomElement effectFromIndex(QDomNodeList effects, int ix);
+    QDomElement effectFromIndex(const QDomNodeList &effects, int ix);
     /** @brief Update all effects indexes to make sure they are 1, 2, 3, ... */
     void updateIndexes(QDomNodeList effects, int startIndex);
     /** @brief Enable / disable a list of effects */
-    void enableEffects(QList <int> indexes, bool disable);
+    void enableEffects(const QList<int> &indexes, bool disable);
 
 private:
     QDomElement m_baseElement;
     bool m_useIndex;
     
     /** @brief Init effect default parameter values. */
-    void initEffect(QDomElement effect) const;
+    void initEffect(const QDomElement &effect) const;
 
 };
 

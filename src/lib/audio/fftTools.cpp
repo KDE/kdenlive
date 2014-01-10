@@ -32,18 +32,18 @@ FFTTools::FFTTools() :
 FFTTools::~FFTTools()
 {
     QHash<QString, kiss_fftr_cfg>::iterator i;
-    for (i = m_fftCfgs.begin(); i != m_fftCfgs.end(); i++) {
+    for (i = m_fftCfgs.begin(); i != m_fftCfgs.end(); ++i) {
         free(*i);
     }
 }
 
 const QString FFTTools::windowSignature(const WindowType windowType, const int size, const float param)
 {
-    return QString("s%1_t%2_p%3").arg(size).arg(windowType).arg(param, 0, 'f', 3);
+    return QString::fromLatin1("s%1_t%2_p%3").arg(size).arg(windowType).arg(param, 0, 'f', 3);
 }
 const QString FFTTools::cfgSignature(const int size)
 {
-    return QString("s%1").arg(size);
+    return QString::fromLatin1("s%1").arg(size);
 }
 
 // http://cplusplus.syntaxerrors.info/index.php?title=Cannot_declare_member_function_%E2%80%98static_int_Foo::bar%28%29%E2%80%99_to_have_static_linkage
@@ -74,7 +74,7 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
 
 #ifdef DEBUG_FFTTOOLS
         qDebug() << "Triangle window (factor " << window[size] << "):";
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; ++i) {
             qDebug() << window[i];
         }
         qDebug() << "Triangle window end.";
@@ -98,7 +98,7 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
 
 #ifdef DEBUG_FFTTOOLS
         qDebug() << "Hanning window (factor " << window[size] << "):";
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; ++i) {
             qDebug() << window[i];
         }
         qDebug() << "Hanning window end.";
@@ -175,7 +175,7 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
         std::fill(&data[numSamples], &data[windowSize-1], 0);
     }
     // Normalize signals to [0,1] to get correct dB values later on
-    for (uint i = 0; i < numSamples && i < windowSize; i++) {
+    for (uint i = 0; i < numSamples && i < windowSize; ++i) {
         // Performance note: Benchmarking has shown that using the if/else inside the loop
         // does not do noticeable worse than keeping it outside (perhaps the branch predictor
         // is good enough), so it remains in there for better readability.
@@ -192,7 +192,7 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
 
     // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
     // with N = FFT size (after FFT, 1/2 window size)
-    for (uint i = 0; i < windowSize/2; i++) {
+    for (uint i = 0; i < windowSize/2; ++i) {
         // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
         // with N = FFT size (after FFT, 1/2 window size)
         freqSpectrum[i] = 20*log(pow(pow(fabs(freqData[i].r * windowScaleFactor),2) + pow(fabs(freqData[i].i * windowScaleFactor),2), .5)/((float)windowSize/2.0f))/log(10);;
@@ -248,7 +248,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
     uint xi;
     uint i;
     if (((float) (right-left))/targetSize < 2) {
-        for (i = 0; i < targetSize; i++) {
+        for (i = 0; i < targetSize; ++i) {
 
             // i:  Target index
             // x:  Interpolated source index (float!)
@@ -299,7 +299,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
         qDebug() << "Interpolation: Ratio over 2; using maximum interpolation";
 #endif
 
-        for (i = 0; i < targetSize; i++) {
+        for (i = 0; i < targetSize; ++i) {
 
             // x:  right bound
             // xi: floor(x)
@@ -320,7 +320,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
         }
     }
     // Fill the rest of the vector if the right border exceeds the input vector.
-    for (; i < targetSize; i++) {
+    for (; i < targetSize; ++i) {
         out[i] = fill;
     }
 

@@ -44,7 +44,7 @@ void TracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
     QComboBox *comboBox = qobject_cast<QComboBox *>(editor);
     if (!comboBox)
         return;
-    int pos = comboBox->findText(index.model()->data(index).toString(), Qt::MatchExactly);
+    const int pos = comboBox->findText(index.model()->data(index).toString(), Qt::MatchExactly);
     comboBox->setCurrentIndex(pos);
 }
 
@@ -99,14 +99,14 @@ TracksConfigDialog::TracksConfigDialog(KdenliveDoc * doc, int selected, QWidget*
     buttonDown->setEnabled(false);
 
     setupOriginal(selected);
-    connect(table, SIGNAL(itemChanged(QTableWidgetItem *)), this, SLOT(slotUpdateRow(QTableWidgetItem *)));
+    connect(table, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(slotUpdateRow(QTableWidgetItem*)));
 }
 
 const QList <TrackInfo> TracksConfigDialog::tracksList()
 {
     QList <TrackInfo> tracks;
     TrackInfo info;
-    for (int i = table->rowCount() - 1; i >= 0; i--) {
+    for (int i = table->rowCount() - 1; i >= 0; --i) {
         info.trackName = table->item(i, 0)->text();
         QTableWidgetItem *item = table->item(i, 1);
         if (item->text() == i18n("Audio")) {
@@ -123,7 +123,7 @@ const QList <TrackInfo> TracksConfigDialog::tracksList()
     return tracks;
 }
 
-QList <int> TracksConfigDialog::deletedTracks()
+QList <int> TracksConfigDialog::deletedTracks() const
 {
     return m_deletedRows;
 }
@@ -134,7 +134,7 @@ void TracksConfigDialog::setupOriginal(int selected)
 
     QStringList numbers;
     TrackInfo info;
-    for (int i = m_doc->tracksCount() - 1; i >= 0; i--) {
+    for (int i = m_doc->tracksCount() - 1; i >= 0; --i) {
         numbers << QString::number(i);
         info = m_doc->trackInfoAt(m_doc->tracksCount() - i - 1);
         table->setItem(i, 0, new QTableWidgetItem(info.trackName));
@@ -194,7 +194,7 @@ void TracksConfigDialog::slotDelete()
             return;
         if (m_deletedRows.at(i) > row)
             break;
-        i++;
+        ++i;
     }
     m_deletedRows.insert(i, row);
     for (i = 0; i < table->columnCount(); ++i) {

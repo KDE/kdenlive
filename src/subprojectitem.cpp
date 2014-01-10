@@ -26,13 +26,13 @@
 
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIcon>
 
 const int DurationRole = Qt::UserRole + 1;
 const int itemHeight = 30;
 
-SubProjectItem::SubProjectItem(double display_ratio, QTreeWidgetItem * parent, int in, int out, QString description) :
+SubProjectItem::SubProjectItem(double display_ratio, QTreeWidgetItem * parent, int in, int out, const QString &description) :
         QTreeWidgetItem(parent, PROJECTSUBCLIPTYPE), m_in(in), m_out(out), m_description(description)
 {
     setSizeHint(0, QSize((int) (itemHeight * display_ratio) + 2, itemHeight + 2));
@@ -77,7 +77,7 @@ QPoint SubProjectItem::zone() const
     return z;
 }
 
-void SubProjectItem::setZone(QPoint p)
+void SubProjectItem::setZone(const QPoint& p)
 {
     m_in = p.x();
     m_out = p.y();
@@ -97,7 +97,7 @@ QString SubProjectItem::description() const
     return m_description;
 }
 
-void SubProjectItem::setDescription(QString desc)
+void SubProjectItem::setDescription(const QString &desc)
 {
     m_description = desc;
     setText(1, m_description);

@@ -22,10 +22,6 @@
 #define ADDTRACKCOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
-
-#include <KDebug>
 #include "definitions.h"
 
 class CustomTrackView;
@@ -33,9 +29,9 @@ class CustomTrackView;
 class AddTrackCommand : public QUndoCommand
 {
 public:
-    AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
+    AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

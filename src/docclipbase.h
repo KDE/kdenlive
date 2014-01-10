@@ -22,7 +22,7 @@
   *@author Jason Wood
   */
 
-#include <qdom.h>
+#include <QtXml/qdom.h>
 #include <QPixmap>
 #include <QObject>
 #include <QTimer>
@@ -35,19 +35,15 @@
 #include "definitions.h"
 
 /*
-class DocTrackBase;
 class DocClipAVFile;
-class DocClipTextFile;
-class DocClipVirtual;
 class EffectDescriptionList;*/
-class KdenliveDoc;
 class KThumb;
 class ClipManager;
 
 namespace Mlt
 {
 class Producer;
-};
+}
 
 struct CutZoneInfo {
     QPoint zone;
@@ -57,7 +53,8 @@ struct CutZoneInfo {
 
 class DocClipBase: public QObject
 {
-Q_OBJECT public:
+Q_OBJECT
+public:
     /** this enum determines the types of "feed" available within this clip. types must be non-exclusive
      * - e.g. if you can have audio and video separately, it should be possible to combin the two, as is
      *   done here. If a new clip type is added then it should be possible to combine it with both audio
@@ -92,7 +89,7 @@ Q_OBJECT public:
     const GenTime & duration() const;
     const GenTime maxDuration() const;
     /** returns the duration of this clip */
-    void setDuration(GenTime dur);
+    void setDuration(const GenTime &dur);
 
     /** returns clip type (audio, text, image,...) */
     const CLIPTYPE & clipType() const;
@@ -175,7 +172,7 @@ Q_OBJECT public:
     void deleteProducers();
 
     /** Set default play zone for clip monitor */
-    void setZone(QPoint zone);
+    void setZone(const QPoint &zone);
     /** Get default play zone for clip monitor */
     QPoint zone() const;
 
@@ -184,11 +181,11 @@ Q_OBJECT public:
     void setValid();
     static QString getHash(const QString &path);
 
-    void addCutZone(int in, int out, QString desc = QString());
-    bool hasCutZone(QPoint p) const;
+    void addCutZone(int in, int out, const QString &desc = QString());
+    bool hasCutZone(const QPoint &p) const;
     void removeCutZone(int in, int out);
     QList <CutZoneInfo> cutZones() const;
-    void updateCutZone(int oldin, int oldout, int in, int out, QString desc = QString());
+    void updateCutZone(int oldin, int oldout, int in, int out, const QString &desc = QString());
 
     bool hasVideoCodec(const QString &codec) const;
     bool hasAudioCodec(const QString &codec) const;
@@ -209,7 +206,7 @@ Q_OBJECT public:
     /** Returns all current properties for this clip */
     QMap <QString, QString> properties() const;
     /** Return the current values for a set of properties */
-    QMap <QString, QString> currentProperties(QMap <QString, QString> props);
+    QMap <QString, QString> currentProperties(const QMap<QString, QString> &props);
     QMap <QString, QStringList> metadata() const;
     /** @brief Returns a short info string about the clip to display in tooltip */
     const QString shortInfo() const;
@@ -264,7 +261,7 @@ private:   // Private attributes
     /** @brief Create another instance of a producer. */
     Mlt::Producer *cloneProducer(Mlt::Producer *source);
     /** @brief Offset all keyframes of a geometry. */
-    const QString geometryWithOffset(QString data, int offset);
+    const QString geometryWithOffset(const QString &data, int offset);
 
    
 public slots:
@@ -274,16 +271,16 @@ public slots:
     GenTime findPreviousSnapMarker(const GenTime & currTime);
     GenTime hasSnapMarkers(const GenTime & time);
     QString deleteSnapMarker(const GenTime & time);
-    void editSnapMarker(const GenTime & time, QString comment);
-    void addSnapMarker(const CommentedTime marker);
+    void editSnapMarker(const GenTime & time, const QString &comment);
+    void addSnapMarker(const CommentedTime &marker);
     QList < GenTime > snapMarkers() const;
-    QString markerComment(GenTime t) const;
-    CommentedTime markerAt(GenTime t) const;
+    QString markerComment(const GenTime &t) const;
+    CommentedTime markerAt(const GenTime &t) const;
     void setClipThumbFrame(const uint &ix);
     uint getClipThumbFrame() const;
-    void setProperties(QMap <QString, QString> properties);
-    void setMetadata(QMap <QString, QString> properties, QString tool = QString());
-    void slotExtractImage(QList <int> frames);
+    void setProperties(QMap<QString, QString> properties);
+    void setMetadata(const QMap <QString, QString> &properties, const QString &tool = QString());
+    void slotExtractImage(const QList <int> &frames);
 
 signals:
     void gotAudioData();

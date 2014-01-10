@@ -22,19 +22,17 @@
 #define CHANGEEFFECTSTATECOMMAND_H
 
 #include <QUndoCommand>
-#include <KDebug>
 #include <gentime.h>
-#include <QDomElement>
 
 class CustomTrackView;
 
 class ChangeEffectStateCommand : public QUndoCommand
 {
 public:
-    ChangeEffectStateCommand(CustomTrackView *view, const int track, GenTime pos, QList <int> effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent = 0);
+    ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList <int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent = 0);
 
-    virtual void undo();
-    virtual void redo();
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

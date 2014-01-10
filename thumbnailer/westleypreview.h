@@ -27,9 +27,8 @@
 
 #include <mlt++/Mlt.h>
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qobject.h>
+#include <QStringList>
+#include <QObject>
 
 class MltPreview : public QObject, public ThumbCreator
 {
@@ -41,7 +40,7 @@ public:
     virtual Flags flags() const;
 
 protected:
-    static uint imageVariance(QImage image);
+    static uint imageVariance(const QImage &image);
     QImage getFrame(Mlt::Producer* producer, int framepos, int width, int height);
 };
 

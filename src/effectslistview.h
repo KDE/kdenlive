@@ -45,7 +45,7 @@ class EffectsListView : public QWidget, public Ui::EffectList_UI
     Q_OBJECT
 
 public:
-    EffectsListView(QWidget *parent = 0);
+    explicit EffectsListView(QWidget *parent = 0);
 
     /** @brief Re-initializes the list of effects. */
     void reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions);
@@ -87,10 +87,10 @@ private slots:
 
     /** @brief Expands folders that match our search.
     * @param text Current search string */
-    void slotAutoExpand(QString text);
+    void slotAutoExpand(const QString &text);
 
 signals:
-    void addEffect(const QDomElement);
+    void addEffect(const QDomElement&);
     void reloadEffects();
 };
 

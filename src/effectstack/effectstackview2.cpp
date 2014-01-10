@@ -30,7 +30,7 @@
 #include "collapsiblegroup.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KStandardDirs>
 #include <KFileDialog>
@@ -89,7 +89,7 @@ void EffectStackView2::slotRenderPos(int pos)
     if (m_monitorSceneWanted) slotCheckMonitorPosition(pos);
     if (!m_effectMetaInfo.trackMode && m_clipref) pos = pos - m_clipref->startPos().frames(KdenliveSettings::project_fps());
 
-    for (int i = 0; i< m_effects.count(); i++)
+    for (int i = 0; i< m_effects.count(); ++i)
         m_effects.at(i)->slotSyncEffectsPos(pos);
 }
 
@@ -97,7 +97,7 @@ void EffectStackView2::slotClipItemUpdate()
 {
     int inPoint = m_clipref->cropStart().frames(KdenliveSettings::project_fps());
     int outPoint = m_clipref->cropDuration().frames(KdenliveSettings::project_fps()) + inPoint;
-    for (int i = 0; i < m_effects.count(); i++) {
+    for (int i = 0; i < m_effects.count(); ++i) {
         m_effects.at(i)->setRange(inPoint, outPoint);
     }
 }
@@ -142,7 +142,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c)
     setupListView();
 }
 
-void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo info)
+void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info)
 {
     m_clipref = NULL;
     m_effectMetaInfo.trackMode = true;
@@ -187,7 +187,7 @@ void EffectStackView2::setupListView()
         else if (selectedEffect > effectsCount) m_clipref->setSelectedEffect(effectsCount);
     }
 
-    for (int i = 0; i < effectsCount; i++) {
+    for (int i = 0; i < effectsCount; ++i) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
         if (d.isNull()) {
             kDebug() << " . . . . WARNING, NULL EFFECT IN STACK!!!!!!!!!";
@@ -259,7 +259,7 @@ void EffectStackView2::setupListView()
     else {
         // Adjust group effects (up / down buttons)
         QList<CollapsibleGroup *> allGroups = m_ui.container->widget()->findChildren<CollapsibleGroup *>();
-        for (int i = 0; i < allGroups.count(); i++) {
+        for (int i = 0; i < allGroups.count(); ++i) {
             allGroups.at(i)->adjustEffects();
         }
         connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
@@ -280,12 +280,12 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
 {
     // Check drag & drop
     currentEffect->installEventFilter( this );
-    connect(currentEffect, SIGNAL(parameterChanged(const QDomElement, const QDomElement, int)), this , SLOT(slotUpdateEffectParams(const QDomElement, const QDomElement, int)));
-    connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,const QMap <QString, QString>)));
-    connect(currentEffect, SIGNAL(deleteEffect(const QDomElement)), this , SLOT(slotDeleteEffect(const QDomElement)));
+    connect(currentEffect, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement,int)));
+    connect(currentEffect, SIGNAL(startFilterJob(QString,QString,QString,QString,QMap<QString,QString>)), this , SLOT(slotStartFilterJob(QString,QString,QString,QString,QMap<QString,QString>)));
+    connect(currentEffect, SIGNAL(deleteEffect(QDomElement)), this , SLOT(slotDeleteEffect(QDomElement)));
     connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
-    connect(currentEffect, SIGNAL(changeEffectPosition(QList <int>,bool)), this , SLOT(slotMoveEffectUp(QList <int>,bool)));
+    connect(currentEffect, SIGNAL(changeEffectPosition(QList<int>,bool)), this , SLOT(slotMoveEffectUp(QList<int>,bool)));
     connect(currentEffect, SIGNAL(effectStateChanged(bool,int,bool)), this, SLOT(slotUpdateEffectState(bool,int,bool)));
     connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
     connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
@@ -306,7 +306,7 @@ void EffectStackView2::slotCheckWheelEventFilter()
         // widget has scroll bar,
         filterWheelEvent = true;
     }
-    for (int i = 0; i < m_effects.count(); i++) {
+    for (int i = 0; i < m_effects.count(); ++i) {
         m_effects.at(i)->filterWheelEvent = filterWheelEvent;
     }
 }
@@ -511,13 +511,13 @@ void EffectStackView2::slotCheckAll(int state)
     bool disabled = state == Qt::Unchecked;
     // Disable all effects
     QList <int> indexes;
-    for (int i = 0; i < m_effects.count(); i++) {
+    for (int i = 0; i < m_effects.count(); ++i) {
         m_effects.at(i)->slotDisable(disabled, false);
         indexes << m_effects.at(i)->effectIndex();
     }
     // Take care of groups
     QList<CollapsibleGroup *> allGroups = m_ui.container->widget()->findChildren<CollapsibleGroup *>();
-    for (int i = 0; i < allGroups.count(); i++) {
+    for (int i = 0; i < allGroups.count(); ++i) {
         allGroups.at(i)->slotEnable(disabled, false);
     }
 
@@ -532,7 +532,7 @@ void EffectStackView2::slotUpdateCheckAllButton()
     bool hasEnabled = false;
     bool hasDisabled = false;
 
-    for (int i = 0; i < m_effects.count(); i++) {
+    for (int i = 0; i < m_effects.count(); ++i) {
         if (!m_effects.at(i)->enabledButton->isChecked()) hasEnabled = true;
         else hasDisabled = true;
     }
@@ -549,7 +549,7 @@ void EffectStackView2::slotUpdateCheckAllButton()
 
 void EffectStackView2::deleteCurrentEffect()
 {
-    for (int i = 0; i < m_effects.count(); i++) {
+    for (int i = 0; i < m_effects.count(); ++i) {
         if (m_effects.at(i)->isActive()) {
             slotDeleteEffect(m_effects.at(i)->effect());
             break;
@@ -557,7 +557,7 @@ void EffectStackView2::deleteCurrentEffect()
     }
 }
 
-void EffectStackView2::updateProjectFormat(MltVideoProfile profile, Timecode t)
+void EffectStackView2::updateProjectFormat(const MltVideoProfile &profile, const Timecode &t)
 {
     m_effectMetaInfo.profile = profile;
     m_effectMetaInfo.timecode = t;
@@ -565,13 +565,13 @@ void EffectStackView2::updateProjectFormat(MltVideoProfile profile, Timecode t)
 
 void EffectStackView2::updateTimecodeFormat()
 {
-    for (int i = 0; i< m_effects.count(); i++)
+    for (int i = 0; i< m_effects.count(); ++i)
         m_effects.at(i)->updateTimecodeFormat();
 }
 
 CollapsibleEffect *EffectStackView2::getEffectByIndex(int ix)
 {
-    for (int i = 0; i< m_effects.count(); i++) {
+    for (int i = 0; i< m_effects.count(); ++i) {
         if (m_effects.at(i)->effectIndex() == ix) {
             return m_effects.at(i);
         }
@@ -579,7 +579,7 @@ CollapsibleEffect *EffectStackView2::getEffectByIndex(int ix)
     return NULL;
 }
 
-void EffectStackView2::slotUpdateEffectParams(const QDomElement old, const QDomElement e, int ix)
+void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDomElement &e, int ix)
 {
     if (m_effectMetaInfo.trackMode)
         emit updateEffect(NULL, m_trackindex, old, e, ix,false);
@@ -595,7 +595,7 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
 {
     if (m_clipref && ix != m_clipref->selectedEffectIndex()) {
         m_clipref->setSelectedEffect(ix);
-        for (int i = 0; i < m_effects.count(); i++) {
+        for (int i = 0; i < m_effects.count(); ++i) {
             if (m_effects.at(i)->effectIndex() == ix) {
                 if (m_effects.at(i)->isActive()) return;
                 m_effects.at(i)->setActive(true);
@@ -622,11 +622,11 @@ void EffectStackView2::slotDeleteGroup(QDomDocument doc)
         ix = -1;
     }
 
-    for (int i = 0; i < effects.count(); i++)
+    for (int i = 0; i < effects.count(); ++i)
         emit removeEffect(clip, ix, effects.at(i).toElement());
 }
 
-void EffectStackView2::slotDeleteEffect(const QDomElement effect)
+void EffectStackView2::slotDeleteEffect(const QDomElement &effect)
 {
     if (m_effectMetaInfo.trackMode)
         emit removeEffect(NULL, m_trackindex, effect);
@@ -634,12 +634,12 @@ void EffectStackView2::slotDeleteEffect(const QDomElement effect)
         emit removeEffect(m_clipref, -1, effect);
 }
 
-void EffectStackView2::slotAddEffect(QDomElement effect)
+void EffectStackView2::slotAddEffect(const QDomElement &effect)
 {
     emit addEffect(m_clipref, effect);
 }
 
-void EffectStackView2::slotMoveEffectUp(QList <int> indexes, bool up)
+void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
 {
     if (up && indexes.first() <= 1) return;
     if (!up && indexes.last() >= m_currentEffectList.count()) return;
@@ -685,7 +685,7 @@ void EffectStackView2::slotResetEffect(int ix)
             info.cropStart = GenTime(0);
             info.startPos = GenTime(-1);
             info.track = 0;
-            for (int i = 0; i < m_effects.count(); i++) {
+            for (int i = 0; i < m_effects.count(); ++i) {
                 if (m_effects.at(i)->effectIndex() == ix) {
                     m_effects.at(i)->updateWidget(info, dom, &m_effectMetaInfo);
                     break;
@@ -694,7 +694,7 @@ void EffectStackView2::slotResetEffect(int ix)
             emit updateEffect(NULL, m_trackindex, old, dom, ix,false);
         } else {
             m_clipref->initEffect(dom);
-            for (int i = 0; i < m_effects.count(); i++) {
+            for (int i = 0; i < m_effects.count(); ++i) {
                 if (m_effects.at(i)->effectIndex() == ix) {
                     m_effects.at(i)->updateWidget(m_clipref->info(), dom, &m_effectMetaInfo);
                     break;
@@ -799,7 +799,7 @@ void EffectStackView2::slotCreateGroup(int ix)
     QVBoxLayout *l = static_cast<QVBoxLayout *>(m_ui.container->widget()->layout());
     int groupPos = 0;
     CollapsibleEffect *effectToMove = NULL;
-    for (int i = 0; i < m_effects.count(); i++) {
+    for (int i = 0; i < m_effects.count(); ++i) {
         if (m_effects.at(i)->effectIndex() == ix) {
             effectToMove = m_effects.at(i);
             groupPos = l->indexOf(effectToMove);
@@ -822,10 +822,10 @@ void EffectStackView2::connectGroup(CollapsibleGroup *group)
     connect(group, SIGNAL(moveEffect(QList<int>,int,int,QString)), this , SLOT(slotMoveEffect(QList<int>,int,int,QString)));
     connect(group, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
     connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
-    connect(group, SIGNAL(groupRenamed(CollapsibleGroup *)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
+    connect(group, SIGNAL(groupRenamed(CollapsibleGroup*)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
     connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
     connect(group, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
-    connect(group, SIGNAL(changeEffectPosition(QList <int>,bool)), this , SLOT(slotMoveEffectUp(QList <int>,bool)));
+    connect(group, SIGNAL(changeEffectPosition(QList<int>,bool)), this , SLOT(slotMoveEffectUp(QList<int>,bool)));
 }
 
 void EffectStackView2::slotMoveEffect(QList <int> currentIndexes, int newIndex, int groupIndex, QString groupName)
@@ -879,7 +879,7 @@ void EffectStackView2::slotUnGroup(CollapsibleGroup* group)
 void EffectStackView2::slotRenameGroup(CollapsibleGroup *group)
 {
     QList <CollapsibleEffect*> effects = group->effects();
-    for (int i = 0; i < effects.count(); i++) {
+    for (int i = 0; i < effects.count(); ++i) {
         QDomElement origin = effects.at(i)->effect();
         QDomElement changed = origin.cloneNode().toElement();
         changed.setAttribute("kdenlive_info", effects.at(i)->infoString());
@@ -920,7 +920,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
         }
         // Moving group: delete all effects and re-add them
         QList <int> indexes;
-        for (int i = 0; i < effects.count(); i++) {
+        for (int i = 0; i < effects.count(); ++i) {
             QDomElement effect = effects.at(i).cloneNode().toElement();
             indexes << effect.attribute("kdenlive_ix").toInt();
         }
@@ -952,9 +952,9 @@ void EffectStackView2::dropEvent(QDropEvent *event)
     processDroppedEffect(doc.documentElement(), event);
 }
 
-void EffectStackView2::setKeyframes(const QString data, int maximum)
+void EffectStackView2::setKeyframes(const QString &data, int maximum)
 {
-    for (int i = 0; i < m_effects.count(); i++) {
+    for (int i = 0; i < m_effects.count(); ++i) {
         if (m_effects.at(i)->isActive()) {
 	    m_effects.at(i)->setKeyframes(data, maximum);
             break;

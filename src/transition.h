@@ -41,7 +41,7 @@ class Transition : public AbstractClipItem
     Q_OBJECT
 public:
 
-    Transition(const ItemInfo &info, int transitiontrack, double fps, QDomElement params = QDomElement(), bool automaticTransition = false);
+    Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params = QDomElement(), bool automaticTransition = false);
     virtual ~Transition();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
@@ -55,11 +55,11 @@ public:
     int transitionEndTrack() const;
     QString transitionTag() const;
     QStringList transitionInfo() const;
-    OPERATIONTYPE operationMode(QPointF pos);
+    OPERATIONTYPE operationMode(const QPointF &pos);
     static int itemHeight();
     static int itemOffset();
     //const QMap < QString, QString > transitionParameters() const;
-    void setTransitionParameters(const QDomElement params);
+    void setTransitionParameters(const QDomElement &params);
     void setTransitionTrack(int track);
 
     /** @brief Links the transition to another track.

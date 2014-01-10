@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "capturehandler.h"
 #include "kdenlivesettings.h"
@@ -193,3 +193,5 @@ void CaptureHandler::yuyv2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buff
 }
 
 
+
+#include "capturehandler.moc"

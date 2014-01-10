@@ -40,7 +40,6 @@
 #include "definitions.h"
 
 class ClipItem;
-class Transition;
 class CustomTrackView;
 class KdenliveDoc;
 class CustomRuler;
@@ -51,7 +50,7 @@ class TrackView : public QWidget, public Ui::TimeLine_UI
     Q_OBJECT
 
 public:
-    explicit TrackView(KdenliveDoc *doc, QList <QAction *> actions, bool *ok, QWidget *parent = 0);
+    explicit TrackView(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
     virtual ~ TrackView();
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
@@ -81,15 +80,15 @@ public:
     void updatePalette();
 
 protected:
-    virtual void keyPressEvent(QKeyEvent * event);
+    void keyPressEvent(QKeyEvent * event);
 
 public slots:
     void slotDeleteClip(const QString &clipId);
     void slotChangeZoom(int horizontal, int vertical = -1);
     void setDuration(int dur);
-    void slotSetZone(QPoint p, bool updateDocumentProperties = true);
+    void slotSetZone(const QPoint &p, bool updateDocumentProperties = true);
     /** @brief Save a snapshot image of current timeline view */
-    void slotSaveTimelinePreview(const QString path);
+    void slotSaveTimelinePreview(const QString &path);
 private:
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
@@ -106,9 +105,9 @@ private:
     QString m_documentErrors;
     QList <QAction *> m_trackActions;
     
-    void parseDocument(QDomDocument doc);
-    int slotAddProjectTrack(int ix, QDomElement xml, bool locked, QDomNodeList producers);
-    DocClipBase *getMissingProducer(const QString id) const;
+    void parseDocument(const QDomDocument &doc);
+    int slotAddProjectTrack(int ix, QDomElement xml, bool locked, const QDomNodeList &producers);
+    DocClipBase *getMissingProducer(const QString &id) const;
     void adjustTrackHeaders();
     /** @brief Add effects from the xml. Returns true if some effect was upgraded, false if everything went fine.*/
     void slotAddProjectEffects(QDomNodeList effects, QDomElement parentNode, ClipItem *clip, int trackIndex);
@@ -133,7 +132,7 @@ private slots:
     /** @brief Changes the name of a track.
     * @param ix Number of the track
     * @param name New name */
-    void slotRenameTrack(int ix, QString name);
+    void slotRenameTrack(int ix, const QString &name);
     void slotRepaintTracks();
 
     /** @brief Adjusts the margins of the header area.
@@ -153,7 +152,7 @@ signals:
     void configTrack(int);
     void updateTracksInfo();
     void setZoom(int);
-    void showTrackEffects(int, TrackInfo);
+    void showTrackEffects(int, const TrackInfo&);
 };
 
 #endif

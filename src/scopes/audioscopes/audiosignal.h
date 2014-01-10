@@ -24,9 +24,7 @@
 
 #include <QByteArray>
 #include <QList>
-#include <QColor>
 #include <QTimer>
-class QLabel;
 
 #include  <QWidget>
 
@@ -36,7 +34,7 @@ class AudioSignal : public AbstractAudioScopeWidget
 {
     Q_OBJECT
 public:
-    AudioSignal(QWidget *parent = 0);
+    explicit AudioSignal(QWidget *parent = 0);
     ~AudioSignal();
     /** @brief Used for checking whether audio data needs to be delivered */
     bool monitoringEnabled() const;
@@ -44,7 +42,7 @@ public:
     QRect scopeRect();
     QImage renderHUD(uint accelerationFactor);
     QImage renderBackground(uint accelerationFactor);
-    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> audioFrame, const int, const int num_channels, const int samples, const int);
+    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> &audioFrame, const int, const int num_channels, const int samples, const int);
 
     QString widgetName() const { return "audioSignal"; }
     bool isHUDDependingOnInput() const { return false; }
@@ -58,7 +56,7 @@ private:
     QList<int> dbscale;
 
 public slots:
-    void showAudio(const QByteArray);
+    void showAudio(const QByteArray &);
     void slotReceiveAudio(QVector<int16_t>,int,int,int);
 private slots:
      void slotNoAudioTimeout();

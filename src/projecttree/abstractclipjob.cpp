@@ -23,10 +23,10 @@
 #include "kdenlivedoc.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, QStringList) :
+AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, const QStringList &) :
         QObject(),
         clipType(cType),
         jobType(type),
@@ -107,3 +107,5 @@ bool AbstractClipJob::isExclusive()
 }
 
 
+
+#include "abstractclipjob.moc"

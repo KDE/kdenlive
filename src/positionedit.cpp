@@ -25,8 +25,8 @@
 #include <QSlider>
 #include <QHBoxLayout>
 
-PositionEdit::PositionEdit(const QString name, int pos, int min, int max, const Timecode tc, QWidget* parent) :
-        QWidget(parent)
+PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const Timecode&tc, QWidget* parent) :
+    QWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
 
@@ -84,11 +84,11 @@ void PositionEdit::slotUpdatePosition()
 void PositionEdit::setRange(int min, int max, bool absolute)
 {
     if (absolute) {
-	m_slider->setRange(min, max);
-	m_display->setRange(min, max);
+        m_slider->setRange(min, max);
+        m_display->setRange(min, max);
     } else {
-	m_slider->setRange(0, max - min);
-	m_display->setRange(0, max - min);
+        m_slider->setRange(0, max - min);
+        m_display->setRange(0, max - min);
     }
 }
 

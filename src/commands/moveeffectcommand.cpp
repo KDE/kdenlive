@@ -21,17 +21,18 @@
 #include "moveeffectcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
+#include <KDebug>
 
-MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, QList <int> oldPos, int newPos, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_view(view),
-        m_track(track),
-        m_oldindex(oldPos),
-        m_pos(pos)
+MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &oldPos, int newPos, QUndoCommand * parent) :
+    QUndoCommand(parent),
+    m_view(view),
+    m_track(track),
+    m_oldindex(oldPos),
+    m_pos(pos)
 {
-    for (int i = 0; i < m_oldindex.count(); i++) {
-	m_newindex << newPos + i;
+    for (int i = 0; i < m_oldindex.count(); ++i) {
+        m_newindex << newPos + i;
     }
     /*    QString effectName;
         QDomElement namenode = effect.firstChildElement("name");
@@ -50,13 +51,16 @@ int MoveEffectCommand::id() const
 // virtual
 bool MoveEffectCommand::mergeWith(const QUndoCommand * other)
 {
+    Q_UNUSED(other)
     return false;
+    /* dead code (flaged by coverity), was removed to avoid crash when dropping on group
     if (other->id() != id()) return false;
     if (m_track != static_cast<const MoveEffectCommand*>(other)->m_track) return false;
     if (m_pos != static_cast<const MoveEffectCommand*>(other)->m_pos) return false;
     m_oldindex = static_cast<const MoveEffectCommand*>(other)->m_oldindex;
     m_newindex = static_cast<const MoveEffectCommand*>(other)->m_newindex;
     return true;
+    */
 }
 
 // virtual

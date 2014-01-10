@@ -34,14 +34,14 @@ public:
     /** @brief Using this constructor, the dialog only allows editing one profile. */
     explicit ProfilesDialog(QString profilePath, QWidget * parent = 0);
 
-    void fillList(const QString selectedProfile = QString());
-    static QMap< QString, QString > getSettingsForProfile(const QString profileName);
-    static QMap< QString, QString > getSettingsFromFile(const QString path);
-    static QString getPathFromDescription(const QString profileDesc);
-    static MltVideoProfile getVideoProfile(QString name);
+    void fillList(const QString &selectedProfile = QString());
+    static QMap< QString, QString > getSettingsForProfile(const QString &profileName);
+    static QMap< QString, QString > getSettingsFromFile(const QString& path);
+    static QString getPathFromDescription(const QString& profileDesc);
+    static MltVideoProfile getVideoProfile(const QString &name);
     static QMap <QString, QString> getProfilesInfo();
     static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
-    static QString existingProfile(MltVideoProfile profile);
+    static QString existingProfile(const MltVideoProfile &profile);
     static bool existingProfileDescription(const QString &desc);
 
     /** @brief Check if a given profile matches passed properties:
@@ -52,7 +52,7 @@ public:
      *  @param isImage If true, compare width with profile's display width ( = dar * height)
      *  @param profile The profile to match
      *  @return true if properties match profile */
-    static bool matchProfile(int width, int height, double fps, double par, bool isImage, MltVideoProfile profile);
+    static bool matchProfile(int width, int height, double fps, double par, bool isImage, const MltVideoProfile &profile);
 
     /** @brief Find profiles that match parameter properties:
      *  @param width The profile frame width
@@ -67,7 +67,7 @@ public:
      *  @param profile The profile that gives width & height
      *  @param eval The string to be evaluated, for example: "%width / 2"
      *  @return the evaluated value */
-    static double getStringEval(const MltVideoProfile &profile, QString eval, QPoint frameSize = QPoint());
+    static double getStringEval(const MltVideoProfile &profile, QString eval, const QPoint &frameSize = QPoint());
 
     /** @brief Get the descriptive text for given colorspace code (defined by MLT)
      *  @param colorspace An int as defined in mlt_profile.h
@@ -98,7 +98,7 @@ private:
     bool m_isCustomProfile;
     /** @brief If we are in single profile editing, should contain the path for this profile. */
     QString m_customProfilePath;
-    void saveProfile(const QString path);
+    void saveProfile(QString path);
     bool askForSave();
 };
 

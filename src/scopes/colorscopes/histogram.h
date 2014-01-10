@@ -23,7 +23,7 @@ class Histogram : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Histogram(QWidget *parent = 0);
+    explicit Histogram(QWidget *parent = 0);
     ~Histogram();
     QString widgetName() const;
 
@@ -43,7 +43,7 @@ private:
     bool isScopeDependingOnInput() const;
     bool isBackgroundDependingOnInput() const;
     QImage renderHUD(uint accelerationFactor);
-    QImage renderGfxScope(uint accelerationFactor, const QImage);
+    QImage renderGfxScope(uint accelerationFactor, const QImage &);
     QImage renderBackground(uint accelerationFactor);
     Ui::Histogram_UI *ui;
 

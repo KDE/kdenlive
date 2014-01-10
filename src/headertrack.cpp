@@ -23,7 +23,7 @@
 #include "kdenlivesettings.h"
 
 #include <KIcon>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDebug>
 
 #include <QMouseEvent>
@@ -33,7 +33,7 @@
 #include <QTimer>
 #include <QDomDocument>
 
-HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QList <QAction *> actions, QWidget *parent) :
+HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAction *> &actions, QWidget *parent) :
         QWidget(parent),
         m_index(index),
         m_type(info.type),
@@ -96,7 +96,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QList <QAction *
 {
 }*/
 
-void HeaderTrack::updateEffectLabel(QStringList effects)
+void HeaderTrack::updateEffectLabel(const QStringList &effects)
 {
     if (!effects.isEmpty()) {
         effect_label->setHidden(false);
@@ -139,7 +139,7 @@ void HeaderTrack::dropEvent(QDropEvent * event)
     if (e.tagName() == "effectgroup") {
         // dropped an effect group
         QDomNodeList effectlist = e.elementsByTagName("effect");
-        for (int i = 0; i < effectlist.count(); i++) {
+        for (int i = 0; i < effectlist.count(); ++i) {
             effectlist.at(i).toElement().removeAttribute("kdenlive_ix");
         }
     } else {

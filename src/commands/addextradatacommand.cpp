@@ -19,7 +19,7 @@
 #include "addextradatacommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 AddExtraDataCommand::AddExtraDataCommand(CustomTrackView *view, const QString&id, const QString&key, const QString &oldData, const QString &newData, QUndoCommand * parent) :
         QUndoCommand(parent),
@@ -29,8 +29,10 @@ AddExtraDataCommand::AddExtraDataCommand(CustomTrackView *view, const QString&id
         m_key(key),
         m_id(id)
 {
-    if (m_newData.isEmpty()) setText(i18n("Delete data"));
-    else setText(i18n("Add data"));
+    if (m_newData.isEmpty())
+        setText(i18n("Delete data"));
+    else
+        setText(i18n("Add data"));
 }
 
 

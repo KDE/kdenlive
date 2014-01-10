@@ -11,7 +11,6 @@
 #ifndef VECTORSCOPE_H
 #define VECTORSCOPE_H
 
-#include <QtCore>
 #include "ui_vectorscope_ui.h"
 #include "abstractgfxscopewidget.h"
 
@@ -32,7 +31,7 @@ class Vectorscope : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    Vectorscope(QWidget *parent = 0);
+    explicit Vectorscope(QWidget *parent = 0);
     ~Vectorscope();
 
     QString widgetName() const;
@@ -41,7 +40,7 @@ protected:
     ///// Implemented methods /////
     QRect scopeRect();
     QImage renderHUD(uint accelerationFactor);
-    QImage renderGfxScope(uint accelerationFactor, const QImage);
+    QImage renderGfxScope(uint accelerationFactor, const QImage &);
     QImage renderBackground(uint accelerationFactor);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;

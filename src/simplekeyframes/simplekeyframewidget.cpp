@@ -24,9 +24,9 @@
 #include <QGridLayout>
 
 #include <KIcon>
-#include <KLocale>
+#include <KLocalizedString>
 
-SimpleKeyframeWidget::SimpleKeyframeWidget(Timecode t, int duration, QWidget *parent) :
+SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent) :
         QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -98,7 +98,7 @@ void SimpleKeyframeWidget::slotSetPosition(int pos, bool update)
         emit positionChanged(pos);
 }
 
-int SimpleKeyframeWidget::getPosition()
+int SimpleKeyframeWidget::getPosition() const
 {
     return m_time->getValue();
 }

@@ -30,20 +30,19 @@
 
 class MltDeviceCapture;
 class MonitorManager;
-class VideoPreviewContainer;
 class MltVideoProfile;
 
 class MyLabel : public QLabel
 {
     Q_OBJECT
 public:
-    MyLabel(QWidget* parent = 0);
-    void setImage(QImage img);
+    explicit MyLabel(QWidget* parent = 0);
+    void setImage(const QImage &img);
 
 protected:
-    virtual void paintEvent(QPaintEvent* event);
-    virtual void wheelEvent(QWheelEvent* event);
-    virtual void mousePressEvent(QMouseEvent*);
+    void paintEvent(QPaintEvent* event);
+    void wheelEvent(QWheelEvent* event);
+    void mousePressEvent(QMouseEvent*);
 
 private:
     QImage m_img;
@@ -93,7 +92,7 @@ public:
      * @param projectFolder The current project folder, where captured files will be stored.
      * @param actions The actions for this widget that can have a keyboard shortcut.
      * @param parent (optional) parent widget */
-    StopmotionWidget(MonitorManager *manager, KUrl projectFolder, QList< QAction* > actions, QWidget* parent = 0);
+    StopmotionWidget(MonitorManager *manager, const KUrl &projectFolder, const QList< QAction* > &actions, QWidget* parent = 0);
     virtual ~StopmotionWidget();
 
 protected:
@@ -154,7 +153,7 @@ private:
     StopmotionMonitor *m_monitor;
 
     /** @brief Create the XML playlist. */
-    const QString createProducer(MltVideoProfile profile, const QString &service, const QString &resource);
+    const QString createProducer(const MltVideoProfile &profile, const QString &service, const QString &resource);
 
     /** @brief A new frame arrived, reload overlay. */
     void reloadOverlay();
@@ -212,7 +211,7 @@ private slots:
     void slotGotHDMIMessage(const QString& message);
 
     /** @brief Create thumbnails for existing sequence frames. */
-    void slotCreateThumbs(QImage img, int ix);
+    void slotCreateThumbs(const QImage &img, int ix);
 
     /** @brief Prepare thumbnails creation. */
     void slotPrepareThumbs();
@@ -251,8 +250,8 @@ signals:
     /** @brief Ask to add sequence to current project. */
     void addOrUpdateSequence(const QString &);
 
-    void doCreateThumbs(QImage, int);
-    void gotFrame(QImage);
+    void doCreateThumbs(const QImage&, int);
+    void gotFrame(const QImage&);
 };
 
 #endif

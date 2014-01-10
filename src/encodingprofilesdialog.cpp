@@ -70,22 +70,22 @@ void EncodingProfilesDialog::slotLoadProfiles()
     profile_list->clear();
     QString group;
     switch (profile_type->currentIndex()) {
-        case 0: 
-            group = "proxy";
-            break;          
-        case 1: 
-            group = "video4linux";
-            break;
-	case 2: 
-            group = "screengrab";
-            break;
-        default:
-        case 3: 
-            group = "decklink";
-            break;
+    case 0:
+        group = "proxy";
+        break;
+    case 1:
+        group = "video4linux";
+        break;
+    case 2:
+        group = "screengrab";
+        break;
+    default:
+    case 3:
+        group = "decklink";
+        break;
     }
 
-
+    delete m_configGroup;
     m_configGroup = new KConfigGroup(m_configFile, group);
     QMap< QString, QString > values = m_configGroup->entryMap();
     QMapIterator<QString, QString> i(values);
@@ -105,14 +105,16 @@ void EncodingProfilesDialog::slotShowParams()
 {
     profile_parameters->clear();
     QListWidgetItem *item = profile_list->currentItem();
-    if (!item) return;
+    if (!item)
+        return;
     profile_parameters->setPlainText(item->data(Qt::UserRole).toString().section(';', 0, 0));
 }
 
 void EncodingProfilesDialog::slotDeleteProfile()
 {
     QListWidgetItem *item = profile_list->currentItem();
-    if (!item) return;
+    if (!item)
+        return;
     QString profile = item->text();
     m_configGroup->deleteEntry(profile);
     slotLoadProfiles();
@@ -184,3 +186,5 @@ void EncodingProfilesDialog::slotEditProfile()
     delete d;
 }
 
+
+#include "encodingprofilesdialog.moc"

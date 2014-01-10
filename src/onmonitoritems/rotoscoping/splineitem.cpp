@@ -64,7 +64,7 @@ SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGr
     setBrush(Qt::NoBrush);
     setAcceptHoverEvents(true);
 
-    m_view = scene->views()[0];
+    m_view = scene->views().first();
 
     setPoints(points);
 }
@@ -74,7 +74,7 @@ int SplineItem::type() const
     return Type;
 }
 
-bool SplineItem::editing()
+bool SplineItem::editing() const
 {
     return m_editing;
 }
@@ -99,7 +99,7 @@ void SplineItem::updateSpline(bool editing)
         emit changed(editing);
 }
 
-QList <BPoint> SplineItem::getPoints()
+QList <BPoint> SplineItem::getPoints() const
 {
     QList <BPoint> points;
     foreach (QGraphicsItem *child, childItems())
@@ -252,7 +252,7 @@ void SplineItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
         unsetCursor();
 }
 
-int SplineItem::getClosestPointOnCurve(QPointF point, double *tFinal)
+int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
 {
     // TODO: proper minDiff
     qreal diff = 10000, param = 0;

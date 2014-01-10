@@ -22,7 +22,6 @@
 #include <QWidget>
 #include <QDomElement>
 #include <QGraphicsPathItem>
-#include <QGraphicsView>
 
 #include <mlt++/Mlt.h>
 
@@ -31,21 +30,20 @@
 #include "keyframehelper.h"
 #include "timecodedisplay.h"
 
-//class QGraphicsScene;
 class GraphicsSceneRectMove;
 class QGraphicsRectItem;
-class QMouseEvent;
+class QGraphicsView;
 
 
 class Geometryval : public QWidget, public Ui::Geometryval
 {
     Q_OBJECT
 public:
-    explicit Geometryval(const MltVideoProfile &profile, Timecode t, QPoint frame_size, int startPoint = 0, QWidget* parent = 0);
+    explicit Geometryval(const MltVideoProfile &profile, const Timecode &t, const QPoint &frame_size, int startPoint = 0, QWidget* parent = 0);
     virtual ~Geometryval();
     QDomElement getParamDesc();
     QString getValue() const;
-    void setFrameSize(QPoint p);
+    void setFrameSize(const QPoint &p);
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
     void slotUpdateRange(int inPoint, int outPoint);

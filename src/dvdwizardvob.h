@@ -44,17 +44,17 @@ class DvdTreeWidget : public QTreeWidget
 {
     Q_OBJECT
 public:
-    DvdTreeWidget(QWidget *parent);
+    explicit DvdTreeWidget(QWidget *parent);
 
 protected:
-    virtual void dragEnterEvent(QDragEnterEvent * event );
-    virtual void dropEvent(QDropEvent * event );
-    virtual void mouseDoubleClickEvent( QMouseEvent * );
-    virtual void dragMoveEvent(QDragMoveEvent * event);
+    void dragEnterEvent(QDragEnterEvent * event );
+    void dropEvent(QDropEvent * event );
+    void mouseDoubleClickEvent( QMouseEvent * );
+    void dragMoveEvent(QDragMoveEvent * event);
 
 signals:
     void addNewClip();
-    void addClips(QList<QUrl>);
+    void addClips(const QList<QUrl>&);
 };
 
 class DvdViewDelegate : public QStyledItemDelegate
@@ -68,7 +68,7 @@ public:
         if (index.column() == 0) {
             painter->save();
             QStyleOptionViewItemV4 opt(option);
-	    QRect r1 = option.rect;
+            QRect r1 = option.rect;
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
@@ -78,7 +78,7 @@ public:
             painter->drawPixmap(pixmapPoint, pixmap);
             int decoWidth = pixmap.width() + 2 * textMargin;
 
-	    QFont font = painter->font();
+            QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
             int mid = (int)((r1.height() / 2));
@@ -92,7 +92,9 @@ public:
             QRectF bounding;
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
             painter->restore();
-        } else QStyledItemDelegate::paint(painter, option, index);
+        } else {
+            QStyledItemDelegate::paint(painter, option, index);
+        }
     }
 };
 
@@ -116,7 +118,7 @@ public:
     void clear();
     const QString introMovie() const;
     void setUseIntroMovie(bool use);
-    void updateChapters(QMap <QString, QString> chaptersdata);
+    void updateChapters(const QMap<QString, QString> &chaptersdata);
     static QString getDvdProfile(DVDFORMAT format);
 
 private:
@@ -129,11 +131,11 @@ private:
     KMessageWidget *m_warnMessage;
 #endif
     void showProfileError();
-    void showError(const QString error);
+    void showError(const QString &error);
 
 public slots:
     void slotAddVobFile(KUrl url = KUrl(), const QString &chapters = QString(), bool checkFormats = true);
-    void slotAddVobList(QList <QUrl>list);
+    void slotAddVobList(const QList<QUrl> &list);
     void slotCheckProfiles();
 
 private slots:

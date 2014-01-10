@@ -21,7 +21,7 @@
 #include "archivewidget.h"
 #include "titlewidget.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KDiskFreeSpaceInfo>
 #include <KUrlRequester>
 #include <KFileDialog>
@@ -41,7 +41,7 @@
 #include "projectsettings.h"
 
 
-ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocClipBase*> list, QStringList luma_list, QWidget * parent) :
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <DocClipBase*> &list, const QStringList &luma_list, QWidget * parent) :
         QDialog(parent)
         , m_requestedSize(0)
         , m_copyJob(NULL)
@@ -58,7 +58,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     setupUi(this);
     setWindowTitle(i18n("Archive Project"));
     archive_url->setUrl(KUrl(QDir::homePath()));
-    connect(archive_url, SIGNAL(textChanged (const QString &)), this, SLOT(slotCheckSpace()));
+    connect(archive_url, SIGNAL(textChanged(QString)), this, SLOT(slotCheckSpace()));
     connect(this, SIGNAL(archivingFinished(bool)), this, SLOT(slotArchivingFinished(bool)));
     connect(this, SIGNAL(archiveProgress(int)), this, SLOT(slotArchivingProgress(int)));
     connect(proxy_only, SIGNAL(stateChanged(int)), this, SLOT(slotProxyOnly(int)));
@@ -117,7 +117,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
     QMap <QString, QString>playlistUrls;
     QMap <QString, QString>proxyUrls;
 
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         CLIPTYPE t = clip->clipType();
         QString id = clip->getId();
@@ -184,7 +184,7 @@ ArchiveWidget::ArchiveWidget(QString projectName, QDomDocument doc, QList <DocCl
 
     // Hide unused categories, add item count
     int total = 0;
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         int items = parentItem->childCount();
         if (items == 0) {
@@ -226,7 +226,7 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
     m_progressTimer->setSingleShot(false);
     connect(m_progressTimer, SIGNAL(timeout()), this, SLOT(slotExtractProgress()));
     connect(this, SIGNAL(extractingFinished()), this, SLOT(slotExtractingFinished()));
-    connect(this, SIGNAL(showMessage(const QString &, const QString &)), this, SLOT(slotDisplayMessage(const QString &, const QString &)));
+    connect(this, SIGNAL(showMessage(QString,QString)), this, SLOT(slotDisplayMessage(QString,QString)));
     
     compressed_archive->setHidden(true);
     proxy_only->setHidden(true);
@@ -245,8 +245,8 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
 
 ArchiveWidget::~ArchiveWidget()
 {
-    if (m_extractArchive) delete m_extractArchive;
-    if (m_progressTimer) delete m_progressTimer;
+    delete m_extractArchive;
+    delete m_progressTimer;
 }
 
 void ArchiveWidget::slotDisplayMessage(const QString &icon, const QString &text)
@@ -281,7 +281,7 @@ void ArchiveWidget::openArchiveForExtraction()
     // Check that it is a kdenlive project archive
     bool isProjectArchive = false;
     QStringList files = m_extractArchive->directory()->entries();
-    for (int i = 0; i < files.count(); i++) {
+    for (int i = 0; i < files.count(); ++i) {
         if (files.at(i).endsWith(".kdenlive")) {
             m_projectName = files.at(i);
             isProjectArchive = true;
@@ -325,7 +325,7 @@ bool ArchiveWidget::closeAccepted()
 }
 
 
-void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items)
+void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList& items)
 {
     QStringList filesList;
     QString fileName;
@@ -343,14 +343,13 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
             if (slideUrl.fileName().startsWith(".all.")) {
                 // mimetype slideshow (for example *.png)
                     QStringList filters;
-                    QString extension;
                     // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
                     filters << "*." + slideUrl.fileName().section('.', -1);
                     dir.setNameFilters(filters);
                     QFileInfoList resultList = dir.entryInfoList(QDir::Files);
                     QStringList slideImages;
                     qint64 totalSize = 0;
-                    for (int i = 0; i < resultList.count(); i++) {
+                    for (int i = 0; i < resultList.count(); ++i) {
                         totalSize += resultList.at(i).size();
                         slideImages << resultList.at(i).absoluteFilePath();
                     }
@@ -407,7 +406,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QStringList items
     }
 }
 
-void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QMap <QString, QString> items)
+void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QString, QString>& items)
 {
     QStringList filesList;
     QString fileName;
@@ -429,14 +428,13 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, QMap <QString, QS
             if (slideUrl.fileName().startsWith(".all.")) {
                 // mimetype slideshow (for example *.png)
                     QStringList filters;
-                    QString extension;
                     // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
                     filters << "*." + slideUrl.fileName().section('.', -1);
                     dir.setNameFilters(filters);
                     QFileInfoList resultList = dir.entryInfoList(QDir::Files);
                     QStringList slideImages;
                     qint64 totalSize = 0;
-                    for (int i = 0; i < resultList.count(); i++) {
+                    for (int i = 0; i < resultList.count(); ++i) {
                         totalSize += resultList.at(i).size();
                         slideImages << resultList.at(i).absoluteFilePath();
                     }
@@ -540,7 +538,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     int items = 0;
     
     // We parse all files going into one folder, then start the copy job
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         parentItem = files_list->topLevelItem(i);
         if (parentItem->isDisabled()) {
             parentItem->setExpanded(false);
@@ -610,15 +608,15 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             KUrl startJobDst = i.value();
             m_duplicateFiles.remove(startJobSrc);
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
-            connect(job, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
-            connect(job, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
+            connect(job, SIGNAL(result(KJob*)), this, SLOT(slotArchivingFinished(KJob*)));
+            connect(job, SIGNAL(processedSize(KJob*,qulonglong)), this, SLOT(slotArchivingProgress(KJob*,qulonglong)));
         }
         return true;
     }
 
     if (isArchive) {
         m_foldersList.append(destPath);
-        for (int i = 0; i < files.count(); i++) {
+        for (int i = 0; i < files.count(); ++i) {
             m_filesList.insert(files.at(i).path(), destPath + files.at(i).fileName());
         }
         slotArchivingFinished();
@@ -629,8 +627,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     else {
         KIO::NetAccess::mkdir(destUrl, this);
         m_copyJob = KIO::copy (files, destUrl, KIO::HideProgressInfo);
-        connect(m_copyJob, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
-        connect(m_copyJob, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
+        connect(m_copyJob, SIGNAL(result(KJob*)), this, SLOT(slotArchivingFinished(KJob*)));
+        connect(m_copyJob, SIGNAL(processedSize(KJob*,qulonglong)), this, SLOT(slotArchivingProgress(KJob*,qulonglong)));
     }
     if (firstPass) {
         progressBar->setValue(0);
@@ -666,7 +664,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         archive_url->setEnabled(true);
         proxy_only->setEnabled(true);
         compressed_archive->setEnabled(true);
-        for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+        for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++)
                 files_list->topLevelItem(i)->child(j)->setDisabled(false);        
@@ -686,7 +684,7 @@ bool ArchiveWidget::processProjectFile()
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
 
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
             destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + parentItem->data(0, Qt::UserRole).toString());
@@ -722,7 +720,7 @@ bool ArchiveWidget::processProjectFile()
 
     // process kdenlive producers
     QDomNodeList prods = mlt.elementsByTagName("kdenlive_producer");
-    for (int i = 0; i < prods.count(); i++) {
+    for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
         if (e.hasAttribute("resource")) {
@@ -739,7 +737,7 @@ bool ArchiveWidget::processProjectFile()
 
     // process mlt producers
     prods = mlt.elementsByTagName("producer");
-    for (int i = 0; i < prods.count(); i++) {
+    for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
         QString src = EffectsList::property(e, "resource");
@@ -754,7 +752,7 @@ bool ArchiveWidget::processProjectFile()
     // process mlt transitions (for luma files)
     prods = mlt.elementsByTagName("transition");
     QString attribute;
-    for (int i = 0; i < prods.count(); i++) {
+    for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
         attribute = "resource";
@@ -834,9 +832,10 @@ void ArchiveWidget::createArchive()
     // Add project file
     bool result = false;
     if (m_temp) {
-	archive.addLocalFile(m_temp->fileName(), m_name + ".kdenlive");
-	result = archive.close();
-	delete m_temp;
+        archive.addLocalFile(m_temp->fileName(), m_name + ".kdenlive");
+        result = archive.close();
+        delete m_temp;
+        m_temp = 0;
     }
     emit archivingFinished(result);
 }
@@ -855,7 +854,7 @@ void ArchiveWidget::slotArchivingFinished(bool result)
     archive_url->setEnabled(true);
     proxy_only->setEnabled(true);
     compressed_archive->setEnabled(true);
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         files_list->topLevelItem(i)->setDisabled(false);
         for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++)
             files_list->topLevelItem(i)->child(j)->setDisabled(false);
@@ -904,7 +903,7 @@ void ArchiveWidget::doExtracting()
     emit extractingFinished();    
 }
 
-QString ArchiveWidget::extractedProjectFile()
+QString ArchiveWidget::extractedProjectFile() const
 {
     return archive_url->url().path(KUrl::AddTrailingSlash) + m_projectName;
 }
@@ -955,7 +954,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         QTreeWidgetItem *parentItem = NULL;
 
         // Build list of existing proxy ids
-        for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+        for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             parentItem = files_list->topLevelItem(i);
             if (parentItem->data(0, Qt::UserRole).toString() == "proxy") break;
         }
@@ -966,7 +965,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         }
         
         // Parse all items to disable original clips for existing proxies
-        for (int i = 0; i < proxyIdList.count(); i++) {
+        for (int i = 0; i < proxyIdList.count(); ++i) {
             QString id = proxyIdList.at(i);
             if (id.isEmpty()) continue;
             for (int j = 0; j < files_list->topLevelItemCount(); j++) {
@@ -985,7 +984,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
     }
     else {
         // Archive all clips
-        for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+        for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
             int items = parentItem->childCount();
             for (int j = 0; j < items; j++) {
@@ -996,7 +995,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
     
     // Calculate requested size
     int total = 0;
-    for (int i = 0; i < files_list->topLevelItemCount(); i++) {
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         int items = parentItem->childCount();
         int itemsCount = 0;
@@ -1016,3 +1015,5 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
     slotCheckSpace();
 }
 
+
+#include "archivewidget.moc"

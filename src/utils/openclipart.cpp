@@ -39,15 +39,16 @@ OpenClipArt::~OpenClipArt()
 {
 }
 
-void OpenClipArt::slotStartSearch(const QString searchText, int page)
+void OpenClipArt::slotStartSearch(const QString &searchText, int page)
 {
     m_listWidget->clear();
     QString uri = "http://openclipart.org/api/search/?query=";
     uri.append(searchText);
-    if (page > 1) uri.append("&page=" + QString::number(page));
+    if (page > 1)
+        uri.append("&page=" + QString::number(page));
         
     KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
-    connect( resolveJob, SIGNAL( result( KJob* ) ), this, SLOT( slotShowResults( KJob* ) ) );
+    connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
 }
 
 
@@ -60,7 +61,7 @@ void OpenClipArt::slotShowResults(KJob* job)
     QDomDocument doc;
     doc.setContent(QString::fromAscii(storedQueryJob->data()));
     QDomNodeList items = doc.documentElement().elementsByTagName("item");
-    for (int i = 0; i < items.count(); i++) {
+    for (int i = 0; i < items.count(); ++i) {
         QDomElement currentClip = items.at(i).toElement();
         QDomElement title = currentClip.firstChildElement("title");
         QListWidgetItem *item = new QListWidgetItem(title.firstChild().nodeValue(), m_listWidget);
@@ -119,3 +120,5 @@ QString OpenClipArt::getDefaultDownloadName(QListWidgetItem *item)
     return path;
 }
 
+
+#include "openclipart.moc"

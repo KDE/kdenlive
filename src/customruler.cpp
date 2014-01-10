@@ -50,7 +50,7 @@ static int bigMarkDistance;
 
 const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
-CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
+CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
         QWidget(parent),
         m_timecode(tc),
         m_view(parent),
@@ -89,7 +89,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     QAction *delAllGuides = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete All Guides"));
     connect(delAllGuides, SIGNAL(triggered()), m_view, SLOT(slotDeleteAllGuides()));
     m_goMenu = m_contextMenu->addMenu(i18n("Go To"));
-    connect(m_goMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotGoToGuide(QAction *)));
+    connect(m_goMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToGuide(QAction*)));
     setMouseTracking(true);
 }
 
@@ -99,7 +99,7 @@ void CustomRuler::updatePalette()
     m_zoneColor.setAlpha(180);
 }
 
-void CustomRuler::updateProjectFps(Timecode t)
+void CustomRuler::updateProjectFps(const Timecode &t)
 {
     m_timecode = t;
     mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
@@ -133,7 +133,7 @@ void CustomRuler::slotGoToGuide(QAction *act)
     m_view->initCursorPos(act->data().toInt());
 }
 
-void CustomRuler::setZone(QPoint p)
+void CustomRuler::setZone(const QPoint &p)
 {
     m_zoneStart = p.x();
     m_zoneEnd = p.y();
@@ -261,8 +261,8 @@ void CustomRuler::leaveEvent(QEvent * event)
 {
     QWidget::leaveEvent(event);
     if (m_cursorColor == palette().link()) {
-	m_cursorColor = palette().text();
-	update();
+        m_cursorColor = palette().text();
+        update();
     }
 }
 
@@ -288,8 +288,10 @@ int CustomRuler::outPoint() const
 
 void CustomRuler::slotMoveRuler(int newPos)
 {
-    m_offset = newPos;
-    update();
+    if (m_offset != newPos) {
+        m_offset = newPos;
+        update();
+    }
 }
 
 int CustomRuler::offset() const

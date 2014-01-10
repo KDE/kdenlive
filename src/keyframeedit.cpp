@@ -25,11 +25,11 @@
 
 #include <QHeaderView>
 
-KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode tc, int activeKeyframe, QWidget* parent) :
-        QWidget(parent),
-        m_min(minFrame),
-        m_max(maxFrame),
-        m_timecode(tc)
+KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent) :
+    QWidget(parent),
+    m_min(minFrame),
+    m_max(maxFrame),
+    m_timecode(tc)
 {
     setupUi(this);
     if (m_max == -1) {
@@ -48,7 +48,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     buttonResetKeyframe->setIcon(KIcon("edit-undo"));
     buttonSeek->setIcon(KIcon("insert-link"));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
-    connect(keyframe_list, SIGNAL(cellChanged(int, int)), this, SLOT(slotGenerateParams(int, int)));
+    connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotGenerateParams(int,int)));
 
     m_position = new PositionEdit(i18n("Position"), 0, 0, 1, tc, widgetTable);
     ((QGridLayout*)widgetTable->layout())->addWidget(m_position, 3, 0, 1, -1);
@@ -70,7 +70,7 @@ KeyframeEdit::KeyframeEdit(QDomElement e, int minFrame, int maxFrame, Timecode t
     connect(buttonResetKeyframe, SIGNAL(clicked()), this, SLOT(slotResetKeyframe()));
     connect(m_position, SIGNAL(parameterChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
 
-    //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem *, int)));
+    //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem*,int)));
 
     if (!keyframe_list->currentItem()) {
         keyframe_list->setCurrentCell(0, 0);
@@ -99,7 +99,7 @@ KeyframeEdit::~KeyframeEdit()
     }
 }
 
-void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
+void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
 {
     keyframe_list->blockSignals(true);
     m_params.append(e.cloneNode().toElement());
@@ -116,8 +116,8 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
 
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
-            m_params.at(columnId).attribute("min").toDouble(), m_params.at(columnId).attribute("max").toDouble(),
-            m_params.at(columnId).attribute("default").toDouble(), comment, columnId, m_params.at(columnId).attribute("suffix"), m_params.at(columnId).attribute("decimals").toInt(), this);
+                                                                   m_params.at(columnId).attribute("min").toDouble(), m_params.at(columnId).attribute("max").toDouble(),
+                                                                   m_params.at(columnId).attribute("default").toDouble(), comment, columnId, m_params.at(columnId).attribute("suffix"), m_params.at(columnId).attribute("decimals").toInt(), this);
     connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
     connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
@@ -127,7 +127,7 @@ void KeyframeEdit::addParameter(QDomElement e, int activeKeyframe)
     }
 
     QStringList frames = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
-    for (int i = 0; i < frames.count(); i++) {
+    for (int i = 0; i < frames.count(); ++i) {
         int frame = frames.at(i).section(':', 0, 0).toInt();
         bool found = false;
         int j;
@@ -210,7 +210,7 @@ void KeyframeEdit::slotAddKeyframe()
 
     keyframe_list->insertRow(newrow);
     keyframe_list->setVerticalHeaderItem(newrow, new QTableWidgetItem(getPosString(result)));
-    for (int i = 0; i < keyframe_list->columnCount(); i++)
+    for (int i = 0; i < keyframe_list->columnCount(); ++i)
         keyframe_list->setItem(newrow, i, new QTableWidgetItem(keyframe_list->item(item->row(), i)->text()));
 
     keyframe_list->resizeRowsToContents();
@@ -242,14 +242,14 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
 
         for (int col = 0; col < keyframe_list->horizontalHeader()->count(); col++) {
             item = keyframe_list->item(row, col);
-	    if (!item) continue;
+            if (!item) continue;
             int v = item->text().toInt();
             if (v >= m_params.at(col).attribute("max").toInt())
                 item->setText(m_params.at(col).attribute("max"));
             if (v <= m_params.at(col).attribute("min").toInt())
                 item->setText(m_params.at(col).attribute("min"));
             QString keyframes;
-            for (int i = 0; i < keyframe_list->rowCount(); i++) {
+            for (int i = 0; i < keyframe_list->rowCount(); ++i) {
                 if (keyframe_list->item(i, col))
                     keyframes.append(QString::number(getPos(i)) + ':' + keyframe_list->item(i, col)->text() + ';');
             }
@@ -287,7 +287,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
     slotAdjustKeyframeInfo(false);
 
     QString keyframes;
-    for (int i = 0; i < keyframe_list->rowCount(); i++) {
+    for (int i = 0; i < keyframe_list->rowCount(); ++i) {
         if (keyframe_list->item(i, column))
             keyframes.append(QString::number(getPos(i)) + ':' + keyframe_list->item(i, column)->text() + ';');
     }
@@ -299,7 +299,7 @@ void KeyframeEdit::generateAllParams()
 {
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         QString keyframes;
-        for (int i = 0; i < keyframe_list->rowCount(); i++) {
+        for (int i = 0; i < keyframe_list->rowCount(); ++i) {
             if (keyframe_list->item(i, col))
                 keyframes.append(QString::number(getPos(i)) + ':' + keyframe_list->item(i, col)->text() + ';');
         }
@@ -383,6 +383,8 @@ void KeyframeEdit::slotAdjustKeyframeValue(double value)
 
 int KeyframeEdit::getPos(int row)
 {
+    if (!keyframe_list->verticalHeaderItem(row))
+        return 0;
     if (KdenliveSettings::frametimecode())
         return keyframe_list->verticalHeaderItem(row)->text().toInt();
     else
@@ -434,7 +436,7 @@ void KeyframeEdit::slotResetKeyframe()
 void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
 {
     for (int i = 0; i < m_params.count(); ++i) {
-        m_params[i].setAttribute("intimeline", (i == id ? "1" : "0"));        
+        m_params[i].setAttribute("intimeline", (i == id ? "1" : "0"));
     }
     for (int col = 0; col < keyframe_list->columnCount(); col++) {
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());

@@ -19,20 +19,22 @@
 #include "addmarkercommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
-AddMarkerCommand::AddMarkerCommand(CustomTrackView *view, const CommentedTime oldMarker, const CommentedTime newMarker, const QString &id, QUndoCommand * parent) :
+AddMarkerCommand::AddMarkerCommand(CustomTrackView *view, const CommentedTime &oldMarker, const CommentedTime &newMarker, const QString &id, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_oldMarker(oldMarker),
         m_newMarker(newMarker),
         m_id(id)
 {
-    if (m_newMarker.markerType() < 0) setText(i18n("Delete marker"));
-    else if (m_oldMarker.comment().isEmpty()) setText(i18n("Add marker"));
-    else setText(i18n("Edit marker"));
+    if (m_newMarker.markerType() < 0)
+        setText(i18n("Delete marker"));
+    else if (m_oldMarker.comment().isEmpty())
+        setText(i18n("Add marker"));
+    else
+        setText(i18n("Edit marker"));
 }
-
 
 // virtual
 void AddMarkerCommand::undo()

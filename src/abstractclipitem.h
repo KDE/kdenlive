@@ -67,7 +67,7 @@ public:
     bool isItemLocked() const;
     void closeAnimation();
 
-    virtual OPERATIONTYPE operationMode(QPointF pos) = 0;
+    virtual OPERATIONTYPE operationMode(const QPointF &pos) = 0;
     virtual GenTime startPos() const ;
     virtual void setTrack(int track);
     virtual GenTime endPos() const ;
@@ -92,7 +92,7 @@ public:
     virtual double fps() const;
     virtual void updateFps(double fps);
     virtual GenTime maxDuration() const;
-    virtual void setCropStart(GenTime pos);
+    virtual void setCropStart(const GenTime &pos);
 
     /** @brief Set this clip as the main selected clip (or not). */
     void setMainSelectedClip(bool selected);
@@ -127,9 +127,9 @@ protected:
       *        "simplekeyframe" type, the effect always starts on clip start and ends on clip end. With the
       *        "keyframe" type, the effect starts on the first keyframe and ends on the last keyframe
       */
-    void drawKeyFrames(QPainter *painter, const QTransform transformation, bool limitedKeyFrames);
+    void drawKeyFrames(QPainter *painter, const QTransform &transformation, bool limitedKeyFrames);
     int mouseOverKeyFrames(QPointF pos, double maxOffset);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mousePressEvent(QGraphicsSceneMouseEvent * event);
 
 };
 

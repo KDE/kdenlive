@@ -25,7 +25,7 @@
 #include <KDebug>
 #include <KStandardDirs>
 #include <KMessageBox>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KTemporaryFile>
 
 #include <QTimer>
@@ -33,6 +33,7 @@
 #include <QString>
 #include <QApplication>
 #include <QThread>
+#include <QTimer>
 
 #include <cstdlib>
 #include <cstdarg>
@@ -91,7 +92,8 @@ MltDeviceCapture::MltDeviceCapture(QString profile, VideoSurface *surface, QWidg
 {
     m_captureDisplayWidget = surface;
     analyseAudio = KdenliveSettings::monitor_audio();
-    if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
+    if (profile.isEmpty())
+        profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
     connect(this, SIGNAL(unblockPreview()), this, SLOT(slotPreparePreview()));
     m_droppedFramesTimer.setSingleShot(false);
@@ -457,7 +459,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
 
     QStringList paramList = params.split(' ', QString::SkipEmptyParts);
     char *tmp2;
-    for (int i = 0; i < paramList.count(); i++) {
+    for (int i = 0; i < paramList.count(); ++i) {
         tmp = qstrdup(paramList.at(i).section('=', 0, 0).toUtf8().constData());
         QString value = paramList.at(i).section('=', 1, 1);
         if (value == "%threads") value = QString::number(QThread::idealThreadCount());
@@ -612,7 +614,7 @@ void MltDeviceCapture::setOverlay(const QString &path)
     //delete clip;
 }
 
-void MltDeviceCapture::setOverlayEffect(const QString &tag, QStringList parameters)
+void MltDeviceCapture::setOverlayEffect(const QString &tag, const QStringList &parameters)
 {
     if (m_mltProducer == NULL || !m_mltProducer->is_valid()) return;
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -771,3 +773,5 @@ void MltDeviceCapture::slotAllowPreview()
 }
 
 
+
+#include "mltdevicecapture.moc"

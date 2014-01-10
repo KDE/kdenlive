@@ -34,10 +34,10 @@ class SimpleKeyframeWidget : public QWidget
     Q_OBJECT
 
 public:
-    SimpleKeyframeWidget(Timecode t, int duration, QWidget* parent = 0);
-    virtual ~SimpleKeyframeWidget();
+    explicit SimpleKeyframeWidget(const Timecode &t, int duration, QWidget* parent = 0);
+    ~SimpleKeyframeWidget();
 
-    int getPosition();
+    int getPosition() const;
     void setKeyframes(const QList <int> &keyframes);
     void addKeyframe(int pos = -1);
 
@@ -60,7 +60,6 @@ private:
     QToolButton *m_buttonAddDelete;
     QToolButton *m_buttonPrevious;
     QToolButton *m_buttonNext;
-    //QToolButton *m_buttonSync;
     TimecodeDisplay *m_time;
 };
 

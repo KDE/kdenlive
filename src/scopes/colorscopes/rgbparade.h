@@ -11,7 +11,6 @@
 #ifndef RGBPARADE_H
 #define RGBPARADE_H
 
-#include <QObject>
 #include "abstractgfxscopewidget.h"
 #include "ui_rgbparade_ui.h"
 
@@ -26,7 +25,7 @@ class RGBParadeGenerator;
 class RGBParade : public AbstractGfxScopeWidget
 {
 public:
-    RGBParade(QWidget *parent = 0);
+    explicit RGBParade(QWidget *parent = 0);
     ~RGBParade();
     QString widgetName() const;
 
@@ -47,7 +46,7 @@ private:
     bool isBackgroundDependingOnInput() const;
 
     QImage renderHUD(uint accelerationFactor);
-    QImage renderGfxScope(uint accelerationFactor, const QImage);
+    QImage renderGfxScope(uint accelerationFactor, const QImage &);
     QImage renderBackground(uint accelerationFactor);
 };
 

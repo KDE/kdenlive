@@ -18,7 +18,6 @@
 // Show overmodulation
 #define DETECT_OVERMODULATION
 
-#include <QtCore>
 #include <QVector>
 #include <QHash>
 
@@ -40,7 +39,7 @@ class AudioSpectrum : public AbstractAudioScopeWidget {
     Q_OBJECT
 
 public:
-    AudioSpectrum(QWidget *parent = 0);
+    explicit AudioSpectrum(QWidget *parent = 0);
     ~AudioSpectrum();
 
     // Implemented virtual methods
@@ -51,7 +50,7 @@ protected:
     ///// Implemented methods /////
     QRect scopeRect();
     QImage renderHUD(uint accelerationFactor);
-    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> audioFrame, const int freq, const int num_channels, const int num_samples, const int newData);
+    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData);
     QImage renderBackground(uint accelerationFactor);
     bool isHUDDependingOnInput() const;
     bool isScopeDependingOnInput() const;

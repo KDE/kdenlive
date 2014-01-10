@@ -123,7 +123,7 @@ QImage RGBParade::renderHUD(uint)
     return hud;
 }
 
-QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage qimage)
+QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
@@ -135,8 +135,23 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage qimage)
     return parade;
 }
 
-QImage RGBParade::renderBackground(uint) { return QImage(); }
+QImage RGBParade::renderBackground(uint)
+{
+    return QImage();
+}
 
-bool RGBParade::isHUDDependingOnInput() const { return false; }
-bool RGBParade::isScopeDependingOnInput() const { return true; }
-bool RGBParade::isBackgroundDependingOnInput() const { return false; }
+bool RGBParade::isHUDDependingOnInput() const
+{
+    return false;
+}
+
+bool RGBParade::isScopeDependingOnInput() const
+{
+    return true;
+}
+
+bool RGBParade::isBackgroundDependingOnInput() const
+{
+    return false;
+}
+

@@ -26,7 +26,7 @@
 #ifndef CLIPMANAGER_H
 #define CLIPMANAGER_H
 
-#include <qdom.h>
+#include <QtXml/qdom.h>
 #include <QPixmap>
 #include <QObject>
 #include <QTimer>
@@ -58,7 +58,6 @@ class SolidVolumeInfo
 {
 
 public:
-
     QString path; // mount path of volume, with trailing slash
     QString uuid; // UUID as from Solid
     QString label; // volume label (think of CDs)
@@ -71,7 +70,7 @@ public:
 namespace Mlt
 {
 class Producer;
-};
+}
 
 class ClipManager: public QObject
 {
@@ -88,21 +87,21 @@ Q_OBJECT public:
      * @param url file to add
      * @param group name of the group to insert the file in (can be empty)
      * @param groupId id of the group (if any) */
-    void slotAddClipFile(const KUrl &url, QMap <QString, QString> data);
+    void slotAddClipFile(const KUrl &url, const QMap<QString, QString> &data);
 
     /** @brief Adds a list of files to the project.
      * @param urls files to add
      * @param group name of the group to insert the files in (can be empty)
      * @param groupId id of the group (if any)
      * It checks for duplicated items and asks to the user for instructions. */
-    void slotAddClipList(const KUrl::List urls, QMap <QString, QString> data);
+    void slotAddClipList(const KUrl::List &urls, const QMap<QString, QString> &data);
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
     void slotAddTextTemplateClip(QString titleName, const KUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
-    void slotAddColorClipFile(const QString &name, const QString &color, QString duration, const QString &group, const QString &groupId);
+    void slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
     void slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId);
     DocClipBase *getClipById(QString clipId);
-    const QList <DocClipBase *> getClipByResource(QString resource);
+    const QList <DocClipBase *> getClipByResource(const QString &resource);
     void slotDeleteClips(QStringList ids);
     void setThumbsProgress(const QString &message, int progress);
     void checkAudioThumbs();
@@ -125,7 +124,7 @@ Q_OBJECT public:
     int clipsCount() const;
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
-    void projectTreeThumbReady(const QString &id, int frame, QImage img, int type);
+    void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);
 
 #if KDE_IS_VERSION(4,5,0)
     KImageCache* pixmapCache;
@@ -133,7 +132,7 @@ Q_OBJECT public:
 
 public slots:
     /** @brief Request creation of a clip thumbnail for specified frames. */
-    void slotRequestThumbs(const QString id, QList <int> frames);
+    void slotRequestThumbs(const QString &id, const QList<int> &frames);
     
 private slots:
     /** A clip was externally modified, monitor for more changes and prepare for reload */
@@ -193,10 +192,10 @@ signals:
     void modifiedClip(const QString &);
     void missingClip(const QString &);
     void availableClip(const QString &);
-    void checkAllClips(bool displayRatioChanged, bool fpsChanged, QStringList brokenClips);
+    void checkAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips);
     void displayMessage(const QString &, int);
-    void thumbReady(const QString &id, int, QImage);
-    void gotClipPropertyThumbnail(const QString &id, QImage);
+    void thumbReady(const QString &id, int, const QImage&);
+    void gotClipPropertyThumbnail(const QString &id, const QImage&);
 };
 
 #endif

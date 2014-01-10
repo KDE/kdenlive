@@ -40,7 +40,7 @@
 
 class DvdScene : public QGraphicsScene
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     DvdScene(QObject * parent = 0): QGraphicsScene(parent) {
         m_width = 0; m_height = 0;
@@ -62,8 +62,8 @@ private:
     
 protected:
     void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) {
-	QGraphicsScene::mouseReleaseEvent(mouseEvent);
-	emit sceneChanged();
+        QGraphicsScene::mouseReleaseEvent(mouseEvent);
+        emit sceneChanged();
     }
 signals:
     void sceneChanged();
@@ -91,7 +91,7 @@ public:
         setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 #endif
     }
-    void setTarget(int t, QString c) {
+    void setTarget(int t, const QString &c) {
         m_target = t;
         m_command = c;
     }
@@ -126,15 +126,18 @@ protected:
             DvdScene *sc = static_cast < DvdScene * >(scene());
             newPos.setX(qMax(newPos.x(), 0));
             newPos.setY(qMax(newPos.y(), 0));
-            if (newPos.x() + sceneShape.width() > sc->width()) newPos.setX(sc->width() - sceneShape.width());
-            if (newPos.y() + sceneShape.height() > sc->height()) newPos.setY(sc->height() - sceneShape.height());
+            if (newPos.x() + sceneShape.width() > sc->width())
+                newPos.setX(sc->width() - sceneShape.width());
+            if (newPos.y() + sceneShape.height() > sc->height())
+                newPos.setY(sc->height() - sceneShape.height());
 
             sceneShape.translate(newPos - pos());
             QList<QGraphicsItem*> list = scene()->items(sceneShape, Qt::IntersectsItemShape);
             list.removeAll(this);
             if (!list.isEmpty()) {
-                for (int i = 0; i < list.count(); i++) {
-                    if (list.at(i)->type() == Type) return pos();
+                for (int i = 0; i < list.count(); ++i) {
+                    if (list.at(i)->type() == Type)
+                        return pos();
                 }
             }
             return newPos;
@@ -156,7 +159,7 @@ public:
     bool createMenu() const;
     void createBackgroundImage(const QString &img1, bool letterbox);
     void createButtonImages(const QString &selected_image, const QString &highlighted_image, bool letterbox);
-    void setTargets(QStringList list, QStringList targetlist);
+    void setTargets(const QStringList &list, const QStringList &targetlist);
     QMap <QString, QRect> buttonsInfo(bool letterbox = false);
     bool loopMovie() const;
     bool menuMovie() const;
@@ -164,7 +167,7 @@ public:
     int menuMovieLength() const;
     void changeProfile(DVDFORMAT format);
     QDomElement toXml() const;
-    void loadXml(DVDFORMAT format, QDomElement xml);
+    void loadXml(DVDFORMAT format, const QDomElement &xml);
     void prepareUnderLines();
     void resetUnderLines();
 
@@ -195,7 +198,7 @@ private slots:
     void setButtonTarget(int ix);
     void deleteButton();
     void updateColor();
-    void updateColor(QColor c);
+    void updateColor(const QColor &c);
     void updateUnderlineColor(QColor c);
     void setBackToMenu(bool backToMenu);
     void slotZoom();

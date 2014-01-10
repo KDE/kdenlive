@@ -22,7 +22,7 @@
 #include <kio/netaccess.h>
 #include <KApplication>
 #include <KStandardDirs>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <QGraphicsScene>
@@ -270,12 +270,12 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
 
 /** \brief Get the background color (incl. alpha) from the document, if possibly
   * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
-QColor TitleDocument::getBackgroundColor()
+QColor TitleDocument::getBackgroundColor() const
 {
     QColor color(0, 0, 0, 0);
     if (m_scene) {
         QList<QGraphicsItem *> items = m_scene->items();
-        for (int i = 0; i < items.size(); i++) {
+        for (int i = 0; i < items.size(); ++i) {
             if (items.at(i)->zValue() == -1100) {
                 color = ((QGraphicsRectItem *)items.at(i))->brush().color();
                 return color;
@@ -312,7 +312,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGr
     return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath)
+int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath)
 {
     m_projectPath = projectpath;
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
@@ -349,7 +349,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
     if (titles.size()) {
 
         QDomNodeList items = titles.item(0).childNodes();
-        for (int i = 0; i < items.count(); i++) {
+        for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *gitem = NULL;
             kDebug() << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
@@ -507,7 +507,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsRectItem* startv, QGra
                 QColor color = QColor(stringToColor(items.item(i).attributes().namedItem("color").nodeValue()));
                 //color.setAlpha(items.item(i).attributes().namedItem("alpha").nodeValue().toInt());
                 QList<QGraphicsItem *> items = m_scene->items();
-                for (int i = 0; i < items.size(); i++) {
+                for (int i = 0; i < items.size(); ++i) {
                     if (items.at(i)->zValue() == -1100) {
                         ((QGraphicsRectItem *)items.at(i))->setBrush(QBrush(color));
                         break;
@@ -562,7 +562,7 @@ QColor TitleDocument::stringToColor(const QString & s)
 
 QTransform TitleDocument::stringToTransform(const QString& s)
 {
-    QStringList l = s.split(',');
+    QStringList l = s.split(QLatin1Char(','));
     if (l.size() < 9)
         return QTransform();
     return QTransform(

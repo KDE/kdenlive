@@ -25,7 +25,6 @@
 
 #include <KUrl>
 
-//#include "docclipbase.h"
 #include "ui_managecaptures_ui.h"
 
 class ManageCapturesDialog : public QDialog
@@ -33,7 +32,7 @@ class ManageCapturesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ManageCapturesDialog(KUrl::List files, QWidget * parent = 0);
+    explicit ManageCapturesDialog(const KUrl::List &files, QWidget * parent = 0);
     ~ManageCapturesDialog();
     KUrl::List importFiles();
 
@@ -49,9 +48,6 @@ protected:
 private:
     Ui::ManageCaptures_UI m_view;
     QPushButton *m_importButton;
-
-signals:
-    //void updateThumb();
 };
 
 

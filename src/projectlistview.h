@@ -27,7 +27,6 @@
 
 class DocClipBase;
 
-class KUrl;
 
 class ProjectListView : public QTreeWidget
 {
@@ -35,26 +34,23 @@ class ProjectListView : public QTreeWidget
 
 public:
     ProjectListView(QWidget *parent = 0);
-    virtual ~ProjectListView();
+    ~ProjectListView();
     void processLayout();
     void updateStyleSheet();
 
 protected:
-    virtual void contextMenuEvent(QContextMenuEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void dropEvent(QDropEvent *event);
-    virtual QStringList mimeTypes() const;
-    virtual Qt::DropActions supportedDropActions() const;
-    virtual void dragLeaveEvent(QDragLeaveEvent *);
+    void contextMenuEvent(QContextMenuEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void dropEvent(QDropEvent *event);
+    QStringList mimeTypes() const;
+    Qt::DropActions supportedDropActions() const;
+    void dragLeaveEvent(QDragLeaveEvent *);
 
     /** @brief Filters key events to make sure user can expand items with + / -. */
-    virtual bool eventFilter(QObject *obj, QEvent *ev);
-
-public slots:
-
+    bool eventFilter(QObject *obj, QEvent *ev);
 
 private:
     bool m_dragStarted;
@@ -68,7 +64,7 @@ private slots:
 signals:
     void requestMenu(const QPoint &, QTreeWidgetItem *);
     void addClip();
-    void addClip(const QList <QUrl>, const QString &, const QString &);
+    void addClip(const QList <QUrl> &, const QString &, const QString &);
     void showProperties(DocClipBase *);
     void focusMonitor(bool forceRefresh);
     void pauseMonitor();

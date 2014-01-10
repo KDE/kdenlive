@@ -21,17 +21,19 @@
 #include "addtrackcommand.h"
 #include "customtrackview.h"
 
-#include <KLocale>
-
-AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, QUndoCommand * parent) :
+#include <KLocalizedString>
+#include <KDebug>
+AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_ix(ix),
         m_addTrack(addTrack),
         m_info(info)
 {
-    if (addTrack) setText(i18n("Add track"));
-    else setText(i18n("Delete track"));
+    if (addTrack)
+        setText(i18n("Add track"));
+    else
+        setText(i18n("Delete track"));
 }
 
 
@@ -39,14 +41,18 @@ AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, 
 void AddTrackCommand::undo()
 {
 // kDebug()<<"----  undoing action";
-    if (m_addTrack) m_view->removeTrack(m_ix);
-    else m_view->addTrack(m_info, m_ix);
+    if (m_addTrack)
+        m_view->removeTrack(m_ix);
+    else
+        m_view->addTrack(m_info, m_ix);
 }
 // virtual
 void AddTrackCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_addTrack) m_view->addTrack(m_info, m_ix);
-    else m_view->removeTrack(m_ix);
+    if (m_addTrack)
+        m_view->addTrack(m_info, m_ix);
+    else
+        m_view->removeTrack(m_ix);
 }
 

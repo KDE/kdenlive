@@ -27,7 +27,7 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KFileDialog>
 #include <KApplication>
 #include <KMessageBox>
@@ -42,6 +42,7 @@
 #include <QLabel>
 #include <QIntValidator>
 #include <QVBoxLayout>
+#include <QSlider>
 
 
 #define SEEK_INACTIVE (-1)
@@ -120,7 +121,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, RndrRole role,
             m_markerMenu = new QMenu(i18n("Go to marker..."), this);
             m_markerMenu->setEnabled(false);
             m_configMenu->addMenu(m_markerMenu);
-            connect(m_markerMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotGoToMarker(QAction *)));
+            connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
         }
         m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
         m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
@@ -148,7 +149,8 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, RndrRole role,
     setLayout(layout);
     setMinimumHeight(200);
 
-    if (profile.isEmpty()) profile = KdenliveSettings::current_profile();
+    if (profile.isEmpty())
+        profile = KdenliveSettings::current_profile();
 
     bool monitorCreated = false;
 #ifdef Q_WS_MAC
@@ -197,7 +199,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, RndrRole role,
 
     if (id == Kdenlive::projectMonitor) {
         m_effectWidget = new MonitorEditWidget(render, videoBox);
-	connect(m_effectWidget, SIGNAL(showEdit(bool, bool)), this, SLOT(slotShowEffectScene(bool, bool)));
+	connect(m_effectWidget, SIGNAL(showEdit(bool,bool)), this, SLOT(slotShowEffectScene(bool,bool)));
         m_toolbar->addAction(m_effectWidget->getVisibilityAction());
         videoBox->layout()->addWidget(m_effectWidget);
         m_effectWidget->hide();
@@ -229,7 +231,7 @@ QWidget *Monitor::container()
 }
 
 #ifdef USE_OPENGL
-bool Monitor::createOpenGlWidget(QWidget *parent, const QString profile, RndrRole role)
+bool Monitor::createOpenGlWidget(QWidget *parent, const QString &profile, RndrRole role)
 {
     render = new Render(id(), 0, role, profile, this);
     m_glWidget = new VideoGLWidget(parent);
@@ -253,7 +255,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     if (markerMenu) {
         m_contextMenu->addMenu(markerMenu);
         QList <QAction *>list = markerMenu->actions();
-        for (int i = 0; i < list.count(); i++) {
+        for (int i = 0; i < list.count(); ++i) {
             if (list.at(i)->data().toString() == "edit_marker") {
                 m_editMarker = list.at(i);
                 break;
@@ -374,7 +376,7 @@ void Monitor::updateMarkers(DocClipBase *source)
         QList <CommentedTime> markers = m_currentClip->commentedSnapMarkers();
         if (!markers.isEmpty()) {
             QList <int> marks;
-            for (int i = 0; i < markers.count(); i++) {
+            for (int i = 0; i < markers.count(); ++i) {
                 int pos = (int) markers.at(i).time().frames(m_monitorManager->timecode().fps());
                 marks.append(pos);
                 QString position = m_monitorManager->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();
@@ -387,7 +389,7 @@ void Monitor::updateMarkers(DocClipBase *source)
     }
 }
 
-void Monitor::setMarkers(QList <CommentedTime> markers)
+void Monitor::setMarkers(const QList<CommentedTime> &markers)
 {
     m_ruler->setMarkers(markers);
 }
@@ -473,7 +475,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 
 void Monitor::resizeEvent(QResizeEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     if (render && isVisible() && isActive()) render->doRefresh();
 }
 
@@ -627,13 +629,13 @@ void Monitor::slotExtractCurrentFrame()
     fs->setMode(KFile::File);
     fs->setConfirmOverwrite(true);
     fs->setKeepLocation(true);
-    fs->exec();
-    QString path;
-    if (fs) path = fs->selectedFile();
-    delete fs;
-    if (!path.isEmpty()) {
-        frame.save(path);
+    if (fs->exec()) {
+        QString path = fs->selectedFile();
+        if (!path.isEmpty()) {
+            frame.save(path);
+        }
     }
+    delete fs;
 }
 
 void Monitor::setTimePos(const QString &pos)
@@ -970,7 +972,7 @@ void Monitor::slotSaveZone()
     //render->setSceneList(doc, 0);
 }
 
-void Monitor::setCustomProfile(const QString &profile, Timecode tc)
+void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 {
     m_timePos->updateTimeCode(tc);
     if (render == NULL) return;
@@ -998,7 +1000,7 @@ void Monitor::resetProfile(const QString &profile)
         m_effectWidget->resetProfile(render);
 }
 
-void Monitor::saveSceneList(QString path, QDomElement info)
+void Monitor::saveSceneList(const QString &path, const QDomElement &info)
 {
     if (render == NULL) return;
     render->saveSceneList(path, info);
@@ -1010,7 +1012,7 @@ const QString Monitor::sceneList()
     return render->sceneList();
 }
 
-void Monitor::setClipZone(QPoint pos)
+void Monitor::setClipZone(const QPoint &pos)
 {
     if (m_currentClip == NULL) return;
     m_currentClip->setZone(pos);

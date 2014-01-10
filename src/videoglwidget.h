@@ -9,15 +9,25 @@ class VideoGLWidget : public QGLWidget
     Q_OBJECT
 
 public:
-    VideoGLWidget(QWidget *parent = 0);
+    explicit VideoGLWidget(QWidget *parent = 0);
     ~VideoGLWidget();
     void activateMonitor();
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
     void setImageAspectRatio(double ratio);
-    void setBackgroundColor(QColor color) {
+    void setBackgroundColor(const QColor &color) {
         m_backgroundColor = color;
     }
+
+public slots:
+    void showImage(const QImage &image);
+
+protected:
+    void initializeGL();
+    void resizeGL(int width, int height);
+    void resizeEvent(QResizeEvent* event);
+    void paintGL();
+    void mouseDoubleClickEvent(QMouseEvent * event);
 
 private:
     int x, y, w, h;
@@ -26,16 +36,6 @@ private:
     double m_display_ratio;
     QColor m_backgroundColor;
     Qt::WindowFlags m_baseFlags;
-
-public slots:
-    void showImage(const QImage image);
-
-protected:
-    void initializeGL();
-    void resizeGL(int width, int height);
-    void resizeEvent(QResizeEvent* event);
-    void paintGL();
-    void mouseDoubleClickEvent(QMouseEvent * event);
 };
 
 #endif

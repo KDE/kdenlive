@@ -115,12 +115,12 @@ private slots:
       */
     
     void slotCheckActiveScopes();
-    void slotDistributeFrame(const QImage image);
-    void slotDistributeAudio(QVector<int16_t> sampleData, int freq, int num_channels, int num_samples);
+    void slotDistributeFrame(const QImage &image);
+    void slotDistributeAudio(const QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples);
     /**
       Allows a scope to explicitly request a new frame, even if the scope's autoRefresh is disabled.
       */
-    void slotRequestFrame(const QString widgetName);
+    void slotRequestFrame(const QString &widgetName);
 
 
 };

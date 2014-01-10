@@ -19,10 +19,6 @@
 #define KEYFRAMECOMMAND_H
 
 #include <QUndoCommand>
-#include <QGraphicsView>
-#include <QPointF>
-#include <QDomElement>
-#include <KDebug>
 
 #include "gentime.h"
 #include "definitions.h"
@@ -32,9 +28,9 @@ class CustomTrackView;
 class EditKeyFrameCommand : public QUndoCommand
 {
 public:
-    EditKeyFrameCommand(CustomTrackView *view, const int track, GenTime pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt);
-    virtual void undo();
-    virtual void redo();
+    EditKeyFrameCommand(CustomTrackView *view, const int track, const GenTime &pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt);
+    void undo();
+    void redo();
 
 private:
     CustomTrackView *m_view;

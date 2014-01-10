@@ -26,9 +26,9 @@
 #include <KDebug>
 
 
-SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, QList <TrackInfo> tracks, QWidget * parent) :
-        QDialog(parent),
-        m_in(tc)
+SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget * parent) :
+    QDialog(parent),
+    m_in(tc)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -49,12 +49,12 @@ SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, QList
     adjustSize();
 }
 
-GenTime SpacerDialog::selectedDuration()
+GenTime SpacerDialog::selectedDuration() const
 {
     return m_in.gentime();
 }
 
-int SpacerDialog::selectedTrack()
+int SpacerDialog::selectedTrack() const
 {
     return track_number->currentIndex() - 1;
 }

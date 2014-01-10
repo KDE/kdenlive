@@ -37,7 +37,7 @@ public:
     explicit EffectsListWidget(QMenu *contextMenu, QWidget *parent = 0);
     virtual ~EffectsListWidget();
     const QDomElement currentEffect() const;
-    QString currentInfo();
+    QString currentInfo() const;
     const QDomElement itemEffect(QTreeWidgetItem *item) const;
     void initList(QMenu *effectsMenu, KActionCategory *effectActions);
 
@@ -50,7 +50,7 @@ protected:
 private:
     QMenu *m_menu;
     /** @brief Returns the folder item whose name == @param name. */
-    QTreeWidgetItem *findFolder(const QString name);
+    QTreeWidgetItem *findFolder(const QString &name);
 
     /** @brief Loads the effects from the given effectlist as item of this widget.
      * @param effectlist effectlist containing the effects that should be loaded
@@ -61,7 +61,7 @@ private:
      * @param current name of selected effect before reload; if an effect name matches this one it will become selected
      * @param found will be set to true if an effect name matches current
      */
-    void loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString current, bool *found);
+    void loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found);
 
 private slots:
     void slotExpandItem(const QModelIndex & index);

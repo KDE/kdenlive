@@ -22,21 +22,14 @@
 
 #include "ui_keyframewidget_ui.h"
 
-class EffectsList;
 class ClipItem;
 
 class ComplexParameter : public QWidget
 {
     Q_OBJECT
-
 public:
-    ComplexParameter(QWidget *parent = 0);
-    QDomElement getParamDesc();
-private:
-    Ui::KeyframeWidget_UI m_ui;
-    QDomElement m_param;
-    void setupListView();
-    void updateButtonStatus();
+    explicit ComplexParameter(QWidget *parent = 0);
+    QDomElement getParamDesc() const;
 
 public slots:
     void slotSetMoveX();
@@ -46,14 +39,20 @@ public slots:
     void slotShowInTimeline();
     void slotParameterChanged(const QString&);
     void itemSelectionChanged();
-    void setupParam(const QDomElement, const QString& paramName, int, int);
-    void slotUpdateEffectParams(QDomElement e);
-    void slotUpdateParameterList(QStringList);
+    void setupParam(const QDomElement &, const QString& paramName, int, int);
+    void slotUpdateEffectParams(const QDomElement &e);
+    void slotUpdateParameterList(const QStringList &);
+
 signals:
-    void removeEffect(ClipItem*, QDomElement);
-    void updateClipEffect(ClipItem*, QDomElement);
+    void removeEffect(ClipItem*, const QDomElement &);
+    void updateClipEffect(ClipItem*, const QDomElement &);
     void parameterChanged();
 
+private:
+    Ui::KeyframeWidget_UI m_ui;
+    QDomElement m_param;
+    void setupListView();
+    void updateButtonStatus();
 };
 
 #endif

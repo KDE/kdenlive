@@ -55,11 +55,11 @@ public:
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void mouseDoubleClickEvent(QMouseEvent *event);
-    void addTrack(TrackInfo type, int ix = -1);
+    void addTrack(const TrackInfo &type, int ix = -1);
     void removeTrack(int ix);
     /** @brief Makes the document use new track infos (name, type, ...). */
-    void configTracks(QList <TrackInfo> trackInfos);
-    int cursorPos();
+    void configTracks(const QList<TrackInfo> &trackInfos);
+    int cursorPos() const;
     void checkAutoScroll();
     /**
       Move the clip at \c start to \c end.
@@ -68,7 +68,7 @@ public:
       For example, attempting to move a clip to t = -1 s will actually move it to t = 0 s.
       */
     bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, ItemInfo *out_actualEnd = NULL);
-    void moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove = false);
+    void moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool reverseMove = false);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
@@ -76,25 +76,24 @@ public:
     void deleteClip(ItemInfo info, bool refresh = true);
     void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     void slotDeleteAllClipMarkers(const QString &id);
-    void addMarker(const QString &id, const CommentedTime marker);
+    void addMarker(const QString &id, const CommentedTime &marker);
     void addData(const QString &id, const QString &key, const QString &data);
     void setScale(double scaleFactor, double verticalScale);
     void deleteClip(const QString &clipId);
     /** @brief An effect was dropped on @param clip */
     void slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track);
     /** @brief Add effect to current clip */
-    void slotAddEffect(QDomElement effect, GenTime pos, int track);
+    void slotAddEffect(QDomElement effect, const GenTime &pos, int track);
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = NULL);
     void addEffect(int track, GenTime pos, QDomElement effect);
-    void deleteEffect(int track, GenTime pos, QDomElement effect);
+    void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
     void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false);
     /** @brief Enable / disable a list of effects */
     void updateEffectState(int track, GenTime pos, QList <int> effectIndexes, bool disable, bool updateEffectStack);
-    void moveEffect(int track, GenTime pos, QList <int> oldPos, QList <int> newPos);
-    void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);
-    void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params, bool refresh);
-    void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition, bool updateTransitionWidget);
-    void moveTransition(GenTime oldpos, GenTime newpos);
+    void moveEffect(int track, const GenTime &pos, const QList<int> &oldPos, const QList<int> &newPos);
+    void addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh);
+    void deleteTransition(const ItemInfo &transitionInfo, int endTrack, QDomElement params, bool refresh);
+    void updateTransition(int track, const GenTime &pos,  const QDomElement &oldTransition, const QDomElement &transition, bool updateTransitionWidget);
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();
@@ -105,7 +104,7 @@ public:
     void updateSceneFrameWidth();
     //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
-    ClipItem *cutClip(ItemInfo info, GenTime cutTime, bool cut, EffectsList oldStack = EffectsList(), bool execute = true);
+    ClipItem *cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
@@ -118,7 +117,7 @@ public:
     QList<ItemInfo> findId(const QString &clipId);
     void clipStart();
     void clipEnd();
-    void doChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
+    void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
     /** @brief Sets the document as modified. */
     void setDocumentModified();
     void setInPoint();
@@ -204,7 +203,7 @@ public:
     * Check whether given track has a clip with audio in it. */
     bool hasAudio(int track) const;
 
-    int getFrameWidth();
+    int getFrameWidth() const;
     /** @brief Returns last requested seeking pos (or SEEK_INACTIVE if no seek). */
     int seekPosition() const;
 
@@ -250,7 +249,7 @@ public slots:
     /** @brief Shows a dialog for adding a guide.
      * @param dialog (default = true) false = do not show the dialog but use current position as position and comment */
     void slotAddGuide(bool dialog = true);
-    void slotEditGuide(CommentedTime guide);
+    void slotEditGuide(const CommentedTime &guide);
     void slotEditGuide(int guidePos = -1);
     void slotDeleteGuide(int guidePos = -1);
     void slotDeleteAllGuides();
@@ -276,7 +275,7 @@ public slots:
     /** @brief Rebuilds a group to fit again after children changed.
     * @param childTrack the track of one of the groups children
     * @param childPos The position of the same child */
-    void rebuildGroup(int childTrack, GenTime childPos);
+    void rebuildGroup(int childTrack, const GenTime &childPos);
     /** @brief Rebuilds a group to fit again after children changed.
     * @param group The group to rebuild */
     void rebuildGroup(AbstractGroupItem *group);
@@ -296,7 +295,7 @@ public slots:
     * @param skipSelectedItems if true, the selected item start and end points will not be added to snap list */
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     
-    void slotAddEffect(ClipItem *clip, QDomElement effect);
+    void slotAddEffect(ClipItem *clip, const QDomElement &effect);
     void slotImportClipKeyframes(GRAPHICSRECTITEM type);
 
     /** @brief Get effect parameters ready for MLT*/
@@ -400,7 +399,7 @@ private:
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
-    void updatePositionEffects(ClipItem * item, ItemInfo info, bool standalone = true);
+    void updatePositionEffects(ClipItem * item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
     bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
@@ -415,7 +414,7 @@ private:
     void getTransitionAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     void updateClipTypeActions(ClipItem *clip);
     /** Whether an item can be moved to a new position without colliding with similar items */
-    bool itemCollision(AbstractClipItem *item, ItemInfo newPos);
+    bool itemCollision(AbstractClipItem *item, const ItemInfo &newPos);
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
     /** Adjust clips under another one when working in overwrite mode */
