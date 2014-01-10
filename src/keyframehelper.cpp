@@ -102,7 +102,6 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
         }
     }
     if (event->y() >= m_lineHeight && event->y() < height()) {
-
         int seekRequest = xPos / m_scale;
         m_drag = true;
         if (seekRequest != m_position) {

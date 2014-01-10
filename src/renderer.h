@@ -100,7 +100,6 @@ private:
 };
 
 
-
 class Render: public AbstractRender
 {
     Q_OBJECT public:

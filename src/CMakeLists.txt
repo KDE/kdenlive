@@ -114,6 +114,7 @@ endif(BUILD_V4L)
 list(APPEND kdenlive_SRCS
   main.cpp
   mainwindow.cpp
+
   KoSliderCombo.cpp
   abstractclipitem.cpp
   abstractgroupitem.cpp

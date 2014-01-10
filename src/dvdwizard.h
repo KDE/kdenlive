@@ -37,8 +37,6 @@
 
 typedef QMap <QString, QRect> stringRectMap;
 
-typedef QMap <QString, QRect> stringRectMap;
-
 class DvdWizard : public QWizard
 {
     Q_OBJECT

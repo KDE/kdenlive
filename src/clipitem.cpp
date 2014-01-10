@@ -505,7 +505,6 @@ void ClipItem::setSelectedEffect(const int ix)
     }
 }
 
-
 void ClipItem::resizeGeometries(const int index, int width, int height, int previousDuration, int start, int duration)
 {
     QString geom;
