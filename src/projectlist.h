@@ -27,7 +27,6 @@
 #include <QToolButton>
 #include <QTreeWidget>
 #include <QPainter>
-#include <QStyledItemDelegate>
 #include <QUndoStack>
 #include <QTimer>
 #include <QApplication>
@@ -101,6 +100,7 @@ class Render;
 class KdenliveDoc;
 class DocClipBase;
 class AbstractClipJob;
+class ItemDelegate;
 
 const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;
@@ -121,19 +121,6 @@ public slots:
 private slots:
     void slotTimeLineChanged(qreal value);
     void slotTimeLineFinished();
-};
-
-
-class ItemDelegate: public QStyledItemDelegate
-{
-public:
-    ItemDelegate(QAbstractItemView* parent = 0): QStyledItemDelegate(parent) {
-    }
-    
-    /*void drawFocus(QPainter *, const QStyleOptionViewItem &, const QRect &) const {
-    }*/
-
-    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 };
 
 class ProjectList : public QWidget

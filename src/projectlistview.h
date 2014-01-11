@@ -24,9 +24,29 @@
 #include <QTreeWidget>
 #include <QContextMenuEvent>
 #include <QPainter>
+#include <QStyledItemDelegate>
 
 class DocClipBase;
 
+
+class ItemDelegate: public QStyledItemDelegate
+{
+public:
+    ItemDelegate(QAbstractItemView* parent = 0): QStyledItemDelegate(parent) {
+    }
+
+    /*void drawFocus(QPainter *, const QStyleOptionViewItem &, const QRect &) const {
+    }*/
+
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+
+private:
+    enum ItemRole {
+        NameRole = Qt::UserRole,
+        DurationRole,
+        UsageRole
+    };
+};
 
 class ProjectListView : public QTreeWidget
 {
