@@ -1854,9 +1854,11 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
         if (!path.isEmpty()) {
             if (m_invalidClipDialog) {
                 m_invalidClipDialog->addClip(id, path);
+                qDebug() << "Toto";
                 return;
             }
             else {
+                qDebug() << "Tata";
                 if (replace)
                     m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is invalid, will be removed from project."), replace, kapp->activeWindow());
                 else {
