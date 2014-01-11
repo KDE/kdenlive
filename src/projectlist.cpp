@@ -1308,7 +1308,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     if (item == NULL) {
         item = new ProjectItem(m_listView, clip, pixelSize);
     }
-    if (item->data(0, DurationRole).isNull()) item->setData(0, DurationRole, i18n("Loading"));
+    if (item->data(0, ItemDelegate::DurationRole).isNull()) item->setData(0, ItemDelegate::DurationRole, i18n("Loading"));
     connect(clip, SIGNAL(createProxy(QString)), this, SLOT(slotCreateProxy(QString)));
     connect(clip, SIGNAL(abortProxy(QString,QString)), this, SLOT(slotAbortProxy(QString,QString)));
 
@@ -1444,7 +1444,9 @@ void ProjectList::slotUpdateClip(const QString &id)
 {
     ProjectItem *item = getItemById(id);
     monitorItemEditing(false);
-    if (item) item->setData(0, UsageRole, QString::number(item->numReferences()));
+    if (item){
+        item->setData(0, ItemDelegate::UsageRole, QString::number(item->numReferences()));
+    }
     monitorItemEditing(true);
 }
 
@@ -1611,7 +1613,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
                 else if (!item->hasPixmap()) {
                     getCachedThumbnail(item);
                 }
-                if (item->data(0, DurationRole).toString().isEmpty()) {
+                if (item->data(0, ItemDelegate::DurationRole).toString().isEmpty()) {
                     item->changeDuration(clip->getProducer()->get_playtime());
                 }
                 if (clip->isPlaceHolder()) {
@@ -1630,7 +1632,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
                     slotCreateProxy(clip->getId());
                 }
             }
-            item->setData(0, UsageRole, QString::number(item->numReferences()));
+            item->setData(0, ItemDelegate::UsageRole, QString::number(item->numReferences()));
         }
         ++it;
     }

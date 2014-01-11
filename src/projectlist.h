@@ -51,7 +51,6 @@
 #include <nepomuk2/resource.h>
 #endif
 
-
 #include "definitions.h"
 #include "timecode.h"
 #include "kdenlivesettings.h"
@@ -102,10 +101,6 @@ class DocClipBase;
 class AbstractClipJob;
 class ItemDelegate;
 
-const int NameRole = Qt::UserRole;
-const int DurationRole = NameRole + 1;
-const int UsageRole = NameRole + 2;
-
 class SmallInfoLabel: public QPushButton
 {
     Q_OBJECT
@@ -113,6 +108,12 @@ public:
     SmallInfoLabel(QWidget *parent = 0);
     static const QString getStyleSheet(const QPalette &p);
 private:
+    enum ItemRole {
+        NameRole = Qt::UserRole,
+        DurationRole,
+        UsageRole
+    };
+
     QTimeLine* m_timeLine;
 
 public slots:
