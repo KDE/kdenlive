@@ -185,44 +185,6 @@ void SmallInfoLabel::slotSetJobCount(int jobCount)
     
 }
 
-
-InvalidDialog::InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent) : KDialog(parent)
-{
-    setCaption(caption);
-    if (infoOnly) setButtons(KDialog::Ok);
-    else setButtons(KDialog::Yes | KDialog::No);
-    QWidget *w = new QWidget(this);
-    QVBoxLayout *l = new QVBoxLayout;
-    l->addWidget(new QLabel(message));
-    m_clipList = new QListWidget;
-    l->addWidget(m_clipList);
-    w->setLayout(l);
-    setMainWidget(w);
-}
-
-InvalidDialog::~InvalidDialog()
-{
-    delete m_clipList;
-}
-
-
-void InvalidDialog::addClip(const QString &id, const QString &path)
-{
-    QListWidgetItem *item = new QListWidgetItem(path);
-    item->setData(Qt::UserRole, id);
-    m_clipList->addItem(item);
-}
-
-QStringList InvalidDialog::getIds() const
-{
-    QStringList ids;
-    for (int i = 0; i < m_clipList->count(); ++i) {
-        ids << m_clipList->item(i)->data(Qt::UserRole).toString();
-    }
-    return ids;
-}
-
-
 ProjectList::ProjectList(QWidget *parent) :
     QWidget(parent)
   , m_render(NULL)
@@ -1854,11 +1816,9 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
         if (!path.isEmpty()) {
             if (m_invalidClipDialog) {
                 m_invalidClipDialog->addClip(id, path);
-                qDebug() << "Toto";
                 return;
             }
             else {
-                qDebug() << "Tata";
                 if (replace)
                     m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is invalid, will be removed from project."), replace, kapp->activeWindow());
                 else {
@@ -3910,3 +3870,93 @@ void ProjectList::checkCamcorderFilters(DocClipBase *clip, QMap <QString, QStrin
 }*/
 
 #include "projectlist.moc"
+
+
+void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    if (index.column() == 0 && !index.data(DurationRole).isNull()) {
+        QRect r1 = option.rect;
+        painter->save();
+        QStyleOptionViewItemV4 opt(option);
+        QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+        style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+
+        if (option.state & QStyle::State_Selected) {
+            painter->setPen(option.palette.highlightedText().color());
+        }
+        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+        QPixmap pixmap = qVariantValue<QPixmap>(index.data(Qt::DecorationRole));
+        QPoint pixmapPoint(r1.left() + textMargin, r1.top() + (r1.height() - pixmap.height()) / 2);
+        painter->drawPixmap(pixmapPoint, pixmap);
+        int decoWidth = pixmap.width() + 2 * textMargin;
+
+        QFont font = painter->font();
+        font.setBold(true);
+        painter->setFont(font);
+        int mid = (int)((r1.height() / 2));
+        r1.adjust(decoWidth, 0, 0, -mid);
+        QRect r2 = option.rect;
+        r2.adjust(decoWidth, mid, 0, 0);
+        painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, index.data().toString());
+        font.setBold(false);
+        painter->setFont(font);
+        QString subText = index.data(DurationRole).toString();
+        int usage = index.data(UsageRole).toInt();
+        if (usage != 0) subText.append(QString::fromLatin1(" (%1)").arg(usage));
+        QRectF bounding;
+        painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
+        int jobProgress = index.data(Qt::UserRole + 5).toInt();
+        if (jobProgress != 0 && jobProgress != JOBDONE && jobProgress != JOBABORTED) {
+            if (jobProgress != JOBCRASHED) {
+                // Draw job progress bar
+                QColor color = option.palette.alternateBase().color();
+                color.setAlpha(150);
+                painter->setPen(option.palette.link().color());
+                QRect progress(pixmapPoint.x() + 2, pixmapPoint.y() + pixmap.height() - 9, pixmap.width() - 4, 7);
+                painter->setBrush(QBrush(color));
+                painter->drawRect(progress);
+                painter->setBrush(option.palette.link());
+                progress.adjust(2, 2, -2, -2);
+                if (jobProgress == JOBWAITING) {
+                    progress.setLeft(progress.right() - 2);
+                    painter->drawRect(progress);
+                    progress.moveLeft(progress.left() - 5);
+                    painter->drawRect(progress);
+                }
+                else if (jobProgress > 0) {
+                    progress.setWidth(progress.width() * jobProgress / 100);
+                    painter->drawRect(progress);
+                }
+            } else if (jobProgress == JOBCRASHED) {
+                QString jobText = index.data(Qt::UserRole + 7).toString();
+                if (!jobText.isEmpty()) {
+                    QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, QLatin1Char(' ') + jobText + QLatin1Char(' ') );
+                    painter->setPen(Qt::NoPen);
+                    painter->setBrush(option.palette.highlight());
+                    painter->drawRoundedRect(txtBounding, 2, 2);
+                    painter->setPen(option.palette.highlightedText().color());
+                    painter->drawText(txtBounding, Qt::AlignCenter, jobText);
+                }
+            }
+        }
+
+        painter->restore();
+    } else if (index.column() == 2 && KdenliveSettings::activate_nepomuk()) {
+        if (index.data().toString().isEmpty()) {
+            QStyledItemDelegate::paint(painter, option, index);
+            return;
+        }
+        QRect r1 = option.rect;
+        if (option.state & (QStyle::State_Selected)) {
+            painter->fillRect(r1, option.palette.highlight());
+        }
+#ifdef NEPOMUK
+        KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
+#endif
+#ifdef NEPOMUKCORE
+        KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
+#endif
+
+    } else {
+        QStyledItemDelegate::paint(painter, option, index);
+    }
+}

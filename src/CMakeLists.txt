@@ -93,6 +93,7 @@ add_subdirectory(onmonitoritems)
 add_subdirectory(scopes)
 add_subdirectory(simplekeyframes)
 add_subdirectory(stopmotion)
+add_subdirectory(widgets)
 
 if(QJSON_FOUND)
   add_subdirectory(onmonitoritems/rotoscoping)
