@@ -1858,9 +1858,9 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
             }
             else {
                 if (replace)
-                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip <b>%1</b><br />is invalid, will be removed from project.", QString()), replace, kapp->activeWindow());
+                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is invalid, will be removed from project."), replace, kapp->activeWindow());
                 else {
-                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip <b>%1</b><br />is missing or invalid. Remove it from project?", QString()), replace, kapp->activeWindow());
+                    m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"),  i18n("Clip is missing or invalid. Remove it from project?"), replace, kapp->activeWindow());
                 }
                 m_invalidClipDialog->addClip(id, path);
                 int result = m_invalidClipDialog->exec();
