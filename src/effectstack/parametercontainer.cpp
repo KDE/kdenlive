@@ -28,7 +28,7 @@
 #include "positionedit.h"
 #include "kis_curve_widget.h"
 #include "kis_cubic_curve.h"
-#include "choosecolorwidget.h"
+#include "widgets/choosecolorwidget.h"
 #include "geometrywidget.h"
 #include "colortools.h"
 #include "doubleparameterwidget.h"

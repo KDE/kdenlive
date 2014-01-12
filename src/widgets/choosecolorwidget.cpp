@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 
-#include "choosecolorwidget.h"
-#include "colorpickerwidget.h"
+#include "widgets/choosecolorwidget.h"
+#include "widgets/colorpickerwidget.h"
 
 #include <QLabel>
 #include <QHBoxLayout>

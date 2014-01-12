@@ -113,14 +113,12 @@ list(APPEND kdenlive_SRCS
   abstractgroupitem.cpp
   abstractmonitor.cpp
   archivewidget.cpp
-  choosecolorwidget.cpp
   clipdurationdialog.cpp
   clipitem.cpp
   clipmanager.cpp
   clipproperties.cpp
   cliptranscode.cpp
   clipstabilize.cpp
-  colorpickerwidget.cpp
   colorplaneexport.cpp
   colortools.cpp
   complexparameter.cpp
