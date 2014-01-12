@@ -23,6 +23,10 @@
 
 #include <QGLWidget>
 
+namespace Mlt {
+class Frame;
+}
+
 class VideoGLWidget : public QGLWidget
 {
     Q_OBJECT
@@ -40,7 +44,7 @@ public:
 
 public slots:
     void showImage(const QImage &image);
-    void showImage(GLuint);
+    void showImage(Mlt::Frame*, GLuint);
 
 protected:
     void initializeGL();
@@ -52,7 +56,9 @@ protected:
 private:
     int x, y, w, h;
     int m_image_width, m_image_height;
-    GLuint m_texture, m_other_texture;
+    GLuint m_texture;
+    Mlt::Frame *m_frame;
+    GLuint m_frame_texture;
     double m_display_ratio;
     QColor m_backgroundColor;
     Qt::WindowFlags m_baseFlags;

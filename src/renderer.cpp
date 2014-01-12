@@ -22,7 +22,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
@@ -1954,8 +1953,7 @@ void Render::showFrame(Mlt::Frame* frame)
         const uint8_t* image = frame->get_image(format, width, height);
         const GLuint* texnum = (GLuint *)image;
         if (format == mlt_image_glsl_texture) {
-          emit showImageSignal(*texnum);
-          delete frame;
+          emit showImageSignal(frame, *texnum);
         } else {
           QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
           memcpy(qimage.scanLine(0), image, width * height * 4);

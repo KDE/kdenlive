@@ -33,6 +33,7 @@
 #include "definitions.h"
 #include "widgets/abstractmonitor.h"
 
+#include <GL/gl.h>
 #include <mlt/framework/mlt_types.h>
 
 #include <kurl.h>
@@ -486,7 +487,7 @@ signals:
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
-    void showImageSignal(GLuint);
+    void showImageSignal(Mlt::Frame*, GLuint);
     void showAudioSignal(const QVector<double> &);
     void addClip(const KUrl &, stringMap);
     void checkSeeking();

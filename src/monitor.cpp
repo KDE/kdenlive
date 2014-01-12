@@ -223,7 +223,7 @@ void Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
     m_glWidget->setImageAspectRatio(render->dar());
     m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
     connect(render, SIGNAL(showImageSignal(QImage)), m_glWidget, SLOT(showImage(QImage)));
-    connect(render, SIGNAL(showImageSignal(GLuint)), m_glWidget, SLOT(showImage(GLuint)));
+    connect(render, SIGNAL(showImageSignal(Mlt::Frame*, GLuint)), m_glWidget, SLOT(showImage(Mlt::Frame*, GLuint)));
 }
 
 void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
