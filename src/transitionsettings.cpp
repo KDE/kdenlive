@@ -95,7 +95,7 @@ void TransitionSettings::updateTrackList()
     KIcon audioIcon("kdenlive-show-audio");
     for (int i = limit; i < m_tracks.count(); ++i) {
         int ix = m_tracks.count() - i - 1;
-        transitionTrack->addItem(m_tracks.at(ix).type == VIDEOTRACK ? videoIcon : audioIcon,
+        transitionTrack->addItem(m_tracks.at(ix).type == VideoTrack ? videoIcon : audioIcon,
                                  m_tracks.at(ix).trackName.isEmpty() ? QString::number(i) : m_tracks.at(ix).trackName + " (" + QString::number(i) + ')',
                                  m_tracks.count() - i);
     }

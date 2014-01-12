@@ -143,7 +143,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
     GenTime durationDiff = GenTime(posx, m_fps) - m_info.startPos;
     if (durationDiff == GenTime()) return;
 
-    if (type() == AVWIDGET && hasSizeLimit && (cropStart() + durationDiff < GenTime())) {
+    if (type() == AVWidget && hasSizeLimit && (cropStart() + durationDiff < GenTime())) {
         durationDiff = GenTime() - cropStart();
     } else if (durationDiff >= cropDuration()) {
         return;
@@ -154,7 +154,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
 
     // set to true if crop from start is negative (possible for color clips, images as they have no size limit)
     bool negCropStart = false;
-    if (type() == AVWIDGET) {
+    if (type() == AVWidget) {
         m_info.cropStart += durationDiff;
         if (m_info.cropStart < GenTime())
             negCropStart = true;
@@ -168,7 +168,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
         //kDebug() << "//////  WARNING, DIFF IN XPOS: " << pos().x() << " == " << m_info.startPos.frames(m_fps);
         GenTime diff = m_info.startPos - GenTime(posx, m_fps);
 
-        if (type() == AVWIDGET)
+        if (type() == AVWidget)
             m_info.cropStart += diff;
 
         m_info.cropDuration -= diff;
@@ -193,7 +193,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
                     setRect(0, 0, (m_cropDuration - diff).frames(m_fps) - 0.02, rect().height());
                     setPos((m_startPos + diff).frames(m_fps), pos().y());
                     m_startPos += diff;
-                    if (type() == AVWIDGET) m_cropStart += diff;
+                    if (type() == AVWidget) m_cropStart += diff;
                     m_cropDuration = m_cropDuration - diff;
                     break;
                 }

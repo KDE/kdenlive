@@ -26,12 +26,12 @@
 #include <KLocalizedString>
 
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, CLIPTYPE cType, const QString &id, const QStringList &) :
+AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, const QStringList &) :
         QObject(),
         clipType(cType),
         jobType(type),
         replaceClip(false),
-        m_jobStatus(NOJOB),
+        m_jobStatus(NoJob),
         m_clipId(id),
         m_addClipToProject(false),
         m_jobProcess(NULL)
@@ -53,12 +53,12 @@ void AbstractClipJob::setAddClipToProject(bool add)
     m_addClipToProject = add;
 }
 
-void AbstractClipJob::setStatus(CLIPJOBSTATUS status)
+void AbstractClipJob::setStatus(ClipJobStatus status)
 {
     m_jobStatus = status;
 }
 
-CLIPJOBSTATUS AbstractClipJob::status()
+ClipJobStatus AbstractClipJob::status()
 {
     return m_jobStatus;
 }

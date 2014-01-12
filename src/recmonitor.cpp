@@ -45,7 +45,7 @@
 #include <QDesktopWidget>
 
 
-RecMonitor::RecMonitor(Kdenlive::MONITORID name, MonitorManager *manager, QWidget *parent) :
+RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent) :
     AbstractMonitor(name, manager, parent),
     m_isCapturing(false),
     m_didCapture(false),

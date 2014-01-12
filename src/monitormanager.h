@@ -43,7 +43,7 @@ public:
     /** Searches for a monitor with the given name.
 	@return NULL, if no monitor could be found, or the monitor otherwise.
     */
-    AbstractMonitor *monitor(Kdenlive::MONITORID monitorName);
+    AbstractMonitor *monitor(Kdenlive::MonitorId monitorName);
     void updateScopeSource();
     void clearScopeSource();
     /** @brief Returns current project's folder. */
@@ -57,8 +57,8 @@ public slots:
 
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */
-    bool activateMonitor(Kdenlive::MONITORID, bool forceRefresh = false);
-    bool isActive(Kdenlive::MONITORID id) const;
+    bool activateMonitor(Kdenlive::MonitorId, bool forceRefresh = false);
+    bool isActive(Kdenlive::MonitorId id) const;
     void slotPlay();
     void slotPause();
     void slotPlayZone();

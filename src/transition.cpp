@@ -203,7 +203,7 @@ void Transition::paint(QPainter *painter,
 
 int Transition::type() const
 {
-    return TRANSITIONWIDGET;
+    return TransitionWidget;
 }
 
 //virtual
@@ -291,17 +291,17 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 }
 
 
-OPERATIONTYPE Transition::operationMode(const QPointF &pos)
+OperationType Transition::operationMode(const QPointF &pos)
 {
-    if (isItemLocked()) return NONE;
+    if (isItemLocked()) return None;
 
     const double scale = projectScene()->scale().x();
     double maximumOffset = 6 / scale;
 
     QRectF rect = sceneBoundingRect();
-    if (qAbs((int)(pos.x() - rect.x())) < maximumOffset) return RESIZESTART;
-    else if (qAbs((int)(pos.x() - (rect.right()))) < maximumOffset) return RESIZEEND;
-    return MOVE;
+    if (qAbs((int)(pos.x() - rect.x())) < maximumOffset) return ResizeStart;
+    else if (qAbs((int)(pos.x() - (rect.right()))) < maximumOffset) return ResizeEnd;
+    return MoveOperation;
 }
 
 //static

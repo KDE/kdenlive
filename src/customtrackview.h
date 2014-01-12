@@ -103,7 +103,7 @@ public:
     bool checkTrackHeight();
     void updateSceneFrameWidth();
     //QList <TrackInfo> tracksList() const;
-    void setTool(PROJECTTOOL tool);
+    void setTool(ProjectTool tool);
     ClipItem *cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
@@ -296,7 +296,7 @@ public slots:
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     
     void slotAddEffect(ClipItem *clip, const QDomElement &effect);
-    void slotImportClipKeyframes(GRAPHICSRECTITEM type);
+    void slotImportClipKeyframes(GraphicsRectItem type);
 
     /** @brief Get effect parameters ready for MLT*/
     static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
@@ -326,8 +326,8 @@ private:
     QGraphicsLineItem *m_cursorLine;
     ItemInfo m_dragItemInfo;
     ItemInfo m_selectionGroupInfo;
-    OPERATIONTYPE m_operationMode;
-    OPERATIONTYPE m_moveOpMode;
+    OperationType m_operationMode;
+    OperationType m_moveOpMode;
     AbstractClipItem *m_dragItem;
     Guide *m_dragGuide;
     QUndoStack *m_commandStack;
@@ -372,7 +372,7 @@ private:
     bool m_clipDrag;
 
     int m_findIndex;
-    PROJECTTOOL m_tool;
+    ProjectTool m_tool;
     QCursor m_razorCursor;
     QCursor m_spacerCursor;
     /** list containing items currently copied in the timeline */
@@ -429,7 +429,7 @@ private:
     * @param clip clip to display the tip on
     * @param mode operation mode for which the tip should be displayed
     * @param size size of the tip */
-    void setTipAnimation(AbstractClipItem *clip, OPERATIONTYPE mode, const double size);
+    void setTipAnimation(AbstractClipItem *clip, OperationType mode, const double size);
 
     /** @brief Takes care of updating effects and attached transitions during a resize from start.
     * @param item Item to resize
@@ -528,7 +528,7 @@ signals:
     /** @brief Cursor position changed, repaint ruler.*/
     void updateRuler();
     /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
-    void importKeyframes(GRAPHICSRECTITEM type, const QString&, int maximum);
+    void importKeyframes(GraphicsRectItem type, const QString&, int maximum);
 };
 
 #endif

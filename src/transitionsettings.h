@@ -63,7 +63,7 @@ private slots:
 signals:
     void transitionUpdated(Transition *, const QDomElement&);
     void seekTimeline(int);
-    void importClipKeyframes(GRAPHICSRECTITEM = TRANSITIONWIDGET);
+    void importClipKeyframes(GraphicsRectItem = TransitionWidget);
 };
 
 #endif

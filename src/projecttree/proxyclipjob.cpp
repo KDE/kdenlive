@@ -27,12 +27,12 @@
 #include <KDebug>
 #include <KLocalizedString>
 
-ProxyJob::ProxyJob(CLIPTYPE cType, const QString &id, const QStringList& parameters)
+ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList& parameters)
     : AbstractClipJob(PROXYJOB, cType, id, parameters),
       m_jobDuration(0),
       m_isFfmpegJob(true)
 {
-    m_jobStatus = JOBWAITING;
+    m_jobStatus = JobWaiting;
     description = i18n("proxy");
     m_dest = parameters.at(0);
     m_src = parameters.at(1);
@@ -47,7 +47,7 @@ void ProxyJob::startJob()
 {
     // Special case: playlist clips (.mlt or .kdenlive project files)
     m_jobDuration = 0;
-    if (clipType == PLAYLIST) {
+    if (clipType == Playlist) {
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
         QStringList mltParameters;
@@ -80,13 +80,13 @@ void ProxyJob::startJob()
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
         m_jobProcess->waitForStarted();
     }
-    else if (clipType == IMAGE) {
+    else if (clipType == Image) {
         m_isFfmpegJob = false;
         // Image proxy
         QImage i(m_src);
         if (i.isNull()) {
             m_errorMessage.append(i18n("Cannot load image %1.", m_src));
-            setStatus(JOBCRASHED);
+            setStatus(JobCrashed);
             return;
         }
 
@@ -130,7 +130,7 @@ void ProxyJob::startJob()
         } else {
             proxy.save(m_dest);
         }
-        setStatus(JOBDONE);
+        setStatus(JobDone);
         return;
     } else {
         m_isFfmpegJob = true;
@@ -150,7 +150,7 @@ void ProxyJob::startJob()
     }
     while (m_jobProcess->state() != QProcess::NotRunning) {
         processLogInfo();
-        if (m_jobStatus == JOBABORTED) {
+        if (m_jobStatus == JobAborted) {
             emit cancelRunningJob(m_clipId, cancelProperties());
             m_jobProcess->close();
             m_jobProcess->waitForFinished();
@@ -159,21 +159,21 @@ void ProxyJob::startJob()
         m_jobProcess->waitForFinished(400);
     }
     
-    if (m_jobStatus != JOBABORTED) {
+    if (m_jobStatus != JobAborted) {
         int result = m_jobProcess->exitStatus();
         if (result == QProcess::NormalExit) {
             if (QFileInfo(m_dest).size() == 0) {
                 // File was not created
                 processLogInfo();
                 m_errorMessage.append(i18n("Failed to create proxy clip."));
-                setStatus(JOBCRASHED);
+                setStatus(JobCrashed);
             }
-            else setStatus(JOBDONE);
+            else setStatus(JobDone);
         }
         else if (result == QProcess::CrashExit) {
             // Proxy process crashed
             QFile::remove(m_dest);
-            setStatus(JOBCRASHED);
+            setStatus(JobCrashed);
         }
     }
     
@@ -183,7 +183,7 @@ void ProxyJob::startJob()
 
 void ProxyJob::processLogInfo()
 {
-    if (!m_jobProcess || m_jobStatus == JOBABORTED) return;
+    if (!m_jobProcess || m_jobStatus == JobAborted) return;
     QString log = m_jobProcess->readAll();
     if (!log.isEmpty())
         m_logDetails.append(log + '\n');
@@ -239,10 +239,10 @@ const QString ProxyJob::statusMessage()
 {
     QString statusInfo;
     switch (m_jobStatus) {
-    case JOBWORKING:
+    case JobWorking:
         statusInfo = i18n("Creating proxy");
         break;
-    case JOBWAITING:
+    case JobWaiting:
         statusInfo = i18n("Waiting - proxy");
         break;
     default:

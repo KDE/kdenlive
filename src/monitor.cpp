@@ -48,7 +48,7 @@
 #define SEEK_INACTIVE (-1)
 
 
-Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile, QWidget *parent) :
+Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profile, QWidget *parent) :
     AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_currentClip(NULL)
@@ -86,7 +86,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     m_pauseIcon = KIcon("media-playback-pause");
 
 
-    if (id != Kdenlive::dvdMonitor) {
+    if (id != Kdenlive::DvdMonitor) {
         m_toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
         m_toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
     }
@@ -109,7 +109,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 
     playButton->setDefaultAction(m_playAction);
 
-    if (id != Kdenlive::dvdMonitor) {
+    if (id != Kdenlive::DvdMonitor) {
         QToolButton *configButton = new QToolButton(m_toolbar);
         m_configMenu = new QMenu(i18n("Misc..."), this);
         configButton->setIcon(KIcon("system-run"));
@@ -117,7 +117,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
         configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
         m_toolbar->addWidget(configButton);
 
-        if (id == Kdenlive::clipMonitor) {
+        if (id == Kdenlive::ClipMonitor) {
             m_markerMenu = new QMenu(i18n("Go to marker..."), this);
             m_markerMenu->setEnabled(false);
             m_configMenu->addMenu(m_markerMenu);
@@ -178,7 +178,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 
     // Monitor ruler
     m_ruler = new SmallRuler(this, render);
-    if (id == Kdenlive::dvdMonitor) m_ruler->setZone(-3, -2);
+    if (id == Kdenlive::DvdMonitor) m_ruler->setZone(-3, -2);
     layout->addWidget(m_ruler);
     
     connect(m_audioSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
@@ -186,7 +186,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
 
-    if (id != Kdenlive::clipMonitor) {
+    if (id != Kdenlive::ClipMonitor) {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
@@ -196,7 +196,7 @@ Monitor::Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profil
 
     if (videoSurface) videoSurface->show();
 
-    if (id == Kdenlive::projectMonitor) {
+    if (id == Kdenlive::ProjectMonitor) {
         m_effectWidget = new MonitorEditWidget(render, videoBox);
 	connect(m_effectWidget, SIGNAL(showEdit(bool,bool)), this, SLOT(slotShowEffectScene(bool,bool)));
         m_toolbar->addAction(m_effectWidget->getVisibilityAction());
@@ -270,7 +270,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     }
 
     //TODO: add save zone to timeline monitor when fixed
-    if (m_id == Kdenlive::clipMonitor) {
+    if (m_id == Kdenlive::ClipMonitor) {
         m_contextMenu->addMenu(m_markerMenu);
         m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
         QAction *extractZone = m_configMenu->addAction(KIcon("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
@@ -279,7 +279,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     QAction *extractFrame = m_configMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
 
-    if (m_id != Kdenlive::clipMonitor) {
+    if (m_id != Kdenlive::ClipMonitor) {
         QAction *splitView = m_contextMenu->addAction(KIcon("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
@@ -1066,7 +1066,7 @@ void Monitor::slotSetSelectedClip(Transition* item)
 
 void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
 {
-    if (m_id == Kdenlive::projectMonitor) {
+    if (m_id == Kdenlive::ProjectMonitor) {
         if (!m_effectWidget->getVisibilityAction()->isChecked())
             show = false;
         if (m_effectWidget->isVisible() == show)

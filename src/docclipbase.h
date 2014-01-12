@@ -92,9 +92,9 @@ public:
     void setDuration(const GenTime &dur);
 
     /** returns clip type (audio, text, image,...) */
-    const CLIPTYPE & clipType() const;
+    const ClipType & clipType() const;
     /** set clip type (audio, text, image,...) */
-    void setClipType(CLIPTYPE type);
+    void setClipType(ClipType type);
 
     /** remove tmp file if the clip has one (for example text clips) */
     void removeTmpFile() const;
@@ -219,7 +219,7 @@ private:   // Private attributes
     QList <Mlt::Producer *> m_videoTrackProducers;
     QList <Mlt::Producer *> m_audioTrackProducers;
     QList <Mlt::Producer *> m_toDeleteProducers;
-    CLIPTYPE m_clipType;
+    ClipType m_clipType;
 
     /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;

@@ -48,7 +48,7 @@ protected:
 
 private:
     int m_index;
-    TRACKTYPE m_type;
+    TrackType m_type;
     bool m_isSelected;
     QString m_name;
 

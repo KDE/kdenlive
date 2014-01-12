@@ -40,14 +40,14 @@ class MeltJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    MeltJob(CLIPTYPE cType, const QString &id, const QStringList& parameters, const stringMap& extraParams = stringMap());
+    MeltJob(ClipType cType, const QString &id, const QStringList& parameters, const stringMap& extraParams = stringMap());
     virtual ~ MeltJob();
     const QString destination() const;
     void startJob();
     stringMap cancelProperties();
     bool addClipToProject;
     const QString statusMessage();
-    void setStatus(CLIPJOBSTATUS status);
+    void setStatus(ClipJobStatus status);
     void setProducer(Mlt::Producer *producer, const KUrl &url);
     void emitFrameNumber(int pos);
     /** Make the job work on a project tree clip. */

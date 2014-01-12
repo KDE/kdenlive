@@ -246,9 +246,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                     if (e.tagName() == "trackinfo") {
                                         TrackInfo projectTrack;
                                         if (e.attribute("type") == "audio")
-                                            projectTrack.type = AUDIOTRACK;
+                                            projectTrack.type = AudioTrack;
                                         else
-                                            projectTrack.type = VIDEOTRACK;
+                                            projectTrack.type = VideoTrack;
                                         projectTrack.isMute = e.attribute("mute").toInt();
                                         projectTrack.isBlind = e.attribute("blind").toInt();
                                         projectTrack.isLocked = e.attribute("locked").toInt();
@@ -422,7 +422,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
     // Better default names for tracks: Audio 1 etc. instead of blank numbers
     for (int i = 0; i < audiotracks; ++i) {
         TrackInfo audioTrack;
-        audioTrack.type = AUDIOTRACK;
+        audioTrack.type = AudioTrack;
         audioTrack.isMute = false;
         audioTrack.isBlind = true;
         audioTrack.isLocked = false;
@@ -434,7 +434,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
     }
     for (int i = 0; i < videotracks; ++i) {
         TrackInfo videoTrack;
-        videoTrack.type = VIDEOTRACK;
+        videoTrack.type = VideoTrack;
         videoTrack.isMute = false;
         videoTrack.isBlind = false;
         videoTrack.isLocked = false;
@@ -531,7 +531,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     for (int i = 1; i < total; ++i) {
         QDomElement track = doc.createElement("track");
         track.setAttribute("producer", "playlist" + QString::number(i));
-        if (tracks.at(i - 1).type == AUDIOTRACK) {
+        if (tracks.at(i - 1).type == AudioTrack) {
             track.setAttribute("hide", "video");
         } else if (tracks.at(i - 1).isBlind)
             track.setAttribute("hide", "video");
@@ -731,7 +731,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     QDomElement tracksinfo = sceneList.createElement("tracksinfo");
     foreach(const TrackInfo & info, m_tracksList) {
         QDomElement trackinfo = sceneList.createElement("trackinfo");
-        if (info.type == AUDIOTRACK) trackinfo.setAttribute("type", "audio");
+        if (info.type == AudioTrack) trackinfo.setAttribute("type", "audio");
         trackinfo.setAttribute("mute", info.isMute);
         trackinfo.setAttribute("blind", info.isBlind);
         trackinfo.setAttribute("locked", info.isLocked);
@@ -853,7 +853,7 @@ void KdenliveDoc::moveProjectData(const KUrl &url)
     KUrl::List cacheUrls;
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
-        if (clip->clipType() == TEXT) {
+        if (clip->clipType() == Text) {
             // the image for title clip must be moved
             KUrl oldUrl = clip->fileURL();
             KUrl newUrl = KUrl(url.path(KUrl::AddTrailingSlash) + "titles/" + oldUrl.fileName());
@@ -1096,14 +1096,14 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
         elem.setAttribute("id", producerId);
         QString path = elem.attribute("resource");
         QString extension;
-        if (elem.attribute("type").toInt() == SLIDESHOW) {
+        if (elem.attribute("type").toInt() == SlideShow) {
             extension = KUrl(path).fileName();
             path = KUrl(path).directory();
         }
         if (elem.hasAttribute("_missingsource")) {
             // Clip has proxy but missing original source
         }
-        else if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT && !elem.hasAttribute("placeholder")) {
+        else if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != Text && !elem.hasAttribute("placeholder")) {
             kDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
             const QString size = elem.attribute("file_size");
             const QString hash = elem.attribute("file_hash");
@@ -1115,7 +1115,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 else
                     action = (KMessageBox::ButtonCode) KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Keep as placeholder")));
             } else {
-                if (elem.attribute("type").toInt() == SLIDESHOW) {
+                if (elem.attribute("type").toInt() == SlideShow) {
                     int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
                         newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Looking for %1", path));
@@ -1145,7 +1145,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 elem.setAttribute("placeholder", '1');
             }
             if (!newpath.isEmpty()) {
-                if (elem.attribute("type").toInt() == SLIDESHOW)
+                if (elem.attribute("type").toInt() == SlideShow)
                     newpath.append('/' + extension);
                 elem.setAttribute("resource", newpath);
                 setNewClipResource(clipId, newpath);
@@ -1435,7 +1435,7 @@ QPoint KdenliveDoc::getTracksCount() const
     int audio = 0;
     int video = 0;
     foreach(const TrackInfo & info, m_tracksList) {
-        if (info.type == VIDEOTRACK) video++;
+        if (info.type == VideoTrack) video++;
         else audio++;
     }
     return QPoint(video, audio);

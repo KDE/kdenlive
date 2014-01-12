@@ -29,7 +29,7 @@
 #include <QVBoxLayout>
 
 
-AbstractMonitor::AbstractMonitor(Kdenlive::MONITORID id, MonitorManager *manager, QWidget *parent): 
+AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent): 
     QWidget(parent),
     videoSurface(NULL),
     m_id(id),

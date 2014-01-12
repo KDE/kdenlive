@@ -234,7 +234,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
-    m_clipMonitor = new Monitor(Kdenlive::clipMonitor, m_monitorManager, QString(), m_timelineArea);
+    m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, m_monitorManager, QString(), m_timelineArea);
     m_clipMonitorDock->setWidget(m_clipMonitor);
 
     // Connect the project list
@@ -252,13 +252,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
-    m_projectMonitor = new Monitor(Kdenlive::projectMonitor, m_monitorManager, QString());
+    m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, m_monitorManager, QString());
     m_projectMonitorDock->setWidget(m_projectMonitor);
 
 #ifndef Q_WS_MAC
     m_recMonitorDock = new QDockWidget(i18n("Record Monitor"), this);
     m_recMonitorDock->setObjectName("record_monitor");
-    m_recMonitor = new RecMonitor(Kdenlive::recordMonitor, m_monitorManager);
+    m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, m_monitorManager);
     m_recMonitorDock->setWidget(m_recMonitor);
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(addProjectClipList(KUrl::List)), this, SLOT(slotAddProjectClipList(KUrl::List)));
@@ -1985,7 +1985,7 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
         connectDocument(trackView, doc);
     } else
         m_timelineArea->setTabBarHidden(false);
-    m_monitorManager->activateMonitor(Kdenlive::clipMonitor);
+    m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
     m_closeAction->setEnabled(m_timelineArea->count() > 1);
 }
 
@@ -2622,7 +2622,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_effectStack, SIGNAL(displayMessage(QString,int)), this, SLOT(slotGotProgressInfo(QString,int)));
             disconnect(m_transitionConfig, SIGNAL(transitionUpdated(Transition*,QDomElement)), m_activeTimeline->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
             disconnect(m_transitionConfig, SIGNAL(seekTimeline(int)), m_activeTimeline->projectView() , SLOT(setCursorPos(int)));
-            disconnect(m_transitionConfig, SIGNAL(importClipKeyframes(GRAPHICSRECTITEM)), m_activeTimeline->projectView() , SLOT(slotImportClipKeyframes(GRAPHICSRECTITEM)));
+            disconnect(m_transitionConfig, SIGNAL(importClipKeyframes(GraphicsRectItem)), m_activeTimeline->projectView() , SLOT(slotImportClipKeyframes(GraphicsRectItem)));
 
             disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(zoneMoved(int,int)), this, SLOT(slotZoneMoved(int,int)));
@@ -2651,7 +2651,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(trackView->projectView(), SIGNAL(forceClipProcessing(QString)), m_projectList, SLOT(slotForceProcessing(QString)));
 
-    connect(trackView->projectView(), SIGNAL(importKeyframes(GRAPHICSRECTITEM,QString,int)), this, SLOT(slotProcessImportKeyframes(GRAPHICSRECTITEM,QString,int)));
+    connect(trackView->projectView(), SIGNAL(importKeyframes(GraphicsRectItem,QString,int)), this, SLOT(slotProcessImportKeyframes(GraphicsRectItem,QString,int)));
 
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
@@ -2702,13 +2702,13 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     
     connect(m_effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView(), SLOT(seekCursorPos(int)));
-    connect(m_effectStack, SIGNAL(importClipKeyframes(GRAPHICSRECTITEM)), trackView->projectView(), SLOT(slotImportClipKeyframes(GRAPHICSRECTITEM)));
+    connect(m_effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem)), trackView->projectView(), SLOT(slotImportClipKeyframes(GraphicsRectItem)));
     connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
     connect(m_effectStack, SIGNAL(displayMessage(QString,int)), this, SLOT(slotGotProgressInfo(QString,int)));
     
     // Transition config signals
     connect(m_transitionConfig, SIGNAL(transitionUpdated(Transition*,QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
-    connect(m_transitionConfig, SIGNAL(importClipKeyframes(GRAPHICSRECTITEM)), trackView->projectView() , SLOT(slotImportClipKeyframes(GRAPHICSRECTITEM)));
+    connect(m_transitionConfig, SIGNAL(importClipKeyframes(GraphicsRectItem)), trackView->projectView() , SLOT(slotImportClipKeyframes(GraphicsRectItem)));
     connect(m_transitionConfig, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
@@ -2748,7 +2748,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     // Make sure monitor is visible so that it is painted black on startup
     show();
-    m_monitorManager->activateMonitor(Kdenlive::clipMonitor, true);
+    m_monitorManager->activateMonitor(Kdenlive::ClipMonitor, true);
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
 }
@@ -3079,7 +3079,7 @@ void MainWindow::slotRemoveSpace()
 
 void MainWindow::slotInsertTrack(int ix)
 {
-    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
+    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline) {
         if (ix == -1) ix = m_activeTimeline->projectView()->selectedTrack();
         m_activeTimeline->projectView()->slotInsertTrack(ix);
@@ -3090,7 +3090,7 @@ void MainWindow::slotInsertTrack(int ix)
 
 void MainWindow::slotDeleteTrack(int ix)
 {
-    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
+    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline) {
         if (ix == -1) ix = m_activeTimeline->projectView()->selectedTrack();
         m_activeTimeline->projectView()->slotDeleteTrack(ix);
@@ -3101,7 +3101,7 @@ void MainWindow::slotDeleteTrack(int ix)
 
 void MainWindow::slotConfigTrack(int ix)
 {
-    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
+    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotConfigTracks(ix);
     if (m_activeDocument)
@@ -3110,7 +3110,7 @@ void MainWindow::slotConfigTrack(int ix)
 
 void MainWindow::slotSelectTrack()
 {
-    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
+    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline) {
         m_activeTimeline->projectView()->slotSelectClipsInTrack();
     }
@@ -3118,7 +3118,7 @@ void MainWindow::slotSelectTrack()
 
 void MainWindow::slotSelectAllTracks()
 {
-    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
+    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotSelectAllClips();
 }
@@ -3317,7 +3317,7 @@ void MainWindow::slotGotProgressInfo(const QString &message, int progress, Messa
 
 void MainWindow::slotShowClipProperties(DocClipBase *clip)
 {
-    if (clip->clipType() == TEXT) {
+    if (clip->clipType() == Text) {
         QString titlepath = m_activeDocument->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
         if (!clip->getProperty("resource").isEmpty() && clip->getProperty("xmldata").isEmpty()) {
             // template text clip
@@ -3424,7 +3424,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
     // any type of clip but a title
     ClipProperties *dia = new ClipProperties(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
 
-    if (clip->clipType() == AV || clip->clipType() == VIDEO || clip->clipType() == PLAYLIST || clip->clipType() == SLIDESHOW) {
+    if (clip->clipType() == AV || clip->clipType() == Video || clip->clipType() == Playlist || clip->clipType() == SlideShow) {
         // request clip thumbnails
         connect(m_activeDocument->clipManager(), SIGNAL(gotClipPropertyThumbnail(QString,QImage)), dia, SLOT(slotGotThumbnail(QString,QImage)));
         connect(dia, SIGNAL(requestThumb(QString,QList<int>)), m_activeDocument->clipManager(), SLOT(slotRequestThumbs(QString,QList<int>)));
@@ -3473,7 +3473,7 @@ void MainWindow::slotShowClipProperties(const QList <DocClipBase *> &cliplist, c
 
         for (int i = 0; i < cliplist.count(); ++i) {
             DocClipBase *clip = cliplist.at(i);
-            if (clip->clipType() == IMAGE)
+            if (clip->clipType() == Image)
                 new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newImageProps), newImageProps, true, command);
             else
                 new EditClipCommand(m_projectList, clip->getId(), clip->currentProperties(newProps), newProps, true, command);
@@ -3572,11 +3572,11 @@ void MainWindow::slotZoneEnd()
 void MainWindow::slotChangeTool(QAction * action)
 {
     if (action == m_buttonSelectTool)
-        slotSetTool(SELECTTOOL);
+        slotSetTool(SelectTool);
     else if (action == m_buttonRazorTool)
-        slotSetTool(RAZORTOOL);
+        slotSetTool(RazorTool);
     else if (action == m_buttonSpacerTool)
-        slotSetTool(SPACERTOOL);
+        slotSetTool(SpacerTool);
 }
 
 void MainWindow::slotChangeEdit(QAction * action)
@@ -3592,16 +3592,16 @@ void MainWindow::slotChangeEdit(QAction * action)
         m_activeTimeline->projectView()->setEditMode(NORMALEDIT);
 }
 
-void MainWindow::slotSetTool(PROJECTTOOL tool)
+void MainWindow::slotSetTool(ProjectTool tool)
 {
     if (m_activeDocument && m_activeTimeline) {
         //m_activeDocument->setTool(tool);
         QString message;
         switch (tool)  {
-        case SPACERTOOL:
+        case SpacerTool:
             message = i18n("Ctrl + click to use spacer on current track only");
             break;
-        case RAZORTOOL:
+        case RazorTool:
             message = i18n("Click on a clip to cut it");
             break;
         default:
@@ -3984,11 +3984,11 @@ void MainWindow::slotUpdateClipType(QAction *action)
 void MainWindow::slotDvdWizard(const QString &url)
 {
     // We must stop the monitors since we create a new on in the dvd wizard
-    m_monitorManager->activateMonitor(Kdenlive::dvdMonitor);
+    m_monitorManager->activateMonitor(Kdenlive::DvdMonitor);
     QPointer<DvdWizard> w = new DvdWizard(m_monitorManager, url, this);
     w->exec();
     delete w;
-    m_monitorManager->activateMonitor(Kdenlive::clipMonitor);
+    m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
 }
 
 void MainWindow::slotShowTimeline(bool show)
@@ -4690,13 +4690,13 @@ void MainWindow::slotSaveTimelineClip()
     }
 }
 
-void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum)
+void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString& data, int maximum)
 {
-    if (type == AVWIDGET) {
+    if (type == AVWidget) {
         // This data should be sent to the effect stack
         m_effectStack->setKeyframes(data, maximum);
     }
-    else if (type == TRANSITIONWIDGET) {
+    else if (type == TransitionWidget) {
         // This data should be sent to the transition stack
         m_transitionConfig->setKeyframes(data, maximum);
     }
@@ -4707,7 +4707,7 @@ void MainWindow::slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString
 
 void MainWindow::slotAlignPlayheadToMousePos()
 {
-    m_monitorManager->activateMonitor(Kdenlive::projectMonitor);
+    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
     m_activeTimeline->projectView()->slotAlignPlayheadToMousePos();
 }
 

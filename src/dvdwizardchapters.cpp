@@ -154,7 +154,7 @@ void DvdWizardChapters::createMonitor(DVDFORMAT format)
 {
     QString profile = DvdWizardVob::getDvdProfile(format);
     if (m_monitor == NULL) {
-        m_monitor = new Monitor(Kdenlive::dvdMonitor, m_manager, profile, this);
+        m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager, profile, this);
         //m_monitor->start();
         QVBoxLayout *vbox = new QVBoxLayout;
         vbox->addWidget(m_monitor);
@@ -189,7 +189,7 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     adjustSize();
     updateGeometry();
-    m_manager->activateMonitor(Kdenlive::dvdMonitor);
+    m_manager->activateMonitor(Kdenlive::DvdMonitor);
     m_monitor->refreshMonitor();
 }
 

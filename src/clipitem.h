@@ -54,7 +54,7 @@ public:
     virtual int type() const;
     void resizeStart(int posx, bool size = true, bool emitChange = true);
     void resizeEnd(int posx, bool emitChange = true);
-    OPERATIONTYPE operationMode(const QPointF &pos);
+    OperationType operationMode(const QPointF &pos);
     static int itemHeight();
     const QString clipProducer() const;
     int clipType() const;
@@ -208,7 +208,7 @@ private:
     DocClipBase *m_clip;
     ItemInfo m_speedIndependantInfo;
     QString m_producer;
-    CLIPTYPE m_clipType;
+    ClipType m_clipType;
     QString m_clipName;
     QString m_effectNames;
     int m_startFade;

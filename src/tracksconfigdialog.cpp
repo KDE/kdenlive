@@ -110,10 +110,10 @@ const QList <TrackInfo> TracksConfigDialog::tracksList()
         info.trackName = table->item(i, 0)->text();
         QTableWidgetItem *item = table->item(i, 1);
         if (item->text() == i18n("Audio")) {
-            info.type = AUDIOTRACK;
+            info.type = AudioTrack;
             info.isBlind = true;
         } else {
-            info.type = VIDEOTRACK;
+            info.type = VideoTrack;
             info.isBlind = (table->item(i, 2)->checkState() == Qt::Checked);
         }
         info.isMute = (table->item(i, 3)->checkState() == Qt::Checked);
@@ -140,7 +140,7 @@ void TracksConfigDialog::setupOriginal(int selected)
         table->setItem(i, 0, new QTableWidgetItem(info.trackName));
 
         QTableWidgetItem *item1 = new QTableWidgetItem(i18n("Video"));
-        if (info.type == AUDIOTRACK)
+        if (info.type == AudioTrack)
             item1->setText(i18n("Audio"));
         table->setItem(i, 1, item1);
         table->openPersistentEditor(item1);
@@ -148,7 +148,7 @@ void TracksConfigDialog::setupOriginal(int selected)
         QTableWidgetItem *item2 = new QTableWidgetItem("");
         item2->setFlags(item2->flags() & ~Qt::ItemIsEditable);
         item2->setCheckState(info.isBlind ? Qt::Checked : Qt::Unchecked);
-        if (info.type == AUDIOTRACK)
+        if (info.type == AudioTrack)
             item2->setFlags(item2->flags() & ~Qt::ItemIsEnabled);
         table->setItem(i, 2, item2);
 

@@ -399,7 +399,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
                 kDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
                 tractor.removeChild(transitions.item(i));
                 --i;
-            } else if (m_trackview->canBePastedTo(transitionInfo, TRANSITIONWIDGET)) {
+            } else if (m_trackview->canBePastedTo(transitionInfo, TransitionWidget)) {
                 Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
                 if (forceTrack) tr->setForcedTrack(true, a_track);
                 m_scene->addItem(tr);
@@ -648,7 +648,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                     // Found correct producer
                     m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, clip->getId()) + '\n');
                     QString prodId = clip->getId();
-                    if (clip->clipType() == PLAYLIST || clip->clipType() == AV || clip->clipType() == AUDIO) {
+                    if (clip->clipType() == Playlist || clip->clipType() == AV || clip->clipType() == Audio) {
                         // We need producer for the track
                         prodId.append('_' + QString::number(ix));
                     }
@@ -712,9 +712,9 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                             producerXml.setAttribute("mlt_type", type);
                             producerXml.setAttribute("resource", resource);
                             producerXml.setAttribute("duration", length);
-                            if (service == "colour") producerXml.setAttribute("type", COLOR);
-                            else if (service == "qimage" || service == "pixbuf") producerXml.setAttribute("type", IMAGE);
-                            else if (service == "kdenlivetitle") producerXml.setAttribute("type", TEXT);
+                            if (service == "colour") producerXml.setAttribute("type", Color);
+                            else if (service == "qimage" || service == "pixbuf") producerXml.setAttribute("type", Image);
+                            else if (service == "kdenlivetitle") producerXml.setAttribute("type", Text);
                             else producerXml.setAttribute("type", AV);
                             clip = new DocClipBase(m_doc->clipManager(), doc.documentElement(), id);
                             m_doc->clipManager()->addClip(clip);

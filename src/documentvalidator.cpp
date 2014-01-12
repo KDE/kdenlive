@@ -504,7 +504,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         markers.insertAfter(mark, QDomNode());
                     }
                     prod.removeChild(m);
-                } else if (prod.attribute("type").toInt() == TEXT) {
+                } else if (prod.attribute("type").toInt() == Text) {
                     // convert title clip
                     if (m.toElement().tagName() == "textclip") {
                         QDomDocument tdoc;
@@ -617,7 +617,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 if (wproducer.attribute("id") == "black") continue;
                 // We have to do slightly different things, depending on the type
                 kDebug() << "Converting producer element with type" << wproducer.attribute("type");
-                if (wproducer.attribute("type").toInt() == TEXT) {
+                if (wproducer.attribute("type").toInt() == Text) {
                     kDebug() << "Found TEXT element in producer" << endl;
                     QDomElement kproducer = wproducer.cloneNode(true).toElement();
                     kproducer.setTagName("kdenlive_producer");
@@ -787,7 +787,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomNodeList kproducerNodes = m_doc.elementsByTagName("kdenlive_producer");
             for (int i = 0; i < kproducerNodes.count() && convert != KMessageBox::No; ++i) {
                 QDomElement kproducer = kproducerNodes.at(i).toElement();
-                if (kproducer.attribute("type").toInt() == TEXT) {
+                if (kproducer.attribute("type").toInt() == Text) {
                     QDomDocument data;
                     data.setContent(kproducer.attribute("xmldata"));
                     QDomNodeList items = data.firstChild().childNodes();
@@ -835,7 +835,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList kproducerNodes = m_doc.elementsByTagName("kdenlive_producer");
         for (int i = 0; i < kproducerNodes.count(); ++i) {
             QDomElement kproducer = kproducerNodes.at(i).toElement();
-            if (kproducer.attribute("type").toInt() == TEXT) {
+            if (kproducer.attribute("type").toInt() == Text) {
                 QString data = kproducer.attribute("xmldata");
                 QString datafile = kproducer.attribute("resource");
                 if (!datafile.endsWith(".kdenlivetitle")) {

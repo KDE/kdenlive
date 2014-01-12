@@ -403,7 +403,7 @@ QMap <QString, QString> ClipManager::documentFolderList() const
 void ClipManager::addClip(DocClipBase *clip)
 {
     m_clipList.append(clip);
-    if (clip->clipType() != COLOR && clip->clipType() != SLIDESHOW  && !clip->fileURL().isEmpty()) {
+    if (clip->clipType() != Color && clip->clipType() != SlideShow  && !clip->fileURL().isEmpty()) {
         // listen for file change
         //kDebug() << "// LISTEN FOR: " << clip->fileURL().path();
         m_fileWatcher.addFile(clip->fileURL().path());
@@ -433,7 +433,7 @@ void ClipManager::deleteClip(const QString &clipId)
     for (int i = 0; i < m_clipList.count(); ++i) {
         if (m_clipList.at(i)->getId() == clipId) {
             DocClipBase *clip = m_clipList.takeAt(i);
-            if (clip->clipType() != COLOR && clip->clipType() != SLIDESHOW  && !clip->fileURL().isEmpty()) {
+            if (clip->clipType() != Color && clip->clipType() != SlideShow  && !clip->fileURL().isEmpty()) {
                 //if (m_clipList.at(i)->clipType() == IMAGE || m_clipList.at(i)->clipType() == AUDIO || (m_clipList.at(i)->clipType() == TEXT && !m_clipList.at(i)->fileURL().isEmpty())) {
                 // listen for file change
                 m_fileWatcher.removeFile(clip->fileURL().path());
@@ -573,7 +573,7 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
 
             KMimeType::Ptr type = KMimeType::findByUrl(file);
             if (type->name().startsWith("image/")) {
-                prod.setAttribute("type", (int) IMAGE);
+                prod.setAttribute("type", (int) Image);
                 prod.setAttribute("in", 0);
                 prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
                 if (KdenliveSettings::autoimagetransparency()) prod.setAttribute("transparency", 1);
@@ -596,7 +596,7 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
                 QFile txtfile(file.path());
                 if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
                     txtfile.close();
-                    prod.setAttribute("type", (int) TEXT);
+                    prod.setAttribute("type", (int) Text);
                     // extract embeded images
                     QDomNodeList items = txtdoc.elementsByTagName("content");
                     for (int i = 0; i < items.count() ; ++i) {
@@ -650,7 +650,7 @@ void ClipManager::slotAddXmlClipFile(const QString &name, const QDomElement &xml
     QDomDocument doc;
     doc.appendChild(doc.importNode(xml, true));
     QDomElement prod = doc.documentElement();
-    prod.setAttribute("type", (int) PLAYLIST);
+    prod.setAttribute("type", (int) Playlist);
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     prod.setAttribute("name", name);
@@ -669,7 +669,7 @@ void ClipManager::slotAddColorClipFile(const QString &name, const QString &color
     doc.appendChild(prod);
     prod.setAttribute("mlt_service", "colour");
     prod.setAttribute("colour", color);
-    prod.setAttribute("type", (int) COLOR);
+    prod.setAttribute("type", (int) Color);
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     prod.setAttribute("in", "0");
@@ -693,7 +693,7 @@ void ClipManager::slotAddSlideshowClipFile(QMap <QString, QString> properties, c
         prod.setAttribute(i.key(), i.value());
         ++i;
     }
-    prod.setAttribute("type", (int) SLIDESHOW);
+    prod.setAttribute("type", (int) SlideShow);
     uint id = m_clipIdCounter++;
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);
@@ -719,7 +719,7 @@ void ClipManager::slotAddTextClipFile(const QString &titleName, int duration, co
         prod.setAttribute("groupname", group);
         prod.setAttribute("groupid", groupId);
     }
-    prod.setAttribute("type", (int) TEXT);
+    prod.setAttribute("type", (int) Text);
     prod.setAttribute("transparency", "1");
     prod.setAttribute("in", "0");
     prod.setAttribute("out", duration - 1);
@@ -740,7 +740,7 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const KUrl &path, c
         prod.setAttribute("groupname", group);
         prod.setAttribute("groupid", groupId);
     }
-    prod.setAttribute("type", (int) TEXT);
+    prod.setAttribute("type", (int) Text);
     prod.setAttribute("transparency", "1");
     prod.setAttribute("in", "0");
 
@@ -817,15 +817,15 @@ QDomElement ClipManager::groupsXml() const
         groups.appendChild(group);
         QList <QGraphicsItem *> children = m_groupsList.at(i)->childItems();
         for (int j = 0; j < children.count(); j++) {
-            if (children.at(j)->type() == AVWIDGET || children.at(j)->type() == TRANSITIONWIDGET) {
+            if (children.at(j)->type() == AVWidget || children.at(j)->type() == TransitionWidget) {
                 AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(j));
                 ItemInfo info = item->info();
-                if (item->type() == AVWIDGET) {
+                if (item->type() == AVWidget) {
                     QDomElement clip = doc.createElement("clipitem");
                     clip.setAttribute("track", info.track);
                     clip.setAttribute("position", info.startPos.frames(m_doc->fps()));
                     group.appendChild(clip);
-                } else if (item->type() == TRANSITIONWIDGET) {
+                } else if (item->type() == TransitionWidget) {
                     QDomElement clip = doc.createElement("transitionitem");
                     clip.setAttribute("track", info.track);
                     clip.setAttribute("position", info.startPos.frames(m_doc->fps()));

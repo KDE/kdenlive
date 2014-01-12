@@ -64,7 +64,7 @@ public:
     StopmotionMonitor(MonitorManager *manager, QWidget *parent);
     ~StopmotionMonitor();
     AbstractRender *abstractRender();
-    Kdenlive::MONITORID id() const;
+    Kdenlive::MonitorId id() const;
     void setRender(MltDeviceCapture *render);
 
 private:

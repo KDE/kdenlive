@@ -52,7 +52,7 @@ public:
     /** Make sure folders appear on top of the tree widget */
     virtual bool operator<(const QTreeWidgetItem &other)const {
         int column = treeWidget()->sortColumn();
-        if (other.type() != PROJECTFOLDERTYPE)
+        if (other.type() != ProjectFoldeType)
             return text(column).toLower() < other.text(column).toLower();
         else return false;
     }

@@ -47,14 +47,14 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &t
     crop_end_box->addWidget(m_cropEnd);
 
     bool allowCrop = true;
-    if (clip->type() == AVWIDGET) {
+    if (clip->type() == AVWidget) {
         ClipItem *item = static_cast <ClipItem *>(clip);
         const int t = item->clipType();
-        if (t == COLOR || t == IMAGE || t == TEXT)
+        if (t == Color || t == Image || t == Text)
             allowCrop = false;
     }
 
-    if (!allowCrop || clip->type() == TRANSITIONWIDGET) {
+    if (!allowCrop || clip->type() == TransitionWidget) {
         m_cropStart->setHidden(true);
         crop_label->hide();
         m_cropEnd->setHidden(true),

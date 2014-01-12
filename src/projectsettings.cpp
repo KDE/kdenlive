@@ -206,7 +206,7 @@ void ProjectSettings::slotDeleteUnused()
     QList <DocClipBase*> list = m_projectList->documentClipList();
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
-        if (clip->numReferences() == 0 && clip->clipType() != SLIDESHOW) {
+        if (clip->numReferences() == 0 && clip->clipType() != SlideShow) {
             KUrl url = clip->fileURL();
             if (!url.isEmpty() && !toDelete.contains(url.path())) toDelete << url.path();
         }
@@ -308,7 +308,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
-        if (clip->clipType() == SLIDESHOW) {
+        if (clip->clipType() == SlideShow) {
             QStringList subfiles = extractSlideshowUrls(clip->fileURL());
             foreach(const QString & file, subfiles) {
                 count++;
@@ -317,19 +317,19 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         } else if (!clip->fileURL().isEmpty()) {
             //allFiles.append(clip->fileURL().path());
             switch (clip->clipType()) {
-            case TEXT:
+            case Text:
                 new QTreeWidgetItem(texts, QStringList() << clip->fileURL().path());
                 break;
-            case AUDIO:
+            case Audio:
                 new QTreeWidgetItem(sounds, QStringList() << clip->fileURL().path());
                 break;
-            case IMAGE:
+            case Image:
                 new QTreeWidgetItem(images, QStringList() << clip->fileURL().path());
                 break;
-            case PLAYLIST:
+            case Playlist:
                 new QTreeWidgetItem(playlists, QStringList() << clip->fileURL().path());
                 break;
-            case UNKNOWN:
+            case Unknown:
                 new QTreeWidgetItem(others, QStringList() << clip->fileURL().path());
                 break;
             default:
@@ -338,7 +338,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             }
             count++;
         }
-        if (clip->clipType() == TEXT) {
+        if (clip->clipType() == Text) {
             QStringList imagefiles = TitleWidget::extractImageList(clip->getProperty("xmldata"));
             QStringList fonts = TitleWidget::extractFontList(clip->getProperty("xmldata"));
             foreach(const QString & file, imagefiles) {
@@ -346,7 +346,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
                 new QTreeWidgetItem(images, QStringList() << file);
             }
             allFonts << fonts;
-        } else if (clip->clipType() == PLAYLIST) {
+        } else if (clip->clipType() == Playlist) {
             QStringList files = extractPlaylistUrls(clip->fileURL().path());
             foreach(const QString & file, files) {
                 count++;

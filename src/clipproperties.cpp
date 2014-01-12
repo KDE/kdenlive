@@ -265,7 +265,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Frequency") << props.value("frequency"));
     
 
-    CLIPTYPE t = m_clip->clipType();
+    ClipType t = m_clip->clipType();
     
     if (props.contains("proxy") && props.value("proxy") != "-") {
         KFileItem f(KFileItem::Unknown, KFileItem::Unknown, KUrl(props.value("proxy")), true);
@@ -281,11 +281,11 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         l->addWidget(pb);
         connect(pb, SIGNAL(clicked()), this, SLOT(slotDeleteProxy()));
         m_proxyContainer->setLayout(l);
-        if (t == IMAGE) {
+        if (t == Image) {
             m_view.tab_image->layout()->addWidget(line);
             m_view.tab_image->layout()->addWidget(m_proxyContainer);
         }
-        else if (t == AUDIO) {
+        else if (t == Audio) {
             m_view.tab_audio->layout()->addWidget(line);
             m_view.tab_audio->layout()->addWidget(m_proxyContainer);
         }
@@ -295,18 +295,18 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         }
     }
     
-    if (t != AUDIO && t != AV) {
+    if (t != Audio && t != AV) {
         m_view.clip_force_aindex->setEnabled(false);
     }
 
-    if (t != VIDEO && t != AV) {
+    if (t != Video && t != AV) {
         m_view.clip_force_vindex->setEnabled(false);
     }
 
-    if (t == PLAYLIST)
+    if (t == Playlist)
         m_view.tabWidget->setTabText(VIDEOTAB, i18n("Playlist"));
 
-    if (t == IMAGE) {
+    if (t == Image) {
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(COLORTAB);
         m_view.tabWidget->removeTab(AUDIOTAB);
@@ -320,7 +320,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         if (width % 2 == 1)
             width++;
         m_view.clip_thumb->setPixmap(QPixmap(url.path()).scaled(QSize(width, 180), Qt::KeepAspectRatio));
-    } else if (t == COLOR) {
+    } else if (t == Color) {
         m_view.clip_path->setEnabled(false);
         m_view.tabWidget->removeTab(METATAB);
         m_view.tabWidget->removeTab(IMAGETAB);
@@ -330,7 +330,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         m_view.clip_thumb->setHidden(true);
         m_view.clip_color->setColor(QColor('#' + props.value("colour").right(8).left(6)));
         connect(m_view.clip_color, SIGNAL(changed(QColor)), this, SLOT(slotModified()));
-    } else if (t == SLIDESHOW) {
+    } else if (t == SlideShow) {
         if (url.fileName().startsWith(QLatin1String(".all."))) {
             // the image sequence is defined by mimetype
             m_view.clip_path->setText(url.directory());
@@ -441,7 +441,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         connect(m_view.slide_luma, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
         connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
 
-    } else if (t != AUDIO) {
+    } else if (t != Audio) {
         m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(COLORTAB);
@@ -456,7 +456,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         
         m_view.clip_thumb->setMinimumSize(180 * KdenliveSettings::project_display_ratio(), 180);
         
-        if (t == IMAGE || t == VIDEO || t == PLAYLIST)
+        if (t == Image || t == Video || t == Playlist)
             m_view.tabWidget->removeTab(AUDIOTAB);
     } else {
         m_view.tabWidget->removeTab(IMAGETAB);
@@ -466,7 +466,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         m_view.clip_thumb->setHidden(true);
     }
 
-    if (t != SLIDESHOW && t != COLOR) {
+    if (t != SlideShow && t != Color) {
         KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
         m_view.clip_filesize->setText(KIO::convertSize(f.size()));
     } else {
@@ -475,7 +475,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
     m_view.clip_duration->setInputMask(tc.mask());
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration()));
-    if (t != IMAGE && t != COLOR && t != TEXT) {
+    if (t != Image && t != Color && t != Text) {
         m_view.clip_duration->setReadOnly(true);
     } else {
         connect(m_view.clip_duration, SIGNAL(editingFinished()), this, SLOT(slotCheckMaxLength()));
@@ -960,7 +960,7 @@ QMap <QString, QString> ClipProperties::properties()
 {
     QMap <QString, QString> props;
     QLocale locale;
-    CLIPTYPE t = UNKNOWN;
+    ClipType t = Unknown;
     if (m_clip != NULL) {
         t = m_clip->clipType();
         m_old_props = m_clip->properties();
@@ -1081,7 +1081,7 @@ QMap <QString, QString> ClipProperties::properties()
     if (m_old_props.value("description") != m_view.clip_description->text())
         props["description"] = m_view.clip_description->text();
 
-    if (t == COLOR) {
+    if (t == Color) {
         QString new_color = m_view.clip_color->color().name();
         if (new_color != QString('#' + m_old_props.value("colour").right(8).left(6))) {
             m_clipNeedsRefresh = true;
@@ -1091,7 +1091,7 @@ QMap <QString, QString> ClipProperties::properties()
         if (duration != m_clip->duration().frames(m_fps)) {
             props["out"] = QString::number(duration - 1);
         }
-    } else if (t == IMAGE) {
+    } else if (t == Image) {
         if ((int) m_view.image_transparency->isChecked() != m_old_props.value("transparency").toInt()) {
             props["transparency"] = QString::number((int)m_view.image_transparency->isChecked());
             //m_clipNeedsRefresh = true;
@@ -1100,7 +1100,7 @@ QMap <QString, QString> ClipProperties::properties()
         if (duration != m_clip->duration().frames(m_fps)) {
             props["out"] = QString::number(duration - 1);
         }
-    } else if (t == SLIDESHOW) {
+    } else if (t == SlideShow) {
         QString value = QString::number((int) m_view.slide_loop->isChecked());
         if (m_old_props.value("loop") != value) props["loop"] = value;
         value = QString::number((int) m_view.slide_crop->isChecked());

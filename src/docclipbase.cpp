@@ -58,7 +58,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     m_properties()
 {
     int type = xml.attribute("type").toInt();
-    m_clipType = (CLIPTYPE) type;
+    m_clipType = (ClipType) type;
     if (m_placeHolder) xml.removeAttribute("placeholder");
     QDomNamedNodeMap attributes = xml.attributes();
     for (int i = 0; i < attributes.count(); ++i) {
@@ -140,7 +140,7 @@ QPoint DocClipBase::zone() const
 
 bool DocClipBase::hasAudioThumb() const
 {
-    if (m_clipType == AUDIO || m_clipType == AV || m_clipType == PLAYLIST) return true;
+    if (m_clipType == Audio || m_clipType == AV || m_clipType == Playlist) return true;
     return false;
 }
 
@@ -175,12 +175,12 @@ const QString &DocClipBase::getId() const
     return m_id;
 }
 
-const CLIPTYPE & DocClipBase::clipType() const
+const ClipType & DocClipBase::clipType() const
 {
     return m_clipType;
 }
 
-void DocClipBase::setClipType(CLIPTYPE type)
+void DocClipBase::setClipType(ClipType type)
 {
     m_clipType = type;
     m_properties.insert("type", QString::number((int) type));
@@ -189,7 +189,7 @@ void DocClipBase::setClipType(CLIPTYPE type)
 KUrl DocClipBase::fileURL() const
 {
     QString res = m_properties.value("resource");
-    if (m_clipType != COLOR && !res.isEmpty()) return KUrl(res);
+    if (m_clipType != Color && !res.isEmpty()) return KUrl(res);
     return KUrl();
 }
 
@@ -231,7 +231,7 @@ const GenTime &DocClipBase::duration() const
 
 const GenTime DocClipBase::maxDuration() const
 {
-    if (m_clipType == COLOR || m_clipType == IMAGE || m_clipType == TEXT || (m_clipType == SLIDESHOW &&  m_properties.value("loop") == "1")) {
+    if (m_clipType == Color || m_clipType == Image || m_clipType == Text || (m_clipType == SlideShow &&  m_properties.value("loop") == "1")) {
         /*const GenTime dur(15000, KdenliveSettings::project_fps());
         return dur;*/
         return GenTime();
@@ -303,44 +303,44 @@ const QString DocClipBase::shortInfo() const
 {
 
     QString info;
-    if (m_clipType == AV || m_clipType == VIDEO || m_clipType == IMAGE || m_clipType == PLAYLIST) {
+    if (m_clipType == AV || m_clipType == Video || m_clipType == Image || m_clipType == Playlist) {
         info = m_properties.value("frame_size") + " ";
         if (m_properties.contains("fps")) {
             info.append(i18n("%1 fps", m_properties.value("fps").left(5)));
         }
         if (!info.simplified().isEmpty()) info.prepend(" - ");
     }
-    else if (m_clipType == AUDIO) {
+    else if (m_clipType == Audio) {
         info = " - " + m_properties.value("frequency") + i18n("Hz");
     }
     QString tip = "<b>";
     switch (m_clipType) {
-    case AUDIO:
+    case Audio:
         tip.append(i18n("Audio clip") + "</b>" + info + "<br />" + fileURL().path());
         break;
-    case VIDEO:
+    case Video:
         tip.append(i18n("Mute video clip") + "</b>" + info + "<br />" + fileURL().path());
         break;
     case AV:
         tip.append(i18n("Video clip") + "</b>" + info + "<br />" + fileURL().path());
         break;
-    case COLOR:
+    case Color:
         tip.append(i18n("Color clip"));
         break;
-    case IMAGE:
+    case Image:
         tip.append(i18n("Image clip") + "</b>" + info + "<br />" + fileURL().path());
         break;
-    case TEXT:
+    case Text:
         if (!fileURL().isEmpty() && getProperty("xmldata").isEmpty()) tip.append(i18n("Template text clip") + "</b><br />" + fileURL().path());
         else tip.append(i18n("Text clip") + "</b><br />" + fileURL().path());
         break;
-    case SLIDESHOW:
+    case SlideShow:
         tip.append(i18n("Slideshow clip") + "</b><br />" + fileURL().directory());
         break;
-    case VIRTUAL:
+    case Virtual:
         tip.append(i18n("Virtual clip"));
         break;
-    case PLAYLIST:
+    case Playlist:
         tip.append(i18n("Playlist clip") + "</b>" + info + "<br />" + fileURL().path());
         break;
     default:
@@ -577,7 +577,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
         delete[] tmp;
     }
     else if (m_thumbProd && !m_thumbProd->hasProducer()) {
-        if (m_clipType != AUDIO) {
+        if (m_clipType != Audio) {
             if (!id.endsWith("_audio"))
                 m_thumbProd->setProducer(producer);
         }
@@ -639,7 +639,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
         }
         else delete producer;
     }
-    if (updated && readPropertiesFromProducer && (m_clipType != COLOR && m_clipType != IMAGE && m_clipType != TEXT))
+    if (updated && readPropertiesFromProducer && (m_clipType != Color && m_clipType != Image && m_clipType != Text))
         setDuration(GenTime(producer->get_length(), KdenliveSettings::project_fps()));
 }
 
@@ -740,13 +740,13 @@ Mlt::Producer *DocClipBase::getCloneProducer()
 {
     Mlt::Producer *source = NULL;
     Mlt::Producer *prod = NULL;
-    if (m_clipType != AUDIO && m_clipType != AV && m_clipType != PLAYLIST) {
+    if (m_clipType != Audio && m_clipType != AV && m_clipType != Playlist) {
         source = getProducer();
         if (!source) return NULL;
     }
-    if (m_clipType == COLOR) {
+    if (m_clipType == Color) {
         prod = new Mlt::Producer(*(source->profile()), 0, QString("colour:" + QString(source->get("resource"))).toUtf8().constData());
-    } else if (m_clipType == TEXT) {
+    } else if (m_clipType == Text) {
         prod = new Mlt::Producer(*(source->profile()), 0, QString("kdenlivetitle:" + QString(source->get("resource"))).toUtf8().constData());
         if (prod && prod->is_valid() && m_properties.contains("xmldata"))
             prod->set("xmldata", m_properties.value("xmldata").toUtf8().constData());
@@ -771,7 +771,7 @@ Mlt::Producer *DocClipBase::getCloneProducer()
             if (m_properties.contains("duration")) prod->set("length", m_properties.value("duration").toInt());
             if (m_properties.contains("out"))prod->set("out", m_properties.value("out").toInt());
         }
-        if (m_clipType == AUDIO) {
+        if (m_clipType == Audio) {
             prod->set("_audioclip", 1);
         }
     }
@@ -782,7 +782,7 @@ Mlt::Producer *DocClipBase::getCloneProducer()
 Mlt::Producer *DocClipBase::getProducer(int track)
 {
     QMutexLocker locker(&m_producerMutex);
-    if (track == -1 || (m_clipType != AUDIO && m_clipType != AV && m_clipType != PLAYLIST)) {
+    if (track == -1 || (m_clipType != Audio && m_clipType != AV && m_clipType != Playlist)) {
         if (m_baseTrackProducers.count() == 0) {
             return NULL;
         }
@@ -823,7 +823,7 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
         // Xml producer sometimes loses the correct url
         url = m_properties.value("resource");
     }
-    if (m_clipType == SLIDESHOW || KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
+    if (m_clipType == SlideShow || KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
         result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());
     }
     if (result == NULL || !result->is_valid()) {
@@ -896,7 +896,7 @@ const char *DocClipBase::producerProperty(const char *name) const
 void DocClipBase::slotRefreshProducer()
 {
     if (m_baseTrackProducers.count() == 0) return;
-    if (m_clipType == SLIDESHOW) {
+    if (m_clipType == SlideShow) {
         setProducerProperty("ttl", getProperty("ttl").toInt());
         //m_clipProducer->set("id", getProperty("id"));
         if (!getProperty("animation").isEmpty()) {
@@ -1032,7 +1032,7 @@ void DocClipBase::setProperties(QMap <QString, QString> properties)
     while (i.hasNext()) {
         i.next();
         setProperty(i.key(), i.value());
-        if (m_clipType == SLIDESHOW && keys.contains(i.key())) refreshProducer = true;
+        if (m_clipType == SlideShow && keys.contains(i.key())) refreshProducer = true;
     }
     if (properties.contains("proxy")) {
         QString value = properties.value("proxy");
@@ -1073,7 +1073,7 @@ void DocClipBase::clearProperty(const QString &key)
 
 void DocClipBase::getFileHash(const QString &url)
 {
-    if (m_clipType == SLIDESHOW) return;
+    if (m_clipType == SlideShow) return;
     QFile file(url);
     if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
         QByteArray fileData;
@@ -1106,9 +1106,9 @@ bool DocClipBase::checkHash() const
 QString DocClipBase::getClipHash() const
 {
     QString hash;
-    if (m_clipType == SLIDESHOW) hash = QCryptographicHash::hash(m_properties.value("resource").toAscii().data(), QCryptographicHash::Md5).toHex();
-    else if (m_clipType == COLOR) hash = QCryptographicHash::hash(m_properties.value("colour").toAscii().data(), QCryptographicHash::Md5).toHex();
-    else if (m_clipType == TEXT) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
+    if (m_clipType == SlideShow) hash = QCryptographicHash::hash(m_properties.value("resource").toAscii().data(), QCryptographicHash::Md5).toHex();
+    else if (m_clipType == Color) hash = QCryptographicHash::hash(m_properties.value("colour").toAscii().data(), QCryptographicHash::Md5).toHex();
+    else if (m_clipType == Text) hash = QCryptographicHash::hash(QString("title" + getId() + m_properties.value("xmldata")).toUtf8().data(), QCryptographicHash::Md5).toHex();
     else {
         if (m_properties.contains("file_hash")) hash = m_properties.value("file_hash");
         if (hash.isEmpty()) hash = getHash(fileURL().path());

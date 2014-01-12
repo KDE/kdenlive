@@ -55,7 +55,7 @@ public:
     const QString &clipId() const;
     const KUrl clipUrl() const;
     int clipMaxDuration() const;
-    CLIPTYPE clipType() const;
+    ClipType clipType() const;
     void changeDuration(int frames);
     DocClipBase *referencedClip();
     void setProperties(const QMap <QString, QString> &props);
@@ -65,9 +65,9 @@ public:
     static int itemDefaultHeight();
     void slotSetToolTip();
     /** \brief Set the status of the clip job. */
-    void setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progress = 0, const QString &statusMessage = QString());
+    void setJobStatus(JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
     /** \brief Set the status of a clip job if it is of the specified job type. */
-    void setConditionalJobStatus(CLIPJOBSTATUS status, JOBTYPE requestedJobType);
+    void setConditionalJobStatus(ClipJobStatus status, JOBTYPE requestedJobType);
     /** \brief Returns the proxy status for this clip (true means there is a proxy clip). */
     bool hasProxy() const;
     /** \brief Returns true if the proxy for this clip is ready. */
@@ -83,13 +83,13 @@ public:
 
     virtual bool operator<(const QTreeWidgetItem &other)const {
         int column = treeWidget()->sortColumn();
-        if (other.type() != PROJECTFOLDERTYPE)
+        if (other.type() != ProjectFoldeType)
             return text(column).toLower() < other.text(column).toLower();
         else return false;
     }
 
 private:
-    CLIPTYPE m_clipType;
+    ClipType m_clipType;
     DocClipBase *m_clip;
     QString m_clipId;
     bool m_pixmapSet;

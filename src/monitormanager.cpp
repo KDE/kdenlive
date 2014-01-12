@@ -54,8 +54,8 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
     
-    connect(m_clipMonitor->render, SIGNAL(activateMonitor(Kdenlive::MONITORID)), this, SLOT(activateMonitor(Kdenlive::MONITORID)));
-    connect(m_projectMonitor->render, SIGNAL(activateMonitor(Kdenlive::MONITORID)), this, SLOT(activateMonitor(Kdenlive::MONITORID)));
+    connect(m_clipMonitor->render, SIGNAL(activateMonitor(Kdenlive::MonitorId)), this, SLOT(activateMonitor(Kdenlive::MonitorId)));
+    connect(m_projectMonitor->render, SIGNAL(activateMonitor(Kdenlive::MonitorId)), this, SLOT(activateMonitor(Kdenlive::MonitorId)));
 
     m_monitorsList.append(clipMonitor);
     m_monitorsList.append(projectMonitor);
@@ -73,7 +73,7 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
     m_monitorsList.removeAll(monitor);
 }
 
-AbstractMonitor* MonitorManager::monitor(Kdenlive::MONITORID monitorName)
+AbstractMonitor* MonitorManager::monitor(Kdenlive::MonitorId monitorName)
 {
     AbstractMonitor *monitor = NULL;
     for (int i = 0; i < m_monitorsList.size(); ++i) {
@@ -90,7 +90,7 @@ void MonitorManager::setConsumerProperty(const QString &name, const QString &val
     if (m_projectMonitor) m_projectMonitor->render->setConsumerProperty(name, value);
 }
 
-bool MonitorManager::activateMonitor(Kdenlive::MONITORID name, bool forceRefresh)
+bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh)
 {
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
         return false;
@@ -116,7 +116,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MONITORID name, bool forceRefresh
     return (m_activeMonitor != NULL);
 }
 
-bool MonitorManager::isActive(Kdenlive::MONITORID id) const
+bool MonitorManager::isActive(Kdenlive::MonitorId id) const
 {
     return m_activeMonitor ? m_activeMonitor->id() == id: false;
 }
@@ -124,9 +124,9 @@ bool MonitorManager::isActive(Kdenlive::MONITORID id) const
 void MonitorManager::slotSwitchMonitors(bool activateClip)
 {
     if (activateClip)
-        activateMonitor(Kdenlive::clipMonitor);
+        activateMonitor(Kdenlive::ClipMonitor);
     else
-        activateMonitor(Kdenlive::projectMonitor);
+        activateMonitor(Kdenlive::ProjectMonitor);
 }
 
 void MonitorManager::stopActiveMonitor()
@@ -218,10 +218,10 @@ void MonitorManager::slotResetProfiles()
 	return;
     }
     blockSignals(true);
-    Kdenlive::MONITORID active = m_activeMonitor ? m_activeMonitor->id() : Kdenlive::noMonitor;
+    Kdenlive::MonitorId active = m_activeMonitor ? m_activeMonitor->id() : Kdenlive::NoMonitor;
     m_clipMonitor->resetProfile(KdenliveSettings::current_profile());
     m_projectMonitor->resetProfile(KdenliveSettings::current_profile());
-    if (active != Kdenlive::noMonitor) activateMonitor(active);
+    if (active != Kdenlive::NoMonitor) activateMonitor(active);
     blockSignals(false);
     if (m_activeMonitor) m_activeMonitor->parentWidget()->raise();
     emit checkColorScopes();

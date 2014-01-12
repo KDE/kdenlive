@@ -36,7 +36,7 @@ const int JobStatusMessage = Qt::UserRole + 7;
 const int itemHeight = 38;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, const QSize &pixmapSize) :
-        QTreeWidgetItem(parent, PROJECTCLIPTYPE),
+        QTreeWidgetItem(parent, ProjectClipType),
         m_clip(clip),
         m_clipId(clip->getId()),
         m_pixmapSet(false)
@@ -45,7 +45,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, const QSize &p
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, const QSize &pixmapSize) :
-        QTreeWidgetItem(parent, PROJECTCLIPTYPE),
+        QTreeWidgetItem(parent, ProjectClipType),
         m_clip(clip),
         m_clipId(clip->getId()),
         m_pixmapSet(false)
@@ -61,20 +61,20 @@ void ProjectItem::buildItem(const QSize &pixmapSize)
     else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
     QString name = m_clip->getProperty("name");
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
-    m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
+    m_clipType = (ClipType) m_clip->getProperty("type").toInt();
     switch(m_clipType) {
-	case AUDIO:
+	case Audio:
 	    setData(0, Qt::DecorationRole, KIcon("audio-x-generic").pixmap(pixmapSize));
 	    m_pixmapSet = true;
 	    break;
-	case IMAGE:
-	case SLIDESHOW:
+	case Image:
+	case SlideShow:
 	    setData(0, Qt::DecorationRole, KIcon("image-x-generic").pixmap(pixmapSize));
 	    break;
 	default:
 	    setData(0, Qt::DecorationRole, KIcon("video-x-generic").pixmap(pixmapSize));
     }
-    if (m_clipType != UNKNOWN) slotSetToolTip();
+    if (m_clipType != Unknown) slotSetToolTip();
     
     setText(0, name);
     setText(1, m_clip->description());
@@ -83,7 +83,7 @@ void ProjectItem::buildItem(const QSize &pixmapSize)
     if (duration != GenTime()) {
         durationText = Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps());
     }
-    if (m_clipType == PLAYLIST) {
+    if (m_clipType == Playlist) {
         // Check if the playlist xml contains a proxy inside, and inform user
         if (playlistHasProxies(m_clip->fileURL().path())) {
             durationText.prepend(i18n("Contains proxies") + " / ");
@@ -124,7 +124,7 @@ const QString &ProjectItem::clipId() const
     return m_clipId;
 }
 
-CLIPTYPE ProjectItem::clipType() const
+ClipType ProjectItem::clipType() const
 {
     return m_clipType;
 }
@@ -141,7 +141,7 @@ QDomElement ProjectItem::toXml() const
 
 const KUrl ProjectItem::clipUrl() const
 {
-    if (m_clipType != COLOR && m_clipType != VIRTUAL && m_clipType != UNKNOWN)
+    if (m_clipType != Color && m_clipType != Virtual && m_clipType != Unknown)
         return KUrl(m_clip->getProperty("resource"));
     else return KUrl();
 }
@@ -208,17 +208,17 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     m_clip->setProperties(attributes);
     m_clip->setMetadata(metadata);
     
-    if (m_clipType == UNKNOWN) {
+    if (m_clipType == Unknown) {
         QString cliptype = attributes.value("type");
-        if (cliptype == "audio") m_clipType = AUDIO;
-        else if (cliptype == "video") m_clipType = VIDEO;
+        if (cliptype == "audio") m_clipType = Audio;
+        else if (cliptype == "video") m_clipType = Video;
         else if (cliptype == "av") m_clipType = AV;
-        else if (cliptype == "playlist") m_clipType = PLAYLIST;
+        else if (cliptype == "playlist") m_clipType = Playlist;
         else m_clipType = AV;
 
         m_clip->setClipType(m_clipType);
         slotSetToolTip();
-        if (m_clipType == PLAYLIST) {
+        if (m_clipType == Playlist) {
             // Check if the playlist xml contains a proxy inside, and inform user
             if (playlistHasProxies(m_clip->fileURL().path())) {
                 prefix = i18n("Contains proxies") + " / ";
@@ -250,19 +250,19 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     }
 }
 
-void ProjectItem::setJobStatus(JOBTYPE jobType, CLIPJOBSTATUS status, int progress, const QString &statusMessage)
+void ProjectItem::setJobStatus(JOBTYPE jobType, ClipJobStatus status, int progress, const QString &statusMessage)
 {
     setData(0, JobTypeRole, jobType);
     if (progress > 0) setData(0, JobProgressRole, qMin(100, progress));
     else {
         setData(0, JobProgressRole, status);
-        if ((status == JOBABORTED || status == JOBCRASHED  || status == JOBDONE) || !statusMessage.isEmpty())
+        if ((status == JobAborted || status == JobCrashed  || status == JobDone) || !statusMessage.isEmpty())
             setData(0, JobStatusMessage, statusMessage);
         slotSetToolTip();
     }
 }
 
-void ProjectItem::setConditionalJobStatus(CLIPJOBSTATUS status, JOBTYPE requestedJobType)
+void ProjectItem::setConditionalJobStatus(ClipJobStatus status, JOBTYPE requestedJobType)
 {
     if (data(0, JobTypeRole).toInt() == requestedJobType) {
         setData(0, JobProgressRole, status);
@@ -272,26 +272,26 @@ void ProjectItem::setConditionalJobStatus(CLIPJOBSTATUS status, JOBTYPE requeste
 bool ProjectItem::hasProxy() const
 {
     if (m_clip == NULL) return false;
-    if (m_clip->getProperty("proxy").size() < 2 || data(0, JobProgressRole).toInt() == JOBCRASHED) return false;
+    if (m_clip->getProperty("proxy").size() < 2 || data(0, JobProgressRole).toInt() == JobCrashed) return false;
     return true;
 }
 
 bool ProjectItem::isProxyReady() const
 {
-     return (data(0, JobProgressRole).toInt() == JOBDONE);
+     return (data(0, JobProgressRole).toInt() == JobDone);
 }
 
 bool ProjectItem::isJobRunning() const
 {
     int s = data(0, JobProgressRole).toInt();
-    if (s == JOBWAITING || s == JOBWORKING || s > 0) return true;
+    if (s == JobWaiting || s == JobWorking || s > 0) return true;
     return false;
 }
 
 bool ProjectItem::isProxyRunning() const
 {
     int s = data(0, JobProgressRole).toInt();
-    if ((s == JOBWORKING || s > 0) && data(0, JobTypeRole).toInt() == (int) PROXYJOB) return true;
+    if ((s == JobWorking || s > 0) && data(0, JobTypeRole).toInt() == (int) PROXYJOB) return true;
     return false;
 }
 

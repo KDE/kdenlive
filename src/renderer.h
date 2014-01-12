@@ -109,7 +109,7 @@ class Render: public AbstractRender
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(Kdenlive::MONITORID rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
+    Render(Kdenlive::MonitorId rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -363,7 +363,7 @@ private:
      *
      * Useful to identify the renderers by what they do - e.g. background
      * rendering, workspace monitor, etc. */
-    Kdenlive::MONITORID m_name;
+    Kdenlive::MonitorId m_name;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
@@ -481,7 +481,7 @@ signals:
     void addClip(const KUrl &, stringMap);
     void checkSeeking();
     /** @brief Activate current monitor. */
-    void activateMonitor(Kdenlive::MONITORID);
+    void activateMonitor(Kdenlive::MonitorId);
     void mltFrameReceived(Mlt::Frame *);
 
 public slots:

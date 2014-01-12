@@ -26,7 +26,7 @@
 
 
 FolderProjectItem::FolderProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId) :
-        QTreeWidgetItem(parent, strings, PROJECTFOLDERTYPE),
+        QTreeWidgetItem(parent, strings, ProjectFoldeType),
         m_groupName(strings.at(0)),
         m_clipId(clipId)
 {

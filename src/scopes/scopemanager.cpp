@@ -203,7 +203,7 @@ void ScopeManager::slotUpdateActiveRenderer()
 
     m_lastConnectedRenderer = m_monitorManager->activeRenderer();
     // DVD monitor shouldn't be monitored or will cause crash on deletion
-    if (m_monitorManager->isActive(Kdenlive::dvdMonitor)) m_lastConnectedRenderer = NULL;
+    if (m_monitorManager->isActive(Kdenlive::DvdMonitor)) m_lastConnectedRenderer = NULL;
 
     // Connect new renderer
     if (m_lastConnectedRenderer != NULL) {
@@ -289,16 +289,16 @@ void ScopeManager::checkActiveColourScopes()
 
     // Notify monitors whether frames are still required
     Monitor *monitor;
-    monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::projectMonitor) );
+    monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::ProjectMonitor) );
     if (monitor != NULL) { 
 	if (monitor->effectSceneDisplayed()) monitor->render->sendFrameForAnalysis = true;
 	else monitor->render->sendFrameForAnalysis = imageStillRequested;
     }
 
-    monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::clipMonitor) );
+    monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::ClipMonitor) );
     if (monitor != NULL) { monitor->render->sendFrameForAnalysis = imageStillRequested; }
 
-    RecMonitor *recMonitor = static_cast<RecMonitor*>( m_monitorManager->monitor(Kdenlive::recordMonitor) );
+    RecMonitor *recMonitor = static_cast<RecMonitor*>( m_monitorManager->monitor(Kdenlive::RecordMonitor) );
     if (recMonitor != NULL) { recMonitor->analyseFrames(imageStillRequested); }
 }
 

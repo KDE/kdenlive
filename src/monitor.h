@@ -68,7 +68,7 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
-    Monitor(Kdenlive::MONITORID id, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
+    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender();

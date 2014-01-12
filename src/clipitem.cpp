@@ -92,7 +92,7 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
     //setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double,int,int,int,int)) , this, SLOT(slotPrepareAudioThumb(double,int,int,int,int)));
 
-    if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
+    if (m_clipType == Video || m_clipType == AV || m_clipType == SlideShow || m_clipType == Playlist) {
         m_baseColor = QColor(141, 166, 215);
         if (!m_clip->isPlaceHolder()) {
             m_hasThumbs = true;
@@ -105,17 +105,17 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
             if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
         }
 
-    } else if (m_clipType == COLOR) {
+    } else if (m_clipType == Color) {
         QString colour = m_clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
         m_baseColor = QColor(colour.left(7));
-    } else if (m_clipType == IMAGE || m_clipType == TEXT) {
+    } else if (m_clipType == Image || m_clipType == Text) {
         m_baseColor = QColor(141, 166, 215);
-        if (m_clipType == TEXT) {
+        if (m_clipType == Text) {
             connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
         }
         //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
-    } else if (m_clipType == AUDIO) {
+    } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);
         connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
@@ -130,7 +130,7 @@ ClipItem::~ClipItem()
     m_startThumbTimer.stop();
     if (scene())
         scene()->removeItem(this);
-    if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
+    if (m_clipType == Video || m_clipType == AV || m_clipType == SlideShow || m_clipType == Playlist) {
         //disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
         //disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
@@ -140,8 +140,8 @@ ClipItem::~ClipItem()
 ClipItem *ClipItem::clone(const ItemInfo &info) const
 {
     ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
-    if (m_clipType == IMAGE || m_clipType == TEXT) duplicate->slotSetStartThumb(m_startPix);
-    else if (m_clipType != COLOR) {
+    if (m_clipType == Image || m_clipType == Text) duplicate->slotSetStartThumb(m_startPix);
+    else if (m_clipType != Color) {
         if (info.cropStart == m_info.cropStart) duplicate->slotSetStartThumb(m_startPix);
         if (info.cropStart + (info.endPos - info.startPos) == m_info.cropStart + m_info.cropDuration) {
             duplicate->slotSetEndThumb(m_endPix);
@@ -579,7 +579,7 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
 {
     if (checkDuration && (m_maxDuration != m_clip->maxDuration())) {
         m_maxDuration = m_clip->maxDuration();
-        if (m_clipType != IMAGE && m_clipType != TEXT && m_clipType != COLOR) {
+        if (m_clipType != Image && m_clipType != Text && m_clipType != Color) {
             if (m_maxDuration != GenTime() && m_info.cropStart + m_info.cropDuration > m_maxDuration) {
                 // Clip duration changed, make sure to stay in correct range
                 if (m_info.cropStart > m_maxDuration) {
@@ -592,7 +592,7 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
             }
         }
     }
-    if (m_clipType == COLOR) {
+    if (m_clipType == Color) {
         QString colour = m_clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
         m_baseColor = QColor(colour.left(7));
@@ -602,8 +602,8 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
 
 void ClipItem::slotFetchThumbs()
 {
-    if (scene() == NULL || m_clipType == AUDIO || m_clipType == COLOR) return;
-    if (m_clipType == IMAGE) {
+    if (scene() == NULL || m_clipType == Audio || m_clipType == Color) return;
+    if (m_clipType == Image) {
         if (m_startPix.isNull()) {
             m_startPix = KThumb::getImage(KUrl(m_clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
             update();
@@ -611,7 +611,7 @@ void ClipItem::slotFetchThumbs()
         return;
     }
 
-    if (m_clipType == TEXT) {
+    if (m_clipType == Text) {
         if (m_startPix.isNull()) slotGetStartThumb();
         return;
     }
@@ -682,7 +682,7 @@ void ClipItem::slotThumbReady(int frame, const QImage &img)
         m_startPix = pix;
         m_startThumbRequested = false;
         update(r.left(), r.top(), width, pix.height());
-        if (m_clipType == IMAGE || m_clipType == TEXT) {
+        if (m_clipType == Image || m_clipType == Text) {
             update(r.right() - width, r.top(), width, pix.height());
         }
     } else if (m_endThumbRequested && frame == (m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1) {
@@ -724,7 +724,7 @@ void ClipItem::slotGotAudioData()
 
 int ClipItem::type() const
 {
-    return AVWIDGET;
+    return AVWidget;
 }
 
 DocClipBase *ClipItem::baseClip() const
@@ -825,7 +825,7 @@ void ClipItem::paint(QPainter *painter,
     // draw thumbnails
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
         QRectF thumbRect;
-        if ((m_clipType == IMAGE || m_clipType == TEXT) && !m_startPix.isNull()) {
+        if ((m_clipType == Image || m_clipType == Text) && !m_startPix.isNull()) {
             if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
             thumbRect.moveTopRight(mapped.topRight());
             painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
@@ -852,13 +852,13 @@ void ClipItem::paint(QPainter *painter,
         }
 
         // if we are in full zoom, paint thumbnail for every frame
-        if (m_clip->thumbProducer() && clipType() != COLOR && clipType() != AUDIO && !m_audioOnly && transformation.m11() == FRAME_SIZE) {
+        if (m_clip->thumbProducer() && clipType() != Color && clipType() != Audio && !m_audioOnly && transformation.m11() == FRAME_SIZE) {
             int offset = (m_info.startPos - m_info.cropStart).frames(m_fps);
             int left = qMax((int) m_info.cropStart.frames(m_fps) + 1, (int) mapToScene(exposed.left(), 0).x() - offset);
             int right = qMin((int)(m_info.cropStart + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x() - offset);
             QPointF startPos = mapped.topLeft();
             int startOffset = m_info.cropStart.frames(m_fps);
-            if (clipType() == IMAGE || clipType() == TEXT) {
+            if (clipType() == Image || clipType() == Text) {
                 for (int i = left; i <= right; ++i) {
                     painter->drawPixmap(startPos + QPointF(FRAME_SIZE *(i - startOffset), 0), m_startPix);
                 }
@@ -890,7 +890,7 @@ void ClipItem::paint(QPainter *painter,
         }
     }
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || isAudioOnly())) || m_clipType == AUDIO) && m_audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (rect().height() / 2) || isAudioOnly())) || m_clipType == Audio) && m_audioThumbReady) {
 
         double startpixel = exposed.left();
         if (startpixel < 0)
@@ -1059,60 +1059,60 @@ void ClipItem::paint(QPainter *painter,
 }
 
 
-OPERATIONTYPE ClipItem::operationMode(const QPointF &pos)
+OperationType ClipItem::operationMode(const QPointF &pos)
 {
-    if (isItemLocked()) return NONE;
+    if (isItemLocked()) return None;
     const double scale = projectScene()->scale().x();
     double maximumOffset = 6 / scale;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
         int kf = mouseOverKeyFrames(pos, maximumOffset);
         if (kf != -1) {
             m_editedKeyframe = kf;
-            return KEYFRAME;
+            return KeyFrame;
         }
     }
     QRectF rect = sceneBoundingRect();
     int addtransitionOffset = 10;
     // Don't allow add transition if track height is very small. No transitions for audio only clips
-    if (rect.height() < 30 || isAudioOnly() || m_clipType == AUDIO) addtransitionOffset = 0;
+    if (rect.height() < 30 || isAudioOnly() || m_clipType == Audio) addtransitionOffset = 0;
 
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
-        return FADEIN;
+        return FadeIn;
     } else if ((pos.x() <= rect.x() + rect.width() / 2) && pos.x() - rect.x() < maximumOffset && (rect.bottom() - pos.y() > addtransitionOffset)) {
         // If we are in a group, allow resize only if all clips start at same position
         if (parentItem()) {
             QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
             QList<QGraphicsItem *> list = dragGroup->childItems();
             for (int i = 0; i < list.count(); ++i) {
-                if (list.at(i)->type() == AVWIDGET) {
+                if (list.at(i)->type() == AVWidget) {
                     ClipItem *c = static_cast <ClipItem*>(list.at(i));
-                    if (c->startPos() != startPos()) return MOVE;
+                    if (c->startPos() != startPos()) return MoveOperation;
                 }
             }
         }
-        return RESIZESTART;
+        return ResizeStart;
     } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y() - rect.y())) < 6) {
-        return FADEOUT;
+        return FadeOut;
     } else if ((pos.x() >= rect.x() + rect.width() / 2) && (rect.right() - pos.x() < maximumOffset) && (rect.bottom() - pos.y() > addtransitionOffset)) {
         // If we are in a group, allow resize only if all clips end at same position
         if (parentItem()) {
             QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
             QList<QGraphicsItem *> list = dragGroup->childItems();
             for (int i = 0; i < list.count(); ++i) {
-                if (list.at(i)->type() == AVWIDGET) {
+                if (list.at(i)->type() == AVWidget) {
                     ClipItem *c = static_cast <ClipItem*>(list.at(i));
-                    if (c->endPos() != endPos()) return MOVE;
+                    if (c->endPos() != endPos()) return MoveOperation;
                 }
             }
         }
-        return RESIZEEND;
+        return ResizeEnd;
     } else if ((pos.x() - rect.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
-        return TRANSITIONSTART;
+        return TransitionStart;
     } else if ((rect.right() - pos.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
-        return TRANSITIONEND;
+        return TransitionEnd;
     }
 
-    return MOVE;
+    return MoveOperation;
 }
 
 int ClipItem::itemHeight()
@@ -1333,7 +1333,7 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 void ClipItem::resizeStart(int posx, bool /*size*/, bool emitChange)
 {
     bool sizeLimit = false;
-    if (clipType() != IMAGE && clipType() != COLOR && clipType() != TEXT) {
+    if (clipType() != Image && clipType() != Color && clipType() != Text) {
         const int min = (startPos() - cropStart()).frames(m_fps);
         if (posx < min) posx = min;
         sizeLimit = true;
@@ -1867,11 +1867,11 @@ void ClipItem::setAudioOnly(bool force)
     m_audioOnly = force;
     if (m_audioOnly) m_baseColor = QColor(141, 215, 166);
     else {
-        if (m_clipType == COLOR) {
+        if (m_clipType == Color) {
             QString colour = m_clip->getProperty("colour");
             colour = colour.replace(0, 2, "#");
             m_baseColor = QColor(colour.left(7));
-        } else if (m_clipType == AUDIO) m_baseColor = QColor(141, 215, 166);
+        } else if (m_clipType == Audio) m_baseColor = QColor(141, 215, 166);
         else m_baseColor = QColor(141, 166, 215);
     }
     if (parentItem())

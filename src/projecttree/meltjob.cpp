@@ -35,7 +35,7 @@ static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame frame_
     self->emitFrameNumber((int) frame.get_position());
 }
 
-MeltJob::MeltJob(CLIPTYPE cType, const QString &id, const QStringList &parameters,  const QMap <QString, QString>&extraParams)
+MeltJob::MeltJob(ClipType cType, const QString &id, const QStringList &parameters,  const QMap <QString, QString>&extraParams)
     : AbstractClipJob(MLTJOB, cType, id, parameters),
     addClipToProject(0),
     m_consumer(NULL),
@@ -46,7 +46,7 @@ MeltJob::MeltJob(CLIPTYPE cType, const QString &id, const QStringList &parameter
     m_length(0),
     m_extra(extraParams)
 {
-    m_jobStatus = JOBWAITING;
+    m_jobStatus = JobWaiting;
     m_params = parameters;
     description = i18n("Process clip");
     QString consum = m_params.at(5);
@@ -64,7 +64,7 @@ void MeltJob::startJob()
 {
     if (m_url.isEmpty()) {
         m_errorMessage.append(i18n("No producer for this clip."));
-        setStatus(JOBCRASHED);
+        setStatus(JobCrashed);
         return;
     }
     int in = m_params.takeFirst().toInt();
@@ -86,7 +86,7 @@ void MeltJob::startJob()
 
     if (out != -1 && out <= in) {
         m_errorMessage.append(i18n("Clip zone undefined (%1 - %2).", in, out));
-        setStatus(JOBCRASHED);
+        setStatus(JobCrashed);
         return;
     }
     if (m_extra.contains("producer_profile")) {
@@ -113,7 +113,7 @@ void MeltJob::startJob()
     if (!m_producer || !m_producer->is_valid()) {
 	// Clip was removed or something went wrong, Notify user?
 	//m_errorMessage.append(i18n("Invalid clip"));
-        setStatus(JOBCRASHED);
+        setStatus(JobCrashed);
 	return;
     }
     if (m_extra.contains("producer_profile")) {
@@ -134,7 +134,7 @@ void MeltJob::startJob()
     }
     if (!m_consumer || !m_consumer->is_valid()) {
         m_errorMessage.append(i18n("Cannot create consumer %1.", consumer));
-        setStatus(JOBCRASHED);
+        setStatus(JobCrashed);
         return;
     }
 
@@ -154,7 +154,7 @@ void MeltJob::startJob()
     m_filter = new Mlt::Filter(*m_profile, filter.toUtf8().data());
     if (!m_filter || !m_filter->is_valid()) {
 	m_errorMessage = i18n("Filter %1 crashed", filter);
-        setStatus(JOBCRASHED);
+        setStatus(JobCrashed);
 	return;
     }
     list = filterParams.split(' ', QString::SkipEmptyParts);
@@ -177,14 +177,14 @@ void MeltJob::startJob()
     m_consumer->run();
     
     QMap <QString, QString> jobResults;
-    if (m_jobStatus != JOBABORTED && m_extra.contains("key")) {
+    if (m_jobStatus != JobAborted && m_extra.contains("key")) {
 	QString result = m_filter->get(m_extra.value("key").toUtf8().constData());
 	jobResults.insert(m_extra.value("key"), result);
     }
-    if (!jobResults.isEmpty() && m_jobStatus != JOBABORTED) {
+    if (!jobResults.isEmpty() && m_jobStatus != JobAborted) {
 	emit gotFilterJobResults(m_clipId, startPos, track, jobResults, m_extra);
     }
-    if (m_jobStatus == JOBABORTED || m_jobStatus == JOBWORKING) m_jobStatus = JOBDONE;
+    if (m_jobStatus == JobAborted || m_jobStatus == JobWorking) m_jobStatus = JobDone;
 }
 
 
@@ -212,10 +212,10 @@ const QString MeltJob::statusMessage()
 {
     QString statusInfo;
     switch (m_jobStatus) {
-        case JOBWORKING:
+        case JobWorking:
             statusInfo = description;
             break;
-        case JOBWAITING:
+        case JobWaiting:
             statusInfo = i18n("Waiting to process clip");
             break;
         default:
@@ -236,10 +236,10 @@ bool MeltJob::isProjectFilter() const
     return m_extra.contains("projecttreefilter");
 }
 
-void MeltJob::setStatus(CLIPJOBSTATUS status)
+void MeltJob::setStatus(ClipJobStatus status)
 {
     m_jobStatus = status;
-    if (status == JOBABORTED && m_consumer) m_consumer->stop();
+    if (status == JobAborted && m_consumer) m_consumer->stop();
 }
 
 

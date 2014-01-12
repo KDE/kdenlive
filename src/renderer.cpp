@@ -111,7 +111,7 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
     emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
 }
 
-Render::Render(Kdenlive::MONITORID rendererName, int winid, QString profile, QWidget *parent) :
+Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWidget *parent) :
     AbstractRender(rendererName, parent),
     requestedSeekPosition(SEEK_INACTIVE),
     showFrameSemaphore(1),
@@ -227,7 +227,7 @@ void Render::buildConsumer(const QString &profileName)
     m_blackClip = new Mlt::Producer(*m_mltProfile, "colour:black");
     m_blackClip->set("id", "black");
     m_blackClip->set("mlt_type", "producer");
-    if (KdenliveSettings::external_display() && m_name != Kdenlive::clipMonitor && m_winid != 0) {
+    if (KdenliveSettings::external_display() && m_name != Kdenlive::ClipMonitor && m_winid != 0) {
         // Use blackmagic card for video output
         int device = KdenliveSettings::blackmagic_output_device();
         if (device >= 0) {
@@ -267,7 +267,7 @@ void Render::buildConsumer(const QString &profileName)
     if (m_winid == 0) {
         // OpenGL monitor
         if (!m_mltConsumer) {
-            if (KdenliveSettings::external_display() && m_name != Kdenlive::clipMonitor) {
+            if (KdenliveSettings::external_display() && m_name != Kdenlive::ClipMonitor) {
                 int device = KdenliveSettings::blackmagic_output_device();
                 if (device >= 0) {
                     QString decklink = "decklink:" + QString::number(KdenliveSettings::blackmagic_output_device());
@@ -731,10 +731,10 @@ void Render::processFileProperties()
         }
         KUrl url(path);
         Mlt::Producer *producer = NULL;
-        CLIPTYPE type = (CLIPTYPE)info.xml.attribute("type").toInt();
-        if (type == COLOR) {
+        ClipType type = (ClipType)info.xml.attribute("type").toInt();
+        if (type == Color) {
             producer = new Mlt::Producer(*m_mltProfile, 0, ("colour:" + info.xml.attribute("colour")).toUtf8().constData());
-        } else if (type == TEXT) {
+        } else if (type == Text) {
             producer = new Mlt::Producer(*m_mltProfile, 0, ("kdenlivetitle:" + info.xml.attribute("resource")).toUtf8().constData());
             if (producer && producer->is_valid() && info.xml.hasAttribute("xmldata"))
                 producer->set("xmldata", info.xml.attribute("xmldata").toUtf8().constData());
@@ -837,7 +837,7 @@ void Render::processFileProperties()
         if (info.xml.hasAttribute("out")) clipOut = info.xml.attribute("out").toInt();
 
         // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
-        if (type == COLOR || type == TEXT || type == IMAGE || type == SLIDESHOW) {
+        if (type == Color || type == Text || type == Image || type == SlideShow) {
             int length;
             if (info.xml.hasAttribute("length")) {
                 length = info.xml.attribute("length").toInt();
@@ -892,7 +892,7 @@ void Render::processFileProperties()
         filePropertyMap["duration"] = QString::number(duration);
         //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
 
-        if (type == SLIDESHOW) {
+        if (type == SlideShow) {
             int ttl = info.xml.hasAttribute("ttl") ? info.xml.attribute("ttl").toInt() : 0;
             if (ttl) producer->set("ttl", ttl);
             if (!info.xml.attribute("animation").isEmpty()) {
@@ -1459,7 +1459,7 @@ void Render::saveZone(KUrl url, QString desc, QPoint zone)
     Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.path()).toUtf8().constData());
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
-    if (m_name == Kdenlive::clipMonitor) {
+    if (m_name == Kdenlive::ClipMonitor) {
         Mlt::Producer *prod = m_mltProducer->cut(zone.x(), zone.y());
         Mlt::Playlist list;
         list.insert_at(0, prod, 0);
@@ -1632,7 +1632,7 @@ void Render::switchPlay(bool play)
         return;
     if (m_isZoneMode) resetZoneMode();
     if (play && m_paused) {
-        if (m_name == Kdenlive::clipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
+        if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
         m_paused = false;
         m_mltProducer->set_speed(1.0);
         if (m_mltConsumer->is_stopped()) {

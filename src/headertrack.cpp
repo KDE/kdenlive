@@ -56,7 +56,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
     updateEffectLabel(info.effectsList.effectNames());
     setAcceptDrops(true);
 
-    if (m_type == VIDEOTRACK) {
+    if (m_type == VideoTrack) {
         setBackgroundRole(QPalette::AlternateBase);
         setAutoFillBackground(true);
         if (!info.isBlind)
@@ -178,7 +178,7 @@ void HeaderTrack::setSelectedIndex(int ix)
         m_isSelected = true;
         setBackgroundRole(QPalette::Button);
         setAutoFillBackground(true);
-    } else if (m_type != VIDEOTRACK) {
+    } else if (m_type != VideoTrack) {
         m_isSelected = false;
         setAutoFillBackground(false);
     } else {
@@ -192,7 +192,7 @@ void HeaderTrack::adjustSize(int height)
 {
     // Don't show track buttons if size is too small
     bool smallTracks = height < 40;
-    if (m_type == VIDEOTRACK)
+    if (m_type == VideoTrack)
         buttonVideo->setHidden(smallTracks);
     buttonAudio->setHidden(smallTracks);
     buttonLock->setHidden(smallTracks);

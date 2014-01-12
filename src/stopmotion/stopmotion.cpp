@@ -93,7 +93,7 @@ void MyLabel::paintEvent(QPaintEvent* event)
 
 
 StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent) :
-    AbstractMonitor(Kdenlive::stopmotionMonitor, manager, parent),
+    AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent),
     m_captureDevice(NULL)
 {
     createVideoSurface();
@@ -117,9 +117,9 @@ AbstractRender *StopmotionMonitor::abstractRender()
     return m_captureDevice;
 }
 
-Kdenlive::MONITORID StopmotionMonitor::id() const
+Kdenlive::MonitorId StopmotionMonitor::id() const
 {
-    return Kdenlive::stopmotionMonitor;
+    return Kdenlive::StopMotionMonitor;
 }
 
 
@@ -491,7 +491,7 @@ void StopmotionWidget::slotLive(bool isOn)
             connect(m_captureDevice, SIGNAL(frameSaved(QString)), this, SLOT(slotNewThumb(QString)));
         }
 
-        m_manager->activateMonitor(Kdenlive::stopmotionMonitor);
+        m_manager->activateMonitor(Kdenlive::StopMotionMonitor);
         QString producer = createProducer(profile, service, resource);
         if (m_captureDevice->slotStartPreview(producer, true)) {
             if (m_showOverlay->isChecked()) {

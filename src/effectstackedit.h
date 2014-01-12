@@ -79,7 +79,7 @@ signals:
     void effectStateChanged(bool enabled);
     /** @brief Start an MLT filter job on this clip. */
     void startFilterJob(const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap <QString, QString>&);
-    void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
+    void importClipKeyframes(GraphicsRectItem = AVWidget);
 };
 
 #endif

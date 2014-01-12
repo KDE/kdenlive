@@ -25,9 +25,9 @@
 #include <KDebug>
 #include <KLocalizedString>
 
-CutClipJob::CutClipJob(CLIPTYPE cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id, parameters)
+CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id, parameters)
 {
-    m_jobStatus = JOBWAITING;
+    m_jobStatus = JobWaiting;
     m_dest = parameters.at(0);
     m_src = parameters.at(1);
     m_start = parameters.at(2);
@@ -47,7 +47,7 @@ CutClipJob::CutClipJob(CLIPTYPE cType, const QString &id, const QStringList &par
 void CutClipJob::startJob()
 {
     // Special case: playlist clips (.mlt or .kdenlive project files)
-    if (clipType == AV || clipType == AUDIO || clipType == VIDEO) {
+    if (clipType == AV || clipType == Audio || clipType == Video) {
         QStringList parameters;
         parameters << "-i" << m_src;
         if (!m_start.isEmpty())
@@ -66,7 +66,7 @@ void CutClipJob::startJob()
         m_jobProcess->waitForStarted();
         while (m_jobProcess->state() != QProcess::NotRunning) {
             processLogInfo();
-            if (m_jobStatus == JOBABORTED) {
+            if (m_jobStatus == JobAborted) {
                 m_jobProcess->close();
                 m_jobProcess->waitForFinished();
                 QFile::remove(m_dest);
@@ -74,21 +74,21 @@ void CutClipJob::startJob()
             m_jobProcess->waitForFinished(400);
         }
         
-        if (m_jobStatus != JOBABORTED) {
+        if (m_jobStatus != JobAborted) {
             int result = m_jobProcess->exitStatus();
             if (result == QProcess::NormalExit) {
                 if (QFileInfo(m_dest).size() == 0) {
                     // File was not created
                     processLogInfo();
                     m_errorMessage.append(i18n("Failed to create file."));
-                    setStatus(JOBCRASHED);
+                    setStatus(JobCrashed);
                 } else {
-                    setStatus(JOBDONE);
+                    setStatus(JobDone);
                 }
             } else if (result == QProcess::CrashExit) {
                 // Proxy process crashed
                 QFile::remove(m_dest);
-                setStatus(JOBCRASHED);
+                setStatus(JobCrashed);
             }
         }
         delete m_jobProcess;
@@ -96,13 +96,13 @@ void CutClipJob::startJob()
     } else {
         m_errorMessage = i18n("Cannot process this clip type.");
     }
-    setStatus(JOBCRASHED);
+    setStatus(JobCrashed);
     return;
 }
 
 void CutClipJob::processLogInfo()
 {
-    if (!m_jobProcess || m_jobDuration == 0 || m_jobStatus == JOBABORTED) return;
+    if (!m_jobProcess || m_jobDuration == 0 || m_jobStatus == JobAborted) return;
     QString log = m_jobProcess->readAll();
     if (!log.isEmpty()) m_logDetails.append(log + '\n');
     int progress;
@@ -141,11 +141,11 @@ const QString CutClipJob::statusMessage()
 {
     QString statusInfo;
     switch (m_jobStatus) {
-        case JOBWORKING:
+        case JobWorking:
             if (m_start.isEmpty()) statusInfo = i18n("Transcoding clip");
             else statusInfo = i18n("Extracting clip cut");
             break;
-        case JOBWAITING:
+        case JobWaiting:
             if (m_start.isEmpty()) statusInfo = i18n("Waiting - transcode clip");
             else statusInfo = i18n("Waiting - cut clip");
             break;

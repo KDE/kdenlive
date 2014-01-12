@@ -154,7 +154,7 @@ void ProjectListView::contextMenuEvent(QContextMenuEvent * event)
 
 void ProjectListView::slotCollapsed(QTreeWidgetItem *item)
 {
-    if (item->type() == PROJECTFOLDERTYPE) {
+    if (item->type() == ProjectFoldeType) {
         blockSignals(true);
         static_cast <FolderProjectItem *>(item)->switchIcon();
         blockSignals(false);
@@ -163,7 +163,7 @@ void ProjectListView::slotCollapsed(QTreeWidgetItem *item)
 
 void ProjectListView::slotExpanded(QTreeWidgetItem *item)
 {
-    if (item->type() == PROJECTFOLDERTYPE) {
+    if (item->type() == ProjectFoldeType) {
         blockSignals(true);
         static_cast <FolderProjectItem *>(item)->switchIcon();
         blockSignals(false);
@@ -201,7 +201,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
         return;
     }
     ProjectItem *item;
-    if (it->type() == PROJECTFOLDERTYPE) {
+    if (it->type() == ProjectFoldeType) {
         if ((columnAt(event->pos().x()) == 0)) {
             QPixmap pix = qVariantValue<QPixmap>(it->data(0, Qt::DecorationRole));
             int offset = pix.width() + indentation();
@@ -212,7 +212,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
         }
         return;
     }
-    if (it->type() == PROJECTSUBCLIPTYPE) {
+    if (it->type() == ProjectSubclipType) {
         // subitem
         if ((columnAt(event->pos().x()) == 1)) {
             QTreeWidget::mouseDoubleClickEvent(event);
@@ -224,7 +224,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
 
     int column = columnAt(event->pos().x());
-    if (column == 0 && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR || it->childCount() > 0)) {
+    if (column == 0 && (item->clipType() == SlideShow || item->clipType() == Text || item->clipType() == Color || it->childCount() > 0)) {
         QPixmap pix = qVariantValue<QPixmap>(it->data(0, Qt::DecorationRole));
         int offset = pix.width() + indentation();
         if (item->parent()) offset += indentation();
@@ -239,7 +239,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
             return;
         }
     }
-    if ((column == 1) && it->type() != PROJECTSUBCLIPTYPE) {
+    if ((column == 1) && it->type() != ProjectSubclipType) {
         QTreeWidget::mouseDoubleClickEvent(event);
         return;
     }
@@ -252,7 +252,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
 {
     FolderProjectItem *item = NULL;
     QTreeWidgetItem *it = itemAt(event->pos());
-    while (it && it->type() != PROJECTFOLDERTYPE) {
+    while (it && it->type() != ProjectFoldeType) {
         it = it->parent();
     }
     if (it) item = static_cast <FolderProjectItem *>(it);
@@ -276,7 +276,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
             QString parentId = item->clipId();
             foreach(QTreeWidgetItem *it, list) {
                 // TODO allow dragging of folders ?
-                if (it->type() == PROJECTCLIPTYPE) {
+                if (it->type() == ProjectClipType) {
                     if (it->parent()) clone = (ProjectItem*) it->parent()->takeChild(it->parent()->indexOfChild(it));
                     else clone = (ProjectItem*) takeTopLevelItem(indexOfTopLevelItem(it));
                     if (clone && item) {
@@ -293,7 +293,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
             const QList <QTreeWidgetItem *> list = selectedItems();
             ProjectItem *clone;
             foreach(QTreeWidgetItem *it, list) {
-                if (it->type() != PROJECTCLIPTYPE) continue;
+                if (it->type() != ProjectClipType) continue;
                 QTreeWidgetItem *parent = it->parent();
                 if (parent/* && ((ProjectItem *) it)->clipId() < 10000*/)  {
                     kDebug() << "++ item parent: " << parent->text(1);
@@ -366,12 +366,12 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
         const QList <QTreeWidgetItem *> list = selectedItems();
         QStringList ids;
         foreach(const QTreeWidgetItem *item, list) {
-	    if (item->type() == PROJECTFOLDERTYPE) {
+	    if (item->type() == ProjectFoldeType) {
 		const int children = item->childCount();
                 for (int i = 0; i < children; ++i) {
 		    ids.append(static_cast <ProjectItem *>(item->child(i))->clipId());
                 }
-	    } else if (item->type() == PROJECTSUBCLIPTYPE) {
+	    } else if (item->type() == ProjectSubclipType) {
 		const ProjectItem *parentclip = static_cast <const ProjectItem *>(item->parent());
 		const SubProjectItem *clickItem = static_cast <const SubProjectItem *>(item);
 		QPoint p = clickItem->zone();
@@ -461,8 +461,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         QRectF bounding;
         painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
         int jobProgress = index.data(Qt::UserRole + 5).toInt();
-        if (jobProgress != 0 && jobProgress != JOBDONE && jobProgress != JOBABORTED) {
-            if (jobProgress != JOBCRASHED) {
+        if (jobProgress != 0 && jobProgress != JobDone && jobProgress != JobAborted) {
+            if (jobProgress != JobCrashed) {
                 // Draw job progress bar
                 QColor color = option.palette.alternateBase().color();
                 color.setAlpha(150);
@@ -472,7 +472,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
                 painter->drawRect(progress);
                 painter->setBrush(option.palette.link());
                 progress.adjust(2, 2, -2, -2);
-                if (jobProgress == JOBWAITING) {
+                if (jobProgress == JobWaiting) {
                     progress.setLeft(progress.right() - 2);
                     painter->drawRect(progress);
                     progress.moveLeft(progress.left() - 5);
@@ -482,7 +482,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
                     progress.setWidth(progress.width() * jobProgress / 100);
                     painter->drawRect(progress);
                 }
-            } else if (jobProgress == JOBCRASHED) {
+            } else if (jobProgress == JobCrashed) {
                 QString jobText = index.data(Qt::UserRole + 7).toString();
                 if (!jobText.isEmpty()) {
                     QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, QLatin1Char(' ') + jobText + QLatin1Char(' ') );

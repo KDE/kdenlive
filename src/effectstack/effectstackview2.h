@@ -232,7 +232,7 @@ signals:
     void showComments(bool show);
     void startFilterJob(const ItemInfo &info, const QString &clipId, const QString &filterName, const QString &filterParams, const QString &consumer, const QString &consumerParams, const QMap<QString, QString> &extraParams);
     void addEffect(ClipItem*,const QDomElement &);
-    void importClipKeyframes(GRAPHICSRECTITEM = AVWIDGET);
+    void importClipKeyframes(GraphicsRectItem = AVWidget);
 };
 
 #endif

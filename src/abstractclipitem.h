@@ -67,7 +67,7 @@ public:
     bool isItemLocked() const;
     void closeAnimation();
 
-    virtual OPERATIONTYPE operationMode(const QPointF &pos) = 0;
+    virtual OperationType operationMode(const QPointF &pos) = 0;
     virtual GenTime startPos() const ;
     virtual void setTrack(int track);
     virtual GenTime endPos() const ;

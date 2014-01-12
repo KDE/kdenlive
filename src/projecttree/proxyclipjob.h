@@ -30,7 +30,7 @@ class ProxyJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    ProxyJob(CLIPTYPE cType, const QString &id, const QStringList& parameters);
+    ProxyJob(ClipType cType, const QString &id, const QStringList& parameters);
     virtual ~ ProxyJob();
     const QString destination() const;
     void startJob();

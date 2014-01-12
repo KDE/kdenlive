@@ -119,26 +119,26 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
 
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
-        CLIPTYPE t = clip->clipType();
+        ClipType t = clip->clipType();
         QString id = clip->getId();
-        if (t == SLIDESHOW) {
+        if (t == SlideShow) {
             KUrl slideUrl = clip->fileURL();
             //TODO: Slideshow files
             slideUrls.insert(id, slideUrl.path());
         }
-        else if (t == IMAGE) imageUrls.insert(id, clip->fileURL().path());
-        else if (t == TEXT) {
+        else if (t == Image) imageUrls.insert(id, clip->fileURL().path());
+        else if (t == Text) {
             QStringList imagefiles = TitleWidget::extractImageList(clip->getProperty("xmldata"));
             QStringList fonts = TitleWidget::extractFontList(clip->getProperty("xmldata"));
             extraImageUrls << imagefiles;
             allFonts << fonts;
-        } else if (t == PLAYLIST) {
+        } else if (t == Playlist) {
             playlistUrls.insert(id, clip->fileURL().path());
             QStringList files = ProjectSettings::extractPlaylistUrls(clip->fileURL().path());
             otherUrls << files;
         }
         else if (!clip->fileURL().isEmpty()) {
-            if (t == AUDIO) audioUrls.insert(id, clip->fileURL().path());
+            if (t == Audio) audioUrls.insert(id, clip->fileURL().path());
             else {
                 videoUrls.insert(id, clip->fileURL().path());
                 // Check if we have a proxy

@@ -307,7 +307,7 @@ private:
      * @param status The job status (see definitions.h)
      * @param progress The job progress (in percents)
      * @param statusMessage The job info message */
-    void setJobStatus(ProjectItem *item, JOBTYPE jobType, CLIPJOBSTATUS status, int progress = 0, const QString &statusMessage = QString());
+    void setJobStatus(ProjectItem *item, JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
     void monitorItemEditing(bool enable);
     /** @brief Get cached thumbnail for a project's clip or create it if no cache. */
     void getCachedThumbnail(ProjectItem *item);

@@ -55,7 +55,7 @@ public:
     int transitionEndTrack() const;
     QString transitionTag() const;
     QStringList transitionInfo() const;
-    OPERATIONTYPE operationMode(const QPointF &pos);
+    OperationType operationMode(const QPointF &pos);
     static int itemHeight();
     static int itemOffset();
     //const QMap < QString, QString > transitionParameters() const;
@@ -94,10 +94,10 @@ private:
     int m_transitionTrack;
 
     /** @brief Returns the display name for a transition type. */
-    QString getTransitionName(const TRANSITIONTYPE & type);
+    QString getTransitionName(const TransitionType & type);
 
     /** @brief Returns the transition type for a given name. */
-    TRANSITIONTYPE getTransitionForName(const QString & type);
+    TransitionType getTransitionForName(const QString & type);
 };
 
 #endif

@@ -33,7 +33,7 @@ const int DurationRole = Qt::UserRole + 1;
 const int itemHeight = 30;
 
 SubProjectItem::SubProjectItem(double display_ratio, QTreeWidgetItem * parent, int in, int out, const QString &description) :
-        QTreeWidgetItem(parent, PROJECTSUBCLIPTYPE), m_in(in), m_out(out), m_description(description)
+        QTreeWidgetItem(parent, ProjectSubclipType), m_in(in), m_out(out), m_description(description)
 {
     setSizeHint(0, QSize((int) (itemHeight * display_ratio) + 2, itemHeight + 2));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);

@@ -89,8 +89,8 @@ bool DocumentChecker::hasErrorInClips()
     for (int i = 0; i < max; ++i) {
         e = m_info.item(i).toElement();
         clipType = e.attribute("type").toInt();
-        if (clipType == COLOR) continue;
-        if (clipType != TEXT && clipType != IMAGE && clipType != SLIDESHOW) {
+        if (clipType == Color) continue;
+        if (clipType != Text && clipType != Image && clipType != SlideShow) {
             QString id = e.attribute("id");
             int duration = e.attribute("duration").toInt();
             int mltDuration = -1;
@@ -126,7 +126,7 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
         
-        if (clipType == TEXT) {
+        if (clipType == Text) {
             //TODO: Check is clip template is missing (xmltemplate) or hash changed
             QStringList images = TitleWidget::extractImageList(e.attribute("xmldata"));
             QStringList fonts = TitleWidget::extractFontList(e.attribute("xmldata"));
@@ -149,13 +149,13 @@ bool DocumentChecker::hasErrorInClips()
                 }
             }
         }
-        if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
+        if (clipType == SlideShow) resource = KUrl(resource).directory();
         if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
             // Missing clip found
             m_missingClips.append(e);
         } else {
             // Check if the clip has changed
-            if (clipType != SLIDESHOW && e.hasAttribute("file_hash")) {
+            if (clipType != SlideShow && e.hasAttribute("file_hash")) {
                 if (e.attribute("file_hash") != DocClipBase::getHash(e.attribute("resource")))
                     e.removeAttribute("file_hash");
             }
@@ -210,19 +210,19 @@ bool DocumentChecker::hasErrorInClips()
         case AV:
             clipType = i18n("Video clip");
             break;
-        case VIDEO:
+        case Video:
             clipType = i18n("Mute video clip");
             break;
-        case AUDIO:
+        case Audio:
             clipType = i18n("Audio clip");
             break;
-        case PLAYLIST:
+        case Playlist:
             clipType = i18n("Playlist clip");
             break;
-        case IMAGE:
+        case Image:
             clipType = i18n("Image clip");
             break;
-        case SLIDESHOW:
+        case SlideShow:
             clipType = i18n("Slideshow clip");
             break;
         case TITLE_IMAGE_ELEMENT:
@@ -294,19 +294,19 @@ bool DocumentChecker::hasErrorInClips()
         case AV:
             clipType = i18n("Video clip");
             break;
-        case VIDEO:
+        case Video:
             clipType = i18n("Mute video clip");
             break;
-        case AUDIO:
+        case Audio:
             clipType = i18n("Audio clip");
             break;
-        case PLAYLIST:
+        case Playlist:
             clipType = i18n("Playlist clip");
             break;
-        case IMAGE:
+        case Image:
             clipType = i18n("Image clip");
             break;
-        case SLIDESHOW:
+        case SlideShow:
             clipType = i18n("Slideshow clip");
             break;
         default:
@@ -609,7 +609,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
 void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
 {
     int t = item->data(0, typeRole).toInt();
-    if (t == TITLE_FONT_ELEMENT || t == UNKNOWN) return;
+    if (t == TITLE_FONT_ELEMENT || t == Unknown) return;
     //|| t == TITLE_IMAGE_ELEMENT) {
 
     KUrl url = KUrlRequesterDialog::getUrl(item->text(1), m_dialog, i18n("Enter new location for file"));

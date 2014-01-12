@@ -431,7 +431,7 @@ private slots:
     void slotActivateTransitionView(Transition *);
     void slotChangeTool(QAction * action);
     void slotChangeEdit(QAction * action);
-    void slotSetTool(PROJECTTOOL tool);
+    void slotSetTool(ProjectTool tool);
     void slotSnapForward();
     void slotSnapRewind();
     void slotClipStart();
@@ -563,7 +563,7 @@ private slots:
     /** @brief Save current timeline clip as mlt playlist. */
     void slotSaveTimelineClip();
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
-    void slotProcessImportKeyframes(GRAPHICSRECTITEM type, const QString& data, int maximum);
+    void slotProcessImportKeyframes(GraphicsRectItem type, const QString& data, int maximum);
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
     /** @brief Set MLT's consumer deinterlace method */
