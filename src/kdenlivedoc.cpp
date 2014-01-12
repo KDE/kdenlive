@@ -24,7 +24,7 @@
 #include "kdenlivesettings.h"
 #include "renderer.h"
 #include "clipmanager.h"
-#include "titlewidget.h"
+#include "widgets/titlewidget.h"
 #include "mainwindow.h"
 #include "documentchecker.h"
 #include "documentvalidator.h"

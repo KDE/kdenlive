@@ -23,7 +23,7 @@
 #include "docclipbase.h"
 #include "projectlist.h"
 #include "kthumb.h"
-#include "monitoreditwidget.h"
+#include "widgets/monitoreditwidget.h"
 #include "monitorscene.h"
 #include "kdenlivesettings.h"
 #include "collapsibleeffect.h"

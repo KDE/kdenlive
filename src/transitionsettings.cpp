@@ -23,7 +23,7 @@
 #include "effectstackedit.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "monitoreditwidget.h"
+#include "widgets/monitoreditwidget.h"
 #include "monitorscene.h"
 
 #include <KDebug>

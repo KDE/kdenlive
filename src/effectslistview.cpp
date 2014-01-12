@@ -19,7 +19,7 @@
 
 
 #include "effectslistview.h"
-#include "effectslistwidget.h"
+#include "widgets/effectslistwidget.h"
 #include "effectslist.h"
 #include "kdenlivesettings.h"
 

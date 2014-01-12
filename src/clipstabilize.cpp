@@ -20,7 +20,7 @@
 
 
 #include "clipstabilize.h"
-#include "doubleparameterwidget.h"
+#include "widgets/doubleparameterwidget.h"
 
 #include <KDebug>
 #include <mlt++/Mlt.h>

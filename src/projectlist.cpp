@@ -26,7 +26,7 @@
 #include "kdenlivesettings.h"
 #include "slideshowclip.h"
 #include "ui_colorclip_ui.h"
-#include "titlewidget.h"
+#include "widgets/titlewidget.h"
 #include "definitions.h"
 #include "clipmanager.h"
 #include "docclipbase.h"

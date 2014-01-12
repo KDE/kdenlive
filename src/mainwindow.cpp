@@ -37,7 +37,7 @@
 #include "effectslistview.h"
 #include "effectstack/effectstackview2.h"
 #include "transitionsettings.h"
-#include "renderwidget.h"
+#include "widgets/renderwidget.h"
 #include "renderer.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle.h"
@@ -47,7 +47,7 @@
 #include "clipproperties.h"
 #include "wizard.h"
 #include "commands/editclipcommand.h"
-#include "titlewidget.h"
+#include "widgets/titlewidget.h"
 #include "markerdialog.h"
 #include "clipitem.h"
 #include "interfaces.h"
@@ -62,7 +62,7 @@
 #include "scopes/audioscopes/audiosignal.h"
 #include "scopes/audioscopes/audiospectrum.h"
 #include "scopes/audioscopes/spectrogram.h"
-#include "archivewidget.h"
+#include "widgets/archivewidget.h"
 #include "databackup/backupwidget.h"
 #include "utils/resourcewidget.h"
 

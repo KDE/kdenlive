@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "keyframeedit.h"
-#include "doubleparameterwidget.h"
+#include "widgets/doubleparameterwidget.h"
 #include "positionedit.h"
 #include "kdenlivesettings.h"
 

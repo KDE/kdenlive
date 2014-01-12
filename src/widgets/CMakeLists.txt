@@ -3,6 +3,15 @@ set(kdenlive_SRCS
   widgets/invaliddialog.cpp
   widgets/choosecolorwidget.cpp
   widgets/colorpickerwidget.cpp
+  widgets/archivewidget.cpp
+  widgets/cornerswidget.cpp
+  widgets/doubleparameterwidget.cpp
+  widgets/effectslistwidget.cpp
+  widgets/geometrywidget.cpp
+  widgets/kis_curve_widget.cpp
+  widgets/monitoreditwidget.cpp
+  widgets/noteswidget.cpp
+  widgets/renderwidget.cpp
+  widgets/titlewidget.cpp
   PARENT_SCOPE
 )
-

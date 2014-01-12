@@ -21,7 +21,7 @@
 #include "documentchecker.h"
 #include "kthumb.h"
 #include "docclipbase.h"
-#include "titlewidget.h"
+#include "widgets/titlewidget.h"
 #include "definitions.h"
 #include "kdenlivesettings.h"
 

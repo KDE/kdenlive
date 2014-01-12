@@ -21,7 +21,7 @@
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
 #include "docclipbase.h"
-#include "titlewidget.h"
+#include "widgets/titlewidget.h"
 #include "effectslist.h"
 
 #include <KStandardDirs>

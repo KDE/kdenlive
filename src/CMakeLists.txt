@@ -112,7 +112,6 @@ list(APPEND kdenlive_SRCS
   abstractclipitem.cpp
   abstractgroupitem.cpp
   abstractmonitor.cpp
-  archivewidget.cpp
   clipdurationdialog.cpp
   clipitem.cpp
   clipmanager.cpp
@@ -122,7 +121,6 @@ list(APPEND kdenlive_SRCS
   colorplaneexport.cpp
   colortools.cpp
   complexparameter.cpp
-  cornerswidget.cpp
   customruler.cpp
   customtrackscene.cpp
   customtrackview.cpp
@@ -130,7 +128,6 @@ list(APPEND kdenlive_SRCS
   docclipbase.cpp
   documentchecker.cpp
   documentvalidator.cpp
-  doubleparameterwidget.cpp
   dragvalue.cpp
   dvdwizard.cpp
   dvdwizardchapters.cpp
@@ -138,13 +135,11 @@ list(APPEND kdenlive_SRCS
   dvdwizardvob.cpp
   effectslist.cpp
   effectslistview.cpp
-  effectslistwidget.cpp
   effectstackedit.cpp
   encodingprofilesdialog.cpp
   folderprojectitem.cpp
   gentime.cpp
   geometryval.cpp
-  geometrywidget.cpp
   graphicsscenerectmove.cpp
   guide.cpp
   headertrack.cpp
@@ -154,16 +149,13 @@ list(APPEND kdenlive_SRCS
   keyframeedit.cpp
   keyframehelper.cpp
   kis_cubic_curve.cpp
-  kis_curve_widget.cpp
   kthumb.cpp
   managecapturesdialog.cpp
   markerdialog.cpp
   mltdevicecapture.cpp
   monitor.cpp
-  monitoreditwidget.cpp
   monitormanager.cpp
   monitorscene.cpp
-  noteswidget.cpp
   parameterplotter.cpp
   positionedit.cpp
   profilesdialog.cpp
@@ -173,7 +165,6 @@ list(APPEND kdenlive_SRCS
   projectsettings.cpp
   recmonitor.cpp
   renderer.cpp
-  renderwidget.cpp
   slideshowclip.cpp
   smallruler.cpp
   spacerdialog.cpp
@@ -182,7 +173,6 @@ list(APPEND kdenlive_SRCS
   timecode.cpp
   timecodedisplay.cpp
   titledocument.cpp
-  titlewidget.cpp
   trackdialog.cpp
   tracksconfigdialog.cpp
   trackview.cpp

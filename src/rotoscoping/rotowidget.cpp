@@ -20,7 +20,7 @@
 #include "monitor.h"
 #include "renderer.h"
 #include "monitorscene.h"
-#include "monitoreditwidget.h"
+#include "widgets/monitoreditwidget.h"
 #include "onmonitoritems/rotoscoping/bpointitem.h"
 #include "onmonitoritems/rotoscoping/splineitem.h"
 #include "simplekeyframes/simplekeyframewidget.h"

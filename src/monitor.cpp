@@ -23,7 +23,7 @@
 #include "docclipbase.h"
 #include "abstractclipitem.h"
 #include "monitorscene.h"
-#include "monitoreditwidget.h"
+#include "widgets/monitoreditwidget.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
