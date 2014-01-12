@@ -196,6 +196,33 @@ void VideoGLWidget::showImage(const QImage &image)
 
 void VideoGLWidget::showImage(Mlt::Frame* frame, GLuint texnum)
 {
+    static bool first = true;
+    static timespec start, now;
+    static int frameno = 0;
+
+    if (first) {
+        clock_gettime(CLOCK_MONOTONIC, &start);
+        first = false;
+    }
+
+    ++frameno;
+
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    double elapsed = now.tv_sec - start.tv_sec +
+        1e-9 * (now.tv_nsec - start.tv_nsec);
+    printf("%d frames in %.3f seconds = %.1f fps (%.1f ms/frame)\n",
+        frameno, elapsed, frameno / elapsed,
+        1e3 * elapsed / frameno);
+
+    // Reset every 100 frames, so that local variations in frame times
+    // (especially for the first few frames, when the shaders are
+    // compiled etc.) don't make it hard to measure for the entire
+    // remaining duration of the program.
+    if (frameno == 100) {
+        frameno = 0;
+        start = now;
+    }
+
     makeCurrent();
     GLsync sync = (GLsync) frame->get("movit.convert.fence");
     glClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
