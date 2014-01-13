@@ -52,28 +52,28 @@ void ProxyJob::startJob()
         m_isFfmpegJob = false;
         QStringList mltParameters;
         mltParameters << m_src;
-        mltParameters << "-consumer" << "avformat:" + m_dest;
-        QStringList params = m_proxyParams.split('-', QString::SkipEmptyParts);
+        mltParameters << QLatin1String("-consumer") << QLatin1String("avformat:") + m_dest;
+        QStringList params = m_proxyParams.split(QLatin1Char('-'), QString::SkipEmptyParts);
 
         foreach(const QString &s, params) {
             QString t = s.simplified();
-            if (t.count(' ') == 0) {
-                t.append("=1");
+            if (t.count(QLatin1Char(' ')) == 0) {
+                t.append(QLatin1String("=1"));
             }
-            else t.replace(' ', '=');
+            else t.replace(QLatin1Char(' '), QLatin1String("="));
             mltParameters << t;
         }
         
-        mltParameters.append(QString("real_time=-%1").arg(KdenliveSettings::mltthreads()));
+        mltParameters.append(QString::fromLatin1("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
         //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
         double display_ratio;
-        if (m_src.startsWith("consumer:")) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(":", 1));
+        if (m_src.startsWith(QLatin1String("consumer:"))) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(QLatin1String(":"), 1));
         else display_ratio = KdenliveDoc::getDisplayRatio(m_src);
-        mltParameters << "aspect=" + QLocale().toString(display_ratio);
+        mltParameters << QLatin1String("aspect=") + QLocale().toString(display_ratio);
 
         // Ask for progress reporting
-        mltParameters << "progress=1";
+        mltParameters << QLatin1String("progress=1");
 
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
@@ -135,13 +135,13 @@ void ProxyJob::startJob()
     } else {
         m_isFfmpegJob = true;
         QStringList parameters;
-        parameters << "-i" << m_src;
+        parameters << QLatin1String("-i") << m_src;
         QString params = m_proxyParams;
-        foreach(const QString &s, params.split(' '))
+        foreach(const QString &s, params.split(QLatin1Char(' ')))
             parameters << s;
 
         // Make sure we don't block when proxy file already exists
-        parameters << "-y";
+        parameters << QLatin1String("-y");
         parameters << m_dest;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
@@ -184,9 +184,9 @@ void ProxyJob::startJob()
 void ProxyJob::processLogInfo()
 {
     if (!m_jobProcess || m_jobStatus == JobAborted) return;
-    QString log = m_jobProcess->readAll();
+    QString log = QString::fromUtf8(m_jobProcess->readAll());
     if (!log.isEmpty())
-        m_logDetails.append(log + '\n');
+        m_logDetails.append(log + QLatin1Char('\n'));
     else
         return;
 
@@ -194,16 +194,16 @@ void ProxyJob::processLogInfo()
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
-            if (log.contains("Duration:")) {
-                QString data = log.section("Duration:", 1, 1).section(',', 0, 0).simplified();
-                QStringList numbers = data.split(':');
+            if (log.contains(QLatin1String("Duration:"))) {
+                QString data = log.section(QLatin1String("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+                QStringList numbers = data.split(QLatin1Char(':'));
                 m_jobDuration = (int) (numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
             }
         }
-        else if (log.contains("time=")) {
-            QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
-            if (time.contains(':')) {
-                QStringList numbers = time.split(':');
+        else if (log.contains(QLatin1String("time="))) {
+            QString time = log.section(QLatin1String("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
+            if (time.contains(QLatin1Char(':'))) {
+                QStringList numbers = time.split(QLatin1Char(':'));
                 progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
             }
             else progress = (int) time.toDouble();
@@ -212,8 +212,8 @@ void ProxyJob::processLogInfo()
     }
     else {
         // Parse MLT output
-        if (log.contains("percentage:")) {
-            progress = log.section("percentage:", 1).simplified().section(' ', 0, 0).toInt();
+        if (log.contains(QLatin1String("percentage:"))) {
+            progress = log.section(QLatin1String("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
             emit jobProgress(m_clipId, progress, jobType);
         }
     }
@@ -231,7 +231,7 @@ const QString ProxyJob::destination() const
 stringMap ProxyJob::cancelProperties()
 {
     QMap <QString, QString> props;
-    props.insert("proxy", "-");
+    props.insert(QLatin1String("proxy"), QLatin1String("-"));
     return props;
 }
 
