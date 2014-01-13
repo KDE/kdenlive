@@ -49,16 +49,16 @@ void CutClipJob::startJob()
     // Special case: playlist clips (.mlt or .kdenlive project files)
     if (clipType == AV || clipType == Audio || clipType == Video) {
         QStringList parameters;
-        parameters << "-i" << m_src;
+        parameters << QLatin1String("-i") << m_src;
         if (!m_start.isEmpty())
-            parameters << "-ss" << m_start <<"-t" << m_end;
+            parameters << QLatin1String("-ss") << m_start <<QLatin1String("-t") << m_end;
         if (!m_cutExtraParams.isEmpty()) {
-            foreach(const QString &s, m_cutExtraParams.split(' '))
+            foreach(const QString &s, m_cutExtraParams.split(QLatin1Char(' ')))
                 parameters << s;
         }
 
         // Make sure we don't block when proxy file already exists
-        parameters << "-y";
+        parameters << QLatin1String("-y");
         parameters << m_dest;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
@@ -103,18 +103,18 @@ void CutClipJob::startJob()
 void CutClipJob::processLogInfo()
 {
     if (!m_jobProcess || m_jobDuration == 0 || m_jobStatus == JobAborted) return;
-    QString log = m_jobProcess->readAll();
-    if (!log.isEmpty()) m_logDetails.append(log + '\n');
+    QString log = QString::fromUtf8(m_jobProcess->readAll());
+    if (!log.isEmpty()) m_logDetails.append(log + QLatin1Char('\n'));
     int progress;
     // Parse FFmpeg output
-    if (log.contains("frame=")) {
-        progress = log.section("frame=", 1, 1).simplified().section(' ', 0, 0).toInt();
+    if (log.contains(QLatin1String("frame="))) {
+        progress = log.section(QLatin1String("frame="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
         emit jobProgress(m_clipId, (int) (100.0 * progress / m_jobDuration), jobType);
     }
-    else if (log.contains("time=")) {
-        QString time = log.section("time=", 1, 1).simplified().section(' ', 0, 0);
-        if (time.contains(':')) {
-            QStringList numbers = time.split(':');
+    else if (log.contains(QLatin1String("time="))) {
+        QString time = log.section(QLatin1String("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
+        if (time.contains(QLatin1Char(':'))) {
+            QStringList numbers = time.split(QLatin1Char(':'));
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
         }
         else progress = (int) time.toDouble();
