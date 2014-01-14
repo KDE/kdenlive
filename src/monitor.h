@@ -27,7 +27,7 @@
 #include "timecodedisplay.h"
 #include "abstractmonitor.h"
 #ifdef USE_OPENGL
-#include "videoglwidget.h"
+#include "widgets/videoglwidget.h"
 #endif
 
 #include <QLabel>

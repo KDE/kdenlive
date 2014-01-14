@@ -260,7 +260,7 @@ kde4_add_ui_files(kdenlive_UIS
 )
 
 if(OPENGL_FOUND)
-  list(APPEND kdenlive_SRCS videoglwidget.cpp)
+  list(APPEND kdenlive_SRCS widgets/videoglwidget.cpp)
 endif(OPENGL_FOUND)
 
 if(BUILD_JogShuttle)
