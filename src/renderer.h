@@ -31,7 +31,7 @@
 
 #include "gentime.h"
 #include "definitions.h"
-#include "abstractmonitor.h"
+#include "widgets/abstractmonitor.h"
 
 #include <mlt/framework/mlt_types.h>
 

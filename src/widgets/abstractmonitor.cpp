@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "abstractmonitor.h"
+#include "widgets/abstractmonitor.h"
 #include "kdenlivesettings.h"
 #include "monitormanager.h"
 

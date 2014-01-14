@@ -26,7 +26,7 @@
 #include <QFuture>
 #include <QVBoxLayout>
 #include <QTimer>
-#include <abstractmonitor.h>
+#include <widgets/abstractmonitor.h>
 
 class MltDeviceCapture;
 class MonitorManager;

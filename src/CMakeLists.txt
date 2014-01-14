@@ -111,7 +111,6 @@ list(APPEND kdenlive_SRCS
   KoSliderCombo.cpp
   abstractclipitem.cpp
   abstractgroupitem.cpp
-  abstractmonitor.cpp
   clipdurationdialog.cpp
   clipitem.cpp
   clipmanager.cpp
