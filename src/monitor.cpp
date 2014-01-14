@@ -24,6 +24,7 @@
 #include "abstractclipitem.h"
 #include "monitorscene.h"
 #include "widgets/monitoreditwidget.h"
+#include "widgets/videosurface.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>

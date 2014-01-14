@@ -13,5 +13,6 @@ set(kdenlive_SRCS
   widgets/noteswidget.cpp
   widgets/renderwidget.cpp
   widgets/titlewidget.cpp
+  widgets/videosurface.cpp
   PARENT_SCOPE
 )

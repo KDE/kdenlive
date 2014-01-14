@@ -20,7 +20,7 @@
 #ifndef ABSTRACTMONITOR_H
 #define ABSTRACTMONITOR_H
 
-#include "definitions.h"
+#include <stdint.h>
 
 #include <QObject>
 #include <QVector>
@@ -28,10 +28,12 @@
 #include <QImage>
 #include <QFrame>
 
-#include <stdint.h>
+#include "definitions.h"
+#include "widgets/videosurface.h"
 
 class MonitorManager;
 class VideoContainer;
+class VideoSurface;
 
 class AbstractRender: public QObject
 {
@@ -73,22 +75,6 @@ signals:
     /** @brief This signal contains the audio of the current frame. */
     void audioSamplesSignal(const QVector<int16_t>&,int,int,int);
 };
-
-
-
-class VideoSurface : public QWidget
-{
-    Q_OBJECT
-public:
-    VideoSurface(QWidget *parent = 0);
-    
-signals:
-    void refreshMonitor();
-
-protected:
-    virtual void paintEvent ( QPaintEvent * event );
-};
-
 
 class AbstractMonitor : public QWidget
 {

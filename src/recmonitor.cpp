@@ -26,6 +26,7 @@
 #include "monitormanager.h"
 #include "monitor.h"
 #include "profilesdialog.h"
+#include "widgets/videosurface.h"
 
 #include <KDebug>
 #include <KLocalizedString>

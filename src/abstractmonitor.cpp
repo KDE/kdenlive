@@ -160,24 +160,4 @@ void VideoContainer::switchFullScreen()
     }
 }
 
-VideoSurface::VideoSurface(QWidget* parent) :
-    QWidget(parent)
-{
-    // MonitorRefresh is used as container for the SDL display (it's window id is passed to SDL)
-    setAttribute(Qt::WA_PaintOnScreen);
-    setAttribute(Qt::WA_OpaquePaintEvent);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    setAttribute(Qt::WA_NoSystemBackground);
-    //setUpdatesEnabled(false);
-}
-
-void VideoSurface::paintEvent(QPaintEvent *event)
-{
-    Q_UNUSED(event)
-    //WARNING: This might trigger unnecessary refreshes from MLT's producer, but without this,
-    // as soon as monitor is covered by a popup menu or another window, image is corrupted.
-    emit refreshMonitor();
-}
-
-
 #include "abstractmonitor.moc"
