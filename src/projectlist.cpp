@@ -975,7 +975,7 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
         clip->setText(1, properties.value("description"));
         monitorItemEditing(true);
 #ifdef USE_NEPOMUK
-        if (KdenliveSettings::activate_nepomuk() && (type == Audio || type == Video || type == AV || type == Image || type == PLAYLIST)) {
+        if (KdenliveSettings::activate_nepomuk() && (type == Audio || type == Video || type == AV || type == Image || type == Playlist)) {
             // Use Nepomuk system to store clip description
             Nepomuk::Resource f(clip->clipUrl().path());
             f.setDescription(properties.value("description"));
