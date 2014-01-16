@@ -128,13 +128,13 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
 
     QStringList frames = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
     for (int i = 0; i < frames.count(); ++i) {
-        int frame = frames.at(i).section(':', 0, 0).toInt();
+        int frame = frames.at(i).section('=', 0, 0).toInt();
         bool found = false;
         int j;
         for (j = 0; j < keyframe_list->rowCount(); j++) {
             int currentPos = getPos(j);
             if (frame == currentPos) {
-                keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section(':', 1, 1)));
+                keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section('=', 1, 1)));
                 found = true;
                 break;
             } else if (currentPos > frame) {
@@ -144,7 +144,7 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
         if (!found) {
             keyframe_list->insertRow(j);
             keyframe_list->setVerticalHeaderItem(j, new QTableWidgetItem(getPosString(frame)));
-            keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section(':', 1, 1)));
+            keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section('=', 1, 1)));
             keyframe_list->resizeRowToContents(j);
         }
         if ((activeKeyframe > -1) && (activeKeyframe == frame)) {
@@ -251,7 +251,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             QString keyframes;
             for (int i = 0; i < keyframe_list->rowCount(); ++i) {
                 if (keyframe_list->item(i, col))
-                    keyframes.append(QString::number(getPos(i)) + ':' + keyframe_list->item(i, col)->text() + ';');
+                    keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, col)->text() + ';');
             }
             m_params[col].setAttribute("keyframes", keyframes);
         }
@@ -289,7 +289,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
     QString keyframes;
     for (int i = 0; i < keyframe_list->rowCount(); ++i) {
         if (keyframe_list->item(i, column))
-            keyframes.append(QString::number(getPos(i)) + ':' + keyframe_list->item(i, column)->text() + ';');
+            keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, column)->text() + ';');
     }
     m_params[column].setAttribute("keyframes", keyframes);
     emit parameterChanged();
@@ -301,7 +301,7 @@ void KeyframeEdit::generateAllParams()
         QString keyframes;
         for (int i = 0; i < keyframe_list->rowCount(); ++i) {
             if (keyframe_list->item(i, col))
-                keyframes.append(QString::number(getPos(i)) + ':' + keyframe_list->item(i, col)->text() + ';');
+                keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, col)->text() + ';');
         }
         m_params[col].setAttribute("keyframes", keyframes);
     }

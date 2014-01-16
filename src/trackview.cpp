@@ -854,8 +854,8 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 // add first keyframe
                 if (effectout <= effectin) {
                     // there is only one keyframe
-                    keyframes.append(QString::number(effectin) + ':' + locale.toString(startvalue) + ';');
-                } else keyframes.append(QString::number(effectin) + ':' + locale.toString(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
+                    keyframes.append(QString::number(effectin) + '=' + locale.toString(startvalue) + ';');
+                } else keyframes.append(QString::number(effectin) + '=' + locale.toString(startvalue) + ';' + QString::number(effectout) + '=' + QString::number(endvalue) + ';');
                 QDomNode lastParsedEffect;
                 ix++;
                 QDomNode n2 = effects.at(ix);
@@ -880,7 +880,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                         }
                     }
                     if (continueParsing) {
-                        keyframes.append(QString::number(effectout) + ':' + locale.toString(endvalue) + ';');
+                        keyframes.append(QString::number(effectout) + '=' + locale.toString(endvalue) + ';');
                         ix++;
                     }
                 }
@@ -981,7 +981,7 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
                     QString fr = kfrs.at(l).section('=', 0, 0);
                     double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
                     //kfrs[l] = fr + ":" + locale.toString((int)(val * fact));
-                    kfrs[l] = fr + ':' + QString::number((int) (offset + val * fact));
+                    kfrs[l] = fr + '=' + QString::number((int) (offset + val * fact));
                 }
                 e.setAttribute("keyframes", kfrs.join(";"));
             } else if (type == "double" || type == "constant") {
