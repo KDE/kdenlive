@@ -6282,13 +6282,13 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
             QStringList keys = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
             QStringList newKeyFrames;
             foreach(const QString &str, keys) {
-                int pos = str.section(':', 0, 0).toInt();
-                double val = str.section(':', 1, 1).toDouble();
+                int pos = str.section('=', 0, 0).toInt();
+                double val = str.section('=', 1, 1).toDouble();
                 pos += diff;
                 if (pos > max) {
-                    newKeyFrames.append(QString::number(max) + ':' + locale.toString(val));
+                    newKeyFrames.append(QString::number(max) + '=' + locale.toString(val));
                     break;
-                } else newKeyFrames.append(QString::number(pos) + ':' + locale.toString(val));
+                } else newKeyFrames.append(QString::number(pos) + '=' + locale.toString(val));
             }
             //kDebug()<<"ORIGIN: "<<keys<<", FIXED: "<<newKeyFrames;
             e.setAttribute("keyframes", newKeyFrames.join(";"));
@@ -7542,8 +7542,8 @@ void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, Q
             double factor = e.attribute("factor", "1").toDouble();
             double offset = e.attribute("offset", "0").toDouble();
             for (int j = 0; j < values.count(); j++) {
-                QString pos = values.at(j).section(':', 0, 0);
-                double val = (values.at(j).section(':', 1, 1).toDouble() - offset) / factor;
+                QString pos = values.at(j).section('=', 0, 0);
+                double val = (values.at(j).section('=', 1, 1).toDouble() - offset) / factor;
                 values[j] = pos + '=' + locale.toString(val);
             }
             // kDebug() << "/ / / /SENDING KEYFR:" << values;
@@ -7784,21 +7784,21 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
     if (ui.import_position->isChecked()) {
         if (ui.import_size->isChecked()) {
             foreach(QString key, keyframeList) {
-                if (key.count(':') > 1) result.append(key.section(':', 0, 1));
+                if (key.count('=') > 1) result.append(key.section('=', 0, 1));
                 else result.append(key);
                 result.append(';');
             }
         }
         else {
             foreach(QString key, keyframeList) {
-                result.append(key.section(':', 0, 0));
+                result.append(key.section('=', 0, 0));
                 result.append(';');
             }
         }
     }
     else if (ui.import_size->isChecked()) {
         foreach(QString key, keyframeList) {
-            result.append(key.section(':', 1, 1));
+            result.append(key.section('=', 1, 1));
             result.append(';');
         }
     }

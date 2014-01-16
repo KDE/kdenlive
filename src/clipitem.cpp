@@ -260,7 +260,7 @@ void ClipItem::initEffect(QDomElement effect, int diff, int offset)
         if (e.attribute("type") == "keyframe" || e.attribute("type") == "simplekeyframe") {
             if (e.attribute("keyframes").isEmpty()) {
                 // Effect has a keyframe type parameter, we need to set the values
-                e.setAttribute("keyframes", QString::number((int) cropStart().frames(m_fps)) + ':' + e.attribute("default"));
+                e.setAttribute("keyframes", QString::number((int) cropStart().frames(m_fps)) + '=' + e.attribute("default"));
             }
             else if (offset != 0) {
                 // adjust keyframes to this clip
@@ -341,8 +341,8 @@ const QString ClipItem::adjustKeyframes(const QString &keyframes, int offset)
     // Simple keyframes
     const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
     foreach(const QString &keyframe, list) {
-        const int pos = keyframe.section(':', 0, 0).toInt() - offset;
-        const QString newKey = QString::number(pos) + ":" + keyframe.section(':', 1);
+        const int pos = keyframe.section('=', 0, 0).toInt() - offset;
+        const QString newKey = QString::number(pos) + "=" + keyframe.section('=', 1);
         result.append(newKey);
     }
     return result.join(";");
@@ -376,8 +376,8 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
 
             // go through all keyframes for one param
             foreach(const QString &str, keyframes) {
-                int pos = str.section(':', 0, 0).toInt();
-                double val = locale.toDouble(str.section(':', 1, 1));
+                int pos = str.section('=', 0, 0).toInt();
+                double val = locale.toDouble(str.section('=', 1, 1));
                 if (pos - start < 0) {
                     // a keyframe is defined before the start of the clip
                     cutKeyFrame = true;
@@ -387,7 +387,7 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
                         int diff = pos - lastPos;
                         double ratio = (double)(start - lastPos) / diff;
                         int newValue = lastValue + (val - lastValue) * ratio;
-                        newKeyFrames.append(QString::number(start) + ':' + QString::number(newValue));
+                        newKeyFrames.append(QString::number(start) + '=' + QString::number(newValue));
                         modified = true;
                     }
                     cutKeyFrame = false;
@@ -399,12 +399,12 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
                         if (diff != 0) {
                             double ratio = (double)(end - lastPos) / diff;
                             int newValue = lastValue + (val - lastValue) * ratio;
-                            newKeyFrames.append(QString::number(end) + ':' + QString::number(newValue));
+                            newKeyFrames.append(QString::number(end) + '=' + QString::number(newValue));
                             modified = true;
                         }
                         break;
                     } else {
-                        newKeyFrames.append(QString::number(pos) + ':' + QString::number(val));
+                        newKeyFrames.append(QString::number(pos) + '=' + QString::number(val));
                     }
                 }
                 lastPos = pos;
@@ -449,8 +449,8 @@ void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
                 // parse keyframes
                 const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                 foreach(const QString &str, keyframes) {
-                    int pos = str.section(':', 0, 0).toInt();
-                    double val = locale.toDouble(str.section(':', 1, 1));
+                    int pos = str.section('=', 0, 0).toInt();
+                    double val = locale.toDouble(str.section('=', 1, 1));
                     m_keyframes[pos] = val;
                 }
                 if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end()) m_editedKeyframe = -1;
@@ -487,8 +487,8 @@ void ClipItem::setSelectedEffect(const int ix)
                 // parse keyframes
                 const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
                 foreach(const QString &str, keyframes) {
-                    int pos = str.section(':', 0, 0).toInt();
-                    double val = locale.toDouble(str.section(':', 1, 1));
+                    int pos = str.section('=', 0, 0).toInt();
+                    double val = locale.toDouble(str.section('=', 1, 1));
                     m_keyframes[pos] = val;
                 }
                 if (m_keyframes.find(m_editedKeyframe) == m_keyframes.end())
@@ -548,7 +548,7 @@ void ClipItem::updateKeyframeEffect()
         if (m_keyframes.count() > 0) {
             QMap<int, int>::const_iterator i = m_keyframes.constBegin();
             while (i != m_keyframes.constEnd()) {
-                keyframes.append(QString::number(i.key()) + ':' + QString::number(i.value()) + ';');
+                keyframes.append(QString::number(i.key()) + '=' + QString::number(i.value()) + ';');
                 ++i;
             }
         }
@@ -1647,8 +1647,8 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
                 double offset = e.attribute("offset", "0").toDouble();
                 if (factor != 1 || offset != 0) {
                     for (int j = 0; j < values.count(); j++) {
-                        QString pos = values.at(j).section(':', 0, 0);
-                        double val = (locale.toDouble(values.at(j).section(':', 1, 1)) - offset) / factor;
+                        QString pos = values.at(j).section('=', 0, 0);
+                        double val = (locale.toDouble(values.at(j).section('=', 1, 1)) - offset) / factor;
                         values[j] = pos + '=' + locale.toString(val);
                     }
                 }
@@ -1900,24 +1900,24 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
             QStringList newkfr;
             bool added = false;
             foreach(const QString &str, keyframes) {
-                int kpos = str.section(':', 0, 0).toInt();
-                double newval = locale.toDouble(str.section(':', 1, 1));
+                int kpos = str.section('=', 0, 0).toInt();
+                double newval = locale.toDouble(str.section('=', 1, 1));
                 if (kpos < pos) {
                     newkfr.append(str);
                 } else if (!added) {
                     if (i == m_visibleParam)
-                        newkfr.append(QString::number(pos) + ':' + QString::number(val));
+                        newkfr.append(QString::number(pos) + '=' + QString::number(val));
                     else
-                        newkfr.append(QString::number(pos) + ':' + locale.toString(newval));
+                        newkfr.append(QString::number(pos) + '=' + locale.toString(newval));
                     if (kpos > pos) newkfr.append(str);
                     added = true;
                 } else newkfr.append(str);
             }
             if (!added) {
                 if (i == m_visibleParam)
-                    newkfr.append(QString::number(pos) + ':' + QString::number(val));
+                    newkfr.append(QString::number(pos) + '=' + QString::number(val));
                 else
-                    newkfr.append(QString::number(pos) + ':' + e.attribute("default"));
+                    newkfr.append(QString::number(pos) + '=' + e.attribute("default"));
             }
             e.setAttribute("keyframes", newkfr.join(";"));
         }
@@ -1940,15 +1940,15 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
             foreach(const QString &str, keyframes) {
-                if (str.section(':', 0, 0).toInt() != oldpos) {
+                if (str.section('=', 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
                     newpos = qMax(newpos, start);
                     newpos = qMin(newpos, end);
                     if (i == m_visibleParam)
-                        newkfr.append(QString::number(newpos) + ':' + locale.toString(value));
+                        newkfr.append(QString::number(newpos) + '=' + locale.toString(value));
                     else
-                        newkfr.append(QString::number(newpos) + ':' + str.section(':', 1, 1));
+                        newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
                 }
             }
             e.setAttribute("keyframes", newkfr.join(";"));
@@ -1974,8 +1974,8 @@ void ClipItem::updateKeyframes(QDomElement effect)
     m_limitedKeyFrames = e.attribute("type") == "keyframe";
     const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
     foreach(const QString &str, keyframes) {
-        int pos = str.section(':', 0, 0).toInt();
-        double val = locale.toDouble(str.section(':', 1, 1));
+        int pos = str.section('=', 0, 0).toInt();
+        double val = locale.toDouble(str.section('=', 1, 1));
         m_keyframes[pos] = val;
     }
     if (!m_keyframes.contains(m_selectedKeyframe)) m_selectedKeyframe = -1;
@@ -2087,13 +2087,13 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
     const QStringList data = parameter.attribute("keyframes").split(';', QString::SkipEmptyParts);
     QMap <int, double> keyframes;
     foreach (QString keyframe, data) {
-        int keyframepos = keyframe.section(':', 0, 0).toInt();
+        int keyframepos = keyframe.section('=', 0, 0).toInt();
         // if keyframe was at clip start, update it
         if (keyframepos == oldin) {
             keyframepos = in;
             keyFrameUpdated = true;
         }
-        keyframes[keyframepos] = locale.toDouble(keyframe.section(':', 1, 1));
+        keyframes[keyframepos] = locale.toDouble(keyframe.section('=', 1, 1));
     }
 
 
@@ -2150,7 +2150,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
         QString newkfr;
         QMap<int, double>::const_iterator k = keyframes.constBegin();
         while (k != keyframes.constEnd()) {
-            newkfr.append(QString::number(k.key()) + ':' + QString::number(qRound(k.value())) + ';');
+            newkfr.append(QString::number(k.key()) + '=' + QString::number(qRound(k.value())) + ';');
             ++k;
         }
         parameter.setAttribute("keyframes", newkfr);

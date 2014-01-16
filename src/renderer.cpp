@@ -2879,8 +2879,8 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
                 filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
-                int x1 = keyFrames.at(0).section(':', 0, 0).toInt();
-                double y1 = keyFrames.at(0).section(':', 1, 1).toDouble();
+                int x1 = keyFrames.at(0).section('=', 0, 0).toInt();
+                double y1 = keyFrames.at(0).section('=', 1, 1).toDouble();
                 for (int j = 0; j < params.count(); j++) {
                     filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
                 }
@@ -2899,10 +2899,10 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
                 filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
-                int x1 = keyFrames.at(i).section(':', 0, 0).toInt();
-                double y1 = keyFrames.at(i).section(':', 1, 1).toDouble();
-                int x2 = keyFrames.at(i + 1).section(':', 0, 0).toInt();
-                double y2 = keyFrames.at(i + 1).section(':', 1, 1).toDouble();
+                int x1 = keyFrames.at(i).section('=', 0, 0).toInt();
+                double y1 = keyFrames.at(i).section('=', 1, 1).toDouble();
+                int x2 = keyFrames.at(i + 1).section('=', 0, 0).toInt();
+                double y2 = keyFrames.at(i + 1).section('=', 1, 1).toDouble();
                 if (x2 == -1) x2 = duration;
 
                 for (int j = 0; j < params.count(); j++) {
