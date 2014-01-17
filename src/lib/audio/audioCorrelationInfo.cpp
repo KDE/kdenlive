@@ -9,7 +9,6 @@
  ***************************************************************************/
 
 #include "audioCorrelationInfo.h"
-#include <iostream>
 
 
 AudioCorrelationInfo::AudioCorrelationInfo(int mainSize, int subSize) :

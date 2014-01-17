@@ -15,7 +15,6 @@
 #include <QImage>
 #include <QTime>
 #include <cmath>
-#include <iostream>
 
 AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length) :
     m_envelope(NULL),
@@ -79,7 +78,7 @@ void AudioEnvelope::loadEnvelope()
 {
     Q_ASSERT(m_envelope == NULL);
 
-    std::cout << "Loading envelope ..." << std::endl;
+    qDebug() << "Loading envelope ...";
 
     int samplingRate = m_info->info(0)->samplingRate();
     mlt_audio_format format_s16 = mlt_audio_s16;
@@ -117,7 +116,7 @@ void AudioEnvelope::loadEnvelope()
             m_envelopeMax = sum;
         }
 
-//        std::cout << position << "|" << m_producer->get_playtime()
+//        qDebug() << position << "|" << m_producer->get_playtime()
 //                  << "-" << m_producer->get_in() << "+" << m_producer->get_out() << " ";
 
         delete frame;
@@ -128,14 +127,14 @@ void AudioEnvelope::loadEnvelope()
         }
     }
     m_envelopeMean /= m_envelopeSize;
-    std::cout << "Calculating the envelope (" << m_envelopeSize << " frames) took "
-              << t.elapsed() << " ms." << std::endl;
+    qDebug() << "Calculating the envelope (" << m_envelopeSize << " frames) took "
+              << t.elapsed() << " ms.";
 }
 
 int64_t AudioEnvelope::loadStdDev()
 {
     if (m_envelopeStdDevCalculated) {
-        std::cout << "Standard deviation already calculated, not re-calculating." << std::endl;
+        qDebug() << "Standard deviation already calculated, not re-calculating.";
     } else {
 
         if (m_envelope == NULL) {
@@ -208,15 +207,14 @@ QImage AudioEnvelope::drawEnvelope()
 void AudioEnvelope::dumpInfo() const
 {
     if (m_envelope == NULL) {
-        std::cout << "Envelope not generated, no information available." << std::endl;
+        qDebug() << "Envelope not generated, no information available.";
     } else {
-        std::cout << "Envelope info" << std::endl
-                  << "* size = " << m_envelopeSize << std::endl
-                  << "* max = " << m_envelopeMax << std::endl
-                  << "* µ = " << m_envelopeMean << std::endl
-                     ;
+        qDebug() << "Envelope info"
+                 << "\n* size = " << m_envelopeSize
+                 << "\n* max = " << m_envelopeMax
+                 << "\n* µ = " << m_envelopeMean;
         if (m_envelopeStdDevCalculated) {
-            std::cout << "* s = " << m_envelopeStdDev << std::endl;
+            qDebug() << "* s = " << m_envelopeStdDev;
         }
     }
 }

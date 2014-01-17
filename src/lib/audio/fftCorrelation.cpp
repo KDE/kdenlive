@@ -15,8 +15,8 @@ extern "C"
 #include "../external/kiss_fft/tools/kiss_fftr.h"
 }
 
+#include <QDebug>
 #include <QTime>
-#include <iostream>
 #include <algorithm>
 
 void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
@@ -74,7 +74,7 @@ void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
     // Now we can convolve to get the correlation
     convolve(leftF, leftSize, rightF, rightSize, out_correlated);
 
-    std::cout << "Correlation (FFT based) computed in " << t.elapsed() << " ms." << std::endl;
+    qDebug() << "Correlation (FFT based) computed in " << t.elapsed() << " ms.";
 }
 
 void FFTCorrelation::convolve(const float *left, const int leftSize,
@@ -141,5 +141,5 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
     kiss_fftr_free(fftConfig);
     kiss_fftr_free(ifftConfig);
 
-    std::cout << "FFT convolution computed. Time taken: " << time.elapsed() << " ms" << std::endl;
+    qDebug() << "FFT convolution computed. Time taken: " << time.elapsed() << " ms";
 }

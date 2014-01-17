@@ -991,7 +991,7 @@ void TitleWidget::selectionChanged()
 {
     if (m_scene->tool() != TITLE_SELECT) return;
 
-    std::cout << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << "\n";
+    kDebug() << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << "\n";
 
     QList<QGraphicsItem *> l;
 
@@ -1046,7 +1046,7 @@ void TitleWidget::selectionChanged()
                 break;
             }
         }
-        std::cout << "All equal? " << allEqual << ".\n";
+        kDebug() << "All equal? " << allEqual << ".\n";
         if (allEqual) {
             prepareTools(l.at(0));
         } else {
@@ -1093,7 +1093,7 @@ void TitleWidget::slotValueChanged(int type)
     */
 
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    std::cout << l.size() << " items to be resized\n";
+    kDebug() << l.size() << " items to be resized\n";
 
     // Get the updated value here already to do less coding afterwards
     int val = 0;
@@ -1113,7 +1113,7 @@ void TitleWidget::slotValueChanged(int type)
     }
 
     for (int k = 0; k < l.size(); ++k) {
-        std::cout << "Type of item " << k << ": " << l.at(k)->type() << "\n";
+        kDebug() << "Type of item " << k << ": " << l.at(k)->type() << "\n";
 
         if (l.at(k)->type() == TEXTITEM) {
             // Just update the position. We don't allow setting width/height for text items yet.
@@ -1191,8 +1191,8 @@ void TitleWidget::slotValueChanged(int type)
                 qtrans.rotate(t.rotatey, Qt::YAxis);
                 qtrans.rotate(t.rotatez, Qt::ZAxis);
                 i->setTransform(qtrans);
-                std::cout << "scale is: " << scale << "\n";
-                std::cout << i->boundingRect().width() << ": new width\n";
+                kDebug() << "scale is: " << scale << "\n";
+                kDebug() << i->boundingRect().width() << ": new width\n";
                 m_transformations[i] = t;
 
                 if (l.size() == 1) {
@@ -1236,7 +1236,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_h->setValue(i->sceneBoundingRect().height());
     } else if (i->type() == RECTITEM) {
         QGraphicsRectItem *r = static_cast <QGraphicsRectItem *>(i);
-        std::cout << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << "\n";
+        kDebug() << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << "\n";
         value_w->setValue((int) r->rect().width());
         value_h->setValue((int) r->rect().height());
     } else if (i->type() == TEXTITEM) {
@@ -2406,14 +2406,14 @@ void TitleWidget::slotZIndexTop()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     qreal max = zIndexBounds(true, false);
-    std::cout << "Max z-index is " << max << ".\n";
+    kDebug() << "Max z-index is " << max << ".\n";
     for (int i = 0; i < l.size(); ++i) {
         qreal currentZ = l[i]->zValue();
         if (currentZ <= max) {
-            std::cout << "Updating item " << i << ", is " << currentZ << ".\n";
+            kDebug() << "Updating item " << i << ", is " << currentZ << ".\n";
             l[i]->setZValue(max + 1);
         } else {
-            std::cout << "Not updating " << i << ", is " << currentZ << ".\n";
+            kDebug() << "Not updating " << i << ", is " << currentZ << ".\n";
         }
     }
     // Update the z index value in the GUI
@@ -2539,7 +2539,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_h->blockSignals(true);
 
     if (referenceItem == NULL) {
-        std::cout << "NULL item.\n";
+        kDebug() << "NULL item.\n";
         effect_stack->setHidden(true);
         effect_frame->setEnabled(false);
         effect_list->setCurrentIndex(0);

@@ -12,7 +12,6 @@
 
 #include "audioStreamInfo.h"
 #include <QString>
-#include <iostream>
 #include <cstdlib>
 
 AudioInfo::AudioInfo(Mlt::Producer *producer) :

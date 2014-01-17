@@ -11,9 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include "audioCorrelation.h"
 #include "fftCorrelation.h"
 
+#include <QDebug>
 #include <QTime>
 #include <cmath>
 #include <iostream>
+
 
 AudioCorrelation::AudioCorrelation(AudioEnvelope *mainTrackEnvelope) :
     m_mainTrackEnvelope(mainTrackEnvelope)
@@ -31,7 +33,7 @@ AudioCorrelation::~AudioCorrelation()
         delete info;
     }
 
-    std::cout << "Envelope deleted." << std::endl;
+    qDebug() << "Envelope deleted.";
 }
 
 int AudioCorrelation::addChild(AudioEnvelope *envelope, bool useFFT)
@@ -146,7 +148,7 @@ void AudioCorrelation::correlate(const int64_t *envMain, int sizeMain,
         }
 
     }
-    std::cout << "Correlation calculated. Time taken: " << t.elapsed() << " ms." << std::endl;
+    qDebug() << "Correlation calculated. Time taken: " << t.elapsed() << " ms.";
 
     if (out_max != NULL) {
         *out_max = max;

@@ -1213,9 +1213,11 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
                 fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
                 if (QString(fileHash.toHex()) == matchHash)
                     return file.fileName();
+                else
+                    kDebug() << filesAndDirs.at(i) << "size match but not hash";
             }
         }
-        kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
+        //kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {

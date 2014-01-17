@@ -10,8 +10,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "audioStreamInfo.h"
 
+#include <QDebug>
 #include <QString>
-#include <iostream>
 #include <cstdlib>
 
 AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) :
@@ -73,11 +73,9 @@ const QString& AudioStreamInfo::codecName(bool longName) const
 
 void AudioStreamInfo::dumpInfo() const
 {
-    std::cout << "Info for audio stream " << m_audioStreamIndex << std::endl
-              << "\tCodec: " << m_codecLongName.toLocal8Bit().data() << " (" << m_codecName.toLocal8Bit().data() << ")" << std::endl
-              << "\tChannels: " << m_channels << std::endl
-              << "\tSampling rate: " << m_samplingRate << std::endl
-              << "\tBit rate: " << m_bitRate << std::endl
-                 ;
-
+    qDebug() << "Info for audio stream " << m_audioStreamIndex
+             << "\n\tCodec: " << m_codecLongName.toLocal8Bit().data() << " (" << m_codecName.toLocal8Bit().data() << ")"
+             << "\n\tChannels: " << m_channels
+             << "\n\tSampling rate: " << m_samplingRate
+             << "\n\tBit rate: " << m_bitRate;
 }
