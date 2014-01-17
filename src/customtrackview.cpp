@@ -1663,7 +1663,7 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Add timeline clip"));
     new RefreshMonitorCommand(this, false, true, addCommand);
-    new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, true, false, addCommand);
+    new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
     updateTrackDuration(pasteInfo.track, addCommand);
     
@@ -2823,7 +2823,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             ItemInfo clipInfo = info;
             clipInfo.track = m_document->tracksCount() - item->track();
 
-            int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
+            int worked = m_document->renderer()->mltInsertClip(clipInfo, item->xml(), item->baseClip()->getProducer(item->track()), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
             if (worked == -1) {
                 emit displayMessage(i18n("Cannot insert clip in timeline"), ErrorMessage);
                 brokenClips.append(item);
@@ -2831,7 +2831,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             }
             adjustTimelineClips(m_scene->editMode(), item, ItemInfo(), addCommand);
 
-            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, false, false, addCommand);
+            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, false, false, addCommand);
             updateTrackDuration(info.track, addCommand);
 
             if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
@@ -2892,11 +2892,11 @@ void CustomTrackView::dropEvent(QDropEvent * event)
     setFocus();
 }
 
-void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command)
+void CustomTrackView::adjustTimelineClips(EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command)
 {
     bool snap = KdenliveSettings::snaptopoints();
     KdenliveSettings::setSnaptopoints(false);
-    if (mode == OVERWRITEEDIT) {
+    if (mode == OverwriteEdit) {
         // if we are in overwrite mode, move clips accordingly
         ItemInfo info;
         if (item == NULL) info = posinfo;
@@ -2947,7 +2947,7 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
                 }
             }
         }
-    } else if (mode == INSERTEDIT) {
+    } else if (mode == InsertEdit) {
         // if we are in push mode, move clips accordingly
         ItemInfo info;
         if (item == NULL) info = posinfo;
@@ -2981,9 +2981,9 @@ void CustomTrackView::adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInf
 }
 
 
-void CustomTrackView::adjustTimelineTransitions(EDITMODE mode, Transition *item, QUndoCommand *command)
+void CustomTrackView::adjustTimelineTransitions(EditMode mode, Transition *item, QUndoCommand *command)
 {
-    if (mode == OVERWRITEEDIT) {
+    if (mode == OverwriteEdit) {
         // if we are in overwrite or push mode, move clips accordingly
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
@@ -3806,7 +3806,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             if (m_dragItem->type() == AVWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
                 Mlt::Producer *prod = item->getProducer(info.track);
-                bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - info.track), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(info.startPos.frames(m_document->fps())), prod, m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
+                bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - info.track), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(info.startPos.frames(m_document->fps())), prod, m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
 
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
@@ -4015,7 +4015,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         int trackProducer = info.track;
                         info.track = m_document->tracksCount() - info.track;
                         adjustTimelineClips(m_scene->editMode(), clip, ItemInfo(), moveGroup);
-                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT);
+                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->getProducer(trackProducer), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit);
                         for (int i = 0; i < clip->effectsCount(); ++i) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, getEffectArgs(clip->effect(i)), false);
                         }
@@ -6048,7 +6048,7 @@ void CustomTrackView::copyClip()
 
 bool CustomTrackView::canBePastedTo(ItemInfo info, int type) const
 {
-    if (m_scene->editMode() != NORMALEDIT) {
+    if (m_scene->editMode() != NormalEdit) {
         // If we are in overwrite mode, always allow the move
         return true;
     }
@@ -6183,7 +6183,7 @@ void CustomTrackView::pasteClip()
             info.endPos += offset;
             info.track += trackOffset;
             if (canBePastedTo(info, AVWidget)) {
-                new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), m_scene->editMode() == OVERWRITEEDIT, m_scene->editMode() == INSERTEDIT, true, false, pasteClips);
+                new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, pasteClips);
             } else emit displayMessage(i18n("Cannot paste clip to selected place"), ErrorMessage);
         } else if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == TransitionWidget) {
             Transition *tr = static_cast <Transition *>(m_copiedItems.at(i));
@@ -7350,7 +7350,7 @@ QStringList CustomTrackView::extractTransitionsLumas()
     return urls;
 }
 
-void CustomTrackView::setEditMode(EDITMODE mode)
+void CustomTrackView::setEditMode(EditMode mode)
 {
     m_scene->setEditMode(mode);
 }
@@ -7389,7 +7389,7 @@ void CustomTrackView::insertZoneOverwrite(QStringList data, int in)
     info.track = m_selectedTrack;
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Insert clip"));
-    adjustTimelineClips(OVERWRITEEDIT, NULL, info, addCommand);
+    adjustTimelineClips(OverwriteEdit, NULL, info, addCommand);
     new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), info, EffectsList(), true, false, true, false, addCommand);
     updateTrackDuration(info.track, addCommand);
     m_commandStack->push(addCommand);

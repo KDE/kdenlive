@@ -26,7 +26,7 @@ CustomTrackScene::CustomTrackScene(KdenliveDoc *doc, QObject *parent) :
         QGraphicsScene(parent),
         m_document(doc),
         m_scale(1.0, 1.0),
-        m_editMode(NORMALEDIT)
+        m_editMode(NormalEdit)
 {
 }
 
@@ -98,12 +98,12 @@ MltVideoProfile CustomTrackScene::profile() const
     return m_document->mltProfile();
 }
 
-void CustomTrackScene::setEditMode(EDITMODE mode)
+void CustomTrackScene::setEditMode(EditMode mode)
 {
     m_editMode = mode;
 }
 
-EDITMODE CustomTrackScene::editMode() const
+EditMode CustomTrackScene::editMode() const
 {
     return m_editMode;
 }

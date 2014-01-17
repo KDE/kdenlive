@@ -61,7 +61,7 @@ public:
 
     AbstractRender *abstractRender();
     void analyseFrames(bool analyse);
-    enum CAPTUREDEVICE {
+    enum CaptureDevice {
         Firewire = 0,
         Video4Linux = 1,
         ScreenBag = 2,

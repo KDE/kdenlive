@@ -35,7 +35,13 @@
 class KdenliveDoc;
 class MltVideoProfile;
 
-enum EDITMODE { NORMALEDIT = 0 , OVERWRITEEDIT = 1 , INSERTEDIT = 2 };
+enum EditMode {
+    NormalEdit = 0,
+    OverwriteEdit = 1,
+    InsertEdit = 2
+};
+
+
 
 class CustomTrackScene : public QGraphicsScene
 {
@@ -52,14 +58,14 @@ public:
     QPointF scale() const;
     int tracksCount() const;
     MltVideoProfile profile() const;
-    void setEditMode(EDITMODE mode);
-    EDITMODE editMode() const;
+    void setEditMode(EditMode mode);
+    EditMode editMode() const;
 
 private:
     KdenliveDoc *m_document;
     QList <GenTime> m_snapPoints;
     QPointF m_scale;
-    EDITMODE m_editMode;
+    EditMode m_editMode;
 };
 
 #endif

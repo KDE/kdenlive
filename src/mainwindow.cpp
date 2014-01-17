@@ -3585,11 +3585,11 @@ void MainWindow::slotChangeEdit(QAction * action)
         return;
 
     if (action == m_overwriteEditTool)
-        m_activeTimeline->projectView()->setEditMode(OVERWRITEEDIT);
+        m_activeTimeline->projectView()->setEditMode(OverwriteEdit);
     else if (action == m_insertEditTool)
-        m_activeTimeline->projectView()->setEditMode(INSERTEDIT);
+        m_activeTimeline->projectView()->setEditMode(InsertEdit);
     else
-        m_activeTimeline->projectView()->setEditMode(NORMALEDIT);
+        m_activeTimeline->projectView()->setEditMode(NormalEdit);
 }
 
 void MainWindow::slotSetTool(ProjectTool tool)

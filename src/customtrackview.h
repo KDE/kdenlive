@@ -183,7 +183,7 @@ public:
     void selectClip(bool add, bool group = false, int track = -1, int pos = -1);
     void selectTransition(bool add, bool group = false);
     QStringList extractTransitionsLumas();
-    void setEditMode(EDITMODE mode);
+    void setEditMode(EditMode mode);
 
     /** @brief Inserts @param clip.
     * @param clip The clip to insert
@@ -418,8 +418,8 @@ private:
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
     /** Adjust clips under another one when working in overwrite mode */
-    void adjustTimelineClips(EDITMODE mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command);
-    void adjustTimelineTransitions(EDITMODE mode, Transition *item, QUndoCommand *command);
+    void adjustTimelineClips(EditMode mode, ClipItem *item, ItemInfo posinfo, QUndoCommand *command);
+    void adjustTimelineTransitions(EditMode mode, Transition *item, QUndoCommand *command);
     /** Adjust keyframes when pasted to another clip */
     void adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml);
 

@@ -1415,7 +1415,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         QRectF sceneShape = rect();
         sceneShape.translate(newPos);
         QList<QGraphicsItem*> items;
-        if (projectScene()->editMode() == NORMALEDIT)
+        if (projectScene()->editMode() == NormalEdit)
             items = scene()->items(sceneShape, Qt::IntersectsItemShape);
         items.removeAll(this);
         bool forwardMove = newPos.x() > pos().x();
