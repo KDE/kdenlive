@@ -841,6 +841,7 @@ void KdenliveDoc::setProjectFolder(KUrl url)
     KStandardDirs::makeDir(url.path());
     KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "titles/");
     KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "thumbs/");
+    KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "proxy/");
     if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
 
@@ -862,12 +863,16 @@ void KdenliveDoc::moveProjectData(const KUrl &url)
         }
         QString hash = clip->getClipHash();
         KUrl oldVideoThumbUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".png");
-        KUrl oldAudioThumbUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".thumb");
         if (KIO::NetAccess::exists(oldVideoThumbUrl, KIO::NetAccess::SourceSide, 0)) {
             cacheUrls << oldVideoThumbUrl;
         }
+        KUrl oldAudioThumbUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".thumb");
         if (KIO::NetAccess::exists(oldAudioThumbUrl, KIO::NetAccess::SourceSide, 0)) {
             cacheUrls << oldAudioThumbUrl;
+        }
+        KUrl oldVideoProxyUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "proxy/" + hash + '.' + KdenliveSettings::proxyextension());
+        if (KIO::NetAccess::exists(oldVideoProxyUrl, KIO::NetAccess::SourceSide, 0)) {
+            cacheUrls << oldVideoProxyUrl;
         }
     }
     if (!cacheUrls.isEmpty()) {
@@ -1145,6 +1150,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 elem.setAttribute("placeholder", '1');
             }
             if (!newpath.isEmpty()) {
+                kDebug() << "// NEW CLIP PATH FOR CLIP " << clipId << " : " << newpath;
                 if (elem.attribute("type").toInt() == SlideShow)
                     newpath.append('/' + extension);
                 elem.setAttribute("resource", newpath);
