@@ -428,7 +428,7 @@ private slots:
     void slotShowClipProperties(const QList<DocClipBase *> &cliplist, const QMap<QString, QString> &commonproperties);
     void slotTimelineClipSelected(ClipItem* item, bool raise = true);
     void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
-    void slotActivateTransitionView(Transition *);
+    void slotActivateTransitionView(Transition *transition);
     void slotChangeTool(QAction * action);
     void slotChangeEdit(QAction * action);
     void slotSetTool(ProjectTool tool);
