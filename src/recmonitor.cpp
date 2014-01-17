@@ -201,7 +201,7 @@ void RecMonitor::slotSwitchFullScreen()
 void RecMonitor::stop()
 {
     // Special case: when recording audio only, do not stop so that we can do voiceover.
-    if (device_selector->currentIndex() == SCREENGRAB || (device_selector->currentIndex() == VIDEO4LINUX && !rec_video->isChecked())) return;
+    if (device_selector->currentIndex() == ScreenBag || (device_selector->currentIndex() == Video4Linux && !rec_video->isChecked())) return;
     slotStopCapture();
 }
 
@@ -221,7 +221,7 @@ void RecMonitor::slotUpdateCaptureFolder(const QString &currentProjectFolder)
     else m_capturePath = KdenliveSettings::capturefolder();
     if (m_captureProcess) m_captureProcess->setWorkingDirectory(m_capturePath);
     if (m_captureProcess->state() != QProcess::NotRunning) {
-        if (device_selector->currentIndex() == FIREWIRE)
+        if (device_selector->currentIndex() == Firewire)
             KMessageBox::information(this, i18n("You need to disconnect and reconnect in the capture monitor to apply your changes"), i18n("Capturing"));
         else KMessageBox::information(this, i18n("You need to stop capture before your changes can be applied"), i18n("Capturing"));
     } else slotVideoDeviceChanged(device_selector->currentIndex());
@@ -243,14 +243,14 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 #endif
     }
 #endif
-    m_previewSettings->setEnabled(ix == VIDEO4LINUX || ix == BLACKMAGIC);
-    control_frame->setVisible(ix == VIDEO4LINUX);
-    m_playAction->setVisible(ix != SCREENGRAB);
-    m_fwdAction->setVisible(ix == FIREWIRE);
-    m_discAction->setVisible(ix == FIREWIRE);
-    m_rewAction->setVisible(ix == FIREWIRE);
-    m_recAction->setEnabled(ix != FIREWIRE);
-    m_logger.setVisible(ix == BLACKMAGIC);
+    m_previewSettings->setEnabled(ix == Video4Linux || ix == BlackMagic);
+    control_frame->setVisible(ix == Video4Linux);
+    m_playAction->setVisible(ix != ScreenBag);
+    m_fwdAction->setVisible(ix == Firewire);
+    m_discAction->setVisible(ix == Firewire);
+    m_rewAction->setVisible(ix == Firewire);
+    m_recAction->setEnabled(ix != Firewire);
+    m_logger.setVisible(ix == BlackMagic);
     if (m_captureDevice) {
         // MLT capture still running, abort
         m_monitorManager->clearScopeSource();
@@ -260,10 +260,10 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
     }
 
     // The m_videoBox container has to be shown once before the MLT consumer is build, or preview will fail
-    videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC);
+    videoBox->setHidden(ix != Video4Linux && ix != BlackMagic);
     videoBox->setHidden(true);
     switch (ix) {
-    case SCREENGRAB:
+    case ScreenBag:
         m_discAction->setEnabled(false);
         m_rewAction->setEnabled(false);
         m_fwdAction->setEnabled(false);
@@ -288,12 +288,12 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 	}
         //video_frame->setText(i18n("Press record button\nto start screen capture"));
         break;
-    case VIDEO4LINUX:
+    case Video4Linux:
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
         checkDeviceAvailability();
         break;
-    case BLACKMAGIC:
+    case BlackMagic:
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
         capturefile = m_capturePath;
@@ -421,17 +421,17 @@ void RecMonitor::slotStopCapture()
     control_frame->setEnabled(true);
     slotActivateMonitor();
     switch (device_selector->currentIndex()) {
-    case FIREWIRE:
+    case Firewire:
         m_captureProcess->write("\e", 2);
         m_playAction->setIcon(m_playIcon);
         m_isPlaying = false;
         break;
-    case SCREENGRAB:
+    case ScreenBag:
 	m_captureProcess->terminate();
         QTimer::singleShot(1500, m_captureProcess, SLOT(kill()));
         break;
-    case VIDEO4LINUX:
-    case BLACKMAGIC:
+    case Video4Linux:
+    case BlackMagic:
         if (m_captureDevice) {
             m_captureDevice->stop();
         }
@@ -457,7 +457,7 @@ void RecMonitor::slotStopCapture()
 void RecMonitor::slotStartPreview(bool play)
 {
     if (m_captureProcess->state() != QProcess::NotRunning) {
-        if (device_selector->currentIndex() == FIREWIRE) {
+        if (device_selector->currentIndex() == Firewire) {
             videoBox->setHidden(false);
             if (m_isPlaying) {
                 m_captureProcess->write("k", 1);
@@ -484,9 +484,9 @@ void RecMonitor::slotStartPreview(bool play)
     QStringList dvargs = KdenliveSettings::dvgrabextra().simplified().split(' ', QString::SkipEmptyParts);
     int ix = device_selector->currentIndex();
     bool isXml;
-    videoBox->setHidden(ix != VIDEO4LINUX && ix != BLACKMAGIC && ix != FIREWIRE);
+    videoBox->setHidden(ix != Video4Linux && ix != BlackMagic && ix != Firewire);
     switch (ix) {
-    case FIREWIRE:
+    case Firewire:
         switch (KdenliveSettings::firewireformat()) {
         case 0:
             // RAW DV CAPTURE
@@ -528,7 +528,7 @@ void RecMonitor::slotStartPreview(bool play)
         if (play) m_captureProcess->write(" ", 1);
         m_discAction->setEnabled(true);
         break;
-    case VIDEO4LINUX:
+    case Video4Linux:
         path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
@@ -547,7 +547,7 @@ void RecMonitor::slotStartPreview(bool play)
         }
 
         break;
-    case BLACKMAGIC:
+    case BlackMagic:
         path = KdenliveSettings::current_profile();
         slotActivateMonitor();
         buildMltDevice(path);
@@ -569,7 +569,7 @@ void RecMonitor::slotStartPreview(bool play)
 
     control_frame->setEnabled(false);
 
-    if (device_selector->currentIndex() == FIREWIRE) {
+    if (device_selector->currentIndex() == Firewire) {
         kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
         m_displayProcess->start(KdenliveSettings::ffplaypath(), m_displayArgs);
         //video_frame->setText(i18n("Initialising..."));
@@ -581,14 +581,14 @@ void RecMonitor::slotStartPreview(bool play)
 void RecMonitor::slotRecord()
 {
     m_error.clear();
-    if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == FIREWIRE) {
+    if (m_captureProcess->state() == QProcess::NotRunning && device_selector->currentIndex() == Firewire) {
         slotStartPreview();
     }
     if (m_isCapturing) {
         // User stopped capture
         slotStopCapture();
         return;
-    } else if (device_selector->currentIndex() == FIREWIRE) {
+    } else if (device_selector->currentIndex() == Firewire) {
         m_isCapturing = true;
         m_didCapture = true;
         m_captureProcess->write("c\n", 3);
@@ -599,15 +599,15 @@ void RecMonitor::slotRecord()
         m_logger.clear();
         m_recAction->setChecked(true);
         QString extension = "mpg";
-        if (device_selector->currentIndex() == SCREENGRAB) {
+        if (device_selector->currentIndex() == ScreenBag) {
 	    extension = KdenliveSettings::grab_extension();
 	}
-        else if (device_selector->currentIndex() == VIDEO4LINUX) {
+        else if (device_selector->currentIndex() == Video4Linux) {
             // TODO: when recording audio only, allow configuration?
             if (!rec_video->isChecked()) extension = "wav";
             else extension = KdenliveSettings::v4l_extension();
         }
-        else if (device_selector->currentIndex() == BLACKMAGIC) extension = KdenliveSettings::decklink_extension();
+        else if (device_selector->currentIndex() == BlackMagic) extension = KdenliveSettings::decklink_extension();
         QString path = KUrl(m_capturePath).path(KUrl::AddTrailingSlash) + "capture0000." + extension;
         int i = 1;
         while (QFile::exists(path)) {
@@ -632,7 +632,7 @@ void RecMonitor::slotRecord()
         if (capturename.isEmpty()) capturename = "capture";
 
         switch (device_selector->currentIndex()) {
-        case VIDEO4LINUX:
+        case Video4Linux:
             if (rec_video->isChecked()) slotActivateMonitor();
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
@@ -695,7 +695,7 @@ void RecMonitor::slotRecord()
             }
             break;
 
-        case BLACKMAGIC:
+        case BlackMagic:
             slotActivateMonitor();
             path = KdenliveSettings::current_profile();
             profile = ProfilesDialog::getVideoProfile(path);
@@ -720,7 +720,7 @@ void RecMonitor::slotRecord()
             }
             break;
 
-        case SCREENGRAB:
+        case ScreenBag:
 	    m_captureArgs << "-f" << "x11grab";
 	    if (KdenliveSettings::grab_follow_mouse()) m_captureArgs << "-follow_mouse" << "centered";
 	    if (!KdenliveSettings::grab_hide_frame()) m_captureArgs << "-show_region" << "1";
@@ -774,7 +774,7 @@ void RecMonitor::slotRecord()
         }
 
 
-        if (device_selector->currentIndex() == FIREWIRE) {
+        if (device_selector->currentIndex() == Firewire) {
             m_isCapturing = true;
             kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
             m_displayProcess->start(KdenliveSettings::ffplaypath(), m_displayArgs);
@@ -881,12 +881,12 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
 {
     if (status == QProcess::NotRunning) {
         m_displayProcess->kill();
-        if (m_isCapturing && device_selector->currentIndex() != FIREWIRE)
+        if (m_isCapturing && device_selector->currentIndex() != Firewire)
             if (m_addCapturedClip->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.path())) {
                 emit addProjectClip(m_captureFile);
                 m_captureFile.clear();
             }
-        if (device_selector->currentIndex() == FIREWIRE) {
+        if (device_selector->currentIndex() == Firewire) {
             m_discAction->setIcon(KIcon("network-connect"));
             m_discAction->setText(i18n("Connect"));
             m_playAction->setEnabled(false);
@@ -905,7 +905,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
         if (m_captureProcess && m_captureProcess->exitStatus() == QProcess::CrashExit) {
 	    showWarningMessage(i18n("Capture crashed, please check your parameters"), true);
         } else {
-            if (device_selector->currentIndex() != SCREENGRAB) {
+            if (device_selector->currentIndex() != ScreenBag) {
                 video_frame->setText(i18n("Not connected"));
             } else {
 		int code = m_captureProcess->exitCode();
@@ -1014,10 +1014,10 @@ void RecMonitor::slotPlay()
 void RecMonitor::slotReadProcessInfo()
 {
     QString data = m_captureProcess->readAllStandardError().simplified();
-    if (device_selector->currentIndex() == SCREENGRAB) {
+    if (device_selector->currentIndex() == ScreenBag) {
 	m_error.append(data + "\n");
     }
-    else if (device_selector->currentIndex() == FIREWIRE) {
+    else if (device_selector->currentIndex() == Firewire) {
 	data = data.section('"', 2, 2).simplified();
 	m_dvinfo.setText(data.left(11));
 	m_dvinfo.updateGeometry();

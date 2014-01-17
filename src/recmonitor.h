@@ -61,7 +61,12 @@ public:
 
     AbstractRender *abstractRender();
     void analyseFrames(bool analyse);
-    enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2, BLACKMAGIC = 3};
+    enum CAPTUREDEVICE {
+        Firewire = 0,
+        Video4Linux = 1,
+        ScreenBag = 2,
+        BlackMagic = 3
+    };
 
 protected:
     void mousePressEvent(QMouseEvent * event);
