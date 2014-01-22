@@ -280,7 +280,7 @@ void Render::buildConsumer(const QString &profileName)
                 m_mltConsumer->set("terminate_on_pause", 0);
                 m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
                 m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-                m_mltConsumer->set("buffer", "1");
+                m_mltConsumer->set("buffer", "25");
                 m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
             }
             if (m_mltConsumer && m_mltConsumer->is_valid()) {
@@ -327,7 +327,7 @@ void Render::buildConsumer(const QString &profileName)
                 m_consumerThreadStartedEvent = m_mltConsumer->listen("consumer-thread-started", this, (mlt_listener) consumer_thread_started);
                 m_consumerThreadStoppedEvent = m_mltConsumer->listen("consumer-thread-stopped", this, (mlt_listener) consumer_thread_stopped);
             }
-            m_mltConsumer->set("buffer", "1");
+            m_mltConsumer->set("buffer", "25");
             m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
         }
     } else {
