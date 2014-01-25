@@ -1413,6 +1413,7 @@ void Render::checkMaxThreads()
 
 const QString Render::sceneList()
 {
+    if (!m_mltProducer) return QString();
     QString playlist;
     Mlt::Profile profile((mlt_profile) 0);
     Mlt::Consumer xmlConsumer(profile, "xml:kdenlive_playlist");
