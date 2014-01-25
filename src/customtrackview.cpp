@@ -1091,7 +1091,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         m_selectionMutex.unlock();
         if (m_dragItem) {
-            ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
+            ClipItem *clip = qgraphicsitem_cast<ClipItem *>(m_dragItem);
             updateClipTypeActions(dragGroup == NULL ? clip : NULL);
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         }
