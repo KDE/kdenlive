@@ -3170,6 +3170,7 @@ bool Render::mltEnableEffects(int track, const GenTime &position, const QList <i
     int ct = 0;
 
     Mlt::Filter *filter = clip->filter(ct);
+    service.lock();
     while (filter) {
         if (effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
             filter->set("disable", (int) disable);
@@ -3195,6 +3196,7 @@ bool Render::mltEnableTrackEffects(int track, const QList <int> &effectIndexes, 
     int ct = 0;
 
     Mlt::Filter *filter = clipService.filter(ct);
+    service.lock();
     while (filter) {
         if (effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
             filter->set("disable", (int) disable);
