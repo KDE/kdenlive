@@ -218,6 +218,10 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
     if (ow % 2 == 1) ow++;
     QImage image(ow, oh, QImage::Format_ARGB32_Premultiplied);
     const uchar* imagedata = frame->get_image(format, ow, oh);
+    if (imagedata == NULL) {
+        p.fill(QColor(Qt::red).rgb());
+        return p;
+    }
     memcpy(image.bits(), imagedata, ow * oh * 4);//.byteCount());
     
     //const uchar* imagedata = frame->get_image(format, ow, oh);
