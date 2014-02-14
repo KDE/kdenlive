@@ -35,7 +35,7 @@ NotesWidget::NotesWidget(QWidget * parent) :
 
 void NotesWidget::slotFillNotesMenu(QMenu *menu)
 {
-    QAction *a = new QAction(i18n("Insert current timecode"), menu);
+    QAction *a = new QAction(i18n("Insert current timecode"), this);
     connect(a, SIGNAL(triggered(bool)), this, SIGNAL(insertNotesTimecode()));
     menu->insertAction(menu->actions().at(0), a);
 }
