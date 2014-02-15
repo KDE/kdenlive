@@ -548,7 +548,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_timelineContextClipMenu->addAction(actionCollection()->action("clip_in_project_tree"));
     //m_timelineContextClipMenu->addAction(actionCollection()->action("clip_to_project_tree"));
-    m_timelineContextClipMenu->addAction(actionCollection()->action("delete_item"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextClipMenu->addSeparator();
     m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("ungroup_clip"));
@@ -567,7 +567,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_timelineContextClipMenu->addMenu(m_transitionsMenu);
     m_timelineContextClipMenu->addMenu(m_effectsMenu);
 
-    m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_item"));
+    m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("auto_transition"));
