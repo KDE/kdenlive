@@ -44,10 +44,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
+
 #ifdef USE_JOGSHUTTLE
-#include "jogaction.h"
-#include "jogshuttleconfig.h"
-#include <linux/input.h>
+  #include "jogaction.h"
+  #include "jogshuttleconfig.h"
+  #include <linux/input.h>
 #endif
 
 
@@ -523,21 +524,42 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
 #ifdef USE_JOGSHUTTLE
     m_configShuttle.config_group->setEnabled(state);
     if (m_configShuttle.shuttledevicelist->count() == 0) {
-        // parse devices
-        QString baseName = "/dev/input/event";
-        int fd;
-        for (int i = 0; i < 30; ++i) {
-            QString filename = baseName + QString::number(i);
-            kDebug() << "/// CHECKING device: " << filename;
-
-            char name[256] = "unknown";
-            fd = KDE_open((char *) filename.toUtf8().data(), O_RDONLY);
-            if (fd >= 0 && ioctl(fd, EVIOCGNAME(sizeof(name)), name) >= 0) {
-                m_configShuttle.shuttledevicelist->addItem(name, filename);
+        QString devDirStr = "/dev/input/by-id/";
+        QDir devDir(devDirStr);
+        if (devDir.exists()) {
+            QStringList fileList = devDir.entryList(QDir::Files);
+            foreach (const QString &fileName, fileList) {
+                QString devFullPath(devDirStr + fileName);
+                QString fileLink = JogShuttle::enumerateDevice(devFullPath);
+                kDebug() << QString(" [%1] ").arg(fileName);
+                kDebug() << QString(" [%1] ").arg(fileLink);
+                char name[256] = "unknown";
+                int fd = KDE_open((char*)fileLink.toUtf8().data(), O_RDONLY);
+                if (fd >= 0 && ioctl(fd, EVIOCGNAME(sizeof(name)), name) >= 0) {
+                    m_configShuttle.shuttledevicelist->addItem(name, devFullPath);
+                }
+                ::close(fd);
             }
-            ::close(fd);
+        } else {
+            // parse devices
+            QString baseName = "/dev/input/event";
+            int fd;
+            for (int i = 0; i < 30; ++i) {
+                QString filename = baseName + QString::number(i);
+                kDebug() << "/// CHECKING device: " << filename;
+
+                char name[256] = "unknown";
+                fd = KDE_open((char *) filename.toUtf8().data(), O_RDONLY);
+                if (fd >= 0 && ioctl(fd, EVIOCGNAME(sizeof(name)), name) >= 0) {
+                    m_configShuttle.shuttledevicelist->addItem(name, filename);
+                }
+                ::close(fd);
+            }
         }
-        if (KdenliveSettings::shuttledevice().isEmpty()) QTimer::singleShot(1500, this, SLOT(slotUpdateShuttleDevice()));
+
+        if (KdenliveSettings::shuttledevice().isEmpty()) {
+            QTimer::singleShot(1500, this, SLOT(slotUpdateShuttleDevice()));
+        }
     }
 #endif /* USE_JOGSHUTTLE */
 }

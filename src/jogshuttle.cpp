@@ -26,6 +26,7 @@
 
 #include <QApplication>
 #include <QEvent>
+#include <QDir>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -343,6 +344,12 @@ void JogShuttle::customEvent(QEvent* e)
     emit button(e->type() - KEY_EVENT_OFFSET);
 }
 
+QString JogShuttle::enumerateDevice(const QString &device)
+{
+    QDir canonDir(device);
+    //return QDir::canonicalPath(device);
+    return canonDir.canonicalPath();
+}
 
 
 // #include "jogshuttle.moc"

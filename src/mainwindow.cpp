@@ -882,7 +882,7 @@ void MainWindow::activateShuttleDevice()
     m_jogProcess = NULL;
     if (KdenliveSettings::enableshuttle() == false) return;
 
-    m_jogProcess = new JogShuttle(KdenliveSettings::shuttledevice());
+    m_jogProcess = new JogShuttle(JogShuttle::enumerateDevice(KdenliveSettings::shuttledevice()));
     m_jogShuttle = new JogShuttleAction(m_jogProcess, JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons()));
 
     connect(m_jogShuttle, SIGNAL(rewindOneFrame()), m_monitorManager, SLOT(slotRewindOneFrame()));

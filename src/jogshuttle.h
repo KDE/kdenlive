@@ -54,11 +54,13 @@ private:
 
 class JogShuttle: public QObject
 {
-Q_OBJECT public:
+    Q_OBJECT
+public:
     explicit JogShuttle(const QString &device, QObject * parent = 0);
     ~JogShuttle();
     void stopDevice();
     void initDevice(const QString &device);
+    static QString enumerateDevice(const QString &device);
 
 protected:
     virtual void customEvent(QEvent * e);
