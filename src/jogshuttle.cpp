@@ -87,6 +87,7 @@ bool ShuttleThread::isWorking()
 void ShuttleThread::run()
 {
 	kDebug() << "-------  STARTING SHUTTLE: " << m_device;
+
 	/* open file descriptor */
 	const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
 	if (fd < 0) {
@@ -94,7 +95,7 @@ void ShuttleThread::run()
 		return;
 	}
 
-	EV ev;
+	EV ev[64];
 
 	if (ioctl(fd, EVIOCGRAB, 1) < 0) {
 		fprintf(stderr, "Can't get exclusive access on  Jog Shuttle FILE DESCRIPTOR\n");
@@ -113,11 +114,15 @@ void ShuttleThread::run()
         fprintf(stderr, "Can't get Jog Shuttle file status\n");
         close(fd);
         return;
-    } else if (fcntl(fd, F_SETFL, iof | O_NONBLOCK) == -1) {
+    }
+
+#if 0
+    else if (fcntl(fd, F_SETFL, iof | O_NONBLOCK) == -1) {
         fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
         close(fd);
         return;
     }
+#endif
 
 	/* enter thread loop */
 	while (!stop_me) {
@@ -148,7 +153,7 @@ void ShuttleThread::run()
 			/* we have input */
 			if (FD_ISSET(fd, &readset)) {
 				/* read input */
-				readResult = read(fd, &ev, sizeof(ev));
+				readResult = read(fd, ev, sizeof(EV) * 64);
 				if (readResult < 0) {
 					if (num_warnings % 10000 == 0) {
 						/* if device is not available anymore - dead or disconnected */
@@ -165,17 +170,25 @@ void ShuttleThread::run()
 						stop_me = true;
 					}
 					num_warnings++;
-				} else if (readResult == sizeof(ev)) {
-					/* process event */
-					handle_event(ev);
+				} else if (readResult < (int)sizeof(EV)) {
+					fprintf(stderr, "readResult < (int)sizeof(EV)\n");
+					/* stop thread */
+					stop_me = true;
+				} else if (readResult % (int)sizeof(EV) != 0) {
+					fprintf(stderr, "readResult mod (int)sizeof(EV) != 0\n");
+					/* stop thread */
+					stop_me = true;
 				} else {
-					fprintf(stderr, "Read nr of bytes != sizeof(ev)\n");
+					for (int i = 0; i < readResult / (int)sizeof(EV); i++) {
+						/* process event */
+						handle_event(ev[i]);
+					}
 				}
 			}
 		}
 	}
 
-//	kDebug() << "Close thread" << "\n";
+    kDebug() << "-------  STOPPING SHUTTLE: ";
 	/* close the handle and return thread */
 	close(fd);
 }
