@@ -133,9 +133,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     QWidget *p5 = new QWidget;
     m_configShuttle.setupUi(p5);
+    m_configShuttle.toolBtnReload->setIcon(KIcon("view-refresh"));
 #ifdef USE_JOGSHUTTLE
     connect(m_configShuttle.kcfg_enableshuttle, SIGNAL(stateChanged(int)), this, SLOT(slotCheckShuttle(int)));
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
+    connect(m_configShuttle.toolBtnReload, SIGNAL(clicked(bool)), this, SLOT(slotReloadShuttleDevices()));
+
     slotCheckShuttle(KdenliveSettings::enableshuttle());
     m_configShuttle.shuttledisabled->hide();
 
@@ -523,31 +526,17 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
 {
 #ifdef USE_JOGSHUTTLE
     m_configShuttle.config_group->setEnabled(state);
-    if (m_configShuttle.shuttledevicelist->count() == 0) {
-        QString devDirStr = "/dev/input/by-id";
-        QDir devDir(devDirStr);
-        if (!devDir.exists()) {
-            devDirStr = "/dev/input";
-        }
+    m_configShuttle.shuttledevicelist->clear();
 
-        DeviceMap devMap = JogShuttle::enumerateDevices(devDirStr);
-#if 0
-        if (!devMap.isEmpty()) {
-            m_configShuttle.shuttledevicelist->clear();
-        }
-#endif
-        DeviceMapIter iter = devMap.begin();
-        while (iter != devMap.end()) {
-            kDebug() << iter.key() << ": " << iter.value();
-            m_configShuttle.shuttledevicelist->addItem(
-                    iter.key(),
-                    iter.value());
-            ++iter;
-        }
+    QStringList devNames = KdenliveSettings::shuttledevicenames();
+    QStringList devPaths = KdenliveSettings::shuttledevicepaths();
 
-        if (KdenliveSettings::shuttledevice().isEmpty()) {
-            QTimer::singleShot(1500, this, SLOT(slotUpdateShuttleDevice()));
-        }
+    if (devNames.count() != devPaths.count()) {
+        return;
+    }
+    for (int i = 0; i < devNames.count(); i++) {
+        m_configShuttle.shuttledevicelist->addItem(
+                devNames.at(i), devPaths.at(i));
     }
 #endif /* USE_JOGSHUTTLE */
 }
@@ -1133,6 +1122,46 @@ void KdenliveSettingsDialog::slotReloadBlackMagic()
     }
     m_configSdl.kcfg_external_display->setEnabled(KdenliveSettings::decklink_device_found());
 }
+
+void KdenliveSettingsDialog::slotReloadShuttleDevices()
+{
+#ifdef USE_JOGSHUTTLE
+    QString devDirStr = "/dev/input/by-id";
+    QDir devDir(devDirStr);
+    if (!devDir.exists()) {
+        devDirStr = "/dev/input";
+    }
+
+    DeviceMap devMap = JogShuttle::enumerateDevices(devDirStr);
+    if (!devMap.isEmpty()) {
+        m_configShuttle.shuttledevicelist->clear();
+    }
+
+    QStringList devNamesList;
+    QStringList devPathList;
+    DeviceMapIter iter = devMap.begin();
+    if (iter == devMap.end()) {
+        KdenliveSettings::shuttledevicenames().clear();
+        KdenliveSettings::shuttledevicepaths().clear();
+        m_configShuttle.shuttledevicelist->clear();
+    }
+    while (iter != devMap.end()) {
+        kDebug() << iter.key() << ": " << iter.value();
+        m_configShuttle.shuttledevicelist->addItem(iter.key(), iter.value());
+        devNamesList << iter.key();
+        devPathList << iter.value();
+        ++iter;
+    }
+
+    KdenliveSettings::setShuttledevicenames(devNamesList);
+    KdenliveSettings::setShuttledevicepaths(devPathList);
+    QTimer::singleShot(200, this, SLOT(slotUpdateShuttleDevice()));
+
+    kDebug() << "Devices reloded";
+
+#endif //USE_JOGSHUTTLE
+}
+
 #include "kdenlivesettingsdialog.moc"
 
 

@@ -79,6 +79,7 @@ private slots:
     void slotUpdateGrabProfile(int ix = 0);
     void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();
+    void slotReloadShuttleDevices();
 
 private:
     KPageWidgetItem *m_page1;

@@ -523,6 +523,16 @@
       <label>Path to shuttle device.</label>
       <default></default>
     </entry>
+    
+    <entry name="shuttledevicenames" type="StringList">
+      <label>Available shuttle device names.</label>
+      <default></default>
+    </entry>
+    
+    <entry name="shuttledevicepaths" type="StringList">
+      <label>Available shuttle device paths.</label>
+      <default></default>
+    </entry>
 
     <entry name="shuttlebuttons" type="String">
       <label>JogShuttle button to actions mappings.</label>
