@@ -23,6 +23,7 @@
 
 #include <QThread>
 #include <QObject>
+#include <QMap>
 
 #include <linux/input.h>
 
@@ -51,6 +52,8 @@ private:
     void key(unsigned short code, unsigned int value);
 };
 
+typedef QMap<QString, QString> DeviceMap;
+typedef QMap<QString, QString>::iterator DeviceMapIter;
 
 class JogShuttle: public QObject
 {
@@ -60,7 +63,8 @@ public:
     ~JogShuttle();
     void stopDevice();
     void initDevice(const QString &device);
-    static QString enumerateDevice(const QString &device);
+    static QString enumerateDevice(const QString& device);
+    static DeviceMap enumerateDevices(const QString& devPath);
 
 protected:
     virtual void customEvent(QEvent * e);

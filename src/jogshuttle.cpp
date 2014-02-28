@@ -344,11 +344,36 @@ void JogShuttle::customEvent(QEvent* e)
     emit button(e->type() - KEY_EVENT_OFFSET);
 }
 
-QString JogShuttle::enumerateDevice(const QString &device)
+QString JogShuttle::enumerateDevice(const QString& device)
 {
     QDir canonDir(device);
-    //return QDir::canonicalPath(device);
     return canonDir.canonicalPath();
+}
+
+DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
+{
+    DeviceMap devs;
+    QDir devDir(devPath);
+
+    if (!devDir.exists()) {
+        return devs;
+    }
+
+    QStringList fileList = devDir.entryList(QDir::System | QDir::Files);
+    foreach (const QString &fileName, fileList) {
+        QString devFullPath = devDir.absoluteFilePath(fileName);
+        QString fileLink = JogShuttle::enumerateDevice(devFullPath);
+        kDebug() << QString(" [%1] ").arg(fileName);
+        kDebug() << QString(" [%1] ").arg(fileLink);
+        char name[256] = "unknown";
+        int fd = KDE_open((char*)fileLink.toUtf8().data(), O_RDONLY);
+        if (fd >= 0 && ioctl(fd, EVIOCGNAME(sizeof(name)), name) >= 0) {
+            devs.insert(name, devFullPath);
+        }
+        ::close(fd);
+    }
+
+    return devs;
 }
 
 
