@@ -26,7 +26,8 @@
 #include <QMap>
 
 #include <linux/input.h>
-
+#include <sys/time.h>
+#include "lib/external/media_ctrl/mediactrl.h"
 
 typedef struct input_event EV;
 
@@ -47,9 +48,13 @@ public:
 private:
     bool m_isWorking;
     void handle_event(EV ev);
+    void handle_event(struct media_ctrl_event ev);
+    void jog(struct media_ctrl_event ev);
     void jog(unsigned int value);
     void shuttle(int value);
+    void shuttle(struct media_ctrl_event ev);
     void key(unsigned short code, unsigned int value);
+    void key(struct media_ctrl_event ev);
 };
 
 typedef QMap<QString, QString> DeviceMap;

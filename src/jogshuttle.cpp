@@ -88,35 +88,38 @@ bool ShuttleThread::isWorking()
 void ShuttleThread::run()
 {
 	kDebug() << "-------  STARTING SHUTTLE: " << m_device;
+	struct media_ctrl mc;
+    media_ctrl_open2(&mc, m_device.toUtf8().data());
 
-	/* open file descriptor */
-	const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
-	if (fd < 0) {
+    /* open file descriptor */
+	//const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
+	if (mc.fd < 0) {
 		perror("Can't open Jog Shuttle FILE DESCRIPTOR");
 		return;
 	}
 
 	EV ev[64];
-
+#if 0
 	if (ioctl(fd, EVIOCGRAB, 1) < 0) {
 		fprintf(stderr, "Can't get exclusive access on  Jog Shuttle FILE DESCRIPTOR\n");
 		close(fd);
 		return;
 	}
+#endif
 
 	fd_set		   readset;
 	struct timeval timeout;
 
 	int num_warnings = 0, readResult = 0;
 	int result, iof = -1;
-
+#if 0
 	/* get fd settings */
     if ((iof = fcntl(fd, F_GETFL, 0)) == -1) {
         fprintf(stderr, "Can't get Jog Shuttle file status\n");
         close(fd);
         return;
     }
-
+#endif
 #if 0
     else if (fcntl(fd, F_SETFL, iof | O_NONBLOCK) == -1) {
         fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
@@ -124,19 +127,20 @@ void ShuttleThread::run()
         return;
     }
 #endif
+    struct media_ctrl_event mev;
 
 	/* enter thread loop */
 	while (!stop_me) {
 		/* reset the read set */
 		FD_ZERO(&readset);
-		FD_SET(fd, &readset);
+		FD_SET(mc.fd, &readset);
 
 		/* reinit the timeout structure */
 		timeout.tv_sec  = 0;
 		timeout.tv_usec = 400000; /* 400 ms */
 
 		/* do select in blocked mode and wake up after timeout for eval stop_me */
-		result = select(fd+1, &readset, NULL, NULL, &timeout);
+		result = select(mc.fd+1, &readset, NULL, NULL, &timeout);
 
 		/* see if there was an error or timeout else process event */
 		if (result < 0 && errno == EINTR) {
@@ -152,9 +156,14 @@ void ShuttleThread::run()
 			/* do nothing. reserved for future purposes */
 		} else {
 			/* we have input */
-			if (FD_ISSET(fd, &readset)) {
+			if (FD_ISSET(mc.fd, &readset)) {
 				/* read input */
-				readResult = read(fd, ev, sizeof(EV) * 64);
+			    mev.type = MEDIA_CTRL_EVENT_NONE;
+				//readResult = read(fd, ev, sizeof(EV) * 64);
+				media_ctrl_read_event(&mc, &mev);
+                /* process event */
+                handle_event(mev);
+#if 0
 				if (readResult < 0) {
 					if (num_warnings % 10000 == 0) {
 						/* if device is not available anymore - dead or disconnected */
@@ -185,13 +194,25 @@ void ShuttleThread::run()
 						handle_event(ev[i]);
 					}
 				}
+#endif
 			}
 		}
 	}
 
     kDebug() << "-------  STOPPING SHUTTLE: ";
 	/* close the handle and return thread */
-	close(fd);
+	//close(fd);
+    media_ctrl_close(&mc);
+}
+
+void ShuttleThread::handle_event(struct media_ctrl_event ev)
+{
+    if (ev.type == MEDIA_CTRL_EVENT_KEY)
+        key(ev);
+    else if (ev.type == MEDIA_CTRL_EVENT_JOG)
+        jog(ev);
+    else if (ev.type == MEDIA_CTRL_EVENT_SHUTTLE)
+        shuttle(ev);
 }
 
 void ShuttleThread::handle_event(EV ev)
@@ -206,6 +227,14 @@ void ShuttleThread::handle_event(EV ev)
         if (ev.code == SHUTTLE)
             shuttle(ev.value);
         break;
+    }
+}
+
+void ShuttleThread::key(struct media_ctrl_event ev)
+{
+    if (ev.value == KEY_PRESS) {
+        int code = ev.index + 1;
+        QApplication::postEvent(m_parent, new QEvent((QEvent::Type)(KEY_EVENT_OFFSET + code)));
     }
 }
 
@@ -226,6 +255,11 @@ void ShuttleThread::key(unsigned short code, unsigned int value)
 
 }
 
+void ShuttleThread::shuttle(struct media_ctrl_event ev)
+{
+    QApplication::postEvent(m_parent, new QEvent((QEvent::Type) (JOG_STOP + (ev.value/2))));
+}
+
 void ShuttleThread::shuttle(int value)
 {
     //gettimeofday( &last_shuttle, 0 );
@@ -243,6 +277,14 @@ void ShuttleThread::shuttle(int value)
     shuttlevalue = value;
     shuttlecounter = 1;
     QApplication::postEvent(m_parent, new QEvent((QEvent::Type) (JOG_STOP + value)));
+}
+
+void ShuttleThread::jog(struct media_ctrl_event ev)
+{
+    if (ev.value < 0)
+        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK1));
+    else if (ev.value > 0)
+        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD1));
 }
 
 void ShuttleThread::jog(unsigned int value)
