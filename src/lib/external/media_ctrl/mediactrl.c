@@ -282,7 +282,7 @@ void translate_compliant(struct media_ctrl *ctrl, struct input_event *ev, struct
 
 struct media_ctrl_device supported_devices[] = {
 	{ 0x0b33, 0x0030, "Contour ShuttlePRO v2", mc_shuttle_pro_keys, translate_contour_hid_event },
-	{ 0x0b33, 0x0020, "Contour ShuttleXPress", mc_shuttle_xpress_keys, translate_contour_hid_event },
+	{ 0x0b33, 0x0020, "Contour Design ShuttleXpress", mc_shuttle_xpress_keys, translate_contour_hid_event },
 	{ 0x0b33, 0x0010, "Contour ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event },
 	{ 0x0b33, 0x0011, "Contour ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event }, /* Hercules OEM */
 	{ 0x05f3, 0x0240, "Contour ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event },
@@ -430,6 +430,7 @@ void media_ctrl_open2(struct media_ctrl *mc, const char *devname)
     fd = open( devname, O_RDONLY );
     if ( fd < 0 ) {
         perror(devname);
+        mc->fd = -1;
     } else {
         mc->fd = fd;
         //mc->eventno = i;

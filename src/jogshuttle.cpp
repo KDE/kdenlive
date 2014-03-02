@@ -388,8 +388,7 @@ void JogShuttle::customEvent(QEvent* e)
 
 QString JogShuttle::enumerateDevice(const QString& device)
 {
-    QDir canonDir(device);
-    return canonDir.canonicalPath();
+    return QDir(device).canonicalPath();
 }
 
 DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
@@ -407,12 +406,13 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
         QString fileLink = JogShuttle::enumerateDevice(devFullPath);
         kDebug() << QString(" [%1] ").arg(fileName);
         kDebug() << QString(" [%1] ").arg(fileLink);
-        char name[256] = "unknown";
-        int fd = KDE_open((char*)fileLink.toUtf8().data(), O_RDONLY);
-        if (fd >= 0 && ioctl(fd, EVIOCGNAME(sizeof(name)), name) >= 0) {
-            devs.insert(name, devFullPath);
+
+        struct media_ctrl mc;
+        media_ctrl_open2(&mc, (char*)fileLink.toUtf8().data());
+        if (mc.fd > 0 && mc.device) {
+            devs.insert(QString(mc.device->name), devFullPath);
         }
-        ::close(fd);
+        media_ctrl_close(&mc);
     }
 
     return devs;
