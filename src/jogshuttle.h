@@ -70,6 +70,7 @@ public:
     void initDevice(const QString &device);
     static QString enumerateDevice(const QString& device);
     static DeviceMap enumerateDevices(const QString& devPath);
+    static int keysCount(const QString& devPath);
 
 protected:
     virtual void customEvent(QEvent * e);

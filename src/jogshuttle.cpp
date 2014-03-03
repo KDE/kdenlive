@@ -420,6 +420,19 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
     return devs;
 }
 
+int JogShuttle::keysCount(const QString& devPath)
+{
+    struct media_ctrl mc;
+    int keysCount = 0;
+
+    QString fileLink = enumerateDevice(devPath);
+    media_ctrl_open2(&mc, (char*)fileLink.toUtf8().data());
+    if (mc.fd > 0 && mc.device) {
+        keysCount = media_ctrl_get_keys_count(&mc);
+    }
+
+    return keysCount;
+}
 
 // #include "jogshuttle.moc"
 
