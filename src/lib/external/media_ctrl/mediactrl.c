@@ -171,6 +171,17 @@ struct  media_ctrl_key *media_ctrl_get_key(struct media_ctrl *ctrl, int code, in
 	return NULL;
 }
 
+int media_ctrl_get_keys_count(struct media_ctrl *ctrl)
+{
+    int i = 0;
+    struct media_ctrl_key *keys = ctrl->device->keys;
+
+    while ( keys[i].key != 0 ) {
+        i++;
+    }
+
+    return i;
+}
 
 void translate_contour_hid_event(struct media_ctrl *ctrl, struct input_event *ev, struct media_ctrl_event *me) 
 {

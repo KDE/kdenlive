@@ -148,6 +148,7 @@ void media_ctrl_close(struct media_ctrl *);
 void media_ctrl_read_event(struct media_ctrl *, struct media_ctrl_event *);
 
 struct  media_ctrl_key *media_ctrl_get_keys(struct media_ctrl *);
+int media_ctrl_get_keys_count(struct media_ctrl *);
 
 #ifdef __cplusplus
 }
