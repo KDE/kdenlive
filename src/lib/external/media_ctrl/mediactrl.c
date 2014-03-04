@@ -60,15 +60,6 @@ static struct  media_ctrl_key mc_shuttle_pro_keys[] = {
 /*
 	ShuttleXPress keys
 */
-static struct  media_ctrl_key _mc_shuttle_xpress_keys[] = {
-    { 0x104, "Button B4", MEDIA_CTRL_B4 },
-    { 0x105, "Button B2", MEDIA_CTRL_B2 },
-    { 0x106, "Button B1", MEDIA_CTRL_B1 },
-    { 0x107, "Button B3", MEDIA_CTRL_B3 },
-    { 0x108, "Button B5", MEDIA_CTRL_B5 },
-    { 0, NULL, 0 }
-};
-
 static struct  media_ctrl_key mc_shuttle_xpress_keys[] = {
     { 0x104, "Button B1", MEDIA_CTRL_B1},
     { 0x105, "Button B2", MEDIA_CTRL_B2 },
