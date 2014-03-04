@@ -144,6 +144,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     // Store the button pointers into an array for easier handling them in the other functions.
     // TODO: impl enumerator or live with cut and paste :-)))
+    setupJogshuttleBtns(KdenliveSettings::shuttledevice());
+
+#if 0
     m_shuttle_buttons.push_back(m_configShuttle.shuttle1);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle2);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle3);
@@ -159,34 +162,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_shuttle_buttons.push_back(m_configShuttle.shuttle13);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle14);
     m_shuttle_buttons.push_back(m_configShuttle.shuttle15);
+#endif
 
-    // populate the buttons with the current configuration. The items are sorted
-    // according to the user-selected language, so they do not appear in random order.
-    QList<QString> action_names = mappable_actions.keys();
-    qSort(action_names);
-
-    // Here we need to compute the action_id -> index-in-action_names. We iterate over the
-    // action_names, as the sorting may depend on the user-language.
-    QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
-    QMap<QString, int> action_pos;
-    foreach (const QString& action_id, actions_map) {
-        // This loop find out at what index is the string that would map to the action_id.
-        for (int i = 0; i < action_names.size(); ++i) {
-            if (mappable_actions[action_names.at(i)] == action_id) {
-                action_pos[action_id] = i;
-                break;
-            }
-        }
-    }
-
-    int i = 0;
-    foreach (KComboBox* button, m_shuttle_buttons) {
-        button->addItems(action_names);
-        connect(button, SIGNAL(activated(int)), this, SLOT(slotShuttleModified()));
-        ++i;
-        if (i < actions_map.size())
-            button->setCurrentIndex(action_pos[actions_map[i]]);
-    }
 #else /* ! USE_JOGSHUTTLE */
     m_configShuttle.kcfg_enableshuttle->hide();
     m_configShuttle.kcfg_enableshuttle->setDisabled(true);
@@ -319,6 +296,88 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
         }
         m_configCapture.dvgrab_info->setText(i18n("dvgrab version %1 at %2", dvgrabVersion, KdenliveSettings::dvgrab_path()));
     } else m_configCapture.dvgrab_info->setText(i18n("<strong><em>dvgrab</em> utility not found, please install it for firewire capture</strong>"));
+}
+
+void KdenliveSettingsDialog::setupJogshuttleBtns(QString device)
+{
+    QList<KComboBox*> list;
+    QList<QLabel*> list1;
+
+    list << m_configShuttle.shuttle1;
+    list << m_configShuttle.shuttle2;
+    list << m_configShuttle.shuttle3;
+    list << m_configShuttle.shuttle4;
+    list << m_configShuttle.shuttle5;
+    list << m_configShuttle.shuttle6;
+    list << m_configShuttle.shuttle7;
+    list << m_configShuttle.shuttle8;
+    list << m_configShuttle.shuttle9;
+    list << m_configShuttle.shuttle10;
+    list << m_configShuttle.shuttle11;
+    list << m_configShuttle.shuttle12;
+    list << m_configShuttle.shuttle13;
+    list << m_configShuttle.shuttle14;
+    list << m_configShuttle.shuttle15;
+
+    list1 << m_configShuttle.label_2; // #1
+    list1 << m_configShuttle.label_4; // #2
+    list1 << m_configShuttle.label_3; // #3
+    list1 << m_configShuttle.label_7; // #4
+    list1 << m_configShuttle.label_5; // #5
+    list1 << m_configShuttle.label_6; // #6
+    list1 << m_configShuttle.label_8; // #7
+    list1 << m_configShuttle.label_9; // #8
+    list1 << m_configShuttle.label_10; // #9
+    list1 << m_configShuttle.label_11; // #10
+    list1 << m_configShuttle.label_12; // #11
+    list1 << m_configShuttle.label_13; // #12
+    list1 << m_configShuttle.label_14; // #13
+    list1 << m_configShuttle.label_15; // #14
+    list1 << m_configShuttle.label_16; // #15
+
+
+    for (int i = 0; i < list.count(); i++) {
+        list[i]->hide();
+        list1[i]->hide();
+    }
+
+    int keysCount = JogShuttle::keysCount(device);
+
+    for (int i = 0; i < keysCount; i++) {
+        m_shuttle_buttons.push_back(list[i]);
+        list[i]->show();
+        list1[i]->show();
+    }
+
+    // populate the buttons with the current configuration. The items are sorted
+    // according to the user-selected language, so they do not appear in random order.
+    QMap<QString, QString> mappable_actions(m_mappable_actions);
+    QList<QString> action_names = mappable_actions.keys();
+    qSort(action_names);
+
+    // Here we need to compute the action_id -> index-in-action_names. We iterate over the
+    // action_names, as the sorting may depend on the user-language.
+    QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
+    QMap<QString, int> action_pos;
+    foreach (const QString& action_id, actions_map) {
+        // This loop find out at what index is the string that would map to the action_id.
+        for (int i = 0; i < action_names.size(); ++i) {
+            if (mappable_actions[action_names.at(i)] == action_id) {
+                action_pos[action_id] = i;
+                break;
+            }
+        }
+    }
+
+    int i = 0;
+    foreach (KComboBox* button, m_shuttle_buttons) {
+        button->addItems(action_names);
+        connect(button, SIGNAL(activated(int)), this, SLOT(slotShuttleModified()));
+        ++i;
+        if (i < actions_map.size())
+            button->setCurrentIndex(action_pos[actions_map[i]]);
+    }
+
 }
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
@@ -546,6 +605,7 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
 #ifdef USE_JOGSHUTTLE
     QString device = m_configShuttle.shuttledevicelist->itemData(ix).toString();
     //KdenliveSettings::setShuttledevice(device);
+    setupJogshuttleBtns(device);
     m_configShuttle.kcfg_shuttledevice->setText(device);
 #endif /* USE_JOGSHUTTLE */
 }

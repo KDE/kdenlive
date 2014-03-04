@@ -111,6 +111,7 @@ private:
     void loadCurrentV4lProfileInfo();
     void saveCurrentV4lProfile();
     void loadEncodingProfiles();
+    void setupJogshuttleBtns(QString device);
 
 signals:
     void customChanged();
