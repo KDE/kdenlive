@@ -322,6 +322,12 @@ target_link_libraries(kdenlive
   ${CMAKE_THREAD_LIBS_INIT}
 )
 
+if(BUILD_JogShuttle)
+  target_link_libraries(kdenlive
+    ${CMAKE_SOURCE_DIR}/lib/libmedia_ctrl.a
+  )
+endif(BUILD_JogShuttle)
+
 if(Q_WS_X11)
   include_directories(${X11_Xlib_INCLUDE_PATH})
   target_link_libraries(kdenlive ${X11_LIBRARIES})

@@ -341,6 +341,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(QString device)
         list1[i]->hide();
     }
 
+#ifdef USE_JOGSHUTTLE
     int keysCount = JogShuttle::keysCount(device);
 
     for (int i = 0; i < keysCount; i++) {
@@ -353,7 +354,22 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(QString device)
     // according to the user-selected language, so they do not appear in random order.
     QMap<QString, QString> mappable_actions(m_mappable_actions);
     QList<QString> action_names = mappable_actions.keys();
+    QList<QString>::Iterator iter = action_names.begin();
+    kDebug() << "::::::::::::::::";
+    while (iter != action_names.end()) {
+        kDebug() << *iter;
+        ++iter;
+    }
+
+    kDebug() << "::::::::::::::::";
+
     qSort(action_names);
+    iter = action_names.begin();
+    while (iter != action_names.end()) {
+        kDebug() << *iter;
+        ++iter;
+    }
+    kDebug() << "::::::::::::::::";
 
     // Here we need to compute the action_id -> index-in-action_names. We iterate over the
     // action_names, as the sorting may depend on the user-language.
@@ -377,7 +393,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(QString device)
         if (i < actions_map.size())
             button->setCurrentIndex(action_pos[actions_map[i]]);
     }
-
+#endif
 }
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
@@ -1217,7 +1233,7 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
     KdenliveSettings::setShuttledevicepaths(devPathList);
     QTimer::singleShot(200, this, SLOT(slotUpdateShuttleDevice()));
 
-    kDebug() << "Devices reloded";
+    kDebug() << "Devices reloaded";
 
 #endif //USE_JOGSHUTTLE
 }
