@@ -89,45 +89,20 @@ void ShuttleThread::run()
 {
 	kDebug() << "-------  STARTING SHUTTLE: " << m_device;
 	struct media_ctrl mc;
+
+    // open device
     media_ctrl_open2(&mc, m_device.toUtf8().data());
 
-    /* open file descriptor */
-	//const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
-	if (mc.fd < 0) {
-		perror("Can't open Jog Shuttle FILE DESCRIPTOR");
-		return;
-	}
+    // on failure return
+    if (mc.fd < 0) {
+        perror("Can't open Jog Shuttle FILE DESCRIPTOR");
+        return;
+    }
 
-	EV ev[64];
-#if 0
-	if (ioctl(fd, EVIOCGRAB, 1) < 0) {
-		fprintf(stderr, "Can't get exclusive access on  Jog Shuttle FILE DESCRIPTOR\n");
-		close(fd);
-		return;
-	}
-#endif
-
-	fd_set		   readset;
+    // init
+    int result;
+	fd_set readset;
 	struct timeval timeout;
-
-	int num_warnings = 0, readResult = 0;
-	int result, iof = -1;
-#if 0
-	/* get fd settings */
-    if ((iof = fcntl(fd, F_GETFL, 0)) == -1) {
-        fprintf(stderr, "Can't get Jog Shuttle file status\n");
-        close(fd);
-        return;
-    }
-#endif
-#if 0
-    else if (fcntl(fd, F_SETFL, iof | O_NONBLOCK) == -1) {
-        fprintf(stderr, "Can't set Jog Shuttle FILE DESCRIPTOR to O_NONBLOCK and stop thread\n");
-        close(fd);
-        return;
-    }
-#endif
-    struct media_ctrl_event mev;
 
 	/* enter thread loop */
 	while (!stop_me) {
@@ -135,73 +110,41 @@ void ShuttleThread::run()
 		FD_ZERO(&readset);
 		FD_SET(mc.fd, &readset);
 
-		/* reinit the timeout structure */
+		// reinit the timeout structure
 		timeout.tv_sec  = 0;
 		timeout.tv_usec = 400000; /* 400 ms */
 
-		/* do select in blocked mode and wake up after timeout for eval stop_me */
-		result = select(mc.fd+1, &readset, NULL, NULL, &timeout);
+		// do select in blocked mode and wake up after timeout
+		// for stop_me evaluation
+		result = select(mc.fd + 1, &readset, NULL, NULL, &timeout);
 
 		/* see if there was an error or timeout else process event */
 		if (result < 0 && errno == EINTR) {
-			/* EINTR event catched. This is not a problem - continue processing */
+			// EINTR event catched. This is not a problem - continue processing
 			kDebug() << strerror(errno) << "\n";
-			/* continue processing */
+			// continue processing
 			continue;
 		} else if (result < 0) {
 			/* stop thread */
 			stop_me = true;
 			kDebug() << strerror(errno) << "\n";
-		} else if (result == 0) {
-			/* do nothing. reserved for future purposes */
-		} else {
-			/* we have input */
+		} else if (result > 0) {
+			// we have input
 			if (FD_ISSET(mc.fd, &readset)) {
-				/* read input */
+			    struct media_ctrl_event mev;
 			    mev.type = MEDIA_CTRL_EVENT_NONE;
-				//readResult = read(fd, ev, sizeof(EV) * 64);
+                // read input
 				media_ctrl_read_event(&mc, &mev);
-                /* process event */
+                // process event
                 handle_event(mev);
-#if 0
-				if (readResult < 0) {
-					if (num_warnings % 10000 == 0) {
-						/* if device is not available anymore - dead or disconnected */
-						fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR (repeated %d times)\n", num_warnings + 1);
-					}
-					/* exit if device is not available or the error occurs to long */
-					if (errno == ENODEV) {
-						perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Stop thread");
-						/* stop thread */
-						stop_me = true;
-					} else if (num_warnings > 1000000) {
-						perror("Failed to read from Jog Shuttle FILE DESCRIPTOR. Limit reached. Stop thread");
-						/* stop thread */
-						stop_me = true;
-					}
-					num_warnings++;
-				} else if (readResult < (int)sizeof(EV)) {
-					fprintf(stderr, "readResult < (int)sizeof(EV)\n");
-					/* stop thread */
-					stop_me = true;
-				} else if (readResult % (int)sizeof(EV) != 0) {
-					fprintf(stderr, "readResult mod (int)sizeof(EV) != 0\n");
-					/* stop thread */
-					stop_me = true;
-				} else {
-					for (int i = 0; i < readResult / (int)sizeof(EV); i++) {
-						/* process event */
-						handle_event(ev[i]);
-					}
-				}
-#endif
 			}
+		} else if (result == 0) {
+		    // on timeout. let it here for debug
 		}
 	}
 
     kDebug() << "-------  STOPPING SHUTTLE: ";
 	/* close the handle and return thread */
-	//close(fd);
     media_ctrl_close(&mc);
 }
 
@@ -213,6 +156,36 @@ void ShuttleThread::handle_event(struct media_ctrl_event ev)
         jog(ev);
     else if (ev.type == MEDIA_CTRL_EVENT_SHUTTLE)
         shuttle(ev);
+}
+
+void ShuttleThread::key(struct media_ctrl_event ev)
+{
+    if (ev.value == KEY_PRESS) {
+        int code = ev.index + 1;
+        QApplication::postEvent(m_parent,
+            new QEvent((QEvent::Type)(KEY_EVENT_OFFSET + code)));
+    }
+}
+
+void ShuttleThread::shuttle(struct media_ctrl_event ev)
+{
+    int value = ev.value / 2;
+
+    if (value > MAX_SHUTTLE_RANGE || value < -MAX_SHUTTLE_RANGE) {
+        kDebug() << "Jog shuttle value is out of range: " << MAX_SHUTTLE_RANGE;
+        return;
+    }
+
+    QApplication::postEvent(m_parent,
+        new QEvent((QEvent::Type) (JOG_STOP + (value))));
+}
+
+void ShuttleThread::jog(struct media_ctrl_event ev)
+{
+    if (ev.value < 0)
+        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK1));
+    else if (ev.value > 0)
+        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD1));
 }
 
 void ShuttleThread::handle_event(EV ev)
@@ -227,14 +200,6 @@ void ShuttleThread::handle_event(EV ev)
         if (ev.code == SHUTTLE)
             shuttle(ev.value);
         break;
-    }
-}
-
-void ShuttleThread::key(struct media_ctrl_event ev)
-{
-    if (ev.value == KEY_PRESS) {
-        int code = ev.index + 1;
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type)(KEY_EVENT_OFFSET + code)));
     }
 }
 
@@ -255,11 +220,6 @@ void ShuttleThread::key(unsigned short code, unsigned int value)
 
 }
 
-void ShuttleThread::shuttle(struct media_ctrl_event ev)
-{
-    QApplication::postEvent(m_parent, new QEvent((QEvent::Type) (JOG_STOP + (ev.value/2))));
-}
-
 void ShuttleThread::shuttle(int value)
 {
     //gettimeofday( &last_shuttle, 0 );
@@ -277,14 +237,6 @@ void ShuttleThread::shuttle(int value)
     shuttlevalue = value;
     shuttlecounter = 1;
     QApplication::postEvent(m_parent, new QEvent((QEvent::Type) (JOG_STOP + value)));
-}
-
-void ShuttleThread::jog(struct media_ctrl_event ev)
-{
-    if (ev.value < 0)
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK1));
-    else if (ev.value > 0)
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD1));
 }
 
 void ShuttleThread::jog(unsigned int value)
@@ -337,9 +289,12 @@ JogShuttle::~JogShuttle()
 void JogShuttle::initDevice(const QString &device)
 {
     if (m_shuttleProcess.isRunning()) {
-        if (device == m_shuttleProcess.m_device) return;
+        if (device == m_shuttleProcess.m_device)
+            return;
+
         stopDevice();
     }
+
     m_shuttleProcess.init(this, device);
     m_shuttleProcess.start(QThread::LowestPriority);
 }
@@ -365,16 +320,17 @@ void JogShuttle::customEvent(QEvent* e)
 {
     int code = e->type();
 
-    // Handle simple job events
+    // handle simple job events
     switch (code) {
-    case JOG_BACK1:
-        emit jogBack();
-        return;
-    case JOG_FWD1:
-        emit jogForward();
-        return;
+        case JOG_BACK1:
+            emit jogBack();
+            return;
+        case JOG_FWD1:
+            emit jogForward();
+            return;
     }
 
+    // FIXME: this is a bad shuttle indication
     int shuttle_pos = code - JOG_STOP;
     if (shuttle_pos >= -MAX_SHUTTLE_RANGE && shuttle_pos <= MAX_SHUTTLE_RANGE) {
         emit shuttlePos(shuttle_pos);
@@ -382,11 +338,10 @@ void JogShuttle::customEvent(QEvent* e)
     }
 
     // we've got a key event.
-    //fprintf(stderr, "Firing button event for #%d\n", e->type() - KEY_EVENT_OFFSET); // DBG
     emit button(e->type() - KEY_EVENT_OFFSET);
 }
 
-QString JogShuttle::enumerateDevice(const QString& device)
+QString JogShuttle::canonicalDevice(const QString& device)
 {
     return QDir(device).canonicalPath();
 }
@@ -403,7 +358,7 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
     QStringList fileList = devDir.entryList(QDir::System | QDir::Files);
     foreach (const QString &fileName, fileList) {
         QString devFullPath = devDir.absoluteFilePath(fileName);
-        QString fileLink = JogShuttle::enumerateDevice(devFullPath);
+        QString fileLink = JogShuttle::canonicalDevice(devFullPath);
         kDebug() << QString(" [%1] ").arg(fileName);
         kDebug() << QString(" [%1] ").arg(fileLink);
 
@@ -425,7 +380,7 @@ int JogShuttle::keysCount(const QString& devPath)
     struct media_ctrl mc;
     int keysCount = 0;
 
-    QString fileLink = enumerateDevice(devPath);
+    QString fileLink = canonicalDevice(devPath);
     media_ctrl_open2(&mc, (char*)fileLink.toUtf8().data());
     if (mc.fd > 0 && mc.device) {
         keysCount = media_ctrl_get_keys_count(&mc);

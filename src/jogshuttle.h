@@ -68,7 +68,7 @@ public:
     ~JogShuttle();
     void stopDevice();
     void initDevice(const QString &device);
-    static QString enumerateDevice(const QString& device);
+    static QString canonicalDevice(const QString& device);
     static DeviceMap enumerateDevices(const QString& devPath);
     static int keysCount(const QString& devPath);
 
