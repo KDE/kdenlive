@@ -390,7 +390,5 @@ int JogShuttle::keysCount(const QString& devPath)
     return keysCount;
 }
 
-// #include "jogshuttle.moc"
-
 
 #include "jogshuttle.moc"
