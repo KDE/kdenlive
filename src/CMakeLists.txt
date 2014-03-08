@@ -295,6 +295,8 @@ include_directories(
   ${KDE4_INCLUDES} # Adds Qt include directories too.
   ${LIBMLT_INCLUDE_DIR}
   ${LIBMLTPLUS_INCLUDE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/external 
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib 
 )
 
 
@@ -320,13 +322,8 @@ target_link_libraries(kdenlive
   ${LIBMLTPLUS_LIBRARY}
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
+  kiss_fft
 )
-
-if(BUILD_JogShuttle)
-  target_link_libraries(kdenlive
-    ${CMAKE_SOURCE_DIR}/lib/libmedia_ctrl.a
-  )
-endif(BUILD_JogShuttle)
 
 if(Q_WS_X11)
   include_directories(${X11_Xlib_INCLUDE_PATH})
@@ -368,6 +365,9 @@ endif(BUILD_V4L)
 
 if(BUILD_JogShuttle)
   add_definitions(-DUSE_JOGSHUTTLE)
+  target_link_libraries(kdenlive
+    media_ctrl
+  )
 endif(BUILD_JogShuttle)
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})

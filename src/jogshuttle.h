@@ -27,7 +27,7 @@
 
 #include <linux/input.h>
 #include <sys/time.h>
-#include "lib/external/media_ctrl/mediactrl.h"
+#include <media_ctrl/mediactrl.h>
 
 typedef struct input_event EV;
 
