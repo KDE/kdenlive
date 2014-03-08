@@ -49,23 +49,23 @@
 #include <KFileItem>
 
 #ifdef USE_NEPOMUK
-#if KDE_IS_VERSION(4,6,0)
-#include <Nepomuk/Variant>
-#include <Nepomuk/Resource>
-#include <Nepomuk/ResourceManager>
-#include <Nepomuk/Vocabulary/NIE>
-#include <Nepomuk/Vocabulary/NCO>
-#include <Nepomuk/Vocabulary/NDO>
-#endif
+  #if KDE_IS_VERSION(4,6,0)
+    #include <Nepomuk/Variant>
+    #include <Nepomuk/Resource>
+    #include <Nepomuk/ResourceManager>
+    #include <Nepomuk/Vocabulary/NIE>
+    #include <Nepomuk/Vocabulary/NCO>
+    #include <Nepomuk/Vocabulary/NDO>
+  #endif
 #endif
 
 #ifdef USE_NEPOMUKCORE
-#include <Nepomuk2/Variant>
-#include <Nepomuk2/Resource>
-#include <Nepomuk2/ResourceManager>
-#include <Nepomuk2/Vocabulary/NIE>
-#include <Nepomuk2/Vocabulary/NCO>
-#include <Nepomuk2/Vocabulary/NDO>
+  #include <Nepomuk2/Variant>
+  #include <Nepomuk2/Resource>
+  #include <Nepomuk2/ResourceManager>
+  #include <Nepomuk2/Vocabulary/NIE>
+  #include <Nepomuk2/Vocabulary/NCO>
+  #include <Nepomuk2/Vocabulary/NDO>
 #endif
 
 ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
@@ -115,9 +115,9 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     sound_box->setEnabled(false);
     search_text->setFocus();
 #ifdef USE_NEPOMUK
-#if KDE_IS_VERSION(4,6,0)    
+  #if KDE_IS_VERSION(4,6,0)
     Nepomuk::ResourceManager::instance()->init();
-#endif
+  #endif
 #endif
     slotChangeService();
     loadConfig();
@@ -289,7 +289,7 @@ void ResourceWidget::slotGotFile(KJob *job)
     KIO::FileCopyJob* copyJob = static_cast<KIO::FileCopyJob*>( job );
     const KUrl filePath = copyJob->destUrl();
 #ifdef USE_NEPOMUK
-#if KDE_IS_VERSION(4,6,0)
+  #if KDE_IS_VERSION(4,6,0)
     Nepomuk::Resource res( filePath );
     res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
     res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
@@ -297,7 +297,7 @@ void ResourceWidget::slotGotFile(KJob *job)
     res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
     //res.setDescription(item_description->toPlainText());
     //res.setProperty( Soprano::Vocabulary::NAO::description(),
-#endif
+  #endif
 #endif
 
 #ifdef USE_NEPOMUKCORE

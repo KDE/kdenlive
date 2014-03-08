@@ -33,18 +33,18 @@
 #include <KRun>
 
 #ifdef USE_NEPOMUK
-#if KDE_IS_VERSION(4,6,0)
-#include <Nepomuk/Variant>
-#include <Nepomuk/Resource>
-#include <Nepomuk/ResourceManager>
-#include <Nepomuk/Vocabulary/NIE>
-#endif
+  #if KDE_IS_VERSION(4,6,0)
+    #include <Nepomuk/Variant>
+    #include <Nepomuk/Resource>
+    #include <Nepomuk/ResourceManager>
+    #include <Nepomuk/Vocabulary/NIE>
+  #endif
 #endif
 #ifdef USE_NEPOMUKCORE
-#include <Nepomuk2/Variant>
-#include <Nepomuk2/Resource>
-#include <Nepomuk2/ResourceManager>
-#include <Nepomuk2/Vocabulary/NIE>
+  #include <Nepomuk2/Variant>
+  #include <Nepomuk2/Resource>
+  #include <Nepomuk2/ResourceManager>
+  #include <Nepomuk2/Vocabulary/NIE>
 #endif
 
 
@@ -502,8 +502,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
 
     // Check for Nepomuk metadata
 #ifdef USE_NEPOMUK
-
-#if KDE_IS_VERSION(4,6,0)
+  #if KDE_IS_VERSION(4,6,0)
     if (!url.isEmpty()) {
         Nepomuk::ResourceManager::instance()->init();
         Nepomuk::Resource res( url.path() );
@@ -519,13 +518,11 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         else m_view.clip_license->setHidden(true);
     }
     else m_view.clip_license->setHidden(true);
-#else
+  #else
     m_view.clip_license->setHidden(true);
-#endif
-
+  #endif
 #else
-
-#ifdef USE_NEPOMUKCORE
+  #ifdef USE_NEPOMUKCORE
 
     if (!url.isEmpty()) {
         Nepomuk2::ResourceManager::instance()->init();
@@ -542,10 +539,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         else m_view.clip_license->setHidden(true);
     }
     else m_view.clip_license->setHidden(true);
-#else
+  #else
     m_view.clip_license->setHidden(true);
-#endif
-
+  #endif
 #endif
 
     slotFillMarkersList(m_clip);

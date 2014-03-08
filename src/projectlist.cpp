@@ -63,15 +63,15 @@
 #include <KHBox>
 
 #ifdef USE_NEPOMUK
-#include <nepomuk/global.h>
-#include <nepomuk/resourcemanager.h>
-#include <Nepomuk/Resource>
-//#include <nepomuk/tag.h>
+  #include <nepomuk/global.h>
+  #include <nepomuk/resourcemanager.h>
+  #include <Nepomuk/Resource>
+  //#include <nepomuk/tag.h>
 #endif
 
 #ifdef USE_NEPOMUKCORE
-#include <nepomuk2/resourcemanager.h>
-#include <Nepomuk2/Resource>
+  #include <nepomuk2/resourcemanager.h>
+  #include <Nepomuk2/Resource>
 #endif
 
 #include <QMouseEvent>
