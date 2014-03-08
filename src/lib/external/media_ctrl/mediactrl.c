@@ -13,9 +13,11 @@
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software Foundation,
-* Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+* along with this program; if not, write to the
+* Free Software Foundation, Inc.,
+* 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
@@ -192,8 +194,9 @@ void translate_contour_hid_event(struct media_ctrl *ctrl, struct input_event *ev
 			if ( cv == ctrl->lastshu ) return;
             ctrl->lastshu = cv;
 
+            /* TODO: review this change */
             if ( cv > 0 ) cv -= 1;
-            if ( cv < 0) cv += 1;
+            if ( cv < 0 ) cv += 1;
 
 			//printf("Shuttle: %d\n", cv);
 			me->type  = MEDIA_CTRL_EVENT_SHUTTLE;
@@ -283,11 +286,11 @@ void translate_compliant(struct media_ctrl *ctrl, struct input_event *ev, struct
 }
 
 struct media_ctrl_device supported_devices[] = {
-	{ 0x0b33, 0x0030, "Contour ShuttlePRO v2", mc_shuttle_pro_keys, translate_contour_hid_event },
+	{ 0x0b33, 0x0030, "Contour Design ShuttlePRO v2", mc_shuttle_pro_keys, translate_contour_hid_event },
 	{ 0x0b33, 0x0020, "Contour Design ShuttleXpress", mc_shuttle_xpress_keys, translate_contour_hid_event },
-	{ 0x0b33, 0x0010, "Contour ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event },
-	{ 0x0b33, 0x0011, "Contour ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event }, /* Hercules OEM */
-	{ 0x05f3, 0x0240, "Contour ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event },
+	{ 0x0b33, 0x0010, "Contour Design ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event },
+	{ 0x0b33, 0x0011, "Contour Design ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event }, /* Hercules OEM */
+	{ 0x05f3, 0x0240, "Contour Design ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event },
 	{ 0x0760, 0x0001, "JLCooper MCS3", mc_jlcooper_mcs3_keys, translate_compliant },
 	{ 0x077d, 0x0410, "Griffin PowerMate", mc_powermate_keys, translate_compliant },
 	{ 0x05f3, 0x0241, "X-Keys Editor", mc_x_keys, translate_contour_hid_event },
@@ -317,7 +320,7 @@ void media_ctrl_read_event(struct media_ctrl *ctrl, struct media_ctrl_event *me)
 	if (n != sizeof(ev)) {
 		//printf("JogShuttle::inputCallback: read: (%d) %s\n", errno, strerror(errno));
 		close(ctrl->fd);
-		ctrl->fd = 0;
+		ctrl->fd = -1;
 		return;
 	}
 	
