@@ -33,8 +33,8 @@
 #include "mediactrl.h"
 
 
-static char *_shuttle_name = "Shuttle";
-static char *_jog_name = "Jog";
+static char *_shuttle_name = (char*)"Shuttle";
+static char *_jog_name = (char*)"Jog";
 
 /*
 	ShuttlePro keys
@@ -291,7 +291,7 @@ struct media_ctrl_device supported_devices[] = {
 	{ 0x0760, 0x0001, "JLCooper MCS3", mc_jlcooper_mcs3_keys, translate_compliant },
 	{ 0x077d, 0x0410, "Griffin PowerMate", mc_powermate_keys, translate_compliant },
 	{ 0x05f3, 0x0241, "X-Keys Editor", mc_x_keys, translate_contour_hid_event },
-	{ 0, 0, 0 }
+	{ 0, 0, 0, 0, 0 }
 };
 
 

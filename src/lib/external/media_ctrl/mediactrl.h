@@ -102,7 +102,7 @@ struct media_ctrl_key {
 	int key;  // internal keycode - do not use
 	const char *name;
 	int code; // eventcode
-	int action;
+//	int action;
 };
 
 struct media_ctrl_event {
