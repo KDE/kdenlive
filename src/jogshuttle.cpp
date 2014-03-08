@@ -148,7 +148,7 @@ void ShuttleThread::run()
     media_ctrl_close(&mc);
 }
 
-void ShuttleThread::handle_event(struct media_ctrl_event ev)
+void ShuttleThread::handle_event(const struct media_ctrl_event& ev)
 {
     if (ev.type == MEDIA_CTRL_EVENT_KEY)
         key(ev);
@@ -158,7 +158,7 @@ void ShuttleThread::handle_event(struct media_ctrl_event ev)
         shuttle(ev);
 }
 
-void ShuttleThread::key(struct media_ctrl_event ev)
+void ShuttleThread::key(const struct media_ctrl_event& ev)
 {
     if (ev.value == KEY_PRESS) {
         int code = ev.index + 1;
@@ -167,7 +167,7 @@ void ShuttleThread::key(struct media_ctrl_event ev)
     }
 }
 
-void ShuttleThread::shuttle(struct media_ctrl_event ev)
+void ShuttleThread::shuttle(const struct media_ctrl_event& ev)
 {
     int value = ev.value / 2;
 
@@ -180,7 +180,7 @@ void ShuttleThread::shuttle(struct media_ctrl_event ev)
         new QEvent((QEvent::Type) (JOG_STOP + (value))));
 }
 
-void ShuttleThread::jog(struct media_ctrl_event ev)
+void ShuttleThread::jog(const struct media_ctrl_event& ev)
 {
     if (ev.value < 0)
         QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK1));
@@ -188,6 +188,7 @@ void ShuttleThread::jog(struct media_ctrl_event ev)
         QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD1));
 }
 
+#ifdef USE_DEPRECATED
 void ShuttleThread::handle_event(EV ev)
 {
     switch (ev.type) {
@@ -273,7 +274,7 @@ void ShuttleThread::jog(unsigned int value)
     jogvalue = value;
     if (shuttlecounter > 0) shuttlecounter++;
 }
-
+#endif // USE_DEPRECATED
 
 JogShuttle::JogShuttle(const QString &device, QObject *parent) :
         QObject(parent)
