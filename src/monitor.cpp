@@ -24,7 +24,6 @@
 #include "abstractclipitem.h"
 #include "monitorscene.h"
 #include "widgets/monitoreditwidget.h"
-#include "widgets/videosurface.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -62,9 +61,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     , m_effectWidget(NULL)
     , m_selectedClip(NULL)
     , m_loopClipTransition(true)
-#ifdef USE_OPENGL
     , m_glWidget(NULL)
-#endif
     , m_editMarker(NULL)
 {
     QVBoxLayout *layout = new QVBoxLayout;
@@ -153,29 +150,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     if (profile.isEmpty())
         profile = KdenliveSettings::current_profile();
 
-    bool monitorCreated = false;
-#ifdef Q_WS_MAC
     createOpenGlWidget(videoBox, profile);
-    monitorCreated = true;
-    //m_glWidget->setFixedSize(width, height);
-#elif defined(USE_OPENGL)
-    if (KdenliveSettings::openglmonitors()) {
-        monitorCreated = createOpenGlWidget(videoBox, profile);
-    }
-#endif
-    if (!monitorCreated) {
-	createVideoSurface();
-        render = new Render(m_id, (int) videoSurface->winId(), profile, this);
-	connect(videoSurface, SIGNAL(refreshMonitor()), render, SLOT(doRefresh()));
-    }
-#ifdef USE_OPENGL
-    else if (m_glWidget) {
-	QVBoxLayout *lay = new QVBoxLayout;
-	lay->setContentsMargins(0, 0, 0, 0);
-        lay->addWidget(m_glWidget);
-        videoBox->setLayout(lay);
-    }
-#endif
+    QVBoxLayout *lay = new QVBoxLayout;
+    lay->setContentsMargins(0, 0, 0, 0);
+    lay->addWidget(m_glWidget);
+    videoBox->setLayout(lay);
 
     // Monitor ruler
     m_ruler = new SmallRuler(this, render);
@@ -194,8 +173,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     } else {
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SLOT(setClipZone(QPoint)));
     }
-
-    if (videoSurface) videoSurface->show();
 
     if (id == Kdenlive::ProjectMonitor) {
         m_effectWidget = new MonitorEditWidget(render, videoBox);
@@ -230,21 +207,20 @@ QWidget *Monitor::container()
     return videoBox;
 }
 
-#ifdef USE_OPENGL
-bool Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
+void Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
 {
     render = new Render(id(), 0, profile, this);
     m_glWidget = new VideoGLWidget(parent);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...
-        return false;
+        QMessageBox::critical(this, i18n("Missing OpenGL support"),
+	                      i18n("You need working OpenGL support to run Kdenlive. Exiting."));
+        qApp->quit();
     }
     m_glWidget->setImageAspectRatio(render->dar());
     m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
     connect(render, SIGNAL(showImageSignal(QImage)), m_glWidget, SLOT(showImage(QImage)));
-    return true;
 }
-#endif
 
 void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
 {
@@ -562,14 +538,6 @@ void Monitor::wheelEvent(QWheelEvent * event)
     event->accept();
 }
 
-void Monitor::mouseDoubleClickEvent(QMouseEvent * event)
-{
-    if (!KdenliveSettings::openglmonitors()) {
-        videoBox->switchFullScreen();
-        event->accept();
-    }
-}
-
 void Monitor::slotMouseSeek(int eventDelta, bool fast)
 {
     if (fast) {
@@ -791,9 +759,7 @@ void Monitor::stop()
 void Monitor::start()
 {
     if (!isVisible() || !isActive()) return;
-#ifdef USE_OPENGL    
     if (m_glWidget) m_glWidget->activateMonitor();
-#endif
     if (render) render->startConsumer();
 }
 
@@ -940,9 +906,7 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     if (!render->hasProfile(profile)) {
         slotActivateMonitor();
         render->resetProfile(profile);
-#ifdef USE_OPENGL    
 	if (m_glWidget) m_glWidget->setImageAspectRatio(render->dar());
-#endif
     }
 }
 
@@ -953,9 +917,7 @@ void Monitor::resetProfile(const QString &profile)
     if (!render->hasProfile(profile)) {
         slotActivateMonitor();
         render->resetProfile(profile);
-#ifdef USE_OPENGL
 	if (m_glWidget) m_glWidget->setImageAspectRatio(render->dar());
-#endif
     }
     if (m_effectWidget)
         m_effectWidget->resetProfile(render);
@@ -989,28 +951,13 @@ void Monitor::slotSwitchMonitorInfo(bool show)
     KdenliveSettings::setDisplayMonitorInfo(show);
     if (show) {
         if (m_overlay) return;
-        if (videoSurface == NULL) {
-            // Using OpenGL display
-#ifdef USE_OPENGL
-            if (m_glWidget->layout()) delete m_glWidget->layout();
-            m_overlay = new Overlay();
-            connect(m_overlay, SIGNAL(editMarker()), this, SLOT(slotEditMarker()));
-            QVBoxLayout *layout = new QVBoxLayout;
-            layout->addStretch(10);
-            layout->addWidget(m_overlay);
-            m_glWidget->setLayout(layout);
-#endif
-        } else {
-            if (videoSurface->layout()) delete videoSurface->layout();
-            m_overlay = new Overlay();
-            connect(m_overlay, SIGNAL(editMarker()), this, SLOT(slotEditMarker()));
-            QVBoxLayout *layout = new QVBoxLayout;
-            layout->addStretch(10);
-            layout->addWidget(m_overlay);
-            videoSurface->setLayout(layout);
-            m_overlay->raise();
-            m_overlay->setHidden(true);
-        }
+        if (m_glWidget->layout()) delete m_glWidget->layout();
+        m_overlay = new Overlay();
+        connect(m_overlay, SIGNAL(editMarker()), this, SLOT(slotEditMarker()));
+        QVBoxLayout *layout = new QVBoxLayout;
+        layout->addStretch(10);
+        layout->addWidget(m_overlay);
+        m_glWidget->setLayout(layout);
         checkOverlay();
     } else {
         delete m_overlay;
@@ -1074,31 +1021,14 @@ void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
             return;
         setUpdatesEnabled(false);
         if (show) {
-            if (videoSurface) {
-                videoSurface->setVisible(false);
-                // Preview is handeled internally through the Render::showFrame method
-                render->disablePreview(true);
-#ifdef USE_OPENGL
-            } else {
-                m_glWidget->setVisible(false);
-#endif
-            }
+            m_glWidget->setVisible(false);
             m_effectWidget->setVisible(true);
             m_effectWidget->getScene()->slotZoomFit();
             emit requestFrameForAnalysis(true);
         } else {    
             m_effectWidget->setVisible(false);
             emit requestFrameForAnalysis(false);
-            if (videoSurface) {
-                videoSurface->setVisible(true);
-                // Preview is handeled internally through the Render::showFrame method
-                render->disablePreview(false);
-            
-#ifdef USE_OPENGL
-            } else {
-                m_glWidget->setVisible(true);
-#endif
-            }
+            m_glWidget->setVisible(true);
         }
         if (!manuallyTriggered)
             m_effectWidget->showVisibilityButton(show);

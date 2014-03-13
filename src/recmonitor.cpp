@@ -185,14 +185,6 @@ RecMonitor::~RecMonitor()
     delete m_captureDevice;
 }
 
-void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
-{
-    if (!KdenliveSettings::openglmonitors() && videoBox && videoBox->isVisible()) {
-        videoBox->switchFullScreen();
-        event->accept();
-    }
-}
-
 void RecMonitor::slotSwitchFullScreen()
 {
     videoBox->switchFullScreen();

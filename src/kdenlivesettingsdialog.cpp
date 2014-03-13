@@ -175,10 +175,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configSdl.reload_blackmagic->setIcon(KIcon("view-refresh"));
     connect(m_configSdl.reload_blackmagic, SIGNAL(clicked(bool)), this, SLOT(slotReloadBlackMagic()));
 
-#ifndef USE_OPENGL
-    m_configSdl.kcfg_openglmonitors->setHidden(true);
-#endif
-
     m_page6 = addPage(p6, i18n("Playback"), "media-playback-start");
 
     QWidget *p7 = new QWidget;
