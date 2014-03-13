@@ -126,6 +126,7 @@ Q_OBJECT public:
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);
+    QGLWidget *getMainContext() const { return m_mainGLContext; }
 
 #if KDE_IS_VERSION(4,5,0)
     KImageCache* pixmapCache;

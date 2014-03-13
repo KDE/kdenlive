@@ -44,6 +44,7 @@
 #include <QFile>
 #include <QDir>
 #include <QDesktopWidget>
+#include <QPainter>
 
 
 RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent) :

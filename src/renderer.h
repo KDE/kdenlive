@@ -357,6 +357,8 @@ class Render: public AbstractRender
 protected:
     static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
     static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    static void consumer_thread_started(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    static void consumer_thread_stopped(mlt_consumer, Render * self, mlt_frame frame_ptr);
     
 private:
 
@@ -369,6 +371,8 @@ private:
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
     Mlt::Event *m_showFrameEvent;
+    Mlt::Event *m_consumerThreadStartedEvent;
+    Mlt::Event *m_consumerThreadStoppedEvent;
     Mlt::Event *m_pauseEvent;
     double m_fps;
 
@@ -402,6 +406,7 @@ private:
     bool m_isActive;
     QGLWidget *m_mainGLContext;
     QGLWidget *m_GLContext;
+    QMap<pthread_t, QGLWidget *> m_renderThreadGLContexts;
     Mlt::Filter* m_glslManager;
 
     void closeMlt();

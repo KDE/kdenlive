@@ -30,6 +30,8 @@
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
+
     KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
                          ki18n("Kdenlive"), VERSION,
                          ki18n("An open source video editor."),
