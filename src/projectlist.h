@@ -100,6 +100,7 @@ class KdenliveDoc;
 class DocClipBase;
 class AbstractClipJob;
 class ItemDelegate;
+class QGLWidget;
 
 class SmallInfoLabel: public QPushButton
 {
@@ -129,7 +130,7 @@ class ProjectList : public QWidget
     Q_OBJECT
 
 public:
-    ProjectList(QWidget *parent = 0);
+    ProjectList(QGLWidget *glContext, QWidget *parent = 0);
     virtual ~ProjectList();
 
     QDomElement producersList();
@@ -280,6 +281,7 @@ private:
     /** @brief The action that will trigger the log dialog. */
     QAction *m_logAction;
 #endif
+    QGLWidget *m_mainGLContext;
     
     void requestClipThumbnail(const QString &id);
 

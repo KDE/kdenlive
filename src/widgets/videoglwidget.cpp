@@ -31,8 +31,8 @@
 #define GL_TEXTURE_RECTANGLE_EXT GL_TEXTURE_RECTANGLE_NV
 #endif
 
-VideoGLWidget::VideoGLWidget(QWidget *parent)
-    : QGLWidget(parent)
+VideoGLWidget::VideoGLWidget(QWidget *parent, QGLWidget *share)
+    : QGLWidget(parent, share)
     , x(0)
     , y(0)
     , w(width())
@@ -40,6 +40,7 @@ VideoGLWidget::VideoGLWidget(QWidget *parent)
     , m_image_width(0)
     , m_image_height(0)
     , m_texture(0)
+    , m_other_texture(0)
     , m_display_ratio(4.0 / 3.0)
     , m_backgroundColor(Qt::gray)
 {  
@@ -146,6 +147,24 @@ void VideoGLWidget::paintGL()
         glEnd();
         glDisable(GL_TEXTURE_RECTANGLE_EXT);
     }
+    if (m_other_texture) {
+#ifdef Q_WS_MAC
+		glClear(GL_COLOR_BUFFER_BIT);
+#endif
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, m_other_texture);
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0);
+        glVertex2i(x, y);
+        glTexCoord2i(1, 0);
+        glVertex2i(x + w, y);
+        glTexCoord2i(1, 1);
+        glVertex2i(x + w, y + h);
+        glTexCoord2i(0, 1);
+        glVertex2i(x, y + h);
+        glEnd();
+        glDisable(GL_TEXTURE_2D);
+    }
 }
 
 void VideoGLWidget::showImage(const QImage &image)
@@ -155,6 +174,7 @@ void VideoGLWidget::showImage(const QImage &image)
     makeCurrent();
     if (m_texture)
         glDeleteTextures(1, &m_texture);
+    m_other_texture = 0;
 
     glPixelStorei(GL_UNPACK_ROW_LENGTH, m_image_width);
     glGenTextures(1, &m_texture);
@@ -163,6 +183,18 @@ void VideoGLWidget::showImage(const QImage &image)
     glTexParameterf(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, m_image_width, m_image_height, 0, GL_RGB,
                  GL_UNSIGNED_BYTE, image.bits());
+    updateGL();
+}
+
+void VideoGLWidget::showImage(GLuint texnum)
+{
+    makeCurrent();
+    if (m_texture) {
+        glDeleteTextures(1, &m_texture);
+        m_texture = 0;
+    }
+    m_other_texture = texnum;
+
     updateGL();
 }
 

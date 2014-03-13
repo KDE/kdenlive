@@ -52,6 +52,7 @@
 class KdenliveDoc;
 class DocClipBase;
 class AbstractGroupItem;
+class QGLWidget;
 
 
 class SolidVolumeInfo
@@ -76,7 +77,7 @@ class ClipManager: public QObject
 {
 Q_OBJECT public:
 
-    ClipManager(KdenliveDoc *doc);
+    ClipManager(KdenliveDoc *doc, QGLWidget *glContext);
     virtual ~ ClipManager();
     void addClip(DocClipBase *clip);
     DocClipBase *getClipAt(int pos);
@@ -147,6 +148,7 @@ private slots:
     void slotAddClip(KIO::Job *job, const KUrl &, const KUrl &dst);
 
 private:   // Private attributes
+    QGLWidget *m_mainGLContext;
     /** the list of clips in the document */
     QList <DocClipBase*> m_clipList;
     /** the list of groups in the document */

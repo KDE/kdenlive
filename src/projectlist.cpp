@@ -86,6 +86,7 @@
 #include <QtConcurrentRun>
 #include <QVBoxLayout>
 #include <KPassivePopup>
+#include <QGLWidget>
 
 
 MyMessageWidget::MyMessageWidget(QWidget *parent) : KMessageWidget(parent) {}
@@ -185,7 +186,7 @@ void SmallInfoLabel::slotSetJobCount(int jobCount)
     
 }
 
-ProjectList::ProjectList(QWidget *parent) :
+ProjectList::ProjectList(QGLWidget *glContext, QWidget *parent) :
     QWidget(parent)
   , m_render(NULL)
   , m_fps(-1)
@@ -204,6 +205,7 @@ ProjectList::ProjectList(QWidget *parent) :
   , m_abortAllJobs(false)
   , m_closing(false)
   , m_invalidClipDialog(NULL)
+  , m_mainGLContext(glContext)
 {
     qRegisterMetaType<stringMap> ("stringMap");
     QVBoxLayout *layout = new QVBoxLayout;
@@ -1531,6 +1533,10 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
 
 void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips)
 {
+    // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
+    QGLWidget ctx(0, m_mainGLContext);
+    ctx.makeCurrent();
+
     if (!m_allClipsProcessed) m_listView->setEnabled(false);
     m_listView->setSortingEnabled(false);
     QTreeWidgetItemIterator it(m_listView);

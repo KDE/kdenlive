@@ -111,7 +111,7 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
     emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
 }
 
-Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWidget *parent) :
+Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWidget *parent, QGLWidget *mainGLContext) :
     AbstractRender(rendererName, parent),
     requestedSeekPosition(SEEK_INACTIVE),
     showFrameSemaphore(1),
@@ -128,7 +128,9 @@ Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWi
     m_blackClip(NULL),
     m_winid(winid),
     m_paused(true),
-    m_isActive(false)
+    m_isActive(false),
+    m_mainGLContext(mainGLContext),
+    m_GLContext(NULL)
 {
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
@@ -140,16 +142,21 @@ Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWi
     m_mltProducer->set_speed(0.0);
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(100);
+    m_glslManager = new Mlt::Filter(*m_mltProfile, "glsl.manager");
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
     connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
+
+    m_GLContext = new QGLWidget(0, m_mainGLContext);
+    m_GLContext->resize(0, 0);
 }
 
 Render::~Render()
 {
     closeMlt();
     delete m_mltProfile;
+    delete m_GLContext;
 }
 
 
@@ -704,6 +711,10 @@ bool Render::isProcessing(const QString &id)
 
 void Render::processFileProperties()
 {
+    // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
+    QGLWidget ctx(0, m_mainGLContext);
+    ctx.makeCurrent();
+
     requestClipInfo info;
     QLocale locale;
     while (!m_requestList.isEmpty()) {

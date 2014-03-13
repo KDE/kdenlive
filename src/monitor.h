@@ -67,7 +67,7 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
-    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
+    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QString profile = QString(), QWidget *parent = 0);
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender();
@@ -141,6 +141,8 @@ private:
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
     bool m_loopClipTransition;
+
+    QGLWidget *m_parentGLContext;
     VideoGLWidget *m_glWidget;
     void createOpenGlWidget(QWidget *parent, const QString &profile);
 

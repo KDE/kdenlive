@@ -47,6 +47,7 @@
 #include <QSemaphore>
 #include <QTimer>
 
+class QGLWidget;
 class QPixmap;
 
 class KComboBox;
@@ -109,7 +110,7 @@ class Render: public AbstractRender
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(Kdenlive::MonitorId rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
+    Render(Kdenlive::MonitorId rendererName, int winid, QString profile = QString(), QWidget *parent = 0, QGLWidget *mainGLContext = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -399,6 +400,9 @@ private:
     bool m_paused;
     /** @brief True if this monitor is active. */
     bool m_isActive;
+    QGLWidget *m_mainGLContext;
+    QGLWidget *m_GLContext;
+    Mlt::Filter* m_glslManager;
 
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
@@ -477,6 +481,7 @@ signals:
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
+    void showImageSignal(GLuint);
     void showAudioSignal(const QVector<double> &);
     void addClip(const KUrl &, stringMap);
     void checkSeeking();

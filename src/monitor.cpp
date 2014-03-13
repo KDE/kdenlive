@@ -24,6 +24,8 @@
 #include "abstractclipitem.h"
 #include "monitorscene.h"
 #include "widgets/monitoreditwidget.h"
+#include "widgets/videosurface.h"
+#include "widgets/videoglwidget.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -48,7 +50,7 @@
 #define SEEK_INACTIVE (-1)
 
 
-Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profile, QWidget *parent) :
+Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QString profile, QWidget *parent) :
     AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_currentClip(NULL)
@@ -61,6 +63,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     , m_effectWidget(NULL)
     , m_selectedClip(NULL)
     , m_loopClipTransition(true)
+    , m_parentGLContext(glContext)
     , m_glWidget(NULL)
     , m_editMarker(NULL)
 {
@@ -209,8 +212,8 @@ QWidget *Monitor::container()
 
 void Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
 {
-    render = new Render(id(), 0, profile, this);
-    m_glWidget = new VideoGLWidget(parent);
+    m_glWidget = new VideoGLWidget(parent, m_parentGLContext);
+    render = new Render(id(), 0, profile, this, m_glWidget);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...
         QMessageBox::critical(this, i18n("Missing OpenGL support"),
@@ -220,6 +223,7 @@ void Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
     m_glWidget->setImageAspectRatio(render->dar());
     m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
     connect(render, SIGNAL(showImageSignal(QImage)), m_glWidget, SLOT(showImage(QImage)));
+    connect(render, SIGNAL(showImageSignal(GLuint)), m_glWidget, SLOT(showImage(GLuint)));
 }
 
 void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)

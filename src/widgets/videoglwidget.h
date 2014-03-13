@@ -28,7 +28,7 @@ class VideoGLWidget : public QGLWidget
     Q_OBJECT
 
 public:
-    explicit VideoGLWidget(QWidget *parent = 0);
+    explicit VideoGLWidget(QWidget *parent = 0, QGLWidget *share = 0);
     ~VideoGLWidget();
     void activateMonitor();
     QSize minimumSizeHint() const;
@@ -40,6 +40,7 @@ public:
 
 public slots:
     void showImage(const QImage &image);
+    void showImage(GLuint);
 
 protected:
     void initializeGL();
@@ -51,7 +52,7 @@ protected:
 private:
     int x, y, w, h;
     int m_image_width, m_image_height;
-    GLuint m_texture;
+    GLuint m_texture, m_other_texture;
     double m_display_ratio;
     QColor m_backgroundColor;
     Qt::WindowFlags m_baseFlags;
