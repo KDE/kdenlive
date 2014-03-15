@@ -21,6 +21,7 @@
 #ifndef _MEDIA_CTRL_H
 #define _MEDIA_CTRL_H
 
+#include <sys/time.h>
 
 // just to make the code more readable
 #define KEY_RELEASE			0x00
