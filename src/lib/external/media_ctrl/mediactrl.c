@@ -428,7 +428,7 @@ void media_ctrl_open(struct media_ctrl *mc)
 	find_first_device(mc);
 }
 
-void media_ctrl_open2(struct media_ctrl *mc, const char *devname)
+void media_ctrl_open_dev(struct media_ctrl *mc, const char *devname)
 {
     int fd;
 

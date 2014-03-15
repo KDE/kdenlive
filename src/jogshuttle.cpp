@@ -69,7 +69,7 @@ void ShuttleThread::run()
 	struct media_ctrl mc;
 
     // open device
-    media_ctrl_open2(&mc, m_device.toUtf8().data());
+    media_ctrl_open_dev(&mc, m_device.toUtf8().data());
 
     // on failure return
     if (mc.fd < 0) {
@@ -254,7 +254,7 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
         kDebug() << QString(" [%1] ").arg(fileLink);
 
         struct media_ctrl mc;
-        media_ctrl_open2(&mc, (char*)fileLink.toUtf8().data());
+        media_ctrl_open_dev(&mc, (char*)fileLink.toUtf8().data());
         if (mc.fd > 0 && mc.device) {
             devs.insert(QString(mc.device->name), devFullPath);
             kDebug() <<  QString(" [keys-count=%1] ").arg(
@@ -272,7 +272,7 @@ int JogShuttle::keysCount(const QString& devPath)
     int keysCount = 0;
 
     QString fileLink = canonicalDevice(devPath);
-    media_ctrl_open2(&mc, (char*)fileLink.toUtf8().data());
+    media_ctrl_open_dev(&mc, (char*)fileLink.toUtf8().data());
     if (mc.fd > 0 && mc.device) {
         keysCount = media_ctrl_get_keys_count(&mc);
     }
