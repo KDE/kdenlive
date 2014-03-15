@@ -28,37 +28,14 @@
 #include <QEvent>
 #include <QDir>
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
 #include <string.h>
-#include <linux/input.h>
+#include <errno.h>
+#include <sys/select.h>
+// according to earlier standards
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-#define DELAY 10
-
-#define KEY 1
-#define KEY1 256
-#define KEY2 257
-#define KEY3 258
-#define KEY4 259
-#define KEY5 260
-#define KEY6 261
-#define KEY7 262
-#define KEY8 263
-#define KEY9 264
-#define KEY10 265
-#define KEY11 266
-#define KEY12 267
-#define KEY13 268
-#define KEY14 269
-#define KEY15 270
-
-// Constants for the returned events when reading them from the device
-#define JOGSHUTTLE 2
-#define JOG 7
-#define SHUTTLE 8
 
 // Constants for the signals sent.
 #define JOG_BACK1 10001
@@ -95,7 +72,7 @@ void ShuttleThread::run()
 
     // on failure return
     if (mc.fd < 0) {
-        perror("Can't open Jog Shuttle FILE DESCRIPTOR");
+        kDebug() << "Can't open Jog Shuttle FILE DESCRIPTOR";
         return;
     }
 
@@ -104,9 +81,9 @@ void ShuttleThread::run()
 	fd_set readset;
 	struct timeval timeout;
 
-	/* enter thread loop */
+	// enter thread loop
 	while (!stop_me) {
-		/* reset the read set */
+		// reset the read set
 		FD_ZERO(&readset);
 		FD_SET(mc.fd, &readset);
 
@@ -118,14 +95,14 @@ void ShuttleThread::run()
 		// for stop_me evaluation
 		result = select(mc.fd + 1, &readset, NULL, NULL, &timeout);
 
-		/* see if there was an error or timeout else process event */
+		// see if there was an error or timeout else process event
 		if (result < 0 && errno == EINTR) {
 			// EINTR event catched. This is not a problem - continue processing
 			kDebug() << strerror(errno) << "\n";
 			// continue processing
 			continue;
 		} else if (result < 0) {
-			/* stop thread */
+			// stop thread
 			stop_me = true;
 			kDebug() << strerror(errno) << "\n";
 		} else if (result > 0) {
@@ -187,94 +164,6 @@ void ShuttleThread::jog(const struct media_ctrl_event& ev)
     else if (ev.value > 0)
         QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD1));
 }
-
-#ifdef USE_DEPRECATED
-void ShuttleThread::handle_event(EV ev)
-{
-    switch (ev.type) {
-    case KEY :
-        key(ev.code, ev.value);
-        break;
-    case JOGSHUTTLE :
-        if (ev.code == JOG)
-            jog(ev.value);
-        if (ev.code == SHUTTLE)
-            shuttle(ev.value);
-        break;
-    }
-}
-
-void ShuttleThread::key(unsigned short code, unsigned int value)
-{
-    if (value == 0) {
-        // Button release (ignored)
-        return;
-    }
-
-    // Check key index
-    code -= KEY1 - 1;
-    if (code > 16)
-        return;
-
-    //kDebug() << "Button PRESSED: " << code;
-    QApplication::postEvent(m_parent, new QEvent((QEvent::Type)(KEY_EVENT_OFFSET + code)));
-
-}
-
-void ShuttleThread::shuttle(int value)
-{
-    //gettimeofday( &last_shuttle, 0 );
-    //need_synthetic_shuttle = value != 0;
-
-    if (value == shuttlevalue) {
-	shuttlecounter = 1;
-        return;
-    }
-
-    if (value > MAX_SHUTTLE_RANGE || value < -MAX_SHUTTLE_RANGE) {
-        fprintf(stderr, "Jog Shuttle returned value of %d (should be between -%d ad +%d)", value, MAX_SHUTTLE_RANGE, MAX_SHUTTLE_RANGE);
-        return;
-    }
-    shuttlevalue = value;
-    shuttlecounter = 1;
-    QApplication::postEvent(m_parent, new QEvent((QEvent::Type) (JOG_STOP + value)));
-}
-
-void ShuttleThread::jog(unsigned int value)
-{
-    // generate a synthetic event for the shuttle going
-    // to the home position if we have not seen one recently.
-    //if (shuttlevalue != 0) {
-    //  QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_STOP));
-    //  shuttlevalue = 0;
-    //}
-
-    // This code takes care of wrapping around the limits of the jog dial number (it is represented as a single byte, hence
-    // wraps at the 0/255 boundary). I used 25 as the difference to make sure that even in heavy load, with the jog dial
-    // turning fast and we miss some events that we do not mistakenly reverse the direction.
-    // Note also that at least the Contour ShuttlePRO v2 does not send an event for the value 0, so at the wrap it will
-    // need 2 events to go forward. But that is nothing we can do about...
-    if (jogvalue != 0xffff) {
-        //fprintf(stderr, "value=%d jogvalue=%d\n", value, jogvalue);
-        bool wrap = abs(value - jogvalue) > 25;
-        bool rewind = value < jogvalue;
-        bool forward = value > jogvalue;
-        if ((rewind && !wrap) || (forward && wrap))
-            QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK1));
-        else if ((forward && !wrap) || (rewind && wrap))
-            QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD1));
-        else if (!forward && !rewind && shuttlecounter > 2) {
-            // An event without changing the jog value is sent after each shuttle change.
-            // As the shuttle rest position does not get a shuttle event, only a non-position-changing jog event.
-            // Hence we stop on this when we see 2 non-position-changing jog events in a row.
-	    shuttlecounter = 0;
-            QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_STOP));
-	}
-    }
-    jogvalue = value;
-    if (shuttlecounter > 0) shuttlecounter++;
-}
-#endif // USE_DEPRECATED
 
 JogShuttle::JogShuttle(const QString &device, QObject *parent) :
         QObject(parent)

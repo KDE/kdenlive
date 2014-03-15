@@ -25,11 +25,8 @@
 #include <QObject>
 #include <QMap>
 
-#include <linux/input.h>
-#include <sys/time.h>
 #include <media_ctrl/mediactrl.h>
 
-typedef struct input_event EV;
 
 class ShuttleThread : public QThread
 {
@@ -51,14 +48,8 @@ private:
     void jog(const struct media_ctrl_event& ev);
     void shuttle(const struct media_ctrl_event& ev);
     void key(const struct media_ctrl_event& ev);
-
-#ifdef USE_DEPRECATED
-    void handle_event(EV ev);
-    void jog(unsigned int value);
-    void shuttle(int value);
-    void key(unsigned short code, unsigned int value);
-#endif
 };
+
 
 typedef QMap<QString, QString> DeviceMap;
 typedef QMap<QString, QString>::iterator DeviceMapIter;
