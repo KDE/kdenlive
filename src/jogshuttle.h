@@ -34,20 +34,18 @@ class ShuttleThread : public QThread
 public:
     virtual void run();
     void init(QObject *parent, const QString &device);
-    QObject *m_parent;
-    int shuttlevalue;
-    int shuttlecounter;
-    unsigned short jogvalue;
-    bool isWorking();
-    volatile bool stop_me;
-    QString m_device;
+    QString device();
+    void stop();
 
 private:
-    bool m_isWorking;
-    void handle_event(const struct media_ctrl_event& ev);
+    void handleEvent(const struct media_ctrl_event& ev);
     void jog(const struct media_ctrl_event& ev);
     void shuttle(const struct media_ctrl_event& ev);
     void key(const struct media_ctrl_event& ev);
+
+    QString m_device;
+    QObject *m_parent;
+    volatile bool m_isRunning;
 };
 
 

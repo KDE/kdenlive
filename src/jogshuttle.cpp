@@ -50,16 +50,17 @@ void ShuttleThread::init(QObject *parent, const QString &device)
 {
     m_parent = parent;
     m_device = device;
-    stop_me = false;
-    m_isWorking = false;
-    shuttlevalue = 0xffff;
-    shuttlecounter = 0;
-    jogvalue = 0xffff;
+    m_isRunning = true;
 }
 
-bool ShuttleThread::isWorking()
+QString ShuttleThread::device()
 {
-    return m_isWorking;
+    return m_device;
+}
+
+void ShuttleThread::stop()
+{
+    m_isRunning = false;
 }
 
 void ShuttleThread::run()
@@ -82,7 +83,7 @@ void ShuttleThread::run()
 	struct timeval timeout;
 
 	// enter thread loop
-	while (!stop_me) {
+	while (m_isRunning) {
 		// reset the read set
 		FD_ZERO(&readset);
 		FD_SET(mc.fd, &readset);
@@ -103,7 +104,7 @@ void ShuttleThread::run()
 			continue;
 		} else if (result < 0) {
 			// stop thread
-			stop_me = true;
+		    m_isRunning = false;
 			kDebug() << strerror(errno) << "\n";
 		} else if (result > 0) {
 			// we have input
@@ -113,7 +114,7 @@ void ShuttleThread::run()
                 // read input
 				media_ctrl_read_event(&mc, &mev);
                 // process event
-                handle_event(mev);
+                handleEvent(mev);
 			}
 		} else if (result == 0) {
 		    // on timeout. let it here for debug
@@ -125,7 +126,7 @@ void ShuttleThread::run()
     media_ctrl_close(&mc);
 }
 
-void ShuttleThread::handle_event(const struct media_ctrl_event& ev)
+void ShuttleThread::handleEvent(const struct media_ctrl_event& ev)
 {
     if (ev.type == MEDIA_CTRL_EVENT_KEY)
         key(ev);
@@ -179,7 +180,7 @@ JogShuttle::~JogShuttle()
 void JogShuttle::initDevice(const QString &device)
 {
     if (m_shuttleProcess.isRunning()) {
-        if (device == m_shuttleProcess.m_device)
+        if (device == m_shuttleProcess.device())
             return;
 
         stopDevice();
@@ -193,8 +194,8 @@ void JogShuttle::stopDevice()
 {
     if (m_shuttleProcess.isRunning()) {
     	/* tell thread to stop */
-        m_shuttleProcess.stop_me = true;
-        m_shuttleProcess.exit();
+        m_shuttleProcess.stop();
+        //m_shuttleProcess.exit();
         /* give the thread some time (ms) to shutdown */
         m_shuttleProcess.wait(600);
 
