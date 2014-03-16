@@ -122,7 +122,7 @@ void ShuttleThread::run()
 	}
 
     kDebug() << "-------  STOPPING SHUTTLE: ";
-	/* close the handle and return thread */
+	// close the handle and return thread
     media_ctrl_close(&mc);
 }
 
@@ -193,16 +193,16 @@ void JogShuttle::initDevice(const QString &device)
 void JogShuttle::stopDevice()
 {
     if (m_shuttleProcess.isRunning()) {
-    	/* tell thread to stop */
+    	// tell thread to stop
         m_shuttleProcess.stop();
-        //m_shuttleProcess.exit();
-        /* give the thread some time (ms) to shutdown */
+        m_shuttleProcess.quit();
+        // give the thread some time (ms) to shutdown
         m_shuttleProcess.wait(600);
 
-        /* if still running - do it in the hardcore way */
+        // if still running - do it in the hardcore way
         if (m_shuttleProcess.isRunning()) {
         	m_shuttleProcess.terminate();
-            kDebug() << "/// terminate jogshuttle process\n";
+            kDebug() << "/// terminate jogshuttle process";
         }
     }
 }
