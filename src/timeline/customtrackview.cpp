@@ -174,10 +174,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     m_thumbsTimer.setSingleShot(true);
 
     KIcon razorIcon("edit-cut");
-    m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
+    m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
 
     KIcon spacerIcon("kdenlive-spacer-tool");
-    m_spacerCursor = QCursor(spacerIcon.pixmap(22, 22));
+    m_spacerCursor = QCursor(spacerIcon.pixmap(32, 32));
 }
 
 CustomTrackView::~CustomTrackView()

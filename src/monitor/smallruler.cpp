@@ -31,6 +31,9 @@
 
 #define SEEK_INACTIVE (-1)
 
+// Width of a letter, used for cursor width
+static int FONT_WIDTH;
+
 
 SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
         QWidget(parent)
@@ -41,6 +44,9 @@ SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
 	,m_lastSeekPosition(SEEK_INACTIVE)
 	,m_cursorColor(palette().text())
 {
+    QFontMetricsF fontMetrics(font());
+    // Define size variables
+    FONT_WIDTH = fontMetrics.averageCharWidth();
     m_zoneStart = 10;
     m_zoneEnd = 60;
     KSharedConfigPtr config = KSharedConfig::openConfig(KdenliveSettings::colortheme());
@@ -260,7 +266,7 @@ void SmallRuler::updatePixmap()
         for (int i = 0; i < m_markers.count(); ++i) {
 	    int pos = m_markers.at(i).time().frames(m_monitor->fps()) * m_scale;
 	    p.setPen(CommentedTime::markerColor(m_markers.at(i).markerType()));
-            p.drawLine(pos, 0, pos, 9);
+            p.drawLine(pos, 0, pos, height());
         }
     }
     p.end();
@@ -282,7 +288,7 @@ void SmallRuler::paintEvent(QPaintEvent *e)
     int cursorPos = m_cursorFramePosition * m_scale;
     // draw pointer
     QPolygon pa(3);
-    pa.setPoints(3, cursorPos - 6, height() - 1, cursorPos + 6, height() - 1, cursorPos/*+0*/, height() - 8);
+    pa.setPoints(3, cursorPos - FONT_WIDTH, height() - 1, cursorPos + FONT_WIDTH, height() - 1, cursorPos/*+0*/, height() / 2);
     p.setBrush(m_cursorColor);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);

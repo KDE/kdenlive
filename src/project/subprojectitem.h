@@ -47,7 +47,6 @@ public:
     void setZone(const QPoint &p);
     QString description() const;
     void setDescription(const QString& desc);
-    static int itemDefaultHeight();
 
     /** Make sure folders appear on top of the tree widget */
     virtual bool operator<(const QTreeWidgetItem &other)const {
