@@ -25,11 +25,8 @@
 #include <QObject>
 #include <QMap>
 
-#include <linux/input.h>
-#include <sys/time.h>
 #include <media_ctrl/mediactrl.h>
 
-typedef struct input_event EV;
 
 class ShuttleThread : public QThread
 {
@@ -37,28 +34,20 @@ class ShuttleThread : public QThread
 public:
     virtual void run();
     void init(QObject *parent, const QString &device);
-    QObject *m_parent;
-    int shuttlevalue;
-    int shuttlecounter;
-    unsigned short jogvalue;
-    bool isWorking();
-    volatile bool stop_me;
-    QString m_device;
+    QString device();
+    void stop();
 
 private:
-    bool m_isWorking;
-    void handle_event(const struct media_ctrl_event& ev);
+    void handleEvent(const struct media_ctrl_event& ev);
     void jog(const struct media_ctrl_event& ev);
     void shuttle(const struct media_ctrl_event& ev);
     void key(const struct media_ctrl_event& ev);
 
-#ifdef USE_DEPRECATED
-    void handle_event(EV ev);
-    void jog(unsigned int value);
-    void shuttle(int value);
-    void key(unsigned short code, unsigned int value);
-#endif
+    QString m_device;
+    QObject *m_parent;
+    volatile bool m_isRunning;
 };
+
 
 typedef QMap<QString, QString> DeviceMap;
 typedef QMap<QString, QString>::iterator DeviceMapIter;

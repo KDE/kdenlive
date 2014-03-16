@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="movit.diffusion" id="movit.diffusion">
+	<name>Movit: Diffusion</name>
+	<description>Diffusion</description>
+	<author>Steinar H. Gunderson</author>
+	<parameter type="simplekeyframe" name="radius" default="150" min="0" max="1000" factor="10">
+		<name>Radius</name>
+	</parameter>
+	<parameter type="simplekeyframe" name="mix" default="30" min="0" max="1000" factor="100">
+		<name>Mix amount</name>
+	</parameter>
+</effect>

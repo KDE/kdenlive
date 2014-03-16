@@ -78,6 +78,7 @@ class KActionCollection;
 class AudioSignal;
 class AudioSpectrum;
 class Spectrogram;
+class QGLWidget;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -141,6 +142,8 @@ protected:
     virtual void readProperties(const KConfigGroup &config);
 
 private:
+    QGLWidget* m_glContext;
+
     KTabWidget* m_timelineArea;
     QProgressBar *m_statusProgressBar;
 

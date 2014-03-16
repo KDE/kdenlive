@@ -22,7 +22,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
@@ -43,11 +42,13 @@
 #include <QString>
 #include <QApplication>
 #include <QtConcurrentRun>
+#include <QGLWidget>
 
 #include <cstdlib>
 #include <cstdarg>
 
 #include <QDebug>
+#include <assert.h>
 
 #define SEEK_INACTIVE (-1)
 
@@ -81,6 +82,32 @@ void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_pt
     }
 }
 
+void Render::consumer_thread_started(mlt_consumer, Render * self, mlt_frame)
+{
+    pthread_t thr = pthread_self();
+    if (self->m_renderThreadGLContexts.count(thr) == 0) {
+        QGLWidget *ctx = new QGLWidget(0, self->m_mainGLContext);
+        ctx->resize(0, 0);
+        self->m_renderThreadGLContexts.insert(thr, ctx);
+    }
+    self->m_renderThreadGLContexts[thr]->makeCurrent();
+    self->m_glslManager->fire_event("init glsl");
+    if (!self->m_glslManager->get_int("glsl_supported")) {
+        QMessageBox::critical(NULL, i18n("Movit failed initialization"),
+                              i18n("Initialization of OpenGL filters failed. Exiting."));
+        qApp->quit();
+    }
+}
+
+void Render::consumer_thread_stopped(mlt_consumer, Render * self, mlt_frame)
+{
+    pthread_t thr = pthread_self();
+    assert(self->m_renderThreadGLContexts.count(thr) != 0);
+    self->m_renderThreadGLContexts[thr]->makeCurrent();
+    delete self->m_renderThreadGLContexts[thr];
+    self->m_renderThreadGLContexts.remove(thr);
+}
+
 /*
 static void consumer_paused(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
@@ -111,7 +138,7 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
     emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
 }
 
-Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWidget *parent) :
+Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWidget *parent, QGLWidget *mainGLContext) :
     AbstractRender(rendererName, parent),
     requestedSeekPosition(SEEK_INACTIVE),
     showFrameSemaphore(1),
@@ -121,6 +148,8 @@ Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWi
     m_mltProducer(NULL),
     m_mltProfile(NULL),
     m_showFrameEvent(NULL),
+    m_consumerThreadStartedEvent(NULL),
+    m_consumerThreadStoppedEvent(NULL),
     m_pauseEvent(NULL),
     m_isZoneMode(false),
     m_isLoopMode(false),
@@ -128,7 +157,9 @@ Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWi
     m_blackClip(NULL),
     m_winid(winid),
     m_paused(true),
-    m_isActive(false)
+    m_isActive(false),
+    m_mainGLContext(mainGLContext),
+    m_GLContext(NULL)
 {
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
@@ -140,16 +171,21 @@ Render::Render(Kdenlive::MonitorId rendererName, int winid, QString profile, QWi
     m_mltProducer->set_speed(0.0);
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(100);
+    m_glslManager = new Mlt::Filter(*m_mltProfile, "glsl.manager");
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
     connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
+
+    m_GLContext = new QGLWidget(0, m_mainGLContext);
+    m_GLContext->resize(0, 0);
 }
 
 Render::~Render()
 {
     closeMlt();
     delete m_mltProfile;
+    delete m_GLContext;
 }
 
 
@@ -159,6 +195,8 @@ void Render::closeMlt()
     m_requestList.clear();
     m_infoThread.waitForFinished();
     delete m_showFrameEvent;
+    delete m_consumerThreadStartedEvent;
+    delete m_consumerThreadStoppedEvent;
     delete m_pauseEvent;
     delete m_mltConsumer;
     delete m_mltProducer;
@@ -242,7 +280,7 @@ void Render::buildConsumer(const QString &profileName)
                 m_mltConsumer->set("terminate_on_pause", 0);
                 m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
                 m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-                m_mltConsumer->set("buffer", "1");
+                m_mltConsumer->set("buffer", "25");
                 m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
             }
             if (m_mltConsumer && m_mltConsumer->is_valid()) {
@@ -285,9 +323,11 @@ void Render::buildConsumer(const QString &profileName)
                 m_mltConsumer->set("scrub_audio", 1);
                 m_mltConsumer->set("preview_off", 1);
                 m_mltConsumer->set("audio_buffer", 512);
-                m_mltConsumer->set("preview_format", mlt_image_rgb24a);
+                m_mltConsumer->set("mlt_image_format", "glsl");
+                m_consumerThreadStartedEvent = m_mltConsumer->listen("consumer-thread-started", this, (mlt_listener) consumer_thread_started);
+                m_consumerThreadStoppedEvent = m_mltConsumer->listen("consumer-thread-stopped", this, (mlt_listener) consumer_thread_stopped);
             }
-            m_mltConsumer->set("buffer", "1");
+            m_mltConsumer->set("buffer", "25");
             m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
         }
     } else {
@@ -704,6 +744,10 @@ bool Render::isProcessing(const QString &id)
 
 void Render::processFileProperties()
 {
+    // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
+    QGLWidget ctx(0, m_mainGLContext);
+    ctx.makeCurrent();
+
     requestClipInfo info;
     QLocale locale;
     while (!m_requestList.isEmpty()) {
@@ -1249,6 +1293,10 @@ void Render::startConsumer() {
         KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
         if (m_showFrameEvent) delete m_showFrameEvent;
         m_showFrameEvent = NULL;
+        if (m_consumerThreadStartedEvent) delete m_consumerThreadStartedEvent;
+        m_consumerThreadStartedEvent = NULL;
+        if (m_consumerThreadStoppedEvent) delete m_consumerThreadStoppedEvent;
+        m_consumerThreadStoppedEvent = NULL;
         if (m_pauseEvent) delete m_pauseEvent;
         m_pauseEvent = NULL;
         delete m_mltConsumer;
@@ -1413,6 +1461,7 @@ void Render::checkMaxThreads()
 
 const QString Render::sceneList()
 {
+    if (!m_mltProducer) return QString();
     QString playlist;
     Mlt::Profile profile((mlt_profile) 0);
     Mlt::Consumer xmlConsumer(profile, "xml:kdenlive_playlist");
@@ -1813,12 +1862,12 @@ int Render::seekFramePosition() const
 
 void Render::emitFrameUpdated(Mlt::Frame& frame)
 {
-    mlt_image_format format = mlt_image_rgb24;
+    mlt_image_format format = mlt_image_rgb24a;
     int width = 0;
     int height = 0;
     const uchar* image = frame.get_image(format, width, height);
-    QImage qimage(width, height, QImage::Format_RGB888);  //Format_ARGB32_Premultiplied);
-    memcpy(qimage.scanLine(0), image, width * height * 3);
+    QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
+    memcpy(qimage.scanLine(0), image, width * height * 4);
     emit frameUpdated(qimage);
 }
 
@@ -1896,18 +1945,25 @@ void Render::showFrame(Mlt::Frame* frame)
     if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
     emit rendererPosition(currentPos);
     if (frame->is_valid()) {
-        mlt_image_format format = mlt_image_rgb24;
+        mlt_image_format format = mlt_image_glsl_texture;
         int width = 0;
         int height = 0;
-        const uchar* image = frame->get_image(format, width, height);
-        QImage qimage(width, height, QImage::Format_RGB888); //Format_ARGB32_Premultiplied);
-        memcpy(qimage.scanLine(0), image, width * height * 3);
-        if (analyseAudio) showAudio(*frame);
-        delete frame;
-        emit showImageSignal(qimage);
-        if (sendFrameForAnalysis) {
-            emit frameUpdated(qimage);
-        }
+        m_GLContext->makeCurrent();
+        frame->set("movit.convert.use_texture", 1);
+        const uint8_t* image = frame->get_image(format, width, height);
+        const GLuint* texnum = (GLuint *)image;
+        if (format == mlt_image_glsl_texture) {
+          emit showImageSignal(frame, *texnum);
+        } else {
+          QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
+          memcpy(qimage.scanLine(0), image, width * height * 4);
+          if (analyseAudio) showAudio(*frame);
+          delete frame;
+          emit showImageSignal(qimage);
+          if (sendFrameForAnalysis) {
+              emit frameUpdated(qimage);
+          }
+       }
     } else delete frame;
     showFrameSemaphore.release();
     emit checkSeeking();
@@ -2907,8 +2963,8 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
                 filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
-                int x1 = keyFrames.at(0).section(':', 0, 0).toInt();
-                double y1 = keyFrames.at(0).section(':', 1, 1).toDouble();
+                int x1 = keyFrames.at(0).section('=', 0, 0).toInt();
+                double y1 = keyFrames.at(0).section('=', 1, 1).toDouble();
                 for (int j = 0; j < params.count(); j++) {
                     filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
                 }
@@ -2927,10 +2983,10 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
                 filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
-                int x1 = keyFrames.at(i).section(':', 0, 0).toInt() + offset;
-                double y1 = keyFrames.at(i).section(':', 1, 1).toDouble();
-                int x2 = keyFrames.at(i + 1).section(':', 0, 0).toInt();
-                double y2 = keyFrames.at(i + 1).section(':', 1, 1).toDouble();
+                int x1 = keyFrames.at(i).section('=', 0, 0).toInt() + offset;
+                double y1 = keyFrames.at(i).section('=', 1, 1).toDouble();
+                int x2 = keyFrames.at(i + 1).section('=', 0, 0).toInt();
+                double y2 = keyFrames.at(i + 1).section('=', 1, 1).toDouble();
                 if (x2 == -1) x2 = duration;
 
                 for (int j = 0; j < params.count(); j++) {

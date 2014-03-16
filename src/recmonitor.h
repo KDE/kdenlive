@@ -70,7 +70,6 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent * event);
-    void mouseDoubleClickEvent(QMouseEvent * event);
 
 private:
     KDateTime m_captureTime;

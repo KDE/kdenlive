@@ -114,6 +114,7 @@
 #include <QDesktopWidget>
 #include <QBitmap>
 #include <QUndoGroup>
+#include <QGLWidget>
 
 #include <stdlib.h>
 #include <locale.h>
@@ -149,6 +150,7 @@ static bool sortByNames(const QPair<QString, KAction*> &a, const QPair<QString, 
 
 MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
+    m_glContext(NULL),
     m_activeDocument(NULL),
     m_activeTimeline(NULL),
     m_projectList(NULL),
@@ -195,6 +197,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
+
+    // Create OpenGL context, to have a common context all the other contexts
+    // can share with.
+    m_glContext = new QGLWidget(this);
+    m_glContext->resize(0, 0);
+
     m_commandStack = new QUndoGroup;
     setDockNestingEnabled(true);
     m_timelineArea = new KTabWidget(this);
@@ -228,13 +236,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_projectListDock = new QDockWidget(i18n("Project Tree"), this);
     m_projectListDock->setObjectName("project_tree");
-    m_projectList = new ProjectList();
+    m_projectList = new ProjectList(m_glContext);
     m_projectListDock->setWidget(m_projectList);
     addDockWidget(Qt::TopDockWidgetArea, m_projectListDock);
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
-    m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, m_monitorManager, QString(), m_timelineArea);
+    m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, m_monitorManager, m_glContext, QString(), m_timelineArea);
     m_clipMonitorDock->setWidget(m_clipMonitor);
 
     // Connect the project list
@@ -252,7 +260,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
-    m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, m_monitorManager, QString());
+    m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, m_monitorManager, m_glContext, QString());
     m_projectMonitorDock->setWidget(m_projectMonitor);
 
 #ifndef Q_WS_MAC
@@ -720,6 +728,7 @@ MainWindow::~MainWindow()
     delete m_monitorManager;
     delete m_scopeManager;
     Mlt::Factory::close();
+    delete m_glContext;
 }
 
 //virtual
@@ -1999,7 +2008,7 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     m_timelineArea->setEnabled(true);
     m_projectList->setEnabled(true);
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, m_projectMonitor->render, m_notesWidget, &openBackup, this);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, m_projectMonitor->render, m_notesWidget, &openBackup, m_glContext, this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
     TrackView *trackView = new TrackView(doc, m_tracksActionCollection->actions(), &ok, this);
@@ -2283,7 +2292,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setValue(0);
 
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, &openBackup, this, &progressDialog);
+    KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, m_notesWidget, &openBackup, m_glContext, this, &progressDialog);
 
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);

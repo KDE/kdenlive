@@ -26,9 +26,7 @@
 #include "definitions.h"
 #include "timecodedisplay.h"
 #include "widgets/abstractmonitor.h"
-#ifdef USE_OPENGL
 #include "widgets/videoglwidget.h"
-#endif
 
 #include <QLabel>
 #include <QDomElement>
@@ -45,7 +43,8 @@ class MonitorEditWidget;
 class Monitor;
 class MonitorManager;
 class QSlider;
-
+class VideoGLWidget;
+class QGLWidget;
 
 class Overlay : public QLabel
 {
@@ -68,7 +67,7 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
-    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
+    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QString profile = QString(), QWidget *parent = 0);
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender();
@@ -101,7 +100,6 @@ public:
 protected:
     void mousePressEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
-    void mouseDoubleClickEvent(QMouseEvent * event);
     void resizeEvent(QResizeEvent *event);
 
     /** @brief Move to another position on mouse wheel event.
@@ -144,10 +142,9 @@ private:
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
     bool m_loopClipTransition;
 
-#ifdef USE_OPENGL
+    QGLWidget *m_parentGLContext;
     VideoGLWidget *m_glWidget;
-    bool createOpenGlWidget(QWidget *parent, const QString &profile);
-#endif
+    void createOpenGlWidget(QWidget *parent, const QString &profile);
 
     GenTime getSnapForPos(bool previous);
     Qt::WindowFlags m_baseFlags;

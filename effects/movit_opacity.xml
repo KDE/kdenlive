@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="movit.opacity" id="movit.opacity">
+	<name>Movit: Opacity</name>
+	<description>Change the opacity of the image</description>
+	<author>Steinar H. Gunderson</author>
+	<parameter type="simplekeyframe" name="opacity" default="100" min="0" max="200" factor="100">
+		<name>Opacity</name>
+	</parameter>
+</effect>

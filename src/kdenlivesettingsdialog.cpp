@@ -146,24 +146,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     // TODO: impl enumerator or live with cut and paste :-)))
     setupJogshuttleBtns(KdenliveSettings::shuttledevice());
 
-#if 0
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle1);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle2);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle3);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle4);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle5);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle6);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle7);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle8);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle9);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle10);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle11);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle12);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle13);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle14);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle15);
-#endif
-
 #else /* ! USE_JOGSHUTTLE */
     m_configShuttle.kcfg_enableshuttle->hide();
     m_configShuttle.kcfg_enableshuttle->setDisabled(true);
@@ -174,10 +156,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configSdl.setupUi(p6);
     m_configSdl.reload_blackmagic->setIcon(KIcon("view-refresh"));
     connect(m_configSdl.reload_blackmagic, SIGNAL(clicked(bool)), this, SLOT(slotReloadBlackMagic()));
-
-#ifndef USE_OPENGL
-    m_configSdl.kcfg_openglmonitors->setHidden(true);
-#endif
 
     m_page6 = addPage(p6, i18n("Playback"), "media-playback-start");
 

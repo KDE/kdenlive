@@ -45,12 +45,14 @@
 
 #include <QGraphicsItemGroup>
 #include <QtConcurrentRun>
+#include <QGLWidget>
 
 #include <KFileMetaInfo>
 
 
-ClipManager::ClipManager(KdenliveDoc *doc) :
+ClipManager::ClipManager(KdenliveDoc *doc, QGLWidget *glContext) :
     QObject(),
+    m_mainGLContext(glContext),
     m_audioThumbsQueue(),
     m_doc(doc),
     m_abortThumb(false),
@@ -165,6 +167,10 @@ void ClipManager::stopThumbs(const QString &id)
 
 void ClipManager::slotGetThumbs()
 {
+    // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
+    QGLWidget ctx(0, m_mainGLContext);
+    ctx.makeCurrent();
+
     QMap<QString, int>::const_iterator i;
     int max;
     int done = 0;
@@ -253,6 +259,10 @@ void ClipManager::askForAudioThumb(const QString &id)
 
 void ClipManager::slotGetAudioThumbs()
 {
+    // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
+    QGLWidget ctx(0, m_mainGLContext);
+    ctx.makeCurrent();
+
     Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().constData());
     mlt_audio_format audioFormat = mlt_audio_s16;
     while (!m_abortAudioThumb && !m_audioThumbsQueue.isEmpty()) {

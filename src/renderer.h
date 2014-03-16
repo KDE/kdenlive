@@ -33,6 +33,7 @@
 #include "definitions.h"
 #include "widgets/abstractmonitor.h"
 
+#include <GL/gl.h>
 #include <mlt/framework/mlt_types.h>
 
 #include <kurl.h>
@@ -47,6 +48,7 @@
 #include <QSemaphore>
 #include <QTimer>
 
+class QGLWidget;
 class QPixmap;
 
 class KComboBox;
@@ -109,7 +111,7 @@ class Render: public AbstractRender
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(Kdenlive::MonitorId rendererName, int winid, QString profile = QString(), QWidget *parent = 0);
+    Render(Kdenlive::MonitorId rendererName, int winid, QString profile = QString(), QWidget *parent = 0, QGLWidget *mainGLContext = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -356,6 +358,8 @@ class Render: public AbstractRender
 protected:
     static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
     static void consumer_gl_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    static void consumer_thread_started(mlt_consumer, Render * self, mlt_frame frame_ptr);
+    static void consumer_thread_stopped(mlt_consumer, Render * self, mlt_frame frame_ptr);
     
 private:
 
@@ -368,6 +372,8 @@ private:
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;
     Mlt::Event *m_showFrameEvent;
+    Mlt::Event *m_consumerThreadStartedEvent;
+    Mlt::Event *m_consumerThreadStoppedEvent;
     Mlt::Event *m_pauseEvent;
     double m_fps;
 
@@ -399,6 +405,10 @@ private:
     bool m_paused;
     /** @brief True if this monitor is active. */
     bool m_isActive;
+    QGLWidget *m_mainGLContext;
+    QGLWidget *m_GLContext;
+    QMap<pthread_t, QGLWidget *> m_renderThreadGLContexts;
+    Mlt::Filter* m_glslManager;
 
     void closeMlt();
     void mltCheckLength(Mlt::Tractor *tractor);
@@ -477,6 +487,7 @@ signals:
      *
      * Used in Mac OS X. */
     void showImageSignal(QImage);
+    void showImageSignal(Mlt::Frame*, GLuint);
     void showAudioSignal(const QVector<double> &);
     void addClip(const KUrl &, stringMap);
     void checkSeeking();

@@ -258,10 +258,6 @@ kde4_add_ui_files(kdenlive_UIS
   ui/importkeyframesdialog_ui.ui
 )
 
-if(OPENGL_FOUND)
-  list(APPEND kdenlive_SRCS widgets/videoglwidget.cpp)
-endif(OPENGL_FOUND)
-
 if(BUILD_JogShuttle)
   list(APPEND kdenlive_SRCS
     jogaction.cpp
@@ -322,6 +318,7 @@ target_link_libraries(kdenlive
   ${LIBMLTPLUS_LIBRARY}
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
+  ${OPENGL_LIBRARIES}
   kiss_fft
 )
 
@@ -329,11 +326,6 @@ if(Q_WS_X11)
   include_directories(${X11_Xlib_INCLUDE_PATH})
   target_link_libraries(kdenlive ${X11_LIBRARIES})
 endif(Q_WS_X11)
-
-if(OPENGL_FOUND AND QT_QTOPENGL_FOUND)
-  add_definitions(-DUSE_OPENGL)
-  target_link_libraries(kdenlive ${OPENGL_LIBRARIES})
-endif(OPENGL_FOUND AND QT_QTOPENGL_FOUND)
 
 if(SDL_FOUND)
   target_link_libraries(kdenlive ${SDL_LIBRARY})

@@ -617,8 +617,12 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 if (paramdesc.get("minimum"))
                     params.setAttribute("min", paramdesc.get("minimum"));
                 if (QString(paramdesc.get("type")) == "integer") {
-                    params.setAttribute("type", "constant");
-                    params.setAttribute("factor", "100");
+                    if (params.attribute("min") == "0" && params.attribute("max") == "1")
+                        params.setAttribute("type", "bool");
+                    else {
+                        params.setAttribute("type", "constant");
+                        params.setAttribute("factor", "100");
+                    }
                 }
                 if (QString(paramdesc.get("type")) == "boolean")
                     params.setAttribute("type", "bool");

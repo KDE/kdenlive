@@ -23,12 +23,16 @@
 
 #include <QGLWidget>
 
+namespace Mlt {
+class Frame;
+}
+
 class VideoGLWidget : public QGLWidget
 {
     Q_OBJECT
 
 public:
-    explicit VideoGLWidget(QWidget *parent = 0);
+    explicit VideoGLWidget(QWidget *parent = 0, QGLWidget *share = 0);
     ~VideoGLWidget();
     void activateMonitor();
     QSize minimumSizeHint() const;
@@ -40,6 +44,7 @@ public:
 
 public slots:
     void showImage(const QImage &image);
+    void showImage(Mlt::Frame*, GLuint);
 
 protected:
     void initializeGL();
@@ -52,6 +57,8 @@ private:
     int x, y, w, h;
     int m_image_width, m_image_height;
     GLuint m_texture;
+    Mlt::Frame *m_frame;
+    GLuint m_frame_texture;
     double m_display_ratio;
     QColor m_backgroundColor;
     Qt::WindowFlags m_baseFlags;

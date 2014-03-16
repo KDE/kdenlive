@@ -154,7 +154,7 @@ void DvdWizardChapters::createMonitor(DVDFORMAT format)
 {
     QString profile = DvdWizardVob::getDvdProfile(format);
     if (m_monitor == NULL) {
-        m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager, profile, this);
+        m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager, NULL, profile, this);
         //m_monitor->start();
         QVBoxLayout *vbox = new QVBoxLayout;
         vbox->addWidget(m_monitor);

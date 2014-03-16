@@ -44,6 +44,7 @@
 #include <QFile>
 #include <QDir>
 #include <QDesktopWidget>
+#include <QPainter>
 
 
 RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent) :
@@ -183,14 +184,6 @@ RecMonitor::~RecMonitor()
     delete m_captureProcess;
     delete m_displayProcess;
     delete m_captureDevice;
-}
-
-void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
-{
-    if (!KdenliveSettings::openglmonitors() && videoBox && videoBox->isVisible()) {
-        videoBox->switchFullScreen();
-        event->accept();
-    }
 }
 
 void RecMonitor::slotSwitchFullScreen()

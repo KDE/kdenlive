@@ -21,6 +21,7 @@
 #ifndef _MEDIA_CTRL_H
 #define _MEDIA_CTRL_H
 
+#include <sys/time.h>
 
 // just to make the code more readable
 #define KEY_RELEASE			0x00
@@ -145,7 +146,7 @@ struct media_ctrl_device {
 };
 
 void media_ctrl_open(struct media_ctrl *);
-void media_ctrl_open2(struct media_ctrl *, const char *devname);
+void media_ctrl_open_dev(struct media_ctrl *, const char *devname);
 void media_ctrl_close(struct media_ctrl *);
 void media_ctrl_read_event(struct media_ctrl *, struct media_ctrl_event *);
 

@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <klocalizedstring.h>
+#include <KDebug>
 
 // TODO(fleury): this should probably be a user configuration parameter (at least the max speed).
 //const double SPEEDS[] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};
@@ -39,7 +40,6 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
     connect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
     connect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
     connect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
-    //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].toAscii().constData());  //DBG
 }
 
 JogShuttleAction::~JogShuttleAction()
@@ -66,8 +66,10 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
     if (magnitude < SPEEDS_SIZE) {
         if (shuttle_pos < 0)
             emit rewind(-SPEEDS[magnitude]);
-        if (shuttle_pos == 0)
+        if (shuttle_pos == 0) {
+            //kDebug() << "Shuttle pos0 action: " << m_actionMap[0];
             emit action(m_actionMap[0]);
+        }
         if (shuttle_pos > 0)
             emit forward(SPEEDS[magnitude]);
     }
@@ -77,10 +79,10 @@ void JogShuttleAction::slotButton(int button_id)
 {
     if (button_id >= m_actionMap.size() || m_actionMap[button_id].isEmpty()) {
         // TODO(fleury): Shoudl this go to the status bar to inform the user ?
-        fprintf(stderr, "Button %d has no action\n", button_id);
+        kDebug() << "No action applied for button: " << button_id;
         return;
     }
-    //fprintf(stderr, "Button #%d maps to action '%s'\n", button_id, m_actionMap[button_id].toAscii().constData()); //DBG
+    //kDebug() << "Shuttle button =" << button_id << ": action=" << m_actionMap[button_id];
     emit action(m_actionMap[button_id]);
 }
 
