@@ -275,6 +275,8 @@ ProjectList::ProjectList(QWidget *parent) :
 
     setLayout(layout);
     searchView->setTreeWidget(m_listView);
+    int minHeight = qMax(38, QFontMetrics(font()).lineSpacing() * 2);
+    m_listView->setIconSize(QSize(minHeight, minHeight));
 
     connect(this, SIGNAL(processNextThumbnail()), this, SLOT(slotProcessNextThumbnail()));
     connect(m_listView, SIGNAL(projectModified()), this, SIGNAL(projectModified()));
@@ -801,7 +803,7 @@ bool ProjectList::hasMissingClips()
 void ProjectList::setRenderer(Render *projectRender)
 {
     m_render = projectRender;
-    m_listView->setIconSize(QSize((ProjectItem::itemDefaultHeight() - 2) * m_render->dar(), ProjectItem::itemDefaultHeight() - 2));
+    m_listView->setIconSize(QSize((m_listView->iconSize().height() - 2) * m_render->dar(), m_listView->iconSize().height() - 2));
     connect(m_render, SIGNAL(requestProxy(QString)), this, SLOT(slotCreateProxy(QString)));
 }
 

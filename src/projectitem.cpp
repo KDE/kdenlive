@@ -33,7 +33,7 @@ const int DurationRole = Qt::UserRole + 1;
 const int JobProgressRole = Qt::UserRole + 5;
 const int JobTypeRole = Qt::UserRole + 6;
 const int JobStatusMessage = Qt::UserRole + 7;
-const int itemHeight = 38;
+
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip, const QSize &pixmapSize) :
         QTreeWidgetItem(parent, ProjectClipType),
@@ -56,6 +56,8 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip, const QSiz
 
 void ProjectItem::buildItem(const QSize &pixmapSize)
 {
+    // keep in sync with declaration un projectitem.cpp and clipmanager.cpp
+    int itemHeight = (treeWidget() ? treeWidget()->iconSize().height() : 38);
     setSizeHint(0, QSize(itemHeight * 3, itemHeight));
     if (m_clip->isPlaceHolder()) setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
     else setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
@@ -105,12 +107,6 @@ void ProjectItem::setPixmap(const QPixmap& p)
 {
     m_pixmapSet = true;
     setData(0, Qt::DecorationRole, p);
-}
-
-//static
-int ProjectItem::itemDefaultHeight()
-{
-    return itemHeight;
 }
 
 int ProjectItem::numReferences() const

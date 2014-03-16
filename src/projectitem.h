@@ -62,7 +62,6 @@ public:
     void setProperty(const QString &key, const QString &value);
     void clearProperty(const QString &key);
     QString getClipHash() const;
-    static int itemDefaultHeight();
     void slotSetToolTip();
     /** \brief Set the status of the clip job. */
     void setJobStatus(JOBTYPE jobType, ClipJobStatus status, int progress = 0, const QString &statusMessage = QString());
@@ -93,6 +92,7 @@ private:
     DocClipBase *m_clip;
     QString m_clipId;
     bool m_pixmapSet;
+
     /** @brief Setup basic properties */
     void buildItem(const QSize &pixmapSize);
     /** @brief Check if an xml project file has proxies */

@@ -35,6 +35,8 @@ static int MAX_HEIGHT;
 static int FRAME_SIZE;
 // Height of the timecode text
 static int LABEL_SIZE;
+// Width of a letter, used for cursor width
+static int FONT_WIDTH;
 
 static int BIG_MARK_X;
 static int MIDDLE_MARK_X;
@@ -66,6 +68,7 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
     QFontMetricsF fontMetrics(font());
     // Define size variables
     LABEL_SIZE = fontMetrics.ascent();
+    FONT_WIDTH = fontMetrics.averageCharWidth();
     setMinimumHeight(LABEL_SIZE * 2);
     setMaximumHeight(LABEL_SIZE * 2);
     MAX_HEIGHT = height();
@@ -312,7 +315,7 @@ void CustomRuler::slotCursorMoved(int oldpos, int newpos)
 	    max = qMax(max, m_lastSeekPosition);
 	}
     }
-    update(min * m_factor - m_offset - 6, BIG_MARK_X, (max - min) * m_factor + 14, MAX_HEIGHT - BIG_MARK_X);
+    update(min * m_factor - m_offset - FONT_WIDTH, BIG_MARK_X, (max - min) * m_factor + FONT_WIDTH * 2 + 2, MAX_HEIGHT - BIG_MARK_X);
 }
 
 void CustomRuler::updateRuler()
@@ -471,7 +474,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw zone cursors
     if (zoneStart > 0) {
         QPolygon pa(4);
-        pa.setPoints(4, zoneStart - m_offset + 3, LABEL_SIZE + 2, zoneStart - m_offset, LABEL_SIZE + 2, zoneStart - m_offset, MAX_HEIGHT - 1, zoneStart - m_offset + 3, MAX_HEIGHT - 1);
+        pa.setPoints(4, zoneStart - m_offset + FONT_WIDTH / 2, LABEL_SIZE + 2, zoneStart - m_offset, LABEL_SIZE + 2, zoneStart - m_offset, MAX_HEIGHT - 1, zoneStart - m_offset + FONT_WIDTH / 2, MAX_HEIGHT - 1);
         p.drawPolyline(pa);
     }
 
@@ -483,14 +486,14 @@ void CustomRuler::paintEvent(QPaintEvent *e)
         p.drawRect(rec);
 
         QPolygon pa(4);
-        pa.setPoints(4, zoneEnd - m_offset - 3, LABEL_SIZE + 2, zoneEnd - m_offset, LABEL_SIZE + 2, zoneEnd - m_offset, MAX_HEIGHT - 1, zoneEnd - m_offset - 3, MAX_HEIGHT - 1);
+        pa.setPoints(4, zoneEnd - m_offset - FONT_WIDTH / 2, LABEL_SIZE + 2, zoneEnd - m_offset, LABEL_SIZE + 2, zoneEnd - m_offset, MAX_HEIGHT - 1, zoneEnd - m_offset - FONT_WIDTH / 2, MAX_HEIGHT - 1);
         p.drawPolyline(pa);
     }
     
     // draw pointer
     const int value  =  m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
-    pa.setPoints(3, value - 6, LABEL_SIZE + 3, value + 6, LABEL_SIZE + 3, value, MAX_HEIGHT);
+    pa.setPoints(3, value - FONT_WIDTH, LABEL_SIZE + 3, value + FONT_WIDTH, LABEL_SIZE + 3, value, MAX_HEIGHT);
     p.setBrush(m_cursorColor);
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);

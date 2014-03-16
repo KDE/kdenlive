@@ -194,7 +194,7 @@ void ColorPickerWidget::slotSetupEventFilter()
     m_filterActive = true;
     setFocus();
     installEventFilter(this);
-    grabMouse(QCursor(KIcon("color-picker").pixmap(22, 22), 0, 21));
+    grabMouse(QCursor(KIcon("color-picker").pixmap(32, 32), 0, 21));
     grabKeyboard();
 }
 

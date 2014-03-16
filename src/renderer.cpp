@@ -4274,6 +4274,7 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     Mlt::Field *field = tractor.field();
 
     Mlt::Transition transition(*m_mltProfile, tag.toUtf8().constData());
+    if (!transition.is_valid()) return false;
     if (out != GenTime())
         transition.set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps) - 1);
 
