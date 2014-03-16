@@ -59,7 +59,7 @@ MltPreview::~MltPreview()
 
 bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 {
-    Mlt::Profile *profile = new Mlt::Profile("dv_pal");
+    Mlt::Profile *profile = new Mlt::Profile();
     Mlt::Producer *producer = new Mlt::Producer(*profile, path.toUtf8().data());
 
 
@@ -71,11 +71,19 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
     int frame = 75;
     uint variance = 10;
     int ct = 1;
+    double ar = profile->dar();
+    if (ar == 0) ar = 1.0;
+    int wanted_width = width;
+    int wanted_height = width / profile->dar();
+    if (wanted_height > height) {
+	wanted_height = height;
+	wanted_width = height * ar;
+    }
 
     //img = getFrame(producer, frame, width, height);
 
     while (variance <= 40 && ct < 4) {
-        img = getFrame(producer, frame, width, height);
+        img = getFrame(producer, frame, wanted_width , wanted_height);
         variance = imageVariance(img);
         frame += 100 * ct;
         ct++;
@@ -86,7 +94,7 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
     return (img.isNull() == false);
 }
 
-QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int /*width*/, int height)
+QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
 {
     QImage result;
     if (producer == NULL) {
@@ -100,12 +108,8 @@ QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int /*width*/
     }
 
     mlt_image_format format = mlt_image_rgb24a;
-    height = 200;
-    double ar = frame->get_double("aspect_ratio");
-    if (ar == 0.0) ar = 1.33;
-    int calculated_width = (int)((double) height * ar);
-    uint8_t *data = frame->get_image(format, calculated_width, height, 0);
-    QImage image((uchar *)data, calculated_width, height, QImage::Format_ARGB32);
+    uint8_t *data = frame->get_image(format, width, height, 0);
+    QImage image((uchar *)data, width, height, QImage::Format_ARGB32);
 
     if (!image.isNull()) {
         result = image.rgbSwapped().convertToFormat(QImage::Format_RGB32);
