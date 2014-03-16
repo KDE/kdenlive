@@ -40,7 +40,6 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
     connect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
     connect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
     connect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
-    //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].toAscii().constData());  //DBG
 }
 
 JogShuttleAction::~JogShuttleAction()
@@ -80,7 +79,7 @@ void JogShuttleAction::slotButton(int button_id)
 {
     if (button_id >= m_actionMap.size() || m_actionMap[button_id].isEmpty()) {
         // TODO(fleury): Shoudl this go to the status bar to inform the user ?
-        fprintf(stderr, "Button %d has no action\n", button_id);
+        kDebug() << "No action applied for button: " << button_id;
         return;
     }
     //kDebug() << "Shuttle button =" << button_id << ": action=" << m_actionMap[button_id];
