@@ -46,6 +46,9 @@
 #define JOG_STOP 10020
 #define MAX_SHUTTLE_RANGE 7
 
+const QEvent::Type MediaEvent = (QEvent::Type)1234;
+
+
 void ShuttleThread::init(QObject *parent, const QString &device)
 {
     m_parent = parent;
@@ -195,14 +198,13 @@ void JogShuttle::stopDevice()
     if (m_shuttleProcess.isRunning()) {
     	// tell thread to stop
         m_shuttleProcess.stop();
-        m_shuttleProcess.quit();
+        //m_shuttleProcess.quit();
         // give the thread some time (ms) to shutdown
-        m_shuttleProcess.wait(600);
-
-        // if still running - do it in the hardcore way
-        if (m_shuttleProcess.isRunning()) {
-        	m_shuttleProcess.terminate();
-            kDebug() << "/// terminate jogshuttle process";
+        if (!m_shuttleProcess.wait(600)) {
+            // if still running - do it in the hardcore way
+            m_shuttleProcess.terminate();
+            m_shuttleProcess.wait();
+            kDebug() << "terminate jogshuttle thread";
         }
     }
 }
