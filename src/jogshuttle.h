@@ -54,8 +54,7 @@ public:
     void stop();
 
 private:
-    enum
-    {
+    enum {
         MaxShuttleRange = 7
     };
 
