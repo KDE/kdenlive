@@ -23,9 +23,25 @@
 
 #include <QThread>
 #include <QObject>
+#include <QEvent>
 #include <QMap>
 
 #include <media_ctrl/mediactrl.h>
+
+class MediaCtrlEvent : public QEvent
+{
+public:
+    MediaCtrlEvent(QEvent::Type type, int value) :
+        QEvent(type),
+        m_value(value)
+    {
+    }
+
+    int value() { return m_value; }
+
+private:
+    int m_value;
+};
 
 
 class ShuttleThread : public QThread
@@ -38,10 +54,15 @@ public:
     void stop();
 
 private:
-    void handleEvent(const struct media_ctrl_event& ev);
-    void jog(const struct media_ctrl_event& ev);
-    void shuttle(const struct media_ctrl_event& ev);
-    void key(const struct media_ctrl_event& ev);
+    enum
+    {
+        MaxShuttleRange = 7
+    };
+
+    void handleEvent(const media_ctrl_event& ev);
+    void jog(const media_ctrl_event& ev);
+    void shuttle(const media_ctrl_event& ev);
+    void key(const media_ctrl_event& ev);
 
     QString m_device;
     QObject *m_parent;
