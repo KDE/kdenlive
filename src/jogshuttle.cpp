@@ -37,14 +37,12 @@
 #include <unistd.h>
 
 
-// Constants for the signals sent.
-#define JOG_BACK1 10001
-#define JOG_FWD1 10002
-#define KEY_EVENT_OFFSET 20000
-
-// middle value for shuttle, will be +/-MAX_SHUTTLE_RANGE
-#define JOG_STOP 10020
-#define MAX_SHUTTLE_RANGE 7
+namespace MediaCtrl
+{
+    const QEvent::Type KeyEvent = (QEvent::Type)QEvent::registerEventType();
+    const QEvent::Type JogEvent = (QEvent::Type)QEvent::registerEventType();
+    const QEvent::Type ShuttleEvent = (QEvent::Type)QEvent::registerEventType();
+}
 
 void ShuttleThread::init(QObject *parent, const QString &device)
 {
@@ -66,7 +64,7 @@ void ShuttleThread::stop()
 void ShuttleThread::run()
 {
 	kDebug() << "-------  STARTING SHUTTLE: " << m_device;
-	struct media_ctrl mc;
+	media_ctrl mc;
 
     // open device
     media_ctrl_open_dev(&mc, m_device.toUtf8().data());
@@ -109,7 +107,7 @@ void ShuttleThread::run()
 		} else if (result > 0) {
 			// we have input
 			if (FD_ISSET(mc.fd, &readset)) {
-			    struct media_ctrl_event mev;
+			    media_ctrl_event mev;
 			    mev.type = MEDIA_CTRL_EVENT_NONE;
                 // read input
 				media_ctrl_read_event(&mc, &mev);
@@ -126,7 +124,7 @@ void ShuttleThread::run()
     media_ctrl_close(&mc);
 }
 
-void ShuttleThread::handleEvent(const struct media_ctrl_event& ev)
+void ShuttleThread::handleEvent(const media_ctrl_event& ev)
 {
     if (ev.type == MEDIA_CTRL_EVENT_KEY)
         key(ev);
@@ -136,34 +134,31 @@ void ShuttleThread::handleEvent(const struct media_ctrl_event& ev)
         shuttle(ev);
 }
 
-void ShuttleThread::key(const struct media_ctrl_event& ev)
+void ShuttleThread::key(const media_ctrl_event& ev)
 {
     if (ev.value == KEY_PRESS) {
-        int code = ev.index + 1;
         QApplication::postEvent(m_parent,
-            new QEvent((QEvent::Type)(KEY_EVENT_OFFSET + code)));
+            new MediaCtrlEvent(MediaCtrl::KeyEvent, ev.index + 1));
     }
 }
 
-void ShuttleThread::shuttle(const struct media_ctrl_event& ev)
+void ShuttleThread::shuttle(const media_ctrl_event& ev)
 {
     int value = ev.value / 2;
 
-    if (value > MAX_SHUTTLE_RANGE || value < -MAX_SHUTTLE_RANGE) {
-        kDebug() << "Jog shuttle value is out of range: " << MAX_SHUTTLE_RANGE;
+    if (value > MaxShuttleRange || value < -MaxShuttleRange) {
+        kDebug() << "Jog shuttle value is out of range: " << MaxShuttleRange;
         return;
     }
 
     QApplication::postEvent(m_parent,
-        new QEvent((QEvent::Type) (JOG_STOP + (value))));
+        new MediaCtrlEvent(MediaCtrl::ShuttleEvent, value));
 }
 
-void ShuttleThread::jog(const struct media_ctrl_event& ev)
+void ShuttleThread::jog(const media_ctrl_event& ev)
 {
-    if (ev.value < 0)
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_BACK1));
-    else if (ev.value > 0)
-        QApplication::postEvent(m_parent, new QEvent((QEvent::Type) JOG_FWD1));
+    QApplication::postEvent(m_parent,
+        new MediaCtrlEvent(MediaCtrl::JogEvent, ev.value));
 }
 
 JogShuttle::JogShuttle(const QString &device, QObject *parent) :
@@ -209,27 +204,24 @@ void JogShuttle::stopDevice()
 
 void JogShuttle::customEvent(QEvent* e)
 {
-    int code = e->type();
+    QEvent::Type type = e->type();
 
-    // handle simple job events
-    switch (code) {
-        case JOG_BACK1:
+    if (type == MediaCtrl::KeyEvent) {
+        MediaCtrlEvent* mev = (MediaCtrlEvent*)e;
+        emit button(mev->value());
+    } else if (type == MediaCtrl::JogEvent) {
+        MediaCtrlEvent* mev = (MediaCtrlEvent*)e;
+        int value = mev->value();
+
+        if (value < 0) {
             emit jogBack();
-            return;
-        case JOG_FWD1:
+        } else if (value > 0) {
             emit jogForward();
-            return;
+        }
+    } else if (type == MediaCtrl::ShuttleEvent) {
+        MediaCtrlEvent* mev = (MediaCtrlEvent*)e;
+        emit shuttlePos(mev->value());
     }
-
-    // FIXME: this is a bad shuttle indication
-    int shuttle_pos = code - JOG_STOP;
-    if (shuttle_pos >= -MAX_SHUTTLE_RANGE && shuttle_pos <= MAX_SHUTTLE_RANGE) {
-        emit shuttlePos(shuttle_pos);
-        return;
-    }
-
-    // we've got a key event.
-    emit button(e->type() - KEY_EVENT_OFFSET);
 }
 
 QString JogShuttle::canonicalDevice(const QString& device)
@@ -253,7 +245,7 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
         kDebug() << QString(" [%1] ").arg(fileName);
         kDebug() << QString(" [%1] ").arg(fileLink);
 
-        struct media_ctrl mc;
+        media_ctrl mc;
         media_ctrl_open_dev(&mc, (char*)fileLink.toUtf8().data());
         if (mc.fd > 0 && mc.device) {
             devs.insert(QString(mc.device->name), devFullPath);
@@ -268,7 +260,7 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
 
 int JogShuttle::keysCount(const QString& devPath)
 {
-    struct media_ctrl mc;
+    media_ctrl mc;
     int keysCount = 0;
 
     QString fileLink = canonicalDevice(devPath);
