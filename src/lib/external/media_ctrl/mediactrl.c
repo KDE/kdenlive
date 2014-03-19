@@ -39,23 +39,46 @@ static char *_shuttle_name = (char*)"Shuttle";
 static char *_jog_name = (char*)"Jog";
 
 /*
-	ShuttlePro keys
+	ShuttlePro v2 keys
 */
-static struct  media_ctrl_key mc_shuttle_pro_keys[] = {
+static struct  media_ctrl_key mc_shuttle_pro_v2_keys[] = {
 	{ 0x100, "Button 1", MEDIA_CTRL_F1 },
 	{ 0x101, "Button 2", MEDIA_CTRL_F2 },
 	{ 0x102, "Button 3", MEDIA_CTRL_F3 },
 	{ 0x103, "Button 4", MEDIA_CTRL_F4 },
-	{ 0x104, "Button 5", MEDIA_CTRL_B4 },
+	{ 0x104, "Button 5", MEDIA_CTRL_B1 },
 	{ 0x105, "Button 6", MEDIA_CTRL_B2 },
-	{ 0x106, "Button 7", MEDIA_CTRL_B1 },
-	{ 0x107, "Button 8", MEDIA_CTRL_B3 },
+	{ 0x106, "Button 7", MEDIA_CTRL_B3 },
+	{ 0x107, "Button 8", MEDIA_CTRL_B4 },
 	{ 0x108, "Button 9", MEDIA_CTRL_B5 },
 	{ 0x109, "Button 10", MEDIA_CTRL_B6 },
 	{ 0x10a, "Button 11", MEDIA_CTRL_B7 },
 	{ 0x10b, "Button 12", MEDIA_CTRL_B8 },
 	{ 0x10c, "Button 13", MEDIA_CTRL_B9 },
+    { 0x10d, "Button 14", MEDIA_CTRL_B10 },
+    { 0x10e, "Button 15", MEDIA_CTRL_B11 },
 	{ 0, NULL, 0 }
+};
+
+
+/*
+    ShuttlePro keys
+*/
+static struct  media_ctrl_key mc_shuttle_pro_keys[] = {
+    { 0x100, "Button 1", MEDIA_CTRL_F1 },
+    { 0x101, "Button 2", MEDIA_CTRL_F2 },
+    { 0x102, "Button 3", MEDIA_CTRL_F3 },
+    { 0x103, "Button 4", MEDIA_CTRL_F4 },
+    { 0x104, "Button 5", MEDIA_CTRL_B4 },
+    { 0x105, "Button 6", MEDIA_CTRL_B2 },
+    { 0x106, "Button 7", MEDIA_CTRL_B1 },
+    { 0x107, "Button 8", MEDIA_CTRL_B3 },
+    { 0x108, "Button 9", MEDIA_CTRL_B5 },
+    { 0x109, "Button 10", MEDIA_CTRL_B6 },
+    { 0x10a, "Button 11", MEDIA_CTRL_B7 },
+    { 0x10b, "Button 12", MEDIA_CTRL_B8 },
+    { 0x10c, "Button 13", MEDIA_CTRL_B9 },
+    { 0, NULL, 0 }
 };
 
 
@@ -286,7 +309,7 @@ void translate_compliant(struct media_ctrl *ctrl, struct input_event *ev, struct
 }
 
 struct media_ctrl_device supported_devices[] = {
-	{ 0x0b33, 0x0030, "Contour Design ShuttlePRO v2", mc_shuttle_pro_keys, translate_contour_hid_event },
+	{ 0x0b33, 0x0030, "Contour Design ShuttlePRO v2", mc_shuttle_pro_v2_keys, translate_contour_hid_event },
 	{ 0x0b33, 0x0020, "Contour Design ShuttleXpress", mc_shuttle_xpress_keys, translate_contour_hid_event },
 	{ 0x0b33, 0x0010, "Contour Design ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event },
 	{ 0x0b33, 0x0011, "Contour Design ShuttlePro", mc_shuttle_pro_keys, translate_contour_hid_event }, /* Hercules OEM */
