@@ -39,6 +39,10 @@ public:
 
     int value() { return m_value; }
 
+    static const QEvent::Type Key;
+    static const QEvent::Type Jog;
+    static const QEvent::Type Shuttle;
+
 private:
     int m_value;
 };

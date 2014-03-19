@@ -37,12 +37,12 @@
 #include <unistd.h>
 
 
-namespace MediaCtrl
-{
-    const QEvent::Type KeyEvent = (QEvent::Type)QEvent::registerEventType();
-    const QEvent::Type JogEvent = (QEvent::Type)QEvent::registerEventType();
-    const QEvent::Type ShuttleEvent = (QEvent::Type)QEvent::registerEventType();
-}
+// init media event type constants
+const QEvent::Type MediaCtrlEvent::Key = (QEvent::Type)QEvent::registerEventType();
+const QEvent::Type MediaCtrlEvent::Jog = (QEvent::Type)QEvent::registerEventType();
+const QEvent::Type MediaCtrlEvent::Shuttle = (QEvent::Type)QEvent::registerEventType();
+
+
 
 void ShuttleThread::init(QObject *parent, const QString &device)
 {
@@ -138,7 +138,7 @@ void ShuttleThread::key(const media_ctrl_event& ev)
 {
     if (ev.value == KEY_PRESS) {
         QApplication::postEvent(m_parent,
-            new MediaCtrlEvent(MediaCtrl::KeyEvent, ev.index + 1));
+            new MediaCtrlEvent(MediaCtrlEvent::Key, ev.index + 1));
     }
 }
 
@@ -152,13 +152,13 @@ void ShuttleThread::shuttle(const media_ctrl_event& ev)
     }
 
     QApplication::postEvent(m_parent,
-        new MediaCtrlEvent(MediaCtrl::ShuttleEvent, value));
+        new MediaCtrlEvent(MediaCtrlEvent::Shuttle, value));
 }
 
 void ShuttleThread::jog(const media_ctrl_event& ev)
 {
     QApplication::postEvent(m_parent,
-        new MediaCtrlEvent(MediaCtrl::JogEvent, ev.value));
+        new MediaCtrlEvent(MediaCtrlEvent::Jog, ev.value));
 }
 
 JogShuttle::JogShuttle(const QString &device, QObject *parent) :
@@ -205,10 +205,10 @@ void JogShuttle::customEvent(QEvent* e)
 {
     QEvent::Type type = e->type();
 
-    if (type == MediaCtrl::KeyEvent) {
+    if (type == MediaCtrlEvent::Key) {
         MediaCtrlEvent* mev = (MediaCtrlEvent*)e;
         emit button(mev->value());
-    } else if (type == MediaCtrl::JogEvent) {
+    } else if (type == MediaCtrlEvent::Jog) {
         MediaCtrlEvent* mev = (MediaCtrlEvent*)e;
         int value = mev->value();
 
@@ -217,7 +217,7 @@ void JogShuttle::customEvent(QEvent* e)
         } else if (value > 0) {
             emit jogForward();
         }
-    } else if (type == MediaCtrl::ShuttleEvent) {
+    } else if (type == MediaCtrlEvent::Shuttle) {
         MediaCtrlEvent* mev = (MediaCtrlEvent*)e;
         emit shuttlePos(mev->value());
     }
