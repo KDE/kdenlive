@@ -634,7 +634,8 @@ void TitleWidget::refreshTitleTemplates()
             TitleTemplate t;
             t.name = fname;
             t.file = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-            t.icon = QIcon(KThumb::getImage(t.file, 0, 60, 60));
+            //TODO: fix thumbnail creation, it currently crashes because of GL context issues.
+            //t.icon = QIcon(KThumb::getImage(t.file, 0, 60, 60));
             titletemplates.append(t);
         }
     }
