@@ -157,6 +157,7 @@ class Render: public AbstractRender
     int volume() const;
 
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1);
+    QPixmap getProducerImage(const KUrl& url, int frame, int width, int height);
 
     /** @brief Plays the scene starting from a specific time.
      * @param startTime time to start playing the scene from */

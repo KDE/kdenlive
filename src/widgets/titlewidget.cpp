@@ -617,7 +617,7 @@ QStringList TitleWidget::extractFontList(const QString& xml)
     }
     return result;
 }
-//static
+
 void TitleWidget::refreshTitleTemplates()
 {
     QStringList titlenamelist = QStringList() << i18n("None");
@@ -634,8 +634,7 @@ void TitleWidget::refreshTitleTemplates()
             TitleTemplate t;
             t.name = fname;
             t.file = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-            //TODO: fix thumbnail creation, it currently crashes because of GL context issues.
-            //t.icon = QIcon(KThumb::getImage(t.file, 0, 60, 60));
+            t.icon = QIcon(m_render->getProducerImage(t.file, 0, 60, 60));
             titletemplates.append(t);
         }
     }

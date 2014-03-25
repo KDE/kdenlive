@@ -147,6 +147,7 @@ QPixmap KThumb::getImage(const KUrl& url, int frame, int width, int height)
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
     if (url.isEmpty()) return pix;
+    
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
     double swidth = (double) profile.width() / profile.height();
     pix = QPixmap::fromImage(getFrame(producer, frame, (int) (height * swidth + 0.5), width, height));
@@ -194,9 +195,9 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, i
 
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
-    frame->set("rescale.interp", "nearest");
+    /*frame->set("rescale.interp", "nearest");
     frame->set("deinterlace_method", "onefield");
-    frame->set("top_field_first", -1 );
+    frame->set("top_field_first", -1 );*/
     const QImage p = getFrame(frame, frameWidth, displayWidth, height);
     delete frame;
     return p;

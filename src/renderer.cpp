@@ -280,7 +280,7 @@ void Render::buildConsumer(const QString &profileName)
                 m_mltConsumer->set("terminate_on_pause", 0);
                 m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
                 m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-                m_mltConsumer->set("buffer", "25");
+                m_mltConsumer->set("buffer", "5");
                 m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
             }
             if (m_mltConsumer && m_mltConsumer->is_valid()) {
@@ -327,7 +327,7 @@ void Render::buildConsumer(const QString &profileName)
                 m_consumerThreadStartedEvent = m_mltConsumer->listen("consumer-thread-started", this, (mlt_listener) consumer_thread_started);
                 m_consumerThreadStoppedEvent = m_mltConsumer->listen("consumer-thread-stopped", this, (mlt_listener) consumer_thread_stopped);
             }
-            m_mltConsumer->set("buffer", "25");
+            m_mltConsumer->set("buffer", "5");
             m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
         }
     } else {
@@ -544,7 +544,24 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
         pix.fill(Qt::black);
         return pix;
     }
+    QGLWidget ctx(0, m_mainGLContext);
+    ctx.makeCurrent();
     return KThumb::getFrame(m_mltProducer, frame_position, dwidth, width, height);
+}
+
+QPixmap Render::getProducerImage(const KUrl& url, int frame, int width, int height)
+{
+    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
+    QPixmap pix(width, height);
+    if (url.isEmpty()) return pix;
+    
+    Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
+    double swidth = (double) profile.width() / profile.height();
+    QGLWidget ctx(0, m_mainGLContext);
+    ctx.makeCurrent();
+    pix = QPixmap::fromImage(KThumb::getFrame(producer, frame, (int) (height * swidth + 0.5), width, height));
+    delete producer;
+    return pix;
 }
 
 QPixmap Render::getImageThumbnail(const KUrl &url, int /*width*/, int /*height*/)

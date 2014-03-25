@@ -4091,8 +4091,8 @@ int MainWindow::getNewStuff(const QString &configFile)
 
 void MainWindow::slotGetNewTitleStuff()
 {
-    if (getNewStuff("kdenlive_titles.knsrc") > 0)
-        TitleWidget::refreshTitleTemplates();
+    /*if (getNewStuff("kdenlive_titles.knsrc") > 0)
+        TitleWidget::refreshTitleTemplates();*/
 }
 
 void MainWindow::slotGetNewLumaStuff()

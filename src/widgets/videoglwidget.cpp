@@ -206,7 +206,6 @@ void VideoGLWidget::showImage(Mlt::Frame* frame, GLuint texnum)
     delete m_frame;
     m_frame = frame;
     m_frame_texture = texnum;
-
     updateGL();
 }
 

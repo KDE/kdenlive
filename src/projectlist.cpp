@@ -2288,6 +2288,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (item && producer) {
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
+        if (clip->getProducer() == NULL && replace) replace = false;
         if (producer->is_valid()) {
             if (clip->isPlaceHolder()) {
                 clip->setValid();

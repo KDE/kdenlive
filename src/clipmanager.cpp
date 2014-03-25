@@ -175,6 +175,8 @@ void ClipManager::slotGetThumbs()
     int max;
     int done = 0;
     int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
+    // keep in sync with declaration un projectitem.cpp and subprojectitem.cpp
+    int minHeight = qMax(38, QFontMetrics(QApplication::font()).lineSpacing() * 2);
     
     while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {
         m_thumbsMutex.lock();
@@ -197,8 +199,6 @@ void ClipManager::slotGetThumbs()
         DocClipBase *clip = getClipById(m_processingThumbId);
         if (!clip) continue;
         max = m_requestedThumbs.size() + values.count();
-	// keep in sync with declaration un projectitem.cpp and subprojectitem.cpp
-	int minHeight = qMax(38, QFontMetrics(QApplication::font()).lineSpacing() * 2);
         int pos;
         while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
             pos = values.takeFirst();
