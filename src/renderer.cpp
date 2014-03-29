@@ -772,7 +772,6 @@ void Render::processFileProperties()
         info = m_requestList.takeFirst();
         m_processingClipId.append(info.clipId);
         m_infoMutex.unlock();
-
         QString path;
         bool proxyProducer;
         if (info.xml.hasAttribute("proxy") && info.xml.attribute("proxy") != "-") {
@@ -1097,7 +1096,6 @@ void Render::processFileProperties()
         }
         // Retrieve audio / video codec name
         // If there is a
-
         if (mltService == "avformat") {
             if (vindex > -1) {
                 /*if (context->duration == AV_NOPTS_VALUE) {
@@ -1244,7 +1242,6 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         producer = m_blackClip->cut(0, 1);
         producer->set("id", "black");
     }
-
     if (!producer || !producer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
         return -1;
@@ -1275,24 +1272,23 @@ int Render::setProducer(Mlt::Producer *producer, int position)
 
         Mlt::Producer *result = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
         Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "audiowave");
-        result->attach(*filter);
         tractor = new Mlt::Tractor();
         tractor->set_track(*result, 0);
         delete result;
+        tractor->track(0)->attach(*filter);
         delete filter;
         producer = &(tractor->parent());
-        m_mltConsumer->connect(*producer);
     }
     
     producer->set("meta.volume", (double)volume / 100);
     blockSignals(false);
-    m_mltConsumer->connect(*producer);
-
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
         delete m_mltProducer;
         m_mltProducer = NULL;
     }
+    
+    m_mltConsumer->connect(*producer);
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);
     if (monitorIsActive) {
@@ -1710,6 +1706,10 @@ void Render::switchPlay(bool play)
         if (m_winid == 0) {
             // OpenGL consumer
             m_mltProducer->set_speed(0.0);
+	   //m_mltConsumer->set("refresh", 0);
+           //m_mltProducer->set_speed(0.0);
+           //m_mltConsumer->purge();
+           //m_mltProducer->seek(m_mltConsumer->position());
         }
         else {
             // SDL consumer, hack to allow pausing near the end of the playlist
