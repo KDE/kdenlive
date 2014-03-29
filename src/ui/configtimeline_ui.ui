@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>361</width>
-    <height>222</height>
+    <width>631</width>
+    <height>298</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -105,6 +105,9 @@
       <widget class="QSpinBox" name="kcfg_trackheight">
        <property name="minimum">
         <number>10</number>
+       </property>
+       <property name="maximum">
+        <number>999</number>
        </property>
        <property name="value">
         <number>10</number>
