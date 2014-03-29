@@ -84,6 +84,7 @@
 #include <QScrollBar>
 #include <QApplication>
 #include <QInputDialog>
+#include <QGLWidget>
 
 
 #if QT_VERSION >= 0x040600
@@ -376,6 +377,9 @@ int CustomTrackView::getPreviousVideoTrack(int track)
 
 void CustomTrackView::slotFetchNextThumbs()
 {
+    // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
+    QGLWidget ctx(0, m_document->clipManager()->getMainContext());
+    ctx.makeCurrent();
     if (!m_waitingThumbs.isEmpty()) {
         ClipItem *item = m_waitingThumbs.takeFirst();
         while (item == NULL && !m_waitingThumbs.isEmpty()) {
