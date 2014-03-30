@@ -483,6 +483,7 @@ signals:
     /** @brief Activate current monitor. */
     void activateMonitor(Kdenlive::MonitorId);
     void mltFrameReceived(Mlt::Frame *);
+    void infoProcessingFinished();
 
 public slots:
 

@@ -1664,7 +1664,7 @@ QString ProjectList::getExtensions()
     mimeTypes << "audio/x-flac" << "audio/x-matroska" << "audio/mp4" << "audio/mpeg" << "audio/x-mp3" << "audio/ogg" << "audio/x-wav" << "audio/x-aiff" << "audio/aiff" << "application/ogg" << "application/mxf" << "application/x-shockwave-flash" << "audio/ac3";
 
     // Image mimes
-    mimeTypes << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr";
+    mimeTypes << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr" << "image/x-portable-pixmap";
 
     QString allExtensions;
     foreach(const QString & mimeType, mimeTypes) {
@@ -2280,6 +2280,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (item && producer) {
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
+        if (clip->getProducer() == NULL && replace) {
+	    replace = false;
+	}
         if (producer->is_valid()) {
             if (clip->isPlaceHolder()) {
                 clip->setValid();
