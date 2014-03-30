@@ -872,7 +872,7 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
 }
 
 
-void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio)
+void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio, bool glsl)
 {
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item)
@@ -961,6 +961,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         width = m_profile.width;
         height = m_profile.height;
     }
+    
+    // Set GLSL if required
+    if (glsl) renderArgs.append(" glsl.=1");
 
     //renderArgs.replace("%width", QString::number((int)(m_profile.height * m_profile.display_aspect_num / (double) m_profile.display_aspect_den + 0.5)));
     //renderArgs.replace("%height", QString::number((int)m_profile.height));

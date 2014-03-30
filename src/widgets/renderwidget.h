@@ -142,7 +142,7 @@ protected:
     virtual void keyPressEvent(QKeyEvent *e);
 
 public slots:
-    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
+    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio, bool glsl);
 
 private slots:
     void slotUpdateButtons(const KUrl &url);

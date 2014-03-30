@@ -4356,7 +4356,12 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         temp.open();
         playlistPath = temp.fileName();
     }
+    bool glsl = false;
     QString playlistContent = m_projectMonitor->sceneList();
+    if (playlistContent.contains("movit.")) {
+        // Activate GLSL rendering
+        glsl = true;
+    }
     if (!chapterFile.isEmpty()) {
         int in = 0;
         int out;
@@ -4488,7 +4493,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         return;
     }
     file.close();
-    m_renderWidget->slotExport(scriptExport, m_activeTimeline->inPoint(), m_activeTimeline->outPoint(), m_activeDocument->metadata(), playlistPath, scriptPath, exportAudio);
+    m_renderWidget->slotExport(scriptExport, m_activeTimeline->inPoint(), m_activeTimeline->outPoint(), m_activeDocument->metadata(), playlistPath, scriptPath, exportAudio, glsl);
 }
 
 void MainWindow::slotUpdateTimecodeFormat(int ix)
