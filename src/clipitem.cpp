@@ -597,7 +597,7 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
         colour = colour.replace(0, 2, "#");
         m_baseColor = QColor(colour.left(7));
         update();
-    } else resetThumbs(forceResetThumbs);
+    } else if (m_hasThumbs && KdenliveSettings::videothumbnails()) resetThumbs(forceResetThumbs);
 }
 
 void ClipItem::slotFetchThumbs()
