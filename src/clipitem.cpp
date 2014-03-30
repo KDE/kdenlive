@@ -111,10 +111,7 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
         m_baseColor = QColor(colour.left(7));
     } else if (m_clipType == Image || m_clipType == Text) {
         m_baseColor = QColor(141, 166, 215);
-        if (m_clipType == Text) {
-            connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
-        }
-        //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
+        connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
     } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);
         connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
@@ -597,21 +594,13 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
         colour = colour.replace(0, 2, "#");
         m_baseColor = QColor(colour.left(7));
         update();
-    } else if (m_hasThumbs && KdenliveSettings::videothumbnails()) resetThumbs(forceResetThumbs);
+    } else if (KdenliveSettings::videothumbnails()) resetThumbs(forceResetThumbs);
 }
 
 void ClipItem::slotFetchThumbs()
 {
     if (scene() == NULL || m_clipType == Audio || m_clipType == Color) return;
-    if (m_clipType == Image) {
-        if (m_startPix.isNull()) {
-            m_startPix = KThumb::getImage(KUrl(m_clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
-            update();
-        }
-        return;
-    }
-
-    if (m_clipType == Text) {
+    if (m_clipType == Image || m_clipType == Text) {
         if (m_startPix.isNull()) slotGetStartThumb();
         return;
     }
