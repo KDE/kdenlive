@@ -4576,6 +4576,11 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
     setDocumentModified();
 }
 
+void CustomTrackView::slotInfoProcessingFinished()
+{
+    m_producerNotReady.wakeAll();
+}
+
 void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool overwrite, bool push, bool refresh)
 {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
@@ -4586,14 +4591,19 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
 
     if (baseclip->getProducer() == NULL) {
         // If the clip has no producer, we must wait until it is created...
-        m_mutex.lock();
+        
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
-        emit forceClipProcessing(clipId);
-        qApp->processEvents();
+	m_document->renderer()->forceProcessing(clipId);
+	m_mutex.lock();
         for (int i = 0; i < 10; ++i) {
+	    baseclip = m_document->clipManager()->getClipById(clipId);
+	    if (baseclip == NULL) {
+		emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
+		m_mutex.unlock();
+		return;
+	    }
             if (baseclip->getProducer() == NULL) {
-                qApp->processEvents();
-                m_producerNotReady.wait(&m_mutex, 200);
+                m_producerNotReady.wait(&m_mutex);
             } else break;
         }
         if (baseclip->getProducer() == NULL) {

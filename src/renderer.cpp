@@ -718,20 +718,42 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, in
 
 void Render::forceProcessing(const QString &id)
 {
-    if (m_processingClipId.contains(id)) return;
-    QMutexLocker lock(&m_infoMutex);
-    for (int i = 0; i < m_requestList.count(); ++i) {
-        requestClipInfo info = m_requestList.at(i);
-        if (info.clipId == id) {
-            if (i == 0) {
-                break;
-            } else {
-                m_requestList.removeAt(i);
-                m_requestList.prepend(info);
-                break;
-            }
+    // Make sure we load the clip producer now so that we can use it in timeline
+    QList <requestClipInfo> requestListCopy;
+    if (m_processingClipId.contains(id)) {
+	m_infoMutex.lock();
+	requestListCopy = m_requestList;
+	m_requestList.clear();
+	m_infoMutex.unlock();
+	m_infoThread.waitForFinished();
+	emit infoProcessingFinished();
+    } else {
+	m_infoMutex.lock();
+	for (int i = 0; i < m_requestList.count(); ++i) {
+	    requestClipInfo info = m_requestList.at(i);
+	    if (info.clipId == id) {
+		m_requestList.removeAt(i);
+		requestListCopy = m_requestList;
+		m_requestList.clear();
+		m_requestList.append(info);
+		break;
+	    }
         }
+        m_infoMutex.unlock();
+	if (!m_infoThread.isRunning()) {
+	    m_infoThread = QtConcurrent::run(this, &Render::processFileProperties);
+	}
+	m_infoThread.waitForFinished();
+	emit infoProcessingFinished();
     }
+    
+    m_infoMutex.lock();
+    m_requestList.append(requestListCopy);
+    m_infoMutex.unlock();
+    if (!m_infoThread.isRunning()) {
+        m_infoThread = QtConcurrent::run(this, &Render::processFileProperties);
+    }
+    
 }
 
 int Render::processingItems()
@@ -841,7 +863,6 @@ void Render::processFileProperties()
                 continue;
             }
         }
-
         if (info.xml.hasAttribute("force_aspect_ratio")) {
             double aspect = info.xml.attribute("force_aspect_ratio").toDouble();
             if (aspect > 0) producer->set("force_aspect_ratio", aspect);

@@ -302,6 +302,8 @@ public slots:
     static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
 	/** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
+    
+    void slotInfoProcessingFinished();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -521,7 +523,6 @@ signals:
     void playMonitor();
     /** @brief Monitor document changes (for example the presence of audio data in timeline for export widget.*/
     void documentModified();
-    void forceClipProcessing(const QString &);
     void showTrackEffects(int, TrackInfo);
     /** @brief Update the track effect button that shows if a track has effects or not.*/
     void updateTrackEffectState(int);
