@@ -3033,11 +3033,14 @@ void MainWindow::slotUpdateClipMarkers(DocClipBase *clip)
     m_clipMonitor->updateMarkers(clip);
 }
 
-void MainWindow::slotAddClipMarker()
+void MainWindow::slotAddClipMarker(const QString &clipId, CommentedTime marker)
 {
     DocClipBase *clip = NULL;
     GenTime pos;
-    if (m_projectMonitor->isActive()) {
+    if (!clipId.isEmpty()) {
+        clip = m_activeDocument->clipManager()->getClipById(clipId);
+    }
+    else if (m_projectMonitor->isActive()) {
         if (m_activeTimeline) {
             ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
             if (item) {
@@ -3054,9 +3057,14 @@ void MainWindow::slotAddClipMarker()
         return;
     }
     QString id = clip->getId();
-    CommentedTime marker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
-    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker,
-                                                m_activeDocument->timecode(), i18n("Add Marker"), this);
+    QString label;
+    if (marker == CommentedTime()) {
+        marker = CommentedTime(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
+        label = i18n("Add Marker");
+    }
+    else label = i18n("Edit Marker");
+    
+    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, m_activeDocument->timecode(), label, m_glContext, this);
     if (d->exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, QList <CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
@@ -3144,7 +3152,7 @@ void MainWindow::slotEditClipMarker()
     }
 
     QPointer<MarkerDialog> d = new MarkerDialog(clip, oldMarker,
-                                                m_activeDocument->timecode(), i18n("Edit Marker"), this);
+                                                m_activeDocument->timecode(), i18n("Edit Marker"), m_glContext, this);
     if (d->exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, QList <CommentedTime>() <<d->newMarker());
         QString hash = clip->getClipHash();
@@ -3581,7 +3589,8 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         m_activeDocument->clipManager()->slotRequestThumbs(QString('?' + clip->getId()), QList<int>() << clip->getClipThumbFrame());
     }
     
-    connect(dia, SIGNAL(addMarkers(QString,QList<CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+    connect(dia, SIGNAL(editMarkers(QString,QList<CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+    connect(dia, SIGNAL(addMarkers(QString, CommentedTime)), this, SLOT(slotAddClipMarker(QString, CommentedTime)));
     connect(dia, SIGNAL(editAnalysis(QString,QString,QString)), m_activeTimeline->projectView(), SLOT(slotAddClipExtraData(QString,QString,QString)));
     connect(m_activeTimeline->projectView(), SIGNAL(updateClipMarkers(DocClipBase*)), dia, SLOT(slotFillMarkersList(DocClipBase*)));
     connect(m_activeTimeline->projectView(), SIGNAL(updateClipExtraData(DocClipBase*)), dia, SLOT(slotUpdateAnalysisData(DocClipBase*)));

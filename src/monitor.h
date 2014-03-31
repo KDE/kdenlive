@@ -46,22 +46,6 @@ class QSlider;
 class VideoGLWidget;
 class QGLWidget;
 
-class Overlay : public QLabel
-{
-    Q_OBJECT
-public:
-    Overlay(QWidget* parent = 0);
-    void setOverlayText(const QString &, bool isZone = true);
-
-protected:
-    void mouseDoubleClickEvent ( QMouseEvent * event );
-    void mousePressEvent ( QMouseEvent * event );
-    void mouseReleaseEvent ( QMouseEvent * event );
-    
-signals:
-    void editMarker();
-};
-
 class Monitor : public AbstractMonitor
 {
     Q_OBJECT
@@ -120,7 +104,6 @@ protected:
 private:
     DocClipBase *m_currentClip;
     SmallRuler *m_ruler;
-    Overlay *m_overlay;
     double m_scale;
     int m_length;
     bool m_dragStarted;
@@ -152,6 +135,7 @@ private:
     QWidget *m_volumeWidget;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
+    bool m_showOverlay;
 
 private slots:
     void seekCursor(int pos);
@@ -170,6 +154,7 @@ private slots:
     void slotShowVolume();
     void slotEditMarker();
     void slotExtractCurrentZone();
+    void slotCheckOverlay(Mlt::Frame*, GLuint);
 
 public slots:
     void slotOpenFile(const QString &);

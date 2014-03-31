@@ -54,7 +54,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glC
     AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_currentClip(NULL)
-    , m_overlay(NULL)
     , m_scale(1)
     , m_length(2)
     , m_dragStarted(false)
@@ -66,6 +65,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glC
     , m_parentGLContext(glContext)
     , m_glWidget(NULL)
     , m_editMarker(NULL)
+    , m_showOverlay(KdenliveSettings::displayMonitorInfo())
 {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -199,7 +199,6 @@ Monitor::~Monitor()
 {
     delete m_ruler;
     delete m_timePos;
-    delete m_overlay;
     if (m_effectWidget)
         delete m_effectWidget;
     delete render;
@@ -223,7 +222,8 @@ void Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
     m_glWidget->setImageAspectRatio(render->dar());
     m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
     connect(render, SIGNAL(showImageSignal(QImage)), m_glWidget, SLOT(showImage(QImage)));
-    connect(render, SIGNAL(showImageSignal(Mlt::Frame*, GLuint)), m_glWidget, SLOT(showImage(Mlt::Frame*, GLuint)));
+    //connect(render, SIGNAL(showImageSignal(Mlt::Frame*, GLuint)), m_glWidget, SLOT(showImage(Mlt::Frame*, GLuint)));
+    connect(render, SIGNAL(showImageSignal(Mlt::Frame*, GLuint)), this, SLOT(slotCheckOverlay(Mlt::Frame*, GLuint)));
 }
 
 void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
@@ -444,7 +444,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (render) render->setActiveMonitor();
     if (event->button() != Qt::RightButton) {
-        if (videoBox->geometry().contains(event->pos()) && (!m_overlay || !m_overlay->underMouse())) {
+        if (videoBox->geometry().contains(event->pos())) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
@@ -613,11 +613,27 @@ void Monitor::slotSeek(int pos)
     m_ruler->update();
 }
 
+void Monitor::slotCheckOverlay(Mlt::Frame *frame, GLuint tex)
+{
+    QString overlayText;
+    if (m_showOverlay) {
+        int pos = m_timePos->getValue();//render->seekFramePosition();
+        QPoint zone = m_ruler->zone();
+        if (pos == zone.x())
+            overlayText = i18n("In Point");
+        else if (pos == zone.y())
+            overlayText = i18n("Out Point");
+        else if (m_currentClip)
+            overlayText = m_currentClip->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
+    }
+    m_glWidget->showImage(frame, tex, overlayText);
+}
+
 void Monitor::checkOverlay()
 {
-    if (m_overlay == NULL) return;
+    if (!m_showOverlay) return;
     QString overlayText;
-    int pos = m_timePos->getValue();//render->seekFramePosition();
+    int pos = m_timePos->getValue();
     QPoint zone = m_ruler->zone();
     if (pos == zone.x())
         overlayText = i18n("In Point");
@@ -626,14 +642,9 @@ void Monitor::checkOverlay()
     else {
         if (m_currentClip) {
             overlayText = m_currentClip->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
-	    if (!overlayText.isEmpty()) {
-		m_overlay->setOverlayText(overlayText, false);
-		return;
-	    }
-	}
+        }
     }
-    if (m_overlay->isVisible() && overlayText.isEmpty()) m_overlay->setOverlayText(QString(), false);
-    else m_overlay->setOverlayText(overlayText);
+    m_glWidget->checkOverlay(overlayText);
 }
 
 void Monitor::slotStart()
@@ -952,21 +963,10 @@ void Monitor::slotSwitchDropFrames(bool show)
 
 void Monitor::slotSwitchMonitorInfo(bool show)
 {
+    m_showOverlay = show;
     KdenliveSettings::setDisplayMonitorInfo(show);
-    if (show) {
-        if (m_overlay) return;
-        if (m_glWidget->layout()) delete m_glWidget->layout();
-        m_overlay = new Overlay();
-        connect(m_overlay, SIGNAL(editMarker()), this, SLOT(slotEditMarker()));
-        QVBoxLayout *layout = new QVBoxLayout;
-        layout->addStretch(10);
-        layout->addWidget(m_overlay);
-        m_glWidget->setLayout(layout);
-        checkOverlay();
-    } else {
-        delete m_overlay;
-        m_overlay = NULL;
-    }
+    if (show) checkOverlay();
+    else m_glWidget->checkOverlay(QString());
 }
 
 void Monitor::slotEditMarker()
@@ -1102,57 +1102,5 @@ void Monitor::setPalette ( const QPalette & p)
     if (m_ruler) m_ruler->updatePalette();
     
 }
-
-Overlay::Overlay(QWidget* parent) :
-    QLabel(parent)
-{
-    //setAttribute(Qt::WA_TransparentForMouseEvents);
-    setAutoFillBackground(true);
-    setBackgroundRole(QPalette::Base);
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    setCursor(Qt::PointingHandCursor);
-
-}
-
-// virtual
-void Overlay::mouseReleaseEvent ( QMouseEvent * event )
-{
-    event->ignore();
-}
-
-// virtual
-void Overlay::mousePressEvent( QMouseEvent * event )
-{
-    event->ignore();
-}
-
-// virtual
-void Overlay::mouseDoubleClickEvent ( QMouseEvent * event )
-{
-    emit editMarker();
-    event->ignore();
-}
-
-void Overlay::setOverlayText(const QString &text, bool isZone)
-{
-    if (text.isEmpty()) {
-	/*QPalette p;
-	p.setColor(QPalette::Base, KdenliveSettings::window_background());
-	setPalette(p);
-	setText(QString());
-	repaint();*/
-	setHidden(true);
-	return;
-    }
-    setHidden(true);
-    QPalette p;
-    p.setColor(QPalette::Text, Qt::white);
-    if (isZone) p.setColor(QPalette::Base, QColor(200, 0, 0));
-    else p.setColor(QPalette::Base, QColor(0, 0, 200));
-    setPalette(p);
-    setText(' ' + text + ' ');
-    setHidden(false);
-}
-
 
 #include "monitor.moc"

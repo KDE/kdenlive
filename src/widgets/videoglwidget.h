@@ -22,6 +22,7 @@
 #define VIDEOGLWIDGET_H
 
 #include <QGLWidget>
+#include <QGLFramebufferObject>
 
 namespace Mlt {
 class Frame;
@@ -35,6 +36,7 @@ public:
     explicit VideoGLWidget(QWidget *parent = 0, QGLWidget *share = 0);
     ~VideoGLWidget();
     void activateMonitor();
+    void checkOverlay(const QString &overlay);
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
     void setImageAspectRatio(double ratio);
@@ -44,7 +46,7 @@ public:
 
 public slots:
     void showImage(const QImage &image);
-    void showImage(Mlt::Frame*, GLuint);
+    void showImage(Mlt::Frame*, GLuint, const QString overlay);
 
 protected:
     void initializeGL();
@@ -62,6 +64,8 @@ private:
     double m_display_ratio;
     QColor m_backgroundColor;
     Qt::WindowFlags m_baseFlags;
+    QGLFramebufferObject *m_fbo;
+    QString m_overlay;
 };
 
 #endif

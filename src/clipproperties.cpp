@@ -866,15 +866,7 @@ void ClipProperties::slotFillMarkersList(DocClipBase *clip)
 
 void ClipProperties::slotAddMarker()
 {
-    CommentedTime marker(GenTime(), i18n("Marker"));
-    QPointer<MarkerDialog> d = new MarkerDialog(m_clip, marker,
-                                                m_tc, i18n("Add Marker"), this);
-    if (d->exec() == QDialog::Accepted) {
-        QList <CommentedTime> markers;
-        markers << d->newMarker();
-        emit addMarkers(m_clip->getId(), markers);
-    }
-    delete d;
+    emit addMarkers(m_clip->getId());
 }
 
 void ClipProperties::slotSaveMarkers()
@@ -892,12 +884,7 @@ void ClipProperties::slotEditMarker()
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     int pos = m_view.markers_list->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) return;
-    MarkerDialog d(m_clip, marks.at(pos), m_tc, i18n("Edit Marker"), this);
-    if (d.exec() == QDialog::Accepted) {
-        QList <CommentedTime> markers;
-        markers << d.newMarker();
-        emit addMarkers(m_clip->getId(), markers);
-    }
+    emit addMarkers(m_clip->getId(), marks.at(pos));
 }
 
 void ClipProperties::slotDeleteMarker()
@@ -911,7 +898,7 @@ void ClipProperties::slotDeleteMarker()
             toDelete << marker;
         }
     }
-    emit addMarkers(m_clip->getId(), toDelete);
+    emit editMarkers(m_clip->getId(), toDelete);
 }
 
 void ClipProperties::slotDeleteAnalysis()

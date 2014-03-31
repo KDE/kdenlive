@@ -5779,7 +5779,7 @@ void CustomTrackView::slotAddGuide(bool dialog)
     CommentedTime marker(GenTime(m_cursorPos, m_document->fps()), i18n("Guide"));
     if (dialog) {
         QPointer<MarkerDialog> d = new MarkerDialog(NULL, marker,
-                                                    m_document->timecode(), i18n("Add Guide"), this);
+                                                    m_document->timecode(), i18n("Add Guide"), m_document->clipManager()->getMainContext(), this);
         if (d->exec() != QDialog::Accepted) {
             delete d;
             return;
@@ -5813,7 +5813,7 @@ void CustomTrackView::slotEditGuide(int guidePos)
 
 void CustomTrackView::slotEditGuide(const CommentedTime &guide)
 {
-    QPointer<MarkerDialog> d = new MarkerDialog(NULL, guide, m_document->timecode(), i18n("Edit Guide"), this);
+    QPointer<MarkerDialog> d = new MarkerDialog(NULL, guide, m_document->timecode(), i18n("Edit Guide"), m_document->clipManager()->getMainContext(), this);
     if (d->exec() == QDialog::Accepted) {
         EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d->newMarker().time(), d->newMarker().comment(), true);
         m_commandStack->push(command);
@@ -5827,7 +5827,7 @@ void CustomTrackView::slotEditTimeLineGuide()
     if (m_dragGuide == NULL) return;
     CommentedTime guide = m_dragGuide->info();
     QPointer<MarkerDialog> d = new MarkerDialog(NULL, guide,
-                                                m_document->timecode(), i18n("Edit Guide"), this);
+                                                m_document->timecode(), i18n("Edit Guide"), m_document->clipManager()->getMainContext(), this);
     if (d->exec() == QDialog::Accepted) {
         EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d->newMarker().time(), d->newMarker().comment(), true);
         m_commandStack->push(command);

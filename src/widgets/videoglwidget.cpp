@@ -26,6 +26,9 @@
 #include <GL/glu.h>
 #endif
 #include "widgets/videoglwidget.h"
+
+//#define check_error() { int err = glGetError(); if (err != GL_NO_ERROR) { fprintf(stderr, "GL error 0x%x at %s:%d\n", err, __FILE__, __LINE__); exit(1); } }
+
 extern "C" {
 GLAPI GLenum APIENTRY glClientWaitSync (GLsync sync, GLbitfield flags, GLuint64 timeout);
 }
@@ -48,6 +51,7 @@ VideoGLWidget::VideoGLWidget(QWidget *parent, QGLWidget *share)
     , m_frame_texture(0)
     , m_display_ratio(4.0 / 3.0)
     , m_backgroundColor(Qt::gray)
+    , m_fbo(NULL)
 {  
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
@@ -86,7 +90,14 @@ void VideoGLWidget::initializeGL()
     glDisable(GL_LIGHTING);
     glDisable(GL_DITHER);
     glDisable(GL_BLEND);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    /*glShadeModel(GL_FLAT);
+    glEnable(GL_TEXTURE_2D);
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DITHER);
+    glDisable(GL_BLEND);*/
+    //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 }
 
 void VideoGLWidget::resizeEvent(QResizeEvent* event)
@@ -134,6 +145,18 @@ void VideoGLWidget::activateMonitor()
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
+/*void VideoGLWidget::paintEvent(QPaintEvent *event)
+{
+
+    updateGL(); // This calls for initializeGL and then paintGL and draws a nice openGL 3D scene
+
+    
+    QPainter painter(this); 
+    //painter.begin();
+    painter.drawText(10, 10, "HELLO");
+    // Draw something with QPainter..
+}*/
+
 void VideoGLWidget::paintGL()
 {
     if (m_texture) {
@@ -153,12 +176,66 @@ void VideoGLWidget::paintGL()
         glEnd();
         glDisable(GL_TEXTURE_RECTANGLE_EXT);
     }
+    
+    if (!m_overlay.isEmpty()) {
+            if (!m_fbo || m_fbo->width() != w || m_fbo->height() != h) {
+                delete m_fbo;
+                m_fbo = new QGLFramebufferObject(w, h, GL_TEXTURE_2D);
+            }
+            glPushAttrib(GL_VIEWPORT_BIT);
+            glMatrixMode(GL_PROJECTION);
+            glPushMatrix();
+
+            //glBindFramebuffer( GL_FRAMEBUFFER, m_fbo->handle());
+            m_fbo->bind();
+            //check_error();
+            glViewport( 0, 0, w, h);
+            glMatrixMode( GL_PROJECTION );
+            glLoadIdentity();
+            m_fbo->drawTexture(QRectF(-1, 1, 2, -2), m_frame_texture);
+            glOrtho(0.0, w, 0.0, h, -1.0, 1.0);
+            glMatrixMode( GL_MODELVIEW );
+            glLoadIdentity();
+            //check_error();
+
+            /*glBegin( GL_QUADS );
+                glTexCoord2i( 0, 0 ); glVertex2i( 0, 0 );
+                glTexCoord2i( 0, 1 ); glVertex2i( 0, m_image_height );
+                glTexCoord2i( 1, 1 ); glVertex2i( m_image_width, m_image_height );
+                glTexCoord2i( 1, 0 ); glVertex2i( m_image_width, 0 );
+            glEnd();*/
+            
+            glEnable(GL_BLEND);
+            QPainter p(m_fbo);
+            //p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+            QFont f = font();
+            f.setWeight(QFont::Bold);
+            QFontInfo ft(f);
+            int lineHeight = ft.pixelSize() + 2;
+            f.setPixelSize(lineHeight);
+            //f.setStyleStrategy(QFont::PreferAntialias);
+            p.setFont(f);
+            p.scale(1, -1);
+            p.fillRect(lineHeight, - 2 * lineHeight, w - lineHeight * 2, lineHeight * 1.5, QColor(200, 100, 100, 120));
+            p.fillRect(lineHeight + 2, - 2 * lineHeight + 2, lineHeight, lineHeight * 1.5 - 4, Qt::red);
+            p.setPen(Qt::white);
+            p.drawText(2 * lineHeight + 6, -lineHeight, m_overlay);
+            p.end();
+            glDisable(GL_BLEND);
+            m_fbo->release();
+            glMatrixMode(GL_PROJECTION);
+            glPopMatrix();
+            glMatrixMode(GL_MODELVIEW);
+            glPopAttrib();
+    }
+    
     if (m_frame_texture) {
 #ifdef Q_WS_MAC
-		glClear(GL_COLOR_BUFFER_BIT);
+                glClear(GL_COLOR_BUFFER_BIT);
 #endif
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, m_frame_texture);
+        if (!m_overlay.isEmpty()) glBindTexture(GL_TEXTURE_2D, m_fbo->texture());
+        else glBindTexture(GL_TEXTURE_2D, m_frame_texture);
         glBegin(GL_QUADS);
         glTexCoord2i(0, 0);
         glVertex2i(x, y);
@@ -169,8 +246,50 @@ void VideoGLWidget::paintGL()
         glTexCoord2i(0, 1);
         glVertex2i(x, y + h);
         glEnd();
-        glDisable(GL_TEXTURE_2D);
     }
+    
+    if (false) {
+            // just for fun, test drawing a "play" triangle on top of video
+            //glColor4f(1,1,1, 0.5);
+            glEnable(GL_BLEND);
+            //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glBlendEquation(GL_FUNC_ADD); 
+            glBlendFunc( GL_ONE, GL_ONE);
+            //glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
+            //glBlendFunc( GL_SRC_ALPHA, GL_ONE);    
+            glColor4f(0.2,0.2,0.2, 0.6);
+            //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA); 
+            float x1,y1,x2,y2;
+            double radius = 0.15;
+            x1=0.49;
+            y1=0.5;
+            glBegin(GL_TRIANGLE_FAN);
+            glTexCoord2f(x1,y1);
+            glVertex2f(x + x1 * w,y + y1 * h);
+            const float PI = 3.1415926535897932;
+            for (float angle = 0.0; angle < 2.0*PI; angle += 2.0*PI/30.0) {
+                x2 = x1+sin(angle)*radius / w * h;
+                y2 = y1+cos(angle)*radius;
+                glTexCoord2f(x2, y2);
+                glVertex2f(x + x2 * w,y + y2 * h);
+            }
+            glEnd();
+            //glDisable(GL_BLEND);
+            //glBlendFunc( GL_SRC_ALPHA, GL_ONE);
+            glColor4f(0.5,0.5,0.5, 0.7);
+            glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+            //glBlendFunc( GL_ONE, GL_DST_ALPHA);
+            //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA); 
+            glBegin(GL_TRIANGLES);
+            glTexCoord2f(0.45, 0.4);glVertex2f( x + 0.45 * w, y + 0.4 * h);
+            glTexCoord2f(0.56, 0.5);glVertex2f( x + 0.56 * w, y + 0.5 * h);
+            glTexCoord2f(0.45, 0.6);glVertex2f( x + 0.45 * w, y + 0.6 * h);
+            glEnd();
+            glBlendEquation(GL_FUNC_ADD);
+            glDisable(GL_BLEND);
+            
+            glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+        }
 }
 
 void VideoGLWidget::showImage(const QImage &image)
@@ -194,7 +313,7 @@ void VideoGLWidget::showImage(const QImage &image)
     updateGL();
 }
 
-void VideoGLWidget::showImage(Mlt::Frame* frame, GLuint texnum)
+void VideoGLWidget::showImage(Mlt::Frame* frame, GLuint texnum, const QString overlay)
 {
     makeCurrent();
     GLsync sync = (GLsync) frame->get("movit.convert.fence");
@@ -206,6 +325,14 @@ void VideoGLWidget::showImage(Mlt::Frame* frame, GLuint texnum)
     delete m_frame;
     m_frame = frame;
     m_frame_texture = texnum;
+    m_overlay = overlay;
+    updateGL();
+}
+
+void VideoGLWidget::checkOverlay(const QString &overlay)
+{
+    if (overlay == m_overlay) return;
+    m_overlay = overlay;
     updateGL();
 }
 

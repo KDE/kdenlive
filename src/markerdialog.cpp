@@ -26,12 +26,13 @@
 #include <KDebug>
 
 
-MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
+MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QGLWidget *context, QWidget * parent)
     : QDialog(parent)
     , m_producer(NULL)
     , m_profile(NULL)
     , m_clip(clip)
     , m_dar(4.0 / 3.0)
+    , m_mainGLContext(context)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -68,6 +69,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
         int width = Kdenlive::DefaultThumbHeight * m_dar;
         if (width % 2 == 1) width++;
         QPixmap p(width, 100);
+        p.fill(Qt::black);
         QString colour = clip->getProperty("colour");
         int swidth = (int) (Kdenlive::DefaultThumbHeight * m_profile->width() / m_profile->height() + 0.5);
 
@@ -76,7 +78,8 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
         case AV:
         case SlideShow:
         case Playlist:
-            connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
+            m_previewTimer->start();
+            connect(m_in, SIGNAL(timeCodeEditingFinished()), m_previewTimer, SLOT(start()));
             break;
         case Image:
         case Text:
@@ -97,7 +100,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Time
             clip_thumb->setFixedHeight(p.height());
             clip_thumb->setPixmap(p);
         }
-        connect(m_in, SIGNAL(timeCodeEditingFinished()), this, SIGNAL(updateThumb()));
+        
     } else {
         clip_thumb->setHidden(true);
         label_category->setHidden(true);
@@ -126,7 +129,8 @@ void MarkerDialog::slotUpdateThumb()
     int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
     if (width % 2 == 1)
         width++;
-
+    QGLWidget ctx(0, m_mainGLContext);
+    ctx.makeCurrent();
     m_image = KThumb::getFrame(m_producer, pos, swidth, width, 100);
     const QPixmap p = QPixmap::fromImage(m_image);
     if (!p.isNull())

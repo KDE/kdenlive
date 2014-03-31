@@ -404,7 +404,7 @@ private slots:
     bool closeCurrentDocument(bool saveChanges = true);
     /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
     void slotDeleteItem();
-    void slotAddClipMarker();
+    void slotAddClipMarker(const QString &clipId = QString(), CommentedTime marker = CommentedTime());
     void slotDeleteClipMarker();
     void slotDeleteAllClipMarkers();
     void slotEditClipMarker();

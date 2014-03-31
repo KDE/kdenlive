@@ -102,7 +102,8 @@ private:
     void loadVideoProperties(const QMap<QString, QString> &props);
 
 signals:
-    void addMarkers(const QString &, const QList <CommentedTime>&);
+    void addMarkers(const QString &, CommentedTime marker = CommentedTime());
+    void editMarkers(const QString &, const QList <CommentedTime>&);
     void deleteProxy(const QString&);
     void applyNewClipProperties(const QString&, const QMap <QString, QString> &, const QMap <QString, QString> &, bool, bool);
     void saveMarkers(const QString &id);

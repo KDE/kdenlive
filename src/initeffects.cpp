@@ -609,9 +609,8 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 QDomElement params = ret.createElement("parameter");
 
                 Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(i)));
-
                 params.setAttribute("name", paramdesc.get("identifier"));
-
+                if (params.attribute("name") == "argument") continue;
                 if (paramdesc.get("maximum"))
                     params.setAttribute("max", paramdesc.get("maximum"));
                 if (paramdesc.get("minimum"))
@@ -624,6 +623,13 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                         params.setAttribute("factor", "100");
                     }
                 }
+                if (QString(paramdesc.get("type")) == "float") {
+                    params.setAttribute("type", "simplekeyframe");
+                    if (params.attribute("min") == "0" && params.attribute("max") == "1") {
+                        params.setAttribute("max", "250");
+                        params.setAttribute("factor", "250");
+                    }
+                }
                 if (QString(paramdesc.get("type")) == "boolean")
                     params.setAttribute("type", "bool");
                 if (!QString(paramdesc.get("format")).isEmpty()) {
@@ -634,7 +640,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                     params.setAttribute("default", paramdesc.get("default"));
                 if (paramdesc.get("value"))
                     params.setAttribute("value", paramdesc.get("value"));
-                else
+                else if (paramdesc.get("default"))
                     params.setAttribute("value", paramdesc.get("default"));
 
                 QDomElement pname = ret.createElement("name");
