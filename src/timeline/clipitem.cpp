@@ -102,6 +102,7 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
             connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
+            connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
             connect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
             if (generateThumbs) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
         }
@@ -822,26 +823,15 @@ void ClipItem::paint(QPainter *painter,
             if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
             thumbRect.moveTopRight(mapped.topRight());
             painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
-            //const QPointF top = mapped.topRight() - QPointF(m_startPix.width() - 1, 0);
-            //painter->drawPixmap(top, m_startPix);
-            //QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
-            //painter->drawLine(l2);
         } else if (!m_endPix.isNull()) {
             if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_endPix.height() * m_endPix.width(), mapped.height());
             thumbRect.moveTopRight(mapped.topRight());
             painter->drawPixmap(thumbRect, m_endPix, m_endPix.rect());
-            //const QPointF top = mapped.topRight() - QPointF(m_endPix.width() - 1, 0);
-            //painter->drawPixmap(top, m_endPix);
-            //QLineF l2(top.x(), mapped.top(), top.x(), mapped.bottom());
-            //painter->drawLine(l2);
         }
         if (!m_startPix.isNull()) {
             if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
             thumbRect.moveTopLeft(mapped.topLeft());
             painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
-            //painter->drawPixmap(mapped.topLeft(), m_startPix);
-            //QLineF l2(mapped.left() + m_startPix.width(), mapped.top(), mapped.left() + m_startPix.width(), mapped.bottom());
-            //painter->drawLine(l2);
         }
 
         // if we are in full zoom, paint thumbnail for every frame
@@ -859,14 +849,13 @@ void ClipItem::paint(QPainter *painter,
             else {
 #if KDE_IS_VERSION(4,5,0)
                 if (m_clip && m_clip->thumbProducer()) {
-                    QString path = m_clip->fileURL().path() + '_';
                     QImage img;
                     QPen pen(Qt::white);
                     pen.setStyle(Qt::DotLine);
-                    QList <int> missing;
+                    QSet <int> missing;
                     for (int i = left; i <= right; ++i) {
-                        img = m_clip->thumbProducer()->findCachedThumb(path + QString::number(i));
                         QPointF xpos = startPos + QPointF(FRAME_SIZE *(i - startOffset), 0);
+                        img = m_clip->thumbProducer()->findCachedThumb(i);
                         if (img.isNull()) missing << i;
                         else {
                             painter->drawImage(xpos, img);
@@ -874,8 +863,8 @@ void ClipItem::paint(QPainter *painter,
                         painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
                     }
                     if (!missing.isEmpty()) {
+                        kDebug()<<"QUERYING PIXMAPS: "<<missing;
                         m_clip->thumbProducer()->queryIntraThumbs(missing);
-                        connect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
                     }
                 }
 #endif
@@ -2184,7 +2173,6 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
 
 void ClipItem::slotGotThumbsCache()
 {
-    disconnect(m_clip->thumbProducer(), SIGNAL(thumbsCached()), this, SLOT(slotGotThumbsCache()));
     update();
 }
 

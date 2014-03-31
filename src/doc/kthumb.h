@@ -63,9 +63,9 @@ public:
     QImage extractImage(int frame, int width, int height);
 #if KDE_IS_VERSION(4,5,0)
     /** @brief Request thumbnails for the frame range. */
-    void queryIntraThumbs(const QList <int> &missingFrames);
+    void queryIntraThumbs(const QSet <int> &missingFrames);
     /** @brief Query cached thumbnail. */
-    QImage findCachedThumb(const QString &path);
+    QImage findCachedThumb(int pos);
 #endif
     void getThumb(int frame);
     void getGenericThumb(int frame, int height, int type);

@@ -70,7 +70,7 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 
 #if KDE_IS_VERSION(4,5,0)
     KImageCache::deleteCache("kdenlive-thumbs");
-    pixmapCache = new KImageCache("kdenlive-thumbs", 1000000);
+    pixmapCache = new KImageCache("kdenlive-thumbs", 10000000);
     pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
 #endif
 }

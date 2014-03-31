@@ -42,6 +42,8 @@
 #include <QVarLengthArray>
 #include <QPainter>
 
+static QMutex m_intraMutex;
+
 KThumb::KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent) :
     QObject(parent),
     m_url(url),
@@ -212,7 +214,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         return p;
     }
     
-    int ow = frameWidth;
+    int ow = displayWidth;//frameWidth;
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
     //frame->set("progressive", "1");
@@ -363,12 +365,27 @@ void KThumb::slotCreateAudioThumbs()
 }
 
 #if KDE_IS_VERSION(4,5,0)
-void KThumb::queryIntraThumbs(const QList <int> &missingFrames)
+void KThumb::queryIntraThumbs(const QSet <int> &missingFrames)
 {
-    foreach (int i, missingFrames) {
-        if (!m_intraFramesQueue.contains(i)) m_intraFramesQueue.append(i);
+    m_intraMutex.lock();
+    if (m_intraFramesQueue.length() > 20) {
+        // trim query list
+        int maxsize = m_intraFramesQueue.length() - 10;
+        if (missingFrames.contains(m_intraFramesQueue.first())) {
+            for( int i = 0; i < maxsize; i ++ )
+                m_intraFramesQueue.removeLast();
+        }
+        else if (missingFrames.contains(m_intraFramesQueue.last())) {
+            for( int i = 0; i < maxsize; i ++ )
+                m_intraFramesQueue.removeFirst();
+        }
+        else m_intraFramesQueue.clear();
     }
+    QSet<int> set = m_intraFramesQueue.toSet();
+    set.unite(missingFrames);
+    m_intraFramesQueue = set.toList();
     qSort(m_intraFramesQueue);
+    m_intraMutex.unlock();
     if (!m_intra.isRunning()) {
         m_intra = QtConcurrent::run(this, &KThumb::slotGetIntraThumbs);
     }
@@ -381,23 +398,32 @@ void KThumb::slotGetIntraThumbs()
     const int displayWidth = (int)(theight * m_dar + 0.5);
     QString path = m_url.path() + '_';
     bool addedThumbs = false;
-
-    while (!m_intraFramesQueue.isEmpty()) {
-        int pos = m_intraFramesQueue.takeFirst();
-        if (!m_clipManager->pixmapCache->contains(path + QString::number(pos))) {
-            if (m_clipManager->pixmapCache->insertImage(path + QString::number(pos), getProducerFrame(pos, frameWidth, displayWidth, theight))) {
+    int pos = 0;
+    while (true) {
+        m_intraMutex.lock();
+        if (m_intraFramesQueue.isEmpty()) {
+            m_intraMutex.unlock();
+            break;
+        }
+        pos = m_intraFramesQueue.takeFirst();
+        m_intraMutex.unlock();
+        const QString key = path + QString::number(pos);
+        if (!m_clipManager->pixmapCache->contains(key)) {
+            QImage img = getProducerFrame(pos, frameWidth, displayWidth, theight);
+            if (m_clipManager->pixmapCache->insertImage(key, img)) {
                 addedThumbs = true;
             }
             else kDebug()<<"// INSERT FAILD FOR: "<<pos;
         }
-        m_intraFramesQueue.removeAll(pos);
+        
     }
     if (addedThumbs) emit thumbsCached();
 }
 
-QImage KThumb::findCachedThumb(const QString &path)
+QImage KThumb::findCachedThumb(int pos)
 {
     QImage img;
+    const QString path = m_url.path() + '_' + QString::number(pos);
     m_clipManager->pixmapCache->findImage(path, &img);
     return img;
 }
