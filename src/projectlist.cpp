@@ -1376,7 +1376,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         }
     }
     monitorItemEditing(true);
-    updateButtons();
+    if (!getProperties) updateButtons();
 }
 
 void ProjectList::slotGotProxy(const QString &proxyPath)
@@ -2288,9 +2288,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (item && producer) {
         monitorItemEditing(false);
         DocClipBase *clip = item->referencedClip();
-        if (clip->getProducer() == NULL && replace) {
-	    replace = false;
-	}
         if (producer->is_valid()) {
             if (clip->isPlaceHolder()) {
                 clip->setValid();
@@ -2349,8 +2346,9 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (queue == 0) {
         monitorItemEditing(true);
         if (item && m_thumbnailQueue.isEmpty()) {
-            if (!item->hasProxy() || m_render->activeClipId() == item->clipId())
+            if (!item->hasProxy() || m_render->activeClipId() == item->clipId()) {
                 m_listView->setCurrentItem(item);
+            }
             bool updatedProfile = false;
             if (item->parent()) {
                 if (item->parent()->type() == ProjectFoldeType)
@@ -2363,7 +2361,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 }
             }
             if (updatedProfile == false) {
-                //emit clipSelected(item->referencedClip());
+                emit clipSelected(item->referencedClip());
             }
         } else {
             int max = m_doc->clipManager()->clipsCount();
