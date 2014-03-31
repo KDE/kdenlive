@@ -207,19 +207,20 @@ void VideoGLWidget::paintGL()
             
             glEnable(GL_BLEND);
             QPainter p(m_fbo);
-            //p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
             QFont f = font();
             f.setWeight(QFont::Bold);
             QFontInfo ft(f);
             int lineHeight = ft.pixelSize() + 2;
             f.setPixelSize(lineHeight);
-            //f.setStyleStrategy(QFont::PreferAntialias);
             p.setFont(f);
             p.scale(1, -1);
-            p.fillRect(lineHeight, - 2 * lineHeight, w - lineHeight * 2, lineHeight * 1.5, QColor(200, 100, 100, 120));
-            p.fillRect(lineHeight + 2, - 2 * lineHeight + 2, lineHeight, lineHeight * 1.5 - 4, Qt::red);
+            QRectF rect = p.boundingRect(0, 0, w, lineHeight * 2, Qt::AlignLeft | Qt::AlignHCenter, m_overlay);
+            p.setPen(Qt::NoPen);
+            QRectF bgrect(-lineHeight / 4, -h + 10, rect.width() + 2.25 * lineHeight, lineHeight * 1.5);
+            p.setBrush(QColor(170, 0, 0, 110));
+            p.drawRoundedRect(bgrect, lineHeight / 4, lineHeight / 4);
             p.setPen(Qt::white);
-            p.drawText(2 * lineHeight + 6, -lineHeight, m_overlay);
+            p.drawText(lineHeight, -h + 10 + lineHeight, m_overlay);
             p.end();
             glDisable(GL_BLEND);
             m_fbo->release();
