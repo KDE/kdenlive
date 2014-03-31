@@ -120,6 +120,19 @@ void SmallRuler::setMarkers(const QList<CommentedTime> &list)
     updatePixmap();
 }
 
+QString SmallRuler::markerComment(const GenTime &t) const
+{
+    QList < CommentedTime >::ConstIterator itt = m_markers.begin();
+    while (itt != m_markers.end()) {
+        if ((*itt).time() == t)
+            return (*itt).comment();
+        if ((*itt).time() > t)
+            return QString();
+        ++itt;
+    }
+    return QString();
+}
+
 QPoint SmallRuler::zone() const
 {
     return QPoint(m_zoneStart, m_zoneEnd);

@@ -244,6 +244,7 @@ public slots:
     void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
     void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
+    QList <CommentedTime> guides() const;
     bool addGuide(const GenTime &pos, const QString &comment);
 
     /** @brief Shows a dialog for adding a guide.
@@ -300,10 +301,11 @@ public slots:
 
     /** @brief Get effect parameters ready for MLT*/
     static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
-	/** @brief Move playhead to mouse curser position if defined key is pressed */
+    /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
     
     void slotInfoProcessingFinished();
+
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

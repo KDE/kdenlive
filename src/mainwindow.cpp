@@ -2871,6 +2871,7 @@ void MainWindow::slotZoneMoved(int start, int end)
 
 void MainWindow::slotGuidesUpdated()
 {
+    if (m_projectMonitor) m_projectMonitor->setMarkers(m_activeTimeline->projectView()->guides());
     if (m_renderWidget)
         m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
 }
@@ -3027,9 +3028,6 @@ void MainWindow::slotDeleteItem()
 
 void MainWindow::slotUpdateClipMarkers(DocClipBase *clip)
 {
-    if (m_clipMonitor->isActive()) {
-        m_clipMonitor->checkOverlay();
-    }
     m_clipMonitor->updateMarkers(clip);
 }
 

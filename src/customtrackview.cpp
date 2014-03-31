@@ -5717,6 +5717,16 @@ int CustomTrackView::hasGuide(int pos, int offset)
     return -1;
 }
 
+QList <CommentedTime> CustomTrackView::guides() const
+{
+    QList <CommentedTime> guidesList;
+    for (int i = 0; i < m_guides.count(); ++i) {
+        CommentedTime t(m_guides.at(i)->position(), m_guides.at(i)->label());
+        guidesList << t;
+    }
+    return guidesList;
+}
+
 void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
 {
     QAction *act;

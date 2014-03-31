@@ -365,6 +365,7 @@ void Monitor::updateMarkers(DocClipBase *source)
             }
         }
 	m_ruler->setMarkers(markers);
+        checkOverlay();
         m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
     }
 }
@@ -372,6 +373,7 @@ void Monitor::updateMarkers(DocClipBase *source)
 void Monitor::setMarkers(const QList<CommentedTime> &markers)
 {
     m_ruler->setMarkers(markers);
+    checkOverlay();
 }
 
 void Monitor::slotSeekToPreviousSnap()
@@ -623,8 +625,8 @@ void Monitor::slotCheckOverlay(Mlt::Frame *frame, GLuint tex)
             overlayText = i18n("In Point");
         else if (pos == zone.y())
             overlayText = i18n("Out Point");
-        else if (m_currentClip)
-            overlayText = m_currentClip->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
+        else
+            overlayText = m_ruler->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
     }
     m_glWidget->showImage(frame, tex, overlayText);
 }
@@ -639,11 +641,8 @@ void Monitor::checkOverlay()
         overlayText = i18n("In Point");
     else if (pos == zone.y())
         overlayText = i18n("Out Point");
-    else {
-        if (m_currentClip) {
-            overlayText = m_currentClip->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
-        }
-    }
+    else
+        overlayText = m_ruler->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
     m_glWidget->checkOverlay(overlayText);
 }
 

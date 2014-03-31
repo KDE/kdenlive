@@ -41,6 +41,7 @@ public:
     void setMarkers(const QList < CommentedTime >& list);
     void updatePalette();
     void refreshRuler();
+    QString markerComment(const GenTime &t) const;
 
 protected:
     void paintEvent(QPaintEvent *e);
