@@ -178,66 +178,72 @@ void VideoGLWidget::paintGL()
         glDisable(GL_TEXTURE_RECTANGLE_EXT);
     }
     
+    if (!m_frame_texture) return;
+    
     if (!m_overlay.isEmpty() || sendFrameForAnalysis) {
-            if (!m_fbo || m_fbo->width() != w || m_fbo->height() != h) {
-                delete m_fbo;
-                m_fbo = new QGLFramebufferObject(w, h, GL_TEXTURE_2D);
-            }
-            glPushAttrib(GL_VIEWPORT_BIT);
-            glMatrixMode(GL_PROJECTION);
-            glPushMatrix();
+        if (!m_fbo || m_fbo->width() != w || m_fbo->height() != h) {
+            delete m_fbo;
+            m_fbo = new QGLFramebufferObject(w, h, GL_TEXTURE_2D);
+        }
+        glPushAttrib(GL_VIEWPORT_BIT);
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        m_fbo->bind();
+        //check_error();
+        glViewport( 0, 0, w, h);
+        glMatrixMode( GL_PROJECTION );
+        glLoadIdentity();
+        glOrtho(0.0, w, 0.0, h, -1.0, 1.0);
+        m_fbo->drawTexture(QRectF(0, 0, w, h), m_frame_texture);
+        emit frameUpdated(m_fbo->toImage());
+        glMatrixMode( GL_MODELVIEW );
+        glLoadIdentity();
+        if (!m_overlay.isEmpty()) {
+            glEnable(GL_BLEND);
+            QPainter p(m_fbo);
+            QFont f = font();
+            f.setWeight(QFont::Bold);
+            QFontInfo ft(f);
+            int lineHeight = ft.pixelSize() + 2;
+            f.setPixelSize(lineHeight);
+            p.setFont(f);
+            QRectF rect = p.boundingRect(0, 0, w, lineHeight * 2, Qt::AlignLeft | Qt::AlignHCenter, m_overlay);
+            p.setPen(Qt::NoPen);
+            QRectF bgrect(-lineHeight / 4, 10, rect.width() + 2.25 * lineHeight, lineHeight * 1.5);
+            p.setBrush(QColor(170, 0, 0, 110));
+            p.drawRoundedRect(bgrect, lineHeight / 4, lineHeight / 4);
+            p.setPen(Qt::white);
+            p.drawText(lineHeight, 10 + lineHeight, m_overlay);
+            p.end();
+            glDisable(GL_BLEND);
+        }
+        m_fbo->release();
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopAttrib();
 
-            //glBindFramebuffer( GL_FRAMEBUFFER, m_fbo->handle());
-            m_fbo->bind();
-            //check_error();
-            glViewport( 0, 0, w, h);
-            glMatrixMode( GL_PROJECTION );
-            glLoadIdentity();
-            glOrtho(0.0, w, 0.0, h, -1.0, 1.0);
-            //m_fbo->drawTexture(QRectF(-1, 1, 2, -2), m_frame_texture);
-            if (sendFrameForAnalysis) m_fbo->drawTexture(QRectF(0, 0, w, h), m_frame_texture);
-            else m_fbo->drawTexture(QRectF(0, h, w, -h), m_frame_texture);
-            emit frameUpdated(m_fbo->toImage());
-            glMatrixMode( GL_MODELVIEW );
-            glLoadIdentity();
-            //check_error();
-
-            /*glBegin( GL_QUADS );
-                glTexCoord2i( 0, 0 ); glVertex2i( 0, 0 );
-                glTexCoord2i( 0, 1 ); glVertex2i( 0, m_image_height );
-                glTexCoord2i( 1, 1 ); glVertex2i( m_image_width, m_image_height );
-                glTexCoord2i( 1, 0 ); glVertex2i( m_image_width, 0 );
-            glEnd();*/
-            if (!m_overlay.isEmpty()) {
-                glEnable(GL_BLEND);
-                QPainter p(m_fbo);
-                QFont f = font();
-                f.setWeight(QFont::Bold);
-                QFontInfo ft(f);
-                int lineHeight = ft.pixelSize() + 2;
-                f.setPixelSize(lineHeight);
-                p.setFont(f);
-                p.scale(1, -1);
-                QRectF rect = p.boundingRect(0, 0, w, lineHeight * 2, Qt::AlignLeft | Qt::AlignHCenter, m_overlay);
-                p.setPen(Qt::NoPen);
-                QRectF bgrect(-lineHeight / 4, -h + 10, rect.width() + 2.25 * lineHeight, lineHeight * 1.5);
-                p.setBrush(QColor(170, 0, 0, 110));
-                p.drawRoundedRect(bgrect, lineHeight / 4, lineHeight / 4);
-                p.setPen(Qt::white);
-                p.drawText(lineHeight, -h + 10 + lineHeight, m_overlay);
-                p.end();
-                glDisable(GL_BLEND);
-            }
-            m_fbo->release();
-            glMatrixMode(GL_PROJECTION);
-            glPopMatrix();
-            glMatrixMode(GL_MODELVIEW);
-            glPopAttrib();
+#ifdef Q_WS_MAC
+        glClear(GL_COLOR_BUFFER_BIT);
+#endif
+        glEnable(GL_TEXTURE_2D);
+        if (!m_overlay.isEmpty() || sendFrameForAnalysis) glBindTexture(GL_TEXTURE_2D, m_fbo->texture());
+        else glBindTexture(GL_TEXTURE_2D, m_frame_texture);
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0);
+        glVertex2i(x, y + h);
+        glTexCoord2i(1, 0);
+        glVertex2i(x + w, y + h);
+        glTexCoord2i(1, 1);
+        glVertex2i(x + w, y);
+        glTexCoord2i(0, 1);
+        glVertex2i(x, y);
+        glEnd();
     }
     
-    if (m_frame_texture) {
+    else {
 #ifdef Q_WS_MAC
-                glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 #endif
         glEnable(GL_TEXTURE_2D);
         if (!m_overlay.isEmpty() || sendFrameForAnalysis) glBindTexture(GL_TEXTURE_2D, m_fbo->texture());
