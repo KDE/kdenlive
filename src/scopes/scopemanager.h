@@ -68,16 +68,7 @@ public:
       \see addScope(AbstractAudioScopeWidget, QDockWidget)
       */
     bool addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *colorScopeWidget = NULL);
-
-private:
-    MonitorManager *m_monitorManager;
-    QList<AudioScopeData> m_audioScopes;
-    QList<GfxScopeData> m_colorScopes;
-
-    VideoGLWidget *m_lastConnectedRenderer;
-
-    QSignalMapper *m_signalMapper;
-
+    
     /**
       Checks whether there is any scope accepting audio data, or if all of them are hidden
       or if auto refresh is disabled.
@@ -88,6 +79,15 @@ private:
       \see audioAcceptedByScopes()
       */
     bool imagesAcceptedByScopes() const;
+
+private:
+    MonitorManager *m_monitorManager;
+    QList<AudioScopeData> m_audioScopes;
+    QList<GfxScopeData> m_colorScopes;
+
+    VideoGLWidget *m_lastConnectedRenderer;
+
+    QSignalMapper *m_signalMapper;
 
 
     /**

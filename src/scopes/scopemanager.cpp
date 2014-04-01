@@ -155,7 +155,7 @@ void ScopeManager::slotDistributeFrame(const QImage &image)
         }
     }
 
-    checkActiveColourScopes();
+    //checkActiveColourScopes();
 }
 
 

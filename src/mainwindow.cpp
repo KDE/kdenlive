@@ -4736,14 +4736,8 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
         m_projectMonitor->glWidget()->sendFrameForAnalysis = true;
         m_projectMonitor->render->doRefresh();
         return;
-    } else {
-        for (int i = 0; i < m_gfxScopesList.count(); ++i) {
-            if (m_gfxScopesList.at(i)->isVisible() && tabifiedDockWidgets(m_gfxScopesList.at(i)).isEmpty() && static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->autoRefreshEnabled()) {
-                request = true;
-                break;
-            }
-        }
     }
+    if (m_scopeManager->imagesAcceptedByScopes()) request = true;
 #ifdef DEBUG_MAINW
     qDebug() << "Any scope accepting new frames? " << request;
 #endif
