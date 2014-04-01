@@ -40,6 +40,8 @@ GLAPI GLenum APIENTRY glClientWaitSync (GLsync sync, GLbitfield flags, GLuint64 
 
 VideoGLWidget::VideoGLWidget(QWidget *parent, QGLWidget *share)
     : QGLWidget(parent, share)
+    , sendFrameForAnalysis(false)
+    , analyseAudio(false)
     , x(0)
     , y(0)
     , w(width())
@@ -51,8 +53,6 @@ VideoGLWidget::VideoGLWidget(QWidget *parent, QGLWidget *share)
     , m_display_ratio(4.0 / 3.0)
     , m_backgroundColor(Qt::gray)
     , m_fbo(NULL)
-    , sendFrameForAnalysis(false)
-    , analyseAudio(false)
 {  
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
@@ -193,9 +193,11 @@ void VideoGLWidget::paintGL()
             glViewport( 0, 0, w, h);
             glMatrixMode( GL_PROJECTION );
             glLoadIdentity();
-            m_fbo->drawTexture(QRectF(-1, 1, 2, -2), m_frame_texture);
-            emit frameUpdated(m_fbo->toImage());
             glOrtho(0.0, w, 0.0, h, -1.0, 1.0);
+            //m_fbo->drawTexture(QRectF(-1, 1, 2, -2), m_frame_texture);
+            if (sendFrameForAnalysis) m_fbo->drawTexture(QRectF(0, 0, w, h), m_frame_texture);
+            else m_fbo->drawTexture(QRectF(0, h, w, -h), m_frame_texture);
+            emit frameUpdated(m_fbo->toImage());
             glMatrixMode( GL_MODELVIEW );
             glLoadIdentity();
             //check_error();

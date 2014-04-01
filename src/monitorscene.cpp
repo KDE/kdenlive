@@ -61,8 +61,6 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
     bg.fill();
     m_background->setPixmap(bg);
     addItem(m_background);
-
-    connect(m_renderer, SIGNAL(frameUpdated(QImage)), this, SLOT(slotSetBackgroundImage(QImage)));
 }
 
 void MonitorScene::centerView()
@@ -101,7 +99,7 @@ void MonitorScene::slotUpdateBackground()
 {
     if (m_view && m_view->isVisible()) {
         if (m_lastUpdate.msecsTo(QTime::currentTime()) > 50) {
-            m_background->setPixmap(QPixmap::fromImage(m_backgroundImage));
+            m_background->setPixmap(QPixmap::fromImage(m_backgroundImage.scaled(m_frameBorder->rect().width(), m_frameBorder->rect().height(), Qt::KeepAspectRatio)));
             m_lastUpdate = QTime::currentTime();
         }
     }

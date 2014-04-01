@@ -4734,6 +4734,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
 {
     if (request) {
         m_projectMonitor->glWidget()->sendFrameForAnalysis = true;
+        m_projectMonitor->render->doRefresh();
         return;
     } else {
         for (int i = 0; i < m_gfxScopesList.count(); ++i) {

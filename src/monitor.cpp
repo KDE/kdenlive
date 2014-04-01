@@ -1024,13 +1024,15 @@ void Monitor::slotShowEffectScene(bool show, bool manuallyTriggered)
             return;
         setUpdatesEnabled(false);
         if (show) {
+            connect(m_glWidget, SIGNAL(frameUpdated(QImage)), m_effectWidget->getScene(), SLOT(slotSetBackgroundImage(QImage)));
+            emit requestFrameForAnalysis(true);
             m_glWidget->setVisible(false);
             m_effectWidget->setVisible(true);
             m_effectWidget->getScene()->slotZoomFit();
-            emit requestFrameForAnalysis(true);
-        } else {    
-            m_effectWidget->setVisible(false);
+        } else {
+            disconnect(m_glWidget, SIGNAL(frameUpdated(QImage)), m_effectWidget->getScene(), SLOT(slotSetBackgroundImage(QImage)));
             emit requestFrameForAnalysis(false);
+            m_effectWidget->setVisible(false);
             m_glWidget->setVisible(true);
         }
         if (!manuallyTriggered)

@@ -29,7 +29,6 @@ class Render;
 class QGraphicsView;
 class QVBoxLayout;
 
-
 class MonitorEditWidget : public QWidget
 {
     Q_OBJECT
