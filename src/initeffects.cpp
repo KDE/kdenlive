@@ -584,7 +584,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     
     //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM
     QStringList customTransitions;
-    customTransitions << "composite" << "luma" << "affine" << "mix" << "region";
+    customTransitions << "composite" << "luma" << "affine" << "mix" << "region" << "movit.luma_mix";
 
     foreach(const QString & name, names) {
         QDomDocument ret;
@@ -624,7 +624,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                     }
                 }
                 if (QString(paramdesc.get("type")) == "float") {
-                    params.setAttribute("type", "simplekeyframe");
+                    params.setAttribute("type", "double");
                     if (params.attribute("min") == "0" && params.attribute("max") == "1") {
                         params.setAttribute("max", "250");
                         params.setAttribute("factor", "250");
@@ -656,7 +656,16 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 
             // Implement default transitions.
             QList<QDomElement> paramList;
-            if (name == "luma") {
+            if (name == "movit.luma_mix") {
+                ktrans.setAttribute("id", name);
+                tname.appendChild(ret.createTextNode(i18n("Wipe (GLSL)")));
+                desc.appendChild(ret.createTextNode(i18n("Applies a stationary transition between the current and next frames.")));
+
+                paramList.append(quickParameterFill(ret, i18n("Softness"), "softness", "double", "0", "0", "100", "", "", "100"));
+                paramList.append(quickParameterFill(ret, i18nc("@property: means that the image is inverted", "Invert"), "invert", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, i18n("Image File"), "resource", "list", "", "", "", imagefiles.join(";"), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, i18n("Reverse Transition"), "reverse", "bool", "0", "0", "1"));
+            } else if (name == "luma") {
                 ktrans.setAttribute("id", name);
                 tname.appendChild(ret.createTextNode(i18n("Wipe")));
                 desc.appendChild(ret.createTextNode(i18n("Applies a stationary transition between the current and next frames.")));
