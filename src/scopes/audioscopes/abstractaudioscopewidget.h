@@ -32,7 +32,7 @@ public:
     virtual ~AbstractAudioScopeWidget();
 
 public slots:
-    void slotReceiveAudio(const QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples);
+    virtual void slotReceiveAudio(QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples);
 
 protected:
     /** @brief This is just a wrapper function, subclasses can use renderAudioScope. */

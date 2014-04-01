@@ -43,6 +43,8 @@ public:
     void setBackgroundColor(const QColor &color) {
         m_backgroundColor = color;
     }
+    bool sendFrameForAnalysis;
+    bool analyseAudio;
 
 public slots:
     void showImage(const QImage &image);
@@ -66,6 +68,11 @@ private:
     Qt::WindowFlags m_baseFlags;
     QGLFramebufferObject *m_fbo;
     QString m_overlay;
+    
+signals:
+    void frameUpdated(QImage);
+    /** @brief This signal contains the audio of the current frame. */
+    void audioSamplesSignal(QVector<int16_t>&,int,int,int);
 };
 
 #endif

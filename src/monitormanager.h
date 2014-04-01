@@ -39,7 +39,7 @@ public:
     Timecode timecode() const;
     void resetProfiles(const Timecode &tc);
     void stopActiveMonitor();
-    AbstractRender *activeRenderer();
+    VideoGLWidget *activeGlWidget();
     /** Searches for a monitor with the given name.
 	@return NULL, if no monitor could be found, or the monitor otherwise.
     */

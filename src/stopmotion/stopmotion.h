@@ -27,6 +27,7 @@
 #include <QVBoxLayout>
 #include <QTimer>
 #include <widgets/abstractmonitor.h>
+#include "widgets/videoglwidget.h"
 
 class MltDeviceCapture;
 class MonitorManager;
@@ -63,7 +64,7 @@ class StopmotionMonitor : public AbstractMonitor
 public:
     StopmotionMonitor(MonitorManager *manager, QWidget *parent);
     ~StopmotionMonitor();
-    AbstractRender *abstractRender();
+    VideoGLWidget *glWidget() {return new VideoGLWidget();};
     Kdenlive::MonitorId id() const;
     void setRender(MltDeviceCapture *render);
 

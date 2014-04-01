@@ -244,8 +244,9 @@ void MonitorManager::slotUpdateAudioMonitoring()
     if (m_projectMonitor) {
         m_projectMonitor->render->analyseAudio = KdenliveSettings::monitor_audio();
     }*/
+    
     for (int i = 0; i < m_monitorsList.count(); ++i) {
-        if (m_monitorsList.at(i)->abstractRender()) m_monitorsList.at(i)->abstractRender()->analyseAudio = KdenliveSettings::monitor_audio();
+        if (m_monitorsList.at(i)->glWidget()) m_monitorsList.at(i)->glWidget()->analyseAudio = KdenliveSettings::monitor_audio();
     }
 }
 
@@ -259,10 +260,10 @@ void MonitorManager::updateScopeSource()
     emit checkColorScopes();
 }
 
-AbstractRender *MonitorManager::activeRenderer()
+VideoGLWidget *MonitorManager::activeGlWidget()
 {
     if (m_activeMonitor) {
-        return m_activeMonitor->abstractRender();
+        return m_activeMonitor->glWidget();
     }
     return NULL;
 }

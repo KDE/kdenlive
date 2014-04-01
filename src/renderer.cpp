@@ -67,7 +67,7 @@ void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_pt
 {
     // detect if the producer has finished playing. Is there a better way to do it?
     self->emitFrameNumber();
-    Mlt::Frame frame(frame_ptr);
+    /*Mlt::Frame frame(frame_ptr);
     if (!frame.is_valid()) return;
     if (self->sendFrameForAnalysis && frame_ptr->convert_image) {
         self->emitFrameUpdated(frame);
@@ -79,7 +79,7 @@ void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_pt
     else if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
         self->pause();
         self->emitConsumerStopped(true);
-    }
+    }*/
 }
 
 void Render::consumer_thread_started(mlt_consumer, Render * self, mlt_frame)

@@ -52,7 +52,7 @@ QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> &audioFrame,
     for (int i = 0; i < num_channels; ++i) {
         long val = 0;
         for (int s = 0; s < num_samples; s ++) {
-            val += abs(audioFrame[i+s*num_channels] / 128);
+            val += abs(audioFrame.at(i+s*num_channels) / 128);
         }
         channels.append(val / num_samples);
     }
@@ -147,11 +147,10 @@ QRect AudioSignal::scopeRect() { return QRect(0, 0, width(), height()); }
 
 QImage AudioSignal::renderHUD(uint) { return QImage(); }
 QImage AudioSignal::renderBackground(uint) { return QImage(); }
-
-void AudioSignal::slotReceiveAudio(QVector<int16_t> data, int, int num_channels, int samples)
+/*
+void AudioSignal::slotReceiveAudio(QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples)
 {
-
-    int num_samples = samples > 200 ? 200 : samples;
+    num_samples = num_samples > 200 ? 200 : num_samples;
 
     QByteArray channels;
     int num_oversample=0;
@@ -160,7 +159,8 @@ void AudioSignal::slotReceiveAudio(QVector<int16_t> data, int, int num_channels,
         double over1=0.0;
         double over2=0.0;
         for (int s = 0; s < num_samples; s ++) {
-            int sample=abs(data[i+s*num_channels] / 128);
+            int sample=abs(sampleData[i+s*num_channels] / 128);
+            //int sample=abs(sampleData.at(i+s*num_channels) / 128);
             val += sample;
             if (sample==128){
                 num_oversample++;
@@ -189,7 +189,7 @@ void AudioSignal::slotReceiveAudio(QVector<int16_t> data, int, int num_channels,
     }
     showAudio(channels);
     m_timer.start(1000);
-}
+}*/
 
 void AudioSignal::slotNoAudioTimeout(){
     peeks.fill(0);
@@ -213,7 +213,8 @@ void AudioSignal::showAudio(const QByteArray &arr)
             peeks[chan]=arr[chan];
         }
     }
-    update();
+    AbstractScopeWidget::slotRenderZoneUpdated();
+    //update();
 }
 
 double AudioSignal::valueToPixel(double in)

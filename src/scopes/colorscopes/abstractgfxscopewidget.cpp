@@ -48,7 +48,7 @@ void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 void AbstractGfxScopeWidget::slotRenderZoneUpdated(const QImage &frame)
 {
     QMutexLocker lock(&m_mutex);
-    m_scopeImage = frame.rgbSwapped();
+    m_scopeImage = frame;
     AbstractScopeWidget::slotRenderZoneUpdated();
 }
 

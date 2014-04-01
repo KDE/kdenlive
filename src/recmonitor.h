@@ -42,6 +42,7 @@
 #include <kdeversion.h>
 #include <KComboBox>
 #include <kcapacitybar.h>
+#include "widgets/videoglwidget.h"
 
 #if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
@@ -59,7 +60,7 @@ public:
     explicit RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent = 0);
     ~RecMonitor();
 
-    AbstractRender *abstractRender();
+    VideoGLWidget *glWidget() {return new VideoGLWidget();};
     void analyseFrames(bool analyse);
     enum CaptureDevice {
         Firewire = 0,

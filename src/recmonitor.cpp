@@ -1022,10 +1022,10 @@ void RecMonitor::slotShowLog()
     KMessageBox::information(this, m_error);
 }
 
-AbstractRender *RecMonitor::abstractRender()
+/*AbstractRender *RecMonitor::abstractRender()
 {
     return m_captureDevice;
-}
+}*/
 
 
 void RecMonitor::analyseFrames(bool analyse)

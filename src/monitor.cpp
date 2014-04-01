@@ -1073,9 +1073,9 @@ void Monitor::slotShowVolume()
     m_volumePopup->show();
 }
 
-AbstractRender *Monitor::abstractRender()
+VideoGLWidget *Monitor::glWidget()
 {
-    return render;
+    return m_glWidget;
 }
 
 void Monitor::reloadProducer(const QString &id)

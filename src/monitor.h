@@ -54,7 +54,7 @@ public:
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QString profile = QString(), QWidget *parent = 0);
     ~Monitor();
     Render *render;
-    AbstractRender *abstractRender();
+    VideoGLWidget *glWidget();
     void resetProfile(const QString &profile);
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void resetSize();

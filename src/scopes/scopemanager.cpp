@@ -110,7 +110,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
 }
 
 
-void ScopeManager::slotDistributeAudio(const QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples)
+void ScopeManager::slotDistributeAudio(QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_SM
     qDebug() << "ScopeManager: Starting to distribute audio.";
@@ -126,9 +126,10 @@ void ScopeManager::slotDistributeAudio(const QVector<int16_t> &sampleData, int f
             }
         }
     }
-
-    checkActiveAudioScopes();
+    //checkActiveAudioScopes();
 }
+
+
 void ScopeManager::slotDistributeFrame(const QImage &image)
 {
 #ifdef DEBUG_SM
@@ -178,7 +179,7 @@ void ScopeManager::slotRequestFrame(const QString &widgetName)
             break;
         }
     }
-    if (m_lastConnectedRenderer) m_lastConnectedRenderer->sendFrameUpdate();
+    //if (m_lastConnectedRenderer) m_lastConnectedRenderer->sendFrameUpdate();
 }
 
 
@@ -195,33 +196,33 @@ void ScopeManager::slotUpdateActiveRenderer()
     // Disconnect old connections
     if (m_lastConnectedRenderer != NULL) {
 #ifdef DEBUG_SM
-        qDebug() << "Disconnected previous renderer: " << m_lastConnectedRenderer->name();
+        //qDebug() << "Disconnected previous renderer: " << m_lastConnectedRenderer->name();
 #endif
         b &= m_lastConnectedRenderer->disconnect(this);
         Q_ASSERT(b);
     }
 
-    m_lastConnectedRenderer = m_monitorManager->activeRenderer();
     // DVD monitor shouldn't be monitored or will cause crash on deletion
-    if (m_monitorManager->isActive(Kdenlive::DvdMonitor)) m_lastConnectedRenderer = NULL;
+    if (m_monitorManager->isActive(Kdenlive::DvdMonitor) || m_monitorManager->isActive(Kdenlive::RecordMonitor)) m_lastConnectedRenderer = NULL;
+    else m_lastConnectedRenderer = m_monitorManager->activeGlWidget();
 
     // Connect new renderer
     if (m_lastConnectedRenderer != NULL) {
         b &= connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(QImage)),
                 this, SLOT(slotDistributeFrame(QImage)), Qt::UniqueConnection);
-        b &= connect(m_lastConnectedRenderer, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
-                this, SLOT(slotDistributeAudio(QVector<int16_t>,int,int,int)), Qt::UniqueConnection);
+        b &= connect(m_lastConnectedRenderer, SIGNAL(audioSamplesSignal(QVector<int16_t>&,int,int,int)),
+                this, SLOT(slotDistributeAudio(QVector<int16_t>&,int,int,int)), Qt::UniqueConnection);
         Q_ASSERT(b);
 
 #ifdef DEBUG_SM
-        qDebug() << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->name();
+        //qDebug() << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->name();
 #endif
 
         if (imagesAcceptedByScopes()) {
 #ifdef DEBUG_SM
             qDebug() << "Some scopes accept images, triggering frame update.";
 #endif
-            m_lastConnectedRenderer->sendFrameUpdate();
+            //m_lastConnectedRenderer->sendFrameUpdate();
         }
     }
 }
@@ -279,6 +280,7 @@ void ScopeManager::checkActiveAudioScopes()
     KdenliveSettings::setMonitor_audio(audioStillRequested);
     m_monitorManager->slotUpdateAudioMonitoring();
 }
+
 void ScopeManager::checkActiveColourScopes()
 {
     bool imageStillRequested = imagesAcceptedByScopes();
@@ -292,11 +294,11 @@ void ScopeManager::checkActiveColourScopes()
     monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::ProjectMonitor) );
     if (monitor != NULL) { 
 	if (monitor->effectSceneDisplayed()) monitor->render->sendFrameForAnalysis = true;
-	else monitor->render->sendFrameForAnalysis = imageStillRequested;
+	else monitor->glWidget()->sendFrameForAnalysis = imageStillRequested;
     }
 
     monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::ClipMonitor) );
-    if (monitor != NULL) { monitor->render->sendFrameForAnalysis = imageStillRequested; }
+    if (monitor != NULL) { monitor->glWidget()->sendFrameForAnalysis = imageStillRequested; }
 
     RecMonitor *recMonitor = static_cast<RecMonitor*>( m_monitorManager->monitor(Kdenlive::RecordMonitor) );
     if (recMonitor != NULL) { recMonitor->analyseFrames(imageStillRequested); }

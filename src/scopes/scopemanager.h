@@ -19,6 +19,7 @@
 class QDockWidget;
 class MonitorManager;
 class AbstractRender;
+class VideoGLWidget;
 
 /**
   \brief Manages communication between Scopes and Renderer
@@ -73,7 +74,7 @@ private:
     QList<AudioScopeData> m_audioScopes;
     QList<GfxScopeData> m_colorScopes;
 
-    AbstractRender *m_lastConnectedRenderer;
+    VideoGLWidget *m_lastConnectedRenderer;
 
     QSignalMapper *m_signalMapper;
 
@@ -116,7 +117,7 @@ private slots:
     
     void slotCheckActiveScopes();
     void slotDistributeFrame(const QImage &image);
-    void slotDistributeAudio(const QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples);
+    void slotDistributeAudio(QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples);
     /**
       Allows a scope to explicitly request a new frame, even if the scope's autoRefresh is disabled.
       */

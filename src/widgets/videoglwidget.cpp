@@ -47,11 +47,12 @@ VideoGLWidget::VideoGLWidget(QWidget *parent, QGLWidget *share)
     , m_image_width(0)
     , m_image_height(0)
     , m_texture(0)
-    , m_frame(NULL)
     , m_frame_texture(0)
     , m_display_ratio(4.0 / 3.0)
     , m_backgroundColor(Qt::gray)
     , m_fbo(NULL)
+    , sendFrameForAnalysis(false)
+    , analyseAudio(false)
 {  
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
@@ -177,7 +178,7 @@ void VideoGLWidget::paintGL()
         glDisable(GL_TEXTURE_RECTANGLE_EXT);
     }
     
-    if (!m_overlay.isEmpty()) {
+    if (!m_overlay.isEmpty() || sendFrameForAnalysis) {
             if (!m_fbo || m_fbo->width() != w || m_fbo->height() != h) {
                 delete m_fbo;
                 m_fbo = new QGLFramebufferObject(w, h, GL_TEXTURE_2D);
@@ -193,6 +194,7 @@ void VideoGLWidget::paintGL()
             glMatrixMode( GL_PROJECTION );
             glLoadIdentity();
             m_fbo->drawTexture(QRectF(-1, 1, 2, -2), m_frame_texture);
+            emit frameUpdated(m_fbo->toImage());
             glOrtho(0.0, w, 0.0, h, -1.0, 1.0);
             glMatrixMode( GL_MODELVIEW );
             glLoadIdentity();
@@ -204,25 +206,26 @@ void VideoGLWidget::paintGL()
                 glTexCoord2i( 1, 1 ); glVertex2i( m_image_width, m_image_height );
                 glTexCoord2i( 1, 0 ); glVertex2i( m_image_width, 0 );
             glEnd();*/
-            
-            glEnable(GL_BLEND);
-            QPainter p(m_fbo);
-            QFont f = font();
-            f.setWeight(QFont::Bold);
-            QFontInfo ft(f);
-            int lineHeight = ft.pixelSize() + 2;
-            f.setPixelSize(lineHeight);
-            p.setFont(f);
-            p.scale(1, -1);
-            QRectF rect = p.boundingRect(0, 0, w, lineHeight * 2, Qt::AlignLeft | Qt::AlignHCenter, m_overlay);
-            p.setPen(Qt::NoPen);
-            QRectF bgrect(-lineHeight / 4, -h + 10, rect.width() + 2.25 * lineHeight, lineHeight * 1.5);
-            p.setBrush(QColor(170, 0, 0, 110));
-            p.drawRoundedRect(bgrect, lineHeight / 4, lineHeight / 4);
-            p.setPen(Qt::white);
-            p.drawText(lineHeight, -h + 10 + lineHeight, m_overlay);
-            p.end();
-            glDisable(GL_BLEND);
+            if (!m_overlay.isEmpty()) {
+                glEnable(GL_BLEND);
+                QPainter p(m_fbo);
+                QFont f = font();
+                f.setWeight(QFont::Bold);
+                QFontInfo ft(f);
+                int lineHeight = ft.pixelSize() + 2;
+                f.setPixelSize(lineHeight);
+                p.setFont(f);
+                p.scale(1, -1);
+                QRectF rect = p.boundingRect(0, 0, w, lineHeight * 2, Qt::AlignLeft | Qt::AlignHCenter, m_overlay);
+                p.setPen(Qt::NoPen);
+                QRectF bgrect(-lineHeight / 4, -h + 10, rect.width() + 2.25 * lineHeight, lineHeight * 1.5);
+                p.setBrush(QColor(170, 0, 0, 110));
+                p.drawRoundedRect(bgrect, lineHeight / 4, lineHeight / 4);
+                p.setPen(Qt::white);
+                p.drawText(lineHeight, -h + 10 + lineHeight, m_overlay);
+                p.end();
+                glDisable(GL_BLEND);
+            }
             m_fbo->release();
             glMatrixMode(GL_PROJECTION);
             glPopMatrix();
@@ -235,7 +238,7 @@ void VideoGLWidget::paintGL()
                 glClear(GL_COLOR_BUFFER_BIT);
 #endif
         glEnable(GL_TEXTURE_2D);
-        if (!m_overlay.isEmpty()) glBindTexture(GL_TEXTURE_2D, m_fbo->texture());
+        if (!m_overlay.isEmpty() || sendFrameForAnalysis) glBindTexture(GL_TEXTURE_2D, m_fbo->texture());
         else glBindTexture(GL_TEXTURE_2D, m_frame_texture);
         glBegin(GL_QUADS);
         glTexCoord2i(0, 0);
@@ -300,8 +303,8 @@ void VideoGLWidget::showImage(const QImage &image)
     makeCurrent();
     if (m_texture)
         glDeleteTextures(1, &m_texture);
-    delete m_frame;
-    m_frame = NULL;
+    //delete m_frame;
+    //m_frame = NULL;
     m_frame_texture = 0;
 
     glPixelStorei(GL_UNPACK_ROW_LENGTH, m_image_width);
@@ -323,11 +326,27 @@ void VideoGLWidget::showImage(Mlt::Frame* frame, GLuint texnum, const QString ov
         glDeleteTextures(1, &m_texture);
         m_texture = 0;
     }
-    delete m_frame;
-    m_frame = frame;
+    //delete m_frame;
+    //m_frame = frame;
     m_frame_texture = texnum;
     m_overlay = overlay;
     updateGL();
+    if (analyseAudio) {
+        mlt_audio_format audio_format = mlt_audio_s16;
+        //FIXME: should not be hardcoded..
+        int freq = 48000;
+        int num_channels = 2;
+        int samples = 0;
+        int16_t* data = (int16_t*)frame->get_audio(audio_format, freq, num_channels, samples);
+        if (data && samples > 0) {
+            // Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
+            // So the vector is of size samples*channels.
+            QVector<int16_t> sampleVector(samples*num_channels);
+            memcpy(sampleVector.data(), data, samples*num_channels*sizeof(int16_t));
+            emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
+        }
+    }
+    delete frame;
 }
 
 void VideoGLWidget::checkOverlay(const QString &overlay)

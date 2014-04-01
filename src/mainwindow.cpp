@@ -4733,7 +4733,7 @@ QString MainWindow::getMimeType(bool open)
 void MainWindow::slotMonitorRequestRenderFrame(bool request)
 {
     if (request) {
-        m_projectMonitor->render->sendFrameForAnalysis = true;
+        m_projectMonitor->glWidget()->sendFrameForAnalysis = true;
         return;
     } else {
         for (int i = 0; i < m_gfxScopesList.count(); ++i) {
@@ -4747,7 +4747,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
     qDebug() << "Any scope accepting new frames? " << request;
 #endif
     if (!request) {
-        m_projectMonitor->render->sendFrameForAnalysis = false;
+        m_projectMonitor->glWidget()->sendFrameForAnalysis = false;
     }
 }
 

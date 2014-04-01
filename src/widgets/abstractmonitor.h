@@ -34,6 +34,7 @@
 class MonitorManager;
 class VideoContainer;
 class VideoSurface;
+class VideoGLWidget;
 
 class AbstractRender: public QObject
 {
@@ -83,7 +84,7 @@ public:
     AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = 0);
     Kdenlive::MonitorId id() {return m_id;}
     virtual ~AbstractMonitor();
-    virtual AbstractRender *abstractRender() = 0;
+    virtual VideoGLWidget *glWidget() = 0;
     bool isActive() const;
     VideoContainer *videoBox;
     VideoSurface *videoSurface;

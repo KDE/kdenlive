@@ -112,10 +112,10 @@ void StopmotionMonitor::setRender(MltDeviceCapture *render)
     m_captureDevice = render;
 }
 
-AbstractRender *StopmotionMonitor::abstractRender()
+/*AbstractRender *StopmotionMonitor::abstractRender()
 {
     return m_captureDevice;
-}
+}*/
 
 Kdenlive::MonitorId StopmotionMonitor::id() const
 {

@@ -57,7 +57,7 @@ private:
 
 public slots:
     void showAudio(const QByteArray &);
-    void slotReceiveAudio(QVector<int16_t>,int,int,int);
+    //void slotReceiveAudio(QVector<int16_t> &sampleData, int freq, int num_channels, int num_samples);
 private slots:
      void slotNoAudioTimeout();
 
