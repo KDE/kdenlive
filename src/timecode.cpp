@@ -381,6 +381,7 @@ const QString Timecode::getTimecodeFrames(const GenTime & time) const
 const QString Timecode::getTimecodeSeconds(const GenTime & time) const
 {
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     return locale.toString(time.seconds());
 }
 

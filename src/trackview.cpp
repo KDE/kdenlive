@@ -353,7 +353,8 @@ void TrackView::parseDocument(const QDomDocument &doc)
             }
 
             QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, transitionId).cloneNode().toElement();
-
+            QLocale locale;
+            locale.setNumberOptions(QLocale::OmitGroupSeparator);
             if (!base.isNull()) for (int k = 0; k < transitionparams.count(); k++) {
                 p = transitionparams.item(k).toElement();
                 if (!p.isNull()) {
@@ -374,7 +375,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
                                     } else {
                                         fact = factor.toDouble();
                                     }
-                                    paramValue = QLocale().toString(offset + paramValue.toDouble() * fact);
+                                    paramValue = locale.toString(offset + paramValue.toDouble() * fact);
                                 }
                             }
                             e.setAttribute("value", paramValue);
@@ -629,6 +630,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
             int strobe = 1;
             if (idString.startsWith("slowmotion")) {
                 QLocale locale;
+                locale.setNumberOptions(QLocale::OmitGroupSeparator);
                 id = idString.section(':', 1, 1);
                 speed = locale.toDouble(idString.section(':', 2, 2));
                 strobe = idString.section(':', 3, 3).toInt();
@@ -772,6 +774,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
 {
     int effectNb = 0;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (int ix = 0; ix < effects.count(); ix++) {
         bool disableeffect = false;
         QDomElement effect = effects.at(ix).toElement();
@@ -963,6 +966,7 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
 {
     QDomElement e;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (int k = 0; k < clipeffectparams.count(); k++) {
         e = clipeffectparams.item(k).toElement();
         if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {

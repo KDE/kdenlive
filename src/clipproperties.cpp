@@ -956,6 +956,7 @@ QMap <QString, QString> ClipProperties::properties()
 {
     QMap <QString, QString> props;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     ClipType t = Unknown;
     if (m_clip != NULL) {
         t = m_clip->clipType();

@@ -462,6 +462,7 @@ void StopmotionWidget::slotLive(bool isOn)
         m_frame_preview->setHidden(true);
         m_monitor->videoBox->setHidden(false);
         QLocale locale;
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
         MltVideoProfile profile;
         QString resource;

@@ -1897,6 +1897,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
                 return;
             }
             QLocale locale;
+            locale.setNumberOptions(QLocale::OmitGroupSeparator);
             double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
             int strobe = EffectsList::parameter(effect, "strobe").toInt();
             if (strobe == 0) strobe = 1;
@@ -2235,6 +2236,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
                 doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), 1.0, clip->speed(), 1, clip->baseClip()->getId());
             } else {
                 QLocale locale;
+                locale.setNumberOptions(QLocale::OmitGroupSeparator);
                 double speed = locale.toDouble(EffectsList::parameter(effect, "speed")) / 100.0;
                 int strobe = EffectsList::parameter(effect, "strobe").toInt();
                 if (strobe == 0) strobe = 1;
@@ -6272,6 +6274,7 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
     int diff = (newstart - oldstart).frames(m_document->fps());
     int max = (newstart + duration).frames(m_document->fps());
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomNodeList params = xml.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
@@ -7577,6 +7580,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
 {
     EffectsParameterList parameters;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     parameters.addParam("tag", effect.attribute("tag"));
     //if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
@@ -7609,6 +7613,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
 void CustomTrackView::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix)
 {
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         QString paramname = prefix + e.attribute("name");
