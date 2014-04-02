@@ -52,14 +52,11 @@ MonitorScene::MonitorScene(Render *renderer, QObject* parent) :
     addItem(m_frameBorder);
 
     m_lastUpdate = QTime::currentTime();
-    m_background = new QGraphicsPixmapItem();
+    QImage img(m_renderer->frameRenderWidth(), m_renderer->renderHeight(), QImage::Format_ARGB32_Premultiplied);
+    img.fill(Qt::black);
+    m_background = new ImageItem(img);
     m_background->setZValue(-2);
     m_background->setFlags(0);
-    m_background->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
-    m_background->setTransformationMode(Qt::FastTransformation);
-    QPixmap bg(m_renderer->frameRenderWidth(), m_renderer->renderHeight());
-    bg.fill();
-    m_background->setPixmap(bg);
     addItem(m_background);
 }
 
@@ -99,7 +96,7 @@ void MonitorScene::slotUpdateBackground()
 {
     if (m_view && m_view->isVisible()) {
         if (m_lastUpdate.msecsTo(QTime::currentTime()) > 50) {
-            m_background->setPixmap(QPixmap::fromImage(m_backgroundImage.scaled(m_frameBorder->rect().width(), m_frameBorder->rect().height(), Qt::KeepAspectRatio)));
+            m_background->setImage(m_backgroundImage, qMin(m_frameBorder->rect().width() / m_backgroundImage.width(), m_frameBorder->rect().height() / m_backgroundImage.height()));
             m_lastUpdate = QTime::currentTime();
         }
     }

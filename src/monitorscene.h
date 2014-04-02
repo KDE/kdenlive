@@ -23,9 +23,51 @@
 
 #include <QtCore>
 #include <QGraphicsScene>
+#include <QGraphicsItem>
+#include <QPainter>
 
 class Render;
 
+class ImageItem: public QGraphicsItem
+{
+public:
+    ImageItem(QImage img)
+    {
+        m_img = img;
+        m_scale = 1;
+    }
+    void setImage(QImage img, double scale)
+    {
+        if (img.isNull()) return;
+        if (scale != m_scale) {
+            QTransform t;
+            t.scale(scale, scale);
+            setTransform(t);
+            m_scale = scale;
+        }
+        m_img = img;
+        update();
+    }
+    
+private:
+    QImage m_img;
+    double m_scale;
+
+protected:
+
+virtual QRectF boundingRect() const
+{
+    return QRectF(0, 0, m_img.width(), m_img.height());
+}
+
+virtual void paint( QPainter *painter,
+                       const QStyleOptionGraphicsItem * /*option*/,
+                       QWidget* )
+{ 
+    painter->setRenderHint(QPainter::SmoothPixmapTransform, false);
+    painter->drawImage(QPoint(), m_img);
+}
+};
 
 class MonitorScene : public QGraphicsScene
 {
@@ -80,7 +122,8 @@ private slots:
 
 private:
     Render *m_renderer;
-    QGraphicsPixmapItem *m_background;
+    //QGraphicsPixmapItem *m_background;
+    ImageItem *m_background;
     QGraphicsRectItem *m_frameBorder;
     QTime m_lastUpdate;
     QGraphicsView *m_view;
