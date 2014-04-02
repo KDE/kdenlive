@@ -216,6 +216,7 @@ QImage Vectorscope::renderHUD(uint)
 
     QImage hud;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (m_mouseWithinWidget) {
         // Mouse moved: Draw a circle over the scope
 
@@ -506,6 +507,7 @@ QImage Vectorscope::renderBackground(uint)
 void Vectorscope::slotGainChanged(int newval)
 {
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_gain = 1 + (float)newval/10;
     ui->lblGain->setText(locale.toString(m_gain, 'f', 1) + 'x');
     forceUpdateScope();

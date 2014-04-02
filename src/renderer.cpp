@@ -789,6 +789,7 @@ void Render::processFileProperties()
 
     requestClipInfo info;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
@@ -1421,6 +1422,7 @@ int Render::setSceneList(QString playlist, int position)
 
     blockSignals(true);
     m_locale = QLocale();
+    m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
@@ -2122,6 +2124,7 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
 {
     if (element.attribute("speed", "1.0").toDouble() == 1.0 && element.attribute("strobe", "1").toInt() == 1) return prod;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // We want a slowmotion producer
     double speed = element.attribute("speed", "1.0").toDouble();
     int strobe = element.attribute("strobe", "1").toInt();
@@ -3150,6 +3153,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     if (position < GenTime()) {
         return mltEditTrackEffect(track, params);
     }
+    
     // find filter
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);

@@ -353,6 +353,7 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
 {
     bool clipEffectsModified = false;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // go through all effects this clip has
     for (int ix = 0; ix < m_effectList.count(); ++ix) {
         // Check geometry params
@@ -430,6 +431,7 @@ void ClipItem::setKeyframes(const int ix, const QStringList &keyframes)
     QDomElement effect = m_effectList.at(ix);
     if (effect.attribute("disable") == "1") return;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomNodeList params = effect.elementsByTagName("parameter");
     int keyframeParams = 0;
     for (int i = 0; i < params.count(); ++i) {
@@ -466,6 +468,7 @@ void ClipItem::setSelectedEffect(const int ix)
 {
     m_selectedEffect = ix;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomElement effect = effectAtIndex(m_selectedEffect);
     if (!effect.isNull() && effect.attribute("disable") != "1") {
         QDomNodeList params = effect.elementsByTagName("parameter");
@@ -1540,6 +1543,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
 {
     bool needRepaint = false;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     int ix;
     QDomElement insertedEffect;
     if (!effect.hasAttribute("kdenlive_ix")) {
@@ -1873,6 +1877,7 @@ void ClipItem::insertKeyframe(QDomElement effect, int pos, int val)
 {
     if (effect.attribute("disable") == "1") return;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     effect.setAttribute("active_keyframe", pos);
     m_editedKeyframe = pos;
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -1912,6 +1917,7 @@ void ClipItem::movedKeyframe(QDomElement effect, int oldpos, int newpos, double 
 {
     if (effect.attribute("disable") == "1") return;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     effect.setAttribute("active_keyframe", newpos);
     QDomNodeList params = effect.elementsByTagName("parameter");
     int start = cropStart().frames(m_fps);
@@ -1946,6 +1952,7 @@ void ClipItem::updateKeyframes(QDomElement effect)
 {
     m_keyframes.clear();
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // parse keyframes
     QDomNodeList params = effect.elementsByTagName("parameter");
     QDomElement e = params.item(m_visibleParam).toElement();
@@ -2063,6 +2070,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
     int out = (cropStart() + cropDuration()).frames(m_fps) - 1;
     int oldin = oldInfo.cropStart.frames(m_fps);
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     bool keyFrameUpdated = false;
 
     const QStringList data = parameter.attribute("keyframes").split(';', QString::SkipEmptyParts);
