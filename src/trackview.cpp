@@ -246,7 +246,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
                 }
             }
             if (p.attribute("id") != playlist_name) { // then it didn't work.
-                kDebug() << "NO PLAYLIST FOUND FOR TRACK " + pos;
+                kDebug() << "NO PLAYLIST FOUND FOR TRACK " << pos;
             }
             if (e.attribute("hide") == "video") {
                 m_doc->switchTrackVideo(i - 1, true);
