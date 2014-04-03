@@ -392,6 +392,7 @@ void ProjectSettings::accept()
 void ProjectSettings::slotUpdateDisplay()
 {
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QString currentProfile = profiles_list->itemData(profiles_list->currentIndex()).toString();
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
     p_size->setText(values.value("width") + 'x' + values.value("height"));

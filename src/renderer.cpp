@@ -281,7 +281,7 @@ void Render::buildConsumer(const QString &profileName)
                 m_mltConsumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
                 m_mltConsumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
                 m_mltConsumer->set("buffer", "5");
-                m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
+                m_mltConsumer->set("real_time", 1);
             }
             if (m_mltConsumer && m_mltConsumer->is_valid()) {
                 return;
@@ -363,7 +363,7 @@ void Render::buildConsumer(const QString &profileName)
         m_mltConsumer->set("audio_driver", audioDriver.toUtf8().constData());
 
     m_mltConsumer->set("frequency", 48000);
-    m_mltConsumer->set("real_time", KdenliveSettings::mltthreads());
+    m_mltConsumer->set("real_time", 1);
 }
 
 Mlt::Producer *Render::invalidProducer(const QString &id)
@@ -789,6 +789,7 @@ void Render::processFileProperties()
 
     requestClipInfo info;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
@@ -1421,6 +1422,7 @@ int Render::setSceneList(QString playlist, int position)
 
     blockSignals(true);
     m_locale = QLocale();
+    m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
@@ -1848,7 +1850,7 @@ void Render::setDropFrames(bool show)
 {
     QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
-        int dropFrames = KdenliveSettings::mltthreads();
+        int dropFrames = 1;
         if (show == false) dropFrames = -dropFrames;
         m_mltConsumer->stop();
         m_mltConsumer->set("real_time", dropFrames);
@@ -2122,6 +2124,7 @@ Mlt::Producer *Render::checkSlowMotionProducer(Mlt::Producer *prod, QDomElement 
 {
     if (element.attribute("speed", "1.0").toDouble() == 1.0 && element.attribute("strobe", "1").toInt() == 1) return prod;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // We want a slowmotion producer
     double speed = element.attribute("speed", "1.0").toDouble();
     int strobe = element.attribute("strobe", "1").toInt();
@@ -3150,6 +3153,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     if (position < GenTime()) {
         return mltEditTrackEffect(track, params);
     }
+    
     // find filter
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);

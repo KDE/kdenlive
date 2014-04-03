@@ -435,7 +435,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     /*kDebug()<<"-- CREATING CAP: "<<params<<", PATH: "<<path;
     tmp = qstrdup(QString("avformat:" + path).toUtf8().constData());
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile, tmp);
-    m_mltConsumer->set("real_time", -KdenliveSettings::mltthreads());
+    m_mltConsumer->set("real_time", -1);
     delete[] tmp;*/
     
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "multi");
@@ -453,7 +453,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     Mlt::Properties *renderProps = new Mlt::Properties;
     renderProps->set("mlt_service", "avformat");
     renderProps->set("target", path.toUtf8().constData());
-    renderProps->set("real_time", -KdenliveSettings::mltthreads());
+    renderProps->set("real_time", -1);
     //renderProps->set("terminate_on_pause", 0);
     renderProps->set("mlt_profile", m_activeProfile.toUtf8().constData());
     

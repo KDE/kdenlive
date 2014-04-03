@@ -36,8 +36,7 @@ private slots:
     void emitCommitData();
 };
 
-
-struct TrackInfo;
+class TrackInfo;
 class KdenliveDoc;
 class QTableWidgetItem;
 

@@ -570,6 +570,7 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
         return;
     }
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_selectedProfileIndex = m_view.profiles_list->currentIndex();
     if (currentProfile.isEmpty())
         currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();

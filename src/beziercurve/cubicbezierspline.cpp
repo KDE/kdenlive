@@ -70,6 +70,7 @@ QString CubicBezierSpline::toString() const
 {
     QStringList spline;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     foreach(const BPoint &p, m_points) {
         spline << QString::fromLatin1("%1;%2#%3;%4#%5;%6").arg(locale.toString(p.h1.x())).arg(locale.toString(p.h1.y()))
                                               .arg(locale.toString(p.p.x())).arg(locale.toString(p.p.y()))
