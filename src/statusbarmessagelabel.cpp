@@ -95,7 +95,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
 
             // Message with normal priority
             m_messageQueue.push_back(item);
-            if (!m_queueTimer.elapsed() >= m_currentMessage.timeoutMillis) {
+            if (m_queueTimer.elapsed() >= m_currentMessage.timeoutMillis) {
                 m_queueTimer.start(0);
             }
 
