@@ -32,25 +32,8 @@
 #include <KUrlLabel>
 #include <KRun>
 
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    #include <Nepomuk/Variant>
-    #include <Nepomuk/Resource>
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Vocabulary/NIE>
-  #endif
-#endif
-#ifdef USE_NEPOMUKCORE
-  #include <Nepomuk2/Variant>
-  #include <Nepomuk2/Resource>
-  #include <Nepomuk2/ResourceManager>
-  #include <Nepomuk2/Vocabulary/NIE>
-#endif
-
-
 #include <QDir>
 #include <QPainter>
-
 
 static const int VIDEOTAB = 0;
 static const int AUDIOTAB = 1;
@@ -75,11 +58,11 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
-    
+
     // force transparency is only for group properties, so hide it
     m_view.clip_force_transparency->setHidden(true);
     m_view.clip_transparency->setHidden(true);
-    
+
     KUrl url = m_clip->fileURL();
     m_view.clip_path->setText(url.path());
     m_view.clip_description->setText(m_clip->description());
@@ -88,7 +71,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     QMap <QString, QString> props = m_clip->properties();
     m_view.clip_force_out->setHidden(true);
     m_view.clip_out->setHidden(true);
-    
+
     // New display aspect ratio support
     if (props.contains("force_aspect_num") && props.value("force_aspect_num").toInt() > 0 &&
             props.contains("force_aspect_den") && props.value("force_aspect_den").toInt() > 0) {
@@ -151,7 +134,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
     connect(m_view.clip_force_fieldorder, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
     connect(m_view.clip_fieldorder, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModified()));
-    
+
     if (props.contains("threads") && props.value("threads").toInt() != 1) {
         m_view.clip_force_threads->setChecked(true);
         m_view.clip_threads->setEnabled(true);
@@ -183,7 +166,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     if (props.contains("video_max")) {
         m_view.clip_vindex->setMaximum(props.value("video_max").toInt());
     }
-    
+
     m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(601), 601);
     m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(709), 709);
     m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(240), 240);
@@ -196,7 +179,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
     connect(m_view.clip_force_colorspace, SIGNAL(toggled(bool)), this, SLOT(slotModified()));
     connect(m_view.clip_colorspace, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModified()));
-    
+
     if (props.contains("full_luma")) {
         m_view.clip_full_luma->setChecked(true);
     }
@@ -263,10 +246,10 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
 
     if (props.contains("frequency"))
         new QTreeWidgetItem(m_view.clip_aproperties, QStringList() << i18n("Frequency") << props.value("frequency"));
-    
+
 
     ClipType t = m_clip->clipType();
-    
+
     if (props.contains("proxy") && props.value("proxy") != "-") {
         KFileItem f(KFileItem::Unknown, KFileItem::Unknown, KUrl(props.value("proxy")), true);
         QFrame* line = new QFrame();
@@ -294,7 +277,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
             m_view.tab_video->layout()->addWidget(m_proxyContainer);
         }
     }
-    
+
     if (t != Audio && t != AV) {
         m_view.clip_force_aindex->setEnabled(false);
     }
@@ -453,9 +436,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         m_view.clip_aproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
         m_view.clip_vproperties->setStyleSheet(QString("QTreeWidget { background-color: transparent;}"));
         loadVideoProperties(props);
-        
+
         m_view.clip_thumb->setMinimumSize(180 * KdenliveSettings::project_display_ratio(), 180);
-        
+
         if (t == Image || t == Video || t == Playlist)
             m_view.tabWidget->removeTab(AUDIOTAB);
     } else {
@@ -500,68 +483,24 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     m_view.analysis_save->setIcon(KIcon("document-save-as"));
     m_view.analysis_save->setToolTip(i18n("Save analysis data"));
 
-    // Check for Nepomuk metadata
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    if (!url.isEmpty()) {
-        Nepomuk::ResourceManager::instance()->init();
-        Nepomuk::Resource res( url.path() );
-        // Check if file has a license
-        if (res.hasProperty(Nepomuk::Vocabulary::NIE::license())) {
-            QString ltype = res.property(Nepomuk::Vocabulary::NIE::licenseType()).toString();
-            m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk::Vocabulary::NIE::license()).toString()));
-            if (ltype.startsWith("http")) {
-                m_view.clip_license->setUrl(ltype);
-                connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-            }
-        }
-        else m_view.clip_license->setHidden(true);
-    }
-    else m_view.clip_license->setHidden(true);
-  #else
-    m_view.clip_license->setHidden(true);
-  #endif
-#else
-  #ifdef USE_NEPOMUKCORE
-
-    if (!url.isEmpty()) {
-        Nepomuk2::ResourceManager::instance()->init();
-        Nepomuk2::Resource res( url.path() );
-        // Check if file has a license
-        if (res.hasProperty(Nepomuk2::Vocabulary::NIE::license())) {
-            QString ltype = res.property(Nepomuk2::Vocabulary::NIE::licenseType()).toString();
-            m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk2::Vocabulary::NIE::license()).toString()));
-            if (ltype.startsWith("http")) {
-                m_view.clip_license->setUrl(ltype);
-                connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-            }
-        }
-        else m_view.clip_license->setHidden(true);
-    }
-    else m_view.clip_license->setHidden(true);
-  #else
-    m_view.clip_license->setHidden(true);
-  #endif
-#endif
-
     slotFillMarkersList(m_clip);
     slotUpdateAnalysisData(m_clip);
-    
+
     connect(m_view.marker_new, SIGNAL(clicked()), this, SLOT(slotAddMarker()));
     connect(m_view.marker_edit, SIGNAL(clicked()), this, SLOT(slotEditMarker()));
     connect(m_view.marker_delete, SIGNAL(clicked()), this, SLOT(slotDeleteMarker()));
     connect(m_view.marker_save, SIGNAL(clicked()), this, SLOT(slotSaveMarkers()));
     connect(m_view.marker_load, SIGNAL(clicked()), this, SLOT(slotLoadMarkers()));
     connect(m_view.markers_list, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEditMarker()));
-    
+
     connect(m_view.analysis_delete, SIGNAL(clicked()), this, SLOT(slotDeleteAnalysis()));
     connect(m_view.analysis_save, SIGNAL(clicked()), this, SLOT(slotSaveAnalysis()));
     connect(m_view.analysis_load, SIGNAL(clicked()), this, SLOT(slotLoadAnalysis()));
-    
+
     connect(this, SIGNAL(accepted()), this, SLOT(slotApplyProperties()));
     connect(m_view.buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApplyProperties()));
     m_view.buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    
+
     m_view.metadata_list->resizeColumnToContents(0);
     m_view.clip_vproperties->resizeColumnToContents(0);
     m_view.clip_aproperties->resizeColumnToContents(0);
@@ -612,7 +551,7 @@ ClipProperties::ClipProperties(const QList <DocClipBase *> &cliplist, const Time
         m_view.clip_fieldorder->setEnabled(true);
         m_view.clip_fieldorder->setCurrentIndex(commonproperties.value("force_tff").toInt());
     }
-    
+
     if (commonproperties.contains("threads") && !commonproperties.value("threads").isEmpty() && commonproperties.value("threads").toInt() != 1) {
         m_view.clip_force_threads->setChecked(true);
         m_view.clip_threads->setEnabled(true);
@@ -638,21 +577,21 @@ ClipProperties::ClipProperties(const QList <DocClipBase *> &cliplist, const Time
     if (props.contains("video_max")) {
         m_view.clip_vindex->setMaximum(props.value("video_max").toInt());
     }
-    
+
     m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(601), 601);
     m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(709), 709);
     m_view.clip_colorspace->addItem(ProfilesDialog::getColorspaceDescription(240), 240);
-    
+
     if (commonproperties.contains("force_colorspace") && !commonproperties.value("force_colorspace").isEmpty() && commonproperties.value("force_colorspace").toInt() != 0) {
         m_view.clip_force_colorspace->setChecked(true);
         m_view.clip_colorspace->setEnabled(true);
         m_view.clip_colorspace->setCurrentIndex(m_view.clip_colorspace->findData(commonproperties.value("force_colorspace").toInt()));
     }
-    
+
     if (commonproperties.contains("full_luma") && !commonproperties.value("full_luma").isEmpty()) {
         m_view.clip_full_luma->setChecked(true);
     }
-    
+
     if (commonproperties.contains("transparency")) {
         // image transparency checkbox
         int transparency = commonproperties.value("transparency").toInt();
@@ -668,7 +607,7 @@ ClipProperties::ClipProperties(const QList <DocClipBase *> &cliplist, const Time
         m_view.clip_force_transparency->setHidden(true);
         m_view.clip_transparency->setHidden(true);
     }
-    
+
 
     connect(m_view.clip_force_transparency, SIGNAL(toggled(bool)), m_view.clip_transparency, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar_num, SLOT(setEnabled(bool)));
@@ -1026,7 +965,7 @@ QMap <QString, QString> ClipProperties::properties()
     } else if (m_old_props.contains("audio_index") && !m_old_props.value("audio_index").isEmpty()) {
         props["audio_index"].clear();
     }
-    
+
     int colorspace = m_view.clip_colorspace->itemData(m_view.clip_colorspace->currentIndex()).toInt();
     if (m_view.clip_force_colorspace->isChecked()) {
         if (colorspace != m_old_props.value("force_colorspace").toInt()) {
@@ -1045,7 +984,7 @@ QMap <QString, QString> ClipProperties::properties()
         props["full_luma"].clear();
         m_clipNeedsRefresh = true;
     }
-    
+
     if (m_view.clip_force_transparency->isChecked()) {
         QString transp = QString::number(m_view.clip_transparency->currentIndex());
         if (transp != m_old_props.value("transparency")) props["transparency"] = transp;

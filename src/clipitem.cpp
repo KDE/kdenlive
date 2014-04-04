@@ -846,7 +846,6 @@ void ClipItem::paint(QPainter *painter,
                 }
             }
             else {
-#if KDE_IS_VERSION(4,5,0)
                 if (m_clip && m_clip->thumbProducer()) {
                     QImage img;
                     QPen pen(Qt::white);
@@ -866,7 +865,6 @@ void ClipItem::paint(QPainter *painter,
                         m_clip->thumbProducer()->queryIntraThumbs(missing);
                     }
                 }
-#endif
             }
         }
     }
@@ -912,7 +910,7 @@ void ClipItem::paint(QPainter *painter,
             }
         }
     }
-    
+
     if (m_isMainSelectedClip) {
         framePen.setColor(Qt::red);
         textBgColor = Qt::red;
@@ -1029,7 +1027,7 @@ void ClipItem::paint(QPainter *painter,
         // draw effect or transition keyframes
         drawKeyFrames(painter, transformation, m_limitedKeyFrames);
     }
-    
+
     // draw clip border
     // expand clip rect to allow correct painting of clip border
     painter->setClipping(false);
@@ -1174,7 +1172,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
         }
         positiveChannelPaths.clear();
         negativeChannelPaths.clear();
-        
+
         QPainter pixpainter(&m_audioThumbCachePic[startCache]);
 
         for (int i = 0; i < channels; ++i) {
@@ -1554,7 +1552,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
         needRepaint = true;
         insertedEffect = m_effectList.insert(effect);
     } else insertedEffect = m_effectList.append(effect);
-    
+
     // Update index to the real one
     effect.setAttribute("kdenlive_ix", insertedEffect.attribute("kdenlive_ix"));
     int effectIn;
@@ -1569,7 +1567,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
         effectIn = EffectsList::parameter(effect, "in").toInt();
         effectOut = EffectsList::parameter(effect, "out").toInt();
     }
-    
+
     EffectsParameterList parameters;
     parameters.addParam("tag", insertedEffect.attribute("tag"));
     parameters.addParam("kdenlive_ix", insertedEffect.attribute("kdenlive_ix"));
@@ -2057,7 +2055,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
                 QString value = param.attribute("value");
                 if (adjustRotoDuration(&value, cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1))
                     param.setAttribute("value", value);
-#endif    
+#endif
             }
         }
     }

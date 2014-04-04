@@ -42,11 +42,9 @@
 #include <QCryptographicHash>
 #include <QKeyEvent>
 
-#if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
-#endif
 
 #include <iostream>
 
@@ -82,7 +80,6 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
 
-#if KDE_IS_VERSION(4,5,0)
     rectBColor->setAlphaChannelEnabled(true);
     delete rectBAlpha;
     rectFColor->setAlphaChannelEnabled(true);
@@ -91,37 +88,6 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     delete textAlpha;
     textOutlineColor->setAlphaChannelEnabled(true);
     delete textOutlineAlpha;
-    
-#else
-    rectBAlpha->setMinimum(0);
-    rectBAlpha->setMaximum(255);
-    rectBAlpha->setDecimals(0);
-    rectBAlpha->setValue(255);
-    rectBAlpha->setToolTip(i18n("Color opacity"));
-
-    rectFAlpha->setMinimum(0);
-    rectFAlpha->setMaximum(255);
-    rectFAlpha->setDecimals(0);
-    rectFAlpha->setValue(255);
-    rectFAlpha->setToolTip(i18n("Border opacity"));
-    connect(rectFAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
-    connect(rectBAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
-
-    // Set combo sliders values
-    textAlpha->setMinimum(0);
-    textAlpha->setMaximum(255);
-    textAlpha->setDecimals(0);
-    textAlpha->setValue(255);
-    textAlpha->setToolTip(i18n("Font color opacity"));
-
-    textOutlineAlpha->setMinimum(0);
-    textOutlineAlpha->setMaximum(255);
-    textOutlineAlpha->setDecimals(0);
-    textOutlineAlpha->setValue(255);
-    textOutlineAlpha->setToolTip(i18n("Outline color opacity"));
-    connect(textAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
-    connect(textOutlineAlpha, SIGNAL(valueChanged(qreal,bool)), this, SLOT(slotUpdateText()));
-#endif
 
     textOutline->setMinimum(0);
     textOutline->setMaximum(200);
@@ -268,7 +234,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     buttonAlignLeft->setIconSize(iconSize);
     buttonAlignRight->setIconSize(iconSize);
     buttonAlignNone->setIconSize(iconSize);
-    
+
     buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
     buttonRealSize->setIcon(KIcon("zoom-original"));
     buttonItalic->setIcon(KIcon("format-text-italic"));
@@ -348,7 +314,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     zDown->setIconSize(iconSize);
     zTop->setIconSize(iconSize);
     zBottom->setIconSize(iconSize);
-    
+
     zDown->setIcon(KIcon("kdenlive-zindex-down"));
     zTop->setIcon(KIcon("kdenlive-zindex-top"));
     zBottom->setIcon(KIcon("kdenlive-zindex-bottom"));
@@ -377,7 +343,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     itembottom->setIconSize(iconSize);
     itemright->setIconSize(iconSize);
     itemleft->setIconSize(iconSize);
-    
+
     itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
     itemvcenter->setIcon(KIcon("kdenlive-align-vert"));
@@ -447,7 +413,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
     connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
-    
+
     // a gradient background
     /*QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
     gradient->setSpread(QGradient::ReflectSpread);
@@ -462,7 +428,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     m_frameBorder->setBrush(Qt::transparent);
     m_frameBorder->setFlags(0);
     graphicsView->scene()->addItem(m_frameBorder);
-    
+
     m_frameImage = new QGraphicsPixmapItem();
     QTransform qtrans;
     qtrans.scale(2.0, 2.0);
@@ -907,17 +873,11 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
     updateAxisButtons(rect); // back to default
 
     QColor f = rectFColor->color();
-#if not KDE_IS_VERSION(4,5,0)
-    f.setAlpha(rectFAlpha->value());
-#endif
     QPen penf(f);
     penf.setWidth(rectLineWidth->value());
     penf.setJoinStyle(Qt::RoundJoin);
     rect->setPen(penf);
     QColor b = rectBColor->color();
-#if not KDE_IS_VERSION(4,5,0)
-    b.setAlpha(rectBAlpha->value());
-#endif
     rect->setBrush(QBrush(b));
     rect->setZValue(m_count++);
     rect->setData(ZOOMFACTOR, 100);
@@ -940,10 +900,6 @@ void TitleWidget::slotNewText(QGraphicsTextItem *tt)
     tt->setFont(font);
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
-#if not KDE_IS_VERSION(4,5,0)    
-    color.setAlpha(textAlpha->value());
-    outlineColor.setAlpha(textOutlineAlpha->value());
-#endif
     tt->setDefaultTextColor(color);
 
     QTextCursor cur(tt->document());
@@ -1566,10 +1522,6 @@ void TitleWidget::slotUpdateText()
     font.setWeight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
-#if not KDE_IS_VERSION(4,5,0)
-    color.setAlpha(textAlpha->value());
-    outlineColor.setAlpha(textOutlineAlpha->value());
-#endif
 
     double outlineWidth = textOutline->value() / 10.0;
 
@@ -1624,17 +1576,11 @@ void TitleWidget::rectChanged()
         if (l.at(i)->type() == RECTITEM && !settingUp) {
             QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(i));
             QColor f = rectFColor->color();
-#if not KDE_IS_VERSION(4,5,0)
-            f.setAlpha(rectFAlpha->value());
-#endif
             QPen penf(f);
             penf.setWidth(rectLineWidth->value());
             penf.setJoinStyle(Qt::RoundJoin);
             rec->setPen(penf);
             QColor b = rectBColor->color();
-#if not KDE_IS_VERSION(4,5,0)
-            b.setAlpha(rectBAlpha->value());
-#endif
             rec->setBrush(QBrush(b));
         }
     }
@@ -1988,14 +1934,8 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("font_pixel_size", font_size->value());
     titleConfig.writeEntry("font_color", fontColorButton->color());
     titleConfig.writeEntry("font_outline_color", textOutlineColor->color());
-#if KDE_IS_VERSION(4,5,0)
-    titleConfig.writeEntry("font_alpha", fontColorButton->color().alpha());
-    titleConfig.writeEntry("font_outline_alpha", textOutlineColor->color().alpha());
-#else
     titleConfig.writeEntry("font_alpha", textAlpha->value());
     titleConfig.writeEntry("font_outline_alpha", textOutlineAlpha->value());
-#endif
-
     titleConfig.writeEntry("font_outline", textOutline->value());
     titleConfig.writeEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());
@@ -2004,13 +1944,8 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("rect_background_color", rectBColor->color());
     titleConfig.writeEntry("rect_foreground_color", rectFColor->color());
 
-#if KDE_IS_VERSION(4,5,0)
     titleConfig.writeEntry("rect_background_alpha", rectBColor->color().alpha());
     titleConfig.writeEntry("rect_foreground_alpha", rectFColor->color().alpha());
-#else
-    titleConfig.writeEntry("rect_background_alpha", rectBAlpha->value());
-    titleConfig.writeEntry("rect_foreground_alpha", rectFAlpha->value());
-#endif
 
     titleConfig.writeEntry("rect_line_width", rectLineWidth->value());
 
@@ -2033,13 +1968,8 @@ void TitleWidget::readChoices()
     m_scene->slotUpdateFontSize(font_size->value());
     QColor fontColor = QColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     QColor outlineColor = QColor(titleConfig.readEntry("font_outline_color", textOutlineColor->color()));
-#if KDE_IS_VERSION(4,5,0)
     fontColor.setAlpha(titleConfig.readEntry("font_alpha", fontColor.alpha()));
     outlineColor.setAlpha(titleConfig.readEntry("font_outline_alpha", outlineColor.alpha()));
-#else
-    textAlpha->setValue(titleConfig.readEntry("font_alpha", textAlpha->value()));
-    textOutlineAlpha->setValue(titleConfig.readEntry("font_outline_alpha", textOutlineAlpha->value()));
-#endif
     fontColorButton->setColor(fontColor);
     textOutlineColor->setColor(outlineColor);
     textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value()));
@@ -2054,13 +1984,8 @@ void TitleWidget::readChoices()
     QColor fgColor = QColor(titleConfig.readEntry("rect_foreground_color", rectFColor->color()));
     QColor bgColor = QColor(titleConfig.readEntry("rect_background_color", rectBColor->color()));
 
-#if KDE_IS_VERSION(4,5,0)
     fgColor.setAlpha(titleConfig.readEntry("rect_foreground_alpha", fgColor.alpha()));
     bgColor.setAlpha(titleConfig.readEntry("rect_background_alpha", bgColor.alpha()));
-#else
-    rectFAlpha->setValue(titleConfig.readEntry("rect_foreground_alpha", rectFAlpha->value()));
-    rectBAlpha->setValue(titleConfig.readEntry("rect_background_alpha", rectBAlpha->value()));
-#endif
     rectFColor->setColor(fgColor);
     rectBColor->setColor(bgColor);
 
@@ -2266,9 +2191,7 @@ void TitleWidget::slotAddEffect(int ix)
         switch (effect) {
         case NOEFFECT:
             item->setData(100, QVariant());
-#if QT_VERSION >= 0x040600
             item->setGraphicsEffect(0);
-#endif
             break;
         case TYPEWRITEREFFECT:
             /*
@@ -2280,7 +2203,6 @@ void TitleWidget::slotAddEffect(int ix)
                 item->setData(100, effdata);
             }
             break;
-#if QT_VERSION >= 0x040600
             // Do not remove the non-QGraphicsEffects.
         case BLUREFFECT:
             item->setGraphicsEffect(new QGraphicsBlurEffect());
@@ -2288,7 +2210,6 @@ void TitleWidget::slotAddEffect(int ix)
         case SHADOWEFFECT:
             item->setGraphicsEffect(new QGraphicsDropShadowEffect());
             break;
-#endif
         }
     }
 }
@@ -2316,23 +2237,16 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
 
 void TitleWidget::slotEditBlur(int ix)
 {
-#if QT_VERSION < 0x040600
-    return;
-#else
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsEffect *eff = l[0]->graphicsEffect();
         QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(eff);
         if (blur) blur->setBlurRadius(ix);
     }
-#endif
 }
 
 void TitleWidget::slotEditShadow()
 {
-#if QT_VERSION < 0x040600
-    return;
-#else
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsEffect *eff = l[0]->graphicsEffect();
@@ -2342,7 +2256,6 @@ void TitleWidget::slotEditShadow()
             shadow->setOffset(shadow_x->value(), shadow_y->value());
         }
     }
-#endif
 }
 
 qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
@@ -2587,7 +2500,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                         effect_stack->setHidden(false);
                     }
                 } else {
-#if QT_VERSION >= 0x040600
                     if (i->graphicsEffect()) {
                         QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
                         if (blur) {
@@ -2609,10 +2521,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                         effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
                         effect_stack->setHidden(true);
                     }
-#else
-                    effect_list->setCurrentIndex(effect_list->findData((int) NOEFFECT));
-                    effect_stack->setHidden(true);
-#endif
                 }
                 font_size->blockSignals(true);
                 font_family->blockSignals(true);
@@ -2620,9 +2528,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 buttonItalic->blockSignals(true);
                 buttonUnder->blockSignals(true);
                 fontColorButton->blockSignals(true);
-#if not KDE_IS_VERSION(4,5,0)
-                textAlpha->blockSignals(true);
-#endif
                 buttonAlignLeft->blockSignals(true);
                 buttonAlignRight->blockSignals(true);
                 buttonAlignNone->blockSignals(true);
@@ -2639,10 +2544,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 QTextCursor cursor(i->document());
                 cursor.select(QTextCursor::Document);
                 QColor color = cursor.charFormat().foreground().color();
-#if not KDE_IS_VERSION(4,5,0)
-                textAlpha->setValue(color.alpha());
-                color.setAlpha(255);
-#endif
                 fontColorButton->setColor(color);
 
                 if (!i->data(101).isNull()) {
@@ -2654,12 +2555,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     textOutlineColor->blockSignals(true);
                     QVariant variant = i->data(102);
                     color = variant.value<QColor>();
-#if not KDE_IS_VERSION(4,5,0)
-                    textOutlineAlpha->blockSignals(true);
-                    textOutlineAlpha->setValue(color.alpha());
-                    color.setAlpha(255);
-                    textOutlineAlpha->blockSignals(false);
-#endif
                     textOutlineColor->setColor(color);
                     textOutlineColor->blockSignals(false);
                 }
@@ -2676,9 +2571,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 buttonItalic->blockSignals(false);
                 buttonUnder->blockSignals(false);
                 fontColorButton->blockSignals(false);
-#if not KDE_IS_VERSION(4,5,0)
-                textAlpha->blockSignals(false);
-#endif
                 buttonAlignLeft->blockSignals(false);
                 buttonAlignRight->blockSignals(false);
                 buttonAlignNone->blockSignals(false);
@@ -2714,10 +2606,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 toolBox->widget(1)->setEnabled(true);
                 toolBox->setCurrentIndex(0);*/
                 //toolBox->setItemEnabled(3, true);
-#if not KDE_IS_VERSION(4,5,0)                
-                rectFAlpha->setValue(rec->pen().color().alpha());
-                rectBAlpha->setValue(rec->brush().color().alpha());
-#endif
                 //kDebug() << rec->brush().color().alpha();
                 QColor fcol = rec->pen().color();
                 QColor bcol = rec->brush().color();

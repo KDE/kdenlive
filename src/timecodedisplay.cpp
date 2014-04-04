@@ -41,13 +41,7 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
     lineEdit()->setFont(KGlobalSettings::toolBarFont());
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     QFontMetrics fm = lineEdit()->fontMetrics();
-#if QT_VERSION >= 0x040600
     setMinimumWidth(fm.width("88:88:88:88888888") + contentsMargins().right() + contentsMargins().right());
-#else
-    int left, top, right, bottom;
-    getContentsMargins(&left, &top, &right, &bottom);
-    setMinimumWidth(fm.width("88:88:88:88888888") + left + right);
-#endif
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     setAccelerated(true);
 
@@ -172,13 +166,13 @@ void TimecodeDisplay::setValue(int value)
         value = m_maximum;
 
     if (m_frametimecode) {
-	if (value == m_value && !lineEdit()->text().isEmpty()) return;
-	m_value = value;
+    if (value == m_value && !lineEdit()->text().isEmpty()) return;
+    m_value = value;
         lineEdit()->setText(QString::number(value));
     }
     else {
-	if (value == m_value && lineEdit()->text() != ":::") return;
-	m_value = value;
+    if (value == m_value && lineEdit()->text() != ":::") return;
+    m_value = value;
         QString v = m_timecode.getTimecodeFromFrames(value);
         lineEdit()->setText(v);
     }

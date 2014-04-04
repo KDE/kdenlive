@@ -56,7 +56,7 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     m_pageChapters = new DvdWizardChapters(manager, m_pageVob->dvdFormat(), this);
     m_pageChapters->setTitle(i18n("DVD Chapters"));
     addPage(m_pageChapters);
-    
+
     if (!url.isEmpty()) m_pageVob->setUrl(url);
     connect(m_pageVob, SIGNAL(prepareMonitor()), this, SLOT(slotprepareMonitor()));
 
@@ -184,7 +184,7 @@ void DvdWizard::generateDvd()
     m_selectedImage.setSuffix(".png");
     //m_selectedImage.setAutoRemove(false);
     m_selectedImage.open();
-    
+
     m_selectedLetterImage.setSuffix(".png");
     //m_selectedLetterImage.setAutoRemove(false);
     m_selectedLetterImage.open();
@@ -192,7 +192,7 @@ void DvdWizard::generateDvd()
     m_highlightedImage.setSuffix(".png");
     //m_highlightedImage.setAutoRemove(false);
     m_highlightedImage.open();
-    
+
     m_highlightedLetterImage.setSuffix(".png");
     //m_highlightedLetterImage.setAutoRemove(false);
     m_highlightedLetterImage.open();
@@ -213,7 +213,7 @@ void DvdWizard::generateDvd()
     m_letterboxMovie.setSuffix(".mpg");
     m_letterboxMovie.setAutoRemove(false);
     m_letterboxMovie.open();
-    
+
 
     m_menuFile.close();
     m_menuFile.setSuffix(".xml");
@@ -353,16 +353,10 @@ void DvdWizard::processSpumux()
     QProcess spumux;
     QString menuMovieUrl;
 
-#if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("VIDEO_FORMAT", m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
     spumux.setProcessEnvironment(env);
-#else
-    QStringList env = QProcess::systemEnvironment();
-    env << QString("VIDEO_FORMAT=") + QString(m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
-    spumux.setEnvironment(env);
-#endif
-    
+
     if (m_pageMenu->menuMovie()) spumux.setStandardInputFile(m_menuFinalVideo.fileName());
     else spumux.setStandardInputFile(m_menuVideo.fileName());
     spumux.setStandardOutputFile(m_menuVobFile.fileName());
@@ -665,15 +659,9 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
     m_creationLog.clear();
     m_dvdauthor = new QProcess(this);
     // Set VIDEO_FORMAT variable (required by dvdauthor 0.7)
-#if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("VIDEO_FORMAT", m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
     m_dvdauthor->setProcessEnvironment(env);
-#else
-    QStringList env = QProcess::systemEnvironment();
-    env << QString("VIDEO_FORMAT=") + QString(m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
-    m_dvdauthor->setEnvironment(env);
-#endif
     connect(m_dvdauthor, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotRenderFinished(int,QProcess::ExitStatus)));
     connect(m_dvdauthor, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowRenderInfo()));
     m_dvdauthor->setProcessChannelMode(QProcess::MergedChannels);

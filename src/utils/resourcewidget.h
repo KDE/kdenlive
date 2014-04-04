@@ -33,9 +33,7 @@
 #include <kdeversion.h>
 
 
-#if KDE_IS_VERSION(4,4,0)
 class KPixmapSequenceOverlayPainter;
-#endif
 class QAction;
 
 class ResourceWidget : public QDialog, public Ui::FreeSound_UI
@@ -77,9 +75,7 @@ private:
     QString m_folder;
     AbstractService *m_currentService;
     OnlineItemInfo m_currentInfo;
-#if KDE_IS_VERSION(4,4,0)
     KPixmapSequenceOverlayPainter *m_busyWidget;
-#endif
     QAction *m_autoPlay;
     QString m_tmpThumbFile;
     QString m_title;
@@ -87,7 +83,7 @@ private:
     QString m_desc;
     QString m_meta;
     void updateLayout();
-   
+
 signals:
     void addClip(const KUrl &, const stringMap &data);
 };

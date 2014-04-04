@@ -39,9 +39,7 @@ AbstractGroupItem::AbstractGroupItem(double /* fps */) :
 {
     setZValue(1);
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-#if QT_VERSION >= 0x040600
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-#endif
     setAcceptDrops(true);
     m_resizeInfos = QList <ItemInfo>();
 }
@@ -491,7 +489,7 @@ void AbstractGroupItem::resizeStart(int diff)
             ++itemcount;
         }
     }
-    
+
     for (int i = 0; i < items.count(); ++i)
         items.at(i)->resizeStart((int)(m_resizeInfos.at(i).startPos.frames(items.at(i)->fps())) + maximum);
 }

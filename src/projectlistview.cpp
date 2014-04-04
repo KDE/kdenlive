@@ -57,7 +57,7 @@ ProjectListView::ProjectListView(QWidget *parent)
     headers << i18n("Clip") << i18n("Description") << i18n("Rating") << i18n("Date");
     setHeaderLabels(headers);
     setIndentation(12);
-    
+
     QHeaderView* headerView = header();
     headerView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(headerView, SIGNAL(customContextMenuRequested(QPoint)),
@@ -311,10 +311,10 @@ void ProjectListView::dropEvent(QDropEvent *event)
         emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
     }
     if (event->source() == this) {
-	event->setDropAction(Qt::MoveAction);
+    event->setDropAction(Qt::MoveAction);
         event->accept();
     } else {
-	event->acceptProposedAction();
+    event->acceptProposedAction();
     }
     QTreeWidget::dropEvent(event);
 }
@@ -332,7 +332,7 @@ void ProjectListView::mousePressEvent(QMouseEvent *event)
             if (item->underJobMenu(itemRect, event->pos())) {
                 emit display
             }
-            
+
             && underMouse->isSelected()) emit focusMonitor()
         }*/
     }
@@ -360,26 +360,26 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
     QTreeWidgetItem *it = itemAt(m_DragStartPosition);
     if (!it) return;
     if (it && (it->flags() & Qt::ItemIsDragEnabled)) {
-	QDrag *drag = new QDrag(this);
+    QDrag *drag = new QDrag(this);
         QMimeData *mimeData = new QMimeData;
         const QList <QTreeWidgetItem *> list = selectedItems();
         QStringList ids;
         foreach(const QTreeWidgetItem *item, list) {
-	    if (item->type() == ProjectFoldeType) {
-		const int children = item->childCount();
+        if (item->type() == ProjectFoldeType) {
+        const int children = item->childCount();
                 for (int i = 0; i < children; ++i) {
-		    ids.append(static_cast <ProjectItem *>(item->child(i))->clipId());
+            ids.append(static_cast <ProjectItem *>(item->child(i))->clipId());
                 }
-	    } else if (item->type() == ProjectSubclipType) {
-		const ProjectItem *parentclip = static_cast <const ProjectItem *>(item->parent());
-		const SubProjectItem *clickItem = static_cast <const SubProjectItem *>(item);
-		QPoint p = clickItem->zone();
-		QString data = parentclip->clipId();
-		data.append("/" + QString::number(p.x()));
-		data.append("/" + QString::number(p.y()));
-		ids.append(data);
+        } else if (item->type() == ProjectSubclipType) {
+        const ProjectItem *parentclip = static_cast <const ProjectItem *>(item->parent());
+        const SubProjectItem *clickItem = static_cast <const SubProjectItem *>(item);
+        QPoint p = clickItem->zone();
+        QString data = parentclip->clipId();
+        data.append("/" + QString::number(p.x()));
+        data.append("/" + QString::number(p.y()));
+        ids.append(data);
             } else {
-		const ProjectItem *clip = static_cast <const ProjectItem *>(item);
+        const ProjectItem *clip = static_cast <const ProjectItem *>(item);
                 ids.append(clip->clipId());
             }
         }
@@ -504,13 +504,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         if (option.state & (QStyle::State_Selected)) {
             painter->fillRect(r1, option.palette.highlight());
         }
-#ifdef NEPOMUK
-        KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
-#endif
-#ifdef NEPOMUKCORE
-        KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
-#endif
-
     } else {
         QStyledItemDelegate::paint(painter, option, index);
     }

@@ -53,7 +53,7 @@ VideoGLWidget::VideoGLWidget(QWidget *parent, QGLWidget *share)
     , m_display_ratio(4.0 / 3.0)
     , m_backgroundColor(Qt::gray)
     , m_fbo(NULL)
-{  
+{
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent);
 }
@@ -151,8 +151,8 @@ void VideoGLWidget::activateMonitor()
 
     updateGL(); // This calls for initializeGL and then paintGL and draws a nice openGL 3D scene
 
-    
-    QPainter painter(this); 
+
+    QPainter painter(this);
     //painter.begin();
     painter.drawText(10, 10, "HELLO");
     // Draw something with QPainter..
@@ -162,7 +162,7 @@ void VideoGLWidget::paintGL()
 {
     if (m_texture) {
 #ifdef Q_WS_MAC
-		glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 #endif
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBegin(GL_QUADS);
@@ -177,9 +177,9 @@ void VideoGLWidget::paintGL()
         glEnd();
         glDisable(GL_TEXTURE_RECTANGLE_EXT);
     }
-    
+
     if (!m_frame_texture) return;
-    
+
     if (!m_overlay.isEmpty() || sendFrameForAnalysis) {
         if (!m_fbo || m_fbo->width() != w || m_fbo->height() != h) {
             delete m_fbo;
@@ -240,7 +240,7 @@ void VideoGLWidget::paintGL()
         glVertex2i(x, y);
         glEnd();
     }
-    
+
     else {
 #ifdef Q_WS_MAC
         glClear(GL_COLOR_BUFFER_BIT);
@@ -259,18 +259,18 @@ void VideoGLWidget::paintGL()
         glVertex2i(x, y + h);
         glEnd();
     }
-    
+
     if (false) {
             // just for fun, test drawing a "play" triangle on top of video
             //glColor4f(1,1,1, 0.5);
             glEnable(GL_BLEND);
             //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glBlendEquation(GL_FUNC_ADD); 
+            glBlendEquation(GL_FUNC_ADD);
             glBlendFunc( GL_ONE, GL_ONE);
             //glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
-            //glBlendFunc( GL_SRC_ALPHA, GL_ONE);    
+            //glBlendFunc( GL_SRC_ALPHA, GL_ONE);
             glColor4f(0.2,0.2,0.2, 0.6);
-            //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA); 
+            //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
             float x1,y1,x2,y2;
             double radius = 0.15;
             x1=0.49;
@@ -291,7 +291,7 @@ void VideoGLWidget::paintGL()
             glColor4f(0.5,0.5,0.5, 0.7);
             glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
             //glBlendFunc( GL_ONE, GL_DST_ALPHA);
-            //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA); 
+            //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
             glBegin(GL_TRIANGLES);
             glTexCoord2f(0.45, 0.4);glVertex2f( x + 0.45 * w, y + 0.4 * h);
             glTexCoord2f(0.56, 0.5);glVertex2f( x + 0.56 * w, y + 0.5 * h);
@@ -299,7 +299,7 @@ void VideoGLWidget::paintGL()
             glEnd();
             glBlendEquation(GL_FUNC_ADD);
             glDisable(GL_BLEND);
-            
+
             glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
         }
 }
@@ -368,11 +368,7 @@ void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
     Qt::WindowFlags flags = windowFlags();
     if (!isFullScreen()) {
         // Check if we ahave a multiple monitor setup
-#if QT_VERSION >= 0x040600
         int monitors = QApplication::desktop()->screenCount();
-#else
-        int monitors = QApplication::desktop()->numScreens();
-#endif
         if (monitors > 1) {
             QRect screenres;
             // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget

@@ -101,12 +101,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_documentProperties["proxyminsize"] = QString::number(KdenliveSettings::proxyminsize());
     m_documentProperties["generateimageproxy"] = QString::number((int) KdenliveSettings::generateimageproxy());
     m_documentProperties["proxyimageminsize"] = QString::number(KdenliveSettings::proxyimageminsize());
-#if QT_VERSION >= 0x040700
     m_documentProperties["documentid"] = QString::number(QDateTime::currentMSecsSinceEpoch());
-#else
-    QDateTime date = QDateTime::currentDateTime();
-    m_documentProperties["documentid"] = QString::number(date.toTime_t());
-#endif
 
     // Load properties
     QMapIterator<QString, QString> i(properties);
@@ -114,7 +109,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         i.next();
         m_documentProperties[i.key()] = i.value();
     }
-    
+
     // Load metadata
     QMapIterator<QString, QString> j(metadata);
     while (j.hasNext()) {
@@ -132,7 +127,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     }
 
     *openBackup = false;
-    
+
     if (!url.isEmpty()) {
         QString tmpFile;
         success = KIO::NetAccess::download(url.path(), tmpFile, parent);
@@ -348,7 +343,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             KIO::NetAccess::removeTempFile(tmpFile);
         }
     }
-    
+
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
         m_url.clear();
@@ -453,7 +448,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     QDomElement mlt = doc.createElement("mlt");
     mlt.setAttribute("LC_NUMERIC", "");
     doc.appendChild(mlt);
-    
+
     // Create black producer
     // For some unknown reason, we have to build the black producer here and not in renderer.cpp, otherwise
     // the composite transitions with the black track are corrupted.
@@ -699,7 +694,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
     }
     docproperties.setAttribute("position", m_render->seekPosition().frames(m_fps));
     addedXml.appendChild(docproperties);
-    
+
     QDomElement docmetadata = sceneList.createElement("documentmetadata");
     QMapIterator<QString, QString> j(m_documentMetadata);
     while (j.hasNext()) {
@@ -790,11 +785,11 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
         KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
         return false;
     }
-    
+
     // Backup current version
     if (!autosave) backupLastSavedVersion(path);
     QFile file(path);
-    
+
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << path;
         KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
@@ -1674,7 +1669,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
     if (!bookmarkManager) return;
     KBookmarkGroup root = bookmarkManager->root();
-    
+
     KBookmark bookmark = root.first();
 
     QString kdenliveName = KGlobal::mainComponent().componentName();
@@ -1835,7 +1830,7 @@ void KdenliveDoc::cleanupBackupFiles()
             --i;
         }
     } else oldList.clear();
-    
+
     QString f;
     while (hourList.count() > 0) {
         f = hourList.takeFirst();

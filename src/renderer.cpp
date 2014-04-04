@@ -62,7 +62,7 @@ static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list
 }
 
 
-//static 
+//static
 void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
@@ -539,7 +539,7 @@ QPixmap Render::getProducerImage(const KUrl& url, int frame, int width, int heig
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
     if (url.isEmpty()) return pix;
-    
+
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
     double swidth = (double) profile.width() / profile.height();
     QGLWidget ctx(0, m_mainGLContext);
@@ -706,39 +706,39 @@ void Render::forceProcessing(const QString &id)
     // Make sure we load the clip producer now so that we can use it in timeline
     QList <requestClipInfo> requestListCopy;
     if (m_processingClipId.contains(id)) {
-	m_infoMutex.lock();
-	requestListCopy = m_requestList;
-	m_requestList.clear();
-	m_infoMutex.unlock();
-	m_infoThread.waitForFinished();
-	emit infoProcessingFinished();
+    m_infoMutex.lock();
+    requestListCopy = m_requestList;
+    m_requestList.clear();
+    m_infoMutex.unlock();
+    m_infoThread.waitForFinished();
+    emit infoProcessingFinished();
     } else {
-	m_infoMutex.lock();
-	for (int i = 0; i < m_requestList.count(); ++i) {
-	    requestClipInfo info = m_requestList.at(i);
-	    if (info.clipId == id) {
-		m_requestList.removeAt(i);
-		requestListCopy = m_requestList;
-		m_requestList.clear();
-		m_requestList.append(info);
-		break;
-	    }
+    m_infoMutex.lock();
+    for (int i = 0; i < m_requestList.count(); ++i) {
+        requestClipInfo info = m_requestList.at(i);
+        if (info.clipId == id) {
+        m_requestList.removeAt(i);
+        requestListCopy = m_requestList;
+        m_requestList.clear();
+        m_requestList.append(info);
+        break;
+        }
         }
         m_infoMutex.unlock();
-	if (!m_infoThread.isRunning()) {
-	    m_infoThread = QtConcurrent::run(this, &Render::processFileProperties);
-	}
-	m_infoThread.waitForFinished();
-	emit infoProcessingFinished();
+    if (!m_infoThread.isRunning()) {
+        m_infoThread = QtConcurrent::run(this, &Render::processFileProperties);
     }
-    
+    m_infoThread.waitForFinished();
+    emit infoProcessingFinished();
+    }
+
     m_infoMutex.lock();
     m_requestList.append(requestListCopy);
     m_infoMutex.unlock();
     if (!m_infoThread.isRunning()) {
         m_infoThread = QtConcurrent::run(this, &Render::processFileProperties);
     }
-    
+
 }
 
 int Render::processingItems()
@@ -1176,45 +1176,6 @@ void Render::processFileProperties()
     }
 }
 
-
-#if 0
-/** Create the producer from the MLT XML QDomDocument */
-void Render::initSceneList()
-{
-    kDebug() << "--------  INIT SCENE LIST ------_";
-    QDomDocument doc;
-    QDomElement mlt = doc.createElement("mlt");
-    doc.appendChild(mlt);
-    QDomElement prod = doc.createElement("producer");
-    prod.setAttribute("resource", "colour");
-    prod.setAttribute("colour", "red");
-    prod.setAttribute("id", "black");
-    prod.setAttribute("in", "0");
-    prod.setAttribute("out", "0");
-
-    QDomElement tractor = doc.createElement("tractor");
-    QDomElement multitrack = doc.createElement("multitrack");
-
-    QDomElement playlist1 = doc.createElement("playlist");
-    playlist1.appendChild(prod);
-    multitrack.appendChild(playlist1);
-    QDomElement playlist2 = doc.createElement("playlist");
-    multitrack.appendChild(playlist2);
-    QDomElement playlist3 = doc.createElement("playlist");
-    multitrack.appendChild(playlist3);
-    QDomElement playlist4 = doc.createElement("playlist");
-    multitrack.appendChild(playlist4);
-    QDomElement playlist5 = doc.createElement("playlist");
-    multitrack.appendChild(playlist5);
-    tractor.appendChild(multitrack);
-    mlt.appendChild(tractor);
-    // kDebug()<<doc.toString();
-    /*
-       QString tmp = QString("<mlt><producer resource=\"colour\" colour=\"red\" id=\"red\" /><tractor><multitrack><playlist></playlist><playlist></playlist><playlist /><playlist /><playlist></playlist></multitrack></tractor></mlt>");*/
-    setSceneList(doc, 0);
-}
-#endif
-
 void Render::loadUrl(const QString &url)
 {
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, url.toUtf8().constData());
@@ -1286,7 +1247,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         delete filter;
         producer = &(tractor->parent());
     }
-    
+
     producer->set("meta.volume", (double)volume / 100);
     blockSignals(false);
     if (m_mltProducer) {
@@ -1294,7 +1255,7 @@ int Render::setProducer(Mlt::Producer *producer, int position)
         delete m_mltProducer;
         m_mltProducer = NULL;
     }
-    
+
     m_mltConsumer->connect(*producer);
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);
@@ -1565,7 +1526,7 @@ bool Render::saveClip(int track, const GenTime &position, const KUrl &url, const
         kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
         return false;
     }
-    
+
     Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.path()).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     Mlt::Playlist list;
@@ -1706,12 +1667,7 @@ void Render::switchPlay(bool play)
         m_mltConsumer->set("refresh", 1);
     } else if (!play) {
         m_paused = true;
-        // OpenGL consumer
         m_mltProducer->set_speed(0.0);
-	//m_mltConsumer->set("refresh", 0);
-        //m_mltProducer->set_speed(0.0);
-        //m_mltConsumer->purge();
-        //m_mltProducer->seek(m_mltConsumer->position());
     }
 }
 
@@ -2220,7 +2176,7 @@ bool Render::mltCutClip(int track, const GenTime &position)
     // duplicate effects
     Mlt::Producer *original = trackPlaylist.get_clip_at(clipStart);
     Mlt::Producer *clip = trackPlaylist.get_clip_at(cutPos);
-    
+
     if (original == NULL || clip == NULL) {
         kDebug() << "// ERROR GRABBING CLIP AFTER SPLIT";
         return false;
@@ -2348,7 +2304,7 @@ bool Render::mltUpdateClip(Mlt::Tractor *tractor, ItemInfo info, QDomElement ele
 bool Render::mltRemoveClip(int track, GenTime position)
 {
     m_refreshTimer.stop();
-    
+
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         kWarning() << "// TRACTOR PROBLEM";
@@ -3122,7 +3078,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     if (position < GenTime()) {
         return mltEditTrackEffect(track, params);
     }
-    
+
     // find filter
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -3197,7 +3153,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     for (int j = 0; j < params.count(); ++j) {
         filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
-    
+
     for (int j = 0; j < filtersList.count(); ++j) {
         clip->attach(*(filtersList.at(j)));
     }
@@ -4555,13 +4511,13 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, bool videoTrack)
     transition.set("internal_added", 237);
     transition.set("combine", 1);
     mltPlantTransition(field, transition, 1, ct);
-    
+
     // re-add transitions
     for (int i = trList.count() - 1; i >= 0; --i) {
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
     qDeleteAll(trList);
-    
+
     service.unlock();
     blockSignals(false);
     return transitionInfos;
@@ -4754,7 +4710,7 @@ const QString Render::activeClipId()
     return QString();
 }
 
-//static 
+//static
 bool Render::getBlackMagicDeviceList(KComboBox *devicelist, bool force)
 {
     if (!force && !KdenliveSettings::decklink_device_found()) return false;
@@ -4804,7 +4760,7 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force)
 }
 
 void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data)
-{ 
+{
     if (KdenliveSettings::automultistreams()) {
         for (int i = 1; i < video_list.count(); ++i) {
             int vindex = video_list.at(i);
@@ -4819,7 +4775,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
         }
         return;
     }
-    
+
     int width = 60.0 * m_mltProfile->dar();
     int swidth = 60.0 * m_mltProfile->width() / m_mltProfile->height();
     if (width % 2 == 1) width++;
@@ -4875,7 +4831,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     }
 }
 
-//static 
+//static
 bool Render::checkX11Grab()
 {
     if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::ffmpegpath().isEmpty()) return false;

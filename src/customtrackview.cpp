@@ -85,11 +85,7 @@
 #include <QApplication>
 #include <QInputDialog>
 #include <QGLWidget>
-
-
-#if QT_VERSION >= 0x040600
 #include <QGraphicsDropShadowEffect>
-#endif
 
 #define SEEK_INACTIVE (-1)
 
@@ -878,15 +874,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_dragItem = NULL;
     }
 
-#if QT_VERSION >= 0x040800
-    // Add shadow to dragged item, currently disabled because of painting artifacts
-    /*if (m_dragItem) {
-    QGraphicsDropShadowEffect *eff = new QGraphicsDropShadowEffect();
-    eff->setBlurRadius(5);
-    eff->setOffset(3, 3);
-    m_dragItem->setGraphicsEffect(eff);
-    }*/
-#endif
     if (m_dragItem && m_dragItem->type() == TransitionWidget && m_dragItem->isEnabled()) {
         // update transition menu action
         m_autoTransition->setChecked(static_cast<Transition *>(m_dragItem)->isAutomatic());
@@ -1670,7 +1657,7 @@ void CustomTrackView::insertClipCut(DocClipBase *clip, int in, int out)
     new AddTimelineClipCommand(this, clip->toXML(), clip->getId(), pasteInfo, EffectsList(), m_scene->editMode() == OverwriteEdit, m_scene->editMode() == InsertEdit, true, false, addCommand);
     new RefreshMonitorCommand(this, true, false, addCommand);
     updateTrackDuration(pasteInfo.track, addCommand);
-    
+
     m_commandStack->push(addCommand);
 
     selectClip(true, false);
@@ -2698,19 +2685,13 @@ void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTr
     m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML(), refresh);
     if (m_dragItem == item) m_dragItem = NULL;
 
-#if QT_VERSION >= 0x040600
-    // animate item deletion
     item->closeAnimation();
-#else
-    delete item;
-#endif
     emit transitionItemSelected(NULL);
     setDocumentModified();
 }
 
 void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
 {
-    //kDebug() << "TRANS UPDATE, TRACKS: " << old.attribute("transition_btrack") << ", NEW: " << tr->toXML().attribute("transition_btrack");
     QDomElement xml = tr->toXML();
     if (old.isNull() || xml.isNull()) {
         emit displayMessage(i18n("Cannot update transition"), ErrorMessage);
@@ -2729,7 +2710,7 @@ void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDom
         kWarning() << "Unable to find transition at pos :" << pos.frames(m_document->fps()) << ", ON track: " << track;
         return;
     }
-    
+
     bool force = false;
     if (oldTransition.attribute("transition_atrack") != transition.attribute("transition_atrack") || oldTransition.attribute("transition_btrack") != transition.attribute("transition_btrack"))
         force = true;
@@ -3285,7 +3266,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
                 // only unlock group, if it is not locked by another track too
                 if (!lock && child->track() != ix && m_document->trackInfoAt(m_document->tracksCount() - child->track() - 1).isLocked)
                     changeGroupLock = false;
-                
+
                 // only (un-)lock if at least one clip is on the track
                 if (child->track() == ix)
                     hasClipOnTrack = true;
@@ -3689,11 +3670,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     }
     m_clipDrag = false;
     //setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
-#if QT_VERSION >= 0x040800
     if (m_dragItem) {
         m_dragItem->setGraphicsEffect(NULL);
     }
-#endif
     if (m_scrollTimer.isActive()) m_scrollTimer.stop();
     if (event->button() == Qt::MidButton) {
         return;
@@ -4285,33 +4264,8 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     item->baseClip()->removeReference();
     m_document->updateClip(item->baseClip()->getId());
 
-    /*if (item->baseClip()->isTransparent()) {
-        // also remove automatic transition
-        Transition *tr = getTransitionItemAt(info.startPos, info.track);
-        if (tr && tr->isAutomatic()) {
-            m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
-            scene()->removeItem(tr);
-            delete tr;
-        }
-    }*/
-
     if (m_dragItem == item) m_dragItem = NULL;
-
-#if QT_VERSION >= 0x040600
-    // animate item deletion
     item->closeAnimation();
-    /*if (refresh) item->closeAnimation();
-    else {
-        // no refresh, means we have several operations chained, we need to delete clip immediatly
-        // so that it does not get in the way of the other
-        delete item;
-        item = NULL;
-    }*/
-#else
-    delete item;
-    item = NULL;
-#endif
-
     setDocumentModified();
     if (refresh) m_document->renderer()->doRefresh();
 }
@@ -4593,17 +4547,17 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
 
     if (baseclip->getProducer() == NULL) {
         // If the clip has no producer, we must wait until it is created...
-        
+
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
-	m_document->renderer()->forceProcessing(clipId);
-	m_mutex.lock();
+    m_document->renderer()->forceProcessing(clipId);
+    m_mutex.lock();
         for (int i = 0; i < 10; ++i) {
-	    baseclip = m_document->clipManager()->getClipById(clipId);
-	    if (baseclip == NULL) {
-		emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
-		m_mutex.unlock();
-		return;
-	    }
+        baseclip = m_document->clipManager()->getClipById(clipId);
+        if (baseclip == NULL) {
+        emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
+        m_mutex.unlock();
+        return;
+        }
             if (baseclip->getProducer() == NULL) {
                 m_producerNotReady.wait(&m_mutex);
             } else break;
@@ -4799,12 +4753,6 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     }
     Mlt::Producer *prod = item->getProducer(end.track);
 
-#ifdef DEBUG
-    qDebug() << "Moving item " << (long)item << " from .. to:";
-    qDebug() << item->info();
-    qDebug() << start;
-    qDebug() << end;
-#endif
     bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track),
                                                        (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()),
                                                        prod);
@@ -4839,13 +4787,7 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     if (refresh) m_document->renderer()->doRefresh();
     if (out_actualEnd != NULL) {
         *out_actualEnd = item->info();
-#ifdef DEBUG
-        qDebug() << "Actual end position updated:" << *out_actualEnd;
-#endif
     }
-#ifdef DEBUG
-    qDebug() << item->info();
-#endif
     return success;
 }
 
@@ -5755,7 +5697,7 @@ void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const
         }
         if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
     }
-    
+
     else if (oldPos >= GenTime()) {
         // move guide
         for (int i = 0; i < m_guides.count(); ++i) {
@@ -6584,7 +6526,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     // Clear effect stack
     clearSelection();
     emit transitionItemSelected(NULL);
-    
+
     double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), m_tracksHeight / 2 - 1);
     QList<QGraphicsItem *> selection = m_scene->items(r);
@@ -6746,13 +6688,6 @@ void CustomTrackView::setAudioAlignReference()
             AudioEnvelope *envelope = new AudioEnvelope(clip->baseClip()->fileURL().path(), clip->getProducer(clip->track()));
             m_audioCorrelator = new AudioCorrelation(envelope);
 
-
-#ifdef DEBUG
-            envelope->drawEnvelope().save("kdenlive-audio-reference-envelope.png");
-            envelope->dumpInfo();
-#endif
-
-
             emit displayMessage(i18n("Audio align reference set."), InformationMessage);
         }
         return;
@@ -6796,21 +6731,6 @@ void CustomTrackView::alignAudio()
                 int shift = m_audioCorrelator->getShift(index);
                 counter++;
 
-
-#ifdef DEBUG
-                m_audioCorrelator->info(index)->toImage().save("kdenlive-audio-align-cross-correlation.png");
-                envelope->drawEnvelope().save("kdenlive-audio-align-envelope.png");
-                envelope->dumpInfo();
-
-                int targetPos = m_audioAlignmentReference->startPos().frames(m_document->fps()) + shift;
-                qDebug() << "Reference starts at " << m_audioAlignmentReference->startPos().frames(m_document->fps());
-                qDebug() << "We will start at " << targetPos;
-                qDebug() << "to shift by " << shift;
-                qDebug() << "(eventually)";
-                qDebug() << "(maybe)";
-#endif
-
-
                 QUndoCommand *moveCommand = new QUndoCommand();
 
                 GenTime add(shift, m_document->fps());
@@ -6824,11 +6744,6 @@ void CustomTrackView::alignAudio()
                     // Clip would start before 0, so crop it first
                     GenTime cropBy = -end.startPos;
 
-#ifdef DEBUG
-                    qDebug() << "Need to crop clip. " << start;
-                    qDebug() << "end.startPos: " << end.startPos.toString() << ", cropBy: " << cropBy.toString();
-#endif
-
                     ItemInfo resized = start;
                     resized.startPos += cropBy;
 
@@ -6837,11 +6752,6 @@ void CustomTrackView::alignAudio()
 
                     start = clip->info();
                     end.startPos += cropBy;
-
-#ifdef DEBUG
-                    qDebug() << "Clip cropped. " << start;
-                    qDebug() << "Moving to: " << end;
-#endif
                 }
 
                 if (itemCollision(clip, end)) {
@@ -7125,7 +7035,7 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
             }
         }
     }
-    
+
     for (int i = 0; i < m_audioActions.count(); ++i) {
         m_audioActions.at(i)->setEnabled(hasAudio);
     }
@@ -7551,7 +7461,7 @@ bool CustomTrackView::hasAudio(int track) const
 
 void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
 {
-    
+
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
     if (effect.tagName() == "effectgroup") {
@@ -7619,7 +7529,7 @@ EffectsParameterList CustomTrackView::getEffectArgs(const QDomElement &effect)
 
     QDomNodeList params = effect.elementsByTagName("parameter");
     adjustEffectParameters(parameters, params, m_document->mltProfile());
-    
+
     return parameters;
 }
 
@@ -7832,7 +7742,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
         // Import keyframes from current clip to its effect
         if (m_dragItem) item = static_cast<ClipItem*> (m_dragItem);
     }
-    
+
     if (!item) {
         emit displayMessage(i18n("No clip found"), ErrorMessage);
         return;
@@ -7861,7 +7771,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
         return;
     }
     QString keyframeData = ui.data_list->itemData(ui.data_list->currentIndex()).toString();
-    
+
     int offset = item->cropStart().frames(m_document->fps());
     Mlt::Geometry geometry(keyframeData.toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
     Mlt::Geometry newGeometry(QString().toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
@@ -7877,7 +7787,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
         newGeometry.insert(gitem);
     }
     QStringList keyframeList = QString(newGeometry.serialise()).split(';', QString::SkipEmptyParts);
-    
+
     QString result;
     if (ui.import_position->isChecked()) {
         if (ui.import_size->isChecked()) {

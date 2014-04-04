@@ -32,9 +32,9 @@ BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
         , m_pixmapCache(NULL)
         , m_pixmapIsDirty(true)
         , m_currentPointIndex(-1)
-	, m_currentPointType(PTypeP)
-	, m_grabOffsetX(0)
-	, m_grabOffsetY(0)
+    , m_currentPointType(PTypeP)
+    , m_grabOffsetX(0)
+    , m_grabOffsetY(0)
 {
     setMouseTracking(true);
     setAutoFillBackground(false);
@@ -201,7 +201,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
      * Spline
      */
     BPoint next;
-    
+
     QPainterPath splinePath(QPointF(point.p.x(), point.p.y()));
     for (int i = 0; i < max; ++i) {
         point = m_spline.getPoint(i, wWidth, wHeight, true);
@@ -218,9 +218,6 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     p.setPen(QPen(Qt::red, 1, Qt::SolidLine));
 
     QPolygonF handle = QPolygonF() << QPointF(0, -3) << QPointF(3, 0) << QPointF(0, 3) << QPointF(-3, 0);
-#if QT_VERSION < 0x040600
-    QPolygonF tmp;
-#endif
 
     for (int i = 0; i <= max; ++i) {
         point = m_spline.getPoint(i, wWidth, wHeight, true);
@@ -238,22 +235,10 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
         p.drawEllipse(QRectF(point.p.x() - 3,
                              point.p.y() - 3, 6, 6));
         if (i != 0 && (i == m_currentPointIndex || m_showAllHandles)) {
-#if QT_VERSION >= 0x040600
             p.drawConvexPolygon(handle.translated(point.h1.x(), point.h1.y()));
-#else
-            tmp = handle;
-            tmp.translate(point.h1.x(), point.h1.y());
-            p.drawConvexPolygon(tmp);
-#endif
         }
         if (i != max && (i == m_currentPointIndex || m_showAllHandles)) {
-#if QT_VERSION >= 0x040600
             p.drawConvexPolygon(handle.translated(point.h2.x(), point.h2.y()));
-#else
-            tmp = handle;
-            tmp.translate(point.h2.x(), point.h2.y());
-            p.drawConvexPolygon(tmp);
-#endif
         }
 
         if ( i == m_currentPointIndex)
@@ -351,7 +336,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
 
     double x = (event->pos().x() - offsetX) / (double)(wWidth);
     double y = 1.0 - (event->pos().y() - offsetY) / (double)(wHeight);
-    
+
     if (m_mode == ModeNormal) {
         // If no point is selected set the the cursor shape if on top
         point_types type;

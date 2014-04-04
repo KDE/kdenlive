@@ -23,13 +23,6 @@
 #include <KGlobal>
 #include <KSharedConfig>
 
-// Uncomment for Scope debugging.
-//#define DEBUG_ASW
-
-#ifdef DEBUG_ASW
-#include <QDebug>
-#endif
-
 const int REALTIME_FPS = 30;
 
 const QColor light(250, 238, 226, 255);
@@ -66,9 +59,9 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
         , m_rescaleMinDist(4)
         , m_rescaleVerticalThreshold(2.0f)
         , m_rescaleActive(false)
-	, m_rescalePropertiesLocked(false)
-	, m_rescaleFirstRescaleDone(true)
-	, m_rescaleDirection(North)
+    , m_rescalePropertiesLocked(false)
+    , m_rescaleFirstRescaleDone(true)
+    , m_rescaleDirection(North)
 
 {
     m_scopePalette = QPalette();
@@ -150,27 +143,14 @@ QString AbstractScopeWidget::configName()
 
 void AbstractScopeWidget::prodHUDThread()
 {
-    if (this->visibleRegion().isEmpty()) {
-#ifdef DEBUG_ASW
-        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating HUD.";
-#endif
-    } else {
+    if (!this->visibleRegion().isEmpty()) {
         if (m_semaphoreHUD.tryAcquire(1)) {
             Q_ASSERT(!m_threadHUD.isRunning());
 
             m_newHUDFrames.fetchAndStoreRelaxed(0);
             m_newHUDUpdates.fetchAndStoreRelaxed(0);
             m_threadHUD = QtConcurrent::run(this, &AbstractScopeWidget::renderHUD, m_accelFactorHUD);
-#ifdef DEBUG_ASW
-            qDebug() << "HUD thread started in " << m_widgetName;
-#endif
-
         }
-#ifdef DEBUG_ASW
-        else {
-            qDebug() << "HUD semaphore locked, not prodding in " << m_widgetName << ". Thread running: " << m_threadHUD.isRunning();
-        }
-#endif
     }
 }
 
@@ -179,9 +159,6 @@ void AbstractScopeWidget::prodScopeThread()
     // Only start a new thread if the scope is actually visible
     // and not hidden by another widget on the stack and if user want the scope to update.
     if (this->visibleRegion().isEmpty() || (!m_aAutoRefresh->isChecked() && !m_requestForcedUpdate)) {
-#ifdef DEBUG_ASW
-        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating scope.";
-#endif
     } else {
         // Try to acquire the semaphore. This must only succeed if m_threadScope is not running
         // anymore. Therefore the semaphore must NOT be released before m_threadScope ends.
@@ -198,50 +175,24 @@ void AbstractScopeWidget::prodScopeThread()
             // running member functions in a thread
             m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope);
             m_requestForcedUpdate = false;
-
-#ifdef DEBUG_ASW
-            qDebug() << "Scope thread started in " << m_widgetName;
-#endif
-
-        } else {
-#ifdef DEBUG_ASW
-            qDebug() << "Scope semaphore locked, not prodding in " << m_widgetName << ". Thread running: " << m_threadScope.isRunning();
-#endif
         }
     }
 }
 void AbstractScopeWidget::prodBackgroundThread()
 {
-    if (this->visibleRegion().isEmpty()) {
-#ifdef DEBUG_ASW
-        qDebug() << "Scope " << m_widgetName << " is not visible. Not calculating background.";
-#endif
-    } else {
+    if (!this->visibleRegion().isEmpty()) {
         if (m_semaphoreBackground.tryAcquire(1)) {
             Q_ASSERT(!m_threadBackground.isRunning());
 
             m_newBackgroundFrames.fetchAndStoreRelaxed(0);
             m_newBackgroundUpdates.fetchAndStoreRelaxed(0);
             m_threadBackground = QtConcurrent::run(this, &AbstractScopeWidget::renderBackground, m_accelFactorBackground);
-
-#ifdef DEBUG_ASW
-            qDebug() << "Background thread started in " << m_widgetName;
-#endif
-
-        } else {
-#ifdef DEBUG_ASW
-            qDebug() << "Background semaphore locked, not prodding in " << m_widgetName << ". Thread running: " << m_threadBackground.isRunning();
-#endif
         }
     }
 }
 
 void AbstractScopeWidget::forceUpdate(bool doUpdate)
 {
-#ifdef DEBUG_ASW
-    qDebug() << "Forced update called in " << widgetName() << ". Arg: " << doUpdate;
-#endif
-
     if (!doUpdate) {
         return;
     }
@@ -373,9 +324,6 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
                 } else {
                     m_rescaleDirection = Southeast;
                 }
-#ifdef DEBUG_ASW
-                qDebug() << "Diff is " << diff << "; chose " << directions[m_rescaleDirection] << " as direction";
-#endif
                 m_rescalePropertiesLocked = true;
             }
         }
@@ -411,9 +359,6 @@ uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
 
 void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor)
 {
-#ifdef DEBUG_ASW
-    qDebug() << "HUD rendering has finished in " << mseconds << " ms, waiting for termination in " << m_widgetName;
-#endif
     m_threadHUD.waitForFinished();
     m_imgHUD = m_threadHUD.result();
 
@@ -430,10 +375,6 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
     }
 
     if ((m_newHUDFrames > 0 && m_aAutoRefresh->isChecked()) || m_newHUDUpdates > 0) {
-#ifdef DEBUG_ASW
-        qDebug() << "Trying to start a new HUD thread for " << m_widgetName
-                << ". New frames/updates: " << m_newHUDFrames << "/" << m_newHUDUpdates;
-#endif
         prodHUDThread();
     }
 }
@@ -442,9 +383,6 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
 {
     // The signal can be received before the thread has really finished. So we
     // need to wait until it has really finished before starting a new thread.
-#ifdef DEBUG_ASW
-    qDebug() << "Scope rendering has finished in " << mseconds << " ms, waiting for termination in " << m_widgetName;
-#endif
     m_threadScope.waitForFinished();
     m_imgScope = m_threadScope.result();
 
@@ -468,19 +406,12 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
     }
 
     if ((m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
-#ifdef DEBUG_ASW
-        qDebug() << "Trying to start a new scope thread for " << m_widgetName
-                << ". New frames/updates: " << m_newScopeFrames << "/" << m_newScopeUpdates;
-#endif
         prodScopeThread();
     }
 }
 
 void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint oldFactor)
 {
-#ifdef DEBUG_ASW
-    qDebug() << "Background rendering has finished in " << mseconds << " ms, waiting for termination in " << m_widgetName;
-#endif
     m_threadBackground.waitForFinished();
     m_imgBackground = m_threadBackground.result();
 
@@ -497,10 +428,6 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
     }
 
     if ((m_newBackgroundFrames > 0 && m_aAutoRefresh->isChecked()) || m_newBackgroundUpdates > 0) {
-#ifdef DEBUG_ASW
-        qDebug() << "Trying to start a new background thread for " << m_widgetName
-                << ". New frames/updates: " << m_newBackgroundFrames << "/" << m_newBackgroundUpdates;
-#endif
         prodBackgroundThread();;
     }
 }
@@ -511,16 +438,7 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
     m_newScopeFrames.fetchAndAddRelaxed(1);
     m_newBackgroundFrames.fetchAndAddRelaxed(1);
 
-#ifdef DEBUG_ASW
-    qDebug() << "Data incoming at " << widgetName() << ". New frames total HUD/Scope/Background: " << m_newHUDFrames
-            << "/" << m_newScopeFrames << "/" << m_newBackgroundFrames;
-#endif
-
-    if (this->visibleRegion().isEmpty()) {
-#ifdef DEBUG_ASW
-        qDebug() << "Scope of widget " << m_widgetName << " is not at the top, not rendering.";
-#endif
-    } else {
+    if (!this->visibleRegion().isEmpty()) {
         if (m_aAutoRefresh->isChecked()) {
             prodHUDThread();
             prodScopeThread();
@@ -545,10 +463,6 @@ bool AbstractScopeWidget::autoRefreshEnabled() const
 
 void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
-#ifdef DEBUG_ASW
-    qDebug() << "Auto-refresh switched to " << autoRefresh << " in " << widgetName()
-            << " (Visible: " << isVisible() << "/" << this->visibleRegion().isEmpty() << ")";
-#endif
     if (isVisible()) {
         // Notify listeners whether we accept new frames now
         emit requestAutoRefresh(autoRefresh);
@@ -561,10 +475,5 @@ void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 }
 
 void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection, const Qt::KeyboardModifiers) { }
-
-
-#ifdef DEBUG_ASW
-#undef DEBUG_ASW
-#endif
 
 #include "abstractscopewidget.moc"

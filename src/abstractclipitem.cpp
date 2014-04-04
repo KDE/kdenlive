@@ -40,15 +40,13 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
         , m_keyframeFactor(1)
         , m_keyframeOffset(0)
         , m_keyframeDefault(0)
-	, m_visibleParam(0)
+    , m_visibleParam(0)
         , m_fps(fps)
         , m_isMainSelectedClip(false)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-#if QT_VERSION >= 0x040600
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
-#endif
 }
 
 AbstractClipItem::~AbstractClipItem()
@@ -57,7 +55,6 @@ AbstractClipItem::~AbstractClipItem()
 
 void AbstractClipItem::closeAnimation()
 {
-#if QT_VERSION >= 0x040600
     if (!isEnabled()) return;
     setEnabled(false);
     setFlag(QGraphicsItem::ItemIsSelectable, false);
@@ -86,7 +83,6 @@ void AbstractClipItem::closeAnimation()
     group->addAnimation(closeAnimation);
     group->addAnimation(closeAnimation2);
     group->start(QAbstractAnimation::DeleteWhenStopped);
-#endif
 }
 
 ItemInfo AbstractClipItem::info() const
@@ -285,7 +281,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, const QTransform &transf
         }
         y1 = br.bottom() - (m_keyframeDefault - m_keyframeOffset) * maxh;
         QLineF l(x1, y1, x2, y1);
-	QLineF l2 = transformation.map(l);
+    QLineF l2 = transformation.map(l);
         painter->setPen(QColor(168, 168, 168, 180));
         painter->drawLine(l2);
         painter->setPen(QColor(108, 108, 108, 180));
@@ -451,13 +447,13 @@ int AbstractClipItem::checkForSingleKeyframe()
 {
     // Check if we have only one keyframe
     if (!m_keyframes.isEmpty() && m_keyframes.count() == 1) {
-	int min = (int) cropStart().frames(m_fps);
-	int max = (int)(cropStart() + cropDuration()).frames(m_fps) - 1;
-	if (m_keyframes.contains(min)) {
-	    // Add keyframe at end of clip to allow inserting a new keframe in between
-	    m_keyframes[max] = m_keyframes.value(min);
-	    return m_keyframes.value(min);
-	}
+    int min = (int) cropStart().frames(m_fps);
+    int max = (int)(cropStart() + cropDuration()).frames(m_fps) - 1;
+    if (m_keyframes.contains(min)) {
+        // Add keyframe at end of clip to allow inserting a new keframe in between
+        m_keyframes[max] = m_keyframes.value(min);
+        return m_keyframes.value(min);
+    }
     }
     return -1;
 }

@@ -39,11 +39,9 @@
 
 #include <locale.h>
 
-#if QT_VERSION >= 0x040600
 #include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
-#endif
 
 QByteArray fileToByteArray(const QString& filename)
 {
@@ -182,7 +180,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             if (!t->data(100).isNull()) {
                 QStringList effectParams = t->data(100).toStringList();
                 QString effectName = effectParams.takeFirst();
-		content.setAttribute("textwidth", t->sceneBoundingRect().width());
+        content.setAttribute("textwidth", t->sceneBoundingRect().width());
                 content.setAttribute(effectName, effectParams.join(";"));
             }
 
@@ -222,7 +220,6 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         e.setAttribute("z-index", item->zValue());
         pos.appendChild(tr);
 
-#if QT_VERSION >= 0x040600
         // effects
         QGraphicsEffect *eff = item->graphicsEffect();
         if (eff) {
@@ -232,7 +229,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 effect.setAttribute("type", "blur");
                 effect.setAttribute("blurradius", blur->blurRadius());
             } /*else {
-		//WARNING:those effects are anyways broken because they use QPixmaps which are not safe for MLT's threaded workflow
+        //WARNING:those effects are anyways broken because they use QPixmaps which are not safe for MLT's threaded workflow
                 QGraphicsDropShadowEffect *shadow = static_cast <QGraphicsDropShadowEffect *>(eff);
                 if (shadow) {
                     effect.setAttribute("type", "shadow");
@@ -243,7 +240,6 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             }*/
             e.appendChild(effect);
         }
-#endif
 
         e.appendChild(pos);
         e.appendChild(content);
@@ -483,7 +479,6 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 gitem->setZValue(zValue);
                 gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
-#if QT_VERSION >= 0x040600
                 // effects
                 QDomNode eff = items.item(i).namedItem("effect");
                 if (!eff.isNull()) {
@@ -499,7 +494,6 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                         gitem->setGraphicsEffect(shadow);
                     }
                 }
-#endif
             }
 
             if (items.item(i).nodeName() == "background") {

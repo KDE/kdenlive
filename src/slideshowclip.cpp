@@ -161,10 +161,10 @@ void SlideshowClip::parseFolder()
     QString path = isMime ? m_view.folder_url->url().path() : m_view.pattern_url->url().directory();
     QDir dir(path);
     if (path.isEmpty() || !dir.exists()) {
-	m_count = 0;
-	m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-	m_view.label_info->setText(QString());
-	return;
+    m_count = 0;
+    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    m_view.label_info->setText(QString());
+    return;
     }
 
     KIcon unknownicon("unknown");
@@ -228,12 +228,8 @@ void SlideshowClip::slotGenerateThumbs()
             }
         }
     }
-#if KDE_IS_VERSION(4,7,0)
     m_thumbJob = new KIO::PreviewJob(fileList, QSize(50, 50));
     m_thumbJob->setScaleType(KIO::PreviewJob::Scaled);
-#else
-    m_thumbJob = new KIO::PreviewJob(fileList, 50, 0, 0, 0, true, false, 0);
-#endif
 
     m_thumbJob->setAutoDelete(false);
     connect(m_thumbJob, SIGNAL(gotPreview(KFileItem,QPixmap)), this, SLOT(slotSetPixmap(KFileItem,QPixmap)));
@@ -286,19 +282,19 @@ QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extens
     QString folder;
     if (isMime) {
         folder = url.path(KUrl::AddTrailingSlash);
-	// Check how many files we have
+    // Check how many files we have
         QDir dir(folder);
-	QStringList filters;
-	filters << "*." + extension.section('.', -1);
-	dir.setNameFilters(filters);
-	*list = dir.entryList(QDir::Files);
+    QStringList filters;
+    filters << "*." + extension.section('.', -1);
+    dir.setNameFilters(filters);
+    *list = dir.entryList(QDir::Files);
     } else {
         folder = url.directory(KUrl::AppendTrailingSlash);
         QString filter = url.fileName();
         QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);
         int fullSize = filter.size();
-	QString firstFrameData = filter;
+    QString firstFrameData = filter;
 
         while (filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
@@ -306,7 +302,7 @@ QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extens
 
         // Find number of digits in sequence
         int precision = fullSize - filter.size();
-	int firstFrame = firstFrameData.right(precision).toInt();
+    int firstFrame = firstFrameData.right(precision).toInt();
 
         // Check how many files we have
         QDir dir(folder);
@@ -322,7 +318,7 @@ QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extens
             }
         }
         extension = filter + "%0" + QString::number(precision) + 'd' + ext;
-	if (firstFrame > 0) extension.append(QString("?begin:%1").arg(firstFrame));
+    if (firstFrame > 0) extension.append(QString("?begin:%1").arg(firstFrame));
     }
     kDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;

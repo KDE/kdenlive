@@ -56,10 +56,10 @@ static QColor stringToColor(QString strColor)
                           ( intval >>  8 ) & 0xff,   // g
                           ( intval       ) & 0xff,   // b
                           ( intval >> 24 ) & 0xff ); // a
-	} else if (strColor.length() == 8) {
-	    // 0xRRGGBB
-	    strColor = strColor.replace('#', "0x");
-	    color.setNamedColor(strColor);
+    } else if (strColor.length() == 8) {
+        // 0xRRGGBB
+        strColor = strColor.replace('#', "0x");
+        color.setNamedColor(strColor);
         } else {
             // #RRGGBB, #RGB
             color.setNamedColor(strColor);
@@ -82,8 +82,8 @@ static QString colorToString(const QColor &color, bool alpha)
     if (alpha) {
         stream << color.alpha();
     } else {
-	// MLT always wants 0xRRGGBBAA format
-	stream << "ff";
+    // MLT always wants 0xRRGGBBAA format
+    stream << "ff";
     }
     return colorStr;
 }
@@ -98,9 +98,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
     QLabel *label = new QLabel(text, this);
     QColor col = stringToColor(color);
     m_button = new KColorButton(col, this);
-#if KDE_IS_VERSION(4,5,0)
     if (alphaEnabled) m_button->setAlphaChannelEnabled(alphaEnabled);
-#endif
 //     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     m_picker = new ColorPickerWidget(this);
     ColorWheel *wheel = new ColorWheel(col, this);
@@ -125,9 +123,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
 QString ChooseColorWidget::getColor() const
 {
     bool alphaChannel = false;
-#if KDE_IS_VERSION(4,5,0)
     alphaChannel = m_button->isAlphaChannelEnabled();
-#endif
     return colorToString(m_button->color(), alphaChannel);
 }
 

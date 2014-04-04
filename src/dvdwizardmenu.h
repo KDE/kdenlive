@@ -59,7 +59,7 @@ public:
 private:
     int m_width;
     int m_height;
-    
+
 protected:
     void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) {
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
@@ -86,10 +86,7 @@ class DvdButton : public QGraphicsTextItem
 
 public:
     DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QString("jump title 1")), m_backToMenu(false) {
-        setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-#if QT_VERSION >= 0x040600
-        setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-#endif
+        setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
     }
     void setTarget(int t, const QString &c) {
         m_target = t;

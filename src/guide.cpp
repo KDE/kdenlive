@@ -36,10 +36,9 @@ Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, do
         m_view(view),
         m_pen(QPen())
 {
-    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
-#if QT_VERSION >= 0x040600
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-#endif
+    setFlags(QGraphicsItem::ItemIsMovable
+             | QGraphicsItem::ItemIgnoresTransformations
+             | QGraphicsItem::ItemSendsGeometryChanges);
     setToolTip(label);
     setLine(0, 0, 0, height);
     if (m_position < GenTime()) m_position = GenTime();
@@ -158,13 +157,13 @@ void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     if (KdenliveSettings::showmarkers() && scene() && scene()->views().count()) {
         QPointF p1 = line().p1();
         const QFontMetrics metric = m_view->fontMetrics();
-	painter->setClipRect(option->rect);
+    painter->setClipRect(option->rect);
         // makes sure the text stays visible when scrolling vertical
         int offset = scene()->views()[0]->verticalScrollBar()->value();
 
         QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + offset, m_width, metric.height(), Qt::AlignLeft | Qt::AlignTop, m_label);
-	painter->setBrush(QBrush(m_pen.color()));
-	painter->drawRoundedRect(txtBounding.adjusted(-5, -5, 2, 1), 3, 3);
+    painter->setBrush(QBrush(m_pen.color()));
+    painter->drawRoundedRect(txtBounding.adjusted(-5, -5, 2, 1), 3, 3);
         painter->setPen(Qt::white);
         painter->drawText(txtBounding.adjusted(1, 0, 1, 0), Qt::AlignCenter, m_label);
     }

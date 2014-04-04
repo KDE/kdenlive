@@ -23,10 +23,7 @@
 
 #include <QGraphicsRectItem>
 #include <QGraphicsWidget>
-
-#if QT_VERSION >= 0x040600
 #include <QPropertyAnimation>
-#endif
 
 #include "definitions.h"
 #include "gentime.h"
@@ -98,7 +95,7 @@ public:
     void setMainSelectedClip(bool selected);
     /** @brief Is this clip selected as the main clip. */
     bool isMainSelectedClip();
-    
+
 protected:
     ItemInfo m_info;
     /** The position of the current keyframe when it has moved */

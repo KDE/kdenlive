@@ -57,7 +57,7 @@ bool DocumentValidator::validate(const double currentVersion)
     // Check if we're validating a Kdenlive project
     if (kdenliveDoc.isNull())
         return false;
-    
+
     QString rootDir = mlt.attribute("root");
     if (rootDir == "$CURRENTPATH") {
         // The document was extracted from a Kdenlive archived project, fix root directory
@@ -70,35 +70,35 @@ bool DocumentValidator::validate(const double currentVersion)
 
     // Previous MLT / Kdenlive versions used C locale by default
     QLocale documentLocale = QLocale::c();
-    
+
     if (mlt.hasAttribute("LC_NUMERIC")) {
-        // Set locale for the document        
+        // Set locale for the document
         const QString newLocale = setlocale(LC_NUMERIC, mlt.attribute("LC_NUMERIC").toUtf8().constData());
         documentLocale = QLocale(mlt.attribute("LC_NUMERIC"));
 
         // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
         // With some locales since C++ and Qt use a different database for locales
         char *separator = localeconv()->decimal_point;
-	if (newLocale.isEmpty()) {
+    if (newLocale.isEmpty()) {
             // Requested locale not available, ask for install
             KMessageBox::sorry(kapp->activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
         }
-	
+
         if (separator != documentLocale.decimalPoint()) {
-	    KMessageBox::sorry(kapp->activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
+        KMessageBox::sorry(kapp->activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
             kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
             // HACK: There is a locale conflict, so set locale to at least have correct decimal point
             if (strncmp(separator, ".", 1) == 0) documentLocale = QLocale::c();
             else if (strncmp(separator, ",", 1) == 0) documentLocale = QLocale("fr_FR.UTF-8");
         }
     }
-    
+
     documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
         // If loading an older MLT file without LC_NUMERIC, set locale to C which was previously the default
         if (!mlt.hasAttribute("LC_NUMERIC")) {
-	    setlocale(LC_NUMERIC, "C");
-	}
+        setlocale(LC_NUMERIC, "C");
+    }
 
         QLocale::setDefault(documentLocale);
         // locale conversion might need to be redone
@@ -108,19 +108,19 @@ bool DocumentValidator::validate(const double currentVersion)
     bool ok;
     double version = documentLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
     if (!ok) {
-	// Could not parse version number, there is probably a conflict in decimal separator
-	QLocale tempLocale = QLocale(mlt.attribute("LC_NUMERIC"));
-	version = tempLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
-	if (!ok) version = kdenliveDoc.attribute("version").toDouble(&ok);
-	if (!ok) {
-	    // Last try: replace comma with a dot
-	    QString versionString = kdenliveDoc.attribute("version");
-	    if (versionString.contains(',')) versionString.replace(',', '.');
-	    version = versionString.toDouble(&ok);
-	    if (!ok) kDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
-	}
+    // Could not parse version number, there is probably a conflict in decimal separator
+    QLocale tempLocale = QLocale(mlt.attribute("LC_NUMERIC"));
+    version = tempLocale.toDouble(kdenliveDoc.attribute("version"), &ok);
+    if (!ok) version = kdenliveDoc.attribute("version").toDouble(&ok);
+    if (!ok) {
+        // Last try: replace comma with a dot
+        QString versionString = kdenliveDoc.attribute("version");
+        if (versionString.contains(',')) versionString.replace(',', '.');
+        version = versionString.toDouble(&ok);
+        if (!ok) kDebug()<<"// CANNOT PARSE VERSION NUMBER, ERROR!";
     }
-    
+    }
+
     // Upgrade the document to the latest version
     if (!upgrade(version, currentVersion))
         return false;
@@ -218,11 +218,11 @@ bool DocumentValidator::validate(const double currentVersion)
                     tracksinfoElm.appendChild(trackinfo);
                 }
             }
-        }        
+        }
 
         // TODO: check the tracks references
         // TODO: check internal mix transitions
-        
+
     }
 
     updateEffects();
@@ -316,46 +316,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
                 track.setAttribute("producer", playlist_id);
                 //tractor.appendChild(track);
-#define KEEP_TRACK_ORDER 1
-#ifdef KEEP_TRACK_ORDER
                 tractor.insertAfter(track, QDomNode());
-#else
-                // Insert the new track in an order that hopefully matches the 3 video, then 2 audio tracks of Kdenlive 0.7.0
-                // insertion sort - O( tracks*tracks )
-                // Note, this breaks _all_ transitions - but you can move them up and down afterwards.
-                QDomElement tractor_elem = tractor.toElement();
-                if (! tractor_elem.isNull()) {
-                    QDomNodeList tracks = tractor_elem.elementsByTagName("track");
-                    int size = tracks.size();
-                    if (size == 0) {
-                        tractor.insertAfter(track, QDomNode());
-                    } else {
-                        bool inserted = false;
-                        for (int i = 0; i < size; ++i) {
-                            QDomElement track_elem = tracks.at(i).toElement();
-                            if (track_elem.isNull()) {
-                                tractor.insertAfter(track, QDomNode());
-                                inserted = true;
-                                break;
-                            } else {
-                                kDebug() << "playlist_id: " << playlist_id << " producer:" << track_elem.attribute("producer");
-                                if (playlist_id < track_elem.attribute("producer")) {
-                                    tractor.insertBefore(track, track_elem);
-                                    inserted = true;
-                                    break;
-                                }
-                            }
-                        }
-                        // Reach here, no insertion, insert last
-                        if (!inserted) {
-                            tractor.insertAfter(track, QDomNode());
-                        }
-                    }
-                } else {
-                    kWarning() << "tractor was not a QDomElement";
-                    tractor.insertAfter(track, QDomNode());
-                }
-#endif
             }
         tractor.removeChild(multitrack);
 
@@ -1075,11 +1036,7 @@ void DocumentValidator::updateEffects()
 {
     // WARNING: order by findDirs will determine which js file to use (in case multiple scripts for the same filter exist)
     QMap <QString, KUrl> paths;
-#if QT_VERSION >= 0x040700
     QMap <QString, QScriptProgram> scripts;
-#else
-    QMap <QString, QString> scripts;
-#endif
     QStringList directories = KGlobal::dirs()->findDirs("appdata", "effects/update");
     foreach (const QString &directoryName, directories) {
         QDir directory(directoryName);
@@ -1126,11 +1083,7 @@ void DocumentValidator::updateEffects()
                     if (!scriptFile.open(QIODevice::ReadOnly)) {
                         continue;
                     }
-#if QT_VERSION >= 0x040700
                     QScriptProgram scriptProgram(scriptFile.readAll());
-#else
-                    QString scriptProgram = scriptFile.readAll();
-#endif
                     scriptFile.close();
                     scripts.insert(effectId, scriptProgram);
                 }

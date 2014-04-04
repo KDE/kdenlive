@@ -166,26 +166,8 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
             i1->setPoint(p1);
             i2->setPoint(p2);
 
-#if QT_VERSION >= 0x040600
             BPointItem *i = new BPointItem(p, this);
             i->stackBefore(i2);
-#else
-            QList <BPoint> points;
-            BPointItem *item;
-            while (childItems().count()) {
-                item = qgraphicsitem_cast<BPointItem *>(childItems().takeFirst());
-                points.append(item->getPoint());
-                delete item;
-            }
-            int j = 0;
-            for ( ; j < points.count(); ++j) {
-                if (j == ix + 1)
-                    new BPointItem(p, this);
-                new BPointItem(points.at(j), this);
-            }
-            if (j == ix + 1)
-                new BPointItem(p, this);
-#endif
             updateSpline();
         }
     } else {
@@ -265,11 +247,7 @@ int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
         p2 = qgraphicsitem_cast<BPointItem *>(items.at(j))->getPoint();
         QPolygonF bounding = QPolygonF() << p1.p << p1.h2 << p2.h1 << p2.p;
         QPointF cl = closestPointInRect(point, bounding.boundingRect());
-#if QT_VERSION >= 0x040600
         qreal d = (point - cl).manhattanLength();
-#else
-        qreal d = qAbs((point - cl).x()) + qAbs((point - cl).y());
-#endif
 
         if (d > diff)
             continue;
@@ -293,11 +271,7 @@ int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
         cl.setX(n.x);
         cl.setY(n.y);
 
-#if QT_VERSION >= 0x040600
         d = (point - cl).manhattanLength();
-#else
-        d = qAbs((point - cl).x()) + qAbs((point - cl).y());
-#endif
         if (d < diff) {
             diff = d;
             param = t;

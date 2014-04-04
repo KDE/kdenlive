@@ -42,31 +42,9 @@
 #include <KRun>
 #include <KConfigGroup>
 
-#if KDE_IS_VERSION(4,4,0)
 #include <KPixmapSequence>
 #include <KPixmapSequenceOverlayPainter>
-#endif
 #include <KFileItem>
-
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    #include <Nepomuk/Variant>
-    #include <Nepomuk/Resource>
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Vocabulary/NIE>
-    #include <Nepomuk/Vocabulary/NCO>
-    #include <Nepomuk/Vocabulary/NDO>
-  #endif
-#endif
-
-#ifdef USE_NEPOMUKCORE
-  #include <Nepomuk2/Variant>
-  #include <Nepomuk2/Resource>
-  #include <Nepomuk2/ResourceManager>
-  #include <Nepomuk2/Vocabulary/NIE>
-  #include <Nepomuk2/Vocabulary/NCO>
-  #include <Nepomuk2/Vocabulary/NDO>
-#endif
 
 ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     QDialog(parent),
@@ -98,7 +76,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
     connect(info_browser, SIGNAL(anchorClicked(QUrl)), this, SLOT(slotOpenLink(QUrl)));
-    
+
     m_autoPlay = new QAction(i18n("Auto Play"), this);
     m_autoPlay->setCheckable(true);
     QMenu *resourceMenu = new QMenu;
@@ -106,19 +84,12 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     config_button->setMenu(resourceMenu);
     config_button->setIcon(KIcon("configure"));
 
-#if KDE_IS_VERSION(4,4,0)
     m_busyWidget = new KPixmapSequenceOverlayPainter(this);
     m_busyWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_busyWidget->setWidget(search_results->viewport());
-#endif
-    
+
     sound_box->setEnabled(false);
     search_text->setFocus();
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    Nepomuk::ResourceManager::instance()->init();
-  #endif
-#endif
     slotChangeService();
     loadConfig();
 }
@@ -152,9 +123,7 @@ void ResourceWidget::slotStartSearch(int page)
     page_number->blockSignals(true);
     page_number->setValue(page);
     page_number->blockSignals(false);
-#if KDE_IS_VERSION(4,4,0)
     m_busyWidget->start();
-#endif
     m_currentService->slotStartSearch(search_text->text(), page);
 }
 
@@ -174,7 +143,7 @@ void ResourceWidget::slotUpdateCurrentSound()
         return;
     }
     m_currentInfo = m_currentService->displayItemDetails(item);
-    
+
     if (m_autoPlay->isChecked() && m_currentService->hasPreview)
         m_currentService->startItemPreview(item);
     sound_box->setEnabled(true);
@@ -182,7 +151,7 @@ void ResourceWidget::slotUpdateCurrentSound()
     if (!m_currentInfo.infoUrl.isEmpty())
         title += QString(" (<a href=\"%1\">%2</a>)").arg(m_currentInfo.infoUrl).arg(i18nc("the url link pointing to a web page", "link"));
     title.append("</h3>");
-    
+
     if (!m_currentInfo.authorUrl.isEmpty()) {
         title += QString("<a href=\"%1\">").arg(m_currentInfo.authorUrl);
         if (!m_currentInfo.author.isEmpty())
@@ -194,7 +163,7 @@ void ResourceWidget::slotUpdateCurrentSound()
         title.append(m_currentInfo.author + "<br />");
     else
         title.append("<br />");
-    
+
     slotSetTitle(title);
     if (!m_currentInfo.description.isEmpty()) slotSetDescription(m_currentInfo.description);
     if (!m_currentInfo.license.isEmpty()) parseLicense(m_currentInfo.license);
@@ -271,7 +240,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     if (saveUrl.isEmpty() || !KIO::NetAccess::stat(srcUrl, entry, this))
         return;
     KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, KUrl(saveUrl), -1, KIO::Overwrite);
-    
+
     KFileItem info(entry, srcUrl);
     getJob->setSourceSize(info.size());
     getJob->setProperty("license", item_license->text());
@@ -288,28 +257,6 @@ void ResourceWidget::slotGotFile(KJob *job)
     if (job->error() != 0 ) return;
     KIO::FileCopyJob* copyJob = static_cast<KIO::FileCopyJob*>( job );
     const KUrl filePath = copyJob->destUrl();
-#ifdef USE_NEPOMUK
-  #if KDE_IS_VERSION(4,6,0)
-    Nepomuk::Resource res( filePath );
-    res.setProperty( Nepomuk::Vocabulary::NIE::license(), (Nepomuk::Variant) job->property("license") );
-    res.setProperty( Nepomuk::Vocabulary::NIE::licenseType(), (Nepomuk::Variant) job->property("licenseurl") );
-    res.setProperty( Nepomuk::Vocabulary::NDO::copiedFrom(), (Nepomuk::Variant) job->property("originurl") );
-    res.setProperty( Nepomuk::Vocabulary::NCO::creator(), (Nepomuk::Variant) job->property("author") );
-    //res.setDescription(item_description->toPlainText());
-    //res.setProperty( Soprano::Vocabulary::NAO::description(),
-  #endif
-#endif
-
-#ifdef USE_NEPOMUKCORE
-    Nepomuk2::Resource res( filePath );
-    res.setProperty( Nepomuk2::Vocabulary::NIE::license(), (Nepomuk2::Variant) job->property("license") );
-    res.setProperty( Nepomuk2::Vocabulary::NIE::licenseType(), (Nepomuk2::Variant) job->property("licenseurl") );
-    res.setProperty( Nepomuk2::Vocabulary::NDO::copiedFrom(), (Nepomuk2::Variant) job->property("originurl") );
-    res.setProperty( Nepomuk2::Vocabulary::NCO::creator(), (Nepomuk2::Variant) job->property("author") );
-    //res.setDescription(item_description->toPlainText());
-    //res.setProperty( Soprano::Vocabulary::NAO::description(),
-#endif
-
     emit addClip(filePath, stringMap());
 }
 
@@ -336,10 +283,8 @@ void ResourceWidget::slotChangeService()
     connect(m_currentService, SIGNAL(maxPages(int)), this, SLOT(slotSetMaximum(int)));
     connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
     connect(m_currentService, SIGNAL(gotThumb(QString)), this, SLOT(slotLoadThumb(QString)));
-#if KDE_IS_VERSION(4,4,0)
     connect(m_currentService, SIGNAL(searchDone()), m_busyWidget, SLOT(stop()));
-#endif
-    
+
     button_preview->setVisible(m_currentService->hasPreview);
     button_import->setVisible(!m_currentService->inlineDownload);
     search_info->setText(QString());

@@ -94,14 +94,8 @@
 #include <KFileItem>
 #include <KNotification>
 #include <KNotifyConfigWidget>
-#if KDE_IS_VERSION(4,3,80)
 #include <knewstuff3/downloaddialog.h>
 #include <knewstuff3/knewstuffaction.h>
-#else
-#include <knewstuff2/engine.h>
-#include <knewstuff2/ui/knewstuffaction.h>
-#define KNS3 KNS
-#endif
 #include <KToolBar>
 #include <KColorScheme>
 #include <KProgressDialog>
@@ -118,13 +112,6 @@
 
 #include <stdlib.h>
 #include <locale.h>
-
-// Uncomment for deeper debugging
-//#define DEBUG_MAINW
-
-#ifdef DEBUG_MAINW
-#include <QDebug>
-#endif
 
 static const char version[] = VERSION;
 
@@ -225,7 +212,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // FIXME: the next call returns a newly allocated object, which leaks
     initEffects::parseEffectFiles();
     //initEffects::parseCustomEffectsFile();
-    
+
     m_monitorManager = new MonitorManager();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
@@ -282,9 +269,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_notesWidget, SIGNAL(seekProject(int)), m_projectMonitor->render, SLOT(seekToFrame(int)));
 
     m_notesWidget->setTabChangesFocus(true);
-#if KDE_IS_VERSION(4,4,0)
     m_notesWidget->setClickMessage(i18n("Enter your project notes here ..."));
-#endif
     m_notesDock->setWidget(m_notesWidget);
     addDockWidget(Qt::TopDockWidgetArea, m_notesDock);
 
@@ -601,12 +586,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
     connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
-    
+
     KMenu *viewMenu = static_cast<KMenu*>(factory()->container("dockwindows", this));
     pair.first = showTimeline->text();
     pair.second = showTimeline;
     viewActions.append(pair);
-    
+
     QList <QDockWidget *> docks = findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget* dock = docks.at(i);
@@ -623,13 +608,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         pair.second = dockInformations;
         viewActions.append(pair);
     }
-    
+
     // Sort dock view action by name
     qSort(viewActions.begin(), viewActions.end(), sortByNames);
     // Populate view menu
     for (int i = 0; i < viewActions.count(); ++i)
         viewMenu->addAction(guiActions->addAction(viewActions.at(i).first, viewActions.at(i).second));
-    
+
     // Populate encoding profiles
     KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
     if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {
@@ -676,7 +661,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
             KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
         }
     }
-    
+
     connect (KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(slotChangePalette()));
 
     // Open or create a file.  Command line argument passed in Url has
@@ -1030,10 +1015,10 @@ void MainWindow::setupActions()
 
     KToolBar *toolbar = new KToolBar("statusToolBar", this, Qt::BottomToolBarArea);
     toolbar->setMovable(false);
-    
+
     setStatusBarStyleSheet(palette());
     QString styleBorderless = "QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}";
-    
+
     //create edit mode buttons
     m_normalEditTool = new KAction(KIcon("kdenlive-normal-edit"), i18n("Normal mode"), this);
     m_normalEditTool->setShortcut(i18nc("Normal editing", "n"));
@@ -1355,7 +1340,7 @@ void MainWindow::setupActions()
     fullMon->setText(i18n("Switch monitor fullscreen"));
     fullMon->setIcon(KIcon("view-fullscreen"));
     connect(fullMon, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotSwitchFullscreen()));
-    
+
     KSelectAction *interlace = new KSelectAction(i18n("Deinterlacer"), this);
     interlace->addAction(i18n("One Field (fast)"));
     interlace->addAction(i18n("Linear Blend (fast)"));
@@ -1367,7 +1352,7 @@ void MainWindow::setupActions()
     else interlace->setCurrentItem(0);
     collection.addAction("mlt_interlace", interlace);
     connect(interlace, SIGNAL(triggered(int)), this, SLOT(slotSetDeinterlacer(int)));
-    
+
     KSelectAction *interpol = new KSelectAction(i18n("Interpolation"), this);
     interpol->addAction(i18n("Nearest Neighbor (fast)"));
     interpol->addAction(i18n("Bilinear (good)"));
@@ -1506,7 +1491,7 @@ void MainWindow::setupActions()
     KAction* editItemDuration = new KAction(KIcon("measure"), i18n("Edit Duration"), this);
     collection.addAction("edit_item_duration", editItemDuration);
     connect(editItemDuration, SIGNAL(triggered(bool)), this, SLOT(slotEditItemDuration()));
-    
+
     KAction* saveTimelineClip = new KAction(KIcon("document-save"), i18n("Save clip"), this);
     collection.addAction("save_timeline_clip", saveTimelineClip);
     connect(saveTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotSaveTimelineClip()));
@@ -2739,7 +2724,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
             disconnect(m_projectList, SIGNAL(refreshClip(QString)), m_activeTimeline->projectView(), SLOT(slotRefreshThumbs(QString)));
             disconnect(m_projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-	    disconnect(m_projectMonitor->render, SIGNAL(infoProcessingFinished()), m_activeTimeline->projectView(), SLOT(slotInfoProcessingFinished()));
+        disconnect(m_projectMonitor->render, SIGNAL(infoProcessingFinished()), m_activeTimeline->projectView(), SLOT(slotInfoProcessingFinished()));
             m_effectStack->clear();
         }
         //m_activeDocument->setRenderer(NULL);
@@ -2810,13 +2795,13 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(m_effectStack, SIGNAL(addEffect(ClipItem*,QDomElement)), trackView->projectView(), SLOT(slotAddEffect(ClipItem*,QDomElement)));
     connect(m_effectStack, SIGNAL(changeEffectState(ClipItem*,int,QList<int>,bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*,int,QList<int>,bool)));
     connect(m_effectStack, SIGNAL(changeEffectPosition(ClipItem*,int,QList<int>,int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*,int,QList<int>,int)));
-    
+
     connect(m_effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView(), SLOT(seekCursorPos(int)));
     connect(m_effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem)), trackView->projectView(), SLOT(slotImportClipKeyframes(GraphicsRectItem)));
     connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
     connect(m_effectStack, SIGNAL(displayMessage(QString,int)), this, SLOT(slotGotProgressInfo(QString,int)));
-    
+
     // Transition config signals
     connect(m_transitionConfig, SIGNAL(transitionUpdated(Transition*,QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
     connect(m_transitionConfig, SIGNAL(importClipKeyframes(GraphicsRectItem)), trackView->projectView() , SLOT(slotImportClipKeyframes(GraphicsRectItem)));
@@ -3062,7 +3047,7 @@ void MainWindow::slotAddClipMarker(const QString &clipId, CommentedTime marker)
         label = i18n("Add Marker");
     }
     else label = i18n("Edit Marker");
-    
+
     QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, m_activeDocument->timecode(), label, m_glContext, this);
     if (d->exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, QList <CommentedTime>() << d->newMarker());
@@ -3567,7 +3552,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         //m_activeDocument->editTextClip(clip->getProperty("xml"), clip->getId());
         return;
     }
-    
+
     // Check if we already have a properties dialog opened for that clip
     QList <ClipProperties *> list = findChildren<ClipProperties *>();
     for (int i = 0; i < list.size(); ++i) {
@@ -3587,7 +3572,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         connect(dia, SIGNAL(requestThumb(QString,QList<int>)), m_activeDocument->clipManager(), SLOT(slotRequestThumbs(QString,QList<int>)));
         m_activeDocument->clipManager()->slotRequestThumbs(QString('?' + clip->getId()), QList<int>() << clip->getClipThumbFrame());
     }
-    
+
     connect(dia, SIGNAL(editMarkers(QString,QList<CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
     connect(dia, SIGNAL(addMarkers(QString, CommentedTime)), this, SLOT(slotAddClipMarker(QString, CommentedTime)));
     connect(dia, SIGNAL(editAnalysis(QString,QString,QString)), m_activeTimeline->projectView(), SLOT(slotAddClipExtraData(QString,QString,QString)));
@@ -4022,15 +4007,9 @@ void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *b
         if (baseClip && !baseClip->fileURL().isEmpty()) {
             // create zone from clip url, so that we don't have problems with proxy clips
             QProcess p;
-#if QT_VERSION >= 0x040600
             QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
             env.remove("MLT_PROFILE");
             p.setProcessEnvironment(env);
-#else
-            QStringList env = QProcess::systemEnvironment();
-            env << "MLT_PROFILE='\0'";
-            p.setEnvironment(env);
-#endif
             p.start(KdenliveSettings::rendererpath(), QStringList() << baseClip->fileURL().path() << "in=" + QString::number(zone.x()) << "out=" + QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
             if (!p.waitForStarted(3000)) {
                 KMessageBox::sorry(this, i18n("Cannot start MLT's renderer:\n%1", KdenliveSettings::rendererpath()));
@@ -4078,7 +4057,6 @@ void MainWindow::slotResizeItemEnd()
 int MainWindow::getNewStuff(const QString &configFile)
 {
     KNS3::Entry::List entries;
-#if KDE_IS_VERSION(4,3,80)
     QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
     if (dialog->exec()) entries = dialog->changedEntries();
     foreach(const KNS3::Entry & entry, entries) {
@@ -4086,15 +4064,6 @@ int MainWindow::getNewStuff(const QString &configFile)
             kDebug() << "// Installed files: " << entry.installedFiles();
     }
     delete dialog;
-#else
-    KNS::Engine engine(0);
-    if (engine.init(configFile))
-        entries = engine.downloadDialogModal(this);
-    foreach(KNS::Entry * entry, entries) {
-        if (entry->status() == KNS::Entry::Installed)
-            kDebug() << "// Installed files: " << entry->installedFiles();
-    }
-#endif
     return entries.size();
 }
 
@@ -4565,45 +4534,7 @@ void MainWindow::slotChangePalette(QAction *action, const QString &themename)
     } else {
         KSharedConfigPtr config = KSharedConfig::openConfig(theme);
 
-#if KDE_IS_VERSION(4,6,3)
         plt = KGlobalSettings::createNewApplicationPalette(config);
-#else
-        // Since there was a bug in createApplicationPalette in KDE < 4.6.3 we need
-        // to do the palette loading stuff ourselves. (https://bugs.kde.org/show_bug.cgi?id=263497)
-        QPalette::ColorGroup states[3] = { QPalette::Active, QPalette::Inactive,
-                                           QPalette::Disabled };
-        // TT thinks tooltips shouldn't use active, so we use our active colors for all states
-        KColorScheme schemeTooltip(QPalette::Active, KColorScheme::Tooltip, config);
-
-        for ( int i = 0; i < 3 ; ++i ) {
-            QPalette::ColorGroup state = states[i];
-            KColorScheme schemeView(state, KColorScheme::View, config);
-            KColorScheme schemeWindow(state, KColorScheme::Window, config);
-            KColorScheme schemeButton(state, KColorScheme::Button, config);
-            KColorScheme schemeSelection(state, KColorScheme::Selection, config);
-
-            plt.setBrush( state, QPalette::WindowText, schemeWindow.foreground() );
-            plt.setBrush( state, QPalette::Window, schemeWindow.background() );
-            plt.setBrush( state, QPalette::Base, schemeView.background() );
-            plt.setBrush( state, QPalette::Text, schemeView.foreground() );
-            plt.setBrush( state, QPalette::Button, schemeButton.background() );
-            plt.setBrush( state, QPalette::ButtonText, schemeButton.foreground() );
-            plt.setBrush( state, QPalette::Highlight, schemeSelection.background() );
-            plt.setBrush( state, QPalette::HighlightedText, schemeSelection.foreground() );
-            plt.setBrush( state, QPalette::ToolTipBase, schemeTooltip.background() );
-            plt.setBrush( state, QPalette::ToolTipText, schemeTooltip.foreground() );
-
-            plt.setColor( state, QPalette::Light, schemeWindow.shade( KColorScheme::LightShade ) );
-            plt.setColor( state, QPalette::Midlight, schemeWindow.shade( KColorScheme::MidlightShade ) );
-            plt.setColor( state, QPalette::Mid, schemeWindow.shade( KColorScheme::MidShade ) );
-            plt.setColor( state, QPalette::Dark, schemeWindow.shade( KColorScheme::DarkShade ) );
-            plt.setColor( state, QPalette::Shadow, schemeWindow.shade( KColorScheme::ShadowShade ) );
-
-            plt.setBrush( state, QPalette::AlternateBase, schemeView.background( KColorScheme::AlternateBackground) );
-            plt.setBrush( state, QPalette::Link, schemeView.foreground( KColorScheme::LinkText ) );
-            plt.setBrush( state, QPalette::LinkVisited, schemeView.foreground( KColorScheme::VisitedText ) );
-        }
-#endif
     }
 
     kapp->setPalette(plt);
@@ -4739,9 +4670,6 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
         return;
     }
     if (m_scopeManager->imagesAcceptedByScopes()) request = true;
-#ifdef DEBUG_MAINW
-    qDebug() << "Any scope accepting new frames? " << request;
-#endif
     if (!request) {
         m_projectMonitor->glWidget()->sendFrameForAnalysis = false;
     }
@@ -4850,10 +4778,10 @@ void MainWindow::slotChangePalette()
     if (m_effectStack) m_effectStack->updatePalette();
     if (m_projectList) m_projectList->updatePalette();
     if (m_effectList) m_effectList->updatePalette();
-    
+
     if (m_clipMonitor) m_clipMonitor->setPalette(plt);
     if (m_projectMonitor) m_projectMonitor->setPalette(plt);
-    
+
     setStatusBarStyleSheet(plt);
     if (m_activeTimeline) {
         m_activeTimeline->updatePalette();
@@ -4936,7 +4864,3 @@ void MainWindow::slotSetInterpolation(int ix)
 }
 
 #include "mainwindow.moc"
-
-#ifdef DEBUG_MAINW
-#undef DEBUG_MAINW
-#endif

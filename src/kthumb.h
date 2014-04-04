@@ -50,7 +50,7 @@ typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
 
 class KThumb: public QObject
 {
-   Q_OBJECT 
+   Q_OBJECT
 public:
 
     explicit KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent = 0);
@@ -61,12 +61,10 @@ public:
     void updateThumbUrl(const QString &hash);
     void extractImage(const QList<int> &frames);
     QImage extractImage(int frame, int width, int height);
-#if KDE_IS_VERSION(4,5,0)
     /** @brief Request thumbnails for the frame range. */
     void queryIntraThumbs(const QSet <int> &missingFrames);
     /** @brief Query cached thumbnail. */
     QImage findCachedThumb(int pos);
-#endif
     void getThumb(int frame);
     void getGenericThumb(int frame, int height, int type);
 
@@ -82,16 +80,14 @@ public:
     static QPixmap getImage(const KUrl& url, int frame, int width, int height);
     static QImage getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height);
     static QImage getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height);
-    /** @brief Calculates image variance, useful to know if a thumbnail is interesting. 
+    /** @brief Calculates image variance, useful to know if a thumbnail is interesting.
      *  @return an integer between 0 and 100. 0 means no variance, eg. black image while bigger values mean contrasted image
      * */
     static uint imageVariance(const QImage &image);
 
 private slots:
-#if KDE_IS_VERSION(4,5,0)
-    /** @brief Fetch all requested frames. */ 
+    /** @brief Fetch all requested frames. */
     void slotGetIntraThumbs();
-#endif
 
 private:
     KUrl m_url;

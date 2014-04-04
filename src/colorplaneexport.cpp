@@ -11,11 +11,6 @@
 #include "colorplaneexport.h"
 #include <KMessageBox>
 
-//#define DEBUG_CTE
-#ifdef DEBUG_CTE
-#include <QDebug>
-#endif
-
 const QString EXTENSION_PNG = ".png";
 const int SCALE_RANGE = 80;
 
@@ -139,9 +134,6 @@ void ColorPlaneExport::slotValidate()
     }
     if (ok) {
         ok = kurlrequester->text().trimmed().length() > 0;
-#ifdef DEBUG_CPE
-        qDebug() << "File given: " << ok;
-#endif
     }
 
     if (ok) {
@@ -155,13 +147,7 @@ void ColorPlaneExport::slotValidate()
 
 void ColorPlaneExport::slotExportPlane()
 {
-#ifdef DEBUG_CPE
-    qDebug() << "Exporting plane now to " <<  kurlrequester->text();
-#endif
     QString lower = kurlrequester->text().toLower();
-#ifdef DEBUG_CPE
-    qDebug() << "Lower: " << lower;
-#endif
     if (!lower.endsWith(".png") && !lower.endsWith(".jpg") && !lower.endsWith(".tif") && !lower.endsWith(".tiff")) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", EXTENSION_PNG)) == KMessageBox::Yes) {
             kurlrequester->setUrl(KUrl(kurlrequester->text() + ".png"));
@@ -202,9 +188,6 @@ void ColorPlaneExport::slotExportPlane()
 
 void ColorPlaneExport::slotColormodeChanged()
 {
-#ifdef DEBUG_CPE
-    qDebug() << "Color mode changed to " << cbColorspace->itemData(cbColorspace->currentIndex()).toInt();
-#endif
     lblScaling->setText(i18n("Scaling"));
     sliderScaling->setInvertedAppearance(true);
     switch (cbColorspace->itemData(cbColorspace->currentIndex()).toInt()) {
@@ -220,9 +203,6 @@ void ColorPlaneExport::slotColormodeChanged()
         lblSliderName->setToolTip(i18n("The Y value describes the brightness of the colors."));
         break;
     case CPE_YUV_Y:
-#ifdef DEBUG_CPE
-        qDebug() << "Changing slider range.";
-#endif
         enableSliderScaling(true);
         enableSliderColor(true);
         enableCbVariant(false);

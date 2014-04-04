@@ -149,7 +149,7 @@ QPixmap KThumb::getImage(const KUrl& url, int frame, int width, int height)
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
     if (url.isEmpty()) return pix;
-    
+
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
     double swidth = (double) profile.width() / profile.height();
     pix = QPixmap::fromImage(getFrame(producer, frame, (int) (height * swidth + 0.5), width, height));
@@ -214,7 +214,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
-    
+
     int ow = displayWidth;//frameWidth;
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
@@ -227,7 +227,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         return p;
     }
     memcpy(image.bits(), imagedata, ow * oh * 4);//.byteCount());
-    
+
     //const uchar* imagedata = frame->get_image(format, ow, oh);
     //QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
     return image.rgbSwapped();
@@ -238,14 +238,8 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
         } else {
             image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
         }
-#if QT_VERSION >= 0x040800
-	p.fill(QColor(100, 100, 100, 70));
+        p.fill(QColor(100, 100, 100, 70));
         QPainter painter(&p);
-#else
-	p.fill(Qt::transparent);
-	QPainter painter(&p);
-	painter.fillRect(p.rect(), QColor(100, 100, 100, 70));
-#endif
         painter.drawImage(p.rect(), image);
         painter.end();
     } else
@@ -265,22 +259,14 @@ uint KThumb::imageVariance(const QImage &image )
     // First pass: get pivots and taking average
     for( uint i=0; i<STEPS ; ++i ){
         pivot[i] = bits[2 * i];
-#if QT_VERSION >= 0x040700
         avg+=pivot.at(i);
-#else
-        avg+=pivot[i];
-#endif
     }
     if (STEPS)
         avg=avg/STEPS;
     // Second Step: calculate delta (average?)
     for (uint i=0; i<STEPS; ++i)
     {
-#if QT_VERSION >= 0x040700
         int curdelta=abs(int(avg - pivot.at(i)));
-#else
-        int curdelta=abs(int(avg - pivot[i]));
-#endif
         delta+=curdelta;
     }
     if (STEPS)
@@ -366,7 +352,6 @@ void KThumb::slotCreateAudioThumbs()
     m_clipManager->askForAudioThumb(m_id);
 }
 
-#if KDE_IS_VERSION(4,5,0)
 void KThumb::queryIntraThumbs(const QSet <int> &missingFrames)
 {
     m_intraMutex.lock();
@@ -421,7 +406,7 @@ void KThumb::slotGetIntraThumbs()
             }
             else kDebug()<<"// INSERT FAILD FOR: "<<pos;
         }
-        
+
     }
     if (addedThumbs) emit thumbsCached();
 }
@@ -433,7 +418,6 @@ QImage KThumb::findCachedThumb(int pos)
     m_clipManager->pixmapCache->findImage(path, &img);
     return img;
 }
-#endif
 
 #include "kthumb.moc"
 

@@ -29,9 +29,7 @@
 #include <QDomElement>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#if QT_VERSION >= 0x040600
 #include <QPropertyAnimation>
-#endif
 
 Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params, bool automaticTransition) :
     AbstractClipItem(info, QRectF(), fps),
@@ -43,7 +41,6 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     m_info.cropDuration = info.endPos - info.startPos;
     setPos(info.startPos.frames(fps), (int)(info.track * KdenliveSettings::trackheight() + itemOffset() + 1));
 
-#if QT_VERSION >= 0x040600
     if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
         // animation disabled
         setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
@@ -58,9 +55,6 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
         startAnimation->setEasingCurve(QEasingCurve::OutQuad);
         startAnimation->start(QAbstractAnimation::DeleteWhenStopped);
     }
-#else
-    setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
-#endif
 
     m_info.cropStart = GenTime();
     m_maxDuration = GenTime(600);
@@ -169,7 +163,7 @@ void Transition::paint(QPainter *painter,
     painter->setWorldTransform(QTransform());
     QPainterPath p;
     p.addRect(exposed);
-    
+
     QPainterPath q;
     q.addRoundedRect(mapped, 3, 3);
     painter->setClipPath(p.intersected(q));
@@ -423,7 +417,7 @@ bool Transition::updateKeyframes(int oldEnd)
         }
         pa.setAttribute("value", values.join(";"));
     }
-    
+
     return true;
 }
 

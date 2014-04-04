@@ -15,15 +15,6 @@
 
 #include "fftTools.h"
 
-// Uncomment for debugging, like writing a GNU Octave .m file to /tmp
-//#define DEBUG_FFTTOOLS
-
-#ifdef DEBUG_FFTTOOLS
-#include <QDebug>
-#include <QTime>
-#include <fstream>
-#endif
-
 FFTTools::FFTTools() :
         m_fftCfgs(),
         m_windowFunctions()
@@ -72,14 +63,6 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
         }
         window[size] = .5 + param/2;
 
-#ifdef DEBUG_FFTTOOLS
-        qDebug() << "Triangle window (factor " << window[size] << "):";
-        for (int i = 0; i < size; ++i) {
-            qDebug() << window[i];
-        }
-        qDebug() << "Triangle window end.";
-#endif
-
         return window;
         break;
     case Window_Hamming:
@@ -96,14 +79,6 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
         // an area of 0; So only the constant factor 0.54 counts.
         window[size] = .54;
 
-#ifdef DEBUG_FFTTOOLS
-        qDebug() << "Hanning window (factor " << window[size] << "):";
-        for (int i = 0; i < size; ++i) {
-            qDebug() << window[i];
-        }
-        qDebug() << "Hanning window end.";
-#endif
-
         return window;
         break;
     }
@@ -114,10 +89,6 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
 void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
                              const WindowType windowType, const uint windowSize, const float param)
 {
-#ifdef DEBUG_FFTTOOLS
-    QTime start = QTime::currentTime();
-#endif
-
     const uint numSamples = audioFrame.size()/numChannels;
 
     Q_ASSERT((windowSize & 1) == 0);
@@ -126,19 +97,12 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
     const QString cfgSig = cfgSignature(windowSize);
     const QString winSig = windowSignature(windowType, windowSize, param);
 
-
     // Get the kiss_fft configuration from the config cache
     // or build a new configuration if the requested one is not available.
     kiss_fftr_cfg myCfg;
     if (m_fftCfgs.contains(cfgSig)) {
-#ifdef DEBUG_FFTTOOLS
-        qDebug() << "Re-using FFT configuration with size " << windowSize;
-#endif
         myCfg = m_fftCfgs.value(cfgSig);
     } else {
-#ifdef DEBUG_FFTTOOLS
-        qDebug() << "Creating FFT configuration with size " << windowSize;
-#endif
         myCfg = kiss_fftr_alloc(windowSize, false,NULL,NULL);
         m_fftCfgs.insert(cfgSig, myCfg);
     }
@@ -150,20 +114,13 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
     if (windowType != FFTTools::Window_Rect) {
 
         if (m_windowFunctions.contains(winSig)) {
-#ifdef DEBUG_FFTTOOLS
-            qDebug() << "Re-using window function with signature " << winSig;
-#endif
             window = m_windowFunctions.value(winSig);
         } else {
-#ifdef DEBUG_FFTTOOLS
-            qDebug() << "Building new window function with signature " << winSig;
-#endif
             window = FFTTools::window(windowType, windowSize, 0);
             m_windowFunctions.insert(winSig, window);
         }
         windowScaleFactor = 1.0/window[windowSize];
     }
-
 
     // Prepare frequency space vector. The resulting FFT vector is only half as long.
     kiss_fft_cpx freqData[windowSize/2];
@@ -189,7 +146,6 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
     // Calculate the Fast Fourier Transform for the input data
     kiss_fftr(myCfg, data, freqData);
 
-
     // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
     // with N = FFT size (after FFT, 1/2 window size)
     for (uint i = 0; i < windowSize/2; ++i) {
@@ -197,43 +153,10 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
         // with N = FFT size (after FFT, 1/2 window size)
         freqSpectrum[i] = 20*log(pow(pow(fabs(freqData[i].r * windowScaleFactor),2) + pow(fabs(freqData[i].i * windowScaleFactor),2), .5)/((float)windowSize/2.0f))/log(10);;
     }
-
-
-#ifdef DEBUG_FFTTOOLS
-    std::ofstream mFile;
-    mFile.open("/tmp/freq.m");
-    if (!mFile) {
-        qDebug() << "Opening file failed.";
-    } else {
-        mFile << "val = [ ";
-
-        for (int sample = 0; sample < 256; sample++) {
-            mFile << data[sample] << " ";
-        }
-        mFile << " ];\n";
-
-        mFile << "freq = [ ";
-        for (int sample = 0; sample < 256; sample++) {
-            mFile << freqData[sample].r << "+" << freqData[sample].i << "*i ";
-        }
-        mFile << " ];\n";
-
-        mFile.close();
-        qDebug() << "File written.";
-    }
-#endif
-
-#ifdef DEBUG_FFTTOOLS
-    qDebug() << "Calculated FFT in " << start.elapsed() << " ms.";
-#endif
 }
 
 const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in, const uint targetSize, uint left, uint right, float fill)
 {
-#ifdef DEBUG_FFTTOOLS
-    QTime start = QTime::currentTime();
-#endif
-
     if (right == 0) {
         right = in.size()-1;
     }
@@ -264,7 +187,6 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
                 break;
             }
 
-
             // Use linear interpolation in order to get smoother display
             if (xi == 0 || xi == (uint) in.size()-1) {
                 // ... except if we are at the left or right border of the input sigal.
@@ -292,15 +214,8 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
         // If there are more than 2 samples per pixel in average, then use the maximum of them
         // since by only looking at the left sample we might miss some maxima.
         uint src = left;
-//         int xi_prev = 0;
         int points;
-
-#ifdef DEBUG_FFTTOOLS
-        qDebug() << "Interpolation: Ratio over 2; using maximum interpolation";
-#endif
-
         for (i = 0; i < targetSize; ++i) {
-
             // x:  right bound
             // xi: floor(x)
             x = ((float) (i+1)) / (targetSize-1) * (right-left) + left;
@@ -315,22 +230,11 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
                 }
                 points++;
             }
-
-//             xi_prev = xi;
         }
     }
     // Fill the rest of the vector if the right border exceeds the input vector.
     for (; i < targetSize; ++i) {
         out[i] = fill;
     }
-
-#ifdef DEBUG_FFTTOOLS
-    qDebug() << "Interpolated " << targetSize << " nodes from " << in.size() << " input points in " << start.elapsed() << " ms";
-#endif
-
     return out;
 }
-
-#ifdef DEBUG_FFTTOOLS
-#undef DEBUG_FFTTOOLS
-#endif

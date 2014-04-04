@@ -1,13 +1,13 @@
 /*
-Solving the Nearest Point-on-Curve Problem 
+Solving the Nearest Point-on-Curve Problem
 and
 A Bezier Curve-Based Root-Finder
 by Philip J. Schneider
 from "Graphics Gems", Academic Press, 1990
 */
 
- /*     point_on_curve.c        */              
-                                                                        
+ /*     point_on_curve.c        */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -19,12 +19,12 @@ from "Graphics Gems", Academic Press, 1990
 /*
  * Copied from ggveclib.c to avoid externs
  * Copyright:
-2d and 3d Vector C Library 
+2d and 3d Vector C Library
 by Andrew Glassner
 from "Graphics Gems", Academic Press, 1990
  */
 
-/* returns squared length of input vector */    
+/* returns squared length of input vector */
 double V2SquaredLength(Vector2 *a) { return((a->x * a->x)+(a->y * a->y)); }
 /* return the dot product of vectors a and b */
 double V2Dot(Vector2 *a, Vector2 *b) { return((a->x*b->x)+(a->y*b->y)); }
@@ -51,33 +51,6 @@ int             MAXDEPTH = 64;  /*  Maximum depth for recursion */
 #define DEGREE  3                       /*  Cubic Bezier curve          */
 #define W_DEGREE 5                      /*  Degree of eqn to find roots of */
 
-#ifdef TESTMODE
-/*
- *  main :
- *      Given a cubic Bezier curve (i.e., its control points), and some
- *      arbitrary point in the plane, find the point on the curve
- *      closest to that arbitrary point.
- */
-main()
-{
-   
- static Point2 bezCurve[4] = {  /*  A cubic Bezier curve        */
-        { 0.0, 0.0 },
-        { 1.0, 2.0 },
-        { 3.0, 3.0 },
-        { 4.0, 2.0 },
-    };
-    static Point2 arbPoint = { 3.5, 2.0 }; /*Some arbitrary point*/
-    Point2      pointOnCurve;            /*  Nearest point on the curve */
-
-    /*  Find the closest point */
-    pointOnCurve = NearestPointOnCurve(arbPoint, bezCurve);
-    printf("pointOnCurve : (%4.4f, %4.4f)\n", pointOnCurve.x,
-                pointOnCurve.y);
-}
-#endif /* TESTMODE */
-
-
 /*
  *  NearestPointOnCurve :
  *      Compute the parameter value of the point on a Bezier
@@ -90,7 +63,7 @@ Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut)
 //     Point2      *V;                     /* Control points of cubic Bezier */
 {
     Point2      *w;                     /* Ctl pts for 5th-degree eqn   */
-    double      t_candidate[W_DEGREE];  /* Possible roots               */     
+    double      t_candidate[W_DEGREE];  /* Possible roots               */
     int         n_solutions;            /* Number of roots found        */
     double      t;                      /* Parameter value of closest pt*/
 
@@ -108,7 +81,7 @@ Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut)
                 Vector2  v;
                 int             i;
 
-        
+
         /* Check distance to beginning of curve, where t = 0    */
                 dist = V2SquaredLength(V2Sub(&P, &V[0], &v));
                 t = 0.0;
@@ -149,7 +122,7 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
 //     Point2      P;                      /* The point to find t for      */
 //     Point2      *V;                     /* The control points           */
 {
-    int         i, j, k, m, n, ub, lb;  
+    int         i, j, k, m, n, ub, lb;
     int         row, column;            /* Table indices                */
     Vector2     c[DEGREE+1];            /* V(i)'s - P                   */
     Vector2     d[DEGREE];              /* V(i+1) - V(i)                */
@@ -169,7 +142,7 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
     }
     /* Determine the d's -- these are vectors created by subtracting*/
     /* each control point from the next                                 */
-    for (i = 0; i <= DEGREE - 1; ++i) { 
+    for (i = 0; i <= DEGREE - 1; ++i) {
                 d[i] = V2ScaleII(V2Sub(&V[i+1], &V[i], &d[i]), 3.0);
     }
 
@@ -215,7 +188,7 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
 //     int         degree;         /* The degree of the polynomial */
 //     double      *t;                     /* RETURN candidate t-values    */
 //     int         depth;          /* The depth of the recursion   */
-{  
+{
     int         i;
     Point2      Left[W_DEGREE+1],       /* New left and right           */
                 Right[W_DEGREE+1];      /* control polygons             */
@@ -226,7 +199,7 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
 
     switch (CrossingCount(w, degree)) {
         case 0 : {      /* No solutions here    */
-             return 0;  
+             return 0;
         }
         case 1 : {      /* Unique solution      */
             /* Stop recursion when the tree is deep enough      */
@@ -265,7 +238,7 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
 
 /*
  * CrossingCount :
- *      Count the number of times a Bezier control polygon 
+ *      Count the number of times a Bezier control polygon
  *      crosses the 0-axis. This number is >= the number of roots.
  *
  */
@@ -273,7 +246,7 @@ static int CrossingCount(Point2 *V, int degree)
 //     Point2      *V;                     /*  Control pts of Bezier curve */
 //     int         degree;                 /*  Degreee of Bezier curve     */
 {
-    int         i;      
+    int         i;
     int         n_crossings = 0;        /*  Number of zero-crossings    */
     int         sign, old_sign;         /*  Sign of coefficients        */
 
@@ -359,11 +332,11 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
     c = V[0].x * V[degree].y - V[degree].x * V[0].y;
 
     max_distance_above = max_distance_below = 0.0;
-    
+
     for (i = 1; i < degree; ++i)
     {
         value = a * V[i].x + b * V[i].y + c;
-       
+
         if (value > max_distance_above)
         {
             max_distance_above = value;
@@ -413,7 +386,7 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
  *  ComputeXIntercept :
  *      Compute intersection of chord from first control point to last
  *      with 0-axis.
- * 
+ *
  */
 /* NOTE: "T" and "Y" do not have to be computed, and there are many useless
  * operations in the following (e.g. "0.0 - 0.0").
@@ -448,11 +421,11 @@ static double ComputeXIntercept(Point2 *V, int degree)
 
 
 /*
- *  Bezier : 
+ *  Bezier :
  *      Evaluate a Bezier curve at a particular parameter value
  *      Fill in control points for resulting sub-curves if "Left" and
  *      "Right" are non-null.
- * 
+ *
  */
 static Point2 Bezier(Point2 *V, int degree, double t, Point2 *Left, Point2 *Right)
 //     int         degree;         /* Degree of bezier curve       */
@@ -471,7 +444,7 @@ static Point2 Bezier(Point2 *V, int degree, double t, Point2 *Left, Point2 *Righ
     }
 
     /* Triangle computation     */
-    for (i = 1; i <= degree; ++i) {     
+    for (i = 1; i <= degree; ++i) {
                 for (j =0 ; j <= degree - i; j++) {
                 Vtemp[i][j].x =
                         (1.0 - t) * Vtemp[i-1][j].x + t * Vtemp[i-1][j+1].x;
@@ -479,7 +452,7 @@ static Point2 Bezier(Point2 *V, int degree, double t, Point2 *Left, Point2 *Righ
                         (1.0 - t) * Vtemp[i-1][j].y + t * Vtemp[i-1][j+1].y;
                 }
     }
-    
+
     if (Left != NULL) {
                 for (j = 0; j <= degree; j++) {
                 Left[j]  = Vtemp[j][0];

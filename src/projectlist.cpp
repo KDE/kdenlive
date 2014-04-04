@@ -62,18 +62,6 @@
 #include <KVBox>
 #include <KHBox>
 
-#ifdef USE_NEPOMUK
-  #include <nepomuk/global.h>
-  #include <nepomuk/resourcemanager.h>
-  #include <Nepomuk/Resource>
-  //#include <nepomuk/tag.h>
-#endif
-
-#ifdef USE_NEPOMUKCORE
-  #include <nepomuk2/resourcemanager.h>
-  #include <Nepomuk2/Resource>
-#endif
-
 #include <QMouseEvent>
 #include <QStylePainter>
 #include <QPixmap>
@@ -102,7 +90,7 @@ SmallInfoLabel::SmallInfoLabel(QWidget *parent) : QPushButton(parent)
 {
     setFixedWidth(0);
     setFlat(true);
-    
+
     /*QString style = "QToolButton {background-color: %1;border-style: outset;border-width: 2px;
      border-radius: 5px;border-color: beige;}";*/
     m_timeLine = new QTimeLine(500, this);
@@ -117,11 +105,11 @@ const QString SmallInfoLabel::getStyleSheet(const QPalette &p)
     QColor bg = scheme.background(KColorScheme::LinkBackground).color();
     QColor fg = scheme.foreground(KColorScheme::LinkText).color();
     QString style = QString("QPushButton {padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue());
-    
+
     bg = scheme.background(KColorScheme::ActiveBackground).color();
     fg = scheme.foreground(KColorScheme::ActiveText).color();
     style.append(QString("\nQPushButton:hover {padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue()));
-    
+
     return style;
 }
 
@@ -149,19 +137,19 @@ void SmallInfoLabel::slotSetJobCount(int jobCount)
         // prepare animation
         setText(i18np("%1 job", "%1 jobs", jobCount));
         setToolTip(i18np("%1 pending job", "%1 pending jobs", jobCount));
-        
+
         if (!(KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects)) {
             setFixedWidth(sizeHint().width());
             show();
             return;
         }
-        
+
         if (isVisible()) {
             setFixedWidth(sizeHint().width());
             update();
             return;
         }
-        
+
         setFixedWidth(0);
         show();
         int wantedWidth = sizeHint().width();
@@ -183,7 +171,7 @@ void SmallInfoLabel::slotSetJobCount(int jobCount)
             m_timeLine->start();
         }
     }
-    
+
 }
 
 ProjectList::ProjectList(QGLWidget *glContext, QWidget *parent) :
@@ -217,10 +205,10 @@ ProjectList::ProjectList(QGLWidget *glContext, QWidget *parent) :
     frame->setFrameStyle(QFrame::NoFrame);
     QHBoxLayout *box = new QHBoxLayout;
     box->setContentsMargins(0, 0, 0, 0);
-    
+
     KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine;
     box->addWidget(searchView);
-    
+
     // small info button for pending jobs
     m_infoLabel = new SmallInfoLabel(this);
     m_infoLabel->setStyleSheet(SmallInfoLabel::getStyleSheet(palette()));
@@ -262,7 +250,7 @@ ProjectList::ProjectList(QGLWidget *glContext, QWidget *parent) :
 
     m_listView = new ProjectListView(this);
     layout->addWidget(m_listView);
-    
+
 #if KDE_IS_VERSION(4,7,0)
     m_infoMessage = new MyMessageWidget;
     layout->addWidget(m_infoMessage);
@@ -293,35 +281,16 @@ ProjectList::ProjectList(QGLWidget *glContext, QWidget *parent) :
     connect(m_listView, SIGNAL(addClipCut(QString,int,int)), this, SLOT(slotAddClipCut(QString,int,int)));
     connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotItemEdited(QTreeWidgetItem*,int)));
     connect(m_listView, SIGNAL(showProperties(DocClipBase*)), this, SIGNAL(showClipProperties(DocClipBase*)));
-    
+
     connect(this, SIGNAL(cancelRunningJob(QString,stringMap)), this, SLOT(slotCancelRunningJob(QString,stringMap)));
     connect(this, SIGNAL(processLog(QString,int,int,QString)), this, SLOT(slotProcessLog(QString,int,int,QString)));
-    
+
     connect(this, SIGNAL(updateJobStatus(QString,int,int,QString,QString,QString)), this, SLOT(slotUpdateJobStatus(QString,int,int,QString,QString,QString)));
-    
+
     connect(this, SIGNAL(gotProxy(QString)), this, SLOT(slotGotProxyForId(QString)));
-    
+
     m_listViewDelegate = new ItemDelegate(m_listView);
     m_listView->setItemDelegate(m_listViewDelegate);
-#ifdef USE_NEPOMUK
-    if (KdenliveSettings::activate_nepomuk()) {
-        Nepomuk::ResourceManager::instance()->init();
-        if (!Nepomuk::ResourceManager::instance()->initialized()) {
-            kDebug() << "Cannot communicate with Nepomuk, DISABLING it";
-            KdenliveSettings::setActivate_nepomuk(false);
-        }
-    }
-#endif
-#ifdef USE_NEPOMUKCORE
-    if (KdenliveSettings::activate_nepomuk()) {
-        Nepomuk2::ResourceManager::instance()->init();
-        if (!Nepomuk2::ResourceManager::instance()->initialized()) {
-            kDebug() << "Cannot communicate with Nepomuk, DISABLING it";
-            KdenliveSettings::setActivate_nepomuk(false);
-        }
-    }
-#endif
-
 }
 
 ProjectList::~ProjectList()
@@ -974,23 +943,9 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
         emit clipNameChanged(clip->clipId(), properties.value("name"));
     }
     if (properties.contains("description")) {
-#ifdef USE_NEPOMUK
-        ClipType type = clip->clipType();
-#endif
         monitorItemEditing(false);
         clip->setText(1, properties.value("description"));
         monitorItemEditing(true);
-
-#ifdef USE_NEPOMUK
-        bool hasType = (type == Audio || type == Video || type == AV ||
-                        type == Image || type == Playlist);
-
-        if (KdenliveSettings::activate_nepomuk() && hasType) {
-            // Use Nepomuk system to store clip description
-            Nepomuk::Resource f(clip->clipUrl().path());
-            f.setDescription(properties.value("description"));
-        }
-#endif
         emit projectModified();
     }
 }
@@ -1338,20 +1293,8 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
     /*else if (item->hasProxy() && !item->isJobRunning()) {
         slotCreateProxy(clip->getId());
     }*/
-    
+
     KUrl url = clip->fileURL();
-#ifdef USE_NEPOMUK
-    if (!url.isEmpty() && KdenliveSettings::activate_nepomuk() && clip->getProperty("description").isEmpty()) {
-        // if file has Nepomuk comment, use it
-        Nepomuk::Resource f(url.path());
-        QString annotation = f.description();
-        if (!annotation.isEmpty()) {
-            item->setText(1, annotation);
-            clip->setProperty("description", annotation);
-        }
-        item->setText(2, QString::number(f.rating()));
-    }
-#endif
 
     // Add info to date column
     QFileInfo fileInfo(url.path());
@@ -1411,7 +1354,7 @@ void ProjectList::slotGotProxy(ProjectItem *item)
         kDebug()<<"//// TRYING TO PROXY: "<<item->clipId()<<", but it is busy";
         return;
     }
-    
+
     // Proxy clip successfully created
     QDomElement e = clip->toXML().cloneNode().toElement();
 
@@ -1553,7 +1496,7 @@ void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, cons
     QPainter p(&missingPixmap);
     p.drawPixmap(3, 3, icon.pixmap(width - 6, height - 6));
     p.end();
-    
+
     int max = m_doc->clipManager()->clipsCount();
     max = qMax(1, max);
     int ct = 0;
@@ -1795,7 +1738,7 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
         data.insert("groupId", groupId);
         m_doc->slotAddClipList(list, data);
     }
-    
+
     if (!foldersList.isEmpty()) {
         // create folders
         for (int i = 0; i < foldersList.count(); ++i) {
@@ -1851,7 +1794,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
             delete m_invalidClipDialog;
             m_invalidClipDialog = NULL;
         }
-        
+
     }
 }
 
@@ -1922,7 +1865,7 @@ void ProjectList::slotAddSlideshowClip()
 
     if (dia->exec() == QDialog::Accepted) {
         QStringList groupInfo = getGroup();
-        
+
         QMap <QString, QString> properties;
         properties.insert("name", dia->clipName());
         properties.insert("resource", dia->selectedPath());
@@ -1936,7 +1879,7 @@ void ProjectList::slotAddSlideshowClip()
         properties.insert("luma_file", dia->lumaFile());
         properties.insert("softness", QString::number(dia->softness()));
         properties.insert("animation", dia->animation());
-        
+
         m_doc->slotCreateSlideshowClipFile(properties, groupInfo.at(0), groupInfo.at(1));
     }
     delete dia;
@@ -2011,7 +1954,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     m_jobThreads.clearFutures();
     m_thumbnailQueue.clear();
     m_listView->clear();
-    
+
     m_listView->setSortingEnabled(false);
     emit clipSelected(NULL);
     m_refreshed = false;
@@ -2189,7 +2132,7 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
             if (isSubItem) it->setData(0, Qt::DecorationRole, pix);
             else item->setPixmap(pix);
             monitorItemEditing(true);
-            
+
             QString hash = item->getClipHash();
             if (!hash.isEmpty() && !img.isNull()) {
                 if (!isSubItem)
@@ -2864,7 +2807,7 @@ void ProjectList::slotCreateProxy(const QString &id)
         slotUpdateJobStatus(item, PROXYJOB, JobCrashed, i18n("Failed to create proxy, empty path."));
         return;
     }
-    
+
     if (QFileInfo(path).size() > 0) {
         // Proxy already created
         setJobStatus(item, PROXYJOB, JobDone);
@@ -2894,7 +2837,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     QString source = item->clipUrl().path();
     QString ext = source.section('.', -1);
     QString dest = source.section('.', 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
-    
+
     double clipFps = item->referencedClip()->getProperty("fps").toDouble();
     if (clipFps == 0) clipFps = m_fps;
     // if clip and project have different frame rate, adjust in and out
@@ -2906,7 +2849,7 @@ void ProjectList::slotCutClipJob(const QString &id, QPoint zone)
     int duration = out - in + 1;
     QString timeIn = Timecode::getStringTimecode(in, clipFps, true);
     QString timeOut = Timecode::getStringTimecode(duration, clipFps, true);
-    
+
     QPointer<QDialog> d = new QDialog(this);
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
@@ -2976,7 +2919,7 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
     if (!existingFiles.isEmpty()) {
         if (KMessageBox::warningContinueCancelList(this, i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;
     }
-    
+
     QDialog *d = new QDialog(this);
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
@@ -3035,11 +2978,11 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
     }
     delete d;
     slotCheckJobProcess();
-    
+
 }
 
 void ProjectList::slotCheckJobProcess()
-{        
+{
     if (!m_jobThreads.futures().isEmpty()) {
         // Remove inactive threads
         QList <QFuture<void> > futures = m_jobThreads.futures();
@@ -3259,11 +3202,11 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
             if (!clipList.contains(item)) clipList.append(item);
         }
     }
-    
+
     QUndoCommand *command = new QUndoCommand();
     if (doProxy) command->setText(i18np("Add proxy clip", "Add proxy clips", clipList.count()));
     else command->setText(i18np("Remove proxy clip", "Remove proxy clips", clipList.count()));
-    
+
     // Make sure the proxy folder exists
     QString proxydir = m_doc->projectFolder().path( KUrl::AddTrailingSlash) + "proxy/";
     KStandardDirs::makeDir(proxydir);
@@ -3452,7 +3395,7 @@ bool ProjectList::hasPendingJob(ProjectItem *item, JOBTYPE type)
         job = m_jobList.at(i);
         if (job->clipId() == item->clipId() && job->jobType == type && (job->status() == JobWaiting || job->status() == JobWorking)) return true;
     }
-    
+
     return false;
 }
 
@@ -3471,7 +3414,7 @@ void ProjectList::slotUpdateJobStatus(const QString id, int type, int status, co
     ProjectItem *item = getItemById(id);
     if (!item) return;
     slotUpdateJobStatus(item, type, status, label, actionName, details);
-    
+
 }
 
 void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, const QString &label, const QString &actionName, const QString details)
@@ -3485,7 +3428,7 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
         m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
         m_infoMessage->setMessageType(KMessageWidget::Warning);
     }
-    
+
     if (!actionName.isEmpty()) {
         QAction *action = NULL;
         QList< KActionCollection * > collections = KActionCollection::allCollections();
@@ -3519,7 +3462,7 @@ void ProjectList::slotUpdateJobStatus(ProjectItem *item, int type, int status, c
 
     passivePop->setView( vb );
     passivePop->show();
-    
+
 #endif
 }
 
@@ -3636,7 +3579,7 @@ void ProjectList::startClipFilterJob(const QString &filterName, const QString &c
         }
         return;
     }
-    
+
     if (filterName == "motion_est") {
         // Show config dialog
         QPointer<QDialog> d = new QDialog(this);
@@ -3710,7 +3653,7 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
     preParams << jobParams.takeFirst();
     // consumer
     QString consumer = jobParams.takeFirst();
-    
+
     foreach(const QString&id, ids) {
         ProjectItem *item = getItemById(id);
         if (!item) continue;
@@ -3730,7 +3673,7 @@ void ProjectList::processClipJob(QStringList ids, const QString&destination, boo
             jobArgs << consumer + ':' + destination + item->clipUrl().fileName() + ".mlt";
         }
         jobArgs << jobParams;
-        
+
         MeltJob *job = new MeltJob(item->clipType(), id, jobArgs, extraParams);
         if (autoAdd) {
             job->setAddClipToProject(true);

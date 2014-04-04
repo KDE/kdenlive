@@ -12,10 +12,6 @@
 #include "colortools.h"
 #include <QColor>
 
-//#define DEBUG_CT
-#ifdef DEBUG_CT
-#include <QDebug>
-#endif
 
 ColorTools::ColorTools()
 {
@@ -255,12 +251,6 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
 
     QImage plane(size, QImage::Format_ARGB32);
 
-#ifdef DEBUG_CT
-    qDebug() << "Requested: Saturation " << S << ", Value " << V;
-    QColor colTest(-1, 256, 257);
-    qDebug() << "-1 mapped to " << colTest.red() << ", 256 to " << colTest.green() << ", 257 to " << colTest.blue();
-#endif
-
     QColor col(0, 0, 0);
 
     const int hueValues = MAX-MIN;
@@ -271,7 +261,6 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
         hue = x/(size.width() - 1.0) * 359;
         for (int y = 0; y < size.height(); y++) {
             huediff = (1.0f - y/(size.height() - 1.0)) * hueValues + MIN;
-//            qDebug() << "hue: " << hue << ", huediff: " << huediff;
 
             newhue = hue + huediff + 360; // Avoid negative numbers. Rest (>360) will be mapped correctly.
 

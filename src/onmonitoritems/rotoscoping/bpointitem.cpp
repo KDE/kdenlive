@@ -90,18 +90,8 @@ void BPointItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->drawLine(m_point.h1, m_point.p);
     painter->drawLine(m_point.p, m_point.h2);
 
-#if QT_VERSION >= 0x040600
     painter->drawConvexPolygon(handle.translated(m_point.h1.x(), m_point.h1.y()));
     painter->drawConvexPolygon(handle.translated(m_point.h2.x(), m_point.h2.y()));
-#else
-    QPolygonF tmp;
-    tmp = handle;
-    tmp.translate(m_point.h1.x(), m_point.h1.y());
-    painter->drawConvexPolygon(tmp);
-    tmp = handle;
-    tmp.translate(m_point.h2.x(), m_point.h2.y());
-    painter->drawConvexPolygon(tmp);
-#endif
 
     painter->drawEllipse(QRectF(m_point.p.x() - handleSizeHalf,
                                 m_point.p.y() - handleSizeHalf, handleSize, handleSize));
