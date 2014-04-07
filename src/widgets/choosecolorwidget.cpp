@@ -20,6 +20,7 @@
 
 #include "widgets/choosecolorwidget.h"
 #include "widgets/colorpickerwidget.h"
+#include "widgets/colorwheel.h"
 
 #include <QLabel>
 #include <QHBoxLayout>
@@ -90,32 +91,34 @@ static QString colorToString(const QColor &color, bool alpha)
 ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, bool alphaEnabled, QWidget *parent) :
         QWidget(parent)
 {
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QGridLayout *layout = new QGridLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
     QLabel *label = new QLabel(text, this);
-
-    QWidget *rightSide = new QWidget(this);
-    QHBoxLayout *rightSideLayout = new QHBoxLayout(rightSide);
-    rightSideLayout->setContentsMargins(0, 0, 0, 0);
-    rightSideLayout->setSpacing(0);
-
-    m_button = new KColorButton(stringToColor(color), rightSide);
+    QColor col = stringToColor(color);
+    m_button = new KColorButton(col, this);
 #if KDE_IS_VERSION(4,5,0)
     if (alphaEnabled) m_button->setAlphaChannelEnabled(alphaEnabled);
 #endif
 //     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    ColorPickerWidget *picker = new ColorPickerWidget(rightSide);
+    m_picker = new ColorPickerWidget(this);
+    ColorWheel *wheel = new ColorWheel(col, this);
+    connect(wheel, SIGNAL(colorChange(const QColor &)), this, SIGNAL(modified()));
 
-    layout->addWidget(label);
-    layout->addWidget(rightSide);
-    rightSideLayout->addWidget(m_button);
-    rightSideLayout->addWidget(picker, 0, Qt::AlignRight);
+    layout->addWidget(label, 0, 0, 1, 1, Qt::AlignTop);
+    layout->addWidget(m_button, 1, 0);
+    layout->addWidget(m_picker, 2, 0);
+    layout->addWidget(wheel, 0, 1, -1, 1, Qt::AlignRight);
+    setLayout(layout);
+    //rightSideLayout->addWidget(m_button);
+    //rightSideLayout->addWidget(picker, 0, Qt::AlignRight);
 
-    connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
-    connect(picker, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
-    connect(picker, SIGNAL(disableCurrentFilter(bool)), this, SIGNAL(disableCurrentFilter(bool)));
+    connect(wheel, SIGNAL(colorChange(QColor)), this, SLOT(setColor(QColor)));
+    connect(m_picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
+    connect(m_picker, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
+    connect(m_picker, SIGNAL(disableCurrentFilter(bool)), this, SIGNAL(disableCurrentFilter(bool)));
+    connect(m_button, SIGNAL(changed(QColor)), wheel, SLOT(setColor(QColor)));
     connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified()));
 }
 

@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
+ *   Copyright (C) 2014 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   code borrowed from https://github.com/liuyanghejerry/Qt-Plus          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,48 +18,57 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
-#ifndef CHOOSECOLORWIDGET_H
-#define CHOOSECOLORWIDGET_H
+#ifndef COLORWHEEL_H
+#define COLORWHEEL_H
 
 #include <QWidget>
 
-class KColorButton;
-class ColorPickerWidget;
-
-/**
- * @class ChooseColorWidget
- * @brief Provides options to choose a color.
- * @author Till Theato
- */
-
-class ChooseColorWidget : public QWidget
+class ColorWheel : public QWidget
 {
     Q_OBJECT
 public:
-    /** @brief Sets up the widget.
-    * @param text (optional) What the color will be used for
-    * @param color (optional) initial color 
-    * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit ChooseColorWidget(const QString &text = QString(), const QString &color = "0xffffffff", bool alphaEnabled = false, QWidget* parent = 0);
-
-    /** @brief Gets the choosen color. */
-    QString getColor() const;
-
-private:
-    KColorButton *m_button;
-    ColorPickerWidget *m_picker;
-
-private slots:
-    /** @brief Updates the different color choosing options to have all selected @param color. */
-    void setColor(const QColor &color);
+    explicit ColorWheel(QColor startColor = Qt::red, QWidget *parent = 0);
+    virtual ~ColorWheel();
+    virtual QSize sizeHint () const;
+    virtual QSize minimumSizeHint () const;
+    QColor color();
 
 signals:
-    /** @brief Emitted whenever a different color was choosen. */
-    void modified();
-    void displayMessage(const QString&, int);
-    /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
-    void disableCurrentFilter(bool);
+    void colorChange(const QColor &color);
+
+public slots:
+    void setColor(const QColor &color);
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *);
+    void resizeEvent(QResizeEvent *event);
+    void paintEvent(QPaintEvent *);
+private:
+    QSize initSize;
+    QImage wheelImage;
+    QImage squareImage;
+    QPixmap wheel;
+    bool mouseDown;
+    QPoint lastPos;
+    int margin;
+    int wheelWidth;
+    QRegion wheelRegion;
+    QRegion squareRegion;
+    QColor current;
+    bool inWheel;
+    bool inSquare;
+    int m_transparency;
+    QColor posColor(const QPoint &point);
+    void drawWheelImage(const QSize &newSize);
+    void drawIndicator(const int &hue);
+    void drawPicker(const QColor &color);
+    void drawSquareImage(const int &hue);
+    void composeWheel();
+private slots:
+    void hueChanged(const int &hue);
+    void svChanged(const QColor &newcolor);
 };
 
-#endif
+#endif // COLORWHEEL_H

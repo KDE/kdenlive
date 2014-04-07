@@ -123,6 +123,7 @@ movit_deconvolution_sharpen.xml
 movit_opacity.xml
 movit_diffusion.xml
 movit_lift_gamma_gain.xml
+movit_lift_gamma_gain2.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
 

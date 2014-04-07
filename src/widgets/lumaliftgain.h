@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
+ *   Copyright (C) 2014 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,21 +18,22 @@
  ***************************************************************************/
 
 
-#ifndef CHOOSECOLORWIDGET_H
-#define CHOOSECOLORWIDGET_H
+#ifndef LUMALIFTGAINWIDGET_H
+#define LUMALIFTGAINWIDGET_H
 
 #include <QWidget>
+#include <QDomNodeList>
+#include <QLocale>
 
-class KColorButton;
-class ColorPickerWidget;
+class ColorWheel;
 
 /**
  * @class ChooseColorWidget
- * @brief Provides options to choose a color.
- * @author Till Theato
+ * @brief Provides options to choose 3 colors.
+ * @author Jean-Baptiste Mardelle
  */
 
-class ChooseColorWidget : public QWidget
+class LumaLiftGain : public QWidget
 {
     Q_OBJECT
 public:
@@ -40,25 +41,18 @@ public:
     * @param text (optional) What the color will be used for
     * @param color (optional) initial color 
     * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit ChooseColorWidget(const QString &text = QString(), const QString &color = "0xffffffff", bool alphaEnabled = false, QWidget* parent = 0);
-
-    /** @brief Gets the choosen color. */
-    QString getColor() const;
+    explicit LumaLiftGain(const QDomNodeList &nodes, QWidget* parent = 0);
+    void updateEffect(QDomElement &effect);
 
 private:
-    KColorButton *m_button;
-    ColorPickerWidget *m_picker;
-
-private slots:
-    /** @brief Updates the different color choosing options to have all selected @param color. */
-    void setColor(const QColor &color);
+    QLocale m_locale;
+    ColorWheel *m_lift;
+    ColorWheel *m_gamma;
+    ColorWheel *m_gain;
 
 signals:
     /** @brief Emitted whenever a different color was choosen. */
-    void modified();
-    void displayMessage(const QString&, int);
-    /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
-    void disableCurrentFilter(bool);
+    void valueChanged();
 };
 
 #endif

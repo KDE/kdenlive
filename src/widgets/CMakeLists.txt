@@ -2,10 +2,12 @@ set(kdenlive_SRCS
   ${kdenlive_SRCS}
   widgets/abstractmonitor.cpp
   widgets/invaliddialog.cpp
+  widgets/lumaliftgain.cpp
   widgets/choosecolorwidget.cpp
   widgets/colorpickerwidget.cpp
   widgets/archivewidget.cpp
   widgets/cornerswidget.cpp
+  widgets/colorwheel.cpp
   widgets/doubleparameterwidget.cpp
   widgets/effectslistwidget.cpp
   widgets/geometrywidget.cpp

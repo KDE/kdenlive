@@ -29,6 +29,7 @@
 #include "widgets/kis_curve_widget.h"
 #include "kis_cubic_curve.h"
 #include "widgets/choosecolorwidget.h"
+#include "widgets/lumaliftgain.h"
 #include "widgets/geometrywidget.h"
 #include "colortools.h"
 #include "widgets/doubleparameterwidget.h"
@@ -120,8 +121,15 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     m_vbox = new QVBoxLayout(parent);
     m_vbox->setContentsMargins(4, 0, 4, 0);
     m_vbox->setSpacing(2);
-
-    for (int i = 0; i < namenode.count() ; ++i) {
+    
+    if (effect.attribute("id") == "movit.lift_gamma_gain2") {
+        // We use a special custom widget here
+        LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
+        m_vbox->addWidget(gainWidget);
+        m_valueItems["movit.lift_gamma_gain"] = gainWidget;
+        connect(gainWidget, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
+    }
+    else for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         if (pa.tagName() != "parameter") continue;
         QDomElement na = pa.firstChildElement("name");
@@ -281,6 +289,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 value = value.replace('#', "0x");
             ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, pa.hasAttribute("alpha"), parent);
 	    choosecolor->setToolTip(comment);
+          
             m_vbox->addWidget(choosecolor);
             m_valueItems[paramName] = choosecolor;
             connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
@@ -594,7 +603,13 @@ void ParameterContainer::slotCollectAllParameters()
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     const QDomElement oldparam = m_effect.cloneNode().toElement();
-    //QDomElement newparam = oldparam.cloneNode().toElement();
+    if (m_effect.attribute("id") == "movit.lift_gamma_gain2") {
+        LumaLiftGain *gainWidget = ((LumaLiftGain*)m_valueItems.value("movit.lift_gamma_gain"));
+        gainWidget->updateEffect(m_effect);
+        emit parameterChanged(oldparam, m_effect, m_effect.attribute("kdenlive_ix").toInt());        
+        return;
+    }
+    
     QDomNodeList namenode = m_effect.elementsByTagName("parameter");
 
     for (int i = 0; i < namenode.count() ; ++i) {
