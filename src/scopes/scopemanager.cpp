@@ -192,7 +192,6 @@ void ScopeManager::slotClearColorScopes()
 void ScopeManager::slotUpdateActiveRenderer()
 {
     bool b = true;
-    kDebug()<<"// CHecking active monitor";
     // Disconnect old connections
     if (m_lastConnectedRenderer != NULL) {
         if (m_lastConnectedRenderer == m_monitorManager->activeGlWidget()) return;
@@ -202,14 +201,11 @@ void ScopeManager::slotUpdateActiveRenderer()
         b &= m_lastConnectedRenderer->disconnect(this);
         Q_ASSERT(b);
     }
-    kDebug()<<"// CHecking active monitor 2";
     // DVD monitor shouldn't be monitored or will cause crash on deletion
     if (m_monitorManager->isActive(Kdenlive::DvdMonitor)) m_lastConnectedRenderer = NULL;
     else m_lastConnectedRenderer = m_monitorManager->activeGlWidget();
-    kDebug()<<"// CHecking active monitor 3";
     // Connect new renderer
     if (m_lastConnectedRenderer != NULL) {
-        kDebug()<<"// CHecking active monitor 4";
         b &= connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(QImage)),
                 this, SLOT(slotDistributeFrame(QImage)), Qt::UniqueConnection);
         b &= connect(m_lastConnectedRenderer, SIGNAL(audioSamplesSignal(QVector<int16_t>&,int,int,int)),
