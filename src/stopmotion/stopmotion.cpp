@@ -92,11 +92,10 @@ void MyLabel::paintEvent(QPaintEvent* event)
 }
 
 
-StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent) :
-    AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent),
+StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QGLWidget *glContext, QWidget *parent) :
+    AbstractMonitor(Kdenlive::StopMotionMonitor, manager, glContext, parent),
     m_captureDevice(NULL)
 {
-    createVideoSurface();
 }
 
 StopmotionMonitor::~StopmotionMonitor()
@@ -141,7 +140,7 @@ void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 {
 }
 
-StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectFolder, const QList<QAction *> &actions, QWidget* parent) :
+StopmotionWidget::StopmotionWidget(MonitorManager *manager, QGLWidget *glContext, const KUrl &projectFolder, const QList<QAction *> &actions, QWidget* parent) :
     QDialog(parent)
   , Ui::Stopmotion_UI()
   , m_projectFolder(projectFolder)
@@ -150,7 +149,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
   , m_animatedIndex(-1)
   , m_animate(false)
   , m_manager(manager)
-  , m_monitor(new StopmotionMonitor(manager, this))
+  , m_monitor(new StopmotionMonitor(manager, glContext, this))
 {
     //setAttribute(Qt::WA_DeleteOnClose);
     //HACK: the monitor widget is hidden, it is just used to control the capturedevice from monitormanager
@@ -309,7 +308,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
         profilePath = KdenliveSettings::current_profile();
     }
 
-    m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
+    m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->glWidget(), this);
     m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
     m_monitor->setRender(m_captureDevice);
     connect(m_captureDevice, SIGNAL(frameSaved(QString)), this, SLOT(slotNewThumb(QString)));
@@ -486,7 +485,7 @@ void StopmotionWidget::slotLive(bool isOn)
         }
 
         if (m_captureDevice == NULL) {
-            m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
+            m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->glWidget(), this);
             m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
             m_monitor->setRender(m_captureDevice);
             connect(m_captureDevice, SIGNAL(frameSaved(QString)), this, SLOT(slotNewThumb(QString)));

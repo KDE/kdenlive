@@ -334,8 +334,6 @@ void VideoGLWidget::showImage(Mlt::Frame* frame, GLuint texnum, const QString ov
         glDeleteTextures(1, &m_texture);
         m_texture = 0;
     }
-    //delete m_frame;
-    //m_frame = frame;
     m_frame_texture = texnum;
     m_overlay = overlay;
     updateGL();

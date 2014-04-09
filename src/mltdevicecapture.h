@@ -36,6 +36,8 @@ namespace Mlt
 {
 class Consumer;
 class Frame;
+class Filter;
+
 class Event;
 class Producer;
 class Profile;
@@ -51,15 +53,12 @@ Q_OBJECT public:
     /** @brief Build a MLT Renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the capture (default one will be used if empty). */
-    explicit MltDeviceCapture(QString profile, VideoSurface *surface, QWidget *parent = 0);
+    explicit MltDeviceCapture(QString profile, QGLWidget *mainGLContext, QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     ~MltDeviceCapture();
 
     int doCapture;
-
-    /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
-    bool sendFrameForAnalysis;
 
     /** @brief Someone needs us to send again a frame. */
     void sendFrameUpdate() {}
@@ -67,7 +66,6 @@ Q_OBJECT public:
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber(double position);
     void emitConsumerStopped();
-    void showFrame(Mlt::Frame&);
     void showAudio(Mlt::Frame&);
 
     void saveFrame(Mlt::Frame& frame);
@@ -107,13 +105,12 @@ private:
     bool m_livePreview;
     /** @brief Count captured frames, used to display only one in ten images while capturing. */
     int m_frameCount;
-
-    /** @brief The surface onto which the captured frames should be painted. */
-    VideoSurface *m_captureDisplayWidget;
-
-    /** @brief A human-readable description of this renderer. */
-    int m_winid;
-
+    
+    Mlt::Filter* m_glslManager;
+    Mlt::Event *m_consumerThreadStartedEvent;
+    Mlt::Event *m_consumerThreadStoppedEvent;
+    Mlt::Event *m_pauseEvent;
+    
     void uyvy2rgb(unsigned char *yuv_buffer, int width, int height);
 
     QString m_capturePath;
@@ -125,20 +122,28 @@ private:
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
     void buildConsumer(const QString &profileName = QString());
-
+    void startConsumer();
+    
+protected:
+    static void consumer_thread_started(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr);
+    static void consumer_thread_stopped(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr);
+    static void consumer_gl_frame_show(mlt_consumer consumer, MltDeviceCapture * self, mlt_frame frame_ptr);
+    static void consumer_record_frame_show(mlt_consumer consumer, MltDeviceCapture * self, mlt_frame frame_ptr);
 
 private slots:
     void slotPreparePreview();
     void slotAllowPreview();
     /** @brief When capturing, check every second for dropped frames. */
     void slotCheckDroppedFrames();
+
   
 signals:
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
     void showImageSignal(const QImage&);
-
+    void showImageSignal(Mlt::Frame*, GLuint);
+    void mltFrameReceived(Mlt::Frame *);
     void frameSaved(const QString &);
     
     void droppedFrames(int);
@@ -152,6 +157,7 @@ public slots:
     /** @brief Stops the consumer. */
     void stop();
     void slotDoRefresh();
+    void showFrame(Mlt::Frame *, bool checkDropped = false);
 };
 
 #endif

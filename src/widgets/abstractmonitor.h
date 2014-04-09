@@ -27,14 +27,19 @@
 #include <QWidget>
 #include <QImage>
 #include <QFrame>
+#include <QGLWidget>
+#include <QSemaphore>
 
 #include "definitions.h"
-#include "widgets/videosurface.h"
 
 class MonitorManager;
 class VideoContainer;
 class VideoSurface;
 class VideoGLWidget;
+
+namespace Mlt {
+    class Frame;
+};
 
 class AbstractRender: public QObject
 {
@@ -44,16 +49,25 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    explicit AbstractRender(Kdenlive::MonitorId name, QWidget *parent = 0)
-        : QObject(parent),
-          sendFrameForAnalysis(false),
-          analyseAudio(false),
-          m_name(name)
+    explicit AbstractRender(Kdenlive::MonitorId name, QGLWidget *mainGLContext, QWidget *parent = 0) :
+           QObject(parent)
+           , sendFrameForAnalysis(false)
+           , analyseAudio(false)
+           , showFrameSemaphore(3)
+           , m_name(name)
+           , m_mainGLContext(mainGLContext)
+           , m_GLContext(NULL)
+           
     {
+        m_GLContext = new QGLWidget(0, m_mainGLContext);
+        m_GLContext->resize(0, 0);
     }
 
+
     /** @brief Destroy the MLT Renderer. */
-    virtual ~AbstractRender() {}
+    virtual ~AbstractRender() {
+        delete m_GLContext;
+    }
 
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
@@ -65,9 +79,15 @@ Q_OBJECT public:
 
     /** @brief Someone needs us to send again a frame. */
     virtual void sendFrameUpdate() = 0;
-
+    QSemaphore showFrameSemaphore;
+    
 private:
     QString m_name;
+    
+protected:
+    QGLWidget *m_mainGLContext;
+    QGLWidget *m_GLContext;
+    QMap<pthread_t, QGLWidget *> m_renderThreadGLContexts;
     
 signals:
     /** @brief The renderer refreshed the current frame. */
@@ -81,15 +101,12 @@ class AbstractMonitor : public QWidget
 {
     Q_OBJECT
 public:
-    AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = 0);
+    AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QWidget *parent = 0);
     Kdenlive::MonitorId id() {return m_id;}
     virtual ~AbstractMonitor();
     virtual VideoGLWidget *glWidget() = 0;
     bool isActive() const;
     VideoContainer *videoBox;
-    VideoSurface *videoSurface;
-    void createVideoSurface();
-    
     
 public slots:
     virtual void stop() = 0;
@@ -102,6 +119,8 @@ public slots:
 protected:
     Kdenlive::MonitorId m_id;
     MonitorManager *m_monitorManager;
+    QGLWidget *m_parentGLContext;
+    VideoGLWidget *m_glWidget;
 };
 
 class VideoContainer : public QFrame

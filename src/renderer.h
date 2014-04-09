@@ -111,7 +111,7 @@ class Render: public AbstractRender
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(Kdenlive::MonitorId rendererName, int winid, QString profile = QString(), QWidget *parent = 0, QGLWidget *mainGLContext = 0);
+    Render(Kdenlive::MonitorId rendererName, QString profile = QString(), QGLWidget *mainGLContext = 0, QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
@@ -352,8 +352,6 @@ class Render: public AbstractRender
     
     /** @brief Ask to set this monitor as active */
     void setActiveMonitor();
-    
-    QSemaphore showFrameSemaphore;
     bool externalConsumer;
 
 protected:
@@ -397,18 +395,12 @@ private:
     QMutex m_mutex;
     QMutex m_infoMutex;
 
-    /** @brief A human-readable description of this renderer. */
-    int m_winid;
-
     QLocale m_locale;
     QFuture <void> m_infoThread;
     QList <requestClipInfo> m_requestList;
     bool m_paused;
     /** @brief True if this monitor is active. */
     bool m_isActive;
-    QGLWidget *m_mainGLContext;
-    QGLWidget *m_GLContext;
-    QMap<pthread_t, QGLWidget *> m_renderThreadGLContexts;
     Mlt::Filter* m_glslManager;
 
     void closeMlt();

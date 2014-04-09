@@ -47,13 +47,12 @@
 #include <QPainter>
 
 
-RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent) :
-    AbstractMonitor(name, manager, parent),
-    m_isCapturing(false),
-    m_didCapture(false),
-    m_isPlaying(false),
-    m_captureDevice(NULL),
-    m_analyse(false)
+RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QGLWidget *glContext, QWidget *parent) :
+    AbstractMonitor(name, manager, glContext , parent)
+    , m_isCapturing(false)
+    , m_didCapture(false)
+    , m_isPlaying(false)
+    , m_captureDevice(NULL)
 {
     setupUi(this);
 
@@ -66,7 +65,6 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     l->setSpacing(0);
     l->addWidget(videoBox, 10);
     video_frame->setLayout(l);
-    createVideoSurface();
 
     QToolBar *toolbar = new QToolBar(this);
     QHBoxLayout *hlayout = new QHBoxLayout;
@@ -140,32 +138,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     connect(m_captureProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotProcessStatus(QProcess::ProcessState)));
     connect(m_captureProcess, SIGNAL(readyReadStandardError()), this, SLOT(slotReadProcessInfo()));
     
-    QString videoDriver = KdenliveSettings::videodrivername();
-#if QT_VERSION >= 0x040600
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("SDL_WINDOWID", QString::number(videoSurface->winId()));
-    if (!videoDriver.isEmpty()) {
-        if (videoDriver == "x11_noaccel") {
-            env.insert("SDL_VIDEO_YUV_HWACCEL", "0");
-            env.insert("SDL_VIDEODRIVER", "x11");
-        } else env.insert("SDL_VIDEODRIVER", videoDriver);
-    }
-    m_displayProcess->setProcessEnvironment(env);
-#else
-    QStringList env = QProcess::systemEnvironment();
-    env << "SDL_WINDOWID=" + QString::number(videoSurface->winId());
-    if (!videoDriver.isEmpty()) {
-        if (videoDriver == "x11_noaccel") {
-            env << "SDL_VIDEO_YUV_HWACCEL=0";
-            env << "SDL_VIDEODRIVER=x11";
-        } else env << "SDL_VIDEODRIVER=" + videoDriver;
-    }
-    m_displayProcess->setEnvironment(env);
-#endif
 
-    setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
-
-    kDebug() << "/////// BUILDING MONITOR, ID: " << videoSurface->winId();
 #if KDE_IS_VERSION(4,7,0)
     m_infoMessage = new KMessageWidget;
     QVBoxLayout *s =  static_cast <QVBoxLayout *> (layout());
@@ -176,6 +149,12 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     slotVideoDeviceChanged(device_selector->currentIndex());
     m_previewSettings->setChecked(KdenliveSettings::enable_recording_preview());
     connect(m_previewSettings, SIGNAL(triggered(bool)), this, SLOT(slotChangeRecordingPreview(bool)));
+    
+    createOpenGlWidget(videoBox, KdenliveSettings::current_profile());
+    QVBoxLayout *lay = new QVBoxLayout;
+    lay->setContentsMargins(0, 0, 0, 0);
+    lay->addWidget(m_glWidget);
+    videoBox->setLayout(lay);
 }
 
 RecMonitor::~RecMonitor()
@@ -184,6 +163,22 @@ RecMonitor::~RecMonitor()
     delete m_captureProcess;
     delete m_displayProcess;
     delete m_captureDevice;
+}
+
+VideoGLWidget *RecMonitor::glWidget()
+{
+    return m_glWidget;
+};
+
+void RecMonitor::createOpenGlWidget(QWidget *parent, const QString &)
+{
+    m_glWidget = new VideoGLWidget(parent, m_parentGLContext);
+    if (m_glWidget == NULL) {
+        // Creation failed, we are in trouble...
+        QMessageBox::critical(this, i18n("Missing OpenGL support"),
+                              i18n("You need working OpenGL support to run Kdenlive. Exiting."));
+        qApp->quit();
+    }
 }
 
 void RecMonitor::slotSwitchFullScreen()
@@ -526,7 +521,8 @@ void RecMonitor::slotStartPreview(bool play)
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
         producer = getV4lXmlPlaylist(profile, &isXml);
-
+        if (profile.display_aspect_den != 0)
+            m_glWidget->setImageAspectRatio((double) profile.display_aspect_num / profile.display_aspect_den);
         //producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
         if (!m_captureDevice->slotStartPreview(producer, isXml)) {
             // v4l capture failed to start
@@ -544,6 +540,9 @@ void RecMonitor::slotStartPreview(bool play)
         path = KdenliveSettings::current_profile();
         slotActivateMonitor();
         buildMltDevice(path);
+        profile = ProfilesDialog::getVideoProfile(path);
+        if (profile.display_aspect_den != 0)
+            m_glWidget->setImageAspectRatio((double) profile.display_aspect_num / profile.display_aspect_den);        
         producer = QString("decklink:%1").arg(KdenliveSettings::decklink_capturedevice());
         if (!m_captureDevice->slotStartPreview(producer)) {
             // v4l capture failed to start
@@ -629,7 +628,8 @@ void RecMonitor::slotRecord()
             if (rec_video->isChecked()) slotActivateMonitor();
             path = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
-            //m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
+            if (profile.display_aspect_den != 0)
+                m_glWidget->setImageAspectRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
             playlist = getV4lXmlPlaylist(profile, &isXml);
 
@@ -692,7 +692,8 @@ void RecMonitor::slotRecord()
             slotActivateMonitor();
             path = KdenliveSettings::current_profile();
             profile = ProfilesDialog::getVideoProfile(path);
-            //m_videoBox->setRatio((double) profile.display_aspect_num / profile.display_aspect_den);
+            if (profile.display_aspect_den != 0)
+                m_glWidget->setImageAspectRatio((double) profile.display_aspect_num / profile.display_aspect_den);
             buildMltDevice(path);
 
             playlist = QString("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
@@ -1028,12 +1029,6 @@ void RecMonitor::slotShowLog()
 }*/
 
 
-void RecMonitor::analyseFrames(bool analyse)
-{
-    m_analyse = analyse;
-    if (m_captureDevice) m_captureDevice->sendFrameForAnalysis = analyse;
-}
-
 void RecMonitor::slotDroppedFrames(int dropped)
 {
     slotSetInfoMessage(i18n("%1 dropped frames", dropped));
@@ -1041,13 +1036,28 @@ void RecMonitor::slotDroppedFrames(int dropped)
 
 void RecMonitor::buildMltDevice(const QString &path)
 {
+    if (m_glWidget == NULL) return;
     if (m_captureDevice == NULL) {
-	m_monitorManager->updateScopeSource();
-        m_captureDevice = new MltDeviceCapture(path, videoSurface, this);
-        connect(m_captureDevice, SIGNAL(droppedFrames(int)), this, SLOT(slotDroppedFrames(int)));
-        m_captureDevice->sendFrameForAnalysis = m_analyse;
-        m_monitorManager->updateScopeSource();
+        m_captureDevice = new MltDeviceCapture(path, m_glWidget, this);
+        connect(m_captureDevice, SIGNAL(showImageSignal(Mlt::Frame*, GLuint)), this, SLOT(slotCheckOverlay(Mlt::Frame*, GLuint)));
     }
+}
+
+void RecMonitor::slotCheckOverlay(Mlt::Frame *frame, GLuint tex)
+{
+    QString overlayText;
+    /*if (m_showOverlay) {
+        int pos = m_timePos->getValue();//render->seekFramePosition();
+        QPoint zone = m_ruler->zone();
+        if (pos == zone.x())
+            overlayText = i18n("In Point");
+        else if (pos == zone.y())
+            overlayText = i18n("Out Point");
+        else
+            overlayText = m_ruler->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
+    }*/
+    m_glWidget->showImage(frame, tex, overlayText);
+    m_captureDevice->showFrameSemaphore.release();
 }
 
 void RecMonitor::slotChangeRecordingPreview(bool enable)

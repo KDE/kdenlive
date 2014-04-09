@@ -51,7 +51,7 @@
 
 
 Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QString profile, QWidget *parent) :
-    AbstractMonitor(id, manager, parent)
+    AbstractMonitor(id, manager, glContext, parent)
     , render(NULL)
     , m_currentClip(NULL)
     , m_scale(1)
@@ -62,8 +62,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glC
     , m_effectWidget(NULL)
     , m_selectedClip(NULL)
     , m_loopClipTransition(true)
-    , m_parentGLContext(glContext)
-    , m_glWidget(NULL)
     , m_editMarker(NULL)
     , m_showOverlay(KdenliveSettings::displayMonitorInfo())
 {
@@ -212,7 +210,7 @@ QWidget *Monitor::container()
 void Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
 {
     m_glWidget = new VideoGLWidget(parent, m_parentGLContext);
-    render = new Render(id(), 0, profile, this, m_glWidget);
+    render = new Render(id(), profile, m_glWidget, this);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...
         QMessageBox::critical(this, i18n("Missing OpenGL support"),
@@ -629,6 +627,7 @@ void Monitor::slotCheckOverlay(Mlt::Frame *frame, GLuint tex)
             overlayText = m_ruler->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
     }
     m_glWidget->showImage(frame, tex, overlayText);
+    render->showFrameSemaphore.release();
 }
 
 void Monitor::checkOverlay()

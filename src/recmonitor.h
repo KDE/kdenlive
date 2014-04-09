@@ -57,11 +57,9 @@ class RecMonitor : public AbstractMonitor, public Ui::RecMonitor_UI
     Q_OBJECT
 
 public:
-    explicit RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent = 0);
+    explicit RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QGLWidget *glContext, QWidget *parent = 0);
     ~RecMonitor();
-
-    VideoGLWidget *glWidget() {return new VideoGLWidget();};
-    void analyseFrames(bool analyse);
+    VideoGLWidget *glWidget();
     enum CaptureDevice {
         Firewire = 0,
         Video4Linux = 1,
@@ -110,12 +108,12 @@ private:
     QAction *m_addCapturedClip;
     QAction *m_previewSettings;
     QString m_error;
+    void createOpenGlWidget(QWidget *parent, const QString &profile);
 
 #if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_infoMessage;
 #endif
 
-    bool m_analyse;
     void checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString &txt);
     void manageCapturedFiles();
@@ -144,6 +142,7 @@ private slots:
     void slotChangeRecordingPreview(bool enable);
     /** @brief Show last jog error log. */
     void slotShowLog();
+    void slotCheckOverlay(Mlt::Frame*, GLuint);
 
 public slots:
     void refreshRecMonitor(bool visible);

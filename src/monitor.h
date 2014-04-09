@@ -124,9 +124,6 @@ private:
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
     bool m_loopClipTransition;
-
-    QGLWidget *m_parentGLContext;
-    VideoGLWidget *m_glWidget;
     void createOpenGlWidget(QWidget *parent, const QString &profile);
 
     GenTime getSnapForPos(bool previous);
