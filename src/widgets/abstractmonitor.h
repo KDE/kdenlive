@@ -56,17 +56,12 @@ Q_OBJECT public:
            , showFrameSemaphore(3)
            , m_name(name)
            , m_mainGLContext(mainGLContext)
-           , m_GLContext(NULL)
-           
     {
-        m_GLContext = new QGLWidget(0, m_mainGLContext);
-        m_GLContext->resize(0, 0);
     }
 
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~AbstractRender() {
-        delete m_GLContext;
     }
 
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
@@ -86,7 +81,6 @@ private:
     
 protected:
     QGLWidget *m_mainGLContext;
-    QGLWidget *m_GLContext;
     QMap<pthread_t, QGLWidget *> m_renderThreadGLContexts;
     
 signals:

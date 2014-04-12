@@ -293,7 +293,6 @@ void MltDeviceCapture::showFrame(Mlt::Frame* frame, bool checkDropped)
         mlt_image_format format = mlt_image_glsl_texture;
         int width = 0;
         int height = 0;
-        m_GLContext->makeCurrent();
         frame->set("movit.convert.use_texture", 1);
         const uint8_t* image = frame->get_image(format, width, height);
         const GLuint* texnum = (GLuint *)image;

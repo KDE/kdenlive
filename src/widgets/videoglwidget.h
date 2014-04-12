@@ -35,7 +35,7 @@ class VideoGLWidget : public QGLWidget
 public:
     explicit VideoGLWidget(QWidget *parent = 0, QGLWidget *share = 0);
     ~VideoGLWidget();
-    void activateMonitor();
+    void prepareMonitor();
     void checkOverlay(const QString &overlay);
     QSize minimumSizeHint() const;
     QSize sizeHint() const;

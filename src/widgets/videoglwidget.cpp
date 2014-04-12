@@ -26,6 +26,7 @@
 #include <GL/glu.h>
 #endif
 #include "widgets/videoglwidget.h"
+#include "kdenlivesettings.h"
 
 //#define check_error() { int err = glGetError(); if (err != GL_NO_ERROR) { fprintf(stderr, "GL error 0x%x at %s:%d\n", err, __FILE__, __LINE__); exit(1); } }
 
@@ -51,7 +52,7 @@ VideoGLWidget::VideoGLWidget(QWidget *parent, QGLWidget *share)
     , m_texture(0)
     , m_frame_texture(0)
     , m_display_ratio(4.0 / 3.0)
-    , m_backgroundColor(Qt::gray)
+    , m_backgroundColor(KdenliveSettings::window_background())
     , m_fbo(NULL)
 {
     setAttribute(Qt::WA_PaintOnScreen);
@@ -86,6 +87,7 @@ void VideoGLWidget::initializeGL()
 {
     qglClearColor(m_backgroundColor);
     glShadeModel(GL_FLAT);
+    glEnable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     glDisable(GL_LIGHTING);
@@ -135,15 +137,10 @@ void VideoGLWidget::resizeGL(int width, int height)
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void VideoGLWidget::activateMonitor()
+void VideoGLWidget::prepareMonitor()
 {
-    makeCurrent();
-    glViewport(0, 0, width(), height());
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0, width(), height(), 0);
-    glMatrixMode(GL_MODELVIEW);
-    glClear(GL_COLOR_BUFFER_BIT);
+    //Make sure we don't inherit a texture from another monitor
+    m_frame_texture = 0;
 }
 
 /*void VideoGLWidget::paintEvent(QPaintEvent *event)
@@ -327,7 +324,6 @@ void VideoGLWidget::showImage(const QImage &image)
 
 void VideoGLWidget::showImage(Mlt::Frame* frame, GLuint texnum, const QString overlay)
 {
-    makeCurrent();
     GLsync sync = (GLsync) frame->get("movit.convert.fence");
     glClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
     if (m_texture) {

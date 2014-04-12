@@ -766,13 +766,14 @@ void Monitor::adjustRulerSize(int length)
 
 void Monitor::stop()
 {
+    if (m_glWidget) m_glWidget->prepareMonitor();
     if (render) render->stop();
 }
 
 void Monitor::start()
 {
     if (!isVisible() || !isActive()) return;
-    if (m_glWidget) m_glWidget->activateMonitor();
+    if (m_glWidget) m_glWidget->prepareMonitor();
     if (render) render->startConsumer();
 }
 
