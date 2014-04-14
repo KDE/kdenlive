@@ -81,13 +81,9 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     QSize iconSize(size, size);
 
     rectBColor->setAlphaChannelEnabled(true);
-    delete rectBAlpha;
     rectFColor->setAlphaChannelEnabled(true);
-    delete rectFAlpha;
     fontColorButton->setAlphaChannelEnabled(true);
-    delete textAlpha;
     textOutlineColor->setAlphaChannelEnabled(true);
-    delete textOutlineAlpha;
 
     textOutline->setMinimum(0);
     textOutline->setMaximum(200);
@@ -1934,8 +1930,6 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("font_pixel_size", font_size->value());
     titleConfig.writeEntry("font_color", fontColorButton->color());
     titleConfig.writeEntry("font_outline_color", textOutlineColor->color());
-    titleConfig.writeEntry("font_alpha", textAlpha->value());
-    titleConfig.writeEntry("font_outline_alpha", textOutlineAlpha->value());
     titleConfig.writeEntry("font_outline", textOutline->value());
     titleConfig.writeEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());

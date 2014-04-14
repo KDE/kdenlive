@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1057</width>
-    <height>589</height>
+    <width>1127</width>
+    <height>603</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -257,23 +257,20 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="KoSliderCombo" name="rectBAlpha"/>
-       </item>
-       <item row="0" column="3">
         <widget class="Line" name="line_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
-       <item row="0" column="4">
+       <item row="0" column="3">
         <widget class="QLabel" name="label_11">
          <property name="text">
           <string>Border color</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="5">
+       <item row="0" column="4">
         <widget class="KColorButton" name="rectFColor">
          <property name="color">
           <color>
@@ -291,20 +288,17 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="6">
-        <widget class="KoSliderCombo" name="rectFAlpha"/>
-       </item>
-       <item row="0" column="7">
+       <item row="0" column="5">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Width</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="8">
+       <item row="0" column="6">
         <widget class="KoSliderCombo" name="rectLineWidth"/>
        </item>
-       <item row="0" column="9">
+       <item row="0" column="7">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -369,12 +363,9 @@
         </widget>
        </item>
        <item row="0" column="4">
-        <widget class="KoSliderCombo" name="textAlpha"/>
-       </item>
-       <item row="0" column="5">
         <widget class="QComboBox" name="font_weight_box"/>
        </item>
-       <item row="0" column="6">
+       <item row="0" column="5">
         <widget class="QToolButton" name="buttonItalic">
          <property name="text">
           <string>...</string>
@@ -384,7 +375,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="7">
+       <item row="0" column="6">
         <widget class="QToolButton" name="buttonUnder">
          <property name="text">
           <string>...</string>
@@ -395,23 +386,16 @@
         </widget>
        </item>
        <item row="0" column="8">
-        <widget class="Line" name="line_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="9">
         <widget class="QLabel" name="label_18">
          <property name="text">
           <string>Outline</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="10">
+       <item row="0" column="9">
         <widget class="KoSliderCombo" name="textOutline"/>
        </item>
-       <item row="0" column="11">
+       <item row="0" column="10">
         <widget class="KColorButton" name="textOutlineColor">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -421,17 +405,14 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="12">
-        <widget class="KoSliderCombo" name="textOutlineAlpha"/>
-       </item>
-       <item row="0" column="13">
+       <item row="0" column="11">
         <widget class="Line" name="line_5">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
-       <item row="0" column="14">
+       <item row="0" column="12">
         <widget class="QToolButton" name="buttonAlignNone">
          <property name="text">
           <string>...</string>
@@ -447,7 +428,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="15">
+       <item row="0" column="13">
         <widget class="QToolButton" name="buttonAlignLeft">
          <property name="text">
           <string>...</string>
@@ -463,7 +444,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="16">
+       <item row="0" column="14">
         <widget class="QToolButton" name="buttonAlignCenter">
          <property name="text">
           <string>...</string>
@@ -476,7 +457,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="17">
+       <item row="0" column="15">
         <widget class="QToolButton" name="buttonAlignRight">
          <property name="text">
           <string>...</string>
@@ -489,21 +470,21 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="18">
+       <item row="0" column="16">
         <widget class="Line" name="line">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
-       <item row="0" column="19">
+       <item row="0" column="17">
         <widget class="QToolButton" name="buttonInsertUnicode">
          <property name="text">
           <string>...</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="20">
+       <item row="0" column="18">
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -515,6 +496,13 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="0" column="7">
+        <widget class="Line" name="line_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
        </item>
        <item row="0" column="1">
         <widget class="KFontComboBox" name="font_family"/>
