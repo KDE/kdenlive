@@ -84,13 +84,9 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
 
 #if KDE_IS_VERSION(4,5,0)
     rectBColor->setAlphaChannelEnabled(true);
-    delete rectBAlpha;
     rectFColor->setAlphaChannelEnabled(true);
-    delete rectFAlpha;
     fontColorButton->setAlphaChannelEnabled(true);
-    delete textAlpha;
     textOutlineColor->setAlphaChannelEnabled(true);
-    delete textOutlineAlpha;
     
 #else
     rectBAlpha->setMinimum(0);
@@ -1988,14 +1984,6 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("font_pixel_size", font_size->value());
     titleConfig.writeEntry("font_color", fontColorButton->color());
     titleConfig.writeEntry("font_outline_color", textOutlineColor->color());
-#if KDE_IS_VERSION(4,5,0)
-    titleConfig.writeEntry("font_alpha", fontColorButton->color().alpha());
-    titleConfig.writeEntry("font_outline_alpha", textOutlineColor->color().alpha());
-#else
-    titleConfig.writeEntry("font_alpha", textAlpha->value());
-    titleConfig.writeEntry("font_outline_alpha", textOutlineAlpha->value());
-#endif
-
     titleConfig.writeEntry("font_outline", textOutline->value());
     titleConfig.writeEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());
