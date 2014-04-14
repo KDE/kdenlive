@@ -139,7 +139,8 @@ int main(int argc, char *argv[])
 
     // Calculate the correlation and hereby the audio shift
     AudioCorrelation corr(envelopeMain);
-    int index = corr.addChild(envelopeSub, useFFT);
+    int index = 0;
+    corr.addChild(envelopeSub/*, useFFT*/);
 
     int shift = corr.getShift(index);
     std::cout << " Should be shifted by " << shift << " frames: " << fileSub << std::endl

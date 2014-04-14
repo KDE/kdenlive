@@ -113,6 +113,7 @@ enum TransitionType {
 
 enum MessageType {
     DefaultMessage,
+    ProcessingJobMessage,
     OperationCompletedMessage,
     InformationMessage,
     ErrorMessage,

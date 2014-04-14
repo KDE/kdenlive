@@ -213,6 +213,9 @@ public:
     /** @brief Returns frame number of current mouse position. */
     int getMousePos() const;
     
+    /** @brief Get effect parameters ready for MLT*/
+    static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
+    
 public slots:
     /** @brief Send seek request to MLT. */
     void seekCursorPos(int pos);
@@ -299,12 +302,11 @@ public slots:
     void slotAddEffect(ClipItem *clip, const QDomElement &effect);
     void slotImportClipKeyframes(GraphicsRectItem type);
 
-    /** @brief Get effect parameters ready for MLT*/
-    static void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, MltVideoProfile profile, const QString &prefix = QString());
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
     
     void slotInfoProcessingFinished();
+    void slotAlignClip(int, int, int);
 
 
 protected:

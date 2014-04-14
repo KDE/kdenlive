@@ -78,7 +78,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
 
     m_queueSemaphore.acquire();
     if (!m_messageQueue.contains(item)) {
-        if (item.type == ErrorMessage || item.type == MltError) {
+        if (item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage) {
             qDebug() << item.text;
 
             // Put the new errror message at first place and immediately show it
@@ -112,10 +112,21 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     bool newMessage = false;
 
     // Get the next message from the queue, unless the current one needs to be confirmed
-    if (!m_messageQueue.isEmpty()) {
-
+    if (m_currentMessage.type == ProcessingJobMessage) {
+        // Check if we have a job completed message to cancel this one
+        StatusBarMessageItem item;
+        while (!m_messageQueue.isEmpty()) {
+            item = m_messageQueue.at(0);
+            m_messageQueue.removeFirst();
+            if (item.type == OperationCompletedMessage || item.type == ErrorMessage || item.type == MltError) {
+                m_currentMessage = item;
+                newMessage = true;
+                break;
+            }
+        }
+    }   
+    else if (!m_messageQueue.isEmpty()) {
         if (!m_currentMessage.needsConfirmation()) {
-
             m_currentMessage = m_messageQueue.at(0);
             m_messageQueue.removeFirst();
             newMessage = true;
@@ -147,6 +158,10 @@ bool StatusBarMessageLabel::slotMessageTimeout()
 
     const char* iconName = 0;
     switch (m_currentMessage.type) {
+    case ProcessingJobMessage:
+        iconName = "chronometer";
+        m_closeButton->hide();
+        break;
     case OperationCompletedMessage:
         iconName = "dialog-ok";
         m_closeButton->hide();

@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "audioCorrelation.h"
 #include "fftCorrelation.h"
 
+#include <KLocale>
 #include <QDebug>
 #include <QTime>
 #include <cmath>
@@ -21,6 +22,7 @@ AudioCorrelation::AudioCorrelation(AudioEnvelope *mainTrackEnvelope) :
     m_mainTrackEnvelope(mainTrackEnvelope)
 {
     m_mainTrackEnvelope->normalizeEnvelope();
+    connect(m_mainTrackEnvelope, SIGNAL(envelopeReady(AudioEnvelope *)), this, SLOT(slotAnnounceEnvelope()));
 }
 
 AudioCorrelation::~AudioCorrelation()
@@ -36,10 +38,19 @@ AudioCorrelation::~AudioCorrelation()
     qDebug() << "Envelope deleted.";
 }
 
-int AudioCorrelation::addChild(AudioEnvelope *envelope, bool useFFT)
+void AudioCorrelation::slotAnnounceEnvelope()
+{
+    emit displayMessage(i18n("Audio analysis finished"), OperationCompletedMessage);
+}
+
+void AudioCorrelation::addChild(AudioEnvelope *envelope)
 {
     envelope->normalizeEnvelope();
+    connect(envelope, SIGNAL(envelopeReady(AudioEnvelope *)), this, SLOT(slotProcessChild(AudioEnvelope *)));
+}
 
+void AudioCorrelation::slotProcessChild(AudioEnvelope *envelope)
+{
     const int sizeMain = m_mainTrackEnvelope->envelopeSize();
     const int sizeSub = envelope->envelopeSize();
 
@@ -50,7 +61,7 @@ int AudioCorrelation::addChild(AudioEnvelope *envelope, bool useFFT)
     const int64_t *envSub = envelope->envelope();
     int64_t max = 0;
 
-    if (useFFT) {
+    if (sizeSub > 200) {
         FFTCorrelation::correlate(envMain, sizeMain,
                                   envSub, sizeSub,
                                   correlation);
@@ -67,8 +78,9 @@ int AudioCorrelation::addChild(AudioEnvelope *envelope, bool useFFT)
     m_correlations.append(info);
 
     Q_ASSERT(m_correlations.size() == m_children.size());
-
-    return m_children.indexOf(envelope);
+    int index = m_children.indexOf(envelope);
+    int shift = getShift(index);
+    emit gotAudioAlignData(envelope->track(), envelope->startPos(), shift);
 }
 
 int AudioCorrelation::getShift(int childIndex) const
@@ -154,3 +166,5 @@ void AudioCorrelation::correlate(const int64_t *envMain, int sizeMain,
         *out_max = max;
     }
 }
+
+#include "audioCorrelation.moc"
