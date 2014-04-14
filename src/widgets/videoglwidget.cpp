@@ -128,13 +128,12 @@ void VideoGLWidget::resizeGL(int width, int height)
     }
     x = (width - w) / 2;
     y = (height - h) / 2;
-
+    makeCurrent();
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, width, height, 0);
     glMatrixMode(GL_MODELVIEW);
-    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void VideoGLWidget::prepareMonitor()
@@ -175,8 +174,24 @@ void VideoGLWidget::paintGL()
         glDisable(GL_TEXTURE_RECTANGLE_EXT);
     }
 
-    if (!m_frame_texture) return;
 
+    glClear(GL_COLOR_BUFFER_BIT);
+    if (!m_frame_texture) {
+        // Paint black screen when refreshing and no image available
+        glBegin(GL_QUADS);
+        glColor3d(0, 0, 0);
+        glTexCoord2i(0, 0);
+        glVertex2i(x, y + h);
+        glTexCoord2i(1, 0);
+        glVertex2i(x + w, y + h);
+        glTexCoord2i(1, 1);
+        glVertex2i(x + w, y);
+        glTexCoord2i(0, 1);
+        glVertex2i(x, y);
+        glEnd();
+        glColor3d(1, 1, 1);
+        return;
+    }
     if (!m_overlay.isEmpty() || sendFrameForAnalysis) {
         if (!m_fbo || m_fbo->width() != w || m_fbo->height() != h) {
             delete m_fbo;
@@ -221,7 +236,7 @@ void VideoGLWidget::paintGL()
         glPopAttrib();
 
 #ifdef Q_WS_MAC
-        glClear(GL_COLOR_BUFFER_BIT);
+        //glClear(GL_COLOR_BUFFER_BIT);
 #endif
         glEnable(GL_TEXTURE_2D);
         if (!m_overlay.isEmpty() || sendFrameForAnalysis) glBindTexture(GL_TEXTURE_2D, m_fbo->texture());
@@ -240,9 +255,9 @@ void VideoGLWidget::paintGL()
 
     else {
 #ifdef Q_WS_MAC
-        glClear(GL_COLOR_BUFFER_BIT);
+        //glClear(GL_COLOR_BUFFER_BIT);
 #endif
-        glEnable(GL_TEXTURE_2D);
+        //glEnable(GL_TEXTURE_2D);
         if (!m_overlay.isEmpty() || sendFrameForAnalysis) glBindTexture(GL_TEXTURE_2D, m_fbo->texture());
         else glBindTexture(GL_TEXTURE_2D, m_frame_texture);
         glBegin(GL_QUADS);
