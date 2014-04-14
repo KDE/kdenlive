@@ -148,12 +148,6 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QGLWid
     slotVideoDeviceChanged(device_selector->currentIndex());
     m_previewSettings->setChecked(KdenliveSettings::enable_recording_preview());
     connect(m_previewSettings, SIGNAL(triggered(bool)), this, SLOT(slotChangeRecordingPreview(bool)));
-    
-    createOpenGlWidget(videoBox, KdenliveSettings::current_profile());
-    QVBoxLayout *lay = new QVBoxLayout;
-    lay->setContentsMargins(0, 0, 0, 0);
-    lay->addWidget(m_glWidget);
-    videoBox->setLayout(lay);
 }
 
 RecMonitor::~RecMonitor()
@@ -1035,7 +1029,13 @@ void RecMonitor::slotDroppedFrames(int dropped)
 
 void RecMonitor::buildMltDevice(const QString &path)
 {
-    if (m_glWidget == NULL) return;
+    if (m_glWidget == NULL) {
+        createOpenGlWidget(videoBox, KdenliveSettings::current_profile());
+        QVBoxLayout *lay = new QVBoxLayout;
+        lay->setContentsMargins(0, 0, 0, 0);
+        lay->addWidget(m_glWidget);
+        videoBox->setLayout(lay);
+    }
     if (m_captureDevice == NULL) {
         m_captureDevice = new MltDeviceCapture(path, m_glWidget, this);
         connect(m_captureDevice, SIGNAL(showImageSignal(Mlt::Frame*, GLuint)), this, SLOT(slotCheckOverlay(Mlt::Frame*, GLuint)));
