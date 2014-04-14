@@ -84,13 +84,13 @@ void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_pt
 
 void Render::consumer_thread_started(mlt_consumer, Render * self, mlt_frame)
 {
-    pthread_t thr = pthread_self();
-    if (self->m_renderThreadGLContexts.count(thr) == 0) {
+    self->active_thread = pthread_self();
+    if (self->m_renderThreadGLContexts.count(self->active_thread) == 0) {
         QGLWidget *ctx = new QGLWidget(0, self->m_mainGLContext);
         ctx->resize(0, 0);
-        self->m_renderThreadGLContexts.insert(thr, ctx);
+        self->m_renderThreadGLContexts.insert(self->active_thread, ctx);
     }
-    self->m_renderThreadGLContexts[thr]->makeCurrent();
+    self->m_renderThreadGLContexts[self->active_thread]->makeCurrent();
     self->m_glslManager->fire_event("init glsl");
     if (!self->m_glslManager->get_int("glsl_supported")) {
         QMessageBox::critical(NULL, i18n("Movit failed initialization"),
@@ -106,6 +106,7 @@ void Render::consumer_thread_stopped(mlt_consumer, Render * self, mlt_frame)
     self->m_renderThreadGLContexts[thr]->makeCurrent();
     delete self->m_renderThreadGLContexts[thr];
     self->m_renderThreadGLContexts.remove(thr);
+    self->active_thread = 0;
 }
 
 /*
@@ -137,7 +138,7 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
         self->pause();
         self->emitConsumerStopped(true);
     }
-    emit self->mltFrameReceived(new Mlt::Frame(frame_ptr));
+    self->showFrame(new Mlt::Frame(frame_ptr));
     }
 }
 
@@ -145,6 +146,7 @@ Render::Render(Kdenlive::MonitorId rendererName, QString profile, QGLWidget *mai
     AbstractRender(rendererName, mainGLContext, parent),
     requestedSeekPosition(SEEK_INACTIVE),
     externalConsumer(false),
+    active_thread(0),
     m_name(rendererName),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -174,7 +176,7 @@ Render::Render(Kdenlive::MonitorId rendererName, QString profile, QGLWidget *mai
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
-    connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
+    //connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
 }
 
 Render::~Render()
@@ -1910,10 +1912,11 @@ void Render::showFrame(Mlt::Frame* frame)
     int currentPos = m_mltConsumer->position();
     if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
     emit rendererPosition(currentPos);
-    if (frame->is_valid()) {
+    if (frame->is_valid() && active_thread != 0) {
         mlt_image_format format = mlt_image_glsl_texture;
         int width = 0;
         int height = 0;
+        m_renderThreadGLContexts[active_thread]->makeCurrent();
         frame->set("movit.convert.use_texture", 1);
         const uint8_t* image = frame->get_image(format, width, height);
         const GLuint* texnum = (GLuint *)image;

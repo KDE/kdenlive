@@ -353,6 +353,7 @@ class Render: public AbstractRender
     /** @brief Ask to set this monitor as active */
     void setActiveMonitor();
     bool externalConsumer;
+    pthread_t active_thread;
 
 protected:
     static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr);
