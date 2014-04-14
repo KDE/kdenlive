@@ -140,6 +140,8 @@ QImage KThumb::extractImage(int frame, int width, int height)
         img.fill(QColor(Qt::black).rgb());
         return img;
     }
+    QGLWidget ctx(0, m_clipManager->getMainContext());
+    ctx.makeCurrent();
     return getProducerFrame(frame, (int) (height * m_ratio + 0.5), width, height);
 }
 
