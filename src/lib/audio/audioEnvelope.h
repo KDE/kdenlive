@@ -14,6 +14,9 @@
 #include "audioInfo.h"
 #include <mlt++/Mlt.h>
 
+#include <QFutureWatcher>
+#include <QObject>
+
 class QImage;
 
 /**
@@ -23,11 +26,13 @@ class QImage;
 
   See also: http://bemasc.net/wordpress/2011/07/26/an-auto-aligner-for-pitivi/
   */
-class AudioEnvelope
+class AudioEnvelope : public QObject
 {
+    Q_OBJECT
+    
 public:
-    explicit AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset = 0, int length = 0);
-    ~AudioEnvelope();
+    explicit AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset = 0, int length = 0, int track = 0, int startPos = 0);
+    virtual ~AudioEnvelope();
 
     /// Returns the envelope, calculates it if necessary.
     int64_t const* envelope();
@@ -41,14 +46,21 @@ public:
     QImage drawEnvelope();
 
     void dumpInfo() const;
+    
+    int track() const;
+    int startPos() const;
 
 private:
     int64_t *m_envelope;
     Mlt::Producer *m_producer;
     AudioInfo *m_info;
+    QFutureWatcher<void> m_watcher;
+    QFuture<void> m_future;
 
     int m_offset;
     int m_length;
+    int m_track;
+    int m_startpos;
 
     int m_envelopeSize;
     int64_t m_envelopeMax;
@@ -57,6 +69,12 @@ private:
 
     bool m_envelopeStdDevCalculated;
     bool m_envelopeIsNormalized;
+    
+private slots:
+    void slotProcessEnveloppe();
+    
+signals:
+    void envelopeReady(AudioEnvelope *envelope);
 };
 
 #endif // AUDIOENVELOPE_H

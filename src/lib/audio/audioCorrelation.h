@@ -13,6 +13,7 @@
 
 #include "audioCorrelationInfo.h"
 #include "audioEnvelope.h"
+#include "definitions.h"
 #include <QList>
 
 
@@ -23,8 +24,9 @@
   It uses one main track (used in the initializer); further tracks will be
   aligned relative to this main track.
   */
-class AudioCorrelation
+class AudioCorrelation : public QObject
 {
+    Q_OBJECT
 public:
     /// AudioCorrelation will take ownership of mainTrackEnvelope
     AudioCorrelation(AudioEnvelope *mainTrackEnvelope);
@@ -32,9 +34,8 @@ public:
 
     /**
       This object will take ownership of the passed envelope.
-      \return The child's index
       */
-    int addChild(AudioEnvelope *envelope, bool useFFT = false);
+    void addChild(AudioEnvelope *envelope);
 
     const AudioCorrelationInfo *info(int childIndex) const;
     int getShift(int childIndex) const;
@@ -52,6 +53,14 @@ private:
 
     QList<AudioEnvelope*> m_children;
     QList<AudioCorrelationInfo*> m_correlations;
+
+private slots:    
+    void slotProcessChild(AudioEnvelope *envelope);
+    void slotAnnounceEnvelope();
+    
+signals:
+    void gotAudioAlignData(int, int, int);
+    void displayMessage(const QString &, MessageType);
 };
 
 #endif // AUDIOCORRELATION_H

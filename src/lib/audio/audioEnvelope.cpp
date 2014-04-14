@@ -13,13 +13,16 @@
 #include "audioStreamInfo.h"
 #include <QDebug>
 #include <QImage>
+#include <QtConcurrentRun>
 #include <QTime>
 #include <cmath>
 
-AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length) :
+AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length, int track, int startPos) :
     m_envelope(NULL),
     m_offset(offset),
     m_length(length),
+    m_track(track),
+    m_startpos(startPos),
     m_envelopeSize(producer->get_length()),
     m_envelopeMax(0),
     m_envelopeMean(0),
@@ -32,6 +35,7 @@ AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int of
     if (path == QLatin1String("<playlist>") || path == QLatin1String("<tractor>") || path ==QLatin1String( "<producer>"))
 	path = url;
     m_producer = new Mlt::Producer(*(producer->profile()), path.toUtf8().constData());
+    connect(&m_watcher, SIGNAL(finished()), this, SLOT(slotProcessEnveloppe()));
     if (!m_producer || !m_producer->is_valid()) {
 	qDebug()<<"// Cannot create envelope for producer: "<<path;
     }
@@ -151,12 +155,26 @@ int64_t AudioEnvelope::loadStdDev()
     return m_envelopeStdDev;
 }
 
+int AudioEnvelope::track() const
+{
+    return m_track;
+}
+
+int AudioEnvelope::startPos() const
+{
+    return m_startpos;
+}
+
 void AudioEnvelope::normalizeEnvelope(bool clampTo0)
 {
-    if (m_envelope == NULL) {
-        loadEnvelope();
+    if (m_envelope == NULL && !m_future.isRunning()) {
+        m_future = QtConcurrent::run(this, &AudioEnvelope::loadEnvelope);
+        m_watcher.setFuture(m_future);
     }
+}
 
+void AudioEnvelope::slotProcessEnveloppe()
+{
     if (!m_envelopeIsNormalized) {
 
         m_envelopeMax = 0;
@@ -165,9 +183,9 @@ void AudioEnvelope::normalizeEnvelope(bool clampTo0)
 
             m_envelope[i] -= m_envelopeMean;
 
-            if (clampTo0) {
+            /*if (clampTo0) {
                 if (m_envelope[i] < 0) { m_envelope[i] = 0; }
-            }
+            }*/
 
             if (m_envelope[i] > m_envelopeMax) {
                 m_envelopeMax = m_envelope[i];
@@ -179,6 +197,7 @@ void AudioEnvelope::normalizeEnvelope(bool clampTo0)
 
         m_envelopeIsNormalized = true;
     }
+    emit envelopeReady(this);
 
 }
 
@@ -218,3 +237,6 @@ void AudioEnvelope::dumpInfo() const
         }
     }
 }
+
+#include "audioEnvelope.moc"
+

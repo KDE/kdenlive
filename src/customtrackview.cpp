@@ -1090,12 +1090,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_selectionGroup->setProperty("locked_tracks", lockedTracks);
         }
         m_selectionMutex.unlock();
-        if (m_dragItem) {
-            ClipItem *clip = qgraphicsitem_cast<ClipItem *>(m_dragItem);
-            updateClipTypeActions(dragGroup == NULL ? clip : NULL);
+        if (m_dragItem) 
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
-        }
-        else updateClipTypeActions(NULL);
     }
     else {
         QGraphicsView::mousePressEvent(event);
@@ -6723,6 +6719,8 @@ void CustomTrackView::setAudioAlignReference()
     }
     if (m_audioCorrelator != NULL) {
         delete m_audioCorrelator;
+        m_audioCorrelator = NULL;
+        m_audioAlignmentReference = NULL;
     }
     if (selection.at(0)->type() == AVWidget) {
         ClipItem *clip = static_cast<ClipItem*>(selection.at(0));
@@ -6731,15 +6729,9 @@ void CustomTrackView::setAudioAlignReference()
 
             AudioEnvelope *envelope = new AudioEnvelope(clip->baseClip()->fileURL().path(), clip->getProducer(clip->track()));
             m_audioCorrelator = new AudioCorrelation(envelope);
-
-
-#ifdef DEBUG
-            envelope->drawEnvelope().save("kdenlive-audio-reference-envelope.png");
-            envelope->dumpInfo();
-#endif
-
-
-            emit displayMessage(i18n("Audio align reference set."), InformationMessage);
+            connect(m_audioCorrelator, SIGNAL(gotAudioAlignData(int,int,int)), this, SLOT(slotAlignClip(int,int,int)));
+            connect(m_audioCorrelator, SIGNAL(displayMessage(QString,MessageType)), this, SIGNAL(displayMessage(QString,MessageType)));
+            emit displayMessage(i18n("Processing audio, please wait."), ProcessingJobMessage);
         }
         return;
     }
@@ -6763,7 +6755,6 @@ void CustomTrackView::alignAudio()
         return;
     }
 
-    int counter = 0;
     QList<QGraphicsItem *> selection = scene()->selectedItems();
     foreach (QGraphicsItem *item, selection) {
         if (item->type() == AVWidget) {
@@ -6774,82 +6765,59 @@ void CustomTrackView::alignAudio()
             }
 
             if (clip->clipType() == AV || clip->clipType() == Audio) {
-                AudioEnvelope *envelope = new AudioEnvelope(clip->baseClip()->fileURL().path(), clip->getProducer(clip->track()), clip->info().cropStart.frames(m_document->fps()), clip->info().cropDuration.frames(m_document->fps()));
-
-                // FFT only for larger vectors. We could use it all time, but for small vectors
-                // the (anyway not noticeable) overhead is smaller with a nested for loop correlation.
-                int index = m_audioCorrelator->addChild(envelope, envelope->envelopeSize() > 200);
-                int shift = m_audioCorrelator->getShift(index);
-                counter++;
-
-
-#ifdef DEBUG
-                m_audioCorrelator->info(index)->toImage().save("kdenlive-audio-align-cross-correlation.png");
-                envelope->drawEnvelope().save("kdenlive-audio-align-envelope.png");
-                envelope->dumpInfo();
-
-                int targetPos = m_audioAlignmentReference->startPos().frames(m_document->fps()) + shift;
-                qDebug() << "Reference starts at " << m_audioAlignmentReference->startPos().frames(m_document->fps());
-                qDebug() << "We will start at " << targetPos;
-                qDebug() << "to shift by " << shift;
-                qDebug() << "(eventually)";
-                qDebug() << "(maybe)";
-#endif
-
-
-                QUndoCommand *moveCommand = new QUndoCommand();
-
-                GenTime add(shift, m_document->fps());
-                ItemInfo start = clip->info();
-
-                ItemInfo end = start;
-                end.startPos = m_audioAlignmentReference->startPos() + add - m_audioAlignmentReference->cropStart();
-                end.endPos = end.startPos + start.cropDuration;
-
-                if ( end.startPos.seconds() < 0 ) {
-                    // Clip would start before 0, so crop it first
-                    GenTime cropBy = -end.startPos;
-
-#ifdef DEBUG
-                    qDebug() << "Need to crop clip. " << start;
-                    qDebug() << "end.startPos: " << end.startPos.toString() << ", cropBy: " << cropBy.toString();
-#endif
-
-                    ItemInfo resized = start;
-                    resized.startPos += cropBy;
-
-                    resizeClip(start, resized);
-                    new ResizeClipCommand(this, start, resized, false, false, moveCommand);
-
-                    start = clip->info();
-                    end.startPos += cropBy;
-
-#ifdef DEBUG
-                    qDebug() << "Clip cropped. " << start;
-                    qDebug() << "Moving to: " << end;
-#endif
-                }
-
-                if (itemCollision(clip, end)) {
-                    delete moveCommand;
-                    emit displayMessage(i18n("Unable to move clip due to collision."), ErrorMessage);
-                    return;
-                }
-
-                moveCommand->setText(i18n("Auto-align clip"));
-                new MoveClipCommand(this, start, end, true, moveCommand);
-                updateTrackDuration(clip->track(), moveCommand);
-                m_commandStack->push(moveCommand);
-
+                ItemInfo info = clip->info();
+                AudioEnvelope *envelope = new AudioEnvelope(clip->baseClip()->fileURL().path(), clip->getProducer(clip->track()), info.cropStart.frames(m_document->fps()), info.cropDuration.frames(m_document->fps()), clip->track(), info.startPos.frames(m_document->fps()));
+                m_audioCorrelator->addChild(envelope);
             }
         }
     }
+    emit displayMessage(i18n("Processing audio, please wait."), ProcessingJobMessage);
+}
 
-    if (counter == 0) {
-        emit displayMessage(i18n("No audio clips selected."), ErrorMessage);
-    } else {
-        emit displayMessage(i18n("Auto-aligned %1 clips.", counter), InformationMessage);
+void CustomTrackView::slotAlignClip(int track, int pos, int shift)
+{
+    QUndoCommand *moveCommand = new QUndoCommand();
+    ClipItem *clip = getClipItemAt(pos, track);
+    if (!clip) {
+        emit displayMessage(i18n("Cannot find clip to align."), ErrorMessage);
+        //emit displayMessage(i18n("Auto-aligned %1 clips.", counter), InformationMessage);
+        return;
     }
+    GenTime add(shift, m_document->fps());
+    ItemInfo start = clip->info();
+
+    ItemInfo end = start;
+    end.startPos = m_audioAlignmentReference->startPos() + add - m_audioAlignmentReference->cropStart();
+    end.endPos = end.startPos + start.cropDuration;
+    if ( end.startPos < GenTime() ) {
+        // Clip would start before 0, so crop it first
+        GenTime cropBy = -end.startPos;
+        if (cropBy > start.cropDuration) {
+            delete moveCommand;
+            emit displayMessage(i18n("Unable to move clip out of timeline."), ErrorMessage);
+            return;
+        }
+        ItemInfo resized = start;
+        resized.startPos += cropBy;
+
+        resizeClip(start, resized);
+        new ResizeClipCommand(this, start, resized, false, false, moveCommand);
+
+        start = clip->info();
+        end.startPos += cropBy;
+    }
+
+    if (itemCollision(clip, end)) {
+        delete moveCommand;
+        emit displayMessage(i18n("Unable to move clip due to collision."), ErrorMessage);
+        return;
+    }
+    emit displayMessage(i18n("Clip aligned."), OperationCompletedMessage);
+    moveCommand->setText(i18n("Auto-align clip"));
+    new MoveClipCommand(this, start, end, true, moveCommand);
+    updateTrackDuration(clip->track(), moveCommand);
+    m_commandStack->push(moveCommand);
+
 }
 
 void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList effects, bool split)
