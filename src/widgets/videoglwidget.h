@@ -36,6 +36,7 @@ public:
     explicit VideoGLWidget(QWidget *parent = 0, QGLWidget *share = 0);
     ~VideoGLWidget();
     void prepareMonitor();
+    void switchFullScreen();
     void checkOverlay(const QString &overlay);
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
@@ -56,6 +57,10 @@ protected:
     void resizeEvent(QResizeEvent* event);
     void paintGL();
     void mouseDoubleClickEvent(QMouseEvent * event);
+    void mousePressEvent(QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
+    void wheelEvent(QWheelEvent * event);
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     int x, y, w, h;
@@ -73,6 +78,8 @@ signals:
     void frameUpdated(QImage);
     /** @brief This signal contains the audio of the current frame. */
     void audioSamplesSignal(QVector<int16_t>&,int,int,int);
+    void requestMouseSeek(int eventDelta, bool fast);
+    void requestPlay();
 };
 
 #endif

@@ -577,8 +577,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 #endif
     m_projectListDock->raise();
 
-    actionCollection()->addAssociatedWidget(m_clipMonitor->container());
-    actionCollection()->addAssociatedWidget(m_projectMonitor->container());
+    actionCollection()->addAssociatedWidget(m_clipMonitor->glWidget());
+    actionCollection()->addAssociatedWidget(m_projectMonitor->glWidget());
 
     QList<QPair<QString, KAction *> > viewActions;
     QPair <QString, KAction *> pair;

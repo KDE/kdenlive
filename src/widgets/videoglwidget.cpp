@@ -373,7 +373,45 @@ void VideoGLWidget::checkOverlay(const QString &overlay)
     updateGL();
 }
 
+// virtual
+void VideoGLWidget::mousePressEvent(QMouseEvent * event)
+{
+    event->ignore();
+}
+
+// virtual
+void VideoGLWidget::keyPressEvent(QKeyEvent *event)
+{
+    // Exit fullscreen with Esc key
+    if (event->key() == Qt::Key_Escape && isFullScreen()) {
+        switchFullScreen();
+        event->setAccepted(true);
+    } else event->setAccepted(false);
+}
+
+// virtual
+void VideoGLWidget::wheelEvent(QWheelEvent * event)
+{
+    emit requestMouseSeek(event->delta(), event->modifiers() == Qt::ControlModifier);
+    event->accept();
+}
+
+// virtual
+void VideoGLWidget::mouseReleaseEvent(QMouseEvent * event)
+{
+    if (event->button() != Qt::RightButton) {
+        emit requestPlay();
+    }
+    event->accept();
+}
+
 void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    switchFullScreen();
+    event->accept();
+}
+
+void VideoGLWidget::switchFullScreen()
 {
     // TODO: disable screensaver?
     Qt::WindowFlags flags = windowFlags();
@@ -404,6 +442,7 @@ void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
 #else
         setWindowState(windowState() | Qt::WindowFullScreen);   // set
+        setEnabled(false);
         show();
 #endif
     } else {
@@ -411,9 +450,9 @@ void VideoGLWidget::mouseDoubleClickEvent(QMouseEvent * event)
         flags |= m_baseFlags; //then we reset the flags (window and subwindow)
         setWindowFlags(flags);
         setWindowState(windowState()  ^ Qt::WindowFullScreen);   // reset
+        setEnabled(true);
         show();
     }
-    event->accept();
 }
 
 

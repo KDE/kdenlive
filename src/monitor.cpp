@@ -156,6 +156,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glC
     lay->setContentsMargins(0, 0, 0, 0);
     lay->addWidget(m_glWidget);
     videoBox->setLayout(lay);
+    
+    connect(m_glWidget, SIGNAL(requestMouseSeek(int,bool)), this, SLOT(slotMouseSeek(int,bool)));
+    connect(m_glWidget, SIGNAL(requestPlay()), this, SLOT(slotPlay()));
 
     // Monitor ruler
     m_ruler = new SmallRuler(this, render);
@@ -218,9 +221,7 @@ void Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
         qApp->quit();
     }
     m_glWidget->setImageAspectRatio(render->dar());
-    m_glWidget->setBackgroundColor(KdenliveSettings::window_background());
     connect(render, SIGNAL(showImageSignal(QImage)), m_glWidget, SLOT(showImage(QImage)));
-    //connect(render, SIGNAL(showImageSignal(Mlt::Frame*, GLuint)), m_glWidget, SLOT(showImage(Mlt::Frame*, GLuint)));
     connect(render, SIGNAL(showImageSignal(Mlt::Frame*, GLuint)), this, SLOT(slotCheckOverlay(Mlt::Frame*, GLuint)));
 }
 
@@ -461,7 +462,7 @@ void Monitor::resizeEvent(QResizeEvent *event)
 
 void Monitor::slotSwitchFullScreen()
 {
-    videoBox->switchFullScreen();
+    m_glWidget->switchFullScreen();
 }
 
 // virtual

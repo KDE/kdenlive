@@ -176,7 +176,7 @@ void RecMonitor::createOpenGlWidget(QWidget *parent, const QString &)
 
 void RecMonitor::slotSwitchFullScreen()
 {
-    videoBox->switchFullScreen();
+    m_glWidget->switchFullScreen();
 }
 
 void RecMonitor::stop()
