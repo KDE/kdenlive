@@ -1,9 +1,0 @@
-[KNewStuff2]
-ProvidersUrl=http://download.kde.org/khotnewstuff/kdenlive-providers.xml
-TargetDir=kdenlive/lumas
-Uncompress=archive
-
-[KNewStuff3]
-ProvidersUrl=http://download.kde.org/khotnewstuff/kdenlive-providers.xml
-TargetDir=kdenlive/lumas
-Uncompress=archive

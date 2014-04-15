@@ -13,7 +13,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "producerwrapper.h"
 #include "timelinetrack.h"
 #include "timelinebackground.h"
-#include <src/monitor.h>
 #include "monitor/monitorview.h"
 #include "kdenlivesettings.h"
 #include <mlt++/Mlt.h>

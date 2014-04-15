@@ -94,105 +94,9 @@ add_subdirectory(plugins)
 
 list(APPEND kdenlive_SRCS
   main.cpp
-#   mainwindow.cpp
-# 
-#   KoSliderCombo.cpp
-#   abstractclipitem.cpp
-#   abstractgroupitem.cpp
-#   abstractmonitor.cpp
-#   archivewidget.cpp
-#   choosecolorwidget.cpp
-#   clipdurationdialog.cpp
-#   clipitem.cpp
-#   clipmanager.cpp
-#   clipproperties.cpp
-#   cliptranscode.cpp
-#   clipstabilize.cpp
-#   colorplaneexport.cpp
-#   colortools.cpp
-#   complexparameter.cpp
-#   cornerswidget.cpp
-#   customruler.cpp
-#   customtrackscene.cpp
-#   customtrackview.cpp
-#   definitions.cpp
-#   docclipbase.cpp
-#   documentchecker.cpp
-#   documentvalidator.cpp
-#   doubleparameterwidget.cpp
-#   dvdwizard.cpp
-#   dvdwizardchapters.cpp
-#   dvdwizardmenu.cpp
-#   dvdwizardvob.cpp
-#   effectslist.cpp
-#   effectslistview.cpp
-#   effectslistwidget.cpp
-#   effectstackedit.cpp
-#   effectstackview.cpp
-#   encodingprofilesdialog.cpp
-#   folderprojectitem.cpp
-#   gentime.cpp
-#   geometryval.cpp
-#   geometrywidget.cpp
-#   graphicsscenerectmove.cpp
-#   guide.cpp
-#   headertrack.cpp
-#   initeffects.cpp
-#   kdenlivedoc.cpp
-#   kdenlivesettingsdialog.cpp
-#   keyframeedit.cpp
-#   keyframehelper.cpp
-#   kis_cubic_curve.cpp
-#   kis_curve_widget.cpp
-#   kthumb.cpp
-#   managecapturesdialog.cpp
-#   markerdialog.cpp
-#   mltdevicecapture.cpp
-#   monitor.cpp
-#   monitoreditwidget.cpp
-#   monitormanager.cpp
-#   monitorscene.cpp
-#   noteswidget.cpp
-#   parameterplotter.cpp
-#   positionedit.cpp
-#   profilesdialog.cpp
-#   projectitem.cpp
-#   projectlist.cpp
-#   projectlistview.cpp
-#   projectsettings.cpp
-#   recmonitor.cpp
-#   renderer.cpp
-#   renderwidget.cpp
-#   slideshowclip.cpp
-#   smallruler.cpp
-#   spacerdialog.cpp
-#   statusbarmessagelabel.cpp
-#   subprojectitem.cpp
-#   timecode.cpp
-#   timecodedisplay.cpp
-#   titledocument.cpp
-#   titlewidget.cpp
-#   trackdialog.cpp
-#   tracksconfigdialog.cpp
-#   trackview.cpp
-#   transition.cpp
-#   transitionsettings.cpp
-#   unicodedialog.cpp
-#   wizard.cpp
 )
 
 
-if(OPENGL_FOUND)
-  list(APPEND kdenlive_SRCS videoglwidget.cpp)
-endif(OPENGL_FOUND)
-
-if(BUILD_JogShuttle)
-  list(APPEND kdenlive_SRCS
-    jogaction.cpp
-    jogshuttle.cpp
-    jogshuttleconfig.cpp
-  )
-endif(BUILD_JogShuttle)
 
 # KDE definitions and include directories *must* always come first, Qt follows
 # (to avoid breaking builds when KDE and/or Qt are installed to different
@@ -297,13 +201,5 @@ install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 #   DESTINATION ${DATA_INSTALL_DIR}/kdenlive
 # )
 
-install(FILES
-  kdenlive_projectprofiles.knsrc
-  kdenlive_renderprofiles.knsrc
-  kdenlive_titles.knsrc
-  kdenlive_wipes.knsrc
-  kdenlivetranscodingrc
-  DESTINATION ${CONFIG_INSTALL_DIR}
-)
 kde4_install_icons(${ICON_INSTALL_DIR})
 install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
