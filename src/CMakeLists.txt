@@ -91,29 +91,6 @@ macro_log_feature(QJSON_FOUND
 
 add_subdirectory(core)
 add_subdirectory(plugins)
-# 
-# add_subdirectory(beziercurve)
-# add_subdirectory(colorcorrection)
-# add_subdirectory(commands)
-# add_subdirectory(nolib)
-# add_subdirectory(projecttree)
-# add_subdirectory(utils)
-# add_subdirectory(databackup)
-# add_subdirectory(effectstack)
-# add_subdirectory(mimetypes)
-# add_subdirectory(onmonitoritems)
-# add_subdirectory(scopes)
-# add_subdirectory(simplekeyframes)
-# add_subdirectory(stopmotion)
-
-if(QJSON_FOUND)
-#   add_subdirectory(onmonitoritems/rotoscoping)
-#   add_subdirectory(rotoscoping)
-endif(QJSON_FOUND)
-
-if(BUILD_V4L)
-#   add_subdirectory(v4l)
-endif(BUILD_V4L)
 
 list(APPEND kdenlive_SRCS
   main.cpp
@@ -204,82 +181,6 @@ list(APPEND kdenlive_SRCS
 #   wizard.cpp
 )
 
-kde4_add_ui_files(kdenlive_UIS
-  widgets/addtrack_ui.ui
-  widgets/archivewidget_ui.ui
-  widgets/audiospectrum_ui.ui
-  widgets/backupdialog_ui.ui
-  widgets/bezierspline_ui.ui
-  widgets/boolval_ui.ui
-  widgets/clipdurationdialog_ui.ui
-  widgets/clipproperties_ui.ui
-  widgets/cliptranscode_ui.ui
-  widgets/collapsiblewidget_ui.ui
-  widgets/clipstabilize_ui.ui
-  widgets/colorclip_ui.ui
-  widgets/colorplaneexport_ui.ui
-  widgets/configcapture_ui.ui
-  widgets/configenv_ui.ui
-  widgets/configjogshuttle_ui.ui
-  widgets/configmisc_ui.ui
-  widgets/configproject_ui.ui
-  widgets/configsdl_ui.ui
-  widgets/configtimeline_ui.ui
-  widgets/configtranscode_ui.ui
-  widgets/dvdwizardchapters_ui.ui
-  widgets/dvdwizardmenu_ui.ui
-  widgets/dvdwizardstatus_ui.ui
-  widgets/dvdwizardvob_ui.ui
-  widgets/effectlist_ui.ui
-  widgets/effectstack_ui.ui
-  widgets/effectstack2_ui.ui
-  widgets/freesound_ui.ui
-  widgets/geometryval_ui.ui
-  widgets/geometrywidget_ui.ui
-  widgets/histogram_ui.ui
-  widgets/keyframedialog_ui.ui
-  widgets/keyframeeditor_ui.ui
-  widgets/keyframewidget_ui.ui
-  widgets/listval_ui.ui
-  widgets/managecaptures_ui.ui
-  widgets/manageencodingprofile_ui.ui
-  widgets/markerdialog_ui.ui
-  widgets/missingclips_ui.ui
-  widgets/monitoreditwidget_ui.ui
-  widgets/profiledialog_ui.ui
-  widgets/projectsettings_ui.ui
-  widgets/recmonitor_ui.ui
-  widgets/renderwidget_ui.ui
-  widgets/rgbparade_ui.ui
-  widgets/saveprofile_ui.ui
-  widgets/slideshowclip_ui.ui
-  widgets/smconfig_ui.ui
-  widgets/spacerdialog_ui.ui
-  widgets/spectrogram_ui.ui
-  widgets/stopmotion_ui.ui
-  widgets/templateclip_ui.ui
-  widgets/timeline_ui.ui
-  widgets/timelinebuttons_ui.ui
-  widgets/titlewidget_ui.ui
-  widgets/trackheader_ui.ui
-  widgets/tracksconfigdialog_ui.ui
-  widgets/transitionsettings_ui.ui
-  widgets/unicodewidget_ui.ui
-  widgets/urlval_ui.ui
-  widgets/vectorscope_ui.ui
-  widgets/waveform_ui.ui
-  widgets/wipeval_ui.ui
-  widgets/wizardcapture_ui.ui
-  widgets/wizardcheck_ui.ui
-  widgets/wizardextra_ui.ui
-  widgets/wizardmltcheck_ui.ui
-  widgets/wizardstandard_ui.ui
-  widgets/keywordval_ui.ui
-  widgets/fontval_ui.ui
-  widgets/cutjobdialog_ui.ui
-  widgets/scenecutdialog_ui.ui
-  widgets/importkeyframesdialog_ui.ui
-)
 
 if(OPENGL_FOUND)
   list(APPEND kdenlive_SRCS videoglwidget.cpp)
@@ -319,10 +220,8 @@ include(${QT_USE_FILE})
 #   mainwindow.h
 #   MainWindow
 # )
-qt4_add_resources(kdenlive_SRCS widgets/resources.qrc)
 kde4_add_executable(kdenlive
   ${kdenlive_SRCS}
-  ${kdenlive_UIS}
 )
 
 # To compile kiss_fft.

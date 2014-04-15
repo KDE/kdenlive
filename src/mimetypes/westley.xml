@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-  <mime-type type="video/mlt-playlist">
-    <comment>MLT video playlist</comment>
-    <sub-class-of type="application/xml"/>
-    <glob pattern="*.westley"/>
-    <glob pattern="*.mlt"/>
-  </mime-type>
-</mime-info>
