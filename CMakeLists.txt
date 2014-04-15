@@ -78,17 +78,9 @@ macro_log_feature(LIBMLT_FOUND
 add_subdirectory(data)
 macro_optional_add_subdirectory(doc)
 add_subdirectory(effects)
-add_subdirectory(export)
 add_subdirectory(icons)
-add_subdirectory(lumas)
-add_subdirectory(man)
-add_subdirectory(plugins)
 macro_optional_add_subdirectory(po)
-add_subdirectory(renderer)
 add_subdirectory(src)
-add_subdirectory(thumbnailer)
-add_subdirectory(titles)
-# add_subdirectory(testingArea)
 
 macro_display_feature_log()
 
