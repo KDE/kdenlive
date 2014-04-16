@@ -109,19 +109,6 @@ void Render::consumer_thread_stopped(mlt_consumer, Render * self, mlt_frame)
     self->active_thread = 0;
 }
 
-/*
-static void consumer_paused(mlt_consumer, Render * self, mlt_frame frame_ptr)
-{
-    // detect if the producer has finished playing. Is there a better way to do it?
-    Mlt::Frame frame(frame_ptr);
-    if (!frame.is_valid()) return;
-    if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
-        self->pause();
-        self->emitConsumerStopped(true);
-    }
-    else self->emitConsumerStopped();
-}*/
-
 // static
 void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_frame frame_ptr)
 {
@@ -197,44 +184,7 @@ void Render::closeMlt()
     delete m_pauseEvent;
     delete m_mltConsumer;
     delete m_mltProducer;
-    /*if (m_mltProducer) {
-        Mlt::Service service(m_mltProducer->parent().get_service());
-        service.lock();
-
-        if (service.type() == tractor_type) {
-            Mlt::Tractor tractor(service);
-            Mlt::Field *field = tractor.field();
-            mlt_service nextservice = mlt_service_get_producer(service.get_service());
-            mlt_service nextservicetodisconnect;
-            mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-            QString mlt_type = mlt_properties_get(properties, "mlt_type");
-            QString resource = mlt_properties_get(properties, "mlt_service");
-            // Delete all transitions
-            while (mlt_type == "transition") {
-                nextservicetodisconnect = nextservice;
-                nextservice = mlt_service_producer(nextservice);
-                mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
-                if (nextservice == NULL) break;
-                properties = MLT_SERVICE_PROPERTIES(nextservice);
-                mlt_type = mlt_properties_get(properties, "mlt_type");
-                resource = mlt_properties_get(properties, "mlt_service");
-            }
-
-            delete field;
-            field = NULL;
-        }
-        service.unlock();
-    }*/
-
-    //kDebug() << "// // // CLOSE RENDERER " << m_name;
     delete m_blackClip;
-    //delete m_osdInfo;
-}
-
-void Render::slotSwitchFullscreen()
-{
-    if (m_mltConsumer)
-        m_mltConsumer->set("full_screen", 1);
 }
 
 void Render::buildConsumer(const QString &profileName)
@@ -474,24 +424,6 @@ void Render::seek(int time)
     else requestedSeekPosition = time;
 }
 
-//static
-/*QPixmap Render::frameThumbnail(Mlt::Frame *frame, int width, int height, bool border) {
-    QPixmap pix(width, height);
-
-    mlt_image_format format = mlt_image_rgb24a;
-    uint8_t *thumb = frame->get_image(format, width, height);
-    QImage image(thumb, width, height, QImage::Format_ARGB32);
-
-    if (!image.isNull()) {
-        pix = pix.fromImage(image);
-        if (border) {
-            QPainter painter(&pix);
-            painter.drawRect(0, 0, width - 1, height - 1);
-        }
-    } else pix.fill(Qt::black);
-    return pix;
-}
-*/
 int Render::frameRenderWidth() const
 {
     return m_mltProfile->width();
@@ -509,46 +441,43 @@ int Render::renderHeight() const
 
 QImage Render::extractFrame(int frame_position, const QString &path, int width, int height)
 {
+    if (!path.isEmpty()) {
+        return getProducerImage(path, frame_position, width, height);
+    }
+
+    if (!m_mltProducer) {
+        QImage pix(width, height, QImage::Format_RGB32);
+        pix.fill(Qt::black);
+        return pix;
+    }
     if (width == -1) {
         width = frameRenderWidth();
         height = renderHeight();
     } else if (width % 2 == 1) width++;
     int dwidth = height * frameRenderWidth() / renderHeight();
-    if (!path.isEmpty()) {
-        Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, path.toUtf8().constData());
-        if (producer) {
-            if (producer->is_valid()) {
-                QImage img = KThumb::getFrame(producer, frame_position, dwidth, width, height);
-                delete producer;
-                return img;
-            }
-            else delete producer;
-        }
-    }
-
-    if (!m_mltProducer || !path.isEmpty()) {
-        QImage pix(width, height, QImage::Format_RGB32);
-        pix.fill(Qt::black);
-        return pix;
-    }
     QGLWidget ctx(0, m_mainGLContext);
     ctx.makeCurrent();
     return KThumb::getFrame(m_mltProducer, frame_position, dwidth, width, height);
 }
 
-QPixmap Render::getProducerImage(const KUrl& url, int frame, int width, int height)
+QImage Render::getProducerImage(const KUrl& url, int frame, int width, int height)
 {
-    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
-    QPixmap pix(width, height);
-    if (url.isEmpty()) return pix;
-
-    Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
-    double swidth = (double) profile.width() / profile.height();
+    QImage img(width, height, QImage::Format_RGB32);
+    if (url.isEmpty()) {
+        img.fill(Qt::black);
+        return img;
+    }
+    if (width == -1) {
+        width = frameRenderWidth();
+        height = renderHeight();
+    } else if (width % 2 == 1) width++;
+    int dwidth = height * frameRenderWidth() / renderHeight();
+    Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, url.path().toUtf8().constData());
     QGLWidget ctx(0, m_mainGLContext);
     ctx.makeCurrent();
-    pix = QPixmap::fromImage(KThumb::getFrame(producer, frame, (int) (height * swidth + 0.5), width, height));
+    img = KThumb::getFrame(producer, frame, dwidth, width, height);
     delete producer;
-    return pix;
+    return img;
 }
 
 QPixmap Render::getImageThumbnail(const KUrl &url, int /*width*/, int /*height*/)
@@ -570,14 +499,6 @@ QPixmap Render::getImageThumbnail(const KUrl &url, int /*width*/, int /*height*/
     //pixmap = im.scaled(width, height);
     return pixmap;
 }
-
-double Render::consumerRatio() const
-{
-    if (!m_mltConsumer)
-        return 1.0;
-    return (m_mltConsumer->get_double("aspect_ratio_num") / m_mltConsumer->get_double("aspect_ratio_den"));
-}
-
 
 int Render::getLength()
 {

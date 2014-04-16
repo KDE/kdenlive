@@ -34,6 +34,7 @@
 #include <QDomDocument>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
+#include <QGLWidget>
 #include <unistd.h>
 
 DvdTreeWidget::DvdTreeWidget(QWidget *parent) :
@@ -65,9 +66,10 @@ void DvdTreeWidget::dropEvent(QDropEvent * event ) {
     emit addClips(clips);
 }
 
-DvdWizardVob::DvdWizardVob(QWidget *parent) :
+DvdWizardVob::DvdWizardVob(QGLWidget *glContext, QWidget *parent) :
     QWizardPage(parent),
-    m_installCheck(true)
+    m_installCheck(true),
+    m_mainGLContext(glContext)
 {
     m_view.setupUi(this);
     m_view.button_add->setIcon(KIcon("list-add"));
@@ -206,6 +208,8 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkF
         int width = 45.0 * profile.dar();
         int swidth = 45.0 * profile.width() / profile.height();
         if (width % 2 == 1) width++;
+        QGLWidget ctx(0, m_mainGLContext);
+        ctx.makeCurrent();
         item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, swidth, width, 45)));
         int playTime = producer->get_playtime();
         item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));

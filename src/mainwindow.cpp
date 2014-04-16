@@ -4137,7 +4137,7 @@ void MainWindow::slotDvdWizard(const QString &url)
 {
     // We must stop the monitors since we create a new on in the dvd wizard
     m_monitorManager->activateMonitor(Kdenlive::DvdMonitor);
-    QPointer<DvdWizard> w = new DvdWizard(m_monitorManager, url, this);
+    QPointer<DvdWizard> w = new DvdWizard(m_monitorManager, m_glContext, url, this);
     w->exec();
     delete w;
     m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);

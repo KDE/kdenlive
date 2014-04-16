@@ -157,7 +157,7 @@ class Render: public AbstractRender
     int volume() const;
 
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1);
-    QPixmap getProducerImage(const KUrl& url, int frame, int width, int height);
+    QImage getProducerImage(const KUrl& url, int frame, int width, int height);
 
     /** @brief Plays the scene starting from a specific time.
      * @param startTime time to start playing the scene from */
@@ -185,9 +185,6 @@ class Render: public AbstractRender
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber();
     void emitConsumerStopped(bool forcePause = false);
-
-    /** @brief Returns the aspect ratio of the consumer. */
-    double consumerRatio() const;
 
     /** @brief Saves current producer frame as an image. */
     void exportCurrentFrame(const KUrl &url, bool notify);
@@ -505,7 +502,6 @@ public slots:
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     void mltSavePlaylist();
     void slotSplitView(bool doit);
-    void slotSwitchFullscreen();
     void slotSetVolume(int volume);
     void seekToFrame(int pos);
     /** @brief Starts a timer to query for a refresh. */

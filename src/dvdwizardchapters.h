@@ -35,7 +35,7 @@ class DvdWizardChapters : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget * parent = 0);
+    explicit DvdWizardChapters(MonitorManager *manager, QGLWidget *glWidget, DVDFORMAT format, QWidget * parent = 0);
     virtual ~DvdWizardChapters();
     virtual bool isComplete() const;
     void changeProfile(DVDFORMAT format);
@@ -56,6 +56,7 @@ private:
     Monitor *m_monitor;
     MonitorManager *m_manager;
     Timecode m_tc;
+    QGLWidget *m_glWidget;
     void updateMonitorMarkers();
 
 private slots:

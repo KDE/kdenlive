@@ -596,7 +596,8 @@ void TitleWidget::refreshTitleTemplates()
             TitleTemplate t;
             t.name = fname;
             t.file = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-            t.icon = QIcon(m_render->getProducerImage(t.file, 0, 60, 60));
+            QImage img = m_render->getProducerImage(t.file, 0, 60, 60);
+            t.icon = QIcon(QPixmap::fromImage(img));
             titletemplates.append(t);
         }
     }
