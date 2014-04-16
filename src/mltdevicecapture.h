@@ -95,6 +95,7 @@ Q_OBJECT public:
     void pause();
 
 private:
+    pthread_t active_thread;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
     Mlt::Profile *m_mltProfile;

@@ -384,7 +384,6 @@ void KThumb::slotGetIntraThumbs()
 {
     // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
     QGLWidget ctx(0, m_clipManager->getMainContext());
-    kDebug()<<"// STARTING INTR THB FOR: "<<m_intraFramesQueue;
     const int theight = KdenliveSettings::trackheight();
     const int frameWidth = (int)(theight * m_ratio + 0.5);
     const int displayWidth = (int)(theight * m_dar + 0.5);

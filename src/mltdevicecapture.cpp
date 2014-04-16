@@ -44,13 +44,13 @@
 
 void MltDeviceCapture::consumer_thread_started(mlt_consumer, MltDeviceCapture * self, mlt_frame)
 {
-    pthread_t thr = pthread_self();
-    if (self->m_renderThreadGLContexts.count(thr) == 0) {
+    self->active_thread = pthread_self();
+    if (self->m_renderThreadGLContexts.count(self->active_thread) == 0) {
         QGLWidget *ctx = new QGLWidget(0, self->m_mainGLContext);
         ctx->resize(0, 0);
-        self->m_renderThreadGLContexts.insert(thr, ctx);
+        self->m_renderThreadGLContexts.insert(self->active_thread, ctx);
     }
-    self->m_renderThreadGLContexts[thr]->makeCurrent();
+    self->m_renderThreadGLContexts[self->active_thread]->makeCurrent();
     self->m_glslManager->fire_event("init glsl");
     if (!self->m_glslManager->get_int("glsl_supported")) {
         QMessageBox::critical(NULL, i18n("Movit failed initialization"),
@@ -61,11 +61,11 @@ void MltDeviceCapture::consumer_thread_started(mlt_consumer, MltDeviceCapture * 
 
 void MltDeviceCapture::consumer_thread_stopped(mlt_consumer, MltDeviceCapture * self, mlt_frame)
 {
-    pthread_t thr = pthread_self();
-    assert(self->m_renderThreadGLContexts.count(thr) != 0);
-    self->m_renderThreadGLContexts[thr]->makeCurrent();
-    delete self->m_renderThreadGLContexts[thr];
-    self->m_renderThreadGLContexts.remove(thr);
+    assert(self->m_renderThreadGLContexts.count(self->active_thread) != 0);
+    self->m_renderThreadGLContexts[self->active_thread]->makeCurrent();
+    delete self->m_renderThreadGLContexts[self->active_thread];
+    self->m_renderThreadGLContexts.remove(self->active_thread);
+    self->active_thread = 0;
 }
 
 void MltDeviceCapture::consumer_gl_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
@@ -110,6 +110,7 @@ MltDeviceCapture::MltDeviceCapture(QString profile, QGLWidget *mainGLContext, QW
     AbstractRender(Kdenlive::RecordMonitor, mainGLContext, parent),
     doCapture(0),
     processingImage(false),
+    active_thread(0),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
     m_mltProfile(NULL),
@@ -289,10 +290,11 @@ void MltDeviceCapture::emitFrameUpdated(Mlt::Frame& frame)
 
 void MltDeviceCapture::showFrame(Mlt::Frame* frame, bool checkDropped)
 {
-    if (frame->is_valid()) {
+    if (frame->is_valid() && active_thread != 0) {
         mlt_image_format format = mlt_image_glsl_texture;
         int width = 0;
         int height = 0;
+        m_renderThreadGLContexts[active_thread]->makeCurrent();
         frame->set("movit.convert.use_texture", 1);
         const uint8_t* image = frame->get_image(format, width, height);
         const GLuint* texnum = (GLuint *)image;

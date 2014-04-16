@@ -861,7 +861,6 @@ void ClipItem::paint(QPainter *painter,
                         painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
                     }
                     if (!missing.isEmpty()) {
-                        kDebug()<<"QUERYING PIXMAPS: "<<missing;
                         m_clip->thumbProducer()->queryIntraThumbs(missing);
                     }
                 }

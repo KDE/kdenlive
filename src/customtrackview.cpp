@@ -4955,7 +4955,7 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
 {
     bool resizeClipStart = (start.startPos != end.startPos);
     ClipItem *item = getClipItemAtStart(start.startPos, start.track);
-    if (!item) {
+    if (!item || end.startPos > end.endPos) {
         if (dontWorry) return;
         emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to resize at... "; // << startPos;
