@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include "jogaction.h"
+#include "core.h"
+#include "monitormanager.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,10 +42,16 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
     connect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
     connect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
     connect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
+
+    connect(this, SIGNAL(rewindOneFrame()), pCore->monitorManager(), SLOT(slotRewindOneFrame()));
+    connect(this, SIGNAL(forwardOneFrame()), pCore->monitorManager(), SLOT(slotForwardOneFrame()));
+    connect(this, SIGNAL(rewind(double)), pCore->monitorManager(), SLOT(slotRewind(double)));
+    connect(this, SIGNAL(forward(double)), pCore->monitorManager(), SLOT(slotForward(double)));
 }
 
 JogShuttleAction::~JogShuttleAction()
 {
+    // TODO: remove, done automatically when destroying involved object
     disconnect(m_jogShuttle, SIGNAL(jogBack()), this, SLOT(slotJogBack()));
     disconnect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
     disconnect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));

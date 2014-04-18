@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "projectlist.h"
+#include "core.h"
 #include "projectitem.h"
 #include "commands/addfoldercommand.h"
 #include "projecttree/proxyclipjob.h"
@@ -37,6 +38,7 @@
 #include "timecodedisplay.h"
 #include "profilesdialog.h"
 #include "clipstabilize.h"
+#include "monitormanager.h"
 #include "commands/editclipcommand.h"
 #include "commands/editclipcutcommand.h"
 #include "commands/editfoldercommand.h"
@@ -291,6 +293,8 @@ ProjectList::ProjectList(QGLWidget *glContext, QWidget *parent) :
 
     m_listViewDelegate = new ItemDelegate(m_listView);
     m_listView->setItemDelegate(m_listViewDelegate);
+
+    connect(this, SIGNAL(pauseMonitor()), pCore->monitorManager(), SLOT(slotPause()));
 }
 
 ProjectList::~ProjectList()

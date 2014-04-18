@@ -42,6 +42,7 @@
 #include <kautosavefile.h>
 #include <KActionCategory>
 
+#include "kdenlivecore_export.h"
 #include "effectslist.h"
 #include "gentime.h"
 #include "definitions.h"
@@ -80,7 +81,7 @@ class AudioSpectrum;
 class Spectrogram;
 class QGLWidget;
 
-class MainWindow : public KXmlGuiWindow
+class KDENLIVECORE_EXPORT MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kdenlive.MainWindow")
@@ -114,6 +115,9 @@ public:
     
     /** @brief Cache for luma files thumbnails. */
     static QMap <QString,QImage> m_lumacache;
+
+    /** @brief Adds an action to the action collection and stores the name. */
+    void addAction(const QString &name, QAction *action);
 
 protected:
 
@@ -153,7 +157,6 @@ private:
     void setupActions();
     KdenliveDoc *m_activeDocument;
     TrackView *m_activeTimeline;
-    MonitorManager *m_monitorManager;
 
     QDockWidget *m_projectListDock;
     ProjectList *m_projectList;
@@ -222,7 +225,7 @@ private:
     KActionCategory *m_stopmotion_actions;
 
     /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
-    QStringList m_action_names;
+    QStringList m_actionNames;
 
 
     /** @brief Shortcut to remove the focus from any element.
