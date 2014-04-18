@@ -51,11 +51,6 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
 
 JogShuttleAction::~JogShuttleAction()
 {
-    // TODO: remove, done automatically when destroying involved object
-    disconnect(m_jogShuttle, SIGNAL(jogBack()), this, SLOT(slotJogBack()));
-    disconnect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
-    disconnect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
-    disconnect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
 }
 
 void JogShuttleAction::slotJogBack()
