@@ -12,7 +12,7 @@
 
 #include "abstractscopewidget.h"
 #include "renderer.h"
-#include "monitor.h"
+#include "monitor/monitor.h"
 
 #include <QColor>
 #include <QMenu>

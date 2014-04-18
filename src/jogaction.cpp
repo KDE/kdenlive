@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "jogaction.h"
+#include "monitor/monitormanager.h"
 
 #include <stdio.h>
 #include <stdlib.h>
