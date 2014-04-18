@@ -25,7 +25,7 @@
 #include "renderer.h"
 #include "definitions.h"
 #include "timecodedisplay.h"
-#include "widgets/abstractmonitor.h"
+#include "monitor/abstractmonitor.h"
 #ifdef USE_OPENGL
 #include "widgets/videoglwidget.h"
 #endif

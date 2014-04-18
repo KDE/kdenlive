@@ -1,6 +1,5 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  widgets/abstractmonitor.cpp
   widgets/invaliddialog.cpp
   widgets/choosecolorwidget.cpp
   widgets/colorpickerwidget.cpp
