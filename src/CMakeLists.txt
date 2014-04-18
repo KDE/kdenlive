@@ -93,6 +93,7 @@ add_subdirectory(scopes)
 add_subdirectory(simplekeyframes)
 add_subdirectory(stopmotion)
 add_subdirectory(widgets)
+add_subdirectory(monitor)
 
 if(QJSON_FOUND)
   add_subdirectory(onmonitoritems/rotoscoping)
@@ -151,9 +152,6 @@ list(APPEND kdenlive_SRCS
   managecapturesdialog.cpp
   markerdialog.cpp
   mltdevicecapture.cpp
-  monitor.cpp
-  monitormanager.cpp
-  monitorscene.cpp
   parameterplotter.cpp
   positionedit.cpp
   profilesdialog.cpp
@@ -161,7 +159,6 @@ list(APPEND kdenlive_SRCS
   projectlist.cpp
   projectlistview.cpp
   projectsettings.cpp
-  recmonitor.cpp
   renderer.cpp
   slideshowclip.cpp
   smallruler.cpp
@@ -178,6 +175,8 @@ list(APPEND kdenlive_SRCS
   transitionsettings.cpp
   unicodedialog.cpp
   wizard.cpp
+
+  ${monitor_SRCS}
 )
 
 kde4_add_ui_files(kdenlive_UIS
