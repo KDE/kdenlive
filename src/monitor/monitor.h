@@ -25,7 +25,7 @@
 #include "renderer.h"
 #include "definitions.h"
 #include "timecodedisplay.h"
-#include "widgets/abstractmonitor.h"
+#include "monitor/abstractmonitor.h"
 #include "widgets/videoglwidget.h"
 
 #include <QLabel>

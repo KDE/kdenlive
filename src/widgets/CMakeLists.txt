@@ -1,6 +1,5 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  widgets/abstractmonitor.cpp
   widgets/invaliddialog.cpp
   widgets/lumaliftgain.cpp
   widgets/choosecolorwidget.cpp

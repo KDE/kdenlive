@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "widgets/abstractmonitor.h"
+#include "monitor/abstractmonitor.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
 
@@ -56,4 +56,4 @@ bool AbstractMonitor::slotActivateMonitor(bool forceRefresh)
 }
 
 
-#include "abstractmonitor.moc"
+#include "monitor/abstractmonitor.moc"
