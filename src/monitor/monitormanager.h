@@ -21,8 +21,8 @@
 #ifndef MONITORMANAGER_H
 #define MONITORMANAGER_H
 
-#include "monitor.h"
-#include "recmonitor.h"
+#include "monitor/monitor.h"
+#include "monitor/recmonitor.h"
 #include "timecode.h"
 
 class KdenliveDoc;

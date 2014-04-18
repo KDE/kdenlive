@@ -18,11 +18,11 @@
  ***************************************************************************/
 
 
-#include "monitor.h"
+#include "monitor/monitor.h"
 #include "smallruler.h"
 #include "docclipbase.h"
 #include "abstractclipitem.h"
-#include "monitorscene.h"
+#include "monitor/monitorscene.h"
 #include "widgets/monitoreditwidget.h"
 #include "widgets/videosurface.h"
 #include "widgets/videoglwidget.h"
@@ -1105,4 +1105,4 @@ void Monitor::setPalette ( const QPalette & p)
     
 }
 
-#include "monitor.moc"
+#include "monitor/monitor.moc"

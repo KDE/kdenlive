@@ -19,7 +19,7 @@
 
 #include "jogaction.h"
 #include "core.h"
-#include "monitormanager.h"
+#include "monitor/monitormanager.h"
 
 #include <stdio.h>
 #include <stdlib.h>

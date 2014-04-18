@@ -10,7 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "core.h"
 #include "mainwindow.h"
-#include "monitormanager.h"
+#include "monitor/monitormanager.h"
 #include <QCoreApplication>
 
 

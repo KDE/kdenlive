@@ -13,7 +13,7 @@
 #include <QDockWidget>
 
 #include "definitions.h"
-#include "monitormanager.h"
+#include "monitor/monitormanager.h"
 #include "kdenlivesettings.h"
 
 //#define DEBUG_SM

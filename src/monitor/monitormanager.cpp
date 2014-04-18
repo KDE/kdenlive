@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "monitormanager.h"
+#include "monitor/monitormanager.h"
 #include "core.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"
@@ -350,4 +350,4 @@ QString MonitorManager::getProjectFolder() const
 }
 
 
-#include "monitormanager.moc"
+#include "monitor/monitormanager.moc"

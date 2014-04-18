@@ -26,9 +26,9 @@
 #include <KDebug>
 
 #include "ui_dvdwizardchapters_ui.h"
-#include "monitor.h"
+#include "monitor/monitor.h"
 #include "dvdwizardvob.h"
-#include "monitormanager.h"
+#include "monitor/monitormanager.h"
 
 class DvdWizardChapters : public QWizardPage
 {

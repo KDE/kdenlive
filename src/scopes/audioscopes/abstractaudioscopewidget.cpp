@@ -10,7 +10,7 @@
 
 #include "abstractaudioscopewidget.h"
 #include "renderer.h"
-#include "monitor.h"
+#include "monitor/monitor.h"
 
 AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *parent) :
     AbstractScopeWidget(trackMouse, parent),

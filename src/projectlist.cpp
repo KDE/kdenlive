@@ -38,7 +38,7 @@
 #include "timecodedisplay.h"
 #include "profilesdialog.h"
 #include "clipstabilize.h"
-#include "monitormanager.h"
+#include "monitor/monitormanager.h"
 #include "commands/editclipcommand.h"
 #include "commands/editclipcutcommand.h"
 #include "commands/editfoldercommand.h"

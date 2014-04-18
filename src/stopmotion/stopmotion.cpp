@@ -22,8 +22,8 @@
 #include "slideshowclip.h"
 #include "profilesdialog.h"
 #include "mltdevicecapture.h"
-#include "recmonitor.h"
-#include "monitormanager.h"
+#include "monitor/recmonitor.h"
+#include "monitor/monitormanager.h"
 #include "ui_smconfig_ui.h"
 #include "kdenlivesettings.h"
 

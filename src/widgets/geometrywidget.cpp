@@ -19,11 +19,11 @@
 
 
 #include "geometrywidget.h"
-#include "monitor.h"
+#include "monitor/monitor.h"
 #include "renderer.h"
 #include "keyframehelper.h"
 #include "timecodedisplay.h"
-#include "monitorscene.h"
+#include "monitor/monitorscene.h"
 #include "monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"

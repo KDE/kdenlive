@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 #include "cornerswidget.h"
-#include "monitor.h"
-#include "monitorscene.h"
+#include "monitor/monitor.h"
+#include "monitor/monitorscene.h"
 #include "monitoreditwidget.h"
 #include "onmonitoritems/onmonitorcornersitem.h"
 #include "renderer.h"

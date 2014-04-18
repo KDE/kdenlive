@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "monitorscene.h"
+#include "monitor/monitorscene.h"
 #include "renderer.h"
 #include "onmonitoritems/rotoscoping/bpointitem.h"
 #include "onmonitoritems/rotoscoping/splineitem.h"
@@ -271,4 +271,4 @@ void MonitorScene::wheelEvent(QGraphicsSceneWheelEvent* event)
     event->accept();
 }
 
-#include "monitorscene.moc"
+#include "monitor/monitorscene.moc"

@@ -24,7 +24,7 @@
 #include <KColorScheme>
 #include <QWidget>
 
-#include "monitormanager.h"
+#include "monitor/monitormanager.h"
 
 
 class SmallRuler : public QWidget

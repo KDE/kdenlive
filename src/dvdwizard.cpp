@@ -23,7 +23,7 @@
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
 #include "timecode.h"
-#include "monitormanager.h"
+#include "monitor/monitormanager.h"
 
 #include <KStandardDirs>
 #include <KLocalizedString>

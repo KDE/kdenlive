@@ -18,7 +18,7 @@
 #include "effectstackedit.h"
 #include "effectstack/effectstackview2.h"
 #include "effectslist.h"
-#include "monitor.h"
+#include "monitor/monitor.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>

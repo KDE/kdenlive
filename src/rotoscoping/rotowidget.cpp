@@ -17,9 +17,9 @@
  ***************************************************************************/
 
 #include "rotowidget.h"
-#include "monitor.h"
+#include "monitor/monitor.h"
 #include "renderer.h"
-#include "monitorscene.h"
+#include "monitor/monitorscene.h"
 #include "widgets/monitoreditwidget.h"
 #include "onmonitoritems/rotoscoping/bpointitem.h"
 #include "onmonitoritems/rotoscoping/splineitem.h"

@@ -18,13 +18,13 @@
  ***************************************************************************/
 
 
-#include "recmonitor.h"
+#include "monitor/recmonitor.h"
 #include "gentime.h"
 #include "mltdevicecapture.h"
 #include "kdenlivesettings.h"
 #include "managecapturesdialog.h"
-#include "monitormanager.h"
-#include "monitor.h"
+#include "monitor/monitormanager.h"
+#include "monitor/monitor.h"
 #include "profilesdialog.h"
 #include "widgets/videosurface.h"
 
@@ -1070,5 +1070,5 @@ void RecMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 }
 
 
-#include "recmonitor.moc"
+#include "monitor/recmonitor.moc"
 

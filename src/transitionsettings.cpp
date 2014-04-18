@@ -24,7 +24,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "widgets/monitoreditwidget.h"
-#include "monitorscene.h"
+#include "monitor/monitorscene.h"
 
 #include <KDebug>
 

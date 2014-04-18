@@ -20,7 +20,7 @@
 
 #include "widgets/abstractmonitor.h"
 #include "kdenlivesettings.h"
-#include "monitormanager.h"
+#include "monitor/monitormanager.h"
 
 #include <KDebug>
 
