@@ -160,23 +160,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
 
+    initLocale();
+
     Core::initialize(this);
-
-    // Init locale
-    QLocale systemLocale = QLocale();
-    setlocale(LC_NUMERIC, NULL);
-    char *separator = localeconv()->decimal_point;
-    if (separator != systemLocale.decimalPoint()) {
-        kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
-        // HACK: There is a locale conflict, so set locale to C
-        // Make sure to override exported values or it won't work
-        setenv("LANG", "C", 1);
-        setlocale(LC_NUMERIC, "C");
-        systemLocale = QLocale::c();
-    }
-
-    systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
-    QLocale::setDefault(systemLocale);
 
     // Create DBus interface
     new MainWindowAdaptor(this);
@@ -4787,6 +4773,24 @@ void MainWindow::slotSetInterpolation(int ix)
     }
     KdenliveSettings::setMltinterpolation(value);
     pCore->monitorManager()->setConsumerProperty("rescale", value);
+}
+
+void MainWindow::initLocale()
+{
+    QLocale systemLocale;
+    setlocale(LC_NUMERIC, NULL);
+    char *separator = localeconv()->decimal_point;
+    if (separator != systemLocale.decimalPoint()) {
+        kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
+        // HACK: There is a locale conflict, so set locale to C
+        // Make sure to override exported values or it won't work
+        setenv("LANG", "C", 1);
+        setlocale(LC_NUMERIC, "C");
+        systemLocale = QLocale::c();
+    }
+
+    systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
+    QLocale::setDefault(systemLocale);
 }
 
 #include "mainwindow.moc"

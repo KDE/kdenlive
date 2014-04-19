@@ -324,6 +324,8 @@ private:
     /** @brief Update statusbar stylesheet (in case of color theme change). */
     void setStatusBarStyleSheet(const QPalette &p);
 
+    void initLocale();
+
 public slots:
     /** @brief Prepares opening @param url.
     *
