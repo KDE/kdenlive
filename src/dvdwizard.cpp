@@ -40,7 +40,7 @@
 #include <QGridLayout>
 
 
-DvdWizard::DvdWizard(MonitorManager *manager, QGLWidget *glWidget, const QString &url, QWidget *parent) :
+DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *parent) :
     QWizard(parent)
   , m_dvdauthor(NULL)
   , m_mkiso(NULL)
@@ -49,11 +49,11 @@ DvdWizard::DvdWizard(MonitorManager *manager, QGLWidget *glWidget, const QString
 {
     setWindowTitle(i18n("DVD Wizard"));
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
-    m_pageVob = new DvdWizardVob(glWidget, this);
+    m_pageVob = new DvdWizardVob(this);
     m_pageVob->setTitle(i18n("Select Files For Your DVD"));
     addPage(m_pageVob);
 
-    m_pageChapters = new DvdWizardChapters(manager, glWidget, m_pageVob->dvdFormat(), this);
+    m_pageChapters = new DvdWizardChapters(manager, m_pageVob->dvdFormat(), this);
     m_pageChapters->setTitle(i18n("DVD Chapters"));
     addPage(m_pageChapters);
 

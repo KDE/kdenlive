@@ -156,7 +156,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     pCore->window()->m_timelineArea->setEnabled(true);
     pCore->window()->m_projectList->setEnabled(true);
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, pCore->window()->m_notesWidget, &openBackup, pCore->window()->m_glContext, pCore->window());
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, pCore->window()->m_notesWidget, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
     TrackView *trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
@@ -440,7 +440,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setValue(0);
 
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, pCore->window()->m_notesWidget, &openBackup, pCore->window()->m_glContext, pCore->window(), &progressDialog);
+    KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, pCore->window()->m_notesWidget, &openBackup, pCore->window(), &progressDialog);
 
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);

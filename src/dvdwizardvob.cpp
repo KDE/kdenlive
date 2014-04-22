@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "dvdwizardvob.h"
+#include "core.h"
 #include "kthumb.h"
 #include "timecode.h"
 #include "cliptranscode.h"
@@ -66,10 +67,9 @@ void DvdTreeWidget::dropEvent(QDropEvent * event ) {
     emit addClips(clips);
 }
 
-DvdWizardVob::DvdWizardVob(QGLWidget *glContext, QWidget *parent) :
+DvdWizardVob::DvdWizardVob(QWidget *parent) :
     QWizardPage(parent),
-    m_installCheck(true),
-    m_mainGLContext(glContext)
+    m_installCheck(true)
 {
     m_view.setupUi(this);
     m_view.button_add->setIcon(KIcon("list-add"));
@@ -208,7 +208,7 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkF
         int width = 45.0 * profile.dar();
         int swidth = 45.0 * profile.width() / profile.height();
         if (width % 2 == 1) width++;
-        QGLWidget ctx(0, m_mainGLContext);
+        QGLWidget ctx(0, pCore->glShareWidget());
         ctx.makeCurrent();
         item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, swidth, width, 45)));
         int playTime = producer->get_playtime();

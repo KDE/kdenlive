@@ -23,6 +23,7 @@
  ***************************************************************************/
 
 #include "renderer.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "definitions.h"
@@ -86,7 +87,7 @@ void Render::consumer_thread_started(mlt_consumer, Render * self, mlt_frame)
 {
     self->active_thread = pthread_self();
     if (self->m_renderThreadGLContexts.count(self->active_thread) == 0) {
-        QGLWidget *ctx = new QGLWidget(0, self->m_mainGLContext);
+        QGLWidget *ctx = new QGLWidget(0, pCore->glShareWidget());
         ctx->resize(0, 0);
         self->m_renderThreadGLContexts.insert(self->active_thread, ctx);
     }
@@ -129,8 +130,8 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
     }
 }
 
-Render::Render(Kdenlive::MonitorId rendererName, QString profile, QGLWidget *mainGLContext, QWidget *parent) :
-    AbstractRender(rendererName, mainGLContext, parent),
+Render::Render(Kdenlive::MonitorId rendererName, QString profile, QWidget *parent) :
+    AbstractRender(rendererName, parent),
     requestedSeekPosition(SEEK_INACTIVE),
     externalConsumer(false),
     active_thread(0),
@@ -455,7 +456,7 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
         height = renderHeight();
     } else if (width % 2 == 1) width++;
     int dwidth = height * frameRenderWidth() / renderHeight();
-    QGLWidget ctx(0, m_mainGLContext);
+    QGLWidget ctx(0, pCore->glShareWidget());
     ctx.makeCurrent();
     return KThumb::getFrame(m_mltProducer, frame_position, dwidth, width, height);
 }
@@ -473,7 +474,7 @@ QImage Render::getProducerImage(const KUrl& url, int frame, int width, int heigh
     } else if (width % 2 == 1) width++;
     int dwidth = height * frameRenderWidth() / renderHeight();
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile, url.path().toUtf8().constData());
-    QGLWidget ctx(0, m_mainGLContext);
+    QGLWidget ctx(0, pCore->glShareWidget());
     ctx.makeCurrent();
     img = KThumb::getFrame(producer, frame, dwidth, width, height);
     delete producer;
@@ -692,7 +693,7 @@ bool Render::isProcessing(const QString &id)
 void Render::processFileProperties()
 {
     // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
-    QGLWidget ctx(0, m_mainGLContext);
+    QGLWidget ctx(0, pCore->glShareWidget());
     ctx.makeCurrent();
 
     requestClipInfo info;

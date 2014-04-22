@@ -17,6 +17,7 @@
 
 
 #include "mltdevicecapture.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "definitions.h"
 #include "widgets/videosurface.h"
@@ -46,7 +47,7 @@ void MltDeviceCapture::consumer_thread_started(mlt_consumer, MltDeviceCapture * 
 {
     self->active_thread = pthread_self();
     if (self->m_renderThreadGLContexts.count(self->active_thread) == 0) {
-        QGLWidget *ctx = new QGLWidget(0, self->m_mainGLContext);
+        QGLWidget *ctx = new QGLWidget(0, pCore->glShareWidget());
         ctx->resize(0, 0);
         self->m_renderThreadGLContexts.insert(self->active_thread, ctx);
     }
@@ -106,8 +107,8 @@ static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, ml
 }*/
 
 
-MltDeviceCapture::MltDeviceCapture(QString profile, QGLWidget *mainGLContext, QWidget *parent) :
-    AbstractRender(Kdenlive::RecordMonitor, mainGLContext, parent),
+MltDeviceCapture::MltDeviceCapture(QString profile, QWidget *parent) :
+    AbstractRender(Kdenlive::RecordMonitor, parent),
     doCapture(0),
     processingImage(false),
     active_thread(0),

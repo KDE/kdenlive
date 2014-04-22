@@ -19,6 +19,7 @@
 
 
 #include "monitor/recmonitor.h"
+#include "core.h"
 #include "gentime.h"
 #include "mltdevicecapture.h"
 #include "kdenlivesettings.h"
@@ -47,8 +48,8 @@
 #include <QPainter>
 
 
-RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QGLWidget *glContext, QWidget *parent) :
-    AbstractMonitor(name, manager, glContext , parent)
+RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent) :
+    AbstractMonitor(name, manager, parent)
     , m_isCapturing(false)
     , m_didCapture(false)
     , m_isPlaying(false)
@@ -165,7 +166,7 @@ VideoGLWidget *RecMonitor::glWidget()
 
 void RecMonitor::createOpenGlWidget(QWidget *parent, const QString &)
 {
-    m_glWidget = new VideoGLWidget(parent, m_parentGLContext);
+    m_glWidget = new VideoGLWidget(parent, pCore->glShareWidget());
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...
         QMessageBox::critical(this, i18n("Missing OpenGL support"),
@@ -1037,7 +1038,7 @@ void RecMonitor::buildMltDevice(const QString &path)
         videoBox->setLayout(lay);
     }
     if (m_captureDevice == NULL) {
-        m_captureDevice = new MltDeviceCapture(path, m_glWidget, this);
+        m_captureDevice = new MltDeviceCapture(path, this);
         connect(m_captureDevice, SIGNAL(showImageSignal(Mlt::Frame*, GLuint)), this, SLOT(slotCheckOverlay(Mlt::Frame*, GLuint)));
     }
 }

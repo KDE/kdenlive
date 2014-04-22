@@ -27,8 +27,6 @@
 #include "timecode.h"
 #include "timecodedisplay.h"
 
-#include <QGLWidget>
-
 namespace Mlt
 {
 class Producer;
@@ -46,7 +44,7 @@ class MarkerDialog : public QDialog, public Ui::MarkerDialog_UI
     Q_OBJECT
 
 public:
-    explicit MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QGLWidget *context, QWidget * parent = 0);
+    explicit MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent = 0);
     ~MarkerDialog();
 
     CommentedTime newMarker();
@@ -63,7 +61,6 @@ private:
     TimecodeDisplay *m_in;
     double m_dar;
     QTimer *m_previewTimer;
-    QGLWidget *m_mainGLContext;
 
 };
 

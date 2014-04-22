@@ -38,7 +38,6 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 
-class QGLWidget;
 
 enum DVDFORMAT { PAL, PAL_WIDE, NTSC, NTSC_WIDE };
 
@@ -106,7 +105,7 @@ class DvdWizardVob : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardVob(QGLWidget *glContext, QWidget * parent = 0);
+    explicit DvdWizardVob(QWidget * parent = 0);
     virtual ~DvdWizardVob();
     virtual bool isComplete() const;
     QStringList selectedUrls() const;
@@ -129,7 +128,6 @@ private:
     KCapacityBar *m_capacityBar;
     QAction *m_transcodeAction;
     bool m_installCheck;
-    QGLWidget *m_mainGLContext;
 #if KDE_IS_VERSION(4,7,0)
     KMessageWidget *m_warnMessage;
 #endif

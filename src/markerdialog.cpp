@@ -19,20 +19,21 @@
 
 
 #include "markerdialog.h"
+#include "core.h"
 #include "kthumb.h"
 #include "kdenlivesettings.h"
 
 #include <QWheelEvent>
+#include <QGLWidget>
 #include <KDebug>
 
 
-MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QGLWidget *context, QWidget * parent)
+MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
     : QDialog(parent)
     , m_producer(NULL)
     , m_profile(NULL)
     , m_clip(clip)
     , m_dar(4.0 / 3.0)
-    , m_mainGLContext(context)
 {
     setFont(KGlobalSettings::toolBarFont());
     setupUi(this);
@@ -129,7 +130,7 @@ void MarkerDialog::slotUpdateThumb()
     int swidth = (int) (100.0 * m_profile->width() / m_profile->height() + 0.5);
     if (width % 2 == 1)
         width++;
-    QGLWidget ctx(0, m_mainGLContext);
+    QGLWidget ctx(0, pCore->glShareWidget());
     ctx.makeCurrent();
     m_image = KThumb::getFrame(m_producer, pos, swidth, width, 100);
     const QPixmap p = QPixmap::fromImage(m_image);

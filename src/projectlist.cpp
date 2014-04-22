@@ -176,7 +176,7 @@ void SmallInfoLabel::slotSetJobCount(int jobCount)
 
 }
 
-ProjectList::ProjectList(QGLWidget *glContext, QWidget *parent) :
+ProjectList::ProjectList(QWidget *parent) :
     QWidget(parent)
   , m_render(NULL)
   , m_fps(-1)
@@ -195,7 +195,6 @@ ProjectList::ProjectList(QGLWidget *glContext, QWidget *parent) :
   , m_abortAllJobs(false)
   , m_closing(false)
   , m_invalidClipDialog(NULL)
-  , m_mainGLContext(glContext)
 {
     qRegisterMetaType<stringMap> ("stringMap");
     QVBoxLayout *layout = new QVBoxLayout;
@@ -1483,7 +1482,7 @@ void ProjectList::getCachedThumbnail(SubProjectItem *item)
 void ProjectList::updateAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips)
 {
     // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
-    QGLWidget ctx(0, m_mainGLContext);
+    QGLWidget ctx(0, pCore->glShareWidget());
     ctx.makeCurrent();
 
     if (!m_allClipsProcessed) m_listView->setEnabled(false);

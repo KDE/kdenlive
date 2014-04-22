@@ -61,7 +61,7 @@
 
 const double DOCUMENTVERSION = 0.88;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, QGLWidget *glContext, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -83,7 +83,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_profile.display_aspect_den = 0;
     m_profile.colorspace = 0;
 
-    m_clipManager = new ClipManager(this, glContext);
+    m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
     m_autoSaveTimer->setSingleShot(true);
     connect(m_clipManager, SIGNAL(displayMessage(QString,int)), parent, SLOT(slotGotProgressInfo(QString,int)));

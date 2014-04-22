@@ -49,13 +49,12 @@ Q_OBJECT public:
      *  @param name A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    explicit AbstractRender(Kdenlive::MonitorId name, QGLWidget *mainGLContext, QWidget *parent = 0) :
+    explicit AbstractRender(Kdenlive::MonitorId name, QWidget *parent = 0) :
            QObject(parent)
            , sendFrameForAnalysis(false)
            , analyseAudio(false)
            , showFrameSemaphore(3)
            , m_name(name)
-           , m_mainGLContext(mainGLContext)
     {
     }
 
@@ -80,7 +79,6 @@ private:
     QString m_name;
     
 protected:
-    QGLWidget *m_mainGLContext;
     QMap<pthread_t, QGLWidget *> m_renderThreadGLContexts;
     
 signals:
@@ -95,7 +93,7 @@ class AbstractMonitor : public QWidget
 {
     Q_OBJECT
 public:
-    AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QWidget *parent = 0);
+    AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = 0);
     Kdenlive::MonitorId id() {return m_id;}
     virtual ~AbstractMonitor();
     virtual VideoGLWidget *glWidget() = 0;
@@ -113,7 +111,6 @@ public slots:
 protected:
     Kdenlive::MonitorId m_id;
     MonitorManager *m_monitorManager;
-    QGLWidget *m_parentGLContext;
     VideoGLWidget *m_glWidget;
 };
 

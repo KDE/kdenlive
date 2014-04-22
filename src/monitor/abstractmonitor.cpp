@@ -29,11 +29,10 @@
 #include <QVBoxLayout>
 
 
-AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QWidget *parent): 
+AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent): 
     QWidget(parent)
     , m_id(id)
     , m_monitorManager(manager)
-    , m_parentGLContext(glContext)
     , m_glWidget(NULL)
 {
     videoBox = new QFrame(this);

@@ -41,6 +41,9 @@ void Core::init()
     m_projectManager = new ProjectManager(this);
     m_monitorManager = new MonitorManager(this);
 //     m_pluginManager = new PluginManager(this);
+
+    m_glShareWidget = new QGLWidget(m_mainWindow);
+    m_glShareWidget->resize(0, 0);
 }
 
 void Core::loadPlugins()
@@ -72,6 +75,11 @@ MonitorManager* Core::monitorManager()
 {
     return m_pluginManager;
 }*/
+
+QGLWidget* Core::glShareWidget()
+{
+    return m_glShareWidget;
+}
 
 
 #include "core.moc"

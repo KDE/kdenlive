@@ -19,6 +19,7 @@
 
 
 #include "customtrackview.h"
+#include "core.h"
 #include "docclipbase.h"
 #include "clipitem.h"
 #include "definitions.h"
@@ -374,7 +375,7 @@ int CustomTrackView::getPreviousVideoTrack(int track)
 void CustomTrackView::slotFetchNextThumbs()
 {
     // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
-    QGLWidget ctx(0, m_document->clipManager()->getMainContext());
+    QGLWidget ctx(0, pCore->glShareWidget());
     ctx.makeCurrent();
     if (!m_waitingThumbs.isEmpty()) {
         ClipItem *item = m_waitingThumbs.takeFirst();
@@ -5729,7 +5730,7 @@ void CustomTrackView::slotAddGuide(bool dialog)
     CommentedTime marker(GenTime(m_cursorPos, m_document->fps()), i18n("Guide"));
     if (dialog) {
         QPointer<MarkerDialog> d = new MarkerDialog(NULL, marker,
-                                                    m_document->timecode(), i18n("Add Guide"), m_document->clipManager()->getMainContext(), this);
+                                                    m_document->timecode(), i18n("Add Guide"), this);
         if (d->exec() != QDialog::Accepted) {
             delete d;
             return;
@@ -5763,7 +5764,7 @@ void CustomTrackView::slotEditGuide(int guidePos)
 
 void CustomTrackView::slotEditGuide(const CommentedTime &guide)
 {
-    QPointer<MarkerDialog> d = new MarkerDialog(NULL, guide, m_document->timecode(), i18n("Edit Guide"), m_document->clipManager()->getMainContext(), this);
+    QPointer<MarkerDialog> d = new MarkerDialog(NULL, guide, m_document->timecode(), i18n("Edit Guide"), this);
     if (d->exec() == QDialog::Accepted) {
         EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d->newMarker().time(), d->newMarker().comment(), true);
         m_commandStack->push(command);
@@ -5777,7 +5778,7 @@ void CustomTrackView::slotEditTimeLineGuide()
     if (m_dragGuide == NULL) return;
     CommentedTime guide = m_dragGuide->info();
     QPointer<MarkerDialog> d = new MarkerDialog(NULL, guide,
-                                                m_document->timecode(), i18n("Edit Guide"), m_document->clipManager()->getMainContext(), this);
+                                                m_document->timecode(), i18n("Edit Guide"), this);
     if (d->exec() == QDialog::Accepted) {
         EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d->newMarker().time(), d->newMarker().comment(), true);
         m_commandStack->push(command);

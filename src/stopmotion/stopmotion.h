@@ -62,7 +62,7 @@ class StopmotionMonitor : public AbstractMonitor
 {
     Q_OBJECT
 public:
-    StopmotionMonitor(MonitorManager *manager, QGLWidget *glContext, QWidget *parent);
+    StopmotionMonitor(MonitorManager *manager, QWidget *parent);
     ~StopmotionMonitor();
     VideoGLWidget *glWidget() {return new VideoGLWidget();};
     Kdenlive::MonitorId id() const;
@@ -93,7 +93,7 @@ public:
      * @param projectFolder The current project folder, where captured files will be stored.
      * @param actions The actions for this widget that can have a keyboard shortcut.
      * @param parent (optional) parent widget */
-    StopmotionWidget(MonitorManager *manager, QGLWidget *glContext, const KUrl &projectFolder, const QList< QAction* > &actions, QWidget* parent = 0);
+    StopmotionWidget(MonitorManager *manager, const KUrl &projectFolder, const QList< QAction* > &actions, QWidget* parent = 0);
     virtual ~StopmotionWidget();
 
 protected:

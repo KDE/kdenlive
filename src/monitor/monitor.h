@@ -44,14 +44,13 @@ class Monitor;
 class MonitorManager;
 class QSlider;
 class VideoGLWidget;
-class QGLWidget;
 
 class Monitor : public AbstractMonitor
 {
     Q_OBJECT
 
 public:
-    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QString profile = QString(), QWidget *parent = 0);
+    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profile = QString(), QWidget *parent = 0);
     ~Monitor();
     Render *render;
     VideoGLWidget *glWidget();

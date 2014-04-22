@@ -125,7 +125,6 @@ public:
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
     NotesWidget *m_notesWidget;
-    QGLWidget* m_glContext;
     KActionCollection *m_tracksActionCollection;
     EffectStackView2 *m_effectStack;
     TransitionSettings *m_transitionConfig;

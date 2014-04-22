@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 class MainWindow;
 class ProjectManager;
 class MonitorManager;
+class QGLWidget;
 
 #define pCore Core::self()
 
@@ -57,6 +58,9 @@ public:
 //     /** @brief Returns a pointer to the plugin manager. */
 //     PluginManager *pluginManager();
 
+    /** @brief A common context all the other contexts can share with. */
+    QGLWidget *glShareWidget();
+
 private:
     Core(MainWindow *mainWindow);
     static Core *m_self;
@@ -65,6 +69,7 @@ private:
     MainWindow *m_mainWindow;
     ProjectManager *m_projectManager;
     MonitorManager *m_monitorManager;
+    QGLWidget* m_glShareWidget;
 //     PluginManager *m_pluginManager;
 };
 

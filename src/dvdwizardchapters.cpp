@@ -23,12 +23,11 @@
 
 #include <QFile>
 
-DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, QGLWidget *glWidget, DVDFORMAT format, QWidget *parent) :
+DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :
     QWizardPage(parent),
     m_format(format),
     m_monitor(NULL),
-    m_manager(manager),
-    m_glWidget(glWidget)
+    m_manager(manager)
 
 {
     m_view.setupUi(this);
@@ -155,7 +154,7 @@ void DvdWizardChapters::createMonitor(DVDFORMAT format)
 {
     QString profile = DvdWizardVob::getDvdProfile(format);
     if (m_monitor == NULL) {
-        m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager, m_glWidget, profile, this);
+        m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager, profile, this);
         //m_monitor->start();
         QVBoxLayout *vbox = new QVBoxLayout;
         vbox->addWidget(m_monitor);

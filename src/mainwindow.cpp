@@ -139,7 +139,6 @@ static bool sortByNames(const QPair<QString, KAction*> &a, const QPair<QString, 
 
 MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
-    m_glContext(NULL),
     m_activeTimeline(NULL),
     m_projectList(NULL),
     m_effectList(NULL),
@@ -174,11 +173,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     parseProfiles(MltPath);
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
 
-    // Create OpenGL context, to have a common context all the other contexts
-    // can share with.
-    m_glContext = new QGLWidget(this);
-    m_glContext->resize(0, 0);
-
     m_commandStack = new QUndoGroup;
     setDockNestingEnabled(true);
     m_timelineArea = new KTabWidget(this);
@@ -210,13 +204,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_projectListDock = new QDockWidget(i18n("Project Tree"), this);
     m_projectListDock->setObjectName("project_tree");
-    m_projectList = new ProjectList(m_glContext);
+    m_projectList = new ProjectList();
     m_projectListDock->setWidget(m_projectList);
     addDockWidget(Qt::TopDockWidgetArea, m_projectListDock);
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
-    m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), m_glContext, QString(), m_timelineArea);
+    m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), QString(), m_timelineArea);
     m_clipMonitorDock->setWidget(m_clipMonitor);
 
     // Connect the project list
@@ -234,13 +228,13 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
-    m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), m_glContext, QString());
+    m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager());
     m_projectMonitorDock->setWidget(m_projectMonitor);
 
 #ifndef Q_WS_MAC
     m_recMonitorDock = new QDockWidget(i18n("Record Monitor"), this);
     m_recMonitorDock->setObjectName("record_monitor");
-    m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, pCore->monitorManager(), m_glContext);
+    m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, pCore->monitorManager());
     m_recMonitorDock->setWidget(m_recMonitor);
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(addProjectClipList(KUrl::List)), this, SLOT(slotAddProjectClipList(KUrl::List)));
@@ -676,7 +670,6 @@ MainWindow::~MainWindow()
     delete[] m_transitions;
     delete m_scopeManager;
     Mlt::Factory::close();
-    delete m_glContext;
 }
 
 //virtual
@@ -2492,7 +2485,7 @@ void MainWindow::slotAddClipMarker(const QString &clipId, CommentedTime marker)
     }
     else label = i18n("Edit Marker");
 
-    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, project->timecode(), label, m_glContext, this);
+    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, project->timecode(), label, this);
     if (d->exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, QList <CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
@@ -2580,7 +2573,7 @@ void MainWindow::slotEditClipMarker()
     }
 
     QPointer<MarkerDialog> d = new MarkerDialog(clip, oldMarker,
-                                                pCore->projectManager()->current()->timecode(), i18n("Edit Marker"), m_glContext, this);
+                                                pCore->projectManager()->current()->timecode(), i18n("Edit Marker"), this);
     if (d->exec() == QDialog::Accepted) {
         m_activeTimeline->projectView()->slotAddClipMarker(id, QList <CommentedTime>() <<d->newMarker());
         QString hash = clip->getClipHash();
@@ -3579,7 +3572,7 @@ void MainWindow::slotDvdWizard(const QString &url)
 {
     // We must stop the monitors since we create a new on in the dvd wizard
     pCore->monitorManager()->activateMonitor(Kdenlive::DvdMonitor);
-    QPointer<DvdWizard> w = new DvdWizard(pCore->monitorManager(), m_glContext, url, this);
+    QPointer<DvdWizard> w = new DvdWizard(pCore->monitorManager(), url, this);
     w->exec();
     delete w;
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
@@ -4101,7 +4094,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
 void MainWindow::slotOpenStopmotion()
 {
     if (m_stopmotion == NULL) {
-        m_stopmotion = new StopmotionWidget(pCore->monitorManager(), m_glContext, pCore->projectManager()->current()->projectFolder(), m_stopmotion_actions->actions(), this);
+        m_stopmotion = new StopmotionWidget(pCore->monitorManager(), pCore->projectManager()->current()->projectFolder(), m_stopmotion_actions->actions(), this);
         connect(m_stopmotion, SIGNAL(addOrUpdateSequence(QString)), m_projectList, SLOT(slotAddOrUpdateSequence(QString)));
         //for (int i = 0; i < m_gfxScopesList.count(); ++i) {
         // Check if we need the renderer to send a new frame for update

@@ -19,6 +19,7 @@
 
 
 #include "monitor/monitor.h"
+#include "core.h"
 #include "smallruler.h"
 #include "docclipbase.h"
 #include "abstractclipitem.h"
@@ -50,8 +51,8 @@
 #define SEEK_INACTIVE (-1)
 
 
-Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QGLWidget *glContext, QString profile, QWidget *parent) :
-    AbstractMonitor(id, manager, glContext, parent)
+Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profile, QWidget *parent) :
+    AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_currentClip(NULL)
     , m_scale(1)
@@ -212,8 +213,8 @@ QWidget *Monitor::container()
 
 void Monitor::createOpenGlWidget(QWidget *parent, const QString &profile)
 {
-    m_glWidget = new VideoGLWidget(parent, m_parentGLContext);
-    render = new Render(id(), profile, m_glWidget, this);
+    m_glWidget = new VideoGLWidget(parent, pCore->glShareWidget());
+    render = new Render(id(), profile, this);
     if (m_glWidget == NULL) {
         // Creation failed, we are in trouble...
         QMessageBox::critical(this, i18n("Missing OpenGL support"),

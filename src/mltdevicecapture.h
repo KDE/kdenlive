@@ -53,7 +53,7 @@ Q_OBJECT public:
     /** @brief Build a MLT Renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the capture (default one will be used if empty). */
-    explicit MltDeviceCapture(QString profile, QGLWidget *mainGLContext, QWidget *parent = 0);
+    explicit MltDeviceCapture(QString profile, QWidget *parent = 0);
 
     /** @brief Destroy the MLT Renderer. */
     ~MltDeviceCapture();

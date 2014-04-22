@@ -21,6 +21,7 @@
  ***************************************************************************/
 
 #include "kthumb.h"
+#include "core.h"
 #include "clipmanager.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"
@@ -140,7 +141,7 @@ QImage KThumb::extractImage(int frame, int width, int height)
         img.fill(QColor(Qt::black).rgb());
         return img;
     }
-    QGLWidget ctx(0, m_clipManager->getMainContext());
+    QGLWidget ctx(0, pCore->glShareWidget());
     ctx.makeCurrent();
     return getProducerFrame(frame, (int) (height * m_ratio + 0.5), width, height);
 }
@@ -383,7 +384,7 @@ void KThumb::queryIntraThumbs(const QSet <int> &missingFrames)
 void KThumb::slotGetIntraThumbs()
 {
     // We are in a new thread, so we need a new OpenGL context for the remainder of the function.
-    QGLWidget ctx(0, m_clipManager->getMainContext());
+    QGLWidget ctx(0, pCore->glShareWidget());
     const int theight = KdenliveSettings::trackheight();
     const int frameWidth = (int)(theight * m_ratio + 0.5);
     const int displayWidth = (int)(theight * m_dar + 0.5);
