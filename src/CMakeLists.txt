@@ -95,6 +95,7 @@ add_subdirectory(simplekeyframes)
 add_subdirectory(stopmotion)
 add_subdirectory(widgets)
 add_subdirectory(monitor)
+add_subdirectory(project)
 
 if(QJSON_FOUND)
   add_subdirectory(onmonitoritems/rotoscoping)
@@ -179,6 +180,7 @@ list(APPEND kdenlive_SRCS
   wizard.cpp
 
   ${monitor_SRCS}
+  ${project_SRCS}
 )
 
 kde4_add_ui_files(kdenlive_UIS

@@ -119,6 +119,21 @@ public:
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action);
 
+    // TODO make private again
+    KTabWidget* m_timelineArea;
+    ProjectList *m_projectList;
+    StopmotionWidget *m_stopmotion;
+    QUndoGroup *m_commandStack;
+    NotesWidget *m_notesWidget;
+    QGLWidget* m_glContext;
+    KActionCollection *m_tracksActionCollection;
+    EffectStackView2 *m_effectStack;
+    TransitionSettings *m_transitionConfig;
+    TrackView *m_activeTimeline;
+    KRecentFilesAction *m_fileOpenRecent;
+    QUndoView *m_undoView;
+    StatusBarMessageLabel *m_messageLabel;
+
 protected:
 
     /** @brief Closes the window.
@@ -146,33 +161,24 @@ protected:
     virtual void readProperties(const KConfigGroup &config);
 
 private:
-    QGLWidget* m_glContext;
-
-    KTabWidget* m_timelineArea;
     QProgressBar *m_statusProgressBar;
 
     ScopeManager *m_scopeManager;
 
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
-    KdenliveDoc *m_activeDocument;
-    TrackView *m_activeTimeline;
 
     QDockWidget *m_projectListDock;
-    ProjectList *m_projectList;
 
     QDockWidget *m_effectListDock;
     EffectsListView *m_effectList;
     //KListWidget *m_effectList;
 
     QDockWidget *m_notesDock;
-    NotesWidget *m_notesWidget;
 
     QDockWidget *m_effectStackDock;
-    EffectStackView2 *m_effectStack;
 
     QDockWidget *m_transitionConfigDock;
-    TransitionSettings *m_transitionConfig;
 
     QDockWidget *m_clipMonitorDock;
     Monitor *m_clipMonitor;
@@ -205,8 +211,6 @@ private:
     Spectrogram *m_spectrogram;
 
     QDockWidget *m_undoViewDock;
-    QUndoView *m_undoView;
-    QUndoGroup *m_commandStack;
 
     KSelectAction *m_timeFormatButton;
 
@@ -219,7 +223,6 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
-    KUrl m_startUrl;
 
     /** Actions used in the stopmotion widget */
     KActionCategory *m_stopmotion_actions;
@@ -241,7 +244,6 @@ private:
     JogShuttleAction* m_jogShuttle;
 #endif
 
-    KRecentFilesAction *m_fileOpenRecent;
     KAction *m_fileRevert;
     KAction *m_projectSearch;
     KAction *m_projectSearchNext;
@@ -260,7 +262,7 @@ private:
     KAction *m_buttonSpacerTool;
     KAction *m_buttonSnap;
     KAction *m_saveAction;
-    KAction *m_closeAction;
+//     KAction *m_closeAction;
     QSlider *m_zoomSlider;
     KAction *m_zoomIn;
     KAction *m_zoomOut;
@@ -268,10 +270,8 @@ private:
     KAction *m_playZone;
     KAction *m_loopClip;
     KSelectAction *m_loadLayout;
-    StatusBarMessageLabel *m_messageLabel;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
-    KActionCollection *m_tracksActionCollection;
 
     bool m_findActivated;
     QString m_findString;
@@ -282,10 +282,7 @@ private:
 #ifdef USE_JOGSHUTTLE
     void activateShuttleDevice();
 #endif
-    void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
-    void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
-    void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KUrl &originUrl);
 
     /** @brief Loads static and dynamic plugins.
      *
@@ -309,15 +306,9 @@ private:
     void loadClipActions();
     QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config);
 
-    /** @brief Checks that the Kdenlive mime type is correctly installed.
-    * @param open If set to true, this will return the mimetype allowed for file opening (adds .tar.gz format)
-    * @return The mimetype */
-    QString getMimeType(bool open = true);
-
     /** @brief Populates the "load layout" menu. */
     void loadLayouts();
 
-    StopmotionWidget *m_stopmotion;
     QTime m_timer;
     /** @brief The last selected clip in timeline. */
     ClipItem *m_mainClip;
@@ -327,41 +318,24 @@ private:
     void initLocale();
 
 public slots:
-    /** @brief Prepares opening @param url.
-    *
-    * Checks if already open and whether backup exists */
-    void openFile(const KUrl &url);
     void slotGotProgressInfo(const QString &message, int progress, MessageType type = DefaultMessage);
     void slotReloadEffects();
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
 
+    void slotSwitchVideoThumbs();
+    void slotSwitchAudioThumbs();
+
+    void slotPreferences(int page = -1, int option = -1);
+    void connectDocument(TrackView *trackView, KdenliveDoc *newDoc, KdenliveDoc **projectManagerDoc);
+    void slotTimelineClipSelected(ClipItem* item, bool raise = true);
+    
+    /** @brief Open the project's backupdialog. */
+    void slotOpenBackupDialog(const KUrl &url = KUrl());
 
 private slots:
-    void newFile(bool showProjectSettings = true, bool force = false);
-    void activateDocument();
-    void connectDocument(TrackView*, KdenliveDoc*);
-
-    /** @brief Shows file open dialog. */
-    void openFile();
-    void openLastFile();
-
-    /** @brief Checks whether a URL is available to save to.
-    * @return Whether the file was saved. */
-    bool saveFile();
-
-    /** @brief Shows a save file dialog for saving the project.
-    * @return Whether the file was saved. */
-    bool saveFileAs();
-
-    /** @brief Set properties to match outputFileName and save the document.
-    * @param outputFileName The URL to save to / The document's URL.
-    * @return Whether we had success. */
-    bool saveFileAs(const QString &outputFileName);
-
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
-    void slotPreferences(int page = -1, int option = -1);
 
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
@@ -379,8 +353,6 @@ private slots:
 
     /** @brief Turns automatic splitting of audio and video on/off. */
     void slotSwitchSplitAudio();
-    void slotSwitchVideoThumbs();
-    void slotSwitchAudioThumbs();
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotRenderProject();
@@ -405,8 +377,6 @@ private slots:
     *
     * Adopted from Dolphin (src/statusbar/dolphinstatusbar.cpp) */
     void slotShowZoomSliderToolTip(int zoomlevel = -1);
-    /** @brief Close currently opened document. Returns false if something went wrong (cannot save modifications, ...). */
-    bool closeCurrentDocument(bool saveChanges = true);
     /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
     void slotDeleteItem();
     void slotAddClipMarker(const QString &clipId = QString(), CommentedTime marker = CommentedTime());
@@ -434,7 +404,6 @@ private slots:
     void slotAddProjectClipList(const KUrl::List &urls);
     void slotShowClipProperties(DocClipBase *clip);
     void slotShowClipProperties(const QList<DocClipBase *> &cliplist, const QMap<QString, QString> &commonproperties);
-    void slotTimelineClipSelected(ClipItem* item, bool raise = true);
     void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *transition);
     void slotChangeTool(QAction * action);
@@ -518,7 +487,6 @@ private slots:
     void slotRemoveFocus();
     void slotCleanProject();
     void slotUpdateClipMarkers(DocClipBase *clip);
-    void slotRevert();
     void slotShutdown();
     void slotUpdateTrackInfo();
 
@@ -558,8 +526,6 @@ private slots:
     void slotUpdateProxySettings();
     /** @brief Insert current project's timecode into the notes widget. */
     void slotInsertNotesTimecode();
-    /** @brief Open the project's backupdialog. */
-    void slotOpenBackupDialog(const KUrl &url = KUrl());
     /** @brief Disable proxies for this project. */
     void slotDisableProxies();
 

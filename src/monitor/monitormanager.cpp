@@ -349,5 +349,14 @@ QString MonitorManager::getProjectFolder() const
     return m_document->projectFolder().path(KUrl::AddTrailingSlash);
 }
 
+Monitor* MonitorManager::clipMonitor()
+{
+    return m_clipMonitor;
+}
+
+Monitor* MonitorManager::projectMonitor()
+{
+    return m_projectMonitor;
+}
 
 #include "monitor/monitormanager.moc"

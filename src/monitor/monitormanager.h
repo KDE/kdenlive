@@ -53,6 +53,9 @@ public:
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
 
+    Monitor *clipMonitor();
+    Monitor *projectMonitor();
+
 public slots:
 
     /** @brief Activates a monitor.

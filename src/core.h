@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivecore_export.h"
 
 class MainWindow;
+class ProjectManager;
 class MonitorManager;
 
 #define pCore Core::self()
@@ -49,16 +50,8 @@ public:
 
     /** @brief Returns a pointer to the main window. */
     MainWindow *window();
-//     /** @brief Returns a pointer to the project manager. */
-//     ProjectManager *projectManager();
-//     /** @brief Returns a pointer to the mlt core. */
-//     MltCore* mltCore();
-//     /** @brief Returns a pointer to the effect repository. */
-//     EffectRepository *effectRepository();
-//     /** @brief Returns a pointer to the producer repository. */
-//     ProducerRepository* producerRepository();
-//     /** @brief Returns a pointer to the clip plugin manager. */
-//     ClipPluginManager *clipPluginManager();
+    /** @brief Returns a pointer to the project manager. */
+    ProjectManager *projectManager();
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
 //     /** @brief Returns a pointer to the plugin manager. */
@@ -70,11 +63,7 @@ private:
     void init();
 
     MainWindow *m_mainWindow;
-//     ProjectManager *m_projectManager;
-//     MltCore *m_mltCore;
-//     EffectRepository *m_effectRepository;
-//     ProducerRepository *m_producerRepository;
-//     ClipPluginManager *m_clipPluginManager;
+    ProjectManager *m_projectManager;
     MonitorManager *m_monitorManager;
 //     PluginManager *m_pluginManager;
 };

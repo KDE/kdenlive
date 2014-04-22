@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "core.h"
 #include "mainwindow.h"
+#include "project/projectmanager.h"
 #include "monitor/monitormanager.h"
 #include <QCoreApplication>
 
@@ -37,11 +38,7 @@ void Core::initialize(MainWindow* mainWindow)
 
 void Core::init()
 {
-//     m_mltCore = new MltCore();
-//     m_effectRepository = new EffectRepository(m_mltCore);
-//     m_producerRepository = new ProducerRepository(m_mltCore);
-//     m_clipPluginManager = new ClipPluginManager(this);
-//     m_projectManager = new ProjectManager(this);
+    m_projectManager = new ProjectManager(this);
     m_monitorManager = new MonitorManager(this);
 //     m_pluginManager = new PluginManager(this);
 }
@@ -61,30 +58,10 @@ MainWindow* Core::window()
     return m_mainWindow;
 }
 
-/*ProjectManager* Core::projectManager()
+ProjectManager* Core::projectManager()
 {
     return m_projectManager;
 }
-
-MltCore* Core::mltCore()
-{
-    return m_mltCore;
-}
-
-EffectRepository* Core::effectRepository()
-{
-    return m_effectRepository;
-}
-
-ProducerRepository* Core::producerRepository()
-{
-    return m_producerRepository;
-}
-
-ClipPluginManager* Core::clipPluginManager()
-{
-    return m_clipPluginManager;
-}*/
 
 MonitorManager* Core::monitorManager()
 {
