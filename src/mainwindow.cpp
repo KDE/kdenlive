@@ -180,14 +180,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_timelineArea->setTabBarHidden(true);
     m_timelineArea->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     m_timelineArea->setMinimumHeight(200);
-/*
-    QToolButton *closeTabButton = new QToolButton;
-    connect(closeTabButton, SIGNAL(clicked()), this, SLOT(closeCurrentDocument()));
-    closeTabButton->setIcon(KIcon("tab-close"));
-    closeTabButton->adjustSize();
-    closeTabButton->setToolTip(i18n("Close the current tab"));
-    m_timelineArea->setCornerWidget(closeTabButton);*/
-    //connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
 
     connect(&m_findTimer, SIGNAL(timeout()), this, SLOT(findTimeout()));
     m_findTimer.setSingleShot(true);
@@ -1998,7 +1990,6 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     if (m_renderWidget) {
         m_renderWidget->setProfile(project->mltProfile());
     }
-    m_timelineArea->setTabText(m_timelineArea->currentIndex(), project->description());
     if (updateFps) {
         m_activeTimeline->updateProjectFps();
     }
@@ -2094,13 +2085,6 @@ void MainWindow::slotUpdateDocumentState(bool modified)
 {
     setCaption(pCore->projectManager()->current()->description(), modified);
     m_saveAction->setEnabled(modified);
-    if (modified) {
-        m_timelineArea->setTabTextColor(m_timelineArea->currentIndex(), palette().color(QPalette::Link));
-        m_timelineArea->setTabIcon(m_timelineArea->currentIndex(), KIcon("document-save"));
-    } else {
-        m_timelineArea->setTabTextColor(m_timelineArea->currentIndex(), palette().color(QPalette::Text));
-        m_timelineArea->setTabIcon(m_timelineArea->currentIndex(), KIcon("kdenlive"));
-    }
 }
 
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, KdenliveDoc **projectManagerDoc)
@@ -2108,7 +2092,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
     KdenliveDoc *oldDoc = *projectManagerDoc;
 
     //m_projectMonitor->stop();
-//     m_closeAction->setEnabled(m_timelineArea->count() > 1);
     kDebug() << "///////////////////   CONNECTING DOC TO PROJECT VIEW ////////////////";
     if (oldDoc) {
         if (oldDoc == newDoc) {
@@ -2159,7 +2142,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
             disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
             disconnect(m_projectList, SIGNAL(refreshClip(QString)), m_activeTimeline->projectView(), SLOT(slotRefreshThumbs(QString)));
             disconnect(m_projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-        disconnect(m_projectMonitor->render, SIGNAL(infoProcessingFinished()), m_activeTimeline->projectView(), SLOT(slotInfoProcessingFinished()));
+            disconnect(m_projectMonitor->render, SIGNAL(infoProcessingFinished()), m_activeTimeline->projectView(), SLOT(slotInfoProcessingFinished()));
             m_effectStack->clear();
         }
         //project->setRenderer(NULL);

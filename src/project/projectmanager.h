@@ -49,7 +49,6 @@ public:
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
-    void activateDocument();
     /** @brief Shows file open dialog. */
     void openFile();
     void openLastFile();

@@ -41,7 +41,6 @@ ProjectManager::ProjectManager(QObject* parent) :
     KStandardAction::open(this,                   SLOT(openFile()),               pCore->window()->actionCollection());
     KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             pCore->window()->actionCollection());
     KStandardAction::openNew(this,                SLOT(newFile()),                pCore->window()->actionCollection());
-//     m_closeAction = KStandardAction::close(this,  SLOT(closeCurrentDocument()),   pCore->window()->actionCollection());
 }
 
 ProjectManager::~ProjectManager()
@@ -117,10 +116,8 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QMap <QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     if (!showProjectSettings) {
-        if (!KdenliveSettings::activatetabs()) {
-            if (!closeCurrentDocument()) {
-                return;
-            }
+        if (!closeCurrentDocument()) {
+            return;
         }
     } else {
         QPointer<ProjectSettings> w = new ProjectSettings(NULL, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
@@ -128,11 +125,9 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
             delete w;
             return;
         }
-        if (!KdenliveSettings::activatetabs()) {
-            if (!closeCurrentDocument()) {
-                delete w;
-                return;
-            }
+        if (!closeCurrentDocument()) {
+            delete w;
+            return;
         }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) {
             pCore->window()->slotSwitchVideoThumbs();
@@ -168,42 +163,14 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         pCore->window()->slotPreferences(6);
         return;
     }
-    if (pCore->window()->m_timelineArea->count() == 1) {
-        connectDocumentInfo(doc);
-        pCore->window()->connectDocument(trackView, doc, &m_project);
-    } else {
-        pCore->window()->m_timelineArea->setTabBarHidden(false);
-    }
+    connectDocumentInfo(doc);
+    pCore->window()->connectDocument(trackView, doc, &m_project);
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
-//     m_closeAction->setEnabled(pCore->window()->m_timelineArea->count() > 1);
-}
-
-void ProjectManager::activateDocument()
-{
-    if (pCore->window()->m_timelineArea->currentWidget() == NULL || !pCore->window()->m_timelineArea->isEnabled()) {
-        return;
-    }
-    TrackView *currentTab = (TrackView *) pCore->window()->m_timelineArea->currentWidget();
-    KdenliveDoc *currentDoc = currentTab->document();
-    connectDocumentInfo(currentDoc);
-    pCore->window()->connectDocument(currentTab, currentDoc, &m_project);
 }
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges)
 {
-    QWidget *w = pCore->window()->m_timelineArea->currentWidget();
-    if (!w) {
-        return true;
-    }
-    // closing current document
-    int ix = pCore->window()->m_timelineArea->currentIndex() + 1;
-    if (ix == pCore->window()->m_timelineArea->count()) {
-        ix = 0;
-    }
-    pCore->window()->m_timelineArea->setCurrentIndex(ix);
-    TrackView *tabToClose = (TrackView *) w;
-    KdenliveDoc *docToClose = tabToClose->document();
-    if (docToClose && docToClose->isModified() && saveChanges) {
+    if (m_project && m_project->isModified() && saveChanges) {
         QString message;
         if (m_project->url().fileName().isEmpty()) {
             message = i18n("Save changes to document?");
@@ -227,28 +194,16 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
     pCore->window()->slotTimelineClipSelected(NULL, false);
     pCore->monitorManager()->clipMonitor()->slotSetClipProducer(NULL);
     pCore->window()->m_projectList->slotResetProjectList();
-    pCore->window()->m_timelineArea->removeTab(pCore->window()->m_timelineArea->indexOf(w));
-    if (pCore->window()->m_timelineArea->count() == 1) {
-        pCore->window()->m_timelineArea->setTabBarHidden(true);
-//         m_closeAction->setEnabled(false);
-    }
+    pCore->window()->m_timelineArea->removeTab(0);
 
-    if (docToClose == m_project) {
-        delete m_project;
-        m_project = NULL;
-        pCore->monitorManager()->setDocument(m_project);
-        pCore->window()->m_effectStack->clear();
-        pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-    } else {
-        delete docToClose;
-    }
+    delete m_project;
+    m_project = NULL;
+    pCore->monitorManager()->setDocument(m_project);
+    pCore->window()->m_effectStack->clear();
+    pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 
-    if (w == pCore->window()->m_activeTimeline) {
-        delete pCore->window()->m_activeTimeline;
-        pCore->window()->m_activeTimeline = NULL;
-    } else {
-        delete w;
-    }
+    delete pCore->window()->m_activeTimeline;
+    pCore->window()->m_activeTimeline = NULL;
 
     return true;
 }
@@ -272,8 +227,6 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     }
 
     pCore->window()->setCaption(m_project->description());
-    pCore->window()->m_timelineArea->setTabText(pCore->window()->m_timelineArea->currentIndex(), m_project->description());
-    pCore->window()->m_timelineArea->setTabToolTip(pCore->window()->m_timelineArea->currentIndex(), m_project->url().path());
     m_project->setModified(false);
     pCore->window()->m_fileOpenRecent->addUrl(KUrl(outputFileName));
     m_fileRevert->setEnabled(true);
@@ -348,6 +301,10 @@ void ProjectManager::openLastFile()
 
 void ProjectManager::openFile(const KUrl &url)
 {
+    if (m_project && m_project->url() == url) {
+        return;
+    }
+
     // Make sure the url is a Kdenlive project file
     KMimeType::Ptr mime = KMimeType::findByUrl(url);
     if (mime.data()->is("application/x-compressed-tar")) {
@@ -374,28 +331,8 @@ void ProjectManager::openFile(const KUrl &url)
         return;
     }
 
-    // Check if the document is already opened
-    const int ct = pCore->window()->m_timelineArea->count();
-    bool isOpened = false;
-    int i;
-    for (i = 0; i < ct; ++i) {
-        TrackView *tab = (TrackView *) pCore->window()->m_timelineArea->widget(i);
-        KdenliveDoc *doc = tab->document();
-        if (doc->url() == url) {
-            isOpened = true;
-            break;
-        }
-    }
-
-    if (isOpened) {
-        pCore->window()->m_timelineArea->setCurrentIndex(i);
+    if (!closeCurrentDocument()) {
         return;
-    }
-
-    if (!KdenliveSettings::activatetabs()) {
-        if (!closeCurrentDocument()) {
-            return;
-        }
     }
 
     // Check for backup file
@@ -418,12 +355,15 @@ void ProjectManager::openFile(const KUrl &url)
     }
     pCore->window()->m_messageLabel->setMessage(i18n("Opening file %1", url.path()), InformationMessage);
     pCore->window()->m_messageLabel->repaint();
+
     doOpenFile(url, NULL);
 }
 
 void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 {
-    if (!pCore->window()->m_timelineArea->isEnabled()) return;
+    if (!pCore->window()->m_timelineArea->isEnabled())
+        return;
+
     m_fileRevert->setEnabled(true);
 
     // Recreate stopmotion widget on document change
@@ -477,12 +417,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         newFile(false, true);
         return;
     }
-    pCore->window()->m_timelineArea->setTabToolTip(pCore->window()->m_timelineArea->currentIndex(), doc->url().path());
     trackView->setDuration(trackView->duration());
-
-    if (pCore->window()->m_timelineArea->count() > 1) {
-        pCore->window()->m_timelineArea->setTabBarHidden(false);
-    }
 
     pCore->window()->slotGotProgressInfo(QString(), -1);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(trackView->duration());
