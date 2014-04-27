@@ -35,12 +35,6 @@ ProjectManager::ProjectManager(QObject* parent) :
     QObject(parent),
     m_project(0)
 {
-    m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
-    m_fileRevert->setEnabled(false);
-
-    KStandardAction::open(this,                   SLOT(openFile()),               pCore->window()->actionCollection());
-    KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             pCore->window()->actionCollection());
-    KStandardAction::openNew(this,                SLOT(newFile()),                pCore->window()->actionCollection());
 }
 
 ProjectManager::~ProjectManager()
@@ -109,7 +103,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     if (!pCore->window()->m_timelineArea->isEnabled() && !force) {
         return;
     }
-    m_fileRevert->setEnabled(false);
+    emit revertPossible(false);
     QString profileName = KdenliveSettings::default_profile();
     KUrl projectFolder = KdenliveSettings::defaultprojectfolder();
     QMap <QString, QString> documentProperties;
@@ -229,7 +223,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     pCore->window()->setCaption(m_project->description());
     m_project->setModified(false);
     pCore->window()->m_fileOpenRecent->addUrl(KUrl(outputFileName));
-    m_fileRevert->setEnabled(true);
+    emit revertPossible(true);
     pCore->window()->m_undoView->stack()->setClean();
 
     return true;
@@ -364,7 +358,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     if (!pCore->window()->m_timelineArea->isEnabled())
         return;
 
-    m_fileRevert->setEnabled(true);
+    emit revertPossible(true);
 
     // Recreate stopmotion widget on document change
     if (pCore->window()->m_stopmotion) {
@@ -447,9 +441,8 @@ void ProjectManager::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, cons
     }
 }
 
-void ProjectManager::slotRevert()
+void ProjectManager::revertFile()
 {
-    if (KMessageBox::warningContinueCancel(pCore->window(), i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel) return;
     KUrl url = m_project->url();
     if (closeCurrentDocument(false))
         doOpenFile(url, NULL);

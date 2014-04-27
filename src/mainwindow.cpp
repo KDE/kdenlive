@@ -21,6 +21,7 @@
 #include "mainwindow.h"
 #include "mainwindowadaptor.h"
 #include "core.h"
+#include "project/projectmanagerview.h"
 #include "kdenlivesettings.h"
 #include "kdenlivesettingsdialog.h"
 #include "initeffects.h"
@@ -403,6 +404,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = new KActionCategory(i18n("Interface"), actionCollection());
+
+    m_projectManagerView = new ProjectManagerView(this);
 
     setupGUI();
 

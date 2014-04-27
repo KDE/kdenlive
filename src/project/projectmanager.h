@@ -17,7 +17,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 class Project;
 class AbstractProjectPart;
-class KAction;
 class KUrl;
 class KdenliveDoc;
 class KAutoSaveFile;
@@ -47,6 +46,8 @@ public:
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
     void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KUrl &originUrl);
 
+    void revertFile();
+
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
     /** @brief Shows file open dialog. */
@@ -73,11 +74,11 @@ public slots:
     * Checks if already open and whether backup exists */
     void openFile(const KUrl &url);
 
-private slots:
-    void slotRevert();
-
 signals:
-    void projectOpened(Project *project);
+//     void projectOpened(Project *project);
+
+    /** @brief Emitted when possibility to revert opened document changed. */
+    void revertPossible(bool possible);
 
 private:
     void connectDocumentInfo(KdenliveDoc *doc);
@@ -87,8 +88,6 @@ private:
     QString getMimeType(bool open = true);
 
     KdenliveDoc *m_project;
-
-    KAction *m_fileRevert;
     KUrl m_startUrl;
 };
 

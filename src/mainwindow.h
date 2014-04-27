@@ -52,6 +52,7 @@
 #include "widgets/noteswidget.h"
 #include "ui_backupdialog_ui.h"
 
+class ProjectManagerView;
 class KdenliveDoc;
 class TrackView;
 class MonitorManager;
@@ -160,6 +161,8 @@ protected:
     virtual void readProperties(const KConfigGroup &config);
 
 private:
+    ProjectManagerView *m_projectManagerView;
+
     QProgressBar *m_statusProgressBar;
 
     ScopeManager *m_scopeManager;
