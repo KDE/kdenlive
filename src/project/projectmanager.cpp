@@ -372,7 +372,6 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         pCore->window()->m_stopmotion = NULL;
     }
 
-//     m_timer.start();
     KProgressDialog progressDialog(pCore->window(), i18n("Loading project"), i18n("Loading project"));
     progressDialog.setAllowCancel(false);
     progressDialog.progressBar()->setMaximum(4);
