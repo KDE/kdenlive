@@ -52,7 +52,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         QRgb *col;
         QPainter davinci(&parade);
 
-        double dx, dy;
+        double dx;
 
         const uint ww = paradeSize.width();
         const uint wh = paradeSize.height();
@@ -148,7 +148,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         if (drawAxis) {
             QRgb opx;
             for (uint i = 0; i <= 10; ++i) {
-                dy = (float)i/10 * (partH-1);
+                double dy = (float)i/10 * (partH-1);
                 for (uint x = 0; x < ww-distRight; x++) {
                     opx = parade.pixel(x, dy);
                     parade.setPixel(x,dy, qRgba(CHOP255(150+qRed(opx)), 255,

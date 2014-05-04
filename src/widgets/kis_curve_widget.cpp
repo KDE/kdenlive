@@ -306,12 +306,10 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
                       x, wHeight - d->m_curve.value(1.0) * wHeight));
 
     // Drawing curve handles.
-    double curveX;
-    double curveY;
     if (!d->m_readOnlyMode) {
         for (int i = 0; i < d->m_curve.points().count(); ++i) {
-            curveX = d->m_curve.points().at(i).x();
-            curveY = d->m_curve.points().at(i).y();
+            double curveX = d->m_curve.points().at(i).x();
+            double curveY = d->m_curve.points().at(i).y();
 
             if (i == d->m_grab_point_index) {
                 p.setPen(QPen(Qt::red, 3, Qt::SolidLine));

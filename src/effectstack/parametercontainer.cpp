@@ -635,10 +635,10 @@ void ParameterContainer::slotCollectAllParameters()
             DoubleParameterWidget *doubleparam = (DoubleParameterWidget*)m_valueItems.value(paramName);
             setValue = locale.toString(doubleparam->getValue());
         } else if (type == "list") {
-            KComboBox *box = ((Listval*)m_valueItems.value(paramName))->list;
+            KComboBox *box = static_cast<Listval*>(m_valueItems.value(paramName))->list;
             setValue = box->itemData(box->currentIndex()).toString();
         } else if (type == "bool") {
-            QCheckBox *box = ((Boolval*)m_valueItems.value(paramName))->checkBox;
+            QCheckBox *box = static_cast<Boolval*>(m_valueItems.value(paramName))->checkBox;
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
             ChooseColorWidget *choosecolor = ((ChooseColorWidget*)m_valueItems.value(paramName));
@@ -715,7 +715,7 @@ void ParameterContainer::slotCollectAllParameters()
             setValue = widget->getSpline();
 #endif
         } else if (type == "wipe") {
-            Wipeval *wp = (Wipeval*)m_valueItems.value(paramName);
+            Wipeval *wp = static_cast<Wipeval*>(m_valueItems.value(paramName));
             wipeInfo info;
             if (wp->start_left->isChecked())
                 info.start = LEFT;
@@ -757,11 +757,11 @@ void ParameterContainer::slotCollectAllParameters()
             else if (pa.hasAttribute("intimeline"))
                 pa.setAttribute("intimeline", "0");
         } else if (type == "url") {
-            KUrlRequester *req = ((Urlval*)m_valueItems.value(paramName))->urlwidget;
+            KUrlRequester *req = static_cast<Urlval*>(m_valueItems.value(paramName))->urlwidget;
             setValue = req->url().path();
 	} else if (type == "keywords"){
-            QLineEdit *line = ((Keywordval*)m_valueItems.value(paramName))->lineeditwidget;
-            QComboBox *combo = ((Keywordval*)m_valueItems.value(paramName))->comboboxwidget;
+            QLineEdit *line = static_cast<Keywordval*>(m_valueItems.value(paramName))->lineeditwidget;
+            QComboBox *combo = static_cast<Keywordval*>(m_valueItems.value(paramName))->comboboxwidget;
             if(combo->currentIndex())
             {
                 QString comboval = combo->itemData(combo->currentIndex()).toString();
@@ -770,7 +770,7 @@ void ParameterContainer::slotCollectAllParameters()
             }
             setValue = line->text();
         } else if (type == "fontfamily") {
-            QFontComboBox* fontfamily = ((Fontval*)m_valueItems.value(paramName))->fontfamilywidget;
+            QFontComboBox* fontfamily = static_cast<Fontval*>(m_valueItems.value(paramName))->fontfamilywidget;
             setValue = fontfamily->currentFont().family();
         }
         if (!setValue.isNull())

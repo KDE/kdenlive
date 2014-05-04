@@ -210,7 +210,7 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, i
 
 
 //static
-QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height)
+QImage KThumb::getFrame(Mlt::Frame *frame, int /*frameWidth*/, int displayWidth, int height)
 {
     QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
     if (frame == NULL || !frame->is_valid()) {
@@ -234,20 +234,6 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
     //const uchar* imagedata = frame->get_image(format, ow, oh);
     //QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
     return image.rgbSwapped();
-    if (!image.isNull()) {
-        if (ow > (2 * displayWidth)) {
-            // there was a scaling problem, do it manually
-            image = image.scaled(displayWidth, height).rgbSwapped();
-        } else {
-            image = image.scaled(displayWidth, height, Qt::IgnoreAspectRatio).rgbSwapped();
-        }
-        p.fill(QColor(100, 100, 100, 70));
-        QPainter painter(&p);
-        painter.drawImage(p.rect(), image);
-        painter.end();
-    } else
-        p.fill(QColor(Qt::red).rgb());
-    return p;
 }
 
 //static

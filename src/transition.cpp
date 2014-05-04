@@ -232,11 +232,11 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         items.removeAll(this);
 
         bool forwardMove = newPos.x() > pos().x();
-        int offset = 0;
         if (!items.isEmpty()) {
             for (int i = 0; i < items.count(); ++i) {
                 if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
+                    int offset = 0;
                     // Collision!
                     QPointF otherPos = items.at(i)->pos();
                     if ((int) otherPos.y() != (int) pos().y()) {

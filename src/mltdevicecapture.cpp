@@ -532,7 +532,6 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         QString value = paramList.at(i).section('=', 1, 1);
         if (value == "%threads") {
             continue;
-            value = QString::number(QThread::idealThreadCount());
         }
         tmp2 = qstrdup(value.toUtf8().constData());
         renderProps->set(tmp, tmp2);

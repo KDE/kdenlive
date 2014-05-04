@@ -137,7 +137,7 @@ void transform_signal(void)
     CHECKNULL( fbuf=(kiss_fft_cpx*)malloc(sizeof(kiss_fft_cpx)*nfreqs ) );
     CHECKNULL( mag2buf=(float*)malloc(sizeof(float)*nfreqs ) );
 
-    memset(mag2buf,0,sizeof(mag2buf)*nfreqs);
+    memset(mag2buf,0,sizeof(float)*nfreqs);
 
     while (1) {
         if (stereo) {
@@ -168,9 +168,11 @@ void transform_signal(void)
             mag2buf[i] += fbuf[i].r * fbuf[i].r + fbuf[i].i * fbuf[i].i;
 
         if (++avgctr == navg) {
+            float *new_vals;
             avgctr=0;
             ++nrows;
-            vals = (float*)realloc(vals,sizeof(float)*nrows*nfreqs);
+            new_vals = (float*)realloc(vals,sizeof(float)*nrows*nfreqs);
+            if(new_vals == NULL) return; else vals=new_vals;
             float eps = 1;
             for (i=0;i<nfreqs;++i)
                 vals[(nrows - 1) * nfreqs + i] = 10 * log10 ( mag2buf[i] / navg + eps );
@@ -188,7 +190,7 @@ void transform_signal(void)
 static
 void make_png(void)
 {
-    png_bytepp row_pointers=NULL;
+    png_bytepp row_pointers=NULL, new_row_pointers;
     rgb_t * row_data=NULL;
     int i;
     int nfreqs = nfft/2+1;
@@ -208,6 +210,8 @@ void make_png(void)
     cpx2pixels(row_data, vals, nfreqs*nrows );
 
     row_pointers = realloc(row_pointers, nrows*sizeof(png_bytep));
+    if(new_row_pointers == NULL) return; else row_pointers=new_row_pointers;
+
     for (i=0;i<nrows;++i) {
         row_pointers[i] = (png_bytep)(row_data + i*nfreqs);
     }

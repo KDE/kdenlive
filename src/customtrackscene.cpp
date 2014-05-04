@@ -36,8 +36,8 @@ CustomTrackScene::~CustomTrackScene()
 
 double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap)
 {
-    double maximumOffset;
     if (doSnap) {
+        double maximumOffset;
         if (m_scale.x() > 3) maximumOffset = 10 / m_scale.x();
         else maximumOffset = 6 / m_scale.x();
         for (int i = 0; i < m_snapPoints.size(); ++i) {

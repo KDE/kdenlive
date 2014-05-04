@@ -147,10 +147,10 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             break;
         case 3:
             e.setAttribute("type", "QGraphicsRectItem");
-            content.setAttribute("rect", rectFToString(((QGraphicsRectItem*)item)->rect().normalized()));
-            content.setAttribute("pencolor", colorToString(((QGraphicsRectItem*)item)->pen().color()));
-            content.setAttribute("penwidth", ((QGraphicsRectItem*)item)->pen().width());
-            content.setAttribute("brushcolor", colorToString(((QGraphicsRectItem*)item)->brush().color()));
+            content.setAttribute("rect", rectFToString(static_cast<QGraphicsRectItem*>(item)->rect().normalized()));
+            content.setAttribute("pencolor", colorToString(static_cast<QGraphicsRectItem*>(item)->pen().color()));
+            content.setAttribute("penwidth", static_cast<QGraphicsRectItem*>(item)->pen().width());
+            content.setAttribute("brushcolor", colorToString(static_cast<QGraphicsRectItem*>(item)->brush().color()));
             break;
         case 8:
             e.setAttribute("type", "QGraphicsTextItem");
@@ -273,7 +273,7 @@ QColor TitleDocument::getBackgroundColor() const
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); ++i) {
             if (items.at(i)->zValue() == -1100) {
-                color = ((QGraphicsRectItem *)items.at(i))->brush().color();
+                color = static_cast<QGraphicsRectItem*>(items.at(i))->brush().color();
                 return color;
             }
         }
@@ -503,7 +503,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 QList<QGraphicsItem *> items = m_scene->items();
                 for (int i = 0; i < items.size(); ++i) {
                     if (items.at(i)->zValue() == -1100) {
-                        ((QGraphicsRectItem *)items.at(i))->setBrush(QBrush(color));
+                        static_cast<QGraphicsRectItem*>(items.at(i))->setBrush(QBrush(color));
                         break;
                     }
                 }

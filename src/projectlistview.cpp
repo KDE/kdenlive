@@ -276,8 +276,8 @@ void ProjectListView::dropEvent(QDropEvent *event)
             foreach(QTreeWidgetItem *it, list) {
                 // TODO allow dragging of folders ?
                 if (it->type() == ProjectClipType) {
-                    if (it->parent()) clone = (ProjectItem*) it->parent()->takeChild(it->parent()->indexOfChild(it));
-                    else clone = (ProjectItem*) takeTopLevelItem(indexOfTopLevelItem(it));
+                    if (it->parent()) clone = static_cast<ProjectItem*>(it->parent()->takeChild(it->parent()->indexOfChild(it)));
+                    else clone = static_cast<ProjectItem*>(takeTopLevelItem(indexOfTopLevelItem(it)));
                     if (clone && item) {
                         item->addChild(clone);
                         QMap <QString, QString> props;

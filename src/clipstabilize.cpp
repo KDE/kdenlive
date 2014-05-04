@@ -240,7 +240,7 @@ void ClipStabilize::slotUpdateParams()
         QString name=w->objectName();
         if (!name.isEmpty() && m_ui_params.contains(name)){
             if (m_ui_params[name]["type"]=="int" || m_ui_params[name]["type"]=="double"){
-                DoubleParameterWidget *dbl=(DoubleParameterWidget*)w;
+                DoubleParameterWidget *dbl=static_cast<DoubleParameterWidget*>(w);
                 m_ui_params[name]["value"]=QString::number((double)(dbl->getValue()));
             }else if (m_ui_params[name]["type"]=="bool"){
                 QCheckBox *ch=(QCheckBox*)w;

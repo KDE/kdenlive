@@ -206,10 +206,10 @@ void JogShuttle::customEvent(QEvent* e)
     QEvent::Type type = e->type();
 
     if (type == MediaCtrlEvent::Key) {
-        MediaCtrlEvent* mev = (MediaCtrlEvent*)e;
+        MediaCtrlEvent* mev = static_cast<MediaCtrlEvent*>(e);
         emit button(mev->value());
     } else if (type == MediaCtrlEvent::Jog) {
-        MediaCtrlEvent* mev = (MediaCtrlEvent*)e;
+        MediaCtrlEvent* mev = static_cast<MediaCtrlEvent*>(e);
         int value = mev->value();
 
         if (value < 0) {
@@ -218,7 +218,7 @@ void JogShuttle::customEvent(QEvent* e)
             emit jogForward();
         }
     } else if (type == MediaCtrlEvent::Shuttle) {
-        MediaCtrlEvent* mev = (MediaCtrlEvent*)e;
+        MediaCtrlEvent* mev = static_cast<MediaCtrlEvent*>(e);
         emit shuttlePos(mev->value());
     }
 }
