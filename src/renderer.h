@@ -295,7 +295,6 @@ class Render: public AbstractRender
     int mltChangeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, double speed, double oldspeed, int strobe, Mlt::Producer *prod);
 
     const QList <Mlt::Producer *> producersList();
-    void updatePreviewSettings();
     void setDropFrames(bool show);
     /** @brief Sets an MLT consumer property. */
     void setConsumerProperty(const QString &name, const QString &value);

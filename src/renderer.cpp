@@ -4364,29 +4364,6 @@ void Render::mltDeleteTrack(int ix)
     emit refreshDocumentProducers(false, false);
 }
 
-
-void Render::updatePreviewSettings()
-{
-    kDebug() << "////// RESTARTING CONSUMER";
-    if (!m_mltConsumer || !m_mltProducer) return;
-    if (m_mltProducer->get_playtime() == 0) return;
-    QMutexLocker locker(&m_mutex);
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() != tractor_type) return;
-
-    //m_mltConsumer->set("refresh", 0);
-    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-    m_mltConsumer->purge();
-    QString scene = sceneList();
-    int pos = 0;
-    if (m_mltProducer) {
-        pos = m_mltProducer->position();
-    }
-
-    setSceneList(scene, pos);
-}
-
-
 QString Render::updateSceneListFps(double current_fps, double new_fps, const QString &scene)
 {
     // Update all frame positions to the new fps value
