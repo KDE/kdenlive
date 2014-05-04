@@ -176,7 +176,6 @@ Render::~Render()
 
 void Render::closeMlt()
 {
-    //delete m_osdTimer;
     m_requestList.clear();
     m_infoThread.waitForFinished();
     delete m_showFrameEvent;
@@ -1247,7 +1246,6 @@ int Render::setSceneList(QString playlist, int position)
 
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
-        //if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
 
         /*Mlt::Service service(m_mltProducer->parent().get_service());
         service.lock();
@@ -1303,27 +1301,6 @@ int Render::setSceneList(QString playlist, int position)
     int volume = KdenliveSettings::volume();
     m_mltProducer->set("meta.volume", (double)volume / 100);
     m_mltProducer->optimise();
-
-    /*if (KdenliveSettings::osdtimecode()) {
-    // Attach filter for on screen display of timecode
-    delete m_osdInfo;
-    QString attr = "attr_check";
-    mlt_filter filter = mlt_factory_filter( "data_feed", (char*) attr.ascii() );
-    mlt_properties_set_int( MLT_FILTER_PROPERTIES( filter ), "_loader", 1 );
-    mlt_producer_attach( m_mltProducer->get_producer(), filter );
-    mlt_filter_close( filter );
-
-      m_osdInfo = new Mlt::Filter("data_show");
-    m_osdInfo->set("resource", m_osdProfile.toUtf8().constData());
-    mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
-    mlt_properties_set_int( properties, "meta.attr.timecode", 1);
-    mlt_properties_set( properties, "meta.attr.timecode.markup", "#timecode#");
-    m_osdInfo->set("dynamic", "1");
-
-      if (m_mltProducer->attach(*m_osdInfo) == 1) kDebug()<<"////// error attaching filter";
-    } else {
-    m_osdInfo->set("dynamic", "0");
-    }*/
 
     m_fps = m_mltProducer->get_fps();
     if (position != 0) {
@@ -1478,31 +1455,6 @@ void Render::slotSetVolume(int volume)
 {
     if (!m_mltConsumer || !m_mltProducer) return;
     m_mltProducer->set("meta.volume", (double)volume / 100.0);
-    //return;
-    /*osdTimer->stop();
-    m_mltConsumer->set("refresh", 0);
-    // Attach filter for on screen display of timecode
-    mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
-    mlt_properties_set_double( properties, "meta.volume", volume );
-    mlt_properties_set_int( properties, "meta.attr.osdvolume", 1);
-    mlt_properties_set( properties, "meta.attr.osdvolume.markup", i18n("Volume: ") + QString::number(volume * 100));
-
-    if (!KdenliveSettings::osdtimecode()) {
-    m_mltProducer->detach(*m_osdInfo);
-    mlt_properties_set_int( properties, "meta.attr.timecode", 0);
-     if (m_mltProducer->attach(*m_osdInfo) == 1) kDebug()<<"////// error attaching filter";
-    }*/
-    //refresh();
-    //m_osdTimer->setSingleShot(2500);
-}
-
-void Render::slotOsdTimeout()
-{
-    mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
-    mlt_properties_set_int(properties, "meta.attr.osdvolume", 0);
-    mlt_properties_set(properties, "meta.attr.osdvolume.markup", NULL);
-    //if (!KdenliveSettings::osdtimecode()) m_mltProducer->detach(*m_osdInfo);
-    refresh();
 }
 
 void Render::start()

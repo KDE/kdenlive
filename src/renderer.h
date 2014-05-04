@@ -387,7 +387,6 @@ private:
     Mlt::Producer *m_blackClip;
     QString m_activeProfile;
 
-    QTimer *m_osdTimer;
     QTimer m_refreshTimer;
     QMutex m_mutex;
     QMutex m_infoMutex;
@@ -428,7 +427,6 @@ private slots:
 
     /** @brief Refreshes the monitor display. */
     void refresh();
-    void slotOsdTimeout();
     /** @brief Process the clip info requests (in a separate thread). */
     void processFileProperties();
     /** @brief A clip with multiple video streams was found, ask what to do. */
