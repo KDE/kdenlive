@@ -6885,33 +6885,14 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, EffectsList ef
     }
 }
 
-void CustomTrackView::setVideoOnly()
+void CustomTrackView::setClipType(bool videoOnly, bool audioOnly)
 {
-    resetSelectionGroup();
-    QList<QGraphicsItem *> selection = scene()->selectedItems();
-    if (selection.isEmpty()) {
-        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
-        return;
-    }
-    QUndoCommand *videoCommand = new QUndoCommand();
-    videoCommand->setText(i18n("Video only"));
-    for (int i = 0; i < selection.count(); ++i) {
-        if (selection.at(i)->type() == AVWidget) {
-            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
-            if (clip->clipType() == AV || clip->clipType() == Playlist) {
-                if (clip->parentItem()) {
-                    emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
-                } else {
-                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), true, false, clip->isVideoOnly(), clip->isAudioOnly(), videoCommand);
-                }
-            }
-        }
-    }
-    m_commandStack->push(videoCommand);
-}
+    QString text = i18n("Audio and Video");
+    if (videoOnly)
+        text = i18n("Video only");
+    else if (audioOnly)
+        text = i18n("Audio only");
 
-void CustomTrackView::setAudioOnly()
-{
     resetSelectionGroup();
     QList<QGraphicsItem *> selection = scene()->selectedItems();
     if (selection.isEmpty()) {
@@ -6919,7 +6900,7 @@ void CustomTrackView::setAudioOnly()
         return;
     }
     QUndoCommand *videoCommand = new QUndoCommand();
-    videoCommand->setText(i18n("Audio only"));
+    videoCommand->setText(text);
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
@@ -6927,32 +6908,7 @@ void CustomTrackView::setAudioOnly()
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
                 } else {
-                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), false, true, clip->isVideoOnly(), clip->isAudioOnly(), videoCommand);
-                }
-            }
-        }
-    }
-    m_commandStack->push(videoCommand);
-}
-
-void CustomTrackView::setAudioAndVideo()
-{
-    resetSelectionGroup();
-    QList<QGraphicsItem *> selection = scene()->selectedItems();
-    if (selection.isEmpty()) {
-        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
-        return;
-    }
-    QUndoCommand *videoCommand = new QUndoCommand();
-    videoCommand->setText(i18n("Audio and Video"));
-    for (int i = 0; i < selection.count(); ++i) {
-        if (selection.at(i)->type() == AVWidget) {
-            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
-            if (clip->clipType() == AV || clip->clipType() == Playlist) {
-                if (clip->parentItem()) {
-                    emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
-                } else {
-                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), false, false, clip->isVideoOnly(), clip->isAudioOnly(), videoCommand);
+                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), videoOnly, audioOnly, clip->isVideoOnly(), clip->isAudioOnly(), videoCommand);
                 }
             }
         }
@@ -6973,28 +6929,18 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
         return;
     }
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
-    if (videoOnly) {
-        int start = pos.frames(m_document->fps());
-        clip->setVideoOnly(true);
-        clip->setAudioOnly(false);
-        if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, clip->baseClip()->videoProducer(track)) == false) {
-            emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
-        }
-    } else if (audioOnly) {
-        int start = pos.frames(m_document->fps());
-        clip->setAudioOnly(true);
-        clip->setVideoOnly(false);
-        if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, clip->baseClip()->audioProducer(track)) == false) {
-            emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
-        }
-    } else {
-        int start = pos.frames(m_document->fps());
-        clip->setAudioOnly(false);
-        clip->setVideoOnly(false);
-        if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, clip->baseClip()->getProducer(track)) == false) {
-            emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
-        }
-    }
+    int start = pos.frames(m_document->fps());
+    clip->setAudioOnly(audioOnly);
+    clip->setVideoOnly(videoOnly);
+    Mlt::Producer *producer;
+    if (videoOnly)
+        producer = clip->baseClip()->videoProducer(track);
+    else if (audioOnly)
+        producer = clip->baseClip()->audioProducer(track);
+    else
+        producer = clip->baseClip()->getProducer(track);
+    if (m_document->renderer()->mltUpdateClipProducer(tractor, m_document->tracksCount() - track, start, producer) == false)
+        emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", start, track), ErrorMessage);
     m_document->renderer()->unlockService(tractor);
     clip->update();
     setDocumentModified();
