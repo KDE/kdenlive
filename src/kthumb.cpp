@@ -226,7 +226,6 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int
     
     //const uchar* imagedata = frame->get_image(format, ow, oh);
     //QImage image(imagedata, ow, oh, QImage::Format_ARGB32_Premultiplied);
-    
     if (!image.isNull()) {
         if (ow > (2 * displayWidth)) {
             // there was a scaling problem, do it manually

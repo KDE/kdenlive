@@ -61,7 +61,7 @@ static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list
 }
 
 
-//static 
+//static
 void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
@@ -2875,7 +2875,6 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         params.removeParam("max");
         params.removeParam("factor");
         params.removeParam("offset");
-        int offset = 0;
         // Special case, only one keyframe, means we want a constant value
         if (keyFrames.count() == 1) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
@@ -2900,6 +2899,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
+                int offset = 0;
                 filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
                 int x1 = keyFrames.at(i).section(':', 0, 0).toInt() + offset;
                 double y1 = keyFrames.at(i).section(':', 1, 1).toDouble();

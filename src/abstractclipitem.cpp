@@ -223,7 +223,7 @@ void AbstractClipItem::resizeEnd(int posx, bool /*emitChange*/)
                 //kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
                 //kDebug() << "/////////  CURRENT: " << startPos().frames(25) << "x" << endPos().frames(25) << ", RECT: " << rect() << "-" << pos();
                 //kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();
-                GenTime diff = ((AbstractClipItem *)item)->startPos() - startPos();
+                GenTime diff = static_cast<AbstractClipItem*>(item)->startPos() - startPos();
                 if (fixItem == false || diff < m_info.cropDuration) {
                     fixItem = true;
                     m_info.cropDuration = diff;

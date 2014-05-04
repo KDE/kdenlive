@@ -365,7 +365,6 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> &audioFrame, c
         const uint h = m_innerScopeRect.height();
         const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
         const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
-        float val;
         uint windowSize;
         uint y;
         bool completeRedraw = true;
@@ -390,7 +389,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> &audioFrame, c
 
             QVector<float> dbMap;
             uint right;
-            for (QList<QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); it++) {
+            for (QList<QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); ++it) {
 
                 windowSize = (*it).size();
 
@@ -399,6 +398,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> &audioFrame, c
                 dbMap = FFTTools::interpolatePeakPreserving((*it), m_innerScopeRect.width(), 0, right, -180);
 
                 for (int i = 0; i < dbMap.size(); ++i) {
+                    float val;
                     val = dbMap[i];
                     peak = val > m_dBmax;
 
@@ -430,7 +430,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> &audioFrame, c
         qDebug() << "Rendered " << y-topDist << "lines from " << m_fftHistory.size() << " available samples in " << start.elapsed() << " ms"
                  << (completeRedraw ? "" : " (re-used old image)");
         uint storedBytes = 0;
-        for (QList< QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); it++) {
+        for (QList< QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); ++it) {
             storedBytes += (*it).size() * sizeof((*it)[0]);
         }
         qDebug() << QString("Total storage used: %1 kB").arg((double)storedBytes/1000, 0, 'f', 2);

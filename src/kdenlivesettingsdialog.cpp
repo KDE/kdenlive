@@ -276,8 +276,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
         m_configSdl.kcfg_external_display->setEnabled(false);
     }
 
-    double dvgrabVersion = 0;
     if (!KdenliveSettings::dvgrab_path().isEmpty()) {
+        double dvgrabVersion = 0;
         QProcess *versionCheck = new QProcess;
         versionCheck->setProcessChannelMode(QProcess::MergedChannels);
         versionCheck->start("dvgrab", QStringList() << "--version");

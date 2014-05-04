@@ -420,8 +420,8 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
     m_semaphoreHUD.release(1);
     this->update();
 
-    int accel;
     if (m_aRealtime->isChecked()) {
+        int accel;
         accel = calculateAccelFactorHUD(mseconds, oldFactor);
         if (m_accelFactorHUD < 1) {
             accel = 1;
@@ -454,8 +454,8 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
     this->update();
 
     // Calculate the acceleration factor hint to get «realtime» updates.
-    int accel;
     if (m_aRealtime->isChecked()) {
+        int accel;
         accel = calculateAccelFactorScope(mseconds, oldFactor);
         if (accel < 1) {
             // If mseconds happens to be 0.
@@ -487,8 +487,8 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
     m_semaphoreBackground.release(1);
     this->update();
 
-    int accel;
     if (m_aRealtime->isChecked()) {
+        int accel;
         accel = calculateAccelFactorBackground(mseconds, oldFactor);
         if (m_accelFactorBackground < 1) {
             accel = 1;

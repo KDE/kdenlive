@@ -64,7 +64,7 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     }
     else {
         devName = strdup((char*) cap.card);
-        if(!cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) {
+        if(!(cap.capabilities & V4L2_CAP_VIDEO_CAPTURE)) {
             // Device cannot capture
             captureEnabled = 0;
         }

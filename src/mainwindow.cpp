@@ -147,6 +147,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_projectList(NULL),
     m_effectList(NULL),
     m_effectStack(NULL),
+
     m_clipMonitor(NULL),
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
@@ -444,11 +445,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
-    QMenu *trackMenu = (QMenu*)(factory()->container("track_menu", this));
+    QMenu *trackMenu = static_cast<QMenu*>(factory()->container("track_menu", this));
     if (trackMenu) trackMenu->addActions(m_tracksActionCollection->actions());
 
 
-    QMenu *saveLayout = (QMenu*)(factory()->container("layout_save_as", this));
+    QMenu *saveLayout = static_cast<QMenu*>(factory()->container("layout_save_as", this));
     if (saveLayout)
         connect(saveLayout, SIGNAL(triggered(QAction*)), this, SLOT(slotSaveLayout(QAction*)));
 
@@ -554,7 +555,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_timelineContextClipMenu->addAction(actionCollection()->action("paste_effects"));
     m_timelineContextClipMenu->addSeparator();
 
-    QMenu *markersMenu = (QMenu*)(factory()->container("marker_menu", this));
+    QMenu *markersMenu = static_cast<QMenu*>(factory()->container("marker_menu", this));
     m_timelineContextClipMenu->addMenu(markersMenu);
     m_timelineContextClipMenu->addSeparator();
     m_timelineContextClipMenu->addMenu(m_transitionsMenu);
@@ -1807,7 +1808,7 @@ void MainWindow::setStatusBarStyleSheet(const QPalette &p)
 
 void MainWindow::loadLayouts()
 {
-    QMenu *saveLayout = (QMenu*)(factory()->container("layout_save_as", this));
+    QMenu *saveLayout = static_cast<QMenu*>(factory()->container("layout_save_as", this));
     if (m_loadLayout == NULL || saveLayout == NULL) return;
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup layoutGroup(config, "Layouts");
@@ -3946,7 +3947,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
     if (m_findActivated) {
         if (event->type() == QEvent::ShortcutOverride) {
-            QKeyEvent* ke = (QKeyEvent*) event;
+            QKeyEvent* ke = static_cast<QKeyEvent*>(event);
             if (ke->text().trimmed().isEmpty()) return false;
             ke->accept();
             return true;

@@ -78,7 +78,7 @@ void AbstractGroupItem::setItemLocked(bool locked)
     setFlag(QGraphicsItem::ItemIsSelectable, !locked);
 
     foreach (QGraphicsItem *child, childItems())
-        ((AbstractClipItem *)child)->setItemLocked(locked);
+        static_cast<AbstractClipItem*>(child)->setItemLocked(locked);
 }
 
 bool AbstractGroupItem::isItemLocked() const
@@ -318,19 +318,11 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                         return pos();
                     }
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(collision);
-                    if (forwardMove) {
-                        // Moving forward, determine best pos
-                        QPainterPath clipPath;
-                        clipPath.addRect(item->sceneBoundingRect());
-                        QPainterPath res = shape.intersected(clipPath);
-                        offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
-                    } else {
-                        // Moving backward, determine best pos
-                        QPainterPath clipPath;
-                        clipPath.addRect(item->sceneBoundingRect());
-                        QPainterPath res = shape.intersected(clipPath);
-                        offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
-                    }
+                    // Determine best pos
+                    QPainterPath clipPath;
+                    clipPath.addRect(item->sceneBoundingRect());
+                    QPainterPath res = shape.intersected(clipPath);
+                    offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
                 }
             }
             if (offset > 0) {
@@ -383,19 +375,11 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                         return pos();
                     }
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(collision);
-                    if (forwardMove) {
-                        // Moving forward, determine best pos
-                        QPainterPath clipPath;
-                        clipPath.addRect(item->sceneBoundingRect());
-                        QPainterPath res = shape.intersected(clipPath);
-                        offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
-                    } else {
-                        // Moving backward, determine best pos
-                        QPainterPath clipPath;
-                        clipPath.addRect(item->sceneBoundingRect());
-                        QPainterPath res = shape.intersected(clipPath);
-                        offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
-                    }
+                    // Determine best pos
+		    QPainterPath clipPath;
+		    clipPath.addRect(item->sceneBoundingRect());
+		    QPainterPath res = shape.intersected(clipPath);
+		    offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
                 }
             }
             if (offset > 0) {
@@ -426,13 +410,13 @@ void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event)
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
     e.setAttribute("kdenlive_ix", 0);
-    CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
+    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
     QPointF dropPos = event->scenePos();
     QList<QGraphicsItem *> selection = scene()->items(dropPos);
     AbstractClipItem *dropChild = NULL;
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
-            dropChild = (AbstractClipItem *) selection.at(i);
+            dropChild = static_cast<AbstractClipItem*>(selection.at(i));
             break;
         }
     }

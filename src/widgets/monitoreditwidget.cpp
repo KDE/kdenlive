@@ -52,7 +52,7 @@ MonitorEditWidget::MonitorEditWidget(Render* renderer, QWidget* parent) :
     m_view->setMouseTracking(true);
     m_scene->setUp();
 
-    ((QVBoxLayout*)m_ui.frameVideo->layout())->addWidget(m_view);
+    static_cast<QVBoxLayout*>(m_ui.frameVideo->layout())->addWidget(m_view);
 
     m_customControlsLayout = new QVBoxLayout(m_ui.frameCustomControls);
     m_customControlsLayout->setContentsMargins(0, 4, 0, 4);

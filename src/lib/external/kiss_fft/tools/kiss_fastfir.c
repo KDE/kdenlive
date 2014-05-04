@@ -18,7 +18,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 /*
  Some definitions that allow real or complex filtering
 */
-#ifdef REAL_FASTFIR
+/*REAL_FASTFIR*/
 #define MIN_FFT_LEN 2048
 #include "kiss_fftr.h"
 typedef kiss_fft_scalar kffsamp_t;
@@ -26,14 +26,6 @@ typedef kiss_fftr_cfg kfcfg_t;
 #define FFT_ALLOC kiss_fftr_alloc
 #define FFTFWD kiss_fftr
 #define FFTINV kiss_fftri
-#else
-#define MIN_FFT_LEN 1024
-typedef kiss_fft_cpx kffsamp_t;
-typedef kiss_fft_cfg kfcfg_t;
-#define FFT_ALLOC kiss_fft_alloc
-#define FFTFWD kiss_fft
-#define FFTINV kiss_fft
-#endif
 
 typedef struct kiss_fastfir_state *kiss_fastfir_cfg;
 
@@ -78,7 +70,7 @@ kiss_fastfir_cfg kiss_fastfir_alloc(
     if (pnfft)
         nfft=*pnfft;
 
-    if (nfft<=0) {
+    if (nfft==0) {
         /* determine fft size as next power of two at least 2x 
          the impulse response length*/
         i=n_imp_resp-1;
@@ -86,19 +78,13 @@ kiss_fastfir_cfg kiss_fastfir_alloc(
         do{
              nfft<<=1;
         }while (i>>=1);
-#ifdef MIN_FFT_LEN
         if ( nfft < MIN_FFT_LEN )
             nfft=MIN_FFT_LEN;
-#endif        
     }
     if (pnfft)
         *pnfft = nfft;
 
-#ifdef REAL_FASTFIR
     n_freq_bins = nfft/2 + 1;
-#else
-    n_freq_bins = nfft;
-#endif
     /*fftcfg*/
     FFT_ALLOC (nfft, 0, NULL, &len_fftcfg);
     memneeded += len_fftcfg;  
@@ -244,7 +230,7 @@ size_t kiss_fastfir(
     }
 }
 
-#ifdef FAST_FILT_UTIL
+/*FAST_FILT_UTIL*/
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/mman.h>
@@ -285,12 +271,12 @@ void direct_file_filter(
 
     do {
         nread = fread (buf, sizeof (kffsamp_t), nbuf, fin);
-        if (nread <= 0)
+        if (nread == 0)
             break;
 
         for (k = 0; k < nread; ++k) {
             tmph = imp_resp+nlag;
-#ifdef REAL_FASTFIR
+/*REAL_FASTFIR*/
 # ifdef USE_SIMD
             outval = _mm_set1_ps(0);
 #else
@@ -301,26 +287,6 @@ void direct_file_filter(
             for (tap = 0; tap < oldestlag; ++tap)
                 outval += circbuf[tap] * *tmph--;
             outval += buf[k] * *tmph;
-#else
-# ifdef USE_SIMD
-            outval.r = outval.i = _mm_set1_ps(0);
-#else            
-            outval.r = outval.i = 0;
-#endif            
-            for (tap = oldestlag; tap < nlag; ++tap){
-                C_MUL(tmp,circbuf[tap],*tmph);
-                --tmph;
-                C_ADDTO(outval,tmp);
-            }
-            
-            for (tap = 0; tap < oldestlag; ++tap) {
-                C_MUL(tmp,circbuf[tap],*tmph);
-                --tmph;
-                C_ADDTO(outval,tmp);
-            }
-            C_MUL(tmp,buf[k],*tmph);
-            C_ADDTO(outval,tmp);
-#endif
 
             circbuf[oldestlag++] = buf[k];
             buf[k] = outval;
@@ -463,6 +429,7 @@ int main(int argc,char**argv)
     if (fout!=stdout) fclose(fout);
     if (fin!=stdin) fclose(fin);
 
+    free(h);
     return 0;
 }
 #endif

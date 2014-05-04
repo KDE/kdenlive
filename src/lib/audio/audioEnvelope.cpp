@@ -165,7 +165,7 @@ int AudioEnvelope::startPos() const
     return m_startpos;
 }
 
-void AudioEnvelope::normalizeEnvelope(bool clampTo0)
+void AudioEnvelope::normalizeEnvelope(bool /*clampTo0*/)
 {
     if (m_envelope == NULL && !m_future.isRunning()) {
         m_future = QtConcurrent::run(this, &AudioEnvelope::loadEnvelope);

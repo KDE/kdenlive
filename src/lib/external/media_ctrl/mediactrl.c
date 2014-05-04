@@ -201,12 +201,10 @@ int media_ctrl_get_keys_count(struct media_ctrl *ctrl)
 
 void translate_contour_hid_event(struct media_ctrl *ctrl, struct input_event *ev, struct media_ctrl_event *me) 
 {
-	
-	int lv, cv;
-	
 	me->type = 0;
 	
 	if (ev->type == EV_REL) {
+        int cv;
 		/* First check the outer dial */
 		if (ev->code == REL_WHEEL) {
 			
@@ -227,6 +225,7 @@ void translate_contour_hid_event(struct media_ctrl *ctrl, struct input_event *ev
 			me->name = _shuttle_name;
 			
 		} else if  (ev->code == REL_DIAL) {
+            int lv;
 			
 			if ( ctrl->lastval == -1 ) ctrl->lastval = ev->value;
 			lv = ctrl->lastval;
