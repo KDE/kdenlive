@@ -486,7 +486,6 @@ public slots:
     /** @brief Checks if the file is readable by MLT. */
     bool isValid(const KUrl &url);
 
-    void mltSavePlaylist();
     void slotSplitView(bool doit);
     void slotSetVolume(int volume);
     void seekToFrame(int pos);

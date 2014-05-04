@@ -4002,18 +4002,6 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     return true;
 }
 
-void Render::mltSavePlaylist()
-{
-    kWarning() << "// UPDATING PLAYLIST TO DISK++++++++++++++++";
-    Mlt::Consumer fileConsumer(*m_mltProfile, "xml");
-    fileConsumer.set("resource", "/tmp/playlist.mlt");
-
-    Mlt::Service service(m_mltProducer->get_service());
-
-    fileConsumer.connect(service);
-    fileConsumer.start();
-}
-
 const QList <Mlt::Producer *> Render::producersList()
 {
     QList <Mlt::Producer *> prods;
