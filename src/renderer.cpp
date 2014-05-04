@@ -1749,38 +1749,6 @@ void Render::emitConsumerStopped(bool forcePause)
     }
 }
 
-void Render::exportFileToFirewire(QString /*srcFileName*/, int /*port*/, GenTime /*startTime*/, GenTime /*endTime*/)
-{
-    KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please install Libiec61883 and recompile Kdenlive"));
-}
-
-void Render::exportCurrentFrame(const KUrl &url, bool /*notify*/)
-{
-    if (!m_mltProducer) {
-        KMessageBox::sorry(qApp->activeWindow(), i18n("There is no clip, cannot extract frame."));
-        return;
-    }
-
-    //int height = 1080;//KdenliveSettings::defaultheight();
-    //int width = 1940; //KdenliveSettings::displaywidth();
-    //TODO: rewrite
-    QPixmap pix; // = KThumb::getFrame(m_mltProducer, -1, width, height);
-    /*
-       QPixmap pix(width, height);
-       Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
-       m_convert.set("forced", mlt_image_rgb24a);
-       m_mltProducer->attach(m_convert);
-       Mlt::Frame * frame = m_mltProducer->get_frame();
-       m_mltProducer->detach(m_convert);
-       if (frame) {
-           pix = frameThumbnail(frame, width, height);
-           delete frame;
-       }*/
-    pix.save(url.path(), "PNG");
-    //if (notify) QApplication::postEvent(qApp->activeWindow(), new UrlEvent(url, 10003));
-}
-
-
 void Render::showFrame(Mlt::Frame* frame)
 {
     int currentPos = m_mltConsumer->position();

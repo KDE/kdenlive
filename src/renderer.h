@@ -185,9 +185,6 @@ class Render: public AbstractRender
     void emitFrameNumber();
     void emitConsumerStopped(bool forcePause = false);
 
-    /** @brief Saves current producer frame as an image. */
-    void exportCurrentFrame(const KUrl &url, bool notify);
-
     /** @brief Change the Mlt PROFILE
      * @param profileName The MLT profile name
      * @param dropSceneList If true, the current playlist will be deleted
@@ -491,7 +488,6 @@ public slots:
     /** @brief Checks if the file is readable by MLT. */
     bool isValid(const KUrl &url);
 
-    void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     void mltSavePlaylist();
     void slotSplitView(bool doit);
     void slotSetVolume(int volume);
