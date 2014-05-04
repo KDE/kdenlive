@@ -161,9 +161,8 @@ public:
     * @param track Track of the clip
     * @param split Split or unsplit */
     void doSplitAudio(const GenTime &pos, int track, EffectsList effects, bool split);
-    void setVideoOnly();
-    void setAudioOnly();
-    void setAudioAndVideo();
+    /** @brief Sets the clip type (av, video only, audio only) of the current selection. */
+    void setClipType(bool videoOnly, bool audioOnly);
     void doChangeClipType(const GenTime &pos, int track, bool videoOnly, bool audioOnly);
     int hasGuide(int pos, int offset);
     void reloadTransitionLumas();
