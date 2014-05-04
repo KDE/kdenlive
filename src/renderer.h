@@ -277,10 +277,6 @@ class Render: public AbstractRender
     void mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
     void mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool force = false);
     void mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
-    void mltAddClipTransparency(ItemInfo info, int transitiontrack, int id);
-    void mltMoveTransparency(int startTime, int endTime, int startTrack, int endTrack, int id);
-    void mltDeleteTransparency(int pos, int track, int id);
-    void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
     QList <TransitionInfo> mltInsertTrack(int ix, bool videoTrack);
     void mltDeleteTrack(int ix);
     bool mltUpdateClipProducer(Mlt::Tractor *tractor, int track, int pos, Mlt::Producer *prod);
