@@ -2021,7 +2021,7 @@ void MainWindow::activateDocument()
     if (m_timelineArea->currentWidget() == NULL || !m_timelineArea->isEnabled()) {
         return;
     }
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    TrackView *currentTab = static_cast<TrackView*>(m_timelineArea->currentWidget());
     KdenliveDoc *currentDoc = currentTab->document();
     connectDocumentInfo(currentDoc);
     connectDocument(currentTab, currentDoc);
@@ -2039,7 +2039,7 @@ bool MainWindow::closeCurrentDocument(bool saveChanges)
         ix = 0;
     }
     m_timelineArea->setCurrentIndex(ix);
-    TrackView *tabToClose = (TrackView *) w;
+    TrackView *tabToClose = static_cast<TrackView*>(w);
     KdenliveDoc *docToClose = tabToClose->document();
     if (docToClose && docToClose->isModified() && saveChanges) {
         QString message;
@@ -2217,7 +2217,7 @@ void MainWindow::openFile(const KUrl &url)
     bool isOpened = false;
     int i;
     for (i = 0; i < ct; ++i) {
-        TrackView *tab = (TrackView *) m_timelineArea->widget(i);
+        TrackView *tab = static_cast<TrackView*>(m_timelineArea->widget(i));
         KdenliveDoc *doc = tab->document();
         if (doc->url() == url) {
             isOpened = true;

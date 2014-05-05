@@ -1411,11 +1411,11 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
             items = scene()->items(sceneShape, Qt::IntersectsItemShape);
         items.removeAll(this);
         bool forwardMove = newPos.x() > pos().x();
-        int offset = 0;
         if (!items.isEmpty()) {
             for (int i = 0; i < items.count(); ++i) {
                 if (!items.at(i)->isEnabled()) continue;
                 if (items.at(i)->type() == type()) {
+				    int offset = 0;
                     // Collision!
                     QPointF otherPos = items.at(i)->pos();
                     if ((int) otherPos.y() != (int) pos().y()) {
@@ -1821,7 +1821,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
             // single effect dropped
             e.removeAttribute("kdenlive_ix");
         }
-        CustomTrackView *view = (CustomTrackView *) scene()->views().first();
+        CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views().first());
         if (view) view->slotDropEffect(this, e, m_info.startPos, track());
     }
     else return;

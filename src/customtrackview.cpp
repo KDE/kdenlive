@@ -490,9 +490,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration() - m_dragItemInfo.cropDuration, KdenliveSettings::frametimecode());
                 emit displayMessage(i18n("Duration:") + ' ' + duration + ' ' + i18n("Offset:") + ' ' + offset, InformationMessage);
             } else if (m_operationMode == FadeIn && move) {
-                ((ClipItem*) m_dragItem)->setFadeIn(static_cast<int>(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
+                static_cast<ClipItem*>(m_dragItem)->setFadeIn(static_cast<int>(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
             } else if (m_operationMode == FadeOut && move) {
-                ((ClipItem*) m_dragItem)->setFadeOut(static_cast<int>(m_dragItem->endPos().frames(m_document->fps()) - mappedXPos));
+                static_cast<ClipItem*>(m_dragItem)->setFadeOut(static_cast<int>(m_dragItem->endPos().frames(m_document->fps()) - mappedXPos));
             } else if (m_operationMode == KeyFrame && move) {
                 GenTime keyFramePos = GenTime(mappedXPos, m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
                 double pos = mapToScene(event->pos()).toPoint().y();
@@ -3585,7 +3585,7 @@ void CustomTrackView::deleteClip(const QString &clipId)
     int count = 0;
     for (int i = 0; i < itemList.count(); ++i) {
         if (itemList.at(i)->type() == AVWidget) {
-            ClipItem *item = (ClipItem *)itemList.at(i);
+            ClipItem *item = static_cast<ClipItem*>(itemList.at(i));
             if (item->clipProducer() == clipId) {
                 count++;
                 if (item->parentItem()) {
@@ -3733,7 +3733,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
             for (int i = 0; i < items.count(); ++i) {
                 if (items.at(i)->type() == GroupWidget) {
-                    AbstractGroupItem* group = (AbstractGroupItem*)items.at(i);
+                    AbstractGroupItem* group = static_cast<AbstractGroupItem*>(items.at(i));
                     if (!groups.contains(group)) groups.append(group);
                     items += items.at(i)->childItems();
                 }
