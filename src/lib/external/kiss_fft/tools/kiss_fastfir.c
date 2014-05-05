@@ -252,9 +252,6 @@ void direct_file_filter(
     size_t nbuf;
     size_t oldestlag = 0;
     size_t k, tap;
-#ifndef REAL_FASTFIR
-    kffsamp_t tmp;
-#endif    
 
     nbuf = 4096;
     buf = (kffsamp_t *) malloc ( sizeof (kffsamp_t) * nbuf);
