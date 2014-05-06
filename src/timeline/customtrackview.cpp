@@ -1396,49 +1396,24 @@ void CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, bool
 void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (m_dragItem && m_dragItem->hasKeyFrames()) {
-        /*if (m_moveOpMode == KEYFRAME) {
-            // user double clicked on a keyframe, open edit dialog
-            //TODO: update for effects with several values per keyframe
-            QDialog d(parentWidget());
-            Ui::KeyFrameDialog_UI view;
-            view.setupUi(&d);
-            view.kfr_position->setText(m_document->timecode().getTimecode(GenTime(m_dragItem->selectedKeyFramePos(), m_document->fps()) - m_dragItem->cropStart()));
-            view.kfr_value->setValue(m_dragItem->selectedKeyFrameValue());
-            view.kfr_value->setFocus();
-            if (d.exec() == QDialog::Accepted) {
-                int pos = m_document->timecode().getFrameCount(view.kfr_position->text());
-                m_dragItem->updateKeyFramePos(GenTime(pos, m_document->fps()) + m_dragItem->cropStart(), (double) view.kfr_value->value() * m_dragItem->keyFrameFactor());
-                ClipItem *item = static_cast <ClipItem *>(m_dragItem);
-                QString previous = item->keyframes(item->selectedEffectIndex());
-                item->updateKeyframeEffect();
-                QString next = item->keyframes(item->selectedEffectIndex());
-                EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
-                m_commandStack->push(command);
-                updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
-                emit clipItemSelected(item, item->selectedEffectIndex());
-            }
-
-        } else*/  {
-            // add keyframe
-            GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
-            int single = m_dragItem->checkForSingleKeyframe();
-            int val = m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
-            ClipItem * item = static_cast <ClipItem *>(m_dragItem);
-            QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
-            if (single > -1) {
-                item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, single);
-            }
-            //QString previous = item->keyframes(item->selectedEffectIndex());
-            item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
-            //item->updateKeyframeEffect();
-            //QString next = item->keyframes(item->selectedEffectIndex());
-            QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
-            EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
-            //EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
-            m_commandStack->push(command);
-            updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect());
-            emit clipItemSelected(item, item->selectedEffectIndex());
+        // add keyframe
+        GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
+        int single = m_dragItem->checkForSingleKeyframe();
+        int val = m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
+        ClipItem * item = static_cast <ClipItem *>(m_dragItem);
+        QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
+        if (single > -1) {
+            item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, single);
         }
+        //QString previous = item->keyframes(item->selectedEffectIndex());
+        item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
+        //item->updateKeyframeEffect();
+        //QString next = item->keyframes(item->selectedEffectIndex());
+        QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
+        EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
+        m_commandStack->push(command);
+        updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect());
+        emit clipItemSelected(item, item->selectedEffectIndex());
     } else if (m_dragItem && !m_dragItem->isItemLocked()) {
         editItemDuration();
     } else {
@@ -1541,16 +1516,6 @@ void CustomTrackView::editItemDuration()
         emit displayMessage(i18n("Item is locked"), ErrorMessage);
     }
 }
-
-void CustomTrackView::editKeyFrame(const GenTime & /*pos*/, const int /*track*/, const int /*index*/, const QString & /*keyframes*/)
-{
-    /*ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), track);
-    if (clip) {
-        clip->setKeyframes(index, keyframes);
-        updateEffect(m_document->tracksCount() - clip->track(), clip->startPos(), clip->effectAt(index), index, false);
-    } else emit displayMessage(i18n("Cannot find clip with keyframe"), ErrorMessage);*/
-}
-
 
 void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, AbstractGroupItem *group)
 {
@@ -4158,12 +4123,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
 
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
-        //item->updateKeyframeEffect();
-        //QString next = item->keyframes(item->selectedEffectIndex());
-        //EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
-        EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
 
+        EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
         m_commandStack->push(command);
+    
         updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect());
         emit clipItemSelected(item);
     }
