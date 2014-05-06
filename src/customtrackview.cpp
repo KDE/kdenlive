@@ -1029,15 +1029,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     bool itemSelected = false;
-    if (m_dragItem->isSelected()) {
+    if (m_dragItem->isSelected()
+        || (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected())
+        || (dragGroup && dragGroup->isSelected()))
         itemSelected = true;
-    }
-    else if (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected()) {
-        itemSelected = true;
-    }
-    else if (dragGroup && dragGroup->isSelected()) {
-        itemSelected = true;
-    }
 
     if ((event->modifiers() == Qt::ControlModifier) || itemSelected == false) {
         if (event->modifiers() != Qt::ControlModifier) {
@@ -1288,12 +1283,8 @@ void CustomTrackView::resetSelectionGroup(bool selectItems)
         m_selectionGroup = NULL;
         for (int i = 0; i < children.count(); ++i) {
             if (children.at(i)->parentItem() == 0) {
-                if ((children.at(i)->type() == AVWidget || children.at(i)->type() == TransitionWidget)) {
-                    if (!static_cast <AbstractClipItem *>(children.at(i))->isItemLocked()) {
-                        children.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
-                        children.at(i)->setSelected(selectItems);
-                    }
-                } else if (children.at(i)->type() == GroupWidget) {
+                if (((children.at(i)->type() == AVWidget || children.at(i)->type() == TransitionWidget) && !static_cast <AbstractClipItem *>(children.at(i))->isItemLocked())
+                    || children.at(i)->type() == GroupWidget) {
                     children.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
                     children.at(i)->setSelected(selectItems);
                 }
