@@ -18,7 +18,6 @@ set(kdenlive_SRCS
   commands/editeffectcommand.cpp
   commands/editfoldercommand.cpp
   commands/editguidecommand.cpp
-  commands/editkeyframecommand.cpp
   commands/edittransitioncommand.cpp
   commands/groupclipscommand.cpp
   commands/insertspacecommand.cpp
