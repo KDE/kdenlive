@@ -36,7 +36,8 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
         m_timecode(t),
         m_frametimecode(false),
         m_minimum(0),
-        m_maximum(-1)
+        m_maximum(-1),
+        m_value(0)
 {
     lineEdit()->setFont(KGlobalSettings::toolBarFont());
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
