@@ -2169,12 +2169,8 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
         }
         QImage img;
         int height = m_listView->iconSize().height();
-        int swidth = (int)(height  * m_render->frameRenderWidth() / m_render->renderHeight()+ 0.5);
         int dwidth = (int)(height  * m_render->dar() + 0.5);
-        if (clip->clipType() == Image) {
-            img = KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height);
-        }
-        else if (clip->clipType() != Audio) {
+        if (clip->clipType() != Audio) {
             img = item->referencedClip()->extractImage(frame, dwidth, height);
         }
         if (!img.isNull()) {
