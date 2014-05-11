@@ -123,6 +123,8 @@ TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok
 
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone(), false);
+
+    connect(m_doc, SIGNAL(saveTimelinePreview(QString)), SLOT(slotSaveTimelinePreview(QString)));
 }
 
 TrackView::~TrackView()
