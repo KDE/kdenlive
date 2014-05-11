@@ -64,6 +64,7 @@
 #include "commands/rebuildgroupcommand.h"
 #include "commands/refreshmonitorcommand.h"
 #include "profilesdialog.h"
+#include "projectlist.h"
 
 #include "lib/audio/audioEnvelope.h"
 #include "lib/audio/audioCorrelation.h"
@@ -199,6 +200,13 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
 
     KIcon spacerIcon("kdenlive-spacer-tool");
     m_spacerCursor = QCursor(spacerIcon.pixmap(32, 32));
+
+    ProjectList *projectList = pCore->window()->projectList();
+    connect(projectList, SIGNAL(refreshClip(QString,bool)), SLOT(slotRefreshThumbs(QString,bool)));
+    connect(projectList, SIGNAL(clipNameChanged(QString,QString)), SLOT(clipNameChanged(QString,QString)));
+    connect(projectList, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
+    connect(projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+    connect(projectList, SIGNAL(loadingIsOver()), SLOT(slotUpdateAllThumbs()));
 }
 
 CustomTrackView::~CustomTrackView()

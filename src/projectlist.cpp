@@ -2004,16 +2004,6 @@ void ProjectList::setDocument(KdenliveDoc *document)
     connect(document, SIGNAL(resetProjectList()), SLOT(slotResetProjectList()));
     connect(document, SIGNAL(updateClipDisplay(QString)), SLOT(slotUpdateClip(QString)));
     connect(document, SIGNAL(selectLastAddedClip(QString)), SLOT(slotSelectClip(QString)));
-
-    // TODO: move
-    TrackView *trackView = pCore->projectManager()->currentTrackView();
-    connect(this, SIGNAL(refreshClip(QString,bool)), trackView->projectView(), SLOT(slotRefreshThumbs(QString,bool)));
-    connect(this, SIGNAL(projectModified()), document, SLOT(setModified()));
-    connect(this, SIGNAL(clipNameChanged(QString,QString)), trackView->projectView(), SLOT(clipNameChanged(QString,QString)));
-    connect(this, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), trackView->projectView(), SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
-    connect(this, SIGNAL(addMarkers(QString,QList<CommentedTime>)), trackView->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-    connect(this, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
-
 }
 
 void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)

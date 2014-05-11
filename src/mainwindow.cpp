@@ -4220,4 +4220,9 @@ void MainWindow::initLocale()
     QLocale::setDefault(systemLocale);
 }
 
+ProjectList* MainWindow::projectList()
+{
+    return m_projectList;
+}
+
 #include "mainwindow.moc"

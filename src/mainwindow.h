@@ -120,9 +120,10 @@ public:
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action);
 
+    ProjectList *projectList();
+
     // TODO make private again
     KTabWidget* m_timelineArea;
-    ProjectList *m_projectList;
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
     NotesWidget *m_notesWidget;
@@ -161,6 +162,7 @@ protected:
 
 private:
     TrackView *m_activeTimeline;
+    ProjectList *m_projectList;
     ProjectManagerView *m_projectManagerView;
 
     QProgressBar *m_statusProgressBar;

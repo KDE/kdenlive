@@ -65,7 +65,7 @@ void ProjectManager::init(const KUrl& projectUrl, const QString& clipList)
             kDebug() << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
-        pCore->window()->m_projectList->slotAddClip(urls);
+        pCore->window()->projectList()->slotAddClip(urls);
     }
 }
 
@@ -73,8 +73,8 @@ bool ProjectManager::queryClose()
 {
     // warn the user to save if document is modified and we have clips in our project list
     if (m_project && m_project->isModified() &&
-            ((pCore->window()->m_projectList->documentClipList().isEmpty() && !m_project->url().isEmpty()) ||
-             !pCore->window()->m_projectList->documentClipList().isEmpty())) {
+            ((pCore->window()->projectList()->documentClipList().isEmpty() && !m_project->url().isEmpty()) ||
+             !pCore->window()->projectList()->documentClipList().isEmpty())) {
         pCore->window()->raise();
         pCore->window()->activateWindow();
         QString message;
@@ -144,7 +144,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         delete w;
     }
     pCore->window()->m_timelineArea->setEnabled(true);
-    pCore->window()->m_projectList->setEnabled(true);
+    pCore->window()->projectList()->setEnabled(true);
     bool openBackup;
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, pCore->window()->m_notesWidget, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
@@ -154,7 +154,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     if (!ok) {
         // MLT is broken
         //pCore->window()->m_timelineArea->setEnabled(false);
-        //pCore->window()->m_projectList->setEnabled(false);
+        //pCore->window()->projectList()->setEnabled(false);
         pCore->window()->slotPreferences(6);
         return;
     }
@@ -189,7 +189,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 
     pCore->window()->slotTimelineClipSelected(NULL, false);
     pCore->monitorManager()->clipMonitor()->slotSetClipProducer(NULL);
-    pCore->window()->m_projectList->slotResetProjectList();
+    pCore->window()->projectList()->slotResetProjectList();
     pCore->window()->m_timelineArea->removeTab(0);
 
     delete m_project;
@@ -208,7 +208,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
 {
     pCore->monitorManager()->stopActiveMonitor();
 
-    if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList(), pCore->window()->m_projectList->expandedFolders()) == false) {
+    if (m_project->saveSceneList(outputFileName, pCore->monitorManager()->projectMonitor()->sceneList(), pCore->window()->projectList()->expandedFolders()) == false) {
         return false;
     }
 
@@ -407,7 +407,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, KIcon("kdenlive"), doc->description()));
     if (!ok) {
         pCore->window()->m_timelineArea->setEnabled(false);
-        pCore->window()->m_projectList->setEnabled(false);
+        pCore->window()->projectList()->setEnabled(false);
         KMessageBox::sorry(pCore->window(), i18n("Cannot open file %1.\nProject is corrupted.", url.path()));
         pCore->window()->slotGotProgressInfo(QString(), -1);
         newFile(false, true);

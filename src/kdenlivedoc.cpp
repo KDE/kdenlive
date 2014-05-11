@@ -19,6 +19,7 @@
 
 
 #include "kdenlivedoc.h"
+#include "core.h"
 #include "docclipbase.h"
 #include "profilesdialog.h"
 #include "kdenlivesettings.h"
@@ -30,6 +31,8 @@
 #include "documentvalidator.h"
 #include "config-kdenlive.h"
 #include "initeffects.h"
+#include "mainwindow.h"
+#include "projectlist.h"
 
 #include <KDebug>
 #include <KStandardDirs>
@@ -379,6 +382,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
     connect(m_render, SIGNAL(addClip(KUrl,stringMap)), this, SLOT(slotAddClipFile(KUrl,stringMap)));
+
+    connect(pCore->window()->projectList(), SIGNAL(projectModified()), SLOT(setModified()));
 }
 
 KdenliveDoc::~KdenliveDoc()
