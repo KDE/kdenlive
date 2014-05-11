@@ -195,7 +195,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
     delete m_project;
     m_project = NULL;
     pCore->monitorManager()->setDocument(m_project);
-    pCore->window()->m_effectStack->clear();
+    pCore->window()->effectStack()->clear();
     pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 
     delete m_trackView;

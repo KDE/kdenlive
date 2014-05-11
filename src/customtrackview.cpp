@@ -65,6 +65,7 @@
 #include "commands/refreshmonitorcommand.h"
 #include "profilesdialog.h"
 #include "projectlist.h"
+#include "effectstack/effectstackview2.h"
 
 #include "lib/audio/audioEnvelope.h"
 #include "lib/audio/audioCorrelation.h"
@@ -207,6 +208,18 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     connect(projectList, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
     connect(projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
     connect(projectList, SIGNAL(loadingIsOver()), SLOT(slotUpdateAllThumbs()));
+
+    EffectStackView2 *effectStack = pCore->window()->effectStack();
+    connect(effectStack, SIGNAL(updateEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)), SLOT(slotUpdateClipEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)));
+    connect(effectStack, SIGNAL(updateClipRegion(ClipItem*,int,QString)), SLOT(slotUpdateClipRegion(ClipItem*,int,QString)));
+    connect(effectStack, SIGNAL(removeEffect(ClipItem*,int,QDomElement)), SLOT(slotDeleteEffect(ClipItem*,int,QDomElement)));
+    connect(effectStack, SIGNAL(addEffect(ClipItem*,QDomElement)), SLOT(slotAddEffect(ClipItem*,QDomElement)));
+    connect(effectStack, SIGNAL(changeEffectState(ClipItem*,int,QList<int>,bool)), SLOT(slotChangeEffectState(ClipItem*,int,QList<int>,bool)));
+    connect(effectStack, SIGNAL(changeEffectPosition(ClipItem*,int,QList<int>,int)), SLOT(slotChangeEffectPosition(ClipItem*,int,QList<int>,int)));
+
+    connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), SLOT(slotRefreshEffects(ClipItem*)));
+    connect(effectStack, SIGNAL(seekTimeline(int)), SLOT(seekCursorPos(int)));
+    connect(effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem)), SLOT(slotImportClipKeyframes(GraphicsRectItem)));
 }
 
 CustomTrackView::~CustomTrackView()

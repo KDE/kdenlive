@@ -121,6 +121,7 @@ public:
     void addAction(const QString &name, QAction *action);
 
     ProjectList *projectList();
+    EffectStackView2 *effectStack();
 
     // TODO make private again
     KTabWidget* m_timelineArea;
@@ -128,7 +129,6 @@ public:
     QUndoGroup *m_commandStack;
     NotesWidget *m_notesWidget;
     KActionCollection *m_tracksActionCollection;
-    EffectStackView2 *m_effectStack;
     TransitionSettings *m_transitionConfig;
     KRecentFilesAction *m_fileOpenRecent;
     QUndoView *m_undoView;
@@ -163,6 +163,7 @@ protected:
 private:
     TrackView *m_activeTimeline;
     ProjectList *m_projectList;
+    EffectStackView2 *m_effectStack;
     ProjectManagerView *m_projectManagerView;
 
     QProgressBar *m_statusProgressBar;
