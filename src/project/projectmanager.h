@@ -19,6 +19,7 @@ class Project;
 class AbstractProjectPart;
 class KUrl;
 class KdenliveDoc;
+class TrackView;
 class KAutoSaveFile;
 
 
@@ -39,6 +40,8 @@ public:
 
     /** @brief Returns a pointer to the currently opened project. At any time a project should be open. */
     KdenliveDoc *current();
+
+    TrackView *currentTrackView();
 
     void init(const KUrl &projectUrl, const QString &clipList);
     bool queryClose();
@@ -75,6 +78,7 @@ public slots:
     void openFile(const KUrl &url);
 
 signals:
+    void docOpened(KdenliveDoc *doc);
 //     void projectOpened(Project *project);
 
     /** @brief Emitted when possibility to revert opened document changed. */
@@ -88,6 +92,7 @@ private:
     QString getMimeType(bool open = true);
 
     KdenliveDoc *m_project;
+    TrackView *m_trackView;
     KUrl m_startUrl;
 };
 

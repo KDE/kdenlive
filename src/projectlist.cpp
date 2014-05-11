@@ -19,6 +19,7 @@
 
 #include "projectlist.h"
 #include "core.h"
+#include "project/projectmanager.h"
 #include "projectitem.h"
 #include "commands/addfoldercommand.h"
 #include "projecttree/proxyclipjob.h"
@@ -38,6 +39,8 @@
 #include "timecodedisplay.h"
 #include "profilesdialog.h"
 #include "clipstabilize.h"
+#include "trackview.h"
+#include "customtrackview.h"
 #include "monitor/monitormanager.h"
 #include "commands/editclipcommand.h"
 #include "commands/editclipcutcommand.h"
@@ -294,6 +297,8 @@ ProjectList::ProjectList(QWidget *parent) :
     m_listView->setItemDelegate(m_listViewDelegate);
 
     connect(this, SIGNAL(pauseMonitor()), pCore->monitorManager(), SLOT(slotPause()));
+
+    connect(pCore->projectManager(), SIGNAL(docOpened(KdenliveDoc*)), SLOT(setDocument(KdenliveDoc*)));
 }
 
 ProjectList::~ProjectList()
@@ -1945,7 +1950,7 @@ QStringList ProjectList::getGroup() const
     return result;
 }
 
-void ProjectList::setDocument(KdenliveDoc *doc)
+void ProjectList::setDocument(KdenliveDoc *document)
 {
     m_listView->blockSignals(true);
     m_abortAllJobs = true;
@@ -1962,15 +1967,15 @@ void ProjectList::setDocument(KdenliveDoc *doc)
     emit clipSelected(NULL);
     m_refreshed = false;
     m_allClipsProcessed = false;
-    m_fps = doc->fps();
-    m_timecode = doc->timecode();
-    m_commandStack = doc->commandStack();
-    m_doc = doc;
+    m_fps = document->fps();
+    m_timecode = document->timecode();
+    m_commandStack = document->commandStack();
+    m_doc = document;
     m_abortAllJobs = false;
     m_closing = false;
 
-    QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
-    QStringList openedFolders = doc->getExpandedFolders();
+    QMap <QString, QString> flist = document->clipManager()->documentFolderList();
+    QStringList openedFolders = document->getExpandedFolders();
     QMapIterator<QString, QString> f(flist);
     while (f.hasNext()) {
         f.next();
@@ -1978,7 +1983,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
         folder->setExpanded(openedFolders.contains(f.key()));
     }
 
-    QList <DocClipBase*> list = doc->clipManager()->documentClipList();
+    QList <DocClipBase*> list = document->clipManager()->documentClipList();
     if (list.isEmpty()) {
         // blank document
         m_refreshed = true;
@@ -1988,12 +1993,27 @@ void ProjectList::setDocument(KdenliveDoc *doc)
         slotAddClip(list.at(i), false);
 
     m_listView->blockSignals(false);
-    connect(m_doc->clipManager(), SIGNAL(reloadClip(QString)), this, SLOT(slotReloadClip(QString)));
-    connect(m_doc->clipManager(), SIGNAL(modifiedClip(QString)), this, SLOT(slotModifiedClip(QString)));
-    connect(m_doc->clipManager(), SIGNAL(missingClip(QString)), this, SLOT(slotMissingClip(QString)));
-    connect(m_doc->clipManager(), SIGNAL(availableClip(QString)), this, SLOT(slotAvailableClip(QString)));
-    connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool,bool,QStringList)), this, SLOT(updateAllClips(bool,bool,QStringList)));
-    connect(m_doc->clipManager(), SIGNAL(thumbReady(QString,int,QImage)), this, SLOT(slotSetThumbnail(QString,int,QImage)));
+    connect(m_doc->clipManager(), SIGNAL(reloadClip(QString)), SLOT(slotReloadClip(QString)));
+    connect(m_doc->clipManager(), SIGNAL(modifiedClip(QString)), SLOT(slotModifiedClip(QString)));
+    connect(m_doc->clipManager(), SIGNAL(missingClip(QString)), SLOT(slotMissingClip(QString)));
+    connect(m_doc->clipManager(), SIGNAL(availableClip(QString)), SLOT(slotAvailableClip(QString)));
+    connect(m_doc->clipManager(), SIGNAL(checkAllClips(bool,bool,QStringList)), SLOT(updateAllClips(bool,bool,QStringList)));
+    connect(m_doc->clipManager(), SIGNAL(thumbReady(QString,int,QImage)), SLOT(slotSetThumbnail(QString,int,QImage)));
+
+    connect(document, SIGNAL(addProjectClip(DocClipBase*,bool)), SLOT(slotAddClip(DocClipBase*,bool)));
+    connect(document, SIGNAL(resetProjectList()), SLOT(slotResetProjectList()));
+    connect(document, SIGNAL(updateClipDisplay(QString)), SLOT(slotUpdateClip(QString)));
+    connect(document, SIGNAL(selectLastAddedClip(QString)), SLOT(slotSelectClip(QString)));
+
+    // TODO: move
+    TrackView *trackView = pCore->projectManager()->currentTrackView();
+    connect(this, SIGNAL(refreshClip(QString,bool)), trackView->projectView(), SLOT(slotRefreshThumbs(QString,bool)));
+    connect(this, SIGNAL(projectModified()), document, SLOT(setModified()));
+    connect(this, SIGNAL(clipNameChanged(QString,QString)), trackView->projectView(), SLOT(clipNameChanged(QString,QString)));
+    connect(this, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), trackView->projectView(), SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
+    connect(this, SIGNAL(addMarkers(QString,QList<CommentedTime>)), trackView->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+    connect(this, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
+
 }
 
 void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)
@@ -3810,7 +3830,6 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
         emit updateAnalysisData(clip->referencedClip());
     }
 }
-
 
 /*
 // Work in progress: apply filter based on clip's camcorder

@@ -2100,13 +2100,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
     KdenliveSettings::setProject_fps(newDoc->fps());
     pCore->monitorManager()->resetProfiles(newDoc->timecode());
     m_clipMonitorDock->raise();
-    m_projectList->setDocument(newDoc);
     m_transitionConfig->updateProjectFormat(newDoc->mltProfile(), newDoc->timecode(), newDoc->tracksList());
     m_effectStack->updateProjectFormat(newDoc->mltProfile(), newDoc->timecode());
-    connect(m_projectList, SIGNAL(refreshClip(QString,bool)), trackView->projectView(), SLOT(slotRefreshThumbs(QString,bool)));
-
-    connect(m_projectList, SIGNAL(projectModified()), newDoc, SLOT(setModified()));
-    connect(m_projectList, SIGNAL(clipNameChanged(QString,QString)), trackView->projectView(), SLOT(clipNameChanged(QString,QString)));
 
     connect(trackView, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
     connect(trackView, SIGNAL(updateTracksInfo()), this, SLOT(slotUpdateTrackInfo()));
@@ -2121,11 +2116,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), newDoc, SLOT(setModified()));
     connect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool,bool)), newDoc, SLOT(checkProjectClips(bool,bool)));
 
-    connect(newDoc, SIGNAL(addProjectClip(DocClipBase*,bool)), m_projectList, SLOT(slotAddClip(DocClipBase*,bool)));
-    connect(newDoc, SIGNAL(resetProjectList()), m_projectList, SLOT(slotResetProjectList()));
     connect(newDoc, SIGNAL(signalDeleteProjectClip(QString)), this, SLOT(slotDeleteClip(QString)));
-    connect(newDoc, SIGNAL(updateClipDisplay(QString)), m_projectList, SLOT(slotUpdateClip(QString)));
-    connect(newDoc, SIGNAL(selectLastAddedClip(QString)), m_projectList, SLOT(slotSelectClip(QString)));
 
     connect(newDoc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(newDoc, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
@@ -2150,10 +2141,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
 
-    connect(m_projectList, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), trackView->projectView(), SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
-
-    connect(m_projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), trackView->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-
     // Effect stack signals
     connect(m_effectStack, SIGNAL(updateEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)));
     connect(m_effectStack, SIGNAL(updateClipRegion(ClipItem*,int,QString)), trackView->projectView(), SLOT(slotUpdateClipRegion(ClipItem*,int,QString)));
@@ -2175,7 +2162,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
     connect(trackView, SIGNAL(zoneMoved(int,int)), this, SLOT(slotZoneMoved(int,int)));
-    connect(m_projectList, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu*>(factory()->container("marker_menu", this)));
     m_activeTimeline = trackView;
     if (m_renderWidget) {

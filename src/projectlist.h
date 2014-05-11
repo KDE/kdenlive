@@ -180,8 +180,6 @@ public:
     void processThumbOverlays(ProjectItem *item, QPixmap &pix);
     /** @brief Start an MLT process job. */
     void startClipFilterJob(const QString &filterName, const QString &condition);
-    /** @brief Set current document for the project tree. */
-    void setDocument(KdenliveDoc *doc);
     
     /** @brief Palette was changed, update style. */
     void updatePalette();
@@ -333,6 +331,9 @@ private:
     //void checkCamcorderFilters(DocClipBase *clip, QMap <QString, QString> meta);
 
 private slots:
+    /** @brief Set current document for the project tree. */
+    void setDocument(KdenliveDoc *document);
+
     void slotClipSelected();
     void slotAddSlideshowClip();
     void slotAddTitleClip();
