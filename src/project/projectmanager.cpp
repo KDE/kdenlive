@@ -200,7 +200,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 
     delete m_trackView;
     m_trackView = NULL;
-    pCore->window()->m_activeTimeline = NULL;
 
     return true;
 }

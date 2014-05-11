@@ -129,7 +129,6 @@ public:
     KActionCollection *m_tracksActionCollection;
     EffectStackView2 *m_effectStack;
     TransitionSettings *m_transitionConfig;
-    TrackView *m_activeTimeline;
     KRecentFilesAction *m_fileOpenRecent;
     QUndoView *m_undoView;
     StatusBarMessageLabel *m_messageLabel;
@@ -161,6 +160,7 @@ protected:
     virtual void readProperties(const KConfigGroup &config);
 
 private:
+    TrackView *m_activeTimeline;
     ProjectManagerView *m_projectManagerView;
 
     QProgressBar *m_statusProgressBar;
