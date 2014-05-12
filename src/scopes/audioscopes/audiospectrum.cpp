@@ -84,11 +84,9 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     ui->windowFunction->addItem(i18n("Hamming window"), FFTTools::Window_Hamming);
 
 
-    bool b = true;
-    b &= connect(m_aResetHz, SIGNAL(triggered()), this, SLOT(slotResetMaxFreq()));
-    b &= connect(ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
-    b &= connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
-    Q_ASSERT(b);
+    connect(m_aResetHz, SIGNAL(triggered()), this, SLOT(slotResetMaxFreq()));
+    connect(ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
+    connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
 
 
     // Note: These strings are used in both Spectogram and AudioSpectrum. Ideally change both (if necessary) to reduce workload on translators

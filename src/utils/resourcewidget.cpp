@@ -276,7 +276,7 @@ void ResourceWidget::slotChangeService()
         m_currentService = new OpenClipArt(search_results);
     } else if (service == ARCHIVEORG) {
         m_currentService = new ArchiveOrg(search_results);
-    }
+    } else return;
 
     connect(m_currentService, SIGNAL(gotMetaInfo(QString)), this, SLOT(slotSetMetadata(QString)));
     connect(m_currentService, SIGNAL(gotMetaInfo(QMap<QString,QString>)), this, SLOT(slotDisplayMetaInfo(QMap<QString,QString>)));

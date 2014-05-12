@@ -12,7 +12,6 @@
 #include <KMessageBox>
 
 const QString EXTENSION_PNG = ".png";
-const int SCALE_RANGE = 80;
 
 ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
     QDialog(parent)

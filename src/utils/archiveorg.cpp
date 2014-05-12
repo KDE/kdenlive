@@ -191,10 +191,12 @@ bool ArchiveOrg::startItemPreview(QListWidgetItem *item)
     if (!item) return false;
     QString url = item->data(previewRole).toString();
     if (url.isEmpty()) return false;
-    if (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning) {
-        m_previewProcess->close();
-    }
-    m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << "-nodisp");
+    if (m_previewProcess) {
+	    if (m_previewProcess->state() != QProcess::NotRunning) {
+		    m_previewProcess->close();
+		}
+		m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << "-nodisp");
+	}
     return true;
 }
 

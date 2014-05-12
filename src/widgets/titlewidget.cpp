@@ -1117,7 +1117,7 @@ void TitleWidget::slotValueChanged(int type)
                 double alpha = (double) t.rotatez / 180.0 * M_PI;
 
                 // New length
-                double length = val;
+                double length;
 
                 // Scaling factor
                 double scale = 1;
@@ -2125,12 +2125,12 @@ void TitleWidget::deleteAnimInfoText()
     // end animation editing, remove info text
     while (!m_startViewport->childItems().isEmpty()) {
         QGraphicsItem *item = m_startViewport->childItems().at(0);
-        m_scene->removeItem(item);
+        if (m_scene) m_scene->removeItem(item);
         delete item;
     }
     while (!m_endViewport->childItems().isEmpty()) {
         QGraphicsItem *item = m_endViewport->childItems().at(0);
-        m_scene->removeItem(item);
+        if (m_scene) m_scene->removeItem(item);
         delete item;
     }
 }

@@ -123,8 +123,6 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
 
     if (drawB) {
         drawComponentFull(&davinci, b, scaling, QRect(0, wy, ww, partH + dist), QColor(0, 128, 255, 255), dist, unscaled, 256);
-
-        wy += partH + d;
     }
 
     return histogram;

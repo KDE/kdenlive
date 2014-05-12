@@ -75,38 +75,34 @@ Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut)
     free((char *)w);
 
     /* Compare distances of P to all candidates, and to t=0, and t=1 */
-    {
-                double  dist, new_dist;
-                Point2  p;
-                Vector2  v;
-                int             i;
+    double  dist, new_dist;
+    Point2  p;
+    Vector2  v;
+    int             i;
 
+    /* Check distance to beginning of curve, where t = 0    */
+    dist = V2SquaredLength(V2Sub(&P, &V[0], &v));
+    t = 0.0;
 
-        /* Check distance to beginning of curve, where t = 0    */
-                dist = V2SquaredLength(V2Sub(&P, &V[0], &v));
-                t = 0.0;
-
-        /* Find distances for candidate points  */
-        for (i = 0; i < n_solutions; ++i) {
-                p = Bezier(V, DEGREE, t_candidate[i],
-                        (Point2 *)NULL, (Point2 *)NULL);
-                new_dist = V2SquaredLength(V2Sub(&P, &p, &v));
-                if (new_dist < dist) {
-                        dist = new_dist;
-                                t = t_candidate[i];
-            }
-        }
-
-        /* Finally, look at distance to end point, where t = 1.0 */
-                new_dist = V2SquaredLength(V2Sub(&P, &V[DEGREE], &v));
-                if (new_dist < dist) {
-                dist = new_dist;
-                t = 1.0;
+    /* Find distances for candidate points  */
+    for (i = 0; i < n_solutions; ++i) {
+        p = Bezier(V, DEGREE, t_candidate[i],
+                (Point2 *)NULL, (Point2 *)NULL);
+        new_dist = V2SquaredLength(V2Sub(&P, &p, &v));
+        if (new_dist < dist) {
+            dist = new_dist;
+            t = t_candidate[i];
         }
     }
 
+    /* Finally, look at distance to end point, where t = 1.0 */
+    new_dist = V2SquaredLength(V2Sub(&P, &V[DEGREE], &v));
+    if (new_dist < dist) {
+        t = 1.0;
+    }
+
     /*  Return the point on the curve at parameter value t */
-//     printf("t : %4.12f\n", t);
+    //     printf("t : %4.12f\n", t);
     *tOut = t;
     return (Bezier(V, DEGREE, t, (Point2 *)NULL, (Point2 *)NULL));
 }
@@ -195,26 +191,25 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
     int         left_count,             /* Solution count from          */
                 right_count;            /* children                     */
     double      left_t[W_DEGREE+1],     /* Solutions from kids          */
-                        right_t[W_DEGREE+1];
+                right_t[W_DEGREE+1];
 
     switch (CrossingCount(w, degree)) {
-        case 0 : {      /* No solutions here    */
-             return 0;
-        }
-        case 1 : {      /* Unique solution      */
+        case 0 :       /* No solutions here    */
+            return 0;  
+
+        case 1 :       /* Unique solution      */
             /* Stop recursion when the tree is deep enough      */
             /* if deep enough, return 1 solution at midpoint    */
             if (depth >= MAXDEPTH) {
-                        t[0] = (w[0].x + w[W_DEGREE].x) / 2.0;
-                        return 1;
+                t[0] = (w[0].x + w[W_DEGREE].x) / 2.0;
+                return 1;
             }
             if (ControlPolygonFlatEnough(w, degree)) {
-                        t[0] = ComputeXIntercept(w, degree);
-                        return 1;
+                t[0] = ComputeXIntercept(w, degree);
+                return 1;
             }
             break;
-        }
-}
+    }
 
     /* Otherwise, solve recursively after       */
     /* subdividing control polygon              */
@@ -225,10 +220,10 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
 
     /* Gather solutions together        */
     for (i = 0; i < left_count; ++i) {
-        t[i] = left_t[i];
+        t[i] = left_t[i]; /* FIXME: static analyzer says left_t can be undefined */
     }
     for (i = 0; i < right_count; ++i) {
-                t[i+left_count] = right_t[i];
+        t[i+left_count] = right_t[i]; /* FIXME: static analyzer says right_t can be undefined */
     }
 
     /* Send back total number of solutions      */
@@ -250,7 +245,7 @@ static int CrossingCount(Point2 *V, int degree)
     int         n_crossings = 0;        /*  Number of zero-crossings    */
     int         sign, old_sign;         /*  Sign of coefficients        */
 
-    sign = old_sign = SGN(V[0].y);
+    old_sign = SGN(V[0].y);
     for (i = 1; i <= degree; ++i) {
                 sign = SGN(V[i].y);
                 if (sign != old_sign) n_crossings++;
