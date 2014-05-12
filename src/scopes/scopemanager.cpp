@@ -27,11 +27,9 @@ ScopeManager::ScopeManager(MonitorManager *monitorManager) :
 {
     m_signalMapper = new QSignalMapper(this);
 
-    bool b = true;
-    b &= connect(m_monitorManager, SIGNAL(checkColorScopes()), this, SLOT(slotUpdateActiveRenderer()));
-    b &= connect(m_monitorManager, SIGNAL(clearScopes()), this, SLOT(slotClearColorScopes()));
-    b &= connect(m_signalMapper, SIGNAL(mapped(QString)), this, SLOT(slotRequestFrame(QString)));
-    Q_ASSERT(b);
+    connect(m_monitorManager, SIGNAL(checkColorScopes()), this, SLOT(slotUpdateActiveRenderer()));
+    connect(m_monitorManager, SIGNAL(clearScopes()), this, SLOT(slotClearColorScopes()));
+    connect(m_signalMapper, SIGNAL(mapped(QString)), this, SLOT(slotRequestFrame(QString)));
 
     slotUpdateActiveRenderer();
 }
@@ -60,14 +58,11 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
         asd.scopeDockWidget = audioScopeWidget;
         m_audioScopes.append(asd);
 
-        bool b = true;
-        b &= connect(audioScope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotCheckActiveScopes()));
-//         b &= connect(audioScope, SIGNAL(signalFrameRequest(QString)), this, SLOT(slotRequestFrame(QString)));
+        connect(audioScope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotCheckActiveScopes()));
         if (audioScopeWidget != NULL) {
-            b &= connect(audioScopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(slotCheckActiveScopes()));
-            b &= connect(audioScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
+            connect(audioScopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(slotCheckActiveScopes()));
+            connect(audioScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
         }
-        Q_ASSERT(b);
 
         added = true;
     }
@@ -95,14 +90,12 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
         gsd.scopeDockWidget = colorScopeWidget;
         m_colorScopes.append(gsd);
 
-        bool b = true;
-        b &= connect(colorScope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotCheckActiveScopes()));
-        b &= connect(colorScope, SIGNAL(signalFrameRequest(QString)), this, SLOT(slotRequestFrame(QString)));
+        connect(colorScope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotCheckActiveScopes()));
+        connect(colorScope, SIGNAL(signalFrameRequest(QString)), this, SLOT(slotRequestFrame(QString)));
         if (colorScopeWidget != NULL) {
-            b &= connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(slotCheckActiveScopes()));
-            b &= connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
+            connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(slotCheckActiveScopes()));
+            connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
         }
-        Q_ASSERT(b);
 
         added = true;
     }
@@ -190,15 +183,12 @@ void ScopeManager::slotClearColorScopes()
 
 void ScopeManager::slotUpdateActiveRenderer()
 {
-    bool b = true;
-
     // Disconnect old connections
     if (m_lastConnectedRenderer != NULL) {
 #ifdef DEBUG_SM
         qDebug() << "Disconnected previous renderer: " << m_lastConnectedRenderer->name();
 #endif
-        b &= m_lastConnectedRenderer->disconnect(this);
-        Q_ASSERT(b);
+        m_lastConnectedRenderer->disconnect(this);
     }
 
     m_lastConnectedRenderer = m_monitorManager->activeRenderer();
@@ -207,11 +197,10 @@ void ScopeManager::slotUpdateActiveRenderer()
 
     // Connect new renderer
     if (m_lastConnectedRenderer != NULL) {
-        b &= connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(QImage)),
+        connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(QImage)),
                 this, SLOT(slotDistributeFrame(QImage)), Qt::UniqueConnection);
-        b &= connect(m_lastConnectedRenderer, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
+        connect(m_lastConnectedRenderer, SIGNAL(audioSamplesSignal(QVector<int16_t>,int,int,int)),
                 this, SLOT(slotDistributeAudio(QVector<int16_t>,int,int,int)), Qt::UniqueConnection);
-        Q_ASSERT(b);
 
 #ifdef DEBUG_SM
         qDebug() << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->name();

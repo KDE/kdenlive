@@ -33,7 +33,6 @@ public:
 private:
     ColorTools *m_colorTools;
     float m_scaling;
-    float m_Y;
     void enableSliderScaling(bool enable);
     void enableSliderColor(bool enable);
     void enableCbVariant(bool enable);

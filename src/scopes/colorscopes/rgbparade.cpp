@@ -24,22 +24,20 @@ RGBParade::RGBParade(QWidget *parent) :
     ui->paintMode->addItem(i18n("RGB"), QVariant(RGBParadeGenerator::PaintMode_RGB));
     ui->paintMode->addItem(i18n("White"), QVariant(RGBParadeGenerator::PaintMode_White));
 
-    bool b = true;
 
     m_menu->addSeparator();
     m_aAxis = new QAction(i18n("Draw axis"), this);
     m_aAxis->setCheckable(true);
     m_menu->addAction(m_aAxis);
-    b &= connect(m_aAxis, SIGNAL(changed()), this, SLOT(forceUpdateScope()));
+    connect(m_aAxis, SIGNAL(changed()), this, SLOT(forceUpdateScope()));
 
     m_aGradRef = new QAction(i18n("Gradient reference line"), this);
     m_aGradRef->setCheckable(true);
     m_menu->addAction(m_aGradRef);
-    b &= connect(m_aGradRef, SIGNAL(changed()), this, SLOT(forceUpdateScope()));
+    connect(m_aGradRef, SIGNAL(changed()), this, SLOT(forceUpdateScope()));
 
-    b &= connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
-    b &= connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
-    Q_ASSERT(b);
+    connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
 
     m_rgbParadeGenerator = new RGBParadeGenerator();
     init();

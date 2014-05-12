@@ -1191,7 +1191,7 @@ void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
 void KdenliveSettingsDialog::slotReloadBlackMagic()
 {
     Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice, true);
-    if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device), true) {
+    if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device, true)) {
         // No blackmagic card found
         m_configSdl.kcfg_external_display->setEnabled(false);
     }

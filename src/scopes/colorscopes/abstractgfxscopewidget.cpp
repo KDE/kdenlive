@@ -20,8 +20,6 @@
 #ifdef DEBUG_AGSW
 #endif
 
-const int REALTIME_FPS = 30;
-
 AbstractGfxScopeWidget::AbstractGfxScopeWidget(bool trackMouse, QWidget *parent) :
         AbstractScopeWidget(trackMouse, parent)
 {

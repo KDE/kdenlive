@@ -120,8 +120,8 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
 
     const uint numSamples = audioFrame.size()/numChannels;
 
-    Q_ASSERT((windowSize & 1) == 0);
-    Q_ASSERT(windowSize > 0);
+	if (windowSize & 1 || windowSize < 2)
+	    return;
 
     const QString cfgSig = cfgSignature(windowSize);
     const QString winSig = windowSignature(windowType, windowSize, param);

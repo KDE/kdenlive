@@ -37,16 +37,14 @@ Histogram::Histogram(QWidget *parent) :
     m_menu->addAction(m_aRec601);
     m_menu->addAction(m_aRec709);
 
-    bool b = true;
-    b &= connect(ui->cbY, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    b &= connect(ui->cbS, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    b &= connect(ui->cbR, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    b &= connect(ui->cbG, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    b &= connect(ui->cbB, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    b &= connect(m_aUnscaled, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    b &= connect(m_aRec601, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    b &= connect(m_aRec709, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    Q_ASSERT(b);
+    connect(ui->cbY, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(ui->cbS, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(ui->cbR, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(ui->cbG, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(ui->cbB, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(m_aUnscaled, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(m_aRec601, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(m_aRec709, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
 
     init();
     m_histogramGenerator = new HistogramGenerator();

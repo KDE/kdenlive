@@ -59,7 +59,6 @@ static const int SLIDETAB = 3;
 static const int IMAGETAB = 4;
 static const int MARKERTAB = 5;
 static const int METATAB = 6;
-static const int ADVANCEDTAB = 7;
 
 
 ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps, QWidget * parent) :
