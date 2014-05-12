@@ -55,7 +55,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     AbstractMonitor(id, manager, parent)
     , render(NULL)
     , m_currentClip(NULL)
-    , m_scale(1)
     , m_length(2)
     , m_dragStarted(false)
     , m_loopClipAction(NULL)

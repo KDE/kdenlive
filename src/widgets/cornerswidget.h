@@ -53,7 +53,6 @@ private:
     Monitor *m_monitor;
     MonitorScene *m_scene;
     OnMonitorCornersItem *m_item;
-    bool m_showScene;
     int m_pos;
 
     /** @brief Returns the corner positions set in the row of @param keyframe. */

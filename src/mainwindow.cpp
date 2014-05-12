@@ -4077,9 +4077,11 @@ void MainWindow::slotOpenBackupDialog(const KUrl &url)
         pCore->projectManager()->closeCurrentDocument(false);
         pCore->projectManager()->doOpenFile(KUrl(requestedBackup), NULL);
         project = pCore->projectManager()->current();
-        project->setUrl(projectFile);
-        project->setModified(true);
-        setCaption(project->description());
+        if (project) {
+            project->setUrl(projectFile);
+            project->setModified(true);
+            setCaption(project->description());
+        }
     }
     delete dia;
 }

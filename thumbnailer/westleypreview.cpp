@@ -126,8 +126,8 @@ uint MltPreview::imageVariance(const QImage &image)
     uint delta = 0;
     uint avg = 0;
     uint bytes = image.numBytes();
-    if (bytes < 2) return 0;
     uint STEPS = bytes / 2;
+    if (STEPS < 1) return 0;
     QVarLengthArray<uchar> pivot(STEPS);
     kDebug(DBG_AREA) << "Using " << STEPS << " steps\n";
     const uchar *bits=image.bits();

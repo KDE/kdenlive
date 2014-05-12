@@ -27,7 +27,6 @@ public:
     void dumpInfo() const;
 
 private:
-    Mlt::Producer *m_producer;
     QList<AudioStreamInfo*> m_list;
 };
 

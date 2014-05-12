@@ -75,7 +75,6 @@ private slots:
 
 private:
     DragValue *m_dragVal;
-    QLabel *m_commentLabel;
     
 signals:
     void valueChanged(double);

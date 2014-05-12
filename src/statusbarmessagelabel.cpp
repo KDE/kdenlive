@@ -55,12 +55,9 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
 
     m_queueTimer.setSingleShot(true);
 
-    bool b = true;
-    b &= connect(&m_queueTimer, SIGNAL(timeout()), this, SLOT(slotMessageTimeout()));
-
-    b &= connect(m_closeButton, SIGNAL(clicked()), this, SLOT(confirmErrorMessage()));
-    b &= connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerDone()));
-    Q_ASSERT(b);
+    connect(&m_queueTimer, SIGNAL(timeout()), this, SLOT(slotMessageTimeout()));
+    connect(m_closeButton, SIGNAL(clicked()), this, SLOT(confirmErrorMessage()));
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerDone()));
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()

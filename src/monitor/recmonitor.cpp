@@ -201,12 +201,14 @@ void RecMonitor::slotUpdateCaptureFolder(const QString &currentProjectFolder)
 {
     if (KdenliveSettings::capturetoprojectfolder()) m_capturePath = currentProjectFolder;
     else m_capturePath = KdenliveSettings::capturefolder();
-    if (m_captureProcess) m_captureProcess->setWorkingDirectory(m_capturePath);
-    if (m_captureProcess->state() != QProcess::NotRunning) {
-        if (device_selector->currentIndex() == Firewire)
-            KMessageBox::information(this, i18n("You need to disconnect and reconnect in the capture monitor to apply your changes"), i18n("Capturing"));
-        else KMessageBox::information(this, i18n("You need to stop capture before your changes can be applied"), i18n("Capturing"));
-    } else slotVideoDeviceChanged(device_selector->currentIndex());
+    if (m_captureProcess) {
+        m_captureProcess->setWorkingDirectory(m_capturePath);
+        if (m_captureProcess->state() != QProcess::NotRunning) {
+            if (device_selector->currentIndex() == Firewire)
+                KMessageBox::information(this, i18n("You need to disconnect and reconnect in the capture monitor to apply your changes"), i18n("Capturing"));
+            else KMessageBox::information(this, i18n("You need to stop capture before your changes can be applied"), i18n("Capturing"));
+        } else slotVideoDeviceChanged(device_selector->currentIndex());
+    }
 
     // update free space info
     slotUpdateFreeSpace();
@@ -890,17 +892,19 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
         m_recAction->setChecked(false);
         m_stopAction->setEnabled(false);
         device_selector->setEnabled(true);
-        if (m_captureProcess && m_captureProcess->exitStatus() == QProcess::CrashExit) {
-        showWarningMessage(i18n("Capture crashed, please check your parameters"), true);
-        } else {
-            if (device_selector->currentIndex() != ScreenBag) {
-                video_frame->setText(i18n("Not connected"));
+        if (m_captureProcess) {
+            if (m_captureProcess->exitStatus() == QProcess::CrashExit) {
+                showWarningMessage(i18n("Capture crashed, please check your parameters"), true);
             } else {
-        int code = m_captureProcess->exitCode();
-                if (code != 0 && code != 255) {
-                    showWarningMessage(i18n("Capture crashed, please check your parameters"), true);
+                if (device_selector->currentIndex() != ScreenBag) {
+                    video_frame->setText(i18n("Not connected"));
                 } else {
-                    video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
+                    int code = m_captureProcess->exitCode();
+                    if (code != 0 && code != 255) {
+                        showWarningMessage(i18n("Capture crashed, please check your parameters"), true);
+                    } else {
+                        video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", m_capturePath)));
+                    }
                 }
             }
         }
@@ -972,7 +976,7 @@ void RecMonitor::manageCapturedFiles()
 void RecMonitor::mousePressEvent(QMouseEvent *event)
 {
     if (m_freeSpace->underMouse()) slotUpdateFreeSpace();
-    else QWidget::mousePressEvent(event);//m_videoBox->mousePressEvent(event);
+    else QWidget::mousePressEvent(event);
 }
 
 void RecMonitor::slotUpdateFreeSpace()

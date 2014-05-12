@@ -1004,7 +1004,6 @@ void Render::processFileProperties()
                 int variance;
                 QImage img;
                 do {
-                    variance = 100;
                     img = KThumb::getFrame(frame, imageWidth, fullWidth, info.imageHeight);
                     variance = KThumb::imageVariance(img);
                     if (frameNumber == -1 && variance< 6) {
@@ -2779,9 +2778,8 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
         } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
-                int offset = 0;
                 filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
-                int x1 = keyFrames.at(i).section('=', 0, 0).toInt() + offset;
+                int x1 = keyFrames.at(i).section('=', 0, 0).toInt();
                 double y1 = keyFrames.at(i).section('=', 1, 1).toDouble();
                 int x2 = keyFrames.at(i + 1).section('=', 0, 0).toInt();
                 double y2 = keyFrames.at(i + 1).section('=', 1, 1).toDouble();
@@ -2797,7 +2795,6 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 filter->set(starttag, m_locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
                 filter->set(endtag, m_locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
                 service.attach(*filter);
-                offset = 1;
             } else {
                 delete[] starttag;
                 delete[] endtag;
@@ -2898,14 +2895,12 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
 
     if (!params.paramValue("keyframes").isEmpty() || (tag == "affine" && params.hasParam("background")) || tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
-        bool success = mltRemoveEffect(track, position, index, false);
-        //         if (!success) kDebug() << "// ERROR Removing effect : " << index;
-        if (position < GenTime())
-            success = mltAddTrackEffect(track, params);
-        else
-            success = mltAddEffect(track, position, params);
-        //         if (!success) kDebug() << "// ERROR Adding effect : " << index;
-        return success;
+        if (mltRemoveEffect(track, position, index, false)) {
+            if (position < GenTime())
+                return mltAddTrackEffect(track, params);
+            else
+                return mltAddEffect(track, position, params);
+        }
     }
     if (position < GenTime()) {
         return mltEditTrackEffect(track, params);

@@ -51,8 +51,6 @@ protected:
     void wheelEvent(QWheelEvent * event);
 
 private:
-    Ui::UnicodeWidget_UI m_view;
-
     enum Direction { Forward, Backward };
 
     /** Selected input method */

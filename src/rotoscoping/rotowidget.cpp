@@ -47,7 +47,6 @@ void tracking_finished(mlt_service *owner, RotoWidget *self, char *data)
 RotoWidget::RotoWidget(const QString &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent) :
         QWidget(parent),
         m_monitor(monitor),
-        m_showScene(true),
         m_in(info.cropStart.frames(KdenliveSettings::project_fps())),
         m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1),
         m_filter(NULL)

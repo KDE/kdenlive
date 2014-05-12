@@ -67,7 +67,6 @@ private:
     SimpleKeyframeWidget *m_keyframeWidget;
     Monitor *m_monitor;
     MonitorScene *m_scene;
-    bool m_showScene;
     QVariant m_data;
     SplineItem *m_item;
     int m_in;

@@ -2126,12 +2126,10 @@ void TitleWidget::deleteAnimInfoText()
     while (!m_startViewport->childItems().isEmpty()) {
         QGraphicsItem *item = m_startViewport->childItems().at(0);
         if (m_scene) m_scene->removeItem(item);
-        delete item;
     }
     while (!m_endViewport->childItems().isEmpty()) {
         QGraphicsItem *item = m_endViewport->childItems().at(0);
         if (m_scene) m_scene->removeItem(item);
-        delete item;
     }
 }
 
