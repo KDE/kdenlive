@@ -215,12 +215,6 @@ bool SmallRuler::slotNewValue(int value)
     if (value == m_cursorFramePosition) return false;
     if (value == m_lastSeekPosition) m_lastSeekPosition = SEEK_INACTIVE;
     m_cursorFramePosition = value;
-    /*int oldPos = m_cursorPosition;
-    m_cursorPosition = value * m_scale;
-    const int offset = 6;
-    const int x = qMin(oldPos, m_cursorPosition);
-    const int w = qAbs(oldPos - m_cursorPosition);
-    update(x - offset, 0, w + 2 * offset, height());*/
     update();
     return true;
 }

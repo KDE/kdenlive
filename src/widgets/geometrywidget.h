@@ -45,10 +45,8 @@ public:
     * @param monitor Project monitor
     * @param timecode Timecode needed by timecode display widget
     * @param clipPos Position of the clip in timeline
-    * @param isEffect true if used in an effect, false if used in a transition
-    * @param showRotation Should we show or hide the rotation sliders
     * @param parent (optional) Parent widget */
-    explicit GeometryWidget(Monitor *monitor, const Timecode &timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent = 0);
+    explicit GeometryWidget(Monitor *monitor, const Timecode &timecode, int clipPos, bool showRotation, QWidget* parent = 0);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;
@@ -84,7 +82,6 @@ private:
     int m_inPoint;
     /** Out point of the clip (crop from end). */
     int m_outPoint;
-    bool m_isEffect;
     MonitorScene *m_scene;
     OnMonitorRectItem *m_rect;
     OnMonitorPathItem *m_geomPath;
@@ -95,7 +92,6 @@ private:
     QStringList m_extraGeometryNames;
     QStringList m_extraFactors;
     QList <Mlt::Geometry *>m_extraGeometries;
-    bool m_showScene;
     DragValue *m_spinX;
     DragValue *m_spinY;
     DragValue *m_spinWidth;
@@ -106,7 +102,6 @@ private:
     DragValue *m_rotateY;
     DragValue *m_rotateZ;
     QPoint m_frameSize;
-    bool m_showRotation;
     /** @brief Update monitor rect with current width / height values. */
     void updateMonitorGeometry();
 

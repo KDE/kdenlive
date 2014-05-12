@@ -35,7 +35,7 @@ class OnMonitorPathItem : public QObject, public QGraphicsPathItem
 {
     Q_OBJECT
 public:
-    OnMonitorPathItem(double dar, QGraphicsItem *parent = 0);
+    OnMonitorPathItem(QGraphicsItem *parent = 0);
     void setPoints(Mlt::Geometry *geometry);
     void getMode(const QPointF &pos);
     void rebuildShape();
@@ -55,7 +55,6 @@ protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
 
 private:
-    double m_dar;
     QList <QPointF> m_points;
     QPointF m_lastPoint;
     bool m_modified;

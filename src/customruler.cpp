@@ -416,13 +416,8 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     const int zoneEnd = (int)(m_zoneEnd * m_factor);
     p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 2, m_zoneColor);
     
-    int minval = (paintRect.left() + m_offset) / FRAME_SIZE - 1;
-    const int maxval = (paintRect.right() + m_offset) / FRAME_SIZE + 1;
-    if (minval < 0)
-        minval = 0;
-
     double f, fend;
-    const int offsetmax = maxval * FRAME_SIZE;
+    const int offsetmax = ((paintRect.right() + m_offset) / FRAME_SIZE + 1) * FRAME_SIZE;
     int offsetmin;
 
     p.setPen(palette().text().color());

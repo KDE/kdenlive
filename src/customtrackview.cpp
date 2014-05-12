@@ -3271,16 +3271,18 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
                 }
 
                 AbstractClipItem * child = static_cast <AbstractClipItem *>(children.at(j));
-                if (child == m_dragItem)
-                    m_dragItem = NULL;
+                if (child) {
+                    if (child == m_dragItem)
+                        m_dragItem = NULL;
 
-                // only unlock group, if it is not locked by another track too
-                if (!lock && child->track() != ix && m_document->trackInfoAt(m_document->tracksCount() - child->track() - 1).isLocked)
-                    changeGroupLock = false;
-                
-                // only (un-)lock if at least one clip is on the track
-                if (child->track() == ix)
-                    hasClipOnTrack = true;
+                    // only unlock group, if it is not locked by another track too
+                    if (!lock && child->track() != ix && m_document->trackInfoAt(m_document->tracksCount() - child->track() - 1).isLocked)
+                        changeGroupLock = false;
+
+                    // only (un-)lock if at least one clip is on the track
+                    if (child->track() == ix)
+                        hasClipOnTrack = true;
+                }
             }
             if (changeGroupLock && hasClipOnTrack)
                 static_cast<AbstractGroupItem*>(selection.at(i))->setItemLocked(lock);
@@ -4082,7 +4084,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
         }
         m_document->renderer()->doRefresh();
-    } else if (m_operationMode == ResizeStart && m_dragItem->startPos() != m_dragItemInfo.startPos) {
+    } else if (m_operationMode == ResizeStart && m_dragItem && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
         if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
@@ -4107,7 +4109,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             prepareResizeClipStart(m_dragItem, m_dragItemInfo, m_dragItem->startPos().frames(m_document->fps()));
             if (m_dragItem->type() == AVWidget) static_cast <ClipItem*>(m_dragItem)->slotUpdateRange();
         }
-    } else if (m_operationMode == ResizeEnd && m_dragItem->endPos() != m_dragItemInfo.endPos) {
+    } else if (m_operationMode == ResizeEnd && m_dragItem && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
         if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
@@ -4133,7 +4135,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             prepareResizeClipEnd(m_dragItem, m_dragItemInfo, m_dragItem->endPos().frames(m_document->fps()));
             if (m_dragItem->type() == AVWidget) static_cast <ClipItem*>(m_dragItem)->slotUpdateRange();
         }
-    } else if (m_operationMode == FadeIn) {
+    } else if (m_operationMode == FadeIn && m_dragItem) {
         // resize fade in effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         int ix = item->hasEffect("volume", "fadein");
@@ -4176,7 +4178,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 emit clipItemSelected(item);
             }
         }
-    } else if (m_operationMode == FadeOut) {
+    } else if (m_operationMode == FadeOut && m_dragItem) {
         // resize fade out effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         int ix = item->hasEffect("volume", "fadeout");
@@ -4224,7 +4226,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 emit clipItemSelected(item);
             }
         }
-    } else if (m_operationMode == KeyFrame) {
+    } else if (m_operationMode == KeyFrame && m_dragItem) {
         // update the MLT effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();

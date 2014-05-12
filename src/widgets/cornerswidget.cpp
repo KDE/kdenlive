@@ -39,7 +39,6 @@ inline int lerp( const int a, const int b, double t )
 CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent) :
         KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent),
         m_monitor(monitor),
-        m_showScene(true),
         m_pos(0)
 {
     MonitorEditWidget *edit = monitor->getEffectEdit();

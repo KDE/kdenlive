@@ -51,7 +51,6 @@ protected:
     void mouseReleaseEvent(QMouseEvent * event);
 
 private:
-    int m_cursorPosition;
     int m_cursorFramePosition;
     double m_scale;
     int m_medium;

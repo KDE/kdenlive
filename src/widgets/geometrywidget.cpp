@@ -38,20 +38,17 @@
 
 
 
-GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int clipPos, bool isEffect, bool showRotation, QWidget* parent):
+GeometryWidget::GeometryWidget(Monitor* monitor, const Timecode &timecode, int clipPos, bool showRotation, QWidget* parent):
     QWidget(parent),
     m_monitor(monitor),
     m_timePos(new TimecodeDisplay(timecode)),
     m_clipPos(clipPos),
     m_inPoint(0),
     m_outPoint(1),
-    m_isEffect(isEffect),
     m_rect(NULL),
     m_geomPath(NULL),
     m_previous(NULL),
-    m_geometry(NULL),
-    m_showScene(true),
-    m_showRotation(showRotation)
+    m_geometry(NULL)
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -368,7 +365,7 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
     m_rect->setZValue(0);
     m_scene->addItem(m_rect);
     connect(m_rect, SIGNAL(changed()), this, SLOT(slotUpdateGeometry()));
-    m_geomPath = new OnMonitorPathItem(m_monitor->render->dar());
+    m_geomPath = new OnMonitorPathItem();
     connect(m_geomPath, SIGNAL(changed()), this, SLOT(slotUpdatePath()));
     m_geomPath->setPen(QPen(Qt::red));
     m_geomPath->setPoints(m_geometry);

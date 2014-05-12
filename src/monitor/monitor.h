@@ -123,7 +123,6 @@ private:
     DocClipBase *m_currentClip;
     SmallRuler *m_ruler;
     Overlay *m_overlay;
-    double m_scale;
     int m_length;
     bool m_dragStarted;
     KIcon m_playIcon;

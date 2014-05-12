@@ -14,8 +14,7 @@
 #include <QString>
 #include <cstdlib>
 
-AudioInfo::AudioInfo(Mlt::Producer *producer) :
-    m_producer(NULL)
+AudioInfo::AudioInfo(Mlt::Producer *producer)
 {
     // Since we already receive an MLT producer, we do not need to initialize MLT:
     // Mlt::Factory::init(NULL);

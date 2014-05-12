@@ -820,27 +820,30 @@ void ProjectList::slotClipSelected()
             m_extractAudioAction->setEnabled(false);
             m_transcodeAction->setEnabled(false);
             m_clipsActionsMenu->setEnabled(false);
-        } else {
-            if (item->type() == ProjectSubclipType) {
-                // this is a sub item, use base clip
-                m_deleteButton->defaultAction()->setEnabled(true);
-                clip = static_cast <ProjectItem*>(item->parent());
-                if (clip == NULL) {
-                    kDebug() << "-----------ERROR";
-                    return;
-                }
-                SubProjectItem *sub = static_cast <SubProjectItem*>(item);
-                if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
-                emit clipSelected(clip->referencedClip(), sub->zone());
-                m_extractAudioAction->setEnabled(false);
-                m_transcodeAction->setEnabled(false);
-                m_clipsActionsMenu->setEnabled(false);
-                m_reloadAction->setEnabled(false);
-                adjustProxyActions(clip);
+        } else if (item->type() == ProjectSubclipType) {
+            // this is a sub item, use base clip
+            m_deleteButton->defaultAction()->setEnabled(true);
+            clip = static_cast <ProjectItem*>(item->parent());
+            if (clip == NULL) {
+                kDebug() << "-----------ERROR";
                 return;
             }
+            SubProjectItem *sub = static_cast <SubProjectItem*>(item);
+            if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
+            emit clipSelected(clip->referencedClip(), sub->zone());
+            m_extractAudioAction->setEnabled(false);
+            m_transcodeAction->setEnabled(false);
+            m_clipsActionsMenu->setEnabled(false);
+            m_reloadAction->setEnabled(false);
+            adjustProxyActions(clip);
+            return;
+        } else {
             clip = static_cast <ProjectItem*>(item);
-            if (clip && clip->referencedClip())
+            if (clip == NULL) {
+                kDebug() << "-----------ERROR";
+                return;
+            }
+            if (clip->referencedClip())
                 emit clipSelected(clip->referencedClip());
             if (clip->referencedClip()->getProducer() == NULL) m_render->getFileProperties(clip->referencedClip()->toXML(), clip->clipId(), m_listView->iconSize().height(), true);
             m_editButton->defaultAction()->setEnabled(true);
@@ -849,10 +852,10 @@ void ProjectList::slotClipSelected()
             m_extractAudioAction->setEnabled(true);
             m_transcodeAction->setEnabled(true);
             m_clipsActionsMenu->setEnabled(true);
-            if (clip && clip->clipType() == Image && !KdenliveSettings::defaultimageapp().isEmpty()) {
+            if (clip->clipType() == Image && !KdenliveSettings::defaultimageapp().isEmpty()) {
                 m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
                 m_openAction->setEnabled(true);
-            } else if (clip && clip->clipType() == Audio && !KdenliveSettings::defaultaudioapp().isEmpty()) {
+            } else if (clip->clipType() == Audio && !KdenliveSettings::defaultaudioapp().isEmpty()) {
                 m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
                 m_openAction->setEnabled(true);
             } else {
@@ -1171,7 +1174,7 @@ void ProjectList::updateButtons() const
         if (item && item->type() == ProjectClipType) {
             m_editButton->defaultAction()->setEnabled(true);
             m_openAction->setEnabled(true);
-            m_reloadAction->setEnabled(true);
+            if (m_reloadAction) m_reloadAction->setEnabled(false);
             m_transcodeAction->setEnabled(true);
             m_clipsActionsMenu->setEnabled(true);
             return;
@@ -3010,11 +3013,7 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
         else dest = ui.file_url->url().path();
         QStringList jobParams;
         jobParams << dest << src << QString() << QString();
-        double clipFps = item->referencedClip()->getProperty("fps").toDouble();
-        if (clipFps == 0) clipFps = m_fps;
-        int max = item->clipMaxDuration();
-        QString duration = QString::number(max);
-        jobParams << duration;
+        jobParams << QString::number(item->clipMaxDuration());
         jobParams << QString::number(KdenliveSettings::add_new_clip());
         jobParams << params;
         CutClipJob *job = new CutClipJob(item->clipType(), i.key(), jobParams);

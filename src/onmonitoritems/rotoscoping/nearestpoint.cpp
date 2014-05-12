@@ -217,8 +217,8 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
                 Right[W_DEGREE+1];      /* control polygons             */
     int         left_count,             /* Solution count from          */
                 right_count;            /* children                     */
-    double      left_t[W_DEGREE+1],     /* Solutions from kids          */
-                right_t[W_DEGREE+1];
+    double      left_t[W_DEGREE+1] = {0},     /* Solutions from kids          */
+                right_t[W_DEGREE+1] = {0};
 
     switch (CrossingCount(w, degree)) {
         case 0 :       /* No solutions here    */
@@ -247,10 +247,10 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
 
     /* Gather solutions together        */
     for (i = 0; i < left_count; ++i) {
-        t[i] = left_t[i]; /* FIXME: static analyzer says left_t can be undefined */
+        t[i] = left_t[i];
     }
     for (i = 0; i < right_count; ++i) {
-        t[i+left_count] = right_t[i]; /* FIXME: static analyzer says right_t can be undefined */
+        t[i+left_count] = right_t[i];
     }
 
     /* Send back total number of solutions      */

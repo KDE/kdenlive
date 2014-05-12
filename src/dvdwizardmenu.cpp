@@ -810,12 +810,10 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
 
     if (buttons.count() > 0) {
         // Clear existing buttons
-        QList<QGraphicsItem *> list = m_scene->items();
-
-        for (int i = 0; i < list.count(); ++i) {
-            if (list.at(i)->type() == DvdButtonItem) {
-                delete list.at(i);
-                --i;
+        foreach (QGraphicsItem *item, m_scene->items()) {
+            if (item->type() == DvdButtonItem) {
+                m_scene->removeItem(item);
+                delete item;
             }
         }
     }

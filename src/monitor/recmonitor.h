@@ -104,9 +104,7 @@ private:
     QAction *m_stopAction;
     QAction *m_discAction;
 
-    MonitorManager *m_manager;
     MltDeviceCapture *m_captureDevice;
-    VideoContainer *m_videoBox;
     QAction *m_addCapturedClip;
     QAction *m_previewSettings;
     QString m_error;

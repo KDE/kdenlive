@@ -219,7 +219,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
 		m_needsMonitorEffectScene = true;
-                m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, 0, true, effect.hasAttribute("showrotation"), parent);
+                m_geometryWidget = new GeometryWidget(m_metaInfo->monitor, m_metaInfo->timecode, 0, effect.hasAttribute("showrotation"), parent);
                 m_geometryWidget->setFrameSize(m_metaInfo->frameSize);
                 connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
                 if (minFrame == maxFrame) {

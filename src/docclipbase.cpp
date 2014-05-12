@@ -597,7 +597,6 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             }
             if (m_audioTrackProducers.at(pos) == NULL) {
                 m_audioTrackProducers[pos] = producer;
-                updated = true;
             }
             else delete producer;
             return;
@@ -612,7 +611,6 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             }
             if (m_videoTrackProducers.at(pos) == NULL) {
                 m_videoTrackProducers[pos] = producer;
-                updated = true;
             }
             else delete producer;
             return;

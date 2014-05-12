@@ -4803,9 +4803,11 @@ void MainWindow::slotOpenBackupDialog(const KUrl &url)
         m_activeDocument->backupLastSavedVersion(projectFile.path());
         closeCurrentDocument(false);
         doOpenFile(KUrl(requestedBackup), NULL);
-        m_activeDocument->setUrl(projectFile);
-        m_activeDocument->setModified(true);
-        setCaption(m_activeDocument->description());
+        if (m_activeDocument) {
+            m_activeDocument->setUrl(projectFile);
+            m_activeDocument->setModified(true);
+            setCaption(m_activeDocument->description());
+        }
     }
     delete dia;
 }

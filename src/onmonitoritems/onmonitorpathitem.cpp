@@ -29,9 +29,8 @@
 
 #include <mlt++/Mlt.h>
 
-OnMonitorPathItem::OnMonitorPathItem(double dar, QGraphicsItem* parent) :
+OnMonitorPathItem::OnMonitorPathItem(QGraphicsItem* parent) :
     QGraphicsPathItem(parent),
-    m_dar(dar),
     m_modified(false),
     m_view(NULL),
     m_activePoint(-1)
