@@ -299,7 +299,7 @@ void ScopeManager::checkActiveColourScopes()
     if (monitor != NULL) { monitor->glWidget()->sendFrameForAnalysis = imageStillRequested; }
     
     monitor = static_cast<Monitor*>( m_monitorManager->monitor(Kdenlive::RecordMonitor) );
-    if (monitor != NULL) { monitor->glWidget()->sendFrameForAnalysis = imageStillRequested; }
+    if (monitor != NULL && monitor->glWidget()) { monitor->glWidget()->sendFrameForAnalysis = imageStillRequested; }
 }
 
 
