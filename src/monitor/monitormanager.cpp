@@ -20,6 +20,9 @@
 
 #include "monitor/monitormanager.h"
 #include "core.h"
+#include "project/projectmanager.h"
+#include "trackview.h"
+#include "customtrackview.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "kdenlivedoc.h"
@@ -104,6 +107,8 @@ MonitorManager::MonitorManager(QObject *parent) :
     projectEnd->setShortcut(Qt::CTRL + Qt::Key_End);
     pCore->window()->addAction("seek_end", projectEnd);
     connect(projectEnd, SIGNAL(triggered(bool)), SLOT(slotEnd()));
+
+    connect(pCore->projectManager(), SIGNAL(docOpened(KdenliveDoc*)), SLOT(setDocument(KdenliveDoc*)));
 }
 
 Timecode MonitorManager::timecode() const
@@ -114,6 +119,15 @@ Timecode MonitorManager::timecode() const
 void MonitorManager::setDocument(KdenliveDoc *doc)
 {
     m_document = doc;
+
+    if (doc) {
+        resetProfiles(doc->timecode());
+        TrackView *trackView = pCore->projectManager()->currentTrackView();
+        connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase*,QPoint,bool,int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool,int)));
+        connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
+        connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
+        connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
+    }
 }
 
 void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor)

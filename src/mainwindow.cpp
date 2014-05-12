@@ -2100,7 +2100,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
 
     KdenliveSettings::setCurrent_profile(newDoc->profilePath());
     KdenliveSettings::setProject_fps(newDoc->fps());
-    pCore->monitorManager()->resetProfiles(newDoc->timecode());
     m_clipMonitorDock->raise();
     m_transitionConfig->updateProjectFormat(newDoc->mltProfile(), newDoc->timecode(), newDoc->tracksList());
     m_effectStack->updateProjectFormat(newDoc->mltProfile(), newDoc->timecode());
@@ -2137,11 +2136,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
     connect(trackView->projectView(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
 
-    connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase*,QPoint,bool,int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool,int)));
-    connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
-
-    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
-
     // Effect stack signals
 
     // Transition config signals
@@ -2149,7 +2143,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
     connect(m_transitionConfig, SIGNAL(importClipKeyframes(GraphicsRectItem)), trackView->projectView() , SLOT(slotImportClipKeyframes(GraphicsRectItem)));
     connect(m_transitionConfig, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
 
-    connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
     connect(trackView, SIGNAL(zoneMoved(int,int)), this, SLOT(slotZoneMoved(int,int)));
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu*>(factory()->container("marker_menu", this)));
     m_activeTimeline = trackView;
@@ -2165,16 +2158,11 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
     KdenliveSettings::setProject_display_ratio(newDoc->dar());
     //newDoc->clipManager()->checkAudioThumbs();
 
-    //m_overView->setScene(trackView->projectScene());
-    //m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));
-    //m_overView->fitInView(m_overView->itemAt(0, 50), Qt::KeepAspectRatio);
-
     setCaption(newDoc->description(), newDoc->isModified());
     m_saveAction->setEnabled(newDoc->isModified());
     m_normalEditTool->setChecked(true);
     *projectManagerDoc = newDoc;
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), this, SLOT(slotUpdateProjectDuration(int)));
-    pCore->monitorManager()->setDocument(newDoc);
     m_activeTimeline->updateProjectFps();
     newDoc->checkProjectClips();
 #ifndef Q_WS_MAC

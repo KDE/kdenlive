@@ -48,8 +48,6 @@ public:
     void clearScopeSource();
     /** @brief Returns current project's folder. */
     QString getProjectFolder() const;
-    /** @brief Sets current document for later reference. */
-    void setDocument(KdenliveDoc *doc);
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
 
@@ -57,7 +55,8 @@ public:
     Monitor *projectMonitor();
 
 public slots:
-
+    /** @brief Sets current document for later reference. */
+    void setDocument(KdenliveDoc *doc);
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */
     bool activateMonitor(Kdenlive::MonitorId, bool forceRefresh = false);
