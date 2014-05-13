@@ -1,27 +1,75 @@
-0.9.7
-    * Add support for a custom suffix for FFmpeg binaries (mostly for packagers)
+0.9.8
+    Changes:
+    * Clean encoding profiles using MLT presets & profiles
+    * Fades ui: video instead of audio on AV clips
+    * Support a custom suffix for FFmpeg binaries (mostly for packagers)
+    * Make audio align work asynchronously
+    * Remove the MLT processing threads option that never really worked
+    * Copy proxies with 'move project'
+    * Add support for JogShuttle on newer systems, make shuttle device selection more straightforward, add ProV2 keys
+
+    Bug fix:
+    * Code cleanup (use const ref, fix includes, mem leaks, optimize...)
+    * Fix warnings from gcc, cppcheck, clang, scan-build: fixes many crashs & leaks
+    * Fix keyframing messed up for some effects
+    * Fix timeline corruption when trying to move clip before 0
+    * Fix crash when closing title widget
+    * Fix thumbnails for image clips in timeline
+    * Fix crash on quick undo/redo (#3240)
+    * Fix multithreading (#3186)
+    * Fix some problems with transitions keyframes
+    * Fix scopes (#3052)
 
 0.9.6
-    * Fix keyframes when cutting a clip / undoing a clip cut
-    * Warn before overwriting .mlt stabilized file
-    * Fix monitor confusion (clip monitor sometimes playing timeline,...)
-    * Fix the Mono to Stereo effect UI
-    * Fix proxy of playlist having wrong aspect ratio in some locales
-    * Fix transition widget not correctly updated when resizing a transition
-    * Fix DVD chapters broken when using an intro movie
-    * Fix error message (No matching profile) poping up in render widget when everything was ok
-    * Fix clip keyframes not showing on project load
-    * Fix bug when moving guide (was not moving to the correct place)
-    * Fix project corruption (wrong character) caused by some clip's metadata
-    * Fix possible crash on track deletion
-    * Fix timeline corruption when using spacer tool or overwrite edit mode
-    * Fix possible crash when editing speed effect
-    * Fix transition losing all its properties when moved
-    * Fix crash when pressing del when editing animation in title widget
-    * Fix crash when doing quick clip resize
-    * Fix corruption when groups where overlapping
-    * Fix corruption when adding a title clip where a transition already existed
-    * Fix timeline preview corruption with some transitions
+
+    Changes:
+    * New Median filter from Marko Cebokli
+    * Show project duration in status bar
+    * Add reverse clip to clip actions (#2933)
+    * Make audio / video bitrate easily configurable in custom render profiles (#3012)
+    * Implement deinterlacer and rescale options for MLT consumer
+    * Automatic recovery of corrupted files produced by Kdenlive 0.9.4
+    * Make monitor ruler slightly bigger so it's easier to click for seeking
+    * Show clip size & fps in project tree tooltip
+    * Allow retrieval of metadata created by Magic Lantern for canon cams
+
+    Bug fix:
+    * Fix font GUI issue (#3049)
+    * Fixes timeline corruption by spacer tool
+    * Correctly handle unsupported filters
+    * Remove space from filename start / end in render dialog (#3018)
+    * Fix possible crash when changing speed effect
+    * Fix vstab angle parameter (#2955)
+    * Fix playlist corruption & crash when moving clip (#3046)
+    * Fix moving transition sometimes losing properties (#3025)
+    * Fix crash in title widget (#3032)
+    * Fix crash when doing clip resize and clicking item quickly
+    * Fix wrong group moving when groups overlap
+    * Set document as modified when changing project metadata (#2996)
+    * Don't corrupt project when adding a title clip and a transition already is in place
+    * Fix monitor displaying corrupt image on startup (#2992)
+    * Fix clip monitor not activated on open (#2992)
+    * Fix cutting of geometry keyframes (like pan & zoom) (#2991)
+    * Optimize jogshuttle code
+    * Fix metadata not properly set for project (#2996)
+    * Fix "Clip in project tree" in groups (#2781)
+    * Fix keyframes when undoing a clip / group cut
+    * Fix double click in a timeline clip to add keyframe
+    * Warn before overwriting stabilized clip
+    * Fix monitor focus on ruler wheel event
+    * Fix proxy of playlist aspect ratio broken on some locales
+    * Fix Coverity warnings from v0.9.4
+    * Fix crash when opening invalid file from command line (#2984)
+    * Fix DVD chapters broken when using an intro movie, show chapters in monitor ruler
+    * Fix small UI bugs in title widget (#1257)
+    * Fix timeline seek sometimes not refreshing on last frame of the seek, small update for monitor ruler colors
+    * Small cleanup in render widget, fix error message (no matching profile) sometimes appearing when it should not
+    * Fix monitor timecode not visible with some window decorations (#2979)
+    * Fix moving guide bug
+    * Fix some clips metadata corrupting project file (#2976)
+    * Fix possible crash on track deletion (#2967)
+    * Fix compilation on OSX (moc issue)
+    * Fix keyframe line not painted over clips in timeline
 
 0.9.4
     * Fix color parameter in some effects not working correctly (#2644)
@@ -50,16 +98,16 @@
     * Introduce grouping of effects; groups can also be saved
     * Allow dragging an effect to another clip/track
     * Allow record monitor to go fullscreen
-    * Image sequences can now start at an arbitrary frame (http://kdenlive.org/mantis/view.php?id=2508)
+    * Image sequences can now start at an arbitrary frame (#2508)
     * Add automatic clip alignment based on audio (experimental, has to be manually enabled)s
     * Allow archiving for offline use (only archive proxies)
-    * Offline editing: Allow working on project with only proxies available (http://kdenlive.org/mantis/view.php?id=2509)
+    * Offline editing: Allow working on project with only proxies available (#2509)
     * Allow rendering to another framerate
     * Check for missing locale and ask to install instead of opening corrupted project
     * Allow to open project files manually extracted from archived project
-    * Support dropping a folder in the project tree (http://kdenlive.org/mantis/view.php?id=1288)
-    * Add "select all clips in track" and "select all clips in timeline" features (http://kdenlive.org/mantis/view.php?id=1950)
-    * Put audio effects in subcategories to avoid uberlong menus (http://kdenlive.org/mantis/view.php?id=2436)
+    * Support dropping a folder in the project tree (#1288)
+    * Add "select all clips in track" and "select all clips in timeline" features (#1950)
+    * Put audio effects in subcategories to avoid uberlong menus (#2436)
     * Support for project metadata (can be embedded in rendered file)
     * Add Online Resource Widget allowing easy search and download of online services (freesound, openclipart, archive.org)
     * Introduce MLT clip analysis to get auto normalize data in sox gain effect
@@ -75,25 +123,25 @@
     * Add date column to project tree
 
     * Fix clip move sometimes giving error when it should work 
-    * Fix custom effects not considering capital letters in name (http://kdenlive.org/mantis/view.php?id=2580)
+    * Fix custom effects not considering capital letters in name (#2580)
     * Fix script rendering when script name contains whitespace
-    * Ensure clip in project tree is visible after rename (scroll if necessary) (http://kdenlive.org/mantis/view.php?id=2563)
+    * Ensure clip in project tree is visible after rename (scroll if necessary) (#2563)
     * Fix monitor scene never resetting scrollbars
-    * Fix issues with transitions when inserting track (http://kdenlive.org/mantis/view.php?id=2477)
+    * Fix issues with transitions when inserting track (#2477)
     * Fix some GUI elements not responding to color theme change
-    * Do not hide render profile list when there is only one item to avoid confusion (http://kdenlive.org/mantis/view.php?id=2543)
-    * Fix consecutive error messages overwriting each other (http://www.kdenlive.org/mantis/view.php?id=2519)
+    * Do not hide render profile list when there is only one item to avoid confusion (#2543)
+    * Fix consecutive error messages overwriting each other (#2519)
     * Fix crash when editing properties of several missing clips
-    * Fix vectorscope for 24b RGB images (http://kdenlive.org/mantis/view.php?id=2478)
-    * Fix archiving sometimes not saving playlist clips and subclips (http://kdenlive.org/mantis/view.php?id=2475)
-    * Fix archiving feature not saving playlist clips and slowmotion clips inside them (http://kdenlive.org/mantis/view.php?id=2475)
-    * Fix crash recovery feature issues with long or non UTF-8 filenames (http://kdenlive.org/mantis/view.php?id=2441, http://kdenlive.org/mantis/view.php?id=2450)
+    * Fix vectorscope for 24b RGB images (#2478)
+    * Fix archiving sometimes not saving playlist clips and subclips (#2475)
+    * Fix archiving feature not saving playlist clips and slowmotion clips inside them (#2475)
+    * Fix crash recovery feature issues with long or non UTF-8 filenames (#2441), (#2450)
     * Fix rendering jobs sometimes not starting
-    * Fix crash on proxy creation (concurrency issue) (http://kdenlive.org/mantis/view.php?id=2471)
-    * Fix zone playing (http://kdenlive.org/mantis/view.php?id=2468)
+    * Fix crash on proxy creation (concurrency issue) (#2471)
+    * Fix zone playing (#2468)
     * Fix click on monitor sometimes not triggering play
-    * Fix crash when moving a folder and a clip in project tree (http://kdenlive.org/mantis/view.php?id=2458)
-    * Fix color change not working in title widget (http://kdenlive.org/mantis/view.php?id=2459)
+    * Fix crash when moving a folder and a clip in project tree (#2458)
+    * Fix color change not working in title widget (#2459)
     * Fix slideshow clips created with invalid frame duration
     * Fix profile warning with clips that have 1088 pixels height
     * Fix unnecessary proxy reload on document load
@@ -125,16 +173,16 @@
     * Improve way of picking an average color of an area.
     * Make audio bitrate in render dialog selectable.
     * Add support for handling different versions of filters and add rules to convert between them.
-    * Move all cached data in one operation, so that user does not get one dialog box for each file in case of duplicates. (http://kdenlive.org/mantis/view.php?id=2297)
+    * Move all cached data in one operation, so that user does not get one dialog box for each file in case of duplicates. (#2297)
     * Show filter version in filter info box.
-    * When multiple clips are selected do not allow resizing, but moving only. (http://kdenlive.org/mantis/view.php?id=2257)
+    * When multiple clips are selected do not allow resizing, but moving only. (#2257)
     * Add remux with MKV transcode preset.
     * Make audio only render profiles faster by telling ffmpeg to skip video.
     * Open documents using a locale different to the system as read only.
     * Replace locale-dependent comma with slash in geometry value.
     * Add Kdenlive manual converted from UserBase QuickStart page.
-    * Improve handling of missing luma files. (http://kdenlive.org/mantis/view.php?id=2216)
-    * Remove the "avformat-novalidate" trick for faster loading, caused crash. (http://kdenlive.org/mantis/view.php?id=2205)
+    * Improve handling of missing luma files. (#2216)
+    * Remove the "avformat-novalidate" trick for faster loading, caused crash. (#2205)
     * Allow to assign a shortcut to usage of proxies in project.
     * Use separate thread for generation of timeline thumbnails when zoom is at frame level to keep UI responsive.
     * Allow to use JScript in render profile parameter values. Values that need evalutation need to be indicated by '%'.
@@ -154,56 +202,56 @@
     * Fix encoding of dvd vob menu file.
     * Fix possible crash when doing fast start/stop.
     * Fix multiple concurrency crashes related to thumbnail and proxy creation.
-    * Fix name of dvgrab captured file. (http://kdenlive.org/mantis/view.php?id=2344)
-    * Fix issues with simultaneous 2-pass rendering (x264). (http://kdenlive.org/mantis/view.php?id=2338)
-    * Fix rendering progress not shown if multiple copies of Kdenlive are open. (http://kdenlive.org/mantis/view.php?id=1265)
-    * Fix DVD chapters discarded when opening from render dialog. (http://kdenlive.org/mantis/view.php?id=2335)
+    * Fix name of dvgrab captured file. (#2344)
+    * Fix issues with simultaneous 2-pass rendering (x264). (#2338)
+    * Fix rendering progress not shown if multiple copies of Kdenlive are open. (#1265)
+    * Fix DVD chapters discarded when opening from render dialog. (#2335)
     * Fix possible corruption caused by vertical offset of transitions in timeline.
     * Fix aspect ratio of thumbnails to correctly use the project's arpect ratio.
-    * Fix bitrate broken when editing render profile or making it a favorite. (http://kdenlive.org/mantis/view.php?id=2321)
-    * Fix audio issues in rendered file when using a recent ffmpeg version by replacing 'b' with 'vb' (ffmpeg bitrate parameter). (http://kdenlive.org/mantis/view.php?id=2318)
-    * Fix rendering to Flash could be broken by setting the number of encoder threads. (http://kdenlive.org/mantis/view.php?id=2312)
+    * Fix bitrate broken when editing render profile or making it a favorite. (#2321)
+    * Fix audio issues in rendered file when using a recent ffmpeg version by replacing 'b' with 'vb' (ffmpeg bitrate parameter). (#2318)
+    * Fix rendering to Flash could be broken by setting the number of encoder threads. (#2312)
     * Fix DVD wizard losing chapters data when switching to menu page.
     * Fix previewing of affine transitions with transparent png.
     * Fix timeline corruption when using 'Remove space' tool (transitions could overlap).
     * Fix 'adjust to original size' and 'fit to width/height' for title and color clips in geometry widget (pan and zoom, composite, affine).
     * Fix vorbis rendering by setting the audio quality (aq).
     * Rotoscoping: do not allow to add keyframes until initial spline is created to avoid corruptions.
-    * Fix possible crash in DVD wizard chapters. (http://kdenlive.org/mantis/view.php?id=2264)
+    * Fix possible crash in DVD wizard chapters. (#2264)
     * Do not duplicate effect stack after split audio but move audio effects only.
     * Fix issues related to the usage of comma as numeric separator in some locales.
     * Fix build on GNU/kFreeBSD.
-    * Fix cursor not visible in title widget. (http://kdenlive.org/mantis/view.php?id=2231)
-    * Fix aspect ratio in title widget background image. (http://kdenlive.org/mantis/view.php?id=2225)
-    * Fix layout in save profile dialog. (http://kdenlive.org/mantis/view.php?id=2224)
+    * Fix cursor not visible in title widget. (#2231)
+    * Fix aspect ratio in title widget background image. (#2225)
+    * Fix layout in save profile dialog. (#2224)
     * Fix timeline corruption because resizing a clip end could overlap another clip in some cases.
     * Fix last keyframe for composite transition (and other geometry effects) inserted one frame after the end of the transition.
-    * Prevent crash when deleting a clip while playing. (http://kdenlive.org/mantis/view.php?id=2200)
+    * Prevent crash when deleting a clip while playing. (#2200)
     * Disable save action if we are in the same state as last save.
-    * Fix pan and zoom keyframes lost after clip resize. (http://kdenlive.org/mantis/view.php?id=2210)
+    * Fix pan and zoom keyframes lost after clip resize. (#2210)
     * Fix mouse wheel in slider section of (effect) parameters with a large range (> 1000).
     * Fix GUI setup issues with some list parameters (for effects).
     * Fix timecode widget not communicating changes upon focus leave.
     * Fix list of effects in effect stack taking up to much space by default.
-    * Fix transition track not correctly saved. (http://kdenlive.org/mantis/view.php?id=2187)
-    * Fix "save zone" saving proxy instead of real clip. (http://kdenlive.org/mantis/view.php?id=2184)
-    * Fix freeze when saving while timeline is at maximum zoom. (http://kdenlive.org/mantis/view.php?id=2174)
-    * Fix crash when deleting a track and having an audio clip on last track. (http://kdenlive.org/mantis/view.php?id=2168)
-    * Do not allow to create overlapping transitions that could corrupt timeline. (http://kdenlive.org/mantis/view.php?id=1901)
-    * Fix sometimes effects were missing. (http://kdenlive.org/mantis/view.php?id=2152)
+    * Fix transition track not correctly saved. (#2187)
+    * Fix "save zone" saving proxy instead of real clip. (#2184)
+    * Fix freeze when saving while timeline is at maximum zoom. (#2174)
+    * Fix crash when deleting a track and having an audio clip on last track. (#2168)
+    * Do not allow to create overlapping transitions that could corrupt timeline. (#1901)
+    * Fix sometimes effects were missing. (#2152)
     * Fix crash in histogram scope.
-    * Fix multiple possible timeline corruptions. (http://kdenlive.org/mantis/view.php?id=2157)
-    * Do not allow rendering to a frame rate different than current project's profile. (http://kdenlive.org/mantis/view.php?id=2138)
+    * Fix multiple possible timeline corruptions. (#2157)
+    * Do not allow rendering to a frame rate different than current project's profile. (#2138)
     * Fix DVD menu entries hidden under some circumstances.
-    * Fix channels in audio thumbnails being displaced by one frame. (http://kdenlive.org/mantis/view.php?id=1976)
-    * Fix possible crash caused by audio thumbnails. (http://kdenlive.org/mantis/view.php?id=2147)
-    * Fix possible freeze and error on project opening. (http://kdenlive.org/mantis/view.php?id=2144)
+    * Fix channels in audio thumbnails being displaced by one frame. (#1976)
+    * Fix possible crash caused by audio thumbnails. (#2147)
+    * Fix possible freeze and error on project opening. (#2144)
     * Fix progress bar running twice on 2pass render.
     * Fix proxy file path issue on system installation.
     * Use luma as default channel for levels effect.
     * Fix handling of proxies when duration != duration of original clip.
-    * Fix filename encoding problem in renderer. (http://kdenlive.org/mantis/view.php?id=2110)
-    * Fix user specified CFLAGS ignored. (http://kdenlive.org/mantis/view.php?id=2108)
+    * Fix filename encoding problem in renderer. (#2110)
+    * Fix user specified CFLAGS ignored. (#2108)
 
 0.8
     See http://kdenlive.org/discover/0.8

@@ -1,28 +1,52 @@
-Kdenlive 0.9.6.2
-by Jean-Baptiste Mardelle <jb@kdenlive.org> and the Kdenlive team
+About Kdenlive
+==============
 
-Kdenlive is a video editing application based on KDE Platform 4.
+Kdenlive is a video editing application,
+based on MLT Framework and KDE Platform 4.
 
-Please check the project page for more information, and to report new bugs.
-
+Please check the project page for more information:
 http://kdenlive.org
 
-To use Kdenlive, you will need to download and install MLT, available from
-the following web page:
+Building from source
+====================
 
-http://www.mltframework.org
+You will first need to install development headers dependencies
+from your system (mainly KDE and MLT).
 
-It is recommended to use the latest MLT version. It may work with older
-versions, but this is not guaranteed, or (at this stage of development) likely.
+Then in the directory where you extracted the source archive
+(with custom /install/path):
 
-We welcome all bug reports, feedback, and offers for help!
-So please visit our bug tracker and forums:
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/install/path
+make -j4
+sudo make install
 
-Forum:
-http://kdenlive.org/forum
+and then run
+/install/path/bin/kdenlive
 
-Bug Tracker:
-http://kdenlive.org/mantis
+Alternately, to get kdenlive with an up-to-date multimedia stack
+(isolated from your system), you can use the build-kdenlive.sh from:
+https://github.com/mltframework/mlt-scripts/
 
-Cheers,
-Jean-Baptiste
+Contributing
+============
+
+We welcome all feedback and offers for help!
+
+* Talk about us!
+* Report bugs you encounter (if not already done) on:
+  http://kdenlive.org/mantis
+* Help other users on forum and bug tracker:
+  http://forum.kde.org/viewforum.php?f=262
+* Help to fill the manual at:
+  http://userbase.kde.org/Kdenlive
+* Complete and check application and documentation translation:
+  http://l10n.kde.org
+* Prepare video tutorials (intro, special tricks...) in your language
+  and send us a link to add in homepage or doc
+* Detail improvement suggestions
+  we don't test every (any?) other video editor, so give precise explanations
+* Code! Help fixing bugs, improving usability, optimizing, porting...
+  register on KDE infrastructure, study its guidelines, and pick from roadmap:
+  http://community.kde.org/Kdenlive/Roadmap
