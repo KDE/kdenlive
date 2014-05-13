@@ -473,16 +473,6 @@ void TrackView::slotDeleteClip(const QString &clipId)
     m_trackview->deleteClip(clipId);
 }
 
-void TrackView::setCursorPos(int pos)
-{
-    m_trackview->setCursorPos(pos);
-}
-
-void TrackView::moveCursorPos(int pos)
-{
-    m_trackview->setCursorPos(pos);
-}
-
 void TrackView::slotChangeZoom(int horizontal, int vertical)
 {
     m_ruler->setPixelPerMark(horizontal);

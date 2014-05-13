@@ -2111,7 +2111,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
 
     connect(trackView->projectView(), SIGNAL(importKeyframes(GraphicsRectItem,QString,int)), this, SLOT(slotProcessImportKeyframes(GraphicsRectItem,QString,int)));
 
-    connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), newDoc, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), newDoc, SLOT(setModified()));

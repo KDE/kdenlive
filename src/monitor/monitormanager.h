@@ -55,7 +55,7 @@ public:
     Monitor *projectMonitor();
 
 public slots:
-    /** @brief Sets current document for later reference. */
+    /** @brief Connects to current document. */
     void setDocument(KdenliveDoc *doc);
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */

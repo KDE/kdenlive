@@ -220,6 +220,8 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), SLOT(slotRefreshEffects(ClipItem*)));
     connect(effectStack, SIGNAL(seekTimeline(int)), SLOT(seekCursorPos(int)));
     connect(effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem)), SLOT(slotImportClipKeyframes(GraphicsRectItem)));
+
+    connect(pCore->monitorManager()->projectMonitor(), SIGNAL(renderPosition(int)), SLOT(setCursorPos(int)));
 }
 
 CustomTrackView::~CustomTrackView()

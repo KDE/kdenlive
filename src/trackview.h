@@ -119,8 +119,6 @@ private:
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
 
 private slots:
-    void setCursorPos(int pos);
-    void moveCursorPos(int pos);
     /** @brief Rebuilds the track headers */
     void slotRebuildTrackHeaders();
     /** @brief The tracks count or a track name changed, rebuild and notify */
