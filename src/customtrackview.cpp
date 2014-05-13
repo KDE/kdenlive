@@ -222,6 +222,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     connect(effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem)), SLOT(slotImportClipKeyframes(GraphicsRectItem)));
 
     connect(pCore->monitorManager()->projectMonitor(), SIGNAL(renderPosition(int)), SLOT(setCursorPos(int)));
+    connect(pCore->monitorManager()->projectMonitor()->render, SIGNAL(infoProcessingFinished()), SLOT(slotInfoProcessingFinished()), Qt::DirectConnection);
 }
 
 CustomTrackView::~CustomTrackView()
