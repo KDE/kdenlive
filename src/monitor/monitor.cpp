@@ -23,10 +23,12 @@
 #include "smallruler.h"
 #include "docclipbase.h"
 #include "abstractclipitem.h"
+#include "kdenlivedoc.h"
 #include "monitor/monitorscene.h"
 #include "widgets/monitoreditwidget.h"
 #include "widgets/videosurface.h"
 #include "widgets/videoglwidget.h"
+#include "project/projectmanager.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -1092,7 +1094,7 @@ QString Monitor::getMarkerThumb(GenTime pos)
 {
     if (!m_currentClip) return QString();
     if (!m_currentClip->getClipHash().isEmpty()) {
-	QString url = m_monitorManager->getProjectFolder() + "thumbs/" + m_currentClip->getClipHash() + '#' + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + ".png";
+	QString url = pCore->projectManager()->current()->projectFolder().path(KUrl::AddTrailingSlash) + "thumbs/" + m_currentClip->getClipHash() + '#' + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + ".png";
         if (QFile::exists(url)) return url;
     }
     return QString();

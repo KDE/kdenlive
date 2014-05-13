@@ -46,8 +46,6 @@ public:
     AbstractMonitor *monitor(Kdenlive::MonitorId monitorName);
     void updateScopeSource();
     void clearScopeSource();
-    /** @brief Returns current project's folder. */
-    QString getProjectFolder() const;
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
 
@@ -88,7 +86,6 @@ private slots:
     void slotRefreshCurrentMonitor(const QString &id);
 
 private:
-    KdenliveDoc *m_document;
     Monitor *m_clipMonitor;
     Monitor *m_projectMonitor;
     Timecode m_timecode;

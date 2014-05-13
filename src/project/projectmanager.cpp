@@ -194,7 +194,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
 
     delete m_project;
     m_project = NULL;
-    pCore->monitorManager()->setDocument(m_project);
     pCore->window()->effectStack()->clear();
     pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 

@@ -37,7 +37,6 @@
 
 MonitorManager::MonitorManager(QObject *parent) :
         QObject(parent),
-        m_document(NULL),
         m_clipMonitor(NULL),
         m_projectMonitor(NULL),
         m_activeMonitor(NULL)
@@ -118,16 +117,12 @@ Timecode MonitorManager::timecode() const
 
 void MonitorManager::setDocument(KdenliveDoc *doc)
 {
-    m_document = doc;
-
-    if (doc) {
-        resetProfiles(doc->timecode());
-        TrackView *trackView = pCore->projectManager()->currentTrackView();
-        connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase*,QPoint,bool,int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool,int)));
-        connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
-        connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
-        connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
-    }
+    resetProfiles(doc->timecode());
+    TrackView *trackView = pCore->projectManager()->currentTrackView();
+    connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase*,QPoint,bool,int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool,int)));
+    connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
+    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
+    connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
 }
 
 void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor)
@@ -352,15 +347,6 @@ VideoGLWidget *MonitorManager::activeGlWidget()
 void MonitorManager::slotSwitchFullscreen()
 {
     if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
-}
-
-QString MonitorManager::getProjectFolder() const
-{
-    if (m_document == NULL) {
-	kDebug()<<" + + +NULL DOC!!";
-	return QString();
-    }
-    return m_document->projectFolder().path(KUrl::AddTrailingSlash);
 }
 
 Monitor* MonitorManager::clipMonitor()
