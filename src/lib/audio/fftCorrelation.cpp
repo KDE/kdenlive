@@ -108,9 +108,9 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
 
 
     // Fill in the data into our new vectors with padding
-    float leftData[size];
-    float rightData[size];
-    float convolved[size];
+    float * leftData = new float[size];
+    float * rightData = new float[size];
+    float * convolved = new float[size];
 
     std::fill(leftData, leftData+size, 0);
     std::fill(rightData, rightData+size, 0);
@@ -140,6 +140,10 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
     // Finally some cleanup.
     kiss_fftr_free(fftConfig);
     kiss_fftr_free(ifftConfig);
+
+    delete[] leftData;
+    delete[] rightData;
+    delete[] convolved;
 
     qDebug() << "FFT convolution computed. Time taken: " << time.elapsed() << " ms";
 }
