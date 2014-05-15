@@ -1,5 +1,6 @@
 <profiles version="0.1">
   <group name="Web" renderer="avformat" type="av">
+    <groupname id="websites">Web sites</groupname>
     <profile name="WebM" extension="webm" bitrates="400,600,800,1000,2000,4000,6000,8000" defaultbitrate="2000"
       args="properties=webm ar=44100 vb=%bitrate+'k' aspect=%dar" />
     <profile name="Theora" extension="ogv" bitrates="400,600,800,1000,2000,4000,6000,8000" defaultbitrate="2000"
@@ -11,6 +12,7 @@
   </group>
 
   <group name="Mobile devices" extension="mp4" renderer="avformat" type="av">
+    <groupname id="mobile">Mobile devices</groupname>
     <profile name="Mobile devices"
       args="acodec=aac ab=128k properties=x264-medium-baseline vb=700k s=480x320 aspect=%dar progressive=1 g=120 pass=%passes" />
   </group>
@@ -40,6 +42,7 @@
   </group>
 
   <group name="DVD" renderer="avformat" type="av" extension="vob">
+    <groupname id="dvd">DVD</groupname>
     <profile name="PAL 4:3 VOB"   standard="PAL"  args="properties=dv_pal/DVD       mlt_profile=dv_pal       pass=%passes" />
     <profile name="PAL 16:9 VOB"  standard="PAL"  args="properties=dv_pal_wide/DVD  mlt_profile=dv_pal_wide  pass=%passes" />
     <profile name="NTSC 4:3 VOB"  standard="NTSC" args="properties=dv_ntsc/DVD      mlt_profile=dv_ntsc      pass=%passes" />
@@ -47,6 +50,7 @@
   </group>
 
   <group name="Media players" renderer="avformat" type="av">
+    <groupname id="mediaplayers">Media players</groupname>
     <profile name="AVI XVid4" extension="avi" bitrates="400,600,800,1000,2000,4000,8000" defaultbitrate="2000"
       audiobitrates="64,128,192,256,384" defaultaudiobitrate="128"
       args="acodec=libmp3lame ab=%audiobitrate+'k' ar=44100 vcodec=libxvid vb=%bitrate+'k' aspect=%dar pass=%passes" />
@@ -68,12 +72,14 @@
   </group>
 
   <group name="Audio only" renderer="avformat" type="audio">
+    <groupname id="audioonly">Audio only</groupname>
     <profile name="WAV 22050 KHz" extension="wav" args="properties=WAV ar=22050" />
     <profile name="WAV 44100 KHz" extension="wav" args="properties=WAV ar=44100" />
     <profile name="WAV 48000 KHz" extension="wav" args="properties=WAV ar=48000" />
   </group>
 
   <group name="Lossless/HQ" renderer="avformat" type="av">
+    <groupname id="lossless">Lossless / HQ</groupname>
     <profile name="Lossless FFV1 + FLAC"    extension="mkv" args="properties=lossless/FFV1" />
     <profile name="Lossless HuffYUV + FLAC" extension="mkv" args="properties=lossless/HuffYUV" />
     <profile name="Lossless MPEG-2 + AC3"   extension="mpg" args="properties=lossless/MPEG-2" />

@@ -4156,10 +4156,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
         } else if (item->fadeIn() != 0 && ix2 == -1) {
             QDomElement effect;
-            if (item->isVideoOnly() || (item->clipType() != Audio /* && item->clipType() != AV */ && item->clipType() != Playlist)) {
-                // add video fade
+            if (item->isAudioOnly() || item->clipType() == Audio) {
+                effect = MainWindow::audioEffects.getEffectByTag("volume", "fadein").cloneNode().toElement();
+            } else {
                 effect = MainWindow::videoEffects.getEffectByTag("", "fade_from_black").cloneNode().toElement();
-            } else effect = MainWindow::audioEffects.getEffectByTag("volume", "fadein").cloneNode().toElement();
+            }
             EffectsList::setParameter(effect, "out", QString::number(item->fadeIn()));
             slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
         }
@@ -4200,10 +4201,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             }
         } else if (item->fadeOut() != 0 && ix2 == -1) {
             QDomElement effect;
-            if (item->isVideoOnly() || (item->clipType() != Audio /* && item->clipType() != AV */ && item->clipType() != Playlist)) {
-                // add video fade
+            if (item->isAudioOnly() || item->clipType() == Audio) {
+                effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout").cloneNode().toElement();
+            } else {
                 effect = MainWindow::videoEffects.getEffectByTag("", "fade_to_black").cloneNode().toElement();
-            } else effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout").cloneNode().toElement();
+            }
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = end-item->fadeOut();
             EffectsList::setParameter(effect, "in", QString::number(start));
