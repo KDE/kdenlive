@@ -919,14 +919,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         render_process_args << QString("-locale:%1").arg(currentLocale);
     }
 
-    double guideStart = 0;
-    double guideEnd = 0;
-
     if (m_view.render_zone->isChecked()) render_process_args << "in=" + QString::number(zoneIn) << "out=" + QString::number(zoneOut);
     else if (m_view.render_guide->isChecked()) {
         double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
-        guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
-        guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
+        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
         render_process_args << "in=" + QString::number((int) GenTime(guideStart).frames(fps)) << "out=" + QString::number((int) GenTime(guideEnd).frames(fps));
     }
 
@@ -1225,7 +1222,6 @@ void RenderWidget::refreshCategory(const QString &group, const QString &profile)
 {
     m_view.format_list->blockSignals(true);
     m_view.format_list->clear();
-    QListWidgetItem *sizeItem;
     
     QString destination;
     if (m_view.destination_list->currentIndex() > 0)
@@ -1246,10 +1242,9 @@ void RenderWidget::refreshCategory(const QString &group, const QString &profile)
 
     // hide groups that are not in the correct destination
     for (int i = 0; i < m_renderCategory.count(); ++i) {
-        sizeItem = m_renderCategory.at(i);
+        QListWidgetItem *sizeItem = m_renderCategory.at(i);
         if (sizeItem->data(MetaGroupRole).toString() == destination) {
             m_view.format_list->addItem(sizeItem->clone());
-            //kDebug() << "// SET GRP:: " << sizeItem->text() << ", METY:" << sizeItem->data(MetaGroupRole).toString();
         }
     }
 

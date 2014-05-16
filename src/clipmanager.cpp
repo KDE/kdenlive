@@ -199,9 +199,8 @@ void ClipManager::slotGetThumbs()
         DocClipBase *clip = getClipById(m_processingThumbId);
         if (!clip) continue;
         max = m_requestedThumbs.size() + values.count();
-        int pos;
         while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
-            pos = values.takeFirst();
+            int pos = values.takeFirst();
             switch (thumbType) {
             case 1:
                 clip->thumbProducer()->getGenericThumb(pos, minHeight, thumbType);
@@ -301,9 +300,8 @@ void ClipManager::slotGetAudioThumbs()
 
             int h1 = arrayWidth * channels;
             int h2 = (int) frame * h1;
-            int h3;
             for (int z = (int) frame; z < (int)(frame + lengthInFrames) && !m_abortAudioThumb; z++) {
-                h3 = 0;
+                int h3 = 0;
                 for (int c = 0; c < channels; c++) {
                     QByteArray audioArray(arrayWidth, '\x00');
                     for (int i = 0; i < arrayWidth; ++i) {
@@ -348,7 +346,6 @@ void ClipManager::slotGetAudioThumbs()
 
         int last_val = 0;
         double framesPerSecond = mlt_producer_get_fps(producer.get_producer());
-        Mlt::Frame *mlt_frame;
 
         for (int z = (int) frame; z < (int)(frame + lengthInFrames) && producer.is_valid() &&  !m_abortAudioThumb; z++) {
             int val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
@@ -357,7 +354,7 @@ void ClipManager::slotGetAudioThumbs()
                 last_val = val;
             }
             producer.seek(z);
-            mlt_frame = producer.get_frame();
+            Mlt::Frame *mlt_frame = producer.get_frame();
             if (mlt_frame && mlt_frame->is_valid()) {
                 int samples = mlt_sample_calculator(framesPerSecond, frequency, mlt_frame->get_position());
                 qint16* pcm = static_cast<qint16*>(mlt_frame->get_audio(audioFormat, frequency, channels, samples));

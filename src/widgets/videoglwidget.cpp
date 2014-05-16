@@ -283,7 +283,7 @@ void VideoGLWidget::paintGL()
             //glBlendFunc( GL_SRC_ALPHA, GL_ONE);
             glColor4f(0.2,0.2,0.2, 0.6);
             //glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
-            float x1,y1,x2,y2;
+            float x1,y1;
             double radius = 0.15;
             x1=0.49;
             y1=0.5;
@@ -292,8 +292,8 @@ void VideoGLWidget::paintGL()
             glVertex2f(x + x1 * w,y + y1 * h);
             const float PI = 3.1415926535897932;
             for (float angle = 0.0; angle < 2.0*PI; angle += 2.0*PI/30.0) {
-                x2 = x1+sin(angle)*radius / w * h;
-                y2 = y1+cos(angle)*radius;
+                float x2 = x1+sin(angle)*radius / w * h;
+                float y2 = y1+cos(angle)*radius;
                 glTexCoord2f(x2, y2);
                 glVertex2f(x + x2 * w,y + y2 * h);
             }

@@ -171,7 +171,6 @@ void ColorWheel::mouseMoveEvent(QMouseEvent *event)
         if(inWheel) {
             double r = length/2 - margin - wheelWidth/2.0;
             QPoint circlePoint;
-            double alpha;
             if (xOffset == 0) {
                 circlePoint.setX(center.x());
                 if (yOffset > 0)
@@ -180,7 +179,7 @@ void ColorWheel::mouseMoveEvent(QMouseEvent *event)
                     circlePoint.setY(center.y() + r);
             }
             else {
-                alpha = -atan(yOffset / xOffset);
+                double alpha = -atan(yOffset / xOffset);
                 if (xOffset < 0) alpha += pi;
                 circlePoint.setX(center.x() + r * cos(alpha));
                 circlePoint.setY(center.y() + r * sin(alpha));

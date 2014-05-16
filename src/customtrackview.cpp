@@ -992,7 +992,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     offsetList.append(item->startPos());
                     offsetList.append(item->endPos());
                     m_selectionGroup->addItem(selection.at(i));
-                } else if (/*selection.at(i)->parentItem() == 0 && */selection.at(i)->type() == GroupWidget) {
+                } else if (selection.at(i)->type() == GroupWidget) {
                     if (static_cast<AbstractGroupItem *>(selection.at(i))->isItemLocked()) continue;
                     QList<QGraphicsItem *> children = selection.at(i)->childItems();
                     for (int j = 0; j < children.count(); j++) {
@@ -1066,12 +1066,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         } else {
             resetSelectionGroup();
         }
-        /*if () {
-        dragGroup = NULL;
-        if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET) {
-        dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
-        }
-    }*/
 
         bool selected = !m_dragItem->isSelected();
         m_dragItem->setZValue(99);
@@ -2049,34 +2043,6 @@ void CustomTrackView::slotAddEffect(QDomElement effect, const GenTime &pos, int 
     if (effectCommand->childCount() > 0) {
         m_commandStack->push(effectCommand);
         setDocumentModified();
-        /*if (effectCommand->childCount() == 1) {
-        // Display newly added clip effect
-        for (int i = 0; i < itemList.count(); ++i) {
-        if (itemList.at(i)->type() == AVWidget) {
-            ClipItem *clip = static_cast<ClipItem *>(itemList.at(i));
-            clip->setSelectedEffect(clip->effectsCount());
-            if (!clip->isSelected() && (!m_dragItem || !itemList.contains(m_dragItem))) {
-            kDebug()<<"// CLIP WAS NO SELECTED, DRG: "<<(m_dragItem == NULL);
-            clearSelection(false);
-            clip->setSelected(true);
-            m_dragItem = clip;
-            emit clipItemSelected(clip);
-            break;
-            }
-        }
-        }
-    }
-    else {
-        for (int i = 0; i < itemList.count(); ++i) {
-        if (itemList.at(i)->type() == AVWidget) {
-            ClipItem *clip = static_cast<ClipItem *>(itemList.at(i));
-            if (clip->isMainSelectedClip()) {
-            emit clipItemSelected(clip);
-            break;
-            }
-        }
-        }
-    }*/
     } else delete effectCommand;
 }
 
@@ -3065,20 +3031,13 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
                         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
                     }
                 }
-            } /*else if (item->type() == TRANSITIONWIDGET) {
-                Transition *tr = static_cast <Transition *>(item);
-                int track = tr->transitionEndTrack();
-                if (track >= ix) {
-                    tr->updateTransitionEndTrack(getPreviousVideoTrack(clipinfo.track));
-                }
-            }*/
+            } 
         }
         // Sync transition tracks with MLT playlist
-        Transition *tr;
         TransitionInfo info;
         for (int i = 0; i < transitionInfos.count(); ++i) {
             info = transitionInfos.at(i);
-            tr = getTransitionItem(info);
+            Transition *tr = getTransitionItem(info);
             if (tr) tr->setForcedTrack(info.forceTrack, info.a_track);
             else kDebug()<<"// Cannot update TRANSITION AT: "<<info.b_track<<" / "<<info.startPos.frames(m_document->fps());
         }
@@ -3482,8 +3441,6 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
     m_selectionMutex.lock();
     m_selectionGroup = new AbstractGroupItem(m_document->fps());
     scene()->addItem(m_selectionGroup);
-    ClipItem *clip;
-    Transition *transition;
 
     // Create lists with start pos for each track
     QMap <int, int> trackClipStartList;
@@ -3495,7 +3452,7 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
     }
 
     if (!clipsToMove.isEmpty()) for (int i = 0; i < clipsToMove.count(); ++i) {
-        clip = getClipItemAtStart(clipsToMove.at(i).startPos + offset, clipsToMove.at(i).track);
+        ClipItem *clip = getClipItemAtStart(clipsToMove.at(i).startPos + offset, clipsToMove.at(i).track);
         if (clip) {
             if (clip->parentItem()) {
                 m_selectionGroup->addItem(clip->parentItem());
@@ -3509,7 +3466,7 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
         }
     }
     if (!transToMove.isEmpty()) for (int i = 0; i < transToMove.count(); ++i) {
-        transition = getTransitionItemAtStart(transToMove.at(i).startPos + offset, transToMove.at(i).track);
+        Transition *transition = getTransitionItemAtStart(transToMove.at(i).startPos + offset, transToMove.at(i).track);
         if (transition) {
             if (transition->parentItem()) {
                 m_selectionGroup->addItem(transition->parentItem());
@@ -5649,11 +5606,10 @@ QList <CommentedTime> CustomTrackView::guides() const
 
 void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
 {
-    QAction *act;
     goMenu->clear();
     double fps = m_document->fps();
     for (int i = 0; i < m_guides.count(); ++i) {
-        act = goMenu->addAction(m_guides.at(i)->label() + '/' + Timecode::getStringTimecode(m_guides.at(i)->position().frames(fps), fps));
+        QAction *act = goMenu->addAction(m_guides.at(i)->label() + '/' + Timecode::getStringTimecode(m_guides.at(i)->position().frames(fps), fps));
         act->setData(m_guides.at(i)->position().frames(m_document->fps()));
     }
     goMenu->setEnabled(!m_guides.isEmpty());
@@ -7373,9 +7329,8 @@ bool CustomTrackView::hasAudio(int track) const
 {
     QRectF rect(0, (double)(track * m_tracksHeight + 1), (double) sceneRect().width(), (double)(m_tracksHeight - 1));
     QList<QGraphicsItem *> collisions = scene()->items(rect, Qt::IntersectsItemBoundingRect);
-    QGraphicsItem *item;
     for (int i = 0; i < collisions.count(); ++i) {
-        item = collisions.at(i);
+        QGraphicsItem *item = collisions.at(i);
         if (!item->isEnabled()) continue;
         if (item->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(item);
@@ -7574,11 +7529,10 @@ void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
         for (int i = 0; i < m_document->tracksCount(); ++i)
             tracks << i;
     }
-    int t, duration;
     for (int i = 0; i < tracks.count(); ++i) {
-        t = tracks.at(i);
+        int t = tracks.at(i);
         // t + 1 because of black background track
-        duration = m_document->renderer()->mltTrackDuration(t + 1);
+        int duration = m_document->renderer()->mltTrackDuration(t + 1);
         if (duration != m_document->trackDuration(t)) {
             m_document->setTrackDuration(t, duration);
 

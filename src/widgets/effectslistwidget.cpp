@@ -73,7 +73,6 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 {
     QString current;
     QString currentFolder;
-    QTreeWidgetItem *item = NULL;
     bool found = false;
     effectsMenu->clear();
     
@@ -106,7 +105,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     }
 
     for (int i = 0; i < groups.count(); ++i) {
-        item = findFolder(folderNames.at(i));
+        QTreeWidgetItem *item = findFolder(folderNames.at(i));
         if (item) {
             item->setData(0, IdRole, groups.at(i).toElement().attribute("list"));
         } else {
@@ -223,7 +222,6 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found)
 {
     QStringList effectInfo, l;
-    QTreeWidgetItem *parentItem;
     QTreeWidgetItem *item;
     int ct = effectlist->count();
 
@@ -231,7 +229,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, KIcon icon, Q
     for (int ix = 0; ix < ct; ++ix) {
         effectInfo = effectlist->effectIdInfo(ix);
         effectInfo.append(QString::number(type));
-        parentItem = NULL;
+        QTreeWidgetItem *parentItem = NULL;
 
         if (folders) {
             for (int i = 0; i < folders->count(); ++i) {

@@ -74,15 +74,13 @@ void BackupWidget::slotParseBackupFiles()
     QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);
     QStringList results;
     backup_list->clear();
-    QListWidgetItem *item;
-    QString label;
     for (int i = 0; i < resultList.count(); ++i) {
-        label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
+        QString label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
         if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
             // Displaying all backup files, so add project name in the entries
             label.prepend(resultList.at(i).fileName().section('-', 0, -7) + ".kdenlive - ");
         }
-        item = new QListWidgetItem(label, backup_list);
+        QListWidgetItem *item = new QListWidgetItem(label, backup_list);
         item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
     }
     buttonBox->button(QDialogButtonBox::Open)->setEnabled(backup_list->count() > 0);

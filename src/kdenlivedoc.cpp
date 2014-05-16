@@ -1560,10 +1560,9 @@ void KdenliveDoc::removeTrackEffect(int ix, const QDomElement &effect)
         kWarning() << "Remove Track effect outisde of range";
         return;
     }
-    int index;
     int toRemove = effect.attribute("kdenlive_ix").toInt();
     for (int i = 0; i < m_tracksList.at(ix).effectsList.count(); ++i) {
-        index = m_tracksList.at(ix).effectsList.at(i).attribute("kdenlive_ix").toInt();
+        int index = m_tracksList.at(ix).effectsList.at(i).attribute("kdenlive_ix").toInt();
         if (toRemove == index) {
             m_tracksList[ix].effectsList.removeAt(toRemove);
             break;

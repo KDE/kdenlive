@@ -121,8 +121,6 @@ QImage Waveform::renderHUD(uint)
     const int y = m_mousePos.y() - scopeRect().y();
 
     if (scopeRect().height() > 0 && m_mouseWithinWidget) {
-        const int top = 30;
-        const int bottom = 20;
         int val = 255*(1-(float)y/scopeRect().height());
 
         if (val >= 0 && val <= 255) {
@@ -132,6 +130,8 @@ QImage Waveform::renderHUD(uint)
 
             // Make the value stick to the line unless it is at the top/bottom of the scope
             int valY = y+5;
+            const int top = 30;
+            const int bottom = 20;
             if (valY < top) {
                 valY = top;
             } else if (valY > scopeRect().height()-bottom) {

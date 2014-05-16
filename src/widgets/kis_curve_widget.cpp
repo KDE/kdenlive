@@ -283,14 +283,12 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
     // Draw curve.
     double prevY = wHeight - d->m_curve.value(0.) * wHeight;
     double prevX = 0.;
-    double curY;
-    double normalizedX;
     int x;
 
     p.setPen(QPen(Qt::black, 1, Qt::SolidLine));
     for (x = 0 ; x < wWidth ; x++) {
-        normalizedX = double(x) / wWidth;
-        curY = wHeight - d->m_curve.value(normalizedX) * wHeight;
+        double normalizedX = double(x) / wWidth;
+        double curY = wHeight - d->m_curve.value(normalizedX) * wHeight;
 
         /**
          * Keep in mind that QLineF rounds doubles

@@ -904,10 +904,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
         QDomNodeList transitions = m_doc.elementsByTagName("transition");
         max = transitions.count();
-        int out;
         for (int i = 0; i < max; ++i) {
             QDomElement trans = transitions.at(i).toElement();
-            out = trans.attribute("out").toInt() - trans.attribute("in").toInt();
+            int out = trans.attribute("out").toInt() - trans.attribute("in").toInt();
             QString geom = EffectsList::property(trans, "geometry");
             Mlt::Geometry *g = new Mlt::Geometry(geom.toUtf8().data(), out, profileWidth, profileHeight);
             Mlt::GeometryItem item;

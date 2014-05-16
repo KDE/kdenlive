@@ -76,7 +76,6 @@ void ShuttleThread::run()
     }
 
     // init
-    int result;
 	fd_set readset;
 	struct timeval timeout;
 
@@ -92,7 +91,7 @@ void ShuttleThread::run()
 
 		// do select in blocked mode and wake up after timeout
 		// for stop_me evaluation
-		result = select(mc.fd + 1, &readset, NULL, NULL, &timeout);
+		int result = select(mc.fd + 1, &readset, NULL, NULL, &timeout);
 
 		// see if there was an error or timeout else process event
 		if (result < 0 && errno == EINTR) {

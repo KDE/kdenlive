@@ -132,7 +132,6 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
 
     const uchar *bits = image.bits();
 
-    int r,g,b;
     double dy, dr, dg, db, dmax;
     double /*y,*/ u, v;
     QPoint pt;
@@ -147,9 +146,9 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     for (int i = 0; i < (image.bytesPerLine()*image.height()); i+= stepsize) {
         QRgb *col = (QRgb *) bits;
 
-        r = qRed(*col);
-        g = qGreen(*col);
-        b = qBlue(*col);
+        int r = qRed(*col);
+        int g = qGreen(*col);
+        int b = qBlue(*col);
 
         switch (colorSpace) {
         case VectorscopeGenerator::ColorSpace_YUV:

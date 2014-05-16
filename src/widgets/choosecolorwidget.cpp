@@ -122,8 +122,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
 
 QString ChooseColorWidget::getColor() const
 {
-    bool alphaChannel = false;
-    alphaChannel = m_button->isAlphaChannelEnabled();
+    bool alphaChannel = m_button->isAlphaChannelEnabled();
     return colorToString(m_button->color(), alphaChannel);
 }
 
