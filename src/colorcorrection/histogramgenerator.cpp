@@ -48,12 +48,10 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     const uint stepsize = image.depth() / 8 *accelFactor;
 
     const uchar *bits = image.bits();
-    QRgb *col;
-
 
     // Read the stats from the input image
     for (uint i = 0; i < byteCount; i += stepsize) {
-        col = (QRgb *)bits;
+        QRgb *col = (QRgb *)bits;
 
         r[qRed(*col)]++;
         g[qGreen(*col)]++;
@@ -136,11 +134,10 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
     Q_ASSERT(scaling != INFINITY);
 
     const int partH = size.height();
-    int partY;
 
     for (uint x = 0; x < max; x++) {
         // Calculate the height of the curve at position x
-        partY = scaling*y[x];
+        int partY = scaling*y[x];
 
         // Invert the y axis
         if (partY > partH-1) { partY = partH-1; }

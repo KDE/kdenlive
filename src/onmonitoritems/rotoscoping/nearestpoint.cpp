@@ -145,7 +145,7 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
 //     Point2      P;                      /* The point to find t for      */
 //     Point2      *V;                     /* The control points           */
 {
-    int         i, j, k, m, n, ub, lb;  
+    int         i, j, k, m, n;
     int         row, column;            /* Table indices                */
     Vector2     c[DEGREE+1];            /* V(i)'s - P                   */
     Vector2     d[DEGREE];              /* V(i+1) - V(i)                */
@@ -188,8 +188,8 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
     n = DEGREE;
     m = DEGREE-1;
     for (k = 0; k <= n + m; k++) {
-                lb = MAX(0, k - m);
-                ub = MIN(k, n);
+                int lb = MAX(0, k - m);
+                int ub = MIN(k, n);
                 for (i = lb; i <= ub; ++i) {
                 j = k - i;
                 w[i+j].y += cdTable[j][i] * z[j][i];
@@ -270,11 +270,11 @@ static int CrossingCount(Point2 *V, int degree)
 {
     int         i;      
     int         n_crossings = 0;        /*  Number of zero-crossings    */
-    int         sign, old_sign;         /*  Sign of coefficients        */
+    int         old_sign;               /*  Sign of coefficients        */
 
     old_sign = SGN(V[0].y);
     for (i = 1; i <= degree; ++i) {
-                sign = SGN(V[i].y);
+                int sign = SGN(V[i].y);
                 if (sign != old_sign) n_crossings++;
                 old_sign = sign;
     }
@@ -333,8 +333,6 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
 //     Point2      *V;             /* Control points       */
 //     int         degree;         /* Degree of polynomial */
 {
-    int     i;        /* Index variable        */
-    double  value;
     double  max_distance_above;
     double  max_distance_below;
     double  error;        /* Precision of root        */
@@ -354,17 +352,14 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
     c = V[0].x * V[degree].y - V[degree].x * V[0].y;
 
     max_distance_above = max_distance_below = 0.0;
-    
-    for (i = 1; i < degree; ++i)
-    {
-        value = a * V[i].x + b * V[i].y + c;
-       
-        if (value > max_distance_above)
-        {
+
+    for (int i = 1; i < degree; ++i) {
+        double value = a * V[i].x + b * V[i].y + c;
+
+        if (value > max_distance_above) {
             max_distance_above = value;
         }
-        else if (value < max_distance_below)
-        {
+        else if (value < max_distance_below) {
             max_distance_below = value;
         }
     }

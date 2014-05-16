@@ -3437,11 +3437,10 @@ void ProjectList::slotCancelRunningJob(const QString id, stringMap newProps)
 bool ProjectList::hasPendingJob(ProjectItem *item, JOBTYPE type)
 {
     if (!item || !item->referencedClip() || m_abortAllJobs) return false;
-    AbstractClipJob *job;
     QMutexLocker lock(&m_jobMutex);
     for (int i = 0; i < m_jobList.count(); ++i) {
         if (m_abortAllJobs) break;
-        job = m_jobList.at(i);
+        AbstractClipJob *job = m_jobList.at(i);
         if (job->clipId() == item->clipId() && job->jobType == type && (job->status() == JobWaiting || job->status() == JobWorking)) return true;
     }
     

@@ -200,9 +200,8 @@ void SlideshowClip::parseFolder()
             }
         }
     }
-    QListWidgetItem *item;
     foreach(const QString & path, result) {
-        item = new QListWidgetItem(unknownicon, KUrl(path).fileName());
+        QListWidgetItem *item = new QListWidgetItem(unknownicon, KUrl(path).fileName());
         item->setData(Qt::UserRole, dir.filePath(path));
         m_view.icon_list->addItem(item);
     }

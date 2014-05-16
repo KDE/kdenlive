@@ -244,10 +244,10 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
 
 
     float x;
-    float x_prev = 0;
     uint xi;
     uint i;
     if (((float) (right-left))/targetSize < 2) {
+        float x_prev = 0;
         for (i = 0; i < targetSize; ++i) {
 
             // i:  Target index
@@ -292,20 +292,13 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
         // If there are more than 2 samples per pixel in average, then use the maximum of them
         // since by only looking at the left sample we might miss some maxima.
         uint src = left;
-//         int xi_prev = 0;
-        int points;
-
-#ifdef DEBUG_FFTTOOLS
-        qDebug() << "Interpolation: Ratio over 2; using maximum interpolation";
-#endif
-
         for (i = 0; i < targetSize; ++i) {
 
             // x:  right bound
             // xi: floor(x)
             x = ((float) (i+1)) / (targetSize-1) * (right-left) + left;
             xi = (int) floor(x);
-            points = 0;
+            int points = 0;
 
             out[i] = fill;
 

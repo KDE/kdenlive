@@ -73,7 +73,6 @@ DocumentChecker::DocumentChecker(const QDomNodeList &infoproducers, const QDomDo
 
 bool DocumentChecker::hasErrorInClips()
 {
-    int clipType;
     QDomElement e;
     QString resource;
     int max;
@@ -88,7 +87,7 @@ bool DocumentChecker::hasErrorInClips()
     max = m_info.count();
     for (int i = 0; i < max; ++i) {
         e = m_info.item(i).toElement();
-        clipType = e.attribute("type").toInt();
+        int clipType = e.attribute("type").toInt();
         if (clipType == Color) continue;
         if (clipType != Text && clipType != Image && clipType != SlideShow) {
             QString id = e.attribute("id");

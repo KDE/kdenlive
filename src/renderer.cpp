@@ -1945,7 +1945,6 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
 
     int trackNb = tractor->count();
     int duration = 0;
-    int trackDuration;
     if (m_isZoneMode) resetZoneMode();
     if (trackNb == 1) {
         Mlt::Producer trackProducer(tractor->track(0));
@@ -1956,8 +1955,7 @@ void Render::mltCheckLength(Mlt::Tractor *tractor)
     }
     while (trackNb > 1) {
         Mlt::Producer trackProducer(tractor->track(trackNb - 1));
-        trackDuration = trackProducer.get_playtime() - 1;
-        // kDebug() << " / / /DURATON FOR TRACK " << trackNb - 1 << " = " << trackDuration;
+        int trackDuration = trackProducer.get_playtime() - 1;
         if (trackDuration > duration) duration = trackDuration;
         trackNb--;
     }
@@ -3243,8 +3241,8 @@ void Render::mltMoveEffect(int track, const GenTime &position, int oldPos, int n
     int ct = 0;
     QList <Mlt::Filter *> filtersList;
     Mlt::Filter *filter = clipService.filter(ct);
-    bool found = false;
     if (newPos > oldPos) {
+        bool found = false;
         while (filter) {
             if (!found && filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);
@@ -3304,8 +3302,8 @@ void Render::mltMoveTrackEffect(int track, int oldPos, int newPos)
     int ct = 0;
     QList <Mlt::Filter *> filtersList;
     Mlt::Filter *filter = clipService.filter(ct);
-    bool found = false;
     if (newPos > oldPos) {
+        bool found = false;
         while (filter) {
             if (!found && filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);

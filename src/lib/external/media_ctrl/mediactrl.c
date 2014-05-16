@@ -415,11 +415,10 @@ void media_ctrl_get_device_list()
 void find_first_device(struct media_ctrl *mc) 
 {
 	char buf[256];
-	int fd, i;
 	
-	for ( i = 0; i < 32; i++ ) {
+	for (int i = 0; i < 32; i++ ) {
 		sprintf(buf, "/dev/input/event%d", i); 
-		fd = open( buf, O_RDONLY );
+		int fd = open( buf, O_RDONLY );
 		if ( fd < 0 ) {
 			perror(buf);
 		} else {
@@ -433,7 +432,6 @@ void find_first_device(struct media_ctrl *mc)
 			}
 		}
 	}
-	return;
 }
 
 

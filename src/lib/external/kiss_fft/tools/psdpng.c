@@ -209,8 +209,13 @@ void make_png(void)
     row_data = (rgb_t*)malloc(sizeof(rgb_t) * nrows * nfreqs) ;
     cpx2pixels(row_data, vals, nfreqs*nrows );
 
-    row_pointers = realloc(row_pointers, nrows*sizeof(png_bytep));
-    if(new_row_pointers == NULL) return; else row_pointers=new_row_pointers;
+    new_row_pointers = realloc(row_pointers, nrows*sizeof(png_bytep));
+    if(new_row_pointers == NULL) {
+        free(row_pointers);
+        return;
+    } else {
+        row_pointers=new_row_pointers;
+    }
 
     for (i=0;i<nrows;++i) {
         row_pointers[i] = (png_bytep)(row_data + i*nfreqs);

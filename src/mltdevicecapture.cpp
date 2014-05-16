@@ -699,30 +699,21 @@ void MltDeviceCapture::uyvy2rgb(unsigned char *yuv_buffer, int width, int height
     QImage image(width, height, QImage::Format_RGB888);
     unsigned char *rgb_buffer = image.bits();    
 
-    int len;
-    int r, g, b;
-    int Y, U, V, Y2;
-    int rgb_ptr, y_ptr, t;
+    int rgb_ptr = 0, y_ptr = 0;
+    int len = width * height / 2;
 
-    len = width * height / 2;
-
-    rgb_ptr = 0;
-    y_ptr = 0;
-
-    for (t = 0; t < len; t++) { 
-      
-
-        Y = yuv_buffer[y_ptr];
-        U = yuv_buffer[y_ptr+1];
-        Y2 = yuv_buffer[y_ptr+2];
-        V = yuv_buffer[y_ptr+3];
+    for (int t = 0; t < len; t++) { 
+        int Y = yuv_buffer[y_ptr];
+        int U = yuv_buffer[y_ptr+1];
+        int Y2 = yuv_buffer[y_ptr+2];
+        int V = yuv_buffer[y_ptr+3];
         y_ptr += 4;
 
-        r = ((298 * (Y - 16)               + 409 * (V - 128) + 128) >> 8);
+        int r = ((298 * (Y - 16)               + 409 * (V - 128) + 128) >> 8);
 
-        g = ((298 * (Y - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
+        int g = ((298 * (Y - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
 
-        b = ((298 * (Y - 16) + 516 * (U - 128)               + 128) >> 8);
+        int b = ((298 * (Y - 16) + 516 * (U - 128)               + 128) >> 8);
 
         if (r > 255) r = 255;
         if (g > 255) g = 255;
@@ -737,11 +728,8 @@ void MltDeviceCapture::uyvy2rgb(unsigned char *yuv_buffer, int width, int height
         rgb_buffer[rgb_ptr+2] = b;
         rgb_ptr += 3;
 
-
         r = ((298 * (Y2 - 16)               + 409 * (V - 128) + 128) >> 8);
-
         g = ((298 * (Y2 - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
-
         b = ((298 * (Y2 - 16) + 516 * (U - 128)               + 128) >> 8);
 
         if (r > 255) r = 255;

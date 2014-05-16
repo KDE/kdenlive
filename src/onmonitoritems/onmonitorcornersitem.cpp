@@ -65,9 +65,8 @@ OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(const QPointF
         if (mouseArea.contains(getCentroid()))
             return Move;
 
-        int j;
         for (int i = 0; i < 4; ++i) {
-            j = (i + 1) % 4;
+            int j = (i + 1) % 4;
             if (mouseArea.contains(QLineF(polygon().at(i), polygon().at(j)).pointAt(.5))) {
                 *corner = i;
                 return MoveSide;
@@ -180,9 +179,8 @@ void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsIt
         painter->drawLine(QLineF(c - QPointF(-toolSize, toolSize), c + QPointF(-toolSize, toolSize)));
 
         // move side tools (2 corners at once)
-        int j;
         for (int i = 0; i < 4; ++i) {
-            j = (i + 1) % 4;
+            int j = (i + 1) % 4;
             QPointF m = QLineF(polygon().at(i), polygon().at(j)).pointAt(.5);
             painter->drawRect(QRectF(-toolSize / 2., -toolSize / 2., toolSize, toolSize).translated(m));
         }
@@ -198,18 +196,17 @@ QPointF OnMonitorCornersItem::getCentroid()
      */
 
     double A = 0;
-    int i, j;
-    for (i = 0; i < 4; ++i) {
-        j = (i + 1) % 4;
+    for (int i = 0; i < 4; ++i) {
+        int j = (i + 1) % 4;
         A += p[j].x() * p[i].y() - p[i].x() * p[j].y();
     }
     A /= 2.;
     A = qAbs(A);
 
-    double x = 0, y = 0, f;
-    for (i = 0; i < 4; ++i) {
-        j = (i + 1) % 4;
-        f = (p[i].x() * p[j].y() - p[j].x() * p[i].y());
+    double x = 0, y = 0;
+    for (int i = 0; i < 4; ++i) {
+        int j = (i + 1) % 4;
+        double f = (p[i].x() * p[j].y() - p[j].x() * p[i].y());
         x += f * (p[i].x() + p[j].x());
         y += f * (p[i].y() + p[j].y());
     }

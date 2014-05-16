@@ -119,13 +119,12 @@ void initEffects::refreshLumas()
 QDomDocument initEffects::getUsedCustomEffects(const QMap <QString, QString>& effectids)
 {
     QMapIterator<QString, QString> i(effectids);
-    int ix;
     QDomDocument doc;
     QDomElement list = doc.createElement("customeffects");
     doc.appendChild(list);
     while (i.hasNext()) {
         i.next();
-        ix = MainWindow::customEffects.hasEffect(i.value(), i.key());
+        int ix = MainWindow::customEffects.hasEffect(i.value(), i.key());
         if (ix > -1) {
             QDomElement e = MainWindow::customEffects.at(ix);
             list.appendChild(doc.importNode(e, true));

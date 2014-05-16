@@ -88,10 +88,6 @@ void AudioEnvelope::loadEnvelope()
     mlt_audio_format format_s16 = mlt_audio_s16;
     int channels = 1;
 
-    Mlt::Frame *frame;
-    int64_t position;
-    int samples;
-
     m_envelope = new int64_t[m_envelopeSize];
     m_envelopeMax = 0;
     m_envelopeMean = 0;
@@ -102,10 +98,9 @@ void AudioEnvelope::loadEnvelope()
     m_producer->seek(m_offset);
     m_producer->set_speed(1.0); // This is necessary, otherwise we don't get any new frames in the 2nd run.
     for (int i = 0; i < m_envelopeSize; ++i) {
-
-        frame = m_producer->get_frame(i);
-        position = mlt_frame_get_position(frame->get_frame());
-        samples = mlt_sample_calculator(m_producer->get_fps(), samplingRate, position);
+        Mlt::Frame *frame = m_producer->get_frame(i);
+        int64_t position = mlt_frame_get_position(frame->get_frame());
+        int samples = mlt_sample_calculator(m_producer->get_fps(), samplingRate, position);
 
         int16_t *data = static_cast<int16_t*>(frame->get_audio(format_s16, samplingRate, channels, samples));
 
@@ -213,9 +208,8 @@ QImage AudioEnvelope::drawEnvelope()
     if (m_envelopeMax == 0)
         return img;
 
-    double fy;
     for (int x = 0; x < img.width(); x++) {
-        fy = m_envelope[x]/double(m_envelopeMax) * img.height();
+        double fy = m_envelope[x]/double(m_envelopeMax) * img.height();
         for (int y = img.height()-1; y > img.height()-1-fy; y--) {
             img.setPixel(x,y, qRgb(50, 50, 50));
         }

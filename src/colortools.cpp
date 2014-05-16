@@ -34,7 +34,7 @@ QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, cons
         wheel.fill(qRgba(0,0,0,0));
     }
 
-    double dr, dg, db, du, dv, dmax;
+    double dr, dg, db, dv, dmax;
     double ru, rv, rr;
     const int w = size.width();
     const int h = size.height();
@@ -43,7 +43,7 @@ QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, cons
 
     for (int u = 0; u < w; u++) {
         // Transform u from {0,...,w} to [-1,1]
-        du = (double) 2*u/(w-1) - 1;
+        double du = (double) 2*u/(w-1) - 1;
         du = scaling*du;
 
         for (int v = 0; v < h; v++) {
@@ -106,15 +106,15 @@ QImage ColorTools::yuvVerticalPlane(const QSize &size, const float &angle, const
         return plane;
     }
 
-    double dr, dg, db, du, dv, Y;
+    double dr, dg, db, Y;
     const int w = size.width();
     const int h = size.height();
     const double uscaling = scaling*cos(M_PI*angle/180);
     const double vscaling = scaling*sin(M_PI*angle/180);
 
     for (int uv = 0; uv < w; uv++) {
-        du = uscaling*((double)2*uv/w - 1);//(double)?
-        dv = vscaling*((double)2*uv/w - 1);
+        double du = uscaling*((double)2*uv/w - 1);//(double)?
+        double dv = vscaling*((double)2*uv/w - 1);
 
         for (int y = 0; y < h; y++) {
             Y = (double)255*y/h;
@@ -153,11 +153,11 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB 
     const int w = size.width();
     const int h = size.height();
 
-    double dcol, dval;
+    double dcol;
     double dx, dy;
 
     for (int x = 0; x < w; x++) {
-        dval = (double)255*x/(w-1);
+        double dval = (double)255*x/(w-1);
 
         for (int y = 0; y < h; y++) {
             dy = (double)y/(h-1);
@@ -198,7 +198,7 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, const unsigned char &Y, co
         wheel.fill(qRgba(0,0,0,0));
     }
 
-    double dr, dg, db, dpB, dpR;
+    double dr, dg, db, dpR;
     double rB, rR, rr;
     const int w = size.width();
     const int h = size.height();
@@ -207,7 +207,7 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, const unsigned char &Y, co
 
     for (int b = 0; b < w; b++) {
         // Transform pB from {0,...,w} to [-0.5,0.5]
-        dpB = (double) b/(w-1) - .5;
+        double dpB = (double) b/(w-1) - .5;
         dpB = scaling*dpB;
 
         for (int r = 0; r < h; r++) {
@@ -265,10 +265,10 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
 
     const int hueValues = MAX-MIN;
 
-    float hue, huediff;
+    float huediff;
     int newhue;
     for (int x = 0; x < size.width(); x++) {
-        hue = x/(size.width() - 1.0) * 359;
+        float hue = x/(size.width() - 1.0) * 359;
         for (int y = 0; y < size.height(); y++) {
             huediff = (1.0f - y/(size.height() - 1.0)) * hueValues + MIN;
 //            qDebug() << "hue: " << hue << ", huediff: " << huediff;

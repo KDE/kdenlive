@@ -45,10 +45,6 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         // Fill with transparent color
         wave.fill(qRgba(0,0,0,0));
 
-        QRgb *col;
-
-        double dY, dx, dy;
-
         const uint ww = waveformSize.width();
         const uint wh = waveformSize.height();
         const uint iw = image.bytesPerLine();
@@ -81,7 +77,8 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
 
             Q_ASSERT(bits < image.bits() + byteCount);
 
-            col = (QRgb *)bits;
+            double dY, dx, dy;
+            QRgb *col = (QRgb *)bits;
 
             if (rec == WaveformGenerator::Rec_601) {
                 // CIE 601 Luminance
@@ -141,7 +138,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
             davinci.setPen(qRgba(150,255,200,32));
             davinci.setCompositionMode(QPainter::CompositionMode_Overlay);
             for (uint i = 0; i <= 10; ++i) {
-                dy = (float)i/10 * (wh-1);
+                float dy = (float)i/10 * (wh-1);
                 for (uint x = 0; x < ww; x++) {
                     opx = wave.pixel(x, dy);
                     wave.setPixel(x,dy, qRgba(CHOP255(150+qRed(opx)), 255,

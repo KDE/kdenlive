@@ -340,9 +340,8 @@ void TrackView::parseDocument(const QDomDocument &doc)
                     start.append(mlt_geometry.section('=', 1, 1).section(':', 0, -2));
                     QStringList numbers = start.split(':', QString::SkipEmptyParts);
                     bool isWipeTransition = true;
-                    int checkNumber;
                     for (int i = 0; i < numbers.size(); ++i) {
-                        checkNumber = qAbs(numbers.at(i).toInt());
+                        int checkNumber = qAbs(numbers.at(i).toInt());
                         if (checkNumber != 0 && checkNumber != 100) {
                             isWipeTransition = false;
                             break;
@@ -544,7 +543,6 @@ void TrackView::slotRebuildTrackHeaders()
     }
     int max = list.count();
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
-    HeaderTrack *header = NULL;
     QFrame *frame = NULL;
 
     updatePalette();
@@ -555,7 +553,7 @@ void TrackView::slotRebuildTrackHeaders()
         frame->setFixedHeight(1);
         headers_container->layout()->addWidget(frame);
         TrackInfo info = list.at(max - i - 1);
-        header = new HeaderTrack(i, info, height, m_trackActions, headers_container);
+        HeaderTrack *header = new HeaderTrack(i, info, height, m_trackActions, headers_container);
         header->setSelectedIndex(m_trackview->selectedTrack());
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));

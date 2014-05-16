@@ -149,11 +149,10 @@ QList<QPointF> CornersWidget::getPoints(QTableWidgetItem* keyframe)
     if (!keyframe)
         return points;
 
-    double val;
     for (int col = 0; col < 8; col++) {
         if (!keyframe_list->item(keyframe->row(), col))
             return QList<QPointF>();
-        val = (keyframe_list->item(keyframe->row(), col)->text().toInt() - 2000) / 2000.;
+        double val = (keyframe_list->item(keyframe->row(), col)->text().toInt() - 2000) / 2000.;
         if (col % 2 == 0)
             points << QPointF(val * m_monitor->render->frameRenderWidth(), 0);
         else

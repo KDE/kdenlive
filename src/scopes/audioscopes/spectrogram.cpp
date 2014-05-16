@@ -279,10 +279,9 @@ QImage Spectrogram::renderHUD(uint)
         }
 
         // Draw the dB brightness scale
-        float val;
         davinci.setPen(AbstractScopeWidget::penLighter);
         for (y = topDist; y < (int)topDist + m_innerScopeRect.height(); y++) {
-            val = 1-((float)y-topDist)/(m_innerScopeRect.height()-1);
+            float val = 1-((float)y-topDist)/(m_innerScopeRect.height()-1);
             int col = qRgba(255, 255, 255, 255.0 * val);
             for (x = leftDist-6; x >= (int)leftDist-13; x--) {
                 hud.setPixel(x, y, col);

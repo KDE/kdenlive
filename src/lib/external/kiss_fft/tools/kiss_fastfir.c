@@ -314,7 +314,7 @@ void do_file_filter(
 
     kiss_fastfir_cfg cfg;
     kffsamp_t *inbuf,*outbuf;
-    int nread,nwrite;
+    int nread;
     size_t idx_inbuf;
 
     fdout = fileno(fout);
@@ -322,7 +322,6 @@ void do_file_filter(
     cfg=kiss_fastfir_alloc(imp_resp,n_imp_resp,&nfft,0,0);
 
     /* use length to minimize buffer shift*/
-    n_samps_buf = 8*4096/sizeof(kffsamp_t); 
     n_samps_buf = nfft + 4*(nfft-n_imp_resp+1);
 
     if (verbose) fprintf(stderr,"bufsize=%d\n",sizeof(kffsamp_t)*n_samps_buf );
@@ -339,7 +338,7 @@ void do_file_filter(
 
         /* If nread==0, then this is a flush.
             The total number of samples in input is idx_inbuf + nread . */
-        nwrite = kiss_fastfir(cfg, inbuf, outbuf,nread,&idx_inbuf) * sizeof(kffsamp_t);
+        int nwrite = kiss_fastfir(cfg, inbuf, outbuf,nread,&idx_inbuf) * sizeof(kffsamp_t);
         /* kiss_fastfir moved any unused samples to the front of inbuf and updated idx_inbuf */
 
         if ( write(fdout, outbuf, nwrite) != nwrite ) {
@@ -412,7 +411,7 @@ int main(int argc,char**argv)
     }
     fseek(filtfile,0,SEEK_END);
     nh = ftell(filtfile) / sizeof(kffsamp_t);
-    if (verbose) fprintf(stderr,"%d samples in FIR filter\n",nh);
+    if (verbose) fprintf(stderr,"%d samples in FIR filter\n",(int)nh);
     h = (kffsamp_t*)malloc(sizeof(kffsamp_t)*nh);
     fseek(filtfile,0,SEEK_SET);
     fread(h,sizeof(kffsamp_t),nh,filtfile);

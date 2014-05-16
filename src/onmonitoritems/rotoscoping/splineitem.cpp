@@ -84,9 +84,8 @@ void SplineItem::updateSpline(bool editing)
     QPainterPath path(qgraphicsitem_cast<BPointItem *>(childItems().at(0))->getPoint().p);
 
     BPoint p1, p2;
-    int j;
     for (int i = 0; i < childItems().count() - !m_closed; ++i) {
-        j = (i + 1) % childItems().count();
+        int j = (i + 1) % childItems().count();
         p1 = qgraphicsitem_cast<BPointItem *>(childItems().at(i))->getPoint();
         p2 = qgraphicsitem_cast<BPointItem *>(childItems().at(j))->getPoint();
         path.cubicTo(p1.h2, p2.h1, p2.p);
@@ -122,10 +121,9 @@ void SplineItem::setPoints(const QList< BPoint >& points)
     childItems().clear();
 
     QPainterPath path(points.at(0).p);
-    int j;
     for (int i = 0; i < points.count(); ++i) {
         new BPointItem(points.at(i), this);
-        j = (i + 1) % points.count();
+        int j = (i + 1) % points.count();
         path.cubicTo(points.at(i).h2, points.at(j).h1, points.at(j).p);
     }
     setPath(path);
@@ -257,10 +255,10 @@ int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
     // TODO: proper minDiff
     qreal diff = 10000, param = 0;
     BPoint p1, p2;
-    int curveSegment = 0, j;
+    int curveSegment = 0;
     QList <QGraphicsItem *> items = childItems();
     for (int i = 0; i < items.count(); ++i) {
-        j = (i + 1) % items.count();
+        int j = (i + 1) % items.count();
         p1 = qgraphicsitem_cast<BPointItem *>(items.at(i))->getPoint();
         p2 = qgraphicsitem_cast<BPointItem *>(items.at(j))->getPoint();
         QPolygonF bounding = QPolygonF() << p1.p << p1.h2 << p2.h1 << p2.p;
