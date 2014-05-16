@@ -66,7 +66,6 @@ private:
     int x, y, w, h;
     int m_image_width, m_image_height;
     GLuint m_texture;
-    Mlt::Frame *m_frame;
     GLuint m_frame_texture;
     double m_display_ratio;
     QColor m_backgroundColor;

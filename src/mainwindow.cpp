@@ -140,10 +140,10 @@ static bool sortByNames(const QPair<QString, KAction*> &a, const QPair<QString, 
 
 MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
-    m_projectList(NULL),
     m_stopmotion(NULL),
-    m_effectStack(NULL),
     m_activeTimeline(NULL),
+    m_projectList(NULL),
+    m_effectStack(NULL),
 
     m_effectList(NULL),
     m_clipMonitor(NULL),
@@ -3455,7 +3455,7 @@ void MainWindow::slotUpdateClipType(QAction *action)
     if (m_activeTimeline) {
         bool videoOnly = false;
         bool audioOnly = false;
-        if (action->data().toString() == "clip_audio_only") 
+        if (action->data().toString() == "clip_audio_only")
             audioOnly = true;
         else if (action->data().toString() == "clip_video_only")
             videoOnly = true;

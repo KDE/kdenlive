@@ -125,11 +125,14 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     free(src);
 
     QStringList result;
-    if (devName == NULL)
+    if (devName == NULL) {
         return result;
-    QString deviceName(devName);
-    result << (deviceName.isEmpty() ? input : deviceName) << pixelformatdescription;
-    return result;
+    } else {
+        QString deviceName(devName);
+        result << (deviceName.isEmpty() ? input : deviceName) << pixelformatdescription;
+        free(devName);
+        return result;
+    }
 }
 
 

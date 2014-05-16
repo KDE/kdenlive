@@ -64,7 +64,6 @@ VideoGLWidget::~VideoGLWidget()
     makeCurrent();
     if (m_texture)
         glDeleteTextures(1, &m_texture);
-    // m_frame will be cleaned up when the profile is closed by Render.
 }
 
 QSize VideoGLWidget::minimumSizeHint() const
@@ -323,8 +322,6 @@ void VideoGLWidget::showImage(const QImage &image)
     makeCurrent();
     if (m_texture)
         glDeleteTextures(1, &m_texture);
-    //delete m_frame;
-    //m_frame = NULL;
     m_frame_texture = 0;
 
     glPixelStorei(GL_UNPACK_ROW_LENGTH, m_image_width);

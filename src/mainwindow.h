@@ -249,7 +249,6 @@ private:
     JogShuttleAction* m_jogShuttle;
 #endif
 
-    KAction *m_fileRevert;
     KAction *m_projectSearch;
     KAction *m_projectSearchNext;
 

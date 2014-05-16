@@ -138,7 +138,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
             davinci.setPen(qRgba(150,255,200,32));
             davinci.setCompositionMode(QPainter::CompositionMode_Overlay);
             for (uint i = 0; i <= 10; ++i) {
-                dy = (float)i/10 * (wh-1);
+                float dy = (float)i/10 * (wh-1);
                 for (uint x = 0; x < ww; x++) {
                     opx = wave.pixel(x, dy);
                     wave.setPixel(x,dy, qRgba(CHOP255(150+qRed(opx)), 255,
