@@ -2128,7 +2128,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*,int,QPoint,bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), this, SLOT(slotActivateTransitionView(Transition*)));
-    m_zoomSlider->setValue(newDoc->zoom().x());
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
@@ -2152,6 +2151,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
         m_renderWidget->setRenderProfile(newDoc->getRenderProperties());
     }
     //newDoc->setRenderer(m_projectMonitor->render);
+    m_zoomSlider->setValue(newDoc->zoom().x());
     m_commandStack->setActiveStack(newDoc->commandStack());
     KdenliveSettings::setProject_display_ratio(newDoc->dar());
     //newDoc->clipManager()->checkAudioThumbs();
