@@ -2730,7 +2730,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*,int,QPoint,bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), this, SLOT(slotActivateTransitionView(Transition*)));
-    m_zoomSlider->setValue(doc->zoom().x());
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
@@ -2776,15 +2775,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
         m_renderWidget->setDocumentPath(doc->projectFolder().path(KUrl::AddTrailingSlash));
         m_renderWidget->setRenderProfile(doc->getRenderProperties());
     }
-    //doc->setRenderer(m_projectMonitor->render);
+    m_zoomSlider->setValue(doc->zoom().x());
     m_commandStack->setActiveStack(doc->commandStack());
     KdenliveSettings::setProject_display_ratio(doc->dar());
-    //doc->clipManager()->checkAudioThumbs();
-
-    //m_overView->setScene(trackView->projectScene());
-    //m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));
-    //m_overView->fitInView(m_overView->itemAt(0, 50), Qt::KeepAspectRatio);
-
     setCaption(doc->description(), doc->isModified());
     m_saveAction->setEnabled(doc->isModified());
     m_normalEditTool->setChecked(true);
