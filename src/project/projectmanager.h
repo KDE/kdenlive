@@ -44,7 +44,6 @@ public:
     TrackView *currentTrackView();
 
     void init(const KUrl &projectUrl, const QString &clipList);
-    bool queryClose();
 
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
     void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KUrl &originUrl);

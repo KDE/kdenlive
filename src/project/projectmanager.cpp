@@ -69,35 +69,6 @@ void ProjectManager::init(const KUrl& projectUrl, const QString& clipList)
     }
 }
 
-bool ProjectManager::queryClose()
-{
-    // warn the user to save if document is modified and we have clips in our project list
-    if (m_project && m_project->isModified() &&
-            ((pCore->window()->projectList()->documentClipList().isEmpty() && !m_project->url().isEmpty()) ||
-             !pCore->window()->projectList()->documentClipList().isEmpty())) {
-        pCore->window()->raise();
-        pCore->window()->activateWindow();
-        QString message;
-        if (m_project->url().fileName().isEmpty()) {
-            message = i18n("Save changes to document?");
-        } else {
-            message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_project->url().fileName());
-        }
-        switch (KMessageBox::warningYesNoCancel(pCore->window(), message)) {
-        case KMessageBox::Yes :
-            // save document here. If saving fails, return false;
-            return saveFile();
-        case KMessageBox::No :
-            // User does not want to save the changes, clear recovery files
-            m_project->m_autosave->resize(0);
-            return true;
-        default: // cancel
-            return false;
-        }
-    }
-    return true;
-}
-
 
 void ProjectManager::newFile(bool showProjectSettings, bool force)
 {

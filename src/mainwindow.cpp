@@ -655,10 +655,10 @@ MainWindow::~MainWindow()
     m_effectStack->slotClipItemSelected(NULL);
     m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 
+    delete pCore;
     if (m_projectMonitor) m_projectMonitor->stop();
     if (m_clipMonitor) m_clipMonitor->stop();
 
-    delete m_activeTimeline;
     delete m_effectStack;
     delete m_transitionConfig;
     delete m_projectMonitor;
@@ -690,8 +690,7 @@ bool MainWindow::queryClose()
         }
     }
     saveOptions();
-
-    return pCore->projectManager()->queryClose();
+    return pCore->projectManager()->closeCurrentDocument();
 }
 
 void MainWindow::loadPlugins()
