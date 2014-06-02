@@ -2007,6 +2007,7 @@ void ProjectList::setDocument(KdenliveDoc *document)
     connect(document, SIGNAL(resetProjectList()), SLOT(slotResetProjectList()));
     connect(document, SIGNAL(updateClipDisplay(QString)), SLOT(slotUpdateClip(QString)));
     connect(document, SIGNAL(selectLastAddedClip(QString)), SLOT(slotSelectClip(QString)));
+    document->checkProjectClips();
 }
 
 void ProjectList::slotSetThumbnail(const QString &id, int framePos, QImage img)

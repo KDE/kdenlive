@@ -2149,7 +2149,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
         m_renderWidget->setDocumentPath(newDoc->projectFolder().path(KUrl::AddTrailingSlash));
         m_renderWidget->setRenderProfile(newDoc->getRenderProperties());
     }
-    //newDoc->setRenderer(m_projectMonitor->render);
     m_zoomSlider->setValue(newDoc->zoom().x());
     m_commandStack->setActiveStack(newDoc->commandStack());
     KdenliveSettings::setProject_display_ratio(newDoc->dar());
@@ -2161,7 +2160,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *newDoc, Kden
     *projectManagerDoc = newDoc;
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), this, SLOT(slotUpdateProjectDuration(int)));
     m_activeTimeline->updateProjectFps();
-    newDoc->checkProjectClips();
 #ifndef Q_WS_MAC
     m_recMonitor->slotUpdateCaptureFolder(newDoc->projectFolder().path(KUrl::AddTrailingSlash));
 #endif

@@ -970,20 +970,6 @@ QUndoStack *KdenliveDoc::commandStack()
     return m_commandStack;
 }
 
-/*
-void KdenliveDoc::setRenderer(Render *render) {
-    if (m_render) return;
-    m_render = render;
-    emit progressInfo(i18n("Loading playlist..."), 0);
-    //qApp->processEvents();
-    if (m_render) {
-        m_render->setSceneList(m_document.toString(), m_startPos);
-        kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
-        checkProjectClips();
-    }
-    emit progressInfo(QString(), -1);
-}*/
-
 void KdenliveDoc::checkProjectClips(bool displayRatioChanged, bool fpsChanged)
 {
     if (m_render == NULL) return;

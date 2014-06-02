@@ -62,7 +62,6 @@ public:
     KAutoSaveFile *m_autosave;
     Timecode timecode() const;
     QDomDocument toXml();
-    //void setRenderer(Render *render);
     QUndoStack *commandStack();
     QString producerName(const QString &id);
     Render *renderer();
