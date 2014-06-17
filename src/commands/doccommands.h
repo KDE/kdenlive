@@ -18,29 +18,23 @@
  ***************************************************************************/
 
 
-#ifndef ADDEFFECTCOMMAND_H
-#define ADDEFFECTCOMMAND_H
+#ifndef DOCCOMMANDS_H
+#define DOCCOMMANDS_H
 
 #include <QUndoCommand>
-#include <KDebug>
 #include <QDomElement>
-#include "gentime.h"
+class KdenliveDoc;
 
-class CustomTrackView;
-
-class AddEffectCommand : public QUndoCommand
+class AddClipCommand : public QUndoCommand
 {
 public:
-    AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand * parent = 0);
-
+    AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent = 0);
     void undo();
     void redo();
-
 private:
-    CustomTrackView *m_view;
-    int m_track;
-    QDomElement m_effect;
-    GenTime m_pos;
+    KdenliveDoc *m_doc;
+    QDomElement m_xml;
+    QString m_id;
     bool m_doIt;
 };
 

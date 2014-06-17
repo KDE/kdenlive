@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,36 +17,33 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "editclipcommand.h"
-#include "projectlist.h"
-
+#include "doccommands.h"
+#include "kdenlivedoc.h"
 #include <KLocalizedString>
-#include <KDebug>
 
-EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
+AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
-        m_list(list),
-        m_oldparams(oldparams),
-        m_newparams(newparams),
+        m_doc(doc),
+        m_xml(xml),
         m_id(id),
         m_doIt(doIt)
 {
-    setText(i18n("Edit clip"));
-}
-
-
-// virtual
-void EditClipCommand::undo()
-{
-    kDebug() << "----  undoing action";
-    m_list->slotUpdateClipProperties(m_id, m_oldparams);
+    if (doIt) setText(i18n("Add clip"));
+    else setText(i18n("Delete clip"));
 }
 // virtual
-void EditClipCommand::redo()
+void AddClipCommand::undo()
 {
-    kDebug() << "----  redoing action";
     if (m_doIt)
-        m_list->slotUpdateClipProperties(m_id, m_newparams);
-    m_doIt = true;
+        m_doc->deleteClip(m_id);
+    else
+        m_doc->addClip(m_xml, m_id);
 }
-
+// virtual
+void AddClipCommand::redo()
+{
+    if (m_doIt)
+        m_doc->addClip(m_xml, m_id);
+    else
+        m_doc->deleteClip(m_id);
+}

@@ -23,20 +23,7 @@
 #include "docclipbase.h"
 #include "clipitem.h"
 #include "definitions.h"
-#include "commands/moveclipcommand.h"
-#include "commands/movetransitioncommand.h"
-#include "commands/resizeclipcommand.h"
-#include "commands/editguidecommand.h"
-#include "commands/addextradatacommand.h"
-#include "commands/addtimelineclipcommand.h"
-#include "commands/addeffectcommand.h"
-#include "commands/editeffectcommand.h"
-#include "commands/moveeffectcommand.h"
-#include "commands/addtransitioncommand.h"
-#include "commands/edittransitioncommand.h"
-#include "commands/changespeedcommand.h"
-#include "commands/addmarkercommand.h"
-#include "commands/razorclipcommand.h"
+#include "commands/timelinecommands.h"
 #include "kdenlivesettings.h"
 #include "transition.h"
 #include "clipmanager.h"
@@ -46,23 +33,12 @@
 #include "ui_keyframedialog_ui.h"
 #include "clipdurationdialog.h"
 #include "abstractgroupitem.h"
-#include "commands/insertspacecommand.h"
 #include "spacerdialog.h"
-#include "commands/addtrackcommand.h"
-#include "commands/changeeffectstatecommand.h"
-#include "commands/movegroupcommand.h"
 #include "ui_addtrack_ui.h"
 #include "ui_importkeyframesdialog_ui.h"
 #include "initeffects.h"
-#include "commands/locktrackcommand.h"
-#include "commands/groupclipscommand.h"
-#include "commands/splitaudiocommand.h"
-#include "commands/changecliptypecommand.h"
 #include "trackdialog.h"
 #include "tracksconfigdialog.h"
-#include "commands/configtrackscommand.h"
-#include "commands/rebuildgroupcommand.h"
-#include "commands/refreshmonitorcommand.h"
 #include "profilesdialog.h"
 #include "projectlist.h"
 #include "effectstack/effectstackview2.h"
@@ -1094,7 +1070,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_selectionGroup->setProperty("locked_tracks", lockedTracks);
         }
         m_selectionMutex.unlock();
-        if (m_dragItem) 
+        if (m_dragItem)
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
     }
     else {
@@ -3031,7 +3007,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
                         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", clipinfo.startPos.frames(m_document->fps()), clipinfo.track), ErrorMessage);
                     }
                 }
-            } 
+            }
         }
         // Sync transition tracks with MLT playlist
         TransitionInfo info;
@@ -4170,7 +4146,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
         EditEffectCommand *command = new EditEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false);
         m_commandStack->push(command);
-    
+
         updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect());
         emit clipItemSelected(item);
     }
