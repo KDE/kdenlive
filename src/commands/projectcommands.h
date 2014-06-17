@@ -18,11 +18,56 @@
  ***************************************************************************/
 
 
-#ifndef EDITCLIPCUTCOMMAND_H
-#define EDITCLIPCUTCOMMAND_H
+#ifndef PROJECTCOMMANDS_H
+#define PROJECTCOMMANDS_H
 
 #include <QUndoCommand>
+#include <QMap>
 #include <QPoint>
+class ProjectList;
+
+class AddClipCutCommand : public QUndoCommand
+{
+public:
+    AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
+private:
+    ProjectList *m_list;
+    QString m_id;
+    int m_in;
+    int m_out;
+    QString m_desc;
+    bool m_newItem;
+    bool m_remove;
+};
+
+class AddFolderCommand : public QUndoCommand
+{
+public:
+    AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    ProjectList *m_view;
+    QString m_name;
+    QString m_id;
+    bool m_doIt;
+};
+
+class EditClipCommand : public QUndoCommand
+{
+public:
+    EditClipCommand(ProjectList *list, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
+private:
+    ProjectList *m_list;
+    QMap <QString, QString> m_oldparams;
+    QMap <QString, QString> m_newparams;
+    QString m_id;
+    bool m_doIt;
+};
 
 class ProjectList;
 
@@ -30,10 +75,8 @@ class EditClipCutCommand : public QUndoCommand
 {
 public:
     EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent = 0);
-
     void undo();
     void redo();
-
 private:
     ProjectList *m_list;
     QString m_id;
@@ -41,6 +84,20 @@ private:
     QPoint m_newZone;
     QString m_oldComment;
     QString m_newComment;
+    bool m_doIt;
+};
+
+class EditFolderCommand : public QUndoCommand
+{
+public:
+    EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    ProjectList *m_view;
+    QString m_name;
+    QString m_oldname;
+    QString m_id;
     bool m_doIt;
 };
 

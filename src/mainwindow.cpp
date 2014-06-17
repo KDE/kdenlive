@@ -46,7 +46,7 @@
 #endif
 #include "clipproperties.h"
 #include "wizard.h"
-#include "commands/editclipcommand.h"
+#include "commands/projectcommands.h"
 #include "widgets/titlewidget.h"
 #include "markerdialog.h"
 #include "clipitem.h"

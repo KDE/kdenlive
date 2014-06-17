@@ -19,7 +19,7 @@
 
 #include "projectlist.h"
 #include "projectitem.h"
-#include "commands/addfoldercommand.h"
+#include "commands/projectcommands.h"
 #include "projecttree/proxyclipjob.h"
 #include "projecttree/cutclipjob.h"
 #include "projecttree/meltjob.h"
@@ -38,10 +38,6 @@
 #include "profilesdialog.h"
 #include "clipstabilize.h"
 #include "monitor/monitormanager.h"
-#include "commands/editclipcommand.h"
-#include "commands/editclipcutcommand.h"
-#include "commands/editfoldercommand.h"
-#include "commands/addclipcutcommand.h"
 
 #include "ui_templateclip_ui.h"
 #include "ui_cutjobdialog_ui.h"
