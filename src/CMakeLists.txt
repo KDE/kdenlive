@@ -8,7 +8,6 @@ find_package(OpenGL REQUIRED)
 if(APPLE)
   find_package(SDL REQUIRED)
 endif(APPLE)
-macro_optional_find_package(Nepomuk)
 macro_optional_find_package(QJSON)
 
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
@@ -58,15 +57,6 @@ if(APPLE)
     TRUE
   )
 endif(APPLE)
-
-macro_log_feature(Nepomuk_FOUND
-  "Nepomuk"
-  "Support for the Nepomuk semantic desktop system"
-  "http://nepomuk.semanticdesktop.org"
-)
-
-find_package(NepomukCore QUIET)
-set_package_properties(NepomukCore PROPERTIES DESCRIPTION "The Nepomuk Core libraries" URL "http://www.kde.org" TYPE RECOMMENDED PURPOSE "Support for the Nepomuk semantic desktop system")
 
 macro_log_feature(QJSON_FOUND
   "QJson"
@@ -290,8 +280,8 @@ include_directories(
   ${KDE4_INCLUDES} # Adds Qt include directories too.
   ${MLT_INCLUDE_DIR}
   ${MLTPP_INCLUDE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/lib/external 
-  ${CMAKE_CURRENT_SOURCE_DIR}/lib 
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib
 )
 
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
@@ -328,18 +318,6 @@ endif(Q_WS_X11)
 if(SDL_FOUND)
   target_link_libraries(kdenlive ${SDL_LIBRARY})
 endif(SDL_FOUND)
-
-if(NepomukCore_FOUND)
-    add_definitions(-DUSE_NEPOMUKCORE)
-    include_directories(${NEPOMUK_CORE_INCLUDE_DIR})
-    target_link_libraries(kdenlive ${NEPOMUK_CORE_LIBRARY})
-else()
-  if(Nepomuk_FOUND)
-    add_definitions(-DUSE_NEPOMUK)
-    include_directories(${NEPOMUK_INCLUDES})
-    target_link_libraries(kdenlive ${NEPOMUK_LIBRARIES})
-  endif(Nepomuk_FOUND)
-endif()
 
 if(QJSON_FOUND)
   add_definitions(-DUSE_QJSON)
