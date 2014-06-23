@@ -92,11 +92,11 @@ void Render::consumer_thread_started(mlt_consumer, Render * self, mlt_frame)
         self->m_renderThreadGLContexts.insert(self->active_thread, ctx);
     }
     self->m_renderThreadGLContexts[self->active_thread]->makeCurrent();
+    if (!self->m_glslManager) return;
     self->m_glslManager->fire_event("init glsl");
     if (!self->m_glslManager->get_int("glsl_supported")) {
-        QMessageBox::critical(NULL, i18n("Movit failed initialization"),
-                              i18n("Initialization of OpenGL filters failed. Exiting."));
-        qApp->quit();
+        KMessageBox::error(qApp->activeWindow(),i18n("Failed to initialize OpenGL filters (Movit)"));
+        delete self->m_glslManager;
     }
 }
 
@@ -115,7 +115,7 @@ void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_fr
 {
     // detect if the producer has finished playing. Is there a better way to do it?
     if (self->showFrameSemaphore.tryAcquire()) {
-    
+
     if (self->externalConsumer && !self->analyseAudio && !self->sendFrameForAnalysis) {
         emit self->rendererPosition((int) mlt_consumer_position(consumer));
         return;
@@ -161,10 +161,15 @@ Render::Render(Kdenlive::MonitorId rendererName, QString profile, QWidget *paren
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(100);
     m_glslManager = new Mlt::Filter(*m_mltProfile, "glsl.manager");
+    if (m_glslManager && m_glslManager->get_filter() == NULL) {
+        kDebug() << "Failed to init GLSL manager, OpenGL filters will be skipped";
+        delete m_glslManager;
+    }
     connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
     //connect(this, SIGNAL(mltFrameReceived(Mlt::Frame*)), this, SLOT(showFrame(Mlt::Frame*)), Qt::UniqueConnection);
+    //connect(this, SIGNAL(displayMessage(QString,int)),
 }
 
 Render::~Render()
@@ -268,7 +273,11 @@ void Render::buildConsumer(const QString &profileName)
             m_mltConsumer->set("scrub_audio", 1);
             m_mltConsumer->set("preview_off", 1);
             m_mltConsumer->set("audio_buffer", 512);
-            m_mltConsumer->set("mlt_image_format", "glsl");
+            if (m_glslManager) {
+                m_mltConsumer->set("mlt_image_format", "glsl");
+            } else {
+                m_mltConsumer->set("preview_format", mlt_image_rgb24a);
+            }
             m_consumerThreadStartedEvent = m_mltConsumer->listen("consumer-thread-started", this, (mlt_listener) consumer_thread_started);
             m_consumerThreadStoppedEvent = m_mltConsumer->listen("consumer-thread-stopped", this, (mlt_listener) consumer_thread_stopped);
         }
@@ -1754,7 +1763,7 @@ void Render::showFrame(Mlt::Frame* frame)
     if (currentPos == requestedSeekPosition) requestedSeekPosition = SEEK_INACTIVE;
     emit rendererPosition(currentPos);
     if (frame->is_valid() && active_thread != 0) {
-        mlt_image_format format = mlt_image_glsl_texture;
+        mlt_image_format format = m_glslManager ? mlt_image_glsl_texture : mlt_image_rgb24a;
         int width = 0;
         int height = 0;
         m_renderThreadGLContexts[active_thread]->makeCurrent();
