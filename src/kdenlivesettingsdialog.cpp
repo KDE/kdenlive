@@ -46,8 +46,8 @@
 #include <fcntl.h>
 
 #ifdef USE_JOGSHUTTLE
-  #include "jogaction.h"
-  #include "jogshuttleconfig.h"
+  #include "jogshuttle/jogaction.h"
+  #include "jogshuttle/jogshuttleconfig.h"
   #include <linux/input.h>
 #endif
 

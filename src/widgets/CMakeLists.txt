@@ -1,16 +1,16 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   widgets/invaliddialog.cpp
-  widgets/lumaliftgain.cpp
-  widgets/choosecolorwidget.cpp
-  widgets/colorpickerwidget.cpp
+  effectstack/widgets/lumaliftgain.cpp
+  effectstack/widgets/choosecolorwidget.cpp
+  effectstack/widgets/colorpickerwidget.cpp
   widgets/archivewidget.cpp
-  widgets/cornerswidget.cpp
-  widgets/colorwheel.cpp
-  widgets/doubleparameterwidget.cpp
-  widgets/effectslistwidget.cpp
-  widgets/geometrywidget.cpp
-  widgets/kis_curve_widget.cpp
+  effectstack/widgets/cornerswidget.cpp
+  effectstack/widgets/colorwheel.cpp
+  effectstack/widgets/doubleparameterwidget.cpp
+  effectstack/widgets/effectslistwidget.cpp
+  effectstack/widgets/geometrywidget.cpp
+  effectstack/widgets/kis_curve_widget.cpp
   widgets/monitoreditwidget.cpp
   widgets/noteswidget.cpp
   widgets/renderwidget.cpp

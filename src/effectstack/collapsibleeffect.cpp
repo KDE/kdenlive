@@ -21,7 +21,7 @@
 #include "collapsibleeffect.h"
 #include "effectslist.h"
 #include "kdenlivesettings.h"
-#include "projectlist.h"
+#include "project/projectlist.h"
 
 #include <QInputDialog>
 #include <QDialog>

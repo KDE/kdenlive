@@ -67,15 +67,13 @@ macro_log_feature(QJSON_FOUND
   "Required to build the rotoscoping filter and for Freesound.org queries"
 )
 
+install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
+
 add_subdirectory(beziercurve)
-add_subdirectory(colorcorrection)
-add_subdirectory(commands)
 add_subdirectory(lib)
-add_subdirectory(projecttree)
 add_subdirectory(utils)
-add_subdirectory(databackup)
 add_subdirectory(effectstack)
-add_subdirectory(mimetypes)
 add_subdirectory(onmonitoritems)
 add_subdirectory(scopes)
 add_subdirectory(simplekeyframes)
@@ -94,80 +92,86 @@ if(LIBV4L2_FOUND)
 endif()
 
 list(APPEND kdenlive_SRCS
-  main.cpp
-  mainwindow.cpp
-  core.cpp
-
-  KoSliderCombo.cpp
-  abstractclipitem.cpp
-  abstractgroupitem.cpp
-  clipdurationdialog.cpp
-  clipitem.cpp
+  ${monitor_SRCS}
+  ${project_SRCS}
   clipmanager.cpp
   clipproperties.cpp
   cliptranscode.cpp
-  clipstabilize.cpp
-  colorplaneexport.cpp
   colortools.cpp
-  complexparameter.cpp
-  customruler.cpp
-  customtrackscene.cpp
-  customtrackview.cpp
+  core.cpp
   definitions.cpp
-  docclipbase.cpp
-  documentchecker.cpp
-  documentvalidator.cpp
-  dragvalue.cpp
-  dvdwizard.cpp
-  dvdwizardchapters.cpp
-  dvdwizardmenu.cpp
-  dvdwizardvob.cpp
+  doc/docclipbase.cpp
+  doc/doccommands.cpp
+  doc/documentchecker.cpp
+  doc/documentvalidator.cpp
+  doc/kdenlivedoc.cpp
+  dvdwizard/dvdwizard.cpp
+  dvdwizard/dvdwizardchapters.cpp
+  dvdwizard/dvdwizardmenu.cpp
+  dvdwizard/dvdwizardvob.cpp
   effectslist.cpp
   effectslistview.cpp
-  effectstackedit.cpp
+  effectstack/complexparameter.cpp
+  effectstack/dragvalue.cpp
+  effectstack/effectstackedit.cpp
+  effectstack/geometryval.cpp
+  effectstack/keyframeedit.cpp
+  effectstack/keyframehelper.cpp
+  effectstack/positionedit.cpp
+  effectstack/widgets/kis_cubic_curve.cpp
   encodingprofilesdialog.cpp
-  folderprojectitem.cpp
   gentime.cpp
-  geometryval.cpp
   graphicsscenerectmove.cpp
-  guide.cpp
-  headertrack.cpp
   initeffects.cpp
-  kdenlivedoc.cpp
   kdenlivesettingsdialog.cpp
-  keyframeedit.cpp
-  keyframehelper.cpp
-  kis_cubic_curve.cpp
+  KoSliderCombo.cpp
   kthumb.cpp
+  main.cpp
+  mainwindow.cpp
   managecapturesdialog.cpp
   markerdialog.cpp
   mltdevicecapture.cpp
+  monitor/smallruler.cpp
   parameterplotter.cpp
-  positionedit.cpp
   profilesdialog.cpp
+  project/clipstabilize.cpp
+  project/folderprojectitem.cpp
   projectitem.cpp
-  projectlist.cpp
-  projectlistview.cpp
+  project/projectcommands.cpp
+  project/projectlist.cpp
+  project/projectlistview.cpp
   projectsettings.cpp
+  project/subprojectitem.cpp
+  project/transitionsettings.cpp
   renderer.cpp
+  scopes/colorscopes/colorplaneexport.cpp
+  scopes/colorscopes/histogramgenerator.cpp
+  scopes/colorscopes/rgbparadegenerator.cpp
+  scopes/colorscopes/vectorscopegenerator.cpp
+  scopes/colorscopes/waveformgenerator.cpp
   slideshowclip.cpp
-  smallruler.cpp
-  spacerdialog.cpp
   statusbarmessagelabel.cpp
-  subprojectitem.cpp
   timecode.cpp
   timecodedisplay.cpp
+  timeline/abstractgroupitem.cpp
+  timeline/abstractclipitem.cpp
+  timeline/clipdurationdialog.cpp
+  timeline/clipitem.cpp
+  timeline/customruler.cpp
+  timeline/customtrackscene.cpp
+  timeline/customtrackview.cpp
+  timeline/guide.cpp
+  timeline/headertrack.cpp
+  timeline/spacerdialog.cpp
+  timeline/timelinecommands.cpp
+  timeline/trackdialog.cpp
+  timeline/tracksconfigdialog.cpp
+  timeline/trackview.cpp
+  timeline/transition.cpp
   titledocument.cpp
-  trackdialog.cpp
-  tracksconfigdialog.cpp
-  trackview.cpp
-  transition.cpp
-  transitionsettings.cpp
   unicodedialog.cpp
+  widgets/backupwidget.cpp
   wizard.cpp
-
-  ${monitor_SRCS}
-  ${project_SRCS}
 )
 
 kde4_add_ui_files(kdenlive_UIS
@@ -249,13 +253,12 @@ kde4_add_ui_files(kdenlive_UIS
 
 if(BUILD_JogShuttle)
   list(APPEND kdenlive_SRCS
-    jogaction.cpp
-    jogshuttle.cpp
-    jogshuttleconfig.cpp
+    jogshuttle/jogaction.cpp
+    jogshuttle/jogshuttle.cpp
+    jogshuttle/jogshuttleconfig.cpp
   )
 endif(BUILD_JogShuttle)
 
-kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 qt4_add_dbus_adaptor(kdenlive_SRCS
   org.kdenlive.MainWindow.xml
   mainwindow.h
@@ -339,19 +342,3 @@ if(BUILD_JogShuttle)
 endif(BUILD_JogShuttle)
 
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
-install(FILES
-  kdenliveui.rc
-  kdenlive.notifyrc
-  DESTINATION ${DATA_INSTALL_DIR}/kdenlive
-)
-install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
-install(FILES
-  kdenlive_projectprofiles.knsrc
-  kdenlive_renderprofiles.knsrc
-  kdenlive_titles.knsrc
-  kdenlive_wipes.knsrc
-  kdenlivetranscodingrc
-  DESTINATION ${CONFIG_INSTALL_DIR}
-)
-add_subdirectory(icons)
-install(FILES kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})

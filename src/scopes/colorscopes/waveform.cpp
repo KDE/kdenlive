@@ -17,7 +17,7 @@
 #include "profilesdialog.h"
 
 #include "waveform.h"
-#include "colorcorrection/waveformgenerator.h"
+#include "scopes/colorscopes/waveformgenerator.h"
 
 
 const QSize Waveform::m_textWidth(35,0);

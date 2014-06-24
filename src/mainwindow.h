@@ -47,7 +47,7 @@
 #include "gentime.h"
 #include "definitions.h"
 #include "statusbarmessagelabel.h"
-#include "dvdwizard.h"
+#include "dvdwizard/dvdwizard.h"
 #include "stopmotion/stopmotion.h"
 #include "widgets/noteswidget.h"
 #include "ui_backupdialog_ui.h"

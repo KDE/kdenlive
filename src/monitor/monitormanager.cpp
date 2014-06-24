@@ -21,11 +21,11 @@
 #include "monitor/monitormanager.h"
 #include "core.h"
 #include "project/projectmanager.h"
-#include "trackview.h"
-#include "customtrackview.h"
+#include "timeline/trackview.h"
+#include "timeline/customtrackview.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"
-#include "kdenlivedoc.h"
+#include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
 
 #include <mlt++/Mlt.h>

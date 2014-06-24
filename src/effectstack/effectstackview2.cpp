@@ -18,10 +18,10 @@
 
 #include "effectstackview2.h"
 #include "effectslist.h"
-#include "clipitem.h"
+#include "timeline/clipitem.h"
 #include "mainwindow.h"
-#include "docclipbase.h"
-#include "projectlist.h"
+#include "doc/docclipbase.h"
+#include "project/projectlist.h"
 #include "kthumb.h"
 #include "widgets/monitoreditwidget.h"
 #include "monitor/monitorscene.h"

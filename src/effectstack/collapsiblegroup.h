@@ -25,7 +25,7 @@
 #include "abstractcollapsiblewidget.h"
 #include "collapsibleeffect.h"
 #include "timecode.h"
-#include "keyframeedit.h"
+#include "effectstack/keyframeedit.h"
 
 #include <QDomElement>
 #include <QToolButton>

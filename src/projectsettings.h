@@ -24,7 +24,7 @@
 #include <QDialog>
 #include <QPushButton>
 
-#include "projectlist.h"
+#include "project/projectlist.h"
 #include "ui_projectsettings_ui.h"
 
 class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI

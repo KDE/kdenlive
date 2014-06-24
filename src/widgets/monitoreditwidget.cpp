@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 
-#include "monitoreditwidget.h"
+#include "widgets/monitoreditwidget.h"
 #include "renderer.h"
 #include "monitor/monitorscene.h"
 #include "kdenlivesettings.h"

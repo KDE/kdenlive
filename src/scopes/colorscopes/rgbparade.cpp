@@ -13,7 +13,7 @@
 #include <QRect>
 #include <QTime>
 #include "rgbparade.h"
-#include "colorcorrection/rgbparadegenerator.h"
+#include "scopes/colorscopes/rgbparadegenerator.h"
 
 RGBParade::RGBParade(QWidget *parent) :
         AbstractGfxScopeWidget(true, parent)

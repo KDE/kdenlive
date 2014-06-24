@@ -18,7 +18,7 @@
 
 #include "beziersplinewidget.h"
 #include "colortools.h"
-#include "dragvalue.h"
+#include "effectstack/dragvalue.h"
 #include "kdenlivesettings.h"
 
 #include <QVBoxLayout>

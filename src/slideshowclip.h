@@ -23,7 +23,7 @@
 
 
 #include "definitions.h"
-#include "docclipbase.h"
+#include "doc/docclipbase.h"
 #include "timecode.h"
 #include "ui_slideshowclip_ui.h"
 

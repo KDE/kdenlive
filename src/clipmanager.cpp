@@ -20,14 +20,14 @@
 
 #include "clipmanager.h"
 #include "core.h"
-#include "commands/doccommands.h"
+#include "doc/doccommands.h"
 #include "kdenlivesettings.h"
-#include "docclipbase.h"
-#include "kdenlivedoc.h"
-#include "abstractclipitem.h"
-#include "abstractgroupitem.h"
+#include "doc/docclipbase.h"
+#include "doc/kdenlivedoc.h"
+#include "timeline/abstractclipitem.h"
+#include "timeline/abstractgroupitem.h"
 #include "titledocument.h"
-#include "subprojectitem.h"
+#include "project/subprojectitem.h"
 #include "kthumb.h"
 
 #include <mlt++/Mlt.h>
@@ -175,7 +175,7 @@ void ClipManager::slotGetThumbs()
     int max;
     int done = 0;
     int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
-    // keep in sync with declaration un projectitem.cpp and subprojectitem.cpp
+    // keep in sync with declaration un projectitem.cpp and project/subprojectitem.cpp
     int minHeight = qMax(38, QFontMetrics(QApplication::font()).lineSpacing() * 2);
     
     while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {

@@ -1,6 +1,9 @@
 set(project_SRCS
-    project/projectmanager.cpp
-    project/projectmanagerview.cpp
-
-    PARENT_SCOPE
+  project/projectmanager.cpp
+  project/projectmanagerview.cpp
+  project/jobs/abstractclipjob.cpp
+  project/jobs/proxyclipjob.cpp
+  project/jobs/cutclipjob.cpp
+  project/jobs/meltjob.cpp
+  PARENT_SCOPE
 )

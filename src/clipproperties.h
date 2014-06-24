@@ -23,7 +23,7 @@
 
 #include "definitions.h"
 #include "timecode.h"
-#include "docclipbase.h"
+#include "doc/docclipbase.h"
 #include "ui_clipproperties_ui.h"
 
 #include <QStyledItemDelegate>

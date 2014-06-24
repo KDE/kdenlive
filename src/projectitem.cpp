@@ -21,7 +21,7 @@
 #include "projectitem.h"
 #include "timecode.h"
 #include "kdenlivesettings.h"
-#include "docclipbase.h"
+#include "doc/docclipbase.h"
 
 #include <KDebug>
 #include <KLocalizedString>
