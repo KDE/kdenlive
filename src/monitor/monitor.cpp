@@ -19,9 +19,9 @@
 
 
 #include "monitor/monitor.h"
-#include "smallruler.h"
-#include "docclipbase.h"
-#include "abstractclipitem.h"
+#include "monitor/smallruler.h"
+#include "doc/docclipbase.h"
+#include "timeline/abstractclipitem.h"
 #include "monitor/monitorscene.h"
 #include "widgets/monitoreditwidget.h"
 #include "widgets/videosurface.h"

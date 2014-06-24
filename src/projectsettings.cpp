@@ -20,7 +20,7 @@
 #include "projectsettings.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
-#include "docclipbase.h"
+#include "doc/docclipbase.h"
 #include "widgets/titlewidget.h"
 #include "effectslist.h"
 

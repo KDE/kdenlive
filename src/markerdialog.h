@@ -23,7 +23,7 @@
 
 
 #include "ui_markerdialog_ui.h"
-#include "docclipbase.h"
+#include "doc/docclipbase.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
 

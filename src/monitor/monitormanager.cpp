@@ -21,7 +21,7 @@
 #include "monitor/monitormanager.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"
-#include "kdenlivedoc.h"
+#include "doc/kdenlivedoc.h"
 
 #include <mlt++/Mlt.h>
 

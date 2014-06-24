@@ -23,7 +23,7 @@
 
 
 #include "ui_archivewidget_ui.h"
-#include "docclipbase.h"
+#include "doc/docclipbase.h"
 
 #include <kio/global.h>
 #include <KIO/CopyJob>

@@ -19,14 +19,14 @@
 
 
 #include "clipmanager.h"
-#include "commands/addclipcommand.h"
+#include "doc/doccommands.h"
 #include "kdenlivesettings.h"
-#include "docclipbase.h"
-#include "kdenlivedoc.h"
-#include "abstractclipitem.h"
-#include "abstractgroupitem.h"
+#include "doc/docclipbase.h"
+#include "doc/kdenlivedoc.h"
+#include "timeline/abstractclipitem.h"
+#include "timeline/abstractgroupitem.h"
 #include "titledocument.h"
-#include "subprojectitem.h"
+#include "project/subprojectitem.h"
 #include "kthumb.h"
 
 #include <mlt++/Mlt.h>

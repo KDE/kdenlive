@@ -10,7 +10,7 @@
 
 #include <QMenu>
 #include <QTime>
-#include "colorcorrection/histogramgenerator.h"
+#include "scopes/colorscopes/histogramgenerator.h"
 #include "histogram.h"
 
 Histogram::Histogram(QWidget *parent) :

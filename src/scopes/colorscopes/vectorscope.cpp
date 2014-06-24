@@ -16,10 +16,10 @@
 #include <QTime>
 #include <QMenu>
 
-#include "colorplaneexport.h"
+#include "scopes/colorscopes/colorplaneexport.h"
 #include "colortools.h"
 #include "vectorscope.h"
-#include "colorcorrection/vectorscopegenerator.h"
+#include "scopes/colorscopes/vectorscopegenerator.h"
 
 const float P75 = .75;
 

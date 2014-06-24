@@ -30,7 +30,7 @@
 
 #include "gentime.h"
 #include "definitions.h"
-#include "projecttree/abstractclipjob.h"
+#include "project/jobs/abstractclipjob.h"
 
 
 class DocClipBase;
