@@ -4093,75 +4093,66 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             if (m_dragItem->type() == AVWidget) static_cast <ClipItem*>(m_dragItem)->slotUpdateRange();
         }
     } else if (m_operationMode == FadeIn && m_dragItem) {
-        // resize fade in effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
-        int ix = item->hasEffect("volume", "fadein");
-        int ix2 = item->hasEffect("", "fade_from_black");
-        if (ix != -1) {
-            QDomElement oldeffect = item->effectAtIndex(ix);
-            int start = item->cropStart().frames(m_document->fps());
+        // find existing video fade, if none then audio fade
+        int fadeIndex = item->hasEffect("", "fade_from_black");
+        if (fadeIndex < 0)
+            fadeIndex = item->hasEffect("volume", "fadein");
+        // resize fade in effect
+        if (fadeIndex >= 0) {
+            QDomElement oldeffect = item->effectAtIndex(fadeIndex);
             int end = item->fadeIn();
             if (end == 0) {
                 slotDeleteEffect(item, -1, oldeffect, false);
             } else {
+                int start = item->cropStart().frames(m_document->fps());
                 end += start;
                 QDomElement effect = oldeffect.cloneNode().toElement();
                 EffectsList::setParameter(oldeffect, "in", QString::number(start));
                 EffectsList::setParameter(oldeffect, "out", QString::number(end));
-                slotUpdateClipEffect(item, -1, effect, oldeffect, ix);
+                slotUpdateClipEffect(item, -1, effect, oldeffect, fadeIndex);
                 emit clipItemSelected(item);
             }
-        } else if (item->fadeIn() != 0 && ix2 == -1) {
+        // new fade in
+        } else if (item->fadeIn() != 0) {
             QDomElement effect;
-            if (item->isAudioOnly() || item->clipType() == Audio) {
-                effect = MainWindow::audioEffects.getEffectByTag("volume", "fadein").cloneNode().toElement();
-            } else {
+            if (item->isVideoOnly() || (item->clipType() != Audio && !item->isAudioOnly() && item->clipType() != Playlist)) {
                 effect = MainWindow::videoEffects.getEffectByTag("", "fade_from_black").cloneNode().toElement();
+            } else {
+                effect = MainWindow::audioEffects.getEffectByTag("volume", "fadein").cloneNode().toElement();
             }
             EffectsList::setParameter(effect, "out", QString::number(item->fadeIn()));
             slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
         }
-        if (ix2 != -1) {
-            QDomElement oldeffect = item->effectAtIndex(ix2);
-            int start = item->cropStart().frames(m_document->fps());
-            int end = item->fadeIn();
-            if (end == 0) {
-                slotDeleteEffect(item, -1, oldeffect, false);
-            } else {
-                end += start;
-                QDomElement effect = oldeffect.cloneNode().toElement();
-                EffectsList::setParameter(oldeffect, "in", QString::number(start));
-                EffectsList::setParameter(oldeffect, "out", QString::number(end));
-                slotUpdateClipEffect(item, -1, effect, oldeffect, ix2);
-                emit clipItemSelected(item);
-            }
-        }
+
     } else if (m_operationMode == FadeOut && m_dragItem) {
-        // resize fade out effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
-        int ix = item->hasEffect("volume", "fadeout");
-        int ix2 = item->hasEffect("", "fade_to_black");
-        if (ix != -1) {
-            QDomElement oldeffect = item->effectAtIndex(ix);
-            int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
+        // find existing video fade, if none then audio fade
+        int fadeIndex = item->hasEffect("", "fade_to_black");
+        if (fadeIndex < 0)
+            fadeIndex = item->hasEffect("volume", "fadeout");
+        // resize fade out effect
+        if (fadeIndex >= 0) {
+            QDomElement oldeffect = item->effectAtIndex(fadeIndex);
             int start = item->fadeOut();
             if (start == 0) {
                 slotDeleteEffect(item, -1, oldeffect, false);
             } else {
+                int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
                 start = end - start;
                 QDomElement effect = oldeffect.cloneNode().toElement();
                 EffectsList::setParameter(oldeffect, "in", QString::number(start));
                 EffectsList::setParameter(oldeffect, "out", QString::number(end));
-                // kDebug()<<"EDIT FADE OUT : "<<start<<"x"<<end;
-                slotUpdateClipEffect(item, -1, effect, oldeffect, ix);
+                slotUpdateClipEffect(item, -1, effect, oldeffect, fadeIndex);
                 emit clipItemSelected(item);
             }
-        } else if (item->fadeOut() != 0 && ix2 == -1) {
+        // new fade out
+        } else if (item->fadeOut() != 0) {
             QDomElement effect;
-            if (item->isAudioOnly() || item->clipType() == Audio) {
-                effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout").cloneNode().toElement();
-            } else {
+            if (item->isVideoOnly() || (item->clipType() != Audio && !item->isAudioOnly() && item->clipType() != Playlist)) {
                 effect = MainWindow::videoEffects.getEffectByTag("", "fade_to_black").cloneNode().toElement();
+            } else {
+                effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout").cloneNode().toElement();
             }
             int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
             int start = end-item->fadeOut();
@@ -4169,22 +4160,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             EffectsList::setParameter(effect, "out", QString::number(end));
             slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
         }
-        if (ix2 != -1) {
-            QDomElement oldeffect = item->effectAtIndex(ix2);
-            int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
-            int start = item->fadeOut();
-            if (start == 0) {
-                slotDeleteEffect(item, -1, oldeffect, false);
-            } else {
-                start = end - start;
-                QDomElement effect = oldeffect.cloneNode().toElement();
-                EffectsList::setParameter(oldeffect, "in", QString::number(start));
-                EffectsList::setParameter(oldeffect, "out", QString::number(end));
-                // kDebug()<<"EDIT FADE OUT : "<<start<<"x"<<end;
-                slotUpdateClipEffect(item, -1, effect, oldeffect, ix2);
-                emit clipItemSelected(item);
-            }
-        }
+
     } else if (m_operationMode == KeyFrame && m_dragItem) {
         // update the MLT effect
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
