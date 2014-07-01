@@ -1065,7 +1065,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     renderProps.insert("renderguide", QString::number(m_view.render_guide->isChecked()));
     renderProps.insert("renderstartguide", QString::number(m_view.guide_start->currentIndex()));
     renderProps.insert("renderendguide", QString::number(m_view.guide_end->currentIndex()));
-    renderProps.insert("renderendguide", QString::number(m_view.guide_end->currentIndex()));
     renderProps.insert("renderscanning", QString::number(m_view.scanning_list->currentIndex()));
     int export_audio = 0;
     if (m_view.export_audio->checkState() == Qt::Checked)
@@ -1081,6 +1080,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     renderProps.insert("renderratio", QString::number(m_view.rescale_keep->isChecked()));
     renderProps.insert("renderplay", QString::number(m_view.play_after->isChecked()));
     renderProps.insert("rendertwopass", QString::number(m_view.checkTwoPass->isChecked()));
+    renderProps.insert("renderbitrate", m_view.comboBitrates->currentText());
+    renderProps.insert("renderaudiobitrate", m_view.comboAudioBitrates->currentText());
 
     emit selectedRenderProfile(renderProps);
 
@@ -2079,6 +2080,9 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     
     // Clear previous error messages
     refreshCategory(props.value("rendercategory"), props.value("renderprofile"));
+
+    if (props.contains("renderbitrate")) m_view.comboBitrates->setEditText(props.value("renderbitrate"));
+    if (props.contains("renderaudiobitrate")) m_view.comboAudioBitrates->setEditText(props.value("renderaudiobitrate"));
 }
 
 bool RenderWidget::startWaitingRenderJobs()
