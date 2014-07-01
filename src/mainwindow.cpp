@@ -1316,7 +1316,7 @@ void MainWindow::setupActions()
     collection.addAction("transcode_clip", transcodeClip);
     connect(transcodeClip, SIGNAL(triggered(bool)), this, SLOT(slotTranscodeClip()));
 
-    KAction *archiveProject =  new KAction(KIcon("file-save"), i18n("Archive Project"), this);
+    KAction *archiveProject =  new KAction(KIcon("document-save-all"), i18n("Archive Project"), this);
     collection.addAction("archive_project", archiveProject);
     connect(archiveProject, SIGNAL(triggered(bool)), this, SLOT(slotArchiveProject()));
 
