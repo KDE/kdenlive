@@ -156,7 +156,7 @@ void ClipTranscode::slotStartTransCode()
     }
 
     bool replaceVfParams = false;
-    foreach(const QString &s, params.split(' ')) {
+    foreach(QString s, params.split(' ')) {
         if (replaceVfParams) {
             s= m_postParams.at(1);
             replaceVfParams = false;

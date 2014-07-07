@@ -558,7 +558,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     QStringList filters;
     filters << "*.pgm" << "*.png";
     QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
-    foreach(const QString &folder, customLumas) {
+    foreach(QString folder, customLumas) {
         if (!folder.endsWith('/'))
             folder.append('/');
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
