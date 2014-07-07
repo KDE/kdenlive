@@ -2218,7 +2218,7 @@ void ProjectList::extractMetadata(DocClipBase *clip)
             p.waitForFinished();
             QString res = p.readAllStandardOutput();
             QStringList list = res.split("\n");
-            foreach(QString tagline, list) {
+            foreach(const QString &tagline, list) {
                 if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) continue;
                 QString tag = tagline.section(':', 1).simplified();
                 if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) continue;
@@ -2235,7 +2235,7 @@ void ProjectList::extractMetadata(DocClipBase *clip)
                 p.waitForFinished();
                 QString res = p.readAllStandardOutput();
                 QStringList list = res.split("\n");
-                foreach(QString tagline, list) {
+                foreach(const QString &tagline, list) {
                     if (!tagline.startsWith(QLatin1String("-H264"))) continue;
                     QString tag = tagline.section(':', 1);
                     if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) continue;
@@ -3863,7 +3863,7 @@ void ProjectList::checkCamcorderFilters(DocClipBase *clip, QMap <QString, QStrin
 {
     KConfig conf("camcorderfilters.rc", KConfig::CascadeConfig, "appdata");
     QStringList groups = conf.groupList();
-    foreach(QString grp, groups) {
+    foreach(const QString &grp, groups) {
     if (!meta.contains(grp)) continue;
     KConfigGroup group(&conf, grp);
     QString value = group.readEntry(meta.value(grp));

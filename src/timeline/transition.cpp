@@ -365,7 +365,7 @@ bool Transition::updateKeyframes(int oldEnd)
     int i = 0;
     if (oldEnd < duration) {
         // Transition was expanded, check if we had a keyframe at end position
-        foreach(QString pos, values) {
+        foreach(const QString &pos, values) {
             if (!pos.contains('=')) {
                 ++i;
                 continue;

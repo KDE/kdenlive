@@ -5550,7 +5550,7 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
     command->setText("Load markers");
     QString markerText;
     QList <CommentedTime> markersList;
-    foreach(QString line, lines) {
+    foreach(const QString &line, lines) {
         markerText.clear();
         values = line.split("\t", QString::SkipEmptyParts);
         double time1 = values.at(0).toDouble(&ok);
@@ -7690,21 +7690,21 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
     QString result;
     if (ui.import_position->isChecked()) {
         if (ui.import_size->isChecked()) {
-            foreach(QString key, keyframeList) {
+            foreach(const QString &key, keyframeList) {
                 if (key.count('=') > 1) result.append(key.section('=', 0, 1));
                 else result.append(key);
                 result.append(';');
             }
         }
         else {
-            foreach(QString key, keyframeList) {
+            foreach(const QString &key, keyframeList) {
                 result.append(key.section('=', 0, 0));
                 result.append(';');
             }
         }
     }
     else if (ui.import_size->isChecked()) {
-        foreach(QString key, keyframeList) {
+        foreach(const QString &key, keyframeList) {
             result.append(key.section('=', 1, 1));
             result.append(';');
         }
