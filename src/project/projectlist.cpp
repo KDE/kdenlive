@@ -2969,7 +2969,7 @@ void ProjectList::slotTranscodeClipJob(const QString &condition, QString params,
         if (KMessageBox::warningContinueCancelList(this, i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;
     }
     
-    QDialog *d = new QDialog(this);
+    QPointer<QDialog> d = new QDialog(this);
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
     d->setWindowTitle(i18n("Transcoding"));

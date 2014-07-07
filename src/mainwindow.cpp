@@ -3454,7 +3454,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             filter << "*.kdenlivetitle";
             QStringList templateFiles = QDir(titlepath).entryList(filter, QDir::Files);
 
-            QDialog *dia = new QDialog(this);
+            QPointer<QDialog> dia = new QDialog(this);
             Ui::TemplateClip_UI dia_ui;
             dia_ui.setupUi(dia);
             int ix = -1;

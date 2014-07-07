@@ -122,7 +122,7 @@ void EncodingProfilesDialog::slotDeleteProfile()
 
 void EncodingProfilesDialog::slotAddProfile()
 {
-    QDialog *d = new QDialog(this);
+    QPointer<QDialog> d = new QDialog(this);
     QVBoxLayout *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
     QLineEdit *pname = new QLineEdit;
@@ -154,7 +154,7 @@ void EncodingProfilesDialog::slotAddProfile()
 
 void EncodingProfilesDialog::slotEditProfile()
 {
-    QDialog *d = new QDialog(this);
+    QPointer<QDialog> d = new QDialog(this);
     QVBoxLayout *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
     QLineEdit *pname = new QLineEdit;

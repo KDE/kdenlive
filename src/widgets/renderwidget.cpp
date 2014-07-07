@@ -454,7 +454,7 @@ void RenderWidget::slotSaveProfile()
 {
     //TODO: update to correctly use metagroups
     Ui::SaveProfile_UI ui;
-    QDialog *d = new QDialog(this);
+    QPointer<QDialog> d = new QDialog(this);
     ui.setupUi(d);
 
     for (int i = 0; i < m_view.destination_list->count(); ++i)
@@ -623,7 +623,7 @@ void RenderWidget::slotEditProfile()
     QString currentProfile = item->text();
 
     Ui::SaveProfile_UI ui;
-    QDialog *d = new QDialog(this);
+    QPointer<QDialog> d = new QDialog(this);
     ui.setupUi(d);
 
     for (int i = 0; i < m_view.destination_list->count(); ++i)
