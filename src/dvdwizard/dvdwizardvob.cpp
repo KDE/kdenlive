@@ -272,7 +272,7 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkF
             file.close();
             QDomNodeList chapters = doc.elementsByTagName("chapter");
             QStringList chaptersList;
-            for (int j = 0; j < chapters.count(); j++) {
+            for (int j = 0; j < chapters.count(); ++j) {
                 chaptersList.append(QString::number(chapters.at(j).toElement().attribute("time").toInt()));
             }
             item->setData(1, Qt::UserRole + 1, chaptersList.join(";"));

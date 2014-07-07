@@ -127,7 +127,7 @@ void CornersWidget::slotUpdateProperties()
 
     QTableWidgetItem *item = keyframe_list->currentItem();
     double val;
-    for (int col = 0; col < 8; col++) {
+    for (int col = 0; col < 8; ++col) {
         if (col % 2 == 0)
             val = pol.at(col / 2).x() / (double)m_monitor->render->frameRenderWidth();
         else
@@ -149,7 +149,7 @@ QList<QPointF> CornersWidget::getPoints(QTableWidgetItem* keyframe)
     if (!keyframe)
         return points;
 
-    for (int col = 0; col < 8; col++) {
+    for (int col = 0; col < 8; ++col) {
         if (!keyframe_list->item(keyframe->row(), col))
             return QList<QPointF>();
         double val = (keyframe_list->item(keyframe->row(), col)->text().toInt() - 2000) / 2000.;

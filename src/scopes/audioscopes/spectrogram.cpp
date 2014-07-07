@@ -250,7 +250,7 @@ QImage Spectrogram::renderHUD(uint)
                 if (hz > 0) {
                     // Draw finer lines between the main lines
                     davinci.setPen(AbstractScopeWidget::penLightDots);
-                    for (uint dHz = 3; dHz > 0; dHz--) {
+                    for (uint dHz = 3; dHz > 0; --dHz) {
                         x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff/4.0f)/m_freqMax;
                         if (x > rightBorder) {
                             break;
@@ -280,10 +280,10 @@ QImage Spectrogram::renderHUD(uint)
 
         // Draw the dB brightness scale
         davinci.setPen(AbstractScopeWidget::penLighter);
-        for (y = topDist; y < (int)topDist + m_innerScopeRect.height(); y++) {
+        for (y = topDist; y < (int)topDist + m_innerScopeRect.height(); ++y) {
             float val = 1-((float)y-topDist)/(m_innerScopeRect.height()-1);
             int col = qRgba(255, 255, 255, 255.0 * val);
-            for (x = leftDist-6; x >= (int)leftDist-13; x--) {
+            for (x = leftDist-6; x >= (int)leftDist-13; --x) {
                 hud.setPixel(x, y, col);
             }
         }

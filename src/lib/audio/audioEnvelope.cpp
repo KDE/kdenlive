@@ -105,7 +105,7 @@ void AudioEnvelope::loadEnvelope()
         int16_t *data = static_cast<int16_t*>(frame->get_audio(format_s16, samplingRate, channels, samples));
 
         int64_t sum = 0;
-        for (int k = 0; k < samples; k++) {
+        for (int k = 0; k < samples; ++k) {
             sum += fabs(data[k]);
         }
         m_envelope[i] = sum;
@@ -208,9 +208,9 @@ QImage AudioEnvelope::drawEnvelope()
     if (m_envelopeMax == 0)
         return img;
 
-    for (int x = 0; x < img.width(); x++) {
+    for (int x = 0; x < img.width(); ++x) {
         double fy = m_envelope[x]/double(m_envelopeMax) * img.height();
-        for (int y = img.height()-1; y > img.height()-1-fy; y--) {
+        for (int y = img.height()-1; y > img.height()-1-fy; --y) {
             img.setPixel(x,y, qRgb(50, 50, 50));
         }
     }

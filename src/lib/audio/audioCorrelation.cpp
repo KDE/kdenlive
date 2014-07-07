@@ -135,7 +135,7 @@ void AudioCorrelation::correlate(const int64_t *envMain, int sizeMain,
 
     QTime t;
     t.start();
-    for (int shift = -sizeSub; shift <= sizeMain; shift++) {
+    for (int shift = -sizeSub; shift <= sizeMain; ++shift) {
 
         if (shift <= 0) {
             left = envSub-shift;

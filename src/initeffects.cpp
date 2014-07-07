@@ -387,9 +387,9 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
             QChar separator = QLocale().decimalPoint();
             QChar oldSeparator = locale.decimalPoint();
             QDomNodeList params = documentElement.elementsByTagName("parameter");
-            for (int j = 0; j < params.count(); j++) {
+            for (int j = 0; j < params.count(); ++j) {
                 QDomNamedNodeMap attrs = params.at(j).attributes();
-                for (int k = 0; k < attrs.count(); k++) {
+                for (int k = 0; k < attrs.count(); ++k) {
                     QString nodeName = attrs.item(k).nodeName();
                     if (nodeName != "type" && nodeName != "name") {
                             QString val = attrs.item(k).nodeValue();
@@ -480,7 +480,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                 kDebug()<<tags.get_name(i)<<"="<<tags.get(i);*/
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
-            for (int j = 0; param_props.is_valid() && j < param_props.count(); j++) {
+            for (int j = 0; param_props.is_valid() && j < param_props.count(); ++j) {
                 QDomElement params = ret.createElement("parameter");
 
                 Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(j)));

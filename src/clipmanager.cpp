@@ -288,9 +288,9 @@ void ClipManager::slotGetAudioThumbs()
 
             int h1 = arrayWidth * channels;
             int h2 = (int) frame * h1;
-            for (int z = (int) frame; z < (int)(frame + lengthInFrames) && !m_abortAudioThumb; z++) {
+            for (int z = (int) frame; z < (int)(frame + lengthInFrames) && !m_abortAudioThumb; ++z) {
                 int h3 = 0;
-                for (int c = 0; c < channels; c++) {
+                for (int c = 0; c < channels; ++c) {
                     QByteArray audioArray(arrayWidth, '\x00');
                     for (int i = 0; i < arrayWidth; ++i) {
                         audioArray[i] = channelarray.at(h2 + h3 + i);
@@ -335,7 +335,7 @@ void ClipManager::slotGetAudioThumbs()
         int last_val = 0;
         double framesPerSecond = mlt_producer_get_fps(producer.get_producer());
 
-        for (int z = (int) frame; z < (int)(frame + lengthInFrames) && producer.is_valid() &&  !m_abortAudioThumb; z++) {
+        for (int z = (int) frame; z < (int)(frame + lengthInFrames) && producer.is_valid() &&  !m_abortAudioThumb; ++z) {
             int val = (int)((z - frame) / (frame + lengthInFrames) * 100.0);
             if (last_val != val && val > 1) {
                 setThumbsProgress(i18n("Creating audio thumbnail for %1", url.fileName()), val);
@@ -346,7 +346,7 @@ void ClipManager::slotGetAudioThumbs()
             if (mlt_frame && mlt_frame->is_valid()) {
                 int samples = mlt_sample_calculator(framesPerSecond, frequency, mlt_frame->get_position());
                 qint16* pcm = static_cast<qint16*>(mlt_frame->get_audio(audioFormat, frequency, channels, samples));
-                for (int c = 0; c < channels; c++) {
+                for (int c = 0; c < channels; ++c) {
                     QByteArray audioArray;
                     audioArray.resize(arrayWidth);
                     for (int i = 0; i < audioArray.size(); ++i) {
@@ -813,7 +813,7 @@ QDomElement ClipManager::groupsXml() const
         QDomElement group = doc.createElement("group");
         groups.appendChild(group);
         QList <QGraphicsItem *> children = m_groupsList.at(i)->childItems();
-        for (int j = 0; j < children.count(); j++) {
+        for (int j = 0; j < children.count(); ++j) {
             if (children.at(j)->type() == AVWidget || children.at(j)->type() == TransitionWidget) {
                 AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(j));
                 ItemInfo info = item->info();

@@ -296,7 +296,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> &audioFrame,
 #ifdef AUDIOSPEC_LINES
             davinci.drawLine(leftDist + i, topDist + h-1, leftDist + i, topDist + h-1 - yMax);
 #else
-            for (int y = 0; y < yMax && y < (int)h; y++) {
+            for (int y = 0; y < yMax && y < (int)h; ++y) {
                 spectrum.setPixel(leftDist + i, topDist + h-y-1, spectrumColor.rgba());
             }
 #endif
@@ -409,7 +409,7 @@ QImage AudioSpectrum::renderHUD(uint)
             if (hz > 0) {
                 // Draw finer lines between the main lines
                 davinci.setPen(AbstractScopeWidget::penLightDots);
-                for (uint dHz = 3; dHz > 0; dHz--) {
+                for (uint dHz = 3; dHz > 0; --dHz) {
                     x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff/4.0f)/m_freqMax;
                     if (x > rightBorder) {
                         break;

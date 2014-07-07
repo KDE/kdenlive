@@ -138,7 +138,7 @@ uint MltPreview::imageVariance(const QImage &image)
     }
     avg=avg/STEPS;
     // Second Step: calculate delta (average?)
-    for (uint i=0; i<STEPS; i++)
+    for (uint i=0; i<STEPS; ++i)
     {
 #if QT_VERSION >= 0x040700
         int curdelta=abs(int(avg - pivot.at(i)));

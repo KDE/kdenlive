@@ -87,7 +87,7 @@ KUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
         }
         else {
             // Countdown producer
-            for (int i = 0; i < view.duration->value(); i++) {
+            for (int i = 0; i < view.duration->value(); ++i) {
                 // Create the producers
                 args << QLatin1String("pango:") << QLatin1String("in=0") << QLatin1String("out=") + QString::number((int) fps * view.duration->value());
                 args << QLatin1String("text=") + QString::number(view.duration->value() - i);

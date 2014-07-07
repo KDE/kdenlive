@@ -446,7 +446,7 @@ GenTime DocClipBase::hasSnapMarkers(const GenTime & time)
 GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime)
 {
     int it;
-    for (it = 0; it < m_snapMarkers.count(); it++) {
+    for (it = 0; it < m_snapMarkers.count(); ++it) {
         if (m_snapMarkers.at(it).time() >= currTime)
             break;
     }
@@ -459,7 +459,7 @@ GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime)
 GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime)
 {
     int it;
-    for (it = 0; it < m_snapMarkers.count(); it++) {
+    for (it = 0; it < m_snapMarkers.count(); ++it) {
         if (m_snapMarkers.at(it).time() > currTime)
             break;
     }

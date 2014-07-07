@@ -83,7 +83,7 @@ void EffectsListView::filterList(int pos)
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
         bool hideFolder = true;
-        for (int j = 0; j < folder->childCount(); j++) {
+        for (int j = 0; j < folder->childCount(); ++j) {
             QTreeWidgetItem *item = folder->child(j);
             if (pos == 0 || pos == item->data(0, Qt::UserRole).toInt()) {
                 item->setHidden(false);
@@ -194,7 +194,7 @@ void EffectsListView::slotAutoExpand(const QString &text)
         /*if (folder->isHidden())
             continue;*/
         if (!text.isEmpty()) {
-            for (int j = 0; j < folder->childCount(); j++) {
+            for (int j = 0; j < folder->childCount(); ++j) {
                 QTreeWidgetItem *item = folder->child(j);
                 if (!item->isHidden()) {
                     expandFolder = true;

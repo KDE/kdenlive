@@ -264,7 +264,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
                         }
                         QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
                         subitems.removeAll(this);
-                        for (int j = 0; j < subitems.count(); j++) {
+                        for (int j = 0; j < subitems.count(); ++j) {
                             if (!subitems.at(j)->isEnabled()) continue;
                             if (subitems.at(j)->type() == type()) {
                                 // move was not successful, revert to previous pos

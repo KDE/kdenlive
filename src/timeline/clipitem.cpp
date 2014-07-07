@@ -164,7 +164,7 @@ void ClipItem::setEffectList(const EffectsList &effectList)
             // check if it is a fade effect
             QDomNodeList params = effect.elementsByTagName("parameter");
             int fade = 0;
-            for (int j = 0; j < params.count(); j++) {
+            for (int j = 0; j < params.count(); ++j) {
                 QDomElement e = params.item(j).toElement();
                 if (!e.isNull()) {
                     if (effectId == "fadein") {
@@ -1204,14 +1204,14 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
             }
         }
 
-        for (int samples = 0; samples <= 100; samples++) {
+        for (int samples = 0; samples <= 100; ++samples) {
             double frame = (double)(samples + startCache - 0) / pixelForOneFrame;
             int sample = (int)((frame - (int)(frame)) * 20);   // AUDIO_FRAME_SIZE
             if (frame < 0 || sample < 0 || sample > 19)
                 continue;
             const QMap<int, QByteArray> frame_channel_data = baseClip()->audioFrameCache.value((int)frame);
 
-            for (int channel = 0; channel < channels && !frame_channel_data.value(channel).isEmpty(); channel++) {
+            for (int channel = 0; channel < channels && !frame_channel_data.value(channel).isEmpty(); ++channel) {
                 int y = channelHeight * channel + channelHeight / 2;
                 if (simplifiedAudio) {
                     double delta = qAbs((frame_channel_data.value(channel).at(sample) - 63.5)  * channelHeight / factor);
@@ -1226,7 +1226,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
                 }
             }
         }
-        for (int channel = 0; channel < channels; channel++) {
+        for (int channel = 0; channel < channels; ++channel) {
             if (simplifiedAudio) {
                 positiveChannelPaths[channel].lineTo(101, channelHeight);
             } else if (fullAreaDraw) {
@@ -1437,7 +1437,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
                         }
                         QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
                         subitems.removeAll(this);
-                        for (int j = 0; j < subitems.count(); j++) {
+                        for (int j = 0; j < subitems.count(); ++j) {
                             if (!subitems.at(j)->isEnabled()) continue;
                             if (subitems.at(j)->type() == type()) {
                                 // move was not successful, revert to previous pos
@@ -1646,7 +1646,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool /*animate*/)
                 double factor = locale.toDouble(e.attribute("factor", "1"));
                 double offset = e.attribute("offset", "0").toDouble();
                 if (factor != 1 || offset != 0) {
-                    for (int j = 0; j < values.count(); j++) {
+                    for (int j = 0; j < values.count(); ++j) {
                         QString pos = values.at(j).section('=', 0, 0);
                         double val = (locale.toDouble(values.at(j).section('=', 1, 1)) - offset) / factor;
                         values[j] = pos + '=' + locale.toString(val);
@@ -2049,7 +2049,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
         }
 
         QDomNodeList params = effect.elementsByTagName("parameter");
-        for (int j = 0; j < params.count(); j++) {
+        for (int j = 0; j < params.count(); ++j) {
             QDomElement param = params.item(j).toElement();
 
             QString type = param.attribute("type");

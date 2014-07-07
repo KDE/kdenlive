@@ -135,7 +135,7 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
 
     const int partH = size.height();
 
-    for (uint x = 0; x < max; x++) {
+    for (uint x = 0; x < max; ++x) {
         // Calculate the height of the curve at position x
         int partY = scaling*y[x];
 
@@ -143,7 +143,7 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
         if (partY > partH-1) { partY = partH-1; }
         partY = partH-1 - partY;
 
-        for (int k = partH-1; k >= partY; k--) {
+        for (int k = partH-1; k >= partY; --k) {
             component.setPixel(x, k, color.rgba());
         }
     }
@@ -161,14 +161,14 @@ void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, cons
     davinci->drawImage(rect.topLeft(), component);
 
     int min = 0;
-    for (uint x = 0; x < max; x++) {
+    for (uint x = 0; x < max; ++x) {
         min = x;
         if (y[x] > 0) {
             break;
         }
     }
     int maxVal = max-1;
-    for (int x = max-1; x >= 0; x--) {
+    for (int x = max-1; x >= 0; --x) {
         maxVal = x;
         if (y[x] > 0) {
             break;

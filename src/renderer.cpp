@@ -1074,7 +1074,7 @@ void Render::processFileProperties()
                 filePropertyMap["progressive"] = QString::number(scan);
 
                 // Find maximum stream index values
-                for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ix++) {
+                for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ++ix) {
                     snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
                     QString type = producer->get(property);
                     if (type == "video")
@@ -2879,7 +2879,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 filter->set("kdenlive_id", qstrdup(params.paramValue("id").toUtf8().constData()));
                 int x1 = keyFrames.at(0).section('=', 0, 0).toInt();
                 double y1 = keyFrames.at(0).section('=', 1, 1).toDouble();
-                for (int j = 0; j < params.count(); j++) {
+                for (int j = 0; j < params.count(); ++j) {
                     filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
                 }
                 filter->set("in", x1);
@@ -2903,7 +2903,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
                 double y2 = keyFrames.at(i + 1).section('=', 1, 1).toDouble();
                 if (x2 == -1) x2 = duration;
 
-                for (int j = 0; j < params.count(); j++) {
+                for (int j = 0; j < params.count(); ++j) {
                     filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
                 }
 
@@ -2941,7 +2941,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
             filter->set_in_and_out(service.get_int("in"), service.get_int("out"));
         }
 
-        for (int j = 0; j < params.count(); j++) {
+        for (int j = 0; j < params.count(); ++j) {
             filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
         }
 
@@ -2954,7 +2954,7 @@ bool Render::addFilterToService(Mlt::Service service, EffectsParameterList param
             params.removeParam("disable");
             params.removeParam("region");
 
-            for (int j = 0; j < params.count(); j++) {
+            for (int j = 0; j < params.count(); ++j) {
                 effectArgs.append(' ' + params.at(j).value());
             }
             //kDebug() << "SOX EFFECTS: " << effectArgs.simplified();
@@ -2997,7 +2997,7 @@ bool Render::mltEditTrackEffect(int track, EffectsParameterList params)
     QString ser = filter->get("mlt_service");
     if (ser == "region") prefix = "filter0.";
     service.lock();
-    for (int j = 0; j < params.count(); j++) {
+    for (int j = 0; j < params.count(); ++j) {
         filter->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
     }
     service.unlock();
@@ -4136,7 +4136,7 @@ const QList <Mlt::Producer *> Render::producersList()
     QStringList ids;
 
     int trackNb = tractor.count();
-    for (int t = 1; t < trackNb; t++) {
+    for (int t = 1; t < trackNb; ++t) {
         Mlt::Producer *tt = tractor.track(t);
         Mlt::Producer trackProducer(tt);
         delete tt;
@@ -4169,7 +4169,7 @@ void Render::fillSlowMotionProducers()
     Mlt::Tractor tractor(service);
 
     int trackNb = tractor.count();
-    for (int t = 1; t < trackNb; t++) {
+    for (int t = 1; t < trackNb; ++t) {
         Mlt::Producer *tt = tractor.track(t);
         Mlt::Producer trackProducer(tt);
         delete tt;
@@ -4221,7 +4221,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, bool videoTrack)
         Mlt::Producer newProd(tractor.track(pos));
         if (!videoTrack) newProd.set("hide", 1);
         pos++;
-        for (; pos <= ct; pos++) {
+        for (; pos <= ct; ++pos) {
             Mlt::Producer *prodToMove2 = new Mlt::Producer(tractor.track(pos));
             tractor.set_track(*prodToMove, pos);
             prodToMove = prodToMove2;
@@ -4324,7 +4324,7 @@ void Render::mltDeleteTrack(int ix)
         QDomElement e = transitions.at(i).toElement();
         QDomNodeList props = e.elementsByTagName("property");
         QMap <QString, QString> mappedProps;
-        for (int j = 0; j < props.count(); j++) {
+        for (int j = 0; j < props.count(); ++j) {
             QDomElement f = props.at(j).toElement();
             mappedProps.insert(f.attribute("name"), f.firstChild().nodeValue());
         }
@@ -4343,7 +4343,7 @@ void Render::mltDeleteTrack(int ix)
                 continue;
             }
             if (b_track > 0 && b_track > ix) b_track --;
-            for (int j = 0; j < props.count(); j++) {
+            for (int j = 0; j < props.count(); ++j) {
                 QDomElement f = props.at(j).toElement();
                 if (f.attribute("name") == "a_track") f.firstChild().setNodeValue(QString::number(a_track));
                 else if (f.attribute("name") == "b_track") f.firstChild().setNodeValue(QString::number(b_track));
@@ -4373,7 +4373,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, const QSt
         prod.removeAttribute("out");
 
         QDomNodeList props = prod.childNodes();
-        for (int j = 0; j < props.count(); j++) {
+        for (int j = 0; j < props.count(); ++j) {
             QDomElement param =  props.at(j).toElement();
             QString paramName = param.attribute("name");
             if (paramName.startsWith(QLatin1String("meta.")) || paramName == "length") {
@@ -4423,7 +4423,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, const QSt
         transition.setAttribute("in", in);
         transition.setAttribute("out", out);
         QDomNodeList props = transition.childNodes();
-        for (int j = 0; j < props.count(); j++) {
+        for (int j = 0; j < props.count(); ++j) {
             QDomElement param =  props.at(j).toElement();
             QString paramName = param.attribute("name");
             if (paramName == "geometry") {
@@ -4557,7 +4557,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     QList <QGroupBox*> groupList;
     QList <QComboBox*> comboList;
     // We start loading the list at 1, video index 0 should already be loaded
-    for (int j = 1; j < video_list.count(); j++) {
+    for (int j = 1; j < video_list.count(); ++j) {
         Mlt::Producer multiprod(* m_mltProfile, path.toUtf8().constData());
         multiprod.set("video_index", video_list.at(j));
         QImage thumb = KThumb::getFrame(&multiprod, 0, swidth, width, 60);
@@ -4572,7 +4572,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
         vh->addWidget(iconLabel);
         if (audio_list.count() > 1) {
             QComboBox *cb = new QComboBox(content);
-            for (int k = 0; k < audio_list.count(); k++) {
+            for (int k = 0; k < audio_list.count(); ++k) {
                 cb->addItem(i18n("Audio stream %1", audio_list.at(k)), audio_list.at(k));
             }
             comboList << cb;

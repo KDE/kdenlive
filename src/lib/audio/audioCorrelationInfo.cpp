@@ -82,9 +82,9 @@ QImage AudioCorrelationInfo::toImage(int height) const
     if (maxVal == 0)
 	return img;
 
-    for (int x = 0; x < width; x++) {
+    for (int x = 0; x < width; ++x) {
         int val = m_correlationVector[x]/double(maxVal)*img.height();
-        for (int y = img.height()-1; y > img.height() - val - 1; y--) {
+        for (int y = img.height()-1; y > img.height() - val - 1; --y) {
             img.setPixel(x, y, qRgb(50, 50, 50));
         }
     }

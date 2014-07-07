@@ -54,7 +54,7 @@ void CaptureHandler::uyvy2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buff
     rgb_ptr = 0;
     y_ptr = 0;
 
-    for (int t = 0; t < len; t++) { /* process 2 pixels at a time */
+    for (int t = 0; t < len; ++t) { /* process 2 pixels at a time */
         /* Compute parts of the UV components */
 
         int U = yuv_buffer[y_ptr];
@@ -118,7 +118,7 @@ void CaptureHandler::yuyv2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buff
     rgb_ptr = 0;
     y_ptr = 0;
 
-    for (t = 0; t < len; t++) { /* process 2 pixels at a time */
+    for (t = 0; t < len; ++t) { /* process 2 pixels at a time */
         /* Compute parts of the UV components */
         int Y = yuv_buffer[y_ptr];
         int U = yuv_buffer[y_ptr+1];

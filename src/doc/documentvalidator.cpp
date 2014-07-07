@@ -378,7 +378,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             } else {
                 // convert transition
                 QDomNamedNodeMap attrs = tr.attributes();
-                for (int j = 0; j < attrs.count(); j++) {
+                for (int j = 0; j < attrs.count(); ++j) {
                     QString attrName = attrs.item(j).nodeName();
                     if (attrName != "in" && attrName != "out" && attrName != "id") {
                         QDomElement property = m_doc.createElement("property");
@@ -417,7 +417,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     QDomText value = m_doc.createTextNode(QString::number(effectix));
                     e.appendChild(value);
                     filt.appendChild(e);
-                    for (int j = 0; j < attrs.count(); j++) {
+                    for (int j = 0; j < attrs.count(); ++j) {
                         QDomAttr a = attrs.item(j).toAttr();
                         if (!a.isNull()) {
                             kDebug() << " FILTER; adding :" << a.name() << ':' << a.value();
@@ -452,7 +452,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomText value = m_doc.createTextNode(QString::number(1));
                 e.appendChild(value);
                 filt.appendChild(e);
-                for (int j = 0; j < attrs.count(); j++) {
+                for (int j = 0; j < attrs.count(); ++j) {
                     QDomAttr a = attrs.item(j).toAttr();
                     if (!a.isNull()) {
                         kDebug() << " FILTER; adding :" << a.name() << ':' << a.value();
@@ -498,7 +498,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 if (m.toElement().tagName() == "markers") {
                     QDomNodeList prodchilds = m.childNodes();
                     int maxchild = prodchilds.count();
-                    for (int k = 0; k < maxchild; k++) {
+                    for (int k = 0; k < maxchild; ++k) {
                         QDomElement mark = prodchilds.at(0).toElement();
                         mark.setAttribute("id", prod.attribute("id"));
                         markers.insertAfter(mark, QDomNode());
@@ -513,7 +513,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         tdoc.appendChild(title);
                         QDomNodeList objects = titleclip.childNodes();
                         int maxchild = objects.count();
-                        for (int k = 0; k < maxchild; k++) {
+                        for (int k = 0; k < maxchild; ++k) {
                             QString objectxml;
                             QDomElement ob = objects.at(k).toElement();
                             if (ob.attribute("type") == "3") {
@@ -847,11 +847,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 bool foundData = false;
                 bool foundResource = false;
                 bool foundService = false;
-                for (int j = 0; j < mltproducers.count(); j++) {
+                for (int j = 0; j < mltproducers.count(); ++j) {
                     QDomElement wproducer = mltproducers.at(j).toElement();
                     if (wproducer.attribute("id") == id) {
                         QDomNodeList props = wproducer.childNodes();
-                        for (int k = 0; k < props.count(); k++) {
+                        for (int k = 0; k < props.count(); ++k) {
                             if (props.at(k).toElement().attribute("name") == "xmldata") {
                                 props.at(k).firstChild().setNodeValue(data);
                                 foundData = true;
@@ -904,7 +904,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 EffectsList::setProperty(effect, "tag", info.at(0));
                 EffectsList::setProperty(effect, "mlt_service", info.at(0));
                 EffectsList::removeProperty(effect, "src");
-                for (int j = 1; j < info.size(); j++) {
+                for (int j = 1; j < info.size(); ++j) {
                     QString value = EffectsList::property(effect, info.at(j).section('=', 0, 0));
                     if (!value.isEmpty()) {
                         // update parameter name

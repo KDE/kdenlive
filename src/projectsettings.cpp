@@ -577,7 +577,7 @@ void ProjectSettings::slotExportToText()
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() > 0) {
             data.append('\n' + files_list->topLevelItem(i)->text(0) + ":\n\n");
-            for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++) {
+            for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
                 data.append(files_list->topLevelItem(i)->child(j)->text(0) + '\n');
             }
         }

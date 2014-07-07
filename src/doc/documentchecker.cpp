@@ -97,7 +97,7 @@ bool DocumentChecker::hasErrorInClips()
             QString prodId;
             // Check that the duration is in sync between Kdenlive's info and MLT's playlist
             int prodsCount = documentProducers.count();
-            for (int j = 0; j < prodsCount; j++) {
+            for (int j = 0; j < prodsCount; ++j) {
                 mltProd = documentProducers.at(j).toElement();
                 prodId = mltProd.attribute("id");
                 // Don't check slowmotion clips for now... (TODO?)
@@ -347,7 +347,7 @@ bool DocumentChecker::hasErrorInClips()
         QDomElement mltProd;
         QDomElement property;
         int prodsCount = documentProducers.count();
-        for (int j = 0; j < prodsCount; j++) {
+        for (int j = 0; j < prodsCount; ++j) {
             mltProd = documentProducers.at(j).toElement();
             QString prodId = mltProd.attribute("id");
             bool slowmotion = false;
@@ -469,7 +469,7 @@ void DocumentChecker::slotSearchClips()
     QDir searchDir(newpath);
     while (child) {
         if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
-            for (int j = 0; j < child->childCount(); j++) {
+            for (int j = 0; j < child->childCount(); ++j) {
                 QTreeWidgetItem *subchild = child->child(j);
                 QString clipPath = searchFileRecursively(searchDir, subchild->data(0, sizeRole).toString(), subchild->data(0, hashRole).toString());
                 if (!clipPath.isEmpty()) {
@@ -645,7 +645,7 @@ void DocumentChecker::acceptDialog()
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     while (child) {
         if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
-            for (int j = 0; j < child->childCount(); j++) {
+            for (int j = 0; j < child->childCount(); ++j) {
                 fixClipItem(child->child(j), producers, infoproducers, trans);
             }
         }
@@ -796,7 +796,7 @@ void DocumentChecker::slotFixDuration()
             }
             if (resetDuration) {
                 // something is wrong in clip durations, so remove them so mlt fetches them again
-                for (int j = 0; j < documentProducers.count(); j++) {
+                for (int j = 0; j < documentProducers.count(); ++j) {
                     QDomElement mltProd = documentProducers.at(j).toElement();
                     QString prodId = mltProd.attribute("id");
                     if (prodId == id || prodId.startsWith(id + '_')) {
@@ -894,7 +894,7 @@ void DocumentChecker::slotDeleteSelected()
 
         for (int i = 0; i < playlists.count(); ++i) {
             QDomNodeList entries = playlists.at(i).toElement().elementsByTagName("entry");
-            for (int j = 0; j < entries.count(); j++) {
+            for (int j = 0; j < entries.count(); ++j) {
                 e = entries.item(j).toElement();
                 if (deletedIds.contains(e.attribute("producer").section('_', 0, 0)) || deletedIds.contains(e.attribute("producer").section(':', 1, 1).section('_', 0, 0))) {
                     // Replace clip with blank

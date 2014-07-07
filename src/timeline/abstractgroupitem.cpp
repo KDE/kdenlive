@@ -118,7 +118,7 @@ QPainterPath AbstractGroupItem::groupShape(GraphicsRectItem type, const QPointF 
             path.addRect(r);
         } else if (children.at(i)->type() == GroupWidget) {
             QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-            for (int j = 0; j < subchildren.count(); j++) {
+            for (int j = 0; j < subchildren.count(); ++j) {
                 if (subchildren.at(j)->type() == (int)type) {
                     QRectF r(subchildren.at(j)->sceneBoundingRect());
                     r.translate(offset);
@@ -142,7 +142,7 @@ QPainterPath AbstractGroupItem::spacerGroupShape(GraphicsRectItem type, const QP
             path.addRect(r);
         } else if (children.at(i)->type() == GroupWidget) {
             QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-            for (int j = 0; j < subchildren.count(); j++) {
+            for (int j = 0; j < subchildren.count(); ++j) {
                 if (subchildren.at(j)->type() == (int)type) {
                     QRectF r(subchildren.at(j)->sceneBoundingRect());
                     r.translate(offset);
@@ -244,7 +244,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             } else if (children.at(i)->type() == GroupWidget) {
                 QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
                 bool clipGroup = false;
-                for (int j = 0; j < subchildren.count(); j++) {
+                for (int j = 0; j < subchildren.count(); ++j) {
                     if (subchildren.at(j)->type() == AVWidget || subchildren.at(j)->type() == TransitionWidget) {
                         int subTrack = static_cast <AbstractClipItem*> (subchildren.at(j))->track();
                         if (!groupTracks.contains(subTrack)) groupTracks.append(subTrack);
@@ -299,7 +299,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             for (int i = 0; i < children.count(); ++i) {
                 if (children.at(i)->type() == GroupWidget) {
                     QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-                    for (int j = 0; j < subchildren.count(); j++) {
+                    for (int j = 0; j < subchildren.count(); ++j) {
                         collidingItems.removeAll(subchildren.at(j));
                     }
                 }
@@ -337,7 +337,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 for (int i = 0; i < children.count(); ++i) {
                     if (children.at(i)->type() == GroupWidget) {
                         QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-                        for (int j = 0; j < subchildren.count(); j++) {
+                        for (int j = 0; j < subchildren.count(); ++j) {
                             collidingItems.removeAll(subchildren.at(j));
                         }
                     }
@@ -355,7 +355,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             for (int i = 0; i < children.count(); ++i) {
                 if (children.at(i)->type() == GroupWidget) {
                     QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
-                    for (int j = 0; j < subchildren.count(); j++) {
+                    for (int j = 0; j < subchildren.count(); ++j) {
                         collidingItems.removeAll(subchildren.at(j));
                     }
                 }

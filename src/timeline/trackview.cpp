@@ -236,7 +236,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
         if (playlist_name != "black_track" && playlist_name != "playlistmain") {
             // find playlist related to this track
             p = QDomElement();
-            for (int j = 0; j < m_projectTracks; j++) {
+            for (int j = 0; j < m_projectTracks; ++j) {
                 p = playlists.item(j).toElement();
                 if (p.attribute("id") == playlist_name) {
                     // playlist found, check track effects
@@ -263,7 +263,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
             if (trackduration > duration) duration = trackduration;
         } else {
             // background black track
-            for (int j = 0; j < m_projectTracks; j++) {
+            for (int j = 0; j < m_projectTracks; ++j) {
                 p = playlists.item(j).toElement();
                 if (p.attribute("id") == playlist_name) break;
             }
@@ -286,7 +286,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
         QString mlt_geometry;
         QString mlt_service;
         QString transitionId;
-        for (int k = 0; k < transitionparams.count(); k++) {
+        for (int k = 0; k < transitionparams.count(); ++k) {
             p = transitionparams.item(k).toElement();
             if (!p.isNull()) {
                 QString paramName = p.attribute("name");
@@ -354,7 +354,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
             QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, transitionId).cloneNode().toElement();
             QLocale locale;
             locale.setNumberOptions(QLocale::OmitGroupSeparator);
-            if (!base.isNull()) for (int k = 0; k < transitionparams.count(); k++) {
+            if (!base.isNull()) for (int k = 0; k < transitionparams.count(); ++k) {
                 p = transitionparams.item(k).toElement();
                 if (!p.isNull()) {
                     QString paramName = p.attribute("name");
@@ -602,7 +602,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
     QMap <QString, QString> producerReplacementIds;
     int frame_width = m_trackview->getFrameWidth();
     QDomNodeList children = xml.childNodes();
-    for (int nodeindex = 0; nodeindex < children.count(); nodeindex++) {
+    for (int nodeindex = 0; nodeindex < children.count(); ++nodeindex) {
         QDomNode n = children.item(nodeindex);
         QDomElement elem = n.toElement();
         if (elem.tagName() == "blank") {
@@ -773,7 +773,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
     int effectNb = 0;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    for (int ix = 0; ix < effects.count(); ix++) {
+    for (int ix = 0; ix < effects.count(); ++ix) {
         bool disableeffect = false;
         QDomElement effect = effects.at(ix).toElement();
         if (effect.tagName() != "filter") continue;
@@ -965,7 +965,7 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
     QDomElement e;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    for (int k = 0; k < clipeffectparams.count(); k++) {
+    for (int k = 0; k < clipeffectparams.count(); ++k) {
         e = clipeffectparams.item(k).toElement();
         if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
             QString type = e.attribute("type");
@@ -979,7 +979,7 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
             double offset = e.attribute("offset", "0").toDouble();
             if (type == "simplekeyframe") {
                 QStringList kfrs = paramvalue.split(";");
-                for (int l = 0; l < kfrs.count(); l++) {
+                for (int l = 0; l < kfrs.count(); ++l) {
                     QString fr = kfrs.at(l).section('=', 0, 0);
                     double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
                     //kfrs[l] = fr + ':' + locale.toString((int)(val * fact));

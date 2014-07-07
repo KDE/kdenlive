@@ -93,7 +93,7 @@ void ArchiveOrg::slotShowResults(KJob* job)
                         resultsList = soundsList.value("docs").toList();
                     }
                     
-                    for (int j = 0; j < resultsList.count(); j++) {
+                    for (int j = 0; j < resultsList.count(); ++j) {
                         if (resultsList.at(j).canConvert(QVariant::Map)) {
                             QMap <QString, QVariant> soundmap = resultsList.at(j).toMap();
                             if (soundmap.contains("title")) {

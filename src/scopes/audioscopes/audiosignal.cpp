@@ -101,7 +101,7 @@ QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> &audioFrame,
             _x2= maxx >  xdelta ? xdelta - 1 : maxx - 1;
         }
 
-        for (int x = 0; x <= 42; x++) {
+        for (int x = 0; x <= 42; ++x) {
             int _x1= x *xdelta;
             QColor sig=Qt::green;
             //value of actual painted digit

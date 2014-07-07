@@ -169,7 +169,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             int errorPos = 0;
                             line--;
                             col = col - 2;
-                            for (int j = 0; j < line && errorPos < playlist.length(); j++) {
+                            for (int j = 0; j < line && errorPos < playlist.length(); ++j) {
                                 errorPos = playlist.indexOf("\n", errorPos);
                                 errorPos++;
                             }
@@ -243,7 +243,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             if (!tracksinfo.isNull()) {
                                 QDomNodeList trackslist = tracksinfo.childNodes();
                                 int maxchild = trackslist.count();
-                                for (int k = 0; k < maxchild; k++) {
+                                for (int k = 0; k < maxchild; ++k) {
                                     e = trackslist.at(k).toElement();
                                     if (e.tagName() == "trackinfo") {
                                         TrackInfo projectTrack;
@@ -291,7 +291,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                     e.setTagName("producer");
                                     // Get MLT's original producer properties
                                     QDomElement orig;
-                                    for (int j = 0; j < max; j++) {
+                                    for (int j = 0; j < max; ++j) {
                                         QDomNode o = producers.item(j);
                                         QString origId = o.attributes().namedItem("id").nodeValue().section('_', 0, 0);
                                         if (origId == prodId) {
@@ -318,7 +318,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                 if (!markers.isNull()) {
                                     QDomNodeList markerslist = markers.childNodes();
                                     int maxchild = markerslist.count();
-                                    for (int k = 0; k < maxchild; k++) {
+                                    for (int k = 0; k < maxchild; ++k) {
                                         e = markerslist.at(k).toElement();
                                         if (e.tagName() == "marker") {
                                             CommentedTime marker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"), e.attribute("type").toInt());
@@ -673,7 +673,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
         QDomNodeList params = m.childNodes();
         QString id;
         QString tag;
-        for (int j = 0; j < params.count(); j++) {
+        for (int j = 0; j < params.count(); ++j) {
             QDomElement e = params.item(j).toElement();
             if (e.attribute("name") == "kdenlive_id") {
                 id = e.firstChild().nodeValue();
@@ -763,7 +763,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene, const QStringList &
         e.setTagName("kdenlive_producer");
         addedXml.appendChild(sceneList.importNode(e, true));
         QList < CommentedTime > marks = list.at(i)->commentedSnapMarkers();
-        for (int j = 0; j < marks.count(); j++) {
+        for (int j = 0; j < marks.count(); ++j) {
             QDomElement marker = sceneList.createElement("marker");
             marker.setAttribute("time", marks.at(j).time().ms() / 1000);
             marker.setAttribute("comment", marks.at(j).comment());
@@ -1180,7 +1180,7 @@ void KdenliveDoc::setNewClipResource(const QString &id, const QString &path)
         QString prodId = m.toElement().attribute("id");
         if (prodId == id || prodId.startsWith(id + '_')) {
             QDomNodeList params = m.childNodes();
-            for (int j = 0; j < params.count(); j++) {
+            for (int j = 0; j < params.count(); ++j) {
                 QDomElement e = params.item(j).toElement();
                 if (e.attribute("name") == "resource") {
                     e.firstChild().setNodeValue(path);

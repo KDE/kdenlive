@@ -87,7 +87,7 @@ void FreeSound::slotShowResults(KJob* job)
                 sounds = i.value();
                 if (sounds.canConvert(QVariant::List)) {
                     QList <QVariant> soundsList = sounds.toList();
-                    for (int j = 0; j < soundsList.count(); j++) {
+                    for (int j = 0; j < soundsList.count(); ++j) {
                         if (soundsList.at(j).canConvert(QVariant::Map)) {
                             QMap <QString, QVariant> soundmap = soundsList.at(j).toMap();
                             if (soundmap.contains("original_filename")) {

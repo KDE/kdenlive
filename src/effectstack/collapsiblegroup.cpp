@@ -284,7 +284,7 @@ void CollapsibleGroup::updateTimecodeFormat()
 {
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
     if (vbox == NULL) return;
-    for (int j = vbox->count() - 1; j >= 0; j--) {
+    for (int j = vbox->count() - 1; j >= 0; --j) {
 	CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(j)->widget());
 	if (e) e->updateTimecodeFormat();
     }
@@ -377,7 +377,7 @@ void CollapsibleGroup::slotRenameGroup()
 {
     m_title->setReadOnly(true);
     if (m_title->text().isEmpty()) m_title->setText(i18n("Effect Group"));
-    for (int j = 0; j < m_subWidgets.count(); j++) {
+    for (int j = 0; j < m_subWidgets.count(); ++j) {
 	m_subWidgets.at(j)->setGroupName(m_title->text());
     }
     m_info.groupName = m_title->text();
@@ -397,7 +397,7 @@ QDomDocument CollapsibleGroup::effectsData()
     QDomElement list = doc.createElement("effectgroup");
     list.setAttribute("name", m_title->text());
     doc.appendChild(list);
-    for (int j = 0; j < m_subWidgets.count(); j++) {
+    for (int j = 0; j < m_subWidgets.count(); ++j) {
 	list.appendChild(doc.importNode(m_subWidgets.at(j)->effect(), true));
     }
     return doc;

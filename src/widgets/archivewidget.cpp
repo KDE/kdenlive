@@ -194,7 +194,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             if (parentItem->data(0, Qt::UserRole).toString() == "slideshows")
             {
                 // Special case: slideshows contain several files
-                for (int j = 0; j < items; j++) {
+                for (int j = 0; j < items; ++j) {
                     total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
                 }
             }
@@ -557,7 +557,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             destPath = parentItem->data(0, Qt::UserRole).toString() + '/';
             destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + destPath);
             QTreeWidgetItem *item;
-            for (int j = 0; j < parentItem->childCount(); j++) {
+            for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
                 if (item->isDisabled()) continue;
                 // Special case: slideshows
@@ -566,7 +566,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                     destPath += item->data(0, Qt::UserRole).toString() + '/';
                     destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + destPath);
                     QStringList srcFiles = item->data(0, Qt::UserRole + 1).toStringList();
-                    for (int k = 0; k < srcFiles.count(); k++) {
+                    for (int k = 0; k < srcFiles.count(); ++k) {
                         files << KUrl(srcFiles.at(k));
                     }
                     item->setDisabled(true);
@@ -666,7 +666,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         compressed_archive->setEnabled(true);
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
-            for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++)
+            for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j)
                 files_list->topLevelItem(i)->child(j)->setDisabled(false);        
         }
     }
@@ -689,7 +689,7 @@ bool ArchiveWidget::processProjectFile()
         if (parentItem->childCount() > 0) {
             destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + parentItem->data(0, Qt::UserRole).toString());
             bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
-            for (int j = 0; j < parentItem->childCount(); j++) {
+            for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
                 KUrl src(item->text(0));
                 KUrl dest = destUrl;
@@ -856,7 +856,7 @@ void ArchiveWidget::slotArchivingFinished(bool result)
     compressed_archive->setEnabled(true);
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         files_list->topLevelItem(i)->setDisabled(false);
-        for (int j = 0; j < files_list->topLevelItem(i)->childCount(); j++)
+        for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j)
             files_list->topLevelItem(i)->child(j)->setDisabled(false);
     }
 }
@@ -960,7 +960,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         }
         if (!parentItem) return;
         int items = parentItem->childCount();
-        for (int j = 0; j < items; j++) {
+        for (int j = 0; j < items; ++j) {
             proxyIdList << parentItem->child(j)->data(0, Qt::UserRole + 2).toString();
         }
         
@@ -968,11 +968,11 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         for (int i = 0; i < proxyIdList.count(); ++i) {
             QString id = proxyIdList.at(i);
             if (id.isEmpty()) continue;
-            for (int j = 0; j < files_list->topLevelItemCount(); j++) {
+            for (int j = 0; j < files_list->topLevelItemCount(); ++j) {
                 parentItem = files_list->topLevelItem(j);
                 if (parentItem->data(0, Qt::UserRole).toString() == "proxy") continue;
                 items = parentItem->childCount();
-                for (int k = 0; k < items; k++) {
+                for (int k = 0; k < items; ++k) {
                     if (parentItem->child(k)->data(0, Qt::UserRole + 2).toString() == id) {
                         // This item has a proxy, do not archive it
                         parentItem->child(k)->setFlags(Qt::ItemIsSelectable);
@@ -987,7 +987,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
             int items = parentItem->childCount();
-            for (int j = 0; j < items; j++) {
+            for (int j = 0; j < items; ++j) {
                 parentItem->child(j)->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
             }
         }
@@ -1001,7 +1001,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         int itemsCount = 0;
         bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
         
-        for (int j = 0; j < items; j++) {
+        for (int j = 0; j < items; ++j) {
             if (!parentItem->child(j)->isDisabled()) {
                 m_requestedSize += parentItem->child(j)->data(0, Qt::UserRole + 3).toInt();
                 if (isSlideshow) total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();

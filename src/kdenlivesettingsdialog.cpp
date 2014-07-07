@@ -335,7 +335,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(QString device)
     list1 << m_configShuttle.label_16; // #15
 
 
-    for (int i = 0; i < list.count(); i++) {
+    for (int i = 0; i < list.count(); ++i) {
         list[i]->hide();
         list1[i]->hide();
     }
@@ -343,7 +343,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(QString device)
 #ifdef USE_JOGSHUTTLE
     int keysCount = JogShuttle::keysCount(device);
 
-    for (int i = 0; i < keysCount; i++) {
+    for (int i = 0; i < keysCount; ++i) {
         m_shuttle_buttons.push_back(list[i]);
         list[i]->show();
         list1[i]->show();
@@ -608,7 +608,7 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
     if (devNames.count() != devPaths.count()) {
         return;
     }
-    for (int i = 0; i < devNames.count(); i++) {
+    for (int i = 0; i < devNames.count(); ++i) {
         m_configShuttle.shuttledevicelist->addItem(
                 devNames.at(i), devPaths.at(i));
     }
@@ -986,10 +986,10 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
         QString format = pixelformats.at(i).section(':', 0, 0);
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
-        for (int j = 0; j < sizes.count(); j++) {
+        for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section('=', 0, 0);
             itemRates = sizes.at(j).section('=', 1, 1).split(',', QString::SkipEmptyParts);
-            for (int k = 0; k < itemRates.count(); k++) {
+            for (int k = 0; k < itemRates.count(); ++k) {
                 m_configCapture.kcfg_v4l_format->addItem('[' + format + "] " + itemSize + " (" + itemRates.at(k) + ')', QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
             }
         }

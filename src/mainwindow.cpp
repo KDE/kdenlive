@@ -1821,14 +1821,14 @@ void MainWindow::loadLayouts()
             if (key.endsWith(QString("_%1").arg(i))) {
                 // Found previously saved layout
                 QString layoutName = key.section('_', 0, -2);
-                for (int j = 0; j < loadActions.count(); j++) {
+                for (int j = 0; j < loadActions.count(); ++j) {
                     if (loadActions.at(j)->data().toString().endsWith('_' + QString::number(i))) {
                         loadActions[j]->setText(layoutName);
                         loadActions[j]->setData(key);
                         break;
                     }
                 }
-                for (int j = 0; j < saveActions.count(); j++) {
+                for (int j = 0; j < saveActions.count(); ++j) {
                     if (saveActions.at(j)->data().toString().endsWith('_' + QString::number(i))) {
                         saveActions[j]->setText(i18n("Save as %1", layoutName));
                         saveActions[j]->setData(key);
@@ -4426,7 +4426,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         QDomNodeList producers = doc.elementsByTagName("producer");
         QString producerResource;
         QString suffix;
-        for (uint n = 0; n < producers.length(); n++) {
+        for (uint n = 0; n < producers.length(); ++n) {
             QDomElement e = producers.item(n).toElement();
             producerResource = EffectsList::property(e, "resource");
             if (producerResource.isEmpty()) continue;

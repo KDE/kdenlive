@@ -131,7 +131,7 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
         int frame = frames.at(i).section('=', 0, 0).toInt();
         bool found = false;
         int j;
-        for (j = 0; j < keyframe_list->rowCount(); j++) {
+        for (j = 0; j < keyframe_list->rowCount(); ++j) {
             int currentPos = getPos(j);
             if (frame == currentPos) {
                 keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section('=', 1, 1)));
@@ -240,7 +240,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         if (val != keyframe_list->verticalHeaderItem(row)->text())
             keyframe_list->verticalHeaderItem(row)->setText(val);
 
-        for (int col = 0; col < keyframe_list->horizontalHeader()->count(); col++) {
+        for (int col = 0; col < keyframe_list->horizontalHeader()->count(); ++col) {
             item = keyframe_list->item(row, col);
             if (!item) continue;
             int v = item->text().toInt();
@@ -297,7 +297,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
 
 void KeyframeEdit::generateAllParams()
 {
-    for (int col = 0; col < keyframe_list->columnCount(); col++) {
+    for (int col = 0; col < keyframe_list->columnCount(); ++col) {
         QString keyframes;
         for (int i = 0; i < keyframe_list->rowCount(); ++i) {
             if (keyframe_list->item(i, col))
@@ -310,7 +310,7 @@ void KeyframeEdit::generateAllParams()
 
 const QString KeyframeEdit::getValue(const QString &name)
 {
-    for (int col = 0; col < keyframe_list->columnCount(); col++) {
+    for (int col = 0; col < keyframe_list->columnCount(); ++col) {
         QDomNode na = m_params.at(col).firstChildElement("name");
         QString paramName = i18n(na.toElement().text().toUtf8().data());
         if (paramName == name)
@@ -338,7 +338,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
     m_position->setPosition(getPos(item->row()));
     m_position->blockSignals(false);
 
-    for (int col = 0; col < keyframe_list->columnCount(); col++) {
+    for (int col = 0; col < keyframe_list->columnCount(); ++col) {
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (!doubleparam)
             continue;
@@ -368,7 +368,7 @@ void KeyframeEdit::slotAdjustKeyframeValue(double value)
     Q_UNUSED(value)
 
     QTableWidgetItem *item = keyframe_list->currentItem();
-    for (int col = 0; col < keyframe_list->columnCount(); col++) {
+    for (int col = 0; col < keyframe_list->columnCount(); ++col) {
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (!doubleparam)
             continue;
@@ -438,7 +438,7 @@ void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
     for (int i = 0; i < m_params.count(); ++i) {
         m_params[i].setAttribute("intimeline", (i == id ? "1" : "0"));
     }
-    for (int col = 0; col < keyframe_list->columnCount(); col++) {
+    for (int col = 0; col < keyframe_list->columnCount(); ++col) {
         DoubleParameterWidget *doubleparam = static_cast <DoubleParameterWidget*>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (!doubleparam)
             continue;

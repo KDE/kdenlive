@@ -171,8 +171,8 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
 
     /* Create the c,d table -- this is a table of dot products of the */
     /* c's and d's                                                      */
-    for (row = 0; row <= DEGREE - 1; row++) {
-                for (column = 0; column <= DEGREE; column++) {
+    for (row = 0; row <= DEGREE - 1; ++row) {
+                for (column = 0; column <= DEGREE; ++column) {
                 cdTable[row][column] = V2Dot(&d[row], &c[column]);
                 }
     }
@@ -187,7 +187,7 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
 
     n = DEGREE;
     m = DEGREE-1;
-    for (k = 0; k <= n + m; k++) {
+    for (k = 0; k <= n + m; ++k) {
                 int lb = MAX(0, k - m);
                 int ub = MIN(k, n);
                 for (i = lb; i <= ub; ++i) {
@@ -456,13 +456,13 @@ static Point2 Bezier(Point2 *V, int degree, double t, Point2 *Left, Point2 *Righ
 
 
     /* Copy control points      */
-    for (j =0; j <= degree; j++) {
+    for (j =0; j <= degree; ++j) {
                 Vtemp[0][j] = V[j];
     }
 
     /* Triangle computation     */
     for (i = 1; i <= degree; ++i) {     
-                for (j =0 ; j <= degree - i; j++) {
+                for (j =0 ; j <= degree - i; ++j) {
                 Vtemp[i][j].x =
                         (1.0 - t) * Vtemp[i-1][j].x + t * Vtemp[i-1][j+1].x;
                 Vtemp[i][j].y =
@@ -471,12 +471,12 @@ static Point2 Bezier(Point2 *V, int degree, double t, Point2 *Left, Point2 *Righ
     }
     
     if (Left != NULL) {
-                for (j = 0; j <= degree; j++) {
+                for (j = 0; j <= degree; ++j) {
                 Left[j]  = Vtemp[j][0];
                 }
     }
     if (Right != NULL) {
-                for (j = 0; j <= degree; j++) {
+                for (j = 0; j <= degree; ++j) {
                 Right[j] = Vtemp[degree-j][j];
                 }
     }

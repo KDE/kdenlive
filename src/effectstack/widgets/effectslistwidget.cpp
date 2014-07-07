@@ -186,7 +186,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             sub4 = new QMenu(i18nc("menu name for effects names between these 2 letters", "S - Z"), sub);
             sub->addMenu(sub4);
         }
-        for (int j = 0; j < effectsInCategory; j++) {
+        for (int j = 0; j < effectsInCategory; ++j) {
             QTreeWidgetItem *item = topLevelItem(i)->child(j);
             KAction *a = new KAction(KIcon(item->icon(0)), item->text(0), sub);
             QStringList data = item->data(0, IdRole).toStringList();

@@ -314,7 +314,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             QString inName = pa.attribute("inpoints");
             QString outName = pa.attribute("outpoints");
             int start = pa.attribute("min").toInt();
-            for (int j = start; j <= number; j++) {
+            for (int j = start; j <= number; ++j) {
                 QString in = inName;
                 in.replace("%i", QString::number(j));
                 QString out = outName;
@@ -677,7 +677,7 @@ void ParameterContainer::slotCollectAllParameters()
             } else {
                 EffectsList::setParameter(m_effect, number, QString::number(points.count()));
             }
-            for (int j = 0; (j < points.count() && j + off <= end); j++) {
+            for (int j = 0; (j < points.count() && j + off <= end); ++j) {
                 QString in = inName;
                 in.replace("%i", QString::number(j + off));
                 QString out = outName;
@@ -832,13 +832,13 @@ void ParameterContainer::slotStartFilterJobAction()
 		QDomNodeList params = m_effect.elementsByTagName("parameter");
 		CustomTrackView::adjustEffectParameters(parameters, params, m_metaInfo->profile);
 		QString paramData;
-		for (int j = 0; j < parameters.count(); j++)
+		for (int j = 0; j < parameters.count(); ++j)
 		    paramData.append(parameters.at(j).name()+"="+parameters.at(j).value()+" ");
 		filterparams.replace("%params", paramData);
 	    }
 	    QMap <QString, QString> extraParams;
 	    QDomNodeList jobparams = pa.elementsByTagName("jobparam");
-	    for (int j = 0; j < jobparams.count(); j++) {
+	    for (int j = 0; j < jobparams.count(); ++j) {
                 QDomElement e = jobparams.item(j).toElement();
 		extraParams.insert(e.attribute("name"), e.text().toUtf8());
 	    }

@@ -75,7 +75,7 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
                 if (effect.tagName() == "effectgroup") {
                     // Effect group
                     QDomNodeList subeffects = effect.elementsByTagName("effect");
-                    for (int j = 0; j < subeffects.count(); j++) {
+                    for (int j = 0; j < subeffects.count(); ++j) {
                         QDomElement sub = subeffects.at(j).toElement();
                         initEffect(sub);
                     }

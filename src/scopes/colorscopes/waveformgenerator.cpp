@@ -53,7 +53,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
 
         uint waveValues[waveformSize.width()][waveformSize.height()];
         for (int i = 0; i < waveformSize.width(); ++i) {
-            for (int j = 0; j < waveformSize.height(); j++) {
+            for (int j = 0; j < waveformSize.height(); ++j) {
                 waveValues[i][j] = 0;
             }
         }
@@ -107,7 +107,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         switch (paintMode) {
         case PaintMode_Green:
             for (int i = 0; i < waveformSize.width(); ++i) {
-                for (int j = 0; j < waveformSize.height(); j++) {
+                for (int j = 0; j < waveformSize.height(); ++j) {
                     // Logarithmic scale. Needs fine tuning by hand, but looks great.
                     wave.setPixel(i, waveformSize.height()-j-1, qRgba(CHOP255(52*log(0.1*gain*waveValues[i][j])),
                                                                       CHOP255(52*log(gain*waveValues[i][j])),
@@ -118,14 +118,14 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
             break;
         case PaintMode_Yellow:
             for (int i = 0; i < waveformSize.width(); ++i) {
-                for (int j = 0; j < waveformSize.height(); j++) {
+                for (int j = 0; j < waveformSize.height(); ++j) {
                     wave.setPixel(i, waveformSize.height()-j-1, qRgba(255,242,0,   CHOP255(gain*waveValues[i][j])));
                 }
             }
             break;
         default:
             for (int i = 0; i < waveformSize.width(); ++i) {
-                for (int j = 0; j < waveformSize.height(); j++) {
+                for (int j = 0; j < waveformSize.height(); ++j) {
                     wave.setPixel(i, waveformSize.height()-j-1, qRgba(255,255,255, CHOP255(2*gain*waveValues[i][j])));
                 }
             }
@@ -139,7 +139,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
             davinci.setCompositionMode(QPainter::CompositionMode_Overlay);
             for (uint i = 0; i <= 10; ++i) {
                 float dy = (float)i/10 * (wh-1);
-                for (uint x = 0; x < ww; x++) {
+                for (uint x = 0; x < ww; ++x) {
                     opx = wave.pixel(x, dy);
                     wave.setPixel(x,dy, qRgba(CHOP255(150+qRed(opx)), 255,
                                               CHOP255(200+qBlue(opx)), CHOP255(32+qAlpha(opx))));

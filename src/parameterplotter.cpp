@@ -175,7 +175,7 @@ void ParameterPlotter::mouseMoveEvent(QMouseEvent * event)
         int i = 0;
         foreach(KPlotObject *o, plotObjects()) {
             QList<KPlotPoint*> points = o->points();
-            for (int p = 0; p < points.size(); p++) {
+            for (int p = 0; p < points.size(); ++p) {
                 if (points[p] == m_movepoint && (m_activeIndexPlot == -1 || m_activeIndexPlot == i)) {
                     QPoint delta = event->pos() - m_oldmousepoint;
                     double newy = m_movepoint->y() - delta.y() * dataRect().height() / pixRect().height();

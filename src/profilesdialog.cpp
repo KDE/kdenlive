@@ -487,7 +487,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
     QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
     for (int i = 0; i < customProfiles.size(); ++i) {
         QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-        for (int j = 0; j < profiles.size(); j++) {
+        for (int j = 0; j < profiles.size(); ++j) {
             KConfig confFile(customProfiles.at(i) + profiles.at(j), KConfig::SimpleConfig);
             QMap< QString, QString > values = confFile.entryMap();
             int profileWidth;

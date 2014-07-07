@@ -199,7 +199,7 @@ void EffectStackView2::setupListView()
         effectInfo.fromString(d.attribute("kdenlive_info"));
         if (effectInfo.groupIndex >= 0) {
             // effect is in a group
-            for (int j = 0; j < vbox1->count(); j++) {
+            for (int j = 0; j < vbox1->count(); ++j) {
                 CollapsibleGroup *eff = static_cast<CollapsibleGroup *>(vbox1->itemAt(j)->widget());
                 if (eff->isGroup() &&  eff->groupIndex() == effectInfo.groupIndex) {
                     group = eff;

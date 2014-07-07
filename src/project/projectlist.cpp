@@ -494,7 +494,7 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
         if (list.at(i)->type() == ProjectFoldeType) {
             // Add folder items to the list
             int ct = list.at(i)->childCount();
-            for (int j = 0; j < ct; j++) {
+            for (int j = 0; j < ct; ++j) {
                 list.append(list.at(i)->child(j));
             }
             continue;
@@ -669,7 +669,7 @@ void ProjectList::slotReloadClip(const QString &id)
     for (int i = 0; i < selected.count(); ++i) {
         if (selected.at(i)->type() != ProjectClipType) {
             if (selected.at(i)->type() == ProjectFoldeType) {
-                for (int j = 0; j < selected.at(i)->childCount(); j++)
+                for (int j = 0; j < selected.at(i)->childCount(); ++j)
                     selected.append(selected.at(i)->child(j));
             }
             continue;
@@ -3229,7 +3229,7 @@ void ProjectList::slotProxyCurrentItem(bool doProxy, ProjectItem *itemToProxy)
     for (int i = 0; i < list.count(); ++i) {
         listItem = list.at(i);
         if (listItem->type() == ProjectFoldeType) {
-            for (int j = 0; j < listItem->childCount(); j++) {
+            for (int j = 0; j < listItem->childCount(); ++j) {
                 QTreeWidgetItem *sub = listItem->child(j);
                 if (sub->type() == ProjectClipType) {
                     ProjectItem *item = static_cast <ProjectItem*>(sub);

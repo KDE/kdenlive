@@ -211,7 +211,7 @@ QStringList DvdWizardChapters::selectedTitles() const
     for (int i = 0; i < max; ++i) {
         result.append(m_view.vob_list->itemText(i));
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
-        for (int j = 0; j < chapters.count(); j++) {
+        for (int j = 0; j < chapters.count(); ++j) {
             result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps(), true));
         }
     }
@@ -222,7 +222,7 @@ QStringList DvdWizardChapters::chapters(int ix) const
 {
     QStringList result;
     QStringList chapters = m_view.vob_list->itemData(ix, Qt::UserRole + 1).toStringList();
-    for (int j = 0; j < chapters.count(); j++) {
+    for (int j = 0; j < chapters.count(); ++j) {
         result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps(), true));
     }
     return result;
@@ -236,7 +236,7 @@ QStringList DvdWizardChapters::selectedTargets() const
         // rightJustified: fill with 0s to make menus with more than 9 buttons work (now up to 99 buttons possible)
         result.append("jump title " + QString::number(i + 1).rightJustified(2, '0'));
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
-        for (int j = 0; j < chapters.count(); j++) {
+        for (int j = 0; j < chapters.count(); ++j) {
             result.append("jump title " + QString::number(i + 1).rightJustified(2, '0') + " chapter " + QString::number(j + 1).rightJustified(2, '0'));
         }
     }

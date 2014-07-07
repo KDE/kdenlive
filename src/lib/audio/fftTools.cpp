@@ -64,10 +64,10 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
     case Window_Triangle:
         window = QVector<float>(size+1);
 
-        for (int x = 0; x < mid; x++) {
+        for (int x = 0; x < mid; ++x) {
             window[x] = x/mid + (mid-x)/mid*param;
         }
-        for (int x = mid; x < size; x++) {
+        for (int x = mid; x < size; ++x) {
             window[x] = (x-mid)/(max-mid) * param + (max-x)/(max-mid);
         }
         window[size] = .5 + param/2;
@@ -88,7 +88,7 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
         // we use integer values instead, ranging from -mid to (max-mid).
         window = QVector<float>(size+1);
 
-        for (int x = 0; x < size; x++) {
+        for (int x = 0; x < size; ++x) {
             window[x] = .54 + .46 * cos( 2*M_PI*(x-mid) / size );
         }
 
@@ -207,13 +207,13 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
     } else {
         mFile << "val = [ ";
 
-        for (int sample = 0; sample < 256; sample++) {
+        for (int sample = 0; sample < 256; ++sample) {
             mFile << data[sample] << ' ';
         }
         mFile << " ];\n";
 
         mFile << "freq = [ ";
-        for (int sample = 0; sample < 256; sample++) {
+        for (int sample = 0; sample < 256; ++sample) {
             mFile << freqData[sample].r << '+' << freqData[sample].i << "*i ";
         }
         mFile << " ];\n";
@@ -302,7 +302,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in
 
             out[i] = fill;
 
-            for (; src < xi && src < (uint) in.size(); src++) {
+            for (; src < xi && src < (uint) in.size(); ++src) {
                 if (out[i] < in[src]) {
                     out[i] = in[src];
                 }

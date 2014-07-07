@@ -652,7 +652,7 @@ void MltDeviceCapture::setOverlayEffect(const QString &tag, const QStringList &p
     filter = new Mlt::Filter(*m_mltProfile, tmp);
     delete[] tmp;
     if (filter && filter->is_valid()) {
-        for (int j = 0; j < parameters.count(); j++) {
+        for (int j = 0; j < parameters.count(); ++j) {
             filter->set(parameters.at(j).section('=', 0, 0).toUtf8().constData(), parameters.at(j).section('=', 1, 1).toUtf8().constData());
         }
         trackService.attach(*filter);
@@ -702,7 +702,7 @@ void MltDeviceCapture::uyvy2rgb(unsigned char *yuv_buffer, int width, int height
     int rgb_ptr = 0, y_ptr = 0;
     int len = width * height / 2;
 
-    for (int t = 0; t < len; t++) { 
+    for (int t = 0; t < len; ++t) { 
         int Y = yuv_buffer[y_ptr];
         int U = yuv_buffer[y_ptr+1];
         int Y2 = yuv_buffer[y_ptr+2];
