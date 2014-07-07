@@ -41,7 +41,7 @@ AudioSignal::~AudioSignal()
 {
 }
 
-QImage AudioSignal::renderAudioScope(uint, const QVector<int16_t> &audioFrame,
+QImage AudioSignal::renderAudioScope(uint, const QVector<qint16> &audioFrame,
                                      const int, const int num_channels, const int samples, const int)
 {
     QTime start = QTime::currentTime();
@@ -148,7 +148,7 @@ QRect AudioSignal::scopeRect() { return QRect(0, 0, width(), height()); }
 QImage AudioSignal::renderHUD(uint) { return QImage(); }
 QImage AudioSignal::renderBackground(uint) { return QImage(); }
 
-void AudioSignal::slotReceiveAudio(QVector<int16_t> data, int, int num_channels, int samples)
+void AudioSignal::slotReceiveAudio(QVector<qint16> data, int, int num_channels, int samples)
 {
 
     int num_samples = samples > 200 ? 200 : samples;

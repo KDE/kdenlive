@@ -125,7 +125,7 @@ namespace Mlt
 class Producer;
 };
 
-Q_DECLARE_METATYPE(QVector<int16_t>)
+Q_DECLARE_METATYPE(QVector<qint16>)
 
 
 EffectsList MainWindow::videoEffects;
@@ -160,7 +160,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_stopmotion(NULL),
     m_mainClip(NULL)
 {
-    qRegisterMetaType<QVector<int16_t> > ();
+    qRegisterMetaType<QVector<qint16> > ();
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
 

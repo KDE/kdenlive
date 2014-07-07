@@ -42,7 +42,7 @@ public:
     QRect scopeRect();
     QImage renderHUD(uint accelerationFactor);
     QImage renderBackground(uint accelerationFactor);
-    QImage renderAudioScope(uint accelerationFactor, const QVector<int16_t> &audioFrame, const int, const int num_channels, const int samples, const int);
+    QImage renderAudioScope(uint accelerationFactor, const QVector<qint16> &audioFrame, const int, const int num_channels, const int samples, const int);
 
     QString widgetName() const { return "audioSignal"; }
     bool isHUDDependingOnInput() const { return false; }
@@ -57,7 +57,7 @@ private:
 
 public slots:
     void showAudio(const QByteArray &);
-    void slotReceiveAudio(QVector<int16_t>,int,int,int);
+    void slotReceiveAudio(QVector<qint16>,int,int,int);
 private slots:
      void slotNoAudioTimeout();
 

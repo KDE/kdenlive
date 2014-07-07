@@ -172,7 +172,7 @@ QImage AudioSpectrum::renderBackground(uint)
     return QImage();
 }
 
-QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> &audioFrame, const int freq, const int num_channels,
+QImage AudioSpectrum::renderAudioScope(uint, const QVector<qint16> &audioFrame, const int freq, const int num_channels,
                                        const int num_samples, const int)
 {
     if (
@@ -192,8 +192,8 @@ QImage AudioSpectrum::renderAudioScope(uint, const QVector<int16_t> &audioFrame,
 
         for (int i = 0; i < audioFrame.size(); ++i) {
             if (
-                    audioFrame[i] == std::numeric_limits<int16_t>::max()
-                    || audioFrame[i] == std::numeric_limits<int16_t>::min()) {
+                    audioFrame[i] == std::numeric_limits<qint16>::max()
+                    || audioFrame[i] == std::numeric_limits<qint16>::min()) {
                 overmodulateCount++;
                 if (overmodulateCount > 3) {
                     overmodulated = true;

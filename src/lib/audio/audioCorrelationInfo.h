@@ -27,15 +27,15 @@ public:
     ~AudioCorrelationInfo();
 
     int size() const;
-    int64_t* correlationVector();
-    int64_t const* correlationVector() const;
+    qint64* correlationVector();
+    qint64 const* correlationVector() const;
 
     /**
       Returns the maximum value in the correlation vector.
       If it has not been set before with setMax(), it will be calculated.
       */
-    int64_t max() const;
-    void setMax(int64_t max); ///< Can be set to avoid calculating the max again in this function
+    qint64 max() const;
+    void setMax(qint64 max); ///< Can be set to avoid calculating the max again in this function
 
     /**
       Returns the index of the largest value in the correlation vector
@@ -48,8 +48,8 @@ private:
     int m_mainSize;
     int m_subSize;
 
-    int64_t *m_correlationVector;
-    int64_t m_max;
+    qint64 *m_correlationVector;
+    qint64 m_max;
 
 };
 

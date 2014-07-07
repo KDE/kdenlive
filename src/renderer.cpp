@@ -1919,7 +1919,7 @@ void Render::showAudio(Mlt::Frame& frame)
     int freq = 48000;
     int num_channels = 2;
     int samples = 0;
-    int16_t* data = (int16_t*)frame.get_audio(audio_format, freq, num_channels, samples);
+    qint16* data = (int16_t*)frame.get_audio(audio_format, freq, num_channels, samples);
 
     if (!data) {
         return;
@@ -1927,8 +1927,8 @@ void Render::showAudio(Mlt::Frame& frame)
 
     // Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
     // So the vector is of size samples*channels.
-    QVector<int16_t> sampleVector(samples*num_channels);
-    memcpy(sampleVector.data(), data, samples*num_channels*sizeof(int16_t));
+    QVector<qint16> sampleVector(samples*num_channels);
+    memcpy(sampleVector.data(), data, samples*num_channels*sizeof(qint16));
 
     if (samples > 0) {
         emit audioSamplesSignal(sampleVector, freq, num_channels, samples);

@@ -35,12 +35,12 @@ public:
     virtual ~AudioEnvelope();
 
     /// Returns the envelope, calculates it if necessary.
-    int64_t const* envelope();
+    qint64 const* envelope();
     int envelopeSize() const;
-    int64_t maxValue() const;
+    qint64 maxValue() const;
 
     void loadEnvelope();
-    int64_t loadStdDev();
+    qint64 loadStdDev();
     void normalizeEnvelope(bool clampTo0 = false);
 
     QImage drawEnvelope();
@@ -51,7 +51,7 @@ public:
     int startPos() const;
 
 private:
-    int64_t *m_envelope;
+    qint64 *m_envelope;
     Mlt::Producer *m_producer;
     AudioInfo *m_info;
     QFutureWatcher<void> m_watcher;
@@ -63,9 +63,9 @@ private:
     int m_startpos;
 
     int m_envelopeSize;
-    int64_t m_envelopeMax;
-    int64_t m_envelopeMean;
-    int64_t m_envelopeStdDev;
+    qint64 m_envelopeMax;
+    qint64 m_envelopeMean;
+    qint64 m_envelopeStdDev;
 
     bool m_envelopeStdDevCalculated;
     bool m_envelopeIsNormalized;

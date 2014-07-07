@@ -53,7 +53,7 @@ public:
         * freqSpectrum has to be of size windowSize/2
         For windowType and param see the FFTTools::window() function above.
     */
-    void fftNormalized(const QVector<int16_t> audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
+    void fftNormalized(const QVector<qint16> audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
                        const WindowType windowType, const uint windowSize, const float param = 0);
 
 

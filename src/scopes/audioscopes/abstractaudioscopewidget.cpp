@@ -30,7 +30,7 @@ AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *par
 {
 }
 
-void AbstractAudioScopeWidget::slotReceiveAudio(const QVector<int16_t>& sampleData, int freq, int num_channels, int num_samples)
+void AbstractAudioScopeWidget::slotReceiveAudio(const QVector<qint16>& sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_AASW
     qDebug() << "Received audio for " << widgetName() << '.';

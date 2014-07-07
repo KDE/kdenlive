@@ -59,7 +59,7 @@ AudioEnvelope::~AudioEnvelope()
 
 
 
-const int64_t *AudioEnvelope::envelope()
+const qint64 *AudioEnvelope::envelope()
 {
     if (m_envelope == NULL) {
         loadEnvelope();
@@ -70,7 +70,7 @@ int AudioEnvelope::envelopeSize() const
 {
     return m_envelopeSize;
 }
-int64_t AudioEnvelope::maxValue() const
+qint64 AudioEnvelope::maxValue() const
 {
     return m_envelopeMax;
 }
@@ -88,7 +88,7 @@ void AudioEnvelope::loadEnvelope()
     mlt_audio_format format_s16 = mlt_audio_s16;
     int channels = 1;
 
-    m_envelope = new int64_t[m_envelopeSize];
+    m_envelope = new qint64[m_envelopeSize];
     m_envelopeMax = 0;
     m_envelopeMean = 0;
 
@@ -99,12 +99,12 @@ void AudioEnvelope::loadEnvelope()
     m_producer->set_speed(1.0); // This is necessary, otherwise we don't get any new frames in the 2nd run.
     for (int i = 0; i < m_envelopeSize; ++i) {
         Mlt::Frame *frame = m_producer->get_frame(i);
-        int64_t position = mlt_frame_get_position(frame->get_frame());
+        qint64 position = mlt_frame_get_position(frame->get_frame());
         int samples = mlt_sample_calculator(m_producer->get_fps(), samplingRate, position);
 
-        int16_t *data = static_cast<int16_t*>(frame->get_audio(format_s16, samplingRate, channels, samples));
+        qint16 *data = static_cast<int16_t*>(frame->get_audio(format_s16, samplingRate, channels, samples));
 
-        int64_t sum = 0;
+        qint64 sum = 0;
         for (int k = 0; k < samples; ++k) {
             sum += fabs(data[k]);
         }
@@ -130,7 +130,7 @@ void AudioEnvelope::loadEnvelope()
               << t.elapsed() << " ms.";
 }
 
-int64_t AudioEnvelope::loadStdDev()
+qint64 AudioEnvelope::loadStdDev()
 {
     if (m_envelopeStdDevCalculated) {
         qDebug() << "Standard deviation already calculated, not re-calculating.";
@@ -173,7 +173,7 @@ void AudioEnvelope::slotProcessEnveloppe()
     if (!m_envelopeIsNormalized) {
 
         m_envelopeMax = 0;
-        int64_t newMean = 0;
+        qint64 newMean = 0;
         for (int i = 0; i < m_envelopeSize; ++i) {
 
             m_envelope[i] -= m_envelopeMean;

@@ -16,7 +16,7 @@ AudioCorrelationInfo::AudioCorrelationInfo(int mainSize, int subSize) :
     m_subSize(subSize),
     m_max(-1)
 {
-    m_correlationVector = new int64_t[m_mainSize+m_subSize+1];
+    m_correlationVector = new qint64[m_mainSize+m_subSize+1];
 }
 
 AudioCorrelationInfo::~AudioCorrelationInfo()
@@ -29,16 +29,16 @@ int AudioCorrelationInfo::size() const
     return m_mainSize+m_subSize+1;
 }
 
-void AudioCorrelationInfo::setMax(int64_t max)
+void AudioCorrelationInfo::setMax(qint64 max)
 {
     m_max = max;
 }
 
-int64_t AudioCorrelationInfo::max() const
+qint64 AudioCorrelationInfo::max() const
 {
     if (m_max <= 0) {
         int width = size();
-        int64_t max = 0;
+        qint64 max = 0;
         for (int i = 0; i < width; ++i) {
             if (m_correlationVector[i] > max) {
                 max = m_correlationVector[i];
@@ -52,7 +52,7 @@ int64_t AudioCorrelationInfo::max() const
 
 int AudioCorrelationInfo::maxIndex() const
 {
-    int64_t max = 0;
+    qint64 max = 0;
     int index = 0;
     int width = size();
 
@@ -66,7 +66,7 @@ int AudioCorrelationInfo::maxIndex() const
     return index;
 }
 
-int64_t* AudioCorrelationInfo::correlationVector()
+qint64* AudioCorrelationInfo::correlationVector()
 {
     return m_correlationVector;
 }
@@ -74,7 +74,7 @@ int64_t* AudioCorrelationInfo::correlationVector()
 QImage AudioCorrelationInfo::toImage(int height) const
 {
     int width = size();
-    int64_t maxVal = max();
+    qint64 maxVal = max();
 
     QImage img(width, height, QImage::Format_ARGB32);
     img.fill(qRgb(255,255,255));

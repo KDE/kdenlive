@@ -55,11 +55,11 @@ void AudioCorrelation::slotProcessChild(AudioEnvelope *envelope)
     const int sizeSub = envelope->envelopeSize();
 
     AudioCorrelationInfo *info = new AudioCorrelationInfo(sizeMain, sizeSub);
-    int64_t *correlation = info->correlationVector();
+    qint64 *correlation = info->correlationVector();
 
-    const int64_t *envMain = m_mainTrackEnvelope->envelope();
-    const int64_t *envSub = envelope->envelope();
-    int64_t max = 0;
+    const qint64 *envMain = m_mainTrackEnvelope->envelope();
+    const qint64 *envSub = envelope->envelope();
+    qint64 max = 0;
 
     if (sizeSub > 200) {
         FFTCorrelation::correlate(envMain, sizeMain,
@@ -103,18 +103,18 @@ AudioCorrelationInfo const* AudioCorrelation::info(int childIndex) const
 }
 
 
-void AudioCorrelation::correlate(const int64_t *envMain, int sizeMain,
-                                 const int64_t *envSub, int sizeSub,
-                                 int64_t *correlation,
-                                 int64_t *out_max)
+void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain,
+                                 const qint64 *envSub, int sizeSub,
+                                 qint64 *correlation,
+                                 qint64 *out_max)
 {
     Q_ASSERT(correlation != NULL);
 
-    int64_t const* left;
-    int64_t const* right;
+    qint64 const* left;
+    qint64 const* right;
     int size;
-    int64_t sum;
-    int64_t max = 0;
+    qint64 sum;
+    qint64 max = 0;
 
 
     /*

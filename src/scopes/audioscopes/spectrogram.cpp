@@ -301,7 +301,7 @@ QImage Spectrogram::renderHUD(uint)
         return QImage();
     }
 }
-QImage Spectrogram::renderAudioScope(uint, const QVector<int16_t> &audioFrame, const int freq,
+QImage Spectrogram::renderAudioScope(uint, const QVector<qint16> &audioFrame, const int freq,
                                      const int num_channels, const int num_samples, const int newData) {
     if (
             audioFrame.size() > 63

@@ -37,13 +37,13 @@ public:
       \c out_correlated must be a pre-allocated vector of size
       \c leftSize + \c rightSize.
       */
-    static void correlate(const int64_t *left, const int leftSize,
-                          const int64_t *right, const int rightSize,
+    static void correlate(const qint64 *left, const int leftSize,
+                          const qint64 *right, const int rightSize,
                           float *out_correlated);
 
-    static void correlate(const int64_t *left, const int leftSize,
-                          const int64_t *right, const int rightSize,
-                          int64_t *out_correlated);
+    static void correlate(const qint64 *left, const int leftSize,
+                          const qint64 *right, const int rightSize,
+                          qint64 *out_correlated);
 };
 
 #endif // FFTCORRELATION_H

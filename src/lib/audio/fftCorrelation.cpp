@@ -19,9 +19,9 @@ extern "C"
 #include <QTime>
 #include <algorithm>
 
-void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
-                               const int64_t *right, const int rightSize,
-                               int64_t *out_correlated)
+void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
+                               const qint64 *right, const int rightSize,
+                               qint64 *out_correlated)
 {
     float correlatedFloat[leftSize+rightSize+1];
     correlate(left, leftSize, right, rightSize, correlatedFloat);
@@ -34,8 +34,8 @@ void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
     }
 }
 
-void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
-                               const int64_t *right, const int rightSize,
+void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
+                               const qint64 *right, const int rightSize,
                                float *out_correlated)
 {
     QTime t;
@@ -44,12 +44,12 @@ void FFTCorrelation::correlate(const int64_t *left, const int leftSize,
     float leftF[leftSize];
     float rightF[rightSize];
 
-    // First the int64_t values need to be normalized to floats
+    // First the qint64 values need to be normalized to floats
     // Dividing by the max value is maybe not the best solution, but the
     // maximum value after correlation should not be larger than the longest
     // vector since each value should be at most 1
-    int64_t maxLeft = 1;
-    int64_t maxRight = 1;
+    qint64 maxLeft = 1;
+    qint64 maxRight = 1;
     for (int i = 0; i < leftSize; ++i) {
         if (labs(left[i]) > maxLeft) {
             maxLeft = labs(left[i]);
