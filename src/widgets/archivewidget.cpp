@@ -471,7 +471,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QStri
             QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
             while (filesList.contains(newFileName)) {
                 ix ++;
-                newFileName = fileName.section('.', 0, -2) + "_" + QString::number(ix) + "." + fileName.section('.', -1);
+                newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
             }
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);

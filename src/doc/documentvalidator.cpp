@@ -420,7 +420,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     for (int j = 0; j < attrs.count(); j++) {
                         QDomAttr a = attrs.item(j).toAttr();
                         if (!a.isNull()) {
-                            kDebug() << " FILTER; adding :" << a.name() << ":" << a.value();
+                            kDebug() << " FILTER; adding :" << a.name() << ':' << a.value();
                             QDomElement e = m_doc.createElement("property");
                             e.setAttribute("name", a.name());
                             QDomText value = m_doc.createTextNode(a.value());
@@ -455,7 +455,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 for (int j = 0; j < attrs.count(); j++) {
                     QDomAttr a = attrs.item(j).toAttr();
                     if (!a.isNull()) {
-                        kDebug() << " FILTER; adding :" << a.name() << ":" << a.value();
+                        kDebug() << " FILTER; adding :" << a.name() << ':' << a.value();
                         QDomElement e = m_doc.createElement("property");
                         e.setAttribute("name", a.name());
                         QDomText value = m_doc.createTextNode(a.value());
@@ -728,7 +728,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 if (kproducer == QDomElement())
                     kWarning() << "no match for <avfile /> with id =" << id;
                 else {
-                    //kDebug() << "ready to set additional <avfile />'s attributes (id =" << id << ")";
+                    //kDebug() << "ready to set additional <avfile />'s attributes (id =" << id << ')';
                     kproducer.setAttribute("channels", avfile.attribute("channels"));
                     kproducer.setAttribute("duration", avfile.attribute("duration"));
                     kproducer.setAttribute("frame_size", avfile.attribute("width") + 'x' + avfile.attribute("height"));

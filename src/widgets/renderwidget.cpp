@@ -935,7 +935,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         render_process_args << KdenliveSettings::rendererpath();
     render_process_args << m_profile.path << item->data(RenderRole).toString();
     if (m_view.play_after->isChecked()) render_process_args << KdenliveSettings::KdenliveSettings::defaultplayerapp();
-    else render_process_args << "-";
+    else render_process_args << '-';
 
     QString renderArgs = m_view.advanced_params->toPlainText().simplified();
     
@@ -1035,13 +1035,13 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             return;
         }
         QTextStream outStream(&file);
-        outStream << "#! /bin/sh" << "\n" << "\n";
-        outStream << "SOURCE=" << "\"" + QUrl(playlistPath).toEncoded() + "\"" << "\n";
-        outStream << "TARGET=" << "\"" + QUrl(dest).toEncoded() + "\"" << "\n";
-        outStream << "RENDERER=" << "\"" + m_renderer + "\"" << "\n";
-        outStream << "MELT=" << "\"" + KdenliveSettings::rendererpath() + "\"" << "\n";
-        outStream << "PARAMETERS=" << "\"" + render_process_args.join(" ") + "\"" << "\n";
-        outStream << "$RENDERER $PARAMETERS" << "\n" << "\n";
+        outStream << "#! /bin/sh" << '\n' << '\n';
+        outStream << "SOURCE=" << '\"' + QUrl(playlistPath).toEncoded() + '\"' << '\n';
+        outStream << "TARGET=" << '\"' + QUrl(dest).toEncoded() + '\"' << '\n';
+        outStream << "RENDERER=" << '\"' + m_renderer + '\"' << '\n';
+        outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + '\"' << '\n';
+        outStream << "PARAMETERS=" << '\"' + render_process_args.join(" ") + '\"' << '\n';
+        outStream << "$RENDERER $PARAMETERS" << '\n' << '\n';
         if (file.error() != QFile::NoError) {
             KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
             file.close();
@@ -2097,23 +2097,23 @@ bool RenderWidget::startWaitingRenderJobs()
     }
 
     QTextStream outStream(&file);
-    outStream << "#! /bin/sh" << "\n" << "\n";
+    outStream << "#! /bin/sh" << '\n' << '\n';
     RenderJobItem *item = static_cast<RenderJobItem*> (m_view.running_jobs->topLevelItem(0));
     while (item) {
         if (item->status() == WAITINGJOB) {
             if (item->type() == DirectRenderType) {
                 // Add render process for item
                 const QString params = item->data(1, ParametersRole).toStringList().join(" ");
-                outStream << m_renderer << " " << params << "\n";
+                outStream << m_renderer << ' ' << params << '\n';
             } else if (item->type() == ScriptRenderType){
                 // Script item
-                outStream << item->data(1, ParametersRole).toString() << "\n";
+                outStream << item->data(1, ParametersRole).toString() << '\n';
             }
         }
         item = static_cast<RenderJobItem*>(m_view.running_jobs->itemBelow(item));
     }
     // erase itself when rendering is finished
-    outStream << "rm " << autoscriptFile << "\n" << "\n";
+    outStream << "rm " << autoscriptFile << '\n' << '\n';
     if (file.error() != QFile::NoError) {
         KMessageBox::error(0, i18n("Cannot write to file %1", autoscriptFile));
         file.close();
@@ -2134,7 +2134,7 @@ QString RenderWidget::getFreeScriptName(const KUrl &projectName, const QString &
     QString path;
     QString fileName;
     if (projectName.isEmpty()) fileName = i18n("script");
-    else fileName = projectName.fileName().section('.', 0, -2) + "_";
+    else fileName = projectName.fileName().section('.', 0, -2) + '_';
     while (path.isEmpty() || QFile::exists(path)) {
         ++ix;
         path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + ".sh";

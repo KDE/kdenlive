@@ -39,7 +39,7 @@ EditKeyFrameCommand::EditKeyFrameCommand(CustomTrackView *view, const int track,
         setText(i18n("Delete keyframe"));
     else
         setText(i18n("Add keyframe"));
-    //kDebug() << "///  CREATE GUIDE COMMAND, TIMES: " << m_oldPos.frames(25) << "x" << m_pos.frames(25);
+    //kDebug() << "///  CREATE GUIDE COMMAND, TIMES: " << m_oldPos.frames(25) << 'x' << m_pos.frames(25);
 }
 
 

@@ -96,13 +96,13 @@ void ShuttleThread::run()
 		// see if there was an error or timeout else process event
 		if (result < 0 && errno == EINTR) {
 			// EINTR event catched. This is not a problem - continue processing
-			kDebug() << strerror(errno) << "\n";
+			kDebug() << strerror(errno) << '\n';
 			// continue processing
 			continue;
 		} else if (result < 0) {
 			// stop thread
 		    m_isRunning = false;
-			kDebug() << strerror(errno) << "\n";
+			kDebug() << strerror(errno) << '\n';
 		} else if (result > 0) {
 			// we have input
 			if (FD_ISSET(mc.fd, &readset)) {

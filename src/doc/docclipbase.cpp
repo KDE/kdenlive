@@ -281,7 +281,7 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
         QStringList cuts;
         for (int i = 0; i < m_cutZones.size(); ++i) {
             CutZoneInfo info = m_cutZones.at(i);
-            cuts << QString::number(info.zone.x()) + "-" + QString::number(info.zone.y()) + "-" + info.description;
+            cuts << QString::number(info.zone.x()) + '-' + QString::number(info.zone.y()) + '-' + info.description;
         }
         clip.setAttribute("cutzones", cuts.join(";"));
     }
@@ -291,7 +291,7 @@ QDomElement DocClipBase::toXML(bool hideTemporaryProperties) const
         while (i.hasNext()) {
             i.next();
             //WARNING: a ? and # separator is not a good idea
-            adata.append(i.key() + "?" + i.value() + "#");
+            adata.append(i.key() + '?' + i.value() + '#');
         }
     }
     clip.setAttribute("analysisdata", adata);
@@ -304,7 +304,7 @@ const QString DocClipBase::shortInfo() const
 
     QString info;
     if (m_clipType == AV || m_clipType == Video || m_clipType == Image || m_clipType == Playlist) {
-        info = m_properties.value("frame_size") + " ";
+        info = m_properties.value("frame_size") + ' ';
         if (m_properties.contains("fps")) {
             info.append(i18n("%1 fps", m_properties.value("fps").left(5)));
         }
@@ -763,7 +763,7 @@ Mlt::Producer *DocClipBase::getCloneProducer()
         prod = cloneProducer(source);
     }
     if (prod) {
-        adjustProducerProperties(prod, getId() + "_", false, false);
+        adjustProducerProperties(prod, getId() + '_', false, false);
         if (!m_properties.contains("proxy_out")) {
             // Adjust length in case...
             if (m_properties.contains("duration")) prod->set("length", m_properties.value("duration").toInt());
@@ -1374,10 +1374,10 @@ void DocClipBase::setAnalysisData(const QString &name, const QString &data, int 
             else {
                 // Add data with another name
                 int i = 1;
-                QString newname = name + " " + QString::number(i);
+                QString newname = name + ' ' + QString::number(i);
                 while (m_analysisdata.contains(newname)) {
                     ++i;
-                    newname = name + " " + QString::number(i);
+                    newname = name + ' ' + QString::number(i);
                 }
                 m_analysisdata.insert(newname, geometryWithOffset(data, offset));
             }

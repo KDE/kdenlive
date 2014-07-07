@@ -108,7 +108,7 @@ int main(int argc, char **argv)
             }
         }
 
-        qDebug() << "//STARTING RENDERING: " << erase << "," << usekuiserver << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out ;
+        qDebug() << "//STARTING RENDERING: " << erase << ',' << usekuiserver << ',' << render << ',' << profile << ',' << rendermodule << ',' << player << ',' << src << ',' << dest << ',' << preargs << ',' << args << ',' << in << ',' << out ;
         RenderJob *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         if (!locale.isEmpty()) job->setLocale(locale);
         job->start();

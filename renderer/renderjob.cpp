@@ -267,8 +267,8 @@ void RenderJob::start()
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
     m_renderProcess->start(m_prog, m_args);
-    if (m_enablelog) m_logstream << "Started render process: " << m_prog << " " << m_args.join(QLatin1String(" ")) << endl;
-    qDebug() << "Started render process: " << m_prog << " " << m_args.join(QLatin1String(" "));
+    if (m_enablelog) m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1String(" ")) << endl;
+    qDebug() << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1String(" "));
 }
 
 

@@ -430,7 +430,7 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
     if ((m_newHUDFrames > 0 && m_aAutoRefresh->isChecked()) || m_newHUDUpdates > 0) {
 #ifdef DEBUG_ASW
         qDebug() << "Trying to start a new HUD thread for " << m_widgetName
-                << ". New frames/updates: " << m_newHUDFrames << "/" << m_newHUDUpdates;
+                << ". New frames/updates: " << m_newHUDFrames << '/' << m_newHUDUpdates;
 #endif
         prodHUDThread();
     }
@@ -468,7 +468,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
     if ((m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
 #ifdef DEBUG_ASW
         qDebug() << "Trying to start a new scope thread for " << m_widgetName
-                << ". New frames/updates: " << m_newScopeFrames << "/" << m_newScopeUpdates;
+                << ". New frames/updates: " << m_newScopeFrames << '/' << m_newScopeUpdates;
 #endif
         prodScopeThread();
     }
@@ -497,7 +497,7 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
     if ((m_newBackgroundFrames > 0 && m_aAutoRefresh->isChecked()) || m_newBackgroundUpdates > 0) {
 #ifdef DEBUG_ASW
         qDebug() << "Trying to start a new background thread for " << m_widgetName
-                << ". New frames/updates: " << m_newBackgroundFrames << "/" << m_newBackgroundUpdates;
+                << ". New frames/updates: " << m_newBackgroundFrames << '/' << m_newBackgroundUpdates;
 #endif
         prodBackgroundThread();;
     }
@@ -511,7 +511,7 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
 
 #ifdef DEBUG_ASW
     qDebug() << "Data incoming at " << widgetName() << ". New frames total HUD/Scope/Background: " << m_newHUDFrames
-            << "/" << m_newScopeFrames << "/" << m_newBackgroundFrames;
+            << '/' << m_newScopeFrames << '/' << m_newBackgroundFrames;
 #endif
 
     if (this->visibleRegion().isEmpty()) {
@@ -545,7 +545,7 @@ void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
 #ifdef DEBUG_ASW
     qDebug() << "Auto-refresh switched to " << autoRefresh << " in " << widgetName()
-            << " (Visible: " << isVisible() << "/" << this->visibleRegion().isEmpty() << ")";
+            << " (Visible: " << isVisible() << '/' << this->visibleRegion().isEmpty() << ')';
 #endif
     if (isVisible()) {
         // Notify listeners whether we accept new frames now

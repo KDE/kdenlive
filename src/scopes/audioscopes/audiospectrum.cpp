@@ -489,7 +489,7 @@ QImage AudioSpectrum::renderHUD(uint)
     } else {
 #ifdef DEBUG_AUDIOSPEC
         qDebug() << "Widget is too small for painting inside. Size of inner scope rect is "
-                 << m_innerScopeRect.width() << "x" << m_innerScopeRect.height() <<".";
+                 << m_innerScopeRect.width() << 'x' << m_innerScopeRect.height() <<".";
 #endif
         emit signalHUDRenderingFinished(0, 1);
         return QImage();

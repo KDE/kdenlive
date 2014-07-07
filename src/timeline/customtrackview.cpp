@@ -932,11 +932,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     return;
                 }
 
-                kDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << "/" <<  track * m_tracksHeight + 1 << "; " << mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x() << "/" << m_tracksHeight - 2;
+                kDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << '/' <<  track * m_tracksHeight + 1 << "; " << mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x() << '/' << m_tracksHeight - 2;
             } else {
                 // Select all items on all tracks after click position
                 selection = items(event->pos().x(), 1, mapFromScene(sceneRect().width(), 0).x() - event->pos().x(), sceneRect().height());
-                kDebug() << "SELELCTING ELEMENTS WITHIN =" << event->pos().x() << "/" <<  1 << ", " << mapFromScene(sceneRect().width(), 0).x() - event->pos().x() << "/" << sceneRect().height();
+                kDebug() << "SELELCTING ELEMENTS WITHIN =" << event->pos().x() << '/' <<  1 << ", " << mapFromScene(sceneRect().width(), 0).x() - event->pos().x() << '/' << sceneRect().height();
             }
 
             QList <GenTime> offsetList;
@@ -2382,7 +2382,7 @@ ClipItem *CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime,
         if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
             if (item)
-                kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
+                kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
             else
                 kDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
             m_blockRefresh = false;
@@ -2807,7 +2807,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
                    ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
                    int start = clip->startPos().frames(m_document->fps());
                    int end = clip->endPos().frames(m_document->fps());
-                   timelineList.append(QString::number(start) + "-" + QString::number(end));
+                   timelineList.append(QString::number(start) + '-' + QString::number(end));
             }
         }
         kDebug() << "// COMPARE:\n" << timelineList << "\n-------------------";
@@ -7211,7 +7211,7 @@ void CustomTrackView::checkTrackSequence(int track)
         }
     }
     qSort(timelineList);
-    kDebug() << "// COMPARE:\n" << times << "\n" << timelineList << "\n-------------------";
+    kDebug() << "// COMPARE:\n" << times << '\n' << timelineList << "\n-------------------";
     if (times != timelineList) KMessageBox::sorry(this, i18n("error"), i18n("TRACTOR"));
 }
 

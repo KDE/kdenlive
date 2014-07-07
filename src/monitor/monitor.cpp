@@ -315,7 +315,7 @@ void Monitor::slotSetSizeOneToOne()
     const int maxHeight = r.height() - 20;
     int width = render->renderWidth();
     int height = render->renderHeight();
-    kDebug() << "// render info: " << width << "x" << height;
+    kDebug() << "// render info: " << width << 'x' << height;
     while (width >= maxWidth || height >= maxHeight) {
         width = width * 0.8;
         height = height * 0.8;
@@ -335,7 +335,7 @@ void Monitor::slotSetSizeOneToTwo()
     const int maxHeight = r.height() - 20;
     int width = render->renderWidth() / 2;
     int height = render->renderHeight() / 2;
-    kDebug() << "// render info: " << width << "x" << height;
+    kDebug() << "// render info: " << width << 'x' << height;
     while (width >= maxWidth || height >= maxHeight) {
         width = width * 0.8;
         height = height * 0.8;

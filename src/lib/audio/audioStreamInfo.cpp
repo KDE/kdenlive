@@ -74,7 +74,7 @@ const QString& AudioStreamInfo::codecName(bool longName) const
 void AudioStreamInfo::dumpInfo() const
 {
     qDebug() << "Info for audio stream " << m_audioStreamIndex
-             << "\n\tCodec: " << m_codecLongName.toLocal8Bit().data() << " (" << m_codecName.toLocal8Bit().data() << ")"
+             << "\n\tCodec: " << m_codecLongName.toLocal8Bit().data() << " (" << m_codecName.toLocal8Bit().data() << ')'
              << "\n\tChannels: " << m_channels
              << "\n\tSampling rate: " << m_samplingRate
              << "\n\tBit rate: " << m_bitRate;

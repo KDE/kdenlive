@@ -518,9 +518,9 @@ void RecMonitor::slotStartPreview(bool play)
         }
         m_captureArgs << "-i";
         if (capturename.isEmpty()) capturename = "capture";
-        m_captureArgs << capturename << "-";
+        m_captureArgs << capturename << '-';
 
-        m_displayArgs << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-noframedrop" << "-";
+        m_displayArgs << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-noframedrop" << '-';
 
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
         m_captureProcess->setWorkingDirectory(m_capturePath);
@@ -723,15 +723,15 @@ void RecMonitor::slotRecord()
         case ScreenBag:
 	    m_captureArgs << "-f" << "x11grab";
 	    if (KdenliveSettings::grab_follow_mouse()) m_captureArgs << "-follow_mouse" << "centered";
-	    if (!KdenliveSettings::grab_hide_frame()) m_captureArgs << "-show_region" << "1";
+	    if (!KdenliveSettings::grab_hide_frame()) m_captureArgs << "-show_region" << '1';
 	    captureSize = ":0.0";
             if (KdenliveSettings::grab_capture_type() == 0) {
                 // Full screen capture
-		m_captureArgs << "-s" << QString::number(screenSize.width()) + "x" + QString::number(screenSize.height());
+		m_captureArgs << "-s" << QString::number(screenSize.width()) + 'x' + QString::number(screenSize.height());
 	    } else {
                 // Region capture
-                m_captureArgs << "-s" << QString::number(KdenliveSettings::grab_width()) + "x" + QString::number(KdenliveSettings::grab_height());
-                captureSize.append("+" + QString::number(KdenliveSettings::grab_offsetx()) + "." + QString::number(KdenliveSettings::grab_offsetx()));
+                m_captureArgs << "-s" << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
+                captureSize.append("+" + QString::number(KdenliveSettings::grab_offsetx()) + '.' + QString::number(KdenliveSettings::grab_offsetx()));
             }
             // fps
             m_captureArgs << "-r" << QString::number(KdenliveSettings::grab_fps());
@@ -858,7 +858,7 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     int height = rect.height();
     if (width % 2 != 0) width--;
     if (height % 2 != 0) height--;
-    QString args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(width) + "x" + QString::number(height)).replace("%offset", "+" + QString::number(rect.x()) + "," + QString::number(rect.y()));
+    QString args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(width) + 'x' + QString::number(height)).replace("%offset", "+" + QString::number(rect.x()) + ',' + QString::number(rect.y()));
     if (KdenliveSettings::screengrabenableaudio()) {
         // also capture audio
         if (KdenliveSettings::useosscapture()) m_captureArgs << KdenliveSettings::screengrabosscapture().simplified().split(' ');
@@ -1017,7 +1017,7 @@ void RecMonitor::slotReadProcessInfo()
 {
     QString data = m_captureProcess->readAllStandardError().simplified();
     if (device_selector->currentIndex() == ScreenBag) {
-	m_error.append(data + "\n");
+	m_error.append(data + '\n');
     }
     else if (device_selector->currentIndex() == Firewire) {
 	data = data.section('"', 2, 2).simplified();

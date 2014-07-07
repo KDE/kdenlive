@@ -157,7 +157,7 @@ void ParameterPlotter::createParametersNew()
                 break;//first no keyframes
             }
             if (i + 1 != plotobjs.count())
-                txtstr << ";";
+                txtstr << ';';
         }
     }
     pa.attributes().namedItem("value").setNodeValue(paramlist);

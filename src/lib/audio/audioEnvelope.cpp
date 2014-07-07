@@ -115,8 +115,8 @@ void AudioEnvelope::loadEnvelope()
             m_envelopeMax = sum;
         }
 
-//        qDebug() << position << "|" << m_producer->get_playtime()
-//                  << "-" << m_producer->get_in() << "+" << m_producer->get_out() << " ";
+//        qDebug() << position << '|' << m_producer->get_playtime()
+//                  << '-' << m_producer->get_in() << '+' << m_producer->get_out() << ' ';
 
         delete frame;
 

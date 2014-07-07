@@ -4013,7 +4013,7 @@ void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenT
     QString resource = mlt_properties_get(properties, "mlt_service");
 
     const int old_pos = (int)((in + out).frames(m_fps) / 2);
-    //kDebug() << " del trans pos: " << in.frames(25) << "-" << out.frames(25);
+    //kDebug() << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
 
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;

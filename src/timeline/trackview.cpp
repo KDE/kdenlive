@@ -742,7 +742,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                 clipinfo.cropDuration = clipinfo.endPos - clipinfo.startPos;
 
                 clipinfo.track = ix;
-                //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
+                //kDebug() << "// INSERTING CLIP: " << in << 'x' << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, strobe, frame_width, false);
                 if (idString.endsWith("_video")) item->setVideoOnly(true);
                 else if (idString.endsWith("_audio")) item->setAudioOnly(true);
@@ -982,7 +982,7 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
                 for (int l = 0; l < kfrs.count(); l++) {
                     QString fr = kfrs.at(l).section('=', 0, 0);
                     double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
-                    //kfrs[l] = fr + ":" + locale.toString((int)(val * fact));
+                    //kfrs[l] = fr + ':' + locale.toString((int)(val * fact));
                     kfrs[l] = fr + '=' + QString::number((int) (offset + val * fact));
                 }
                 e.setAttribute("keyframes", kfrs.join(";"));

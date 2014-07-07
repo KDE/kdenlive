@@ -485,7 +485,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     //graphicsView->setRenderHint(QPainter::Antialiasing);
     graphicsView->setInteractive(true);
     //graphicsView->resize(400, 300);
-    kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
+    kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << 'x' << graphicsView->viewport()->height();
     //toolBox->setItemEnabled(2, false);
     m_startViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     // Setting data at -1 so that the item is recognized as undeletable by graphicsscenerectmove
@@ -987,7 +987,7 @@ void TitleWidget::selectionChanged()
 {
     if (m_scene->tool() != TITLE_SELECT) return;
 
-    kDebug() << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << "\n";
+    kDebug() << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << '\n';
 
     QList<QGraphicsItem *> l;
 
@@ -1109,7 +1109,7 @@ void TitleWidget::slotValueChanged(int type)
     }
 
     for (int k = 0; k < l.size(); ++k) {
-        kDebug() << "Type of item " << k << ": " << l.at(k)->type() << "\n";
+        kDebug() << "Type of item " << k << ": " << l.at(k)->type() << '\n';
 
         if (l.at(k)->type() == TEXTITEM) {
             // Just update the position. We don't allow setting width/height for text items yet.
@@ -1187,7 +1187,7 @@ void TitleWidget::slotValueChanged(int type)
                 qtrans.rotate(t.rotatey, Qt::YAxis);
                 qtrans.rotate(t.rotatez, Qt::ZAxis);
                 i->setTransform(qtrans);
-                kDebug() << "scale is: " << scale << "\n";
+                kDebug() << "scale is: " << scale << '\n';
                 kDebug() << i->boundingRect().width() << ": new width\n";
                 m_transformations[i] = t;
 
@@ -1232,7 +1232,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_h->setValue(i->sceneBoundingRect().height());
     } else if (i->type() == RECTITEM) {
         QGraphicsRectItem *r = static_cast <QGraphicsRectItem *>(i);
-        kDebug() << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << "\n";
+        kDebug() << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << '\n';
         value_w->setValue((int) r->rect().width());
         value_h->setValue((int) r->rect().height());
     } else if (i->type() == TEXTITEM) {

@@ -506,7 +506,7 @@ void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent)
 {
     if (wheelEvent->modifiers() == Qt::ControlModifier) {
         QList<QGraphicsView*> viewlist = views();
-        //kDebug() << wheelEvent->delta() << " " << zoom;
+        //kDebug() << wheelEvent->delta() << ' ' << zoom;
         if (viewlist.size() > 0) {
             if (wheelEvent->delta() > 0) emit sceneZoom(true);
             else emit sceneZoom(false);

@@ -342,7 +342,7 @@ const QString ClipItem::adjustKeyframes(const QString &keyframes, int offset)
     const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
     foreach(const QString &keyframe, list) {
         const int pos = keyframe.section('=', 0, 0).toInt() - offset;
-        const QString newKey = QString::number(pos) + "=" + keyframe.section('=', 1);
+        const QString newKey = QString::number(pos) + '=' + keyframe.section('=', 1);
         result.append(newKey);
     }
     return result.join(";");
@@ -2172,7 +2172,7 @@ void ClipItem::updateGeometryKeyframes(QDomElement effect, int paramIndex, int w
             if (keyframe.contains('=')) {
                 int pos = keyframe.section('=', 0, 0).toInt();
                 pos += offset;
-                data.append(QString::number(pos) + '=' + keyframe.section('=', 1) + ";");
+                data.append(QString::number(pos) + '=' + keyframe.section('=', 1) + ';');
             }
             else data.append(keyframe + ';');
         }

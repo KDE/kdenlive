@@ -180,7 +180,7 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
     if (negCropStart)
         m_info.cropStart = GenTime();
 
-    //kDebug() << "-- NEW CLIP=" << startPos().frames(25) << "-" << endPos().frames(25);
+    //kDebug() << "-- NEW CLIP=" << startPos().frames(25) << '-' << endPos().frames(25);
     //setRect((double) m_startPos.frames(m_fps) * scale, rect().y(), (double) m_cropDuration.frames(m_fps) * scale, rect().height());
 
     /*    if (durationDiff < GenTime()) {
@@ -221,8 +221,8 @@ void AbstractClipItem::resizeEnd(int posx, bool /*emitChange*/)
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == type() && item->pos().x() > pos().x()) {
                 //kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
-                //kDebug() << "/////////  CURRENT: " << startPos().frames(25) << "x" << endPos().frames(25) << ", RECT: " << rect() << "-" << pos();
-                //kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();
+                //kDebug() << "/////////  CURRENT: " << startPos().frames(25) << 'x' << endPos().frames(25) << ", RECT: " << rect() << '-' << pos();
+                //kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << 'x' << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << '-' << item->pos();
                 GenTime diff = static_cast<AbstractClipItem*>(item)->startPos() - startPos();
                 if (fixItem == false || diff < m_info.cropDuration) {
                     fixItem = true;
@@ -486,7 +486,7 @@ bool AbstractClipItem::hasKeyFrames() const
         rectInView = scene()->views()[0]->viewport()->rect();
         rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(), scene()->views()[0]->verticalScrollBar()->value());
         rectInView.adjust(-10, -10, 10, 10);//make view rect 10 pixel greater on each site, or repaint after scroll event
-        //kDebug() << scene()->views()[0]->viewport()->rect() << " " <<  scene()->views()[0]->horizontalScrollBar()->value();
+        //kDebug() << scene()->views()[0]->viewport()->rect() << ' ' <<  scene()->views()[0]->horizontalScrollBar()->value();
     }
     return rectInView;
 }*/

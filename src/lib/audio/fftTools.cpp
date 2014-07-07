@@ -208,13 +208,13 @@ void FFTTools::fftNormalized(const QVector<int16_t> audioFrame, const uint chann
         mFile << "val = [ ";
 
         for (int sample = 0; sample < 256; sample++) {
-            mFile << data[sample] << " ";
+            mFile << data[sample] << ' ';
         }
         mFile << " ];\n";
 
         mFile << "freq = [ ";
         for (int sample = 0; sample < 256; sample++) {
-            mFile << freqData[sample].r << "+" << freqData[sample].i << "*i ";
+            mFile << freqData[sample].r << '+' << freqData[sample].i << "*i ";
         }
         mFile << " ];\n";
 
