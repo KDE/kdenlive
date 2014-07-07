@@ -356,7 +356,7 @@ int Render::resetProfile(const QString &profileName, bool dropSceneList)
             if (KdenliveSettings::external_display() && m_activeProfile == profileName) return 1;
             QString videoDriver = KdenliveSettings::videodrivername();
             QString currentDriver = m_mltConsumer->get("video_driver");
-            if (getenv("SDL_VIDEO_YUV_HWACCEL") != NULL && currentDriver == "x11") currentDriver = "x11_noaccel";
+            if (!qgetenv("SDL_VIDEO_YUV_HWACCEL").isEmpty() && currentDriver == "x11") currentDriver = "x11_noaccel";
             QString background = KdenliveSettings::window_background().name();
             QString currentBackground = m_mltConsumer->get("window_background");
             if (m_activeProfile == profileName && currentDriver == videoDriver && background == currentBackground) {

@@ -459,7 +459,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
         if (KIO::NetAccess::file_copy(m_doc->url(), KUrl(backupFile), this))
             KMessageBox::information(this, message);
         else
-            KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create a backup copy.", backupFile));
+            KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.", backupFile));
     }
     //m_trackview->setCursorPos(cursorPos);
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());

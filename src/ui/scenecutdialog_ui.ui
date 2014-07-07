@@ -30,7 +30,7 @@
    <item row="3" column="0" colspan="3">
     <widget class="QCheckBox" name="zone_only">
      <property name="text">
-      <string>Analyse only selected zone</string>
+      <string>Analyze only selected zone</string>
      </property>
     </widget>
    </item>

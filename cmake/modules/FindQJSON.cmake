@@ -1,11 +1,16 @@
 # Find QJSON - JSON handling library for Qt
-# Source: http://gitorious.org/libmygpo-qt/libmygpo-qt/blobs/634b150fabdcafddcfb98a9a08cc414d95ae0dbe/cmake/modules/FindQJSON.cmake
 #
 # This module defines
 #  QJSON_FOUND - whether the qsjon library was found
 #  QJSON_LIBRARIES - the qjson library
 #  QJSON_INCLUDE_DIR - the include path of the qjson library
 #
+# Copyright (c) 2010 Pino Toscano, <toscano.pino@tiscali.it>
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+
+
 
 if (QJSON_INCLUDE_DIR AND QJSON_LIBRARIES)
 

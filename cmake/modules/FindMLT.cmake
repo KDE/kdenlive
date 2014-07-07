@@ -1,4 +1,9 @@
-# - Find the MLT includes and libraries
+# Find the MLT includes and libraries
+#
+# Copyright (c) 2007-2012 Jean-Baptiste Mardell (jb@kdenlive.org)
+# Copyright (c) 2012 Alberto Villa <avilla@FreeBSD.org>
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
 
 find_package(PkgConfig QUIET)
 pkg_check_modules(PC_MLT QUIET mlt++)

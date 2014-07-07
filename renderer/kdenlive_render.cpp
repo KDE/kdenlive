@@ -84,7 +84,7 @@ int main(int argc, char **argv)
         if (vprepos >= 0) {
             vpre=args.at(vprepos);
         }
-        QStringList vprelist = vpre.replace(QLatin1String("vpre="), QLatin1String("")).split(QLatin1Char(','));
+        QStringList vprelist = vpre.remove(QLatin1String("vpre=")).split(QLatin1Char(','));
         if (vprelist.size() > 0) {
             args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")), QString::fromLatin1("vpre=%1").arg(vprelist.at(0)));
         }
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
         for (int i = 0; i < args.count(); ++i) {
             if (args.at(i).startsWith(QLatin1String("meta.attr"))) {
                 QString data = args.at(i);
-                args.replace(i, data.section(QLatin1Char('='), 0, 0) + QLatin1String("=\"") + QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1String("\""));
+                args.replace(i, data.section(QLatin1Char('='), 0, 0) + QLatin1String("=\"") + QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1Char('\"'));
             }
         }
 

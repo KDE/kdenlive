@@ -16,3 +16,4 @@ set(kdenlive_SRCS
   widgets/videosurface.cpp
   PARENT_SCOPE
 )
+
