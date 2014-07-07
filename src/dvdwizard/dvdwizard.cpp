@@ -347,7 +347,7 @@ void DvdWizard::processSpumux()
     //kDebug() << " SPUMUX DATA: " << doc.toString();
 
     QStringList args;
-    args << "-s" << '0' << m_menuFile.fileName();
+    args << "-s" << "0" << m_menuFile.fileName();
     //kDebug() << "SPM ARGS: " << args << m_menuVideo.fileName() << m_menuVobFile.fileName();
 
     QProcess spumux;
@@ -447,7 +447,7 @@ void DvdWizard::processSpumux()
         spumux.setStandardInputFile(m_menuVobFile.fileName());
         spumux.setStandardOutputFile(m_letterboxMovie.fileName());
         args.clear();
-        args << "-s" << '1' << m_menuFile.fileName();
+        args << "-s" << "1" << m_menuFile.fileName();
         spumux.start("spumux", args);
         //kDebug() << "SPM ARGS LETTERBOX: " << args << m_menuVideo.fileName() << m_letterboxMovie.fileName();
         if (spumux.waitForFinished()) {

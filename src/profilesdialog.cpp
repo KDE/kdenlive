@@ -44,7 +44,7 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     m_view.colorspace->addItem(getColorspaceDescription(0), 0);
 
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
 
     m_view.button_delete->setIcon(KIcon("trash-empty"));
     m_view.button_delete->setToolTip(i18n("Delete profile"));
@@ -89,7 +89,7 @@ ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
     m_view.colorspace->addItem(getColorspaceDescription(0), 0);
 
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
 
     m_view.button_save->setIcon(KIcon("document-save"));
     m_view.button_save->setToolTip(i18n("Save profile"));
@@ -243,7 +243,7 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
     QString path;
     bool isCustom = false;
     if (name.contains('/')) isCustom = true;
@@ -298,7 +298,7 @@ double ProfilesDialog::getStringEval(const MltVideoProfile &profile, QString eva
 bool ProfilesDialog::existingProfileDescription(const QString &desc)
 {
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
 
     // List the Mlt profiles
     QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
@@ -324,7 +324,7 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
 {
     // Check if the profile has a matching entry in existing ones
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
 
     // Check the Mlt profiles
     QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
@@ -370,7 +370,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
 {
     QMap <QString, QString> result;
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
 
     // List the Mlt profiles
     QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
@@ -399,7 +399,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString& path
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
 
     if (!path.contains('/')) {
         // This is an MLT profile
@@ -418,7 +418,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString& pr
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
 
     // List the Mlt profiles
     profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
@@ -466,7 +466,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
     QStringList profilesFiles;
     QStringList profilesFilter;
     QMap <QString, QString> result;
-    profilesFilter << '*';
+    profilesFilter << "*";
     // List the Mlt profiles
     profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
@@ -510,7 +510,7 @@ QString ProfilesDialog::getPathFromDescription(const QString& profileDesc)
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
 
     // List the Mlt profiles
     profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);

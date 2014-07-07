@@ -518,9 +518,9 @@ void RecMonitor::slotStartPreview(bool play)
         }
         m_captureArgs << "-i";
         if (capturename.isEmpty()) capturename = "capture";
-        m_captureArgs << capturename << '-';
+        m_captureArgs << capturename << "-";
 
-        m_displayArgs << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-noframedrop" << '-';
+        m_displayArgs << "-x" << QString::number(video_frame->width()) << "-y" << QString::number(video_frame->height()) << "-noframedrop" << "-";
 
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
         m_captureProcess->setWorkingDirectory(m_capturePath);
@@ -723,7 +723,7 @@ void RecMonitor::slotRecord()
         case ScreenBag:
 	    m_captureArgs << "-f" << "x11grab";
 	    if (KdenliveSettings::grab_follow_mouse()) m_captureArgs << "-follow_mouse" << "centered";
-	    if (!KdenliveSettings::grab_hide_frame()) m_captureArgs << "-show_region" << '1';
+	    if (!KdenliveSettings::grab_hide_frame()) m_captureArgs << "-show_region" << "1";
 	    captureSize = ":0.0";
             if (KdenliveSettings::grab_capture_type() == 0) {
                 // Full screen capture

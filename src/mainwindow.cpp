@@ -2384,7 +2384,7 @@ void MainWindow::parseProfiles(const QString &mltPath)
     }
 
     QStringList profilesFilter;
-    profilesFilter << '*';
+    profilesFilter << "*";
     QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
     if (profilesList.isEmpty()) {
         // Cannot find MLT path, try finding melt
@@ -4766,7 +4766,7 @@ void MainWindow::slotInsertNotesTimecode()
 {
     int frames = m_projectMonitor->render->seekPosition().frames(m_activeDocument->fps());
     QString position = m_activeDocument->timecode().getTimecodeFromFrames(frames);
-    m_notesWidget->insertHtml("<a href=\"" + QString::number(frames) + '\'>" + position + "</a> ");
+    m_notesWidget->insertHtml("<a href=\"" + QString::number(frames) + "\">" + position + "</a> ");
 }
 
 void MainWindow::slotArchiveProject()

@@ -935,7 +935,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         render_process_args << KdenliveSettings::rendererpath();
     render_process_args << m_profile.path << item->data(RenderRole).toString();
     if (m_view.play_after->isChecked()) render_process_args << KdenliveSettings::KdenliveSettings::defaultplayerapp();
-    else render_process_args << '-';
+    else render_process_args << "-";
 
     QString renderArgs = m_view.advanced_params->toPlainText().simplified();
     
