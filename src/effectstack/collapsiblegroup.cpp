@@ -86,7 +86,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     menuButton->setMenu(m_menu);
     
     enabledButton->setChecked(false);
-    enabledButton->setIcon(KIcon("visible"));
+    enabledButton->setIcon(KIcon("layer-visible-on"));
     
     if (info.groupIsCollapsed) {
 	slotShow(false);
@@ -133,7 +133,7 @@ void CollapsibleGroup::slotEnable(bool disable, bool emitInfo)
     m_title->setEnabled(!disable);
     enabledButton->blockSignals(true);
     enabledButton->setChecked(disable);
-    enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
+    enabledButton->setIcon(disable ? KIcon("layer-visible-off") : KIcon("layer-visible-on"));
     enabledButton->blockSignals(false);
     for (int i = 0; i < m_subWidgets.count(); ++i)
 	m_subWidgets.at(i)->slotDisable(disable, emitInfo);

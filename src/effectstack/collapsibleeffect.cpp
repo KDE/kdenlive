@@ -116,11 +116,11 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     if (m_effect.attribute("disable") == "1") {
         title->setEnabled(false);
         enabledButton->setChecked(true);
-        enabledButton->setIcon(KIcon("novisible"));
+        enabledButton->setIcon(KIcon("layer-visible-off"));
     }
     else {
         enabledButton->setChecked(false);
-        enabledButton->setIcon(KIcon("visible"));
+        enabledButton->setIcon(KIcon("layer-visible-on"));
     }
 
     connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
@@ -263,7 +263,7 @@ void CollapsibleEffect::slotDisable(bool disable, bool emitInfo)
     enabledButton->blockSignals(true);
     enabledButton->setChecked(disable);
     enabledButton->blockSignals(false);
-    enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
+    enabledButton->setIcon(disable ? KIcon("layer-visible-off") : KIcon("layer-visible-on"));
     m_effect.setAttribute("disable", disable ? 1 : 0);
     if (!disable || KdenliveSettings::disable_effect_parameters()) {
         widgetFrame->setEnabled(!disable);
@@ -472,7 +472,7 @@ void CollapsibleEffect::slotDisableEffect(bool disable)
     enabledButton->blockSignals(true);
     enabledButton->setChecked(disable);
     enabledButton->blockSignals(false);
-    enabledButton->setIcon(disable ? KIcon("novisible") : KIcon("visible"));
+    enabledButton->setIcon(disable ? KIcon("layer-visible-off") : KIcon("layer-visible-on"));
     m_effect.setAttribute("disable", disable ? 1 : 0);
     emit effectStateChanged(disable, effectIndex(), isActive() && needsMonitorEffectScene());
 }
