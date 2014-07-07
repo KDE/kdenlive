@@ -37,7 +37,7 @@
 
 #include <QtConcurrentRun>
 #include <QInputDialog>
-#include <QComboBox>
+#include <KComboBox>
 #include <QVBoxLayout>
 #include <QTimer>
 #include <QPainter>

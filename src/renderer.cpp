@@ -4555,7 +4555,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", path), content);
     vbox->addWidget(lab1);
     QList <QGroupBox*> groupList;
-    QList <QComboBox*> comboList;
+    QList <KComboBox*> comboList;
     // We start loading the list at 1, video index 0 should already be loaded
     for (int j = 1; j < video_list.count(); ++j) {
         Mlt::Producer multiprod(* m_mltProfile, path.toUtf8().constData());
@@ -4571,7 +4571,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
         iconLabel->setPixmap(QPixmap::fromImage(thumb));
         vh->addWidget(iconLabel);
         if (audio_list.count() > 1) {
-            QComboBox *cb = new QComboBox(content);
+            KComboBox *cb = new KComboBox(content);
             for (int k = 0; k < audio_list.count(); ++k) {
                 cb->addItem(i18n("Audio stream %1", audio_list.at(k)), audio_list.at(k));
             }

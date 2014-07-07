@@ -38,7 +38,7 @@
 #include <QSignalMapper>
 #include <QTextBlockFormat>
 #include <QTextCursor>
-#include <QComboBox>
+#include <KComboBox>
 #include <QCryptographicHash>
 #include <QKeyEvent>
 

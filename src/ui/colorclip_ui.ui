@@ -77,7 +77,7 @@
   </customwidget>
   <customwidget>
    <class>KColorCombo</class>
-   <extends>QComboBox</extends>
+   <extends>KComboBox</extends>
    <header>kcolorcombo.h</header>
   </customwidget>
  </customwidgets>

@@ -747,7 +747,7 @@ void ParameterContainer::slotCollectAllParameters()
             setValue = req->url().path();
 	} else if (type == "keywords"){
             KLineEdit *line = static_cast<Keywordval*>(m_valueItems.value(paramName))->lineeditwidget;
-            QComboBox *combo = static_cast<Keywordval*>(m_valueItems.value(paramName))->comboboxwidget;
+            KComboBox *combo = static_cast<Keywordval*>(m_valueItems.value(paramName))->comboboxwidget;
             if(combo->currentIndex())
             {
                 QString comboval = combo->itemData(combo->currentIndex()).toString();

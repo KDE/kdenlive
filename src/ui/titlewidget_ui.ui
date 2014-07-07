@@ -363,7 +363,7 @@
         </widget>
        </item>
        <item row="0" column="4">
-        <widget class="QComboBox" name="font_weight_box"/>
+        <widget class="KComboBox" name="font_weight_box"/>
        </item>
        <item row="0" column="5">
         <widget class="QToolButton" name="buttonItalic">
@@ -633,7 +633,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="templateBox"/>
+      <widget class="KComboBox" name="templateBox"/>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="buttonBox">
@@ -855,7 +855,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_12">
           <item row="1" column="1">
-           <widget class="QComboBox" name="effect_list">
+           <widget class="KComboBox" name="effect_list">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1207,7 +1207,7 @@
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
-   <extends>QComboBox</extends>
+   <extends>KComboBox</extends>
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
@@ -1227,7 +1227,7 @@
   </customwidget>
   <customwidget>
    <class>KoSliderCombo</class>
-   <extends>QComboBox</extends>
+   <extends>KComboBox</extends>
    <header>KoSliderCombo.h</header>
   </customwidget>
  </customwidgets>

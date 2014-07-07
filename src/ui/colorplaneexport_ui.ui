@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item row="0" column="1" colspan="3">
-    <widget class="QComboBox" name="cbColorspace">
+    <widget class="KComboBox" name="cbColorspace">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -42,7 +42,7 @@
     </widget>
    </item>
    <item row="1" column="3">
-    <widget class="QComboBox" name="cbVariant"/>
+    <widget class="KComboBox" name="cbVariant"/>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="lblSliderName">

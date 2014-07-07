@@ -5477,7 +5477,7 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
     QList < CommentedTime > markers = base->commentedSnapMarkers();
     if (!markers.isEmpty()) {
         // Set  up categories
-        QComboBox *cbox = new QComboBox;
+        KComboBox *cbox = new KComboBox;
         cbox->insertItem(0, i18n("All categories"));
         for (int i = 0; i < 5; ++i) {
             cbox->insertItem(i + 1, i18n("Category %1", i));
@@ -5520,7 +5520,7 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
 
 void CustomTrackView::slotLoadClipMarkers(const QString &id)
 {
-    QComboBox *cbox = new QComboBox;
+    KComboBox *cbox = new KComboBox;
     for (int i = 0; i < 5; ++i) {
         cbox->insertItem(i, i18n("Category %1", i));
         cbox->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);

@@ -31,7 +31,7 @@
     <widget class="KLineEdit" name="lineeditwidget"/>
    </item>
    <item row="2" column="0">
-    <widget class="QComboBox" name="comboboxwidget"/>
+    <widget class="KComboBox" name="comboboxwidget"/>
    </item>
   </layout>
  </widget>

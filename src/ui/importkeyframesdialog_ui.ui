@@ -18,7 +18,7 @@
     <widget class="QLabel" name="keyframe_info"/>
    </item>
    <item row="0" column="1">
-    <widget class="QComboBox" name="data_list">
+    <widget class="KComboBox" name="data_list">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
        <horstretch>0</horstretch>

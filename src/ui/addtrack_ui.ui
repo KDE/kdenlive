@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item row="0" column="1" colspan="2">
-    <widget class="QComboBox" name="before_select">
+    <widget class="KComboBox" name="before_select">
      <item>
       <property name="text">
        <string>before</string>
@@ -66,7 +66,7 @@
     </spacer>
    </item>
    <item row="0" column="3">
-    <widget class="QComboBox" name="comboTracks"/>
+    <widget class="KComboBox" name="comboTracks"/>
    </item>
    <item row="3" column="1" colspan="4">
     <widget class="QDialogButtonBox" name="buttonBox">

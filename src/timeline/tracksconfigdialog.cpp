@@ -21,7 +21,7 @@
 #include "doc/kdenlivedoc.h"
 
 #include <QTableWidget>
-#include <QComboBox>
+#include <KComboBox>
 #include <KDebug>
 #include <KIcon>
 
@@ -32,7 +32,7 @@ TracksDelegate::TracksDelegate(QObject *parent) :
 
 QWidget *TracksDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /*index*/) const
 {
-    QComboBox *comboBox = new QComboBox(parent);
+    KComboBox *comboBox = new KComboBox(parent);
     comboBox->addItem(i18n("Video"));
     comboBox->addItem(i18n("Audio"));
     connect(comboBox, SIGNAL(activated(int)), this, SLOT(emitCommitData()));
@@ -41,7 +41,7 @@ QWidget *TracksDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 
 void TracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QComboBox *comboBox = qobject_cast<QComboBox *>(editor);
+    KComboBox *comboBox = qobject_cast<KComboBox *>(editor);
     if (!comboBox)
         return;
     const int pos = comboBox->findText(index.model()->data(index).toString(), Qt::MatchExactly);
@@ -50,7 +50,7 @@ void TracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 
 void TracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    QComboBox *comboBox = qobject_cast<QComboBox *>(editor);
+    KComboBox *comboBox = qobject_cast<KComboBox *>(editor);
     if (!comboBox)
         return;
     model->setData(index, comboBox->currentText());

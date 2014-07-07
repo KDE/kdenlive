@@ -87,7 +87,7 @@ public:
 };
 
 KoSliderCombo::KoSliderCombo(QWidget *parent)
-        : QComboBox(parent)
+        : KComboBox(parent)
         , d(new KoSliderComboPrivate())
 {
     d->thePublic = this;
@@ -214,7 +214,7 @@ void KoSliderCombo::changeEvent(QEvent *e)
     default:
         break;
     }
-    QComboBox::changeEvent(e);
+    KComboBox::changeEvent(e);
 }
 
 void KoSliderCombo::paintEvent(QPaintEvent *)
@@ -242,14 +242,14 @@ void KoSliderCombo::mousePressEvent(QMouseEvent *e)
     if (sc == QStyle::SC_ComboBoxArrow && !d->container->isVisible()) {
         d->showPopup();
     } else
-        QComboBox::mousePressEvent(e);
+        KComboBox::mousePressEvent(e);
 }
 
 void KoSliderCombo::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Up) setValue(value() + d->slider->singleStep() *(maximum() - minimum()) / 256 + 0.5);
     else if (e->key() == Qt::Key_Down) setValue(value() - d->slider->singleStep() *(maximum() - minimum()) / 256 - 0.5);
-    else QComboBox::keyPressEvent(e);
+    else KComboBox::keyPressEvent(e);
 }
 
 void KoSliderCombo::wheelEvent(QWheelEvent *e)

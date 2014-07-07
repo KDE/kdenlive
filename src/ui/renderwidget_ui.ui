@@ -197,7 +197,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QComboBox" name="comboBitrates">
+           <widget class="KComboBox" name="comboBitrates">
             <property name="editable">
              <bool>true</bool>
             </property>
@@ -220,7 +220,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QComboBox" name="comboAudioBitrates">
+           <widget class="KComboBox" name="comboAudioBitrates">
             <property name="editable">
              <bool>true</bool>
             </property>
@@ -784,7 +784,7 @@
  <customwidgets>
   <customwidget>
    <class>KComboBox</class>
-   <extends>QComboBox</extends>
+   <extends>KComboBox</extends>
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
