@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocalizedString>
-
 #include "capturehandler.h"
 #include "kdenlivesettings.h"
+
+#include <KLocalizedString>
 
 CaptureHandler::CaptureHandler(QVBoxLayout *lay, QWidget *parent):
     m_layout(lay),

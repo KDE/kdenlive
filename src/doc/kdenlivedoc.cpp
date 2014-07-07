@@ -19,6 +19,7 @@
 
 
 #include "doc/kdenlivedoc.h"
+#include <config-kdenlive.h>
 #include "doc/docclipbase.h"
 #include "profilesdialog.h"
 #include "kdenlivesettings.h"
@@ -28,7 +29,6 @@
 #include "mainwindow.h"
 #include "doc/documentchecker.h"
 #include "doc/documentvalidator.h"
-#include <config-kdenlive.h>
 #include "initeffects.h"
 #include "mainwindow.h"
 #include "project/projectlist.h"

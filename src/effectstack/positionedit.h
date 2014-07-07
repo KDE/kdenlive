@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef POSITONEDIT_H
-#define POSITONEDIT_H
+#ifndef POSITIONEDIT_H
+#define POSITIONEDIT_H
 
 
 #include "timecode.h"

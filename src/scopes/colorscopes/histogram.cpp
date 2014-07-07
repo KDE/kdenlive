@@ -8,10 +8,10 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include "histogram.h"
+#include "scopes/colorscopes/histogramgenerator.h"
 #include <QMenu>
 #include <QTime>
-#include "scopes/colorscopes/histogramgenerator.h"
-#include "histogram.h"
 
 Histogram::Histogram(QWidget *parent) :
     AbstractGfxScopeWidget(false, parent)

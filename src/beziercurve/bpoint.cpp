@@ -18,6 +18,8 @@
 
 #include "bpoint.h"
 
+#include <QLineF>
+
 
 BPoint::BPoint() :
         h1(QPointF(-1, -1)),

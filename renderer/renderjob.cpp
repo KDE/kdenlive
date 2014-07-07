@@ -20,8 +20,6 @@
 
 #include "renderjob.h"
 
-#include <stdlib.h> // for getenv, posix portable to Windows: http://msdn.microsoft.com/en-us/library/tehxacec(VS.80).aspx
-
 #include <QtDBus>
 #include <QFile>
 #include <QThread>
@@ -84,7 +82,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
     connect(m_renderProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotCheckProcess(QProcess::ProcessState)));
     m_renderProcess->setReadChannel(QProcess::StandardError);
 
-    m_enablelog = (getenv("KDENLIVE_RENDER_LOG") != NULL);
+    m_enablelog = (!qgetenv("KDENLIVE_RENDER_LOG").isEmpty());
     if (m_enablelog) {
         // Create a log of every render process.
         m_logfile.setAutoRemove(false);

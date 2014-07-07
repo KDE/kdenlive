@@ -11,7 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef FFTCORRELATION_H
 #define FFTCORRELATION_H
 
-#include <inttypes.h>
+#include <QtGlobal>
 
 /**
   This class provides methods to calculate convolution

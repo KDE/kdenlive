@@ -18,6 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "widgets/videoglwidget.h"
+
 #include <QtGui>
 #include <QtOpenGL>
 #ifdef Q_WS_MAC
@@ -25,7 +27,6 @@
 #else
 #include <GL/glu.h>
 #endif
-#include "widgets/videoglwidget.h"
 
 #ifndef GL_TEXTURE_RECTANGLE_EXT
 #define GL_TEXTURE_RECTANGLE_EXT GL_TEXTURE_RECTANGLE_NV

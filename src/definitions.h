@@ -28,7 +28,7 @@
 #include <QDebug>
 
 #include <QTreeWidgetItem>
-#include <QtCore/QString>
+#include <QString>
 
 const int MAXCLIPDURATION = 15000;
 

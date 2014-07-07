@@ -8,10 +8,10 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include "scopes/colorscopes/rgbparadegenerator.h"
 #include <KLocalizedString>
 #include <QColor>
 #include <QPainter>
-#include "scopes/colorscopes/rgbparadegenerator.h"
 
 #define CHOP255(a) ((255) < (a) ? (255) : (a))
 #define CHOP1255(a) ((a) < (1) ? (1) : ((a) > (255) ? (255) : (a)))

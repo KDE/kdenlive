@@ -18,6 +18,7 @@ class QImage;
 class QSize;
 class RGBParadeGenerator : public QObject
 {
+    Q_OBJECT
 public:
     enum PaintMode { PaintMode_RGB, PaintMode_White };
 

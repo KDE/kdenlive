@@ -17,6 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "parametercontainer.h"
+
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 #include "ui_wipeval_ui.h"
@@ -42,7 +44,6 @@
 #include "profilesdialog.h"
 #include "project/projectlist.h"
 #include "mainwindow.h"
-#include "parametercontainer.h"
 #include "../timeline/customtrackview.h"
 
 #include <KUrlRequester>

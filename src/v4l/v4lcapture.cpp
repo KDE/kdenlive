@@ -17,6 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "v4lcapture.h"
+#include "kdenlivesettings.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,9 +34,6 @@
 
 #include <KDebug>
 #include <KLocalizedString>
-
-#include "v4lcapture.h"
-#include "kdenlivesettings.h"
 
 #include <linux/videodev2.h>
 #include <sys/ioctl.h>

@@ -8,14 +8,14 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include "scopes/colorscopes/waveformgenerator.h"
+
 #include <cmath>
 
 #include <QImage>
 #include <QPainter>
 #include <QSize>
 #include <QTime>
-
-#include "scopes/colorscopes/waveformgenerator.h"
 
 #define CHOP255(a) ((255) < (a) ? (255) : (a))
 

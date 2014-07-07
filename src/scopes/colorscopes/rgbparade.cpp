@@ -8,12 +8,12 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include "rgbparade.h"
+#include "scopes/colorscopes/rgbparadegenerator.h"
 #include <QMenu>
 #include <QPainter>
 #include <QRect>
 #include <QTime>
-#include "rgbparade.h"
-#include "scopes/colorscopes/rgbparadegenerator.h"
 
 RGBParade::RGBParade(QWidget *parent) :
         AbstractGfxScopeWidget(true, parent)

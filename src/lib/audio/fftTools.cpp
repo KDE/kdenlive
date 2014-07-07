@@ -8,12 +8,12 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include "fftTools.h"
+
 #include <math.h>
 #include <iostream>
 
 #include <QString>
-
-#include "fftTools.h"
 
 // Uncomment for debugging, like writing a GNU Octave .m file to /tmp
 //#define DEBUG_FFTTOOLS

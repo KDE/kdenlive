@@ -81,10 +81,10 @@ return frameNumber;
 
 
 
+#include "timecode.h"
+
 #include <KDebug>
 #include <KLocalizedString>
-
-#include "timecode.h"
 
 Timecode::Timecode(Formats format, double framesPerSecond)
 {

@@ -8,6 +8,10 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include "vectorscope.h"
+#include "scopes/colorscopes/colorplaneexport.h"
+#include "colortools.h"
+#include "scopes/colorscopes/vectorscopegenerator.h"
 
 #include <QAction>
 #include <QDebug>
@@ -15,11 +19,6 @@
 
 #include <QTime>
 #include <QMenu>
-
-#include "scopes/colorscopes/colorplaneexport.h"
-#include "colortools.h"
-#include "vectorscope.h"
-#include "scopes/colorscopes/vectorscopegenerator.h"
 
 const float P75 = .75;
 

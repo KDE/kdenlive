@@ -21,6 +21,7 @@ class QSize;
 
 class HistogramGenerator : public QObject
 {
+    Q_OBJECT
 public:
     explicit HistogramGenerator();
 

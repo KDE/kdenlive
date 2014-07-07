@@ -8,8 +8,9 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include <math.h>
 #include "colortools.h"
+
+#include <math.h>
 #include <QColor>
 
 //#define DEBUG_CT

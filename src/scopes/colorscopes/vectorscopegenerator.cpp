@@ -69,9 +69,9 @@ mRgb2YPbPr =                        r =
 
  */
 
+#include "scopes/colorscopes/vectorscopegenerator.h"
 #include <math.h>
 #include <QImage>
-#include "scopes/colorscopes/vectorscopegenerator.h"
 
 // The maximum distance from the center for any RGB color is 0.63, so
 // no need to make the circle bigger than required.

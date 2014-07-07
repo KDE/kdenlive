@@ -8,12 +8,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include "QtCore/qtconcurrentrun.h"
-
 #include "abstractscopewidget.h"
 #include "renderer.h"
 #include "monitor/monitor.h"
 
+#include <QtCore/qtconcurrentrun.h>
 #include <QColor>
 #include <QMenu>
 #include <QMouseEvent>

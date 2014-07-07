@@ -18,6 +18,10 @@
  */
 
 
+// Local includes.
+
+#include "kis_curve_widget.h"
+
 // C++ includes.
 
 #include <cmath>
@@ -45,18 +49,12 @@
 #include <kcursor.h>
 #include <klocale.h>
 
-// Local includes.
-
-#include "kis_curve_widget.h"
-
-
 #define bounds(x,a,b) (x<a ? a : (x>b ? b :x))
 #define MOUSE_AWAY_THRES 15
 #define POINT_AREA       1E-4
 #define CURVE_AREA       1E-4
 
 #include "effectstack/widgets/kis_curve_widget_p.h"
-
 
 //static bool pointLessThan(const QPointF &a, const QPointF &b);
 

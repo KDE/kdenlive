@@ -19,7 +19,7 @@
 #ifndef BPOINT_H
 #define BPOINT_H
 
-#include <QtCore>
+#include <QPointF>
 
 /**
  * @brief Represents a point in a cubic Bézier spline.

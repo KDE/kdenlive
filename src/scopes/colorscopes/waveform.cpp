@@ -8,16 +8,15 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include <QPainter>
-#include <QPoint>
-#include <QMenu>
-
+#include "waveform.h"
+#include "scopes/colorscopes/waveformgenerator.h"
 // For reading out the project resolution
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
 
-#include "waveform.h"
-#include "scopes/colorscopes/waveformgenerator.h"
+#include <QPainter>
+#include <QPoint>
+#include <QMenu>
 
 
 const QSize Waveform::m_textWidth(35,0);
