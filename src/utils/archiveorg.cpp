@@ -102,7 +102,7 @@ void ArchiveOrg::slotShowResults(KJob* job)
                                 item->setData(idRole, soundmap.value("identifier").toString());
                                 QString author = soundmap.value("creator").toString();
                                 item->setData(authorRole, author);
-                                if (author.startsWith("http")) item->setData(authorUrl, author);
+                                if (author.startsWith(QLatin1String("http"))) item->setData(authorUrl, author);
                                 item->setData(infoUrl, "http://archive.org/details/" + soundmap.value("identifier").toString());
                                 item->setData(downloadRole, "http://archive.org/download/" + soundmap.value("identifier").toString());
                                 item->setData(licenseRole, soundmap.value("licenseurl").toString());                        
@@ -164,14 +164,14 @@ void ArchiveOrg::slotParseResults(KJob* job)
     m_thumbsPath.clear();
     for (int i = 0; i < links.count(); ++i) {
         QString href = links.at(i).toElement().attribute("href");
-        if (href.endsWith(".thumbs/")) {
+        if (href.endsWith(QLatin1String(".thumbs/"))) {
             // sub folder contains image thumbs, display one.
             m_thumbsPath = m_metaInfo.value("url") + '/' + href;
             KJob* thumbJob = KIO::storedGet( KUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
             thumbJob->setProperty("id", m_metaInfo.value("id"));
             connect( thumbJob, SIGNAL(result(KJob*)), this, SLOT(slotParseThumbs(KJob*)) );
         }
-        else if (!href.contains('/') && !href.endsWith(".xml")) {
+        else if (!href.contains('/') && !href.endsWith(QLatin1String(".xml"))) {
             link = m_metaInfo.value("url") + '/' + href;
             ct++;
             if (ct %2 == 0) {

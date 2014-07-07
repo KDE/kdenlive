@@ -211,7 +211,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         if (values.count() > 1 && !values.at(1).isEmpty()) {
             parentName = values.at(1);
         } else {
-            if (KdenliveSettings::ffmpegpath().endsWith("avconv")) {
+            if (KdenliveSettings::ffmpegpath().endsWith(QLatin1String("avconv"))) {
                 parentName = i18n("Libav");
                 iconName = "meta_libav.png";
             }
@@ -509,7 +509,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         if (res.hasProperty(Nepomuk::Vocabulary::NIE::license())) {
             QString ltype = res.property(Nepomuk::Vocabulary::NIE::licenseType()).toString();
             m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk::Vocabulary::NIE::license()).toString()));
-            if (ltype.startsWith("http")) {
+            if (ltype.startsWith(QLatin1String("http"))) {
                 m_view.clip_license->setUrl(ltype);
                 connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
             }
@@ -530,7 +530,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         if (res.hasProperty(Nepomuk2::Vocabulary::NIE::license())) {
             QString ltype = res.property(Nepomuk2::Vocabulary::NIE::licenseType()).toString();
             m_view.clip_license->setText(i18n("License: %1", res.property(Nepomuk2::Vocabulary::NIE::license()).toString()));
-            if (ltype.startsWith("http")) {
+            if (ltype.startsWith(QLatin1String("http"))) {
                 m_view.clip_license->setUrl(ltype);
                 connect(m_view.clip_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
             }

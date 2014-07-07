@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     // Load arguments
     foreach (const QString &str, args) {
 
-        if (str.startsWith("--profile=")) {
+        if (str.startsWith(QLatin1String("--profile="))) {
             QString s = str;
             s.remove(0, QString("--profile=").length());
             profile = s.toStdString();

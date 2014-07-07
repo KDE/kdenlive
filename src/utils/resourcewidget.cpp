@@ -397,7 +397,7 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
         licenseName = "Attribution-NonCommercial-NoDerivs";
     else if (licenseUrl.contains("/publicdomain/zero/"))
         licenseName = "Creative Commons 0";
-    else if (licenseUrl.endsWith("/publicdomain"))
+    else if (licenseUrl.endsWith(QLatin1String("/publicdomain")))
         licenseName = "Public Domain";
     else licenseName = i18n("Unknown");
     item_license->setText(licenseName);
@@ -408,7 +408,7 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
 void ResourceWidget::slotOpenLink(const QUrl &url)
 {
     QString path = url.toEncoded();
-    if (path.endsWith("_import")) {
+    if (path.endsWith(QLatin1String("_import"))) {
         path.chop(7);
         // import file in Kdenlive
         slotSaveItem(path);

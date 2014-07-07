@@ -287,7 +287,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             for (int i = 0; i < infomax; ++i) {
                                 e = infoproducers.item(i).cloneNode().toElement();
                                 QString prodId = e.attribute("id");
-                                if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")) {
+                                if (!e.isNull() && prodId != "black" && !prodId.startsWith(QLatin1String("slowmotion"))) {
                                     e.setTagName("producer");
                                     // Get MLT's original producer properties
                                     QDomElement orig;
@@ -1252,8 +1252,8 @@ bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString 
         QMap<QString, QString> meta;
         for (QDomNode m = orig.firstChild(); !m.isNull(); m = m.nextSibling()) {
             QString name = m.toElement().attribute("name");
-            if (name.startsWith("meta.attr")) {
-                if (name.endsWith(".markup")) name = name.section('.', 0, -2);
+            if (name.startsWith(QLatin1String("meta.attr"))) {
+                if (name.endsWith(QLatin1String(".markup"))) name = name.section('.', 0, -2);
                 meta.insert(name.section('.', 2, -1), m.firstChild().nodeValue());
             }
         }
@@ -1509,7 +1509,7 @@ QMap <QString, QString> KdenliveDoc::getRenderProperties() const
     QMapIterator<QString, QString> i(m_documentProperties);
     while (i.hasNext()) {
         i.next();
-        if (i.key().startsWith("render")) renderProperties.insert(i.key(), i.value());
+        if (i.key().startsWith(QLatin1String("render"))) renderProperties.insert(i.key(), i.value());
     }
     return renderProperties;
 }

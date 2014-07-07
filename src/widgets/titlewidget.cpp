@@ -736,7 +736,7 @@ void TitleWidget::slotImageTool()
     QString allExtensions = "image/gif image/jpeg image/png image/x-tga image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr";
     KUrl url = KFileDialog::getOpenUrl(KUrl(), allExtensions, this, i18n("Load Image")); //"*.svg *.png *.jpg *.jpeg *.gif *.raw"
     if (!url.isEmpty()) {
-        if (url.path().endsWith(".svg")) {
+        if (url.path().endsWith(QLatin1String(".svg"))) {
             QGraphicsSvgItem *svg = new QGraphicsSvgItem(url.toLocalFile());
             svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
             svg->setZValue(m_count++);

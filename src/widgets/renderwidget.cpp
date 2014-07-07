@@ -754,7 +754,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
     //TODO: delete a profile installed by KNewStuff the easy way
     /*
     QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
-    if (!edit.endsWith("customprofiles.xml")) {
+    if (!edit.endsWith(QLatin1String("customprofiles.xml"))) {
         // This is a KNewStuff installed file, process through KNS
         KNS::Engine engine(0);
         if (engine.init("kdenlive_render.knsrc")) {
@@ -824,7 +824,7 @@ void RenderWidget::updateButtons()
         m_view.buttonRender->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
         m_view.buttonGenerateScript->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
         QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
-        if (edit.isEmpty() || !edit.endsWith("customprofiles.xml")) {
+        if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml"))) {
             m_view.buttonDelete->setEnabled(false);
             m_view.buttonEdit->setEnabled(false);
         } else {
@@ -981,7 +981,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
     const QString currentSize = QString::number(width) + 'x' + QString::number(height);
     QString subsize = currentSize;
-    if (std.startsWith("s=")) {
+    if (std.startsWith(QLatin1String("s="))) {
         subsize = std.section(' ', 0, 0).toLower();
         subsize = subsize.section('=', 1, 1);
     } else if (std.contains(" s=")) {
@@ -1337,7 +1337,7 @@ void RenderWidget::refreshView(const QString &profile)
                 // Make sure the selected profile uses an installed avformat codec / format
                 if (!formatsList.isEmpty()) {
                     QString format;
-                    if (std.startsWith("f=")) format = std.section("f=", 1, 1);
+                    if (std.startsWith(QLatin1String("f="))) format = std.section("f=", 1, 1);
                     else if (std.contains(" f=")) format = std.section(" f=", 1, 1);
                     if (!format.isEmpty()) {
                         format = format.section(' ', 0, 0).toLower();
@@ -1353,7 +1353,7 @@ void RenderWidget::refreshView(const QString &profile)
                 }
                 if (!acodecsList.isEmpty()) {
                     QString format;
-                    if (std.startsWith("acodec=")) format = std.section("acodec=", 1, 1);
+                    if (std.startsWith(QLatin1String("acodec="))) format = std.section("acodec=", 1, 1);
                     else if (std.contains(" acodec=")) format = std.section(" acodec=", 1, 1);
                     if (!format.isEmpty()) {
                         format = format.section(' ', 0, 0).toLower();
@@ -1370,7 +1370,7 @@ void RenderWidget::refreshView(const QString &profile)
                 }
                 if (!vcodecsList.isEmpty()) {
                     QString format;
-                    if (std.startsWith("vcodec=")) format = std.section("vcodec=", 1, 1);
+                    if (std.startsWith(QLatin1String("vcodec="))) format = std.section("vcodec=", 1, 1);
                     else if (std.contains(" vcodec=")) format = std.section(" vcodec=", 1, 1);
                     if (!format.isEmpty()) {
                         format = format.section(' ', 0, 0).toLower();
@@ -1384,7 +1384,7 @@ void RenderWidget::refreshView(const QString &profile)
                         }
                     }
                 }
-                if (std.contains(" profile=") || std.startsWith("profile=")) {
+                if (std.contains(" profile=") || std.startsWith(QLatin1String("profile="))) {
                     // changed in MLT commit d8a3a5c9190646aae72048f71a39ee7446a3bd45
                     // (http://www.mltframework.org/gitweb/mlt.git?p=mltframework.org/mlt.git;a=commit;h=d8a3a5c9190646aae72048f71a39ee7446a3bd45)
                     dupItem->setToolTip(i18n("This render profile uses a 'profile' parameter.<br />Unless you know what you are doing you will probably have to change it to 'mlt_profile'."));
@@ -1445,7 +1445,7 @@ void RenderWidget::refreshParams()
     QString extension = item->data(ExtensionRole).toString();
     m_view.advanced_params->setPlainText(params);
     QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
-    if (params.contains(" s=") || params.startsWith("s=") || destination == "audioonly") {
+    if (params.contains(" s=") || params.startsWith(QLatin1String("s=")) || destination == "audioonly") {
         // profile has a fixed size, do not allow resize
         m_view.rescale->setEnabled(false);
         setRescaleEnabled(false);
@@ -1466,7 +1466,7 @@ void RenderWidget::refreshParams()
 //     }
     m_view.out_file->setFilter("*." + extension);
     QString edit = item->data(EditableRole).toString();
-    if (edit.isEmpty() || !edit.endsWith("customprofiles.xml")) {
+    if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml"))) {
         m_view.buttonDelete->setEnabled(false);
         m_view.buttonEdit->setEnabled(false);
     } else {
@@ -1681,7 +1681,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             if (profile.hasAttribute("url")) item->setData(ExtraRole, profile.attribute("url"));
             if (editable) {
                 item->setData(EditableRole, exportFile);
-                if (exportFile.endsWith("customprofiles.xml")) item->setIcon(KIcon("emblem-favorite"));
+                if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) item->setIcon(KIcon("emblem-favorite"));
                 else item->setIcon(KIcon("applications-internet"));
             }
             m_renderItems.append(item);
@@ -1930,13 +1930,13 @@ void RenderWidget::parseScriptFiles()
             while (!stream.atEnd()) {
                 QString line = stream.readLine();
                 //kDebug()<<"# :"<<line;
-                if (line.startsWith("TARGET=")) {
+                if (line.startsWith(QLatin1String("TARGET="))) {
                     target = line.section("TARGET=\"", 1);
                     target = target.section('"', 0, 0);
-                } else if (line.startsWith("RENDERER=")) {
+                } else if (line.startsWith(QLatin1String("RENDERER="))) {
                     renderer = line.section("RENDERER=\"", 1);
                     renderer = renderer.section('"', 0, 0);
-                } else if (line.startsWith("MELT=")) {
+                } else if (line.startsWith(QLatin1String("MELT="))) {
                     melt = line.section("MELT=\"", 1);
                     melt = melt.section('"', 0, 0);
                 }

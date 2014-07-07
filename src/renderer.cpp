@@ -510,7 +510,7 @@ QPixmap Render::getImageThumbnail(const KUrl &url, int /*width*/, int /*height*/
 {
     QImage im;
     QPixmap pixmap;
-    if (url.fileName().startsWith(".all.")) {  //  check for slideshow
+    if (url.fileName().startsWith(QLatin1String(".all."))) {  //  check for slideshow
         QString fileType = url.fileName().right(3);
         QStringList more;
         QDir dir(url.directory());
@@ -1122,7 +1122,7 @@ void Render::processFileProperties()
         for (int i = 0; i < count; i ++) {
             QString name = metadata.get_name(i);
             QString value = QString::fromUtf8(metadata.get(i));
-            if (name.endsWith(".markup") && !value.isEmpty())
+            if (name.endsWith(QLatin1String(".markup")) && !value.isEmpty())
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
         }
         producer->seek(0);
@@ -3011,7 +3011,7 @@ bool Render::mltEditEffect(int track, const GenTime &position, EffectsParameterL
     int index = params.paramValue("kdenlive_ix").toInt();
     QString tag =  params.paramValue("tag");
 
-    if (!params.paramValue("keyframes").isEmpty() || (tag == "affine" && params.hasParam("background")) || tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
+    if (!params.paramValue("keyframes").isEmpty() || (tag == "affine" && params.hasParam("background")) || tag.startsWith(QLatin1String("ladspa")) || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         if (mltRemoveEffect(track, position, index, false)) {
             if (position < GenTime())
@@ -4147,7 +4147,7 @@ const QList <Mlt::Producer *> Render::producersList()
             Mlt::Producer *c = trackPlaylist.get_clip(i);
             if (c == NULL) continue;
             QString prodId = c->parent().get("id");
-            if (!c->is_blank() && !ids.contains(prodId) && !prodId.startsWith("slowmotion") && !prodId.isEmpty()) {
+            if (!c->is_blank() && !ids.contains(prodId) && !prodId.startsWith(QLatin1String("slowmotion")) && !prodId.isEmpty()) {
                 Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
                 if (nprod) {
                     ids.append(prodId);
@@ -4181,7 +4181,7 @@ void Render::fillSlowMotionProducers()
             Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
             if (nprod) {
                 QString id = nprod->parent().get("id");
-                if (id.startsWith("slowmotion:") && !nprod->is_blank()) {
+                if (id.startsWith(QLatin1String("slowmotion:")) && !nprod->is_blank()) {
                     // this is a slowmotion producer, add it to the list
                     QString url = QString::fromUtf8(nprod->get("resource"));
                     int strobe = nprod->get_int("strobe");
@@ -4376,7 +4376,7 @@ QString Render::updateSceneListFps(double current_fps, double new_fps, const QSt
         for (int j = 0; j < props.count(); j++) {
             QDomElement param =  props.at(j).toElement();
             QString paramName = param.attribute("name");
-            if (paramName.startsWith("meta.") || paramName == "length") {
+            if (paramName.startsWith(QLatin1String("meta.")) || paramName == "length") {
                 prod.removeChild(props.at(j));
                 j--;
             }

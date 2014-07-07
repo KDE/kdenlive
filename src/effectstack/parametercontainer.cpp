@@ -179,7 +179,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             for (int i = 0; i < listitems.count(); ++i) {
                 lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
                 QString entry = listitems.at(i);
-                if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
+                if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
                     if (!MainWindow::m_lumacache.contains(entry)) {
                         QImage pix(entry);
                         MainWindow::m_lumacache.insert(entry, pix.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -520,13 +520,13 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
     if (value.contains(',')) value.replace(',','/');
     QString start = value.section(';', 0, 0);
     QString end = value.section(';', 1, 1).section('=', 1, 1);
-    if (start.startsWith("-100%/0"))
+    if (start.startsWith(QLatin1String("-100%/0")))
         info.start = LEFT;
-    else if (start.startsWith("100%/0"))
+    else if (start.startsWith(QLatin1String("100%/0")))
         info.start = RIGHT;
-    else if (start.startsWith("0%/100%"))
+    else if (start.startsWith(QLatin1String("0%/100%")))
         info.start = DOWN;
-    else if (start.startsWith("0%/-100%"))
+    else if (start.startsWith(QLatin1String("0%/-100%")))
         info.start = UP;
     else
         info.start = CENTER;
@@ -536,13 +536,13 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
     else
         info.startTransparency = 100;
 
-    if (end.startsWith("-100%/0"))
+    if (end.startsWith(QLatin1String("-100%/0")))
         info.end = LEFT;
-    else if (end.startsWith("100%/0"))
+    else if (end.startsWith(QLatin1String("100%/0")))
         info.end = RIGHT;
-    else if (end.startsWith("0%/100%"))
+    else if (end.startsWith(QLatin1String("0%/100%")))
         info.end = DOWN;
-    else if (end.startsWith("0%/-100%"))
+    else if (end.startsWith(QLatin1String("0%/-100%")))
         info.end = UP;
     else
         info.end = CENTER;

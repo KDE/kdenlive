@@ -438,11 +438,11 @@ void Wizard::checkMissingCodecs()
         for (int i = 0; i < profiles.count(); ++i) {
             std = profiles.at(i).toElement().attribute("args");
             format.clear();
-            if (std.startsWith("acodec=")) format = std.section("acodec=", 1, 1);
+            if (std.startsWith(QLatin1String("acodec="))) format = std.section("acodec=", 1, 1);
             else if (std.contains(" acodec=")) format = std.section(" acodec=", 1, 1);
             if (!format.isEmpty()) requiredACodecs << format.section(' ', 0, 0).toLower();
             format.clear();
-            if (std.startsWith("vcodec=")) format = std.section("vcodec=", 1, 1);
+            if (std.startsWith(QLatin1String("vcodec="))) format = std.section("vcodec=", 1, 1);
             else if (std.contains(" vcodec=")) format = std.section(" vcodec=", 1, 1);
             if (!format.isEmpty()) requiredVCodecs << format.section(' ', 0, 0).toLower();
         }

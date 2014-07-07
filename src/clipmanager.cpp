@@ -176,12 +176,12 @@ void ClipManager::slotGetThumbs()
         m_processingThumbId = i.key();
         QList<int> values = m_requestedThumbs.values(m_processingThumbId);
         m_requestedThumbs.remove(m_processingThumbId);
-        if (m_processingThumbId.startsWith("?")) {
+        if (m_processingThumbId.startsWith(QLatin1String("?"))) {
             // if id starts with ?, it means the request comes from a clip property widget
             thumbType = 2;
             m_processingThumbId.remove(0, 1);
         }
-        if (m_processingThumbId.startsWith("#")) {
+        if (m_processingThumbId.startsWith(QLatin1String("#"))) {
             // if id starts with #, it means the request comes from project tree
             thumbType = 1;
             m_processingThumbId.remove(0, 1);
@@ -569,7 +569,7 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
             if (data.contains("audio_index")) prod.setAttribute("audio_index", data.value("audio_index"));
 
             KMimeType::Ptr type = KMimeType::findByUrl(file);
-            if (type->name().startsWith("image/")) {
+            if (type->name().startsWith(QLatin1String("image/"))) {
                 prod.setAttribute("type", (int) Image);
                 prod.setAttribute("in", 0);
                 prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);

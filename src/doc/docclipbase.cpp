@@ -63,7 +63,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     QDomNamedNodeMap attributes = xml.attributes();
     for (int i = 0; i < attributes.count(); ++i) {
         QString name = attributes.item(i).nodeName();
-        if (name.startsWith("meta.attr.")) {
+        if (name.startsWith(QLatin1String("meta.attr."))) {
             m_metadata.insert(name.section('.', 2), QStringList() << attributes.item(i).nodeValue());
         } else m_properties.insert(name, attributes.item(i).nodeValue());
     }
@@ -578,7 +578,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
     }
     else if (m_thumbProd && !m_thumbProd->hasProducer()) {
         if (m_clipType != Audio) {
-            if (!id.endsWith("_audio"))
+            if (!id.endsWith(QLatin1String("_audio")))
                 m_thumbProd->setProducer(producer);
         }
         else m_thumbProd->setProducer(producer);
@@ -588,7 +588,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
     if (id.contains('_')) {
         // this is a subtrack producer, insert it at correct place
         id = id.section('_', 1);
-        if (id.endsWith("audio")) {
+        if (id.endsWith(QLatin1String("audio"))) {
             int pos = id.section('_', 0, 0).toInt();
             if (pos >= m_audioTrackProducers.count()) {
                 while (m_audioTrackProducers.count() - 1 < pos) {
@@ -600,7 +600,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer, bool reset, bool readProp
             }
             else delete producer;
             return;
-        } else if (id.endsWith("video")) {
+        } else if (id.endsWith(QLatin1String("video"))) {
             int pos = 0;
             // Keep compatibility with older projects where video only producers were not track specific
             if (id.contains('_')) pos = id.section('_', 0, 0).toInt();

@@ -101,7 +101,7 @@ bool DocumentChecker::hasErrorInClips()
                 mltProd = documentProducers.at(j).toElement();
                 prodId = mltProd.attribute("id");
                 // Don't check slowmotion clips for now... (TODO?)
-                if (prodId.startsWith("slowmotion")) continue;
+                if (prodId.startsWith(QLatin1String("slowmotion"))) continue;
                 if (prodId.contains('_')) prodId = prodId.section('_', 0, 0);
                 if (prodId != id) continue;
                 if (mltDuration > 0 ) {
@@ -351,7 +351,7 @@ bool DocumentChecker::hasErrorInClips()
             mltProd = documentProducers.at(j).toElement();
             QString prodId = mltProd.attribute("id");
             bool slowmotion = false;
-            if (prodId.startsWith("slowmotion")) {
+            if (prodId.startsWith(QLatin1String("slowmotion"))) {
                 slowmotion = true;
                 prodId = prodId.section(':', 1, 1);
             }

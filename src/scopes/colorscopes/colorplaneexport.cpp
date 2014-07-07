@@ -161,7 +161,7 @@ void ColorPlaneExport::slotExportPlane()
 #ifdef DEBUG_CPE
     qDebug() << "Lower: " << lower;
 #endif
-    if (!lower.endsWith(".png") && !lower.endsWith(".jpg") && !lower.endsWith(".tif") && !lower.endsWith(".tiff")) {
+    if (!lower.endsWith(QLatin1String(".png")) && !lower.endsWith(QLatin1String(".jpg")) && !lower.endsWith(QLatin1String(".tif")) && !lower.endsWith(QLatin1String(".tiff"))) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", EXTENSION_PNG)) == KMessageBox::Yes) {
             kurlrequester->setUrl(KUrl(kurlrequester->text() + ".png"));
         }

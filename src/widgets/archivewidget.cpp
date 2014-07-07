@@ -282,7 +282,7 @@ void ArchiveWidget::openArchiveForExtraction()
     bool isProjectArchive = false;
     QStringList files = m_extractArchive->directory()->entries();
     for (int i = 0; i < files.count(); ++i) {
-        if (files.at(i).endsWith(".kdenlive")) {
+        if (files.at(i).endsWith(QLatin1String(".kdenlive"))) {
             m_projectName = files.at(i);
             isProjectArchive = true;
             break;
@@ -340,7 +340,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             ix++;
             KUrl slideUrl(file);
             QDir dir(slideUrl.directory(KUrl::AppendTrailingSlash));
-            if (slideUrl.fileName().startsWith(".all.")) {
+            if (slideUrl.fileName().startsWith(QLatin1String(".all."))) {
                 // mimetype slideshow (for example *.png)
                     QStringList filters;
                     // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
@@ -425,7 +425,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QStri
             ix++;
             KUrl slideUrl(file);
             QDir dir(slideUrl.directory(KUrl::AppendTrailingSlash));
-            if (slideUrl.fileName().startsWith(".all.")) {
+            if (slideUrl.fileName().startsWith(QLatin1String(".all."))) {
                 // mimetype slideshow (for example *.png)
                     QStringList filters;
                     // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers

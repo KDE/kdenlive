@@ -838,7 +838,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (kproducer.attribute("type").toInt() == Text) {
                 QString data = kproducer.attribute("xmldata");
                 QString datafile = kproducer.attribute("resource");
-                if (!datafile.endsWith(".kdenlivetitle")) {
+                if (!datafile.endsWith(QLatin1String(".kdenlivetitle"))) {
                     datafile = QString();
                     kproducer.setAttribute("resource", QString());
                 }

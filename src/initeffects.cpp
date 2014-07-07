@@ -49,7 +49,7 @@ void initEffectsThumbnailer::run()
 {
     foreach(const QString & entry, m_list) {
         kDebug() << entry;
-        if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
+        if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
             if (!MainWindow::m_lumacache.contains(entry)) {
                 QImage pix(entry);
                 //if (!pix.isNull())
@@ -240,7 +240,7 @@ void initEffects::parseEffectFiles(const QString &locale)
                 if (doc.elementsByTagName("description").count() > 0) {
                     QString desc = doc.documentElement().firstChildElement("description").text();
                     //WARNING: TEMPORARY FIX for unusable MLT SOX parameters description
-                    if (desc.startsWith("Process audio using a SoX")) {
+                    if (desc.startsWith(QLatin1String("Process audio using a SoX"))) {
                         // Remove MLT's SOX generated effects since the parameters properties are unusable for us
                     }
                     else {

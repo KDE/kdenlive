@@ -508,11 +508,11 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
             }
             if (!url.isEmpty()) {
                 if (!url.startsWith('/')) url.prepend(root);
-                if (url.section('.', 0, -2).endsWith("/.all")) {
+                if (url.section('.', 0, -2).endsWith(QLatin1String("/.all"))) {
                     // slideshow clip, extract image urls
                     urls << extractSlideshowUrls(KUrl(url));
                 } else urls << url;
-                if (url.endsWith(".mlt") || url.endsWith(".kdenlive")) {
+                if (url.endsWith(QLatin1String(".mlt")) || url.endsWith(QLatin1String(".kdenlive"))) {
                     //TODO: Do something to avoid infinite loops if 2 files reference themselves...
                     urls << extractPlaylistUrls(url);
                 }

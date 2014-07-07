@@ -892,7 +892,7 @@ void DvdWizard::slotBurn()
     QAction *action = qobject_cast<QAction *>(sender());
     QString exec = action->data().toString();
     QStringList args;
-    if (exec.endsWith("k3b")) args << "--image" << m_status.iso_image->url().path();
+    if (exec.endsWith(QLatin1String("k3b"))) args << "--image" << m_status.iso_image->url().path();
     else args << "--image=" + m_status.iso_image->url().path();
     QProcess::startDetached(exec, args);
 }

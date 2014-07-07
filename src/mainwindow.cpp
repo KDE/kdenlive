@@ -2202,7 +2202,7 @@ void MainWindow::openFile(const KUrl &url)
         return;
     }
 
-    if (!url.fileName().endsWith(".kdenlive")) {
+    if (!url.fileName().endsWith(QLatin1String(".kdenlive"))) {
         // This is not a Kdenlive project file, abort loading
         KMessageBox::sorry(this, i18n("File %1 is not a Kdenlive project file", url.path()));
         if (!m_startUrl.isEmpty()) {
@@ -2342,7 +2342,7 @@ void MainWindow::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KU
         }*/
         kDebug() << "// OPENING RECOVERY: " << stale->fileName() << "\nMANAGED: " << stale->managedFile().path();
         // the stalefiles also contain ".lock" files so we must ignore them... bug in KAutoSaveFile?
-        if (!stale->fileName().endsWith(".lock")) {
+        if (!stale->fileName().endsWith(QLatin1String(".lock"))) {
             doOpenFile(originUrl, stale);
         } else {
             KIO::NetAccess::del(KUrl(stale->fileName()), this);
@@ -2362,7 +2362,7 @@ void MainWindow::parseProfiles(const QString &mltPath)
         KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
     }
 
-    if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith("inigo")) {
+    if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith(QLatin1String("inigo"))) {
         QString meltPath = QString(MLT_PREFIX) + QString("/bin/melt");
         if (!QFile::exists(meltPath)) {
             meltPath = KStandardDirs::findExe("melt");

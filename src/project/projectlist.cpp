@@ -918,9 +918,9 @@ void ProjectList::adjustTranscodeActions(ProjectItem *clip) const
         data = transcodeActions.at(i)->data().toStringList();
         if (data.count() > 2) {
             condition = data.at(2);
-            if (condition.startsWith("vcodec"))
+            if (condition.startsWith(QLatin1String("vcodec")))
                 transcodeActions.at(i)->setEnabled(clip->referencedClip()->hasVideoCodec(condition.section('=', 1, 1)));
-            else if (condition.startsWith("acodec"))
+            else if (condition.startsWith(QLatin1String("acodec")))
                 transcodeActions.at(i)->setEnabled(clip->referencedClip()->hasVideoCodec(condition.section('=', 1, 1)));
         }
     }
@@ -1718,7 +1718,7 @@ void ProjectList::slotAddClip(const QList <QUrl> &givenList, const QString &grou
                 QString fileName = url.fileName().section('.', 0, -2);
                 if (fileName.at(fileName.size() - 1).isDigit()) {
                     KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
-                    if (item.mimetype().startsWith("image")) {
+                    if (item.mimetype().startsWith(QLatin1String("image"))) {
                         // import as sequence if we found more than one image in the sequence
                         QStringList list;
                         QString pattern = SlideshowClip::selectedPath(url.path(), false, QString(), &list);
@@ -2219,9 +2219,9 @@ void ProjectList::extractMetadata(DocClipBase *clip)
             QString res = p.readAllStandardOutput();
             QStringList list = res.split("\n");
             foreach(QString tagline, list) {
-                if (tagline.startsWith("-File") || tagline.startsWith("-ExifTool")) continue;
+                if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) continue;
                 QString tag = tagline.section(':', 1).simplified();
-                if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
+                if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) continue;
                 if (!tag.section('=', 0, 0).isEmpty() && !tag.section('=', 1).simplified().isEmpty())
                     meta.insert(tag.section('=', 0, 0), tag.section('=', 1).simplified());
             }
@@ -2236,9 +2236,9 @@ void ProjectList::extractMetadata(DocClipBase *clip)
                 QString res = p.readAllStandardOutput();
                 QStringList list = res.split("\n");
                 foreach(QString tagline, list) {
-                    if (!tagline.startsWith("-H264")) continue;
+                    if (!tagline.startsWith(QLatin1String("-H264"))) continue;
                     QString tag = tagline.section(':', 1);
-                    if (tag.startsWith("ImageWidth") || tag.startsWith("ImageHeight")) continue;
+                    if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) continue;
                     meta.insert(tag.section('=', 0, 0), tag.section('=', 1));
                 }
             }
@@ -2259,7 +2259,7 @@ void ProjectList::extractMetadata(DocClipBase *clip)
                 while (!file.atEnd()) {
                     QString line = file.readLine().simplified();
                     if (line.startsWith('#') || line.isEmpty() || !line.contains(':')) continue;
-                    if (line.startsWith("CSV data")) break;
+                    if (line.startsWith(QLatin1String("CSV data"))) break;
                     meta.insert(line.section(':', 0, 0).simplified(), line.section(':', 1).simplified());
                 }
             }
@@ -2617,9 +2617,9 @@ KUrl::List ProjectList::getConditionalUrls(const QString &condition) const
             continue;
         DocClipBase *clip = item->referencedClip();
         if (!condition.isEmpty()) {
-            if (condition.startsWith("vcodec") && !clip->hasVideoCodec(condition.section('=', 1, 1)))
+            if (condition.startsWith(QLatin1String("vcodec")) && !clip->hasVideoCodec(condition.section('=', 1, 1)))
                 continue;
-            else if (condition.startsWith("acodec") && !clip->hasAudioCodec(condition.section('=', 1, 1)))
+            else if (condition.startsWith(QLatin1String("acodec")) && !clip->hasAudioCodec(condition.section('=', 1, 1)))
                 continue;
         }
         result.append(item->clipUrl());
@@ -2645,9 +2645,9 @@ QMap <QString, QString> ProjectList::getConditionalIds(const QString &condition)
             continue;
         DocClipBase *clip = item->referencedClip();
         if (!condition.isEmpty()) {
-            if (condition.startsWith("vcodec") && !clip->hasVideoCodec(condition.section('=', 1, 1)))
+            if (condition.startsWith(QLatin1String("vcodec")) && !clip->hasVideoCodec(condition.section('=', 1, 1)))
                 continue;
-            else if (condition.startsWith("acodec") && !clip->hasAudioCodec(condition.section('=', 1, 1)))
+            else if (condition.startsWith(QLatin1String("acodec")) && !clip->hasAudioCodec(condition.section('=', 1, 1)))
                 continue;
         }
         result.insert(item->clipId(), item->clipUrl().path());

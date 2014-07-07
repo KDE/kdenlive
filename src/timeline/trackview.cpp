@@ -626,7 +626,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
             QString id = idString;
             double speed = 1.0;
             int strobe = 1;
-            if (idString.startsWith("slowmotion")) {
+            if (idString.startsWith(QLatin1String("slowmotion"))) {
                 QLocale locale;
                 locale.setNumberOptions(QLocale::OmitGroupSeparator);
                 id = idString.section(':', 1, 1);
@@ -744,8 +744,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked, const Q
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << 'x' << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, strobe, frame_width, false);
-                if (idString.endsWith("_video")) item->setVideoOnly(true);
-                else if (idString.endsWith("_audio")) item->setAudioOnly(true);
+                if (idString.endsWith(QLatin1String("_video"))) item->setVideoOnly(true);
+                else if (idString.endsWith(QLatin1String("_audio"))) item->setAudioOnly(true);
                 m_scene->addItem(item);
                 if (locked) item->setItemLocked(true);
                 clip->addReference();
@@ -918,7 +918,7 @@ void TrackView::slotAddProjectEffects(QDomNodeList effects, QDomElement parentNo
                 QString paramname = effectparam.attribute("name");
                 QString paramvalue = effectparam.text();
 
-                if (regionFilter && paramname.startsWith("filter")) {
+                if (regionFilter && paramname.startsWith(QLatin1String("filter"))) {
                     regionEffects.insert(paramname, paramvalue);
                     continue;
                 }
@@ -1025,7 +1025,7 @@ DocClipBase *TrackView::getMissingProducer(const QString &id) const
     for (int i = 0; i < maxprod; ++i) {
         QDomNode m = prods.at(i);
         QString prodId = m.toElement().attribute("id");
-        if (prodId.startsWith("slowmotion")) {
+        if (prodId.startsWith(QLatin1String("slowmotion"))) {
             slowmotionClip = true;
             prodId = prodId.section(':', 1, 1);
         }
@@ -1043,7 +1043,7 @@ DocClipBase *TrackView::getMissingProducer(const QString &id) const
             for (int i = 0; i < maxprod; ++i) {
                 QDomNode m = prods.at(i);
                 QString prodId = m.toElement().attribute("id");
-                if (prodId.startsWith("slowmotion")) {
+                if (prodId.startsWith(QLatin1String("slowmotion"))) {
                     slowmotionClip = true;
                     prodId = prodId.section(':', 1, 1);
                 }

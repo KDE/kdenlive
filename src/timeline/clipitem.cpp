@@ -1997,7 +1997,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(int width, int height, 
     for (int i = 0; i < m_effectList.count(); ++i) {
         QDomElement effect = m_effectList.at(i);
 
-        if (effect.attribute("id").startsWith("fade")) {
+        if (effect.attribute("id").startsWith(QLatin1String("fade"))) {
             QString id = effect.attribute("id");
             int in = EffectsList::parameter(effect, "in").toInt();
             int out = EffectsList::parameter(effect, "out").toInt();
