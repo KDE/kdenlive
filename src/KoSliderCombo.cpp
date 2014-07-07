@@ -26,7 +26,7 @@
 #include <QStyle>
 #include <QStylePainter>
 #include <QStyleOptionSlider>
-#include <QLineEdit>
+#include <KLineEdit>
 #include <QValidator>
 #include <QHBoxLayout>
 #include <QFrame>

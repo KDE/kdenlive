@@ -1212,7 +1212,7 @@
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
+   <extends>KLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>

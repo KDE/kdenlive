@@ -29,11 +29,11 @@
 
 #include <QDomElement>
 #include <QToolButton>
-#include <QLineEdit>
+#include <KLineEdit>
 #include <QMutex>
 
 
-class MyEditableLabel : public QLineEdit
+class MyEditableLabel : public KLineEdit
 {
     Q_OBJECT
 public:

@@ -20,7 +20,7 @@
    <item row="0" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLineEdit" name="track_number">
+      <widget class="KLineEdit" name="track_number">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>

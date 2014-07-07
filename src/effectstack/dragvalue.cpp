@@ -24,7 +24,7 @@
 
 #include <QHBoxLayout>
 #include <QToolButton>
-#include <QLineEdit>
+#include <KLineEdit>
 #include <QDoubleValidator>
 #include <QIntValidator>
 #include <QMouseEvent>

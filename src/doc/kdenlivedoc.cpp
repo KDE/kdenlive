@@ -927,7 +927,7 @@ bool KdenliveDoc::setProfilePath(QString path)
                 QString newDesc = m_profile.description;
                 bool ok = true;
                 while (ok && (newDesc.isEmpty() || ProfilesDialog::existingProfileDescription(newDesc))) {
-                    newDesc = QInputDialog::getText(kapp->activeWindow(), i18n("Existing Profile"), i18n("Your project uses an unknown profile.\nIt uses an existing profile name: %1.\nPlease choose a new name to save it", newDesc), QLineEdit::Normal, newDesc, &ok);
+                    newDesc = QInputDialog::getText(kapp->activeWindow(), i18n("Existing Profile"), i18n("Your project uses an unknown profile.\nIt uses an existing profile name: %1.\nPlease choose a new name to save it", newDesc), KLineEdit::Normal, newDesc, &ok);
                 }
                 if (ok == false) {
                     // User canceled, use default profile

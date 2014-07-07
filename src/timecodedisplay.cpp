@@ -20,7 +20,7 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-#include <QLineEdit>
+#include <KLineEdit>
 #include <QValidator>
 #include <QMouseEvent>
 
