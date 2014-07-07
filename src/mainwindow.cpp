@@ -51,7 +51,7 @@
 #include "markerdialog.h"
 #include "timeline/clipitem.h"
 #include "interfaces.h"
-#include "config-kdenlive.h"
+#include <config-kdenlive.h>
 #include "cliptranscode.h"
 #include "ui_templateclip_ui.h"
 #include "scopes/scopemanager.h"

@@ -24,7 +24,7 @@
 #ifdef USE_V4L
 #include "v4l/v4lcapture.h"
 #endif
-#include "config-kdenlive.h"
+#include <config-kdenlive.h>
 
 #include <mlt++/Mlt.h>
 #include <framework/mlt_version.h>

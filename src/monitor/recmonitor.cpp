@@ -26,7 +26,7 @@
 #include "monitor/monitor.h"
 #include "profilesdialog.h"
 #include "widgets/videosurface.h"
-#include "config-kdenlive.h"
+#include <config-kdenlive.h>
 
 #include <KDebug>
 #include <KLocalizedString>
