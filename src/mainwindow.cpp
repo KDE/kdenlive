@@ -4208,6 +4208,18 @@ void MainWindow::loadClipActions()
                 connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
             }
         }
+        filter = Mlt::Factory::filter(profile,(char*)"vidstab");
+        if (filter) {
+            if (!filter->is_valid()) {
+                delete filter;
+            }
+            else {
+                delete filter;
+                QAction *action=actionMenu->addAction(i18n("Stabilize (vid.stab)"));
+                action->setData("vidstab");
+                connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
+            }
+        }
         filter = Mlt::Factory::filter(profile,(char*)"motion_est");
         if (filter) {
             if (!filter->is_valid()) {
