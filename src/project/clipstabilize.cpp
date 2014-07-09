@@ -76,32 +76,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                                dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
 }
 
-                               if (m_filtername=="videostab"){
-                               QStringList ls;
-                               ls << "shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated";
-                               fillParameters(ls);
-}else if (m_filtername=="videostab2"){
-                               // Some default params have to be set:
-                               m_fixedParams << "algo=1" << "relative=1";
-                               QStringList ls;
-                               ls << "accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection";
-                               ls << "shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video";
-                               ls << "stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around";
-                               //ls << "algo,type,bool,value,1,min,0,max,1,tooltip,0 = Bruteforce 1 = small measurement fields";
-                               ls << "mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded";
-                               //ls << "show,type,int,value,0,min,0,max,2,tooltip,0 = draw nothing. 1 or 2 show fields and transforms";
-                               ls << "smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering";
-                               ls << "maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift";
-                               ls << "maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)";
-                               ls << "crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background";
-                               //ls << "invert,type,bool,value,0,min,0,max,1,tooltip,invert transform";
-                               //ls << "relative,type,bool,value,1,min,0,max,1,tooltip,0 = absolute transform  1= relative";
-                               ls << "zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform";
-                               ls << "optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)";
-                               ls << "sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image";
-                               fillParameters(ls);
-
-}else if (m_filtername=="vidstab"){
+                               if (m_filtername=="vidstab"){
                                // Some default params have to be set:
                                m_fixedParams << "algo=1" << "relative=1";
                                QStringList ls;

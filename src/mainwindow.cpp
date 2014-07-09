@@ -4125,31 +4125,7 @@ void MainWindow::loadClipActions()
     if (actionMenu){
         actionMenu->clear();
         Mlt::Profile profile;
-        Mlt::Filter *filter = Mlt::Factory::filter(profile,(char*)"videostab");
-        if (filter) {
-            if (!filter->is_valid()) {
-                delete filter;
-            }
-            else {
-                delete filter;
-                QAction *action=actionMenu->addAction(i18n("Stabilize (vstab)"));
-                action->setData("videostab");
-                connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
-            }
-        }
-        filter = Mlt::Factory::filter(profile,(char*)"videostab2");
-        if (filter) {
-            if (!filter->is_valid()) {
-                delete filter;
-            }
-            else {
-                delete filter;
-                QAction *action=actionMenu->addAction(i18n("Stabilize (transcode)"));
-                action->setData("videostab2");
-                connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
-            }
-        }
-        filter = Mlt::Factory::filter(profile,(char*)"vidstab");
+        Mlt::Filter *filter = Mlt::Factory::filter(profile,(char*)"vidstab");
         if (filter) {
             if (!filter->is_valid()) {
                 delete filter;
