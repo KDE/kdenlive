@@ -299,12 +299,12 @@
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
-   <extends>KComboBox</extends>
+   <extends>QComboBox</extends>
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>

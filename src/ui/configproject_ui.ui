@@ -270,7 +270,7 @@
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
-   <extends>KComboBox</extends>
+   <extends>QComboBox</extends>
    <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>

@@ -265,7 +265,7 @@
  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
