@@ -20,7 +20,7 @@
 #define ROTOWIDGET_H
 
 #include "definitions.h"
-#include "beziercurve/bpoint.h"
+#include "effectstack/widgets/bezier/bpoint.h"
 #include "timecode.h"
 
 #include <QWidget>

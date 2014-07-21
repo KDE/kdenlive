@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "jogshuttle/jogshuttleconfig.h"
+#include "jogshuttleconfig.h"
 
 #include <vector>
 #include <string>

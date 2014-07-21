@@ -18,9 +18,10 @@
  ***************************************************************************/
 
 
-#include "doc/documentvalidator.h"
+#include "documentvalidator.h"
+
 #include "definitions.h"
-#include "initeffects.h"
+#include "effectslist/initeffects.h"
 #include "mainwindow.h"
 
 #include <KDebug>
@@ -1204,3 +1205,4 @@ bool DocumentValidator::updateEffectParameters(const QDomNodeList &parameters, c
     }
     return updated;
 }
+

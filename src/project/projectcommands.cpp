@@ -18,8 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "project/projectcommands.h"
-#include "project/projectlist.h"
+#include "projectcommands.h"
+#include "projectlist.h"
 
 #include <KLocalizedString>
 

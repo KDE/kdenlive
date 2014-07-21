@@ -8,7 +8,7 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include "scopes/colorscopes/waveformgenerator.h"
+#include "waveformgenerator.h"
 
 #include <cmath>
 

@@ -1,7 +1,19 @@
-set(project_SRCS
+set(kdenlive_SRCS
+  ${kdenlive_SRCS}
+  project/clipmanager.cpp
+  project/clipproperties.cpp
+  project/clipstabilize.cpp
+  project/cliptranscode.cpp
+  project/folderprojectitem.cpp
+  project/projectcommands.cpp
+  project/projectitem.cpp
+  project/projectlist.cpp
+  project/projectlistview.cpp
+  project/subprojectitem.cpp
+  project/transitionsettings.cpp
   project/jobs/abstractclipjob.cpp
   project/jobs/proxyclipjob.cpp
   project/jobs/cutclipjob.cpp
   project/jobs/meltjob.cpp
-  PARENT_SCOPE
-)
+  PARENT_SCOPE)
+

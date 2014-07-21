@@ -1,5 +1,5 @@
 /***************************************************************************
-                          timeline/transition.h  -  description
+                          transition.h  -  description
                              -------------------
     begin                : Tue Jan 24 2006
     copyright            : (C) 2006 by Jean-Baptiste Mardelle
@@ -24,15 +24,15 @@
 #ifndef TRANSITION_H
 #define TRANSITION_H
 
+#include "abstractclipitem.h"
+#include "gentime.h"
+#include "definitions.h"
+
 #include <QString>
 #include <QGraphicsRectItem>
 #include <QPixmap>
 #include <QDomElement>
 #include <QMap>
-
-#include "gentime.h"
-#include "definitions.h"
-#include "timeline/abstractclipitem.h"
 
 class ClipItem;
 

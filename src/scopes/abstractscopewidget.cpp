@@ -9,6 +9,7 @@
  ***************************************************************************/
 
 #include "abstractscopewidget.h"
+
 #include "renderer.h"
 #include "monitor/monitor.h"
 

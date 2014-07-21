@@ -1,5 +1,5 @@
 /***************************************************************************
-                          doc/docclipbase.h  -  description
+                          docclipbase.h  -  description
                              -------------------
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Jason Wood

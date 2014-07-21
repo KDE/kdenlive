@@ -20,7 +20,7 @@
 #ifndef PARAMETERCONTAINER_H
 #define PARAMETERCONTAINER_H
 
-#include "effectstack/keyframeedit.h"
+#include "keyframeedit.h"
 
 class GeometryWidget;
 class Monitor;

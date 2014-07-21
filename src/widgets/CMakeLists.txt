@@ -1,19 +1,12 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  widgets/invaliddialog.cpp
-  effectstack/widgets/choosecolorwidget.cpp
-  effectstack/widgets/colorpickerwidget.cpp
   widgets/archivewidget.cpp
-  effectstack/widgets/cornerswidget.cpp
-  effectstack/widgets/doubleparameterwidget.cpp
-  effectstack/widgets/effectslistwidget.cpp
-  effectstack/widgets/geometrywidget.cpp
-  effectstack/widgets/kis_curve_widget.cpp
+  widgets/backupwidget.cpp
+  widgets/invaliddialog.cpp
   widgets/monitoreditwidget.cpp
   widgets/noteswidget.cpp
   widgets/renderwidget.cpp
   widgets/titlewidget.cpp
   widgets/videosurface.cpp
-  PARENT_SCOPE
-)
+  PARENT_SCOPE)
 

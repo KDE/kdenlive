@@ -26,7 +26,8 @@
 #ifndef RECMONITOR_H
 #define RECMONITOR_H
 
-#include "monitor/abstractmonitor.h"
+#include "abstractmonitor.h"
+
 #include "definitions.h"
 #include "ui_recmonitor_ui.h"
 

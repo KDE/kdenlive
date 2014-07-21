@@ -20,7 +20,7 @@
 #ifndef AUDIOSIGNAL_H
 #define AUDIOSIGNAL_H
 
-#include "scopes/audioscopes/abstractaudioscopewidget.h"
+#include "abstractaudioscopewidget.h"
 
 #include <QByteArray>
 #include <QList>

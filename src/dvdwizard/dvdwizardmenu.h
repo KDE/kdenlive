@@ -21,6 +21,9 @@
 #ifndef DVDWIZARDMENU_H
 #define DVDWIZARDMENU_H
 
+#include "dvdwizardvob.h"
+#include "ui_dvdwizardmenu_ui.h"
+
 #include <QWizardPage>
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
@@ -34,9 +37,6 @@
 #if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
 #endif
-
-#include "dvdwizard/dvdwizardvob.h"
-#include "ui_dvdwizardmenu_ui.h"
 
 class DvdScene : public QGraphicsScene
 {

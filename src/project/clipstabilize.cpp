@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#include "project/clipstabilize.h"
+#include "clipstabilize.h"
 #include "effectstack/widgets/doubleparameterwidget.h"
 
 #include <KDebug>

@@ -12,6 +12,11 @@
 #ifndef AUDIOSPECTRUM_H
 #define AUDIOSPECTRUM_H
 
+#include "abstractaudioscopewidget.h"
+#include "lib/external/kiss_fft/tools/kiss_fftr.h"
+#include "lib/audio/fftTools.h"
+#include "ui_audiospectrum_ui.h"
+
 // Enables debugging
 //#define DEBUG_AUDIOSPEC
 
@@ -20,11 +25,6 @@
 
 #include <QVector>
 #include <QHash>
-
-#include "abstractaudioscopewidget.h"
-#include "ui_audiospectrum_ui.h"
-#include "lib/external/kiss_fft/tools/kiss_fftr.h"
-#include "lib/audio/fftTools.h"
 
 class AudioSpectrum_UI;
 

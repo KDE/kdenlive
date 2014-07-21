@@ -18,7 +18,8 @@
  ***************************************************************************/
 
 
-#include "effectstack/keyframehelper.h"
+#include "keyframehelper.h"
+
 #include "kdenlivesettings.h"
 #include "definitions.h"
 

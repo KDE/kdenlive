@@ -19,7 +19,7 @@
 
 
 #include "collapsibleeffect.h"
-#include "effectslist.h"
+#include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
 #include "project/projectlist.h"
 

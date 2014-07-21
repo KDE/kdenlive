@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "timeline/customtrackscene.h"
+#include "customtrackscene.h"
 #include "doc/kdenlivedoc.h"
 
 #include <KStandardDirs>

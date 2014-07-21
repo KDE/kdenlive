@@ -24,7 +24,7 @@
 #include <QString>
 #include <QStringList>
 
-#include "jogshuttle/jogaction.h"
+#include "jogaction.h"
 
 class JogShuttleConfig: public QObject
 {

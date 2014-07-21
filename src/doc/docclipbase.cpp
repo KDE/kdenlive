@@ -22,13 +22,12 @@
  ***************************************************************************/
 
 
+#include "docclipbase.h"
 
-
-#include "doc/docclipbase.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
-#include "clipmanager.h"
-#include "slideshowclip.h"
+#include "project/clipmanager.h"
+#include "dialogs/slideshowclip.h"
 
 #include <KIO/NetAccess>
 #include <KStandardDirs>
@@ -1410,3 +1409,4 @@ QMap <QString, QString> DocClipBase::analysisData() const
 
 
 #include "docclipbase.moc"
+

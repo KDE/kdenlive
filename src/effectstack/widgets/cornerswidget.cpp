@@ -18,12 +18,13 @@
  ***************************************************************************/
 
 #include "cornerswidget.h"
+
+#include "renderer.h"
+#include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/monitorscene.h"
 #include "widgets/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorcornersitem.h"
-#include "renderer.h"
-#include "kdenlivesettings.h"
 
 #include <QGraphicsView>
 #include <QGridLayout>

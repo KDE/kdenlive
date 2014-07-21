@@ -20,6 +20,7 @@
 
 #include "archivewidget.h"
 #include "titlewidget.h"
+#include "dialogs/projectsettings.h"
 
 #include <KLocalizedString>
 #include <KDiskFreeSpaceInfo>
@@ -38,7 +39,6 @@
 
 #include <QTreeWidget>
 #include <QtConcurrentRun>
-#include "projectsettings.h"
 
 
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <DocClipBase*> &list, const QStringList &luma_list, QWidget * parent) :

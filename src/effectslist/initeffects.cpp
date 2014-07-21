@@ -18,8 +18,9 @@
  ***************************************************************************/
 
 #include "initeffects.h"
-#include "kdenlivesettings.h"
 #include "effectslist.h"
+
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 
 #include <KDebug>
@@ -773,3 +774,4 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
 }
 
 #include "initeffects.moc"
+

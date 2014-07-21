@@ -18,10 +18,11 @@
 #ifndef EFFECTSTACKEDIT_H
 #define EFFECTSTACKEDIT_H
 
+#include "keyframeedit.h"
+#include "parametercontainer.h"
+
 #include "definitions.h"
 #include "timecode.h"
-#include "effectstack/keyframeedit.h"
-#include "effectstack/parametercontainer.h"
 
 #include <QWidget>
 #include <QDomElement>

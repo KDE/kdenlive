@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#include "jogshuttle/jogshuttle.h"
+#include "jogshuttle.h"
 
 #include <KDebug>
 #include <kde_file.h>

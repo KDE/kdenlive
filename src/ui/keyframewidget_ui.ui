@@ -147,7 +147,7 @@
   <customwidget>
    <class>ParameterPlotter</class>
    <extends>KPlotWidget</extends>
-   <header>parameterplotter.h</header>
+   <header>effectstack/parameterplotter.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

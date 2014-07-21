@@ -18,9 +18,10 @@
  ***************************************************************************/
 
 
-#include "monitor/abstractmonitor.h"
+#include "abstractmonitor.h"
+#include "monitormanager.h"
+
 #include "kdenlivesettings.h"
-#include "monitor/monitormanager.h"
 
 #include <KDebug>
 
@@ -160,4 +161,5 @@ void VideoContainer::switchFullScreen()
     }
 }
 
-#include "monitor/abstractmonitor.moc"
+#include "abstractmonitor.moc"
+

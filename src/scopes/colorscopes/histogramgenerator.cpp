@@ -8,12 +8,13 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include "histogramgenerator.h"
+
 #include <algorithm>
 #include <math.h>
 #include <QImage>
 #include <QPainter>
 #include <KLocale>
-#include "scopes/colorscopes/histogramgenerator.h"
 
 HistogramGenerator::HistogramGenerator()
 {

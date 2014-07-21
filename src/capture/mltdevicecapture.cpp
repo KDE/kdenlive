@@ -17,6 +17,7 @@
 
 
 #include "mltdevicecapture.h"
+
 #include "kdenlivesettings.h"
 #include "definitions.h"
 #include "widgets/videosurface.h"

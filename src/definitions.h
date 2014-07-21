@@ -22,7 +22,7 @@
 #define DEFINITIONS_H
 
 #include "gentime.h"
-#include "effectslist.h"
+#include "effectslist/effectslist.h"
 
 #include <KLocalizedString>
 #include <QDebug>

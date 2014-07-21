@@ -17,11 +17,11 @@
 
 #include "stopmotion.h"
 #ifdef USE_V4L
-#include "v4l/v4lcapture.h"
+#include "capture/v4lcapture.h"
 #endif
-#include "slideshowclip.h"
-#include "profilesdialog.h"
-#include "mltdevicecapture.h"
+#include "dialogs/slideshowclip.h"
+#include "dialogs/profilesdialog.h"
+#include "capture/mltdevicecapture.h"
 #include "monitor/recmonitor.h"
 #include "monitor/monitormanager.h"
 #include "ui_smconfig_ui.h"

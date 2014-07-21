@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "effectstack/keyframeedit.h"
-#include "effectstack/widgets/doubleparameterwidget.h"
-#include "effectstack/positionedit.h"
+#include "keyframeedit.h"
+#include "positionedit.h"
+#include "widgets/doubleparameterwidget.h"
+
 #include "kdenlivesettings.h"
 
 #include <KDebug>

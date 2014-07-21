@@ -19,32 +19,34 @@
 
 #include "parametercontainer.h"
 
+#include "complexparameter.h"
+#include "geometryval.h"
+#include "positionedit.h"
+#include "dragvalue.h"
+#include "widgets/kis_curve_widget.h"
+#include "widgets/kis_cubic_curve.h"
+#include "widgets/choosecolorwidget.h"
+#include "widgets/geometrywidget.h"
+#include "widgets/doubleparameterwidget.h"
+#include "widgets/cornerswidget.h"
+#include "widgets/bezier/beziersplinewidget.h"
+
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "colortools.h"
+#include "dialogs/profilesdialog.h"
+#include "project/projectlist.h"
+#include "timeline/customtrackview.h"
+#ifdef USE_QJSON
+#include "onmonitoritems/rotoscoping/rotowidget.h"
+#endif
+
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "ui_urlval_ui.h"
 #include "ui_keywordval_ui.h"
 #include "ui_fontval_ui.h"
-#include "effectstack/complexparameter.h"
-#include "effectstack/geometryval.h"
-#include "effectstack/positionedit.h"
-#include "effectstack/widgets/kis_curve_widget.h"
-#include "effectstack/widgets/kis_cubic_curve.h"
-#include "effectstack/widgets/choosecolorwidget.h"
-#include "effectstack/widgets/geometrywidget.h"
-#include "colortools.h"
-#include "effectstack/widgets/doubleparameterwidget.h"
-#include "effectstack/widgets/cornerswidget.h"
-#include "effectstack/dragvalue.h"
-#include "beziercurve/beziersplinewidget.h"
-#ifdef USE_QJSON
-#include "rotoscoping/rotowidget.h"
-#endif
-#include "kdenlivesettings.h"
-#include "profilesdialog.h"
-#include "project/projectlist.h"
-#include "mainwindow.h"
-#include "../timeline/customtrackview.h"
 
 #include <KUrlRequester>
 #include <KFileDialog>

@@ -1,10 +1,26 @@
+add_subdirectory(widgets/bezier)
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  effectstack/parametercontainer.cpp
   effectstack/abstractcollapsiblewidget.cpp
   effectstack/collapsibleeffect.cpp
   effectstack/collapsiblegroup.cpp
+  effectstack/complexparameter.cpp
+  effectstack/dragvalue.cpp
+  effectstack/effectstackedit.cpp
   effectstack/effectstackview2.cpp
-  PARENT_SCOPE
-)
+  effectstack/geometryval.cpp
+  effectstack/graphicsscenerectmove.cpp
+  effectstack/keyframeedit.cpp
+  effectstack/keyframehelper.cpp
+  effectstack/parametercontainer.cpp
+  effectstack/parameterplotter.cpp
+  effectstack/positionedit.cpp
+  effectstack/widgets/choosecolorwidget.cpp
+  effectstack/widgets/colorpickerwidget.cpp
+  effectstack/widgets/cornerswidget.cpp
+  effectstack/widgets/doubleparameterwidget.cpp
+  effectstack/widgets/geometrywidget.cpp
+  effectstack/widgets/kis_cubic_curve.cpp
+  effectstack/widgets/kis_curve_widget.cpp
+  PARENT_SCOPE)
 

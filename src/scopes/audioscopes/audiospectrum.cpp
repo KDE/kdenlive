@@ -11,6 +11,7 @@
 
 
 #include "audiospectrum.h"
+
 #include "lib/audio/fftTools.h"
 #include "lib/external/kiss_fft/tools/kiss_fftr.h"
 

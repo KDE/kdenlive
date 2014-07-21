@@ -8,7 +8,7 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include "scopes/colorscopes/colorplaneexport.h"
+#include "colorplaneexport.h"
 #include <KMessageBox>
 
 //#define DEBUG_CTE

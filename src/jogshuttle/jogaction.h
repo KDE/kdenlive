@@ -20,10 +20,9 @@
 #ifndef JOG_SHUTTLE_ACTION_H
 #define JOG_SHUTTLE_ACTION_H
 
+#include "jogshuttle.h"
 #include <QObject>
 #include <QStringList>
-
-#include "jogshuttle/jogshuttle.h"
 
 class JogShuttleAction: public QObject
 {

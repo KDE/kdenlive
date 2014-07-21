@@ -18,10 +18,11 @@
  ***************************************************************************/
 
 
-#include "dvdwizard/dvdwizard.h"
-#include "dvdwizard/dvdwizardvob.h"
+#include "dvdwizard.h"
+#include "dvdwizardvob.h"
+
 #include "kdenlivesettings.h"
-#include "profilesdialog.h"
+#include "dialogs/profilesdialog.h"
 #include "timecode.h"
 #include "monitor/monitormanager.h"
 

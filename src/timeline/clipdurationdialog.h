@@ -21,8 +21,8 @@
 #ifndef CLIPDURATIONDIALOG_H
 #define CLIPDURATIONDIALOG_H
 
-
 #include "timeline/abstractclipitem.h"
+
 #include "timecodedisplay.h"
 #include "ui_clipdurationdialog_ui.h"
 

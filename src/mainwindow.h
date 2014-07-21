@@ -42,7 +42,7 @@
 #include <kautosavefile.h>
 #include <KActionCategory>
 
-#include "effectslist.h"
+#include "effectslist/effectslist.h"
 #include "gentime.h"
 #include "definitions.h"
 #include "statusbarmessagelabel.h"

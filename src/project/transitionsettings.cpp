@@ -17,12 +17,13 @@
 
 
 
-#include "project/transitionsettings.h"
-#include "timeline/transition.h"
-#include "effectslist.h"
-#include "effectstack/effectstackedit.h"
+#include "transitionsettings.h"
+
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "timeline/transition.h"
+#include "effectslist/effectslist.h"
+#include "effectstack/effectstackedit.h"
 #include "widgets/monitoreditwidget.h"
 #include "monitor/monitorscene.h"
 

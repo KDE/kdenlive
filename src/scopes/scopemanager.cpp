@@ -9,12 +9,12 @@
  ***************************************************************************/
 
 #include "scopemanager.h"
+#include "definitions.h"
+#include "kdenlivesettings.h"
+#include "monitor/monitormanager.h"
 
 #include <QDockWidget>
 
-#include "definitions.h"
-#include "monitor/monitormanager.h"
-#include "kdenlivesettings.h"
 
 //#define DEBUG_SM
 #ifdef DEBUG_SM

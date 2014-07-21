@@ -18,7 +18,14 @@
  ***************************************************************************/
 
 // Self
-#include "project/projectlistview.h"
+#include "projectlistview.h"
+
+// KDEnlive
+#include "projectitem.h"
+#include "subprojectitem.h"
+#include "folderprojectitem.h"
+
+#include "kdenlivesettings.h"
 
 // Qt
 #include <QApplication>
@@ -29,13 +36,6 @@
 #include <KDebug>
 #include <KMenu>
 #include <KLocalizedString>
-
-// KDEnlive
-#include "project/projectlistview.h"
-#include "projectitem.h"
-#include "project/subprojectitem.h"
-#include "project/folderprojectitem.h"
-#include "kdenlivesettings.h"
 
 ProjectListView::ProjectListView(QWidget *parent)
     : QTreeWidget(parent)

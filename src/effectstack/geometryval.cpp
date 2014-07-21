@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "effectstack/geometryval.h"
+#include "geometryval.h"
 #include "graphicsscenerectmove.h"
+
 #include "kdenlivesettings.h"
 
 #include <KDebug>

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          effectstack/positionedit.cpp  -  description
+                          positionedit.cpp  -  description
                              -------------------
     begin                : 03 Aug 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "effectstack/positionedit.h"
+#include "positionedit.h"
+
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 

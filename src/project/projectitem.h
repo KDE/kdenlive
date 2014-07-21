@@ -21,16 +21,17 @@
 #ifndef PROJECTITEM_H
 #define PROJECTITEM_H
 
+#include "jobs/abstractclipjob.h"
+
+#include "gentime.h"
+#include "definitions.h"
+
 #include <QTreeWidgetItem>
 #include <QTreeWidget>
 #include <QDomElement>
 #include <QProcess>
 
 #include <KUrl>
-
-#include "gentime.h"
-#include "definitions.h"
-#include "project/jobs/abstractclipjob.h"
 
 
 class DocClipBase;

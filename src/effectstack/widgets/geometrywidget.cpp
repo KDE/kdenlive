@@ -19,16 +19,17 @@
 
 
 #include "geometrywidget.h"
-#include "monitor/monitor.h"
-#include "renderer.h"
+
+#include "effectstack/dragvalue.h"
 #include "effectstack/keyframehelper.h"
+#include "kdenlivesettings.h"
+#include "renderer.h"
 #include "timecodedisplay.h"
+#include "monitor/monitor.h"
 #include "monitor/monitorscene.h"
 #include "widgets/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"
-#include "kdenlivesettings.h"
-#include "effectstack/dragvalue.h"
 
 #include <QtCore>
 #include <QGraphicsView>

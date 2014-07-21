@@ -19,12 +19,13 @@
 
 #include "kdenlivesettingsdialog.h"
 #include "profilesdialog.h"
-#ifdef USE_V4L
-#include "v4l/v4lcapture.h"
-#endif
 #include "encodingprofilesdialog.h"
+
 #include "kdenlivesettings.h"
 #include "renderer.h"
+#ifdef USE_V4L
+#include "capture/v4lcapture.h"
+#endif
 
 #include <KStandardDirs>
 #include <KDebug>

@@ -18,20 +18,20 @@
  ***************************************************************************/
 
 
-#include "doc/kdenlivedoc.h"
+#include "kdenlivedoc.h"
+#include "docclipbase.h"
+#include "documentchecker.h"
+#include "documentvalidator.h"
+
 #include <config-kdenlive.h>
-#include "doc/docclipbase.h"
-#include "profilesdialog.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
-#include "clipmanager.h"
-#include "widgets/titlewidget.h"
 #include "mainwindow.h"
-#include "doc/documentchecker.h"
-#include "doc/documentvalidator.h"
-#include "initeffects.h"
-#include "mainwindow.h"
+#include "project/clipmanager.h"
 #include "project/projectlist.h"
+#include "effectslist/initeffects.h"
+#include "dialogs/profilesdialog.h"
+#include "widgets/titlewidget.h"
 
 #include <KDebug>
 #include <KStandardDirs>

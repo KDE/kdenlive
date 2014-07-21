@@ -11,10 +11,10 @@
 #ifndef SCOPEMANAGER_H
 #define SCOPEMANAGER_H
 
-#include <QtCore/QList>
+#include "audioscopes/abstractaudioscopewidget.h"
+#include "colorscopes/abstractgfxscopewidget.h"
 
-#include "scopes/audioscopes/abstractaudioscopewidget.h"
-#include "scopes/colorscopes/abstractgfxscopewidget.h"
+#include <QtCore/QList>
 
 class QDockWidget;
 class MonitorManager;

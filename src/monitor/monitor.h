@@ -20,12 +20,12 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
+#include "abstractmonitor.h"
 
 #include "gentime.h"
 #include "renderer.h"
 #include "definitions.h"
 #include "timecodedisplay.h"
-#include "monitor/abstractmonitor.h"
 #ifdef USE_OPENGL
 #include "widgets/videoglwidget.h"
 #endif

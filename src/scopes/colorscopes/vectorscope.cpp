@@ -9,9 +9,10 @@
  ***************************************************************************/
 
 #include "vectorscope.h"
-#include "scopes/colorscopes/colorplaneexport.h"
+#include "colorplaneexport.h"
+#include "vectorscopegenerator.h"
+
 #include "colortools.h"
-#include "scopes/colorscopes/vectorscopegenerator.h"
 
 #include <QAction>
 #include <QDebug>

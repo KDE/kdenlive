@@ -17,14 +17,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "monitor/recmonitor.h"
+#include "recmonitor.h"
+#include "monitor.h"
+#include "monitormanager.h"
+
 #include "gentime.h"
-#include "mltdevicecapture.h"
 #include "kdenlivesettings.h"
-#include "managecapturesdialog.h"
-#include "monitor/monitormanager.h"
-#include "monitor/monitor.h"
-#include "profilesdialog.h"
+#include "capture/mltdevicecapture.h"
+#include "capture/managecapturesdialog.h"
+#include "dialogs/profilesdialog.h"
 #include "widgets/videosurface.h"
 #include <config-kdenlive.h>
 
@@ -1070,5 +1071,5 @@ void RecMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 }
 
 
-#include "monitor/recmonitor.moc"
+#include "recmonitor.moc"
 

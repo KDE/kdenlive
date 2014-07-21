@@ -17,8 +17,9 @@
 
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
-#include "KoSliderCombo.h"
 #include "kthumb.h"
+#include "titler/KoSliderCombo.h"
+
 #include <cmath>
 
 #include <KDebug>
@@ -779,7 +780,7 @@ void TitleWidget::showToolbars(TITLETOOL toolType)
 
 void TitleWidget::enableToolbars(TITLETOOL toolType)
 {
-    // TITLETOOL is defined in graphicsscenerectmove.h
+    // TITLETOOL is defined in effectstack/graphicsscenerectmove.h
     bool enable = false;
     if (toolType == TITLE_RECTANGLE || toolType == TITLE_IMAGE) enable = true;
     value_w->setEnabled(enable);

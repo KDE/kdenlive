@@ -18,11 +18,12 @@
  ***************************************************************************/
 
 #include "wizard.h"
-#include "kdenlivesettings.h"
 #include "profilesdialog.h"
+
+#include "kdenlivesettings.h"
 #include "renderer.h"
 #ifdef USE_V4L
-#include "v4l/v4lcapture.h"
+#include "capture/v4lcapture.h"
 #endif
 #include <config-kdenlive.h>
 

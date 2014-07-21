@@ -3,5 +3,5 @@ set(kdenlive_SRCS
   onmonitoritems/onmonitorcornersitem.cpp
   onmonitoritems/onmonitorrectitem.cpp
   onmonitoritems/onmonitorpathitem.cpp
-  PARENT_SCOPE
-)
+  PARENT_SCOPE)
+

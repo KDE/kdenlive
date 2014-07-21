@@ -17,7 +17,8 @@
  *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
  ***************************************************************************/
 
-#include "effectstack/dragvalue.h"
+#include "dragvalue.h"
+
 #include "kdenlivesettings.h"
 
 #include <math.h>

@@ -18,19 +18,20 @@
  ***************************************************************************/
 
 
-#include "timeline/trackview.h"
-#include "timeline/headertrack.h"
-#include "timeline/clipitem.h"
-#include "timeline/transition.h"
+#include "trackview.h"
+#include "headertrack.h"
+#include "clipitem.h"
+#include "transition.h"
+#include "timelinecommands.h"
+#include "customruler.h"
+#include "customtrackview.h"
+
 #include "kdenlivesettings.h"
-#include "clipmanager.h"
-#include "timeline/customruler.h"
-#include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
-#include "timeline/customtrackview.h"
-#include "initeffects.h"
-#include "profilesdialog.h"
-#include "timeline/timelinecommands.h"
+#include "doc/kdenlivedoc.h"
+#include "project/clipmanager.h"
+#include "effectslist/initeffects.h"
+#include "dialogs/profilesdialog.h"
 
 #include <KDebug>
 #include <KMessageBox>

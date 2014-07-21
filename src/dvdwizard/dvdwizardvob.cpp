@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "dvdwizard/dvdwizardvob.h"
+#include "dvdwizardvob.h"
 #include "kthumb.h"
 #include "timecode.h"
-#include "cliptranscode.h"
+#include "project/cliptranscode.h"
 
 #include <mlt++/Mlt.h>
 

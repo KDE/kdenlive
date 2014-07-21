@@ -1,5 +1,5 @@
 /***************************************************************************
-                          timeline/transition.cpp  -  description
+                          transition.cpp  -  description
                              -------------------
     begin                : Tue Jan 24 2006
     copyright            : (C) 2006 by Jean-Baptiste Mardelle
@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "timeline/transition.h"
-#include "timeline/clipitem.h"
+#include "transition.h"
+#include "clipitem.h"
+#include "customtrackscene.h"
+
 #include "kdenlivesettings.h"
-#include "timeline/customtrackscene.h"
 #include "mainwindow.h"
 
 #include <kdebug.h>

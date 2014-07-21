@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 #include "rgbparade.h"
-#include "scopes/colorscopes/rgbparadegenerator.h"
+#include "rgbparadegenerator.h"
 #include <QMenu>
 #include <QPainter>
 #include <QRect>

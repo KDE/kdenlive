@@ -19,6 +19,7 @@
 
 
 #include "projectitem.h"
+
 #include "timecode.h"
 #include "kdenlivesettings.h"
 #include "doc/docclipbase.h"

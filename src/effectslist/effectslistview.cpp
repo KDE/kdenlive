@@ -19,8 +19,9 @@
 
 
 #include "effectslistview.h"
-#include "effectstack/widgets/effectslistwidget.h"
 #include "effectslist.h"
+#include "effectslistwidget.h"
+
 #include "kdenlivesettings.h"
 
 #include <KDebug>

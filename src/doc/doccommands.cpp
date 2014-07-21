@@ -17,8 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "doc/doccommands.h"
-#include "doc/kdenlivedoc.h"
+#include "doccommands.h"
+#include "kdenlivedoc.h"
+
 #include <KLocalizedString>
 
 AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) :

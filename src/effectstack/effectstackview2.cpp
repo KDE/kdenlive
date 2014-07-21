@@ -15,19 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-
-#include "effectstackview2.h"
-#include "effectslist.h"
-#include "timeline/clipitem.h"
-#include "mainwindow.h"
-#include "doc/docclipbase.h"
-#include "project/projectlist.h"
-#include "kthumb.h"
-#include "widgets/monitoreditwidget.h"
-#include "monitor/monitorscene.h"
-#include "kdenlivesettings.h"
 #include "collapsibleeffect.h"
 #include "collapsiblegroup.h"
+#include "effectstackview2.h"
+
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "kthumb.h"
+#include "doc/docclipbase.h"
+#include "project/projectlist.h"
+#include "effectslist/effectslist.h"
+#include "timeline/clipitem.h"
+#include "widgets/monitoreditwidget.h"
+#include "monitor/monitorscene.h"
 
 #include <KDebug>
 #include <KLocalizedString>

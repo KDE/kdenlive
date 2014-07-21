@@ -18,17 +18,17 @@
 #ifndef GEOMETRYVAL_H
 #define GEOMETRYVAL_H
 
+#include "keyframehelper.h"
+
+#include "definitions.h"
+#include "timecodedisplay.h"
+#include "ui_geometryval_ui.h"
 
 #include <QWidget>
 #include <QDomElement>
 #include <QGraphicsPathItem>
 
 #include <mlt++/Mlt.h>
-
-#include "ui_geometryval_ui.h"
-#include "definitions.h"
-#include "effectstack/keyframehelper.h"
-#include "timecodedisplay.h"
 
 class GraphicsSceneRectMove;
 class QGraphicsRectItem;

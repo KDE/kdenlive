@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 #include "ui_saveprofile_ui.h"
 #include "timecode.h"
-#include "profilesdialog.h"
+#include "dialogs/profilesdialog.h"
 
 #include <KStandardDirs>
 #include <KDebug>

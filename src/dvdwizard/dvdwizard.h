@@ -21,19 +21,18 @@
 #ifndef DVDWIZARD_H
 #define DVDWIZARD_H
 
-#include <QWizard>
-#include <QPainter>
-#include <QProcess>
-
-
-#include <KDebug>
-#include <KTemporaryFile>
-
 #include "dvdwizard/dvdwizardvob.h"
 #include "dvdwizard/dvdwizardmenu.h"
 #include "dvdwizard/dvdwizardchapters.h"
 #include "ui_dvdwizardstatus_ui.h"
 #include "ui_dvdwizardchapters_ui.h"
+
+#include <QWizard>
+#include <QPainter>
+#include <QProcess>
+
+#include <KDebug>
+#include <KTemporaryFile>
 
 typedef QMap <QString, QRect> stringRectMap;
 

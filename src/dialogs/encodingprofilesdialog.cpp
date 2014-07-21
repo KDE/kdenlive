@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "encodingprofilesdialog.h"
+
 #include "kdenlivesettings.h"
 
 #include <KStandardDirs>
@@ -186,5 +187,5 @@ void EncodingProfilesDialog::slotEditProfile()
     delete d;
 }
 
-
 #include "encodingprofilesdialog.moc"
+

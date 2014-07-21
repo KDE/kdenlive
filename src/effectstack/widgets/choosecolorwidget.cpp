@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 
-#include "effectstack/widgets/choosecolorwidget.h"
-#include "effectstack/widgets/colorpickerwidget.h"
+#include "choosecolorwidget.h"
+#include "colorpickerwidget.h"
 
 #include <QLabel>
 #include <QHBoxLayout>

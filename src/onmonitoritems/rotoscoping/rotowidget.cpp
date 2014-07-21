@@ -17,12 +17,13 @@
  ***************************************************************************/
 
 #include "rotowidget.h"
-#include "monitor/monitor.h"
+#include "bpointitem.h"
+#include "splineitem.h"
+
 #include "renderer.h"
+#include "monitor/monitor.h"
 #include "monitor/monitorscene.h"
 #include "widgets/monitoreditwidget.h"
-#include "onmonitoritems/rotoscoping/bpointitem.h"
-#include "onmonitoritems/rotoscoping/splineitem.h"
 #include "simplekeyframes/simplekeyframewidget.h"
 #include "kdenlivesettings.h"
 

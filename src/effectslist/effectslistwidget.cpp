@@ -19,7 +19,7 @@
 
 
 #include "effectslistwidget.h"
-#include "effectslist.h"
+#include "effectslist/effectslist.h"
 #include "mainwindow.h"
 
 #include <KDebug>

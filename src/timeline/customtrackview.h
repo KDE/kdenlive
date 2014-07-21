@@ -35,7 +35,7 @@
 #include "doc/kdenlivedoc.h"
 #include "doc/docclipbase.h"
 #include "timeline/guide.h"
-#include "effectslist.h"
+#include "effectslist/effectslist.h"
 #include "timeline/customtrackscene.h"
 
 class ClipItem;

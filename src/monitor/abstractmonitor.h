@@ -20,6 +20,9 @@
 #ifndef ABSTRACTMONITOR_H
 #define ABSTRACTMONITOR_H
 
+#include "definitions.h"
+#include "widgets/videosurface.h"
+
 #include <stdint.h>
 
 #include <QObject>
@@ -27,9 +30,6 @@
 #include <QWidget>
 #include <QImage>
 #include <QFrame>
-
-#include "definitions.h"
-#include "widgets/videosurface.h"
 
 class MonitorManager;
 class VideoContainer;

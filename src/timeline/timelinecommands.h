@@ -27,7 +27,7 @@
 #include <QUndoCommand>
 #include <QDomElement>
 #include "definitions.h"
-#include "effectslist.h"
+#include "effectslist/effectslist.h"
 class GenTime;
 class CustomTrackView;
 
@@ -211,6 +211,23 @@ private:
     QString m_comment;
     GenTime m_oldPos;
     GenTime m_pos;
+    bool m_doIt;
+};
+
+class EditKeyFrameCommand : public QUndoCommand
+{
+public:
+    EditKeyFrameCommand(CustomTrackView *view, const int track, const GenTime &pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt);
+    void undo();
+    void redo();
+
+private:
+    CustomTrackView *m_view;
+    const QString m_oldkfr;
+    const QString m_newkfr;
+    const int m_track;
+    const int m_index;
+    const GenTime m_pos;
     bool m_doIt;
 };
 

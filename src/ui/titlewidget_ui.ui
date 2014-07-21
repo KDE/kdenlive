@@ -1228,7 +1228,7 @@
   <customwidget>
    <class>KoSliderCombo</class>
    <extends>KComboBox</extends>
-   <header>KoSliderCombo.h</header>
+   <header>titler/KoSliderCombo.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

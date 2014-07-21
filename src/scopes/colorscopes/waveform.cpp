@@ -9,10 +9,10 @@
  ***************************************************************************/
 
 #include "waveform.h"
-#include "scopes/colorscopes/waveformgenerator.h"
+#include "waveformgenerator.h"
 // For reading out the project resolution
 #include "kdenlivesettings.h"
-#include "profilesdialog.h"
+#include "dialogs/profilesdialog.h"
 
 #include <QPainter>
 #include <QPoint>

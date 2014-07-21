@@ -21,17 +21,18 @@
 #ifndef CLIPITEM_H
 #define CLIPITEM_H
 
+#include "abstractclipitem.h"
+
+#include "definitions.h"
+#include "gentime.h"
+#include "effectslist/effectslist.h"
+
 #include <QTimeLine>
 #include <QGraphicsRectItem>
 #include <QDomElement>
 #include <QGraphicsSceneMouseEvent>
 #include <QTimer>
 #include <QFuture>
-
-#include "definitions.h"
-#include "gentime.h"
-#include "effectslist.h"
-#include "timeline/abstractclipitem.h"
 
 class DocClipBase;
 class Transition;

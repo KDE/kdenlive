@@ -19,10 +19,11 @@
 
 
 #include "clipproperties.h"
+
 #include "kdenlivesettings.h"
 #include "kthumb.h"
-#include "markerdialog.h"
-#include "profilesdialog.h"
+#include "timeline/markerdialog.h"
+#include "dialogs/profilesdialog.h"
 
 #include <KStandardDirs>
 #include <KDebug>
@@ -346,7 +347,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         m_view.tabWidget->removeTab(AUDIOTAB);
         m_view.tabWidget->removeTab(VIDEOTAB);
 
-        //WARNING: Keep in sync with slideshowclip.cpp
+        //WARNING: Keep in sync with dialogs/slideshowclip.cpp
         m_view.image_type->addItem("JPG (*.jpg)", "jpg");
         m_view.image_type->addItem("JPEG (*.jpeg)", "jpeg");
         m_view.image_type->addItem("PNG (*.png)", "png");

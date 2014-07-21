@@ -81,108 +81,39 @@ macro_log_feature(QJSON_FOUND
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 
-add_subdirectory(beziercurve)
-add_subdirectory(lib)
-add_subdirectory(utils)
+add_subdirectory(doc)
+add_subdirectory(project)
+add_subdirectory(timeline)
 add_subdirectory(effectstack)
-add_subdirectory(onmonitoritems)
+add_subdirectory(widgets)
+add_subdirectory(dialogs)
+add_subdirectory(effectslist)
 add_subdirectory(scopes)
+add_subdirectory(capture)
+add_subdirectory(dvdwizard)
+add_subdirectory(lib)
+add_subdirectory(monitor)
+add_subdirectory(onmonitoritems)
 add_subdirectory(simplekeyframes)
 add_subdirectory(stopmotion)
-add_subdirectory(widgets)
-add_subdirectory(monitor)
-add_subdirectory(project)
-
+add_subdirectory(titler)
+add_subdirectory(utils)
 
 if(QJSON_FOUND)
   add_subdirectory(onmonitoritems/rotoscoping)
-  add_subdirectory(rotoscoping)
 endif(QJSON_FOUND)
 
-if(LIBV4L2_FOUND)
-  add_subdirectory(v4l)
-endif()
-
 list(APPEND kdenlive_SRCS
-  ${monitor_SRCS}
-  ${project_SRCS}
-  clipmanager.cpp
-  clipproperties.cpp
-  cliptranscode.cpp
   colortools.cpp
   definitions.cpp
-  doc/docclipbase.cpp
-  doc/doccommands.cpp
-  doc/documentchecker.cpp
-  doc/documentvalidator.cpp
-  doc/kdenlivedoc.cpp
-  dvdwizard/dvdwizard.cpp
-  dvdwizard/dvdwizardchapters.cpp
-  dvdwizard/dvdwizardmenu.cpp
-  dvdwizard/dvdwizardvob.cpp
-  effectslist.cpp
-  effectslistview.cpp
-  effectstack/complexparameter.cpp
-  effectstack/dragvalue.cpp
-  effectstack/effectstackedit.cpp
-  effectstack/geometryval.cpp
-  effectstack/keyframeedit.cpp
-  effectstack/keyframehelper.cpp
-  effectstack/positionedit.cpp
-  effectstack/widgets/kis_cubic_curve.cpp
-  encodingprofilesdialog.cpp
   gentime.cpp
-  graphicsscenerectmove.cpp
-  initeffects.cpp
-  kdenlivesettingsdialog.cpp
-  KoSliderCombo.cpp
   kthumb.cpp
   main.cpp
   mainwindow.cpp
-  managecapturesdialog.cpp
-  markerdialog.cpp
-  mltdevicecapture.cpp
-  monitor/smallruler.cpp
-  parameterplotter.cpp
-  profilesdialog.cpp
-  project/clipstabilize.cpp
-  project/folderprojectitem.cpp
-  projectitem.cpp
-  project/projectcommands.cpp
-  project/projectlist.cpp
-  project/projectlistview.cpp
-  projectsettings.cpp
-  project/subprojectitem.cpp
-  project/transitionsettings.cpp
   renderer.cpp
-  scopes/colorscopes/colorplaneexport.cpp
-  scopes/colorscopes/histogramgenerator.cpp
-  scopes/colorscopes/rgbparadegenerator.cpp
-  scopes/colorscopes/vectorscopegenerator.cpp
-  scopes/colorscopes/waveformgenerator.cpp
-  slideshowclip.cpp
   statusbarmessagelabel.cpp
   timecode.cpp
   timecodedisplay.cpp
-  timeline/abstractgroupitem.cpp
-  timeline/abstractclipitem.cpp
-  timeline/clipdurationdialog.cpp
-  timeline/clipitem.cpp
-  timeline/customruler.cpp
-  timeline/customtrackscene.cpp
-  timeline/customtrackview.cpp
-  timeline/guide.cpp
-  timeline/headertrack.cpp
-  timeline/spacerdialog.cpp
-  timeline/timelinecommands.cpp
-  timeline/trackdialog.cpp
-  timeline/tracksconfigdialog.cpp
-  timeline/trackview.cpp
-  timeline/transition.cpp
-  titledocument.cpp
-  unicodedialog.cpp
-  widgets/backupwidget.cpp
-  wizard.cpp
 )
 
 kde4_add_ui_files(kdenlive_UIS

@@ -18,7 +18,8 @@
  ***************************************************************************/
 
 
-#include "project/subprojectitem.h"
+#include "subprojectitem.h"
+
 #include "timecode.h"
 #include "definitions.h"
 #include "kdenlivesettings.h"

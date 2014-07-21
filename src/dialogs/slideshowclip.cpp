@@ -50,7 +50,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
     connect(m_view.luma_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
 
-    //WARNING: keep in sync with clipproperties.cpp
+    //WARNING: keep in sync with project/clipproperties.cpp
     m_view.image_type->addItem("JPG (*.jpg)", "jpg");
     m_view.image_type->addItem("JPEG (*.jpeg)", "jpeg");
     m_view.image_type->addItem("PNG (*.png)", "png");

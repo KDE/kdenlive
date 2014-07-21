@@ -18,7 +18,8 @@
  ***************************************************************************/
 
 
-#include "monitor/smallruler.h"
+#include "smallruler.h"
+
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -300,4 +301,5 @@ void SmallRuler::updatePalette()
     updatePixmap();
 }
 
-#include "monitor/smallruler.moc"
+#include "smallruler.moc"
+

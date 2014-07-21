@@ -21,14 +21,14 @@
 #ifndef DVDWIZARDCHAPTERS_H
 #define DVDWIZARDCHAPTERS_H
 
+#include "ui_dvdwizardchapters_ui.h"
+#include "dvdwizardvob.h"
+#include "monitor/monitor.h"
+#include "monitor/monitormanager.h"
+
 #include <QWizardPage>
 
 #include <KDebug>
-
-#include "ui_dvdwizardchapters_ui.h"
-#include "monitor/monitor.h"
-#include "dvdwizard/dvdwizardvob.h"
-#include "monitor/monitormanager.h"
 
 class DvdWizardChapters : public QWizardPage
 {

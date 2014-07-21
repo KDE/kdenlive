@@ -1,5 +1,5 @@
 /***************************************************************************
-                          effectstack/keyframeedit.h  -  description
+                          keyframeedit.h  -  description
                              -------------------
     begin                : 22 Jun 2009
     copyright            : (C) 2008 by Jean-Baptiste Mardelle
@@ -18,6 +18,10 @@
 #ifndef KEYFRAMEEDIT_H
 #define KEYFRAMEEDIT_H
 
+#include "keyframehelper.h"
+
+#include "ui_keyframeeditor_ui.h"
+#include "definitions.h"
 
 #include <QWidget>
 #include <QDomElement>
@@ -26,10 +30,6 @@
 #include <QSpinBox>
 
 class PositionEdit;
-
-#include "ui_keyframeeditor_ui.h"
-#include "definitions.h"
-#include "effectstack/keyframehelper.h"
 
 class KeyItemDelegate: public QItemDelegate
 {
@@ -146,3 +146,4 @@ signals:
 };
 
 #endif
+

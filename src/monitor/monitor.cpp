@@ -18,14 +18,15 @@
  ***************************************************************************/
 
 
-#include "monitor/monitor.h"
-#include "monitor/smallruler.h"
+#include "monitor.h"
+#include "monitorscene.h"
+#include "smallruler.h"
+
+#include "kdenlivesettings.h"
 #include "doc/docclipbase.h"
 #include "timeline/abstractclipitem.h"
-#include "monitor/monitorscene.h"
 #include "widgets/monitoreditwidget.h"
 #include "widgets/videosurface.h"
-#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KLocalizedString>
@@ -1220,4 +1221,5 @@ void Overlay::setOverlayText(const QString &text, bool isZone)
 }
 
 
-#include "monitor/monitor.moc"
+#include "monitor.moc"
+

@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include "project/folderprojectitem.h"
+#include "folderprojectitem.h"
 
 #include <KDebug>
 #include <KLocalizedString>

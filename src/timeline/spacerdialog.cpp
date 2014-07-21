@@ -18,7 +18,8 @@
  ***************************************************************************/
 
 
-#include "timeline/spacerdialog.h"
+#include "spacerdialog.h"
+
 #include "kthumb.h"
 #include "kdenlivesettings.h"
 

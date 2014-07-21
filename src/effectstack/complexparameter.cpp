@@ -1,5 +1,5 @@
 /***************************************************************************
-                          effectstack/complexparameter.cpp  -  description
+                          complexparameter.cpp  -  description
                              -------------------
     begin                : Feb 15 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "effectstack/complexparameter.h"
+#include "complexparameter.h"
 
 #include <KDebug>
 #include <KLocalizedString>
@@ -140,3 +140,4 @@ void ComplexParameter::slotUpdateParameterList(const QStringList &l)
 }
 
 #include "complexparameter.moc"
+

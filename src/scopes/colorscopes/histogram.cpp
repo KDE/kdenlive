@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 #include "histogram.h"
-#include "scopes/colorscopes/histogramgenerator.h"
+#include "histogramgenerator.h"
 #include <QMenu>
 #include <QTime>
 

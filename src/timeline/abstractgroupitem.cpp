@@ -18,11 +18,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "timeline/abstractgroupitem.h"
-#include "timeline/abstractclipitem.h"
+#include "abstractgroupitem.h"
+#include "abstractclipitem.h"
+#include "customtrackscene.h"
+#include "customtrackview.h"
+
 #include "kdenlivesettings.h"
-#include "timeline/customtrackscene.h"
-#include "timeline/customtrackview.h"
 
 #include <KDebug>
 

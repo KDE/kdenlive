@@ -19,6 +19,7 @@
 
 
 #include "markerdialog.h"
+
 #include "kthumb.h"
 #include "kdenlivesettings.h"
 

@@ -17,7 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "dvdwizard/dvdwizardmenu.h"
+#include "dvdwizardmenu.h"
+
 #include "kdenlivesettings.h"
 
 #include <KDebug>

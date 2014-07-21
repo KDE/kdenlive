@@ -21,6 +21,15 @@
 #ifndef PROJECTLIST_H
 #define PROJECTLIST_H
 
+#include "folderprojectitem.h"
+#include "subprojectitem.h"
+#include "jobs/abstractclipjob.h"
+
+#include "definitions.h"
+#include "timecode.h"
+#include "kdenlivesettings.h"
+#include "widgets/invaliddialog.h"
+
 #include <QDomNodeList>
 #include <QHash>
 #include <QToolBar>
@@ -50,14 +59,6 @@
 #include <nepomuk2/kratingpainter.h>
 #include <nepomuk2/resource.h>
 #endif
-
-#include "definitions.h"
-#include "timecode.h"
-#include "kdenlivesettings.h"
-#include "project/folderprojectitem.h"
-#include "project/subprojectitem.h"
-#include "project/jobs/abstractclipjob.h"
-#include "widgets/invaliddialog.h"
 
 #if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>

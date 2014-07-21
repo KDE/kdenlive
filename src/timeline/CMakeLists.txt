@@ -1,0 +1,20 @@
+set(kdenlive_SRCS
+  ${kdenlive_SRCS}
+  timeline/abstractclipitem.cpp
+  timeline/abstractgroupitem.cpp
+  timeline/clipdurationdialog.cpp
+  timeline/clipitem.cpp
+  timeline/customruler.cpp
+  timeline/customtrackscene.cpp
+  timeline/customtrackview.cpp
+  timeline/guide.cpp
+  timeline/headertrack.cpp
+  timeline/markerdialog.cpp
+  timeline/spacerdialog.cpp
+  timeline/timelinecommands.cpp
+  timeline/trackdialog.cpp
+  timeline/tracksconfigdialog.cpp
+  timeline/trackview.cpp
+  timeline/transition.cpp
+  PARENT_SCOPE)
+

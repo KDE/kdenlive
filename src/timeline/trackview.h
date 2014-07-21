@@ -26,6 +26,11 @@
 #ifndef TRACKVIEW_H
 #define TRACKVIEW_H
 
+#include "timeline/customtrackscene.h"
+#include "effectslist/effectslist.h"
+#include "ui_timeline_ui.h"
+#include "definitions.h"
+
 #include <QScrollArea>
 #include <QGroupBox>
 #include <QGraphicsScene>
@@ -33,11 +38,6 @@
 #include <QDomElement>
 
 #include <KRuler>
-
-#include "timeline/customtrackscene.h"
-#include "effectslist.h"
-#include "ui_timeline_ui.h"
-#include "definitions.h"
 
 class ClipItem;
 class CustomTrackView;

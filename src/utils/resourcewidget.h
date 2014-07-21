@@ -25,7 +25,7 @@
 
 #include "ui_freesound_ui.h"
 #include "abstractservice.h"
-#include "../definitions.h"
+#include "definitions.h"
 
 #include <QDialog>
 #include <QProcess>

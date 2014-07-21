@@ -8,7 +8,7 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include "scopes/colorscopes/rgbparadegenerator.h"
+#include "rgbparadegenerator.h"
 #include <KLocalizedString>
 #include <QColor>
 #include <QPainter>

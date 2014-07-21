@@ -18,17 +18,18 @@
  ***************************************************************************/
 
 
-#include "timeline/clipitem.h"
-#include "timeline/customtrackview.h"
-#include "timeline/customtrackscene.h"
+#include "clipitem.h"
+#include "customtrackview.h"
+#include "customtrackscene.h"
+#include "transition.h"
+
 #include "renderer.h"
-#include "doc/docclipbase.h"
-#include "timeline/transition.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
-#include "profilesdialog.h"
+#include "doc/docclipbase.h"
+#include "dialogs/profilesdialog.h"
 #ifdef USE_QJSON
-#include "rotoscoping/rotowidget.h"
+#include "onmonitoritems/rotoscoping/rotowidget.h"
 #endif
 
 #include <KDebug>

@@ -21,10 +21,10 @@
 #ifndef SMALLRULER_H
 #define SMALLRULER_H
 
+#include "monitormanager.h"
+
 #include <KColorScheme>
 #include <QWidget>
-
-#include "monitor/monitormanager.h"
 
 
 class SmallRuler : public QWidget

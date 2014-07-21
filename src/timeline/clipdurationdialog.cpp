@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 
-#include "timeline/clipdurationdialog.h"
-#include "timeline/clipitem.h"
+#include "clipdurationdialog.h"
+#include "clipitem.h"
 
 #include <KDebug>
 #include <KMessageBox>

@@ -18,9 +18,10 @@
  ***************************************************************************/
 
 
-#include "timeline/headertrack.h"
-#include "effectslist.h"
+#include "headertrack.h"
+
 #include "kdenlivesettings.h"
+#include "effectslist/effectslist.h"
 
 #include <KIcon>
 #include <KLocalizedString>

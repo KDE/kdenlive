@@ -19,10 +19,10 @@
 #define TITLEWIDGET_H
 
 #include "ui_titlewidget_ui.h"
-#include "titledocument.h"
+#include "titler/titledocument.h"
 #include "renderer.h"
-#include "graphicsscenerectmove.h"
-#include "unicodedialog.h"
+#include "effectstack/graphicsscenerectmove.h"
+#include "titler/unicodedialog.h"
 #include "timecode.h"
 
 #include <QMap>

@@ -69,7 +69,7 @@ mRgb2YPbPr =                        r =
 
  */
 
-#include "scopes/colorscopes/vectorscopegenerator.h"
+#include "vectorscopegenerator.h"
 #include <math.h>
 #include <QImage>
 

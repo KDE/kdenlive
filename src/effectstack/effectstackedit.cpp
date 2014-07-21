@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "effectstack/effectstackedit.h"
-#include "effectstack/effectstackview2.h"
-#include "effectslist.h"
+#include "effectstackedit.h"
+#include "effectstackview2.h"
+
 #include "monitor/monitor.h"
+#include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>

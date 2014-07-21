@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "profilesdialog.h"
+
 #include "kdenlivesettings.h"
 
 #include <KStandardDirs>

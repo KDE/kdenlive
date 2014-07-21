@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "dvdwizard/dvdwizardchapters.h"
+#include "dvdwizardchapters.h"
 
 #include <KDebug>
 
@@ -258,4 +258,4 @@ QDomElement DvdWizardChapters::toXml() const
     return doc.documentElement();
 }
 
-#include "dvdwizard/dvdwizardchapters.moc"
+#include "dvdwizardchapters.moc"

@@ -18,9 +18,10 @@
  ***************************************************************************/
 
 
-#include "timeline/trackdialog.h"
-#include "doc/kdenlivedoc.h"
+#include "trackdialog.h"
+
 #include "kdenlivesettings.h"
+#include "doc/kdenlivedoc.h"
 
 #include <KDebug>
 #include <KIcon>
@@ -40,6 +41,5 @@ TrackDialog::TrackDialog(KdenliveDoc *doc, QWidget * parent) :
     }
 }
 
-#include "timeline/trackdialog.moc"
-
+#include "trackdialog.moc"
 

@@ -18,9 +18,10 @@
  ***************************************************************************/
 
 
-#include "doc/documentchecker.h"
+#include "documentchecker.h"
+#include "docclipbase.h"
+
 #include "kthumb.h"
-#include "doc/docclipbase.h"
 #include "widgets/titlewidget.h"
 #include "definitions.h"
 #include "kdenlivesettings.h"
@@ -960,5 +961,4 @@ void DocumentChecker::slotCheckButtons()
 }
 
 #include "documentchecker.moc"
-
 

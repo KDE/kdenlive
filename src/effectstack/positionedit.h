@@ -1,5 +1,5 @@
 /***************************************************************************
-                          effectstack/positionedit.h  -  description
+                          positionedit.h  -  description
                              -------------------
     begin                : 03 Aug 2008
     copyright            : (C) 2008 by Marco Gittler
