@@ -150,7 +150,7 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="4">
-        <widget class="QTextEdit" name="error_log">
+        <widget class="KTextEdit" name="error_log">
          <property name="readOnly">
           <bool>true</bool>
          </property>

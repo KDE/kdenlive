@@ -738,7 +738,7 @@ void RecMonitor::slotRecord()
             m_captureArgs << "-r" << QString::number(KdenliveSettings::grab_fps());
             if (KdenliveSettings::grab_hide_mouse()) captureSize.append("+nomouse");
 	    m_captureArgs << "-i" << captureSize;
-	    grabParameters = KdenliveSettings::grab_parameters().simplified().split(" ");
+	    grabParameters = KdenliveSettings::grab_parameters().simplified().split(' ');
 	    m_captureArgs << grabParameters;
 	    m_captureArgs << path;
 	    

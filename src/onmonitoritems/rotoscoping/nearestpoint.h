@@ -1,4 +1,5 @@
 /*
+  Copyright : (C) 1990 Philip J. Schneider (pjs@apple.com)
 Solving the Nearest Point-on-Curve Problem 
 and
 A Bezier Curve-Based Root-Finder

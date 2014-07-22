@@ -2592,7 +2592,7 @@ void MainWindow::slotRenderProject()
     }
     slotCheckRenderStatus();
     m_renderWidget->show();
-    m_renderWidget->showNormal();
+    //m_renderWidget->showNormal();
 
     // What are the following lines supposed to do?
     //m_activeTimeline->tracksNumber();
@@ -3962,7 +3962,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 
 void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip, KUrl path)
 {
-    KDialog *dialog = new KDialog(this);
+    QPointer<KDialog> dialog = new KDialog(this);
     dialog->setCaption("Save clip zone");
     dialog->setButtons(KDialog::Ok | KDialog::Cancel);
 
@@ -4019,7 +4019,6 @@ void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *b
         else render->saveZone(url->url(), edit->text(), zone);
     }
     delete dialog;
-
 }
 
 void MainWindow::slotSetInPoint()
@@ -4784,10 +4783,11 @@ void MainWindow::slotArchiveProject()
 {
     QList <DocClipBase*> list = m_projectList->documentClipList();
     QDomDocument doc = m_activeDocument->xmlSceneList(m_projectMonitor->sceneList(), m_projectList->expandedFolders());
-    ArchiveWidget *d = new ArchiveWidget(m_activeDocument->url().fileName(), doc, list, m_activeTimeline->projectView()->extractTransitionsLumas(), this);
+    QPointer<ArchiveWidget> d = new ArchiveWidget(m_activeDocument->url().fileName(), doc, list, m_activeTimeline->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }
+    delete d;
 }
 
 

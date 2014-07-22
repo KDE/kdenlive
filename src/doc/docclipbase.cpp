@@ -825,7 +825,7 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
     }
     if (result == NULL || !result->is_valid()) {
         // placeholder clip
-        QString txt = "+" + i18n("Missing clip") + ".txt";
+        QString txt = '+' + i18n("Missing clip") + ".txt";
         char *tmp = qstrdup(txt.toUtf8().constData());
         result = new Mlt::Producer(*source->profile(), tmp);
         delete[] tmp;

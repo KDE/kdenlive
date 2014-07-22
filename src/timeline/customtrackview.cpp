@@ -5485,11 +5485,12 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
             cbox->setItemData(i + 1, CommentedTime::markerColor(i), Qt::DecorationRole);
         }
         cbox->setCurrentIndex(0);
-        KFileDialog fd(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
-        fd.setMode(KFile::File);
-        fd.setOperationMode(KFileDialog::Saving);
-        if (fd.exec() != QDialog::Accepted) return;
-        QString url = fd.selectedFile();
+        QPointer<KFileDialog> fd = new KFileDialog(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
+        fd->setMode(KFile::File);
+        fd->setOperationMode(KFileDialog::Saving);
+        if (fd->exec() != QDialog::Accepted) return;
+        QString url = fd->selectedFile();
+        delete fd;
         //QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
         if (url.isEmpty()) return;
 
@@ -5527,11 +5528,12 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
         cbox->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
     }
     cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
-    KFileDialog fd(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
-    fd.setMode(KFile::File);
-    fd.setOperationMode(KFileDialog::Opening);
-    if (fd.exec() != QDialog::Accepted) return;
-    QString url = fd.selectedFile();
+    QPointer<KFileDialog> fd = new KFileDialog(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
+    fd->setMode(KFile::File);
+    fd->setOperationMode(KFileDialog::Opening);
+    if (fd->exec() != QDialog::Accepted) return;
+    QString url = fd->selectedFile();
+    delete fd;
 
     //KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
     if (url.isEmpty()) return;
@@ -5544,7 +5546,7 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
     }
     QString data = QString::fromUtf8(file.readAll());
     file.close();
-    QStringList lines = data.split("\n", QString::SkipEmptyParts);
+    QStringList lines = data.split('\n', QString::SkipEmptyParts);
     QStringList values;
     bool ok;
     QUndoCommand *command = new QUndoCommand();
@@ -5553,7 +5555,7 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
     QList <CommentedTime> markersList;
     foreach(const QString &line, lines) {
         markerText.clear();
-        values = line.split("\t", QString::SkipEmptyParts);
+        values = line.split('\t', QString::SkipEmptyParts);
         double time1 = values.at(0).toDouble(&ok);
         double time2 = -1;
         if (!ok) continue;

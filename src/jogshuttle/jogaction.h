@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef JOG_SHUTTLE_ACTION_H
-#define JOG_SHUTTLE_ACTION_H
+#ifndef JOGACTION_H
+#define JOGACTION_H
 
 #include "jogshuttle.h"
 #include <QObject>

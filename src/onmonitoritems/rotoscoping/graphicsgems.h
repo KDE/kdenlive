@@ -1,4 +1,5 @@
 /* 
+  Copyright : (C) 1990 Philip J. Schneider (pjs@apple.com)
  * GraphicsGems.h  
  * Version 1.0 - Andrew Glassner
  * from "Graphics Gems", Academic Press, 1990

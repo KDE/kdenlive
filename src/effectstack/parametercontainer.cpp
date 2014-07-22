@@ -836,7 +836,7 @@ void ParameterContainer::slotStartFilterJobAction()
 		CustomTrackView::adjustEffectParameters(parameters, params, m_metaInfo->profile);
 		QString paramData;
 		for (int j = 0; j < parameters.count(); ++j)
-		    paramData.append(parameters.at(j).name()+"="+parameters.at(j).value()+" ");
+		    paramData.append(parameters.at(j).name()+'='+parameters.at(j).value()+' ');
 		filterparams.replace("%params", paramData);
 	    }
 	    QMap <QString, QString> extraParams;

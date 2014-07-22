@@ -376,8 +376,8 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
 		const SubProjectItem *clickItem = static_cast <const SubProjectItem *>(item);
 		QPoint p = clickItem->zone();
 		QString data = parentclip->clipId();
-		data.append("/" + QString::number(p.x()));
-		data.append("/" + QString::number(p.y()));
+		data.append('/' + QString::number(p.x()));
+		data.append('/' + QString::number(p.y()));
 		ids.append(data);
             } else {
 		const ProjectItem *clip = static_cast <const ProjectItem *>(item);

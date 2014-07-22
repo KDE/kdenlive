@@ -758,7 +758,7 @@ void KdenliveSettingsDialog::updateSettings()
             resetProfile = true;
         }
     } else if (KdenliveSettings::audiodevicename().isEmpty() == false) {
-        KdenliveSettings::setAudiodevicename(QString::null);
+        KdenliveSettings::setAudiodevicename(QString());
         resetProfile = true;
     }
 

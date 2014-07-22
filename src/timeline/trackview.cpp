@@ -979,7 +979,7 @@ void TrackView::adjustparameterValue(QDomNodeList clipeffectparams, const QStrin
             }
             double offset = e.attribute("offset", "0").toDouble();
             if (type == "simplekeyframe") {
-                QStringList kfrs = paramvalue.split(";");
+                QStringList kfrs = paramvalue.split(';');
                 for (int l = 0; l < kfrs.count(); ++l) {
                     QString fr = kfrs.at(l).section('=', 0, 0);
                     double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));

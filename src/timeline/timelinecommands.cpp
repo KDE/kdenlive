@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007-2012 by Jean-Baptiste Mardelle (jb@kdenlive.org)   *
- *   Copyright (C) 2008 by Marco Gittler                                   *
+ *   Copyright (C) 2008 by Marco Gittler (g.marco@freenet.de)              *
  *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
  *   Copyright (C) 2014 by Vincent Pinon (vpinon@april.org)                *
  *                                                                         *

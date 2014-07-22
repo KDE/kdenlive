@@ -289,7 +289,7 @@ void MltDeviceCapture::showAudio(Mlt::Frame& frame)
     int freq = 0;
     int num_channels = 0;
     int samples = 0;
-    qint16* data = (int16_t*)frame.get_audio(audio_format, freq, num_channels, samples);
+    qint16* data = (qint16*)frame.get_audio(audio_format, freq, num_channels, samples);
 
     if (!data) {
         return;

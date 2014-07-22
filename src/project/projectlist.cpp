@@ -1911,7 +1911,7 @@ void ProjectList::slotAddSlideshowClip()
     if (!m_commandStack)
         kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
 
-    SlideshowClip *dia = new SlideshowClip(m_timecode, this);
+    QPointer<SlideshowClip> dia = new SlideshowClip(m_timecode, this);
 
     if (dia->exec() == QDialog::Accepted) {
         QStringList groupInfo = getGroup();
@@ -2218,7 +2218,7 @@ void ProjectList::extractMetadata(DocClipBase *clip)
             p.start("exiftool", args);
             p.waitForFinished();
             QString res = p.readAllStandardOutput();
-            QStringList list = res.split("\n");
+            QStringList list = res.split('\n');
             foreach(const QString &tagline, list) {
                 if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) continue;
                 QString tag = tagline.section(':', 1).simplified();
@@ -2235,7 +2235,7 @@ void ProjectList::extractMetadata(DocClipBase *clip)
                 p.start("exiftool", args);
                 p.waitForFinished();
                 QString res = p.readAllStandardOutput();
-                QStringList list = res.split("\n");
+                QStringList list = res.split('\n');
                 foreach(const QString &tagline, list) {
                     if (!tagline.startsWith(QLatin1String("-H264"))) continue;
                     QString tag = tagline.section(':', 1);
@@ -2396,7 +2396,7 @@ bool ProjectList::adjustProjectProfileToItem(ProjectItem *item)
             // get a list of compatible profiles
             QMap <QString, QString> suggestedProfiles = ProfilesDialog::getProfilesFromProperties(width, height, fps, par, item->clipType() == Image);
             if (!suggestedProfiles.isEmpty()) {
-                KDialog *dialog = new KDialog(this);
+                QPointer<KDialog> dialog = new KDialog(this);
                 dialog->setCaption(i18n("Change project profile"));
                 dialog->setButtons(KDialog::Ok | KDialog::Cancel);
 
@@ -3818,9 +3818,9 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
         int cutPos = 0;
         QUndoCommand *command = new QUndoCommand();
         command->setText(i18n("Auto Split Clip"));
-        foreach (QString pos, value) {
+        foreach (const QString &pos, value) {
             if (!pos.contains("=")) continue;
-            int newPos = pos.section("=", 0, 0).toInt();
+            int newPos = pos.section('=', 0, 0).toInt();
             // Don't use scenes shorter than 1 second
             if (newPos - cutPos < 24) continue;
             (void) new AddClipCutCommand(this, id, cutPos + offset, newPos + offset, QString(), true, false, command);
@@ -3838,9 +3838,9 @@ void ProjectList::slotGotFilterJobResults(QString id, int , int , stringMap resu
         command->setText(i18n("Add Markers"));
         QList <CommentedTime> markersList;
         int index = 1;
-        foreach (QString pos, value) {
+        foreach (const QString &pos, value) {
             if (!pos.contains("=")) continue;
-            int newPos = pos.section("=", 0, 0).toInt();
+            int newPos = pos.section('=', 0, 0).toInt();
             // Don't use scenes shorter than 1 second
             if (newPos - cutPos < 24) continue;
             CommentedTime m(GenTime(newPos + offset, m_fps), QString::number(index), markersType);

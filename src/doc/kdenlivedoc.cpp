@@ -46,7 +46,6 @@
 #include <KGlobal>
 #include <KBookmarkManager>
 #include <KBookmark>
-#include <KStandardDirs>
 
 #include <QCryptographicHash>
 #include <QFile>

@@ -1919,7 +1919,7 @@ void Render::showAudio(Mlt::Frame& frame)
     int freq = 48000;
     int num_channels = 2;
     int samples = 0;
-    qint16* data = (int16_t*)frame.get_audio(audio_format, freq, num_channels, samples);
+    qint16* data = (qint16*)frame.get_audio(audio_format, freq, num_channels, samples);
 
     if (!data) {
         return;
@@ -4545,12 +4545,12 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     int swidth = 60.0 * m_mltProfile->width() / m_mltProfile->height();
     if (width % 2 == 1) width++;
 
-    KDialog dialog(qApp->activeWindow());
-    dialog.setCaption("Multi Stream Clip");
-    dialog.setButtons(KDialog::Ok | KDialog::Cancel);
-    dialog.setButtonText(KDialog::Ok, i18n("Import selected clips"));
-    QWidget *content = new QWidget(&dialog);
-    dialog.setMainWidget(content);
+    QPointer<KDialog> dialog = new KDialog(qApp->activeWindow());
+    dialog->setCaption("Multi Stream Clip");
+    dialog->setButtons(KDialog::Ok | KDialog::Cancel);
+    dialog->setButtonText(KDialog::Ok, i18n("Import selected clips"));
+    QWidget *content = new QWidget(dialog);
+    dialog->setMainWidget(content);
     QVBoxLayout *vbox = new QVBoxLayout(content);
     QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", path), content);
     vbox->addWidget(lab1);
@@ -4581,7 +4581,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
         }
         vbox->addWidget(streamFrame);
     }
-    if (dialog.exec() == QDialog::Accepted) {
+    if (dialog->exec() == QDialog::Accepted) {
         // import selected streams
         for (int i = 0; i < groupList.count(); ++i) {
             if (groupList.at(i)->isChecked()) {
@@ -4594,6 +4594,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
             }
         }
     }
+    delete dialog;
 }
 
 //static 

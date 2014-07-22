@@ -892,12 +892,13 @@ void ClipProperties::slotEditMarker()
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     int pos = m_view.markers_list->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) return;
-    MarkerDialog d(m_clip, marks.at(pos), m_tc, i18n("Edit Marker"), this);
-    if (d.exec() == QDialog::Accepted) {
+    QPointer<MarkerDialog> d = new MarkerDialog(m_clip, marks.at(pos), m_tc, i18n("Edit Marker"), this);
+    if (d->exec() == QDialog::Accepted) {
         QList <CommentedTime> markers;
-        markers << d.newMarker();
+        markers << d->newMarker();
         emit addMarkers(m_clip->getId(), markers);
     }
+    delete d;
 }
 
 void ClipProperties::slotDeleteMarker()
