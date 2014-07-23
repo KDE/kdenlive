@@ -6020,33 +6020,6 @@ bool CustomTrackView::canBePasted(QList<AbstractClipItem *> items, GenTime offse
     return true;
 }
 
-bool CustomTrackView::canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const
-{
-    QPainterPath movePath;
-    movePath.moveTo(0, 0);
-
-    for (int i = 0; i < items.count(); ++i) {
-        ItemInfo info = items.at(i)->info();
-        info.startPos = info.startPos + offset;
-        info.endPos = info.endPos + offset;
-        info.track = info.track + trackOffset;
-        if (info.startPos < GenTime()) {
-            // No clip should go below 0
-            return false;
-        }
-        QRectF rect((double) info.startPos.frames(m_document->fps()), (double)(info.track * m_tracksHeight + 1), (double)(info.endPos - info.startPos).frames(m_document->fps()), (double)(m_tracksHeight - 1));
-        movePath.addRect(rect);
-    }
-    QList<QGraphicsItem *> collisions = scene()->items(movePath, Qt::IntersectsItemBoundingRect);
-    for (int i = 0; i < collisions.count(); ++i) {
-        if ((collisions.at(i)->type() == AVWidget || collisions.at(i)->type() == TransitionWidget) && !items.contains(static_cast <AbstractClipItem *>(collisions.at(i)))) {
-            kDebug() << "  ////////////   CLIP COLLISION, MOVE NOT ALLOWED";
-            return false;
-        }
-    }
-    return true;
-}
-
 
 void CustomTrackView::pasteClip()
 {

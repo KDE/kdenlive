@@ -443,11 +443,6 @@ void ClipManager::deleteClip(const QString &clipId)
     }
 }
 
-DocClipBase *ClipManager::getClipAt(int pos)
-{
-    return m_clipList.at(pos);
-}
-
 DocClipBase *ClipManager::getClipById(QString clipId)
 {
     //kDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;

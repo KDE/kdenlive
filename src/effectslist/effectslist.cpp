@@ -174,29 +174,6 @@ bool EffectsList::hasKeyFrames(const QDomElement &effect)
     return false;
 }
 
-// static
-bool EffectsList::hasSimpleKeyFrames(const QDomElement &effect)
-{
-    QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (e.attribute("type") == "simplekeyframe") return true;
-    }
-    return false;
-}
-
-// static
-bool EffectsList::hasGeometryKeyFrames(const QDomElement &effect)
-{
-    QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement param = params.item(i).toElement();
-        if (param.attribute("type") == "geometry" && !param.hasAttribute("fixed"))
-            return true;
-    }
-    return false;
-}
-
 void EffectsList::clone(const EffectsList &original)
 {
     setContent(original.toString());

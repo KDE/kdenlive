@@ -503,13 +503,13 @@ ParameterContainer::~ParameterContainer()
 void ParameterContainer::meetDependency(const QString& name, const QString &type, const QString &value)
 {
     if (type == "curve") {
-        KisCurveWidget *curve = (KisCurveWidget*)m_valueItems[name];
+        KisCurveWidget *curve = static_cast<KisCurveWidget*>(m_valueItems[name]);
         if (curve) {
             const int color = value.toInt();
             curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)(color == 3 ? 4 : color), 0.8)));
         }
     } else if (type == "bezier_spline") {
-        BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems[name];
+        BezierSplineWidget *widget = static_cast<BezierSplineWidget*>(m_valueItems[name]);
         if (widget) {
             widget->setMode((BezierSplineWidget::CurveModes)((int)(value.toDouble() * 10 + 0.5)));
         }
@@ -574,12 +574,12 @@ void ParameterContainer::updateTimecodeFormat()
             if (KdenliveSettings::on_monitor_effects()) {
                 if (m_geometryWidget) m_geometryWidget->updateTimecodeFormat();
             } else {
-                Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
+                Geometryval *geom = static_cast<Geometryval*>(m_valueItems[paramName+"geometry"]);
                 geom->updateTimecodeFormat();
             }
             break;
         } else if (type == "position") {
-            PositionEdit *posi = ((PositionEdit*)m_valueItems[paramName+"position"]);
+            PositionEdit *posi = static_cast<PositionEdit*>(m_valueItems[paramName+"position"]);
             posi->updateTimecodeFormat();
             break;
 #ifdef USE_QJSON
@@ -620,7 +620,7 @@ void ParameterContainer::slotCollectAllParameters()
 
         QString setValue;
         if (type == "double" || type == "constant") {
-            DoubleParameterWidget *doubleparam = (DoubleParameterWidget*)m_valueItems.value(paramName);
+            DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget*>(m_valueItems.value(paramName));
             setValue = locale.toString(doubleparam->getValue());
         } else if (type == "list") {
             KComboBox *box = static_cast<Listval*>(m_valueItems.value(paramName))->list;
@@ -629,23 +629,23 @@ void ParameterContainer::slotCollectAllParameters()
             QCheckBox *box = static_cast<Boolval*>(m_valueItems.value(paramName))->checkBox;
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
-            ChooseColorWidget *choosecolor = ((ChooseColorWidget*)m_valueItems.value(paramName));
+            ChooseColorWidget *choosecolor = static_cast<ChooseColorWidget*>(m_valueItems.value(paramName));
             setValue = choosecolor->getColor();
 	    if (pa.hasAttribute("paramprefix")) setValue.prepend(pa.attribute("paramprefix"));
         } else if (type == "complex") {
-            ComplexParameter *complex = ((ComplexParameter*)m_valueItems.value(paramName));
+            ComplexParameter *complex = static_cast<ComplexParameter*>(m_valueItems.value(paramName));
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
             if (KdenliveSettings::on_monitor_effects()) {
                 if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getValue());
             } else {
-                Geometryval *geom = ((Geometryval*)m_valueItems.value(paramName));
+                Geometryval *geom = static_cast<Geometryval*>(m_valueItems.value(paramName));
                 namenode.item(i).toElement().setAttribute("value", geom->getValue());
             }
         } else if (type == "addedgeometry") {
             if (m_geometryWidget) namenode.item(i).toElement().setAttribute("value", m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute("name")));
         } else if (type == "position") {
-            PositionEdit *pedit = ((PositionEdit*)m_valueItems.value(paramName));
+            PositionEdit *pedit = static_cast<PositionEdit*>(m_valueItems.value(paramName));
             int pos = pedit->getPosition();
             setValue = QString::number(pos);
             if (m_effect.attribute("id") == "fadein" || m_effect.attribute("id") == "fade_from_black") {
@@ -668,7 +668,7 @@ void ParameterContainer::slotCollectAllParameters()
                 setValue.clear();
             }
         } else if (type == "curve") {
-            KisCurveWidget *curve = ((KisCurveWidget*)m_valueItems.value(paramName));
+            KisCurveWidget *curve = static_cast<KisCurveWidget*>(m_valueItems.value(paramName));
             QList<QPointF> points = curve->curve().points();
             QString number = pa.attribute("number");
             QString inName = pa.attribute("inpoints");
@@ -692,7 +692,7 @@ void ParameterContainer::slotCollectAllParameters()
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
         } else if (type == "bezier_spline") {
-            BezierSplineWidget *widget = (BezierSplineWidget*)m_valueItems.value(paramName);
+            BezierSplineWidget *widget = static_cast<BezierSplineWidget*>(m_valueItems.value(paramName));
             setValue = widget->spline();
             QString depends = pa.attribute("depends");
             if (!depends.isEmpty())

@@ -546,23 +546,6 @@ void GraphicsSceneRectMove::setCursor(QCursor c)
     }
 }
 
-void GraphicsSceneRectMove::setResizeCursor(qreal angle)
-{
-    // % is not working...
-    while (angle < 0)
-        angle += 180;
-    while (angle >= 180)
-        angle -= 180;
-    if (angle > 157.5 || angle <= 22.5)
-        setCursor(Qt::SizeVerCursor);
-    else if (angle > 22.5 && angle <= 67.5)
-        setCursor(Qt::SizeFDiagCursor);
-    else if (angle > 67.5 && angle <= 112.5)
-        setCursor(Qt::SizeHorCursor);
-    else if (angle > 112.5 && angle <= 157.5)
-        setCursor(Qt::SizeBDiagCursor);
-}
-
 void GraphicsSceneRectMove::slotUpdateFontSize(int s)
 {
     m_fontSize = s;

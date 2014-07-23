@@ -57,7 +57,6 @@ public:
     QGraphicsScene *projectScene();
     CustomTrackView *projectView();
     int duration() const;
-    int tracksNumber() const;
     KdenliveDoc *document();
     void refresh() ;
     void updateProjectFps();

@@ -30,21 +30,10 @@ AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) 
 
     key = QString::fromLatin1("meta.media.%1.codec.channels").arg(audioStreamIndex).toLocal8Bit();
     m_channels = atoi(producer->get(key.data()));
-
-    key = QString::fromLatin1("meta.media.%1.codec.name").arg(audioStreamIndex).toLocal8Bit();
-    m_codecName = QString::fromLatin1(producer->get(key.data()));
-
-    key = QString::fromLatin1("meta.media.%1.codec.long_name").arg(audioStreamIndex).toLocal8Bit();
-    m_codecLongName = QString::fromLatin1(producer->get(key.data()));
 }
 
 AudioStreamInfo::~AudioStreamInfo()
 {
-}
-
-int AudioStreamInfo::streamIndex() const
-{
-    return m_audioStreamIndex;
 }
 
 int AudioStreamInfo::samplingRate() const
@@ -62,19 +51,9 @@ int AudioStreamInfo::bitrate() const
     return m_bitRate;
 }
 
-const QString& AudioStreamInfo::codecName(bool longName) const
-{
-    if (longName) {
-        return m_codecLongName;
-    } else {
-        return m_codecName;
-    }
-}
-
 void AudioStreamInfo::dumpInfo() const
 {
     qDebug() << "Info for audio stream " << m_audioStreamIndex
-             << "\n\tCodec: " << m_codecLongName.toLocal8Bit().data() << " (" << m_codecName.toLocal8Bit().data() << ')'
              << "\n\tChannels: " << m_channels
              << "\n\tSampling rate: " << m_samplingRate
              << "\n\tBit rate: " << m_bitRate;

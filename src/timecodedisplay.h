@@ -74,8 +74,6 @@ public:
      * @param t the new timecode */
     void updateTimeCode(const Timecode &t);
 
-    virtual void stepBy(int steps);
-
 private:
     /** timecode for widget */
     Timecode m_timecode;
@@ -114,7 +112,6 @@ protected:
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void mouseReleaseEvent(QMouseEvent *);
     virtual void wheelEvent(QWheelEvent *e);
-    virtual QAbstractSpinBox::StepEnabled stepEnabled () const;
 
 };
 

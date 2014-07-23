@@ -95,8 +95,6 @@ public:
     /** @brief Returns the minimum value */
     qreal maximum() const;
 
-    /** @brief Sets the precision (number of decimals) to @param precision. */
-    void setPrecision(int precision);
     /** @brief Sets the minimum value. */
     void setMinimum(qreal min);
     /** @brief Sets the maximum value. */

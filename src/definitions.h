@@ -245,7 +245,6 @@ class EffectsParameterList: public QList < EffectParameter >
 public:
     EffectsParameterList();
     bool hasParam(const QString &name) const;
-    void setParamValue(const QString &name, const QString &value);
 
     QString paramValue(const QString &name, const QString &defaultValue = QString()) const;
     void addParam(const QString &name, const QString &value);

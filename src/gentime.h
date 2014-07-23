@@ -49,10 +49,6 @@ public:
     * @param framesPerSecond Number of frames per second */
     double frames(double framesPerSecond) const;
 
-    /** @brief Rounds the GenTime's value to the nearest frame.
-    * @param framesPerSecond Number of frames per second */
-    GenTime & roundNearestFrame(double framesPerSecond);
-
     QString toString() const;
 
 

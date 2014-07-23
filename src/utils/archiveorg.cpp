@@ -72,8 +72,8 @@ void ArchiveOrg::slotShowResults(KJob* job)
 {
     if (job->error() != 0 ) return;
     m_listWidget->blockSignals(true);
-    KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
 #ifdef USE_QJSON
+    KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
     QJson::Parser parser;
     bool ok;
     //kDebug()<<"// GOT RESULT: "<<m_result;

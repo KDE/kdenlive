@@ -414,41 +414,6 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString& path
 }
 
 // static
-QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString& profileName)
-{
-    QStringList profilesNames;
-    QStringList profilesFiles;
-    QStringList profilesFilter;
-    profilesFilter << "*";
-
-    // List the Mlt profiles
-    profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-    for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
-        QMap< QString, QString > values = confFile.entryMap();
-        if (values.value("description") == profileName) {
-            values.insert("path", profilesFiles.at(i));
-            return values;
-        }
-    }
-
-    // List custom profiles
-    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
-    for (int i = 0; i < customProfiles.size(); ++i) {
-        QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-        for (int j = 0; j < profiles.size(); ++j) {
-            KConfig confFile(customProfiles.at(i) + profiles.at(j), KConfig::SimpleConfig);
-            QMap< QString, QString > values = confFile.entryMap();
-            if (values.value("description") == profileName) {
-                values.insert("path", customProfiles.at(i) + profiles.at(j));
-                return values;
-            }
-        }
-    }
-    return QMap< QString, QString >();
-}
-
-// static
 bool ProfilesDialog::matchProfile(int width, int height, double fps, double par, bool isImage, const MltVideoProfile &profile)
 {
     int profileWidth;
@@ -503,35 +468,6 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
         }
     }
     return result;
-}
-
-// static
-QString ProfilesDialog::getPathFromDescription(const QString& profileDesc)
-{
-    QStringList profilesNames;
-    QStringList profilesFiles;
-    QStringList profilesFilter;
-    profilesFilter << "*";
-
-    // List the Mlt profiles
-    profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-    for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(KdenliveSettings::mltpath() + profilesFiles.at(i), KConfig::SimpleConfig);
-        QMap< QString, QString > values = confFile.entryMap();
-        if (values.value("description") == profileDesc) return profilesFiles.at(i);
-    }
-
-    // List custom profiles
-    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
-    for (int i = 0; i < customProfiles.size(); ++i) {
-        QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-        for (int j = 0; j < profiles.size(); ++j) {
-            KConfig confFile(customProfiles.at(i) + profiles.at(j), KConfig::SimpleConfig);
-            QMap< QString, QString > values = confFile.entryMap();
-            if (values.value("description") == profileDesc) return customProfiles.at(i) + profiles.at(j);
-        }
-    }
-    return QString();
 }
 
 // static

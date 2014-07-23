@@ -143,16 +143,6 @@ bool DocClipBase::hasAudioThumb() const
     return false;
 }
 
-void DocClipBase::slotClearAudioCache()
-{
-    audioFrameCache.clear();
-    m_audioThumbCreated = false;
-}
-
-/*void DocClipBase::getClipMainThumb() {
-    if (m_thumbProd) m_thumbProd->getMainThumb(m_properties.value("thumbnail").toInt());
-}*/
-
 KThumb *DocClipBase::thumbProducer()
 {
     return m_thumbProd;
@@ -236,11 +226,6 @@ const GenTime DocClipBase::maxDuration() const
         return GenTime();
     }
     return m_duration;
-}
-
-bool DocClipBase::hasFileSize() const
-{
-    return true;
 }
 
 qulonglong DocClipBase::fileSize() const
@@ -350,11 +335,6 @@ const QString DocClipBase::shortInfo() const
 }
 
 
-void DocClipBase::setAudioThumbCreated(bool isDone)
-{
-    m_audioThumbCreated = isDone;
-}
-
 void DocClipBase::updateAudioThumbnail(const audioByteArray& data)
 {
     //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
@@ -428,19 +408,6 @@ QString DocClipBase::deleteSnapMarker(const GenTime & time)
     return result;
 }
 
-
-GenTime DocClipBase::hasSnapMarkers(const GenTime & time)
-{
-    QList < CommentedTime >::Iterator itt = m_snapMarkers.begin();
-
-    while (itt != m_snapMarkers.end()) {
-        if ((*itt).time() == time)
-            return time;
-        ++itt;
-    }
-
-    return GenTime(0.0);
-}
 
 GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime)
 {
@@ -1140,11 +1107,6 @@ QString DocClipBase::getHash(const QString &path)
         return QCryptographicHash::hash(fileData, QCryptographicHash::Md5).toHex();
     }
     return QString();
-}
-
-void DocClipBase::refreshThumbUrl()
-{
-    if (m_thumbProd) m_thumbProd->updateThumbUrl(m_properties.value("file_hash"));
 }
 
 void DocClipBase::setProperty(const QString &key, const QString &value)

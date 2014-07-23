@@ -40,9 +40,7 @@ public:
     virtual void hidePreview(bool hide) = 0;
     virtual QStringList getDeviceName(QString input) = 0;
     virtual void setDevice(const QString input, QString size = QString()) = 0;
-    void setAnalyse(bool isOn);
     static void uyvy2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buffer, int width, int height);
-    static void yuyv2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buffer, int width, int height);
 
 protected:
     QVBoxLayout *m_layout;

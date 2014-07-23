@@ -119,8 +119,6 @@ class Render: public AbstractRender
     void seek(int time);
     void seekToFrameDiff(int diff);
 
-    QPixmap getImageThumbnail(const KUrl &url, int width, int height);
-
     /** @brief Sets the current MLT producer playlist.
      * @param list The xml describing the playlist
      * @param position (optional) time to seek to */
@@ -182,12 +180,6 @@ class Render: public AbstractRender
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber();
     void emitConsumerStopped(bool forcePause = false);
-
-    /** @brief Returns the aspect ratio of the consumer. */
-    double consumerRatio() const;
-
-    /** @brief Saves current producer frame as an image. */
-    void exportCurrentFrame(const KUrl &url, bool notify);
 
     /** @brief Change the Mlt PROFILE
      * @param profileName The MLT profile name
@@ -490,8 +482,6 @@ public slots:
     /** @brief Checks if the file is readable by MLT. */
     bool isValid(const KUrl &url);
 
-    void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
-    void mltSavePlaylist();
     void slotSplitView(bool doit);
     void slotSwitchFullscreen();
     void slotSetVolume(int volume);

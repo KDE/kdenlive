@@ -68,15 +68,6 @@ public:
     QDomDocument xml();
     void setXml(const QDomDocument& doc);
 
-    /** @brief Finds the first available file name for a title document.
-     * @deprecated With the titler module there's no need to save titles as images.
-     * @param projectUrl project directory
-     * @param isClone (optional) if true, the file name will be cloneXXX.png
-     * @return list with title name (Title XXX or Clone XXX) and file name
-     *
-     * The path "/titles/" is appended to projectUrl, and the format of the file name is (title|clone)XXX.png. */
-    static QStringList getFreeTitleInfo(const KUrl &projectUrl, bool isClone = false);
-
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title
      * @return list of the image files */
@@ -86,16 +77,6 @@ public:
      * @param xml XML data representing the title
      * @return list of the fonts */
     static QStringList extractFontList(const QString &xml);
-
-    /** @brief Builds a file name for a title document.
-     * @deprecated With the titler module there's no need to save titles as images.
-     * @param projectUrl project directory
-     * @param titleName name of title, in the form titleXXX
-     * @return file name composed with the given arguments
-     *
-     * The path "/titles/" is appended to projectUrl, and .png is appended to
-     * get the file name. There is no check for the existence of the file. */
-    static QString getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName);
 
     /** @brief Returns clip duration. */
     int duration() const;
@@ -236,7 +217,6 @@ public slots:
     /** @brief Sets up the tools (toolbars etc.) according to the selected item. */
     void selectionChanged();
     void rectChanged();
-    void setupViewports();
     void zIndexChanged(int);
     void itemScaled(int);
     void itemRotateX(qreal);

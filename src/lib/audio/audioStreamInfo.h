@@ -23,11 +23,9 @@ public:
     AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex);
     ~AudioStreamInfo();
 
-    int streamIndex() const;
     int samplingRate() const;
     int channels() const;
     int bitrate() const;
-    const QString& codecName(bool longName = false) const;
     const QString& samplingFormat() const;
 
     void dumpInfo() const;
@@ -38,8 +36,6 @@ private:
     int m_samplingRate;
     int m_channels;
     int m_bitRate;
-    QString m_codecName;
-    QString m_codecLongName;
     QString m_samplingFormat;
 
 };

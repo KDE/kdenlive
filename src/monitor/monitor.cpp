@@ -823,10 +823,6 @@ void Monitor::pause()
     m_playAction->setIcon(m_playIcon);
 }
 
-void Monitor::unpause()
-{
-}
-
 void Monitor::slotPlay()
 {
     if (render == NULL) return;
@@ -1052,7 +1048,7 @@ void Monitor::slotSetSelectedClip(ClipItem* item)
 {
     if (item || (!item && !m_loopClipTransition)) {
         m_loopClipTransition = false;
-        slotSetSelectedClip((AbstractClipItem*)item);
+        slotSetSelectedClip((AbstractClipItem*)item); //FIXME static_cast fails!
     }
 }
 
@@ -1060,7 +1056,7 @@ void Monitor::slotSetSelectedClip(Transition* item)
 {
     if (item || (!item && m_loopClipTransition)) {
         m_loopClipTransition = true;
-        slotSetSelectedClip((AbstractClipItem*)item);
+        slotSetSelectedClip((AbstractClipItem*)item); //FIXME static_cast fails!
     }
 }
 

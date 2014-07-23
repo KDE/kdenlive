@@ -183,13 +183,6 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     connect(rectBColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
     connect(rectLineWidth, SIGNAL(valueChanged(qreal,bool)), this, SLOT(rectChanged()));
 
-    /*connect(startViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
-    connect(startViewportY, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
-    connect(startViewportSize, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
-    connect(endViewportX, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
-    connect(endViewportY, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
-    connect(endViewportSize, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));*/
-
     // Fill effects
     effect_list->addItem(i18n("None"), NOEFFECT);
     effect_list->addItem(i18n("Typewriter"), TYPEWRITEREFFECT);
@@ -556,33 +549,6 @@ QSize TitleWidget::sizeHint() const
 {
     // Make sure the widget has minimum size on opening
     return QSize(200, 200);
-}
-
-//static
-QStringList TitleWidget::getFreeTitleInfo(const KUrl &projectUrl, bool isClone)
-{
-    QStringList result;
-    QString titlePath = projectUrl.path(KUrl::AddTrailingSlash) + "titles/";
-    KStandardDirs::makeDir(titlePath);
-    titlePath.append((isClone == false) ? "title" : "clone");
-    int counter = 0;
-    QString path;
-    while (path.isEmpty() || QFile::exists(path)) {
-        counter++;
-        path = titlePath + QString::number(counter).rightJustified(3, '0', false) + ".png";
-    }
-    result.append(((isClone == false) ? i18n("Title") : i18n("Clone")) + ' ' + QString::number(counter).rightJustified(3, '0', false));
-    result.append(path);
-    return result;
-}
-
-// static
-QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName)
-{
-    QStringList result;
-    QString titlePath = projectUrl.path(KUrl::AddTrailingSlash) + "titles/";
-    KStandardDirs::makeDir(titlePath);
-    return titlePath + titleName + ".png";
 }
 
 // static
@@ -1784,30 +1750,6 @@ void TitleWidget::itemRight()
         item->moveBy(diff, 0);
         updateCoordinates(item);
     }
-}
-
-void TitleWidget::setupViewports()
-{
-    //double aspect_ratio = 4.0 / 3.0;//read from project
-    //better zoom centered, but render uses only the created rect, so no problem to change the zoom function
-    /*QRectF sp(0, 0, startViewportSize->value() * m_frameWidth / 100.0 , startViewportSize->value()* m_frameHeight / 100.0);
-    QRectF ep(0, 0, endViewportSize->value() * m_frameWidth / 100.0, endViewportSize->value() * m_frameHeight / 100.0);
-    // use a polygon thiat uses 16:9 and 4:3 rects forpreview the size in all aspect ratios ?
-    QPolygonF spoly(sp);
-    QPolygonF epoly(ep);
-    spoly.translate(startViewportX->value(), startViewportY->value());
-    epoly.translate(endViewportX->value(), endViewportY->value());
-    m_startViewport->setPolygon(spoly);
-    m_endViewport->setPolygon(epoly);
-    if (! insertingValues) {
-        m_startViewport->setData(0, startViewportX->value());
-        m_startViewport->setData(1, startViewportY->value());
-        m_startViewport->setData(2, startViewportSize->value());
-
-        m_endViewport->setData(0, endViewportX->value());
-        m_endViewport->setData(1, endViewportY->value());
-        m_endViewport->setData(2, endViewportSize->value());
-    }*/
 }
 
 void TitleWidget::loadTitle(KUrl url)

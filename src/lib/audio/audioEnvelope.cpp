@@ -70,13 +70,6 @@ int AudioEnvelope::envelopeSize() const
 {
     return m_envelopeSize;
 }
-qint64 AudioEnvelope::maxValue() const
-{
-    return m_envelopeMax;
-}
-
-
-
 
 void AudioEnvelope::loadEnvelope()
 {
@@ -128,26 +121,6 @@ void AudioEnvelope::loadEnvelope()
     m_envelopeMean /= m_envelopeSize;
     qDebug() << "Calculating the envelope (" << m_envelopeSize << " frames) took "
               << t.elapsed() << " ms.";
-}
-
-qint64 AudioEnvelope::loadStdDev()
-{
-    if (m_envelopeStdDevCalculated) {
-        qDebug() << "Standard deviation already calculated, not re-calculating.";
-    } else {
-
-        if (m_envelope == NULL) {
-            loadEnvelope();
-        }
-
-        m_envelopeStdDev = 0;
-        for (int i = 0; i < m_envelopeSize; ++i) {
-            m_envelopeStdDev += sqrt((m_envelope[i]-m_envelopeMean)*(m_envelope[i]-m_envelopeMean)/m_envelopeSize);
-        }
-        m_envelopeStdDevCalculated = true;
-
-    }
-    return m_envelopeStdDev;
 }
 
 int AudioEnvelope::track() const

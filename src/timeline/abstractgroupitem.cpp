@@ -167,22 +167,6 @@ void AbstractGroupItem::removeItem(QGraphicsItem * item)
     removeFromGroup(item);
 }
 
-void AbstractGroupItem::fixItemRect()
-{
-    QPointF start = boundingRect().topLeft();
-    if (start != QPointF(0, 0)) {
-        translate(0 - start.x(), 0 - start.y());
-        setPos(start);
-    }
-}
-
-/*ItemInfo AbstractGroupItem::info() const {
-    ItemInfo itemInfo;
-    itemInfo.startPos = m_startPos;
-    itemInfo.track = m_track;
-    return itemInfo;
-}*/
-
 // virtual
 void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *)
 {

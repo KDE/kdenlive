@@ -117,11 +117,6 @@ void MonitorEditWidget::showVisibilityButton(bool show)
     m_visibilityAction->setVisible(show);
 }
 
-void MonitorEditWidget::addCustomControl(QWidget* widget)
-{
-    m_customControlsLayout->addWidget(widget);
-}
-
 void MonitorEditWidget::addCustomButton(const QIcon& icon, const QString& text, const QObject* receiver, const char* member, bool checkable, bool checked)
 {
     QToolButton *button = new QToolButton(m_ui.frameCustomControls);

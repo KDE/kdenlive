@@ -1006,22 +1006,6 @@ int KdenliveDoc::getFramePos(const QString &duration)
     return m_timecode.getFrameCount(duration);
 }
 
-QString KdenliveDoc::producerName(const QString &id)
-{
-    QString result = "unnamed";
-    QDomNodeList prods = producersList();
-    int ct = prods.count();
-    for (int i = 0; i <  ct ; ++i) {
-        QDomElement e = prods.item(i).toElement();
-        if (e.attribute("id") != "black" && e.attribute("id") == id) {
-            result = e.attribute("name");
-            if (result.isEmpty()) result = KUrl(e.attribute("resource")).fileName();
-            break;
-        }
-    }
-    return result;
-}
-
 QDomDocument KdenliveDoc::toXml()
 {
     return m_document;

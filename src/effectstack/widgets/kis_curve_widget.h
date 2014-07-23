@@ -66,14 +66,6 @@ public:
     void reset(void);
 
     /**
-     * Enable the guide and set the guide color to the specified color.
-     *
-     * XXX: it seems that the guide feature isn't actually implemented yet?
-     */
-    void setCurveGuide(const QColor & color);
-
-
-    /**
      * Set a background pixmap. The background pixmap will be drawn under
      * the grid and the curve.
      *

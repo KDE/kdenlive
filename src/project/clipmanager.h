@@ -79,7 +79,6 @@ Q_OBJECT public:
     ClipManager(KdenliveDoc *doc);
     virtual ~ ClipManager();
     void addClip(DocClipBase *clip);
-    DocClipBase *getClipAt(int pos);
     void deleteClip(const QString &clipId);
 
     /** @brief Add a file to the project.

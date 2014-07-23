@@ -149,8 +149,6 @@ public:
     uint numReferences() const {
         return m_refcount;
     }
-    /** Returns true if this clip has a meaningful filesize. */
-    bool hasFileSize() const;
 
     /** Returns the filesize, or 0 if there is no appropriate filesize. */
     qulonglong fileSize() const;
@@ -162,10 +160,7 @@ public:
     /** Returns the thumbnail producer used by this clip */
     KThumb *thumbProducer();
 
-    /** Free cache data */
-    void slotClearAudioCache();
     QString getClipHash() const;
-    void refreshThumbUrl();
     const char *producerProperty(const char *name) const;
     void setProducerProperty(const char *name, const char *data);
     void resetProducerProperty(const char *name);
@@ -236,7 +231,6 @@ private:   // Private attributes
 
     QList <CutZoneInfo> m_cutZones;
 
-    void setAudioThumbCreated(bool isDone);
     /** Holds clip infos like fps, size,... */
     QMap <QString, QString> m_properties;
     /** Holds clip metadata like author, copyright,... */
@@ -269,7 +263,6 @@ public slots:
     QList < CommentedTime > commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime & currTime);
     GenTime findPreviousSnapMarker(const GenTime & currTime);
-    GenTime hasSnapMarkers(const GenTime & time);
     QString deleteSnapMarker(const GenTime & time);
     void editSnapMarker(const GenTime & time, const QString &comment);
     void addSnapMarker(const CommentedTime &marker);

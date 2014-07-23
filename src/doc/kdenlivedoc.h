@@ -64,7 +64,6 @@ public:
     QDomDocument toXml();
     //void setRenderer(Render *render);
     QUndoStack *commandStack();
-    QString producerName(const QString &id);
     Render *renderer();
     QDomDocument m_guidesXml;
     QDomElement guidesXml() const;

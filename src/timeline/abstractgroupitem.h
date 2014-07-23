@@ -70,7 +70,6 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
 
 private:
-    void fixItemRect();
     QPainterPath groupShape(GraphicsRectItem type, const QPointF &offset) const;
     QPainterPath spacerGroupShape(GraphicsRectItem type, const QPointF &offset) const;
     /** Stores the original info of the items beeing resized. */

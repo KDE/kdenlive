@@ -50,13 +50,6 @@ static void consumer_gl_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_fr
     self->showFrame(frame);
 }
 
-/*static void rec_consumer_frame_show(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
-{
-    Mlt::Frame frame(frame_ptr);
-    if (!frame.is_valid()) return;
-    self->gotCapturedFrame(frame);
-}*/
-
 static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
@@ -81,7 +74,6 @@ static void rec_consumer_frame_preview(mlt_consumer, MltDeviceCapture * self, ml
 MltDeviceCapture::MltDeviceCapture(QString profile, VideoSurface *surface, QWidget *parent) :
     AbstractRender(Kdenlive::RecordMonitor, parent),
     doCapture(0),
-    sendFrameForAnalysis(false),
     processingImage(false),
     m_mltConsumer(NULL),
     m_mltProducer(NULL),
@@ -228,19 +220,6 @@ void MltDeviceCapture::stop()
 }
 
 
-void MltDeviceCapture::slotDoRefresh()
-{
-    QMutexLocker locker(&m_mutex);
-    if (!m_mltProducer)
-        return;
-    if (m_mltConsumer) {
-        if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
-        m_mltConsumer->purge();
-        m_mltConsumer->set("refresh", 1);
-    }
-}
-
-
 void MltDeviceCapture::emitFrameUpdated(Mlt::Frame& frame)
 {
     /*
@@ -344,44 +323,6 @@ void MltDeviceCapture::slotCheckDroppedFrames()
     }
 }
 
-void MltDeviceCapture::gotCapturedFrame(Mlt::Frame& frame)
-{
-    if (m_mltProducer) {
-        int dropped = m_mltProducer->get_int("dropped");
-        if (dropped > m_droppedFrames) {
-            m_droppedFrames = dropped;
-            emit droppedFrames(m_droppedFrames);
-        }
-    }
-    m_frameCount++;
-    if (!m_livePreview) return;
-    //if (m_livePreview == 0 && (m_frameCount % 10 > 0)) return;
-    mlt_image_format format = mlt_image_rgb24;
-    int width = 0;
-    int height = 0;
-    uint8_t *data = frame.get_image(format, width, height, 0);
-    //QImage image(width, height, QImage::Format_RGB888);
-    //memcpy(image.bits(), data, width * height * 3);
-    QImage image((uchar *)data, width, height, QImage::Format_RGB888);
-
-    //m_captureDisplayWidget->setImage(image);
-
-    //TEST: is it better to process frame conversion ouside MLT???
-    /*
-    if (!m_livePreview || processingImage) return;
-
-    mlt_image_format format = (mlt_image_format) frame.get_int("format"); //mlt_image_rgb24a;
-    int width = frame.get_int("width");
-    int height = frame.get_int("height");
-    unsigned char *buffer = (unsigned char *) frame.get_data("image");
-    //unsigned char *buffer = frame.get_image(format, width, height);
-    //convert from uyvy422 to rgba
-    if (format == mlt_image_yuv422) {
-        QtConcurrent::run(this, &MltDeviceCapture::uyvy2rgb, (unsigned char *) buffer, width, height);
-        //CaptureHandler::uyvy2rgb((uchar *)frameBytes, (uchar *)image.bits(), videoFrame->GetWidth(), videoFrame->GetHeight());
-    }*/
-}
-
 void MltDeviceCapture::saveFrame(Mlt::Frame& frame)
 {
     mlt_image_format format = mlt_image_rgb24;
@@ -459,12 +400,11 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     
 
     QStringList paramList = params.split(' ', QString::SkipEmptyParts);
-    char *tmp2;
     for (int i = 0; i < paramList.count(); ++i) {
         tmp = qstrdup(paramList.at(i).section('=', 0, 0).toUtf8().constData());
         QString value = paramList.at(i).section('=', 1, 1);
         if (value == "%threads") value = QString::number(QThread::idealThreadCount());
-        tmp2 = qstrdup(value.toUtf8().constData());
+        char *tmp2 = qstrdup(value.toUtf8().constData());
         renderProps->set(tmp, tmp2);
         delete[] tmp;
         delete[] tmp2;

@@ -58,9 +58,6 @@ Q_OBJECT public:
 
     int doCapture;
 
-    /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
-    bool sendFrameForAnalysis;
-
     /** @brief Someone needs us to send again a frame. */
     void sendFrameUpdate() {}
     
@@ -77,8 +74,6 @@ Q_OBJECT public:
      */
     bool slotStartCapture(const QString &params, const QString &path, const QString &playlist, bool livePreview, bool xmlPlaylist = true);
     bool slotStartPreview(const QString &producer, bool xmlFormat = false);
-    /** @brief A frame arrived from the MLT Video4Linux process. */
-    void gotCapturedFrame(Mlt::Frame& frame);
     /** @brief Save current frame to file. */
     void captureFrame(const QString &path);
     
@@ -148,10 +143,8 @@ signals:
 
 
 public slots:
-
     /** @brief Stops the consumer. */
     void stop();
-    void slotDoRefresh();
 };
 
 #endif

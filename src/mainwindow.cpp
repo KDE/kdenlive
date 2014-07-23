@@ -202,7 +202,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     closeTabButton->adjustSize();
     closeTabButton->setToolTip(i18n("Close the current tab"));
     m_timelineArea->setCornerWidget(closeTabButton);
-    //connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
 
     connect(&m_findTimer, SIGNAL(timeout()), this, SLOT(findTimeout()));
     m_findTimer.setSingleShot(true);
@@ -719,6 +718,7 @@ MainWindow::~MainWindow()
 //virtual
 bool MainWindow::queryClose()
 {
+    //TODO: use this function?
     if (m_renderWidget) {
         int waitingJobs = m_renderWidget->waitingJobsCount();
         if (waitingJobs > 0) {
@@ -824,12 +824,6 @@ void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
             actionGroup->addAction(action);
         }
     }
-}
-
-void MainWindow::aboutPlugins()
-{
-    //PluginDialog dialog(pluginsDir.path(), m_pluginFileNames, this);
-    //dialog.exec();
 }
 
 
@@ -997,7 +991,6 @@ public:
         m_collection->addAction(action_name, action);
     }
     operator KActionCollection*() { return m_collection; }
-    const QStringList& actionNames() const { return m_action_names; }
 private:
     KActionCollection* m_collection;
     QStringList& m_action_names;
@@ -2015,17 +2008,6 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     m_closeAction->setEnabled(m_timelineArea->count() > 1);
 }
 
-void MainWindow::activateDocument()
-{
-    if (m_timelineArea->currentWidget() == NULL || !m_timelineArea->isEnabled()) {
-        return;
-    }
-    TrackView *currentTab = static_cast<TrackView*>(m_timelineArea->currentWidget());
-    KdenliveDoc *currentDoc = currentTab->document();
-    connectDocumentInfo(currentDoc);
-    connectDocument(currentTab, currentDoc);
-}
-
 bool MainWindow::closeCurrentDocument(bool saveChanges)
 {
     QWidget *w = m_timelineArea->currentWidget();
@@ -2428,34 +2410,6 @@ void MainWindow::slotEditProfiles()
         }
     }
     delete w;
-}
-
-void MainWindow::slotDetectAudioDriver()
-{
-    /* WARNING: do not use this method because sometimes detects wrong driver (pulse instead of alsa),
-    leading to no audio output, see bug #934 */
-
-    //decide which audio driver is really best, in some cases SDL is wrong
-    if (KdenliveSettings::audiodrivername().isEmpty()) {
-        QString driver;
-        KProcess readProcess;
-        //PulseAudio needs to be selected if it exists, the ALSA pulse pcm device is not fast enough.
-        if (!KStandardDirs::findExe("pactl").isEmpty()) {
-            readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
-            readProcess.setProgram("pactl", QStringList() << "stat");
-            readProcess.execute(2000); // Kill it after 2 seconds
-
-            QString result = QString(readProcess.readAllStandardOutput());
-            kDebug() << "// / / / / / READING PACTL: ";
-            kDebug() << result;
-            if (!result.isEmpty()) {
-                driver = "pulse";
-                kDebug() << "// / / / / PULSEAUDIO DETECTED";
-            }
-        }
-        //put others here
-        KdenliveSettings::setAutoaudiodrivername(driver);
-    }
 }
 
 void MainWindow::slotEditProjectSettings()
@@ -4163,17 +4117,6 @@ void MainWindow::slotShowTimeline(bool show)
         centralWidget()->setHidden(false);
         restoreState(m_timelineState);
     }
-}
-
-void MainWindow::slotMaximizeCurrent(bool)
-{
-    //TODO: is there a way to maximize current widget?
-
-    m_timelineState = saveState();
-    QWidget *par = focusWidget()->parentWidget();
-    while (par->parentWidget() && par->parentWidget() != this)
-        par = par->parentWidget();
-    kDebug() << "CURRENT WIDGET: " << par->objectName();
 }
 
 void MainWindow::loadClipActions()

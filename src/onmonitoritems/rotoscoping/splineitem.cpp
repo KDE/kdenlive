@@ -169,9 +169,8 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
             i->stackBefore(i2);
 #else
             QList <BPoint> points;
-            BPointItem *item;
             while (childItems().count()) {
-                item = qgraphicsitem_cast<BPointItem *>(childItems().takeFirst());
+                BPointItem *item = qgraphicsitem_cast<BPointItem *>(childItems().takeFirst());
                 points.append(item->getPoint());
                 delete item;
             }

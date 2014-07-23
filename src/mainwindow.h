@@ -291,7 +291,6 @@ private:
     void addToMenu(QObject *plugin, const QStringList &texts,
                    QMenu *menu, const char *member,
                    QActionGroup *actionGroup);
-    void aboutPlugins();
 
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
      * @param configFile configuration file for KNewStuff
@@ -331,7 +330,6 @@ public slots:
 
 private slots:
     void newFile(bool showProjectSettings = true, bool force = false);
-    void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);
 
     /** @brief Shows file open dialog. */
@@ -363,7 +361,6 @@ private slots:
     void slotUpdateProjectDuration(int pos);
     void slotAddEffect(const QDomElement &effect);
     void slotEditProfiles();
-    void slotDetectAudioDriver();
     void slotEditProjectSettings();
     /** @brief Change current document MLT profile. */
     void slotUpdateProjectProfile(const QString &profile);
@@ -493,7 +490,6 @@ private slots:
     void slotAlignAudio();
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
-    void slotMaximizeCurrent(bool show);
     void slotTranscode(const KUrl::List &urls = KUrl::List());
     void slotStartClipAction();
     void slotTranscodeClip();

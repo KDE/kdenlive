@@ -150,11 +150,6 @@ int TrackView::duration() const
     return m_trackview->duration();
 }
 
-int TrackView::tracksNumber() const
-{
-    return m_projectTracks - 1;
-}
-
 bool TrackView::checkProjectAudio() const
 {
     bool hasAudio = false;

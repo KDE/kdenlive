@@ -120,9 +120,6 @@ private:
     /** @brief Find all stopmotion sequences in current project folder. */
     void parseExistingSequences();
 
-    /** @brief Select a frame in the list. */
-    void selectFrame(int ix);
-
     /** @brief This widget will hold the frame preview. */
     MyLabel* m_frame_preview;
 

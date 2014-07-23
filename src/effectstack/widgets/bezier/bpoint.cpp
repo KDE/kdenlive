@@ -86,12 +86,6 @@ void BPoint::setH2(const QPointF &handle2)
     }
 }
 
-void BPoint::keepInRange(qreal xMin, qreal xMax)
-{
-    Q_UNUSED(xMin)
-    Q_UNUSED(xMax)
-}
-
 void BPoint::autoSetLinked()
 {
     // sometimes the angle is returned as 360°

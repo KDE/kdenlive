@@ -73,8 +73,6 @@ public:
     QDomElement insert(QDomElement effect);
     void updateEffect(const QDomElement &effect);
     static bool hasKeyFrames(const QDomElement &effect);
-    static bool hasSimpleKeyFrames(const QDomElement &effect);
-    static bool hasGeometryKeyFrames(const QDomElement &effect);
     static void setParameter(QDomElement effect, const QString &name, const QString &value);
     static QString parameter(const QDomElement &effect, const QString &name);
     /** @brief Change the value of a 'property' element from the effect node. */

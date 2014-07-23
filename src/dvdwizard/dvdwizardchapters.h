@@ -37,7 +37,6 @@ class DvdWizardChapters : public QWizardPage
 public:
     explicit DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget * parent = 0);
     virtual ~DvdWizardChapters();
-    virtual bool isComplete() const;
     void changeProfile(DVDFORMAT format);
     void setPal(bool isPal);
     void setVobFiles(DVDFORMAT format, const QStringList &movies, const QStringList &durations, const QStringList &chapters);

@@ -506,34 +506,6 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
     return KThumb::getFrame(m_mltProducer, frame_position, dwidth, width, height);
 }
 
-QPixmap Render::getImageThumbnail(const KUrl &url, int /*width*/, int /*height*/)
-{
-    QImage im;
-    QPixmap pixmap;
-    if (url.fileName().startsWith(QLatin1String(".all."))) {  //  check for slideshow
-        QString fileType = url.fileName().right(3);
-        QStringList more;
-        QDir dir(url.directory());
-        QStringList filter;
-        filter << "*." + fileType;
-        filter << "*." + fileType.toUpper();
-        more = dir.entryList(filter, QDir::Files);
-        im.load(url.directory() + '/' + more.at(0));
-    } else {
-        im.load(url.path());
-    }
-    //pixmap = im.scaled(width, height);
-    return pixmap;
-}
-
-double Render::consumerRatio() const
-{
-    if (!m_mltConsumer)
-        return 1.0;
-    return (m_mltConsumer->get_double("aspect_ratio_num") / m_mltConsumer->get_double("aspect_ratio_den"));
-}
-
-
 int Render::getLength()
 {
 
@@ -1831,38 +1803,6 @@ void Render::emitConsumerStopped(bool forcePause)
         emit rendererStopped((int) pos);
     }
 }
-
-void Render::exportFileToFirewire(QString /*srcFileName*/, int /*port*/, GenTime /*startTime*/, GenTime /*endTime*/)
-{
-    KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please install Libiec61883 and recompile Kdenlive"));
-}
-
-void Render::exportCurrentFrame(const KUrl &url, bool /*notify*/)
-{
-    if (!m_mltProducer) {
-        KMessageBox::sorry(qApp->activeWindow(), i18n("There is no clip, cannot extract frame."));
-        return;
-    }
-
-    //int height = 1080;//KdenliveSettings::defaultheight();
-    //int width = 1940; //KdenliveSettings::displaywidth();
-    //TODO: rewrite
-    QPixmap pix; // = KThumb::getFrame(m_mltProducer, -1, width, height);
-    /*
-       QPixmap pix(width, height);
-       Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
-       m_convert.set("forced", mlt_image_rgb24a);
-       m_mltProducer->attach(m_convert);
-       Mlt::Frame * frame = m_mltProducer->get_frame();
-       m_mltProducer->detach(m_convert);
-       if (frame) {
-           pix = frameThumbnail(frame, width, height);
-           delete frame;
-       }*/
-    pix.save(url.path(), "PNG");
-    //if (notify) QApplication::postEvent(qApp->activeWindow(), new UrlEvent(url, 10003));
-}
-
 
 void Render::showFrame(Mlt::Frame* frame)
 {
@@ -4112,18 +4052,6 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     service.unlock();
     if (do_refresh) refresh();
     return true;
-}
-
-void Render::mltSavePlaylist()
-{
-    kWarning() << "// UPDATING PLAYLIST TO DISK++++++++++++++++";
-    Mlt::Consumer fileConsumer(*m_mltProfile, "xml");
-    fileConsumer.set("resource", "/tmp/playlist.mlt");
-
-    Mlt::Service service(m_mltProducer->get_service());
-
-    fileConsumer.connect(service);
-    fileConsumer.start();
 }
 
 const QList <Mlt::Producer *> Render::producersList()

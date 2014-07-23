@@ -256,8 +256,6 @@ void ParameterPlotter::mousePressEvent(QMouseEvent * event)
             }
             m_movepoint = NULL;
         }
-    } else if (event->button() == Qt::LeftButton) {
-        //menu for deleting or exact setup of point
     }
 }
 

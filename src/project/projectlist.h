@@ -141,8 +141,6 @@ public:
     void updateProjectFormat(Timecode t);
     void setupMenu(QMenu *addMenu, QAction *defaultAction);
     void setupGeneratorMenu(const QHash<QString,QMenu*>& menus);
-    QString currentClipUrl() const;
-    KUrl::List getConditionalUrls(const QString &condition) const;
     /** @brief Get a list of selected clip Id's and url's that match a condition. */
     QMap <QString, QString> getConditionalIds(const QString &condition) const;
     QDomDocument generateTemplateXml(QString data, const QString &replaceString);

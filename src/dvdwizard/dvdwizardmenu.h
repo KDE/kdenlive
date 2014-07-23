@@ -190,7 +190,6 @@ private slots:
     void buildButton();
     void buildColor();
     void buildImage();
-    void checkBackground();
     void checkBackgroundType(int ix);
     void updatePreview();
     void buttonChanged();

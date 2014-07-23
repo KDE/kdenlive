@@ -49,12 +49,6 @@ double GenTime::frames(double framesPerSecond) const
     return floor(m_time * framesPerSecond + 0.5);
 }
 
-GenTime& GenTime::roundNearestFrame(double framesPerSecond)
-{
-    m_time = floor((m_time * framesPerSecond) + 0.5) / framesPerSecond;
-    return *this;
-}
-
 QString GenTime::toString() const
 {
     return QString("%1 s").arg(m_time, 0, 'f', 2);

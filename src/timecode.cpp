@@ -112,11 +112,6 @@ double Timecode::fps() const
     return m_realFps;
 }
 
-bool Timecode::df() const
-{
-    return m_dropFrameTimecode;
-}
-
 const QString Timecode::mask(const GenTime& t) const
 {
     if (t < GenTime()) {
@@ -132,12 +127,6 @@ QString Timecode::reformatSeparators(QString duration) const
     if (m_dropFrameTimecode)
         return duration.replace(8, 1, ',');
     return duration.replace(8, 1, ':');
-}
-
-int Timecode::getDisplayFrameCount(const QString &duration, bool frameDisplay) const
-{
-    if (frameDisplay) return duration.toInt();
-    return getFrameCount(duration);
 }
 
 int Timecode::getFrameCount(const QString &duration) const

@@ -37,10 +37,8 @@ public:
     /// Returns the envelope, calculates it if necessary.
     qint64 const* envelope();
     int envelopeSize() const;
-    qint64 maxValue() const;
 
     void loadEnvelope();
-    qint64 loadStdDev();
     void normalizeEnvelope(bool clampTo0 = false);
 
     QImage drawEnvelope();

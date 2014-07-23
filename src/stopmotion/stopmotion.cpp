@@ -838,17 +838,6 @@ QListWidgetItem* StopmotionWidget::getFrameFromIndex(int ix)
     return NULL;
 }
 
-
-void StopmotionWidget::selectFrame(int ix)
-{
-    frame_list->blockSignals(true);
-    QListWidgetItem* item = getFrameFromIndex(ix);
-    if (!item)
-        return;
-    frame_list->setCurrentItem(item);
-    frame_list->blockSignals(false);
-}
-
 void StopmotionWidget::slotSeekFrame(bool forward)
 {
     int ix = frame_list->currentRow();

@@ -111,17 +111,6 @@ bool EffectsParameterList::hasParam(const QString &name) const {
     return false;
 }
 
-void EffectsParameterList::setParamValue(const QString &name, const QString &value) {
-    bool found = false;
-    for (int i = 0; i < size(); ++i)
-        if (at(i).name() == name) {
-            // update value
-            replace(i, EffectParameter(name, value));
-            found = true;
-        }
-    if (!found) addParam(name, value);
-}
-
 QString EffectsParameterList::paramValue(const QString &name, const QString &defaultValue) const {
     for (int i = 0; i < size(); ++i) {
         if (at(i).name() == name) return at(i).value();

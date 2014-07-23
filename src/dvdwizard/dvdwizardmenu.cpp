@@ -470,15 +470,6 @@ void DvdWizardMenu::buildImage()
     m_scene->addItem(m_background);
 }
 
-void DvdWizardMenu::checkBackground()
-{
-    if (m_view.background_list->currentIndex() != 1) {
-        if (m_background->scene() != 0) m_scene->removeItem(m_background);
-    } else {
-        m_scene->addItem(m_background);
-    }
-}
-
 void DvdWizardMenu::buildButton()
 {
     DvdButton *button = NULL;

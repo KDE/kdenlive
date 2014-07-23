@@ -71,7 +71,6 @@ public:
     virtual GenTime startPos() const ;
     virtual void setTrack(int track);
     virtual GenTime endPos() const ;
-    virtual int defaultZValue() const ;
     virtual int track() const ;
     virtual GenTime cropStart() const ;
     virtual GenTime cropDuration() const ;

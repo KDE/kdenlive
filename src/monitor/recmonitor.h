@@ -145,7 +145,6 @@ private slots:
     void slotShowLog();
 
 public slots:
-    void refreshRecMonitor(bool visible);
     void slotPlay();
     void stop();
     void start();

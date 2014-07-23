@@ -2585,49 +2585,6 @@ void ProjectList::slotSelectClip(const QString &ix)
     }
 }
 
-QString ProjectList::currentClipUrl() const
-{
-    ProjectItem *item;
-    if (!m_listView->currentItem() || m_listView->currentItem()->type() == ProjectFoldeType) return QString();
-    if (m_listView->currentItem()->type() == ProjectSubclipType) {
-        // subitem
-        item = static_cast <ProjectItem*>(m_listView->currentItem()->parent());
-    } else {
-        item = static_cast <ProjectItem*>(m_listView->currentItem());
-    }
-    if (item == NULL)
-        return QString();
-    return item->clipUrl().path();
-}
-
-KUrl::List ProjectList::getConditionalUrls(const QString &condition) const
-{
-    KUrl::List result;
-    ProjectItem *item;
-    QList<QTreeWidgetItem *> list = m_listView->selectedItems();
-    for (int i = 0; i < list.count(); ++i) {
-        if (list.at(i)->type() == ProjectFoldeType)
-            continue;
-        if (list.at(i)->type() == ProjectSubclipType) {
-            // subitem
-            item = static_cast <ProjectItem*>(list.at(i)->parent());
-        } else {
-            item = static_cast <ProjectItem*>(list.at(i));
-        }
-        if (item == NULL || item->type() == Color || item->type() == SlideShow || item->type() == Text)
-            continue;
-        DocClipBase *clip = item->referencedClip();
-        if (!condition.isEmpty()) {
-            if (condition.startsWith(QLatin1String("vcodec")) && !clip->hasVideoCodec(condition.section('=', 1, 1)))
-                continue;
-            else if (condition.startsWith(QLatin1String("acodec")) && !clip->hasAudioCodec(condition.section('=', 1, 1)))
-                continue;
-        }
-        result.append(item->clipUrl());
-    }
-    return result;
-}
-
 QMap <QString, QString> ProjectList::getConditionalIds(const QString &condition) const
 {
     QMap <QString, QString> result;

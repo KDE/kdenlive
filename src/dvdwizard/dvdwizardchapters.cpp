@@ -52,13 +52,6 @@ DvdWizardChapters::~DvdWizardChapters()
     }
 }
 
-// virtual
-
-bool DvdWizardChapters::isComplete() const
-{
-    return true;
-}
-
 void DvdWizardChapters::stopMonitor()
 {
     if (m_monitor) m_monitor->stop();

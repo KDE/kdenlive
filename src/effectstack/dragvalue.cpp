@@ -222,16 +222,6 @@ void DragValue::setRange(qreal min, qreal max)
         m_doubleEdit->setRange(m_minimum, m_maximum);
 }
 
-void DragValue::setPrecision(int /*precision*/)
-{
-    //TODO: Not implemented, in case we need double value, we should replace the KIntSpinBox with KDoubleNumInput...
-    /*m_precision = precision;
-    if (precision == 0)
-        m_edit->setValidator(new QIntValidator(m_minimum, m_maximum, this));
-    else
-        m_edit->setValidator(new QDoubleValidator(m_minimum, m_maximum, precision, this));*/
-}
-
 void DragValue::setStep(qreal step)
 {
     if (m_intEdit)

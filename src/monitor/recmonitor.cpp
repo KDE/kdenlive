@@ -1000,14 +1000,6 @@ void RecMonitor::slotUpdateFreeSpace()
     }
 }
 
-void RecMonitor::refreshRecMonitor(bool visible)
-{
-    if (visible) {
-        //if (!m_isActive) activateMonitor();
-
-    }
-}
-
 void RecMonitor::slotPlay()
 {
     /*if (m_isPlaying) slotStopCapture();

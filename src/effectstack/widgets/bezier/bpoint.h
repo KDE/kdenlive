@@ -49,10 +49,8 @@ public:
     void setH1(const QPointF &handle1);
 
     /** @brief Sets h2 to @param handle2.
-     * 
      * If handlesLinked is true h1 is updated. */
     void setH2(const QPointF &handle2);
-    void keepInRange(qreal xMin, qreal xMax);
 
     /** @brief Sets handlesLinked to true if the handles are in a linked state (line through h1, p, h2) otherwise to false. */
     void autoSetLinked();
