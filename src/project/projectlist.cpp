@@ -2354,7 +2354,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 }
             }
             if (updatedProfile == false) {
-                emit clipSelected(item->referencedClip());
+                // emit clipSelected(item->referencedClip());
             }
         } else {
             int max = m_doc->clipManager()->clipsCount();
