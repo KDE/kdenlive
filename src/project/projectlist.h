@@ -28,7 +28,7 @@
 #include "definitions.h"
 #include "timecode.h"
 #include "kdenlivesettings.h"
-#include "widgets/invaliddialog.h"
+#include "project/invaliddialog.h"
 
 #include <QDomNodeList>
 #include <QHash>

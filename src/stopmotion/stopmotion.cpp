@@ -19,7 +19,7 @@
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
 #endif
-#include "dialogs/slideshowclip.h"
+#include "project/dialogs/slideshowclip.h"
 #include "dialogs/profilesdialog.h"
 #include "capture/mltdevicecapture.h"
 #include "monitor/recmonitor.h"

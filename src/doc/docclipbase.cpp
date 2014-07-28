@@ -27,7 +27,7 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "project/clipmanager.h"
-#include "dialogs/slideshowclip.h"
+#include "project/dialogs/slideshowclip.h"
 
 #include <KIO/NetAccess>
 #include <KStandardDirs>

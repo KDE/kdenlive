@@ -23,7 +23,7 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/monitorscene.h"
-#include "widgets/monitoreditwidget.h"
+#include "monitor/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorcornersitem.h"
 
 #include <QGraphicsView>

@@ -22,7 +22,7 @@
 #include "docclipbase.h"
 
 #include "kthumb.h"
-#include "widgets/titlewidget.h"
+#include "titler/titlewidget.h"
 #include "definitions.h"
 #include "kdenlivesettings.h"
 

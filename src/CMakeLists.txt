@@ -85,7 +85,6 @@ add_subdirectory(doc)
 add_subdirectory(project)
 add_subdirectory(timeline)
 add_subdirectory(effectstack)
-add_subdirectory(widgets)
 add_subdirectory(dialogs)
 add_subdirectory(effectslist)
 add_subdirectory(scopes)
@@ -194,7 +193,7 @@ kde4_add_ui_files(kdenlive_UIS
 )
 
 if(OPENGL_FOUND)
-  list(APPEND kdenlive_SRCS widgets/videoglwidget.cpp)
+  list(APPEND kdenlive_SRCS monitor/videoglwidget.cpp)
 endif(OPENGL_FOUND)
 
 if(BUILD_JogShuttle)

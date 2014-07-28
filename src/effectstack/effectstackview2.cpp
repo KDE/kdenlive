@@ -26,7 +26,7 @@
 #include "project/projectlist.h"
 #include "effectslist/effectslist.h"
 #include "timeline/clipitem.h"
-#include "widgets/monitoreditwidget.h"
+#include "monitor/monitoreditwidget.h"
 #include "monitor/monitorscene.h"
 
 #include <KDebug>

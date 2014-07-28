@@ -20,7 +20,7 @@
 
 #include "kdenlivesettings.h"
 #include "definitions.h"
-#include "widgets/videosurface.h"
+#include "monitor/videosurface.h"
 
 #include <mlt++/Mlt.h>
 

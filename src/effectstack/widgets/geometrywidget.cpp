@@ -27,7 +27,7 @@
 #include "timecodedisplay.h"
 #include "monitor/monitor.h"
 #include "monitor/monitorscene.h"
-#include "widgets/monitoreditwidget.h"
+#include "monitor/monitoreditwidget.h"
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"
 

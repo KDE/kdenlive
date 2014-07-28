@@ -24,7 +24,7 @@
 #include "timeline/transition.h"
 #include "effectslist/effectslist.h"
 #include "effectstack/effectstackedit.h"
-#include "widgets/monitoreditwidget.h"
+#include "monitor/monitoreditwidget.h"
 #include "monitor/monitorscene.h"
 
 #include <KDebug>

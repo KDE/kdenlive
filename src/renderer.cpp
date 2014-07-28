@@ -27,7 +27,7 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "definitions.h"
-#include "dialogs/slideshowclip.h"
+#include "project/dialogs/slideshowclip.h"
 #include "dialogs/profilesdialog.h"
 
 #include <mlt++/Mlt.h>

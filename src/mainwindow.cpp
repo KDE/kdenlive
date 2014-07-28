@@ -24,7 +24,7 @@
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
-#include "dialogs/projectsettings.h"
+#include "project/dialogs/projectsettings.h"
 #include "project/clipmanager.h"
 #include "project/projectlist.h"
 #include "monitor/monitor.h"
@@ -36,7 +36,7 @@
 #include "effectslist/effectslistview.h"
 #include "effectstack/effectstackview2.h"
 #include "project/transitionsettings.h"
-#include "widgets/renderwidget.h"
+#include "dialogs/renderwidget.h"
 #include "renderer.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogshuttle.h"
@@ -46,7 +46,7 @@
 #include "project/clipproperties.h"
 #include "dialogs/wizard.h"
 #include "project/projectcommands.h"
-#include "widgets/titlewidget.h"
+#include "titler/titlewidget.h"
 #include "timeline/markerdialog.h"
 #include "timeline/clipitem.h"
 #include "interfaces.h"
@@ -61,8 +61,8 @@
 #include "scopes/audioscopes/audiosignal.h"
 #include "scopes/audioscopes/audiospectrum.h"
 #include "scopes/audioscopes/spectrogram.h"
-#include "widgets/archivewidget.h"
-#include "widgets/backupwidget.h"
+#include "project/dialogs/archivewidget.h"
+#include "project/dialogs/backupwidget.h"
 #include "utils/resourcewidget.h"
 
 

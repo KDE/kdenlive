@@ -3,8 +3,7 @@ set(kdenlive_SRCS
   dialogs/encodingprofilesdialog.cpp
   dialogs/kdenlivesettingsdialog.cpp
   dialogs/profilesdialog.cpp
-  dialogs/projectsettings.cpp
-  dialogs/slideshowclip.cpp
+  dialogs/renderwidget.cpp
   dialogs/wizard.cpp
   PARENT_SCOPE)
 

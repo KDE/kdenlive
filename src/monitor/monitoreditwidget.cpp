@@ -20,7 +20,7 @@
 #include "monitoreditwidget.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
-#include "monitor/monitorscene.h"
+#include "monitorscene.h"
 
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "onmonitoritems/onmonitorpathitem.h"

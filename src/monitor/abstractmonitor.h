@@ -21,7 +21,7 @@
 #define ABSTRACTMONITOR_H
 
 #include "definitions.h"
-#include "widgets/videosurface.h"
+#include "monitor/videosurface.h"
 
 #include <stdint.h>
 

@@ -31,7 +31,7 @@
 #include "project/projectlist.h"
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
-#include "widgets/titlewidget.h"
+#include "titler/titlewidget.h"
 
 #include <KDebug>
 #include <KStandardDirs>

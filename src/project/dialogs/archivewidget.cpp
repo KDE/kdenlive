@@ -19,8 +19,8 @@
 
 
 #include "archivewidget.h"
-#include "titlewidget.h"
-#include "dialogs/projectsettings.h"
+#include "projectsettings.h"
+#include "titler/titlewidget.h"
 
 #include <KLocalizedString>
 #include <KDiskFreeSpaceInfo>

@@ -20,13 +20,13 @@
 
 #include "monitor.h"
 #include "monitorscene.h"
+#include "monitoreditwidget.h"
+#include "videosurface.h"
 #include "smallruler.h"
 
 #include "kdenlivesettings.h"
 #include "doc/docclipbase.h"
 #include "timeline/abstractclipitem.h"
-#include "widgets/monitoreditwidget.h"
-#include "widgets/videosurface.h"
 
 #include <KDebug>
 #include <KLocalizedString>

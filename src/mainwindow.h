@@ -48,7 +48,7 @@
 #include "statusbarmessagelabel.h"
 #include "dvdwizard/dvdwizard.h"
 #include "stopmotion/stopmotion.h"
-#include "widgets/noteswidget.h"
+#include "project/dialogs/noteswidget.h"
 #include "ui_backupdialog_ui.h"
 
 class KdenliveDoc;

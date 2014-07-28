@@ -26,7 +26,7 @@
 #include "capture/mltdevicecapture.h"
 #include "capture/managecapturesdialog.h"
 #include "dialogs/profilesdialog.h"
-#include "widgets/videosurface.h"
+#include "videosurface.h"
 #include <config-kdenlive.h>
 
 #include <KDebug>

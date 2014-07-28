@@ -1,3 +1,4 @@
+add_subdirectory(dialogs)
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   project/clipmanager.cpp
@@ -5,6 +6,7 @@ set(kdenlive_SRCS
   project/clipstabilize.cpp
   project/cliptranscode.cpp
   project/folderprojectitem.cpp
+  project/invaliddialog.cpp
   project/projectcommands.cpp
   project/projectitem.cpp
   project/projectlist.cpp
@@ -16,4 +18,3 @@ set(kdenlive_SRCS
   project/jobs/cutclipjob.cpp
   project/jobs/meltjob.cpp
   PARENT_SCOPE)
-

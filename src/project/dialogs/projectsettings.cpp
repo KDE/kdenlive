@@ -18,12 +18,12 @@
  ***************************************************************************/
 
 #include "projectsettings.h"
-#include "profilesdialog.h"
 
 #include "kdenlivesettings.h"
 #include "doc/docclipbase.h"
-#include "widgets/titlewidget.h"
+#include "titler/titlewidget.h"
 #include "effectslist/effectslist.h"
+#include "dialogs/profilesdialog.h"
 
 #include <KStandardDirs>
 #include <KMessageBox>
