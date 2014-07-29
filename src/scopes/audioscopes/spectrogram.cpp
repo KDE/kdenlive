@@ -81,6 +81,14 @@ Spectrogram::Spectrogram(QWidget *parent) :
     connect(this, SIGNAL(signalMousePositionChanged()), this, SLOT(forceUpdateHUD()));
 
     AbstractScopeWidget::init();
+
+    for (int i = 0; i <= 255/5; ++i) {
+        m_colorMap[i + 0*255/5] = qRgb(  0,   0, i*5); // black to blue
+        m_colorMap[i + 1*255/5] = qRgb(  0, i*5, 255); // blue to cyan
+        m_colorMap[i + 2*255/5] = qRgb(  0, 255, 255-i*5); // cyan to green
+        m_colorMap[i + 3*255/5] = qRgb(i*5, 255, 0); // green to yellow
+        m_colorMap[i + 4*255/5] = qRgb(255, 255-i*5, 0); // yellow to red
+    }
 }
 
 Spectrogram::~Spectrogram()
@@ -282,7 +290,7 @@ QImage Spectrogram::renderHUD(uint)
         davinci.setPen(AbstractScopeWidget::penLighter);
         for (y = topDist; y < (int)topDist + m_innerScopeRect.height(); ++y) {
             float val = 1-((float)y-topDist)/(m_innerScopeRect.height()-1);
-            int col = qRgba(255, 255, 255, 255.0 * val);
+            int col = m_colorMap[(int)(val * 255)];
             for (x = leftDist-6; x >= (int)leftDist-13; --x) {
                 hud.setPixel(x, y, col);
             }
@@ -407,7 +415,7 @@ QImage Spectrogram::renderAudioScope(uint, const QVector<qint16> &audioFrame, co
                         val = 1;
                     }
                     if (!peak || !m_aHighlightPeaks->isChecked()) {
-                        spectrum.setPixel(leftDist + i, topDist + h-1 - y, qRgba(255, 255, 255, val * 255));
+                        spectrum.setPixel(leftDist + i, topDist + h-1 - y, m_colorMap[(int)(val * 255)]);
                     } else {
                         spectrum.setPixel(leftDist + i, topDist + h-1 - y, AbstractScopeWidget::colHighlightDark.rgba());
                     }

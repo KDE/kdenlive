@@ -74,6 +74,7 @@ private:
     bool m_parameterChanged;
 
     QRect m_innerScopeRect;
+    QRgb m_colorMap[256];
 
 private slots:
     void slotResetMaxFreq();
