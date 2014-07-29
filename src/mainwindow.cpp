@@ -2341,6 +2341,8 @@ void MainWindow::parseProfiles(const QString &mltPath)
 
     if (KdenliveSettings::mltpath().isEmpty()) {
         KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
+    } else if (!qgetenv("MLT_PREFIX").isEmpty()) {
+        KdenliveSettings::setMltpath(qgetenv("MLT_PREFIX")+QString("/share/mlt/profiles/"));
     }
 
     if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith(QLatin1String("inigo"))) {
