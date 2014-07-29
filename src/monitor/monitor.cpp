@@ -98,7 +98,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     QToolButton *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
     m_playAction = m_playMenu->addAction(m_playIcon, i18n("Play"));
-    //m_playAction->setCheckable(true);
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
 
     playButton->setMenu(m_playMenu);
@@ -712,8 +711,8 @@ void Monitor::slotRewind(double speed)
 		render->play(-8);
 	}
     } else render->play(speed);
-    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
+    m_playAction->setToolTip(i18n("Pause"));
 }
 
 void Monitor::slotForward(double speed)
@@ -736,8 +735,8 @@ void Monitor::slotForward(double speed)
 		render->play(8);
 	}
     } else render->play(speed);
-    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
+    m_playAction->setToolTip(i18n("Pause"));
 }
 
 void Monitor::slotRewindOneFrame(int diff)
@@ -771,6 +770,7 @@ void Monitor::rendererStopped(int pos)
 	checkOverlay();
     }
     m_playAction->setIcon(m_playIcon);
+    m_playAction->setToolTip(i18n("Play"));
 }
 
 void Monitor::adjustRulerSize(int length)
@@ -819,8 +819,8 @@ void Monitor::pause()
     if (render == NULL) return;
     slotActivateMonitor();
     render->pause();
-    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_playIcon);
+    m_playAction->setToolTip(i18n("Play"));
 }
 
 void Monitor::slotPlay()
@@ -828,11 +828,13 @@ void Monitor::slotPlay()
     if (render == NULL) return;
     slotActivateMonitor();
     if (render->isPlaying()) {
-	m_playAction->setIcon(m_playIcon);
+        m_playAction->setIcon(m_playIcon);
+        m_playAction->setToolTip(i18n("Play"));
         render->switchPlay(false);
     }
     else {
         m_playAction->setIcon(m_pauseIcon);
+        m_playAction->setToolTip(i18n("Pause"));
         render->switchPlay(true);
     }
     m_ruler->refreshRuler();
@@ -844,8 +846,8 @@ void Monitor::slotPlayZone()
     slotActivateMonitor();
     QPoint p = m_ruler->zone();
     render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
-    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
+    m_playAction->setToolTip(i18n("Pause"));
 }
 
 void Monitor::slotLoopZone()
@@ -854,8 +856,8 @@ void Monitor::slotLoopZone()
     slotActivateMonitor();
     QPoint p = m_ruler->zone();
     render->loopZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
-    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
+    m_playAction->setToolTip(i18n("Pause"));
 }
 
 void Monitor::slotLoopClip()
@@ -864,8 +866,8 @@ void Monitor::slotLoopClip()
         return;
     slotActivateMonitor();
     render->loopZone(m_selectedClip->startPos(), m_selectedClip->endPos());
-    //m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
+    m_playAction->setToolTip(i18n("Pause"));
 }
 
 void Monitor::updateClipProducer(Mlt::Producer *prod)

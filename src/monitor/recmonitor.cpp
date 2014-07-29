@@ -427,6 +427,7 @@ void RecMonitor::slotStopCapture()
     case Firewire:
         m_captureProcess->write("\e", 2);
         m_playAction->setIcon(m_playIcon);
+        m_playAction->setToolTip(i18n("Play"));
         m_isPlaying = false;
         break;
     case ScreenBag:
@@ -466,10 +467,12 @@ void RecMonitor::slotStartPreview(bool play)
                 m_captureProcess->write("k", 1);
                 //captureProcess->write("\e", 2);
                 m_playAction->setIcon(m_playIcon);
+                m_playAction->setToolTip(i18n("Play"));
                 m_isPlaying = false;
             } else {
                 m_captureProcess->write("p", 1);
                 m_playAction->setIcon(m_pauseIcon);
+                m_playAction->setToolTip(i18n("Pause"));
                 m_isPlaying = true;
             }
         }
@@ -900,6 +903,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
 	}
         m_isPlaying = false;
         m_playAction->setIcon(m_playIcon);
+        m_playAction->setToolTip(i18n("Play"));
         m_recAction->setChecked(false);
         m_stopAction->setEnabled(false);
         device_selector->setEnabled(true);
