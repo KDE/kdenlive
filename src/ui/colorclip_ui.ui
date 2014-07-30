@@ -71,14 +71,14 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KColorCombo</class>
+   <extends>QComboBox</extends>
+   <header>kcolorcombo.h</header>
+  </customwidget>
+  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KColorCombo</class>
-   <extends>KComboBox</extends>
-   <header>kcolorcombo.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

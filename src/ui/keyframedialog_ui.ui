@@ -1,48 +1,49 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>KeyFrameDialog_UI</class>
- <widget class="QDialog" name="KeyFrameDialog_UI" >
-  <property name="geometry" >
+ <widget class="QDialog" name="KeyFrameDialog_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>324</width>
-    <height>75</height>
+    <width>347</width>
+    <height>87</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Edit Keyframe</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <widget class="QLabel" name="clip_filesize_2" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="clip_filesize_2">
+     <property name="text">
       <string>Position</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="2" >
-    <widget class="KRestrictedLine" name="kfr_position" >
-     <property name="inputMask" >
+   <item row="0" column="1" colspan="2">
+    <widget class="KRestrictedLine" name="kfr_position">
+     <property name="inputMask">
       <string>99:99:99:99; </string>
      </property>
     </widget>
    </item>
-   <item row="0" column="3" >
-    <widget class="QLabel" name="clip_filesize_3" >
-     <property name="text" >
+   <item row="0" column="3">
+    <widget class="QLabel" name="clip_filesize_3">
+     <property name="text">
       <string>Value</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="4" >
-    <widget class="KDoubleNumInput" name="kfr_value" />
+   <item row="0" column="4">
+    <widget class="KDoubleNumInput" name="kfr_value"/>
    </item>
-   <item rowspan="2" row="1" column="1" colspan="2" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
+   <item row="1" column="1" rowspan="2" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>147</width>
        <height>30</height>
@@ -50,12 +51,12 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="2" colspan="3" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+   <item row="2" column="2" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
@@ -67,6 +68,11 @@
    <class>KDoubleNumInput</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>
