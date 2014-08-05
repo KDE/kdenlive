@@ -160,9 +160,9 @@ void ClipTranscode::slotStartTransCode()
         if (replaceVfParams) {
             s= m_postParams.at(1);
             replaceVfParams = false;
-        }
-        parameters << s.replace("%1", destination);
-        if (s == "-vf") {
+        } else if (s.startsWith(QLatin1String("%1"))) {
+            parameters << s.replace(0, 2, destination);
+        } else if (s == "-vf") {
             replaceVfParams = true;
         }
     }
