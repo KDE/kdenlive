@@ -21,7 +21,7 @@
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "kthumb.h"
+#include "doc/kthumb.h"
 #include "doc/docclipbase.h"
 #include "project/projectlist.h"
 #include "effectslist/effectslist.h"

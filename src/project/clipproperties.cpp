@@ -21,7 +21,7 @@
 #include "clipproperties.h"
 
 #include "kdenlivesettings.h"
-#include "kthumb.h"
+#include "doc/kthumb.h"
 #include "timeline/markerdialog.h"
 #include "dialogs/profilesdialog.h"
 

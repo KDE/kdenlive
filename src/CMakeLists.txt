@@ -106,7 +106,7 @@ list(APPEND kdenlive_SRCS
   colortools.cpp
   definitions.cpp
   gentime.cpp
-  kthumb.cpp
+  doc/kthumb.cpp
   main.cpp
   mainwindow.cpp
   renderer.cpp

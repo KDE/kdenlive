@@ -25,7 +25,7 @@
 
 #include "renderer.h"
 #include "kdenlivesettings.h"
-#include "kthumb.h"
+#include "doc/kthumb.h"
 #include "doc/docclipbase.h"
 #include "dialogs/profilesdialog.h"
 #ifdef USE_QJSON

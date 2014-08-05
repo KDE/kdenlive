@@ -17,7 +17,7 @@
 
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
-#include "kthumb.h"
+#include "doc/kthumb.h"
 #include "titler/KoSliderCombo.h"
 
 #include <cmath>

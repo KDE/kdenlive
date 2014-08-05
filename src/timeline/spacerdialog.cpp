@@ -20,7 +20,7 @@
 
 #include "spacerdialog.h"
 
-#include "kthumb.h"
+#include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 
 #include <QWheelEvent>

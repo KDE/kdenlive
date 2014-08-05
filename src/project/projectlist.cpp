@@ -30,7 +30,7 @@
 
 #include "kdenlivesettings.h"
 #include "renderer.h"
-#include "kthumb.h"
+#include "doc/kthumb.h"
 #include "definitions.h"
 #include "timecodedisplay.h"
 #include "titler/titlewidget.h"

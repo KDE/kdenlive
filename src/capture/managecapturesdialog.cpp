@@ -19,7 +19,7 @@
 
 
 #include "managecapturesdialog.h"
-#include "kthumb.h"
+#include "doc/kthumb.h"
 
 #include <KDebug>
 #include <KGlobalSettings>

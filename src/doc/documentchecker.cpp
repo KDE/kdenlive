@@ -20,8 +20,8 @@
 
 #include "documentchecker.h"
 #include "docclipbase.h"
-
 #include "kthumb.h"
+
 #include "titler/titlewidget.h"
 #include "definitions.h"
 #include "kdenlivesettings.h"

@@ -23,9 +23,9 @@
 
 
 #include "docclipbase.h"
+#include "kthumb.h"
 
 #include "kdenlivesettings.h"
-#include "kthumb.h"
 #include "project/clipmanager.h"
 #include "project/dialogs/slideshowclip.h"
 

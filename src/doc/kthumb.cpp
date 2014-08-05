@@ -21,6 +21,7 @@
  ***************************************************************************/
 
 #include "kthumb.h"
+
 #include "project/clipmanager.h"
 #include "renderer.h"
 #include "kdenlivesettings.h"

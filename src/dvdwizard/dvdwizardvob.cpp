@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "dvdwizardvob.h"
-#include "kthumb.h"
+#include "doc/kthumb.h"
 #include "timecode.h"
 #include "project/cliptranscode.h"
 

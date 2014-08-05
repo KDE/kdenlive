@@ -25,7 +25,7 @@
 
 #include "renderer.h"
 #include "kdenlivesettings.h"
-#include "kthumb.h"
+#include "doc/kthumb.h"
 #include "definitions.h"
 #include "project/dialogs/slideshowclip.h"
 #include "dialogs/profilesdialog.h"

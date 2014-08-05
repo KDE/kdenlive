@@ -29,7 +29,7 @@
 #endif
 
 
-#include "kthumb.h"
+#include "doc/kthumb.h"
 
 enum { DvdButtonItem = QGraphicsItem::UserType + 1, DvdButtonUnderlineItem = QGraphicsItem::UserType + 2 };
 
