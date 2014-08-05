@@ -44,6 +44,7 @@
 #include <QToolButton>
 #include <QFile>
 #include <QDir>
+#include <QPainter>
 #include <QDesktopWidget>
 
 
