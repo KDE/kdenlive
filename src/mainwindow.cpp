@@ -2333,16 +2333,18 @@ void MainWindow::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KU
 
 void MainWindow::parseProfiles(const QString &mltPath)
 {
+
     //KdenliveSettings::setDefaulttmpfolder();
     if (!mltPath.isEmpty()) {
         KdenliveSettings::setMltpath(mltPath + "/share/mlt/profiles/");
         KdenliveSettings::setRendererpath(mltPath + "/bin/melt");
-    }
-
-    if (KdenliveSettings::mltpath().isEmpty()) {
-        KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
     } else if (!qgetenv("MLT_PREFIX").isEmpty()) {
-        KdenliveSettings::setMltpath(qgetenv("MLT_PREFIX")+QString("/share/mlt/profiles/"));
+        KdenliveSettings::setMltpath(qgetenv("MLT_PREFIX") + "/share/mlt/profiles/");
+        KdenliveSettings::setRendererpath(qgetenv("MLT_PREFIX") + "/bin/melt");
+    }
+    if (KdenliveSettings::mltpath().isEmpty()) {
+        KdenliveSettings::setMltpath(QString(MLT_PREFIX) + "/share/mlt/profiles/");
+        KdenliveSettings::setRendererpath(QString(MLT_PREFIX) + "/bin/melt");
     }
 
     if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith(QLatin1String("inigo"))) {
