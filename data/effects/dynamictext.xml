@@ -6,7 +6,7 @@
     <parameter type="geometry" name="geometry" default="0%/0%:100%x100%:100" fixed="0">
         <name>Geometry</name>
     </parameter>
-    <parameter type="fontfamily" name="family" default="Sans">
+    <parameter type="fontfamily" name="family" default="DejaVu Sans">
         <name>Font Family</name>
     </parameter>
     <parameter type="constant" name="size" max="200" min="8" default="48">
