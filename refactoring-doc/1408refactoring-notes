@@ -2,16 +2,24 @@ State of refactoring
 =========================
 
 * Initial position: Problems with the old code
-The last time the code structure saw bigger changes had been the port to the KDE 4 libs. But even back then central parts had only been updated and the structure remained the same. Over the years a latitude of features were added.
-Most action happens in very few, very big classes. They are tightly coupled together. So to add a feature, changes across the code base are required. This complicates not only adding features even for developers who know Kdenlive well, but also makes the process of doing so quite error prone. The inevitably following bugs are quite hard to track down and even little fixes tend to introduce further bugs because of side effects.
+The last time the code structure saw bigger changes had been the port to the KDE 4 libs. But even back
+then central parts had only been updated and the structure remained the same. Over the years a latitude
+of features were added.
+Most action happens in very few, very big classes. They are tightly coupled together. So to add a feature,
+changes across the code base are required. This complicates not only adding features even for developers
+who know Kdenlive well, but also makes the process of doing so quite error prone. The inevitably following
+bugs are quite hard to track down and even little fixes tend to introduce further bugs because of side effects.
 As over time this only gets worse, some fundamental changes seemed to be long overdue.
 
 * Refactoring concepts
 To counter the mentioned problems key concepts were discussed in Randa 2011:
-OOP! Object Oriented Programming does not simply mean putting code in classes. One class per logical unit, every class has a clear responsibility. The same applies to functions.
-Separation in Model and View.
-The two points mentioned above mean that when dealing with MLT in most case its one class per MLT class.
-All this should lead to a well defined Kdenlive core accessible through an API for additional features.
+* OOP! Object Oriented Programming does not simply mean putting code in classes. One class per logical unit, every class has a clear responsibility.
+  The same applies to functions.
+* Separation in Model and View.
+* The two points mentioned above mean that when dealing with MLT in most case its one class per MLT class.
+* All this should lead to a well defined Kdenlive core accessible through an API for additional features.
 
 * Current State of the refactoring branch
-…
+EffectSystem -> does not follow MV paradigm
+Basic timeline action missing -> how to handle movement of clips accross tracks
+Some later additions hackish/unclean
