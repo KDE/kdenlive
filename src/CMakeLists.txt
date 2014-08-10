@@ -113,6 +113,8 @@ list(APPEND kdenlive_SRCS
   statusbarmessagelabel.cpp
   timecode.cpp
   timecodedisplay.cpp
+
+  core.cpp
 )
 
 kde4_add_ui_files(kdenlive_UIS

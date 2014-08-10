@@ -20,6 +20,7 @@
 
 #include "mainwindow.h"
 #include "mainwindowadaptor.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "effectslist/initeffects.h"
@@ -163,6 +164,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
 
+    Core::initialize(this);
+
     // Init locale
     QLocale systemLocale = QLocale();
     setlocale(LC_NUMERIC, NULL);
@@ -209,8 +212,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // FIXME: the next call returns a newly allocated object, which leaks
     initEffects::parseEffectFiles();
     //initEffects::parseCustomEffectsFile();
-    
-    m_monitorManager = new MonitorManager();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence("Esc"), this);
     connect(m_shortcutRemoveFocus, SIGNAL(activated()), this, SLOT(slotRemoveFocus()));
@@ -226,7 +227,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
-    m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, m_monitorManager, QString(), m_timelineArea);
+    m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), QString(), m_timelineArea);
     m_clipMonitorDock->setWidget(m_clipMonitor);
 
     // Connect the project list
@@ -237,27 +238,27 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
     connect(m_projectList, SIGNAL(clipNeedsReload(QString)),this, SLOT(slotUpdateClip(QString)));
     connect(m_projectList, SIGNAL(updateProfile(QString)), this, SLOT(slotUpdateProjectProfile(QString)));
-    connect(m_projectList, SIGNAL(refreshClip(QString,bool)), m_monitorManager, SLOT(slotRefreshCurrentMonitor(QString)));
+    connect(m_projectList, SIGNAL(refreshClip(QString,bool)), pCore->monitorManager(), SLOT(slotRefreshCurrentMonitor(QString)));
     connect(m_projectList, SIGNAL(findInTimeline(QString)), this, SLOT(slotClipInTimeline(QString)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));
     connect(m_clipMonitor, SIGNAL(extractZone(QString,QPoint)), m_projectList, SLOT(slotCutClipJob(QString,QPoint)));
 
     m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
     m_projectMonitorDock->setObjectName("project_monitor");
-    m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, m_monitorManager, QString());
+    m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), QString());
     m_projectMonitorDock->setWidget(m_projectMonitor);
 
 #ifndef Q_WS_MAC
     m_recMonitorDock = new QDockWidget(i18n("Record Monitor"), this);
     m_recMonitorDock->setObjectName("record_monitor");
-    m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, m_monitorManager);
+    m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, pCore->monitorManager());
     m_recMonitorDock->setWidget(m_recMonitor);
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(addProjectClipList(KUrl::List)), this, SLOT(slotAddProjectClipList(KUrl::List)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int,int)), this, SLOT(slotPreferences(int,int)));
 
 #endif /* ! Q_WS_MAC */
-    m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
+    pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
     m_notesDock = new QDockWidget(i18n("Project Notes"), this);
     m_notesDock->setObjectName("notes_widget");
@@ -291,7 +292,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_effectListDock->setWidget(m_effectList);
     addDockWidget(Qt::TopDockWidgetArea, m_effectListDock);
 
-    m_scopeManager = new ScopeManager(m_monitorManager);
+    m_scopeManager = new ScopeManager(pCore->monitorManager());
     m_vectorscope = new Vectorscope();
     m_vectorscopeDock = new QDockWidget(i18n("Vectorscope"), this);
     m_vectorscopeDock->setObjectName(m_vectorscope->widgetName());
@@ -710,7 +711,6 @@ MainWindow::~MainWindow()
     delete m_projectList;
     delete m_shortcutRemoveFocus;
     delete[] m_transitions;
-    delete m_monitorManager;
     delete m_scopeManager;
     Mlt::Factory::close();
 }
@@ -736,8 +736,8 @@ bool MainWindow::queryClose()
         }
     }
     saveOptions();
-    if (m_monitorManager) {
-        m_monitorManager->stopActiveMonitor();
+    if (pCore->monitorManager()) {
+        pCore->monitorManager()->stopActiveMonitor();
     }
 
     // warn the user to save if document is modified and we have clips in our project list
@@ -873,10 +873,10 @@ void MainWindow::activateShuttleDevice()
     m_jogProcess = new JogShuttle(JogShuttle::canonicalDevice(KdenliveSettings::shuttledevice()));
     m_jogShuttle = new JogShuttleAction(m_jogProcess, JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons()));
 
-    connect(m_jogShuttle, SIGNAL(rewindOneFrame()), m_monitorManager, SLOT(slotRewindOneFrame()));
-    connect(m_jogShuttle, SIGNAL(forwardOneFrame()), m_monitorManager, SLOT(slotForwardOneFrame()));
-    connect(m_jogShuttle, SIGNAL(rewind(double)), m_monitorManager, SLOT(slotRewind(double)));
-    connect(m_jogShuttle, SIGNAL(forward(double)), m_monitorManager, SLOT(slotForward(double)));
+    connect(m_jogShuttle, SIGNAL(rewindOneFrame()), pCore->monitorManager(), SLOT(slotRewindOneFrame()));
+    connect(m_jogShuttle, SIGNAL(forwardOneFrame()), pCore->monitorManager(), SLOT(slotForwardOneFrame()));
+    connect(m_jogShuttle, SIGNAL(rewind(double)), pCore->monitorManager(), SLOT(slotRewind(double)));
+    connect(m_jogShuttle, SIGNAL(forward(double)), pCore->monitorManager(), SLOT(slotForward(double)));
     connect(m_jogShuttle, SIGNAL(action(QString)), this, SLOT(slotDoAction(QString)));
 }
 #endif /* USE_JOGSHUTTLE */
@@ -937,7 +937,7 @@ void MainWindow::slotUpdateClip(const QString &id)
 void MainWindow::slotConnectMonitors()
 {
     m_projectList->setRenderer(m_projectMonitor->render);
-    connect(m_projectList, SIGNAL(pauseMonitor()), m_monitorManager, SLOT(slotPause()));
+    connect(m_projectList, SIGNAL(pauseMonitor()), pCore->monitorManager(), SLOT(slotPause()));
     connect(m_projectList, SIGNAL(deleteProjectClips(QStringList,QMap<QString,QString>)), this, SLOT(slotDeleteProjectClips(QStringList,QMap<QString,QString>)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase*)), this, SLOT(slotShowClipProperties(DocClipBase*)));
     connect(m_projectList, SIGNAL(showClipProperties(QList<DocClipBase*>,QMap<QString,QString>)), this, SLOT(slotShowClipProperties(QList<DocClipBase*>,QMap<QString,QString>)));
@@ -1278,22 +1278,22 @@ void MainWindow::setupActions()
     KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
     monitorPlay->setShortcut(Qt::Key_Space);
     collection.addAction("monitor_play", monitorPlay);
-    connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
+    connect(monitorPlay, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotPlay()));
 
     KAction* monitorPause = new KAction(KIcon("media-playback-stop"), i18n("Pause"), this);
     monitorPause->setShortcut(Qt::Key_K);
     collection.addAction("monitor_pause", monitorPause);
-    connect(monitorPause, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPause()));
+    connect(monitorPause, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotPause()));
 
     m_playZone = new KAction(KIcon("media-playback-start"), i18n("Play Zone"), this);
     m_playZone->setShortcut(Qt::CTRL + Qt::Key_Space);
     collection.addAction("monitor_play_zone", m_playZone);
-    connect(m_playZone, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlayZone()));
+    connect(m_playZone, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotPlayZone()));
 
     m_loopZone = new KAction(KIcon("media-playback-start"), i18n("Loop Zone"), this);
     m_loopZone->setShortcut(Qt::ALT + Qt::Key_Space);
     collection.addAction("monitor_loop_zone", m_loopZone);
-    connect(m_loopZone, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotLoopZone()));
+    connect(m_loopZone, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotLoopZone()));
 
     m_loopClip = new KAction(KIcon("media-playback-start"), i18n("Loop selected clip"), this);
     m_loopClip->setEnabled(false);
@@ -1331,7 +1331,7 @@ void MainWindow::setupActions()
     KAction *fullMon = collection.addAction("monitor_fullscreen");
     fullMon->setText(i18n("Switch monitor fullscreen"));
     fullMon->setIcon(KIcon("view-fullscreen"));
-    connect(fullMon, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotSwitchFullscreen()));
+    connect(fullMon, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotSwitchFullscreen()));
     
     KSelectAction *interlace = new KSelectAction(i18n("Deinterlacer"), this);
     interlace->addAction(i18n("One Field (fast)"));
@@ -1380,17 +1380,17 @@ void MainWindow::setupActions()
     KAction* monitorSeekBackward = new KAction(KIcon("media-seek-backward"), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
     collection.addAction("monitor_seek_backward", monitorSeekBackward);
-    connect(monitorSeekBackward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewind()));
+    connect(monitorSeekBackward, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotRewind()));
 
     KAction* monitorSeekBackwardOneFrame = new KAction(KIcon("media-skip-backward"), i18n("Rewind 1 Frame"), this);
     monitorSeekBackwardOneFrame->setShortcut(Qt::Key_Left);
     collection.addAction("monitor_seek_backward-one-frame", monitorSeekBackwardOneFrame);
-    connect(monitorSeekBackwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewindOneFrame()));
+    connect(monitorSeekBackwardOneFrame, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotRewindOneFrame()));
 
     KAction* monitorSeekBackwardOneSecond = new KAction(KIcon("media-skip-backward"), i18n("Rewind 1 Second"), this);
     monitorSeekBackwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Left);
     collection.addAction("monitor_seek_backward-one-second", monitorSeekBackwardOneSecond);
-    connect(monitorSeekBackwardOneSecond, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewindOneSecond()));
+    connect(monitorSeekBackwardOneSecond, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotRewindOneSecond()));
 
     KAction* monitorSeekSnapBackward = new KAction(KIcon("media-seek-backward"), i18n("Go to Previous Snap Point"), this);
     monitorSeekSnapBackward->setShortcut(Qt::ALT + Qt::Key_Left);
@@ -1400,7 +1400,7 @@ void MainWindow::setupActions()
     KAction* monitorSeekForward = new KAction(KIcon("media-seek-forward"), i18n("Forward"), this);
     monitorSeekForward->setShortcut(Qt::Key_L);
     collection.addAction("monitor_seek_forward", monitorSeekForward);
-    connect(monitorSeekForward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForward()));
+    connect(monitorSeekForward, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotForward()));
 
     KAction* clipStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Clip Start"), this);
     clipStart->setShortcut(Qt::Key_Home);
@@ -1425,22 +1425,22 @@ void MainWindow::setupActions()
     KAction* projectStart = new KAction(KIcon("go-first"), i18n("Go to Project Start"), this);
     projectStart->setShortcut(Qt::CTRL + Qt::Key_Home);
     collection.addAction("seek_start", projectStart);
-    connect(projectStart, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotStart()));
+    connect(projectStart, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotStart()));
 
     KAction* projectEnd = new KAction(KIcon("go-last"), i18n("Go to Project End"), this);
     projectEnd->setShortcut(Qt::CTRL + Qt::Key_End);
     collection.addAction("seek_end", projectEnd);
-    connect(projectEnd, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotEnd()));
+    connect(projectEnd, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotEnd()));
 
     KAction* monitorSeekForwardOneFrame = new KAction(KIcon("media-skip-forward"), i18n("Forward 1 Frame"), this);
     monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
     collection.addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
-    connect(monitorSeekForwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForwardOneFrame()));
+    connect(monitorSeekForwardOneFrame, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotForwardOneFrame()));
 
     KAction* monitorSeekForwardOneSecond = new KAction(KIcon("media-skip-forward"), i18n("Forward 1 Second"), this);
     monitorSeekForwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Right);
     collection.addAction("monitor_seek_forward-one-second", monitorSeekForwardOneSecond);
-    connect(monitorSeekForwardOneSecond, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForwardOneSecond()));
+    connect(monitorSeekForwardOneSecond, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotForwardOneSecond()));
 
     KAction* monitorSeekSnapForward = new KAction(KIcon("media-seek-forward"), i18n("Go to Next Snap Point"), this);
     monitorSeekSnapForward->setShortcut(Qt::ALT + Qt::Key_Right);
@@ -2004,7 +2004,7 @@ void MainWindow::newFile(bool showProjectSettings, bool force)
     } else {
         m_timelineArea->setTabBarHidden(false);
     }
-    m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
     m_closeAction->setEnabled(m_timelineArea->count() > 1);
 }
 
@@ -2055,7 +2055,7 @@ bool MainWindow::closeCurrentDocument(bool saveChanges)
     if (docToClose == m_activeDocument) {
         delete m_activeDocument;
         m_activeDocument = NULL;
-        m_monitorManager->setDocument(m_activeDocument);
+        pCore->monitorManager()->setDocument(m_activeDocument);
         m_effectStack->clear();
         m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     } else {
@@ -2074,7 +2074,7 @@ bool MainWindow::closeCurrentDocument(bool saveChanges)
 
 bool MainWindow::saveFileAs(const QString &outputFileName)
 {
-    m_monitorManager->stopActiveMonitor();
+    pCore->monitorManager()->stopActiveMonitor();
 
     if (m_activeDocument->saveSceneList(outputFileName, m_projectMonitor->sceneList(), m_projectList->expandedFolders()) == false) {
         return false;
@@ -2504,7 +2504,7 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     KdenliveSettings::setProject_fps(m_activeDocument->fps());
     setCaption(m_activeDocument->description(), m_activeDocument->isModified());
     m_activeDocument->clipManager()->clearUnusedProducers();
-    m_monitorManager->resetProfiles(m_activeDocument->timecode());
+    pCore->monitorManager()->resetProfiles(m_activeDocument->timecode());
     m_transitionConfig->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode(), m_activeDocument->tracksList());
     m_effectStack->updateProjectFormat(m_activeDocument->mltProfile(), m_activeDocument->timecode());
     m_projectList->updateProjectFormat(m_activeDocument->timecode());
@@ -2523,7 +2523,7 @@ void MainWindow::slotUpdateProjectProfile(const QString &profile)
     slotUpdateMousePosition(0);
     m_projectList->slotReloadClip();
     // We need to desactivate & reactivate monitors to get a refresh
-    //m_monitorManager->switchMonitors();
+    //pCore->monitorManager()->switchMonitors();
 }
 
 
@@ -2689,7 +2689,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     }
     KdenliveSettings::setCurrent_profile(doc->profilePath());
     KdenliveSettings::setProject_fps(doc->fps());
-    m_monitorManager->resetProfiles(doc->timecode());
+    pCore->monitorManager()->resetProfiles(doc->timecode());
     m_clipMonitorDock->raise();
     m_projectList->setDocument(doc);
     m_transitionConfig->updateProjectFormat(doc->mltProfile(), doc->timecode(), doc->tracksList());
@@ -2790,7 +2790,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_normalEditTool->setChecked(true);
     m_activeDocument = doc;
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), this, SLOT(slotUpdateProjectDuration(int)));
-    m_monitorManager->setDocument(m_activeDocument);
+    pCore->monitorManager()->setDocument(m_activeDocument);
     m_activeTimeline->updateProjectFps();
     m_activeDocument->checkProjectClips();
 #ifndef Q_WS_MAC
@@ -2801,7 +2801,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     // Make sure monitor is visible so that it is painted black on startup
     show();
-    m_monitorManager->activateMonitor(Kdenlive::ClipMonitor, true);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
 }
@@ -2856,7 +2856,7 @@ void MainWindow::slotPreferences(int page, int option)
 
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(actions, this);
     connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(updateConfiguration()));
-    connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
+    connect(dialog, SIGNAL(doResetProfile()), pCore->monitorManager(), SLOT(slotResetProfiles()));
 #ifndef Q_WS_MAC
     connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
 #endif
@@ -3142,7 +3142,7 @@ void MainWindow::slotRemoveSpace()
 
 void MainWindow::slotInsertTrack(int ix)
 {
-    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline) {
         if (ix == -1) {
             ix = m_activeTimeline->projectView()->selectedTrack();
@@ -3156,7 +3156,7 @@ void MainWindow::slotInsertTrack(int ix)
 
 void MainWindow::slotDeleteTrack(int ix)
 {
-    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline) {
         if (ix == -1) {
             ix = m_activeTimeline->projectView()->selectedTrack();
@@ -3170,7 +3170,7 @@ void MainWindow::slotDeleteTrack(int ix)
 
 void MainWindow::slotConfigTrack(int ix)
 {
-    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotConfigTracks(ix);
     if (m_activeDocument)
@@ -3179,7 +3179,7 @@ void MainWindow::slotConfigTrack(int ix)
 
 void MainWindow::slotSelectTrack()
 {
-    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline) {
         m_activeTimeline->projectView()->slotSelectClipsInTrack();
     }
@@ -3187,7 +3187,7 @@ void MainWindow::slotSelectTrack()
 
 void MainWindow::slotSelectAllTracks()
 {
-    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotSelectAllClips();
 }
@@ -3896,8 +3896,8 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
 /** Gets called when the window gets hidden */
 void MainWindow::hideEvent(QHideEvent */*event*/)
 {
-    if (isMinimized() && m_monitorManager)
-        m_monitorManager->stopActiveMonitor();
+    if (isMinimized() && pCore->monitorManager())
+        pCore->monitorManager()->stopActiveMonitor();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -4105,11 +4105,11 @@ void MainWindow::slotUpdateClipType(QAction *action)
 void MainWindow::slotDvdWizard(const QString &url)
 {
     // We must stop the monitors since we create a new on in the dvd wizard
-    m_monitorManager->activateMonitor(Kdenlive::DvdMonitor);
-    QPointer<DvdWizard> w = new DvdWizard(m_monitorManager, url, this);
+    pCore->monitorManager()->activateMonitor(Kdenlive::DvdMonitor);
+    QPointer<DvdWizard> w = new DvdWizard(pCore->monitorManager(), url, this);
     w->exec();
     delete w;
-    m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
 }
 
 void MainWindow::slotShowTimeline(bool show)
@@ -4574,7 +4574,7 @@ QPixmap MainWindow::createSchemePreviewIcon(const KSharedConfigPtr &config)
 
 void MainWindow::slotSwitchMonitors()
 {
-    m_monitorManager->slotSwitchMonitors(!m_clipMonitor->isActive());
+    pCore->monitorManager()->slotSwitchMonitors(!m_clipMonitor->isActive());
     if (m_projectMonitor->isActive()) m_activeTimeline->projectView()->setFocus();
     else m_projectList->focusTree();
 }
@@ -4666,7 +4666,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
 void MainWindow::slotOpenStopmotion()
 {
     if (m_stopmotion == NULL) {
-        m_stopmotion = new StopmotionWidget(m_monitorManager, m_activeDocument->projectFolder(), m_stopmotion_actions->actions(), this);
+        m_stopmotion = new StopmotionWidget(pCore->monitorManager(), m_activeDocument->projectFolder(), m_stopmotion_actions->actions(), this);
         connect(m_stopmotion, SIGNAL(addOrUpdateSequence(QString)), m_projectList, SLOT(slotAddOrUpdateSequence(QString)));
         //for (int i = 0; i < m_gfxScopesList.count(); ++i) {
         // Check if we need the renderer to send a new frame for update
@@ -4808,7 +4808,7 @@ void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString
 
 void MainWindow::slotAlignPlayheadToMousePos()
 {
-    m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     m_activeTimeline->projectView()->slotAlignPlayheadToMousePos();
 }
 
@@ -4830,7 +4830,7 @@ void MainWindow::slotSetDeinterlacer(int ix)
         value = "onefield";
     }
     KdenliveSettings::setMltdeinterlacer(value);
-    m_monitorManager->setConsumerProperty("deinterlace_method", value);
+    pCore->monitorManager()->setConsumerProperty("deinterlace_method", value);
 }
 
 void MainWindow::slotSetInterpolation(int ix)
@@ -4850,7 +4850,7 @@ void MainWindow::slotSetInterpolation(int ix)
         value = "nearest";
     }
     KdenliveSettings::setMltinterpolation(value);
-    m_monitorManager->setConsumerProperty("rescale", value);
+    pCore->monitorManager()->setConsumerProperty("rescale", value);
 }
 
 #include "mainwindow.moc"

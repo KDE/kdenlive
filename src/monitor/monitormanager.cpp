@@ -31,7 +31,7 @@
 #include <KDebug>
 
 
-MonitorManager::MonitorManager(QWidget *parent) :
+MonitorManager::MonitorManager(QObject *parent) :
         QObject(parent),
         m_document(NULL),
         m_clipMonitor(NULL),

@@ -53,7 +53,6 @@
 
 class KdenliveDoc;
 class TrackView;
-class MonitorManager;
 class ProjectList;
 class EffectsListView;
 class EffectStackView;
@@ -150,7 +149,6 @@ private:
     void setupActions();
     KdenliveDoc *m_activeDocument;
     TrackView *m_activeTimeline;
-    MonitorManager *m_monitorManager;
 
     QDockWidget *m_projectListDock;
     ProjectList *m_projectList;
