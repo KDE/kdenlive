@@ -1259,16 +1259,6 @@ void MainWindow::setupActions()
     addAction("project_adjust_profile", projectAdjust);
     connect(projectAdjust, SIGNAL(triggered(bool)), m_projectList, SLOT(adjustProjectProfileToItem()));
 
-    KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
-    monitorPlay->setShortcut(Qt::Key_Space);
-    addAction("monitor_play", monitorPlay);
-    connect(monitorPlay, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotPlay()));
-
-    KAction* monitorPause = new KAction(KIcon("media-playback-stop"), i18n("Pause"), this);
-    monitorPause->setShortcut(Qt::Key_K);
-    addAction("monitor_pause", monitorPause);
-    connect(monitorPause, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotPause()));
-
     m_playZone = new KAction(KIcon("media-playback-start"), i18n("Play Zone"), this);
     m_playZone->setShortcut(Qt::CTRL + Qt::Key_Space);
     addAction("monitor_play_zone", m_playZone);
@@ -1312,35 +1302,6 @@ void MainWindow::setupActions()
     addAction("switch_monitor", switchMonitor);
     connect(switchMonitor, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMonitors()));
 
-    KAction *fullMonitor = new KAction(i18n("Switch monitor fullscreen"), this);
-    fullMonitor->setIcon(KIcon("view-fullscreen"));
-    addAction("monitor_fullscreen", fullMonitor);
-    connect(fullMonitor, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotSwitchFullscreen()));
-    
-    KSelectAction *interlace = new KSelectAction(i18n("Deinterlacer"), this);
-    interlace->addAction(i18n("One Field (fast)"));
-    interlace->addAction(i18n("Linear Blend (fast)"));
-    interlace->addAction(i18n("YADIF - temporal only (good)"));
-    interlace->addAction(i18n("YADIF - temporal + spacial (best)"));
-    if (KdenliveSettings::mltdeinterlacer() == "linearblend") interlace->setCurrentItem(1);
-    else if (KdenliveSettings::mltdeinterlacer() == "yadif-temporal") interlace->setCurrentItem(2);
-    else if (KdenliveSettings::mltdeinterlacer() == "yadif") interlace->setCurrentItem(3);
-    else interlace->setCurrentItem(0);
-    addAction("mlt_interlace", interlace);
-    connect(interlace, SIGNAL(triggered(int)), this, SLOT(slotSetDeinterlacer(int)));
-    
-    KSelectAction *interpol = new KSelectAction(i18n("Interpolation"), this);
-    interpol->addAction(i18n("Nearest Neighbor (fast)"));
-    interpol->addAction(i18n("Bilinear (good)"));
-    interpol->addAction(i18n("Bicubic (better)"));
-    interpol->addAction(i18n("Hyper/Lanczos (best)"));
-    if (KdenliveSettings::mltinterpolation() == "bilinear") interpol->setCurrentItem(1);
-    else if (KdenliveSettings::mltinterpolation() == "bicubic") interpol->setCurrentItem(2);
-    else if (KdenliveSettings::mltinterpolation() == "hyper") interpol->setCurrentItem(3);
-    else interpol->setCurrentItem(0);
-    addAction("mlt_interpolation", interpol);
-    connect(interpol, SIGNAL(triggered(int)), this, SLOT(slotSetInterpolation(int)));
-
     KAction *insertTree = new KAction(i18n("Insert zone in project tree"), this);
     insertTree->setShortcut(Qt::CTRL + Qt::Key_I);
     addAction("insert_project_tree", insertTree);
@@ -1361,30 +1322,10 @@ void MainWindow::setupActions()
     resizeEnd->setShortcut(Qt::Key_2);
     connect(resizeEnd, SIGNAL(triggered(bool)), this, SLOT(slotResizeItemEnd()));
 
-    KAction* monitorSeekBackward = new KAction(KIcon("media-seek-backward"), i18n("Rewind"), this);
-    monitorSeekBackward->setShortcut(Qt::Key_J);
-    addAction("monitor_seek_backward", monitorSeekBackward);
-    connect(monitorSeekBackward, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotRewind()));
-
-    KAction* monitorSeekBackwardOneFrame = new KAction(KIcon("media-skip-backward"), i18n("Rewind 1 Frame"), this);
-    monitorSeekBackwardOneFrame->setShortcut(Qt::Key_Left);
-    addAction("monitor_seek_backward-one-frame", monitorSeekBackwardOneFrame);
-    connect(monitorSeekBackwardOneFrame, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotRewindOneFrame()));
-
-    KAction* monitorSeekBackwardOneSecond = new KAction(KIcon("media-skip-backward"), i18n("Rewind 1 Second"), this);
-    monitorSeekBackwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Left);
-    addAction("monitor_seek_backward-one-second", monitorSeekBackwardOneSecond);
-    connect(monitorSeekBackwardOneSecond, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotRewindOneSecond()));
-
     KAction* monitorSeekSnapBackward = new KAction(KIcon("media-seek-backward"), i18n("Go to Previous Snap Point"), this);
     monitorSeekSnapBackward->setShortcut(Qt::ALT + Qt::Key_Left);
     addAction("monitor_seek_snap_backward", monitorSeekSnapBackward);
     connect(monitorSeekSnapBackward, SIGNAL(triggered(bool)), this, SLOT(slotSnapRewind()));
-
-    KAction* monitorSeekForward = new KAction(KIcon("media-seek-forward"), i18n("Forward"), this);
-    monitorSeekForward->setShortcut(Qt::Key_L);
-    addAction("monitor_seek_forward", monitorSeekForward);
-    connect(monitorSeekForward, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotForward()));
 
     KAction* clipStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Clip Start"), this);
     clipStart->setShortcut(Qt::Key_Home);
@@ -1405,26 +1346,6 @@ void MainWindow::setupActions()
     zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);
     addAction("seek_zone_end", zoneEnd);
     connect(zoneEnd, SIGNAL(triggered(bool)), this, SLOT(slotZoneEnd()));
-
-    KAction* projectStart = new KAction(KIcon("go-first"), i18n("Go to Project Start"), this);
-    projectStart->setShortcut(Qt::CTRL + Qt::Key_Home);
-    addAction("seek_start", projectStart);
-    connect(projectStart, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotStart()));
-
-    KAction* projectEnd = new KAction(KIcon("go-last"), i18n("Go to Project End"), this);
-    projectEnd->setShortcut(Qt::CTRL + Qt::Key_End);
-    addAction("seek_end", projectEnd);
-    connect(projectEnd, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotEnd()));
-
-    KAction* monitorSeekForwardOneFrame = new KAction(KIcon("media-skip-forward"), i18n("Forward 1 Frame"), this);
-    monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
-    addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
-    connect(monitorSeekForwardOneFrame, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotForwardOneFrame()));
-
-    KAction* monitorSeekForwardOneSecond = new KAction(KIcon("media-skip-forward"), i18n("Forward 1 Second"), this);
-    monitorSeekForwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Right);
-    addAction("monitor_seek_forward-one-second", monitorSeekForwardOneSecond);
-    connect(monitorSeekForwardOneSecond, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotForwardOneSecond()));
 
     KAction* monitorSeekSnapForward = new KAction(KIcon("media-seek-forward"), i18n("Go to Next Snap Point"), this);
     monitorSeekSnapForward->setShortcut(Qt::ALT + Qt::Key_Right);
@@ -4794,47 +4715,6 @@ void MainWindow::slotAlignPlayheadToMousePos()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     m_activeTimeline->projectView()->slotAlignPlayheadToMousePos();
-}
-
-void MainWindow::slotSetDeinterlacer(int ix)
-{
-    QString value;
-    switch (ix) {
-
-    case 1:
-        value = "linearblend";
-        break;
-    case 2:
-        value = "yadif-nospatial";
-        break;
-    case 3:
-        value = "yadif";
-        break;
-    default:
-        value = "onefield";
-    }
-    KdenliveSettings::setMltdeinterlacer(value);
-    pCore->monitorManager()->setConsumerProperty("deinterlace_method", value);
-}
-
-void MainWindow::slotSetInterpolation(int ix)
-{
-    QString value;
-    switch (ix) {
-    case 1:
-        value = "bilinear";
-        break;
-    case 2:
-        value = "bicubic";
-        break;
-    case 3:
-        value = "hyper";
-        break;
-    default:
-        value = "nearest";
-    }
-    KdenliveSettings::setMltinterpolation(value);
-    pCore->monitorManager()->setConsumerProperty("rescale", value);
 }
 
 #include "mainwindow.moc"

@@ -86,7 +86,15 @@ public slots:
 private slots:
     void slotRefreshCurrentMonitor(const QString &id);
 
+    /** @brief Set MLT's consumer deinterlace method */
+    void slotSetDeinterlacer(int ix);
+    /** @brief Set MLT's consumer interpolation method */
+    void slotSetInterpolation(int ix);
+
 private:
+    /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
+    void setupActions();
+
     KdenliveDoc *m_document;
     Monitor *m_clipMonitor;
     Monitor *m_projectMonitor;

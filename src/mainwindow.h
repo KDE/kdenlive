@@ -564,10 +564,6 @@ private slots:
     void slotProcessImportKeyframes(GraphicsRectItem type, const QString& data, int maximum);
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
-    /** @brief Set MLT's consumer deinterlace method */
-    void slotSetDeinterlacer(int ix);
-    /** @brief Set MLT's consumer interpolation method */
-    void slotSetInterpolation(int ix);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
