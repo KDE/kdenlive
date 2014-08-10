@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Architecture.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="1452.1342"
+     inkscape:cy="400.84005"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer4"
+     showgrid="false"
+     showborder="false"
+     inkscape:showpageshadow="false"
+     inkscape:window-width="1364"
+     inkscape:window-height="713"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Classes"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Paths" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Descriptions">
+    <g
+       id="g3922"
+       transform="translate(50,326)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text2985"
+         y="61.934181"
+         x="49.855999"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="61.934181"
+           x="49.855999"
+           id="tspan2987"
+           sodipodi:role="line">Core</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3003"
+         y="34.362198"
+         x="49.652"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="34.362198"
+           x="49.652"
+           id="tspan3005"
+           sodipodi:role="line">core.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text2989"
+         y="86.362167"
+         x="50.82"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="86.362167"
+           x="50.82"
+           id="tspan2991"
+           sodipodi:role="line">Singleton</tspan><tspan
+           id="tspan2993"
+           y="106.36217"
+           x="50.82"
+           sodipodi:role="line">Access to managers</tspan></text>
+    </g>
+    <g
+       id="g3912"
+       transform="translate(-243.572,457)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text2995"
+         y="50.362183"
+         x="342.746"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="50.362183"
+           x="342.746"
+           id="tspan2997"
+           sodipodi:role="line">MltCore (MltConnection)</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text2999"
+         y="77.362183"
+         x="343"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="77.362183"
+           x="343"
+           id="tspan3001"
+           sodipodi:role="line">Initialises MLT and provides access to its API</tspan></text>
+    </g>
+    <g
+       id="g3935"
+       transform="translate(428,588.63069)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3007"
+         y="212.36218"
+         x="51"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="212.36218"
+           x="51"
+           id="tspan3009"
+           sodipodi:role="line">AbstractClipPlugin</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3011"
+         y="183.36218"
+         x="49.459999"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="183.36218"
+           x="49.459999"
+           id="tspan3013"
+           sodipodi:role="line">project/abstractclipplugin.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3015"
+         y="242.36218"
+         x="50.675999"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           id="tspan3019"
+           y="242.36218"
+           x="50.675999"
+           sodipodi:role="line">Provides methods to load a clip;</tspan><tspan
+           id="tspan3023"
+           y="262.36218"
+           x="50.675999"
+           sodipodi:role="line">videos require a path, colour clips a colour, etc.</tspan></text>
+    </g>
+    <g
+       id="g3946"
+       transform="translate(428,586)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3025"
+         y="330.36218"
+         x="49.380001"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="330.36218"
+           x="49.380001"
+           id="tspan3027"
+           sodipodi:role="line">/plugins/cliptypes/*</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3043"
+         y="355.36218"
+         x="50.035999"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="355.36218"
+           x="50.035999"
+           id="tspan3045"
+           sodipodi:role="line">Opens a specific clip type.</tspan><tspan
+           id="tspan3047"
+           y="375.36218"
+           x="50.035999"
+           sodipodi:role="line">Initialised on startup [[ in core? ]]</tspan></text>
+    </g>
+    <g
+       id="g3957"
+       transform="translate(-7.681992,-104.00009)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3049"
+         y="168.36218"
+         x="486"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="168.36218"
+           x="486"
+           id="tspan3051"
+           sodipodi:role="line">Timeline</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3053"
+         y="137.36218"
+         x="485.142"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="137.36218"
+           x="485.142"
+           id="tspan3055"
+           sodipodi:role="line">project/timeline.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3057"
+         y="196.36218"
+         x="485.87799"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="196.36218"
+           x="485.87799"
+           id="tspan3059"
+           sodipodi:role="line">Self-contained class; a project may contain multiple timelines.</tspan><tspan
+           id="tspan3061"
+           y="216.36218"
+           x="485.87799"
+           sodipodi:role="line">Each timeline has a monitor.</tspan><tspan
+           id="tspan3904"
+           y="236.36218"
+           x="485.87799"
+           sodipodi:role="line">Corresponds to a MLT tractor</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="485.71799"
+       y="244.36218"
+       id="text3063"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3065"
+         x="485.71799"
+         y="244.36218" /></text>
+    <g
+       id="g3971"
+       transform="translate(-7.6819967,-81.630769)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3067"
+         y="310.36218"
+         x="486"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           id="tspan3071"
+           y="310.36218"
+           x="486"
+           sodipodi:role="line">TimelineBackground</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3075"
+         y="279.36218"
+         x="485.142"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="279.36218"
+           x="485.142"
+           id="tspan3077"
+           sodipodi:role="line">project/timelinebackground.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3079"
+         y="337.36218"
+         x="485.814"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="337.36218"
+           x="485.814"
+           id="tspan3081"
+           sodipodi:role="line">Helper (aka hack); provides a black background to allow composite transitions</tspan><tspan
+           id="tspan3083"
+           y="357.36218"
+           x="485.814"
+           sodipodi:role="line">on the last track (cannot composite with NULL)</tspan></text>
+    </g>
+    <g
+       id="g3984"
+       transform="translate(-7.6819996,-55.261445)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3089"
+         y="427.36218"
+         x="486.68201"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="427.36218"
+           x="486.68201"
+           id="tspan3091"
+           sodipodi:role="line">AbstractTimelineClip</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3085"
+         y="396.36218"
+         x="485.142"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="396.36218"
+           x="485.142"
+           id="tspan3087"
+           sodipodi:role="line">project/abstracttimelineclip.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3093"
+         y="453.36218"
+         x="486.50201"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           id="tspan3097"
+           y="453.36218"
+           x="486.50201"
+           sodipodi:role="line">A timeline item.</tspan><tspan
+           id="tspan3902"
+           y="473.36218"
+           x="486.50201"
+           sodipodi:role="line">Corresponds to a MLT cut</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="485.71799"
+       y="468.36218"
+       id="text3101"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3103"
+         x="485.71799"
+         y="468.36218" /></text>
+    <g
+       id="g3997"
+       transform="translate(-7.6819911,-32.892157)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3109"
+         y="547.36218"
+         x="486.68201"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="547.36218"
+           x="486.68201"
+           id="tspan3111"
+           sodipodi:role="line">AbstractTimelineTrack</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3105"
+         y="516.36218"
+         x="485.142"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="516.36218"
+           x="485.142"
+           id="tspan3107"
+           sodipodi:role="line">project/abstracttimelinetrack.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3113"
+         y="575.36218"
+         x="486.10199"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="575.36218"
+           x="486.10199"
+           id="tspan3115"
+           sodipodi:role="line">Track in a timeline; has a name, can be A/V muted and be A/V or audio only</tspan><tspan
+           id="tspan3908"
+           y="595.36218"
+           x="486.10199"
+           sodipodi:role="line">Corresponds to a MLT playlist</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="485.71799"
+       y="589.36218"
+       id="text3117"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3119"
+         x="485.71799"
+         y="589.36218" /></text>
+    <g
+       id="g4010"
+       transform="translate(-7.6819884,-22.650618)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3332"
+         y="681.83826"
+         x="486.68201"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="681.83826"
+           x="486.68201"
+           id="tspan3334"
+           sodipodi:role="line">AbstractProjectClip (AbstractBinItem)</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3328"
+         y="650.55396"
+         x="485.142"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="650.55396"
+           x="485.142"
+           id="tspan3330"
+           sodipodi:role="line">project/abstractprojectclip.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3336"
+         y="712.36218"
+         x="485.71799"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="712.36218"
+           x="485.71799"
+           id="tspan3338"
+           sodipodi:role="line">Clip loaded in the project bin (former project tree) which can be used </tspan><tspan
+           id="tspan3340"
+           y="732.36218"
+           x="485.71799"
+           sodipodi:role="line">in the timeline</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="1111.608"
+       y="236.36218"
+       id="text3156"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3158"
+         x="1111.608"
+         y="236.36218" /></text>
+    <g
+       id="g4036"
+       transform="translate(0,-98.04799)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3164"
+         y="318.36218"
+         x="1110.746"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="318.36218"
+           x="1110.746"
+           id="tspan3166"
+           sodipodi:role="line">MonitorManager</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3160"
+         y="291.36218"
+         x="1111.576"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="291.36218"
+           x="1111.576"
+           id="tspan3162"
+           sodipodi:role="line">monitor/monitormanager.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3168"
+         y="344.36218"
+         x="1111"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="344.36218"
+           x="1111"
+           id="tspan3170"
+           sodipodi:role="line">Manages all monitors</tspan></text>
+    </g>
+    <g
+       id="g4048"
+       transform="translate(0,69.999954)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3180"
+         y="458.36218"
+         x="1110.746"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="458.36218"
+           x="1110.746"
+           id="tspan3182"
+           sodipodi:role="line">Project</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3176"
+         y="426.36221"
+         x="1111.032"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="426.36221"
+           x="1111.032"
+           id="tspan3178"
+           sodipodi:role="line">project/project.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3184"
+         y="486.36221"
+         x="1112.072"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="486.36221"
+           x="1112.072"
+           id="tspan3186"
+           sodipodi:role="line">Creates bin + timeline or reads it from the project file</tspan><tspan
+           id="tspan3188"
+           y="506.36221"
+           x="1112.072"
+           sodipodi:role="line">Writes the project file including parts from ProjectManager</tspan></text>
+    </g>
+    <g
+       id="g4061"
+       transform="translate(-1.0742187e-5,91.333328)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3194"
+         y="581.36218"
+         x="1112.572"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="581.36218"
+           x="1112.572"
+           id="tspan3196"
+           sodipodi:role="line">AbstractProjectParts</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3190"
+         y="552.36218"
+         x="1111.032"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="552.36218"
+           x="1111.032"
+           id="tspan3192"
+           sodipodi:role="line">project/abstractprojectparts.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3198"
+         y="610.36218"
+         x="1111"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="610.36218"
+           x="1111"
+           id="tspan3200"
+           sodipodi:role="line">Plugins that can add XML data to, and load data from, the project file</tspan></text>
+    </g>
+    <g
+       id="g4071"
+       transform="translate(-2.8320313e-5,101.66667)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3202"
+         y="667.36218"
+         x="1110.952"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="667.36218"
+           x="1110.952"
+           id="tspan3204"
+           sodipodi:role="line">/plugins/projectparts/*</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3206"
+         y="692.36218"
+         x="1111"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="692.36218"
+           x="1111"
+           id="tspan3208"
+           sodipodi:role="line">Parts plugins, like e.g. notes.h containing project notes</tspan></text>
+    </g>
+    <g
+       id="g4081"
+       transform="translate(0,112)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3214"
+         y="780.36218"
+         x="1110.746"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="780.36218"
+           x="1110.746"
+           id="tspan3216"
+           sodipodi:role="line">ProjectManager</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3210"
+         y="749.36218"
+         x="1111.032"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="749.36218"
+           x="1111.032"
+           id="tspan3212"
+           sodipodi:role="line">project/projectmanager.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3218"
+         y="808.36218"
+         x="1111.608"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="808.36218"
+           x="1111.608"
+           id="tspan3220"
+           sodipodi:role="line">Creates the Project object, forwards e.g. undo actions</tspan></text>
+    </g>
+    <g
+       id="g4093"
+       transform="translate(-24,56.000029)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3222"
+         y="156.36218"
+         x="1674.042"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="156.36218"
+           x="1674.042"
+           id="tspan3224"
+           sodipodi:role="line">EffectDevice</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3240"
+         y="127.36218"
+         x="1674.696"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="127.36218"
+           x="1674.696"
+           id="tspan3242"
+           sodipodi:role="line">effectsystem/effectdevice.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3226"
+         y="181.36218"
+         x="1675"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="181.36218"
+           x="1675"
+           id="tspan3228"
+           sodipodi:role="line">Contains effects. Inherited to clips and tracks since</tspan><tspan
+           id="tspan3230"
+           y="201.36218"
+           x="1675"
+           sodipodi:role="line">effects can be applied to both.</tspan></text>
+    </g>
+    <g
+       id="g4106"
+       transform="translate(-24,111.24266)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3232"
+         y="260.36218"
+         x="1674.042"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="260.36218"
+           x="1674.042"
+           id="tspan3234"
+           sodipodi:role="line">EffectList</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3236"
+         y="233.36218"
+         x="1674.696"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="233.36218"
+           x="1674.696"
+           id="tspan3238"
+           sodipodi:role="line">effectsystem/abstracteffectlist.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3244"
+         y="287.36218"
+         x="1674.296"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="287.36218"
+           x="1674.296"
+           id="tspan3246"
+           sodipodi:role="line">List of EffectListItems that can be applied to a clip.</tspan><tspan
+           id="tspan3248"
+           y="307.36218"
+           x="1674.296"
+           sodipodi:role="line">Is an EffectListItem itself, so effects can be grouped.</tspan><tspan
+           id="tspan3250"
+           y="327.36218"
+           x="1674.296"
+           sodipodi:role="line">Example: Mask part of a clip and apply several effects to this region.</tspan></text>
+    </g>
+    <g
+       id="g4120"
+       transform="translate(-24,155.78934)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3256"
+         y="399.36218"
+         x="1674.042"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="399.36218"
+           x="1674.042"
+           id="tspan3258"
+           sodipodi:role="line">EffectListItem</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3252"
+         y="370.36218"
+         x="1674.696"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="370.36218"
+           x="1674.696"
+           id="tspan3254"
+           sodipodi:role="line">effectsystem/effectlistitem.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3260"
+         y="426.36218"
+         x="1674.296"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="426.36218"
+           x="1674.296"
+           id="tspan3262"
+           sodipodi:role="line">Effect item that can be applied to a clip</tspan></text>
+    </g>
+    <g
+       id="g4178"
+       transform="translate(-1027.3919,-221.99997)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3268"
+         y="551.36218"
+         x="2138.1379"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="551.36218"
+           x="2138.1379"
+           id="tspan3270"
+           sodipodi:role="line">Producer</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3264"
+         y="525.36218"
+         x="2138.4238"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="525.36218"
+           x="2138.4238"
+           id="tspan3266"
+           sodipodi:role="line">producersystem/producer.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3272"
+         y="576.36218"
+         x="2139"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="576.36218"
+           x="2139"
+           id="tspan3274"
+           sodipodi:role="line">Corresponds to a MLT producer</tspan></text>
+    </g>
+    <g
+       id="g4132"
+       transform="translate(-488.09595,548.00001)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3280"
+         y="150.36218"
+         x="2138.1379"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="150.36218"
+           x="2138.1379"
+           id="tspan3282"
+           sodipodi:role="line">Effect</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3284"
+         y="121.36218"
+         x="2138.792"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="121.36218"
+           x="2138.792"
+           id="tspan3286"
+           sodipodi:role="line">effectsystem/effect.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3288"
+         y="177.36218"
+         x="2139.0959"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="177.36218"
+           x="2139.0959"
+           id="tspan3290"
+           sodipodi:role="line">Connected to a MLT filter. Has parameters with types,</tspan><tspan
+           id="tspan3292"
+           y="197.36218"
+           x="2139.0959"
+           sodipodi:role="line">e.g. values, colours, etc.</tspan></text>
+    </g>
+    <g
+       id="g4145"
+       transform="translate(0,1.6601562e-5)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3298"
+         y="283.36218"
+         x="2139.9639"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="283.36218"
+           x="2139.9639"
+           id="tspan3300"
+           sodipodi:role="line">AbstractParameterList</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3294"
+         y="253.36218"
+         x="2138.792"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="253.36218"
+           x="2138.792"
+           id="tspan3296"
+           sodipodi:role="line">effectsystem/abstractparameterlist.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3302"
+         y="308.36218"
+         x="2138.3918"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="308.36218"
+           x="2138.3918"
+           id="tspan3304"
+           sodipodi:role="line">Parameters used for transitions and effects</tspan></text>
+    </g>
+    <g
+       id="g4157"
+       transform="translate(0,48.908014)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3310"
+         y="372.36218"
+         x="2139.9639"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="372.36218"
+           x="2139.9639"
+           id="tspan3312"
+           sodipodi:role="line">AbstractParameter</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3306"
+         y="345.36218"
+         x="2138.792"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="345.36218"
+           x="2138.792"
+           id="tspan3308"
+           sodipodi:role="line">effectsystem/abstractparameter.h</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3314"
+         y="396.36218"
+         x="2138.3918"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="396.36218"
+           x="2138.3918"
+           id="tspan3316"
+           sodipodi:role="line">Parameter of any type</tspan></text>
+    </g>
+    <g
+       id="g4167"
+       transform="translate(-1.484375e-4,100)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3318"
+         y="434.36218"
+         x="2138.344"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="434.36218"
+           x="2138.344"
+           id="tspan3320"
+           sodipodi:role="line">/plugins/parameters/*</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3322"
+         y="461.36221"
+         x="2138.52"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           y="461.36221"
+           x="2138.52"
+           id="tspan3324"
+           sodipodi:role="line">Implementations of actual parameter types like</tspan><tspan
+           id="tspan3326"
+           y="481.36221"
+           x="2138.52"
+           sodipodi:role="line">booleans, floats, colours</tspan></text>
+    </g>
+    <g
+       id="g4023"
+       transform="translate(0.60797168,-89.99997)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3144"
+         y="179.36218"
+         x="1110.746"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+         xml:space="preserve"><tspan
+           y="179.36218"
+           x="1110.746"
+           id="tspan3146"
+           sodipodi:role="line">Monitor</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3140"
+         y="147.36218"
+         x="1111.576"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Code Pro;-inkscape-font-specification:Source Code Pro Medium"
+         xml:space="preserve"><tspan
+           y="147.36218"
+           x="1111.576"
+           id="tspan3142"
+           sodipodi:role="line">monitor/*</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3148"
+         y="206.36218"
+         x="1111"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+         xml:space="preserve"><tspan
+           id="tspan3152"
+           y="206.36218"
+           x="1111"
+           sodipodi:role="line">Plays the clip/timeline</tspan><tspan
+           id="tspan3906"
+           y="226.36218"
+           x="1111"
+           sodipodi:role="line">Corresponds to a MLT consumer</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro;text-indent:0;text-decoration:none;text-transform:none;direction:ltr;block-progression:tb;baseline-shift:baseline;color:#000000;fill-rule:nonzero;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       x="-40"
+       y="-94.637817"
+       id="text3029"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="-40"
+         y="-94.637817"
+         id="tspan3037">files are relative to src/core/</tspan><tspan
+         sodipodi:role="line"
+         x="-40"
+         y="-67.137817"
+         id="tspan3041">root path / is src/</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Drawings">
+    <rect
+       style="color:#000000;fill:#e3e3e3;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4190"
+       width="248.90158"
+       height="284.25693"
+       x="478.00418"
+       y="1008.5215" />
+    <rect
+       style="color:#000000;fill:#a8a8a8;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4960"
+       width="216.37468"
+       height="63.63961"
+       x="490.73212"
+       y="1026.9064" />
+    <rect
+       style="color:#000000;fill:#e3e3e3;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4962"
+       width="543.05804"
+       height="56.568562"
+       x="752.36163"
+       y="1014.1784" />
+    <rect
+       y="1083.4749"
+       x="752.36163"
+       height="56.568562"
+       width="543.05804"
+       id="rect4981"
+       style="color:#000000;fill:#e3e3e3;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       style="color:#000000;fill:#e3e3e3;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4983"
+       width="543.05804"
+       height="56.568562"
+       x="752.36163"
+       y="1154.1855" />
+    <rect
+       style="color:#000000;fill:#a8a8a8;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4985"
+       width="93.338097"
+       height="39.59798"
+       x="759.43268"
+       y="1022.6637" />
+    <rect
+       y="1022.6637"
+       x="868.32715"
+       height="39.598022"
+       width="192.52185"
+       id="rect5004"
+       style="color:#000000;fill:#a8a8a8;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="516.67322"
+       y="1067.0901"
+       id="text5043"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5045"
+         x="516.67322"
+         y="1067.0901">AbstractBinItem</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="892.1972"
+       y="1047.4626"
+       id="text5047"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5049"
+         x="892.1972"
+         y="1047.4626">AbstractTimelineClip</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="1115.0571"
+       y="1053.877"
+       id="text5051"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5053"
+         x="1115.0571"
+         y="1053.877">AbstractTimelineTrack</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="1235.118"
+       y="1238.8597"
+       id="text5055"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5057"
+         x="1235.118"
+         y="1238.8597">Timeline</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="504.84479"
+       y="1179.9135"
+       id="text5059"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5061"
+         x="504.84479"
+         y="1179.9135">Bin</tspan></text>
+  </g>
+</svg>
