@@ -38,9 +38,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.32712301"
-     inkscape:cx="1452.8136"
-     inkscape:cy="1660.9756"
+     inkscape:zoom="0.25"
+     inkscape:cx="2181.1273"
+     inkscape:cy="1213.3188"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="false"
@@ -179,7 +179,7 @@
        transform="matrix(0.73370251,0,0,0.73370251,223.62992,-243.07507)">
       <path
          transform="matrix(0.55805826,0,0,0.55805826,824.62503,212.08278)"
-         d="m 1822.9213,316.97113 a 56.568542,56.568542 0 1 1 -113.1371,0 56.568542,56.568542 0 1 1 113.1371,0 z"
+         d="m 1822.9213,316.97113 c 0,31.24194 -25.3266,56.56854 -56.5685,56.56854 -31.242,0 -56.5686,-25.3266 -56.5686,-56.56854 0,-31.24194 25.3266,-56.56854 56.5686,-56.56854 31.2419,0 56.5685,25.3266 56.5685,56.56854 z"
          sodipodi:ry="56.568542"
          sodipodi:rx="56.568542"
          sodipodi:cy="316.97113"
@@ -993,7 +993,7 @@
     </g>
     <g
        id="g4093"
-       transform="translate(-634.94026,485.92095)">
+       transform="translate(-634.94026,473.92095)">
       <text
          sodipodi:linespacing="125%"
          id="text3222"
@@ -1030,7 +1030,11 @@
            id="tspan3230"
            y="201.36218"
            x="1675"
-           sodipodi:role="line">effects can be applied to both.</tspan></text>
+           sodipodi:role="line">effects can be applied to both. Could also inherited to timelines</tspan><tspan
+           y="221.36218"
+           x="1675"
+           sodipodi:role="line"
+           id="tspan4508">and to bin items (e.g. colour grading so only needs to be done once)</tspan></text>
     </g>
     <g
        id="g4106"
@@ -1831,6 +1835,12 @@
          id="tspan4497-8-57"
          x="561.02094"
          y="1387.1022">n</tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path3723"
+       d="m 1163.8437,1077.3266 0,-23.6914"
+       style="opacity:0.27044025;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker11114);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
   </g>
   <g
      inkscape:groupmode="layer"
