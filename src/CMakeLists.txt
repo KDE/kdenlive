@@ -114,6 +114,7 @@ list(APPEND kdenlive_SRCS
   timecode.cpp
   timecodedisplay.cpp
   layoutmanagement.cpp
+  hidetitlebars.cpp
 
   core.cpp
 )

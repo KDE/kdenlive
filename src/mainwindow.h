@@ -517,8 +517,6 @@ private slots:
     * @param ids The ids of the clips to delete.
     * @param folderids The names and ids of the folders to delete. */
     void slotDeleteProjectClips(const QStringList &ids, const QMap<QString, QString> &folderids);
-    void slotShowTitleBars(bool show);
-    void slotSwitchTitles();
     /** @brief Update the capture folder if user asked a change. */
     void slotUpdateCaptureFolder();
 
@@ -556,6 +554,7 @@ private slots:
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
     void configurationChanged();
+    void GUISetupDone();
 };
 
 

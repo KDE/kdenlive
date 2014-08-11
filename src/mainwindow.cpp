@@ -61,6 +61,7 @@
 #include "project/dialogs/backupwidget.h"
 #include "utils/resourcewidget.h"
 #include "layoutmanagement.h"
+#include "hidetitlebars.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
@@ -355,14 +356,11 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = new KActionCategory(i18n("Interface"), actionCollection());
 
+    new HideTitleBars(this);
+
     setupGUI();
 
-    // Find QDockWidget tab bars and show / hide widget title bars on right click
-    QList <QTabBar *> tabs = findChildren<QTabBar *>();
-    for (int i = 0; i < tabs.count(); ++i) {
-        tabs.at(i)->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(tabs.at(i), SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotSwitchTitles()));
-    }
+    emit GUISetupDone();
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
@@ -1436,13 +1434,6 @@ void MainWindow::setupActions()
     addAction("paste_effects", pasteEffects);
     pasteEffects->setData("paste_effects");
     connect(pasteEffects , SIGNAL(triggered()), this, SLOT(slotPasteEffects()));
-
-    QAction *showTitleBar = new KAction(i18n("Show Title Bars"), this);
-    addAction("show_titlebars", showTitleBar);
-    showTitleBar->setCheckable(true);
-    connect(showTitleBar, SIGNAL(triggered(bool)), this, SLOT(slotShowTitleBars(bool)));
-    showTitleBar->setChecked(KdenliveSettings::showtitlebars());
-    slotShowTitleBars(KdenliveSettings::showtitlebars());
 
     m_closeAction = KStandardAction::close(this,  SLOT(closeCurrentDocument()),   actionCollection());
     KStandardAction::quit(this,                   SLOT(close()),                  actionCollection());
@@ -4201,27 +4192,6 @@ void MainWindow::slotDeleteProjectClips(const QStringList &ids, const QMap<QStri
         if (!folderids.isEmpty()) m_projectList->deleteProjectFolder(folderids);
         m_activeDocument->setModified(true);
     }
-}
-
-void MainWindow::slotShowTitleBars(bool show)
-{
-    QList <QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (int i = 0; i < docks.count(); ++i) {
-        QDockWidget* dock = docks.at(i);
-        if (show) {
-            dock->setTitleBarWidget(0);
-        } else {
-            if (!dock->isFloating()) {
-                dock->setTitleBarWidget(new QWidget);
-            }
-        }
-    }
-    KdenliveSettings::setShowtitlebars(show);
-}
-
-void MainWindow::slotSwitchTitles()
-{
-    slotShowTitleBars(!KdenliveSettings::showtitlebars());
 }
 
 QString MainWindow::getMimeType(bool open)
