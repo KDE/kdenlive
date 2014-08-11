@@ -39,11 +39,6 @@
 #include "project/transitionsettings.h"
 #include "dialogs/renderwidget.h"
 #include "renderer.h"
-#ifdef USE_JOGSHUTTLE
-#include "jogshuttle/jogshuttle.h"
-#include "jogshuttle/jogaction.h"
-#include "jogshuttle/jogshuttleconfig.h"
-#endif
 #include "project/clipproperties.h"
 #include "dialogs/wizard.h"
 #include "project/projectcommands.h"
@@ -66,7 +61,9 @@
 #include "project/dialogs/backupwidget.h"
 #include "utils/resourcewidget.h"
 #include "layoutmanagement.h"
-
+#ifdef USE_JOGSHUTTLE
+#include "jogshuttle/jogmanager.h"
+#endif
 
 #include <KApplication>
 #include <KAction>
@@ -153,10 +150,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
-    #ifdef USE_JOGSHUTTLE
-    m_jogProcess(NULL),
-    m_jogShuttle(NULL),
-    #endif
     m_findActivated(false),
     m_stopmotion(NULL),
     m_mainClip(NULL)
@@ -541,9 +534,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     slotConnectMonitors();
 
-#ifdef USE_JOGSHUTTLE
-    activateShuttleDevice();
-#endif
     m_projectListDock->raise();
 
     actionCollection()->addAssociatedWidget(m_clipMonitor->container());
@@ -657,15 +647,15 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     }
 
     new LayoutManagement(this);
+
+#ifdef USE_JOGSHUTTLE
+    new JogManager(this);
+#endif
 }
 
 MainWindow::~MainWindow()
 {
     delete m_stopmotion;
-
-#ifdef USE_JOGSHUTTLE
-    delete m_jogProcess;
-#endif
 
     m_effectStack->slotClipItemSelected(NULL);
     m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
@@ -830,32 +820,6 @@ void MainWindow::slotReloadEffects()
 {
     initEffects::parseCustomEffectsFile();
     m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
-}
-
-#ifdef USE_JOGSHUTTLE
-void MainWindow::activateShuttleDevice()
-{
-    delete m_jogShuttle;
-    m_jogShuttle = NULL;
-    delete m_jogProcess;
-    m_jogProcess = NULL;
-    if (KdenliveSettings::enableshuttle() == false) return;
-
-    m_jogProcess = new JogShuttle(JogShuttle::canonicalDevice(KdenliveSettings::shuttledevice()));
-    m_jogShuttle = new JogShuttleAction(m_jogProcess, JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons()));
-
-    connect(m_jogShuttle, SIGNAL(action(QString)), this, SLOT(slotDoAction(QString)));
-}
-#endif /* USE_JOGSHUTTLE */
-
-void MainWindow::slotDoAction(const QString& action_name)
-{
-    QAction* action = actionCollection()->action(action_name);
-    if (!action) {
-        fprintf(stderr, "%s", QString("shuttle action '%1' unknown\n").arg(action_name).toAscii().constData());
-        return;
-    }
-    action->trigger();
 }
 
 void MainWindow::configureNotifications()
@@ -2539,6 +2503,7 @@ void MainWindow::slotPreferences(int page, int option)
 
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(actions, this);
     connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(updateConfiguration()));
+    connect(dialog, SIGNAL(settingsChanged(QString)), SIGNAL(configurationChanged()));
     connect(dialog, SIGNAL(doResetProfile()), pCore->monitorManager(), SLOT(slotResetProfiles()));
 #ifndef Q_WS_MAC
     connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
@@ -2576,10 +2541,6 @@ void MainWindow::updateConfiguration()
     // Update list of transcoding profiles
     loadTranscoders();
     loadClipActions();
-#ifdef USE_JOGSHUTTLE
-    activateShuttleDevice();
-#endif
-
 }
 
 void MainWindow::slotSwitchSplitAudio()

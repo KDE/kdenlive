@@ -201,6 +201,7 @@ endif(OPENGL_FOUND)
 
 if(BUILD_JogShuttle)
   list(APPEND kdenlive_SRCS
+    jogshuttle/jogmanager.cpp
     jogshuttle/jogaction.cpp
     jogshuttle/jogshuttle.cpp
     jogshuttle/jogshuttleconfig.cpp

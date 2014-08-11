@@ -62,10 +62,6 @@ class TransitionSettings;
 class Monitor;
 class RecMonitor;
 class RenderWidget;
-#ifdef USE_JOGSHUTTLE
-class JogShuttle;
-class JogShuttleAction;
-#endif
 class DocClipBase;
 class Render;
 class Transition;
@@ -232,11 +228,6 @@ private:
 
     RenderWidget *m_renderWidget;
 
-#ifdef USE_JOGSHUTTLE
-    JogShuttle *m_jogProcess;
-    JogShuttleAction* m_jogShuttle;
-#endif
-
     KRecentFilesAction *m_fileOpenRecent;
     KAction *m_fileRevert;
     KAction *m_projectSearch;
@@ -274,9 +265,6 @@ private:
 
     void readOptions();
     void saveOptions();
-#ifdef USE_JOGSHUTTLE
-    void activateShuttleDevice();
-#endif
     void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
@@ -534,8 +522,6 @@ private slots:
     void slotMonitorRequestRenderFrame(bool request);
     /** @brief Open the stopmotion dialog. */
     void slotOpenStopmotion();
-    /** @brief Implements all the actions that are int he ActionsCollection. */
-    void slotDoAction(const QString& action_name);
     /** @brief Update project because the use of proxy clips was enabled / disabled. */
     void slotUpdateProxySettings();
     /** @brief Insert current project's timecode into the notes widget. */
@@ -559,6 +545,7 @@ private slots:
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
+    void configurationChanged();
 };
 
 
