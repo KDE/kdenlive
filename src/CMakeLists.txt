@@ -113,6 +113,7 @@ list(APPEND kdenlive_SRCS
   statusbarmessagelabel.cpp
   timecode.cpp
   timecodedisplay.cpp
+  layoutmanagement.cpp
 
   core.cpp
 )

@@ -263,7 +263,6 @@ private:
     KAction *m_loopZone;
     KAction *m_playZone;
     KAction *m_loopClip;
-    KSelectAction *m_loadLayout;
     StatusBarMessageLabel *m_messageLabel;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
@@ -308,9 +307,6 @@ private:
     * @param open If set to true, this will return the mimetype allowed for file opening (adds .tar.gz format)
     * @return The mimetype */
     QString getMimeType(bool open = true);
-
-    /** @brief Populates the "load layout" menu. */
-    void loadLayouts();
 
     StopmotionWidget *m_stopmotion;
     QTime m_timer;
@@ -533,10 +529,6 @@ private slots:
 
     /** @brief Delete a clip from current project */
     void slotDeleteClip(const QString &id);
-
-    /** @brief Saves the widgets layout */
-    void slotSaveLayout(QAction*);
-    void slotLoadLayout(QAction*);
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);

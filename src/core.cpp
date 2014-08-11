@@ -54,5 +54,4 @@ MonitorManager* Core::monitorManager()
     return m_monitorManager;
 }
 
-
 #include "core.moc"
