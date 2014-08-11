@@ -192,7 +192,6 @@ void Render::closeMlt()
 
     //kDebug() << "// // // CLOSE RENDERER " << m_name;
     delete m_blackClip;
-    //delete m_osdInfo;
 }
 
 void Render::slotSwitchFullscreen()
