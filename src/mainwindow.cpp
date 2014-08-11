@@ -2369,61 +2369,7 @@ void MainWindow::connectDocumentInfo(KdenliveDoc *doc)
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //changed
 {
     kDebug() << "///////////////////   CONNECTING DOC TO PROJECT VIEW ////////////////";
-    if (m_activeDocument) {
-        if (m_activeDocument == doc) {
-            return;
-        }
-        if (m_activeTimeline) {
-            disconnect(m_projectMonitor, SIGNAL(renderPosition(int)), m_activeTimeline, SLOT(moveCursorPos(int)));
-            disconnect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeTimeline, SLOT(slotSetZone(QPoint)));
-            disconnect(m_projectMonitor, SIGNAL(durationChanged(int)), m_activeTimeline, SLOT(setDuration(int)));
-            disconnect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeDocument, SLOT(setModified()));
-            disconnect(m_notesWidget, SIGNAL(textChanged()), m_activeDocument, SLOT(setModified()));
-            disconnect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeDocument, SLOT(setModified()));
-            disconnect(m_projectList, SIGNAL(projectModified()), m_activeDocument, SLOT(setModified()));
 
-            disconnect(m_projectMonitor->render, SIGNAL(refreshDocumentProducers(bool,bool)), m_activeDocument, SLOT(checkProjectClips(bool,bool)));
-
-            disconnect(m_activeDocument, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
-            disconnect(m_activeDocument, SIGNAL(addProjectClip(DocClipBase*,bool)), m_projectList, SLOT(slotAddClip(DocClipBase*,bool)));
-            disconnect(m_activeDocument, SIGNAL(resetProjectList()), m_projectList, SLOT(slotResetProjectList()));
-            disconnect(m_activeDocument, SIGNAL(signalDeleteProjectClip(QString)), this, SLOT(slotDeleteClip(QString)));
-            disconnect(m_activeDocument, SIGNAL(updateClipDisplay(QString)), m_projectList, SLOT(slotUpdateClip(QString)));
-            disconnect(m_activeDocument, SIGNAL(selectLastAddedClip(QString)), m_projectList, SLOT(slotSelectClip(QString)));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool)));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*,int,QPoint,bool)));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), this, SLOT(slotActivateTransitionView(Transition*)));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
-            disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase*,QPoint,bool,int)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool,int)));
-            disconnect(m_projectList, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), m_activeTimeline->projectView(), SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
-
-            disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(slotActivateMonitor()));
-            disconnect(m_activeTimeline, SIGNAL(configTrack(int)), this, SLOT(slotConfigTrack(int)));
-            disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
-            disconnect(m_effectStack, SIGNAL(updateEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)));
-            disconnect(m_effectStack, SIGNAL(removeEffect(ClipItem*,int,QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*,int,QDomElement)));
-            disconnect(m_effectStack, SIGNAL(addEffect(ClipItem*,QDomElement)), trackView->projectView(), SLOT(slotAddEffect(ClipItem*,QDomElement)));
-            disconnect(m_effectStack, SIGNAL(changeEffectState(ClipItem*,int,QList<int>,bool)), m_activeTimeline->projectView(), SLOT(slotChangeEffectState(ClipItem*,int,QList<int>,bool)));
-            disconnect(m_effectStack, SIGNAL(changeEffectPosition(ClipItem*,int,QList<int>,int)), m_activeTimeline->projectView(), SLOT(slotChangeEffectPosition(ClipItem*,int,QList<int>,int)));
-            disconnect(m_effectStack, SIGNAL(refreshEffectStack(ClipItem*)), m_activeTimeline->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
-            disconnect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
-            disconnect(m_effectStack, SIGNAL(displayMessage(QString,int)), this, SLOT(slotGotProgressInfo(QString,int)));
-            disconnect(m_transitionConfig, SIGNAL(transitionUpdated(Transition*,QDomElement)), m_activeTimeline->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
-            disconnect(m_transitionConfig, SIGNAL(seekTimeline(int)), m_activeTimeline->projectView() , SLOT(setCursorPos(int)));
-            disconnect(m_transitionConfig, SIGNAL(importClipKeyframes(GraphicsRectItem)), m_activeTimeline->projectView() , SLOT(slotImportClipKeyframes(GraphicsRectItem)));
-
-            disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
-            disconnect(m_activeTimeline, SIGNAL(zoneMoved(int,int)), this, SLOT(slotZoneMoved(int,int)));
-            disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
-            disconnect(m_projectList, SIGNAL(refreshClip(QString)), m_activeTimeline->projectView(), SLOT(slotRefreshThumbs(QString)));
-            disconnect(m_projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-	    disconnect(m_projectMonitor->render, SIGNAL(infoProcessingFinished()), m_activeTimeline->projectView(), SLOT(slotInfoProcessingFinished()));
-            m_effectStack->clear();
-        }
-        //m_activeDocument->setRenderer(NULL);
-        m_clipMonitor->stop();
-    }
     KdenliveSettings::setCurrent_profile(doc->profilePath());
     KdenliveSettings::setProject_fps(doc->fps());
     pCore->monitorManager()->resetProfiles(doc->timecode());
