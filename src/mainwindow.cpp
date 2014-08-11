@@ -873,10 +873,6 @@ void MainWindow::activateShuttleDevice()
     m_jogProcess = new JogShuttle(JogShuttle::canonicalDevice(KdenliveSettings::shuttledevice()));
     m_jogShuttle = new JogShuttleAction(m_jogProcess, JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons()));
 
-    connect(m_jogShuttle, SIGNAL(rewindOneFrame()), pCore->monitorManager(), SLOT(slotRewindOneFrame()));
-    connect(m_jogShuttle, SIGNAL(forwardOneFrame()), pCore->monitorManager(), SLOT(slotForwardOneFrame()));
-    connect(m_jogShuttle, SIGNAL(rewind(double)), pCore->monitorManager(), SLOT(slotRewind(double)));
-    connect(m_jogShuttle, SIGNAL(forward(double)), pCore->monitorManager(), SLOT(slotForward(double)));
     connect(m_jogShuttle, SIGNAL(action(QString)), this, SLOT(slotDoAction(QString)));
 }
 #endif /* USE_JOGSHUTTLE */

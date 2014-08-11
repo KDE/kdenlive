@@ -37,14 +37,10 @@ private:
     QStringList m_actionMap;
 
 public slots:
-    void slotJogBack();
-    void slotJogForward();
     void slotShuttlePos(int);
     void slotButton(int);
 
 signals:
-    void rewindOneFrame();
-    void forwardOneFrame();
     void rewind(double);
     void forward(double);
     void action(const QString&);

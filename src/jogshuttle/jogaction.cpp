@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "jogaction.h"
+#include "core.h"
 #include "monitor/monitormanager.h"
 
 #include <stdio.h>
@@ -36,29 +37,18 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
     // Add action map 0 used for stopping the monitor when the shuttle is in neutral position.
     if (m_actionMap.size() == 0)
       m_actionMap.append("monitor_pause");
-    
-    connect(m_jogShuttle, SIGNAL(jogBack()), this, SLOT(slotJogBack()));
-    connect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
-    connect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
-    connect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
+
+    connect(m_jogShuttle, SIGNAL(jogBack()), pCore->monitorManager(), SLOT(slotRewindOneFrame()));
+    connect(m_jogShuttle, SIGNAL(jogForward()), pCore->monitorManager(), SLOT(slotForwardOneFrame()));
+    connect(m_jogShuttle, SIGNAL(shuttlePos(int)), SLOT(slotShuttlePos(int)));
+    connect(m_jogShuttle, SIGNAL(button(int)), SLOT(slotButton(int)));
+
+    connect(this, SIGNAL(rewind(double)), pCore->monitorManager(), SLOT(slotRewind(double)));
+    connect(this, SIGNAL(forward(double)), pCore->monitorManager(), SLOT(slotForward(double)));
 }
 
 JogShuttleAction::~JogShuttleAction()
 {
-    disconnect(m_jogShuttle, SIGNAL(jogBack()), this, SLOT(slotJogBack()));
-    disconnect(m_jogShuttle, SIGNAL(jogForward()), this, SLOT(slotJogForward()));
-    disconnect(m_jogShuttle, SIGNAL(shuttlePos(int)), this, SLOT(slotShuttlePos(int)));
-    disconnect(m_jogShuttle, SIGNAL(button(int)), this, SLOT(slotButton(int)));
-}
-
-void JogShuttleAction::slotJogBack()
-{
-    emit rewindOneFrame();
-}
-
-void JogShuttleAction::slotJogForward()
-{
-    emit forwardOneFrame();
 }
 
 void JogShuttleAction::slotShuttlePos(int shuttle_pos)
