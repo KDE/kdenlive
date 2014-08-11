@@ -113,6 +113,16 @@ public:
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action);
 
+    /**
+     * @brief Adds a new dock widget to this window.
+     * @param title title of the dock widget
+     * @param objectName objectName of the dock widget (required for storing layouts)
+     * @param widget widget to use in the dock
+     * @param area area to which the dock should be added to
+     * @returns the created dock widget
+     */
+    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
+
 protected:
 
     /** @brief Closes the window.

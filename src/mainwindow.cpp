@@ -206,16 +206,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     /// Add Widgets ///
 
-    m_projectListDock = new QDockWidget(i18n("Project Tree"), this);
-    m_projectListDock->setObjectName("project_tree");
     m_projectList = new ProjectList();
-    m_projectListDock->setWidget(m_projectList);
-    addDockWidget(Qt::TopDockWidgetArea, m_projectListDock);
+    m_projectListDock = addDock(i18n("Project Tree"), "project_tree", m_projectList);
 
-    m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
-    m_clipMonitorDock->setObjectName("clip_monitor");
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), QString(), m_timelineArea);
-    m_clipMonitorDock->setWidget(m_clipMonitor);
 
     // Connect the project list
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase*,QPoint,bool)), m_clipMonitor, SLOT(slotSetClipProducer(DocClipBase*,QPoint,bool)));
@@ -230,16 +224,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));
     connect(m_clipMonitor, SIGNAL(extractZone(QString,QPoint)), m_projectList, SLOT(slotCutClipJob(QString,QPoint)));
 
-    m_projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
-    m_projectMonitorDock->setObjectName("project_monitor");
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), QString());
-    m_projectMonitorDock->setWidget(m_projectMonitor);
 
 #ifndef Q_WS_MAC
-    m_recMonitorDock = new QDockWidget(i18n("Record Monitor"), this);
-    m_recMonitorDock->setObjectName("record_monitor");
     m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, pCore->monitorManager());
-    m_recMonitorDock->setWidget(m_recMonitor);
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     connect(m_recMonitor, SIGNAL(addProjectClipList(KUrl::List)), this, SLOT(slotAddProjectClipList(KUrl::List)));
     connect(m_recMonitor, SIGNAL(showConfigDialog(int,int)), this, SLOT(slotPreferences(int,int)));
@@ -247,103 +235,66 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 #endif /* ! Q_WS_MAC */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
-    m_notesDock = new QDockWidget(i18n("Project Notes"), this);
-    m_notesDock->setObjectName("notes_widget");
     m_notesWidget = new NotesWidget();
     connect(m_notesWidget, SIGNAL(insertNotesTimecode()), this, SLOT(slotInsertNotesTimecode()));
     connect(m_notesWidget, SIGNAL(seekProject(int)), m_projectMonitor->render, SLOT(seekToFrame(int)));
-
     m_notesWidget->setTabChangesFocus(true);
 #if KDE_IS_VERSION(4,4,0)
     m_notesWidget->setClickMessage(i18n("Enter your project notes here ..."));
 #endif
-    m_notesDock->setWidget(m_notesWidget);
-    addDockWidget(Qt::TopDockWidgetArea, m_notesDock);
+    m_notesDock = addDock(i18n("Project Notes"), "notes_widget", m_notesWidget);
 
-    m_effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
-    m_effectStackDock->setObjectName("effect_stack");
     m_effectStack = new EffectStackView2(m_projectMonitor);
-    m_effectStackDock->setWidget(m_effectStack);
-    addDockWidget(Qt::TopDockWidgetArea, m_effectStackDock);
     connect(m_effectStack, SIGNAL(startFilterJob(ItemInfo,QString,QString,QString,QString,QString,QMap<QString,QString>)), m_projectList, SLOT(slotStartFilterJob(ItemInfo,QString,QString,QString,QString,QString,QMap<QString,QString>)));
+    m_effectStackDock = addDock(i18n("Effect Stack"), "effect_stack", m_effectStack);
 
-    m_transitionConfigDock = new QDockWidget(i18n("Transition"), this);
-    m_transitionConfigDock->setObjectName("transition");
     m_transitionConfig = new TransitionSettings(m_projectMonitor);
-    m_transitionConfigDock->setWidget(m_transitionConfig);
-    addDockWidget(Qt::TopDockWidgetArea, m_transitionConfigDock);
+    m_transitionConfigDock = addDock(i18n("Transition"), "transition", m_transitionConfig);
 
-    m_effectListDock = new QDockWidget(i18n("Effect List"), this);
-    m_effectListDock->setObjectName("effect_list");
     m_effectList = new EffectsListView();
-    m_effectListDock->setWidget(m_effectList);
-    addDockWidget(Qt::TopDockWidgetArea, m_effectListDock);
+    m_effectListDock = addDock(i18n("Effect List"), "effect_list", m_effectList);
 
     m_scopeManager = new ScopeManager(pCore->monitorManager());
     m_vectorscope = new Vectorscope();
-    m_vectorscopeDock = new QDockWidget(i18n("Vectorscope"), this);
-    m_vectorscopeDock->setObjectName(m_vectorscope->widgetName());
-    m_vectorscopeDock->setWidget(m_vectorscope);
-    addDockWidget(Qt::TopDockWidgetArea, m_vectorscopeDock);
+    m_vectorscopeDock = addDock(i18n("Vectorscope"), m_vectorscope->widgetName(), m_vectorscope);
     m_scopeManager->addScope(m_vectorscope, m_vectorscopeDock);
 
     m_waveform = new Waveform();
-    m_waveformDock = new QDockWidget(i18n("Waveform"), this);
-    m_waveformDock->setObjectName(m_waveform->widgetName());
-    m_waveformDock->setWidget(m_waveform);
-    addDockWidget(Qt::TopDockWidgetArea, m_waveformDock);
+    m_waveformDock = addDock(i18n("Waveform"), m_waveform->widgetName(), m_waveform);
     m_scopeManager->addScope(m_waveform, m_waveformDock);
 
     m_RGBParade = new RGBParade();
-    m_RGBParadeDock = new QDockWidget(i18n("RGB Parade"), this);
-    m_RGBParadeDock->setObjectName(m_RGBParade->widgetName());
-    m_RGBParadeDock->setWidget(m_RGBParade);
-    addDockWidget(Qt::TopDockWidgetArea, m_RGBParadeDock);
+    m_RGBParadeDock = addDock(i18n("RGB Parade"), m_RGBParade->widgetName(), m_RGBParade);
     m_scopeManager->addScope(m_RGBParade, m_RGBParadeDock);
 
     m_histogram = new Histogram();
-    m_histogramDock = new QDockWidget(i18n("Histogram"), this);
-    m_histogramDock->setObjectName(m_histogram->widgetName());
-    m_histogramDock->setWidget(m_histogram);
-    addDockWidget(Qt::TopDockWidgetArea, m_histogramDock);
+    m_histogramDock = addDock(i18n("Histogram"), m_histogram->widgetName(), m_histogram);
     m_scopeManager->addScope(m_histogram, m_histogramDock);
 
     m_audiosignal = new AudioSignal;
-    m_audiosignalDock = new QDockWidget(i18n("Audio Signal"), this);
-    m_audiosignalDock->setObjectName("audiosignal");
-    m_audiosignalDock->setWidget(m_audiosignal);
-    addDockWidget(Qt::TopDockWidgetArea, m_audiosignalDock);
+    m_audiosignalDock = addDock(i18n("Audio Signal"), m_audiosignal->widgetName(), m_audiosignal);
     m_scopeManager->addScope(m_audiosignal, m_audiosignalDock);
 
     m_audioSpectrum = new AudioSpectrum();
-    m_audioSpectrumDock = new QDockWidget(i18n("AudioSpectrum"), this);
-    m_audioSpectrumDock->setObjectName(m_audioSpectrum->widgetName());
-    m_audioSpectrumDock->setWidget(m_audioSpectrum);
-    addDockWidget(Qt::TopDockWidgetArea, m_audioSpectrumDock);
+    m_audioSpectrumDock = addDock(i18n("AudioSpectrum"), m_audioSpectrum->widgetName(), m_audioSpectrum);
     m_scopeManager->addScope(m_audioSpectrum, m_audioSpectrumDock);
 
     m_spectrogram = new Spectrogram();
-    m_spectrogramDock = new QDockWidget(i18n("Spectrogram"), this);
-    m_spectrogramDock->setObjectName(m_spectrogram->widgetName());
-    m_spectrogramDock->setWidget(m_spectrogram);
-    addDockWidget(Qt::TopDockWidgetArea, m_spectrogramDock);
+    m_spectrogramDock = addDock(i18n("Spectrogram"), m_spectrogram->widgetName(), m_spectrogram);
     m_scopeManager->addScope(m_spectrogram, m_spectrogramDock);
 
     // Add monitors here to keep them at the right of the window
-    addDockWidget(Qt::TopDockWidgetArea, m_clipMonitorDock);
-    addDockWidget(Qt::TopDockWidgetArea, m_projectMonitorDock);
+    m_clipMonitorDock = addDock(i18n("Clip Monitor"), "clip_monitor", m_clipMonitor);
+    m_projectMonitorDock = addDock(i18n("Project Monitor"), "project_monitor", m_projectMonitor);
 #ifndef Q_WS_MAC
-    addDockWidget(Qt::TopDockWidgetArea, m_recMonitorDock);
+    m_recMonitorDock = addDock(i18n("Record Monitor"), "record_monitor", m_recMonitor);
 #endif
 
-    m_undoViewDock = new QDockWidget(i18n("Undo History"), this);
-    m_undoViewDock->setObjectName("undo_history");
     m_undoView = new QUndoView();
     m_undoView->setCleanIcon(KIcon("edit-clear"));
     m_undoView->setEmptyLabel(i18n("Clean"));
-    m_undoViewDock->setWidget(m_undoView);
     m_undoView->setGroup(m_commandStack);
-    addDockWidget(Qt::TopDockWidgetArea, m_undoViewDock);
+    m_undoViewDock = addDock(i18n("Undo History"), "undo_history", m_undoView);
 
 
     setupActions();
@@ -4454,6 +4405,15 @@ void MainWindow::slotAlignPlayheadToMousePos()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     m_activeTimeline->projectView()->slotAlignPlayheadToMousePos();
+}
+
+QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget* widget, Qt::DockWidgetArea area)
+{
+    QDockWidget *dockWidget = new QDockWidget(title, this);
+    dockWidget->setObjectName(objectName);
+    dockWidget->setWidget(widget);
+    addDockWidget(area, dockWidget);
+    return dockWidget;
 }
 
 #include "mainwindow.moc"
