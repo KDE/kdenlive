@@ -356,6 +356,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = new KActionCategory(i18n("Interface"), actionCollection());
 
+    new LayoutManagement(this);
     new HideTitleBars(this);
 
     setupGUI();
@@ -594,8 +595,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
         }
         m_projectList->slotAddClip(urls);
     }
-
-    new LayoutManagement(this);
 
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);

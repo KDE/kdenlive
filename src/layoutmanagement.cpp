@@ -35,17 +35,10 @@ LayoutManagement::LayoutManagement(QObject* parent) :
     layoutActions->addAction("load_layouts", m_loadLayout);
     connect(m_loadLayout, SIGNAL(triggered(QAction*)), SLOT(slotLoadLayout(QAction*)));
 
-    
-    QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container("layout_save_as", pCore->window()));
-    if (saveLayout) {
-        connect(saveLayout, SIGNAL(triggered(QAction*)), SLOT(slotSaveLayout(QAction*)));
-    }
-
-    // Load layout names from config file
-    loadLayouts();
+    connect(pCore->window(), SIGNAL(GUISetupDone()), SLOT(slotOnGUISetupDone()));
 }
 
-void LayoutManagement::loadLayouts()
+void LayoutManagement::initializeLayouts()
 {
     QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container("layout_save_as", pCore->window()));
     if (m_loadLayout == NULL || saveLayout == NULL) return;
@@ -113,7 +106,17 @@ void LayoutManagement::slotSaveLayout(QAction *action)
     QByteArray st = pCore->window()->saveState();
     layoutName.append('_' + QString::number(layoutId));
     layouts.writeEntry(layoutName, st.toBase64());
-    loadLayouts();
+    initializeLayouts();
+}
+
+void LayoutManagement::slotOnGUISetupDone()
+{
+    QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container("layout_save_as", pCore->window()));
+    if (saveLayout) {
+        connect(saveLayout, SIGNAL(triggered(QAction*)), SLOT(slotSaveLayout(QAction*)));
+    }
+
+    initializeLayouts();
 }
 
 #include "layoutmanagement.moc"

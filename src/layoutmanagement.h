@@ -30,10 +30,11 @@ private slots:
     void slotSaveLayout(QAction *action);
     /** @brief Loads a saved widget layout. */
     void slotLoadLayout(QAction *action);
+    void slotOnGUISetupDone();
 
 private:
     /** @brief Populates the "load layout" menu. */
-    void loadLayouts();
+    void initializeLayouts();
 
     KSelectAction *m_loadLayout;
 };
