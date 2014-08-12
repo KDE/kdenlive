@@ -21,6 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "transitionsettings.h"
 #include "project/dialogs/archivewidget.h"
 #include "effectstack/effectstackview2.h"
+#include "project/dialogs/backupwidget.h"
 #include <KTabWidget>
 #include <KFileDialog>
 #include <KActionCollection>
@@ -41,6 +42,10 @@ ProjectManager::ProjectManager(QObject* parent) :
     KStandardAction::open(this,                   SLOT(openFile()),               pCore->window()->actionCollection());
     KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             pCore->window()->actionCollection());
     KStandardAction::openNew(this,                SLOT(newFile()),                pCore->window()->actionCollection());
+
+    KAction* backupAction = new KAction(KIcon("edit-undo"), i18n("Open Backup File"), this);
+    pCore->window()->addAction("open_backup", backupAction);
+    connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 }
 
 ProjectManager::~ProjectManager()
@@ -386,7 +391,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     pCore->monitorManager()->projectMonitor()->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
     progressDialog.progressBar()->setValue(4);
     if (openBackup) {
-        pCore->window()->slotOpenBackupDialog(url);
+        slotOpenBackup(url);
     }
 }
 
@@ -441,6 +446,34 @@ QString ProjectManager::getMimeType(bool open)
 KdenliveDoc* ProjectManager::current()
 {
     return m_project;
+}
+
+void ProjectManager::slotOpenBackup(const KUrl& url)
+{
+    KUrl projectFile;
+    KUrl projectFolder;
+    QString projectId;
+    if (!url.isEmpty()) {
+        // we could not open the project file, guess where the backups are
+        projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
+        projectFile = url;
+    } else {
+        projectFolder = m_project->projectFolder();
+        projectFile = m_project->url();
+        projectId = m_project->getDocumentProperty("documentid");
+    }
+
+    QPointer<BackupWidget> dia = new BackupWidget(projectFile, projectFolder, projectId, pCore->window());
+    if (dia->exec() == QDialog::Accepted) {
+        QString requestedBackup = dia->selectedFile();
+        m_project->backupLastSavedVersion(projectFile.path());
+        closeCurrentDocument(false);
+        doOpenFile(KUrl(requestedBackup), NULL);
+        m_project->setUrl(projectFile);
+        m_project->setModified(true);
+        pCore->window()->setCaption(m_project->description());
+    }
+    delete dia;
 }
 
 #include "projectmanager.moc"

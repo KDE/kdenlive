@@ -58,7 +58,6 @@
 #include "scopes/audioscopes/audiospectrum.h"
 #include "scopes/audioscopes/spectrogram.h"
 #include "project/dialogs/archivewidget.h"
-#include "project/dialogs/backupwidget.h"
 #include "utils/resourcewidget.h"
 #include "layoutmanagement.h"
 #include "hidetitlebars.h"
@@ -1053,10 +1052,6 @@ void MainWindow::setupActions()
     KAction* projectAction = new KAction(KIcon("configure"), i18n("Project Settings"), this);
     addAction("project_settings", projectAction);
     connect(projectAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProjectSettings()));
-
-    KAction* backupAction = new KAction(KIcon("edit-undo"), i18n("Open Backup File"), this);
-    addAction("open_backup", backupAction);
-    connect(backupAction, SIGNAL(triggered(bool)), this, SLOT(slotOpenBackupDialog()));
 
     KAction* projectRender = new KAction(KIcon("media-record"), i18n("Render"), this);
     addAction("project_render", projectRender);
@@ -3842,39 +3837,6 @@ void MainWindow::slotArchiveProject()
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }
     delete d;
-}
-
-
-void MainWindow::slotOpenBackupDialog(const KUrl &url)
-{
-    KdenliveDoc *project = pCore->projectManager()->current();
-
-    KUrl projectFile;
-    KUrl projectFolder;
-    QString projectId;
-    kDebug()<<"// BACKUP URL: "<<url.path();
-    if (!url.isEmpty()) {
-        // we could not open the project file, guess where the backups are
-        projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
-        projectFile = url;
-    }
-    else {
-        projectFolder = project->projectFolder();
-        projectFile = project->url();
-        projectId = project->getDocumentProperty("documentid");
-    }
-
-    QPointer<BackupWidget> dia = new BackupWidget(projectFile, projectFolder, projectId, this);
-    if (dia->exec() == QDialog::Accepted) {
-        QString requestedBackup = dia->selectedFile();
-        project->backupLastSavedVersion(projectFile.path());
-        pCore->projectManager()->closeCurrentDocument(false);
-        pCore->projectManager()->doOpenFile(KUrl(requestedBackup), NULL);
-        project->setUrl(projectFile);
-        project->setModified(true);
-        setCaption(project->description());
-    }
-    delete dia;
 }
 
 void MainWindow::slotElapsedTime()

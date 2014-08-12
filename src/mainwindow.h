@@ -316,9 +316,6 @@ public slots:
     void slotPreferences(int page = -1, int option = -1);
     void connectDocument(TrackView *trackView, KdenliveDoc *newDoc, KdenliveDoc **projectManagerDoc);
     void slotTimelineClipSelected(ClipItem* item, bool raise = true);
-    
-    /** @brief Open the project's backupdialog. */
-    void slotOpenBackupDialog(const KUrl &url = KUrl());
 
 private slots:
     /** @brief Shows the shortcut dialog. */

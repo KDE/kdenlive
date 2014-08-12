@@ -79,6 +79,8 @@ public slots:
 
 private slots:
     void slotRevert();
+    /** @brief Open the project's backupdialog. */
+    void slotOpenBackup(const KUrl &url = KUrl());
 
 signals:
     void projectOpened(Project *project);
