@@ -385,6 +385,17 @@ void MonitorManager::setupActions()
     zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);
     pCore->window()->addAction("seek_zone_end", zoneEnd);
     connect(zoneEnd, SIGNAL(triggered(bool)), SLOT(slotZoneEnd()));
+
+    KAction *markIn = new KAction(i18n("Set Zone In"), this);
+    markIn->setShortcut(Qt::Key_I);
+    pCore->window()-> addAction("mark_in", markIn);
+    connect(markIn, SIGNAL(triggered(bool)), SLOT(slotSetInPoint()));
+
+    KAction *markOut = new KAction(i18n("Set Zone Out"), this);
+    markOut->setShortcut(Qt::Key_O);
+    pCore->window()-> addAction("mark_out", markOut);
+    connect(markOut, SIGNAL(triggered(bool)), SLOT(slotSetOutPoint()));
+
 }
 
 
@@ -453,6 +464,24 @@ void MonitorManager::slotZoneEnd()
         m_projectMonitor->slotZoneEnd();
     else if (m_activeMonitor == m_clipMonitor)
         m_clipMonitor->slotZoneEnd();
+}
+
+void MonitorManager::slotSetInPoint()
+{
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotSetZoneStart();
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotSetZoneStart();
+    }
+}
+
+void MonitorManager::slotSetOutPoint()
+{
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotSetZoneEnd();
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotSetZoneEnd();
+    }
 }
 
 #include "monitormanager.moc"

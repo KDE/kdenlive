@@ -1076,17 +1076,6 @@ void MainWindow::setupActions()
     addAction("archive_project", archiveProject);
     connect(archiveProject, SIGNAL(triggered(bool)), this, SLOT(slotArchiveProject()));
 
-
-    KAction *markIn = new KAction(i18n("Set Zone In"), this);
-    markIn->setShortcut(Qt::Key_I);
-    addAction("mark_in", markIn);
-    connect(markIn, SIGNAL(triggered(bool)), this, SLOT(slotSetInPoint()));
-
-    KAction *markOut = new KAction(i18n("Set Zone Out"), this);
-    markOut->setShortcut(Qt::Key_O);
-    addAction("mark_out", markOut);
-    connect(markOut, SIGNAL(triggered(bool)), this, SLOT(slotSetOutPoint()));
-
     KAction *switchMonitor = new KAction(i18n("Switch monitor"), this);
     switchMonitor->setShortcut(Qt::Key_T);
     addAction("switch_monitor", switchMonitor);
@@ -2907,24 +2896,6 @@ void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *b
         else render->saveZone(url->url(), edit->text(), zone);
     }
     delete dialog;
-}
-
-void MainWindow::slotSetInPoint()
-{
-    if (m_clipMonitor->isActive()) {
-        m_clipMonitor->slotSetZoneStart();
-    } else {
-        m_projectMonitor->slotSetZoneStart();
-    }
-}
-
-void MainWindow::slotSetOutPoint()
-{
-    if (m_clipMonitor->isActive()) {
-        m_clipMonitor->slotSetZoneEnd();
-    } else {
-        m_projectMonitor->slotSetZoneEnd();
-    }
 }
 
 void MainWindow::slotResizeItemStart()

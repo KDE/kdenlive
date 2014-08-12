@@ -408,8 +408,6 @@ private slots:
     void slotAdjustProjectMonitor();
     void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, KUrl path = KUrl());
 
-    void slotSetInPoint();
-    void slotSetOutPoint();
     void slotResizeItemStart();
     void slotResizeItemEnd();
     void configureNotifications();
