@@ -19,6 +19,7 @@ class Project;
 class AbstractProjectPart;
 class TrackView;
 class KdenliveDoc;
+class NotesPlugin;
 class KAction;
 class KUrl;
 class KAutoSaveFile;
@@ -88,6 +89,7 @@ private slots:
     void slotOpenBackup(const KUrl &url = KUrl());
 
 signals:
+    void docOpened(KdenliveDoc *document);
 //     void projectOpened(Project *project);
 
 private:
@@ -103,6 +105,7 @@ private:
     KAction *m_fileRevert;
     KUrl m_startUrl;
     KRecentFilesAction *m_recentFilesAction;
+    NotesPlugin *m_notesPlugin;
 };
 
 #endif

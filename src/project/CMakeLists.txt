@@ -15,6 +15,7 @@ set(kdenlive_SRCS
   project/projectlistview.cpp
   project/subprojectitem.cpp
   project/transitionsettings.cpp
+  project/notesplugin.cpp
   project/jobs/abstractclipjob.cpp
   project/jobs/proxyclipjob.cpp
   project/jobs/cutclipjob.cpp

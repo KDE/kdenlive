@@ -32,6 +32,8 @@
 #include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
 #include "titler/titlewidget.h"
+#include "project/notesplugin.h"
+#include "project/dialogs/noteswidget.h"
 
 #include <KDebug>
 #include <KStandardDirs>
@@ -62,12 +64,12 @@
 
 const double DOCUMENTVERSION = 0.88;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, KTextEdit *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
     m_render(render),
-    m_notesWidget(notes),
+    m_notesWidget(notes->widget()),
     m_commandStack(new QUndoStack(undoGroup)),
     m_modified(false),
     m_projectFolder(projectFolder)

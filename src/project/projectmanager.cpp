@@ -22,6 +22,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/dialogs/archivewidget.h"
 #include "effectstack/effectstackview2.h"
 #include "project/dialogs/backupwidget.h"
+#include "project/notesplugin.h"
 #include <KTabWidget>
 #include <KFileDialog>
 #include <KActionCollection>
@@ -48,6 +49,8 @@ ProjectManager::ProjectManager(QObject* parent) :
     KAction* backupAction = new KAction(KIcon("edit-undo"), i18n("Open Backup File"), this);
     pCore->window()->addAction("open_backup", backupAction);
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
+
+    m_notesPlugin = new NotesPlugin(this);
 }
 
 ProjectManager::~ProjectManager()
@@ -124,7 +127,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     pCore->window()->m_timelineArea->setEnabled(true);
     pCore->window()->m_projectList->setEnabled(true);
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, pCore->window()->m_notesWidget, &openBackup, pCore->window());
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
@@ -138,6 +141,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     }
     connectDocumentInfo(doc);
     pCore->window()->connectDocument(doc, &m_project);
+    emit docOpened(m_project);
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
 }
 
@@ -349,7 +353,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setValue(0);
 
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, pCore->window()->m_notesWidget, &openBackup, pCore->window(), &progressDialog);
+    KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
 
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);
@@ -374,6 +378,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     bool ok;
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
     pCore->window()->connectDocument(doc, &m_project);
+    emit docOpened(m_project);
     progressDialog.progressBar()->setValue(3);
     progressDialog.repaint();
 

@@ -49,8 +49,6 @@
 #include "statusbarmessagelabel.h"
 #include "dvdwizard/dvdwizard.h"
 #include "stopmotion/stopmotion.h"
-#include "project/dialogs/noteswidget.h"
-#include "ui_backupdialog_ui.h"
 
 class KdenliveDoc;
 class TrackView;
@@ -128,7 +126,6 @@ public:
     ProjectList *m_projectList;
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
-    NotesWidget *m_notesWidget;
     KActionCollection *m_tracksActionCollection;
     EffectStackView2 *m_effectStack;
     TransitionSettings *m_transitionConfig;
@@ -173,8 +170,6 @@ private:
 
     QDockWidget *m_effectListDock;
     EffectsListView *m_effectList;
-
-    QDockWidget *m_notesDock;
 
     QDockWidget *m_effectStackDock;
 
@@ -490,8 +485,6 @@ private slots:
     void slotOpenStopmotion();
     /** @brief Update project because the use of proxy clips was enabled / disabled. */
     void slotUpdateProxySettings();
-    /** @brief Insert current project's timecode into the notes widget. */
-    void slotInsertNotesTimecode();
     /** @brief Disable proxies for this project. */
     void slotDisableProxies();
 

@@ -215,15 +215,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 #endif /* ! Q_WS_MAC */
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
 
-    m_notesWidget = new NotesWidget();
-    connect(m_notesWidget, SIGNAL(insertNotesTimecode()), this, SLOT(slotInsertNotesTimecode()));
-    connect(m_notesWidget, SIGNAL(seekProject(int)), m_projectMonitor->render, SLOT(seekToFrame(int)));
-    m_notesWidget->setTabChangesFocus(true);
-#if KDE_IS_VERSION(4,4,0)
-    m_notesWidget->setClickMessage(i18n("Enter your project notes here ..."));
-#endif
-    m_notesDock = addDock(i18n("Project Notes"), "notes_widget", m_notesWidget);
-
     m_effectStack = new EffectStackView2(m_projectMonitor);
     connect(m_effectStack, SIGNAL(startFilterJob(ItemInfo,QString,QString,QString,QString,QString,QMap<QString,QString>)), m_projectList, SLOT(slotStartFilterJob(ItemInfo,QString,QString,QString,QString,QString,QMap<QString,QString>)));
     m_effectStackDock = addDock(i18n("Effect Stack"), "effect_stack", m_effectStack);
@@ -299,7 +290,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     /// Tabify Widgets ///
     tabifyDockWidget(m_effectListDock, m_effectStackDock);
     tabifyDockWidget(m_effectListDock, m_transitionConfigDock);
-    tabifyDockWidget(m_projectListDock, m_notesDock);
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
 #ifndef Q_WS_MAC
@@ -1880,8 +1870,6 @@ void MainWindow::connectDocument(KdenliveDoc *newDoc, KdenliveDoc **projectManag
     connect(newDoc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(newDoc, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(newDoc, SIGNAL(saveTimelinePreview(QString)), pCore->projectManager()->currentTrackView(), SLOT(slotSaveTimelinePreview(QString)));
-
-    connect(m_notesWidget, SIGNAL(textChanged()), newDoc, SLOT(setModified()));
 
     connect(pCore->projectManager()->currentTrackView()->projectView(), SIGNAL(updateClipMarkers(DocClipBase*)), this, SLOT(slotUpdateClipMarkers(DocClipBase*)));
     connect(pCore->projectManager()->currentTrackView(), SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));
@@ -3627,13 +3615,6 @@ void MainWindow::slotUpdateProxySettings()
     if (KdenliveSettings::enableproxy())
         KStandardDirs::makeDir(pCore->projectManager()->current()->projectFolder().path(KUrl::AddTrailingSlash) + "proxy/");
     m_projectList->updateProxyConfig();
-}
-
-void MainWindow::slotInsertNotesTimecode()
-{
-    int frames = m_projectMonitor->render->seekPosition().frames(pCore->projectManager()->current()->fps());
-    QString position = pCore->projectManager()->current()->timecode().getTimecodeFromFrames(frames);
-    m_notesWidget->insertHtml("<a href=\"" + QString::number(frames) + "\">" + position + "</a> ");
 }
 
 void MainWindow::slotArchiveProject()

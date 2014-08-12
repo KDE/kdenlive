@@ -29,7 +29,7 @@
 NotesWidget::NotesWidget(QWidget * parent) :
         KTextEdit(parent)
 {
-    connect(this, SIGNAL(aboutToShowContextMenu(QMenu*)), this, SLOT(slotFillNotesMenu(QMenu*)));
+    connect(this, SIGNAL(aboutToShowContextMenu(QMenu*)), SLOT(slotFillNotesMenu(QMenu*)));
     setMouseTracking(true);
 }
 
