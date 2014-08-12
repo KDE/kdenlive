@@ -41,8 +41,12 @@ public:
     /** @brief Returns a pointer to the currently opened project. At any time a project should be open. */
     KdenliveDoc *current();
 
+    /** @brief Opens or creates a file.
+     * Command line argument passed in Url has
+     * precedence, then "openlastproject", then just a plain empty file.
+     * If opening Url fails, openlastproject will _not_ be used.
+     */
     void init(const KUrl &projectUrl, const QString &clipList);
-    bool queryClose();
 
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
     void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KUrl &originUrl);

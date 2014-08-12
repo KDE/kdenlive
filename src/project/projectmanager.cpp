@@ -49,9 +49,6 @@ ProjectManager::~ProjectManager()
 
 void ProjectManager::init(const KUrl& projectUrl, const QString& clipList)
 {
-    // Open or create a file.  Command line argument passed in Url has
-    // precedence, then "openlastproject", then just a plain empty file.
-    // If opening Url fails, openlastproject will _not_ be used.
     if (!projectUrl.isEmpty()) {
         // delay loading so that the window shows up
         m_startUrl = projectUrl;
@@ -73,36 +70,6 @@ void ProjectManager::init(const KUrl& projectUrl, const QString& clipList)
     }
 }
 
-bool ProjectManager::queryClose()
-{
-    // warn the user to save if document is modified and we have clips in our project list
-    if (m_project && m_project->isModified() &&
-            ((pCore->window()->m_projectList->documentClipList().isEmpty() && !m_project->url().isEmpty()) ||
-             !pCore->window()->m_projectList->documentClipList().isEmpty())) {
-        pCore->window()->raise();
-        pCore->window()->activateWindow();
-        QString message;
-        if (m_project->url().fileName().isEmpty()) {
-            message = i18n("Save changes to document?");
-        } else {
-            message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_project->url().fileName());
-        }
-        switch (KMessageBox::warningYesNoCancel(pCore->window(), message)) {
-        case KMessageBox::Yes :
-            // save document here. If saving fails, return false;
-            return saveFile();
-        case KMessageBox::No :
-            // User does not want to save the changes, clear recovery files
-            m_project->m_autosave->resize(0);
-            return true;
-        default: // cancel
-            return false;
-        }
-    }
-    return true;
-}
-
-
 void ProjectManager::newFile(bool showProjectSettings, bool force)
 {
     if (!pCore->window()->m_timelineArea->isEnabled() && !force) {
@@ -115,10 +82,8 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QMap <QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     if (!showProjectSettings) {
-        if (!KdenliveSettings::activatetabs()) {
-            if (!closeCurrentDocument()) {
-                return;
-            }
+        if (!closeCurrentDocument()) {
+            return;
         }
     } else {
         QPointer<ProjectSettings> w = new ProjectSettings(NULL, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
@@ -126,11 +91,9 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
             delete w;
             return;
         }
-        if (!KdenliveSettings::activatetabs()) {
-            if (!closeCurrentDocument()) {
-                delete w;
-                return;
-            }
+        if (!closeCurrentDocument()) {
+            delete w;
+            return;
         }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) {
             pCore->window()->slotSwitchVideoThumbs();
@@ -166,31 +129,14 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         pCore->window()->slotPreferences(6);
         return;
     }
-    if (pCore->window()->m_timelineArea->count() == 1) {
-        connectDocumentInfo(doc);
-        pCore->window()->connectDocument(trackView, doc, &m_project);
-    } else {
-        pCore->window()->m_timelineArea->setTabBarHidden(false);
-    }
+    connectDocumentInfo(doc);
+    pCore->window()->connectDocument(trackView, doc, &m_project);
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
-//     m_closeAction->setEnabled(pCore->window()->m_timelineArea->count() > 1);
 }
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges)
 {
-    QWidget *w = pCore->window()->m_timelineArea->currentWidget();
-    if (!w) {
-        return true;
-    }
-    // closing current document
-    int ix = pCore->window()->m_timelineArea->currentIndex() + 1;
-    if (ix == pCore->window()->m_timelineArea->count()) {
-        ix = 0;
-    }
-    pCore->window()->m_timelineArea->setCurrentIndex(ix);
-    TrackView *tabToClose = (TrackView *) w;
-    KdenliveDoc *docToClose = tabToClose->document();
-    if (docToClose && docToClose->isModified() && saveChanges) {
+    if (m_project && m_project->isModified() && saveChanges) {
         QString message;
         if (m_project->url().fileName().isEmpty()) {
             message = i18n("Save changes to document?");
@@ -201,7 +147,9 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
         switch (KMessageBox::warningYesNoCancel(pCore->window(), message)) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
-            if (saveFile() == false) return false;
+            if (saveFile() == false) {
+                return false;
+            }
             break;
         case KMessageBox::Cancel :
             return false;
@@ -214,28 +162,16 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
     pCore->window()->slotTimelineClipSelected(NULL, false);
     pCore->monitorManager()->clipMonitor()->slotSetClipProducer(NULL);
     pCore->window()->m_projectList->slotResetProjectList();
-    pCore->window()->m_timelineArea->removeTab(pCore->window()->m_timelineArea->indexOf(w));
-    if (pCore->window()->m_timelineArea->count() == 1) {
-        pCore->window()->m_timelineArea->setTabBarHidden(true);
-//         m_closeAction->setEnabled(false);
-    }
+    pCore->window()->m_timelineArea->removeTab(0);
 
-    if (docToClose == m_project) {
-        delete m_project;
-        m_project = NULL;
-        pCore->monitorManager()->setDocument(m_project);
-        pCore->window()->m_effectStack->clear();
-        pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
-    } else {
-        delete docToClose;
-    }
+    delete m_project;
+    m_project = NULL;
+    pCore->monitorManager()->setDocument(m_project);
+    pCore->window()->m_effectStack->clear();
+    pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 
-    if (w == pCore->window()->m_activeTimeline) {
-        delete pCore->window()->m_activeTimeline;
-        pCore->window()->m_activeTimeline = NULL;
-    } else {
-        delete w;
-    }
+    delete pCore->window()->m_activeTimeline;
+    pCore->window()->m_activeTimeline = NULL;
 
     return true;
 }
@@ -259,8 +195,6 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     }
 
     pCore->window()->setCaption(m_project->description());
-    pCore->window()->m_timelineArea->setTabText(pCore->window()->m_timelineArea->currentIndex(), m_project->description());
-    pCore->window()->m_timelineArea->setTabToolTip(pCore->window()->m_timelineArea->currentIndex(), m_project->url().path());
     m_project->setModified(false);
     pCore->window()->m_fileOpenRecent->addUrl(KUrl(outputFileName));
     m_fileRevert->setEnabled(true);
@@ -288,10 +222,6 @@ bool ProjectManager::saveFileAs()
 
 bool ProjectManager::saveFile()
 {
-    if (!m_project) {
-        return true;
-    }
-
     if (m_project->url().isEmpty()) {
         return saveFileAs();
     } else {
@@ -361,28 +291,12 @@ void ProjectManager::openFile(const KUrl &url)
         return;
     }
 
-    // Check if the document is already opened
-    const int ct = pCore->window()->m_timelineArea->count();
-    bool isOpened = false;
-    int i;
-    for (i = 0; i < ct; ++i) {
-        TrackView *tab = (TrackView *) pCore->window()->m_timelineArea->widget(i);
-        KdenliveDoc *doc = tab->document();
-        if (doc->url() == url) {
-            isOpened = true;
-            break;
-        }
-    }
-
-    if (isOpened) {
-        pCore->window()->m_timelineArea->setCurrentIndex(i);
+    if (m_project && m_project->url() == url) {
         return;
     }
 
-    if (!KdenliveSettings::activatetabs()) {
-        if (!closeCurrentDocument()) {
-            return;
-        }
+    if (!closeCurrentDocument()) {
+        return;
     }
 
     // Check for backup file
@@ -410,6 +324,8 @@ void ProjectManager::openFile(const KUrl &url)
 
 void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 {
+    Q_ASSERT(m_project == NULL);
+
     if (!pCore->window()->m_timelineArea->isEnabled()) return;
     m_fileRevert->setEnabled(true);
 
@@ -419,7 +335,6 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         pCore->window()->m_stopmotion = NULL;
     }
 
-//     m_timer.start();
     KProgressDialog progressDialog(pCore->window(), i18n("Loading project"), i18n("Loading project"));
     progressDialog.setAllowCancel(false);
     progressDialog.progressBar()->setMaximum(4);
@@ -464,12 +379,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         newFile(false, true);
         return;
     }
-    pCore->window()->m_timelineArea->setTabToolTip(pCore->window()->m_timelineArea->currentIndex(), doc->url().path());
     trackView->setDuration(trackView->duration());
-
-    if (pCore->window()->m_timelineArea->count() > 1) {
-        pCore->window()->m_timelineArea->setTabBarHidden(false);
-    }
 
     pCore->window()->slotGotProgressInfo(QString(), -1);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(trackView->duration());
@@ -502,7 +412,9 @@ void ProjectManager::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, cons
 
 void ProjectManager::slotRevert()
 {
-    if (KMessageBox::warningContinueCancel(pCore->window(), i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel) return;
+    if (KMessageBox::warningContinueCancel(pCore->window(), i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel){
+        return;
+    }
     KUrl url = m_project->url();
     if (closeCurrentDocument(false))
         doOpenFile(url, NULL);
@@ -510,11 +422,6 @@ void ProjectManager::slotRevert()
 
 void ProjectManager::connectDocumentInfo(KdenliveDoc *doc)
 {
-    if (m_project) {
-        if (m_project == doc)
-            return;
-        disconnect(m_project, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
-    }
     connect(doc, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
 }
 

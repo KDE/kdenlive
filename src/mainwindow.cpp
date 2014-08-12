@@ -608,7 +608,8 @@ bool MainWindow::queryClose()
         pCore->monitorManager()->stopActiveMonitor();
     }
 
-    return pCore->projectManager()->queryClose();
+    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
+    return pCore->projectManager()->closeCurrentDocument();
 }
 
 void MainWindow::loadPlugins()
