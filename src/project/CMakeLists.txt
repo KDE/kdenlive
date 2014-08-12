@@ -8,6 +8,7 @@ set(kdenlive_SRCS
   project/folderprojectitem.cpp
   project/invaliddialog.cpp
   project/projectcommands.cpp
+  project/projectmanager.cpp
   project/projectitem.cpp
   project/projectlist.cpp
   project/projectlistview.cpp

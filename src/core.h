@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivecore_export.h"
 
 class MainWindow;
+class ProjectManager;
 class MonitorManager;
 
 #define pCore Core::self()
@@ -46,6 +47,9 @@ public:
 
     /** @brief Returns a pointer to the main window. */
     MainWindow *window();
+
+    /** @brief Returns a pointer to the project manager. */
+    ProjectManager *projectManager();
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
 
@@ -58,6 +62,7 @@ private:
     void initLocale();
 
     MainWindow *m_mainWindow;
+    ProjectManager *m_projectManager;
     MonitorManager *m_monitorManager;
 };
 

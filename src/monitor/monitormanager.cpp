@@ -419,5 +419,15 @@ void MonitorManager::slotSetInterpolation(int ix)
     setConsumerProperty("rescale", value);
 }
 
+Monitor* MonitorManager::clipMonitor()
+{
+    return m_clipMonitor;
+}
+
+Monitor* MonitorManager::projectMonitor()
+{
+    return m_projectMonitor;
+}
+
 #include "monitormanager.moc"
 

@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "core.h"
 #include "mainwindow.h"
+#include "project/projectmanager.h"
 #include "monitor/monitormanager.h"
 #include <QCoreApplication>
 #include <locale>
@@ -39,6 +40,7 @@ void Core::init()
 {
     initLocale();
 
+    m_projectManager = new ProjectManager(this);
     m_monitorManager = new MonitorManager(this);
 }
 
@@ -50,6 +52,11 @@ Core* Core::self()
 MainWindow* Core::window()
 {
     return m_mainWindow;
+}
+
+ProjectManager *Core::projectManager()
+{
+    return m_projectManager;
 }
 
 MonitorManager* Core::monitorManager()
