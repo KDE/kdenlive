@@ -132,6 +132,8 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool ok;
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
     pCore->window()->m_timelineArea->addTab(m_trackView, KIcon("kdenlive"), doc->description());
+
+    m_project = doc;
     if (!ok) {
         // MLT is broken
         //pCore->window()->m_timelineArea->setEnabled(false);
@@ -139,8 +141,9 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         pCore->window()->slotPreferences(6);
         return;
     }
-    connectDocumentInfo(doc);
-    pCore->window()->connectDocument(doc, &m_project);
+
+    connect(m_project, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
+    pCore->window()->connectDocument();
     emit docOpened(m_project);
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
 }
@@ -370,19 +373,21 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         doc->setModified(true);
         stale->setParent(doc);
     }
-    connectDocumentInfo(doc);
+    connect(doc, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
 
     progressDialog.progressBar()->setValue(2);
     progressDialog.repaint();
 
     bool ok;
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
-    pCore->window()->connectDocument(doc, &m_project);
+
+    m_project = doc;
+    pCore->window()->connectDocument();
     emit docOpened(m_project);
     progressDialog.progressBar()->setValue(3);
     progressDialog.repaint();
 
-    pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, KIcon("kdenlive"), doc->description()));
+    pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, KIcon("kdenlive"), m_project->description()));
     if (!ok) {
         pCore->window()->m_timelineArea->setEnabled(false);
         pCore->window()->m_projectList->setEnabled(false);
@@ -430,11 +435,6 @@ void ProjectManager::slotRevert()
     KUrl url = m_project->url();
     if (closeCurrentDocument(false))
         doOpenFile(url, NULL);
-}
-
-void ProjectManager::connectDocumentInfo(KdenliveDoc *doc)
-{
-    connect(doc, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
 }
 
 QString ProjectManager::getMimeType(bool open)

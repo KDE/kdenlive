@@ -93,7 +93,6 @@ signals:
 //     void projectOpened(Project *project);
 
 private:
-    void connectDocumentInfo(KdenliveDoc *doc);
     /** @brief Checks that the Kdenlive mime type is correctly installed.
     * @param open If set to true, this will return the mimetype allowed for file opening (adds .tar.gz format)
     * @return The mimetype */

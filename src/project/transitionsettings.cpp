@@ -18,7 +18,7 @@
 
 
 #include "transitionsettings.h"
-
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "timeline/transition.h"
@@ -26,6 +26,8 @@
 #include "effectstack/effectstackedit.h"
 #include "monitor/monitoreditwidget.h"
 #include "monitor/monitorscene.h"
+#include "project/projectmanager.h"
+#include "doc/kdenlivedoc.h"
 
 #include <KDebug>
 
@@ -70,10 +72,11 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     connect(m_effectEdit, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
 }
 
-void TransitionSettings::updateProjectFormat(const MltVideoProfile &profile, const Timecode &t, const QList<TrackInfo> &info)
+void TransitionSettings::updateProjectFormat()
 {
-    m_effectEdit->updateProjectFormat(profile, t);
-    m_tracks = info;
+    KdenliveDoc *project = pCore->projectManager()->current();
+    m_effectEdit->updateProjectFormat(project->mltProfile(), project->timecode());
+    m_tracks = project->tracksList();
     updateTrackList();
 }
 

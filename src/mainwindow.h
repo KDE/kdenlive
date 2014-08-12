@@ -306,7 +306,7 @@ public slots:
     void slotSwitchAudioThumbs();
 
     void slotPreferences(int page = -1, int option = -1);
-    void connectDocument(KdenliveDoc *newDoc, KdenliveDoc **projectManagerDoc);
+    void connectDocument();
     void slotTimelineClipSelected(ClipItem* item, bool raise = true);
 
 private slots:
