@@ -132,7 +132,6 @@ public:
     KActionCollection *m_tracksActionCollection;
     EffectStackView2 *m_effectStack;
     TransitionSettings *m_transitionConfig;
-    KRecentFilesAction *m_fileOpenRecent;
     QUndoView *m_undoView;
     StatusBarMessageLabel *m_messageLabel;
 

@@ -307,7 +307,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 #endif
     setCentralWidget(m_timelineArea);
 
-    m_fileOpenRecent = KStandardAction::openRecent(pCore->projectManager(), SLOT(openFile(KUrl)), actionCollection());
     readOptions();
 
     KAction *action;
@@ -1497,7 +1496,7 @@ void MainWindow::saveOptions()
 {
     KdenliveSettings::self()->writeConfig();
     KSharedConfigPtr config = KGlobal::config();
-    m_fileOpenRecent->saveEntries(KConfigGroup(config, "Recent Files"));
+    pCore->projectManager()->recentFilesAction()->saveEntries(KConfigGroup(config, "Recent Files"));
     KConfigGroup treecolumns(config, "Project Tree");
     treecolumns.writeEntry("columns", m_projectList->headerInfo());
     config->sync();
@@ -1506,7 +1505,7 @@ void MainWindow::saveOptions()
 void MainWindow::readOptions()
 {
     KSharedConfigPtr config = KGlobal::config();
-    m_fileOpenRecent->loadEntries(KConfigGroup(config, "Recent Files"));
+    pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
     KConfigGroup initialGroup(config, "version");
     bool upgrade = false;
     if (initialGroup.exists()) {

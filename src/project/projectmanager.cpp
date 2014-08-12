@@ -43,6 +43,7 @@ ProjectManager::ProjectManager(QObject* parent) :
     KStandardAction::open(this,                   SLOT(openFile()),               pCore->window()->actionCollection());
     KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             pCore->window()->actionCollection());
     KStandardAction::openNew(this,                SLOT(newFile()),                pCore->window()->actionCollection());
+    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), pCore->window()->actionCollection());
 
     KAction* backupAction = new KAction(KIcon("edit-undo"), i18n("Open Backup File"), this);
     pCore->window()->addAction("open_backup", backupAction);
@@ -202,7 +203,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
 
     pCore->window()->setCaption(m_project->description());
     m_project->setModified(false);
-    pCore->window()->m_fileOpenRecent->addUrl(KUrl(outputFileName));
+    m_recentFilesAction->addUrl(KUrl(outputFileName));
     m_fileRevert->setEnabled(true);
     pCore->window()->m_undoView->stack()->setClean();
 
@@ -249,19 +250,19 @@ void ProjectManager::openFile()
         return;
     }
 
-    pCore->window()->m_fileOpenRecent->addUrl(url);
+    m_recentFilesAction->addUrl(url);
     openFile(url);
 }
 
 void ProjectManager::openLastFile()
 {
-    if (pCore->window()->m_fileOpenRecent->selectableActionGroup()->actions().isEmpty()) {
+    if (m_recentFilesAction->selectableActionGroup()->actions().isEmpty()) {
         // No files in history
         newFile(false);
         return;
     }
 
-    QAction *firstUrlAction = pCore->window()->m_fileOpenRecent->selectableActionGroup()->actions().last();
+    QAction *firstUrlAction = m_recentFilesAction->selectableActionGroup()->actions().last();
     if (firstUrlAction) {
         firstUrlAction->trigger();
     } else {
@@ -480,6 +481,11 @@ void ProjectManager::slotOpenBackup(const KUrl& url)
 TrackView* ProjectManager::currentTrackView()
 {
     return m_trackView;
+}
+
+KRecentFilesAction* ProjectManager::recentFilesAction()
+{
+    return m_recentFilesAction;
 }
 
 #include "projectmanager.moc"

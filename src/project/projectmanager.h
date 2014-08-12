@@ -17,11 +17,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 class Project;
 class AbstractProjectPart;
+class TrackView;
+class KdenliveDoc;
 class KAction;
 class KUrl;
-class KdenliveDoc;
 class KAutoSaveFile;
-class TrackView;
+class KRecentFilesAction;
 
 
 /**
@@ -52,6 +53,8 @@ public:
 
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
     void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KUrl &originUrl);
+
+    KRecentFilesAction *recentFilesAction();
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
@@ -99,6 +102,7 @@ private:
 
     KAction *m_fileRevert;
     KUrl m_startUrl;
+    KRecentFilesAction *m_recentFilesAction;
 };
 
 #endif
