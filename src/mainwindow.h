@@ -386,8 +386,6 @@ private slots:
     void slotSnapRewind();
     void slotClipStart();
     void slotClipEnd();
-    void slotZoneStart();
-    void slotZoneEnd();
     void slotFind();
     void findTimeout();
     void slotFindNext();

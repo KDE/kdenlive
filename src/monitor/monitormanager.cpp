@@ -375,6 +375,16 @@ void MonitorManager::setupActions()
     else interpol->setCurrentItem(0);
     pCore->window()->addAction("mlt_interpolation", interpol);
     connect(interpol, SIGNAL(triggered(int)), SLOT(slotSetInterpolation(int)));
+
+    KAction* zoneStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Zone Start"), this);
+    zoneStart->setShortcut(Qt::SHIFT + Qt::Key_I);
+    pCore->window()->addAction("seek_zone_start", zoneStart);
+    connect(zoneStart, SIGNAL(triggered(bool)), SLOT(slotZoneStart()));
+
+    KAction* zoneEnd = new KAction(KIcon("media-seek-forward"), i18n("Go to Zone End"), this);
+    zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);
+    pCore->window()->addAction("seek_zone_end", zoneEnd);
+    connect(zoneEnd, SIGNAL(triggered(bool)), SLOT(slotZoneEnd()));
 }
 
 
@@ -427,6 +437,22 @@ Monitor* MonitorManager::clipMonitor()
 Monitor* MonitorManager::projectMonitor()
 {
     return m_projectMonitor;
+}
+
+void MonitorManager::slotZoneStart()
+{
+    if (m_activeMonitor == m_clipMonitor)
+        m_clipMonitor->slotZoneStart();
+    else if (m_activeMonitor == m_projectMonitor)
+        m_projectMonitor->slotZoneStart();
+}
+
+void MonitorManager::slotZoneEnd()
+{
+    if (m_activeMonitor == m_projectMonitor)
+        m_projectMonitor->slotZoneEnd();
+    else if (m_activeMonitor == m_clipMonitor)
+        m_clipMonitor->slotZoneEnd();
 }
 
 #include "monitormanager.moc"

@@ -76,6 +76,8 @@ public slots:
     void slotStart();
     void slotEnd();
     void slotResetProfiles();
+    void slotZoneStart();
+    void slotZoneEnd();
     
     /** @brief Switch current monitor to fullscreen. */
     void slotSwitchFullscreen();

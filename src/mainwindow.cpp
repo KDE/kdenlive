@@ -1127,16 +1127,6 @@ void MainWindow::setupActions()
     addAction("seek_clip_end", clipEnd);
     connect(clipEnd, SIGNAL(triggered(bool)), this, SLOT(slotClipEnd()));
 
-    KAction* zoneStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Zone Start"), this);
-    zoneStart->setShortcut(Qt::SHIFT + Qt::Key_I);
-    addAction("seek_zone_start", zoneStart);
-    connect(zoneStart, SIGNAL(triggered(bool)), this, SLOT(slotZoneStart()));
-
-    KAction* zoneEnd = new KAction(KIcon("media-seek-forward"), i18n("Go to Zone End"), this);
-    zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);
-    addAction("seek_zone_end", zoneEnd);
-    connect(zoneEnd, SIGNAL(triggered(bool)), this, SLOT(slotZoneEnd()));
-
     KAction* monitorSeekSnapForward = new KAction(KIcon("media-seek-forward"), i18n("Go to Next Snap Point"), this);
     monitorSeekSnapForward->setShortcut(Qt::ALT + Qt::Key_Right);
     addAction("monitor_seek_snap_forward", monitorSeekSnapForward);
@@ -2614,22 +2604,6 @@ void MainWindow::slotClipEnd()
             pCore->projectManager()->currentTrackView()->projectView()->clipEnd();
         }
     }
-}
-
-void MainWindow::slotZoneStart()
-{
-    if (m_projectMonitor->isActive())
-        m_projectMonitor->slotZoneStart();
-    else
-        m_clipMonitor->slotZoneStart();
-}
-
-void MainWindow::slotZoneEnd()
-{
-    if (m_projectMonitor->isActive())
-        m_projectMonitor->slotZoneEnd();
-    else
-        m_clipMonitor->slotZoneEnd();
 }
 
 void MainWindow::slotChangeTool(QAction * action)
