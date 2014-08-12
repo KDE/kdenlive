@@ -115,7 +115,6 @@
 #include <QUndoGroup>
 
 #include <stdlib.h>
-#include <locale.h>
 
 static const char version[] = KDENLIVE_VERSION;
 
@@ -160,22 +159,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     qRegisterMetaType<audioByteArray> ("audioByteArray");
 
     Core::initialize(this);
-
-    // Init locale
-    QLocale systemLocale = QLocale();
-    setlocale(LC_NUMERIC, NULL);
-    char *separator = localeconv()->decimal_point;
-    if (separator != systemLocale.decimalPoint()) {
-        kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
-        // HACK: There is a locale conflict, so set locale to C
-        // Make sure to override exported values or it won't work
-        setenv("LANG", "C", 1);
-        setlocale(LC_NUMERIC, "C");
-        systemLocale = QLocale::c();
-    }
-
-    systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
-    QLocale::setDefault(systemLocale);
 
     // Create DBus interface
     new MainWindowAdaptor(this);

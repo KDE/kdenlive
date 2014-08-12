@@ -54,6 +54,9 @@ private:
     static Core *m_self;
     void init();
 
+    /** @brief Makes sure Qt's locale and system locale settings match. */
+    void initLocale();
+
     MainWindow *m_mainWindow;
     MonitorManager *m_monitorManager;
 };

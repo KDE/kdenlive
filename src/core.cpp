@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "monitor/monitormanager.h"
 #include <QCoreApplication>
+#include <locale>
 
 
 Core *Core::m_self = NULL;
@@ -36,6 +37,8 @@ void Core::initialize(MainWindow* mainWindow)
 
 void Core::init()
 {
+    initLocale();
+
     m_monitorManager = new MonitorManager(this);
 }
 
@@ -52,6 +55,24 @@ MainWindow* Core::window()
 MonitorManager* Core::monitorManager()
 {
     return m_monitorManager;
+}
+
+void Core::initLocale()
+{
+    QLocale systemLocale = QLocale();
+    setlocale(LC_NUMERIC, NULL);
+    char *separator = localeconv()->decimal_point;
+    if (separator != systemLocale.decimalPoint()) {
+        kDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
+        // HACK: There is a locale conflict, so set locale to C
+        // Make sure to override exported values or it won't work
+        setenv("LANG", "C", 1);
+        setlocale(LC_NUMERIC, "C");
+        systemLocale = QLocale::c();
+    }
+
+    systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
+    QLocale::setDefault(systemLocale);
 }
 
 #include "core.moc"
