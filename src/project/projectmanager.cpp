@@ -34,7 +34,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 ProjectManager::ProjectManager(QObject* parent) :
     QObject(parent),
-    m_project(0)
+    m_project(0),
+    m_trackView(0)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setEnabled(false);
@@ -125,8 +126,8 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, pCore->window()->m_notesWidget, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     bool ok;
-    TrackView *trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
-    pCore->window()->m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description());
+    m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
+    pCore->window()->m_timelineArea->addTab(m_trackView, KIcon("kdenlive"), doc->description());
     if (!ok) {
         // MLT is broken
         //pCore->window()->m_timelineArea->setEnabled(false);
@@ -135,7 +136,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         return;
     }
     connectDocumentInfo(doc);
-    pCore->window()->connectDocument(trackView, doc, &m_project);
+    pCore->window()->connectDocument(doc, &m_project);
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
 }
 
@@ -175,8 +176,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges)
     pCore->window()->m_effectStack->clear();
     pCore->window()->m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
 
-    delete pCore->window()->m_activeTimeline;
-    pCore->window()->m_activeTimeline = NULL;
+    delete m_trackView;
+    m_trackView = NULL;
 
     return true;
 }
@@ -190,7 +191,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     }
 
     // Save timeline thumbnails
-    pCore->window()->m_activeTimeline->projectView()->saveThumbnails();
+    m_trackView->projectView()->saveThumbnails();
     m_project->setUrl(KUrl(outputFileName));
     QByteArray hash = QCryptographicHash::hash(KUrl(outputFileName).encodedPath(), QCryptographicHash::Md5).toHex();
     if (m_project->m_autosave == NULL) {
@@ -370,12 +371,12 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.repaint();
 
     bool ok;
-    TrackView *trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
-    pCore->window()->connectDocument(trackView, doc, &m_project);
+    m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
+    pCore->window()->connectDocument(doc, &m_project);
     progressDialog.progressBar()->setValue(3);
     progressDialog.repaint();
 
-    pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
+    pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, KIcon("kdenlive"), doc->description()));
     if (!ok) {
         pCore->window()->m_timelineArea->setEnabled(false);
         pCore->window()->m_projectList->setEnabled(false);
@@ -384,11 +385,11 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
         newFile(false, true);
         return;
     }
-    trackView->setDuration(trackView->duration());
+    m_trackView->setDuration(m_trackView->duration());
 
     pCore->window()->slotGotProgressInfo(QString(), -1);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(trackView->duration());
-    pCore->monitorManager()->projectMonitor()->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_trackView->duration());
+    pCore->monitorManager()->projectMonitor()->slotZoneMoved(m_trackView->inPoint(), m_trackView->outPoint());
     progressDialog.progressBar()->setValue(4);
     if (openBackup) {
         slotOpenBackup(url);
@@ -474,6 +475,11 @@ void ProjectManager::slotOpenBackup(const KUrl& url)
         pCore->window()->setCaption(m_project->description());
     }
     delete dia;
+}
+
+TrackView* ProjectManager::currentTrackView()
+{
+    return m_trackView;
 }
 
 #include "projectmanager.moc"

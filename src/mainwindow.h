@@ -132,7 +132,6 @@ public:
     KActionCollection *m_tracksActionCollection;
     EffectStackView2 *m_effectStack;
     TransitionSettings *m_transitionConfig;
-    TrackView *m_activeTimeline;
     KRecentFilesAction *m_fileOpenRecent;
     QUndoView *m_undoView;
     StatusBarMessageLabel *m_messageLabel;
@@ -314,7 +313,7 @@ public slots:
     void slotSwitchAudioThumbs();
 
     void slotPreferences(int page = -1, int option = -1);
-    void connectDocument(TrackView *trackView, KdenliveDoc *newDoc, KdenliveDoc **projectManagerDoc);
+    void connectDocument(KdenliveDoc *newDoc, KdenliveDoc **projectManagerDoc);
     void slotTimelineClipSelected(ClipItem* item, bool raise = true);
 
 private slots:

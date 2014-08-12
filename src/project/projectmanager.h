@@ -21,6 +21,7 @@ class KAction;
 class KUrl;
 class KdenliveDoc;
 class KAutoSaveFile;
+class TrackView;
 
 
 /**
@@ -38,8 +39,9 @@ public:
     explicit ProjectManager(QObject* parent = 0);
     virtual ~ProjectManager();
 
-    /** @brief Returns a pointer to the currently opened project. At any time a project should be open. */
+    /** @brief Returns a pointer to the currently opened project. A project should always be open. */
     KdenliveDoc *current();
+    TrackView *currentTrackView();
 
     /** @brief Opens or creates a file.
      * Command line argument passed in Url has
@@ -83,7 +85,7 @@ private slots:
     void slotOpenBackup(const KUrl &url = KUrl());
 
 signals:
-    void projectOpened(Project *project);
+//     void projectOpened(Project *project);
 
 private:
     void connectDocumentInfo(KdenliveDoc *doc);
@@ -93,6 +95,7 @@ private:
     QString getMimeType(bool open = true);
 
     KdenliveDoc *m_project;
+    TrackView *m_trackView;
 
     KAction *m_fileRevert;
     KUrl m_startUrl;
