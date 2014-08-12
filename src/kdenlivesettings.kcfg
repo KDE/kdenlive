@@ -20,11 +20,6 @@
       <default>true</default>
     </entry>
 
-    <entry name="activatetabs" type="Bool">
-      <label>Create a new tab when opening a document.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="usekuiserver" type="Bool">
       <label>Use KDE central job management to track render jobs.</label>
       <default>false</default>
