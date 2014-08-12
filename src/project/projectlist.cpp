@@ -27,7 +27,7 @@
 #include "projectlistview.h"
 #include "clipstabilize.h"
 #include "dialogs/slideshowclip.h"
-
+#include "clippropertiesmanager.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
 #include "doc/kthumb.h"
@@ -297,6 +297,9 @@ ProjectList::ProjectList(QWidget *parent) :
     
     m_listViewDelegate = new ItemDelegate(m_listView);
     m_listView->setItemDelegate(m_listViewDelegate);
+
+    m_clipPropertiesManager = new ClipPropertiesManager(this);
+
 #ifdef USE_NEPOMUK
     if (KdenliveSettings::activate_nepomuk()) {
         Nepomuk::ResourceManager::instance()->init();
@@ -465,7 +468,7 @@ void ProjectList::slotEditClip()
         item = static_cast <ProjectItem*>(m_listView->currentItem());
     if (item && (item->flags() & Qt::ItemIsDragEnabled)) {
         emit clipSelected(item->referencedClip());
-        emit showClipProperties(item->referencedClip());
+        m_clipPropertiesManager->showClipPropertiesDialog(item->referencedClip());
     }
 }
 
@@ -570,7 +573,9 @@ void ProjectList::editClipSelection(QList<QTreeWidgetItem *> list)
     if (clipList.isEmpty()) {
         emit displayMessage(i18n("No available clip selected"), -2, ErrorMessage);
     }
-    else emit showClipProperties(clipList, commonproperties);
+    else {
+        m_clipPropertiesManager->showClipPropertiesDialog(clipList, commonproperties);
+    }
 }
 
 void ProjectList::slotOpenClip()

@@ -101,6 +101,7 @@ class KdenliveDoc;
 class DocClipBase;
 class AbstractClipJob;
 class ItemDelegate;
+class ClipPropertiesManager;
 
 class SmallInfoLabel: public QPushButton
 {
@@ -273,6 +274,7 @@ private:
     SmallInfoLabel *m_infoLabel;
     /** @brief A list of strings containing the last error logs for clip jobs. */
     QStringList m_errorLog;
+    ClipPropertiesManager *m_clipPropertiesManager;
 
 #if KDE_IS_VERSION(4,7,0)
     MyMessageWidget *m_infoMessage;

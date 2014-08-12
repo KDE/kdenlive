@@ -174,7 +174,6 @@ private:
 
     QDockWidget *m_effectListDock;
     EffectsListView *m_effectList;
-    //KListWidget *m_effectList;
 
     QDockWidget *m_notesDock;
 
@@ -384,8 +383,6 @@ private slots:
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(const KUrl &url, const stringMap &data = stringMap());
     void slotAddProjectClipList(const KUrl::List &urls);
-    void slotShowClipProperties(DocClipBase *clip);
-    void slotShowClipProperties(const QList<DocClipBase *> &cliplist, const QMap<QString, QString> &commonproperties);
     void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *transition);
     void slotChangeTool(QAction * action);
@@ -484,9 +481,6 @@ private slots:
     void slotDeleteProjectClips(const QStringList &ids, const QMap<QString, QString> &folderids);
     /** @brief Update the capture folder if user asked a change. */
     void slotUpdateCaptureFolder();
-
-    /** @brief Apply new properties to a clip */
-    void slotApplyNewClipProperties(const QString &id, const QMap <QString, QString> &props, const QMap <QString, QString> &newprops, bool refresh, bool reload);
 
     /** @brief Delete a clip from current project */
     void slotDeleteClip(const QString &id);
