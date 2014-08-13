@@ -46,7 +46,6 @@
 #include "timeline/markerdialog.h"
 #include "timeline/clipitem.h"
 #include "interfaces.h"
-#include <config-kdenlive.h>
 #include "project/cliptranscode.h"
 #include "scopes/scopemanager.h"
 #include "scopes/colorscopes/vectorscope.h"
@@ -60,6 +59,7 @@
 #include "utils/resourcewidget.h"
 #include "layoutmanagement.h"
 #include "hidetitlebars.h"
+#include "mltconnection.h"
 #include "project/projectmanager.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
@@ -163,7 +163,9 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     if (!KdenliveSettings::colortheme().isEmpty()) slotChangePalette(NULL, KdenliveSettings::colortheme());
     setFont(KGlobalSettings::toolBarFont());
-    parseProfiles(MltPath);
+
+    MltConnection::locateMeltAndProfilesPath(MltPath);
+
     KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
     m_commandStack = new QUndoGroup;
     setDockNestingEnabled(true);
@@ -1353,79 +1355,6 @@ void MainWindow::slotRunWizard()
     }
     delete w;
 }
-
-void MainWindow::parseProfiles(const QString &mltPath)
-{
-
-    //KdenliveSettings::setDefaulttmpfolder();
-    if (!mltPath.isEmpty()) {
-        KdenliveSettings::setMltpath(mltPath + "/share/mlt/profiles/");
-        KdenliveSettings::setRendererpath(mltPath + "/bin/melt");
-    } else if (!qgetenv("MLT_PREFIX").isEmpty()) {
-        KdenliveSettings::setMltpath(qgetenv("MLT_PREFIX") + "/share/mlt/profiles/");
-        KdenliveSettings::setRendererpath(qgetenv("MLT_PREFIX") + "/bin/melt");
-    }
-    if (KdenliveSettings::mltpath().isEmpty()) {
-        KdenliveSettings::setMltpath(QString(MLT_PREFIX) + "/share/mlt/profiles/");
-        KdenliveSettings::setRendererpath(QString(MLT_PREFIX) + "/bin/melt");
-    }
-
-    if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith(QLatin1String("inigo"))) {
-        QString meltPath = QString(MLT_PREFIX) + QString("/bin/melt");
-        if (!QFile::exists(meltPath)) {
-            meltPath = KStandardDirs::findExe("melt");
-        }
-        KdenliveSettings::setRendererpath(meltPath);
-    }
-
-    if (KdenliveSettings::rendererpath().isEmpty()) {
-        // Cannot find the MLT melt renderer, ask for location
-        QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QString(), i18n("Cannot find the melt program required for rendering (part of MLT)"), this);
-        if (getUrl->exec() == QDialog::Rejected) {
-            delete getUrl;
-            ::exit(0);
-        }
-        KUrl rendererPath = getUrl->selectedUrl();
-        delete getUrl;
-        if (rendererPath.isEmpty()) ::exit(0);
-        KdenliveSettings::setRendererpath(rendererPath.path());
-    }
-
-    QStringList profilesFilter;
-    profilesFilter << "*";
-    QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-    if (profilesList.isEmpty()) {
-        // Cannot find MLT path, try finding melt
-        QString profilePath = KdenliveSettings::rendererpath();
-        if (!profilePath.isEmpty()) {
-            profilePath = profilePath.section('/', 0, -3);
-            KdenliveSettings::setMltpath(profilePath + "/share/mlt/profiles/");
-            profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-        }
-        if (profilesList.isEmpty()) {
-            // Cannot find the MLT profiles, ask for location
-            QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(), i18n("Cannot find your MLT profiles, please give the path"), this);
-            getUrl->fileDialog()->setMode(KFile::Directory);
-            if (getUrl->exec() == QDialog::Rejected) {
-                delete getUrl;
-                ::exit(0);
-            }
-            KUrl mltPath = getUrl->selectedUrl();
-            delete getUrl;
-            if (mltPath.isEmpty()) ::exit(0);
-            KdenliveSettings::setMltpath(mltPath.path(KUrl::AddTrailingSlash));
-            profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-        }
-    }
-
-    kDebug() << "RESULTING MLT PATH: " << KdenliveSettings::mltpath();
-
-    // Parse again MLT profiles to build a list of available video formats
-    if (profilesList.isEmpty()) {
-        parseProfiles();
-    }
-}
-
 
 void MainWindow::slotEditProfiles()
 {

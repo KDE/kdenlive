@@ -92,14 +92,6 @@ public:
                         const KUrl &Url = KUrl(), const QString & clipsToLoad = QString(), QWidget *parent = 0);
     virtual ~MainWindow();
 
-    /** @brief Locates the MLT environment.
-     * @param mltPath (optional) path to MLT environment
-     *
-     * It tries to set the paths of the MLT profiles and renderer, using
-     * mltPath, MLT_PREFIX, searching for the binary `melt`, or asking to the
-     * user. It doesn't fill any list of profiles, while its name suggests so. */
-    void parseProfiles(const QString &mltPath = QString());
-
     static EffectsList videoEffects;
     static EffectsList audioEffects;
     static EffectsList customEffects;
