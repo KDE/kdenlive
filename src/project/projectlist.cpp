@@ -273,6 +273,8 @@ ProjectList::ProjectList(QWidget *parent) :
 
     setLayout(layout);
     searchView->setTreeWidget(m_listView);
+    int minHeight = qMax(38, QFontMetrics(font()).lineSpacing() * 2);
+    m_listView->setIconSize(QSize(minHeight, minHeight));
 
     connect(this, SIGNAL(processNextThumbnail()), this, SLOT(slotProcessNextThumbnail()));
     connect(m_listView, SIGNAL(projectModified()), this, SIGNAL(projectModified()));
@@ -804,7 +806,7 @@ bool ProjectList::hasMissingClips()
 void ProjectList::setRenderer(Render *projectRender)
 {
     m_render = projectRender;
-    m_listView->setIconSize(QSize((ProjectItem::itemDefaultHeight() - 2) * m_render->dar(), ProjectItem::itemDefaultHeight() - 2));
+    m_listView->setIconSize(QSize((m_listView->iconSize().height() - 2) * m_render->dar(), m_listView->iconSize().height() - 2));
     connect(m_render, SIGNAL(requestProxy(QString)), this, SLOT(slotCreateProxy(QString)));
 }
 
@@ -2172,12 +2174,8 @@ void ProjectList::slotRefreshClipThumbnail(QTreeWidgetItem *it, bool update)
         }
         QImage img;
         int height = m_listView->iconSize().height();
-        int swidth = (int)(height  * m_render->frameRenderWidth() / m_render->renderHeight()+ 0.5);
         int dwidth = (int)(height  * m_render->dar() + 0.5);
-        if (clip->clipType() == Image) {
-            img = KThumb::getFrame(item->referencedClip()->getProducer(), 0, swidth, dwidth, height);
-        }
-        else if (clip->clipType() != Audio) {
+        if (clip->clipType() != Audio) {
             img = item->referencedClip()->extractImage(frame, dwidth, height);
         }
         if (!img.isNull()) {

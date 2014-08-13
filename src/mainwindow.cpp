@@ -1683,7 +1683,6 @@ void MainWindow::connectDocument()
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*,int,QPoint,bool)));
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), this, SLOT(slotActivateTransitionView(Transition*)));
-    m_zoomSlider->setValue(project->zoom().x());
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
@@ -1728,6 +1727,7 @@ void MainWindow::connectDocument()
         m_renderWidget->setDocumentPath(project->projectFolder().path(KUrl::AddTrailingSlash));
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
+    m_zoomSlider->setValue(project->zoom().x());
     m_commandStack->setActiveStack(project->commandStack());
     KdenliveSettings::setProject_display_ratio(project->dar());
 

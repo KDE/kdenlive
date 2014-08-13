@@ -70,7 +70,7 @@ ClipManager::ClipManager(KdenliveDoc *doc) :
 
 #if KDE_IS_VERSION(4,5,0)
     KImageCache::deleteCache("kdenlive-thumbs");
-    pixmapCache = new KImageCache("kdenlive-thumbs", 1000000);
+    pixmapCache = new KImageCache("kdenlive-thumbs", 10000000);
     pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
 #endif
 }
@@ -192,11 +192,13 @@ void ClipManager::slotGetThumbs()
         DocClipBase *clip = getClipById(m_processingThumbId);
         if (!clip) continue;
         max = m_requestedThumbs.size() + values.count();
+        // keep in sync with declaration un projectitem.cpp and subprojectitem.cpp
+        int minHeight = qMax(38, QFontMetrics(QApplication::font()).lineSpacing() * 2);
         while (!values.isEmpty() && clip->thumbProducer() && !m_abortThumb) {
             int pos = values.takeFirst();
             switch (thumbType) {
             case 1:
-                clip->thumbProducer()->getGenericThumb(pos, SubProjectItem::itemDefaultHeight(), thumbType);
+                clip->thumbProducer()->getGenericThumb(pos, minHeight, thumbType);
                 break;
             case 2:
                 clip->thumbProducer()->getGenericThumb(pos, 180, thumbType);

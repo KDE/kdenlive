@@ -31,12 +31,12 @@
 #include <KIcon>
 
 const int DurationRole = Qt::UserRole + 1;
-int itemHeight = 30;
 
 SubProjectItem::SubProjectItem(double display_ratio, QTreeWidgetItem * parent, int in, int out, const QString &description) :
         QTreeWidgetItem(parent, ProjectSubclipType), m_in(in), m_out(out), m_description(description)
 {
-    itemHeight = (treeWidget() ? treeWidget()->iconSize().height() : 38);
+    // keep in sync with declaration un clipmanager.cpp and subprojectitem.cpp
+    int itemHeight = (treeWidget() ? treeWidget()->iconSize().height() : 38);
     setSizeHint(0, QSize((int) (itemHeight * display_ratio) + 2, itemHeight + 2));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
     QString name = Timecode::getStringTimecode(in, KdenliveSettings::project_fps());
@@ -61,11 +61,6 @@ int SubProjectItem::numReferences() const
     return 0;
 }
 
-//static
-int SubProjectItem::itemDefaultHeight()
-{
-    return itemHeight;
-}
 
 QDomElement SubProjectItem::toXml() const
 {

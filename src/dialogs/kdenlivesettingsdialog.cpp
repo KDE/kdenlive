@@ -133,8 +133,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     QWidget *p5 = new QWidget;
     m_configShuttle.setupUi(p5);
-    m_configShuttle.toolBtnReload->setIcon(KIcon("view-refresh"));
 #ifdef USE_JOGSHUTTLE
+    m_configShuttle.toolBtnReload->setIcon(KIcon("view-refresh"));
     connect(m_configShuttle.kcfg_enableshuttle, SIGNAL(stateChanged(int)), this, SLOT(slotCheckShuttle(int)));
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     connect(m_configShuttle.toolBtnReload, SIGNAL(clicked(bool)), this, SLOT(slotReloadShuttleDevices()));
