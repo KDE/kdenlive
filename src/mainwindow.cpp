@@ -775,6 +775,22 @@ void MainWindow::addAction(const QString &name, QAction *action)
     actionCollection()->addAction(name, action);
 }
 
+KAction *MainWindow::addAction(const QString &name, const QString &text, const QObject *receiver,
+                           const char *member, const KIcon &icon, const QKeySequence &shortcut)
+{
+    KAction *action = new KAction(text, this);
+    if (!icon.isNull()) {
+        action->setIcon(icon);
+    }
+    if (!shortcut.isEmpty()) {
+        action->setShortcut(shortcut);
+    }
+    addAction(name, action);
+    connect(action, SIGNAL(triggered(bool)), receiver, member);
+
+    return action;
+}
+
 void MainWindow::setupActions()
 {
     m_statusProgressBar = new QProgressBar(this);
@@ -1008,88 +1024,38 @@ void MainWindow::setupActions()
     addAction("zoom_in", m_zoomIn);
     addAction("zoom_out", m_zoomOut);
 
-    m_projectSearch = new KAction(KIcon("edit-find"), i18n("Find"), this);
-    addAction("project_find", m_projectSearch);
-    connect(m_projectSearch, SIGNAL(triggered(bool)), this, SLOT(slotFind()));
-    m_projectSearch->setShortcut(Qt::Key_Slash);
+    m_projectSearch = addAction("project_find", i18n("Find"), this, SLOT(slotFind()), KIcon("edit-find"), Qt::Key_Slash);
 
-    m_projectSearchNext = new KAction(KIcon("go-down-search"), i18n("Find Next"), this);
-    addAction("project_find_next", m_projectSearchNext);
-    connect(m_projectSearchNext, SIGNAL(triggered(bool)), this, SLOT(slotFindNext()));
-    m_projectSearchNext->setShortcut(Qt::Key_F3);
+    m_projectSearchNext = addAction("project_find_next", i18n("Find Next"), this, SLOT(slotFindNext()), KIcon("go-down-search"), Qt::Key_F3);
     m_projectSearchNext->setEnabled(false);
 
-    KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Project Profiles"), this);
-    addAction("manage_profiles", profilesAction);
-    connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
+    addAction("manage_profiles", i18n("Manage Project Profiles"), this, SLOT(slotEditProfiles()), KIcon("document-new"));
 
     KNS3::standardAction(i18n("Download New Wipes..."),            this, SLOT(slotGetNewLumaStuff()),       actionCollection(), "get_new_lumas");
     KNS3::standardAction(i18n("Download New Render Profiles..."),  this, SLOT(slotGetNewRenderStuff()),     actionCollection(), "get_new_profiles");
     KNS3::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
     KNS3::standardAction(i18n("Download New Title Templates..."),  this, SLOT(slotGetNewTitleStuff()),      actionCollection(), "get_new_titles");
 
-    KAction* wizAction = new KAction(KIcon("configure"), i18n("Run Config Wizard"), this);
-    addAction("run_wizard", wizAction);
-    connect(wizAction, SIGNAL(triggered(bool)), this, SLOT(slotRunWizard()));
+    addAction("run_wizard", i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), KIcon("configure"));
+    addAction("project_settings", i18n("Project Settings"), this, SLOT(slotEditProjectSettings()), KIcon("configure"));
+    addAction("project_render", i18n("Render"), this, SLOT(slotRenderProject()), KIcon("media-record"), Qt::CTRL + Qt::Key_Return);
 
-    KAction* projectAction = new KAction(KIcon("configure"), i18n("Project Settings"), this);
-    addAction("project_settings", projectAction);
-    connect(projectAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProjectSettings()));
+    addAction("project_clean", i18n("Clean Project"), this, SLOT(slotCleanProject()), KIcon("edit-clear"));
+    addAction("project_adjust_profile", i18n("Adjust Profile to Current Clip"), m_projectList, SLOT(adjustProjectProfileToItem()));
 
-    KAction* projectRender = new KAction(KIcon("media-record"), i18n("Render"), this);
-    addAction("project_render", projectRender);
-    projectRender->setShortcut(Qt::CTRL + Qt::Key_Return);
-    connect(projectRender, SIGNAL(triggered(bool)), this, SLOT(slotRenderProject()));
-
-    KAction* projectClean = new KAction(KIcon("edit-clear"), i18n("Clean Project"), this);
-    addAction("project_clean", projectClean);
-    connect(projectClean, SIGNAL(triggered(bool)), this, SLOT(slotCleanProject()));
-
-    KAction* projectAdjust = new KAction(KIcon(), i18n("Adjust Profile to Current Clip"), this);
-    addAction("project_adjust_profile", projectAdjust);
-    connect(projectAdjust, SIGNAL(triggered(bool)), m_projectList, SLOT(adjustProjectProfileToItem()));
-
-    m_playZone = new KAction(KIcon("media-playback-start"), i18n("Play Zone"), this);
-    m_playZone->setShortcut(Qt::CTRL + Qt::Key_Space);
-    addAction("monitor_play_zone", m_playZone);
-    connect(m_playZone, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotPlayZone()));
-
-    m_loopZone = new KAction(KIcon("media-playback-start"), i18n("Loop Zone"), this);
-    m_loopZone->setShortcut(Qt::ALT + Qt::Key_Space);
-    addAction("monitor_loop_zone", m_loopZone);
-    connect(m_loopZone, SIGNAL(triggered(bool)), pCore->monitorManager(), SLOT(slotLoopZone()));
-
-    m_loopClip = new KAction(KIcon("media-playback-start"), i18n("Loop selected clip"), this);
+    m_playZone = addAction("monitor_play_zone", i18n("Play Zone"), pCore->monitorManager(), SLOT(slotPlayZone()),
+                           KIcon("media-playback-start"), Qt::CTRL + Qt::Key_Space);
+    m_loopZone = addAction("monitor_loop_zone", i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
+                           KIcon("media-playback-start"), Qt::ALT + Qt::Key_Space);
+    m_loopClip = addAction("monitor_loop_clip", i18n("Loop selected clip"), m_projectMonitor, SLOT(slotLoopClip()), KIcon("media-playback-start"));
     m_loopClip->setEnabled(false);
-    addAction("monitor_loop_clip", m_loopClip);
-    connect(m_loopClip, SIGNAL(triggered(bool)), m_projectMonitor, SLOT(slotLoopClip()));
 
-    KAction *dvdWizard =  new KAction(KIcon("media-optical"), i18n("DVD Wizard"), this);
-    addAction("dvd_wizard", dvdWizard);
-    connect(dvdWizard, SIGNAL(triggered(bool)), this, SLOT(slotDvdWizard()));
-
-    KAction *transcodeClip =  new KAction(KIcon("edit-copy"), i18n("Transcode Clips"), this);
-    addAction("transcode_clip", transcodeClip);
-    connect(transcodeClip, SIGNAL(triggered(bool)), this, SLOT(slotTranscodeClip()));
-
-    KAction *archiveProject =  new KAction(KIcon("document-save-all"), i18n("Archive Project"), this);
-    addAction("archive_project", archiveProject);
-    connect(archiveProject, SIGNAL(triggered(bool)), this, SLOT(slotArchiveProject()));
-
-    KAction *switchMonitor = new KAction(i18n("Switch monitor"), this);
-    switchMonitor->setShortcut(Qt::Key_T);
-    addAction("switch_monitor", switchMonitor);
-    connect(switchMonitor, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMonitors()));
-
-    KAction *insertTree = new KAction(i18n("Insert zone in project tree"), this);
-    insertTree->setShortcut(Qt::CTRL + Qt::Key_I);
-    addAction("insert_project_tree", insertTree);
-    connect(insertTree, SIGNAL(triggered(bool)), this, SLOT(slotInsertZoneToTree()));
-
-    KAction *insertTimeline = new KAction(i18n("Insert zone in timeline"), this);
-    insertTimeline->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_I);
-    addAction("insert_timeline", insertTimeline);
-    connect(insertTimeline, SIGNAL(triggered(bool)), this, SLOT(slotInsertZoneToTimeline()));
+    addAction("dvd_wizard", i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), KIcon("media-optical"));
+    addAction("transcode_clip", i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), KIcon("edit-copy"));
+    addAction("archive_project", i18n("Archive Project"), this, SLOT(slotArchiveProject()), KIcon("document-save-all"));
+    addAction("switch_monitor", i18n("Switch monitor"), this, SLOT(slotSwitchMonitors()), KIcon(), Qt::Key_T);
+    addAction("insert_project_tree", i18n("Insert zone in project tree"), this, SLOT(slotInsertZoneToTree()), KIcon(), Qt::CTRL + Qt::Key_I);
+    addAction("insert_timeline", i18n("Insert zone in timeline"), this, SLOT(slotInsertZoneToTimeline()), KIcon(), Qt::SHIFT + Qt::CTRL + Qt::Key_I);
 
     KAction *resizeStart =  new KAction(KIcon(), i18n("Resize Item Start"), this);
     addAction("resize_timeline_clip_start", resizeStart);
@@ -1101,40 +1067,14 @@ void MainWindow::setupActions()
     resizeEnd->setShortcut(Qt::Key_2);
     connect(resizeEnd, SIGNAL(triggered(bool)), this, SLOT(slotResizeItemEnd()));
 
-    KAction* monitorSeekSnapBackward = new KAction(KIcon("media-seek-backward"), i18n("Go to Previous Snap Point"), this);
-    monitorSeekSnapBackward->setShortcut(Qt::ALT + Qt::Key_Left);
-    addAction("monitor_seek_snap_backward", monitorSeekSnapBackward);
-    connect(monitorSeekSnapBackward, SIGNAL(triggered(bool)), this, SLOT(slotSnapRewind()));
-
-    KAction* clipStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Clip Start"), this);
-    clipStart->setShortcut(Qt::Key_Home);
-    addAction("seek_clip_start", clipStart);
-    connect(clipStart, SIGNAL(triggered(bool)), this, SLOT(slotClipStart()));
-
-    KAction* clipEnd = new KAction(KIcon("media-seek-forward"), i18n("Go to Clip End"), this);
-    clipEnd->setShortcut(Qt::Key_End);
-    addAction("seek_clip_end", clipEnd);
-    connect(clipEnd, SIGNAL(triggered(bool)), this, SLOT(slotClipEnd()));
-
-    KAction* monitorSeekSnapForward = new KAction(KIcon("media-seek-forward"), i18n("Go to Next Snap Point"), this);
-    monitorSeekSnapForward->setShortcut(Qt::ALT + Qt::Key_Right);
-    addAction("monitor_seek_snap_forward", monitorSeekSnapForward);
-    connect(monitorSeekSnapForward, SIGNAL(triggered(bool)), this, SLOT(slotSnapForward()));
-
-    KAction* deleteItem = new KAction(KIcon("edit-delete"), i18n("Delete Selected Item"), this);
-    deleteItem->setShortcut(Qt::Key_Delete);
-    addAction("delete_timeline_clip", deleteItem);
-    connect(deleteItem, SIGNAL(triggered(bool)), this, SLOT(slotDeleteItem()));
-
-    KAction* alignPlayhead = new KAction(i18n("Align Playhead to Mouse Position"), this);
-    alignPlayhead->setShortcut(Qt::Key_P);
-    addAction("align_playhead", alignPlayhead);
-    connect(alignPlayhead, SIGNAL(triggered(bool)), this, SLOT(slotAlignPlayheadToMousePos()));
-
-    /*KAction* editTimelineClipSpeed = new KAction(i18n("Change Clip Speed"), this);
-    addAction("change_clip_speed", editTimelineClipSpeed);
-    editTimelineClipSpeed->setData("change_speed");
-    connect(editTimelineClipSpeed, SIGNAL(triggered(bool)), this, SLOT(slotChangeClipSpeed()));*/
+    addAction("monitor_seek_snap_backward", i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
+              KIcon("media-seek-backward"), Qt::ALT + Qt::Key_Left);
+    addAction("seek_clip_start", i18n("Go to Clip Start"), this, SLOT(slotClipStart()), KIcon("media-seek-backward"), Qt::Key_Home);
+    addAction("seek_clip_end", i18n("Go to Clip End"), this, SLOT(slotClipEnd()), KIcon("media-seek-forward"), Qt::Key_End);
+    addAction("monitor_seek_snap_forward", i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
+              KIcon("media-seek-forward"), Qt::ALT + Qt::Key_Right);
+    addAction("delete_timeline_clip", i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()), KIcon("edit-delete"), Qt::Key_Delete);
+    addAction("align_playhead", i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), KIcon(), Qt::Key_P);
 
     KAction *stickTransition = new KAction(i18n("Automatic Transition"), this);
     stickTransition->setData(QString("auto"));
@@ -1143,10 +1083,8 @@ void MainWindow::setupActions()
     addAction("auto_transition", stickTransition);
     connect(stickTransition, SIGNAL(triggered(bool)), this, SLOT(slotAutoTransition()));
 
-    KAction* groupClip = new KAction(KIcon("object-group"), i18n("Group Clips"), this);
-    groupClip->setShortcut(Qt::CTRL + Qt::Key_G);
-    addAction("group_clip", groupClip);
-    connect(groupClip, SIGNAL(triggered(bool)), this, SLOT(slotGroupClips()));
+    addAction("group_clip", i18n("Group Clips"), this, SLOT(slotGroupClips()), KIcon("object-group"), Qt::CTRL + Qt::Key_G);
+    
 
     KAction* ungroupClip = new KAction(KIcon("object-ungroup"), i18n("Ungroup Clips"), this);
     addAction("ungroup_clip", ungroupClip);
@@ -1154,101 +1092,42 @@ void MainWindow::setupActions()
     ungroupClip->setData("ungroup_clip");
     connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
 
-    KAction* editItemDuration = new KAction(KIcon("measure"), i18n("Edit Duration"), this);
-    addAction("edit_item_duration", editItemDuration);
-    connect(editItemDuration, SIGNAL(triggered(bool)), this, SLOT(slotEditItemDuration()));
-    
-    KAction* saveTimelineClip = new KAction(KIcon("document-save"), i18n("Save clip"), this);
-    addAction("save_timeline_clip", saveTimelineClip);
-    connect(saveTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotSaveTimelineClip()));
+    addAction("edit_item_duration", i18n("Edit Duration"), this, SLOT(slotEditItemDuration()), KIcon("measure"));
+    addAction("save_timeline_clip", i18n("Save clip"), this, SLOT(slotSaveTimelineClip()), KIcon("document-save"));
+    addAction("clip_in_project_tree", i18n("Clip in Project Tree"), this, SLOT(slotClipInProjectTree()), KIcon("go-jump-definition"));
+    addAction("overwrite_to_in_point", i18n("Insert Clip Zone in Timeline (Overwrite)"), this, SLOT(slotInsertClipOverwrite()), KIcon(), Qt::Key_V);
+    addAction("select_timeline_clip", i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), KIcon("edit-select"), Qt::Key_Plus);
+    addAction("deselect_timeline_clip", i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()), KIcon("edit-select"), Qt::Key_Minus);
+    addAction("select_add_timeline_clip", i18n("Add Clip To Selection"), this, SLOT(slotSelectAddTimelineClip()),
+              KIcon("edit-select"), Qt::ALT + Qt::Key_Plus);
+    addAction("select_timeline_transition", i18n("Select Transition"), this, SLOT(slotSelectTimelineTransition()),
+          KIcon("edit-select"), Qt::SHIFT + Qt::Key_Plus);
+    addAction("deselect_timeline_transition", i18n("Deselect Transition"), this, SLOT(slotDeselectTimelineTransition()),
+              KIcon("edit-select"), Qt::SHIFT + Qt::Key_Minus);
+    addAction("select_add_timeline_transition", i18n("Add Transition To Selection"), this, SLOT(slotSelectAddTimelineTransition()),
+          KIcon("edit-select"), Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
+    addAction("cut_timeline_clip", i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), KIcon("edit-cut"), Qt::SHIFT + Qt::Key_R);
+    addAction("add_clip_marker", i18n("Add Marker"), this, SLOT(slotAddClipMarker()), KIcon("bookmark-new"));
+    addAction("delete_clip_marker", i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()), KIcon("edit-delete"));
+    addAction("delete_all_clip_markers", i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()), KIcon("edit-delete"));
 
-    KAction* clipInProjectTree = new KAction(KIcon("go-jump-definition"), i18n("Clip in Project Tree"), this);
-    addAction("clip_in_project_tree", clipInProjectTree);
-    connect(clipInProjectTree, SIGNAL(triggered(bool)), this, SLOT(slotClipInProjectTree()));
-
-    /*KAction* clipToProjectTree = new KAction(KIcon("go-jump-definition"), i18n("Add Clip to Project Tree"), this);
-    addAction("clip_to_project_tree", clipToProjectTree);
-    connect(clipToProjectTree, SIGNAL(triggered(bool)), this, SLOT(slotClipToProjectTree()));*/
-
-    KAction* insertOvertwrite = new KAction(KIcon(), i18n("Insert Clip Zone in Timeline (Overwrite)"), this);
-    insertOvertwrite->setShortcut(Qt::Key_V);
-    addAction("overwrite_to_in_point", insertOvertwrite);
-    connect(insertOvertwrite, SIGNAL(triggered(bool)), this, SLOT(slotInsertClipOverwrite()));
-
-    KAction* selectTimelineClip = new KAction(KIcon("edit-select"), i18n("Select Clip"), this);
-    selectTimelineClip->setShortcut(Qt::Key_Plus);
-    addAction("select_timeline_clip", selectTimelineClip);
-    connect(selectTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotSelectTimelineClip()));
-
-    KAction* deselectTimelineClip = new KAction(KIcon("edit-select"), i18n("Deselect Clip"), this);
-    deselectTimelineClip->setShortcut(Qt::Key_Minus);
-    addAction("deselect_timeline_clip", deselectTimelineClip);
-    connect(deselectTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeselectTimelineClip()));
-
-    KAction* selectAddTimelineClip = new KAction(KIcon("edit-select"), i18n("Add Clip To Selection"), this);
-    selectAddTimelineClip->setShortcut(Qt::ALT + Qt::Key_Plus);
-    addAction("select_add_timeline_clip", selectAddTimelineClip);
-    connect(selectAddTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotSelectAddTimelineClip()));
-
-    KAction* selectTimelineTransition = new KAction(KIcon("edit-select"), i18n("Select Transition"), this);
-    selectTimelineTransition->setShortcut(Qt::SHIFT + Qt::Key_Plus);
-    addAction("select_timeline_transition", selectTimelineTransition);
-    connect(selectTimelineTransition, SIGNAL(triggered(bool)), this, SLOT(slotSelectTimelineTransition()));
-
-    KAction* deselectTimelineTransition = new KAction(KIcon("edit-select"), i18n("Deselect Transition"), this);
-    deselectTimelineTransition->setShortcut(Qt::SHIFT + Qt::Key_Minus);
-    addAction("deselect_timeline_transition", deselectTimelineTransition);
-    connect(deselectTimelineTransition, SIGNAL(triggered(bool)), this, SLOT(slotDeselectTimelineTransition()));
-
-    KAction* selectAddTimelineTransition = new KAction(KIcon("edit-select"), i18n("Add Transition To Selection"), this);
-    selectAddTimelineTransition->setShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
-    addAction("select_add_timeline_transition", selectAddTimelineTransition);
-    connect(selectAddTimelineTransition, SIGNAL(triggered(bool)), this, SLOT(slotSelectAddTimelineTransition()));
-
-    KAction* cutTimelineClip = new KAction(KIcon("edit-cut"), i18n("Cut Clip"), this);
-    cutTimelineClip->setShortcut(Qt::SHIFT + Qt::Key_R);
-    addAction("cut_timeline_clip", cutTimelineClip);
-    connect(cutTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotCutTimelineClip()));
-
-    KAction* addClipMarker = new KAction(KIcon("bookmark-new"), i18n("Add Marker"), this);
-    addAction("add_clip_marker", addClipMarker);
-    connect(addClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotAddClipMarker()));
-
-    KAction* deleteClipMarker = new KAction(KIcon("edit-delete"), i18n("Delete Marker"), this);
-    addAction("delete_clip_marker", deleteClipMarker);
-    connect(deleteClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotDeleteClipMarker()));
-
-    KAction* deleteAllClipMarkers = new KAction(KIcon("edit-delete"), i18n("Delete All Markers"), this);
-    addAction("delete_all_clip_markers", deleteAllClipMarkers);
-    connect(deleteAllClipMarkers, SIGNAL(triggered(bool)), this, SLOT(slotDeleteAllClipMarkers()));
-
-    KAction* editClipMarker = new KAction(KIcon("document-properties"), i18n("Edit Marker"), this);
+    KAction* editClipMarker = addAction("edit_clip_marker", i18n("Edit Marker"), this, SLOT(slotEditClipMarker()), KIcon("document-properties"));
     editClipMarker->setData(QString("edit_marker"));
-    addAction("edit_clip_marker", editClipMarker);
-    connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
 
-    KAction* addMarkerGuideQuickly = new KAction(KIcon("bookmark-new"), i18n("Add Marker/Guide quickly"), this);
-    addMarkerGuideQuickly->setShortcut(Qt::Key_Asterisk);
-    addAction("add_marker_guide_quickly", addMarkerGuideQuickly);
-    connect(addMarkerGuideQuickly, SIGNAL(triggered(bool)), this, SLOT(slotAddMarkerGuideQuickly()));
+    addAction("add_marker_guide_quickly", i18n("Add Marker/Guide quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
+              KIcon("bookmark-new"), Qt::Key_Asterisk);
 
-    KAction* splitAudio = new KAction(KIcon("document-new"), i18n("Split Audio"), this);
-    addAction("split_audio", splitAudio);
+    KAction* splitAudio = addAction("split_audio", i18n("Split Audio"), this, SLOT(slotSplitAudio()), KIcon("document-new"));
     // "A+V" as data means this action should only be available for clips with audio AND video
     splitAudio->setData("A+V");
-    connect(splitAudio, SIGNAL(triggered(bool)), this, SLOT(slotSplitAudio()));
 
-    KAction* setAudioAlignReference = new KAction(i18n("Set Audio Reference"), this);
-    addAction("set_audio_align_ref", setAudioAlignReference);
+    KAction* setAudioAlignReference = addAction("set_audio_align_ref", i18n("Set Audio Reference"), this, SLOT(slotSetAudioAlignReference()));
     // "A" as data means this action should only be available for clips with audio
     setAudioAlignReference->setData("A");
-    connect(setAudioAlignReference, SIGNAL(triggered()), this, SLOT(slotSetAudioAlignReference()));
 
-    KAction* alignAudio = new KAction(i18n("Align Audio to Reference"), this);
-    addAction("align_audio", alignAudio);
+    KAction* alignAudio = addAction("align_audio", i18n("Align Audio to Reference"), this, SLOT(slotAlignAudio()), KIcon());
     // "A" as data means this action should only be available for clips with audio
     alignAudio->setData("A");
-    connect(alignAudio, SIGNAL(triggered()), this, SLOT(slotAlignAudio()));
 
     KAction* audioOnly = new KAction(KIcon("document-new"), i18n("Audio Only"), this);
     addAction("clip_audio_only", audioOnly);
@@ -1272,13 +1151,8 @@ void MainWindow::setupActions()
     connect(m_clipTypeGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateClipType(QAction*)));
     m_clipTypeGroup->setEnabled(false);
 
-    KAction *insertSpace = new KAction(KIcon(), i18n("Insert Space"), this);
-    addAction("insert_space", insertSpace);
-    connect(insertSpace, SIGNAL(triggered()), this, SLOT(slotInsertSpace()));
-
-    KAction *removeSpace = new KAction(KIcon(), i18n("Remove Space"), this);
-    addAction("delete_space", removeSpace);
-    connect(removeSpace, SIGNAL(triggered()), this, SLOT(slotRemoveSpace()));
+    addAction("insert_space", i18n("Insert Space"), this, SLOT(slotInsertSpace()));
+    addAction("delete_space", i18n("Remove Space"), this, SLOT(slotRemoveSpace()));
 
     m_tracksActionCollection = new KActionCollection(this, KGlobal::mainComponent());
     m_tracksActionCollection->addAssociatedWidget(m_timelineArea);
@@ -1303,26 +1177,13 @@ void MainWindow::setupActions()
     selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_tracksActionCollection->addAction("select_all_tracks", selectAll);
 
-    KAction *addGuide = new KAction(KIcon("document-new"), i18n("Add Guide"), this);
-    addAction("add_guide", addGuide);
-    connect(addGuide, SIGNAL(triggered()), this, SLOT(slotAddGuide()));
+    addAction("add_guide", i18n("Add Guide"), this, SLOT(slotAddGuide()), KIcon("document-new"));
+    addAction("delete_guide", i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), KIcon("edit-delete"));
+    addAction("edit_guide", i18n("Edit Guide"), this, SLOT(slotEditGuide()), KIcon("document-properties"));
+    addAction("delete_all_guides", i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()), KIcon("edit-delete"));
 
-    QAction *delGuide = new KAction(KIcon("edit-delete"), i18n("Delete Guide"), this);
-    addAction("delete_guide", delGuide);
-    connect(delGuide, SIGNAL(triggered()), this, SLOT(slotDeleteGuide()));
-
-    QAction *editGuide = new KAction(KIcon("document-properties"), i18n("Edit Guide"), this);
-    addAction("edit_guide", editGuide);
-    connect(editGuide, SIGNAL(triggered()), this, SLOT(slotEditGuide()));
-
-    QAction *delAllGuides = new KAction(KIcon("edit-delete"), i18n("Delete All Guides"), this);
-    addAction("delete_all_guides", delAllGuides);
-    connect(delAllGuides, SIGNAL(triggered()), this, SLOT(slotDeleteAllGuides()));
-
-    QAction *pasteEffects = new KAction(KIcon("edit-paste"), i18n("Paste Effects"), this);
-    addAction("paste_effects", pasteEffects);
+    KAction *pasteEffects = addAction("paste_effects", i18n("Paste Effects"), this, SLOT(slotPasteEffects()), KIcon("edit-paste"));
     pasteEffects->setData("paste_effects");
-    connect(pasteEffects , SIGNAL(triggered()), this, SLOT(slotPasteEffects()));
 
     m_saveAction = KStandardAction::save(pCore->projectManager(),    SLOT(saveFile()),               actionCollection());
     KStandardAction::quit(this,                   SLOT(close()),                  actionCollection());
@@ -1342,62 +1203,38 @@ void MainWindow::setupActions()
     redo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
 
-    /*
-    //TODO: Add status tooltip to actions ?
-    connect(actionCollection(), SIGNAL(actionHovered(QAction*)),
-            this, SLOT(slotDisplayActionMessage(QAction*)));*/
 
+    QMenu *addClips = new QMenu();
 
-    QAction *addClip = new KAction(KIcon("kdenlive-add-clip"), i18n("Add Clip"), this);
-    addAction("add_clip", addClip);
-    connect(addClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddClip()));
-
-    QAction *addColorClip = new KAction(KIcon("kdenlive-add-color-clip"), i18n("Add Color Clip"), this);
-    addAction("add_color_clip", addColorClip);
-    connect(addColorClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddColorClip()));
-
-    QAction *addSlideClip = new KAction(KIcon("kdenlive-add-slide-clip"), i18n("Add Slideshow Clip"), this);
-    addAction("add_slide_clip", addSlideClip);
-    connect(addSlideClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddSlideshowClip()));
-
-    QAction *addTitleClip = new KAction(KIcon("kdenlive-add-text-clip"), i18n("Add Title Clip"), this);
-    addAction("add_text_clip", addTitleClip);
-    connect(addTitleClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddTitleClip()));
-
-    QAction *addTitleTemplateClip = new KAction(KIcon("kdenlive-add-text-clip"), i18n("Add Template Title"), this);
-    addAction("add_text_template_clip", addTitleTemplateClip);
-    connect(addTitleTemplateClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddTitleTemplateClip()));
-
-    QAction *addFolderButton = new KAction(KIcon("folder-new"), i18n("Create Folder"), this);
-    addAction("add_folder", addFolderButton);
-    connect(addFolderButton , SIGNAL(triggered()), m_projectList, SLOT(slotAddFolder()));
-
-    QAction *downloadResources = new KAction(KIcon("download"), i18n("Online Resources"), this);
-    addAction("download_resource", downloadResources);
-    connect(downloadResources , SIGNAL(triggered()), this, SLOT(slotDownloadResources()));
-
-    QAction *clipProperties = new KAction(KIcon("document-edit"), i18n("Clip Properties"), this);
-    addAction("clip_properties", clipProperties);
+    KAction *addClip = addAction("add_clip", i18n("Add Clip"), m_projectList, SLOT(slotAddClip()), KIcon("kdenlive-add-clip"));
+    addClips->addAction(addClip);
+    addClips->addAction(addAction("add_color_clip", i18n("Add Color Clip"), m_projectList, SLOT(slotAddColorClip()), 
+                                  KIcon("kdenlive-add-color-clip")));
+    addClips->addAction(addAction("add_slide_clip", i18n("Add Slideshow Clip"), m_projectList, SLOT(slotAddSlideshowClip()),
+                                  KIcon("kdenlive-add-slide-clip")));
+    addClips->addAction(addAction("add_text_clip", i18n("Add Title Clip"), m_projectList, SLOT(slotAddTitleClip()),
+                                  KIcon("kdenlive-add-text-clip")));
+    addClips->addAction(addAction("add_text_template_clip", i18n("Add Template Title"), m_projectList, SLOT(slotAddTitleTemplateClip()),
+                                  KIcon("kdenlive-add-text-clip")));
+    addClips->addAction(addAction("add_folder", i18n("Create Folder"), m_projectList, SLOT(slotAddFolder()),
+                                  KIcon("folder-new")));
+    addClips->addAction(addAction("download_resource", i18n("Online Resources"), this, SLOT(slotDownloadResources()),
+                                  KIcon("download")));
+    
+    KAction *clipProperties = addAction("clip_properties", i18n("Clip Properties"), m_projectList, SLOT(slotEditClip()), KIcon("document-edit"));
     clipProperties->setData("clip_properties");
-    connect(clipProperties , SIGNAL(triggered()), m_projectList, SLOT(slotEditClip()));
     clipProperties->setEnabled(false);
 
-    QAction *openClip = new KAction(KIcon("document-open"), i18n("Edit Clip"), this);
-    addAction("edit_clip", openClip);
+    KAction *openClip = addAction("edit_clip", i18n("Edit Clip"), m_projectList, SLOT(slotOpenClip()), KIcon("document-open"));
     openClip->setData("edit_clip");
-    connect(openClip , SIGNAL(triggered()), m_projectList, SLOT(slotOpenClip()));
     openClip->setEnabled(false);
 
-    QAction *deleteClip = new KAction(KIcon("edit-delete"), i18n("Delete Clip"), this);
-    addAction("delete_clip", deleteClip);
+    KAction *deleteClip = addAction("delete_clip", i18n("Delete Clip"), m_projectList, SLOT(slotRemoveClip()), KIcon("edit-delete"));
     deleteClip->setData("delete_clip");
-    connect(deleteClip , SIGNAL(triggered()), m_projectList, SLOT(slotRemoveClip()));
     deleteClip->setEnabled(false);
 
-    QAction *reloadClip = new KAction(KIcon("view-refresh"), i18n("Reload Clip"), this);
-    addAction("reload_clip", reloadClip);
+    KAction *reloadClip = addAction("reload_clip", i18n("Reload Clip"), m_projectList, SLOT(slotReloadClip()), KIcon("view-refresh"));
     reloadClip->setData("reload_clip");
-    connect(reloadClip , SIGNAL(triggered()), m_projectList, SLOT(slotReloadClip()));
     reloadClip->setEnabled(false);
 
     QAction *proxyClip = new KAction(i18n("Proxy Clip"), this);
@@ -1407,18 +1244,7 @@ void MainWindow::setupActions()
     proxyClip->setChecked(false);
     connect(proxyClip, SIGNAL(toggled(bool)), m_projectList, SLOT(slotProxyCurrentItem(bool)));
 
-    QAction *stopMotion = new KAction(KIcon("image-x-generic"), i18n("Stop Motion Capture"), this);
-    addAction("stopmotion", stopMotion);
-    connect(stopMotion , SIGNAL(triggered()), this, SLOT(slotOpenStopmotion()));
-
-    QMenu *addClips = new QMenu();
-    addClips->addAction(addClip);
-    addClips->addAction(addColorClip);
-    addClips->addAction(addSlideClip);
-    addClips->addAction(addTitleClip);
-    addClips->addAction(addTitleTemplateClip);
-    addClips->addAction(addFolderButton);
-    addClips->addAction(downloadResources);
+    addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), KIcon("image-x-generic"));
 
     addClips->addAction(reloadClip);
     addClips->addAction(proxyClip);

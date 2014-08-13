@@ -110,6 +110,9 @@ public:
 
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action);
+    /** @brief Adds an action to the action collection and stores the name. */
+    KAction *addAction(const QString &name, const QString &text, const QObject *receiver,
+                       const char *member, const KIcon &icon = KIcon(), const QKeySequence &shortcut = QKeySequence());
 
     /**
      * @brief Adds a new dock widget to this window.
