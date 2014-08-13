@@ -16,5 +16,6 @@ set(kdenlive_SRCS
   timeline/tracksconfigdialog.cpp
   timeline/trackview.cpp
   timeline/transition.cpp
+  timeline/timelinesearch.cpp
   PARENT_SCOPE)
 

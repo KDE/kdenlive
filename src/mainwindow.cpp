@@ -61,6 +61,7 @@
 #include "hidetitlebars.h"
 #include "mltconnection.h"
 #include "project/projectmanager.h"
+#include "timeline/timelinesearch.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
@@ -146,7 +147,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
-    m_findActivated(false),
     m_stopmotion(NULL),
     m_mainClip(NULL)
 {
@@ -162,6 +162,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     dbus.registerObject("/MainWindow", this);
 
     if (!KdenliveSettings::colortheme().isEmpty()) slotChangePalette(NULL, KdenliveSettings::colortheme());
+    // FIXME: really?
     setFont(KGlobalSettings::toolBarFont());
 
     MltConnection::locateMeltAndProfilesPath(MltPath);
@@ -174,9 +175,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_timelineArea->setTabBarHidden(true);
     m_timelineArea->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     m_timelineArea->setMinimumHeight(200);
-
-    connect(&m_findTimer, SIGNAL(timeout()), this, SLOT(findTimeout()));
-    m_findTimer.setSingleShot(true);
 
     // FIXME: the next call returns a newly allocated object, which leaks
     initEffects::parseEffectFiles();
@@ -326,6 +324,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     new LayoutManagement(this);
     new HideTitleBars(this);
+    new TimelineSearch(this);
 
     setupGUI();
 
@@ -1025,11 +1024,6 @@ void MainWindow::setupActions()
     addAction("zoom_fit", m_buttonFitZoom);
     addAction("zoom_in", m_zoomIn);
     addAction("zoom_out", m_zoomOut);
-
-    m_projectSearch = addAction("project_find", i18n("Find"), this, SLOT(slotFind()), KIcon("edit-find"), Qt::Key_Slash);
-
-    m_projectSearchNext = addAction("project_find_next", i18n("Find Next"), this, SLOT(slotFindNext()), KIcon("go-down-search"), Qt::Key_F3);
-    m_projectSearchNext->setEnabled(false);
 
     addAction("manage_profiles", i18n("Manage Project Profiles"), this, SLOT(slotEditProfiles()), KIcon("document-new"));
 
@@ -2412,53 +2406,6 @@ void MainWindow::slotPasteEffects()
         pCore->projectManager()->currentTrackView()->projectView()->pasteClipEffects();
 }
 
-void MainWindow::slotFind()
-{
-    if (!pCore->projectManager()->currentTrackView()) {
-        return;
-    }
-
-    m_projectSearch->setEnabled(false);
-    m_findActivated = true;
-    m_findString.clear();
-    pCore->projectManager()->currentTrackView()->projectView()->initSearchStrings();
-    statusBar()->showMessage(i18n("Starting -- find text as you type"));
-    m_findTimer.start(5000);
-    qApp->installEventFilter(this);
-}
-
-void MainWindow::slotFindNext()
-{
-    if (pCore->projectManager()->currentTrackView() && pCore->projectManager()->currentTrackView()->projectView()->findNextString(m_findString)) {
-        statusBar()->showMessage(i18n("Found: %1", m_findString));
-    } else {
-        statusBar()->showMessage(i18n("Reached end of project"));
-    }
-    m_findTimer.start(4000);
-}
-
-void MainWindow::findAhead()
-{
-    if (pCore->projectManager()->currentTrackView() && pCore->projectManager()->currentTrackView()->projectView()->findString(m_findString)) {
-        m_projectSearchNext->setEnabled(true);
-        statusBar()->showMessage(i18n("Found: %1", m_findString));
-    } else {
-        m_projectSearchNext->setEnabled(false);
-        statusBar()->showMessage(i18n("Not found: %1", m_findString));
-    }
-}
-
-void MainWindow::findTimeout()
-{
-    m_projectSearchNext->setEnabled(false);
-    m_findActivated = false;
-    m_findString.clear();
-    statusBar()->showMessage(i18n("Find stopped"), 3000);
-    if (pCore->projectManager()->currentTrackView()) pCore->projectManager()->currentTrackView()->projectView()->clearSearchStrings();
-    m_projectSearch->setEnabled(true);
-    removeEventFilter(this);
-}
-
 void MainWindow::slotClipInTimeline(const QString &clipId)
 {
     if (pCore->projectManager()->currentTrackView()) {
@@ -2533,64 +2480,12 @@ void MainWindow::slotSelectClipInTimeline()
     }
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *ke)
-{
-    if (m_findActivated) {
-        if (ke->key() == Qt::Key_Backspace) {
-            m_findString = m_findString.left(m_findString.length() - 1);
-
-            if (!m_findString.isEmpty()) {
-                findAhead();
-            } else {
-                findTimeout();
-            }
-
-            m_findTimer.start(4000);
-            ke->accept();
-            return;
-        } else if (ke->key() == Qt::Key_Escape) {
-            findTimeout();
-            ke->accept();
-            return;
-        } else if (ke->key() == Qt::Key_Space || !ke->text().trimmed().isEmpty()) {
-            m_findString += ke->text();
-
-            findAhead();
-
-            m_findTimer.start(4000);
-            ke->accept();
-            return;
-        }
-    } else {
-        KXmlGuiWindow::keyPressEvent(ke);
-    }
-}
-
-
 /** Gets called when the window gets hidden */
 void MainWindow::hideEvent(QHideEvent */*event*/)
 {
     if (isMinimized() && pCore->monitorManager())
         pCore->monitorManager()->stopActiveMonitor();
 }
-
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
-{
-    if (m_findActivated) {
-        if (event->type() == QEvent::ShortcutOverride) {
-            QKeyEvent* ke = static_cast<QKeyEvent*>(event);
-            if (ke->text().trimmed().isEmpty()) return false;
-            ke->accept();
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        // pass the event on to the parent class
-        return QMainWindow::eventFilter(obj, event);
-    }
-}
-
 
 void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip, KUrl path)
 {

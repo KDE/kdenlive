@@ -138,14 +138,8 @@ protected:
     /** @brief Reports a message in the status bar when an error occurs. */
     virtual void customEvent(QEvent *e);
 
-    /** @brief Enables live search in the timeline. */
-    virtual void keyPressEvent(QKeyEvent *ke);
-
     /** @brief Stops the active monitor when the window gets hidden. */
     virtual void hideEvent(QHideEvent *e);
-
-    /** @brief Filters key events to the live search. */
-    bool eventFilter(QObject *obj, QEvent *ev);
 
     /** @brief Saves the file and the window properties when saving the session. */
     virtual void saveProperties(KConfigGroup &config);
@@ -230,8 +224,6 @@ private:
     RenderWidget *m_renderWidget;
 
     KAction *m_fileRevert;
-    KAction *m_projectSearch;
-    KAction *m_projectSearchNext;
 
     KAction **m_transitions;
     KAction *m_buttonAudioThumbs;
@@ -256,13 +248,9 @@ private:
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
 
-    bool m_findActivated;
-    QString m_findString;
-    QTimer m_findTimer;
 
     void readOptions();
     void saveOptions();
-    void findAhead();
 
     /** @brief Loads static and dynamic plugins.
      *
@@ -381,9 +369,6 @@ private slots:
     void slotSnapRewind();
     void slotClipStart();
     void slotClipEnd();
-    void slotFind();
-    void findTimeout();
-    void slotFindNext();
     void slotSelectClipInTimeline();
     void slotClipInTimeline(const QString &clipId);
 
