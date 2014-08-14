@@ -1,0 +1,36 @@
+* How operations on clips in the timeline are implemented (in the model)
+
+TimelineClip->setIn (in:  number of frames relative to uncut clip (same as in MLT))
+    ->setInOut()
+TimelineClip->setOut(out: number of frames relative to uncut clip (same as in MLT))
+    ->setInOut()
+TimelineClip->setInOut(in, out)
+        => ResizeClipCommand: * does not do any safety checks for available space!
+                              * resizes the clip's producer,
+                              * does not change its position when changing the in point!
+                              * makes the clip emit resized()
+                              
+TimelineClip->setPosition(position, track)
+        => MoveClipCommand: * does not do any safety checks for available space!
+                            * inserts the same producer cut at the requested position (if on same track)
+                            * inserts a new producer cut at the requested position on the requested track,
+                              as avformat clips require on base producer per track (audio bugs, search ml (kdenlive-devel, mlt-devel) for more info),
+                              it asks the the ProjectClip (through TimelineClip) for the base producer associated with this track, then uses it
+                              to create a cut and insert it.
+                            * notifies the affacted tracks, so they can update their stored clip indices
+                            * makes the clip emit moved()
+
+To create a TimelineClip:
+    ProjectClip->createInstance()
+To remove a TimelineClip:
+    TimelineClip->remove() -> ProjectClip->removeInstance()
+
+=> 4 basic operations: add, remove, resize, move
+These four operations should be enough to achieve everything imaginable,
+without the need to use the MLT API.
+Because they do not perform safety checks they should never be used directly (without performing checks).
+As set of "compiled operations" can be directly used from the UI or from plugins.
+
+Moving Helper:
+    The UI can use a moving helper from the model, to check if a move is allowed,
+    the moving helper provides alternative positions if a move is not possible, or because of snapping.
