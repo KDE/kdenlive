@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1549.194"
+   height="1332.16"
+   id="svg3337"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Timeline_Snapping.svg">
+  <defs
+     id="defs3339">
+    <marker
+       markerWidth="13.96875"
+       markerHeight="12.15625"
+       orient="auto"
+       id="marker6345">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+         d="M -12.068051,-5.618565 0.4541487,5.0000002e-6 -12.068051,5.618565"
+         id="path6343"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccc"
+         inkscape:transform-center-x="5.8069513" />
+    </marker>
+    <marker
+       markerWidth="13.96875"
+       markerHeight="12.15625"
+       orient="auto"
+       id="marker6345-8">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+         d="M -12.068051,-5.618565 0.4541487,5.0000002e-6 -12.068051,5.618565"
+         id="path6343-1"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccc"
+         inkscape:transform-center-x="5.8069513" />
+    </marker>
+    <marker
+       markerWidth="13.96875"
+       markerHeight="12.15625"
+       orient="auto"
+       id="marker6345-5">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+         d="M -12.068051,-5.618565 0.4541487,5.0000002e-6 -12.068051,5.618565"
+         id="path6343-8"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccc"
+         inkscape:transform-center-x="5.8069513" />
+    </marker>
+    <marker
+       markerWidth="13.96875"
+       markerHeight="12.15625"
+       orient="auto"
+       id="marker6345-7">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+         d="M -12.068051,-5.618565 0.4541487,5.0000002e-6 -12.068051,5.618565"
+         id="path6343-6"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccc"
+         inkscape:transform-center-x="5.8069513" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="678.36725"
+     inkscape:cy="684.94539"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     showborder="true"
+     inkscape:window-width="1364"
+     inkscape:window-height="713"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:object-nodes="true"
+     inkscape:snap-center="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3391"
+       empspacing="6"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="20px"
+       spacingy="20px"
+       color="#808080"
+       opacity="0.1254902"
+       empcolor="#808080"
+       empopacity="0.20392157"
+       originx="440px"
+       originy="423.28px" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata3342">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(440,-143.48218)">
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Bold"
+       x="-240"
+       y="172.36218"
+       id="text3345"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3347"
+         x="-240"
+         y="172.36218">Kdenlive Model: Timeline moving + snapping helper</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="-240"
+       y="232.36218"
+       id="text3349"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="232.36218"
+         id="tspan4823">When moving items in the timeline, we need “collision detection” and snapping.</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="252.36218"
+         id="tspan4827">In the following example, the lighter clip is dragged over another clip. It cannot be dropped there.</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="272.36218"
+         id="tspan4829">When dragging it to the left, the user would expect it to stick on the right of the other clip until </tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="292.36218"
+         id="tspan4831">it is dragged far enough that it can be inserted again.</tspan></text>
+    <rect
+       style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3372"
+       width="240"
+       height="60"
+       x="0"
+       y="332.36218" />
+    <rect
+       style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3412"
+       width="100"
+       height="60"
+       x="60"
+       y="352.36218" />
+    <rect
+       style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4216"
+       width="20"
+       height="60"
+       x="0"
+       y="332.36218" />
+    <rect
+       style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4218"
+       width="20"
+       height="60"
+       x="140"
+       y="352.36218" />
+    <rect
+       style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4233"
+       width="120"
+       height="60"
+       x="-180"
+       y="332.36218" />
+    <rect
+       style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4220"
+       width="20"
+       height="60"
+       x="-180"
+       y="332.36218" />
+    <path
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 160,432.36218 -160,0"
+       id="path4241"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 160,452.36218 -340,0"
+       id="path4243"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="167.26912"
+       y="438.0582"
+       id="text4815"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4817"
+         x="167.26912"
+         y="438.0582">10 f</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="167.61313"
+       y="458.0582"
+       id="text4819"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4821"
+         x="167.61313"
+         y="458.0582">20 f</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="-240"
+       y="512.36218"
+       id="text4833"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4835"
+         x="-240"
+         y="512.36218">If a clip cannot be moved to the current mouse position, the helper calculates two points:</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="532.36218"
+         id="tspan4839">The shortest distance to the left and to the right where insertion is possible again. For all</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="552.36218"
+         id="tspan4843">of those points, we know that the right edge of the selected (i.e. dragged) clip must be adjacent</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="572.36218"
+         id="tspan4847">to a left edge of an unselected clip—otherwise we could move it a few frames to the right.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="-240"
+       y="612.36218"
+       id="text3019"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3021"
+         x="-240"
+         y="612.36218">The following algorithm can be used to find the next matching point:</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="632.65387"
+         id="tspan3023">1. Create a list of possible positions (how many frames Δf to move) for the selected clip</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="652.9455"
+         id="tspan3025">2. Sort the list ascendingly, so the smallest Δf is taken first</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="672.9455"
+         id="tspan3027">3. Test all positions in order, and return the first one where no overlaps occur.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="-240"
+       y="712.36218"
+       id="text3029"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3031"
+         x="-240"
+         y="712.36218">If multiple clips are selected and moved together, step 1 needs to be repeated for all clips</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="732.36218"
+         id="tspan3033">in the selection. Example:</tspan></text>
+    <g
+       id="g3967">
+      <rect
+         y="772.36218"
+         x="-220"
+         height="60"
+         width="100"
+         id="rect3035"
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="772.36218"
+         x="100"
+         height="60"
+         width="80"
+         id="rect3854"
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="772.36218"
+         x="100"
+         height="60"
+         width="20"
+         id="rect3898"
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="772.36218"
+         x="-220"
+         height="60"
+         width="20"
+         id="rect3900"
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <g
+       id="g3961">
+      <rect
+         y="792.36218"
+         x="120"
+         height="60"
+         width="60"
+         id="rect3856"
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="792.36218"
+         x="240"
+         height="60"
+         width="100"
+         id="rect3858"
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="792.36218"
+         x="160"
+         height="60"
+         width="20"
+         id="rect3888"
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="792.36218"
+         x="320"
+         height="60"
+         width="20"
+         id="rect3896"
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <path
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 180,872.36218 -80,0"
+       id="path3902"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 180,892.36218 -400,0"
+       id="path3904"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 340,912.36218 -240,0"
+       id="path3906"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 340,932.36218 -560,0"
+       id="path3908"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="187.26912"
+       y="878.05817"
+       id="text3910"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3912"
+         x="187.26912"
+         y="878.05817">10 f</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="347.69312"
+       y="918.05817"
+       id="text3914"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3916"
+         x="347.69312"
+         y="918.05817">30 f</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="187.70113"
+       y="898.05817"
+       id="text3918"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3920"
+         x="187.70113"
+         y="898.05817">50 f</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="347.54913"
+       y="938.05817"
+       id="text3922"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3924"
+         x="347.54913"
+         y="938.05817">70 f</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3926"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"><flowRegion
+         id="flowRegion3928"><rect
+           id="rect3930"
+           width="88"
+           height="26"
+           x="429"
+           y="654.36218" /></flowRegion><flowPara
+         id="flowPara3932" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="-240"
+       y="992.36218"
+       id="text3957"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3959"
+         x="-240"
+         y="992.36218">This would lead to the following tests (the vertical offset is just for clarity; </tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="1012.3622"
+         id="tspan4115">clips are all on the same track):</tspan></text>
+    <g
+       id="g3973"
+       transform="translate(0,280)">
+      <rect
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect3975"
+         width="100"
+         height="20"
+         x="-220"
+         y="772.36218" />
+      <rect
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect3977"
+         width="80"
+         height="20"
+         x="100"
+         y="772.36218" />
+      <rect
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect3979"
+         width="20"
+         height="20"
+         x="100"
+         y="772.36218" />
+    </g>
+    <g
+       id="g3983"
+       transform="translate(-80,280)">
+      <rect
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect3985"
+         width="60"
+         height="20"
+         x="120"
+         y="792.36218" />
+      <rect
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect3987"
+         width="100"
+         height="20"
+         x="240"
+         y="792.36218" />
+      <rect
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect3989"
+         width="20"
+         height="20"
+         x="160"
+         y="792.36218" />
+    </g>
+    <g
+       transform="translate(0,360)"
+       id="g3993">
+      <rect
+         y="772.36218"
+         x="-220"
+         height="20"
+         width="100"
+         id="rect3995"
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="772.36218"
+         x="100"
+         height="20"
+         width="80"
+         id="rect3997"
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="772.36218"
+         x="100"
+         height="20"
+         width="20"
+         id="rect3999"
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <g
+       transform="translate(-240,360)"
+       id="g4003">
+      <rect
+         y="792.36218"
+         x="120"
+         height="20"
+         width="60"
+         id="rect4005"
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="792.36218"
+         x="240"
+         height="20"
+         width="100"
+         id="rect4007"
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="792.36218"
+         x="320"
+         height="20"
+         width="20"
+         id="rect4011"
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <g
+       id="g4013"
+       transform="translate(0,440)">
+      <rect
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect4015"
+         width="100"
+         height="20"
+         x="-220"
+         y="772.36218" />
+      <rect
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect4017"
+         width="80"
+         height="20"
+         x="100"
+         y="772.36218" />
+      <rect
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect4021"
+         width="20"
+         height="20"
+         x="-220"
+         y="772.36218" />
+    </g>
+    <g
+       id="g4023"
+       transform="translate(-400,440)">
+      <rect
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect4025"
+         width="60"
+         height="20"
+         x="120"
+         y="792.36218" />
+      <rect
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect4027"
+         width="100"
+         height="20"
+         x="240"
+         y="792.36218" />
+      <rect
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect4029"
+         width="20"
+         height="20"
+         x="160"
+         y="792.36218" />
+    </g>
+    <g
+       transform="translate(0,520)"
+       id="g4033">
+      <rect
+         y="772.36218"
+         x="-220"
+         height="20"
+         width="100"
+         id="rect4035"
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="772.36218"
+         x="100"
+         height="20"
+         width="80"
+         id="rect4037"
+         style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="772.36218"
+         x="-220"
+         height="20"
+         width="20"
+         id="rect4041"
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <g
+       transform="translate(-560,520)"
+       id="g4043">
+      <rect
+         y="792.36218"
+         x="120"
+         height="20"
+         width="60"
+         id="rect4045"
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="792.36218"
+         x="240"
+         height="20"
+         width="100"
+         id="rect4047"
+         style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="792.36218"
+         x="320"
+         height="20"
+         width="20"
+         id="rect4051"
+         style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       id="path4056"
+       d="m 180,1092.3622 -80,0"
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text4058"
+       y="1098.0582"
+       x="187.26912"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       xml:space="preserve"><tspan
+         y="1098.0582"
+         x="187.26912"
+         id="tspan4060"
+         sodipodi:role="line">10 f</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path4062"
+       d="m 180,1172.3622 -240,0"
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text4064"
+       y="1178.0582"
+       x="187.69312"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       xml:space="preserve"><tspan
+         y="1178.0582"
+         x="187.69312"
+         id="tspan4066"
+         sodipodi:role="line">30 f</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path4068"
+       d="m 180,1252.3622 -400,0"
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text4070"
+       y="1258.0582"
+       x="187.70113"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       xml:space="preserve"><tspan
+         y="1258.0582"
+         x="187.70113"
+         id="tspan4072"
+         sodipodi:role="line">50 f</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path4074"
+       d="m 180,1332.3622 -560,0"
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text4076"
+       y="1338.0582"
+       x="187.54913"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       xml:space="preserve"><tspan
+         y="1338.0582"
+         x="187.54913"
+         id="tspan4078"
+         sodipodi:role="line">70 f</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="-240"
+       y="1392.3622"
+       id="text4117"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4119"
+         x="-240"
+         y="1392.3622">Tests 1, 2, and 4 match here. The algorithm would stop after test 1.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="-240"
+       y="1452.3622"
+       id="text4121"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4123"
+         x="-240"
+         y="1452.3622">This algorithm can be extended to multiple tracks as it has been extended to multiple clips</tspan><tspan
+         sodipodi:role="line"
+         x="-240"
+         y="1472.3622"
+         id="tspan4125">per selection. </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="540"
+       y="232.36218"
+       id="text4127"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4129"
+         x="540"
+         y="232.36218">Another application of this algorithm is snapping to adjacent clips. The difference</tspan><tspan
+         sodipodi:role="line"
+         x="540"
+         y="252.36218"
+         id="tspan4131">is minor: Instead of trying to find the first place to the left (when dragging the clip </tspan><tspan
+         sodipodi:role="line"
+         x="540"
+         y="272.36218"
+         id="tspan4133">this way) where we can put the selected clip, we search for the first place where </tspan><tspan
+         sodipodi:role="line"
+         x="540"
+         y="292.36218"
+         id="tspan4135">another clip stops the selected one.</tspan></text>
+    <rect
+       style="color:#000000;fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3112"
+       width="140"
+       height="60"
+       x="580"
+       y="332.36218" />
+    <rect
+       style="color:#000000;fill:#e9e9e9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3114"
+       width="140"
+       height="60"
+       x="880"
+       y="352.36218" />
+    <rect
+       style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4218-0"
+       width="20"
+       height="60"
+       x="880"
+       y="352.36218" />
+    <rect
+       style="color:#000000;fill:#5b5b5b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4218-4"
+       width="20"
+       height="60"
+       x="700"
+       y="332.36218" />
+    <path
+       style="opacity:0.2893082;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#marker6345);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 880,432.36218 -160,0"
+       id="path3964"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="887.2691"
+       y="438.0582"
+       id="text3966"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3968"
+         x="887.2691"
+         y="438.0582">15 f</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="540"
+       y="492.36218"
+       id="text3993"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="540"
+         y="492.36218"
+         id="tspan4001">In this case, the helper takes the left edge of the selected clip and compares it to the</tspan><tspan
+         sodipodi:role="line"
+         x="540"
+         y="512.36218"
+         id="tspan4011">right edge of the clip to the left of it. This way the helper can give feedback about</tspan><tspan
+         sodipodi:role="line"
+         x="540"
+         y="532.36218"
+         id="tspan4015">where snapping is possible.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="540"
+       y="592.36218"
+       id="text4017"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4019"
+         x="540"
+         y="592.36218">Performance of the algorithm can be improved by e.g. considering the visible part</tspan><tspan
+         sodipodi:role="line"
+         x="540"
+         y="612.36218"
+         id="tspan4021">of the timeline only, or by limiting the number of “lookahead steps” in a different way.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro"
+       x="920"
+       y="172.36221"
+       id="text4023"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4025"
+         x="920"
+         y="172.36221">Author: Simon A. Eugster</tspan></text>
+  </g>
+</svg>
