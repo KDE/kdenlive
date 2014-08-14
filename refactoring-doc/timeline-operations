@@ -31,6 +31,13 @@ without the need to use the MLT API.
 Because they do not perform safety checks they should never be used directly (without performing checks).
 As set of "compiled operations" can be directly used from the UI or from plugins.
 
+
 Moving Helper:
-    The UI can use a moving helper from the model, to check if a move is allowed,
-    the moving helper provides alternative positions if a move is not possible, or because of snapping.
+The UI can use a moving helper from the model, to check if a move is allowed,
+the moving helper provides alternative positions if a move is not possible, or because of snapping.
+
+
+Regarding groups/selections:
+They do not fit into the timeline tree (timeline->tracks->clips), and they do not represent a Mlt producer.
+Instead they are some sort of meta clip. They forward operations applied on them to their member clips,
+adding some safety checks and taking care of the right order.
