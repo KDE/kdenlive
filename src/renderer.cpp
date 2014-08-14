@@ -2035,6 +2035,7 @@ bool Render::mltCutClip(int track, const GenTime &position)
         ct++;
         filter = clipService.filter(ct);
     }
+    return true;
 }
 
 Mlt::Tractor *Render::lockService()
