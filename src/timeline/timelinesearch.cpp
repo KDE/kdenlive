@@ -74,24 +74,22 @@ void TimelineSearch::search()
 
 bool TimelineSearch::eventFilter(QObject *watched, QEvent *event)
 {
-    if (watched == pCore->window()
-        && (event->type() == QEvent::ShortcutOverride || event->type() == QEvent::KeyPress)) {
-        /* FIXME ugly hack
-         * This event filter is called multiple times if for example the timeline is focused.
-         * Even making sure the watched object is the main window does not save us.
-         * 
-         */
-        if (m_interEvent.isNull() || m_interEvent.elapsed() > 20) {
-            m_interEvent.start();
-            return keyPressEvent(static_cast<QKeyEvent*>(event));
-        } else {
-            return false;
-        }
+    // The ShortcutOverride event is emitted for every keyPressEvent, no matter if
+    // it is a registered shortcut or not.
+
+    if (watched == pCore->window() && event->type() == QEvent::ShortcutOverride) {
+
+        // Search, or pass event on if no search active or started
+        return keyPressEvent(static_cast<QKeyEvent*>(event));
+
     } else {
         return QObject::eventFilter(watched, event);
     }
 }
 
+/**
+ * @return true, iff a search operation is in progress or started with the pressed key
+ */
 bool TimelineSearch::keyPressEvent(QKeyEvent *keyEvent)
 {
     if (keyEvent->key() == Qt::Key_Backspace) {

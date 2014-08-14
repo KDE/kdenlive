@@ -49,7 +49,6 @@ private:
 
     QString m_searchTerm;
     QTimer m_searchTimer;
-    QTime m_interEvent;
 };
 
 #endif

@@ -102,7 +102,6 @@ public:
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu);
     bool checkTrackHeight();
     void updateSceneFrameWidth();
-    //QList <TrackInfo> tracksList() const;
     void setTool(ProjectTool tool);
     ClipItem *cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
     void slotSeekToPreviousSnap();
@@ -117,7 +116,6 @@ public:
     void clipStart();
     void clipEnd();
     void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, const double speed, const double oldspeed, int strobe, const QString &id);
-    /** @brief Sets the document as modified. */
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();
