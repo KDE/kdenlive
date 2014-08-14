@@ -45,6 +45,7 @@ class MonitorEditWidget;
 class Monitor;
 class MonitorManager;
 class QSlider;
+class TwostateAction;
 
 
 class Overlay : public QLabel
@@ -111,12 +112,6 @@ protected:
     void wheelEvent(QWheelEvent * event);
     void mouseMoveEvent(QMouseEvent *event);
     virtual QStringList mimeTypes() const;
-   
-    /*virtual void dragMoveEvent(QDragMoveEvent * event);
-    virtual Qt::DropActions supportedDropActions() const;*/
-
-    //virtual void resizeEvent(QResizeEvent * event);
-    //virtual void paintEvent(QPaintEvent * event);
 
 private:
     DocClipBase *m_currentClip;
@@ -127,7 +122,7 @@ private:
     KIcon m_playIcon;
     KIcon m_pauseIcon;
     TimecodeDisplay *m_timePos;
-    QAction *m_playAction;
+    TwostateAction *m_playAction;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QMenu *m_contextMenu;
