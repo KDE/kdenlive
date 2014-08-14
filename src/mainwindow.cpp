@@ -48,13 +48,6 @@
 #include "interfaces.h"
 #include "project/cliptranscode.h"
 #include "scopes/scopemanager.h"
-#include "scopes/colorscopes/vectorscope.h"
-#include "scopes/colorscopes/waveform.h"
-#include "scopes/colorscopes/rgbparade.h"
-#include "scopes/colorscopes/histogram.h"
-#include "scopes/audioscopes/audiosignal.h"
-#include "scopes/audioscopes/audiospectrum.h"
-#include "scopes/audioscopes/spectrogram.h"
 #include "project/dialogs/archivewidget.h"
 #include "utils/resourcewidget.h"
 #include "layoutmanagement.h"
@@ -62,6 +55,7 @@
 #include "mltconnection.h"
 #include "project/projectmanager.h"
 #include "timeline/timelinesearch.h"
+#include <config-kdenlive.h>
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
@@ -225,35 +219,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     m_effectList = new EffectsListView();
     m_effectListDock = addDock(i18n("Effect List"), "effect_list", m_effectList);
 
-    m_scopeManager = new ScopeManager(pCore->monitorManager());
-    m_vectorscope = new Vectorscope();
-    m_vectorscopeDock = addDock(i18n("Vectorscope"), m_vectorscope->widgetName(), m_vectorscope);
-    m_scopeManager->addScope(m_vectorscope, m_vectorscopeDock);
-
-    m_waveform = new Waveform();
-    m_waveformDock = addDock(i18n("Waveform"), m_waveform->widgetName(), m_waveform);
-    m_scopeManager->addScope(m_waveform, m_waveformDock);
-
-    m_RGBParade = new RGBParade();
-    m_RGBParadeDock = addDock(i18n("RGB Parade"), m_RGBParade->widgetName(), m_RGBParade);
-    m_scopeManager->addScope(m_RGBParade, m_RGBParadeDock);
-
-    m_histogram = new Histogram();
-    m_histogramDock = addDock(i18n("Histogram"), m_histogram->widgetName(), m_histogram);
-    m_scopeManager->addScope(m_histogram, m_histogramDock);
-
-    m_audiosignal = new AudioSignal;
-    m_audiosignalDock = addDock(i18n("Audio Signal"), m_audiosignal->widgetName(), m_audiosignal);
-    m_scopeManager->addScope(m_audiosignal, m_audiosignalDock);
-
-    m_audioSpectrum = new AudioSpectrum();
-    m_audioSpectrumDock = addDock(i18n("AudioSpectrum"), m_audioSpectrum->widgetName(), m_audioSpectrum);
-    m_scopeManager->addScope(m_audioSpectrum, m_audioSpectrumDock);
-
-    m_spectrogram = new Spectrogram();
-    m_spectrogramDock = addDock(i18n("Spectrogram"), m_spectrogram->widgetName(), m_spectrogram);
-    m_scopeManager->addScope(m_spectrogram, m_spectrogramDock);
-
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), "clip_monitor", m_clipMonitor);
     m_projectMonitorDock = addDock(i18n("Project Monitor"), "project_monitor", m_projectMonitor);
@@ -274,15 +239,6 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
 
     // Close non-general docks for the initial layout
     // only show important ones
-    m_histogramDock->close();
-    m_RGBParadeDock->close();
-    m_waveformDock->close();
-    m_vectorscopeDock->close();
-
-    m_audioSpectrumDock->close();
-    m_spectrogramDock->close();
-    m_audiosignalDock->close();
-
     m_undoViewDock->close();
 
 
@@ -325,6 +281,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString &
     new LayoutManagement(this);
     new HideTitleBars(this);
     new TimelineSearch(this);
+    new ScopeManager(this);
 
     setupGUI();
 
@@ -564,7 +521,6 @@ MainWindow::~MainWindow()
     delete m_projectList;
     delete m_shortcutRemoveFocus;
     delete[] m_transitions;
-    delete m_scopeManager;
     Mlt::Factory::close();
 }
 

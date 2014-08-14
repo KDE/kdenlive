@@ -63,15 +63,7 @@ class RenderWidget;
 class DocClipBase;
 class Render;
 class Transition;
-class ScopeManager;
-class Histogram;
-class Vectorscope;
-class Waveform;
-class RGBParade;
 class KActionCollection;
-class AudioSignal;
-class AudioSpectrum;
-class Spectrogram;
 
 class KDENLIVECORE_EXPORT MainWindow : public KXmlGuiWindow
 {
@@ -150,8 +142,6 @@ protected:
 private:
     QProgressBar *m_statusProgressBar;
 
-    ScopeManager *m_scopeManager;
-
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
 
@@ -172,27 +162,6 @@ private:
 
     QDockWidget *m_recMonitorDock;
     RecMonitor *m_recMonitor;
-
-    QDockWidget *m_vectorscopeDock;
-    Vectorscope *m_vectorscope;
-
-    QDockWidget *m_waveformDock;
-    Waveform *m_waveform;
-
-    QDockWidget *m_RGBParadeDock;
-    RGBParade *m_RGBParade;
-
-    QDockWidget *m_histogramDock;
-    Histogram *m_histogram;
-
-    QDockWidget *m_audiosignalDock;
-    AudioSignal *m_audiosignal;
-
-    QDockWidget *m_audioSpectrumDock;
-    AudioSpectrum *m_audioSpectrum;
-
-    QDockWidget *m_spectrogramDock;
-    Spectrogram *m_spectrogram;
 
     QDockWidget *m_undoViewDock;
 
