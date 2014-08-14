@@ -61,7 +61,6 @@ static void kdenlive_callback(void* /*ptr*/, int level, const char* fmt, va_list
 }
 
 
-//static
 void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
@@ -81,20 +80,6 @@ void Render::consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_pt
     }
 }
 
-/*
-static void consumer_paused(mlt_consumer, Render * self, mlt_frame frame_ptr)
-{
-    // detect if the producer has finished playing. Is there a better way to do it?
-    Mlt::Frame frame(frame_ptr);
-    if (!frame.is_valid()) return;
-    if (frame.get_double("_speed") < 0.0 && mlt_frame_get_position(frame_ptr) <= 0) {
-        self->pause();
-        self->emitConsumerStopped(true);
-    }
-    else self->emitConsumerStopped();
-}*/
-
-// static
 void Render::consumer_gl_frame_show(mlt_consumer consumer, Render * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
@@ -161,36 +146,6 @@ void Render::closeMlt()
     delete m_pauseEvent;
     delete m_mltConsumer;
     delete m_mltProducer;
-    /*if (m_mltProducer) {
-        Mlt::Service service(m_mltProducer->parent().get_service());
-        service.lock();
-
-        if (service.type() == tractor_type) {
-            Mlt::Tractor tractor(service);
-            Mlt::Field *field = tractor.field();
-            mlt_service nextservice = mlt_service_get_producer(service.get_service());
-            mlt_service nextservicetodisconnect;
-            mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-            QString mlt_type = mlt_properties_get(properties, "mlt_type");
-            QString resource = mlt_properties_get(properties, "mlt_service");
-            // Delete all transitions
-            while (mlt_type == "transition") {
-                nextservicetodisconnect = nextservice;
-                nextservice = mlt_service_producer(nextservice);
-                mlt_field_disconnect_service(field->get_field(), nextservicetodisconnect);
-                if (nextservice == NULL) break;
-                properties = MLT_SERVICE_PROPERTIES(nextservice);
-                mlt_type = mlt_properties_get(properties, "mlt_type");
-                resource = mlt_properties_get(properties, "mlt_service");
-            }
-
-            delete field;
-            field = NULL;
-        }
-        service.unlock();
-    }*/
-
-    //kDebug() << "// // // CLOSE RENDERER " << m_name;
     delete m_blackClip;
 }
 
@@ -445,24 +400,6 @@ void Render::seek(int time)
     else requestedSeekPosition = time;
 }
 
-//static
-/*QPixmap Render::frameThumbnail(Mlt::Frame *frame, int width, int height, bool border) {
-    QPixmap pix(width, height);
-
-    mlt_image_format format = mlt_image_rgb24a;
-    uint8_t *thumb = frame->get_image(format, width, height);
-    QImage image(thumb, width, height, QImage::Format_ARGB32);
-
-    if (!image.isNull()) {
-        pix = pix.fromImage(image);
-        if (border) {
-            QPainter painter(&pix);
-            painter.drawRect(0, 0, width - 1, height - 1);
-        }
-    } else pix.fill(Qt::black);
-    return pix;
-}
-*/
 int Render::frameRenderWidth() const
 {
     return m_mltProfile->width();
@@ -1545,7 +1482,9 @@ void Render::stop(const GenTime & startTime)
         m_mltProducer->set_speed(0.0);
         m_mltProducer->seek((int) startTime.frames(m_fps));
     }
-    m_mltConsumer->purge();
+    if (m_mltConsumer) {
+        m_mltConsumer->purge();
+    }
 }
 
 void Render::pause()
@@ -1639,11 +1578,11 @@ void Render::loopZone(const GenTime & startTime, const GenTime & stopTime)
     playZone(startTime, stopTime);
 }
 
-void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
+bool Render::playZone(const GenTime & startTime, const GenTime & stopTime)
 {
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer || !m_isActive)
-        return;
+        return false;
     m_mltProducer->set("out", (int)(stopTime.frames(m_fps)));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_paused = false;
@@ -1651,6 +1590,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime)
     if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
     m_mltConsumer->set("refresh", 1);
     m_isZoneMode = true;
+    return true;
 }
 
 void Render::resetZoneMode()
@@ -2095,17 +2035,6 @@ bool Render::mltCutClip(int track, const GenTime &position)
         ct++;
         filter = clipService.filter(ct);
     }
-    return true;
-    /* // Display playlist info
-    kDebug()<<"////////////  AFTER";
-    for (int i = 0; i < trackPlaylist.count(); ++i) {
-    int blankStart = trackPlaylist.clip_start(i);
-    int blankDuration = trackPlaylist.clip_length(i) - 1;
-    QString blk;
-    if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
-    }*/
-
 }
 
 Mlt::Tractor *Render::lockService()

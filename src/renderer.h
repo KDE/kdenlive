@@ -20,6 +20,11 @@
  * @class Render
  * @brief Client side of the interface to a renderer.
  *
+ * REFACTORING NOTE -- There is most likely no point in trying to refactor
+ * the renderer, it is better re-written directly (see refactoring branch)
+ * since there is a lot of code duplication, no documentation, and several
+ * hacks that have emerged from the previous two problems.
+ *
  * From Kdenlive's point of view, you treat the Render object as the renderer,
  * and simply use it as if it was local. Calls are asynchronous - you send a
  * call out, and then receive the return value through the relevant signal that
@@ -157,7 +162,7 @@ class Render: public AbstractRender
     /** @brief Plays the scene starting from a specific time.
      * @param startTime time to start playing the scene from */
     void play(const GenTime & startTime);
-    void playZone(const GenTime & startTime, const GenTime & stopTime);
+    bool playZone(const GenTime & startTime, const GenTime & stopTime);
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
 
     void saveZone(KUrl url, QString desc, QPoint zone);

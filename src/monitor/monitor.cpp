@@ -769,7 +769,7 @@ void Monitor::rendererStopped(int pos)
 {
     if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
-	checkOverlay();
+        checkOverlay();
     }
     m_playAction->setActive(false);
 }
@@ -843,8 +843,11 @@ void Monitor::slotPlayZone()
     if (render == NULL) return;
     slotActivateMonitor();
     QPoint p = m_ruler->zone();
-    render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
-    m_playAction->setActive(true);
+    bool ok = render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
+    if (ok) {
+        m_playAction->setActive(true);
+    }
+    qDebug() << ok;
 }
 
 void Monitor::slotLoopZone()
