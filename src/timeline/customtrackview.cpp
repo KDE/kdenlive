@@ -1060,8 +1060,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_selectionGroup->setProperty("locked_tracks", lockedTracks);
         }
         m_selectionMutex.unlock();
-        if (m_dragItem)
+        if (m_dragItem) {
+            ClipItem *clip = static_cast<ClipItem*>(m_dragItem);
+            updateClipTypeActions(dragGroup == NULL ? clip : NULL);
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
+        }
+        else updateClipTypeActions(NULL);
     }
     else {
         QGraphicsView::mousePressEvent(event);
