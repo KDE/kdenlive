@@ -208,6 +208,8 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int frameWidth, i
 //static
 QImage KThumb::getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height)
 {
+    Q_UNUSED(frameWidth)
+
     QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
     if (frame == NULL || !frame->is_valid()) {
         p.fill(QColor(Qt::red).rgb());
