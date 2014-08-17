@@ -225,13 +225,19 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     else if (attributes.contains("frame_size")) slotSetToolTip();
     
     if (attributes.contains("duration")) {
-        GenTime duration = GenTime(attributes.value("duration").toInt(), attributes.value("fps").toInt());
         QString itemdata = data(0, DurationRole).toString();
         if (itemdata.contains('/')) itemdata = itemdata.section('/', 0, 0) + "/ ";
         else itemdata.clear();
         if (prefix.isEmpty()) prefix = itemdata;
-	setData(0, DurationRole, prefix + Timecode::getEasyTimecode(duration, attributes.value("fps").toInt()));
-        m_clip->setDuration(duration);
+        if (attributes.contains("fps") && attributes.value("fps").toInt() >= 1) {
+            GenTime duration = GenTime(attributes.value("duration").toInt(), attributes.value("fps").toInt());
+            setData(0, DurationRole, prefix + Timecode::getEasyTimecode(duration, attributes.value("fps").toInt()));
+            m_clip->setDuration(duration);
+        } else {
+            GenTime duration = GenTime(attributes.value("duration").toInt(), KdenliveSettings::project_fps());
+            setData(0, DurationRole, prefix + Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+            m_clip->setDuration(duration);
+        }
     } else  {
         // No duration known, use an arbitrary one until it is.
     }
