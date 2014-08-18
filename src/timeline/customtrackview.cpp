@@ -4363,9 +4363,9 @@ void CustomTrackView::razorGroup(AbstractGroupItem* group, GenTime cutPos)
             AbstractClipItem *child = static_cast <AbstractClipItem *>(children.at(i));
 			if (!child) continue;
             if (child->type() == AVWidget) {
-                if (cutPos > child->endPos())
+                if (cutPos >= child->endPos())
                     clips1 << child->info();
-                else if (cutPos < child->startPos())
+                else if (cutPos <= child->startPos())
                     clips2 << child->info();
                 else {
                     clipsToCut << child;
