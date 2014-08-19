@@ -3,7 +3,7 @@ DNxHD=vcodec=dnxhd vb=145000k acodec=pcm_s16le threads=%threads;mov
 Normal MPEG=vcodec=mpeg2video qscale=10 acodec=mp2 ac=2 ab=128k ar=48000 threads=%threads;mpg
 
 [proxy]
-Normal MPEG=-f mpegts -acodec libmp3lame -ac 2 -ab 128k -ar 48000 -vcodec mpeg2video -g 5 -deinterlace -s 640x360 -vb 700k;ts
+Normal MPEG=-f mpegts -acodec libmp3lame -ac 2 -ab 128k -vcodec mpeg2video -g 5 -s 640x480 -qscale 7;ts
 
 [screengrab]
 X246 mute=-vcodec libx264 -preset fast -threads 0;mkv
