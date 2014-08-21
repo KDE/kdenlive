@@ -28,7 +28,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="2" column="0">
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="default_vbitrate_label">
         <property name="text">
          <string>Default bitrate</string>
         </property>
@@ -38,7 +38,7 @@
        <widget class="KLineEdit" name="vbitrates_list"/>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="vbitrates_label">
         <property name="text">
          <string>Bitrates</string>
         </property>
@@ -125,14 +125,14 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="abitrates_label">
         <property name="text">
          <string>Bitrates</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="default_abitrate_label">
         <property name="text">
          <string>Default bitrate</string>
         </property>
@@ -149,11 +149,8 @@
        </widget>
       </item>
      </layout>
-     <zorder>label_9</zorder>
-     <zorder>label_8</zorder>
-     <zorder>abitrates_list</zorder>
-     <zorder>label_9</zorder>
-     <zorder>label_8</zorder>
+     <zorder>default_abitrate_label</zorder>
+     <zorder>abitrates_label</zorder>
      <zorder>abitrates_list</zorder>
      <zorder>default_abitrate</zorder>
     </widget>
@@ -167,14 +164,14 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>
    <header>ktextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

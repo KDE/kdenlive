@@ -472,19 +472,33 @@ void RenderWidget::slotSaveProfile()
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
     QListWidgetItem *item = m_view.size_list->currentItem();
-    if (ui.parameters->toPlainText().contains("%bitrate")) {
+    if (ui.parameters->toPlainText().contains("%bitrate") || ui.parameters->toPlainText().contains("%quality")) {
+        if (ui.parameters->toPlainText().contains("%quality")) {
+            ui.vbitrates_label->setText(i18n("Qualities"));
+            ui.default_vbitrate_label->setText(i18n("Default quality"));
+        } else {
+            ui.vbitrates_label->setText(i18n("Bitrates"));
+            ui.default_vbitrate_label->setText(i18n("Default bitrate"));
+        }
         if ( item && item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(BitratesRole).toStringList();
-	    ui.vbitrates_list->setText(bitrates.join(","));
+            ui.vbitrates_list->setText(bitrates.join(","));
             if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
                 ui.default_vbitrate->setValue(item->data(DefaultBitrateRole).toInt());
         }
     }
     else ui.vbitrates->setHidden(true);
-    if (ui.parameters->toPlainText().contains("%audiobitrate")) {
-      if ( item && item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
+    if (ui.parameters->toPlainText().contains("%audiobitrate") || ui.parameters->toPlainText().contains("%audioquality")) {
+        if (ui.parameters->toPlainText().contains("%audioquality")) {
+            ui.abitrates_label->setText(i18n("Qualities"));
+            ui.default_abitrate_label->setText(i18n("Default quality"));
+        } else {
+            ui.abitrates_label->setText(i18n("Bitrates"));
+            ui.default_abitrate_label->setText(i18n("Default bitrate"));
+        }
+        if ( item && item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(AudioBitratesRole).toStringList();
-	    ui.abitrates_list->setText(bitrates.join(","));
+            ui.abitrates_list->setText(bitrates.join(","));
             if (item->data(DefaultAudioBitrateRole).canConvert(QVariant::String))
                 ui.default_abitrate->setValue(item->data(DefaultAudioBitrateRole).toInt());
         }
@@ -505,12 +519,12 @@ void RenderWidget::slotSaveProfile()
         profileElement.setAttribute("extension", ui.extension->text().simplified());
         QString args = ui.parameters->toPlainText().simplified();
         profileElement.setAttribute("args", args);
-        if (args.contains("%bitrate")) {
+        if (args.contains("%bitrate") || args.contains("%quality")) {
             // profile has a variable bitrate
             profileElement.setAttribute("defaultbitrate", QString::number(ui.default_vbitrate->value()));
             profileElement.setAttribute("bitrates", ui.vbitrates_list->text());
         }
-        if (args.contains("%audiobitrate")) {
+        if (args.contains("%audiobitrate") || args.contains("%audioquality")) {
             // profile has a variable bitrate
             profileElement.setAttribute("defaultaudiobitrate", QString::number(ui.default_abitrate->value()));
             profileElement.setAttribute("audiobitrates", ui.abitrates_list->text());
@@ -640,10 +654,17 @@ void RenderWidget::slotEditProfile()
     ui.extension->setText(extension);
     ui.parameters->setText(params);
     ui.profile_name->setFocus();
-    if (ui.parameters->toPlainText().contains("%bitrate")) {
+    if (ui.parameters->toPlainText().contains("%bitrate") || ui.parameters->toPlainText().contains("%quality")) {
+        if (ui.parameters->toPlainText().contains("%quality")) {
+            ui.vbitrates_label->setText(i18n("Qualities"));
+            ui.default_vbitrate_label->setText(i18n("Default quality"));
+        } else {
+            ui.vbitrates_label->setText(i18n("Bitrates"));
+            ui.default_vbitrate_label->setText(i18n("Default bitrate"));
+        }
         if ( item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(BitratesRole).toStringList();
-	    ui.vbitrates_list->setText(bitrates.join(","));
+            ui.vbitrates_list->setText(bitrates.join(","));
             if (item->data(DefaultBitrateRole).canConvert(QVariant::String))
                 ui.default_vbitrate->setValue(item->data(DefaultBitrateRole).toInt());
         }
@@ -651,10 +672,17 @@ void RenderWidget::slotEditProfile()
         ui.vbitrates->setHidden(true);
     }
 
-    if (ui.parameters->toPlainText().contains("%audiobitrate")) {
-      if ( item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
+    if (ui.parameters->toPlainText().contains("%audiobitrate") || ui.parameters->toPlainText().contains("%audioquality")) {
+        if (ui.parameters->toPlainText().contains("%audioquality")) {
+            ui.abitrates_label->setText(i18n("Qualities"));
+            ui.default_abitrate_label->setText(i18n("Default quality"));
+        } else {
+            ui.abitrates_label->setText(i18n("Bitrates"));
+            ui.default_abitrate_label->setText(i18n("Default bitrate"));
+        }
+        if ( item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(AudioBitratesRole).toStringList();
-	    ui.abitrates_list->setText(bitrates.join(","));
+            ui.abitrates_list->setText(bitrates.join(","));
             if (item->data(DefaultAudioBitrateRole).canConvert(QVariant::String))
                 ui.default_abitrate->setValue(item->data(DefaultAudioBitrateRole).toInt());
         }
@@ -718,14 +746,14 @@ void RenderWidget::slotEditProfile()
         profileElement.setAttribute("extension", ui.extension->text().simplified());
         QString args = ui.parameters->toPlainText().simplified();
         profileElement.setAttribute("args", args);
-        if (args.contains("%bitrate")) {
+        if (args.contains("%bitrate") || args.contains("%quality")) {
             // profile has a variable bitrate
-	    profileElement.setAttribute("defaultbitrate", QString::number(ui.default_vbitrate->value()));
+            profileElement.setAttribute("defaultbitrate", QString::number(ui.default_vbitrate->value()));
             profileElement.setAttribute("bitrates", ui.vbitrates_list->text());
         }
-        if (args.contains("%audiobitrate")) {
+        if (args.contains("%audiobitrate") || args.contains("%audioquality")) {
             // profile has a variable bitrate
-	    profileElement.setAttribute("defaultaudiobitrate", QString::number(ui.default_abitrate->value()));
+            profileElement.setAttribute("defaultaudiobitrate", QString::number(ui.default_abitrate->value()));
             profileElement.setAttribute("audiobitrates", ui.abitrates_list->text());
         }
 
@@ -1476,7 +1504,14 @@ void RenderWidget::refreshParams()
 
     // setup comboBox with bitrates
     m_view.comboBitrates->clear();
-    if (params.contains("bitrate")) {
+    if (params.contains("bitrate") || params.contains("quality")) {
+        if (params.contains("quality")) {
+            m_view.bitrateLabel->setText(i18n("Video\nquality"));
+            m_view.comboBitrates->setToolTip(i18n("Lower is better"));
+        } else {
+            m_view.bitrateLabel->setText(i18n("Video\nbitrate"));
+            m_view.comboBitrates->setToolTip(i18n("Higher is better"));
+        }
         m_view.comboBitrates->setEnabled(true);
         m_view.bitrateLabel->setEnabled(true);
         if ( item->data(BitratesRole).canConvert(QVariant::StringList) && item->data(BitratesRole).toStringList().count()) {
@@ -1493,7 +1528,12 @@ void RenderWidget::refreshParams()
 
     // setup comboBox with audiobitrates
     m_view.comboAudioBitrates->clear();
-    if (params.contains("audiobitrate")) {
+    if (params.contains("audiobitrate") || params.contains("audioquality")) {
+        if (params.contains("audioquality")) {
+            m_view.audiobitrateLabel->setText(i18n("Audio\nquality"));
+        } else {
+            m_view.audiobitrateLabel->setText(i18n("Audio\nbitrate"));
+        }
         m_view.comboAudioBitrates->setEnabled(true);
         m_view.audiobitrateLabel->setEnabled(true);
         if ( item->data(AudioBitratesRole).canConvert(QVariant::StringList) && item->data(AudioBitratesRole).toStringList().count()) {
@@ -1578,7 +1618,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     bool replaceVorbisCodec = false;
     if (acodecsList.contains("libvorbis")) replaceVorbisCodec = true;
     bool replaceLibfaacCodec = false;
-    if (!acodecsList.contains("aac") && acodecsList.contains("libfaac")) replaceLibfaacCodec = true;
+    if (acodecsList.contains("libfaac")) replaceLibfaacCodec = true;
 
     if (editable || groups.count() == 0) {
         QDomElement profiles = doc.documentElement();

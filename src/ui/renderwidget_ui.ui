@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>460</width>
+    <width>465</width>
     <height>732</height>
    </rect>
   </property>
@@ -14,7 +14,16 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item row="0" column="0">
@@ -180,7 +189,7 @@
        <item row="4" column="5" rowspan="4">
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Bitrate</string>
+          <string>File size</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_9">
           <item row="0" column="0">
@@ -336,17 +345,17 @@
         <widget class="KComboBox" name="destination_list"/>
        </item>
        <item row="5" column="3">
-        <widget class="KIntNumInput" name="encoder_threads">
+        <widget class="KIntNumInput" name="encoder_threads" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimum">
+         <property name="minimum" stdset="0">
           <number>1</number>
          </property>
-         <property name="maximum">
+         <property name="maximum" stdset="0">
           <number>999</number>
          </property>
         </widget>
@@ -526,8 +535,8 @@
        <item row="8" column="1" colspan="5">
         <layout class="QHBoxLayout" name="rescale_box">
          <item>
-          <widget class="KIntNumInput" name="rescale_width">
-           <property name="minimum">
+          <widget class="KIntNumInput" name="rescale_width" native="true">
+           <property name="minimum" stdset="0">
             <number>0</number>
            </property>
           </widget>
@@ -546,8 +555,8 @@
           </widget>
          </item>
          <item>
-          <widget class="KIntNumInput" name="rescale_height">
-           <property name="minimum">
+          <widget class="KIntNumInput" name="rescale_height" native="true">
+           <property name="minimum" stdset="0">
             <number>0</number>
            </property>
           </widget>
@@ -806,6 +815,7 @@
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>KIntNumInput</class>
