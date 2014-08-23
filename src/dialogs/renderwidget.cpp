@@ -52,18 +52,19 @@
 
 
 // Render profiles roles
-const int GroupRole = Qt::UserRole;
-const int ExtensionRole = GroupRole + 1;
-const int StandardRole = GroupRole + 2;
-const int RenderRole = GroupRole + 3;
-const int ParamsRole = GroupRole + 4;
-const int EditableRole = GroupRole + 5;
-const int MetaGroupRole = GroupRole + 6;
-const int ExtraRole = GroupRole + 7;
-const int BitratesRole = GroupRole + 8;
-const int DefaultBitrateRole = GroupRole + 9;
-const int AudioBitratesRole = GroupRole + 10;
-const int DefaultAudioBitrateRole = GroupRole + 11;
+enum {GroupRole = Qt::UserRole,
+      ExtensionRole,
+      StandardRole,
+      RenderRole,
+      ParamsRole,
+      EditableRole,
+      MetaGroupRole,
+      ExtraRole,
+      BitratesRole,
+      DefaultBitrateRole,
+      AudioBitratesRole,
+      DefaultAudioBitrateRole
+     };
 
 // Render job roles
 const int ParametersRole = Qt::UserRole + 1;
@@ -519,15 +520,23 @@ void RenderWidget::slotSaveProfile()
         profileElement.setAttribute("extension", ui.extension->text().simplified());
         QString args = ui.parameters->toPlainText().simplified();
         profileElement.setAttribute("args", args);
-        if (args.contains("%bitrate") || args.contains("%quality")) {
+        if (args.contains("%bitrate")) {
             // profile has a variable bitrate
             profileElement.setAttribute("defaultbitrate", QString::number(ui.default_vbitrate->value()));
             profileElement.setAttribute("bitrates", ui.vbitrates_list->text());
+        } else if (args.contains("%quality")) {
+            profileElement.setAttribute("defaultquality", QString::number(ui.default_vbitrate->value()));
+            profileElement.setAttribute("qualities", ui.vbitrates_list->text());
         }
-        if (args.contains("%audiobitrate") || args.contains("%audioquality")) {
+
+        if (args.contains("%audiobitrate")) {
             // profile has a variable bitrate
             profileElement.setAttribute("defaultaudiobitrate", QString::number(ui.default_abitrate->value()));
             profileElement.setAttribute("audiobitrates", ui.abitrates_list->text());
+        } else if (args.contains("%audioquality")) {
+            // profile has a variable bitrate
+            profileElement.setAttribute("defaultaudioquality", QString::number(ui.default_abitrate->value()));
+            profileElement.setAttribute("audioqualities", ui.abitrates_list->text());
         }
         doc.appendChild(profileElement);
         saveProfile(doc.documentElement());
@@ -617,10 +626,23 @@ void RenderWidget::slotCopyToFavorites()
     profileElement.setAttribute("destinationid", "favorites");
     profileElement.setAttribute("extension", extension);
     profileElement.setAttribute("args", params);
-    profileElement.setAttribute("bitrates", item->data(BitratesRole).toStringList().join(","));
-    profileElement.setAttribute("defaultbitrate", item->data(DefaultBitrateRole).toString());
-    profileElement.setAttribute("audiobitrates", item->data(AudioBitratesRole).toStringList().join(","));
-    profileElement.setAttribute("defaultaudiobitrate", item->data(DefaultAudioBitrateRole).toString());
+    if (params.contains("%bitrate")) {
+        // profile has a variable bitrate
+        profileElement.setAttribute("defaultbitrate", item->data(DefaultBitrateRole).toString());
+        profileElement.setAttribute("bitrates", item->data(BitratesRole).toStringList().join(","));
+    } else if (params.contains("%quality")) {
+        profileElement.setAttribute("defaultquality", item->data(DefaultBitrateRole).toString());
+        profileElement.setAttribute("qualities", item->data(BitratesRole).toStringList().join(","));
+    }
+    if (params.contains("%audiobitrate")) {
+        // profile has a variable bitrate
+        profileElement.setAttribute("defaultaudiobitrate", item->data(DefaultAudioBitrateRole).toString());
+        profileElement.setAttribute("audiobitrates", item->data(AudioBitratesRole).toStringList().join(","));
+    } else if (params.contains("%audioquality")) {
+        // profile has a variable bitrate
+        profileElement.setAttribute("defaultaudioquality", item->data(DefaultAudioBitrateRole).toString());
+        profileElement.setAttribute("audioqualities", item->data(AudioBitratesRole).toStringList().join(","));
+    }
     doc.appendChild(profileElement);
     saveProfile(doc.documentElement());
     parseProfiles(m_view.destination_list->itemData(m_view.destination_list->currentIndex(), Qt::UserRole).toString(), currentGroup, currentProfile);
@@ -746,15 +768,21 @@ void RenderWidget::slotEditProfile()
         profileElement.setAttribute("extension", ui.extension->text().simplified());
         QString args = ui.parameters->toPlainText().simplified();
         profileElement.setAttribute("args", args);
-        if (args.contains("%bitrate") || args.contains("%quality")) {
+        if (args.contains("%bitrate")) {
             // profile has a variable bitrate
             profileElement.setAttribute("defaultbitrate", QString::number(ui.default_vbitrate->value()));
             profileElement.setAttribute("bitrates", ui.vbitrates_list->text());
+        } else if(args.contains("%quality")) {
+            profileElement.setAttribute("defaultquality", QString::number(ui.default_vbitrate->value()));
+            profileElement.setAttribute("qualities", ui.vbitrates_list->text());
         }
-        if (args.contains("%audiobitrate") || args.contains("%audioquality")) {
+        if (args.contains("%audiobitrate")) {
             // profile has a variable bitrate
             profileElement.setAttribute("defaultaudiobitrate", QString::number(ui.default_abitrate->value()));
             profileElement.setAttribute("audiobitrates", ui.abitrates_list->text());
+        } else if (args.contains("%audioquality")) {
+            profileElement.setAttribute("defaultaudioquality", QString::number(ui.default_abitrate->value()));
+            profileElement.setAttribute("audioqualities", ui.abitrates_list->text());
         }
 
         profiles.appendChild(profileElement);
@@ -1025,7 +1053,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
     QScriptEngine sEngine;
     sEngine.globalObject().setProperty("bitrate", m_view.comboBitrates->currentText().toInt());
+    sEngine.globalObject().setProperty("quality", m_view.comboBitrates->currentText().toInt());
     sEngine.globalObject().setProperty("audiobitrate", m_view.comboAudioBitrates->currentText().toInt());
+    sEngine.globalObject().setProperty("audioquality", m_view.comboAudioBitrates->currentText().toInt());
     sEngine.globalObject().setProperty("dar", '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
     sEngine.globalObject().setProperty("passes", static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
 
@@ -1507,10 +1537,8 @@ void RenderWidget::refreshParams()
     if (params.contains("bitrate") || params.contains("quality")) {
         if (params.contains("quality")) {
             m_view.bitrateLabel->setText(i18n("Video\nquality"));
-            m_view.comboBitrates->setToolTip(i18n("Lower is better"));
         } else {
             m_view.bitrateLabel->setText(i18n("Video\nbitrate"));
-            m_view.comboBitrates->setToolTip(i18n("Higher is better"));
         }
         m_view.comboBitrates->setEnabled(true);
         m_view.bitrateLabel->setEnabled(true);
@@ -1714,10 +1742,20 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(RenderRole, "avformat");
             item->setData(StandardRole, standard);
             item->setData(ParamsRole, params);
-            item->setData(BitratesRole, profile.attribute("bitrates").split(',', QString::SkipEmptyParts));
-            item->setData(DefaultBitrateRole, profile.attribute("defaultbitrate"));
-            item->setData(AudioBitratesRole, profile.attribute("audiobitrates").split(',', QString::SkipEmptyParts));
-            item->setData(DefaultAudioBitrateRole, profile.attribute("defaultaudiobitrate"));
+            if (!profile.attribute("bitrates").isEmpty()) {
+                item->setData(BitratesRole, profile.attribute("bitrates").split(',', QString::SkipEmptyParts));
+                item->setData(DefaultBitrateRole, profile.attribute("defaultbitrate"));
+            } else if (!profile.attribute("qualities").isEmpty()) {
+                item->setData(BitratesRole, profile.attribute("qualities").split(',', QString::SkipEmptyParts));
+                item->setData(DefaultBitrateRole, profile.attribute("defaultquality"));
+            }
+            if (!profile.attribute("audiobitrates").isEmpty()) {
+                item->setData(AudioBitratesRole, profile.attribute("audiobitrates").split(',', QString::SkipEmptyParts));
+                item->setData(DefaultAudioBitrateRole, profile.attribute("defaultaudiobitrate"));
+            } else if (!profile.attribute("audioqualities").isEmpty()) {
+                item->setData(AudioBitratesRole, profile.attribute("audioqualities").split(',', QString::SkipEmptyParts));
+                item->setData(DefaultAudioBitrateRole, profile.attribute("defaultaudioquality"));
+            }
             if (profile.hasAttribute("url")) item->setData(ExtraRole, profile.attribute("url"));
             if (editable) {
                 item->setData(EditableRole, exportFile);
@@ -1739,7 +1777,6 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     QString renderer;
     QString params;
     QString standard;
-    QString bitrates, defaultBitrate, audioBitrates, defaultAudioBitrate;
     KIcon icon;
 
     while (!groups.item(i).isNull()) {
@@ -1786,10 +1823,6 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             profileElement = n.toElement();
             profileName = profileElement.attribute("name");
             standard = profileElement.attribute("standard");
-            bitrates = profileElement.attribute("bitrates");
-            defaultBitrate = profileElement.attribute("defaultbitrate");
-            audioBitrates = profileElement.attribute("audiobitrates");
-            defaultAudioBitrate = profileElement.attribute("defaultaudiobitrate");
             params = profileElement.attribute("args");
 
             if (replaceVorbisCodec && params.contains("acodec=vorbis")) {
@@ -1810,10 +1843,20 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(RenderRole, renderer);
             item->setData(StandardRole, standard);
             item->setData(ParamsRole, params);
-            item->setData(BitratesRole, bitrates.split(',', QString::SkipEmptyParts));
-            item->setData(DefaultBitrateRole, defaultBitrate);
-            item->setData(AudioBitratesRole, audioBitrates.split(',', QString::SkipEmptyParts));
-            item->setData(DefaultAudioBitrateRole, defaultAudioBitrate);
+            if (!profileElement.attribute("bitrates").isEmpty()) {
+                item->setData(BitratesRole, profileElement.attribute("bitrates").split(',', QString::SkipEmptyParts));
+                item->setData(DefaultBitrateRole, profileElement.attribute("defaultbitrate"));
+            } else if (!profileElement.attribute("qualities").isEmpty()) {
+                item->setData(BitratesRole, profileElement.attribute("qualities").split(',', QString::SkipEmptyParts));
+                item->setData(DefaultBitrateRole, profileElement.attribute("defaultquality"));
+            }
+            if (!profileElement.attribute("audiobitrates").isEmpty()) {
+                item->setData(AudioBitratesRole, profileElement.attribute("audiobitrates").split(',', QString::SkipEmptyParts));
+                item->setData(DefaultAudioBitrateRole, profileElement.attribute("defaultaudiobitrate"));
+            } else if (!profileElement.attribute("audioqualities").isEmpty()) {
+                item->setData(AudioBitratesRole, profileElement.attribute("audioqualities").split(',', QString::SkipEmptyParts));
+                item->setData(DefaultAudioBitrateRole, profileElement.attribute("defaultaudioquality"));
+            }
             if (profileElement.hasAttribute("url")) item->setData(ExtraRole, profileElement.attribute("url"));
             //if (editable) item->setData(EditableRole, exportFile);
             m_renderItems.append(item);
