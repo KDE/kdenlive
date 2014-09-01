@@ -183,7 +183,7 @@ void SlideshowClip::parseFolder()
         QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);
         int fullSize = filter.size();
-        while (filter.at(filter.size() - 1).isDigit()) {
+        while (filter.size() > 0 && filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
         }
         int precision = fullSize - filter.size();
