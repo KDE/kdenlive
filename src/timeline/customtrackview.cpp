@@ -5882,12 +5882,12 @@ bool CustomTrackView::findString(const QString &text)
 
 void CustomTrackView::selectFound(QString track, QString pos)
 {
-    seekCursorPos(m_document->timecode().getFrameCount(pos));
+    int hor = m_document->timecode().getFrameCount(pos);
+    activateMonitor();
+    seekCursorPos(hor);
     slotSelectTrack(track.toInt());
-    selectClip(true);
-    int vert = verticalScrollBar()->value();
-    int hor = cursorPos();
-    ensureVisible(hor, vert + 10, 2, 2, 50, 0);
+    selectClip(true, false, track.toInt(), hor);
+    ensureVisible(hor, verticalScrollBar()->value() + 10, 2, 2, 50, 0);
 }
 
 bool CustomTrackView::findNextString(const QString &text)
