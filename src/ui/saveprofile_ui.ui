@@ -28,7 +28,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="KLineEdit" name="vbitrates_list"/>
+       <widget class="KLineEdit" name="vbitrates_list">
+        <property name="toolTip">
+         <string>Best to worst quality</string>
+        </property>
+       </widget>
       </item>
       <item row="0" column="0">
        <widget class="QLabel" name="vbitrates_label">
@@ -88,7 +92,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="KLineEdit" name="abitrates_list"/>
+       <widget class="KLineEdit" name="abitrates_list">
+        <property name="toolTip">
+         <string>Best to worst quality</string>
+        </property>
+       </widget>
       </item>
       <item row="3" column="1">
        <widget class="QSpinBox" name="default_abitrate">
@@ -162,11 +170,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
@@ -175,6 +178,11 @@
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>
    <header>ktextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
