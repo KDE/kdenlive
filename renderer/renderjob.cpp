@@ -354,27 +354,6 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
             m_dbusargs.append(QString());
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QLatin1String("setRenderingFinished"), m_dbusargs);
         }
-        QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-        if (!m_dualpass && interface && interface->isServiceRegistered(QLatin1String("org.kde.knotify"))) {
-            QDBusMessage m = QDBusMessage::createMethodCall(QLatin1String("org.kde.knotify"),
-                             QLatin1String("/Notify"),
-                             QLatin1String("org.kde.KNotify"),
-                             QLatin1String("event"));
-            int seconds = m_startTime.secsTo(QTime::currentTime());
-            QList<QVariant> args;
-            args.append(QLatin1String("RenderFinished"));   // action name
-            args.append(QLatin1String("kdenlive"));   // app name
-            args.append(QVariantList());   // contexts
-            args.append(tr("Rendering of %1 finished in %2").arg(m_dest, QTime(0, 0, seconds).toString(QLatin1String("hh:mm:ss"))));   // body
-            args.append(QByteArray());   // app icon
-            QStringList actionList;
-            args.append(actionList);   // actions
-            qlonglong wid = 0;
-            args.append(wid);   // win id
-
-            m.setArguments(args);
-            QDBusMessage replyMsg = QDBusConnection::sessionBus().call(m);
-        }
         if (m_enablelog) m_logstream << "Rendering of " << m_dest << " finished" << endl;
         qDebug() << "Rendering of " << m_dest << " finished";
         if (!m_dualpass && m_player != QLatin1String("-")) {
