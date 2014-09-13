@@ -1,3 +1,43 @@
+0.9.10
+    Changes:
+    * handle VBR encoding profiles, and use it!
+    * video stabilizer: added new "vid.stab", removed older ones
+    * environment variable MLT_PREFIX overrides profiles & melt path
+    * several fixes for high dpi screens
+    * change proxy profile, obsolete with libav
+    * restore project render bitrate (#3326)
+    * show proxy name in clipproperties
+    * add link to MLT doc in render edit dialog (#3355)
+
+    Bug fix:
+    * update maximum track height (#3241)
+    * resize render path box (#3300)
+    * change transition settings layout (#3336)
+    * heat colormap in spectrogram (#3142)
+    * fix clip monitor switch on proxy creation end (#3308)
+    * fix clip jobs (stabilize) operating on proxies (#3337)
+    * fix timeline thumbs flicker when fully zoomed (#3247)
+    * fix thumbnailer aspect ratio
+    * fix fades for split audio (#3323)
+    * fix transcoding (#3334)
+    * fix 'Clip in Timeline' when project monitor is inactive (#3261)
+    * fix audio analysis (use dynamic memory instead of stack)
+    * fix render end notification
+    * set tooltip for monitor pause button (#3256)
+    * fix slideshow clips adding 1 frame (#3289)
+    * fix archive project icon (#3325)
+    * fix compilation on armhf (#3345)
+    * re-enable compilation on KDE < 4.5 (squeeze) (#3319)
+    * re-enable Clip menu (fix bug #3347)
+    * fix crash detected with undo/redo (bug #3240)
+    * fix crash cutting group on a clip edge (#3312, #3350)
+    * fix crash on image sequence (#3331)
+    * fix crash in tracks config editor (#3367)
+    * fix crash on audiofiles
+    * fix crash on opening project file with images
+    * fix warnings from static analyzers (cppcheck, krazy)
+    * sort source files, easier to understand (for new developpers)
+
 0.9.8
     Changes:
     * Clean encoding profiles using MLT presets & profiles

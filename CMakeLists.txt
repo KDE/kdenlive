@@ -2,12 +2,12 @@ project(Kdenlive)
 
 # An odd patch version number means development version, while an even one means
 # stable release. An additional number can be used for bugfix-only releases.
-set(KDENLIVE_VERSION 0.9.8)
+set(KDENLIVE_VERSION 0.9.10)
 
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 0)
-set(MLT_MIN_MINOR_VERSION 8)
-set(MLT_MIN_PATCH_VERSION 8)
+set(MLT_MIN_MINOR_VERSION 9)
+set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 set(QT_MIN_VERSION 4.5.0)
 set(KDE_MIN_VERSION 4.3.0)
