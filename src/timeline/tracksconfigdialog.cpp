@@ -188,6 +188,8 @@ void TracksConfigDialog::slotUpdateRow(QTableWidgetItem* item)
 void TracksConfigDialog::slotDelete()
 {
     int row = table->currentRow();
+    if (row < 0)
+        return;
     int i = 0;
     while (i < m_deletedRows.count()) {
         if (m_deletedRows.at(i) == row)
