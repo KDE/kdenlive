@@ -4129,7 +4129,7 @@ void MainWindow::loadClipActions()
             }
             else {
                 delete filter;
-                QAction *action=actionMenu->addAction(i18n("Stabilize (vid.stab)"));
+                QAction *action=actionMenu->addAction(i18n("Stabilize"));
                 action->setData("vidstab");
                 connect(action,SIGNAL(triggered()), this, SLOT(slotStartClipAction()));
             }
