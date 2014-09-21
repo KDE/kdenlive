@@ -185,6 +185,9 @@ RecMonitor::~RecMonitor()
     delete m_captureProcess;
     delete m_displayProcess;
     delete m_captureDevice;
+#if KDE_IS_VERSION(4,7,0)
+    delete m_infoMessage;
+#endif
 }
 
 void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
