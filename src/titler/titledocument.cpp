@@ -17,6 +17,9 @@
 
 #include "titledocument.h"
 
+#include "kdenlivesettings.h"
+#include "timecode.h"
+
 #include <KDebug>
 #include <KTemporaryFile>
 #include <kio/netaccess.h>
@@ -337,13 +340,12 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
             doc.documentElement().removeChild(viewportlist.at(0));
         }
     }
-    //TODO: get default title duration instead of hardcoded one
     if (doc.documentElement().hasAttribute("duration"))
         *duration = doc.documentElement().attribute("duration").toInt();
     else if (doc.documentElement().hasAttribute("out"))
         *duration = doc.documentElement().attribute("out").toInt();
     else
-        *duration = 125;
+        *duration = Timecode().getFrameCount(KdenliveSettings::title_duration());
 
     int maxZValue = 0;
     if (titles.size()) {

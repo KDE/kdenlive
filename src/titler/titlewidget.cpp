@@ -1774,6 +1774,7 @@ QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
     doc.documentElement().setAttribute("duration", m_tc.getFrameCount(title_duration->text()));
+    doc.documentElement().setAttribute("out", m_tc.getFrameCount(title_duration->text()));
     return doc;
 }
 
