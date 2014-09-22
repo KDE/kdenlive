@@ -1922,7 +1922,7 @@ void ProjectList::slotAddSlideshowClip()
         properties.insert("name", dia->clipName());
         properties.insert("resource", dia->selectedPath());
         properties.insert("in", "0");
-        properties.insert("out", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
+        properties.insert("out", QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
         properties.insert("ttl", QString::number(m_doc->getFramePos(dia->clipDuration())));
         properties.insert("loop", QString::number(dia->loop()));
         properties.insert("crop", QString::number(dia->crop()));
