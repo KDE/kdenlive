@@ -273,7 +273,7 @@ int SlideshowClip::getFrameNumberFromPath(const KUrl &path)
     QString filter = path.fileName();
     filter = filter.section('.', 0, -2);
     int ix = filter.size() - 1;
-    while (filter.at(ix).isDigit()) {
+    while (ix >= 0 && filter.at(ix).isDigit()) {
         ix--;
     }
     return filter.remove(0, ix + 1).toInt();
@@ -299,7 +299,7 @@ QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extens
         int fullSize = filter.size();
 	QString firstFrameData = filter;
 
-        while (filter.at(filter.size() - 1).isDigit()) {
+        while ( (filter.size() > 0 && filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
         }
 
