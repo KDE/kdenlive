@@ -1,7 +1,7 @@
 *~
 build
 CMakeLists.txt.user*
-po/*/
-po/CMakeLists.txt
+po-script/*/
+po-script/CMakeLists.txt
 doc/*/
 doc/CMakeLists.txt
