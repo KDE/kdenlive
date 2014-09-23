@@ -299,7 +299,7 @@ QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extens
         int fullSize = filter.size();
 	QString firstFrameData = filter;
 
-        while ( (filter.size() > 0 && filter.at(filter.size() - 1).isDigit()) {
+        while (filter.size() > 0 && filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
         }
 
