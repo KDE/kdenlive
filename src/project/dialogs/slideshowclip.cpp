@@ -54,6 +54,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     m_view.image_type->addItem("JPG (*.jpg)", "jpg");
     m_view.image_type->addItem("JPEG (*.jpeg)", "jpeg");
     m_view.image_type->addItem("PNG (*.png)", "png");
+    m_view.image_type->addItem("SVG (*.svg)", "svg");
     m_view.image_type->addItem("BMP (*.bmp)", "bmp");
     m_view.image_type->addItem("GIF (*.gif)", "gif");
     m_view.image_type->addItem("TGA (*.tga)", "tga");
