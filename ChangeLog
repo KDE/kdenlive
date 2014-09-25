@@ -5,6 +5,7 @@
     * environment variable MLT_PREFIX overrides profiles & melt path
     * several fixes for high dpi screens
     * change proxy profile, obsolete with libav
+    * add SVG to image formats for slideshows	
     * restore project render bitrate (#3326)
     * show proxy name in clipproperties
     * add link to MLT doc in render edit dialog (#3355)
@@ -16,6 +17,8 @@
     * heat colormap in spectrogram (#3142)
     * fix clip monitor switch on proxy creation end (#3308)
     * fix clip jobs (stabilize) operating on proxies (#3337)
+    * fix timeline corruption by clip resize end + zoom change
+    * fix title clip duration not taken into account (#3309)
     * fix timeline thumbs flicker when fully zoomed (#3247)
     * fix thumbnailer aspect ratio
     * fix fades for split audio (#3323)
@@ -23,12 +26,15 @@
     * fix 'Clip in Timeline' when project monitor is inactive (#3261)
     * fix audio analysis (use dynamic memory instead of stack)
     * fix render end notification
+    * fix render timecode overlay (#3260)	
     * set tooltip for monitor pause button (#3256)
     * fix slideshow clips adding 1 frame (#3289)
     * fix archive project icon (#3325)
     * fix compilation on armhf (#3345)
+    * don't allow creating keyframes for "fixed" filters (#2956)	
     * re-enable compilation on KDE < 4.5 (squeeze) (#3319)
     * re-enable Clip menu (fix bug #3347)
+    * fix screen recording failure (#3358)
     * fix crash detected with undo/redo (bug #3240)
     * fix crash cutting group on a clip edge (#3312, #3350)
     * fix crash on image sequence (#3331)
