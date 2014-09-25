@@ -1109,6 +1109,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_operationMode = MoveOperation;
             }
             else m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
+            if (m_operationMode == ResizeEnd)
+                // FIXME: find a better way to avoid move in ClipItem::itemChange?
+                m_dragItem->setProperty("resizingEnd", true);
         }
     } else m_operationMode = None;
     m_controlModifier = (event->modifiers() == Qt::ControlModifier);
@@ -4048,6 +4051,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
     } else if (m_operationMode == ResizeEnd && m_dragItem && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
+        m_dragItem->setProperty("resizingEnd",QVariant());
         if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
             if (parent) {
