@@ -1,0 +1,8 @@
+*~
+build
+CMakeLists.txt.user*
+.kdev*
+*.kdev*
+.git*
+.tarignore
+*.sh
