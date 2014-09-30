@@ -161,4 +161,8 @@
     <profile name="Lossless MPEG-4 + PCM"   extension="avi" args="properties=lossless/MPEG-4" />
   </group>
 
+  <group name="Images sequence" renderer="avformat" type="video">
+    <profile name="PNG"  extension="png" args="progressive=1 vcodec=png"/>
+    <profile name="JPEG" extension="jpg" args="progressive=1 vcodec=mjpeg"/>
+  </group>
 </profiles>

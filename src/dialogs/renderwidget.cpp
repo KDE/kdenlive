@@ -946,6 +946,13 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             dest.append('.' + extension);
         }
     }
+    // Checks for image sequence
+    if (extension == "jpg" || extension == "png") {
+        // format string for counter?
+        if(!QRegExp(".*%[0-9]*d.*").exactMatch(dest)) {
+            dest = dest.section('.',0,-2) + "_%05d." + extension;
+        }
+    }
 
     QFile f(dest);
     if (f.exists()) {
