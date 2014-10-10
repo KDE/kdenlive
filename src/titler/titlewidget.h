@@ -87,7 +87,6 @@ public:
 protected:
     void resizeEvent(QResizeEvent * event);
     void keyPressEvent(QKeyEvent *e);
-    QSize sizeHint() const;
 
 private:
 

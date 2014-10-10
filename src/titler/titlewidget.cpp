@@ -77,6 +77,7 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
     m_tc(tc)
 {
     setupUi(this);
+    setMinimumSize(200, 200);
     setFont(KGlobalSettings::toolBarFont());
     frame_properties->setEnabled(false);
     frame_properties->setFixedHeight(frame_toolbar->height());
@@ -475,7 +476,6 @@ TitleWidget::TitleWidget(const KUrl &url, const Timecode &tc, const QString &pro
         templateBox->addItem(t.icon, t.name, t.file);
     }
     lastDocumentHash = QCryptographicHash::hash(xml().toString().toAscii(), QCryptographicHash::Md5).toHex();
-    adjustSize();
 }
 
 TitleWidget::~TitleWidget()
@@ -504,12 +504,6 @@ TitleWidget::~TitleWidget()
     delete m_endViewport;
     delete m_scene;
     delete m_signalMapper;
-}
-
-QSize TitleWidget::sizeHint() const
-{
-    // Make sure the widget has minimum size on opening
-    return QSize(200, 200);
 }
 
 // static
@@ -1864,6 +1858,7 @@ void TitleWidget::writeChoices()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup titleConfig(config, "TitleWidget");
     // Write the entries
+    titleConfig.writeEntry("dialog_geometry", saveGeometry());
     titleConfig.writeEntry("font_family", font_family->currentFont());
     //titleConfig.writeEntry("font_size", font_size->value());
     titleConfig.writeEntry("font_pixel_size", font_size->value());
@@ -1898,6 +1893,8 @@ void TitleWidget::readChoices()
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup titleConfig(config, "TitleWidget");
     // read the entries
+    const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
+    restoreGeometry(geometry);
     font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
     font_size->setValue(titleConfig.readEntry("font_pixel_size", font_size->value()));
     m_scene->slotUpdateFontSize(font_size->value());
