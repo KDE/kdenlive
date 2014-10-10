@@ -279,6 +279,12 @@ if(NepomukCore_FOUND)
     add_definitions(-DUSE_NEPOMUKCORE)
     include_directories(${NEPOMUK_CORE_INCLUDE_DIR})
     target_link_libraries(kdenlive ${NEPOMUK_CORE_LIBRARY})
+    # Nepomuk Core does not bring in the Soprano includes it needs
+    find_package(Soprano)
+    macro_log_feature(Soprano_FOUND "Soprano libraries"
+        "RDF storage, parsing, and serialization framework"
+        "http://soprano.sourceforge.net/" TRUE ""
+        "Required by Nepomuk Core Libraries")
 else()
   if(Nepomuk_FOUND)
     add_definitions(-DUSE_NEPOMUK)
