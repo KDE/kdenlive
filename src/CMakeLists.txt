@@ -285,6 +285,7 @@ if(NepomukCore_FOUND)
         "RDF storage, parsing, and serialization framework"
         "http://soprano.sourceforge.net/" TRUE ""
         "Required by Nepomuk Core Libraries")
+    include_directories(${SOPRANO_INCLUDE_DIR})
 else()
   if(Nepomuk_FOUND)
     add_definitions(-DUSE_NEPOMUK)
