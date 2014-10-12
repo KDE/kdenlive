@@ -135,13 +135,13 @@ static bool sortByNames(const QPair<QString, KAction*> &a, const QPair<QString, 
 MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
     m_projectList(NULL),
-    m_effectList(NULL),
+    m_stopmotion(NULL),
     m_effectStack(NULL),
+    m_effectList(NULL),
     m_clipMonitor(NULL),
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
-    m_stopmotion(NULL),
     m_mainClip(NULL)
 {
     qRegisterMetaType<QVector<qint16> > ();
