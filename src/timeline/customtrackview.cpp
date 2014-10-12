@@ -4510,25 +4510,24 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
 	m_document->renderer()->forceProcessing(clipId);
-	m_mutex.lock();
-        for (int i = 0; i < 10; ++i) {
-	    baseclip = m_document->clipManager()->getClipById(clipId);
-	    if (baseclip == NULL) {
-		emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
-		m_mutex.unlock();
-		return;
-	    }
+        baseclip = m_document->clipManager()->getClipById(clipId);
+        if (baseclip == NULL) {
+            emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
+            return;
+        }
+        // If the clip is not ready, give it 3x3 seconds to complete the task...
+        for (int i = 0; i < 3; ++i) {
             if (baseclip->getProducer() == NULL) {
-                m_producerNotReady.wait(&m_mutex);
+                m_mutex.lock();
+                m_producerNotReady.wait(&m_mutex, 3000);
+                m_mutex.unlock();
             } else break;
         }
         if (baseclip->getProducer() == NULL) {
             emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
-            m_mutex.unlock();
             return;
         }
         emit displayMessage(QString(), InformationMessage);
-        m_mutex.unlock();
     }
 
     ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble(), xml.attribute("strobe", "1").toInt(), getFrameWidth());
