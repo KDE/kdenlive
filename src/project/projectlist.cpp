@@ -217,6 +217,7 @@ ProjectList::ProjectList(QWidget *parent) :
     m_infoLabel = new SmallInfoLabel(this);
     m_infoLabel->setStyleSheet(SmallInfoLabel::getStyleSheet(palette()));
     connect(this, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
+    connect(this, SIGNAL(requestClipSelect(QString)), this, SLOT(selectClip(QString)));
     m_jobsMenu = new QMenu(this);
     connect(m_jobsMenu, SIGNAL(aboutToShow()), this, SLOT(slotPrepareJobsMenu()));
     QAction *cancelJobs = new QAction(i18n("Cancel All Jobs"), this);
@@ -343,6 +344,13 @@ ProjectList::~ProjectList()
 void ProjectList::focusTree() const
 {
     m_listView->setFocus();
+}
+
+
+void ProjectList::selectClip(const QString &id)
+{
+    ProjectItem *item = getItemById(id);
+    if (item) m_listView->setCurrentItem(item);
 }
 
 void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
@@ -1324,7 +1332,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
 
     if (getProperties) {
         //item->setFlags(Qt::ItemIsSelectable);
-        m_listView->processLayout();
+        //m_listView->processLayout();
         QDomElement e = clip->toXML().cloneNode().toElement();
         if (!groupName.isEmpty()) {
             e.setAttribute("groupId", parent);
@@ -2291,7 +2299,6 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         clip->setProducer(producer, replace);
         extractMetadata(clip);
         m_render->processingDone(clipId);
-
         // Proxy stuff
         QString size = properties.value("frame_size");
         if (!useProxy() && clip->getProperty("proxy").isEmpty()) {
@@ -2322,7 +2329,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                 }
             }
         }
-
+        
         if (!replace && m_allClipsProcessed && !item->hasPixmap()) {
             getCachedThumbnail(item);
         }
@@ -2337,7 +2344,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         monitorItemEditing(true);
         if (item && m_thumbnailQueue.isEmpty()) {
             if (!item->hasProxy() || m_render->activeClipId() == item->clipId()) {
-                m_listView->setCurrentItem(item);
+                emit requestClipSelect(clipId);
             }
             bool updatedProfile = false;
             if (item->parent()) {

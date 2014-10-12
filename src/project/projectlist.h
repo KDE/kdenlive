@@ -391,6 +391,8 @@ private slots:
     void slotClosePopup();
     /** @brief process clip job result. */
     void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
+    /** @brief Select clip in project list from its id. */
+    void selectClip(const QString &id);
 
 signals:
     void clipSelected(DocClipBase *, const QPoint &zone = QPoint(), bool forceUpdate = false);
@@ -427,6 +429,7 @@ signals:
     void pauseMonitor();
     void updateAnalysisData(DocClipBase *);
     void addMarkers(const QString &, const QList <CommentedTime>&);
+    void requestClipSelect(const QString&);
 };
 
 #endif
