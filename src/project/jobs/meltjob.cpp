@@ -56,6 +56,8 @@ MeltJob::MeltJob(ClipType cType, const QString &id, const QStringList &parameter
 
 void MeltJob::setProducer(Mlt::Producer *producer, const KUrl &url)
 {
+    Q_UNUSED(producer)
+
     //FIX stabilize in proxy clips?
     //m_url = QString::fromUtf8(producer->get("resource"));
     //if (m_url == QLatin1String("<playlist>") || m_url == QLatin1String("<tractor>") || m_url == QLatin1String("<producer>"))
