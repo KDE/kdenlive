@@ -20,7 +20,6 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-#include <KLineEdit>
 #include <QValidator>
 #include <QMouseEvent>
 
@@ -57,6 +56,22 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
 
     connect(lineEdit(), SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
+}
+
+// virtual protected
+QAbstractSpinBox::StepEnabled TimecodeDisplay::stepEnabled () const
+{
+    QAbstractSpinBox::StepEnabled result = QAbstractSpinBox::StepNone;
+    if (m_value > m_minimum) result |= QAbstractSpinBox::StepDownEnabled;
+    if (m_maximum == -1 || m_value < m_maximum) result |= QAbstractSpinBox::StepUpEnabled;
+    return result;
+}
+
+// virtual
+void TimecodeDisplay::stepBy(int steps)
+{
+    int val = m_value + steps;
+    setValue(val);
 }
 
 void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)

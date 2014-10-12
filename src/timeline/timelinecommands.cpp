@@ -29,7 +29,7 @@ AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, const
         QUndoCommand(parent),
         m_view(view),
         m_track(track),
-        m_effect(effect.cloneNode().toElement()),
+        m_effect(effect),
         m_pos(pos),
         m_doIt(doIt)
 {

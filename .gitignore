@@ -1,3 +1,6 @@
 *~
 build
 CMakeLists.txt.user*
+po
+doc/*/
+doc/CMakeLists.txt

@@ -496,6 +496,9 @@ void GeometryWidget::slotKeyframeMoved(int pos)
 
 void GeometryWidget::slotAddKeyframe(int pos)
 {
+    // "fixed" effect: don't allow keyframe (FIXME: find a better way to access this property!)
+    if (m_ui.widgetTimeWrapper->isHidden())
+        return;
     Mlt::GeometryItem item;
     if (pos == -1)
         pos = m_timePos->getValue();

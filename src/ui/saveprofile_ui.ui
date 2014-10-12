@@ -14,13 +14,6 @@
    <string>Save Profile</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Destination</string>
-     </property>
-    </widget>
-   </item>
    <item row="6" column="0" colspan="3">
     <widget class="QGroupBox" name="vbitrates">
      <property name="title">
@@ -35,7 +28,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="KLineEdit" name="vbitrates_list"/>
+       <widget class="KLineEdit" name="vbitrates_list">
+        <property name="toolTip">
+         <string>Best to worst quality</string>
+        </property>
+       </widget>
       </item>
       <item row="0" column="0">
        <widget class="QLabel" name="vbitrates_label">
@@ -54,13 +51,13 @@
      </layout>
     </widget>
    </item>
-   <item row="8" column="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   <item row="2" column="1" colspan="2">
+    <widget class="KLineEdit" name="profile_name"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Group</string>
      </property>
     </widget>
    </item>
@@ -73,50 +70,6 @@
       <bool>false</bool>
      </property>
     </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Group</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Profile name</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="2">
-    <widget class="KComboBox" name="destination_list"/>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Parameters</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1" colspan="2">
-    <widget class="KLineEdit" name="profile_name"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Extension</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1" colspan="2">
-    <widget class="KLineEdit" name="extension">
-     <property name="maxLength">
-      <number>4</number>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1" colspan="2">
-    <widget class="KLineEdit" name="group_name"/>
    </item>
    <item row="7" column="0" colspan="3">
     <widget class="QGroupBox" name="abitrates">
@@ -139,7 +92,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="KLineEdit" name="abitrates_list"/>
+       <widget class="KLineEdit" name="abitrates_list">
+        <property name="toolTip">
+         <string>Best to worst quality</string>
+        </property>
+       </widget>
       </item>
       <item row="3" column="1">
        <widget class="QSpinBox" name="default_abitrate">
@@ -153,6 +110,60 @@
      <zorder>abitrates_label</zorder>
      <zorder>abitrates_list</zorder>
      <zorder>default_abitrate</zorder>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="KLineEdit" name="group_name"/>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="KComboBox" name="destination_list"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Profile name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Extension</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Parameters (see &lt;a href=&quot;http://www.mltframework.org/bin/view/MLT/ConsumerAvformat&quot;&gt;MLT documentation&lt;/a&gt;)</string>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="KLineEdit" name="extension">
+     <property name="maxLength">
+      <number>4</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Destination</string>
+     </property>
     </widget>
    </item>
   </layout>

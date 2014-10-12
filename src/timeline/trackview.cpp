@@ -94,7 +94,6 @@ TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok
 
     headers_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     headers_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    headers_area->setFixedWidth(70);
 
     QVBoxLayout *headersLayout = new QVBoxLayout;
     headersLayout->setContentsMargins(0, m_trackview->frameWidth(), 0, 0);
@@ -540,9 +539,8 @@ void TrackView::slotRebuildTrackHeaders()
     int max = list.count();
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     QFrame *frame = NULL;
-
     updatePalette();
-    
+    int headerWidth = 70;
     for (int i = 0; i < max; ++i) {
         frame = new QFrame(headers_container);
         frame->setFrameStyle(QFrame::HLine);
@@ -550,6 +548,8 @@ void TrackView::slotRebuildTrackHeaders()
         headers_container->layout()->addWidget(frame);
         TrackInfo info = list.at(max - i - 1);
         HeaderTrack *header = new HeaderTrack(i, info, height, m_trackActions, headers_container);
+        int currentWidth = header->minimumWidth();
+        if (currentWidth > headerWidth) headerWidth = currentWidth;
         header->setSelectedIndex(m_trackview->selectedTrack());
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
@@ -561,6 +561,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(showTrackEffects(int)), this, SLOT(slotShowTrackEffects(int)));
         headers_container->layout()->addWidget(header);
     }
+    headers_container->setFixedWidth(headerWidth);
     frame = new QFrame(this);
     frame->setFrameStyle(QFrame::HLine);
     frame->setFixedHeight(1);

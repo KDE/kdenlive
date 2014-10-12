@@ -23,25 +23,23 @@ else (QJSON_INCLUDE_DIR AND QJSON_LIBRARIES)
     # use pkg-config to get the values of QJSON_INCLUDE_DIRS
     # and QJSON_LIBRARY_DIRS to add as hints to the find commands.
     include (FindPkgConfig)
-    pkg_check_modules (QJSON REQUIRED QJson>=0.5)
+    pkg_check_modules (PC_QJSON REQUIRED QJson>=0.5)
   endif (NOT WIN32)
 
   find_library (QJSON_LIBRARIES
     NAMES
     qjson
     PATHS
-    ${QJSON_LIBRARY_DIRS}
+    ${PC_QJSON_LIBRARY_DIRS}
     ${LIB_INSTALL_DIR}
     ${KDE4_LIB_DIR}
   )
 
   find_path (QJSON_INCLUDE_DIR
     NAMES
-    parser.h
-    PATH_SUFFIXES
-    qjson
+    qjson/parser.h
     PATHS
-    ${QJSON_INCLUDE_DIRS}
+    ${PC_QJSON_INCLUDE_DIRS}
     ${INCLUDE_INSTALL_DIR}
     ${KDE4_INCLUDE_DIR}
   )

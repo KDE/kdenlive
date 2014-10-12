@@ -185,6 +185,9 @@ RecMonitor::~RecMonitor()
     delete m_captureProcess;
     delete m_displayProcess;
     delete m_captureDevice;
+#if KDE_IS_VERSION(4,7,0)
+    delete m_infoMessage;
+#endif
 }
 
 void RecMonitor::mouseDoubleClickEvent(QMouseEvent * event)
@@ -629,7 +632,6 @@ void RecMonitor::slotRecord()
         QString args;
         QString playlist;
         QString v4lparameters;
-	QStringList grabParameters;
         MltVideoProfile profile;
         bool showPreview;
 	bool isXml;
@@ -742,8 +744,8 @@ void RecMonitor::slotRecord()
             m_captureArgs << "-r" << QString::number(KdenliveSettings::grab_fps());
             if (KdenliveSettings::grab_hide_mouse()) captureSize.append("+nomouse");
 	    m_captureArgs << "-i" << captureSize;
-	    grabParameters = KdenliveSettings::grab_parameters().simplified().split(' ');
-	    m_captureArgs << grabParameters;
+        if (!KdenliveSettings::grab_parameters().simplified().isEmpty())
+            m_captureArgs << KdenliveSettings::grab_parameters().simplified().split(' ');
 	    m_captureArgs << path;
 	    
             m_isCapturing = true;

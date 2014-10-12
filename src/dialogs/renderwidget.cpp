@@ -946,6 +946,13 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             dest.append('.' + extension);
         }
     }
+    // Checks for image sequence
+    if (extension == "jpg" || extension == "png") {
+        // format string for counter?
+        if(!QRegExp(".*%[0-9]*d.*").exactMatch(dest)) {
+            dest = dest.section('.',0,-2) + "_%05d." + extension;
+        }
+    }
 
     QFile f(dest);
     if (f.exists()) {
@@ -1911,6 +1918,10 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         const QTime tm = QTime().addSecs(seconds);
         const QString t = i18n("Rendering finished in %1", tm.toString("hh:mm:ss"));
         item->setData(1, Qt::UserRole, t);
+        KNotification::event("RenderFinished",
+                             i18n("Rendering of %1 finished in %2")
+                             .arg(item->text(1), QTime(0, 0, seconds).toString(QLatin1String("hh:mm:ss"))),
+                             QPixmap(), this);
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == "dvd") {
             emit openDvdWizard(item->text(1));

@@ -1060,8 +1060,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_selectionGroup->setProperty("locked_tracks", lockedTracks);
         }
         m_selectionMutex.unlock();
-        if (m_dragItem)
+        if (m_dragItem) {
+            ClipItem *clip = static_cast<ClipItem*>(m_dragItem);
+            updateClipTypeActions(dragGroup == NULL ? clip : NULL);
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
+        }
+        else updateClipTypeActions(NULL);
     }
     else {
         QGraphicsView::mousePressEvent(event);
@@ -1105,6 +1109,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_operationMode = MoveOperation;
             }
             else m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
+            if (m_operationMode == ResizeEnd)
+                // FIXME: find a better way to avoid move in ClipItem::itemChange?
+                m_dragItem->setProperty("resizingEnd", true);
         }
     } else m_operationMode = None;
     m_controlModifier = (event->modifiers() == Qt::ControlModifier);
@@ -4009,6 +4016,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         }
     } else if (m_operationMode == ResizeEnd && m_dragItem && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
+        m_dragItem->setProperty("resizingEnd",QVariant());
         if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
             if (parent) {
@@ -4465,25 +4473,24 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         
         emit displayMessage(i18n("Waiting for clip..."), InformationMessage);
 	m_document->renderer()->forceProcessing(clipId);
-	m_mutex.lock();
-        for (int i = 0; i < 10; ++i) {
-	    baseclip = m_document->clipManager()->getClipById(clipId);
-	    if (baseclip == NULL) {
-		emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
-		m_mutex.unlock();
-		return;
-	    }
+        baseclip = m_document->clipManager()->getClipById(clipId);
+        if (baseclip == NULL) {
+            emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
+            return;
+        }
+        // If the clip is not ready, give it 3x3 seconds to complete the task...
+        for (int i = 0; i < 3; ++i) {
             if (baseclip->getProducer() == NULL) {
-                m_producerNotReady.wait(&m_mutex);
+                m_mutex.lock();
+                m_producerNotReady.wait(&m_mutex, 3000);
+                m_mutex.unlock();
             } else break;
         }
         if (baseclip->getProducer() == NULL) {
             emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
-            m_mutex.unlock();
             return;
         }
         emit displayMessage(QString(), InformationMessage);
-        m_mutex.unlock();
     }
 
     ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble(), xml.attribute("strobe", "1").toInt(), getFrameWidth());
@@ -5841,12 +5848,12 @@ bool CustomTrackView::findString(const QString &text)
 
 void CustomTrackView::selectFound(QString track, QString pos)
 {
-    seekCursorPos(m_document->timecode().getFrameCount(pos));
+    int hor = m_document->timecode().getFrameCount(pos);
+    activateMonitor();
+    seekCursorPos(hor);
     slotSelectTrack(track.toInt());
-    selectClip(true);
-    int vert = verticalScrollBar()->value();
-    int hor = cursorPos();
-    ensureVisible(hor, vert + 10, 2, 2, 50, 0);
+    selectClip(true, false, track.toInt(), hor);
+    ensureVisible(hor, verticalScrollBar()->value() + 10, 2, 2, 50, 0);
 }
 
 bool CustomTrackView::findNextString(const QString &text)

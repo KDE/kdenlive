@@ -1,20 +1,20 @@
 Active Kdenlive authors
 
-    Jean-Baptiste Mardelle <jb@kdenlive.org>
-        MLT and KDE SC 4 porting, main developer and maintainer
-        2005-present
     Vincent Pinon <vpinon@april.org>
         Bugs fixing, release
         2012-present
+    Jean-Baptiste Mardelle <jb@kdenlive.org>
+        MLT and KDE SC 4 porting, main developer
+        2005-present
     Laurent Montel <montel@kde.org>
         Bugs fixing, code clean up, review
         2013-present
     Till Theato <root@ttill.de>
         Bug fixing, etc.
         2010-present
-    Alberto Villa <avilla@FreeBSD.org>
-        Bug fixing, logo, etc.
-        2009-present
+    Steve Guilford <s.guilford@dbplugins.com>
+        Bug fixing
+        2014
 
 Former Kdenlive authors
 
@@ -27,6 +27,9 @@ Former Kdenlive authors
     Dan Dennedy <dan@dennedy.org>
         Bug fixing
         2009-2011
+    Alberto Villa <avilla@FreeBSD.org>
+        Bug fixing, logo, etc.
+        2009-2013
     Jean-Michel Poure <jm@poure.com>
         Rendering profiles customization
         2004-2009

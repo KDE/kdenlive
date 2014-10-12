@@ -1377,6 +1377,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
         //if (parentItem()) return pos();
+        if (property("resizingEnd").isValid()) return pos();
         QPointF newPos = value.toPointF();
         //kDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());

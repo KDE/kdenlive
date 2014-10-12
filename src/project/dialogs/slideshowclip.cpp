@@ -54,6 +54,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     m_view.image_type->addItem("JPG (*.jpg)", "jpg");
     m_view.image_type->addItem("JPEG (*.jpeg)", "jpeg");
     m_view.image_type->addItem("PNG (*.png)", "png");
+    m_view.image_type->addItem("SVG (*.svg)", "svg");
     m_view.image_type->addItem("BMP (*.bmp)", "bmp");
     m_view.image_type->addItem("GIF (*.gif)", "gif");
     m_view.image_type->addItem("TGA (*.tga)", "tga");
@@ -183,7 +184,7 @@ void SlideshowClip::parseFolder()
         QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);
         int fullSize = filter.size();
-        while (filter.at(filter.size() - 1).isDigit()) {
+        while (filter.size() > 0 && filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
         }
         int precision = fullSize - filter.size();
@@ -273,7 +274,7 @@ int SlideshowClip::getFrameNumberFromPath(const KUrl &path)
     QString filter = path.fileName();
     filter = filter.section('.', 0, -2);
     int ix = filter.size() - 1;
-    while (filter.at(ix).isDigit()) {
+    while (ix >= 0 && filter.at(ix).isDigit()) {
         ix--;
     }
     return filter.remove(0, ix + 1).toInt();
@@ -299,7 +300,7 @@ QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extens
         int fullSize = filter.size();
 	QString firstFrameData = filter;
 
-        while (filter.at(filter.size() - 1).isDigit()) {
+        while (filter.size() > 0 && filter.at(filter.size() - 1).isDigit()) {
             filter.chop(1);
         }
 

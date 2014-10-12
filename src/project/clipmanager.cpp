@@ -607,19 +607,18 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
                     }
                     prod.setAttribute("transparency", 1);
                     prod.setAttribute("in", 0);
-                    if (!txtdoc.documentElement().hasAttribute("out")) {
-                        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
-                        txtdoc.documentElement().setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
+                    int duration = 0;
+                    if (txtdoc.documentElement().hasAttribute("duration")) {
+                        duration = txtdoc.documentElement().attribute("duration").toInt();
+                    } else if (txtdoc.documentElement().hasAttribute("out")) {
+                        duration = txtdoc.documentElement().attribute("out").toInt();
                     }
-                    else {
-                        int out = txtdoc.documentElement().attribute("out").toInt();
-                        if (out >= 0)
-                            prod.setAttribute("out", out);
-                        else {
-                            prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
-                            txtdoc.documentElement().setAttribute("out", m_doc->getFramePos(KdenliveSettings::title_duration()) - 1);
-                        }
-                    }
+                    if (duration <= 0)
+                        duration = m_doc->getFramePos(KdenliveSettings::title_duration()) - 1;
+                    prod.setAttribute("duration", duration);
+                    prod.setAttribute("out", duration);
+                    txtdoc.documentElement().setAttribute("duration", duration);
+                    txtdoc.documentElement().setAttribute("out", duration);
                     QString titleData = txtdoc.toString();
                     prod.setAttribute("xmldata", titleData);
                 } else
@@ -743,17 +742,17 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const KUrl &path, c
     QDomDocument titledoc;
     QFile txtfile(path.path());
     if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
-        txtfile.close();
         if (titledoc.documentElement().hasAttribute("duration")) {
             duration = titledoc.documentElement().attribute("duration").toInt();
-        }
-        else {
+        } else {
             // keep some time for backwards compatibility - 26/12/12
             duration = titledoc.documentElement().attribute("out").toInt();
         }
-    } else txtfile.close();
+    }
+    txtfile.close();
 
     if (duration == 0) duration = m_doc->getFramePos(KdenliveSettings::title_duration());
+    prod.setAttribute("duration", duration - 1);
     prod.setAttribute("out", duration - 1);
 
     AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);

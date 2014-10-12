@@ -55,7 +55,6 @@ private:
 private slots:
     void switchAudio();
     void switchVideo();
-    void slotDeleteTrack();
     void slotRenameTrack();
     void switchLock(bool emitSignal = true);
 

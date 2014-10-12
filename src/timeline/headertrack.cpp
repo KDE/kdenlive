@@ -42,18 +42,23 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, const QList <QAc
 {
     setFixedHeight(height);
     setupUi(this);
-
     m_name = info.trackName.isEmpty() ? QString::number(m_index) : info.trackName;
+    int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QFontMetrics metrics(font());
+    setMinimumWidth(metrics.boundingRect(m_name).width() + iconSize + contentsMargins().right() * 6);
     track_number->setText(m_name);
     connect(track_number, SIGNAL(editingFinished()), this, SLOT(slotRenameTrack()));
 
     buttonVideo->setChecked(info.isBlind);
+    buttonVideo->setFixedSize(iconSize, iconSize);
     buttonVideo->setToolTip(i18n("Hide track"));
     buttonAudio->setChecked(info.isMute);
+    buttonAudio->setFixedSize(iconSize, iconSize);
     buttonAudio->setToolTip(i18n("Mute track"));
     buttonLock->setChecked(info.isLocked);
+    buttonLock->setFixedSize(iconSize, iconSize);
     buttonLock->setToolTip(i18n("Lock track"));
-    effect_label->setPixmap(KIcon("kdenlive-track_has_effect").pixmap(16, 16));
+    effect_label->setPixmap(KIcon("kdenlive-track_has_effect").pixmap(iconSize, iconSize));
     updateEffectLabel(info.effectsList.effectNames());
     setAcceptDrops(true);
 
@@ -234,14 +239,11 @@ void HeaderTrack::setLock(bool lock)
     switchLock(false);
 }
 
-void HeaderTrack::slotDeleteTrack()
-{
-    QTimer::singleShot(500, this, SLOT(deleteTrack()));
-}
-
 void HeaderTrack::slotRenameTrack()
 {
-    if (m_name != track_number->text()) emit renameTrack(m_index, track_number->text());
+    track_number->clearFocus();
+    if (m_name != track_number->text())
+        emit renameTrack(m_index, track_number->text());
 }
 
 
