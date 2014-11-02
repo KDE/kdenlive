@@ -55,7 +55,7 @@ EffectsListWidget::EffectsListWidget(QMenu *contextMenu, QWidget *parent) :
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragOnly);
     QPalette p = palette();
-    p.setBrush(QPalette::Base, Qt::NoBrush);
+    p.setBrush(QPalette::Base, p.window());
     setPalette(p);
     connect(this, SIGNAL(activated(QModelIndex)), this, SLOT(slotExpandItem(QModelIndex)));
 }
