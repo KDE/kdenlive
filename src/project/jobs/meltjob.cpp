@@ -145,7 +145,7 @@ void MeltJob::startJob()
 
     //m_consumer->set("terminate_on_pause", 1 );
     //m_consumer->set("eof", "pause" );
-    m_consumer->set("real_time", -1 );
+    m_consumer->set("real_time", -KdenliveSettings::mltthreads() );
 
 
     list = consumerParams.split(QLatin1Char(' '), QString::SkipEmptyParts);

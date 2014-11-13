@@ -64,7 +64,7 @@ void ProxyJob::startJob()
             mltParameters << t;
         }
         
-        mltParameters.append(QString::fromLatin1("real_time=-1"));
+        mltParameters.append(QString::fromLatin1("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
         //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
         double display_ratio;
