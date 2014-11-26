@@ -944,7 +944,7 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QString,int,int)), m_projectList, SLOT(slotReplyGetImage(QString,QString,int,int)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(QString,QImage)), m_projectList, SLOT(slotReplyGetImage(QString,QImage)));
 
-    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), m_projectList, SLOT(slotReplyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), Qt::DirectConnection);
+    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)), m_projectList, SLOT(slotReplyGetFileProperties(QString,Mlt::Producer*,stringMap,stringMap,bool)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(QString,bool)), m_projectList, SLOT(slotRemoveInvalidClip(QString,bool)));
 
