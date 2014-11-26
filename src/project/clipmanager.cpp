@@ -533,7 +533,7 @@ void ClipManager::slotAddClipList(const KUrl::List &urls, const QMap <QString, Q
                 if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;
             }
-            if (isOnRemovableDevice(file)) {
+            if (isOnRemovableDevice(file) && !isOnRemovableDevice(m_doc->projectFolder().path())) {
                 int answer = KMessageBox::warningYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")), KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
                 if (answer == KMessageBox::Cancel) continue;
                 else if (answer == KMessageBox::Yes) {
