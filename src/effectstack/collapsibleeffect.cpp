@@ -589,7 +589,10 @@ void CollapsibleEffect::adjustButtons(int ix, int max)
 
 bool CollapsibleEffect::needsMonitorEffectScene() const
 {
-    return m_paramWidget->needsMonitorEffectScene();
+    if (m_paramWidget)
+        return m_paramWidget->needsMonitorEffectScene();
+    else
+        return false;
 }
 
 void CollapsibleEffect::setRange(int inPoint , int outPoint)
