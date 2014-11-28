@@ -7654,14 +7654,21 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
         return;
     }
     QString keyframeData = ui.data_list->itemData(ui.data_list->currentIndex()).toString();
-    
+    // Keyframe data is stored in the clip in the project tree.
+    // And we are importing this data into a transition on the timeline
+    // And the clip on the timeline might be croped from the start.
+
     int offset = item->cropStart().frames(m_document->fps());
+   //Geometry( char *data = NULL, int length = 0, int nw = -1, int nh = -1 );
+    // This geometry object is created with the keyframe data from our clip in the project tree
     Mlt::Geometry geometry(keyframeData.toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
+   // vvv create another Mlt:Geometery object in newGeometry - create with empty data
     Mlt::Geometry newGeometry(QString().toUtf8().data(), item->baseClip()->maxDuration().frames(m_document->fps()), m_document->mltProfile().width, m_document->mltProfile().height);
     Mlt::GeometryItem gitem;
     geometry.fetch(&gitem, offset);
     gitem.frame(0);
     newGeometry.insert(gitem);
+    // copying the geometry items to newGeometry starting from the ofset position
     int pos = offset + 1;
     while (!geometry.next_key(&gitem, pos)) {
         pos = gitem.frame();
@@ -7674,6 +7681,10 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
     QString result;
     if (ui.import_position->isChecked()) {
         if (ui.import_size->isChecked()) {
+            // if you choose the position and size check box
+            // then you go into here and all the key frames
+            // are imported. But the transtion also gets
+            // sized down to the size of the obscure rectangle
             foreach(const QString &key, keyframeList) {
                 if (key.count('=') > 1) result.append(key.section('=', 0, 1));
                 else result.append(key);
@@ -7681,18 +7692,31 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type)
             }
         }
         else {
+            // if you only select the position check box
             foreach(const QString &key, keyframeList) {
-                result.append(key.section('=', 0, 0));
+                QString PosSect;
+                PosSect =key.section(':', 0, 0);
+                result.append( PosSect);
+                // add the size component to the key frame data - making it the same size as the clip
+                result.append(":" + QString::number( m_document->mltProfile().width) + "x" + QString::number( m_document->mltProfile().height) );
                 result.append(';');
             }
         }
     }
     else if (ui.import_size->isChecked()) {
+        // just the size check box is checked
+        // In this case make the position info 0,0 and take the size info from
+        // the source clip
         foreach(const QString &key, keyframeList) {
-            result.append(key.section('=', 1, 1));
+            QString FrameNumSect;
+            FrameNumSect =key.section('=', 0, 0);
+            QString sizeSect;
+            sizeSect=key.section(':', 1, 1);
+            result.append(FrameNumSect + "=0/0:" + sizeSect);
             result.append(';');
         }
     }
+    // connected to MainWindow::slotProcessImportKeyframes
     emit importKeyframes(type, result, ui.limit_keyframes->isChecked() ? ui.max_keyframes->value() : -1);
     delete d;
 }
