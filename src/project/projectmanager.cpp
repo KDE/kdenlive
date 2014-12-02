@@ -238,6 +238,11 @@ bool ProjectManager::saveFileAs()
 
 bool ProjectManager::saveFile()
 {
+    if (!m_project) {
+        // Calling saveFile before a project was created, something is wrong
+        qDebug()<<"SaveFile called without project";
+        return false;
+    }
     if (m_project->url().isEmpty()) {
         return saveFileAs();
     } else {
