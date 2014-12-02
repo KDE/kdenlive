@@ -19,11 +19,10 @@
 #define KTHUMB_H
 
 #include <QPixmap>
-#include <QFile>
 #include <QDomElement>
 #include <QFuture>
 
-#include <KUrl>
+#include <QUrl>
 #include <kdeversion.h>
 
 #include <mlt++/Mlt.h>
@@ -53,7 +52,7 @@ class KThumb: public QObject
    Q_OBJECT 
 public:
 
-    explicit KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent = 0);
+    explicit KThumb(ClipManager *clipManager, const QUrl &url, const QString &id, const QString &hash, QObject * parent = 0);
     ~KThumb();
     void setProducer(Mlt::Producer *producer);
     bool hasProducer() const;
@@ -71,15 +70,15 @@ public:
     void getGenericThumb(int frame, int height, int type);
 
 public slots:
-    void updateClipUrl(const KUrl &url, const QString &hash);
+    void updateClipUrl(const QUrl &url, const QString &hash);
     void slotCreateAudioThumbs();
 
 public:
-    static QPixmap getImage(const KUrl &url, int width, int height);
+    static QPixmap getImage(const QUrl &url, int width, int height);
 //    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
-    /* void getImage(KUrl url, int frame, int width, int height);
-     void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
-    static QPixmap getImage(const KUrl& url, int frame, int width, int height);
+    /* void getImage(QUrl url, int frame, int width, int height);
+     void getThumbs(QUrl url, int startframe, int endframe, int width, int height);*/
+    static QPixmap getImage(const QUrl &url, int frame, int width, int height);
     static QImage getFrame(Mlt::Producer *producer, int framepos, int frameWidth, int displayWidth, int height);
     static QImage getFrame(Mlt::Frame *frame, int frameWidth, int displayWidth, int height);
     /** @brief Calculates image variance, useful to know if a thumbnail is interesting. 
@@ -94,7 +93,7 @@ private slots:
 #endif
 
 private:
-    KUrl m_url;
+    QUrl m_url;
     QString m_thumbFile;
     double m_dar;
     double m_ratio;

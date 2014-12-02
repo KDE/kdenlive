@@ -27,10 +27,8 @@
 #include "onmonitoritems/onmonitorcornersitem.h"
 
 #include <QGraphicsView>
-#include <QGridLayout>
-#include <QToolButton>
 
-#include <KIcon>
+#include <QIcon>
 
 inline int lerp( const int a, const int b, double t )
 {
@@ -51,9 +49,9 @@ CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFram
 
     // TODO: Better Icons
     edit->removeCustomControls();
-    edit->addCustomButton(KIcon("transform-move"), i18n("Show additional controls"), this, SLOT(slotShowControls(bool)),
+    edit->addCustomButton(QIcon::fromTheme("transform-move"), i18n("Show additional controls"), this, SLOT(slotShowControls(bool)),
                           true, KdenliveSettings::onmonitoreffects_cornersshowcontrols());
-    edit->addCustomButton(KIcon("insert-horizontal-rule"), i18n("Show/Hide the lines connecting the corners"), this, SLOT(slotShowLines(bool)),
+    edit->addCustomButton(QIcon::fromTheme("insert-horizontal-rule"), i18n("Show/Hide the lines connecting the corners"), this, SLOT(slotShowLines(bool)),
                           true, KdenliveSettings::onmonitoreffects_cornersshowlines());
 
     connect(m_item, SIGNAL(changed()), this, SLOT(slotUpdateProperties()));

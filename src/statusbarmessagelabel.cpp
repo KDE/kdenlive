@@ -26,13 +26,11 @@
 
 #include <kcolorscheme.h>
 #include <kiconloader.h>
-#include <kicon.h>
+#include <QIcon>
 #include <klocale.h>
 #include <KNotification>
 
-#include <QFontMetrics>
 #include <QPainter>
-#include <QKeyEvent>
 #include <QPushButton>
 #include <QPixmap>
 

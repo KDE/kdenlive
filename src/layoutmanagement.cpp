@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include <QMenu>
 #include <QInputDialog>
+#include <KConfigGroup>
 #include <KXMLGUIFactory>
 
 LayoutManagement::LayoutManagement(QObject* parent) :
@@ -23,11 +24,11 @@ LayoutManagement::LayoutManagement(QObject* parent) :
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
     m_loadLayout = new KSelectAction(i18n("Load Layout"), pCore->window()->actionCollection());
     for (int i = 1; i < 5; ++i) {
-        KAction *load = new KAction(KIcon(), i18n("Layout %1", i), this);
+        QAction *load = new QAction(QIcon(), i18n("Layout %1", i), this);
         load->setData('_' + QString::number(i));
         layoutActions->addAction("load_layout" + QString::number(i), load);
         m_loadLayout->addAction(load);
-        KAction *save = new KAction(KIcon(), i18n("Save As Layout %1", i), this);
+        QAction *save = new QAction(QIcon(), i18n("Save As Layout %1", i), this);
         save->setData('_' + QString::number(i));
         layoutActions->addAction("save_layout" + QString::number(i), save);
     }

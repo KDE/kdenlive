@@ -33,21 +33,18 @@
 #include <mlt++/Mlt.h>
 
 #include <KDebug>
-#include <KStandardDirs>
 #include <KMessageBox>
 #include <KLocalizedString>
-#include <KTemporaryFile>
+#include <KDialog>
 
-#include <QTimer>
-#include <QDir>
 #include <QString>
 #include <QApplication>
-#include <QtConcurrentRun>
+#include <QProcess>
+#include <QtConcurrent>
 
 #include <cstdlib>
 #include <cstdarg>
 
-#include <QDebug>
 
 #define SEEK_INACTIVE (-1)
 
@@ -452,7 +449,7 @@ int Render::getLength()
     return 0;
 }
 
-bool Render::isValid(const KUrl &url)
+bool Render::isValid(const QUrl &url)
 {
     Mlt::Producer producer(*m_mltProfile, url.path().toUtf8().constData());
     if (producer.is_blank())
@@ -658,7 +655,7 @@ void Render::processFileProperties()
             path = info.xml.attribute("resource");
             proxyProducer = false;
         }
-        KUrl url(path);
+        QUrl url(path);
         Mlt::Producer *producer = NULL;
         ClipType type = (ClipType)info.xml.attribute("type").toInt();
         if (type == Color) {
@@ -1357,7 +1354,7 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
     return true;
 }
 
-void Render::saveZone(KUrl url, QString desc, QPoint zone)
+void Render::saveZone(QUrl url, QString desc, QPoint zone)
 {
     Mlt::Consumer xmlConsumer(*m_mltProfile, ("xml:" + url.path()).toUtf8().constData());
     m_mltProducer->optimise();
@@ -1385,7 +1382,7 @@ void Render::saveZone(KUrl url, QString desc, QPoint zone)
 }
 
 
-bool Render::saveClip(int track, const GenTime &position, const KUrl &url, const QString &desc)
+bool Render::saveClip(int track, const GenTime &position, const QUrl &url, const QString &desc)
 {
     // find clip
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -4394,7 +4391,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
             data.insert("video_index", QString::number(vindex));
             data.insert("audio_index", QString::number(aindex));
             data.insert("bypassDuplicate", "1");
-            emit addClip(KUrl(path), data);
+            emit addClip(QUrl(path), data);
         }
         return;
     }
@@ -4448,7 +4445,7 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
                 data.insert("video_index", QString::number(vindex));
                 data.insert("audio_index", QString::number(aindex));
                 data.insert("bypassDuplicate", "1");
-                emit addClip(KUrl(path), data);
+                emit addClip(QUrl(path), data);
             }
         }
     }

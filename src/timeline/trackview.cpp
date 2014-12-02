@@ -38,7 +38,6 @@
 #include <KIO/NetAccess>
 
 #include <QScrollBar>
-#include <QInputDialog>
 
 TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
     QWidget(parent),
@@ -74,14 +73,14 @@ TrackView::TrackView(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok
     size_frame->setMaximumHeight(m_ruler->height());
 
     QToolButton *butSmall = new QToolButton(this);
-    butSmall->setIcon(KIcon("kdenlive-zoom-small"));
+    butSmall->setIcon(QIcon::fromTheme("kdenlive-zoom-small"));
     butSmall->setToolTip(i18n("Smaller tracks"));
     butSmall->setAutoRaise(true);
     connect(butSmall, SIGNAL(clicked()), this, SLOT(slotVerticalZoomDown()));
     sizeLayout->addWidget(butSmall);
 
     QToolButton *butLarge = new QToolButton(this);
-    butLarge->setIcon(KIcon("kdenlive-zoom-large"));
+    butLarge->setIcon(QIcon::fromTheme("kdenlive-zoom-large"));
     butLarge->setToolTip(i18n("Bigger tracks"));
     butLarge->setAutoRaise(true);
     connect(butLarge, SIGNAL(clicked()), this, SLOT(slotVerticalZoomUp()));
@@ -451,7 +450,7 @@ void TrackView::parseDocument(const QDomDocument &doc)
             message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
         else
             message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
-        if (KIO::NetAccess::file_copy(m_doc->url(), KUrl(backupFile), this))
+        if (KIO::NetAccess::file_copy(m_doc->url(), QUrl(backupFile), this))
             KMessageBox::information(this, message);
         else
             KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.", backupFile));

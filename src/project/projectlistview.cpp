@@ -31,6 +31,8 @@
 #include <QApplication>
 #include <QHeaderView>
 #include <QAction>
+#include <QDrag>
+#include <QMimeData>
 
 // KDE
 #include <KDebug>

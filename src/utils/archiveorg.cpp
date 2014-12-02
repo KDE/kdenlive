@@ -22,7 +22,6 @@
 #include "archiveorg.h"
 
 #include <QPushButton>
-#include <QSpinBox>
 #include <QListWidget>
 #include <QDomDocument>
 #include <QApplication>
@@ -63,7 +62,7 @@ void ArchiveOrg::slotStartSearch(const QString &searchText, int page)
     if (page > 1) uri.append("&page=" + QString::number(page));
     uri.append("&output=json"); //&callback=callback&save=yes#raw");
 
-    KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
+    KJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
     connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
 }
 
@@ -143,7 +142,7 @@ OnlineItemInfo ArchiveOrg::displayItemDetails(QListWidgetItem *item)
     
     QString extraInfoUrl = item->data(downloadRole).toString();
     if (!extraInfoUrl.isEmpty()) {
-        KJob* resolveJob = KIO::storedGet( KUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
+        KJob* resolveJob = KIO::storedGet( QUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
         resolveJob->setProperty("id", info.itemId);
         connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotParseResults(KJob*)) );
     }
@@ -167,7 +166,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
         if (href.endsWith(QLatin1String(".thumbs/"))) {
             // sub folder contains image thumbs, display one.
             m_thumbsPath = m_metaInfo.value("url") + '/' + href;
-            KJob* thumbJob = KIO::storedGet( KUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
+            KJob* thumbJob = KIO::storedGet( QUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
             thumbJob->setProperty("id", m_metaInfo.value("id"));
             connect( thumbJob, SIGNAL(result(KJob*)), this, SLOT(slotParseThumbs(KJob*)) );
         }
@@ -178,7 +177,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
                 html += "<tr class=\"cellone\">";
             }
             else html += "<tr>";
-            html += "<td>" + KUrl(link).fileName() + QString("</td><td><a href=\"%1\">%2</a></td><td><a href=\"%3\">%4</a></td></tr>").arg(link).arg(i18n("Preview")).arg(link + "_import").arg(i18n("Import"));
+            html += "<td>" + QUrl(link).fileName() + QString("</td><td><a href=\"%1\">%2</a></td><td><a href=\"%3\">%4</a></td></tr>").arg(link).arg(i18n("Preview")).arg(link + "_import").arg(i18n("Import"));
         }
     }
     html += "</table>";

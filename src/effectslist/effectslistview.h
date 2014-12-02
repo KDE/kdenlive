@@ -21,13 +21,11 @@
 #ifndef EFFECTSLISTVIEW_H
 #define EFFECTSLISTVIEW_H
 
-#include <KIcon>
 
 #include "ui_effectlist_ui.h"
 #include "gentime.h"
 
 #include <QDomElement>
-#include <QFocusEvent>
 
 class EffectsList;
 class EffectsListWidget;

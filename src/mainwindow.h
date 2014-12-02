@@ -23,24 +23,18 @@
 
 #include <QDockWidget>
 #include <QUndoView>
-#include <QLabel>
 #include <QProgressBar>
 #include <QEvent>
-#include <QTimer>
 #include <QShortcut>
 #include <QMap>
 #include <QString>
 #include <QImage>
 
 #include <KXmlGuiWindow>
-#include <KTextEdit>
-#include <KListWidget>
 #include <KTabWidget>
-#include <KUndoStack>
-#include <KRecentFilesAction>
-#include <KComboBox>
 #include <kautosavefile.h>
 #include <KActionCategory>
+#include <KSelectAction>
 
 #include "kdenlivecore_export.h"
 #include "effectslist/effectslist.h"
@@ -81,7 +75,7 @@ public:
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
     explicit MainWindow(const QString &MltPath = QString(),
-                        const KUrl &Url = KUrl(), const QString & clipsToLoad = QString(), QWidget *parent = 0);
+                        const QUrl &Url = QUrl(), const QString & clipsToLoad = QString(), QWidget *parent = 0);
     virtual ~MainWindow();
 
     static EffectsList videoEffects;
@@ -95,8 +89,8 @@ public:
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action);
     /** @brief Adds an action to the action collection and stores the name. */
-    KAction *addAction(const QString &name, const QString &text, const QObject *receiver,
-                       const char *member, const KIcon &icon = KIcon(), const QKeySequence &shortcut = QKeySequence());
+    QAction *addAction(const QString &name, const QString &text, const QObject *receiver,
+                       const char *member, const QIcon &icon = QIcon(), const QKeySequence &shortcut = QKeySequence());
 
     /**
      * @brief Adds a new dock widget to this window.
@@ -192,28 +186,28 @@ private:
 
     RenderWidget *m_renderWidget;
 
-    KAction *m_fileRevert;
+    QAction *m_fileRevert;
 
-    KAction **m_transitions;
-    KAction *m_buttonAudioThumbs;
-    KAction *m_buttonVideoThumbs;
-    KAction *m_buttonShowMarkers;
-    KAction *m_buttonFitZoom;
-    KAction *m_buttonAutomaticSplitAudio;
-    KAction *m_normalEditTool;
-    KAction *m_overwriteEditTool;
-    KAction *m_insertEditTool;
-    KAction *m_buttonSelectTool;
-    KAction *m_buttonRazorTool;
-    KAction *m_buttonSpacerTool;
-    KAction *m_buttonSnap;
-    KAction *m_saveAction;
+    QAction **m_transitions;
+    QAction *m_buttonAudioThumbs;
+    QAction *m_buttonVideoThumbs;
+    QAction *m_buttonShowMarkers;
+    QAction *m_buttonFitZoom;
+    QAction *m_buttonAutomaticSplitAudio;
+    QAction *m_normalEditTool;
+    QAction *m_overwriteEditTool;
+    QAction *m_insertEditTool;
+    QAction *m_buttonSelectTool;
+    QAction *m_buttonRazorTool;
+    QAction *m_buttonSpacerTool;
+    QAction *m_buttonSnap;
+    QAction *m_saveAction;
     QSlider *m_zoomSlider;
-    KAction *m_zoomIn;
-    KAction *m_zoomOut;
-    KAction *m_loopZone;
-    KAction *m_playZone;
-    KAction *m_loopClip;
+    QAction *m_zoomIn;
+    QAction *m_zoomOut;
+    QAction *m_loopZone;
+    QAction *m_playZone;
+    QAction *m_loopClip;
     QActionGroup *m_clipTypeGroup;
     KActionCollection *m_effectsActionCollection;
 
@@ -327,8 +321,8 @@ private slots:
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
-    void slotAddProjectClip(const KUrl &url, const stringMap &data = stringMap());
-    void slotAddProjectClipList(const KUrl::List &urls);
+    void slotAddProjectClip(const QUrl &url, const stringMap &data = stringMap());
+    void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *transition);
     void slotChangeTool(QAction * action);
@@ -355,7 +349,7 @@ private slots:
 
     void slotAdjustClipMonitor();
     void slotAdjustProjectMonitor();
-    void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, KUrl path = KUrl());
+    void slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip = NULL, QUrl path = QUrl());
 
     void slotResizeItemStart();
     void slotResizeItemEnd();
@@ -388,7 +382,7 @@ private slots:
     void slotAlignAudio();
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
-    void slotTranscode(const KUrl::List &urls = KUrl::List());
+    void slotTranscode(const QList<QUrl> &urls = QList<QUrl>());
     void slotStartClipAction();
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */

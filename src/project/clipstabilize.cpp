@@ -28,9 +28,6 @@
 #include <KGlobalSettings>
 #include <KMessageBox>
 #include <KColorScheme>
-#include <QtConcurrentRun>
-#include <QTimer>
-#include <QSlider>
 #include <KFileDialog>
 
 ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent) :
@@ -64,16 +61,16 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                                if (m_urls.count() == 1) {
                                QString newFile = m_urls.first();
                                newFile.append(".mlt");
-                               KUrl dest(newFile);
+                               QUrl dest(newFile);
                                dest_url->setMode(KFile::File);
-                               dest_url->setUrl(KUrl(newFile));
-                               dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
+                               dest_url->setUrl(QUrl(newFile));
+                               dest_url->fileDialog()->setFileMode(QFileDialog::AnyFile); //setOperationMode(KFileDialog::Saving);
 
 } else {
                                label_dest->setText(i18n("Destination folder"));
                                dest_url->setMode(KFile::Directory);
-                               dest_url->setUrl(KUrl(KUrl(m_urls.first()).directory()));
-                               dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
+                               dest_url->setUrl(QUrl(m_urls.first()).adjusted(QUrl::RemoveFilename));
+                               dest_url->fileDialog()->setFileMode(QFileDialog::Directory); //OperationMode(KFileDialog::Saving);
 }
 
                                if (m_filtername=="vidstab"){
@@ -165,7 +162,7 @@ QString ClipStabilize::destination() const
     if (m_urls.count() == 1)
         return dest_url->url().path();
     else
-        return dest_url->url().path(KUrl::AddTrailingSlash);
+        return dest_url->url().path() + QDir::separator();
 }
 
 QString ClipStabilize::desc() const
@@ -185,7 +182,7 @@ void ClipStabilize::slotStartStabilize()
     //QString params = ffmpeg_params->toPlainText().simplified();
     if (urls_list->count() > 0) {
         source_url->setUrl(m_urls.takeFirst());
-        destination = dest_url->url().path(KUrl::AddTrailingSlash)+ source_url->url().fileName()+".mlt";
+        destination = dest_url->url().path(::AddTrailingSlash)+ source_url->url().fileName()+".mlt";
         QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
         if (matching.count() > 0) {
             matching.at(0)->setFlags(Qt::ItemIsSelectable);
@@ -279,12 +276,11 @@ void ClipStabilize::slotValidate()
         }
     }
     else {
-        KUrl folder(dest_url->url());
+        QUrl folder(dest_url->url());
         QStringList existingFiles;
         foreach(const QString &path, m_urls) {
-            KUrl dest = folder;
-            dest.addPath(KUrl(path).fileName());
-            if (QFile::exists(dest.path() + ".mlt")) existingFiles.append(dest.path() + ".mlt");
+            QFileInfo dest(folder.path(), QUrl(path).fileName());
+            if (QFile::exists(dest.filePath() + ".mlt")) existingFiles.append(dest.filePath() + ".mlt");
         }
         if (!existingFiles.isEmpty()) {
             if (KMessageBox::warningContinueCancelList(this, i18n("The stabilize job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return;

@@ -6,16 +6,17 @@ set(kdenlive_render_SRCS
   renderjob.cpp
 )
 
-kde4_add_executable(kdenlive_render ${kdenlive_render_SRCS})
+add_executable(kdenlive_render ${kdenlive_render_SRCS})
 
 include_directories(
   ${QT_INCLUDES}
 )
 
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
 
 target_link_libraries(kdenlive_render
   ${QT_LIBRARIES}
+  KF5::KDELibs4Support
 )
 
 install(TARGETS kdenlive_render DESTINATION ${BIN_INSTALL_DIR})

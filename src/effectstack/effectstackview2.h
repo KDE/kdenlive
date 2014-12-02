@@ -183,7 +183,7 @@ private slots:
     void slotCreateGroup(int ix);
     
     /** @brief Create a region effect with ix index. */
-    void slotCreateRegion(int ix, KUrl url);
+    void slotCreateRegion(int ix, QUrl url);
     
     /** @brief Move an effect.
       ** @param currentIndexes the list of effect indexes to move in stack layout

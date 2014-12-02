@@ -28,9 +28,7 @@
 #include <KStandardDirs>
 
 #include <QFile>
-#include <QRegExp>
 #include <QDir>
-#include <QIcon>
 
 #include "locale.h"
 
@@ -77,21 +75,18 @@ void initEffects::refreshLumas()
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
             imagenamelist.append(fname);
-            imagefiles.append(KUrl(folder).path(KUrl::AddTrailingSlash) + fname);
+            imagefiles.append(QUrl(folder).path() + QDir::separator() + fname);
         }
     }
 
     // Check for MLT lumas
-    KUrl folder(mlt_environment("MLT_DATA"));
-    folder.addPath("lumas");
-    folder.addPath(mlt_environment("MLT_NORMALISATION"));
+    QUrl folder(QString(mlt_environment("MLT_DATA")) + QDir::separator() + "lumas" + QDir::separator() + QString(mlt_environment("MLT_NORMALISATION")));
     QDir lumafolder(folder.path());
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString & fname, filesnames) {
         imagenamelist.append(fname);
-        KUrl path(folder);
-        path.addPath(fname);
-        imagefiles.append(path.toLocalFile());
+        QFileInfo f(folder.path(), fname);
+        imagefiles.append(f.filePath());
     }
     QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", "luma");
     QDomNodeList params = lumaTransition.elementsByTagName("parameter");
@@ -263,7 +258,7 @@ void initEffects::parseEffectFiles(const QString &locale)
         filter << "*.xml";
         fileList = directory.entryList(filter, QDir::Files);
         for (it = fileList.begin(); it != fileList.end(); ++it) {
-            itemName = KUrl(*more + *it).path();
+            itemName = QUrl(*more + *it).path();
             parseEffectFile(&MainWindow::customEffects,
                             &MainWindow::audioEffects,
                             &MainWindow::videoEffects,
@@ -330,7 +325,7 @@ void initEffects::parseCustomEffectsFile()
     QDomElement e;
     int unknownGroupCount = 0;
     foreach(const QString & filename, fileList) {
-        QString itemName = KUrl(path + filename).path();
+        QString itemName = QUrl(path + filename).path();
         QFile file(itemName);
         doc.setContent(&file, false);
         file.close();
@@ -570,16 +565,13 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     }
 
     // Check for MLT luma files.
-    KUrl folder(mlt_environment("MLT_DATA"));
-    folder.addPath("lumas");
-    folder.addPath(mlt_environment("MLT_NORMALISATION"));
+    QUrl folder(QString(mlt_environment("MLT_DATA")) + QDir::separator() + "lumas" + QDir::separator() + QString(mlt_environment("MLT_NORMALISATION")));
     QDir lumafolder(folder.path());
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString & fname, filesnames) {
         imagenamelist.append(fname);
-        KUrl path(folder);
-        path.addPath(fname);
-        imagefiles.append(path.toLocalFile());
+        QFileInfo f(folder.path(), fname);
+        imagefiles.append(f.filePath());
     }
     
     //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM

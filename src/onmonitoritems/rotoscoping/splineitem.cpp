@@ -54,7 +54,7 @@ void deCasteljau(BPoint *p1, BPoint *p2, BPoint *res, double t)
 
 
 SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGraphicsScene *scene) :
-    QGraphicsPathItem(parent, scene),
+    QGraphicsPathItem(parent),
     m_closed(true),
     m_editing(false)
 {

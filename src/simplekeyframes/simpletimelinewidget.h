@@ -19,7 +19,6 @@
 #ifndef SIMPLETIMELINEWIDGET_H
 #define SIMPLETIMELINEWIDGET_H
 
-#include <QtCore>
 #include <QWidget>
 
 class SimpleTimelineWidget : public QWidget

@@ -27,7 +27,6 @@
 
 
 #include <QDomElement>
-#include <QToolButton>
 
 class QLabel;
 
@@ -136,7 +135,7 @@ signals:
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
     void unGroup(CollapsibleEffect *);
-    void createRegion(int, const KUrl&);
+    void createRegion(int, const QUrl&);
     void deleteGroup(const QDomDocument&);
     void importClipKeyframes();
 };

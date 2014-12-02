@@ -22,18 +22,18 @@
 #include "mainwindow.h"
 
 #include <KApplication>
-#include <KAboutData>
+#include <K4AboutData>
 #include <KDebug>
 #include <KCmdLineArgs>
-#include <KUrl> //new
+#include <QUrl> //new
 
 
 int main(int argc, char *argv[])
 {
-    KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
+    K4AboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
                          ki18n("Kdenlive"), KDENLIVE_VERSION,
                          ki18n("An open source video editor."),
-                         KAboutData::License_GPL,
+                         K4AboutData::License_GPL,
                          ki18n("Copyright © 2007–2014 Kdenlive authors"));
     aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("MLT and KDE SC 4 porting, main developer and maintainer"), "jb@kdenlive.org");
     aboutData.addAuthor(ki18n("Vincent Pinon"), ki18n("Interim maintainer, bugs fixing, minor functions, profiles updates, etc."), "vpinon@april.org");
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
         QString clipsToLoad = args->getOption("i");
         QString mltPath = args->getOption("mlt-path");
-        KUrl url;
+        QUrl url;
         if (args->count()) {
             url = args->url(0);
         }

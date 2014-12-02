@@ -16,8 +16,7 @@
 
 #include <QPainter>
 #include <QPoint>
-#include <QMenu>
-
+#include <KGlobal>
 
 const QSize Waveform::m_textWidth(35,0);
 const int Waveform::m_paddingBottom(20);

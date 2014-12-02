@@ -19,6 +19,8 @@
 
 #include "definitions.h"
 
+#include <KLocale>
+
 QDebug operator << (QDebug qd, const ItemInfo &info)
 {
     qd << "ItemInfo " << &info;

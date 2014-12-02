@@ -32,21 +32,17 @@
 #include <KDebug>
 #include <KLocalizedString>
 #include <KFileDialog>
-#include <KApplication>
-#include <KMessageBox>
-#include <KSelectAction>
 
 #include <QMouseEvent>
-#include <QStylePainter>
 #include <QMenu>
 #include <QToolButton>
 #include <QToolBar>
 #include <QDesktopWidget>
 #include <QLabel>
-#include <QIntValidator>
 #include <QVBoxLayout>
 #include <QSlider>
-
+#include <QDrag>
+#include <QMimeData>
 
 #define SEEK_INACTIVE (-1)
 
@@ -84,17 +80,17 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     m_toolbar = new QToolBar(this);
     m_toolbar->setIconSize(QSize(s, s));
 
-    m_playIcon = KIcon("media-playback-start");
-    m_pauseIcon = KIcon("media-playback-pause");
+    m_playIcon = QIcon::fromTheme("media-playback-start");
+    m_pauseIcon = QIcon::fromTheme("media-playback-pause");
 
 
     if (id != Kdenlive::DvdMonitor) {
-        m_toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
-        m_toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+        m_toolbar->addAction(QIcon::fromTheme("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
+        m_toolbar->addAction(QIcon::fromTheme("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
     }
 
-    m_toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
-    //m_toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
+    m_toolbar->addAction(QIcon::fromTheme("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
+    //m_toolbar->addAction(QIcon::fromTheme("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
 
     QToolButton *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
@@ -106,15 +102,15 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->addWidget(playButton);
 
-    //m_toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
-    m_toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
+    //m_toolbar->addAction(QIcon::fromTheme("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
+    m_toolbar->addAction(QIcon::fromTheme("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
 
     playButton->setDefaultAction(m_playAction);
 
     if (id != Kdenlive::DvdMonitor) {
         QToolButton *configButton = new QToolButton(m_toolbar);
         m_configMenu = new QMenu(i18n("Misc..."), this);
-        configButton->setIcon(KIcon("system-run"));
+        configButton->setIcon(QIcon::fromTheme("system-run"));
         configButton->setMenu(m_configMenu);
         configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
         m_toolbar->addWidget(configButton);
@@ -125,8 +121,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
             m_configMenu->addMenu(m_markerMenu);
             connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
         }
-        m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
-        m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
+        m_configMenu->addAction(QIcon::fromTheme("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
+        m_configMenu->addAction(QIcon::fromTheme("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
     }
 
     // Create Volume slider popup
@@ -137,9 +133,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QString profil
     m_audioSlider->setRange(0, 100);
     poplayout->addWidget(m_audioSlider);
     m_volumePopup->setLayout(poplayout);
-    KIcon icon;
-    if (KdenliveSettings::volume() == 0) icon = KIcon("audio-volume-muted");
-    else icon = KIcon("audio-volume-medium");
+    QIcon icon;
+    if (KdenliveSettings::volume() == 0) icon = QIcon::fromTheme("audio-volume-muted");
+    else icon = QIcon::fromTheme("audio-volume-medium");
 
     m_volumeWidget = m_toolbar->widgetForAction(m_toolbar->addAction(icon, i18n("Audio volume"), this, SLOT(slotShowVolume())));
 
@@ -274,28 +270,28 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     //TODO: add save zone to timeline monitor when fixed
     if (m_id == Kdenlive::ClipMonitor) {
         m_contextMenu->addMenu(m_markerMenu);
-        m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
-        QAction *extractZone = m_configMenu->addAction(KIcon("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
+        m_contextMenu->addAction(QIcon::fromTheme("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
+        QAction *extractZone = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
     }
-    QAction *extractFrame = m_configMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
+    QAction *extractFrame = m_configMenu->addAction(QIcon::fromTheme("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
 
     if (m_id != Kdenlive::ClipMonitor) {
-        QAction *splitView = m_contextMenu->addAction(KIcon("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
+        QAction *splitView = m_contextMenu->addAction(QIcon::fromTheme("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
     } else {
-        QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
+        QAction *setThumbFrame = m_contextMenu->addAction(QIcon::fromTheme("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
     }
 
-    QAction *showTips = m_contextMenu->addAction(KIcon("help-hint"), i18n("Monitor overlay infos"));
+    QAction *showTips = m_contextMenu->addAction(QIcon::fromTheme("help-hint"), i18n("Monitor overlay infos"));
     showTips->setCheckable(true);
     connect(showTips, SIGNAL(toggled(bool)), this, SLOT(slotSwitchMonitorInfo(bool)));
     showTips->setChecked(KdenliveSettings::displayMonitorInfo());
 
-    QAction *dropFrames = m_contextMenu->addAction(KIcon(), i18n("Real time (drop frames)"));
+    QAction *dropFrames = m_contextMenu->addAction(QIcon(), i18n("Real time (drop frames)"));
     dropFrames->setCheckable(true);
     dropFrames->setChecked(true);
     connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
@@ -609,7 +605,7 @@ void Monitor::slotExtractCurrentFrame()
         frame = render->extractFrame(render->seekFramePosition(), m_currentClip->fileURL().path());
     }
     else frame = render->extractFrame(render->seekFramePosition());
-    QPointer<KFileDialog> fs = new KFileDialog(KUrl(), "image/png", this);
+    QPointer<KFileDialog> fs = new KFileDialog(QUrl(), "image/png", this);
     fs->setOperationMode(KFileDialog::Saving);
     fs->setMode(KFile::File);
     fs->setConfirmOverwrite(true);
@@ -1117,9 +1113,9 @@ bool Monitor::effectSceneDisplayed()
 void Monitor::slotSetVolume(int volume)
 {
     KdenliveSettings::setVolume(volume);
-    KIcon icon;
-    if (volume == 0) icon = KIcon("audio-volume-muted");
-    else icon = KIcon("audio-volume-medium");
+    QIcon icon;
+    if (volume == 0) icon = QIcon::fromTheme("audio-volume-muted");
+    else icon = QIcon::fromTheme("audio-volume-medium");
     static_cast <QToolButton *>(m_volumeWidget)->setIcon(icon);
     render->slotSetVolume(volume);
 }

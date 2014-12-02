@@ -23,6 +23,8 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <KFileItem>
+#include <KGlobal>
+#include <KGlobalSettings>
 #include <kdeversion.h>
 
 #include <QDir>
@@ -92,8 +94,8 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     foreach(const QString & folder, customLumas) {
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
-            QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-            m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
+            QString filePath = QFileInfo(folder, fname).filePath();
+            m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
         }
     }
 
@@ -104,8 +106,8 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     QDir lumafolder(folder);
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach(const QString & fname, filesnames) {
-        QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-        m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
+        QString filePath = QFileInfo(folder, fname).filePath();
+        m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
     }
 
     //adjustSize();
@@ -159,7 +161,7 @@ void SlideshowClip::parseFolder()
 {
     m_view.icon_list->clear();
     bool isMime = m_view.method_mime->isChecked();
-    QString path = isMime ? m_view.folder_url->url().path() : m_view.pattern_url->url().directory();
+    QString path = isMime ? m_view.folder_url->url().path() : m_view.pattern_url->url().adjusted(QUrl::RemoveFilename).path();
     QDir dir(path);
     if (path.isEmpty() || !dir.exists()) {
 	m_count = 0;
@@ -168,7 +170,7 @@ void SlideshowClip::parseFolder()
 	return;
     }
 
-    KIcon unknownicon("unknown");
+    QIcon unknownicon("unknown");
     QStringList result;
     QStringList filters;
     QString filter;
@@ -202,7 +204,7 @@ void SlideshowClip::parseFolder()
         }
     }
     foreach(const QString & path, result) {
-        QListWidgetItem *item = new QListWidgetItem(unknownicon, KUrl(path).fileName());
+        QListWidgetItem *item = new QListWidgetItem(unknownicon, QUrl(path).fileName());
         item->setData(Qt::UserRole, dir.filePath(path));
         m_view.icon_list->addItem(item);
     }
@@ -224,7 +226,7 @@ void SlideshowClip::slotGenerateThumbs()
         if (item) {
             QString path = item->data(Qt::UserRole).toString();
             if (!path.isEmpty()) {
-                fileList.append(KFileItem(KFileItem::Unknown, KFileItem::Unknown, KUrl(path)));
+                fileList.append(KFileItem(KFileItem::Unknown, KFileItem::Unknown, QUrl(path)));
             }
         }
     }
@@ -247,7 +249,7 @@ void SlideshowClip::slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix)
         if (item) {
             QString path = item->data(Qt::UserRole).toString();
             if (path == fileItem.url().path()) {
-                item->setIcon(KIcon(pix));
+                item->setIcon(QIcon(pix));
                 item->setData(Qt::UserRole, QString());
                 break;
             }
@@ -259,7 +261,7 @@ void SlideshowClip::slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix)
 QString SlideshowClip::selectedPath()
 {
     QStringList list;
-    KUrl url;
+    QUrl url;
     if (m_view.method_mime->isChecked()) url = m_view.folder_url->url();
     else url = m_view.pattern_url->url();
     QString path = selectedPath(url, m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
@@ -269,7 +271,7 @@ QString SlideshowClip::selectedPath()
 }
 
 // static
-int SlideshowClip::getFrameNumberFromPath(const KUrl &path)
+int SlideshowClip::getFrameNumberFromPath(const QUrl &path)
 {
     QString filter = path.fileName();
     filter = filter.section('.', 0, -2);
@@ -281,11 +283,11 @@ int SlideshowClip::getFrameNumberFromPath(const KUrl &path)
 }
 
 // static
-QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extension, QStringList *list)
+QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extension, QStringList *list)
 {
     QString folder;
     if (isMime) {
-        folder = url.path(KUrl::AddTrailingSlash);
+        folder = url.path() + QDir::separator();
 	// Check how many files we have
         QDir dir(folder);
 	QStringList filters;
@@ -293,7 +295,7 @@ QString SlideshowClip::selectedPath(const KUrl &url, bool isMime, QString extens
 	dir.setNameFilters(filters);
 	*list = dir.entryList(QDir::Files);
     } else {
-        folder = url.directory(KUrl::AppendTrailingSlash);
+        folder = url.adjusted(QUrl::RemoveFilename).path();
         QString filter = url.fileName();
         QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);

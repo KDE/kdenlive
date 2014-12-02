@@ -22,9 +22,7 @@
 #include "freesound.h"
 
 #include <QPushButton>
-#include <QSpinBox>
 #include <QListWidget>
-#include <QDomDocument>
 #include <QApplication>
 
 #include <KDebug>
@@ -59,7 +57,7 @@ void FreeSound::slotStartSearch(const QString &searchText, int page)
         uri.append("&p=" + QString::number(page));
     uri.append("&api_key=a1772c8236e945a4bee30a64058dabf8");
 
-    KJob* resolveJob = KIO::storedGet( KUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
+    KJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
     connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotShowResults(KJob*)) );
 }
 
@@ -142,7 +140,7 @@ OnlineItemInfo FreeSound::displayItemDetails(QListWidgetItem *item)
     
     QString extraInfoUrl = item->data(infoData).toString();
     if (!extraInfoUrl.isEmpty()) {
-        KJob* resolveJob = KIO::storedGet( KUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
+        KJob* resolveJob = KIO::storedGet( QUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo );
         connect( resolveJob, SIGNAL(result(KJob*)), this, SLOT(slotParseResults(KJob*)) );
     }
     emit gotThumb(item->data(imageRole).toString());

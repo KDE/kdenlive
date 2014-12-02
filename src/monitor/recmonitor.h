@@ -31,22 +31,18 @@
 #include "definitions.h"
 #include "ui_recmonitor_ui.h"
 
-#include <QToolBar>
 #include <QTimer>
 #include <QProcess>
-#include <QImage>
+#include <QDateTime>
+#include <QIcon>
+#include <QUrl>
 
-#include <KIcon>
-#include <KAction>
-#include <KRestrictedLine>
-#include <KDateTime>
 #include <kdeversion.h>
 #include <KComboBox>
 #include <kcapacitybar.h>
 
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#endif
+
 
 class MonitorManager;
 class MltDeviceCapture;
@@ -74,7 +70,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent * event);
 
 private:
-    KDateTime m_captureTime;
+    QDateTime m_captureTime;
     /** @brief Provide feedback about dvgrab operations */
     QLabel m_dvinfo;
     
@@ -86,9 +82,9 @@ private:
     KCapacityBar *m_freeSpace;
     QTimer m_spaceTimer;
 
-    KUrl m_captureFile;
-    KIcon m_playIcon;
-    KIcon m_pauseIcon;
+    QUrl m_captureFile;
+    QIcon m_playIcon;
+    QIcon m_pauseIcon;
 
     QProcess *m_captureProcess;
     QProcess *m_displayProcess;
@@ -156,8 +152,8 @@ public slots:
 signals:
     void renderPosition(int);
     void durationChanged(int);
-    void addProjectClip(KUrl);
-    void addProjectClipList(KUrl::List);
+    void addProjectClip(QUrl);
+    void addProjectClipList(QList<QUrl>);
     void showConfigDialog(int, int);
 };
 

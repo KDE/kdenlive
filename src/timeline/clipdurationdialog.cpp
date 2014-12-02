@@ -22,7 +22,6 @@
 #include "clipitem.h"
 
 #include <KDebug>
-#include <KMessageBox>
 #include <KGlobalSettings>
 
 #include <QWheelEvent>

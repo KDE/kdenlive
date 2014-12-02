@@ -6,15 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1127</width>
-    <height>603</height>
+    <width>2156</width>
+    <height>1121</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Title Clip</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_9">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item row="0" column="0">
@@ -48,7 +57,16 @@
       <enum>QFrame::Plain</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <property name="margin">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
        <number>0</number>
       </property>
       <item row="0" column="0">
@@ -207,7 +225,7 @@
       <enum>QFrame::Raised</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_6">
       <layout class="QGridLayout" name="gridLayout_2">
@@ -240,14 +258,14 @@
        </item>
        <item row="0" column="1">
         <widget class="KColorButton" name="rectBColor">
-         <property name="color">
+         <property name="color" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor">
+         <property name="defaultColor" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
@@ -272,14 +290,14 @@
        </item>
        <item row="0" column="4">
         <widget class="KColorButton" name="rectFColor">
-         <property name="color">
+         <property name="color" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor">
+         <property name="defaultColor" stdset="0">
           <color>
            <red>0</red>
            <green>0</green>
@@ -287,6 +305,9 @@
           </color>
          </property>
         </widget>
+       </item>
+       <item row="0" column="6">
+        <widget class="QSpinBox" name="rectLineWidth"/>
        </item>
        <item row="0" column="5">
         <widget class="QLabel" name="label_4">
@@ -294,9 +315,6 @@
           <string>Width</string>
          </property>
         </widget>
-       </item>
-       <item row="0" column="6">
-        <widget class="KoSliderCombo" name="rectLineWidth"/>
        </item>
        <item row="0" column="7">
         <spacer name="horizontalSpacer">
@@ -322,6 +340,16 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="1">
+        <widget class="QFontComboBox" name="font_family"/>
+       </item>
+       <item row="0" column="11">
+        <widget class="Line" name="line_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="2">
         <widget class="QSpinBox" name="font_size">
          <property name="minimum">
@@ -335,33 +363,6 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="KColorButton" name="fontColorButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
-         <property name="color">
-          <color>
-           <red>0</red>
-           <green>0</green>
-           <blue>0</blue>
-          </color>
-         </property>
-         <property name="defaultColor">
-          <color>
-           <red>0</red>
-           <green>0</green>
-           <blue>0</blue>
-          </color>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="4">
         <widget class="KComboBox" name="font_weight_box"/>
        </item>
@@ -372,6 +373,16 @@
          </property>
          <property name="checkable">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="10">
+        <widget class="KColorButton" name="textOutlineColor">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
         </widget>
        </item>
@@ -389,26 +400,6 @@
         <widget class="QLabel" name="label_18">
          <property name="text">
           <string>Outline</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="9">
-        <widget class="KoSliderCombo" name="textOutline"/>
-       </item>
-       <item row="0" column="10">
-        <widget class="KColorButton" name="textOutlineColor">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="11">
-        <widget class="Line" name="line_5">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
@@ -444,6 +435,20 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="16">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="17">
+        <widget class="QToolButton" name="buttonInsertUnicode">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="14">
         <widget class="QToolButton" name="buttonAlignCenter">
          <property name="text">
@@ -470,17 +475,10 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="16">
-        <widget class="Line" name="line">
+       <item row="0" column="7">
+        <widget class="Line" name="line_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="17">
-        <widget class="QToolButton" name="buttonInsertUnicode">
-         <property name="text">
-          <string>...</string>
          </property>
         </widget>
        </item>
@@ -497,15 +495,35 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="7">
-        <widget class="Line" name="line_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+       <item row="0" column="9">
+        <widget class="QSpinBox" name="textOutline"/>
+       </item>
+       <item row="0" column="3">
+        <widget class="KColorButton" name="fontColorButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+         <property name="color" stdset="0">
+          <color>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </property>
+         <property name="defaultColor" stdset="0">
+          <color>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
          </property>
         </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="KFontComboBox" name="font_family"/>
        </item>
       </layout>
      </widget>
@@ -655,7 +673,7 @@
      <widget class="QWidget" name="verticalLayoutWidget">
       <layout class="QGridLayout" name="gridLayout_16">
        <property name="horizontalSpacing">
-        <number>-1</number>
+        <number>6</number>
        </property>
        <item row="2" column="0">
         <widget class="QToolButton" name="buttonSelectImages">
@@ -734,14 +752,14 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="0" column="2">
         <widget class="KRestrictedLine" name="title_duration">
          <property name="inputMask">
-          <string>99:99:99:99; </string>
+          <string>99:99:99:99</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
+       <item row="1" column="0" colspan="3">
         <widget class="Line" name="line_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -755,7 +773,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="2" column="2">
         <widget class="KIntSpinBox" name="itemzoom">
          <property name="maximum">
           <number>100000</number>
@@ -772,21 +790,21 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_20">
          <property name="text">
           <string>Rotate Y:</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="8" column="0">
         <widget class="QLabel" name="label_21">
          <property name="text">
           <string>Rotate Z:</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2">
+       <item row="9" column="0" colspan="3">
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0">
           <widget class="QToolButton" name="itemleft">
@@ -845,7 +863,7 @@
          </item>
         </layout>
        </item>
-       <item row="7" column="0" colspan="2">
+       <item row="10" column="0" colspan="3">
         <widget class="QFrame" name="effect_frame">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -963,7 +981,16 @@
             </widget>
             <widget class="QWidget" name="page_3">
              <layout class="QGridLayout" name="gridLayout_15">
-              <property name="margin">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
                <number>0</number>
               </property>
               <item row="0" column="0">
@@ -1026,16 +1053,7 @@
          </layout>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="KoSliderCombo" name="itemrotatex"/>
-       </item>
-       <item row="4" column="1">
-        <widget class="KoSliderCombo" name="itemrotatey"/>
-       </item>
-       <item row="5" column="1">
-        <widget class="KoSliderCombo" name="itemrotatez"/>
-       </item>
-       <item row="8" column="0" colspan="2">
+       <item row="11" column="0" colspan="3">
         <widget class="QTabWidget" name="tabWidget">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1047,7 +1065,7 @@
           <enum>QTabWidget::North</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="elideMode">
           <enum>Qt::ElideNone</enum>
@@ -1072,14 +1090,14 @@
            </item>
            <item row="0" column="0">
             <widget class="KColorButton" name="backgroundColor">
-             <property name="color">
+             <property name="color" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>
                <blue>0</blue>
               </color>
              </property>
-             <property name="defaultColor">
+             <property name="defaultColor" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>
@@ -1089,7 +1107,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KoSliderCombo" name="backgroundAlpha"/>
+            <widget class="QSpinBox" name="backgroundAlpha"/>
            </item>
           </layout>
          </widget>
@@ -1188,6 +1206,15 @@
          </widget>
         </widget>
        </item>
+       <item row="6" column="2">
+        <widget class="QSpinBox" name="itemrotatey"/>
+       </item>
+       <item row="3" column="2">
+        <widget class="QSpinBox" name="itemrotatex"/>
+       </item>
+       <item row="8" column="2">
+        <widget class="QSpinBox" name="itemrotatez"/>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -1196,9 +1223,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KFontComboBox</class>
-   <extends>KComboBox</extends>
-   <header>kfontcombobox.h</header>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KRestrictedLine</class>
+   <extends>QLineEdit</extends>
+   <header>krestrictedline.h</header>
   </customwidget>
   <customwidget>
    <class>KColorButton</class>
@@ -1209,26 +1241,6 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KRestrictedLine</class>
-   <extends>KLineEdit</extends>
-   <header>krestrictedline.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KoSliderCombo</class>
-   <extends>KComboBox</extends>
-   <header>titler/KoSliderCombo.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

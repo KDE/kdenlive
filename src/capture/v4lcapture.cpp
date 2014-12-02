@@ -27,13 +27,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include <QDebug>
-#include <QImage>
-#include <QTimer>
-#include <QPainter>
 
 #include <KDebug>
-#include <KLocalizedString>
 
 #include <linux/videodev2.h>
 #include <sys/ioctl.h>

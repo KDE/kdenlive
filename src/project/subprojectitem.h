@@ -25,7 +25,6 @@
 #include <QTreeWidget>
 #include <QDomElement>
 
-#include <KUrl>
 
 #include "gentime.h"
 #include "definitions.h"

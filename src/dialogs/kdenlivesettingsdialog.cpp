@@ -23,14 +23,15 @@
 
 #include "kdenlivesettings.h"
 #include "renderer.h"
+
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
 #endif
 
 #include <KStandardDirs>
+//#include <KService>
 #include <KDebug>
-#include <kopenwithdialog.h>
-#include <KConfigDialogManager>
+//#include <KOpenWithDialog>
 #include <kde_file.h>
 #include <KIO/NetAccess>
 #include <kdeversion.h>
@@ -38,7 +39,6 @@
 
 #include <QDir>
 #include <QTimer>
-#include <QTreeWidgetItem>
 #include <QThread>
 
 #include <stdlib.h>
@@ -134,7 +134,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     QWidget *p5 = new QWidget;
     m_configShuttle.setupUi(p5);
 #ifdef USE_JOGSHUTTLE
-    m_configShuttle.toolBtnReload->setIcon(KIcon("view-refresh"));
+    m_configShuttle.toolBtnReload->setIcon(QIcon::fromTheme("view-refresh"));
     connect(m_configShuttle.kcfg_enableshuttle, SIGNAL(stateChanged(int)), this, SLOT(slotCheckShuttle(int)));
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     connect(m_configShuttle.toolBtnReload, SIGNAL(clicked(bool)), this, SLOT(slotReloadShuttleDevices()));
@@ -172,7 +172,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
-    m_configSdl.reload_blackmagic->setIcon(KIcon("view-refresh"));
+    m_configSdl.reload_blackmagic->setIcon(QIcon::fromTheme("view-refresh"));
     connect(m_configSdl.reload_blackmagic, SIGNAL(clicked(bool)), this, SLOT(slotReloadBlackMagic()));
 
 #ifndef USE_OPENGL
@@ -226,8 +226,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     }
 
     // decklink profile
-    m_configCapture.decklink_showprofileinfo->setIcon(KIcon("help-about"));
-    m_configCapture.decklink_manageprofile->setIcon(KIcon("configure"));
+    m_configCapture.decklink_showprofileinfo->setIcon(QIcon::fromTheme("help-about"));
+    m_configCapture.decklink_manageprofile->setIcon(QIcon::fromTheme("configure"));
     m_configCapture.decklink_parameters->setVisible(false);
     m_configCapture.decklink_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.decklink_parameters->setPlainText(KdenliveSettings::decklink_parameters());
@@ -236,8 +236,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configCapture.decklink_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.decklink_parameters, SLOT(setVisible(bool)));
 
     // ffmpeg profile
-    m_configCapture.v4l_showprofileinfo->setIcon(KIcon("help-about"));
-    m_configCapture.v4l_manageprofile->setIcon(KIcon("configure"));
+    m_configCapture.v4l_showprofileinfo->setIcon(QIcon::fromTheme("help-about"));
+    m_configCapture.v4l_manageprofile->setIcon(QIcon::fromTheme("configure"));
     m_configCapture.v4l_parameters->setVisible(false);
     m_configCapture.v4l_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.v4l_parameters->setPlainText(KdenliveSettings::v4l_parameters());
@@ -246,8 +246,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configCapture.v4l_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.v4l_parameters, SLOT(setVisible(bool)));
     
     // screen grab profile
-    m_configCapture.grab_showprofileinfo->setIcon(KIcon("help-about"));
-    m_configCapture.grab_manageprofile->setIcon(KIcon("configure"));
+    m_configCapture.grab_showprofileinfo->setIcon(QIcon::fromTheme("help-about"));
+    m_configCapture.grab_manageprofile->setIcon(QIcon::fromTheme("configure"));
     m_configCapture.grab_parameters->setVisible(false);
     m_configCapture.grab_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.grab_parameters->setPlainText(KdenliveSettings::grab_parameters());
@@ -256,8 +256,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configCapture.grab_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.grab_parameters, SLOT(setVisible(bool)));
 
     // proxy profile stuff
-    m_configProject.proxy_showprofileinfo->setIcon(KIcon("help-about"));
-    m_configProject.proxy_manageprofile->setIcon(KIcon("configure"));
+    m_configProject.proxy_showprofileinfo->setIcon(QIcon::fromTheme("help-about"));
+    m_configProject.proxy_manageprofile->setIcon(QIcon::fromTheme("configure"));
     m_configProject.proxyparams->setVisible(false);
     m_configProject.proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configProject.proxyparams->setPlainText(KdenliveSettings::proxyparams());
@@ -564,37 +564,37 @@ void KdenliveSettingsDialog::showPage(int page, int option)
 
 void KdenliveSettingsDialog::slotEditVideoApplication()
 {
-    KService::Ptr service;
-    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
+/*    KService::Ptr service;
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
     if (dlg->exec() == QDialog::Accepted) {
         service = dlg->service();
         m_configEnv.kcfg_defaultplayerapp->setText(service->exec());
     }
 
-    delete dlg;
+    delete dlg;*/
 }
 
 void KdenliveSettingsDialog::slotEditAudioApplication()
 {
-    KService::Ptr service;
-    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
+/*    KService::Ptr service;
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
     if (dlg->exec() == QDialog::Accepted) {
         service = dlg->service();
         m_configEnv.kcfg_defaultaudioapp->setText(service->exec());
     }
 
-    delete dlg;
+    delete dlg;*/
 }
 
 void KdenliveSettingsDialog::slotEditImageApplication()
 {
-    KService::Ptr service;
-    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(KUrl::List(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
+/*    KService::Ptr service;
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
     if (dlg->exec() == QDialog::Accepted) {
         service = dlg->service();
         m_configEnv.kcfg_defaultimageapp->setText(service->exec());
     }
-    delete dlg;
+    delete dlg;*/
 }
 
 void KdenliveSettingsDialog::slotCheckShuttle(int state)
@@ -1077,7 +1077,7 @@ void KdenliveSettingsDialog::slotManageEncodingProfile()
 
 void KdenliveSettingsDialog::loadEncodingProfiles()
 {
-    KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
+    KConfig conf("encodingprofiles.rc", KConfig::CascadeConfig, QStandardPaths::DataLocation);
 
     // Load v4l profiles
     m_configCapture.kcfg_v4l_profile->blockSignals(true);

@@ -17,9 +17,9 @@
 #include <QAction>
 #include <QDebug>
 #include <QPainter>
-
+#include <KGlobal>
+#include <KConfigGroup>
 #include <QTime>
-#include <QMenu>
 
 const float P75 = .75;
 

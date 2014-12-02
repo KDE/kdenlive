@@ -33,18 +33,16 @@
 #include <klocale.h>
 #include <kfileitem.h>
 #include <kmessagebox.h>
-#include <KStandardDirs>
 
 #include <qxml.h>
 #include <QImage>
-#include <QApplication>
-#include <QtConcurrentRun>
 #include <QVarLengthArray>
 #include <QPainter>
+#include <QtConcurrent>
 
 static QMutex m_intraMutex;
 
-KThumb::KThumb(ClipManager *clipManager, const KUrl &url, const QString &id, const QString &hash, QObject * parent) :
+KThumb::KThumb(ClipManager *clipManager, const QUrl &url, const QString &id, const QString &hash, QObject * parent) :
     QObject(parent),
     m_url(url),
     m_thumbFile(),
@@ -96,14 +94,14 @@ void KThumb::updateThumbUrl(const QString &hash)
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
-void KThumb::updateClipUrl(const KUrl &url, const QString &hash)
+void KThumb::updateClipUrl(const QUrl &url, const QString &hash)
 {
     m_url = url;
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
 //static
-QPixmap KThumb::getImage(const KUrl& url, int width, int height)
+QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 {
     if (url.isEmpty()) return QPixmap();
     return getImage(url, 0, width, height);
@@ -144,7 +142,7 @@ QImage KThumb::extractImage(int frame, int width, int height)
 }
 
 //static
-QPixmap KThumb::getImage(const KUrl& url, int frame, int width, int height)
+QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
     QPixmap pix(width, height);
@@ -290,7 +288,7 @@ uint KThumb::imageVariance(const QImage &image )
 }
 
 /*
-void KThumb::getImage(KUrl url, int frame, int width, int height)
+void KThumb::getImage(QUrl url, int frame, int width, int height)
 {
     if (url.isEmpty()) return;
     QPixmap image(width, height);
@@ -318,7 +316,7 @@ void KThumb::getImage(KUrl url, int frame, int width, int height)
     emit thumbReady(frame, image);
 }
 
-void KThumb::getThumbs(KUrl url, int startframe, int endframe, int width, int height)
+void KThumb::getThumbs(QUrl url, int startframe, int endframe, int width, int height)
 {
     if (url.isEmpty()) return;
     QPixmap image(width, height);

@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTimer>
 #include <QTime>
 
-class KAction;
+class QAction;
 class QKeyEvent;
 
 /**
@@ -44,8 +44,8 @@ private:
     void search();
     bool keyPressEvent(QKeyEvent *key);
 
-    KAction *m_findAction;
-    KAction *m_findNextAction;
+    QAction *m_findAction;
+    QAction *m_findNextAction;
 
     QString m_searchTerm;
     QTimer m_searchTimer;

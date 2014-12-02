@@ -41,7 +41,7 @@
 #include <locale>
 
 
-DocumentValidator::DocumentValidator(const QDomDocument &doc, const KUrl &documentUrl):
+DocumentValidator::DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl):
         m_doc(doc),
         m_url(documentUrl),
         m_modified(false)
@@ -63,7 +63,7 @@ bool DocumentValidator::validate(const double currentVersion)
     if (rootDir == "$CURRENTPATH") {
         // The document was extracted from a Kdenlive archived project, fix root directory
         QString playlist = m_doc.toString();
-        playlist.replace("$CURRENTPATH", m_url.directory(KUrl::IgnoreTrailingSlash));
+        playlist.replace("$CURRENTPATH", m_url.adjusted(QUrl::RemoveFilename).path());
         m_doc.setContent(playlist);
         mlt = m_doc.firstChildElement("mlt");
         kdenliveDoc = mlt.firstChildElement("kdenlivedoc");
@@ -1074,7 +1074,7 @@ bool DocumentValidator::isModified() const
 void DocumentValidator::updateEffects()
 {
     // WARNING: order by findDirs will determine which js file to use (in case multiple scripts for the same filter exist)
-    QMap <QString, KUrl> paths;
+    QMap <QString, QUrl> paths;
 #if QT_VERSION >= 0x040700
     QMap <QString, QScriptProgram> scripts;
 #else
@@ -1088,7 +1088,7 @@ void DocumentValidator::updateEffects()
             QString identifier = fileName;
             // remove extension (".js")
             identifier.chop(3);
-            paths.insert(identifier, KUrl(directoryName + fileName));
+            paths.insert(identifier, QUrl(directoryName + fileName));
         }
     }
 

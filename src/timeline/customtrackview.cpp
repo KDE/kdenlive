@@ -46,20 +46,17 @@
 
 #include <KDebug>
 #include <KLocalizedString>
-#include <KUrl>
-#include <KIcon>
+#include <QUrl>
+#include <QIcon>
 #include <KCursor>
 #include <KMessageBox>
 #include <KIO/NetAccess>
 #include <KFileDialog>
 
 #include <QMouseEvent>
-#include <QStylePainter>
 #include <QGraphicsItem>
-#include <QDomDocument>
 #include <QScrollBar>
 #include <QApplication>
-#include <QInputDialog>
 
 
 #if QT_VERSION >= 0x040600
@@ -173,10 +170,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     m_thumbsTimer.setInterval(500);
     m_thumbsTimer.setSingleShot(true);
 
-    KIcon razorIcon("edit-cut");
+    QIcon razorIcon = QIcon::fromTheme("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
 
-    KIcon spacerIcon("kdenlive-spacer-tool");
+    QIcon spacerIcon = QIcon::fromTheme("kdenlive-spacer-tool");
     m_spacerCursor = QCursor(spacerIcon.pixmap(32, 32));
 }
 
@@ -234,11 +231,11 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
     }
 
     m_timelineContextMenu->addSeparator();
-    m_deleteGuide = new KAction(KIcon("edit-delete"), i18n("Delete Guide"), this);
+    m_deleteGuide = new QAction(QIcon::fromTheme("edit-delete"), i18n("Delete Guide"), this);
     connect(m_deleteGuide, SIGNAL(triggered()), this, SLOT(slotDeleteTimeLineGuide()));
     m_timelineContextMenu->addAction(m_deleteGuide);
 
-    m_editGuide = new KAction(KIcon("document-properties"), i18n("Edit Guide"), this);
+    m_editGuide = new QAction(QIcon::fromTheme("document-properties"), i18n("Edit Guide"), this);
     connect(m_editGuide, SIGNAL(triggered()), this, SLOT(slotEditTimeLineGuide()));
     m_timelineContextMenu->addAction(m_editGuide);
 }
@@ -673,13 +670,13 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 }
             }
         } else if (opMode == ResizeStart) {
-            setCursor(KCursor("left_side", Qt::SizeHorCursor));
+            setCursor(QCursor(Qt::SizeHorCursor));
             if (ci)
                 message = i18n("Crop from start: ") + m_document->timecode().getDisplayTimecode(ci->cropStart(), KdenliveSettings::frametimecode());
             if (item->type() == AVWidget && item->parentItem() && item->parentItem() != m_selectionGroup)
                 message.append(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."));
         } else if (opMode == ResizeEnd) {
-            setCursor(KCursor("right_side", Qt::SizeHorCursor));
+            setCursor(QCursor(Qt::SizeHorCursor));
             if (ci)
                 message = i18n("Duration: ") + m_document->timecode().getDisplayTimecode(ci->cropDuration(), KdenliveSettings::frametimecode());
             if (item->type() == AVWidget && item->parentItem() && item->parentItem() != m_selectionGroup)
@@ -5456,13 +5453,13 @@ void CustomTrackView::slotSaveClipMarkers(const QString &id)
             cbox->setItemData(i + 1, CommentedTime::markerColor(i), Qt::DecorationRole);
         }
         cbox->setCurrentIndex(0);
-        QPointer<KFileDialog> fd = new KFileDialog(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
+        QPointer<KFileDialog> fd = new KFileDialog(QUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
         fd->setMode(KFile::File);
         fd->setOperationMode(KFileDialog::Saving);
         if (fd->exec() != QDialog::Accepted) return;
         QString url = fd->selectedFile();
         delete fd;
-        //QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
+        //QString url = KFileDialog::getSaveFileName(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
         if (url.isEmpty()) return;
 
         QString data;
@@ -5499,20 +5496,20 @@ void CustomTrackView::slotLoadClipMarkers(const QString &id)
         cbox->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
     }
     cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
-    QPointer<KFileDialog> fd = new KFileDialog(KUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
+    QPointer<KFileDialog> fd = new KFileDialog(QUrl("kfiledialog:///projectfolder"), "text/plain", this, cbox);
     fd->setMode(KFile::File);
     fd->setOperationMode(KFileDialog::Opening);
     if (fd->exec() != QDialog::Accepted) return;
     QString url = fd->selectedFile();
     delete fd;
 
-    //KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
+    //QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
     if (url.isEmpty()) return;
     int category = cbox->currentIndex();
     delete cbox;
     QFile file(url);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        emit displayMessage(i18n("Cannot open file %1", KUrl(url).fileName()), ErrorMessage);
+        emit displayMessage(i18n("Cannot open file %1", QUrl(url).fileName()), ErrorMessage);
         return;
     }
     QString data = QString::fromUtf8(file.readAll());
@@ -6288,7 +6285,7 @@ void CustomTrackView::slotUpdateAllThumbs()
                     QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
                     if (QFile::exists(thumb)) {
                         QPixmap pix(thumb);
-                        if (pix.isNull()) KIO::NetAccess::del(KUrl(thumb), this);
+                        if (pix.isNull()) KIO::NetAccess::del(QUrl(thumb), this);
                         item->slotSetStartThumb(pix);
                     }
                 } else {
@@ -6298,12 +6295,12 @@ void CustomTrackView::slotUpdateAllThumbs()
                     endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
                     if (QFile::exists(startThumb)) {
                         QPixmap pix(startThumb);
-                        if (pix.isNull()) KIO::NetAccess::del(KUrl(startThumb), this);
+                        if (pix.isNull()) KIO::NetAccess::del(QUrl(startThumb), this);
                         item->slotSetStartThumb(pix);
                     }
                     if (QFile::exists(endThumb)) {
                         QPixmap pix(endThumb);
-                        if (pix.isNull()) KIO::NetAccess::del(KUrl(endThumb), this);
+                        if (pix.isNull()) KIO::NetAccess::del(QUrl(endThumb), this);
                         item->slotSetEndThumb(pix);
                     }
                 }
@@ -7128,7 +7125,7 @@ QStringList CustomTrackView::extractTransitionsLumas()
             // luma files in transitions can be in "resource" or "luma" property
             QString luma = EffectsList::parameter(transitionXml, "luma");
             if (luma.isEmpty()) luma = EffectsList::parameter(transitionXml, "resource");
-            if (!luma.isEmpty()) urls << KUrl(luma).path();
+            if (!luma.isEmpty()) urls << QUrl(luma).path();
         }
     }
     urls.removeDuplicates();

@@ -34,7 +34,7 @@
 #include <QDomElement>
 #include <QToolBar>
 
-#include <KIcon>
+#include <QIcon>
 
 class SmallRuler;
 class DocClipBase;
@@ -119,8 +119,8 @@ private:
     Overlay *m_overlay;
     int m_length;
     bool m_dragStarted;
-    KIcon m_playIcon;
-    KIcon m_pauseIcon;
+    QIcon m_playIcon;
+    QIcon m_pauseIcon;
     TimecodeDisplay *m_timePos;
     TwostateAction *m_playAction;
     /** Has to be available so we can enable and disable it. */

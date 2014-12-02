@@ -24,11 +24,12 @@
 
 #include <mlt++/Mlt.h>
 
-#include <KUrlRequester>
 #include <KDebug>
 #include <KStandardDirs>
-#include <KFileItem>
 #include <KFileDialog>
+#include <KGlobal>
+#include <KConfigGroup>
+#include <kio/global.h>
 
 #include <QHBoxLayout>
 #include <QDomDocument>
@@ -70,10 +71,10 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_installCheck(true)
 {
     m_view.setupUi(this);
-    m_view.button_add->setIcon(KIcon("list-add"));
-    m_view.button_delete->setIcon(KIcon("list-remove"));
-    m_view.button_up->setIcon(KIcon("go-up"));
-    m_view.button_down->setIcon(KIcon("go-down"));
+    m_view.button_add->setIcon(QIcon::fromTheme("list-add"));
+    m_view.button_delete->setIcon(QIcon::fromTheme("list-remove"));
+    m_view.button_up->setIcon(QIcon::fromTheme("go-up"));
+    m_view.button_down->setIcon(QIcon::fromTheme("go-down"));
     m_vobList = new DvdTreeWidget(this);
     QVBoxLayout *lay1 = new QVBoxLayout;
     lay1->addWidget(m_vobList);
@@ -176,15 +177,15 @@ void DvdWizardVob::slotCheckProfiles()
 void DvdWizardVob::slotAddVobList(const QList<QUrl> &list)
 {
     foreach (const QUrl &url, list) {
-        slotAddVobFile(KUrl(url), QString(), false);
+        slotAddVobFile(QUrl(url), QString(), false);
     }
     slotCheckVobList();
     slotCheckProfiles();
 }
 
-void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkFormats)
+void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkFormats)
 {
-    if (url.isEmpty()) url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "video/mpeg", this, i18n("Add new video file"));
+    if (url.isEmpty()) url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "video/mpeg", this, i18n("Add new video file"));
     if (url.isEmpty()) return;
     QFile f(url.path());
     qint64 fileSize = f.size();
@@ -193,7 +194,7 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters, bool checkF
     profile.set_explicit(false);
     QTreeWidgetItem *item = new QTreeWidgetItem(m_vobList, QStringList() << url.path() << QString() << KIO::convertSize(fileSize));
     item->setData(2, Qt::UserRole, fileSize);
-    item->setData(0, Qt::DecorationRole, KIcon("video-x-generic").pixmap(60, 45));
+    item->setData(0, Qt::DecorationRole, QIcon::fromTheme("video-x-generic").pixmap(60, 45));
     item->setToolTip(0, url.path());
 
     QString resource = url.path();
@@ -307,7 +308,7 @@ bool DvdWizardVob::isComplete() const
 
 void DvdWizardVob::setUrl(const QString &url)
 {
-    slotAddVobFile(KUrl(url));
+    slotAddVobFile(QUrl(url));
 }
 
 QStringList DvdWizardVob::selectedUrls() const
@@ -565,8 +566,8 @@ void DvdWizardVob::slotTranscodeFiles()
                 if (conv_pad %2 == 1) conv_pad --;
                 postParams << "-vf" << QString("scale=%1:%2,pad=%3:%4:%5:0,setdar=%6").arg(finalSize.width() - 2 * conv_pad).arg(destSize.height()).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
             }
-            ClipTranscode *d = new ClipTranscode(KUrl::List () << KUrl(item->text(0)), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
-            connect(d, SIGNAL(transcodedClip(KUrl,KUrl)), this, SLOT(slotTranscodedClip(KUrl,KUrl)));
+            ClipTranscode *d = new ClipTranscode(QList<QUrl> () << QUrl(item->text(0)), params.section(';', 0, 0), postParams, i18n("Transcoding to DVD format"), true, this);
+            connect(d, SIGNAL(transcodedClip(QUrl,QUrl)), this, SLOT(slotTranscodedClip(QUrl,QUrl)));
             d->slotStartTransCode();
             d->show();
 
@@ -574,7 +575,7 @@ void DvdWizardVob::slotTranscodeFiles()
     }
 }
 
-void DvdWizardVob::slotTranscodedClip(KUrl src, KUrl transcoded)
+void DvdWizardVob::slotTranscodedClip(QUrl src, QUrl transcoded)
 {
     if (transcoded.isEmpty()) {
         // Transcoding canceled or failed
@@ -584,7 +585,7 @@ void DvdWizardVob::slotTranscodedClip(KUrl src, KUrl transcoded)
     int max = m_vobList->topLevelItemCount();
     for (int i = 0; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
-        if (KUrl(item->text(0)).path() == src.path()) {
+        if (QUrl(item->text(0)).path() == src.path()) {
             // Replace movie with transcoded version
             item->setText(0, transcoded.path());
 
@@ -595,7 +596,7 @@ void DvdWizardVob::slotTranscodedClip(KUrl src, KUrl transcoded)
             profile.set_explicit(false);
             item->setText(2, KIO::convertSize(fileSize));
             item->setData(2, Qt::UserRole, fileSize);
-            item->setData(0, Qt::DecorationRole, KIcon("video-x-generic").pixmap(60, 45));
+            item->setData(0, Qt::DecorationRole, QIcon::fromTheme("video-x-generic").pixmap(60, 45));
             item->setToolTip(0, transcoded.path());
 
             QString resource = transcoded.path();

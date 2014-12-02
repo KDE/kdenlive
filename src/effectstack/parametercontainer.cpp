@@ -49,7 +49,6 @@
 #include "ui_fontval_ui.h"
 
 #include <KUrlRequester>
-#include <KFileDialog>
 
 #include <QMap>
 #include <QString>
@@ -420,11 +419,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             cval->setupUi(toFillin);
             cval->label->setText(paramName);
 	    cval->setToolTip(comment);
-            cval->urlwidget->fileDialog()->setFilter(ProjectList::getExtensions());
+            cval->urlwidget->fileDialog()->setMimeTypeFilters(ProjectList::getExtensions());
             m_valueItems[paramName] = cval;
-            cval->urlwidget->setUrl(KUrl(value));
+            cval->urlwidget->setUrl(QUrl(value));
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(slotCollectAllParameters()));
-            connect(cval->urlwidget, SIGNAL(urlSelected(KUrl)) , this, SLOT(slotCollectAllParameters()));
+            connect(cval->urlwidget, SIGNAL(urlSelected(QUrl)) , this, SLOT(slotCollectAllParameters()));
             m_uiItems.append(cval);
 	} else if (type == "keywords") {
             Keywordval* kval = new Keywordval;

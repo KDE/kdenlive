@@ -10,10 +10,12 @@
 
 #include "rgbparade.h"
 #include "rgbparadegenerator.h"
-#include <QMenu>
 #include <QPainter>
 #include <QRect>
 #include <QTime>
+#include <KGlobal>
+#include <KSharedConfigPtr>
+#include <KConfigGroup>
 
 RGBParade::RGBParade(QWidget *parent) :
         AbstractGfxScopeWidget(true, parent)

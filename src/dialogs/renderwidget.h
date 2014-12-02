@@ -125,7 +125,7 @@ public:
     void reloadProfiles();
     void setRenderProfile(const QMap <QString, QString>& props);
     int waitingJobsCount() const;
-    QString getFreeScriptName(const KUrl &projectName = KUrl(), const QString &prefix = QString());
+    QString getFreeScriptName(const QUrl &projectName = QUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
     void missingClips(bool hasMissing);
     /** @brief Returns true if the export audio checkbox is set to automatic. */
@@ -145,7 +145,7 @@ public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap <QString, QString> &metadata, const QString &playlistPath, const QString &scriptPath, bool exportAudio);
 
 private slots:
-    void slotUpdateButtons(const KUrl &url);
+    void slotUpdateButtons(const QUrl &url);
     void slotUpdateButtons();
     void refreshView(const QString &profile = QString());
     void refreshCategory(const QString &group = QString(), const QString &profile = QString());
@@ -198,7 +198,7 @@ private:
     void parseProfiles(const QString &meta = QString(), const QString &group = QString(), const QString &profile = QString());
     void parseFile(const QString &exportFile, bool editable);
     void updateButtons();
-    KUrl filenameWithExtension(KUrl url, const QString &extension);
+    QUrl filenameWithExtension(QUrl url, const QString &extension);
     /** @brief Check if a job needs to be started. */
     void checkRenderStatus();
     void startRendering(RenderJobItem *item);

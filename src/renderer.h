@@ -40,7 +40,7 @@
 
 #include <mlt/framework/mlt_types.h>
 
-#include <kurl.h>
+#include <QUrl>
 
 #include <QtXml/qdom.h>
 #include <QString>
@@ -165,10 +165,10 @@ class Render: public AbstractRender
     bool playZone(const GenTime & startTime, const GenTime & stopTime);
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
 
-    void saveZone(KUrl url, QString desc, QPoint zone);
+    void saveZone(QUrl url, QString desc, QPoint zone);
     
     /** @brief Save a clip in timeline to an xml playlist. */
-    bool saveClip(int track, const GenTime &position, const KUrl &url, const QString &desc = QString());
+    bool saveClip(int track, const GenTime &position, const QUrl &url, const QString &desc = QString());
 
     /** @brief Return true if we are currently playing */
     bool isPlaying() const;
@@ -468,7 +468,7 @@ signals:
      * Used in Mac OS X. */
     void showImageSignal(QImage);
     void showAudioSignal(const QVector<double> &);
-    void addClip(const KUrl &, stringMap);
+    void addClip(const QUrl &, stringMap);
     void checkSeeking();
     /** @brief Activate current monitor. */
     void activateMonitor(Kdenlive::MonitorId);
@@ -485,7 +485,7 @@ public slots:
     int getLength();
 
     /** @brief Checks if the file is readable by MLT. */
-    bool isValid(const KUrl &url);
+    bool isValid(const QUrl &url);
 
     void slotSplitView(bool doit);
     void slotSwitchFullscreen();

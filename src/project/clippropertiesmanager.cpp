@@ -24,7 +24,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline/trackview.h"
 #include "timeline/customtrackview.h"
 #include "ui_templateclip_ui.h"
-#include <KFileDialog>
 #include <KMessageBox>
 
 
@@ -40,7 +39,7 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
     KdenliveDoc *project = pCore->projectManager()->current();
 
     if (clip->clipType() == Text) {
-        QString titlepath = project->projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
+        QString titlepath = project->projectFolder().path() + QDir::separator() + "titles/";
         if (!clip->getProperty("resource").isEmpty() && clip->getProperty("xmldata").isEmpty()) {
             // template text clip
 
@@ -56,14 +55,14 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
             const QString templatePath = clip->getProperty("resource");
             for (int i = 0; i < templateFiles.size(); ++i) {
                 dia_ui.template_list->comboBox()->addItem(templateFiles.at(i), titlepath + templateFiles.at(i));
-                if (templatePath == KUrl(titlepath + templateFiles.at(i)).path()) ix = i;
+                if (templatePath == QUrl(titlepath + templateFiles.at(i)).path()) ix = i;
             }
             if (ix != -1) dia_ui.template_list->comboBox()->setCurrentIndex(ix);
             else dia_ui.template_list->comboBox()->insertItem(0, templatePath);
-            dia_ui.template_list->fileDialog()->setFilter("*.kdenlivetitle");
+            dia_ui.template_list->fileDialog()->setNameFilter("*.kdenlivetitle");
             //warning: setting base directory doesn't work??
-            KUrl startDir(titlepath);
-            dia_ui.template_list->fileDialog()->setUrl(startDir);
+
+            dia_ui.template_list->fileDialog()->setDirectory(titlepath);
             dia_ui.description->setText(clip->getProperty("description"));
             if (dia->exec() == QDialog::Accepted) {
                 QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();
@@ -73,7 +72,7 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
 
                 QMap <QString, QString> newprops;
 
-                if (KUrl(textTemplate).path() != templatePath) {
+                if (QUrl(textTemplate).path() != templatePath) {
                     // The template was changed
                     newprops.insert("resource", textTemplate);
                 }
@@ -104,7 +103,7 @@ void ClipPropertiesManager::showClipPropertiesDialog(DocClipBase* clip)
             return;
         }
         QString path = clip->getProperty("resource");
-        QPointer<TitleWidget> dia_ui = new TitleWidget(KUrl(), project->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
+        QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl(), project->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
         QDomDocument doc;
         doc.setContent(clip->getProperty("xmldata"));
         dia_ui->setXml(doc);

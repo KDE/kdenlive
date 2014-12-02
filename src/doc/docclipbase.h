@@ -23,13 +23,11 @@
   */
 
 #include <QtXml/qdom.h>
-#include <QPixmap>
 #include <QObject>
 #include <QTimer>
-#include <QProcess>
-#include <QFuture>
+#include <QMutex>
 
-#include <KUrl>
+#include <QUrl>
 
 #include "gentime.h"
 #include "definitions.h"
@@ -102,7 +100,7 @@ public:
     /** Returns a url to a file describing this clip. Exactly what this url is,
     whether it is temporary or not, and whether it provokes a render will
     depend entirely on what the clip consists of. */
-    KUrl fileURL() const;
+    QUrl fileURL() const;
 
     /** Returns true if the clip duration is known, false otherwise. */
     bool durationKnown() const;

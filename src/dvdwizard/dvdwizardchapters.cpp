@@ -21,7 +21,6 @@
 
 #include <KDebug>
 
-#include <QFile>
 
 DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :
     QWizardPage(parent),

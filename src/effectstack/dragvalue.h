@@ -23,7 +23,6 @@
 #include <kselectaction.h>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
-#include <QLabel>
 #include <QProgressBar>
 
 class QAction;

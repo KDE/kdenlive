@@ -21,6 +21,7 @@
 #ifndef ENCODINGPROFILESDIALOG_H
 #define ENCODINGPROFILESDIALOG_H
 
+#include <KConfigGroup>
 
 #include "definitions.h"
 #include "ui_manageencodingprofile_ui.h"

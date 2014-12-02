@@ -57,7 +57,7 @@ private:
     QString m_thumbsPath;
 
 signals:
-    void addClip(const KUrl &, const QString &);
+    void addClip(const QUrl &, const QString &);
 };
 
 

@@ -23,7 +23,7 @@
 #include "doc/kdenlivedoc.h"
 
 #include <KDebug>
-#include <KUrl>
+#include <QUrl>
 #include <KLocalizedString>
 
 #include <mlt++/Mlt.h>
@@ -54,7 +54,7 @@ MeltJob::MeltJob(ClipType cType, const QString &id, const QStringList &parameter
         m_dest = consum.section(QLatin1Char(':'), 1);
 }
 
-void MeltJob::setProducer(Mlt::Producer *producer, const KUrl &url)
+void MeltJob::setProducer(Mlt::Producer *producer, const QUrl &url)
 {
     //FIX stabilize in proxy clips?
     //m_url = QString::fromUtf8(producer->get("resource"));

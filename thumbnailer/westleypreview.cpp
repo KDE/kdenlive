@@ -26,11 +26,9 @@
 
 #include <kstandarddirs.h>
 #include <krandomsequence.h>
-#include <QDateTime>
 #include <kdebug.h>
 #include <ktempdir.h>
 #include <kurl.h>
-#include <QFileInfo>
 
 #include <unistd.h>
 

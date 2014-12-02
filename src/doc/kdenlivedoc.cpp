@@ -58,13 +58,14 @@
 #include <QUndoStack>
 
 #include <mlt++/Mlt.h>
+#include <KJobWidgets/KJobWidgets>
 
 #include "locale.h"
 
 
 const double DOCUMENTVERSION = 0.88;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
+KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent, KProgressDialog *progressDialog) :
     QObject(parent),
     m_autosave(NULL),
     m_url(url),
@@ -331,7 +332,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                     infoXml.removeChild(markers);
                                 }
 
-                                m_projectFolder = KUrl(infoXml.attribute("projectfolder"));
+                                m_projectFolder = QUrl(infoXml.attribute("projectfolder"));
                                 QDomElement docproperties = infoXml.firstChildElement("documentproperties");
                                 QDomNamedNodeMap props = docproperties.attributes();
                                 for (int i = 0; i < props.count(); ++i)
@@ -374,19 +375,19 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     // Make sure the project folder is usable
     if (m_projectFolder.isEmpty() || !KIO::NetAccess::exists(m_projectFolder.path(), KIO::NetAccess::DestinationSide, parent)) {
         KMessageBox::information(parent, i18n("Document project folder is invalid, setting it to the default one: %1", KdenliveSettings::defaultprojectfolder()));
-        m_projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
+        m_projectFolder = QUrl(KdenliveSettings::defaultprojectfolder());
     }
 
     // Make sure that the necessary folders exist
-    KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "titles/");
-    KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/");
-    KStandardDirs::makeDir(m_projectFolder.path(KUrl::AddTrailingSlash) + "proxy/");
+    KStandardDirs::makeDir(m_projectFolder.path() + QDir::separator() + "titles/");
+    KStandardDirs::makeDir(m_projectFolder.path() + QDir::separator() + "thumbs/");
+    KStandardDirs::makeDir(m_projectFolder.path() + QDir::separator() + "proxy/");
 
     updateProjectFolderPlacesEntry();
 
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
-    connect(m_render, SIGNAL(addClip(KUrl,stringMap)), this, SLOT(slotAddClipFile(KUrl,stringMap)));
+    connect(m_render, SIGNAL(addClip(QUrl,stringMap)), this, SLOT(slotAddClipFile(QUrl,stringMap)));
 }
 
 KdenliveDoc::~KdenliveDoc()
@@ -814,13 +815,15 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, const
     if (!autosave) {
         cleanupBackupFiles();
         QFileInfo info(file);
-        QString fileName = KUrl(path).fileName().section('.', 0, -2);
+        QString fileName = QUrl(path).fileName().section('.', 0, -2);
         fileName.append('-' + m_documentProperties.value("documentid"));
         fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
         fileName.append(".kdenlive.png");
-        KUrl backupFile = m_projectFolder;
-        backupFile.addPath(".backup/");
-        backupFile.addPath(fileName);
+        QUrl backupFile = m_projectFolder;
+        backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
+        backupFile.setPath(backupFile.path() + '/' + ".backup/");
+        backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
+        backupFile.setPath(backupFile.path() + '/' + fileName);
         emit saveTimelinePreview(backupFile.path());
     }
     return true;
@@ -831,56 +834,56 @@ ClipManager *KdenliveDoc::clipManager()
     return m_clipManager;
 }
 
-KUrl KdenliveDoc::projectFolder() const
+QUrl KdenliveDoc::projectFolder() const
 {
-    //if (m_projectFolder.isEmpty()) return KUrl(KStandardDirs::locateLocal("appdata", "/projects/"));
+    //if (m_projectFolder.isEmpty()) return QUrl(KStandardDirs::locateLocal("appdata", "/projects/"));
     return m_projectFolder;
 }
 
-void KdenliveDoc::setProjectFolder(KUrl url)
+void KdenliveDoc::setProjectFolder(QUrl url)
 {
     if (url == m_projectFolder) return;
     setModified(true);
     KStandardDirs::makeDir(url.path());
-    KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "titles/");
-    KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "thumbs/");
-    KStandardDirs::makeDir(url.path(KUrl::AddTrailingSlash) + "proxy/");
+    KStandardDirs::makeDir(url.path() + QDir::separator() + "titles/");
+    KStandardDirs::makeDir(url.path() + QDir::separator() + "thumbs/");
+    KStandardDirs::makeDir(url.path() + QDir::separator() + "proxy/");
     if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
 
     updateProjectFolderPlacesEntry();
 }
 
-void KdenliveDoc::moveProjectData(const KUrl &url)
+void KdenliveDoc::moveProjectData(const QUrl &url)
 {
     QList <DocClipBase*> list = m_clipManager->documentClipList();
-    KUrl::List cacheUrls;
+    QList<QUrl> cacheUrls;
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->clipType() == Text) {
             // the image for title clip must be moved
-            KUrl oldUrl = clip->fileURL();
-            KUrl newUrl = KUrl(url.path(KUrl::AddTrailingSlash) + "titles/" + oldUrl.fileName());
+            QUrl oldUrl = clip->fileURL();
+            QUrl newUrl = QUrl(url.path() + QDir::separator() + "titles/" + oldUrl.fileName());
             KIO::Job *job = KIO::copy(oldUrl, newUrl);
             if (KIO::NetAccess::synchronousRun(job, 0)) clip->setProperty("resource", newUrl.path());
         }
         QString hash = clip->getClipHash();
-        KUrl oldVideoThumbUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".png");
+        QUrl oldVideoThumbUrl = QUrl(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".png");
         if (KIO::NetAccess::exists(oldVideoThumbUrl, KIO::NetAccess::SourceSide, 0)) {
             cacheUrls << oldVideoThumbUrl;
         }
-        KUrl oldAudioThumbUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + hash + ".thumb");
+        QUrl oldAudioThumbUrl = QUrl(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".thumb");
         if (KIO::NetAccess::exists(oldAudioThumbUrl, KIO::NetAccess::SourceSide, 0)) {
             cacheUrls << oldAudioThumbUrl;
         }
-        KUrl oldVideoProxyUrl = KUrl(m_projectFolder.path(KUrl::AddTrailingSlash) + "proxy/" + hash + '.' + KdenliveSettings::proxyextension());
+        QUrl oldVideoProxyUrl = QUrl(m_projectFolder.path() + QDir::separator() + "proxy/" + hash + '.' + KdenliveSettings::proxyextension());
         if (KIO::NetAccess::exists(oldVideoProxyUrl, KIO::NetAccess::SourceSide, 0)) {
             cacheUrls << oldVideoProxyUrl;
         }
     }
     if (!cacheUrls.isEmpty()) {
-        KIO::Job *job = KIO::copy(cacheUrls, KUrl(url.path(KUrl::AddTrailingSlash) + "thumbs/"));
-        job->ui()->setWindow(kapp->activeWindow());
+        KIO::Job *job = KIO::copy(cacheUrls, QUrl(url.path() + QDir::separator() + "thumbs/"));
+        KJobWidgets::setWindow(job, kapp->activeWindow());
         KIO::NetAccess::synchronousRun(job, 0);
     }
 }
@@ -1046,12 +1049,12 @@ int KdenliveDoc::height() const
     return m_height;
 }
 
-KUrl KdenliveDoc::url() const
+QUrl KdenliveDoc::url() const
 {
     return m_url;
 }
 
-void KdenliveDoc::setUrl(const KUrl &url)
+void KdenliveDoc::setUrl(const QUrl &url)
 {
     m_url = url;
 }
@@ -1089,8 +1092,9 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
         QString path = elem.attribute("resource");
         QString extension;
         if (elem.attribute("type").toInt() == SlideShow) {
-            extension = KUrl(path).fileName();
-            path = KUrl(path).directory();
+            QFileInfo f(path);
+            extension = f.fileName();
+            path = f.filePath();
         }
         if (elem.hasAttribute("_missingsource")) {
             // Clip has proxy but missing original source
@@ -1110,7 +1114,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 if (elem.attribute("type").toInt() == SlideShow) {
                     int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
-                        newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Looking for %1", path));
+                        newpath = KFileDialog::getExistingDirectory(QUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Looking for %1", path));
                     else {
                         // Abort project loading
                         action = res;
@@ -1118,7 +1122,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
                 } else {
                     int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
-                        newpath = KFileDialog::getOpenFileName(KUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
+                        newpath = KFileDialog::getOpenFileName(QUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
                     else {
                         // Abort project loading
                         action = res;
@@ -1127,7 +1131,7 @@ bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId, bool createCl
             }
             if (action == KMessageBox::Yes) {
                 kDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
-                m_searchFolder = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow());
+                m_searchFolder = KFileDialog::getExistingDirectory(QUrl("kfiledialog:///clipfolder"), kapp->activeWindow());
                 if (!m_searchFolder.isEmpty())
                     newpath = searchFileRecursively(QDir(m_searchFolder), size, hash);
             } else if (action == KMessageBox::Cancel) {
@@ -1258,7 +1262,7 @@ void KdenliveDoc::deleteClip(const QString &clipId)
     emit signalDeleteProjectClip(clipId);
 }
 
-void KdenliveDoc::slotAddClipList(const KUrl::List &urls, const stringMap &data)
+void KdenliveDoc::slotAddClipList(const QList<QUrl> &urls, const stringMap &data)
 {
     m_clipManager->slotAddClipList(urls, data);
     //emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
@@ -1266,7 +1270,7 @@ void KdenliveDoc::slotAddClipList(const KUrl::List &urls, const stringMap &data)
 }
 
 
-void KdenliveDoc::slotAddClipFile(const KUrl &url, const stringMap &data)
+void KdenliveDoc::slotAddClipFile(const QUrl &url, const stringMap &data)
 {
     m_clipManager->slotAddClipFile(url, data);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
@@ -1306,7 +1310,7 @@ void KdenliveDoc::slotCreateSlideshowClipFile(const QMap <QString, QString> &pro
 
 void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath)
 {
-    QString titlesFolder = projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
+    QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
     KStandardDirs::makeDir(titlesFolder);
     QPointer<TitleWidget> dia_ui = new TitleWidget(templatePath, m_timecode, titlesFolder, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
@@ -1317,11 +1321,11 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, cons
     delete dia_ui;
 }
 
-void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, KUrl path)
+void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path)
 {
-    QString titlesFolder = projectFolder().path(KUrl::AddTrailingSlash) + "titles/";
+    QString titlesFolder = QDir::cleanPath(projectFolder().path() + QDir::separator() + "titles/");
     if (path.isEmpty()) {
-        path = KFileDialog::getOpenUrl(KUrl(titlesFolder), "application/x-kdenlivetitle", kapp->activeWindow(), i18n("Enter Template Path"));
+        path = KFileDialog::getOpenUrl(QUrl(titlesFolder), "application/x-kdenlivetitle", kapp->activeWindow(), i18n("Enter Template Path"));
     }
 
     if (path.isEmpty()) return;
@@ -1438,7 +1442,7 @@ QPoint KdenliveDoc::getTracksCount() const
 
 void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
 {
-    img.save(m_projectFolder.path(KUrl::AddTrailingSlash) + "thumbs/" + fileId + ".png");
+    img.save(QDir::cleanPath(m_projectFolder.path() +QDir::separator() + "thumbs/" + fileId + ".png"));
 }
 
 bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)
@@ -1461,8 +1465,8 @@ bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)
             }
             id = e.attribute("id");
             resource = e.attribute("resource");
-            if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
-            if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
+            if (clipType == SLIDESHOW) resource = QUrl(resource).directory();
+            if (!KIO::NetAccess::exists(QUrl(resource), KIO::NetAccess::SourceSide, 0)) {
                 // Missing clip found
                 missingClips.append(e);
             } else {
@@ -1664,7 +1668,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
     KBookmark bookmark = root.first();
 
     QString kdenliveName = KGlobal::mainComponent().componentName();
-    KUrl documentLocation = m_projectFolder;
+    QUrl documentLocation = m_projectFolder;
 
     bool exists = false;
 
@@ -1730,15 +1734,17 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     // Ensure backup folder exists
     if (path.isEmpty()) return;
     QFile file(path);
-    KUrl backupFile = m_projectFolder;
-    backupFile.addPath(".backup/");
+    QUrl backupFile = m_projectFolder;
+    backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
+    backupFile.setPath(backupFile.path() + '/' + ".backup/");
     KIO::NetAccess::mkdir(backupFile, kapp->activeWindow());
-    QString fileName = KUrl(path).fileName().section('.', 0, -2);
+    QString fileName = QUrl(path).fileName().section('.', 0, -2);
     QFileInfo info(file);
     fileName.append('-' + m_documentProperties.value("documentid"));
     fileName.append(info.lastModified().toString("-yyyy-MM-dd-hh-mm"));
     fileName.append(".kdenlive");
-    backupFile.addPath(fileName);
+    backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
+    backupFile.setPath(backupFile.path() + '/' + fileName);
 
     if (file.exists()) {
         // delete previous backup if it was done less than 60 seconds ago
@@ -1751,8 +1757,9 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
 
 void KdenliveDoc::cleanupBackupFiles()
 {
-    KUrl backupFile = m_projectFolder;
-    backupFile.addPath(".backup/");
+    QUrl backupFile = m_projectFolder;
+    backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
+    backupFile.setPath(backupFile.path() + '/' + ".backup/");
     QDir dir(backupFile.path());
     QString projectFile = url().fileName().section('.', 0, -2);
     projectFile.append('-' + m_documentProperties.value("documentid"));
@@ -1764,7 +1771,8 @@ void KdenliveDoc::cleanupBackupFiles()
     projectFile.append("-??.kdenlive");
 
     QStringList filter;
-    backupFile.addPath(projectFile);
+    backupFile = backupFile.adjusted(QUrl::StripTrailingSlash);
+    backupFile.setPath(backupFile.path() + '/' + projectFile);
     filter << projectFile;
     dir.setNameFilters(filter);
     QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);

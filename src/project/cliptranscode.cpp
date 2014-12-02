@@ -27,7 +27,7 @@
 #include <KFileDialog>
 
 
-ClipTranscode::ClipTranscode(const KUrl::List &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
+ClipTranscode::ClipTranscode(const QList <QUrl> &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
     QDialog(parent), m_urls(urls), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
 {
     setFont(KGlobalSettings::toolBarFont());
@@ -51,11 +51,11 @@ ClipTranscode::ClipTranscode(const KUrl::List &urls, const QString &params, cons
     if (m_urls.count() == 1) {
         QString fileName = m_urls.at(0).path(); //.section('.', 0, -1);
         QString newFile = params.section(' ', -1).replace("%1", fileName);
-        KUrl dest(newFile);
+        QUrl dest(newFile);
         source_url->setUrl(m_urls.at(0));
         dest_url->setMode(KFile::File);
         dest_url->setUrl(dest);
-        dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
+        dest_url->fileDialog()->setFileMode(QFileDialog::AnyFile);//OperationMode(KFileDialog::Saving);
         urls_list->setHidden(true);
         connect(source_url, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateParams()));
     } else {
@@ -63,8 +63,8 @@ ClipTranscode::ClipTranscode(const KUrl::List &urls, const QString &params, cons
         source_url->setHidden(true);
         label_dest->setText(i18n("Destination folder"));
         dest_url->setMode(KFile::Directory);
-        dest_url->setUrl(KUrl(m_urls.at(0).directory()));
-        dest_url->fileDialog()->setOperationMode(KFileDialog::Saving);
+        dest_url->setUrl(QUrl(m_urls.at(0).adjusted(QUrl::RemoveFilename)));
+        dest_url->fileDialog()->setFileMode(QFileDialog::Directory); //setOperationMode(KFileDialog::Saving);
         for (int i = 0; i < m_urls.count(); ++i)
             urls_list->addItem(m_urls.at(i).path());
     }
@@ -130,7 +130,7 @@ void ClipTranscode::slotStartTransCode()
     if (!m_urls.isEmpty() && urls_list->count() > 0) {
         // We are processing multiple clips
         source_url->setUrl(m_urls.takeFirst());
-        destination = dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName();
+        destination = dest_url->url().path() + QDir::separator() + source_url->url().fileName();
         QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
         if (matching.count() > 0) {
             matching.at(0)->setFlags(Qt::ItemIsSelectable);
@@ -147,7 +147,7 @@ void ClipTranscode::slotStartTransCode()
             // Abort operation
             if (m_automaticMode) {
                 // inform caller that we aborted
-                emit transcodedClip(source_url->url(), KUrl());
+                emit transcodedClip(source_url->url(), QUrl());
                 close();
             }
             return;
@@ -223,11 +223,11 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
         log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding finished."));
         if (auto_add->isChecked() || m_automaticMode) {
-            KUrl url;
+            QUrl url;
             if (urls_list->count() > 0) {
                 QString params = ffmpeg_params->toPlainText().simplified();
                 QString extension = params.section("%1", 1, 1).section(' ', 0, 0);
-                url = KUrl(dest_url->url().path(KUrl::AddTrailingSlash) + source_url->url().fileName() + extension);
+                url = QUrl(dest_url->url().path() + QDir::separator() + source_url->url().fileName() + extension);
             } else url = dest_url->url();
             if (m_automaticMode) emit transcodedClip(source_url->url(), url);
             else emit addClip(url);
@@ -280,7 +280,7 @@ void ClipTranscode::slotUpdateParams(int ix)
     }
     if (urls_list->count() == 0) {
         QString newFile = ffmpeg_params->toPlainText().simplified().section(' ', -1).replace("%1", fileName);
-        dest_url->setUrl(KUrl(newFile));
+        dest_url->setUrl(QUrl(newFile));
     }
 
 }

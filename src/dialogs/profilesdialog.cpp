@@ -25,6 +25,7 @@
 #include <KDebug>
 #include <KMessageBox>
 #include <KIO/NetAccess>
+#include <KGlobal>
 
 #include <QDir>
 #include <QScriptEngine>
@@ -47,11 +48,11 @@ ProfilesDialog::ProfilesDialog(QWidget * parent) :
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    m_view.button_delete->setIcon(KIcon("trash-empty"));
+    m_view.button_delete->setIcon(QIcon::fromTheme("trash-empty"));
     m_view.button_delete->setToolTip(i18n("Delete profile"));
-    m_view.button_save->setIcon(KIcon("document-save"));
+    m_view.button_save->setIcon(QIcon::fromTheme("document-save"));
     m_view.button_save->setToolTip(i18n("Save profile"));
-    m_view.button_create->setIcon(KIcon("document-new"));
+    m_view.button_create->setIcon(QIcon::fromTheme("document-new"));
     m_view.button_create->setToolTip(i18n("Create new profile"));
 
     fillList();
@@ -92,7 +93,7 @@ ProfilesDialog::ProfilesDialog(QString profilePath, QWidget * parent) :
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    m_view.button_save->setIcon(KIcon("document-save"));
+    m_view.button_save->setIcon(QIcon::fromTheme("document-save"));
     m_view.button_save->setToolTip(i18n("Save profile"));
     m_view.button_create->setHidden(true);
     m_view.profiles_list->setHidden(true);
@@ -201,7 +202,7 @@ bool ProfilesDialog::slotSaveProfile()
         QString customName = "profiles/customprofile";
         QString profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         kDebug() << " TYING PROFILE FILE: " << profilePath;
-        while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, this)) {
+        while (KIO::NetAccess::exists(QUrl(profilePath), KIO::NetAccess::SourceSide, this)) {
             ++i;
             profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         }
@@ -232,7 +233,7 @@ void ProfilesDialog::slotDeleteProfile()
 {
     const QString path = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     if (path.contains('/')) {
-        KIO::NetAccess::del(KUrl(path), this);
+        KIO::NetAccess::del(QUrl(path), this);
         fillList();
     } else kDebug() << "//// Cannot delete profile " << path << ", does not seem to be custom one";
 }
@@ -478,7 +479,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
         QString customName = "profiles/customprofile";
         profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         kDebug() << " TYING PROFILE FILE: " << profilePath;
-        while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, 0)) {
+        while (KIO::NetAccess::exists(QUrl(profilePath), KIO::NetAccess::SourceSide, 0)) {
             ++i;
             profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
         }

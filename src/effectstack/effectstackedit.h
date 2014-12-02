@@ -26,8 +26,6 @@
 
 #include <QWidget>
 #include <QDomElement>
-#include <QVBoxLayout>
-#include <QList>
 #include <QMap>
 #include <QScrollArea>
 

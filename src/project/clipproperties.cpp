@@ -30,8 +30,9 @@
 #include <KFileItem>
 #include <KFileDialog>
 #include <kdeversion.h>
-#include <KUrlLabel>
 #include <KRun>
+#include <KGlobalSettings>
+#include <KGlobal>
 
 #ifdef USE_NEPOMUK
   #if KDE_IS_VERSION(4,6,0)
@@ -51,6 +52,7 @@
 
 #include <QDir>
 #include <QPainter>
+#include <QFileDialog>
 
 
 static const int VIDEOTAB = 0;
@@ -80,7 +82,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     m_view.clip_force_transparency->setHidden(true);
     m_view.clip_transparency->setHidden(true);
     
-    KUrl url = m_clip->fileURL();
+    QUrl url = m_clip->fileURL();
     m_view.clip_path->setText(url.path());
     m_view.clip_description->setText(m_clip->description());
     connect(m_view.clip_description, SIGNAL(textChanged(QString)), this, SLOT(slotModified()));
@@ -230,7 +232,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
                 iconName = "meta_magiclantern.png";
             parent = new QTreeWidgetItem(m_view.metadata_list, QStringList() << parentName);
             if (!iconName.isEmpty()) {
-                KIcon icon(KStandardDirs::locate("appdata", iconName));
+                QIcon icon(KStandardDirs::locate("appdata", iconName));
                 parent->setIcon(0, icon);
             }
         }
@@ -268,7 +270,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     ClipType t = m_clip->clipType();
     
     if (props.contains("proxy") && props.value("proxy") != "-") {
-        KFileItem f(KFileItem::Unknown, KFileItem::Unknown, KUrl(props.value("proxy")), true);
+        KFileItem f(KFileItem::Unknown, KFileItem::Unknown, QUrl(props.value("proxy")), true);
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
@@ -333,7 +335,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     } else if (t == SlideShow) {
         if (url.fileName().startsWith(QLatin1String(".all."))) {
             // the image sequence is defined by mimetype
-            m_view.clip_path->setText(url.directory());
+            m_view.clip_path->setText(url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path());
         } else {
             // the image sequence is defined by pattern
             m_view.slide_type_label->setHidden(true);
@@ -403,8 +405,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         foreach(const QString & folder, customLumas) {
             QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
             foreach(const QString & fname, filesnames) {
-                QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-                m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
+                QString filePath = QUrl(folder + QDir::separator() + fname).path();
+                m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
             }
         }
 
@@ -415,8 +417,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         QDir lumafolder(folder);
         QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
-            QString filePath = KUrl(folder).path(KUrl::AddTrailingSlash) + fname;
-            m_view.luma_file->addItem(KIcon(filePath), fname, filePath);
+            QString filePath = QUrl(folder + QDir::separator() + fname).path();
+            m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
         }
 
         if (!lumaFile.isEmpty()) {
@@ -484,21 +486,21 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
     }
 
     // markers
-    m_view.marker_new->setIcon(KIcon("document-new"));
+    m_view.marker_new->setIcon(QIcon::fromTheme("document-new"));
     m_view.marker_new->setToolTip(i18n("Add marker"));
-    m_view.marker_edit->setIcon(KIcon("document-properties"));
+    m_view.marker_edit->setIcon(QIcon::fromTheme("document-properties"));
     m_view.marker_edit->setToolTip(i18n("Edit marker"));
-    m_view.marker_delete->setIcon(KIcon("trash-empty"));
+    m_view.marker_delete->setIcon(QIcon::fromTheme("trash-empty"));
     m_view.marker_delete->setToolTip(i18n("Delete marker"));
-    m_view.marker_save->setIcon(KIcon("document-save-as"));
+    m_view.marker_save->setIcon(QIcon::fromTheme("document-save-as"));
     m_view.marker_save->setToolTip(i18n("Save markers"));
-    m_view.marker_load->setIcon(KIcon("document-open"));
+    m_view.marker_load->setIcon(QIcon::fromTheme("document-open"));
     m_view.marker_load->setToolTip(i18n("Load markers"));
-    m_view.analysis_delete->setIcon(KIcon("trash-empty"));
+    m_view.analysis_delete->setIcon(QIcon::fromTheme("trash-empty"));
     m_view.analysis_delete->setToolTip(i18n("Delete analysis data"));
-    m_view.analysis_load->setIcon(KIcon("document-open"));
+    m_view.analysis_load->setIcon(QIcon::fromTheme("document-open"));
     m_view.analysis_load->setToolTip(i18n("Load analysis data"));
-    m_view.analysis_save->setIcon(KIcon("document-save-as"));
+    m_view.analysis_save->setIcon(QIcon::fromTheme("document-save-as"));
     m_view.analysis_save->setToolTip(i18n("Save analysis data"));
 
     // Check for Nepomuk metadata
@@ -924,7 +926,7 @@ void ClipProperties::slotDeleteAnalysis()
 
 void ClipProperties::slotSaveAnalysis()
 {
-    const QString url = KFileDialog::getSaveFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save Analysis Data"));
+    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), "kfiledialog:///projectfolder", "text/plain");
     if (url.isEmpty())
         return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
@@ -935,7 +937,7 @@ void ClipProperties::slotSaveAnalysis()
 
 void ClipProperties::slotLoadAnalysis()
 {
-    const QString url = KFileDialog::getOpenFileName(KUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Open Analysis Data"));
+    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), "kfiledialog:///projectfolder", "text/plain");
     if (url.isEmpty())
         return;
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
@@ -1185,7 +1187,7 @@ void ClipProperties::parseFolder(bool reloadThumb)
 {
     QString path = m_view.clip_path->text();
     bool isMime = !(path.contains('%'));
-    if (!isMime) path = KUrl(path).directory();
+    if (!isMime) path = QUrl(path).adjusted(QUrl::RemoveFilename).path();
     QDir dir(path);
 
     QStringList filters;
@@ -1208,7 +1210,7 @@ void ClipProperties::parseFolder(bool reloadThumb)
             offset = m_view.clip_path->text().section(':', -1).toInt();
             path = path.section('?', 0, 0);
         }
-        QString filter = KUrl(path).fileName();
+        QString filter = QUrl(path).fileName();
         QString ext = filter.section('.', -1);
         filter = filter.section('%', 0, -2);
         QString regexp = '^' + filter + "\\d+\\." + ext + '$';
@@ -1245,7 +1247,7 @@ void ClipProperties::parseFolder(bool reloadThumb)
         if (width % 2 == 1) width++;
         QString filePath = m_view.clip_path->text();
         if (isMime) filePath.append(extension);
-        QPixmap pix = m_clip->thumbProducer()->getImage(KUrl(filePath), 1, width, 180);
+        QPixmap pix = m_clip->thumbProducer()->getImage(QUrl(filePath), 1, width, 180);
         m_view.clip_thumb->setPixmap(pix);
     }
 }
@@ -1293,7 +1295,7 @@ void ClipProperties::slotDeleteProxy()
 
 void ClipProperties::slotOpenUrl(const QString &url)
 {
-    new KRun(KUrl(url), this);
+    new KRun(QUrl(url), this);
 }
 
 #include "clipproperties.moc"

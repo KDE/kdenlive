@@ -24,7 +24,6 @@
 // Qt
 #include <QListWidget>
 #include <QVBoxLayout>
-#include <QBoxLayout>
 #include <QLabel>
 
 // KDE

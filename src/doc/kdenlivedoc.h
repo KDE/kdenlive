@@ -27,7 +27,7 @@
 #include <QDir>
 #include <QObject>
 
-#include <KUrl>
+#include <QUrl>
 #include <kautosavefile.h>
 
 #include "gentime.h"
@@ -53,13 +53,13 @@ class KdenliveDoc: public QObject
     Q_OBJECT
 public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
+    KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = 0, KProgressDialog *progressDialog = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
     int width() const;
     int height() const;
-    KUrl url() const;
+    QUrl url() const;
     KAutoSaveFile *m_autosave;
     Timecode timecode() const;
     QDomDocument toXml();
@@ -83,7 +83,7 @@ public:
      *
      * If the clip wasn't added before, it tries to add it to the project. */
     bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
-    void slotAddClipList(const KUrl::List &urls, const stringMap &data = stringMap());
+    void slotAddClipList(const QList<QUrl> &urls, const stringMap &data = stringMap());
     void deleteClip(const QString &clipId);
     int getFramePos(const QString &duration);
     DocClipBase *getBaseClip(const QString &clipId);
@@ -94,7 +94,7 @@ public:
     const QString &profilePath() const;
     MltVideoProfile mltProfile() const;
     const QString description() const;
-    void setUrl(const KUrl &url);
+    void setUrl(const QUrl &url);
 
     /** @brief Updates the project profile.
      * @return true if frame rate was changed */
@@ -105,7 +105,7 @@ public:
     bool isModified() const;
 
     /** @brief Returns the project folder, used to store project files. */
-    KUrl projectFolder() const;
+    QUrl projectFolder() const;
     void syncGuides(const QList <Guide *> &guides);
     void setZoom(int horizontal, int vertical);
     QPoint zoom() const;
@@ -140,7 +140,7 @@ public:
      * It is the one stored in the track's TrackInfo. */
     int trackDuration(int ix);
     void cacheImage(const QString &fileId, const QImage &img) const;
-    void setProjectFolder(KUrl url);
+    void setProjectFolder(QUrl url);
     void setZone(int start, int end);
     QPoint zone() const;
     int setSceneList();
@@ -170,7 +170,7 @@ public:
     void setMetadata(const QMap <QString, QString>& meta);
     
 private:
-    KUrl m_url;
+    QUrl m_url;
     QDomDocument m_document;
     double m_fps;
     int m_width;
@@ -188,14 +188,14 @@ private:
     bool m_modified;
 
     /** @brief The project folder, used to store project files (titles, effects...). */
-    KUrl m_projectFolder;
+    QUrl m_projectFolder;
     QMap <QString, QString> m_documentProperties;
     QMap <QString, QString> m_documentMetadata;
 
     QList <TrackInfo> m_tracksList;
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
-    void moveProjectData(const KUrl &url);
+    void moveProjectData(const QUrl &url);
     bool checkDocumentClips(QDomNodeList infoproducers);
 
     /** @brief Creates a new project. */
@@ -215,13 +215,13 @@ public slots:
     void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
     void slotCreateSlideshowClipFile(const QMap<QString, QString> &properties, const QString &group, const QString &groupId);
     void slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath = QString());
-    void slotCreateTextTemplateClip(const QString &group, const QString &groupId, KUrl path);
+    void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
 
     /** @brief Sets the document as modified or up to date.
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void checkProjectClips(bool displayRatioChanged = false, bool fpsChanged = false);
-    void slotAddClipFile(const KUrl &url, const stringMap &data);
+    void slotAddClipFile(const QUrl &url, const stringMap &data);
 
 private slots:
     void slotAutoSave();

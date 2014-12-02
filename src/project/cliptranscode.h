@@ -24,7 +24,7 @@
 
 #include "ui_cliptranscode_ui.h"
 
-#include <KUrl>
+#include <QUrl>
 #include <kdeversion.h>
 #if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
@@ -37,7 +37,7 @@ class ClipTranscode : public QDialog, public Ui::ClipTranscode_UI
     Q_OBJECT
 
 public:
-    ClipTranscode(const KUrl::List &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode = false, QWidget * parent = 0);
+    ClipTranscode(const QList<QUrl> &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode = false, QWidget * parent = 0);
     ~ClipTranscode();
 
 public slots:
@@ -51,7 +51,7 @@ private slots:
 
 private:
     QProcess m_transcodeProcess;
-    KUrl::List m_urls;
+    QList<QUrl> m_urls;
     int m_duration;
     bool m_automaticMode;
     /** @brief The path for destination transcoded file. */
@@ -63,8 +63,8 @@ private:
 #endif
     
 signals:
-    void addClip(const KUrl &url);
-    void transcodedClip(const KUrl &source, const KUrl &result);
+    void addClip(const QUrl &url);
+    void transcodedClip(const QUrl &source, const QUrl &result);
 };
 
 

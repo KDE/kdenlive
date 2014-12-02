@@ -26,15 +26,14 @@
 #include "kdenlivesettings.h"
 
 #include <QPushButton>
-#include <QSpinBox>
 #include <QListWidget>
 #include <QAction>
 #include <QMenu>
 
+#include <KGlobal>
 #include <KDebug>
 #include <kdeversion.h>
 #include <KGlobalSettings>
-#include <KMessageBox>
 #include <KFileDialog>
 #include <kio/job.h>
 #include <KIO/NetAccess>
@@ -104,7 +103,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     QMenu *resourceMenu = new QMenu;
     resourceMenu->addAction(m_autoPlay);
     config_button->setMenu(resourceMenu);
-    config_button->setIcon(KIcon("configure"));
+    config_button->setIcon(QIcon::fromTheme("configure"));
 
 #if KDE_IS_VERSION(4,4,0)
     m_busyWidget = new KPixmapSequenceOverlayPainter(this);
@@ -203,7 +202,7 @@ void ResourceWidget::slotUpdateCurrentSound()
 
 void ResourceWidget::slotLoadThumb(const QString &url)
 {
-    KUrl img(url);
+    QUrl img(url);
     if (img.isEmpty()) return;
     if (KIO::NetAccess::exists(img, KIO::NetAccess::SourceSide, this)) {
         if (KIO::NetAccess::download(img, m_tmpThumbFile, this)) {
@@ -257,20 +256,20 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     QString ext;
     if (!path.endsWith('/')) path.append('/');
     if (!originalUrl.isEmpty()) {
-        path.append(KUrl(originalUrl).fileName());
-        ext = "*." + KUrl(originalUrl).fileName().section('.', -1);
+        path.append(QUrl(originalUrl).fileName());
+        ext = "*." + QUrl(originalUrl).fileName().section('.', -1);
         m_currentInfo.itemDownload = originalUrl;
     }
     else {
         path.append(m_currentService->getDefaultDownloadName(item));
         ext = m_currentService->getExtension(search_results->currentItem());
     }
-    QString saveUrl = KFileDialog::getSaveFileName(KUrl(path), ext);
+    QString saveUrl = KFileDialog::getSaveFileName(QUrl(path), ext);
     KIO::UDSEntry entry;
-    KUrl srcUrl(m_currentInfo.itemDownload);
+    QUrl srcUrl(m_currentInfo.itemDownload);
     if (saveUrl.isEmpty() || !KIO::NetAccess::stat(srcUrl, entry, this))
         return;
-    KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, KUrl(saveUrl), -1, KIO::Overwrite);
+    KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, QUrl(saveUrl), -1, KIO::Overwrite);
     
     KFileItem info(entry, srcUrl);
     getJob->setSourceSize(info.size());
@@ -287,7 +286,7 @@ void ResourceWidget::slotGotFile(KJob *job)
 {
     if (job->error() != 0 ) return;
     KIO::FileCopyJob* copyJob = static_cast<KIO::FileCopyJob*>( job );
-    const KUrl filePath = copyJob->destUrl();
+    const QUrl filePath = copyJob->destUrl();
 #ifdef USE_NEPOMUK
   #if KDE_IS_VERSION(4,6,0)
     Nepomuk::Resource res( filePath );
@@ -315,7 +314,7 @@ void ResourceWidget::slotGotFile(KJob *job)
 
 void ResourceWidget::slotOpenUrl(const QString &url)
 {
-    new KRun(KUrl(url), this);
+    new KRun(QUrl(url), this);
 }
 
 void ResourceWidget::slotChangeService()

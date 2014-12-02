@@ -33,7 +33,7 @@
 #endif
 
 #include <KDebug>
-#include <KIcon>
+#include <QIcon>
 
 #include <QPainter>
 #include <QTimer>
@@ -76,8 +76,8 @@ ClipItem::ClipItem(DocClipBase *clip, const ItemInfo& info, double fps, double s
     m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
     m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
 
-    m_videoPix = KIcon("kdenlive-show-video").pixmap(QSize(16, 16));
-    m_audioPix = KIcon("kdenlive-show-audio").pixmap(QSize(16, 16));
+    m_videoPix = QIcon::fromTheme("kdenlive-show-video").pixmap(QSize(16, 16));
+    m_audioPix = QIcon::fromTheme("kdenlive-show-audio").pixmap(QSize(16, 16));
 
     if (m_speed == 1.0)
         m_clipName = m_clip->name();

@@ -27,7 +27,7 @@
 #include <KLocalizedString>
 
 #include <QMouseEvent>
-#include <QStylePainter>
+#include <QPainter>
 
 #define SEEK_INACTIVE (-1)
 

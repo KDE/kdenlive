@@ -27,9 +27,9 @@
 #include <KGlobalSettings>
 
 #include <QPainter>
-#include <QToolTip>
 #include <QGraphicsSceneMouseEvent>
 #include <QParallelAnimationGroup>
+#include <QPropertyAnimation>
 
 AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps) :
         QObject()

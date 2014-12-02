@@ -19,6 +19,8 @@
 #include "beziersplineeditor.h"
 #include "kdenlivesettings.h"
 
+#include "complex"
+
 #include <QPainter>
 #include <QMouseEvent>
 

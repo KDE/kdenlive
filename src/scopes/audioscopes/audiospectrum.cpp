@@ -16,8 +16,10 @@
 #include "lib/external/kiss_fft/tools/kiss_fftr.h"
 
 #include <QPainter>
-#include <QMenu>
+#include <QTime>
 
+#include <KGlobal>
+#include <KConfigGroup>
 #include <iostream>
 
 // (defined in the header file)

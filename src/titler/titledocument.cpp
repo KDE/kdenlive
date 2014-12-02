@@ -289,7 +289,7 @@ QColor TitleDocument::getBackgroundColor() const
 }
 
 
-bool TitleDocument::saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed)
+bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed)
 {
     if (!m_scene)
         return false;

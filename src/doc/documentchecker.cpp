@@ -28,7 +28,6 @@
 
 #include <KDebug>
 #include <KGlobalSettings>
-#include <KFileItem>
 #include <KIO/NetAccess>
 #include <KFileDialog>
 #include <KApplication>
@@ -38,10 +37,6 @@
 
 #include <QTreeWidgetItem>
 #include <QFile>
-#include <QHeaderView>
-#include <QIcon>
-#include <QPixmap>
-#include <QTimer>
 #include <QCryptographicHash>
 
 const int hashRole = Qt::UserRole;
@@ -138,19 +133,19 @@ bool DocumentChecker::hasErrorInClips()
             QString proxyresource = e.attribute("proxy");
             if (!proxyresource.isEmpty() && proxyresource != "-") {
                 // clip has a proxy
-                if (!KIO::NetAccess::exists(KUrl(proxyresource), KIO::NetAccess::SourceSide, 0)) {
+                if (!KIO::NetAccess::exists(QUrl(proxyresource), KIO::NetAccess::SourceSide, 0)) {
                     // Missing clip found
                     missingProxies.append(e);
                 }
-                else if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
+                else if (!KIO::NetAccess::exists(QUrl(resource), KIO::NetAccess::SourceSide, 0)) {
                     // clip has proxy but original clip is missing
                     missingSources.append(e);
                     continue;
                 }
             }
         }
-        if (clipType == SlideShow) resource = KUrl(resource).directory();
-        if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
+        if (clipType == SlideShow) resource = QUrl(resource).adjusted(QUrl::RemoveFilename).path();
+        if (!KIO::NetAccess::exists(QUrl(resource), KIO::NetAccess::SourceSide, 0)) {
             // Missing clip found
             m_missingClips.append(e);
         } else {
@@ -167,7 +162,7 @@ bool DocumentChecker::hasErrorInClips()
     QStringList filesToCheck;
     QString filePath;
     QString root = m_doc.documentElement().attribute("root");
-    if (!root.isEmpty()) root = KUrl(root).path(KUrl::AddTrailingSlash);
+    if (!root.isEmpty()) root = QDir::cleanPath(root + QDir::separator());
     QDomNodeList trans = m_doc.elementsByTagName("transition");
     max = trans.count();
     for (int i = 0; i < max; ++i) {
@@ -195,7 +190,7 @@ bool DocumentChecker::hasErrorInClips()
 
     foreach(const QString &l, missingLumas) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << l);
-        item->setIcon(0, KIcon("dialog-close"));
+        item->setIcon(0, QIcon::fromTheme("dialog-close"));
         item->setData(0, idRole, l);
         item->setData(0, statusRole, LUMAMISSING);
     }
@@ -236,20 +231,20 @@ bool DocumentChecker::hasErrorInClips()
         }
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         if (t == TITLE_IMAGE_ELEMENT) {
-            item->setIcon(0, KIcon("dialog-warning"));
+            item->setIcon(0, QIcon::fromTheme("dialog-warning"));
             item->setToolTip(1, e.attribute("name"));
             item->setText(1, e.attribute("resource"));
             item->setData(0, statusRole, CLIPPLACEHOLDER);
             item->setData(0, typeOriginalResource, e.attribute("resource"));
         } else if (t == TITLE_FONT_ELEMENT) {
-            item->setIcon(0, KIcon("dialog-warning"));
+            item->setIcon(0, QIcon::fromTheme("dialog-warning"));
             item->setToolTip(1, e.attribute("name"));
             QString ft = e.attribute("resource");
             QString newft = QFontInfo(QFont(ft)).family();
             item->setText(1, i18n("%1 will be replaced by %2", ft, newft));
             item->setData(0, statusRole, CLIPPLACEHOLDER);
         } else {
-            item->setIcon(0, KIcon("dialog-close"));
+            item->setIcon(0, QIcon::fromTheme("dialog-close"));
             item->setText(1, e.attribute("resource"));
             item->setData(0, hashRole, e.attribute("file_hash"));
             item->setData(0, sizeRole, e.attribute("file_size"));
@@ -313,7 +308,7 @@ bool DocumentChecker::hasErrorInClips()
             clipType = i18n("Video clip");
         }
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
-        item->setIcon(0, KIcon("timeadjust"));
+        item->setIcon(0, QIcon::fromTheme("timeadjust"));
         item->setText(1, e.attribute("resource"));
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, sizeRole, e.attribute("_mismatch"));
@@ -330,7 +325,7 @@ bool DocumentChecker::hasErrorInClips()
     max = missingProxies.count();
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
-        item->setIcon(0, KIcon("dialog-warning"));
+        item->setIcon(0, QIcon::fromTheme("dialog-warning"));
         item->setText(1, i18n("%1 missing proxy clips, will be recreated on project opening", max));
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, PROXYMISSING);
@@ -384,7 +379,7 @@ bool DocumentChecker::hasErrorInClips()
     max = missingSources.count();
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Source clip"));
-        item->setIcon(0, KIcon("dialog-warning"));
+        item->setIcon(0, QIcon::fromTheme("dialog-warning"));
         item->setText(1, i18n("%1 missing source clips, you can only use the proxies", max));
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, SOURCEMISSING);
@@ -398,7 +393,7 @@ bool DocumentChecker::hasErrorInClips()
             e.setAttribute("_missingsource", "1");
             QTreeWidgetItem *subitem = new QTreeWidgetItem(item, QStringList() << i18n("Source clip"));
             kDebug()<<"// Adding missing source clip: "<<realPath;
-            subitem->setIcon(0, KIcon("dialog-close"));
+            subitem->setIcon(0, QIcon::fromTheme("dialog-close"));
             subitem->setText(1, realPath);
             subitem->setData(0, hashRole, e.attribute("file_hash"));
             subitem->setData(0, sizeRole, e.attribute("file_size"));
@@ -460,7 +455,7 @@ void DocumentChecker::setProperty(QDomElement effect, const QString &name, const
 
 void DocumentChecker::slotSearchClips()
 {
-    QString newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Clips folder"));
+    QString newpath = KFileDialog::getExistingDirectory(QUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Clips folder"));
     if (newpath.isEmpty()) return;
     int ix = 0;
     bool fixed = false;
@@ -477,7 +472,7 @@ void DocumentChecker::slotSearchClips()
                     fixed = true;
                     
                     subchild->setText(1, clipPath);
-                    subchild->setIcon(0, KIcon("dialog-ok"));
+                    subchild->setIcon(0, QIcon::fromTheme("dialog-ok"));
                     subchild->setData(0, statusRole, CLIPOK);
                 }
             }
@@ -487,7 +482,7 @@ void DocumentChecker::slotSearchClips()
             if (!clipPath.isEmpty()) {
                 fixed = true;
                 child->setText(1, clipPath);
-                child->setIcon(0, KIcon("dialog-ok"));
+                child->setIcon(0, QIcon::fromTheme("dialog-ok"));
                 child->setData(0, statusRole, CLIPOK);
             }
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
@@ -495,19 +490,19 @@ void DocumentChecker::slotSearchClips()
             if (!fileName.isEmpty()) {
                 fixed = true;
                 child->setText(1, fileName);
-                child->setIcon(0, KIcon("dialog-ok"));
+                child->setIcon(0, QIcon::fromTheme("dialog-ok"));
                 child->setData(0, statusRole, LUMAOK);
             }
         }
         else if (child->data(0, typeRole).toInt() == TITLE_IMAGE_ELEMENT && child->data(0, statusRole).toInt() == CLIPPLACEHOLDER) {
             // Search missing title images
-            QString missingFileName = KUrl(child->text(1)).fileName();
+            QString missingFileName = QUrl(child->text(1)).fileName();
             QString newPath = searchPathRecursively(searchDir, missingFileName);
             if (!newPath.isEmpty()) {
                 // File found
                 fixed = true;
                 child->setText(1, newPath);
-                child->setIcon(0, KIcon("dialog-ok"));
+                child->setIcon(0, QIcon::fromTheme("dialog-ok"));
                 child->setData(0, statusRole, CLIPOK);
             }
         }
@@ -527,25 +522,24 @@ void DocumentChecker::slotSearchClips()
 
 QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
 {
-    KUrl searchPath(KdenliveSettings::mltpath());
-    QString fname = KUrl(file).fileName();
+    QDir searchPath(KdenliveSettings::mltpath());
+    QString fname = QUrl(file).fileName();
     if (file.contains("PAL"))
         searchPath.cd("../lumas/PAL");
     else
         searchPath.cd("../lumas/NTSC");
-    QString result = searchPath.path(KUrl::AddTrailingSlash) + fname;
-    if (QFile::exists(result))
-        return result;
+    QFileInfo result(searchPath, fname);
+    if (result.exists())
+        return result.filePath();
     // try to find luma in application path
-    searchPath.clear();
-    searchPath = KUrl(QCoreApplication::applicationDirPath());
+    searchPath.setPath(QCoreApplication::applicationDirPath());
     searchPath.cd("../share/apps/kdenlive/lumas");
-    result = searchPath.path(KUrl::AddTrailingSlash) + fname;
-    if (QFile::exists(result))
-        return result;
+    result.setFile(searchPath, fname);
+    if (result.exists())
+        return result.filePath();
     // Try in Kdenlive's standard KDE path
-    result = KStandardDirs::locate("appdata", "lumas/" + fname);
-    if (!result.isEmpty()) return result;
+    QString res = KStandardDirs::locate("appdata", "lumas/" + fname);
+    if (!res.isEmpty()) return res;
     // Try in user's chosen folder 
     return searchPathRecursively(dir, fname);
 }
@@ -612,17 +606,17 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     if (t == TITLE_FONT_ELEMENT || t == Unknown) return;
     //|| t == TITLE_IMAGE_ELEMENT) {
 
-    KUrl url = KUrlRequesterDialog::getUrl(item->text(1), m_dialog, i18n("Enter new location for file"));
+    QUrl url = KUrlRequesterDialog::getUrl(item->text(1), m_dialog, i18n("Enter new location for file"));
     if (url.isEmpty()) return;
     item->setText(1, url.path());
     if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, 0)) {
-        item->setIcon(0, KIcon("dialog-ok"));
+        item->setIcon(0, QIcon::fromTheme("dialog-ok"));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) item->setData(0, statusRole, CLIPOK);
         else item->setData(0, statusRole, LUMAOK);
         checkStatus();
     } else {
-        item->setIcon(0, KIcon("dialog-close"));
+        item->setIcon(0, QIcon::fromTheme("dialog-close"));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) item->setData(0, statusRole, CLIPMISSING);
         else item->setData(0, statusRole, LUMAMISSING);
@@ -699,7 +693,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
                 if (e.attribute("id") == id) {
                     // Fix clip
                     e.setAttribute("resource", child->text(1));
-                    e.setAttribute("name", KUrl(child->text(1)).fileName());
+                    e.setAttribute("name", QUrl(child->text(1)).fileName());
                     e.removeAttribute("_missingsource");
                     break;
                 }
@@ -758,10 +752,10 @@ void DocumentChecker::slotPlaceholders()
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             child->setData(0, statusRole, CLIPPLACEHOLDER);
-            child->setIcon(0, KIcon("dialog-ok"));
+            child->setIcon(0, QIcon::fromTheme("dialog-ok"));
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
             child->setData(0, statusRole, LUMAPLACEHOLDER);
-            child->setIcon(0, KIcon("dialog-ok"));
+            child->setIcon(0, QIcon::fromTheme("dialog-ok"));
         }
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
@@ -790,7 +784,7 @@ void DocumentChecker::slotFixDuration()
                         if (resetDuration) e.removeAttribute("duration");
                         else e.setAttribute("duration", child->data(0, sizeRole).toString());
                         child->setData(0, statusRole, CLIPOK);
-                        child->setIcon(0, KIcon("dialog-ok"));
+                        child->setIcon(0, QIcon::fromTheme("dialog-ok"));
                     }
                     break;
                 }
@@ -920,7 +914,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
     QDomDocument doc;
     foreach(const QString &img, images) {
         if (m_safeImages.contains(img)) continue;
-        if (!KIO::NetAccess::exists(KUrl(img), KIO::NetAccess::SourceSide, 0)) {
+        if (!KIO::NetAccess::exists(QUrl(img), KIO::NetAccess::SourceSide, 0)) {
             QDomElement e = doc.createElement("missingclip");
             e.setAttribute("type", TITLE_IMAGE_ELEMENT);
             e.setAttribute("resource", img);

@@ -13,7 +13,7 @@
 #include "renderer.h"
 #include "monitor/monitor.h"
 
-#include <QtCore/qtconcurrentrun.h>
+#include <QtConcurrent>
 #include <QColor>
 #include <QMenu>
 #include <QMouseEvent>

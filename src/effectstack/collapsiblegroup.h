@@ -27,8 +27,6 @@
 #include "timecode.h"
 #include "effectstack/keyframeedit.h"
 
-#include <QDomElement>
-#include <QToolButton>
 #include <KLineEdit>
 #include <QMutex>
 

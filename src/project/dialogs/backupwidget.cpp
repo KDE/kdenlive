@@ -24,7 +24,7 @@
 #include <KUrl>
 
 
-BackupWidget::BackupWidget(const KUrl &projectUrl, const KUrl &projectFolder, const QString &projectId, QWidget * parent) :
+BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget * parent) :
         QDialog(parent)
 {
     setupUi(this);

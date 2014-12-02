@@ -21,11 +21,10 @@
 #ifndef MELTJOB
 #define MELTJOB
 
-#include <QObject>
 
 #include "abstractclipjob.h"
 
-class KUrl;
+class QUrl;
 
 namespace Mlt{
 class Profile;
@@ -48,7 +47,7 @@ public:
     bool addClipToProject;
     const QString statusMessage();
     void setStatus(ClipJobStatus status);
-    void setProducer(Mlt::Producer *producer, const KUrl &url);
+    void setProducer(Mlt::Producer *producer, const QUrl &url);
     void emitFrameNumber(int pos);
     /** Make the job work on a project tree clip. */
     bool isProjectFilter() const;

@@ -28,7 +28,6 @@
 #include "definitions.h"
 
 #include <QDialog>
-#include <QProcess>
 #include <kio/jobclasses.h>
 #include <kdeversion.h>
 
@@ -89,7 +88,7 @@ private:
     void updateLayout();
    
 signals:
-    void addClip(const KUrl &, const stringMap &data);
+    void addClip(const QUrl &, const stringMap &data);
 };
 
 

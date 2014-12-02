@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef LAYOUTMANAGEMENT_H
 #define LAYOUTMANAGEMENT_H
 
-#include <QVariantList>
+#include <QObject>
 
 class KSelectAction;
 class QAction;

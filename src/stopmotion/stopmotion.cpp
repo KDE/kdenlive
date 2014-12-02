@@ -29,21 +29,19 @@
 
 #include <KDebug>
 #include <KGlobalSettings>
-#include <KFileDialog>
 #include <KStandardDirs>
 #include <KMessageBox>
 #include <kdeversion.h>
 #include <KNotification>
 
-#include <QtConcurrentRun>
 #include <QInputDialog>
-#include <KComboBox>
 #include <QVBoxLayout>
 #include <QTimer>
 #include <QPainter>
 #include <QAction>
 #include <QWheelEvent>
 #include <QMenu>
+#include <QtConcurrent>
 
 MyLabel::MyLabel(QWidget* parent) :
     QLabel(parent)
@@ -141,7 +139,7 @@ void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, bool /*fast*/)
 {
 }
 
-StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectFolder, const QList<QAction *> &actions, QWidget* parent) :
+StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList<QAction *> &actions, QWidget* parent) :
     QDialog(parent)
   , Ui::Stopmotion_UI()
   , m_projectFolder(projectFolder)
@@ -172,7 +170,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     setWindowTitle(i18n("Stop Motion Capture"));
     setFont(KGlobalSettings::toolBarFont());
 
-    live_button->setIcon(KIcon("camera-photo"));
+    live_button->setIcon(QIcon::fromTheme("camera-photo"));
 
     m_captureAction = actions.at(0);
     connect(m_captureAction, SIGNAL(triggered()), this, SLOT(slotCaptureFrame()));
@@ -183,12 +181,12 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     connect(actions.at(1), SIGNAL(triggered()), this, SLOT(slotSwitchLive()));
 
     QAction *intervalCapture = new QAction(i18n("Interval capture"), this);
-    intervalCapture->setIcon(KIcon("chronometer"));
+    intervalCapture->setIcon(QIcon::fromTheme("chronometer"));
     intervalCapture->setCheckable(true);
     intervalCapture->setChecked(false);
     capture_interval->setDefaultAction(intervalCapture);
 
-    preview_button->setIcon(KIcon("media-playback-start"));
+    preview_button->setIcon(QIcon::fromTheme("media-playback-start"));
     capture_button->setEnabled(false);
 
 
@@ -231,16 +229,16 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     connect(effectsMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateOverlayEffect(QAction*)));
     confMenu->addMenu(effectsMenu);
 
-    QAction* showThumbs = new QAction(KIcon("image-x-generic"), i18n("Show sequence thumbnails"), this);
+    QAction* showThumbs = new QAction(QIcon::fromTheme("image-x-generic"), i18n("Show sequence thumbnails"), this);
     showThumbs->setCheckable(true);
     showThumbs->setChecked(KdenliveSettings::showstopmotionthumbs());
     connect(showThumbs, SIGNAL(triggered(bool)), this, SLOT(slotShowThumbs(bool)));
 
-    QAction* removeCurrent = new QAction(KIcon("edit-delete"), i18n("Delete current frame"), this);
+    QAction* removeCurrent = new QAction(QIcon::fromTheme("edit-delete"), i18n("Delete current frame"), this);
     removeCurrent->setShortcut(Qt::Key_Delete);
     connect(removeCurrent, SIGNAL(triggered()), this, SLOT(slotRemoveFrame()));
 
-    QAction* conf = new QAction(KIcon("configure"), i18n("Configure"), this);
+    QAction* conf = new QAction(QIcon::fromTheme("configure"), i18n("Configure"), this);
     connect(conf, SIGNAL(triggered()), this, SLOT(slotConfigure()));
 
     confMenu->addAction(showThumbs);
@@ -248,7 +246,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const KUrl &projectF
     confMenu->addAction(analyse);
     confMenu->addAction(mirror);
     confMenu->addAction(conf);
-    config_button->setIcon(KIcon("configure"));
+    config_button->setIcon(QIcon::fromTheme("configure"));
     config_button->setMenu(confMenu);
 
     connect(sequence_name, SIGNAL(textChanged(QString)), this, SLOT(sequenceNameChanged(QString)));
@@ -716,7 +714,7 @@ QString StopmotionWidget::getPathForFrame(int ix, QString seqName)
 {
     if (seqName.isEmpty())
         seqName = m_sequenceName;
-    return m_projectFolder.path(KUrl::AddTrailingSlash) + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QLatin1String(".png");
+    return m_projectFolder.path() + QDir::separator() + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QLatin1String(".png");
 }
 
 void StopmotionWidget::slotShowFrame(const QString& path)

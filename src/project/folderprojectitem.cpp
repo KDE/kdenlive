@@ -22,7 +22,7 @@
 
 #include <KDebug>
 #include <KLocalizedString>
-#include <KIcon>
+#include <QIcon>
 
 
 FolderProjectItem::FolderProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId) :
@@ -32,8 +32,8 @@ FolderProjectItem::FolderProjectItem(QTreeWidget * parent, const QStringList & s
 {
     setSizeHint(0, QSize(65, QFontInfo(font(1)).pixelSize() * 2));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled);
-    setData(0, Qt::DecorationRole, KIcon("folder").pixmap(sizeHint(0)));
-    //setIcon(0, KIcon("folder").pixmap(sizeHint(0)));
+    setData(0, Qt::DecorationRole, QIcon::fromTheme("folder").pixmap(sizeHint(0)));
+    //setIcon(0, QIcon::fromTheme("folder").pixmap(sizeHint(0)));
     setToolTip(0, "<b>" + i18n("Folder"));
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;
@@ -62,6 +62,6 @@ void FolderProjectItem::setGroupName(const QString name)
 
 void FolderProjectItem::switchIcon()
 {
-    setData(0, Qt::DecorationRole, isExpanded() ? KIcon("folder-open").pixmap(sizeHint(0)) : KIcon("folder").pixmap(sizeHint(0)));
+    setData(0, Qt::DecorationRole, isExpanded() ? QIcon::fromTheme("folder-open").pixmap(sizeHint(0)) : QIcon::fromTheme("folder").pixmap(sizeHint(0)));
 }
 

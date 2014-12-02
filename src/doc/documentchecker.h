@@ -23,7 +23,6 @@
 
 #include "ui_missingclips_ui.h"
 
-#include <KUrl>
 
 #include <QDir>
 #include <QDomElement>

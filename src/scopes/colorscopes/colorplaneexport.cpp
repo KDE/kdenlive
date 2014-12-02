@@ -53,7 +53,7 @@ ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
     connect(sliderScaling, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateDisplays()));
     connect(cbColorspace, SIGNAL(currentIndexChanged(int)), this, SLOT(slotColormodeChanged()));
 
-    kurlrequester->setUrl(KUrl("/tmp/yuv-plane.png"));
+    kurlrequester->setUrl(QUrl("/tmp/yuv-plane.png"));
 
     slotColormodeChanged();
     slotValidate();
@@ -163,7 +163,7 @@ void ColorPlaneExport::slotExportPlane()
 #endif
     if (!lower.endsWith(QLatin1String(".png")) && !lower.endsWith(QLatin1String(".jpg")) && !lower.endsWith(QLatin1String(".tif")) && !lower.endsWith(QLatin1String(".tiff"))) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", EXTENSION_PNG)) == KMessageBox::Yes) {
-            kurlrequester->setUrl(KUrl(kurlrequester->text() + ".png"));
+            kurlrequester->setUrl(QUrl(kurlrequester->text() + ".png"));
         }
     }
     QImage img;

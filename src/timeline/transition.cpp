@@ -23,8 +23,8 @@
 #include "mainwindow.h"
 
 #include <kdebug.h>
-#include <KIcon>
 #include <klocale.h>
+#include <KGlobalSettings>
 
 #include <QBrush>
 #include <QDomElement>

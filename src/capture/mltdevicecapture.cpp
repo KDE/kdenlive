@@ -25,21 +25,14 @@
 #include <mlt++/Mlt.h>
 
 #include <KDebug>
-#include <KStandardDirs>
-#include <KMessageBox>
-#include <KLocalizedString>
-#include <KTemporaryFile>
 
 #include <QTimer>
-#include <QDir>
 #include <QString>
-#include <QApplication>
 #include <QThread>
 
 #include <cstdlib>
 #include <cstdarg>
 
-#include <QDebug>
 
 
 

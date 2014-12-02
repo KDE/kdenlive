@@ -25,10 +25,9 @@
 
 #include <KDebug>
 
-#include <QPaintEvent>
 #include <QDesktopWidget>
 #include <QVBoxLayout>
-
+#include <QMouseEvent>
 
 AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent): 
     QWidget(parent),

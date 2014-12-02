@@ -9,8 +9,10 @@
  ***************************************************************************/
 
 #include <QPainter>
-#include <QMenu>
+#include <QTime>
 
+#include <KGlobal>
+#include <KConfigGroup>
 #include "spectrogram.h"
 
 // Defines the number of FFT samples to store.

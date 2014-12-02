@@ -8,22 +8,18 @@ find_package(OpenGL REQUIRED)
 if(APPLE)
   find_package(SDL REQUIRED)
 endif(APPLE)
-macro_optional_find_package(Nepomuk)
-macro_optional_find_package(QJSON)
+find_package(QJSON)
 
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
 
-macro_optional_find_package(LibV4L2)
-macro_log_feature(LIBV4L2_FOUND
-  "libv4l"
-  "Collection of video4linux support libraries"
-  "http://freecode.com/projects/libv4l"
-  FALSE
-  ""
-  "Required for better webcam support"
-)
+find_package(LibV4L2)
+set_package_properties(LibV4L2 PROPERTIES 
+                DESCRIPTION "Collection of video4linux support libraries"
+                URL "http://freecode.com/projects/libv4l"
+                TYPE RUNTIME
+                PURPOSE "Required for better webcam support")
 
 if(WITH_JogShuttle)
   check_include_files(linux/input.h HAVE_LINUX_INPUT_H)
@@ -32,57 +28,42 @@ if(WITH_JogShuttle)
   endif(HAVE_LINUX_INPUT_H)
 endif(WITH_JogShuttle)
 
-macro_log_feature(QT_QTOPENGL_FOUND
-  "QtOpenGL"
-  "Qt bindings for the OpenGL library"
-  "http://qt.nokia.com/products/qt"
-  TRUE
-  ${QT_MIN_VERSION}
-  "QtOpenGL library and headers (most likely called libqt4-opengl and libqt4-opengl-dev)"
-)
+set_package_properties(LibV4L2 PROPERTIES 
+                DESCRIPTION "Collection of video4linux support libraries"
+                URL "http://freecode.com/projects/libv4l"
+                TYPE RUNTIME
+                PURPOSE "Required for better webcam support")
 
-macro_log_feature(QT_QTSCRIPT_FOUND
-  "QtScript"
-  "Qt module providing core scripting facilities"
-  "http://qt.nokia.com/products/qt"
-  TRUE
-  ${QT_MIN_VERSION}
-  "QtScript library (most likely called libqt4-script)"
-)
+set_package_properties(OpenGL PROPERTIES
+    DESCRIPTION "the OpenGL library"
+                URL ""
+                TYPE RUNTIME
+                PURPOSE "")
 
-if(APPLE)
-  macro_log_feature(SDL_FOUND
-    "SDL"
-    "Cross-platform multimedia library"
-    "http://www.libsdl.org"
-    TRUE
-  )
-endif(APPLE)
+set_package_properties(QtScript PROPERTIES
+ DESCRIPTION   "Qt module providing core scripting facilities"
+                URL "http://qt.nokia.com/products/qt"
+                TYPE RUNTIME
+                PURPOSE "")
 
-macro_log_feature(Nepomuk_FOUND
-  "Nepomuk"
-  "Support for the Nepomuk semantic desktop system"
-  "http://nepomuk.semanticdesktop.org"
-)
+#if(APPLE)
+#  macro_log_feature(SDL_FOUND
+#    "SDL"
+#    "Cross-platform multimedia library"
+#    "http://www.libsdl.org"
+#    TRUE
+#  )
+#endif(APPLE)
 
-macro_optional_find_package(NepomukCore)
-macro_log_feature(NepomukCore_FOUND
-  "NepomukCore"
-  "Support for the Nepomuk semantic desktop system"
-  "http://www.kde.org"
-)
+set_package_properties(QJson PROPERTIES
+ DESCRIPTION   "Qt module providing core scripting facilities"
+                URL "http://qjson.sourceforge.net"
+                TYPE RUNTIME
+                PURPOSE "Required to build the rotoscoping filter and for Freesound.org queries")
 
-macro_log_feature(QJSON_FOUND
-  "QJson"
-  "Qt-based library that maps JSON data to QVariant objects"
-  "http://qjson.sourceforge.net"
-  FALSE
-  ""
-  "Required to build the rotoscoping filter and for Freesound.org queries"
-)
 
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
-kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
+kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 
 add_subdirectory(doc)
 add_subdirectory(project)
@@ -219,7 +200,7 @@ qt4_add_dbus_adaptor(kdenlive_SRCS
   MainWindow
 )
 qt4_add_resources(kdenlive_SRCS ui/resources.qrc)
-kde4_add_executable(kdenlive
+add_executable(kdenlive
   ${kdenlive_SRCS}
   ${kdenlive_UIS}
 )
@@ -244,21 +225,33 @@ include_directories(
 
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
 # to the components requested in find_package().
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
 
-if(${KDE_VERSION} VERSION_LESS 4.3.80)
-  set(KDE4_KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF2_LIBS})
-else(${KDE_VERSION} VERSION_LESS 4.3.80)
-  set(KDE4_KNEWSTUFF_LIBS ${KDE4_KNEWSTUFF3_LIBS})
-endif(${KDE_VERSION} VERSION_LESS 4.3.80)
+
 
 target_link_libraries(kdenlive
-  ${KDE4_KDEUI_LIBS}
-  ${KDE4_KIO_LIBS}
-  ${KDE4_KNEWSTUFF_LIBS}
-  ${KDE4_KNOTIFYCONFIG_LIBRARY}
-  ${KDE4_KROSSUI_LIBS}
-  ${KDE4_SOLID_LIBS}
+   KF5::KDELibs4Support
+   KF5::WidgetsAddons
+   KF5::Plotting
+   KF5::Archive
+   KF5::CoreAddons
+   KF5::KIOCore 
+   KF5::KIOFileWidgets 
+   KF5::KIOWidgets 
+   KF5::NotifyConfig
+   KF5::NewStuff
+   KF5::XmlGui
+   #KF5::Service
+   #KF5::KIONTLM 
+   #${KDE4_KDEUI_LIBS}
+  #${KDE4_KIO_LIBS}
+  #${KDE4_KNEWSTUFF_LIBS}
+  #${KDE4_KNOTIFYCONFIG_LIBRARY}
+  #${KDE4_KROSSUI_LIBS}
+  #${KDE4_SOLID_LIBS}
+  ${Qt5_LIBRARIES}
+  Qt5::Svg
+  #Qt5:OpenGL
   ${QT_LIBRARIES}
   ${MLT_LIBRARIES}
   ${MLTPP_LIBRARIES}
@@ -266,6 +259,8 @@ target_link_libraries(kdenlive
   ${CMAKE_THREAD_LIBS_INIT}
   kiss_fft
 )
+
+qt5_use_modules( kdenlive Script Widgets Concurrent OpenGL)
 
 if(Q_WS_X11)
   include_directories(${X11_Xlib_INCLUDE_PATH})

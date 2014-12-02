@@ -41,13 +41,13 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     buttonSeek->setChecked(KdenliveSettings::keyframeseek());
     connect(buttonSeek, SIGNAL(toggled(bool)), this, SLOT(slotSetSeeking(bool)));
 
-    buttonKeyframes->setIcon(KIcon("chronometer"));
-    button_add->setIcon(KIcon("list-add"));
+    buttonKeyframes->setIcon(QIcon::fromTheme("chronometer"));
+    button_add->setIcon(QIcon::fromTheme("list-add"));
     button_add->setToolTip(i18n("Add keyframe"));
-    button_delete->setIcon(KIcon("list-remove"));
+    button_delete->setIcon(QIcon::fromTheme("list-remove"));
     button_delete->setToolTip(i18n("Delete keyframe"));
-    buttonResetKeyframe->setIcon(KIcon("edit-undo"));
-    buttonSeek->setIcon(KIcon("insert-link"));
+    buttonResetKeyframe->setIcon(QIcon::fromTheme("edit-undo"));
+    buttonSeek->setIcon(QIcon::fromTheme("insert-link"));
     connect(keyframe_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotAdjustKeyframeInfo()));
     connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotGenerateParams(int,int)));
 

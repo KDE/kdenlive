@@ -25,8 +25,7 @@
 
 #include "ui_clipstabilize_ui.h"
 
-#include <KUrl>
-#include <QFuture>
+#include <QUrl>
 
 class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
 {
@@ -59,7 +58,7 @@ private:
     QStringList m_fixedParams;
 
 signals:
-    void addClip(const KUrl &url);
+    void addClip(const QUrl &url);
 };
 
 

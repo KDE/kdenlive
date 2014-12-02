@@ -30,8 +30,8 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QDomDocument>
-#include <QMimeData>
 #include <QGraphicsSceneMouseEvent>
+#include <QMimeData>
 
 
 AbstractGroupItem::AbstractGroupItem(double /* fps */) :

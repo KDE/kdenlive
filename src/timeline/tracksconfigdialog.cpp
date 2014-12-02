@@ -23,7 +23,7 @@
 #include <QTableWidget>
 #include <KComboBox>
 #include <KDebug>
-#include <KIcon>
+#include <QIcon>
 
 TracksDelegate::TracksDelegate(QObject *parent) :
         QItemDelegate(parent)
@@ -78,23 +78,23 @@ TracksConfigDialog::TracksConfigDialog(KdenliveDoc * doc, int selected, QWidget*
 
     table->setItemDelegateForColumn(1, new TracksDelegate(this));
 
-    buttonReset->setIcon(KIcon("document-revert"));
+    buttonReset->setIcon(QIcon::fromTheme("document-revert"));
     buttonReset->setToolTip(i18n("Reset"));
     connect(buttonReset, SIGNAL(clicked()), this, SLOT(setupOriginal()));
 
-    buttonAdd->setIcon(KIcon("list-add"));
+    buttonAdd->setIcon(QIcon::fromTheme("list-add"));
     buttonAdd->setToolTip(i18n("Add Track"));
     buttonAdd->setEnabled(false);
 
-    buttonDelete->setIcon(KIcon("list-remove"));
+    buttonDelete->setIcon(QIcon::fromTheme("list-remove"));
     buttonDelete->setToolTip(i18n("Delete Track"));
     connect(buttonDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
 
-    buttonUp->setIcon(KIcon("arrow-up"));
+    buttonUp->setIcon(QIcon::fromTheme("arrow-up"));
     buttonUp->setToolTip(i18n("Move Track upwards"));
     buttonUp->setEnabled(false);
 
-    buttonDown->setIcon(KIcon("arrow-down"));
+    buttonDown->setIcon(QIcon::fromTheme("arrow-down"));
     buttonDown->setToolTip(i18n("Move Track downwards"));
     buttonDown->setEnabled(false);
 

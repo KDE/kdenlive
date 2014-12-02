@@ -23,7 +23,7 @@
 
 #include <QPushButton>
 
-#include <KUrl>
+#include <QUrl>
 
 #include "ui_managecaptures_ui.h"
 
@@ -32,9 +32,9 @@ class ManageCapturesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ManageCapturesDialog(const KUrl::List &files, QWidget * parent = 0);
+    explicit ManageCapturesDialog(const QList<QUrl> &files, QWidget * parent = 0);
     ~ManageCapturesDialog();
-    KUrl::List importFiles();
+    QList<QUrl> importFiles();
 
 private slots:
     void slotRefreshButtons();

@@ -55,7 +55,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
-    buttonInfo->setIcon(KIcon("help-about"));
+    buttonInfo->setIcon(QIcon::fromTheme("help-about"));
     buttonInfo->setToolTip(i18n("Show/Hide the effect description"));
     buttonInfo->setIconSize(iconSize);
     setFocusPolicy(Qt::StrongFocus);
@@ -67,7 +67,7 @@ EffectsListView::EffectsListView(QWidget *parent) :
     else
         infopanel->hide();
 
-    contextMenu->addAction(KIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
+    contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     connect(type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
     connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
@@ -153,7 +153,7 @@ void EffectsListView::slotRemoveEffect()
     const QStringList fileList = directory.entryList(filter, QDir::Files);
     QString itemName;
     foreach(const QString &filename, fileList) {
-        itemName = KUrl(path + filename).path();
+        itemName = QUrl(path + filename).path();
         QDomDocument doc;
         QFile file(itemName);
         doc.setContent(&file, false);

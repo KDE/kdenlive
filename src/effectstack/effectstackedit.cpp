@@ -23,12 +23,9 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
-#include <KLocalizedString>
-#include <KFileDialog>
 #include <KComboBox>
 
 #include <QVBoxLayout>
-#include <QLabel>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QScrollArea>

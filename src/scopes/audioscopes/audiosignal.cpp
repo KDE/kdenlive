@@ -22,7 +22,6 @@
 #include <KDebug>
 
 #include <QPainter>
-#include <QMenu>
 #include <QTime>
 
 #include <math.h>

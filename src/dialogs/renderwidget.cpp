@@ -27,26 +27,22 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <KMessageBox>
-#include <KComboBox>
 #include <KRun>
 #include <KIO/NetAccess>
 #include <KColorScheme>
 #include <KNotification>
-#include <KStartupInfo>
 
 #include <QDomDocument>
-#include <QItemDelegate>
 #include <QTreeWidgetItem>
 #include <QListWidgetItem>
 #include <QHeaderView>
-#include <QMenu>
 #include <QInputDialog>
 #include <QProcess>
 #include <QDBusConnectionInterface>
-#include <QDBusInterface>
 #include <QThread>
 #include <QScriptEngine>
 #include <QKeyEvent>
+#include <QTimer>
 
 #include "locale.h"
 
@@ -99,22 +95,22 @@ void RenderJobItem::setStatus(int status)
     m_status = status;
     switch (status) {
         case WAITINGJOB:
-            setIcon(0, KIcon("media-playback-pause"));
+            setIcon(0, QIcon::fromTheme("media-playback-pause"));
             setData(1, Qt::UserRole, i18n("Waiting..."));
             break;
         case FINISHEDJOB:
             setData(1, Qt::UserRole, i18n("Rendering finished"));
-            setIcon(0, KIcon("dialog-ok"));
+            setIcon(0, QIcon::fromTheme("dialog-ok"));
             setData(1, ProgressRole, 100);
             break;
         case FAILEDJOB:
             setData(1, Qt::UserRole, i18n("Rendering crashed"));
-            setIcon(0, KIcon("dialog-close"));
+            setIcon(0, QIcon::fromTheme("dialog-close"));
             setData(1, ProgressRole, 100);
             break;
         case ABORTEDJOB:
             setData(1, Qt::UserRole, i18n("Rendering aborted"));
-            setIcon(0, KIcon("dialog-cancel"));
+            setIcon(0, QIcon::fromTheme("dialog-cancel"));
             setData(1, ProgressRole, 100);
         
         default:
@@ -155,21 +151,21 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.buttonInfo->setIconSize(iconSize);
     m_view.buttonFavorite->setIconSize(iconSize);
     
-    m_view.buttonDelete->setIcon(KIcon("trash-empty"));
+    m_view.buttonDelete->setIcon(QIcon::fromTheme("trash-empty"));
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
     m_view.buttonDelete->setEnabled(false);
 
-    m_view.buttonEdit->setIcon(KIcon("document-properties"));
+    m_view.buttonEdit->setIcon(QIcon::fromTheme("document-properties"));
     m_view.buttonEdit->setToolTip(i18n("Edit profile"));
     m_view.buttonEdit->setEnabled(false);
 
-    m_view.buttonSave->setIcon(KIcon("document-new"));
+    m_view.buttonSave->setIcon(QIcon::fromTheme("document-new"));
     m_view.buttonSave->setToolTip(i18n("Create new profile"));
 
-    m_view.buttonInfo->setIcon(KIcon("help-about"));
-    m_view.hide_log->setIcon(KIcon("go-down"));
+    m_view.buttonInfo->setIcon(QIcon::fromTheme("help-about"));
+    m_view.hide_log->setIcon(QIcon::fromTheme("go-down"));
 
-    m_view.buttonFavorite->setIcon(KIcon("favorites"));
+    m_view.buttonFavorite->setIcon(QIcon::fromTheme("favorites"));
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
     
     m_view.show_all_profiles->setToolTip(i18n("Show profiles with different framerate"));
@@ -199,7 +195,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     QColor bg = scheme.background(KColorScheme::NegativeBackground).color();
     m_view.errorBox->setStyleSheet(QString("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
     int height = QFontInfo(font()).pixelSize();
-    m_view.errorIcon->setPixmap(KIcon("dialog-warning").pixmap(height, height));
+    m_view.errorIcon->setPixmap(QIcon::fromTheme("dialog-warning").pixmap(height, height));
     m_view.errorBox->setHidden(true);
 
 #if KDE_IS_VERSION(4,7,0)
@@ -217,7 +213,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
     connect(m_view.rescale_width, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleWidth(int)));
     connect(m_view.rescale_height, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleHeight(int)));
-    m_view.rescale_keep->setIcon(KIcon("insert-link"));
+    m_view.rescale_keep->setIcon(QIcon::fromTheme("insert-link"));
     m_view.rescale_keep->setToolTip(i18n("Preserve aspect ratio"));
     connect(m_view.rescale_keep, SIGNAL(clicked()), this, SLOT(slotSwitchAspectRatio()));
 
@@ -262,7 +258,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     connect(m_view.rescale, SIGNAL(toggled(bool)), this, SLOT(setRescaleEnabled(bool)));
     connect(m_view.destination_list, SIGNAL(activated(int)), this, SLOT(refreshCategory()));
     connect(m_view.out_file, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButtons()));
-    connect(m_view.out_file, SIGNAL(urlSelected(KUrl)), this, SLOT(slotUpdateButtons(KUrl)));
+    connect(m_view.out_file, SIGNAL(urlSelected(QUrl)), this, SLOT(slotUpdateButtons(QUrl)));
     connect(m_view.format_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshView()));
     connect(m_view.size_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshParams()));
     connect(m_view.show_all_profiles, SIGNAL(stateChanged(int)), this, SLOT(refreshView()));
@@ -360,9 +356,9 @@ void RenderWidget::showInfoPanel()
 
 void RenderWidget::setDocumentPath(const QString &path)
 {
-    if (m_view.out_file->url().directory() == KUrl(m_projectFolder).directory()) {
+    if (m_view.out_file->url().adjusted(QUrl::RemoveFilename).path() == QUrl(m_projectFolder).adjusted(QUrl::RemoveFilename).path()) {
         const QString fileName = m_view.out_file->url().fileName();
-        m_view.out_file->setUrl(KUrl(path + fileName));
+        m_view.out_file->setUrl(QUrl(path + fileName));
     }
     m_projectFolder = path;
     parseScriptFiles();
@@ -417,7 +413,7 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
  * Will be called when the user selects an output file via the file dialog.
  * File extension will be added automatically.
  */
-void RenderWidget::slotUpdateButtons(const KUrl &url)
+void RenderWidget::slotUpdateButtons(const QUrl &url)
 {
     if (m_view.out_file->url().isEmpty()) {
         m_view.buttonGenerateScript->setEnabled(false);
@@ -425,7 +421,7 @@ void RenderWidget::slotUpdateButtons(const KUrl &url)
     } else {
         updateButtons(); // This also checks whether the selected format is available
     }
-    if (url != 0) {
+    if (!url.isEmpty()) {
         QListWidgetItem *item = m_view.size_list->currentItem();
         if (!item) {
             m_view.buttonRender->setEnabled(false);
@@ -919,8 +915,8 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
     if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().path() + ".dvdchapter";
 
     // mantisbt 1051
-    if (!KStandardDirs::makeDir(m_view.out_file->url().directory())) {
-        KMessageBox::sorry(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", m_view.out_file->url().directory()));
+    if (!KStandardDirs::makeDir(m_view.out_file->url().adjusted(QUrl::RemoveFilename).path())) {
+        KMessageBox::sorry(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", m_view.out_file->url().adjusted(QUrl::RemoveFilename).path()));
         return;
     }
 
@@ -1086,7 +1082,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
     else
         render_process_args <<  (scriptExport ? "$SOURCE" : playlistPath);
 
-    render_process_args << (scriptExport ? "$TARGET" : KUrl(dest).url());
+    render_process_args << (scriptExport ? "$TARGET" : QUrl(dest).url());
     render_process_args << paramsList;
 
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
@@ -1166,7 +1162,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         else {
             renderItem->setData(1, ProgressRole, 0);
             renderItem->setStatus(WAITINGJOB);
-            renderItem->setIcon(0, KIcon("media-playback-pause"));
+            renderItem->setIcon(0, QIcon::fromTheme("media-playback-pause"));
             renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
             renderItem->setData(1, ParametersRole, dest);
         }
@@ -1352,8 +1348,8 @@ void RenderWidget::refreshView(const QString &profile)
     QString destination;
     if (m_view.destination_list->currentIndex() > 0)
         destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
-    KIcon brokenIcon("dialog-close");
-    KIcon warningIcon("dialog-warning");
+    QIcon brokenIcon = QIcon::fromTheme("dialog-close");
+    QIcon warningIcon = QIcon::fromTheme("dialog-warning");
 
     QStringList formatsList;
     QStringList vcodecsList;
@@ -1470,11 +1466,11 @@ void RenderWidget::refreshView(const QString &profile)
     }
 }
 
-KUrl RenderWidget::filenameWithExtension(KUrl url, const QString &extension)
+QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 {
-    if (url.isEmpty()) url = KUrl(m_projectFolder);
-    QString directory = url.directory(KUrl::AppendTrailingSlash | KUrl::ObeyTrailingSlash);
-    QString filename = url.fileName(KUrl::ObeyTrailingSlash);
+    if (url.isEmpty()) url = QUrl(m_projectFolder);
+    QString directory = url.adjusted(QUrl::RemoveFilename).path();
+    QString filename = url.fileName();
     QString ext;
 
     if (extension.at(0) == '.') ext = extension;
@@ -1490,7 +1486,7 @@ KUrl RenderWidget::filenameWithExtension(KUrl url, const QString &extension)
         }
     }
 
-    return KUrl(directory + filename);
+    return QUrl(directory + filename);
 }
 
 void RenderWidget::refreshParams()
@@ -1518,16 +1514,16 @@ void RenderWidget::refreshParams()
         m_view.rescale->setEnabled(true);
         setRescaleEnabled(m_view.rescale->isChecked());
     }
-    KUrl url = filenameWithExtension(m_view.out_file->url(), extension);
+    QUrl url = filenameWithExtension(m_view.out_file->url(), extension);
     m_view.out_file->setUrl(url);
 //     if (!url.isEmpty()) {
 //         QString path = url.path();
 //         int pos = path.lastIndexOf('.') + 1;
 //  if (pos == 0) path.append('.' + extension);
 //         else path = path.left(pos) + extension;
-//         m_view.out_file->setUrl(KUrl(path));
+//         m_view.out_file->setUrl(QUrl(path));
 //     } else {
-//         m_view.out_file->setUrl(KUrl(QDir::homePath() + "/untitled." + extension));
+//         m_view.out_file->setUrl(QUrl(QDir::homePath() + "/untitled." + extension));
 //     }
     m_view.out_file->setFilter("*." + extension);
     QString edit = item->data(EditableRole).toString();
@@ -1604,14 +1600,14 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     qDeleteAll(m_renderCategory);
     m_renderItems.clear();
     m_renderCategory.clear();
-    m_view.destination_list->addItem(KIcon("video-x-generic"), i18n("File rendering"));
-    m_view.destination_list->addItem(KIcon("favorites"), i18n("Favorites"), "favorites");
-    m_view.destination_list->addItem(KIcon("media-optical"), i18n("DVD"), "dvd");
-    m_view.destination_list->addItem(KIcon("audio-x-generic"), i18n("Audio only"), "audioonly");
-    m_view.destination_list->addItem(KIcon("applications-internet"), i18n("Web sites"), "websites");
-    m_view.destination_list->addItem(KIcon("applications-multimedia"), i18n("Media players"), "mediaplayers");
-    m_view.destination_list->addItem(KIcon("drive-harddisk"), i18n("Lossless / HQ"), "lossless");
-    m_view.destination_list->addItem(KIcon("pda"), i18n("Mobile devices"), "mobile");
+    m_view.destination_list->addItem(QIcon::fromTheme("video-x-generic"), i18n("File rendering"));
+    m_view.destination_list->addItem(QIcon::fromTheme("favorites"), i18n("Favorites"), "favorites");
+    m_view.destination_list->addItem(QIcon::fromTheme("media-optical"), i18n("DVD"), "dvd");
+    m_view.destination_list->addItem(QIcon::fromTheme("audio-x-generic"), i18n("Audio only"), "audioonly");
+    m_view.destination_list->addItem(QIcon::fromTheme("applications-internet"), i18n("Web sites"), "websites");
+    m_view.destination_list->addItem(QIcon::fromTheme("applications-multimedia"), i18n("Media players"), "mediaplayers");
+    m_view.destination_list->addItem(QIcon::fromTheme("drive-harddisk"), i18n("Lossless / HQ"), "lossless");
+    m_view.destination_list->addItem(QIcon::fromTheme("pda"), i18n("Mobile devices"), "mobile");
 
     QString exportFile = KStandardDirs::locate("appdata", "export/profiles.xml");
     parseFile(exportFile, false);
@@ -1766,8 +1762,8 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             if (profile.hasAttribute("url")) item->setData(ExtraRole, profile.attribute("url"));
             if (editable) {
                 item->setData(EditableRole, exportFile);
-                if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) item->setIcon(KIcon("emblem-favorite"));
-                else item->setIcon(KIcon("applications-internet"));
+                if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) item->setIcon(QIcon::fromTheme("emblem-favorite"));
+                else item->setIcon(QIcon::fromTheme("applications-internet"));
             }
             m_renderItems.append(item);
             node = doc.elementsByTagName("profile").at(count);
@@ -1784,7 +1780,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     QString renderer;
     QString params;
     QString standard;
-    KIcon icon;
+    QIcon icon;
 
     while (!groups.item(i).isNull()) {
         documentElement = groups.item(i).toElement();
@@ -1796,12 +1792,12 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             metagroupId = gname.toElement().attribute("id");
 
             if (!metagroupName.isEmpty() && m_view.destination_list->findData(metagroupId) == -1) {
-                if (metagroupId == "dvd") icon = KIcon("media-optical");
-                else if (metagroupId == "audioonly") icon = KIcon("audio-x-generic");
-                else if (metagroupId == "websites") icon = KIcon("applications-internet");
-                else if (metagroupId == "mediaplayers") icon = KIcon("applications-multimedia");
-                else if (metagroupId == "lossless") icon = KIcon("drive-harddisk");
-                else if (metagroupId == "mobile") icon = KIcon("pda");
+                if (metagroupId == "dvd") icon = QIcon::fromTheme("media-optical");
+                else if (metagroupId == "audioonly") icon = QIcon::fromTheme("audio-x-generic");
+                else if (metagroupId == "websites") icon = QIcon::fromTheme("applications-internet");
+                else if (metagroupId == "mediaplayers") icon = QIcon::fromTheme("applications-multimedia");
+                else if (metagroupId == "lossless") icon = QIcon::fromTheme("drive-harddisk");
+                else if (metagroupId == "mobile") icon = QIcon::fromTheme("pda");
                 m_view.destination_list->addItem(icon, i18n(metagroupName.toUtf8().data()), metagroupId);
             }
         }
@@ -1891,7 +1887,7 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
     item->setData(1, ProgressRole, progress);
     item->setStatus(RUNNINGJOB);
     if (progress == 0) {
-        item->setIcon(0, KIcon("system-run"));
+        item->setIcon(0, QIcon::fromTheme("system-run"));
         item->setData(1, TimeRole, QTime::currentTime());
         slotCheckJob();
     } else {
@@ -2013,7 +2009,7 @@ void RenderWidget::parseScriptFiles()
     // List the project scripts
     QStringList scriptFiles = QDir(m_projectFolder + "scripts").entryList(scriptsFilter, QDir::Files);
     for (int i = 0; i < scriptFiles.size(); ++i) {
-        KUrl scriptpath(m_projectFolder + "scripts/" + scriptFiles.at(i));
+        QUrl scriptpath(m_projectFolder + "scripts/" + scriptFiles.at(i));
         QString target;
         QString renderer;
         QString melt;
@@ -2041,16 +2037,16 @@ void RenderWidget::parseScriptFiles()
         //kDebug()<<"ScRIPT RENDERER: "<<renderer<<"\n++++++++++++++++++++++++++";
         item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
         if (!renderer.isEmpty() && renderer.contains('/') && !QFile::exists(renderer)) {
-            item->setIcon(0, KIcon("dialog-cancel"));
+            item->setIcon(0, QIcon::fromTheme("dialog-cancel"));
             item->setToolTip(1, i18n("Script contains wrong command: %1", renderer));
             item->setData(0, Qt::UserRole, '1');
         } else if (!melt.isEmpty() && melt.contains('/') && !QFile::exists(melt)) {
-            item->setIcon(0, KIcon("dialog-cancel"));
+            item->setIcon(0, QIcon::fromTheme("dialog-cancel"));
             item->setToolTip(1, i18n("Script contains wrong command: %1", melt));
             item->setData(0, Qt::UserRole, '1');
-        } else item->setIcon(0, KIcon("application-x-executable-script"));
+        } else item->setIcon(0, QIcon::fromTheme("application-x-executable-script"));
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
-        item->setData(1, Qt::UserRole, KUrl(QUrl::fromEncoded(target.toUtf8())).pathOrUrl());
+        item->setData(1, Qt::UserRole, QUrl(QUrl::fromEncoded(target.toUtf8())).url(QUrl::PreferLocalFile));
         item->setData(1, Qt::UserRole + 1, scriptpath.path());
     }
     QTreeWidgetItem *script = m_view.scripts_list->topLevelItem(0);
@@ -2100,7 +2096,7 @@ void RenderWidget::slotStartScript()
         if (!renderItem) renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination, ScriptRenderType);
         renderItem->setData(1, ProgressRole, 0);
         renderItem->setStatus(WAITINGJOB);
-        renderItem->setIcon(0, KIcon("media-playback-pause"));
+        renderItem->setIcon(0, QIcon::fromTheme("media-playback-pause"));
         renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
         renderItem->setData(1, TimeRole, QTime::currentTime());
         renderItem->setData(1, ParametersRole, path);
@@ -2163,7 +2159,7 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 
     QString url = props.value("renderurl");
     if (!url.isEmpty())
-        m_view.out_file->setUrl(KUrl(url));
+        m_view.out_file->setUrl(QUrl(url));
 
     // set destination
     int categoryIndex = m_view.destination_list->findData(props.value("renderdestination"));
@@ -2182,7 +2178,7 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 bool RenderWidget::startWaitingRenderJobs()
 {
     m_blockProcessing = true;
-    QString autoscriptFile = getFreeScriptName(KUrl(), "auto");
+    QString autoscriptFile = getFreeScriptName(QUrl(), "auto");
     QFile file(autoscriptFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << autoscriptFile;
@@ -2220,7 +2216,7 @@ bool RenderWidget::startWaitingRenderJobs()
     return true;
 }
 
-QString RenderWidget::getFreeScriptName(const KUrl &projectName, const QString &prefix)
+QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &prefix)
 {
     int ix = 0;
     QString scriptsFolder = m_projectFolder + "scripts/";
@@ -2240,8 +2236,8 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
 {
     RenderJobItem *renderItem = static_cast<RenderJobItem*> (item);
     if (KdenliveSettings::defaultplayerapp().isEmpty() || renderItem->status() != FINISHEDJOB) return;
-    KUrl::List urls;
-    urls.append(KUrl(item->text(1)));
+    QList<QUrl> urls;
+    urls.append(QUrl(item->text(1)));
     KRun::run(KdenliveSettings::defaultplayerapp(), urls, this);
 }
 

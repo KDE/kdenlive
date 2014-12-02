@@ -20,7 +20,6 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-#include <QValidator>
 #include <QMouseEvent>
 
 #include <kglobal.h>
@@ -28,7 +27,7 @@
 #include <kdebug.h>
 #include <krestrictedline.h>
 #include <KColorScheme>
-#include <KRestrictedLine>
+#include <KGlobalSettings>
 
 TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
         : QAbstractSpinBox(parent),

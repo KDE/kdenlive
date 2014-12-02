@@ -15,7 +15,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include <config-kdenlive.h>
 #include <KUrlRequesterDialog>
-#include <KFileDialog>
 #include <KStandardDirs>
 #include <QFile>
 
@@ -55,7 +54,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
             delete getUrl;
             ::exit(0);
         }
-        KUrl rendererPath = getUrl->selectedUrl();
+        QUrl rendererPath = getUrl->selectedUrl();
         delete getUrl;
         if (rendererPath.isEmpty()) {
             ::exit(0);
@@ -79,15 +78,15 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
             QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(),
                                                                            i18n("Cannot find your MLT profiles, please give the path"),
                                                                            pCore->window());
-            getUrl->fileDialog()->setMode(KFile::Directory);
+            getUrl->fileDialog()->setFileMode(QFileDialog::DirectoryOnly);
             if (getUrl->exec() == QDialog::Rejected) {
                 delete getUrl;
                 ::exit(0);
             }
-            KUrl mltPath = getUrl->selectedUrl();
+            QUrl mltPath = getUrl->selectedUrl();
             delete getUrl;
             if (mltPath.isEmpty()) ::exit(0);
-            KdenliveSettings::setMltpath(mltPath.path(KUrl::AddTrailingSlash));
+            KdenliveSettings::setMltpath(mltPath.path() + QDir::separator());
             profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
         }
     }

@@ -22,11 +22,12 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
-#include <KIcon>
-#include <KCursor>
+#include <QIcon>
+#include <KLocale>
 #include <KGlobalSettings>
 #include <KColorScheme>
 
+#include <QCursor>
 #include <QApplication>
 #include <QMouseEvent>
 #include <QStylePainter>
@@ -84,13 +85,13 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
     m_zoneStart = 0;
     m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
-    QAction *addGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Add Guide"));
+    QAction *addGuide = m_contextMenu->addAction(QIcon::fromTheme("document-new"), i18n("Add Guide"));
     connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));
-    m_editGuide = m_contextMenu->addAction(KIcon("document-properties"), i18n("Edit Guide"));
+    m_editGuide = m_contextMenu->addAction(QIcon::fromTheme("document-properties"), i18n("Edit Guide"));
     connect(m_editGuide, SIGNAL(triggered()), this, SLOT(slotEditGuide()));
-    m_deleteGuide = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete Guide"));
+    m_deleteGuide = m_contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete Guide"));
     connect(m_deleteGuide , SIGNAL(triggered()), this, SLOT(slotDeleteGuide()));
-    QAction *delAllGuides = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete All Guides"));
+    QAction *delAllGuides = m_contextMenu->addAction(QIcon::fromTheme("edit-delete"), i18n("Delete All Guides"));
     connect(delAllGuides, SIGNAL(triggered()), m_view, SLOT(slotDeleteAllGuides()));
     m_goMenu = m_contextMenu->addMenu(i18n("Go To"));
     connect(m_goMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToGuide(QAction*)));
@@ -240,11 +241,11 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 	
         if (event->y() <= 10) setCursor(Qt::ArrowCursor);
         else if (qAbs(pos - m_zoneStart * m_factor) < 4) {
-            setCursor(KCursor("left_side", Qt::SizeHorCursor));
+            setCursor(QCursor(Qt::SizeHorCursor));
             if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone start: %1", m_zoneStart));
             else setToolTip(i18n("Zone start: %1", m_timecode.getTimecodeFromFrames(m_zoneStart)));
         } else if (qAbs(pos - m_zoneEnd * m_factor) < 4) {
-            setCursor(KCursor("right_side", Qt::SizeHorCursor));
+            setCursor(QCursor(Qt::SizeHorCursor));
             if (KdenliveSettings::frametimecode()) setToolTip(i18n("Zone end: %1", m_zoneEnd));
             else setToolTip(i18n("Zone end: %1", m_timecode.getTimecodeFromFrames(m_zoneEnd)));
         } else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2.0) * m_factor) < 4) {

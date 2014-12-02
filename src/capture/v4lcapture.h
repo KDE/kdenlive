@@ -21,10 +21,7 @@
 #define __V4LCAPTUREHANDLER_H__
 //#include "src.h"
 
-#include <QWidget>
-#include <QObject>
-#include <QLayout>
-#include <QLabel>
+#include <QStringList>
 
 
 class V4lCaptureHandler

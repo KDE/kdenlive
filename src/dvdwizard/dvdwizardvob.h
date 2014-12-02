@@ -25,7 +25,7 @@
 
 #include <kdeversion.h>
 #include <kcapacitybar.h>
-#include <KUrl>
+#include <QUrl>
 
 #if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
@@ -85,7 +85,7 @@ public:
             r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, KUrl(index.data().toString()).fileName());
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, QUrl(index.data().toString()).fileName());
             font.setBold(false);
             painter->setFont(font);
             QString subText = index.data(Qt::UserRole).toString();
@@ -134,7 +134,7 @@ private:
     void showError(const QString &error);
 
 public slots:
-    void slotAddVobFile(KUrl url = KUrl(), const QString &chapters = QString(), bool checkFormats = true);
+    void slotAddVobFile(QUrl url = QUrl(), const QString &chapters = QString(), bool checkFormats = true);
     void slotAddVobList(const QList<QUrl> &list);
     void slotCheckProfiles();
 
@@ -144,7 +144,7 @@ private slots:
     void slotItemUp();
     void slotItemDown();
     void slotTranscodeFiles();
-    void slotTranscodedClip(KUrl, KUrl);
+    void slotTranscodedClip(QUrl, QUrl);
     
 signals:
     void prepareMonitor();

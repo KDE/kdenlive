@@ -30,12 +30,10 @@
 #include "project/dialogs/slideshowclip.h"
 
 #include <KIO/NetAccess>
-#include <KStandardDirs>
 #include <KApplication>
 #include <KDebug>
 
 #include <QCryptographicHash>
-#include <QtConcurrentRun>
 
 #include <cstdio>
 #include <kmessagebox.h>
@@ -87,7 +85,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
             m_analysisdata.insert(adata.at(i).section('?', 0, 0), adata.at(i).section('?', 1, 1));
     }
 
-    KUrl url = KUrl(xml.attribute("resource"));
+    QUrl url = QUrl(xml.attribute("resource"));
     if (!m_properties.contains("file_hash") && !url.isEmpty()) getFileHash(url.path());
 
     if (xml.hasAttribute("duration")) {
@@ -175,11 +173,11 @@ void DocClipBase::setClipType(ClipType type)
     m_properties.insert("type", QString::number((int) type));
 }
 
-KUrl DocClipBase::fileURL() const
+QUrl DocClipBase::fileURL() const
 {
     QString res = m_properties.value("resource");
-    if (m_clipType != Color && !res.isEmpty()) return KUrl(res);
-    return KUrl();
+    if (m_clipType != Color && !res.isEmpty()) return QUrl(res);
+    return QUrl();
 }
 
 void DocClipBase::setClipThumbFrame(const uint &ix)
@@ -319,7 +317,7 @@ const QString DocClipBase::shortInfo() const
         else tip.append(i18n("Text clip") + "</b><br />" + fileURL().path());
         break;
     case SlideShow:
-        tip.append(i18n("Slideshow clip") + "</b><br />" + fileURL().directory());
+        tip.append(i18n("Slideshow clip") + "</b><br />" + fileURL().adjusted(QUrl::RemoveFilename).path());
         break;
     case Virtual:
         tip.append(i18n("Virtual clip"));
@@ -787,7 +785,7 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
         // Xml producer sometimes loses the correct url
         url = m_properties.value("resource");
     }
-    if (m_clipType == SlideShow || KIO::NetAccess::exists(KUrl(url), KIO::NetAccess::SourceSide, 0)) {
+    if (m_clipType == SlideShow || KIO::NetAccess::exists(QUrl(url), KIO::NetAccess::SourceSide, 0)) {
         result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());
     }
     if (result == NULL || !result->is_valid()) {
@@ -1062,7 +1060,7 @@ void DocClipBase::getFileHash(const QString &url)
 
 bool DocClipBase::checkHash() const
 {
-    KUrl url = fileURL();
+    QUrl url = fileURL();
     if (!url.isEmpty() && getClipHash() != getHash(url.path())) return false;
     return true;
 }
@@ -1114,7 +1112,7 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     m_properties.insert(key, value);
     if (key == "resource") {
         getFileHash(value);
-        if (m_thumbProd) m_thumbProd->updateClipUrl(KUrl(value), m_properties.value("file_hash"));
+        if (m_thumbProd) m_thumbProd->updateClipUrl(QUrl(value), m_properties.value("file_hash"));
         //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
     } else if (key == "out") {
         setDuration(GenTime(value.toInt() + 1, KdenliveSettings::project_fps()));

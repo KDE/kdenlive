@@ -36,11 +36,9 @@
 #include <QEvent>
 #include <QRect>
 #include <QFont>
-#include <QFontMetrics>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QPaintEvent>
-#include <QList>
 
 #include <QSpinBox>
 

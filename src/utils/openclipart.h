@@ -25,7 +25,6 @@
 
 #include "abstractservice.h"
 
-#include <QProcess>
 #include <kio/jobclasses.h>
 
 

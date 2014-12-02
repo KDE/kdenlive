@@ -20,13 +20,15 @@
 
 #include "videoglwidget.h"
 
-#include <QtGui>
-#include <QtOpenGL>
 #ifdef Q_WS_MAC
 #include <OpenGL/glu.h>
 #else
 #include <GL/glu.h>
 #endif
+
+#include <QApplication>
+#include <QMouseEvent>
+#include <QDesktopWidget>
 
 #ifndef GL_TEXTURE_RECTANGLE_EXT
 #define GL_TEXTURE_RECTANGLE_EXT GL_TEXTURE_RECTANGLE_NV

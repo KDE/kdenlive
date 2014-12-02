@@ -24,8 +24,6 @@
 
 #include <KLocalizedString>
 #include <KDiskFreeSpaceInfo>
-#include <KUrlRequester>
-#include <KFileDialog>
 #include <KMessageBox>
 #include <KGuiItem>
 #include <KIO/NetAccess>
@@ -38,8 +36,7 @@
 #endif
 
 #include <QTreeWidget>
-#include <QtConcurrentRun>
-
+#include <QtConcurrent>
 
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <DocClipBase*> &list, const QStringList &luma_list, QWidget * parent) :
         QDialog(parent)
@@ -57,7 +54,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
     setWindowTitle(i18n("Archive Project"));
-    archive_url->setUrl(KUrl(QDir::homePath()));
+    archive_url->setUrl(QUrl(QDir::homePath()));
     connect(archive_url, SIGNAL(textChanged(QString)), this, SLOT(slotCheckSpace()));
     connect(this, SIGNAL(archivingFinished(bool)), this, SLOT(slotArchivingFinished(bool)));
     connect(this, SIGNAL(archiveProgress(int)), this, SLOT(slotArchivingProgress(int)));
@@ -65,46 +62,46 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
-    videos->setIcon(0, KIcon("video-x-generic"));
+    videos->setIcon(0, QIcon::fromTheme("video-x-generic"));
     videos->setData(0, Qt::UserRole, "videos");
     videos->setExpanded(false);
     QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
-    sounds->setIcon(0, KIcon("audio-x-generic"));
+    sounds->setIcon(0, QIcon::fromTheme("audio-x-generic"));
     sounds->setData(0, Qt::UserRole, "sounds");
     sounds->setExpanded(false);
     QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
-    images->setIcon(0, KIcon("image-x-generic"));
+    images->setIcon(0, QIcon::fromTheme("image-x-generic"));
     images->setData(0, Qt::UserRole, "images");
     images->setExpanded(false);
     QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
-    slideshows->setIcon(0, KIcon("image-x-generic"));
+    slideshows->setIcon(0, QIcon::fromTheme("image-x-generic"));
     slideshows->setData(0, Qt::UserRole, "slideshows");
     slideshows->setExpanded(false);
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
-    texts->setIcon(0, KIcon("text-plain"));
+    texts->setIcon(0, QIcon::fromTheme("text-plain"));
     texts->setData(0, Qt::UserRole, "texts");
     texts->setExpanded(false);
     QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
-    playlists->setIcon(0, KIcon("video-mlt-playlist"));
+    playlists->setIcon(0, QIcon::fromTheme("video-mlt-playlist"));
     playlists->setData(0, Qt::UserRole, "playlist");
     playlists->setExpanded(false);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
-    others->setIcon(0, KIcon("unknown"));
+    others->setIcon(0, QIcon::fromTheme("unknown"));
     others->setData(0, Qt::UserRole, "others");
     others->setExpanded(false);
     QTreeWidgetItem *lumas = new QTreeWidgetItem(files_list, QStringList() << i18n("Luma files"));
-    lumas->setIcon(0, KIcon("image-x-generic"));
+    lumas->setIcon(0, QIcon::fromTheme("image-x-generic"));
     lumas->setData(0, Qt::UserRole, "lumas");
     lumas->setExpanded(false);
     
     QTreeWidgetItem *proxies = new QTreeWidgetItem(files_list, QStringList() << i18n("Proxy clips"));
-    proxies->setIcon(0, KIcon("video-x-generic"));
+    proxies->setIcon(0, QIcon::fromTheme("video-x-generic"));
     proxies->setData(0, Qt::UserRole, "proxy");
     proxies->setExpanded(false);
     
     // process all files
     QStringList allFonts;
-    KUrl::List fileUrls;
+    QList <QUrl> fileUrls;
     QStringList fileNames;
     QStringList extraImageUrls;
     QStringList otherUrls;
@@ -122,7 +119,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
         ClipType t = clip->clipType();
         QString id = clip->getId();
         if (t == SlideShow) {
-            KUrl slideUrl = clip->fileURL();
+            QUrl slideUrl = clip->fileURL();
             //TODO: Slideshow files
             slideUrls.insert(id, slideUrl.path());
         }
@@ -213,7 +210,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
 }
 
 // Constructor for extract widget
-ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
+ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget * parent):
     QDialog(parent),
     m_extractMode(true),
     m_extractUrl(url)
@@ -234,7 +231,7 @@ ArchiveWidget::ArchiveWidget(const KUrl &url, QWidget * parent):
     files_list->setHidden(true);
     label->setText(i18n("Extract to"));
     setWindowTitle(i18n("Open Archived Project"));
-    archive_url->setUrl(KUrl(QDir::homePath()));
+    archive_url->setUrl(QUrl(QDir::homePath()));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Extract"));
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartExtracting()));
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
@@ -251,7 +248,7 @@ ArchiveWidget::~ArchiveWidget()
 
 void ArchiveWidget::slotDisplayMessage(const QString &icon, const QString &text)
 {    
-    icon_info->setPixmap(KIcon(icon).pixmap(16, 16));
+    icon_info->setPixmap(QIcon::fromTheme(icon).pixmap(16, 16));
     text_info->setText(text);
 }
 
@@ -262,8 +259,8 @@ void ArchiveWidget::slotJobResult(bool success, const QString &text)
     m_infoMessage->setText(text);
     m_infoMessage->animatedShow();
 #else
-    if (success) icon_info->setPixmap(KIcon("dialog-ok").pixmap(16, 16));
-    else icon_info->setPixmap(KIcon("dialog-close").pixmap(16, 16));
+    if (success) icon_info->setPixmap(QIcon::fromTheme("dialog-ok").pixmap(16, 16));
+    else icon_info->setPixmap(QIcon::fromTheme("dialog-close").pixmap(16, 16));
     text_info->setText(text);
 #endif
 }
@@ -333,13 +330,13 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
     foreach(const QString & file, items) {
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
-        fileName = KUrl(file).fileName();
+        fileName = QUrl(file).fileName();
         if (isSlideshow) {
             // we store each slideshow in a separate subdirectory
             item->setData(0, Qt::UserRole, ix);
             ix++;
-            KUrl slideUrl(file);
-            QDir dir(slideUrl.directory(KUrl::AppendTrailingSlash));
+            QUrl slideUrl(file);
+            QDir dir(slideUrl.adjusted(QUrl::RemoveFilename).path());
             if (slideUrl.fileName().startsWith(QLatin1String(".all."))) {
                 // mimetype slideshow (for example *.png)
                     QStringList filters;
@@ -394,7 +391,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
         if (!isSlideshow) {
             qint64 fileSize = QFileInfo(file).size();
             if (fileSize <= 0) {
-                item->setIcon(0, KIcon("edit-delete"));
+                item->setIcon(0, QIcon::fromTheme("edit-delete"));
                 m_missingClips++;
             }
             else {
@@ -418,13 +415,13 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QStri
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         // Store the clip's id
         item->setData(0, Qt::UserRole + 2, it.key());
-        fileName = KUrl(file).fileName();
+        fileName = QUrl(file).fileName();
         if (isSlideshow) {
             // we store each slideshow in a separate subdirectory
             item->setData(0, Qt::UserRole, ix);
             ix++;
-            KUrl slideUrl(file);
-            QDir dir(slideUrl.directory(KUrl::AppendTrailingSlash));
+            QUrl slideUrl(file);
+            QDir dir(slideUrl.adjusted(QUrl::RemoveFilename).path());
             if (slideUrl.fileName().startsWith(QLatin1String(".all."))) {
                 // mimetype slideshow (for example *.png)
                     QStringList filters;
@@ -479,7 +476,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QStri
         if (!isSlideshow) {
             qint64 fileSize = QFileInfo(file).size();
             if (fileSize <= 0) {
-                item->setIcon(0, KIcon("edit-delete"));
+                item->setIcon(0, QIcon::fromTheme("edit-delete"));
                 m_missingClips++;
             }
             else {
@@ -530,8 +527,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         proxy_only->setEnabled(false);
         compressed_archive->setEnabled(false);
     }
-    KUrl::List files;
-    KUrl destUrl;
+    QList <QUrl> files;
+    QUrl destUrl;
     QString destPath;
     QTreeWidgetItem *parentItem;
     bool isSlideshow = false;
@@ -546,7 +543,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         }
         if (parentItem->childCount() > 0) {
             if (parentItem->data(0, Qt::UserRole).toString() == "slideshows") {
-                KUrl slideFolder(archive_url->url().path(KUrl::AddTrailingSlash) + "slideshows");
+                QUrl slideFolder(archive_url->url().path() + QDir::separator() + "slideshows");
                 if (isArchive) m_foldersList.append("slideshows");
                 else KIO::NetAccess::mkdir(slideFolder, this);
                 isSlideshow = true;
@@ -555,7 +552,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             files_list->setCurrentItem(parentItem);
             parentItem->setExpanded(true);
             destPath = parentItem->data(0, Qt::UserRole).toString() + '/';
-            destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + destPath);
+            destUrl = QUrl(archive_url->url().path() + QDir::separator() + destPath);
             QTreeWidgetItem *item;
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
@@ -564,10 +561,10 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
 		items++;
                 if (isSlideshow) {
                     destPath += item->data(0, Qt::UserRole).toString() + '/';
-                    destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + destPath);
+                    destUrl = QUrl(archive_url->url().path() + QDir::separator() + destPath);
                     QStringList srcFiles = item->data(0, Qt::UserRole + 1).toStringList();
                     for (int k = 0; k < srcFiles.count(); ++k) {
-                        files << KUrl(srcFiles.at(k));
+                        files << QUrl(srcFiles.at(k));
                     }
                     item->setDisabled(true);
                     if (parentItem->indexOfChild(item) == parentItem->childCount() - 1) {
@@ -577,7 +574,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                     break;
                 }
                 else if (item->data(0, Qt::UserRole).isNull()) {
-                    files << KUrl(item->text(0));
+                    files << QUrl(item->text(0));
                 }
                 else {
                     // We must rename the destination file, since another file with same name exists
@@ -585,7 +582,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                     if (isArchive) {
                         m_filesList.insert(item->text(0), destPath + item->data(0, Qt::UserRole).toString());
                     }
-                    else m_duplicateFiles.insert(KUrl(item->text(0)), KUrl(destUrl.path(KUrl::AddTrailingSlash) + item->data(0, Qt::UserRole).toString()));
+                    else m_duplicateFiles.insert(QUrl(item->text(0)), QUrl(destUrl.path() + QDir::separator()+ item->data(0, Qt::UserRole).toString()));
                 }
             }
             if (!isSlideshow) parentItem->setDisabled(true);
@@ -601,11 +598,11 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     
     if (destPath.isEmpty()) {
         if (m_duplicateFiles.isEmpty()) return false;        
-        QMapIterator<KUrl, KUrl> i(m_duplicateFiles);
+        QMapIterator<QUrl, QUrl> i(m_duplicateFiles);
         if (i.hasNext()) {
             i.next();
-            KUrl startJobSrc = i.key();
-            KUrl startJobDst = i.value();
+            QUrl startJobSrc = i.key();
+            QUrl startJobDst = i.value();
             m_duplicateFiles.remove(startJobSrc);
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
             connect(job, SIGNAL(result(KJob*)), this, SLOT(slotArchivingFinished(KJob*)));
@@ -680,27 +677,27 @@ void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
 
 bool ArchiveWidget::processProjectFile()
 {
-    KUrl destUrl;
+    QUrl destUrl;
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
 
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
-            destUrl = KUrl(archive_url->url().path(KUrl::AddTrailingSlash) + parentItem->data(0, Qt::UserRole).toString());
+            destUrl = QUrl(archive_url->url().path() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
             bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == "slideshows";
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
-                KUrl src(item->text(0));
-                KUrl dest = destUrl;
+                QUrl src(item->text(0));
+                QUrl dest = destUrl;
                 if (isSlideshow) {
-                    dest = KUrl(destUrl.path(KUrl::AddTrailingSlash) + item->data(0, Qt::UserRole).toString() + '/' + src.fileName());
+                    dest = QUrl(destUrl.path() + QDir::separator() + item->data(0, Qt::UserRole).toString() + '/' + src.fileName());
                 }
                 else if (item->data(0, Qt::UserRole).isNull()) {
-                    dest.addPath(src.fileName());
+                    dest = QUrl(destUrl.path() + QDir::separator() + src.fileName());
                 }
                 else {
-                    dest.addPath(item->data(0, Qt::UserRole).toString());
+                    dest = QUrl(destUrl.path() + QDir::separator() + item->data(0, Qt::UserRole).toString());
                 }
                 m_replacementList.insert(src, dest);
             }
@@ -713,7 +710,7 @@ bool ArchiveWidget::processProjectFile()
     // Adjust global settings
     QString basePath;
     if (isArchive) basePath = "$CURRENTPATH";
-    else basePath = archive_url->url().path(KUrl::RemoveTrailingSlash);
+    else basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash).path();
     mlt.setAttribute("root", basePath);
     QDomElement project = mlt.firstChildElement("kdenlivedoc");
     project.setAttribute("projectfolder", basePath);
@@ -724,13 +721,13 @@ bool ArchiveWidget::processProjectFile()
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) continue;
         if (e.hasAttribute("resource")) {
-            KUrl src(e.attribute("resource"));
-            KUrl dest = m_replacementList.value(src);
+            QUrl src(e.attribute("resource"));
+            QUrl dest = m_replacementList.value(src);
             if (!dest.isEmpty()) e.setAttribute("resource", dest.path());
         }
         if (e.hasAttribute("proxy") && e.attribute("proxy") != "-") {
-            KUrl src(e.attribute("proxy"));
-            KUrl dest = m_replacementList.value(src);
+            QUrl src(e.attribute("proxy"));
+            QUrl dest = m_replacementList.value(src);
             if (!dest.isEmpty()) e.setAttribute("proxy", dest.path());
         }
     }
@@ -743,8 +740,8 @@ bool ArchiveWidget::processProjectFile()
         QString src = EffectsList::property(e, "resource");
         if (!src.isEmpty()) {
             if (!src.startsWith('/')) src.prepend(root);
-            KUrl srcUrl(src);
-            KUrl dest = m_replacementList.value(src);
+            QUrl srcUrl(src);
+            QUrl dest = m_replacementList.value(src);
             if (!dest.isEmpty()) EffectsList::setProperty(e, "resource", dest.path());
         }
     }
@@ -761,8 +758,8 @@ bool ArchiveWidget::processProjectFile()
         src = EffectsList::property(e, attribute);
         if (!src.isEmpty()) {
             if (!src.startsWith('/')) src.prepend(root);
-            KUrl srcUrl(src);
-            KUrl dest = m_replacementList.value(src);
+            QUrl srcUrl(src);
+            QUrl dest = m_replacementList.value(src);
             if (!dest.isEmpty()) EffectsList::setProperty(e, attribute, dest.path());
         }
     }
@@ -770,11 +767,11 @@ bool ArchiveWidget::processProjectFile()
     QString playList = m_doc.toString();
     if (isArchive) {
         QString startString("\"");
-        startString.append(archive_url->url().path(KUrl::RemoveTrailingSlash));
+        startString.append(archive_url->url().adjusted(QUrl::StripTrailingSlash).path());
         QString endString("\"");
         endString.append(basePath);
         playList.replace(startString, endString);
-        startString = '>' + archive_url->url().path(KUrl::RemoveTrailingSlash);
+        startString = '>' + archive_url->url().adjusted(QUrl::StripTrailingSlash).path();
         endString = '>' + basePath;
         playList.replace(startString, endString);
     }
@@ -788,7 +785,7 @@ bool ArchiveWidget::processProjectFile()
         return true;
     }
     
-    QString path = archive_url->url().path(KUrl::AddTrailingSlash) + m_name + ".kdenlive";
+    QString path = archive_url->url().path() + QDir::separator() + m_name + ".kdenlive";
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << path;
@@ -811,7 +808,7 @@ void ArchiveWidget::createArchive()
     QFileInfo dirInfo(archive_url->url().path());
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
-    KTar archive(archive_url->url().path(KUrl::AddTrailingSlash) + m_name + ".tar.gz", "application/x-gzip");
+    KTar archive(archive_url->url().path() + QDir::separator() + m_name + ".tar.gz", "application/x-gzip");
     archive.open( QIODevice::WriteOnly );
 
     // Create folders
@@ -874,7 +871,7 @@ void ArchiveWidget::slotStartExtracting()
     }
     QFileInfo f(m_extractUrl.path());
     m_requestedSize = f.size();
-    KIO::NetAccess::mkdir(archive_url->url().path(KUrl::RemoveTrailingSlash), this);
+    KIO::NetAccess::mkdir(archive_url->url().adjusted(QUrl::StripTrailingSlash).path(), this);
     slotDisplayMessage("system-run", i18n("Extracting..."));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
@@ -898,14 +895,14 @@ void ArchiveWidget::slotGotProgress(KJob* job)
 
 void ArchiveWidget::doExtracting()
 {
-    m_extractArchive->directory()->copyTo(archive_url->url().path(KUrl::AddTrailingSlash));
+    m_extractArchive->directory()->copyTo(archive_url->url().path() + QDir::separator());
     m_extractArchive->close();
     emit extractingFinished();    
 }
 
 QString ArchiveWidget::extractedProjectFile() const
 {
-    return archive_url->url().path(KUrl::AddTrailingSlash) + m_projectName;
+    return archive_url->url().path() + QDir::separator() + m_projectName;
 }
 
 void ArchiveWidget::slotExtractingFinished()
@@ -924,7 +921,7 @@ void ArchiveWidget::slotExtractingFinished()
             error = true;
         }
         else {
-            playList.replace("$CURRENTPATH", archive_url->url().path(KUrl::RemoveTrailingSlash));
+            playList.replace("$CURRENTPATH", archive_url->url().adjusted(QUrl::StripTrailingSlash).path());
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                 kWarning() << "//////  ERROR writing to file: ";
                 error = true;
@@ -1017,3 +1014,4 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
 
 
 #include "archivewidget.moc"
+

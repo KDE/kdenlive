@@ -18,7 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 HideTitleBars::HideTitleBars(QObject* parent) :
     QObject(parent)
 {
-    QAction *showTitleBar = new KAction(i18n("Show Title Bars"), this);
+    QAction *showTitleBar = new QAction(i18n("Show Title Bars"), this);
     showTitleBar->setCheckable(true);
     showTitleBar->setChecked(KdenliveSettings::showtitlebars());
     pCore->window()->addAction("show_titlebars", showTitleBar);

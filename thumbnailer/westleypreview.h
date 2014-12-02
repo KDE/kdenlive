@@ -27,7 +27,6 @@
 
 #include <mlt++/Mlt.h>
 
-#include <QStringList>
 #include <QObject>
 
 class MltPreview : public QObject, public ThumbCreator

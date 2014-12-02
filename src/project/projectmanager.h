@@ -12,7 +12,8 @@ the Free Software Foundation, either version 3 of the License, or
 #define PROJECTMANAGER_H
 
 #include <QObject>
-#include <KUrl>
+#include <QUrl>
+#include <KRecentFilesAction>
 #include "kdenlivecore_export.h"
 
 class Project;
@@ -20,10 +21,9 @@ class AbstractProjectPart;
 class TrackView;
 class KdenliveDoc;
 class NotesPlugin;
-class KAction;
-class KUrl;
+class QAction;
+class QUrl;
 class KAutoSaveFile;
-class KRecentFilesAction;
 
 
 /**
@@ -50,10 +50,10 @@ public:
      * precedence, then "openlastproject", then just a plain empty file.
      * If opening Url fails, openlastproject will _not_ be used.
      */
-    void init(const KUrl &projectUrl, const QString &clipList);
+    void init(const QUrl &projectUrl, const QString &clipList);
 
-    void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
-    void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KUrl &originUrl);
+    void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
+    void recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const QUrl &originUrl);
 
     KRecentFilesAction *recentFilesAction();
 
@@ -81,12 +81,12 @@ public slots:
     /** @brief Prepares opening @param url.
     *
     * Checks if already open and whether backup exists */
-    void openFile(const KUrl &url);
+    void openFile(const QUrl &url);
 
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */
-    void slotOpenBackup(const KUrl &url = KUrl());
+    void slotOpenBackup(const QUrl &url = QUrl());
 
 signals:
     void docOpened(KdenliveDoc *document);
@@ -101,8 +101,8 @@ private:
     KdenliveDoc *m_project;
     TrackView *m_trackView;
 
-    KAction *m_fileRevert;
-    KUrl m_startUrl;
+    QAction *m_fileRevert;
+    QUrl m_startUrl;
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
 };

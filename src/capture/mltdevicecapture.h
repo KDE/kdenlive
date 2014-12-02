@@ -29,9 +29,9 @@
 
 #include <mlt/framework/mlt_types.h>
 
-#include <QtConcurrentRun>
 #include <QTimer>
- 
+#include <QMutex>
+
 namespace Mlt
 {
 class Consumer;

@@ -30,24 +30,16 @@
 #include "kdenlivesettings.h"
 #include "project/invaliddialog.h"
 
-#include <QDomNodeList>
 #include <QHash>
-#include <QToolBar>
 #include <QToolButton>
 #include <QTreeWidget>
-#include <QPainter>
 #include <QUndoStack>
-#include <QTimer>
-#include <QApplication>
 #include <QFuture>
 #include <QFutureSynchronizer>
-#include <QListWidget>
 #include <QTimeLine>
 #include <QPushButton>
 
 #include <KTreeWidgetSearchLine>
-#include <KUrl>
-#include <KIcon>
 #include <kdeversion.h>
 
 #ifdef NEPOMUK
@@ -158,7 +150,7 @@ public:
     void selectItemById(const QString &clipId);
 
     /** @brief Returns a string list of all supported mime extensions. */
-    static QString getExtensions();
+    static QStringList getExtensions();
     /** @brief Returns a list of urls containing original and proxy urls. */
     QMap <QString, QString> getProxies();
     /** @brief Enable / disable proxies. */

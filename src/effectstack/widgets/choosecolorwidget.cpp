@@ -25,7 +25,6 @@
 #include <QHBoxLayout>
 
 #include <KColorButton>
-#include <KLocalizedString>
 #include <kdeversion.h>
 #include <KDebug>
 

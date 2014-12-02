@@ -23,14 +23,16 @@ the Free Software Foundation, either version 3 of the License, or
 #include "effectstack/effectstackview2.h"
 #include "project/dialogs/backupwidget.h"
 #include "project/notesplugin.h"
-#include <KTabWidget>
 #include <KFileDialog>
 #include <KActionCollection>
-#include <KAction>
+#include <QAction>
 #include <KMessageBox>
 #include <KIO/NetAccess>
 #include <KProgressDialog>
+#include <KMimeType>
+
 #include <QCryptographicHash>
+#include <QFileDialog>
 
 
 ProjectManager::ProjectManager(QObject* parent) :
@@ -44,9 +46,9 @@ ProjectManager::ProjectManager(QObject* parent) :
     KStandardAction::open(this,                   SLOT(openFile()),               pCore->window()->actionCollection());
     KStandardAction::saveAs(this,                 SLOT(saveFileAs()),             pCore->window()->actionCollection());
     KStandardAction::openNew(this,                SLOT(newFile()),                pCore->window()->actionCollection());
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), pCore->window()->actionCollection());
+    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
 
-    KAction* backupAction = new KAction(KIcon("edit-undo"), i18n("Open Backup File"), this);
+    QAction * backupAction = new QAction(QIcon::fromTheme("edit-undo"), i18n("Open Backup File"), this);
     pCore->window()->addAction("open_backup", backupAction);
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 
@@ -57,7 +59,7 @@ ProjectManager::~ProjectManager()
 {
 }
 
-void ProjectManager::init(const KUrl& projectUrl, const QString& clipList)
+void ProjectManager::init(const QUrl& projectUrl, const QString& clipList)
 {
     if (!projectUrl.isEmpty()) {
         // delay loading so that the window shows up
@@ -87,7 +89,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     }
     m_fileRevert->setEnabled(false);
     QString profileName = KdenliveSettings::default_profile();
-    KUrl projectFolder = KdenliveSettings::defaultprojectfolder();
+    QUrl projectFolder = KdenliveSettings::defaultprojectfolder();
     QMap <QString, QString> documentProperties;
     QMap <QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
@@ -127,11 +129,11 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     pCore->window()->m_timelineArea->setEnabled(true);
     pCore->window()->m_projectList->setEnabled(true);
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
-    doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
+    KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
+    doc->m_autosave = new KAutoSaveFile(QUrl(), doc);
     bool ok;
     m_trackView = new TrackView(doc, pCore->window()->m_tracksActionCollection->actions(), &ok, pCore->window());
-    pCore->window()->m_timelineArea->addTab(m_trackView, KIcon("kdenlive"), doc->description());
+    pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), doc->description());
 
     m_project = doc;
     if (!ok) {
@@ -200,17 +202,17 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
 
     // Save timeline thumbnails
     m_trackView->projectView()->saveThumbnails();
-    m_project->setUrl(KUrl(outputFileName));
-    QByteArray hash = QCryptographicHash::hash(KUrl(outputFileName).encodedPath(), QCryptographicHash::Md5).toHex();
+    m_project->setUrl(QUrl(outputFileName));
+    QByteArray hash = QCryptographicHash::hash(QUrl(outputFileName).encodedPath(), QCryptographicHash::Md5).toHex();
     if (m_project->m_autosave == NULL) {
-        m_project->m_autosave = new KAutoSaveFile(KUrl(hash), this);
+        m_project->m_autosave = new KAutoSaveFile(QUrl(hash), this);
     } else {
-        m_project->m_autosave->setManagedFile(KUrl(hash));
+        m_project->m_autosave->setManagedFile(QUrl(hash));
     }
 
     pCore->window()->setCaption(m_project->description());
     m_project->setModified(false);
-    m_recentFilesAction->addUrl(KUrl(outputFileName));
+    m_recentFilesAction->addUrl(QUrl(outputFileName));
     m_fileRevert->setEnabled(true);
     pCore->window()->m_undoView->stack()->setClean();
 
@@ -219,7 +221,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
 
 bool ProjectManager::saveFileAs()
 {
-    QString outputFile = KFileDialog::getSaveFileName(m_project->projectFolder(), getMimeType(false));
+    QString outputFile = QFileDialog::getSaveFileName(0, QString(), m_project->projectFolder().path(), getMimeType(false));
     if (outputFile.isEmpty()) {
         return false;
     }
@@ -249,10 +251,10 @@ void ProjectManager::openFile()
 {
     if (!m_startUrl.isEmpty()) {
         openFile(m_startUrl);
-        m_startUrl = KUrl();
+        m_startUrl = QUrl();
         return;
     }
-    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), getMimeType());
+    QUrl url = QFileDialog::getOpenFileUrl(0, QString(), QUrl("kfiledialog:///projectfolder"), getMimeType());
     if (url.isEmpty()) {
         return;
     }
@@ -277,7 +279,7 @@ void ProjectManager::openLastFile()
     }
 }
 
-void ProjectManager::openFile(const KUrl &url)
+void ProjectManager::openFile(const QUrl &url)
 {
     // Make sure the url is a Kdenlive project file
     KMimeType::Ptr mime = KMimeType::findByUrl(url);
@@ -286,7 +288,7 @@ void ProjectManager::openFile(const KUrl &url)
         kDebug()<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) {
-            openFile(KUrl(ar->extractedProjectFile()));
+            openFile(QUrl(ar->extractedProjectFile()));
         } else if (!m_startUrl.isEmpty()) {
             // we tried to open an invalid file from command line, init new project
             newFile(false);
@@ -315,7 +317,7 @@ void ProjectManager::openFile(const KUrl &url)
 
     // Check for backup file
     QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
-    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(KUrl(hash));
+    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(QUrl(hash));
     if (!staleFiles.isEmpty()) {
         if (KMessageBox::questionYesNo(pCore->window(),
                                        i18n("Auto-saved files exist. Do you want to recover them now?"),
@@ -336,7 +338,7 @@ void ProjectManager::openFile(const KUrl &url)
     doOpenFile(url, NULL);
 }
 
-void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
+void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 {
     Q_ASSERT(m_project == NULL);
 
@@ -356,7 +358,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setValue(0);
 
     bool openBackup;
-    KdenliveDoc *doc = new KdenliveDoc(stale ? KUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
+    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl(stale->fileName()) : url, KdenliveSettings::defaultprojectfolder(), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window(), &progressDialog);
 
     progressDialog.progressBar()->setValue(1);
     progressDialog.progressBar()->setMaximum(4);
@@ -365,7 +367,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 
     if (stale == NULL) {
         QByteArray hash = QCryptographicHash::hash(url.encodedPath(), QCryptographicHash::Md5).toHex();
-        stale = new KAutoSaveFile(KUrl(hash), doc);
+        stale = new KAutoSaveFile(QUrl(hash), doc);
         doc->m_autosave = stale;
     } else {
         doc->m_autosave = stale;
@@ -387,7 +389,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
     progressDialog.progressBar()->setValue(3);
     progressDialog.repaint();
 
-    pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, KIcon("kdenlive"), m_project->description()));
+    pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme("kdenlive"), m_project->description()));
     if (!ok) {
         pCore->window()->m_timelineArea->setEnabled(false);
         pCore->window()->m_projectList->setEnabled(false);
@@ -408,7 +410,7 @@ void ProjectManager::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 }
 
 
-void ProjectManager::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const KUrl &originUrl)
+void ProjectManager::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, const QUrl &originUrl)
 {
     foreach(KAutoSaveFile * stale, staleFiles) {
         /*if (!stale->open(QIODevice::QIODevice::ReadOnly)) {
@@ -422,7 +424,7 @@ void ProjectManager::recoverFiles(const QList<KAutoSaveFile *> &staleFiles, cons
         if (!stale->fileName().endsWith(".lock")) {
             doOpenFile(originUrl, stale);
         } else {
-            KIO::NetAccess::del(KUrl(stale->fileName()), pCore->window());
+            KIO::NetAccess::del(QUrl(stale->fileName()), pCore->window());
         }
     }
 }
@@ -432,7 +434,7 @@ void ProjectManager::slotRevert()
     if (KMessageBox::warningContinueCancel(pCore->window(), i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel){
         return;
     }
-    KUrl url = m_project->url();
+    QUrl url = m_project->url();
     if (closeCurrentDocument(false))
         doOpenFile(url, NULL);
 }
@@ -455,14 +457,14 @@ KdenliveDoc* ProjectManager::current()
     return m_project;
 }
 
-void ProjectManager::slotOpenBackup(const KUrl& url)
+void ProjectManager::slotOpenBackup(const QUrl& url)
 {
-    KUrl projectFile;
-    KUrl projectFolder;
+    QUrl projectFile;
+    QUrl projectFolder;
     QString projectId;
     if (!url.isEmpty()) {
         // we could not open the project file, guess where the backups are
-        projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
+        projectFolder = QUrl(KdenliveSettings::defaultprojectfolder());
         projectFile = url;
     } else {
         projectFolder = m_project->projectFolder();
@@ -475,7 +477,7 @@ void ProjectManager::slotOpenBackup(const KUrl& url)
         QString requestedBackup = dia->selectedFile();
         m_project->backupLastSavedVersion(projectFile.path());
         closeCurrentDocument(false);
-        doOpenFile(KUrl(requestedBackup), NULL);
+        doOpenFile(QUrl(requestedBackup), NULL);
         m_project->setUrl(projectFile);
         m_project->setModified(true);
         pCore->window()->setCaption(m_project->description());

@@ -35,12 +35,7 @@
 #include <KProcess>
 #include <kmimetype.h>
 #include <KRun>
-#include <KService>
-#include <KMimeTypeTrader>
-
-#if KDE_IS_VERSION(4,7,0)
 #include <KMessageWidget>
-#endif
 
 #include <QLabel>
 #include <QFile>
@@ -70,7 +65,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     m_welcomeLabel->setWordWrap(true);
     m_startLayout = new QVBoxLayout;
     m_startLayout->addWidget(m_welcomeLabel);
-    QPushButton *but = new QPushButton(KIcon("help-about"), i18n("Discover the features of this Kdenlive release"), this);
+    QPushButton *but = new QPushButton(QIcon::fromTheme("help-about"), i18n("Discover the features of this Kdenlive release"), this);
     connect(but, SIGNAL(clicked()), this, SLOT(slotShowWebInfos()));
     m_startLayout->addStretch();
     m_startLayout->addWidget(but);
@@ -91,8 +86,8 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     page2->setTitle(i18n("Video Standard"));
     m_standard.setupUi(page2);
 
-    m_okIcon = KIcon("dialog-ok");
-    m_badIcon = KIcon("dialog-close");
+    m_okIcon = QIcon::fromTheme("dialog-ok");
+    m_badIcon = QIcon::fromTheme("dialog-close");
 
     // build profiles lists
     QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
@@ -129,7 +124,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     page3->setTitle(i18n("Additional Settings"));
     m_extra.setupUi(page3);
     m_extra.projectfolder->setMode(KFile::Directory);
-    m_extra.projectfolder->setUrl(KUrl(KdenliveSettings::defaultprojectfolder()));
+    m_extra.projectfolder->setUrl(QUrl(KdenliveSettings::defaultprojectfolder()));
     m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
     m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());
@@ -150,7 +145,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
     connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
     connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
-    m_capture.button_reload->setIcon(KIcon("view-refresh"));
+    m_capture.button_reload->setIcon(QIcon::fromTheme("view-refresh"));
 
     addPage(page6);
 #endif
@@ -464,29 +459,14 @@ void Wizard::checkMissingCodecs()
         missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
         // Some codecs required for rendering are not present on this system, warn user
         show();
-#if KDE_IS_VERSION(4,7,0)
         KMessageWidget *infoMessage = new KMessageWidget(this);
         m_startLayout->insertWidget(1, infoMessage);
         infoMessage->setCloseButtonVisible(false);
         infoMessage->setWordWrap(true);
         infoMessage->setMessageType(KMessageWidget::Warning);
-#if KDE_IS_VERSION(4,10,0)
         connect(infoMessage, SIGNAL(linkActivated(QString)), this, SLOT(slotOpenManual()));
         infoMessage->setText(missing);
-#else
-        // clickable text in kmessagewidget only available since KDE 4.10
-        // remove link from text
-        missing.remove(QRegExp("<[^>]*>"));
-        infoMessage->setText(missing);
-        QAction *manualAction = new QAction(i18n("Check online manual"), this);
-        connect(manualAction, SIGNAL(triggered()), this, SLOT(slotOpenManual()));
-        infoMessage->addAction(manualAction);
-#endif
         infoMessage->animatedShow();
-#else
-        m_welcomeLabel->setText(m_welcomeLabel->text() + "<br><hr />" + missing);
-        connect(m_welcomeLabel, SIGNAL(linkActivated(QString)), this, SLOT(slotOpenManual()));
-#endif
     }
     
 }
@@ -566,9 +546,10 @@ void Wizard::slotCheckPrograms()
         if (!program.isEmpty()) KdenliveSettings::setDefaultaudioapp(program);
     }
     if (KdenliveSettings::defaultplayerapp().isEmpty()) {
-        KService::Ptr offer = KMimeTypeTrader::self()->preferredService("video/mpeg");
+        //TODO: re-add in KF5
+        /*KService::Ptr offer = KMimeTypeTrader::self()->preferredService("video/mpeg");
         if (offer)
-            KdenliveSettings::setDefaultplayerapp(KRun::binaryName(offer->exec(), true));
+            KdenliveSettings::setDefaultplayerapp(KRun::binaryName(offer->exec(), true));*/
     }
 }
 
@@ -743,7 +724,7 @@ void Wizard::slotCheckMlt()
     if (!errorMessage.isEmpty()) {
         errorMessage.prepend(QString("<b>%1</b><br />").arg(i18n("Fatal Error")));
         QLabel *pix = new QLabel();
-        pix->setPixmap(KIcon("dialog-error").pixmap(30));
+        pix->setPixmap(QIcon::fromTheme("dialog-error").pixmap(30));
         QLabel *label = new QLabel(errorMessage);
         label->setWordWrap(true);
         m_startLayout->addSpacing(40);
@@ -764,12 +745,12 @@ bool Wizard::isOk() const
 
 void Wizard::slotOpenManual()
 {
-    KRun::runUrl(KUrl("http://kdenlive.org/troubleshooting"), "text/html", this);
+    KRun::runUrl(QUrl("http://kdenlive.org/troubleshooting"), "text/html", this);
 }
 
 void Wizard::slotShowWebInfos()
 {
-    KRun::runUrl(KUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(' ', 0, 0)), "text/html", this);
+    KRun::runUrl(QUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(' ', 0, 0)), "text/html", this);
 }
 
 void Wizard::slotSaveCaptureFormat()

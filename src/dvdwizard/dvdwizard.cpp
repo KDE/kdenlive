@@ -34,7 +34,6 @@
 #include <KMessageBox>
 
 #include <QFile>
-#include <QApplication>
 #include <QTimer>
 #include <QDomDocument>
 #include <QMenu>
@@ -72,12 +71,12 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     m_status.setupUi(page4);
     m_status.error_box->setHidden(true);
     m_status.error_box->setTabBarHidden(true);
-    m_status.tmp_folder->setUrl(KUrl(KdenliveSettings::currenttmpfolder()));
+    m_status.tmp_folder->setUrl(QUrl(KdenliveSettings::currenttmpfolder()));
     m_status.tmp_folder->setMode(KFile::Directory | KFile::ExistingOnly);
-    m_status.iso_image->setUrl(KUrl(QDir::homePath() + "/untitled.iso"));
+    m_status.iso_image->setUrl(QUrl(QDir::homePath() + "/untitled.iso"));
     m_status.iso_image->setFilter("*.iso");
     m_status.iso_image->setMode(KFile::File);
-    m_status.iso_image->fileDialog()->setOperationMode(KFileDialog::Saving);
+    m_status.iso_image->fileDialog()->setFileMode(QFileDialog::AnyFile);//KFileDialog::Saving);
 
 #if KDE_IS_VERSION(4,7,0)
     m_isoMessage = new KMessageWidget;
@@ -97,26 +96,26 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     QString exec = KStandardDirs::findExe(programName);
     if (!exec.isEmpty()) {
         //Add K3b action
-        QAction *k3b = m_burnMenu->addAction(KIcon(programName), i18n("Burn with %1", programName), this, SLOT(slotBurn()));
+        QAction *k3b = m_burnMenu->addAction(QIcon::fromTheme(programName), i18n("Burn with %1", programName), this, SLOT(slotBurn()));
         k3b->setData(exec);
     }
     programName = "brasero";
     exec = KStandardDirs::findExe(programName);
     if (!exec.isEmpty()) {
         //Add Brasero action
-        QAction *brasero = m_burnMenu->addAction(KIcon(programName), i18n("Burn with %1", programName), this, SLOT(slotBurn()));
+        QAction *brasero = m_burnMenu->addAction(QIcon::fromTheme(programName), i18n("Burn with %1", programName), this, SLOT(slotBurn()));
         brasero->setData(exec);
     }
     if (m_burnMenu->isEmpty()) m_burnMenu->addAction(i18n("No burning program found (K3b, Brasero)"));
     m_status.button_burn->setMenu(m_burnMenu);
-    m_status.button_burn->setIcon(KIcon("tools-media-optical-burn"));
+    m_status.button_burn->setIcon(QIcon::fromTheme("tools-media-optical-burn"));
     m_status.button_burn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    m_status.button_preview->setIcon(KIcon("media-playback-start"));
+    m_status.button_preview->setIcon(QIcon::fromTheme("media-playback-start"));
 
     setButtonText(QWizard::CustomButton1, i18n("Load"));
     setButtonText(QWizard::CustomButton2, i18n("Save"));
-    button(QWizard::CustomButton1)->setIcon(KIcon("document-open"));
-    button(QWizard::CustomButton2)->setIcon(KIcon("document-save"));
+    button(QWizard::CustomButton1)->setIcon(QIcon::fromTheme("document-open"));
+    button(QWizard::CustomButton2)->setIcon(QIcon::fromTheme("document-save"));
     connect(button(QWizard::CustomButton1), SIGNAL(clicked()), this, SLOT(slotLoad()));
     connect(button(QWizard::CustomButton2), SIGNAL(clicked()), this, SLOT(slotSave()));
     setOption(QWizard::HaveCustomButton1, true);
@@ -233,7 +232,7 @@ void DvdWizard::generateDvd()
 
     QListWidgetItem *images =  m_status.job_progress->item(0);
     m_status.job_progress->setCurrentRow(0);
-    images->setIcon(KIcon("system-run"));
+    images->setIcon(QIcon::fromTheme("system-run"));
     m_status.error_log->clear();
     // initialize html content
     m_status.error_log->setText("<html></html>");
@@ -241,14 +240,14 @@ void DvdWizard::generateDvd()
     if (m_pageMenu->createMenu()) {
         m_pageMenu->createButtonImages(m_selectedImage.fileName(), m_highlightedImage.fileName(), false);
         m_pageMenu->createBackgroundImage(m_menuImageBackground.fileName(), false);
-        images->setIcon(KIcon("dialog-ok"));
+        images->setIcon(QIcon::fromTheme("dialog-ok"));
         connect(&m_menuJob, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotProcessMenuStatus(int,QProcess::ExitStatus)));
         //kDebug() << "/// STARTING MLT VOB CREATION: "<<m_selectedImage.fileName()<<m_menuImageBackground.fileName();
         if (!m_pageMenu->menuMovie()) {
             // create menu vob file
             m_vobitem =  m_status.job_progress->item(1);
             m_status.job_progress->setCurrentRow(1);
-            m_vobitem->setIcon(KIcon("system-run"));
+            m_vobitem->setIcon(QIcon::fromTheme("system-run"));
 
             QStringList args;
             args << "-profile" << m_pageVob->dvdProfile();
@@ -261,7 +260,7 @@ void DvdWizard::generateDvd()
             // Movie as menu background, do the compositing
             m_vobitem =  m_status.job_progress->item(1);
             m_status.job_progress->setCurrentRow(1);
-            m_vobitem->setIcon(KIcon("system-run"));
+            m_vobitem->setIcon(QIcon::fromTheme("system-run"));
 
             int menuLength = m_pageMenu->menuMovieLength();
             if (menuLength == -1) {
@@ -294,7 +293,7 @@ void DvdWizard::processSpumux()
     // create xml spumux file
     QListWidgetItem *spuitem =  m_status.job_progress->item(2);
     m_status.job_progress->setCurrentRow(2);
-    spuitem->setIcon(KIcon("system-run"));
+    spuitem->setIcon(QIcon::fromTheme("system-run"));
     QDomDocument doc;
     QDomElement sub = doc.createElement("subpictures");
     doc.appendChild(sub);
@@ -373,7 +372,7 @@ void DvdWizard::processSpumux()
         if (spumux.exitStatus() == QProcess::CrashExit) {
             //TODO: inform user via messagewidget after string freeze
             QByteArray result = spumux.readAllStandardError();
-            spuitem->setIcon(KIcon("dialog-close"));
+            spuitem->setIcon(QIcon::fromTheme("dialog-close"));
             m_status.error_log->append(result);
             m_status.error_box->setHidden(false);
             m_status.error_box->setTabBarHidden(false);
@@ -386,7 +385,7 @@ void DvdWizard::processSpumux()
     } else {
         kDebug() << "/// RENDERING SPUMUX MENU timed out";
         errorMessage(i18n("Rendering job timed out"));
-        spuitem->setIcon(KIcon("dialog-close"));
+        spuitem->setIcon(QIcon::fromTheme("dialog-close"));
         m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Menu job timed out"));
         m_status.error_log->scrollToAnchor("result");
         m_status.error_box->setHidden(false);
@@ -456,7 +455,7 @@ void DvdWizard::processSpumux()
             if (spumux.exitStatus() == QProcess::CrashExit) {
                 //TODO: inform user via messagewidget after string freeze
                 QByteArray result = spumux.readAllStandardError();
-                spuitem->setIcon(KIcon("dialog-close"));
+                spuitem->setIcon(QIcon::fromTheme("dialog-close"));
                 m_status.error_log->append(result);
                 m_status.error_box->setHidden(false);
                 m_status.error_box->setTabBarHidden(false);
@@ -469,7 +468,7 @@ void DvdWizard::processSpumux()
         } else {
             kDebug() << "/// RENDERING SPUMUX MENU timed out";
             errorMessage(i18n("Rendering job timed out"));
-            spuitem->setIcon(KIcon("dialog-close"));
+            spuitem->setIcon(QIcon::fromTheme("dialog-close"));
             m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Menu job timed out"));
             m_status.error_log->scrollToAnchor("result");
             m_status.error_box->setHidden(false);
@@ -483,7 +482,7 @@ void DvdWizard::processSpumux()
     }
     else menuMovieUrl = m_menuVobFile.fileName();
 
-    spuitem->setIcon(KIcon("dialog-ok"));
+    spuitem->setIcon(QIcon::fromTheme("dialog-ok"));
     kDebug() << "/// DONE: " << menuMovieUrl;
     processDvdauthor(menuMovieUrl, buttons, buttonsTarget);
 }
@@ -493,12 +492,12 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
     // create dvdauthor xml
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     m_status.job_progress->setCurrentRow(3);
-    authitem->setIcon(KIcon("system-run"));
-    KIO::NetAccess::mkdir(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), this);
+    authitem->setIcon(QIcon::fromTheme("system-run"));
+    KIO::NetAccess::mkdir(QUrl(m_status.tmp_folder->url().path() + QDir::separator() + "DVD"), this);
 
     QDomDocument dvddoc;
     QDomElement auth = dvddoc.createElement("dvdauthor");
-    auth.setAttribute("dest", m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD");
+    auth.setAttribute("dest", m_status.tmp_folder->url().path() + QDir::separator() + "DVD");
     dvddoc.appendChild(auth);
     QDomElement vmgm = dvddoc.createElement("vmgm");
     auth.appendChild(vmgm);
@@ -689,14 +688,14 @@ void DvdWizard::slotProcessMenuStatus(int, QProcess::ExitStatus status)
         kDebug() << "/// RENDERING MENU vob crashed";
         errorMessage(i18n("Rendering menu crashed"));
         QByteArray result = m_menuJob.readAllStandardError();
-        if (m_vobitem) m_vobitem->setIcon(KIcon("dialog-close"));
+        if (m_vobitem) m_vobitem->setIcon(QIcon::fromTheme("dialog-close"));
         m_status.error_log->append(result);
         m_status.error_box->setHidden(false);
         m_status.button_start->setEnabled(true);
         m_status.button_abort->setEnabled(false);
         return;
     }
-    if (m_vobitem) m_vobitem->setIcon(KIcon("dialog-ok"));
+    if (m_vobitem) m_vobitem->setIcon(QIcon::fromTheme("dialog-ok"));
     processSpumux();
 }
 
@@ -738,7 +737,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
         m_status.menu_file->setPlainText(m_menuFile.readAll());
         m_status.dvd_file->setPlainText(m_authorFile.readAll());
         kDebug() << "DVDAuthor process crashed";
-        authitem->setIcon(KIcon("dialog-close"));
+        authitem->setIcon(QIcon::fromTheme("dialog-close"));
         m_dvdauthor->close();
         delete m_dvdauthor;
         m_dvdauthor = NULL;
@@ -763,16 +762,16 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
         m_status.menu_file->setPlainText(m_menuFile.readAll());
         m_status.dvd_file->setPlainText(m_authorFile.readAll());
         kDebug() << "DVDAuthor process crashed";
-        authitem->setIcon(KIcon("dialog-close"));
+        authitem->setIcon(QIcon::fromTheme("dialog-close"));
         m_status.button_start->setEnabled(true);
         m_status.button_abort->setEnabled(false);
         cleanup();
         button(QWizard::FinishButton)->setEnabled(true);
         return;
     }
-    authitem->setIcon(KIcon("dialog-ok"));
+    authitem->setIcon(QIcon::fromTheme("dialog-ok"));
     QStringList args;
-    args << "-dvd-video" << "-v" << "-o" << m_status.iso_image->url().path() << m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD";
+    args << "-dvd-video" << "-v" << "-o" << m_status.iso_image->url().path() << m_status.tmp_folder->url().path() + QDir::separator() + "DVD";
 
     if (m_mkiso) {
         m_mkiso->blockSignals(true);
@@ -786,7 +785,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     m_mkiso->setProcessChannelMode(QProcess::MergedChannels);
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     m_status.job_progress->setCurrentRow(4);
-    isoitem->setIcon(KIcon("system-run"));
+    isoitem->setIcon(QIcon::fromTheme("system-run"));
     if (!KStandardDirs::findExe("genisoimage").isEmpty()) m_mkiso->start("genisoimage", args);
     else m_mkiso->start("mkisofs", args);
 
@@ -819,7 +818,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
         m_mkiso = NULL;
         cleanup();
         kDebug() << "Iso process crashed";
-        isoitem->setIcon(KIcon("dialog-close"));
+        isoitem->setIcon(QIcon::fromTheme("dialog-close"));
         m_status.button_start->setEnabled(true);
         m_status.button_abort->setEnabled(false);
         return;
@@ -844,12 +843,12 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
         m_status.error_box->setTabBarHidden(false);
         m_status.menu_file->setPlainText(m_menuFile.readAll());
         m_status.dvd_file->setPlainText(m_authorFile.readAll());
-        isoitem->setIcon(KIcon("dialog-close"));
+        isoitem->setIcon(QIcon::fromTheme("dialog-close"));
         cleanup();
         return;
     }
 
-    isoitem->setIcon(KIcon("dialog-ok"));
+    isoitem->setIcon(QIcon::fromTheme("dialog-ok"));
     kDebug() << "ISO IMAGE " << m_status.iso_image->url().path() << " Successfully created";
     cleanup();
     kDebug() << m_creationLog;
@@ -867,7 +866,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
 
 void DvdWizard::cleanup()
 {
-    KIO::NetAccess::del(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), this);
+    KIO::NetAccess::del(QUrl(m_status.tmp_folder->url().path() + QDir::separator() + "DVD"), this);
 }
 
 
@@ -904,15 +903,15 @@ void DvdWizard::slotGenerate()
     // clear job icons
     if ((m_dvdauthor && m_dvdauthor->state() != QProcess::NotRunning) || (m_mkiso && m_mkiso->state() != QProcess::NotRunning)) return;
     for (int i = 0; i < m_status.job_progress->count(); ++i)
-        m_status.job_progress->item(i)->setIcon(KIcon());
+        m_status.job_progress->item(i)->setIcon(QIcon());
     QString warnMessage;
-    if (KIO::NetAccess::exists(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), KIO::NetAccess::SourceSide, this))
-        warnMessage.append(i18n("Folder %1 already exists. Overwrite?\n", m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"));
-    if (KIO::NetAccess::exists(KUrl(m_status.iso_image->url().path()), KIO::NetAccess::SourceSide, this))
+    if (KIO::NetAccess::exists(QUrl(m_status.tmp_folder->url().path() + QDir::separator() + "DVD"), KIO::NetAccess::SourceSide, this))
+        warnMessage.append(i18n("Folder %1 already exists. Overwrite?\n", m_status.tmp_folder->url().path() + QDir::separator() + "DVD"));
+    if (KIO::NetAccess::exists(QUrl(m_status.iso_image->url().path()), KIO::NetAccess::SourceSide, this))
         warnMessage.append(i18n("Image file %1 already exists. Overwrite?", m_status.iso_image->url().path()));
 
     if (warnMessage.isEmpty() || KMessageBox::questionYesNo(this, warnMessage) == KMessageBox::Yes) {
-        KIO::NetAccess::del(KUrl(m_status.tmp_folder->url().path(KUrl::AddTrailingSlash) + "DVD"), this);
+        KIO::NetAccess::del(QUrl(m_status.tmp_folder->url().path() + QDir::separator() + "DVD"), this);
         QTimer::singleShot(300, this, SLOT(generateDvd()));
         m_status.button_preview->setEnabled(false);
         m_status.button_burn->setEnabled(false);
@@ -930,7 +929,7 @@ void DvdWizard::slotAbort()
 
 void DvdWizard::slotSave()
 {
-    KUrl url = KFileDialog::getSaveUrl(KUrl("kfiledialog:///projectfolder"), "*.kdvd", this, i18n("Save DVD Project"));
+    QUrl url = KFileDialog::getSaveUrl(QUrl("kfiledialog:///projectfolder"), "*.kdvd", this, i18n("Save DVD Project"));
     if (url.isEmpty())
         return;
 
@@ -967,7 +966,7 @@ void DvdWizard::slotSave()
 
 void DvdWizard::slotLoad()
 {
-    const KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "*.kdvd");
+    const QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "*.kdvd");
     if (url.isEmpty())
         return;
     QDomDocument doc;
@@ -983,18 +982,18 @@ void DvdWizard::slotLoad()
     QString profile = dvdproject.attribute("profile");
     m_pageVob->setProfile(profile);
     m_pageVob->clear();
-    m_status.tmp_folder->setUrl(KUrl(dvdproject.attribute("tmp_folder")));
-    m_status.iso_image->setUrl(KUrl(dvdproject.attribute("iso_image")));
+    m_status.tmp_folder->setUrl(QUrl(dvdproject.attribute("tmp_folder")));
+    m_status.iso_image->setUrl(QUrl(dvdproject.attribute("iso_image")));
     QString intro = dvdproject.attribute("intro_movie");
     if (!intro.isEmpty()) {
-        m_pageVob->slotAddVobFile(KUrl(intro));
+        m_pageVob->slotAddVobFile(QUrl(intro));
         m_pageVob->setUseIntroMovie(true);
     }
 
     QDomNodeList vobs = doc.elementsByTagName("vob");
     for (int i = 0; i < vobs.count(); ++i) {
         QDomElement e = vobs.at(i).toElement();
-        m_pageVob->slotAddVobFile(KUrl(e.attribute("file")), e.attribute("chapters"));
+        m_pageVob->slotAddVobFile(QUrl(e.attribute("file")), e.attribute("chapters"));
     }
     m_pageMenu->loadXml(m_pageVob->dvdFormat(), dvdproject.firstChildElement("menu"));
 }

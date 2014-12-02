@@ -8,7 +8,7 @@ include_directories(
 
 kde4_add_plugin(westleypreview ${westleypreview_SRCS})
 
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
 
 target_link_libraries(westleypreview
   ${KDE4_KIO_LIBS}

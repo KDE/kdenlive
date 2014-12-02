@@ -21,10 +21,9 @@
 #include "ui_stopmotion_ui.h"
 #include "definitions.h"
 
-#include <KUrl>
+#include <QUrl>
 #include <QLabel>
 #include <QFuture>
-#include <QVBoxLayout>
 #include <QTimer>
 #include "monitor/abstractmonitor.h"
 
@@ -92,7 +91,7 @@ public:
      * @param projectFolder The current project folder, where captured files will be stored.
      * @param actions The actions for this widget that can have a keyboard shortcut.
      * @param parent (optional) parent widget */
-    StopmotionWidget(MonitorManager *manager, const KUrl &projectFolder, const QList< QAction* > &actions, QWidget* parent = 0);
+    StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList< QAction* > &actions, QWidget* parent = 0);
     virtual ~StopmotionWidget();
 
 protected:
@@ -100,7 +99,7 @@ protected:
 
 private:
     /** @brief Current project folder (where the captured frames will be saved). */
-    KUrl m_projectFolder;
+    QUrl m_projectFolder;
 
     /** @brief Capture holder that will handle all video operation. */
     MltDeviceCapture *m_captureDevice;

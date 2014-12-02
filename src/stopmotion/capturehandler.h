@@ -22,7 +22,6 @@
 
 #include <QWidget>
 #include <QObject>
-#include <QLayout>
 
 class CaptureHandler : public QObject
 {

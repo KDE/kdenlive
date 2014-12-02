@@ -19,7 +19,7 @@
 
 #include <QDomDocument>
 
-#include <KUrl>
+#include <QUrl>
 
 class QGraphicsScene;
 class QGraphicsRectItem;
@@ -34,7 +34,7 @@ class TitleDocument
 public:
     TitleDocument();
     void setScene(QGraphicsScene* scene, int width, int height);
-    bool saveDocument(const KUrl& url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed_images = false);
+    bool saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed_images = false);
     QDomDocument xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv, bool embed_images = false);
     int loadFromXml(const QDomDocument& doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath = QString());
     /** \brief Get the background color (incl. alpha) from the document, if possibly

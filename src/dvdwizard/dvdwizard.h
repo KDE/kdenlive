@@ -28,7 +28,6 @@
 #include "ui_dvdwizardchapters_ui.h"
 
 #include <QWizard>
-#include <QPainter>
 #include <QProcess>
 
 #include <KDebug>

@@ -21,7 +21,6 @@
 
 #include "cubicbezierspline.h"
 
-#include <QtCore>
 #include <QWidget>
 
 class BezierSplineEditor : public QWidget

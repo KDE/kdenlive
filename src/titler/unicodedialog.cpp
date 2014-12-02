@@ -9,6 +9,7 @@
 
 #include "unicodedialog.h"
 
+#include <KGlobal>
 #include <QWheelEvent>
 
 /// CONSTANTS

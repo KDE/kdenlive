@@ -3,6 +3,8 @@ install(FILES
     novisible.png
     DESTINATION ${DATA_INSTALL_DIR}/kdenlive/pics)
     
-kde4_install_icons( ${ICON_INSTALL_DIR}   )
+
+#TODO: add icon names 
+#ecm_install_icons( ${ICON_INSTALL_DIR}   )
 
 

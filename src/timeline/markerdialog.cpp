@@ -25,7 +25,7 @@
 
 #include <QWheelEvent>
 #include <KDebug>
-
+#include <KGlobalSettings>
 
 MarkerDialog::MarkerDialog(DocClipBase *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
     : QDialog(parent)

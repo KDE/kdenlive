@@ -31,18 +31,12 @@
 
 #include <KDebug>
 #include <KLocalizedString>
-#include <KMessageBox>
-#include <KStandardDirs>
-#include <KFileDialog>
 #include <KColorScheme>
+#include <KGlobalSettings>
 #include <KColorUtils>
 
-#include <QMenu>
-#include <QTextStream>
-#include <QFile>
-#include <QInputDialog>
 #include <QScrollBar>
-
+#include <QDrag>
 
 EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
         QWidget(parent),
@@ -61,7 +55,7 @@ EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
     m_ui.setupUi(this);
     setFont(KGlobalSettings::smallestReadableFont());
     m_ui.checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    m_ui.buttonShowComments->setIcon(KIcon("help-about"));
+    m_ui.buttonShowComments->setIcon(QIcon::fromTheme("help-about"));
     m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
 
     connect(m_ui.checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
@@ -292,7 +286,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
     connect(currentEffect, SIGNAL(moveEffect(QList<int>,int,int,QString)), this , SLOT(slotMoveEffect(QList<int>,int,int,QString)));
     connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
-    connect(currentEffect, SIGNAL(createRegion(int,KUrl)), this, SLOT(slotCreateRegion(int,KUrl)));
+    connect(currentEffect, SIGNAL(createRegion(int,QUrl)), this, SLOT(slotCreateRegion(int,QUrl)));
     connect(currentEffect, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
     connect(currentEffect, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
 }
@@ -700,7 +694,7 @@ void EffectStackView2::slotResetEffect(int ix)
                     break;
                 }
             }
-            //m_ui.region_url->setUrl(KUrl(dom.attribute("region")));
+            //m_ui.region_url->setUrl(QUrl(dom.attribute("region")));
             emit updateEffect(m_clipref, -1, old, dom, ix,false);
         }
     }
@@ -715,7 +709,7 @@ void EffectStackView2::slotShowComments()
     emit showComments(m_ui.buttonShowComments->isChecked());
 }
 
-void EffectStackView2::slotCreateRegion(int ix, KUrl url)
+void EffectStackView2::slotCreateRegion(int ix, QUrl url)
 {
     QDomElement oldeffect = m_currentEffectList.itemFromIndex(ix);
     QDomElement neweffect = oldeffect.cloneNode().toElement();

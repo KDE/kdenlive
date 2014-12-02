@@ -10,8 +10,11 @@
 
 #include "histogram.h"
 #include "histogramgenerator.h"
-#include <QMenu>
 #include <QTime>
+
+#include <KGlobal>
+#include <KSharedConfigPtr>
+#include <KConfigGroup>
 
 Histogram::Histogram(QWidget *parent) :
     AbstractGfxScopeWidget(false, parent)

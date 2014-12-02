@@ -48,10 +48,10 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     connect(m_view.create_menu, SIGNAL(toggled(bool)), m_view.menu_box, SLOT(setEnabled(bool)));
     connect(m_view.create_menu, SIGNAL(toggled(bool)), this, SIGNAL(completeChanged()));
 
-    m_view.add_button->setIcon(KIcon("document-new"));
-    m_view.delete_button->setIcon(KIcon("trash-empty"));
-    m_view.zoom_button->setIcon(KIcon("zoom-in"));
-    m_view.unzoom_button->setIcon(KIcon("zoom-out"));
+    m_view.add_button->setIcon(QIcon::fromTheme("document-new"));
+    m_view.delete_button->setIcon(QIcon::fromTheme("trash-empty"));
+    m_view.zoom_button->setIcon(QIcon::fromTheme("zoom-in"));
+    m_view.unzoom_button->setIcon(QIcon::fromTheme("zoom-out"));
 
     m_view.add_button->setToolTip(i18n("Add new button"));
     m_view.delete_button->setToolTip(i18n("Delete current button"));
@@ -400,7 +400,7 @@ void DvdWizardMenu::setTargets(const QStringList &list, const QStringList &targe
         if (targetlist.at(i).contains("chapter"))
             m_view.target_list->addItem(list.at(i), targetlist.at(i));
         else {
-            m_view.target_list->addItem(KIcon("video-x-generic"), list.at(i), targetlist.at(i));
+            m_view.target_list->addItem(QIcon::fromTheme("video-x-generic"), list.at(i), targetlist.at(i));
             movieCount++;
         }
     }
@@ -785,10 +785,10 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
         m_view.background_color->setColor(xml.attribute("background_color"));
     } else if (xml.hasAttribute("background_image")) {
         m_view.background_list->setCurrentIndex(1);
-        m_view.background_image->setUrl(KUrl(xml.attribute("background_image")));
+        m_view.background_image->setUrl(QUrl(xml.attribute("background_image")));
     } else if (xml.hasAttribute("background_video")) {
         m_view.background_list->setCurrentIndex(2);
-        m_view.background_image->setUrl(KUrl(xml.attribute("background_video")));
+        m_view.background_image->setUrl(QUrl(xml.attribute("background_video")));
     }
 
     m_view.text_color->setColor(xml.attribute("text_color"));

@@ -29,10 +29,8 @@
 #include <KLineEdit>
 #include <QValidator>
 #include <QHBoxLayout>
-#include <QFrame>
 #include <QMenu>
 #include <QMouseEvent>
-#include <QDoubleSpinBox>
 #include <QDesktopWidget>
 
 #include <kglobal.h>
@@ -87,7 +85,7 @@ public:
 };
 
 KoSliderCombo::KoSliderCombo(QWidget *parent)
-        : KComboBox(parent)
+        : QComboBox(parent)
         , d(new KoSliderComboPrivate())
 {
     d->thePublic = this;
@@ -214,7 +212,7 @@ void KoSliderCombo::changeEvent(QEvent *e)
     default:
         break;
     }
-    KComboBox::changeEvent(e);
+    QComboBox::changeEvent(e);
 }
 
 void KoSliderCombo::paintEvent(QPaintEvent *)
@@ -242,14 +240,14 @@ void KoSliderCombo::mousePressEvent(QMouseEvent *e)
     if (sc == QStyle::SC_ComboBoxArrow && !d->container->isVisible()) {
         d->showPopup();
     } else
-        KComboBox::mousePressEvent(e);
+        QComboBox::mousePressEvent(e);
 }
 
 void KoSliderCombo::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Up) setValue(value() + d->slider->singleStep() *(maximum() - minimum()) / 256 + 0.5);
     else if (e->key() == Qt::Key_Down) setValue(value() - d->slider->singleStep() *(maximum() - minimum()) / 256 - 0.5);
-    else KComboBox::keyPressEvent(e);
+    else QComboBox::keyPressEvent(e);
 }
 
 void KoSliderCombo::wheelEvent(QWheelEvent *e)
@@ -331,4 +329,4 @@ void KoSliderCombo::setValue(qreal value)
     emit valueChanged(value, true);
 }
 
-#include <KoSliderCombo.moc>
+#include "KoSliderCombo.moc"

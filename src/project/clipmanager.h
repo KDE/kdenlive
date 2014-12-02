@@ -27,14 +27,12 @@
 #define CLIPMANAGER_H
 
 #include <QtXml/qdom.h>
-#include <QPixmap>
 #include <QObject>
 #include <QTimer>
 #include <QMutex>
 #include <QFuture>
 
-#include <KUrl>
-#include <KUndoStack>
+#include <QUrl>
 #include <KDirWatch>
 #include <klocale.h>
 #include <kdeversion.h>
@@ -86,16 +84,16 @@ Q_OBJECT public:
      * @param url file to add
      * @param group name of the group to insert the file in (can be empty)
      * @param groupId id of the group (if any) */
-    void slotAddClipFile(const KUrl &url, const QMap<QString, QString> &data);
+    void slotAddClipFile(const QUrl &url, const QMap<QString, QString> &data);
 
     /** @brief Adds a list of files to the project.
      * @param urls files to add
      * @param group name of the group to insert the files in (can be empty)
      * @param groupId id of the group (if any)
      * It checks for duplicated items and asks to the user for instructions. */
-    void slotAddClipList(const KUrl::List &urls, const QMap<QString, QString> &data);
+    void slotAddClipList(const QList<QUrl> &urls, const QMap<QString, QString> &data);
     void slotAddTextClipFile(const QString &titleName, int out, const QString &xml, const QString &group, const QString &groupId);
-    void slotAddTextTemplateClip(QString titleName, const KUrl &path, const QString &group, const QString &groupId);
+    void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotAddXmlClipFile(const QString &name, const QDomElement &xml, const QString &group, const QString &groupId);
     void slotAddColorClipFile(const QString &name, const QString &color, const QString &duration, const QString &group, const QString &groupId);
     void slotAddSlideshowClipFile(QMap <QString, QString> properties, const QString &group, const QString &groupId);
@@ -143,7 +141,7 @@ private slots:
     void slotGetThumbs();
     void slotGetAudioThumbs();
     /** @brief Clip has been copied, add it now. */
-    void slotAddClip(KIO::Job *job, const KUrl &, const KUrl &dst);
+    void slotAddClip(KIO::Job *job, const QUrl &, const QUrl &dst);
 
 private:   // Private attributes
     /** the list of clips in the document */
@@ -184,7 +182,7 @@ private:   // Private attributes
     /** @brief Get a list of drives, to check if we have files on removable media. */
     void listRemovableVolumes();
     /** @brief Check if added file is on a removable drive. */
-    bool isOnRemovableDevice(const KUrl &url);
+    bool isOnRemovableDevice(const QUrl &url);
 
 signals:
     void reloadClip(const QString &);

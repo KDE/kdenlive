@@ -95,8 +95,8 @@ void TransitionSettings::updateTrackList()
     if (m_usedTransition)
         limit = m_usedTransition->track() + 1;
     //kDebug() << "/ / TRANS TRK: " << limit;
-    KIcon videoIcon("kdenlive-show-video");
-    KIcon audioIcon("kdenlive-show-audio");
+    QIcon videoIcon = QIcon::fromTheme("kdenlive-show-video");
+    QIcon audioIcon = QIcon::fromTheme("kdenlive-show-audio");
     for (int i = limit; i < m_tracks.count(); ++i) {
         int ix = m_tracks.count() - i - 1;
         transitionTrack->addItem(m_tracks.at(ix).type == VideoTrack ? videoIcon : audioIcon,

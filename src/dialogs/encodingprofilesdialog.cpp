@@ -21,13 +21,9 @@
 
 #include "kdenlivesettings.h"
 
-#include <KStandardDirs>
 #include <KDebug>
-#include <KMessageBox>
 #include <KIO/NetAccess>
 
-#include <QDir>
-#include <QCloseEvent>
 #include <QVBoxLayout>
 #include <KLineEdit>
 #include <QPlainTextEdit>
@@ -43,12 +39,12 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     profile_type->addItem(i18n("Screen capture"), 2);
     profile_type->addItem(i18n("Decklink capture"), 3);
     
-    button_add->setIcon(KIcon("list-add"));
-    button_edit->setIcon(KIcon("document-edit"));
-    button_delete->setIcon(KIcon("list-remove"));
-    button_download->setIcon(KIcon("download"));
+    button_add->setIcon(QIcon::fromTheme("list-add"));
+    button_edit->setIcon(QIcon::fromTheme("document-edit"));
+    button_delete->setIcon(QIcon::fromTheme("list-remove"));
+    button_download->setIcon(QIcon::fromTheme("download"));
     
-    m_configFile = new KConfig("encodingprofiles.rc", KConfig::CascadeConfig, "appdata");
+    m_configFile = new KConfig("encodingprofiles.rc", KConfig::CascadeConfig, QStandardPaths::DataLocation);
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
     connect(profile_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowParams()));
