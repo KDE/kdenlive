@@ -31,7 +31,7 @@
     </widget>
    </item>
    <item row="1" column="1" >
-    <widget class="KIntSpinBox" name="duration" >
+    <widget class="QSpinBox" name="duration" >
      <property name="maximum" >
       <number>10000</number>
      </property>
@@ -48,7 +48,7 @@
     </widget>
    </item>
    <item row="2" column="1" >
-    <widget class="KIntSpinBox" name="font" >
+    <widget class="QSpinBox" name="font" >
      <property name="maximum" >
       <number>10000</number>
      </property>
@@ -83,11 +83,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>

@@ -307,7 +307,11 @@
         </widget>
        </item>
        <item row="0" column="6">
-        <widget class="QSpinBox" name="rectLineWidth"/>
+        <widget class="QSpinBox" name="rectLineWidth">
+         <property name="maximum">
+          <number>5000</number>
+         </property>
+        </widget>
        </item>
        <item row="0" column="5">
         <widget class="QLabel" name="label_4">
@@ -496,7 +500,11 @@
         </spacer>
        </item>
        <item row="0" column="9">
-        <widget class="QSpinBox" name="textOutline"/>
+        <widget class="QSpinBox" name="textOutline">
+         <property name="maximum">
+          <number>5000</number>
+         </property>
+        </widget>
        </item>
        <item row="0" column="3">
         <widget class="KColorButton" name="fontColorButton">
@@ -774,7 +782,7 @@
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="KIntSpinBox" name="itemzoom">
+        <widget class="QSpinBox" name="itemzoom">
          <property name="maximum">
           <number>100000</number>
          </property>
@@ -968,12 +976,18 @@
                 <property name="value">
                  <number>8</number>
                 </property>
+                <property name="maximum">
+                 <number>5000</number>
+                </property>
                </widget>
               </item>
               <item row="3" column="3">
                <widget class="QSpinBox" name="shadow_y">
                 <property name="value">
                  <number>8</number>
+                </property>
+                <property name="maximum">
+                 <number>5000</number>
                 </property>
                </widget>
               </item>
@@ -1017,6 +1031,9 @@
                 <property name="value">
                  <number>5</number>
                 </property>
+                <property name="maximum">
+                 <number>5000</number>
+                </property>
                </widget>
               </item>
               <item row="1" column="0">
@@ -1030,6 +1047,9 @@
                <widget class="QSpinBox" name="typewriter_start">
                 <property name="suffix">
                  <string> frames</string>
+                </property>
+                <property name="maximum">
+                 <number>5000</number>
                 </property>
                </widget>
               </item>
@@ -1107,7 +1127,11 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QSpinBox" name="backgroundAlpha"/>
+            <widget class="QSpinBox" name="backgroundAlpha">
+             <property name="maximum">
+              <number>256</number>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -1207,13 +1231,34 @@
         </widget>
        </item>
        <item row="6" column="2">
-        <widget class="QSpinBox" name="itemrotatey"/>
+        <widget class="QSpinBox" name="itemrotatey">
+         <property name="minimum">
+          <number>-360</number>
+         </property>
+         <property name="maximum">
+          <number>360</number>
+         </property>
+        </widget>
        </item>
        <item row="3" column="2">
-        <widget class="QSpinBox" name="itemrotatex"/>
+        <widget class="QSpinBox" name="itemrotatex">
+         <property name="minimum">
+          <number>-360</number>
+         </property>
+         <property name="maximum">
+          <number>360</number>
+         </property>
+        </widget>
        </item>
        <item row="8" column="2">
-        <widget class="QSpinBox" name="itemrotatez"/>
+        <widget class="QSpinBox" name="itemrotatez">
+         <property name="minimum">
+          <number>-360</number>
+         </property>
+         <property name="maximum">
+          <number>360</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -1222,11 +1267,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>
    <extends>QLineEdit</extends>

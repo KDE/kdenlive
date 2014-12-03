@@ -91,7 +91,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="KIntSpinBox" name="font_size">
+           <widget class="QSpinBox" name="font_size">
             <property name="minimum">
              <number>10</number>
             </property>
@@ -306,11 +306,6 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>

@@ -54,7 +54,7 @@
        <widget class="KLineEdit" name="description"/>
       </item>
       <item row="1" column="1">
-       <widget class="KIntSpinBox" name="size_w">
+       <widget class="QSpinBox" name="size_w">
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -74,7 +74,7 @@
        </widget>
       </item>
       <item row="1" column="3">
-       <widget class="KIntSpinBox" name="size_h">
+       <widget class="QSpinBox" name="size_h">
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -88,7 +88,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="KIntSpinBox" name="frame_num">
+       <widget class="QSpinBox" name="frame_num">
         <property name="maximum">
          <number>500000</number>
         </property>
@@ -108,7 +108,7 @@
        </widget>
       </item>
       <item row="2" column="3">
-       <widget class="KIntSpinBox" name="frame_den">
+       <widget class="QSpinBox" name="frame_den">
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -122,7 +122,11 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="KIntSpinBox" name="aspect_num"/>
+       <widget class="QSpinBox" name="aspect_num">
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+       </widget>
       </item>
       <item row="4" column="2">
        <widget class="QLabel" name="label_7">
@@ -138,7 +142,11 @@
        </widget>
       </item>
       <item row="4" column="3">
-       <widget class="KIntSpinBox" name="aspect_den"/>
+       <widget class="QSpinBox" name="aspect_den">
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+       </widget>
       </item>
       <item row="5" column="0">
        <widget class="QLabel" name="label_10">
@@ -148,7 +156,7 @@
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="KIntSpinBox" name="display_num">
+       <widget class="QSpinBox" name="display_num">
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -168,7 +176,7 @@
        </widget>
       </item>
       <item row="5" column="3">
-       <widget class="KIntSpinBox" name="display_den">
+       <widget class="QSpinBox" name="display_den">
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -288,11 +296,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
   <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>

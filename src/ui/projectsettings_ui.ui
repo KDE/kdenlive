@@ -258,7 +258,7 @@
            </widget>
           </item>
           <item row="0" column="2" colspan="3">
-           <widget class="KIntSpinBox" name="proxy_minsize">
+           <widget class="QSpinBox" name="proxy_minsize">
             <property name="suffix">
              <string>pixels</string>
             </property>
@@ -278,7 +278,7 @@
            </widget>
           </item>
           <item row="1" column="2" colspan="3">
-           <widget class="KIntSpinBox" name="proxy_imageminsize">
+           <widget class="QSpinBox" name="proxy_imageminsize">
             <property name="suffix">
              <string>pixels</string>
             </property>
@@ -604,11 +604,6 @@
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KTreeWidgetSearchLine</class>

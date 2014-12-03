@@ -138,7 +138,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KIntSpinBox" name="clip_duration_frames">
+      <widget class="QSpinBox" name="clip_duration_frames">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -185,7 +185,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KIntSpinBox" name="luma_duration_frames">
+      <widget class="QSpinBox" name="luma_duration_frames">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -330,11 +330,6 @@
    <class>KRestrictedLine</class>
    <extends>KLineEdit</extends>
    <header>krestrictedline.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KListWidget</class>
