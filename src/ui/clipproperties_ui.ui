@@ -737,9 +737,12 @@
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="KDoubleNumInput" name="clip_framerate">
+        <widget class="QDoubleSpinBox" name="clip_framerate">
          <property name="enabled">
           <bool>false</bool>
+         </property>
+         <property name="maximum">
+          <double>1000.0</double>
          </property>
         </widget>
        </item>
@@ -903,11 +906,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
   <customwidget>
    <class>KColorButton</class>
    <extends>QPushButton</extends>
