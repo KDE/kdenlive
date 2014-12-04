@@ -28,10 +28,7 @@
 #include "capture/v4lcapture.h"
 #endif
 
-#include <KStandardDirs>
-//#include <KService>
 #include <KDebug>
-//#include <KOpenWithDialog>
 #include <kde_file.h>
 #include <KIO/NetAccess>
 #include <kdeversion.h>
@@ -50,6 +47,7 @@
   #include "jogshuttle/jogaction.h"
   #include "jogshuttle/jogshuttleconfig.h"
   #include <linux/input.h>
+#include <QStandardPaths>
 #endif
 
 
@@ -69,7 +67,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     // Hide avformat-novalidate trick, causes crash (bug #2205 and #2206)
     m_configMisc.kcfg_projectloading_avformatnovalidate->setVisible(false);
     
-    m_configMisc.kcfg_use_exiftool->setEnabled(!KStandardDirs::findExe("exiftool").isEmpty());
+    m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable("exiftool").isEmpty());
 
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
@@ -221,7 +219,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     //   --timestamp option without bug
 
     if (KdenliveSettings::dvgrab_path().isEmpty() || !QFile::exists(KdenliveSettings::dvgrab_path())) {
-        QString dvgrabpath = KStandardDirs::findExe("dvgrab");
+        QString dvgrabpath = QStandardPaths::findExecutable("dvgrab");
         KdenliveSettings::setDvgrab_path(dvgrabpath);
     }
 
@@ -467,7 +465,7 @@ void KdenliveSettingsDialog::initDevices()
     // Fill the list of audio playback / recording devices
     m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
     m_configCapture.kcfg_v4l_alsadevice->addItem(i18n("Default"), "default");
-    if (!KStandardDirs::findExe("aplay").isEmpty()) {
+    if (!QStandardPaths::findExecutable("aplay").isEmpty()) {
         m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
         m_readProcess.setProgram("aplay", QStringList() << "-l");
         connect(&m_readProcess, SIGNAL(readyReadStandardOutput()) , this, SLOT(slotReadAudioDevices()));
@@ -850,7 +848,7 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
 void KdenliveSettingsDialog::saveTranscodeProfiles()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc", KConfig::CascadeConfig);
-    //KSharedConfigPtr config = KGlobal::config();
+    //KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     transConfig.deleteGroup();
@@ -974,7 +972,7 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
     m_configCapture.kcfg_v4l_format->blockSignals(true);
     m_configCapture.kcfg_v4l_format->clear();
 
-    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     if (QFile::exists(vl4ProfilePath)) {
         m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
     }
@@ -1014,13 +1012,13 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
     m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(601));
     m_configCapture.p_progressive->setText(i18n("Progressive"));
 
-    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     if (!QFile::exists(vl4ProfilePath)) saveCurrentV4lProfile();
 }
 
 void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
 {
-    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     MltVideoProfile prof;
     if (!QFile::exists(vl4ProfilePath)) {
         // No default formats found, build one
@@ -1059,7 +1057,7 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
     profile.frame_rate_num = m_configCapture.p_fps->text().section('/', 0, 0).toInt();
     profile.frame_rate_den = m_configCapture.p_fps->text().section('/', 1, 1).toInt();
     profile.progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
-    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     ProfilesDialog::saveProfile(profile, vl4ProfilePath);
 }
 
@@ -1180,7 +1178,7 @@ void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
 
 void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
 {
-    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     QPointer<ProfilesDialog> w = new ProfilesDialog(vl4ProfilePath);
     if (w->exec() == QDialog::Accepted) {
         // save and update profile

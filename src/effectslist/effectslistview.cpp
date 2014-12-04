@@ -31,7 +31,6 @@
 #include <QMenu>
 #include <QDir>
 
-
 EffectsListView::EffectsListView(QWidget *parent) :
         QWidget(parent)
 {

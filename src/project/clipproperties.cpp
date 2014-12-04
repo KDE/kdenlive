@@ -25,7 +25,7 @@
 #include "timeline/markerdialog.h"
 #include "dialogs/profilesdialog.h"
 
-#include <KStandardDirs>
+
 #include <KDebug>
 #include <KFileItem>
 #include <KFileDialog>
@@ -53,6 +53,7 @@
 #include <QDir>
 #include <QPainter>
 #include <QFileDialog>
+#include <QStandardPaths>
 
 
 static const int VIDEOTAB = 0;
@@ -232,7 +233,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
                 iconName = "meta_magiclantern.png";
             parent = new QTreeWidgetItem(m_view.metadata_list, QStringList() << parentName);
             if (!iconName.isEmpty()) {
-                QIcon icon(KStandardDirs::locate("appdata", iconName));
+                QIcon icon(QStandardPaths::locate(QStandardPaths::DataLocation, iconName));
                 parent->setIcon(0, icon);
             }
         }
@@ -401,7 +402,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, const Timecode &tc, double fps
         QStringList filters;
         filters << "*.pgm" << "*.png";
 
-        QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+        QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
         foreach(const QString & folder, customLumas) {
             QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
             foreach(const QString & fname, filesnames) {

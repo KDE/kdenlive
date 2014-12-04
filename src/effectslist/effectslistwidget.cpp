@@ -23,11 +23,12 @@
 #include "mainwindow.h"
 
 #include <KDebug>
-#include <KStandardDirs>
+
 
 #include <QAction>
 #include <QMenu>
 #include <QMimeData>
+#include <QStandardPaths>
 
 
 static const int EFFECT_VIDEO = 1;
@@ -83,7 +84,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             currentFolder = currentItem()->text(0);
     }
 
-    QString effectCategory = KStandardDirs::locate("config", "kdenliveeffectscategory.rc");
+    QString effectCategory = QStandardPaths::locate(QStandardPaths::ConfigLocation, "kdenliveeffectscategory.rc");
     QDomDocument doc;
     QFile file(effectCategory);
     doc.setContent(&file, false);

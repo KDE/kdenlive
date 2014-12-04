@@ -28,7 +28,6 @@
 #include <KMessageBox>
 #include <KApplication>
 #include <KLocalizedString>
-#include <KStandardDirs>
 #include <KGlobal>
 
 #include <QFile>
@@ -40,6 +39,7 @@
 #include <mlt++/Mlt.h>
 
 #include <locale>
+#include <QStandardPaths>
 
 
 DocumentValidator::DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl):
@@ -1081,7 +1081,7 @@ void DocumentValidator::updateEffects()
 #else
     QMap <QString, QString> scripts;
 #endif
-    QStringList directories = KGlobal::dirs()->findDirs("appdata", "effects/update");
+    QStringList directories = QStandardPaths::locateAll(QStandardPaths::DataLocation, "effects/update");
     foreach (const QString &directoryName, directories) {
         QDir directory(directoryName);
         QStringList fileList = directory.entryList(QStringList() << "*.js", QDir::Files);

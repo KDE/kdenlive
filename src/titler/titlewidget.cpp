@@ -26,7 +26,7 @@
 #include <KGlobalSettings>
 #include <KFileDialog>
 #include <KGlobal>
-#include <KStandardDirs>
+
 #include <KMessageBox>
 #include <kio/netaccess.h>
 #include <kdeversion.h>
@@ -49,6 +49,7 @@
 #endif
 
 #include <iostream>
+#include <QStandardPaths>
 
 static QList<TitleTemplate> titletemplates;
 
@@ -542,7 +543,7 @@ void TitleWidget::refreshTitleTemplates()
     QStringList filters;
     filters << "*.kdenlivetitle" ;
     titletemplates.clear();
-    QStringList titleTemplates = KGlobal::dirs()->findDirs("appdata", "titles");
+    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, "titles");
     foreach(const QString & folder, titleTemplates) {
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
@@ -1854,7 +1855,7 @@ void TitleWidget::slotAccepted()
 void TitleWidget::writeChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
     // Write the entries
     titleConfig.writeEntry("dialog_geometry", saveGeometry());
@@ -1889,7 +1890,7 @@ void TitleWidget::writeChoices()
 void TitleWidget::readChoices()
 {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
     // read the entries
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());

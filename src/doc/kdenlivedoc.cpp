@@ -59,6 +59,7 @@
 
 #include <mlt++/Mlt.h>
 #include <KJobWidgets/KJobWidgets>
+#include <QStandardPaths>
 
 #include "locale.h"
 
@@ -836,7 +837,7 @@ ClipManager *KdenliveDoc::clipManager()
 
 QUrl KdenliveDoc::projectFolder() const
 {
-    //if (m_projectFolder.isEmpty()) return QUrl(KStandardDirs::locateLocal("appdata", "/projects/"));
+    //if (m_projectFolder.isEmpty()) return QUrl(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "//projects/");
     return m_projectFolder;
 }
 
@@ -1660,7 +1661,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
      * http://websvn.kde.org/trunk/KDE/kdelibs/kfile/kfileplacesmodel.cpp?view=markup
      */
 
-    const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
+    const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kfileplaces/bookmarks.xml";
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
     if (!bookmarkManager) return;
     KBookmarkGroup root = bookmarkManager->root();

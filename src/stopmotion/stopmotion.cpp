@@ -29,7 +29,7 @@
 
 #include <KDebug>
 #include <KGlobalSettings>
-#include <KStandardDirs>
+
 #include <KMessageBox>
 #include <kdeversion.h>
 #include <KNotification>
@@ -42,6 +42,7 @@
 #include <QWheelEvent>
 #include <QMenu>
 #include <QtConcurrent>
+#include <QStandardPaths>
 
 MyLabel::MyLabel(QWidget* parent) :
     QLabel(parent)
@@ -300,7 +301,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     // Create MLT producer data
     if (capture_device->itemData(capture_device->currentIndex()) == "v4l") {
         // Capture using a video4linux device
-        profilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+        profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     }
     else {
         // Decklink capture
@@ -469,7 +470,7 @@ void StopmotionWidget::slotLive(bool isOn)
         // Create MLT producer data
         if (capture_device->itemData(capture_device->currentIndex()) == "v4l") {
             // Capture using a video4linux device
-            profilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+            profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
             profile = ProfilesDialog::getVideoProfile(profilePath);
             service = "avformat-novalidate";
             QString devicePath = capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString();

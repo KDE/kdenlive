@@ -20,7 +20,7 @@
 #include "slideshowclip.h"
 #include "kdenlivesettings.h"
 
-#include <KStandardDirs>
+
 #include <KDebug>
 #include <KFileItem>
 #include <KGlobal>
@@ -28,6 +28,7 @@
 #include <kdeversion.h>
 
 #include <QDir>
+#include <QStandardPaths>
 
 
 SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
@@ -90,7 +91,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QWidget * parent) :
     QStringList filters;
     filters << "*.pgm" << "*.png";
 
-    QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
     foreach(const QString & folder, customLumas) {
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {

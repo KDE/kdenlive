@@ -33,11 +33,11 @@
 #include <KApplication>
 #include <KUrlRequesterDialog>
 #include <KMessageBox>
-#include <KStandardDirs>
 
 #include <QTreeWidgetItem>
 #include <QFile>
 #include <QCryptographicHash>
+#include <QStandardPaths>
 
 const int hashRole = Qt::UserRole;
 const int sizeRole = Qt::UserRole + 1;
@@ -538,7 +538,7 @@ QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
     if (result.exists())
         return result.filePath();
     // Try in Kdenlive's standard KDE path
-    QString res = KStandardDirs::locate("appdata", "lumas/" + fname);
+    QString res = QStandardPaths::locate(QStandardPaths::DataLocation, "lumas/" + fname);
     if (!res.isEmpty()) return res;
     // Try in user's chosen folder 
     return searchPathRecursively(dir, fname);

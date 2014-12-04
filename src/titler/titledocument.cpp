@@ -24,9 +24,10 @@
 #include <QTemporaryFile>
 #include <kio/netaccess.h>
 #include <KApplication>
-#include <KStandardDirs>
+
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KStandardDirs>
 
 #include <QGraphicsScene>
 #include <QDomElement>

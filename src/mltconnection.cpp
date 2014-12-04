@@ -15,8 +15,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include <config-kdenlive.h>
 #include <KUrlRequesterDialog>
-#include <KStandardDirs>
+
 #include <QFile>
+#include <QStandardPaths>
 
 
 MltConnection::MltConnection(QObject* parent) :
@@ -40,7 +41,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
     if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith(QLatin1String("inigo"))) {
         QString meltPath = QString(MLT_PREFIX) + QString("/bin/melt");
         if (!QFile::exists(meltPath)) {
-            meltPath = KStandardDirs::findExe("melt");
+            meltPath = QStandardPaths::findExecutable("melt");
         }
         KdenliveSettings::setRendererpath(meltPath);
     }

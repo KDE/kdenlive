@@ -25,7 +25,7 @@
 #include <mlt++/Mlt.h>
 
 #include <KDebug>
-#include <KStandardDirs>
+
 #include <KFileDialog>
 #include <KGlobal>
 #include <KConfigGroup>
@@ -93,8 +93,8 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_vobList->setIconSize(QSize(60, 45));
 
     QString errorMessage;
-    if (KStandardDirs::findExe("dvdauthor").isEmpty()) errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
-    if (KStandardDirs::findExe("mkisofs").isEmpty() && KStandardDirs::findExe("genisoimage").isEmpty()) errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
+    if (QStandardPaths::findExecutable("dvdauthor").isEmpty()) errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
+    if (QStandardPaths::findExecutable("mkisofs").isEmpty() && QStandardPaths::findExecutable("genisoimage").isEmpty()) errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
     if (!errorMessage.isEmpty()) {
         m_view.button_add->setEnabled(false);
         m_view.dvd_profile->setEnabled(false);

@@ -27,8 +27,10 @@
 #include <kglobal.h>
 #include <KStandardDirs>
 
+
 #include <QFile>
 #include <QDir>
+#include <QStandardPaths>
 
 #include "locale.h"
 
@@ -70,7 +72,7 @@ void initEffects::refreshLumas()
     QStringList filters;
     filters << "*.pgm" << "*.png";
 
-    QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
     foreach(const QString & folder, customLumas) {
         QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
         foreach(const QString & fname, filesnames) {
@@ -172,7 +174,7 @@ void initEffects::parseEffectFiles(const QString &locale)
     delete transitions;
 
     // Remove blacklisted transitions from the list.
-    QFile file(KStandardDirs::locate("appdata", "blacklisted_transitions.txt"));
+    QFile file(QStandardPaths::locate(QStandardPaths::DataLocation, "blacklisted_transitions.txt"));
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
@@ -189,7 +191,7 @@ void initEffects::parseEffectFiles(const QString &locale)
 
     // Remove blacklisted effects from the filters list.
     QStringList mltFiltersList = filtersList;
-    QFile file2(KStandardDirs::locate("appdata", "blacklisted_effects.txt"));
+    QFile file2(QStandardPaths::locate(QStandardPaths::DataLocation, "blacklisted_effects.txt"));
     if (file2.open(QIODevice::ReadOnly)) {
         QTextStream in(&file2);
         while (!in.atEnd()) {
@@ -250,7 +252,7 @@ void initEffects::parseEffectFiles(const QString &locale)
     }
 
     // Set the directories to look into for effects.
-    QStringList direc = KGlobal::dirs()->findDirs("appdata", "effects");
+    QStringList direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, "effects");
     // Iterate through effects directories to parse all XML files.
     for (more = direc.begin(); more != direc.end(); ++more) {
         QDir directory(*more);
@@ -553,7 +555,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     QStringList imagefiles = QStringList() << QString();
     QStringList filters;
     filters << "*.pgm" << "*.png";
-    QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, "lumas");
     foreach(QString folder, customLumas) {
         if (!folder.endsWith('/'))
             folder.append('/');

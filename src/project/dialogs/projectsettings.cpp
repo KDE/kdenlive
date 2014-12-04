@@ -25,14 +25,15 @@
 #include "effectslist/effectslist.h"
 #include "dialogs/profilesdialog.h"
 
-#include <KStandardDirs>
+
 #include <KMessageBox>
 #include <KDebug>
 #include <kio/directorysizejob.h>
 #include <KIO/NetAccess>
-#include <QTemporaryFile>
 #include <KFileDialog>
+#include <KStandardDirs>
 
+#include <QTemporaryFile>
 #include <QDir>
 #include <kmessagebox.h>
 #include <QFileDialog>

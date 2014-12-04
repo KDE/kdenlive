@@ -26,7 +26,7 @@
 #include "timecode.h"
 #include "monitor/monitormanager.h"
 
-#include <KStandardDirs>
+
 #include <KLocalizedString>
 #include <KFileDialog>
 #include <kmimetype.h>
@@ -38,6 +38,7 @@
 #include <QDomDocument>
 #include <QMenu>
 #include <QGridLayout>
+#include <QStandardPaths>
 
 
 DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *parent) :
@@ -59,7 +60,7 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
   , m_burnMenu(new QMenu(this))  
 {
     setWindowTitle(i18n("DVD Wizard"));
-    //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
+    //setPixmap(QWizard::WatermarkPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "banner.png")));
     m_pageVob = new DvdWizardVob(this);
     m_pageVob->setTitle(i18n("Select Files For Your DVD"));
     addPage(m_pageVob);
@@ -103,14 +104,14 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     connect(m_status.button_preview, SIGNAL(clicked()), this, SLOT(slotPreview()));
 
     QString programName("k3b");
-    QString exec = KStandardDirs::findExe(programName);
+    QString exec = QStandardPaths::findExecutable(programName);
     if (!exec.isEmpty()) {
         //Add K3b action
         QAction *k3b = m_burnMenu->addAction(QIcon::fromTheme(programName), i18n("Burn with %1", programName), this, SLOT(slotBurn()));
         k3b->setData(exec);
     }
     programName = "brasero";
-    exec = KStandardDirs::findExe(programName);
+    exec = QStandardPaths::findExecutable(programName);
     if (!exec.isEmpty()) {
         //Add Brasero action
         QAction *brasero = m_burnMenu->addAction(QIcon::fromTheme(programName), i18n("Burn with %1", programName), this, SLOT(slotBurn()));
@@ -766,7 +767,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     m_status.job_progress->setCurrentRow(4);
     isoitem->setIcon(QIcon::fromTheme("system-run"));
-    if (!KStandardDirs::findExe("genisoimage").isEmpty()) m_mkiso->start("genisoimage", args);
+    if (!QStandardPaths::findExecutable("genisoimage").isEmpty()) m_mkiso->start("genisoimage", args);
     else m_mkiso->start("mkisofs", args);
 
 }
@@ -854,7 +855,7 @@ void DvdWizard::slotPreview()
     programNames << "xine" << "vlc";
     QString exec;
     foreach(const QString &prog, programNames) {
-        exec = KStandardDirs::findExe(prog);
+        exec = QStandardPaths::findExecutable(prog);
         if (!exec.isEmpty()) {
             break;
         }

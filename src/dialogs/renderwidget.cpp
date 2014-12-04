@@ -24,13 +24,14 @@
 #include "timecode.h"
 #include "dialogs/profilesdialog.h"
 
-#include <KStandardDirs>
+
 #include <KDebug>
 #include <KMessageBox>
 #include <KRun>
 #include <KIO/NetAccess>
 #include <KColorScheme>
 #include <KNotification>
+#include <KStandardDirs>
 
 #include <QDomDocument>
 #include <QTreeWidgetItem>
@@ -43,6 +44,7 @@
 #include <QScriptEngine>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QStandardPaths>
 
 #include "locale.h"
 
@@ -299,9 +301,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     // Find path for Kdenlive renderer
     m_renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
     if (!QFile::exists(m_renderer)) {
-        m_renderer = KStandardDirs::findExe("kdenlive_render");
+        m_renderer = QStandardPaths::findExecutable("kdenlive_render");
         if (m_renderer.isEmpty())
-            m_renderer = KStandardDirs::locate("exe", "kdenlive_render");
+            m_renderer = QStandardPaths::findExecutable("kdenlive_render");
         if (m_renderer.isEmpty())
             m_renderer = "kdenlive_render";
     }
@@ -545,7 +547,7 @@ void RenderWidget::slotSaveProfile()
 
 void RenderWidget::saveProfile(const QDomElement &newprofile)
 {
-    QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
+    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
     QDomDocument doc;
     QFile file(exportFile);
     doc.setContent(&file, false);
@@ -710,7 +712,7 @@ void RenderWidget::slotEditProfile()
     d->setWindowTitle(i18n("Edit Profile"));
     if (d->exec() == QDialog::Accepted) {
         slotDeleteProfile(false);
-        QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
+        QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
         QDomDocument doc;
         QFile file(exportFile);
         doc.setContent(&file, false);
@@ -818,7 +820,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
     QString currentProfile = m_view.size_list->currentItem()->text();
     QString metaGroupId = m_view.destination_list->itemData(m_view.destination_list->currentIndex(), Qt::UserRole).toString();
 
-    QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
+    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
     QDomDocument doc;
     QFile file(exportFile);
     doc.setContent(&file, false);
@@ -958,7 +960,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
     QStringList overlayargs;
     if (m_view.tc_overlay->isChecked()) {
-        QString filterFile = KStandardDirs::locate("appdata", "metadata.properties");
+        QString filterFile = QStandardPaths::locate(QStandardPaths::DataLocation, "metadata.properties");
         overlayargs << "meta.attr.timecode=1" << "meta.attr.timecode.markup=#" + QString(m_view.tc_type->currentIndex() ? "frame" : "timecode");
         overlayargs << "-attach" << "data_feed:attr_check" << "-attach";
         overlayargs << "data_show:" + filterFile << "_loader=1" << "dynamic=1";
@@ -1609,11 +1611,11 @@ void RenderWidget::parseProfiles(const QString &meta, const QString &group, cons
     m_view.destination_list->addItem(QIcon::fromTheme("drive-harddisk"), i18n("Lossless / HQ"), "lossless");
     m_view.destination_list->addItem(QIcon::fromTheme("pda"), i18n("Mobile devices"), "mobile");
 
-    QString exportFile = KStandardDirs::locate("appdata", "export/profiles.xml");
+    QString exportFile = QStandardPaths::locate(QStandardPaths::DataLocation, "export/profiles.xml");
     parseFile(exportFile, false);
 
 
-    QString exportFolder = KStandardDirs::locateLocal("appdata", "export/");
+    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/";
     QDir directory = QDir(exportFolder);
     QStringList filter;
     filter << "*.xml";

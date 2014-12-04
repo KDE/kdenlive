@@ -30,17 +30,19 @@
 #include <mlt++/Mlt.h>
 #include <framework/mlt_version.h>
 
-#include <KStandardDirs>
+
 #include <KLocalizedString>
 #include <KProcess>
 #include <kmimetype.h>
 #include <KRun>
 #include <KMessageWidget>
+#include <KStandardDirs>
 
 #include <QLabel>
 #include <QFile>
 #include <QXmlStreamWriter>
 #include <QTimer>
+#include <QStandardPaths>
 
 // Recommended MLT version
 const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
@@ -54,7 +56,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     m_systemCheckIsOk(false)
 {
     setWindowTitle(i18n("Config Wizard"));
-    setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
+    setPixmap(QWizard::WatermarkPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "banner.png")));
 
     QWizardPage *page1 = new QWizardPage;
     page1->setTitle(i18n("Welcome"));
@@ -207,7 +209,7 @@ void Wizard::slotUpdateCaptureParameters()
     m_capture.v4l_formats->blockSignals(true);
     m_capture.v4l_formats->clear();
 
-    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     if (QFile::exists(vl4ProfilePath)) {
         MltVideoProfile profileInfo = ProfilesDialog::getVideoProfile(vl4ProfilePath);
         m_capture.v4l_formats->addItem(i18n("Current settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QString("unknown") <<QString::number(profileInfo.width)<<QString::number(profileInfo.height)<<QString::number(profileInfo.frame_rate_num)<<QString::number(profileInfo.frame_rate_den));
@@ -414,7 +416,7 @@ void Wizard::checkMissingCodecs()
     bool replaceLibfaacCodec = false;
     if (!acodecsList.contains("aac") && acodecsList.contains("libfaac")) replaceLibfaacCodec = true;
     
-    QString exportFolder = KStandardDirs::locateLocal("appdata", "export/");
+    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/";
     QDir directory = QDir(exportFolder);
     QStringList filter;
     filter << "*.xml";
@@ -480,17 +482,17 @@ void Wizard::slotCheckPrograms()
     QTreeWidgetItem *item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("FFmpeg & ffplay"));
     item->setData(1, Qt::UserRole, i18n("Required for proxy clips, transcoding and screen capture"));
     item->setSizeHint(0, itemSize);
-    QString exepath = KStandardDirs::findExe(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
-    QString playpath = KStandardDirs::findExe(QString("ffplay%1").arg(FFMPEG_SUFFIX));
+    QString exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
+    QString playpath = QStandardPaths::findExecutable(QString("ffplay%1").arg(FFMPEG_SUFFIX));
     item->setIcon(0, m_okIcon);
     if (exepath.isEmpty()) {
         // Check for libav version
-        exepath = KStandardDirs::findExe("avconv");
+        exepath = QStandardPaths::findExecutable("avconv");
         if (exepath.isEmpty()) item->setIcon(0, m_badIcon);
     }
     if (playpath.isEmpty()) {
         // Check for libav version
-        playpath = KStandardDirs::findExe("avplay");
+        playpath = QStandardPaths::findExecutable("avplay");
         if (playpath.isEmpty()) item->setIcon(0, m_badIcon);
     }
     if (!exepath.isEmpty()) KdenliveSettings::setFfmpegpath(exepath);
@@ -500,23 +502,23 @@ void Wizard::slotCheckPrograms()
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("dvgrab"));
     item->setData(1, Qt::UserRole, i18n("Required for firewire capture"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("dvgrab").isEmpty()) item->setIcon(0, m_badIcon);
+    if (QStandardPaths::findExecutable("dvgrab").isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);
 #endif
 
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("dvdauthor"));
     item->setData(1, Qt::UserRole, i18n("Required for creation of DVD"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("dvdauthor").isEmpty()) item->setIcon(0, m_badIcon);
+    if (QStandardPaths::findExecutable("dvdauthor").isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);
 
 
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("genisoimage or mkisofs"));
     item->setData(1, Qt::UserRole, i18n("Required for creation of DVD ISO images"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("genisoimage").isEmpty()) {
+    if (QStandardPaths::findExecutable("genisoimage").isEmpty()) {
         // no GenIso, check for mkisofs
-        if (!KStandardDirs::findExe("mkisofs").isEmpty()) {
+        if (!QStandardPaths::findExecutable("mkisofs").isEmpty()) {
             item->setIcon(0, m_okIcon);
         } else item->setIcon(0, m_badIcon);
     } else item->setIcon(0, m_okIcon);
@@ -524,8 +526,8 @@ void Wizard::slotCheckPrograms()
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("xine"));
     item->setData(1, Qt::UserRole, i18n("Required to preview your DVD"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("xine").isEmpty()) {
-        if (!KStandardDirs::findExe("vlc").isEmpty()) {
+    if (QStandardPaths::findExecutable("xine").isEmpty()) {
+        if (!QStandardPaths::findExecutable("vlc").isEmpty()) {
             item->setText(1, i18n("vlc"));
             item->setIcon(0, m_okIcon);
         }
@@ -536,13 +538,13 @@ void Wizard::slotCheckPrograms()
     // set up some default applications
     QString program;
     if (KdenliveSettings::defaultimageapp().isEmpty()) {
-        program = KStandardDirs::findExe("gimp");
-        if (program.isEmpty()) program = KStandardDirs::findExe("krita");
+        program = QStandardPaths::findExecutable("gimp");
+        if (program.isEmpty()) program = QStandardPaths::findExecutable("krita");
         if (!program.isEmpty()) KdenliveSettings::setDefaultimageapp(program);
     }
     if (KdenliveSettings::defaultaudioapp().isEmpty()) {
-        program = KStandardDirs::findExe("audacity");
-        if (program.isEmpty()) program = KStandardDirs::findExe("traverso");
+        program = QStandardPaths::findExecutable("audacity");
+        if (program.isEmpty()) program = QStandardPaths::findExecutable("traverso");
         if (!program.isEmpty()) KdenliveSettings::setDefaultaudioapp(program);
     }
     if (KdenliveSettings::defaultplayerapp().isEmpty()) {
@@ -574,7 +576,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
             if (!extensions.contains(glob)) extensions << glob;
         }
         kDebug() << "EXTS: " << extensions;
-        QString packageFileName = KStandardDirs::locateLocal("xdgdata-mime", "packages/" + mimefile + ".xml");
+        QString packageFileName = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/mime/") + "packages/" + mimefile + ".xml";
         kDebug() << "INSTALLING NEW MIME TO: " << packageFileName;
         QFile packageFile(packageFileName);
         if (!packageFile.open(QIODevice::WriteOnly)) {
@@ -611,7 +613,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
 
 void Wizard::runUpdateMimeDatabase()
 {
-    const QString localPackageDir = KStandardDirs::locateLocal("xdgdata-mime", QString());
+    const QString localPackageDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/mime/");
     //Q_ASSERT(!localPackageDir.isEmpty());
     KProcess proc;
     proc << "update-mime-database";
@@ -633,7 +635,7 @@ void Wizard::slotCheckThumbs()
         else pixname = "timeline_athumbs.png";
     }
 
-    m_extra.timeline_preview->setPixmap(QPixmap(KStandardDirs::locate("appdata", pixname)));
+    m_extra.timeline_preview->setPixmap(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, pixname)));
 }
 
 void Wizard::slotCheckStandard()
@@ -769,7 +771,7 @@ void Wizard::slotSaveCaptureFormat()
     profile.frame_rate_num = format.at(3).toInt();
     profile.frame_rate_den = format.at(4).toInt();
     profile.progressive = 1;
-    QString vl4ProfilePath = KStandardDirs::locateLocal("appdata", "profiles/video4linux");
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     ProfilesDialog::saveProfile(profile, vl4ProfilePath);
 }
 

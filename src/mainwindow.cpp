@@ -99,6 +99,7 @@
 #include <QUndoGroup>
 
 #include <stdlib.h>
+#include <QStandardPaths>
 
 static const char version[] = KDENLIVE_VERSION;
 
@@ -328,17 +329,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
         if (KdenliveSettings::colortheme() == filename) action->setChecked(true);
     }
 
-    /*KGlobal::dirs()->addResourceDir("themes", KStandardDirs::installPath("data") + QString("kdenlive/themes"));
-    QStringList themes = KGlobal::dirs()->findAllResources("themes", QString(), KStandardDirs::Recursive | KStandardDirs::NoDuplicates);
-    for (QStringList::const_iterator it = themes.constBegin(); it != themes.constEnd(); ++it)
-    {
-    QFileInfo fi(*it);
-        action = new QAction(fi.fileName(), this);
-        action->setData(*it);
-    action->setCheckable(true);
-    themegroup->addAction(action);
-    if (KdenliveSettings::colortheme() == *it) action->setChecked(true);
-    }*/
     themesMenu->addActions(themegroup->actions());
     connect(themesMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotChangePalette(QAction*)));
 
@@ -1234,7 +1224,7 @@ void MainWindow::setStatusBarStyleSheet(const QPalette &p)
 void MainWindow::saveOptions()
 {
     KdenliveSettings::self()->writeConfig();
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     pCore->projectManager()->recentFilesAction()->saveEntries(KConfigGroup(config, "Recent Files"));
     KConfigGroup treecolumns(config, "Project Tree");
     treecolumns.writeEntry("columns", m_projectList->headerInfo());
@@ -1243,7 +1233,7 @@ void MainWindow::saveOptions()
 
 void MainWindow::readOptions()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
     KConfigGroup initialGroup(config, "version");
     bool upgrade = false;

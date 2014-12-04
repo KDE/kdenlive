@@ -21,7 +21,7 @@
 
 #include "kdenlivesettings.h"
 
-#include <KStandardDirs>
+
 #include <KDebug>
 #include <KMessageBox>
 #include <KIO/NetAccess>
@@ -31,6 +31,7 @@
 #include <QScriptEngine>
 #include <QCloseEvent>
 #include <QScriptEngine>
+#include <QStandardPaths>
 
 ProfilesDialog::ProfilesDialog(QWidget * parent) :
     QDialog(parent),
@@ -200,11 +201,11 @@ bool ProfilesDialog::slotSaveProfile()
     } else {
         int i = 0;
         QString customName = "profiles/customprofile";
-        QString profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+        QString profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         kDebug() << " TYING PROFILE FILE: " << profilePath;
         while (KIO::NetAccess::exists(QUrl(profilePath), KIO::NetAccess::SourceSide, this)) {
             ++i;
-            profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+            profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         }
         saveProfile(profilePath);
     }
@@ -310,7 +311,7 @@ bool ProfilesDialog::existingProfileDescription(const QString &desc)
     }
 
     // List custom profiles
-    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "profiles");
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
@@ -346,7 +347,7 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
     }
 
     // Check custom profiles
-    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "profiles");
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
@@ -383,7 +384,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo()
     }
 
     // List custom profiles
-    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "profiles");
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
@@ -451,7 +452,7 @@ QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int
     }
 
     // List custom profiles
-    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, "profiles");
     for (int i = 0; i < customProfiles.size(); ++i) {
         QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profiles.size(); ++j) {
@@ -477,11 +478,11 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
     if (profilePath.isEmpty()) {
         int i = 0;
         QString customName = "profiles/customprofile";
-        profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+        profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         kDebug() << " TYING PROFILE FILE: " << profilePath;
         while (KIO::NetAccess::exists(QUrl(profilePath), KIO::NetAccess::SourceSide, 0)) {
             ++i;
-            profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+            profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         }
     }
     QFile file(profilePath);

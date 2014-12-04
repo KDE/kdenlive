@@ -52,12 +52,15 @@
 #include <KIO/NetAccess>
 #include <KFileItem>
 #include <KApplication>
-#include <KStandardDirs>
+
 #include <KColorScheme>
 #include <KActionCollection>
 #include <KVBox>
 #include <KHBox>
 #include <KMimeType>
+#include <KPassivePopup>
+#include <KGlobalSettings>
+#include <KStandardDirs>
 
 #ifdef USE_NEPOMUK
   #include <nepomuk/global.h>
@@ -76,8 +79,6 @@
 #include <QProcess>
 #include <QHeaderView>
 #include <QVBoxLayout>
-#include <KPassivePopup>
-#include <KGlobalSettings>
 #include <QtConcurrent>
 
 MyMessageWidget::MyMessageWidget(QWidget *parent) : KMessageWidget(parent) {}

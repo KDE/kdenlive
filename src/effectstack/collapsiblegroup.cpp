@@ -33,8 +33,8 @@
 #include <KGlobalSettings>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KStandardDirs>
 #include <KColorScheme>
+#include <KStandardDirs>
 
 MyEditableLabel::MyEditableLabel(QWidget * parent):
     KLineEdit(parent)
