@@ -21,7 +21,7 @@
 #include "timecode.h"
 
 #include <KDebug>
-#include <KTemporaryFile>
+#include <QTemporaryFile>
 #include <kio/netaccess.h>
 #include <KApplication>
 #include <KStandardDirs>
@@ -298,7 +298,7 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGr
     doc.documentElement().setAttribute("duration", duration);
     // keep some time for backwards compatibility (opening projects with older versions) - 26/12/12
     doc.documentElement().setAttribute("out", duration);
-    KTemporaryFile tmpfile;
+    QTemporaryFile tmpfile;
     if (!tmpfile.open()) {
         kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
         return false;

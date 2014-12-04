@@ -46,18 +46,18 @@
 
 #include <KDebug>
 #include <KLocalizedString>
-#include <QUrl>
-#include <QIcon>
 #include <KCursor>
 #include <KMessageBox>
 #include <KIO/NetAccess>
 #include <KFileDialog>
 
+#include <QUrl>
+#include <QIcon>
 #include <QMouseEvent>
 #include <QGraphicsItem>
 #include <QScrollBar>
 #include <QApplication>
-
+#include <QMimeData>
 
 #if QT_VERSION >= 0x040600
 #include <QGraphicsDropShadowEffect>

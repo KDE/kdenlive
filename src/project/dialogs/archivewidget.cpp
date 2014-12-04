@@ -777,7 +777,7 @@ bool ArchiveWidget::processProjectFile()
     }
 
     if (isArchive) {
-        m_temp = new KTemporaryFile;
+        m_temp = new QTemporaryFile;
         if (!m_temp->open()) KMessageBox::error(this, i18n("Cannot create temporary file"));
         m_temp->write(playList.toUtf8());
         m_temp->close();

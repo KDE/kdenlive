@@ -45,7 +45,18 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
   , m_dvdauthor(NULL)
   , m_mkiso(NULL)
   , m_vobitem(NULL)
-  , m_burnMenu(new QMenu(this))
+  , m_authorFile(QLatin1String("XXXXXX.xml"))
+  , m_menuFile(QLatin1String("XXXXXX.xml"))
+  , m_menuVobFile(QLatin1String("XXXXXX.mpg"))
+  , m_letterboxMovie(QLatin1String("XXXXXX.mpg"))
+  , m_selectedImage(QLatin1String("XXXXXX.png"))
+  , m_selectedLetterImage(QLatin1String("XXXXXX.png"))
+  , m_highlightedImage(QLatin1String("XXXXXX.png"))
+  , m_highlightedLetterImage(QLatin1String("XXXXXX.png"))
+  , m_menuVideo(QLatin1String("XXXXXX.vob"))
+  , m_menuFinalVideo(QLatin1String("XXXXXX.vob"))
+  , m_menuImageBackground(QLatin1String("XXXXXX.mpg"))
+  , m_burnMenu(new QMenu(this))  
 {
     setWindowTitle(i18n("DVD Wizard"));
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
@@ -178,53 +189,30 @@ void DvdWizard::generateDvd()
     m_status.error_box->setCurrentIndex(0);
     m_status.menu_file->clear();
     m_status.dvd_file->clear();
-
-    m_selectedImage.setSuffix(".png");
-    //m_selectedImage.setAutoRemove(false);
     m_selectedImage.open();
-    
-    m_selectedLetterImage.setSuffix(".png");
-    //m_selectedLetterImage.setAutoRemove(false);
     m_selectedLetterImage.open();
-
-    m_highlightedImage.setSuffix(".png");
-    //m_highlightedImage.setAutoRemove(false);
     m_highlightedImage.open();
-    
-    m_highlightedLetterImage.setSuffix(".png");
-    //m_highlightedLetterImage.setAutoRemove(false);
     m_highlightedLetterImage.open();
 
-    m_menuImageBackground.setSuffix(".png");
     m_menuImageBackground.setAutoRemove(false);
     m_menuImageBackground.open();
 
-    m_menuVideo.setSuffix(".vob");
-    //m_menuVideo.setAutoRemove(false);
     m_menuVideo.open();
-
-    m_menuFinalVideo.setSuffix(".vob");
-    //m_menuFinalVideo.setAutoRemove(false);
     m_menuFinalVideo.open();
 
     m_letterboxMovie.close();
-    m_letterboxMovie.setSuffix(".mpg");
     m_letterboxMovie.setAutoRemove(false);
     m_letterboxMovie.open();
-    
 
     m_menuFile.close();
-    m_menuFile.setSuffix(".xml");
     m_menuFile.setAutoRemove(false);
     m_menuFile.open();
 
     m_menuVobFile.close();
-    m_menuVobFile.setSuffix(".mpg");
     m_menuVobFile.setAutoRemove(false);
     m_menuVobFile.open();
 
     m_authorFile.close();
-    m_authorFile.setSuffix(".xml");
     m_authorFile.setAutoRemove(false);
     m_authorFile.open();
 

@@ -24,9 +24,10 @@
 
 #include <KDebug>
 #include <KStandardDirs>
-#include <QAction>
 
+#include <QAction>
 #include <QMenu>
+#include <QMimeData>
 
 
 static const int EFFECT_VIDEO = 1;

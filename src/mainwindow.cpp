@@ -78,7 +78,7 @@
 #include <KStatusBar>
 #include <kstandarddirs.h>
 #include <KUrlRequesterDialog>
-#include <KTemporaryFile>
+#include <QTemporaryFile>
 #include <KMenu>
 #include <ktogglefullscreenaction.h>
 #include <KNotifyConfigWidget>
@@ -2772,9 +2772,8 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         }
         playlistPath = scriptPath + ".mlt";
     } else {
-        KTemporaryFile temp;
+        QTemporaryFile temp(QLatin1String("kdenlive_rendering_XXXXXX.mlt"));
         temp.setAutoRemove(false);
-        temp.setSuffix(".mlt");
         temp.open();
         playlistPath = temp.fileName();
     }

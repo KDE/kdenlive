@@ -29,6 +29,7 @@
 #include <KApplication>
 #include <KLocalizedString>
 #include <KStandardDirs>
+#include <KGlobal>
 
 #include <QFile>
 #include <QColor>

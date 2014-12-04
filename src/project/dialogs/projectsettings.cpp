@@ -30,7 +30,7 @@
 #include <KDebug>
 #include <kio/directorysizejob.h>
 #include <KIO/NetAccess>
-#include <KTemporaryFile>
+#include <QTemporaryFile>
 #include <KFileDialog>
 
 #include <QDir>
@@ -584,7 +584,7 @@ void ProjectSettings::slotExportToText()
             }
         }
     }
-    KTemporaryFile tmpfile;
+    QTemporaryFile tmpfile;
     if (!tmpfile.open()) {
         kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
         return;

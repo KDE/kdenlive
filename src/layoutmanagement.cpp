@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QInputDialog>
 #include <KConfigGroup>
 #include <KXMLGUIFactory>
+#include <KGlobal>
 
 LayoutManagement::LayoutManagement(QObject* parent) :
     QObject(parent)

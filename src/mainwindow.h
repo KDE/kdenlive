@@ -35,6 +35,7 @@
 #include <kautosavefile.h>
 #include <KActionCategory>
 #include <KSelectAction>
+#include <KSharedConfigPtr>
 
 #include "kdenlivecore_export.h"
 #include "effectslist/effectslist.h"

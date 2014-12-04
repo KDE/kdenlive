@@ -37,6 +37,7 @@
 
 #include <QScrollBar>
 #include <QDrag>
+#include <QMimeData>
 
 EffectStackView2::EffectStackView2(Monitor *monitor, QWidget *parent) :
         QWidget(parent),

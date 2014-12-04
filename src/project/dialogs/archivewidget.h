@@ -27,7 +27,7 @@
 
 #include <kio/global.h>
 #include <KIO/CopyJob>
-#include <KTemporaryFile>
+#include <QTemporaryFile>
 #include <kdeversion.h>
 
 #include <QDialog>
@@ -90,7 +90,7 @@ private:
     QMap <QUrl, QUrl> m_replacementList;
     QString m_name;
     QDomDocument m_doc;
-    KTemporaryFile *m_temp;
+    QTemporaryFile *m_temp;
     bool m_abortArchive;
     QFuture<void> m_archiveThread;
     QStringList m_foldersList;

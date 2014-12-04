@@ -31,7 +31,7 @@
 #include <QProcess>
 
 #include <KDebug>
-#include <KTemporaryFile>
+#include <QTemporaryFile>
 
 typedef QMap <QString, QRect> stringRectMap;
 
@@ -53,22 +53,22 @@ private:
 #endif
 
     DvdWizardChapters *m_pageChapters;
-    KTemporaryFile m_authorFile;
-    KTemporaryFile m_menuFile;
-    KTemporaryFile m_menuVobFile;
-    KTemporaryFile m_letterboxMovie;
+    QTemporaryFile m_authorFile;
+    QTemporaryFile m_menuFile;
+    QTemporaryFile m_menuVobFile;
+    QTemporaryFile m_letterboxMovie;
     QProcess *m_dvdauthor;
     QProcess *m_mkiso;
     QProcess m_menuJob;
     QString m_creationLog;
     QListWidgetItem *m_vobitem;
-    KTemporaryFile m_selectedImage;
-    KTemporaryFile m_selectedLetterImage;
-    KTemporaryFile m_highlightedImage;
-    KTemporaryFile m_highlightedLetterImage;
-    KTemporaryFile m_menuVideo;
-    KTemporaryFile m_menuFinalVideo;
-    KTemporaryFile m_menuImageBackground;
+    QTemporaryFile m_selectedImage;
+    QTemporaryFile m_selectedLetterImage;
+    QTemporaryFile m_highlightedImage;
+    QTemporaryFile m_highlightedLetterImage;
+    QTemporaryFile m_menuVideo;
+    QTemporaryFile m_menuFinalVideo;
+    QTemporaryFile m_menuImageBackground;
     QMenu *m_burnMenu;
     void cleanup();
     void errorMessage(const QString &text);
