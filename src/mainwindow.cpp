@@ -76,7 +76,7 @@
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
 #include <KStatusBar>
-#include <kstandarddirs.h>
+#include <KStandardDirs>
 #include <KUrlRequesterDialog>
 #include <QTemporaryFile>
 #include <KMenu>

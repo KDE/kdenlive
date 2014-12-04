@@ -34,7 +34,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KColorScheme>
-#include <KStandardDirs>
 
 MyEditableLabel::MyEditableLabel(QWidget * parent):
     KLineEdit(parent)
@@ -168,7 +167,7 @@ void CollapsibleGroup::slotSaveGroup()
 {
     QString name = QInputDialog::getText(this, i18n("Save Group"), i18n("Name for saved group: "), KLineEdit::Normal, m_title->text());
     if (name.isEmpty()) return;
-    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
     path = path + name + ".xml";
     if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) return;
 

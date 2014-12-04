@@ -37,7 +37,6 @@
 #include <KGlobalSettings>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KStandardDirs>
 #include <KFileDialog>
 #include <KApplication>
 
@@ -291,7 +290,7 @@ void CollapsibleEffect::slotSaveEffect()
 {
     QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
     if (name.isEmpty()) return;
-    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
     path = path + name + ".xml";
     if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) return;
 

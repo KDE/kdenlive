@@ -25,8 +25,6 @@
 
 #include <KDebug>
 #include <kglobal.h>
-#include <KStandardDirs>
-
 
 #include <QFile>
 #include <QDir>
@@ -312,7 +310,7 @@ void initEffects::parseCustomEffectsFile()
      * cannot be sure about it.
      */
     QMap<QString, QDomElement> effectsMap;
-    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
     QDir directory = QDir(path);
     QStringList filter;
     filter << "*.xml";

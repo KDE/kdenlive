@@ -26,7 +26,6 @@
 
 #include <KDebug>
 #include <KLocalizedString>
-#include <KStandardDirs>
 
 #include <QMenu>
 #include <QDir>
@@ -144,7 +143,7 @@ void EffectsListView::slotRemoveEffect()
 {
     QTreeWidgetItem *item = m_effectsList->currentItem();
     QString effectId = item->text(0);
-    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
 
     QDir directory = QDir(path);
     QStringList filter;

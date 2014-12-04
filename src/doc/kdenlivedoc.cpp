@@ -1636,7 +1636,7 @@ bool KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
             if (MainWindow::customEffects.hasEffect(tag, id) == -1) {
                 QDomDocument doc;
                 doc.appendChild(doc.importNode(e, true));
-                QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
+                QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
                 path += id + ".xml";
                 if (!QFile::exists(path)) {
                     importedEffects << id;
