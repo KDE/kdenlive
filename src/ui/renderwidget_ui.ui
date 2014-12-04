@@ -530,7 +530,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="buttonClose">
+          <widget class="QPushButton" name="buttonClose">
            <property name="text">
             <string>Close</string>
            </property>
@@ -636,7 +636,7 @@
         </widget>
        </item>
        <item row="2" column="4">
-        <widget class="KPushButton" name="buttonClose2">
+        <widget class="QPushButton" name="buttonClose2">
          <property name="text">
           <string>Close</string>
          </property>
@@ -784,7 +784,7 @@
         </spacer>
        </item>
        <item row="1" column="3">
-        <widget class="KPushButton" name="buttonClose3">
+        <widget class="QPushButton" name="buttonClose3">
          <property name="text">
           <string>Close</string>
          </property>
@@ -803,7 +803,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

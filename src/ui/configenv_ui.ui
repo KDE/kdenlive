@@ -166,7 +166,7 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="KPushButton" name="kp_image">
+        <widget class="QPushButton" name="kp_image">
          <property name="text">
           <string>Change</string>
          </property>
@@ -187,7 +187,7 @@
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="KPushButton" name="kp_audio">
+        <widget class="QPushButton" name="kp_audio">
          <property name="text">
           <string>Change</string>
          </property>
@@ -208,7 +208,7 @@
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="KPushButton" name="kp_player">
+        <widget class="QPushButton" name="kp_player">
          <property name="text">
           <string>Change</string>
          </property>
@@ -269,7 +269,7 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>
