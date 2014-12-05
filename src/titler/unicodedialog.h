@@ -11,10 +11,10 @@
 #define UNICODEDIALOG_H
 
 #include "ui_unicodewidget_ui.h"
-#include <KDialog>
+#include <QDialog>
 
 class UnicodeWidget;
-class UnicodeDialog : public KDialog
+class UnicodeDialog : public QDialog
 {
     Q_OBJECT
 public:

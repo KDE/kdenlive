@@ -35,7 +35,7 @@
 #include <KDebug>
 #include <KMessageBox>
 #include <KLocalizedString>
-#include <KDialog>
+#include <QDialog>
 
 #include <QString>
 #include <QApplication>
@@ -44,6 +44,10 @@
 
 #include <cstdlib>
 #include <cstdarg>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 
 #define SEEK_INACTIVE (-1)
@@ -4400,15 +4404,22 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
     int swidth = 60.0 * m_mltProfile->width() / m_mltProfile->height();
     if (width % 2 == 1) width++;
 
-    QPointer<KDialog> dialog = new KDialog(qApp->activeWindow());
-    dialog->setCaption("Multi Stream Clip");
-    dialog->setButtons(KDialog::Ok | KDialog::Cancel);
-    dialog->setButtonText(KDialog::Ok, i18n("Import selected clips"));
-    QWidget *content = new QWidget(dialog);
-    dialog->setMainWidget(content);
-    QVBoxLayout *vbox = new QVBoxLayout(content);
-    QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", path), content);
-    vbox->addWidget(lab1);
+    QPointer<QDialog> dialog = new QDialog(qApp->activeWindow());
+    dialog->setWindowTitle("Multi Stream Clip");
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QWidget *mainWidget = new QWidget(dialog);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    dialog->setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    dialog->connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    dialog->connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    okButton->setText(i18n("Import selected clips"));
+    
+    QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", path), mainWidget);
+    mainLayout->addWidget(lab1);
     QList <QGroupBox*> groupList;
     QList <KComboBox*> comboList;
     // We start loading the list at 1, video index 0 should already be loaded
@@ -4416,17 +4427,20 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
         Mlt::Producer multiprod(* m_mltProfile, path.toUtf8().constData());
         multiprod.set("video_index", video_list.at(j));
         QImage thumb = KThumb::getFrame(&multiprod, 0, swidth, width, 60);
-        QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", video_list.at(j)), content);
+        QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", video_list.at(j)), mainWidget);
+        mainLayout->addWidget(streamFrame);
         streamFrame->setProperty("vindex", video_list.at(j));
         groupList << streamFrame;
         streamFrame->setCheckable(true);
         streamFrame->setChecked(true);
         QVBoxLayout *vh = new QVBoxLayout( streamFrame );
-        QLabel *iconLabel = new QLabel(content);
+        QLabel *iconLabel = new QLabel(mainWidget);
+        mainLayout->addWidget(iconLabel);
         iconLabel->setPixmap(QPixmap::fromImage(thumb));
         vh->addWidget(iconLabel);
         if (audio_list.count() > 1) {
-            KComboBox *cb = new KComboBox(content);
+            KComboBox *cb = new KComboBox(mainWidget);
+            mainLayout->addWidget(cb);
             for (int k = 0; k < audio_list.count(); ++k) {
                 cb->addItem(i18n("Audio stream %1", audio_list.at(k)), audio_list.at(k));
             }
@@ -4434,8 +4448,9 @@ void Render::slotMultiStreamProducerFound(const QString &path, QList<int> audio_
             cb->setCurrentIndex(qMin(j, audio_list.count() - 1));
             vh->addWidget(cb);
         }
-        vbox->addWidget(streamFrame);
+        mainLayout->addWidget(streamFrame);
     }
+    mainLayout->addWidget(buttonBox);
     if (dialog->exec() == QDialog::Accepted) {
         // import selected streams
         for (int i = 0; i < groupList.count(); ++i) {

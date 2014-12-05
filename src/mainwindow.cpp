@@ -100,6 +100,10 @@
 
 #include <stdlib.h>
 #include <QStandardPaths>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 static const char version[] = KDENLIVE_VERSION;
 
@@ -2427,14 +2431,18 @@ void MainWindow::hideEvent(QHideEvent */*event*/)
 
 void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip, QUrl path)
 {
-    QPointer<KDialog> dialog = new KDialog(this);
-    dialog->setCaption("Save clip zone");
-    dialog->setButtons(KDialog::Ok | KDialog::Cancel);
+    QPointer<QDialog> dialog = new QDialog(this);
+    dialog->setWindowTitle("Save clip zone");
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    dialog->setLayout(mainLayout);
+    
+    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    dialog->connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    dialog->connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QWidget *widget = new QWidget(dialog);
-    dialog->setMainWidget(widget);
-
-    QVBoxLayout *vbox = new QVBoxLayout(widget);
     QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
     if (path.isEmpty()) {
         QString tmppath = pCore->projectManager()->current()->projectFolder().path() + QDir::separator();
@@ -2449,10 +2457,12 @@ void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *b
     url->setFilter("video/mlt-playlist");
     QLabel *label2 = new QLabel(i18n("Description:"), this);
     KLineEdit *edit = new KLineEdit(this);
-    vbox->addWidget(label1);
-    vbox->addWidget(url);
-    vbox->addWidget(label2);
-    vbox->addWidget(edit);
+    mainLayout->addWidget(label1);
+    mainLayout->addWidget(url);
+    mainLayout->addWidget(label2);
+    mainLayout->addWidget(edit);    
+    mainLayout->addWidget(buttonBox);
+
     if (dialog->exec() == QDialog::Accepted) {
         if (QFile::exists(url->url().path())) {
             if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", url->url().path())) == KMessageBox::No) {

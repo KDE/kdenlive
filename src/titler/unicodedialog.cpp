@@ -11,6 +11,10 @@
 
 #include <KGlobal>
 #include <QWheelEvent>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 /// CONSTANTS
 
@@ -19,14 +23,24 @@ const uint MAX_UNICODE_V1 = 65535;
 
 
 UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent)
-    : KDialog(parent)
+    : QDialog(parent)
 {
-    setCaption( i18n("Details") );
-    setButtons( Ok|Cancel );
+    setWindowTitle( i18n("Details") );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QWidget *mainWidget = new QWidget(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     mUnicodeWidget = new UnicodeWidget(inputMeth);
     connect(mUnicodeWidget, SIGNAL(charSelected(QString)), SIGNAL(charSelected(QString)));
-    setMainWidget(mUnicodeWidget);
-    connect(this, SIGNAL(okClicked()), SLOT(slotAccept()));
+    mainLayout->addWidget(mUnicodeWidget);
+    mainLayout->addWidget(buttonBox);
+    connect(okButton, SIGNAL(clicked()), SLOT(slotAccept()));
 }
 
 UnicodeDialog::~UnicodeDialog()

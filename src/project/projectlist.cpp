@@ -45,13 +45,13 @@
 #include "ui_scenecutdialog_ui.h"
 
 #include <KDebug>
-#include <QAction>
 #include <KLocalizedString>
 #include <KFileDialog>
 #include <KMessageBox>
 #include <KIO/NetAccess>
 #include <KFileItem>
 #include <KApplication>
+#include <KDialog>
 
 #include <KColorScheme>
 #include <KActionCollection>
@@ -74,6 +74,7 @@
   #include <Nepomuk2/Resource>
 #endif
 
+#include <QAction>
 #include <QPixmap>
 #include <QMenu>
 #include <QProcess>
