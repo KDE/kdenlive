@@ -246,7 +246,7 @@
     </widget>
    </item>
    <item row="9" column="0" colspan="4">
-    <widget class="KListWidget" name="icon_list"/>
+    <widget class="QListWidget" name="icon_list"/>
    </item>
    <item row="10" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -330,11 +330,6 @@
    <class>KRestrictedLine</class>
    <extends>KLineEdit</extends>
    <header>krestrictedline.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>

@@ -253,7 +253,7 @@
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <widget class="KListWidget" name="format_list">
+          <widget class="QListWidget" name="format_list">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -261,7 +261,7 @@
             </sizepolicy>
            </property>
           </widget>
-          <widget class="KListWidget" name="size_list">
+          <widget class="QListWidget" name="size_list">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -811,11 +811,6 @@
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>
    <header>ktextedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>

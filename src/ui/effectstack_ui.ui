@@ -70,7 +70,7 @@
      <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="KListWidget" name="effectlist">
+        <widget class="QListWidget" name="effectlist">
          <property name="dragDropMode">
           <enum>QAbstractItemView::InternalMove</enum>
          </property>
@@ -228,13 +228,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
