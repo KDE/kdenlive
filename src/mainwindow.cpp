@@ -79,7 +79,7 @@
 #include <KStandardDirs>
 #include <KUrlRequesterDialog>
 #include <QTemporaryFile>
-#include <KMenu>
+#include <QMenu>
 #include <ktogglefullscreenaction.h>
 #include <KNotifyConfigWidget>
 #if KDE_IS_VERSION(4,3,80)
@@ -400,7 +400,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     showTimeline->setChecked(true);
     connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
     
-    KMenu *viewMenu = static_cast<KMenu*>(factory()->container("dockwindows", this));
+    QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
     pair.first = showTimeline->text();
     pair.second = showTimeline;
     viewActions.append(pair);

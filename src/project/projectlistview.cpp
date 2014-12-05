@@ -36,7 +36,7 @@
 
 // KDE
 #include <KDebug>
-#include <KMenu>
+#include <QMenu>
 #include <KLocalizedString>
 
 ProjectListView::ProjectListView(QWidget *parent)
@@ -107,8 +107,8 @@ void ProjectListView::processLayout()
 
 void ProjectListView::configureColumns(const QPoint& pos)
 {
-    KMenu popup(this);
-    popup.addTitle(i18nc("@title:menu", "Columns"));
+    QMenu popup(this);
+    popup.addSection(i18nc("@title:menu", "Columns"));
 
     QHeaderView* headerView = header();
     for (int i = 1; i < headerView->count(); ++i) {
