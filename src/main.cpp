@@ -34,12 +34,12 @@
 
 int main(int argc, char *argv[])
 {
-    KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
-                         ki18n("Kdenlive"), KDENLIVE_VERSION,
-                         ki18n("An open source video editor."),
+    KAboutData aboutData(QByteArray("kdenlive"), 
+                         i18n("Kdenlive"), KDENLIVE_VERSION,
+                         i18n("An open source video editor."),
                          KAboutLicense::GPL,
-                         ki18n("Copyright © 2007–2014 Kdenlive authors"),
-                         ki18n("Please report bugs to http://kdenlive.org/mantis"),
+                         i18n("Copyright © 2007–2014 Kdenlive authors"),
+                         i18n("Please report bugs to http://kdenlive.org/mantis"),
                          "http://kdenlive.org",
                          "http://bugs.kdenlive.org");
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 porting, main developer and maintainer"), "jb@kdenlive.org");
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
-    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("path"), i18n("Set the path for MLT environment"), QLatin1String("path")));
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("mlt-path"), i18n("Set the path for MLT environment"), QLatin1String("mlt-path")));
     parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("+[file]"), i18n("Document to open")));
     parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("i"), i18n("Comma separated list of clips to add"), QLatin1String("clips")));
 
