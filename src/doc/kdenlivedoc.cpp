@@ -374,7 +374,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     }
 
     // Make sure the project folder is usable
-    if (m_projectFolder.isEmpty() || !KIO::NetAccess::exists(m_projectFolder.path(), KIO::NetAccess::DestinationSide, parent)) {
+    if (m_projectFolder.isEmpty() || !QFile::exists(m_projectFolder.path())) {
         KMessageBox::information(parent, i18n("Document project folder is invalid, setting it to the default one: %1", KdenliveSettings::defaultprojectfolder()));
         m_projectFolder = QUrl(KdenliveSettings::defaultprojectfolder());
     }
@@ -870,15 +870,15 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
         }
         QString hash = clip->getClipHash();
         QUrl oldVideoThumbUrl = QUrl(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".png");
-        if (KIO::NetAccess::exists(oldVideoThumbUrl, KIO::NetAccess::SourceSide, 0)) {
+        if (QFile::exists(oldVideoThumbUrl.path())) {
             cacheUrls << oldVideoThumbUrl;
         }
         QUrl oldAudioThumbUrl = QUrl(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".thumb");
-        if (KIO::NetAccess::exists(oldAudioThumbUrl, KIO::NetAccess::SourceSide, 0)) {
+        if (QFile::exists(oldAudioThumbUrl.path())) {
             cacheUrls << oldAudioThumbUrl;
         }
         QUrl oldVideoProxyUrl = QUrl(m_projectFolder.path() + QDir::separator() + "proxy/" + hash + '.' + KdenliveSettings::proxyextension());
-        if (KIO::NetAccess::exists(oldVideoProxyUrl, KIO::NetAccess::SourceSide, 0)) {
+        if (QFile::exists(oldVideoProxyUrl.path())) {
             cacheUrls << oldVideoProxyUrl;
         }
     }

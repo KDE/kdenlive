@@ -528,7 +528,7 @@ void ClipManager::slotAddClipList(const QList<QUrl> &urls, const QMap <QString, 
     //TODO: update only when new volume is plugged / unplugged
     listRemovableVolumes();
     foreach(const QUrl &file, urls) {
-        if (QFile::exists(file.path())) {//KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
+        if (QFile::exists(file.path())) {
             if (!data.contains("bypassDuplicate") && !getClipByResource(file.path()).empty()) {
                 if (KMessageBox::warningContinueCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;

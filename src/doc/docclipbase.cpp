@@ -785,10 +785,11 @@ Mlt::Producer *DocClipBase::cloneProducer(Mlt::Producer *source)
         // Xml producer sometimes loses the correct url
         url = m_properties.value("resource");
     }
-    if (m_clipType == SlideShow || KIO::NetAccess::exists(QUrl(url), KIO::NetAccess::SourceSide, 0)) {
+    if (m_clipType == SlideShow || QFile::exists(url)) {
         result = new Mlt::Producer(*(source->profile()), url.toUtf8().constData());
     }
     if (result == NULL || !result->is_valid()) {
+
         // placeholder clip
         QString txt = '+' + i18n("Missing clip") + ".txt";
         char *tmp = qstrdup(txt.toUtf8().constData());

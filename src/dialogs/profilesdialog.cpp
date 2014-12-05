@@ -203,7 +203,7 @@ bool ProfilesDialog::slotSaveProfile()
         QString customName = "profiles/customprofile";
         QString profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         kDebug() << " TYING PROFILE FILE: " << profilePath;
-        while (KIO::NetAccess::exists(QUrl(profilePath), KIO::NetAccess::SourceSide, this)) {
+        while (QFile::exists(profilePath)) {
             ++i;
             profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         }
@@ -480,7 +480,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
         QString customName = "profiles/customprofile";
         profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         kDebug() << " TYING PROFILE FILE: " << profilePath;
-        while (KIO::NetAccess::exists(QUrl(profilePath), KIO::NetAccess::SourceSide, 0)) {
+        while (QFile::exists(profilePath)) {
             ++i;
             profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + customName + QString::number(i);
         }

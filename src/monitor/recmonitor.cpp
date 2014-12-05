@@ -378,7 +378,7 @@ QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString &txt)
 
 void RecMonitor::checkDeviceAvailability()
 {
-    if (!KIO::NetAccess::exists(QUrl(KdenliveSettings::video4vdevice()), KIO::NetAccess::SourceSide , this)) {
+    if (!QFile::exists(KdenliveSettings::video4vdevice())) {
         rec_video->setChecked(false);
 	rec_video->setEnabled(false);
         video_frame->setPixmap(mergeSideBySide(QIcon::fromTheme("camera-web").pixmap(QSize(50, 50)), i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice())));
@@ -961,7 +961,7 @@ void RecMonitor::manageCapturedFiles()
     QList<QUrl> capturedFiles;
     foreach(const QString & name, result) {
         QUrl url = QUrl(dir.filePath(name));
-        if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, this)) {
+        if (QFile::exists(url.path())) {
             KFileItem file(KFileItem::Unknown, KFileItem::Unknown, url, true);
             if (file.time(KFileItem::ModificationTime) > m_captureTime) {
                 // The file was captured in the last batch

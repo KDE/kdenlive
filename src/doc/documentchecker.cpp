@@ -133,11 +133,11 @@ bool DocumentChecker::hasErrorInClips()
             QString proxyresource = e.attribute("proxy");
             if (!proxyresource.isEmpty() && proxyresource != "-") {
                 // clip has a proxy
-                if (!KIO::NetAccess::exists(QUrl(proxyresource), KIO::NetAccess::SourceSide, 0)) {
+                if (!QFile::exists(proxyresource)) {
                     // Missing clip found
                     missingProxies.append(e);
                 }
-                else if (!KIO::NetAccess::exists(QUrl(resource), KIO::NetAccess::SourceSide, 0)) {
+                else if (!QFile::exists(resource)) {
                     // clip has proxy but original clip is missing
                     missingSources.append(e);
                     continue;
@@ -145,7 +145,7 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
         if (clipType == SlideShow) resource = QUrl(resource).adjusted(QUrl::RemoveFilename).path();
-        if (!KIO::NetAccess::exists(QUrl(resource), KIO::NetAccess::SourceSide, 0)) {
+        if (!QFile::exists(resource)) {
             // Missing clip found
             m_missingClips.append(e);
         } else {
@@ -609,7 +609,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     QUrl url = KUrlRequesterDialog::getUrl(item->text(1), m_dialog, i18n("Enter new location for file"));
     if (url.isEmpty()) return;
     item->setText(1, url.path());
-    if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, 0)) {
+    if (QFile::exists(url.path())) {
         item->setIcon(0, QIcon::fromTheme("dialog-ok"));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) item->setData(0, statusRole, CLIPOK);
@@ -914,7 +914,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
     QDomDocument doc;
     foreach(const QString &img, images) {
         if (m_safeImages.contains(img)) continue;
-        if (!KIO::NetAccess::exists(QUrl(img), KIO::NetAccess::SourceSide, 0)) {
+        if (!QFile::exists(img)) {
             QDomElement e = doc.createElement("missingclip");
             e.setAttribute("type", TITLE_IMAGE_ELEMENT);
             e.setAttribute("resource", img);

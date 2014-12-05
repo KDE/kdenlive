@@ -204,7 +204,7 @@ void ResourceWidget::slotLoadThumb(const QString &url)
 {
     QUrl img(url);
     if (img.isEmpty()) return;
-    if (KIO::NetAccess::exists(img, KIO::NetAccess::SourceSide, this)) {
+    if (QFile::exists(img.path())) {
         if (KIO::NetAccess::download(img, m_tmpThumbFile, this)) {
             slotSetImage(m_tmpThumbFile);
             /*QPixmap pix(tmpFile);
