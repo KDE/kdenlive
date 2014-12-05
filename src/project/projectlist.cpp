@@ -2344,10 +2344,11 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
                     static_cast <FolderProjectItem *>(item->parent())->switchIcon();
             } else if (KdenliveSettings::checkfirstprojectclip() &&  m_listView->topLevelItemCount() == 1 && m_refreshed && m_allClipsProcessed) {
                 // this is the first clip loaded in project, check if we want to adjust project settings to the clip
-                updatedProfile = adjustProjectProfileToItem(item);
+                //TODO: KF5 fix threading issue causing crash
+                /*updatedProfile = adjustProjectProfileToItem(item);
                 if (updatedProfile == false) {
                     emit clipSelected(item->referencedClip());
-                }
+                }*/
             }
             if (updatedProfile == false) {
                 // emit clipSelected(item->referencedClip());
