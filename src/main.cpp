@@ -21,46 +21,55 @@
 #include <config-kdenlive.h>
 #include "mainwindow.h"
 
-#include <KApplication>
-#include <K4AboutData>
+
+#include <KAboutData>
 #include <KDebug>
-#include <KCmdLineArgs>
+
 #include <QUrl> //new
+#include <QApplication>
+#include <KLocalizedString>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 
 
 int main(int argc, char *argv[])
 {
-    K4AboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
+    KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
                          ki18n("Kdenlive"), KDENLIVE_VERSION,
                          ki18n("An open source video editor."),
-                         K4AboutData::License_GPL,
-                         ki18n("Copyright © 2007–2014 Kdenlive authors"));
-    aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("MLT and KDE SC 4 porting, main developer and maintainer"), "jb@kdenlive.org");
-    aboutData.addAuthor(ki18n("Vincent Pinon"), ki18n("Interim maintainer, bugs fixing, minor functions, profiles updates, etc."), "vpinon@april.org");
-    aboutData.addAuthor(ki18n("Laurent Montel"), ki18n("Bugs fixing, clean up code, optimization etc."), "montel@kde.org");
-    aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("MLT transitions and effects, timeline, audio thumbs"), "g.marco@freenet.de");
-    aboutData.addAuthor(ki18n("Dan Dennedy"), ki18n("Bug fixing, etc."), "dan@dennedy.org");
-    aboutData.addAuthor(ki18n("Simon A. Eugster"), ki18n("Color scopes, bug fixing, etc."), "simon.eu@gmail.com");
-    aboutData.addAuthor(ki18n("Till Theato"), ki18n("Bug fixing, etc."), "root@ttill.de");
-    aboutData.addAuthor(ki18n("Alberto Villa"), ki18n("Bug fixing, logo, etc."), "avilla@FreeBSD.org");
-    aboutData.addAuthor(ki18n("Jean-Michel Poure"), ki18n("Rendering profiles customization"), "jm@poure.com");
-    aboutData.addAuthor(ki18n("Ray Lehtiniemi"), ki18n("Bug fixing, etc."), "rayl@mail.com");
-    aboutData.addAuthor(ki18n("Steve Guilford"), ki18n("Bug fixing, etc."), "s.guilford@dbplugins.com");
-    aboutData.addAuthor(ki18n("Jason Wood"), ki18n("Original KDE 3 version author (not active anymore)"), "jasonwood@blueyonder.co.uk");
-    aboutData.setHomepage("http://kdenlive.org");
-    aboutData.setCustomAuthorText(ki18n("Please report bugs to http://kdenlive.org/mantis"), ki18n("Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive.org/mantis</a>"));
-    aboutData.setTranslator(ki18n("NAME OF TRANSLATORS"), ki18n("EMAIL OF TRANSLATORS"));
-    aboutData.setBugAddress("http://kdenlive.org/mantis");
+                         KAboutLicense::GPL,
+                         ki18n("Copyright © 2007–2014 Kdenlive authors"),
+                         ki18n("Please report bugs to http://kdenlive.org/mantis"),
+                         "http://kdenlive.org",
+                         "http://bugs.kdenlive.org");
+    aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 porting, main developer and maintainer"), "jb@kdenlive.org");
+    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("Interim maintainer, bugs fixing, minor functions, profiles updates, etc."), "vpinon@april.org");
+    aboutData.addAuthor(i18n("Laurent Montel"), i18n("Bugs fixing, clean up code, optimization etc."), "montel@kde.org");
+    aboutData.addAuthor(i18n("Marco Gittler"), i18n("MLT transitions and effects, timeline, audio thumbs"), "g.marco@freenet.de");
+    aboutData.addAuthor(i18n("Dan Dennedy"), i18n("Bug fixing, etc."), "dan@dennedy.org");
+    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), "simon.eu@gmail.com");
+    aboutData.addAuthor(i18n("Till Theato"), i18n("Bug fixing, etc."), "root@ttill.de");
+    aboutData.addAuthor(i18n("Alberto Villa"), i18n("Bug fixing, logo, etc."), "avilla@FreeBSD.org");
+    aboutData.addAuthor(i18n("Jean-Michel Poure"), i18n("Rendering profiles customization"), "jm@poure.com");
+    aboutData.addAuthor(i18n("Ray Lehtiniemi"), i18n("Bug fixing, etc."), "rayl@mail.com");
+    aboutData.addAuthor(i18n("Steve Guilford"), i18n("Bug fixing, etc."), "s.guilford@dbplugins.com");
+    aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), "jasonwood@blueyonder.co.uk");
+    aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
 
-    KCmdLineArgs::init(argc, argv, &aboutData);
+    QApplication app(argc, argv);
+    QCommandLineParser parser;
+    KAboutData::setApplicationData(aboutData);
+    parser.addVersionOption();
+    parser.addHelpOption();
+    //PORTING SCRIPT: adapt aboutdata variable if necessary
+    aboutData.setupCommandLine(&parser);
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
 
-    KCmdLineOptions options;
-    options.add("mlt-path <path>", ki18n("Set the path for MLT environment"));
-    options.add("+[file]", ki18n("Document to open")); //new
-    options.add("i <clips>", ki18n("Comma separated list of clips to add")); //new
-    KCmdLineArgs::addCmdLineOptions(options); //new
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("path"), i18n("Set the path for MLT environment"), QLatin1String("path")));
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("+[file]"), i18n("Document to open")));
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("i"), i18n("Comma separated list of clips to add"), QLatin1String("clips")));
 
-    KApplication app;
     MainWindow* window = 0;
 
     // see if we are starting with session management
@@ -77,17 +86,16 @@ int main(int argc, char *argv[])
             ++n;
         }
     } else {
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
-        QString clipsToLoad = args->getOption("i");
-        QString mltPath = args->getOption("mlt-path");
+        QString clipsToLoad = parser.value("i");
+        QString mltPath = parser.value("mlt-path");
         QUrl url;
-        if (args->count()) {
-            url = args->url(0);
+        if (parser.positionalArguments().count()) {
+            url = parser.positionalArguments().first();
         }
         window = new MainWindow(mltPath, url, clipsToLoad);
         window->show();
 
-        args->clear();
+        
     }
     int result = app.exec();
     return result;
