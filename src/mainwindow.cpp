@@ -610,20 +610,29 @@ void MainWindow::generateClip()
     }
 }
 
+void MainWindow::saveGlobalProperties(KConfigGroup &config)
+{
+    // save properties here, used by session management
+    pCore->projectManager()->saveFile();
+}
+
 void MainWindow::saveProperties(KConfigGroup &config)
 {
-    // save properties here,used by session management
-    pCore->projectManager()->saveFile();
+    // save properties here
     KMainWindow::saveProperties(config);
 }
 
+void MainWindow::readGlobalProperties(const KConfigGroup &config)
+{
+    // read properties here,used by session management
+    QString Lastproject = config.group("Recent Files").readPathEntry("File1", QString());
+    pCore->projectManager()->openFile(QUrl(Lastproject));
+}
 
 void MainWindow::readProperties(const KConfigGroup &config)
 {
-    // read properties here,used by session management
+    // read properties here
     KMainWindow::readProperties(config);
-    QString Lastproject = config.group("Recent Files").readPathEntry("File1", QString());
-    pCore->projectManager()->openFile(QUrl(Lastproject));
 }
 
 void MainWindow::slotReloadEffects()

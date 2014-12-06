@@ -131,8 +131,14 @@ protected:
     /** @brief Saves the file and the window properties when saving the session. */
     virtual void saveProperties(KConfigGroup &config);
 
+    /** @brief Saves the file and the window properties when saving the session. */
+    virtual void saveGlobalProperties(KConfigGroup &config);    
+    
     /** @brief Restores the window and the file when a session is loaded. */
     virtual void readProperties(const KConfigGroup &config);
+
+    /** @brief Restores the window and the file when a session is loaded. */
+    virtual void readGlobalProperties(const KConfigGroup &config);
 
 private:
     QProgressBar *m_statusProgressBar;
