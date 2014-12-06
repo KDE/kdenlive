@@ -159,7 +159,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="KLineEdit" name="kcfg_defaultimageapp">
+        <widget class="QLineEdit" name="kcfg_defaultimageapp">
          <property name="showClearButton" stdset="0">
           <bool>true</bool>
          </property>
@@ -180,7 +180,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="KLineEdit" name="kcfg_defaultaudioapp">
+        <widget class="QLineEdit" name="kcfg_defaultaudioapp">
          <property name="showClearButton" stdset="0">
           <bool>true</bool>
          </property>
@@ -201,7 +201,7 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="KLineEdit" name="kcfg_defaultplayerapp">
+        <widget class="QLineEdit" name="kcfg_defaultplayerapp">
          <property name="showClearButton" stdset="0">
           <bool>true</bool>
          </property>
@@ -264,7 +264,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

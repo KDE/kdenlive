@@ -2465,7 +2465,7 @@ void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *b
     KUrlRequester *url = new KUrlRequester(path, this);
     url->setFilter("video/mlt-playlist");
     QLabel *label2 = new QLabel(i18n("Description:"), this);
-    KLineEdit *edit = new KLineEdit(this);
+    QLineEdit *edit = new QLineEdit(this);
     mainLayout->addWidget(label1);
     mainLayout->addWidget(url);
     mainLayout->addWidget(label2);

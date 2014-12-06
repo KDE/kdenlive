@@ -579,7 +579,7 @@ void RenderWidget::saveProfile(const QDomElement &newprofile)
         if (profileName == newprofile.attribute("name")) {
             // a profile with that same name already exists
             bool ok;
-            QString newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), KLineEdit::Normal, profileName, &ok);
+            QString newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, profileName, &ok);
             if (!ok) return;
             if (profileName == newProfileName) {
                 profiles.removeChild(profilelist.item(i));
@@ -749,7 +749,7 @@ void RenderWidget::slotEditProfile()
             if (profileName == newProfileName) {
                 // a profile with that same name already exists
                 bool ok;
-                newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), KLineEdit::Normal, newProfileName, &ok);
+                newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, newProfileName, &ok);
                 if (!ok) return;
                 if (profileName == newProfileName) {
                     profiles.removeChild(profilelist.item(i));

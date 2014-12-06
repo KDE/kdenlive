@@ -72,7 +72,7 @@
        </widget>
       </item>
       <item row="0" column="1" colspan="2">
-       <widget class="KLineEdit" name="profile_name"/>
+       <widget class="QLineEdit" name="profile_name"/>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
@@ -82,7 +82,7 @@
        </widget>
       </item>
       <item row="1" column="1" colspan="2">
-       <widget class="KLineEdit" name="profile_description"/>
+       <widget class="QLineEdit" name="profile_description"/>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_3">
@@ -92,7 +92,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="KLineEdit" name="profile_extension"/>
+       <widget class="QLineEdit" name="profile_extension"/>
       </item>
       <item row="2" column="2">
        <widget class="QCheckBox" name="profile_audioonly">
@@ -118,7 +118,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

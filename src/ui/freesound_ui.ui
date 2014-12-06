@@ -83,8 +83,8 @@
         </widget>
        </item>
        <item row="0" column="0" colspan="2">
-        <widget class="KLineEdit" name="search_text">
-         <property name="clickMessage">
+        <widget class="QLineEdit" name="search_text">
+         <property name="placeholderText">
           <string/>
          </property>
          <property name="showClearButton" stdset="0">
@@ -212,7 +212,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

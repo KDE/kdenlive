@@ -28,7 +28,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="KLineEdit" name="vbitrates_list">
+       <widget class="QLineEdit" name="vbitrates_list">
         <property name="toolTip">
          <string>Best to worst quality</string>
         </property>
@@ -52,7 +52,7 @@
     </widget>
    </item>
    <item row="2" column="1" colspan="2">
-    <widget class="KLineEdit" name="profile_name"/>
+    <widget class="QLineEdit" name="profile_name"/>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
@@ -92,7 +92,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="KLineEdit" name="abitrates_list">
+       <widget class="QLineEdit" name="abitrates_list">
         <property name="toolTip">
          <string>Best to worst quality</string>
         </property>
@@ -113,7 +113,7 @@
     </widget>
    </item>
    <item row="1" column="1" colspan="2">
-    <widget class="KLineEdit" name="group_name"/>
+    <widget class="QLineEdit" name="group_name"/>
    </item>
    <item row="0" column="1" colspan="2">
     <widget class="KComboBox" name="destination_list"/>
@@ -153,7 +153,7 @@
     </widget>
    </item>
    <item row="3" column="1" colspan="2">
-    <widget class="KLineEdit" name="extension">
+    <widget class="QLineEdit" name="extension">
      <property name="maxLength">
       <number>4</number>
      </property>
@@ -180,7 +180,7 @@
    <header>ktextedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

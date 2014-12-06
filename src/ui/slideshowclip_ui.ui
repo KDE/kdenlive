@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item row="0" column="1" colspan="3">
-    <widget class="KLineEdit" name="clip_name"/>
+    <widget class="QLineEdit" name="clip_name"/>
    </item>
    <item row="1" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox">
@@ -322,13 +322,13 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>krestrictedline.h</header>
   </customwidget>
   <customwidget>

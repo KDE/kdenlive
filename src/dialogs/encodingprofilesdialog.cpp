@@ -25,7 +25,7 @@
 #include <KIO/NetAccess>
 
 #include <QVBoxLayout>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <QPlainTextEdit>
 
 EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent) :
@@ -122,13 +122,13 @@ void EncodingProfilesDialog::slotAddProfile()
     QPointer<QDialog> d = new QDialog(this);
     QVBoxLayout *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
-    KLineEdit *pname = new KLineEdit;
+    QLineEdit *pname = new QLineEdit;
     l->addWidget(pname);
     l->addWidget(new QLabel(i18n("Parameters:")));
     QPlainTextEdit *pparams = new QPlainTextEdit;
     l->addWidget(pparams);
     l->addWidget(new QLabel(i18n("File extension:")));
-    KLineEdit *pext = new KLineEdit;
+    QLineEdit *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     connect(box, SIGNAL(accepted()), d, SLOT(accept()));
@@ -154,13 +154,13 @@ void EncodingProfilesDialog::slotEditProfile()
     QPointer<QDialog> d = new QDialog(this);
     QVBoxLayout *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
-    KLineEdit *pname = new KLineEdit;
+    QLineEdit *pname = new QLineEdit;
     l->addWidget(pname);
     l->addWidget(new QLabel(i18n("Parameters:")));
     QPlainTextEdit *pparams = new QPlainTextEdit;
     l->addWidget(pparams);
     l->addWidget(new QLabel(i18n("File extension:")));
-    KLineEdit *pext = new KLineEdit;
+    QLineEdit *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     connect(box, SIGNAL(accepted()), d, SLOT(accept()));

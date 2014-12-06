@@ -149,7 +149,7 @@
         </widget>
        </item>
        <item row="4" column="1" colspan="2">
-        <widget class="KLineEdit" name="kcfg_dvgrabfilename"/>
+        <widget class="QLineEdit" name="kcfg_dvgrabfilename"/>
        </item>
        <item row="5" column="0" colspan="2">
         <widget class="QLabel" name="label_7">
@@ -159,7 +159,7 @@
         </widget>
        </item>
        <item row="6" column="0" colspan="3">
-        <widget class="KLineEdit" name="kcfg_dvgrabextra"/>
+        <widget class="QLineEdit" name="kcfg_dvgrabextra"/>
        </item>
        <item row="7" column="1">
         <spacer name="verticalSpacer_2">
@@ -254,7 +254,7 @@
         </widget>
        </item>
        <item row="2" column="6" colspan="5">
-        <widget class="KLineEdit" name="kcfg_video4vdevice">
+        <widget class="QLineEdit" name="kcfg_video4vdevice">
          <property name="text">
           <string/>
          </property>
@@ -698,7 +698,7 @@
         </widget>
        </item>
        <item row="6" column="1" colspan="8">
-        <widget class="KLineEdit" name="kcfg_decklink_filename"/>
+        <widget class="QLineEdit" name="kcfg_decklink_filename"/>
        </item>
        <item row="7" column="8">
         <spacer name="verticalSpacer_4">
@@ -766,7 +766,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

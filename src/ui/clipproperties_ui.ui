@@ -29,7 +29,7 @@
     </widget>
    </item>
    <item row="2" column="0" colspan="4">
-    <widget class="KLineEdit" name="clip_path">
+    <widget class="QLineEdit" name="clip_path">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -43,7 +43,7 @@
     </widget>
    </item>
    <item row="4" column="0" colspan="4">
-    <widget class="KLineEdit" name="clip_description"/>
+    <widget class="QLineEdit" name="clip_description"/>
    </item>
    <item row="5" column="0">
     <widget class="QLabel" name="label_duration">
@@ -375,7 +375,7 @@
           </widget>
          </item>
          <item>
-          <widget class="KLineEdit" name="image_size">
+          <widget class="QLineEdit" name="image_size">
            <property name="readOnly">
             <bool>true</bool>
            </property>
@@ -917,7 +917,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
@@ -933,7 +933,7 @@
   </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>krestrictedline.h</header>
   </customwidget>
  </customwidgets>

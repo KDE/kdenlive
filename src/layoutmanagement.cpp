@@ -96,7 +96,7 @@ void LayoutManagement::slotSaveLayout(QAction *action)
     QString originallayoutName = action->data().toString();
     int layoutId = originallayoutName.section('_', -1).toInt();
 
-    QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), KLineEdit::Normal,
+    QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal,
                                                originallayoutName.section('_', 0, -2));
     if (layoutName.isEmpty()) {
         return;

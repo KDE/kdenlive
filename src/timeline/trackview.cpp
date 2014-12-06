@@ -576,7 +576,7 @@ void TrackView::updatePalette()
     p.setColor(QPalette::Button, norm);
     QColor col = scheme.background().color();
     QColor col2 = scheme.foreground().color();
-    headers_container->setStyleSheet(QString("KLineEdit { background-color: transparent;color: %1;} KLineEdit:hover{ background-color: %2;} KLineEdit:focus { background-color: %2;}").arg(col2.name()).arg(col.name()));
+    headers_container->setStyleSheet(QString("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;}").arg(col2.name()).arg(col.name()));
     m_trackview->updatePalette();
     m_ruler->updatePalette();
     

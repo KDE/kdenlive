@@ -26,7 +26,7 @@
 #include <QStyle>
 #include <QStylePainter>
 #include <QStyleOptionSlider>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <QValidator>
 #include <QHBoxLayout>
 #include <QMenu>
@@ -116,7 +116,7 @@ KoSliderCombo::KoSliderCombo(QWidget *parent)
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     setEditable(true);
-    setEditText(KGlobal::locale()->formatNumber(0, d->decimals));
+    setEditText(QLocale().toString(0.0, 'f', d->decimals));
 
     connect(d->slider, SIGNAL(valueChanged(int)), SLOT(sliderValueChanged(int)));
     connect(d->slider, SIGNAL(sliderReleased()), SLOT(sliderReleased()));
@@ -267,7 +267,7 @@ void KoSliderCombo::KoSliderComboPrivate::lineEditFinished()
 
 void KoSliderCombo::KoSliderComboPrivate::sliderValueChanged(int slidervalue)
 {
-    thePublic->setEditText(KGlobal::locale()->formatNumber(minimum + (maximum - minimum)*slidervalue / 256, decimals));
+    thePublic->setEditText(QLocale()->toString(minimum + (maximum - minimum)*slidervalue / 256.0, 'f', decimals));
 
     qreal value = thePublic->currentText().toDouble();
     emit thePublic->valueChanged(value, false);
@@ -322,7 +322,7 @@ void KoSliderCombo::setValue(qreal value)
         value = d->minimum;
     if (value > d->maximum)
         value = d->maximum;
-    setEditText(KGlobal::locale()->formatNumber(value, d->decimals));
+    setEditText(QLocale()->toString(value, 'f', d->decimals));
     d->slider->blockSignals(true);
     d->slider->setValue(int((value - d->minimum) * 256 / (d->maximum - d->minimum) + 0.5));
     d->slider->blockSignals(false);

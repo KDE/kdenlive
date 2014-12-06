@@ -57,7 +57,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="1" column="1" colspan="5">
-       <widget class="KLineEdit" name="kcfg_shuttledevice">
+       <widget class="QLineEdit" name="kcfg_shuttledevice">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -69,9 +69,6 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <property name="squeezedTextEnabled">
-         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -378,7 +375,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
