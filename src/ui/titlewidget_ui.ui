@@ -760,28 +760,21 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="KRestrictedLine" name="title_duration">
-         <property name="inputMask">
-          <string>99:99:99:99</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="3">
+       <item row="2" column="0" colspan="3">
         <widget class="Line" name="line_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="label_14">
          <property name="text">
           <string>Zoom:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="3" column="2">
         <widget class="QSpinBox" name="itemzoom">
          <property name="maximum">
           <number>100000</number>
@@ -791,28 +784,28 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>Rotate X:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_20">
-         <property name="text">
-          <string>Rotate Y:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
+       <item row="9" column="0">
         <widget class="QLabel" name="label_21">
          <property name="text">
           <string>Rotate Z:</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="3">
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Rotate Y:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>Rotate X:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="3">
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0">
           <widget class="QToolButton" name="itemleft">
@@ -871,7 +864,7 @@
          </item>
         </layout>
        </item>
-       <item row="10" column="0" colspan="3">
+       <item row="11" column="0" colspan="3">
         <widget class="QFrame" name="effect_frame">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -973,21 +966,21 @@
               </item>
               <item row="3" column="2">
                <widget class="QSpinBox" name="shadow_x">
-                <property name="value">
-                 <number>8</number>
-                </property>
                 <property name="maximum">
                  <number>5000</number>
+                </property>
+                <property name="value">
+                 <number>8</number>
                 </property>
                </widget>
               </item>
               <item row="3" column="3">
                <widget class="QSpinBox" name="shadow_y">
-                <property name="value">
-                 <number>8</number>
-                </property>
                 <property name="maximum">
                  <number>5000</number>
+                </property>
+                <property name="value">
+                 <number>8</number>
                 </property>
                </widget>
               </item>
@@ -1028,11 +1021,11 @@
                 <property name="minimum">
                  <number>1</number>
                 </property>
-                <property name="value">
-                 <number>5</number>
-                </property>
                 <property name="maximum">
                  <number>5000</number>
+                </property>
+                <property name="value">
+                 <number>5</number>
                 </property>
                </widget>
               </item>
@@ -1073,7 +1066,7 @@
          </layout>
         </widget>
        </item>
-       <item row="11" column="0" colspan="3">
+       <item row="12" column="0" colspan="3">
         <widget class="QTabWidget" name="tabWidget">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1230,7 +1223,7 @@
          </widget>
         </widget>
        </item>
-       <item row="6" column="2">
+       <item row="7" column="2">
         <widget class="QSpinBox" name="itemrotatey">
          <property name="minimum">
           <number>-360</number>
@@ -1240,7 +1233,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="2">
+       <item row="4" column="2">
         <widget class="QSpinBox" name="itemrotatex">
          <property name="minimum">
           <number>-360</number>
@@ -1250,7 +1243,7 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="2">
+       <item row="9" column="2">
         <widget class="QSpinBox" name="itemrotatez">
          <property name="minimum">
           <number>-360</number>
@@ -1260,6 +1253,9 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="2">
+        <widget class="QLineEdit" name="title_duration"/>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -1267,11 +1263,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KRestrictedLine</class>
-   <extends>QLineEdit</extends>
-   <header>krestrictedline.h</header>
-  </customwidget>
   <customwidget>
    <class>KColorButton</class>
    <extends>QPushButton</extends>

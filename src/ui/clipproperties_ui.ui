@@ -6,44 +6,51 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>323</width>
-    <height>557</height>
+    <width>344</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Clip Properties</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0" colspan="4">
+   <item row="0" column="0" colspan="5">
     <widget class="QLabel" name="clip_thumb">
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="4">
+   <item row="1" column="0" colspan="5">
     <widget class="QLabel" name="label_path">
      <property name="text">
       <string>Path</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="4">
+   <item row="2" column="0" colspan="5">
     <widget class="QLineEdit" name="clip_path">
      <property name="readOnly">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="4">
+   <item row="3" column="0" colspan="5">
     <widget class="QLabel" name="label_description">
      <property name="text">
       <string>Description</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="4">
+   <item row="4" column="0" colspan="5">
     <widget class="QLineEdit" name="clip_description"/>
+   </item>
+   <item row="5" column="3">
+    <widget class="QLabel" name="label_size">
+     <property name="text">
+      <string>Size:</string>
+     </property>
+    </widget>
    </item>
    <item row="5" column="0">
     <widget class="QLabel" name="label_duration">
@@ -52,28 +59,21 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
-    <widget class="KRestrictedLine" name="clip_duration">
-     <property name="inputMask">
-      <string>99:99:99:99; </string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <widget class="QLabel" name="label_size">
-     <property name="text">
-      <string>Size:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="3">
+   <item row="5" column="4">
     <widget class="QLabel" name="clip_filesize">
      <property name="text">
       <string>File size</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="4">
+   <item row="6" column="0" colspan="5">
+    <widget class="KUrlLabel" name="clip_license">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="5">
     <widget class="QTabWidget" name="tabWidget">
      <property name="tabPosition">
       <enum>QTabWidget::South</enum>
@@ -226,11 +226,7 @@
        <item row="1" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="KRestrictedLine" name="slide_duration">
-           <property name="inputMask">
-            <string>99:99:99:99; </string>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="slide_duration"/>
          </item>
          <item>
           <widget class="QSpinBox" name="slide_duration_frames">
@@ -270,11 +266,7 @@
        <item row="5" column="1" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="KRestrictedLine" name="luma_duration">
-           <property name="inputMask">
-            <string>99:99:99:99; </string>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="luma_duration"/>
          </item>
          <item>
           <widget class="QSpinBox" name="luma_duration_frames">
@@ -487,8 +479,8 @@
        </item>
        <item row="1" column="3">
         <widget class="KSeparator" name="kseparator">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+         <property name="orientation" stdset="0">
+          <number>5</number>
          </property>
         </widget>
        </item>
@@ -642,7 +634,7 @@
        <string>Advanced</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="13" column="2">
+       <item row="13" column="3">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -662,7 +654,7 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="2">
+       <item row="7" column="3">
         <widget class="QSpinBox" name="clip_vindex">
          <property name="enabled">
           <bool>false</bool>
@@ -675,7 +667,7 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="2">
+       <item row="8" column="3">
         <widget class="QSpinBox" name="clip_aindex">
          <property name="enabled">
           <bool>false</bool>
@@ -702,14 +694,14 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
-        <widget class="QCheckBox" name="clip_force_aindex">
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="clip_force_progressive">
          <property name="text">
-          <string>Audio index</string>
+          <string>Force scanning</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="2">
+       <item row="6" column="3">
         <widget class="QSpinBox" name="clip_threads">
          <property name="enabled">
           <bool>false</bool>
@@ -722,10 +714,10 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QCheckBox" name="clip_force_progressive">
+       <item row="8" column="1">
+        <widget class="QCheckBox" name="clip_force_aindex">
          <property name="text">
-          <string>Force scanning</string>
+          <string>Audio index</string>
          </property>
         </widget>
        </item>
@@ -736,16 +728,6 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
-        <widget class="QDoubleSpinBox" name="clip_framerate">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="maximum">
-          <double>1000.0</double>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1">
         <widget class="QCheckBox" name="clip_force_out">
          <property name="text">
@@ -753,13 +735,13 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="KRestrictedLine" name="clip_out">
+       <item row="2" column="3">
+        <widget class="QDoubleSpinBox" name="clip_framerate">
          <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="inputMask">
-          <string>99:99:99:99; </string>
+         <property name="maximum">
+          <double>1000.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -770,21 +752,35 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="2">
+       <item row="9" column="3">
         <widget class="KComboBox" name="clip_colorspace">
          <property name="enabled">
           <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="10" column="1" colspan="2">
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="clip_force_fieldorder">
+         <property name="text">
+          <string>Force field order</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1" colspan="3">
         <widget class="QCheckBox" name="clip_full_luma">
          <property name="text">
           <string>Full luma range</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
+       <item row="5" column="3">
+        <widget class="KComboBox" name="clip_fieldorder">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
         <layout class="QHBoxLayout" name="horizontalLayout_aspect">
          <item>
           <widget class="QSpinBox" name="clip_ar_num">
@@ -827,20 +823,6 @@
          </item>
         </layout>
        </item>
-       <item row="5" column="1">
-        <widget class="QCheckBox" name="clip_force_fieldorder">
-         <property name="text">
-          <string>Force field order</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="2">
-        <widget class="KComboBox" name="clip_fieldorder">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
        <item row="11" column="1">
         <widget class="QCheckBox" name="clip_force_transparency">
          <property name="text">
@@ -848,7 +830,7 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="2">
+       <item row="11" column="3">
         <widget class="KComboBox" name="clip_transparency">
          <item>
           <property name="text">
@@ -862,18 +844,21 @@
          </item>
         </widget>
        </item>
-       <item row="3" column="2">
+       <item row="3" column="3">
         <widget class="KComboBox" name="clip_progressive">
          <property name="enabled">
           <bool>false</bool>
          </property>
         </widget>
        </item>
+       <item row="0" column="3">
+        <widget class="QLineEdit" name="clip_out"/>
+       </item>
       </layout>
      </widget>
     </widget>
    </item>
-   <item row="8" column="1" colspan="2">
+   <item row="8" column="2" colspan="2">
     <spacer name="verticalSpacer_4">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -886,7 +871,7 @@
      </property>
     </spacer>
    </item>
-   <item row="9" column="0" colspan="4">
+   <item row="9" column="0" colspan="5">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -896,12 +881,8 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="4">
-    <widget class="KUrlLabel" name="clip_license">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="clip_duration"/>
    </item>
   </layout>
  </widget>
@@ -917,24 +898,15 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KSeparator</class>
    <extends>QFrame</extends>
    <header>kseparator.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>KUrlLabel</class>
    <extends>QLabel</extends>
    <header>kurllabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KRestrictedLine</class>
-   <extends>QLineEdit</extends>
-   <header>krestrictedline.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

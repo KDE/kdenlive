@@ -21,11 +21,11 @@
 #include "kdenlivesettings.h"
 
 #include <QMouseEvent>
+#include <QLineEdit>
 
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdebug.h>
-#include <krestrictedline.h>
 #include <KColorScheme>
 #include <KGlobalSettings>
 

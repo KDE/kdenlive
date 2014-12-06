@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>294</width>
-    <height>507</height>
+    <width>330</width>
+    <height>582</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@
       <item row="0" column="0">
        <widget class="QRadioButton" name="method_mime">
         <property name="text">
-         <string>Mimetype</string>
+         <string>&amp;Mimetype</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -43,7 +43,7 @@
       <item row="0" column="1">
        <widget class="QRadioButton" name="method_pattern">
         <property name="text">
-         <string>Filename pattern</string>
+         <string>Fi&amp;lename pattern</string>
         </property>
        </widget>
       </item>
@@ -131,11 +131,7 @@
    <item row="2" column="2">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="KRestrictedLine" name="clip_duration">
-       <property name="inputMask">
-        <string>99:99:99:99; </string>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="clip_duration"/>
      </item>
      <item>
       <widget class="QSpinBox" name="clip_duration_frames">
@@ -175,14 +171,7 @@
    <item row="5" column="2" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="KRestrictedLine" name="luma_duration">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="inputMask">
-        <string>99:99:99:99; </string>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="luma_duration"/>
      </item>
      <item>
       <widget class="QSpinBox" name="luma_duration_frames">
@@ -322,19 +311,10 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KRestrictedLine</class>
-   <extends>QLineEdit</extends>
-   <header>krestrictedline.h</header>
-  </customwidget>
-  <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
