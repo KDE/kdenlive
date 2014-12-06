@@ -31,7 +31,7 @@
 #include <QImage>
 
 #include <KXmlGuiWindow>
-#include <KTabWidget>
+#include <QTabWidget>
 #include <kautosavefile.h>
 #include <KActionCategory>
 #include <KSelectAction>
@@ -104,7 +104,7 @@ public:
     QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
     // TODO make private again
-    KTabWidget* m_timelineArea;
+    QTabWidget* m_timelineArea;
     ProjectList *m_projectList;
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
